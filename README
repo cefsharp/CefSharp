@@ -1,0 +1,23 @@
+CefSharp - Embedded Chromium for .Net applications.
+
+This project contains .Net CLR bindings for The Chromium Embedded Framework (CEF) by Marshall A. Greenblatt.
+
+The bindings are written in C++/CLI.
+
+NEWS
+====
+
+2010/12/03 - 0.1 Released 
+=========================
+    - BrowserControl user control
+    - Load, Forward, Back, Stop, Go
+    - INotifyPropertyChanged notification for navigation events CanGoForward, CanGoBack etc.
+	- ExecuteJavascript, works but needs polish
+	- Interception of resource loading, loads from System.IO.Stream
+
+    Enough to build a poor man's web browser and call a bit of JavaScript. Coming soon, more features including the ability to bind .Net object straight into the browser's V8 JavaScript context.
+			
+
+
+
+
