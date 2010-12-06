@@ -2,12 +2,12 @@
 
 namespace CefSharp
 {
-    String^ convertToString(cef_string_t& cefStr)
+    String^ convertToString(const cef_string_t& cefStr)
     {
         return gcnew String(cefStr.str);
     }
     
-    String^ convertToString(CefString& cefStr)
+    String^ convertToString(const CefString& cefStr)
     {
         return gcnew String(cefStr.c_str());
     }
