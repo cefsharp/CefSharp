@@ -16,7 +16,7 @@ namespace CefSharp
         void SetHeaders(IDictionary<String^, String^>^ headers);
     };
 
-    public ref class CefRequestWrapper : public IRequest
+    ref class CefRequestWrapper : public IRequest
     {
         MCefRefPtr<CefRequest> _wrappedRequest;
     internal:
