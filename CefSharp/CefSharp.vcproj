@@ -213,11 +213,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\BrowserControl.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CefSharp.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\HandlerAdapter.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\JsResultHandler.cpp"
 				>
 			</File>
 			<File
@@ -243,6 +251,10 @@
 						UsePrecompiledHeader="1"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\StreamAdapter.cpp"
+				>
 			</File>
 			<File
 				RelativePath=".\Utils.cpp"
