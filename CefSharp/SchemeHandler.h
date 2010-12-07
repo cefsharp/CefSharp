@@ -30,8 +30,6 @@ class SchemeHandlerWrapper : public CefThreadSafeBase<CefSchemeHandler>
     gcroot<ISchemeHandler^> _handler;
     gcroot<Stream^> _stream;
 
-    bool _handled;
-
     int SizeFromStream();
 
 public:
