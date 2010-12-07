@@ -283,6 +283,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\IBeforeResourceLoad.h"
+				>
+			</File>
+			<File
 				RelativePath=".\JsResultHandler.h"
 				>
 			</File>

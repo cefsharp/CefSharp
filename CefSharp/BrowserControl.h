@@ -2,7 +2,7 @@
 #pragma once
 
 #include "HandlerAdapter.h"
-#include "CefSharp.h"
+#include "IBeforeResourceLoad.h"
 
 using namespace System;
 using namespace System::ComponentModel;
@@ -61,31 +61,18 @@ namespace CefSharp
 
         property String^ Title
         {
-            String^ get()
-            {
-                return _title;
-            }
+            String^ get() { return _title; }
         }
 
         property String^ Address
         {
-            String^ get()
-            {
-                return _address;
-            }
+            String^ get() { return _address; }
         }
 
         property IBeforeResourceLoad^ BeforeResourceLoadHandler
         {
-            IBeforeResourceLoad^ get()
-            {
-                return _beforeResourceLoadHandler;
-            }
-
-            void set(IBeforeResourceLoad^ handler)
-            {
-                _beforeResourceLoadHandler = handler;
-            }
+            IBeforeResourceLoad^ get() { return _beforeResourceLoadHandler; }
+            void set(IBeforeResourceLoad^ handler) { _beforeResourceLoadHandler = handler; }
         }
 
         property bool CanGoForward

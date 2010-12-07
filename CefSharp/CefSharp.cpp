@@ -30,45 +30,6 @@ public:
     }
 };*/
 
-public ref class CEF sealed
-{
-public:
-    static property String^ CefSharpVersion
-    {
-        String^ get()
-        {
-            return "0.1";
-        }
-    }
-
-    static property String^ CefVersion
-    {
-        String^ get()
-        {
-            return "trunk r149";
-        }
-    }
-
-    static property String^ ChromiumVersion
-    {
-        String^ get()
-        {
-            return "trunk r66269";
-        }
-    }
-
-    static bool Initialize(Settings^ settings, BrowserSettings^ browserSettings)
-    {
-        return CefInitialize(*settings->_cefSettings, *browserSettings->_browserSettings);
-    }
-
-    static void Shutdown()
-    {
-        CefShutdown();
-    }
-};
-
-
 ///////////////////////////////// END OF NAMESPACE
 }
 
