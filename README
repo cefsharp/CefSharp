@@ -10,6 +10,7 @@ NEWS
 
 2010/12/03 - 0.1 Released 
 =========================
+    - Download build: https://github.com/downloads/chillitom/CefSharp/CefSharp-0.1.7z
     - BrowserControl user control
     - Load, Forward, Back, Stop, Go
     - INotifyPropertyChanged notification for navigation events CanGoForward, CanGoBack etc.
