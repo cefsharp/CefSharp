@@ -162,5 +162,10 @@ namespace CefTest
                 }
             }
         }
+
+        private void TestSchemeHandlerToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            _browserControl.Load("test://test/SchemeTest.html");
+        }
     }
 }

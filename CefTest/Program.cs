@@ -16,7 +16,9 @@ namespace CefTest
             {
                 Console.WriteLine("Couldn't initialise CEF");
                 return;
-            }            
+            }
+
+            CEF.RegisterScheme("test", new TestSchemeHandlerFactory());
 
             Browser browser = new Browser();
             Application.Run(browser);

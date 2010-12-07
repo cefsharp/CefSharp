@@ -31,7 +31,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Browser));
             this.toolStripContainer = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.backButton = new System.Windows.Forms.ToolStripButton();
+            this.forwardButton = new System.Windows.Forms.ToolStripButton();
             this.urlTextBox = new System.Windows.Forms.ToolStripTextBox();
+            this.goButton = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,10 +42,8 @@
             this.testsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testResourceLoadHandlerMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testRunJsSynchronouslyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.backButton = new System.Windows.Forms.ToolStripButton();
-            this.forwardButton = new System.Windows.Forms.ToolStripButton();
-            this.goButton = new System.Windows.Forms.ToolStripButton();
             this.testRunArbitraryJavaScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testSchemeHandlerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -86,12 +87,41 @@
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Layout += new System.Windows.Forms.LayoutEventHandler(this.HandleToolStripLayout);
             // 
+            // backButton
+            // 
+            this.backButton.Enabled = false;
+            this.backButton.Image = global::CefTest.Properties.Resources.nav_left_green;
+            this.backButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.backButton.Name = "backButton";
+            this.backButton.Size = new System.Drawing.Size(52, 22);
+            this.backButton.Text = "Back";
+            this.backButton.Click += new System.EventHandler(this.HandleBackButtonClick);
+            // 
+            // forwardButton
+            // 
+            this.forwardButton.Enabled = false;
+            this.forwardButton.Image = global::CefTest.Properties.Resources.nav_right_green;
+            this.forwardButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.forwardButton.Name = "forwardButton";
+            this.forwardButton.Size = new System.Drawing.Size(70, 22);
+            this.forwardButton.Text = "Forward";
+            this.forwardButton.Click += new System.EventHandler(this.HandleForwardButtonClick);
+            // 
             // urlTextBox
             // 
             this.urlTextBox.AutoSize = false;
             this.urlTextBox.Name = "urlTextBox";
             this.urlTextBox.Size = new System.Drawing.Size(500, 25);
             this.urlTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.UrlTextBoxKeyUp);
+            // 
+            // goButton
+            // 
+            this.goButton.Image = global::CefTest.Properties.Resources.nav_plain_green;
+            this.goButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.goButton.Name = "goButton";
+            this.goButton.Size = new System.Drawing.Size(42, 22);
+            this.goButton.Text = "Go";
+            this.goButton.Click += new System.EventHandler(this.HandleGoButtonClick);
             // 
             // menuStrip1
             // 
@@ -132,7 +162,8 @@
             this.testsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.testResourceLoadHandlerMenuItem,
             this.testRunJsSynchronouslyToolStripMenuItem,
-            this.testRunArbitraryJavaScriptToolStripMenuItem});
+            this.testRunArbitraryJavaScriptToolStripMenuItem,
+            this.testSchemeHandlerToolStripMenuItem});
             this.testsToolStripMenuItem.Name = "testsToolStripMenuItem";
             this.testsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.testsToolStripMenuItem.Text = "Tests";
@@ -151,41 +182,19 @@
             this.testRunJsSynchronouslyToolStripMenuItem.Text = "Test Run Js Synchronously";
             this.testRunJsSynchronouslyToolStripMenuItem.Click += new System.EventHandler(this.TestRunJsSynchronouslyToolStripMenuItemClick);
             // 
-            // backButton
-            // 
-            this.backButton.Enabled = false;
-            this.backButton.Image = global::CefTest.Properties.Resources.nav_left_green;
-            this.backButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.backButton.Name = "backButton";
-            this.backButton.Size = new System.Drawing.Size(52, 22);
-            this.backButton.Text = "Back";
-            this.backButton.Click += new System.EventHandler(this.HandleBackButtonClick);
-            // 
-            // forwardButton
-            // 
-            this.forwardButton.Enabled = false;
-            this.forwardButton.Image = global::CefTest.Properties.Resources.nav_right_green;
-            this.forwardButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.forwardButton.Name = "forwardButton";
-            this.forwardButton.Size = new System.Drawing.Size(70, 22);
-            this.forwardButton.Text = "Forward";
-            this.forwardButton.Click += new System.EventHandler(this.HandleForwardButtonClick);
-            // 
-            // goButton
-            // 
-            this.goButton.Image = global::CefTest.Properties.Resources.nav_plain_green;
-            this.goButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.goButton.Name = "goButton";
-            this.goButton.Size = new System.Drawing.Size(42, 22);
-            this.goButton.Text = "Go";
-            this.goButton.Click += new System.EventHandler(this.HandleGoButtonClick);
-            // 
             // testRunArbitraryJavaScriptToolStripMenuItem
             // 
             this.testRunArbitraryJavaScriptToolStripMenuItem.Name = "testRunArbitraryJavaScriptToolStripMenuItem";
             this.testRunArbitraryJavaScriptToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
             this.testRunArbitraryJavaScriptToolStripMenuItem.Text = "Test Run Arbitrary JavaScript";
             this.testRunArbitraryJavaScriptToolStripMenuItem.Click += new System.EventHandler(this.TestRunArbitraryJavaScriptToolStripMenuItemClick);
+            // 
+            // testSchemeHandlerToolStripMenuItem
+            // 
+            this.testSchemeHandlerToolStripMenuItem.Name = "testSchemeHandlerToolStripMenuItem";
+            this.testSchemeHandlerToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.testSchemeHandlerToolStripMenuItem.Text = "Test Scheme Handler";
+            this.testSchemeHandlerToolStripMenuItem.Click += new System.EventHandler(this.TestSchemeHandlerToolStripMenuItemClick);
             // 
             // Browser
             // 
@@ -227,6 +236,7 @@
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem testRunJsSynchronouslyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem testRunArbitraryJavaScriptToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem testSchemeHandlerToolStripMenuItem;
 
     }
 }

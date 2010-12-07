@@ -233,6 +233,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\SchemeHandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Stdafx.cpp"
 				>
 				<FileConfiguration
@@ -304,6 +308,10 @@
 			</File>
 			<File
 				RelativePath=".\ReturnValue.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SchemeHandler.h"
 				>
 			</File>
 			<File

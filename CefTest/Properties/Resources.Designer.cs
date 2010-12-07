@@ -94,5 +94,23 @@ namespace CefTest.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
+        ///&lt;html&gt;
+        ///	&lt;head&gt;
+        ///		&lt;title&gt;Scheme Handler Test&lt;/title&gt;
+        ///	&lt;/head&gt;
+        ///	&lt;body&gt;
+        ///	&lt;h1&gt;Success&lt;/h1&gt;
+        ///	&lt;p&gt;Scheme Handler Functioned Correctly&lt;/p&gt;
+        ///	&lt;/body&gt;
+        ///&lt;/html&gt;.
+        /// </summary>
+        internal static string SchemeTest {
+            get {
+                return ResourceManager.GetString("SchemeTest", resourceCulture);
+            }
+        }
     }
 }

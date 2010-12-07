@@ -6,6 +6,7 @@
 #include "BrowserControl.h"
 #include "Request.h"
 #include "ReturnValue.h"
+#include "SchemeHandler.h"
 
 using namespace System;
 using namespace System::IO;
@@ -43,6 +44,20 @@ namespace CefSharp
         {
             return CefInitialize(*settings->_cefSettings, *browserSettings->_browserSettings);
         }
+
+        static bool RegisterScheme(String^ schemeName, String^ hostName, ISchemeHandlerFactory^ factory)
+        {
+            hostName = hostName ? hostName : "";
+
+            CefRefPtr<SchemeHandlerFactoryWrapper> wrapper = new SchemeHandlerFactoryWrapper(factory);
+            return CefRegisterScheme(convertFromString(schemeName), convertFromString(hostName), static_cast<CefRefPtr<CefSchemeHandlerFactory>>(wrapper));
+        }
+
+        static bool RegisterScheme(String^ schemeName, ISchemeHandlerFactory^ factory)
+        {
+            return RegisterScheme(schemeName, nullptr, factory);
+        }
+
 
         static void Shutdown()
         {
