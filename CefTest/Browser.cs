@@ -18,6 +18,7 @@ namespace CefTest
             _browserControl = new BrowserControl("http://www.google.co.uk/search?q=cefsharp");
             _browserControl.Dock = DockStyle.Fill;
             _browserControl.PropertyChanged += HandleBrowserPropertyChanged;
+            _browserControl.ConsoleMessage += HandleConsoleMessage;
             _browserControl.BeforeResourceLoadHandler = this;
             toolStripContainer.ContentPanel.Controls.Add(_browserControl);            
         }
@@ -166,6 +167,16 @@ namespace CefTest
         private void TestSchemeHandlerToolStripMenuItemClick(object sender, EventArgs e)
         {
             _browserControl.Load("test://test/SchemeTest.html");
+        }
+
+        private void TestConsoleMessagesToolStripMenuItemClick(object sender, EventArgs e)
+        {           
+            _browserControl.Load("javascript:console.log('console log message text')");
+        }
+
+        private void HandleConsoleMessage(object sender, ConsoleMessageEventArgs e)
+        {
+            MessageBox.Show(e.Source + ":" + e.Line + " " + e.Message, "JavaScript console message");
         }
     }
 }

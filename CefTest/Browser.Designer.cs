@@ -44,6 +44,7 @@
             this.testRunJsSynchronouslyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testRunArbitraryJavaScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testSchemeHandlerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testConsoleMessagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -163,7 +164,8 @@
             this.testResourceLoadHandlerMenuItem,
             this.testRunJsSynchronouslyToolStripMenuItem,
             this.testRunArbitraryJavaScriptToolStripMenuItem,
-            this.testSchemeHandlerToolStripMenuItem});
+            this.testSchemeHandlerToolStripMenuItem,
+            this.testConsoleMessagesToolStripMenuItem});
             this.testsToolStripMenuItem.Name = "testsToolStripMenuItem";
             this.testsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.testsToolStripMenuItem.Text = "Tests";
@@ -195,6 +197,13 @@
             this.testSchemeHandlerToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
             this.testSchemeHandlerToolStripMenuItem.Text = "Test Scheme Handler";
             this.testSchemeHandlerToolStripMenuItem.Click += new System.EventHandler(this.TestSchemeHandlerToolStripMenuItemClick);
+            // 
+            // testConsoleMessagesToolStripMenuItem
+            // 
+            this.testConsoleMessagesToolStripMenuItem.Name = "testConsoleMessagesToolStripMenuItem";
+            this.testConsoleMessagesToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.testConsoleMessagesToolStripMenuItem.Text = "Test Console Messages";
+            this.testConsoleMessagesToolStripMenuItem.Click += new System.EventHandler(this.TestConsoleMessagesToolStripMenuItemClick);
             // 
             // Browser
             // 
@@ -237,6 +246,7 @@
         private System.Windows.Forms.ToolStripMenuItem testRunJsSynchronouslyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem testRunArbitraryJavaScriptToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem testSchemeHandlerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem testConsoleMessagesToolStripMenuItem;
 
     }
 }

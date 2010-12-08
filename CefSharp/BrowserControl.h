@@ -3,6 +3,7 @@
 
 #include "HandlerAdapter.h"
 #include "IBeforeResourceLoad.h"
+#include "ConsoleMessageEventArgs.h"
 
 using namespace System;
 using namespace System::ComponentModel;
@@ -40,6 +41,7 @@ namespace CefSharp
         void SetNavState(bool isLoading, bool canGoBack, bool canGoForward);
         void SetJsResult(const CefString& result);
         void SetJsError(const CefString& error);
+        void RaiseConsoleMessage(String^ message, String^ source, int line);
 
     public:
 
@@ -91,6 +93,8 @@ namespace CefSharp
         }
 
         virtual event PropertyChangedEventHandler^ PropertyChanged;
+
+        event ConsoleMessageEventHandler^ ConsoleMessage;
     };
 
 }

@@ -87,4 +87,12 @@ CefHandler::RetVal HandlerAdapter::HandleJSBinding(CefRefPtr<CefBrowser> browser
     return RV_CONTINUE;
 }
 
+CefHandler::RetVal HandlerAdapter::HandleConsoleMessage(CefRefPtr<CefBrowser> browser, const CefString& message, const CefString& source, int line)
+{
+    String^ messageStr = convertToString(message);
+    String^ sourceStr = convertToString(source);
+    _browserControl->RaiseConsoleMessage(messageStr, sourceStr, line);
+    return RV_CONTINUE;
+}
+
 }

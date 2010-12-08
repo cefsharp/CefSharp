@@ -145,4 +145,8 @@ namespace CefSharp
         _runJsFinished->Set();
     }
 
+    void BrowserControl::RaiseConsoleMessage(String^ message, String^ source, int line)
+    {
+        ConsoleMessage(this, gcnew ConsoleMessageEventArgs(message, source, line));
+    }
 }
