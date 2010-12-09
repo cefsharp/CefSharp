@@ -14,7 +14,7 @@ namespace CefSharp
 {
     interface class IBeforeResourceLoad;
 
-    public ref class BrowserControl sealed : public UserControl, INotifyPropertyChanged
+    public ref class BrowserControl sealed : public Control, INotifyPropertyChanged
     {
         bool _canGoForward;
         bool _canGoBack;
