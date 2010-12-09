@@ -29,7 +29,8 @@
         private void InitializeComponent()
         {
             this.panel = new System.Windows.Forms.Panel();
-            this.btnTest1 = new System.Windows.Forms.Button();
+            this.Test1Button = new System.Windows.Forms.Button();
+            this.Test2Button = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // panel
@@ -43,22 +44,33 @@
             this.panel.Size = new System.Drawing.Size(556, 355);
             this.panel.TabIndex = 0;
             // 
-            // btnTest1
+            // Test1Button
             // 
-            this.btnTest1.Location = new System.Drawing.Point(12, 12);
-            this.btnTest1.Name = "btnTest1";
-            this.btnTest1.Size = new System.Drawing.Size(75, 23);
-            this.btnTest1.TabIndex = 1;
-            this.btnTest1.Text = "Test1";
-            this.btnTest1.UseVisualStyleBackColor = true;
-            this.btnTest1.Click += new System.EventHandler(this.btnTest1_Click);
+            this.Test1Button.Location = new System.Drawing.Point(12, 12);
+            this.Test1Button.Name = "Test1Button";
+            this.Test1Button.Size = new System.Drawing.Size(75, 23);
+            this.Test1Button.TabIndex = 1;
+            this.Test1Button.Text = "Test1";
+            this.Test1Button.UseVisualStyleBackColor = true;
+            this.Test1Button.Click += new System.EventHandler(this.Test1Button_Click);
+            // 
+            // Test2Button
+            // 
+            this.Test2Button.Location = new System.Drawing.Point(93, 12);
+            this.Test2Button.Name = "Test2Button";
+            this.Test2Button.Size = new System.Drawing.Size(75, 23);
+            this.Test2Button.TabIndex = 2;
+            this.Test2Button.Text = "Test2";
+            this.Test2Button.UseVisualStyleBackColor = true;
+            this.Test2Button.Click += new System.EventHandler(this.Test2Button_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(580, 473);
-            this.Controls.Add(this.btnTest1);
+            this.Controls.Add(this.Test2Button);
+            this.Controls.Add(this.Test1Button);
             this.Controls.Add(this.panel);
             this.Name = "MainForm";
             this.Text = "Cef Usage Tests";
@@ -69,7 +81,8 @@
         #endregion
 
         private System.Windows.Forms.Panel panel;
-        private System.Windows.Forms.Button btnTest1;
+        private System.Windows.Forms.Button Test1Button;
+        private System.Windows.Forms.Button Test2Button;
     }
 }
 
