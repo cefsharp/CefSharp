@@ -30,10 +30,14 @@ namespace CefSharp
         String^ _jsResult;
         String^ _jsError;
 
+        //TODO: add manual event to signal browser ready
+
     protected:
-        
         virtual void OnHandleCreated(EventArgs^ e) override;
         virtual void OnSizeChanged(EventArgs^ e) override;
+
+    protected internal:
+        virtual void OnReady(EventArgs^ e);
 
     internal:
         
@@ -108,6 +112,7 @@ namespace CefSharp
         }
 
         virtual event PropertyChangedEventHandler^ PropertyChanged;
+        event EventHandler^ Ready;
 
         event ConsoleMessageEventHandler^ ConsoleMessage;
     };

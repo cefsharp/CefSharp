@@ -64,9 +64,17 @@ namespace CefSharp
         throw gcnew Exception("RunScript Exception:" + _jsError);
     }
 
+    void BrowserControl::OnReady(EventArgs^ e)
+    {
+    	OnSizeChanged(this, EventArgs::Empty);
+
+    	// todo: raise Ready event with control begininvoke
+    	Ready(this, e);
+    }
+
     void BrowserControl::OnHandleCreated(EventArgs^ e)
     {
-        if(DesignMode == false) 
+        if (DesignMode == false) 
         {
             _handlerAdapter = new HandlerAdapter(this);
             CefRefPtr<HandlerAdapter> ptr = _handlerAdapter.get();
@@ -87,7 +95,7 @@ namespace CefSharp
 
     void BrowserControl::OnSizeChanged(EventArgs^ e)
     {
-        if(DesignMode == false) 
+        if (DesignMode == false && _handlerAdapter != nullptr && _handlerAdapter->GetIsReady())
         {
             HWND hWnd = static_cast<HWND>(Handle.ToPointer());
             RECT rect;
