@@ -1,11 +1,9 @@
 // CefSharp.h
-
 #include "stdafx.h"
 #pragma once
 
-#include "BrowserControl.h"
-#include "Request.h"
-#include "ReturnValue.h"
+#include "Settings.h"
+#include "BrowserSettings.h"
 #include "SchemeHandler.h"
 
 using namespace System;
@@ -15,7 +13,18 @@ namespace CefSharp
 {
     public ref class CEF sealed
     {
+    private:
+        static bool _initialized = false;
+
     public:
+        static property bool IsInitialized
+        {
+            bool get()
+            {
+                return _initialized;
+            }
+        }
+
         static property String^ CefSharpVersion
         {
             String^ get()
@@ -42,7 +51,13 @@ namespace CefSharp
 
         static bool Initialize(Settings^ settings, BrowserSettings^ browserSettings)
         {
-            return CefInitialize(*settings->_cefSettings, *browserSettings->_browserSettings);
+            bool success = false;
+            if (!IsInitialized)
+            {
+                bool success = CefInitialize(*settings->_cefSettings, *browserSettings->_browserSettings);
+                _initialized = success;
+            }
+            return success;
         }
 
         static bool RegisterScheme(String^ schemeName, String^ hostName, ISchemeHandlerFactory^ factory)
@@ -61,7 +76,10 @@ namespace CefSharp
 
         static void Shutdown()
         {
-            CefShutdown();
+            if (IsInitialized)
+            {
+                CefShutdown();
+            }
         }
     };
 }

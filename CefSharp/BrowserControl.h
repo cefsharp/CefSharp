@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #pragma once
 
+#include "CefSharp.h"
 #include "HandlerAdapter.h"
 #include "IBeforeResourceLoad.h"
 #include "ConsoleMessageEventArgs.h"
@@ -10,7 +11,7 @@ using namespace System::ComponentModel;
 using namespace System::Windows::Forms;
 using namespace System::Threading;
 
-namespace CefSharp 
+namespace CefSharp
 {
     interface class IBeforeResourceLoad;
 
@@ -43,16 +44,30 @@ namespace CefSharp
         void SetJsError(const CefString& error);
         void RaiseConsoleMessage(String^ message, String^ source, int line);
 
+    private:
+        void Construct()
+        {
+            if(!CEF::IsInitialized)
+            {
+                CEF::Initialize(gcnew Settings(), gcnew BrowserSettings());
+            }
+        }
+
     public:
 
         BrowserControl() : 
-            _address(gcnew String("about:blank")), 
-            _runJsFinished(gcnew AutoResetEvent(false)) {}
-
+            _address(gcnew String("about:blank")),
+            _runJsFinished(gcnew AutoResetEvent(false))
+            {
+                Construct();
+            }
 
         BrowserControl(String^ initialUrl) : 
             _address(initialUrl), 
-            _runJsFinished(gcnew AutoResetEvent(false)) {}
+            _runJsFinished(gcnew AutoResetEvent(false))
+            {
+                Construct();
+            }
 
         void Load(String^ url);
         void Stop();
