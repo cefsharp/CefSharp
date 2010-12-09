@@ -57,7 +57,10 @@ namespace CefSharp
 
             if(!CEF::IsInitialized)
             {
-                CEF::Initialize(gcnew Settings(), gcnew BrowserSettings());
+                if(!CEF::Initialize(gcnew Settings(), gcnew BrowserSettings()))
+                {
+                    throw gcnew InvalidOperationException("CEF initialization failed.");
+                }
             }
         }
 

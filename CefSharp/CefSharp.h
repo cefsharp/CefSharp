@@ -54,7 +54,7 @@ namespace CefSharp
             bool success = false;
             if (!IsInitialized)
             {
-                bool success = CefInitialize(*settings->_cefSettings, *browserSettings->_browserSettings);
+                success = CefInitialize(*settings->_cefSettings, *browserSettings->_browserSettings);
                 _initialized = success;
             }
             return success;
