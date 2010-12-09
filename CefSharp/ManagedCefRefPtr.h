@@ -96,6 +96,21 @@ public:
       swap(%r._ptr);
   }
 
+  virtual bool Equals(Object^ obj) override
+  {
+      if(obj->GetType() == GetType())
+      {
+          MCefRefPtr^ other = safe_cast<MCefRefPtr^>(obj);
+          return (*other)._ptr == _ptr;
+      }
+      return false;
+  }
+
+  virtual int GetHashCode() override
+  {
+      return (int)_ptr;
+  }
+
 private:
     T* _ptr;
 };
