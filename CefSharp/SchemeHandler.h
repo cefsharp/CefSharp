@@ -1,5 +1,4 @@
 #include "stdafx.h"
-
 #pragma once
 
 #include "Request.h"
