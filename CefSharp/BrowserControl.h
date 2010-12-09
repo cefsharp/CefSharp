@@ -24,19 +24,19 @@ namespace CefSharp
         String^ _address;
         String^ _title;
         IBeforeResourceLoad^ _beforeResourceLoadHandler;
-        
+
         MCefRefPtr<HandlerAdapter> _handlerAdapter;
         AutoResetEvent^ _runJsFinished;
         String^ _jsResult;
         String^ _jsError;
 
-        //TODO: add manual event to signal browser ready
+        ManualResetEvent^ _browserReady;
 
     protected:
         virtual void OnHandleCreated(EventArgs^ e) override;
         virtual void OnSizeChanged(EventArgs^ e) override;
 
-    protected internal:
+    public protected:
         virtual void OnReady(EventArgs^ e);
 
     internal:
@@ -49,8 +49,12 @@ namespace CefSharp
         void RaiseConsoleMessage(String^ message, String^ source, int line);
 
     private:
-        void Construct()
+        void Construct(String^ address)
         {
+            _address = address;
+            _runJsFinished = gcnew AutoResetEvent(false);
+            _browserReady = gcnew ManualResetEvent(false);
+
             if(!CEF::IsInitialized)
             {
                 CEF::Initialize(gcnew Settings(), gcnew BrowserSettings());
@@ -59,18 +63,14 @@ namespace CefSharp
 
     public:
 
-        BrowserControl() : 
-            _address(gcnew String("about:blank")),
-            _runJsFinished(gcnew AutoResetEvent(false))
+        BrowserControl()
             {
-                Construct();
+                Construct("about:blank");
             }
 
-        BrowserControl(String^ initialUrl) : 
-            _address(initialUrl), 
-            _runJsFinished(gcnew AutoResetEvent(false))
+        BrowserControl(String^ initialUrl)
             {
-                Construct();
+                Construct(initialUrl);
             }
 
         void Load(String^ url);
@@ -111,8 +111,21 @@ namespace CefSharp
             bool get() { return _canGoBack; }
         }
 
+        property bool IsReady
+        {
+            bool get()
+            {
+                return _handlerAdapter.get() != nullptr && _handlerAdapter->GetIsReady();
+            }
+        }
+
+        void WaitForReady();
+
         virtual event PropertyChangedEventHandler^ PropertyChanged;
-        event EventHandler^ Ready;
+
+        // TODO: Ready event can be subscribed by user code after actual Ready event happens,
+        // so we must handle this situation and in on add event handler raise event.
+        // event EventHandler^ Ready;
 
         event ConsoleMessageEventHandler^ ConsoleMessage;
     };

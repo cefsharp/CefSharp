@@ -1,7 +1,7 @@
 #pragma once
 
 template <typename T>
-ref class MCefRefPtr 
+ref class MCefRefPtr sealed
 {
 
 public:

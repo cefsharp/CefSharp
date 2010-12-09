@@ -38,9 +38,6 @@ namespace CefUsageTests
             browser = new BrowserControl("http://google.com");
             browser.Parent = panel;
             browser.Dock = DockStyle.Fill;
-
-            // Also this is demonstrate that browser control actually is not becomes visible unless if control explicitedly resized after underlying control created.
-            // To resize - try resize main form, and browser becomes visible.
         }
 
         private void Test2Button_Click(object sender, EventArgs e)

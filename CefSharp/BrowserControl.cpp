@@ -6,6 +6,8 @@ namespace CefSharp
 {
     void BrowserControl::Load(String^ url)
     {
+        WaitForReady();
+
         pin_ptr<const wchar_t> charPtr = PtrToStringChars(url);
         CefString urlStr = charPtr;
         _handlerAdapter->GetCefBrowser()->GetMainFrame()->LoadURL(urlStr);
@@ -13,26 +15,36 @@ namespace CefSharp
 
     void BrowserControl::Stop()
     {
+    	WaitForReady();
+
         _handlerAdapter->GetCefBrowser()->StopLoad();
     }
 
     void BrowserControl::Back()
     {
+    	WaitForReady();
+
         _handlerAdapter->GetCefBrowser()->GoBack();
     }
 
     void BrowserControl::Forward()
     {
+    	WaitForReady();
+
         _handlerAdapter->GetCefBrowser()->GoForward();
     }
 
     String^ BrowserControl::RunScript(String^ script, String^ scriptUrl, int startLine)
     {
+    	WaitForReady();
+
         return RunScript(script, scriptUrl, startLine, -1);
     }
 
     String^ BrowserControl::RunScript(String^ script, String^ scriptUrl, int startLine, int timeout)
     {
+    	WaitForReady();
+
         _jsError = nullptr;
         _jsResult = nullptr;
 
@@ -66,10 +78,12 @@ namespace CefSharp
 
     void BrowserControl::OnReady(EventArgs^ e)
     {
-    	OnSizeChanged(this, EventArgs::Empty);
+        OnSizeChanged(EventArgs::Empty);
 
-    	// todo: raise Ready event with control begininvoke
-    	Ready(this, e);
+        _browserReady->Set();
+
+        // todo: raise event with Control.BeginInvoke
+        // Ready(this, e);
     }
 
     void BrowserControl::OnHandleCreated(EventArgs^ e)
@@ -95,7 +109,7 @@ namespace CefSharp
 
     void BrowserControl::OnSizeChanged(EventArgs^ e)
     {
-        if (DesignMode == false && _handlerAdapter != nullptr && _handlerAdapter->GetIsReady())
+        if (DesignMode == false && IsReady)
         {
             HWND hWnd = static_cast<HWND>(Handle.ToPointer());
             RECT rect;
@@ -156,5 +170,13 @@ namespace CefSharp
     void BrowserControl::RaiseConsoleMessage(String^ message, String^ source, int line)
     {
         ConsoleMessage(this, gcnew ConsoleMessageEventArgs(message, source, line));
+    }
+
+    void BrowserControl::WaitForReady()
+    {
+        if(IsReady) return;
+
+        // TODO: risk of infinite lock
+        _browserReady->WaitOne();
     }
 }
