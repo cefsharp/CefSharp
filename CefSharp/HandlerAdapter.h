@@ -14,6 +14,15 @@ namespace CefSharp
         HWND _browserHwnd;
         CefRefPtr<CefBrowser> _cefBrowser;
 
+        void ThrowIfCefBrowserIsNotReady()
+        {
+            if (_cefBrowser == nullptr)
+            {
+                //TODO: make own exception type?
+                throw gcnew InvalidOperationException("CefBrowser is not ready.");
+            }
+        }
+
     protected:
         
     public:
@@ -52,7 +61,11 @@ namespace CefSharp
         virtual RetVal HandleFindResult(CefRefPtr<CefBrowser> browser, int identifier, int count, const CefRect& selectionRect, int activeMatchOrdinal, bool finalUpdate) { return RV_CONTINUE; }
 
         HWND GetBrowserHwnd() { return _browserHwnd; }
-        CefRefPtr<CefBrowser> GetCefBrowser() { return _cefBrowser; }
+        CefRefPtr<CefBrowser> GetCefBrowser()
+        {
+            ThrowIfCefBrowserIsNotReady();
+            return _cefBrowser;
+        }
 
     };
 };

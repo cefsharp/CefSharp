@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="CefSharp"
 	ProjectGUID="{7B495581-2271-4F41-9476-ACB86E8C864F}"
 	RootNamespace="CefSharp"
@@ -71,6 +71,7 @@
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
 				TargetMachine="1"
+				KeyFile="$(SolutionDir)\CefSharp.snk"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -190,11 +191,6 @@
 			RelativePath="System.Drawing.dll"
 			AssemblyName="System.Drawing, Version=2.0.0.0, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
 			MinFrameworkVersion="131072"
-		/>
-		<AssemblyReference
-			RelativePath="System.Threading.dll"
-			AssemblyName="System.Threading, Version=1.0.2698.102, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
-			MinFrameworkVersion="196613"
 		/>
 		<AssemblyReference
 			RelativePath="System.Core.dll"
