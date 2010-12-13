@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="CefSharp"
 	ProjectGUID="{7B495581-2271-4F41-9476-ACB86E8C864F}"
 	RootNamespace="CefSharp"
@@ -229,6 +229,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\RtzCountdownEvent.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\SchemeHandler.cpp"
 				>
 			</File>
@@ -304,6 +308,10 @@
 			</File>
 			<File
 				RelativePath=".\ReturnValue.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RtzCountdownEvent.h"
 				>
 			</File>
 			<File
