@@ -61,6 +61,7 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="BoundObject.cs" />
     <Compile Include="Browser.cs">
       <SubType>Form</SubType>
     </Compile>

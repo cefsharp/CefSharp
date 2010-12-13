@@ -6,6 +6,8 @@
 #include "ReturnValue.h"
 #include "StreamAdapter.h"
 #include "JsResultHandler.h"
+#include "CefSharp.h"
+#include "BindingHandler.h"
 
 namespace CefSharp 
 {
@@ -102,7 +104,11 @@ namespace CefSharp
                                      CefRefPtr<CefV8Value> object)
     {
         JsResultHandler::Bind(_browserControl, object);
-
+        
+        for each(KeyValuePair<String^, Object^>^ kvp in CEF::GetBoundObjects())
+        {
+            BindingHandler::Bind(kvp->Key, kvp->Value, object);
+        }
         return RV_CONTINUE;
     }
 
