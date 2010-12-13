@@ -79,7 +79,7 @@ namespace CefSharp
 
     void BrowserControl::OnReady()
     {
-        OnSizeChanged(EventArgs::Empty);
+        BeginInvoke(gcnew Action<EventArgs^>(this, &BrowserControl::OnSizeChanged), EventArgs::Empty);
         _browserReady->Set();
     }
 
