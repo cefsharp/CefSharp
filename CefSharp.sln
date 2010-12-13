@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefTest", "CefTest\CefTest.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cefclient", "..\libs\cef_binary_r149_VS2005-VS2008\cefclient\cefclient2008.vcproj", "{E4369C2C-8F50-4B35-A524-7B72D29D9C08}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefUsageTests", "CefUsageTests\CefUsageTests.csproj", "{E8A40E8F-5B1E-4021-BF60-7F7482235E81}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,16 @@ Global
 		{E4369C2C-8F50-4B35-A524-7B72D29D9C08}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{E4369C2C-8F50-4B35-A524-7B72D29D9C08}.Release|Win32.ActiveCfg = Release|Win32
 		{E4369C2C-8F50-4B35-A524-7B72D29D9C08}.Release|Win32.Build.0 = Release|Win32
+		{E8A40E8F-5B1E-4021-BF60-7F7482235E81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8A40E8F-5B1E-4021-BF60-7F7482235E81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8A40E8F-5B1E-4021-BF60-7F7482235E81}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{E8A40E8F-5B1E-4021-BF60-7F7482235E81}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{E8A40E8F-5B1E-4021-BF60-7F7482235E81}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{E8A40E8F-5B1E-4021-BF60-7F7482235E81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8A40E8F-5B1E-4021-BF60-7F7482235E81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8A40E8F-5B1E-4021-BF60-7F7482235E81}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E8A40E8F-5B1E-4021-BF60-7F7482235E81}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{E8A40E8F-5B1E-4021-BF60-7F7482235E81}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -16,6 +16,8 @@ namespace CefSharp
         {
             _browserHwnd = browser->GetWindowHandle();
             _cefBrowser = browser;
+
+            _browserControl->BeginInvoke(gcnew Action(_browserControl, &BrowserControl::OnReady));            
         }
         return RV_CONTINUE; 
     }
@@ -56,7 +58,6 @@ namespace CefSharp
             if(!frame.get())
             {
                 _browserControl->SetNavState(true, false, false);
-                //_browserControl->ClearFrames();
             }
             else
             {
@@ -86,7 +87,6 @@ namespace CefSharp
             if(!frame.get())
             {
                 _browserControl->SetNavState(false, browser->CanGoBack(), browser->CanGoForward());        
-                //_browserControl->BrowserLoadComplete();
             }
             else
             {

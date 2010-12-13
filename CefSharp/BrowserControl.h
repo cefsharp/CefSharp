@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #pragma once
 
+#include "CefSharp.h"
 #include "HandlerAdapter.h"
 #include "IBeforeResourceLoad.h"
 #include "ConsoleMessageEventArgs.h"
@@ -11,7 +12,7 @@ using namespace System::ComponentModel;
 using namespace System::Windows::Forms;
 using namespace System::Threading;
 
-namespace CefSharp 
+namespace CefSharp
 {
     public ref class BrowserControl sealed : public Control, INotifyPropertyChanged
     {
@@ -21,19 +22,22 @@ namespace CefSharp
 
         String^ _address;
         String^ _title;
-        IBeforeResourceLoad^ _beforeResourceLoadHandler;       
         String^ _jsResult;
         String^ _jsError;
 
+        IBeforeResourceLoad^ _beforeResourceLoadHandler;       
         MCefRefPtr<HandlerAdapter> _handlerAdapter;
 
-        initonly AutoResetEvent^ _runJsFinished;
-        initonly RtzCountdownEvent^ _loadCompleted;
+        AutoResetEvent^ _runJsFinished;
+        RtzCountdownEvent^ _loadCompleted;
+        ManualResetEvent^ _browserReady;
 
     protected:
-        
         virtual void OnHandleCreated(EventArgs^ e) override;
         virtual void OnSizeChanged(EventArgs^ e) override;
+
+    public protected:
+        virtual void OnReady();
 
     internal:
         
@@ -51,18 +55,34 @@ namespace CefSharp
         void SetJsError(const CefString& error);
         void RaiseConsoleMessage(String^ message, String^ source, int line);
 
+    private:
+        void Construct(String^ address)
+        {
+            _address = address;
+            _runJsFinished = gcnew AutoResetEvent(false);
+            _browserReady = gcnew ManualResetEvent(false);
+            _loadCompleted = gcnew RtzCountdownEvent();
+
+            if(!CEF::IsInitialized)
+            {
+                if(!CEF::Initialize(gcnew Settings(), gcnew BrowserSettings()))
+                {
+                    throw gcnew InvalidOperationException("CEF initialization failed.");
+                }
+            }
+        }
+
     public:
 
-        BrowserControl() : 
-            _address(gcnew String("about:blank")), 
-            _runJsFinished(gcnew AutoResetEvent(false)),
-            _loadCompleted(gcnew RtzCountdownEvent()) {}
+        BrowserControl()
+        {
+            Construct("about:blank");
+        }
 
-
-        BrowserControl(String^ initialUrl) : 
-            _address(initialUrl), 
-            _runJsFinished(gcnew AutoResetEvent(false)),
-            _loadCompleted(gcnew RtzCountdownEvent()) {}
+        BrowserControl(String^ initialUrl)
+        {
+            Construct(initialUrl);
+        }
 
         void Load(String^ url);
         void WaitForLoadCompletion();
@@ -104,7 +124,21 @@ namespace CefSharp
             bool get() { return _canGoBack; }
         }
 
+        property bool IsReady
+        {
+            bool get()
+            {
+                return _handlerAdapter.get() != nullptr && _handlerAdapter->GetIsReady();
+            }
+        }
+
+        void WaitForReady();
+
         virtual event PropertyChangedEventHandler^ PropertyChanged;
+
+        // TODO: Ready event can be subscribed by user code after actual Ready event happens,
+        // so we must handle this situation and in on add event handler raise event.
+        // event EventHandler^ Ready;
 
         event ConsoleMessageEventHandler^ ConsoleMessage;
     };

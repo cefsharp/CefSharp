@@ -1,6 +1,5 @@
-#pragma once
-
 #include "stdafx.h"
+#pragma once
 
 namespace CefSharp
 {
