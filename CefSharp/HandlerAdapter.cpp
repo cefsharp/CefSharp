@@ -29,7 +29,10 @@ namespace CefSharp
 
     CefHandler::RetVal HandlerAdapter::HandleAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& url)
     {
-        _browserControl->SetAddress(gcnew String(url.c_str()));
+        if(frame->IsMain())
+        {
+            _browserControl->SetAddress(gcnew String(url.c_str()));
+        }
         return RV_CONTINUE; 
     }
 
