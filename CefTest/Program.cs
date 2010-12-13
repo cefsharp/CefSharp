@@ -19,6 +19,7 @@ namespace CefTest
             }
 
             CEF.RegisterScheme("test", new TestSchemeHandlerFactory());
+            CEF.RegisterJsObject("bound", new BoundObject());
 
             Browser browser = new Browser();
             Application.Run(browser);

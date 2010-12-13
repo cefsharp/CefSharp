@@ -8,6 +8,7 @@
 
 using namespace System;
 using namespace System::IO;
+using namespace System::Collections::Generic;
 
 namespace CefSharp 
 {
@@ -15,6 +16,13 @@ namespace CefSharp
     {
     private:
         static bool _initialized = false;
+        static IDictionary<String^, Object^>^ _boundObjects;
+    
+    internal:
+        static IDictionary<String^, Object^>^ GetBoundObjects()
+        {
+            return _boundObjects;
+        }
 
     public:
         static property bool IsInitialized
@@ -73,6 +81,17 @@ namespace CefSharp
             return RegisterScheme(schemeName, nullptr, factory);
         }
 
+        static bool RegisterJsObject(String^ name, Object^ objectToBind)
+        {
+            if(_boundObjects == nullptr)
+            {
+                _boundObjects = gcnew Dictionary<String^, Object^>();
+            }
+
+            _boundObjects[name] = objectToBind;
+
+            return true;
+        }
 
         static void Shutdown()
         {
