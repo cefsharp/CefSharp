@@ -11,7 +11,6 @@ namespace CefSharp
 {
     CefHandler::RetVal HandlerAdapter::HandleAfterCreated(CefRefPtr<CefBrowser> browser) 
     { 
-        Console::WriteLine("HandleAfterCreated(CefBrowser:{0:x8})", (int)browser.get());
         if(!browser->IsPopup()) 
         {
             _browserHwnd = browser->GetWindowHandle();
@@ -36,32 +35,17 @@ namespace CefSharp
 
     CefHandler::RetVal HandlerAdapter::HandleBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, NavType navType, bool isRedirect) 
     { 
-        _browserControl->BrowseStarted();
         return RV_CONTINUE; 
     }
 
     CefHandler::RetVal HandlerAdapter::HandleLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame)
     {
-        if(frame.get())
-        {
-            Console::WriteLine("HandleLoadStart(CefBrowser:0x{0:x8}, CefFrame:0x{1:x8}) FrameName=\"{2}\" MainFrame? {3}", 
-                (int)browser.get(), (int)frame.get(), convertToString(frame->GetName()), frame->IsMain());
-        }
-        else
-        {
-            Console::WriteLine("HandleLoadStart(CefBrowser:0x{0:x8}, CefFrame:0x{1:x8})", (int)browser.get(), (int)frame.get());
-        }
-        
         if(!browser->IsPopup())
         {
             Lock();
             if(!frame.get())
             {
                 _browserControl->SetNavState(true, false, false);
-            }
-            else
-            {
-                
             }
             _browserControl->AddFrame(frame);
             Unlock();
@@ -71,26 +55,12 @@ namespace CefSharp
 
     CefHandler::RetVal HandlerAdapter::HandleLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame)
     {
-        if(frame.get())
-        {
-            Console::WriteLine("  HandleLoadEnd(CefBrowser:0x{0:x8}, CefFrame:0x{1:x8}) FrameName=\"{2}\" MainFrame? {3}", 
-                (int)browser.get(), (int)frame.get(), convertToString(frame->GetName()), frame->IsMain());
-        }
-        else
-        {
-            Console::WriteLine("  HandleLoadEnd(CefBrowser:0x{0:x8}, CefFrame:0x{1:x8})", (int)browser.get(), (int)frame.get());
-        }
-
         if(!browser->IsPopup())
         {
             Lock();
             if(!frame.get())
             {
                 _browserControl->SetNavState(false, browser->CanGoBack(), browser->CanGoForward());        
-            }
-            else
-            {
-                
             }
             _browserControl->FrameLoadComplete(frame);
             Unlock();
@@ -124,21 +94,21 @@ namespace CefSharp
         return RV_CONTINUE; 
     }
 
-CefHandler::RetVal HandlerAdapter::HandleJSBinding(CefRefPtr<CefBrowser> browser,
-                                 CefRefPtr<CefFrame> frame,
-                                 CefRefPtr<CefV8Value> object)
-{
-    JsResultHandler::Bind(_browserControl, object);
+    CefHandler::RetVal HandlerAdapter::HandleJSBinding(CefRefPtr<CefBrowser> browser,
+                                     CefRefPtr<CefFrame> frame,
+                                     CefRefPtr<CefV8Value> object)
+    {
+        JsResultHandler::Bind(_browserControl, object);
 
-    return RV_CONTINUE;
-}
+        return RV_CONTINUE;
+    }
 
-CefHandler::RetVal HandlerAdapter::HandleConsoleMessage(CefRefPtr<CefBrowser> browser, const CefString& message, const CefString& source, int line)
-{
-    String^ messageStr = convertToString(message);
-    String^ sourceStr = convertToString(source);
-    _browserControl->RaiseConsoleMessage(messageStr, sourceStr, line);
-    return RV_CONTINUE;
-}
+    CefHandler::RetVal HandlerAdapter::HandleConsoleMessage(CefRefPtr<CefBrowser> browser, const CefString& message, const CefString& source, int line)
+    {
+        String^ messageStr = convertToString(message);
+        String^ sourceStr = convertToString(source);
+        _browserControl->RaiseConsoleMessage(messageStr, sourceStr, line);
+        return RV_CONTINUE;
+    }
 
 }

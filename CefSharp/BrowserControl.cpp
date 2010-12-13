@@ -80,11 +80,7 @@ namespace CefSharp
     void BrowserControl::OnReady()
     {
         OnSizeChanged(EventArgs::Empty);
-
         _browserReady->Set();
-
-        // todo: raise event with Control.BeginInvoke
-        // Ready(this, e);
     }
 
     void BrowserControl::OnHandleCreated(EventArgs^ e)
@@ -155,34 +151,16 @@ namespace CefSharp
             PropertyChanged(this, gcnew PropertyChangedEventArgs(L"CanGoForward"));
         }
     }
-//////////////////////////////////////////////
-    void BrowserControl::BrowseStarted()
-    {
-//        _loadCompleted->Reset();
-    }
-
-    void BrowserControl::ClearFrames()
-    {
-        Console::WriteLine("Clearing frames");
-    }
 
     void BrowserControl::AddFrame(CefRefPtr<CefFrame> frame)
     {
-        //Console::WriteLine("Adding frame {0:x8}, \"{1}\" MainFrame? {2}", (int)frame.get(), convertToString(frame->GetName()), frame->IsMain());
         _loadCompleted->AddCount();
     }
 
     void BrowserControl::FrameLoadComplete(CefRefPtr<CefFrame> frame)
     {
-        //Console::WriteLine("Loaded frame {0:x8}, \"{1}\" MainFrame? {2}", (int)frame.get(), convertToString(frame->GetName()), frame->IsMain());
         _loadCompleted->Signal();
     }
-
-    void BrowserControl::BrowserLoadComplete()
-    {
-        Console::WriteLine("Loaded browser");
-    }
-//////////////////////////////////////////////
 
     void BrowserControl::WaitForLoadCompletion()
     {

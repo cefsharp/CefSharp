@@ -45,11 +45,9 @@ namespace CefSharp
         void SetAddress(String^ address);
         void SetNavState(bool isLoading, bool canGoBack, bool canGoForward);
         
-        void ClearFrames();
         void AddFrame(CefRefPtr<CefFrame> frame);
         void FrameLoadComplete(CefRefPtr<CefFrame> frame);
-        void BrowserLoadComplete();
-        void BrowseStarted();
+
         
         void SetJsResult(const CefString& result);
         void SetJsError(const CefString& error);
