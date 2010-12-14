@@ -126,6 +126,7 @@
     <None Include="Resources\chromium-256.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\BindingTest.html" />
     <Content Include="Resources\SchemeTest.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
