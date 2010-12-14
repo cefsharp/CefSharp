@@ -33,6 +33,7 @@
             }
 
             // CEF.RegisterScheme("test", new TestSchemeHandlerFactory());
+            CEF.RegisterJsObject("bound", new BoundObject());
 
             // Application.EnableVisualStyles();
             // Application.SetCompatibleTextRenderingDefault(false);
@@ -64,7 +65,6 @@
         [TearDown]
         public void TearDown()
         {
-            Console.WriteLine("TearDown");
             waitCreated.WaitOne();
             MainForm.Close();
             Application.Exit();

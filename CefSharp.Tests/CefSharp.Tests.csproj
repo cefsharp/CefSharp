@@ -50,7 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BindObjectTest.cs" />
+    <Compile Include="BindObjectTests.cs" />
+    <Compile Include="BoundObject.cs" />
     <Compile Include="BrowserApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
