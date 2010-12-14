@@ -60,6 +60,34 @@ namespace CefSharp.Example.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
+        ///&lt;html&gt;
+        ///	&lt;head&gt;
+        ///		&lt;title&gt;&lt;/title&gt;
+        ///	&lt;/head&gt;
+        ///	&lt;body&gt;
+        ///	    &lt;p&gt;
+        ///	    Result of calling bound.Repeat(&quot;hi &quot;, 5) = 
+        ///	    &lt;script type=&quot;text/javascript&quot;&gt;
+        ///	        var result = bound.Repeat(&quot;hi &quot;, 5);
+        ///	        document.write(&apos;&quot;&apos; + result + &apos;&quot;&apos;);
+        ///	        if(result == &quot;hi hi hi hi hi &quot;) 
+        ///	        {
+        ///	            document.write(&quot; SUCCESS&quot;);
+        ///	        }
+        ///	        else
+        ///	        {
+        ///	            document.write(&quot; FAIL!&quot;);
+        ///	        }	            
+        ///	 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string BindingTest {
+            get {
+                return ResourceManager.GetString("BindingTest", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap chromium256 {
             get {
                 object obj = ResourceManager.GetObject("chromium256", resourceCulture);

@@ -45,6 +45,7 @@
             this.testRunArbitraryJavaScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testSchemeHandlerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testConsoleMessagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testBingCLRObjectToJSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -165,7 +166,8 @@
             this.testRunJsSynchronouslyToolStripMenuItem,
             this.testRunArbitraryJavaScriptToolStripMenuItem,
             this.testSchemeHandlerToolStripMenuItem,
-            this.testConsoleMessagesToolStripMenuItem});
+            this.testConsoleMessagesToolStripMenuItem,
+            this.testBingCLRObjectToJSToolStripMenuItem});
             this.testsToolStripMenuItem.Name = "testsToolStripMenuItem";
             this.testsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.testsToolStripMenuItem.Text = "Tests";
@@ -204,6 +206,13 @@
             this.testConsoleMessagesToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
             this.testConsoleMessagesToolStripMenuItem.Text = "Test Console Messages";
             this.testConsoleMessagesToolStripMenuItem.Click += new System.EventHandler(this.TestConsoleMessagesToolStripMenuItemClick);
+            // 
+            // testBingCLRObjectToJSToolStripMenuItem
+            // 
+            this.testBingCLRObjectToJSToolStripMenuItem.Name = "testBingCLRObjectToJSToolStripMenuItem";
+            this.testBingCLRObjectToJSToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.testBingCLRObjectToJSToolStripMenuItem.Text = "Test Bing CLR object to JS";
+            this.testBingCLRObjectToJSToolStripMenuItem.Click += new System.EventHandler(this.TestBingClrObjectToJsToolStripMenuItemClick);
             // 
             // Browser
             // 
@@ -247,6 +256,7 @@
         private System.Windows.Forms.ToolStripMenuItem testRunArbitraryJavaScriptToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem testSchemeHandlerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem testConsoleMessagesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem testBingCLRObjectToJSToolStripMenuItem;
 
     }
 }
