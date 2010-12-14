@@ -18,7 +18,7 @@ namespace CefSharp
             _browserHwnd = browser->GetWindowHandle();
             _cefBrowser = browser;
 
-            _browserControl->OnReady();            
+            _browserControl->OnReady();
         }
         return RV_CONTINUE; 
     }

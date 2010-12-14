@@ -5,6 +5,16 @@
 namespace CefSharp
 {
 
+void WriteLine(String^ arg)
+{
+    // Console::WriteLine(arg);
+}
+
+void WriteLine(String^ format, Object^ arg0, Object^ arg1)
+{
+    // Console::WriteLine(format, arg0, arg1);
+}
+
 void RtzCountdownEvent::AddCount(int count)
 {
     int num;
@@ -36,7 +46,7 @@ addLoop:
         _event->Reset();
     }
 
-    Console::WriteLine("RtzCountdownEvent AddCount {0} -> {1}", num, num + count);
+    WriteLine("RtzCountdownEvent AddCount {0} -> {1}", num, num + count);
 }
 
 
@@ -70,11 +80,11 @@ signalLoop:
     if(num <= count)
     {
         _event->Set();
-        Console::WriteLine("RtzCountdownEvent Signal {0} -> {1} ***", num, newCount);
+        WriteLine("RtzCountdownEvent Signal {0} -> {1} ***", num, newCount);
         return true;
     }
 
-    Console::WriteLine("RtzCountdownEvent Signal {0} -> {1}", num, newCount);
+    WriteLine("RtzCountdownEvent Signal {0} -> {1}", num, newCount);
 
     return false;
 }
@@ -99,7 +109,7 @@ void RtzCountdownEvent::Reset()
 
     _currentCount = 0;
     _event->Reset();
-    Console::WriteLine("RtzCountdownEvent Reset");
+    WriteLine("RtzCountdownEvent Reset");
 }
 
 void RtzCountdownEvent::Wait()
@@ -111,5 +121,6 @@ void RtzCountdownEvent::Wait(int timeout)
 {
     _event->WaitOne(timeout);
 }
+
 
 };
