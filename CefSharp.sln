@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CefSharp", "CefSharp\CefSharp.vcproj", "{7B495581-2271-4F41-9476-ACB86E8C864F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefTest", "CefTest\CefTest.csproj", "{C043FFF7-5F71-4FFC-989A-E09E18548589}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.Example", "CefTest\CefSharp.Example.csproj", "{C043FFF7-5F71-4FFC-989A-E09E18548589}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cefclient", "..\libs\cef_binary_r149_VS2005-VS2008\cefclient\cefclient2008.vcproj", "{E4369C2C-8F50-4B35-A524-7B72D29D9C08}"
 EndProject

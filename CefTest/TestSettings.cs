@@ -1,7 +1,7 @@
 using CefSharp;
 using NUnit.Framework;
 
-namespace CefTest
+namespace CefSharp.Example
 {
     [TestFixture]
     public class TestSettings

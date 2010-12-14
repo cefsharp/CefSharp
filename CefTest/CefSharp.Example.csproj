@@ -8,8 +8,8 @@
     <ProjectGuid>{C043FFF7-5F71-4FFC-989A-E09E18548589}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CefTest</RootNamespace>
-    <AssemblyName>CefTest</AssemblyName>
+    <RootNamespace>CefSharp.Example</RootNamespace>
+    <AssemblyName>CefSharp.Example</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>

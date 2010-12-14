@@ -1,6 +1,6 @@
 using System;
 
-namespace CefTest
+namespace CefSharp.Example
 {
     public class BoundObject
     {

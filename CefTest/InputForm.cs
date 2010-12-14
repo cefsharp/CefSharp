@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace CefTest
+namespace CefSharp.Example
 {
     public partial class InputForm : Form
     {

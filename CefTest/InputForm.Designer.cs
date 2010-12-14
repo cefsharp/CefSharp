@@ -1,4 +1,4 @@
-﻿namespace CefTest
+﻿namespace CefSharp.Example
 {
     partial class InputForm
     {
