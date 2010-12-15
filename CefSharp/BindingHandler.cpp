@@ -15,22 +15,65 @@ namespace CefSharp
             return CefV8Value::CreateNull();
         }
 
+        Type^ underlyingType = Nullable::GetUnderlyingType(type);
+        if(underlyingType!=nullptr)type = underlyingType;
+
         if (type == Boolean::typeid)
         {
             return CefV8Value::CreateBool(safe_cast<bool>(obj));
         }
-        if (type == Int16::typeid || type == Int32::typeid)
+        if (type == Int32::typeid)
         {
             return CefV8Value::CreateInt(safe_cast<int>(obj));
-        }
-        if (type == Single::typeid || type == Double::typeid)
-        {
-            return CefV8Value::CreateDouble(safe_cast<double>(obj));
         }
         if (type == String::typeid)
         {
             CefString str = convertFromString(safe_cast<String^>(obj));
             return CefV8Value::CreateString(str);
+        }
+        if (type == Double::typeid)
+        {
+            return CefV8Value::CreateDouble(safe_cast<double>(obj));
+        }
+        if (type == Decimal::typeid)
+        {
+            return CefV8Value::CreateDouble( Convert::ToDouble(obj) );
+        }
+        if (type == SByte::typeid)
+        {
+            return CefV8Value::CreateInt( Convert::ToInt32(obj) );
+        }
+        if (type == Int16::typeid)
+        {
+            return CefV8Value::CreateInt( Convert::ToInt32(obj) );
+        }
+        if (type == Int64::typeid)
+        {
+            return CefV8Value::CreateDouble( Convert::ToDouble(obj) );
+        }
+        if (type == Byte::typeid)
+        {
+            return CefV8Value::CreateInt( Convert::ToInt32(obj) );
+        }
+        if (type == UInt16::typeid)
+        {
+            return CefV8Value::CreateInt( Convert::ToInt32(obj) );
+        }
+        if (type == UInt32::typeid)
+        {
+            return CefV8Value::CreateDouble( Convert::ToDouble(obj) );
+        }
+        if (type == UInt64::typeid)
+        {
+            return CefV8Value::CreateDouble( Convert::ToDouble(obj) );
+        }
+        if (type == Single::typeid)
+        {
+            return CefV8Value::CreateDouble( Convert::ToDouble(obj) );
+        }
+        if (type == Char::typeid)
+        {
+            return CefV8Value::CreateInt( Convert::ToInt32(obj) );
         }
 
         //TODO: What exception type?
@@ -78,6 +121,8 @@ namespace CefSharp
             return true;
         }
 
+        //TODO: cache for type info here
+
         array<System::Object^>^ suppliedArguments = gcnew array<Object^>(arguments.size());
         try
         {
@@ -92,6 +137,7 @@ namespace CefSharp
             return true;
         }
 
+        // choose best method
         MethodInfo^ bestMethod;
         array<Object^>^ bestMethodArguments;
         int bestMethodMatchedArgs = -1;
@@ -107,7 +153,6 @@ namespace CefSharp
                 int match = 0;
                 int failed = 0;
 
-
                 arguments = gcnew array<Object^>(suppliedArguments->Length);
                 for (int p = 0; p < suppliedArguments->Length; p++)
                 {
@@ -117,21 +162,39 @@ namespace CefSharp
                     {
                         System::Type^ suppliedType = suppliedArguments[p]->GetType();
 
-                        if (suppliedType == paramType)
+                        if (paramType == suppliedType)
                         {
                             arguments[p] = suppliedArguments[p];
                             match++;
                         }
                         else
                         {
+                            try
+                            {
+                                Type^ underlyingParamType = Nullable::GetUnderlyingType(paramType);
+                                arguments[p] = Convert::ChangeType(suppliedArguments[p], underlyingParamType!=nullptr?underlyingParamType : paramType);
+                            }
+                            catch (System::Exception^)
+                            {
+                                failed++;
+                                break;
+                            }
+                            match++;
+
                             // TODO
                             //arguments[p] = ConvertToType(suppliedArguments[p], paramType);
                             //if (arguments[p] == nullptr)
                             //{
-                            failed++;
-                            break;
+                            // failed++;
+                            // break;
                             //}
                         }
+                    } else if(paramType->IsValueType == false || Nullable::GetUnderlyingType(paramType) != nullptr) {
+                        arguments[p] = suppliedArguments[p];
+                        match++;
+                    } else {
+                        failed++;
+                        break;
                     }
                 }
 
