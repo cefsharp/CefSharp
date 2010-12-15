@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 #include "BrowserControl.h"
+#include "ScriptException.h"
 
 namespace CefSharp
 {
@@ -74,7 +75,7 @@ namespace CefSharp
         {
             return _jsResult;
         }
-        throw gcnew Exception("RunScript Exception:" + _jsError);
+        throw gcnew ScriptException(_jsError);
     }
 
     void BrowserControl::OnReady()

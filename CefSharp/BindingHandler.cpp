@@ -4,14 +4,16 @@
 namespace CefSharp
 {
 
-    CefRefPtr<CefV8Value> BindingHandler::ConvertToCef(Object^ obj)
+    CefRefPtr<CefV8Value> BindingHandler::ConvertToCef(Type^ type, Object^ obj)
     {
+        if(type == Void::typeid)
+        {
+            return CefV8Value::CreateUndefined();
+        }
         if(obj == nullptr)
         {
             return CefV8Value::CreateNull();
         }
-
-	    Type^ type = obj->GetType();
 
 	    if (type == Boolean::typeid)
         {
@@ -38,7 +40,7 @@ namespace CefSharp
     {
         if (obj->IsNull() || obj->IsUndefined())
         {
-	        return nullptr;
+            return nullptr;
         }
         if (obj->IsBool())
             return gcnew System::Boolean(obj->GetBoolValue());
@@ -77,7 +79,15 @@ namespace CefSharp
         array<System::Object^>^ suppliedArguments = gcnew array<Object^>(arguments.size());
         for(int i = 0; i < suppliedArguments->Length; i++) 
         {
-            suppliedArguments[i] = ConvertFromCef(arguments[i]);
+            try
+            {
+                suppliedArguments[i] = ConvertFromCef(arguments[i]);
+            }
+            catch(System::Exception^ err)
+            {
+                exception = convertFromString(err->Message);
+                return true;
+            }
         }
 
         MethodInfo^ bestMethod;
@@ -145,7 +155,7 @@ namespace CefSharp
             try
             {
 	            Object^ result = bestMethod->Invoke(self, bestMethodArguments);
-                retval = ConvertToCef(result);
+                retval = ConvertToCef(bestMethod->ReturnType, result);
                 return true;
             }
             catch(System::Reflection::TargetInvocationException^ err)
