@@ -15,5 +15,9 @@ namespace CefSharp.Example
             }
             return result;
         }
+
+        public void EchoVoid()
+        {
+        }
     }
 }
