@@ -1,9 +1,6 @@
 ﻿namespace CefSharp.Tests
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using NUnit.Framework;
     using System.Windows.Forms;
     using System.Threading;
@@ -13,7 +10,7 @@
     {
         public static BrowserApplication Instance { get; private set; }
         public static Form MainForm { get; private set; }
-        public static BrowserControl WebBrowser { get; private set; }
+        public static CefWebBrowser WebBrowser { get; private set; }
 
         private ManualResetEvent waitCreated;
 
@@ -54,7 +51,7 @@
 
         void MainForm_Shown(object sender, EventArgs e)
         {
-            WebBrowser = new BrowserControl("http://google.com");
+            WebBrowser = new CefWebBrowser("http://google.com");
             WebBrowser.Parent = MainForm;
             WebBrowser.Dock = DockStyle.Fill;
             WebBrowser.WaitForLoadCompletion();

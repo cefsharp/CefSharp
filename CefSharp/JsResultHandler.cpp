@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "JsResultHandler.h"
-#include "BrowserControl.h"
+#include "CefWebBrowser.h"
 
 namespace CefSharp
 {
@@ -42,7 +42,7 @@ bool JsResultHandler::Execute(const CefString& name, CefRefPtr<CefV8Value> objec
     }
 }
         
-void JsResultHandler::Bind(BrowserControl^ browserControl, CefRefPtr<CefV8Value> domWindow)
+void JsResultHandler::Bind(CefWebBrowser^ browserControl, CefRefPtr<CefV8Value> domWindow)
 {
     CefRefPtr<JsResultHandler> handler = new JsResultHandler(browserControl);
  

@@ -1,13 +1,13 @@
 #include "stdafx.h"
 
-#include "BrowserControl.h"
+#include "CefWebBrowser.h"
 #include "ScriptException.h"
 
 namespace CefSharp
 {
-    void BrowserControl::Load(String^ url)
+    void CefWebBrowser::Load(String^ url)
     {
-        WaitForReady();
+        WaitForInitialized();
 
         pin_ptr<const wchar_t> charPtr = PtrToStringChars(url);
         CefString urlStr = charPtr;
@@ -15,37 +15,37 @@ namespace CefSharp
         _handlerAdapter->GetCefBrowser()->GetMainFrame()->LoadURL(urlStr);
     }
 
-    void BrowserControl::Stop()
+    void CefWebBrowser::Stop()
     {
-    	WaitForReady();
+    	WaitForInitialized();
 
         _handlerAdapter->GetCefBrowser()->StopLoad();
     }
 
-    void BrowserControl::Back()
+    void CefWebBrowser::Back()
     {
-    	WaitForReady();
+    	WaitForInitialized();
 
         _handlerAdapter->GetCefBrowser()->GoBack();
     }
 
-    void BrowserControl::Forward()
+    void CefWebBrowser::Forward()
     {
-    	WaitForReady();
+    	WaitForInitialized();
 
         _handlerAdapter->GetCefBrowser()->GoForward();
     }
 
-    String^ BrowserControl::RunScript(String^ script, String^ scriptUrl, int startLine)
+    String^ CefWebBrowser::RunScript(String^ script, String^ scriptUrl, int startLine)
     {
-    	WaitForReady();
+    	WaitForInitialized();
 
         return RunScript(script, scriptUrl, startLine, -1);
     }
 
-    String^ BrowserControl::RunScript(String^ script, String^ scriptUrl, int startLine, int timeout)
+    String^ CefWebBrowser::RunScript(String^ script, String^ scriptUrl, int startLine, int timeout)
     {
-    	WaitForReady();
+    	WaitForInitialized();
 
         _jsError = nullptr;
         _jsResult = nullptr;
@@ -78,13 +78,13 @@ namespace CefSharp
         throw gcnew ScriptException(_jsError);
     }
 
-    void BrowserControl::OnReady()
+    void CefWebBrowser::OnInitialized()
     {
-        BeginInvoke(gcnew Action<EventArgs^>(this, &BrowserControl::OnSizeChanged), EventArgs::Empty);
+        BeginInvoke(gcnew Action<EventArgs^>(this, &CefWebBrowser::OnSizeChanged), EventArgs::Empty);
         _browserReady->Set();
     }
 
-    void BrowserControl::OnHandleCreated(EventArgs^ e)
+    void CefWebBrowser::OnHandleCreated(EventArgs^ e)
     {
         if (DesignMode == false) 
         {
@@ -105,7 +105,7 @@ namespace CefSharp
         }
     }
 
-    void BrowserControl::OnSizeChanged(EventArgs^ e)
+    void CefWebBrowser::OnSizeChanged(EventArgs^ e)
     {
         if (DesignMode == false && IsReady)
         {
@@ -120,19 +120,19 @@ namespace CefSharp
         }
     }
 
-    void BrowserControl::SetTitle(String^ title)
+    void CefWebBrowser::SetTitle(String^ title)
     {
         _title = title;
         PropertyChanged(this, gcnew PropertyChangedEventArgs(L"Title"));
     }
 
-    void BrowserControl::SetAddress(String^ address)
+    void CefWebBrowser::SetAddress(String^ address)
     {
         _address = address;
         PropertyChanged(this, gcnew PropertyChangedEventArgs(L"Address"));
     }
 
-    void BrowserControl::SetNavState(bool isLoading, bool canGoBack, bool canGoForward)
+    void CefWebBrowser::SetNavState(bool isLoading, bool canGoBack, bool canGoForward)
     {
         if(isLoading != _isLoading) 
         {
@@ -153,44 +153,44 @@ namespace CefSharp
         }
     }
 
-    void BrowserControl::AddFrame(CefRefPtr<CefFrame> frame)
+    void CefWebBrowser::AddFrame(CefRefPtr<CefFrame> frame)
     {
         _loadCompleted->AddCount();
     }
 
-    void BrowserControl::FrameLoadComplete(CefRefPtr<CefFrame> frame)
+    void CefWebBrowser::FrameLoadComplete(CefRefPtr<CefFrame> frame)
     {
         _loadCompleted->Signal();
     }
 
-    void BrowserControl::WaitForLoadCompletion()
+    void CefWebBrowser::WaitForLoadCompletion()
     {
         WaitForLoadCompletion(-1);
     }
 
-    void BrowserControl::WaitForLoadCompletion(int timeout)
+    void CefWebBrowser::WaitForLoadCompletion(int timeout)
     {
         _loadCompleted->Wait(timeout);
     }
 
-    void BrowserControl::SetJsResult(const CefString& result)
+    void CefWebBrowser::SetJsResult(const CefString& result)
     {
         _jsResult = gcnew String(result.c_str());
         _runJsFinished->Set();
     }
 
-    void BrowserControl::SetJsError(const CefString& error)
+    void CefWebBrowser::SetJsError(const CefString& error)
     {
         _jsError = gcnew String(error.c_str());
         _runJsFinished->Set();
     }
 
-    void BrowserControl::RaiseConsoleMessage(String^ message, String^ source, int line)
+    void CefWebBrowser::RaiseConsoleMessage(String^ message, String^ source, int line)
     {
         ConsoleMessage(this, gcnew ConsoleMessageEventArgs(message, source, line));
     }
 
-    void BrowserControl::WaitForReady()
+    void CefWebBrowser::WaitForInitialized()
     {
         if(IsReady) return;
 

@@ -1,0 +1,1 @@
+tools\nunit-console-x86.exe /domain=None Debug\CefSharp.Tests.dll

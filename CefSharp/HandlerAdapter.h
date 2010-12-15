@@ -5,12 +5,12 @@ namespace CefSharp
 {
     using namespace System;
 
-    ref class BrowserControl;
+    ref class CefWebBrowser;
 
     class HandlerAdapter : public CefThreadSafeBase<CefHandler>
     {
     private:
-        gcroot<BrowserControl^> _browserControl;
+        gcroot<CefWebBrowser^> _browserControl;
         HWND _browserHwnd;
         CefRefPtr<CefBrowser> _cefBrowser;
 
@@ -28,7 +28,7 @@ namespace CefSharp
         
     public:
         ~HandlerAdapter() { _browserControl = nullptr; }
-        HandlerAdapter(BrowserControl^ browserControl) : _browserControl(browserControl) {}
+        HandlerAdapter(CefWebBrowser^ browserControl) : _browserControl(browserControl) {}
 
         virtual RetVal HandleAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& url);
         virtual RetVal HandleAfterCreated(CefRefPtr<CefBrowser> browser);

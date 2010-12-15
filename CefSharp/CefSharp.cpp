@@ -7,7 +7,7 @@
 #include "ReturnValue.h"
 #include "CefSharp.h"
 #include "HandlerAdapter.h"
-#include "BrowserControl.h"
+#include "CefWebBrowser.h"
 
 namespace CefSharp 
 {
