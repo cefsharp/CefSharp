@@ -108,20 +108,6 @@
         }
 
         [Test]
-        public void Int_Echo_Int_Test()
-        {
-            var result = RunScript("return bound.EchoInt(67);");
-            Assert.AreEqual("67", result);
-        }
-
-        [Test]
-        public void String_Echo_String_Test()
-        {
-            var result1 = RunScript("return bound.EchoString('test string');");
-            Assert.AreEqual("test string", result1);
-        }
-
-        [Test]
         public void StringUnicodeTest()
         {
             var sb = new StringBuilder();
@@ -190,12 +176,12 @@
         [TestCase("Boolean_Null",          "bound.EchoBoolean(null) === false",      false)]
         [TestCase("Boolean_Boolean_True",  "bound.EchoBoolean(true) === true",       false)]
         [TestCase("Boolean_Boolean_False", "bound.EchoBoolean(false) === false",     false)]
-        [TestCase("Boolean_Number_0",      "bound.EchoBoolean(0) === false",         true)]
-        [TestCase("Boolean_Number_1",      "bound.EchoBoolean(1) === true",          true)]
-        [TestCase("Boolean_String",        "bound.EchoBoolean('0') === true",        true)]
-        [TestCase("Boolean_Date",          "bound.EchoBoolean(new Date()) === true", true)]
-        [TestCase("Boolean_Array",         "bound.EchoBoolean([]) === true",         true)]
-        [TestCase("Boolean_Object",        "bound.EchoBoolean({}) === true",         true)]
+        [TestCase("Boolean_Number_0",      "bound.EchoBoolean(0), false",            true)]
+        [TestCase("Boolean_Number_1",      "bound.EchoBoolean(1), false",            true)]
+        [TestCase("Boolean_String",        "bound.EchoBoolean('0'), false",          true)]
+        [TestCase("Boolean_Date",          "bound.EchoBoolean(new Date()), false",   true)]
+        [TestCase("Boolean_Array",         "bound.EchoBoolean([]), false",           true)]
+        [TestCase("Boolean_Object",        "bound.EchoBoolean({}), false",           true)]
 
 /*
 |=CLR Type  |=JavaScript values and objects                                                                |
@@ -210,46 +196,175 @@
 |=CLR Type  |=JavaScript values and objects                                                                |
 |           |=undefined |=null      |=Boolean   |=Number    |=String   |=Date      |=Array     |=Object    |
 | SByte     | -         | -         | -         | +         | -        | -         | -         | -         |
+*/
+        [TestCase("SByte_Undefined",       "bound.EchoSByte(undefined), false",    true)]
+        [TestCase("SByte_Null",            "bound.EchoSByte(null), false",         true)]
+        [TestCase("SByte_Boolean",         "bound.EchoSByte(true), false",         true)]
+        [TestCase("SByte_Number_-128",     "bound.EchoSByte(-128) === -128",       false)]
+        [TestCase("SByte_Number_+127",     "bound.EchoSByte(+127) === +127",       false)]
+        [TestCase("SByte_Number_Overflow", "bound.EchoSByte(+128), false",         true)]
+        [TestCase("SByte_String",          "bound.EchoSByte('0'), false",          true)]
+        [TestCase("SByte_Date",            "bound.EchoSByte(new Date()), false",   true)]
+        [TestCase("SByte_Array",           "bound.EchoSByte([]), false",           true)]
+        [TestCase("SByte_Object",          "bound.EchoSByte({}), false",           true)]
+/*
+|=CLR Type  |=JavaScript values and objects                                                                |
+|           |=undefined |=null      |=Boolean   |=Number    |=String   |=Date      |=Array     |=Object    |
+| SByte?    | *null     | *null     | -         | +         | -        | -         | -         | -         |
+*/
+        [TestCase("SByte?_Undefined",       "bound.EchoSByte(undefined) === null",  false)]
+        [TestCase("SByte?_Null",            "bound.EchoSByte(null) === null",       false)]
+        [TestCase("SByte?_Number_-128",     "bound.EchoSByte(-128) === -128",       false)]
+
+/*
 |=CLR Type  |=JavaScript values and objects                                                                |
 |           |=undefined |=null      |=Boolean   |=Number    |=String   |=Date      |=Array     |=Object    |
 | Int16     | -         | -         | -         | +         | -        | -         | -         | -         |
+*/
+/*
+|=CLR Type  |=JavaScript values and objects                                                                |
+|           |=undefined |=null      |=Boolean   |=Number    |=String   |=Date      |=Array     |=Object    |
+| Int16?    | -         | -         | -         | +         | -        | -         | -         | -         |
+*/
+/*
 |=CLR Type  |=JavaScript values and objects                                                                |
 |           |=undefined |=null      |=Boolean   |=Number    |=String   |=Date      |=Array     |=Object    |
 | Int32     | -         | -         | -         | +         | -        | -         | -         | -         |
+*/
+        [TestCase("Int32_Undefined",          "bound.EchoInt32(undefined), false",            true)]
+        [TestCase("Int32_Null",               "bound.EchoInt32(null), false",                 true)]
+        [TestCase("Int32_Boolean",            "bound.EchoInt32(true), false",                 true)]
+        [TestCase("Int32_Number_-2147483648", "bound.EchoInt32(-2147483648) === -2147483648", false)]
+        [TestCase("Int32_Number_+2147483647", "bound.EchoInt32(+2147483647) === +2147483647", false)]
+        [TestCase("Int32_Number_Overflow",    "bound.EchoInt32(+2147483648), false",          true)]
+        [TestCase("Int32_String",             "bound.EchoInt32('0'), false",                  true)]
+        [TestCase("Int32_Date",               "bound.EchoInt32(new Date()), false",           true)]
+        [TestCase("Int32_Array",              "bound.EchoInt32([]), false",                   true)]
+        [TestCase("Int32_Object",             "bound.EchoInt32({}), false",                   true)]
+/*
+|=CLR Type  |=JavaScript values and objects                                                                |
+|           |=undefined |=null      |=Boolean   |=Number    |=String   |=Date      |=Array     |=Object    |
+| Int32?    | *null     | *null     | -         | +         | -        | -         | -         | -         |
+*/
+        [TestCase("Int32?_Undefined",          "bound.EchoInt32(undefined) === null",          false)]
+        [TestCase("Int32?_Null",               "bound.EchoInt32(null) === null",               false)]
+        [TestCase("Int32?_Number_-2147483648", "bound.EchoInt32(-2147483648) === -2147483648", false)]
+
+/*
 |=CLR Type  |=JavaScript values and objects                                                                |
 |           |=undefined |=null      |=Boolean   |=Number    |=String   |=Date      |=Array     |=Object    |
 | Int64     | -         | -         | -         | +         | -        | -         | -         | -         |
+*/
+/*
+|=CLR Type  |=JavaScript values and objects                                                                |
+|           |=undefined |=null      |=Boolean   |=Number    |=String   |=Date      |=Array     |=Object    |
+| Int64?    | -         | -         | -         | +         | -        | -         | -         | -         |
+*/
+/*
 |=CLR Type  |=JavaScript values and objects                                                                |
 |           |=undefined |=null      |=Boolean   |=Number    |=String   |=Date      |=Array     |=Object    |
 | Byte      | -         | -         | -         | +         | -        | -         | -         | -         |
+*/
+/*
+|=CLR Type  |=JavaScript values and objects                                                                |
+|           |=undefined |=null      |=Boolean   |=Number    |=String   |=Date      |=Array     |=Object    |
+| Byte?     | -         | -         | -         | +         | -        | -         | -         | -         |
+*/
+/*
 |=CLR Type  |=JavaScript values and objects                                                                |
 |           |=undefined |=null      |=Boolean   |=Number    |=String   |=Date      |=Array     |=Object    |
 | UInt16    | -         | -         | -         | +         | -        | -         | -         | -         |
+*/
+/*
+|=CLR Type  |=JavaScript values and objects                                                                |
+|           |=undefined |=null      |=Boolean   |=Number    |=String   |=Date      |=Array     |=Object    |
+| UInt16?   | -         | -         | -         | +         | -        | -         | -         | -         |
+*/
+/*
 |=CLR Type  |=JavaScript values and objects                                                                |
 |           |=undefined |=null      |=Boolean   |=Number    |=String   |=Date      |=Array     |=Object    |
 | UInt32    | -         | -         | -         | +         | -        | -         | -         | -         |
+*/
+/*
+|=CLR Type  |=JavaScript values and objects                                                                |
+|           |=undefined |=null      |=Boolean   |=Number    |=String   |=Date      |=Array     |=Object    |
+| UInt32?   | -         | -         | -         | +         | -        | -         | -         | -         |
+*/
+/*
 |=CLR Type  |=JavaScript values and objects                                                                |
 |           |=undefined |=null      |=Boolean   |=Number    |=String   |=Date      |=Array     |=Object    |
 | UInt64    | -         | -         | -         | +         | -        | -         | -         | -         |
+*/
+/*
+|=CLR Type  |=JavaScript values and objects                                                                |
+|           |=undefined |=null      |=Boolean   |=Number    |=String   |=Date      |=Array     |=Object    |
+| UInt64?   | -         | -         | -         | +         | -        | -         | -         | -         |
+*/
+/*
 |=CLR Type  |=JavaScript values and objects                                                                |
 |           |=undefined |=null      |=Boolean   |=Number    |=String   |=Date      |=Array     |=Object    |
 | Single    | -         | -         | -         | +         | -        | -         | -         | -         |
+*/
+/*
+|=CLR Type  |=JavaScript values and objects                                                                |
+|           |=undefined |=null      |=Boolean   |=Number    |=String   |=Date      |=Array     |=Object    |
+| Single?   | -         | -         | -         | +         | -        | -         | -         | -         |
+*/
+/*
 |=CLR Type  |=JavaScript values and objects                                                                |
 |           |=undefined |=null      |=Boolean   |=Number    |=String   |=Date      |=Array     |=Object    |
 | Double    | -         | -         | -         | +         | -        | -         | -         | -         |
+*/
+/*
+|=CLR Type  |=JavaScript values and objects                                                                |
+|           |=undefined |=null      |=Boolean   |=Number    |=String   |=Date      |=Array     |=Object    |
+| Double?   | -         | -         | -         | +         | -        | -         | -         | -         |
+*/
+/*
 |=CLR Type  |=JavaScript values and objects                                                                |
 |           |=undefined |=null      |=Boolean   |=Number    |=String   |=Date      |=Array     |=Object    |
 | Char      | -         | -         | -         | +         | -        | -         | -         | -         |
+*/
+/*
+|=CLR Type  |=JavaScript values and objects                                                                |
+|           |=undefined |=null      |=Boolean   |=Number    |=String   |=Date      |=Array     |=Object    |
+| Char?     | -         | -         | -         | +         | -        | -         | -         | -         |
+*/
+/*
 |=CLR Type  |=JavaScript values and objects                                                                |
 |           |=undefined |=null      |=Boolean   |=Number    |=String   |=Date      |=Array     |=Object    |
 | DateTime  | -         | -         | -         | -         | -        | +         | -         | -         |
+*/
+/*
+|=CLR Type  |=JavaScript values and objects                                                                |
+|           |=undefined |=null      |=Boolean   |=Number    |=String   |=Date      |=Array     |=Object    |
+| DateTime? | -         | -         | -         | -         | -        | +         | -         | -         |
+*/
+/*
 |=CLR Type  |=JavaScript values and objects                                                                |
 |           |=undefined |=null      |=Boolean   |=Number    |=String   |=Date      |=Array     |=Object    |
 | Decimal   | -         | -         | -         | +         | -        | -         | -         | -         |
+*/
+/*
+|=CLR Type  |=JavaScript values and objects                                                                |
+|           |=undefined |=null      |=Boolean   |=Number    |=String   |=Date      |=Array     |=Object    |
+| Decimal?  | -         | -         | -         | +         | -        | -         | -         | -         |
+*/
+/*
 |=CLR Type  |=JavaScript values and objects                                                                |
 |           |=undefined |=null      |=Boolean   |=Number    |=String   |=Date      |=Array     |=Object    |
 | String    | -         | +         | -         | -         | +        | -         | -         | -         |
 */
+        [TestCase("String_Undefined",    "bound.EchoString(undefined) === null",  false)]
+        [TestCase("String_Null",         "bound.EchoString(null) === null",       false)]
+        [TestCase("String_Boolean",      "bound.EchoString(true), false",         true)]
+        [TestCase("String_Number_1000",  "bound.EchoString(1000), false",         true)]
+        [TestCase("String_String_Empty", "bound.EchoString('') === ''",           false)]
+        [TestCase("String_String_Value", "bound.EchoString('Value') === 'Value'", false)]
+        [TestCase("String_Date",         "bound.EchoString(new Date()), false",   true)]
+        [TestCase("String_Array",        "bound.EchoString([]), false",           true)]
+        [TestCase("String_Object",       "bound.EchoString({}), false",           true)]
+
         public void ExpectScriptExpr(string name, string jsExpr, bool expectScriptException)
         {
             string script = "return ((" + jsExpr + ")? 'pass' : 'fail');";

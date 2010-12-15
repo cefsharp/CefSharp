@@ -61,7 +61,7 @@ namespace CefSharp
         Object^ self = bindingData->Get();
         if(self == nullptr) 
         {
-            exception = "binding's CLR object is null";
+            exception = "Binding's CLR object is null.";
             return true;
         }
 
@@ -72,7 +72,7 @@ namespace CefSharp
 
         if(members->Length == 0)
         {
-            exception = convertFromString("no member named " + memberName);
+            exception = convertFromString("No member named " + memberName + ".");
             return true;
         }
 
