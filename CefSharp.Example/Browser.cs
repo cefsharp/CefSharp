@@ -15,7 +15,7 @@ namespace CefSharp.Example
         {
             InitializeComponent();
             Text = "CefSharp";
-            _browserControl = new BrowserControl("http://www.google.co.uk/search?q=cefsharp");
+            _browserControl = new BrowserControl("https://github.com/chillitom/CefSharp");
             _browserControl.Dock = DockStyle.Fill;
             _browserControl.PropertyChanged += HandleBrowserPropertyChanged;
             _browserControl.ConsoleMessage += HandleConsoleMessage;
