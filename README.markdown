@@ -8,6 +8,17 @@ This project is [BSD](http://www.opensource.org/licenses/bsd-license.php "BSD Li
 NEWS
 ====
 
+2010/12/15 - 0.2 Released
+-------------------------
+- [Download 0.2 here](https://github.com/downloads/chillitom/CefSharp/CefSharp-0.2.7z "src, bins and examples")
+- ISchemeHandler lets you introduce your own scheme/protocol handlers
+- JavaScript console messages are now exposed on the ConsoleMessage event
+- Basic support for binding CLR objects into the browser's window DOM object.
+- Renamed BrowserControl to CefWebBrowser, now derives from Control instead of UserControl
+- The control now checks it is initialized be accepting commands
+- Fixes including resize issues and incorrect address events.
+- New unit tests and examples.
+
 2010/12/03 - 0.1 Released 
 -------------------------
 - [Download 0.1 here](https://github.com/downloads/chillitom/CefSharp/CefSharp-0.1.7z "src, bins and examples")
