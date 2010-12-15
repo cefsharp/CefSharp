@@ -26,16 +26,16 @@ namespace CefUsageTests
             }
         }
 
-        private BrowserControl browser;
+        private CefWebBrowser browser;
         private void Test1Button_Click(object sender, EventArgs e)
         {
             // This is "default" usage of control.
-            // We don't call CEF.Initialization - it's called implicitly by BrowserControl constructor.
+            // We don't call CEF.Initialization - it's called implicitly by CefWebBrowser constructor.
             // Note, that CEF.Shutdown must called explicitly.
             // Also, CEF.Shutdown now is safe to call, even if CEF.Initialization not called before.
 
             PrepareTest();
-            browser = new BrowserControl("http://google.com");
+            browser = new CefWebBrowser("http://google.com");
             browser.Parent = panel;
             browser.Dock = DockStyle.Fill;
         }
@@ -53,7 +53,7 @@ namespace CefUsageTests
             // Also .BrowserReady event is good, but method to perform sync operation also can be useful.
 
             PrepareTest();
-            browser = new BrowserControl();
+            browser = new CefWebBrowser();
             browser.Parent = panel;
             browser.Dock = DockStyle.Fill;
             try

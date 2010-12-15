@@ -14,7 +14,7 @@ using namespace System::Threading;
 
 namespace CefSharp
 {
-    public ref class BrowserControl sealed : public Control, INotifyPropertyChanged
+    public ref class CefWebBrowser sealed : public Control, INotifyPropertyChanged
     {
         bool _canGoForward;
         bool _canGoBack;
@@ -36,10 +36,9 @@ namespace CefSharp
         virtual void OnHandleCreated(EventArgs^ e) override;
         virtual void OnSizeChanged(EventArgs^ e) override;
 
-    public protected:
-        virtual void OnReady();
-
     internal:
+
+        virtual void OnInitialized();
         
         void SetTitle(String^ title);
         void SetAddress(String^ address);
@@ -72,12 +71,12 @@ namespace CefSharp
 
     public:
 
-        BrowserControl()
+        CefWebBrowser()
         {
             Construct("about:blank");
         }
 
-        BrowserControl(String^ initialUrl)
+        CefWebBrowser(String^ initialUrl)
         {
             Construct(initialUrl);
         }
@@ -130,7 +129,7 @@ namespace CefSharp
             }
         }
 
-        void WaitForReady();
+        void WaitForInitialized();
 
         virtual event PropertyChangedEventHandler^ PropertyChanged;
 

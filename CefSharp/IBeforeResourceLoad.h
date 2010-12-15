@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #pragma once
 
-#include "BrowserControl.h"
+#include "CefWebBrowser.h"
 #include "Request.h"
 #include "ReturnValue.h"
 
@@ -28,7 +28,7 @@ namespace CefSharp
         ///
         /// Any modifications to request will be observed.  If the URL in <c>request</c> is changed and
         /// <c>redirectUrl</c> is also set, the URL in <c>request</c> will be used. */
-        ReturnValue HandleBeforeResourceLoad(BrowserControl^ browserControl, IRequest^ request, 
+        ReturnValue HandleBeforeResourceLoad(CefWebBrowser^ browserControl, IRequest^ request, 
             String^% redirectUrl, Stream^% resourceStream, String^% mimeType, int loadFlags);
     };
 }

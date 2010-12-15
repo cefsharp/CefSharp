@@ -11,7 +11,7 @@
     [TestFixture]
     public class BindObjectTests
     {
-        private BrowserControl WebBrowser { get { return BrowserApplication.WebBrowser; } }
+        private CefWebBrowser WebBrowser { get { return BrowserApplication.WebBrowser; } }
 
         #region Page Loading Tests
         [Test]

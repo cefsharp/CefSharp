@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 #include "HandlerAdapter.h"
-#include "BrowserControl.h"
+#include "CefWebBrowser.h"
 #include "Request.h"
 #include "ReturnValue.h"
 #include "StreamAdapter.h"
@@ -18,7 +18,7 @@ namespace CefSharp
             _browserHwnd = browser->GetWindowHandle();
             _cefBrowser = browser;
 
-            _browserControl->OnReady();
+            _browserControl->OnInitialized();
         }
         return RV_CONTINUE; 
     }
