@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="Debug\CefSharp.Tests.dll" total="26" errors="2" failures="2" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2010-12-15" time="14:53:30">
+  <environment nunit-version="2.5.7.10213" clr-version="2.0.50727.4952" os-version="Microsoft Windows NT 6.1.7600.0" platform="Win32NT" cwd="C:\Projects\CefSharp" machine-name="BLUE-00297" user="RathboneT" user-domain="BLUELIZARD" />
+  <culture-info current-culture="en-GB" current-uiculture="en-US" />
+  <test-suite type="Assembly" name="Debug\CefSharp.Tests.dll" executed="True" result="Failure" success="False" time="1.499" asserts="0">
+    <results>
+      <test-suite type="Namespace" name="CefSharp" executed="True" result="Failure" success="False" time="1.496" asserts="0">
+        <results>
+          <test-suite type="SetUpFixture" name="Tests" executed="True" result="Failure" success="False" time="1.496" asserts="0">
+            <results>
+              <test-suite type="TestFixture" name="BindObjectTests" executed="True" result="Failure" success="False" time="1.279" asserts="0">
+                <results>
+                  <test-suite type="ParameterizedTest" name="ExpectScriptExpr" executed="True" result="Failure" success="False" time="0.055" asserts="0">
+                    <results>
+                      <test-case name="CefSharp.Tests.BindObjectTests.ExpectScriptExpr(&quot;VoidRetValIsUndefined&quot;,&quot;bound.EchoVoid() === undefined&quot;,False)" executed="True" result="Success" success="True" time="0.039" asserts="2" />
+                      <test-case name="CefSharp.Tests.BindObjectTests.ExpectScriptExpr(&quot;Boolean?_Null&quot;,&quot;bound.EchoNullableBoolean(null) === null&quot;,False)" executed="True" result="Success" success="True" time="0.002" asserts="2" />
+                      <test-case name="CefSharp.Tests.BindObjectTests.ExpectScriptExpr(&quot;Boolean?_Boolean_True&quot;,&quot;bound.EchoNullableBoolean(true) === true&quot;,False)" executed="True" result="Error" success="False" time="0.003" asserts="0">
+                        <failure>
+                          <message><![CDATA[CefSharp.ScriptException : Argument mismatch for method "EchoNullableBoolean".]]></message>
+                          <stack-trace><![CDATA[at CefSharp.BrowserControl.RunScript(String script, String scriptUrl, Int32 startLine, Int32 timeout) in c:\projects\cefsharp\cefsharp\browsercontrol.cpp:line 78
+at CefSharp.Tests.BindObjectTests.RunScript(String script, Int32 timeout) in C:\Projects\CefSharp\CefSharp.Tests\BindObjectTests.cs:line 45
+at CefSharp.Tests.BindObjectTests.ExpectScriptExpr(String name, String jsExpr, Boolean expectScriptException) in C:\Projects\CefSharp\CefSharp.Tests\BindObjectTests.cs:line 271
+]]></stack-trace>
+                        </failure>
+                      </test-case>
+                      <test-case name="CefSharp.Tests.BindObjectTests.ExpectScriptExpr(&quot;Boolean?_Boolean_False&quot;,&quot;bound.EchoNullableBoolean(false) === false&quot;,False)" executed="True" result="Error" success="False" time="0.001" asserts="0">
+                        <failure>
+                          <message><![CDATA[CefSharp.ScriptException : Argument mismatch for method "EchoNullableBoolean".]]></message>
+                          <stack-trace><![CDATA[at CefSharp.BrowserControl.RunScript(String script, String scriptUrl, Int32 startLine, Int32 timeout) in c:\projects\cefsharp\cefsharp\browsercontrol.cpp:line 78
+at CefSharp.Tests.BindObjectTests.RunScript(String script, Int32 timeout) in C:\Projects\CefSharp\CefSharp.Tests\BindObjectTests.cs:line 45
+at CefSharp.Tests.BindObjectTests.ExpectScriptExpr(String name, String jsExpr, Boolean expectScriptException) in C:\Projects\CefSharp\CefSharp.Tests\BindObjectTests.cs:line 271
+]]></stack-trace>
+                        </failure>
+                      </test-case>
+                      <test-case name="CefSharp.Tests.BindObjectTests.ExpectScriptExpr(&quot;Boolean_Number_0&quot;,&quot;bound.EchoBoolean(0) === false&quot;,True)" executed="True" result="Success" success="True" time="0.001" asserts="0">
+                        <reason>
+                          <message><![CDATA[Argument mismatch for method "EchoBoolean".]]></message>
+                        </reason>
+                      </test-case>
+                      <test-case name="CefSharp.Tests.BindObjectTests.ExpectScriptExpr(&quot;Boolean_Undefined&quot;,&quot;bound.EchoBoolean(undefined) === false&quot;,False)" executed="True" result="Success" success="True" time="0.001" asserts="2" />
+                      <test-case name="CefSharp.Tests.BindObjectTests.ExpectScriptExpr(&quot;Boolean_Null&quot;,&quot;bound.EchoBoolean(null) === false&quot;,False)" executed="True" result="Success" success="True" time="0.000" asserts="2" />
+                      <test-case name="CefSharp.Tests.BindObjectTests.ExpectScriptExpr(&quot;Boolean_Boolean_True&quot;,&quot;bound.EchoBoolean(true) === true&quot;,False)" executed="True" result="Success" success="True" time="0.000" asserts="2" />
+                      <test-case name="CefSharp.Tests.BindObjectTests.ExpectScriptExpr(&quot;Boolean_Boolean_False&quot;,&quot;bound.EchoBoolean(false) === false&quot;,False)" executed="True" result="Success" success="True" time="0.001" asserts="2" />
+                      <test-case name="CefSharp.Tests.BindObjectTests.ExpectScriptExpr(&quot;Boolean_Date&quot;,&quot;bound.EchoBoolean(new Date()) === true&quot;,True)" executed="True" result="Success" success="True" time="0.000" asserts="0">
+                        <reason>
+                          <message><![CDATA[Argument mismatch for method "EchoBoolean".]]></message>
+                        </reason>
+                      </test-case>
+                      <test-case name="CefSharp.Tests.BindObjectTests.ExpectScriptExpr(&quot;Boolean?_Undefined&quot;,&quot;bound.EchoNullableBoolean(undefined) === null&quot;,False)" executed="True" result="Success" success="True" time="0.001" asserts="2" />
+                      <test-case name="CefSharp.Tests.BindObjectTests.ExpectScriptExpr(&quot;Boolean_String&quot;,&quot;bound.EchoBoolean(\'0\') === true&quot;,True)" executed="True" result="Success" success="True" time="0.000" asserts="0">
+                        <reason>
+                          <message><![CDATA[Argument mismatch for method "EchoBoolean".]]></message>
+                        </reason>
+                      </test-case>
+                      <test-case name="CefSharp.Tests.BindObjectTests.ExpectScriptExpr(&quot;Boolean_Number_1&quot;,&quot;bound.EchoBoolean(1) === true&quot;,True)" executed="True" result="Success" success="True" time="0.001" asserts="0">
+                        <reason>
+                          <message><![CDATA[Argument mismatch for method "EchoBoolean".]]></message>
+                        </reason>
+                      </test-case>
+                      <test-case name="CefSharp.Tests.BindObjectTests.ExpectScriptExpr(&quot;Boolean_Array&quot;,&quot;bound.EchoBoolean([]) === true&quot;,True)" executed="True" result="Success" success="True" time="0.000" asserts="0">
+                        <reason>
+                          <message><![CDATA[cannot convert object from Cef to CLR]]></message>
+                        </reason>
+                      </test-case>
+                      <test-case name="CefSharp.Tests.BindObjectTests.ExpectScriptExpr(&quot;Boolean_Object&quot;,&quot;bound.EchoBoolean({}) === true&quot;,True)" executed="True" result="Success" success="True" time="0.001" asserts="0">
+                        <reason>
+                          <message><![CDATA[cannot convert object from Cef to CLR]]></message>
+                        </reason>
+                      </test-case>
+                    </results>
+                  </test-suite>
+                  <test-case name="CefSharp.Tests.BindObjectTests.Int_Echo_Int_Test" executed="True" result="Success" success="True" time="0.001" asserts="1" />
+                  <test-case name="CefSharp.Tests.BindObjectTests.InvalidScriptMustBeHandledTest" executed="True" result="Failure" success="False" time="1.001" asserts="0">
+                    <failure>
+                      <message><![CDATA[Invalid script not executes - must generate exception. It useful when we have infinite or large timeout.]]></message>
+                      <stack-trace><![CDATA[at CefSharp.Tests.BindObjectTests.InvalidScriptMustBeHandledTest() in C:\Projects\CefSharp\CefSharp.Tests\BindObjectTests.cs:line 63
+]]></stack-trace>
+                    </failure>
+                  </test-case>
+                  <test-case name="CefSharp.Tests.BindObjectTests.Load1Test" executed="True" result="Success" success="True" time="0.112" asserts="0" />
+                  <test-case name="CefSharp.Tests.BindObjectTests.MethodIsMemberFunction" executed="True" result="Success" success="True" time="0.024" asserts="1" />
+                  <test-case name="CefSharp.Tests.BindObjectTests.ScriptExceptionMustBeThrownObjectTest" executed="True" result="Success" success="True" time="0.004" asserts="1" />
+                  <test-case name="CefSharp.Tests.BindObjectTests.ScriptExceptionMustBeThrownStringTest" executed="True" result="Success" success="True" time="0.001" asserts="1" />
+                  <test-case name="CefSharp.Tests.BindObjectTests.ScriptExceptionMustBeThrownTest" executed="True" result="Success" success="True" time="0.004" asserts="1" />
+                  <test-case name="CefSharp.Tests.BindObjectTests.String_Echo_String_Test" executed="True" result="Success" success="True" time="0.001" asserts="1" />
+                  <test-case name="CefSharp.Tests.BindObjectTests.StringSurrogatePairsTest" executed="True" result="Failure" success="False" time="0.002" asserts="0">
+                    <failure>
+                      <message><![CDATA[Who replace unicode surrogate pairs with REPLACEMENT CHARACTER?]]></message>
+                      <stack-trace><![CDATA[at CefSharp.Tests.BindObjectTests.StringSurrogatePairsTest() in C:\Projects\CefSharp\CefSharp.Tests\BindObjectTests.cs:line 156
+]]></stack-trace>
+                    </failure>
+                  </test-case>
+                  <test-case name="CefSharp.Tests.BindObjectTests.StringUnicodeTest" executed="True" result="Success" success="True" time="0.071" asserts="1" />
+                  <test-case name="CefSharp.Tests.BindObjectTests.UndefinedMethodIsUndefined" executed="True" result="Success" success="True" time="0.001" asserts="1" />
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>
