@@ -15,6 +15,14 @@ namespace CefSharp
     /// <return>Returns conversion cost, or -1 if no conversion available.</return>
     int BindingHandler::GetChangeTypeCost(Object^ value, Type^ conversionType)
     {
+        // TODO: temporary Int64 support fully disabled
+        if (conversionType == Int64::typeid 
+            || conversionType == Nullable<Int64>::typeid
+            || conversionType == UInt64::typeid 
+            || conversionType == Nullable<UInt64>::typeid
+            )
+            return -1;
+
         // Null conversion
         if (value == nullptr)
         {
@@ -63,29 +71,29 @@ namespace CefSharp
             else if (conversionType == Char::typeid && (int32Val >= Char::MinValue && int32Val <= Char::MaxValue)) return baseCost + 4;
             else if (conversionType == SByte::typeid && (int32Val >= SByte::MinValue && int32Val <= SByte::MaxValue)) return baseCost + 5;
             else if (conversionType == Byte::typeid && (int32Val >= Byte::MinValue && int32Val <= Byte::MaxValue)) return baseCost + 6;
-            else if (conversionType == Int64::typeid) return baseCost + 7;
-            else if (conversionType == UInt64::typeid && (int32Val >= 0)) return baseCost + 8;
             else if (conversionType == Double::typeid) return baseCost + 9;
             else if (conversionType == Single::typeid) return baseCost + 10;
             else if (conversionType == Decimal::typeid) return baseCost + 11;
+            else if (conversionType == Int64::typeid) return -1;
+            else if (conversionType == UInt64::typeid) return -1;
             return -1;
         }
         else if(valueType == Double::typeid)
         {
             double doubleVal = safe_cast<double>(value);
 
-            if(conversionType == Double::typeid) return baseCost + 0;
-            else if(conversionType == Single::typeid) return baseCost + 1;
-            else if(conversionType == Decimal::typeid) return baseCost + 2;
-            else if(conversionType == Int32::typeid && (doubleVal >= Int32::MinValue && doubleVal <= Int32::MaxValue)) return baseCost + 3;
-            else if(conversionType == UInt32::typeid && (doubleVal >= UInt32::MinValue && doubleVal <= UInt32::MaxValue)) return baseCost + 4;
-            else if(conversionType == Int16::typeid && (doubleVal >= Int16::MinValue && doubleVal <= Int16::MaxValue)) return baseCost + 5;
-            else if(conversionType == UInt16::typeid && (doubleVal >= UInt16::MinValue && doubleVal <= UInt16::MaxValue)) return baseCost + 6;
-            else if(conversionType == Char::typeid && (doubleVal >= Char::MinValue && doubleVal <= Char::MaxValue)) return baseCost + 6;
-            else if(conversionType == SByte::typeid && (doubleVal >= SByte::MinValue && doubleVal <= SByte::MaxValue)) return baseCost + 8;
-            else if(conversionType == Byte::typeid && (doubleVal >= Byte::MinValue && doubleVal <= Byte::MaxValue)) return baseCost + 9;
-            else if(conversionType == Int64::typeid && (doubleVal >= Int64::MinValue && doubleVal <= Int64::MaxValue)) return baseCost + 10;
-            else if(conversionType == UInt64::typeid && (doubleVal >= UInt64::MinValue && doubleVal <= UInt64::MaxValue)) return baseCost + 11;
+            if (conversionType == Double::typeid) return baseCost + 0;
+            else if (conversionType == Single::typeid && (doubleVal >= Single::MinValue && doubleVal <= Single::MaxValue)) return baseCost + 1;
+            else if (conversionType == Decimal::typeid /* && (doubleVal >= Decimal::MinValue && doubleVal <= Decimal::MaxValue) */) return baseCost + 2;
+            else if (conversionType == Int32::typeid && (doubleVal >= Int32::MinValue && doubleVal <= Int32::MaxValue)) return baseCost + 3;
+            else if (conversionType == UInt32::typeid && (doubleVal >= UInt32::MinValue && doubleVal <= UInt32::MaxValue)) return baseCost + 4;
+            else if (conversionType == Int16::typeid && (doubleVal >= Int16::MinValue && doubleVal <= Int16::MaxValue)) return baseCost + 5;
+            else if (conversionType == UInt16::typeid && (doubleVal >= UInt16::MinValue && doubleVal <= UInt16::MaxValue)) return baseCost + 6;
+            else if (conversionType == Char::typeid && (doubleVal >= Char::MinValue && doubleVal <= Char::MaxValue)) return baseCost + 6;
+            else if (conversionType == SByte::typeid && (doubleVal >= SByte::MinValue && doubleVal <= SByte::MaxValue)) return baseCost + 8;
+            else if (conversionType == Byte::typeid && (doubleVal >= Byte::MinValue && doubleVal <= Byte::MaxValue)) return baseCost + 9;
+            else if (conversionType == Int64::typeid) return -1;
+            else if (conversionType == UInt64::typeid) return -1;
             return -1;
         }
         else if(valueType == String::typeid)
