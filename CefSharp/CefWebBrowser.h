@@ -118,7 +118,7 @@ namespace CefSharp
 
         property bool IsLoading
         {
-            bool get() { return _canGoBack; }
+            bool get() { return _isLoading; }
         }
 
         property bool IsReady
