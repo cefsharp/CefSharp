@@ -10,12 +10,13 @@ namespace CefSharp.Example
     public partial class Browser : Form, IBeforeResourceLoad
     {
         private readonly CefWebBrowser _browserControl;
+        private const string cefSharpHomeUrl = "https://github.com/chillitom/CefSharp";
 
         public Browser()
         {
             InitializeComponent();
             Text = "CefSharp";
-            _browserControl = new CefWebBrowser("https://github.com/chillitom/CefSharp");
+            _browserControl = new CefWebBrowser(cefSharpHomeUrl);
             _browserControl.Dock = DockStyle.Fill;
             _browserControl.PropertyChanged += HandleBrowserPropertyChanged;
             _browserControl.ConsoleMessage += HandleConsoleMessage;
@@ -182,6 +183,16 @@ namespace CefSharp.Example
         private void TestBingClrObjectToJsToolStripMenuItemClick(object sender, EventArgs e)
         {
             _browserControl.Load("test://test/BindingTest.html");
+        }
+
+        private void cefSharpHomeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _browserControl.Load(cefSharpHomeUrl);
+        }
+
+        private void fireBugLiteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _browserControl.Load("http://getfirebug.com/firebuglite");
         }
     }
 }

@@ -170,10 +170,10 @@
 /*
 |=CLR Type  |=JavaScript values and objects                                                                |
 |           |=undefined |=null      |=Boolean   |=Number    |=String   |=Date      |=Array     |=Object    |
-| Boolean   | *false    | *false    | +         | -         | -        | -         | -         | -         |
+| Boolean   | -         | -         | +         | -         | -        | -         | -         | -         |
 */
-        [TestCase("Boolean_Undefined",     "bound.EchoBoolean(undefined) === false", false)]
-        [TestCase("Boolean_Null",          "bound.EchoBoolean(null) === false",      false)]
+        [TestCase("Boolean_Undefined",     "bound.EchoBoolean(undefined), false",    true)]
+        [TestCase("Boolean_Null",          "bound.EchoBoolean(null), false",         true)]
         [TestCase("Boolean_Boolean_True",  "bound.EchoBoolean(true) === true",       false)]
         [TestCase("Boolean_Boolean_False", "bound.EchoBoolean(false) === false",     false)]
         [TestCase("Boolean_Number_0",      "bound.EchoBoolean(0), false",            true)]
@@ -212,9 +212,9 @@
 |           |=undefined |=null      |=Boolean   |=Number    |=String   |=Date      |=Array     |=Object    |
 | SByte?    | *null     | *null     | -         | +         | -        | -         | -         | -         |
 */
-        [TestCase("SByte?_Undefined",       "bound.EchoSByte(undefined) === null",  false)]
-        [TestCase("SByte?_Null",            "bound.EchoSByte(null) === null",       false)]
-        [TestCase("SByte?_Number_-128",     "bound.EchoSByte(-128) === -128",       false)]
+        [TestCase("SByte?_Undefined",       "bound.EchoNullableSByte(undefined) === null",  false)]
+        [TestCase("SByte?_Null",            "bound.EchoNullableSByte(null) === null",       false)]
+        [TestCase("SByte?_Number_-128",     "bound.EchoNullableSByte(-128) === -128",       false)]
 
 /*
 |=CLR Type  |=JavaScript values and objects                                                                |
@@ -246,9 +246,9 @@
 |           |=undefined |=null      |=Boolean   |=Number    |=String   |=Date      |=Array     |=Object    |
 | Int32?    | *null     | *null     | -         | +         | -        | -         | -         | -         |
 */
-        [TestCase("Int32?_Undefined",          "bound.EchoInt32(undefined) === null",          false)]
-        [TestCase("Int32?_Null",               "bound.EchoInt32(null) === null",               false)]
-        [TestCase("Int32?_Number_-2147483648", "bound.EchoInt32(-2147483648) === -2147483648", false)]
+        [TestCase("Int32?_Undefined",          "bound.EchoNullableInt32(undefined) === null",          false)]
+        [TestCase("Int32?_Null",               "bound.EchoNullableInt32(null) === null",               false)]
+        [TestCase("Int32?_Number_-2147483648", "bound.EchoNullableInt32(-2147483648) === -2147483648", false)]
 
 /*
 |=CLR Type  |=JavaScript values and objects                                                                |

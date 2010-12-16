@@ -28,7 +28,12 @@ namespace CefSharp
 
     class BindingHandler : public CefThreadSafeBase<CefV8Handler>
     {
-        CefRefPtr<CefV8Value> ConvertToCef(Type^ type, Object^ obj);
+        // Type Converter
+        static bool IsNullableType(Type^ type);
+        static int GetChangeTypeCost(Object^ value, Type^ conversionType);
+        static Object^ ChangeType(Object^ value, Type^ conversionType);
+
+        CefRefPtr<CefV8Value> ConvertToCef(Object^ obj, Type^ type);
         Object^ ConvertFromCef(CefRefPtr<CefV8Value> obj);
         virtual bool Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception);
     public:
