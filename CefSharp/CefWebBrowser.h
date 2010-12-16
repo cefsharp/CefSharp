@@ -30,7 +30,7 @@ namespace CefSharp
 
         AutoResetEvent^ _runJsFinished;
         RtzCountdownEvent^ _loadCompleted;
-        ManualResetEvent^ _browserReady;
+        ManualResetEvent^ _browserInitialized;
 
     protected:
         virtual void OnHandleCreated(EventArgs^ e) override;
@@ -57,7 +57,7 @@ namespace CefSharp
         {
             _address = address;
             _runJsFinished = gcnew AutoResetEvent(false);
-            _browserReady = gcnew ManualResetEvent(false);
+            _browserInitialized = gcnew ManualResetEvent(false);
             _loadCompleted = gcnew RtzCountdownEvent();
 
             if(!CEF::IsInitialized)
@@ -121,11 +121,11 @@ namespace CefSharp
             bool get() { return _isLoading; }
         }
 
-        property bool IsReady
+        property bool IsInitialized
         {
             bool get()
             {
-                return _handlerAdapter.get() != nullptr && _handlerAdapter->GetIsReady();
+                return _handlerAdapter.get() != nullptr && _handlerAdapter->GetIsInitialized();
             }
         }
 
@@ -133,9 +133,9 @@ namespace CefSharp
 
         virtual event PropertyChangedEventHandler^ PropertyChanged;
 
-        // TODO: Ready event can be subscribed by user code after actual Ready event happens,
+        // TODO: Initialized event can be subscribed by user code after actual Initialized event happens,
         // so we must handle this situation and in on add event handler raise event.
-        // event EventHandler^ Ready;
+        // event EventHandler^ Initialized;
 
         event ConsoleMessageEventHandler^ ConsoleMessage;
     };

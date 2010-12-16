@@ -81,7 +81,7 @@ namespace CefSharp
     void CefWebBrowser::OnInitialized()
     {
         BeginInvoke(gcnew Action<EventArgs^>(this, &CefWebBrowser::OnSizeChanged), EventArgs::Empty);
-        _browserReady->Set();
+        _browserInitialized->Set();
     }
 
     void CefWebBrowser::OnHandleCreated(EventArgs^ e)
@@ -107,7 +107,7 @@ namespace CefSharp
 
     void CefWebBrowser::OnSizeChanged(EventArgs^ e)
     {
-        if (DesignMode == false && IsReady)
+        if (DesignMode == false && IsInitialized)
         {
             HWND hWnd = static_cast<HWND>(Handle.ToPointer());
             RECT rect;
@@ -192,9 +192,9 @@ namespace CefSharp
 
     void CefWebBrowser::WaitForInitialized()
     {
-        if(IsReady) return;
+        if (IsInitialized) return;
 
         // TODO: risk of infinite lock
-        _browserReady->WaitOne();
+        _browserInitialized->WaitOne();
     }
 }
