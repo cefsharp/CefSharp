@@ -18,6 +18,11 @@ namespace CefSharp
         static bool _initialized = false;
         static IDictionary<String^, Object^>^ _boundObjects;
     
+        static CEF()
+        {
+            _boundObjects = gcnew Dictionary<String^, Object^>();
+        }
+
     internal:
         static IDictionary<String^, Object^>^ GetBoundObjects()
         {
@@ -37,7 +42,7 @@ namespace CefSharp
         {
             String^ get()
             {
-                return "0.1";
+                return "0.2";
             }
         }
 
@@ -83,13 +88,7 @@ namespace CefSharp
 
         static bool RegisterJsObject(String^ name, Object^ objectToBind)
         {
-            if(_boundObjects == nullptr)
-            {
-                _boundObjects = gcnew Dictionary<String^, Object^>();
-            }
-
             _boundObjects[name] = objectToBind;
-
             return true;
         }
 
