@@ -104,16 +104,15 @@
             return result;
         }
 
-        public ReturnValue HandleBeforeResourceLoad(CefWebBrowser browserControl, IRequest request, ref string redirectUrl, ref System.IO.Stream resourceStream, ref string mimeType, int loadFlags)
+        public void HandleBeforeResourceLoad(CefWebBrowser browserControl, IRequestResponse requestResponse)
         {
+            IRequest request = requestResponse.Request;
             if (request.Url.StartsWith(testPagesBaseUrl))
             {
                 var url = request.Url.Substring(testPagesBaseUrl.Length);
                 var stream = GetStream(url);
-                mimeType = "text/html";
-                resourceStream = stream;
+                requestResponse.RespondWith(stream, "text/html");
             }
-            return ReturnValue.Continue;
         }
         #endregion
     }
