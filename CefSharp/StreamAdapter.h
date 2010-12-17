@@ -11,6 +11,7 @@ namespace CefSharp
         gcroot<Stream^> _stream;
 
     public:
+        virtual ~StreamAdapter();
         StreamAdapter(Stream^ stream) : _stream(stream) { }
 
         virtual size_t Read(void* ptr, size_t size, size_t n);       
