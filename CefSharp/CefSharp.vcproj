@@ -233,6 +233,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\RequestResponse.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\RtzCountdownEvent.cpp"
 				>
 			</File>
@@ -312,6 +316,10 @@
 			</File>
 			<File
 				RelativePath=".\Request.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RequestResponse.h"
 				>
 			</File>
 			<File

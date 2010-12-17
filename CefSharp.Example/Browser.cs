@@ -95,16 +95,16 @@ namespace CefSharp.Example
             }
         }
 
-        public ReturnValue HandleBeforeResourceLoad(CefWebBrowser browserControl, IRequest request, ref string redirectUrl, ref Stream resourceStream, ref string mimeType, int loadFlags)        
+        public void HandleBeforeResourceLoad(CefWebBrowser browserControl, IRequestResponse requestResponse)
         {
+            IRequest request = requestResponse.Request;
             if(request.Url.StartsWith("http://test/resource/load"))
             {
-                resourceStream = new MemoryStream(Encoding.UTF8.GetBytes(
+                Stream resourceStream = new MemoryStream(Encoding.UTF8.GetBytes(
                     "<html><body><h1>Success</h1><p>This document is loaded from a System.IO.Stream</p></body></html>"));
-                mimeType = "text/html";
+                requestResponse.RespondWith(resourceStream, "text/html");
             }
             Console.WriteLine(request.Url);
-            return ReturnValue.Continue;
         }
 
         private void ExitToolStripMenuItemClick(object sender, EventArgs e)

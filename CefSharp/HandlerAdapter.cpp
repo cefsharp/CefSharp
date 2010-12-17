@@ -79,21 +79,25 @@ namespace CefSharp
         IBeforeResourceLoad^ handler = _browserControl->BeforeResourceLoadHandler;
         if(handler != nullptr)
         {
-            String^ mRedirectUrl = nullptr;
-            Stream^ mResourceStream = nullptr;
-            String^ mMimeType = nullptr;
             CefRequestWrapper^ wrapper = gcnew CefRequestWrapper(request);
+            RequestResponse^ requestResponse = gcnew RequestResponse(wrapper);
             
-            handler->HandleBeforeResourceLoad(_browserControl, wrapper, mRedirectUrl, 
-                mResourceStream, mMimeType, loadFlags);
+            handler->HandleBeforeResourceLoad(_browserControl, requestResponse);
 
-            if(mResourceStream != nullptr)
+            if(requestResponse->Action == ResponseAction::Respond)
             {
-                CefRefPtr<StreamAdapter> adapter = new StreamAdapter(mResourceStream);
+                CefRefPtr<StreamAdapter> adapter = new StreamAdapter(requestResponse->ResponseStream);
                 resourceStream = CefStreamReader::CreateForHandler(static_cast<CefRefPtr<CefReadHandler>>(adapter));
-                pin_ptr<const wchar_t> pStr = PtrToStringChars(mMimeType);
-                CefString str(pStr);
-                mimeType = str;
+                mimeType = convertFromString(requestResponse->MimeType);
+                return RV_CONTINUE;
+            }
+            else if(requestResponse->Action == ResponseAction::Cancel)
+            {
+                return RV_HANDLED;
+            }
+            else if(requestResponse->Action == ResponseAction::Redirect)
+            {
+                redirectUrl = convertFromString(requestResponse->RedirectUrl);
             }
         }
         return RV_CONTINUE; 
