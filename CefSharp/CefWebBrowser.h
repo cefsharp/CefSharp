@@ -87,6 +87,8 @@ namespace CefSharp
         void Stop();
         void Back();
         void Forward();
+        void Reload();
+        void Reload(bool ignoreCache);
         String^ RunScript(String^ script, String^ scriptUrl, int startLine);
         String^ RunScript(String^ script, String^ scriptUrl, int startLine, int timeout);
 
