@@ -15,12 +15,12 @@ namespace CefSharp
         CefRefPtr<CefBrowser> _cefBrowser;
 
     private:
-        void ThrowIfIsNotReady()
+        void ThrowIfIsNotInitialized()
         {
-            if (!GetIsReady())
+            if (!GetIsInitialized())
             {
                 //TODO: make own exception type?
-                throw gcnew InvalidOperationException("CefBrowser is not ready.");
+                throw gcnew InvalidOperationException("CefBrowser is not initialized now.");
             }
         }
 
@@ -64,11 +64,11 @@ namespace CefSharp
         HWND GetBrowserHwnd() { return _browserHwnd; }
         CefRefPtr<CefBrowser> GetCefBrowser()
         {
-            ThrowIfIsNotReady();
+            ThrowIfIsNotInitialized();
             return _cefBrowser;
         }
 
-        bool GetIsReady()
+        bool GetIsInitialized()
         {
         	return _cefBrowser != nullptr;
         }
