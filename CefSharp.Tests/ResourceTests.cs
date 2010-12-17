@@ -19,6 +19,9 @@
             WebBrowser.WaitForLoadCompletion();
             WebBrowser.Load("about:blank");
             WebBrowser.WaitForLoadCompletion();
+            
+            // Uncomment this to pass test.
+            // GC.Collect();
 
             // now we will try open TestPage.html file for writing
             try
