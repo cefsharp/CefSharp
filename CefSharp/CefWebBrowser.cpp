@@ -36,6 +36,25 @@ namespace CefSharp
         _handlerAdapter->GetCefBrowser()->GoForward();
     }
 
+    void CefWebBrowser::Reload()
+    {
+        Reload(false);
+    }
+
+    void CefWebBrowser::Reload(bool ignoreCache)
+    {
+    	WaitForInitialized();
+
+        if(ignoreCache)
+        {
+            _handlerAdapter->GetCefBrowser()->ReloadIgnoreCache();
+        }
+        else
+        {
+            _handlerAdapter->GetCefBrowser()->Reload();
+        }
+    }
+
     String^ CefWebBrowser::RunScript(String^ script, String^ scriptUrl, int startLine)
     {
     	WaitForInitialized();
