@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(SolutionDir)\include"
+				AdditionalIncludeDirectories="$(SolutionDir)include"
 				PreprocessorDefinitions="_DEBUG;_WIN32_WINNT=0x0600;WINVER=0x0600;WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;USING_CEF_SHARED;_CRT_SECURE_NO_WARNINGS"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
@@ -66,7 +66,7 @@
 				AdditionalDependencies="opengl32.lib glu32.lib libcef.lib libcef_dll_wrapper.lib"
 				ShowProgress="1"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="$(SolutionDir)\libs"
+				AdditionalLibraryDirectories="$(SolutionDir)libs\$(ConfigurationName)\"
 				IgnoreAllDefaultLibraries="false"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
@@ -122,7 +122,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				PreprocessorDefinitions="WIN32;NDEBUG"
+				AdditionalIncludeDirectories="$(SolutionDir)include"
+				PreprocessorDefinitions="_NDEBUG;_WIN32_WINNT=0x0600;WINVER=0x0600;WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;USING_CEF_SHARED;_CRT_SECURE_NO_WARNINGS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
 				WarningLevel="3"
@@ -139,8 +140,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(NoInherit)"
+				AdditionalDependencies="opengl32.lib glu32.lib libcef.lib libcef_dll_wrapper.lib"
+				ShowProgress="1"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="$(SolutionDir)libs\$(ConfigurationName)\"
 				GenerateDebugInformation="true"
 				TargetMachine="1"
 			/>
