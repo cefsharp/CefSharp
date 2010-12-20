@@ -9,10 +9,8 @@ namespace CefSharp
     {
         WaitForInitialized();
 
-        pin_ptr<const wchar_t> charPtr = PtrToStringChars(url);
-        CefString urlStr = charPtr;
         _loadCompleted->Reset();
-        _handlerAdapter->GetCefBrowser()->GetMainFrame()->LoadURL(urlStr);
+        _handlerAdapter->GetCefBrowser()->GetMainFrame()->LoadURL(convertFromString(url));
     }
 
     void CefWebBrowser::Stop()
@@ -78,11 +76,9 @@ namespace CefSharp
             "   }"
             "})();";
 
-        pin_ptr<const wchar_t> charPtr = PtrToStringChars(script);
-        CefString scriptStr = charPtr;
-
-        charPtr = PtrToStringChars(scriptUrl);
-        CefString scriptUrlStr = charPtr;
+        
+        CefString scriptStr = convertFromString(script);
+        CefString scriptUrlStr = convertFromString(scriptUrl);
         
         _handlerAdapter->GetCefBrowser()->GetMainFrame()->ExecuteJavaScript(scriptStr, scriptUrlStr, startLine);
         if(!_runJsFinished->WaitOne(timeout))
@@ -110,8 +106,7 @@ namespace CefSharp
             _handlerAdapter = new HandlerAdapter(this);
             CefRefPtr<HandlerAdapter> ptr = _handlerAdapter.get();
 
-            pin_ptr<const wchar_t> charPtr = PtrToStringChars(_address);
-            CefString urlStr = charPtr;
+            CefString urlStr = convertFromString(_address);
 
             CefWindowInfo windowInfo;
 
@@ -194,13 +189,13 @@ namespace CefSharp
 
     void CefWebBrowser::SetJsResult(const CefString& result)
     {
-        _jsResult = gcnew String(result.c_str());
+        _jsResult = convertToString(result);
         _runJsFinished->Set();
     }
 
     void CefWebBrowser::SetJsError(const CefString& error)
     {
-        _jsError = gcnew String(error.c_str());
+        _jsError = convertToString(error);
         _runJsFinished->Set();
     }
 

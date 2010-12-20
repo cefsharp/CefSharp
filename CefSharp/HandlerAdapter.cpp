@@ -25,7 +25,7 @@ namespace CefSharp
 
     CefHandler::RetVal HandlerAdapter::HandleTitleChange(CefRefPtr<CefBrowser> browser, const CefString& title) 
     { 
-          _browserControl->SetTitle(gcnew String(title.c_str()));
+          _browserControl->SetTitle(convertToString(title));
           return RV_CONTINUE; 
     }
 
@@ -33,7 +33,7 @@ namespace CefSharp
     {
         if(frame->IsMain())
         {
-            _browserControl->SetAddress(gcnew String(url.c_str()));
+            _browserControl->SetAddress(convertToString(url));
         }
         return RV_CONTINUE; 
     }
