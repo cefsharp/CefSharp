@@ -10,7 +10,7 @@ NEWS
 
 2010/12/20 - 0.3 Released
 -------------------------
-- [Download 0.3 here](https://github.com/downloads/chillitom/CefSharp/CefSharp-0.3.7z "src, bins and examples")
+- [Download 0.3.1 here](https://github.com/downloads/chillitom/CefSharp/CefSharp-0.3.1.7z "src, bins and examples")
 - Improvements to CLR object binding (big thanks _fddima_)
 - Updated to CEF r152 / Chromium r69409
 - Calling _CefBrowserControl.Focus()_ now works.
@@ -20,6 +20,8 @@ NEWS
 - Fix bug, Browser creation fails without registered JS objects
 
 All feedback is welcomed gladly. Enjoy. T.
+
+_UPDATE_ : bounced zip to 0.3.1 to fix a build issue, now includes Debug and Release lib files.
 
 2010/12/15 - 0.2 Released
 -------------------------
