@@ -35,6 +35,7 @@ namespace CefSharp
     protected:
         virtual void OnHandleCreated(EventArgs^ e) override;
         virtual void OnSizeChanged(EventArgs^ e) override;
+        virtual void OnGotFocus(EventArgs^ e) override;
 
     internal:
 

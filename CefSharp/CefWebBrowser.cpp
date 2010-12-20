@@ -134,6 +134,14 @@ namespace CefSharp
         }
     }
 
+    void CefWebBrowser::OnGotFocus(EventArgs^ e)
+    {
+        if (IsInitialized && !DesignMode)
+        {
+            _handlerAdapter->GetCefBrowser()->SetFocus(true);
+        }
+    }
+
     void CefWebBrowser::SetTitle(String^ title)
     {
         _title = title;
