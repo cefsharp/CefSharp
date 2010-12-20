@@ -8,3 +8,4 @@ obj/
 Debug/
 *.ReSharper
 CefSharp/app.aps
+TestResult.xml
