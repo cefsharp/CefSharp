@@ -1770,8 +1770,9 @@ public:
     local_storage_disabled = r.local_storage_disabled;
     databases_disabled = r.databases_disabled;
     application_cache_disabled = r.application_cache_disabled;
-    experimental_webgl_enabled = r.experimental_webgl_enabled;
+    webgl_disabled = r.webgl_disabled;
     accelerated_compositing_disabled = r.accelerated_compositing_disabled;
+    accelerated_layers_disabled = r.accelerated_layers_disabled;
     accelerated_2d_canvas_disabled = r.accelerated_2d_canvas_disabled;
 
     return *this;

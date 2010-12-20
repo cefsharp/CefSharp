@@ -207,16 +207,22 @@ namespace CefSharp
             void set(bool value) { _browserSettings->application_cache_disabled = value; }
         }
 
-        property bool ExperimentalWebGlDisabled
+        property bool WebGlDisabled
         {
-            bool get() { return _browserSettings->experimental_webgl_enabled; }
-            void set(bool value) { _browserSettings->experimental_webgl_enabled = value; }
+            bool get() { return _browserSettings->webgl_disabled; }
+            void set(bool value) { _browserSettings->webgl_disabled = value; }
         }
 
         property bool AcceleratedCompositingDisabled
         {
             bool get() { return _browserSettings->accelerated_compositing_disabled; }
             void set(bool value) { _browserSettings->accelerated_compositing_disabled = value; }
+        }
+
+        property bool AcceleratedLayersDisabled
+        {
+            bool get() { return _browserSettings->accelerated_layers_disabled; }
+            void set(bool value) { _browserSettings->accelerated_layers_disabled = value; }
         }
 
         property bool Accelerated2dCanvasDisabled

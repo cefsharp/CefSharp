@@ -68,6 +68,7 @@
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(SolutionDir)\libs"
 				IgnoreAllDefaultLibraries="false"
+				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
 				TargetMachine="1"
