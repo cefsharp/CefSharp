@@ -42,7 +42,7 @@ namespace CefSharp
         {
             String^ get()
             {
-                return "0.2";
+                return "0.3";
             }
         }
 
@@ -50,7 +50,7 @@ namespace CefSharp
         {
             String^ get()
             {
-                return "trunk r149";
+                return "trunk r152";
             }
         }
 
@@ -58,7 +58,7 @@ namespace CefSharp
         {
             String^ get()
             {
-                return "trunk r66269";
+                return "trunk r69409";
             }
         }
 
