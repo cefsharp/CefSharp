@@ -8,6 +8,19 @@ This project is [BSD](http://www.opensource.org/licenses/bsd-license.php "BSD Li
 NEWS
 ====
 
+2010/12/20 - 0.3 Released
+-------------------------
+- [Download 0.3 here](https://github.com/downloads/chillitom/CefSharp/CefSharp-0.3.7z "src, bins and examples")
+- Improvements to CLR object binding (big thanks _fddima_)
+- Updated to CEF r152 / Chromium r69409
+- Calling _CefBrowserControl.Focus()_ now works.
+- New API for _IBeforeResourceLoad_ to avoid _ref_ parameters
+- _Reload()_ and _Reload(bool ignoreCache)_ methods
+- Streams now closed explicitly after resource load.
+- Fix bug, Browser creation fails without registered JS objects
+
+All feedback is welcomed gladly. Enjoy. T.
+
 2010/12/15 - 0.2 Released
 -------------------------
 - [Download 0.2 here](https://github.com/downloads/chillitom/CefSharp/CefSharp-0.2.7z "src, bins and examples")
