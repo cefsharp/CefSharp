@@ -200,11 +200,15 @@ typedef struct _cef_browser_settings_t
   // Set to true (1) to disable application cache.
   bool application_cache_disabled;
 
-  // Set to true (1) to enable experimental WebGL features.
-  bool experimental_webgl_enabled;
+  // Set to true (1) to disable WebGL.
+  bool webgl_disabled;
 
   // Set to true (1) to disable accelerated compositing.
   bool accelerated_compositing_disabled;
+
+  // Set to true (1) to disable accelerated layers. This affects features like
+  // 3D CSS transforms.
+  bool accelerated_layers_disabled;
 
   // Set to true (1) to disable accelerated 2d canvas.
   bool accelerated_2d_canvas_disabled;
