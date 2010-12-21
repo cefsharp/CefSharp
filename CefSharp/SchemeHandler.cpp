@@ -38,7 +38,7 @@ namespace CefSharp
 
         if(mimeType != nullptr)
         {
-            cefMimeType = convertFromString(mimeType);
+            cefMimeType = toNative(mimeType);
         }
         
         *responseLength = SizeFromStream();

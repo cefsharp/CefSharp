@@ -148,7 +148,7 @@ namespace CefSharp
         }
         if (type == String::typeid)
         {
-            CefString str = convertFromString(safe_cast<String^>(obj));
+            CefString str = toNative(safe_cast<String^>(obj));
             return CefV8Value::CreateString(str);
         }
         if (type == Double::typeid)
@@ -213,7 +213,7 @@ namespace CefSharp
         if (obj->IsDouble())
             return gcnew System::Double(obj->GetDoubleValue());
         if (obj->IsString()){
-            return convertToString(obj->GetStringValue());
+            return toClr(obj->GetStringValue());
         }
 
         //TODO: What exception type?
@@ -230,14 +230,14 @@ namespace CefSharp
             return true;
         }
 
-        String^ memberName = convertToString(name);
+        String^ memberName = toClr(name);
         Type^ type = self->GetType();
         array<System::Reflection::MemberInfo^>^ members = type->GetMember(memberName, MemberTypes::Method, 
             /* BindingFlags::IgnoreCase |*/ BindingFlags::Instance | BindingFlags::Public);
 
         if(members->Length == 0)
         {
-            exception = convertFromString("No member named " + memberName + ".");
+            exception = toNative("No member named " + memberName + ".");
             return true;
         }
 
@@ -253,7 +253,7 @@ namespace CefSharp
         }
         catch(System::Exception^ err)
         {
-            exception = convertFromString(err->Message);
+            exception = toNative(err->Message);
             return true;
         }
 
@@ -326,16 +326,16 @@ namespace CefSharp
             }
             catch(System::Reflection::TargetInvocationException^ err)
             {
-                exception = convertFromString(err->InnerException->Message);
+                exception = toNative(err->InnerException->Message);
             }
             catch(System::Exception^ err)
             {
-                exception = convertFromString(err->Message);
+                exception = toNative(err->Message);
             }
         }
         else
         {
-            exception = convertFromString("Argument mismatch for method \"" + memberName + "\".");
+            exception = toNative("Argument mismatch for method \"" + memberName + "\".");
         }
         return true;
     }
@@ -360,11 +360,11 @@ namespace CefSharp
 
         for each(String^ methodName in methodNames)
         {
-            CefString nameStr = convertFromString(methodName);
+            CefString nameStr = toNative(methodName);
             wrappedObject->SetValue(nameStr, CefV8Value::CreateFunction(nameStr, handler));
         }
 
-        window->SetValue(convertFromString(name), wrappedObject);
+        window->SetValue(toNative(name), wrappedObject);
     }
 
 }
