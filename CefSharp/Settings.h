@@ -30,7 +30,7 @@ namespace CefSharp
         {
             String^ get() 
             { 
-                return convertToString(_cefSettings->cache_path); 
+                return toClr(_cefSettings->cache_path); 
             }
 
             void set(String^ path) 
@@ -43,7 +43,7 @@ namespace CefSharp
         {
             String^ get() 
             { 
-                return convertToString(_cefSettings->user_agent); 
+                return toClr(_cefSettings->user_agent); 
             }
 
             void set(String^ userAgent) 
@@ -56,7 +56,7 @@ namespace CefSharp
         {
             String^ get() 
             { 
-                return convertToString(_cefSettings->product_version); 
+                return toClr(_cefSettings->product_version); 
             }
 
             void set(String^ productVersion) 
@@ -69,7 +69,7 @@ namespace CefSharp
         {
             String^ get() 
             { 
-                return convertToString(_cefSettings->locale); 
+                return toClr(_cefSettings->locale); 
             }
 
             void set(String^ locale) 

@@ -7,7 +7,7 @@ namespace CefSharp
 
     String^ CefRequestWrapper::Url::get() 
     {
-        return convertToString(_wrappedRequest->GetURL());
+        return toClr(_wrappedRequest->GetURL());
     }
 
     void CefRequestWrapper::Url::set(String^ url)
@@ -17,13 +17,13 @@ namespace CefSharp
             throw gcnew System::ArgumentException("cannot be null", "url");
         }
         
-        CefString str = convertFromString(url);
+        CefString str = toNative(url);
         _wrappedRequest->SetURL(str);
     }
 
     String^ CefRequestWrapper::Method::get() 
     {  
-        return convertToString(_wrappedRequest->GetMethod());
+        return toClr(_wrappedRequest->GetMethod());
     }
 
     IDictionary<String^, String^>^ CefRequestWrapper::GetHeaders()
@@ -35,8 +35,8 @@ namespace CefSharp
 
         for (CefRequest::HeaderMap::iterator it = hm.begin(); it != hm.end(); ++it)
         {
-            String^ name = convertToString(it->first);
-            String^ value = convertToString(it->second);
+            String^ name = toClr(it->first);
+            String^ value = toClr(it->second);
             headers->Add(name, value);
         }
 
@@ -50,8 +50,8 @@ namespace CefSharp
 
         for each(KeyValuePair<String^, String^>^ pair in headers) 
         {
-            CefString name = convertFromString(pair->Key);
-            CefString value = convertFromString(pair->Value);
+            CefString name = toNative(pair->Key);
+            CefString value = toNative(pair->Value);
             hm[name] = value;
         }
 

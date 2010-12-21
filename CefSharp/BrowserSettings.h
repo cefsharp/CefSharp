@@ -47,7 +47,7 @@ namespace CefSharp
 
         property String^ DefaultEncoding
         {
-            String^ get() { return convertToString(_browserSettings->default_encoding); }
+            String^ get() { return toClr(_browserSettings->default_encoding); }
             void set(String^ value) { assignFromString(_browserSettings->default_encoding, value); }
         }
 
@@ -179,7 +179,7 @@ namespace CefSharp
 
         property String^ UserStyleSheetLocation
         {
-            String^ get() { return convertToString(_browserSettings->user_style_sheet_location); }
+            String^ get() { return toClr(_browserSettings->user_style_sheet_location); }
             void set(String^ value) { assignFromString(_browserSettings->user_style_sheet_location, value); }
         }
 

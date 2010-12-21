@@ -10,7 +10,7 @@ namespace CefSharp
         WaitForInitialized();
 
         _loadCompleted->Reset();
-        _handlerAdapter->GetCefBrowser()->GetMainFrame()->LoadURL(convertFromString(url));
+        _handlerAdapter->GetCefBrowser()->GetMainFrame()->LoadURL(toNative(url));
     }
 
     void CefWebBrowser::Stop()
@@ -77,8 +77,8 @@ namespace CefSharp
             "})();";
 
         
-        CefString scriptStr = convertFromString(script);
-        CefString scriptUrlStr = convertFromString(scriptUrl);
+        CefString scriptStr = toNative(script);
+        CefString scriptUrlStr = toNative(scriptUrl);
         
         _handlerAdapter->GetCefBrowser()->GetMainFrame()->ExecuteJavaScript(scriptStr, scriptUrlStr, startLine);
         if(!_runJsFinished->WaitOne(timeout))
@@ -106,7 +106,7 @@ namespace CefSharp
             _handlerAdapter = new HandlerAdapter(this);
             CefRefPtr<HandlerAdapter> ptr = _handlerAdapter.get();
 
-            CefString urlStr = convertFromString(_address);
+            CefString urlStr = toNative(_address);
 
             CefWindowInfo windowInfo;
 
@@ -197,13 +197,13 @@ namespace CefSharp
 
     void CefWebBrowser::SetJsResult(const CefString& result)
     {
-        _jsResult = convertToString(result);
+        _jsResult = toClr(result);
         _runJsFinished->Set();
     }
 
     void CefWebBrowser::SetJsError(const CefString& error)
     {
-        _jsError = convertToString(error);
+        _jsError = toClr(error);
         _runJsFinished->Set();
     }
 

@@ -25,7 +25,7 @@ namespace CefSharp
 
     CefHandler::RetVal HandlerAdapter::HandleTitleChange(CefRefPtr<CefBrowser> browser, const CefString& title) 
     { 
-          _browserControl->SetTitle(convertToString(title));
+          _browserControl->SetTitle(toClr(title));
           return RV_CONTINUE; 
     }
 
@@ -33,7 +33,7 @@ namespace CefSharp
     {
         if(frame->IsMain())
         {
-            _browserControl->SetAddress(convertToString(url));
+            _browserControl->SetAddress(toClr(url));
         }
         return RV_CONTINUE; 
     }
@@ -88,7 +88,7 @@ namespace CefSharp
             {
                 CefRefPtr<StreamAdapter> adapter = new StreamAdapter(requestResponse->ResponseStream);
                 resourceStream = CefStreamReader::CreateForHandler(static_cast<CefRefPtr<CefReadHandler>>(adapter));
-                mimeType = convertFromString(requestResponse->MimeType);
+                mimeType = toNative(requestResponse->MimeType);
                 return RV_CONTINUE;
             }
             else if(requestResponse->Action == ResponseAction::Cancel)
@@ -97,7 +97,7 @@ namespace CefSharp
             }
             else if(requestResponse->Action == ResponseAction::Redirect)
             {
-                redirectUrl = convertFromString(requestResponse->RedirectUrl);
+                redirectUrl = toNative(requestResponse->RedirectUrl);
             }
         }
         return RV_CONTINUE; 
@@ -118,8 +118,8 @@ namespace CefSharp
 
     CefHandler::RetVal HandlerAdapter::HandleConsoleMessage(CefRefPtr<CefBrowser> browser, const CefString& message, const CefString& source, int line)
     {
-        String^ messageStr = convertToString(message);
-        String^ sourceStr = convertToString(source);
+        String^ messageStr = toClr(message);
+        String^ sourceStr = toClr(source);
         _browserControl->RaiseConsoleMessage(messageStr, sourceStr, line);
         return RV_CONTINUE;
     }

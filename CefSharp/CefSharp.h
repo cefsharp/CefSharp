@@ -78,7 +78,7 @@ namespace CefSharp
             hostName = hostName ? hostName : "";
 
             CefRefPtr<SchemeHandlerFactoryWrapper> wrapper = new SchemeHandlerFactoryWrapper(factory);
-            return CefRegisterScheme(convertFromString(schemeName), convertFromString(hostName), static_cast<CefRefPtr<CefSchemeHandlerFactory>>(wrapper));
+            return CefRegisterScheme(toNative(schemeName), toNative(hostName), static_cast<CefRefPtr<CefSchemeHandlerFactory>>(wrapper));
         }
 
         static bool RegisterScheme(String^ schemeName, ISchemeHandlerFactory^ factory)

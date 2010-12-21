@@ -2,17 +2,17 @@
 
 namespace CefSharp
 {
-    String^ convertToString(const cef_string_t& cefStr)
+    String^ toClr(const cef_string_t& cefStr)
     {
         return gcnew String(cefStr.str);
     }
     
-    String^ convertToString(const CefString& cefStr)
+    String^ toClr(const CefString& cefStr)
     {
         return gcnew String(cefStr.c_str());
     }
 
-    CefString convertFromString(String^ str)
+    CefString toNative(String^ str)
     {
         pin_ptr<const wchar_t> pStr = PtrToStringChars(str);
         CefString cefStr(pStr);
