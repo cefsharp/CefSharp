@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="CefSharp"
 	ProjectGUID="{7B495581-2271-4F41-9476-ACB86E8C864F}"
 	RootNamespace="CefSharp"
@@ -146,6 +146,7 @@
 				AdditionalLibraryDirectories="$(SolutionDir)libs\$(ConfigurationName)\"
 				GenerateDebugInformation="true"
 				TargetMachine="1"
+				KeyFile="$(SolutionDir)\CefSharp.snk"
 			/>
 			<Tool
 				Name="VCALinkTool"
