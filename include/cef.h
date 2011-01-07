@@ -666,6 +666,19 @@ public:
                                     int64 contentLength,
                                     CefRefPtr<CefDownloadHandler>& handler) =0;
 
+  // Called when the browser needs credentials from the user. |isProxy|
+  // indicates whether the host is a proxy server. |host| contains the hostname
+  // and port number. Set |username| and |password| and return RV_HANDLED to
+  // handle the request.  Return RV_CONTINUE to cancel the request.
+  /*--cef()--*/
+  virtual RetVal HandleAuthenticationRequest(CefRefPtr<CefBrowser> browser,
+                                             bool isProxy,
+                                             const CefString& host,
+                                             const CefString& realm,
+                                             const CefString& scheme,
+                                             CefString& username,
+                                             CefString& password) =0;
+
   // Structure representing menu information.
   typedef cef_handler_menuinfo_t MenuInfo;
 

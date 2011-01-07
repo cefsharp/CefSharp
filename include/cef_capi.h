@@ -464,6 +464,16 @@ typedef struct _cef_handler_t
       const cef_string_t* mimeType, const cef_string_t* fileName,
       int64 contentLength, struct _cef_download_handler_t** handler);
 
+  // Called when the browser needs credentials from the user. |isProxy|
+  // indicates whether the host is a proxy server. |host| contains the hostname
+  // and port number. Set |username| and |password| and return RV_HANDLED to
+  // handle the request.  Return RV_CONTINUE to cancel the request.
+  enum cef_retval_t (CEF_CALLBACK *handle_authentication_request)(
+      struct _cef_handler_t* self, struct _cef_browser_t* browser, int isProxy,
+      const cef_string_t* host, const cef_string_t* realm,
+      const cef_string_t* scheme, cef_string_t* username,
+      cef_string_t* password);
+
   // Event called before a context menu is displayed.  To cancel display of the
   // default context menu return RV_HANDLED.
   enum cef_retval_t (CEF_CALLBACK *handle_before_menu)(

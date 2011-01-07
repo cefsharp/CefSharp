@@ -44,6 +44,7 @@ namespace CefSharp
         virtual RetVal HandleLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, ErrorCode errorCode, const CefString& failedUrl, CefString& errorText) { return RV_CONTINUE; }
         virtual RetVal HandleBeforeResourceLoad(CefRefPtr<CefBrowser> browser, CefRefPtr<CefRequest> request, CefString& redirectUrl, CefRefPtr<CefStreamReader>& resourceStream, CefString& mimeType,int loadFlags);
         virtual RetVal HandleDownloadResponse(CefRefPtr<CefBrowser> browser, const CefString& mimeType, const CefString& fileName, int64 contentLength, CefRefPtr<CefDownloadHandler>& handler) { return RV_CONTINUE; }
+        virtual RetVal HandleAuthenticationRequest(CefRefPtr<CefBrowser> browser, bool isProxy, const CefString& host, const CefString& realm, const CefString& scheme, CefString& username, CefString& password) { return RV_HANDLED; }
         virtual RetVal HandleBeforeMenu(CefRefPtr<CefBrowser> browser, const MenuInfo& menuInfo) { return RV_HANDLED; }
         virtual RetVal HandleGetMenuLabel(CefRefPtr<CefBrowser> browser, MenuId menuId, CefString& label) { return RV_CONTINUE; }
         virtual RetVal HandleMenuAction(CefRefPtr<CefBrowser> browser, MenuId menuId) { return RV_CONTINUE; }
