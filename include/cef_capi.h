@@ -343,6 +343,10 @@ typedef struct _cef_frame_t
       const cef_string_t* jsCode, const cef_string_t* scriptUrl,
       int startLine);
 
+  // Execute the CefV8Task code in this frame.
+  void (CEF_CALLBACK *execute_java_script_task)(struct _cef_frame_t* self,
+      struct _cef_v8task_t* jsTask);
+
   // Returns true (1) if this is the main frame.
   int (CEF_CALLBACK *is_main)(struct _cef_frame_t* self);
 

@@ -196,11 +196,6 @@
 			AssemblyName="System.Drawing, Version=2.0.0.0, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
 			MinFrameworkVersion="131072"
 		/>
-		<AssemblyReference
-			RelativePath="System.Core.dll"
-			AssemblyName="System.Core, Version=3.5.0.0, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL"
-			MinFrameworkVersion="196613"
-		/>
 	</References>
 	<Files>
 		<Filter
@@ -229,7 +224,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\JsResultHandler.cpp"
+				RelativePath=".\JsTask.cpp"
 				>
 			</File>
 			<File
@@ -311,7 +306,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\JsResultHandler.h"
+				RelativePath=".\JsTask.h"
 				>
 			</File>
 			<File

@@ -61,6 +61,7 @@ class CefStreamWriter;
 class CefTask;
 class CefV8Handler;
 class CefV8Value;
+class CefV8Task;
 
 
 // This function should be called once when the application is started to
@@ -339,6 +340,16 @@ public:
   virtual void Execute(CefThreadId threadId) =0;
 };
 
+class CefV8Task : public CefBase
+{
+public:
+    virtual CefString GetScript() =0;
+    virtual CefString GetScriptName() =0;
+    virtual int GetStartLine() =0;
+    virtual void HandleSuccess(CefRefPtr<CefV8Value> result) =0;
+    virtual void HandleError() =0;
+};
+
 
 // Class used to represent a browser window.  All methods exposed by this class
 // should be thread safe.
@@ -509,6 +520,10 @@ public:
   virtual void ExecuteJavaScript(const CefString& jsCode, 
                                  const CefString& scriptUrl,
                                  int startLine) =0;
+
+  // Execute the CefV8Task code in this frame.
+  /*--cef()--*/
+  virtual void ExecuteJavaScriptTask(CefRefPtr<CefV8Task> jsTask) =0;
 
   // Returns true if this is the main frame.
   /*--cef()--*/

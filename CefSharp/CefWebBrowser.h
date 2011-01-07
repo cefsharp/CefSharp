@@ -23,7 +23,7 @@ namespace CefSharp
         String^ _address;
         String^ _title;
         String^ _jsResult;
-        String^ _jsError;
+        bool _jsError;
 
         IBeforeResourceLoad^ _beforeResourceLoadHandler;       
         MCefRefPtr<HandlerAdapter> _handlerAdapter;
@@ -49,8 +49,8 @@ namespace CefSharp
         void FrameLoadComplete(CefRefPtr<CefFrame> frame);
 
         
-        void SetJsResult(const CefString& result);
-        void SetJsError(const CefString& error);
+        void SetJsResult(String^ result);
+        void SetJsError();
         void RaiseConsoleMessage(String^ message, String^ source, int line);
 
     private:
