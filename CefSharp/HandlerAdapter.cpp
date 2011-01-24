@@ -8,18 +8,31 @@
 #include "CefSharp.h"
 #include "BindingHandler.h"
 
-namespace CefSharp 
+namespace CefSharp
 {
-    CefHandler::RetVal HandlerAdapter::HandleAfterCreated(CefRefPtr<CefBrowser> browser) 
-    { 
-        if(!browser->IsPopup()) 
-        {
-            _browserHwnd = browser->GetWindowHandle();
-            _cefBrowser = browser;
+	using namespace System;
 
+	HandlerAdapter::HandlerAdapter(CefWebBrowser^ browserControl) : _browserControl(browserControl)
+	{
+		_handler = new Handler();
+		_handler->RegisterAfterCreated(gcnew HandleAfterCreatedDelegate(this, &HandlerAdapter::HandleAfterCreated));
+		_handler->RegisterTitleChange(gcnew HandleTitleChangeDelegate(this, &HandlerAdapter::HandleTitleChange));
+		_handler->RegisterAdressChange(gcnew HandleAddressChangeDelegate(this, &HandlerAdapter::HandleAddressChange));
+		_handler->RegisterBeforeBrowse(gcnew HandleBeforeBrowseDelegate(this, &HandlerAdapter::HandleBeforeBrowse));
+		_handler->RegisterLoadStart(gcnew HandleLoadStartDelegate(this, &HandlerAdapter::HandleLoadStart));
+		_handler->RegisterLoadEnd(gcnew HandleLoadEndDelegate(this, &HandlerAdapter::HandleLoadEnd));
+		_handler->RegisterBeforeResourceLoad(gcnew HandleBeforeResourceLoadDelegate(this, &HandlerAdapter::HandleBeforeResourceLoad));
+		_handler->RegisterJSBinding(gcnew HandleJSBindingDelegate(this, &HandlerAdapter::HandleJSBinding));
+		_handler->RegisterConsoleMessage(gcnew HandleConsoleMessageDelegate(this, &HandlerAdapter::HandleConsoleMessage));
+	}
+
+	CefHandler::RetVal HandlerAdapter::HandleAfterCreated(CefRefPtr<CefBrowser> browser)
+    {
+        if(!browser->IsPopup())
+        {
             _browserControl->OnInitialized();
         }
-        return RV_CONTINUE; 
+        return RV_CONTINUE;
     }
 
     CefHandler::RetVal HandlerAdapter::HandleTitleChange(CefRefPtr<CefBrowser> browser, const CefString& title) 
@@ -34,25 +47,25 @@ namespace CefSharp
         {
             _browserControl->SetAddress(toClr(url));
         }
-        return RV_CONTINUE; 
+        return RV_CONTINUE;
     }
 
-    CefHandler::RetVal HandlerAdapter::HandleBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, NavType navType, bool isRedirect) 
-    { 
-        return RV_CONTINUE; 
+    CefHandler::RetVal HandlerAdapter::HandleBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefHandler::NavType navType, bool isRedirect)
+    {
+        return RV_CONTINUE;
     }
 
     CefHandler::RetVal HandlerAdapter::HandleLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame)
     {
         if(!browser->IsPopup())
         {
-            Lock();
+            _handler->Lock();
             if(!frame.get())
             {
                 _browserControl->SetNavState(true, false, false);
             }
             _browserControl->AddFrame(frame);
-            Unlock();
+            _handler->Unlock();
         }
         return RV_CONTINUE;
     }
@@ -61,15 +74,15 @@ namespace CefSharp
     {
         if(!browser->IsPopup())
         {
-            Lock();
+            _handler->Lock();
             if(!frame.get())
             {
-                _browserControl->SetNavState(false, browser->CanGoBack(), browser->CanGoForward());        
+                _browserControl->SetNavState(false, browser->CanGoBack(), browser->CanGoForward());
             }
             _browserControl->FrameLoadComplete(frame);
-            Unlock();
+            _handler->Unlock();
         }
-        
+
         return RV_CONTINUE;
     }
 
@@ -120,5 +133,4 @@ namespace CefSharp
         _browserControl->RaiseConsoleMessage(messageStr, sourceStr, line);
         return RV_CONTINUE;
     }
-
 }

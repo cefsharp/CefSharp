@@ -104,8 +104,8 @@ namespace CefSharp
     {
         if (DesignMode == false) 
         {
-            _handlerAdapter = new HandlerAdapter(this);
-            CefRefPtr<HandlerAdapter> ptr = _handlerAdapter.get();
+            _handlerAdapter = gcnew HandlerAdapter(this);
+			CefRefPtr<CefHandler> ptr = _handlerAdapter->GetHandler();
 
             CefString urlStr = toNative(_address);
 
@@ -116,7 +116,7 @@ namespace CefSharp
             GetClientRect(hWnd, &rect);
             windowInfo.SetAsChild(hWnd, rect);
 
-            CefBrowser::CreateBrowser(windowInfo, false, static_cast<CefRefPtr<CefHandler>>(ptr), urlStr);
+            CefBrowser::CreateBrowser(windowInfo, false, ptr, urlStr);
         }
     }
 

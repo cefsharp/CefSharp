@@ -220,6 +220,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Handler.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\HandlerAdapter.cpp"
 				>
 			</File>
@@ -295,6 +299,10 @@
 			</File>
 			<File
 				RelativePath=".\CefWebBrowser.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Handler.h"
 				>
 			</File>
 			<File

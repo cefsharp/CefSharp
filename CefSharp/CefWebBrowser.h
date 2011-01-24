@@ -2,6 +2,7 @@
 #pragma once
 
 #include "CefSharp.h"
+#include "Handler.h"
 #include "HandlerAdapter.h"
 #include "IBeforeResourceLoad.h"
 #include "ConsoleMessageEventArgs.h"
@@ -25,8 +26,8 @@ namespace CefSharp
         String^ _jsResult;
         bool _jsError;
 
-        IBeforeResourceLoad^ _beforeResourceLoadHandler;       
-        MCefRefPtr<HandlerAdapter> _handlerAdapter;
+        IBeforeResourceLoad^ _beforeResourceLoadHandler;
+		HandlerAdapter^ _handlerAdapter;
 
         AutoResetEvent^ _runJsFinished;
         RtzCountdownEvent^ _loadCompleted;
@@ -128,7 +129,7 @@ namespace CefSharp
         {
             bool get()
             {
-                return _handlerAdapter.get() != nullptr && _handlerAdapter->GetIsInitialized();
+				return _handlerAdapter != nullptr && _handlerAdapter->GetIsInitialized();
             }
         }
 

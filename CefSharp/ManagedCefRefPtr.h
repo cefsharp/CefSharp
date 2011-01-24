@@ -71,7 +71,7 @@ public:
       {
           p->AddRef();
       }
-      if (_ptr )
+      if (_ptr)
       {
           _ptr->Release();
       }
