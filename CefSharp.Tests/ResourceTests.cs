@@ -31,7 +31,7 @@
             }
             catch (IOException ioex)
             {
-                Assert.Fail("File couldn't opened. So undelying stream for file is not closed.\nException: {0}", ioex.ToString());
+                Assert.Fail("File couldn't be opened. So underlying stream for file is not closed.\nException: {0}", ioex.ToString());
             }
             catch
             {
