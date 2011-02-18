@@ -54,6 +54,18 @@ typedef long long           int64;
 extern "C" {
 #endif
 
+// Log severity levels.
+enum cef_log_severity_t
+{
+  LOGSEVERITY_VERBOSE = -1,
+  LOGSEVERITY_INFO,
+  LOGSEVERITY_WARNING,
+  LOGSEVERITY_ERROR,
+  LOGSEVERITY_ERROR_REPORT,
+  // Disables logging completely.
+  LOGSEVERITY_DISABLE = 99
+};
+
 // Initialization settings. Specify NULL or 0 to get the recommended default
 // values.
 typedef struct _cef_settings_t
@@ -87,6 +99,15 @@ typedef struct _cef_settings_t
   // List of file system paths that will be searched by the browser to locate
   // plugins. This is in addition to the default search paths.
   cef_string_list_t extra_plugin_paths;
+
+  // The directory and file name to use for the debug log. If empty, the
+  // default name of "debug.log" will be used and the file will be written
+  // to the application directory.
+  cef_string_t log_file;
+
+  // The log severity. Only messages of this severity level or higher will be
+  // logged.
+  cef_log_severity_t log_severity;
 } cef_settings_t;
 
 // Browser initialization settings. Specify NULL or 0 to get the recommended
@@ -212,7 +233,39 @@ typedef struct _cef_browser_settings_t
 
   // Set to true (1) to disable accelerated 2d canvas.
   bool accelerated_2d_canvas_disabled;
+
+  // Set to true (1) to disable developer tools (WebKit inspector).
+  bool developer_tools_disabled;
 } cef_browser_settings_t;
+
+// URL component parts.
+typedef struct _cef_urlparts_t
+{
+  // The complete URL specification.
+  cef_string_t spec;
+
+  // Scheme component not including the colon (e.g., "http").
+  cef_string_t scheme;
+
+  // User name component.
+  cef_string_t username;
+
+  // Password component.
+  cef_string_t password;
+
+  // Host component. This may be a hostname, an IPv4 address or an IPv6 literal
+  // surrounded by square brackets (e.g., "[2001:db8::1]").
+  cef_string_t host;
+
+  // Port number component.
+  cef_string_t port;
+
+  // Path component including the first slash following the host.
+  cef_string_t path;
+
+  // Query string component (i.e., everything following the '?').
+  cef_string_t query;
+} cef_urlparts_t;
 
 // Define handler return value types. Returning RV_HANDLED indicates
 // that the implementation completely handled the method and that no further
@@ -489,6 +542,14 @@ enum cef_xml_node_type_t
   XML_NODE_ENTITY_REFERENCE,
   XML_NODE_WHITESPACE,
   XML_NODE_COMMENT,
+};
+
+// Status message types.
+enum cef_handler_statustype_t
+{
+  STATUSTYPE_TEXT = 0,
+  STATUSTYPE_MOUSEOVER_URL,
+  STATUSTYPE_KEYBOARD_FOCUS_URL,
 };
 
 // Popup window features.

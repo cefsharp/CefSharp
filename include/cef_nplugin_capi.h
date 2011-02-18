@@ -36,8 +36,8 @@ extern "C" {
 #endif
 
 #include "cef_export.h"
-#include "npapi/npapi.h"
-#include "npapi/nphostapi.h"
+#include "third_party/npapi/bindings/npapi.h"
+#include "third_party/npapi/bindings/nphostapi.h"
 
 // Netscape plugins are normally built at separate DLLs that are loaded by the
 // browser when needed.  This interface supports the creation of plugins that
@@ -74,7 +74,9 @@ typedef struct _cef_plugin_info_t {
   cef_string_t type_descriptions;
 
   // Entry point function pointers.
+#if !defined(OS_POSIX) || defined(OS_MACOSX)
   NP_GetEntryPointsFunc np_getentrypoints;
+#endif
   NP_InitializeFunc np_initialize;
   NP_ShutdownFunc np_shutdown;
 } cef_plugin_info_t;

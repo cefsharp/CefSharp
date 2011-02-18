@@ -33,8 +33,8 @@
 
 #include "cef_string.h"
 #include <vector>
-#include "npapi/npapi.h"
-#include "npapi/nphostapi.h"
+#include "third_party/npapi/bindings/npapi.h"
+#include "third_party/npapi/bindings/nphostapi.h"
 
 // Netscape plugins are normally built at separate DLLs that are loaded by the
 // browser when needed.  This interface supports the creation of plugins that
@@ -74,7 +74,9 @@ struct CefPluginInfo {
   std::vector<CefPluginMimeType> mime_types;
 
   // Entry point function pointers.
+#if !defined(OS_POSIX) || defined(OS_MACOSX)
   NP_GetEntryPointsFunc np_getentrypoints;
+#endif
   NP_InitializeFunc np_initialize;
   NP_ShutdownFunc np_shutdown;
 };

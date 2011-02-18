@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CefSharp", "CefSharp\CefSharp.vcproj", "{7B495581-2271-4F41-9476-ACB86E8C864F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cefclient", "..\libs\cef_binary_r149_VS2005-VS2008\cefclient\cefclient2008.vcproj", "{E4369C2C-8F50-4B35-A524-7B72D29D9C08}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefUsageTests", "CefUsageTests\CefUsageTests.csproj", "{E8A40E8F-5B1E-4021-BF60-7F7482235E81}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.Tests", "CefSharp.Tests\CefSharp.Tests.csproj", "{1C6D8AFA-8EB9-47D0-9439-6073B2818ADF}"
@@ -31,16 +29,6 @@ Global
 		{7B495581-2271-4F41-9476-ACB86E8C864F}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{7B495581-2271-4F41-9476-ACB86E8C864F}.Release|Win32.ActiveCfg = Release|Win32
 		{7B495581-2271-4F41-9476-ACB86E8C864F}.Release|Win32.Build.0 = Release|Win32
-		{E4369C2C-8F50-4B35-A524-7B72D29D9C08}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{E4369C2C-8F50-4B35-A524-7B72D29D9C08}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{E4369C2C-8F50-4B35-A524-7B72D29D9C08}.Debug|Mixed Platforms.Build.0 = Debug|Win32
-		{E4369C2C-8F50-4B35-A524-7B72D29D9C08}.Debug|Win32.ActiveCfg = Debug|Win32
-		{E4369C2C-8F50-4B35-A524-7B72D29D9C08}.Debug|Win32.Build.0 = Debug|Win32
-		{E4369C2C-8F50-4B35-A524-7B72D29D9C08}.Release|Any CPU.ActiveCfg = Release|Win32
-		{E4369C2C-8F50-4B35-A524-7B72D29D9C08}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{E4369C2C-8F50-4B35-A524-7B72D29D9C08}.Release|Mixed Platforms.Build.0 = Release|Win32
-		{E4369C2C-8F50-4B35-A524-7B72D29D9C08}.Release|Win32.ActiveCfg = Release|Win32
-		{E4369C2C-8F50-4B35-A524-7B72D29D9C08}.Release|Win32.Build.0 = Release|Win32
 		{E8A40E8F-5B1E-4021-BF60-7F7482235E81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E8A40E8F-5B1E-4021-BF60-7F7482235E81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8A40E8F-5B1E-4021-BF60-7F7482235E81}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU

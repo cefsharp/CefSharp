@@ -33,16 +33,15 @@ namespace CefSharp
         virtual RetVal HandleAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& url);
         virtual RetVal HandleAfterCreated(CefRefPtr<CefBrowser> browser);
         virtual RetVal HandleTitleChange(CefRefPtr<CefBrowser> browser, const CefString& title);
-        virtual RetVal HandleLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame);
-        virtual RetVal HandleLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame);
+        virtual RetVal HandleLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, bool isMainContent);
+        virtual RetVal HandleLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, bool isMainContent, int httpStatusCode);
         virtual RetVal HandleJSBinding(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Value> object);
         virtual RetVal HandleConsoleMessage(CefRefPtr<CefBrowser> browser, const CefString& message, const CefString& source, int line);
-
-        virtual RetVal HandleBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, NavType navType, bool isRedirect);
-
+		virtual RetVal HandleBeforeResourceLoad(CefRefPtr<CefBrowser> browser, CefRefPtr<CefRequest> request, CefString& redirectUrl, CefRefPtr<CefStreamReader>& resourceStream, CefString& mimeType,int loadFlags);
+		
+		virtual RetVal HandleBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, NavType navType, bool isRedirect) { return RV_CONTINUE; }
         virtual RetVal HandleBeforeCreated(CefRefPtr<CefBrowser> parentBrowser, CefWindowInfo& createInfo, bool popup, const CefPopupFeatures& popupFeatures, CefRefPtr<CefHandler>& handler, CefString& url, CefBrowserSettings& settings) { return RV_CONTINUE; }
         virtual RetVal HandleLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, ErrorCode errorCode, const CefString& failedUrl, CefString& errorText) { return RV_CONTINUE; }
-        virtual RetVal HandleBeforeResourceLoad(CefRefPtr<CefBrowser> browser, CefRefPtr<CefRequest> request, CefString& redirectUrl, CefRefPtr<CefStreamReader>& resourceStream, CefString& mimeType,int loadFlags);
         virtual RetVal HandleDownloadResponse(CefRefPtr<CefBrowser> browser, const CefString& mimeType, const CefString& fileName, int64 contentLength, CefRefPtr<CefDownloadHandler>& handler) { return RV_CONTINUE; }
         virtual RetVal HandleAuthenticationRequest(CefRefPtr<CefBrowser> browser, bool isProxy, const CefString& host, const CefString& realm, const CefString& scheme, CefString& username, CefString& password) { return RV_HANDLED; }
         virtual RetVal HandleBeforeMenu(CefRefPtr<CefBrowser> browser, const MenuInfo& menuInfo) { return RV_HANDLED; }
@@ -59,8 +58,9 @@ namespace CefSharp
         virtual RetVal HandleSetFocus(CefRefPtr<CefBrowser> browser, bool isWidget) { return RV_CONTINUE; }
         virtual RetVal HandleTooltip(CefRefPtr<CefBrowser> browser, CefString& text) { return RV_CONTINUE; }
         virtual RetVal HandleKeyEvent(CefRefPtr<CefBrowser> browser, KeyEventType type, int code, int modifiers, bool isSystemKey) { return RV_CONTINUE; }
-        
         virtual RetVal HandleFindResult(CefRefPtr<CefBrowser> browser, int identifier, int count, const CefRect& selectionRect, int activeMatchOrdinal, bool finalUpdate) { return RV_CONTINUE; }
+        virtual RetVal HandleProtocolExecution(CefRefPtr<CefBrowser> browser, const CefString& url, bool* allow_os_execution) { return RV_CONTINUE; }
+        virtual RetVal HandleStatus(CefRefPtr<CefBrowser> browser, const CefString& value, StatusType type) { return RV_CONTINUE; }
 
         HWND GetBrowserHwnd() { return _browserHwnd; }
         CefRefPtr<CefBrowser> GetCefBrowser()

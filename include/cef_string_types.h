@@ -40,6 +40,7 @@ extern "C" {
 #endif
 
 #include "cef_export.h"
+#include <stddef.h>
 
 // CEF character type definitions. wchat_t is 2 bytes on Windows and 4 bytes on
 // most other platforms.
@@ -47,7 +48,7 @@ extern "C" {
 #ifdef _WIN32
 typedef wchar_t char16_t;
 #else // _WIN32
-typedef uint16 char16_t;
+typedef unsigned short char16_t;
 #ifndef WCHAR_T_IS_UTF32
 #define WCHAR_T_IS_UTF32
 #endif // WCHAR_T_IS_UTF32
