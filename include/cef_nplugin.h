@@ -1,4 +1,4 @@
-// Copyright (c) 2008 Marshall A. Greenblatt. All rights reserved.
+// Copyright (c) 2011 Marshall A. Greenblatt. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are
@@ -28,13 +28,10 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-#ifndef _CEF_PLUGIN_H
-#define _CEF_PLUGIN_H
+#ifndef _CEF_NPLUGIN_H
+#define _CEF_NPLUGIN_H
 
-#include "cef_string.h"
-#include <vector>
-#include "third_party/npapi/bindings/npapi.h"
-#include "third_party/npapi/bindings/nphostapi.h"
+#include "cef_nplugin_types.h"
 
 // Netscape plugins are normally built at separate DLLs that are loaded by the
 // browser when needed.  This interface supports the creation of plugins that
@@ -43,45 +40,78 @@
 // See https://developer.mozilla.org/En/Gecko_Plugin_API_Reference for complete
 // documentation on how to use the Netscape Plugin API.
 
-// This structure describes a mime type entry for a plugin.
-struct CefPluginMimeType {
-  // The actual mime type.
-  CefString mime_type;
+// This class provides attribute information and entry point functions for a
+// plugin.
+class CefPluginInfo : public cef_plugin_info_t
+{
+public:
+  CefPluginInfo()
+  {
+    Init();
+  }
+  virtual ~CefPluginInfo()
+  {
+    Reset();
+  }
 
-  // A list of all the file extensions for this mime type.
-  std::vector<CefString> file_extensions;
+  CefPluginInfo(const CefPluginInfo& r)
+  {
+    Init();
+    *this = r;
+  }
+  CefPluginInfo(const cef_plugin_info_t& r)
+  {
+    Init();
+    *this = r;
+  }
 
-  // Description of the mime type.
-  CefString description;
-};
+  void Reset()
+  {
+    cef_string_clear(&unique_name);
+    cef_string_clear(&display_name);
+    cef_string_clear(&description);
+    cef_string_clear(&mime_type);
+    Init();
+  }
 
-// This structure provides attribute information and entry point functions for
-// a plugin.
-struct CefPluginInfo {
-  // The unique name that identifies the plugin.
-  CefString unique_name;
+  void Attach(const cef_plugin_info_t& r)
+  {
+    Reset();
+    *static_cast<cef_plugin_info_t*>(this) = r;
+  }
 
-  // The friendly display name of the plugin.
-  CefString display_name;
+  void Detach()
+  {
+    Init();
+  }
 
-  // The version string of the plugin.
-  CefString version;
+  CefPluginInfo& operator=(const CefPluginInfo& r)
+  {
+    return operator=(static_cast<const cef_plugin_info_t&>(r));
+  }
 
-  // A description of the plugin.
-  CefString description;
-
-  // A list of all the mime types that this plugin supports.
-  std::vector<CefPluginMimeType> mime_types;
-
-  // Entry point function pointers.
+  CefPluginInfo& operator=(const cef_plugin_info_t& r)
+  {
+    cef_string_copy(r.unique_name.str, r.unique_name.length, &unique_name);
+    cef_string_copy(r.display_name.str, r.display_name.length, &display_name);
+    cef_string_copy(r.description.str, r.description.length, &description);
+    cef_string_copy(r.mime_type.str, r.mime_type.length, &mime_type);
 #if !defined(OS_POSIX) || defined(OS_MACOSX)
-  NP_GetEntryPointsFunc np_getentrypoints;
+    np_getentrypoints = r.np_getentrypoints;
 #endif
-  NP_InitializeFunc np_initialize;
-  NP_ShutdownFunc np_shutdown;
+    np_initialize = r.np_initialize;
+    np_shutdown = r.np_shutdown;
+    return *this;
+  }
+
+protected:
+  void Init()
+  {
+    memset(static_cast<cef_plugin_info_t*>(this), 0, sizeof(cef_plugin_info_t));
+  }
 };
 
 // Register a plugin with the system.
-bool CefRegisterPlugin(const struct CefPluginInfo& plugin_info);
+bool CefRegisterPlugin(const CefPluginInfo& plugin_info);
 
-#endif // _CEF_PLUGIN_H
+#endif // _CEF_NPLUGIN_H

@@ -1,4 +1,4 @@
-// Copyright (c) 2011 Marshall A. Greenblatt. All rights reserved.
+// Copyright (c) 2010 Marshall A. Greenblatt. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are
@@ -28,22 +28,54 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-#ifndef _CEF_NPLUGIN_CAPI_H
-#define _CEF_NPLUGIN_CAPI_H
+#ifndef _CEF_TYPES_MAC_H
+#define _CEF_TYPES_MAC_H
 
-#include "cef_nplugin_types.h"
+#if defined(__APPLE__)
+#include "cef_string.h"
+
+// Window handle.
+#ifdef __cplusplus
+#ifdef __OBJC__
+@class NSView;
+#else
+class NSView;
+#endif
+#define cef_window_handle_t NSView*
+#else
+#define cef_window_handle_t void*
+#endif
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+// Class representing window information.
+typedef struct _cef_window_info_t
+{
+  cef_string_t m_windowName;
+  int m_x;
+  int m_y;
+  int m_nWidth;
+  int m_nHeight;
 
-// Register a plugin with the system.  Returns true (1) on success.
-CEF_EXPORT int cef_register_plugin(const cef_plugin_info_t* plugin_info);
+  // NSView pointer for the parent view.
+  cef_window_handle_t m_ParentView;
+  
+  // NSView pointer for the new browser view.
+  cef_window_handle_t m_View;
+} cef_window_info_t;
 
+// Class representing print context information.
+typedef struct _cef_print_info_t
+{
+  double m_Scale;
+} cef_print_info_t;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif // _CEF_NPLUGIN_CAPI_H
+#endif // defined(__APPLE__)
+
+#endif // _CEF_TYPES_MAC_H

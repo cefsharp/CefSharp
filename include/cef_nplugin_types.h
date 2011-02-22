@@ -28,22 +28,50 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-#ifndef _CEF_NPLUGIN_CAPI_H
-#define _CEF_NPLUGIN_CAPI_H
+#ifndef _CEF_NPLUGIN_TYPES_H
+#define _CEF_NPLUGIN_TYPES_H
 
-#include "cef_nplugin_types.h"
+#include "cef_export.h"
+#include "cef_string.h"
+#include "third_party/npapi/bindings/npapi.h"
+#include "third_party/npapi/bindings/nphostapi.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+// Netscape plugins are normally built at separate DLLs that are loaded by the
+// browser when needed.  This interface supports the creation of plugins that
+// are an embedded component of the application.  Embedded plugins built using
+// this interface use the same Netscape Plugin API as DLL-based plugins.
+// See https://developer.mozilla.org/En/Gecko_Plugin_API_Reference for complete
+// documentation on how to use the Netscape Plugin API.
 
-// Register a plugin with the system.  Returns true (1) on success.
-CEF_EXPORT int cef_register_plugin(const cef_plugin_info_t* plugin_info);
+// This structure provides attribute information and entry point functions for
+// a plugin.
+typedef struct _cef_plugin_info_t {
+  // The unique name that identifies the plugin.
+  cef_string_t unique_name;
 
+  // The friendly display name of the plugin.
+  cef_string_t display_name;
+
+  // A description of the plugin.
+  cef_string_t description;
+  
+  // The mime type that the plugin supports.
+  cef_string_t mime_type;
+
+  // Entry point function pointers.
+#if !defined(OS_POSIX) || defined(OS_MACOSX)
+  NP_GetEntryPointsFunc np_getentrypoints;
+#endif
+  NP_InitializeFunc np_initialize;
+  NP_ShutdownFunc np_shutdown;
+} cef_plugin_info_t;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif // _CEF_NPLUGIN_CAPI_H
+#endif // _CEF_NPLUGIN_TYPES_H

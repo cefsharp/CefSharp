@@ -53,6 +53,7 @@ class CefPopupFeatures;
 class CefPostData;
 class CefPostDataElement;
 class CefRequest;
+class CefResponse;
 class CefSchemeHandler;
 class CefSchemeHandlerFactory;
 class CefSettings;
@@ -62,6 +63,8 @@ class CefTask;
 class CefURLParts;
 class CefV8Handler;
 class CefV8Value;
+class CefWebURLRequest;
+class CefWebURLRequestClient;
 class CefV8Task;
 
 
@@ -938,6 +941,7 @@ class CefRequest : public CefBase
 {
 public:
   typedef std::map<CefString,CefString> HeaderMap;
+  typedef cef_weburlrequest_flags_t RequestFlags;
 
   // Create a new CefRequest object.
   /*--cef()--*/
@@ -974,6 +978,19 @@ public:
                    const CefString& method,
                    CefRefPtr<CefPostData> postData,
                    const HeaderMap& headerMap) =0;
+
+  // Optional flags. Used in combination with CefWebURLRequest.
+  /*--cef()--*/
+  virtual RequestFlags GetFlags() = 0;
+  /*--cef()--*/
+  virtual void SetFlags(RequestFlags flags) = 0;
+
+  // Optional URL to the first party for cookies. Used in combination with
+  // CefWebURLRequest.
+  /*--cef()--*/
+  virtual CefString GetFirstPartyForCookies() = 0;
+  /*--cef()--*/
+  virtual void SetFirstPartyForCookies(const CefString& url) = 0;
 };
 
 
@@ -1054,6 +1071,32 @@ public:
   // actually read.
   /*--cef()--*/
   virtual size_t GetBytes(size_t size, void* bytes) =0;
+};
+
+
+// Class used to represent a web response. The methods of this class may be
+// called on any thread.
+/*--cef(source=library)--*/
+class CefResponse : public CefBase
+{
+public:
+  typedef std::map<CefString,CefString> HeaderMap;
+
+  // Returns the response status code.
+  /*--cef()--*/
+  virtual int GetStatus() = 0;
+
+  // Returns the response status text.
+  /*--cef()--*/
+  virtual CefString GetStatusText() = 0;
+
+  // Returns the value for the specified response header field.
+  /*--cef()--*/
+  virtual CefString GetHeader(const CefString& name) = 0;
+
+  // Retrieves a map of all response header fields.
+  /*--cef()--*/
+  virtual void GetHeaderMap(HeaderMap& headerMap) =0;
 };
 
 
@@ -1379,6 +1422,78 @@ public:
   // The download is complete.
   /*--cef()--*/
   virtual void Complete() =0;
+};
+
+
+// Class used to make a Web URL request. Web URL requests are not associated
+// with a browser instance so no CefHandler callbacks will be executed. The
+// methods of this class may be called on any thread.
+/*--cef(source=library)--*/
+class CefWebURLRequest : public CefBase
+{
+public:
+  typedef cef_weburlrequest_state_t RequestState;
+
+  // Create a new CefWebUrlReqeust object.
+  /*--cef()--*/
+  static CefRefPtr<CefWebURLRequest> CreateWebURLRequest(
+      CefRefPtr<CefRequest> request, 
+      CefRefPtr<CefWebURLRequestClient> client);
+
+  // Cancels the request.
+  /*--cef()--*/
+  virtual void Cancel() =0;
+
+  // Returns the current ready state of the request.
+  /*--cef()--*/
+  virtual RequestState GetState() =0;
+};
+
+// Interface that should be implemented by the CefWebURLRequest client. The
+// methods of this class will always be called on the UI thread.
+/*--cef(source=client)--*/
+class CefWebURLRequestClient : public CefBase
+{
+public:
+  typedef cef_weburlrequest_state_t RequestState;
+
+  // Notifies the client that the request state has changed. State change
+  // notifications will always be sent before the below notification methods
+  // are called.
+  /*--cef()--*/
+  virtual void OnStateChange(CefRefPtr<CefWebURLRequest> requester, 
+                             RequestState state) =0;
+
+  // Notifies the client that the request has been redirected and  provides a
+  // chance to change the request parameters.
+  /*--cef()--*/
+  virtual void OnRedirect(CefRefPtr<CefWebURLRequest> requester, 
+                          CefRefPtr<CefRequest> request, 
+                          CefRefPtr<CefResponse> response) =0;
+
+  // Notifies the client of the response data.
+  /*--cef()--*/
+  virtual void OnHeadersReceived(CefRefPtr<CefWebURLRequest> requester,
+                                 CefRefPtr<CefResponse> response) =0;
+
+  // Notifies the client of the upload progress.
+  /*--cef()--*/
+  virtual void OnProgress(CefRefPtr<CefWebURLRequest> requester, 
+                          uint64 bytesSent, uint64 totalBytesToBeSent) =0;
+
+  // Notifies the client that content has been received.
+  /*--cef()--*/
+  virtual void OnData(CefRefPtr<CefWebURLRequest> requester, 
+                      const void* data, int dataLength) =0;
+
+  // Supported error code values. See net\base\net_error_list.h for complete
+  // descriptions of the error codes.
+  typedef cef_handler_errorcode_t ErrorCode;
+
+  // Notifies the client that the request ended with an error.
+  /*--cef()--*/
+  virtual void OnError(CefRefPtr<CefWebURLRequest> requester, 
+                       ErrorCode errorCode) =0;
 };
 
 

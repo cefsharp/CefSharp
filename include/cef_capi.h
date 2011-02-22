@@ -741,6 +741,20 @@ typedef struct _cef_request_t
       const cef_string_t* method, struct _cef_post_data_t* postData,
       cef_string_map_t headerMap);
 
+  // Optional flags. Used in combination with cef_web_urlrequest_t.
+  enum cef_weburlrequest_flags_t (CEF_CALLBACK *get_flags)(
+      struct _cef_request_t* self);
+  void (CEF_CALLBACK *set_flags)(struct _cef_request_t* self,
+      enum cef_weburlrequest_flags_t flags);
+
+  // Optional URL to the first party for cookies. Used in combination with
+  // cef_web_urlrequest_t.
+  // The resulting string must be freed by calling cef_string_userfree_free().
+  cef_string_userfree_t (CEF_CALLBACK *get_first_party_for_cookies)(
+      struct _cef_request_t* self);
+  void (CEF_CALLBACK *set_first_party_for_cookies)(struct _cef_request_t* self,
+      const cef_string_t* url);
+
 } cef_request_t;
 
 
@@ -822,6 +836,33 @@ typedef struct _cef_post_data_element_t
 
 // Create a new cef_post_data_element_t object.
 CEF_EXPORT cef_post_data_element_t* cef_post_data_element_create();
+
+
+// Structure used to represent a web response. The functions of this structure
+// may be called on any thread.
+typedef struct _cef_response_t
+{
+  // Base structure.
+  cef_base_t base;
+
+  // Returns the response status code.
+  int (CEF_CALLBACK *get_status)(struct _cef_response_t* self);
+
+  // Returns the response status text.
+  // The resulting string must be freed by calling cef_string_userfree_free().
+  cef_string_userfree_t (CEF_CALLBACK *get_status_text)(
+      struct _cef_response_t* self);
+
+  // Returns the value for the specified response header field.
+  // The resulting string must be freed by calling cef_string_userfree_free().
+  cef_string_userfree_t (CEF_CALLBACK *get_header)(struct _cef_response_t* self,
+      const cef_string_t* name);
+
+  // Retrieves a map of all response header fields.
+  void (CEF_CALLBACK *get_header_map)(struct _cef_response_t* self,
+      cef_string_map_t headerMap);
+
+} cef_response_t;
 
 
 // Structure the client can implement to provide a custom stream reader. The
@@ -1128,6 +1169,74 @@ typedef struct _cef_download_handler_t
   void (CEF_CALLBACK *complete)(struct _cef_download_handler_t* self);
 
 } cef_download_handler_t;
+
+
+// Structure used to make a Web URL request. Web URL requests are not associated
+// with a browser instance so no cef_handler_t callbacks will be executed. The
+// functions of this structure may be called on any thread.
+typedef struct _cef_web_urlrequest_t
+{
+  // Base structure.
+  cef_base_t base;
+
+  // Cancels the request.
+  void (CEF_CALLBACK *cancel)(struct _cef_web_urlrequest_t* self);
+
+  // Returns the current ready state of the request.
+  enum cef_weburlrequest_state_t (CEF_CALLBACK *get_state)(
+      struct _cef_web_urlrequest_t* self);
+
+} cef_web_urlrequest_t;
+
+
+// Create a new CefWebUrlReqeust object.
+CEF_EXPORT cef_web_urlrequest_t* cef_web_urlrequest_create(
+    cef_request_t* request, struct _cef_web_urlrequest_client_t* client);
+
+
+// Structure that should be implemented by the cef_web_urlrequest_t client. The
+// functions of this structure will always be called on the UI thread.
+typedef struct _cef_web_urlrequest_client_t
+{
+  // Base structure.
+  cef_base_t base;
+
+  // Notifies the client that the request state has changed. State change
+  // notifications will always be sent before the below notification functions
+  // are called.
+  void (CEF_CALLBACK *on_state_change)(
+      struct _cef_web_urlrequest_client_t* self,
+      struct _cef_web_urlrequest_t* requester,
+      enum cef_weburlrequest_state_t state);
+
+  // Notifies the client that the request has been redirected and  provides a
+  // chance to change the request parameters.
+  void (CEF_CALLBACK *on_redirect)(struct _cef_web_urlrequest_client_t* self,
+      struct _cef_web_urlrequest_t* requester, struct _cef_request_t* request,
+      struct _cef_response_t* response);
+
+  // Notifies the client of the response data.
+  void (CEF_CALLBACK *on_headers_received)(
+      struct _cef_web_urlrequest_client_t* self,
+      struct _cef_web_urlrequest_t* requester,
+      struct _cef_response_t* response);
+
+  // Notifies the client of the upload progress.
+  void (CEF_CALLBACK *on_progress)(struct _cef_web_urlrequest_client_t* self,
+      struct _cef_web_urlrequest_t* requester, uint64 bytesSent,
+      uint64 totalBytesToBeSent);
+
+  // Notifies the client that content has been received.
+  void (CEF_CALLBACK *on_data)(struct _cef_web_urlrequest_client_t* self,
+      struct _cef_web_urlrequest_t* requester, const void* data,
+      int dataLength);
+
+  // Notifies the client that the request ended with an error.
+  void (CEF_CALLBACK *on_error)(struct _cef_web_urlrequest_client_t* self,
+      struct _cef_web_urlrequest_t* requester,
+      enum cef_handler_errorcode_t errorCode);
+
+} cef_web_urlrequest_client_t;
 
 
 // Structure that supports the reading of XML data via the libxml streaming API.

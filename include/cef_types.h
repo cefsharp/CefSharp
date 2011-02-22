@@ -46,8 +46,10 @@
 // not have typedef mismatches, we do the same on LP64.
 #if __LP64__
 typedef long                int64;
+typedef unsigned long       uint64;
 #else
 typedef long long           int64;
+typedef unsigned long long  uint64;
 #endif
 
 #ifdef __cplusplus
@@ -429,6 +431,28 @@ enum cef_postdataelement_type_t
   PDE_TYPE_EMPTY  = 0,
   PDE_TYPE_BYTES,
   PDE_TYPE_FILE,
+};
+
+enum cef_weburlrequest_flags_t
+{
+  WUR_FLAG_NONE = 0,
+  WUR_FLAG_SKIP_CACHE = 0x1,
+  WUR_FLAG_ALLOW_CACHED_CREDENTIALS = 0x2,
+  WUR_FLAG_ALLOW_COOKIES = 0x4,
+  WUR_FLAG_REPORT_UPLOAD_PROGRESS = 0x8,
+  WUR_FLAG_REPORT_LOAD_TIMING = 0x10,
+  WUR_FLAG_REPORT_RAW_HEADERS = 0x20
+};
+
+enum cef_weburlrequest_state_t
+{
+  WUR_STATE_UNSENT = 0,
+  WUR_STATE_STARTED = 1,
+  WUR_STATE_HEADERS_RECEIVED = 2,
+  WUR_STATE_LOADING = 3,
+  WUR_STATE_DONE = 4,
+  WUR_STATE_ERROR = 5,
+  WUR_STATE_ABORT = 6,
 };
 
 // Key event types.
