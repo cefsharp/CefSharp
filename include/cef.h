@@ -46,6 +46,11 @@
 
 class CefBrowser;
 class CefBrowserSettings;
+class CefDOMDocument;
+class CefDOMEvent;
+class CefDOMEventListener;
+class CefDOMNode;
+class CefDOMVisitor;
 class CefDownloadHandler;
 class CefFrame;
 class CefHandler;
@@ -61,11 +66,12 @@ class CefStreamReader;
 class CefStreamWriter;
 class CefTask;
 class CefURLParts;
+class CefV8Context;
 class CefV8Handler;
 class CefV8Value;
+class CefV8Task;
 class CefWebURLRequest;
 class CefWebURLRequestClient;
-class CefV8Task;
 
 
 // This function should be called on the main application thread to initialize
@@ -592,10 +598,18 @@ public:
   /*--cef()--*/
   virtual CefString GetName() =0;
 
-  // Return the URL currently loaded in this frame. This method should only be
+  // Returns the URL currently loaded in this frame. This method should only be
   // called on the UI thread.
   /*--cef()--*/
   virtual CefString GetURL() =0;
+
+  // Returns the browser that this frame belongs to.
+  /*--cef()--*/
+  virtual CefRefPtr<CefBrowser> GetBrowser() =0;
+
+  // Visit the DOM document.
+  /*--cef()--*/
+  virtual void VisitDOM(CefRefPtr<CefDOMVisitor> visitor) =0;
 };
 
 
@@ -1217,6 +1231,33 @@ public:
 };
 
 
+// Class that encapsulates a V8 context handle.
+/*--cef(source=library)--*/
+class CefV8Context : public CefBase
+{
+public:
+  // Returns the current (top) context object in the V8 context stack.
+  /*--cef()--*/
+  static CefRefPtr<CefV8Context> GetCurrentContext();
+
+  // Returns the entered (bottom) context object in the V8 context stack.
+  /*--cef()--*/
+  static CefRefPtr<CefV8Context> GetEnteredContext();
+
+  // Returns the browser for this context.
+  /*--cef()--*/
+  virtual CefRefPtr<CefBrowser> GetBrowser() =0;
+
+  // Returns the frame for this context.
+  /*--cef()--*/
+  virtual CefRefPtr<CefFrame> GetFrame() =0;
+
+  // Returns the global object for this context.
+  /*--cef()--*/
+  virtual CefRefPtr<CefV8Value> GetGlobal() =0;
+};
+
+
 typedef std::vector<CefRefPtr<CefV8Value> > CefV8ValueList;
 
 // Interface that should be implemented to handle V8 function calls. The methods
@@ -1225,8 +1266,10 @@ typedef std::vector<CefRefPtr<CefV8Value> > CefV8ValueList;
 class CefV8Handler : public CefBase
 {
 public:
-  // Execute with the specified argument list and return value.  Return true if
-  // the method was handled.
+  // Execute with the specified argument list and return value. Return true if
+  // the method was handled. To invoke V8 callback functions outside the scope
+  // of this method you need to keep references to the current V8 context
+  // (CefV8Context) along with any necessary callback objects.
   /*--cef()--*/
   virtual bool Execute(const CefString& name,
                        CefRefPtr<CefV8Value> object,
@@ -1242,10 +1285,7 @@ public:
 class CefV8Value : public CefBase
 {
 public:
-  // Create a new CefV8Value object of the specified type.  These methods
-  // should only be called from within the JavaScript context -- either in a
-  // CefV8Handler::Execute() callback or a CefHandler::HandleJSBinding()
-  // callback.
+  // Create a new CefV8Value object of the specified type.
   /*--cef()--*/
   static CefRefPtr<CefV8Value> CreateUndefined();
   /*--cef()--*/
@@ -1354,12 +1394,21 @@ public:
   /*--cef()--*/
   virtual CefRefPtr<CefV8Handler> GetFunctionHandler() =0;
   
-  // Execute the function.
+  // Execute the function using the current V8 context.
   /*--cef()--*/
   virtual bool ExecuteFunction(CefRefPtr<CefV8Value> object,
                                const CefV8ValueList& arguments,
                                CefRefPtr<CefV8Value>& retval,
                                CefString& exception) =0;
+
+  // Execute the function using the specified V8 context.
+  /*--cef()--*/
+  virtual bool ExecuteFunctionWithContext(CefRefPtr<CefV8Context> context,
+                                          CefRefPtr<CefV8Value> object,
+                                          const CefV8ValueList& arguments,
+                                          CefRefPtr<CefV8Value>& retval,
+                                          CefString& exception) =0;
+
 };
 
 
@@ -1608,7 +1657,7 @@ public:
   // namespace URI.
   /*--cef(capi_name=get_attribute_bylname)--*/
   virtual CefString GetAttribute(const CefString& localName,
-                                    const CefString& namespaceURI) =0;
+                                 const CefString& namespaceURI) =0;
 
   // Returns an XML representation of the current node's children.
   /*--cef()--*/
@@ -1730,6 +1779,267 @@ public:
   // Returns true if at end of the file contents.
   /*--cef()--*/
   virtual bool Eof() =0;
+};
+
+
+// Interface to implement for visiting the DOM. The methods of this class will
+// be called on the UI thread.
+/*--cef(source=client)--*/
+class CefDOMVisitor : public CefBase
+{
+public:
+  // Method executed for visiting the DOM. The document object passed to this
+  // method represents a snapshot of the DOM at the time this method is
+  // executed. DOM objects are only valid for the scope of this method. Do not
+  // keep references to or attempt to access any DOM objects outside the scope
+  // of this method.
+  /*--cef()--*/
+  virtual void Visit(CefRefPtr<CefDOMDocument> document) =0;
+};
+
+
+// Class used to represent a DOM document. The methods of this class should only
+// be called on the UI thread.
+/*--cef(source=library)--*/
+class CefDOMDocument : public CefBase
+{
+public:
+  typedef cef_dom_document_type_t Type;
+
+  // Returns the document type.
+  /*--cef()--*/
+  virtual Type GetType() =0;
+
+  // Returns the root document node.
+  /*--cef()--*/
+  virtual CefRefPtr<CefDOMNode> GetDocument() =0;
+
+  // Returns the BODY node of an HTML document.
+  /*--cef()--*/
+  virtual CefRefPtr<CefDOMNode> GetBody() =0;
+
+  // Returns the HEAD node of an HTML document.
+  /*--cef()--*/
+  virtual CefRefPtr<CefDOMNode> GetHead() =0;
+  
+  // Returns the title of an HTML document.
+  /*--cef()--*/
+  virtual CefString GetTitle() =0;
+  
+  // Returns the document element with the specified ID value.
+  /*--cef()--*/
+  virtual CefRefPtr<CefDOMNode> GetElementById(const CefString& id) =0;
+  
+  // Returns the node that currently has keyboard focus.
+  /*--cef()--*/
+  virtual CefRefPtr<CefDOMNode> GetFocusedNode() =0;
+  
+  // Returns true if a portion of the document is selected.
+  /*--cef()--*/
+  virtual bool HasSelection() =0;
+  
+  // Returns the selection start node.
+  /*--cef()--*/
+  virtual CefRefPtr<CefDOMNode> GetSelectionStartNode() =0;
+  
+  // Returns the selection offset within the start node.
+  /*--cef()--*/
+  virtual int GetSelectionStartOffset() =0;
+  
+  // Returns the selection end node.
+  /*--cef()--*/
+  virtual CefRefPtr<CefDOMNode> GetSelectionEndNode() =0;
+  
+  // Returns the selection offset within the end node.
+  /*--cef()--*/
+  virtual int GetSelectionEndOffset() =0;
+  
+  // Returns the contents of this selection as markup.
+  /*--cef()--*/
+  virtual CefString GetSelectionAsMarkup() =0;
+
+  // Returns the contents of this selection as text.
+  /*--cef()--*/
+  virtual CefString GetSelectionAsText() =0;
+  
+  // Returns the base URL for the document.
+  /*--cef()--*/
+  virtual CefString GetBaseURL() =0;
+
+  // Returns a complete URL based on the document base URL and the specified
+  // partial URL.
+  /*--cef()--*/
+  virtual CefString GetCompleteURL(const CefString& partialURL) =0;
+};
+
+
+// Class used to represent a DOM node. The methods of this class should only be
+// called on the UI thread.
+/*--cef(source=library)--*/
+class CefDOMNode : public CefBase
+{
+public:
+  typedef std::map<CefString,CefString> AttributeMap;
+  typedef cef_dom_node_type_t Type;
+
+  // Returns the type for this node.
+  /*--cef()--*/
+  virtual Type GetType() =0;
+
+  // Returns true if this is a text node.
+  /*--cef()--*/
+  virtual bool IsText() =0;
+
+  // Returns true if this is an element node.
+  /*--cef()--*/
+  virtual bool IsElement() =0;
+
+  // Returns the name of this node.
+  /*--cef()--*/
+  virtual CefString GetName() =0;
+
+  // Returns the value of this node.
+  /*--cef()--*/
+  virtual CefString GetValue() =0;
+
+  // Set the value of this node. Returns true on success.
+  /*--cef()--*/
+  virtual bool SetValue(const CefString& value) =0;
+
+  // Returns the contents of this node as markup.
+  /*--cef()--*/
+  virtual CefString GetAsMarkup() =0;
+
+  // Returns the document associated with this node.
+  /*--cef()--*/
+  virtual CefRefPtr<CefDOMDocument> GetDocument() =0;
+
+  // Returns the parent node.
+  /*--cef()--*/
+  virtual CefRefPtr<CefDOMNode> GetParent() =0;
+
+  // Returns the previous sibling node.
+  /*--cef()--*/
+  virtual CefRefPtr<CefDOMNode> GetPreviousSibling() =0;
+
+  // Returns the next sibling node.
+  /*--cef()--*/
+  virtual CefRefPtr<CefDOMNode> GetNextSibling() =0;
+
+  // Returns true if this node has child nodes.
+  /*--cef()--*/
+  virtual bool HasChildren() =0;
+
+  // Return the first child node.
+  /*--cef()--*/
+  virtual CefRefPtr<CefDOMNode> GetFirstChild() =0;
+
+  // Returns the last child node.
+  /*--cef()--*/
+  virtual CefRefPtr<CefDOMNode> GetLastChild() =0;
+
+  // Add an event listener to this node for the specified event type. If
+  // |useCapture| is true then this listener will be considered a capturing
+  // listener. Capturing listeners will recieve all events of the specified
+  // type before the events are dispatched to any other event targets beneath
+  // the current node in the tree. Events which are bubbling upwards through
+  // the tree will not trigger a capturing listener. Separate calls to this
+  // method can be used to register the same listener with and without capture.
+  // See WebCore/dom/EventNames.h for the list of supported event types.
+  /*--cef()--*/
+  virtual void AddEventListener(const CefString& eventType,
+                                CefRefPtr<CefDOMEventListener> listener,
+                                bool useCapture) =0;
+
+  // The following methods are valid only for element nodes.
+
+  // Returns the tag name of this element.
+  /*--cef()--*/
+  virtual CefString GetElementTagName() =0;
+
+  // Returns true if this element has attributes.
+  /*--cef()--*/
+  virtual bool HasElementAttributes() =0;
+
+  // Returns true if this element has an attribute named |attrName|.
+  /*--cef()--*/
+  virtual bool HasElementAttribute(const CefString& attrName) =0;
+
+  // Returns the element attribute named |attrName|.
+  /*--cef()--*/
+  virtual CefString GetElementAttribute(const CefString& attrName) =0;
+
+  // Returns a map of all element attributes.
+  /*--cef()--*/
+  virtual void GetElementAttributes(AttributeMap& attrMap) =0;
+
+  // Set the value for the element attribute named |attrName|. Returns true on
+  // success.
+  /*--cef()--*/
+  virtual bool SetElementAttribute(const CefString& attrName,
+                                   const CefString& value) =0;
+
+  // Returns the inner text of the element.
+  /*--cef()--*/
+  virtual CefString GetElementInnerText() =0;
+};
+
+
+// Class used to represent a DOM event. The methods of this class should only
+// be called on the UI thread.
+/*--cef(source=library)--*/
+class CefDOMEvent : public CefBase
+{
+public:
+  typedef cef_dom_event_category_t Category;
+  typedef cef_dom_event_phase_t Phase;
+  
+  // Returns the event type.
+  /*--cef()--*/
+  virtual CefString GetType() =0;
+  
+  // Returns the event category.
+  /*--cef()--*/
+  virtual Category GetCategory() =0;
+  
+  // Returns the event processing phase.
+  /*--cef()--*/
+  virtual Phase GetPhase() =0;
+
+  // Returns true if the event can bubble up the tree.
+  /*--cef()--*/
+  virtual bool CanBubble() =0;
+  
+  // Returns true if the event can be canceled.
+  /*--cef()--*/
+  virtual bool CanCancel() =0;
+
+  // Returns the document associated with this event.
+  /*--cef()--*/
+  virtual CefRefPtr<CefDOMDocument> GetDocument() =0;
+
+  // Returns the target of the event.
+  /*--cef()--*/
+  virtual CefRefPtr<CefDOMNode> GetTarget() =0;
+
+  // Returns the current target of the event.
+  /*--cef()--*/
+  virtual CefRefPtr<CefDOMNode> GetCurrentTarget() =0;
+};
+
+
+// Interface to implement for handling DOM events. The methods of this class
+// will be called on the UI thread.
+/*--cef(source=client)--*/
+class CefDOMEventListener : public CefBase
+{
+public:
+  // Called when an event is received. The event object passed to this method
+  // contains a snapshot of the DOM at the time this method is executed. DOM
+  // objects are only valid for the scope of this method. Do not keep references
+  // to or attempt to access any DOM objects outside the scope of this method.
+  /*--cef()--*/
+  virtual void HandleEvent(CefRefPtr<CefDOMEvent> event) =0;
 };
 
 
