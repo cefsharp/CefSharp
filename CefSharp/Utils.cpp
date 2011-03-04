@@ -107,7 +107,7 @@ namespace CefSharp
 
     Object^ convertFromCef(CefRefPtr<CefV8Value> obj)
     {
-        if (obj->IsNull() || obj->IsUndefined())
+        if (obj->IsNull() || obj->IsUndefined() || obj->IsObject())
         {
             return nullptr;
         }
@@ -117,9 +117,8 @@ namespace CefSharp
             return gcnew System::Int32(obj->GetIntValue());
         if (obj->IsDouble())
             return gcnew System::Double(obj->GetDoubleValue());
-        if (obj->IsString()){
+        if (obj->IsString())
             return toClr(obj->GetStringValue());
-        }
 
         //TODO: What exception type?
         throw gcnew Exception("Cannot convert object from Cef to CLR.");
