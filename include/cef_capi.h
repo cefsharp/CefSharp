@@ -123,13 +123,36 @@ CEF_EXPORT void cef_do_message_loop_work();
 CEF_EXPORT int cef_register_extension(const cef_string_t* extension_name,
     const cef_string_t* javascript_code, struct _cef_v8handler_t* handler);
 
+// CEF supports two types of schemes, standard and non-standard.
+//
+// Standard schemes are subject to URL canonicalization and parsing rules as
+// defined in the Common Internet Scheme Syntax RFC 1738 Section 3.1 available
+// at http://www.ietf.org/rfc/rfc1738.txt
+//
+// In particular, the syntax for standard scheme URLs must be of the form:
+//
+//  <scheme>://<username>:<password>@<host>:<port>/<url-path>
+//
+// Standard scheme URLs must have a host component that is a fully qualified
+// domain name as defined in Section 3.5 of RFC 1034 [13] and Section 2.1 of RFC
+// 1123. These URLs will be canonicalized to "scheme://host/path" in the
+// simplest case and "scheme://username:password@host:port/path" in the most
+// explicit case. For example, "scheme:host/path" and "scheme:///host/path" will
+// both be canonicalized to "scheme://host/path".
+//
+// For non-standard scheme URLs only the "scheme:" component is parsed and
+// canonicalized. The remainder of the URL will be passed to the handler as-is.
+// For example, "scheme:///some%20text" will remain the same. Non-standard
+// scheme URLs cannot be used as a target for form submission.
+//
 // Register a custom scheme handler factory for the specified |scheme_name| and
-// |host_name|. All URLs beginning with scheme_name://host_name/ can be handled
-// by cef_scheme_handler_t instances returned by the factory. Specify an NULL
-// |host_name| value to match all host names. This function may be called on any
-// thread.
+// optional |host_name|. Specifying an NULL |host_name| value for standard
+// schemes will match all host names. The |host_name| value will be ignored for
+// non-standard schemes. Set |is_standard| to true (1) to register as a standard
+// scheme or false (0) to register a non-standard scheme. This function may be
+// called on any thread.
 CEF_EXPORT int cef_register_scheme(const cef_string_t* scheme_name,
-    const cef_string_t* host_name,
+    const cef_string_t* host_name, int is_standard,
     struct _cef_scheme_handler_factory_t* factory);
 
 // CEF maintains multiple internal threads that are used for handling different

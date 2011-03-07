@@ -3,6 +3,7 @@
 
 #include "CefSharp.h"
 #include "HandlerAdapter.h"
+#include "IBeforeCreated.h"
 #include "IBeforeResourceLoad.h"
 #include "ConsoleMessageEventArgs.h"
 #include "RtzCountdownEvent.h"
@@ -25,7 +26,8 @@ namespace CefSharp
         String^ _jsResult;
         bool _jsError;
 
-        IBeforeResourceLoad^ _beforeResourceLoadHandler;       
+        IBeforeCreated^ _beforeCreatedHandler;
+        IBeforeResourceLoad^ _beforeResourceLoadHandler;
         MCefRefPtr<HandlerAdapter> _handlerAdapter;
 
         AutoResetEvent^ _runJsFinished;
@@ -101,6 +103,12 @@ namespace CefSharp
         property String^ Address
         {
             String^ get() { return _address; }
+        }
+
+        property IBeforeCreated^ BeforeCreatedHandler
+        {
+          IBeforeCreated^ get() { return _beforeCreatedHandler; }
+          void set(IBeforeCreated^ handler) { _beforeCreatedHandler = handler; }
         }
 
         property IBeforeResourceLoad^ BeforeResourceLoadHandler

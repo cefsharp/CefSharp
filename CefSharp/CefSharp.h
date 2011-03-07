@@ -50,7 +50,7 @@ namespace CefSharp
         {
             String^ get()
             {
-                return "trunk r196";
+                return "trunk r199";
             }
         }
 
@@ -73,17 +73,17 @@ namespace CefSharp
             return success;
         }
 
-        static bool RegisterScheme(String^ schemeName, String^ hostName, ISchemeHandlerFactory^ factory)
+        static bool RegisterScheme(String^ schemeName, String^ hostName, bool is_standard, ISchemeHandlerFactory^ factory)
         {
             hostName = hostName ? hostName : "";
 
             CefRefPtr<SchemeHandlerFactoryWrapper> wrapper = new SchemeHandlerFactoryWrapper(factory);
-            return CefRegisterScheme(toNative(schemeName), toNative(hostName), static_cast<CefRefPtr<CefSchemeHandlerFactory>>(wrapper));
+            return CefRegisterScheme(toNative(schemeName), toNative(hostName), is_standard, static_cast<CefRefPtr<CefSchemeHandlerFactory>>(wrapper));
         }
 
         static bool RegisterScheme(String^ schemeName, ISchemeHandlerFactory^ factory)
         {
-            return RegisterScheme(schemeName, nullptr, factory);
+            return RegisterScheme(schemeName, nullptr, true, factory);
         }
 
         static bool RegisterJsObject(String^ name, Object^ objectToBind)

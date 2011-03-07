@@ -154,17 +154,39 @@ bool CefRegisterExtension(const CefString& extension_name,
                           const CefString& javascript_code,
                           CefRefPtr<CefV8Handler> handler);
 
-
+// CEF supports two types of schemes, standard and non-standard.
+//
+// Standard schemes are subject to URL canonicalization and parsing rules as
+// defined in the Common Internet Scheme Syntax RFC 1738 Section 3.1 available
+// at http://www.ietf.org/rfc/rfc1738.txt
+//
+// In particular, the syntax for standard scheme URLs must be of the form:
+//
+//  <scheme>://<username>:<password>@<host>:<port>/<url-path>
+//
+// Standard scheme URLs must have a host component that is a fully qualified
+// domain name as defined in Section 3.5 of RFC 1034 [13] and Section 2.1 of RFC
+// 1123. These URLs will be canonicalized to "scheme://host/path" in the
+// simplest case and "scheme://username:password@host:port/path" in the most
+// explicit case. For example, "scheme:host/path" and "scheme:///host/path" will
+// both be canonicalized to "scheme://host/path".
+//
+// For non-standard scheme URLs only the "scheme:" component is parsed and
+// canonicalized. The remainder of the URL will be passed to the handler as-is.
+// For example, "scheme:///some%20text" will remain the same. Non-standard
+// scheme URLs cannot be used as a target for form submission.
+//
 // Register a custom scheme handler factory for the specified |scheme_name| and
-// |host_name|. All URLs beginning with scheme_name://host_name/ can be handled
-// by CefSchemeHandler instances returned by the factory. Specify an empty
-// |host_name| value to match all host names. This function may be called on any
-// thread.
+// optional |host_name|. Specifying an empty |host_name| value for standard
+// schemes will match all host names. The |host_name| value will be ignored for
+// non-standard schemes. Set |is_standard| to true to register as a standard
+// scheme or false to register a non-standard scheme. This function may be
+// called on any thread.
 /*--cef()--*/
 bool CefRegisterScheme(const CefString& scheme_name,
                        const CefString& host_name,
+                       bool is_standard,
                        CefRefPtr<CefSchemeHandlerFactory> factory);
-
 
 typedef cef_thread_id_t CefThreadId;
 

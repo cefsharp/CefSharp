@@ -68,6 +68,19 @@ namespace CefSharp
         return RV_CONTINUE;
     }
 
+    CefHandler::RetVal HandlerAdapter::HandleBeforeCreated(CefRefPtr<CefBrowser> parentBrowser, CefWindowInfo& createInfo, bool popup, const CefPopupFeatures& popupFeatures, CefRefPtr<CefHandler>& handler, CefString& url, CefBrowserSettings& settings)
+    {
+        IBeforeCreated^ beforeCreatedHandler = _browserControl->BeforeCreatedHandler;
+        if (beforeCreatedHandler == nullptr || beforeCreatedHandler->HandleBeforeCreated(popup, toClr(url)))
+        {
+          return RV_CONTINUE;
+        }
+        else
+        {
+          return RV_HANDLED;
+        }
+    }
+
     CefHandler::RetVal HandlerAdapter::HandleBeforeResourceLoad(CefRefPtr<CefBrowser> browser, CefRefPtr<CefRequest> request, CefString& redirectUrl, CefRefPtr<CefStreamReader>& resourceStream, CefString& mimeType, int loadFlags) 
     {
         IBeforeResourceLoad^ handler = _browserControl->BeforeResourceLoadHandler;
@@ -115,5 +128,4 @@ namespace CefSharp
         _browserControl->RaiseConsoleMessage(messageStr, sourceStr, line);
         return RV_CONTINUE;
     }
-
 }

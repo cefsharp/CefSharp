@@ -302,6 +302,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\IBeforeCreated.h"
+				>
+			</File>
+			<File
 				RelativePath=".\IBeforeResourceLoad.h"
 				>
 			</File>
