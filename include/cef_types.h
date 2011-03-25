@@ -269,6 +269,22 @@ typedef struct _cef_urlparts_t
   cef_string_t query;
 } cef_urlparts_t;
 
+// Mouse button types.
+enum cef_mouse_button_type_t
+{
+  MBT_LEFT   = 0,
+  MBT_MIDDLE,
+  MBT_RIGHT,
+};
+
+// Key types.
+enum cef_key_type_t
+{
+  KT_KEYUP    = 0,
+  KT_KEYDOWN,
+  KT_CHAR,
+};
+
 // Define handler return value types. Returning RV_HANDLED indicates
 // that the implementation completely handled the method and that no further
 // processing is required.  Returning RV_CONTINUE indicates that the
@@ -348,16 +364,24 @@ enum cef_handler_errorcode_t
 // Structure representing menu information.
 typedef struct _cef_handler_menuinfo_t
 {
+  // Values from the cef_handler_menutypebits_t enumeration.
   int typeFlags;
+
+  // If window rendering is enabled |x| and |y| will be in screen coordinates.
+  // Otherwise, |x| and |y| will be in view coordinates.
   int x;
   int y;
+
   cef_string_t linkUrl;
   cef_string_t imageUrl;
   cef_string_t pageUrl;
   cef_string_t frameUrl;
   cef_string_t selectionText;
   cef_string_t misspelledWord;
+
+  // Values from the cef_handler_menucapabilitybits_t enumeration.
   int editFlags;
+
   cef_string_t securityInfo;
 } cef_handler_menuinfo_t;
 
@@ -423,6 +447,12 @@ enum cef_handler_menuid_t
   MENU_ID_SELECTALL = 26,
   MENU_ID_PRINT = 30,
   MENU_ID_VIEWSOURCE = 31,
+};
+
+enum cef_paint_element_type_t
+{
+  PET_VIEW  = 0,
+  PET_POPUP,
 };
 
 // Post data elements may represent either bytes or files.

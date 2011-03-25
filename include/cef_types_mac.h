@@ -45,6 +45,7 @@ class NSView;
 #else
 #define cef_window_handle_t void*
 #endif
+#define cef_cursor_handle_t void*
 
 #ifdef __cplusplus
 extern "C" {
@@ -58,6 +59,7 @@ typedef struct _cef_window_info_t
   int m_y;
   int m_nWidth;
   int m_nHeight;
+  int m_bHidden;
 
   // NSView pointer for the parent view.
   cef_window_handle_t m_ParentView;

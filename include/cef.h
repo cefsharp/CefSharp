@@ -86,11 +86,23 @@ bool CefInitialize(const CefSettings& settings,
 /*--cef()--*/
 void CefShutdown();
 
-// Perform message loop processing. This function must be called on the main
-// application thread if CefInitialize() is called with a
-// CefSettings.multi_threaded_message_loop value of false.
+// Perform a single iteration of CEF message loop processing. This function is
+// used to integrate the CEF message loop into an existing application message
+// loop. Care must be taken to balance performance against excessive CPU usage.
+// This function should only be called on the main application thread and only
+// if CefInitialize() is called with a CefSettings.multi_threaded_message_loop
+// value of false. This function will not block.
 /*--cef()--*/
 void CefDoMessageLoopWork();
+
+// Run the CEF message loop. Use this function instead of an application-
+// provided message loop to get the best balance between performance and CPU
+// usage. This function should only be called on the main application thread and
+// only if CefInitialize() is called with a
+// CefSettings.multi_threaded_message_loop value of false. This function will
+// block until a quit message is received by the system.
+/*--cef()--*/
+void CefRunMessageLoop();
 
 // Register a new V8 extension with the specified JavaScript extension code and
 // handler. Functions implemented by the handler are prototyped using the
@@ -243,7 +255,7 @@ public:
   virtual int Release() =0;
 
   // Return the current number of references.
-  virtual int GetRefCt() = 0;
+  virtual int GetRefCt() =0;
 };
 
 
@@ -419,6 +431,10 @@ public:
 class CefBrowser : public CefBase
 {
 public:
+  typedef cef_key_type_t KeyType;
+  typedef cef_mouse_button_type_t MouseButtonType;
+  typedef cef_paint_element_type_t PaintElementType;
+
   // Create a new browser window using the window parameters specified by
   // |windowInfo|. All values will be copied internally and the actual window
   // will be created on the UI thread. The |popup| parameter should be true if
@@ -436,6 +452,10 @@ public:
                                                  bool popup,
                                                  CefRefPtr<CefHandler> handler,
                                                  const CefString& url);
+
+  // Closes this browser window.
+  /*--cef()--*/
+  virtual void CloseBrowser() =0;
 
   // Returns true if the browser can navigate backwards.
   /*--cef()--*/
@@ -524,6 +544,73 @@ public:
   // instance.
   /*--cef()--*/
   virtual void CloseDevTools() =0;
+
+  // Returns true if window rendering is disabled.
+  /*--cef()--*/
+  virtual bool IsWindowRenderingDisabled() =0;
+
+  // Get the size of the specified element. This method should only be called on
+  // the UI thread.
+  /*--cef()--*/
+  virtual bool GetSize(PaintElementType type, int& width, int& height) =0;
+
+  // Set the size of the specified element. This method is only used when window
+  // rendering is disabled.
+  /*--cef()--*/
+  virtual void SetSize(PaintElementType type, int width, int height) =0;
+
+  // Returns true if a popup is currently visible. This method should only be
+  // called on the UI thread.
+  /*--cef()--*/
+  virtual bool IsPopupVisible() =0;
+
+  // Hide the currently visible popup, if any.
+  /*--cef()--*/
+  virtual void HidePopup() =0;
+
+  // Invalidate the |dirtyRect| region of the view. This method is only used
+  // when window rendering is disabled and will result in a call to
+  // HandlePaint(). 
+  /*--cef()--*/
+  virtual void Invalidate(const CefRect& dirtyRect) =0;
+
+  // Get the raw image data contained in the specified element without
+  // performing validation. The specified |width| and |height| dimensions must
+  // match the current element size. On Windows |buffer| must be width*height*4
+  // bytes in size and represents a BGRA image with an upper-left origin. This
+  // method should only be called on the UI thread.
+  /*--cef()--*/
+  virtual bool GetImage(PaintElementType type, int width, int height,
+                        void* buffer) =0;
+
+  // Send a key event to the browser.
+  /*--cef()--*/
+  virtual void SendKeyEvent(KeyType type, int key, int modifiers, bool sysChar,
+                            bool imeChar) =0;  
+
+  // Send a mouse click event to the browser. The |x| and |y| coordinates are
+  // relative to the upper-left corner of the view.
+  /*--cef()--*/
+  virtual void SendMouseClickEvent(int x, int y, MouseButtonType type,
+                                   bool mouseUp, int clickCount) =0;
+
+  // Send a mouse move event to the browser. The |x| and |y| coordinates are
+  // relative to the upper-left corner of the view.
+  /*--cef()--*/
+  virtual void SendMouseMoveEvent(int x, int y, bool mouseLeave) =0;
+
+  // Send a mouse wheel event to the browser. The |x| and |y| coordinates are
+  // relative to the upper-left corner of the view.
+  /*--cef()--*/
+  virtual void SendMouseWheelEvent(int x, int y, int delta) =0;
+
+  // Send a focus event to the browser.
+  /*--cef()--*/
+  virtual void SendFocusEvent(bool setFocus) =0;
+
+  // Send a capture lost event to the browser.
+  /*--cef()--*/
+  virtual void SendCaptureLostEvent() =0;
 };
 
 
@@ -685,6 +772,12 @@ public:
   virtual RetVal HandleTitleChange(CefRefPtr<CefBrowser> browser,
                                    const CefString& title) =0;
 
+  // Called on the UI thread when the navigation state has changed. The return
+  // value is currently ignored.
+  /*--cef()--*/
+  virtual RetVal HandleNavStateChange(CefRefPtr<CefBrowser> browser,
+                                      bool canGoBack, bool canGoForward) =0;
+
   // Various browser navigation types supported by chrome.
   typedef cef_handler_navtype_t NavType;
 
@@ -697,27 +790,26 @@ public:
                                     CefRefPtr<CefRequest> request,
                                     NavType navType, bool isRedirect) =0;
 
-  // Called on the UI thread when the browser begins loading a page. The |frame|
-  // pointer will be empty if the event represents the overall load status and
-  // not the load status for a particular frame. |isMainContent| will be true if
-  // this load is for the main content area and not an iframe. This method may
-  // not be called if the load request fails. The return value is currently
-  // ignored.
+  // Called on the UI thread when the browser begins loading a frame. The
+  // |frame| value will never be empty -- call the IsMain() method to check if
+  // this frame is the main frame. Multiple frames may be loading at the same
+  // time. Sub-frames may start or continue loading after the main frame load
+  // has ended. This method may not be called for a particular frame if the load
+  // request for that frame fails. The return value is currently ignored.
   /*--cef()--*/
   virtual RetVal HandleLoadStart(CefRefPtr<CefBrowser> browser,
-                                 CefRefPtr<CefFrame> frame,
-                                 bool isMainContent) =0;
+                                 CefRefPtr<CefFrame> frame) =0;
 
-  // Called on the UI thread when the browser is done loading a page. The
-  // |frame| pointer will be empty if the event represents the overall load
-  // status and not the load status for a particular frame. |isMainContent| will
-  // be true if this load is for the main content area and not an iframe. This
-  // method will be called irrespective of whether the request completes
-  // successfully. The return value is currently ignored.
+  // Called on the UI thread when the browser is done loading a frame. The
+  // |frame| value will never be empty -- call the IsMain() method to check if
+  // this frame is the main frame. Multiple frames may be loading at the same
+  // time. Sub-frames may start or continue loading after the main frame load
+  // has ended. This method will always be called for all frames irrespective of
+  // whether the request completes successfully. The return value is currently
+  // ignored.
   /*--cef()--*/
   virtual RetVal HandleLoadEnd(CefRefPtr<CefBrowser> browser,
                                CefRefPtr<CefFrame> frame,
-                               bool isMainContent,
                                int httpStatusCode) =0;
 
   // Supported error code values. See net\base\net_error_list.h for complete
@@ -829,7 +921,7 @@ public:
   // options or RV_HANDLED to display the modified |printOptions|.
   /*--cef()--*/
   virtual RetVal HandlePrintOptions(CefRefPtr<CefBrowser> browser,
-                                    CefPrintOptions& printOptions) = 0;
+                                    CefPrintOptions& printOptions) =0;
 
   // Called on the UI thread to format print headers and footers. |printInfo|
   // contains platform-specific information about the printer context. |url| is
@@ -967,8 +1059,56 @@ public:
                                   int identifier, int count,
                                   const CefRect& selectionRect,
                                   int activeMatchOrdinal, bool finalUpdate) =0;
-};
 
+  // Called on the UI thread to retrieve either the simulated screen rectangle
+  // if |screen| is true or the view rectangle if |screen| is false. The view
+  // rectangle is relative to the screen coordinates. This method is only called
+  // if window rendering has been disabled. Return RV_CONTINUE if the rectangle
+  // was provided.
+  /*--cef()--*/
+  virtual RetVal HandleGetRect(CefRefPtr<CefBrowser> browser, bool screen,
+                               CefRect& rect) =0;
+
+  // Called on the UI thread retrieve the translation from view coordinates to
+  // actual screen coordinates. This method is only called if window rendering
+  // has been disabled. Return RV_CONTINUE if the screen coordinates were
+  // provided.
+  /*--cef()--*/
+  virtual RetVal HandleGetScreenPoint(CefRefPtr<CefBrowser> browser,
+                                      int viewX, int viewY, int& screenX,
+                                      int& screenY) =0;
+
+  // Called on the UI thread when the browser wants to show, hide, resize or
+  // move the popup. If |show| is true and |rect| is zero size then the popup
+  // should be shown. If |show| is true and |rect| is non-zero size then |rect|
+  // represents the popup location in view coordinates. If |show| is false
+  // then the popup should be hidden. This method is only called if window
+  // rendering has been disabled. The return value is currently ignored.
+  /*--cef()--*/
+  virtual RetVal HandlePopupChange(CefRefPtr<CefBrowser> browser, bool show,
+                                   const CefRect& rect) =0;
+
+  typedef cef_paint_element_type_t PaintElementType;
+
+  // Called when an element should be painted. |type| indicates whether the
+  // element is the view or the popup. |buffer| contains the pixel data for the
+  // whole image. |dirtyRect| indicates the portion of the image that has been
+  // repainted. On Windows |buffer| will be width*height*4 bytes in size and
+  // represents a BGRA image with an upper-left origin. This method is only
+  // called if window rendering has been disabled. The return value is currently
+  // ignored.
+  /*--cef()--*/
+  virtual RetVal HandlePaint(CefRefPtr<CefBrowser> browser,
+                             PaintElementType type, const CefRect& dirtyRect,
+                             const void* buffer) =0;
+
+  // Called when the browser window's cursor has changed. This method is only
+  // called if window rendering has been disabled. The return value is currently
+  // ignored.
+  /*--cef()--*/
+  virtual RetVal HandleCursorChange(CefRefPtr<CefBrowser> browser,
+                                    CefCursorHandle cursor) =0;
+};
 
 // Class used to represent a web request. The methods of this class may be
 // called on any thread.
@@ -1017,16 +1157,16 @@ public:
 
   // Optional flags. Used in combination with CefWebURLRequest.
   /*--cef()--*/
-  virtual RequestFlags GetFlags() = 0;
+  virtual RequestFlags GetFlags() =0;
   /*--cef()--*/
-  virtual void SetFlags(RequestFlags flags) = 0;
+  virtual void SetFlags(RequestFlags flags) =0;
 
   // Optional URL to the first party for cookies. Used in combination with
   // CefWebURLRequest.
   /*--cef()--*/
-  virtual CefString GetFirstPartyForCookies() = 0;
+  virtual CefString GetFirstPartyForCookies() =0;
   /*--cef()--*/
-  virtual void SetFirstPartyForCookies(const CefString& url) = 0;
+  virtual void SetFirstPartyForCookies(const CefString& url) =0;
 };
 
 
@@ -1120,15 +1260,15 @@ public:
 
   // Returns the response status code.
   /*--cef()--*/
-  virtual int GetStatus() = 0;
+  virtual int GetStatus() =0;
 
   // Returns the response status text.
   /*--cef()--*/
-  virtual CefString GetStatusText() = 0;
+  virtual CefString GetStatusText() =0;
 
   // Returns the value for the specified response header field.
   /*--cef()--*/
-  virtual CefString GetHeader(const CefString& name) = 0;
+  virtual CefString GetHeader(const CefString& name) =0;
 
   // Retrieves a map of all response header fields.
   /*--cef()--*/

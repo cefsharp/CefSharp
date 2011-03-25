@@ -41,6 +41,7 @@ extern "C" {
 
 // Window handle.
 #define cef_window_handle_t HWND
+#define cef_cursor_handle_t HCURSOR
 
 // Class representing window information.
 typedef struct _cef_window_info_t
@@ -55,6 +56,11 @@ typedef struct _cef_window_info_t
   int m_nHeight;
   cef_window_handle_t m_hWndParent;
   HMENU m_hMenu;
+
+  // If window rendering is disabled no browser window will be created. Set
+  // |m_hWndParent| to the window that will act as the parent for popup menus,
+  // dialog boxes, etc.
+  BOOL m_bWindowRenderingDisabled;
   
   // Handle for the new browser window.
   cef_window_handle_t m_hWnd;

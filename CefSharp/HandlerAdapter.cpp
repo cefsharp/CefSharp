@@ -37,7 +37,7 @@ namespace CefSharp
         return RV_CONTINUE; 
     }
 
-    CefHandler::RetVal HandlerAdapter::HandleLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, bool isMainContent)
+    CefHandler::RetVal HandlerAdapter::HandleLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame)
     {
         if(!browser->IsPopup())
         {
@@ -52,7 +52,7 @@ namespace CefSharp
         return RV_CONTINUE;
     }
 
-    CefHandler::RetVal HandlerAdapter::HandleLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, bool isMainContent, int httpStatusCode)
+    CefHandler::RetVal HandlerAdapter::HandleLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode)
     {
         if(!browser->IsPopup())
         {
