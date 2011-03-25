@@ -42,7 +42,7 @@ namespace CefSharp
         if(!browser->IsPopup())
         {
             Lock();
-            if(!frame.get())
+            if (frame->IsMain())
             {
                 _browserControl->SetNavState(true, false, false);
             }
@@ -57,7 +57,7 @@ namespace CefSharp
         if(!browser->IsPopup())
         {
             Lock();
-            if(!frame.get())
+            if (frame->IsMain())
             {
                 _browserControl->SetNavState(false, browser->CanGoBack(), browser->CanGoForward());        
             }
