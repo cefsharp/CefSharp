@@ -17,6 +17,16 @@ namespace CefSharp
             void set(bool val) { _cefSettings->multi_threaded_message_loop = val; }
         }
 
+        void AddPluginPath(const cef_string_t *path)
+        {
+            if (!_cefSettings->extra_plugin_paths)
+            {
+                _cefSettings->extra_plugin_paths = cef_string_list_alloc();
+            }
+
+            cef_string_list_append(_cefSettings->extra_plugin_paths, path);
+        }
+
     public:
         Settings() : _cefSettings(new CefSettings())
         {
@@ -76,6 +86,17 @@ namespace CefSharp
             {
                 assignFromString(_cefSettings->locale, locale);
             }
+        }
+
+        void AddPluginPath(String^ path)
+        {
+            cef_string_t str;
+
+            memset(&str, 0, sizeof(cef_string_t));
+            assignFromString(str, path);
+
+            AddPluginPath(&str);
+            // XXX: free?
         }
     };
 
