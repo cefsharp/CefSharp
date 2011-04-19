@@ -7,6 +7,7 @@
 using namespace System::Windows;
 using namespace System::Windows::Controls;
 using namespace System::Windows::Interop;
+using namespace System::Windows::Media::Imaging;
 using namespace System::Threading;
 
 namespace CefSharp
@@ -15,9 +16,10 @@ namespace CefSharp
     {
         MCefRefPtr<WpfHandlerAdapter> _handlerAdapter;
         ManualResetEvent^ _browserInitialized;
+        
+        WriteableBitmap^ _bitmap;
 
     internal:
-
         virtual void OnInitialized();
 
     protected:
@@ -45,6 +47,8 @@ namespace CefSharp
 
             CefBrowser::CreateBrowser(window, false, static_cast<CefRefPtr<CefHandler>>(ptr), url);
         }
+
+        virtual void Paint(const CefRect& dirtyRect, const void* buffer) override;
     };
 }
 

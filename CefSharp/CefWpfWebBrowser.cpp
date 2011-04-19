@@ -12,13 +12,17 @@ namespace CefSharp
     Size CefWpfWebBrowser::ArrangeOverride(Size size)
     {
         _handlerAdapter->GetCefBrowser()->SetSize(PET_VIEW, size.Width, size.Height);
-
         return Image::ArrangeOverride(size);
     }
 
     void CefWpfWebBrowser::OnGotFocus(EventArgs^ e)
     {
 
+    }
+
+    void CefWpfWebBrowser::Paint(const CefRect& dirtyRect, const void* buffer)
+    {
+        System::Console::WriteLine("wpf paint");
     }
 }
 
