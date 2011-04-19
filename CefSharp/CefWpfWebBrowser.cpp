@@ -4,9 +4,15 @@
 
 namespace CefSharp
 {
+    void CefWpfWebBrowser::OnInitialized()
+    {
+        _browserInitialized->Set();
+    }
+
     Size CefWpfWebBrowser::ArrangeOverride(Size size)
     {
-        Console::WriteLine("ArrangeOverride: {0}x{1}", size.Width, size.Height);
+        _handlerAdapter->GetCefBrowser()->SetSize(PET_VIEW, size.Width, size.Height);
+
         return Image::ArrangeOverride(size);
     }
 

@@ -23,8 +23,9 @@ namespace CefSharp
         ~WpfHandlerAdapter() { _browserControl = nullptr; }
         WpfHandlerAdapter(CefWpfWebBrowser^ browserControl) : _browserControl(browserControl) {}
 
+        virtual RetVal HandleAfterCreated(CefRefPtr<CefBrowser> browser);
+
         virtual RetVal HandleAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& url) { return RV_CONTINUE; }
-        virtual RetVal HandleAfterCreated(CefRefPtr<CefBrowser> browser) { return RV_CONTINUE; }
         virtual RetVal HandleTitleChange(CefRefPtr<CefBrowser> browser, const CefString& title) { return RV_CONTINUE; }
         virtual RetVal HandleLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame) { return RV_CONTINUE; }
         virtual RetVal HandleLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode) { return RV_CONTINUE; }

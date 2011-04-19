@@ -1,10 +1,20 @@
 #include "stdafx.h"
 
 #include "WpfHandlerAdapter.h"
+#include "CefWpfWebBrowser.h"
 
 namespace CefSharp
 {
+    CefHandler::RetVal WpfHandlerAdapter::HandleAfterCreated(CefRefPtr<CefBrowser> browser) 
+    { 
+        if(!browser->IsPopup()) 
+        {
+            _cefBrowser = browser;
+            _browserControl->OnInitialized();
+        }
 
+        return RV_CONTINUE; 
+    }
 }
 
 /*

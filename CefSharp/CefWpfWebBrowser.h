@@ -7,12 +7,18 @@
 using namespace System::Windows;
 using namespace System::Windows::Controls;
 using namespace System::Windows::Interop;
+using namespace System::Threading;
 
 namespace CefSharp
 {
     public ref class CefWpfWebBrowser sealed : public Image
     {
         MCefRefPtr<WpfHandlerAdapter> _handlerAdapter;
+        ManualResetEvent^ _browserInitialized;
+
+    internal:
+
+        virtual void OnInitialized();
 
     protected:
         virtual Size ArrangeOverride(Size size) override;
@@ -26,6 +32,8 @@ namespace CefSharp
                 throw gcnew InvalidOperationException("CEF is not initialized");
             }
 
+            _browserInitialized = gcnew ManualResetEvent(false);
+
             CefString url = toNative(address);
 
             HWND hWnd = static_cast<HWND>(source->Handle.ToPointer());
@@ -34,7 +42,6 @@ namespace CefSharp
 
             _handlerAdapter = new WpfHandlerAdapter(this);
             CefRefPtr<WpfHandlerAdapter> ptr = _handlerAdapter.get();
-
 
             CefBrowser::CreateBrowser(window, false, static_cast<CefRefPtr<CefHandler>>(ptr), url);
         }
