@@ -4,6 +4,12 @@
 
 namespace CefSharp
 {
+    Size CefWpfWebBrowser::ArrangeOverride(Size size)
+    {
+        Console::WriteLine("ArrangeOverride: {0}x{1}", size.Width, size.Height);
+        return Image::ArrangeOverride(size);
+    }
+
     void CefWpfWebBrowser::OnGotFocus(EventArgs^ e)
     {
 

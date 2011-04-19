@@ -4,6 +4,7 @@
 #include "CefSharp.h"
 #include "WpfHandlerAdapter.h"
 
+using namespace System::Windows;
 using namespace System::Windows::Controls;
 using namespace System::Windows::Interop;
 
@@ -14,6 +15,7 @@ namespace CefSharp
         MCefRefPtr<WpfHandlerAdapter> _handlerAdapter;
 
     protected:
+        virtual Size ArrangeOverride(Size size) override;
         virtual void OnGotFocus(EventArgs^ e) override;
 
     public:
