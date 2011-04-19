@@ -196,6 +196,21 @@
 			AssemblyName="System.Drawing, Version=2.0.0.0, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
 			MinFrameworkVersion="131072"
 		/>
+		<AssemblyReference
+			RelativePath="PresentationCore.dll"
+			AssemblyName="PresentationCore, Version=3.0.0.0, PublicKeyToken=31bf3856ad364e35, processorArchitecture=IA64"
+			MinFrameworkVersion="196608"
+		/>
+		<AssemblyReference
+			RelativePath="PresentationFramework.dll"
+			AssemblyName="PresentationFramework, Version=3.0.0.0, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
+			MinFrameworkVersion="196608"
+		/>
+		<AssemblyReference
+			RelativePath="WindowsBase.dll"
+			AssemblyName="WindowsBase, Version=3.0.0.0, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
+			MinFrameworkVersion="196608"
+		/>
 	</References>
 	<Files>
 		<Filter
@@ -217,6 +232,10 @@
 			</File>
 			<File
 				RelativePath=".\CefWebBrowser.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CefWpfWebBrowser.cpp"
 				>
 			</File>
 			<File
@@ -275,6 +294,10 @@
 				RelativePath=".\Utils.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\WpfHandlerAdapter.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -295,6 +318,10 @@
 			</File>
 			<File
 				RelativePath=".\CefWebBrowser.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CefWpfWebBrowser.h"
 				>
 			</File>
 			<File
@@ -359,6 +386,10 @@
 			</File>
 			<File
 				RelativePath=".\Utils.h"
+				>
+			</File>
+			<File
+				RelativePath=".\WpfHandlerAdapter.h"
 				>
 			</File>
 		</Filter>

@@ -1,8 +1,9 @@
 ﻿<Window x:Class="CefSharp.WpfExample.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="CefSharp.WpfExample" Height="300" Width="300">
+    Title="CefSharp.WpfExample" Height="300" Width="300"
+    SourceInitialized="Window_SourceInitialized">
     <Grid>
-        
+        <Frame Name="frame" />
     </Grid>
 </Window>

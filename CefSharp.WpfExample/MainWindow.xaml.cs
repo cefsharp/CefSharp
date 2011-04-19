@@ -1,16 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CefSharp.WpfExample
 {
@@ -22,6 +13,20 @@ namespace CefSharp.WpfExample
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void Window_SourceInitialized(object sender, EventArgs e)
+        {
+            Settings settings = new Settings();
+            BrowserSettings browserSettings = new BrowserSettings();
+
+            if (!CEF.Initialize(settings, browserSettings))
+            {
+                return;
+            }
+
+            var source = PresentationSource.FromVisual(sender as Visual) as HwndSource;
+            this.frame.Content = new CefWpfWebBrowser(source, "https://github.com/ataranto/CefSharp");
         }
     }
 }
