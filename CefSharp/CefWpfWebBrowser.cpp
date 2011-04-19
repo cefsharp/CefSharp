@@ -11,7 +11,20 @@ namespace CefSharp
 
     Size CefWpfWebBrowser::ArrangeOverride(Size size)
     {
+        Matrix transform = PresentationSource::FromVisual(this)->CompositionTarget->TransformToDevice;
+
+        int w = size.Width * transform.M11;
+        int h = size.Height * transform.M22;
+
+        if (!_bitmap ||
+            _bitmap->PixelWidth != w ||
+            _bitmap->PixelHeight != h)
+        {
+            _bitmap = gcnew WriteableBitmap(w, h, 96 * transform.M11, 96 * transform.M22, PixelFormats::Bgr32, nullptr);
+        }
+
         _handlerAdapter->GetCefBrowser()->SetSize(PET_VIEW, size.Width, size.Height);
+
         return Image::ArrangeOverride(size);
     }
 

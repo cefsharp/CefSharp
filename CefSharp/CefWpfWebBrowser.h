@@ -4,9 +4,12 @@
 #include "CefSharp.h"
 #include "WpfHandlerAdapter.h"
 
+using namespace System;
+using namespace System::Runtime::InteropServices;
 using namespace System::Windows;
 using namespace System::Windows::Controls;
 using namespace System::Windows::Interop;
+using namespace System::Windows::Media;
 using namespace System::Windows::Media::Imaging;
 using namespace System::Threading;
 
