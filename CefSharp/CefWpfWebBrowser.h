@@ -8,6 +8,7 @@ using namespace System;
 using namespace System::Runtime::InteropServices;
 using namespace System::Windows;
 using namespace System::Windows::Controls;
+using namespace System::Windows::Input;
 using namespace System::Windows::Interop;
 using namespace System::Windows::Media;
 using namespace System::Windows::Media::Imaging;
@@ -27,11 +28,16 @@ namespace CefSharp
 
     protected:
         virtual Size ArrangeOverride(Size size) override;
-        virtual void OnGotFocus(EventArgs^ e) override;
+        virtual void OnGotFocus(RoutedEventArgs^ e) override;
+        virtual void OnLostFocus(RoutedEventArgs^ e) override;
+        virtual void OnPreviewMouseMove(MouseEventArgs^ e) override;
+        virtual void OnMouseLeave(MouseEventArgs^ e) override;
 
     public:
         CefWpfWebBrowser(HwndSource^ source, String^ address)
         {
+            Focusable = true;
+
             if (!CEF::IsInitialized)
             {
                 throw gcnew InvalidOperationException("CEF is not initialized");
@@ -51,7 +57,8 @@ namespace CefSharp
             CefBrowser::CreateBrowser(window, false, static_cast<CefRefPtr<CefHandler>>(ptr), url);
         }
 
-        virtual void Paint(const CefRect& dirtyRect, const void* buffer) override;
+        void SetCursor(CefCursorHandle cursor);
+        void Paint(const CefRect& dirtyRect, const void* buffer);
     };
 }
 

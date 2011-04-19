@@ -16,6 +16,26 @@ namespace CefSharp
         return RV_CONTINUE; 
     }
 
+    CefHandler::RetVal WpfHandlerAdapter::HandleGetRect(CefRefPtr<CefBrowser> browser, bool screen, CefRect& rect)
+    {
+        rect.x = rect.y = 0;
+        rect.width = rect.height = 256; // XXX
+
+        return RV_CONTINUE;
+    }
+
+    CefHandler::RetVal WpfHandlerAdapter::HandleGetScreenPoint(CefRefPtr<CefBrowser> browser, int viewX, int viewY, int& screenX, int& screenY)
+    {
+        return RV_CONTINUE;
+    }
+
+        
+    CefHandler::RetVal WpfHandlerAdapter::HandleCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor)
+    {
+        _browserControl->SetCursor(cursor);
+        return RV_CONTINUE;
+    }
+
     CefHandler::RetVal WpfHandlerAdapter::HandlePaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const CefRect& dirtyRect, const void* buffer)
     {
         Console::WriteLine("HandlePaint: {0},{1} {2}x{3}", dirtyRect.x, dirtyRect.y, dirtyRect.width, dirtyRect.height);

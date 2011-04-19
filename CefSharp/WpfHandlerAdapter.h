@@ -24,6 +24,9 @@ namespace CefSharp
         WpfHandlerAdapter(CefWpfWebBrowser^ browserControl) : _browserControl(browserControl) {}
 
         virtual RetVal HandleAfterCreated(CefRefPtr<CefBrowser> browser);
+        virtual RetVal HandleGetRect(CefRefPtr<CefBrowser> browser, bool screen, CefRect& rect);
+        virtual RetVal HandleGetScreenPoint(CefRefPtr<CefBrowser> browser, int viewX, int viewY, int& screenX, int& screenY);
+        virtual RetVal HandleCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor);
         virtual RetVal HandlePaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const CefRect& dirtyRect, const void* buffer);
 
         virtual RetVal HandleAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& url) { return RV_CONTINUE; }
@@ -55,10 +58,7 @@ namespace CefSharp
         virtual RetVal HandleTooltip(CefRefPtr<CefBrowser> browser, CefString& text) { return RV_CONTINUE; }
         virtual RetVal HandleKeyEvent(CefRefPtr<CefBrowser> browser, KeyEventType type, int code, int modifiers, bool isSystemKey) { return RV_CONTINUE; }
         virtual RetVal HandleFindResult(CefRefPtr<CefBrowser> browser, int identifier, int count, const CefRect& selectionRect, int activeMatchOrdinal, bool finalUpdate) { return RV_CONTINUE; }
-        virtual RetVal HandleGetRect(CefRefPtr<CefBrowser> browser, bool screen, CefRect& rect) { return RV_CONTINUE; }
-        virtual RetVal HandleGetScreenPoint(CefRefPtr<CefBrowser> browser, int viewX, int viewY, int& screenX, int& screenY) { return RV_CONTINUE; }
         virtual RetVal HandlePopupChange(CefRefPtr<CefBrowser> browser, bool show, const CefRect& rect) { return RV_CONTINUE; }
-        virtual RetVal HandleCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor) { return RV_CONTINUE; }
         virtual RetVal HandleProtocolExecution(CefRefPtr<CefBrowser> browser, const CefString& url, bool* allow_os_execution) { return RV_CONTINUE; }
         virtual RetVal HandleStatus(CefRefPtr<CefBrowser> browser, const CefString& value, StatusType type) { return RV_CONTINUE; }
 

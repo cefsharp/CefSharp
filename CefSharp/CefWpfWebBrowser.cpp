@@ -13,8 +13,8 @@ namespace CefSharp
     {
         Matrix transform = PresentationSource::FromVisual(this)->CompositionTarget->TransformToDevice;
 
-        int w = size.Width * transform.M11;
-        int h = size.Height * transform.M22;
+        int w = (int)(size.Width * transform.M11);
+        int h = (int)(size.Height * transform.M22);
 
         if (!_bitmap ||
             _bitmap->PixelWidth != w ||
@@ -23,19 +23,46 @@ namespace CefSharp
             _bitmap = gcnew WriteableBitmap(w, h, 96 * transform.M11, 96 * transform.M22, PixelFormats::Bgr32, nullptr);
         }
 
-        _handlerAdapter->GetCefBrowser()->SetSize(PET_VIEW, size.Width, size.Height);
+        _handlerAdapter->GetCefBrowser()->SetSize(PET_VIEW, (int)size.Width, (int)size.Height);
 
         return Image::ArrangeOverride(size);
     }
 
-    void CefWpfWebBrowser::OnGotFocus(EventArgs^ e)
+    void CefWpfWebBrowser::OnGotFocus(RoutedEventArgs^ e)
     {
+        System::Console::WriteLine("OnGotFocus");
+        _handlerAdapter->GetCefBrowser()->SendFocusEvent(true);
+        Image::OnGotFocus(e);
+    }
 
+    void CefWpfWebBrowser::OnLostFocus(RoutedEventArgs^ e)
+    {
+        System::Console::WriteLine("OnLostFocus");
+        _handlerAdapter->GetCefBrowser()->SendFocusEvent(false);
+        Image::OnLostFocus(e);
+    }
+
+    void CefWpfWebBrowser::OnPreviewMouseMove(MouseEventArgs^ e)
+    {
+        Point point = e->GetPosition(this);
+        System::Console::WriteLine("OnMouseMove: {0}x{1}", point.X, point.Y);
+        _handlerAdapter->GetCefBrowser()->SendMouseMoveEvent((int)point.X, (int)point.Y, false);
+    }
+
+    void CefWpfWebBrowser::OnMouseLeave(MouseEventArgs^ e)
+    {
+        System::Console::WriteLine("OnMouseLeave");
+        _handlerAdapter->GetCefBrowser()->SendMouseMoveEvent(0, 0, true);
+    }
+
+    void CefWpfWebBrowser::SetCursor(CefCursorHandle cursor)
+    {
+        System::Console::WriteLine("SetCursor");
     }
 
     void CefWpfWebBrowser::Paint(const CefRect& dirtyRect, const void* buffer)
     {
-        System::Console::WriteLine("wpf paint");
+        System::Console::WriteLine("Paint");
     }
 }
 
