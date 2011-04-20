@@ -4,6 +4,7 @@
 #include "CefSharp.h"
 #include "WpfHandlerAdapter.h"
 
+using namespace Microsoft::Win32::SafeHandles;
 using namespace System;
 using namespace System::Runtime::InteropServices;
 using namespace System::Windows;
@@ -12,6 +13,7 @@ using namespace System::Windows::Input;
 using namespace System::Windows::Interop;
 using namespace System::Windows::Media;
 using namespace System::Windows::Media::Imaging;
+using namespace System::Windows::Threading;
 using namespace System::Threading;
 
 namespace CefSharp
@@ -25,6 +27,10 @@ namespace CefSharp
 
     internal:
         virtual void OnInitialized();
+
+    private:
+        void UpdateSource();
+        void SetCursor(SafeFileHandle^ handle);
 
     protected:
         virtual Size ArrangeOverride(Size size) override;

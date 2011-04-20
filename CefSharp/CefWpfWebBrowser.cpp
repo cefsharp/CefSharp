@@ -20,7 +20,7 @@ namespace CefSharp
             _bitmap->PixelWidth != w ||
             _bitmap->PixelHeight != h)
         {
-            _bitmap = gcnew WriteableBitmap(w, h, 96 * transform.M11, 96 * transform.M22, PixelFormats::Bgr32, nullptr);
+            Source = _bitmap = gcnew WriteableBitmap(w, h, 96 * transform.M11, 96 * transform.M22, PixelFormats::Bgr32, nullptr);
         }
 
         _handlerAdapter->GetCefBrowser()->SetSize(PET_VIEW, (int)size.Width, (int)size.Height);
@@ -57,12 +57,24 @@ namespace CefSharp
 
     void CefWpfWebBrowser::SetCursor(CefCursorHandle cursor)
     {
-        System::Console::WriteLine("SetCursor");
+        SafeFileHandle^ handle = gcnew SafeFileHandle((IntPtr)cursor, false);
+        Dispatcher->BeginInvoke(DispatcherPriority::Render,
+            gcnew Action<SafeFileHandle^>(this, &CefWpfWebBrowser::SetCursor), handle);
+    }
+
+    void CefWpfWebBrowser::SetCursor(SafeFileHandle^ handle)
+    {
+        Cursor = CursorInteropHelper::Create(handle);
     }
 
     void CefWpfWebBrowser::Paint(const CefRect& dirtyRect, const void* buffer)
     {
         System::Console::WriteLine("Paint");
+    }
+
+    void CefWpfWebBrowser::UpdateSource()
+    {
+        Source = _bitmap;
     }
 }
 
