@@ -20,10 +20,17 @@ namespace CefSharp
             _bitmap->PixelWidth != w ||
             _bitmap->PixelHeight != h)
         {
-            Source = _bitmap = gcnew WriteableBitmap(w, h, 96 * transform.M11, 96 * transform.M22, PixelFormats::Bgr32, nullptr);
+            _bitmap = gcnew WriteableBitmap(w, h, 96 * transform.M11, 96 * transform.M22, PixelFormats::Bgr32, nullptr);
         }
 
-        _handlerAdapter->GetCefBrowser()->SetSize(PET_VIEW, (int)size.Width, (int)size.Height);
+        try
+        {
+            _handlerAdapter->GetCefBrowser()->SetSize(PET_VIEW, (int)size.Width, (int)size.Height);
+        }
+        catch (...)
+        {
+            // ArrangeOverride may be called one or more times before Cef is initialized
+        }
 
         return Image::ArrangeOverride(size);
     }
@@ -70,11 +77,13 @@ namespace CefSharp
     void CefWpfWebBrowser::Paint(const CefRect& dirtyRect, const void* buffer)
     {
         System::Console::WriteLine("Paint");
+        Dispatcher->BeginInvoke(DispatcherPriority::Render,
+            gcnew Action<ImageSource^>(this, &CefWpfWebBrowser::SetSource), _bitmap);
     }
 
-    void CefWpfWebBrowser::UpdateSource()
+    void CefWpfWebBrowser::SetSource(ImageSource^ source)
     {
-        Source = _bitmap;
+        Source = source;
     }
 }
 

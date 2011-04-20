@@ -29,7 +29,7 @@ namespace CefSharp
         virtual void OnInitialized();
 
     private:
-        void UpdateSource();
+        void SetSource(ImageSource^ source);
         void SetCursor(SafeFileHandle^ handle);
 
     protected:
