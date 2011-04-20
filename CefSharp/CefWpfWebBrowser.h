@@ -23,22 +23,23 @@ namespace CefSharp
         MCefRefPtr<WpfHandlerAdapter> _handlerAdapter;
         ManualResetEvent^ _browserInitialized;
         
-        array<Byte>^ _buffer;
+        int _bufferLength;
+        void *_buffer;
         WriteableBitmap^ _bitmap;
 
     internal:
         virtual void OnInitialized();
 
     private:
-        void SetSource(ImageSource^ source);
         void SetCursor(SafeFileHandle^ handle);
 
     protected:
         virtual Size ArrangeOverride(Size size) override;
         virtual void OnGotFocus(RoutedEventArgs^ e) override;
         virtual void OnLostFocus(RoutedEventArgs^ e) override;
-        virtual void OnPreviewMouseMove(MouseEventArgs^ e) override;
+        virtual void OnMouseMove(MouseEventArgs^ e) override;
         virtual void OnMouseLeave(MouseEventArgs^ e) override;
+
 
     public:
         CefWpfWebBrowser(HwndSource^ source, String^ address)
@@ -65,7 +66,8 @@ namespace CefSharp
         }
 
         void SetCursor(CefCursorHandle cursor);
-        void Paint(const CefRect& dirtyRect, const void* buffer);
+        void SetBuffer(const CefRect& dirtyRect, const void* buffer);
+        void SetBitmap(WriteableBitmap^ bitmap);
     };
 }
 

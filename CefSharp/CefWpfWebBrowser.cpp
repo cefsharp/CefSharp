@@ -11,11 +11,8 @@ namespace CefSharp
 
     Size CefWpfWebBrowser::ArrangeOverride(Size size)
     {
-        int length = size.Width * size.Height * 4;
-        if (!_buffer || _buffer->Length != length)
-        {
-            _buffer = gcnew array<Byte>(length);
-        }
+        _bufferLength = size.Width * size.Height * 4;
+        Console::WriteLine("_bufferLength: {0}", _bufferLength);
 
         Matrix transform = PresentationSource::FromVisual(this)->CompositionTarget->TransformToDevice;
 
@@ -27,6 +24,10 @@ namespace CefSharp
             _bitmap->PixelHeight != h)
         {
             _bitmap = gcnew WriteableBitmap(w, h, 96 * transform.M11, 96 * transform.M22, PixelFormats::Bgra32, nullptr);
+            if (Source != _bitmap)
+            {
+                Source = _bitmap;
+            }
         }
 
         try
@@ -55,10 +56,9 @@ namespace CefSharp
         Image::OnLostFocus(e);
     }
 
-    void CefWpfWebBrowser::OnPreviewMouseMove(MouseEventArgs^ e)
+    void CefWpfWebBrowser::OnMouseMove(MouseEventArgs^ e)
     {
         Point point = e->GetPosition(this);
-        System::Console::WriteLine("OnMouseMove: {0}x{1}", point.X, point.Y);
         _handlerAdapter->GetCefBrowser()->SendMouseMoveEvent((int)point.X, (int)point.Y, false);
     }
 
@@ -80,16 +80,33 @@ namespace CefSharp
         Cursor = CursorInteropHelper::Create(handle);
     }
 
-    void CefWpfWebBrowser::Paint(const CefRect& dirtyRect, const void* buffer)
+    void CefWpfWebBrowser::SetBuffer(const CefRect& dirtyRect, const void* buffer)
     {
-        System::Console::WriteLine("Paint");
+        System::Console::WriteLine("SetBuffer: {0},{1} {2}x{3}", dirtyRect.x, dirtyRect.y, dirtyRect.width, dirtyRect.height);
+
+        _buffer = (void *)buffer;
         Dispatcher->BeginInvoke(DispatcherPriority::Render,
-            gcnew Action<ImageSource^>(this, &CefWpfWebBrowser::SetSource), _bitmap);
+            gcnew Action<WriteableBitmap^>(this, &CefWpfWebBrowser::SetBitmap), _bitmap);
     }
 
-    void CefWpfWebBrowser::SetSource(ImageSource^ source)
+    void CefWpfWebBrowser::SetBitmap(WriteableBitmap^ bitmap)
     {
-        Source = source;
+        Int32Rect rect;
+        rect.X = 0;
+        rect.Y = 0;
+        rect.Width = 256;
+        rect.Height = 256;
+
+        try
+        {
+            bitmap->WritePixels(rect, (IntPtr)_buffer, _bufferLength, bitmap->BackBufferStride);
+        }
+        catch (Exception^ e)
+        {
+            Console::WriteLine(e);
+        }
+
+        //InvalidateVisual();
     }
 }
 

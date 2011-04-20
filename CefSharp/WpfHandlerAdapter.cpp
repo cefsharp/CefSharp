@@ -39,7 +39,7 @@ namespace CefSharp
     CefHandler::RetVal WpfHandlerAdapter::HandlePaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const CefRect& dirtyRect, const void* buffer)
     {
         Console::WriteLine("HandlePaint: {0},{1} {2}x{3}", dirtyRect.x, dirtyRect.y, dirtyRect.width, dirtyRect.height);
-        _browserControl->Paint(dirtyRect, buffer);
+        _browserControl->SetBuffer(dirtyRect, buffer);
         return RV_CONTINUE;
     }
 }
