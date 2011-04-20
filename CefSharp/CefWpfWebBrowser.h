@@ -23,6 +23,7 @@ namespace CefSharp
         MCefRefPtr<WpfHandlerAdapter> _handlerAdapter;
         ManualResetEvent^ _browserInitialized;
         
+        array<Byte>^ _buffer;
         WriteableBitmap^ _bitmap;
 
     internal:

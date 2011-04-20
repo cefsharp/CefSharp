@@ -11,6 +11,12 @@ namespace CefSharp
 
     Size CefWpfWebBrowser::ArrangeOverride(Size size)
     {
+        int length = size.Width * size.Height * 4;
+        if (!_buffer || _buffer->Length != length)
+        {
+            _buffer = gcnew array<Byte>(length);
+        }
+
         Matrix transform = PresentationSource::FromVisual(this)->CompositionTarget->TransformToDevice;
 
         int w = (int)(size.Width * transform.M11);
@@ -20,7 +26,7 @@ namespace CefSharp
             _bitmap->PixelWidth != w ||
             _bitmap->PixelHeight != h)
         {
-            _bitmap = gcnew WriteableBitmap(w, h, 96 * transform.M11, 96 * transform.M22, PixelFormats::Bgr32, nullptr);
+            _bitmap = gcnew WriteableBitmap(w, h, 96 * transform.M11, 96 * transform.M22, PixelFormats::Bgra32, nullptr);
         }
 
         try
