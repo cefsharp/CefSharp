@@ -23,6 +23,7 @@ namespace CefSharp
         MCefRefPtr<WpfHandlerAdapter> _handlerAdapter;
         ManualResetEvent^ _browserInitialized;
         
+        Matrix _transform;
         int _bufferLength;
         void *_buffer;
         WriteableBitmap^ _bitmap;
@@ -53,6 +54,8 @@ namespace CefSharp
                 throw gcnew InvalidOperationException("CEF is not initialized");
             }
 
+
+            _transform = source->CompositionTarget->TransformToDevice;
             _browserInitialized = gcnew ManualResetEvent(false);
 
             CefString url = toNative(address);

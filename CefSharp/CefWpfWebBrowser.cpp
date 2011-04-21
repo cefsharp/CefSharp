@@ -13,16 +13,14 @@ namespace CefSharp
     {
         _bufferLength = size.Width * size.Height * 4;
 
-        Matrix transform = PresentationSource::FromVisual(this)->CompositionTarget->TransformToDevice;
-
-        int w = (int)(size.Width * transform.M11);
-        int h = (int)(size.Height * transform.M22);
+        int w = (int)(size.Width * _transform.M11);
+        int h = (int)(size.Height * _transform.M22);
 
         if (!_bitmap ||
             _bitmap->PixelWidth != w ||
             _bitmap->PixelHeight != h)
         {
-            _bitmap = gcnew WriteableBitmap(w, h, 96 * transform.M11, 96 * transform.M22, PixelFormats::Bgr32, nullptr);
+            _bitmap = gcnew WriteableBitmap(w, h, 96 * _transform.M11, 96 * _transform.M22, PixelFormats::Bgr32, nullptr);
             if (Source != _bitmap)
             {
                 Source = _bitmap;
