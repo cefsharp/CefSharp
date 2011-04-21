@@ -78,7 +78,6 @@ namespace CefSharp
 
     void CefWpfWebBrowser::SetBuffer(const CefRect& dirtyRect, const void* buffer)
     {
-
         _buffer = (void *)buffer;
         Dispatcher->BeginInvoke(DispatcherPriority::Render,
             gcnew Action<WriteableBitmap^>(this, &CefWpfWebBrowser::SetBitmap), _bitmap);
@@ -89,8 +88,8 @@ namespace CefSharp
         Int32Rect rect;
         rect.X = 0;
         rect.Y = 0;
-        rect.Width = 256;
-        rect.Height = 256;
+        rect.Width = _bitmap->PixelWidth;
+        rect.Height = _bitmap->PixelHeight;
 
         try
         {

@@ -29,7 +29,6 @@ namespace CefSharp
         return RV_CONTINUE;
     }
 
-        
     CefHandler::RetVal WpfHandlerAdapter::HandleCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor)
     {
         _browserControl->SetCursor(cursor);
