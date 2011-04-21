@@ -64,6 +64,38 @@ namespace CefSharp
         _handlerAdapter->GetCefBrowser()->SendMouseMoveEvent(0, 0, true);
     }
 
+    void CefWpfWebBrowser::OnMouseDown(MouseButtonEventArgs^ e)
+    {
+        Point point = e->GetPosition(this);
+        CefBrowser::MouseButtonType mbt;
+        if (e->RightButton == MouseButtonState::Pressed)
+        {
+            mbt = CefBrowser::MouseButtonType::MBT_RIGHT;
+        }
+        else
+        {
+            mbt = CefBrowser::MouseButtonType::MBT_LEFT;
+        }
+
+        _handlerAdapter->GetCefBrowser()->SendMouseClickEvent((int)point.X, (int)point.Y, mbt, false, 1);
+    }
+
+    void CefWpfWebBrowser::OnMouseUp(MouseButtonEventArgs^ e)
+    {
+        Point point = e->GetPosition(this);
+        CefBrowser::MouseButtonType mbt;
+        if (e->RightButton == MouseButtonState::Pressed)
+        {
+            mbt = CefBrowser::MouseButtonType::MBT_RIGHT;
+        }
+        else
+        {
+            mbt = CefBrowser::MouseButtonType::MBT_LEFT;
+        }
+
+        _handlerAdapter->GetCefBrowser()->SendMouseClickEvent((int)point.X, (int)point.Y, mbt, true, 1);
+    }
+
     void CefWpfWebBrowser::SetCursor(CefCursorHandle cursor)
     {
         SafeFileHandle^ handle = gcnew SafeFileHandle((IntPtr)cursor, false);
@@ -79,6 +111,8 @@ namespace CefSharp
     void CefWpfWebBrowser::SetBuffer(const CefRect& dirtyRect, const void* buffer)
     {
         _buffer = (void *)buffer;
+
+
         Dispatcher->BeginInvoke(DispatcherPriority::Render,
             gcnew Action<WriteableBitmap^>(this, &CefWpfWebBrowser::SetBitmap), _bitmap);
     }
