@@ -22,7 +22,7 @@ namespace CefSharp
             _bitmap->PixelWidth != w ||
             _bitmap->PixelHeight != h)
         {
-            _bitmap = gcnew WriteableBitmap(w, h, 96 * transform.M11, 96 * transform.M22, PixelFormats::Bgra32, nullptr);
+            _bitmap = gcnew WriteableBitmap(w, h, 96 * transform.M11, 96 * transform.M22, PixelFormats::Bgr32, nullptr);
             if (Source != _bitmap)
             {
                 Source = _bitmap;
@@ -112,8 +112,7 @@ namespace CefSharp
     {
         _buffer = (void *)buffer;
 
-
-        Dispatcher->BeginInvoke(DispatcherPriority::Render,
+        Dispatcher->Invoke(DispatcherPriority::Render,
             gcnew Action<WriteableBitmap^>(this, &CefWpfWebBrowser::SetBitmap), _bitmap);
     }
 
