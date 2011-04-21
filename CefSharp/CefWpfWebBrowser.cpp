@@ -12,7 +12,6 @@ namespace CefSharp
     Size CefWpfWebBrowser::ArrangeOverride(Size size)
     {
         _bufferLength = size.Width * size.Height * 4;
-        Console::WriteLine("_bufferLength: {0}", _bufferLength);
 
         Matrix transform = PresentationSource::FromVisual(this)->CompositionTarget->TransformToDevice;
 
@@ -44,14 +43,12 @@ namespace CefSharp
 
     void CefWpfWebBrowser::OnGotFocus(RoutedEventArgs^ e)
     {
-        System::Console::WriteLine("OnGotFocus");
         _handlerAdapter->GetCefBrowser()->SendFocusEvent(true);
         Image::OnGotFocus(e);
     }
 
     void CefWpfWebBrowser::OnLostFocus(RoutedEventArgs^ e)
     {
-        System::Console::WriteLine("OnLostFocus");
         _handlerAdapter->GetCefBrowser()->SendFocusEvent(false);
         Image::OnLostFocus(e);
     }
@@ -64,7 +61,6 @@ namespace CefSharp
 
     void CefWpfWebBrowser::OnMouseLeave(MouseEventArgs^ e)
     {
-        System::Console::WriteLine("OnMouseLeave");
         _handlerAdapter->GetCefBrowser()->SendMouseMoveEvent(0, 0, true);
     }
 
@@ -82,7 +78,6 @@ namespace CefSharp
 
     void CefWpfWebBrowser::SetBuffer(const CefRect& dirtyRect, const void* buffer)
     {
-        System::Console::WriteLine("SetBuffer: {0},{1} {2}x{3}", dirtyRect.x, dirtyRect.y, dirtyRect.width, dirtyRect.height);
 
         _buffer = (void *)buffer;
         Dispatcher->BeginInvoke(DispatcherPriority::Render,
