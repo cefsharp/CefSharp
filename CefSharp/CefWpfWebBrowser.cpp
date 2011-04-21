@@ -59,6 +59,12 @@ namespace CefSharp
         _handlerAdapter->GetCefBrowser()->SendMouseMoveEvent((int)point.X, (int)point.Y, false);
     }
 
+    void CefWpfWebBrowser::OnMouseWheel(MouseWheelEventArgs^ e)
+    {
+        Point point = e->GetPosition(this);
+        _handlerAdapter->GetCefBrowser()->SendMouseWheelEvent((int)point.X, (int)point.Y, e->Delta);
+    }
+
     void CefWpfWebBrowser::OnMouseLeave(MouseEventArgs^ e)
     {
         _handlerAdapter->GetCefBrowser()->SendMouseMoveEvent(0, 0, true);
@@ -132,8 +138,6 @@ namespace CefSharp
         {
             Console::WriteLine(e);
         }
-
-        //InvalidateVisual();
     }
 }
 

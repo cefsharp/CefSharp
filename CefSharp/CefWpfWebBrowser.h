@@ -39,6 +39,7 @@ namespace CefSharp
         virtual void OnLostFocus(RoutedEventArgs^ e) override;
         virtual void OnMouseMove(MouseEventArgs^ e) override;
         virtual void OnMouseLeave(MouseEventArgs^ e) override;
+        virtual void OnMouseWheel(MouseWheelEventArgs^ e) override;
         virtual void OnMouseDown(MouseButtonEventArgs^ e) override;
         virtual void OnMouseUp(MouseButtonEventArgs^ e) override;
 
