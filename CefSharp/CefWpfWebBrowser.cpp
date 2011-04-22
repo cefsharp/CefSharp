@@ -11,22 +11,6 @@ namespace CefSharp
 
     Size CefWpfWebBrowser::ArrangeOverride(Size size)
     {
-        _bufferLength = size.Width * size.Height * 4;
-
-        int w = (int)(size.Width * _transform.M11);
-        int h = (int)(size.Height * _transform.M22);
-
-        if (!_bitmap ||
-            _bitmap->PixelWidth != w ||
-            _bitmap->PixelHeight != h)
-        {
-            _bitmap = gcnew WriteableBitmap(w, h, 96 * _transform.M11, 96 * _transform.M22, PixelFormats::Bgr32, nullptr);
-            if (Source != _bitmap)
-            {
-                Source = _bitmap;
-            }
-        }
-
         try
         {
             _handlerAdapter->GetCefBrowser()->SetSize(PET_VIEW, (int)size.Width, (int)size.Height);
@@ -112,30 +96,35 @@ namespace CefSharp
         Cursor = CursorInteropHelper::Create(handle);
     }
 
-    void CefWpfWebBrowser::SetBuffer(const CefRect& dirtyRect, const void* buffer)
+    void CefWpfWebBrowser::SetBuffer(int width, int height, const CefRect& dirtyRect, const void* buffer)
     {
+        _width = width;
+        _height = height;
         _buffer = (void *)buffer;
 
         Dispatcher->Invoke(DispatcherPriority::Render,
             gcnew Action<WriteableBitmap^>(this, &CefWpfWebBrowser::SetBitmap), _bitmap);
     }
 
+    // XXX: don't know how to Invoke a parameterless delegate...
     void CefWpfWebBrowser::SetBitmap(WriteableBitmap^ bitmap)
     {
+        int length = _width * _height * 4;
+
+        if (!_bitmap ||
+            _bitmap->PixelWidth != _width ||
+            _bitmap->PixelHeight != _height)
+        {
+            Source = _bitmap = gcnew WriteableBitmap(_width, _height, 96 * _transform.M11, 96 * _transform.M22, PixelFormats::Bgr32, nullptr);
+        }
+
         Int32Rect rect;
         rect.X = 0;
         rect.Y = 0;
-        rect.Width = _bitmap->PixelWidth;
-        rect.Height = _bitmap->PixelHeight;
+        rect.Width = _width;
+        rect.Height = _height;
 
-        try
-        {
-            bitmap->WritePixels(rect, (IntPtr)_buffer, _bufferLength, bitmap->BackBufferStride);
-        }
-        catch (Exception^ e)
-        {
-            Console::WriteLine(e);
-        }
+        _bitmap->WritePixels(rect, (IntPtr)_buffer, length, _bitmap->BackBufferStride);
     }
 }
 

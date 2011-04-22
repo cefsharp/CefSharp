@@ -37,7 +37,10 @@ namespace CefSharp
 
     CefHandler::RetVal WpfHandlerAdapter::HandlePaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const CefRect& dirtyRect, const void* buffer)
     {
-        _browserControl->SetBuffer(dirtyRect, buffer);
+        int width, height;
+        browser->GetSize(type, width, height);
+
+        _browserControl->SetBuffer(width, height, dirtyRect, buffer);
         return RV_CONTINUE;
     }
 }

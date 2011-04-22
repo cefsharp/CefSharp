@@ -24,7 +24,7 @@ namespace CefSharp
         ManualResetEvent^ _browserInitialized;
         
         Matrix _transform;
-        int _bufferLength;
+        int _width, _height;
         void *_buffer;
         WriteableBitmap^ _bitmap;
 
@@ -54,7 +54,6 @@ namespace CefSharp
                 throw gcnew InvalidOperationException("CEF is not initialized");
             }
 
-
             _transform = source->CompositionTarget->TransformToDevice;
             _browserInitialized = gcnew ManualResetEvent(false);
 
@@ -71,7 +70,7 @@ namespace CefSharp
         }
 
         void SetCursor(CefCursorHandle cursor);
-        void SetBuffer(const CefRect& dirtyRect, const void* buffer);
+        void SetBuffer(int width, int height, const CefRect& dirtyRect, const void* buffer);
         void SetBitmap(WriteableBitmap^ bitmap);
     };
 }
