@@ -197,6 +197,36 @@ CEF_EXPORT int cef_parse_url(const cef_string_t* url,
 CEF_EXPORT int cef_create_url(const struct _cef_urlparts_t* parts,
     cef_string_t* url);
 
+// Visit all cookies. The returned cookies are ordered by longest path, then by
+// earliest creation date. Returns false (0) if cookies cannot be accessed.
+CEF_EXPORT int cef_visit_all_cookies(struct _cef_cookie_visitor_t* visitor);
+
+// Visit a subset of cookies. The results are filtered by the given url scheme,
+// host, domain and path. If |includeHttpOnly| is true (1) HTTP-only cookies
+// will also be included in the results. The returned cookies are ordered by
+// longest path, then by earliest creation date. Returns false (0) if cookies
+// cannot be accessed.
+CEF_EXPORT int cef_visit_url_cookies(const cef_string_t* url,
+    int includeHttpOnly, struct _cef_cookie_visitor_t* visitor);
+
+// Sets a cookie given a valid URL and explicit user-provided cookie attributes.
+// This function expects each attribute to be well-formed. It will check for
+// disallowed characters (e.g. the ';' character is disallowed within the cookie
+// value attribute) and will return false (0) without setting the cookie if such
+// characters are found. This function must be called on the IO thread.
+CEF_EXPORT int cef_set_cookie(const cef_string_t* url,
+    const struct _cef_cookie_t* cookie);
+
+// Delete all cookies that match the specified parameters. If both |url| and
+// |cookie_name| are specified all host and domain cookies matching both values
+// will be deleted. If only |url| is specified all host cookies (but not domain
+// cookies) irrespective of path will be deleted. If |url| is NULL all cookies
+// for all hosts and domains will be deleted. Returns false (0) if a non-NULL
+// invalid URL is specified or if cookies cannot be accessed. This function must
+// be called on the IO thread.
+CEF_EXPORT int cef_delete_cookies(const cef_string_t* url,
+    const cef_string_t* cookie_name);
+
 typedef struct _cef_base_t
 {
   // Size of the data structure.
@@ -218,6 +248,8 @@ typedef struct _cef_base_t
 #define CEF_MEMBER_EXISTS(s, f)   \
   ((int)&((s)->f) - (int)(s) + sizeof((s)->f) <= (s)->base.size)
 
+#define CEF_MEMBER_MISSING(s, f)  (!CEF_MEMBER_EXISTS(s, f) || !((s)->f))
+
 // Implement this structure for V8 javascript task execution.
 typedef struct _cef_v8task_t
 {
@@ -231,23 +263,19 @@ typedef struct _cef_v8task_t
   // name/url of the script for error reporting purposes
   // The resulting string must be freed by calling cef_string_userfree_free().
   cef_string_userfree_t (CEF_CALLBACK *get_script_name)(
-      struct _cef_v8task_t* self);
+  struct _cef_v8task_t* self);
 
   // starting line number of the script for error reporting purposes
   int (CEF_CALLBACK *get_start_line)(struct _cef_v8task_t* self);
 
   // executed on successful completion of the script
   void (CEF_CALLBACK *handle_success)(struct _cef_v8task_t* self,
-      struct _cef_v8value_t* result);
+  struct _cef_v8value_t* result);
 
   // executed on successful completion of the script
   void (CEF_CALLBACK *handle_error)(struct _cef_v8task_t* self);
 
 } cef_v8task_t;
-
-
-#define CEF_MEMBER_MISSING(s, f)  (!CEF_MEMBER_EXISTS(s, f) || !((s)->f))
-
 
 // Implement this structure for task execution. The functions of this structure
 // may be called on any thread.
@@ -261,6 +289,25 @@ typedef struct _cef_task_t
       cef_thread_id_t threadId);
 
 } cef_task_t;
+
+
+// Structure to implement for visiting cookie values. The functions of this
+// structure will always be called on the IO thread.
+typedef struct _cef_cookie_visitor_t
+{
+  // Base structure.
+  cef_base_t base;
+
+  // Method that will be called once for each cookie. |count| is the 0-based
+  // index for the current cookie. |total| is the total number of cookies. Set
+  // |deleteCookie| to true (1) to delete the cookie currently being visited.
+  // Return false (0) to stop visiting cookies. This function may never be
+  // called if no cookies are found.
+  int (CEF_CALLBACK *visit)(struct _cef_cookie_visitor_t* self,
+      const struct _cef_cookie_t* cookie, int count, int total,
+      int* deleteCookie);
+
+} cef_cookie_visitor_t;
 
 
 // Structure used to represent a browser window. The functions of this structure
@@ -509,7 +556,7 @@ typedef struct _cef_frame_t
 
   // Execute the cef_v8task_t code in this frame.
   void (CEF_CALLBACK *execute_java_script_task)(struct _cef_frame_t* self,
-      struct _cef_v8task_t* jsTask);
+  		struct _cef_v8task_t* jsTask);
 
   // Returns true (1) if this is the main frame.
   int (CEF_CALLBACK *is_main)(struct _cef_frame_t* self);
@@ -627,16 +674,17 @@ typedef struct _cef_handler_t
   // Called on the IO thread before a resource is loaded.  To allow the resource
   // to load normally return RV_CONTINUE. To redirect the resource to a new url
   // populate the |redirectUrl| value and return RV_CONTINUE.  To specify data
-  // for the resource return a CefStream object in |resourceStream|, set
-  // |mimeType| to the resource stream's mime type, and return RV_CONTINUE. To
-  // cancel loading of the resource return RV_HANDLED. Any modifications to
-  // |request| will be observed.  If the URL in |request| is changed and
-  // |redirectUrl| is also set, the URL in |request| will be used.
+  // for the resource return a CefStream object in |resourceStream|, use the
+  // |response| object to set mime type, HTTP status code and optional header
+  // values, and return RV_CONTINUE. To cancel loading of the resource return
+  // RV_HANDLED. Any modifications to |request| will be observed.  If the URL in
+  // |request| is changed and |redirectUrl| is also set, the URL in |request|
+  // will be used.
   enum cef_retval_t (CEF_CALLBACK *handle_before_resource_load)(
       struct _cef_handler_t* self, struct _cef_browser_t* browser,
       struct _cef_request_t* request, cef_string_t* redirectUrl,
-      struct _cef_stream_reader_t** resourceStream, cef_string_t* mimeType,
-      int loadFlags);
+      struct _cef_stream_reader_t** resourceStream,
+      struct _cef_response_t* response, int loadFlags);
 
   // Called on the IO thread to handle requests for URLs with an unknown
   // protocol component. Return RV_HANDLED to indicate that the request should
@@ -1003,21 +1051,33 @@ typedef struct _cef_response_t
   // Base structure.
   cef_base_t base;
 
-  // Returns the response status code.
+  // Returns/sets the response status code.
   int (CEF_CALLBACK *get_status)(struct _cef_response_t* self);
+  void (CEF_CALLBACK *set_status)(struct _cef_response_t* self, int status);
 
-  // Returns the response status text.
+  // Returns/sets the response status text.
   // The resulting string must be freed by calling cef_string_userfree_free().
   cef_string_userfree_t (CEF_CALLBACK *get_status_text)(
       struct _cef_response_t* self);
+  void (CEF_CALLBACK *set_status_text)(struct _cef_response_t* self,
+      const cef_string_t* statusText);
+
+  // Returns/sets the response mime type.
+  // The resulting string must be freed by calling cef_string_userfree_free().
+  cef_string_userfree_t (CEF_CALLBACK *get_mime_type)(
+      struct _cef_response_t* self);
+  void (CEF_CALLBACK *set_mime_type)(struct _cef_response_t* self,
+      const cef_string_t* mimeType);
 
   // Returns the value for the specified response header field.
   // The resulting string must be freed by calling cef_string_userfree_free().
   cef_string_userfree_t (CEF_CALLBACK *get_header)(struct _cef_response_t* self,
       const cef_string_t* name);
 
-  // Retrieves a map of all response header fields.
+  // Retrieves/sets a map of all response header fields.
   void (CEF_CALLBACK *get_header_map)(struct _cef_response_t* self,
+      cef_string_map_t headerMap);
+  void (CEF_CALLBACK *set_header_map)(struct _cef_response_t* self,
       cef_string_map_t headerMap);
 
 } cef_response_t;
@@ -1156,6 +1216,17 @@ typedef struct _cef_v8context_t
   struct _cef_v8value_t* (CEF_CALLBACK *get_global)(
       struct _cef_v8context_t* self);
 
+  // Enter this context. A context must be explicitly entered before creating a
+  // V8 Object, Array or Function asynchronously. exit() must be called the same
+  // number of times as enter() before releasing this context. V8 objects belong
+  // to the context in which they are created. Returns true (1) if the scope was
+  // entered successfully.
+  int (CEF_CALLBACK *enter)(struct _cef_v8context_t* self);
+
+  // Exit this context. Call this function only after calling enter(). Returns
+  // true (1) if the scope was exited successfully.
+  int (CEF_CALLBACK *exit)(struct _cef_v8context_t* self);
+
 } cef_v8context_t;
 
 
@@ -1185,6 +1256,33 @@ typedef struct _cef_v8handler_t
 } cef_v8handler_t;
 
 
+// Structure that should be implemented to handle V8 accessor calls. Accessor
+// identifiers are registered by calling cef_v8value_t::set_value(). The
+// functions of this structure will always be called on the UI thread.
+typedef struct _cef_v8accessor_t
+{
+  // Base structure.
+  cef_base_t base;
+
+  // Called to get an accessor value. |name| is the name of the property being
+  // accessed. |object| is the This() object from V8's AccessorInfo structure.
+  // |retval| is the value to return for this property. Return true (1) if
+  // handled.
+  int (CEF_CALLBACK *get)(struct _cef_v8accessor_t* self,
+      const cef_string_t* name, struct _cef_v8value_t* object,
+      struct _cef_v8value_t** retval);
+
+  // Called to set an accessor value. |name| is the name of the property being
+  // accessed. |value| is the new value being assigned to this property.
+  // |object| is the This() object from V8's AccessorInfo structure. Return true
+  // (1) if handled.
+  int (CEF_CALLBACK *set)(struct _cef_v8accessor_t* self,
+      const cef_string_t* name, struct _cef_v8value_t* object,
+      struct _cef_v8value_t* value);
+
+} cef_v8accessor_t;
+
+
 // Structure representing a V8 value. The functions of this structure should
 // only be called on the UI thread.
 typedef struct _cef_v8value_t
@@ -1202,6 +1300,11 @@ typedef struct _cef_v8value_t
   int (CEF_CALLBACK *is_object)(struct _cef_v8value_t* self);
   int (CEF_CALLBACK *is_array)(struct _cef_v8value_t* self);
   int (CEF_CALLBACK *is_function)(struct _cef_v8value_t* self);
+
+  // Returns true (1) if this object is pointing to the same handle as |that|
+  // object.
+  int (CEF_CALLBACK *is_same)(struct _cef_v8value_t* self,
+      struct _cef_v8value_t* that);
 
   // Return a primitive value type.  The underlying data will be converted to
   // the requested type if necessary.
@@ -1235,11 +1338,18 @@ typedef struct _cef_v8value_t
   struct _cef_v8value_t* (CEF_CALLBACK *get_value_byindex)(
       struct _cef_v8value_t* self, int index);
 
-  // Associate value with the specified identifier.
+  // Associate a value with the specified identifier.
   int (CEF_CALLBACK *set_value_bykey)(struct _cef_v8value_t* self,
       const cef_string_t* key, struct _cef_v8value_t* value);
   int (CEF_CALLBACK *set_value_byindex)(struct _cef_v8value_t* self, int index,
       struct _cef_v8value_t* value);
+
+  // Register an identifier whose access will be forwarded to the
+  // cef_v8accessor_t instance passed to
+  // cef_v8value_t::cef_v8value_create_object_with_accessor().
+  int (CEF_CALLBACK *set_value_byaccessor)(struct _cef_v8value_t* self,
+      const cef_string_t* key, enum cef_v8_accesscontrol_t settings,
+      enum cef_v8_propertyattribute_t attribute);
 
   // Read the keys for the object's values into the specified vector. Integer-
   // based keys will also be returned as strings.
@@ -1291,6 +1401,8 @@ CEF_EXPORT cef_v8value_t* cef_v8value_create_int(int value);
 CEF_EXPORT cef_v8value_t* cef_v8value_create_double(double value);
 CEF_EXPORT cef_v8value_t* cef_v8value_create_string(const cef_string_t* value);
 CEF_EXPORT cef_v8value_t* cef_v8value_create_object(cef_base_t* user_data);
+CEF_EXPORT cef_v8value_t* cef_v8value_create_object_with_accessor(
+    cef_base_t* user_data, cef_v8accessor_t* accessor);
 CEF_EXPORT cef_v8value_t* cef_v8value_create_array();
 CEF_EXPORT cef_v8value_t* cef_v8value_create_function(const cef_string_t* name,
     cef_v8handler_t* handler);
@@ -1318,17 +1430,20 @@ typedef struct _cef_scheme_handler_t
   cef_base_t base;
 
   // Process the request. All response generation should take place in this
-  // function. If there is no response set |response_length| to zero and
-  // read_response() will not be called. If the response length is not known
-  // then set |response_length| to -1 and read_response() will be called until
-  // it returns false (0) or until the value of |bytes_read| is set to 0.
-  // Otherwise, set |response_length| to a positive value and read_response()
-  // will be called until it returns false (0), the value of |bytes_read| is set
-  // to 0 or the specified number of bytes have been read. If there is a
-  // response set |mime_type| to the mime type for the response.
+  // function. If there is no response set |response_length| to zero or return
+  // false (0) and read_response() will not be called. If the response length is
+  // not known set |response_length| to -1 and read_response() will be called
+  // until it returns false (0) or until the value of |bytes_read| is set to 0.
+  // If the response length is known set |response_length| to a positive value
+  // and read_response() will be called until it returns false (0), the value of
+  // |bytes_read| is set to 0 or the specified number of bytes have been read.
+  // Use the |response| object to set the mime type, http status code and
+  // optional header values for the response and return true (1). To redirect
+  // the request to a new URL set |redirectUrl| to the new URL and return true
+  // (1).
   int (CEF_CALLBACK *process_request)(struct _cef_scheme_handler_t* self,
-      struct _cef_request_t* request, cef_string_t* mime_type,
-      int* response_length);
+      struct _cef_request_t* request, cef_string_t* redirectUrl,
+      struct _cef_response_t* response, int* response_length);
 
   // Cancel processing of the request.
   void (CEF_CALLBACK *cancel)(struct _cef_scheme_handler_t* self);

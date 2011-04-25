@@ -34,6 +34,7 @@
 #ifdef _WIN32
 #include <windows.h>
 #include "cef_types_win.h"
+#include "cef_types_wrappers.h"
 
 // Atomic increment and decrement.
 #define CefAtomicIncrement(p) InterlockedIncrement(p)
@@ -68,67 +69,44 @@ public:
 #define CefWindowHandle cef_window_handle_t
 #define CefCursorHandle cef_cursor_handle_t
 
+
+struct CefWindowInfoTraits {
+  typedef cef_window_info_t struct_type;
+
+  static inline void init(struct_type* s) {}
+
+  static inline void clear(struct_type* s)
+  {
+    cef_string_clear(&s->m_windowName);
+  }
+
+  static inline void set(const struct_type* src, struct_type* target, bool copy)
+  {
+    target->m_dwExStyle = src->m_dwExStyle;
+    cef_string_set(src->m_windowName.str, src->m_windowName.length,
+        &target->m_windowName, copy);
+    target->m_dwStyle = src->m_dwStyle;
+    target->m_x = src->m_x;
+    target->m_y = src->m_y;
+    target->m_nWidth = src->m_nWidth;
+    target->m_nHeight = src->m_nHeight;
+    target->m_hWndParent = src->m_hWndParent;
+    target->m_hMenu = src->m_hMenu;
+    target->m_bWindowRenderingDisabled = src->m_bWindowRenderingDisabled;
+    target->m_hWnd = src->m_hWnd;
+  }
+};
+
 // Class representing window information.
-class CefWindowInfo : public cef_window_info_t
+class CefWindowInfo : public CefStructBase<CefWindowInfoTraits>
 {
 public:
-  CefWindowInfo()
-  {
-    Init();
-  }
-  virtual ~CefWindowInfo()
-  {
-    Reset();
-  }
+  typedef CefStructBase<CefWindowInfoTraits> parent;
 
-  CefWindowInfo(const CefWindowInfo& r)
-  {
-    Init();
-    *this = r;
-  }
-  CefWindowInfo(const cef_window_info_t& r)
-  {
-    Init();
-    *this = r;
-  }
-
-  void Reset()
-  {
-    cef_string_clear(&m_windowName);
-    Init();
-  }
-
-  void Attach(const cef_window_info_t& r)
-  {
-    Reset();
-    *static_cast<cef_window_info_t*>(this) = r;
-  }
-
-  void Detach()
-  {
-    Init();
-  }
-
-  CefWindowInfo& operator=(const CefWindowInfo& r)
-  {
-    return operator=(static_cast<const cef_window_info_t&>(r));
-  }
-  CefWindowInfo& operator=(const cef_window_info_t& r)
-  {
-    m_dwExStyle = r.m_dwExStyle;
-    cef_string_copy(r.m_windowName.str, r.m_windowName.length, &m_windowName);
-    m_dwStyle = r.m_dwStyle;
-    m_x = r.m_x;
-    m_y = r.m_y;
-    m_nWidth = r.m_nWidth;
-    m_nHeight = r.m_nHeight;
-    m_hWndParent = r.m_hWndParent;
-    m_hMenu = r.m_hMenu;
-    m_bWindowRenderingDisabled = r.m_bWindowRenderingDisabled;
-    m_hWnd = r.m_hWnd;
-    return *this;
-  }
-
+  CefWindowInfo() : parent() {}
+  CefWindowInfo(const cef_window_info_t& r) : parent(r) {}
+  CefWindowInfo(const CefWindowInfo& r) : parent(r) {}
+  
   void SetAsChild(HWND hWndParent, RECT windowRect)
   {
     m_dwStyle = WS_CHILD | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_TABSTOP |
@@ -158,59 +136,25 @@ public:
     m_bWindowRenderingDisabled = TRUE;
     m_hWndParent = hWndParent;
   }
+};
 
-protected:
-  void Init()
+
+struct CefPrintInfoTraits {
+  typedef cef_print_info_t struct_type;
+
+  static inline void init(struct_type* s) {}
+  static inline void clear(struct_type* s) {}
+
+  static inline void set(const struct_type* src, struct_type* target, bool copy)
   {
-    memset(static_cast<cef_window_info_t*>(this), 0, sizeof(cef_window_info_t));
+    target->m_hDC = src->m_hDC;
+    target->m_Rect = src->m_Rect;
+    target->m_Scale = src->m_Scale;
   }
 };
 
 // Class representing print context information.
-class CefPrintInfo : public cef_print_info_t
-{
-public:
-  CefPrintInfo()
-  {
-    Init();
-  }
-  virtual ~CefPrintInfo()
-  {
-  }
-
-  CefPrintInfo(const CefPrintInfo& r)
-  {
-    Init();
-    *this = r;
-  }
-  CefPrintInfo(const cef_print_info_t& r)
-  {
-    Init();
-    *this = r;
-  }
-
-  void Init()
-  {
-    m_hDC = NULL;
-    m_Rect.left = m_Rect.right = m_Rect.top = m_Rect.bottom = 0;
-    m_Scale = 0;
-  }
-
-  CefPrintInfo& operator=(const CefPrintInfo& r)
-  {
-    return operator=(static_cast<const cef_print_info_t&>(r));
-  }
-  CefPrintInfo& operator=(const cef_print_info_t& r)
-  {
-    m_hDC = r.m_hDC;
-    m_Rect.left = r.m_Rect.left;
-    m_Rect.right = r.m_Rect.right;
-    m_Rect.top = r.m_Rect.top;
-    m_Rect.bottom = r.m_Rect.bottom;
-    m_Scale = r.m_Scale;
-    return *this;
-  }
-};
+typedef CefStructBase<CefPrintInfoTraits> CefPrintInfo;
 
 #endif // _WIN32
 
