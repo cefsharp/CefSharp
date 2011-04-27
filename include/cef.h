@@ -42,10 +42,10 @@
 #include <string>
 #include <vector>
 #include "cef_ptr.h"
-#include "cef_types.h"
+#include "cef_types_wrappers.h"
 
 class CefBrowser;
-class CefBrowserSettings;
+class CefCookieVisitor;
 class CefDOMDocument;
 class CefDOMEvent;
 class CefDOMEventListener;
@@ -54,18 +54,15 @@ class CefDOMVisitor;
 class CefDownloadHandler;
 class CefFrame;
 class CefHandler;
-class CefPopupFeatures;
 class CefPostData;
 class CefPostDataElement;
 class CefRequest;
 class CefResponse;
 class CefSchemeHandler;
 class CefSchemeHandlerFactory;
-class CefSettings;
 class CefStreamReader;
 class CefStreamWriter;
 class CefTask;
-class CefURLParts;
 class CefV8Context;
 class CefV8Handler;
 class CefV8Value;
@@ -237,6 +234,39 @@ bool CefParseURL(const CefString& url,
 bool CefCreateURL(const CefURLParts& parts,
                   CefString& url);
 
+// Visit all cookies. The returned cookies are ordered by longest path, then by
+// earliest creation date. Returns false if cookies cannot be accessed.
+/*--cef()--*/
+bool CefVisitAllCookies(CefRefPtr<CefCookieVisitor> visitor);
+
+// Visit a subset of cookies. The results are filtered by the given url scheme,
+// host, domain and path. If |includeHttpOnly| is true HTTP-only cookies will
+// also be included in the results. The returned cookies are ordered by longest
+// path, then by earliest creation date. Returns false if cookies cannot be
+// accessed.
+/*--cef()--*/
+bool CefVisitUrlCookies(const CefString& url, bool includeHttpOnly,
+                        CefRefPtr<CefCookieVisitor> visitor);
+
+// Sets a cookie given a valid URL and explicit user-provided cookie attributes.
+// This function expects each attribute to be well-formed. It will check for
+// disallowed characters (e.g. the ';' character is disallowed within the cookie
+// value attribute) and will return false without setting the cookie if such
+// characters are found. This method must be called on the IO thread.
+/*--cef()--*/
+bool CefSetCookie(const CefString& url, const CefCookie& cookie);
+
+// Delete all cookies that match the specified parameters. If both |url| and
+// |cookie_name| are specified all host and domain cookies matching both values
+// will be deleted. If only |url| is specified all host cookies (but not domain
+// cookies) irrespective of path will be deleted. If |url| is empty all cookies
+// for all hosts and domains will be deleted. Returns false if a non-empty
+// invalid URL is specified or if cookies cannot be accessed. This method must
+// be called on the IO thread.
+/*--cef()--*/
+bool CefDeleteCookies(const CefString& url, const CefString& cookie_name);
+
+
 // Interface defining the the reference count implementation methods. All
 // framework classes must implement the CefBase class.
 class CefBase
@@ -347,71 +377,27 @@ protected:
   CefCriticalSection m_critsec;
 };
 
-
-// Class representing a rectangle.
-class CefRect : public cef_rect_t
-{
-public:
-  CefRect()
-  {
-    x = y = width = height = 0;
-  }
-  CefRect(int x, int y, int width, int height)
-  {
-    set(x, y, width, height);
-  }
-
-  CefRect(const cef_rect_t& r)
-  {
-    set(r.x, r.y, r.width, r.height);
-  }
-  CefRect& operator=(const cef_rect_t& r)
-  {
-      x = r.x;
-      y = r.y;
-      width = r.width;
-      height = r.height;
-      return *this;
-  }
-
-  bool isEmpty() const { return width <= 0 || height <= 0; }
-  void set(int x, int y, int width, int height)
-  {
-    this->x = x, this->y = y, this->width = width, this->height = height;
-  }
-};
-
-inline bool operator==(const CefRect& a, const CefRect& b)
-{
-  return a.x == b.x && a.y == b.y && a.width == b.width && a.height == b.height;
-}
 // Implement this interface for V8 javascript task execution.
 /*--cef(source=client)--*/
 class CefV8Task : public CefBase
 {
 public:
-    // Script that will be executed.
-    /*--cef()--*/
-    virtual CefString GetScript() =0;
-    // name/url of the script for error reporting purposes
-    /*--cef()--*/
-    virtual CefString GetScriptName() =0;
-    // starting line number of the script for error reporting purposes
-    /*--cef()--*/
-    virtual int GetStartLine() =0;
-    // executed on successful completion of the script
-    /*--cef()--*/
-    virtual void HandleSuccess(CefRefPtr<CefV8Value> result) =0;
-    // executed if script execution fails to compile or throws an uncaught exception
-    /*--cef()--*/
-    virtual void HandleError() =0;
+  // Script that will be executed.
+  /*--cef()--*/
+  virtual CefString GetScript() =0;
+  // name/url of the script for error reporting purposes
+  /*--cef()--*/
+  virtual CefString GetScriptName() =0;
+  // starting line number of the script for error reporting purposes
+  /*--cef()--*/
+  virtual int GetStartLine() =0;
+  // executed on successful completion of the script
+  /*--cef()--*/
+  virtual void HandleSuccess(CefRefPtr<CefV8Value> result) =0;
+  // executed if script execution fails to compile or throws an uncaught exception
+  /*--cef()--*/
+  virtual void HandleError() =0;
 };
-
-
-inline bool operator!=(const CefRect& a, const CefRect& b)
-{
-  return !(a == b);
-}
 
 // Implement this interface for task execution. The methods of this class may
 // be called on any thread.
@@ -422,6 +408,23 @@ public:
   // Method that will be executed. |threadId| is the thread executing the call.
   /*--cef()--*/
   virtual void Execute(CefThreadId threadId) =0;
+};
+
+
+// Interface to implement for visiting cookie values. The methods of this class
+// will always be called on the IO thread.
+/*--cef(source=client)--*/
+class CefCookieVisitor : public CefBase
+{
+public:
+  // Method that will be called once for each cookie. |count| is the 0-based
+  // index for the current cookie. |total| is the total number of cookies.
+  // Set |deleteCookie| to true to delete the cookie currently being visited.
+  // Return false to stop visiting cookies. This method may never be called if
+  // no cookies are found.
+  /*--cef()--*/
+  virtual bool Visit(const CefCookie& cookie, int count, int total,
+                     bool& deleteCookie) =0;
 };
 
 
@@ -690,9 +693,7 @@ public:
                                  const CefString& scriptUrl,
                                  int startLine) =0;
 
-  // Execute the CefV8Task code in this frame. 
-  /*--cef()--*/
-  virtual void ExecuteJavaScriptTask(CefRefPtr<CefV8Task> jsTask) =0;
+  virtual void ExecuteJavaScriptTask(CefRefPtr<CefV8Task> jstask) =0;
 
   // Returns true if this is the main frame.
   /*--cef()--*/
@@ -831,17 +832,18 @@ public:
   // Called on the IO thread before a resource is loaded.  To allow the resource
   // to load normally return RV_CONTINUE. To redirect the resource to a new url
   // populate the |redirectUrl| value and return RV_CONTINUE.  To specify data
-  // for the resource return a CefStream object in |resourceStream|, set
-  // |mimeType| to the resource stream's mime type, and return RV_CONTINUE. To
-  // cancel loading of the resource return RV_HANDLED. Any modifications to
-  // |request| will be observed.  If the URL in |request| is changed and
-  // |redirectUrl| is also set, the URL in |request| will be used.
+  // for the resource return a CefStream object in |resourceStream|, use the
+  // |response| object to set mime type, HTTP status code and optional header
+  // values, and return RV_CONTINUE. To cancel loading of the resource return
+  // RV_HANDLED. Any modifications to |request| will be observed.  If the URL in
+  // |request| is changed and |redirectUrl| is also set, the URL in |request|
+  // will be used.
   /*--cef()--*/
   virtual RetVal HandleBeforeResourceLoad(CefRefPtr<CefBrowser> browser,
                                      CefRefPtr<CefRequest> request,
                                      CefString& redirectUrl,
                                      CefRefPtr<CefStreamReader>& resourceStream,
-                                     CefString& mimeType,
+                                     CefRefPtr<CefResponse> response,
                                      int loadFlags) =0;
 
   // Called on the IO thread to handle requests for URLs with an unknown
@@ -856,7 +858,7 @@ public:
   /*--cef()--*/
   virtual RetVal HandleProtocolExecution(CefRefPtr<CefBrowser> browser,
                                          const CefString& url,
-                                         bool* allow_os_execution) =0;
+                                         bool& allow_os_execution) =0;
 
   // Called on the UI thread when a server indicates via the
   // 'Content-Disposition' header that a response represents a file to download.
@@ -1258,21 +1260,33 @@ class CefResponse : public CefBase
 public:
   typedef std::map<CefString,CefString> HeaderMap;
 
-  // Returns the response status code.
+  // Returns/sets the response status code.
   /*--cef()--*/
   virtual int GetStatus() =0;
+  /*--cef()--*/
+  virtual void SetStatus(int status) = 0;
 
-  // Returns the response status text.
+  // Returns/sets the response status text.
   /*--cef()--*/
   virtual CefString GetStatusText() =0;
+  /*--cef()--*/
+  virtual void SetStatusText(const CefString& statusText) = 0;
+
+  // Returns/sets the response mime type.
+  /*--cef()--*/
+  virtual CefString GetMimeType() = 0;
+  /*--cef()--*/
+  virtual void SetMimeType(const CefString& mimeType) = 0;
 
   // Returns the value for the specified response header field.
   /*--cef()--*/
   virtual CefString GetHeader(const CefString& name) =0;
 
-  // Retrieves a map of all response header fields.
+  // Retrieves/sets a map of all response header fields.
   /*--cef()--*/
   virtual void GetHeaderMap(HeaderMap& headerMap) =0;
+  /*--cef()--*/
+  virtual void SetHeaderMap(const HeaderMap& headerMap) =0;
 };
 
 
@@ -1417,6 +1431,19 @@ public:
   // Returns the global object for this context.
   /*--cef()--*/
   virtual CefRefPtr<CefV8Value> GetGlobal() =0;
+
+  // Enter this context. A context must be explicitly entered before creating a
+  // V8 Object, Array or Function asynchronously. Exit() must be called the same
+  // number of times as Enter() before releasing this context. V8 objects belong
+  // to the context in which they are created. Returns true if the scope was
+  // entered successfully.
+  /*--cef()--*/
+  virtual bool Enter() =0;
+
+  // Exit this context. Call this method only after calling Enter(). Returns
+  // true if the scope was exited successfully.
+  /*--cef()--*/
+  virtual bool Exit() =0;
 };
 
 
@@ -1440,6 +1467,31 @@ public:
                        CefString& exception) =0;
 };
 
+// Interface that should be implemented to handle V8 accessor calls. Accessor
+// identifiers are registered by calling CefV8Value::SetValue(). The methods
+// of this class will always be called on the UI thread.
+/*--cef(source=client)--*/
+class CefV8Accessor : public CefBase
+{
+public:
+  // Called to get an accessor value. |name| is the name of the property being
+  // accessed. |object| is the This() object from V8's AccessorInfo structure.
+  // |retval| is the value to return for this property. Return true if handled.
+  /*--cef()--*/
+  virtual bool Get(const CefString& name,
+                   const CefRefPtr<CefV8Value> object,
+                   CefRefPtr<CefV8Value>& retval) =0;
+
+  // Called to set an accessor value. |name| is the name of the property being
+  // accessed. |value| is the new value being assigned to this property.
+  // |object| is the This() object from V8's AccessorInfo structure. Return true
+  // if handled.
+  /*--cef()--*/
+  virtual bool Set(const CefString& name,
+                   const CefRefPtr<CefV8Value> object,
+                   const CefRefPtr<CefV8Value> value) =0;
+};
+
 
 // Class representing a V8 value. The methods of this class should only be
 // called on the UI thread.
@@ -1447,6 +1499,9 @@ public:
 class CefV8Value : public CefBase
 {
 public:
+  typedef cef_v8_accesscontrol_t AccessControl;
+  typedef cef_v8_propertyattribute_t PropertyAttribute;
+
   // Create a new CefV8Value object of the specified type.
   /*--cef()--*/
   static CefRefPtr<CefV8Value> CreateUndefined();
@@ -1462,6 +1517,9 @@ public:
   static CefRefPtr<CefV8Value> CreateString(const CefString& value);
   /*--cef()--*/
   static CefRefPtr<CefV8Value> CreateObject(CefRefPtr<CefBase> user_data);
+  /*--cef(capi_name=cef_v8value_create_object_with_accessor)--*/
+  static CefRefPtr<CefV8Value> CreateObject(CefRefPtr<CefBase> user_data, 
+                                            CefRefPtr<CefV8Accessor> accessor);
   /*--cef()--*/
   static CefRefPtr<CefV8Value> CreateArray();
   /*--cef()--*/
@@ -1487,6 +1545,11 @@ public:
   virtual bool IsArray() =0;
   /*--cef()--*/
   virtual bool IsFunction() =0;
+
+  // Returns true if this object is pointing to the same handle as |that|
+  // object.
+  /*--cef()--*/
+  virtual bool IsSame(CefRefPtr<CefV8Value> that) =0;
   
   // Return a primitive value type.  The underlying data will be converted to
   // the requested type if necessary.
@@ -1523,11 +1586,17 @@ public:
   /*--cef(capi_name=get_value_byindex)--*/
   virtual CefRefPtr<CefV8Value> GetValue(int index) =0;
 
-  // Associate value with the specified identifier.
+  // Associate a value with the specified identifier.
   /*--cef(capi_name=set_value_bykey)--*/
   virtual bool SetValue(const CefString& key, CefRefPtr<CefV8Value> value) =0;
   /*--cef(capi_name=set_value_byindex)--*/
   virtual bool SetValue(int index, CefRefPtr<CefV8Value> value) =0;
+
+  // Register an identifier whose access will be forwarded to the CefV8Accessor
+  // instance passed to CefV8Value::CreateObject().
+  /*--cef(capi_name=set_value_byaccessor)--*/
+  virtual bool SetValue(const CefString& key, AccessControl settings, 
+                        PropertyAttribute attribute) =0;
 
   // Read the keys for the object's values into the specified vector. Integer-
   // based keys will also be returned as strings.
@@ -1593,17 +1662,21 @@ class CefSchemeHandler : public CefBase
 {
 public:
   // Process the request. All response generation should take place in this
-  // method. If there is no response set |response_length| to zero and
-  // ReadResponse() will not be called. If the response length is not known then
-  // set |response_length| to -1 and ReadResponse() will be called until it
-  // returns false or until the value of |bytes_read| is set to 0. Otherwise,
-  // set |response_length| to a positive value and ReadResponse() will be called
-  // until it returns false, the value of |bytes_read| is set to 0 or the
-  // specified number of bytes have been read. If there is a response set
-  // |mime_type| to the mime type for the response.
+  // method. If there is no response set |response_length| to zero or return
+  // false and ReadResponse() will not be called. If the response length is not
+  // known set |response_length| to -1 and ReadResponse() will be called until
+  // it returns false or until the value of |bytes_read| is set to 0. If the
+  // response length is known set |response_length| to a positive value and
+  // ReadResponse() will be called until it returns false, the value of
+  // |bytes_read| is set to 0 or the specified number of bytes have been read.
+  // Use the |response| object to set the mime type, http status code and
+  // optional header values for the response and return true. To redirect the
+  // request to a new URL set |redirectUrl| to the new URL and return true.
   /*--cef()--*/
   virtual bool ProcessRequest(CefRefPtr<CefRequest> request,
-                              CefString& mime_type, int* response_length) =0;
+                              CefString& redirectUrl,
+                              CefRefPtr<CefResponse> response,
+                              int* response_length) =0;
 
   // Cancel processing of the request.
   /*--cef()--*/
@@ -2202,388 +2275,6 @@ public:
   // to or attempt to access any DOM objects outside the scope of this method.
   /*--cef()--*/
   virtual void HandleEvent(CefRefPtr<CefDOMEvent> event) =0;
-};
-
-
-// Class representing popup window features.
-class CefPopupFeatures : public cef_popup_features_t
-{
-public:
-  CefPopupFeatures()
-  {
-    Init();
-  }
-  virtual ~CefPopupFeatures()
-  {
-    Reset();
-  }
-
-  CefPopupFeatures(const CefPopupFeatures& r)
-  {
-    Init();
-    *this = r;
-  }
-  CefPopupFeatures(const cef_popup_features_t& r)
-  {
-    Init();
-    *this = r;
-  }
-
-  void Reset()
-  {
-    if(additionalFeatures)
-      cef_string_list_free(additionalFeatures);
-  }
-
-  void Attach(const cef_popup_features_t& r)
-  {
-    Reset();
-    *static_cast<cef_popup_features_t*>(this) = r;
-  }
-
-  void Detach()
-  {
-    Init();
-  }
-
-  CefPopupFeatures& operator=(const CefPopupFeatures& r)
-  {
-    return operator=(static_cast<const cef_popup_features_t&>(r));
-  }
-
-  CefPopupFeatures& operator=(const cef_popup_features_t& r)
-  {
-    if(additionalFeatures)
-      cef_string_list_free(additionalFeatures);
-    additionalFeatures = r.additionalFeatures ?
-        cef_string_list_copy(r.additionalFeatures) : NULL;
-
-    x = r.x;
-    xSet = r.xSet;
-    y = r.y;
-    ySet = r.ySet;
-    width = r.width;
-    widthSet = r.widthSet;
-    height = r.height;
-    heightSet = r.heightSet;
-    menuBarVisible = r.menuBarVisible;
-    statusBarVisible = r.statusBarVisible;
-    toolBarVisible = r.toolBarVisible;
-    locationBarVisible = r.locationBarVisible;
-    scrollbarsVisible = r.scrollbarsVisible;
-    resizable = r.resizable;
-    fullscreen = r.fullscreen;
-    dialog = r.dialog;
-    return *this;
-  }
-
-protected:
-  void Init()
-  {
-    x = 0;
-    xSet = false;
-    y = 0;
-    ySet = false;
-    width = 0;
-    widthSet = false;
-    height = 0;
-    heightSet = false;
-
-    menuBarVisible = true;
-    statusBarVisible = true;
-    toolBarVisible = true;
-    locationBarVisible = true;
-    scrollbarsVisible = true;
-    resizable = true;
-
-    fullscreen = false;
-    dialog = false;
-    additionalFeatures = NULL;
-  }
-};
-
-
-// Class representing initialization settings.
-class CefSettings : public cef_settings_t
-{
-public:
-  CefSettings()
-  {
-    Init();
-  }
-  virtual ~CefSettings()
-  {
-    Reset();
-  }
-
-  CefSettings(const CefSettings& r)
-  {
-    Init();
-    *this = r;
-  }
-  CefSettings(const cef_settings_t& r)
-  {
-    Init();
-    *this = r;
-  }
-
-  void Reset()
-  {
-    cef_string_clear(&cache_path);
-    cef_string_clear(&user_agent);
-    cef_string_clear(&product_version);
-    cef_string_clear(&locale);
-    if(extra_plugin_paths)
-      cef_string_list_free(extra_plugin_paths);
-    cef_string_clear(&log_file);
-    Init();
-  }
-
-  void Attach(const cef_settings_t& r)
-  {
-    Reset();
-    *static_cast<cef_settings_t*>(this) = r;
-  }
-
-  void Detach()
-  {
-    Init();
-  }
-
-  CefSettings& operator=(const CefSettings& r)
-  {
-    return operator=(static_cast<const cef_settings_t&>(r));
-  }
-
-  CefSettings& operator=(const cef_settings_t& r)
-  {
-    multi_threaded_message_loop = r.multi_threaded_message_loop;
-
-    cef_string_copy(r.cache_path.str, r.cache_path.length, &cache_path);
-    cef_string_copy(r.user_agent.str, r.user_agent.length, &user_agent);
-    cef_string_copy(r.product_version.str, r.product_version.length,
-        &product_version);
-    cef_string_copy(r.locale.str, r.locale.length, &locale);
-
-    if(extra_plugin_paths)
-      cef_string_list_free(extra_plugin_paths);
-    extra_plugin_paths = r.extra_plugin_paths ?
-        cef_string_list_copy(r.extra_plugin_paths) : NULL;
-
-    cef_string_copy(r.log_file.str, r.log_file.length, &log_file);
-    log_severity = r.log_severity;
-
-    return *this;
-  }
-
-protected:
-  void Init()
-  {
-    memset(static_cast<cef_settings_t*>(this), 0, sizeof(cef_settings_t));
-    size = sizeof(cef_settings_t);
-  }
-};
-
-
-// Class representing browser initialization settings.
-class CefBrowserSettings : public cef_browser_settings_t
-{
-public:
-  CefBrowserSettings()
-  {
-    Init();
-  }
-  virtual ~CefBrowserSettings()
-  {
-    Reset();
-  }
-
-  CefBrowserSettings(const CefBrowserSettings& r)
-  {
-    Init();
-    *this = r;
-  }
-  CefBrowserSettings(const cef_browser_settings_t& r)
-  {
-    Init();
-    *this = r;
-  }
-
-  void Reset()
-  {
-    cef_string_clear(&standard_font_family);
-    cef_string_clear(&fixed_font_family);
-    cef_string_clear(&serif_font_family);
-    cef_string_clear(&sans_serif_font_family);
-    cef_string_clear(&cursive_font_family);
-    cef_string_clear(&fantasy_font_family);
-    cef_string_clear(&default_encoding);
-    cef_string_clear(&user_style_sheet_location);
-    Init();
-  }
-
-  void Attach(const cef_browser_settings_t& r)
-  {
-    Reset();
-    *static_cast<cef_browser_settings_t*>(this) = r;
-  }
-
-  void Detach()
-  {
-    Init();
-  }
-
-  CefBrowserSettings& operator=(const CefBrowserSettings& r)
-  {
-    return operator=(static_cast<const cef_browser_settings_t&>(r));
-  }
-
-  CefBrowserSettings& operator=(const cef_browser_settings_t& r)
-  {
-    drag_drop_disabled = r.drag_drop_disabled;
-
-    cef_string_copy(r.standard_font_family.str, r.standard_font_family.length,
-        &standard_font_family);
-    cef_string_copy(r.fixed_font_family.str, r.fixed_font_family.length,
-        &fixed_font_family);
-    cef_string_copy(r.serif_font_family.str, r.serif_font_family.length,
-        &serif_font_family);
-    cef_string_copy(r.sans_serif_font_family.str,
-        r.sans_serif_font_family.length, &sans_serif_font_family);
-    cef_string_copy(r.cursive_font_family.str, r.cursive_font_family.length,
-        &cursive_font_family);
-    cef_string_copy(r.fantasy_font_family.str, r.fantasy_font_family.length,
-        &fantasy_font_family);
-
-    default_font_size = r.default_font_size;
-    default_fixed_font_size = r.default_fixed_font_size;
-    minimum_font_size = r.minimum_font_size;
-    minimum_logical_font_size = r.minimum_logical_font_size;
-    remote_fonts_disabled = r.remote_fonts_disabled;
-
-    cef_string_copy(r.default_encoding.str, r.default_encoding.length,
-        &default_encoding);
-
-    encoding_detector_enabled = r.encoding_detector_enabled;
-    javascript_disabled = r.javascript_disabled;
-    javascript_open_windows_disallowed = r.javascript_open_windows_disallowed;
-    javascript_close_windows_disallowed = r.javascript_close_windows_disallowed;
-    javascript_access_clipboard_disallowed =
-        r.javascript_access_clipboard_disallowed;
-    dom_paste_disabled = r.dom_paste_disabled;
-    caret_browsing_enabled = r.caret_browsing_enabled;
-    java_disabled = r.java_disabled;
-    plugins_disabled = r.plugins_disabled;
-    universal_access_from_file_urls_allowed =
-        r.universal_access_from_file_urls_allowed;
-    file_access_from_file_urls_allowed = r.file_access_from_file_urls_allowed;
-    web_security_disabled = r.web_security_disabled;
-    xss_auditor_enabled = r.xss_auditor_enabled;
-    image_load_disabled = r.image_load_disabled;
-    shrink_standalone_images_to_fit = r.shrink_standalone_images_to_fit;
-    site_specific_quirks_disabled = r.site_specific_quirks_disabled;
-    text_area_resize_disabled = r.text_area_resize_disabled;
-    page_cache_disabled = r.page_cache_disabled;
-    tab_to_links_disabled = r.tab_to_links_disabled;
-    hyperlink_auditing_disabled = r.hyperlink_auditing_disabled;
-    user_style_sheet_enabled = r.user_style_sheet_enabled;
-
-    cef_string_copy(r.user_style_sheet_location.str,
-        r.user_style_sheet_location.length, &user_style_sheet_location);
-
-    author_and_user_styles_disabled = r.author_and_user_styles_disabled;
-    local_storage_disabled = r.local_storage_disabled;
-    databases_disabled = r.databases_disabled;
-    application_cache_disabled = r.application_cache_disabled;
-    webgl_disabled = r.webgl_disabled;
-    accelerated_compositing_disabled = r.accelerated_compositing_disabled;
-    accelerated_layers_disabled = r.accelerated_layers_disabled;
-    accelerated_2d_canvas_disabled = r.accelerated_2d_canvas_disabled;
-    developer_tools_disabled = r.developer_tools_disabled;
-
-    return *this;
-  }
-
-protected:
-  void Init()
-  {
-    memset(static_cast<cef_browser_settings_t*>(this), 0,
-        sizeof(cef_browser_settings_t));
-    size = sizeof(cef_browser_settings_t);
-  }
-};
-
-// Class used to represent a URL's component parts.
-class CefURLParts : public cef_urlparts_t
-{
-public:
-  CefURLParts()
-  {
-    Init();
-  }
-  virtual ~CefURLParts()
-  {
-    Reset();
-  }
-
-  CefURLParts(const CefURLParts& r)
-  {
-    Init();
-    *this = r;
-  }
-  CefURLParts(const cef_urlparts_t& r)
-  {
-    Init();
-    *this = r;
-  }
-
-  void Reset()
-  {
-    cef_string_clear(&spec);
-    cef_string_clear(&scheme);
-    cef_string_clear(&username);
-    cef_string_clear(&password);
-    cef_string_clear(&host);
-    cef_string_clear(&port);
-    cef_string_clear(&path);
-    cef_string_clear(&query);
-    Init();
-  }
-
-  void Attach(const cef_urlparts_t& r)
-  {
-    Reset();
-    *static_cast<cef_urlparts_t*>(this) = r;
-  }
-
-  void Detach()
-  {
-    Init();
-  }
-
-  CefURLParts& operator=(const CefURLParts& r)
-  {
-    return operator=(static_cast<const cef_urlparts_t&>(r));
-  }
-
-  CefURLParts& operator=(const cef_urlparts_t& r)
-  {
-    cef_string_copy(r.spec.str, r.spec.length, &spec);
-    cef_string_copy(r.scheme.str, r.scheme.length, &scheme);
-    cef_string_copy(r.username.str, r.username.length, &username);
-    cef_string_copy(r.password.str, r.password.length, &password);
-    cef_string_copy(r.host.str, r.host.length, &host);
-    cef_string_copy(r.port.str, r.port.length, &port);
-    cef_string_copy(r.path.str, r.path.length, &path);
-    cef_string_copy(r.query.str, r.query.length, &query);
-    return *this;
-  }
-
-protected:
-  void Init()
-  {
-    memset(static_cast<cef_urlparts_t*>(this), 0, sizeof(cef_urlparts_t));
-  }
 };
 
 #endif // _CEF_H

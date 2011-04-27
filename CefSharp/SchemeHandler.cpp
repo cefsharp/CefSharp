@@ -22,7 +22,8 @@ namespace CefSharp
         return -1;
     }
 
-    bool SchemeHandlerWrapper::ProcessRequest(CefRefPtr<CefRequest> cefRequest, CefString &cefMimeType, int *responseLength)
+    bool SchemeHandlerWrapper::ProcessRequest(CefRefPtr<CefRequest> cefRequest, CefString& redirectUrl, CefRefPtr<CefResponse> response, int* responseLength)
+    //bool SchemeHandlerWrapper::ProcessRequest(CefRefPtr<CefRequest> cefRequest, CefString &cefMimeType, int *responseLength)
     {
         bool handled = false;
         
@@ -36,10 +37,12 @@ namespace CefSharp
         handled = _handler->ProcessRequest(requestWrapper, mimeType, stream);
         _stream = stream;
 
+        /*
         if(mimeType != nullptr)
         {
             cefMimeType = toNative(mimeType);
         }
+        */
         
         *responseLength = SizeFromStream();
         

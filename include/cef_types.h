@@ -269,6 +269,57 @@ typedef struct _cef_urlparts_t
   cef_string_t query;
 } cef_urlparts_t;
 
+// Time information. Values should always be in UTC.
+typedef struct _cef_time_t
+{
+  int year;          // Four digit year "2007"
+  int month;         // 1-based month (values 1 = January, etc.)
+  int day_of_week;   // 0-based day of week (0 = Sunday, etc.)
+  int day_of_month;  // 1-based day of month (1-31)
+  int hour;          // Hour within the current day (0-23)
+  int minute;        // Minute within the current hour (0-59)
+  int second;        // Second within the current minute (0-59 plus leap
+                     //   seconds which may take it up to 60).
+  int millisecond;   // Milliseconds within the current second (0-999)
+} cef_time_t;
+
+// Cookie information.
+typedef struct _cef_cookie_t
+{
+  // The cookie name.
+  cef_string_t name;
+
+  // The cookie value.
+  cef_string_t value;
+
+  // If |domain| is empty a host cookie will be created instead of a domain
+  // cookie. Domain cookies are stored with a leading "." and are visible to
+  // sub-domains whereas host cookies are not.
+  cef_string_t domain;
+
+  // If |path| is non-empty only URLs at or below the path will get the cookie
+  // value.
+  cef_string_t path;
+
+  // If |secure| is true the cookie will only be sent for HTTPS requests.
+  bool secure;
+
+  // If |httponly| is true the cookie will only be sent for HTTP requests.
+  bool httponly;
+
+  // The cookie creation date. This is automatically populated by the system on
+  // cookie creation.
+  cef_time_t creation;
+  
+  // The cookie last access date. This is automatically populated by the system
+  // on access.
+  cef_time_t last_access;
+
+  // The cookie expiration date is only valid if |has_expires| is true.
+  bool has_expires;
+  cef_time_t expires;
+} cef_cookie_t;
+
 // Mouse button types.
 enum cef_mouse_button_type_t
 {
@@ -359,6 +410,25 @@ enum cef_handler_errorcode_t
   ERR_RESPONSE_HEADERS_TOO_BIG = -325,
   ERR_CACHE_MISS = -400,
   ERR_INSECURE_RESPONSE = -501,
+};
+
+// V8 access control values.
+enum cef_v8_accesscontrol_t
+{
+  V8_ACCESS_CONTROL_DEFAULT               = 0,
+  V8_ACCESS_CONTROL_ALL_CAN_READ          = 1,
+  V8_ACCESS_CONTROL_ALL_CAN_WRITE         = 1 << 1,
+  V8_ACCESS_CONTROL_PROHIBITS_OVERWRITING = 1 << 2
+};
+
+// V8 property attribute values.
+enum cef_v8_propertyattribute_t
+{
+  V8_PROPERTY_ATTRIBUTE_NONE       = 0,       // Writeable, Enumerable, 
+                                              //   Configurable
+  V8_PROPERTY_ATTRIBUTE_READONLY   = 1 << 0,  // Not writeable
+  V8_PROPERTY_ATTRIBUTE_DONTENUM   = 1 << 1,  // Not enumerable
+  V8_PROPERTY_ATTRIBUTE_DONTDELETE = 1 << 2   // Not configurable
 };
 
 // Structure representing menu information.
