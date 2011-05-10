@@ -68,7 +68,7 @@ namespace CefSharp
         return RV_CONTINUE;
     }
 
-    CefHandler::RetVal HandlerAdapter::HandleBeforeCreated(CefRefPtr<CefBrowser> parentBrowser, CefWindowInfo& createInfo, bool popup, const CefPopupFeatures& popupFeatures, CefRefPtr<CefHandler>& handler, CefString& url, CefBrowserSettings& settings)
+    CefHandler::RetVal HandlerAdapter::HandleBeforeCreated(CefRefPtr<CefBrowser> parentBrowser, CefWindowInfo& createInfo, bool popup, const CefPopupFeatures& popupFeatures, CefRefPtr<CefHandler>& handler, const CefString& url, CefBrowserSettings& settings)
     {
         IBeforeCreated^ beforeCreatedHandler = _browserControl->BeforeCreatedHandler;
         if (beforeCreatedHandler == nullptr || beforeCreatedHandler->HandleBeforeCreated(popup, toClr(url)))

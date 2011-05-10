@@ -752,7 +752,7 @@ public:
                                      CefWindowInfo& windowInfo, bool popup,
                                      const CefPopupFeatures& popupFeatures,
                                      CefRefPtr<CefHandler>& handler,
-                                     CefString& url,
+                                     const CefString& url,
                                      CefBrowserSettings& settings) =0;
 
   // Called on the UI thread after a new window is created. The return value is
@@ -2128,6 +2128,11 @@ public:
   // Returns true if this is an element node.
   /*--cef()--*/
   virtual bool IsElement() =0;
+
+  // Returns true if this object is pointing to the same handle as |that|
+  // object.
+  /*--cef()--*/
+  virtual bool IsSame(CefRefPtr<CefDOMNode> that) =0;
 
   // Returns the name of this node.
   /*--cef()--*/
