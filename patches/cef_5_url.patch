@@ -41,13 +41,16 @@ Index: patch/patch_source.cfg
 ===================================================================
 --- patch/patch_source.cfg	(revision 233)
 +++ patch/patch_source.cfg	(working copy)
-@@ -3,6 +3,8 @@
- # file entry should be proceeded by the code review or bug report link that it
+@@ -4,5 +4,7 @@
  # relates to.
  patches = {
+   # http://codereview.chromium.org/6730028/
+-  'base' : '../base/'
++  'base' : '../base/',
 +  # http://code.google.com/p/chromiumembedded/issues/detail?id=5
 +  '5_url_fix' : '../third_party/',
  }
+
 Index: libcef/browser_webview_delegate.cc
 ===================================================================
 --- libcef/browser_webview_delegate.cc	(revision 233)

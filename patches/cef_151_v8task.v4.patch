@@ -202,13 +202,13 @@ Index: libcef_dll/ctocpp/frame_ctocpp.h
 --- libcef_dll/ctocpp/frame_ctocpp.h	(revision 223)
 +++ libcef_dll/ctocpp/frame_ctocpp.h	(working copy)
 @@ -49,6 +49,7 @@
-       const CefString& url);
+       const CefString& url) OVERRIDE;
    virtual void ExecuteJavaScript(const CefString& jsCode,
-       const CefString& scriptUrl, int startLine);
-+  virtual void ExecuteJavaScriptTask(CefRefPtr<CefV8Task> jsTask);
-   virtual bool IsMain();
-   virtual bool IsFocused();
-   virtual CefString GetName();
+       const CefString& scriptUrl, int startLine) OVERRIDE;
++  virtual void ExecuteJavaScriptTask(CefRefPtr<CefV8Task> jsTask) OVERRIDE;
+   virtual bool IsMain() OVERRIDE;
+   virtual bool IsFocused() OVERRIDE;
+   virtual CefString GetName() OVERRIDE;
 Index: libcef_dll/ctocpp/v8task_ctocpp.h
 ===================================================================
 --- libcef_dll/ctocpp/v8task_ctocpp.h	(revision 0)
