@@ -62,12 +62,12 @@ namespace CefSharp
             }
         }
 
-        static bool Initialize(Settings^ settings, BrowserSettings^ browserSettings)
+        static bool Initialize(Settings^ settings)
         {
             bool success = false;
             if (!IsInitialized)
             {
-                success = CefInitialize(*settings->_cefSettings, *browserSettings->_browserSettings);
+                success = CefInitialize(*settings->_cefSettings);
                 _initialized = success;
             }
             return success;
