@@ -27,7 +27,7 @@ namespace CefSharp
     {
         bool handled = false;
         
-        Lock();
+        AutoLock lock_scope(this);
 
         IRequest^ requestWrapper = gcnew CefRequestWrapper(cefRequest);
 
@@ -45,8 +45,6 @@ namespace CefSharp
         */
         
         *responseLength = SizeFromStream();
-        
-        Unlock();
         return handled;
     }
 

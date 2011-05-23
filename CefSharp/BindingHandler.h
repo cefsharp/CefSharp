@@ -12,7 +12,7 @@ namespace CefSharp
         gcroot<Object^> _obj;
     };
 
-    class BindingData : public CefThreadSafeBase<binding_data>
+    class BindingData : public binding_data
     {
     public:
         BindingData(Object^ obj)
@@ -26,7 +26,7 @@ namespace CefSharp
         }
     };
 
-    class BindingHandler : public CefThreadSafeBase<CefV8Handler>
+    class BindingHandler : public CefV8Handler
     {
         // Type Converter
         static bool IsNullableType(Type^ type);

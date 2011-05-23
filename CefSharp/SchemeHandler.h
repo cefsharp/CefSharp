@@ -24,7 +24,7 @@ public interface class ISchemeHandlerFactory
 };
 
 
-class SchemeHandlerWrapper : public CefThreadSafeBase<CefSchemeHandler>
+class SchemeHandlerWrapper : public CefSchemeHandler
 {
     gcroot<ISchemeHandler^> _handler;
     gcroot<Stream^> _stream;
@@ -45,10 +45,11 @@ public:
     virtual void Cancel();
     virtual bool ReadResponse(void* data_out, int bytes_to_read, int* bytes_read);
 
+    IMPLEMENT_LOCKING(SchemeHandlerWrapper);
 };
 
 
-class SchemeHandlerFactoryWrapper : public CefThreadSafeBase<CefSchemeHandlerFactory>
+class SchemeHandlerFactoryWrapper : public CefSchemeHandlerFactory
 {
     gcroot<ISchemeHandlerFactory^> _factory;
    

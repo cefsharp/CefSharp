@@ -7,7 +7,7 @@ namespace CefSharp
 
     ref class CefWebBrowser;
 
-    class HandlerAdapter : public CefThreadSafeBase<CefHandler>
+    class HandlerAdapter : public CefHandler
     {
     private:
         gcroot<CefWebBrowser^> _browserControl;

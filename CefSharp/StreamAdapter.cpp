@@ -10,8 +10,8 @@ namespace CefSharp
 
     size_t StreamAdapter::Read(void* ptr, size_t size, size_t n)
     {
-        Lock();
-        
+        AutoLock lock_scope(this);
+
         try {
             array<Byte>^ buffer = gcnew array<Byte>(n * size);
             int ret = _stream->Read(buffer, 0, n);
@@ -23,11 +23,6 @@ namespace CefSharp
         {
             return -1;
         }
-        finally 
-        {
-            Unlock();
-        }
-
     }
         
     int StreamAdapter::Seek(long offset, int whence)

@@ -6,7 +6,7 @@ using namespace System::IO;
 
 namespace CefSharp
 {
-    class StreamAdapter : public CefThreadSafeBase<CefReadHandler>
+    class StreamAdapter : public CefReadHandler
     {
         gcroot<Stream^> _stream;
 
@@ -18,5 +18,7 @@ namespace CefSharp
         virtual int Seek(long offset, int whence);
         virtual long Tell();
         virtual int Eof();
+
+        IMPLEMENT_LOCKING(StreamAdapter);
     };
 }
