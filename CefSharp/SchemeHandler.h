@@ -46,6 +46,7 @@ public:
     virtual bool ReadResponse(void* data_out, int bytes_to_read, int* bytes_read);
 
     IMPLEMENT_LOCKING(SchemeHandlerWrapper);
+    IMPLEMENT_REFCOUNTING(SchemeHandlerWrapper);
 };
 
 
@@ -58,6 +59,8 @@ public:
         : _factory(factory) {}
 
     virtual CefRefPtr<CefSchemeHandler> Create();
+
+    IMPLEMENT_REFCOUNTING(SchemeHandlerFactoryWrapper);
 };
 
 };
