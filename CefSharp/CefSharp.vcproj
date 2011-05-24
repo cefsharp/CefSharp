@@ -220,7 +220,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\HandlerAdapter.cpp"
+				RelativePath=".\ClientAdapter.cpp"
 				>
 			</File>
 			<File
@@ -298,7 +298,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\HandlerAdapter.h"
+				RelativePath=".\ClientAdapter.h"
 				>
 			</File>
 			<File

@@ -3,6 +3,12 @@
 
 namespace CefSharp 
 {
+    class ClientAdapter : public CefClient
+    {
+
+    };
+
+    /*
     using namespace System;
 
     ref class CefWebBrowser;
@@ -82,4 +88,5 @@ namespace CefSharp
         	return _cefBrowser != nullptr;
         }
     };
+    */
 };
