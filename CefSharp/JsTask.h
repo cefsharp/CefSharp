@@ -5,8 +5,7 @@
 
 namespace CefSharp
 {
-
-    class JsTask : public CefThreadSafeBase<CefV8Task>
+    class JsTask : public CefV8Task
     {
         gcroot<CefWebBrowser^> _browser;
         CefString _script;

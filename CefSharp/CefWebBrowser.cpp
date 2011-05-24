@@ -1,11 +1,26 @@
 #include "stdafx.h"
 
 #include "CefWebBrowser.h"
+/*
 #include "JsTask.h"
 #include "ScriptException.h"
+*/
 
 namespace CefSharp
 {
+    void CefWebBrowser::SetJsResult(String^ result)
+    {
+        _jsResult = result;
+        _runJsFinished->Set();
+    }
+
+    void CefWebBrowser::SetJsError()
+    {
+        _jsError = true;
+        _runJsFinished->Set();
+    }
+
+    /*
     void CefWebBrowser::Load(String^ url)
     {
         WaitForInitialized();
@@ -68,7 +83,7 @@ namespace CefSharp
         
         _jsError = false;
         _jsResult = nullptr;
-/*
+#if 0
         script = 
             "(function() {"
             "   try { "
@@ -77,7 +92,7 @@ namespace CefSharp
             "      __js_run_err(e);"
             "   }"
             "})();";
-*/
+#endif
         
         CefRefPtr<JsTask> task = new JsTask(this, toNative(script), toNative(scriptUrl), startLine);
         _handlerAdapter->GetCefBrowser()->GetMainFrame()->ExecuteJavaScriptTask(static_cast<CefRefPtr<CefV8Task>>(task));
@@ -220,4 +235,5 @@ namespace CefSharp
         // TODO: risk of infinite lock
         _browserInitialized->WaitOne();
     }
+    */
 }

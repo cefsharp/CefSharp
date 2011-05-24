@@ -1,6 +1,24 @@
 #include "stdafx.h"
 #pragma once
 
+using namespace System::Threading;
+
+namespace CefSharp
+{
+    public ref class CefWebBrowser
+    {
+        AutoResetEvent^ _runJsFinished;
+        String^ _jsResult;
+        bool _jsError;
+
+    internal:
+        void SetJsResult(String^ result);
+        void SetJsError();
+    };
+}
+
+/*
+
 #include "CefSharp.h"
 #include "HandlerAdapter.h"
 #include "IBeforeCreated.h"
@@ -150,5 +168,6 @@ namespace CefSharp
 
         event ConsoleMessageEventHandler^ ConsoleMessage;
     };
-
 }
+
+*/
