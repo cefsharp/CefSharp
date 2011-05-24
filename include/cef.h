@@ -56,6 +56,7 @@
 
 class CefBrowser;
 class CefClient;
+class CefContentFilter;
 class CefCookieVisitor;
 class CefDOMDocument;
 class CefDOMEvent;
@@ -385,7 +386,7 @@ public:
 
 // Implement this interface for V8 javascript task execution.
 /*--cef(source=client)--*/
-class CefV8Task : public virtual CefBase
+class CefV8Task : public CefBase
 {
 public:
   // Script that will be executed.
@@ -808,6 +809,15 @@ public:
                                     CefRefPtr<CefStreamReader>& resourceStream,
                                     CefRefPtr<CefResponse> response,
                                     int loadFlags) { return false; }
+
+  // Called on the UI thread after a response to the resource request is
+  // received. Set |filter| if response content needs to be monitored and/or
+  // modified as it arrives.
+  /*--cef()--*/
+  virtual void OnResourceReponse(CefRefPtr<CefBrowser> browser,
+                                 const CefString& url,
+                                 CefRefPtr<CefResponse> response,
+                                 CefRefPtr<CefContentFilter>& filter) {}
 
   // Called on the IO thread to handle requests for URLs with an unknown
   // protocol component. Return true to indicate that the request should
@@ -2387,6 +2397,26 @@ public:
   // to or attempt to access any DOM objects outside the scope of this method.
   /*--cef()--*/
   virtual void HandleEvent(CefRefPtr<CefDOMEvent> event) =0;
+};
+
+
+// Interface to implement for filtering response content. The methods of this
+// class will always be called on the UI thread.
+/*--cef(source=client)--*/
+class CefContentFilter : public virtual CefBase
+{
+public:
+  // Set |substitute_data| to the replacement for the data in |data| if data
+  // should be modified.
+  /*--cef()--*/
+  virtual void ProcessData(const void* data, int data_size,
+                           CefRefPtr<CefStreamReader>& substitute_data) {}
+
+  // Called when there is no more data to be processed. It is expected that
+  // whatever data was retained in the last ProcessData() call, it should be
+  // returned now by setting |remainder| if appropriate.
+  /*--cef()--*/
+  virtual void Drain(CefRefPtr<CefStreamReader>& remainder) {}
 };
 
 #endif // _CEF_H
