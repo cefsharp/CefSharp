@@ -22,6 +22,8 @@ namespace CefSharp
         virtual int GetStartLine() { return _lineNo; };
         virtual void HandleSuccess(CefRefPtr<CefV8Value> result);
         virtual void HandleError();
+
+        IMPLEMENT_REFCOUNTING(JsTask);
     };
 
 }

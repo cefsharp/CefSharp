@@ -1,26 +1,8 @@
 #include "stdafx.h"
 #pragma once
 
-using namespace System::Threading;
-
-namespace CefSharp
-{
-    public ref class CefWebBrowser
-    {
-        AutoResetEvent^ _runJsFinished;
-        String^ _jsResult;
-        bool _jsError;
-
-    internal:
-        void SetJsResult(String^ result);
-        void SetJsError();
-    };
-}
-
-/*
-
 #include "CefSharp.h"
-#include "HandlerAdapter.h"
+#include "ClientAdapter.h"
 #include "IBeforeCreated.h"
 #include "IBeforeResourceLoad.h"
 #include "ConsoleMessageEventArgs.h"
@@ -46,7 +28,7 @@ namespace CefSharp
 
         IBeforeCreated^ _beforeCreatedHandler;
         IBeforeResourceLoad^ _beforeResourceLoadHandler;
-        MCefRefPtr<HandlerAdapter> _handlerAdapter;
+        MCefRefPtr<ClientAdapter> _clientAdapter;
 
         AutoResetEvent^ _runJsFinished;
         RtzCountdownEvent^ _loadCompleted;
@@ -68,7 +50,6 @@ namespace CefSharp
         void AddFrame(CefRefPtr<CefFrame> frame);
         void FrameLoadComplete(CefRefPtr<CefFrame> frame);
 
-        
         void SetJsResult(String^ result);
         void SetJsError();
         void RaiseConsoleMessage(String^ message, String^ source, int line);
@@ -83,7 +64,7 @@ namespace CefSharp
 
             if(!CEF::IsInitialized)
             {
-                if(!CEF::Initialize(gcnew Settings(), gcnew BrowserSettings()))
+                if(!CEF::Initialize(gcnew Settings()))
                 {
                     throw gcnew InvalidOperationException("CEF initialization failed.");
                 }
@@ -154,7 +135,7 @@ namespace CefSharp
         {
             bool get()
             {
-                return _handlerAdapter.get() != nullptr && _handlerAdapter->GetIsInitialized();
+                return true; // XXX
             }
         }
 
@@ -169,5 +150,3 @@ namespace CefSharp
         event ConsoleMessageEventHandler^ ConsoleMessage;
     };
 }
-
-*/

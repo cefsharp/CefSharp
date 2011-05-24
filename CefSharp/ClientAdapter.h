@@ -3,9 +3,43 @@
 
 namespace CefSharp 
 {
-    class ClientAdapter : public CefClient
-    {
+    using namespace System;
 
+    ref class CefWebBrowser;
+
+    class ClientAdapter : public CefClient,
+                          public CefLifeSpanHandler
+    {
+    private:
+        gcroot<CefWebBrowser^> _browserControl;
+        HWND _browserHwnd;
+        CefRefPtr<CefBrowser> _cefBrowser;
+
+    public:
+        ~ClientAdapter() { _browserControl = nullptr; }
+        ClientAdapter(CefWebBrowser^ browserControl) : _browserControl(browserControl) {}
+
+        HWND GetBrowserHwnd() { return _browserHwnd; }
+
+        CefRefPtr<CefBrowser> GetCefBrowser()
+        {
+            if (_cefBrowser == nullptr)
+            {
+                //TODO: make own exception type?
+                throw gcnew InvalidOperationException("CefBrowser is not initialized now.");
+            }
+
+            return _cefBrowser;
+        }
+
+        // CefClient
+        virtual CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() OVERRIDE { return this; }
+
+        // CefClientLifeSpanHandler
+        virtual void OnAfterCreated(CefRefPtr<CefBrowser> browser) OVERRIDE;
+
+        IMPLEMENT_LOCKING(ClientAdapter);
+        IMPLEMENT_REFCOUNTING(ClientAdapter);
     };
 
     /*

@@ -1,17 +1,29 @@
 #include "stdafx.h"
 
 #include "ClientAdapter.h"
-/*
 #include "CefWebBrowser.h"
 #include "Request.h"
 #include "ReturnValue.h"
 #include "StreamAdapter.h"
 #include "CefSharp.h"
 #include "BindingHandler.h"
-*/
 
 namespace CefSharp 
 {
+    void ClientAdapter::OnAfterCreated(CefRefPtr<CefBrowser> browser)
+    {
+        AutoLock lock_scope(this);
+
+        if(!browser->IsPopup())
+        {
+            _browserHwnd = browser->GetWindowHandle();
+            _cefBrowser = browser;
+
+            _browserControl->OnInitialized();
+        }
+    }
+
+
     /*
     CefHandler::RetVal HandlerAdapter::HandleAfterCreated(CefRefPtr<CefBrowser> browser) 
     { 

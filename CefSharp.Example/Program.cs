@@ -10,9 +10,8 @@ namespace CefSharp.Example
         static void Main(string[] args)
         {
             Settings settings = new Settings();
-            BrowserSettings browserSettings = new BrowserSettings();
 
-            if(!CEF.Initialize(settings, browserSettings))
+            if(!CEF.Initialize(settings))
             {
                 Console.WriteLine("Couldn't initialise CEF");
                 return;

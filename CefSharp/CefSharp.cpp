@@ -2,14 +2,12 @@
 
 #include "stdafx.h"
 
-/*
 #include "Settings.h"
 #include "BrowserSettings.h"
 #include "ReturnValue.h"
 #include "CefSharp.h"
-#include "HandlerAdapter.h"
+#include "ClientAdapter.h"
 #include "CefWebBrowser.h"
-*/
 
 namespace CefSharp 
 {

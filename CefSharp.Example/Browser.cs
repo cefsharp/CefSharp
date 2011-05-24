@@ -7,7 +7,7 @@ using CefSharp;
 
 namespace CefSharp.Example
 {
-    public partial class Browser : Form, IBeforeCreated, IBeforeResourceLoad
+    public partial class Browser : Form//, IBeforeCreated, IBeforeResourceLoad
     {
         private readonly CefWebBrowser _browserControl;
         private const string cefSharpHomeUrl = "https://github.com/chillitom/CefSharp";
@@ -20,8 +20,8 @@ namespace CefSharp.Example
             _browserControl.Dock = DockStyle.Fill;
             _browserControl.PropertyChanged += HandleBrowserPropertyChanged;
             _browserControl.ConsoleMessage += HandleConsoleMessage;
-            _browserControl.BeforeCreatedHandler = this;
-            _browserControl.BeforeResourceLoadHandler = this;
+            //_browserControl.BeforeCreatedHandler = this;
+            //_browserControl.BeforeResourceLoadHandler = this;
             toolStripContainer.ContentPanel.Controls.Add(_browserControl);            
         }
 

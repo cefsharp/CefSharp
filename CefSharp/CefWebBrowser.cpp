@@ -1,53 +1,38 @@
 #include "stdafx.h"
 
 #include "CefWebBrowser.h"
-/*
 #include "JsTask.h"
 #include "ScriptException.h"
-*/
 
 namespace CefSharp
 {
-    void CefWebBrowser::SetJsResult(String^ result)
-    {
-        _jsResult = result;
-        _runJsFinished->Set();
-    }
-
-    void CefWebBrowser::SetJsError()
-    {
-        _jsError = true;
-        _runJsFinished->Set();
-    }
-
-    /*
     void CefWebBrowser::Load(String^ url)
     {
         WaitForInitialized();
 
         _loadCompleted->Reset();
-        _handlerAdapter->GetCefBrowser()->GetMainFrame()->LoadURL(toNative(url));
+        _clientAdapter->GetCefBrowser()->GetMainFrame()->LoadURL(toNative(url));
     }
 
     void CefWebBrowser::Stop()
     {
     	WaitForInitialized();
 
-        _handlerAdapter->GetCefBrowser()->StopLoad();
+        _clientAdapter->GetCefBrowser()->StopLoad();
     }
 
     void CefWebBrowser::Back()
     {
     	WaitForInitialized();
 
-        _handlerAdapter->GetCefBrowser()->GoBack();
+        _clientAdapter->GetCefBrowser()->GoBack();
     }
 
     void CefWebBrowser::Forward()
     {
     	WaitForInitialized();
 
-        _handlerAdapter->GetCefBrowser()->GoForward();
+        _clientAdapter->GetCefBrowser()->GoForward();
     }
 
     void CefWebBrowser::Reload()
@@ -61,11 +46,11 @@ namespace CefSharp
 
         if(ignoreCache)
         {
-            _handlerAdapter->GetCefBrowser()->ReloadIgnoreCache();
+            _clientAdapter->GetCefBrowser()->ReloadIgnoreCache();
         }
         else
         {
-            _handlerAdapter->GetCefBrowser()->Reload();
+            _clientAdapter->GetCefBrowser()->Reload();
         }
     }
 
@@ -95,7 +80,7 @@ namespace CefSharp
 #endif
         
         CefRefPtr<JsTask> task = new JsTask(this, toNative(script), toNative(scriptUrl), startLine);
-        _handlerAdapter->GetCefBrowser()->GetMainFrame()->ExecuteJavaScriptTask(static_cast<CefRefPtr<CefV8Task>>(task));
+        _clientAdapter->GetCefBrowser()->GetMainFrame()->ExecuteJavaScriptTask(static_cast<CefRefPtr<CefV8Task>>(task));
 
         if(!_runJsFinished->WaitOne(timeout))
         {
@@ -119,8 +104,8 @@ namespace CefSharp
     {
         if (DesignMode == false) 
         {
-            _handlerAdapter = new HandlerAdapter(this);
-            CefRefPtr<HandlerAdapter> ptr = _handlerAdapter.get();
+            _clientAdapter = new ClientAdapter(this);
+            CefRefPtr<ClientAdapter> ptr = _clientAdapter.get();
 
             CefString urlStr = toNative(_address);
 
@@ -131,7 +116,9 @@ namespace CefSharp
             GetClientRect(hWnd, &rect);
             windowInfo.SetAsChild(hWnd, rect);
 
-            CefBrowser::CreateBrowser(windowInfo, false, static_cast<CefRefPtr<CefHandler>>(ptr), urlStr);
+            CefBrowserSettings settings;
+
+            CefBrowser::CreateBrowser(windowInfo, static_cast<CefRefPtr<CefClient>>(ptr), urlStr, settings);
         }
     }
 
@@ -144,7 +131,7 @@ namespace CefSharp
             GetClientRect(hWnd, &rect);
             HDWP hdwp = BeginDeferWindowPos(1);
 
-            HWND browserHwnd = _handlerAdapter->GetBrowserHwnd();
+            HWND browserHwnd = _clientAdapter->GetBrowserHwnd();
             hdwp = DeferWindowPos(hdwp, browserHwnd, NULL, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, SWP_NOZORDER);
             EndDeferWindowPos(hdwp);
         }
@@ -154,7 +141,7 @@ namespace CefSharp
     {
         if (IsInitialized && !DesignMode)
         {
-            _handlerAdapter->GetCefBrowser()->SetFocus(true);
+            _clientAdapter->GetCefBrowser()->SetFocus(true);
         }
     }
 
@@ -235,5 +222,4 @@ namespace CefSharp
         // TODO: risk of infinite lock
         _browserInitialized->WaitOne();
     }
-    */
 }
