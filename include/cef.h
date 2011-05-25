@@ -386,7 +386,7 @@ public:
 
 // Implement this interface for V8 javascript task execution.
 /*--cef(source=client)--*/
-class CefV8Task : public CefBase
+class CefV8Task : public virtual CefBase
 {
 public:
   // Script that will be executed.
