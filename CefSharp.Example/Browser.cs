@@ -96,13 +96,6 @@ namespace CefSharp.Example
             }
         }
 
-        public bool HandleBeforeCreated(bool popup, string url)
-        {
-            Console.WriteLine("HandleBeforeCreated: popup: {0}, url: {1}", popup, url);
-
-            return true;
-        }
-
         public void HandleBeforeResourceLoad(CefWebBrowser browserControl, IRequestResponse requestResponse)
         {
             IRequest request = requestResponse.Request;

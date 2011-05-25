@@ -10,10 +10,14 @@
 
 namespace CefSharp 
 {
+    bool ClientAdapter::OnBeforePopup(CefRefPtr<CefBrowser> parentBrowser, const CefPopupFeatures& popupFeatures, CefWindowInfo& windowInfo, const CefString& url, CefRefPtr<CefClient>& client, CefBrowserSettings& settings)
+    {
+        IBeforeCreated^ beforeCreatedHandler = _browserControl->BeforeCreatedHandler;
+        return beforeCreatedHandler == nullptr || beforeCreatedHandler->HandleBeforeCreated(true, toClr(url));
+    }
+
     void ClientAdapter::OnAfterCreated(CefRefPtr<CefBrowser> browser)
     {
-        AutoLock lock_scope(this);
-
         if(!browser->IsPopup())
         {
             _browserHwnd = browser->GetWindowHandle();
@@ -23,80 +27,61 @@ namespace CefSharp
         }
     }
 
-
-    /*
-    CefHandler::RetVal HandlerAdapter::HandleAfterCreated(CefRefPtr<CefBrowser> browser) 
-    { 
-        if(!browser->IsPopup()) 
-        {
-            _browserHwnd = browser->GetWindowHandle();
-            _cefBrowser = browser;
-
-            _browserControl->OnInitialized();
-        }
-        return RV_CONTINUE; 
-    }
-
-    CefHandler::RetVal HandlerAdapter::HandleTitleChange(CefRefPtr<CefBrowser> browser, const CefString& title) 
-    { 
-          _browserControl->SetTitle(toClr(title));
-          return RV_CONTINUE; 
-    }
-
-    CefHandler::RetVal HandlerAdapter::HandleAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& url)
+    void ClientAdapter::OnAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& url)
     {
         if(frame->IsMain())
         {
             _browserControl->SetAddress(toClr(url));
         }
-        return RV_CONTINUE; 
     }
 
-    CefHandler::RetVal HandlerAdapter::HandleLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame)
+    void ClientAdapter::OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString& title)
     {
-        if(!browser->IsPopup())
-        {
-            Lock();
-            if (frame->IsMain())
-            {
-                _browserControl->SetNavState(true, false, false);
-            }
-            _browserControl->AddFrame(frame);
-            Unlock();
-        }
-        return RV_CONTINUE;
+        _browserControl->SetTitle(toClr(title));
     }
 
-    CefHandler::RetVal HandlerAdapter::HandleLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode)
+    bool ClientAdapter::OnConsoleMessage(CefRefPtr<CefBrowser> browser, const CefString& message, const CefString& source, int line)
     {
-        if(!browser->IsPopup())
-        {
-            Lock();
-            if (frame->IsMain())
-            {
-                _browserControl->SetNavState(false, browser->CanGoBack(), browser->CanGoForward());        
-            }
-            _browserControl->FrameLoadComplete(frame);
-            Unlock();
-        }
-        
-        return RV_CONTINUE;
+        String^ messageStr = toClr(message);
+        String^ sourceStr = toClr(source);
+        _browserControl->RaiseConsoleMessage(messageStr, sourceStr, line);
+
+        return true;
     }
 
-    CefHandler::RetVal HandlerAdapter::HandleBeforeCreated(CefRefPtr<CefBrowser> parentBrowser, CefWindowInfo& createInfo, bool popup, const CefPopupFeatures& popupFeatures, CefRefPtr<CefHandler>& handler, const CefString& url, CefBrowserSettings& settings)
+    void ClientAdapter::OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame)
     {
-        IBeforeCreated^ beforeCreatedHandler = _browserControl->BeforeCreatedHandler;
-        if (beforeCreatedHandler == nullptr || beforeCreatedHandler->HandleBeforeCreated(popup, toClr(url)))
+        if (browser->IsPopup())
         {
-          return RV_CONTINUE;
+            return;
         }
-        else
+
+        AutoLock lock_scope(this);
+        if (frame->IsMain())
         {
-          return RV_HANDLED;
+            _browserControl->SetNavState(true, false, false);
         }
+
+        _browserControl->AddFrame(frame);
     }
 
-    CefHandler::RetVal HandlerAdapter::HandleBeforeResourceLoad(CefRefPtr<CefBrowser> browser, CefRefPtr<CefRequest> request, CefString& redirectUrl, CefRefPtr<CefStreamReader>& resourceStream, CefString& mimeType, int loadFlags) 
+    void ClientAdapter::OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode)
+    {
+        if(browser->IsPopup())
+        {
+            return;
+        }
+
+        AutoLock lock_scope(this);
+        if (frame->IsMain())
+        {
+            _browserControl->SetNavState(false, browser->CanGoBack(), browser->CanGoForward());        
+        }
+
+        _browserControl->FrameLoadComplete(frame);
+    }
+
+    bool ClientAdapter::OnBeforeResourceLoad(CefRefPtr<CefBrowser> browser, CefRefPtr<CefRequest> request, CefString& redirectUrl, CefRefPtr<CefStreamReader>& resourceStream, CefRefPtr<CefResponse> response, int loadFlags)
     {
         IBeforeResourceLoad^ handler = _browserControl->BeforeResourceLoadHandler;
         if(handler != nullptr)
@@ -110,38 +95,27 @@ namespace CefSharp
             {
                 CefRefPtr<StreamAdapter> adapter = new StreamAdapter(requestResponse->ResponseStream);
                 resourceStream = CefStreamReader::CreateForHandler(static_cast<CefRefPtr<CefReadHandler>>(adapter));
-                mimeType = toNative(requestResponse->MimeType);
-                return RV_CONTINUE;
+                //mimeType = toNative(requestResponse->MimeType);
+                return false;
             }
             else if(requestResponse->Action == ResponseAction::Cancel)
             {
-                return RV_HANDLED;
+                return true;
             }
             else if(requestResponse->Action == ResponseAction::Redirect)
             {
                 redirectUrl = toNative(requestResponse->RedirectUrl);
             }
         }
-        return RV_CONTINUE; 
+
+        return false; 
     }
 
-    CefHandler::RetVal HandlerAdapter::HandleJSBinding(CefRefPtr<CefBrowser> browser,
-                                     CefRefPtr<CefFrame> frame,
-                                     CefRefPtr<CefV8Value> object)
+    void ClientAdapter::OnJSBinding(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Value> object)
     {
         for each(KeyValuePair<String^, Object^>^ kvp in CEF::GetBoundObjects())
         {
             BindingHandler::Bind(kvp->Key, kvp->Value, object);
         }
-        return RV_CONTINUE;
     }
-
-    CefHandler::RetVal HandlerAdapter::HandleConsoleMessage(CefRefPtr<CefBrowser> browser, const CefString& message, const CefString& source, int line)
-    {
-        String^ messageStr = toClr(message);
-        String^ sourceStr = toClr(source);
-        _browserControl->RaiseConsoleMessage(messageStr, sourceStr, line);
-        return RV_CONTINUE;
-    }
-    */
 }

@@ -68,7 +68,7 @@ namespace CefSharp
         
         _jsError = false;
         _jsResult = nullptr;
-#if 0
+        /*
         script = 
             "(function() {"
             "   try { "
@@ -77,7 +77,7 @@ namespace CefSharp
             "      __js_run_err(e);"
             "   }"
             "})();";
-#endif
+        */
         
         CefRefPtr<JsTask> task = new JsTask(this, toNative(script), toNative(scriptUrl), startLine);
         _clientAdapter->GetCefBrowser()->GetMainFrame()->ExecuteJavaScriptTask(static_cast<CefRefPtr<CefV8Task>>(task));

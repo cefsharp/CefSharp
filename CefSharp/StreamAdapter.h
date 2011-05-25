@@ -20,5 +20,6 @@ namespace CefSharp
         virtual int Eof();
 
         IMPLEMENT_LOCKING(StreamAdapter);
+        IMPLEMENT_REFCOUNTING(StreamAdapter);
     };
 }
