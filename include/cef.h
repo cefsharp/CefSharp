@@ -173,8 +173,10 @@ bool CefRegisterExtension(const CefString& extension_name,
                           const CefString& javascript_code,
                           CefRefPtr<CefV8Handler> handler);
 
-// CEF supports two types of schemes, standard and non-standard.
+// Register a custom scheme. This method should not be called for the built-in
+// HTTP, HTTPS, FILE, FTP, ABOUT and DATA schemes.
 //
+// If |is_standard| is true the scheme will be treated as a standard scheme.
 // Standard schemes are subject to URL canonicalization and parsing rules as
 // defined in the Common Internet Scheme Syntax RFC 1738 Section 3.1 available
 // at http://www.ietf.org/rfc/rfc1738.txt
@@ -195,17 +197,87 @@ bool CefRegisterExtension(const CefString& extension_name,
 // For example, "scheme:///some%20text" will remain the same. Non-standard
 // scheme URLs cannot be used as a target for form submission.
 //
-// Register a custom scheme handler factory for the specified |scheme_name| and
-// optional |host_name|. Specifying an empty |host_name| value for standard
-// schemes will match all host names. The |host_name| value will be ignored for
-// non-standard schemes. Set |is_standard| to true to register as a standard
-// scheme or false to register a non-standard scheme. This function may be
-// called on any thread.
+// If |is_local| is true the scheme will be treated as local (i.e., with the
+// same security rules as those applied to "file" URLs). This means that normal
+// pages cannot link to or access URLs of this scheme.
+//
+// If |is_display_isolated| is true the scheme will be treated as display-
+// isolated. This means that pages cannot display these URLs unless they are
+// from the same scheme. For example, pages in another origin cannot create
+// iframes or hyperlinks to URLs with this scheme.
+//
+// This function may be called on any thread. It should only be called once
+// per unique |scheme_name| value. If |scheme_name| is already registered or if
+// an error occurs this method will return false.
 /*--cef()--*/
-bool CefRegisterScheme(const CefString& scheme_name,
-                       const CefString& host_name,
-                       bool is_standard,
-                       CefRefPtr<CefSchemeHandlerFactory> factory);
+bool CefRegisterCustomScheme(const CefString& scheme_name,
+                             bool is_standard,
+                             bool is_local,
+                             bool is_display_isolated);
+
+// Register a scheme handler factory for the specified |scheme_name| and
+// optional |domain_name|. An empty |domain_name| value for a standard scheme
+// will cause the factory to match all domain names. The |domain_name| value
+// will be ignored for non-standard schemes. If |scheme_name| is a built-in
+// scheme and no handler is returned by |factory| then the built-in scheme
+// handler factory will be called. If |scheme_name| is a custom scheme the
+// CefRegisterCustomScheme() function should be called for that scheme.
+// This function may be called multiple times to change or remove the factory
+// that matches the specified |scheme_name| and optional |domain_name|.
+// Returns false if an error occurs. This function may be called on any thread.
+/*--cef()--*/
+bool CefRegisterSchemeHandlerFactory(const CefString& scheme_name,
+                                    const CefString& domain_name,
+                                    CefRefPtr<CefSchemeHandlerFactory> factory);
+
+// Clear all registered scheme handler factories. Returns false on error. This
+// function may be called on any thread.
+/*--cef()--*/
+bool CefClearSchemeHandlerFactories();
+
+// Add an entry to the cross-origin access whitelist.
+//
+// The same-origin policy restricts how scripts hosted from different origins
+// (scheme + domain) can communicate. By default, scripts can only access
+// resources with the same origin. Scripts hosted on the HTTP and HTTPS schemes
+// (but no other schemes) can use the "Access-Control-Allow-Origin" header to
+// allow cross-origin requests. For example, https://source.example.com can make
+// XMLHttpRequest requests on http://target.example.com if the
+// http://target.example.com request returns an "Access-Control-Allow-Origin:
+// https://source.example.com" response header.
+//
+// Scripts in separate frames or iframes and hosted from the same protocol and
+// domain suffix can execute cross-origin JavaScript if both pages set the
+// document.domain value to the same domain suffix. For example,
+// scheme://foo.example.com and scheme://bar.example.com can communicate using
+// JavaScript if both domains set document.domain="example.com".
+//
+// This method is used to allow access to origins that would otherwise violate
+// the same-origin policy. Scripts hosted underneath the fully qualified
+// |source_origin| URL (like http://www.example.com) will be allowed access to
+// all resources hosted on the specified |target_protocol| and |target_domain|.
+// If |allow_target_subdomains| is true access will also be allowed to all
+// subdomains of the target domain. This function may be called on any thread.
+// Returns false if |source_origin| is invalid or the whitelist cannot be
+// accessed.
+/*--cef()--*/
+bool CefAddCrossOriginWhitelistEntry(const CefString& source_origin,
+                                     const CefString& target_protocol,
+                                     const CefString& target_domain,
+                                     bool allow_target_subdomains);
+
+// Remove an entry from the cross-origin access whitelist. Returns false if
+// |source_origin| is invalid or the whitelist cannot be accessed.
+/*--cef()--*/
+bool CefRemoveCrossOriginWhitelistEntry(const CefString& source_origin,
+                                        const CefString& target_protocol,
+                                        const CefString& target_domain,
+                                        bool allow_target_subdomains);
+
+// Remove all entries from the cross-origin access whitelist. Returns false if
+// the whitelist cannot be accessed.
+/*--cef()--*/
+bool CefClearCrossOriginWhitelist();
 
 typedef cef_thread_id_t CefThreadId;
 
@@ -298,6 +370,27 @@ public:
   virtual int GetRefCt() =0;
 };
 
+// Implement this interface for V8 javascript task execution.
+/*--cef(source=client)--*/
+class CefV8Task : public virtual CefBase
+{
+public:
+  // Script that will be executed.
+  /*--cef()--*/
+  virtual CefString GetScript() =0;
+  // name/url of the script for error reporting purposes
+  /*--cef()--*/
+  virtual CefString GetScriptName() =0;
+  // starting line number of the script for error reporting purposes
+  /*--cef()--*/
+  virtual int GetStartLine() =0;
+  // executed on successful completion of the script
+  /*--cef()--*/
+  virtual void HandleSuccess(CefRefPtr<CefV8Value> result) =0;
+  // executed if script execution fails to compile or throws an uncaught exception
+  /*--cef()--*/
+  virtual void HandleError() =0;
+};
 
 // Class that implements atomic reference counting.
 class CefRefCount
@@ -384,27 +477,6 @@ public:
                      bool& deleteCookie) =0;
 };
 
-// Implement this interface for V8 javascript task execution.
-/*--cef(source=client)--*/
-class CefV8Task : public virtual CefBase
-{
-public:
-  // Script that will be executed.
-  /*--cef()--*/
-  virtual CefString GetScript() =0;
-  // name/url of the script for error reporting purposes
-  /*--cef()--*/
-  virtual CefString GetScriptName() =0;
-  // starting line number of the script for error reporting purposes
-  /*--cef()--*/
-  virtual int GetStartLine() =0;
-  // executed on successful completion of the script
-  /*--cef()--*/
-  virtual void HandleSuccess(CefRefPtr<CefV8Value> result) =0;
-  // executed if script execution fails to compile or throws an uncaught exception
-  /*--cef()--*/
-  virtual void HandleError() =0;
-};
 
 // Class used to represent a browser window. The methods of this class may be
 // called on any thread unless otherwise indicated in the comments.
@@ -1768,7 +1840,8 @@ class CefSchemeHandlerFactory : public virtual CefBase
 public:
   // Return a new scheme handler instance to handle the request.
   /*--cef()--*/
-  virtual CefRefPtr<CefSchemeHandler> Create() =0;
+  virtual CefRefPtr<CefSchemeHandler> Create(const CefString& scheme_name,
+                                             CefRefPtr<CefRequest> request) =0;
 };
 
 

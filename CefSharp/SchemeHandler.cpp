@@ -78,7 +78,7 @@ namespace CefSharp
         return has_data;
     }
 
-    CefRefPtr<CefSchemeHandler> SchemeHandlerFactoryWrapper::Create()
+    CefRefPtr<CefSchemeHandler> SchemeHandlerFactoryWrapper::Create(const CefString& scheme_name, CefRefPtr<CefRequest> request)
     {
         ISchemeHandler^ handler = _factory->Create();
         CefRefPtr<SchemeHandlerWrapper> wrapper = new SchemeHandlerWrapper(handler);

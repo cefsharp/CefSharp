@@ -64,7 +64,6 @@ namespace CefSharp
     String^ CefWebBrowser::RunScript(String^ script, String^ scriptUrl, int startLine, int timeout)
     {
     	WaitForInitialized();
-
         
         _jsError = false;
         _jsResult = nullptr;

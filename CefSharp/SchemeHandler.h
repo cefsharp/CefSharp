@@ -58,7 +58,7 @@ public:
     SchemeHandlerFactoryWrapper(ISchemeHandlerFactory^ factory) 
         : _factory(factory) {}
 
-    virtual CefRefPtr<CefSchemeHandler> Create();
+    virtual CefRefPtr<CefSchemeHandler> Create(const CefString& scheme_name, CefRefPtr<CefRequest> request);
 
     IMPLEMENT_REFCOUNTING(SchemeHandlerFactoryWrapper);
 };

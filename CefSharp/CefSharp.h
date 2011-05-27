@@ -50,7 +50,7 @@ namespace CefSharp
         {
             String^ get()
             {
-                return "trunk r233";
+                return "trunk r247";
             }
         }
 
@@ -78,7 +78,7 @@ namespace CefSharp
             hostName = hostName ? hostName : "";
 
             CefRefPtr<SchemeHandlerFactoryWrapper> wrapper = new SchemeHandlerFactoryWrapper(factory);
-            return CefRegisterScheme(toNative(schemeName), toNative(hostName), is_standard, static_cast<CefRefPtr<CefSchemeHandlerFactory>>(wrapper));
+            return CefRegisterCustomScheme(toNative(schemeName), is_standard, true, true);
         }
 
         static bool RegisterScheme(String^ schemeName, ISchemeHandlerFactory^ factory)
