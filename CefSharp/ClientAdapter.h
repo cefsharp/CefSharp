@@ -36,6 +36,11 @@ namespace CefSharp
             return _cefBrowser;
         }
 
+        bool GetIsInitialized()
+        {
+            return _cefBrowser != nullptr;
+        }
+
         // CefClient
         virtual CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() OVERRIDE { return this; }
         virtual CefRefPtr<CefLoadHandler> GetLoadHandler() OVERRIDE { return this; }

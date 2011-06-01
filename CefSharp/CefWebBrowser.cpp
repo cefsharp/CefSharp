@@ -123,7 +123,7 @@ namespace CefSharp
 
     void CefWebBrowser::OnSizeChanged(EventArgs^ e)
     {
-        if (DesignMode == false && IsInitialized)
+        if (IsInitialized && !DesignMode)
         {
             HWND hWnd = static_cast<HWND>(Handle.ToPointer());
             RECT rect;

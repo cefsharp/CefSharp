@@ -135,7 +135,7 @@ namespace CefSharp
         {
             bool get()
             {
-                return true; // XXX
+                return _clientAdapter.get() != nullptr && _clientAdapter->GetIsInitialized();
             }
         }
 
