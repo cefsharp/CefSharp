@@ -34,17 +34,20 @@ namespace CefSharp
         Stream^ stream;
         String^ mimeType;
 
-        handled = _handler->ProcessRequest(requestWrapper, mimeType, stream);
-        _stream = stream;
+        if (_handler->ProcessRequest(requestWrapper, mimeType, stream))
+        {
+            handled = true;
+            response->SetStatus(200);
+        }
 
-        /*
         if(mimeType != nullptr)
         {
-            cefMimeType = toNative(mimeType);
+            response->SetMimeType(toNative(mimeType));
         }
-        */
-        
+
+        _stream = stream;
         *responseLength = SizeFromStream();
+
         return handled;
     }
 
