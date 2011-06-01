@@ -181,7 +181,7 @@ namespace CefSharp.Example
             MessageBox.Show(e.Source + ":" + e.Line + " " + e.Message, "JavaScript console message");
         }
 
-        private void TestBingClrObjectToJsToolStripMenuItemClick(object sender, EventArgs e)
+        private void TestBindClrObjectToJsToolStripMenuItemClick(object sender, EventArgs e)
         {
             _browserControl.Load("test://test/BindingTest.html");
         }
