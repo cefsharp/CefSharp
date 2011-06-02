@@ -6,14 +6,11 @@ using namespace System::Collections::Generic;
 
 namespace CefSharp
 {
-    class binding_data : public virtual CefBase
+    class BindingData : public CefBase
     {
     protected:
         gcroot<Object^> _obj;
-    };
 
-    class BindingData : public binding_data
-    {
     public:
         BindingData(Object^ obj)
         {
