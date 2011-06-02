@@ -46,6 +46,7 @@ namespace CefSharp
         virtual CefRefPtr<CefLoadHandler> GetLoadHandler() OVERRIDE { return this; }
         virtual CefRefPtr<CefRequestHandler> GetRequestHandler() OVERRIDE { return this; }
         virtual CefRefPtr<CefDisplayHandler> GetDisplayHandler() OVERRIDE { return this; }
+        virtual CefRefPtr<CefJSBindingHandler> GetJSBindingHandler() OVERRIDE { return this; }
 
         // CefClientLifeSpanHandler
         virtual bool OnBeforePopup(CefRefPtr<CefBrowser> parentBrowser, const CefPopupFeatures& popupFeatures, CefWindowInfo& windowInfo, const CefString& url, CefRefPtr<CefClient>& client, CefBrowserSettings& settings) OVERRIDE;
