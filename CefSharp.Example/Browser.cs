@@ -99,7 +99,6 @@ namespace CefSharp.Example
         public bool HandleBeforeCreated(bool popup, string url)
         {
             Console.WriteLine("HandleBeforeCreated: popup: {0}, url: {1}", popup, url);
-
             return true;
         }
 
@@ -188,7 +187,7 @@ namespace CefSharp.Example
             MessageBox.Show(e.Source + ":" + e.Line + " " + e.Message, "JavaScript console message");
         }
 
-        private void TestBingClrObjectToJsToolStripMenuItemClick(object sender, EventArgs e)
+        private void TestBindClrObjectToJsToolStripMenuItemClick(object sender, EventArgs e)
         {
             _browserControl.Load("test://test/BindingTest.html");
         }

@@ -50,7 +50,7 @@ namespace CefSharp
         {
             String^ get()
             {
-                return "trunk r223";
+                return "trunk r247";
             }
         }
 
@@ -58,16 +58,16 @@ namespace CefSharp
         {
             String^ get()
             {
-                return "trunk r80310";
+                return "trunk r85305";
             }
         }
 
-        static bool Initialize(Settings^ settings, BrowserSettings^ browserSettings)
+        static bool Initialize(Settings^ settings)
         {
             bool success = false;
             if (!IsInitialized)
             {
-                success = CefInitialize(*settings->_cefSettings, *browserSettings->_browserSettings);
+                success = CefInitialize(*settings->_cefSettings);
                 _initialized = success;
             }
             return success;
@@ -77,8 +77,9 @@ namespace CefSharp
         {
             hostName = hostName ? hostName : "";
 
-            CefRefPtr<SchemeHandlerFactoryWrapper> wrapper = new SchemeHandlerFactoryWrapper(factory);
-            return CefRegisterScheme(toNative(schemeName), toNative(hostName), is_standard, static_cast<CefRefPtr<CefSchemeHandlerFactory>>(wrapper));
+            CefRefPtr<CefSchemeHandlerFactory> wrapper = new SchemeHandlerFactoryWrapper(factory);
+            CefRegisterCustomScheme(toNative(schemeName), is_standard, false, false);
+            return CefRegisterSchemeHandlerFactory(toNative(schemeName), toNative(hostName), wrapper);
         }
 
         static bool RegisterScheme(String^ schemeName, ISchemeHandlerFactory^ factory)

@@ -127,7 +127,7 @@ namespace CefSharp
 
     bool BindingHandler::Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception)
     {
-        CefRefPtr<BindingData> bindingData = reinterpret_cast<BindingData*>(object->GetUserData().get());
+        CefRefPtr<BindingData> bindingData = static_cast<BindingData*>(object->GetUserData().get());
         Object^ self = bindingData->Get();
         if(self == nullptr) 
         {
@@ -271,5 +271,4 @@ namespace CefSharp
 
         window->SetValue(toNative(name), wrappedObject);
     }
-
 }

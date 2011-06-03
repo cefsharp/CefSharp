@@ -3,7 +3,6 @@
 
 namespace CefSharp
 {
-
     public ref class BrowserSettings
     {
 

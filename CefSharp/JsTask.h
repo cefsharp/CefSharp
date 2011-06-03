@@ -5,8 +5,7 @@
 
 namespace CefSharp
 {
-
-    class JsTask : public CefThreadSafeBase<CefV8Task>
+    class JsTask : public CefV8Task
     {
         gcroot<CefWebBrowser^> _browser;
         CefString _script;
@@ -23,6 +22,8 @@ namespace CefSharp
         virtual int GetStartLine() { return _lineNo; };
         virtual void HandleSuccess(CefRefPtr<CefV8Value> result);
         virtual void HandleError();
+
+        IMPLEMENT_REFCOUNTING(JsTask);
     };
 
 }

@@ -2,7 +2,7 @@
 #pragma once
 
 #include "CefSharp.h"
-#include "HandlerAdapter.h"
+#include "ClientAdapter.h"
 #include "IBeforeCreated.h"
 #include "IBeforeResourceLoad.h"
 #include "ConsoleMessageEventArgs.h"
@@ -28,7 +28,7 @@ namespace CefSharp
 
         IBeforeCreated^ _beforeCreatedHandler;
         IBeforeResourceLoad^ _beforeResourceLoadHandler;
-        MCefRefPtr<HandlerAdapter> _handlerAdapter;
+        MCefRefPtr<ClientAdapter> _clientAdapter;
 
         AutoResetEvent^ _runJsFinished;
         RtzCountdownEvent^ _loadCompleted;
@@ -50,7 +50,6 @@ namespace CefSharp
         void AddFrame(CefRefPtr<CefFrame> frame);
         void FrameLoadComplete(CefRefPtr<CefFrame> frame);
 
-        
         void SetJsResult(String^ result);
         void SetJsError();
         void RaiseConsoleMessage(String^ message, String^ source, int line);
@@ -65,7 +64,7 @@ namespace CefSharp
 
             if(!CEF::IsInitialized)
             {
-                if(!CEF::Initialize(gcnew Settings(), gcnew BrowserSettings()))
+                if(!CEF::Initialize(gcnew Settings()))
                 {
                     throw gcnew InvalidOperationException("CEF initialization failed.");
                 }
@@ -136,7 +135,7 @@ namespace CefSharp
         {
             bool get()
             {
-                return _handlerAdapter.get() != nullptr && _handlerAdapter->GetIsInitialized();
+                return _clientAdapter.get() != nullptr && _clientAdapter->GetIsInitialized();
             }
         }
 
@@ -150,5 +149,4 @@ namespace CefSharp
 
         event ConsoleMessageEventHandler^ ConsoleMessage;
     };
-
 }

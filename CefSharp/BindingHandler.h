@@ -6,14 +6,11 @@ using namespace System::Collections::Generic;
 
 namespace CefSharp
 {
-    class binding_data : public CefBase
+    class BindingData : public CefBase
     {
     protected:
         gcroot<Object^> _obj;
-    };
 
-    class BindingData : public CefThreadSafeBase<binding_data>
-    {
     public:
         BindingData(Object^ obj)
         {
@@ -24,9 +21,11 @@ namespace CefSharp
         {
             return _obj;
         }
+
+        IMPLEMENT_REFCOUNTING(BindingData);
     };
 
-    class BindingHandler : public CefThreadSafeBase<CefV8Handler>
+    class BindingHandler : public CefV8Handler
     {
         // Type Converter
         static bool IsNullableType(Type^ type);
@@ -38,5 +37,7 @@ namespace CefSharp
         virtual bool Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception);
     public:
         static void Bind(String^ name, Object^ obj, CefRefPtr<CefV8Value> window);
+
+        IMPLEMENT_REFCOUNTING(BindingHandler);
     };
 }

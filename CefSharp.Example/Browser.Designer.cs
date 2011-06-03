@@ -45,7 +45,7 @@
             this.testRunArbitraryJavaScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testSchemeHandlerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testConsoleMessagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.testBingCLRObjectToJSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testBindCLRObjectToJSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bookmarksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cefSharpHomeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fireBugLiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -171,7 +171,7 @@
             this.testRunArbitraryJavaScriptToolStripMenuItem,
             this.testSchemeHandlerToolStripMenuItem,
             this.testConsoleMessagesToolStripMenuItem,
-            this.testBingCLRObjectToJSToolStripMenuItem});
+            this.testBindCLRObjectToJSToolStripMenuItem});
             this.testsToolStripMenuItem.Name = "testsToolStripMenuItem";
             this.testsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.testsToolStripMenuItem.Text = "Tests";
@@ -211,12 +211,12 @@
             this.testConsoleMessagesToolStripMenuItem.Text = "Test Console Messages";
             this.testConsoleMessagesToolStripMenuItem.Click += new System.EventHandler(this.TestConsoleMessagesToolStripMenuItemClick);
             // 
-            // testBingCLRObjectToJSToolStripMenuItem
+            // testBindCLRObjectToJSToolStripMenuItem
             // 
-            this.testBingCLRObjectToJSToolStripMenuItem.Name = "testBingCLRObjectToJSToolStripMenuItem";
-            this.testBingCLRObjectToJSToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
-            this.testBingCLRObjectToJSToolStripMenuItem.Text = "Test Bing CLR object to JS";
-            this.testBingCLRObjectToJSToolStripMenuItem.Click += new System.EventHandler(this.TestBingClrObjectToJsToolStripMenuItemClick);
+            this.testBindCLRObjectToJSToolStripMenuItem.Name = "testBindObjectToJSToolStripMenuItem";
+            this.testBindCLRObjectToJSToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.testBindCLRObjectToJSToolStripMenuItem.Text = "Test Bind CLR object to JS";
+            this.testBindCLRObjectToJSToolStripMenuItem.Click += new System.EventHandler(this.TestBindClrObjectToJsToolStripMenuItemClick);
             // 
             // bookmarksToolStripMenuItem
             // 
@@ -283,7 +283,7 @@
         private System.Windows.Forms.ToolStripMenuItem testRunArbitraryJavaScriptToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem testSchemeHandlerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem testConsoleMessagesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem testBingCLRObjectToJSToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem testBindCLRObjectToJSToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem bookmarksToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cefSharpHomeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fireBugLiteToolStripMenuItem;
