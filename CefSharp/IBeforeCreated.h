@@ -10,7 +10,7 @@ namespace CefSharp
     public:
 
       /// called before a browser is created.
-      /// return false to prevent the browser from being created.
+      /// return true to prevent the browser from being created.
       bool HandleBeforeCreated(bool popup, String^ url);
     };
 }
