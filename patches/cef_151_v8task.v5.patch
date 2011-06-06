@@ -72,7 +72,7 @@ Index: libcef_dll/cpptoc/v8task_cpptoc.h
 +#endif // _V8TASK_CPPTOC_H
 Index: libcef_dll/cpptoc/frame_cpptoc.cc
 ===================================================================
---- libcef_dll/cpptoc/frame_cpptoc.cc	(revision 223)
+--- libcef_dll/cpptoc/frame_cpptoc.cc	(revision 253)
 +++ libcef_dll/cpptoc/frame_cpptoc.cc	(working copy)
 @@ -15,6 +15,7 @@
  #include "libcef_dll/cpptoc/request_cpptoc.h"
@@ -197,18 +197,6 @@ Index: libcef_dll/cpptoc/v8task_cpptoc.cc
 +template<> long CefCppToC<CefV8TaskCppToC, CefV8Task,
 +    cef_v8task_t>::DebugObjCt = 0;
 +#endif
-Index: libcef_dll/ctocpp/frame_ctocpp.h
-===================================================================
---- libcef_dll/ctocpp/frame_ctocpp.h	(revision 223)
-+++ libcef_dll/ctocpp/frame_ctocpp.h	(working copy)
-@@ -49,6 +49,7 @@
-       const CefString& url) OVERRIDE;
-   virtual void ExecuteJavaScript(const CefString& jsCode,
-       const CefString& scriptUrl, int startLine) OVERRIDE;
-+  virtual void ExecuteJavaScriptTask(CefRefPtr<CefV8Task> jsTask) OVERRIDE;
-   virtual bool IsMain() OVERRIDE;
-   virtual bool IsFocused() OVERRIDE;
-   virtual CefString GetName() OVERRIDE;
 Index: libcef_dll/ctocpp/v8task_ctocpp.h
 ===================================================================
 --- libcef_dll/ctocpp/v8task_ctocpp.h	(revision 0)
@@ -301,7 +289,7 @@ Index: libcef_dll/ctocpp/v8task_ctocpp.h
 +#endif // _V8TASK_CTOCPP_H
 Index: libcef_dll/ctocpp/frame_ctocpp.cc
 ===================================================================
---- libcef_dll/ctocpp/frame_ctocpp.cc	(revision 223)
+--- libcef_dll/ctocpp/frame_ctocpp.cc	(revision 253)
 +++ libcef_dll/ctocpp/frame_ctocpp.cc	(working copy)
 @@ -12,6 +12,7 @@
  
@@ -400,14 +388,26 @@ Index: libcef_dll/ctocpp/v8task_ctocpp.cc
 +template<> long CefCToCpp<CefV8TaskCToCpp, CefV8Task,
 +    cef_v8task_t>::DebugObjCt = 0;
 +#endif
+Index: libcef_dll/ctocpp/frame_ctocpp.h
+===================================================================
+--- libcef_dll/ctocpp/frame_ctocpp.h	(revision 253)
++++ libcef_dll/ctocpp/frame_ctocpp.h	(working copy)
+@@ -50,6 +50,7 @@
+       const CefString& url) OVERRIDE;
+   virtual void ExecuteJavaScript(const CefString& jsCode,
+       const CefString& scriptUrl, int startLine) OVERRIDE;
++  virtual void ExecuteJavaScriptTask(CefRefPtr<CefV8Task> jsTask) OVERRIDE;
+   virtual bool IsMain() OVERRIDE;
+   virtual bool IsFocused() OVERRIDE;
+   virtual CefString GetName() OVERRIDE;
 Index: include/cef_capi.h
 ===================================================================
---- include/cef_capi.h	(revision 223)
+--- include/cef_capi.h	(revision 253)
 +++ include/cef_capi.h	(working copy)
-@@ -250,7 +250,33 @@
- 
- #define CEF_MEMBER_MISSING(s, f)  (!CEF_MEMBER_EXISTS(s, f) || !((s)->f))
- 
+@@ -245,7 +245,33 @@
+ // if the whitelist cannot be accessed.
+ ///
+ CEF_EXPORT int cef_clear_cross_origin_whitelist();
 +// Implement this structure for V8 javascript task execution.
 +typedef struct _cef_v8task_t
 +{
@@ -435,25 +435,25 @@ Index: include/cef_capi.h
 +
 +} cef_v8task_t;
 +
- // Implement this structure for task execution. The functions of this structure
- // may be called on any thread.
- typedef struct _cef_task_t
-@@ -528,6 +554,10 @@
-       const cef_string_t* jsCode, const cef_string_t* scriptUrl,
-       int startLine);
+ ///
+ // CEF maintains multiple internal threads that are used for handling different
+ // types of tasks. The UI thread creates the browser window and is used for all
+@@ -523,6 +549,10 @@
  
+   ///
+   // Explicitly close the developer tools window if one exists for this browser
 +  // Execute the cef_v8task_t code in this frame.
 +  void (CEF_CALLBACK *execute_java_script_task)(struct _cef_frame_t* self,
 +  		struct _cef_v8task_t* jsTask);
 +
-   // Returns true (1) if this is the main frame.
-   int (CEF_CALLBACK *is_main)(struct _cef_frame_t* self);
- 
+   // instance.
+   ///
+   void (CEF_CALLBACK *close_dev_tools)(struct _cef_browser_t* self);
 Index: include/cef.h
 ===================================================================
---- include/cef.h	(revision 223)
+--- include/cef.h	(revision 253)
 +++ include/cef.h	(working copy)
-@@ -66,6 +66,7 @@
+@@ -78,6 +78,7 @@
  class CefV8Context;
  class CefV8Handler;
  class CefV8Value;
@@ -461,9 +461,9 @@ Index: include/cef.h
  class CefWebURLRequest;
  class CefWebURLRequestClient;
  
-@@ -376,6 +377,27 @@
-   CefCriticalSection m_critsec;
- };
+@@ -387,6 +388,27 @@
+ /*--cef()--*/
+ bool CefDeleteCookies(const CefString& url, const CefString& cookie_name);
  
 +// Implement this interface for V8 javascript task execution.
 +/*--cef(source=client)--*/
@@ -487,22 +487,22 @@ Index: include/cef.h
 +  virtual void HandleError() =0;
 +};
  
- // Implement this interface for task execution. The methods of this class may
- // be called on any thread.
-@@ -671,6 +693,8 @@
-                                  const CefString& scriptUrl,
-                                  int startLine) =0;
+ ///
+ // Interface defining the reference count implementation methods. All framework
+@@ -670,6 +692,8 @@
  
+   ///
+   // Get the zoom level.
 +  virtual void ExecuteJavaScriptTask(CefRefPtr<CefV8Task> jstask) =0;
 +
-   // Returns true if this is the main frame.
+   ///
    /*--cef()--*/
-   virtual bool IsMain() =0;
+   virtual double GetZoomLevel() =0;
 Index: libcef/browser_impl.h
 ===================================================================
---- libcef/browser_impl.h	(revision 223)
+--- libcef/browser_impl.h	(revision 253)
 +++ libcef/browser_impl.h	(working copy)
-@@ -127,6 +127,8 @@
+@@ -128,6 +128,8 @@
                           const CefString& jsCode, 
                           const CefString& scriptUrl,
                           int startLine);
@@ -511,7 +511,7 @@ Index: libcef/browser_impl.h
    CefString GetURL(CefRefPtr<CefFrame> frame);
  
    // CefFrames are light-weight objects managed by the browser and loosely
-@@ -243,6 +245,8 @@
+@@ -244,6 +246,8 @@
                               const CefString& js_code, 
                               const CefString& script_url,
                               int start_line);
@@ -521,17 +521,17 @@ Index: libcef/browser_impl.h
    void UIT_Reload(bool ignoreCache);
    bool UIT_Navigate(const BrowserNavigationEntry& entry,
 @@ -405,6 +409,8 @@
-                                  const CefString& scriptUrl,
-                                  int startLine) 
-     { return browser_->ExecuteJavaScript(this, jsCode, scriptUrl, startLine); }
+   virtual void LoadStream(CefRefPtr<CefStreamReader> stream,
+                           const CefString& url) OVERRIDE
+     { return browser_->LoadStream(this, stream, url); }
 +  virtual void ExecuteJavaScriptTask(CefRefPtr<CefV8Task> jsTask)
 +    { return browser_->ExecuteJavaScriptTask(this, jsTask); }
-   virtual bool IsMain() { return name_.empty(); }
-   virtual bool IsFocused();
-   virtual CefString GetName() { return name_; }
+   virtual void ExecuteJavaScript(const CefString& jsCode, 
+                                  const CefString& scriptUrl,
+                                  int startLine) OVERRIDE
 Index: libcef/browser_impl.cc
 ===================================================================
---- libcef/browser_impl.cc	(revision 223)
+--- libcef/browser_impl.cc	(revision 253)
 +++ libcef/browser_impl.cc	(working copy)
 @@ -10,6 +10,7 @@
  #include "dom_document_impl.h"
@@ -541,7 +541,7 @@ Index: libcef/browser_impl.cc
  
  #include "base/file_path.h"
  #include "base/path_service.h"
-@@ -563,6 +564,14 @@
+@@ -570,6 +571,14 @@
        startLine));
  }
  
@@ -556,7 +556,7 @@ Index: libcef/browser_impl.cc
  CefString CefBrowserImpl::GetURL(CefRefPtr<CefFrame> frame)
  {
    // Verify that this method is being called on the UI thread.
-@@ -838,6 +847,33 @@
+@@ -848,6 +857,33 @@
    }
  }
  
@@ -592,9 +592,9 @@ Index: libcef/browser_impl.cc
    REQUIRE_UIT();
 Index: cef.gyp
 ===================================================================
---- cef.gyp	(revision 223)
+--- cef.gyp	(revision 253)
 +++ cef.gyp	(working copy)
-@@ -370,6 +370,8 @@
+@@ -404,6 +404,8 @@
          'libcef_dll/ctocpp/v8handler_ctocpp.h',
          'libcef_dll/ctocpp/web_urlrequest_client_ctocpp.cc',
          'libcef_dll/ctocpp/web_urlrequest_client_ctocpp.h',
@@ -603,7 +603,7 @@ Index: cef.gyp
          'libcef_dll/ctocpp/write_handler_ctocpp.cc',
          'libcef_dll/ctocpp/write_handler_ctocpp.h',
          'libcef_dll/libcef_dll.cc',
-@@ -445,6 +447,8 @@
+@@ -511,6 +513,8 @@
          'libcef_dll/cpptoc/v8handler_cpptoc.h',
          'libcef_dll/cpptoc/web_urlrequest_client_cpptoc.cc',
          'libcef_dll/cpptoc/web_urlrequest_client_cpptoc.h',
