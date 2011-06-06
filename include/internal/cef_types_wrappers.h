@@ -34,7 +34,9 @@
 #include "cef_string_list.h"
 #include "cef_types.h"
 
+///
 // Template class that provides common functionality for CEF structure wrapping.
+///
 template <class traits>
 class CefStructBase : public traits::struct_type {
 public:
@@ -63,15 +65,19 @@ public:
     *this = r;
   }
 
+  ///
   // Clear this object's values.
+  ///
   void Reset()
   {
     Clear(this);
     Init();
   }
 
+  ///
   // Attach to the source structure's existing values. DetachTo() can be called
   // to insert the values back into the existing structure.
+  ///
   void AttachTo(struct_type& source)
   {
     // Only clear this object's data if it isn't currently attached to a
@@ -86,7 +92,9 @@ public:
     memcpy(static_cast<struct_type*>(this), &source, sizeof(struct_type));
   }
 
+  ///
   // Relinquish ownership of values to the target structure.
+  ///
   void DetachTo(struct_type& target)
   {
     if (attached_to_ != &target) {
@@ -102,8 +110,10 @@ public:
     Init();
   }
 
+  ///
   // Set this object's values. If |copy| is true the source structure's values
   // will be copied instead of referenced.
+  ///
   void Set(const struct_type& source, bool copy)
   {
     traits::set(&source, this, copy);
@@ -146,7 +156,9 @@ struct CefRectTraits {
   }
 };
 
+///
 // Class representing a rectangle.
+///
 class CefRect : public CefStructBase<CefRectTraits>
 {
 public:
@@ -223,7 +235,9 @@ struct CefPopupFeaturesTraits {
   }
 };
 
+///
 // Class representing popup window features.
+///
 typedef CefStructBase<CefPopupFeaturesTraits> CefPopupFeatures;
 
 
@@ -269,7 +283,9 @@ struct CefSettingsTraits {
   }
 };
 
+///
 // Class representing initialization settings.
+///
 typedef CefStructBase<CefSettingsTraits> CefSettings;
 
 
@@ -367,7 +383,9 @@ struct CefBrowserSettingsTraits {
   }
 };
 
+///
 // Class representing browser initialization settings.
+///
 typedef CefStructBase<CefBrowserSettingsTraits> CefBrowserSettings;
 
 
@@ -403,7 +421,9 @@ struct CefURLPartsTraits {
   }
 };
 
+///
 // Class representing a URL's component parts.
+///
 typedef CefStructBase<CefURLPartsTraits> CefURLParts;
 
 
@@ -420,7 +440,9 @@ struct CefTimeTraits {
   }
 };
 
+///
 // Class representing a time.
+///
 class CefTime : public CefStructBase<CefTimeTraits>
 {
 public:
@@ -483,7 +505,9 @@ struct CefCookieTraits {
   }
 };
 
+///
 // Class representing a cookie.
+///
 typedef CefStructBase<CefCookieTraits> CefCookie;
 
 #endif // _CEF_TYPES_WRAPPERS_H

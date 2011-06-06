@@ -82,9 +82,11 @@ typedef struct _cef_string_utf16_t {
 } cef_string_utf16_t;
 
 
+///
 // These functions set string values. If |copy| is true (1) the value will be
 // copied instead of referenced. It is up to the user to properly manage
 // the lifespan of references.
+///
 
 CEF_EXPORT int cef_string_wide_set(const wchar_t* src, size_t src_len,
                                    cef_string_wide_t* output, int copy);
@@ -94,7 +96,9 @@ CEF_EXPORT int cef_string_utf16_set(const char16_t* src, size_t src_len,
                                     cef_string_utf16_t* output, int copy);
 
 
+///
 // Convenience macros for copying values.
+///
 
 #define cef_string_wide_copy(src, src_len, output)  \
     cef_string_wide_set(src, src_len, output, true)
@@ -104,14 +108,18 @@ CEF_EXPORT int cef_string_utf16_set(const char16_t* src, size_t src_len,
     cef_string_utf16_set(src, src_len, output, true)
 
 
+///
 // These functions clear string values. The structure itself is not freed.
+///
 
 CEF_EXPORT void cef_string_wide_clear(cef_string_wide_t* str);
 CEF_EXPORT void cef_string_utf8_clear(cef_string_utf8_t* str);
 CEF_EXPORT void cef_string_utf16_clear(cef_string_utf16_t* str);
 
 
+///
 // These functions compare two string values with the same results as strcmp().
+///
 
 CEF_EXPORT int cef_string_wide_cmp(const cef_string_wide_t* str1,
                                    const cef_string_wide_t* str2);
@@ -121,10 +129,12 @@ CEF_EXPORT int cef_string_utf16_cmp(const cef_string_utf16_t* str1,
                                     const cef_string_utf16_t* str2);
 
 
+///
 // These functions convert between UTF-8, -16, and -32 strings. They are
 // potentially slow so unnecessary conversions should be avoided. The best
 // possible result will always be written to |output| with the boolean return
 // value indicating whether the conversion is 100% valid.
+///
 
 CEF_EXPORT int cef_string_wide_to_utf8(const wchar_t* src, size_t src_len,
                                        cef_string_utf8_t* output);
@@ -142,9 +152,11 @@ CEF_EXPORT int cef_string_utf16_to_utf8(const char16_t* src, size_t src_len,
                                         cef_string_utf8_t* output);
 
 
+///
 // These functions convert an ASCII string, typically a hardcoded constant, to a
 // Wide/UTF16 string. Use instead of the UTF8 conversion routines if you know
 // the string is ASCII.
+///
 
 CEF_EXPORT int cef_string_ascii_to_wide(const char* src, size_t src_len,
                                         cef_string_wide_t* output);
@@ -153,25 +165,31 @@ CEF_EXPORT int cef_string_ascii_to_utf16(const char* src, size_t src_len,
 
 
 
+///
 // It is sometimes necessary for the system to allocate string structures with
 // the expectation that the user will free them. The userfree types act as a
 // hint that the user is responsible for freeing the structure.
+///
 
 typedef cef_string_wide_t* cef_string_userfree_wide_t;
 typedef cef_string_utf8_t* cef_string_userfree_utf8_t;
 typedef cef_string_utf16_t* cef_string_userfree_utf16_t;
 
 
+///
 // These functions allocate a new string structure. They must be freed by
 // calling the associated free function.
+///
 
 CEF_EXPORT cef_string_userfree_wide_t cef_string_userfree_wide_alloc();
 CEF_EXPORT cef_string_userfree_utf8_t cef_string_userfree_utf8_alloc();
 CEF_EXPORT cef_string_userfree_utf16_t cef_string_userfree_utf16_alloc();
 
 
+///
 // These functions free the string structure allocated by the associated
 // alloc function. Any string contents will first be cleared.
+///
 
 CEF_EXPORT void cef_string_userfree_wide_free(cef_string_userfree_wide_t str);
 CEF_EXPORT void cef_string_userfree_utf8_free(cef_string_userfree_utf8_t str);

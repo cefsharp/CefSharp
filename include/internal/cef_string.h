@@ -48,10 +48,10 @@
 
 #ifdef __cplusplus
 #include "cef_string_wrappers.h"
-#if defined(CEF_STRING_TYPE_UTF8)
-typedef CefStringUTF8 CefString;
-#elif defined(CEF_STRING_TYPE_UTF16)
+#if defined(CEF_STRING_TYPE_UTF16)
 typedef CefStringUTF16 CefString;
+#elif defined(CEF_STRING_TYPE_UTF8)
+typedef CefStringUTF8 CefString;
 #elif defined(CEF_STRING_TYPE_WIDE)
 typedef CefStringWide CefString;
 #endif

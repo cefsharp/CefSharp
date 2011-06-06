@@ -36,11 +36,15 @@
 #include "cef_types_win.h"
 #include "cef_types_wrappers.h"
 
+///
 // Atomic increment and decrement.
+///
 #define CefAtomicIncrement(p) InterlockedIncrement(p)
 #define CefAtomicDecrement(p) InterlockedDecrement(p)
 
+///
 // Critical section wrapper.
+///
 class CefCriticalSection
 {
 public:
@@ -65,7 +69,9 @@ public:
   CRITICAL_SECTION m_sec;
 };
 
+///
 // Handle types.
+///
 #define CefWindowHandle cef_window_handle_t
 #define CefCursorHandle cef_cursor_handle_t
 
@@ -97,7 +103,9 @@ struct CefWindowInfoTraits {
   }
 };
 
+///
 // Class representing window information.
+///
 class CefWindowInfo : public CefStructBase<CefWindowInfoTraits>
 {
 public:
@@ -153,7 +161,9 @@ struct CefPrintInfoTraits {
   }
 };
 
+///
 // Class representing print context information.
+///
 typedef CefStructBase<CefPrintInfoTraits> CefPrintInfo;
 
 #endif // OS_WIN

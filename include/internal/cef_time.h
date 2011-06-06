@@ -37,7 +37,9 @@ extern "C" {
 #include "cef_export.h"
 #include <time.h>
 
+///
 // Time information. Values should always be in UTC.
+///
 typedef struct _cef_time_t
 {
   int year;          // Four digit year "2007"
@@ -51,15 +53,19 @@ typedef struct _cef_time_t
   int millisecond;   // Milliseconds within the current second (0-999)
 } cef_time_t;
 
+///
 // Converts cef_time_t to/from time_t. Returns true (1) on success and false (0)
 // on failure.
+///
 CEF_EXPORT int cef_time_to_timet(const cef_time_t* cef_time, time_t* time);
 CEF_EXPORT int cef_time_from_timet(time_t time, cef_time_t* cef_time);
 
+///
 // Converts cef_time_t to/from a double which is the number of seconds since
 // epoch (Jan 1, 1970). Webkit uses this format to represent time. A value of 0
 // means "not initialized". Returns true (1) on success and false (0) on
 // failure.
+///
 CEF_EXPORT int cef_time_to_doublet(const cef_time_t* cef_time, double* time);
 CEF_EXPORT int cef_time_from_doublet(double time, cef_time_t* cef_time);
 

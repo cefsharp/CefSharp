@@ -59,7 +59,9 @@ typedef unsigned long long  uint64;
 extern "C" {
 #endif
 
+///
 // Log severity levels.
+///
 enum cef_log_severity_t
 {
   LOGSEVERITY_VERBOSE = -1,
@@ -71,64 +73,92 @@ enum cef_log_severity_t
   LOGSEVERITY_DISABLE = 99
 };
 
+///
 // Initialization settings. Specify NULL or 0 to get the recommended default
 // values.
+///
 typedef struct _cef_settings_t
 {
+  ///
   // Size of this structure.
+  ///
   size_t size;
 
+  ///
   // Set to true (1) to have the message loop run in a separate thread. If
   // false (0) than the CefDoMessageLoopWork() function must be called from
   // your application message loop.
+  ///
   bool multi_threaded_message_loop;
   
+  ///
   // The location where cache data will be stored on disk. If empty an
   // in-memory cache will be used. HTML5 databases such as localStorage will
   // only persist across sessions if a cache path is specified.
+  ///
   cef_string_t cache_path;
   
+  ///
   // Value that will be returned as the User-Agent HTTP header. If empty the
   // default User-Agent string will be used.
+  ///
   cef_string_t user_agent;
 
+  ///
   // Value that will be inserted as the product portion of the default
   // User-Agent string. If empty the Chromium product version will be used. If
   // |userAgent| is specified this value will be ignored.
+  ///
   cef_string_t product_version;
 
+  ///
   // The locale string that will be passed to WebKit. If empty the default
   // locale of "en-US" will be used.
+  ///
   cef_string_t locale;
 
-  // List of file system paths that will be searched by the browser to locate
-  // plugins. This is in addition to the default search paths.
+  ///
+  // List of fully qualified paths to plugins (including plugin name) that will
+  // be loaded in addition to any plugins found in the default search paths.
+  ///
   cef_string_list_t extra_plugin_paths;
 
+  ///
   // The directory and file name to use for the debug log. If empty, the
   // default name of "debug.log" will be used and the file will be written
   // to the application directory.
+  ///
   cef_string_t log_file;
 
+  ///
   // The log severity. Only messages of this severity level or higher will be
   // logged.
+  ///
   cef_log_severity_t log_severity;
 } cef_settings_t;
 
+///
 // Browser initialization settings. Specify NULL or 0 to get the recommended
 // default values. The consequences of using custom values may not be well
 // tested.
+///
 typedef struct _cef_browser_settings_t
 {
+  ///
   // Size of this structure.
+  ///
   size_t size;
 
+  ///
   // Disable drag & drop of URLs from other windows.
+  ///
   bool drag_drop_disabled;
 
   // The below values map to WebPreferences settings.
 
+  ///
   // Font settings.
+  ///
   cef_string_t standard_font_family;
   cef_string_t fixed_font_family;
   cef_string_t serif_font_family;
@@ -140,176 +170,280 @@ typedef struct _cef_browser_settings_t
   int minimum_font_size;
   int minimum_logical_font_size;
 
+  ///
   // Set to true (1) to disable loading of fonts from remote sources.
+  ///
   bool remote_fonts_disabled;
 
+  ///
   // Default encoding for Web content. If empty "ISO-8859-1" will be used.
+  ///
   cef_string_t default_encoding;
 
+  ///
   // Set to true (1) to attempt automatic detection of content encoding.
+  ///
   bool encoding_detector_enabled;
 
+  ///
   // Set to true (1) to disable JavaScript.
+  ///
   bool javascript_disabled;
 
+  ///
   // Set to true (1) to disallow JavaScript from opening windows.
+  ///
   bool javascript_open_windows_disallowed;
 
+  ///
   // Set to true (1) to disallow JavaScript from closing windows.
+  ///
   bool javascript_close_windows_disallowed;
 
+  ///
   // Set to true (1) to disallow JavaScript from accessing the clipboard.
+  ///
   bool javascript_access_clipboard_disallowed;
 
+  ///
   // Set to true (1) to disable DOM pasting in the editor. DOM pasting also
   // depends on |javascript_cannot_access_clipboard| being false (0).
+  ///
   bool dom_paste_disabled;
 
+  ///
   // Set to true (1) to enable drawing of the caret position.
+  ///
   bool caret_browsing_enabled;
 
+  ///
   // Set to true (1) to disable Java.
+  ///
   bool java_disabled;
 
+  ///
   // Set to true (1) to disable plugins.
+  ///
   bool plugins_disabled;
 
+  ///
   // Set to true (1) to allow access to all URLs from file URLs.
+  ///
   bool universal_access_from_file_urls_allowed;
 
+  ///
   // Set to true (1) to allow access to file URLs from other file URLs.
+  ///
   bool file_access_from_file_urls_allowed;
 
+  ///
   // Set to true (1) to allow risky security behavior such as cross-site
   // scripting (XSS). Use with extreme care.
+  ///
   bool web_security_disabled;
 
+  ///
   // Set to true (1) to enable console warnings about XSS attempts.
+  ///
   bool xss_auditor_enabled;
 
+  ///
   // Set to true (1) to suppress the network load of image URLs.  A cached
   // image will still be rendered if requested.
+  ///
   bool image_load_disabled;
 
+  ///
   // Set to true (1) to shrink standalone images to fit the page.
+  ///
   bool shrink_standalone_images_to_fit;
 
+  ///
   // Set to true (1) to disable browser backwards compatibility features.
+  ///
   bool site_specific_quirks_disabled;
 
+  ///
   // Set to true (1) to disable resize of text areas.
+  ///
   bool text_area_resize_disabled;
 
+  ///
   // Set to true (1) to disable use of the page cache.
+  ///
   bool page_cache_disabled;
 
+  ///
   // Set to true (1) to not have the tab key advance focus to links.
+  ///
   bool tab_to_links_disabled;
 
+  ///
   // Set to true (1) to disable hyperlink pings (<a ping> and window.sendPing).
+  ///
   bool hyperlink_auditing_disabled;
 
+  ///
   // Set to true (1) to enable the user style sheet for all pages.
   // |user_style_sheet_location| must be set to the style sheet URL.
+  ///
   bool user_style_sheet_enabled;
   cef_string_t user_style_sheet_location;
 
+  ///
   // Set to true (1) to disable style sheets.
+  ///
   bool author_and_user_styles_disabled;
 
+  ///
   // Set to true (1) to disable local storage.
+  ///
   bool local_storage_disabled;
 
+  ///
   // Set to true (1) to disable databases.
+  ///
   bool databases_disabled;
 
+  ///
   // Set to true (1) to disable application cache.
+  ///
   bool application_cache_disabled;
 
+  ///
   // Set to true (1) to disable WebGL.
+  ///
   bool webgl_disabled;
 
+  ///
   // Set to true (1) to disable accelerated compositing.
+  ///
   bool accelerated_compositing_disabled;
 
+  ///
   // Set to true (1) to disable accelerated layers. This affects features like
   // 3D CSS transforms.
+  ///
   bool accelerated_layers_disabled;
 
+  ///
   // Set to true (1) to disable accelerated 2d canvas.
+  ///
   bool accelerated_2d_canvas_disabled;
 
+  ///
   // Set to true (1) to disable developer tools (WebKit inspector).
+  ///
   bool developer_tools_disabled;
 } cef_browser_settings_t;
 
+///
 // URL component parts.
+///
 typedef struct _cef_urlparts_t
 {
+  ///
   // The complete URL specification.
+  ///
   cef_string_t spec;
 
+  ///
   // Scheme component not including the colon (e.g., "http").
+  ///
   cef_string_t scheme;
 
+  ///
   // User name component.
+  ///
   cef_string_t username;
 
+  ///
   // Password component.
+  ///
   cef_string_t password;
 
+  ///
   // Host component. This may be a hostname, an IPv4 address or an IPv6 literal
   // surrounded by square brackets (e.g., "[2001:db8::1]").
+  ///
   cef_string_t host;
 
+  ///
   // Port number component.
+  ///
   cef_string_t port;
 
+  ///
   // Path component including the first slash following the host.
+  ///
   cef_string_t path;
 
+  ///
   // Query string component (i.e., everything following the '?').
+  ///
   cef_string_t query;
 } cef_urlparts_t;
 
+///
 // Cookie information.
+///
 typedef struct _cef_cookie_t
 {
+  ///
   // The cookie name.
+  ///
   cef_string_t name;
 
+  ///
   // The cookie value.
+  ///
   cef_string_t value;
 
+  ///
   // If |domain| is empty a host cookie will be created instead of a domain
   // cookie. Domain cookies are stored with a leading "." and are visible to
   // sub-domains whereas host cookies are not.
+  ///
   cef_string_t domain;
 
+  ///
   // If |path| is non-empty only URLs at or below the path will get the cookie
   // value.
+  ///
   cef_string_t path;
 
+  ///
   // If |secure| is true the cookie will only be sent for HTTPS requests.
+  ///
   bool secure;
 
+  ///
   // If |httponly| is true the cookie will only be sent for HTTP requests.
+  ///
   bool httponly;
 
+  ///
   // The cookie creation date. This is automatically populated by the system on
   // cookie creation.
+  ///
   cef_time_t creation;
   
+  ///
   // The cookie last access date. This is automatically populated by the system
   // on access.
+  ///
   cef_time_t last_access;
 
+  ///
   // The cookie expiration date is only valid if |has_expires| is true.
+  ///
   bool has_expires;
   cef_time_t expires;
 } cef_cookie_t;
 
+///
 // Mouse button types.
+///
 enum cef_mouse_button_type_t
 {
   MBT_LEFT   = 0,
@@ -317,7 +451,9 @@ enum cef_mouse_button_type_t
   MBT_RIGHT,
 };
 
+///
 // Key types.
+///
 enum cef_key_type_t
 {
   KT_KEYUP    = 0,
@@ -325,7 +461,9 @@ enum cef_key_type_t
   KT_CHAR,
 };
 
+///
 // Various browser navigation types supported by chrome.
+///
 enum cef_handler_navtype_t
 {
   NAVTYPE_LINKCLICKED = 0,
@@ -336,8 +474,10 @@ enum cef_handler_navtype_t
   NAVTYPE_OTHER,
 };
 
+///
 // Supported error code values. See net\base\net_error_list.h for complete
 // descriptions of the error codes.
+///
 enum cef_handler_errorcode_t
 {
   ERR_FAILED = -2,
@@ -390,7 +530,9 @@ enum cef_handler_errorcode_t
   ERR_INSECURE_RESPONSE = -501,
 };
 
+///
 // V8 access control values.
+///
 enum cef_v8_accesscontrol_t
 {
   V8_ACCESS_CONTROL_DEFAULT               = 0,
@@ -399,7 +541,9 @@ enum cef_v8_accesscontrol_t
   V8_ACCESS_CONTROL_PROHIBITS_OVERWRITING = 1 << 2
 };
 
+///
 // V8 property attribute values.
+///
 enum cef_v8_propertyattribute_t
 {
   V8_PROPERTY_ATTRIBUTE_NONE       = 0,       // Writeable, Enumerable, 
@@ -409,14 +553,20 @@ enum cef_v8_propertyattribute_t
   V8_PROPERTY_ATTRIBUTE_DONTDELETE = 1 << 2   // Not configurable
 };
 
+///
 // Structure representing menu information.
+///
 typedef struct _cef_handler_menuinfo_t
 {
+  ///
   // Values from the cef_handler_menutypebits_t enumeration.
+  ///
   int typeFlags;
 
+  ///
   // If window rendering is enabled |x| and |y| will be in screen coordinates.
   // Otherwise, |x| and |y| will be in view coordinates.
+  ///
   int x;
   int y;
 
@@ -427,40 +577,66 @@ typedef struct _cef_handler_menuinfo_t
   cef_string_t selectionText;
   cef_string_t misspelledWord;
 
+  ///
   // Values from the cef_handler_menucapabilitybits_t enumeration.
+  ///
   int editFlags;
 
   cef_string_t securityInfo;
 } cef_handler_menuinfo_t;
 
+///
 // The cef_handler_menuinfo_t typeFlags value will be a combination of the
 // following values.
+///
 enum cef_handler_menutypebits_t
 {
+  ///
   // No node is selected
+  ///
   MENUTYPE_NONE = 0x0,
+  ///
   // The top page is selected
+  ///
   MENUTYPE_PAGE = 0x1,
+  ///
   // A subframe page is selected
+  ///
   MENUTYPE_FRAME = 0x2,
+  ///
   // A link is selected
+  ///
   MENUTYPE_LINK = 0x4,
+  ///
   // An image is selected
+  ///
   MENUTYPE_IMAGE = 0x8,
+  ///
   // There is a textual or mixed selection that is selected
+  ///
   MENUTYPE_SELECTION = 0x10,
+  ///
   // An editable element is selected
+  ///
   MENUTYPE_EDITABLE = 0x20,
+  ///
   // A misspelled word is selected
+  ///
   MENUTYPE_MISSPELLED_WORD = 0x40,
+  ///
   // A video node is selected
+  ///
   MENUTYPE_VIDEO = 0x80,
+  ///
   // A video node is selected
+  ///
   MENUTYPE_AUDIO = 0x100,
 };
 
+///
 // The cef_handler_menuinfo_t editFlags value will be a combination of the
 // following values.
+///
 enum cef_handler_menucapabilitybits_t
 {
   // Values from WebContextMenuData::EditFlags in WebContextMenuData.h
@@ -478,7 +654,9 @@ enum cef_handler_menucapabilitybits_t
   MENU_CAN_GO_BACK = 0x20000000,
 };
 
+///
 // Supported menu ID values.
+///
 enum cef_handler_menuid_t
 {
   MENU_ID_NAV_BACK = 10,
@@ -503,7 +681,9 @@ enum cef_paint_element_type_t
   PET_POPUP,
 };
 
+///
 // Post data elements may represent either bytes or files.
+///
 enum cef_postdataelement_type_t
 {
   PDE_TYPE_EMPTY  = 0,
@@ -533,7 +713,9 @@ enum cef_weburlrequest_state_t
   WUR_STATE_ABORT = 6,
 };
 
+///
 // Key event types.
+///
 enum cef_handler_keyevent_type_t
 {
   KEYEVENT_RAWKEYDOWN = 0,
@@ -542,7 +724,9 @@ enum cef_handler_keyevent_type_t
   KEYEVENT_CHAR
 };
 
+///
 // Key event modifiers.
+///
 enum cef_handler_keyevent_modifiers_t
 {
   KEY_SHIFT = 1 << 0,
@@ -551,7 +735,9 @@ enum cef_handler_keyevent_modifiers_t
   KEY_META  = 1 << 3
 };
 
+///
 // Structure representing a rectangle.
+///
 typedef struct _cef_rect_t
 {
   int x;
@@ -560,7 +746,9 @@ typedef struct _cef_rect_t
   int height;
 } cef_rect_t;
 
+///
 // Existing thread IDs.
+///
 enum cef_thread_id_t
 {
   TID_UI      = 0,
@@ -568,7 +756,9 @@ enum cef_thread_id_t
   TID_FILE    = 2,
 };
 
+///
 // Paper type for printing.
+///
 enum cef_paper_type_t
 {
   PT_LETTER = 0,
@@ -579,7 +769,9 @@ enum cef_paper_type_t
   PT_CUSTOM
 };
 
+///
 // Paper metric information for printing.
+///
 struct cef_paper_metrics
 {
   enum cef_paper_type_t paper_type;
@@ -589,7 +781,9 @@ struct cef_paper_metrics
   double width;
 };
 
+///
 // Paper print margins.
+///
 struct cef_print_margins
 {
   //Margin size in inches for left/right/top/bottom (this is content margins).
@@ -602,14 +796,18 @@ struct cef_print_margins
   double footer;
 };
 
+///
 // Page orientation for printing.
+///
 enum cef_page_orientation
 {
   PORTRAIT = 0,
   LANDSCAPE
 };
 
+///
 // Printing options.
+///
 typedef struct _cef_print_options_t
 {
   enum cef_page_orientation page_orientation;
@@ -617,10 +815,12 @@ typedef struct _cef_print_options_t
   struct cef_print_margins paper_margins;
 } cef_print_options_t;
 
+///
 // Supported XML encoding types. The parser supports ASCII, ISO-8859-1, and
 // UTF16 (LE and BE) by default. All other types must be translated to UTF8
 // before being passed to the parser. If a BOM is detected and the correct
 // decoder is available then that decoder will be used automatically.
+///
 enum cef_xml_encoding_type_t
 {
   XML_ENCODING_NONE = 0,
@@ -630,7 +830,9 @@ enum cef_xml_encoding_type_t
   XML_ENCODING_ASCII,
 };
 
+///
 // XML node types.
+///
 enum cef_xml_node_type_t
 {
   XML_NODE_UNSUPPORTED = 0,
@@ -646,7 +848,9 @@ enum cef_xml_node_type_t
   XML_NODE_COMMENT,
 };
 
+///
 // Status message types.
+///
 enum cef_handler_statustype_t
 {
   STATUSTYPE_TEXT = 0,
@@ -654,7 +858,9 @@ enum cef_handler_statustype_t
   STATUSTYPE_KEYBOARD_FOCUS_URL,
 };
 
+///
 // Popup window features.
+///
 typedef struct _cef_popup_features_t
 {
   int x;
@@ -678,7 +884,9 @@ typedef struct _cef_popup_features_t
   cef_string_list_t additionalFeatures;
 } cef_popup_features_t;
 
+///
 // DOM document types.
+///
 enum cef_dom_document_type_t
 {
   DOM_DOCUMENT_TYPE_UNKNOWN = 0,
@@ -687,7 +895,9 @@ enum cef_dom_document_type_t
   DOM_DOCUMENT_TYPE_PLUGIN,
 };
 
+///
 // DOM event category flags.
+///
 enum cef_dom_event_category_t
 {
   DOM_EVENT_CATEGORY_UNKNOWN = 0x0,
@@ -712,7 +922,9 @@ enum cef_dom_event_category_t
   DOM_EVENT_CATEGORY_BEFORE_LOAD = 0x40000,
 };
 
+///
 // DOM event processing phases.
+///
 enum cef_dom_event_phase_t
 {
   DOM_EVENT_PHASE_UNKNOWN = 0,
@@ -721,7 +933,9 @@ enum cef_dom_event_phase_t
   DOM_EVENT_PHASE_BUBBLING,
 };
 
+///
 // DOM node types.
+///
 enum cef_dom_node_type_t
 {
   DOM_NODE_TYPE_UNSUPPORTED = 0,
