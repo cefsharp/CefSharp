@@ -295,7 +295,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\WpfHandlerAdapter.cpp"
+				RelativePath=".\WpfClientAdapter.cpp"
 				>
 			</File>
 		</Filter>
@@ -389,7 +389,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\WpfHandlerAdapter.h"
+				RelativePath=".\WpfClientAdapter.h"
 				>
 			</File>
 		</Filter>

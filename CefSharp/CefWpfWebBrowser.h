@@ -1,8 +1,9 @@
 #include "stdafx.h"
 #pragma once
 
+/*
 #include "CefSharp.h"
-#include "WpfHandlerAdapter.h"
+#include "WpfClientAdapter.h"
 
 using namespace Microsoft::Win32::SafeHandles;
 using namespace System;

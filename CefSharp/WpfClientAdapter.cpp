@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
-#include "WpfHandlerAdapter.h"
+/*
+#include "WpfClientAdapter.h"
 #include "CefWpfWebBrowser.h"
 
 namespace CefSharp

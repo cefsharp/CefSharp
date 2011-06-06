@@ -20,13 +20,13 @@ namespace CefSharp.WpfExample
             Settings settings = new Settings();
             BrowserSettings browserSettings = new BrowserSettings();
 
-            if (!CEF.Initialize(settings, browserSettings))
+            if (!CEF.Initialize(settings))
             {
                 return;
             }
 
             var source = PresentationSource.FromVisual(sender as Visual) as HwndSource;
-            this.frame.Content = new CefWpfWebBrowser(source, "https://github.com/ataranto/CefSharp");
+            //this.frame.Content = new CefWpfWebBrowser(source, "https://github.com/ataranto/CefSharp");
         }
     }
 }
