@@ -400,60 +400,81 @@ Index: libcef_dll/ctocpp/frame_ctocpp.h
    virtual bool IsMain() OVERRIDE;
    virtual bool IsFocused() OVERRIDE;
    virtual CefString GetName() OVERRIDE;
-Index: include/cef_capi.h
-===================================================================
---- include/cef_capi.h	(revision 253)
-+++ include/cef_capi.h	(working copy)
-@@ -245,7 +245,33 @@
- // if the whitelist cannot be accessed.
- ///
- CEF_EXPORT int cef_clear_cross_origin_whitelist();
+Index: include/cef_capi.h
+===================================================================
+--- include/cef_capi.h	(revision 253)
++++ include/cef_capi.h	(working copy)
+@@ -367,6 +367,44 @@
+ } cef_task_t;
+ 
+ 
 +// Implement this structure for V8 javascript task execution.
 +typedef struct _cef_v8task_t
 +{
 +  // Base structure.
 +  cef_base_t base;
- 
++
++  ///
 +  // Script that will be executed.
 +  // The resulting string must be freed by calling cef_string_userfree_free().
++  ///
 +  cef_string_userfree_t (CEF_CALLBACK *get_script)(struct _cef_v8task_t* self);
 +
++  ///
 +  // name/url of the script for error reporting purposes
 +  // The resulting string must be freed by calling cef_string_userfree_free().
++  ///
 +  cef_string_userfree_t (CEF_CALLBACK *get_script_name)(
 +  struct _cef_v8task_t* self);
 +
++  ///
 +  // starting line number of the script for error reporting purposes
++  ///
 +  int (CEF_CALLBACK *get_start_line)(struct _cef_v8task_t* self);
 +
++  ///
 +  // executed on successful completion of the script
++  ///
 +  void (CEF_CALLBACK *handle_success)(struct _cef_v8task_t* self,
 +  struct _cef_v8value_t* result);
 +
++  ///
 +  // executed on successful completion of the script
++  ///
 +  void (CEF_CALLBACK *handle_error)(struct _cef_v8task_t* self);
 +
 +} cef_v8task_t;
 +
++
  ///
- // CEF maintains multiple internal threads that are used for handling different
- // types of tasks. The UI thread creates the browser window and is used for all
-@@ -523,6 +549,10 @@
+ // Structure to implement for visiting cookie values. The functions of this
+ // structure will always be called on the IO thread.
+@@ -523,6 +561,7 @@
  
    ///
    // Explicitly close the developer tools window if one exists for this browser
 +  // Execute the cef_v8task_t code in this frame.
-+  void (CEF_CALLBACK *execute_java_script_task)(struct _cef_frame_t* self,
-+  		struct _cef_v8task_t* jsTask);
-+
    // instance.
    ///
    void (CEF_CALLBACK *close_dev_tools)(struct _cef_browser_t* self);
-Index: include/cef.h
-===================================================================
---- include/cef.h	(revision 253)
-+++ include/cef.h	(working copy)
-@@ -78,6 +78,7 @@
+@@ -744,6 +783,12 @@
+       int startLine);
+ 
+   ///
++  // Execute a V8 task.
++  ///
++  void (CEF_CALLBACK *execute_java_script_task)(struct _cef_frame_t* self,
++      struct _cef_v8task_t* jsTask);
++
++  ///
+   // Returns true (1) if this is the main frame.
+   ///
+   int (CEF_CALLBACK *is_main)(struct _cef_frame_t* self);
+Index: include/cef.h
+===================================================================
+--- include/cef.h	(revision 253)
++++ include/cef.h	(working copy)
+@@ -78,6 +78,7 @@
  class CefV8Context;
  class CefV8Handler;
  class CefV8Value;
@@ -461,43 +482,59 @@ Index: include/cef.h
  class CefWebURLRequest;
  class CefWebURLRequestClient;
  
-@@ -387,6 +388,27 @@
- /*--cef()--*/
- bool CefDeleteCookies(const CefString& url, const CefString& cookie_name);
+@@ -502,7 +502,39 @@
+   virtual void Execute(CefThreadId threadId) =0;
+ };
  
 +// Implement this interface for V8 javascript task execution.
 +/*--cef(source=client)--*/
 +class CefV8Task : public virtual CefBase
 +{
 +public:
++  ///
 +  // Script that will be executed.
++  ///
 +  /*--cef()--*/
 +  virtual CefString GetScript() =0;
++  ///
 +  // name/url of the script for error reporting purposes
++  ///
 +  /*--cef()--*/
 +  virtual CefString GetScriptName() =0;
++  ///
 +  // starting line number of the script for error reporting purposes
++  ///
 +  /*--cef()--*/
 +  virtual int GetStartLine() =0;
++  ///
 +  // executed on successful completion of the script
++  ///
 +  /*--cef()--*/
 +  virtual void HandleSuccess(CefRefPtr<CefV8Value> result) =0;
++  ///
 +  // executed if script execution fails to compile or throws an uncaught exception
++  ///
 +  /*--cef()--*/
 +  virtual void HandleError() =0;
 +};
  
++
  ///
- // Interface defining the reference count implementation methods. All framework
-@@ -670,6 +692,8 @@
+ // Interface to implement for visiting cookie values. The methods of this class
+ // will always be called on the IO thread.
+@@ -899,6 +931,12 @@
+                                  int startLine) =0;
  
    ///
-   // Get the zoom level.
++  // Execute a CefV8Task.
++  ///
++  /*--cef()--*/
 +  virtual void ExecuteJavaScriptTask(CefRefPtr<CefV8Task> jstask) =0;
 +
++  ///
+   // Returns true if this is the main frame.
    ///
    /*--cef()--*/
-   virtual double GetZoomLevel() =0;
 Index: libcef/browser_impl.h
 ===================================================================
 --- libcef/browser_impl.h	(revision 253)
