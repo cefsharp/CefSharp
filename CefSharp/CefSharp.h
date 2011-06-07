@@ -50,7 +50,7 @@ namespace CefSharp
         {
             String^ get()
             {
-                return "trunk r253";
+                return "trunk r254";
             }
         }
 
