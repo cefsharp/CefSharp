@@ -1,18 +1,18 @@
 #include "stdafx.h"
 #pragma once
 
-#include "CefFormsWebBrowser.h"
+#include "ICefWebBrowser.h"
 
 namespace CefSharp
 {
     class JsTask : public CefV8Task
     {
-        gcroot<CefFormsWebBrowser^> _browser;
+        gcroot<ICefWebBrowser^> _browser;
         CefString _script;
         CefString _scriptName;
         int _lineNo;
     public:
-        JsTask(CefFormsWebBrowser^ browser, CefString script, CefString scriptName, int lineNo)
+        JsTask(ICefWebBrowser^ browser, CefString script, CefString scriptName, int lineNo)
             : _browser(browser), _script(script), _scriptName(scriptName), _lineNo(lineNo)
         {
         }

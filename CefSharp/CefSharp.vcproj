@@ -337,6 +337,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ICefWebBrowser.h"
+				>
+			</File>
+			<File
 				RelativePath=".\JsTask.h"
 				>
 			</File>

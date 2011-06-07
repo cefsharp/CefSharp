@@ -102,7 +102,7 @@ namespace CefSharp.Example
             return true;
         }
 
-        public void HandleBeforeResourceLoad(CefFormsWebBrowser browserControl, IRequestResponse requestResponse)
+        public void HandleBeforeResourceLoad(ICefWebBrowser browserControl, IRequestResponse requestResponse)
         {
             IRequest request = requestResponse.Request;
             if(request.Url.StartsWith("http://test/resource/load"))

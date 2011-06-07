@@ -5,6 +5,7 @@
 #include "ClientAdapter.h"
 #include "IBeforeCreated.h"
 #include "IBeforeResourceLoad.h"
+#include "ICefWebBrowser.h"
 #include "ConsoleMessageEventArgs.h"
 #include "RtzCountdownEvent.h"
 
@@ -15,7 +16,7 @@ using namespace System::Threading;
 
 namespace CefSharp
 {
-    public ref class CefFormsWebBrowser sealed : public Control, INotifyPropertyChanged
+    public ref class CefFormsWebBrowser sealed : public Control, INotifyPropertyChanged, ICefWebBrowser
     {
         bool _canGoForward;
         bool _canGoBack;
@@ -38,21 +39,6 @@ namespace CefSharp
         virtual void OnHandleCreated(EventArgs^ e) override;
         virtual void OnSizeChanged(EventArgs^ e) override;
         virtual void OnGotFocus(EventArgs^ e) override;
-
-    internal:
-
-        virtual void OnInitialized();
-        
-        void SetTitle(String^ title);
-        void SetAddress(String^ address);
-        void SetNavState(bool isLoading, bool canGoBack, bool canGoForward);
-        
-        void AddFrame(CefRefPtr<CefFrame> frame);
-        void FrameLoadComplete(CefRefPtr<CefFrame> frame);
-
-        void SetJsResult(String^ result);
-        void SetJsError();
-        void RaiseConsoleMessage(String^ message, String^ source, int line);
 
     private:
         void Construct(String^ address)
@@ -83,6 +69,8 @@ namespace CefSharp
             Construct(initialUrl);
         }
 
+        virtual void OnInitialized();
+
         void Load(String^ url);
         void WaitForLoadCompletion();
         void WaitForLoadCompletion(int timeout);
@@ -94,6 +82,17 @@ namespace CefSharp
         String^ RunScript(String^ script, String^ scriptUrl, int startLine);
         String^ RunScript(String^ script, String^ scriptUrl, int startLine, int timeout);
 
+        virtual void SetTitle(String^ title);
+        virtual void SetAddress(String^ address);
+        virtual void SetNavState(bool isLoading, bool canGoBack, bool canGoForward);
+        
+        virtual void AddFrame(CefRefPtr<CefFrame> frame);
+        virtual void FrameLoadComplete(CefRefPtr<CefFrame> frame);
+
+        virtual void SetJsResult(String^ result);
+        virtual void SetJsError();
+        virtual void RaiseConsoleMessage(String^ message, String^ source, int line);
+
         property String^ Title
         {
             String^ get() { return _title; }
@@ -104,13 +103,13 @@ namespace CefSharp
             String^ get() { return _address; }
         }
 
-        property IBeforeCreated^ BeforeCreatedHandler
+        virtual property IBeforeCreated^ BeforeCreatedHandler
         {
           IBeforeCreated^ get() { return _beforeCreatedHandler; }
           void set(IBeforeCreated^ handler) { _beforeCreatedHandler = handler; }
         }
 
-        property IBeforeResourceLoad^ BeforeResourceLoadHandler
+        virtual property IBeforeResourceLoad^ BeforeResourceLoadHandler
         {
             IBeforeResourceLoad^ get() { return _beforeResourceLoadHandler; }
             void set(IBeforeResourceLoad^ handler) { _beforeResourceLoadHandler = handler; }

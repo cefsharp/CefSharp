@@ -5,7 +5,7 @@ namespace CefSharp
 {
     using namespace System;
 
-    ref class CefFormsWebBrowser;
+    interface class ICefWebBrowser;
 
     class ClientAdapter : public CefClient,
                           public CefLifeSpanHandler,
@@ -15,13 +15,13 @@ namespace CefSharp
                           public CefJSBindingHandler
     {
     private:
-        gcroot<CefFormsWebBrowser^> _browserControl;
+        gcroot<ICefWebBrowser^> _browserControl;
         HWND _browserHwnd;
         CefRefPtr<CefBrowser> _cefBrowser;
 
     public:
         ~ClientAdapter() { _browserControl = nullptr; }
-        ClientAdapter(CefFormsWebBrowser^ browserControl) : _browserControl(browserControl) {}
+        ClientAdapter(ICefWebBrowser^ browserControl) : _browserControl(browserControl) {}
 
         HWND GetBrowserHwnd() { return _browserHwnd; }
 
