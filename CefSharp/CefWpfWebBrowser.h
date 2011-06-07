@@ -45,6 +45,19 @@ namespace CefSharp
         void *_buffer;
         WriteableBitmap^ _bitmap;
 
+    private:
+        void SetCursor(SafeFileHandle^ handle);
+
+    protected:
+        virtual Size ArrangeOverride(Size size) override;
+        virtual void OnGotFocus(RoutedEventArgs^ e) override;
+        virtual void OnLostFocus(RoutedEventArgs^ e) override;
+        virtual void OnMouseMove(System::Windows::Input::MouseEventArgs^ e) override;
+        virtual void OnMouseLeave(System::Windows::Input::MouseEventArgs^ e) override;
+        virtual void OnMouseWheel(MouseWheelEventArgs^ e) override;
+        virtual void OnMouseDown(MouseButtonEventArgs^ e) override;
+        virtual void OnMouseUp(MouseButtonEventArgs^ e) override;
+
     public:
         CefWpfWebBrowser(HwndSource^ source, String^ address)
         {
@@ -104,6 +117,10 @@ namespace CefSharp
         // event EventHandler^ Initialized;
 
         event ConsoleMessageEventHandler^ ConsoleMessage;
+
+        void SetCursor(CefCursorHandle cursor);
+        void SetBuffer(int width, int height, const CefRect& dirtyRect, const void* buffer);
+        void SetBitmap(WriteableBitmap^ bitmap);
     };
 }
 

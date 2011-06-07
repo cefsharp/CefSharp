@@ -68,6 +68,124 @@ namespace CefSharp
     {
         ConsoleMessage(this, gcnew ConsoleMessageEventArgs(message, source, line));
     }
+
+    Size CefWpfWebBrowser::ArrangeOverride(Size size)
+    {
+        try
+        {
+            _clientAdapter->GetCefBrowser()->SetSize(PET_VIEW, (int)size.Width, (int)size.Height);
+        }
+        catch (...)
+        {
+            // ArrangeOverride may be called one or more times before Cef is initialized
+        }
+
+        return Image::ArrangeOverride(size);
+    }
+
+    void CefWpfWebBrowser::OnGotFocus(RoutedEventArgs^ e)
+    {
+        _clientAdapter->GetCefBrowser()->SendFocusEvent(true);
+        Image::OnGotFocus(e);
+    }
+
+    void CefWpfWebBrowser::OnLostFocus(RoutedEventArgs^ e)
+    {
+        _clientAdapter->GetCefBrowser()->SendFocusEvent(false);
+        Image::OnLostFocus(e);
+    }
+
+    void CefWpfWebBrowser::OnMouseMove(MouseEventArgs^ e)
+    {
+        Point point = e->GetPosition(this);
+        _clientAdapter->GetCefBrowser()->SendMouseMoveEvent((int)point.X, (int)point.Y, false);
+    }
+
+    void CefWpfWebBrowser::OnMouseWheel(MouseWheelEventArgs^ e)
+    {
+        Point point = e->GetPosition(this);
+        _clientAdapter->GetCefBrowser()->SendMouseWheelEvent((int)point.X, (int)point.Y, e->Delta);
+    }
+
+    void CefWpfWebBrowser::OnMouseLeave(MouseEventArgs^ e)
+    {
+        _clientAdapter->GetCefBrowser()->SendMouseMoveEvent(0, 0, true);
+    }
+
+    void CefWpfWebBrowser::OnMouseDown(MouseButtonEventArgs^ e)
+    {
+        Point point = e->GetPosition(this);
+        CefBrowser::MouseButtonType mbt;
+        if (e->RightButton == MouseButtonState::Pressed)
+        {
+            mbt = CefBrowser::MouseButtonType::MBT_RIGHT;
+        }
+        else
+        {
+            mbt = CefBrowser::MouseButtonType::MBT_LEFT;
+        }
+
+        _clientAdapter->GetCefBrowser()->SendMouseClickEvent((int)point.X, (int)point.Y, mbt, false, 1);
+    }
+
+    void CefWpfWebBrowser::OnMouseUp(MouseButtonEventArgs^ e)
+    {
+        Point point = e->GetPosition(this);
+        CefBrowser::MouseButtonType mbt;
+        if (e->RightButton == MouseButtonState::Pressed)
+        {
+            mbt = CefBrowser::MouseButtonType::MBT_RIGHT;
+        }
+        else
+        {
+            mbt = CefBrowser::MouseButtonType::MBT_LEFT;
+        }
+
+        _clientAdapter->GetCefBrowser()->SendMouseClickEvent((int)point.X, (int)point.Y, mbt, true, 1);
+    }
+
+    void CefWpfWebBrowser::SetCursor(CefCursorHandle cursor)
+    {
+        SafeFileHandle^ handle = gcnew SafeFileHandle((IntPtr)cursor, false);
+        Dispatcher->BeginInvoke(DispatcherPriority::Render,
+            gcnew Action<SafeFileHandle^>(this, &CefWpfWebBrowser::SetCursor), handle);
+    }
+
+    void CefWpfWebBrowser::SetCursor(SafeFileHandle^ handle)
+    {
+        Cursor = CursorInteropHelper::Create(handle);
+    }
+
+    void CefWpfWebBrowser::SetBuffer(int width, int height, const CefRect& dirtyRect, const void* buffer)
+    {
+        _width = width;
+        _height = height;
+        _buffer = (void *)buffer;
+
+        Dispatcher->Invoke(DispatcherPriority::Render,
+            gcnew Action<WriteableBitmap^>(this, &CefWpfWebBrowser::SetBitmap), _bitmap);
+    }
+
+    // XXX: don't know how to Invoke a parameterless delegate...
+    void CefWpfWebBrowser::SetBitmap(WriteableBitmap^ bitmap)
+    {
+        int length = _width * _height * 4;
+
+        if (!_bitmap ||
+            _bitmap->PixelWidth != _width ||
+            _bitmap->PixelHeight != _height)
+        {
+            Source = _bitmap = gcnew WriteableBitmap(_width, _height, 96 * _transform.M11, 96 * _transform.M22, PixelFormats::Bgr32, nullptr);
+        }
+
+        Int32Rect rect;
+        rect.X = 0;
+        rect.Y = 0;
+        rect.Width = _width;
+        rect.Height = _height;
+
+        _bitmap->WritePixels(rect, (IntPtr)_buffer, length, _bitmap->BackBufferStride);
+    }
 }
 /*
 #include "CefWpfWebBrowser.h"

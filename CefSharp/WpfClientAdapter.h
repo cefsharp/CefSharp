@@ -7,8 +7,6 @@ namespace CefSharp
 {
     using namespace System;
 
-    interface class ICefWebBrowser;
-
     class WpfClientAdapter : public ClientAdapter,
                              public CefRenderHandler
     {
@@ -19,9 +17,6 @@ namespace CefSharp
         // CefClient
         virtual CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE { return this; }
 
-        IMPLEMENT_LOCKING(WpfClientAdapter);
-        IMPLEMENT_REFCOUNTING(WpfClientAdapter);
-
         // CefRenderHandler
         virtual bool GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) OVERRIDE;
         virtual bool GetScreenRect(CefRefPtr<CefBrowser> browser, CefRect& rect) OVERRIDE;
@@ -30,6 +25,9 @@ namespace CefSharp
         virtual void OnPopupSize(CefRefPtr<CefBrowser> browser, const CefRect& rect) OVERRIDE;
         virtual void OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const CefRect& dirtyRect, const void* buffer) OVERRIDE;
         virtual void OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor) OVERRIDE;
+
+        IMPLEMENT_LOCKING(WpfClientAdapter);
+        IMPLEMENT_REFCOUNTING(WpfClientAdapter);
     };
 }
 
