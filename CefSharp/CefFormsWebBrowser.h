@@ -8,13 +8,12 @@
 #include "RtzCountdownEvent.h"
 
 using namespace System;
-using namespace System::ComponentModel;
 using namespace System::Windows::Forms;
 using namespace System::Threading;
 
 namespace CefSharp
 {
-    public ref class CefFormsWebBrowser sealed : public Control, INotifyPropertyChanged, ICefWebBrowser
+    public ref class CefFormsWebBrowser sealed : public Control, ICefWebBrowser
     {
         bool _canGoForward;
         bool _canGoBack;

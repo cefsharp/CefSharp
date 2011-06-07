@@ -2,13 +2,14 @@
 #pragma once
 
 using namespace System;
+using namespace System::ComponentModel;
 
 namespace CefSharp 
 {
     interface class IBeforeCreated;
     interface class IBeforeResourceLoad;
 
-    public interface class ICefWebBrowser
+    public interface class ICefWebBrowser : INotifyPropertyChanged
     {
     public:
         property IBeforeCreated^ BeforeCreatedHandler;
