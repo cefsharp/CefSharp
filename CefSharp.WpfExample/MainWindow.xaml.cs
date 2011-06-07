@@ -26,7 +26,7 @@ namespace CefSharp.WpfExample
             }
 
             var source = PresentationSource.FromVisual(sender as Visual) as HwndSource;
-            //this.frame.Content = new CefWpfWebBrowser(source, "https://github.com/ataranto/CefSharp");
+            this.frame.Content = new CefWpfWebBrowser(source, "https://github.com/ataranto/CefSharp");
         }
     }
 }

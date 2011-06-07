@@ -1,6 +1,29 @@
 #include "stdafx.h"
 #pragma once
 
+#include "ClientAdapter.h"
+
+namespace CefSharp 
+{
+    using namespace System;
+
+    interface class ICefWebBrowser;
+
+    class WpfClientAdapter : public ClientAdapter,
+                             public CefRenderHandler
+    {
+    public:
+        ~WpfClientAdapter() { }
+        WpfClientAdapter(ICefWebBrowser^ browserControl) : ClientAdapter(browserControl) {}
+
+        // CefClient
+        virtual CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE { return this; }
+
+        IMPLEMENT_LOCKING(WpfClientAdapter);
+        IMPLEMENT_REFCOUNTING(WpfClientAdapter);
+    };
+}
+
 /*
 namespace CefSharp
 {
