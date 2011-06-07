@@ -9,14 +9,14 @@ namespace CefSharp.Example
 {
     public partial class Browser : Form, IBeforeCreated, IBeforeResourceLoad
     {
-        private readonly CefWebBrowser _browserControl;
+        private readonly CefFormsWebBrowser _browserControl;
         private const string cefSharpHomeUrl = "https://github.com/chillitom/CefSharp";
 
         public Browser()
         {
             InitializeComponent();
             Text = "CefSharp";
-            _browserControl = new CefWebBrowser(cefSharpHomeUrl);
+            _browserControl = new CefFormsWebBrowser(cefSharpHomeUrl);
             _browserControl.Dock = DockStyle.Fill;
             _browserControl.PropertyChanged += HandleBrowserPropertyChanged;
             _browserControl.ConsoleMessage += HandleConsoleMessage;
@@ -102,7 +102,7 @@ namespace CefSharp.Example
             return true;
         }
 
-        public void HandleBeforeResourceLoad(CefWebBrowser browserControl, IRequestResponse requestResponse)
+        public void HandleBeforeResourceLoad(CefFormsWebBrowser browserControl, IRequestResponse requestResponse)
         {
             IRequest request = requestResponse.Request;
             if(request.Url.StartsWith("http://test/resource/load"))

@@ -15,7 +15,7 @@ using namespace System::Threading;
 
 namespace CefSharp
 {
-    public ref class CefWebBrowser sealed : public Control, INotifyPropertyChanged
+    public ref class CefFormsWebBrowser sealed : public Control, INotifyPropertyChanged
     {
         bool _canGoForward;
         bool _canGoBack;
@@ -73,12 +73,12 @@ namespace CefSharp
 
     public:
 
-        CefWebBrowser()
+        CefFormsWebBrowser()
         {
             Construct("about:blank");
         }
 
-        CefWebBrowser(String^ initialUrl)
+        CefFormsWebBrowser(String^ initialUrl)
         {
             Construct(initialUrl);
         }

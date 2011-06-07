@@ -227,11 +227,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\CefSharp.cpp"
+				RelativePath=".\CefFormsWebBrowser.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\CefWebBrowser.cpp"
+				RelativePath=".\CefSharp.cpp"
 				>
 			</File>
 			<File
@@ -313,11 +313,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\CefSharp.h"
+				RelativePath=".\CefFormsWebBrowser.h"
 				>
 			</File>
 			<File
-				RelativePath=".\CefWebBrowser.h"
+				RelativePath=".\CefSharp.h"
 				>
 			</File>
 			<File

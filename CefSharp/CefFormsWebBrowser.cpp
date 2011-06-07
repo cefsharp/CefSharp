@@ -1,12 +1,12 @@
 #include "stdafx.h"
 
-#include "CefWebBrowser.h"
+#include "CefFormsWebBrowser.h"
 #include "JsTask.h"
 #include "ScriptException.h"
 
 namespace CefSharp
 {
-    void CefWebBrowser::Load(String^ url)
+    void CefFormsWebBrowser::Load(String^ url)
     {
         WaitForInitialized();
 
@@ -14,33 +14,33 @@ namespace CefSharp
         _clientAdapter->GetCefBrowser()->GetMainFrame()->LoadURL(toNative(url));
     }
 
-    void CefWebBrowser::Stop()
+    void CefFormsWebBrowser::Stop()
     {
     	WaitForInitialized();
 
         _clientAdapter->GetCefBrowser()->StopLoad();
     }
 
-    void CefWebBrowser::Back()
+    void CefFormsWebBrowser::Back()
     {
     	WaitForInitialized();
 
         _clientAdapter->GetCefBrowser()->GoBack();
     }
 
-    void CefWebBrowser::Forward()
+    void CefFormsWebBrowser::Forward()
     {
     	WaitForInitialized();
 
         _clientAdapter->GetCefBrowser()->GoForward();
     }
 
-    void CefWebBrowser::Reload()
+    void CefFormsWebBrowser::Reload()
     {
         Reload(false);
     }
 
-    void CefWebBrowser::Reload(bool ignoreCache)
+    void CefFormsWebBrowser::Reload(bool ignoreCache)
     {
     	WaitForInitialized();
 
@@ -54,14 +54,14 @@ namespace CefSharp
         }
     }
 
-    String^ CefWebBrowser::RunScript(String^ script, String^ scriptUrl, int startLine)
+    String^ CefFormsWebBrowser::RunScript(String^ script, String^ scriptUrl, int startLine)
     {
     	WaitForInitialized();
 
         return RunScript(script, scriptUrl, startLine, -1);
     }
 
-    String^ CefWebBrowser::RunScript(String^ script, String^ scriptUrl, int startLine, int timeout)
+    String^ CefFormsWebBrowser::RunScript(String^ script, String^ scriptUrl, int startLine, int timeout)
     {
     	WaitForInitialized();
         
@@ -93,13 +93,13 @@ namespace CefSharp
         throw gcnew ScriptException("An error occurred during javascript execution");
     }
 
-    void CefWebBrowser::OnInitialized()
+    void CefFormsWebBrowser::OnInitialized()
     {
-        BeginInvoke(gcnew Action<EventArgs^>(this, &CefWebBrowser::OnSizeChanged), EventArgs::Empty);
+        BeginInvoke(gcnew Action<EventArgs^>(this, &CefFormsWebBrowser::OnSizeChanged), EventArgs::Empty);
         _browserInitialized->Set();
     }
 
-    void CefWebBrowser::OnHandleCreated(EventArgs^ e)
+    void CefFormsWebBrowser::OnHandleCreated(EventArgs^ e)
     {
         if (DesignMode == false) 
         {
@@ -121,7 +121,7 @@ namespace CefSharp
         }
     }
 
-    void CefWebBrowser::OnSizeChanged(EventArgs^ e)
+    void CefFormsWebBrowser::OnSizeChanged(EventArgs^ e)
     {
         if (IsInitialized && !DesignMode)
         {
@@ -136,7 +136,7 @@ namespace CefSharp
         }
     }
 
-    void CefWebBrowser::OnGotFocus(EventArgs^ e)
+    void CefFormsWebBrowser::OnGotFocus(EventArgs^ e)
     {
         if (IsInitialized && !DesignMode)
         {
@@ -144,19 +144,19 @@ namespace CefSharp
         }
     }
 
-    void CefWebBrowser::SetTitle(String^ title)
+    void CefFormsWebBrowser::SetTitle(String^ title)
     {
         _title = title;
         PropertyChanged(this, gcnew PropertyChangedEventArgs(L"Title"));
     }
 
-    void CefWebBrowser::SetAddress(String^ address)
+    void CefFormsWebBrowser::SetAddress(String^ address)
     {
         _address = address;
         PropertyChanged(this, gcnew PropertyChangedEventArgs(L"Address"));
     }
 
-    void CefWebBrowser::SetNavState(bool isLoading, bool canGoBack, bool canGoForward)
+    void CefFormsWebBrowser::SetNavState(bool isLoading, bool canGoBack, bool canGoForward)
     {
         if(isLoading != _isLoading) 
         {
@@ -177,44 +177,44 @@ namespace CefSharp
         }
     }
 
-    void CefWebBrowser::AddFrame(CefRefPtr<CefFrame> frame)
+    void CefFormsWebBrowser::AddFrame(CefRefPtr<CefFrame> frame)
     {
         _loadCompleted->AddCount();
     }
 
-    void CefWebBrowser::FrameLoadComplete(CefRefPtr<CefFrame> frame)
+    void CefFormsWebBrowser::FrameLoadComplete(CefRefPtr<CefFrame> frame)
     {
         _loadCompleted->Signal();
     }
 
-    void CefWebBrowser::WaitForLoadCompletion()
+    void CefFormsWebBrowser::WaitForLoadCompletion()
     {
         WaitForLoadCompletion(-1);
     }
 
-    void CefWebBrowser::WaitForLoadCompletion(int timeout)
+    void CefFormsWebBrowser::WaitForLoadCompletion(int timeout)
     {
         _loadCompleted->Wait(timeout);
     }
 
-    void CefWebBrowser::SetJsResult(String^ result)
+    void CefFormsWebBrowser::SetJsResult(String^ result)
     {
         _jsResult = result;
         _runJsFinished->Set();
     }
 
-    void CefWebBrowser::SetJsError()
+    void CefFormsWebBrowser::SetJsError()
     {
         _jsError = true;
         _runJsFinished->Set();
     }
 
-    void CefWebBrowser::RaiseConsoleMessage(String^ message, String^ source, int line)
+    void CefFormsWebBrowser::RaiseConsoleMessage(String^ message, String^ source, int line)
     {
         ConsoleMessage(this, gcnew ConsoleMessageEventArgs(message, source, line));
     }
 
-    void CefWebBrowser::WaitForInitialized()
+    void CefFormsWebBrowser::WaitForInitialized()
     {
         if (IsInitialized) return;
 

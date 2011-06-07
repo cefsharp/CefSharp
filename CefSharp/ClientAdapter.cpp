@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 #include "ClientAdapter.h"
-#include "CefWebBrowser.h"
+#include "CefFormsWebBrowser.h"
 #include "Request.h"
 #include "ReturnValue.h"
 #include "StreamAdapter.h"
