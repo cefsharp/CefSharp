@@ -7,12 +7,20 @@ namespace CefSharp
 {
     using namespace System;
 
+    ref class CefWpfWebBrowser;
+    
     class WpfClientAdapter : public ClientAdapter,
                              public CefRenderHandler
     {
+    private:
+        gcroot<CefWpfWebBrowser^> _wpfBrowserControl;
+
     public:
         ~WpfClientAdapter() { }
-        WpfClientAdapter(ICefWebBrowser^ browserControl) : ClientAdapter(browserControl) {}
+        WpfClientAdapter(CefWpfWebBrowser^ wpfBroserControl) : ClientAdapter((ICefWebBrowser^)wpfBroserControl)
+        {
+            _wpfBrowserControl = wpfBroserControl;
+        }
 
         // CefClient
         virtual CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE { return this; }

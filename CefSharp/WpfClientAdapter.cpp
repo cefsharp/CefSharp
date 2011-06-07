@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "WpfClientAdapter.h"
+#include "CefWpfWebBrowser.h"
 
 namespace CefSharp
 {
@@ -40,7 +40,7 @@ namespace CefSharp
         int width, height;
         browser->GetSize(type, width, height);
 
-        //_wpfBrowserControl->SetBuffer(width, height, dirtyRect, buffer);
+        _wpfBrowserControl->SetBuffer(width, height, dirtyRect, buffer);
     }
 
     void WpfClientAdapter::OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor)
