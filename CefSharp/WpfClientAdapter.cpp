@@ -1,5 +1,45 @@
 #include "stdafx.h"
 
+#include "WpfClientAdapter.h"
+
+namespace CefSharp
+{
+    bool WpfClientAdapter::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect)
+    {
+        return false;
+    }
+
+    bool WpfClientAdapter::GetScreenRect(CefRefPtr<CefBrowser> browser, CefRect& rect)
+    {
+        return false;
+    }
+
+    bool WpfClientAdapter::GetScreenPoint(CefRefPtr<CefBrowser> browser, int viewX, int viewY, int& screenX, int& screenY)
+    {
+        return false;
+    }
+
+    void WpfClientAdapter::OnPopupShow(CefRefPtr<CefBrowser> browser, bool show)
+    {
+
+    }
+
+    void WpfClientAdapter::OnPopupSize(CefRefPtr<CefBrowser> browser, const CefRect& rect)
+    {
+
+    }
+
+    void WpfClientAdapter::OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const CefRect& dirtyRect, const void* buffer)
+    {
+
+    }
+
+    void WpfClientAdapter::OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor)
+    {
+
+    }
+}
+
 /*
 #include "WpfClientAdapter.h"
 #include "CefWpfWebBrowser.h"
