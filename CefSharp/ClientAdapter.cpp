@@ -1,12 +1,11 @@
 #include "stdafx.h"
 
-#include "ClientAdapter.h"
-#include "CefFormsWebBrowser.h"
-#include "Request.h"
-#include "ReturnValue.h"
-#include "StreamAdapter.h"
-#include "CefSharp.h"
 #include "BindingHandler.h"
+#include "ClientAdapter.h"
+#include "CefSharp.h"
+#include "IBeforeCreated.h"
+#include "IBeforeResourceLoad.h"
+#include "StreamAdapter.h"
 
 namespace CefSharp 
 {

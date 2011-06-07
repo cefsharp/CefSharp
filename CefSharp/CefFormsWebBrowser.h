@@ -3,8 +3,6 @@
 
 #include "CefSharp.h"
 #include "ClientAdapter.h"
-#include "IBeforeCreated.h"
-#include "IBeforeResourceLoad.h"
 #include "ICefWebBrowser.h"
 #include "ConsoleMessageEventArgs.h"
 #include "RtzCountdownEvent.h"
