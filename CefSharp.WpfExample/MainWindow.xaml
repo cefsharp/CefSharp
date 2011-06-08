@@ -9,8 +9,8 @@
             <Button Height="23" Name="backButton" Width="75">Back</Button>
             <Button Height="23" Name="forwardButton" Width="75">Forward</Button>
 
-            <Button Height="23" Name="goStopButton" Width="75" DockPanel.Dock="Right">Go</Button>
-            <TextBox Height="23" Name="urlTextBox"/>
+            <Button Height="23" Name="goStopButton" Width="75" DockPanel.Dock="Right" Click="goStopButton_Click">Go</Button>
+            <TextBox Height="23" Name="urlTextBox" KeyDown="urlTextBox_KeyDown" />
         </DockPanel>
         <Frame Name="frame"/>
     </DockPanel>

@@ -87,6 +87,17 @@ namespace CefSharp
             CefBrowser::CreateBrowser(window, static_cast<CefRefPtr<CefClient>>(ptr), toNative(address), settings);
         }
 
+        void Load(String^ url);
+        void WaitForLoadCompletion();
+        void WaitForLoadCompletion(int timeout);
+        void Stop();
+        void Back();
+        void Forward();
+        void Reload();
+        void Reload(bool ignoreCache);
+        String^ RunScript(String^ script, String^ scriptUrl, int startLine);
+        String^ RunScript(String^ script, String^ scriptUrl, int startLine, int timeout);
+
         virtual void OnInitialized();
 
         virtual void SetTitle(String^ title);
@@ -111,6 +122,41 @@ namespace CefSharp
             IBeforeResourceLoad^ get() { return _beforeResourceLoadHandler; }
             void set(IBeforeResourceLoad^ handler) { _beforeResourceLoadHandler = handler; }
         }
+
+        property String^ Title
+        {
+            String^ get() { return _title; }
+        }
+
+        property String^ Address
+        {
+            String^ get() { return _address; }
+        }
+
+        property bool CanGoForward
+        { 
+            bool get() { return _canGoForward; } 
+        }
+
+        property bool CanGoBack
+        { 
+            bool get() { return _canGoBack; } 
+        }
+
+        property bool IsLoading
+        {
+            bool get() { return _isLoading; }
+        }
+
+        property bool IsInitialized
+        {
+            bool get()
+            {
+                return _clientAdapter.get() != nullptr && _clientAdapter->GetIsInitialized();
+            }
+        }
+
+        void WaitForInitialized();
 
         virtual event PropertyChangedEventHandler^ PropertyChanged;
 
