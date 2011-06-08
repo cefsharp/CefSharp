@@ -95,6 +95,16 @@ namespace CefSharp
         Image::OnLostFocus(e);
     }
 
+    void CefWpfWebBrowser::OnKeyDown(KeyEventArgs^ e)
+    {
+        Console::WriteLine("key down: {0}", e->Key);
+    }
+
+    void CefWpfWebBrowser::OnKeyUp(KeyEventArgs^ e)
+    {
+        Console::WriteLine("key up: {0}", e->Key);
+    }
+
     void CefWpfWebBrowser::OnMouseMove(MouseEventArgs^ e)
     {
         Point point = e->GetPosition(this);
@@ -114,13 +124,15 @@ namespace CefSharp
 
     void CefWpfWebBrowser::OnMouseDown(MouseButtonEventArgs^ e)
     {
+        Keyboard::Focus(this); // XXX: temporary
+
         Point point = e->GetPosition(this);
         CefBrowser::MouseButtonType mbt;
         if (e->RightButton == MouseButtonState::Pressed)
         {
             mbt = CefBrowser::MouseButtonType::MBT_RIGHT;
         }
-        else
+        else if (e->LeftButton == MouseButtonState::Pressed)
         {
             mbt = CefBrowser::MouseButtonType::MBT_LEFT;
         }
@@ -136,7 +148,7 @@ namespace CefSharp
         {
             mbt = CefBrowser::MouseButtonType::MBT_RIGHT;
         }
-        else
+        else if (e->LeftButton == MouseButtonState::Pressed)
         {
             mbt = CefBrowser::MouseButtonType::MBT_LEFT;
         }

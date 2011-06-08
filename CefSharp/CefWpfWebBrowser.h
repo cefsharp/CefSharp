@@ -52,6 +52,8 @@ namespace CefSharp
         virtual Size ArrangeOverride(Size size) override;
         virtual void OnGotFocus(RoutedEventArgs^ e) override;
         virtual void OnLostFocus(RoutedEventArgs^ e) override;
+        virtual void OnKeyDown(System::Windows::Input::KeyEventArgs^ e) override;
+        virtual void OnKeyUp(System::Windows::Input::KeyEventArgs^ e) override;
         virtual void OnMouseMove(System::Windows::Input::MouseEventArgs^ e) override;
         virtual void OnMouseLeave(System::Windows::Input::MouseEventArgs^ e) override;
         virtual void OnMouseWheel(MouseWheelEventArgs^ e) override;
