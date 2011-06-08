@@ -18,7 +18,6 @@ namespace CefSharp.WpfExample
         private void Window_SourceInitialized(object sender, EventArgs e)
         {
             Settings settings = new Settings();
-            BrowserSettings browserSettings = new BrowserSettings();
 
             if (!CEF.Initialize(settings))
             {

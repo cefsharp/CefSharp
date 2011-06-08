@@ -1,9 +1,17 @@
 ﻿<Window x:Class="CefSharp.WpfExample.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="CefSharp.WpfExample" Height="300" Width="300"
+    Title="CefSharp.WpfExample" Height="480" Width="640"
     SourceInitialized="Window_SourceInitialized">
-    <Grid>
-        <Frame Name="frame" />
-    </Grid>
+    <DockPanel>
+        <Menu Height="22" DockPanel.Dock="Top" />
+        <DockPanel VerticalAlignment="Top" Height="23" DockPanel.Dock="Top">
+            <Button Height="23" Name="backButton" Width="75">Back</Button>
+            <Button Height="23" Name="forwardButton" Width="75">Forward</Button>
+
+            <Button Height="23" Name="goStopButton" Width="75" DockPanel.Dock="Right">Go</Button>
+            <TextBox Height="23" Name="urlTextBox"/>
+        </DockPanel>
+        <Frame Name="frame"/>
+    </DockPanel>
 </Window>

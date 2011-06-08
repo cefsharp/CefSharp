@@ -183,6 +183,11 @@ namespace CefSharp
     {
         int length = _width * _height * 4;
 
+        if (length == 0)
+        {
+            return;
+        }
+
         if (!_bitmap ||
             _bitmap->PixelWidth != _width ||
             _bitmap->PixelHeight != _height)
