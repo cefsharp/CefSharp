@@ -64,6 +64,7 @@ namespace CefSharp
         CefWpfWebBrowser(HwndSource^ source, String^ address)
         {
             Focusable = true;
+            FocusVisualStyle = nullptr;
 
             if (!CEF::IsInitialized)
             {
