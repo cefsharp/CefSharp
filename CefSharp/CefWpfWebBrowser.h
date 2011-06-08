@@ -47,13 +47,12 @@ namespace CefSharp
 
     private:
         void SetCursor(SafeFileHandle^ handle);
+        IntPtr SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, bool% handled);
 
     protected:
         virtual Size ArrangeOverride(Size size) override;
         virtual void OnGotFocus(RoutedEventArgs^ e) override;
         virtual void OnLostFocus(RoutedEventArgs^ e) override;
-        virtual void OnKeyDown(System::Windows::Input::KeyEventArgs^ e) override;
-        virtual void OnKeyUp(System::Windows::Input::KeyEventArgs^ e) override;
         virtual void OnMouseMove(System::Windows::Input::MouseEventArgs^ e) override;
         virtual void OnMouseLeave(System::Windows::Input::MouseEventArgs^ e) override;
         virtual void OnMouseWheel(MouseWheelEventArgs^ e) override;
@@ -76,6 +75,8 @@ namespace CefSharp
             _browserInitialized = gcnew ManualResetEvent(false);
             _loadCompleted = gcnew RtzCountdownEvent();
             _transform = source->CompositionTarget->TransformToDevice;
+
+            source->AddHook(gcnew Interop::HwndSourceHook(this, &CefWpfWebBrowser::SourceHook));
 
             HWND hWnd = static_cast<HWND>(source->Handle.ToPointer());
             CefWindowInfo window;

@@ -202,16 +202,6 @@ namespace CefSharp
         Image::OnLostFocus(e);
     }
 
-    void CefWpfWebBrowser::OnKeyDown(KeyEventArgs^ e)
-    {
-        Console::WriteLine("key down: {0}", e->Key);
-    }
-
-    void CefWpfWebBrowser::OnKeyUp(KeyEventArgs^ e)
-    {
-        Console::WriteLine("key up: {0}", e->Key);
-    }
-
     void CefWpfWebBrowser::OnMouseMove(MouseEventArgs^ e)
     {
         Point point = e->GetPosition(this);
@@ -273,6 +263,54 @@ namespace CefSharp
     void CefWpfWebBrowser::SetCursor(SafeFileHandle^ handle)
     {
         Cursor = CursorInteropHelper::Create(handle);
+    }
+
+    IntPtr CefWpfWebBrowser::SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, bool% handled)
+    {
+        handled = false;
+        
+        switch(message)
+        {
+            case WM_KEYDOWN:
+            case WM_KEYUP:
+            case WM_SYSKEYDOWN:
+            case WM_SYSKEYUP:
+            case WM_CHAR:
+            case WM_SYSCHAR:
+            case WM_IME_CHAR:
+                if (!IsFocused)
+                {
+                    break;
+                }
+
+                CefBrowser::KeyType type = KT_CHAR;
+                bool sysChar = false, imeChar = false;
+
+                if (message == WM_KEYDOWN || message == WM_SYSKEYDOWN)
+                {
+                    type = KT_KEYDOWN;
+                }
+                else if (message == WM_KEYUP || message == WM_SYSKEYUP)
+                {
+                    type = KT_KEYUP;
+                }
+
+                if (message == WM_SYSKEYDOWN || message == WM_SYSKEYUP || message == WM_SYSCHAR)
+                {
+                    sysChar = true;
+                }
+
+                if (message == WM_IME_CHAR)
+                {
+                    imeChar = true;
+                }
+
+                _clientAdapter->GetCefBrowser()->SendKeyEvent(type, wParam.ToInt32(), lParam.ToInt32(), sysChar, imeChar);
+
+                handled = true;
+        }
+
+        return IntPtr::Zero;
     }
 
     void CefWpfWebBrowser::SetBuffer(int width, int height, const CefRect& dirtyRect, const void* buffer)
