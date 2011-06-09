@@ -85,5 +85,55 @@ namespace CefSharp.WpfExample
                 browser.Load(urlTextBox.Text);
             }
         }
+
+        private void backButton_Click(object sender, RoutedEventArgs e)
+        {
+            browser.Back();
+        }
+
+        private void forwardButton_Click(object sender, RoutedEventArgs e)
+        {
+            browser.Forward();
+        }
+
+        private void exitMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void runJsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Random rand = new Random();
+            int a = rand.Next(1, 10);
+            int b = rand.Next(1, 10);
+
+            try
+            {
+                String result = browser.RunScript(a + "+" + b, "RunJsTest", 1, 5000);
+
+                if (result == (a + b).ToString())
+                {
+                    MessageBox.Show(string.Format("{0} + {1} = {2}", a, b, result), "Success");
+                }
+                else
+                {
+                    MessageBox.Show(string.Format("{0} + {1} != {2}", a, b, result), "Failure");
+                }
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.ToString(), "Failure");
+            }
+        }
+
+        private void homeMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            browser.Load("https://github.com/chillitom/CefSharp");
+        }
+
+        private void fireBugMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            browser.Load("http://getfirebug.com/firebuglite");
+        }
     }
 }

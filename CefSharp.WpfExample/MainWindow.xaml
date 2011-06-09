@@ -4,10 +4,26 @@
     Title="CefSharp.WpfExample" Height="480" Width="640"
     SourceInitialized="Window_SourceInitialized">
     <DockPanel>
-        <Menu Height="22" DockPanel.Dock="Top" />
+        <Menu Height="22" DockPanel.Dock="Top">
+            <MenuItem Header="File">
+                <MenuItem Header="Exit" Name="exitMenuItem" Click="exitMenuItem_Click" />
+            </MenuItem>
+            <MenuItem Header="Tests">
+                <MenuItem Header="Test Resource Load Handler" />
+                <MenuItem Header="Test Run JavaScript Synchronously" Name="runJsMenuItem" Click="runJsMenuItem_Click" />
+                <MenuItem Header="Test Run Arbitrary JavaScript" />
+                <MenuItem Header="Test Scheme Handler" />
+                <MenuItem Header="Test Console Messages" />
+                <MenuItem Header="Test Bind CLR Object to JavaScript" />
+            </MenuItem>
+            <MenuItem Header="Bookmarks">
+                <MenuItem Header="CefSharp Home" Name="homeMenuItem" Click="homeMenuItem_Click" />
+                <MenuItem Header="FireBug Lite" Name="fireBugMenuItem" Click="fireBugMenuItem_Click" />
+            </MenuItem>
+        </Menu>
         <DockPanel VerticalAlignment="Top" DockPanel.Dock="Top">
-            <Button Height="23" Name="backButton" Width="75">Back</Button>
-            <Button Height="23" Name="forwardButton" Width="75">Forward</Button>
+            <Button Height="23" Name="backButton" Width="75" Click="backButton_Click" IsEnabled="False">Back</Button>
+            <Button Height="23" Name="forwardButton" Width="75" Click="forwardButton_Click" IsEnabled="False">Forward</Button>
 
             <Button Height="23" Name="goStopButton" Width="75" DockPanel.Dock="Right" Click="goStopButton_Click">Go</Button>
             <TextBox Height="23" Name="urlTextBox" KeyDown="urlTextBox_KeyDown" />
