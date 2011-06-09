@@ -5,13 +5,23 @@
     SourceInitialized="Window_SourceInitialized">
     <DockPanel>
         <Menu Height="22" DockPanel.Dock="Top" />
-        <DockPanel VerticalAlignment="Top" Height="23" DockPanel.Dock="Top">
+        <DockPanel VerticalAlignment="Top" DockPanel.Dock="Top">
             <Button Height="23" Name="backButton" Width="75">Back</Button>
             <Button Height="23" Name="forwardButton" Width="75">Forward</Button>
 
             <Button Height="23" Name="goStopButton" Width="75" DockPanel.Dock="Right" Click="goStopButton_Click">Go</Button>
             <TextBox Height="23" Name="urlTextBox" KeyDown="urlTextBox_KeyDown" />
         </DockPanel>
-        <Frame Name="frame"/>
+        <DockPanel VerticalAlignment="Top" DockPanel.Dock="Top">
+            <Label>Angle:</Label>
+            <Slider Name="angleSlider" Minimum="-180" Maximum="180" DockPanel.Dock="Right" />
+        </DockPanel>
+        <Frame Name="frame">
+            <Frame.LayoutTransform>
+                <TransformGroup>
+                    <RotateTransform Angle="{Binding Value, ElementName=angleSlider}"/>
+                </TransformGroup>
+            </Frame.LayoutTransform>
+        </Frame>
     </DockPanel>
 </Window>
