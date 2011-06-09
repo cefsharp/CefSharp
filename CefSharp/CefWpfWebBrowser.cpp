@@ -176,6 +176,22 @@ namespace CefSharp
         _browserInitialized->WaitOne();
     }
 
+    void CefWpfWebBrowser::OnApplyTemplate()
+    {
+        ContentControl::OnApplyTemplate();
+
+        _image = (Image^)GetTemplateChild("PART_Image");
+
+        if (_image == nullptr)
+        {
+            Content = _image = gcnew Image();
+
+            _image->Stretch = Stretch::None;
+            _image->HorizontalAlignment = System::Windows::HorizontalAlignment::Left;
+            _image->VerticalAlignment = System::Windows::VerticalAlignment::Top;
+        }
+    }
+
     Size CefWpfWebBrowser::ArrangeOverride(Size size)
     {
         try
@@ -187,19 +203,19 @@ namespace CefSharp
             // ArrangeOverride may be called one or more times before Cef is initialized
         }
 
-        return Image::ArrangeOverride(size);
+        return ContentControl::ArrangeOverride(size);
     }
 
     void CefWpfWebBrowser::OnGotFocus(RoutedEventArgs^ e)
     {
         _clientAdapter->GetCefBrowser()->SendFocusEvent(true);
-        Image::OnGotFocus(e);
+        ContentControl::OnGotFocus(e);
     }
 
     void CefWpfWebBrowser::OnLostFocus(RoutedEventArgs^ e)
     {
         _clientAdapter->GetCefBrowser()->SendFocusEvent(false);
-        Image::OnLostFocus(e);
+        ContentControl::OnLostFocus(e);
     }
 
     void CefWpfWebBrowser::OnMouseMove(MouseEventArgs^ e)
@@ -337,7 +353,7 @@ namespace CefSharp
             _bitmap->PixelWidth != _width ||
             _bitmap->PixelHeight != _height)
         {
-            Source = _bitmap = gcnew WriteableBitmap(_width, _height, 96 * _transform.M11, 96 * _transform.M22, PixelFormats::Bgr32, nullptr);
+            _image->Source = _bitmap = gcnew WriteableBitmap(_width, _height, 96 * _transform.M11, 96 * _transform.M22, PixelFormats::Bgr32, nullptr);
         }
 
         Int32Rect rect;

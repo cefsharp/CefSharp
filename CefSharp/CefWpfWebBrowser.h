@@ -21,7 +21,8 @@ using namespace System::Threading;
 
 namespace CefSharp
 {
-    public ref class CefWpfWebBrowser sealed : public Image, ICefWebBrowser
+    [TemplatePart(Name="PART_Browser", Type=System::Windows::Controls::Image::typeid)]
+    public ref class CefWpfWebBrowser sealed : public ContentControl, ICefWebBrowser
     {
         bool _canGoForward;
         bool _canGoBack;
@@ -39,6 +40,8 @@ namespace CefSharp
         AutoResetEvent^ _runJsFinished;
         RtzCountdownEvent^ _loadCompleted;
         ManualResetEvent^ _browserInitialized;
+
+        Image^ _image;
 
         Matrix _transform;
         int _width, _height;
@@ -65,8 +68,7 @@ namespace CefSharp
             Focusable = true;
             FocusVisualStyle = nullptr;
 
-            //Stretch = System::Windows::Media::Stretch::None;
-            //StretchDirection = System::Windows::Controls::StretchDirection::DownOnly;
+
 
             if (!CEF::IsInitialized)
             {
@@ -91,6 +93,8 @@ namespace CefSharp
             CefBrowserSettings settings;
             CefBrowser::CreateBrowser(window, static_cast<CefRefPtr<CefClient>>(ptr), toNative(address), settings);
         }
+
+        virtual void OnApplyTemplate() override;
 
         void Load(String^ url);
         void WaitForLoadCompletion();
