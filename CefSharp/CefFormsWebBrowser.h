@@ -32,6 +32,8 @@ namespace CefSharp
         RtzCountdownEvent^ _loadCompleted;
         ManualResetEvent^ _browserInitialized;
 
+        ToolTip^ _toolTip;
+
     protected:
         virtual void OnHandleCreated(EventArgs^ e) override;
         virtual void OnSizeChanged(EventArgs^ e) override;
@@ -45,6 +47,13 @@ namespace CefSharp
             _browserInitialized = gcnew ManualResetEvent(false);
             _loadCompleted = gcnew RtzCountdownEvent();
 
+            _toolTip = gcnew ToolTip();
+            _toolTip->Active = true;
+            _toolTip->ShowAlways = true;
+            _toolTip->AutoPopDelay = 5000;
+            _toolTip->ReshowDelay = 250;
+            _toolTip->InitialDelay = 1000;
+
             if(!CEF::IsInitialized)
             {
                 if(!CEF::Initialize(gcnew Settings()))
@@ -53,6 +62,8 @@ namespace CefSharp
                 }
             }
         }
+
+        void DisplayToolTip(String^ text);
 
     public:
 
@@ -80,6 +91,7 @@ namespace CefSharp
         String^ RunScript(String^ script, String^ scriptUrl, int startLine, int timeout);
 
         virtual void SetTitle(String^ title);
+        virtual void SetToolTip(String^ text);
         virtual void SetAddress(String^ address);
         virtual void SetNavState(bool isLoading, bool canGoBack, bool canGoForward);
         

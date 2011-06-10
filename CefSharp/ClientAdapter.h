@@ -19,6 +19,8 @@ namespace CefSharp
         HWND _browserHwnd;
         CefRefPtr<CefBrowser> _cefBrowser;
 
+        gcroot<String^> _tooltip;
+
     public:
         ~ClientAdapter() { _browserControl = nullptr; }
         ClientAdapter(ICefWebBrowser^ browserControl) : _browserControl(browserControl) {}
@@ -62,6 +64,7 @@ namespace CefSharp
         // CefDisplayHandler
         virtual void OnAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& url) OVERRIDE;
         virtual void OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString& title) OVERRIDE;
+        virtual bool OnTooltip(CefRefPtr<CefBrowser> browser, CefString& text) OVERRIDE;
         virtual bool OnConsoleMessage(CefRefPtr<CefBrowser> browser, const CefString& message, const CefString& source, int line) OVERRIDE;
 
         // CefJSBindingHandler

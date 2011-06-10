@@ -18,6 +18,7 @@ namespace CefSharp
         void OnInitialized();
 
         void SetTitle(String^ title);
+        void SetToolTip(String^ text);
         void SetAddress(String^ address);
         void SetNavState(bool isLoading, bool canGoBack, bool canGoForward);
         

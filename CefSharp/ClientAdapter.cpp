@@ -39,6 +39,19 @@ namespace CefSharp
         _browserControl->SetTitle(toClr(title));
     }
 
+    bool ClientAdapter::OnTooltip(CefRefPtr<CefBrowser> browser, CefString& text)
+    {
+        String^ str = toClr(text);
+
+        if (str != _tooltip)
+        {
+            _tooltip = str;
+            _browserControl->SetToolTip(_tooltip);
+        }
+
+        return true;
+    }
+
     bool ClientAdapter::OnConsoleMessage(CefRefPtr<CefBrowser> browser, const CefString& message, const CefString& source, int line)
     {
         String^ messageStr = toClr(message);

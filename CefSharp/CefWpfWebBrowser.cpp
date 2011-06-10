@@ -114,6 +114,11 @@ namespace CefSharp
         PropertyChanged(this, gcnew PropertyChangedEventArgs(L"Title"));
     }
 
+    void CefWpfWebBrowser::SetToolTip(String^ text)
+    {
+
+    }
+
     void CefWpfWebBrowser::SetAddress(String^ address)
     {
         _address = address;

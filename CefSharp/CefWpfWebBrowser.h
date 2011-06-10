@@ -110,6 +110,7 @@ namespace CefSharp
         virtual void OnInitialized();
 
         virtual void SetTitle(String^ title);
+        virtual void SetToolTip(String^ text);
         virtual void SetAddress(String^ address);
         virtual void SetNavState(bool isLoading, bool canGoBack, bool canGoForward);
         

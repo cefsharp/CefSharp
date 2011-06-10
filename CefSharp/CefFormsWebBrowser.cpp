@@ -4,6 +4,8 @@
 #include "JsTask.h"
 #include "ScriptException.h"
 
+using namespace System::Drawing;
+
 namespace CefSharp
 {
     void CefFormsWebBrowser::Load(String^ url)
@@ -150,6 +152,11 @@ namespace CefSharp
         PropertyChanged(this, gcnew PropertyChangedEventArgs(L"Title"));
     }
 
+    void CefFormsWebBrowser::SetToolTip(String^ text)
+    {
+        BeginInvoke(gcnew Action<String^>(this, &CefFormsWebBrowser::DisplayToolTip), text);
+    }
+
     void CefFormsWebBrowser::SetAddress(String^ address)
     {
         _address = address;
@@ -220,5 +227,21 @@ namespace CefSharp
 
         // TODO: risk of infinite lock
         _browserInitialized->WaitOne();
+    }
+
+    void CefFormsWebBrowser::DisplayToolTip(String^ text)
+    {
+        if (String::IsNullOrEmpty(text))
+        {
+            _toolTip->Hide(this);
+        }
+        else
+        {
+            Point point = System::Windows::Forms::Cursor::Position;
+            point = PointToClient(point);
+            point.Y += Cursor->Size.Height / 2;
+
+            _toolTip->Show(text, this, point);
+        }
     }
 }
