@@ -201,5 +201,10 @@ namespace CefSharp.Example
         {
             _browserControl.Load("http://getfirebug.com/firebuglite");
         }
+
+        private void testTooltipsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _browserControl.Load("test://test/TooltipTest.html");
+        }
     }
 }

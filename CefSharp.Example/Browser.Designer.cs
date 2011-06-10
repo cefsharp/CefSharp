@@ -49,6 +49,7 @@
             this.bookmarksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cefSharpHomeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fireBugLiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testTooltipsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -152,14 +153,14 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItemClick);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItemClick);
             // 
@@ -171,7 +172,8 @@
             this.testRunArbitraryJavaScriptToolStripMenuItem,
             this.testSchemeHandlerToolStripMenuItem,
             this.testConsoleMessagesToolStripMenuItem,
-            this.testBindCLRObjectToJSToolStripMenuItem});
+            this.testBindCLRObjectToJSToolStripMenuItem,
+            this.testTooltipsToolStripMenuItem});
             this.testsToolStripMenuItem.Name = "testsToolStripMenuItem";
             this.testsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.testsToolStripMenuItem.Text = "Tests";
@@ -213,7 +215,7 @@
             // 
             // testBindCLRObjectToJSToolStripMenuItem
             // 
-            this.testBindCLRObjectToJSToolStripMenuItem.Name = "testBindObjectToJSToolStripMenuItem";
+            this.testBindCLRObjectToJSToolStripMenuItem.Name = "testBindCLRObjectToJSToolStripMenuItem";
             this.testBindCLRObjectToJSToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
             this.testBindCLRObjectToJSToolStripMenuItem.Text = "Test Bind CLR object to JS";
             this.testBindCLRObjectToJSToolStripMenuItem.Click += new System.EventHandler(this.TestBindClrObjectToJsToolStripMenuItemClick);
@@ -240,6 +242,13 @@
             this.fireBugLiteToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.fireBugLiteToolStripMenuItem.Text = "FireBug Lite";
             this.fireBugLiteToolStripMenuItem.Click += new System.EventHandler(this.fireBugLiteToolStripMenuItem_Click);
+            // 
+            // testTooltipsToolStripMenuItem
+            // 
+            this.testTooltipsToolStripMenuItem.Name = "testTooltipsToolStripMenuItem";
+            this.testTooltipsToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.testTooltipsToolStripMenuItem.Text = "Test Tooltips";
+            this.testTooltipsToolStripMenuItem.Click += new System.EventHandler(this.testTooltipsToolStripMenuItem_Click);
             // 
             // Browser
             // 
@@ -287,6 +296,7 @@
         private System.Windows.Forms.ToolStripMenuItem bookmarksToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cefSharpHomeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fireBugLiteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem testTooltipsToolStripMenuItem;
 
     }
 }

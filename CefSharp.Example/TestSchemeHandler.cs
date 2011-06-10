@@ -10,17 +10,24 @@ namespace CefSharp.Example
     {
         public bool ProcessRequest(IRequest request, ref string mimeType, ref Stream stream)
         {
-            if(request.Url.EndsWith("SchemeTest.html", StringComparison.OrdinalIgnoreCase))
+            string resource = null;
+
+            if (request.Url.EndsWith("SchemeTest.html", StringComparison.OrdinalIgnoreCase))
             {
-                byte[] bytes = Encoding.UTF8.GetBytes(Resources.SchemeTest);
-                stream = new MemoryStream(bytes);
-                mimeType = "text/html";
-                return true;
+                resource = Resources.SchemeTest;
+            }
+            else if (request.Url.EndsWith("BindingTest.html", StringComparison.OrdinalIgnoreCase))
+            {
+                resource = Resources.BindingTest;
+            }
+            else if (request.Url.EndsWith("TooltipTest.html", StringComparison.OrdinalIgnoreCase))
+            {
+                resource = Resources.TooltipTest;
             }
 
-            if (request.Url.EndsWith("BindingTest.html", StringComparison.OrdinalIgnoreCase))
+            if (!String.IsNullOrEmpty(resource))
             {
-                byte[] bytes = Encoding.UTF8.GetBytes(Resources.BindingTest);
+                byte[] bytes = Encoding.UTF8.GetBytes(resource);
                 stream = new MemoryStream(bytes);
                 mimeType = "text/html";
                 return true;
