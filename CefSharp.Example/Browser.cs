@@ -37,6 +37,9 @@ namespace CefSharp.Example
                 case "Title":
                     Text = _browserControl.Title;
                     break;
+                case "ToolTip":
+                    Console.WriteLine("ToolTip: {0}", _browserControl.ToolTip);
+                    break;
                 case "Address":
                     urlTextBox.Text = _browserControl.Address;
                     break;

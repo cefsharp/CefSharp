@@ -21,6 +21,7 @@ namespace CefSharp
 
         String^ _address;
         String^ _title;
+        String^ _tooltip;
         String^ _jsResult;
         bool _jsError;
 
@@ -31,8 +32,6 @@ namespace CefSharp
         AutoResetEvent^ _runJsFinished;
         RtzCountdownEvent^ _loadCompleted;
         ManualResetEvent^ _browserInitialized;
-
-        ToolTip^ _toolTip;
 
     protected:
         virtual void OnHandleCreated(EventArgs^ e) override;
@@ -47,13 +46,6 @@ namespace CefSharp
             _browserInitialized = gcnew ManualResetEvent(false);
             _loadCompleted = gcnew RtzCountdownEvent();
 
-            _toolTip = gcnew ToolTip();
-            _toolTip->Active = true;
-            _toolTip->ShowAlways = true;
-            _toolTip->AutoPopDelay = 5000;
-            _toolTip->ReshowDelay = 250;
-            _toolTip->InitialDelay = 1000;
-
             if(!CEF::IsInitialized)
             {
                 if(!CEF::Initialize(gcnew Settings()))
@@ -62,8 +54,6 @@ namespace CefSharp
                 }
             }
         }
-
-        void DisplayToolTip(String^ text);
 
     public:
 
@@ -105,6 +95,11 @@ namespace CefSharp
         property String^ Title
         {
             String^ get() { return _title; }
+        }
+
+        property String^ ToolTip
+        {
+            String^ get() { return _tooltip; }
         }
 
         property String^ Address
