@@ -7,7 +7,7 @@ using CefSharp;
 
 namespace CefSharp.Example
 {
-    public partial class Browser : Form, IBeforeCreated, IBeforeResourceLoad
+    public partial class Browser : Form, IBeforePopup, IBeforeResourceLoad
     {
         private readonly CefFormsWebBrowser _browserControl;
         private const string cefSharpHomeUrl = "https://github.com/chillitom/CefSharp";
@@ -20,7 +20,7 @@ namespace CefSharp.Example
             _browserControl.Dock = DockStyle.Fill;
             _browserControl.PropertyChanged += HandleBrowserPropertyChanged;
             _browserControl.ConsoleMessage += HandleConsoleMessage;
-            _browserControl.BeforeCreatedHandler = this;
+            _browserControl.BeforePopupHandler = this;
             _browserControl.BeforeResourceLoadHandler = this;
             toolStripContainer.ContentPanel.Controls.Add(_browserControl);            
         }
@@ -99,10 +99,10 @@ namespace CefSharp.Example
             }
         }
 
-        public bool HandleBeforeCreated(bool popup, string url)
+        public bool HandleBeforePopup(string url)
         {
-            Console.WriteLine("HandleBeforeCreated: popup: {0}, url: {1}", popup, url);
-            return true;
+            Console.WriteLine("HandleBeforePopup: {0}", url);
+            return false;
         }
 
         public void HandleBeforeResourceLoad(ICefWebBrowser browserControl, IRequestResponse requestResponse)

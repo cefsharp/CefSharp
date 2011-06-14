@@ -3,7 +3,7 @@
 #include "BindingHandler.h"
 #include "ClientAdapter.h"
 #include "CefSharp.h"
-#include "IBeforeCreated.h"
+#include "IBeforePopup.h"
 #include "IBeforeResourceLoad.h"
 #include "StreamAdapter.h"
 
@@ -11,8 +11,8 @@ namespace CefSharp
 {
     bool ClientAdapter::OnBeforePopup(CefRefPtr<CefBrowser> parentBrowser, const CefPopupFeatures& popupFeatures, CefWindowInfo& windowInfo, const CefString& url, CefRefPtr<CefClient>& client, CefBrowserSettings& settings)
     {
-        IBeforeCreated^ beforeCreatedHandler = _browserControl->BeforeCreatedHandler;
-        return beforeCreatedHandler == nullptr || beforeCreatedHandler->HandleBeforeCreated(true, toClr(url));
+        IBeforePopup^ beforePopupHandler = _browserControl->BeforePopupHandler;
+        return beforePopupHandler != nullptr && beforePopupHandler->HandleBeforePopup(toClr(url));
     }
 
     void ClientAdapter::OnAfterCreated(CefRefPtr<CefBrowser> browser)

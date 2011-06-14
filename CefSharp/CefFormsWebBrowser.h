@@ -28,7 +28,7 @@ namespace CefSharp
 
         BrowserSettings^ _settings;
 
-        IBeforeCreated^ _beforeCreatedHandler;
+        IBeforePopup^ _beforePopupHandler;
         IBeforeResourceLoad^ _beforeResourceLoadHandler;
         MCefRefPtr<ClientAdapter> _clientAdapter;
 
@@ -111,10 +111,10 @@ namespace CefSharp
             String^ get() { return _address; }
         }
 
-        virtual property IBeforeCreated^ BeforeCreatedHandler
+        virtual property IBeforePopup^ BeforePopupHandler
         {
-          IBeforeCreated^ get() { return _beforeCreatedHandler; }
-          void set(IBeforeCreated^ handler) { _beforeCreatedHandler = handler; }
+            IBeforePopup^ get() { return _beforePopupHandler; }
+            void set(IBeforePopup^ handler) { _beforePopupHandler = handler; }
         }
 
         virtual property IBeforeResourceLoad^ BeforeResourceLoadHandler

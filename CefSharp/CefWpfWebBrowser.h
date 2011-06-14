@@ -33,7 +33,7 @@ namespace CefSharp
         String^ _jsResult;
         bool _jsError;
 
-        IBeforeCreated^ _beforeCreatedHandler;
+        IBeforePopup^ _beforePopupHandler;
         IBeforeResourceLoad^ _beforeResourceLoadHandler;
         MCefRefPtr<WpfClientAdapter> _clientAdapter;
 
@@ -121,10 +121,10 @@ namespace CefSharp
         virtual void SetJsError();
         virtual void RaiseConsoleMessage(String^ message, String^ source, int line);
 
-        virtual property IBeforeCreated^ BeforeCreatedHandler
+        virtual property IBeforePopup^ BeforePopupHandler
         {
-          IBeforeCreated^ get() { return _beforeCreatedHandler; }
-          void set(IBeforeCreated^ handler) { _beforeCreatedHandler = handler; }
+            IBeforePopup^ get() { return _beforePopupHandler; }
+            void set(IBeforePopup^ handler) { _beforePopupHandler = handler; }
         }
 
         virtual property IBeforeResourceLoad^ BeforeResourceLoadHandler
