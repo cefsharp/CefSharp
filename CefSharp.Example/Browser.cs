@@ -16,7 +16,7 @@ namespace CefSharp.Example
         {
             InitializeComponent();
             Text = "CefSharp";
-            _browserControl = new CefFormsWebBrowser(cefSharpHomeUrl);
+            _browserControl = new CefFormsWebBrowser(cefSharpHomeUrl, new BrowserSettings());
             _browserControl.Dock = DockStyle.Fill;
             _browserControl.PropertyChanged += HandleBrowserPropertyChanged;
             _browserControl.ConsoleMessage += HandleConsoleMessage;
@@ -208,6 +208,11 @@ namespace CefSharp.Example
         private void testTooltipsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _browserControl.Load("test://test/TooltipTest.html");
+        }
+
+        private void testPopupWindowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _browserControl.RunScript("window.open('http://www.google.com')", "about:blank", 1, 5000);
         }
     }
 }

@@ -6,6 +6,7 @@
 #include "ICefWebBrowser.h"
 #include "ConsoleMessageEventArgs.h"
 #include "RtzCountdownEvent.h"
+#include "BrowserSettings.h"
 
 using namespace System;
 using namespace System::Windows::Forms;
@@ -25,6 +26,8 @@ namespace CefSharp
         String^ _jsResult;
         bool _jsError;
 
+        BrowserSettings^ _settings;
+
         IBeforeCreated^ _beforeCreatedHandler;
         IBeforeResourceLoad^ _beforeResourceLoadHandler;
         MCefRefPtr<ClientAdapter> _clientAdapter;
@@ -39,9 +42,10 @@ namespace CefSharp
         virtual void OnGotFocus(EventArgs^ e) override;
 
     private:
-        void Construct(String^ address)
+        void Construct(String^ address, BrowserSettings^ settings)
         {
             _address = address;
+            _settings = settings;
             _runJsFinished = gcnew AutoResetEvent(false);
             _browserInitialized = gcnew ManualResetEvent(false);
             _loadCompleted = gcnew RtzCountdownEvent();
@@ -59,12 +63,12 @@ namespace CefSharp
 
         CefFormsWebBrowser()
         {
-            Construct("about:blank");
+            Construct("about:blank", gcnew BrowserSettings);
         }
 
-        CefFormsWebBrowser(String^ initialUrl)
+        CefFormsWebBrowser(String^ initialUrl, BrowserSettings^ settings)
         {
-            Construct(initialUrl);
+            Construct(initialUrl, settings);
         }
 
         virtual void OnInitialized();

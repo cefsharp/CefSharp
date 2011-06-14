@@ -3,7 +3,6 @@
 #pragma once
 
 #include "Settings.h"
-#include "BrowserSettings.h"
 #include "SchemeHandler.h"
 
 using namespace System;
