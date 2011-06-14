@@ -50,9 +50,10 @@ namespace CefSharp
         virtual CefRefPtr<CefDisplayHandler> GetDisplayHandler() OVERRIDE { return this; }
         virtual CefRefPtr<CefJSBindingHandler> GetJSBindingHandler() OVERRIDE { return this; }
 
-        // CefClientLifeSpanHandler
+        // CefLifeSpanHandler
         virtual bool OnBeforePopup(CefRefPtr<CefBrowser> parentBrowser, const CefPopupFeatures& popupFeatures, CefWindowInfo& windowInfo, const CefString& url, CefRefPtr<CefClient>& client, CefBrowserSettings& settings) OVERRIDE;
         virtual void OnAfterCreated(CefRefPtr<CefBrowser> browser) OVERRIDE;
+        virtual void OnBeforeClose(CefRefPtr<CefBrowser> browser) OVERRIDE;
 
         // CefLoadHandler
         virtual void OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame) OVERRIDE;

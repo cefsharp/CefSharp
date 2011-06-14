@@ -26,6 +26,14 @@ namespace CefSharp
         }
     }
 
+    void ClientAdapter::OnBeforeClose(CefRefPtr<CefBrowser> browser)
+    {
+        if (_browserHwnd == browser->GetWindowHandle())
+        {
+            _cefBrowser = nullptr;
+        }
+    }
+
     void ClientAdapter::OnAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& url)
     {
         if(frame->IsMain())
