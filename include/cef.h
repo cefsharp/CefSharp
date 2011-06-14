@@ -645,6 +645,14 @@ public:
   virtual CefWindowHandle GetWindowHandle() =0;
 
   ///
+  // Retrieve the window handle of the browser that opened this browser. Will
+  // return NULL for non-popup windows. This method can be used in combination
+  // with custom handling of modal windows.
+  ///
+  /*--cef()--*/
+  virtual CefWindowHandle GetOpenerWindowHandle() =0;
+  
+  ///
   // Returns true if the window is a popup window.
   ///
   /*--cef()--*/
@@ -1010,10 +1018,28 @@ public:
   virtual void OnAfterCreated(CefRefPtr<CefBrowser> browser) {}
 
   ///
-  // Called just before a window is closed.
+  // Called just before a window is closed. If this is a modal window and you
+  // handled the RunModal() event you can use this callback to restore
+  // the opener window to a usable state.
   ///
   /*--cef()--*/
   virtual void OnBeforeClose(CefRefPtr<CefBrowser> browser) {}
+
+  ///
+  // Called to enter the modal loop. Provide your own modal loop here. Return
+  // true if you ran your own modal loop and false to use the default. You can
+  // also use this event to know when a modal window is about to start.
+  ///
+  /*--cef()--*/
+  virtual bool RunModal(CefRefPtr<CefBrowser> browser) { return false; }
+
+  ///
+  // Called when a modal browser window has been destroyed. You must implement
+  // this if you are handling RunModal(). You can also use this event to know
+  // when a modal window is about to be closed.
+  ///
+  /*--cef()--*/
+  virtual void QuitModal(CefRefPtr<CefBrowser> browser) { }
 };
 
 
