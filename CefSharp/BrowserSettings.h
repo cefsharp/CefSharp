@@ -230,6 +230,12 @@ namespace CefSharp
             void set(bool value) { _browserSettings->accelerated_2d_canvas_disabled = value; }
         }
 
+        property bool DragDropDisabled
+        {
+            bool get() { return _browserSettings->drag_drop_disabled; }
+            void set(bool value) { _browserSettings->drag_drop_disabled = value; }
+        }
+
     };
 
 }
