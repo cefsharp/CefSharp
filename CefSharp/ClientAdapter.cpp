@@ -12,7 +12,10 @@ namespace CefSharp
     bool ClientAdapter::OnBeforePopup(CefRefPtr<CefBrowser> parentBrowser, const CefPopupFeatures& popupFeatures, CefWindowInfo& windowInfo, const CefString& url, CefRefPtr<CefClient>& client, CefBrowserSettings& settings)
     {
         IBeforePopup^ beforePopupHandler = _browserControl->BeforePopupHandler;
-        return beforePopupHandler != nullptr && beforePopupHandler->HandleBeforePopup(toClr(url));
+
+        Console::WriteLine("before: {0}x{1}", windowInfo.m_nWidth, windowInfo.m_nHeight);
+        return beforePopupHandler != nullptr &&
+            beforePopupHandler->HandleBeforePopup(toClr(url), windowInfo.m_x, windowInfo.m_y, windowInfo.m_nWidth, windowInfo.m_nHeight);
     }
 
     void ClientAdapter::OnAfterCreated(CefRefPtr<CefBrowser> browser)

@@ -99,9 +99,12 @@ namespace CefSharp.Example
             }
         }
 
-        public bool HandleBeforePopup(string url)
+        public bool HandleBeforePopup(string url, ref int x, ref int y, ref int width, ref int height)
         {
-            Console.WriteLine("HandleBeforePopup: {0}", url);
+            x = y = 0;
+            width = 640;
+            height = 480;
+
             return false;
         }
 
