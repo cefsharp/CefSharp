@@ -5,6 +5,7 @@
 #include "CefSharp.h"
 #include "IBeforePopup.h"
 #include "IBeforeResourceLoad.h"
+#include "IBeforeMenu.h"
 #include "StreamAdapter.h"
 
 namespace CefSharp 
@@ -12,8 +13,6 @@ namespace CefSharp
     bool ClientAdapter::OnBeforePopup(CefRefPtr<CefBrowser> parentBrowser, const CefPopupFeatures& popupFeatures, CefWindowInfo& windowInfo, const CefString& url, CefRefPtr<CefClient>& client, CefBrowserSettings& settings)
     {
         IBeforePopup^ beforePopupHandler = _browserControl->BeforePopupHandler;
-
-        Console::WriteLine("before: {0}x{1}", windowInfo.m_nWidth, windowInfo.m_nHeight);
         return beforePopupHandler != nullptr &&
             beforePopupHandler->HandleBeforePopup(toClr(url), windowInfo.m_x, windowInfo.m_y, windowInfo.m_nWidth, windowInfo.m_nHeight);
     }
@@ -140,5 +139,12 @@ namespace CefSharp
         {
             BindingHandler::Bind(kvp->Key, kvp->Value, object);
         }
+    }
+
+    bool ClientAdapter::OnBeforeMenu(CefRefPtr<CefBrowser> browser, const MenuInfo& menuInfo)
+    {
+        IBeforeMenu^ beforeMenuHandler = _browserControl->BeforeMenuHandler;
+        return beforeMenuHandler != nullptr &&
+            beforeMenuHandler->HandleBeforeMenu();
     }
 }

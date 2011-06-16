@@ -7,7 +7,7 @@ using CefSharp;
 
 namespace CefSharp.Example
 {
-    public partial class Browser : Form, IBeforePopup, IBeforeResourceLoad
+    public partial class Browser : Form, IBeforePopup, IBeforeResourceLoad, IBeforeMenu
     {
         private readonly CefFormsWebBrowser _browserControl;
         private const string cefSharpHomeUrl = "https://github.com/chillitom/CefSharp";
@@ -22,6 +22,7 @@ namespace CefSharp.Example
             _browserControl.ConsoleMessage += HandleConsoleMessage;
             _browserControl.BeforePopupHandler = this;
             _browserControl.BeforeResourceLoadHandler = this;
+            _browserControl.BeforeMenuHandler = this;
             toolStripContainer.ContentPanel.Controls.Add(_browserControl);            
         }
 
@@ -118,6 +119,12 @@ namespace CefSharp.Example
                 requestResponse.RespondWith(resourceStream, "text/html");
             }
             Console.WriteLine(request.Url);
+        }
+
+        public bool HandleBeforeMenu()
+        {
+            Console.WriteLine("HandleBeforeMenu");
+            return false;
         }
 
         private void ExitToolStripMenuItemClick(object sender, EventArgs e)

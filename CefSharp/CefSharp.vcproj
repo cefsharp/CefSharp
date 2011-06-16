@@ -329,6 +329,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\IBeforeMenu.h"
+				>
+			</File>
+			<File
 				RelativePath=".\IBeforePopup.h"
 				>
 			</File>

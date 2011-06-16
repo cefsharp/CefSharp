@@ -8,12 +8,14 @@ namespace CefSharp
 {
     interface class IBeforePopup;
     interface class IBeforeResourceLoad;
+    interface class IBeforeMenu;
 
     public interface class ICefWebBrowser : INotifyPropertyChanged
     {
     public:
         property IBeforePopup^ BeforePopupHandler;
         property IBeforeResourceLoad^ BeforeResourceLoadHandler;
+        property IBeforeMenu^ BeforeMenuHandler;
 
         void OnInitialized();
 

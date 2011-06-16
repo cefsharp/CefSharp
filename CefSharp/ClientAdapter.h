@@ -12,7 +12,8 @@ namespace CefSharp
                           public CefLoadHandler,
                           public CefRequestHandler,
                           public CefDisplayHandler,
-                          public CefJSBindingHandler
+                          public CefJSBindingHandler,
+                          public CefMenuHandler
     {
     private:
         gcroot<ICefWebBrowser^> _browserControl;
@@ -49,6 +50,7 @@ namespace CefSharp
         virtual CefRefPtr<CefRequestHandler> GetRequestHandler() OVERRIDE { return this; }
         virtual CefRefPtr<CefDisplayHandler> GetDisplayHandler() OVERRIDE { return this; }
         virtual CefRefPtr<CefJSBindingHandler> GetJSBindingHandler() OVERRIDE { return this; }
+        virtual CefRefPtr<CefMenuHandler> GetMenuHandler() OVERRIDE { return this; }
 
         // CefLifeSpanHandler
         virtual bool OnBeforePopup(CefRefPtr<CefBrowser> parentBrowser, const CefPopupFeatures& popupFeatures, CefWindowInfo& windowInfo, const CefString& url, CefRefPtr<CefClient>& client, CefBrowserSettings& settings) OVERRIDE;
@@ -70,6 +72,9 @@ namespace CefSharp
 
         // CefJSBindingHandler
         virtual void OnJSBinding(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Value> object) OVERRIDE;
+
+        // CefMenuHandler
+        virtual bool OnBeforeMenu(CefRefPtr<CefBrowser> browser, const MenuInfo& menuInfo) OVERRIDE;
 
         IMPLEMENT_LOCKING(ClientAdapter);
         IMPLEMENT_REFCOUNTING(ClientAdapter);
