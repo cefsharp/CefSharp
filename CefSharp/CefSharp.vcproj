@@ -329,6 +329,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\IAfterResponse.h"
+				>
+			</File>
+			<File
 				RelativePath=".\IBeforeMenu.h"
 				>
 			</File>

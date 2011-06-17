@@ -6,15 +6,16 @@
 #include "IBeforePopup.h"
 #include "IBeforeResourceLoad.h"
 #include "IBeforeMenu.h"
+#include "IAfterResponse.h"
 #include "StreamAdapter.h"
 
 namespace CefSharp 
 {
     bool ClientAdapter::OnBeforePopup(CefRefPtr<CefBrowser> parentBrowser, const CefPopupFeatures& popupFeatures, CefWindowInfo& windowInfo, const CefString& url, CefRefPtr<CefClient>& client, CefBrowserSettings& settings)
     {
-        IBeforePopup^ beforePopupHandler = _browserControl->BeforePopupHandler;
-        return beforePopupHandler != nullptr &&
-            beforePopupHandler->HandleBeforePopup(toClr(url), windowInfo.m_x, windowInfo.m_y, windowInfo.m_nWidth, windowInfo.m_nHeight);
+        IBeforePopup^ handler = _browserControl->BeforePopupHandler;
+        return handler != nullptr &&
+            handler->HandleBeforePopup(toClr(url), windowInfo.m_x, windowInfo.m_y, windowInfo.m_nWidth, windowInfo.m_nHeight);
     }
 
     void ClientAdapter::OnAfterCreated(CefRefPtr<CefBrowser> browser)
@@ -131,6 +132,19 @@ namespace CefSharp
         }
 
         return false; 
+    }
+
+    void ClientAdapter::OnResourceReponse(CefRefPtr<CefBrowser> browser, const CefString& url, CefRefPtr<CefResponse> response, CefRefPtr<CefContentFilter>& filter)
+    {
+        IAfterResponse^ handler = _browserControl->AfterResponseHandler;
+        if (handler != nullptr)
+        {
+            String^ cookie = toClr(response->GetHeader("Set-Cookie"));
+            if (!String::IsNullOrEmpty(cookie))
+            {
+                handler->HandleSetCookie(cookie);
+            }
+        }
     }
 
     void ClientAdapter::OnJSBinding(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Value> object)

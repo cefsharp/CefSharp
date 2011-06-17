@@ -36,6 +36,7 @@ namespace CefSharp
         IBeforePopup^ _beforePopupHandler;
         IBeforeResourceLoad^ _beforeResourceLoadHandler;
         IBeforeMenu^ _beforeMenuHandler;
+        IAfterResponse^ _afterResponseHandler;
         MCefRefPtr<WpfClientAdapter> _clientAdapter;
 
         AutoResetEvent^ _runJsFinished;
@@ -138,6 +139,12 @@ namespace CefSharp
         {
             IBeforeMenu^ get() { return _beforeMenuHandler; }
             void set(IBeforeMenu^ handler) { _beforeMenuHandler = handler; }
+        }
+
+        virtual property IAfterResponse^ AfterResponseHandler
+        {
+            IAfterResponse^ get() { return _afterResponseHandler; }
+            void set(IAfterResponse^ handler) { _afterResponseHandler = handler; }
         }
 
         property String^ Title
