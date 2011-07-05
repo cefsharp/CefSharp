@@ -377,8 +377,11 @@ struct CefBrowserSettingsTraits {
     target->accelerated_compositing_disabled =
         src->accelerated_compositing_disabled;
     target->accelerated_layers_disabled = src->accelerated_layers_disabled;
+    target->accelerated_video_disabled = src->accelerated_video_disabled;
     target->accelerated_2d_canvas_disabled =
         src->accelerated_2d_canvas_disabled;
+    target->accelerated_drawing_disabled = src->accelerated_drawing_disabled;
+    target->accelerated_plugins_disabled = src->accelerated_plugins_disabled;
     target->developer_tools_disabled = src->developer_tools_disabled;
   }
 };

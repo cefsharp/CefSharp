@@ -388,6 +388,7 @@ bool CefSetCookie(const CefString& url, const CefCookie& cookie);
 /*--cef()--*/
 bool CefDeleteCookies(const CefString& url, const CefString& cookie_name);
 
+
 ///
 // Interface defining the reference count implementation methods. All framework
 // classes must extend the CefBase class.
@@ -1140,10 +1141,10 @@ public:
   // modified as it arrives.
   ///
   /*--cef()--*/
-  virtual void OnResourceReponse(CefRefPtr<CefBrowser> browser,
-                                 const CefString& url,
-                                 CefRefPtr<CefResponse> response,
-                                 CefRefPtr<CefContentFilter>& filter) {}
+  virtual void OnResourceResponse(CefRefPtr<CefBrowser> browser,
+                                  const CefString& url,
+                                  CefRefPtr<CefResponse> response,
+                                  CefRefPtr<CefContentFilter>& filter) {}
 
   ///
   // Called on the IO thread to handle requests for URLs with an unknown

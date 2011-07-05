@@ -134,7 +134,7 @@ namespace CefSharp
         return false; 
     }
 
-    void ClientAdapter::OnResourceReponse(CefRefPtr<CefBrowser> browser, const CefString& url, CefRefPtr<CefResponse> response, CefRefPtr<CefContentFilter>& filter)
+    void ClientAdapter::OnResourceResponse(CefRefPtr<CefBrowser> browser, const CefString& url, CefRefPtr<CefResponse> response, CefRefPtr<CefContentFilter>& filter)
     {
         IAfterResponse^ handler = _browserControl->AfterResponseHandler;
         if (handler != nullptr)

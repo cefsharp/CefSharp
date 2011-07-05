@@ -327,9 +327,24 @@ typedef struct _cef_browser_settings_t
   bool accelerated_layers_disabled;
 
   ///
+  // Set to true (1) to disable accelerated video.
+  ///
+  bool accelerated_video_disabled;
+
+  ///
   // Set to true (1) to disable accelerated 2d canvas.
   ///
   bool accelerated_2d_canvas_disabled;
+
+  ///
+  // Set to true (1) to disable accelerated drawing.
+  ///
+  bool accelerated_drawing_disabled;
+
+  ///
+  // Set to true (1) to disable accelerated plugins.
+  ///
+  bool accelerated_plugins_disabled;
 
   ///
   // Set to true (1) to disable developer tools (WebKit inspector).
