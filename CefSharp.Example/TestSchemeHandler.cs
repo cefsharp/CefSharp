@@ -24,6 +24,10 @@ namespace CefSharp.Example
             {
                 resource = Resources.TooltipTest;
             }
+            else if (request.Url.EndsWith("PopupTest.html", StringComparison.OrdinalIgnoreCase))
+            {
+                resource = Resources.PopupTest;
+            }
 
             if (!String.IsNullOrEmpty(resource))
             {

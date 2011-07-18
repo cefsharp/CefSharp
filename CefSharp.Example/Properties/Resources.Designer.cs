@@ -126,6 +126,24 @@ namespace CefSharp.Example.Properties {
         ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
         ///&lt;html&gt;
         ///	&lt;head&gt;
+        ///		&lt;title&gt;Popup Test&lt;/title&gt;
+        ///	&lt;/head&gt;
+        ///	&lt;body&gt;
+        ///
+        ///	&lt;/body&gt;
+        ///&lt;/html&gt;
+        ///.
+        /// </summary>
+        internal static string PopupTest {
+            get {
+                return ResourceManager.GetString("PopupTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
+        ///&lt;html&gt;
+        ///	&lt;head&gt;
         ///		&lt;title&gt;Scheme Handler Test&lt;/title&gt;
         ///	&lt;/head&gt;
         ///	&lt;body&gt;

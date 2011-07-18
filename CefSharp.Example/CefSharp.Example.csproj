@@ -127,6 +127,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\BindingTest.html" />
+    <None Include="Resources\PopupTest.html" />
     <Content Include="Resources\SchemeTest.html" />
     <Content Include="Resources\TooltipTest.html" />
   </ItemGroup>

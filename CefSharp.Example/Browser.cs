@@ -220,7 +220,7 @@ namespace CefSharp.Example
 
         private void testPopupWindowToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _browserControl.RunScript("window.open('http://www.google.com')", "about:blank", 1, 5000);
+            _browserControl.Load("test://test/PopupTest.html");
         }
     }
 }
