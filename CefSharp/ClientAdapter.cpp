@@ -118,7 +118,7 @@ namespace CefSharp
             {
                 CefRefPtr<StreamAdapter> adapter = new StreamAdapter(requestResponse->ResponseStream);
                 resourceStream = CefStreamReader::CreateForHandler(static_cast<CefRefPtr<CefReadHandler>>(adapter));
-                //mimeType = toNative(requestResponse->MimeType);
+                response->SetMimeType(toNative(requestResponse->MimeType));
                 return false;
             }
             else if(requestResponse->Action == ResponseAction::Cancel)
