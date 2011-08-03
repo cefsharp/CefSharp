@@ -591,6 +591,14 @@ public:
                                                  const CefBrowserSettings& settings);
 
   ///
+  // Call this method before destroying a contained browser window. This method
+  // performs any internal cleanup that may be needed before the browser window
+  // is destroyed.
+  ///
+  /*--cef()--*/
+  virtual void ParentWindowWillClose() =0;
+
+  ///
   // Closes this browser window.
   ///
   /*--cef()--*/
@@ -612,7 +620,7 @@ public:
   /*--cef()--*/
   virtual bool CanGoForward() =0;
   ///
-  // Navigate backwards.
+  // Navigate forwards.
   ///
   /*--cef()--*/
   virtual void GoForward() =0;
@@ -1019,28 +1027,30 @@ public:
   virtual void OnAfterCreated(CefRefPtr<CefBrowser> browser) {}
 
   ///
-  // Called just before a window is closed. If this is a modal window and you
-  // handled the RunModal() event you can use this callback to restore
-  // the opener window to a usable state.
-  ///
-  /*--cef()--*/
-  virtual void OnBeforeClose(CefRefPtr<CefBrowser> browser) {}
-
-  ///
-  // Called to enter the modal loop. Provide your own modal loop here. Return
-  // true if you ran your own modal loop and false to use the default. You can
-  // also use this event to know when a modal window is about to start.
+  // Called when a modal window is about to display and the modal loop should
+  // begin running. Return false to use the default modal loop implementation or
+  // true to use a custom implementation.
   ///
   /*--cef()--*/
   virtual bool RunModal(CefRefPtr<CefBrowser> browser) { return false; }
 
   ///
-  // Called when a modal browser window has been destroyed. You must implement
-  // this if you are handling RunModal(). You can also use this event to know
-  // when a modal window is about to be closed.
+  // Called when a window has recieved a request to close. Return false to
+  // proceed with the window close or true to cancel the window close. If this
+  // is a modal window and a custom modal loop implementation was provided in
+  // RunModal() this callback should be used to restore the opener window to a
+  // usable state.
   ///
   /*--cef()--*/
-  virtual void QuitModal(CefRefPtr<CefBrowser> browser) { }
+  virtual bool DoClose(CefRefPtr<CefBrowser> browser) { return false; }
+
+  ///
+  // Called just before a window is closed. If this is a modal window and a
+  // custom modal loop implementation was provided in RunModal() this callback
+  // should be used to exit the custom modal loop.
+  ///
+  /*--cef()--*/
+  virtual void OnBeforeClose(CefRefPtr<CefBrowser> browser) {}
 };
 
 
