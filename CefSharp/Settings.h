@@ -98,6 +98,32 @@ namespace CefSharp
             AddPluginPath(&str);
             // XXX: free?
         }
+
+        property String^ LogFile
+        {
+            String^ get()
+            {
+                return toClr(_cefSettings->log_file);
+            }
+
+            void set(String^ log_file)
+            {
+                assignFromString(_cefSettings->log_file, log_file);
+            }
+        }
+
+        property int LogSeverity
+        {
+            int get()
+            {
+                return _cefSettings->log_severity;
+            }
+
+            void set(int log_severity)
+            {
+                _cefSettings->log_severity = (cef_log_severity_t)log_severity;
+            }
+        }
     };
 
 }
