@@ -369,10 +369,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ReturnValue.h"
-				>
-			</File>
-			<File
 				RelativePath=".\RtzCountdownEvent.h"
 				>
 			</File>

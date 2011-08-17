@@ -2507,9 +2507,35 @@ public:
                                              CefRefPtr<CefRequest> request) =0;
 };
 
+///
+// Class used to facilitate asynchronous responses to custom scheme handler
+// requests. The methods of this class may be called on any thread.
+///
+/*--cef(source=library)--*/
+class CefSchemeHandlerCallback : public virtual CefBase
+{
+public:
+  ///
+  // Notify that header information is now available for retrieval.
+  ///
+  /*--cef()--*/
+  virtual void HeadersAvailable() =0;
+
+  ///
+  // Notify that response data is now available for reading.
+  ///
+  /*--cef()--*/
+  virtual void BytesAvailable() =0;
+
+  ///
+  // Cancel processing of the request.
+  ///
+  /*--cef()--*/
+  virtual void Cancel() =0;
+};
 
 ///
-// Class used to represent a custom scheme handler interface. The methods of
+// Class used to implement a custom scheme handler interface. The methods of
 // this class will always be called on the IO thread.
 ///
 /*--cef(source=client)--*/
@@ -2517,38 +2543,49 @@ class CefSchemeHandler : public virtual CefBase
 {
 public:
   ///
-  // Process the request. All response generation should take place in this
-  // method. If there is no response set |response_length| to zero or return
-  // false and ReadResponse() will not be called. If the response length is not
-  // known set |response_length| to -1 and ReadResponse() will be called until
-  // it returns false or until the value of |bytes_read| is set to 0. If the
-  // response length is known set |response_length| to a positive value and
-  // ReadResponse() will be called until it returns false, the value of
-  // |bytes_read| is set to 0 or the specified number of bytes have been read.
-  // Use the |response| object to set the mime type, http status code and
-  // optional header values for the response and return true. To redirect the
-  // request to a new URL set |redirectUrl| to the new URL and return true.
+  // Begin processing the request. To handle the request return true and call
+  // HeadersAvailable() once the response header information is available
+  // (HeadersAvailable() can also be called from inside this method if header
+  // information is available immediately). To redirect the request to a new
+  // URL set |redirectUrl| to the new URL and return true. To cancel the request
+  // return false. 
   ///
   /*--cef()--*/
   virtual bool ProcessRequest(CefRefPtr<CefRequest> request,
                               CefString& redirectUrl,
-                              CefRefPtr<CefResponse> response,
-                              int* response_length) =0;
+                              CefRefPtr<CefSchemeHandlerCallback> callback) =0;
 
   ///
-  // Cancel processing of the request.
+  // Retrieve response header information. If the response length is not known
+  // set |response_length| to -1 and ReadResponse() will be called until it
+  // returns false. If the response length is known set |response_length|
+  // to a positive value and ReadResponse() will be called until it returns
+  // false or the specified number of bytes have been read. Use the |response|
+  // object to set the mime type, http status code and other optional header
+  // values.
+  ///
+  /*--cef()--*/
+  virtual void GetResponseHeaders(CefRefPtr<CefResponse> response,
+                                  int64& response_length) =0;
+
+  ///
+  // Read response data. If data is available immediately copy up to
+  // |bytes_to_read| bytes into |data_out|, set |bytes_read| to the number of
+  // bytes copied, and return true. To read the data at a later time set
+  // |bytes_read| to 0, return true and call BytesAvailable() when the data is
+  // available. To indicate response completion return false.
+  ///
+  /*--cef()--*/
+  virtual bool ReadResponse(void* data_out,
+                            int bytes_to_read,
+                            int& bytes_read,
+                            CefRefPtr<CefSchemeHandlerCallback> callback) =0;
+
+  ///
+  // Request processing has been canceled.
   ///
   /*--cef()--*/
   virtual void Cancel() =0;
-
-  ///
-  // Copy up to |bytes_to_read| bytes into |data_out|. If the copy succeeds
-  // set |bytes_read| to the number of bytes copied and return true. If the
-  // copy fails return false and ReadResponse() will not be called again.
-  ///
-  /*--cef()--*/
-  virtual bool ReadResponse(void* data_out, int bytes_to_read,
-                            int* bytes_read) =0;
 };
 
 

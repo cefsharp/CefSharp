@@ -17,17 +17,17 @@ public interface class ISchemeHandler
     bool ProcessRequest(IRequest^ request, String^% mimeType, Stream^% stream);
 };
 
-    
 public interface class ISchemeHandlerFactory
 {
     ISchemeHandler^ Create();
 };
 
-
 class SchemeHandlerWrapper : public CefSchemeHandler
 {
     gcroot<ISchemeHandler^> _handler;
     gcroot<Stream^> _stream;
+    CefString _mime_type;
+
 
     int SizeFromStream();
 
@@ -41,14 +41,14 @@ public:
         }
     }
 
-    virtual bool ProcessRequest(CefRefPtr<CefRequest> request, CefString& redirectUrl, CefRefPtr<CefResponse> response, int* response_length);
+    virtual bool ProcessRequest(CefRefPtr<CefRequest> request, CefString& redirectUrl, CefRefPtr<CefSchemeHandlerCallback> callback);
+    virtual void GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length);
+    virtual bool ReadResponse(void* data_out, int bytes_to_read, int& bytes_read, CefRefPtr<CefSchemeHandlerCallback> callback);
     virtual void Cancel();
-    virtual bool ReadResponse(void* data_out, int bytes_to_read, int* bytes_read);
 
     IMPLEMENT_LOCKING(SchemeHandlerWrapper);
     IMPLEMENT_REFCOUNTING(SchemeHandlerWrapper);
 };
-
 
 class SchemeHandlerFactoryWrapper : public CefSchemeHandlerFactory
 {
@@ -64,4 +64,3 @@ public:
 };
 
 };
-

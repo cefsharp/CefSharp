@@ -285,9 +285,14 @@ typedef struct _cef_browser_settings_t
 
   ///
   // Set to true (1) to enable the user style sheet for all pages.
-  // |user_style_sheet_location| must be set to the style sheet URL.
   ///
   bool user_style_sheet_enabled;
+  
+  ///
+  // Location of the user style sheet. This must be a data URL of the form
+  // "data:text/css;charset=utf-8;base64,csscontent" where "csscontent" is the
+  // base64 encoded contents of the CSS file.
+  ///
   cef_string_t user_style_sheet_location;
 
   ///
