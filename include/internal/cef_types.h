@@ -551,6 +551,23 @@ enum cef_handler_errorcode_t
 };
 
 ///
+// "Verb" of a drag-and-drop operation as negotiated between the source and
+// destination. These constants match their equivalents in WebCore's
+// DragActions.h and should not be renumbered.
+///
+enum cef_drag_operations_mask_t
+{
+    DRAG_OPERATION_NONE    = 0,
+    DRAG_OPERATION_COPY    = 1,
+    DRAG_OPERATION_LINK    = 2,
+    DRAG_OPERATION_GENERIC = 4,
+    DRAG_OPERATION_PRIVATE = 8,
+    DRAG_OPERATION_MOVE    = 16,
+    DRAG_OPERATION_DELETE  = 32,
+    DRAG_OPERATION_EVERY   = UINT_MAX
+};
+
+///
 // V8 access control values.
 ///
 enum cef_v8_accesscontrol_t

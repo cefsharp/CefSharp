@@ -65,6 +65,7 @@ class CefDOMEventListener;
 class CefDOMNode;
 class CefDOMVisitor;
 class CefDownloadHandler;
+class CefDragData;
 class CefFrame;
 class CefPostData;
 class CefPostDataElement;
@@ -416,6 +417,9 @@ public:
   // Return the current number of references.
   ///
   virtual int GetRefCt() =0;
+
+protected:
+  virtual ~CefBase() {}
 };
 
 
@@ -666,6 +670,10 @@ public:
   ///
   /*--cef()--*/
   virtual bool IsPopup() =0;
+
+  // Returns true if a document has been loaded in the browser.
+  /*--cef()--*/
+  virtual bool HasDocument() =0;
 
   ///
   // Returns the client for this browser.
@@ -1581,6 +1589,40 @@ public:
 
 
 ///
+// Implement this interface to handle events related to dragging. The methods of
+// this class will be called on the UI thread.
+///
+/*--cef(source=client)--*/
+class CefDragHandler : public virtual CefBase
+{
+public:
+  typedef cef_drag_operations_mask_t DragOperationsMask;
+
+  ///
+  // Called when the browser window initiates a drag event. |dragData|
+  // contains the drag event data and |mask| represents the type of drag
+  // operation. Return false for default drag handling behavior or true to
+  // cancel the drag event.
+  ///
+  /*--cef()--*/
+  virtual bool OnDragStart(CefRefPtr<CefBrowser> browser,
+                           CefRefPtr<CefDragData> dragData,
+                           DragOperationsMask mask) { return false; }
+
+  ///
+  // Called when an external drag event enters the browser window. |dragData|
+  // contains the drag event data and |mask| represents the type of drag
+  // operation. Return false for default drag handling behavior or true to
+  // cancel the drag event.
+  ///
+  /*--cef()--*/
+  virtual bool OnDragEnter(CefRefPtr<CefBrowser> browser,
+                           CefRefPtr<CefDragData> dragData,
+                           DragOperationsMask mask) { return false; }
+};
+
+
+///
 // Implement this interface to provide handler implementations.
 ///
 /*--cef(source=client)--*/
@@ -1658,6 +1700,12 @@ public:
   ///
   /*--cef()--*/
   virtual CefRefPtr<CefRenderHandler> GetRenderHandler() { return NULL; }
+
+  ///
+  // Return the handler for drag events.
+  ///
+  /*--cef()--*/
+  virtual CefRefPtr<CefDragHandler> GetDragHandler() { return NULL; }
 };
 
 
@@ -3428,6 +3476,90 @@ public:
   ///
   /*--cef()--*/
   virtual void Drain(CefRefPtr<CefStreamReader>& remainder) {}
+};
+
+
+///
+// Class used to represent drag data. The methods of this class may be called
+// on any thread.
+///
+/*--cef(source=library)--*/
+class CefDragData : public virtual CefBase
+{
+public:
+  ///
+  // Returns true if the drag data is a link.
+  ///
+  /*--cef()--*/
+  virtual bool IsLink() =0;
+
+  ///
+  // Returns true if the drag data is a text or html fragment.
+  ///
+  /*--cef()--*/
+  virtual bool IsFragment() =0;
+
+  ///
+  // Returns true if the drag data is a file.
+  ///
+  /*--cef()--*/
+  virtual bool IsFile() =0;
+
+  ///
+  // Return the link URL that is being dragged.
+  ///
+  /*--cef()--*/
+  virtual CefString GetLinkURL() =0;
+
+  ///
+  // Return the title associated with the link being dragged.
+  ///
+  /*--cef()--*/
+  virtual CefString GetLinkTitle() =0;
+
+  ///
+  // Return the metadata, if any, associated with the link being dragged.
+  ///
+  /*--cef()--*/
+  virtual CefString GetLinkMetadata() =0;
+
+  ///
+  // Return the plain text fragment that is being dragged.
+  ///
+  /*--cef()--*/
+  virtual CefString GetFragmentText() =0;
+
+  ///
+  // Return the text/html fragment that is being dragged.
+  ///
+  /*--cef()--*/
+  virtual CefString GetFragmentHtml() =0;
+
+  ///
+  // Return the base URL that the fragment came from. This value is used for
+  // resolving relative URLs and may be empty.
+  ///
+  /*--cef()--*/
+  virtual CefString GetFragmentBaseURL() =0;
+
+  ///
+  // Return the extension of the file being dragged out of the browser window.
+  ///
+  /*--cef()--*/
+  virtual CefString GetFileExtension() =0;
+
+  ///
+  // Return the name of the file being dragged out of the browser window.
+  ///
+  /*--cef()--*/
+  virtual CefString GetFileName() =0;
+
+  ///
+  // Retrieve the list of file names that are being dragged into the browser
+  // window.
+  ///
+  /*--cef()--*/
+  virtual bool GetFileNames(std::vector<CefString>& names) =0;
 };
 
 #endif // _CEF_H
