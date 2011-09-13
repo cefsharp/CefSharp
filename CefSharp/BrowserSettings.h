@@ -212,10 +212,10 @@ namespace CefSharp
             void set(bool value) { _browserSettings->webgl_disabled = value; }
         }
 
-        property bool AcceleratedCompositingDisabled
+        property bool AcceleratedCompositingEnabled
         {
-            bool get() { return _browserSettings->accelerated_compositing_disabled; }
-            void set(bool value) { _browserSettings->accelerated_compositing_disabled = value; }
+            bool get() { return _browserSettings->accelerated_compositing_enabled; }
+            void set(bool value) { _browserSettings->accelerated_compositing_enabled = value; }
         }
 
         property bool AcceleratedLayersDisabled

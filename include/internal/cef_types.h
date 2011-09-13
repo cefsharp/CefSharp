@@ -135,6 +135,12 @@ typedef struct _cef_settings_t
   // logged.
   ///
   cef_log_severity_t log_severity;
+
+  ///
+  // The graphics implementation that CEF will use for rendering GPU accelerated
+  // content like WebGL, accelerated layers and 3D CSS.
+  ///
+  cef_graphics_implementation_t graphics_implementation;
 } cef_settings_t;
 
 ///
@@ -321,9 +327,11 @@ typedef struct _cef_browser_settings_t
   bool webgl_disabled;
 
   ///
-  // Set to true (1) to disable accelerated compositing.
+  // Set to true (1) to enable accelerated compositing. This is turned off by
+  // default because the current in-process GPU implementation does not
+  // support it correctly.
   ///
-  bool accelerated_compositing_disabled;
+  bool accelerated_compositing_enabled;
 
   ///
   // Set to true (1) to disable accelerated layers. This affects features like

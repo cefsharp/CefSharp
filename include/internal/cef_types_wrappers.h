@@ -280,6 +280,7 @@ struct CefSettingsTraits {
     cef_string_set(src->log_file.str, src->log_file.length, &target->log_file,
         copy);
     target->log_severity = src->log_severity;
+    target->graphics_implementation = src->graphics_implementation;
   }
 };
 
@@ -374,8 +375,8 @@ struct CefBrowserSettingsTraits {
     target->databases_disabled = src->databases_disabled;
     target->application_cache_disabled = src->application_cache_disabled;
     target->webgl_disabled = src->webgl_disabled;
-    target->accelerated_compositing_disabled =
-        src->accelerated_compositing_disabled;
+    target->accelerated_compositing_enabled =
+        src->accelerated_compositing_enabled;
     target->accelerated_layers_disabled = src->accelerated_layers_disabled;
     target->accelerated_video_disabled = src->accelerated_video_disabled;
     target->accelerated_2d_canvas_disabled =
