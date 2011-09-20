@@ -188,7 +188,7 @@ struct CefStringTraitsUTF8 {
 // Traits implementation for utf16 character strings.
 ///
 struct CefStringTraitsUTF16 {
-  typedef char16_t char_type;
+  typedef char16 char_type;
   typedef cef_string_utf16_t struct_type;
   typedef cef_string_userfree_utf16_t userfree_struct_type;
   
@@ -339,7 +339,7 @@ public:
   ///
   CefStringBase(const string16& src) : string_(NULL), owner_(false)
     { FromString16(src); }
-  CefStringBase(const char16_t* src) : string_(NULL), owner_(false)
+  CefStringBase(const char16* src) : string_(NULL), owner_(false)
     { FromString16(string16(src)); }
 #endif // BUILDING_CEF_SHARED && WCHAR_T_IS_UTF32
   
@@ -667,7 +667,7 @@ public:
   operator string16() const { return ToString16(); }
   CefStringBase& operator=(const string16& str)
     { FromString16(str); return *this; }
-  CefStringBase& operator=(const char16_t* str)
+  CefStringBase& operator=(const char16* str)
     { FromString16(string16(str)); return *this; }
 #endif // BUILDING_CEF_SHARED && WCHAR_T_IS_UTF32
 

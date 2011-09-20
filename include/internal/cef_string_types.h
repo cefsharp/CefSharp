@@ -43,13 +43,13 @@ extern "C" {
 #include "cef_export.h"
 #include <stddef.h>
 
-// CEF character type definitions. wchat_t is 2 bytes on Windows and 4 bytes on
+// CEF character type definitions. wchar_t is 2 bytes on Windows and 4 bytes on
 // most other platforms.
 
 #if defined(OS_WIN)
-typedef wchar_t char16_t;
+typedef wchar_t char16;
 #else // !OS_WIN
-typedef unsigned short char16_t;
+typedef unsigned short char16;
 #ifndef WCHAR_T_IS_UTF32
 #define WCHAR_T_IS_UTF32
 #endif // WCHAR_T_IS_UTF32
@@ -76,9 +76,9 @@ typedef struct _cef_string_utf8_t {
 } cef_string_utf8_t;
 
 typedef struct _cef_string_utf16_t {
-  char16_t* str;
+  char16* str;
   size_t length;
-  void (*dtor)(char16_t* str);
+  void (*dtor)(char16* str);
 } cef_string_utf16_t;
 
 
@@ -92,7 +92,7 @@ CEF_EXPORT int cef_string_wide_set(const wchar_t* src, size_t src_len,
                                    cef_string_wide_t* output, int copy);
 CEF_EXPORT int cef_string_utf8_set(const char* src, size_t src_len,
                                    cef_string_utf8_t* output, int copy);
-CEF_EXPORT int cef_string_utf16_set(const char16_t* src, size_t src_len,
+CEF_EXPORT int cef_string_utf16_set(const char16* src, size_t src_len,
                                     cef_string_utf16_t* output, int copy);
 
 
@@ -143,12 +143,12 @@ CEF_EXPORT int cef_string_utf8_to_wide(const char* src, size_t src_len,
 
 CEF_EXPORT int cef_string_wide_to_utf16(const wchar_t* src, size_t src_len,
                                         cef_string_utf16_t* output);
-CEF_EXPORT int cef_string_utf16_to_wide(const char16_t* src, size_t src_len,
+CEF_EXPORT int cef_string_utf16_to_wide(const char16* src, size_t src_len,
                                         cef_string_wide_t* output);
 
 CEF_EXPORT int cef_string_utf8_to_utf16(const char* src, size_t src_len,
                                         cef_string_utf16_t* output);
-CEF_EXPORT int cef_string_utf16_to_utf8(const char16_t* src, size_t src_len,
+CEF_EXPORT int cef_string_utf16_to_utf8(const char16* src, size_t src_len,
                                         cef_string_utf8_t* output);
 
 

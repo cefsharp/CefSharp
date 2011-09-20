@@ -2249,7 +2249,8 @@ public:
   /*--cef()--*/
   virtual bool Get(const CefString& name,
                    const CefRefPtr<CefV8Value> object,
-                   CefRefPtr<CefV8Value>& retval) =0;
+                   CefRefPtr<CefV8Value>& retval,
+                   CefString& exception) =0;
 
   ///
   // Called to set an accessor value. |name| is the name of the property being
@@ -2260,7 +2261,8 @@ public:
   /*--cef()--*/
   virtual bool Set(const CefString& name,
                    const CefRefPtr<CefV8Value> object,
-                   const CefRefPtr<CefV8Value> value) =0;
+                   const CefRefPtr<CefV8Value> value,
+                   CefString& exception) =0;
 };
 
 
