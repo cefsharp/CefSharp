@@ -12,7 +12,7 @@
     {
         public static BrowserApplication Instance { get; private set; }
         public static Form MainForm { get; private set; }
-        public static CefWebBrowser WebBrowser { get; private set; }
+        public static CefFormsWebBrowser WebBrowser { get; private set; }
 
         private ManualResetEvent waitCreated;
 
@@ -23,9 +23,8 @@
             waitCreated = new ManualResetEvent(false);
 
             Settings settings = new Settings();
-            BrowserSettings browserSettings = new BrowserSettings();
 
-            if(!CEF.Initialize(settings, browserSettings))
+            if(!CEF.Initialize(settings))
             {
                 Assert.Fail("Couldn't initialise CEF.");
                 return;
@@ -53,7 +52,7 @@
 
         void MainForm_Shown(object sender, EventArgs e)
         {
-            WebBrowser = new CefWebBrowser("http://google.com");
+            WebBrowser = new CefFormsWebBrowser("http://google.com", new BrowserSettings());
             WebBrowser.Parent = MainForm;
             WebBrowser.Dock = DockStyle.Fill;
             WebBrowser.WaitForLoadCompletion();
@@ -104,7 +103,7 @@
             return result;
         }
 
-        public void HandleBeforeResourceLoad(CefWebBrowser browserControl, IRequestResponse requestResponse)
+        public void HandleBeforeResourceLoad(ICefWebBrowser browserControl, IRequestResponse requestResponse)
         {
             IRequest request = requestResponse.Request;
             if (request.Url.StartsWith(testPagesBaseUrl))

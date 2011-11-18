@@ -10,7 +10,7 @@
     [TestFixture]
     public class ResourceTests
     {
-        private CefWebBrowser WebBrowser { get { return BrowserApplication.WebBrowser; } }
+        private CefFormsWebBrowser WebBrowser { get { return BrowserApplication.WebBrowser; } }
 
         [Test]
         public void StreamClosingWithBeforeResourceLoad()
