@@ -15,6 +15,12 @@ namespace CefSharp.WpfExample
         public MainWindow()
         {
             InitializeComponent();
+            Application.Current.Exit += OnApplicationExit;
+        }
+
+        private void OnApplicationExit(object sender, ExitEventArgs e)
+        {
+            CEF.Shutdown();
         }
 
         private void Window_SourceInitialized(object sender, EventArgs e)
