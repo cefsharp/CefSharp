@@ -2265,6 +2265,12 @@ public:
   static CefRefPtr<CefV8Context> GetEnteredContext();
 
   ///
+  // Returns true if V8 is currently inside a context.
+  ///
+  /*--cef()--*/
+  static bool InContext();
+
+  ///
   // Returns the browser for this context.
   ///
   /*--cef()--*/
