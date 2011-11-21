@@ -52,11 +52,9 @@ namespace CefSharp
         {
             CefString name = toNative(pair->Key);
             CefString value = toNative(pair->Value);
-            hm[name] = value;
+            hm.insert(std::make_pair(name, value));
         }
 
         _wrappedRequest->SetHeaderMap(hm);
     }
-
-
 }

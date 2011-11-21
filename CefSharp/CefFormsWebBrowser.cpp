@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 #include "CefFormsWebBrowser.h"
+#include "ScriptException.h"
 
 using namespace System::Drawing;
 

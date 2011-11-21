@@ -259,6 +259,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ScriptException.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Stdafx.cpp"
 				>
 				<FileConfiguration
@@ -362,6 +366,10 @@
 			</File>
 			<File
 				RelativePath=".\SchemeHandler.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ScriptException.h"
 				>
 			</File>
 			<File
