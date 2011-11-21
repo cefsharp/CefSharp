@@ -141,6 +141,31 @@ typedef struct _cef_settings_t
   // content like WebGL, accelerated layers and 3D CSS.
   ///
   cef_graphics_implementation_t graphics_implementation;
+
+  ///
+  // Quota limit for localStorage data across all origins. Default size is 5MB.
+  ///
+  unsigned int local_storage_quota;
+
+  ///
+  // Quota limit for sessionStorage data per namespace. Default size is 5MB.
+  ///
+  unsigned int session_storage_quota;
+
+  ///
+  // Custom flags that will be used when initializing the V8 JavaScript engine.
+  // The consequences of using custom flags may not be well tested.
+  ///
+  cef_string_t javascript_flags;
+
+#if defined(OS_WIN)
+  ///
+  // Set to true (1) to use the system proxy resolver on Windows when 
+  // "Automatically detect settings" is checked. This setting is disabled
+  // by default for performance reasons.
+  ///
+  bool auto_detect_proxy_settings_enabled;
+#endif
 } cef_settings_t;
 
 ///
@@ -159,6 +184,11 @@ typedef struct _cef_browser_settings_t
   // Disable drag & drop of URLs from other windows.
   ///
   bool drag_drop_disabled;
+
+  ///
+  // Disable default navigation resulting from drag & drop of URLs.
+  ///
+  bool load_drops_disabled;
 
   // The below values map to WebPreferences settings.
 
@@ -334,6 +364,12 @@ typedef struct _cef_browser_settings_t
   bool accelerated_compositing_enabled;
 
   ///
+  // Set to true (1) to enable threaded compositing. This is currently only
+  // supported by the command buffer graphics implementation.
+  ///
+  bool threaded_compositing_enabled;
+
+  ///
   // Set to true (1) to disable accelerated layers. This affects features like
   // 3D CSS transforms.
   ///
@@ -470,6 +506,15 @@ typedef struct _cef_cookie_t
 } cef_cookie_t;
 
 ///
+// Storage types.
+///
+enum cef_storage_type_t
+{
+  ST_LOCALSTORAGE = 0,
+  ST_SESSIONSTORAGE,
+};
+
+///
 // Mouse button types.
 ///
 enum cef_mouse_button_type_t
@@ -500,6 +545,7 @@ enum cef_handler_navtype_t
   NAVTYPE_RELOAD,
   NAVTYPE_FORMRESUBMITTED,
   NAVTYPE_OTHER,
+  NAVTYPE_LINKDROPPED,
 };
 
 ///
@@ -756,6 +802,25 @@ enum cef_weburlrequest_state_t
   WUR_STATE_DONE = 4,
   WUR_STATE_ERROR = 5,
   WUR_STATE_ABORT = 6,
+};
+
+///
+// Focus sources.
+///
+enum cef_handler_focus_source_t
+{
+  ///
+  // The source is explicit navigation via the API (LoadURL(), etc).
+  ///
+  FOCUS_SOURCE_NAVIGATION = 0,
+  ///
+  // The source is a system-generated focus event.
+  ///
+  FOCUS_SOURCE_SYSTEM,
+  ///
+  // The source is a child widget of the browser window requesting focus.
+  ///
+  FOCUS_SOURCE_WIDGET,
 };
 
 ///

@@ -99,6 +99,7 @@ struct CefWindowInfoTraits {
     target->m_hWndParent = src->m_hWndParent;
     target->m_hMenu = src->m_hMenu;
     target->m_bWindowRenderingDisabled = src->m_bWindowRenderingDisabled;
+    target->m_bTransparentPainting = src->m_bTransparentPainting;
     target->m_hWnd = src->m_hWnd;
   }
 };
@@ -143,6 +144,11 @@ public:
   {
     m_bWindowRenderingDisabled = TRUE;
     m_hWndParent = hWndParent;
+  }
+
+  void SetTransparentPainting(BOOL transparentPainting)
+  {
+    m_bTransparentPainting = transparentPainting;
   }
 };
 

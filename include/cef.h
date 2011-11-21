@@ -73,13 +73,13 @@ class CefRequest;
 class CefResponse;
 class CefSchemeHandler;
 class CefSchemeHandlerFactory;
+class CefStorageVisitor;
 class CefStreamReader;
 class CefStreamWriter;
 class CefTask;
 class CefV8Context;
 class CefV8Handler;
 class CefV8Value;
-class CefV8Task;
 class CefWebURLRequest;
 class CefWebURLRequestClient;
 
@@ -202,7 +202,9 @@ bool CefRegisterExtension(const CefString& extension_name,
 // 1123. These URLs will be canonicalized to "scheme://host/path" in the
 // simplest case and "scheme://username:password@host:port/path" in the most
 // explicit case. For example, "scheme:host/path" and "scheme:///host/path" will
-// both be canonicalized to "scheme://host/path".
+// both be canonicalized to "scheme://host/path". The origin of a standard
+// scheme URL is the combination of scheme, host and port (i.e.,
+// "scheme://host:port" in the most explicit case).
 // 
 // For non-standard scheme URLs only the "scheme:" component is parsed and
 // canonicalized. The remainder of the URL will be passed to the handler as-is.
@@ -210,8 +212,13 @@ bool CefRegisterExtension(const CefString& extension_name,
 // scheme URLs cannot be used as a target for form submission.
 // 
 // If |is_local| is true the scheme will be treated as local (i.e., with the
-// same security rules as those applied to "file" URLs). This means that normal
-// pages cannot link to or access URLs of this scheme.
+// same security rules as those applied to "file" URLs). Normal pages cannot
+// link to or access local URLs. Also, by default, local URLs can only perform
+// XMLHttpRequest calls to the same URL (origin + path) that originated the
+// request. To allow XMLHttpRequest calls from a local URL to other URLs with
+// the same origin set the CefSettings.file_access_from_file_urls_allowed value
+// to true. To allow XMLHttpRequest calls from a local URL to all origins set
+// the CefSettings.universal_access_from_file_urls_allowed value to true.
 // 
 // If |is_display_isolated| is true the scheme will be treated as display-
 // isolated. This means that pages cannot display these URLs unless they are
@@ -256,7 +263,7 @@ bool CefClearSchemeHandlerFactories();
 // Add an entry to the cross-origin access whitelist.
 //
 // The same-origin policy restricts how scripts hosted from different origins
-// (scheme + domain) can communicate. By default, scripts can only access
+// (scheme + domain + port) can communicate. By default, scripts can only access
 // resources with the same origin. Scripts hosted on the HTTP and HTTPS schemes
 // (but no other schemes) can use the "Access-Control-Allow-Origin" header to
 // allow cross-origin requests. For example, https://source.example.com can make
@@ -275,9 +282,14 @@ bool CefClearSchemeHandlerFactories();
 // |source_origin| URL (like http://www.example.com) will be allowed access to
 // all resources hosted on the specified |target_protocol| and |target_domain|.
 // If |allow_target_subdomains| is true access will also be allowed to all
-// subdomains of the target domain. This function may be called on any thread.
-// Returns false if |source_origin| is invalid or the whitelist cannot be
-// accessed.
+// subdomains of the target domain.
+//
+// This method cannot be used to bypass the restrictions on local or display
+// isolated schemes. See the comments on CefRegisterCustomScheme for more
+// information.
+//
+// This function may be called on any thread. Returns false if |source_origin|
+// is invalid or the whitelist cannot be accessed.
 ///
 /*--cef()--*/
 bool CefAddCrossOriginWhitelistEntry(const CefString& source_origin,
@@ -388,6 +400,59 @@ bool CefSetCookie(const CefString& url, const CefCookie& cookie);
 ///
 /*--cef()--*/
 bool CefDeleteCookies(const CefString& url, const CefString& cookie_name);
+
+///
+// Sets the directory path that will be used for storing cookie data. If |path|
+// is empty data will be stored in memory only. By default the cookie path is
+// the same as the cache path. Returns false if cookies cannot be accessed.
+///
+/*--cef()--*/
+bool CefSetCookiePath(const CefString& path);
+
+
+typedef cef_storage_type_t CefStorageType;
+
+///
+// Visit storage of the specified type. If |origin| is non-empty only data
+// matching that origin will be visited. If |key| is non-empty only data
+// matching that key will be visited. Otherwise, all data for the storage
+// type will be visited. Origin should be of the form scheme://domain. If no
+// origin is specified only data currently in memory will be returned. Returns
+// false if the storage cannot be accessed.
+///
+/*--cef()--*/
+bool CefVisitStorage(CefStorageType type, const CefString& origin,
+                     const CefString& key,
+                     CefRefPtr<CefStorageVisitor> visitor);
+
+///
+// Sets storage of the specified type, origin, key and value. Returns false if
+// storage cannot be accessed. This method must be called on the UI thread.
+///
+/*--cef()--*/
+bool CefSetStorage(CefStorageType type, const CefString& origin,
+                   const CefString& key, const CefString& value);
+
+///
+// Deletes all storage of the specified type. If |origin| is non-empty only data
+// matching that origin will be cleared. If |key| is non-empty only data
+// matching that key will be cleared. Otherwise, all data for the storage type
+// will be cleared. Returns false if storage cannot be accessed. This method
+// must be called on the UI thread.
+///
+/*--cef()--*/
+bool CefDeleteStorage(CefStorageType type, const CefString& origin,
+                      const CefString& key);
+
+///
+// Sets the directory path that will be used for storing data of the specified
+// type. Currently only the ST_LOCALSTORAGE type is supported by this method.
+// If |path| is empty data will be stored in memory only. By default the storage
+// path is the same as the cache path. Returns false if the storage cannot be
+// accessed.
+///
+/*--cef()--*/
+bool CefSetStoragePath(CefStorageType type, const CefString& path);
 
 
 ///
@@ -507,38 +572,6 @@ public:
   virtual void Execute(CefThreadId threadId) =0;
 };
 
-// Implement this interface for V8 javascript task execution.
-/*--cef(source=client)--*/
-class CefV8Task : public virtual CefBase
-{
-public:
-  ///
-  // Script that will be executed.
-  ///
-  /*--cef()--*/
-  virtual CefString GetScript() =0;
-  ///
-  // name/url of the script for error reporting purposes
-  ///
-  /*--cef()--*/
-  virtual CefString GetScriptName() =0;
-  ///
-  // starting line number of the script for error reporting purposes
-  ///
-  /*--cef()--*/
-  virtual int GetStartLine() =0;
-  ///
-  // executed on successful completion of the script
-  ///
-  /*--cef()--*/
-  virtual void HandleSuccess(CefRefPtr<CefV8Value> result) =0;
-  ///
-  // executed if script execution fails to compile or throws an uncaught exception
-  ///
-  /*--cef()--*/
-  virtual void HandleError() =0;
-};
-
 
 ///
 // Interface to implement for visiting cookie values. The methods of this class
@@ -558,6 +591,28 @@ public:
   /*--cef()--*/
   virtual bool Visit(const CefCookie& cookie, int count, int total,
                      bool& deleteCookie) =0;
+};
+
+
+///
+// Interface to implement for visiting storage. The methods of this class will
+// always be called on the UI thread.
+///
+/*--cef(source=client)--*/
+class CefStorageVisitor : public virtual CefBase
+{
+public:
+  ///
+  // Method that will be called once for each key/value data pair in storage.
+  // |count| is the 0-based index for the current pair. |total| is the total
+  // number of pairs. Set |deleteData| to true to delete the pair currently
+  // being visited. Return false to stop visiting pairs. This method may never
+  // be called if no data is found.
+  ///
+  /*--cef()--*/
+  virtual bool Visit(CefStorageType type, const CefString& origin,
+                     const CefString& key, const CefString& value, int count,
+                     int total, bool& deleteData) =0;
 };
 
 
@@ -736,6 +791,12 @@ public:
   ///
   /*--cef()--*/
   virtual void SetZoomLevel(double zoomLevel) =0;
+
+  ///
+  // Clear the back/forward browsing history.
+  ///
+  /*--cef()--*/
+  virtual void ClearHistory() =0;
 
   ///
   // Open developer tools in its own window.
@@ -956,12 +1017,6 @@ public:
                                  int startLine) =0;
 
   ///
-  // Execute a CefV8Task.
-  ///
-  /*--cef()--*/
-  virtual void ExecuteJavaScriptTask(CefRefPtr<CefV8Task> jstask) =0;
-
-  ///
   // Returns true if this is the main frame.
   ///
   /*--cef()--*/
@@ -998,6 +1053,13 @@ public:
   ///
   /*--cef()--*/
   virtual void VisitDOM(CefRefPtr<CefDOMVisitor> visitor) =0;
+
+  ///
+  // Get the V8 context associated with the frame. This method should only be
+  // called on the UI thread.
+  ///
+  /*--cef()--*/
+  virtual CefRefPtr<CefV8Context> GetV8Context() =0;
 };
 
 
@@ -1241,6 +1303,15 @@ public:
                                const CefString& url) {}
 
   ///
+  // Called when the size of the content area has changed.
+  ///
+  /*--cef()--*/
+  virtual void OnContentsSizeChange(CefRefPtr<CefBrowser> browser,
+                                    CefRefPtr<CefFrame> frame,
+                                    int width,
+                                    int height) {}
+
+  ///
   // Called when the page title changes.
   ///
   /*--cef()--*/
@@ -1287,6 +1358,8 @@ public:
 class CefFocusHandler : public virtual CefBase
 {
 public:
+  typedef cef_handler_focus_source_t FocusSource;
+
   ///
   // Called when the browser component is about to loose focus. For instance, if
   // focus was on the last HTML element and the user pressed the TAB key. |next|
@@ -1298,14 +1371,26 @@ public:
                            bool next) {}
 
   ///
-  // Called when the browser component is requesting focus. |isWidget| will be
-  // true if the focus is requested for a child widget of the browser window.
-  // Return false to allow the focus to be set or true to cancel setting the
-  // focus.
+  // Called when the browser component is requesting focus. |source| indicates
+  // where the focus request is originating from. Return false to allow the
+  // focus to be set or true to cancel setting the focus.
   ///
   /*--cef()--*/
   virtual bool OnSetFocus(CefRefPtr<CefBrowser> browser,
-                          bool isWidget) { return false; }
+                          FocusSource source) { return false; }
+
+  ///
+  // Called when a new node in the the browser gets focus. The |node| value may
+  // be empty if no specific node has gained focus. The node object passed to
+  // this method represents a snapshot of the DOM at the time this method is
+  // executed. DOM objects are only valid for the scope of this method. Do not
+  // keep references to or attempt to access any DOM objects outside the scope
+  // of this method.
+  ///
+  /*--cef()--*/
+  virtual void OnFocusedNodeChanged(CefRefPtr<CefBrowser> browser,
+                                    CefRefPtr<CefFrame> frame,
+                                    CefRefPtr<CefDOMNode> node) {}
 };
 
 
@@ -1320,20 +1405,26 @@ public:
   typedef cef_handler_keyevent_type_t KeyEventType;
 
   ///
-  // Called when the browser component receives a keyboard event. |type| is the
+  // Called when the browser component receives a keyboard event. This method
+  // is called both before the event is passed to the renderer and after
+  // JavaScript in the page has had a chance to handle the event. |type| is the
   // type of keyboard event, |code| is the windows scan-code for the event,
-  // |modifiers| is a set of bit-flags describing any pressed modifier keys and
+  // |modifiers| is a set of bit- flags describing any pressed modifier keys and
   // |isSystemKey| is true if Windows considers this a 'system key' message (see
-  // http://msdn.microsoft.com/en-us/library/ms646286(VS.85).aspx). Return
-  // true if the keyboard event was handled or false to allow the browser
-  // component to handle the event.
+  // http://msdn.microsoft.com/en-us/library/ms646286(VS.85).aspx). If
+  // |isAfterJavaScript| is true then JavaScript in the page has had a chance
+  // to handle the event and has chosen not to. Only RAWKEYDOWN, KEYDOWN and
+  // CHAR events will be sent with |isAfterJavaScript| set to true. Return
+  // true if the keyboard event was handled or false to allow continued handling
+  // of the event by the renderer.
   ///
   /*--cef()--*/
   virtual bool OnKeyEvent(CefRefPtr<CefBrowser> browser,
                           KeyEventType type,
                           int code,
                           int modifiers,
-                          bool isSystemKey) { return false; }
+                          bool isSystemKey,
+                          bool isAfterJavaScript) { return false; }
 };
 
 
@@ -1523,6 +1614,7 @@ class CefRenderHandler : public virtual CefBase
 {
 public:
   typedef cef_paint_element_type_t PaintElementType;
+  typedef std::vector<CefRect> RectList;
 
   ///
   // Called to retrieve the view rectangle which is relative to screen
@@ -1570,14 +1662,14 @@ public:
   ///
   // Called when an element should be painted. |type| indicates whether the
   // element is the view or the popup widget. |buffer| contains the pixel data
-  // for the whole image. |dirtyRect| indicates the portion of the image that
-  // has been repainted. On Windows |buffer| will be width*height*4 bytes in
-  // size and represents a BGRA image with an upper-left origin.
+  // for the whole image. |dirtyRects| contains the set of rectangles that need
+  // to be repainted. On Windows |buffer| will be width*height*4 bytes in size
+  // and represents a BGRA image with an upper-left origin.
   ///
   /*--cef()--*/
   virtual void OnPaint(CefRefPtr<CefBrowser> browser,
                        PaintElementType type,
-                       const CefRect& dirtyRect,
+                       const RectList& dirtyRects,
                        const void* buffer) {}
 
   ///
@@ -1718,7 +1810,7 @@ public:
 class CefRequest : public virtual CefBase
 {
 public:
-  typedef std::map<CefString,CefString> HeaderMap;
+  typedef std::multimap<CefString,CefString> HeaderMap;
   typedef cef_weburlrequest_flags_t RequestFlags;
 
   ///
@@ -1929,7 +2021,7 @@ public:
 class CefResponse : public virtual CefBase
 {
 public:
-  typedef std::map<CefString,CefString> HeaderMap;
+  typedef std::multimap<CefString,CefString> HeaderMap;
 
   ///
   // Get the response status code.
@@ -2220,10 +2312,11 @@ class CefV8Handler : public virtual CefBase
 {
 public:
   ///
-  // Execute with the specified argument list and return value. Return true if
-  // the method was handled. To invoke V8 callback functions outside the scope
-  // of this method you need to keep references to the current V8 context
-  // (CefV8Context) along with any necessary callback objects.
+  // Handle execution of the function identified by |name|. |object| is the
+  // receiver ('this' object) of the function. |arguments| is the list of
+  // arguments passed to the function. If execution succeeds set |retval| to the
+  // function return value. If execution fails set |exception| to the exception
+  // that will be thrown. Return true if execution was handled.
   ///
   /*--cef()--*/
   virtual bool Execute(const CefString& name,
@@ -2243,9 +2336,11 @@ class CefV8Accessor : public virtual CefBase
 {
 public:
   ///
-  // Called to get an accessor value. |name| is the name of the property being
-  // accessed. |object| is the This() object from V8's AccessorInfo structure.
-  // |retval| is the value to return for this property. Return true if handled.
+  // Handle retrieval the accessor value identified by |name|. |object| is the
+  // receiver ('this' object) of the accessor. If retrieval succeeds set
+  // |retval| to the return value. If retrieval fails set |exception| to the
+  // exception that will be thrown. Return true if accessor retrieval was
+  // handled.
   ///
   /*--cef()--*/
   virtual bool Get(const CefString& name,
@@ -2254,10 +2349,11 @@ public:
                    CefString& exception) =0;
 
   ///
-  // Called to set an accessor value. |name| is the name of the property being
-  // accessed. |value| is the new value being assigned to this property.
-  // |object| is the This() object from V8's AccessorInfo structure. Return true
-  // if handled.
+  // Handle assignment of the accessor value identified by |name|. |object| is
+  // the receiver ('this' object) of the accessor. |value| is the new value
+  // being assigned to the accessor. If assignment fails set |exception| to the
+  // exception that will be thrown. Return true if accessor assignment was
+  // handled.
   ///
   /*--cef()--*/
   virtual bool Set(const CefString& name,
@@ -2266,6 +2362,67 @@ public:
                    CefString& exception) =0;
 };
 
+///
+// Class representing a V8 exception.
+///
+/*--cef(source=library)--*/
+class CefV8Exception : public virtual CefBase
+{
+public:
+  ///
+  // Returns the exception message.
+  ///
+  /*--cef()--*/
+  virtual CefString GetMessage() =0;
+
+  ///
+  // Returns the line of source code that the exception occurred within.
+  ///
+  /*--cef()--*/
+  virtual CefString GetSourceLine() =0;
+
+  ///
+  // Returns the resource name for the script from where the function causing
+  // the error originates.
+  ///
+  /*--cef()--*/
+  virtual CefString GetScriptResourceName() =0;
+
+  ///
+  // Returns the 1-based number of the line where the error occurred or 0 if the
+  // line number is unknown.
+  ///
+  /*--cef()--*/
+  virtual int GetLineNumber() =0;
+
+  ///
+  // Returns the index within the script of the first character where the error
+  // occurred.
+  ///
+  /*--cef()--*/
+  virtual int GetStartPosition() =0;
+
+  ///
+  // Returns the index within the script of the last character where the error
+  // occurred.
+  ///
+  /*--cef()--*/
+  virtual int GetEndPosition() =0;
+
+  ///
+  // Returns the index within the line of the first character where the error
+  // occurred.
+  ///
+  /*--cef()--*/
+  virtual int GetStartColumn() =0;
+
+  ///
+  // Returns the index within the line of the last character where the error
+  // occurred.
+  ///
+  /*--cef()--*/
+  virtual int GetEndColumn() =0;
+};
 
 ///
 // Class representing a V8 value. The methods of this class should only be
@@ -2314,23 +2471,35 @@ public:
   /*--cef()--*/
   static CefRefPtr<CefV8Value> CreateString(const CefString& value);
   ///
-  // Create a new CefV8Value object of type object.
+  // Create a new CefV8Value object of type object. This method should only be
+  // called from within the scope of a CefJSBindingHandler, CefV8Handler or
+  // CefV8Accessor callback, or in combination with calling Enter() and Exit()
+  // on a stored CefV8Context reference.
   ///
   /*--cef()--*/
   static CefRefPtr<CefV8Value> CreateObject(CefRefPtr<CefBase> user_data);
   ///
-  // Create a new CefV8Value object of type object with accessors.
+  // Create a new CefV8Value object of type object with accessors. This method
+  // should only be called from within the scope of a CefJSBindingHandler,
+  // CefV8Handler or CefV8Accessor callback, or in combination with calling
+  // Enter() and Exit() on a stored CefV8Context reference.
   ///
   /*--cef(capi_name=cef_v8value_create_object_with_accessor)--*/
   static CefRefPtr<CefV8Value> CreateObject(CefRefPtr<CefBase> user_data, 
                                             CefRefPtr<CefV8Accessor> accessor);
   ///
-  // Create a new CefV8Value object of type array.
+  // Create a new CefV8Value object of type array. This method should only be
+  // called from within the scope of a CefJSBindingHandler, CefV8Handler or
+  // CefV8Accessor callback, or in combination with calling Enter() and Exit()
+  // on a stored CefV8Context reference.
   ///
   /*--cef()--*/
   static CefRefPtr<CefV8Value> CreateArray();
   ///
-  // Create a new CefV8Value object of type function.
+  // Create a new CefV8Value object of type function. This method should only be
+  // called from within the scope of a CefJSBindingHandler, CefV8Handler or
+  // CefV8Accessor callback, or in combination with calling Enter() and Exit()
+  // on a stored CefV8Context reference.
   ///
   /*--cef()--*/
   static CefRefPtr<CefV8Value> CreateFunction(const CefString& name,
@@ -2429,7 +2598,6 @@ public:
   // OBJECT METHODS - These methods are only available on objects. Arrays and
   // functions are also objects. String- and integer-based keys can be used
   // interchangably with the framework converting between them as necessary.
-  // Keys beginning with "Cef::" and "v8::" are reserved by the system.
 
   ///
   // Returns true if the object has a value with the specified identifier.
@@ -2468,7 +2636,8 @@ public:
   // Associate a value with the specified identifier.
   ///
   /*--cef(capi_name=set_value_bykey)--*/
-  virtual bool SetValue(const CefString& key, CefRefPtr<CefV8Value> value) =0;
+  virtual bool SetValue(const CefString& key, CefRefPtr<CefV8Value> value,
+                        PropertyAttribute attribute) =0;
   ///
   // Associate a value with the specified identifier.
   ///
@@ -2521,24 +2690,39 @@ public:
   virtual CefRefPtr<CefV8Handler> GetFunctionHandler() =0;
 
   ///
-  // Execute the function using the current V8 context.
+  // Execute the function using the current V8 context. This method should only
+  // be called from within the scope of a CefV8Handler or CefV8Accessor
+  // callback, or in combination with calling Enter() and Exit() on a stored
+  // CefV8Context reference. |object| is the receiver ('this' object) of the
+  // function. |arguments| is the list of arguments that will be passed to the
+  // function. If execution succeeds |retval| will be set to the function return
+  // value. If execution fails |exception| will be set to the exception that was
+  // thrown. If |rethrow_exception| is true any exception will also be re-
+  // thrown. This method returns false if called incorrectly.
   ///
   /*--cef()--*/
   virtual bool ExecuteFunction(CefRefPtr<CefV8Value> object,
                                const CefV8ValueList& arguments,
                                CefRefPtr<CefV8Value>& retval,
-                               CefString& exception) =0;
+                               CefRefPtr<CefV8Exception>& exception,
+                               bool rethrow_exception) =0;
 
   ///
-  // Execute the function using the specified V8 context.
+  // Execute the function using the specified V8 context. |object| is the
+  // receiver ('this' object) of the function. |arguments| is the list of
+  // arguments that will be passed to the function. If execution succeeds
+  // |retval| will be set to the function return value. If execution fails
+  // |exception| will be set to the exception that was thrown. If
+  // |rethrow_exception| is true any exception will also be re-thrown. This 
+  // method returns false if called incorrectly.
   ///
   /*--cef()--*/
   virtual bool ExecuteFunctionWithContext(CefRefPtr<CefV8Context> context,
                                           CefRefPtr<CefV8Value> object,
                                           const CefV8ValueList& arguments,
                                           CefRefPtr<CefV8Value>& retval,
-                                          CefString& exception) =0;
-
+                                          CefRefPtr<CefV8Exception>& exception,
+                                          bool rethrow_exception) =0;
 };
 
 
@@ -2551,10 +2735,13 @@ class CefSchemeHandlerFactory : public virtual CefBase
 {
 public:
   ///
-  // Return a new scheme handler instance to handle the request.
+  // Return a new scheme handler instance to handle the request. |browser| will
+  // be the browser window that initiated the request. If the request was
+  // initiated using the CefWebURLRequest API |browser| will be NULL.
   ///
   /*--cef()--*/
-  virtual CefRefPtr<CefSchemeHandler> Create(const CefString& scheme_name,
+  virtual CefRefPtr<CefSchemeHandler> Create(CefRefPtr<CefBrowser> browser,
+                                             const CefString& scheme_name,
                                              CefRefPtr<CefRequest> request) =0;
 };
 
@@ -2597,13 +2784,10 @@ public:
   // Begin processing the request. To handle the request return true and call
   // HeadersAvailable() once the response header information is available
   // (HeadersAvailable() can also be called from inside this method if header
-  // information is available immediately). To redirect the request to a new
-  // URL set |redirectUrl| to the new URL and return true. To cancel the request
-  // return false. 
+  // information is available immediately). To cancel the request return false. 
   ///
   /*--cef()--*/
   virtual bool ProcessRequest(CefRefPtr<CefRequest> request,
-                              CefString& redirectUrl,
                               CefRefPtr<CefSchemeHandlerCallback> callback) =0;
 
   ///
@@ -2613,11 +2797,13 @@ public:
   // to a positive value and ReadResponse() will be called until it returns
   // false or the specified number of bytes have been read. Use the |response|
   // object to set the mime type, http status code and other optional header
-  // values.
+  // values. To redirect the request to a new URL set |redirectUrl| to the new
+  // URL.
   ///
   /*--cef()--*/
   virtual void GetResponseHeaders(CefRefPtr<CefResponse> response,
-                                  int64& response_length) =0;
+                                  int64& response_length,
+                                  CefString& redirectUrl) =0;
 
   ///
   // Read response data. If data is available immediately copy up to
@@ -3240,6 +3426,18 @@ public:
   virtual bool IsElement() =0;
 
   ///
+  // Returns true if this is a form control element node.
+  ///
+  /*--cef()--*/
+  virtual bool IsFormControlElement() =0;
+
+  ///
+  // Returns the type of this form control element node.
+  ///
+  /*--cef()--*/
+  virtual CefString GetFormControlElementType() =0;
+
+  ///
   // Returns true if this object is pointing to the same handle as |that|
   // object.
   ///
@@ -3563,6 +3761,122 @@ public:
   ///
   /*--cef()--*/
   virtual bool GetFileNames(std::vector<CefString>& names) =0;
+};
+
+
+///
+// Class used to create and/or parse command line arguments. Arguments with
+// '--', '-' and, on Windows, '/' prefixes are considered switches. Switches
+// will always precede any arguments without switch prefixes. Switches can
+// optionally have a value specified using the '=' delimiter (e.g. 
+// "-switch=value"). An argument of "--" will terminate switch parsing with all
+// subsequent tokens, regardless of prefix, being interpreted as non-switch
+// arguments. Switch names are considered case-insensitive. This class can be
+// used before CefInitialize() is called.
+///
+/*--cef(source=library)--*/
+class CefCommandLine : public virtual CefBase
+{
+public:
+  typedef std::vector<CefString> ArgumentList;
+  typedef std::map<CefString,CefString> SwitchMap;
+  ///
+  // Create a new CefCommandLine instance.
+  ///
+  /*--cef()--*/
+  static CefRefPtr<CefCommandLine> CreateCommandLine();
+
+  ///
+  // Initialize the command line with the specified |argc| and |argv| values.
+  // The first argument must be the name of the program. This method is only
+  // supported on non-Windows platforms.
+  ///
+  /*--cef()--*/
+  virtual void InitFromArgv(int argc, const char* const* argv) =0;
+
+  ///
+  // Initialize the command line with the string returned by calling
+  // GetCommandLineW(). This method is only supported on Windows.
+  ///
+  /*--cef()--*/
+  virtual void InitFromString(const CefString& command_line) =0;
+
+  ///
+  // Constructs and returns the represented command line string. Use this method
+  // cautiously because quoting behavior is unclear.
+  ///
+  /*--cef()--*/
+  virtual CefString GetCommandLineString() =0;
+
+  ///
+  // Get the program part of the command line string (the first item).
+  ///
+  /*--cef()--*/
+  virtual CefString GetProgram() =0;
+
+  ///
+  // Set the program part of the command line string (the first item).
+  ///
+  /*--cef()--*/
+  virtual void SetProgram(const CefString& program) =0;
+
+  ///
+  // Returns true if the command line has switches.
+  ///
+  /*--cef()--*/
+  virtual bool HasSwitches() =0;
+
+  ///
+  // Returns true if the command line contains the given switch.
+  ///
+  /*--cef()--*/
+  virtual bool HasSwitch(const CefString& name) =0;
+
+  ///
+  // Returns the value associated with the given switch. If the switch has no
+  // value or isn't present this method returns the empty string.
+  ///
+  /*--cef()--*/
+  virtual CefString GetSwitchValue(const CefString& name) =0;
+
+  ///
+  // Returns the map of switch names and values. If a switch has no value an 
+  // empty string is returned.
+  ///
+  /*--cef()--*/
+  virtual void GetSwitches(SwitchMap& switches) =0;
+
+  ///
+  // Add a switch to the end of the command line. If the switch has no value
+  // pass an empty value string.
+  ///
+  /*--cef()--*/
+  virtual void AppendSwitch(const CefString& name) =0;
+
+  ///
+  // Add a switch with the specified value to the end of the command line.
+  ///
+  /*--cef()--*/
+  virtual void AppendSwitchWithValue(const CefString& name,
+                                     const CefString& value) =0;
+
+  ///
+  // True if there are remaining command line arguments.
+  ///
+  /*--cef()--*/
+  virtual bool HasArguments() =0;
+
+  ///
+  // Get the remaining command line arguments.
+  ///
+  /*--cef()--*/
+  virtual void GetArguments(ArgumentList& arguments) =0;
+
+  ///
+  // Add an argument to the end of the command line.
+  ///
+  /*--cef()--*/
+  virtual void AppendArgument(const CefString& argument) =0;
 };
 
 #endif // _CEF_H
