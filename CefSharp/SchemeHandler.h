@@ -41,8 +41,8 @@ public:
         }
     }
 
-    virtual bool ProcessRequest(CefRefPtr<CefRequest> request, CefString& redirectUrl, CefRefPtr<CefSchemeHandlerCallback> callback);
-    virtual void GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length);
+    virtual bool ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefSchemeHandlerCallback> callback);
+    virtual void GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl);
     virtual bool ReadResponse(void* data_out, int bytes_to_read, int& bytes_read, CefRefPtr<CefSchemeHandlerCallback> callback);
     virtual void Cancel();
 
@@ -58,7 +58,7 @@ public:
     SchemeHandlerFactoryWrapper(ISchemeHandlerFactory^ factory) 
         : _factory(factory) {}
 
-    virtual CefRefPtr<CefSchemeHandler> Create(const CefString& scheme_name, CefRefPtr<CefRequest> request);
+    virtual CefRefPtr<CefSchemeHandler> Create(CefRefPtr<CefBrowser> browser, const CefString& scheme_name, CefRefPtr<CefRequest> request);
 
     IMPLEMENT_REFCOUNTING(SchemeHandlerFactoryWrapper);
 };

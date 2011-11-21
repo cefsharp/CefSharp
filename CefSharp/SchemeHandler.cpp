@@ -4,14 +4,14 @@
 
 namespace CefSharp
 {
-    void SchemeHandlerWrapper::GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length)
+    void SchemeHandlerWrapper::GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl)
     {
         response->SetMimeType(_mime_type);
         response->SetStatus(200);
         response_length = SizeFromStream();
     }
 
-    bool SchemeHandlerWrapper::ProcessRequest(CefRefPtr<CefRequest> request, CefString& redirectUrl, CefRefPtr<CefSchemeHandlerCallback> callback)
+    bool SchemeHandlerWrapper::ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefSchemeHandlerCallback> callback)
     {
         bool handled = false;
         Stream^ stream;
@@ -77,7 +77,7 @@ namespace CefSharp
         return -1;
     }
 
-    CefRefPtr<CefSchemeHandler> SchemeHandlerFactoryWrapper::Create(const CefString& scheme_name, CefRefPtr<CefRequest> request)
+    CefRefPtr<CefSchemeHandler> SchemeHandlerFactoryWrapper::Create(CefRefPtr<CefBrowser> browser, const CefString& scheme_name, CefRefPtr<CefRequest> request)
     {
         ISchemeHandler^ handler = _factory->Create();
         CefRefPtr<SchemeHandlerWrapper> wrapper = new SchemeHandlerWrapper(handler);
