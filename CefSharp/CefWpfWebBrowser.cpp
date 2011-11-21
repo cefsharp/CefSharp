@@ -1,8 +1,6 @@
 #include "stdafx.h"
 
 #include "CefWpfWebBrowser.h"
-#include "JsTask.h"
-#include "ScriptException.h"
 
 namespace CefSharp
 {
@@ -81,33 +79,9 @@ namespace CefSharp
     String^ CefWpfWebBrowser::RunScript(String^ script, String^ scriptUrl, int startLine, int timeout)
     {
     	WaitForInitialized();
-        
-        _jsError = false;
-        _jsResult = nullptr;
-        /*
-        script = 
-            "(function() {"
-            "   try { "
-            "      __js_run_done(" + script + ");"
-            "   } catch(e) {"
-            "      __js_run_err(e);"
-            "   }"
-            "})();";
-        */
-        
-        CefRefPtr<JsTask> task = new JsTask(this, toNative(script), toNative(scriptUrl), startLine);
-        _clientAdapter->GetCefBrowser()->GetMainFrame()->ExecuteJavaScriptTask(static_cast<CefRefPtr<CefV8Task>>(task));
 
-        if(!_runJsFinished->WaitOne(timeout))
-        {
-            throw gcnew TimeoutException(L"Timed out waiting for JavaScript to return");
-        }
-
-        if(_jsError == false) 
-        {
-            return _jsResult;
-        }
-        throw gcnew ScriptException("An error occurred during javascript execution");
+        // XXX; reimplement
+        return nullptr;
     }
 
     void CefWpfWebBrowser::OnInitialized()

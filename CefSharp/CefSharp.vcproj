@@ -243,10 +243,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\JsTask.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Request.cpp"
 				>
 			</File>
@@ -260,10 +256,6 @@
 			</File>
 			<File
 				RelativePath=".\SchemeHandler.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ScriptException.cpp"
 				>
 			</File>
 			<File
@@ -349,10 +341,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\JsTask.h"
-				>
-			</File>
-			<File
 				RelativePath=".\ManagedCefRefPtr.h"
 				>
 			</File>
@@ -374,10 +362,6 @@
 			</File>
 			<File
 				RelativePath=".\SchemeHandler.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ScriptException.h"
 				>
 			</File>
 			<File
