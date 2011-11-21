@@ -147,11 +147,11 @@ namespace CefSharp
 				{
 	                CefRefPtr<CefV8Value> cefVal = convertToCef(fieldVal, fieldVal->GetType());
 
-		            cefArray->SetValue(strFieldName, cefVal);
+		            cefArray->SetValue(strFieldName, cefVal, V8_PROPERTY_ATTRIBUTE_NONE);
 				}
 				else
 				{
-					cefArray->SetValue(strFieldName, CefV8Value::CreateNull());
+					cefArray->SetValue(strFieldName, CefV8Value::CreateNull(), V8_PROPERTY_ATTRIBUTE_NONE);
 				}
             }
 

@@ -266,9 +266,9 @@ namespace CefSharp
         for each(String^ methodName in methodNames)
         {
             CefString nameStr = toNative(methodName);
-            wrappedObject->SetValue(nameStr, CefV8Value::CreateFunction(nameStr, handler));
+            wrappedObject->SetValue(nameStr, CefV8Value::CreateFunction(nameStr, handler), V8_PROPERTY_ATTRIBUTE_NONE);
         }
 
-        window->SetValue(toNative(name), wrappedObject);
+        window->SetValue(toNative(name), wrappedObject, V8_PROPERTY_ATTRIBUTE_NONE);
     }
 }
