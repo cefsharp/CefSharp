@@ -19,12 +19,12 @@ namespace CefSharp
         return false;
     }
 
-    void WpfClientAdapter::OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const CefRect& dirtyRect, const void* buffer)
+    void WpfClientAdapter::OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects, const void* buffer)
     {
         int width, height;
         browser->GetSize(type, width, height);
 
-        _wpfBrowserControl->SetBuffer(width, height, dirtyRect, buffer);
+        // XXX _wpfBrowserControl->SetBuffer(width, height, dirtyRect, buffer);
     }
 
     void WpfClientAdapter::OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor)
