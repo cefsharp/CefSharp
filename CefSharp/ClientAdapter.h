@@ -12,7 +12,7 @@ namespace CefSharp
                           public CefLoadHandler,
                           public CefRequestHandler,
                           public CefDisplayHandler,
-                          public CefJSBindingHandler,
+                          public CefV8ContextHandler,
                           public CefMenuHandler
     {
     private:
@@ -49,7 +49,7 @@ namespace CefSharp
         virtual CefRefPtr<CefLoadHandler> GetLoadHandler() OVERRIDE { return this; }
         virtual CefRefPtr<CefRequestHandler> GetRequestHandler() OVERRIDE { return this; }
         virtual CefRefPtr<CefDisplayHandler> GetDisplayHandler() OVERRIDE { return this; }
-        virtual CefRefPtr<CefJSBindingHandler> GetJSBindingHandler() OVERRIDE { return this; }
+        virtual CefRefPtr<CefV8ContextHandler> GetV8ContextHandler() OVERRIDE { return this; }
         virtual CefRefPtr<CefMenuHandler> GetMenuHandler() OVERRIDE { return this; }
 
         // CefLifeSpanHandler
@@ -71,8 +71,8 @@ namespace CefSharp
         virtual bool OnTooltip(CefRefPtr<CefBrowser> browser, CefString& text) OVERRIDE;
         virtual bool OnConsoleMessage(CefRefPtr<CefBrowser> browser, const CefString& message, const CefString& source, int line) OVERRIDE;
 
-        // CefJSBindingHandler
-        virtual void OnJSBinding(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Value> object) OVERRIDE;
+        // CefV8ContextHandler
+        virtual void OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context) OVERRIDE;
 
         // CefMenuHandler
         virtual bool OnBeforeMenu(CefRefPtr<CefBrowser> browser, const MenuInfo& menuInfo) OVERRIDE;

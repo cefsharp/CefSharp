@@ -1588,20 +1588,31 @@ public:
 
 
 ///
-// Implement this interface to handle JavaScript binding. The methods of this
+// Implement this interface to handle V8 context events. The methods of this
 // class will be called on the UI thread.
 ///
 /*--cef(source=client)--*/
-class CefJSBindingHandler : public virtual CefBase
+class CefV8ContextHandler : public virtual CefBase
 {
 public:
   ///
-  // Called for adding values to a frame's JavaScript 'window' object.
+  // Called immediately after the V8 context for a frame has been created. To
+  // retrieve the JavaScript 'window' object use the CefV8Context::GetGlobal()
+  // method.
   ///
   /*--cef()--*/
-  virtual void OnJSBinding(CefRefPtr<CefBrowser> browser,
-                           CefRefPtr<CefFrame> frame,
-                           CefRefPtr<CefV8Value> object) {}
+  virtual void OnContextCreated(CefRefPtr<CefBrowser> browser,
+                                CefRefPtr<CefFrame> frame,
+                                CefRefPtr<CefV8Context> context) {}
+
+  ///
+  // Called immediately before the V8 context for a frame is released. No
+  // references to the context should be kept after this method is called.
+  ///
+  /*--cef()--*/
+  virtual void OnContextReleased(CefRefPtr<CefBrowser> browser,
+                                 CefRefPtr<CefFrame> frame,
+                                 CefRefPtr<CefV8Context> context) {}
 };
 
 
@@ -1783,10 +1794,10 @@ public:
   virtual CefRefPtr<CefJSDialogHandler> GetJSDialogHandler() { return NULL; }
 
   ///
-  // Return the handler for JavaScript binding events.
+  // Return the handler for V8 context events.
   ///
   /*--cef()--*/
-  virtual CefRefPtr<CefJSBindingHandler> GetJSBindingHandler() { return NULL; }
+  virtual CefRefPtr<CefV8ContextHandler> GetV8ContextHandler() { return NULL; }
 
   ///
   // Return the handler for off-screen rendering events.
@@ -2304,6 +2315,13 @@ public:
   ///
   /*--cef()--*/
   virtual bool Exit() =0;
+
+  ///
+  // Returns true if this object is pointing to the same handle as |that|
+  // object.
+  ///
+  /*--cef()--*/
+  virtual bool IsSame(CefRefPtr<CefV8Context> that) =0;
 };
 
 
@@ -2478,7 +2496,7 @@ public:
   static CefRefPtr<CefV8Value> CreateString(const CefString& value);
   ///
   // Create a new CefV8Value object of type object. This method should only be
-  // called from within the scope of a CefJSBindingHandler, CefV8Handler or
+  // called from within the scope of a CefV8ContextHandler, CefV8Handler or
   // CefV8Accessor callback, or in combination with calling Enter() and Exit()
   // on a stored CefV8Context reference.
   ///
@@ -2486,7 +2504,7 @@ public:
   static CefRefPtr<CefV8Value> CreateObject(CefRefPtr<CefBase> user_data);
   ///
   // Create a new CefV8Value object of type object with accessors. This method
-  // should only be called from within the scope of a CefJSBindingHandler,
+  // should only be called from within the scope of a CefV8ContextHandler,
   // CefV8Handler or CefV8Accessor callback, or in combination with calling
   // Enter() and Exit() on a stored CefV8Context reference.
   ///
@@ -2495,7 +2513,7 @@ public:
                                             CefRefPtr<CefV8Accessor> accessor);
   ///
   // Create a new CefV8Value object of type array. This method should only be
-  // called from within the scope of a CefJSBindingHandler, CefV8Handler or
+  // called from within the scope of a CefV8ContextHandler, CefV8Handler or
   // CefV8Accessor callback, or in combination with calling Enter() and Exit()
   // on a stored CefV8Context reference.
   ///
@@ -2503,7 +2521,7 @@ public:
   static CefRefPtr<CefV8Value> CreateArray();
   ///
   // Create a new CefV8Value object of type function. This method should only be
-  // called from within the scope of a CefJSBindingHandler, CefV8Handler or
+  // called from within the scope of a CefV8ContextHandler, CefV8Handler or
   // CefV8Accessor callback, or in combination with calling Enter() and Exit()
   // on a stored CefV8Context reference.
   ///

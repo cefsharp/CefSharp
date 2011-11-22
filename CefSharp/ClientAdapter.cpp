@@ -147,11 +147,11 @@ namespace CefSharp
         }
     }
 
-    void ClientAdapter::OnJSBinding(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Value> object)
+    void ClientAdapter::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
     {
         for each(KeyValuePair<String^, Object^>^ kvp in CEF::GetBoundObjects())
         {
-            BindingHandler::Bind(kvp->Key, kvp->Value, object);
+            BindingHandler::Bind(kvp->Key, kvp->Value, context->GetGlobal());
         }
     }
 
