@@ -145,7 +145,7 @@ namespace CefSharp.Example
 
             try
             {
-                String result = _browserControl.RunScript(a + "+" + b, "RunJsTest", 1, 5000);
+                String result = _browserControl.RunScript(a + "+" + b);
 
                 if (result == (a + b).ToString())
                 {
@@ -175,7 +175,7 @@ namespace CefSharp.Example
                 string script = inputForm.GetInput();
                 try
                 {
-                    string result = _browserControl.RunScript(script, "about:blank", 1, 5000);
+                    string result = _browserControl.RunScript(script);
                     MessageBox.Show(result, "Result");
                 } 
                 catch(Exception err)

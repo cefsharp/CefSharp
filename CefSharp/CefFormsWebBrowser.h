@@ -84,8 +84,9 @@ namespace CefSharp
         void Reload();
         void Reload(bool ignoreCache);
         void Print();
-        String^ RunScript(String^ script, String^ scriptUrl, int startLine);
-        String^ RunScript(String^ script, String^ scriptUrl, int startLine, int timeout);
+        String^ RunScript(String^ script);
+        //String^ RunScript(String^ script, String^ scriptUrl, int startLine);
+        //String^ RunScript(String^ script, String^ scriptUrl, int startLine, int timeout);
 
         virtual void SetTitle(String^ title);
         virtual void SetToolTip(String^ text);

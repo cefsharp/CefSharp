@@ -49,7 +49,7 @@ namespace CefSharp
         {
             String^ get()
             {
-                return "trunk r392";
+                return "trunk r396";
             }
         }
 
@@ -66,7 +66,7 @@ namespace CefSharp
             bool success = false;
             if (!IsInitialized)
             {
-                success = CefInitialize(*settings->_cefSettings);
+                success = CefInitialize(*settings->_cefSettings, nullptr);
                 _initialized = success;
             }
             return success;

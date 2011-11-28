@@ -190,6 +190,11 @@ typedef struct _cef_browser_settings_t
   ///
   bool load_drops_disabled;
 
+  ///
+  // Disable history back/forward navigation.
+  ///
+  bool history_disabled;
+
   // The below values map to WebPreferences settings.
 
   ///
@@ -1063,6 +1068,25 @@ enum cef_dom_node_type_t
   DOM_NODE_TYPE_NOTATION,
   DOM_NODE_TYPE_XPATH_NAMESPACE,
 };
+
+///
+// Proxy types.
+///
+enum cef_proxy_type_t
+{
+  PROXY_TYPE_DIRECT = 0,
+  PROXY_TYPE_NAMED,
+  PROXY_TYPE_PAC_STRING,
+};
+
+///
+// Proxy information.
+///
+typedef struct _cef_proxy_info_t
+{
+  enum cef_proxy_type_t proxyType;
+  cef_string_t proxyList;
+} cef_proxy_info_t;
 
 #ifdef __cplusplus
 }

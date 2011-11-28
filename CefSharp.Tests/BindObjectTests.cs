@@ -42,7 +42,7 @@
 
         private string RunScript(string script, int timeout)
         {
-            var result = WebBrowser.RunScript("function(){" + script + "}()", "CefSharp.Tests", 1, timeout);
+            var result = WebBrowser.RunScript("function(){" + script + "}()");
             return result;
         }
 

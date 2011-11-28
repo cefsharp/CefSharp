@@ -55,6 +55,7 @@
 #include "internal/cef_linux.h"
 #endif
 
+class CefApp;
 class CefBrowser;
 class CefClient;
 class CefContentFilter;
@@ -85,11 +86,12 @@ class CefWebURLRequestClient;
 
 ///
 // This function should be called on the main application thread to initialize
-// CEF when the application is started.  A return value of true indicates that
-// it succeeded and false indicates that it failed.
+// CEF when the application is started. The |application| parameter may be
+// empty. A return value of true indicates that it succeeded and false indicates
+// that it failed.
 ///
 /*--cef()--*/
-bool CefInitialize(const CefSettings& settings);
+bool CefInitialize(const CefSettings& settings, CefRefPtr<CefApp> application);
 
 ///
 // This function should be called on the main application thread to shut down
@@ -645,9 +647,9 @@ public:
   ///
   /*--cef()--*/
   static CefRefPtr<CefBrowser> CreateBrowserSync(CefWindowInfo& windowInfo,
-                                                 CefRefPtr<CefClient> client,
-                                                 const CefString& url,
-                                                 const CefBrowserSettings& settings);
+                                            CefRefPtr<CefClient> client,
+                                            const CefString& url,
+                                            const CefBrowserSettings& settings);
 
   ///
   // Call this method before destroying a contained browser window. This method
@@ -1060,6 +1062,38 @@ public:
   ///
   /*--cef()--*/
   virtual CefRefPtr<CefV8Context> GetV8Context() =0;
+};
+
+
+///
+// Implement this interface to handle proxy resolution events.
+///
+/*--cef(source=client)--*/
+class CefProxyHandler : public virtual CefBase
+{
+public:
+  ///
+  // Called to retrieve proxy information for the specified |url|.
+  ///
+  /*--cef()--*/
+  virtual void GetProxyForUrl(const CefString& url,
+                              CefProxyInfo& proxy_info) {}
+};
+
+
+///
+// Implement this interface to provide handler implementations.
+///
+/*--cef(source=client)--*/
+class CefApp : public virtual CefBase
+{
+public:
+  ///
+  // Return the handler for proxy events. If not handler is returned the default
+  // system handler will be used.
+  ///
+  /*--cef()--*/
+  virtual CefRefPtr<CefProxyHandler> GetProxyHandler() { return NULL; }
 };
 
 
