@@ -1,4 +1,3 @@
-
 _ReSharper*
 *.obj
 *.suo
@@ -10,3 +9,4 @@ Debug/
 CefSharp/app.aps
 TestResult.xml
 Release/
+*.swp
