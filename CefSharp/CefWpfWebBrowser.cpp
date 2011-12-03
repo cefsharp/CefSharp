@@ -315,7 +315,7 @@ namespace CefSharp
         return IntPtr::Zero;
     }
 
-    void CefWpfWebBrowser::SetBuffer(int width, int height, const CefRect& dirtyRect, const void* buffer)
+    void CefWpfWebBrowser::SetBuffer(int width, int height, const std::vector<CefRect>& dirtyRects, const void* buffer)
     {
         _width = width;
         _height = height;

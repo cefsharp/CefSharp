@@ -24,7 +24,7 @@ namespace CefSharp
         int width, height;
         browser->GetSize(type, width, height);
 
-        // XXX _wpfBrowserControl->SetBuffer(width, height, dirtyRect, buffer);
+        _wpfBrowserControl->SetBuffer(width, height, dirtyRects, buffer);
     }
 
     void WpfClientAdapter::OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor)
