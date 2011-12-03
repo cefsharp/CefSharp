@@ -47,7 +47,6 @@ namespace CefSharp
 
         Image^ _image;
 
-        Matrix _transform;
         int _width, _height;
         InteropBitmap^ _ibitmap;
 		HANDLE _fileMappingHandle, _backBufferHandle;
@@ -83,7 +82,6 @@ namespace CefSharp
             _runJsFinished = gcnew AutoResetEvent(false);
             _browserInitialized = gcnew ManualResetEvent(false);
             _loadCompleted = gcnew RtzCountdownEvent();
-            _transform = source->CompositionTarget->TransformToDevice;
 			_paintDelegate = gcnew ActionDelegate(this, &CefWpfWebBrowser::SetBitmap);
 
             source->AddHook(gcnew Interop::HwndSourceHook(this, &CefWpfWebBrowser::SourceHook));

@@ -305,7 +305,6 @@ namespace CefSharp
                 }
 
                 _clientAdapter->GetCefBrowser()->SendKeyEvent(type, wParam.ToInt32(), lParam.ToInt32(), sysChar, imeChar);
-
                 handled = true;
         }
 
