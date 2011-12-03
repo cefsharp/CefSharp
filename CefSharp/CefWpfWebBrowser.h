@@ -24,6 +24,8 @@ namespace CefSharp
     [TemplatePart(Name="PART_Browser", Type=System::Windows::Controls::Image::typeid)]
     public ref class CefWpfWebBrowser sealed : public ContentControl, ICefWebBrowser
     {
+		delegate void ActionDelegate();
+
         bool _canGoForward;
         bool _canGoBack;
         bool _isLoading;
@@ -47,12 +49,14 @@ namespace CefSharp
 
         Matrix _transform;
         int _width, _height;
-        void *_buffer;
-        WriteableBitmap^ _bitmap;
+        InteropBitmap^ _ibitmap;
+		HANDLE _fileMappingHandle, _backBufferHandle;
+		ActionDelegate^ _paintDelegate;
 
     private:
         void SetCursor(SafeFileHandle^ handle);
         IntPtr SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, bool% handled);
+		void SetBitmap();
 
     protected:
         virtual Size ArrangeOverride(Size size) override;
@@ -70,8 +74,6 @@ namespace CefSharp
             Focusable = true;
             FocusVisualStyle = nullptr;
 
-
-
             if (!CEF::IsInitialized)
             {
                 throw gcnew InvalidOperationException("CEF is not initialized");
@@ -82,6 +84,7 @@ namespace CefSharp
             _browserInitialized = gcnew ManualResetEvent(false);
             _loadCompleted = gcnew RtzCountdownEvent();
             _transform = source->CompositionTarget->TransformToDevice;
+			_paintDelegate = gcnew ActionDelegate(this, &CefWpfWebBrowser::SetBitmap);
 
             source->AddHook(gcnew Interop::HwndSourceHook(this, &CefWpfWebBrowser::SourceHook));
 
@@ -193,6 +196,6 @@ namespace CefSharp
 
         void SetCursor(CefCursorHandle cursor);
         void SetBuffer(int width, int height, const std::vector<CefRect>& dirtyRects, const void* buffer);
-        void SetBitmap(WriteableBitmap^ bitmap);
+		void Close();
     };
 }

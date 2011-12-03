@@ -180,14 +180,11 @@ namespace CefSharp
 
     Size CefWpfWebBrowser::ArrangeOverride(Size size)
     {
-        try
-        {
-            _clientAdapter->GetCefBrowser()->SetSize(PET_VIEW, (int)size.Width, (int)size.Height);
-        }
-        catch (...)
-        {
-            // ArrangeOverride may be called one or more times before Cef is initialized
-        }
+		if(_clientAdapter->GetIsInitialized()) {
+			_clientAdapter->GetCefBrowser()->SetSize(PET_VIEW, (int)size.Width, (int)size.Height);
+		} else {
+			Dispatcher->BeginInvoke(DispatcherPriority::Loaded, gcnew ActionDelegate(this, &CefWpfWebBrowser::InvalidateArrange));
+		}
 
         return ContentControl::ArrangeOverride(size);
     }
@@ -317,37 +314,76 @@ namespace CefSharp
 
     void CefWpfWebBrowser::SetBuffer(int width, int height, const std::vector<CefRect>& dirtyRects, const void* buffer)
     {
-        _width = width;
-        _height = height;
-        _buffer = (void *)buffer;
-
-        Dispatcher->Invoke(DispatcherPriority::Render,
-            gcnew Action<WriteableBitmap^>(this, &CefWpfWebBrowser::SetBitmap), _bitmap);
-    }
-
-    // XXX: don't know how to Invoke a parameterless delegate...
-    void CefWpfWebBrowser::SetBitmap(WriteableBitmap^ bitmap)
-    {
-        int length = _width * _height * 4;
-
-        if (length == 0)
+        /*
+		if (dirtyRect.width == 0 || dirtyRect.height == 0 || width == 0 || height == 0)
         {
             return;
         }
+        */
 
-        if (!_bitmap ||
-            _bitmap->PixelWidth != _width ||
-            _bitmap->PixelHeight != _height)
+        if (!_backBufferHandle || _width != width || _height != height)
         {
-            _image->Source = _bitmap = gcnew WriteableBitmap(_width, _height, 96 * _transform.M11, 96 * _transform.M22, PixelFormats::Bgr32, nullptr);
+			_ibitmap = nullptr;
+
+			if (_backBufferHandle)
+            {
+                UnmapViewOfFile(_backBufferHandle);
+                _backBufferHandle = NULL;
+            }
+
+            if (_fileMappingHandle)
+            {
+                CloseHandle(_fileMappingHandle);
+                _fileMappingHandle = NULL;
+            }
+
+			int pixels = width * height;
+            int bytes = pixels * PixelFormats::Bgr32.BitsPerPixel / 8;
+
+			_fileMappingHandle = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, bytes, NULL);
+			if(!_fileMappingHandle) 
+			{
+				return;
+			}
+
+			_backBufferHandle = MapViewOfFile(_fileMappingHandle, FILE_MAP_ALL_ACCESS, 0, 0, bytes);
+			if(!_backBufferHandle) 
+			{
+				return;
+			}
+
+			_width = width;
+			_height = height;
         }
-
-        Int32Rect rect;
-        rect.X = 0;
-        rect.Y = 0;
-        rect.Width = _width;
-        rect.Height = _height;
-
-        _bitmap->WritePixels(rect, (IntPtr)_buffer, length, _bitmap->BackBufferStride);
+	
+		int stride = width * PixelFormats::Bgr32.BitsPerPixel / 8;
+		CopyMemory(_backBufferHandle, (void*) buffer, height * stride);
+		
+		if(!Dispatcher->HasShutdownStarted) {
+			Dispatcher->BeginInvoke(DispatcherPriority::Render, _paintDelegate);
+		}
     }
+    
+	void CefWpfWebBrowser::SetBitmap()
+    {
+		InteropBitmap^ bitmap = _ibitmap;
+
+		if(bitmap == nullptr) 
+		{
+			_image->Source = nullptr;
+			GC::Collect(1);
+
+			int stride = _width * PixelFormats::Bgr32.BitsPerPixel / 8;
+			bitmap = (InteropBitmap^) System::Windows::Interop::Imaging::CreateBitmapSourceFromMemorySection((IntPtr) _fileMappingHandle, _width, _height, PixelFormats::Bgr32, stride, 0);
+			_image->Source = bitmap;
+			_ibitmap = bitmap;
+		}
+
+		bitmap->Invalidate();
+    }
+
+	void CefWpfWebBrowser::Close() 
+	{
+		_clientAdapter->GetCefBrowser()->CloseBrowser();
+	}
 }
