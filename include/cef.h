@@ -123,6 +123,14 @@ void CefDoMessageLoopWork();
 void CefRunMessageLoop();
 
 ///
+// Quit the CEF message loop that was started by calling CefRunMessageLoop().
+// This function should only be called on the main application thread and only
+// if CefRunMessageLoop() was used.
+///
+/*--cef()--*/
+void CefQuitMessageLoop();
+
+///
 // Register a new V8 extension with the specified JavaScript extension code and
 // handler. Functions implemented by the handler are prototyped using the
 // keyword 'native'. The calling of a native function is restricted to the scope
@@ -1019,7 +1027,7 @@ public:
                                  int startLine) =0;
 
   ///
-  // Returns true if this is the main frame.
+  // Returns true if this is the main (top-level) frame.
   ///
   /*--cef()--*/
   virtual bool IsMain() =0;
@@ -1032,10 +1040,28 @@ public:
   virtual bool IsFocused() =0;
 
   ///
-  // Returns this frame's name.
+  // Returns the name for this frame. If the frame has an assigned name (for
+  // example, set via the iframe "name" attribute) then that value will be
+  // returned. Otherwise a unique name will be constructed based on the frame
+  // parent hierarchy. The main (top-level) frame will always have an empty name
+  // value.
   ///
   /*--cef()--*/
   virtual CefString GetName() =0;
+
+  ///
+  // Returns the globally unique identifier for this frame. This method should
+  // only be called on the UI thread.
+  ///
+  /*--cef()--*/
+  virtual long long GetIdentifier() =0;
+
+  ///
+  // Returns the parent of this frame or NULL if this is the main (top-level)
+  // frame. This method should only be called on the UI thread.
+  ///
+  /*--cef()--*/
+  virtual CefRefPtr<CefFrame> GetParent() =0;
 
   ///
   // Returns the URL currently loaded in this frame. This method should only be
@@ -2663,8 +2689,8 @@ public:
   ///
   // Returns true if the object has a value with the specified identifier.
   ///
-  /*--cef(capi_name=has_value_byindex)--*/
-  virtual bool HasValue(size_t index) =0;
+  /*--cef(capi_name=has_value_byindex,index_param=index)--*/
+  virtual bool HasValue(int index) =0;
 
   ///
   // Delete the value with the specified identifier.
@@ -2674,8 +2700,8 @@ public:
   ///
   // Delete the value with the specified identifier.
   ///
-  /*--cef(capi_name=delete_value_byindex)--*/
-  virtual bool DeleteValue(size_t index) =0;
+  /*--cef(capi_name=delete_value_byindex,index_param=index)--*/
+  virtual bool DeleteValue(int index) =0;
 
   ///
   // Returns the value with the specified identifier.
@@ -2685,8 +2711,8 @@ public:
   ///
   // Returns the value with the specified identifier.
   ///
-  /*--cef(capi_name=get_value_byindex)--*/
-  virtual CefRefPtr<CefV8Value> GetValue(size_t index) =0;
+  /*--cef(capi_name=get_value_byindex,index_param=index)--*/
+  virtual CefRefPtr<CefV8Value> GetValue(int index) =0;
 
   ///
   // Associate a value with the specified identifier.
@@ -2697,8 +2723,8 @@ public:
   ///
   // Associate a value with the specified identifier.
   ///
-  /*--cef(capi_name=set_value_byindex)--*/
-  virtual bool SetValue(size_t index, CefRefPtr<CefV8Value> value) =0;
+  /*--cef(capi_name=set_value_byindex,index_param=index)--*/
+  virtual bool SetValue(int index, CefRefPtr<CefV8Value> value) =0;
 
   ///
   // Register an identifier whose access will be forwarded to the CefV8Accessor
@@ -3137,8 +3163,8 @@ public:
   ///
   // Returns the value of the attribute at the specified 0-based index.
   ///
-  /*--cef(capi_name=get_attribute_byindex)--*/
-  virtual CefString GetAttribute(size_t index) =0;
+  /*--cef(capi_name=get_attribute_byindex,index_param=index)--*/
+  virtual CefString GetAttribute(int index) =0;
 
   ///
   // Returns the value of the attribute with the specified qualified name.
@@ -3182,8 +3208,8 @@ public:
   // Moves the cursor to the attribute at the specified 0-based index. Returns
   // true if the cursor position was set successfully.
   ///
-  /*--cef(capi_name=move_to_attribute_byindex)--*/
-  virtual bool MoveToAttribute(size_t index) =0;
+  /*--cef(capi_name=move_to_attribute_byindex,index_param=index)--*/
+  virtual bool MoveToAttribute(int index) =0;
 
   ///
   // Moves the cursor to the attribute with the specified qualified name.
