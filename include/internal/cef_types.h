@@ -652,7 +652,7 @@ enum cef_v8_propertyattribute_t
 ///
 // Structure representing menu information.
 ///
-typedef struct _cef_handler_menuinfo_t
+typedef struct _cef_menu_info_t
 {
   ///
   // Values from the cef_handler_menutypebits_t enumeration.
@@ -679,13 +679,13 @@ typedef struct _cef_handler_menuinfo_t
   int editFlags;
 
   cef_string_t securityInfo;
-} cef_handler_menuinfo_t;
+} cef_menu_info_t;
 
 ///
-// The cef_handler_menuinfo_t typeFlags value will be a combination of the
+// The cef_menu_info_t typeFlags value will be a combination of the
 // following values.
 ///
-enum cef_handler_menutypebits_t
+enum cef_menu_typebits_t
 {
   ///
   // No node is selected
@@ -730,10 +730,10 @@ enum cef_handler_menutypebits_t
 };
 
 ///
-// The cef_handler_menuinfo_t editFlags value will be a combination of the
+// The cef_menu_info_t editFlags value will be a combination of the
 // following values.
 ///
-enum cef_handler_menucapabilitybits_t
+enum cef_menu_capabilitybits_t
 {
   // Values from WebContextMenuData::EditFlags in WebContextMenuData.h
   MENU_CAN_DO_NONE = 0x0,
@@ -753,7 +753,7 @@ enum cef_handler_menucapabilitybits_t
 ///
 // Supported menu ID values.
 ///
-enum cef_handler_menuid_t
+enum cef_menu_id_t
 {
   MENU_ID_NAV_BACK = 10,
   MENU_ID_NAV_FORWARD = 11,

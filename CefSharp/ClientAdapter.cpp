@@ -155,7 +155,7 @@ namespace CefSharp
         }
     }
 
-    bool ClientAdapter::OnBeforeMenu(CefRefPtr<CefBrowser> browser, const MenuInfo& menuInfo)
+    bool ClientAdapter::OnBeforeMenu(CefRefPtr<CefBrowser> browser, const CefMenuInfo& menuInfo)
     {
         IBeforeMenu^ beforeMenuHandler = _browserControl->BeforeMenuHandler;
         return beforeMenuHandler != nullptr &&

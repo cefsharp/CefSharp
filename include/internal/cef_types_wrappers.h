@@ -190,6 +190,25 @@ inline bool operator!=(const CefRect& a, const CefRect& b)
 }
 
 
+struct CefPrintOptionsTraits {
+  typedef cef_print_options_t struct_type;
+
+  static inline void init(struct_type* s) {}
+  static inline void clear(struct_type* s) {}
+
+  static inline void set(const struct_type* src, struct_type* target, bool copy)
+  {
+    *target = *src;
+  }
+};
+
+///
+// Class representing print options.
+///
+typedef CefStructBase<CefPrintOptionsTraits> CefPrintOptions;
+
+
+
 struct CefPopupFeaturesTraits {
   typedef cef_popup_features_t struct_type;
 
@@ -526,6 +545,53 @@ struct CefCookieTraits {
 // Class representing a cookie.
 ///
 typedef CefStructBase<CefCookieTraits> CefCookie;
+
+
+struct CefMenuInfoTraits {
+  typedef cef_menu_info_t struct_type;
+
+  static inline void init(struct_type* s) {}
+
+  static inline void clear(struct_type* s)
+  {
+    cef_string_clear(&s->linkUrl);
+    cef_string_clear(&s->imageUrl);
+    cef_string_clear(&s->pageUrl);
+    cef_string_clear(&s->frameUrl);
+    cef_string_clear(&s->selectionText);
+    cef_string_clear(&s->misspelledWord);
+    cef_string_clear(&s->securityInfo);
+  }
+
+  static inline void set(const struct_type* src, struct_type* target, bool copy)
+  {
+    target->typeFlags = src->typeFlags;
+    target->x = src->x;
+    target->y = src->y;
+
+    cef_string_set(src->linkUrl.str, src->linkUrl.length,
+        &target->linkUrl, copy);
+    cef_string_set(src->imageUrl.str, src->imageUrl.length,
+        &target->imageUrl, copy);
+    cef_string_set(src->pageUrl.str, src->pageUrl.length,
+        &target->pageUrl, copy);
+    cef_string_set(src->frameUrl.str, src->frameUrl.length,
+        &target->frameUrl, copy);
+    cef_string_set(src->selectionText.str, src->selectionText.length,
+        &target->selectionText, copy);
+    cef_string_set(src->misspelledWord.str, src->misspelledWord.length,
+        &target->misspelledWord, copy);
+    cef_string_set(src->securityInfo.str, src->securityInfo.length,
+        &target->securityInfo, copy);
+
+    target->editFlags = src->editFlags;
+  }
+};
+
+///
+// Class representing menu info.
+///
+typedef CefStructBase<CefMenuInfoTraits> CefMenuInfo;
 
 
 struct CefProxyInfoTraits {

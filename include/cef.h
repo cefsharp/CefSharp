@@ -90,7 +90,7 @@ class CefWebURLRequestClient;
 // empty. A return value of true indicates that it succeeded and false indicates
 // that it failed.
 ///
-/*--cef()--*/
+/*--cef(revision_check,optional_param=application)--*/
 bool CefInitialize(const CefSettings& settings, CefRefPtr<CefApp> application);
 
 ///
@@ -181,7 +181,7 @@ void CefRunMessageLoop();
 //   example.test.increment();
 // </pre>
 ///
-/*--cef()--*/
+/*--cef(optional_param=handler)--*/
 bool CefRegisterExtension(const CefString& extension_name,
                           const CefString& javascript_code,
                           CefRefPtr<CefV8Handler> handler);
@@ -249,7 +249,7 @@ bool CefRegisterCustomScheme(const CefString& scheme_name,
 // that matches the specified |scheme_name| and optional |domain_name|.
 // Returns false if an error occurs. This function may be called on any thread.
 ///
-/*--cef()--*/
+/*--cef(optional_param=domain_name,optional_param=factory)--*/
 bool CefRegisterSchemeHandlerFactory(const CefString& scheme_name,
                                     const CefString& domain_name,
                                     CefRefPtr<CefSchemeHandlerFactory> factory);
@@ -400,7 +400,7 @@ bool CefSetCookie(const CefString& url, const CefCookie& cookie);
 // invalid URL is specified or if cookies cannot be accessed. This method must
 // be called on the IO thread.
 ///
-/*--cef()--*/
+/*--cef(optional_param=url,optional_param=cookie_name)--*/
 bool CefDeleteCookies(const CefString& url, const CefString& cookie_name);
 
 ///
@@ -408,7 +408,7 @@ bool CefDeleteCookies(const CefString& url, const CefString& cookie_name);
 // is empty data will be stored in memory only. By default the cookie path is
 // the same as the cache path. Returns false if cookies cannot be accessed.
 ///
-/*--cef()--*/
+/*--cef(optional_param=path)--*/
 bool CefSetCookiePath(const CefString& path);
 
 
@@ -422,7 +422,7 @@ typedef cef_storage_type_t CefStorageType;
 // origin is specified only data currently in memory will be returned. Returns
 // false if the storage cannot be accessed.
 ///
-/*--cef()--*/
+/*--cef(optional_param=origin,optional_param=key)--*/
 bool CefVisitStorage(CefStorageType type, const CefString& origin,
                      const CefString& key,
                      CefRefPtr<CefStorageVisitor> visitor);
@@ -442,7 +442,7 @@ bool CefSetStorage(CefStorageType type, const CefString& origin,
 // will be cleared. Returns false if storage cannot be accessed. This method
 // must be called on the UI thread.
 ///
-/*--cef()--*/
+/*--cef(optional_param=origin,optional_param=key)--*/
 bool CefDeleteStorage(CefStorageType type, const CefString& origin,
                       const CefString& key);
 
@@ -453,7 +453,7 @@ bool CefDeleteStorage(CefStorageType type, const CefString& origin,
 // path is the same as the cache path. Returns false if the storage cannot be
 // accessed.
 ///
-/*--cef()--*/
+/*--cef(optional_param=path)--*/
 bool CefSetStoragePath(CefStorageType type, const CefString& path);
 
 
@@ -635,7 +635,7 @@ public:
   // |windowInfo|. All values will be copied internally and the actual window
   // will be created on the UI thread. This method call will not block.
   ///
-  /*--cef()--*/
+  /*--cef(optional_param=url)--*/
   static bool CreateBrowser(CefWindowInfo& windowInfo,
                             CefRefPtr<CefClient> client,
                             const CefString& url,
@@ -645,7 +645,7 @@ public:
   // Create a new browser window using the window parameters specified by
   // |windowInfo|. This method should only be called on the UI thread.
   ///
-  /*--cef()--*/
+  /*--cef(optional_param=url)--*/
   static CefRefPtr<CefBrowser> CreateBrowserSync(CefWindowInfo& windowInfo,
                                             CefRefPtr<CefClient> client,
                                             const CefString& url,
@@ -1013,7 +1013,7 @@ public:
   // error.  The |start_line| parameter is the base line number to use for error
   // reporting.
   ///
-  /*--cef()--*/
+  /*--cef(optional_param=scriptUrl)--*/
   virtual void ExecuteJavaScript(const CefString& jsCode, 
                                  const CefString& scriptUrl,
                                  int startLine) =0;
@@ -1084,7 +1084,7 @@ public:
 ///
 // Implement this interface to provide handler implementations.
 ///
-/*--cef(source=client)--*/
+/*--cef(source=client,no_debugct_check)--*/
 class CefApp : public virtual CefBase
 {
 public:
@@ -1348,7 +1348,7 @@ public:
   ///
   // Called when the page title changes.
   ///
-  /*--cef()--*/
+  /*--cef(optional_param=title)--*/
   virtual void OnTitleChange(CefRefPtr<CefBrowser> browser,
                              const CefString& title) {}
 
@@ -1358,7 +1358,7 @@ public:
   // tooltip yourself return true. Otherwise, you can optionally modify |text|
   // and then return false to allow the browser to display the tooltip.
   ///
-  /*--cef()--*/
+  /*--cef(optional_param=text)--*/
   virtual bool OnTooltip(CefRefPtr<CefBrowser> browser,
                          CefString& text) { return false; }
 
@@ -1367,7 +1367,7 @@ public:
   // that will be displayed in the status message and |type| indicates the
   // status message type.
   ///
-  /*--cef()--*/
+  /*--cef(optional_param=value)--*/
   virtual void OnStatusMessage(CefRefPtr<CefBrowser> browser,
                                const CefString& value,
                                StatusType type) {}
@@ -1376,7 +1376,7 @@ public:
   // Called to display a console message. Return true to stop the message from
   // being output to the console.
   ///
-  /*--cef()--*/
+  /*--cef(optional_param=message,optional_param=source)--*/
   virtual bool OnConsoleMessage(CefRefPtr<CefBrowser> browser,
                                 const CefString& message,
                                 const CefString& source,
@@ -1421,7 +1421,7 @@ public:
   // keep references to or attempt to access any DOM objects outside the scope
   // of this method.
   ///
-  /*--cef()--*/
+  /*--cef(optional_param=frame,optional_param=node)--*/
   virtual void OnFocusedNodeChanged(CefRefPtr<CefBrowser> browser,
                                     CefRefPtr<CefFrame> frame,
                                     CefRefPtr<CefDOMNode> node) {}
@@ -1470,8 +1470,7 @@ public:
 class CefMenuHandler : public virtual CefBase
 {
 public:
-  typedef cef_handler_menuid_t MenuId;
-  typedef cef_handler_menuinfo_t MenuInfo;
+  typedef cef_menu_id_t MenuId;
 
   ///
   // Called before a context menu is displayed. Return false to display the
@@ -1479,7 +1478,7 @@ public:
   ///
   /*--cef()--*/
   virtual bool OnBeforeMenu(CefRefPtr<CefBrowser> browser,
-                            const MenuInfo& menuInfo) { return false; }
+                            const CefMenuInfo& menuInfo) { return false; }
 
   ///
   // Called to optionally override the default text for a context menu item.
@@ -1509,8 +1508,6 @@ public:
 class CefPrintHandler : public virtual CefBase
 {
 public:
-  typedef cef_print_options_t CefPrintOptions;
-
   ///
   // Called to allow customization of standard print options before the print
   // dialog is displayed. |printOptions| allows specification of paper size,
@@ -1763,7 +1760,7 @@ public:
 ///
 // Implement this interface to provide handler implementations.
 ///
-/*--cef(source=client)--*/
+/*--cef(source=client,no_debugct_check)--*/
 class CefClient : public virtual CefBase
 {
 public:
@@ -1912,7 +1909,7 @@ public:
   ///
   // Set all values at one time.
   ///
-  /*--cef()--*/
+  /*--cef(optional_param=postData)--*/
   virtual void Set(const CefString& url,
                    const CefString& method,
                    CefRefPtr<CefPostData> postData,
@@ -1921,7 +1918,7 @@ public:
   ///
   // Get the flags used in combination with CefWebURLRequest.
   ///
-  /*--cef()--*/
+  /*--cef(default_retval=WUR_FLAG_NONE)--*/
   virtual RequestFlags GetFlags() =0;
   ///
   // Set the flags used in combination with CefWebURLRequest.
@@ -1969,7 +1966,7 @@ public:
   ///
   // Retrieve the post data elements.
   ///
-  /*--cef()--*/
+  /*--cef(count_func=elements:GetElementCount)--*/
   virtual void GetElements(ElementVector& elements) =0;
 
   ///
@@ -2034,7 +2031,7 @@ public:
   ///
   // Return the type of this post data element.
   ///
-  /*--cef()--*/
+  /*--cef(default_retval=PDE_TYPE_EMPTY)--*/
   virtual Type GetType() =0;
 
   ///
@@ -2526,7 +2523,7 @@ public:
   ///
   // Create a new CefV8Value object of type string.
   ///
-  /*--cef()--*/
+  /*--cef(optional_param=value)--*/
   static CefRefPtr<CefV8Value> CreateString(const CefString& value);
   ///
   // Create a new CefV8Value object of type object. This method should only be
@@ -2534,7 +2531,7 @@ public:
   // CefV8Accessor callback, or in combination with calling Enter() and Exit()
   // on a stored CefV8Context reference.
   ///
-  /*--cef()--*/
+  /*--cef(optional_param=user_data)--*/
   static CefRefPtr<CefV8Value> CreateObject(CefRefPtr<CefBase> user_data);
   ///
   // Create a new CefV8Value object of type object with accessors. This method
@@ -2542,7 +2539,8 @@ public:
   // CefV8Handler or CefV8Accessor callback, or in combination with calling
   // Enter() and Exit() on a stored CefV8Context reference.
   ///
-  /*--cef(capi_name=cef_v8value_create_object_with_accessor)--*/
+  /*--cef(capi_name=cef_v8value_create_object_with_accessor,
+          optional_param=user_data,optional_param=accessor)--*/
   static CefRefPtr<CefV8Value> CreateObject(CefRefPtr<CefBase> user_data, 
                                             CefRefPtr<CefV8Accessor> accessor);
   ///
@@ -2666,7 +2664,7 @@ public:
   // Returns true if the object has a value with the specified identifier.
   ///
   /*--cef(capi_name=has_value_byindex)--*/
-  virtual bool HasValue(int index) =0;
+  virtual bool HasValue(size_t index) =0;
 
   ///
   // Delete the value with the specified identifier.
@@ -2677,7 +2675,7 @@ public:
   // Delete the value with the specified identifier.
   ///
   /*--cef(capi_name=delete_value_byindex)--*/
-  virtual bool DeleteValue(int index) =0;
+  virtual bool DeleteValue(size_t index) =0;
 
   ///
   // Returns the value with the specified identifier.
@@ -2688,7 +2686,7 @@ public:
   // Returns the value with the specified identifier.
   ///
   /*--cef(capi_name=get_value_byindex)--*/
-  virtual CefRefPtr<CefV8Value> GetValue(int index) =0;
+  virtual CefRefPtr<CefV8Value> GetValue(size_t index) =0;
 
   ///
   // Associate a value with the specified identifier.
@@ -2700,7 +2698,7 @@ public:
   // Associate a value with the specified identifier.
   ///
   /*--cef(capi_name=set_value_byindex)--*/
-  virtual bool SetValue(int index, CefRefPtr<CefV8Value> value) =0;
+  virtual bool SetValue(size_t index, CefRefPtr<CefV8Value> value) =0;
 
   ///
   // Register an identifier whose access will be forwarded to the CefV8Accessor
@@ -2758,7 +2756,7 @@ public:
   // thrown. If |rethrow_exception| is true any exception will also be re-
   // thrown. This method returns false if called incorrectly.
   ///
-  /*--cef()--*/
+  /*--cef(optional_param=object)--*/
   virtual bool ExecuteFunction(CefRefPtr<CefV8Value> object,
                                const CefV8ValueList& arguments,
                                CefRefPtr<CefV8Value>& retval,
@@ -2774,7 +2772,7 @@ public:
   // |rethrow_exception| is true any exception will also be re-thrown. This 
   // method returns false if called incorrectly.
   ///
-  /*--cef()--*/
+  /*--cef(optional_param=object)--*/
   virtual bool ExecuteFunctionWithContext(CefRefPtr<CefV8Context> context,
                                           CefRefPtr<CefV8Value> object,
                                           const CefV8ValueList& arguments,
@@ -2936,7 +2934,7 @@ public:
   ///
   // Returns the current ready state of the request.
   ///
-  /*--cef()--*/
+  /*--cef(default_retval=WUR_STATE_UNSENT)--*/
   virtual RequestState GetState() =0;
 };
 
@@ -3054,7 +3052,7 @@ public:
   ///
   // Returns the node type.
   ///
-  /*--cef()--*/
+  /*--cef(default_retval=XML_NODE_UNSUPPORTED)--*/
   virtual NodeType GetType() =0;
 
   ///
@@ -3140,7 +3138,7 @@ public:
   // Returns the value of the attribute at the specified 0-based index.
   ///
   /*--cef(capi_name=get_attribute_byindex)--*/
-  virtual CefString GetAttribute(int index) =0;
+  virtual CefString GetAttribute(size_t index) =0;
 
   ///
   // Returns the value of the attribute with the specified qualified name.
@@ -3185,7 +3183,7 @@ public:
   // true if the cursor position was set successfully.
   ///
   /*--cef(capi_name=move_to_attribute_byindex)--*/
-  virtual bool MoveToAttribute(int index) =0;
+  virtual bool MoveToAttribute(size_t index) =0;
 
   ///
   // Moves the cursor to the attribute with the specified qualified name.
@@ -3295,7 +3293,7 @@ public:
   // Opens the file for reading of uncompressed data. A read password may
   // optionally be specified.
   ///
-  /*--cef()--*/
+  /*--cef(optional_param=password)--*/
   virtual bool OpenFile(const CefString& password) =0;
 
   ///
@@ -3358,7 +3356,7 @@ public:
   ///
   // Returns the document type.
   ///
-  /*--cef()--*/
+  /*--cef(default_retval=DOM_DOCUMENT_TYPE_UNKNOWN)--*/
   virtual Type GetType() =0;
 
   ///
@@ -3468,7 +3466,7 @@ public:
   ///
   // Returns the type for this node.
   ///
-  /*--cef()--*/
+  /*--cef(default_retval=DOM_NODE_TYPE_UNSUPPORTED)--*/
   virtual Type GetType() =0;
 
   ///
@@ -3652,13 +3650,13 @@ public:
   ///
   // Returns the event category.
   ///
-  /*--cef()--*/
+  /*--cef(default_retval=DOM_EVENT_CATEGORY_UNKNOWN)--*/
   virtual Category GetCategory() =0;
 
   ///
   // Returns the event processing phase.
   ///
-  /*--cef()--*/
+  /*--cef(default_retval=DOM_EVENT_PHASE_UNKNOWN)--*/
   virtual Phase GetPhase() =0;
 
   ///
@@ -3832,16 +3830,17 @@ public:
 // arguments. Switch names are considered case-insensitive. This class can be
 // used before CefInitialize() is called.
 ///
-/*--cef(source=library)--*/
+/*--cef(source=library,no_debugct_check)--*/
 class CefCommandLine : public virtual CefBase
 {
 public:
   typedef std::vector<CefString> ArgumentList;
   typedef std::map<CefString,CefString> SwitchMap;
+
   ///
   // Create a new CefCommandLine instance.
   ///
-  /*--cef()--*/
+  /*--cef(revision_check)--*/
   static CefRefPtr<CefCommandLine> CreateCommandLine();
 
   ///
