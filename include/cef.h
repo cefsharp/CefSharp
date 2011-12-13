@@ -1275,6 +1275,16 @@ public:
                                     int loadFlags) { return false; }
 
   ///
+  // Called on the IO thread when a resource load is redirected. The |old_url|
+  // parameter will contain the old URL. The |new_url| parameter will contain
+  // the new URL and can be changed if desired.
+  ///
+  /*--cef()--*/
+  virtual void OnResourceRedirect(CefRefPtr<CefBrowser> browser,
+                                  const CefString& old_url,
+                                  CefString& new_url) {}
+
+  ///
   // Called on the UI thread after a response to the resource request is
   // received. Set |filter| if response content needs to be monitored and/or
   // modified as it arrives.
