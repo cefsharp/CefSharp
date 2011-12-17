@@ -1334,7 +1334,7 @@ public:
   // hostname and port number. Set |username| and |password| and return
   // true to handle the request. Return false to cancel the request.
   ///
-  /*--cef()--*/
+  /*--cef(optional_param=realm)--*/
   virtual bool GetAuthCredentials(CefRefPtr<CefBrowser> browser,
                                   bool isProxy,
                                   const CefString& host,

@@ -404,6 +404,11 @@ typedef struct _cef_browser_settings_t
   // Set to true (1) to disable developer tools (WebKit inspector).
   ///
   bool developer_tools_disabled;
+
+  ///
+  // Set to true (1) to enable fullscreen mode.
+  ///
+  bool fullscreen_enabled;
 } cef_browser_settings_t;
 
 ///
