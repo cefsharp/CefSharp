@@ -1142,7 +1142,7 @@ public:
   // modify the object that |client| points to. To change the settings for the
   // new window modify the |settings| structure.
   ///
-  /*--cef()--*/
+  /*--cef(optional_param=url)--*/
   virtual bool OnBeforePopup(CefRefPtr<CefBrowser> parentBrowser,
                              const CefPopupFeatures& popupFeatures,
                              CefWindowInfo& windowInfo,

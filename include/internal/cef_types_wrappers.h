@@ -413,7 +413,8 @@ struct CefBrowserSettingsTraits {
     target->accelerated_video_disabled = src->accelerated_video_disabled;
     target->accelerated_2d_canvas_disabled =
         src->accelerated_2d_canvas_disabled;
-    target->accelerated_drawing_disabled = src->accelerated_drawing_disabled;
+    target->accelerated_painting_disabled = src->accelerated_painting_disabled;
+    target->accelerated_filters_disabled = src->accelerated_filters_disabled;
     target->accelerated_plugins_disabled = src->accelerated_plugins_disabled;
     target->developer_tools_disabled = src->developer_tools_disabled;
     target->fullscreen_enabled = src->fullscreen_enabled;
