@@ -17,7 +17,7 @@ namespace CefSharp.Example
         /*
         [Test]
         public void MultiThreadedMessageLoop()
-        {            
+        {
             Assert.That(_settings.MultiThreadedMessageLoop, Is.False);
             _settings.MultiThreadedMessageLoop = true;
             Assert.That(_settings.MultiThreadedMessageLoop, Is.True);

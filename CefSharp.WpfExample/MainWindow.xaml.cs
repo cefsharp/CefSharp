@@ -75,7 +75,7 @@ namespace CefSharp.WpfExample
             else
             {
                 browser.Load(urlTextBox.Text);
-            }    
+            }
         }
 
         private void urlTextBox_KeyDown(object sender, KeyEventArgs e)

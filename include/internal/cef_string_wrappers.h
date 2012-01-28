@@ -44,7 +44,7 @@ struct CefStringTraitsWide {
   typedef wchar_t char_type;
   typedef cef_string_wide_t struct_type;
   typedef cef_string_userfree_wide_t userfree_struct_type;
-  
+
   static inline void clear(struct_type *s) { cef_string_wide_clear(s); }
   static inline int set(const char_type* src, size_t src_size,
                         struct_type *output, int copy)
@@ -124,7 +124,7 @@ struct CefStringTraitsUTF8 {
   typedef char char_type;
   typedef cef_string_utf8_t struct_type;
   typedef cef_string_userfree_utf8_t userfree_struct_type;
-  
+
   static inline void clear(struct_type *s) { cef_string_utf8_clear(s); }
   static inline int set(const char_type* src, size_t src_size,
                         struct_type *output, int copy)
@@ -191,7 +191,7 @@ struct CefStringTraitsUTF16 {
   typedef char16 char_type;
   typedef cef_string_utf16_t struct_type;
   typedef cef_string_userfree_utf16_t userfree_struct_type;
-  
+
   static inline void clear(struct_type *s) { cef_string_utf16_clear(s); }
   static inline int set(const char_type* src, size_t src_size,
                         struct_type *output, int copy)
@@ -304,13 +304,13 @@ public:
   // Default constructor.
   ///
   CefStringBase() : string_(NULL), owner_(false) {}
-  
+
   ///
   // Create a new string from an existing string. Data will always be copied.
   ///
   CefStringBase(const CefStringBase& str) : string_(NULL), owner_(false)
     { FromString(str.c_str(), str.length(), true); }
-  
+
   ///
   // Create a new string from an existing std::string. Data will be always
   // copied. Translation will occur if necessary based on the underlying string
@@ -320,7 +320,7 @@ public:
     { FromString(src); }
   CefStringBase(const char* src) : string_(NULL), owner_(false)
     { FromString(std::string(src)); }
-  
+
   ///
   // Create a new string from an existing std::wstring. Data will be always
   // copied. Translation will occur if necessary based on the underlying string
@@ -342,7 +342,7 @@ public:
   CefStringBase(const char16* src) : string_(NULL), owner_(false)
     { FromString16(string16(src)); }
 #endif // BUILDING_CEF_SHARED && WCHAR_T_IS_UTF32
-  
+
   ///
   // Create a new string from an existing character array. If |copy| is true
   // this class will copy the data. Otherwise, this class will reference the
@@ -352,7 +352,7 @@ public:
   CefStringBase(const char_type* src, size_t src_len, bool copy)
     : string_(NULL), owner_(false)
     { FromString(src, src_len, copy); }
-  
+
   ///
   // Create a new string referencing an existing string structure without taking
   // ownership. Referenced structures must exist for the lifetime of this class
@@ -376,17 +376,17 @@ public:
   // Return a read-only pointer to the string data.
   ///
   const char_type* c_str() const { return (string_ ? string_->str : NULL); }
-  
+
   ///
   // Return the length of the string data.
   ///
   size_t length() const { return (string_ ? string_->length : 0); }
-  
+
   ///
   // Return the length of the string data.
   ///
   inline size_t size() const { return length(); }
-  
+
   ///
   // Returns true if the string is empty.
   ///
@@ -405,7 +405,7 @@ public:
       return 1;
     return traits::compare(string_, str.GetStruct());
   }
-  
+
   ///
   // Clear the string data.
   ///
@@ -422,13 +422,13 @@ public:
   // Returns true if this class owns the underlying string structure.
   ///
   bool IsOwner() const { return owner_; }
-  
+
   ///
   // Returns a read-only pointer to the underlying string structure. May return
   // NULL if no structure is currently allocated.
   ///
   const struct_type* GetStruct() const { return string_; }
-  
+
   ///
   // Returns a writable pointer to the underlying string structure. Will never
   // return NULL.
@@ -438,7 +438,7 @@ public:
     AllocIfNeeded();
     return string_;
   }
-  
+
   ///
   // Clear the state of this class. The underlying string structure and data
   // will be freed if this class owns the structure.
@@ -463,7 +463,7 @@ public:
   {
     // Free the previous structure and data, if any.
     ClearAndFree();
-    
+
     string_ = str;
     owner_ = owner;
   }
@@ -484,7 +484,7 @@ public:
     AllocIfNeeded();
     owner_ = true;
     memcpy(string_, str, sizeof(struct_type));
-    
+
     // Free the |str| structure but not the data.
     memset(str, 0, sizeof(struct_type));
     traits::userfree_free(str);
@@ -510,10 +510,10 @@ public:
   {
     if (empty())
       return NULL;
-    
+
     userfree_struct_type str = traits::userfree_alloc();
     memcpy(str, string_, sizeof(struct_type));
-    
+
     // Free this class' structure but not the data.
     memset(string_, 0, sizeof(struct_type));
     ClearAndFree();
@@ -536,7 +536,7 @@ public:
     AllocIfNeeded();
     return traits::set(src, src_len, string_, copy) ? true : false;
   }
-  
+
   ///
   // Set this string's data from an existing ASCII string. Data will be always
   // copied. Translation will occur if necessary based on the underlying string
@@ -552,7 +552,7 @@ public:
     AllocIfNeeded();
     return traits::from_ascii(str, len, string_);
   }
-  
+
   ///
   // Return this string's data as a std::string. Translation will occur if
   // necessary based on the underlying string type.
@@ -563,7 +563,7 @@ public:
       return std::string();
     return traits::to_string(string_);
   }
-  
+
   ///
   // Set this string's data from an existing std::string. Data will be always
   // copied. Translation will occur if necessary based on the underlying string
@@ -578,7 +578,7 @@ public:
     AllocIfNeeded();
     return traits::from_string(str, string_);
   }
-  
+
   ///
   // Return this string's data as a std::wstring. Translation will occur if
   // necessary based on the underlying string type.
@@ -589,7 +589,7 @@ public:
       return std::wstring();
     return traits::to_wstring(string_);
   }
-  
+
   ///
   // Set this string's data from an existing std::wstring. Data will be always
   // copied. Translation will occur if necessary based on the underlying string
@@ -615,7 +615,7 @@ public:
       return string16();
     return traits::to_string16(string_);
   }
-  
+
   ///
   // Set this string's data from an existing string16. Data will be always
   // copied. Translation will occur if necessary based on the underlying string
@@ -647,7 +647,7 @@ public:
     { return (compare(str) == 0); }
   bool operator!=(const CefStringBase& str) const
     { return (compare(str) != 0); }
-  
+
   ///
   // Assignment operator overloads.
   ///

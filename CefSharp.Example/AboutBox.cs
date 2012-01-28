@@ -17,7 +17,7 @@ namespace CefSharp.Example
             labelCompanyName.Text = AssemblyCompany;
             textBoxDescription.Text = "CefSharp - .Net binding for Chromium\r\n\r\n"
                 + "Built on Chromium Embedded Framework\r\n"
-                + "   - " + CEF.CefVersion + "\r\n"                
+                + "   - " + CEF.CefVersion + "\r\n"
                 + "Built on Chromium\r\n"
                 + "   - " + CEF.ChromiumVersion + "\r\n";
         }

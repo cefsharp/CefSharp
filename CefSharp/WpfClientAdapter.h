@@ -3,12 +3,12 @@
 
 #include "ClientAdapter.h"
 
-namespace CefSharp 
+namespace CefSharp
 {
     using namespace System;
 
     ref class CefWpfWebBrowser;
-    
+
     class WpfClientAdapter : public ClientAdapter,
                              public CefRenderHandler
     {

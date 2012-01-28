@@ -10,8 +10,8 @@
 
 namespace CefSharp.Example.Properties {
     using System;
-    
-    
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -23,15 +23,15 @@ namespace CefSharp.Example.Properties {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
-        
+
         private static global::System.Resources.ResourceManager resourceMan;
-        
+
         private static global::System.Globalization.CultureInfo resourceCulture;
-        
+
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         internal Resources() {
         }
-        
+
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
@@ -45,7 +45,7 @@ namespace CefSharp.Example.Properties {
                 return resourceMan;
             }
         }
-        
+
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
@@ -59,7 +59,7 @@ namespace CefSharp.Example.Properties {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
         ///&lt;html&gt;
@@ -68,11 +68,11 @@ namespace CefSharp.Example.Properties {
         ///	&lt;/head&gt;
         ///	&lt;body&gt;
         ///	    &lt;p&gt;
-        ///	    Result of calling bound.Repeat(&quot;hi &quot;, 5) = 
+        ///	    Result of calling bound.Repeat(&quot;hi &quot;, 5) =
         ///	    &lt;script type=&quot;text/javascript&quot;&gt;
         ///	        var result = bound.Repeat(&quot;hi &quot;, 5);
         ///	        document.write(&apos;&quot;&apos; + result + &apos;&quot;&apos;);
-        ///	        if(result == &quot;hi hi hi hi hi &quot;) 
+        ///	        if(result == &quot;hi hi hi hi hi &quot;)
         ///	        {
         ///	            document.write(&quot; SUCCESS&quot;);
         ///	        }
@@ -86,42 +86,42 @@ namespace CefSharp.Example.Properties {
                 return ResourceManager.GetString("BindingTest", resourceCulture);
             }
         }
-        
+
         internal static System.Drawing.Bitmap chromium256 {
             get {
                 object obj = ResourceManager.GetObject("chromium256", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
-        
+
         internal static System.Drawing.Bitmap nav_left_green {
             get {
                 object obj = ResourceManager.GetObject("nav_left_green", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
-        
+
         internal static System.Drawing.Bitmap nav_plain_green {
             get {
                 object obj = ResourceManager.GetObject("nav_plain_green", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
-        
+
         internal static System.Drawing.Bitmap nav_plain_red {
             get {
                 object obj = ResourceManager.GetObject("nav_plain_red", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
-        
+
         internal static System.Drawing.Bitmap nav_right_green {
             get {
                 object obj = ResourceManager.GetObject("nav_right_green", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
         ///&lt;html&gt;
@@ -139,7 +139,7 @@ namespace CefSharp.Example.Properties {
                 return ResourceManager.GetString("PopupTest", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
         ///&lt;html&gt;
@@ -157,7 +157,7 @@ namespace CefSharp.Example.Properties {
                 return ResourceManager.GetString("SchemeTest", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
         ///&lt;html&gt;

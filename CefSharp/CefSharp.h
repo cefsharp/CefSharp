@@ -9,14 +9,14 @@ using namespace System;
 using namespace System::IO;
 using namespace System::Collections::Generic;
 
-namespace CefSharp 
+namespace CefSharp
 {
     public ref class CEF sealed
     {
     private:
         static bool _initialized = false;
         static IDictionary<String^, Object^>^ _boundObjects;
-    
+
         static CEF()
         {
             _boundObjects = gcnew Dictionary<String^, Object^>();

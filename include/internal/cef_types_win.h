@@ -74,7 +74,7 @@ typedef struct _cef_window_info_t
   // |m_hWndParent| to the window that will act as the parent for popup menus,
   // dialog boxes, etc.
   BOOL m_bWindowRenderingDisabled;
-  
+
   // Handle for the new browser window.
   cef_window_handle_t m_hWnd;
 } cef_window_info_t;

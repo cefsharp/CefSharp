@@ -3,7 +3,7 @@
 
 using namespace System;
 
-namespace CefSharp 
+namespace CefSharp
 {
     public interface class IAfterResponse
     {

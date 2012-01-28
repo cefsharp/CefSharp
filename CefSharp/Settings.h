@@ -3,7 +3,7 @@
 
 using namespace System;
 
-namespace CefSharp 
+namespace CefSharp
 {
     public ref class Settings
     {
@@ -38,12 +38,12 @@ namespace CefSharp
 
         property String^ CachePath
         {
-            String^ get() 
-            { 
-                return toClr(_cefSettings->cache_path); 
+            String^ get()
+            {
+                return toClr(_cefSettings->cache_path);
             }
 
-            void set(String^ path) 
+            void set(String^ path)
             {
                 assignFromString(_cefSettings->cache_path, path);
             }
@@ -51,12 +51,12 @@ namespace CefSharp
 
         property String^ UserAgent
         {
-            String^ get() 
-            { 
-                return toClr(_cefSettings->user_agent); 
+            String^ get()
+            {
+                return toClr(_cefSettings->user_agent);
             }
 
-            void set(String^ userAgent) 
+            void set(String^ userAgent)
             {
                 assignFromString(_cefSettings->user_agent, userAgent);
             }
@@ -64,12 +64,12 @@ namespace CefSharp
 
         property String^ ProductVersion
         {
-            String^ get() 
-            { 
-                return toClr(_cefSettings->product_version); 
+            String^ get()
+            {
+                return toClr(_cefSettings->product_version);
             }
 
-            void set(String^ productVersion) 
+            void set(String^ productVersion)
             {
                 assignFromString(_cefSettings->product_version, productVersion);
             }
@@ -77,12 +77,12 @@ namespace CefSharp
 
         property String^ Locale
         {
-            String^ get() 
-            { 
-                return toClr(_cefSettings->locale); 
+            String^ get()
+            {
+                return toClr(_cefSettings->locale);
             }
 
-            void set(String^ locale) 
+            void set(String^ locale)
             {
                 assignFromString(_cefSettings->locale, locale);
             }
