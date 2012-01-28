@@ -23,7 +23,7 @@ namespace CefSharp.Example
             _browserControl.BeforePopupHandler = this;
             _browserControl.BeforeResourceLoadHandler = this;
             _browserControl.AfterResponseHandler = this;
-            toolStripContainer.ContentPanel.Controls.Add(_browserControl);            
+            toolStripContainer.ContentPanel.Controls.Add(_browserControl);
         }
 
         private void HandleBrowserPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -64,8 +64,8 @@ namespace CefSharp.Example
             }
             else
             {
-                _browserControl.Load(urlTextBox.Text);    
-            }            
+                _browserControl.Load(urlTextBox.Text);
+            }
         }
 
         private void HandleBackButtonClick(object sender, EventArgs e)
@@ -168,7 +168,7 @@ namespace CefSharp.Example
         }
 
         private void TestRunArbitraryJavaScriptToolStripMenuItemClick(object sender, EventArgs e)
-        {                       
+        {
             InputForm inputForm = new InputForm();
             if(inputForm.ShowDialog() == DialogResult.OK)
             {
@@ -177,7 +177,7 @@ namespace CefSharp.Example
                 {
                     string result = _browserControl.RunScript(script, "about:blank", 1, 5000);
                     MessageBox.Show(result, "Result");
-                } 
+                }
                 catch(Exception err)
                 {
                     MessageBox.Show(err.ToString(), "Error");
@@ -191,7 +191,7 @@ namespace CefSharp.Example
         }
 
         private void TestConsoleMessagesToolStripMenuItemClick(object sender, EventArgs e)
-        {           
+        {
             _browserControl.Load("javascript:console.log('console log message text')");
         }
 

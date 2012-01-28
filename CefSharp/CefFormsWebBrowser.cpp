@@ -73,11 +73,11 @@ namespace CefSharp
     String^ CefFormsWebBrowser::RunScript(String^ script, String^ scriptUrl, int startLine, int timeout)
     {
     	WaitForInitialized();
-        
+
         _jsError = false;
         _jsResult = nullptr;
         /*
-        script = 
+        script =
             "(function() {"
             "   try { "
             "      __js_run_done(" + script + ");"
@@ -86,7 +86,7 @@ namespace CefSharp
             "   }"
             "})();";
         */
-        
+
         CefRefPtr<JsTask> task = new JsTask(this, toNative(script), toNative(scriptUrl), startLine);
         _clientAdapter->GetCefBrowser()->GetMainFrame()->ExecuteJavaScriptTask(static_cast<CefRefPtr<CefV8Task>>(task));
 
@@ -95,7 +95,7 @@ namespace CefSharp
             throw gcnew TimeoutException(L"Timed out waiting for JavaScript to return");
         }
 
-        if(_jsError == false) 
+        if(_jsError == false)
         {
             return _jsResult;
         }
@@ -110,7 +110,7 @@ namespace CefSharp
 
     void CefFormsWebBrowser::OnHandleCreated(EventArgs^ e)
     {
-        if (DesignMode == false) 
+        if (DesignMode == false)
         {
             _clientAdapter = new ClientAdapter(this);
             CefRefPtr<ClientAdapter> ptr = _clientAdapter.get();
@@ -172,13 +172,13 @@ namespace CefSharp
 
     void CefFormsWebBrowser::SetNavState(bool isLoading, bool canGoBack, bool canGoForward)
     {
-        if(isLoading != _isLoading) 
+        if(isLoading != _isLoading)
         {
             _isLoading = isLoading;
             PropertyChanged(this, gcnew PropertyChangedEventArgs(L"IsLoading"));
         }
 
-        if(canGoBack != _canGoBack) 
+        if(canGoBack != _canGoBack)
         {
             _canGoBack = canGoBack;
             PropertyChanged(this, gcnew PropertyChangedEventArgs(L"CanGoBack"));

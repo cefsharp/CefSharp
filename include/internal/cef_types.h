@@ -90,14 +90,14 @@ typedef struct _cef_settings_t
   // your application message loop.
   ///
   bool multi_threaded_message_loop;
-  
+
   ///
   // The location where cache data will be stored on disk. If empty an
   // in-memory cache will be used. HTML5 databases such as localStorage will
   // only persist across sessions if a cache path is specified.
   ///
   cef_string_t cache_path;
-  
+
   ///
   // Value that will be returned as the User-Agent HTTP header. If empty the
   // default User-Agent string will be used.
@@ -293,7 +293,7 @@ typedef struct _cef_browser_settings_t
   // Set to true (1) to enable the user style sheet for all pages.
   ///
   bool user_style_sheet_enabled;
-  
+
   ///
   // Location of the user style sheet. This must be a data URL of the form
   // "data:text/css;charset=utf-8;base64,csscontent" where "csscontent" is the
@@ -455,7 +455,7 @@ typedef struct _cef_cookie_t
   // cookie creation.
   ///
   cef_time_t creation;
-  
+
   ///
   // The cookie last access date. This is automatically populated by the system
   // on access.
@@ -591,7 +591,7 @@ enum cef_v8_accesscontrol_t
 ///
 enum cef_v8_propertyattribute_t
 {
-  V8_PROPERTY_ATTRIBUTE_NONE       = 0,       // Writeable, Enumerable, 
+  V8_PROPERTY_ATTRIBUTE_NONE       = 0,       // Writeable, Enumerable,
                                               //   Configurable
   V8_PROPERTY_ATTRIBUTE_READONLY   = 1 << 0,  // Not writeable
   V8_PROPERTY_ATTRIBUTE_DONTENUM   = 1 << 1,  // Not enumerable

@@ -114,7 +114,7 @@ public:
   CefWindowInfo() : parent() {}
   CefWindowInfo(const cef_window_info_t& r) : parent(r) {}
   CefWindowInfo(const CefWindowInfo& r) : parent(r) {}
-  
+
   void SetAsChild(HWND hWndParent, RECT windowRect)
   {
     m_dwStyle = WS_CHILD | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_TABSTOP |

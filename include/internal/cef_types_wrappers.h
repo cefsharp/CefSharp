@@ -51,7 +51,7 @@ public:
     // Only clear this object's data if it isn't currently attached to a
     // structure.
     if (!attached_to_)
-      Clear(this); 
+      Clear(this);
   }
 
   CefStructBase(const CefStructBase& r)
@@ -84,10 +84,10 @@ public:
     // structure.
     if (!attached_to_)
       Clear(this);
-    
+
     // This object is now attached to the new structure.
     attached_to_ = &source;
-    
+
     // Transfer ownership of the values from the source structure.
     memcpy(static_cast<struct_type*>(this), &source, sizeof(struct_type));
   }
@@ -202,7 +202,7 @@ struct CefPopupFeaturesTraits {
     s->scrollbarsVisible = true;
     s->resizable = true;
   }
-  
+
   static inline void clear(struct_type* s)
   {
     if(s->additionalFeatures)
@@ -248,7 +248,7 @@ struct CefSettingsTraits {
   {
     s->size = sizeof(struct_type);
   }
-  
+
   static inline void clear(struct_type* s)
   {
     cef_string_clear(&s->cache_path);
@@ -297,7 +297,7 @@ struct CefBrowserSettingsTraits {
   {
     s->size = sizeof(struct_type);
   }
-  
+
   static inline void clear(struct_type* s)
   {
     cef_string_clear(&s->standard_font_family);
@@ -397,7 +397,7 @@ struct CefURLPartsTraits {
   typedef cef_urlparts_t struct_type;
 
   static inline void init(struct_type* s) {}
-  
+
   static inline void clear(struct_type* s)
   {
     cef_string_clear(&s->spec);
@@ -435,7 +435,7 @@ struct CefTimeTraits {
   typedef cef_time_t struct_type;
 
   static inline void init(struct_type* s) {}
-  
+
   static inline void clear(struct_type* s) {}
 
   static inline void set(const struct_type* src, struct_type* target, bool copy)
@@ -485,7 +485,7 @@ struct CefCookieTraits {
   typedef cef_cookie_t struct_type;
 
   static inline void init(struct_type* s) {}
-  
+
   static inline void clear(struct_type* s)
   {
     cef_string_clear(&s->name);

@@ -7,7 +7,7 @@ namespace CefSharp
     {
         _action = ResponseAction::Cancel;
     }
-    
+
     void RequestResponse::Redirect(String^ url)
     {
         _redirectUrl = url;

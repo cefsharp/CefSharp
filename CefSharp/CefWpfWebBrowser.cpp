@@ -81,11 +81,11 @@ namespace CefSharp
     String^ CefWpfWebBrowser::RunScript(String^ script, String^ scriptUrl, int startLine, int timeout)
     {
     	WaitForInitialized();
-        
+
         _jsError = false;
         _jsResult = nullptr;
         /*
-        script = 
+        script =
             "(function() {"
             "   try { "
             "      __js_run_done(" + script + ");"
@@ -94,7 +94,7 @@ namespace CefSharp
             "   }"
             "})();";
         */
-        
+
         CefRefPtr<JsTask> task = new JsTask(this, toNative(script), toNative(scriptUrl), startLine);
         _clientAdapter->GetCefBrowser()->GetMainFrame()->ExecuteJavaScriptTask(static_cast<CefRefPtr<CefV8Task>>(task));
 
@@ -103,7 +103,7 @@ namespace CefSharp
             throw gcnew TimeoutException(L"Timed out waiting for JavaScript to return");
         }
 
-        if(_jsError == false) 
+        if(_jsError == false)
         {
             return _jsResult;
         }
@@ -134,13 +134,13 @@ namespace CefSharp
 
     void CefWpfWebBrowser::SetNavState(bool isLoading, bool canGoBack, bool canGoForward)
     {
-        if(isLoading != _isLoading) 
+        if(isLoading != _isLoading)
         {
             _isLoading = isLoading;
             PropertyChanged(this, gcnew PropertyChangedEventArgs(L"IsLoading"));
         }
 
-        if(canGoBack != _canGoBack) 
+        if(canGoBack != _canGoBack)
         {
             _canGoBack = canGoBack;
             PropertyChanged(this, gcnew PropertyChangedEventArgs(L"CanGoBack"));
@@ -296,7 +296,7 @@ namespace CefSharp
     IntPtr CefWpfWebBrowser::SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, bool% handled)
     {
         handled = false;
-        
+
         switch(message)
         {
             case WM_KEYDOWN:

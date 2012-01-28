@@ -126,7 +126,7 @@ void CefRunMessageLoop();
 // keyword 'native'. The calling of a native function is restricted to the scope
 // in which the prototype of the native function is defined. This function may
 // be called on any thread.
-// 
+//
 // Example JavaScript extension code:
 // <pre>
 //   // create the 'example' global object if it doesn't already exist.
@@ -187,12 +187,12 @@ bool CefRegisterExtension(const CefString& extension_name,
 ///
 // Register a custom scheme. This method should not be called for the built-in
 // HTTP, HTTPS, FILE, FTP, ABOUT and DATA schemes.
-// 
+//
 // If |is_standard| is true the scheme will be treated as a standard scheme.
 // Standard schemes are subject to URL canonicalization and parsing rules as
 // defined in the Common Internet Scheme Syntax RFC 1738 Section 3.1 available
 // at http://www.ietf.org/rfc/rfc1738.txt
-// 
+//
 // In particular, the syntax for standard scheme URLs must be of the form:
 // <pre>
 //  [scheme]://[username]:[password]@[host]:[port]/[url-path]
@@ -203,21 +203,21 @@ bool CefRegisterExtension(const CefString& extension_name,
 // simplest case and "scheme://username:password@host:port/path" in the most
 // explicit case. For example, "scheme:host/path" and "scheme:///host/path" will
 // both be canonicalized to "scheme://host/path".
-// 
+//
 // For non-standard scheme URLs only the "scheme:" component is parsed and
 // canonicalized. The remainder of the URL will be passed to the handler as-is.
 // For example, "scheme:///some%20text" will remain the same. Non-standard
 // scheme URLs cannot be used as a target for form submission.
-// 
+//
 // If |is_local| is true the scheme will be treated as local (i.e., with the
 // same security rules as those applied to "file" URLs). This means that normal
 // pages cannot link to or access URLs of this scheme.
-// 
+//
 // If |is_display_isolated| is true the scheme will be treated as display-
 // isolated. This means that pages cannot display these URLs unless they are
 // from the same scheme. For example, pages in another origin cannot create
 // iframes or hyperlinks to URLs with this scheme.
-// 
+//
 // This function may be called on any thread. It should only be called once
 // per unique |scheme_name| value. If |scheme_name| is already registered or if
 // an error occurs this method will return false.
@@ -263,13 +263,13 @@ bool CefClearSchemeHandlerFactories();
 // XMLHttpRequest requests on http://target.example.com if the
 // http://target.example.com request returns an "Access-Control-Allow-Origin:
 // https://source.example.com" response header.
-// 
+//
 // Scripts in separate frames or iframes and hosted from the same protocol and
 // domain suffix can execute cross-origin JavaScript if both pages set the
 // document.domain value to the same domain suffix. For example,
 // scheme://foo.example.com and scheme://bar.example.com can communicate using
 // JavaScript if both domains set document.domain="example.com".
-// 
+//
 // This method is used to allow access to origins that would otherwise violate
 // the same-origin policy. Scripts hosted underneath the fully qualified
 // |source_origin| URL (like http://www.example.com) will be allowed access to
@@ -430,7 +430,7 @@ class CefRefCount
 {
 public:
   CefRefCount() : refct_(0) {}
-  
+
   ///
   // Atomic reference increment.
   ///
@@ -664,7 +664,7 @@ public:
   ///
   /*--cef()--*/
   virtual CefWindowHandle GetOpenerWindowHandle() =0;
-  
+
   ///
   // Returns true if the window is a popup window.
   ///
@@ -786,7 +786,7 @@ public:
   ///
   // Invalidate the |dirtyRect| region of the view. This method is only used
   // when window rendering is disabled and will result in a call to
-  // HandlePaint(). 
+  // HandlePaint().
   ///
   /*--cef()--*/
   virtual void Invalidate(const CefRect& dirtyRect) =0;
@@ -807,7 +807,7 @@ public:
   ///
   /*--cef()--*/
   virtual void SendKeyEvent(KeyType type, int key, int modifiers, bool sysChar,
-                            bool imeChar) =0;  
+                            bool imeChar) =0;
 
   ///
   // Send a mouse click event to the browser. The |x| and |y| coordinates are
@@ -951,7 +951,7 @@ public:
   // reporting.
   ///
   /*--cef()--*/
-  virtual void ExecuteJavaScript(const CefString& jsCode, 
+  virtual void ExecuteJavaScript(const CefString& jsCode,
                                  const CefString& scriptUrl,
                                  int startLine) =0;
 
@@ -2131,14 +2131,14 @@ public:
   ///
   /*--cef()--*/
   virtual size_t Write(const void* ptr, size_t size, size_t n) =0;
-	
+
   ///
   // Seek to the specified offset position. |whence| may be any one of
   // SEEK_CUR, SEEK_END or SEEK_SET.
   ///
   /*--cef()--*/
   virtual int Seek(long offset, int whence) =0;
-	
+
   ///
   // Return the current offset position.
   ///
@@ -2322,7 +2322,7 @@ public:
   // Create a new CefV8Value object of type object with accessors.
   ///
   /*--cef(capi_name=cef_v8value_create_object_with_accessor)--*/
-  static CefRefPtr<CefV8Value> CreateObject(CefRefPtr<CefBase> user_data, 
+  static CefRefPtr<CefV8Value> CreateObject(CefRefPtr<CefBase> user_data,
                                             CefRefPtr<CefV8Accessor> accessor);
   ///
   // Create a new CefV8Value object of type array.
@@ -2393,7 +2393,7 @@ public:
   ///
   /*--cef()--*/
   virtual bool IsSame(CefRefPtr<CefV8Value> that) =0;
-  
+
   ///
   // Return a bool value.  The underlying data will be converted to if
   // necessary.
@@ -2480,7 +2480,7 @@ public:
   // instance passed to CefV8Value::CreateObject().
   ///
   /*--cef(capi_name=set_value_byaccessor)--*/
-  virtual bool SetValue(const CefString& key, AccessControl settings, 
+  virtual bool SetValue(const CefString& key, AccessControl settings,
                         PropertyAttribute attribute) =0;
 
   ///
@@ -2599,7 +2599,7 @@ public:
   // (HeadersAvailable() can also be called from inside this method if header
   // information is available immediately). To redirect the request to a new
   // URL set |redirectUrl| to the new URL and return true. To cancel the request
-  // return false. 
+  // return false.
   ///
   /*--cef()--*/
   virtual bool ProcessRequest(CefRefPtr<CefRequest> request,
@@ -2680,7 +2680,7 @@ public:
   ///
   /*--cef()--*/
   static CefRefPtr<CefWebURLRequest> CreateWebURLRequest(
-      CefRefPtr<CefRequest> request, 
+      CefRefPtr<CefRequest> request,
       CefRefPtr<CefWebURLRequestClient> client);
 
   ///
@@ -2706,14 +2706,14 @@ class CefWebURLRequestClient : public virtual CefBase
 public:
   typedef cef_weburlrequest_state_t RequestState;
   typedef cef_handler_errorcode_t ErrorCode;
-  
+
   ///
   // Notifies the client that the request state has changed. State change
   // notifications will always be sent before the below notification methods
   // are called.
   ///
   /*--cef()--*/
-  virtual void OnStateChange(CefRefPtr<CefWebURLRequest> requester, 
+  virtual void OnStateChange(CefRefPtr<CefWebURLRequest> requester,
                              RequestState state) =0;
 
   ///
@@ -2721,8 +2721,8 @@ public:
   // chance to change the request parameters.
   ///
   /*--cef()--*/
-  virtual void OnRedirect(CefRefPtr<CefWebURLRequest> requester, 
-                          CefRefPtr<CefRequest> request, 
+  virtual void OnRedirect(CefRefPtr<CefWebURLRequest> requester,
+                          CefRefPtr<CefRequest> request,
                           CefRefPtr<CefResponse> response) =0;
 
   ///
@@ -2736,21 +2736,21 @@ public:
   // Notifies the client of the upload progress.
   ///
   /*--cef()--*/
-  virtual void OnProgress(CefRefPtr<CefWebURLRequest> requester, 
+  virtual void OnProgress(CefRefPtr<CefWebURLRequest> requester,
                           uint64 bytesSent, uint64 totalBytesToBeSent) =0;
 
   ///
   // Notifies the client that content has been received.
   ///
   /*--cef()--*/
-  virtual void OnData(CefRefPtr<CefWebURLRequest> requester, 
+  virtual void OnData(CefRefPtr<CefWebURLRequest> requester,
                       const void* data, int dataLength) =0;
 
   ///
   // Notifies the client that the request ended with an error.
   ///
   /*--cef()--*/
-  virtual void OnError(CefRefPtr<CefWebURLRequest> requester, 
+  virtual void OnError(CefRefPtr<CefWebURLRequest> requester,
                        ErrorCode errorCode) =0;
 };
 
@@ -3014,7 +3014,7 @@ public:
   ///
   // Moves the cursor to the specified file in the archive. If |caseSensitive|
   // is true then the search will be case sensitive. Returns true if the cursor
-  // position was set successfully. 
+  // position was set successfully.
   ///
   /*--cef()--*/
   virtual bool MoveToFile(const CefString& fileName, bool caseSensitive) =0;

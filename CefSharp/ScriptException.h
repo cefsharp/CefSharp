@@ -12,15 +12,15 @@ namespace CefSharp
                     : Exception()
             {}
 
-        public: ScriptException(String^ message) 
+        public: ScriptException(String^ message)
                     : Exception(message)
             {}
 
-        public: ScriptException(String^ message, Exception^ innerException) 
+        public: ScriptException(String^ message, Exception^ innerException)
                     : Exception(message, innerException)
             {}
 
-        public: ScriptException(SerializationInfo^ info, StreamingContext context) 
+        public: ScriptException(SerializationInfo^ info, StreamingContext context)
                     : Exception(info, context)
             {}
     };

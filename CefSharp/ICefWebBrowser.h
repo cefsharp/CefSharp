@@ -4,7 +4,7 @@
 using namespace System;
 using namespace System::ComponentModel;
 
-namespace CefSharp 
+namespace CefSharp
 {
     interface class IBeforePopup;
     interface class IBeforeResourceLoad;
@@ -25,7 +25,7 @@ namespace CefSharp
         void SetToolTip(String^ text);
         void SetAddress(String^ address);
         void SetNavState(bool isLoading, bool canGoBack, bool canGoForward);
-        
+
         void AddFrame(CefRefPtr<CefFrame> frame);
         void FrameLoadComplete(CefRefPtr<CefFrame> frame);
 
