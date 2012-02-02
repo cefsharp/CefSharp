@@ -5,6 +5,16 @@ using namespace System;
 
 namespace CefSharp
 {
+    public enum class LogSeverity : int 
+    {
+        Verbose = LOGSEVERITY_VERBOSE = -1,
+        Info = LOGSEVERITY_INFO,
+        Warning = LOGSEVERITY_WARNING,
+        Error = LOGSEVERITY_ERROR,
+        ErrorReport = LOGSEVERITY_ERROR_REPORT,
+        Disable = LOGSEVERITY_DISABLE // Disables logging completely.
+    }
+    
     public ref class Settings
     {
     internal:
@@ -112,16 +122,16 @@ namespace CefSharp
             }
         }
 
-        property int LogSeverity
+        property LogSeverity LogSeverity
         {
             int get()
             {
-                return _cefSettings->log_severity;
+                return static_cast<LogSeverity>(_cefSettings->log_severity);
             }
 
-            void set(int log_severity)
+            void set(LogSeverity log_severity)
             {
-                _cefSettings->log_severity = (cef_log_severity_t)log_severity;
+                _cefSettings->log_severity = static_cast<cef_log_severity_t>(log_severity);
             }
         }
     };
