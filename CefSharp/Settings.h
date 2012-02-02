@@ -7,13 +7,13 @@ namespace CefSharp
 {
     public enum class LogSeverity : int 
     {
-        Verbose = LOGSEVERITY_VERBOSE = -1,
+        Verbose = LOGSEVERITY_VERBOSE,
         Info = LOGSEVERITY_INFO,
         Warning = LOGSEVERITY_WARNING,
         Error = LOGSEVERITY_ERROR,
         ErrorReport = LOGSEVERITY_ERROR_REPORT,
         Disable = LOGSEVERITY_DISABLE // Disables logging completely.
-    }
+    };
     
     public ref class Settings
     {
@@ -43,7 +43,7 @@ namespace CefSharp
             MultiThreadedMessageLoop = true;
         }
 
-        !Settings()	{ delete _cefSettings; }
+        !Settings()    { delete _cefSettings; }
         ~Settings() { delete _cefSettings; }
 
         property String^ CachePath
@@ -122,14 +122,14 @@ namespace CefSharp
             }
         }
 
-        property LogSeverity LogSeverity
+        property CefSharp::LogSeverity LogSeverity
         {
-            int get()
+            CefSharp::LogSeverity get()
             {
-                return static_cast<LogSeverity>(_cefSettings->log_severity);
+                return static_cast<CefSharp::LogSeverity>(_cefSettings->log_severity);
             }
 
-            void set(LogSeverity log_severity)
+            void set(CefSharp::LogSeverity log_severity)
             {
                 _cefSettings->log_severity = static_cast<cef_log_severity_t>(log_severity);
             }
