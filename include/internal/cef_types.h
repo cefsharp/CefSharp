@@ -391,14 +391,9 @@ typedef struct _cef_browser_settings_t
   bool accelerated_2d_canvas_disabled;
 
   ///
-  // Set to true (1) to disable accelerated painting.
+  // Set to true (1) to disable accelerated drawing.
   ///
-  bool accelerated_painting_disabled;
-
-  ///
-  // Set to true (1) to disable accelerated filters.
-  ///
-  bool accelerated_filters_disabled;
+  bool accelerated_drawing_disabled;
 
   ///
   // Set to true (1) to disable accelerated plugins.
