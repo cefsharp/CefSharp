@@ -5,8 +5,9 @@
 
 namespace CefSharp
 {
-    HANDLE evaluateEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-    CefString evaluateResult;
+    CefCriticalSection evaluateScriptCriticalSection;
+    HANDLE evaluateScriptEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+    CefString evaluateScriptResult;
 
     static void UIT_EvaluateScript(CefRefPtr<CefFrame> frame, CefString script)
     {
@@ -29,17 +30,19 @@ namespace CefSharp
             if (eval->ExecuteFunctionWithContext(context, global, args, result, exception, false) &&
                 result.get())
             {
-                CefSharp::evaluateResult = result->GetStringValue();
+                CefSharp::evaluateScriptResult = result->GetStringValue();
             }
 
             context->Exit();
         }
 
-        SetEvent(CefSharp::evaluateEvent);
+        SetEvent(CefSharp::evaluateScriptEvent);
     }
 
     static String^ EvaluateScript(CefRefPtr<CefFrame> frame, String^ script)
     {
+        CefSharp::evaluateScriptCriticalSection.Lock();
+
         if (CefCurrentlyOn(TID_UI))
         {
             CefSharp::UIT_EvaluateScript(frame, toNative(script));
@@ -49,9 +52,12 @@ namespace CefSharp
             CefPostTask(TID_UI, NewCefRunnableFunction(&CefSharp::UIT_EvaluateScript,
                 frame, toNative(script)));
 
-            DWORD waitResult = WaitForSingleObject(CefSharp::evaluateEvent, INFINITE);
+            DWORD waitResult = WaitForSingleObject(CefSharp::evaluateScriptEvent, INFINITE);
         }
 
-        return toClr(CefSharp::evaluateResult);
+        String^ result = toClr(CefSharp::evaluateScriptResult);
+        CefSharp::evaluateScriptCriticalSection.Unlock();
+
+        return result;
     }
 }

@@ -22,15 +22,11 @@ namespace CefSharp.Test
         [Test]
         public void RunScriptConcurrentTest()
         {
-            for (var x = 0; x < 3; x++)
+            for (var x = 0; x < 10; x++)
             {
                 var value = x.ToString();
-                new Thread(() =>
-                {
-                    var result = Fixture.Browser.RunScript(value);
-                    Console.WriteLine("{0} => {1}", value, result);
-                    Assert.AreEqual(value, result);
-                }).Start();
+                new Thread(() => Assert.AreEqual(value, Fixture.Browser.RunScript(value))).
+                    Start();
             }
 
             Thread.Sleep(1000);
