@@ -2,6 +2,7 @@
 
 #include "CefFormsWebBrowser.h"
 #include "ScriptException.h"
+#include "JavaScript.h"
 
 using namespace System::Drawing;
 
@@ -66,48 +67,10 @@ namespace CefSharp
     {
 	    WaitForInitialized();
 
-        if (!CefCurrentlyOn(TID_UI))
-        {
-            return nullptr;
-        }
-
         CefRefPtr<CefBrowser> browser = _clientAdapter->GetCefBrowser();
         CefRefPtr<CefFrame> frame = browser->GetMainFrame();
-        CefRefPtr<CefV8Context> context = frame->GetV8Context();
-        CefString url = frame->GetURL();
 
-        String^ result;
-
-        if (!context.get())
-        {
-            return result;
-        }
-        else if (!context->Enter())
-        {
-            return result;
-        }
-        else
-        {
-            CefRefPtr<CefV8Value> global = context->GetGlobal();
-            CefRefPtr<CefV8Value> eval = global->GetValue("eval");
-            CefRefPtr<CefV8Value> arg = CefV8Value::CreateString(toNative(script));
-
-            CefV8ValueList args;
-            args.push_back(arg);
-
-            CefRefPtr<CefV8Value> value;
-            CefRefPtr<CefV8Exception> exception;
-
-            if (eval->ExecuteFunctionWithContext(context, global, args, value, exception, false) &&
-                value.get())
-            {
-                result = toClr(value->GetStringValue());
-            }
-
-            context->Exit();
-        }
-
-        return result;
+        return CefSharp::EvaluateScript(frame, script);
     }
 
     void CefFormsWebBrowser::OnInitialized()

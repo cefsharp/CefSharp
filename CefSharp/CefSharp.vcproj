@@ -345,6 +345,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\JavaScript.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ManagedCefRefPtr.h"
 				>
 			</File>
