@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #pragma once
 
+#include "cef_version.h"
 #include "Settings.h"
 #include "SchemeHandler.h"
 
@@ -49,7 +50,7 @@ namespace CefSharp
         {
             String^ get()
             {
-                return "trunk r439";
+                return String::Format("r{0}", CEF_REVISION);
             }
         }
 
@@ -57,7 +58,9 @@ namespace CefSharp
         {
             String^ get()
             {
-                return "trunk r115322";
+                return String::Format("{0}.{1}.{2}.{3}",
+                    CHROME_VERSION_MAJOR, CHROME_VERSION_MINOR,
+                    CHROME_VERSION_BUILD, CHROME_VERSION_PATCH);
             }
         }
 
