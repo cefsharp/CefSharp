@@ -8,7 +8,6 @@ namespace CefSharp
     void ScriptCore::UIT_Evaluate(CefRefPtr<CefFrame> frame, CefString script)
     {
         CefRefPtr<CefV8Context> context = frame->GetV8Context();
-        CefString url = frame->GetURL();
 
         if (context.get() &&
             context->Enter())
