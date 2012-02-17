@@ -197,10 +197,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\CefSharp.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\ClientAdapter.cpp"
 				>
 			</File>
