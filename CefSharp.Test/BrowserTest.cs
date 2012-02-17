@@ -31,5 +31,12 @@ namespace CefSharp.Test
 
             Thread.Sleep(1000);
         }
+
+        [Test]
+        public void RunScriptExceptionTest()
+        {
+            Assert.Throws<ScriptException>(() =>
+                Fixture.Browser.RunScript("!@#$%^"));
+        }
     }
 }

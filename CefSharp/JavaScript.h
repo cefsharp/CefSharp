@@ -7,6 +7,8 @@ namespace CefSharp
 {
     CefCriticalSection evaluateScriptCriticalSection;
     HANDLE evaluateScriptEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+
+    bool evaluateScriptSuccess;
     CefString evaluateScriptResult;
 
     static void UIT_EvaluateScript(CefRefPtr<CefFrame> frame, CefString script)
@@ -27,10 +29,18 @@ namespace CefSharp
             CefRefPtr<CefV8Value> result;
             CefRefPtr<CefV8Exception> exception;
 
-            if (eval->ExecuteFunctionWithContext(context, global, args, result, exception, false) &&
-                result.get())
+            if (eval->ExecuteFunctionWithContext(context, global, args, result, exception, false))
             {
-                CefSharp::evaluateScriptResult = result->GetStringValue();
+                if (exception.get())
+                {
+                    CefSharp::evaluateScriptSuccess = false;
+                    CefSharp::evaluateScriptResult = exception->GetMessage();
+                }
+                else if (result.get())
+                {
+                    CefSharp::evaluateScriptSuccess = true;
+                    CefSharp::evaluateScriptResult = result->GetStringValue();
+                }
             }
 
             context->Exit();
@@ -55,9 +65,18 @@ namespace CefSharp
             DWORD waitResult = WaitForSingleObject(CefSharp::evaluateScriptEvent, INFINITE);
         }
 
+        bool success = CefSharp::evaluateScriptSuccess;
         String^ result = toClr(CefSharp::evaluateScriptResult);
+
         CefSharp::evaluateScriptCriticalSection.Unlock();
 
-        return result;
+        if (!success)
+        {
+            throw gcnew ScriptException(result);
+        }
+        else
+        {
+            return result;
+        }
     }
 }
