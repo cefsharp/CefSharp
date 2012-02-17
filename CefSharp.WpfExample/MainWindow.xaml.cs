@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
+using System.Windows.Controls;
 
 namespace CefSharp.WpfExample
 {
@@ -130,6 +131,39 @@ namespace CefSharp.WpfExample
             {
                 MessageBox.Show(err.ToString(), "Failure");
             }
+        }
+
+        private void runArbiraryJsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var panel = new StackPanel()
+            {
+                Orientation = Orientation.Horizontal,
+            };
+
+            var text = new TextBox
+            {
+                Width = 320,
+            };
+            panel.Children.Add(text);
+
+            var button = new Button
+            {
+                Content = "Run",
+            };
+            button.Click += delegate
+            {
+                var result = browser.RunScript(text.Text);
+                Console.WriteLine("Result: {0}", result);
+            };
+            panel.Children.Add(button);
+
+            var dialog = new Window
+            {
+                Content = panel,
+                SizeToContent = SizeToContent.WidthAndHeight,
+                ResizeMode = ResizeMode.NoResize,
+            };
+            dialog.Show();
         }
 
         private void homeMenuItem_Click(object sender, RoutedEventArgs e)
