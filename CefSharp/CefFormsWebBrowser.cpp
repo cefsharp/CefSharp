@@ -2,7 +2,6 @@
 
 #include "CefFormsWebBrowser.h"
 #include "ScriptException.h"
-#include "JavaScript.h"
 
 using namespace System::Drawing;
 
@@ -70,7 +69,7 @@ namespace CefSharp
         CefRefPtr<CefBrowser> browser = _clientAdapter->GetCefBrowser();
         CefRefPtr<CefFrame> frame = browser->GetMainFrame();
 
-        return CefSharp::EvaluateScript(frame, script);
+        return _scriptCore->Evaluate(frame, script);
     }
 
     void CefFormsWebBrowser::OnInitialized()

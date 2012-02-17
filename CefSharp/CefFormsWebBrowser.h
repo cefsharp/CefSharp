@@ -7,6 +7,7 @@
 #include "ConsoleMessageEventArgs.h"
 #include "RtzCountdownEvent.h"
 #include "BrowserSettings.h"
+#include "ScriptCore.h"
 
 using namespace System;
 using namespace System::Windows::Forms;
@@ -33,6 +34,7 @@ namespace CefSharp
         IBeforeMenu^ _beforeMenuHandler;
         IAfterResponse^ _afterResponseHandler;
         MCefRefPtr<ClientAdapter> _clientAdapter;
+        MCefRefPtr<ScriptCore> _scriptCore;
 
         AutoResetEvent^ _runJsFinished;
         RtzCountdownEvent^ _loadCompleted;
@@ -51,6 +53,8 @@ namespace CefSharp
             _runJsFinished = gcnew AutoResetEvent(false);
             _browserInitialized = gcnew ManualResetEvent(false);
             _loadCompleted = gcnew RtzCountdownEvent();
+
+            _scriptCore = new ScriptCore();
 
             if(!CEF::IsInitialized)
             {

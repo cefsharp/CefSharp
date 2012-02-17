@@ -259,6 +259,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ScriptCore.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ScriptException.cpp"
 				>
 			</File>
@@ -345,10 +349,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\JavaScript.h"
-				>
-			</File>
-			<File
 				RelativePath=".\ManagedCefRefPtr.h"
 				>
 			</File>
@@ -370,6 +370,10 @@
 			</File>
 			<File
 				RelativePath=".\SchemeHandler.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ScriptCore.h"
 				>
 			</File>
 			<File

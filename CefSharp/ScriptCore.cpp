@@ -1,17 +1,11 @@
 #include "stdafx.h"
-#pragma once
-
 #include "cef_runnable.h"
+#include "ScriptCore.h"
+#include "ScriptException.h"
 
 namespace CefSharp
 {
-    CefCriticalSection evaluateScriptCriticalSection;
-    HANDLE evaluateScriptEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-
-    bool evaluateScriptSuccess;
-    CefString evaluateScriptResult;
-
-    static void UIT_EvaluateScript(CefRefPtr<CefFrame> frame, CefString script)
+    void ScriptCore::UIT_Evaluate(CefRefPtr<CefFrame> frame, CefString script)
     {
         CefRefPtr<CefV8Context> context = frame->GetV8Context();
         CefString url = frame->GetURL();
@@ -33,44 +27,40 @@ namespace CefSharp
             {
                 if (exception.get())
                 {
-                    CefSharp::evaluateScriptSuccess = false;
-                    CefSharp::evaluateScriptResult = exception->GetMessage();
+                    _success = false;
+                    _result = exception->GetMessage();
                 }
                 else if (result.get())
                 {
-                    CefSharp::evaluateScriptSuccess = true;
-                    CefSharp::evaluateScriptResult = result->GetStringValue();
+                    _success = true;
+                    _result = result->GetStringValue();
                 }
             }
 
             context->Exit();
         }
 
-        SetEvent(CefSharp::evaluateScriptEvent);
+        SetEvent(_event);
     }
 
-    static String^ EvaluateScript(CefRefPtr<CefFrame> frame, String^ script)
+    String^ ScriptCore::Evaluate(CefRefPtr<CefFrame> frame, String^ script)
     {
-        CefSharp::evaluateScriptCriticalSection.Lock();
+        AutoLock lock_scope(this);
 
         if (CefCurrentlyOn(TID_UI))
         {
-            CefSharp::UIT_EvaluateScript(frame, toNative(script));
+            UIT_Evaluate(frame, toNative(script));
         }
         else
         {
-            CefPostTask(TID_UI, NewCefRunnableFunction(&CefSharp::UIT_EvaluateScript,
+            CefPostTask(TID_UI, NewCefRunnableMethod(this, &ScriptCore::UIT_Evaluate,
                 frame, toNative(script)));
-
-            DWORD waitResult = WaitForSingleObject(CefSharp::evaluateScriptEvent, INFINITE);
+            DWORD waitResult = WaitForSingleObject(_event, 2000);
         }
 
-        bool success = CefSharp::evaluateScriptSuccess;
-        String^ result = toClr(CefSharp::evaluateScriptResult);
+        String^ result = toClr(_result);
 
-        CefSharp::evaluateScriptCriticalSection.Unlock();
-
-        if (!success)
+        if (!_success)
         {
             throw gcnew ScriptException(result);
         }

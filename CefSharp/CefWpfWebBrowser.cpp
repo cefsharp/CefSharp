@@ -69,19 +69,14 @@ namespace CefSharp
         _clientAdapter->GetCefBrowser()->GetMainFrame()->Print();
     }
 
-    String^ CefWpfWebBrowser::RunScript(String^ script, String^ scriptUrl, int startLine)
+    String^ CefWpfWebBrowser::RunScript(String^ script)
     {
     	WaitForInitialized();
 
-        return RunScript(script, scriptUrl, startLine, -1);
-    }
+        CefRefPtr<CefBrowser> browser = _clientAdapter->GetCefBrowser();
+        CefRefPtr<CefFrame> frame = browser->GetMainFrame();
 
-    String^ CefWpfWebBrowser::RunScript(String^ script, String^ scriptUrl, int startLine, int timeout)
-    {
-    	WaitForInitialized();
-
-        // XXX; reimplement
-        return nullptr;
+        return _scriptCore->Evaluate(frame, script);
     }
 
     void CefWpfWebBrowser::OnInitialized()

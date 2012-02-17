@@ -115,7 +115,7 @@ namespace CefSharp.WpfExample
 
             try
             {
-                String result = browser.RunScript(a + "+" + b, "RunJsTest", 1, 5000);
+                String result = browser.RunScript(a + "+" + b);
 
                 if (result == (a + b).ToString())
                 {

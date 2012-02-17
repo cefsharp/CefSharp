@@ -6,6 +6,7 @@
 #include "ICefWebBrowser.h"
 #include "ConsoleMessageEventArgs.h"
 #include "RtzCountdownEvent.h"
+#include "ScriptCore.h"
 
 using namespace Microsoft::Win32::SafeHandles;
 using namespace System;
@@ -40,6 +41,7 @@ namespace CefSharp
         IBeforeMenu^ _beforeMenuHandler;
         IAfterResponse^ _afterResponseHandler;
         MCefRefPtr<WpfClientAdapter> _clientAdapter;
+        MCefRefPtr<ScriptCore> _scriptCore;
 
         AutoResetEvent^ _runJsFinished;
         RtzCountdownEvent^ _loadCompleted;
@@ -83,6 +85,7 @@ namespace CefSharp
             _browserInitialized = gcnew ManualResetEvent(false);
             _loadCompleted = gcnew RtzCountdownEvent();
 			_paintDelegate = gcnew ActionDelegate(this, &CefWpfWebBrowser::SetBitmap);
+            _scriptCore = new ScriptCore();
 
             source->AddHook(gcnew Interop::HwndSourceHook(this, &CefWpfWebBrowser::SourceHook));
 
@@ -108,8 +111,9 @@ namespace CefSharp
         void Reload();
         void Reload(bool ignoreCache);
         void Print();
-        String^ RunScript(String^ script, String^ scriptUrl, int startLine);
-        String^ RunScript(String^ script, String^ scriptUrl, int startLine, int timeout);
+        String^ RunScript(String^ script);
+        //String^ RunScript(String^ script, String^ scriptUrl, int startLine);
+        //String^ RunScript(String^ script, String^ scriptUrl, int startLine, int timeout);
 
         virtual void OnInitialized();
 
