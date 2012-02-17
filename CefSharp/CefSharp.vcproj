@@ -187,11 +187,6 @@
 			MinFrameworkVersion="131072"
 		/>
 		<AssemblyReference
-			RelativePath="System.Windows.Forms.dll"
-			AssemblyName="System.Windows.Forms, Version=2.0.0.0, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL"
-			MinFrameworkVersion="131072"
-		/>
-		<AssemblyReference
 			RelativePath="System.Drawing.dll"
 			AssemblyName="System.Drawing, Version=2.0.0.0, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
 			MinFrameworkVersion="131072"
@@ -224,10 +219,6 @@
 			</File>
 			<File
 				RelativePath=".\BindingHandler.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CefFormsWebBrowser.cpp"
 				>
 			</File>
 			<File
@@ -313,10 +304,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\CefFormsWebBrowser.h"
-				>
-			</File>
-			<File
 				RelativePath=".\CefSharp.h"
 				>
 			</File>
@@ -398,20 +385,6 @@
 			</File>
 			<File
 				RelativePath=".\WpfClientAdapter.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Resource Files"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
-			>
-			<File
-				RelativePath=".\app.ico"
-				>
-			</File>
-			<File
-				RelativePath=".\app.rc"
 				>
 			</File>
 		</Filter>

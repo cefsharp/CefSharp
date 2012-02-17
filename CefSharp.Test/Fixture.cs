@@ -7,7 +7,7 @@ namespace CefSharp.Test
     [SetUpFixture]
     public class Fixture
     {
-        public static CefFormsWebBrowser Browser { get; private set; }
+        public static WebBrowser Browser { get; private set; }
 
         private ManualResetEvent createdEvent = new ManualResetEvent(false);
 
@@ -25,7 +25,7 @@ namespace CefSharp.Test
                 var form = new Form();
                 form.Shown += (sender, e) =>
                 {
-                    Browser = new CefFormsWebBrowser()
+                    Browser = new WebBrowser()
                     {
                         Parent = form,
                         Dock = DockStyle.Fill,

@@ -36,7 +36,6 @@
       <HintPath>..\nunit\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
@@ -45,9 +44,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CefSharp\CefSharp.vcproj">
-      <Project>{7B495581-2271-4F41-9476-ACB86E8C864F}</Project>
-      <Name>CefSharp</Name>
+    <ProjectReference Include="..\CefSharp.WinForms\CefSharp.WinForms.vcproj">
+      <Project>{978C9B2B-04B6-4359-A341-CA3FCBE98D32}</Project>
+      <Name>CefSharp.WinForms</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

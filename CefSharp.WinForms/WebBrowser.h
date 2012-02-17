@@ -15,7 +15,7 @@ using namespace System::Threading;
 
 namespace CefSharp
 {
-    public ref class CefFormsWebBrowser sealed : public Control, ICefWebBrowser
+    public ref class WebBrowser sealed : public Control, ICefWebBrowser
     {
         bool _canGoForward;
         bool _canGoBack;
@@ -67,12 +67,12 @@ namespace CefSharp
 
     public:
 
-        CefFormsWebBrowser()
+        WebBrowser()
         {
             Construct("about:blank", gcnew BrowserSettings);
         }
 
-        CefFormsWebBrowser(String^ initialUrl, BrowserSettings^ settings)
+        WebBrowser(String^ initialUrl, BrowserSettings^ settings)
         {
             Construct(initialUrl, settings);
         }

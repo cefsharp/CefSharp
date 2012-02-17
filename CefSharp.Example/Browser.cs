@@ -9,14 +9,14 @@ namespace CefSharp.Example
 {
     public partial class Browser : Form, IBeforePopup, IBeforeResourceLoad, IAfterResponse
     {
-        private readonly CefFormsWebBrowser _browserControl;
+        private readonly WebBrowser _browserControl;
         private const string cefSharpHomeUrl = "https://github.com/chillitom/CefSharp";
 
         public Browser()
         {
             InitializeComponent();
             Text = "CefSharp";
-            _browserControl = new CefFormsWebBrowser(cefSharpHomeUrl, new BrowserSettings());
+            _browserControl = new WebBrowser(cefSharpHomeUrl, new BrowserSettings());
             _browserControl.Dock = DockStyle.Fill;
             _browserControl.PropertyChanged += HandleBrowserPropertyChanged;
             _browserControl.ConsoleMessage += HandleConsoleMessage;
