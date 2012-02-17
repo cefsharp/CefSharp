@@ -5,7 +5,7 @@ namespace CefSharp
 {
     using namespace System;
 
-    interface class ICefWebBrowser;
+    interface class IWebBrowser;
 
     class ClientAdapter : public CefClient,
                           public CefLifeSpanHandler,
@@ -16,7 +16,7 @@ namespace CefSharp
                           public CefMenuHandler
     {
     private:
-        gcroot<ICefWebBrowser^> _browserControl;
+        gcroot<IWebBrowser^> _browserControl;
         HWND _browserHwnd;
         CefRefPtr<CefBrowser> _cefBrowser;
 
@@ -24,7 +24,7 @@ namespace CefSharp
 
     public:
         ~ClientAdapter() { _browserControl = nullptr; }
-        ClientAdapter(ICefWebBrowser^ browserControl) : _browserControl(browserControl) {}
+        ClientAdapter(IWebBrowser^ browserControl) : _browserControl(browserControl) {}
 
         HWND GetBrowserHwnd() { return _browserHwnd; }
 

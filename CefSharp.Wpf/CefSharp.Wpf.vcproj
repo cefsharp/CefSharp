@@ -2,11 +2,11 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="CefSharp.WinForms"
-	ProjectGUID="{978C9B2B-04B6-4359-A341-CA3FCBE98D32}"
-	RootNamespace="CefSharpWinForms"
+	Name="CefSharp.Wpf"
+	ProjectGUID="{C944B6A6-7CAF-4101-B81B-2DE47296FC40}"
+	RootNamespace="CefSharpWpf"
 	Keyword="ManagedCProj"
-	TargetFrameworkVersion="131072"
+	TargetFrameworkVersion="196613"
 	>
 	<Platforms>
 		<Platform
@@ -61,7 +61,6 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="libcef.lib libcef_dll_wrapper.lib"
-				ShowProgress="1"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="$(SolutionDir)libs\$(ConfigurationName)"
 				GenerateDebugInformation="true"
@@ -135,7 +134,6 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="libcef.lib libcef_dll_wrapper.lib"
-				ShowProgress="1"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(SolutionDir)libs\$(ConfigurationName)"
 				GenerateDebugInformation="true"
@@ -171,9 +169,19 @@
 			MinFrameworkVersion="131072"
 		/>
 		<AssemblyReference
-			RelativePath="System.Windows.Forms.dll"
-			AssemblyName="System.Windows.Forms, Version=2.0.0.0, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL"
-			MinFrameworkVersion="131072"
+			RelativePath="PresentationCore.dll"
+			AssemblyName="PresentationCore, Version=3.0.0.0, PublicKeyToken=31bf3856ad364e35, processorArchitecture=IA64"
+			MinFrameworkVersion="196608"
+		/>
+		<AssemblyReference
+			RelativePath="PresentationFramework.dll"
+			AssemblyName="PresentationFramework, Version=3.0.0.0, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
+			MinFrameworkVersion="196608"
+		/>
+		<AssemblyReference
+			RelativePath="WindowsBase.dll"
+			AssemblyName="WindowsBase, Version=3.0.0.0, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
+			MinFrameworkVersion="196608"
 		/>
 	</References>
 	<Files>
@@ -196,6 +204,10 @@
 			</File>
 			<File
 				RelativePath="..\CefSharp\ClientAdapter.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CefSharp\OffscreenClientAdapter.cpp"
 				>
 			</File>
 			<File
@@ -261,91 +273,7 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\CefSharp\BindingHandler.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CefSharp\BrowserSettings.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CefSharp\CefSharp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CefSharp\ClientAdapter.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CefSharp\ConsoleMessageEventArgs.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CefSharp\IAfterResponse.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CefSharp\IBeforeMenu.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CefSharp\IBeforePopup.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CefSharp\IBeforeResourceLoad.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CefSharp\ICefWebBrowser.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CefSharp\ManagedCefRefPtr.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CefSharp\Request.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CefSharp\RequestResponse.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CefSharp\ReturnValue.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CefSharp\RtzCountdownEvent.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CefSharp\SchemeHandler.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CefSharp\ScriptCore.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CefSharp\ScriptException.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CefSharp\Settings.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Stdafx.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CefSharp\StreamAdapter.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CefSharp\Utils.h"
 				>
 			</File>
 			<File

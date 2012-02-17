@@ -2,8 +2,8 @@
 #pragma once
 
 #include "CefSharp.h"
-#include "WpfClientAdapter.h"
-#include "ICefWebBrowser.h"
+#include "OffscreenClientAdapter.h"
+#include "IOffscreenWebBrowser.h"
 #include "ConsoleMessageEventArgs.h"
 #include "RtzCountdownEvent.h"
 #include "ScriptCore.h"
@@ -23,7 +23,7 @@ using namespace System::Threading;
 namespace CefSharp
 {
     [TemplatePart(Name="PART_Browser", Type=System::Windows::Controls::Image::typeid)]
-    public ref class CefWpfWebBrowser sealed : public ContentControl, ICefWebBrowser
+    public ref class WebBrowser sealed : public ContentControl, IOffscreenWebBrowser
     {
 		delegate void ActionDelegate();
 
@@ -40,7 +40,7 @@ namespace CefSharp
         IBeforeResourceLoad^ _beforeResourceLoadHandler;
         IBeforeMenu^ _beforeMenuHandler;
         IAfterResponse^ _afterResponseHandler;
-        MCefRefPtr<WpfClientAdapter> _clientAdapter;
+        MCefRefPtr<OffscreenClientAdapter> _clientAdapter;
         MCefRefPtr<ScriptCore> _scriptCore;
 
         AutoResetEvent^ _runJsFinished;
@@ -70,7 +70,7 @@ namespace CefSharp
         virtual void OnMouseUp(MouseButtonEventArgs^ e) override;
 
     public:
-        CefWpfWebBrowser(HwndSource^ source, String^ address)
+        WebBrowser(HwndSource^ source, String^ address)
         {
             Focusable = true;
             FocusVisualStyle = nullptr;
@@ -84,17 +84,17 @@ namespace CefSharp
             _runJsFinished = gcnew AutoResetEvent(false);
             _browserInitialized = gcnew ManualResetEvent(false);
             _loadCompleted = gcnew RtzCountdownEvent();
-			_paintDelegate = gcnew ActionDelegate(this, &CefWpfWebBrowser::SetBitmap);
+			_paintDelegate = gcnew ActionDelegate(this, &WebBrowser::SetBitmap);
             _scriptCore = new ScriptCore();
 
-            source->AddHook(gcnew Interop::HwndSourceHook(this, &CefWpfWebBrowser::SourceHook));
+            source->AddHook(gcnew Interop::HwndSourceHook(this, &WebBrowser::SourceHook));
 
             HWND hWnd = static_cast<HWND>(source->Handle.ToPointer());
             CefWindowInfo window;
             window.SetAsOffScreen(hWnd);
 
-            _clientAdapter = new WpfClientAdapter(this);
-            CefRefPtr<WpfClientAdapter> ptr = _clientAdapter.get();
+            _clientAdapter = new OffscreenClientAdapter(this);
+            CefRefPtr<OffscreenClientAdapter> ptr = _clientAdapter.get();
 
             CefBrowserSettings settings;
             CefBrowser::CreateBrowser(window, static_cast<CefRefPtr<CefClient>>(ptr), toNative(address), settings);
@@ -196,8 +196,8 @@ namespace CefSharp
 
         event ConsoleMessageEventHandler^ ConsoleMessage;
 
-        void SetCursor(CefCursorHandle cursor);
-        void SetBuffer(int width, int height, const std::vector<CefRect>& dirtyRects, const void* buffer);
+        virtual void SetCursor(CefCursorHandle cursor);
+        virtual void SetBuffer(int width, int height, const std::vector<CefRect>& dirtyRects, const void* buffer);
 		void Close();
     };
 }

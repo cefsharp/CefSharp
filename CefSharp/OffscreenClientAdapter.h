@@ -7,19 +7,19 @@ namespace CefSharp
 {
     using namespace System;
 
-    ref class CefWpfWebBrowser;
+    interface class IOffscreenWebBrowser;
     
-    class WpfClientAdapter : public ClientAdapter,
-                             public CefRenderHandler
+    class OffscreenClientAdapter : public ClientAdapter,
+                                   public CefRenderHandler
     {
     private:
-        gcroot<CefWpfWebBrowser^> _wpfBrowserControl;
+        gcroot<IOffscreenWebBrowser^> _offscreenBrowserControl;
 
     public:
-        ~WpfClientAdapter() { }
-        WpfClientAdapter(CefWpfWebBrowser^ wpfBroserControl) : ClientAdapter((ICefWebBrowser^)wpfBroserControl)
+        ~OffscreenClientAdapter() { _offscreenBrowserControl = nullptr; }
+        OffscreenClientAdapter(IOffscreenWebBrowser^ offscreenBrowserControl) : ClientAdapter((IWebBrowser^)offscreenBrowserControl)
         {
-            _wpfBrowserControl = wpfBroserControl;
+            _offscreenBrowserControl = offscreenBrowserControl;
         }
 
         // CefClient
@@ -34,7 +34,7 @@ namespace CefSharp
         virtual void OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects, const void* buffer) OVERRIDE;
         virtual void OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor) OVERRIDE;
 
-        IMPLEMENT_LOCKING(WpfClientAdapter);
-        IMPLEMENT_REFCOUNTING(WpfClientAdapter);
+        IMPLEMENT_LOCKING(OffscreenClientAdapter);
+        IMPLEMENT_REFCOUNTING(OffscreenClientAdapter);
     };
 }

@@ -3,7 +3,7 @@
 
 #include "CefSharp.h"
 #include "ClientAdapter.h"
-#include "ICefWebBrowser.h"
+#include "IWebBrowser.h"
 #include "ConsoleMessageEventArgs.h"
 #include "RtzCountdownEvent.h"
 #include "BrowserSettings.h"
@@ -15,7 +15,7 @@ using namespace System::Threading;
 
 namespace CefSharp
 {
-    public ref class WebBrowser sealed : public Control, ICefWebBrowser
+    public ref class WebBrowser sealed : public Control, IWebBrowser
     {
         bool _canGoForward;
         bool _canGoBack;

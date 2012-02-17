@@ -11,7 +11,7 @@ namespace CefSharp
     interface class IBeforeMenu;
     interface class IAfterResponse;
 
-    public interface class ICefWebBrowser : INotifyPropertyChanged
+    public interface class IWebBrowser : INotifyPropertyChanged
     {
     public:
         property IBeforePopup^ BeforePopupHandler;

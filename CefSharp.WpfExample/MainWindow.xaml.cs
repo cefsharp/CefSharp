@@ -11,7 +11,7 @@ namespace CefSharp.WpfExample
 {
     public partial class MainWindow : Window
     {
-        private CefWpfWebBrowser browser;
+        private WebBrowser browser;
 
         public MainWindow()
         {
@@ -34,7 +34,7 @@ namespace CefSharp.WpfExample
             }
 
             var source = PresentationSource.FromVisual(sender as Visual) as HwndSource;
-            browser = new CefWpfWebBrowser(source, "https://github.com/ataranto/CefSharp");
+            browser = new WebBrowser(source, "https://github.com/ataranto/CefSharp");
 
             browser.PropertyChanged += HandleBrowserPropertyChanged;
             this.frame.Content = browser;
@@ -47,7 +47,7 @@ namespace CefSharp.WpfExample
 
         private void UpdateBrowserControls(object sender, PropertyChangedEventArgs e)
         {
-            var browser = sender as CefWpfWebBrowser;
+            var browser = sender as WebBrowser;
             if (browser == null)
             {
                 return;

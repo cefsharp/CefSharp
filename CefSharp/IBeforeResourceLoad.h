@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #pragma once
 
-#include "ICefWebBrowser.h"
+#include "IWebBrowser.h"
 #include "Request.h"
 #include "RequestResponse.h"
 
@@ -16,6 +16,6 @@ namespace CefSharp
         
         /// called before all resource loads.
         /// allows the Request to be manipulated or an alternate response to be provided
-        void HandleBeforeResourceLoad(ICefWebBrowser^ browserControl, IRequestResponse^ requestResponse);
+        void HandleBeforeResourceLoad(IWebBrowser^ browserControl, IRequestResponse^ requestResponse);
     };
 }
