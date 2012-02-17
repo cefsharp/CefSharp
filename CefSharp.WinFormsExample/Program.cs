@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using CefSharp;
 
-namespace CefSharp.Example
+namespace CefSharp.WinFormsExample
 {
     class Program
     {

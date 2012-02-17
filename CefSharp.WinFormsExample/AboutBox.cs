@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using CefSharp;
 
-namespace CefSharp.Example
+namespace CefSharp.WinFormsExample
 {
     partial class AboutBox : Form
     {

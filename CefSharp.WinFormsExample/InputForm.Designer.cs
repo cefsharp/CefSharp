@@ -1,4 +1,4 @@
-﻿namespace CefSharp.Example
+﻿namespace CefSharp.WinFormsExample
 {
     partial class InputForm
     {

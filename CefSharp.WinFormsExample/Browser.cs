@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using CefSharp;
 
-namespace CefSharp.Example
+namespace CefSharp.WinFormsExample
 {
     public partial class Browser : Form, IBeforePopup, IBeforeResourceLoad, IAfterResponse
     {
