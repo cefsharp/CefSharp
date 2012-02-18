@@ -9,7 +9,7 @@ namespace CefSharp
                     : Exception()
             {}
 
-        public: ScriptException(String^ message) 
+        public: ScriptException(String^ message)
                     : Exception(message)
             {}
     };

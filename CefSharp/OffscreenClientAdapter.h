@@ -3,7 +3,7 @@
 
 #include "ClientAdapter.h"
 
-namespace CefSharp 
+namespace CefSharp
 {
     using namespace System;
 

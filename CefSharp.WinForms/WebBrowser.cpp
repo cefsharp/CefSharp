@@ -84,8 +84,7 @@ namespace CefSharp
     void WebBrowser::Back()
     {
         WaitForInitialized();
-        _clientAdapter->GetCefBrowser()->StopLoad();
-
+        _clientAdapter->GetCefBrowser()->GoBack();
     }
 
     void WebBrowser::Forward()

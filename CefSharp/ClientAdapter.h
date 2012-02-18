@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #pragma once
 
-namespace CefSharp 
+namespace CefSharp
 {
     using namespace System;
 

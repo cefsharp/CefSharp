@@ -5,28 +5,28 @@
 	</head>
 	<body>
 	    <p>
-	    Result of calling bound.Repeat("hi ", 5) = 
+	    Result of calling bound.Repeat("hi ", 5) =
 	    <script type="text/javascript">
 	        var result = bound.Repeat("hi ", 5);
 	        document.write('"' + result + '"');
-	        if(result == "hi hi hi hi hi ") 
+	        if(result == "hi hi hi hi hi ")
 	        {
 	            document.write(" SUCCESS");
 	        }
 	        else
 	        {
 	            document.write(" FAIL!");
-	        }	            
+	        }
 	    </script>
 	    </p>
-	    
+
         Methods on bound object 'bound':<br />
         <ul>
             <script type="text/javascript">
                 for(var name in bound) {
                     document.write("<li>" + name + "</li>");
                 }
-            </script>	            
-        </ul>    
+            </script>
+        </ul>
 	</body>
 </html>

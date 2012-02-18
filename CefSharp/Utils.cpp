@@ -9,7 +9,7 @@ namespace CefSharp
     {
         return gcnew String(cefStr.str);
     }
-    
+
     String^ toClr(const CefString& cefStr)
     {
         return gcnew String(cefStr.c_str());
@@ -132,7 +132,7 @@ namespace CefSharp
         if (type->IsValueType && !type->IsPrimitive && !type->IsEnum)
         {
             CefRefPtr<CefV8Value> cefArray = CefV8Value::CreateArray();
-            
+
             cli::array<System::Reflection::FieldInfo^>^ fields = type->GetFields();
 
             for (int i = 0; i < fields->Length; i++)
@@ -172,7 +172,7 @@ namespace CefSharp
 		{
 			return nullptr;
 		}
-	
+
         if (obj->IsBool())
             return gcnew System::Boolean(obj->GetBoolValue());
         if (obj->IsInt())
@@ -191,7 +191,7 @@ namespace CefSharp
 				std::vector<CefString> keys;
 				if (obj->GetKeys(keys))
 				{
-					Dictionary<String^, Object^>^ result = gcnew Dictionary<String^, Object^>();		
+					Dictionary<String^, Object^>^ result = gcnew Dictionary<String^, Object^>();
 
 					for (int i = 0; i < arrLength; i++)
 					{
@@ -227,7 +227,7 @@ namespace CefSharp
 				int objLength = keys.size();
 				if (objLength > 0)
 				{
-					Dictionary<String^, Object^>^ result = gcnew Dictionary<String^, Object^>();		
+					Dictionary<String^, Object^>^ result = gcnew Dictionary<String^, Object^>();
 
 					for (int i = 0; i < objLength; i++)
 					{
@@ -251,7 +251,7 @@ namespace CefSharp
 					return result;
 				}
 			}
-			
+
 			return nullptr;
 		}
 

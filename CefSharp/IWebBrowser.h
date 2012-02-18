@@ -4,7 +4,7 @@
 using namespace System;
 using namespace System::ComponentModel;
 
-namespace CefSharp 
+namespace CefSharp
 {
     interface class IBeforePopup;
     interface class IBeforeResourceLoad;

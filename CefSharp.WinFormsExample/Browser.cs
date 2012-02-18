@@ -64,8 +64,8 @@ namespace CefSharp.WinFormsExample
             }
             else
             {
-                _browserControl.Load(urlTextBox.Text);    
-            }            
+                _browserControl.Load(urlTextBox.Text);
+            }
         }
 
         private void HandleBackButtonClick(object sender, EventArgs e)
@@ -168,7 +168,7 @@ namespace CefSharp.WinFormsExample
         }
 
         private void TestRunArbitraryJavaScriptToolStripMenuItemClick(object sender, EventArgs e)
-        {                       
+        {
             InputForm inputForm = new InputForm();
             if(inputForm.ShowDialog() == DialogResult.OK)
             {
@@ -177,7 +177,7 @@ namespace CefSharp.WinFormsExample
                 {
                     string result = _browserControl.RunScript(script);
                     MessageBox.Show(result, "Result");
-                } 
+                }
                 catch(Exception err)
                 {
                     MessageBox.Show(err.ToString(), "Error");
@@ -191,7 +191,7 @@ namespace CefSharp.WinFormsExample
         }
 
         private void TestConsoleMessagesToolStripMenuItemClick(object sender, EventArgs e)
-        {           
+        {
             _browserControl.Load("javascript:console.log('console log message text')");
         }
 

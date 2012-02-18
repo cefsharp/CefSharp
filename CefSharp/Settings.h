@@ -3,8 +3,18 @@
 
 using namespace System;
 
-namespace CefSharp 
+namespace CefSharp
 {
+    public enum class LogSeverity : int 
+    {
+        Verbose = LOGSEVERITY_VERBOSE,
+        Info = LOGSEVERITY_INFO,
+        Warning = LOGSEVERITY_WARNING,
+        Error = LOGSEVERITY_ERROR,
+        ErrorReport = LOGSEVERITY_ERROR_REPORT,
+        Disable = LOGSEVERITY_DISABLE // Disables logging completely.
+    };
+    
     public ref class Settings
     {
     internal:
@@ -33,17 +43,17 @@ namespace CefSharp
             MultiThreadedMessageLoop = true;
         }
 
-        !Settings()	{ delete _cefSettings; }
+        !Settings() { delete _cefSettings; }
         ~Settings() { delete _cefSettings; }
 
         property String^ CachePath
         {
-            String^ get() 
-            { 
-                return toClr(_cefSettings->cache_path); 
+            String^ get()
+            {
+                return toClr(_cefSettings->cache_path);
             }
 
-            void set(String^ path) 
+            void set(String^ path)
             {
                 assignFromString(_cefSettings->cache_path, path);
             }
@@ -51,12 +61,12 @@ namespace CefSharp
 
         property String^ UserAgent
         {
-            String^ get() 
-            { 
-                return toClr(_cefSettings->user_agent); 
+            String^ get()
+            {
+                return toClr(_cefSettings->user_agent);
             }
 
-            void set(String^ userAgent) 
+            void set(String^ userAgent)
             {
                 assignFromString(_cefSettings->user_agent, userAgent);
             }
@@ -64,12 +74,12 @@ namespace CefSharp
 
         property String^ ProductVersion
         {
-            String^ get() 
-            { 
-                return toClr(_cefSettings->product_version); 
+            String^ get()
+            {
+                return toClr(_cefSettings->product_version);
             }
 
-            void set(String^ productVersion) 
+            void set(String^ productVersion)
             {
                 assignFromString(_cefSettings->product_version, productVersion);
             }
@@ -77,12 +87,12 @@ namespace CefSharp
 
         property String^ Locale
         {
-            String^ get() 
-            { 
-                return toClr(_cefSettings->locale); 
+            String^ get()
+            {
+                return toClr(_cefSettings->locale);
             }
 
-            void set(String^ locale) 
+            void set(String^ locale)
             {
                 assignFromString(_cefSettings->locale, locale);
             }
@@ -112,16 +122,16 @@ namespace CefSharp
             }
         }
 
-        property int LogSeverity
+        property CefSharp::LogSeverity LogSeverity
         {
-            int get()
+            CefSharp::LogSeverity get()
             {
-                return _cefSettings->log_severity;
+                return static_cast<CefSharp::LogSeverity>(_cefSettings->log_severity);
             }
 
-            void set(int log_severity)
+            void set(CefSharp::LogSeverity log_severity)
             {
-                _cefSettings->log_severity = (cef_log_severity_t)log_severity;
+                _cefSettings->log_severity = static_cast<cef_log_severity_t>(log_severity);
             }
         }
     };

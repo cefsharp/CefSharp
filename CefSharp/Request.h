@@ -22,7 +22,7 @@ namespace CefSharp
         CefRequestWrapper(CefRefPtr<CefRequest> cefRequest) : _wrappedRequest(cefRequest) {}
 
     public:
-        virtual property String^ Url { String^ get(); void set(String^ url); }        
+        virtual property String^ Url { String^ get(); void set(String^ url); }
         virtual property String^ Method { String^ get(); }
         virtual IDictionary<String^, String^>^ GetHeaders();
         virtual void SetHeaders(IDictionary<String^, String^>^ headers);

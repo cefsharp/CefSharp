@@ -1,6 +1,6 @@
 #pragma once
 
-namespace CefSharp 
+namespace CefSharp
 {
     public enum class ReturnValue
     {

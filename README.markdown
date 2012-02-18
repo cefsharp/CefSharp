@@ -34,7 +34,7 @@ _UPDATE_ : bounced zip to 0.3.1 to fix a build issue, now includes Debug and Rel
 - Fixes including resize issues and incorrect address events.
 - New unit tests and examples.
 
-2010/12/03 - 0.1 Released 
+2010/12/03 - 0.1 Released
 -------------------------
 - [Download 0.1 here](https://github.com/downloads/chillitom/CefSharp/CefSharp-0.1.7z "src, bins and examples")
 - BrowserControl user control
@@ -44,7 +44,7 @@ _UPDATE_ : bounced zip to 0.3.1 to fix a build issue, now includes Debug and Rel
 - Interception of resource loading, loads from System.IO.Stream
 
 Enough to build a poor man's web browser and call a bit of JavaScript. Coming soon, more features including the ability to bind .Net object straight into the browser's V8 JavaScript context.
-			
+
 
 
 

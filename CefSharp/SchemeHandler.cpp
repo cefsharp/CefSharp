@@ -16,7 +16,7 @@ namespace CefSharp
         bool handled = false;
         Stream^ stream;
         String^ mimeType;
- 
+
         AutoLock lock_scope(this);
 
         IRequest^ requestWrapper = gcnew CefRequestWrapper(request);
