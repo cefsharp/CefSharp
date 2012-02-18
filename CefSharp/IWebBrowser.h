@@ -14,23 +14,26 @@ namespace CefSharp
     public interface class IWebBrowser : INotifyPropertyChanged
     {
     public:
+        property bool IsLoading { bool get(); }
+        property bool CanGoBack { bool get(); }
+        property bool CanGoForward { bool get(); }
+
+        property String^ Address;
+        property String^ Title;
+        property String^ Tooltip;
+
         property IBeforePopup^ BeforePopupHandler;
         property IBeforeResourceLoad^ BeforeResourceLoadHandler;
         property IBeforeMenu^ BeforeMenuHandler;
         property IAfterResponse^ AfterResponseHandler;
 
+        void WaitForInitialized();
         void OnInitialized();
 
-        void SetTitle(String^ title);
-        void SetToolTip(String^ text);
-        void SetAddress(String^ address);
         void SetNavState(bool isLoading, bool canGoBack, bool canGoForward);
-        
+
         void AddFrame(CefRefPtr<CefFrame> frame);
         void FrameLoadComplete(CefRefPtr<CefFrame> frame);
-
-        void SetJsResult(String^ result);
-        void SetJsError();
 
         void RaiseConsoleMessage(String^ message, String^ source, int line);
     };

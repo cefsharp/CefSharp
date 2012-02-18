@@ -199,6 +199,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CefSharp\BrowserCore.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CefSharp\ClientAdapter.cpp"
 				>
 			</File>

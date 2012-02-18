@@ -197,6 +197,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\BrowserCore.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ClientAdapter.cpp"
 				>
 			</File>
@@ -264,6 +268,10 @@
 			>
 			<File
 				RelativePath=".\BindingHandler.h"
+				>
+			</File>
+			<File
+				RelativePath=".\BrowserCore.h"
 				>
 			</File>
 			<File

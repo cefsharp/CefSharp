@@ -39,7 +39,7 @@ namespace CefSharp.WinFormsExample
                     Text = _browserControl.Title;
                     break;
                 case "ToolTip":
-                    Console.WriteLine("ToolTip: {0}", _browserControl.ToolTip);
+                    Console.WriteLine("ToolTip: {0}", _browserControl.Tooltip);
                     break;
                 case "Address":
                     urlTextBox.Text = _browserControl.Address;

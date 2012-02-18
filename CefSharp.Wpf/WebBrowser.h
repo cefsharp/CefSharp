@@ -40,6 +40,8 @@ namespace CefSharp
         IBeforeResourceLoad^ _beforeResourceLoadHandler;
         IBeforeMenu^ _beforeMenuHandler;
         IAfterResponse^ _afterResponseHandler;
+
+
         MCefRefPtr<OffscreenClientAdapter> _clientAdapter;
         MCefRefPtr<ScriptCore> _scriptCore;
 

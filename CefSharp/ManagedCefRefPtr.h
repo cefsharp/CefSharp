@@ -57,7 +57,8 @@ public:
   operator T*()  // commented out for now as this operator interferes with the return statement of MCefRefPtr<T>% operator=(T* p)
   { 
       return _ptr; 
-  }*/
+  }
+  */
   
   T* operator->() 
   {

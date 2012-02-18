@@ -41,23 +41,23 @@ namespace CefSharp
     {
         if(frame->IsMain())
         {
-            _browserControl->SetAddress(toClr(url));
+            _browserControl->Title = toClr(url);
         }
     }
 
     void ClientAdapter::OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString& title)
     {
-        _browserControl->SetTitle(toClr(title));
+        _browserControl->Title = toClr(title);
     }
 
     bool ClientAdapter::OnTooltip(CefRefPtr<CefBrowser> browser, CefString& text)
     {
-        String^ str = toClr(text);
+        String^ tooltip = toClr(text);
 
-        if (str != _tooltip)
+        if (tooltip != _tooltip)
         {
-            _tooltip = str;
-            _browserControl->SetToolTip(_tooltip);
+            _tooltip = tooltip;
+            _browserControl->Tooltip = _tooltip;
         }
 
         return true;
