@@ -1,7 +1,6 @@
 #include "stdafx.h"
 
 #include "WebBrowser.h"
-#include "ScriptException.h"
 
 using namespace System::Drawing;
 
