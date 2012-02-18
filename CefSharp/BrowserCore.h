@@ -16,8 +16,6 @@ namespace CefSharp
     public ref class BrowserCore : INotifyPropertyChanged
     {
     private:
-        MCefRefPtr<ClientAdapter> _clientAdapter;
-        ManualResetEvent^ _browserInitialized;
         RtzCountdownEvent^ _loadCompleted;
 
         bool _isLoading;
@@ -33,31 +31,12 @@ namespace CefSharp
         IBeforeMenu^ _beforeMenuHandler;
         IAfterResponse^ _afterResponseHandler;
 
-    internal:
-        // XXX: kill
-        property CefRefPtr<ClientAdapter> Adapter
-        {
-            CefRefPtr<ClientAdapter> get() { return _clientAdapter.get(); }
-            void set(CefRefPtr<ClientAdapter> clientAdapter) { _clientAdapter = clientAdapter; }
-        }
-
     public:
         virtual event PropertyChangedEventHandler^ PropertyChanged;
 
         BrowserCore()
         {
-            _browserInitialized = gcnew ManualResetEvent(false);
             _loadCompleted = gcnew RtzCountdownEvent();
-        }
-
-        property bool IsInitialized
-        {
-            bool get()
-            {
-                return
-                    _clientAdapter.get() != nullptr &&
-                    _clientAdapter->GetIsInitialized();
-            }
         }
 
         property bool IsLoading
@@ -132,22 +111,9 @@ namespace CefSharp
             void set(IAfterResponse^ handler) { _afterResponseHandler = handler; }
         }
 
-        void WaitForInitialized();
-        void OnInitialized();
-
-        void Load(String^ url);
-        void Stop();
-        void Back();
-        void Forward();
-        void Reload();
-        void Reload(bool ignoreCache);
-        void Print();
-
         void SetNavState(bool isLoading, bool canGoBack, bool canGoForward);
 
         void AddFrame(CefRefPtr<CefFrame> frame);
         void FrameLoadComplete(CefRefPtr<CefFrame> frame);
-
-
     };
 }

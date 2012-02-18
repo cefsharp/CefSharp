@@ -7,14 +7,12 @@ using namespace System::Drawing;
 
 namespace CefSharp
 {
-
     void WebBrowser::OnHandleCreated(EventArgs^ e)
     {
         if (DesignMode == false) 
         {
-            CefRefPtr<ClientAdapter> clientAdapter = new ClientAdapter(this);
-            _browserCore->Adapter = clientAdapter;
-            //CefRefPtr<ClientAdapter> ptr = clientAdapter.get();
+            _clientAdapter = new ClientAdapter(this);
+            CefRefPtr<ClientAdapter> ptr = _clientAdapter.get();
 
             CefString urlStr = toNative(_browserCore->Address);
 
@@ -26,20 +24,20 @@ namespace CefSharp
             windowInfo.SetAsChild(hWnd, rect);
 
 
-            CefBrowser::CreateBrowser(windowInfo, static_cast<CefRefPtr<CefClient>>(clientAdapter), urlStr, *_settings->_browserSettings);
+            CefBrowser::CreateBrowser(windowInfo, static_cast<CefRefPtr<CefClient>>(ptr), urlStr, *_settings->_browserSettings);
         }
     }
 
     void WebBrowser::OnSizeChanged(EventArgs^ e)
     {
-        if (_browserCore->IsInitialized && !DesignMode)
+        if (IsInitialized && !DesignMode)
         {
             HWND hWnd = static_cast<HWND>(Handle.ToPointer());
             RECT rect;
             GetClientRect(hWnd, &rect);
             HDWP hdwp = BeginDeferWindowPos(1);
 
-            HWND browserHwnd = _browserCore->Adapter->GetBrowserHwnd();
+            HWND browserHwnd = _clientAdapter->GetBrowserHwnd();
             hdwp = DeferWindowPos(hdwp, browserHwnd, NULL, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, SWP_NOZORDER);
             EndDeferWindowPos(hdwp);
         }
@@ -47,63 +45,73 @@ namespace CefSharp
 
     void WebBrowser::OnGotFocus(EventArgs^ e)
     {
-        if (_browserCore->IsInitialized && !DesignMode)
+        if (IsInitialized && !DesignMode)
         {
-            _browserCore->Adapter->GetCefBrowser()->SetFocus(true);
+            _clientAdapter->GetCefBrowser()->SetFocus(true);
         }
-    }
-
-    void WebBrowser::WaitForInitialized()
-    {
-        _browserCore->WaitForInitialized();
     }
 
     void WebBrowser::OnInitialized()
     {
         BeginInvoke(gcnew Action<EventArgs^>(this, &WebBrowser::OnSizeChanged), EventArgs::Empty);
-        _browserCore->OnInitialized();
+        _initialized->Set();
     }
 
     void WebBrowser::Load(String^ url)
     {
-        _browserCore->Load(url);
+        WaitForInitialized();
+        _clientAdapter->GetCefBrowser()->GetMainFrame()->LoadURL(toNative(url));
     }
 
     void WebBrowser::Stop()
     {
-        _browserCore->Stop();
+        WaitForInitialized();
+        _clientAdapter->GetCefBrowser()->StopLoad();
+
     }
 
     void WebBrowser::Back()
     {
-        _browserCore->Back();
+        WaitForInitialized();
+        _clientAdapter->GetCefBrowser()->StopLoad();
+
     }
 
     void WebBrowser::Forward()
     {
-        _browserCore->Forward();
+        WaitForInitialized();
+        _clientAdapter->GetCefBrowser()->GoForward();
     }
 
     void WebBrowser::Reload()
     {
-        _browserCore->Reload();
+        Reload(false);
     }
 
     void WebBrowser::Reload(bool ignoreCache)
     {
-        _browserCore->Reload(ignoreCache);
+        WaitForInitialized();
+        if (ignoreCache)
+        {
+            _clientAdapter->GetCefBrowser()->ReloadIgnoreCache();
+        }
+        else
+        {
+            _clientAdapter->GetCefBrowser()->Reload();
+        }
     }
 
     void WebBrowser::Print()
     {
-        _browserCore->Print();
+        WaitForInitialized();
+        _clientAdapter->GetCefBrowser()->GetMainFrame()->Print();
     }
 
     String^ WebBrowser::RunScript(String^ script)
     {
 	    WaitForInitialized();
 
-        CefRefPtr<CefBrowser> browser = _browserCore->Adapter->GetCefBrowser();
+        CefRefPtr<CefBrowser> browser = _clientAdapter->GetCefBrowser();
         CefRefPtr<CefFrame> frame = browser->GetMainFrame();
 
         return _scriptCore->Evaluate(frame, script);

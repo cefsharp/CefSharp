@@ -20,6 +20,9 @@ namespace CefSharp
     {
         BrowserSettings^ _settings;
 
+        ManualResetEvent^ _initialized;
+
+        MCefRefPtr<ClientAdapter> _clientAdapter;
         BrowserCore^ _browserCore;
         MCefRefPtr<ScriptCore> _scriptCore;
 
@@ -31,16 +34,13 @@ namespace CefSharp
     private:
         void Construct(String^ address, BrowserSettings^ settings)
         {
+            _initialized = gcnew ManualResetEvent(false);
+
             _browserCore = gcnew BrowserCore();
             _scriptCore = new ScriptCore();
 
             _browserCore->Address = address;
-
-
-
             _settings = settings;
-
-
 
             if(!CEF::IsInitialized)
             {
@@ -49,6 +49,17 @@ namespace CefSharp
                     throw gcnew InvalidOperationException("CEF initialization failed.");
                 }
             }
+        }
+
+        void WaitForInitialized()
+        {
+            if (IsInitialized)
+            {
+                return;
+            }
+
+            // TODO: risk of infinite lock
+            _initialized->WaitOne();
         }
 
     public:
@@ -75,6 +86,16 @@ namespace CefSharp
         WebBrowser(String^ initialUrl, BrowserSettings^ settings)
         {
             Construct(initialUrl, settings);
+        }
+
+        property bool IsInitialized
+        {
+            bool get()
+            {
+                return
+                    _clientAdapter.get() != nullptr &&
+                    _clientAdapter->GetIsInitialized();
+            }
         }
 
         virtual property bool IsLoading
@@ -134,7 +155,6 @@ namespace CefSharp
             void set(IAfterResponse^ handler) { _browserCore->AfterResponseHandler = handler; }
         }
 
-        virtual void WaitForInitialized();
         virtual void OnInitialized();
 
         void Load(String^ url);
@@ -153,52 +173,5 @@ namespace CefSharp
         virtual void FrameLoadComplete(CefRefPtr<CefFrame> frame);
 
         virtual void RaiseConsoleMessage(String^ message, String^ source, int line);
-
-        ///////////////////////////////////////////////
-
-        /*
-        virtual void OnInitialized();
-
-        void WaitForLoadCompletion();
-        void WaitForLoadCompletion(int timeout);
-        void Stop();
-        void Back();
-        void Forward();
-        void Reload();
-        void Reload(bool ignoreCache);
-        void Print();
-        String^ RunScript(String^ script);
-        //String^ RunScript(String^ script, String^ scriptUrl, int startLine);
-        //String^ RunScript(String^ script, String^ scriptUrl, int startLine, int timeout);
-
-        virtual void SetTitle(String^ title);
-        virtual void SetAddress(String^ address);
-        
-
-
-
-        property String^ ToolTip
-        {
-            String^ get() { return _tooltip; }
-        }
-
-
-        property bool IsInitialized
-        {
-            bool get()
-            {
-                return _clientAdapter.get() != nullptr && _clientAdapter->GetIsInitialized();
-            }
-        }
-
-        void WaitForInitialized();
-
-
-        // TODO: Initialized event can be subscribed by user code after actual Initialized event happens,
-        // so we must handle this situation and in on add event handler raise event.
-        // event EventHandler^ Initialized;
-
-
-        */
     };
 }

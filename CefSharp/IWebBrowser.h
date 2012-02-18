@@ -27,9 +27,7 @@ namespace CefSharp
         property IBeforeMenu^ BeforeMenuHandler;
         property IAfterResponse^ AfterResponseHandler;
 
-        void WaitForInitialized();
         void OnInitialized();
-
         void SetNavState(bool isLoading, bool canGoBack, bool canGoForward);
 
         void AddFrame(CefRefPtr<CefFrame> frame);
