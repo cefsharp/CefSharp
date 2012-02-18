@@ -47,12 +47,6 @@ namespace CefSharp.WpfExample
 
         private void UpdateBrowserControls(object sender, PropertyChangedEventArgs e)
         {
-            var browser = sender as WebBrowser;
-            if (browser == null)
-            {
-                return;
-            }
-
             switch (e.PropertyName)
             {
                 case "Title":

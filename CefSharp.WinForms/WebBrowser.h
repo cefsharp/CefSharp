@@ -18,7 +18,7 @@ namespace CefSharp
 {
     public ref class WebBrowser sealed : public Control, IWebBrowser
     {
-        BrowserSettings^ _settings;
+        BrowserSettings^ _settings; // XXX: move to BrowserCore?
 
         ManualResetEvent^ _initialized;
 
@@ -51,16 +51,7 @@ namespace CefSharp
             }
         }
 
-        void WaitForInitialized()
-        {
-            if (IsInitialized)
-            {
-                return;
-            }
-
-            // TODO: risk of infinite lock
-            _initialized->WaitOne();
-        }
+        void WaitForInitialized();
 
     public:
         virtual event PropertyChangedEventHandler^ PropertyChanged

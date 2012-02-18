@@ -113,6 +113,7 @@ namespace CefSharp
 
         void SetNavState(bool isLoading, bool canGoBack, bool canGoForward);
 
+        void OnLoad();
         void AddFrame(CefRefPtr<CefFrame> frame);
         void FrameLoadComplete(CefRefPtr<CefFrame> frame);
     };

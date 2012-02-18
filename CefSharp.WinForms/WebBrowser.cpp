@@ -7,6 +7,17 @@ using namespace System::Drawing;
 
 namespace CefSharp
 {
+    void WebBrowser::WaitForInitialized()
+    {
+        if (IsInitialized)
+        {
+            return;
+        }
+
+        // TODO: risk of infinite lock
+        _initialized->WaitOne();
+    }
+
     void WebBrowser::OnHandleCreated(EventArgs^ e)
     {
         if (DesignMode == false) 
@@ -60,6 +71,7 @@ namespace CefSharp
     void WebBrowser::Load(String^ url)
     {
         WaitForInitialized();
+        _browserCore->OnLoad();
         _clientAdapter->GetCefBrowser()->GetMainFrame()->LoadURL(toNative(url));
     }
 
