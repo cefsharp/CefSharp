@@ -41,7 +41,7 @@ namespace CefSharp
     {
         if(frame->IsMain())
         {
-            _browserControl->Title = toClr(url);
+            _browserControl->Address = toClr(url);
         }
     }
 

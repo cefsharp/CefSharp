@@ -52,7 +52,18 @@ namespace CefSharp
         }
 
     public:
-        virtual event PropertyChangedEventHandler^ PropertyChanged;
+        virtual event PropertyChangedEventHandler^ PropertyChanged
+        {
+            void add(PropertyChangedEventHandler^ handler)
+            {
+                _browserCore->PropertyChanged += handler;
+            }
+
+            void remove(PropertyChangedEventHandler^ handler)
+            {
+                _browserCore->PropertyChanged -= handler;
+            }
+        }
 
         event ConsoleMessageEventHandler^ ConsoleMessage;
 

@@ -7,6 +7,7 @@ using namespace System::Drawing;
 
 namespace CefSharp
 {
+
     void WebBrowser::OnHandleCreated(EventArgs^ e)
     {
         if (DesignMode == false) 

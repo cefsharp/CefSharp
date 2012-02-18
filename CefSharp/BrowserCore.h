@@ -13,8 +13,7 @@ namespace CefSharp
     interface class IBeforeMenu;
     interface class IAfterResponse;
 
-                                   // XXX: needs to become IWebBrowser
-    public ref class BrowserCore// : INotifyPropertyChanged
+    public ref class BrowserCore : INotifyPropertyChanged
     {
     private:
         MCefRefPtr<ClientAdapter> _clientAdapter;
@@ -35,6 +34,7 @@ namespace CefSharp
         IAfterResponse^ _afterResponseHandler;
 
     internal:
+        // XXX: kill
         property CefRefPtr<ClientAdapter> Adapter
         {
             CefRefPtr<ClientAdapter> get() { return _clientAdapter.get(); }
@@ -42,6 +42,8 @@ namespace CefSharp
         }
 
     public:
+        virtual event PropertyChangedEventHandler^ PropertyChanged;
+
         BrowserCore()
         {
             _browserInitialized = gcnew ManualResetEvent(false);
@@ -80,8 +82,7 @@ namespace CefSharp
             void set(String^ address)
             {
                 _address = address;
-                //PropertyChanged(this, gcnew PropertyChangedEventArgs(L"Address"));
-
+                PropertyChanged(this, gcnew PropertyChangedEventArgs(L"Address"));
             }
         }
 
@@ -92,7 +93,7 @@ namespace CefSharp
             void set(String^ title)
             {
                 _title = title;
-                //PropertyChanged(this, gcnew PropertyChangedEventArgs(L"Title"));
+                PropertyChanged(this, gcnew PropertyChangedEventArgs(L"Title"));
             }
         }
 
@@ -103,7 +104,7 @@ namespace CefSharp
             void set(String^ tooltip)
             {
                 _tooltip = tooltip;
-               //PropertyChanged(this, gcnew PropertyChangedEventArgs(L"Tooltip"));
+               PropertyChanged(this, gcnew PropertyChangedEventArgs(L"Tooltip"));
             }
         }
 

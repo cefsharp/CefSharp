@@ -73,19 +73,19 @@ namespace CefSharp
         if(isLoading != _isLoading) 
         {
             _isLoading = isLoading;
-            //PropertyChanged(this, gcnew PropertyChangedEventArgs(L"IsLoading"));
+            PropertyChanged(this, gcnew PropertyChangedEventArgs(L"IsLoading"));
         }
 
         if(canGoBack != _canGoBack) 
         {
             _canGoBack = canGoBack;
-            //PropertyChanged(this, gcnew PropertyChangedEventArgs(L"CanGoBack"));
+            PropertyChanged(this, gcnew PropertyChangedEventArgs(L"CanGoBack"));
         }
 
         if(canGoForward != _canGoForward)
         {
             _canGoForward = canGoForward;
-            //PropertyChanged(this, gcnew PropertyChangedEventArgs(L"CanGoForward"));
+            PropertyChanged(this, gcnew PropertyChangedEventArgs(L"CanGoForward"));
         }
     }
 
