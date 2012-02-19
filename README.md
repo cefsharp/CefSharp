@@ -8,7 +8,7 @@ This project is [BSD](http://www.opensource.org/licenses/bsd-license.php "BSD Li
 
 Binary release builds contains everything that you need to embed Chromium in your CLR application. You will need the [7-Zip archiver](http://www.7-zip.org/ 7-Zip) to extract.
 
-- [CefSharp 0.9](https://github.com/downloads/ataranto/CefSharp/CefSharp-0.9-bin.7z "Download"): Chromium 17.0.963.15
+- [CefSharp 0.9](https://github.com/downloads/ataranto/CefSharp/CefSharp-0.9-bin.7z "Download"): Feb 18 2012, Chromium 17.0.963.15
 
 # Quick Start
 
@@ -20,3 +20,7 @@ CefSharp requires the following files to be present in the same directory as eit
 - locales/
 
 Additional DLLs may be needed for additional chromium functionality (audio, video, WebGL, etc).
+
+# Links
+
+- [CefGlue](https://bitbucket.org/fddima/cefglue/wiki/Home)
