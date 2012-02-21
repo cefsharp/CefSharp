@@ -117,14 +117,29 @@ namespace CefSharp
         _clientAdapter->GetCefBrowser()->GetMainFrame()->Print();
     }
 
-    String^ WebBrowser::RunScript(String^ script)
+    void WebBrowser::ExecuteScript(String^ script)
+    {
+        WaitForInitialized();
+
+        CefRefPtr<CefBrowser> browser = _clientAdapter->GetCefBrowser();
+        CefRefPtr<CefFrame> frame = browser->GetMainFrame();
+
+        _scriptCore->Execute(frame, script);
+    }
+
+    String^ WebBrowser::EvaluateScript(String^ script)
+    {
+        return EvaluateScript(script, TimeSpan.MaxValue);
+    }
+
+    String^ WebBrowser::EvaluateScript(String^ script, TimeSpan timeout)
     {
 	    WaitForInitialized();
 
         CefRefPtr<CefBrowser> browser = _clientAdapter->GetCefBrowser();
         CefRefPtr<CefFrame> frame = browser->GetMainFrame();
 
-        return _scriptCore->Evaluate(frame, script);
+        return _scriptCore->Evaluate(frame, script, timeout);
     }
 
     void WebBrowser::SetNavState(bool isLoading, bool canGoBack, bool canGoForward)

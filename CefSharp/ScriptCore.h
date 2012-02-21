@@ -11,6 +11,7 @@ namespace CefSharp
         bool _success;
         CefString _result;
 
+        void UIT_Execute(CefRefPtr<CefFrame> frame, CefString script);
         void UIT_Evaluate(CefRefPtr<CefFrame> frame, CefString script);
 
     public:
@@ -19,7 +20,8 @@ namespace CefSharp
             _event = CreateEvent(NULL, FALSE, FALSE, NULL);
         }
 
-        String^ Evaluate(CefRefPtr<CefFrame> frame, String^ script);
+        void Execute(CefRefPtr<CefFrame> frame, String^ script);
+        String^ Evaluate(CefRefPtr<CefFrame> frame, String^ script, TimeSpan timeout);
 
         IMPLEMENT_LOCKING(ScriptCore);
         IMPLEMENT_REFCOUNTING(ScriptCore);

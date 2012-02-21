@@ -102,7 +102,12 @@ namespace CefSharp.WpfExample
             Close();
         }
 
-        private void runJsMenuItem_Click(object sender, RoutedEventArgs e)
+        private void executeJsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            browser.ExecuteScript("document.body.style.background = 'red'");
+        }
+
+        private void evaluateJsMenuItem_Click(object sender, RoutedEventArgs e)
         {
             Random rand = new Random();
             int a = rand.Next(1, 10);
@@ -110,7 +115,7 @@ namespace CefSharp.WpfExample
 
             try
             {
-                String result = browser.RunScript(a + "+" + b);
+                String result = browser.EvaluateScript(a + "+" + b);
 
                 if (result == (a + b).ToString())
                 {
@@ -127,7 +132,7 @@ namespace CefSharp.WpfExample
             }
         }
 
-        private void runArbiraryJsMenuItem_Click(object sender, RoutedEventArgs e)
+        private void evaluateArbiraryJsMenuItem_Click(object sender, RoutedEventArgs e)
         {
             var panel = new StackPanel()
             {
@@ -146,7 +151,7 @@ namespace CefSharp.WpfExample
             };
             button.Click += delegate
             {
-                var result = browser.RunScript(text.Text);
+                var result = browser.EvaluateScript(text.Text);
                 Console.WriteLine("Result: {0}", result);
             };
             panel.Children.Add(button);

@@ -5,6 +5,11 @@
 
 namespace CefSharp
 {
+    void ScriptCore::UIT_Execute(CefRefPtr<CefFrame> frame, CefString script)
+    {
+        frame->ExecuteJavaScript(script, "about:blank", 0);
+    }
+
     void ScriptCore::UIT_Evaluate(CefRefPtr<CefFrame> frame, CefString script)
     {
         CefRefPtr<CefV8Context> context = frame->GetV8Context();
@@ -42,7 +47,20 @@ namespace CefSharp
         SetEvent(_event);
     }
 
-    String^ ScriptCore::Evaluate(CefRefPtr<CefFrame> frame, String^ script)
+    void ScriptCore::Execute(CefRefPtr<CefFrame> frame, String^ script)
+    {
+        if (CefCurrentlyOn(TID_UI))
+        {
+            UIT_Execute(frame, toNative(script));
+        }
+        else
+        {
+            CefPostTask(TID_UI, NewCefRunnableMethod(this, &ScriptCore::UIT_Execute,
+                frame, toNative(script)));
+        }
+    }
+
+    String^ ScriptCore::Evaluate(CefRefPtr<CefFrame> frame, String^ script, TimeSpan timeout)
     {
         AutoLock lock_scope(this);
 
@@ -54,7 +72,11 @@ namespace CefSharp
         {
             CefPostTask(TID_UI, NewCefRunnableMethod(this, &ScriptCore::UIT_Evaluate,
                 frame, toNative(script)));
-            DWORD waitResult = WaitForSingleObject(_event, 2000);
+
+            if (WaitForSingleObject(_event, timeout.TotalMilliseconds))
+            {
+                throw gcnew ScriptException("Script timed out");
+            }
         }
 
         String^ result = toClr(_result);

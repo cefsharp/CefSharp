@@ -16,7 +16,7 @@ namespace CefSharp.Test
         [Test]
         public void RunScriptText()
         {
-            Assert.AreEqual("4", Fixture.Browser.RunScript("2+2"));
+            Assert.AreEqual("4", Fixture.Browser.EvaluateScript("2+2"));
         }
 
         [Test]
@@ -25,7 +25,7 @@ namespace CefSharp.Test
             for (var x = 0; x < 10; x++)
             {
                 var value = x.ToString();
-                new Thread(() => Assert.AreEqual(value, Fixture.Browser.RunScript(value))).
+                new Thread(() => Assert.AreEqual(value, Fixture.Browser.EvaluateScript(value))).
                     Start();
             }
 
@@ -36,7 +36,7 @@ namespace CefSharp.Test
         public void RunScriptExceptionTest()
         {
             Assert.Throws<ScriptException>(() =>
-                Fixture.Browser.RunScript("!@#$%^"));
+                Fixture.Browser.EvaluateScript("!@#$%^"));
         }
     }
 }

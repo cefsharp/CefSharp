@@ -156,7 +156,9 @@ namespace CefSharp
         void Reload(bool ignoreCache);
         void Print();
 
-        String^ RunScript(String^ script);
+        void ExecuteScript(String^ script);
+        String^ EvaluateScript(String^ script);
+        String^ EvaluateScript(String^ script, TimeSpan timeout);
 
         virtual void SetNavState(bool isLoading, bool canGoBack, bool canGoForward);
 

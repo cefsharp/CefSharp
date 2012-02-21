@@ -145,7 +145,7 @@ namespace CefSharp.WinFormsExample
 
             try
             {
-                String result = _browserControl.RunScript(a + "+" + b);
+                String result = _browserControl.EvaluateScript(a + "+" + b);
 
                 if (result == (a + b).ToString())
                 {
@@ -175,7 +175,7 @@ namespace CefSharp.WinFormsExample
                 string script = inputForm.GetInput();
                 try
                 {
-                    string result = _browserControl.RunScript(script);
+                    string result = _browserControl.EvaluateScript(script);
                     MessageBox.Show(result, "Result");
                 }
                 catch(Exception err)

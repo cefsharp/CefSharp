@@ -10,8 +10,9 @@
             </MenuItem>
             <MenuItem Header="Tests">
                 <MenuItem Header="Test Resource Load Handler" />
-                <MenuItem Header="Test Run JavaScript Synchronously" Name="runJsMenuItem" Click="runJsMenuItem_Click" />
-                <MenuItem Header="Test Run Arbitrary JavaScript" Name="runArbiraryJsMenuItem" Click="runArbiraryJsMenuItem_Click"/>
+                <MenuItem Header="Test Execute Javascript" Name="executeJsMenuItem" Click="executeJsMenuItem_Click" />
+                <MenuItem Header="Test Evaluate JavaScript" Name="evaluateJsMenuItem" Click="evaluateJsMenuItem_Click" />
+                <MenuItem Header="Test Evaluate Arbitrary JavaScript" Name="evaluateArbiraryJsMenuItem" Click="evaluateArbiraryJsMenuItem_Click"/>
                 <MenuItem Header="Test Scheme Handler" />
                 <MenuItem Header="Test Console Messages" />
                 <MenuItem Header="Test Bind CLR Object to JavaScript" />
