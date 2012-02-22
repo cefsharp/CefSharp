@@ -30,8 +30,8 @@ namespace CefSharp
         void OnInitialized();
         void SetNavState(bool isLoading, bool canGoBack, bool canGoForward);
 
-        void AddFrame(CefRefPtr<CefFrame> frame);
-        void FrameLoadComplete(CefRefPtr<CefFrame> frame);
+        void OnFrameLoadStart();
+        void OnFrameLoadEnd();
 
         void RaiseConsoleMessage(String^ message, String^ source, int line);
     };

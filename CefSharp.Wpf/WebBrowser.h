@@ -178,8 +178,8 @@ namespace CefSharp
 
         virtual void SetNavState(bool isLoading, bool canGoBack, bool canGoForward);
 
-        virtual void AddFrame(CefRefPtr<CefFrame> frame);
-        virtual void FrameLoadComplete(CefRefPtr<CefFrame> frame);
+        virtual void OnFrameLoadStart();
+        virtual void OnFrameLoadEnd();
 
         virtual void RaiseConsoleMessage(String^ message, String^ source, int line);
 

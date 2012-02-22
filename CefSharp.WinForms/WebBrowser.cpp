@@ -152,17 +152,15 @@ namespace CefSharp
         ConsoleMessage(this, gcnew ConsoleMessageEventArgs(message, source, line));
     }
 
-    void WebBrowser::AddFrame(CefRefPtr<CefFrame> frame)
+    void WebBrowser::OnFrameLoadStart()
     {
-        _browserCore->AddFrame(frame);
+        _browserCore->OnFrameLoadStart();
     }
 
-    void WebBrowser::FrameLoadComplete(CefRefPtr<CefFrame> frame)
+    void WebBrowser::OnFrameLoadEnd()
     {
-        _browserCore->FrameLoadComplete(frame);
+        _browserCore->OnFrameLoadEnd();
     }
-
-
 
     /////////////////////
 

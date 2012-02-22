@@ -85,7 +85,7 @@ namespace CefSharp
             _browserControl->SetNavState(true, false, false);
         }
 
-        _browserControl->AddFrame(frame);
+        _browserControl->OnFrameLoadStart();
     }
 
     void ClientAdapter::OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode)
@@ -101,7 +101,7 @@ namespace CefSharp
             _browserControl->SetNavState(false, browser->CanGoBack(), browser->CanGoForward());
         }
 
-        _browserControl->FrameLoadComplete(frame);
+        _browserControl->OnFrameLoadEnd();
     }
 
     bool ClientAdapter::OnBeforeResourceLoad(CefRefPtr<CefBrowser> browser, CefRefPtr<CefRequest> request, CefString& redirectUrl, CefRefPtr<CefStreamReader>& resourceStream, CefRefPtr<CefResponse> response, int loadFlags)

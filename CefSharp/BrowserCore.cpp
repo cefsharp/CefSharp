@@ -30,12 +30,12 @@ namespace CefSharp
         _loadCompleted->Reset();
     }
 
-    void BrowserCore::AddFrame(CefRefPtr<CefFrame> frame)
+    void BrowserCore::OnFrameLoadStart()
     {
         _loadCompleted->AddCount();
     }
 
-    void BrowserCore::FrameLoadComplete(CefRefPtr<CefFrame> frame)
+    void BrowserCore::OnFrameLoadEnd()
     {
         _loadCompleted->Signal();
     }
