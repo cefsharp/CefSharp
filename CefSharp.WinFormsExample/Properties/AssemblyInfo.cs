@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("CefSharp.WinFormsExample")]
+[assembly: AssemblyTitle("CefSharp.WinForms.Example")]
 [assembly: AssemblyCompany("Anthony Taranto")]
 [assembly: AssemblyProduct("CefSharp")]
 [assembly: AssemblyCopyright("Copyright © Anthony Taranto 2012")]

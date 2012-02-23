@@ -1,6 +1,6 @@
 using System;
 
-namespace CefSharp.WinFormsExample
+namespace CefSharp.WinForms.Example
 {
     public class BoundObject
     {

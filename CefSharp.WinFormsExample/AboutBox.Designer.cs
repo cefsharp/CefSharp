@@ -1,4 +1,4 @@
-﻿namespace CefSharp.WinFormsExample
+﻿namespace CefSharp.WinForms.Example
 {
     partial class AboutBox
     {
@@ -67,7 +67,7 @@
             // logoPictureBox
             //
             this.logoPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.logoPictureBox.Image = global::CefSharp.Example.Properties.Resources.chromium256;
+            this.logoPictureBox.Image = global::CefSharp.WinForms.Example.Properties.Resources.chromium256;
             this.logoPictureBox.Location = new System.Drawing.Point(3, 3);
             this.logoPictureBox.Name = "logoPictureBox";
             this.tableLayoutPanel.SetRowSpan(this.logoPictureBox, 6);

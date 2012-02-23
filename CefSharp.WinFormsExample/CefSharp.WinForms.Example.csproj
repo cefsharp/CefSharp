@@ -8,8 +8,8 @@
     <ProjectGuid>{C043FFF7-5F71-4FFC-989A-E09E18548589}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CefSharp.Example</RootNamespace>
-    <AssemblyName>CefSharp.WinFormsExample</AssemblyName>
+    <RootNamespace>CefSharp.WinForms.Example</RootNamespace>
+    <AssemblyName>CefSharp.WinForms.Example</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>

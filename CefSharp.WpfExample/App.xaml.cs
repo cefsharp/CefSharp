@@ -1,11 +1,9 @@
 ﻿using System.Windows;
 
-namespace CefSharp.WpfExample
+namespace CefSharp.Wpf.Example
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
+
     }
 }

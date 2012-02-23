@@ -8,8 +8,8 @@
     <ProjectGuid>{4828DAEC-EF99-4553-B674-4374F77C6D66}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CefSharp.WpfExample</RootNamespace>
-    <AssemblyName>CefSharp.WpfExample</AssemblyName>
+    <RootNamespace>CefSharp.Wpf.Example</RootNamespace>
+    <AssemblyName>CefSharp.Wpf.Example</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

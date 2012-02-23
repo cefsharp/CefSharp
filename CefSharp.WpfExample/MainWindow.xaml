@@ -1,4 +1,4 @@
-﻿<Window x:Class="CefSharp.WpfExample.MainWindow"
+﻿<Window x:Class="CefSharp.Wpf.Example.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="CefSharp.WpfExample" Height="480" Width="640"

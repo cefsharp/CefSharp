@@ -7,7 +7,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
 
-namespace CefSharp.WpfExample
+namespace CefSharp.Wpf.Example
 {
     public partial class MainWindow : Window
     {

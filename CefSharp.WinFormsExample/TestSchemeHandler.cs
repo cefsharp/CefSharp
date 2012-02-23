@@ -2,9 +2,9 @@ using System;
 using System.IO;
 using System.Text;
 using CefSharp;
-using CefSharp.Example.Properties;
+using CefSharp.WinForms.Example.Properties;
 
-namespace CefSharp.WinFormsExample
+namespace CefSharp.WinForms.Example
 {
     public class TestSchemeHandler : ISchemeHandler
     {
