@@ -28,6 +28,15 @@ namespace CefSharp
         property IAfterResponse^ AfterResponseHandler;
 
         void OnInitialized();
+
+        void Load(String^ url);
+        void Stop();
+        void Back();
+        void Forward();
+        void Reload();
+        void Reload(bool ignoreCache);
+        void Print();
+
         void SetNavState(bool isLoading, bool canGoBack, bool canGoForward);
 
         void OnFrameLoadStart();

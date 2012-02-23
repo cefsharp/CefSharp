@@ -150,13 +150,13 @@ namespace WinForms
 
         virtual void OnInitialized();
 
-        void Load(String^ url);
-        void Stop();
-        void Back();
-        void Forward();
-        void Reload();
-        void Reload(bool ignoreCache);
-        void Print();
+        virtual void Load(String^ url);
+        virtual void Stop();
+        virtual void Back();
+        virtual void Forward();
+        virtual void Reload();
+        virtual void Reload(bool ignoreCache);
+        virtual void Print();
 
         void ExecuteScript(String^ script);
         String^ EvaluateScript(String^ script);

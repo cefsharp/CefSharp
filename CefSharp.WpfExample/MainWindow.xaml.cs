@@ -6,11 +6,84 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
+using CefSharp.Example;
 
 namespace CefSharp.Wpf.Example
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IExampleView
     {
+        public event Action<object, string> UrlActivated;
+        public event EventHandler BackActivated;
+        public event EventHandler ForwardActivated;
+        public event EventHandler ExitActivated;
+
+        private WebView web_view;
+
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
+
+        private void Window_SourceInitialized(object sender, EventArgs e)
+        {
+            Settings settings = new Settings();
+            if (!CEF.Initialize(settings))
+            {
+                return;
+            }
+
+            var source = PresentationSource.FromVisual(sender as Visual) as HwndSource;
+            web_view = new WebView(source, "https://github.com/ataranto/CefSharp");
+
+            this.frame.Content = web_view;
+            new ExamplePresenter(web_view, this, invoke => { });
+        }
+
+        public void SetTitle(string title)
+        {
+            Title = title;
+        }
+
+        public void SetTooltip(string tooltip)
+        {
+
+        }
+
+        public void SetAddress(string address)
+        {
+            urlTextBox.Text = address;
+        }
+
+        public void SetCanGoBack(bool can_go_back)
+        {
+            backButton.IsEnabled = can_go_back;
+        }
+
+        public void SetCanGoForward(bool can_go_forward)
+        {
+            forwardButton.IsEnabled = can_go_forward;
+        }
+
+        public void SetIsLoading(bool is_loading)
+        {
+
+        }
+
+        private void urlTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key != Key.Enter)
+            {
+                return;
+            }
+
+            var handler = UrlActivated;
+            if (handler)
+            {
+                handler(this, urlTextBox.Text);
+            }
+        }
+
+        /*
         private WebView browser;
 
         public MainWindow()
@@ -174,5 +247,7 @@ namespace CefSharp.Wpf.Example
         {
             browser.Load("http://getfirebug.com/firebuglite");
         }
+         */
+
     }
 }

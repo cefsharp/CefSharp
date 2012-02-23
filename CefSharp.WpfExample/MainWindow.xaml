@@ -6,27 +6,27 @@
     <DockPanel>
         <Menu Height="22" DockPanel.Dock="Top">
             <MenuItem Header="File">
-                <MenuItem Header="Exit" Name="exitMenuItem" Click="exitMenuItem_Click" />
+                <MenuItem Header="Exit" Name="exitMenuItem" />
             </MenuItem>
             <MenuItem Header="Tests">
                 <MenuItem Header="Test Resource Load Handler" />
-                <MenuItem Header="Test Execute Javascript" Name="executeJsMenuItem" Click="executeJsMenuItem_Click" />
-                <MenuItem Header="Test Evaluate JavaScript" Name="evaluateJsMenuItem" Click="evaluateJsMenuItem_Click" />
-                <MenuItem Header="Test Evaluate Arbitrary JavaScript" Name="evaluateArbiraryJsMenuItem" Click="evaluateArbiraryJsMenuItem_Click"/>
+                <MenuItem Header="Test Execute Javascript" Name="executeJsMenuItem" />
+                <MenuItem Header="Test Evaluate JavaScript" Name="evaluateJsMenuItem" />
+                <MenuItem Header="Test Evaluate Arbitrary JavaScript" Name="evaluateArbiraryJsMenuItem" />
                 <MenuItem Header="Test Scheme Handler" />
                 <MenuItem Header="Test Console Messages" />
                 <MenuItem Header="Test Bind CLR Object to JavaScript" />
             </MenuItem>
             <MenuItem Header="Bookmarks">
-                <MenuItem Header="CefSharp Home" Name="homeMenuItem" Click="homeMenuItem_Click" />
-                <MenuItem Header="FireBug Lite" Name="fireBugMenuItem" Click="fireBugMenuItem_Click" />
+                <MenuItem Header="CefSharp Home" Name="homeMenuItem" />
+                <MenuItem Header="FireBug Lite" Name="fireBugMenuItem" />
             </MenuItem>
         </Menu>
         <DockPanel VerticalAlignment="Top" DockPanel.Dock="Top">
-            <Button Height="23" Name="backButton" Width="75" Click="backButton_Click" IsEnabled="False">Back</Button>
-            <Button Height="23" Name="forwardButton" Width="75" Click="forwardButton_Click" IsEnabled="False">Forward</Button>
+            <Button Height="23" Name="backButton" Width="75" IsEnabled="False">Back</Button>
+            <Button Height="23" Name="forwardButton" Width="75" IsEnabled="False">Forward</Button>
 
-            <Button Height="23" Name="goStopButton" Width="75" DockPanel.Dock="Right" Click="goStopButton_Click">Go</Button>
+            <Button Height="23" Name="goStopButton" Width="75" DockPanel.Dock="Right">Go</Button>
             <TextBox Height="23" Name="urlTextBox" KeyDown="urlTextBox_KeyDown" />
         </DockPanel>
         <DockPanel VerticalAlignment="Top" DockPanel.Dock="Top">
