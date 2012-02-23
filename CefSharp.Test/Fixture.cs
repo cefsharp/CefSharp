@@ -1,13 +1,14 @@
 ﻿using System.Threading;
 using System.Windows.Forms;
 using NUnit.Framework;
+using CefSharp.WinForms;
 
 namespace CefSharp.Test
 {
     [SetUpFixture]
     public class Fixture
     {
-        public static WebBrowser Browser { get; private set; }
+        public static WebView Browser { get; private set; }
 
         private ManualResetEvent createdEvent = new ManualResetEvent(false);
 
@@ -25,7 +26,7 @@ namespace CefSharp.Test
                 var form = new Form();
                 form.Shown += (sender, e) =>
                 {
-                    Browser = new WebBrowser()
+                    Browser = new WebView
                     {
                         Parent = form,
                         Dock = DockStyle.Fill,

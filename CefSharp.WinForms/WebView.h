@@ -2,60 +2,58 @@
 #pragma once
 
 #include "CefSharp.h"
-#include "OffscreenClientAdapter.h"
-#include "IOffscreenWebBrowser.h"
+#include "ClientAdapter.h"
+#include "IWebBrowser.h"
 #include "ConsoleMessageEventArgs.h"
 #include "RtzCountdownEvent.h"
+#include "BrowserSettings.h"
 #include "BrowserCore.h"
 #include "ScriptCore.h"
 
-using namespace Microsoft::Win32::SafeHandles;
 using namespace System;
-using namespace System::Runtime::InteropServices;
-using namespace System::Windows;
-using namespace System::Windows::Controls;
-using namespace System::Windows::Input;
-using namespace System::Windows::Interop;
-using namespace System::Windows::Media;
-using namespace System::Windows::Media::Imaging;
-using namespace System::Windows::Threading;
+using namespace System::Windows::Forms;
 using namespace System::Threading;
 
 namespace CefSharp
 {
-    [TemplatePart(Name="PART_Browser", Type=System::Windows::Controls::Image::typeid)]
-    public ref class WebBrowser sealed : public ContentControl, IOffscreenWebBrowser
+namespace WinForms
+{
+    public ref class WebView sealed : public Control, IWebBrowser
     {
-		delegate void ActionDelegate();
+        BrowserSettings^ _settings; // XXX: move to BrowserCore?
 
         ManualResetEvent^ _initialized;
 
-        MCefRefPtr<OffscreenClientAdapter> _clientAdapter;
+        MCefRefPtr<ClientAdapter> _clientAdapter;
         BrowserCore^ _browserCore;
         MCefRefPtr<ScriptCore> _scriptCore;
 
-        Image^ _image;
-
-        int _width, _height;
-        InteropBitmap^ _ibitmap;
-		HANDLE _fileMappingHandle, _backBufferHandle;
-		ActionDelegate^ _paintDelegate;
+    protected:
+        virtual void OnHandleCreated(EventArgs^ e) override;
+        virtual void OnSizeChanged(EventArgs^ e) override;
+        virtual void OnGotFocus(EventArgs^ e) override;
 
     private:
-        void WaitForInitialized();
-        void SetCursor(SafeFileHandle^ handle);
-        IntPtr SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, bool% handled);
-		void SetBitmap();
+        void Construct(String^ address, BrowserSettings^ settings)
+        {
+            _initialized = gcnew ManualResetEvent(false);
 
-    protected:
-        virtual Size ArrangeOverride(Size size) override;
-        virtual void OnGotFocus(RoutedEventArgs^ e) override;
-        virtual void OnLostFocus(RoutedEventArgs^ e) override;
-        virtual void OnMouseMove(System::Windows::Input::MouseEventArgs^ e) override;
-        virtual void OnMouseWheel(MouseWheelEventArgs^ e) override;
-        virtual void OnMouseDown(MouseButtonEventArgs^ e) override;
-        virtual void OnMouseUp(MouseButtonEventArgs^ e) override;
-        virtual void OnMouseLeave(System::Windows::Input::MouseEventArgs^ e) override;
+            _browserCore = gcnew BrowserCore();
+            _scriptCore = new ScriptCore();
+
+            _browserCore->Address = address;
+            _settings = settings;
+
+            if(!CEF::IsInitialized)
+            {
+                if(!CEF::Initialize(gcnew Settings()))
+                {
+                    throw gcnew InvalidOperationException("CEF initialization failed.");
+                }
+            }
+        }
+
+        void WaitForInitialized();
 
     public:
         virtual event PropertyChangedEventHandler^ PropertyChanged
@@ -73,38 +71,26 @@ namespace CefSharp
 
         event ConsoleMessageEventHandler^ ConsoleMessage;
 
-        WebBrowser(HwndSource^ source, String^ address)
+        WebView()
         {
-            Focusable = true;
-            FocusVisualStyle = nullptr;
-
-            if (!CEF::IsInitialized)
-            {
-                throw gcnew InvalidOperationException("CEF is not initialized");
-            }
-
-            _initialized  = gcnew ManualResetEvent(false);
-
-            _browserCore = gcnew BrowserCore();
-            _scriptCore = new ScriptCore();
-
-            _browserCore->Address = address;
-
-			_paintDelegate = gcnew ActionDelegate(this, &WebBrowser::SetBitmap);
-            source->AddHook(gcnew Interop::HwndSourceHook(this, &WebBrowser::SourceHook));
-
-            HWND hWnd = static_cast<HWND>(source->Handle.ToPointer());
-            CefWindowInfo window;
-            window.SetAsOffScreen(hWnd);
-
-            _clientAdapter = new OffscreenClientAdapter(this);
-            CefRefPtr<OffscreenClientAdapter> ptr = _clientAdapter.get();
-
-            CefBrowserSettings settings;
-            CefBrowser::CreateBrowser(window, static_cast<CefRefPtr<CefClient>>(ptr), toNative(address), settings);
+            Construct("about:blank", gcnew BrowserSettings);
         }
 
-        
+        WebView(String^ initialUrl, BrowserSettings^ settings)
+        {
+            Construct(initialUrl, settings);
+        }
+
+        property bool IsInitialized
+        {
+            bool get()
+            {
+                return
+                    _clientAdapter.get() != nullptr &&
+                    _clientAdapter->GetIsInitialized();
+            }
+        }
+
         virtual property bool IsLoading
         {
             bool get() { return _browserCore->IsLoading; }
@@ -182,9 +168,5 @@ namespace CefSharp
         virtual void OnFrameLoadEnd();
 
         virtual void RaiseConsoleMessage(String^ message, String^ source, int line);
-
-        virtual void OnApplyTemplate() override;
-        virtual void SetCursor(CefCursorHandle cursor);
-        virtual void SetBuffer(int width, int height, const std::vector<CefRect>& dirtyRects, const void* buffer);
     };
-}
+}}

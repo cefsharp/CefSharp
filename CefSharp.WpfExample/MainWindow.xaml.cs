@@ -1,17 +1,17 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
-using System.Windows.Controls;
 
 namespace CefSharp.WpfExample
 {
     public partial class MainWindow : Window
     {
-        private WebBrowser browser;
+        private WebView browser;
 
         public MainWindow()
         {
@@ -34,7 +34,7 @@ namespace CefSharp.WpfExample
             }
 
             var source = PresentationSource.FromVisual(sender as Visual) as HwndSource;
-            browser = new WebBrowser(source, "https://github.com/ataranto/CefSharp");
+            browser = new WebView(source, "https://github.com/ataranto/CefSharp");
 
             browser.PropertyChanged += HandleBrowserPropertyChanged;
             this.frame.Content = browser;

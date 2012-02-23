@@ -263,7 +263,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\WebBrowser.cpp"
+				RelativePath=".\WebView.cpp"
 				>
 			</File>
 		</Filter>
@@ -277,7 +277,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\WebBrowser.h"
+				RelativePath=".\WebView.h"
 				>
 			</File>
 		</Filter>

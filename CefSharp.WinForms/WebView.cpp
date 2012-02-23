@@ -1,12 +1,14 @@
 #include "stdafx.h"
 
-#include "WebBrowser.h"
+#include "WebView.h"
 
 using namespace System::Drawing;
 
 namespace CefSharp
 {
-    void WebBrowser::WaitForInitialized()
+namespace WinForms
+{
+    void WebView::WaitForInitialized()
     {
         if (IsInitialized)
         {
@@ -17,7 +19,7 @@ namespace CefSharp
         _initialized->WaitOne();
     }
 
-    void WebBrowser::OnHandleCreated(EventArgs^ e)
+    void WebView::OnHandleCreated(EventArgs^ e)
     {
         if (DesignMode == false) 
         {
@@ -38,7 +40,7 @@ namespace CefSharp
         }
     }
 
-    void WebBrowser::OnSizeChanged(EventArgs^ e)
+    void WebView::OnSizeChanged(EventArgs^ e)
     {
         if (IsInitialized && !DesignMode)
         {
@@ -53,7 +55,7 @@ namespace CefSharp
         }
     }
 
-    void WebBrowser::OnGotFocus(EventArgs^ e)
+    void WebView::OnGotFocus(EventArgs^ e)
     {
         if (IsInitialized && !DesignMode)
         {
@@ -61,44 +63,44 @@ namespace CefSharp
         }
     }
 
-    void WebBrowser::OnInitialized()
+    void WebView::OnInitialized()
     {
-        BeginInvoke(gcnew Action<EventArgs^>(this, &WebBrowser::OnSizeChanged), EventArgs::Empty);
+        BeginInvoke(gcnew Action<EventArgs^>(this, &WebView::OnSizeChanged), EventArgs::Empty);
         _initialized->Set();
     }
 
-    void WebBrowser::Load(String^ url)
+    void WebView::Load(String^ url)
     {
         WaitForInitialized();
         _browserCore->OnLoad();
         _clientAdapter->GetCefBrowser()->GetMainFrame()->LoadURL(toNative(url));
     }
 
-    void WebBrowser::Stop()
+    void WebView::Stop()
     {
         WaitForInitialized();
         _clientAdapter->GetCefBrowser()->StopLoad();
 
     }
 
-    void WebBrowser::Back()
+    void WebView::Back()
     {
         WaitForInitialized();
         _clientAdapter->GetCefBrowser()->GoBack();
     }
 
-    void WebBrowser::Forward()
+    void WebView::Forward()
     {
         WaitForInitialized();
         _clientAdapter->GetCefBrowser()->GoForward();
     }
 
-    void WebBrowser::Reload()
+    void WebView::Reload()
     {
         Reload(false);
     }
 
-    void WebBrowser::Reload(bool ignoreCache)
+    void WebView::Reload(bool ignoreCache)
     {
         WaitForInitialized();
         if (ignoreCache)
@@ -111,13 +113,13 @@ namespace CefSharp
         }
     }
 
-    void WebBrowser::Print()
+    void WebView::Print()
     {
         WaitForInitialized();
         _clientAdapter->GetCefBrowser()->GetMainFrame()->Print();
     }
 
-    void WebBrowser::ExecuteScript(String^ script)
+    void WebView::ExecuteScript(String^ script)
     {
         WaitForInitialized();
 
@@ -127,12 +129,12 @@ namespace CefSharp
         _scriptCore->Execute(frame, script);
     }
 
-    String^ WebBrowser::EvaluateScript(String^ script)
+    String^ WebView::EvaluateScript(String^ script)
     {
         return EvaluateScript(script, TimeSpan.MaxValue);
     }
 
-    String^ WebBrowser::EvaluateScript(String^ script, TimeSpan timeout)
+    String^ WebView::EvaluateScript(String^ script, TimeSpan timeout)
     {
 	    WaitForInitialized();
 
@@ -142,23 +144,23 @@ namespace CefSharp
         return _scriptCore->Evaluate(frame, script, timeout);
     }
 
-    void WebBrowser::SetNavState(bool isLoading, bool canGoBack, bool canGoForward)
+    void WebView::SetNavState(bool isLoading, bool canGoBack, bool canGoForward)
     {
         _browserCore->SetNavState(isLoading, canGoBack, canGoForward);
     }
 
-    void WebBrowser::RaiseConsoleMessage(String^ message, String^ source, int line)
+    void WebView::RaiseConsoleMessage(String^ message, String^ source, int line)
     {
         ConsoleMessage(this, gcnew ConsoleMessageEventArgs(message, source, line));
     }
 
-    void WebBrowser::OnFrameLoadStart()
+    void WebView::OnFrameLoadStart()
     {
         _browserCore->OnFrameLoadStart();
     }
 
-    void WebBrowser::OnFrameLoadEnd()
+    void WebView::OnFrameLoadEnd()
     {
         _browserCore->OnFrameLoadEnd();
     }
-}
+}}

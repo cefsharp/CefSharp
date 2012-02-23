@@ -1,10 +1,10 @@
 #include "stdafx.h"
 
-#include "WebBrowser.h"
+#include "WebView.h"
 
 namespace CefSharp
 {
-    void WebBrowser::WaitForInitialized()
+    void WebView::WaitForInitialized()
     {
         if (IsInitialized)
         {
@@ -15,12 +15,12 @@ namespace CefSharp
         _initialized->WaitOne();
     }
 
-    void WebBrowser::SetCursor(SafeFileHandle^ handle)
+    void WebView::SetCursor(SafeFileHandle^ handle)
     {
         Cursor = CursorInteropHelper::Create(handle);
     }
 
-    IntPtr WebBrowser::SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, bool% handled)
+    IntPtr WebView::SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, bool% handled)
     {
         handled = false;
         
@@ -67,7 +67,7 @@ namespace CefSharp
         return IntPtr::Zero;
     }
 
-    void WebBrowser::SetBitmap()
+    void WebView::SetBitmap()
     {
 		InteropBitmap^ bitmap = _ibitmap;
 
@@ -85,42 +85,42 @@ namespace CefSharp
 		bitmap->Invalidate();
     }
 
-    Size WebBrowser::ArrangeOverride(Size size)
+    Size WebView::ArrangeOverride(Size size)
     {
 		if(_clientAdapter->GetIsInitialized()) {
 			_clientAdapter->GetCefBrowser()->SetSize(PET_VIEW, (int)size.Width, (int)size.Height);
 		} else {
-			Dispatcher->BeginInvoke(DispatcherPriority::Loaded, gcnew ActionDelegate(this, &WebBrowser::InvalidateArrange));
+			Dispatcher->BeginInvoke(DispatcherPriority::Loaded, gcnew ActionDelegate(this, &WebView::InvalidateArrange));
 		}
 
         return ContentControl::ArrangeOverride(size);
     }
 
-    void WebBrowser::OnGotFocus(RoutedEventArgs^ e)
+    void WebView::OnGotFocus(RoutedEventArgs^ e)
     {
         _clientAdapter->GetCefBrowser()->SendFocusEvent(true);
         ContentControl::OnGotFocus(e);
     }
 
-    void WebBrowser::OnLostFocus(RoutedEventArgs^ e)
+    void WebView::OnLostFocus(RoutedEventArgs^ e)
     {
         _clientAdapter->GetCefBrowser()->SendFocusEvent(false);
         ContentControl::OnLostFocus(e);
     }
 
-    void WebBrowser::OnMouseMove(MouseEventArgs^ e)
+    void WebView::OnMouseMove(MouseEventArgs^ e)
     {
         Point point = e->GetPosition(this);
         _clientAdapter->GetCefBrowser()->SendMouseMoveEvent((int)point.X, (int)point.Y, false);
     }
 
-    void WebBrowser::OnMouseWheel(MouseWheelEventArgs^ e)
+    void WebView::OnMouseWheel(MouseWheelEventArgs^ e)
     {
         Point point = e->GetPosition(this);
         _clientAdapter->GetCefBrowser()->SendMouseWheelEvent((int)point.X, (int)point.Y, e->Delta);
     }
 
-    void WebBrowser::OnMouseDown(MouseButtonEventArgs^ e)
+    void WebView::OnMouseDown(MouseButtonEventArgs^ e)
     {
         Keyboard::Focus(this); // XXX: temporary
 
@@ -138,12 +138,12 @@ namespace CefSharp
         _clientAdapter->GetCefBrowser()->SendMouseClickEvent((int)point.X, (int)point.Y, mbt, false, 1);
     }
 
-    void WebBrowser::OnMouseLeave(MouseEventArgs^ e)
+    void WebView::OnMouseLeave(MouseEventArgs^ e)
     {
         _clientAdapter->GetCefBrowser()->SendMouseMoveEvent(0, 0, true);
     }
 
-    void WebBrowser::OnMouseUp(MouseButtonEventArgs^ e)
+    void WebView::OnMouseUp(MouseButtonEventArgs^ e)
     {
         Point point = e->GetPosition(this);
         CefBrowser::MouseButtonType mbt;
@@ -159,43 +159,43 @@ namespace CefSharp
         _clientAdapter->GetCefBrowser()->SendMouseClickEvent((int)point.X, (int)point.Y, mbt, true, 1);
     }
 
-    void WebBrowser::OnInitialized()
+    void WebView::OnInitialized()
     {
         _initialized->Set();
     }
 
-    void WebBrowser::Load(String^ url)
+    void WebView::Load(String^ url)
     {
         WaitForInitialized();
         _browserCore->OnLoad();
         _clientAdapter->GetCefBrowser()->GetMainFrame()->LoadURL(toNative(url));
     }
 
-    void WebBrowser::Stop()
+    void WebView::Stop()
     {
         WaitForInitialized();
         _clientAdapter->GetCefBrowser()->StopLoad();
 
     }
 
-    void WebBrowser::Back()
+    void WebView::Back()
     {
         WaitForInitialized();
         _clientAdapter->GetCefBrowser()->GoBack();
     }
 
-    void WebBrowser::Forward()
+    void WebView::Forward()
     {
         WaitForInitialized();
         _clientAdapter->GetCefBrowser()->GoForward();
     }
 
-    void WebBrowser::Reload()
+    void WebView::Reload()
     {
         Reload(false);
     }
 
-    void WebBrowser::Reload(bool ignoreCache)
+    void WebView::Reload(bool ignoreCache)
     {
         WaitForInitialized();
         if (ignoreCache)
@@ -208,13 +208,13 @@ namespace CefSharp
         }
     }
 
-    void WebBrowser::Print()
+    void WebView::Print()
     {
         WaitForInitialized();
         _clientAdapter->GetCefBrowser()->GetMainFrame()->Print();
     }
 
-    void WebBrowser::ExecuteScript(String^ script)
+    void WebView::ExecuteScript(String^ script)
     {
         WaitForInitialized();
 
@@ -224,12 +224,12 @@ namespace CefSharp
         _scriptCore->Execute(frame, script);
     }
 
-    String^ WebBrowser::EvaluateScript(String^ script)
+    String^ WebView::EvaluateScript(String^ script)
     {
         return EvaluateScript(script, TimeSpan.MaxValue);
     }
 
-    String^ WebBrowser::EvaluateScript(String^ script, TimeSpan timeout)
+    String^ WebView::EvaluateScript(String^ script, TimeSpan timeout)
     {
 	    WaitForInitialized();
 
@@ -239,27 +239,27 @@ namespace CefSharp
         return _scriptCore->Evaluate(frame, script, timeout);
     }
 
-    void WebBrowser::SetNavState(bool isLoading, bool canGoBack, bool canGoForward)
+    void WebView::SetNavState(bool isLoading, bool canGoBack, bool canGoForward)
     {
         _browserCore->SetNavState(isLoading, canGoBack, canGoForward);
     }
 
-    void WebBrowser::RaiseConsoleMessage(String^ message, String^ source, int line)
+    void WebView::RaiseConsoleMessage(String^ message, String^ source, int line)
     {
         ConsoleMessage(this, gcnew ConsoleMessageEventArgs(message, source, line));
     }
 
-    void WebBrowser::OnFrameLoadStart()
+    void WebView::OnFrameLoadStart()
     {
         _browserCore->OnFrameLoadStart();
     }
 
-    void WebBrowser::OnFrameLoadEnd()
+    void WebView::OnFrameLoadEnd()
     {
         _browserCore->OnFrameLoadEnd();
     }
 
-    void WebBrowser::OnApplyTemplate()
+    void WebView::OnApplyTemplate()
     {
         ContentControl::OnApplyTemplate();
 
@@ -275,14 +275,14 @@ namespace CefSharp
         }
     }
 
-    void WebBrowser::SetCursor(CefCursorHandle cursor)
+    void WebView::SetCursor(CefCursorHandle cursor)
     {
         SafeFileHandle^ handle = gcnew SafeFileHandle((IntPtr)cursor, false);
         Dispatcher->BeginInvoke(DispatcherPriority::Render,
-            gcnew Action<SafeFileHandle^>(this, &WebBrowser::SetCursor), handle);
+            gcnew Action<SafeFileHandle^>(this, &WebView::SetCursor), handle);
     }
 
-    void WebBrowser::SetBuffer(int width, int height, const std::vector<CefRect>& dirtyRects, const void* buffer)
+    void WebView::SetBuffer(int width, int height, const std::vector<CefRect>& dirtyRects, const void* buffer)
     {
         /*
 		if (dirtyRect.width == 0 || dirtyRect.height == 0 || width == 0 || height == 0)

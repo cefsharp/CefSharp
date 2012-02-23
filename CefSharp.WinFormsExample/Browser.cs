@@ -4,19 +4,20 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using CefSharp;
+using CefSharp.WinForms;
 
 namespace CefSharp.WinFormsExample
 {
     public partial class Browser : Form, IBeforePopup, IBeforeResourceLoad, IAfterResponse
     {
-        private readonly WebBrowser _browserControl;
+        private readonly WebView _browserControl;
         private const string cefSharpHomeUrl = "https://github.com/ataranto/CefSharp";
 
         public Browser()
         {
             InitializeComponent();
             Text = "CefSharp";
-            _browserControl = new WebBrowser(cefSharpHomeUrl, new BrowserSettings());
+            _browserControl = new WebView(cefSharpHomeUrl, new BrowserSettings());
             _browserControl.Dock = DockStyle.Fill;
             _browserControl.PropertyChanged += HandleBrowserPropertyChanged;
             _browserControl.ConsoleMessage += HandleConsoleMessage;
