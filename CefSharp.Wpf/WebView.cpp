@@ -4,6 +4,8 @@
 
 namespace CefSharp
 {
+namespace Wpf
+{
     void WebView::WaitForInitialized()
     {
         if (IsInitialized)
@@ -333,4 +335,4 @@ namespace CefSharp
 			Dispatcher->BeginInvoke(DispatcherPriority::Render, _paintDelegate);
 		}
     }
-}
+}}

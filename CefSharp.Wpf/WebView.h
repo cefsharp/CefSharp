@@ -23,6 +23,8 @@ using namespace System::Threading;
 
 namespace CefSharp
 {
+namespace Wpf
+{
     [TemplatePart(Name="PART_Browser", Type=System::Windows::Controls::Image::typeid)]
     public ref class WebView sealed : public ContentControl, IOffscreenWebBrowser
     {
@@ -186,4 +188,4 @@ namespace CefSharp
         virtual void SetCursor(CefCursorHandle cursor);
         virtual void SetBuffer(int width, int height, const std::vector<CefRect>& dirtyRects, const void* buffer);
     };
-}
+}}
