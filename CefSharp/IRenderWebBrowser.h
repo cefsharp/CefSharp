@@ -5,7 +5,7 @@
 
 namespace CefSharp
 {
-    public interface class IOffscreenWebBrowser : IWebBrowser
+    public interface class IRenderWebBrowser : IWebBrowser
     {
     public:
         void SetCursor(CefCursorHandle cursor);

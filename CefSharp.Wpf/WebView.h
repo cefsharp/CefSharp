@@ -1,6 +1,6 @@
 #pragma once
 
-#include "OffscreenClientAdapter.h"
+#include "RenderClientAdapter.h"
 #include "ScriptCore.h"
     
 using namespace Microsoft::Win32::SafeHandles;
@@ -21,13 +21,13 @@ namespace CefSharp
 namespace Wpf
 {
     [TemplatePart(Name="PART_Browser", Type=System::Windows::Controls::Image::typeid)]
-    public ref class WebView sealed : public ContentControl, IOffscreenWebBrowser
+    public ref class WebView sealed : public ContentControl, IRenderWebBrowser
     {
 		delegate void ActionDelegate();
 
         ManualResetEvent^ _initialized;
 
-        MCefRefPtr<OffscreenClientAdapter> _clientAdapter;
+        MCefRefPtr<RenderClientAdapter> _clientAdapter;
         BrowserCore^ _browserCore;
         MCefRefPtr<ScriptCore> _scriptCore;
 
@@ -94,8 +94,8 @@ namespace Wpf
             CefWindowInfo window;
             window.SetAsOffScreen(hWnd);
 
-            _clientAdapter = new OffscreenClientAdapter(this);
-            CefRefPtr<OffscreenClientAdapter> ptr = _clientAdapter.get();
+            _clientAdapter = new RenderClientAdapter(this);
+            CefRefPtr<RenderClientAdapter> ptr = _clientAdapter.get();
 
             CefBrowserSettings settings;
             CefBrowser::CreateBrowser(window, static_cast<CefRefPtr<CefClient>>(ptr), toNative(address), settings);

@@ -209,7 +209,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\OffscreenClientAdapter.cpp"
+				RelativePath=".\RenderClientAdapter.cpp"
 				>
 			</File>
 			<File
@@ -315,7 +315,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\IOffscreenWebBrowser.h"
+				RelativePath=".\IRenderWebBrowser.h"
 				>
 			</File>
 			<File
@@ -327,7 +327,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\OffscreenClientAdapter.h"
+				RelativePath=".\RenderClientAdapter.h"
 				>
 			</File>
 			<File
