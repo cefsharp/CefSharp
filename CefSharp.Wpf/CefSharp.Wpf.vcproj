@@ -61,6 +61,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="libcef.lib libcef_dll_wrapper.lib CefSharp.lib"
+				ShowProgress="1"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="$(SolutionDir)libs\$(ConfigurationName);$(SolutionDir)$(ConfigurationName)"
 				GenerateDebugInformation="true"
@@ -134,6 +135,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="libcef.lib libcef_dll_wrapper.lib CefSharp.lib"
+				ShowProgress="1"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(SolutionDir)libs\$(ConfigurationName);$(SolutionDir)$(ConfigurationName)"
 				GenerateDebugInformation="true"
