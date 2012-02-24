@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #pragma once
 
 #include "BrowserSettings.h"

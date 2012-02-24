@@ -1,5 +1,3 @@
-#include "stdafx.h"
-
 #include "WebView.h"
 
 using namespace System::Drawing;
