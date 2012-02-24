@@ -199,6 +199,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CefSharp\Utils.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\WebView.cpp"
 				>
 			</File>

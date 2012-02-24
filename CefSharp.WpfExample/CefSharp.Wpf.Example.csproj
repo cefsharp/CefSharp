@@ -75,6 +75,10 @@
       <Project>{C944B6A6-7CAF-4101-B81B-2DE47296FC40}</Project>
       <Name>CefSharp.Wpf</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CefSharp\CefSharp.vcproj">
+      <Project>{7B495581-2271-4F41-9476-ACB86E8C864F}</Project>
+      <Name>CefSharp</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
