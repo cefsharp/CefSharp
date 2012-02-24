@@ -36,7 +36,7 @@ namespace CefSharp.Wpf.Example
             web_view = new WebView(source, "https://github.com/ataranto/CefSharp");
 
             this.frame.Content = web_view;
-            new ExamplePresenter(web_view, this, invoke => { });
+            //new ExamplePresenter(web_view, this, invoke => { });
         }
 
         public void SetTitle(string title)
@@ -77,7 +77,7 @@ namespace CefSharp.Wpf.Example
             }
 
             var handler = UrlActivated;
-            if (handler)
+            if (handler != null)
             {
                 handler(this, urlTextBox.Text);
             }
