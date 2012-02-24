@@ -315,7 +315,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ManagedCefRefPtr.h"
+				RelativePath=".\MCefRefPtr.h"
 				>
 			</File>
 			<File
