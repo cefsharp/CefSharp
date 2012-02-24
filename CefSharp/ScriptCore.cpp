@@ -60,7 +60,7 @@ namespace CefSharp
         }
     }
 
-    CefString ScriptCore::Evaluate(CefRefPtr<CefFrame> frame, CefString script, int timeout)
+    CefString ScriptCore::Evaluate(CefRefPtr<CefFrame> frame, CefString script, double timeout)
     {
         AutoLock lock_scope(this);
 

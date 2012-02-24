@@ -21,7 +21,7 @@ namespace CefSharp
         }
 
         DECL void Execute(CefRefPtr<CefFrame> frame, CefString script);
-        DECL CefString Evaluate(CefRefPtr<CefFrame> frame, CefString script, int timeout);
+        DECL CefString Evaluate(CefRefPtr<CefFrame> frame, CefString script, double timeout);
 
         IMPLEMENT_LOCKING(ScriptCore);
         IMPLEMENT_REFCOUNTING(ScriptCore);
