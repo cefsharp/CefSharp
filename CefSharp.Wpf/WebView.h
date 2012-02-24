@@ -1,6 +1,6 @@
-#include "stdafx.h"
 #pragma once
 
+/*
 #include "CefSharp.h"
 #include "OffscreenClientAdapter.h"
 #include "IOffscreenWebBrowser.h"
@@ -8,7 +8,8 @@
 #include "RtzCountdownEvent.h"
 #include "BrowserCore.h"
 #include "ScriptCore.h"
-
+*/
+    
 using namespace Microsoft::Win32::SafeHandles;
 using namespace System;
 using namespace System::Runtime::InteropServices;

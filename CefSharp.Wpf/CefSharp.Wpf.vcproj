@@ -45,7 +45,7 @@
 				AdditionalIncludeDirectories="$(SolutionDir)include;$(SolutionDir)CefSharp"
 				PreprocessorDefinitions="WIN32;_DEBUG"
 				RuntimeLibrary="3"
-				UsePrecompiledHeader="2"
+				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
@@ -118,7 +118,7 @@
 				AdditionalIncludeDirectories="$(SolutionDir)include;$(SolutionDir)CefSharp"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				RuntimeLibrary="2"
-				UsePrecompiledHeader="2"
+				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
@@ -183,6 +183,10 @@
 			AssemblyName="WindowsBase, Version=3.0.0.0, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
 			MinFrameworkVersion="196608"
 		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{7B495581-2271-4F41-9476-ACB86E8C864F}"
+			RelativePathToProject=".\CefSharp\CefSharp.vcproj"
+		/>
 	</References>
 	<Files>
 		<Filter
@@ -195,74 +199,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CefSharp\BindingHandler.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CefSharp\BrowserCore.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CefSharp\ClientAdapter.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CefSharp\OffscreenClientAdapter.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CefSharp\Request.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CefSharp\RequestResponse.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CefSharp\RtzCountdownEvent.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CefSharp\SchemeHandler.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CefSharp\ScriptCore.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CefSharp\ScriptException.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Stdafx.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\CefSharp\StreamAdapter.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CefSharp\Utils.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\WebView.cpp"
 				>
 			</File>
@@ -272,10 +208,6 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<File
-				RelativePath=".\Stdafx.h"
-				>
-			</File>
 			<File
 				RelativePath=".\WebView.h"
 				>
