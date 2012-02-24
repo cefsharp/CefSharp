@@ -126,7 +126,7 @@ namespace WinForms
         CefRefPtr<CefBrowser> browser = _clientAdapter->GetCefBrowser();
         CefRefPtr<CefFrame> frame = browser->GetMainFrame();
 
-        _scriptCore->Execute(frame, script);
+        _scriptCore->Execute(frame, toNative(script));
     }
 
     String^ WebView::EvaluateScript(String^ script)
@@ -141,7 +141,8 @@ namespace WinForms
         CefRefPtr<CefBrowser> browser = _clientAdapter->GetCefBrowser();
         CefRefPtr<CefFrame> frame = browser->GetMainFrame();
 
-        return _scriptCore->Evaluate(frame, script, timeout);
+        CefString result = _scriptCore->Evaluate(frame, toNative(script), timeout.TotalMilliseconds);
+        return toClr(result);
     }
 
     void WebView::SetNavState(bool isLoading, bool canGoBack, bool canGoForward)

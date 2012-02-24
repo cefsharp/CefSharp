@@ -2,16 +2,20 @@
 
 /*
 #include "CefSharp.h"
-#include "OffscreenClientAdapter.h"
 #include "IOffscreenWebBrowser.h"
 #include "ConsoleMessageEventArgs.h"
 #include "RtzCountdownEvent.h"
 #include "BrowserCore.h"
 #include "ScriptCore.h"
 */
+
+#include "OffscreenClientAdapter.h"
+#include "ScriptCore.h"
+
     
 using namespace Microsoft::Win32::SafeHandles;
 using namespace System;
+using namespace System::ComponentModel;
 using namespace System::Runtime::InteropServices;
 using namespace System::Windows;
 using namespace System::Windows::Controls;
@@ -187,6 +191,6 @@ namespace Wpf
 
         virtual void OnApplyTemplate() override;
         virtual void SetCursor(CefCursorHandle cursor);
-        virtual void SetBuffer(int width, int height, const std::vector<CefRect>& dirtyRects, const void* buffer);
+        virtual void SetBuffer(int width, int height, const void* buffer);
     };
 }}

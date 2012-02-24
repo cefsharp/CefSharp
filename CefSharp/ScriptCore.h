@@ -20,8 +20,8 @@ namespace CefSharp
             _event = CreateEvent(NULL, FALSE, FALSE, NULL);
         }
 
-        void Execute(CefRefPtr<CefFrame> frame, String^ script);
-        String^ Evaluate(CefRefPtr<CefFrame> frame, String^ script, TimeSpan timeout);
+        DECL void Execute(CefRefPtr<CefFrame> frame, CefString script);
+        DECL CefString Evaluate(CefRefPtr<CefFrame> frame, CefString script, int timeout);
 
         IMPLEMENT_LOCKING(ScriptCore);
         IMPLEMENT_REFCOUNTING(ScriptCore);

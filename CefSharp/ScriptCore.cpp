@@ -47,47 +47,45 @@ namespace CefSharp
         SetEvent(_event);
     }
 
-    void ScriptCore::Execute(CefRefPtr<CefFrame> frame, String^ script)
+    void ScriptCore::Execute(CefRefPtr<CefFrame> frame, CefString script)
     {
         if (CefCurrentlyOn(TID_UI))
         {
-            UIT_Execute(frame, toNative(script));
+            UIT_Execute(frame, script);
         }
         else
         {
             CefPostTask(TID_UI, NewCefRunnableMethod(this, &ScriptCore::UIT_Execute,
-                frame, toNative(script)));
+                frame, script));
         }
     }
 
-    String^ ScriptCore::Evaluate(CefRefPtr<CefFrame> frame, String^ script, TimeSpan timeout)
+    CefString ScriptCore::Evaluate(CefRefPtr<CefFrame> frame, CefString script, int timeout)
     {
         AutoLock lock_scope(this);
 
         if (CefCurrentlyOn(TID_UI))
         {
-            UIT_Evaluate(frame, toNative(script));
+            UIT_Evaluate(frame, script);
         }
         else
         {
             CefPostTask(TID_UI, NewCefRunnableMethod(this, &ScriptCore::UIT_Evaluate,
-                frame, toNative(script)));
+                frame, script));
 
-            if (WaitForSingleObject(_event, timeout.TotalMilliseconds))
+            if (WaitForSingleObject(_event, timeout))
             {
                 throw gcnew ScriptException("Script timed out");
             }
         }
 
-        String^ result = toClr(_result);
-
         if (!_success)
         {
-            throw gcnew ScriptException(result);
+            throw gcnew ScriptException(toClr(_result));
         }
         else
         {
-            return result;
+            return _result;
         }
     }
 }

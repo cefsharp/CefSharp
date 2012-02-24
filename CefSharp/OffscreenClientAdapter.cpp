@@ -25,7 +25,7 @@ namespace CefSharp
         int width, height;
         browser->GetSize(type, width, height);
 
-        _offscreenBrowserControl->SetBuffer(width, height, dirtyRects, buffer);
+        _offscreenBrowserControl->SetBuffer(width, height, buffer);
     }
 
     void OffscreenClientAdapter::OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor)

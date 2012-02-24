@@ -221,7 +221,7 @@ namespace Wpf
         CefRefPtr<CefBrowser> browser = _clientAdapter->GetCefBrowser();
         CefRefPtr<CefFrame> frame = browser->GetMainFrame();
 
-        _scriptCore->Execute(frame, script);
+        _scriptCore->Execute(frame, toNative(script));
     }
 
     String^ WebView::EvaluateScript(String^ script)
@@ -236,7 +236,8 @@ namespace Wpf
         CefRefPtr<CefBrowser> browser = _clientAdapter->GetCefBrowser();
         CefRefPtr<CefFrame> frame = browser->GetMainFrame();
 
-        return _scriptCore->Evaluate(frame, script, timeout);
+        CefString result = _scriptCore->Evaluate(frame, toNative(script), timeout.TotalMilliseconds);
+        return toClr(result);
     }
 
     void WebView::SetNavState(bool isLoading, bool canGoBack, bool canGoForward)
@@ -282,15 +283,8 @@ namespace Wpf
             gcnew Action<SafeFileHandle^>(this, &WebView::SetCursor), handle);
     }
 
-    void WebView::SetBuffer(int width, int height, const std::vector<CefRect>& dirtyRects, const void* buffer)
+    void WebView::SetBuffer(int width, int height, const void* buffer)
     {
-        /*
-		if (dirtyRect.width == 0 || dirtyRect.height == 0 || width == 0 || height == 0)
-        {
-            return;
-        }
-        */
-
         if (!_backBufferHandle || _width != width || _height != height)
         {
 			_ibitmap = nullptr;

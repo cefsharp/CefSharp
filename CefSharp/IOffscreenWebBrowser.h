@@ -9,6 +9,6 @@ namespace CefSharp
     {
     public:
         void SetCursor(CefCursorHandle cursor);
-        void SetBuffer(int width, int height, const std::vector<CefRect>& dirtyRects, const void* buffer);
+        void SetBuffer(int width, int height, const void* buffer);
     };
 }
