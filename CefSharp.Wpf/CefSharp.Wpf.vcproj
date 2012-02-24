@@ -199,7 +199,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CefSharp\Utils.cpp"
+				RelativePath="..\CefSharp\StringUtil.cpp"
 				>
 			</File>
 			<File

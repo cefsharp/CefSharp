@@ -261,7 +261,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Utils.cpp"
+				RelativePath=".\StringUtil.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\TypeUtil.cpp"
 				>
 			</File>
 		</Filter>
@@ -363,7 +367,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Utils.h"
+				RelativePath=".\StringUtil.h"
+				>
+			</File>
+			<File
+				RelativePath=".\TypeUtil.h"
 				>
 			</File>
 		</Filter>

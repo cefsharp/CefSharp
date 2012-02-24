@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "BindingHandler.h"
-#include "Utils.h"
 
 namespace CefSharp
 {

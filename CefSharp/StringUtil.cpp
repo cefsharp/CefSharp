@@ -1,32 +1,31 @@
 #include "stdafx.h"
 
-#include "StringUtil.h"
-
-using namespace System::Runtime::InteropServices;
-
 namespace CefSharp
 {
-    String^ StringUtil::ToClr(IntPtr ptr)
-    {
-        return Marshal::PtrToStringAnsi(ptr);
-    }
-
-    /*
-    String^ StringUtil::ToClr(const cef_string_t& cefStr)
+    String^ toClr(const cef_string_t& cefStr)
     {
         return gcnew String(cefStr.str);
     }
 
-    String^ StringUtil::ToClr(const CefString& cefStr)
+    String^ toClr(const CefString& cefStr)
     {
         return gcnew String(cefStr.c_str());
     }
-    */
 
-    CefString StringUtil::ToNative(String^ str)
+    CefString toNative(String^ str)
     {
         pin_ptr<const wchar_t> pStr = PtrToStringChars(str);
         CefString cefStr(pStr);
         return cefStr;
+    }
+
+    void assignFromString(cef_string_t& cefStrT, String^ str)
+    {
+        cef_string_clear(&cefStrT);
+        if(str != nullptr)
+        {
+            pin_ptr<const wchar_t> pStr = PtrToStringChars(str);
+            cef_string_copy(pStr, str->Length, &cefStrT);
+        }
     }
 }
