@@ -131,7 +131,7 @@ namespace WinForms
 
     String^ WebView::EvaluateScript(String^ script)
     {
-        return EvaluateScript(script, TimeSpan.MaxValue);
+        return EvaluateScript(script, TimeSpan::MaxValue);
     }
 
     String^ WebView::EvaluateScript(String^ script, TimeSpan timeout)
