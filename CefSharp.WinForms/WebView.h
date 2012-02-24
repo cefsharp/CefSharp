@@ -1,16 +1,12 @@
 #include "stdafx.h"
 #pragma once
 
-#include "CefSharp.h"
-#include "ClientAdapter.h"
-#include "IWebBrowser.h"
-#include "ConsoleMessageEventArgs.h"
-#include "RtzCountdownEvent.h"
 #include "BrowserSettings.h"
-#include "BrowserCore.h"
+#include "ClientAdapter.h"
 #include "ScriptCore.h"
 
 using namespace System;
+using namespace System::ComponentModel;
 using namespace System::Windows::Forms;
 using namespace System::Threading;
 

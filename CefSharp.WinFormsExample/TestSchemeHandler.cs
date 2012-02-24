@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Text;
-using CefSharp;
 using CefSharp.WinForms.Example.Properties;
 
 namespace CefSharp.WinForms.Example
