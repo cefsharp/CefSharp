@@ -4,7 +4,6 @@
 
 namespace CefSharp
 {
-
     String^ CefRequestWrapper::Url::get()
     {
         return toClr(_wrappedRequest->GetURL());
@@ -42,7 +41,6 @@ namespace CefSharp
 
         return headers;
     }
-
 
     void CefRequestWrapper::SetHeaders(IDictionary<String^, String^>^ headers)
     {

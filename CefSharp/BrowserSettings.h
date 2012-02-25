@@ -5,7 +5,6 @@ namespace CefSharp
 {
     public ref class BrowserSettings
     {
-
     internal:
         CefBrowserSettings* _browserSettings;
 
@@ -235,7 +234,5 @@ namespace CefSharp
             bool get() { return _browserSettings->drag_drop_disabled; }
             void set(bool value) { _browserSettings->drag_drop_disabled = value; }
         }
-
     };
-
 }

@@ -7,7 +7,6 @@ using namespace System::Threading;
 
 namespace CefSharp
 {
-
     ///<summary>Return-To-Zero latch, signals whenever count is zero</summary>
     [System::Diagnostics::DebuggerDisplayAttribute("Current Count={CurrentCount}")]
     public ref class RtzCountdownEvent sealed
@@ -17,7 +16,6 @@ namespace CefSharp
         bool _disposed;
 
     public:
-
         RtzCountdownEvent() :
             _event(gcnew ManualResetEvent(true)),
             _currentCount(0),
@@ -51,5 +49,4 @@ namespace CefSharp
         void Wait();
         void Wait(int timeout);
     };
-
 }

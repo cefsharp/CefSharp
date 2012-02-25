@@ -2,7 +2,6 @@
 #pragma once
 
 #include "IWebBrowser.h"
-#include "Request.h"
 #include "RequestResponse.h"
 
 using namespace System;

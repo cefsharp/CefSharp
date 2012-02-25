@@ -64,5 +64,4 @@ namespace CefSharp
     {
         return _stream->Length == _stream->Position;
     }
-
 }

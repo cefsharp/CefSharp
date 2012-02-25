@@ -205,10 +205,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ConsoleMessageEventArgs.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\RenderClientAdapter.cpp"
 				>
 			</File>
@@ -230,10 +226,6 @@
 			</File>
 			<File
 				RelativePath=".\ScriptCore.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ScriptException.cpp"
 				>
 			</File>
 			<File

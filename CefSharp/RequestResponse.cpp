@@ -30,5 +30,4 @@ namespace CefSharp
         _mimeType = mimeType;
         _action = ResponseAction::Respond;
     }
-
 }
