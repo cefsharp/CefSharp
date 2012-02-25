@@ -41,7 +41,7 @@ namespace CefSharp
         {
             String^ get()
             {
-                return "0.3";
+                return "0.9";
             }
         }
 

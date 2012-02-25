@@ -1,227 +1,178 @@
 ﻿using System;
-using System.ComponentModel;
-using System.IO;
-using System.Text;
 using System.Windows.Forms;
+using CefSharp.Example;
 
 namespace CefSharp.WinForms.Example
 {
-    public partial class Browser : Form, IBeforePopup, IBeforeResourceLoad, IAfterResponse
+    public partial class Browser : Form, IExampleView
     {
-        private readonly WebView _browserControl;
-        private const string cefSharpHomeUrl = "https://github.com/ataranto/CefSharp";
+        public event Action<object, string> UrlActivated;
+
+        public event EventHandler BackActivated
+        {
+            add { backButton.Click += value; }
+            remove { backButton.Click -= value; }
+        }
+
+        public event EventHandler ForwardActivated
+        {
+            add { forwardButton.Click += value; }
+            remove { forwardButton.Click -= value; }
+        }
+
+        public event EventHandler TestResourceLoadActivated
+        {
+            add { testResourceLoadMenuItem.Click += value; }
+            remove { testResourceLoadMenuItem.Click -= value; }
+        }
+
+        public event EventHandler TestSchemeLoadActivated
+        {
+            add { testSchemeLoadMenuItem.Click += value; }
+            remove { testSchemeLoadMenuItem.Click -= value; }
+        }
+
+        public event EventHandler TestExecuteScriptActivated
+        {
+            add { testExecuteScriptMenuItem.Click += value; }
+            remove { testExecuteScriptMenuItem.Click -= value; }
+        }
+
+        public event EventHandler TestEvaluateScriptActivated
+        {
+            add { testEvaluateScriptMenuItem.Click += value; }
+            remove { testEvaluateScriptMenuItem.Click -= value; }
+        }
+
+        public event EventHandler TestBindActivated
+        {
+            add { testBindMenuItem.Click += value; }
+            remove { testBindMenuItem.Click -= value; }
+        }
+
+        public event EventHandler TestConsoleMessageActivated
+        {
+            add { testConsoleMessageMenuItem.Click += value; }
+            remove { testConsoleMessageMenuItem.Click -= value; }
+        }
+
+        public event EventHandler ExitActivated
+        {
+            add { exitToolStripMenuItem.Click += value; }
+            remove { exitToolStripMenuItem.Click -= value; }
+        }
+
+        private readonly WebView web_view;
 
         public Browser()
         {
             InitializeComponent();
             Text = "CefSharp";
-            _browserControl = new WebView(cefSharpHomeUrl, new BrowserSettings());
-            _browserControl.Dock = DockStyle.Fill;
-            _browserControl.PropertyChanged += HandleBrowserPropertyChanged;
-            _browserControl.ConsoleMessage += HandleConsoleMessage;
-            _browserControl.BeforePopupHandler = this;
-            _browserControl.BeforeResourceLoadHandler = this;
-            _browserControl.AfterResponseHandler = this;
-            toolStripContainer.ContentPanel.Controls.Add(_browserControl);            
+
+            web_view = new WebView("https://github.com/ataranto/CefSharp", new BrowserSettings());
+            web_view.Dock = DockStyle.Fill;
+            toolStripContainer.ContentPanel.Controls.Add(web_view);
+
+            var presenter = new ExamplePresenter(web_view, this,
+                invoke => Invoke(invoke));
         }
 
-        private void HandleBrowserPropertyChanged(object sender, PropertyChangedEventArgs e)
+        public void SetTitle(string title)
         {
-            Invoke(new MethodInvoker(() => { if (!IsDisposed) UpdateBrowserControls(sender, e); }));
+            Text = title;
         }
 
-        private void UpdateBrowserControls(object sender, PropertyChangedEventArgs e)
+        public void SetTooltip(string tooltip)
         {
-            switch (e.PropertyName)
-            {
-                case "Title":
-                    Text = _browserControl.Title;
-                    break;
-                case "ToolTip":
-                    Console.WriteLine("ToolTip: {0}", _browserControl.Tooltip);
-                    break;
-                case "Address":
-                    urlTextBox.Text = _browserControl.Address;
-                    break;
-                case "CanGoBack":
-                    backButton.Enabled = _browserControl.CanGoBack;
-                    break;
-                case "CanGoForward":
-                    forwardButton.Enabled = _browserControl.CanGoForward;
-                    break;
-                case "IsLoading":
-                    goButton.Text = _browserControl.IsLoading ? "Stop" : "Go";
-                    break;
-            }
+
         }
 
-        private void HandleGoButtonClick(object sender, EventArgs e)
+        public void SetAddress(string address)
         {
-            if(_browserControl.IsLoading)
-            {
-                _browserControl.Stop();
-            }
-            else
-            {
-                _browserControl.Load(urlTextBox.Text);
-            }
+            urlTextBox.Text = address;
         }
 
-        private void HandleBackButtonClick(object sender, EventArgs e)
+        public void SetCanGoBack(bool can_go_back)
         {
-            _browserControl.Back();
+            backButton.Enabled = can_go_back;
         }
 
-        private void HandleForwardButtonClick(object sender, EventArgs e)
+        public void SetCanGoForward(bool can_go_forward)
         {
-            _browserControl.Forward();
+            forwardButton.Enabled = can_go_forward;
+        }
+
+        public void SetIsLoading(bool is_loading)
+        {
+            goButton.Text = is_loading ?
+                "Stop" :
+                "Go";
+            goButton.Image = is_loading ?
+                Properties.Resources.nav_plain_red :
+                Properties.Resources.nav_plain_green;
+
+            HandleToolStripLayout();
+        }
+
+        public void ExecuteScript(string script)
+        {
+            web_view.ExecuteScript(script);
+        }
+
+        public object EvaluateScript(string script)
+        {
+            return web_view.EvaluateScript(script);
+        }
+
+        public void DisplayOutput(string output)
+        {
+            outputLabel.Text = output;
         }
 
         private void HandleToolStripLayout(object sender, LayoutEventArgs e)
         {
-            int width = toolStrip1.DisplayRectangle.Width;
-            foreach (ToolStripItem tsi in toolStrip1.Items)
+            HandleToolStripLayout();
+        }
+
+        private void HandleToolStripLayout()
+        {
+            var width = toolStrip1.Width;
+            foreach (ToolStripItem item in toolStrip1.Items)
             {
-                if (tsi != urlTextBox)
+                if (item != urlTextBox)
                 {
-                    width -= tsi.Width;
-                    width -= tsi.Margin.Horizontal;
+                    width -= item.Width - item.Margin.Horizontal;
                 }
             }
-            urlTextBox.Width = Math.Max(0, width - urlTextBox.Margin.Horizontal);
+            urlTextBox.Width = Math.Max(0, width - urlTextBox.Margin.Horizontal - 18);
+        }
+
+        private void HandleGoButtonClick(object sender, EventArgs e)
+        {
+            var handler = this.UrlActivated;
+            if (handler != null)
+            {
+                handler(this, urlTextBox.Text);
+            }
         }
 
         private void UrlTextBoxKeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            if (e.KeyCode != Keys.Enter)
             {
-                _browserControl.Load(urlTextBox.Text);
+                return;
             }
-        }
 
-        public bool HandleBeforePopup(string url, ref int x, ref int y, ref int width, ref int height)
-        {
-            Console.WriteLine("HandleBeforePopup: {0}", url);
-
-            x = y = 0;
-            width = 640;
-            height = 480;
-
-            return false;
-        }
-
-        public void HandleBeforeResourceLoad(IWebBrowser browserControl, IRequestResponse requestResponse)
-        {
-            IRequest request = requestResponse.Request;
-            if(request.Url.StartsWith("http://test/resource/load"))
+            var handler = UrlActivated;
+            if (handler != null)
             {
-                Stream resourceStream = new MemoryStream(Encoding.UTF8.GetBytes(
-                    "<html><body><h1>Success</h1><p>This document is loaded from a System.IO.Stream</p></body></html>"));
-                requestResponse.RespondWith(resourceStream, "text/html");
-            }
-        }
-
-        public void HandleSetCookie(string cookie)
-        {
-            Console.WriteLine(cookie);
-        }
-
-        private void ExitToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        private void TestResourceLoadToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            _browserControl.Load("http://test/resource/load");
-        }
-
-        private void TestRunJsSynchronouslyToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            Random rand = new Random();
-            int a = rand.Next(1, 10);
-            int b = rand.Next(1, 10);
-
-            try
-            {
-                String result = _browserControl.EvaluateScript(a + "+" + b);
-
-                if (result == (a + b).ToString())
-                {
-                    MessageBox.Show(string.Format("{0} + {1} = {2}", a, b, result), "Success");
-                }
-                else
-                {
-                    MessageBox.Show(string.Format("{0} + {1} != {2}", a, b, result), "Failure");
-                }
-            }
-            catch (Exception err)
-            {
-                MessageBox.Show(err.ToString(), "Failure");
+                handler(this, urlTextBox.Text);
             }
         }
 
         private void AboutToolStripMenuItemClick(object sender, EventArgs e)
         {
             new AboutBox().ShowDialog();
-        }
-
-        private void TestRunArbitraryJavaScriptToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            InputForm inputForm = new InputForm();
-            if(inputForm.ShowDialog() == DialogResult.OK)
-            {
-                string script = inputForm.GetInput();
-                try
-                {
-                    string result = _browserControl.EvaluateScript(script);
-                    MessageBox.Show(result, "Result");
-                }
-                catch(Exception err)
-                {
-                    MessageBox.Show(err.ToString(), "Error");
-                }
-            }
-        }
-
-        private void TestSchemeHandlerToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            _browserControl.Load("test://test/SchemeTest.html");
-        }
-
-        private void TestConsoleMessagesToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            _browserControl.Load("javascript:console.log('console log message text')");
-        }
-
-        private void HandleConsoleMessage(object sender, ConsoleMessageEventArgs e)
-        {
-            MessageBox.Show(e.Source + ":" + e.Line + " " + e.Message, "JavaScript console message");
-        }
-
-        private void TestBindClrObjectToJsToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            _browserControl.Load("test://test/BindingTest.html");
-        }
-
-        private void cefSharpHomeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _browserControl.Load(cefSharpHomeUrl);
-        }
-
-        private void fireBugLiteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _browserControl.Load("http://getfirebug.com/firebuglite");
-        }
-
-        private void testTooltipsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _browserControl.Load("test://test/TooltipTest.html");
-        }
-
-        private void testPopupWindowToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _browserControl.Load("test://test/PopupTest.html");
         }
     }
 }

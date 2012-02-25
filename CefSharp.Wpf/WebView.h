@@ -68,7 +68,7 @@ namespace Wpf
             }
         }
 
-        event ConsoleMessageEventHandler^ ConsoleMessage;
+        virtual event ConsoleMessageEventHandler^ ConsoleMessage;
 
         WebView(HwndSource^ source, String^ address)
         {

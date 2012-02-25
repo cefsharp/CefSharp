@@ -40,7 +40,10 @@ namespace CefSharp.Example
             this.view = view;
             this.gui_invoke = gui_invoke;
 
+            model.BeforeResourceLoadHandler = this;
+
             this.model.PropertyChanged += model_PropertyChanged;
+            model.ConsoleMessage += model_ConsoleMessage;
 
             this.view.UrlActivated += view_UrlActivated;
             this.view.ForwardActivated += view_ForwardActivated;
@@ -86,6 +89,11 @@ namespace CefSharp.Example
                     gui_invoke(() => view.SetIsLoading(@bool));
                     break; 
             }
+        }
+
+        private void model_ConsoleMessage(object sender, ConsoleMessageEventArgs e)
+        {
+            gui_invoke(() => view.DisplayOutput(e.Message));
         }
 
         private void view_UrlActivated(object sender, string url)

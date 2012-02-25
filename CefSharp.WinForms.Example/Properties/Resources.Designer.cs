@@ -60,34 +60,6 @@ namespace CefSharp.WinForms.Example.Properties {
             }
         }
         
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
-        ///&lt;html&gt;
-        ///	&lt;head&gt;
-        ///		&lt;title&gt;Binding Test&lt;/title&gt;
-        ///	&lt;/head&gt;
-        ///	&lt;body&gt;
-        ///	    &lt;p&gt;
-        ///	    Result of calling bound.Repeat(&quot;hi &quot;, 5) =
-        ///	    &lt;script type=&quot;text/javascript&quot;&gt;
-        ///	        var result = bound.Repeat(&quot;hi &quot;, 5);
-        ///	        document.write(&apos;&quot;&apos; + result + &apos;&quot;&apos;);
-        ///	        if(result == &quot;hi hi hi hi hi &quot;)
-        ///	        {
-        ///	            document.write(&quot; SUCCESS&quot;);
-        ///	        }
-        ///	        else
-        ///	        {
-        ///	            document.write(&quot; FAIL!&quot;);
-        ///	        }
-        ///	    [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string BindingTest {
-            get {
-                return ResourceManager.GetString("BindingTest", resourceCulture);
-            }
-        }
-        
         internal static System.Drawing.Bitmap chromium256 {
             get {
                 object obj = ResourceManager.GetObject("chromium256", resourceCulture);
@@ -120,65 +92,6 @@ namespace CefSharp.WinForms.Example.Properties {
             get {
                 object obj = ResourceManager.GetObject("nav_right_green", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
-        ///&lt;html&gt;
-        ///	&lt;head&gt;
-        ///		&lt;title&gt;Popup Test&lt;/title&gt;
-        ///	&lt;/head&gt;
-        ///	&lt;body&gt;
-        ///        &lt;a href=&quot;https://github.com/ataranto/CefSharp&quot; target=&quot;_blank&quot;&gt;target=_blank&lt;/a&gt;
-        ///        &lt;br /&gt;
-        ///        &lt;a href=&quot;#&quot; onclick=&quot;window.open(&apos;https://github.com/ataranto/CefSharp&apos;)&quot;&gt;window.open()&lt;/a&gt;
-        ///	&lt;/body&gt;
-        ///&lt;/html&gt;
-        ///.
-        /// </summary>
-        internal static string PopupTest {
-            get {
-                return ResourceManager.GetString("PopupTest", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
-        ///&lt;html&gt;
-        ///	&lt;head&gt;
-        ///		&lt;title&gt;Scheme Handler Test&lt;/title&gt;
-        ///	&lt;/head&gt;
-        ///	&lt;body&gt;
-        ///	&lt;h1&gt;Success&lt;/h1&gt;
-        ///	&lt;p&gt;Scheme Handler Functioned Correctly&lt;/p&gt;
-        ///	&lt;/body&gt;
-        ///&lt;/html&gt;.
-        /// </summary>
-        internal static string SchemeTest {
-            get {
-                return ResourceManager.GetString("SchemeTest", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
-        ///&lt;html&gt;
-        ///	&lt;head&gt;
-        ///		&lt;title&gt;Scheme Handler Test&lt;/title&gt;
-        ///	&lt;/head&gt;
-        ///	&lt;body&gt;
-        ///        &lt;form&gt;
-        ///        &lt;input type=&quot;text&quot; size=25 title=&quot;This is the first tooltip&quot;&gt;
-        ///        &lt;input type=&quot;text&quot; size=25 title=&quot;This is the second tooltip&quot;&gt;
-        ///        &lt;input type=&quot;button&quot; value=&quot;Submit&quot;&gt;
-        ///        &lt;/form&gt;
-        ///	&lt;/body&gt;
-        ///&lt;/html&gt;.
-        /// </summary>
-        internal static string TooltipTest {
-            get {
-                return ResourceManager.GetString("TooltipTest", resourceCulture);
             }
         }
     }

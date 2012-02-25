@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using CefSharp;
+using CefSharp.Example;
 
 namespace CefSharp.WinForms.Example
 {
@@ -9,20 +9,10 @@ namespace CefSharp.WinForms.Example
         [STAThread]
         static void Main(string[] args)
         {
-            Settings settings = new Settings();
-
-            if(!CEF.Initialize(settings))
-            {
-                Console.WriteLine("Couldn't initialise CEF");
-                return;
-            }
-
-            CEF.RegisterScheme("test", new TestSchemeHandlerFactory());
-            CEF.RegisterJsObject("bound", new BoundObject());
+            ExamplePresenter.Init();
 
             Browser browser = new Browser();
             Application.Run(browser);
         }
-
     }
 }

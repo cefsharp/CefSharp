@@ -64,7 +64,7 @@ namespace WinForms
             }
         }
 
-        event ConsoleMessageEventHandler^ ConsoleMessage;
+        virtual event ConsoleMessageEventHandler^ ConsoleMessage;
 
         WebView()
         {

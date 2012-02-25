@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #pragma once
 
+#include "ConsoleMessageEventArgs.h"
+
 using namespace System;
 using namespace System::ComponentModel;
 
@@ -14,6 +16,8 @@ namespace CefSharp
     public interface class IWebBrowser : INotifyPropertyChanged
     {
     public:
+        event ConsoleMessageEventHandler^ ConsoleMessage;
+
         property bool IsLoading { bool get(); }
         property bool CanGoBack { bool get(); }
         property bool CanGoForward { bool get(); }

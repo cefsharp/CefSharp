@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CefSharp.WinForms.Example</RootNamespace>
     <AssemblyName>CefSharp.WinForms.Example</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>
     </StartupObject>
@@ -42,6 +42,9 @@
       <HintPath>..\nunit\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
@@ -52,18 +55,11 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="BoundObject.cs" />
     <Compile Include="Browser.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Browser.Designer.cs">
       <DependentUpon>Browser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="InputForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="InputForm.Designer.cs">
-      <DependentUpon>InputForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs">
     </Compile>
@@ -73,8 +69,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="TestSchemeHandler.cs" />
-    <Compile Include="TestSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AboutBox.resx">
@@ -83,10 +77,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Browser.resx">
       <DependentUpon>Browser.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="InputForm.resx">
-      <DependentUpon>InputForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -111,13 +101,10 @@
     <None Include="Resources\chromium-256.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\BindingTest.html" />
-    <None Include="app.config" />
-    <None Include="Resources\PopupTest.html" />
-    <Content Include="Resources\SchemeTest.html" />
-    <Content Include="Resources\TooltipTest.html" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\CefSharp.Example\CefSharp.Example.csproj">
+      <Project>{A4394E7B-1155-43A6-989E-8AB72DDDC9E4}</Project>
+      <Name>CefSharp.Example</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CefSharp.WinForms\CefSharp.WinForms.vcproj">
       <Project>{978C9B2B-04B6-4359-A341-CA3FCBE98D32}</Project>
       <Name>CefSharp.WinForms</Name>

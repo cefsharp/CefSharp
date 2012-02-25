@@ -133,16 +133,4 @@
   <data name="chromium256" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\chromium-256.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="SchemeTest" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SchemeTest.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="BindingTest" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BindingTest.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="TooltipTest" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TooltipTest.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="PopupTest" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\PopupTest.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
 </root>

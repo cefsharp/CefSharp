@@ -11,7 +11,7 @@
             <MenuItem Header="Tests">
                 <MenuItem Header="Test Resource Load Handler" Name="testResourceLoadMenuItem" Click="control_Activated" />
                 <MenuItem Header="Test Scheme Load Handler" Name="testSchemeLoadMenuItem" Click="control_Activated" />
-                <MenuItem Header="Test Execute Javascript" Name="testExecuteScriptMenuItem" Click="control_Activated" />
+                <MenuItem Header="Test Execute JavaScript" Name="testExecuteScriptMenuItem" Click="control_Activated" />
                 <MenuItem Header="Test Evaluate JavaScript" Name="testEvaluateScriptMenuItem" Click="control_Activated" />
                 <MenuItem Header="Test Bind CLR Object to JavaScript" Name="testBindMenuItem" Click="control_Activated" />
                 <MenuItem Header="Test Console Message" Name="testConsoleMessageMenuItem" Click="control_Activated" />

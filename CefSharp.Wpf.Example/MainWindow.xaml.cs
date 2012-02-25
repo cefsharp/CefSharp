@@ -25,7 +25,6 @@ namespace CefSharp.Wpf.Example
         public event EventHandler ExitActivated;
 
         private WebView web_view;
-
         private IDictionary<object, EventHandler> handlers;
 
         public MainWindow()
@@ -41,9 +40,6 @@ namespace CefSharp.Wpf.Example
             this.frame.Content = web_view;
             var presenter = new ExamplePresenter(web_view, this,
                 invoke => Dispatcher.BeginInvoke(invoke));
-
-            web_view.BeforeResourceLoadHandler = presenter;
-            web_view.ConsoleMessage += web_view_ConsoleMessage;
 
             handlers = new Dictionary<object, EventHandler>
             {
@@ -126,11 +122,6 @@ namespace CefSharp.Wpf.Example
             {
                 handler(this, urlTextBox.Text);
             }
-        }
-
-        void web_view_ConsoleMessage(object sender, ConsoleMessageEventArgs e)
-        {
-            Dispatcher.BeginInvoke(new Action(() => DisplayOutput(e.Message)));
         }
 
         /*
