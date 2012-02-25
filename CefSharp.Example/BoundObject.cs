@@ -1,8 +1,8 @@
-using System;
+﻿using System;
 
-namespace CefSharp.WinForms.Example
+namespace CefSharp.Example
 {
-    public class BoundObject
+    class BoundObject
     {
         public string Repeat(string str, int n)
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -15,9 +16,17 @@ namespace CefSharp.Wpf.Example
         public event Action<object, string> UrlActivated;
         public event EventHandler BackActivated;
         public event EventHandler ForwardActivated;
+        public event EventHandler TestResourceLoadActivated;
+        public event EventHandler TestSchemeLoadActivated;
+        public event EventHandler TestExecuteScriptActivated;
+        public event EventHandler TestEvaluateScriptActivated;
+        public event EventHandler TestBindActivated;
+        public event EventHandler TestConsoleMessageActivated;
         public event EventHandler ExitActivated;
 
         private WebView web_view;
+
+        private IDictionary<object, EventHandler> handlers;
 
         public MainWindow()
         {
@@ -26,17 +35,28 @@ namespace CefSharp.Wpf.Example
 
         private void Window_SourceInitialized(object sender, EventArgs e)
         {
-            Settings settings = new Settings();
-            if (!CEF.Initialize(settings))
-            {
-                return;
-            }
-
             var source = PresentationSource.FromVisual(sender as Visual) as HwndSource;
             web_view = new WebView(source, "https://github.com/ataranto/CefSharp");
 
             this.frame.Content = web_view;
-            //new ExamplePresenter(web_view, this, invoke => { });
+            var presenter = new ExamplePresenter(web_view, this,
+                invoke => Dispatcher.BeginInvoke(invoke));
+
+            web_view.BeforeResourceLoadHandler = presenter;
+            web_view.ConsoleMessage += web_view_ConsoleMessage;
+
+            handlers = new Dictionary<object, EventHandler>
+            {
+                { backButton, BackActivated },
+                { forwardButton, ForwardActivated },
+                { testResourceLoadMenuItem, TestResourceLoadActivated },
+                { testSchemeLoadMenuItem, TestSchemeLoadActivated },
+                { testExecuteScriptMenuItem, TestExecuteScriptActivated },
+                { testEvaluateScriptMenuItem, TestEvaluateScriptActivated },
+                { testBindMenuItem, TestBindActivated },
+                { testConsoleMessageMenuItem, TestConsoleMessageActivated },
+                { exitMenuItem, ExitActivated },
+            };
         }
 
         public void SetTitle(string title)
@@ -69,6 +89,31 @@ namespace CefSharp.Wpf.Example
 
         }
 
+        public void ExecuteScript(string script)
+        {
+            web_view.ExecuteScript(script);
+        }
+
+        public object EvaluateScript(string script)
+        {
+            return web_view.EvaluateScript(script);
+        }
+
+        public void DisplayOutput(string output)
+        {
+            outputLabel.Content = output;
+        }
+
+        private void control_Activated(object sender, RoutedEventArgs e)
+        {
+            EventHandler handler;
+            if (handlers.TryGetValue(sender, out handler) &&
+                handler != null)
+            {
+                handler(this, EventArgs.Empty);
+            }
+        }
+
         private void urlTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key != Key.Enter)
@@ -81,6 +126,11 @@ namespace CefSharp.Wpf.Example
             {
                 handler(this, urlTextBox.Text);
             }
+        }
+
+        void web_view_ConsoleMessage(object sender, ConsoleMessageEventArgs e)
+        {
+            Dispatcher.BeginInvoke(new Action(() => DisplayOutput(e.Message)));
         }
 
         /*

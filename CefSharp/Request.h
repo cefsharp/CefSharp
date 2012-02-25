@@ -6,7 +6,6 @@ using namespace System::Collections::Generic;
 
 namespace CefSharp
 {
-
     public interface class IRequest
     {
         property String^ Url { String^ get(); void set(String^ url); }
@@ -28,5 +27,4 @@ namespace CefSharp
         virtual void SetHeaders(IDictionary<String^, String^>^ headers);
 
     };
-
 }

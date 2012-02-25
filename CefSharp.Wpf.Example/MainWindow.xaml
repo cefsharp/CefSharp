@@ -6,16 +6,15 @@
     <DockPanel>
         <Menu Height="22" DockPanel.Dock="Top">
             <MenuItem Header="File">
-                <MenuItem Header="Exit" Name="exitMenuItem" />
+                <MenuItem Header="Exit" Name="exitMenuItem" Click="control_Activated" />
             </MenuItem>
             <MenuItem Header="Tests">
-                <MenuItem Header="Test Resource Load Handler" />
-                <MenuItem Header="Test Execute Javascript" Name="executeJsMenuItem" />
-                <MenuItem Header="Test Evaluate JavaScript" Name="evaluateJsMenuItem" />
-                <MenuItem Header="Test Evaluate Arbitrary JavaScript" Name="evaluateArbiraryJsMenuItem" />
-                <MenuItem Header="Test Scheme Handler" />
-                <MenuItem Header="Test Console Messages" />
-                <MenuItem Header="Test Bind CLR Object to JavaScript" />
+                <MenuItem Header="Test Resource Load Handler" Name="testResourceLoadMenuItem" Click="control_Activated" />
+                <MenuItem Header="Test Scheme Load Handler" Name="testSchemeLoadMenuItem" Click="control_Activated" />
+                <MenuItem Header="Test Execute Javascript" Name="testExecuteScriptMenuItem" Click="control_Activated" />
+                <MenuItem Header="Test Evaluate JavaScript" Name="testEvaluateScriptMenuItem" Click="control_Activated" />
+                <MenuItem Header="Test Bind CLR Object to JavaScript" Name="testBindMenuItem" Click="control_Activated" />
+                <MenuItem Header="Test Console Message" Name="testConsoleMessageMenuItem" Click="control_Activated" />
             </MenuItem>
             <MenuItem Header="Bookmarks">
                 <MenuItem Header="CefSharp Home" Name="homeMenuItem" />
@@ -23,8 +22,8 @@
             </MenuItem>
         </Menu>
         <DockPanel VerticalAlignment="Top" DockPanel.Dock="Top">
-            <Button Height="23" Name="backButton" Width="75" IsEnabled="False">Back</Button>
-            <Button Height="23" Name="forwardButton" Width="75" IsEnabled="False">Forward</Button>
+            <Button Height="23" Name="backButton" Width="75" IsEnabled="False" Click="control_Activated">Back</Button>
+            <Button Height="23" Name="forwardButton" Width="75" IsEnabled="False" Click="control_Activated">Forward</Button>
 
             <Button Height="23" Name="goStopButton" Width="75" DockPanel.Dock="Right">Go</Button>
             <TextBox Height="23" Name="urlTextBox" KeyDown="urlTextBox_KeyDown" />
@@ -33,6 +32,7 @@
             <Label>Angle:</Label>
             <Slider Name="angleSlider" Minimum="-180" Maximum="180" DockPanel.Dock="Right" />
         </DockPanel>
+        <Label Name="outputLabel" DockPanel.Dock="Bottom" />
         <Frame Name="frame">
             <Frame.LayoutTransform>
                 <TransformGroup>
