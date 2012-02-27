@@ -32,7 +32,7 @@ namespace CefSharp
                 if (exception)
                 {
                     CefString message = exception->GetMessage();
-                    _exception = gcnew ScriptException(toClr(message));
+                    _exception = toClr(message);
                 }
                 else
                 {
@@ -40,9 +40,9 @@ namespace CefSharp
                     {
                         _result = convertFromCef(result);
                     }
-                    catch (...)
+                    catch (Exception^ ex)
                     {
-
+                        _exception = ex->Message;
                     }
                 }
             }
@@ -69,9 +69,8 @@ namespace CefSharp
     gcroot<Object^> ScriptCore::Evaluate(CefRefPtr<CefFrame> frame, CefString script, double timeout)
     {
         AutoLock lock_scope(this);
-
-        //_result = nullptr;
-        //_exception = nullptr;
+        _result = nullptr;
+        _exception = nullptr;
 
         if (CefCurrentlyOn(TID_UI))
         {
@@ -90,7 +89,7 @@ namespace CefSharp
 
         if (_exception)
         {
-            throw _exception;
+            throw gcnew ScriptException(_exception);
         }
         else
         {

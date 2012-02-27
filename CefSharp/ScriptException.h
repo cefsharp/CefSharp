@@ -13,5 +13,4 @@ namespace CefSharp
                     : Exception(message)
             {}
     };
-
 }

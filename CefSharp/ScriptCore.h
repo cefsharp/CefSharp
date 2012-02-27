@@ -9,7 +9,7 @@ namespace CefSharp
         HANDLE _event;
 
         gcroot<Object^> _result;
-        gcroot<Exception^> _exception;
+        gcroot<String^> _exception;
 
         void UIT_Execute(CefRefPtr<CefFrame> frame, CefString script);
         void UIT_Evaluate(CefRefPtr<CefFrame> frame, CefString script);

@@ -1,7 +1,6 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Threading;
 using NUnit.Framework;
-using System.Collections.Generic;
 
 namespace CefSharp.Test
 {
@@ -15,7 +14,6 @@ namespace CefSharp.Test
             Assert.AreEqual(result, Fixture.Browser.EvaluateScript(script));
         }
 
-        [Ignore]
         [TestCase("!!!")]
         public void EvaluateScriptExceptionTest(string script)
         {
