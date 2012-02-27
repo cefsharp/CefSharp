@@ -8,8 +8,8 @@ namespace CefSharp
     private:
         HANDLE _event;
 
-        bool _success;
-        CefString _result;
+        gcroot<Object^> _result;
+        gcroot<Exception^> _exception;
 
         void UIT_Execute(CefRefPtr<CefFrame> frame, CefString script);
         void UIT_Evaluate(CefRefPtr<CefFrame> frame, CefString script);
@@ -21,7 +21,7 @@ namespace CefSharp
         }
 
         DECL void Execute(CefRefPtr<CefFrame> frame, CefString script);
-        DECL CefString Evaluate(CefRefPtr<CefFrame> frame, CefString script, double timeout);
+        DECL gcroot<Object^> Evaluate(CefRefPtr<CefFrame> frame, CefString script, double timeout);
 
         IMPLEMENT_LOCKING(ScriptCore);
         IMPLEMENT_REFCOUNTING(ScriptCore);

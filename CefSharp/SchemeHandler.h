@@ -6,7 +6,8 @@
 using namespace System;
 using namespace System::IO;
 
-namespace CefSharp {
+namespace CefSharp
+{
     public interface class ISchemeHandler
     {
         /// <summary>
@@ -26,7 +27,6 @@ namespace CefSharp {
         gcroot<ISchemeHandler^> _handler;
         gcroot<Stream^> _stream;
         CefString _mime_type;
-
 
         int SizeFromStream();
 

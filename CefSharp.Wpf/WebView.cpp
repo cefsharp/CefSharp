@@ -224,20 +224,19 @@ namespace Wpf
         _scriptCore->Execute(frame, toNative(script));
     }
 
-    String^ WebView::EvaluateScript(String^ script)
+    Object^ WebView::EvaluateScript(String^ script)
     {
         return EvaluateScript(script, TimeSpan::MaxValue);
     }
 
-    String^ WebView::EvaluateScript(String^ script, TimeSpan timeout)
+    Object^ WebView::EvaluateScript(String^ script, TimeSpan timeout)
     {
 	    WaitForInitialized();
 
         CefRefPtr<CefBrowser> browser = _clientAdapter->GetCefBrowser();
         CefRefPtr<CefFrame> frame = browser->GetMainFrame();
 
-        CefString result = _scriptCore->Evaluate(frame, toNative(script), timeout.TotalMilliseconds);
-        return toClr(result);
+        return _scriptCore->Evaluate(frame, toNative(script), timeout.TotalMilliseconds);
     }
 
     void WebView::SetNavState(bool isLoading, bool canGoBack, bool canGoForward)

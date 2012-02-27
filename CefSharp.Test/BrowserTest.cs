@@ -7,16 +7,18 @@ namespace CefSharp.Test
     [TestFixture]
     public class BrowserTest
     {
-        [Test]
-        public void FooTest()
+        [TestCase("'2'", "2")]
+        [TestCase("2+2", 4)]
+        public void EvaluateScriptTest(string script, object result)
         {
-            Assert.Pass();
+            Assert.AreEqual(result, Fixture.Browser.EvaluateScript(script));
         }
 
-        [Test]
-        public void RunScriptText()
+        [TestCase("!!!")]
+        public void EvaluateScriptExceptionTest(string script)
         {
-            Assert.AreEqual("4", Fixture.Browser.EvaluateScript("2+2"));
+            Assert.Throws<ScriptException>(() =>
+                Fixture.Browser.EvaluateScript(script));
         }
 
         [Test]

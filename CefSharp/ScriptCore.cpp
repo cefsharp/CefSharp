@@ -20,24 +20,30 @@ namespace CefSharp
             CefRefPtr<CefV8Value> global = context->GetGlobal();
             CefRefPtr<CefV8Value> eval = global->GetValue("eval");
             CefRefPtr<CefV8Value> arg = CefV8Value::CreateString(script);
+            CefRefPtr<CefV8Value> result;
+            CefRefPtr<CefV8Exception> exception;
 
             CefV8ValueList args;
             args.push_back(arg);
 
-            CefRefPtr<CefV8Value> result;
-            CefRefPtr<CefV8Exception> exception;
-
-            if (eval->ExecuteFunctionWithContext(context, global, args, result, exception, false))
+            if (eval->ExecuteFunctionWithContext(context, global, args,
+                result, exception, false))
             {
-                if (exception.get())
+                if (exception)
                 {
-                    _success = false;
-                    _result = exception->GetMessage();
+                    CefString message = exception->GetMessage();
+                    _exception = gcnew ScriptException(toClr(message));
                 }
-                else if (result.get())
+                else
                 {
-                    _success = true;
-                    _result = result->GetStringValue();
+                    try
+                    {
+                        _result = convertFromCef(result);
+                    }
+                    catch (...)
+                    {
+
+                    }
                 }
             }
 
@@ -60,7 +66,7 @@ namespace CefSharp
         }
     }
 
-    CefString ScriptCore::Evaluate(CefRefPtr<CefFrame> frame, CefString script, double timeout)
+    gcroot<Object^> ScriptCore::Evaluate(CefRefPtr<CefFrame> frame, CefString script, double timeout)
     {
         AutoLock lock_scope(this);
 
@@ -79,9 +85,9 @@ namespace CefSharp
             }
         }
 
-        if (!_success)
+        if (_exception)
         {
-            throw gcnew ScriptException(toClr(_result));
+            throw _exception;
         }
         else
         {

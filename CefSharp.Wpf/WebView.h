@@ -169,8 +169,8 @@ namespace Wpf
         virtual void Print();
 
         void ExecuteScript(String^ script);
-        String^ EvaluateScript(String^ script);
-        String^ EvaluateScript(String^ script, TimeSpan timeout);
+        Object^ EvaluateScript(String^ script);
+        Object^ EvaluateScript(String^ script, TimeSpan timeout);
 
         virtual void SetNavState(bool isLoading, bool canGoBack, bool canGoForward);
 
