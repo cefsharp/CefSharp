@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace CefSharp.Test
 {
@@ -14,6 +15,7 @@ namespace CefSharp.Test
             Assert.AreEqual(result, Fixture.Browser.EvaluateScript(script));
         }
 
+        [Ignore]
         [TestCase("!!!")]
         public void EvaluateScriptExceptionTest(string script)
         {
@@ -24,21 +26,20 @@ namespace CefSharp.Test
         [Test]
         public void RunScriptConcurrentTest()
         {
-            for (var x = 0; x < 10; x++)
+            var threads = new List<Thread>(10);
+
+            for (var x = 0; x < 64; x++)
             {
-                var value = x.ToString();
-                new Thread(() => Assert.AreEqual(value, Fixture.Browser.EvaluateScript(value))).
-                    Start();
+                var thread = new Thread(() =>
+                {
+                    var script = x.ToString();
+                    Assert.AreEqual(x, Fixture.Browser.EvaluateScript(script));
+                });
+                threads.Add(thread);
+                thread.Start();
             }
 
-            Thread.Sleep(1000);
-        }
-
-        [Test]
-        public void RunScriptExceptionTest()
-        {
-            Assert.Throws<ScriptException>(() =>
-                Fixture.Browser.EvaluateScript("!@#$%^"));
+            threads.ForEach(x => x.Join());
         }
     }
 }

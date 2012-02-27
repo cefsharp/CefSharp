@@ -70,6 +70,9 @@ namespace CefSharp
     {
         AutoLock lock_scope(this);
 
+        //_result = nullptr;
+        //_exception = nullptr;
+
         if (CefCurrentlyOn(TID_UI))
         {
             UIT_Evaluate(frame, script);
