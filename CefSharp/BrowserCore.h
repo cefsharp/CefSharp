@@ -60,8 +60,11 @@ namespace CefSharp
 
             void set(String^ address)
             {
-                _address = address;
-                PropertyChanged(this, gcnew PropertyChangedEventArgs(L"Address"));
+                if (_address != address)
+                {
+                    _address = address;
+                    PropertyChanged(this, gcnew PropertyChangedEventArgs(L"Address"));
+                }
             }
         }
 
@@ -71,8 +74,11 @@ namespace CefSharp
 
             void set(String^ title)
             {
-                _title = title;
-                PropertyChanged(this, gcnew PropertyChangedEventArgs(L"Title"));
+                if (_title != title)
+                {
+                    _title = title;
+                    PropertyChanged(this, gcnew PropertyChangedEventArgs(L"Title"));
+                }
             }
         }
 
@@ -82,8 +88,11 @@ namespace CefSharp
 
             void set(String^ tooltip)
             {
-                _tooltip = tooltip;
-               PropertyChanged(this, gcnew PropertyChangedEventArgs(L"Tooltip"));
+                if (_tooltip != tooltip)
+                {
+                    _tooltip = tooltip;
+                   PropertyChanged(this, gcnew PropertyChangedEventArgs(L"Tooltip"));
+                }
             }
         }
 
