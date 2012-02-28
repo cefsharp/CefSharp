@@ -34,9 +34,10 @@ namespace WinForms
             _initialized = gcnew ManualResetEvent(false);
 
             _browserCore = gcnew BrowserCore();
+            _browserCore->Address = address;
+
             _scriptCore = new ScriptCore();
 
-            _browserCore->Address = address;
             _settings = settings;
 
             if(!CEF::IsInitialized)

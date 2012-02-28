@@ -40,7 +40,9 @@ namespace Wpf
 
     private:
         void WaitForInitialized();
+        void BrowserCore_PropertyChanged(Object^ sender, PropertyChangedEventArgs^ e);
         void SetCursor(SafeFileHandle^ handle);
+        void SetTooltip(String^ tooltip);
         IntPtr SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, bool% handled);
 		void SetBitmap();
 
@@ -83,9 +85,11 @@ namespace Wpf
             _initialized  = gcnew ManualResetEvent(false);
 
             _browserCore = gcnew BrowserCore();
-            _scriptCore = new ScriptCore();
-
             _browserCore->Address = address;
+            _browserCore->PropertyChanged +=
+                gcnew PropertyChangedEventHandler(this, &WebView::BrowserCore_PropertyChanged);
+
+            _scriptCore = new ScriptCore();
 
 			_paintDelegate = gcnew ActionDelegate(this, &WebView::SetBitmap);
             source->AddHook(gcnew Interop::HwndSourceHook(this, &WebView::SourceHook));
@@ -98,7 +102,8 @@ namespace Wpf
             CefRefPtr<RenderClientAdapter> ptr = _clientAdapter.get();
 
             CefBrowserSettings settings;
-            CefBrowser::CreateBrowser(window, static_cast<CefRefPtr<CefClient>>(ptr), toNative(address), settings);
+            CefBrowser::CreateBrowser(window, static_cast<CefRefPtr<CefClient>>(ptr),
+                toNative(address), settings);
         }
 
         virtual property bool IsLoading

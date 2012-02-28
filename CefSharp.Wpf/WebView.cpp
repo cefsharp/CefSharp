@@ -20,6 +20,15 @@ namespace Wpf
         Cursor = CursorInteropHelper::Create(handle);
     }
 
+    void WebView::BrowserCore_PropertyChanged(Object^ sender, PropertyChangedEventArgs^ e)
+    {
+        if (e->PropertyName == "Tooltip")
+        {
+            Dispatcher->BeginInvoke(DispatcherPriority::Render,
+                gcnew Action<String^>(this, &WebView::SetTooltip), _browserCore->Tooltip);
+        }
+    }
+
     IntPtr WebView::SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, bool% handled)
     {
         handled = false;
@@ -280,6 +289,11 @@ namespace Wpf
         SafeFileHandle^ handle = gcnew SafeFileHandle((IntPtr)cursor, false);
         Dispatcher->BeginInvoke(DispatcherPriority::Render,
             gcnew Action<SafeFileHandle^>(this, &WebView::SetCursor), handle);
+    }
+
+    void WebView::SetTooltip(String^ tooltip)
+    {
+        ToolTip = tooltip;
     }
 
     void WebView::SetBuffer(int width, int height, const void* buffer)
