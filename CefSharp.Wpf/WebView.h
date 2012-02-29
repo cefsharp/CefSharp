@@ -34,6 +34,7 @@ namespace Wpf
 
         Image^ _image;
         System::Windows::Controls::ToolTip^ _toolTip;
+        DispatcherTimer^ _timer;
 
         int _width, _height;
         InteropBitmap^ _ibitmap;
@@ -43,6 +44,7 @@ namespace Wpf
     private:
         void WaitForInitialized();
         void BrowserCore_PropertyChanged(Object^ sender, PropertyChangedEventArgs^ e);
+        void Timer_Tick(Object^ sender, EventArgs^ e);
         void SetCursor(SafeFileHandle^ handle);
         void SetTooltip(String^ text);
         IntPtr SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, bool% handled);
@@ -99,6 +101,11 @@ namespace Wpf
             ToolTip = _toolTip =
                 gcnew System::Windows::Controls::ToolTip();
             _toolTip->StaysOpen = true;
+
+            _timer = gcnew DispatcherTimer(DispatcherPriority::Render);
+            _timer->Interval = TimeSpan::FromSeconds(0.5);
+            _timer->Tick +=
+                gcnew EventHandler(this, &WebView::Timer_Tick);
 
             HWND hWnd = static_cast<HWND>(source->Handle.ToPointer());
             CefWindowInfo window;

@@ -24,9 +24,24 @@ namespace Wpf
     {
         if (e->PropertyName == "Tooltip")
         {
-            Dispatcher->BeginInvoke(DispatcherPriority::Render,
-                gcnew Action<String^>(this, &WebView::SetTooltip), _browserCore->Tooltip);
+            _timer->Stop();
+
+            if (String::IsNullOrEmpty(_browserCore->Tooltip))
+            {
+                Dispatcher->BeginInvoke(DispatcherPriority::Render,
+                    gcnew Action<String^>(this, &WebView::SetTooltip), nullptr);
+            }
+            else
+            {
+                _timer->Start();
+            }
         }
+    }
+
+    void WebView::Timer_Tick(Object^ sender, EventArgs^ e)
+    {
+        _timer->Stop();
+        SetTooltip(_browserCore->Tooltip);
     }
 
     IntPtr WebView::SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, bool% handled)
@@ -293,8 +308,6 @@ namespace Wpf
 
     void WebView::SetTooltip(String^ text)
     {
-        _toolTip->Placement = Primitives::PlacementMode::Mouse;
-
         if (String::IsNullOrEmpty(text))
         {
             _toolTip->IsOpen = false;
