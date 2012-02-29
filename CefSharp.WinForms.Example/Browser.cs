@@ -62,6 +62,12 @@ namespace CefSharp.WinForms.Example
             remove { testTooltipMenuItem.Click -= value; }
         }
 
+        public event EventHandler TestPopupActivated
+        {
+            add { testPopupMenuItem.Click += value; }
+            remove { testPopupMenuItem.Click -= value; }
+        }
+
         public event EventHandler ExitActivated
         {
             add { exitToolStripMenuItem.Click += value; }

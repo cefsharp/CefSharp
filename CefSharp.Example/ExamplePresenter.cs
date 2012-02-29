@@ -21,6 +21,7 @@ namespace CefSharp.Example
         private const string scheme_url = "test://test/SchemeTest.html";
         private const string bind_url = "test://test/BindingTest.html";
         private const string tooltip_url = "test://test/TooltipTest.html";
+        private const string popup_url = "test:/test/PopupTest.html";
 
         private int color_index = 0;
         private readonly string[] colors =
@@ -56,6 +57,7 @@ namespace CefSharp.Example
             this.view.TestBindActivated += view_TestBindActivated;
             this.view.TestConsoleMessageActivated += view_TestConsoleMessageActivated;
             this.view.TestTooltipActivated += view_TestTooltipActivated;
+            this.view.TestPopupActivated += view_TestPopupActivated;
             this.view.ExitActivated += view_ExitActivated;
         }
 
@@ -69,10 +71,6 @@ namespace CefSharp.Example
                 case "Title":
                     @string = model.Title;
                     gui_invoke(() => view.SetTitle(@string));
-                    break;
-                case "TooltipText":
-                    @string = model.TooltipText;
-                    gui_invoke(() => view.SetTooltip(@string));
                     break;
                 case "Address":
                     @string = model.Address;
@@ -162,6 +160,11 @@ namespace CefSharp.Example
         private void view_TestTooltipActivated(object sender, EventArgs e)
         {
             model.Load(tooltip_url);
+        }
+
+        private void view_TestPopupActivated(object sender, EventArgs e)
+        {
+            model.Load(popup_url);
         }
 
         private void view_ExitActivated(object sender, EventArgs e)

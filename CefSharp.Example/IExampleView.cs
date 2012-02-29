@@ -14,10 +14,10 @@ namespace CefSharp.Example
         event EventHandler TestBindActivated;
         event EventHandler TestConsoleMessageActivated;
         event EventHandler TestTooltipActivated;
+        event EventHandler TestPopupActivated;
         event EventHandler ExitActivated;
 
         void SetTitle(string title);
-        void SetTooltip(string tooltip);
         void SetAddress(string address);
         void SetCanGoBack(bool can_go_back);
         void SetCanGoForward(bool can_go_forward);
