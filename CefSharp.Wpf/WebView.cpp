@@ -101,7 +101,8 @@ namespace Wpf
 			GC::Collect(1);
 
 			int stride = _width * PixelFormats::Bgr32.BitsPerPixel / 8;
-			bitmap = (InteropBitmap^) System::Windows::Interop::Imaging::CreateBitmapSourceFromMemorySection((IntPtr) _fileMappingHandle, _width, _height, PixelFormats::Bgr32, stride, 0);
+            bitmap = (InteropBitmap^)Interop::Imaging::CreateBitmapSourceFromMemorySection(
+                (IntPtr)_fileMappingHandle, _width, _height, PixelFormats::Bgr32, stride, 0);
 			_image->Source = bitmap;
 			_ibitmap = bitmap;
 		}
@@ -294,8 +295,8 @@ namespace Wpf
             Content = _image = gcnew Image();
 
             _image->Stretch = Stretch::None;
-            _image->HorizontalAlignment = System::Windows::HorizontalAlignment::Left;
-            _image->VerticalAlignment = System::Windows::VerticalAlignment::Top;
+            _image->HorizontalAlignment = ::HorizontalAlignment::Left;
+            _image->VerticalAlignment = ::VerticalAlignment::Top;
         }
     }
 

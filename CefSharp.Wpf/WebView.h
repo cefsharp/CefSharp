@@ -21,7 +21,7 @@ namespace CefSharp
 {
 namespace Wpf
 {
-    [TemplatePart(Name="PART_Browser", Type=System::Windows::Controls::Image::typeid)]
+    [TemplatePart(Name="PART_Browser", Type=Image::typeid)]
     public ref class WebView sealed : public ContentControl, IRenderWebBrowser
     {
 		delegate void ActionDelegate();
@@ -33,7 +33,7 @@ namespace Wpf
         MCefRefPtr<ScriptCore> _scriptCore;
 
         Image^ _image;
-        System::Windows::Controls::ToolTip^ _toolTip;
+        ::ToolTip^ _toolTip;
         DispatcherTimer^ _timer;
 
         int _width, _height;
@@ -54,11 +54,11 @@ namespace Wpf
         virtual Size ArrangeOverride(Size size) override;
         virtual void OnGotFocus(RoutedEventArgs^ e) override;
         virtual void OnLostFocus(RoutedEventArgs^ e) override;
-        virtual void OnMouseMove(System::Windows::Input::MouseEventArgs^ e) override;
+        virtual void OnMouseMove(MouseEventArgs^ e) override;
         virtual void OnMouseWheel(MouseWheelEventArgs^ e) override;
         virtual void OnMouseDown(MouseButtonEventArgs^ e) override;
         virtual void OnMouseUp(MouseButtonEventArgs^ e) override;
-        virtual void OnMouseLeave(System::Windows::Input::MouseEventArgs^ e) override;
+        virtual void OnMouseLeave(MouseEventArgs^ e) override;
 
     public:
         virtual event PropertyChangedEventHandler^ PropertyChanged
