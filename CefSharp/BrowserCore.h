@@ -82,16 +82,16 @@ namespace CefSharp
             }
         }
 
-        property String^ Tooltip
+        property String^ TooltipText
         {
             String^ get() { return _tooltip; }
 
-            void set(String^ tooltip)
+            void set(String^ text)
             {
-                if (_tooltip != tooltip)
+                if (_tooltip != text)
                 {
-                    _tooltip = tooltip;
-                   PropertyChanged(this, gcnew PropertyChangedEventArgs(L"Tooltip"));
+                    _tooltip = text;
+                   PropertyChanged(this, gcnew PropertyChangedEventArgs(L"TooltipText"));
                 }
             }
         }

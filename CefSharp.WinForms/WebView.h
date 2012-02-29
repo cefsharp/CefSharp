@@ -114,10 +114,10 @@ namespace WinForms
             void set(String^ title) { _browserCore->Title = title; }
         }
 
-        virtual property String^ Tooltip
+        virtual property String^ TooltipText
         {
-            String^ get() { return _browserCore->Tooltip; }
-            void set(String^ tooltip) { _browserCore->Tooltip = tooltip; }
+            String^ get() { return _browserCore->TooltipText; }
+            void set(String^ text) { _browserCore->TooltipText = text; }
         }
 
         virtual property IBeforePopup^ BeforePopupHandler

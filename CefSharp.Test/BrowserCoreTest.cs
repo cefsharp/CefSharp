@@ -19,9 +19,9 @@ namespace CefSharp.Test
             int event_count = 0;
             browser_core.PropertyChanged += (sender, e) => event_count++;
 
-            browser_core.Tooltip = "foo";
-            browser_core.Tooltip = null;
-            browser_core.Tooltip = null;
+            browser_core.TooltipText = "foo";
+            browser_core.TooltipText = null;
+            browser_core.TooltipText = null;
 
             Assert.AreEqual(2, event_count);
         }

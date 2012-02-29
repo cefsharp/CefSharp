@@ -22,11 +22,11 @@ namespace Wpf
 
     void WebView::BrowserCore_PropertyChanged(Object^ sender, PropertyChangedEventArgs^ e)
     {
-        if (e->PropertyName == "Tooltip")
+        if (e->PropertyName == "TooltipText")
         {
             _timer->Stop();
 
-            if (String::IsNullOrEmpty(_browserCore->Tooltip))
+            if (String::IsNullOrEmpty(_browserCore->TooltipText))
             {
                 Dispatcher->BeginInvoke(DispatcherPriority::Render,
                     gcnew Action<String^>(this, &WebView::SetTooltip), nullptr);
@@ -41,7 +41,7 @@ namespace Wpf
     void WebView::Timer_Tick(Object^ sender, EventArgs^ e)
     {
         _timer->Stop();
-        SetTooltip(_browserCore->Tooltip);
+        SetTooltip(_browserCore->TooltipText);
     }
 
     IntPtr WebView::SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, bool% handled)

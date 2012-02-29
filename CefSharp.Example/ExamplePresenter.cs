@@ -70,8 +70,8 @@ namespace CefSharp.Example
                     @string = model.Title;
                     gui_invoke(() => view.SetTitle(@string));
                     break;
-                case "Tooltip":
-                    @string = model.Tooltip;
+                case "TooltipText":
+                    @string = model.TooltipText;
                     gui_invoke(() => view.SetTooltip(@string));
                     break;
                 case "Address":
