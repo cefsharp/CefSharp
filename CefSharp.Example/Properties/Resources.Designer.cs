@@ -141,9 +141,9 @@ namespace CefSharp.Example.Properties {
         ///	&lt;/body&gt;
         ///&lt;/html&gt;.
         /// </summary>
-        internal static string TooltipTest {
+        internal static string TooltipsTest {
             get {
-                return ResourceManager.GetString("TooltipTest", resourceCulture);
+                return ResourceManager.GetString("TooltipsTest", resourceCulture);
             }
         }
     }

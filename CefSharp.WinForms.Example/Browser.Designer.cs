@@ -47,6 +47,7 @@
             this.testEvaluateScriptMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testBindMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testConsoleMessageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testTooltipsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer.ContentPanel.SuspendLayout();
             this.toolStripContainer.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer.SuspendLayout();
@@ -175,7 +176,8 @@
             this.testExecuteScriptMenuItem,
             this.testEvaluateScriptMenuItem,
             this.testBindMenuItem,
-            this.testConsoleMessageMenuItem});
+            this.testConsoleMessageMenuItem,
+            this.testTooltipsMenuItem});
             this.testsToolStripMenuItem.Name = "testsToolStripMenuItem";
             this.testsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.testsToolStripMenuItem.Text = "Tests";
@@ -215,6 +217,12 @@
             this.testConsoleMessageMenuItem.Name = "testConsoleMessageMenuItem";
             this.testConsoleMessageMenuItem.Size = new System.Drawing.Size(254, 22);
             this.testConsoleMessageMenuItem.Text = "Test Console Message";
+            // 
+            // testTooltipsMenuItem
+            // 
+            this.testTooltipsMenuItem.Name = "testTooltipsMenuItem";
+            this.testTooltipsMenuItem.Size = new System.Drawing.Size(254, 22);
+            this.testTooltipsMenuItem.Text = "Test Tooltips";
             // 
             // Browser
             // 
@@ -262,6 +270,7 @@
         private System.Windows.Forms.ToolStripMenuItem testBindMenuItem;
         private System.Windows.Forms.ToolStripMenuItem testConsoleMessageMenuItem;
         private System.Windows.Forms.Label outputLabel;
+        private System.Windows.Forms.ToolStripMenuItem testTooltipsMenuItem;
 
     }
 }

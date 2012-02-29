@@ -9,6 +9,7 @@ using namespace System::ComponentModel;
 using namespace System::Runtime::InteropServices;
 using namespace System::Windows;
 using namespace System::Windows::Controls;
+using namespace System::Windows::Controls::Primitives;
 using namespace System::Windows::Input;
 using namespace System::Windows::Interop;
 using namespace System::Windows::Media;
@@ -32,6 +33,7 @@ namespace Wpf
         MCefRefPtr<ScriptCore> _scriptCore;
 
         Image^ _image;
+        System::Windows::Controls::ToolTip^ _toolTip;
 
         int _width, _height;
         InteropBitmap^ _ibitmap;
@@ -42,7 +44,7 @@ namespace Wpf
         void WaitForInitialized();
         void BrowserCore_PropertyChanged(Object^ sender, PropertyChangedEventArgs^ e);
         void SetCursor(SafeFileHandle^ handle);
-        void SetTooltip(String^ tooltip);
+        void SetTooltip(String^ text);
         IntPtr SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, bool% handled);
 		void SetBitmap();
 
@@ -93,6 +95,10 @@ namespace Wpf
 
 			_paintDelegate = gcnew ActionDelegate(this, &WebView::SetBitmap);
             source->AddHook(gcnew Interop::HwndSourceHook(this, &WebView::SourceHook));
+
+            ToolTip = _toolTip =
+                gcnew System::Windows::Controls::ToolTip();
+            _toolTip->StaysOpen = true;
 
             HWND hWnd = static_cast<HWND>(source->Handle.ToPointer());
             CefWindowInfo window;

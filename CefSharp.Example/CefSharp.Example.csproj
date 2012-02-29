@@ -66,7 +66,7 @@
     <Content Include="Resources\BindingTest.html" />
     <Content Include="Resources\PopupTest.html" />
     <Content Include="Resources\SchemeTest.html" />
-    <Content Include="Resources\TooltipTest.html" />
+    <Content Include="Resources\TooltipsTest.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

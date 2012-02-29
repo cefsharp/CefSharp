@@ -13,6 +13,7 @@ namespace CefSharp.Example
         event EventHandler TestEvaluateScriptActivated;
         event EventHandler TestBindActivated;
         event EventHandler TestConsoleMessageActivated;
+        event EventHandler TestTooltipsActivated;
         event EventHandler ExitActivated;
 
         void SetTitle(string title);

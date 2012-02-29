@@ -291,9 +291,19 @@ namespace Wpf
             gcnew Action<SafeFileHandle^>(this, &WebView::SetCursor), handle);
     }
 
-    void WebView::SetTooltip(String^ tooltip)
+    void WebView::SetTooltip(String^ text)
     {
-        ToolTip = tooltip;
+        _toolTip->Placement = Primitives::PlacementMode::Mouse;
+
+        if (String::IsNullOrEmpty(text))
+        {
+            _toolTip->IsOpen = false;
+        }
+        else
+        {
+            _toolTip->Content = text;
+            _toolTip->IsOpen = true;
+        }
     }
 
     void WebView::SetBuffer(int width, int height, const void* buffer)

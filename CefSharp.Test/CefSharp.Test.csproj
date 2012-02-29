@@ -36,9 +36,12 @@
       <HintPath>..\nunit\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BrowserCoreTest.cs" />
     <Compile Include="BrowserTest.cs" />
     <Compile Include="Fixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

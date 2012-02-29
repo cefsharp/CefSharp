@@ -15,6 +15,7 @@
                 <MenuItem Header="Test Evaluate JavaScript" Name="testEvaluateScriptMenuItem" Click="control_Activated" />
                 <MenuItem Header="Test Bind CLR Object to JavaScript" Name="testBindMenuItem" Click="control_Activated" />
                 <MenuItem Header="Test Console Message" Name="testConsoleMessageMenuItem" Click="control_Activated" />
+                <MenuItem Header="Test Tooltips" Name="testTooltipsMenuItem" Click="control_Activated" />
             </MenuItem>
             <MenuItem Header="Bookmarks">
                 <MenuItem Header="CefSharp Home" Name="homeMenuItem" />
