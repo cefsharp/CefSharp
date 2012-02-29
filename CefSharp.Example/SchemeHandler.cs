@@ -25,7 +25,7 @@ namespace CefSharp.Example
                 { "BindingTest.html", Resources.BindingTest },
                 { "PopupTest.html", Resources.PopupTest },
                 { "SchemeTest.html", Resources.SchemeTest },
-                { "TooltipsTest.html", Resources.TooltipsTest },
+                { "TooltipTest.html", Resources.TooltipTest },
             };
         }
 

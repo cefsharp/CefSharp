@@ -135,15 +135,15 @@ namespace CefSharp.Example.Properties {
         ///	&lt;body&gt;
         ///        &lt;form&gt;
         ///        &lt;input type=&quot;text&quot; size=25 title=&quot;This is the first tooltip&quot;&gt;
+        ///        &lt;br /&gt;
         ///        &lt;input type=&quot;text&quot; size=25 title=&quot;This is the second tooltip&quot;&gt;
-        ///        &lt;input type=&quot;button&quot; value=&quot;Submit&quot;&gt;
         ///        &lt;/form&gt;
         ///	&lt;/body&gt;
         ///&lt;/html&gt;.
         /// </summary>
-        internal static string TooltipsTest {
+        internal static string TooltipTest {
             get {
-                return ResourceManager.GetString("TooltipsTest", resourceCulture);
+                return ResourceManager.GetString("TooltipTest", resourceCulture);
             }
         }
     }

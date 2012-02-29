@@ -127,7 +127,7 @@
   <data name="SchemeTest" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SchemeTest.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="TooltipsTest" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TooltipsTest.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="TooltipTest" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TooltipTest.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

@@ -20,7 +20,7 @@ namespace CefSharp.Example
         private const string resource_url = "http://test/resource/load";
         private const string scheme_url = "test://test/SchemeTest.html";
         private const string bind_url = "test://test/BindingTest.html";
-        private const string tooltips_url = "test://test/TooltipsTest.html";
+        private const string tooltip_url = "test://test/TooltipTest.html";
 
         private int color_index = 0;
         private readonly string[] colors =
@@ -55,7 +55,7 @@ namespace CefSharp.Example
             this.view.TestEvaluateScriptActivated += view_TestEvaluateScriptActivated;
             this.view.TestBindActivated += view_TestBindActivated;
             this.view.TestConsoleMessageActivated += view_TestConsoleMessageActivated;
-            this.view.TestTooltipsActivated += view_TestTooltipsActivated;
+            this.view.TestTooltipActivated += view_TestTooltipActivated;
             this.view.ExitActivated += view_ExitActivated;
         }
 
@@ -159,9 +159,9 @@ namespace CefSharp.Example
             view.ExecuteScript(script);
         }
 
-        private void view_TestTooltipsActivated(object sender, EventArgs e)
+        private void view_TestTooltipActivated(object sender, EventArgs e)
         {
-            model.Load(tooltips_url);
+            model.Load(tooltip_url);
         }
 
         private void view_ExitActivated(object sender, EventArgs e)

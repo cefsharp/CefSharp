@@ -22,7 +22,7 @@ namespace CefSharp.Wpf.Example
         public event EventHandler TestEvaluateScriptActivated;
         public event EventHandler TestBindActivated;
         public event EventHandler TestConsoleMessageActivated;
-        public event EventHandler TestTooltipsActivated;
+        public event EventHandler TestTooltipActivated;
         public event EventHandler ExitActivated;
 
         private WebView web_view;
@@ -52,7 +52,7 @@ namespace CefSharp.Wpf.Example
                 { testEvaluateScriptMenuItem, TestEvaluateScriptActivated },
                 { testBindMenuItem, TestBindActivated },
                 { testConsoleMessageMenuItem, TestConsoleMessageActivated },
-                { testTooltipsMenuItem, TestTooltipsActivated },
+                { testTooltipMenuItem, TestTooltipActivated },
                 { exitMenuItem, ExitActivated },
             };
         }
