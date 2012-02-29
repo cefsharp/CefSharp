@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7A4D5447-183B-4A11-8E63-9848991B46FF}</ProjectGuid>
+    <ProjectGuid>{86704B8F-D72C-493C-9B8C-AB3F0C13A89C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CefSharp.Test</RootNamespace>
-    <AssemblyName>CefSharp.Test</AssemblyName>
+    <RootNamespace>CefSharp.Wpf.Test</RootNamespace>
+    <AssemblyName>CefSharp.Wpf.Test</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -35,19 +35,25 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\nunit\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Windows.Forms" />
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BrowserCoreTest.cs" />
-    <Compile Include="BrowserTest.cs" />
-    <Compile Include="Fixture.cs" />
+    <Compile Include="InitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CefSharp.WinForms\CefSharp.WinForms.vcproj">
-      <Project>{978C9B2B-04B6-4359-A341-CA3FCBE98D32}</Project>
-      <Name>CefSharp.WinForms</Name>
+    <ProjectReference Include="..\CefSharp.Wpf\CefSharp.Wpf.vcproj">
+      <Project>{C944B6A6-7CAF-4101-B81B-2DE47296FC40}</Project>
+      <Name>CefSharp.Wpf</Name>
     </ProjectReference>
     <ProjectReference Include="..\CefSharp\CefSharp.vcproj">
       <Project>{7B495581-2271-4F41-9476-ACB86E8C864F}</Project>
