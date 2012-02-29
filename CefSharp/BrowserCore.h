@@ -22,6 +22,9 @@ namespace CefSharp
         bool _canGoBack;
         bool _canGoForward;
 
+        int _contentsWidth;
+        int _contentsHeight;
+
         String^ _tooltip;
         String^ _address;
         String^ _title;
@@ -52,6 +55,34 @@ namespace CefSharp
         property bool CanGoForward
         {
             bool get() { return _canGoForward; }
+        }
+
+        property int ContentsWidth
+        {
+            int get() { return _contentsWidth; }
+
+            void set(int contentsWidth)
+            {
+                if (_contentsWidth != contentsWidth)
+                {
+                    _contentsWidth = contentsWidth;
+                    PropertyChanged(this, gcnew PropertyChangedEventArgs(L"ContentsWidth"));
+                }
+            }
+        }
+
+        property int ContentsHeight
+        {
+            int get() { return _contentsHeight; }
+
+            void set(int contentsHeight)
+            {
+                if (_contentsHeight != contentsHeight)
+                {
+                    _contentsHeight = contentsHeight;
+                    PropertyChanged(this, gcnew PropertyChangedEventArgs(L"ContentsHeight"));
+                }
+            }
         }
 
         property String^ Address

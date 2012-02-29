@@ -22,6 +22,9 @@ namespace CefSharp
         property bool CanGoBack { bool get(); }
         property bool CanGoForward { bool get(); }
 
+        property int ContentsWidth;
+        property int ContentsHeight;
+
         property String^ Address;
         property String^ Title;
         property String^ TooltipText;

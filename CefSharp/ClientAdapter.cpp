@@ -39,9 +39,18 @@ namespace CefSharp
 
     void ClientAdapter::OnAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& url)
     {
-        if(frame->IsMain())
+        if (frame->IsMain())
         {
             _browserControl->Address = toClr(url);
+        }
+    }
+
+    void ClientAdapter::OnContentsSizeChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int width, int height)
+    {
+        if (frame->IsMain())
+        {
+            _browserControl->ContentsWidth = width;
+            _browserControl->ContentsHeight = height;
         }
     }
 

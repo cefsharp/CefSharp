@@ -92,14 +92,26 @@ namespace WinForms
             bool get() { return _browserCore->IsLoading; }
         }
 
+        virtual property bool CanGoBack
+        { 
+            bool get() { return _browserCore->CanGoBack; } 
+        }
+
         virtual property bool CanGoForward
         { 
             bool get() { return _browserCore->CanGoForward; } 
         }
 
-        virtual property bool CanGoBack
-        { 
-            bool get() { return _browserCore->CanGoBack; } 
+        virtual property int ContentsWidth
+        {
+            int get() { return _browserCore->ContentsWidth; }
+            void set(int contentsWidth) { _browserCore->ContentsWidth = contentsWidth; }
+        }
+
+        virtual property int ContentsHeight
+        {
+            int get() { return _browserCore->ContentsHeight; }
+            void set(int contentsHeight) { _browserCore->ContentsHeight = contentsHeight; }
         }
 
         virtual property String^ Address
