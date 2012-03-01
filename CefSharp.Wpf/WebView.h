@@ -76,6 +76,11 @@ namespace Wpf
 
         virtual event ConsoleMessageEventHandler^ ConsoleMessage;
 
+        WebView()
+        {
+
+        }
+
         WebView(HwndSource^ source, String^ address)
         {
             Focusable = true;

@@ -26,7 +26,7 @@ namespace CefSharp.Wpf.Example
         public event EventHandler TestPopupActivated;
         public event EventHandler ExitActivated;
 
-        private WebView web_view;
+        //private WebView web_view;
         private IDictionary<object, EventHandler> handlers;
 
         public MainWindow()
@@ -37,9 +37,9 @@ namespace CefSharp.Wpf.Example
         private void Window_SourceInitialized(object sender, EventArgs e)
         {
             var source = PresentationSource.FromVisual(sender as Visual) as HwndSource;
-            web_view = new WebView(source, "https://github.com/ataranto/CefSharp");
+            //web_view = new WebView(source, "https://github.com/ataranto/CefSharp");
 
-            this.frame.Content = web_view;
+            //this.frame.Content = web_view;
             var presenter = new ExamplePresenter(web_view, this,
                 invoke => Dispatcher.BeginInvoke(invoke));
 
