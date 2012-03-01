@@ -45,21 +45,21 @@ namespace CefSharp.Example
 
             model.BeforeResourceLoadHandler = this;
 
-            this.model.PropertyChanged += model_PropertyChanged;
+            model.PropertyChanged += model_PropertyChanged;
             model.ConsoleMessage += model_ConsoleMessage;
 
-            this.view.UrlActivated += view_UrlActivated;
-            this.view.ForwardActivated += view_ForwardActivated;
-            this.view.BackActivated += view_BackActivated;
-            this.view.TestResourceLoadActivated += view_TestResourceLoadActivated;
-            this.view.TestSchemeLoadActivated += view_TestSchemeLoadActivated;
-            this.view.TestExecuteScriptActivated += view_TestExecuteScriptActivated;
-            this.view.TestEvaluateScriptActivated += view_TestEvaluateScriptActivated;
-            this.view.TestBindActivated += view_TestBindActivated;
-            this.view.TestConsoleMessageActivated += view_TestConsoleMessageActivated;
-            this.view.TestTooltipActivated += view_TestTooltipActivated;
-            this.view.TestPopupActivated += view_TestPopupActivated;
-            this.view.ExitActivated += view_ExitActivated;
+            view.UrlActivated += view_UrlActivated;
+            view.ForwardActivated += view_ForwardActivated;
+            view.BackActivated += view_BackActivated;
+            view.TestResourceLoadActivated += view_TestResourceLoadActivated;
+            view.TestSchemeLoadActivated += view_TestSchemeLoadActivated;
+            view.TestExecuteScriptActivated += view_TestExecuteScriptActivated;
+            view.TestEvaluateScriptActivated += view_TestEvaluateScriptActivated;
+            view.TestBindActivated += view_TestBindActivated;
+            view.TestConsoleMessageActivated += view_TestConsoleMessageActivated;
+            view.TestTooltipActivated += view_TestTooltipActivated;
+            view.TestPopupActivated += view_TestPopupActivated;
+            view.ExitActivated += view_ExitActivated;
         }
 
         private void model_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -69,6 +69,12 @@ namespace CefSharp.Example
 
             switch (e.PropertyName)
             {
+                case "IsBrowserInitialized":
+                    if (model.IsBrowserInitialized)
+                    {
+                        model.Load(home_url);
+                    }
+                    break;
                 case "Title":
                     @string = model.Title;
                     gui_invoke(() => view.SetTitle(@string));

@@ -15,7 +15,6 @@ namespace Wpf
         Focusable = true;
         FocusVisualStyle = nullptr;
 
-        _initialized  = gcnew ManualResetEvent(false);
         _settings = settings;
 
         _browserCore = gcnew BrowserCore(address);
@@ -36,17 +35,6 @@ namespace Wpf
             gcnew EventHandler(this, &WebView::Timer_Tick);
     }
 
-    void WebView::WaitForInitialized()
-    {
-        if (IsInitialized)
-        {
-            return;
-        }
-
-        // TODO: risk of infinite lock
-        _initialized->WaitOne();
-    }
-
     void WebView::SetCursor(SafeFileHandle^ handle)
     {
         Cursor = CursorInteropHelper::Create(handle);
@@ -61,7 +49,7 @@ namespace Wpf
             if (String::IsNullOrEmpty(_browserCore->TooltipText))
             {
                 Dispatcher->BeginInvoke(DispatcherPriority::Render,
-                    gcnew Action<String^>(this, &WebView::SetTooltip), nullptr);
+                    gcnew Action<String^>(this, &WebView::SetTooltipText), nullptr);
             }
             else
             {
@@ -73,7 +61,7 @@ namespace Wpf
     void WebView::Timer_Tick(Object^ sender, EventArgs^ e)
     {
         _timer->Stop();
-        SetTooltip(_browserCore->TooltipText);
+        SetTooltipText(_browserCore->TooltipText);
     }
 
     IntPtr WebView::SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, bool% handled)
@@ -218,32 +206,31 @@ namespace Wpf
 
     void WebView::OnInitialized()
     {
-        _initialized->Set();
+        _browserCore->OnInitialized();
     }
 
     void WebView::Load(String^ url)
     {
-        WaitForInitialized();
+        _browserCore->CheckBrowserInitialization();
         _browserCore->OnLoad();
         _clientAdapter->GetCefBrowser()->GetMainFrame()->LoadURL(toNative(url));
     }
 
     void WebView::Stop()
     {
-        WaitForInitialized();
+        _browserCore->CheckBrowserInitialization();
         _clientAdapter->GetCefBrowser()->StopLoad();
-
     }
 
     void WebView::Back()
     {
-        WaitForInitialized();
+        _browserCore->CheckBrowserInitialization();
         _clientAdapter->GetCefBrowser()->GoBack();
     }
 
     void WebView::Forward()
     {
-        WaitForInitialized();
+        _browserCore->CheckBrowserInitialization();
         _clientAdapter->GetCefBrowser()->GoForward();
     }
 
@@ -254,7 +241,7 @@ namespace Wpf
 
     void WebView::Reload(bool ignoreCache)
     {
-        WaitForInitialized();
+        _browserCore->CheckBrowserInitialization();
         if (ignoreCache)
         {
             _clientAdapter->GetCefBrowser()->ReloadIgnoreCache();
@@ -267,13 +254,13 @@ namespace Wpf
 
     void WebView::Print()
     {
-        WaitForInitialized();
+        _browserCore->CheckBrowserInitialization();
         _clientAdapter->GetCefBrowser()->GetMainFrame()->Print();
     }
 
     void WebView::ExecuteScript(String^ script)
     {
-        WaitForInitialized();
+        _browserCore->CheckBrowserInitialization();
 
         CefRefPtr<CefBrowser> browser = _clientAdapter->GetCefBrowser();
         CefRefPtr<CefFrame> frame = browser->GetMainFrame();
@@ -288,7 +275,7 @@ namespace Wpf
 
     Object^ WebView::EvaluateScript(String^ script, TimeSpan timeout)
     {
-	    WaitForInitialized();
+	    _browserCore->CheckBrowserInitialization();
 
         CefRefPtr<CefBrowser> browser = _clientAdapter->GetCefBrowser();
         CefRefPtr<CefFrame> frame = browser->GetMainFrame();
@@ -350,7 +337,7 @@ namespace Wpf
             gcnew Action<SafeFileHandle^>(this, &WebView::SetCursor), handle);
     }
 
-    void WebView::SetTooltip(String^ text)
+    void WebView::SetTooltipText(String^ text)
     {
         if (String::IsNullOrEmpty(text))
         {

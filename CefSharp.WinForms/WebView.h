@@ -7,7 +7,6 @@
 using namespace System;
 using namespace System::ComponentModel;
 using namespace System::Windows::Forms;
-using namespace System::Threading;
 
 namespace CefSharp
 {
@@ -16,7 +15,6 @@ namespace WinForms
     public ref class WebView sealed : public Control, IWebBrowser
     {
     private:
-        ManualResetEvent^ _initialized;
         BrowserSettings^ _settings;
 
         MCefRefPtr<ClientAdapter> _clientAdapter;
@@ -24,7 +22,6 @@ namespace WinForms
         MCefRefPtr<ScriptCore> _scriptCore;
 
         void Initialize(String^ address, BrowserSettings^ settings);
-        void WaitForInitialized();
 
     protected:
         virtual void OnHandleCreated(EventArgs^ e) override;
@@ -65,6 +62,11 @@ namespace WinForms
                     _clientAdapter.get() != nullptr &&
                     _clientAdapter->GetIsInitialized();
             }
+        }
+
+        virtual property bool IsBrowserInitialized
+        {
+            bool get() { return _browserCore->IsBrowserInitialized; }
         }
 
         virtual property bool IsLoading

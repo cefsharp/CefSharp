@@ -4,6 +4,14 @@
 
 namespace CefSharp
 {
+    void BrowserCore::CheckBrowserInitialization()
+    {
+        if (!_isBrowserInitialized)
+        {
+            throw gcnew InvalidOperationException("Browser is not initialized");
+        }
+    }
+
     void BrowserCore::SetNavState(bool isLoading, bool canGoBack, bool canGoForward)
     {
         if(isLoading != _isLoading) 
@@ -23,6 +31,12 @@ namespace CefSharp
             _canGoForward = canGoForward;
             PropertyChanged(this, gcnew PropertyChangedEventArgs(L"CanGoForward"));
         }
+    }
+
+    void BrowserCore::OnInitialized()
+    {
+        _isBrowserInitialized = true;
+        PropertyChanged(this, gcnew PropertyChangedEventArgs(L"IsBrowserInitialized"));
     }
 
     void BrowserCore::OnLoad()

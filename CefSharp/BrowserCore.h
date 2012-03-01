@@ -18,6 +18,7 @@ namespace CefSharp
     private:
         RtzCountdownEvent^ _loadCompleted;
 
+        bool _isBrowserInitialized;
         bool _isLoading;
         bool _canGoBack;
         bool _canGoForward;
@@ -41,6 +42,11 @@ namespace CefSharp
         {
             _loadCompleted = gcnew RtzCountdownEvent();
             _address = address;
+        }
+
+        property bool IsBrowserInitialized
+        {
+            bool get() { return _isBrowserInitialized; }
         }
 
         property bool IsLoading
@@ -152,8 +158,11 @@ namespace CefSharp
             void set(IAfterResponse^ handler) { _afterResponseHandler = handler; }
         }
 
+        void CheckBrowserInitialization();
+
         void SetNavState(bool isLoading, bool canGoBack, bool canGoForward);
 
+        void OnInitialized();
         void OnLoad();
         void OnFrameLoadStart();
         void OnFrameLoadEnd();

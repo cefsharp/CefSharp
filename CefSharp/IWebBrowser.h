@@ -18,6 +18,7 @@ namespace CefSharp
     public:
         event ConsoleMessageEventHandler^ ConsoleMessage;
 
+        property bool IsBrowserInitialized { bool get(); }
         property bool IsLoading { bool get(); }
         property bool CanGoBack { bool get(); }
         property bool CanGoForward { bool get(); }

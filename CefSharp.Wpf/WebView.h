@@ -16,7 +16,6 @@ using namespace System::Windows::Interop;
 using namespace System::Windows::Media;
 using namespace System::Windows::Media::Imaging;
 using namespace System::Windows::Threading;
-using namespace System::Threading;
 
 namespace CefSharp
 {
@@ -28,7 +27,6 @@ namespace Wpf
     private:
 		delegate void ActionDelegate();
 
-        ManualResetEvent^ _initialized;
         BrowserSettings^ _settings;
 
         MCefRefPtr<RenderClientAdapter> _clientAdapter;
@@ -45,11 +43,10 @@ namespace Wpf
 		ActionDelegate^ _paintDelegate;
 
         void Initialize(String^ address, BrowserSettings^ settings);
-        void WaitForInitialized();
         void BrowserCore_PropertyChanged(Object^ sender, PropertyChangedEventArgs^ e);
         void Timer_Tick(Object^ sender, EventArgs^ e);
         void SetCursor(SafeFileHandle^ handle);
-        void SetTooltip(String^ text);
+        void SetTooltipText(String^ text);
         IntPtr SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, bool% handled);
 		void SetBitmap();
 
@@ -87,6 +84,11 @@ namespace Wpf
         WebView(String^ address, BrowserSettings^ settings)
         {
             Initialize(address, settings);
+        }
+
+        virtual property bool IsBrowserInitialized
+        {
+            bool get() { return _browserCore->IsBrowserInitialized; }
         }
 
         virtual property bool IsLoading

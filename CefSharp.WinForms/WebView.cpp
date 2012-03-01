@@ -14,22 +14,9 @@ namespace WinForms
             throw gcnew InvalidOperationException("CEF::Initialize() failed");
         }
 
-        _initialized = gcnew ManualResetEvent(false);
         _settings = settings;
-
         _browserCore = gcnew BrowserCore(address);
         _scriptCore = new ScriptCore();
-    }
-
-    void WebView::WaitForInitialized()
-    {
-        if (IsInitialized)
-        {
-            return;
-        }
-
-        // TODO: risk of infinite lock
-        _initialized->WaitOne();
     }
 
     void WebView::OnHandleCreated(EventArgs^ e)
@@ -78,32 +65,32 @@ namespace WinForms
     void WebView::OnInitialized()
     {
         BeginInvoke(gcnew Action<EventArgs^>(this, &WebView::OnSizeChanged), EventArgs::Empty);
-        _initialized->Set();
+        _browserCore->OnInitialized();
     }
 
     void WebView::Load(String^ url)
     {
-        WaitForInitialized();
+        _browserCore->CheckBrowserInitialization();
         _browserCore->OnLoad();
         _clientAdapter->GetCefBrowser()->GetMainFrame()->LoadURL(toNative(url));
     }
 
     void WebView::Stop()
     {
-        WaitForInitialized();
+        _browserCore->CheckBrowserInitialization();
         _clientAdapter->GetCefBrowser()->StopLoad();
 
     }
 
     void WebView::Back()
     {
-        WaitForInitialized();
+        _browserCore->CheckBrowserInitialization();
         _clientAdapter->GetCefBrowser()->GoBack();
     }
 
     void WebView::Forward()
     {
-        WaitForInitialized();
+        _browserCore->CheckBrowserInitialization();
         _clientAdapter->GetCefBrowser()->GoForward();
     }
 
@@ -114,7 +101,7 @@ namespace WinForms
 
     void WebView::Reload(bool ignoreCache)
     {
-        WaitForInitialized();
+        _browserCore->CheckBrowserInitialization();
         if (ignoreCache)
         {
             _clientAdapter->GetCefBrowser()->ReloadIgnoreCache();
@@ -127,13 +114,13 @@ namespace WinForms
 
     void WebView::Print()
     {
-        WaitForInitialized();
+        _browserCore->CheckBrowserInitialization();
         _clientAdapter->GetCefBrowser()->GetMainFrame()->Print();
     }
 
     void WebView::ExecuteScript(String^ script)
     {
-        WaitForInitialized();
+        _browserCore->CheckBrowserInitialization();
 
         CefRefPtr<CefBrowser> browser = _clientAdapter->GetCefBrowser();
         CefRefPtr<CefFrame> frame = browser->GetMainFrame();
@@ -148,7 +135,7 @@ namespace WinForms
 
     Object^ WebView::EvaluateScript(String^ script, TimeSpan timeout)
     {
-	    WaitForInitialized();
+	    _browserCore->CheckBrowserInitialization();
 
         CefRefPtr<CefBrowser> browser = _clientAdapter->GetCefBrowser();
         CefRefPtr<CefFrame> frame = browser->GetMainFrame();
