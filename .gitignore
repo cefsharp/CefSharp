@@ -4,9 +4,8 @@ _ReSharper*
 *.ncb
 *.user
 obj/
-Debug/
+bin/
 *.ReSharper
 CefSharp/app.aps
 TestResult.xml
-Release/
 *.swp

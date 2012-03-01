@@ -18,8 +18,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="bin\$(ConfigurationName)"
+			IntermediateDirectory="obj\$(ConfigurationName)"
 			ConfigurationType="2"
 			CharacterSet="1"
 			ManagedExtensions="1"
@@ -63,7 +63,7 @@
 				AdditionalDependencies="libcef.lib libcef_dll_wrapper.lib CefSharp.lib"
 				ShowProgress="1"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="$(SolutionDir)libs\$(ConfigurationName);$(SolutionDir)$(ConfigurationName)"
+				AdditionalLibraryDirectories="$(SolutionDir)libs\$(ConfigurationName);$(SolutionDir)CefSharp\bin\$(ConfigurationName)"
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
 				TargetMachine="1"
@@ -92,8 +92,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="bin\$(ConfigurationName)"
+			IntermediateDirectory="obj\$(ConfigurationName)"
 			ConfigurationType="2"
 			CharacterSet="1"
 			ManagedExtensions="1"
@@ -137,7 +137,7 @@
 				AdditionalDependencies="libcef.lib libcef_dll_wrapper.lib CefSharp.lib"
 				ShowProgress="1"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="$(SolutionDir)libs\$(ConfigurationName);$(SolutionDir)$(ConfigurationName)"
+				AdditionalLibraryDirectories="$(SolutionDir)libs\$(ConfigurationName);$(SolutionDir)CefSharp\bin\$(ConfigurationName)"
 				GenerateDebugInformation="true"
 				TargetMachine="1"
 			/>
