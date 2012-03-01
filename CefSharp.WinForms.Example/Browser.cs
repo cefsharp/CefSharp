@@ -94,11 +94,6 @@ namespace CefSharp.WinForms.Example
             Text = title;
         }
 
-        public void SetTooltip(string tooltip)
-        {
-
-        }
-
         public void SetAddress(string address)
         {
             urlTextBox.Text = address;
