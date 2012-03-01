@@ -6,6 +6,21 @@ namespace CefSharp
 {
 namespace WinForms
 {
+    void WebView::Initialize(String^ address, BrowserSettings^ settings)
+    {
+        if (!CEF::IsInitialized &&
+            !CEF::Initialize(gcnew Settings))
+        {
+            throw gcnew InvalidOperationException("CEF::Initialize() failed");
+        }
+
+        _initialized = gcnew ManualResetEvent(false);
+        _settings = settings;
+
+        _browserCore = gcnew BrowserCore(address);
+        _scriptCore = new ScriptCore();
+    }
+
     void WebView::WaitForInitialized()
     {
         if (IsInitialized)
@@ -22,19 +37,18 @@ namespace WinForms
         if (DesignMode == false) 
         {
             _clientAdapter = new ClientAdapter(this);
+
+            CefWindowInfo window;
             CefRefPtr<ClientAdapter> ptr = _clientAdapter.get();
-
-            CefString urlStr = toNative(_browserCore->Address);
-
-            CefWindowInfo windowInfo;
+            CefString url = toNative(_browserCore->Address);
 
             HWND hWnd = static_cast<HWND>(Handle.ToPointer());
             RECT rect;
             GetClientRect(hWnd, &rect);
-            windowInfo.SetAsChild(hWnd, rect);
+            window.SetAsChild(hWnd, rect);
 
-
-            CefBrowser::CreateBrowser(windowInfo, static_cast<CefRefPtr<CefClient>>(ptr), urlStr, *_settings->_browserSettings);
+            CefBrowser::CreateBrowser(window, static_cast<CefRefPtr<CefClient>>(ptr),
+                url, *_settings->_browserSettings);
         }
     }
 

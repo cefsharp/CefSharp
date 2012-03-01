@@ -1,5 +1,6 @@
 #pragma once
 
+#include "BrowserSettings.h"
 #include "RenderClientAdapter.h"
 #include "ScriptCore.h"
     
@@ -24,9 +25,11 @@ namespace Wpf
     [TemplatePart(Name="PART_Browser", Type=Image::typeid)]
     public ref class WebView sealed : public ContentControl, IRenderWebBrowser
     {
+    private:
 		delegate void ActionDelegate();
 
         ManualResetEvent^ _initialized;
+        BrowserSettings^ _settings;
 
         MCefRefPtr<RenderClientAdapter> _clientAdapter;
         BrowserCore^ _browserCore;
@@ -41,7 +44,7 @@ namespace Wpf
 		HANDLE _fileMappingHandle, _backBufferHandle;
 		ActionDelegate^ _paintDelegate;
 
-    private:
+        void Initialize(String^ address, BrowserSettings^ settings);
         void WaitForInitialized();
         void BrowserCore_PropertyChanged(Object^ sender, PropertyChangedEventArgs^ e);
         void Timer_Tick(Object^ sender, EventArgs^ e);
@@ -78,50 +81,12 @@ namespace Wpf
 
         WebView()
         {
-
+            Initialize("about:blank", gcnew BrowserSettings);
         }
 
-        WebView(HwndSource^ source, String^ address)
+        WebView(String^ address, BrowserSettings^ settings)
         {
-            Focusable = true;
-            FocusVisualStyle = nullptr;
-
-            if (!CEF::IsInitialized)
-            {
-                throw gcnew InvalidOperationException("CEF is not initialized");
-            }
-
-            _initialized  = gcnew ManualResetEvent(false);
-
-            _browserCore = gcnew BrowserCore();
-            _browserCore->Address = address;
-            _browserCore->PropertyChanged +=
-                gcnew PropertyChangedEventHandler(this, &WebView::BrowserCore_PropertyChanged);
-
-            _scriptCore = new ScriptCore();
-
-			_paintDelegate = gcnew ActionDelegate(this, &WebView::SetBitmap);
-            source->AddHook(gcnew Interop::HwndSourceHook(this, &WebView::SourceHook));
-
-            ToolTip = _toolTip =
-                gcnew System::Windows::Controls::ToolTip();
-            _toolTip->StaysOpen = true;
-
-            _timer = gcnew DispatcherTimer(DispatcherPriority::Render);
-            _timer->Interval = TimeSpan::FromSeconds(0.5);
-            _timer->Tick +=
-                gcnew EventHandler(this, &WebView::Timer_Tick);
-
-            HWND hWnd = static_cast<HWND>(source->Handle.ToPointer());
-            CefWindowInfo window;
-            window.SetAsOffScreen(hWnd);
-
-            _clientAdapter = new RenderClientAdapter(this);
-            CefRefPtr<RenderClientAdapter> ptr = _clientAdapter.get();
-
-            CefBrowserSettings settings;
-            CefBrowser::CreateBrowser(window, static_cast<CefRefPtr<CefClient>>(ptr),
-                toNative(address), settings);
+            Initialize(address, settings);
         }
 
         virtual property bool IsLoading

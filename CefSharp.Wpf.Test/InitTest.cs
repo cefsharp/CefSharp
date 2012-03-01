@@ -17,7 +17,7 @@ namespace CefSharp.Wpf.Test
                 Assert.Fail();
             }
 
-            web_view = new WebView(null, String.Empty);
+            web_view = new WebView();
         }
 
         [Test]

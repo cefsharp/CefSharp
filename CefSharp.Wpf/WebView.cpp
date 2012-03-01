@@ -4,6 +4,38 @@ namespace CefSharp
 {
 namespace Wpf
 {
+    void WebView::Initialize(String^ address, BrowserSettings^ settings)
+    {
+        if (!CEF::IsInitialized &&
+            !CEF::Initialize(gcnew Settings))
+        {
+            throw gcnew InvalidOperationException("CEF::Initialize() failed");
+        }
+
+        Focusable = true;
+        FocusVisualStyle = nullptr;
+
+        _initialized  = gcnew ManualResetEvent(false);
+        _settings = settings;
+
+        _browserCore = gcnew BrowserCore(address);
+        _browserCore->PropertyChanged +=
+            gcnew PropertyChangedEventHandler(this, &WebView::BrowserCore_PropertyChanged);
+
+        _scriptCore = new ScriptCore();
+
+		_paintDelegate = gcnew ActionDelegate(this, &WebView::SetBitmap);
+
+        ToolTip = _toolTip =
+            gcnew System::Windows::Controls::ToolTip();
+        _toolTip->StaysOpen = true;
+
+        _timer = gcnew DispatcherTimer(DispatcherPriority::Render);
+        _timer->Interval = TimeSpan::FromSeconds(0.5);
+        _timer->Tick +=
+            gcnew EventHandler(this, &WebView::Timer_Tick);
+    }
+
     void WebView::WaitForInitialized()
     {
         if (IsInitialized)
@@ -288,16 +320,27 @@ namespace Wpf
     {
         ContentControl::OnApplyTemplate();
 
+        _clientAdapter = new RenderClientAdapter(this);
+
+        Visual^ parent = (Visual^)VisualTreeHelper::GetParent(this);
+        HwndSource^ source = (HwndSource^)PresentationSource::FromVisual(parent);
+        HWND hwnd = static_cast<HWND>(source->Handle.ToPointer());
+
+        CefWindowInfo window;
+        window.SetAsOffScreen(hwnd);
+        CefRefPtr<RenderClientAdapter> ptr = _clientAdapter.get();
+        CefString url = toNative(_browserCore->Address);
+
+        CefBrowser::CreateBrowser(window, static_cast<CefRefPtr<CefClient>>(ptr),
+            url, *_settings->_browserSettings);
+
+        source->AddHook(gcnew Interop::HwndSourceHook(this, &WebView::SourceHook));
+
         _image = (Image^)GetTemplateChild("PART_Image");
-
-        if (_image == nullptr)
-        {
-            Content = _image = gcnew Image();
-
-            _image->Stretch = Stretch::None;
-            _image->HorizontalAlignment = ::HorizontalAlignment::Left;
-            _image->VerticalAlignment = ::VerticalAlignment::Top;
-        }
+        Content = _image = gcnew Image();
+        _image->Stretch = Stretch::None;
+        _image->HorizontalAlignment = ::HorizontalAlignment::Left;
+        _image->VerticalAlignment = ::VerticalAlignment::Top;
     }
 
     void WebView::SetCursor(CefCursorHandle cursor)

@@ -37,9 +37,10 @@ namespace CefSharp
     public:
         virtual event PropertyChangedEventHandler^ PropertyChanged;
 
-        BrowserCore()
+        BrowserCore(String^ address)
         {
             _loadCompleted = gcnew RtzCountdownEvent();
+            _address = address;
         }
 
         property bool IsLoading

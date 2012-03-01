@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 
 namespace CefSharp.Test
 {
@@ -10,7 +11,7 @@ namespace CefSharp.Test
         [SetUp]
         public void SetUp()
         {
-            browser_core = new BrowserCore();
+            browser_core = new BrowserCore(String.Empty);
         }
 
         [Test]

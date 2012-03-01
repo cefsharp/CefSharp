@@ -15,41 +15,21 @@ namespace WinForms
 {
     public ref class WebView sealed : public Control, IWebBrowser
     {
-        BrowserSettings^ _settings; // XXX: move to BrowserCore?
-
+    private:
         ManualResetEvent^ _initialized;
+        BrowserSettings^ _settings;
 
         MCefRefPtr<ClientAdapter> _clientAdapter;
         BrowserCore^ _browserCore;
         MCefRefPtr<ScriptCore> _scriptCore;
 
+        void Initialize(String^ address, BrowserSettings^ settings);
+        void WaitForInitialized();
+
     protected:
         virtual void OnHandleCreated(EventArgs^ e) override;
         virtual void OnSizeChanged(EventArgs^ e) override;
         virtual void OnGotFocus(EventArgs^ e) override;
-
-    private:
-        void Construct(String^ address, BrowserSettings^ settings)
-        {
-            _initialized = gcnew ManualResetEvent(false);
-
-            _browserCore = gcnew BrowserCore();
-            _browserCore->Address = address;
-
-            _scriptCore = new ScriptCore();
-
-            _settings = settings;
-
-            if(!CEF::IsInitialized)
-            {
-                if(!CEF::Initialize(gcnew Settings()))
-                {
-                    throw gcnew InvalidOperationException("CEF initialization failed.");
-                }
-            }
-        }
-
-        void WaitForInitialized();
 
     public:
         virtual event PropertyChangedEventHandler^ PropertyChanged
@@ -69,12 +49,12 @@ namespace WinForms
 
         WebView()
         {
-            Construct("about:blank", gcnew BrowserSettings);
+            Initialize("about:blank", gcnew BrowserSettings);
         }
 
-        WebView(String^ initialUrl, BrowserSettings^ settings)
+        WebView(String^ address, BrowserSettings^ settings)
         {
-            Construct(initialUrl, settings);
+            Initialize(address, settings);
         }
 
         property bool IsInitialized
