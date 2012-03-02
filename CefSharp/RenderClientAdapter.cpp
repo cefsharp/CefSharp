@@ -10,11 +10,11 @@ namespace CefSharp
         int width, height;
         browser->GetSize(type, width, height);
 
-        _offscreenBrowserControl->SetBuffer(width, height, buffer);
+        _renderBrowserControl->SetBuffer(width, height, buffer);
     }
 
     void RenderClientAdapter::OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor)
     {
-        _offscreenBrowserControl->SetCursor(cursor);
+        _renderBrowserControl->SetCursor(cursor);
     }
 }
