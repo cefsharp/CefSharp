@@ -78,7 +78,7 @@ namespace Wpf
 
         WebView()
         {
-            Initialize("about:blank", gcnew BrowserSettings);
+            Initialize(String::Empty, gcnew BrowserSettings);
         }
 
         WebView(String^ address, BrowserSettings^ settings)
