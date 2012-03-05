@@ -198,17 +198,18 @@ namespace Wpf
             return false;
         }
 
-        virtual bool OnMnemonic(System::Windows::Interop::MSG% msg, System::Windows::Input::ModifierKeys modifiers)
+        virtual bool OnMnemonic(Interop::MSG% msg, ::ModifierKeys modifiers)
         {
             return false;
         }
 
-        virtual bool TranslateAccelerator(System::Windows::Interop::MSG% msg, System::Windows::Input::ModifierKeys modifiers)
+        #undef TranslateAccelerator
+        virtual bool TranslateAccelerator(Interop::MSG% msg, ::ModifierKeys modifiers)
         {
             return false;
         }
 
-        virtual bool TranslateChar(System::Windows::Interop::MSG% msg, System::Windows::Input::ModifierKeys modifiers)
+        virtual bool TranslateChar(Interop::MSG% msg, ::ModifierKeys modifiers)
         {
             return false;
         }
