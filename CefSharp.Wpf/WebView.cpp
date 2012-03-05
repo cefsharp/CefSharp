@@ -67,7 +67,7 @@ namespace Wpf
     IntPtr WebView::SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, bool% handled)
     {
         handled = false;
-        
+
         switch(message)
         {
             case WM_KEYDOWN:
