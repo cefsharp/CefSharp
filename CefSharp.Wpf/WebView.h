@@ -25,8 +25,8 @@ namespace Wpf
     public ref class WebView sealed : public ContentControl, IRenderWebBrowser
     {
     private:
-		delegate void ActionDelegate();
-        delegate bool MoveFocusDelegate(TraversalRequest^ request);
+        delegate void ActionHandler();
+        delegate bool MoveFocusHandler(TraversalRequest^ request);
 
         BrowserSettings^ _settings;
 
@@ -41,7 +41,7 @@ namespace Wpf
         int _width, _height;
         InteropBitmap^ _ibitmap;
 		HANDLE _fileMappingHandle, _backBufferHandle;
-		ActionDelegate^ _paintDelegate;
+		ActionHandler^ _paintDelegate;
 
         void Initialize(String^ address, BrowserSettings^ settings);
         void BrowserCore_PropertyChanged(Object^ sender, PropertyChangedEventArgs^ e);

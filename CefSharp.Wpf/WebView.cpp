@@ -24,7 +24,7 @@ namespace Wpf
 
         _scriptCore = new ScriptCore();
 
-		_paintDelegate = gcnew ActionDelegate(this, &WebView::SetBitmap);
+		_paintDelegate = gcnew ActionHandler(this, &WebView::SetBitmap);
 
         ToolTip = _toolTip =
             gcnew System::Windows::Controls::ToolTip();
@@ -148,7 +148,7 @@ namespace Wpf
                 (int)size.Width, (int)size.Height);
 		} else {
 			Dispatcher->BeginInvoke(DispatcherPriority::Loaded,
-                gcnew ActionDelegate(this, &WebView::InvalidateArrange));
+                gcnew ActionHandler(this, &WebView::InvalidateArrange));
 		}
 
         return ContentControl::ArrangeOverride(size);
@@ -334,7 +334,7 @@ namespace Wpf
         TraversalRequest^ request = gcnew TraversalRequest(direction);
 
         Dispatcher->BeginInvoke(DispatcherPriority::Input,
-            gcnew MoveFocusDelegate(this, &WebView::MoveFocus), request);
+            gcnew MoveFocusHandler(this, &WebView::MoveFocus), request);
     }
 
     void WebView::OnApplyTemplate()
