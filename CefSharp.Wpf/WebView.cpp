@@ -34,13 +34,6 @@ namespace Wpf
         _timer->Interval = TimeSpan::FromSeconds(0.5);
         _timer->Tick +=
             gcnew EventHandler(this, &WebView::Timer_Tick);
-
-        _override_keys = gcnew Dictionary<Key, int>;
-        _override_keys->Add(Key::Tab, 9);
-        _override_keys->Add(Key::Left, 37);
-        _override_keys->Add(Key::Up, 38);
-        _override_keys->Add(Key::Right, 39);
-        _override_keys->Add(Key::Down, 40);
     }
 
     void WebView::SetCursor(SafeFileHandle^ handle)
@@ -140,10 +133,11 @@ namespace Wpf
 
     void WebView::OnPreviewKey(KeyEventArgs^ e)
     {
-        int key;
-        if (_override_keys->TryGetValue(e->Key, key))
+        if (e->Key == Key::Tab ||
+            e->Key >= Key::Left && e->Key <= Key::Down)
         {
             CefBrowser::KeyType type = e->IsDown ? KT_KEYDOWN : KT_KEYUP;
+            int key = KeyInterop::VirtualKeyFromKey(e->Key);
             _clientAdapter->GetCefBrowser()->SendKeyEvent(type, key, 0, false, false);
 
             e->Handled = true;
