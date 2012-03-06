@@ -138,7 +138,7 @@ namespace Wpf
         }
     }
 
-    void WebView::OnMouse(MouseButtonEventArgs^ e)
+    void WebView::OnMouseButton(MouseButtonEventArgs^ e)
     {
         Point point = e->GetPosition(this);
 
@@ -152,8 +152,8 @@ namespace Wpf
 
         bool mouseUp = e->ButtonState == MouseButtonState::Released;
 
-        _clientAdapter->GetCefBrowser()->SendMouseClickEvent((int)point.X, (int)point.Y, type,
-            mouseUp, e->ClickCount);
+        _clientAdapter->GetCefBrowser()->SendMouseClickEvent((int)point.X, (int)point.Y,
+            type, mouseUp, e->ClickCount);
     }
 
     Size WebView::ArrangeOverride(Size size)
@@ -194,7 +194,6 @@ namespace Wpf
     void WebView::OnMouseMove(MouseEventArgs^ e)
     {
         Point point = e->GetPosition(this);
-        Console::WriteLine("OnMouseMove: {0}", point);
         _clientAdapter->GetCefBrowser()->SendMouseMoveEvent((int)point.X, (int)point.Y, false);
     }
 
@@ -206,22 +205,19 @@ namespace Wpf
 
     void WebView::OnMouseDown(MouseButtonEventArgs^ e)
     {
-        Console::WriteLine("OnMouseDown");
         Focus();
+        OnMouseButton(e);
         Mouse::Capture(this);
-        OnMouse(e);
     }
 
     void WebView::OnMouseUp(MouseButtonEventArgs^ e)
     {
-        Console::WriteLine("OnMosueUp");
+        OnMouseButton(e);
         Mouse::Capture(nullptr);
-        OnMouse(e);
     }
 
     void WebView::OnMouseLeave(MouseEventArgs^ e)
     {
-        Console::WriteLine("OnMouseLeave");
         _clientAdapter->GetCefBrowser()->SendMouseMoveEvent(0, 0, true);
     }
 
