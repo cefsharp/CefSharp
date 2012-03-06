@@ -133,9 +133,11 @@ namespace Wpf
     Size WebView::ArrangeOverride(Size size)
     {
 		if(_clientAdapter->GetIsInitialized()) {
-			_clientAdapter->GetCefBrowser()->SetSize(PET_VIEW, (int)size.Width, (int)size.Height);
+			_clientAdapter->GetCefBrowser()->SetSize(PET_VIEW,
+                (int)size.Width, (int)size.Height);
 		} else {
-			Dispatcher->BeginInvoke(DispatcherPriority::Loaded, gcnew ActionDelegate(this, &WebView::InvalidateArrange));
+			Dispatcher->BeginInvoke(DispatcherPriority::Loaded,
+                gcnew ActionDelegate(this, &WebView::InvalidateArrange));
 		}
 
         return ContentControl::ArrangeOverride(size);
@@ -151,6 +153,16 @@ namespace Wpf
     {
         _clientAdapter->GetCefBrowser()->SendFocusEvent(false);
         ContentControl::OnLostFocus(e);
+    }
+
+    void WebView::OnPreviewKeyDown(KeyEventArgs^ e)
+    {
+        if (e->Key == Key::Tab)
+        {
+            _clientAdapter->GetCefBrowser()->SendKeyEvent(KT_KEYDOWN,
+                9, 0, false, false);
+            e->Handled = true;
+        }
     }
 
     void WebView::OnMouseMove(MouseEventArgs^ e)

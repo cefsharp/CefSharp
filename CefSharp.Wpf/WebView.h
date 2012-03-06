@@ -55,6 +55,7 @@ namespace Wpf
         virtual Size ArrangeOverride(Size size) override;
         virtual void OnGotFocus(RoutedEventArgs^ e) override;
         virtual void OnLostFocus(RoutedEventArgs^ e) override;
+        virtual void OnPreviewKeyDown(KeyEventArgs^ e) override;
         virtual void OnMouseMove(MouseEventArgs^ e) override;
         virtual void OnMouseWheel(MouseWheelEventArgs^ e) override;
         virtual void OnMouseDown(MouseButtonEventArgs^ e) override;
