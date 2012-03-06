@@ -26,6 +26,7 @@ namespace Wpf
     {
     private:
 		delegate void ActionDelegate();
+        delegate bool MoveFocusDelegate(TraversalRequest^ request);
 
         BrowserSettings^ _settings;
 
@@ -181,6 +182,8 @@ namespace Wpf
 
         virtual void OnFrameLoadStart();
         virtual void OnFrameLoadEnd();
+
+        virtual void OnTakeFocus(bool next);
 
         virtual void RaiseConsoleMessage(String^ message, String^ source, int line);
 

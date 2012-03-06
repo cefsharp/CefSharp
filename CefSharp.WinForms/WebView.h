@@ -157,6 +157,8 @@ namespace WinForms
         virtual void OnFrameLoadStart();
         virtual void OnFrameLoadEnd();
 
+        virtual void OnTakeFocus(bool next);
+
         virtual void RaiseConsoleMessage(String^ message, String^ source, int line);
     };
 }}

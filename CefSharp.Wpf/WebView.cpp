@@ -326,6 +326,17 @@ namespace Wpf
         _browserCore->OnFrameLoadEnd();
     }
 
+    void WebView::OnTakeFocus(bool next)
+    {
+        FocusNavigationDirection direction = next ?
+            FocusNavigationDirection::Next :
+            FocusNavigationDirection::Previous;
+        TraversalRequest^ request = gcnew TraversalRequest(direction);
+
+        Dispatcher->BeginInvoke(DispatcherPriority::Input,
+            gcnew MoveFocusDelegate(this, &WebView::MoveFocus), request);
+    }
+
     void WebView::OnApplyTemplate()
     {
         ContentControl::OnApplyTemplate();

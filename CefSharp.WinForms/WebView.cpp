@@ -14,6 +14,8 @@ namespace WinForms
             throw gcnew InvalidOperationException("CEF::Initialize() failed");
         }
 
+        TabStop = true;
+
         _settings = settings;
         _browserCore = gcnew BrowserCore(address);
         _scriptCore = new ScriptCore();
@@ -161,5 +163,10 @@ namespace WinForms
     void WebView::OnFrameLoadEnd()
     {
         _browserCore->OnFrameLoadEnd();
+    }
+
+    void WebView::OnTakeFocus(bool next)
+    {
+        SelectNextControl(this, next, true, true, true);
     }
 }}
