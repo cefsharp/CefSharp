@@ -13,7 +13,8 @@ namespace CefSharp
                           public CefRequestHandler,
                           public CefDisplayHandler,
                           public CefV8ContextHandler,
-                          public CefMenuHandler
+                          public CefMenuHandler,
+                          public CefFocusHandler
     {
     private:
         gcroot<IWebBrowser^> _browserControl;
@@ -51,6 +52,7 @@ namespace CefSharp
         virtual CefRefPtr<CefDisplayHandler> GetDisplayHandler() OVERRIDE { return this; }
         virtual CefRefPtr<CefV8ContextHandler> GetV8ContextHandler() OVERRIDE { return this; }
         virtual CefRefPtr<CefMenuHandler> GetMenuHandler() OVERRIDE { return this; }
+        virtual CefRefPtr<CefFocusHandler> GetFocusHandler() OVERRIDE { return this; }
 
         // CefLifeSpanHandler
         virtual DECL bool OnBeforePopup(CefRefPtr<CefBrowser> parentBrowser, const CefPopupFeatures& popupFeatures, CefWindowInfo& windowInfo, const CefString& url, CefRefPtr<CefClient>& client, CefBrowserSettings& settings) OVERRIDE;
@@ -77,6 +79,11 @@ namespace CefSharp
 
         // CefMenuHandler
         virtual DECL bool OnBeforeMenu(CefRefPtr<CefBrowser> browser, const CefMenuInfo& menuInfo) OVERRIDE;
+
+        // CefFocusHandler
+        virtual DECL void OnTakeFocus(CefRefPtr<CefBrowser> browser, bool next) OVERRIDE;
+        virtual DECL bool OnSetFocus(CefRefPtr<CefBrowser> browser, FocusSource source) OVERRIDE;
+        virtual DECL void OnFocusedNodeChanged(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefDOMNode> node) OVERRIDE;
 
         IMPLEMENT_LOCKING(ClientAdapter);
         IMPLEMENT_REFCOUNTING(ClientAdapter);

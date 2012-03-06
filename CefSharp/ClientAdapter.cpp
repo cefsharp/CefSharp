@@ -170,4 +170,20 @@ namespace CefSharp
         return beforeMenuHandler != nullptr &&
             beforeMenuHandler->HandleBeforeMenu();
     }
+
+    void ClientAdapter::OnTakeFocus(CefRefPtr<CefBrowser> browser, bool next)
+    {
+        Console::WriteLine("OnTakeFocus: {0}", next);
+    }
+
+    bool ClientAdapter::OnSetFocus(CefRefPtr<CefBrowser> browser, FocusSource source)
+    {
+        Console::WriteLine("OnSetFocus");
+        return false;
+    }
+
+    void ClientAdapter::OnFocusedNodeChanged(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefDOMNode> node)
+    {
+        Console::WriteLine("OnFocusedNodeChanged");
+    }
 }
