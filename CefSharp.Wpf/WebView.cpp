@@ -71,36 +71,36 @@ namespace Wpf
 
         switch(message)
         {
-            case WM_KEYDOWN:
-            case WM_KEYUP:
-            case WM_SYSKEYDOWN:
-            case WM_SYSKEYUP:
-            case WM_CHAR:
-            case WM_SYSCHAR:
-            case WM_IME_CHAR:
-                if (!IsFocused)
-                {
-                    break;
-                }
+        case WM_KEYDOWN:
+        case WM_KEYUP:
+        case WM_SYSKEYDOWN:
+        case WM_SYSKEYUP:
+        case WM_CHAR:
+        case WM_SYSCHAR:
+        case WM_IME_CHAR:
+            if (!IsFocused)
+            {
+                break;
+            }
 
-                CefBrowser::KeyType type;
-                if (message == WM_CHAR)
-                    type = KT_CHAR;
-                else if (message == WM_KEYDOWN || message == WM_SYSKEYDOWN)
-                    type = KT_KEYDOWN;
-                else if (message == WM_KEYUP || message == WM_SYSKEYUP)
-                    type = KT_KEYUP;
+            CefBrowser::KeyType type;
+            if (message == WM_CHAR)
+                type = KT_CHAR;
+            else if (message == WM_KEYDOWN || message == WM_SYSKEYDOWN)
+                type = KT_KEYDOWN;
+            else if (message == WM_KEYUP || message == WM_SYSKEYUP)
+                type = KT_KEYUP;
 
-                bool sysChar =
-                    message == WM_SYSKEYDOWN ||
-                    message == WM_SYSKEYUP ||
-                    message == WM_SYSCHAR;
+            bool sysChar =
+                message == WM_SYSKEYDOWN ||
+                message == WM_SYSKEYUP ||
+                message == WM_SYSCHAR;
 
-                bool imeChar =
-                    message == WM_IME_CHAR;
+            bool imeChar =
+                message == WM_IME_CHAR;
 
-                _clientAdapter->GetCefBrowser()->SendKeyEvent(type, wParam.ToInt32(), lParam.ToInt32(), sysChar, imeChar);
-                handled = true;
+            _clientAdapter->GetCefBrowser()->SendKeyEvent(type, wParam.ToInt32(), lParam.ToInt32(), sysChar, imeChar);
+            handled = true;
         }
 
         return IntPtr::Zero;
@@ -194,6 +194,7 @@ namespace Wpf
     void WebView::OnMouseMove(MouseEventArgs^ e)
     {
         Point point = e->GetPosition(this);
+        Console::WriteLine("OnMouseMove: {0}", point);
         _clientAdapter->GetCefBrowser()->SendMouseMoveEvent((int)point.X, (int)point.Y, false);
     }
 
@@ -205,17 +206,22 @@ namespace Wpf
 
     void WebView::OnMouseDown(MouseButtonEventArgs^ e)
     {
+        Console::WriteLine("OnMouseDown");
         Focus();
+        Mouse::Capture(this);
         OnMouse(e);
     }
 
     void WebView::OnMouseUp(MouseButtonEventArgs^ e)
     {
+        Console::WriteLine("OnMosueUp");
+        Mouse::Capture(nullptr);
         OnMouse(e);
     }
 
     void WebView::OnMouseLeave(MouseEventArgs^ e)
     {
+        Console::WriteLine("OnMouseLeave");
         _clientAdapter->GetCefBrowser()->SendMouseMoveEvent(0, 0, true);
     }
 
