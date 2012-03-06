@@ -50,12 +50,14 @@ namespace Wpf
         void SetTooltipText(String^ text);
         IntPtr SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, bool% handled);
 		void SetBitmap();
+        void OnPreviewKey(KeyEventArgs^ e);
 
     protected:
         virtual Size ArrangeOverride(Size size) override;
         virtual void OnGotFocus(RoutedEventArgs^ e) override;
         virtual void OnLostFocus(RoutedEventArgs^ e) override;
         virtual void OnPreviewKeyDown(KeyEventArgs^ e) override;
+        virtual void OnPreviewKeyUp(KeyEventArgs^ e) override;
         virtual void OnMouseMove(MouseEventArgs^ e) override;
         virtual void OnMouseWheel(MouseWheelEventArgs^ e) override;
         virtual void OnMouseDown(MouseButtonEventArgs^ e) override;

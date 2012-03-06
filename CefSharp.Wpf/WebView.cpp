@@ -130,6 +130,16 @@ namespace Wpf
 		bitmap->Invalidate();
     }
 
+    void WebView::OnPreviewKey(KeyEventArgs^ e)
+    {
+        if (e->Key == Key::Tab)
+        {
+            CefBrowser::KeyType type = e->IsDown ? KT_KEYDOWN : KT_KEYUP;
+            _clientAdapter->GetCefBrowser()->SendKeyEvent(type, 9, 0, false, false);
+            e->Handled = true;
+        }
+    }
+
     Size WebView::ArrangeOverride(Size size)
     {
 		if(_clientAdapter->GetIsInitialized()) {
@@ -157,12 +167,12 @@ namespace Wpf
 
     void WebView::OnPreviewKeyDown(KeyEventArgs^ e)
     {
-        if (e->Key == Key::Tab)
-        {
-            _clientAdapter->GetCefBrowser()->SendKeyEvent(KT_KEYDOWN,
-                9, 0, false, false);
-            e->Handled = true;
-        }
+        OnPreviewKey(e);
+    }
+
+    void WebView::OnPreviewKeyUp(KeyEventArgs^ e)
+    {
+        OnPreviewKey(e);
     }
 
     void WebView::OnMouseMove(MouseEventArgs^ e)
