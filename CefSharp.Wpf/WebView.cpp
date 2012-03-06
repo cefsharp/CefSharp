@@ -85,7 +85,6 @@ namespace Wpf
             case WM_CHAR:
             case WM_SYSCHAR:
             case WM_IME_CHAR:
-                Console::WriteLine("WM: {0}", wParam.ToInt32());
                 if (!IsFocused)
                 {
                     break;
