@@ -48,9 +48,19 @@ namespace CefSharp.Example
             model.PropertyChanged += model_PropertyChanged;
             model.ConsoleMessage += model_ConsoleMessage;
 
-            view.UrlActivated += view_UrlActivated;
-            view.ForwardActivated += view_ForwardActivated;
-            view.BackActivated += view_BackActivated;
+            // file
+            view.ExitActivated += view_ExitActivated;
+
+            // edit
+            view.UndoActivated += view_UndoActivated;
+            view.RedoActivated += view_RedoActivated;
+            view.CutActivated += view_CutActivated;
+            view.CopyActivated += view_CopyActivated;
+            view.PasteActivated += view_PasteActivated;
+            view.DeleteActivated += view_DeleteActivated;
+            view.SelectAllActivated +=  view_SelectAllActivated;
+
+            // test
             view.TestResourceLoadActivated += view_TestResourceLoadActivated;
             view.TestSchemeLoadActivated += view_TestSchemeLoadActivated;
             view.TestExecuteScriptActivated += view_TestExecuteScriptActivated;
@@ -59,7 +69,12 @@ namespace CefSharp.Example
             view.TestConsoleMessageActivated += view_TestConsoleMessageActivated;
             view.TestTooltipActivated += view_TestTooltipActivated;
             view.TestPopupActivated += view_TestPopupActivated;
-            view.ExitActivated += view_ExitActivated;
+
+            // navigation
+            view.UrlActivated += view_UrlActivated;
+            view.ForwardActivated += view_ForwardActivated;
+            view.BackActivated += view_BackActivated;
+
         }
 
         private void model_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -103,19 +118,45 @@ namespace CefSharp.Example
             gui_invoke(() => view.DisplayOutput(e.Message));
         }
 
-        private void view_UrlActivated(object sender, string url)
+        private void view_ExitActivated(object sender, EventArgs e)
         {
-            model.Load(url);
+            CEF.Shutdown();
+            System.Environment.Exit(0);
         }
 
-        private void view_BackActivated(object sender, EventArgs e)
+        void view_UndoActivated(object sender, EventArgs e)
         {
-            model.Back();
+            model.Undo();
         }
 
-        private void view_ForwardActivated(object sender, EventArgs e)
+        void view_RedoActivated(object sender, EventArgs e)
         {
-            model.Forward();
+            model.Redo();
+        }
+
+        void view_CutActivated(object sender, EventArgs e)
+        {
+            model.Cut();
+        }
+
+        void view_CopyActivated(object sender, EventArgs e)
+        {
+            model.Copy();
+        }
+
+        void view_PasteActivated(object sender, EventArgs e)
+        {
+            model.Paste();
+        }
+
+        void view_DeleteActivated(object sender, EventArgs e)
+        {
+            model.Delete();
+        }
+
+        void view_SelectAllActivated(object sender, EventArgs e)
+        {
+            model.SelectAll();
         }
 
         private void view_TestResourceLoadActivated(object sender, EventArgs e)
@@ -174,10 +215,19 @@ namespace CefSharp.Example
             model.Load(popup_url);
         }
 
-        private void view_ExitActivated(object sender, EventArgs e)
+        private void view_UrlActivated(object sender, string url)
         {
-            CEF.Shutdown();
-            System.Environment.Exit(0);
+            model.Load(url);
+        }
+
+        private void view_BackActivated(object sender, EventArgs e)
+        {
+            model.Back();
+        }
+
+        private void view_ForwardActivated(object sender, EventArgs e)
+        {
+            model.Forward();
         }
 
         void IBeforeResourceLoad.HandleBeforeResourceLoad(IWebBrowser browserControl,

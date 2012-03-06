@@ -13,9 +13,19 @@ namespace CefSharp.Wpf.Example
 {
     public partial class MainWindow : Window, IExampleView
     {
-        public event Action<object, string> UrlActivated;
-        public event EventHandler BackActivated;
-        public event EventHandler ForwardActivated;
+        // file
+        public event EventHandler ExitActivated;
+
+        // edit
+        public event EventHandler UndoActivated;
+        public event EventHandler RedoActivated;
+        public event EventHandler CutActivated;
+        public event EventHandler CopyActivated;
+        public event EventHandler PasteActivated;
+        public event EventHandler DeleteActivated;
+        public event EventHandler SelectAllActivated;
+
+        // test
         public event EventHandler TestResourceLoadActivated;
         public event EventHandler TestSchemeLoadActivated;
         public event EventHandler TestExecuteScriptActivated;
@@ -24,7 +34,11 @@ namespace CefSharp.Wpf.Example
         public event EventHandler TestConsoleMessageActivated;
         public event EventHandler TestTooltipActivated;
         public event EventHandler TestPopupActivated;
-        public event EventHandler ExitActivated;
+
+        // navigation
+        public event Action<object, string> UrlActivated;
+        public event EventHandler BackActivated;
+        public event EventHandler ForwardActivated;
 
         private IDictionary<object, EventHandler> handlers;
 
@@ -37,8 +51,19 @@ namespace CefSharp.Wpf.Example
 
             handlers = new Dictionary<object, EventHandler>
             {
-                { backButton, BackActivated },
-                { forwardButton, ForwardActivated },
+                // file
+                { exitMenuItem, ExitActivated },
+
+                // edit
+                { undoMenuItem, UndoActivated },
+                { redoMenuItem, RedoActivated },
+                { cutMenuItem, CutActivated },
+                { copyMenuItem, CopyActivated },
+                { pasteMenuItem, PasteActivated },
+                { deleteMenuItem, DeleteActivated },
+                { selectAllMenuItem, SelectAllActivated },
+
+                // test
                 { testResourceLoadMenuItem, TestResourceLoadActivated },
                 { testSchemeLoadMenuItem, TestSchemeLoadActivated },
                 { testExecuteScriptMenuItem, TestExecuteScriptActivated },
@@ -47,7 +72,10 @@ namespace CefSharp.Wpf.Example
                 { testConsoleMessageMenuItem, TestConsoleMessageActivated },
                 { testTooltipMenuItem, TestTooltipActivated },
                 { testPopupMenuItem, TestPopupActivated },
-                { exitMenuItem, ExitActivated },
+
+                // navigation
+                { backButton, BackActivated },
+                { forwardButton, ForwardActivated },
             };
         }
 

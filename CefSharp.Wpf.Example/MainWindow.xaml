@@ -8,6 +8,16 @@
             <MenuItem Header="File">
                 <MenuItem Header="Exit" Name="exitMenuItem" Click="control_Activated" />
             </MenuItem>
+            <MenuItem Header="Edit">
+                <MenuItem Header="Undo" Name="undoMenuItem" Click="control_Activated" />
+                <MenuItem Header="Redo" Name="redoMenuItem" Click="control_Activated" />
+                <Separator />
+                <MenuItem Header="Cut" Name="cutMenuItem" Click="control_Activated" />
+                <MenuItem Header="Copy" Name="copyMenuItem" Click="control_Activated" />
+                <MenuItem Header="Paste" Name="pasteMenuItem" Click="control_Activated" />
+                <MenuItem Header="Delete" Name="deleteMenuItem" Click="control_Activated" />
+                <MenuItem Header="Select All" Name="selectAllMenuItem" Click="control_Activated" />
+            </MenuItem>
             <MenuItem Header="Tests">
                 <MenuItem Header="Test Resource Load Handler" Name="testResourceLoadMenuItem" Click="control_Activated" />
                 <MenuItem Header="Test Scheme Load Handler" Name="testSchemeLoadMenuItem" Click="control_Activated" />

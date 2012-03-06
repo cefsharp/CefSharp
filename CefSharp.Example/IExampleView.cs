@@ -4,9 +4,19 @@ namespace CefSharp.Example
 {
     public interface IExampleView
     {
-        event Action<object, string> UrlActivated;
-        event EventHandler BackActivated;
-        event EventHandler ForwardActivated;
+        // file
+        event EventHandler ExitActivated;
+
+        // edit
+        event EventHandler UndoActivated;
+        event EventHandler RedoActivated;
+        event EventHandler CutActivated;
+        event EventHandler CopyActivated;
+        event EventHandler PasteActivated;
+        event EventHandler DeleteActivated;
+        event EventHandler SelectAllActivated;
+
+        // test
         event EventHandler TestResourceLoadActivated;
         event EventHandler TestSchemeLoadActivated;
         event EventHandler TestExecuteScriptActivated;
@@ -15,7 +25,11 @@ namespace CefSharp.Example
         event EventHandler TestConsoleMessageActivated;
         event EventHandler TestTooltipActivated;
         event EventHandler TestPopupActivated;
-        event EventHandler ExitActivated;
+
+        // navigation
+        event Action<object, string> UrlActivated;
+        event EventHandler BackActivated;
+        event EventHandler ForwardActivated;
 
         void SetTitle(string title);
         void SetAddress(string address);

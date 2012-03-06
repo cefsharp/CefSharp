@@ -6,18 +6,52 @@ namespace CefSharp.WinForms.Example
 {
     public partial class Browser : Form, IExampleView
     {
-        public event Action<object, string> UrlActivated;
-
-        public event EventHandler BackActivated
+        public event EventHandler ExitActivated
         {
-            add { backButton.Click += value; }
-            remove { backButton.Click -= value; }
+            add { exitToolStripMenuItem.Click += value; }
+            remove { exitToolStripMenuItem.Click -= value; }
         }
 
-        public event EventHandler ForwardActivated
+        public event EventHandler UndoActivated
         {
-            add { forwardButton.Click += value; }
-            remove { forwardButton.Click -= value; }
+            add { undoMenuItem.Click += value; }
+            remove { undoMenuItem.Click -= value; }
+        }
+
+        public event EventHandler RedoActivated
+        {
+            add { redoMenuItem.Click += value; }
+            remove { redoMenuItem.Click -= value; }
+        }
+
+        public event EventHandler CutActivated
+        {
+            add { cutMenuItem.Click += value; }
+            remove { cutMenuItem.Click -= value; }
+        }
+
+        public event EventHandler CopyActivated
+        {
+            add { copyMenuItem.Click += value; }
+            remove { copyMenuItem.Click -= value; }
+        }
+
+        public event EventHandler PasteActivated
+        {
+            add { pasteMenuItem.Click += value; }
+            remove { pasteMenuItem.Click -= value; }
+        }
+
+        public event EventHandler DeleteActivated
+        {
+            add { deleteMenuItem.Click += value; }
+            remove { deleteMenuItem.Click -= value; }
+        }
+
+        public event EventHandler SelectAllActivated
+        {
+            add { selectAllMenuItem.Click += value; }
+            remove { selectAllMenuItem.Click -= value; }
         }
 
         public event EventHandler TestResourceLoadActivated
@@ -68,10 +102,19 @@ namespace CefSharp.WinForms.Example
             remove { testPopupMenuItem.Click -= value; }
         }
 
-        public event EventHandler ExitActivated
+
+        public event Action<object, string> UrlActivated;
+
+        public event EventHandler BackActivated
         {
-            add { exitToolStripMenuItem.Click += value; }
-            remove { exitToolStripMenuItem.Click -= value; }
+            add { backButton.Click += value; }
+            remove { backButton.Click -= value; }
+        }
+
+        public event EventHandler ForwardActivated
+        {
+            add { forwardButton.Click += value; }
+            remove { forwardButton.Click -= value; }
         }
 
         private readonly WebView web_view;
