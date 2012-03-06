@@ -22,8 +22,7 @@ namespace CefSharp
 namespace Wpf
 {
     [TemplatePart(Name="PART_Browser", Type=Image::typeid)]
-    public ref class WebView sealed : public ContentControl,
-        IRenderWebBrowser, IKeyboardInputSink
+    public ref class WebView sealed : public ContentControl, IRenderWebBrowser
     {
     private:
 		delegate void ActionDelegate();
@@ -188,43 +187,5 @@ namespace Wpf
         virtual void OnApplyTemplate() override;
         virtual void SetCursor(CefCursorHandle cursor);
         virtual void SetBuffer(int width, int height, const void* buffer);
-
-        // IKeyboadInputSink
-        virtual property IKeyboardInputSite^ KeyboardInputSite
-        {
-            IKeyboardInputSite^ get() { return nullptr; }
-            void set(IKeyboardInputSite^ site) { }
-        }
-
-        virtual bool HasFocusWithin()
-        {
-            return false;
-        }
-
-        virtual bool OnMnemonic(Interop::MSG% msg, ::ModifierKeys modifiers)
-        {
-            return false;
-        }
-
-        #undef TranslateAccelerator
-        virtual bool TranslateAccelerator(Interop::MSG% msg, ::ModifierKeys modifiers)
-        {
-            return false;
-        }
-
-        virtual bool TranslateChar(Interop::MSG% msg, ::ModifierKeys modifiers)
-        {
-            return false;
-        }
-
-        virtual IKeyboardInputSite^ RegisterKeyboardInputSink(IKeyboardInputSink^ sink)
-        {
-            return nullptr;
-        }
-
-        virtual bool TabInto(TraversalRequest^ request)
-        {
-            return false;
-        }
     };
 }}

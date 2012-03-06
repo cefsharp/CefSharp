@@ -14,6 +14,7 @@ namespace Wpf
 
         Focusable = true;
         FocusVisualStyle = nullptr;
+        IsTabStop = true;
 
         _settings = settings;
 
