@@ -34,6 +34,13 @@ namespace Wpf
         _timer->Interval = TimeSpan::FromSeconds(0.5);
         _timer->Tick +=
             gcnew EventHandler(this, &WebView::Timer_Tick);
+
+        _override_keys = gcnew Dictionary<Key, int>;
+        _override_keys->Add(Key::Tab, 9);
+        _override_keys->Add(Key::Left, 37);
+        _override_keys->Add(Key::Up, 38);
+        _override_keys->Add(Key::Right, 39);
+        _override_keys->Add(Key::Down, 40);
     }
 
     void WebView::SetCursor(SafeFileHandle^ handle)
@@ -78,6 +85,7 @@ namespace Wpf
             case WM_CHAR:
             case WM_SYSCHAR:
             case WM_IME_CHAR:
+                Console::WriteLine("WM: {0}", wParam.ToInt32());
                 if (!IsFocused)
                 {
                     break;
@@ -133,10 +141,12 @@ namespace Wpf
 
     void WebView::OnPreviewKey(KeyEventArgs^ e)
     {
-        if (e->Key == Key::Tab)
+        int key;
+        if (_override_keys->TryGetValue(e->Key, key))
         {
             CefBrowser::KeyType type = e->IsDown ? KT_KEYDOWN : KT_KEYUP;
-            _clientAdapter->GetCefBrowser()->SendKeyEvent(type, 9, 0, false, false);
+            _clientAdapter->GetCefBrowser()->SendKeyEvent(type, key, 0, false, false);
+
             e->Handled = true;
         }
     }

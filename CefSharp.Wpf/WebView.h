@@ -7,6 +7,7 @@
 using namespace Microsoft::Win32::SafeHandles;
 using namespace System;
 using namespace System::ComponentModel;
+using namespace System::Collections::Generic;
 using namespace System::Runtime::InteropServices;
 using namespace System::Windows;
 using namespace System::Windows::Controls;
@@ -42,6 +43,8 @@ namespace Wpf
         InteropBitmap^ _ibitmap;
 		HANDLE _fileMappingHandle, _backBufferHandle;
 		ActionHandler^ _paintDelegate;
+
+        IDictionary<Key, int>^ _override_keys;
 
         void Initialize(String^ address, BrowserSettings^ settings);
         void BrowserCore_PropertyChanged(Object^ sender, PropertyChangedEventArgs^ e);
