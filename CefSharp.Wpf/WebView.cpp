@@ -311,7 +311,7 @@ namespace Wpf
         _browserCore->SetNavState(isLoading, canGoBack, canGoForward);
     }
 
-    void WebView::RaiseConsoleMessage(String^ message, String^ source, int line)
+    void WebView::OnConsoleMessage(String^ message, String^ source, int line)
     {
         ConsoleMessage(this, gcnew ConsoleMessageEventArgs(message, source, line));
     }

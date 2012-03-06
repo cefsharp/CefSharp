@@ -182,10 +182,8 @@ namespace Wpf
 
         virtual void OnFrameLoadStart();
         virtual void OnFrameLoadEnd();
-
         virtual void OnTakeFocus(bool next);
-
-        virtual void RaiseConsoleMessage(String^ message, String^ source, int line);
+        virtual void OnConsoleMessage(String^ message, String^ source, int line);
 
         virtual void OnApplyTemplate() override;
         virtual void SetCursor(CefCursorHandle cursor);

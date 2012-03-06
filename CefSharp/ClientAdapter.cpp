@@ -76,7 +76,7 @@ namespace CefSharp
     {
         String^ messageStr = toClr(message);
         String^ sourceStr = toClr(source);
-        _browserControl->RaiseConsoleMessage(messageStr, sourceStr, line);
+        _browserControl->OnConsoleMessage(messageStr, sourceStr, line);
 
         return true;
     }
