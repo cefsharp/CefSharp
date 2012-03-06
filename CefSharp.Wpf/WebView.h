@@ -51,6 +51,7 @@ namespace Wpf
         IntPtr SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, bool% handled);
 		void SetBitmap();
         void OnPreviewKey(KeyEventArgs^ e);
+        void OnMouse(MouseButtonEventArgs^ e);
 
     protected:
         virtual Size ArrangeOverride(Size size) override;

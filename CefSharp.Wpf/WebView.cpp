@@ -83,27 +83,21 @@ namespace Wpf
                     break;
                 }
 
-                CefBrowser::KeyType type = KT_CHAR;
-                bool sysChar = false, imeChar = false;
-
-                if (message == WM_KEYDOWN || message == WM_SYSKEYDOWN)
-                {
+                CefBrowser::KeyType type;
+                if (message == WM_CHAR)
+                    type = KT_CHAR;
+                else if (message == WM_KEYDOWN || message == WM_SYSKEYDOWN)
                     type = KT_KEYDOWN;
-                }
                 else if (message == WM_KEYUP || message == WM_SYSKEYUP)
-                {
                     type = KT_KEYUP;
-                }
 
-                if (message == WM_SYSKEYDOWN || message == WM_SYSKEYUP || message == WM_SYSCHAR)
-                {
-                    sysChar = true;
-                }
+                bool sysChar =
+                    message == WM_SYSKEYDOWN ||
+                    message == WM_SYSKEYUP ||
+                    message == WM_SYSCHAR;
 
-                if (message == WM_IME_CHAR)
-                {
-                    imeChar = true;
-                }
+                bool imeChar =
+                    message == WM_IME_CHAR;
 
                 _clientAdapter->GetCefBrowser()->SendKeyEvent(type, wParam.ToInt32(), lParam.ToInt32(), sysChar, imeChar);
                 handled = true;
@@ -142,6 +136,24 @@ namespace Wpf
 
             e->Handled = true;
         }
+    }
+
+    void WebView::OnMouse(MouseButtonEventArgs^ e)
+    {
+        Point point = e->GetPosition(this);
+
+        CefBrowser::MouseButtonType type;
+        if (e->ChangedButton == MouseButton::Left)
+            type = CefBrowser::MouseButtonType::MBT_LEFT;
+        else if (e->ChangedButton == MouseButton::Middle)
+            type = CefBrowser::MouseButtonType::MBT_MIDDLE;
+        else
+            type = CefBrowser::MouseButtonType::MBT_RIGHT;
+
+        bool mouseUp = e->ButtonState == MouseButtonState::Released;
+
+        _clientAdapter->GetCefBrowser()->SendMouseClickEvent((int)point.X, (int)point.Y, type,
+            mouseUp, e->ClickCount);
     }
 
     Size WebView::ArrangeOverride(Size size)
@@ -193,41 +205,18 @@ namespace Wpf
 
     void WebView::OnMouseDown(MouseButtonEventArgs^ e)
     {
-        Keyboard::Focus(this); // XXX: temporary
+        Focus();
+        OnMouse(e);
+    }
 
-        Point point = e->GetPosition(this);
-        CefBrowser::MouseButtonType mbt;
-        if (e->RightButton == MouseButtonState::Pressed)
-        {
-            mbt = CefBrowser::MouseButtonType::MBT_RIGHT;
-        }
-        else if (e->LeftButton == MouseButtonState::Pressed)
-        {
-            mbt = CefBrowser::MouseButtonType::MBT_LEFT;
-        }
-
-        _clientAdapter->GetCefBrowser()->SendMouseClickEvent((int)point.X, (int)point.Y, mbt, false, 1);
+    void WebView::OnMouseUp(MouseButtonEventArgs^ e)
+    {
+        OnMouse(e);
     }
 
     void WebView::OnMouseLeave(MouseEventArgs^ e)
     {
         _clientAdapter->GetCefBrowser()->SendMouseMoveEvent(0, 0, true);
-    }
-
-    void WebView::OnMouseUp(MouseButtonEventArgs^ e)
-    {
-        Point point = e->GetPosition(this);
-        CefBrowser::MouseButtonType mbt;
-        if (e->RightButton == MouseButtonState::Pressed)
-        {
-            mbt = CefBrowser::MouseButtonType::MBT_RIGHT;
-        }
-        else if (e->LeftButton == MouseButtonState::Pressed)
-        {
-            mbt = CefBrowser::MouseButtonType::MBT_LEFT;
-        }
-
-        _clientAdapter->GetCefBrowser()->SendMouseClickEvent((int)point.X, (int)point.Y, mbt, true, 1);
     }
 
     void WebView::OnInitialized()
