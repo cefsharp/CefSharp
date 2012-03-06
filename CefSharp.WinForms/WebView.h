@@ -146,6 +146,17 @@ namespace WinForms
         virtual void Forward();
         virtual void Reload();
         virtual void Reload(bool ignoreCache);
+        virtual void ClearHistory();
+        virtual void ShowDevTools();
+        virtual void CloseDevTools();
+
+        virtual void Undo();
+        virtual void Redo();
+        virtual void Cut();
+        virtual void Copy();
+        virtual void Paste();
+        virtual void Delete();
+        virtual void SelectAll();
         virtual void Print();
 
         void ExecuteScript(String^ script);

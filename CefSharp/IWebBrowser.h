@@ -43,6 +43,17 @@ namespace CefSharp
         void Forward();
         void Reload();
         void Reload(bool ignoreCache);
+        void ClearHistory();
+        void ShowDevTools();
+        void CloseDevTools();
+
+        void Undo();
+        void Redo();
+        void Cut();
+        void Copy();
+        void Paste();
+        void Delete();
+        void SelectAll();
         void Print();
 
         void SetNavState(bool isLoading, bool canGoBack, bool canGoForward);

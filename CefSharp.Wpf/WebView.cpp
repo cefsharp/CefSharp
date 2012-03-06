@@ -273,6 +273,66 @@ namespace Wpf
         }
     }
 
+    void WebView::ClearHistory()
+    {
+        _browserCore->CheckBrowserInitialization();
+        _clientAdapter->GetCefBrowser()->ClearHistory();
+    }
+
+    void WebView::ShowDevTools()
+    {
+        _browserCore->CheckBrowserInitialization();
+        _clientAdapter->GetCefBrowser()->ShowDevTools();
+    }
+
+    void WebView::CloseDevTools()
+    {
+        _browserCore->CheckBrowserInitialization();
+        _clientAdapter->GetCefBrowser()->CloseDevTools();
+    }
+
+    void WebView::Undo()
+    {
+        _browserCore->CheckBrowserInitialization();
+        _clientAdapter->GetCefBrowser()->GetMainFrame()->Undo();
+    }
+
+    void WebView::Redo()
+    {
+        _browserCore->CheckBrowserInitialization();
+        _clientAdapter->GetCefBrowser()->GetMainFrame()->Redo();
+    }
+
+    void WebView::Cut()
+    {
+        _browserCore->CheckBrowserInitialization();
+        _clientAdapter->GetCefBrowser()->GetMainFrame()->Cut();
+    }
+
+    void WebView::Copy()
+    {
+        _browserCore->CheckBrowserInitialization();
+        _clientAdapter->GetCefBrowser()->GetMainFrame()->Copy();
+    }
+
+    void WebView::Paste()
+    {
+        _browserCore->CheckBrowserInitialization();
+        _clientAdapter->GetCefBrowser()->GetMainFrame()->Paste();
+    }
+
+    void WebView::Delete()
+    {
+        _browserCore->CheckBrowserInitialization();
+        _clientAdapter->GetCefBrowser()->GetMainFrame()->Delete();
+    }
+
+    void WebView::SelectAll()
+    {
+        _browserCore->CheckBrowserInitialization();
+        _clientAdapter->GetCefBrowser()->GetMainFrame()->SelectAll();
+    }
+
     void WebView::Print()
     {
         _browserCore->CheckBrowserInitialization();
