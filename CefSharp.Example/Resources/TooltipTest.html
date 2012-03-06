@@ -3,9 +3,9 @@
 	<head>
 		<title>Scheme Handler Test</title>
 	</head>
-	<body>
-        <form>
-        <input type="text" size=25 title="This is the first tooltip">
+	<body onload="document.form.first.focus()">
+        <form name="form">
+        <input type="text" size=25 title="This is the first tooltip" name="first">
         <br />
         <input type="text" size=25 title="This is the second tooltip">
         </form>
