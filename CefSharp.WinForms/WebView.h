@@ -54,6 +54,11 @@ namespace WinForms
             Initialize(address, settings);
         }
 
+        ~WebView()
+        {
+            _clientAdapter->GetCefBrowser()->CloseBrowser();
+        }
+
         property bool IsInitialized
         {
             bool get()

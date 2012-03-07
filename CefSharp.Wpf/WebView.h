@@ -91,6 +91,11 @@ namespace Wpf
             Initialize(address, settings);
         }
 
+        ~WebView()
+        {
+            _clientAdapter->GetCefBrowser()->CloseBrowser();
+        }
+
         virtual property bool IsBrowserInitialized
         {
             bool get() { return _browserCore->IsBrowserInitialized; }

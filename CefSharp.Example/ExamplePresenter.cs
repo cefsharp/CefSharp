@@ -120,6 +120,7 @@ namespace CefSharp.Example
 
         private void view_ExitActivated(object sender, EventArgs e)
         {
+            model.Dispose();
             CEF.Shutdown();
             System.Environment.Exit(0);
         }

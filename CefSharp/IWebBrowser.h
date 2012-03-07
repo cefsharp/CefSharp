@@ -13,7 +13,7 @@ namespace CefSharp
     interface class IBeforeMenu;
     interface class IAfterResponse;
 
-    public interface class IWebBrowser : INotifyPropertyChanged
+    public interface class IWebBrowser : IDisposable, INotifyPropertyChanged
     {
     public:
         event ConsoleMessageEventHandler^ ConsoleMessage;
