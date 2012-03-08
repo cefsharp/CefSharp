@@ -70,6 +70,10 @@ namespace Wpf
     void WebView::ToolTip_Closed(Object^ sender, RoutedEventArgs^ e)
     {
         _toolTip->Visibility = ::Visibility::Collapsed;
+        // set Placement to something other than PlacementMode::Mouse,
+        // so that when we re-show the tooltip in SetTooltipText(),
+        // the tooltip will be repositioned to the new mouse point.
+        _toolTip->Placement = PlacementMode::Absolute;
     }
 
     IntPtr WebView::SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, bool% handled)
@@ -442,7 +446,7 @@ namespace Wpf
         else
         {
             _toolTip->Content = text;
-            _toolTip->Placement = ::PlacementMode::Mouse;
+            _toolTip->Placement = PlacementMode::Mouse;
             _toolTip->Visibility = ::Visibility::Visible;
             _toolTip->IsOpen = true;
         }
