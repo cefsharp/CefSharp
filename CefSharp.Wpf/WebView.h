@@ -46,6 +46,7 @@ namespace Wpf
         void Initialize(String^ address, BrowserSettings^ settings);
         void BrowserCore_PropertyChanged(Object^ sender, PropertyChangedEventArgs^ e);
         void Timer_Tick(Object^ sender, EventArgs^ e);
+        void ToolTip_Closed(Object^ sender, RoutedEventArgs^ e);
         void SetCursor(SafeFileHandle^ handle);
         void SetTooltipText(String^ text);
         IntPtr SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, bool% handled);

@@ -29,6 +29,8 @@ namespace Wpf
         ToolTip = _toolTip =
             gcnew System::Windows::Controls::ToolTip();
         _toolTip->StaysOpen = true;
+        _toolTip->Closed +=
+            gcnew RoutedEventHandler(this, &WebView::ToolTip_Closed);
 
         _timer = gcnew DispatcherTimer(DispatcherPriority::Render);
         _timer->Interval = TimeSpan::FromSeconds(0.5);
@@ -63,6 +65,11 @@ namespace Wpf
     {
         _timer->Stop();
         SetTooltipText(_browserCore->TooltipText);
+    }
+
+    void WebView::ToolTip_Closed(Object^ sender, RoutedEventArgs^ e)
+    {
+        _toolTip->Visibility = ::Visibility::Collapsed;
     }
 
     IntPtr WebView::SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, bool% handled)
@@ -219,6 +226,7 @@ namespace Wpf
     void WebView::OnMouseLeave(MouseEventArgs^ e)
     {
         _clientAdapter->GetCefBrowser()->SendMouseMoveEvent(0, 0, true);
+        _toolTip->IsOpen = false;
     }
 
     void WebView::OnInitialized()
@@ -429,13 +437,13 @@ namespace Wpf
     {
         if (String::IsNullOrEmpty(text))
         {
-            ToolTip = nullptr;
             _toolTip->IsOpen = false;
         }
         else
         {
-            ToolTip = _toolTip;
             _toolTip->Content = text;
+            _toolTip->Placement = ::PlacementMode::Mouse;
+            _toolTip->Visibility = ::Visibility::Visible;
             _toolTip->IsOpen = true;
         }
     }
