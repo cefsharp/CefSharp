@@ -429,10 +429,12 @@ namespace Wpf
     {
         if (String::IsNullOrEmpty(text))
         {
+            ToolTip = nullptr;
             _toolTip->IsOpen = false;
         }
         else
         {
+            ToolTip = _toolTip;
             _toolTip->Content = text;
             _toolTip->IsOpen = true;
         }
