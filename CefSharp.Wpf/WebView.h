@@ -83,6 +83,8 @@ namespace Wpf
 
         virtual event ConsoleMessageEventHandler^ ConsoleMessage;
 
+		virtual event KeyEventHandler^ KeyEvent;
+
         WebView()
         {
             Initialize(String::Empty, gcnew BrowserSettings);
@@ -214,6 +216,7 @@ namespace Wpf
         virtual void OnFrameLoadEnd();
         virtual void OnTakeFocus(bool next);
         virtual void OnConsoleMessage(String^ message, String^ source, int line);
+		virtual void OnKeyEvent(int type, int code, int modifiers, bool isSystemKey);
 
         virtual void OnApplyTemplate() override;
         virtual void SetCursor(CefCursorHandle cursor);

@@ -2,6 +2,7 @@
 #pragma once
 
 #include "ConsoleMessageEventArgs.h"
+#include "BrowserKeyEventArgs.h"
 
 using namespace System;
 using namespace System::ComponentModel;
@@ -18,6 +19,7 @@ namespace CefSharp
     {
     public:
         event ConsoleMessageEventHandler^ ConsoleMessage;
+		event KeyEventHandler^ BrowserKeyEvent;
 
         property bool IsBrowserInitialized { bool get(); }
         property bool IsLoading { bool get(); }
@@ -65,5 +67,6 @@ namespace CefSharp
         void OnFrameLoadEnd();
         void OnTakeFocus(bool next);
         void OnConsoleMessage(String^ message, String^ source, int line);
+		void OnKeyEvent(int type, int code, int modifiers, bool isSystemKey);
     };
 }

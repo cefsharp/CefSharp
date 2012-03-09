@@ -89,7 +89,7 @@ namespace CefSharp
     
     bool ClientAdapter::OnKeyEvent(CefRefPtr<CefBrowser> browser, KeyEventType type, int code, int modifiers, bool isSystemKey, bool isAfterJavaScript)
     {
-	    
+	    _browserControl->OnKeyEvent(type, code, modifiers, isSystemKey);
 		return false;
     }
 
