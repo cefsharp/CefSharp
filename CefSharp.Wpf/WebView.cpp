@@ -29,6 +29,7 @@ namespace Wpf
         ToolTip = _toolTip =
             gcnew System::Windows::Controls::ToolTip();
         _toolTip->StaysOpen = true;
+        _toolTip->Visibility = ::Visibility::Collapsed;
         _toolTip->Closed +=
             gcnew RoutedEventHandler(this, &WebView::ToolTip_Closed);
 
