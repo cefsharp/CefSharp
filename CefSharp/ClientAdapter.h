@@ -16,7 +16,8 @@ namespace CefSharp
                           public CefDisplayHandler,
                           public CefV8ContextHandler,
                           public CefMenuHandler,
-                          public CefFocusHandler
+                          public CefFocusHandler,
+                          public CefKeyboardHandler
     {
     private:
         gcroot<IWebBrowser^> _browserControl;
@@ -40,6 +41,7 @@ namespace CefSharp
         virtual CefRefPtr<CefV8ContextHandler> GetV8ContextHandler() OVERRIDE { return this; }
         virtual CefRefPtr<CefMenuHandler> GetMenuHandler() OVERRIDE { return this; }
         virtual CefRefPtr<CefFocusHandler> GetFocusHandler() OVERRIDE { return this; }
+        virtual CefRefPtr<CefKeyboardHandler> GetKeyboardHandler() OVERRIDE { return this; }
 
         // CefLifeSpanHandler
         virtual DECL bool OnBeforePopup(CefRefPtr<CefBrowser> parentBrowser, const CefPopupFeatures& popupFeatures, CefWindowInfo& windowInfo, const CefString& url, CefRefPtr<CefClient>& client, CefBrowserSettings& settings) OVERRIDE;
@@ -71,6 +73,9 @@ namespace CefSharp
 
         // CefFocusHandler
         virtual DECL void OnTakeFocus(CefRefPtr<CefBrowser> browser, bool next) OVERRIDE;
+
+        // CefKeyboardHandler
+        virtual DECL bool OnKeyEvent(CefRefPtr<CefBrowser> browser, KeyEventType type, int code, int modifiers, bool isSystemKey, bool isAfterJavaScript) OVERRIDE;
 
         IMPLEMENT_LOCKING(ClientAdapter);
         IMPLEMENT_REFCOUNTING(ClientAdapter);
