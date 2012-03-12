@@ -26,10 +26,9 @@ namespace CefSharp
         virtual CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE { return this; }
 
         // CefRenderHandler
+        virtual DECL void OnPopupShow(CefRefPtr<CefBrowser> browser, bool show) OVERRIDE;
+        virtual DECL void OnPopupSize(CefRefPtr<CefBrowser> browser,const CefRect& rect) OVERRIDE;
         virtual DECL void OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects, const void* buffer) OVERRIDE;
         virtual DECL void OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor) OVERRIDE;
-
-        IMPLEMENT_LOCKING(RenderClientAdapter);
-        IMPLEMENT_REFCOUNTING(RenderClientAdapter);
     };
 }
