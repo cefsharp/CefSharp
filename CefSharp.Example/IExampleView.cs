@@ -25,6 +25,7 @@ namespace CefSharp.Example
         event EventHandler TestConsoleMessageActivated;
         event EventHandler TestTooltipActivated;
         event EventHandler TestPopupActivated;
+        event EventHandler TestLoadStringActivated;
 
         // navigation
         event Action<object, string> UrlActivated;

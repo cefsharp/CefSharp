@@ -69,6 +69,7 @@ namespace CefSharp.Example
             view.TestConsoleMessageActivated += view_TestConsoleMessageActivated;
             view.TestTooltipActivated += view_TestTooltipActivated;
             view.TestPopupActivated += view_TestPopupActivated;
+            view.TestLoadStringActivated += view_TestLoadStringActivated;
 
             // navigation
             view.UrlActivated += view_UrlActivated;
@@ -214,6 +215,11 @@ namespace CefSharp.Example
         private void view_TestPopupActivated(object sender, EventArgs e)
         {
             model.Load(popup_url);
+        }
+
+        private void view_TestLoadStringActivated(object sender, EventArgs e)
+        {
+            model.LoadHtml(string.Format("<html><body><a href='{0}'>CefSharp Home</a></body></html>", home_url));
         }
 
         private void view_UrlActivated(object sender, string url)

@@ -77,6 +77,13 @@ namespace WinForms
         _clientAdapter->GetCefBrowser()->GetMainFrame()->LoadURL(toNative(url));
     }
 
+    void WebView::LoadHtml(String^ html)
+    {
+        _browserCore->CheckBrowserInitialization();
+        _browserCore->OnLoad();
+        _clientAdapter->GetCefBrowser()->GetMainFrame()->LoadString(toNative(html), toNative("about:blank"));
+    }
+
     void WebView::Stop()
     {
         _browserCore->CheckBrowserInitialization();

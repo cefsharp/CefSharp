@@ -34,6 +34,7 @@ namespace CefSharp.Wpf.Example
         public event EventHandler TestConsoleMessageActivated;
         public event EventHandler TestTooltipActivated;
         public event EventHandler TestPopupActivated;
+        public event EventHandler TestLoadStringActivated;
 
         // navigation
         public event Action<object, string> UrlActivated;
@@ -72,6 +73,7 @@ namespace CefSharp.Wpf.Example
                 { testConsoleMessageMenuItem, TestConsoleMessageActivated },
                 { testTooltipMenuItem, TestTooltipActivated },
                 { testPopupMenuItem, TestPopupActivated },
+                { testLoadStringItem, TestLoadStringActivated },
 
                 // navigation
                 { backButton, BackActivated },

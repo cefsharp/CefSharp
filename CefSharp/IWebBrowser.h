@@ -38,6 +38,7 @@ namespace CefSharp
         void OnInitialized();
 
         void Load(String^ url);
+        void LoadHtml(String^ html);
         void Stop();
         void Back();
         void Forward();
