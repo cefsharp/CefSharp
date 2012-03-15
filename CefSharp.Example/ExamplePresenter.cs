@@ -43,8 +43,11 @@ namespace CefSharp.Example
             this.view = view;
             this.gui_invoke = gui_invoke;
 
-            model.BeforeResourceLoadHandler = this;
+            var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}",
+                CEF.ChromiumVersion, CEF.CefVersion, CEF.CefSharpVersion);
+            view.DisplayOutput(version);
 
+            model.BeforeResourceLoadHandler = this;
             model.PropertyChanged += model_PropertyChanged;
             model.ConsoleMessage += model_ConsoleMessage;
 
@@ -74,7 +77,6 @@ namespace CefSharp.Example
             view.UrlActivated += view_UrlActivated;
             view.ForwardActivated += view_ForwardActivated;
             view.BackActivated += view_BackActivated;
-
         }
 
         private void model_PropertyChanged(object sender, PropertyChangedEventArgs e)
