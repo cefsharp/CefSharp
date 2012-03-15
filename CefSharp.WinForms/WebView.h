@@ -22,7 +22,7 @@ namespace WinForms
         MCefRefPtr<ScriptCore> _scriptCore;
 
         void Initialize(String^ address, BrowserSettings^ settings);
-        bool TryGetCefBrowser(CefRefPtr<CefBrowser>& cefBrowser);
+        bool TryGetCefBrowser(CefRefPtr<CefBrowser>& browser);
 
     protected:
         virtual void OnHandleCreated(EventArgs^ e) override;
@@ -57,10 +57,10 @@ namespace WinForms
 
         ~WebView()
         {
-            CefRefPtr<CefBrowser> cefBrowser;
-            if (TryGetCefBrowser(cefBrowser))
+            CefRefPtr<CefBrowser> browser;
+            if (TryGetCefBrowser(browser))
             {
-                cefBrowser->CloseBrowser();
+                browser->CloseBrowser();
             }
         }
 

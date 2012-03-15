@@ -21,11 +21,11 @@ namespace WinForms
         _scriptCore = new ScriptCore();
     }
 
-    bool WebView::TryGetCefBrowser(CefRefPtr<CefBrowser>& cefBrowser)
+    bool WebView::TryGetCefBrowser(CefRefPtr<CefBrowser>& browser)
     {
         return _clientAdapter.get() == nullptr ?
             false :
-            _clientAdapter->TryGetCefBrowser(cefBrowser);
+            _clientAdapter->TryGetCefBrowser(browser);
     }
 
     void WebView::OnHandleCreated(EventArgs^ e)
@@ -50,9 +50,9 @@ namespace WinForms
 
     void WebView::OnSizeChanged(EventArgs^ e)
     {
-        CefRefPtr<CefBrowser> cefBrowser;
+        CefRefPtr<CefBrowser> browser;
         if (!DesignMode &&
-            TryGetCefBrowser(cefBrowser))
+            TryGetCefBrowser(browser))
         {
             HWND hWnd = static_cast<HWND>(Handle.ToPointer());
             RECT rect;
@@ -67,11 +67,11 @@ namespace WinForms
 
     void WebView::OnGotFocus(EventArgs^ e)
     {
-        CefRefPtr<CefBrowser> cefBrowser;
+        CefRefPtr<CefBrowser> browser;
         if (!DesignMode &&
-            TryGetCefBrowser(cefBrowser))
+            TryGetCefBrowser(browser))
         {
-            cefBrowser->SetFocus(true);
+            browser->SetFocus(true);
         }
     }
 
@@ -86,10 +86,10 @@ namespace WinForms
         _browserCore->CheckBrowserInitialization();
         _browserCore->OnLoad();
 
-        CefRefPtr<CefBrowser> cefBrowser;
-        if (TryGetCefBrowser(cefBrowser))
+        CefRefPtr<CefBrowser> browser;
+        if (TryGetCefBrowser(browser))
         {
-            cefBrowser->GetMainFrame()->LoadURL(toNative(url));
+            browser->GetMainFrame()->LoadURL(toNative(url));
         }
     }
 
@@ -97,10 +97,10 @@ namespace WinForms
     {
         _browserCore->CheckBrowserInitialization();
 
-        CefRefPtr<CefBrowser> cefBrowser;
-        if (TryGetCefBrowser(cefBrowser))
+        CefRefPtr<CefBrowser> browser;
+        if (TryGetCefBrowser(browser))
         {
-            cefBrowser->StopLoad();
+            browser->StopLoad();
         }
     }
 
@@ -109,10 +109,10 @@ namespace WinForms
         _browserCore->CheckBrowserInitialization();
 
 
-        CefRefPtr<CefBrowser> cefBrowser;
-        if (TryGetCefBrowser(cefBrowser))
+        CefRefPtr<CefBrowser> browser;
+        if (TryGetCefBrowser(browser))
         {
-            cefBrowser->GoBack();
+            browser->GoBack();
         }
     }
 
@@ -120,10 +120,10 @@ namespace WinForms
     {
         _browserCore->CheckBrowserInitialization();
 
-        CefRefPtr<CefBrowser> cefBrowser;
-        if (TryGetCefBrowser(cefBrowser))
+        CefRefPtr<CefBrowser> browser;
+        if (TryGetCefBrowser(browser))
         {
-            cefBrowser->GoForward();
+            browser->GoForward();
         }
     }
 
@@ -136,19 +136,19 @@ namespace WinForms
     {
         _browserCore->CheckBrowserInitialization();
 
-        CefRefPtr<CefBrowser> cefBrowser;
-        if (!TryGetCefBrowser(cefBrowser))
+        CefRefPtr<CefBrowser> browser;
+        if (!TryGetCefBrowser(browser))
         {
             return;
         }
 
         if (ignoreCache)
         {
-            cefBrowser->ReloadIgnoreCache();
+            browser->ReloadIgnoreCache();
         }
         else
         {
-            cefBrowser->Reload();
+            browser->Reload();
         }
     }
 
@@ -156,10 +156,10 @@ namespace WinForms
     {
         _browserCore->CheckBrowserInitialization();
 
-        CefRefPtr<CefBrowser> cefBrowser;
-        if (TryGetCefBrowser(cefBrowser))
+        CefRefPtr<CefBrowser> browser;
+        if (TryGetCefBrowser(browser))
         {
-            cefBrowser->ClearHistory();
+            browser->ClearHistory();
         }
     }
 
@@ -167,10 +167,10 @@ namespace WinForms
     {
         _browserCore->CheckBrowserInitialization();
 
-        CefRefPtr<CefBrowser> cefBrowser;
-        if (TryGetCefBrowser(cefBrowser))
+        CefRefPtr<CefBrowser> browser;
+        if (TryGetCefBrowser(browser))
         {
-            cefBrowser->ShowDevTools();
+            browser->ShowDevTools();
         }
     }
 
@@ -178,10 +178,10 @@ namespace WinForms
     {
         _browserCore->CheckBrowserInitialization();
 
-        CefRefPtr<CefBrowser> cefBrowser;
-        if (TryGetCefBrowser(cefBrowser))
+        CefRefPtr<CefBrowser> browser;
+        if (TryGetCefBrowser(browser))
         {
-            cefBrowser->CloseDevTools();
+            browser->CloseDevTools();
         }
     }
 
@@ -189,10 +189,10 @@ namespace WinForms
     {
         _browserCore->CheckBrowserInitialization();
 
-        CefRefPtr<CefBrowser> cefBrowser;
-        if (TryGetCefBrowser(cefBrowser))
+        CefRefPtr<CefBrowser> browser;
+        if (TryGetCefBrowser(browser))
         {
-            cefBrowser->GetMainFrame()->Undo();
+            browser->GetMainFrame()->Undo();
         }
     }
 
@@ -200,10 +200,10 @@ namespace WinForms
     {
         _browserCore->CheckBrowserInitialization();
 
-        CefRefPtr<CefBrowser> cefBrowser;
-        if (TryGetCefBrowser(cefBrowser))
+        CefRefPtr<CefBrowser> browser;
+        if (TryGetCefBrowser(browser))
         {
-            cefBrowser->GetMainFrame()->Redo();
+            browser->GetMainFrame()->Redo();
         }
     }
 
@@ -211,10 +211,10 @@ namespace WinForms
     {
         _browserCore->CheckBrowserInitialization();
 
-        CefRefPtr<CefBrowser> cefBrowser;
-        if (TryGetCefBrowser(cefBrowser))
+        CefRefPtr<CefBrowser> browser;
+        if (TryGetCefBrowser(browser))
         {
-            cefBrowser->GetMainFrame()->Cut();
+            browser->GetMainFrame()->Cut();
         }
     }
 
@@ -222,10 +222,10 @@ namespace WinForms
     {
         _browserCore->CheckBrowserInitialization();
 
-        CefRefPtr<CefBrowser> cefBrowser;
-        if (TryGetCefBrowser(cefBrowser))
+        CefRefPtr<CefBrowser> browser;
+        if (TryGetCefBrowser(browser))
         {
-            cefBrowser->GetMainFrame()->Copy();
+            browser->GetMainFrame()->Copy();
         }
     }
 
@@ -233,10 +233,10 @@ namespace WinForms
     {
         _browserCore->CheckBrowserInitialization();
 
-        CefRefPtr<CefBrowser> cefBrowser;
-        if (TryGetCefBrowser(cefBrowser))
+        CefRefPtr<CefBrowser> browser;
+        if (TryGetCefBrowser(browser))
         {
-            cefBrowser->GetMainFrame()->Paste();
+            browser->GetMainFrame()->Paste();
         }
     }
 
@@ -244,10 +244,10 @@ namespace WinForms
     {
         _browserCore->CheckBrowserInitialization();
 
-        CefRefPtr<CefBrowser> cefBrowser;
-        if (TryGetCefBrowser(cefBrowser))
+        CefRefPtr<CefBrowser> browser;
+        if (TryGetCefBrowser(browser))
         {
-            cefBrowser->GetMainFrame()->Delete();
+            browser->GetMainFrame()->Delete();
         }
     }
 
@@ -255,10 +255,10 @@ namespace WinForms
     {
         _browserCore->CheckBrowserInitialization();
 
-        CefRefPtr<CefBrowser> cefBrowser;
-        if (TryGetCefBrowser(cefBrowser))
+        CefRefPtr<CefBrowser> browser;
+        if (TryGetCefBrowser(browser))
         {
-            cefBrowser->GetMainFrame()->SelectAll();
+            browser->GetMainFrame()->SelectAll();
         }
     }
 
@@ -266,10 +266,10 @@ namespace WinForms
     {
         _browserCore->CheckBrowserInitialization();
 
-        CefRefPtr<CefBrowser> cefBrowser;
-        if (TryGetCefBrowser(cefBrowser))
+        CefRefPtr<CefBrowser> browser;
+        if (TryGetCefBrowser(browser))
         {
-            cefBrowser->GetMainFrame()->Print();
+            browser->GetMainFrame()->Print();
         }
     }
 
@@ -277,10 +277,10 @@ namespace WinForms
     {
         _browserCore->CheckBrowserInitialization();
 
-        CefRefPtr<CefBrowser> cefBrowser;
-        if (TryGetCefBrowser(cefBrowser))
+        CefRefPtr<CefBrowser> browser;
+        if (TryGetCefBrowser(browser))
         {
-            _scriptCore->Execute(cefBrowser->GetMainFrame(),
+            _scriptCore->Execute(browser->GetMainFrame(),
                 toNative(script));
         }
     }
@@ -294,10 +294,10 @@ namespace WinForms
     {
 	    _browserCore->CheckBrowserInitialization();
 
-        CefRefPtr<CefBrowser> cefBrowser;
-        if (TryGetCefBrowser(cefBrowser))
+        CefRefPtr<CefBrowser> browser;
+        if (TryGetCefBrowser(browser))
         {
-            return _scriptCore->Evaluate(cefBrowser->GetMainFrame(),
+            return _scriptCore->Evaluate(browser->GetMainFrame(),
                 toNative(script), timeout.TotalMilliseconds);
         }
         else

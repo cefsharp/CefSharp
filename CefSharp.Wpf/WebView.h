@@ -44,7 +44,7 @@ namespace Wpf
 		ActionHandler^ _paintDelegate;
 
         void Initialize(String^ address, BrowserSettings^ settings);
-        bool TryGetCefBrowser(CefRefPtr<CefBrowser>& cefBrowser);
+        bool TryGetCefBrowser(CefRefPtr<CefBrowser>& browser);
         void BrowserCore_PropertyChanged(Object^ sender, PropertyChangedEventArgs^ e);
         void Timer_Tick(Object^ sender, EventArgs^ e);
         void ToolTip_Closed(Object^ sender, RoutedEventArgs^ e);
@@ -95,10 +95,10 @@ namespace Wpf
 
         ~WebView()
         {
-            CefRefPtr<CefBrowser> cefBrowser;
-            if (TryGetCefBrowser(cefBrowser))
+            CefRefPtr<CefBrowser> browser;
+            if (TryGetCefBrowser(browser))
             {
-                cefBrowser->CloseBrowser();
+                browser->CloseBrowser();
             }
         }
 
