@@ -29,19 +29,9 @@ namespace CefSharp
 
         HWND GetBrowserHwnd() { return _browserHwnd; }
 
-        CefRefPtr<CefBrowser> GetCefBrowser()
+        bool TryGetCefBrowser(CefRefPtr<CefBrowser>& cefBrowser)
         {
-            if (_cefBrowser == nullptr)
-            {
-                //TODO: make own exception type?
-                throw gcnew InvalidOperationException("CefBrowser is not initialized now.");
-            }
-
-            return _cefBrowser;
-        }
-
-        bool GetIsInitialized()
-        {
+            cefBrowser = _cefBrowser;
             return _cefBrowser != nullptr;
         }
 

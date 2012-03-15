@@ -39,6 +39,13 @@ namespace Wpf
             gcnew EventHandler(this, &WebView::Timer_Tick);
     }
 
+    bool WebView::TryGetCefBrowser(CefRefPtr<CefBrowser>& cefBrowser)
+    {
+        return _clientAdapter.get() == nullptr ?
+            false :
+            _clientAdapter->TryGetCefBrowser(cefBrowser);
+    }
+
     void WebView::SetCursor(SafeFileHandle^ handle)
     {
         Cursor = CursorInteropHelper::Create(handle);
@@ -90,7 +97,9 @@ namespace Wpf
         case WM_CHAR:
         case WM_SYSCHAR:
         case WM_IME_CHAR:
-            if (!IsFocused)
+            CefRefPtr<CefBrowser> cefBrowser;
+            if (!IsFocused ||
+                !TryGetCefBrowser(cefBrowser))
             {
                 break;
             }
@@ -111,7 +120,7 @@ namespace Wpf
             bool imeChar =
                 message == WM_IME_CHAR;
 
-            _clientAdapter->GetCefBrowser()->SendKeyEvent(type, wParam.ToInt32(), lParam.ToInt32(), sysChar, imeChar);
+            cefBrowser->SendKeyEvent(type, wParam.ToInt32(), lParam.ToInt32(), sysChar, imeChar);
             handled = true;
         }
 
@@ -139,12 +148,18 @@ namespace Wpf
 
     void WebView::OnPreviewKey(KeyEventArgs^ e)
     {
+        CefRefPtr<CefBrowser> cefBrowser;
+        if (!TryGetCefBrowser(cefBrowser))
+        {
+            return;
+        }
+
         if (e->Key == Key::Tab ||
             e->Key >= Key::Left && e->Key <= Key::Down)
         {
             CefBrowser::KeyType type = e->IsDown ? KT_KEYDOWN : KT_KEYUP;
             int key = KeyInterop::VirtualKeyFromKey(e->Key);
-            _clientAdapter->GetCefBrowser()->SendKeyEvent(type, key, 0, false, false);
+            cefBrowser->SendKeyEvent(type, key, 0, false, false);
 
             e->Handled = true;
         }
@@ -152,6 +167,12 @@ namespace Wpf
 
     void WebView::OnMouseButton(MouseButtonEventArgs^ e)
     {
+        CefRefPtr<CefBrowser> cefBrowser;
+        if (!TryGetCefBrowser(cefBrowser))
+        {
+            return;
+        }
+
         Point point = e->GetPosition(this);
 
         CefBrowser::MouseButtonType type;
@@ -164,32 +185,45 @@ namespace Wpf
 
         bool mouseUp = e->ButtonState == MouseButtonState::Released;
 
-        _clientAdapter->GetCefBrowser()->SendMouseClickEvent((int)point.X, (int)point.Y,
+        cefBrowser->SendMouseClickEvent((int)point.X, (int)point.Y,
             type, mouseUp, e->ClickCount);
     }
 
     Size WebView::ArrangeOverride(Size size)
     {
-		if(_clientAdapter->GetIsInitialized()) {
-			_clientAdapter->GetCefBrowser()->SetSize(PET_VIEW,
-                (int)size.Width, (int)size.Height);
-		} else {
-			Dispatcher->BeginInvoke(DispatcherPriority::Loaded,
+        CefRefPtr<CefBrowser> cefBrowser;
+        if (TryGetCefBrowser(cefBrowser))
+        {
+            cefBrowser->SetSize(PET_VIEW, (int)size.Width, (int)size.Height);
+        }
+        else
+        {
+            Dispatcher->BeginInvoke(DispatcherPriority::Loaded,
                 gcnew ActionHandler(this, &WebView::InvalidateArrange));
-		}
+        }
 
         return ContentControl::ArrangeOverride(size);
     }
 
     void WebView::OnGotFocus(RoutedEventArgs^ e)
     {
-        _clientAdapter->GetCefBrowser()->SendFocusEvent(true);
+        CefRefPtr<CefBrowser> cefBrowser;
+        if (TryGetCefBrowser(cefBrowser))
+        {
+            cefBrowser->SendFocusEvent(true);
+        }
+
         ContentControl::OnGotFocus(e);
     }
 
     void WebView::OnLostFocus(RoutedEventArgs^ e)
     {
-        _clientAdapter->GetCefBrowser()->SendFocusEvent(false);
+        CefRefPtr<CefBrowser> cefBrowser;
+        if (TryGetCefBrowser(cefBrowser))
+        {
+            cefBrowser->SendFocusEvent(false);
+        }
+
         ContentControl::OnLostFocus(e);
     }
 
@@ -205,14 +239,22 @@ namespace Wpf
 
     void WebView::OnMouseMove(MouseEventArgs^ e)
     {
-        Point point = e->GetPosition(this);
-        _clientAdapter->GetCefBrowser()->SendMouseMoveEvent((int)point.X, (int)point.Y, false);
+        CefRefPtr<CefBrowser> cefBrowser;
+        if (TryGetCefBrowser(cefBrowser))
+        {
+            Point point = e->GetPosition(this);
+            cefBrowser->SendMouseMoveEvent((int)point.X, (int)point.Y, false);
+        }
     }
 
     void WebView::OnMouseWheel(MouseWheelEventArgs^ e)
     {
-        Point point = e->GetPosition(this);
-        _clientAdapter->GetCefBrowser()->SendMouseWheelEvent((int)point.X, (int)point.Y, e->Delta);
+        CefRefPtr<CefBrowser> cefBrowser;
+        if (TryGetCefBrowser(cefBrowser))
+        {
+            Point point = e->GetPosition(this);
+            cefBrowser->SendMouseWheelEvent((int)point.X, (int)point.Y, e->Delta);
+        }
     }
 
     void WebView::OnMouseDown(MouseButtonEventArgs^ e)
@@ -230,7 +272,12 @@ namespace Wpf
 
     void WebView::OnMouseLeave(MouseEventArgs^ e)
     {
-        _clientAdapter->GetCefBrowser()->SendMouseMoveEvent(0, 0, true);
+        CefRefPtr<CefBrowser> cefBrowser;
+        if (TryGetCefBrowser(cefBrowser))
+        {
+            cefBrowser->SendMouseMoveEvent(0, 0, true);
+        }
+
         _toolTip->IsOpen = false;
     }
 
@@ -243,25 +290,46 @@ namespace Wpf
     {
         _browserCore->CheckBrowserInitialization();
         _browserCore->OnLoad();
-        _clientAdapter->GetCefBrowser()->GetMainFrame()->LoadURL(toNative(url));
+
+        CefRefPtr<CefBrowser> cefBrowser;
+        if (TryGetCefBrowser(cefBrowser))
+        {
+            cefBrowser->GetMainFrame()->LoadURL(toNative(url));
+        }
     }
 
     void WebView::Stop()
     {
         _browserCore->CheckBrowserInitialization();
-        _clientAdapter->GetCefBrowser()->StopLoad();
+
+        CefRefPtr<CefBrowser> cefBrowser;
+        if (TryGetCefBrowser(cefBrowser))
+        {
+            cefBrowser->StopLoad();
+        }
     }
 
     void WebView::Back()
     {
         _browserCore->CheckBrowserInitialization();
-        _clientAdapter->GetCefBrowser()->GoBack();
+
+
+        CefRefPtr<CefBrowser> cefBrowser;
+        if (TryGetCefBrowser(cefBrowser))
+        {
+            cefBrowser->GoBack();
+        }
     }
 
     void WebView::Forward()
     {
         _browserCore->CheckBrowserInitialization();
-        _clientAdapter->GetCefBrowser()->GoForward();
+
+        CefRefPtr<CefBrowser> cefBrowser;
+        if (TryGetCefBrowser(cefBrowser))
+        {
+            cefBrowser->GoForward();
+        }
     }
 
     void WebView::Reload()
@@ -272,90 +340,154 @@ namespace Wpf
     void WebView::Reload(bool ignoreCache)
     {
         _browserCore->CheckBrowserInitialization();
+
+        CefRefPtr<CefBrowser> cefBrowser;
+        if (!TryGetCefBrowser(cefBrowser))
+        {
+            return;
+        }
+
         if (ignoreCache)
         {
-            _clientAdapter->GetCefBrowser()->ReloadIgnoreCache();
+            cefBrowser->ReloadIgnoreCache();
         }
         else
         {
-            _clientAdapter->GetCefBrowser()->Reload();
+            cefBrowser->Reload();
         }
     }
 
     void WebView::ClearHistory()
     {
         _browserCore->CheckBrowserInitialization();
-        _clientAdapter->GetCefBrowser()->ClearHistory();
+
+        CefRefPtr<CefBrowser> cefBrowser;
+        if (TryGetCefBrowser(cefBrowser))
+        {
+            cefBrowser->ClearHistory();
+        }
     }
 
     void WebView::ShowDevTools()
     {
         _browserCore->CheckBrowserInitialization();
-        _clientAdapter->GetCefBrowser()->ShowDevTools();
+
+        CefRefPtr<CefBrowser> cefBrowser;
+        if (TryGetCefBrowser(cefBrowser))
+        {
+            cefBrowser->ShowDevTools();
+        }
     }
 
     void WebView::CloseDevTools()
     {
         _browserCore->CheckBrowserInitialization();
-        _clientAdapter->GetCefBrowser()->CloseDevTools();
+
+        CefRefPtr<CefBrowser> cefBrowser;
+        if (TryGetCefBrowser(cefBrowser))
+        {
+            cefBrowser->CloseDevTools();
+        }
     }
 
     void WebView::Undo()
     {
         _browserCore->CheckBrowserInitialization();
-        _clientAdapter->GetCefBrowser()->GetMainFrame()->Undo();
+
+        CefRefPtr<CefBrowser> cefBrowser;
+        if (TryGetCefBrowser(cefBrowser))
+        {
+            cefBrowser->GetMainFrame()->Undo();
+        }
     }
 
     void WebView::Redo()
     {
         _browserCore->CheckBrowserInitialization();
-        _clientAdapter->GetCefBrowser()->GetMainFrame()->Redo();
+
+        CefRefPtr<CefBrowser> cefBrowser;
+        if (TryGetCefBrowser(cefBrowser))
+        {
+            cefBrowser->GetMainFrame()->Redo();
+        }
     }
 
     void WebView::Cut()
     {
         _browserCore->CheckBrowserInitialization();
-        _clientAdapter->GetCefBrowser()->GetMainFrame()->Cut();
+
+        CefRefPtr<CefBrowser> cefBrowser;
+        if (TryGetCefBrowser(cefBrowser))
+        {
+            cefBrowser->GetMainFrame()->Cut();
+        }
     }
 
     void WebView::Copy()
     {
         _browserCore->CheckBrowserInitialization();
-        _clientAdapter->GetCefBrowser()->GetMainFrame()->Copy();
+
+        CefRefPtr<CefBrowser> cefBrowser;
+        if (TryGetCefBrowser(cefBrowser))
+        {
+            cefBrowser->GetMainFrame()->Copy();
+        }
     }
 
     void WebView::Paste()
     {
         _browserCore->CheckBrowserInitialization();
-        _clientAdapter->GetCefBrowser()->GetMainFrame()->Paste();
+
+        CefRefPtr<CefBrowser> cefBrowser;
+        if (TryGetCefBrowser(cefBrowser))
+        {
+            cefBrowser->GetMainFrame()->Paste();
+        }
     }
 
     void WebView::Delete()
     {
         _browserCore->CheckBrowserInitialization();
-        _clientAdapter->GetCefBrowser()->GetMainFrame()->Delete();
+
+        CefRefPtr<CefBrowser> cefBrowser;
+        if (TryGetCefBrowser(cefBrowser))
+        {
+            cefBrowser->GetMainFrame()->Delete();
+        }
     }
 
     void WebView::SelectAll()
     {
         _browserCore->CheckBrowserInitialization();
-        _clientAdapter->GetCefBrowser()->GetMainFrame()->SelectAll();
+
+        CefRefPtr<CefBrowser> cefBrowser;
+        if (TryGetCefBrowser(cefBrowser))
+        {
+            cefBrowser->GetMainFrame()->SelectAll();
+        }
     }
 
     void WebView::Print()
     {
         _browserCore->CheckBrowserInitialization();
-        _clientAdapter->GetCefBrowser()->GetMainFrame()->Print();
+
+        CefRefPtr<CefBrowser> cefBrowser;
+        if (TryGetCefBrowser(cefBrowser))
+        {
+            cefBrowser->GetMainFrame()->Print();
+        }
     }
 
     void WebView::ExecuteScript(String^ script)
     {
         _browserCore->CheckBrowserInitialization();
 
-        CefRefPtr<CefBrowser> browser = _clientAdapter->GetCefBrowser();
-        CefRefPtr<CefFrame> frame = browser->GetMainFrame();
-
-        _scriptCore->Execute(frame, toNative(script));
+        CefRefPtr<CefBrowser> cefBrowser;
+        if (TryGetCefBrowser(cefBrowser))
+        {
+            _scriptCore->Execute(cefBrowser->GetMainFrame(),
+                toNative(script));
+        }
     }
 
     Object^ WebView::EvaluateScript(String^ script)
@@ -367,10 +499,17 @@ namespace Wpf
     {
 	    _browserCore->CheckBrowserInitialization();
 
-        CefRefPtr<CefBrowser> browser = _clientAdapter->GetCefBrowser();
-        CefRefPtr<CefFrame> frame = browser->GetMainFrame();
-
-        return _scriptCore->Evaluate(frame, toNative(script), timeout.TotalMilliseconds);
+        CefRefPtr<CefBrowser> cefBrowser;
+        if (TryGetCefBrowser(cefBrowser))
+        {
+            return _scriptCore->Evaluate(cefBrowser->GetMainFrame(),
+                toNative(script), timeout.TotalMilliseconds);
+        }
+        else
+        {
+            // XXX: exception
+            return nullptr;
+        }
     }
 
     void WebView::SetNavState(bool isLoading, bool canGoBack, bool canGoForward)
