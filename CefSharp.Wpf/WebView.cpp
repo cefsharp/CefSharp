@@ -485,8 +485,7 @@ namespace Wpf
         CefRefPtr<CefBrowser> browser;
         if (TryGetCefBrowser(browser))
         {
-            _scriptCore->Execute(browser->GetMainFrame(),
-                toNative(script));
+            _scriptCore->Execute(browser, toNative(script));
         }
     }
 
@@ -502,8 +501,8 @@ namespace Wpf
         CefRefPtr<CefBrowser> browser;
         if (TryGetCefBrowser(browser))
         {
-            return _scriptCore->Evaluate(browser->GetMainFrame(),
-                toNative(script), timeout.TotalMilliseconds);
+            return _scriptCore->Evaluate(browser, toNative(script),
+                timeout.TotalMilliseconds);
         }
         else
         {

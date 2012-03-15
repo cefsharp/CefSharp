@@ -5,14 +5,14 @@
 
 namespace CefSharp
 {
-    void ScriptCore::UIT_Execute(CefRefPtr<CefFrame> frame, CefString script)
+    void ScriptCore::UIT_Execute(CefRefPtr<CefBrowser> browser, CefString script)
     {
-        frame->ExecuteJavaScript(script, "about:blank", 0);
+        browser->GetMainFrame()->ExecuteJavaScript(script, "about:blank", 0);
     }
 
-    void ScriptCore::UIT_Evaluate(CefRefPtr<CefFrame> frame, CefString script)
+    void ScriptCore::UIT_Evaluate(CefRefPtr<CefBrowser> browser, CefString script)
     {
-        CefRefPtr<CefV8Context> context = frame->GetV8Context();
+        CefRefPtr<CefV8Context> context = browser->GetMainFrame()->GetV8Context();
 
         if (context.get() &&
             context->Enter())
@@ -53,20 +53,20 @@ namespace CefSharp
         SetEvent(_event);
     }
 
-    void ScriptCore::Execute(CefRefPtr<CefFrame> frame, CefString script)
+    void ScriptCore::Execute(CefRefPtr<CefBrowser> browser, CefString script)
     {
         if (CefCurrentlyOn(TID_UI))
         {
-            UIT_Execute(frame, script);
+            UIT_Execute(browser, script);
         }
         else
         {
             CefPostTask(TID_UI, NewCefRunnableMethod(this, &ScriptCore::UIT_Execute,
-                frame, script));
+                browser, script));
         }
     }
 
-    gcroot<Object^> ScriptCore::Evaluate(CefRefPtr<CefFrame> frame, CefString script, double timeout)
+    gcroot<Object^> ScriptCore::Evaluate(CefRefPtr<CefBrowser> browser, CefString script, double timeout)
     {
         AutoLock lock_scope(this);
         _result = nullptr;
@@ -74,12 +74,12 @@ namespace CefSharp
 
         if (CefCurrentlyOn(TID_UI))
         {
-            UIT_Evaluate(frame, script);
+            UIT_Evaluate(browser, script);
         }
         else
         {
             CefPostTask(TID_UI, NewCefRunnableMethod(this, &ScriptCore::UIT_Evaluate,
-                frame, script));
+                browser, script));
 
             switch (WaitForSingleObject(_event, timeout))
             {
