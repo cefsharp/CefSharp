@@ -7,7 +7,7 @@
 #endif
 
 #include <vcclr.h>
-#include "cef.h"
+#include "include/cef_base.h"
 #include "MCefRefPtr.h"
 #include "StringUtil.h"
 #include "TypeUtil.h"

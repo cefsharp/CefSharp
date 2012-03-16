@@ -15,8 +15,8 @@ namespace CefSharp
         StreamAdapter(Stream^ stream) : _stream(stream) { }
 
         virtual size_t Read(void* ptr, size_t size, size_t n);
-        virtual int Seek(long offset, int whence);
-        virtual long Tell();
+        virtual int Seek(int64 offset, int whence);
+        virtual int64 Tell();
         virtual int Eof();
 
         IMPLEMENT_LOCKING(StreamAdapter);

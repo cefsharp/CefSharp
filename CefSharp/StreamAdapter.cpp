@@ -25,7 +25,7 @@ namespace CefSharp
         }
     }
 
-    int StreamAdapter::Seek(long offset, int whence)
+    int StreamAdapter::Seek(int64 offset, int whence)
     {
         SeekOrigin seekOrigin;
         switch(whence)
@@ -55,9 +55,9 @@ namespace CefSharp
         return 0;
     }
 
-    long StreamAdapter::Tell()
+    int64 StreamAdapter::Tell()
     {
-        return static_cast<long>(_stream->Position);
+        return static_cast<int64>(_stream->Position);
     }
 
     int StreamAdapter::Eof()

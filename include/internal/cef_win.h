@@ -28,13 +28,14 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-#ifndef _CEF_WIN_H
-#define _CEF_WIN_H
+#ifndef CEF_INCLUDE_INTERNAL_CEF_WIN_H_
+#define CEF_INCLUDE_INTERNAL_CEF_WIN_H_
+#pragma once
 
 #if defined(OS_WIN)
 #include <windows.h>
-#include "cef_types_win.h"
-#include "cef_types_wrappers.h"
+#include "include/internal/cef_types_win.h"
+#include "include/internal/cef_types_wrappers.h"
 
 ///
 // Atomic increment and decrement.
@@ -45,24 +46,19 @@
 ///
 // Critical section wrapper.
 ///
-class CefCriticalSection
-{
-public:
-  CefCriticalSection()
-  {
+class CefCriticalSection {
+ public:
+  CefCriticalSection() {
     memset(&m_sec, 0, sizeof(CRITICAL_SECTION));
     InitializeCriticalSection(&m_sec);
   }
-  virtual ~CefCriticalSection()
-  {
+  virtual ~CefCriticalSection() {
     DeleteCriticalSection(&m_sec);
   }
-  void Lock()
-  {
+  void Lock() {
     EnterCriticalSection(&m_sec);
   }
-  void Unlock()
-  {
+  void Unlock() {
     LeaveCriticalSection(&m_sec);
   }
 
@@ -81,13 +77,12 @@ struct CefWindowInfoTraits {
 
   static inline void init(struct_type* s) {}
 
-  static inline void clear(struct_type* s)
-  {
+  static inline void clear(struct_type* s) {
     cef_string_clear(&s->m_windowName);
   }
 
-  static inline void set(const struct_type* src, struct_type* target, bool copy)
-  {
+  static inline void set(const struct_type* src, struct_type* target,
+      bool copy) {
     target->m_dwExStyle = src->m_dwExStyle;
     cef_string_set(src->m_windowName.str, src->m_windowName.length,
         &target->m_windowName, copy);
@@ -107,17 +102,15 @@ struct CefWindowInfoTraits {
 ///
 // Class representing window information.
 ///
-class CefWindowInfo : public CefStructBase<CefWindowInfoTraits>
-{
-public:
+class CefWindowInfo : public CefStructBase<CefWindowInfoTraits> {
+ public:
   typedef CefStructBase<CefWindowInfoTraits> parent;
 
   CefWindowInfo() : parent() {}
-  CefWindowInfo(const cef_window_info_t& r) : parent(r) {}
-  CefWindowInfo(const CefWindowInfo& r) : parent(r) {}
-  
-  void SetAsChild(HWND hWndParent, RECT windowRect)
-  {
+  explicit CefWindowInfo(const cef_window_info_t& r) : parent(r) {}
+  explicit CefWindowInfo(const CefWindowInfo& r) : parent(r) {}
+
+  void SetAsChild(HWND hWndParent, RECT windowRect) {
     m_dwStyle = WS_CHILD | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_TABSTOP |
                 WS_VISIBLE;
     m_hWndParent = hWndParent;
@@ -127,8 +120,7 @@ public:
     m_nHeight = windowRect.bottom - windowRect.top;
   }
 
-  void SetAsPopup(HWND hWndParent, const CefString& windowName)
-  {
+  void SetAsPopup(HWND hWndParent, const CefString& windowName) {
     m_dwStyle = WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS |
                 WS_VISIBLE;
     m_hWndParent = hWndParent;
@@ -140,14 +132,12 @@ public:
     cef_string_copy(windowName.c_str(), windowName.length(), &m_windowName);
   }
 
-  void SetAsOffScreen(HWND hWndParent)
-  {
+  void SetAsOffScreen(HWND hWndParent) {
     m_bWindowRenderingDisabled = TRUE;
     m_hWndParent = hWndParent;
   }
 
-  void SetTransparentPainting(BOOL transparentPainting)
-  {
+  void SetTransparentPainting(BOOL transparentPainting) {
     m_bTransparentPainting = transparentPainting;
   }
 };
@@ -159,8 +149,8 @@ struct CefPrintInfoTraits {
   static inline void init(struct_type* s) {}
   static inline void clear(struct_type* s) {}
 
-  static inline void set(const struct_type* src, struct_type* target, bool copy)
-  {
+  static inline void set(const struct_type* src, struct_type* target,
+      bool copy) {
     target->m_hDC = src->m_hDC;
     target->m_Rect = src->m_Rect;
     target->m_Scale = src->m_Scale;
@@ -172,6 +162,6 @@ struct CefPrintInfoTraits {
 ///
 typedef CefStructBase<CefPrintInfoTraits> CefPrintInfo;
 
-#endif // OS_WIN
+#endif  // OS_WIN
 
-#endif // _CEF_WIN_H
+#endif  // CEF_INCLUDE_INTERNAL_CEF_WIN_H_
