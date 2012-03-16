@@ -28,12 +28,7 @@ namespace CefSharp
         ClientAdapter(IWebBrowser^ browserControl) : _browserControl(browserControl) {}
 
         HWND GetBrowserHwnd() { return _browserHwnd; }
-
-        bool TryGetCefBrowser(CefRefPtr<CefBrowser>& cefBrowser)
-        {
-            cefBrowser = _cefBrowser;
-            return _cefBrowser != nullptr;
-        }
+        CefRefPtr<CefBrowser> GetCefBrowser() { return _cefBrowser; }
 
         // CefClient
         virtual CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() OVERRIDE { return this; }

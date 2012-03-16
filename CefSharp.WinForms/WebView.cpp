@@ -23,9 +23,15 @@ namespace WinForms
 
     bool WebView::TryGetCefBrowser(CefRefPtr<CefBrowser>& browser)
     {
-        return _clientAdapter.get() == nullptr ?
-            false :
-            _clientAdapter->TryGetCefBrowser(browser);
+        if (_browserCore->IsBrowserInitialized)
+        {
+            browser = _clientAdapter->GetCefBrowser();
+            return browser != nullptr;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     void WebView::OnHandleCreated(EventArgs^ e)
