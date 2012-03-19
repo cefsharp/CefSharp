@@ -13,6 +13,10 @@ March 18, 2012, Chromium 17.0.963.15
 
 See the [ChangeLog](https://github.com/ataranto/CefSharp/blob/master/ChangeLog.md) for update information, or [Downloads](https://github.com/ataranto/CefSharp/downloads) for older releases.
 
+# Contact
+
+Please use the [CefSharp Google Group](https://groups.google.com/forum/#!forum/cefsharp) for discussions of CefSharp usage.
+
 # Links
 
 - [CefGlue](https://bitbucket.org/fddima/cefglue/wiki/Home): An alternative .NET CEF wrapper build using P/Invoke.
