@@ -102,6 +102,12 @@ namespace CefSharp.WinForms.Example
             remove { testPopupMenuItem.Click -= value; }
         }
 
+        public event EventHandler TestLoadStringActivated
+        {
+            add { testLoadStringMenuItem.Click += value; }
+            remove { testLoadStringMenuItem.Click -= value; }
+        }
+
 
         public event Action<object, string> UrlActivated;
 

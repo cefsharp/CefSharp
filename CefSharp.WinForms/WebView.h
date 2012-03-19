@@ -141,6 +141,7 @@ namespace WinForms
         virtual void OnInitialized();
 
         virtual void Load(String^ url);
+        virtual void LoadHtml(String^ html);
         virtual void Stop();
         virtual void Back();
         virtual void Forward();
