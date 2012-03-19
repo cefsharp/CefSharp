@@ -295,6 +295,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\IBeforeBrowse.h"
+				>
+			</File>
+			<File
 				RelativePath=".\IBeforeMenu.h"
 				>
 			</File>

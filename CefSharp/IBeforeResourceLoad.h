@@ -13,8 +13,8 @@ namespace CefSharp
     {
     public:
 
-        /// called before all resource loads.
-        /// allows the Request to be manipulated or an alternate response to be provided
+        // called before all resource loads.
+        // allows the Request to be manipulated or an alternate response to be provided
         void HandleBeforeResourceLoad(IWebBrowser^ browserControl, IRequestResponse^ requestResponse);
     };
 }

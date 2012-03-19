@@ -5,14 +5,14 @@ using namespace System;
 
 namespace CefSharp
 {
-    public enum class LogSeverity : int 
+    public enum class LogSeverity
     {
         Verbose = LOGSEVERITY_VERBOSE,
         Info = LOGSEVERITY_INFO,
         Warning = LOGSEVERITY_WARNING,
         Error = LOGSEVERITY_ERROR,
         ErrorReport = LOGSEVERITY_ERROR_REPORT,
-        Disable = LOGSEVERITY_DISABLE // Disables logging completely.
+        Disable = LOGSEVERITY_DISABLE,
     };
     
     public ref class Settings

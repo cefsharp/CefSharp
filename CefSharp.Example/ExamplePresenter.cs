@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CefSharp.Example
 {
-    public class ExamplePresenter : IBeforeResourceLoad
+    public class ExamplePresenter : IBeforeBrowse, IBeforeResourceLoad
     {
         public static void Init()
         {
@@ -47,6 +47,7 @@ namespace CefSharp.Example
                 CEF.ChromiumVersion, CEF.CefVersion, CEF.CefSharpVersion);
             view.DisplayOutput(version);
 
+            model.BeforeBrowseHandler = this;
             model.BeforeResourceLoadHandler = this;
             model.PropertyChanged += model_PropertyChanged;
             model.ConsoleMessage += model_ConsoleMessage;
@@ -237,6 +238,12 @@ namespace CefSharp.Example
         private void view_ForwardActivated(object sender, EventArgs e)
         {
             model.Forward();
+        }
+
+        bool IBeforeBrowse.HandleBeforeBrowse(IWebBrowser browserControl,
+            IRequest request, NavigationType naigationvType, bool isRedirect)
+        {
+            return false;
         }
 
         void IBeforeResourceLoad.HandleBeforeResourceLoad(IWebBrowser browserControl,

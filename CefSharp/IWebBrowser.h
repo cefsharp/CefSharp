@@ -9,6 +9,7 @@ using namespace System::ComponentModel;
 namespace CefSharp
 {
     interface class IBeforePopup;
+    interface class IBeforeBrowse;
     interface class IBeforeResourceLoad;
     interface class IBeforeMenu;
     interface class IAfterResponse;
@@ -31,6 +32,7 @@ namespace CefSharp
         property String^ TooltipText;
 
         property IBeforePopup^ BeforePopupHandler;
+        property IBeforeBrowse^ BeforeBrowseHandler;
         property IBeforeResourceLoad^ BeforeResourceLoadHandler;
         property IBeforeMenu^ BeforeMenuHandler;
         property IAfterResponse^ AfterResponseHandler;

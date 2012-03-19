@@ -9,6 +9,7 @@ using namespace System::ComponentModel;
 namespace CefSharp
 {
     interface class IBeforePopup;
+    interface class IBeforeBrowse;
     interface class IBeforeResourceLoad;
     interface class IBeforeMenu;
     interface class IAfterResponse;
@@ -31,6 +32,7 @@ namespace CefSharp
         String^ _title;
 
         IBeforePopup^ _beforePopupHandler;
+        IBeforeBrowse^ _beforeBrowseHandler;
         IBeforeResourceLoad^ _beforeResourceLoadHandler;
         IBeforeMenu^ _beforeMenuHandler;
         IAfterResponse^ _afterResponseHandler;
@@ -140,6 +142,12 @@ namespace CefSharp
         {
             IBeforePopup^ get() { return _beforePopupHandler; }
             void set(IBeforePopup^ handler) { _beforePopupHandler = handler; }
+        }
+
+        virtual property IBeforeBrowse^ BeforeBrowseHandler
+        {
+            IBeforeBrowse^ get() { return _beforeBrowseHandler; }
+            void set(IBeforeBrowse^ handler) { _beforeBrowseHandler = handler; }
         }
 
         virtual property IBeforeResourceLoad^ BeforeResourceLoadHandler

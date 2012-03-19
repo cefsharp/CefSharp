@@ -158,6 +158,12 @@ namespace Wpf
             void set(IBeforePopup^ handler) { _browserCore->BeforePopupHandler = handler; }
         }
 
+        virtual property IBeforeBrowse^ BeforeBrowseHandler
+        {
+            IBeforeBrowse^ get() { return _browserCore->BeforeBrowseHandler; }
+            void set(IBeforeBrowse^ handler) { _browserCore->BeforeBrowseHandler = handler; }
+        }
+
         virtual property IBeforeResourceLoad^ BeforeResourceLoadHandler
         {
             IBeforeResourceLoad^ get() { return _browserCore->BeforeResourceLoadHandler; }
