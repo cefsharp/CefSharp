@@ -133,5 +133,57 @@ namespace CefSharp
                 _cefSettings->log_severity = static_cast<cef_log_severity_t>(logSeverity);
             }
         }
+
+        property bool AutoDetectProxySettings
+        {
+            bool get()
+            {
+                return _cefSettings->auto_detect_proxy_settings_enabled;
+            }
+
+            void set(bool autoDetectProxySettings)
+            {
+                _cefSettings->auto_detect_proxy_settings_enabled = autoDetectProxySettings;
+            }
+        }
+
+        property String^ PackFilePath
+        {
+            String^ get()
+            {
+                return toClr(_cefSettings->pack_file_path);
+            }
+
+            void set(String^ packFilePath)
+            {
+                assignFromString(_cefSettings->pack_file_path, packFilePath);
+            }
+        }
+
+        property String^ LocalesDirPath
+        {
+            String^ get()
+            {
+                return toClr(_cefSettings->locales_dir_path);
+            }
+
+            void set(String^ localesDirPath)
+            {
+                assignFromString(_cefSettings->locales_dir_path, localesDirPath);
+            }
+        }
+
+        property bool PackLoadingDisabled
+        {
+            bool get()
+            {
+                return _cefSettings->pack_loading_disabled;
+            }
+
+            void set(bool packLoadingDisabled)
+            {
+                _cefSettings->pack_loading_disabled = packLoadingDisabled;
+            }
+        }
     };
 }
