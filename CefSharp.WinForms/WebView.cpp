@@ -307,7 +307,6 @@ namespace WinForms
         }
         else
         {
-            // XXX: exception
             return nullptr;
         }
     }

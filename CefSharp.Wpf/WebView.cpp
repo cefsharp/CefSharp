@@ -512,7 +512,6 @@ namespace Wpf
         }
         else
         {
-            // XXX: exception
             return nullptr;
         }
     }
