@@ -6,6 +6,18 @@ namespace CefSharp.WinForms.Example
 {
     public partial class Browser : Form, IExampleView
     {
+        public event EventHandler ShowDevToolsActivated
+        {
+            add { showDevToolsMenuItem.Click += value; }
+            remove { showDevToolsMenuItem.Click -= value; }
+        }
+
+        public event EventHandler CloseDevToolsActivated
+        {
+            add { closeDevToolsMenuItem.Click += value; }
+            remove { showDevToolsMenuItem.Click -= value; }
+        }
+
         public event EventHandler ExitActivated
         {
             add { exitToolStripMenuItem.Click += value; }

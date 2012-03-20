@@ -6,6 +6,9 @@
     <DockPanel>
         <Menu Height="22" DockPanel.Dock="Top">
             <MenuItem Header="File">
+                <MenuItem Header="Show Dev Tools" Name="showDevToolsMenuItem" Click="control_Activated" />
+                <MenuItem Header="Close Dev Tools" Name="closeDevToolsMenuItem" Click="control_Activated" />
+                <Separator />
                 <MenuItem Header="Exit" Name="exitMenuItem" Click="control_Activated" />
             </MenuItem>
             <MenuItem Header="Edit">

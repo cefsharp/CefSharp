@@ -5,6 +5,8 @@ namespace CefSharp.Example
     public interface IExampleView
     {
         // file
+        event EventHandler ShowDevToolsActivated;
+        event EventHandler CloseDevToolsActivated;
         event EventHandler ExitActivated;
 
         // edit
