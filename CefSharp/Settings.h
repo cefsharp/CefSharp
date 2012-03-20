@@ -106,7 +106,6 @@ namespace CefSharp
             assignFromString(str, path);
 
             AddPluginPath(&str);
-            // XXX: free?
         }
 
         property String^ LogFile
@@ -116,9 +115,9 @@ namespace CefSharp
                 return toClr(_cefSettings->log_file);
             }
 
-            void set(String^ log_file)
+            void set(String^ logFile)
             {
-                assignFromString(_cefSettings->log_file, log_file);
+                assignFromString(_cefSettings->log_file, logFile);
             }
         }
 
@@ -129,9 +128,9 @@ namespace CefSharp
                 return static_cast<CefSharp::LogSeverity>(_cefSettings->log_severity);
             }
 
-            void set(CefSharp::LogSeverity log_severity)
+            void set(CefSharp::LogSeverity logSeverity)
             {
-                _cefSettings->log_severity = static_cast<cef_log_severity_t>(log_severity);
+                _cefSettings->log_severity = static_cast<cef_log_severity_t>(logSeverity);
             }
         }
     };
