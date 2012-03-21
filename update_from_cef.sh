@@ -7,7 +7,7 @@ else
 fi
 
 cp -r $CEF/include .
-git clean -df
+git clean -df include
 
 for CONFIG in Release Debug
 do
