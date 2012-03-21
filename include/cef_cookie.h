@@ -1,4 +1,4 @@
-// Copyright (c) 2012 Marshall A. Greenblatt. All rights reserved.
+// Copyright (c) 2011 Marshall A. Greenblatt. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are
@@ -42,78 +42,53 @@
 
 class CefCookieVisitor;
 
+///
+// Visit all cookies. The returned cookies are ordered by longest path, then by
+// earliest creation date. Returns false if cookies cannot be accessed.
+///
+/*--cef()--*/
+bool CefVisitAllCookies(CefRefPtr<CefCookieVisitor> visitor);
 
 ///
-// Class used for managing cookies. The methods of this class may be called on
-// any thread unless otherwise indicated.
+// Visit a subset of cookies. The results are filtered by the given url scheme,
+// host, domain and path. If |includeHttpOnly| is true HTTP-only cookies will
+// also be included in the results. The returned cookies are ordered by longest
+// path, then by earliest creation date. Returns false if cookies cannot be
+// accessed.
 ///
-/*--cef(source=library)--*/
-class CefCookieManager : public virtual CefBase {
- public:
-  ///
-  // Returns the global cookie manager. By default data will be stored at
-  // CefSettings.cache_path if specified or in memory otherwise.
-  ///
-  /*--cef()--*/
-  static CefRefPtr<CefCookieManager> GetGlobalManager();
+/*--cef()--*/
+bool CefVisitUrlCookies(const CefString& url, bool includeHttpOnly,
+                        CefRefPtr<CefCookieVisitor> visitor);
 
-  ///
-  // Creates a new cookie manager. If |path| is empty data will be stored in
-  // memory only. Returns NULL if creation fails.
-  ///
-  /*--cef(optional_param=path)--*/
-  static CefRefPtr<CefCookieManager> CreateManager(const CefString& path);
+///
+// Sets a cookie given a valid URL and explicit user-provided cookie attributes.
+// This function expects each attribute to be well-formed. It will check for
+// disallowed characters (e.g. the ';' character is disallowed within the cookie
+// value attribute) and will return false without setting the cookie if such
+// characters are found. This method must be called on the IO thread.
+///
+/*--cef()--*/
+bool CefSetCookie(const CefString& url, const CefCookie& cookie);
 
-  ///
-  // Visit all cookies. The returned cookies are ordered by longest path, then
-  // by earliest creation date. Returns false if cookies cannot be accessed.
-  ///
-  /*--cef()--*/
-  virtual bool VisitAllCookies(CefRefPtr<CefCookieVisitor> visitor) =0;
+///
+// Delete all cookies that match the specified parameters. If both |url| and
+// |cookie_name| are specified all host and domain cookies matching both values
+// will be deleted. If only |url| is specified all host cookies (but not domain
+// cookies) irrespective of path will be deleted. If |url| is empty all cookies
+// for all hosts and domains will be deleted. Returns false if a non-empty
+// invalid URL is specified or if cookies cannot be accessed. This method must
+// be called on the IO thread.
+///
+/*--cef(optional_param=url,optional_param=cookie_name)--*/
+bool CefDeleteCookies(const CefString& url, const CefString& cookie_name);
 
-  ///
-  // Visit a subset of cookies. The results are filtered by the given url
-  // scheme, host, domain and path. If |includeHttpOnly| is true HTTP-only
-  // cookies will also be included in the results. The returned cookies are
-  // ordered by longest path, then by earliest creation date. Returns false if
-  // cookies cannot be accessed.
-  ///
-  /*--cef()--*/
-  virtual bool VisitUrlCookies(const CefString& url, bool includeHttpOnly,
-                               CefRefPtr<CefCookieVisitor> visitor) =0;
-
-  ///
-  // Sets a cookie given a valid URL and explicit user-provided cookie
-  // attributes. This function expects each attribute to be well-formed. It will
-  // check for disallowed characters (e.g. the ';' character is disallowed
-  // within the cookie value attribute) and will return false without setting
-  // the cookie if such characters are found. This method must be called on the
-  // IO thread.
-  ///
-  /*--cef()--*/
-  virtual bool SetCookie(const CefString& url, const CefCookie& cookie) =0;
-
-  ///
-  // Delete all cookies that match the specified parameters. If both |url| and
-  // values |cookie_name| are specified all host and domain cookies matching
-  // both will be deleted. If only |url| is specified all host cookies (but not
-  // domain cookies) irrespective of path will be deleted. If |url| is empty all
-  // cookies for all hosts and domains will be deleted. Returns false if a non-
-  // empty invalid URL is specified or if cookies cannot be accessed. This
-  // method must be called on the IO thread.
-  ///
-  /*--cef(optional_param=url,optional_param=cookie_name)--*/
-  virtual bool DeleteCookies(const CefString& url,
-                             const CefString& cookie_name) =0;
-
-  ///
-  // Sets the directory path that will be used for storing cookie data. If
-  // |path| is empty data will be stored in memory only. Returns false if
-  // cookies cannot be accessed.
-  ///
-  /*--cef(optional_param=path)--*/
-  virtual bool SetStoragePath(const CefString& path) =0;
-};
+///
+// Sets the directory path that will be used for storing cookie data. If |path|
+// is empty data will be stored in memory only. By default the cookie path is
+// the same as the cache path. Returns false if cookies cannot be accessed.
+///
+/*--cef(optional_param=path)--*/
+bool CefSetCookiePath(const CefString& path);
 
 
 ///
