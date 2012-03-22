@@ -42,7 +42,8 @@ namespace CefSharp
         {
             String^ get()
             {
-                return "0.9";
+                Assembly^ assembly = Assembly::GetAssembly(CEF::typeid);
+                return assembly->GetName()->Version->ToString();
             }
         }
 
