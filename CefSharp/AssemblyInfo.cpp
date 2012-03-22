@@ -11,7 +11,7 @@ using namespace System::Security::Permissions;
 [assembly:AssemblyProduct("CefSharp")];
 [assembly:AssemblyCopyright("Copyright (c) Anthony Taranto 2012")];
 
-[assembly:AssemblyVersion("0.9.*")];
+[assembly:AssemblyVersion("0.11.*")];
 [assembly:ComVisible(false)];
 [assembly:CLSCompliant(true)];
 [assembly:SecurityPermission(SecurityAction::RequestMinimum, UnmanagedCode = true)];

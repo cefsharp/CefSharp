@@ -7,5 +7,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("CefSharp.Example")]
 [assembly: AssemblyCopyright("Copyright © 2012")]
 
-[assembly: AssemblyVersion("0.9.*")]
+[assembly: AssemblyVersion("0.11.*")]
 [assembly: ComVisible(false)]
