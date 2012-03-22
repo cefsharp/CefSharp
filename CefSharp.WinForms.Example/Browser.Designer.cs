@@ -39,6 +39,9 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showDevToolsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.closeDevToolsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.undoMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -162,6 +165,9 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem,
+            this.showDevToolsMenuItem,
+            this.closeDevToolsMenuItem,
+            this.toolStripMenuItem3,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -170,14 +176,31 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItemClick);
+            // 
+            // showDevToolsMenuItem
+            // 
+            this.showDevToolsMenuItem.Name = "showDevToolsMenuItem";
+            this.showDevToolsMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.showDevToolsMenuItem.Text = "Show Dev Tools";
+            // 
+            // closeDevToolsMenuItem
+            // 
+            this.closeDevToolsMenuItem.Name = "closeDevToolsMenuItem";
+            this.closeDevToolsMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.closeDevToolsMenuItem.Text = "Close Dev Tools";
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(155, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             // 
             // editToolStripMenuItem
@@ -370,6 +393,9 @@
         private System.Windows.Forms.ToolStripMenuItem deleteMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectAllMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem showDevToolsMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem closeDevToolsMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
 
     }
 }

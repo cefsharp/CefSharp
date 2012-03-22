@@ -14,6 +14,8 @@ namespace CefSharp.Wpf.Example
     public partial class MainWindow : Window, IExampleView
     {
         // file
+        public event EventHandler ShowDevToolsActivated;
+        public event EventHandler CloseDevToolsActivated;
         public event EventHandler ExitActivated;
 
         // edit
@@ -53,6 +55,8 @@ namespace CefSharp.Wpf.Example
             handlers = new Dictionary<object, EventHandler>
             {
                 // file
+                { showDevToolsMenuItem, ShowDevToolsActivated},
+                { closeDevToolsMenuItem, CloseDevToolsActivated},
                 { exitMenuItem, ExitActivated },
 
                 // edit

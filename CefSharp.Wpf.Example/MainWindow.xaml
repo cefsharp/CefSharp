@@ -6,6 +6,9 @@
     <DockPanel>
         <Menu Height="22" DockPanel.Dock="Top">
             <MenuItem Header="File">
+                <MenuItem Header="Show Dev Tools" Name="showDevToolsMenuItem" Click="control_Activated" />
+                <MenuItem Header="Close Dev Tools" Name="closeDevToolsMenuItem" Click="control_Activated" />
+                <Separator />
                 <MenuItem Header="Exit" Name="exitMenuItem" Click="control_Activated" />
             </MenuItem>
             <MenuItem Header="Edit">
@@ -28,10 +31,6 @@
                 <MenuItem Header="Test Tooltip" Name="testTooltipMenuItem" Click="control_Activated" />
                 <MenuItem Header="Test Popup" Name="testPopupMenuItem" Click="control_Activated" />
                 <MenuItem Header="Test Load String" Name="testLoadStringItem" Click="control_Activated" />
-            </MenuItem>
-            <MenuItem Header="Bookmarks">
-                <MenuItem Header="CefSharp Home" Name="homeMenuItem" />
-                <MenuItem Header="FireBug Lite" Name="fireBugMenuItem" />
             </MenuItem>
         </Menu>
         <DockPanel VerticalAlignment="Top" DockPanel.Dock="Top">

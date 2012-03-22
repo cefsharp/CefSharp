@@ -53,6 +53,8 @@ namespace CefSharp.Example
             model.ConsoleMessage += model_ConsoleMessage;
 
             // file
+            view.ShowDevToolsActivated += view_ShowDevToolsActivated;
+            view.CloseDevToolsActivated += view_CloseDevToolsActivated;
             view.ExitActivated += view_ExitActivated;
 
             // edit
@@ -120,6 +122,16 @@ namespace CefSharp.Example
         private void model_ConsoleMessage(object sender, ConsoleMessageEventArgs e)
         {
             gui_invoke(() => view.DisplayOutput(e.Message));
+        }
+
+        private void view_ShowDevToolsActivated(object sender, EventArgs e)
+        {
+            model.ShowDevTools();
+        }
+
+        private void view_CloseDevToolsActivated(object sender, EventArgs e)
+        {
+            model.CloseDevTools();
         }
 
         private void view_ExitActivated(object sender, EventArgs e)
