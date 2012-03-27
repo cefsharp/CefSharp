@@ -122,7 +122,7 @@ namespace CefSharp
             CefRequestWrapper^ wrapper = gcnew CefRequestWrapper(request);
             NavigationType navigationType = (NavigationType)navType;
 
-            handler->HandleBeforeBrowse(_browserControl, wrapper, navigationType, isRedirect);
+            return handler->HandleBeforeBrowse(_browserControl, wrapper, navigationType, isRedirect);
         }
         else
         {
