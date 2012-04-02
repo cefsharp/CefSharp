@@ -2,6 +2,7 @@
 #pragma once
 
 #include "include/cef_app.h"
+#include "include/cef_cookie.h"
 #include "include/cef_version.h"
 #include "include/cef_runnable.h"
 #include "include/cef_task.h"
