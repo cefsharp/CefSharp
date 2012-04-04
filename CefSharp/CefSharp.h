@@ -3,18 +3,16 @@
 
 #include "include/cef_app.h"
 #include "include/cef_cookie.h"
-#include "include/cef_version.h"
 #include "include/cef_runnable.h"
+#include "include/cef_version.h"
 #include "include/cef_task.h"
 #include "Settings.h"
 #include "SchemeHandler.h"
 #include "StringUtil.h"
-#include <msclr\marshal_cppstd.h>
 
 using namespace System;
 using namespace System::IO;
 using namespace System::Collections::Generic;
-using namespace msclr::interop;
 
 namespace CefSharp
 {
@@ -30,11 +28,6 @@ namespace CefSharp
         }
 
     internal:
-        static void IOT_SetCookie(const CefString& url, const CefCookie& cookie)
-        {
-            CefSetCookie(url, cookie);
-        }
-
         static IDictionary<String^, Object^>^ GetBoundObjects()
         {
             return _boundObjects;
@@ -115,27 +108,33 @@ namespace CefSharp
             }
         }
         
+        static void SetCookie(String^ url, String^ domain, String^ name, String^ value, DateTime expires)
+        {
+            CefCookie cookie;
+            assignFromString(cookie.name, name);
+            assignFromString(cookie.value, value);
+            assignFromString(cookie.domain, domain);
+            assignFromString(cookie.path, "/");
+
+            cookie.has_expires = true;
+            cookie.expires.year = expires.Year;
+            cookie.expires.month = expires.Month;
+            cookie.expires.day_of_month = expires.Day;
+
+            CefPostTask(TID_IO, NewCefRunnableFunction(CefSetCookie,
+                toNative(url), cookie));
+        }
+
+        static void DeleteCookies(String^ url, String^ name)
+        {
+            CefPostTask(TID_IO, NewCefRunnableFunction(CefDeleteCookies,
+                toNative(url), toNative(name)));
+        }
+
         static bool SetCookiePath(String^ path)
         {
             CefString cef_path = toNative(path);
             return CefSetCookiePath(cef_path);
-        }
-        
-        static void SetCookie(String^ url, String^ domain, String^ name, String^ value, DateTime^ expires)
-        {
-            CefString cef_url = toNative(url);
-
-            CefCookie cookie;
-            CefString(&cookie.name).FromString(marshal_as<std::string>(name));
-            CefString(&cookie.value).FromString(marshal_as<std::string>(value));
-            CefString(&cookie.domain).FromString(marshal_as<std::string>(domain));
-            CefString(&cookie.path).FromString("/");
-            cookie.has_expires = true;
-            cookie.expires.year = expires->Year;
-            cookie.expires.month = expires->Month;
-            cookie.expires.day_of_month = expires->Day;
-
-            CefPostTask(TID_IO, NewCefRunnableFunction(IOT_SetCookie, cef_url, cookie));
         }
     };
 }
