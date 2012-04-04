@@ -29,13 +29,12 @@ namespace CefSharp
             _boundObjects = gcnew Dictionary<String^, Object^>();
         }
 
-        // this method is meant to be called on the IO-thread, which we'll do through CefPostTask
-    	static void IOT_SetCookie(const CefString& url, const CefCookie& cookie)
-		{
-			CefSetCookie(url, cookie);
-		}
+    internal:
+        static void IOT_SetCookie(const CefString& url, const CefCookie& cookie)
+        {
+            CefSetCookie(url, cookie);
+        }
 
-internal:
         static IDictionary<String^, Object^>^ GetBoundObjects()
         {
             return _boundObjects;
@@ -116,27 +115,27 @@ internal:
             }
         }
         
-    	static bool SetCookiePath(String^ path)
-		{
-			CefString cef_path = toNative(path);
-			return CefSetCookiePath(cef_path);
-		}
+        static bool SetCookiePath(String^ path)
+        {
+            CefString cef_path = toNative(path);
+            return CefSetCookiePath(cef_path);
+        }
         
-    	static void SetCookie(String^ url, String^ domain, String^ name, String^ value, DateTime^ expires)
-		{
-			CefString cef_url = toNative(url);
-			
-			CefCookie cookie;
-			CefString(&cookie.name).FromString(marshal_as<std::string>(name));
-			CefString(&cookie.value).FromString(marshal_as<std::string>(value));
-			CefString(&cookie.domain).FromString(marshal_as<std::string>(domain));
-			CefString(&cookie.path).FromString("/");
-			cookie.has_expires = true;
-			cookie.expires.year = expires->Year;
-			cookie.expires.month = expires->Month;
-			cookie.expires.day_of_month = expires->Day;
+        static void SetCookie(String^ url, String^ domain, String^ name, String^ value, DateTime^ expires)
+        {
+            CefString cef_url = toNative(url);
 
-			CefPostTask(TID_IO, NewCefRunnableFunction(IOT_SetCookie, cef_url, cookie));
-		}
+            CefCookie cookie;
+            CefString(&cookie.name).FromString(marshal_as<std::string>(name));
+            CefString(&cookie.value).FromString(marshal_as<std::string>(value));
+            CefString(&cookie.domain).FromString(marshal_as<std::string>(domain));
+            CefString(&cookie.path).FromString("/");
+            cookie.has_expires = true;
+            cookie.expires.year = expires->Year;
+            cookie.expires.month = expires->Month;
+            cookie.expires.day_of_month = expires->Day;
+
+            CefPostTask(TID_IO, NewCefRunnableFunction(IOT_SetCookie, cef_url, cookie));
+        }
     };
 }
