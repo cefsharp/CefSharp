@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #pragma once
 
+#include <msclr/lock.h>
 #include "include/cef_app.h"
 #include "include/cef_cookie.h"
 #include "include/cef_runnable.h"
@@ -19,12 +20,30 @@ namespace CefSharp
     public ref class CEF sealed
     {
     private:
+        static HANDLE _event;
+        static Object^ _sync;
+        static bool _result;
+
         static bool _initialized = false;
         static IDictionary<String^, Object^>^ _boundObjects;
 
         static CEF()
         {
+            _event = CreateEvent(NULL, FALSE, FALSE, NULL);
+            _sync = gcnew Object();
             _boundObjects = gcnew Dictionary<String^, Object^>();
+        }
+
+        static void IOT_SetCookie(const CefString& url, const CefCookie& cookie)
+        {
+            _result = CefSetCookie(url, cookie);
+            SetEvent(_event);
+        }
+
+        static void IOT_DeleteCookies(const CefString& url, const CefString& name)
+        {
+            _result = CefDeleteCookies(url, name);
+            SetEvent(_event);
         }
 
     internal:
@@ -82,7 +101,7 @@ namespace CefSharp
 
         static bool RegisterScheme(String^ schemeName, String^ hostName, bool is_standard, ISchemeHandlerFactory^ factory)
         {
-            hostName = hostName ? hostName : "";
+            hostName = hostName ? hostName : String::Empty;
 
             CefRefPtr<CefSchemeHandlerFactory> wrapper = new SchemeHandlerFactoryWrapper(factory);
             CefRegisterCustomScheme(toNative(schemeName), is_standard, false, false);
@@ -99,17 +118,12 @@ namespace CefSharp
             _boundObjects[name] = objectToBind;
             return true;
         }
-
-        static void Shutdown()
-        {
-            if (IsInitialized)
-            {
-                CefShutdown();
-            }
-        }
         
-        static void SetCookie(String^ url, String^ domain, String^ name, String^ value, DateTime expires)
+        static bool SetCookie(String^ url, String^ domain, String^ name, String^ value, DateTime expires)
         {
+            msclr::lock l(_sync);
+            _result = false;
+
             CefCookie cookie;
             assignFromString(cookie.name, name);
             assignFromString(cookie.value, value);
@@ -121,20 +135,50 @@ namespace CefSharp
             cookie.expires.month = expires.Month;
             cookie.expires.day_of_month = expires.Day;
 
-            CefPostTask(TID_IO, NewCefRunnableFunction(CefSetCookie,
-                toNative(url), cookie));
+            if (CefCurrentlyOn(TID_IO))
+            {
+                IOT_SetCookie(toNative(url), cookie);
+            }
+            else
+            {
+                CefPostTask(TID_IO, NewCefRunnableFunction(IOT_SetCookie,
+                    toNative(url), cookie));
+            }
+
+            WaitForSingleObject(_event, INFINITE);
+            return _result;
         }
 
-        static void DeleteCookies(String^ url, String^ name)
+        static bool DeleteCookies(String^ url, String^ name)
         {
-            CefPostTask(TID_IO, NewCefRunnableFunction(CefDeleteCookies,
-                toNative(url), toNative(name)));
+            msclr::lock l(_sync);
+            _result = false;
+
+            if (CefCurrentlyOn(TID_IO))
+            {
+                IOT_DeleteCookies(toNative(url), toNative(name));
+            }
+            else
+            {
+                CefPostTask(TID_IO, NewCefRunnableFunction(IOT_DeleteCookies,
+                    toNative(url), toNative(name)));
+            }
+
+            WaitForSingleObject(_event, INFINITE);
+            return _result;
         }
 
         static bool SetCookiePath(String^ path)
         {
-            CefString cef_path = toNative(path);
-            return CefSetCookiePath(cef_path);
+            return CefSetCookiePath(toNative(path));
+        }
+
+        static void Shutdown()
+        {
+            if (IsInitialized)
+            {
+                CefShutdown();
+            }
         }
     };
 }
