@@ -80,15 +80,15 @@ namespace CefSharp
         {
             CefPostTask(TID_UI, NewCefRunnableMethod(this, &ScriptCore::UIT_Evaluate,
                 browser, script));
+        }
 
-            switch (WaitForSingleObject(_event, timeout))
-            {
-            case WAIT_TIMEOUT:
-                throw gcnew ScriptException("Script timed out");
-            case WAIT_ABANDONED:
-            case WAIT_FAILED:
-                throw gcnew ScriptException("Script error");
-            }
+        switch (WaitForSingleObject(_event, timeout))
+        {
+        case WAIT_TIMEOUT:
+            throw gcnew ScriptException("Script timed out");
+        case WAIT_ABANDONED:
+        case WAIT_FAILED:
+            throw gcnew ScriptException("Script error");
         }
 
         if (_exception)
