@@ -179,8 +179,7 @@ class CefFrame : public virtual CefBase {
   virtual CefString GetName() =0;
 
   ///
-  // Returns the globally unique identifier for this frame. This method should
-  // only be called on the UI thread.
+  // Returns the globally unique identifier for this frame.
   ///
   /*--cef()--*/
   virtual int64 GetIdentifier() =0;
@@ -193,8 +192,7 @@ class CefFrame : public virtual CefBase {
   virtual CefRefPtr<CefFrame> GetParent() =0;
 
   ///
-  // Returns the URL currently loaded in this frame. This method should only be
-  // called on the UI thread.
+  // Returns the URL currently loaded in this frame.
   ///
   /*--cef()--*/
   virtual CefString GetURL() =0;

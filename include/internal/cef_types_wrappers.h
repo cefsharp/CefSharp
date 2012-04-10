@@ -395,7 +395,6 @@ struct CefBrowserSettingsTraits {
     target->webgl_disabled = src->webgl_disabled;
     target->accelerated_compositing_enabled =
         src->accelerated_compositing_enabled;
-    target->threaded_compositing_enabled = src->threaded_compositing_enabled;
     target->accelerated_layers_disabled = src->accelerated_layers_disabled;
     target->accelerated_video_disabled = src->accelerated_video_disabled;
     target->accelerated_2d_canvas_disabled =

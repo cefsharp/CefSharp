@@ -36,13 +36,13 @@ namespace CefSharp
 
         static void IOT_SetCookie(const CefString& url, const CefCookie& cookie)
         {
-            _result = CefSetCookie(url, cookie);
+            _result = CefCookieManager::GetGlobalManager()->SetCookie(url, cookie);
             SetEvent(_event);
         }
 
         static void IOT_DeleteCookies(const CefString& url, const CefString& name)
         {
-            _result = CefDeleteCookies(url, name);
+            _result = CefCookieManager::GetGlobalManager()->DeleteCookies(url, name);
             SetEvent(_event);
         }
 
@@ -170,7 +170,7 @@ namespace CefSharp
 
         static bool SetCookiePath(String^ path)
         {
-            return CefSetCookiePath(toNative(path));
+            return CefCookieManager::GetGlobalManager()->SetStoragePath(toNative(path));
         }
 
         static void Shutdown()

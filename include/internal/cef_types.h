@@ -398,12 +398,6 @@ typedef struct _cef_browser_settings_t {
   bool accelerated_compositing_enabled;
 
   ///
-  // Set to true (1) to enable threaded compositing. This is currently only
-  // supported by the command buffer graphics implementation.
-  ///
-  bool threaded_compositing_enabled;
-
-  ///
   // Set to true (1) to disable accelerated layers. This affects features like
   // 3D CSS transforms.
   ///
