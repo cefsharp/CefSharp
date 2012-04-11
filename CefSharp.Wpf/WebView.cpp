@@ -566,10 +566,9 @@ namespace Wpf
 
         CefWindowInfo window;
         window.SetAsOffScreen(hwnd);
-        CefRefPtr<RenderClientAdapter> ptr = _clientAdapter.get();
         CefString url = toNative(_browserCore->Address);
 
-        CefBrowser::CreateBrowser(window, static_cast<CefRefPtr<CefClient>>(ptr),
+        CefBrowser::CreateBrowser(window, _clientAdapter.get(),
             url, *_settings->_browserSettings);
 
         source->AddHook(gcnew Interop::HwndSourceHook(this, &WebView::SourceHook));
