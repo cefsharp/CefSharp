@@ -1,3 +1,10 @@
+###### 0.11
+April 10, 2012, Chromium 20.0.1092.0
+
+- Fix OnBeforeBrowser [kppullin]
+- Wrap SetCookie(), DeleteCookies(), and SetCookiePath() [davybrion]
+- Transform WPF control size to device coordinates [xpaulbettsx]
+
 ###### 0.10
 March 18, 2012, Chromium 17.0.963.15
 
