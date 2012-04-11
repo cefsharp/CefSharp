@@ -200,7 +200,8 @@ namespace Wpf
         CefRefPtr<CefBrowser> browser;
         if (TryGetCefBrowser(browser))
         {
-            browser->SetSize(PET_VIEW, (int)size.Width, (int)size.Height);
+            Point point = _matrix->Transform(Point(size.Width, size.Height));
+            browser->SetSize(PET_VIEW, (int)point.X, (int)point.Y);
         }
         else
         {
@@ -560,8 +561,7 @@ namespace Wpf
 
         _clientAdapter = new RenderClientAdapter(this);
 
-        Visual^ parent = (Visual^)VisualTreeHelper::GetParent(this);
-        HwndSource^ source = (HwndSource^)PresentationSource::FromVisual(parent);
+        HwndSource^ source = (HwndSource^)PresentationSource::FromVisual(this);
         HWND hwnd = static_cast<HWND>(source->Handle.ToPointer());
 
         CefWindowInfo window;
@@ -579,6 +579,8 @@ namespace Wpf
         _image->Stretch = Stretch::None;
         _image->HorizontalAlignment = ::HorizontalAlignment::Left;
         _image->VerticalAlignment = ::VerticalAlignment::Top;
+
+        _matrix = source->CompositionTarget->TransformToDevice;
     }
 
     void WebView::SetCursor(CefCursorHandle cursor)

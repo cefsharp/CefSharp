@@ -35,6 +35,7 @@ namespace Wpf
         MCefRefPtr<ScriptCore> _scriptCore;
 
         Image^ _image;
+        Matrix^ _matrix;
         ::ToolTip^ _toolTip;
         DispatcherTimer^ _timer;
 
