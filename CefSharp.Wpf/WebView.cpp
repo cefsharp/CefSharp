@@ -574,7 +574,6 @@ namespace Wpf
 
         source->AddHook(gcnew Interop::HwndSourceHook(this, &WebView::SourceHook));
 
-        _image = (Image^)GetTemplateChild("PART_Image");
         Content = _image = gcnew Image();
         _image->Stretch = Stretch::None;
         _image->HorizontalAlignment = ::HorizontalAlignment::Left;

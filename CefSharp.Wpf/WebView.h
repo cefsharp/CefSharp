@@ -21,7 +21,6 @@ namespace CefSharp
 {
 namespace Wpf
 {
-    [TemplatePart(Name="PART_Browser", Type=Image::typeid)]
     public ref class WebView sealed : public ContentControl, IRenderWebBrowser
     {
     private:
