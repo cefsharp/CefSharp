@@ -118,8 +118,8 @@ namespace CefSharp
             _boundObjects[name] = objectToBind;
             return true;
         }
-        
-        static bool SetCookie(String^ url, String^ domain, String^ name, String^ value, DateTime expires)
+
+        static bool SetCookie(String^ url, String^ name, String^ value, String^ domain, String^ path, bool secure, bool httponly, bool has_expires, DateTime expires)
         {
             msclr::lock l(_sync);
             _result = false;
@@ -128,9 +128,10 @@ namespace CefSharp
             assignFromString(cookie.name, name);
             assignFromString(cookie.value, value);
             assignFromString(cookie.domain, domain);
-            assignFromString(cookie.path, "/");
-
-            cookie.has_expires = true;
+            assignFromString(cookie.path, path);
+            cookie.secure = secure;
+            cookie.httponly = httponly;
+            cookie.has_expires = has_expires;
             cookie.expires.year = expires.Year;
             cookie.expires.month = expires.Month;
             cookie.expires.day_of_month = expires.Day;
@@ -147,6 +148,11 @@ namespace CefSharp
 
             WaitForSingleObject(_event, INFINITE);
             return _result;
+        }
+
+        static bool SetCookie(String^ url, String^ domain, String^ name, String^ value, DateTime expires)
+        {
+            return SetCookie(url, name, value, domain, "/", false, false, true, expires);
         }
 
         static bool DeleteCookies(String^ url, String^ name)
