@@ -182,6 +182,12 @@ namespace Wpf
             void set(IAfterResponse^ handler) { _browserCore->AfterResponseHandler = handler; }
         }
 
+        virtual property IAfterLoadError^ AfterLoadErrorHandler
+        {
+            IAfterLoadError^ get() { return _browserCore->AfterLoadErrorHandler; }
+            void set(IAfterLoadError^ handler) { _browserCore->AfterLoadErrorHandler = handler; }
+        }
+
         virtual void OnInitialized();
 
         virtual void Load(String^ url);
