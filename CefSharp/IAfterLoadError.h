@@ -6,6 +6,6 @@ namespace CefSharp
     public interface class IAfterLoadError
     {
     public:
-        bool HandleLoadError();
+        void HandleLoadError(IWebBrowser^ browser, int errorCode, String^ failedUrl, String^% errorText);
     };
 }

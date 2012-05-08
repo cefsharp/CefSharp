@@ -118,8 +118,23 @@ namespace CefSharp
     bool ClientAdapter::OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, ErrorCode errorCode, const CefString& failedUrl, CefString& errorText)
     {
         IAfterLoadError^ handler = _browserControl->AfterLoadErrorHandler;
-        return handler != nullptr &&
-            handler->HandleLoadError();
+        if (handler == nullptr)
+        {
+            return false;
+        }
+
+        String^ errorString = nullptr;
+        handler->HandleLoadError(_browserControl, errorCode, toClr(failedUrl), errorString);
+
+        if (errorString == nullptr)
+        {
+            return false;
+        }
+        else
+        {
+            errorText = toNative(errorString);
+            return true;
+        }
     }
 
     bool ClientAdapter::OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, NavType navType, bool isRedirect)
