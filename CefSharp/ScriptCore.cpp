@@ -5,14 +5,37 @@
 
 namespace CefSharp
 {
+    bool TryGetMainFrame(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame>& mainFrame)
+    {
+        if (browser != nullptr)
+        {
+            mainFrame = browser->GetMainFrame();
+            return mainFrame != nullptr;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     void ScriptCore::UIT_Execute(CefRefPtr<CefBrowser> browser, CefString script)
     {
-        browser->GetMainFrame()->ExecuteJavaScript(script, "about:blank", 0);
+        CefRefPtr<CefFrame> mainFrame;
+        if (TryGetMainFrame(browser, mainFrame))
+        {
+            mainFrame->ExecuteJavaScript(script, "about:blank", 0);
+        }
     }
 
     void ScriptCore::UIT_Evaluate(CefRefPtr<CefBrowser> browser, CefString script)
     {
-        CefRefPtr<CefV8Context> context = browser->GetMainFrame()->GetV8Context();
+        CefRefPtr<CefFrame> mainFrame;
+        if (!TryGetMainFrame(browser, mainFrame))
+        {
+            return;
+        }
+
+        CefRefPtr<CefV8Context> context = mainFrame->GetV8Context();
 
         if (context.get() &&
             context->Enter())
