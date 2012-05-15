@@ -9,8 +9,9 @@ namespace CefSharp
         HANDLE _event;
 
         gcroot<Object^> _result;
-        gcroot<String^> _exception;
+        gcroot<String^> _exceptionMessage;
 
+        bool TryGetMainFrame(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame>& frame);
         void UIT_Execute(CefRefPtr<CefBrowser> browser, CefString script);
         void UIT_Evaluate(CefRefPtr<CefBrowser> browser, CefString script);
 

@@ -5,12 +5,12 @@
 
 namespace CefSharp
 {
-    bool TryGetMainFrame(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame>& mainFrame)
+    bool ScriptCore::TryGetMainFrame(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame>& frame)
     {
         if (browser != nullptr)
         {
-            mainFrame = browser->GetMainFrame();
-            return mainFrame != nullptr;
+            frame = browser->GetMainFrame();
+            return frame != nullptr;
         }
         else
         {
@@ -30,47 +30,48 @@ namespace CefSharp
     void ScriptCore::UIT_Evaluate(CefRefPtr<CefBrowser> browser, CefString script)
     {
         CefRefPtr<CefFrame> mainFrame;
-        if (!TryGetMainFrame(browser, mainFrame))
+        if (TryGetMainFrame(browser, mainFrame))
         {
-            return;
-        }
+            CefRefPtr<CefV8Context> context = mainFrame->GetV8Context();
 
-        CefRefPtr<CefV8Context> context = mainFrame->GetV8Context();
-
-        if (context.get() &&
-            context->Enter())
-        {
-            CefRefPtr<CefV8Value> global = context->GetGlobal();
-            CefRefPtr<CefV8Value> eval = global->GetValue("eval");
-            CefRefPtr<CefV8Value> arg = CefV8Value::CreateString(script);
-            CefRefPtr<CefV8Value> result;
-            CefRefPtr<CefV8Exception> exception;
-
-            CefV8ValueList args;
-            args.push_back(arg);
-
-            if (eval->ExecuteFunctionWithContext(context, global, args,
-                result, exception, false))
+            if (context.get() && context->Enter())
             {
-                if (exception)
-                {
-                    CefString message = exception->GetMessage();
-                    _exception = toClr(message);
-                }
-                else
-                {
-                    try
-                    {
-                        _result = convertFromCef(result);
-                    }
-                    catch (Exception^ ex)
-                    {
-                        _exception = ex->Message;
-                    }
-                }
-            }
+                CefRefPtr<CefV8Value> global = context->GetGlobal();
+                CefRefPtr<CefV8Value> eval = global->GetValue("eval");
+                CefRefPtr<CefV8Value> arg = CefV8Value::CreateString(script);
+                CefRefPtr<CefV8Value> result;
+                CefRefPtr<CefV8Exception> exception;
 
-            context->Exit();
+                CefV8ValueList args;
+                args.push_back(arg);
+
+                if (eval->ExecuteFunctionWithContext(context, global, args,
+                    result, exception, false))
+                {
+                    if (exception)
+                    {
+                        CefString message = exception->GetMessage();
+                        _exceptionMessage = toClr(message);
+                    }
+                    else
+                    {
+                        try
+                        {
+                            _result = convertFromCef(result);
+                        }
+                        catch (Exception^ ex)
+                        {
+                            _exceptionMessage = ex->Message;
+                        }
+                    }
+                }
+
+                context->Exit();
+            }
+        }
+        else
+        {
+            _exceptionMessage = "Failed to obtain reference to main frame";
         }
 
         SetEvent(_event);
@@ -93,7 +94,7 @@ namespace CefSharp
     {
         AutoLock lock_scope(this);
         _result = nullptr;
-        _exception = nullptr;
+        _exceptionMessage = nullptr;
 
         if (CefCurrentlyOn(TID_UI))
         {
@@ -114,9 +115,9 @@ namespace CefSharp
             throw gcnew ScriptException("Script error");
         }
 
-        if (_exception)
+        if (_exceptionMessage)
         {
-            throw gcnew ScriptException(_exception);
+            throw gcnew ScriptException(_exceptionMessage);
         }
         else
         {
