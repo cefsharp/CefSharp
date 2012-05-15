@@ -195,15 +195,12 @@ namespace CefSharp
             return;
         }
 
-        IList<Header^>^ headers = gcnew List<Header^>();
-        CefResponse::HeaderMap hm;
-        response->GetHeaderMap(hm);
-        for (CefResponse::HeaderMap::iterator it = hm.begin(); it != hm.end(); ++it)
+        WebHeaderCollection^ headers = gcnew WebHeaderCollection();
+        CefResponse::HeaderMap map;
+        response->GetHeaderMap(map);
+        for (CefResponse::HeaderMap::iterator it = map.begin(); it != map.end(); ++it)
         {
-            Header^ header = gcnew Header();
-            header->name = toClr(it->first);
-            header->value = toClr(it->second);
-            headers->Add(header);
+            headers->Add(toClr(it->first), toClr(it->second));
         }
 
         handler->HandleResponse(
