@@ -8,7 +8,6 @@
 #include "IBeforeResourceLoad.h"
 #include "IBeforeMenu.h"
 #include "IAfterResponse.h"
-#include "IAfterLoadError.h"
 #include "StreamAdapter.h"
 
 namespace CefSharp
@@ -122,14 +121,14 @@ namespace CefSharp
 
     bool ClientAdapter::OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, ErrorCode errorCode, const CefString& failedUrl, CefString& errorText)
     {
-        IAfterLoadError^ handler = _browserControl->AfterLoadErrorHandler;
+        IAfterResponse^ handler = _browserControl->AfterResponseHandler;
         if (handler == nullptr)
         {
             return false;
         }
 
         String^ errorString = nullptr;
-        handler->HandleLoadError(_browserControl, errorCode, toClr(failedUrl), errorString);
+        handler->HandleError(_browserControl, toClr(failedUrl), errorCode, errorString);
 
         if (errorString == nullptr)
         {

@@ -16,5 +16,6 @@ namespace CefSharp
     {
     public:
         void HandleResponse(IWebBrowser^ browser, String^ url, int status, String^ statusText, String^ mimeType, IList<Header^>^ headers);
+        void HandleError(IWebBrowser^ browser, String^ url, int errorCode, String^% errorText);
     };
 }

@@ -291,10 +291,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\IAfterLoadError.h"
-				>
-			</File>
-			<File
 				RelativePath=".\IAfterResponse.h"
 				>
 			</File>

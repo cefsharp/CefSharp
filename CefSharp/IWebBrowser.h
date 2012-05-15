@@ -13,7 +13,6 @@ namespace CefSharp
     interface class IBeforeResourceLoad;
     interface class IBeforeMenu;
     interface class IAfterResponse;
-    interface class IAfterLoadError;
 
     public interface class IWebBrowser : IDisposable, INotifyPropertyChanged
     {
@@ -37,7 +36,6 @@ namespace CefSharp
         property IBeforeResourceLoad^ BeforeResourceLoadHandler;
         property IBeforeMenu^ BeforeMenuHandler;
         property IAfterResponse^ AfterResponseHandler;
-        property IAfterLoadError^ AfterLoadErrorHandler;
 
         void OnInitialized();
 
