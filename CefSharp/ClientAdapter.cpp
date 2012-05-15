@@ -86,11 +86,11 @@ namespace CefSharp
 
         return true;
     }
-    
+
     bool ClientAdapter::OnKeyEvent(CefRefPtr<CefBrowser> browser, KeyEventType type, int code, int modifiers, bool isSystemKey, bool isAfterJavaScript)
     {
-	    _browserControl->OnKeyEvent(type, code, modifiers, isSystemKey);
-		return false;
+        _browserControl->OnKeyEvent(type, code, modifiers, isSystemKey);
+        return false;
     }
 
     void ClientAdapter::OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame)

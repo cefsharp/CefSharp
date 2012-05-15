@@ -303,7 +303,7 @@ namespace WinForms
 
     Object^ WebView::EvaluateScript(String^ script, TimeSpan timeout)
     {
-	    _browserCore->CheckBrowserInitialization();
+        _browserCore->CheckBrowserInitialization();
 
         CefRefPtr<CefBrowser> browser;
         if (TryGetCefBrowser(browser))
@@ -327,9 +327,9 @@ namespace WinForms
         ConsoleMessage(this, gcnew ConsoleMessageEventArgs(message, source, line));
     }
 
-	void WebView::OnKeyEvent(int type, int code, int modifiers, bool isSystemKey)
+    void WebView::OnKeyEvent(int type, int code, int modifiers, bool isSystemKey)
     {
-		BrowserKeyEvent(this, gcnew BrowserKeyEventArgs(type, code, modifiers, isSystemKey));
+        BrowserKey(this, gcnew BrowserKeyEventArgs(type, code, modifiers, isSystemKey));
     }
 
     void WebView::OnFrameLoadStart()

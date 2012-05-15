@@ -275,6 +275,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\BrowserKeyEventArgs.h"
+				>
+			</File>
+			<File
 				RelativePath=".\BrowserSettings.h"
 				>
 			</File>

@@ -534,9 +534,9 @@ namespace Wpf
         ConsoleMessage(this, gcnew ConsoleMessageEventArgs(message, source, line));
     }
 
-	void WebView::OnKeyEvent(int type, int code, int modifiers, bool isSystemKey)
+    void WebView::OnKeyEvent(int type, int code, int modifiers, bool isSystemKey)
     {
-		KeyEvent(this, gcnew BrowserKeyEventArgs(type, code, modifiers, isSystemKey));
+        BrowserKey(this, gcnew BrowserKeyEventArgs(type, code, modifiers, isSystemKey));
     }
 
     void WebView::OnFrameLoadStart()
