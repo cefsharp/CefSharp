@@ -10,6 +10,6 @@ namespace CefSharp
     public:
         // Return false to have the framework create the new popup window.
         // Return true to cancel creation of the popup window.
-        bool HandleBeforePopup(String^ url, int% x, int% y, int% width, int% height);
+        bool HandleBeforePopup(IWebBrowser^ browser, String^ url, int% x, int% y, int% width, int% height);
     };
 }

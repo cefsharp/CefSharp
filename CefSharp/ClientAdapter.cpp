@@ -16,8 +16,13 @@ namespace CefSharp
     bool ClientAdapter::OnBeforePopup(CefRefPtr<CefBrowser> parentBrowser, const CefPopupFeatures& popupFeatures, CefWindowInfo& windowInfo, const CefString& url, CefRefPtr<CefClient>& client, CefBrowserSettings& settings)
     {
         IBeforePopup^ handler = _browserControl->BeforePopupHandler;
-        return handler != nullptr &&
-            handler->HandleBeforePopup(toClr(url), windowInfo.m_x, windowInfo.m_y, windowInfo.m_nWidth, windowInfo.m_nHeight);
+        if (handler == nullptr)
+        {
+            return false;
+        }
+
+        return handler->HandleBeforePopup(_browserControl, toClr(url),
+            windowInfo.m_x, windowInfo.m_y, windowInfo.m_nWidth, windowInfo.m_nHeight);
     }
 
     void ClientAdapter::OnAfterCreated(CefRefPtr<CefBrowser> browser)
@@ -140,47 +145,47 @@ namespace CefSharp
     bool ClientAdapter::OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, NavType navType, bool isRedirect)
     {
         IBeforeBrowse^ handler = _browserControl->BeforeBrowseHandler;
-        if (handler != nullptr)
-        {
-            CefRequestWrapper^ wrapper = gcnew CefRequestWrapper(request);
-            NavigationType navigationType = (NavigationType)navType;
-
-            return handler->HandleBeforeBrowse(_browserControl, wrapper, navigationType, isRedirect);
-        }
-        else
+        if (handler == nullptr)
         {
             return false;
         }
+
+        CefRequestWrapper^ wrapper = gcnew CefRequestWrapper(request);
+        NavigationType navigationType = (NavigationType)navType;
+
+        return handler->HandleBeforeBrowse(_browserControl, wrapper, navigationType, isRedirect);
     }
 
     bool ClientAdapter::OnBeforeResourceLoad(CefRefPtr<CefBrowser> browser, CefRefPtr<CefRequest> request, CefString& redirectUrl, CefRefPtr<CefStreamReader>& resourceStream, CefRefPtr<CefResponse> response, int loadFlags)
     {
         IBeforeResourceLoad^ handler = _browserControl->BeforeResourceLoadHandler;
-        if(handler != nullptr)
+        if (handler == nullptr)
         {
-            CefRequestWrapper^ wrapper = gcnew CefRequestWrapper(request);
-            RequestResponse^ requestResponse = gcnew RequestResponse(wrapper);
-
-            handler->HandleBeforeResourceLoad(_browserControl, requestResponse);
-
-            if(requestResponse->Action == ResponseAction::Respond)
-            {
-                CefRefPtr<StreamAdapter> adapter = new StreamAdapter(requestResponse->ResponseStream);
-                resourceStream = CefStreamReader::CreateForHandler(static_cast<CefRefPtr<CefReadHandler>>(adapter));
-                response->SetMimeType(toNative(requestResponse->MimeType));
-                return false;
-            }
-            else if(requestResponse->Action == ResponseAction::Cancel)
-            {
-                return true;
-            }
-            else if(requestResponse->Action == ResponseAction::Redirect)
-            {
-                redirectUrl = toNative(requestResponse->RedirectUrl);
-            }
+            return false;
         }
 
-        return false;
+        CefRequestWrapper^ wrapper = gcnew CefRequestWrapper(request);
+        RequestResponse^ requestResponse = gcnew RequestResponse(wrapper);
+
+        handler->HandleBeforeResourceLoad(_browserControl, requestResponse);
+
+        // XXX: switch
+        if(requestResponse->Action == ResponseAction::Respond)
+        {
+            CefRefPtr<StreamAdapter> adapter = new StreamAdapter(requestResponse->ResponseStream);
+            resourceStream = CefStreamReader::CreateForHandler(static_cast<CefRefPtr<CefReadHandler>>(adapter));
+            response->SetMimeType(toNative(requestResponse->MimeType));
+            return false;
+        }
+        else if(requestResponse->Action == ResponseAction::Cancel)
+        {
+            return true;
+        }
+        else if(requestResponse->Action == ResponseAction::Redirect)
+        {
+            redirectUrl = toNative(requestResponse->RedirectUrl);
+            return false;
+        }
     }
 
     void ClientAdapter::OnResourceResponse(CefRefPtr<CefBrowser> browser, const CefString& url, CefRefPtr<CefResponse> response, CefRefPtr<CefContentFilter>& filter)
@@ -221,9 +226,13 @@ namespace CefSharp
 
     bool ClientAdapter::OnBeforeMenu(CefRefPtr<CefBrowser> browser, const CefMenuInfo& menuInfo)
     {
-        IBeforeMenu^ beforeMenuHandler = _browserControl->BeforeMenuHandler;
-        return beforeMenuHandler != nullptr &&
-            beforeMenuHandler->HandleBeforeMenu();
+        IBeforeMenu^ handler = _browserControl->BeforeMenuHandler;
+        if (handler == nullptr)
+        {
+            return false;
+        }
+
+        return handler->HandleBeforeMenu(_browserControl);
     }
 
     void ClientAdapter::OnTakeFocus(CefRefPtr<CefBrowser> browser, bool next)

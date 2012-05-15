@@ -19,6 +19,6 @@ namespace CefSharp
     public:
         // called before page navigation.
         // allows the Request to be cancelled by returning true
-        bool HandleBeforeBrowse(IWebBrowser^ browserControl, IRequest^ request, NavigationType naigationvType, bool isRedirect);
+        bool HandleBeforeBrowse(IWebBrowser^ browser, IRequest^ request, NavigationType naigationvType, bool isRedirect);
     };
 }

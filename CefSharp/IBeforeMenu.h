@@ -10,6 +10,6 @@ namespace CefSharp
     public:
         // Return false to display the default context menu
         // or true to cancel the display.
-        bool HandleBeforeMenu();
+        bool HandleBeforeMenu(IWebBrowser^ browser);
     };
 }
