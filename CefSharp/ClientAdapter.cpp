@@ -168,21 +168,21 @@ namespace CefSharp
 
         handler->HandleBeforeResourceLoad(_browserControl, requestResponse);
 
-        // XXX: switch
-        if(requestResponse->Action == ResponseAction::Respond)
+        switch (requestResponse->Action)
         {
-            CefRefPtr<StreamAdapter> adapter = new StreamAdapter(requestResponse->ResponseStream);
-            resourceStream = CefStreamReader::CreateForHandler(static_cast<CefRefPtr<CefReadHandler>>(adapter));
-            response->SetMimeType(toNative(requestResponse->MimeType));
-            return false;
-        }
-        else if(requestResponse->Action == ResponseAction::Cancel)
-        {
+        case ResponseAction::Cancel:
             return true;
-        }
-        else if(requestResponse->Action == ResponseAction::Redirect)
-        {
+        case ResponseAction::Redirect:
             redirectUrl = toNative(requestResponse->RedirectUrl);
+            return false;
+        case ResponseAction::Respond:
+            {
+                CefRefPtr<StreamAdapter> adapter = new StreamAdapter(requestResponse->ResponseStream);
+                resourceStream = CefStreamReader::CreateForHandler(static_cast<CefRefPtr<CefReadHandler>>(adapter));
+                response->SetMimeType(toNative(requestResponse->MimeType));
+                return false;
+            }
+        default:
             return false;
         }
     }
