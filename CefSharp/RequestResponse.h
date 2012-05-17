@@ -22,7 +22,10 @@ namespace CefSharp
 
     enum class ResponseAction
     {
-        Continue, Cancel, Redirect, Respond
+        Continue,
+        Cancel,
+        Redirect,
+        Respond
     };
 
 

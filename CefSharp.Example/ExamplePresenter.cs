@@ -267,8 +267,6 @@ namespace CefSharp.Example
                 Stream resourceStream = new MemoryStream(Encoding.UTF8.GetBytes(
                     "<html><body><h1>Success</h1><p>This document is loaded from a System.IO.Stream</p></body></html>"));
                 requestResponse.RespondWith(resourceStream, "text/html");
-
-                return true;
             }
 
             return false;

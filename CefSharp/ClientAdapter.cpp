@@ -178,25 +178,20 @@ namespace CefSharp
         CefRequestWrapper^ wrapper = gcnew CefRequestWrapper(request);
         RequestResponse^ requestResponse = gcnew RequestResponse(wrapper);
 
-        handler->OnBeforeResourceLoad(_browserControl, requestResponse);
+        bool ret = handler->OnBeforeResourceLoad(_browserControl, requestResponse);
 
-        switch (requestResponse->Action)
+        if (requestResponse->Action == ResponseAction::Redirect)
         {
-        case ResponseAction::Cancel:
-            return true;
-        case ResponseAction::Redirect:
             redirectUrl = toNative(requestResponse->RedirectUrl);
-            return false;
-        case ResponseAction::Respond:
-            {
-                CefRefPtr<StreamAdapter> adapter = new StreamAdapter(requestResponse->ResponseStream);
-                resourceStream = CefStreamReader::CreateForHandler(static_cast<CefRefPtr<CefReadHandler>>(adapter));
-                response->SetMimeType(toNative(requestResponse->MimeType));
-                return false;
-            }
-        default:
-            return false;
         }
+        else if (requestResponse->Action == ResponseAction::Respond)
+        {
+            CefRefPtr<StreamAdapter> adapter = new StreamAdapter(requestResponse->ResponseStream);
+            resourceStream = CefStreamReader::CreateForHandler(static_cast<CefRefPtr<CefReadHandler>>(adapter));
+            response->SetMimeType(toNative(requestResponse->MimeType));
+        }
+
+        return ret;
     }
 
     void ClientAdapter::OnResourceResponse(CefRefPtr<CefBrowser> browser, const CefString& url, CefRefPtr<CefResponse> response, CefRefPtr<CefContentFilter>& filter)
