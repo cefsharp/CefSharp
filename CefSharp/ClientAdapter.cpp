@@ -3,24 +3,25 @@
 #include "BindingHandler.h"
 #include "ClientAdapter.h"
 #include "CefSharp.h"
-#include "IBeforePopup.h"
-#include "IBeforeBrowse.h"
-#include "IBeforeResourceLoad.h"
-#include "IBeforeMenu.h"
-#include "IAfterResponse.h"
 #include "StreamAdapter.h"
+#include "IWebBrowser.h"
+#include "ILifeSpanHandler.h"
+#include "ILoadHandler.h"
+#include "IRequestHandler.h"
+#include "IMenuHandler.h"
+#include "IKeyboardHandler.h"
 
 namespace CefSharp
 {
     bool ClientAdapter::OnBeforePopup(CefRefPtr<CefBrowser> parentBrowser, const CefPopupFeatures& popupFeatures, CefWindowInfo& windowInfo, const CefString& url, CefRefPtr<CefClient>& client, CefBrowserSettings& settings)
     {
-        IBeforePopup^ handler = _browserControl->BeforePopupHandler;
+        ILifeSpanHandler^ handler = _browserControl->LifeSpanHandler;
         if (handler == nullptr)
         {
             return false;
         }
 
-        return handler->HandleBeforePopup(_browserControl, toClr(url),
+        return handler->OnBeforePopup(_browserControl, toClr(url),
             windowInfo.m_x, windowInfo.m_y, windowInfo.m_nWidth, windowInfo.m_nHeight);
     }
 
@@ -89,8 +90,13 @@ namespace CefSharp
 
     bool ClientAdapter::OnKeyEvent(CefRefPtr<CefBrowser> browser, KeyEventType type, int code, int modifiers, bool isSystemKey, bool isAfterJavaScript)
     {
-        _browserControl->OnKeyEvent(type, code, modifiers, isSystemKey);
-        return false;
+        IKeyboardHandler^ handler = _browserControl->KeyboardHandler;
+        if (handler == nullptr)
+        {
+            return false;
+        }
+
+        return handler->OnKeyEvent(_browserControl, (KeyType)type, code, modifiers, isSystemKey, isAfterJavaScript);
     }
 
     void ClientAdapter::OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame)
@@ -127,14 +133,14 @@ namespace CefSharp
 
     bool ClientAdapter::OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, ErrorCode errorCode, const CefString& failedUrl, CefString& errorText)
     {
-        IAfterResponse^ handler = _browserControl->AfterResponseHandler;
+        ILoadHandler^ handler = _browserControl->LoadHandler;
         if (handler == nullptr)
         {
             return false;
         }
 
         String^ errorString = nullptr;
-        handler->HandleError(_browserControl, toClr(failedUrl), errorCode, errorString);
+        handler->OnLoadError(_browserControl, toClr(failedUrl), errorCode, errorString);
 
         if (errorString == nullptr)
         {
@@ -149,7 +155,7 @@ namespace CefSharp
 
     bool ClientAdapter::OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, NavType navType, bool isRedirect)
     {
-        IBeforeBrowse^ handler = _browserControl->BeforeBrowseHandler;
+        IRequestHandler^ handler = _browserControl->RequestHandler;
         if (handler == nullptr)
         {
             return false;
@@ -158,12 +164,12 @@ namespace CefSharp
         CefRequestWrapper^ wrapper = gcnew CefRequestWrapper(request);
         NavigationType navigationType = (NavigationType)navType;
 
-        return handler->HandleBeforeBrowse(_browserControl, wrapper, navigationType, isRedirect);
+        return handler->OnBeforeBrowse(_browserControl, wrapper, navigationType, isRedirect);
     }
 
     bool ClientAdapter::OnBeforeResourceLoad(CefRefPtr<CefBrowser> browser, CefRefPtr<CefRequest> request, CefString& redirectUrl, CefRefPtr<CefStreamReader>& resourceStream, CefRefPtr<CefResponse> response, int loadFlags)
     {
-        IBeforeResourceLoad^ handler = _browserControl->BeforeResourceLoadHandler;
+        IRequestHandler^ handler = _browserControl->RequestHandler;
         if (handler == nullptr)
         {
             return false;
@@ -172,7 +178,7 @@ namespace CefSharp
         CefRequestWrapper^ wrapper = gcnew CefRequestWrapper(request);
         RequestResponse^ requestResponse = gcnew RequestResponse(wrapper);
 
-        handler->HandleBeforeResourceLoad(_browserControl, requestResponse);
+        handler->OnBeforeResourceLoad(_browserControl, requestResponse);
 
         switch (requestResponse->Action)
         {
@@ -195,7 +201,7 @@ namespace CefSharp
 
     void ClientAdapter::OnResourceResponse(CefRefPtr<CefBrowser> browser, const CefString& url, CefRefPtr<CefResponse> response, CefRefPtr<CefContentFilter>& filter)
     {
-        IAfterResponse^ handler = _browserControl->AfterResponseHandler;
+        IRequestHandler^ handler = _browserControl->RequestHandler;
         if (handler == nullptr)
         {
             return;
@@ -209,7 +215,7 @@ namespace CefSharp
             headers->Add(toClr(it->first), toClr(it->second));
         }
 
-        handler->HandleResponse(
+        handler->OnResourceResponse(
             _browserControl,
             toClr(url),
             response->GetStatus(),
@@ -228,13 +234,13 @@ namespace CefSharp
 
     bool ClientAdapter::OnBeforeMenu(CefRefPtr<CefBrowser> browser, const CefMenuInfo& menuInfo)
     {
-        IBeforeMenu^ handler = _browserControl->BeforeMenuHandler;
+        IMenuHandler^ handler = _browserControl->MenuHandler;
         if (handler == nullptr)
         {
             return false;
         }
 
-        return handler->HandleBeforeMenu(_browserControl);
+        return handler->OnBeforeMenu(_browserControl);
     }
 
     void ClientAdapter::OnTakeFocus(CefRefPtr<CefBrowser> browser, bool next)

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
+using System.Net;
 using System.Text;
 
 namespace CefSharp.Example
 {
-    public class ExamplePresenter : IBeforeBrowse, IBeforeResourceLoad
+    public class ExamplePresenter : IRequestHandler
     {
         public static void Init()
         {
@@ -47,8 +48,7 @@ namespace CefSharp.Example
                 CEF.ChromiumVersion, CEF.CefVersion, CEF.CefSharpVersion);
             view.DisplayOutput(version);
 
-            model.BeforeBrowseHandler = this;
-            model.BeforeResourceLoadHandler = this;
+            model.RequestHandler = this;
             model.PropertyChanged += model_PropertyChanged;
             model.ConsoleMessage += model_ConsoleMessage;
 
@@ -252,14 +252,14 @@ namespace CefSharp.Example
             model.Forward();
         }
 
-        bool IBeforeBrowse.HandleBeforeBrowse(IWebBrowser browserControl,
-            IRequest request, NavigationType naigationvType, bool isRedirect)
+        #region IRequestHandler Members
+
+        bool IRequestHandler.OnBeforeBrowse(IWebBrowser browser, IRequest request, NavigationType naigationvType, bool isRedirect)
         {
             return false;
         }
 
-        void IBeforeResourceLoad.HandleBeforeResourceLoad(IWebBrowser browserControl,
-            IRequestResponse requestResponse)
+        bool IRequestHandler.OnBeforeResourceLoad(IWebBrowser browser, IRequestResponse requestResponse)
         {
             IRequest request = requestResponse.Request;
             if (request.Url.StartsWith(resource_url))
@@ -267,7 +267,18 @@ namespace CefSharp.Example
                 Stream resourceStream = new MemoryStream(Encoding.UTF8.GetBytes(
                     "<html><body><h1>Success</h1><p>This document is loaded from a System.IO.Stream</p></body></html>"));
                 requestResponse.RespondWith(resourceStream, "text/html");
+
+                return true;
             }
+
+            return false;
         }
+
+        void IRequestHandler.OnResourceResponse(IWebBrowser browser, string url, int status, string statusText, string mimeType, WebHeaderCollection headers)
+        {
+
+        }
+
+        #endregion
     }
 }

@@ -153,34 +153,34 @@ namespace Wpf
             void set(String^ text) { _browserCore->TooltipText = text; }
         }
 
-        virtual property IBeforePopup^ BeforePopupHandler
+                virtual property ILifeSpanHandler^ LifeSpanHandler
         {
-            IBeforePopup^ get() { return _browserCore->BeforePopupHandler; }
-            void set(IBeforePopup^ handler) { _browserCore->BeforePopupHandler = handler; }
+            ILifeSpanHandler^ get() { return _browserCore->LifeSpanHandler; }
+            void set(ILifeSpanHandler^ handler) { _browserCore->LifeSpanHandler = handler; }
         }
 
-        virtual property IBeforeBrowse^ BeforeBrowseHandler
+        virtual property ILoadHandler^ LoadHandler
         {
-            IBeforeBrowse^ get() { return _browserCore->BeforeBrowseHandler; }
-            void set(IBeforeBrowse^ handler) { _browserCore->BeforeBrowseHandler = handler; }
+            ILoadHandler^ get() { return _browserCore->LoadHandler; }
+            void set(ILoadHandler^ handler) { _browserCore->LoadHandler = handler; }
         }
 
-        virtual property IBeforeResourceLoad^ BeforeResourceLoadHandler
+        virtual property IRequestHandler^ RequestHandler
         {
-            IBeforeResourceLoad^ get() { return _browserCore->BeforeResourceLoadHandler; }
-            void set(IBeforeResourceLoad^ handler) { _browserCore->BeforeResourceLoadHandler = handler; }
+            IRequestHandler^ get() { return _browserCore->RequestHandler; }
+            void set(IRequestHandler^ handler) { _browserCore->RequestHandler = handler; }
         }
 
-        virtual property IBeforeMenu^ BeforeMenuHandler
+        virtual property IMenuHandler^ MenuHandler
         {
-            IBeforeMenu^ get() { return _browserCore->BeforeMenuHandler; }
-            void set(IBeforeMenu^ handler) { _browserCore->BeforeMenuHandler = handler; }
+            IMenuHandler^ get() { return _browserCore->MenuHandler; }
+            void set(IMenuHandler^ handler) { _browserCore->MenuHandler = handler; }
         }
 
-        virtual property IAfterResponse^ AfterResponseHandler
+        virtual property IKeyboardHandler^ KeyboardHandler
         {
-            IAfterResponse^ get() { return _browserCore->AfterResponseHandler; }
-            void set(IAfterResponse^ handler) { _browserCore->AfterResponseHandler = handler; }
+            IKeyboardHandler^ get() { return _browserCore->KeyboardHandler; }
+            void set(IKeyboardHandler^ handler) { _browserCore->KeyboardHandler = handler; }
         }
 
         virtual void OnInitialized();
@@ -215,7 +215,6 @@ namespace Wpf
         virtual void OnFrameLoadEnd();
         virtual void OnTakeFocus(bool next);
         virtual void OnConsoleMessage(String^ message, String^ source, int line);
-        virtual void OnKeyEvent(int type, int code, int modifiers, bool isSystemKey);
 
         virtual void OnApplyTemplate() override;
         virtual void SetCursor(CefCursorHandle cursor);
