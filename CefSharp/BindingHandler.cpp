@@ -247,9 +247,10 @@ namespace CefSharp
     void BindingHandler::Bind(String^ name, Object^ obj, CefRefPtr<CefV8Value> window)
     {
         CefRefPtr<BindingData> bindingData = new BindingData(obj);
-        CefRefPtr<CefBase> userData = static_cast<CefRefPtr<CefBase>>(bindingData);
-        CefRefPtr<CefV8Value> wrappedObject = window->CreateObject(userData, NULL);
         CefRefPtr<CefV8Handler> handler = static_cast<CefV8Handler*>(new BindingHandler());
+        CefRefPtr<CefBase> userData = static_cast<CefRefPtr<CefBase>>(bindingData);
+        CefRefPtr<CefV8Value> wrappedObject = window->CreateObject(NULL);
+        wrappedObject->SetUserData(userData);
 
         array<MethodInfo^>^ methods = obj->GetType()->GetMethods(BindingFlags::Instance | BindingFlags::Public);
 

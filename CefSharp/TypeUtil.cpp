@@ -77,9 +77,8 @@ namespace CefSharp
         }
 		if (type->IsArray)
         {
-            CefRefPtr<CefV8Value> cefArray = CefV8Value::CreateArray();
-
             System::Array^ managedArray = (System::Array^)obj;
+            CefRefPtr<CefV8Value> cefArray = CefV8Value::CreateArray(managedArray->Length);
 
             for (int i = 0; i < managedArray->Length; i++)
             {
@@ -103,9 +102,8 @@ namespace CefSharp
         }
         if (type->IsValueType && !type->IsPrimitive && !type->IsEnum)
         {
-            CefRefPtr<CefV8Value> cefArray = CefV8Value::CreateArray();
-
             cli::array<System::Reflection::FieldInfo^>^ fields = type->GetFields();
+            CefRefPtr<CefV8Value> cefArray = CefV8Value::CreateArray(fields->Length);
 
             for (int i = 0; i < fields->Length; i++)
             {

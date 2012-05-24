@@ -45,24 +45,22 @@ namespace CefSharp
                 CefV8ValueList args;
                 args.push_back(arg);
 
-                if (eval->ExecuteFunctionWithContext(context, global, args,
-                    result, exception, false))
+                result = eval->ExecuteFunctionWithContext(context, global, args);
+
+                if (result == nullptr)
                 {
-                    if (exception)
+                    // XXX
+                    _exceptionMessage = "Error";
+                }
+                else
+                {
+                    try
                     {
-                        CefString message = exception->GetMessage();
-                        _exceptionMessage = toClr(message);
+                        _result = convertFromCef(result);
                     }
-                    else
+                    catch (Exception^ ex)
                     {
-                        try
-                        {
-                            _result = convertFromCef(result);
-                        }
-                        catch (Exception^ ex)
-                        {
-                            _exceptionMessage = ex->Message;
-                        }
+                        _exceptionMessage = ex->Message;
                     }
                 }
 

@@ -92,6 +92,15 @@ typedef struct _cef_print_info_t {
   double m_Scale;
 } cef_print_info_t;
 
+///
+// Class representing key information.
+///
+typedef struct _cef_key_info_t {
+  int key;
+  BOOL sysChar;
+  BOOL imeChar;
+} cef_key_info_t;
+
 #ifdef __cplusplus
 }
 #endif

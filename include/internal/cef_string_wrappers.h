@@ -414,7 +414,7 @@ class CefStringBase {
   // Clear the string data.
   ///
   void clear() {
-    if (!empty())
+    if (string_)
       traits::clear(string_);
   }
 

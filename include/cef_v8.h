@@ -1,4 +1,4 @@
-// Copyright (c) 2011 Marshall A. Greenblatt. All rights reserved.
+// Copyright (c) 2012 Marshall A. Greenblatt. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are
@@ -44,6 +44,7 @@
 #include "include/cef_frame.h"
 #include <vector>
 
+class CefV8Exception;
 class CefV8Handler;
 class CefV8Value;
 
@@ -114,7 +115,8 @@ bool CefRegisterExtension(const CefString& extension_name,
 
 
 ///
-// Class that encapsulates a V8 context handle.
+// Class that encapsulates a V8 context handle. The methods of this class may
+// only be called on the UI thread.
 ///
 /*--cef(source=library)--*/
 class CefV8Context : public virtual CefBase {
@@ -150,17 +152,18 @@ class CefV8Context : public virtual CefBase {
   virtual CefRefPtr<CefFrame> GetFrame() =0;
 
   ///
-  // Returns the global object for this context.
+  // Returns the global object for this context. The context must be entered
+  // before calling this method.
   ///
   /*--cef()--*/
   virtual CefRefPtr<CefV8Value> GetGlobal() =0;
 
   ///
   // Enter this context. A context must be explicitly entered before creating a
-  // V8 Object, Array or Function asynchronously. Exit() must be called the same
-  // number of times as Enter() before releasing this context. V8 objects belong
-  // to the context in which they are created. Returns true if the scope was
-  // entered successfully.
+  // V8 Object, Array, Function or Date asynchronously. Exit() must be called
+  // the same number of times as Enter() before releasing this context. V8
+  // objects belong to the context in which they are created. Returns true if
+  // the scope was entered successfully.
   ///
   /*--cef()--*/
   virtual bool Enter() =0;
@@ -178,6 +181,17 @@ class CefV8Context : public virtual CefBase {
   ///
   /*--cef()--*/
   virtual bool IsSame(CefRefPtr<CefV8Context> that) =0;
+
+  ///
+  // Evaluates the specified JavaScript code using this context's global object.
+  // On success |retval| will be set to the return value, if any, and the
+  // function will return true. On failure |exception| will be set to the
+  // exception, if any, and the function will return false.
+  ///
+  /*--cef()--*/
+  virtual bool Eval(const CefString& code,
+                    CefRefPtr<CefV8Value>& retval,
+                    CefRefPtr<CefV8Exception>& exception) =0;
 };
 
 
@@ -302,8 +316,8 @@ class CefV8Exception : public virtual CefBase {
 };
 
 ///
-// Class representing a V8 value. The methods of this class should only be
-// called on the UI thread.
+// Class representing a V8 value. The methods of this class may only be called
+// on the UI thread.
 ///
 /*--cef(source=library)--*/
 class CefV8Value : public virtual CefBase {
@@ -316,55 +330,72 @@ class CefV8Value : public virtual CefBase {
   ///
   /*--cef()--*/
   static CefRefPtr<CefV8Value> CreateUndefined();
+
   ///
   // Create a new CefV8Value object of type null.
   ///
   /*--cef()--*/
   static CefRefPtr<CefV8Value> CreateNull();
+
   ///
   // Create a new CefV8Value object of type bool.
   ///
   /*--cef()--*/
   static CefRefPtr<CefV8Value> CreateBool(bool value);
+
   ///
   // Create a new CefV8Value object of type int.
   ///
   /*--cef()--*/
-  static CefRefPtr<CefV8Value> CreateInt(int value);
+  static CefRefPtr<CefV8Value> CreateInt(int32 value);
+
+  ///
+  // Create a new CefV8Value object of type unsigned int.
+  ///
+  /*--cef()--*/
+  static CefRefPtr<CefV8Value> CreateUInt(uint32 value);
+
   ///
   // Create a new CefV8Value object of type double.
   ///
   /*--cef()--*/
   static CefRefPtr<CefV8Value> CreateDouble(double value);
+
   ///
-  // Create a new CefV8Value object of type Date.
-  ///
-  /*--cef()--*/
-  static CefRefPtr<CefV8Value> CreateDate(const CefTime& date);
-  ///
-  // Create a new CefV8Value object of type string.
-  ///
-  /*--cef(optional_param=value)--*/
-  static CefRefPtr<CefV8Value> CreateString(const CefString& value);
-  ///
-  // Create a new CefV8Value object of type object with optional user data and
-  // accessor. This method should only be called from within the scope of a
-  // CefV8ContextHandler, CefV8Handler or CefV8Accessor callback, or in
-  // combination with calling Enter() and Exit() on a stored CefV8Context
-  // reference.
-  ///
-  /*--cef(capi_name=cef_v8value_create_object_with_accessor,
-          optional_param=user_data,optional_param=accessor)--*/
-  static CefRefPtr<CefV8Value> CreateObject(CefRefPtr<CefBase> user_data,
-                                            CefRefPtr<CefV8Accessor> accessor);
-  ///
-  // Create a new CefV8Value object of type array. This method should only be
+  // Create a new CefV8Value object of type Date. This method should only be
   // called from within the scope of a CefV8ContextHandler, CefV8Handler or
   // CefV8Accessor callback, or in combination with calling Enter() and Exit()
   // on a stored CefV8Context reference.
   ///
   /*--cef()--*/
-  static CefRefPtr<CefV8Value> CreateArray();
+  static CefRefPtr<CefV8Value> CreateDate(const CefTime& date);
+
+  ///
+  // Create a new CefV8Value object of type string.
+  ///
+  /*--cef(optional_param=value)--*/
+  static CefRefPtr<CefV8Value> CreateString(const CefString& value);
+
+  ///
+  // Create a new CefV8Value object of type object with optional accessor. This
+  // method should only be called from within the scope of a
+  // CefV8ContextHandler, CefV8Handler or CefV8Accessor callback, or in
+  // combination with calling Enter() and Exit() on a stored CefV8Context
+  // reference.
+  ///
+  /*--cef(optional_param=accessor)--*/
+  static CefRefPtr<CefV8Value> CreateObject(CefRefPtr<CefV8Accessor> accessor);
+
+  ///
+  // Create a new CefV8Value object of type array with the specified |length|.
+  // If |length| is negative the returned array will have length 0. This method
+  // should only be called from within the scope of a CefV8ContextHandler,
+  // CefV8Handler or CefV8Accessor callback, or in combination with calling
+  // Enter() and Exit() on a stored CefV8Context reference.
+  ///
+  /*--cef()--*/
+  static CefRefPtr<CefV8Value> CreateArray(int length);
+
   ///
   // Create a new CefV8Value object of type function. This method should only be
   // called from within the scope of a CefV8ContextHandler, CefV8Handler or
@@ -380,46 +411,61 @@ class CefV8Value : public virtual CefBase {
   ///
   /*--cef()--*/
   virtual bool IsUndefined() =0;
+
   ///
   // True if the value type is null.
   ///
   /*--cef()--*/
   virtual bool IsNull() =0;
+
   ///
   // True if the value type is bool.
   ///
   /*--cef()--*/
   virtual bool IsBool() =0;
+
   ///
   // True if the value type is int.
   ///
   /*--cef()--*/
   virtual bool IsInt() =0;
+
+  ///
+  // True if the value type is unsigned int.
+  ///
+  /*--cef()--*/
+  virtual bool IsUInt() =0;
+
   ///
   // True if the value type is double.
   ///
   /*--cef()--*/
   virtual bool IsDouble() =0;
+
   ///
   // True if the value type is Date.
   ///
   /*--cef()--*/
   virtual bool IsDate() =0;
+
   ///
   // True if the value type is string.
   ///
   /*--cef()--*/
   virtual bool IsString() =0;
+
   ///
   // True if the value type is object.
   ///
   /*--cef()--*/
   virtual bool IsObject() =0;
+
   ///
   // True if the value type is array.
   ///
   /*--cef()--*/
   virtual bool IsArray() =0;
+
   ///
   // True if the value type is function.
   ///
@@ -439,24 +485,35 @@ class CefV8Value : public virtual CefBase {
   ///
   /*--cef()--*/
   virtual bool GetBoolValue() =0;
+
   ///
   // Return an int value.  The underlying data will be converted to if
   // necessary.
   ///
   /*--cef()--*/
-  virtual int GetIntValue() =0;
+  virtual int32 GetIntValue() =0;
+
+  ///
+  // Return an unisgned int value.  The underlying data will be converted to if
+  // necessary.
+  ///
+  /*--cef()--*/
+  virtual uint32 GetUIntValue() =0;
+
   ///
   // Return a double value.  The underlying data will be converted to if
   // necessary.
   ///
   /*--cef()--*/
   virtual double GetDoubleValue() =0;
+
   ///
   // Return a Date value.  The underlying data will be converted to if
   // necessary.
   ///
   /*--cef()--*/
   virtual CefTime GetDateValue() =0;
+
   ///
   // Return a string value.  The underlying data will be converted to if
   // necessary.
@@ -470,10 +527,54 @@ class CefV8Value : public virtual CefBase {
   // interchangably with the framework converting between them as necessary.
 
   ///
+  // Returns true if this is a user created object.
+  ///
+  /*--cef()--*/
+  virtual bool IsUserCreated() =0;
+
+  ///
+  // Returns true if the last method call resulted in an exception. This
+  // attribute exists only in the scope of the current CEF value object.
+  ///
+  /*--cef()--*/
+  virtual bool HasException() =0;
+
+  ///
+  // Returns the exception resulting from the last method call. This attribute
+  // exists only in the scope of the current CEF value object.
+  ///
+  /*--cef()--*/
+  virtual CefRefPtr<CefV8Exception> GetException() =0;
+
+  ///
+  // Clears the last exception and returns true on success.
+  ///
+  /*--cef()--*/
+  virtual bool ClearException() =0;
+
+  ///
+  // Returns true if this object will re-throw future exceptions. This attribute
+  // exists only in the scope of the current CEF value object.
+  ///
+  /*--cef()--*/
+  virtual bool WillRethrowExceptions() =0;
+
+  ///
+  // Set whether this object will re-throw future exceptions. By default
+  // exceptions are not re-thrown. If a exception is re-thrown the current
+  // context should not be accessed again until after the exception has been
+  // caught and not re-thrown. Returns true on success. This attribute exists
+  // only in the scope of the current CEF value object.
+  ///
+  /*--cef()--*/
+  virtual bool SetRethrowExceptions(bool rethrow) =0;
+
+  ///
   // Returns true if the object has a value with the specified identifier.
   ///
   /*--cef(capi_name=has_value_bykey)--*/
   virtual bool HasValue(const CefString& key) =0;
+
   ///
   // Returns true if the object has a value with the specified identifier.
   ///
@@ -481,42 +582,62 @@ class CefV8Value : public virtual CefBase {
   virtual bool HasValue(int index) =0;
 
   ///
-  // Delete the value with the specified identifier.
+  // Deletes the value with the specified identifier and returns true on
+  // success. Returns false if this method is called incorrectly or an exception
+  // is thrown. For read-only and don't-delete values this method will return
+  // true even though deletion failed.
   ///
   /*--cef(capi_name=delete_value_bykey)--*/
   virtual bool DeleteValue(const CefString& key) =0;
+
   ///
-  // Delete the value with the specified identifier.
+  // Deletes the value with the specified identifier and returns true on
+  // success. Returns false if this method is called incorrectly, deletion fails
+  // or an exception is thrown. For read-only and don't-delete values this
+  // method will return true even though deletion failed.
   ///
   /*--cef(capi_name=delete_value_byindex,index_param=index)--*/
   virtual bool DeleteValue(int index) =0;
 
   ///
-  // Returns the value with the specified identifier.
+  // Returns the value with the specified identifier on success. Returns NULL
+  // if this method is called incorrectly or an exception is thrown.
   ///
   /*--cef(capi_name=get_value_bykey)--*/
   virtual CefRefPtr<CefV8Value> GetValue(const CefString& key) =0;
+
   ///
-  // Returns the value with the specified identifier.
+  // Returns the value with the specified identifier on success. Returns NULL
+  // if this method is called incorrectly or an exception is thrown.
   ///
   /*--cef(capi_name=get_value_byindex,index_param=index)--*/
   virtual CefRefPtr<CefV8Value> GetValue(int index) =0;
 
   ///
-  // Associate a value with the specified identifier.
+  // Associates a value with the specified identifier and returns true on
+  // success. Returns false if this method is called incorrectly or an exception
+  // is thrown. For read-only values this method will return true even though
+  // assignment failed.
   ///
   /*--cef(capi_name=set_value_bykey)--*/
   virtual bool SetValue(const CefString& key, CefRefPtr<CefV8Value> value,
                         PropertyAttribute attribute) =0;
+
   ///
-  // Associate a value with the specified identifier.
+  // Associates a value with the specified identifier and returns true on
+  // success. Returns false if this method is called incorrectly or an exception
+  // is thrown. For read-only values this method will return true even though
+  // assignment failed.
   ///
   /*--cef(capi_name=set_value_byindex,index_param=index)--*/
   virtual bool SetValue(int index, CefRefPtr<CefV8Value> value) =0;
 
   ///
-  // Register an identifier whose access will be forwarded to the CefV8Accessor
-  // instance passed to CefV8Value::CreateObject().
+  // Registers an identifier and returns true on success. Access to the
+  // identifier will be forwarded to the CefV8Accessor instance passed to
+  // CefV8Value::CreateObject(). Returns false if this method is called
+  // incorrectly or an exception is thrown. For read-only values this method
+  // will return true even though assignment failed.
   ///
   /*--cef(capi_name=set_value_byaccessor)--*/
   virtual bool SetValue(const CefString& key, AccessControl settings,
@@ -530,7 +651,15 @@ class CefV8Value : public virtual CefBase {
   virtual bool GetKeys(std::vector<CefString>& keys) =0;
 
   ///
-  // Returns the user data, if any, specified when the object was created.
+  // Sets the user data for this object and returns true on success. Returns
+  // false if this method is called incorrectly. This method can only be called
+  // on user created objects.
+  ///
+  /*--cef(optional_param=user_data)--*/
+  virtual bool SetUserData(CefRefPtr<CefBase> user_data) =0;
+
+  ///
+  // Returns the user data, if any, assigned to this object.
   ///
   /*--cef()--*/
   virtual CefRefPtr<CefBase> GetUserData() =0;
@@ -550,7 +679,8 @@ class CefV8Value : public virtual CefBase {
   // external memory associated with it and automatically decreases the global
   // total by the appropriate amount on its destruction. |change_in_bytes|
   // specifies the number of bytes to adjust by. This method returns the number
-  // of bytes associated with the object after the adjustment.
+  // of bytes associated with the object after the adjustment. This method can
+  // only be called on user created objects.
   ///
   /*--cef()--*/
   virtual int AdjustExternallyAllocatedMemory(int change_in_bytes) =0;
@@ -584,35 +714,29 @@ class CefV8Value : public virtual CefBase {
   // be called from within the scope of a CefV8Handler or CefV8Accessor
   // callback, or in combination with calling Enter() and Exit() on a stored
   // CefV8Context reference. |object| is the receiver ('this' object) of the
-  // function. |arguments| is the list of arguments that will be passed to the
-  // function. If execution succeeds |retval| will be set to the function return
-  // value. If execution fails |exception| will be set to the exception that was
-  // thrown. If |rethrow_exception| is true any exception will also be re-
-  // thrown. This method returns false if called incorrectly.
+  // function. If |object| is empty the current context's global object will be
+  // used. |arguments| is the list of arguments that will be passed to the
+  // function. Returns the function return value on success. Returns NULL if
+  // this method is called incorrectly or an exception is thrown.
   ///
   /*--cef(optional_param=object)--*/
-  virtual bool ExecuteFunction(CefRefPtr<CefV8Value> object,
-                               const CefV8ValueList& arguments,
-                               CefRefPtr<CefV8Value>& retval,
-                               CefRefPtr<CefV8Exception>& exception,
-                               bool rethrow_exception) =0;
+  virtual CefRefPtr<CefV8Value> ExecuteFunction(
+      CefRefPtr<CefV8Value> object,
+      const CefV8ValueList& arguments) =0;
 
   ///
   // Execute the function using the specified V8 context. |object| is the
-  // receiver ('this' object) of the function. |arguments| is the list of
-  // arguments that will be passed to the function. If execution succeeds
-  // |retval| will be set to the function return value. If execution fails
-  // |exception| will be set to the exception that was thrown. If
-  // |rethrow_exception| is true any exception will also be re-thrown. This
-  // method returns false if called incorrectly.
+  // receiver ('this' object) of the function. If |object| is empty the
+  // specified context's global object will be used. |arguments| is the list of
+  // arguments that will be passed to the function. Returns the function return
+  // value on success. Returns NULL if this method is called incorrectly or an
+  // exception is thrown.
   ///
   /*--cef(optional_param=object)--*/
-  virtual bool ExecuteFunctionWithContext(CefRefPtr<CefV8Context> context,
-                                          CefRefPtr<CefV8Value> object,
-                                          const CefV8ValueList& arguments,
-                                          CefRefPtr<CefV8Value>& retval,
-                                          CefRefPtr<CefV8Exception>& exception,
-                                          bool rethrow_exception) =0;
+  virtual CefRefPtr<CefV8Value> ExecuteFunctionWithContext(
+      CefRefPtr<CefV8Context> context,
+      CefRefPtr<CefV8Value> object,
+      const CefV8ValueList& arguments) =0;
 };
 
 #endif  // CEF_INCLUDE_CEF_V8_H_
