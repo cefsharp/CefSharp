@@ -303,7 +303,7 @@ namespace WinForms
 
     Object^ WebView::EvaluateScript(String^ script, TimeSpan timeout)
     {
-	    _browserCore->CheckBrowserInitialization();
+        _browserCore->CheckBrowserInitialization();
 
         CefRefPtr<CefBrowser> browser;
         if (TryGetCefBrowser(browser))

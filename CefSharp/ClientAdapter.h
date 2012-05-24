@@ -16,7 +16,8 @@ namespace CefSharp
                           public CefDisplayHandler,
                           public CefV8ContextHandler,
                           public CefMenuHandler,
-                          public CefFocusHandler
+                          public CefFocusHandler,
+                          public CefKeyboardHandler
     {
     private:
         gcroot<IWebBrowser^> _browserControl;
@@ -40,6 +41,7 @@ namespace CefSharp
         virtual CefRefPtr<CefV8ContextHandler> GetV8ContextHandler() OVERRIDE { return this; }
         virtual CefRefPtr<CefMenuHandler> GetMenuHandler() OVERRIDE { return this; }
         virtual CefRefPtr<CefFocusHandler> GetFocusHandler() OVERRIDE { return this; }
+        virtual CefRefPtr<CefKeyboardHandler> GetKeyboardHandler() OVERRIDE { return this; }
 
         // CefLifeSpanHandler
         virtual DECL bool OnBeforePopup(CefRefPtr<CefBrowser> parentBrowser, const CefPopupFeatures& popupFeatures, CefWindowInfo& windowInfo, const CefString& url, CefRefPtr<CefClient>& client, CefBrowserSettings& settings) OVERRIDE;
@@ -49,6 +51,7 @@ namespace CefSharp
         // CefLoadHandler
         virtual DECL void OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame) OVERRIDE;
         virtual DECL void OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode) OVERRIDE;
+        virtual DECL bool OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, ErrorCode errorCode, const CefString& failedUrl, CefString& errorText) OVERRIDE;
 
         // CefRequestHandler
         virtual DECL bool OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, NavType navType, bool isRedirect) OVERRIDE;
@@ -70,6 +73,9 @@ namespace CefSharp
 
         // CefFocusHandler
         virtual DECL void OnTakeFocus(CefRefPtr<CefBrowser> browser, bool next) OVERRIDE;
+
+        // CefKeyboardHandler
+        virtual DECL bool OnKeyEvent(CefRefPtr<CefBrowser> browser, KeyEventType type, int code, int modifiers, bool isSystemKey, bool isAfterJavaScript) OVERRIDE;
 
         IMPLEMENT_LOCKING(ClientAdapter);
         IMPLEMENT_REFCOUNTING(ClientAdapter);

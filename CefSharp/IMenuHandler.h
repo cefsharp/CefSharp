@@ -5,9 +5,9 @@ using namespace System;
 
 namespace CefSharp
 {
-    public interface class IAfterResponse
+    public interface class IMenuHandler
     {
     public:
-        void HandleSetCookie(String^ cookie);
+        bool OnBeforeMenu(IWebBrowser^ browser);
     };
 }
