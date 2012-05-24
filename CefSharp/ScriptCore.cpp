@@ -36,25 +36,13 @@ namespace CefSharp
 
             if (context.get() && context->Enter())
             {
-                CefRefPtr<CefV8Value> global = context->GetGlobal();
-                CefRefPtr<CefV8Value> eval = global->GetValue("eval");
-                CefRefPtr<CefV8Value> arg = CefV8Value::CreateString(script);
                 CefRefPtr<CefV8Value> result;
                 CefRefPtr<CefV8Exception> exception;
 
-                CefV8ValueList args;
-                args.push_back(arg);
-
-                result = eval->ExecuteFunctionWithContext(context, global, args);
-
-                if (result == nullptr)
+                bool success = context->Eval(script, result, exception);
+                if (success)
                 {
-                    // XXX
-                    _exceptionMessage = "Error";
-                }
-                else
-                {
-                    try
+                   try
                     {
                         _result = convertFromCef(result);
                     }
@@ -62,6 +50,14 @@ namespace CefSharp
                     {
                         _exceptionMessage = ex->Message;
                     }
+                }
+                else if (exception.get())
+                {
+                    _exceptionMessage = toClr(exception->GetMessage());
+                }
+                else
+                {
+                    _exceptionMessage = "Failed to evaluate script";
                 }
 
                 context->Exit();
