@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #pragma once
 
+#include "BrowserCore.h"
 #include "ConsoleMessageEventArgs.h"
 
 using namespace System;
@@ -36,6 +37,8 @@ namespace CefSharp
         property IRequestHandler^ RequestHandler;
         property IMenuHandler^ MenuHandler;
         property IKeyboardHandler^ KeyboardHandler;
+
+        property BrowserCore^ Core { BrowserCore^ get(); }
 
         void OnInitialized();
 
