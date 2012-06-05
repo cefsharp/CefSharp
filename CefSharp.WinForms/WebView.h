@@ -146,6 +146,11 @@ namespace WinForms
             void set(IKeyboardHandler^ handler) { _browserCore->KeyboardHandler = handler; }
         }
 
+        virtual property BrowserCore^ Core
+        {
+            BrowserCore^ get() { return _browserCore; }
+        }
+
         virtual void OnInitialized();
 
         virtual void Load(String^ url);

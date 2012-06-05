@@ -12,6 +12,16 @@ namespace CefSharp
         }
     }
 
+    void BrowserCore::RegisterJsObject(String^ name, Object^ objectToBind)
+    {
+        _boundObjects[name] = objectToBind;
+    }
+
+    IDictionary<String^, Object^>^ BrowserCore::GetBoundObjects()
+    {
+        return _boundObjects;
+    }
+
     void BrowserCore::SetNavState(bool isLoading, bool canGoBack, bool canGoForward)
     {
         if(isLoading != _isLoading) 

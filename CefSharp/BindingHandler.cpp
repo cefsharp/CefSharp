@@ -137,7 +137,7 @@ namespace CefSharp
         String^ memberName = toClr(name);
         Type^ type = self->GetType();
         array<System::Reflection::MemberInfo^>^ members = type->GetMember(memberName, MemberTypes::Method, 
-            /* BindingFlags::IgnoreCase |*/ BindingFlags::Instance | BindingFlags::Public);
+            BindingFlags::Instance | BindingFlags::Public);
 
         if(members->Length == 0)
         {
