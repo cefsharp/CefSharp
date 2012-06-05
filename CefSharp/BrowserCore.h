@@ -5,6 +5,7 @@
 #include "RtzCountdownEvent.h"
 
 using namespace System::ComponentModel;
+using namespace System::Collections::Generic;
 
 namespace CefSharp
 {
@@ -37,6 +38,8 @@ namespace CefSharp
         IMenuHandler^ _menuHandler;
         IKeyboardHandler^ _keyboardHandler;
 
+        IDictionary<String^, Object^>^ _boundObjects;
+
     public:
         virtual event PropertyChangedEventHandler^ PropertyChanged;
 
@@ -44,6 +47,7 @@ namespace CefSharp
         {
             _loadCompleted = gcnew RtzCountdownEvent();
             _address = address;
+            _boundObjects = gcnew Dictionary<String^, Object^>();
         }
 
         property bool IsBrowserInitialized
@@ -170,11 +174,16 @@ namespace CefSharp
 
         void CheckBrowserInitialization();
 
+        void RegisterJsObject(String^ name, Object^ objectToBind);
+
         void SetNavState(bool isLoading, bool canGoBack, bool canGoForward);
 
         void OnInitialized();
         void OnLoad();
         void OnFrameLoadStart();
         void OnFrameLoadEnd();
+
+    internal:
+        IDictionary<String^, Object^>^ GetBoundObjects();
     };
 }
