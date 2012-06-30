@@ -5,6 +5,7 @@
 #include "ScriptCore.h"
 
 using namespace System;
+using namespace System::Collections::Generic;
 using namespace System::ComponentModel;
 using namespace System::Windows::Forms;
 
@@ -28,7 +29,6 @@ namespace WinForms
         virtual void OnHandleCreated(EventArgs^ e) override;
         virtual void OnSizeChanged(EventArgs^ e) override;
         virtual void OnGotFocus(EventArgs^ e) override;
-
 
     public:
         virtual event PropertyChangedEventHandler^ PropertyChanged
@@ -183,5 +183,8 @@ namespace WinForms
         virtual void OnFrameLoadEnd();
         virtual void OnTakeFocus(bool next);
         virtual void OnConsoleMessage(String^ message, String^ source, int line);
+
+        virtual void RegisterJsObject(String^ name, Object^ objectToBind);
+        virtual IDictionary<String^, Object^>^ GetBoundObjects();
     };
 }}

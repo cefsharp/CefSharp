@@ -341,4 +341,14 @@ namespace WinForms
     {
         SelectNextControl(this, next, true, true, true);
     }
+
+    void WebView::RegisterJsObject(String^ name, Object^ objectToBind)
+    {
+        _browserCore->RegisterJsObject(name, objectToBind);
+    }
+
+    IDictionary<String^, Object^>^ WebView::GetBoundObjects()
+    {
+        return _browserCore->GetBoundObjects();
+    }
 }}

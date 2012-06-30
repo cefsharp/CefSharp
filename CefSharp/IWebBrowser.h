@@ -38,8 +38,6 @@ namespace CefSharp
         property IMenuHandler^ MenuHandler;
         property IKeyboardHandler^ KeyboardHandler;
 
-        property BrowserCore^ Core { BrowserCore^ get(); }
-
         void OnInitialized();
 
         void Load(String^ url);
@@ -68,5 +66,8 @@ namespace CefSharp
         void OnFrameLoadEnd();
         void OnTakeFocus(bool next);
         void OnConsoleMessage(String^ message, String^ source, int line);
+
+        void RegisterJsObject(String^ name, Object^ objectToBind);
+        IDictionary<String^, Object^>^ GetBoundObjects();
     };
 }

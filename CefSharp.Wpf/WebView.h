@@ -6,6 +6,7 @@
     
 using namespace Microsoft::Win32::SafeHandles;
 using namespace System;
+using namespace System::Collections::Generic;
 using namespace System::ComponentModel;
 using namespace System::Runtime::InteropServices;
 using namespace System::Windows;
@@ -220,6 +221,9 @@ namespace Wpf
         virtual void OnFrameLoadEnd();
         virtual void OnTakeFocus(bool next);
         virtual void OnConsoleMessage(String^ message, String^ source, int line);
+
+        virtual void RegisterJsObject(String^ name, Object^ objectToBind);
+        virtual IDictionary<String^, Object^>^ GetBoundObjects();
 
         virtual void OnApplyTemplate() override;
         virtual void SetCursor(CefCursorHandle cursor);
