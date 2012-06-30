@@ -537,6 +537,16 @@ namespace Wpf
         ConsoleMessage(this, gcnew ConsoleMessageEventArgs(message, source, line));
     }
 
+    void WebView::RegisterJsObject(String^ name, Object^ objectToBind)
+    {
+        _browserCore->RegisterJsObject(name, objectToBind);
+    }
+
+    IDictionary<String^, Object^>^ WebView::GetBoundObjects()
+    {
+        return _browserCore->GetBoundObjects();
+    }
+
     void WebView::OnFrameLoadStart()
     {
         _browserCore->OnFrameLoadStart();

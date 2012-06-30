@@ -226,7 +226,7 @@ namespace CefSharp
             BindingHandler::Bind(kvp->Key, kvp->Value, context->GetGlobal());
         }
 
-        for each(KeyValuePair<String^, Object^>^ kvp in _browserControl->Core->GetBoundObjects())
+        for each(KeyValuePair<String^, Object^>^ kvp in _browserControl->GetBoundObjects())
         {
             BindingHandler::Bind(kvp->Key, kvp->Value, context->GetGlobal());
         }

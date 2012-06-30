@@ -175,6 +175,7 @@ namespace CefSharp
         void CheckBrowserInitialization();
 
         void RegisterJsObject(String^ name, Object^ objectToBind);
+        IDictionary<String^, Object^>^ GetBoundObjects();
 
         void SetNavState(bool isLoading, bool canGoBack, bool canGoForward);
 
@@ -182,8 +183,5 @@ namespace CefSharp
         void OnLoad();
         void OnFrameLoadStart();
         void OnFrameLoadEnd();
-
-    internal:
-        IDictionary<String^, Object^>^ GetBoundObjects();
     };
 }
