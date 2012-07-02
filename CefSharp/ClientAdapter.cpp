@@ -112,7 +112,7 @@ namespace CefSharp
             _browserControl->SetNavState(true, false, false);
         }
 
-        _browserControl->OnFrameLoadStart();
+        _browserControl->OnFrameLoadStart(toClr(frame->GetURL()));
     }
 
     void ClientAdapter::OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode)
@@ -128,7 +128,7 @@ namespace CefSharp
             _browserControl->SetNavState(false, browser->CanGoBack(), browser->CanGoForward());
         }
 
-        _browserControl->OnFrameLoadEnd();
+        _browserControl->OnFrameLoadEnd(toClr(frame->GetURL()));
     }
 
     bool ClientAdapter::OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, ErrorCode errorCode, const CefString& failedUrl, CefString& errorText)

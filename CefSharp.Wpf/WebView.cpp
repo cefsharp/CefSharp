@@ -544,14 +544,17 @@ namespace Wpf
         return _browserCore->GetBoundObjects();
     }
 
-    void WebView::OnFrameLoadStart()
+    void WebView::OnFrameLoadStart(String^ url)
     {
         _browserCore->OnFrameLoadStart();
     }
 
-    void WebView::OnFrameLoadEnd()
+    void WebView::OnFrameLoadEnd(String^ url)
     {
         _browserCore->OnFrameLoadEnd();
+
+        LoadCompletedEventArgs^ args = gcnew LoadCompletedEventArgs(url);
+        LoadCompleted(this, args);
     }
 
     void WebView::OnTakeFocus(bool next)

@@ -319,6 +319,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\LoadCompletedEventArgs.h"
+				>
+			</File>
+			<File
 				RelativePath=".\MCefRefPtr.h"
 				>
 			</File>
