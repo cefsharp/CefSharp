@@ -7,12 +7,12 @@ namespace CefSharp
 {
     void RenderClientAdapter::OnPopupShow(CefRefPtr<CefBrowser> browser, bool show)
     {
-
+		_renderBrowserControl->SetPopupIsOpen(show);
     }
 
     void RenderClientAdapter::OnPopupSize(CefRefPtr<CefBrowser> browser, const CefRect& rect)
     {
-
+		_renderBrowserControl->SetPopupSizeAndPosition(rect);
     }
 
     void RenderClientAdapter::OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects, const void* buffer)
@@ -26,7 +26,10 @@ namespace CefSharp
         }
         else if (type == PET_POPUP)
         {
-            // XXX
+            int width, height;
+            browser->GetSize(type, width, height);
+
+            _renderBrowserControl->SetPopupBuffer(width, height, buffer);
         }
     }
 
