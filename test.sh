@@ -1,6 +1,7 @@
 #!/bin/sh
 
 CONF=$1
+PATH=./$CONF:$PWD/Release:$PATH
 
 for dll in `ls $CONF/*.Test.dll`
 do
