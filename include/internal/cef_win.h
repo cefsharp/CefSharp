@@ -71,7 +71,6 @@ class CefCriticalSection {
 #define CefWindowHandle cef_window_handle_t
 #define CefCursorHandle cef_cursor_handle_t
 
-
 struct CefWindowInfoTraits {
   typedef cef_window_info_t struct_type;
 
@@ -161,6 +160,26 @@ struct CefPrintInfoTraits {
 // Class representing print context information.
 ///
 typedef CefStructBase<CefPrintInfoTraits> CefPrintInfo;
+
+
+struct CefKeyInfoTraits {
+  typedef cef_key_info_t struct_type;
+
+  static inline void init(struct_type* s) {}
+  static inline void clear(struct_type* s) {}
+
+  static inline void set(const struct_type* src, struct_type* target,
+      bool copy) {
+    target->key = src->key;
+    target->sysChar = src->sysChar;
+    target->imeChar = src->imeChar;
+  }
+};
+
+///
+// Class representing key information.
+///
+typedef CefStructBase<CefKeyInfoTraits> CefKeyInfo;
 
 #endif  // OS_WIN
 

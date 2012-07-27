@@ -119,15 +119,17 @@ namespace Wpf
             else if (message == WM_KEYUP || message == WM_SYSKEYUP)
                 type = KT_KEYUP;
 
-            bool sysChar =
+            CefKeyInfo keyInfo;
+            keyInfo.key =
+                wParam.ToInt32();
+            keyInfo.sysChar =
                 message == WM_SYSKEYDOWN ||
                 message == WM_SYSKEYUP ||
                 message == WM_SYSCHAR;
-
-            bool imeChar =
+            keyInfo.imeChar =
                 message == WM_IME_CHAR;
 
-            browser->SendKeyEvent(type, wParam.ToInt32(), lParam.ToInt32(), sysChar, imeChar);
+            browser->SendKeyEvent(type, keyInfo, lParam.ToInt32());
             handled = true;
         }
 
@@ -183,8 +185,9 @@ namespace Wpf
             e->Key >= Key::Left && e->Key <= Key::Down)
         {
             CefBrowser::KeyType type = e->IsDown ? KT_KEYDOWN : KT_KEYUP;
-            int key = KeyInterop::VirtualKeyFromKey(e->Key);
-            browser->SendKeyEvent(type, key, 0, false, false);
+            CefKeyInfo keyInfo;
+            keyInfo.key = KeyInterop::VirtualKeyFromKey(e->Key);
+            browser->SendKeyEvent(type, keyInfo, 0);
 
             e->Handled = true;
         }
@@ -282,7 +285,7 @@ namespace Wpf
         if (TryGetCefBrowser(browser))
         {
             Point point = e->GetPosition(this);
-            browser->SendMouseWheelEvent((int)point.X, (int)point.Y, e->Delta);
+            browser->SendMouseWheelEvent((int)point.X, (int)point.Y, 0, e->Delta);
         }
     }
 
