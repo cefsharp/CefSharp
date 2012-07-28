@@ -34,22 +34,23 @@ namespace Wpf
         BrowserCore^ _browserCore;
         MCefRefPtr<ScriptCore> _scriptCore;
 		
-        Popup^ _popup;
-		
-        Image^ _popupImage;
-        Image^ _image;
         Matrix^ _matrix;
         ::ToolTip^ _toolTip;
+        Popup^ _popup;
         DispatcherTimer^ _timer;
 
-        int _width, _height, _popupWidth, _popupHeight, _popupX, _popupY;
+        Image^ _image;
+        int _width, _height;
         InteropBitmap^ _ibitmap;
-        InteropBitmap^ _popupIbitmap;
 		HANDLE _fileMappingHandle, _backBufferHandle;
-		HANDLE _popupFileMappingHandle, _popupBackBufferHandle;
-		ActionHandler^ _resizePopupDelegate;
 		ActionHandler^ _paintDelegate;
-		ActionHandler^ _paintPopupDelegate;
+        
+        Image^ _popupImage;
+        int _popupWidth, _popupHeight, _popupX, _popupY;
+        InteropBitmap^ _popupIbitmap;
+        HANDLE _popupFileMappingHandle, _popupBackBufferHandle;
+        ActionHandler^ _paintPopupDelegate;
+        ActionHandler^ _resizePopupDelegate;
 
         void Initialize(String^ address, BrowserSettings^ settings);
         bool TryGetCefBrowser(CefRefPtr<CefBrowser>& browser);
@@ -61,20 +62,17 @@ namespace Wpf
         IntPtr SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, bool% handled);
 		void SetBitmap();
 
-		void SetBuffer(int& currentWidth, int& currentHeight,
-							int width, int height, 
-							HANDLE& fileMappingHandle, 
-							HANDLE& backBufferHandle, 
-							InteropBitmap^& ibitmap,
-							ActionHandler^ paintDelegate,
-							const void* buffer);
+        void SetBuffer(int& currentWidth, int& currentHeight, int width, int height,
+                       HANDLE& fileMappingHandle, HANDLE& backBufferHandle,
+                       InteropBitmap^& ibitmap, ActionHandler^ paintDelegate,
+                       const void* buffer);
 
-		void SetPopupBitmap();
+        void SetPopupBitmap();
         void OnPreviewKey(KeyEventArgs^ e);
         void OnMouseButton(MouseButtonEventArgs^ e);
 
-		void ShowHidePopup(bool isOpened);
-		void SetPopupSizeAndPositionImpl();
+        void ShowHidePopup(bool isOpened);
+        void SetPopupSizeAndPositionImpl();
 		
         void OnPopupMouseMove(Object^ sender, MouseEventArgs^ e);
         void OnPopupMouseWheel(Object^ sender,MouseWheelEventArgs^ e) ;
@@ -82,7 +80,7 @@ namespace Wpf
         void OnPopupMouseUp(Object^ sender, MouseButtonEventArgs^ e) ;
         void OnPopupMouseLeave(Object^ sender, MouseEventArgs^ e) ;
         void OnWindowLocationChanged(Object^ sender, EventArgs^ e) ;
-		void HidePopup();
+        void HidePopup();
 		
     protected:
         virtual Size ArrangeOverride(Size size) override;
@@ -259,8 +257,8 @@ namespace Wpf
         virtual void SetBuffer(int width, int height, const void* buffer);
         virtual void SetPopupBuffer(int width, int height, const void* buffer);
 
-		virtual void SetPopupIsOpen(bool isOpen);
-		virtual void SetPopupSizeAndPosition(const CefRect& rect);
+        virtual void SetPopupIsOpen(bool isOpen);
+        virtual void SetPopupSizeAndPosition(const CefRect& rect);
 
     };
 }}

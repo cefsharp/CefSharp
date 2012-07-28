@@ -7,12 +7,12 @@ namespace CefSharp
 {
     void RenderClientAdapter::OnPopupShow(CefRefPtr<CefBrowser> browser, bool show)
     {
-		_renderBrowserControl->SetPopupIsOpen(show);
+        _renderBrowserControl->SetPopupIsOpen(show);
     }
 
     void RenderClientAdapter::OnPopupSize(CefRefPtr<CefBrowser> browser, const CefRect& rect)
     {
-		_renderBrowserControl->SetPopupSizeAndPosition(rect);
+        _renderBrowserControl->SetPopupSizeAndPosition(rect);
     }
 
     void RenderClientAdapter::OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects, const void* buffer)
