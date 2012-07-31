@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- TODO detect platform and fail for !x86 -->
+  <ItemGroup>
+    <BinData Include="$(MSBuildThisFileDirectory)bin\x86\**" />
+  </ItemGroup>
+
+  <!-- TODO copy only if project output is executable -->
+  <Target Name="CopyBinFiles"
+          Inputs="@(BinData)"
+          Outputs="@(BinData -> '$(TargetDir)%(RecursiveDir)%(Filename)%(Extension)')">
+    <Message Text="[CefSharp] Copying: %(BinData.Identity) -> @(BinData -> '$(TargetDir)%(RecursiveDir)%(Filename)%(Extension)')" Importance="high" />
+    <Copy SourceFiles="@(BinData)" DestinationFiles="@(BinData -> '$(TargetDir)%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
+
+  <Target Name="CleanBinFiles">
+    <Delete Files="@(BinData -> '$(TargetDir)%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
+
+  <Target Name="PostBuild" DependsOnTargets="CopyBinFiles" />
+  <Target Name="PostClean" DependsOnTargets="CleanBinFiles" />
+  
+</Project>

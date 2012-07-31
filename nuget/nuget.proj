@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="BuildPackage" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <Configuration>Debug</Configuration>
+    <SrcDir>..\$(Configuration)\</SrcDir>
+    <OutDir>Output</OutDir>
+    <NuSpec Condition="'$(NuSpec)'==''">CefSharp.nuspec</NuSpec>
+  </PropertyGroup>
+
+  <!-- TODO separate packages for devtools and multimedia  -->
+  <!-- https://groups.google.com/forum/#!topic/cefsharp/sgQY_9omyd4 -->
+  <ItemGroup>
+    <CefCoreNativeLib Include="libcef.dll;icudt.dll" />
+    <CefCoreAssembly Include="CefSharp.dll;CefSharp.WinForms.dll;CefSharp.WPF.dll" />
+    <CefDevTools Include="chrome.pak;" />
+    <!-- expanding it later will lose .RecursiveDir metadata due to a bug in CreateItem -->
+    <!--<CefDevTools Include="locales\%2A%2A" /--><!-- %2A == '*' -->
+    <CefMediaNativeLib Include="avcodec-54.dll;avformat-54.dll;avutil-51.dll;libEGL.dll;libGLESv2.dll" />
+    <CefDxLibs Include="d3dcompiler_43.dll;d3dx9_43.dll" /><!-- only for media ? -->
+    <CefDoc Include="CefSharp.xml" />
+
+    <CefAllNativeLib Include="@(CefCoreNativeLib);@(CefMediaNativeLib);@(CefDxLibs)" />
+  </ItemGroup>
+  <ItemGroup>
+    <BinAssemblies Include="@(CefCoreAssembly -> '$(SrcDir)%(Identity)')" />
+    <BinRest Include="@(BinAssemblies -> '%(RelativeDir)%(Filename).pdb')" />
+    <_BinRest Include="@(CefDoc)" />
+    <_BinRest Include="@(CefAllNativeLib);@(CefDevTools)" />
+    <BinRest Include="@(_BinRest -> '$(SrcDir)%(Identity)')" />
+    <BinLocales Include="$(SrcDir)locales\**" />
+    <Tools Include="tools\**" />
+  </ItemGroup>
+
+  <Target Name="BuildPackage" DependsOnTargets="CleanPackage">
+    <Message Text="BinAssemblies %(BinAssemblies.Identity)" />
+    <Message Text="BinRest %(BinRest.Identity)" />
+    <Copy SourceFiles="@(BinAssemblies)" DestinationFolder="$(OutDir)\lib\net40" />
+    <Copy SourceFiles="@(BinRest)"
+          DestinationFiles="$(OutDir)\tools\bin\x86\%(RecursiveDir)%(Filename)%(Extension)" />
+    <Copy SourceFiles="@(BinLocales)"
+          DestinationFiles="$(OutDir)\tools\bin\x86\locales\%(RecursiveDir)%(Filename)%(Extension)" />
+    <Copy SourceFiles="@(Tools)" DestinationFolder="$(OutDir)\tools\%(RecursiveDir)" />
+    <Exec Command="nuget pack $(NuSpec) -BasePath $(OutDir)" />
+  </Target>
+
+  <Target Name="CleanPackage">
+    <RemoveDir Directories="$(OutDir)" />
+  </Target>
+  
+</Project>
