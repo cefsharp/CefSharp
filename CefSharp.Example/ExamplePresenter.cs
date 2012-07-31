@@ -6,7 +6,7 @@ using System.Text;
 
 namespace CefSharp.Example
 {
-    public class ExamplePresenter : IRequestHandler
+    public class ExamplePresenter : IRequestHandler, ICookieVisitor
     {
         public static void Init()
         {
@@ -76,6 +76,7 @@ namespace CefSharp.Example
             view.TestTooltipActivated += view_TestTooltipActivated;
             view.TestPopupActivated += view_TestPopupActivated;
             view.TestLoadStringActivated += view_TestLoadStringActivated;
+            view.TestCookieVisitorActivated += view_TestCookieVisitorActivated;
 
             // navigation
             view.UrlActivated += view_UrlActivated;
@@ -237,6 +238,11 @@ namespace CefSharp.Example
             model.LoadHtml(string.Format("<html><body><a href='{0}'>CefSharp Home</a></body></html>", home_url));
         }
 
+        private void view_TestCookieVisitorActivated(object sender, EventArgs e)
+        {
+            CEF.VisitAllCookies(this);
+        }
+
         private void view_UrlActivated(object sender, string url)
         {
             model.Load(url);
@@ -275,6 +281,16 @@ namespace CefSharp.Example
         void IRequestHandler.OnResourceResponse(IWebBrowser browser, string url, int status, string statusText, string mimeType, WebHeaderCollection headers)
         {
 
+        }
+
+        #endregion
+
+        #region ICookieVisitor Members
+
+        bool ICookieVisitor.Visit(Cookie cookie, int count, int total, ref bool deleteCookie)
+        {
+            Console.WriteLine("Cookie #{0}: {1}", count, cookie.Name);
+            return true;
         }
 
         #endregion

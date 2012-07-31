@@ -62,6 +62,7 @@
             this.testTooltipMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testPopupMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testLoadStringMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testCookieVisitorMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer.ContentPanel.SuspendLayout();
             this.toolStripContainer.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer.SuspendLayout();
@@ -276,7 +277,8 @@
             this.testConsoleMessageMenuItem,
             this.testTooltipMenuItem,
             this.testPopupMenuItem,
-            this.testLoadStringMenuItem});
+            this.testLoadStringMenuItem,
+            this.testCookieVisitorMenuItem});
             this.testsToolStripMenuItem.Name = "testsToolStripMenuItem";
             this.testsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.testsToolStripMenuItem.Text = "Tests";
@@ -334,6 +336,12 @@
             this.testLoadStringMenuItem.Name = "testLoadStringMenuItem";
             this.testLoadStringMenuItem.Size = new System.Drawing.Size(254, 22);
             this.testLoadStringMenuItem.Text = "Test Load String";
+            // 
+            // testCookieVisitorMenuItem
+            // 
+            this.testCookieVisitorMenuItem.Name = "testCookieVisitorMenuItem";
+            this.testCookieVisitorMenuItem.Size = new System.Drawing.Size(254, 22);
+            this.testCookieVisitorMenuItem.Text = "Test Cookie Visitor";
             // 
             // Browser
             // 
@@ -396,6 +404,7 @@
         private System.Windows.Forms.ToolStripMenuItem showDevToolsMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeDevToolsMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem testCookieVisitorMenuItem;
 
     }
 }

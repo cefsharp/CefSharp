@@ -30,7 +30,8 @@
                 <MenuItem Header="Test Console Message" Name="testConsoleMessageMenuItem" Click="control_Activated" />
                 <MenuItem Header="Test Tooltip" Name="testTooltipMenuItem" Click="control_Activated" />
                 <MenuItem Header="Test Popup" Name="testPopupMenuItem" Click="control_Activated" />
-                <MenuItem Header="Test Load String" Name="testLoadStringItem" Click="control_Activated" />
+                <MenuItem Header="Test Load String" Name="testLoadStringMenuItem" Click="control_Activated" />
+                <MenuItem Header="Test Cookie Visitor" Name="testCookieVisitorMenuItem" Click="control_Activated" />
             </MenuItem>
         </Menu>
         <DockPanel VerticalAlignment="Top" DockPanel.Dock="Top">

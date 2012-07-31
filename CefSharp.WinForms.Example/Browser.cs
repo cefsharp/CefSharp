@@ -120,6 +120,11 @@ namespace CefSharp.WinForms.Example
             remove { testLoadStringMenuItem.Click -= value; }
         }
 
+        public event EventHandler TestCookieVisitorActivated
+        {
+            add { testCookieVisitorMenuItem.Click += value; }
+            remove { testCookieVisitorMenuItem.Click -= value; }
+        }
 
         public event Action<object, string> UrlActivated;
 
