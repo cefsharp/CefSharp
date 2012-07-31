@@ -34,7 +34,9 @@ namespace Wpf
         BrowserCore^ _browserCore;
         MCefRefPtr<ScriptCore> _scriptCore;
 		
+        HwndSource^ _source;
         Matrix^ _matrix;
+        HwndSourceHook^ _hook;
         ::ToolTip^ _toolTip;
         Popup^ _popup;
         DispatcherTimer^ _timer;
@@ -124,6 +126,11 @@ namespace Wpf
 
         ~WebView()
         {
+            if (_source && _hook)
+            {
+                _source->RemoveHook(_hook);
+            }
+
             CefRefPtr<CefBrowser> browser;
             if (TryGetCefBrowser(browser))
             {

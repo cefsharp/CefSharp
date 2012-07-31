@@ -597,17 +597,19 @@ namespace Wpf
 
         _clientAdapter = new RenderClientAdapter(this);
 
-        HwndSource^ source = (HwndSource^)PresentationSource::FromVisual(this);
-        HWND hwnd = static_cast<HWND>(source->Handle.ToPointer());
+        _source = (HwndSource^)PresentationSource::FromVisual(this);
+        _matrix = _source->CompositionTarget->TransformToDevice;
 
+        _hook = gcnew Interop::HwndSourceHook(this, &WebView::SourceHook);
+        _source->AddHook(_hook);
+
+        HWND hwnd = static_cast<HWND>(_source->Handle.ToPointer());
         CefWindowInfo window;
         window.SetAsOffScreen(hwnd);
         CefString url = toNative(_browserCore->Address);
 
         CefBrowser::CreateBrowser(window, _clientAdapter.get(),
             url, *_settings->_browserSettings);
-
-        source->AddHook(gcnew Interop::HwndSourceHook(this, &WebView::SourceHook));
 
         Content = _image = gcnew Image();
 
@@ -634,8 +636,6 @@ namespace Wpf
         _popupImage->Stretch = Stretch::None;
         _popupImage->HorizontalAlignment = ::HorizontalAlignment::Left;
         _popupImage->VerticalAlignment = ::VerticalAlignment::Top;
-
-        _matrix = source->CompositionTarget->TransformToDevice;
     }
 
     void WebView::SetCursor(CefCursorHandle cursor)
