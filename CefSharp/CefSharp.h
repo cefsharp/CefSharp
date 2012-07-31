@@ -7,6 +7,7 @@
 #include "include/cef_runnable.h"
 #include "include/cef_version.h"
 #include "include/cef_task.h"
+#include "CookieVisitor.h"
 #include "Settings.h"
 #include "SchemeHandler.h"
 #include "StringUtil.h"
@@ -117,6 +118,13 @@ namespace CefSharp
         {
             _boundObjects[name] = objectToBind;
             return true;
+        }
+
+        static bool VisitAllCookies(ICookieVisitor^ visitor)
+        {
+            CefRefPtr<CookieVisitor> cookieVisitor = new CookieVisitor(visitor);
+            return CefCookieManager::GetGlobalManager()->
+                VisitAllCookies(static_cast<CefRefPtr<CefCookieVisitor>>(cookieVisitor));
         }
 
         static bool SetCookie(String^ url, String^ name, String^ value, String^ domain, String^ path, bool secure, bool httponly, bool has_expires, DateTime expires)

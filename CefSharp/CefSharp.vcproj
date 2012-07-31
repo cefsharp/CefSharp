@@ -205,6 +205,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CookieVisitor.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\RenderClientAdapter.cpp"
 				>
 			</File>
@@ -288,6 +292,14 @@
 			</File>
 			<File
 				RelativePath=".\ConsoleMessageEventArgs.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CookieVisitor.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ICookieVisitor.h"
 				>
 			</File>
 			<File
