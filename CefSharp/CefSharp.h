@@ -127,6 +127,13 @@ namespace CefSharp
                 VisitAllCookies(static_cast<CefRefPtr<CefCookieVisitor>>(cookieVisitor));
         }
 
+        static bool VisitUrlCookies(String^ url, bool includeHttpOnly, ICookieVisitor^ visitor)
+        {
+            CefRefPtr<CookieVisitor> cookieVisitor = new CookieVisitor(visitor);
+            return CefCookieManager::GetGlobalManager()->
+                VisitUrlCookies(toNative(url), includeHttpOnly, static_cast<CefRefPtr<CefCookieVisitor>>(cookieVisitor));
+        }
+
         static bool SetCookie(String^ url, String^ name, String^ value, String^ domain, String^ path, bool secure, bool httponly, bool has_expires, DateTime expires)
         {
             msclr::lock l(_sync);
