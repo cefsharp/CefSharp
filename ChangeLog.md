@@ -1,3 +1,13 @@
+###### 1.19.0
+August 1, 2012, Chromium 19.0.1084.9
+
+- Updated all extension point interfaces to match their CEF names (ILoadHandler, IRequestHandler, etc).
+- Add per-browser RegisterJSObject() method.
+- WPF: WebView supports popups.
+- WPF: remove source hook on dispose.
+- Expose all CefSetCookie() parameters.
+- Added VisitAllCookies() and VisitUrlCookies().
+
 ###### 0.11
 April 10, 2012, Chromium 20.0.1092.0
 
