@@ -61,20 +61,6 @@ typedef long long           int64;  // NOLINT(runtime/int)
 typedef unsigned long long  uint64;  // NOLINT(runtime/int)
 #endif
 
-// TODO: Remove these type guards.  These are to avoid conflicts with
-// obsolete/protypes.h in the Gecko SDK.
-#ifndef _INT32
-#define _INT32
-typedef int                 int32;
-#endif
-
-// TODO: Remove these type guards.  These are to avoid conflicts with
-// obsolete/protypes.h in the Gecko SDK.
-#ifndef _UINT32
-#define _UINT32
-typedef unsigned int       uint32;
-#endif
-
 #ifdef __cplusplus
 extern "C" {
 #endif

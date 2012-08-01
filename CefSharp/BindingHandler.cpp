@@ -251,8 +251,7 @@ namespace CefSharp
         CefRefPtr<CefBase> userData = static_cast<CefRefPtr<CefBase>>(bindingData);
 
         // create the javascript object and associate the wrapped object
-        CefRefPtr<CefV8Value> wrappedObject = window->CreateObject(NULL);
-        wrappedObject->SetUserData(userData);
+        CefRefPtr<CefV8Value> wrappedObject = window->CreateObject(userData, NULL);
 
         // build a list of methods on the bound object
         array<MethodInfo^>^ methods = obj->GetType()->GetMethods(BindingFlags::Instance | BindingFlags::Public);
