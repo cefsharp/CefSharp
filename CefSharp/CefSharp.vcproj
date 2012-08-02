@@ -199,6 +199,7 @@
 			<File
 				RelativePath=".\BrowserCore.cpp"
 				>
+			</File>
 			<File
 				RelativePath=".\BrowserSettings.cpp"
 				>
