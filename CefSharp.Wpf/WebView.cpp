@@ -609,7 +609,7 @@ namespace Wpf
         CefString url = toNative(_browserCore->Address);
 
         CefBrowser::CreateBrowser(window, _clientAdapter.get(),
-            url, *_settings->_browserSettings);
+            url, *(CefBrowserSettings*)_settings->_internalBrowserSettings);
 
         Content = _image = gcnew Image();
 
