@@ -34,6 +34,7 @@ namespace Wpf
         BrowserCore^ _browserCore;
         MCefRefPtr<ScriptCore> _scriptCore;
 		
+        Object^ _sync;
         HwndSource^ _source;
         Matrix^ _matrix;
         HwndSourceHook^ _hook;

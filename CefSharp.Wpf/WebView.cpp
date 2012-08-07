@@ -1,3 +1,6 @@
+#include "stdafx.h"
+
+#include <msclr/lock.h>
 #include "WebView.h"
 
 namespace CefSharp
@@ -17,6 +20,7 @@ namespace Wpf
         IsTabStop = true;
 
         _settings = settings;
+        _sync = gcnew Object();
 
         _browserCore = gcnew BrowserCore(address);
         _browserCore->PropertyChanged +=
@@ -138,21 +142,22 @@ namespace Wpf
 
     void WebView::SetBitmap()
     {
-		InteropBitmap^ bitmap = _ibitmap;
+        InteropBitmap^ bitmap = _ibitmap;
+        msclr::lock l(_sync);
 
-		if(bitmap == nullptr) 
-		{
-			_image->Source = nullptr;
-			GC::Collect(1);
+        if(bitmap == nullptr) 
+        {
+            _image->Source = nullptr;
+            GC::Collect(1);
 
-			int stride = _width * PixelFormats::Bgr32.BitsPerPixel / 8;
+            int stride = _width * PixelFormats::Bgr32.BitsPerPixel / 8;
             bitmap = (InteropBitmap^)Interop::Imaging::CreateBitmapSourceFromMemorySection(
                 (IntPtr)_fileMappingHandle, _width, _height, PixelFormats::Bgr32, stride, 0);
-			_image->Source = bitmap;
-			_ibitmap = bitmap;
-		}
+            _image->Source = bitmap;
+            _ibitmap = bitmap;
+        }
 
-		bitmap->Invalidate();
+        bitmap->Invalidate();
     }
 
     void WebView::SetPopupBitmap()
@@ -662,6 +667,8 @@ namespace Wpf
 
     void WebView::SetBuffer(int width, int height, const void* buffer)
     {
+        msclr::lock l(_sync);
+
         int currentWidth = _width, currentHeight = _height;
         HANDLE fileMappingHandle = _fileMappingHandle, backBufferHandle = _backBufferHandle;
         InteropBitmap^ ibitmap = _ibitmap;
