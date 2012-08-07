@@ -617,6 +617,7 @@ namespace Wpf
             url, *_settings->_browserSettings);
 
         Content = _image = gcnew Image();
+        RenderOptions::SetBitmapScalingMode(_image, BitmapScalingMode::NearestNeighbor);
 
         _popup = gcnew Popup();
         _popup->Child = _popupImage = gcnew Image();
