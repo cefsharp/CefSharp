@@ -207,7 +207,16 @@ namespace CefSharp
         response->GetHeaderMap(map);
         for (CefResponse::HeaderMap::iterator it = map.begin(); it != map.end(); ++it)
         {
-            headers->Add(toClr(it->first), toClr(it->second));
+            try
+            {
+                headers->Add(toClr(it->first), toClr(it->second));
+            }
+            catch (Exception ^ex)
+            {
+                // adding a header with invalid characters can cause an exception to be
+                // thrown. we will drop those headers for now.
+                // we could eventually use reflection to call headers->AddWithoutValidate().
+            }
         }
 
         handler->OnResourceResponse(
