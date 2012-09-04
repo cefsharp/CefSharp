@@ -128,6 +128,7 @@ namespace CefSharp
     {
         CefRefPtr<BindingData> bindingData = static_cast<BindingData*>(object->GetUserData().get());
         Object^ self = bindingData->Get();
+		
         if(self == nullptr) 
         {
             exception = "Binding's CLR object is null.";

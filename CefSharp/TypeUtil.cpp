@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "CefCallbackWrapper.h"
 
 using namespace System::Collections::Generic;
 
@@ -187,6 +188,11 @@ namespace CefSharp
 			}
 
 			return nullptr;
+		}
+
+		if (obj->IsFunction())
+		{
+			return gcnew CefCallbackWrapper(obj);
 		}
 
 		if (obj->IsObject())
