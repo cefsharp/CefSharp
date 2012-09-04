@@ -72,7 +72,7 @@
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
 				TargetMachine="1"
-				KeyFile="$(SolutionDir)\CefSharp.snk"
+				KeyFile=""
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -201,6 +201,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CefCallbackWrapper.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ClientAdapter.cpp"
 				>
 			</File>
@@ -280,6 +284,10 @@
 			</File>
 			<File
 				RelativePath=".\BrowserSettings.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CefCallbackWrapper.h"
 				>
 			</File>
 			<File
