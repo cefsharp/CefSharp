@@ -13,6 +13,8 @@ namespace CefSharp
 	public:
 		CefCallbackWrapper(CefRefPtr<CefV8Value> callback);
 		~CefCallbackWrapper(){
+			cbInfo->callback->Release();
+			cbInfo->context->Release();
 			delete cbInfo;
 		}
 		void Call(...array<Object^> ^args);

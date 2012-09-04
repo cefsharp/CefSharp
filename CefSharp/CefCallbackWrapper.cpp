@@ -17,10 +17,8 @@ namespace CefSharp
 		}
 		
 		callback->ExecuteFunction(CefV8Value::CreateUndefined() , arguments);
-		callback->Release();
 
 		context->Exit();
-		context->Release();
 	}
 
 	CefCallbackWrapper::CefCallbackWrapper(CefRefPtr<CefV8Value> callback)

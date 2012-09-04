@@ -26,16 +26,14 @@
                     document.getElementById('callbackBindingTargetAsyncStringArg').innerText = s;
                 });
                 var cefCallbackCount=0;
-                window.setInterval(function() {
+                bound.InvokeCallbackRepeatedly_Async(5, function() {
                     cefCallbackCount++;
-                    try{
-                        bound.DoStringArgumentCallback_Sync(" SUCCESS: " + cefCallbackCount.toString(), function(s) {
-                            document.getElementById("callbackBindingTargetMultipleCalls").innerText = s;
-                        }); 
-                    } catch (ex) {
-                        document.getElementById("callbackBindingTargetMultipleCalls").innerText = " FAILED on iteration " + cefCallbackCount.toString();
+                    if (cefCallbackCount != 5) {
+                        document.getElementById('callbackBindingTargetMultipleCalls').innerText = " FAIL";
+                    } else {
+                        document.getElementById('callbackBindingTargetMultipleCalls').innerText = " SUCCESS";
                     }
-                }, 1000);
+                });
             </script>
         </ul>
         

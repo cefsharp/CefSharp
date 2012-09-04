@@ -180,6 +180,10 @@ namespace CefSharp.Example
         {
             System.Threading.ThreadPool.QueueUserWorkItem(doCallbackWorkItem, new object[]{ callback, message});
         }
+        public void InvokeCallbackRepeatedly_Async(int numTimes, CefCallbackWrapper callback)
+        {
+            System.Threading.ThreadPool.QueueUserWorkItem(doRepeatedCallbackWorkItem, new object[] { callback, numTimes });
+        }
         #region threadpool workers
         void doNoArgumentCallbackWorkItem(object state)
         {
@@ -189,6 +193,16 @@ namespace CefSharp.Example
         {
             object[] o = (object[])state;
             (o[0] as CefCallbackWrapper).Call(o[1]);
+        }
+        void doRepeatedCallbackWorkItem(object state)
+        {
+            object[] o = (object[])state;
+            CefCallbackWrapper callback = (CefCallbackWrapper)o[0];
+            int numTimes = (int)o[1];
+            for (int x = 0; x < numTimes; x++)
+            {
+                callback.Call();
+            }
         }
         #endregion
         #endregion
