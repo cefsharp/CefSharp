@@ -5,6 +5,29 @@
 	</head>
 	<body>
 	    <p>
+        Javascript Callback Methods:<br />
+        <ul>
+            <li>Synchronous, no arguments    :<span id="callbackBindingTargetSyncNoArgs">FAIL</span></li>
+            <li>Synchronous, String argument :<span id="callbackBindingTargetSyncStringArg">FAIL</span></li>
+            <li>Asynchronous, no arguments   :<span id="callbackBindingTargetAsyncNoArgs">FAIL</span></li>
+            <li>Asynchronous, String argument:<span id="callbackBindingTargetAsyncStringArg">FAIL</span></li>
+            <script type="text/javascript">
+                bound.DoNoArgumentCallback_Sync(function() {
+                    document.getElementById('callbackBindingTargetSyncNoArgs').innerText = " SUCCESS";
+                });
+                bound.DoStringArgumentCallback_Sync(" SUCCESS", function(s) {
+                    document.getElementById('callbackBindingTargetSyncStringArg').innerText = s;
+                });
+                bound.DoNoArgumentCallback_Async(function() {
+                    document.getElementById('callbackBindingTargetAsyncNoArgs').innerText = " SUCCESS";
+                });
+                bound.DoStringArgumentCallback_Async(" SUCCESS", function(s) {
+                    document.getElementById('callbackBindingTargetAsyncStringArg').innerText = s;
+                });
+            </script>
+        </ul>
+      </p>
+      <p>
 	    Result of calling bound.Repeat("hi ", 5) =
 	    <script type="text/javascript">
 	        var result = bound.Repeat("hi ", 5);

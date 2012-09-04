@@ -162,5 +162,36 @@ namespace CefSharp.Example
         {
             return arg0;
         }
+        
+        #region JS Callback test methods
+        public void DoNoArgumentCallback_Sync(CefCallbackWrapper callback)
+        {
+            callback.Call();
+        }
+        public void DoStringArgumentCallback_Sync(string message, CefCallbackWrapper callback)
+        {
+            callback.Call(message);
+        }
+        public void DoNoArgumentCallback_Async(CefCallbackWrapper callback)
+        {
+            System.Threading.ThreadPool.QueueUserWorkItem(doNoArgumentCallbackWorkItem, callback);
+        }
+        public void DoStringArgumentCallback_Async(string message, CefCallbackWrapper callback)
+        {
+            System.Threading.ThreadPool.QueueUserWorkItem(doCallbackWorkItem, new object[]{ callback, message});
+        }
+        #region threadpool workers
+        void doNoArgumentCallbackWorkItem(object state)
+        {
+            (state as CefCallbackWrapper).Call();
+        }
+        void doCallbackWorkItem(object state)
+        {
+            object[] o = (object[])state;
+            (o[0] as CefCallbackWrapper).Call(o[1]);
+        }
+        #endregion
+        #endregion
+
     }
 }
