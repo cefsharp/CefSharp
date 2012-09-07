@@ -162,5 +162,50 @@ namespace CefSharp.Example
         {
             return arg0;
         }
+        
+        #region JS Callback test methods
+        public void DoNoArgumentCallback_Sync(CefCallbackWrapper callback)
+        {
+            callback.Call();
+        }
+        public void DoStringArgumentCallback_Sync(string message, CefCallbackWrapper callback)
+        {
+            callback.Call(message);
+        }
+        public void DoNoArgumentCallback_Async(CefCallbackWrapper callback)
+        {
+            System.Threading.ThreadPool.QueueUserWorkItem(doNoArgumentCallbackWorkItem, callback);
+        }
+        public void DoStringArgumentCallback_Async(string message, CefCallbackWrapper callback)
+        {
+            System.Threading.ThreadPool.QueueUserWorkItem(doCallbackWorkItem, new object[]{ callback, message});
+        }
+        public void InvokeCallbackRepeatedly_Async(int numTimes, CefCallbackWrapper callback)
+        {
+            System.Threading.ThreadPool.QueueUserWorkItem(doRepeatedCallbackWorkItem, new object[] { callback, numTimes });
+        }
+        #region threadpool workers
+        void doNoArgumentCallbackWorkItem(object state)
+        {
+            (state as CefCallbackWrapper).Call();
+        }
+        void doCallbackWorkItem(object state)
+        {
+            object[] o = (object[])state;
+            (o[0] as CefCallbackWrapper).Call(o[1]);
+        }
+        void doRepeatedCallbackWorkItem(object state)
+        {
+            object[] o = (object[])state;
+            CefCallbackWrapper callback = (CefCallbackWrapper)o[0];
+            int numTimes = (int)o[1];
+            for (int x = 0; x < numTimes; x++)
+            {
+                callback.Call();
+            }
+        }
+        #endregion
+        #endregion
+
     }
 }

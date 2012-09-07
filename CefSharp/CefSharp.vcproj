@@ -264,6 +264,10 @@
 				RelativePath=".\TypeUtil.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\CefCallbackWrapper.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -380,6 +384,10 @@
 			</File>
 			<File
 				RelativePath=".\TypeUtil.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CefCallbackWrapper.h"
 				>
 			</File>
 		</Filter>
