@@ -5,6 +5,36 @@
 	</head>
 	<body>
 	    <p>
+        Javascript Callback Methods:<br />
+        <ul>
+            <li>Single asynchronous callback, no arguments        :<span id="callbackBindingTargetNoArgs">FAIL</span></li>
+            <li>Single asynchronous Callback, String argument     :<span id="callbackBindingTargetStringArg">FAIL</span></li>
+            <li>Single Synchronous Function Call, no arguments    :<span id="functionBindingTargetNoArg">FAIL</span></li>
+            <li>Single Synchronous Function Call, String argument :<span id="functionBindingTargetStringArg">FAIL</span></li>
+            <li>Multiple asynchronous callbacks:<span id="callbackBindingTargetMultipleCalls">FAIL</span></li>
+            <script type="text/javascript">
+                bound.DoNoArgumentCallback(function() {
+                    document.getElementById('callbackBindingTargetNoArgs').innerText = " SUCCESS";
+                });
+                bound.DoStringArgumentCallback(" SUCCESS", function(s) {
+                    document.getElementById('callbackBindingTargetStringArg').innerText = s;
+                });
+                document.getElementById('functionBindingTargetNoArg').innerText = bound.DoNoArgumentNoCallback_Sync();
+                document.getElementById('functionBindingTargetStringArg').innerText = bound.DoStringArgumentNoCallback_Sync(" SUCCESS");
+                var cefCallbackCount=0;
+                bound.InvokeCallbackRepeatedly(5, function() {
+                    cefCallbackCount++;
+                    if (cefCallbackCount != 5) {
+                        document.getElementById('callbackBindingTargetMultipleCalls').innerText = " FAIL";
+                    } else {
+                        document.getElementById('callbackBindingTargetMultipleCalls').innerText = " SUCCESS";
+                    }
+                });
+            </script>
+        </ul>
+        
+      </p>
+      <p>
 	    Result of calling bound.Repeat("hi ", 5) =
 	    <script type="text/javascript">
 	        var result = bound.Repeat("hi ", 5);

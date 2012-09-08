@@ -162,5 +162,33 @@ namespace CefSharp.Example
         {
             return arg0;
         }
+        
+        #region JS Callback test methods
+        public string DoNoArgumentNoCallback_Sync()
+        {
+            return " SUCCESS";
+        }
+        public string DoStringArgumentNoCallback_Sync(string message)
+        {
+            return message;
+        }
+
+        public void DoNoArgumentCallback(CefCallbackWrapper callback)
+        {
+            callback.Call();
+        }
+        public void DoStringArgumentCallback(string message, CefCallbackWrapper callback)
+        {
+            callback.Call(message);
+        }
+        public void InvokeCallbackRepeatedly(int numTimes, CefCallbackWrapper callback)
+        {
+            for (int x = 0; x < numTimes; x++)
+            {
+                callback.Call();
+            }
+        }
+        #endregion
+
     }
 }
