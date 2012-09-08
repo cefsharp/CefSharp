@@ -7,25 +7,28 @@
 	    <p>
         Javascript Callback Methods:<br />
         <ul>
-            <li>Synchronous, no arguments    :<span id="callbackBindingTargetSyncNoArgs">FAIL</span></li>
-            <li>Synchronous, String argument :<span id="callbackBindingTargetSyncStringArg">FAIL</span></li>
-            <li>Asynchronous, no arguments   :<span id="callbackBindingTargetAsyncNoArgs">FAIL</span></li>
-            <li>Asynchronous, String argument:<span id="callbackBindingTargetAsyncStringArg">FAIL</span></li>
+            <li>Single asynchronous callback, no arguments    :<span id="callbackBindingTargetSyncNoArgs">FAIL</span></li>
+            <li>Single asynchronous Callback, String argument :<span id="callbackBindingTargetSyncStringArg">FAIL</span></li>
+            <li>Multiple asynchronous callbacks:<span id="callbackBindingTargetMultipleCalls"></span></li>
             <script type="text/javascript">
-                bound.DoNoArgumentCallback_Sync(function() {
+                bound.DoNoArgumentCallback(function() {
                     document.getElementById('callbackBindingTargetSyncNoArgs').innerText = " SUCCESS";
                 });
-                bound.DoStringArgumentCallback_Sync(" SUCCESS", function(s) {
+                bound.DoStringArgumentCallback(" SUCCESS", function(s) {
                     document.getElementById('callbackBindingTargetSyncStringArg').innerText = s;
                 });
-                bound.DoNoArgumentCallback_Async(function() {
-                    document.getElementById('callbackBindingTargetAsyncNoArgs').innerText = " SUCCESS";
-                });
-                bound.DoStringArgumentCallback_Async(" SUCCESS", function(s) {
-                    document.getElementById('callbackBindingTargetAsyncStringArg').innerText = s;
+                var cefCallbackCount=0;
+                bound.InvokeCallbackRepeatedly(5, function() {
+                    cefCallbackCount++;
+                    if (cefCallbackCount != 5) {
+                        document.getElementById('callbackBindingTargetMultipleCalls').innerText = " FAIL";
+                    } else {
+                        document.getElementById('callbackBindingTargetMultipleCalls').innerText = " SUCCESS";
+                    }
                 });
             </script>
         </ul>
+        
       </p>
       <p>
 	    Result of calling bound.Repeat("hi ", 5) =
