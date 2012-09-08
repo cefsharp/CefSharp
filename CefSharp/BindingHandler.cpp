@@ -128,36 +128,36 @@ namespace CefSharp
     }
 
 
-	// stateObj is an array<Object^>
-	// [0] : method (MethodInfo^)
-	// [1] : 'this' (Object^)
-	// [2] : arguments (array<Object^>^)
-	void MethodRunner(Object^ stateObj)
-	{
-		MethodInfo^ method;
-		Object^ self;
-		array<Object^>^ args;
-		try{
-			array<Object^>^ stateArgs = static_cast<array<Object^>^>(stateObj);
-			method = static_cast<MethodInfo^>(stateArgs[0]);
-			self = stateArgs[1];
-			args = static_cast<array<Object^>^>(stateArgs[2]);
-			method->Invoke(self, args);
-		}
-		finally{
-			for(int i=0; i<args->Length; i++){
-				if(args[i]->GetType() == CefCallbackWrapper::typeid){
-					(static_cast<CefCallbackWrapper^>(args[i]))->CefCallbackWrapper::~CefCallbackWrapper();
-				}
-			}
-		}
-	}
+    // stateObj is an array<Object^>
+    // [0] : method (MethodInfo^)
+    // [1] : 'this' (Object^)
+    // [2] : arguments (array<Object^>^)
+    void MethodRunner(Object^ stateObj)
+    {
+        MethodInfo^ method;
+        Object^ self;
+        array<Object^>^ args;
+        try{
+            array<Object^>^ stateArgs = static_cast<array<Object^>^>(stateObj);
+            method = static_cast<MethodInfo^>(stateArgs[0]);
+            self = stateArgs[1];
+            args = static_cast<array<Object^>^>(stateArgs[2]);
+            method->Invoke(self, args);
+        }
+        finally{
+            for(int i=0; i<args->Length; i++){
+                if(args[i]->GetType() == CefCallbackWrapper::typeid){
+                    (static_cast<CefCallbackWrapper^>(args[i]))->CefCallbackWrapper::~CefCallbackWrapper();
+                }
+            }
+        }
+    }
 
     bool BindingHandler::Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception)
     {
         CefRefPtr<BindingData> bindingData = static_cast<BindingData*>(object->GetUserData().get());
         Object^ self = bindingData->Get();
-		
+
         if(self == nullptr) 
         {
             exception = "Binding's CLR object is null.";
@@ -254,16 +254,25 @@ namespace CefSharp
         {
             try
             {
-				if(bestMethod->ReturnType == System::Void::typeid)
-				{
-					array<Object^>^ state = {bestMethod, self, bestMethodArguments};
-					ThreadPool::QueueUserWorkItem(gcnew WaitCallback(MethodRunner), state);
-				} 
-				else
-				{
-					Object^ result = bestMethod->Invoke(self, bestMethodArguments);
-					retval = convertToCef(result, bestMethod->ReturnType);
-				}
+                if(bestMethod->ReturnType == System::Void::typeid)
+                {
+                    array<Object^>^ state = {bestMethod, self, bestMethodArguments};
+                    ThreadPool::QueueUserWorkItem(gcnew WaitCallback(MethodRunner), state);
+                } 
+                else
+                {
+                    try{
+                        Object^ result = bestMethod->Invoke(self, bestMethodArguments);
+                        retval = convertToCef(result, bestMethod->ReturnType);
+                    }
+                    finally{
+                        for(int i=0; i<bestMethodArguments->Length; i++){
+                            if(bestMethodArguments[i]->GetType() == CefCallbackWrapper::typeid){
+                                (static_cast<CefCallbackWrapper^>(bestMethodArguments[i]))->CefCallbackWrapper::~CefCallbackWrapper();
+                            }
+                        }
+                    }
+                }
                 return true;
             }
             catch(System::Reflection::TargetInvocationException^ err)

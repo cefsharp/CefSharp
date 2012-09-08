@@ -164,6 +164,15 @@ namespace CefSharp.Example
         }
         
         #region JS Callback test methods
+        public string DoNoArgumentNoCallback_Sync()
+        {
+            return " SUCCESS";
+        }
+        public string DoStringArgumentNoCallback_Sync(string message)
+        {
+            return message;
+        }
+
         public void DoNoArgumentCallback(CefCallbackWrapper callback)
         {
             callback.Call();
