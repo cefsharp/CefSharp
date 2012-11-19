@@ -83,6 +83,9 @@ namespace Wpf
         void OnPopupMouseUp(Object^ sender, MouseButtonEventArgs^ e) ;
         void OnPopupMouseLeave(Object^ sender, MouseEventArgs^ e) ;
         void OnWindowLocationChanged(Object^ sender, EventArgs^ e) ;
+        void OnLoaded(Object^ sender, RoutedEventArgs^ e) ;
+        void OnUnloaded(Object^ sender, RoutedEventArgs^ e) ;
+        void EnsureSourceAndHook();
         void HidePopup();
 		
     protected:
