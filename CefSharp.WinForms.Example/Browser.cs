@@ -147,7 +147,7 @@ namespace CefSharp.WinForms.Example
             InitializeComponent();
             Text = "CefSharp";
 
-            web_view = new WebView("https://html5test.com", new BrowserSettings());
+            web_view = new WebView("about: blank", new BrowserSettings());
             web_view.Dock = DockStyle.Fill;
 
             web_view.DownloadHandler = new SampleDownloadHandler();

@@ -274,6 +274,6 @@ namespace CefSharp
 		String^ clrMimeType = toClr(mimeType);
 		String^ clrFileName = toClr(fileName);
 		handler = GetDownloadHandler();
-		return downloadHandler != nullptr && downloadHandler->HandleDownload(_browserControl, clrMimeType, clrFileName);
+		return downloadHandler != nullptr && downloadHandler->HandleDownload(_browserControl, clrMimeType, contentLength, clrFileName);
 	}
 }

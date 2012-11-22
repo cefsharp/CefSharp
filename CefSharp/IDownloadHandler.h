@@ -12,7 +12,7 @@ namespace CefSharp
     public interface class IDownloadHandler
     {
     public:
-		bool HandleDownload(IWebBrowser^ browserControl, String^ mimeType, String^ fileName);	
+		bool HandleDownload(IWebBrowser^ browserControl, String^ mimeType, int64 contentLength, String^ fileName);	
 		void HandleComplete();
 		bool HandleReceivedData(array<Byte>^ data);
     };
