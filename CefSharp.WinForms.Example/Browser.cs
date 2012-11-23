@@ -147,8 +147,11 @@ namespace CefSharp.WinForms.Example
             InitializeComponent();
             Text = "CefSharp";
 
-            web_view = new WebView("https://github.com/ataranto/CefSharp", new BrowserSettings());
+            web_view = new WebView("about: blank", new BrowserSettings());
             web_view.Dock = DockStyle.Fill;
+
+            web_view.DownloadHandler = new SampleDownloadHandler();
+
             toolStripContainer.ContentPanel.Controls.Add(web_view);
 
             var presenter = new ExamplePresenter(web_view, this,

@@ -10,6 +10,7 @@
 #include "IRequestHandler.h"
 #include "IMenuHandler.h"
 #include "IKeyboardHandler.h"
+#include "IDownloadHandler.h"
 
 namespace CefSharp
 {
@@ -247,4 +248,32 @@ namespace CefSharp
     {
         _browserControl->OnTakeFocus(next);
     }
+
+	bool ClientAdapter::ReceivedData(void* data, int data_size)
+	{
+		IDownloadHandler^ downloadHandler = _browserControl->DownloadHandler;
+		IntPtr ptr = IntPtr(data);
+		array<Byte>^ barray = gcnew array<Byte>(data_size);
+		System::Runtime::InteropServices::Marshal::Copy(ptr, barray, 0, data_size);
+
+		return downloadHandler != nullptr && downloadHandler->HandleReceivedData(barray);
+	}
+ 
+	void ClientAdapter::Complete()
+	{
+		IDownloadHandler^ downloadHandler = _browserControl->DownloadHandler;
+		if (downloadHandler != nullptr)
+		{
+			downloadHandler->HandleComplete();
+		}
+	}
+
+	bool ClientAdapter::GetDownloadHandler(CefRefPtr<CefBrowser> browser, const CefString& mimeType, const CefString& fileName, int64 contentLength, CefRefPtr<CefDownloadHandler>& handler)
+	{
+		IDownloadHandler^ downloadHandler = _browserControl->DownloadHandler;
+		String^ clrMimeType = toClr(mimeType);
+		String^ clrFileName = toClr(fileName);
+		handler = GetDownloadHandler();
+		return downloadHandler != nullptr && downloadHandler->HandleDownload(_browserControl, clrMimeType, contentLength, clrFileName);
+	}
 }

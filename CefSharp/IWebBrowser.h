@@ -14,6 +14,7 @@ namespace CefSharp
     interface class IRequestHandler;
     interface class IMenuHandler;
     interface class IKeyboardHandler;
+	interface class IDownloadHandler;
 
     public interface class IWebBrowser : IDisposable, INotifyPropertyChanged
     {
@@ -37,6 +38,7 @@ namespace CefSharp
         property IRequestHandler^ RequestHandler;
         property IMenuHandler^ MenuHandler;
         property IKeyboardHandler^ KeyboardHandler;
+		property IDownloadHandler^ DownloadHandler;
 
         void OnInitialized();
 

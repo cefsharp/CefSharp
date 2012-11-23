@@ -218,6 +218,12 @@ namespace Wpf
             void set(IKeyboardHandler^ handler) { _browserCore->KeyboardHandler = handler; }
         }
 
+		virtual property IDownloadHandler^ DownloadHandler
+        {
+            IDownloadHandler^ get() { return _browserCore->DownloadHandler; }
+            void set(IDownloadHandler^ handler) { _browserCore->DownloadHandler = handler; }
+        }
+
         virtual property BrowserCore^ Core
         {
             BrowserCore^ get() { return _browserCore; }
