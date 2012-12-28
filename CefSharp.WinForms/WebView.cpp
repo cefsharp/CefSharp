@@ -351,4 +351,30 @@ namespace WinForms
     {
         return _browserCore->GetBoundObjects();
     }
+    
+    //Zoom
+    void WebView::ZoomIn()
+    {
+        CefRefPtr<CefBrowser> browser;
+        if (TryGetCefBrowser(browser))
+        {
+			browser->SetZoomLevel(browser->GetZoomLevel() + 0.5);
+        }
+    }
+	void WebView::ZoomOut()
+    {
+        CefRefPtr<CefBrowser> browser;
+        if (TryGetCefBrowser(browser))
+        {
+			browser->SetZoomLevel(browser->GetZoomLevel() - 0.5);
+        }
+    }
+	void WebView::ResetZoom()
+    {
+        CefRefPtr<CefBrowser> browser;
+        if (TryGetCefBrowser(browser))
+        {
+			browser->SetZoomLevel(0.0);
+        }
+    }
 }}
