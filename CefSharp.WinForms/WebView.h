@@ -163,6 +163,11 @@ namespace WinForms
         virtual void ClearHistory();
         virtual void ShowDevTools();
         virtual void CloseDevTools();
+        
+        //ZoomLevel
+    	virtual void ZoomIn();
+		virtual void ZoomOut();
+		virtual void ResetZoom();
 
         virtual void Undo();
         virtual void Redo();
