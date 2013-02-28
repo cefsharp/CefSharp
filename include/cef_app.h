@@ -91,6 +91,12 @@ void CefRunMessageLoop();
 /*--cef()--*/
 void CefQuitMessageLoop();
 
+///
+// Set to true before calling Windows APIs like TrackPopupMenu that enter a
+// modal message loop. Set to false after exiting the modal message loop.
+///
+/*--cef()--*/
+void CefSetOSModalLoop(bool osModalLoop);
 
 ///
 // Implement this interface to provide handler implementations. Methods will be

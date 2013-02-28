@@ -100,7 +100,9 @@ class CefRenderHandler : public virtual CefBase {
   // element is the view or the popup widget. |buffer| contains the pixel data
   // for the whole image. |dirtyRects| contains the set of rectangles that need
   // to be repainted. On Windows |buffer| will be width*height*4 bytes in size
-  // and represents a BGRA image with an upper-left origin.
+  // and represents a BGRA image with an upper-left origin. The
+  // CefBrowserSettings.animation_frame_rate value controls the rate at which
+  // this method is called.
   ///
   /*--cef()--*/
   virtual void OnPaint(CefRefPtr<CefBrowser> browser,

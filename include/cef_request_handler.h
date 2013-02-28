@@ -132,7 +132,7 @@ class CefRequestHandler : public virtual CefBase {
   // CefDownloadHandler instance that will recieve the file contents. Return
   // true to download the file or false to cancel the file download.
   ///
-  /*--cef()--*/
+  /*--cef(optional_param=mimeType)--*/
   virtual bool GetDownloadHandler(CefRefPtr<CefBrowser> browser,
                                   const CefString& mimeType,
                                   const CefString& fileName,

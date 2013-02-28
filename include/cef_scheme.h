@@ -135,7 +135,7 @@ class CefSchemeHandlerFactory : public virtual CefBase {
   // initiated using the CefWebURLRequest API |browser| will be NULL. The
   // |request| object passed to this method will not contain cookie data.
   ///
-  /*--cef()--*/
+  /*--cef(optional_param=browser)--*/
   virtual CefRefPtr<CefSchemeHandler> Create(CefRefPtr<CefBrowser> browser,
                                              const CefString& scheme_name,
                                              CefRefPtr<CefRequest> request) =0;

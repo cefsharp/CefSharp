@@ -98,12 +98,6 @@ namespace CefSharp
             void set(bool value) { _cefSettings->auto_detect_proxy_settings_enabled = value; }
         }
 
-        property String^ PackFilePath
-        {
-            String^ get() { return toClr(_cefSettings->pack_file_path); }
-            void set(String^ value) { assignFromString(_cefSettings->pack_file_path, value); }
-        }
-
         property String^ LocalesDirPath
         {
             String^ get() { return toClr(_cefSettings->locales_dir_path); }

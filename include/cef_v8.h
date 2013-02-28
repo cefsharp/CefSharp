@@ -141,6 +141,13 @@ class CefV8Context : public virtual CefBase {
   static bool InContext();
 
   ///
+  // Returns true if this object is valid. Do not call any other methods if this
+  // method returns false.
+  ///
+  /*--cef()--*/
+  virtual bool IsValid() =0;
+
+  ///
   // Returns the browser for this context.
   ///
   /*--cef()--*/
@@ -408,6 +415,13 @@ class CefV8Value : public virtual CefBase {
                                               CefRefPtr<CefV8Handler> handler);
 
   ///
+  // Returns true if this object is valid. Do not call any other methods if this
+  // method returns false.
+  ///
+  /*--cef()--*/
+  virtual bool IsValid() =0;
+
+  ///
   // True if the value type is undefined.
   ///
   /*--cef()--*/
@@ -573,7 +587,7 @@ class CefV8Value : public virtual CefBase {
   ///
   // Returns true if the object has a value with the specified identifier.
   ///
-  /*--cef(capi_name=has_value_bykey)--*/
+  /*--cef(capi_name=has_value_bykey,optional_param=key)--*/
   virtual bool HasValue(const CefString& key) =0;
 
   ///
@@ -588,7 +602,7 @@ class CefV8Value : public virtual CefBase {
   // is thrown. For read-only and don't-delete values this method will return
   // true even though deletion failed.
   ///
-  /*--cef(capi_name=delete_value_bykey)--*/
+  /*--cef(capi_name=delete_value_bykey,optional_param=key)--*/
   virtual bool DeleteValue(const CefString& key) =0;
 
   ///
@@ -604,7 +618,7 @@ class CefV8Value : public virtual CefBase {
   // Returns the value with the specified identifier on success. Returns NULL
   // if this method is called incorrectly or an exception is thrown.
   ///
-  /*--cef(capi_name=get_value_bykey)--*/
+  /*--cef(capi_name=get_value_bykey,optional_param=key)--*/
   virtual CefRefPtr<CefV8Value> GetValue(const CefString& key) =0;
 
   ///
@@ -620,7 +634,7 @@ class CefV8Value : public virtual CefBase {
   // is thrown. For read-only values this method will return true even though
   // assignment failed.
   ///
-  /*--cef(capi_name=set_value_bykey)--*/
+  /*--cef(capi_name=set_value_bykey,optional_param=key)--*/
   virtual bool SetValue(const CefString& key, CefRefPtr<CefV8Value> value,
                         PropertyAttribute attribute) =0;
 
@@ -640,7 +654,7 @@ class CefV8Value : public virtual CefBase {
   // incorrectly or an exception is thrown. For read-only values this method
   // will return true even though assignment failed.
   ///
-  /*--cef(capi_name=set_value_byaccessor)--*/
+  /*--cef(capi_name=set_value_byaccessor,optional_param=key)--*/
   virtual bool SetValue(const CefString& key, AccessControl settings,
                         PropertyAttribute attribute) =0;
 
@@ -755,6 +769,13 @@ class CefV8StackTrace : public virtual CefBase {
   static CefRefPtr<CefV8StackTrace> GetCurrent(int frame_limit);
 
   ///
+  // Returns true if this object is valid. Do not call any other methods if this
+  // method returns false.
+  ///
+  /*--cef()--*/
+  virtual bool IsValid() =0;
+
+  ///
   // Returns the number of stack frames.
   ///
   /*--cef()--*/
@@ -774,6 +795,13 @@ class CefV8StackTrace : public virtual CefBase {
 /*--cef(source=library)--*/
 class CefV8StackFrame : public virtual CefBase {
  public:
+  ///
+  // Returns true if this object is valid. Do not call any other methods if this
+  // method returns false.
+  ///
+  /*--cef()--*/
+  virtual bool IsValid() =0;
+
   ///
   // Returns the name of the resource script that contains the function.
   ///

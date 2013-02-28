@@ -148,6 +148,12 @@ class CefBrowser : public virtual CefBase {
   virtual CefWindowHandle GetOpenerWindowHandle() =0;
 
   ///
+  // Returns the globally unique identifier for this browser.
+  ///
+  /*--cef()--*/
+  virtual int GetIdentifier() =0;
+
+  ///
   // Returns true if the window is a popup window.
   ///
   /*--cef()--*/
@@ -208,13 +214,15 @@ class CefBrowser : public virtual CefBase {
   virtual void StopFinding(bool clearSelection) =0;
 
   ///
-  // Get the zoom level.
+  // Get the current zoom level. The default zoom level is 0.0. This method can
+  // only be called on the UI thread.
   ///
   /*--cef()--*/
   virtual double GetZoomLevel() =0;
 
   ///
-  // Change the zoom level to the specified value.
+  // Change the zoom level to the specified value. Specify 0.0 to reset the
+  // zoom level. The change will be applied asynchronously on the UI thread.
   ///
   /*--cef()--*/
   virtual void SetZoomLevel(double zoomLevel) =0;

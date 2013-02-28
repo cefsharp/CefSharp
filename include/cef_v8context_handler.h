@@ -68,6 +68,18 @@ class CefV8ContextHandler : public virtual CefBase {
   virtual void OnContextReleased(CefRefPtr<CefBrowser> browser,
                                  CefRefPtr<CefFrame> frame,
                                  CefRefPtr<CefV8Context> context) {}
+
+  ///
+  // Called for global uncaught exceptions. Execution of this callback is
+  // disabled by default. To enable set
+  // CefSettings.uncaught_exception_stack_size > 0.
+  ///
+  /*--cef()--*/
+  virtual void OnUncaughtException(CefRefPtr<CefBrowser> browser,
+                                   CefRefPtr<CefFrame> frame,
+                                   CefRefPtr<CefV8Context> context,
+                                   CefRefPtr<CefV8Exception> exception,
+                                   CefRefPtr<CefV8StackTrace> stackTrace) {}
 };
 
 #endif  // CEF_INCLUDE_CEF_V8CONTEXT_HANDLER_H_
