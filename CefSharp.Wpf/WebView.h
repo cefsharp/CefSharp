@@ -227,6 +227,7 @@ namespace Wpf
 
         virtual void Load(String^ url);
         virtual void LoadHtml(String^ html);
+        virtual void LoadHtml(String^ html, String^ url);
         virtual void Stop();
         virtual void Back();
         virtual void Forward();
