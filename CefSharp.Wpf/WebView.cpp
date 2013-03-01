@@ -341,9 +341,7 @@ namespace Wpf
 
     void WebView::LoadHtml(String^ html)
     {
-        _browserCore->CheckBrowserInitialization();
-        _browserCore->OnLoad();
-        _clientAdapter->GetCefBrowser()->GetMainFrame()->LoadString(toNative(html), toNative("about:blank"));
+        LoadHtml(html, "about:blank");
     }
 
     void WebView::LoadHtml(String^ html, String^ url)
