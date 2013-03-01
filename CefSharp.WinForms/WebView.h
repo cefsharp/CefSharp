@@ -46,6 +46,7 @@ namespace WinForms
 
         virtual event ConsoleMessageEventHandler^ ConsoleMessage;
         virtual event KeyEventHandler^ BrowserKey;
+        virtual event LoadCompletedEventHandler^ LoadCompleted;
 
         WebView()
         {
@@ -174,8 +175,8 @@ namespace WinForms
 
         virtual void SetNavState(bool isLoading, bool canGoBack, bool canGoForward);
 
-        virtual void OnFrameLoadStart();
-        virtual void OnFrameLoadEnd();
+        virtual void OnFrameLoadStart(String^ url);
+        virtual void OnFrameLoadEnd(String^ url);
         virtual void OnTakeFocus(bool next);
         virtual void OnConsoleMessage(String^ message, String^ source, int line);
 
