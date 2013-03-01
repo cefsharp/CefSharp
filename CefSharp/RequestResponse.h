@@ -28,7 +28,6 @@ namespace CefSharp
         Respond
     };
 
-
     ref class RequestResponse : IRequestResponse
     {
         IRequest^ _request;
