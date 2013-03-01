@@ -76,16 +76,17 @@ namespace Wpf
         void ShowHidePopup(bool isOpened);
         void SetPopupSizeAndPositionImpl();
 		
+        void OnLoaded(Object^ sender, RoutedEventArgs^ e);
+        void OnUnloaded(Object^ sender, RoutedEventArgs^ e);
         void OnPopupMouseMove(Object^ sender, MouseEventArgs^ e);
-        void OnPopupMouseWheel(Object^ sender,MouseWheelEventArgs^ e) ;
-        void OnPopupMouseDown(Object^ sender,MouseButtonEventArgs^ e) ;
-        void OnPopupMouseUp(Object^ sender, MouseButtonEventArgs^ e) ;
-        void OnPopupMouseLeave(Object^ sender, MouseEventArgs^ e) ;
-        void OnWindowLocationChanged(Object^ sender, EventArgs^ e) ;
-        void OnLoaded(Object^ sender, RoutedEventArgs^ e) ;
-        void OnUnloaded(Object^ sender, RoutedEventArgs^ e) ;
-        void EnsureSourceAndHook();
+        void OnPopupMouseWheel(Object^ sender,MouseWheelEventArgs^ e);
+        void OnPopupMouseDown(Object^ sender,MouseButtonEventArgs^ e);
+        void OnPopupMouseUp(Object^ sender, MouseButtonEventArgs^ e);
+        void OnPopupMouseLeave(Object^ sender, MouseEventArgs^ e);
+        void OnWindowLocationChanged(Object^ sender, EventArgs^ e);
+
         void HidePopup();
+        void AddSourceHook();
 		
     protected:
         virtual Size ArrangeOverride(Size size) override;

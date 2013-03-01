@@ -42,8 +42,9 @@ namespace Wpf
         _timer->Interval = TimeSpan::FromSeconds(0.5);
         _timer->Tick +=
             gcnew EventHandler(this, &WebView::Timer_Tick);
-		this->Loaded +=	gcnew RoutedEventHandler(this, &WebView::OnLoaded);	
-		this->Unloaded += gcnew RoutedEventHandler(this, &WebView::OnUnloaded);	
+
+        this->Loaded +=	gcnew RoutedEventHandler(this, &WebView::OnLoaded);	
+        this->Unloaded += gcnew RoutedEventHandler(this, &WebView::OnUnloaded);	
     }
 
     bool WebView::TryGetCefBrowser(CefRefPtr<CefBrowser>& browser)
@@ -607,7 +608,7 @@ namespace Wpf
 
         _clientAdapter = new RenderClientAdapter(this);
 
-        EnsureSourceAndHook();
+        AddSourceHook();
 
         HWND hwnd = static_cast<HWND>(_source->Handle.ToPointer());
         CefWindowInfo window;
@@ -784,6 +785,21 @@ namespace Wpf
         _popup->IsOpen = isOpened;
     }
 
+    void WebView::OnLoaded(Object^ sender, RoutedEventArgs^ e)
+    {
+        AddSourceHook();
+    }
+
+    void WebView::OnUnloaded(Object^ sender, RoutedEventArgs^ e)
+    {  
+        if (_source && _hook)
+        {
+            _source->RemoveHook(_hook);
+            _source = nullptr;
+            _hook = nullptr;
+        }
+    }
+
     void WebView::OnPopupMouseMove(Object^ sender, MouseEventArgs^ e)
     {
         OnMouseMove(e);
@@ -814,32 +830,6 @@ namespace Wpf
         HidePopup();
     }
 
-	void WebView::OnLoaded(Object^ sender, RoutedEventArgs^ e)
-    {
-		EnsureSourceAndHook();
-    }
-
-    void WebView::EnsureSourceAndHook()
-    {
-		if (_source == nullptr)
-        {
-			_source = (HwndSource^)PresentationSource::FromVisual(this);
-			_matrix = _source->CompositionTarget->TransformToDevice;
-
-			_hook = gcnew Interop::HwndSourceHook(this, &WebView::SourceHook);
-			_source->AddHook(_hook);
-		}
-    }
-
-    void WebView::OnUnloaded(Object^ sender, RoutedEventArgs^ e)
-    {  
-		if (_source && _hook)
-        {
-            _source->RemoveHook(_hook);
-			_source = nullptr;
-			_hook = nullptr;
-        }
-    }
     void WebView::HidePopup()
     {
         CefRefPtr<CefBrowser> browser;
@@ -851,6 +841,18 @@ namespace Wpf
                 // opens it. 
                 browser->SendMouseClickEvent(-1,-1, CefBrowser::MouseButtonType::MBT_LEFT, false, 1 );
             }
+        }
+    }
+
+    void WebView::AddSourceHook()
+    {
+        if (_source == nullptr)
+        {
+            _source = (HwndSource^)PresentationSource::FromVisual(this);
+            _matrix = _source->CompositionTarget->TransformToDevice;
+
+            _hook = gcnew Interop::HwndSourceHook(this, &WebView::SourceHook);
+            _source->AddHook(_hook);
         }
     }
 }}
