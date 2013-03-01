@@ -1,6 +1,5 @@
 #pragma once
 
-#include "BrowserSettings.h"
 #include "ClientAdapter.h"
 #include "ScriptCore.h"
 

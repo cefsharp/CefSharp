@@ -49,7 +49,7 @@ namespace WinForms
             window.SetAsChild(hWnd, rect);
 
             CefBrowser::CreateBrowser(window, _clientAdapter.get(),
-                url, *_settings->_browserSettings);
+                url, *(CefBrowserSettings*)_settings->_internalBrowserSettings);
         }
     }
 

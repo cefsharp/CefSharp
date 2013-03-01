@@ -1,5 +1,4 @@
-#include "stdafx.h"
-#pragma once
+#include "StdAfx.h"
 
 namespace CefSharp
 {
@@ -12,6 +11,13 @@ namespace CefSharp
         BrowserSettings() : _browserSettings(new CefBrowserSettings()) { }
         !BrowserSettings() { delete _browserSettings; }
         ~BrowserSettings() { delete _browserSettings; }
+
+        // CefBrowserSettings is private causing whole field to be private
+        // exposing void* as a workaround
+        property void* _internalBrowserSettings
+        {
+            void* get() { return _browserSettings; }
+        }
 
         property bool DragDropDisabled
         {

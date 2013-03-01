@@ -201,6 +201,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\BrowserSettings.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ClientAdapter.cpp"
 				>
 			</File>
@@ -276,10 +280,6 @@
 			</File>
 			<File
 				RelativePath=".\BrowserCore.h"
-				>
-			</File>
-			<File
-				RelativePath=".\BrowserSettings.h"
 				>
 			</File>
 			<File

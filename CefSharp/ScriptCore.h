@@ -3,7 +3,7 @@
 
 namespace CefSharp
 {
-    public class ScriptCore
+    class ScriptCore
     {
     private:
         HANDLE _event;
