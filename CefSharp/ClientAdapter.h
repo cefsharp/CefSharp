@@ -57,7 +57,7 @@ namespace CefSharp
         virtual DECL bool OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, NavType navType, bool isRedirect) OVERRIDE;
         virtual DECL bool OnBeforeResourceLoad(CefRefPtr<CefBrowser> browser, CefRefPtr<CefRequest> request, CefString& redirectUrl, CefRefPtr<CefStreamReader>& resourceStream, CefRefPtr<CefResponse> response, int loadFlags) OVERRIDE;
         virtual DECL void OnResourceResponse(CefRefPtr<CefBrowser> browser, const CefString& url, CefRefPtr<CefResponse> response, CefRefPtr<CefContentFilter>& filter) OVERRIDE;
-        virtual DECL bool GetAuthCredentials(CefRefPtr browser,bool isProxy,const CefString& host,int port,const CefString& realm,const CefString& scheme,CefString& username,CefString& password) OVERRIDE;
+        virtual DECL bool GetAuthCredentials(CefRefPtr<CefBrowser> browser, bool isProxy, const CefString& host, int port, const CefString& realm, const CefString& scheme, CefString& username, CefString& password) OVERRIDE;
 
         // CefDisplayHandler
         virtual DECL void OnAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& url) OVERRIDE;

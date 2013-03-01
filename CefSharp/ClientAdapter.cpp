@@ -193,24 +193,31 @@ namespace CefSharp
 
         return ret;
     }
-    bool ClientAdapter::GetAuthCredentials(CefRefPtr browser,bool isProxy,const CefString& host,int port,const CefString& realm,const CefString& scheme,CefString& username,CefString& password)
+
+    bool ClientAdapter::GetAuthCredentials(CefRefPtr<CefBrowser> browser, bool isProxy, const CefString& host, int port, const CefString& realm, const CefString& scheme, CefString& username, CefString& password)
     {
         IRequestHandler^ handler = _browserControl->RequestHandler;
         if (handler == nullptr)
         {
             return false;
         }
-        String^ uname = nullptr;
-        String^ pass = nullptr;
-        bool handled = handler->GetAuthCredentials(_browserControl,isProxy,toClr(host),port,toClr(realm),toClr(scheme),uname,pass);
+
+        String^ usernameString = nullptr;
+        String^ passwordString = nullptr;
+        bool handled = handler->GetAuthCredentials(_browserControl, isProxy, toClr(host), port, toClr(realm), toClr(scheme), usernameString, passwordString);
         
-            if(uname!=nullptr)
-                username = toNative(uname);
-            if(pass!=nullptr)
-                password = toNative(pass);
+        if (usernameString != nullptr)
+        {
+            username = toNative(usernameString);
+        }
+        if (passwordString != nullptr)
+        {
+            password = toNative(passwordString);
+        }
     
         return handled;
     }
+
     void ClientAdapter::OnResourceResponse(CefRefPtr<CefBrowser> browser, const CefString& url, CefRefPtr<CefResponse> response, CefRefPtr<CefContentFilter>& filter)
     {
         IRequestHandler^ handler = _browserControl->RequestHandler;
