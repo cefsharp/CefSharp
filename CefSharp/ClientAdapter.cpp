@@ -11,6 +11,8 @@
 #include "IMenuHandler.h"
 #include "IKeyboardHandler.h"
 
+using namespace std;
+
 namespace CefSharp
 {
     bool ClientAdapter::OnBeforePopup(CefRefPtr<CefBrowser> parentBrowser, const CefPopupFeatures& popupFeatures, CefWindowInfo& windowInfo, const CefString& url, CefRefPtr<CefClient>& client, CefBrowserSettings& settings)
@@ -193,8 +195,21 @@ namespace CefSharp
         else if (requestResponse->Action == ResponseAction::Respond)
         {
             CefRefPtr<StreamAdapter> adapter = new StreamAdapter(requestResponse->ResponseStream);
+
             resourceStream = CefStreamReader::CreateForHandler(static_cast<CefRefPtr<CefReadHandler>>(adapter));
             response->SetMimeType(toNative(requestResponse->MimeType));
+            response->SetStatus(requestResponse->StatusCode);
+            response->SetStatusText(toNative(requestResponse->StatusText));
+
+            CefResponse::HeaderMap map;
+            if(requestResponse->ResponseHeaders != nullptr)
+            {
+                for each(KeyValuePair<String^, String^>^ kvp in requestResponse->ResponseHeaders)
+                {
+                    map.insert(pair<CefString,CefString>(toNative(kvp->Key),toNative(kvp->Value)));
+                }
+            }
+            response->SetHeaderMap(map);
         }
 
         return ret;

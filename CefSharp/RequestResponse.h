@@ -36,14 +36,20 @@ namespace CefSharp
         String^ _mimeType;
         String^ _redirectUrl;
         ResponseAction _action;
+        String^ _statusText;
+        int _statusCode;
+        IDictionary<String^, String^>^ _responseHeaders;
 
     internal:
         RequestResponse(IRequest^ request) :
             _action(ResponseAction::Continue),
-            _request(request) {}
+                _request(request) {}
 
         property Stream^ ResponseStream { Stream^ get() { return _responseStream; } }
         property String^ MimeType { String^ get() { return _mimeType; } }
+        property String^ StatusText { String^ get() { return _statusText; } }
+        property int StatusCode { int get() { return _statusCode; } }
+        property IDictionary<String^, String^>^ ResponseHeaders { IDictionary<String^, String^>^ get() { return _responseHeaders; } }
         property String^ RedirectUrl { String^ get() { return _redirectUrl; } }
         property ResponseAction Action { ResponseAction get() { return _action; } }
 
@@ -52,6 +58,7 @@ namespace CefSharp
         virtual property IRequest^ Request { IRequest^ get() { return _request; } }
         virtual void Redirect(String^ url);
         virtual void RespondWith(Stream^ stream, String^ mimeType);
+        virtual void RespondWith(Stream^ stream, String^ mimeType, String^ statusText, int statusCode, IDictionary<String^, String^>^ responseHeaders);
     };
 
 }
