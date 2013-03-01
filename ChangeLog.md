@@ -1,3 +1,15 @@
+###### 0.13
+Unreleased, Chromium 25.0.1364.68
+
+- Add support for HTTP Basic Authentication using GetAuthCredentials [@rotem925]
+- Add OnBeforeClose() binding [@intninety]
+- Raise LoadCompleted event when OnFrameLoadEnd() is called [@kppullin]
+- Allow referencing CefSharp.WinForms.dll and CefSharp.Wpf.dll from the same project [@mwisnicki]
+- Fix a bug that prevented Wpf.WebView from working after being moved from one window to another [@dvarchev]
+- Add a LoadHtml() overload with a url parameter [@flowcoder]
+- Fix poup dimensions when using Wpf.WebView [@KristinaKoeva]
+- Make RequestResponse object to allow custom status code, status text and headers [@dvarchev]
+
 ###### 0.12
 August 1, 2012, Chromium 21.0.1180.0
 
@@ -11,9 +23,9 @@ August 1, 2012, Chromium 21.0.1180.0
 ###### 0.11
 April 10, 2012, Chromium 20.0.1092.0
 
-- Fix OnBeforeBrowser [kppullin]
-- Wrap SetCookie(), DeleteCookies(), and SetCookiePath() [davybrion]
-- Transform WPF control size to device coordinates [xpaulbettsx]
+- Fix OnBeforeBrowser [@kppullin]
+- Wrap SetCookie(), DeleteCookies(), and SetCookiePath() [@davybrion]
+- Transform WPF control size to device coordinates [@xpaulbettsx]
 
 ###### 0.10
 March 18, 2012, Chromium 17.0.963.15
