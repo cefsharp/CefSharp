@@ -9,6 +9,6 @@ namespace CefSharp
     {
     public:
         bool OnBeforePopup(IWebBrowser^ browser, String^ url, int% x, int% y, int% width, int% height);
-		void OnBeforeClose(IWebBrowser^ browser);
+        void OnBeforeClose(IWebBrowser^ browser);
     };
 }

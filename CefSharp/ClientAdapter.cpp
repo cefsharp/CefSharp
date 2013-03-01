@@ -40,11 +40,11 @@ namespace CefSharp
     {
         if (_browserHwnd == browser->GetWindowHandle())
         {
-			ILifeSpanHandler^ handler = _browserControl->LifeSpanHandler;
-			if (handler != nullptr)
-			{
-				handler->OnBeforeClose(_browserControl);
-			}
+            ILifeSpanHandler^ handler = _browserControl->LifeSpanHandler;
+            if (handler != nullptr)
+            {
+                handler->OnBeforeClose(_browserControl);
+            }
 
             _cefBrowser = nullptr;
         }
