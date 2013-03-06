@@ -215,6 +215,15 @@ namespace CefSharp
         return ret;
     }
 
+    bool ClientAdapter::GetDownloadHandler(CefRefPtr<CefBrowser> browser, const CefString& mimeType, const CefString& fileName, int64 contentLength, CefRefPtr<CefDownloadHandler>& handler)
+    {
+        IRequestHandler^ requestHandler = _browserControl->RequestHandler;
+        if (requestHandler == nullptr)
+        {
+            return false;
+        }
+    }
+
     bool ClientAdapter::GetAuthCredentials(CefRefPtr<CefBrowser> browser, bool isProxy, const CefString& host, int port, const CefString& realm, const CefString& scheme, CefString& username, CefString& password)
     {
         IRequestHandler^ handler = _browserControl->RequestHandler;
