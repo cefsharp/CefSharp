@@ -311,6 +311,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\IDownload.h"
+				>
+			</File>
+			<File
 				RelativePath=".\IKeyboardHandler.h"
 				>
 			</File>

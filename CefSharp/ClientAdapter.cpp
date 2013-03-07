@@ -224,7 +224,7 @@ namespace CefSharp
             return false;
         }
 
-        handler = new DownloadAdapter();
+        handler = new DownloadAdapter(nullptr);
         return true;
     }
 
