@@ -11,6 +11,7 @@ Unreleased, Chromium 25.0.1364.68
 - Fix poup dimensions when using Wpf.WebView [@KristinaKoeva]
 - Make RequestResponse object to allow custom status code, status text and headers [@dvarchev]
 - Correct dimentions of Wpf.WebView when running in non default DPI settings, prevents web content from appearing cut off [@dvarchev]
+- Don't generate debug info for release vcproj configurations [@oconnor663]
 
 ###### 0.12
 August 1, 2012, Chromium 21.0.1180.0

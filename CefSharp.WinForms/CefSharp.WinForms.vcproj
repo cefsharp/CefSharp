@@ -138,7 +138,7 @@
 				ShowProgress="1"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(SolutionDir)libs\$(ConfigurationName);$(SolutionDir)CefSharp\bin\$(ConfigurationName)"
-				GenerateDebugInformation="true"
+				GenerateDebugInformation="false"
 				TargetMachine="1"
 			/>
 			<Tool

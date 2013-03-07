@@ -144,7 +144,7 @@
 				ShowProgress="1"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(SolutionDir)libs\$(ConfigurationName)\"
-				GenerateDebugInformation="true"
+				GenerateDebugInformation="false"
 				TargetMachine="1"
 			/>
 			<Tool
