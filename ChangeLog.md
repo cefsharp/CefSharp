@@ -10,6 +10,7 @@ Unreleased, Chromium 25.0.1364.68
 - Add a LoadHtml() overload with a url parameter [@flowcoder]
 - Fix poup dimensions when using Wpf.WebView [@KristinaKoeva]
 - Make RequestResponse object to allow custom status code, status text and headers [@dvarchev]
+- Correct dimentions of Wpf.WebView when running in non default DPI settings, prevents web content from appearing cut off [@dvarchev]
 
 ###### 0.12
 August 1, 2012, Chromium 21.0.1180.0
