@@ -232,7 +232,7 @@ namespace Wpf
         if (TryGetCefBrowser(browser))
         {
             Point point = _matrix->Transform(Point(size.Width, size.Height));
-            browser->SetSize(PET_VIEW, (int)point.X, (int)point.Y);
+            browser->SetSize(PET_VIEW, (int)size.Width, (int)size.Height);
 			HidePopup();
         }
         else
