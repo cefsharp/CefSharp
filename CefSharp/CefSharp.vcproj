@@ -213,6 +213,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DownloadAdapter.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\RenderClientAdapter.cpp"
 				>
 			</File>
@@ -296,6 +300,10 @@
 			</File>
 			<File
 				RelativePath=".\CookieVisitor.h"
+				>
+			</File>
+			<File
+				RelativePath=".\DownloadAdapter.h"
 				>
 			</File>
 			<File

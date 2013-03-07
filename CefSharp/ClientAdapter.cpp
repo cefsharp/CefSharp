@@ -4,6 +4,7 @@
 #include "ClientAdapter.h"
 #include "CefSharp.h"
 #include "StreamAdapter.h"
+#include "DownloadAdapter.h"
 #include "IWebBrowser.h"
 #include "ILifeSpanHandler.h"
 #include "ILoadHandler.h"
@@ -222,6 +223,9 @@ namespace CefSharp
         {
             return false;
         }
+
+        handler = new DownloadAdapter();
+        return true;
     }
 
     bool ClientAdapter::GetAuthCredentials(CefRefPtr<CefBrowser> browser, bool isProxy, const CefString& host, int port, const CefString& realm, const CefString& scheme, CefString& username, CefString& password)
