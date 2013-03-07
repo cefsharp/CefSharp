@@ -282,6 +282,13 @@ namespace CefSharp.Example
         {
 
         }
+
+        bool IRequestHandler.GetDownloadHandler(IWebBrowser browser, string mimeType, string fileName, long contentLength, ref IDownloadHandler handler)
+        {
+            handler = new DownloadHandler(fileName);
+            return true;
+        }
+
         bool IRequestHandler.GetAuthCredentials(IWebBrowser browser, bool isProxy, string host, int port, string realm, string scheme, ref string username, ref string password)
         {
             return false;

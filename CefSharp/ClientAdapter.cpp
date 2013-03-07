@@ -4,6 +4,7 @@
 #include "ClientAdapter.h"
 #include "CefSharp.h"
 #include "StreamAdapter.h"
+#include "DownloadAdapter.h"
 #include "IWebBrowser.h"
 #include "ILifeSpanHandler.h"
 #include "ILoadHandler.h"
@@ -210,6 +211,24 @@ namespace CefSharp
                 }
             }
             response->SetHeaderMap(map);
+        }
+
+        return ret;
+    }
+
+    bool ClientAdapter::GetDownloadHandler(CefRefPtr<CefBrowser> browser, const CefString& mimeType, const CefString& fileName, int64 contentLength, CefRefPtr<CefDownloadHandler>& handler)
+    {
+        IRequestHandler^ requestHandler = _browserControl->RequestHandler;
+        if (requestHandler == nullptr)
+        {
+            return false;
+        }
+
+        IDownloadHandler^ downloadHandler;
+        bool ret = requestHandler->GetDownloadHandler(_browserControl, toClr(mimeType), toClr(fileName), contentLength, downloadHandler);
+        if (ret)
+        {
+            handler = new DownloadAdapter(downloadHandler);
         }
 
         return ret;
