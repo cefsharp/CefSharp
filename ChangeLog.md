@@ -1,6 +1,7 @@
 ###### 0.13
 Unreleased, Chromium 25.0.1364.68
 
+- Add support for file downloads using IRequestHandler.GetDownloadHandler() [@gbrhaz, @jclement]
 - Add support for HTTP Basic Authentication using GetAuthCredentials [@rotem925]
 - Add OnBeforeClose() binding [@intninety]
 - Raise LoadCompleted event when OnFrameLoadEnd() is called [@kppullin]
