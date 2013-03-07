@@ -14,7 +14,7 @@ namespace CefSharp.Example
         }
     }
 
-    class SchemeHandler: ISchemeHandler
+    class SchemeHandler : ISchemeHandler
     {
         private readonly IDictionary<string, string> resources;
 

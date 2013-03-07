@@ -224,8 +224,14 @@ namespace CefSharp
             return false;
         }
 
-        handler = new DownloadAdapter(nullptr);
-        return true;
+        IDownloadHandler^ downloadHandler;
+        bool ret = requestHandler->GetDownloadHandler(_browserControl, toClr(mimeType), toClr(fileName), contentLength, downloadHandler);
+        if (ret)
+        {
+            handler = new DownloadAdapter(downloadHandler);
+        }
+
+        return ret;
     }
 
     bool ClientAdapter::GetAuthCredentials(CefRefPtr<CefBrowser> browser, bool isProxy, const CefString& host, int port, const CefString& realm, const CefString& scheme, CefString& username, CefString& password)

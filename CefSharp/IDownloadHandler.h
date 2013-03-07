@@ -3,7 +3,7 @@
 
 namespace CefSharp
 {
-    public interface class IDownload
+    public interface class IDownloadHandler
     {
     public:
         bool ReceivedData(array<Byte>^ data);

@@ -2,16 +2,16 @@
 #pragma once
 
 #include "include/cef_download_handler.h"
-#include "IDownload.h"
+#include "IDownloadHandler.h"
 
 namespace CefSharp
 {
     class DownloadAdapter : public CefDownloadHandler
     {
-        gcroot<IDownload^> _download;
+        gcroot<IDownloadHandler^> _handler;
 
     public:
-        DownloadAdapter(IDownload^ download) : _download(download) { }
+        DownloadAdapter(IDownloadHandler^ handler) : _handler(handler) { }
 
         virtual bool ReceivedData(void* data, int data_size);
         virtual void Complete();

@@ -311,7 +311,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\IDownload.h"
+				RelativePath=".\IDownloadHandler.h"
 				>
 			</File>
 			<File
