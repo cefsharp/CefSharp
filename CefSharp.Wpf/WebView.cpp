@@ -226,6 +226,31 @@ namespace Wpf
             type, mouseUp, e->ClickCount);
     }
 
+    void WebView::OnVisualParentChanged(DependencyObject^ oldParent)
+    {
+        EventHandler^ _handler = gcnew EventHandler(this, &WebView::OnHidePopup);
+        Window^ window;
+
+        if (oldParent != nullptr)
+        {
+            window = Window::GetWindow(oldParent);
+            if (window != nullptr)
+            {
+                window->LocationChanged -= _handler;
+                window->Deactivated -= _handler;
+            }
+        }
+
+        window = Window::GetWindow(this);
+        if (window != nullptr)
+        {
+            window->LocationChanged += _handler;
+            window->Deactivated += _handler;
+        }
+
+        ContentControl::OnVisualParentChanged(oldParent);
+    }
+
     Size WebView::ArrangeOverride(Size size)
     {
         CefRefPtr<CefBrowser> browser;
@@ -638,10 +663,6 @@ namespace Wpf
         _popup->PlacementTarget = this;
         _popup->Placement = PlacementMode::Relative;
 
-        Window^ currentWindow = Window::GetWindow(this);
-        currentWindow->LocationChanged += gcnew EventHandler(this, &WebView::OnWindowLocationChanged);
-        currentWindow->Deactivated += gcnew EventHandler(this, &WebView::OnWindowLocationChanged);
-
         _image->Stretch = Stretch::None;
         _image->HorizontalAlignment = ::HorizontalAlignment::Left;
         _image->VerticalAlignment = ::VerticalAlignment::Top;
@@ -830,7 +851,7 @@ namespace Wpf
         OnMouseLeave(e);
     }
 
-    void WebView::OnWindowLocationChanged(Object^ sender, EventArgs^ e)
+    void WebView::OnHidePopup(Object^ sender, EventArgs^ e)
     { 
         HidePopup();
     }

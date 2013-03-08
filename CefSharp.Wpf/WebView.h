@@ -84,12 +84,13 @@ namespace Wpf
         void OnPopupMouseDown(Object^ sender,MouseButtonEventArgs^ e);
         void OnPopupMouseUp(Object^ sender, MouseButtonEventArgs^ e);
         void OnPopupMouseLeave(Object^ sender, MouseEventArgs^ e);
-        void OnWindowLocationChanged(Object^ sender, EventArgs^ e);
+        void OnHidePopup(Object^ sender, EventArgs^ e);
 
         void HidePopup();
         void AddSourceHook();
 		
     protected:
+        virtual void OnVisualParentChanged(DependencyObject^ oldParent) override;
         virtual Size ArrangeOverride(Size size) override;
         virtual void OnGotFocus(RoutedEventArgs^ e) override;
         virtual void OnLostFocus(RoutedEventArgs^ e) override;
