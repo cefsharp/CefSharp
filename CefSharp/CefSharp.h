@@ -105,7 +105,6 @@ namespace CefSharp
             hostName = hostName ? hostName : String::Empty;
 
             CefRefPtr<CefSchemeHandlerFactory> wrapper = new SchemeHandlerFactoryWrapper(factory);
-            CefRegisterCustomScheme(toNative(schemeName), is_standard, false, false);
             return CefRegisterSchemeHandlerFactory(toNative(schemeName), toNative(hostName), wrapper);
         }
 

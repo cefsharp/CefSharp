@@ -1,4 +1,4 @@
-// Copyright (c) 2011 Marshall A. Greenblatt. All rights reserved.
+// Copyright (c) 2013 Marshall A. Greenblatt. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are
@@ -42,6 +42,7 @@
 #include "include/cef_base.h"
 #include "include/cef_proxy_handler.h"
 #include "include/cef_resource_bundle_handler.h"
+#include "include/cef_scheme.h"
 
 class CefApp;
 
@@ -105,6 +106,15 @@ void CefSetOSModalLoop(bool osModalLoop);
 /*--cef(source=client,no_debugct_check)--*/
 class CefApp : public virtual CefBase {
  public:
+  ///
+  // Provides an opportunity to register custom schemes. Do not keep a reference
+  // to the |registrar| object. This method is called on the UI thread.
+  ///
+  /*--cef()--*/
+  virtual void OnRegisterCustomSchemes(
+      CefRefPtr<CefSchemeRegistrar> registrar) {
+  }
+
   ///
   // Return the handler for resource bundle events. If
   // CefSettings.pack_loading_disabled is true a handler must be returned. If no
