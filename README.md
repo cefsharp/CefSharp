@@ -8,13 +8,10 @@ This project is [BSD](http://www.opensource.org/licenses/bsd-license.php "BSD Li
 
 Binary releases contain everything needed to embed Chromium in your CLR application. You will need the [7-Zip archiver](http://www.7-zip.org/ "7-Zip") to extract.
 
-**Stable**: [CefSharp-1.19.0.7z](https://github.com/downloads/ataranto/CefSharp/CefSharp-1.19.0.7z "Download")
-Chromium 19.0.1084.9
+**Stable**: [CefSharp-1.25.0](https://sourceforge.net/projects/cefsharp/files/latest/download "Download")
+Chromium 25.0.1364.152
 
-**Current**: [CefSharp-0.12.7z](https://github.com/downloads/ataranto/CefSharp/CefSharp-0.12.7z "Download")
-Chromium 21.0.1180.0
-
-See the [ChangeLog](https://github.com/ataranto/CefSharp/blob/master/ChangeLog.md) for update information, or [Downloads](https://github.com/ataranto/CefSharp/downloads) for older releases.
+See the [ChangeLog](https://github.com/ataranto/CefSharp/blob/master/ChangeLog.md) for update information, or [Downloads](https://sourceforge.net/projects/cefsharp/files/) for older releases.
 
 # Forks
 
