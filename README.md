@@ -16,6 +16,10 @@ Chromium 21.0.1180.0
 
 See the [ChangeLog](https://github.com/ataranto/CefSharp/blob/master/ChangeLog.md) for update information, or [Downloads](https://github.com/ataranto/CefSharp/downloads) for older releases.
 
+# Forks
+
+[The chillitom fork](https://github.com/chillitom/CefSharp) was the original CefSharp repo, but is updated only when a new release is made. Active maintainership occurs on [the ataranto fork](https://github.com/ataranto/CefSharp). You can also view [the entire network of public forks/branches](https://github.com/chillitom/CefSharp/network).
+
 # Contact
 
 Please use the [CefSharp Google Group](https://groups.google.com/forum/#!forum/cefsharp) for discussions of CefSharp usage.
