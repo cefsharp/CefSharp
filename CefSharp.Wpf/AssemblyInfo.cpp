@@ -7,7 +7,7 @@ using namespace System::Security::Permissions;
 [assembly:AssemblyTitle("CefSharp.Wpf")];
 [assembly:AssemblyCompany("Anthony Taranto")];
 [assembly:AssemblyProduct("CefSharp")];
-[assembly:AssemblyCopyright("Copyright (c) Anthony Taranto 2012")];
+[assembly:AssemblyCopyright("Copyright (c) Anthony Taranto 2013")];
 
 [assembly:AssemblyVersion("1.25.0.*")];
 [assembly:ComVisible(false)];
