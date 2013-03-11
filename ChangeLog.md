@@ -1,5 +1,5 @@
-###### 0.13
-Unreleased, Chromium 25.0.1364.68
+###### 1.25.0
+March 11, 2013, Chromium 25.0.1364.68
 
 - Add support for file downloads using IRequestHandler.GetDownloadHandler() [@gbrhaz, @jclement]
 - Add support for HTTP Basic Authentication using GetAuthCredentials [@rotem925]
@@ -12,6 +12,7 @@ Unreleased, Chromium 25.0.1364.68
 - Make RequestResponse object to allow custom status code, status text and headers [@dvarchev]
 - Correct dimentions of Wpf.WebView when running in non default DPI settings, prevents web content from appearing cut off [@dvarchev]
 - Don't generate debug info for release vcproj configurations [@oconnor663]
+- Fix a GC bug when removing a WPF web view from the view hierarchy [@MasonOfWords]
 
 ###### 0.12
 August 1, 2012, Chromium 21.0.1180.0
