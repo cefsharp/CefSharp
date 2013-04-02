@@ -315,6 +315,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\IJsDialogHandler.h"
+				>
+			</File>
+			<File
 				RelativePath=".\IKeyboardHandler.h"
 				>
 			</File>
