@@ -24,6 +24,36 @@ namespace CefSharp
     {
         return toClr(_wrappedRequest->GetMethod());
     }
+    
+    String^ CefRequestWrapper::Body::get()
+    {
+		CefPostData::ElementVector ev;
+		
+		CefRefPtr<CefPostData> data = _wrappedRequest->GetPostData();
+
+		if(data.get() != nullptr) {
+			data.get()->GetElements(ev);
+
+			for (CefPostData::ElementVector::iterator it = ev.begin(); it != ev.end(); ++it)
+			{
+				CefPostDataElement *el = it->get();
+				
+				if(el->GetType() == PDE_TYPE_BYTES) 
+				{
+					size_t count = el->GetBytesCount();
+					char* bytes = new char[count];
+
+					el->GetBytes(count, bytes);
+
+					return gcnew String(bytes, 0, count);
+				} else if(el->GetType() == PDE_TYPE_FILE) {
+					return toClr(el->GetFile());
+				}
+			}
+		}
+
+		return nullptr;
+    }
 
     IDictionary<String^, String^>^ CefRequestWrapper::GetHeaders()
     {
