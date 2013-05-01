@@ -4,7 +4,7 @@
     xmlns:cs="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
     Title="CefSharp.Wpf.Example" Height="480" Width="640">
     <DockPanel>
-        <!--<Menu Height="22" DockPanel.Dock="Top">
+        <Menu Height="22" DockPanel.Dock="Top">
             <MenuItem Header="File">
                 <MenuItem Header="Show Dev Tools" Name="showDevToolsMenuItem" Click="control_Activated" />
                 <MenuItem Header="Close Dev Tools" Name="closeDevToolsMenuItem" Click="control_Activated" />
@@ -44,14 +44,14 @@
         <DockPanel VerticalAlignment="Top" DockPanel.Dock="Top">
             <Label>Angle:</Label>
             <Slider Name="angleSlider" Minimum="-180" Maximum="180" DockPanel.Dock="Right" />
-        </DockPanel>-->
+        </DockPanel>
         <Label Name="outputLabel" DockPanel.Dock="Bottom" />
-        <!--<cs:WebView x:Name="web_view">
+        <cs:WebView x:Name="web_view">
             <cs:WebView.LayoutTransform>
                 <TransformGroup>
                     <RotateTransform Angle="{Binding Value, ElementName=angleSlider}"/>
                 </TransformGroup>
             </cs:WebView.LayoutTransform>
-        </cs:WebView>-->
+        </cs:WebView>
     </DockPanel>
 </Window>
