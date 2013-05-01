@@ -35,6 +35,6 @@ namespace CefSharp
 
     void RenderClientAdapter::OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor)
     {
-        _renderBrowserControl->SetCursor(cursor);
+        _renderBrowserControl->SetCursor((IntPtr)cursor);
     }
 }

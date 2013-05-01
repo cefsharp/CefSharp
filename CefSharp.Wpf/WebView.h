@@ -265,7 +265,7 @@ namespace CefSharp
 			virtual IDictionary<String^, Object^>^ GetBoundObjects();
 
 			virtual void OnApplyTemplate() override;
-			virtual void SetCursor(CefCursorHandle cursor);
+			virtual void SetCursor(IntPtr cursor);
 			virtual void SetBuffer(int width, int height, const void* buffer);
 			virtual void SetPopupBuffer(int width, int height, const void* buffer);
 
