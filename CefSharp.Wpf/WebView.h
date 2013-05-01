@@ -89,8 +89,10 @@ namespace Wpf
         void HidePopup();
         void AddSourceHook();
 		
-    protected:
+	public protected: // a.k.a protected internal
         virtual void OnVisualParentChanged(DependencyObject^ oldParent) override;
+
+    protected:
         virtual Size ArrangeOverride(Size size) override;
         virtual void OnGotFocus(RoutedEventArgs^ e) override;
         virtual void OnLostFocus(RoutedEventArgs^ e) override;
