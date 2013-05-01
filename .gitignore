@@ -7,7 +7,9 @@
 *.dll
 *.exe
 *.manifest
-
+*.opensdf
+*.sdf
+*.ipch
 *.ReSharper
 _ReSharper*
 
@@ -17,5 +19,3 @@ Debug/
 CefSharp/app.aps
 TestResult.xml
 debug.log
-CefSharp.opensdf
-CefSharp.sdf
