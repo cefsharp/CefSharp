@@ -6,6 +6,7 @@
 *.swp
 *.dll
 *.exe
+*.exe.config
 *.manifest
 *.opensdf
 *.sdf
@@ -19,4 +20,3 @@ bin/
 CefSharp/app.aps
 TestResult.xml
 debug.log
-CefSharp.Wpf.Example.exe.config
