@@ -14,6 +14,6 @@ namespace CefSharp
         void SetPopupBuffer(int width, int height, const void* buffer);
         void SetPopupIsOpen(bool isOpen);
 
-        void SetPopupSizeAndPosition(const CefRect& rect);
+        void SetPopupSizeAndPosition(const void* rect);
     };
 }

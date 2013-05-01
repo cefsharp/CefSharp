@@ -270,7 +270,7 @@ namespace CefSharp
 			virtual void SetPopupBuffer(int width, int height, const void* buffer);
 
 			virtual void SetPopupIsOpen(bool isOpen);
-			virtual void SetPopupSizeAndPosition(const CefRect& rect);
+			virtual void SetPopupSizeAndPosition(const void* rect);
 
 		};
 	}

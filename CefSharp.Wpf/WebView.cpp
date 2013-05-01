@@ -778,12 +778,14 @@ namespace Wpf
         }
     }
 
-    void WebView::SetPopupSizeAndPosition(const CefRect& rect)
+    void WebView::SetPopupSizeAndPosition(const void* rect)
     {
-        _popupX = rect.x;
-        _popupY = rect.y;
-        _popupWidth = rect.width;
-        _popupHeight = rect.height;
+		auto cefRect = (const CefRect&) rect;
+
+        _popupX = cefRect.x;
+        _popupY = cefRect.y;
+        _popupWidth = cefRect.width;
+        _popupHeight = cefRect.height;
 
         if(!Dispatcher->HasShutdownStarted) {
             Dispatcher->BeginInvoke(DispatcherPriority::Render, _resizePopupDelegate);
