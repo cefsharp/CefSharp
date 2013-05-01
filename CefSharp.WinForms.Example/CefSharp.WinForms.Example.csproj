@@ -118,6 +118,11 @@
     </ProjectReference>
     <ProjectReference Include="..\CefSharp\CefSharp.vcxproj">
       <Project>{7b495581-2271-4f41-9476-acb86e8c864f}</Project>
+      <Project>{978C9B2B-04B6-4359-A341-CA3FCBE98D32}</Project>
+      <Name>CefSharp.WinForms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CefSharp\CefSharp.vcxproj">
+      <Project>{7B495581-2271-4F41-9476-ACB86E8C864F}</Project>
       <Name>CefSharp</Name>
     </ProjectReference>
   </ItemGroup>
