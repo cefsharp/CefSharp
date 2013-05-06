@@ -11,6 +11,7 @@
 *.opensdf
 *.sdf
 *.ipch
+*.exe.config
 *.ReSharper
 _ReSharper*
 
@@ -20,4 +21,3 @@ bin/
 CefSharp/app.aps
 TestResult.xml
 debug.log
-CefSharp.Wpf.Example.exe.config
