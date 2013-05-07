@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "BindingData.h"
 #include "BindingHandler.h"
 
 namespace CefSharp
@@ -256,7 +257,8 @@ namespace CefSharp
 
         // build a list of methods on the bound object
         array<MethodInfo^>^ methods = obj->GetType()->GetMethods(BindingFlags::Instance | BindingFlags::Public);
-        IDictionary<String^, Object^>^ methodNames = gcnew Dictionary<String^, Object^>();
+		IDictionary<String^, Object^>^ methodNames = gcnew Dictionary<String^, Object^>();
+
         for each(MethodInfo^ method in methods) 
         {
 			// "Special name"-methods are things like property getters and setters, which we don't want to include in the list.
@@ -264,14 +266,19 @@ namespace CefSharp
             methodNames->Add(method->Name, nullptr);
         }
 
-        // create a corresponding javascript method for each c# method
-        CefRefPtr<CefV8Handler> handler = static_cast<CefV8Handler*>(new BindingHandler());
-        for each(String^ methodName in methodNames->Keys)
-        {
-            CefString nameStr = toNative(methodName);
-            wrappedObject->SetValue(nameStr, CefV8Value::CreateFunction(nameStr, handler), V8_PROPERTY_ATTRIBUTE_NONE);
-        }
+		CreateJavascriptMethods(wrappedObject, methodNames->Keys);
 
         window->SetValue(toNative(name), wrappedObject, V8_PROPERTY_ATTRIBUTE_NONE);
     }
+
+	void BindingHandler::CreateJavascriptMethods(CefRefPtr<CefV8Value> javascriptObject, IEnumerable<String^>^ methodNames)
+	{
+		CefRefPtr<CefV8Handler> handler = static_cast<CefV8Handler*>(new BindingHandler());
+
+		for each(String^ methodName in methodNames)
+        {
+            CefString nameStr = toNative(methodName);
+            javascriptObject->SetValue(nameStr, CefV8Value::CreateFunction(nameStr, handler), V8_PROPERTY_ATTRIBUTE_NONE);
+        }
+	}
 }

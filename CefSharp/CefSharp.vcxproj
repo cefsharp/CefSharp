@@ -135,6 +135,7 @@
     <ClCompile Include="TypeUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BindingData.h" />
     <ClInclude Include="BindingHandler.h" />
     <ClInclude Include="BrowserCore.h" />
     <ClInclude Include="CefSharp.h" />

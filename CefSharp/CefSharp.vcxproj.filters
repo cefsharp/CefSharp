@@ -154,5 +154,8 @@
     <ClInclude Include="TypeUtil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BindingData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -6,31 +6,14 @@ using namespace System::Collections::Generic;
 
 namespace CefSharp
 {
-    class BindingData : public CefBase
-    {
-    protected:
-        gcroot<Object^> _obj;
-
-    public:
-        BindingData(Object^ obj)
-        {
-            _obj = obj;
-        }
-
-        Object^ Get()
-        {
-            return _obj;
-        }
-
-        IMPLEMENT_REFCOUNTING(BindingData);
-    };
-
     class BindingHandler : public CefV8Handler
     {
         // Type Converter
         static bool IsNullableType(Type^ type);
         static int GetChangeTypeCost(Object^ value, Type^ conversionType);
         static Object^ ChangeType(Object^ value, Type^ conversionType);
+
+		static void CreateJavascriptMethods(CefRefPtr<CefV8Value> javascriptObject, IEnumerable<String^>^ methodNames);
 
         CefRefPtr<CefV8Value> ConvertToCef(Object^ obj, Type^ type);
         Object^ ConvertFromCef(CefRefPtr<CefV8Value> obj);
