@@ -259,6 +259,8 @@ namespace CefSharp
         IDictionary<String^, Object^>^ methodNames = gcnew Dictionary<String^, Object^>();
         for each(MethodInfo^ method in methods) 
         {
+			// "Special name"-methods are things like property getters and setters, which we don't want to include in the list.
+			if (method->IsSpecialName) continue;
             methodNames->Add(method->Name, nullptr);
         }
 
