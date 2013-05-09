@@ -4,87 +4,87 @@ using namespace System::Collections::Generic;
 
 namespace CefSharp
 {
-    CefRefPtr<CefV8Value> convertToCef(Object^ obj, Type^ type)
-    {
-        if(type == Void::typeid)
-        {
-            return CefV8Value::CreateUndefined();
-        }
-        if(obj == nullptr)
-        {
-            return CefV8Value::CreateNull();
-        }
+	CefRefPtr<CefV8Value> convertToCef(Object^ obj, Type^ type)
+	{
+		if(type == Void::typeid)
+		{
+			return CefV8Value::CreateUndefined();
+		}
+		if(obj == nullptr)
+		{
+			return CefV8Value::CreateNull();
+		}
 
-        Type^ underlyingType = Nullable::GetUnderlyingType(type);
-        if(underlyingType!=nullptr)type = underlyingType;
+		Type^ underlyingType = Nullable::GetUnderlyingType(type);
+		if(underlyingType!=nullptr)type = underlyingType;
 
-        if (type == Boolean::typeid)
-        {
-            return CefV8Value::CreateBool(safe_cast<bool>(obj));
-        }
-        if (type == Int32::typeid)
-        {
-            return CefV8Value::CreateInt(safe_cast<int>(obj));
-        }
-        if (type == String::typeid)
-        {
-            CefString str = toNative(safe_cast<String^>(obj));
-            return CefV8Value::CreateString(str);
-        }
-        if (type == Double::typeid)
-        {
-            return CefV8Value::CreateDouble(safe_cast<double>(obj));
-        }
-        if (type == Decimal::typeid)
-        {
-            return CefV8Value::CreateDouble( Convert::ToDouble(obj) );
-        }
-        if (type == SByte::typeid)
-        {
-            return CefV8Value::CreateInt( Convert::ToInt32(obj) );
-        }
-        if (type == Int16::typeid)
-        {
-            return CefV8Value::CreateInt( Convert::ToInt32(obj) );
-        }
-        if (type == Int64::typeid)
-        {
-            return CefV8Value::CreateDouble( Convert::ToDouble(obj) );
-        }
-        if (type == Byte::typeid)
-        {
-            return CefV8Value::CreateInt( Convert::ToInt32(obj) );
-        }
-        if (type == UInt16::typeid)
-        {
-            return CefV8Value::CreateInt( Convert::ToInt32(obj) );
-        }
-        if (type == UInt32::typeid)
-        {
-            return CefV8Value::CreateDouble( Convert::ToDouble(obj) );
-        }
-        if (type == UInt64::typeid)
-        {
-            return CefV8Value::CreateDouble( Convert::ToDouble(obj) );
-        }
-        if (type == Single::typeid)
-        {
-            return CefV8Value::CreateDouble( Convert::ToDouble(obj) );
-        }
-        if (type == Char::typeid)
-        {
-            return CefV8Value::CreateInt( Convert::ToInt32(obj) );
-        }
+		if (type == Boolean::typeid)
+		{
+			return CefV8Value::CreateBool(safe_cast<bool>(obj));
+		}
+		if (type == Int32::typeid)
+		{
+			return CefV8Value::CreateInt(safe_cast<int>(obj));
+		}
+		if (type == String::typeid)
+		{
+			CefString str = toNative(safe_cast<String^>(obj));
+			return CefV8Value::CreateString(str);
+		}
+		if (type == Double::typeid)
+		{
+			return CefV8Value::CreateDouble(safe_cast<double>(obj));
+		}
+		if (type == Decimal::typeid)
+		{
+			return CefV8Value::CreateDouble( Convert::ToDouble(obj) );
+		}
+		if (type == SByte::typeid)
+		{
+			return CefV8Value::CreateInt( Convert::ToInt32(obj) );
+		}
+		if (type == Int16::typeid)
+		{
+			return CefV8Value::CreateInt( Convert::ToInt32(obj) );
+		}
+		if (type == Int64::typeid)
+		{
+			return CefV8Value::CreateDouble( Convert::ToDouble(obj) );
+		}
+		if (type == Byte::typeid)
+		{
+			return CefV8Value::CreateInt( Convert::ToInt32(obj) );
+		}
+		if (type == UInt16::typeid)
+		{
+			return CefV8Value::CreateInt( Convert::ToInt32(obj) );
+		}
+		if (type == UInt32::typeid)
+		{
+			return CefV8Value::CreateDouble( Convert::ToDouble(obj) );
+		}
+		if (type == UInt64::typeid)
+		{
+			return CefV8Value::CreateDouble( Convert::ToDouble(obj) );
+		}
+		if (type == Single::typeid)
+		{
+			return CefV8Value::CreateDouble( Convert::ToDouble(obj) );
+		}
+		if (type == Char::typeid)
+		{
+			return CefV8Value::CreateInt( Convert::ToInt32(obj) );
+		}
 		if (type->IsArray)
-        {
-            System::Array^ managedArray = (System::Array^)obj;
-            CefRefPtr<CefV8Value> cefArray = CefV8Value::CreateArray(managedArray->Length);
+		{
+			System::Array^ managedArray = (System::Array^)obj;
+			CefRefPtr<CefV8Value> cefArray = CefV8Value::CreateArray(managedArray->Length);
 
-            for (int i = 0; i < managedArray->Length; i++)
-            {
-                System::Object^ arrObj;
+			for (int i = 0; i < managedArray->Length; i++)
+			{
+				System::Object^ arrObj;
 
-                arrObj = managedArray->GetValue(i);
+				arrObj = managedArray->GetValue(i);
 
 				if (arrObj != nullptr)
 				{
@@ -96,61 +96,61 @@ namespace CefSharp
 				{
 					cefArray->SetValue(i, CefV8Value::CreateNull());
 				}
-            }
+			}
 
-            return cefArray;
-        }
-        if (type->IsValueType && !type->IsPrimitive && !type->IsEnum)
-        {
-            cli::array<System::Reflection::FieldInfo^>^ fields = type->GetFields();
-            CefRefPtr<CefV8Value> cefArray = CefV8Value::CreateArray(fields->Length);
+			return cefArray;
+		}
+		if (type->IsValueType && !type->IsPrimitive && !type->IsEnum)
+		{
+			cli::array<System::Reflection::FieldInfo^>^ fields = type->GetFields();
+			CefRefPtr<CefV8Value> cefArray = CefV8Value::CreateArray(fields->Length);
 
-            for (int i = 0; i < fields->Length; i++)
-            {
-                String^ fieldName = fields[i]->Name;
+			for (int i = 0; i < fields->Length; i++)
+			{
+				String^ fieldName = fields[i]->Name;
 
-                CefString strFieldName = toNative(safe_cast<String^>(fieldName));
+				CefString strFieldName = toNative(safe_cast<String^>(fieldName));
 
-                Object^ fieldVal = fields[i]->GetValue(obj);
+				Object^ fieldVal = fields[i]->GetValue(obj);
 
 				if (fieldVal != nullptr)
 				{
-	                CefRefPtr<CefV8Value> cefVal = convertToCef(fieldVal, fieldVal->GetType());
+					CefRefPtr<CefV8Value> cefVal = convertToCef(fieldVal, fieldVal->GetType());
 
-		            cefArray->SetValue(strFieldName, cefVal, V8_PROPERTY_ATTRIBUTE_NONE);
+					cefArray->SetValue(strFieldName, cefVal, V8_PROPERTY_ATTRIBUTE_NONE);
 				}
 				else
 				{
 					cefArray->SetValue(strFieldName, CefV8Value::CreateNull(), V8_PROPERTY_ATTRIBUTE_NONE);
 				}
-            }
+			}
 
-            return cefArray;
-        }
-        //TODO: What exception type?
-        throw gcnew Exception("Cannot convert object from CLR to Cef " + type->ToString() + ".");
-    }
+			return cefArray;
+		}
+		//TODO: What exception type?
+		throw gcnew Exception("Cannot convert object from CLR to Cef " + type->ToString() + ".");
+	}
 
 	System::String^ stdToString(const std::string& s)
 	{
 		return gcnew System::String(s.c_str());
 	}
 
-    Object^ convertFromCef(CefRefPtr<CefV8Value> obj)
-    {
+	Object^ convertFromCef(CefRefPtr<CefV8Value> obj)
+	{
 		if (obj->IsNull() || obj->IsUndefined())
 		{
 			return nullptr;
 		}
 
-        if (obj->IsBool())
-            return gcnew System::Boolean(obj->GetBoolValue());
-        if (obj->IsInt())
-            return gcnew System::Int32(obj->GetIntValue());
-        if (obj->IsDouble())
-            return gcnew System::Double(obj->GetDoubleValue());
-        if (obj->IsString())
-            return toClr(obj->GetStringValue());
+		if (obj->IsBool())
+			return gcnew System::Boolean(obj->GetBoolValue());
+		if (obj->IsInt())
+			return gcnew System::Int32(obj->GetIntValue());
+		if (obj->IsDouble())
+			return gcnew System::Double(obj->GetDoubleValue());
+		if (obj->IsString())
+			return toClr(obj->GetStringValue());
 
 		if (obj->IsArray())
 		{
@@ -225,7 +225,7 @@ namespace CefSharp
 			return nullptr;
 		}
 
-        //TODO: What exception type?
-        throw gcnew Exception("Cannot convert object from Cef to CLR.");
-    }
+		//TODO: What exception type?
+		throw gcnew Exception("Cannot convert object from Cef to CLR.");
+	}
 }
