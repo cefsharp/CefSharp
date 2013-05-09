@@ -1,7 +1,6 @@
-#include "stdafx.h"
+#include "Stdafx.h"
 #pragma once
 
-using namespace System::Reflection;
 using namespace System::Collections::Generic;
 
 namespace CefSharp
