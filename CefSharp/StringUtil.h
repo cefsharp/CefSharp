@@ -8,14 +8,14 @@ namespace CefSharp
 	/// <summary>
 	///	Converts an unmanaged string to a (managed) .NET string.
 	/// </summary>
-	/// <param name="str">The string that should be converted.</param>
+	/// <param name="cefStr">The string that should be converted.</param>
 	/// <returns>A .NET string.</returns>
     String^ toClr(const cef_string_t& cefStr);
 
 	/// <summary>
 	///	Converts an unmanaged string to a (managed) .NET string.
 	/// </summary>
-	/// <param name="str">The string that should be converted.</param>
+	/// <param name="cefStr">The string that should be converted.</param>
 	/// <returns>A .NET string.</returns>
 	String^ toClr(const CefString& cefStr);
 
