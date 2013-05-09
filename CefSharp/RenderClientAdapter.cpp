@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "Stdafx.h"
 
 #include "IRenderWebBrowser.h"
 #include "RenderClientAdapter.h"

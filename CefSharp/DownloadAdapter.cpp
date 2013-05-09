@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "Stdafx.h"
 #include "DownloadAdapter.h"
 
 using namespace System::Runtime::InteropServices;
