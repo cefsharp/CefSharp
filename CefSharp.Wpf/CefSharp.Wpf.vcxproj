@@ -86,6 +86,7 @@
       <PrecompiledHeader />
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
     </ClCompile>
     <Link>
       <AdditionalDependencies>libcef.lib;libcef_dll_wrapper.lib;CefSharp.lib;%(AdditionalDependencies)</AdditionalDependencies>
