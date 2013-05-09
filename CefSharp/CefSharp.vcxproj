@@ -166,6 +166,7 @@
     <ClInclude Include="StreamAdapter.h" />
     <ClInclude Include="StringUtil.h" />
     <ClInclude Include="TypeUtil.h" />
+    <ClInclude Include="vcclr_local.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
