@@ -172,5 +172,8 @@
     <ClInclude Include="BindingData.h">
       <Filter>Header Files\Internals\JavascriptBinding</Filter>
     </ClInclude>
+    <ClInclude Include="PropertyAccessor.h">
+      <Filter>Header Files\Internals\JavascriptBinding</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,6 +1,7 @@
 #include "Stdafx.h"
 #include "BindingData.h"
 #include "BindingHandler.h"
+#include "PropertyAccessor.h"
 
 using namespace System::Reflection;
 
@@ -259,11 +260,11 @@ namespace CefSharp
 			{
 				// Wrap the managed object in an unmanaged wrapper
 				auto bindingData = new BindingData(obj);
-				auto userData = static_cast<CefRefPtr<CefBase>>(bindingData);
 
 				// Create the javascript object and associate the wrapped object
-				auto wrappedObject = window->CreateObject(NULL);
-				wrappedObject->SetUserData(userData);
+				auto propertyAccessor = new PropertyAccessor();
+				auto wrappedObject = window->CreateObject(static_cast<CefRefPtr<CefV8Accessor>>(propertyAccessor));
+				wrappedObject->SetUserData(static_cast<CefRefPtr<CefBase>>(bindingData));
 
 				auto handler = static_cast<CefV8Handler*>(new BindingHandler());
 
@@ -297,12 +298,11 @@ namespace CefSharp
 
 			void BindingHandler::CreateJavascriptProperties(CefV8Handler* handler, CefRefPtr<CefV8Value> javascriptObject, IEnumerable<PropertyInfo^>^ properties)
 			{
-				// TODO: Read and understand https://code.google.com/p/chromiumembedded/wiki/JavaScriptIntegration
-				//for each(auto property in properties)
-				//{
-				//	auto nameStr = toNative(property->Name);
-				//	javascriptObject->SetValue(nameStr, CefV8Value::Cre(nameStr, handler), V8_PROPERTY_ATTRIBUTE_NONE);
-				//}
+				for each(PropertyInfo^ property in properties)
+				{
+					auto nameStr = toNative(property->Name);
+					javascriptObject->SetValue(nameStr, V8_ACCESS_CONTROL_DEFAULT, V8_PROPERTY_ATTRIBUTE_NONE);
+				}
 			}
 		}
 	}
