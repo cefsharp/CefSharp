@@ -9,12 +9,21 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
+    <Filter Include="Source Files\Internals">
+      <UniqueIdentifier>{dc2100d9-bcea-485e-8ef6-e6e407b078f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Internals\JavascriptBinding">
+      <UniqueIdentifier>{73171d01-6c6a-432e-a442-661fb059c336}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Internals">
+      <UniqueIdentifier>{7851f65a-4ad7-4e0f-aaa6-0c446f918ce1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Internals\JavascriptBinding">
+      <UniqueIdentifier>{4bc3c074-5cd6-4061-a5b8-b1b43688a707}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BindingHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BrowserCore.cpp">
@@ -62,11 +71,11 @@
     <ClCompile Include="TypeUtil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BindingHandler.cpp">
+      <Filter>Source Files\Internals\JavascriptBinding</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BindingHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="BrowserCore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -154,11 +163,14 @@
     <ClInclude Include="TypeUtil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BindingData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="vcclr_local.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BindingHandler.h">
+      <Filter>Header Files\Internals\JavascriptBinding</Filter>
+    </ClInclude>
+    <ClInclude Include="BindingData.h">
+      <Filter>Header Files\Internals\JavascriptBinding</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

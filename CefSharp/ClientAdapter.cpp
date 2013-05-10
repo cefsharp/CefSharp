@@ -13,6 +13,7 @@
 #include "IKeyboardHandler.h"
 
 using namespace std;
+using namespace CefSharp::Internals::JavascriptBinding;
 
 namespace CefSharp
 {
