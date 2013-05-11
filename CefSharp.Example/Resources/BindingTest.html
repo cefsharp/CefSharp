@@ -23,7 +23,20 @@
         Methods on bound object 'bound':<br />
         <ul>
             <script type="text/javascript">
-                for(var name in bound) {
+                for (var name in bound)
+                {
+                    if (bound[name].constructor.name != 'Function') continue;
+                    document.write("<li>" + name + "</li>");
+                }
+            </script>
+        </ul>
+
+        Properties in bound object 'bound':<br />
+        <ul>
+            <script type="text/javascript">
+                for (var name in bound)
+                {
+                    if (bound[name].constructor.name == 'Function') continue;
                     document.write("<li>" + name + "</li>");
                 }
             </script>
