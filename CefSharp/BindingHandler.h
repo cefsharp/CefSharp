@@ -18,7 +18,8 @@ namespace CefSharp
 				static Object^ ChangeType(Object^ value, Type^ conversionType);
 
 				static void CreateJavascriptMethods(CefV8Handler* handler, CefRefPtr<CefV8Value> javascriptObject, IEnumerable<String^>^ methodNames);
-				static void BindingHandler::CreateJavascriptProperties(CefV8Handler* handler, CefRefPtr<CefV8Value> javascriptObject, IEnumerable<PropertyInfo^>^ properties);
+				static void CreateJavascriptProperties(CefV8Handler* handler, CefRefPtr<CefV8Value> javascriptObject, Dictionary<String^, PropertyInfo^>^ properties);
+				static Dictionary<String^, PropertyInfo^>^ GetProperties(Type^ type);
 				static void BindingHandler::FindBestMethod(array<MemberInfo^>^ methods, array<Object^>^ suppliedArguments, MethodInfo^% bestMethod, array<Object^>^% bestMethodArguments);
 
 				CefRefPtr<CefV8Value> ConvertToCef(Object^ obj, Type^ type);

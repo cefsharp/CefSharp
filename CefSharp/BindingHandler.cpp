@@ -280,10 +280,23 @@ namespace CefSharp
 
 				CreateJavascriptMethods(handler, wrappedObject, methodNames->Keys);
 
-				auto properties = obj->GetType()->GetProperties(BindingFlags::Instance | BindingFlags::Public);
-				CreateJavascriptProperties(handler, wrappedObject, properties);
+				unmanagedWrapper->Properties = GetProperties(obj->GetType());
+				CreateJavascriptProperties(handler, wrappedObject, unmanagedWrapper->Properties);
 
 				window->SetValue(toNative(name), wrappedObject, V8_PROPERTY_ATTRIBUTE_NONE);
+			}
+
+			Dictionary<String^, PropertyInfo^>^ BindingHandler::GetProperties(Type^ type)
+			{
+				auto properties = type->GetProperties(BindingFlags::Instance | BindingFlags::Public);
+				auto result = gcnew Dictionary<String^, PropertyInfo^>();
+
+				for each(auto property in properties)
+				{
+					result[property->Name] = property;
+				}
+
+				return result;
 			}
 
 			void BindingHandler::CreateJavascriptMethods(CefV8Handler* handler, CefRefPtr<CefV8Value> javascriptObject, IEnumerable<String^>^ methodNames)
@@ -295,11 +308,12 @@ namespace CefSharp
 				}
 			}
 
-			void BindingHandler::CreateJavascriptProperties(CefV8Handler* handler, CefRefPtr<CefV8Value> javascriptObject, IEnumerable<PropertyInfo^>^ properties)
+			void BindingHandler::CreateJavascriptProperties(CefV8Handler* handler, CefRefPtr<CefV8Value> javascriptObject, Dictionary<String^, PropertyInfo^>^ properties)
 			{
-				for each(PropertyInfo^ property in properties)
+				for each(String^ propertyName in properties->Keys)
 				{
-					auto nameStr = toNative(property->Name);
+					// TODO: Handle read-only properties correctly here.
+					auto nameStr = toNative(propertyName);
 					javascriptObject->SetValue(nameStr, V8_ACCESS_CONTROL_DEFAULT, V8_PROPERTY_ATTRIBUTE_NONE);
 				}
 			}

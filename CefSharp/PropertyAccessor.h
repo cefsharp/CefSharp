@@ -1,4 +1,5 @@
 #include "Stdafx.h"
+#include "UnmanagedWrapper.h"
 
 namespace CefSharp
 {
@@ -17,9 +18,32 @@ namespace CefSharp
 				///
 				/*--cef()--*/
 				virtual bool Get(const CefString& name, const CefRefPtr<CefV8Value> object, CefRefPtr<CefV8Value>& retval,
-								 CefString& exception) override
+					CefString& exception) override
 				{
-					return false;
+					auto unmanagedWrapper = static_cast<UnmanagedWrapper*>(object->GetUserData().get());
+					String^ clrName = toClr(name);
+					PropertyInfo^ property;
+
+					if (unmanagedWrapper->Properties->TryGetValue(clrName, property))
+					{
+						Object^ wrappedObject = unmanagedWrapper->Get();
+						if(wrappedObject == nullptr)
+						{
+							exception = "Binding's CLR object is null.";
+							return true;
+						}
+
+						Object^ clrValue = property->GetValue(wrappedObject, nullptr);
+
+						retval = convertToCef(clrValue, nullptr);
+						return true;
+					}
+					else
+					{
+						// Will probably never get here in reality, since V8 knows the name of the properties that exist on this
+						// object and will only call us for existant properties.
+						return false;
+					}
 				}
 
 				///
@@ -31,8 +55,9 @@ namespace CefSharp
 				///
 				/*--cef()--*/
 				virtual bool Set(const CefString& name, const CefRefPtr<CefV8Value> object, const CefRefPtr<CefV8Value> value,
-								 CefString& exception) override
+					CefString& exception) override
 				{
+					// TODO: implement.
 					return false;
 				}
 
