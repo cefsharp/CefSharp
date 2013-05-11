@@ -42,52 +42,52 @@ namespace CefSharp
 		}
 		if (type == Decimal::typeid)
 		{
-			return CefV8Value::CreateDouble( Convert::ToDouble(obj) );
+			return CefV8Value::CreateDouble(Convert::ToDouble(obj));
 		}
 		if (type == SByte::typeid)
 		{
-			return CefV8Value::CreateInt( Convert::ToInt32(obj) );
+			return CefV8Value::CreateInt(Convert::ToInt32(obj));
 		}
 		if (type == Int16::typeid)
 		{
-			return CefV8Value::CreateInt( Convert::ToInt32(obj) );
+			return CefV8Value::CreateInt(Convert::ToInt32(obj));
 		}
 		if (type == Int64::typeid)
 		{
-			return CefV8Value::CreateDouble( Convert::ToDouble(obj) );
+			return CefV8Value::CreateDouble(Convert::ToDouble(obj));
 		}
 		if (type == Byte::typeid)
 		{
-			return CefV8Value::CreateInt( Convert::ToInt32(obj) );
+			return CefV8Value::CreateInt(Convert::ToInt32(obj));
 		}
 		if (type == UInt16::typeid)
 		{
-			return CefV8Value::CreateInt( Convert::ToInt32(obj) );
+			return CefV8Value::CreateInt(Convert::ToInt32(obj));
 		}
 		if (type == UInt32::typeid)
 		{
-			return CefV8Value::CreateDouble( Convert::ToDouble(obj) );
+			return CefV8Value::CreateDouble(Convert::ToDouble(obj));
 		}
 		if (type == UInt64::typeid)
 		{
-			return CefV8Value::CreateDouble( Convert::ToDouble(obj) );
+			return CefV8Value::CreateDouble(Convert::ToDouble(obj));
 		}
 		if (type == Single::typeid)
 		{
-			return CefV8Value::CreateDouble( Convert::ToDouble(obj) );
+			return CefV8Value::CreateDouble(Convert::ToDouble(obj));
 		}
 		if (type == Char::typeid)
 		{
-			return CefV8Value::CreateInt( Convert::ToInt32(obj) );
+			return CefV8Value::CreateInt(Convert::ToInt32(obj));
 		}
 		if (type->IsArray)
 		{
-			System::Array^ managedArray = (System::Array^)obj;
+			Array^ managedArray = (Array^)obj;
 			CefRefPtr<CefV8Value> cefArray = CefV8Value::CreateArray(managedArray->Length);
 
 			for (int i = 0; i < managedArray->Length; i++)
 			{
-				System::Object^ arrObj;
+				Object^ arrObj;
 
 				arrObj = managedArray->GetValue(i);
 
