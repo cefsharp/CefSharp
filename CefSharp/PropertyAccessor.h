@@ -21,22 +21,31 @@ namespace CefSharp
 					CefString& exception) override
 				{
 					auto unmanagedWrapper = static_cast<UnmanagedWrapper*>(object->GetUserData().get());
-					String^ clrName = toClr(name);
+					auto clrName = toClr(name);
 					PropertyInfo^ property;
 
 					if (unmanagedWrapper->Properties->TryGetValue(clrName, property))
 					{
-						Object^ wrappedObject = unmanagedWrapper->Get();
-						if(wrappedObject == nullptr)
+						auto wrappedObject = unmanagedWrapper->Get();
+
+						if (wrappedObject == nullptr)
 						{
 							exception = "Binding's CLR object is null.";
 							return true;
 						}
 
-						Object^ clrValue = property->GetValue(wrappedObject, nullptr);
+						try
+						{
+							auto clrValue = property->GetValue(wrappedObject, nullptr);
 
-						retval = convertToCef(clrValue, nullptr);
-						return true;
+							retval = convertToCef(clrValue, nullptr);
+							return true;
+						}
+						catch (Exception^ e)
+						{
+							exception = toNative(e->Message);
+							return true;
+						}
 					}
 					else
 					{
