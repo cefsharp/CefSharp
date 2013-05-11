@@ -5,7 +5,7 @@ namespace CefSharp.Example
     class BoundObject
     {
         public int MyProperty { get; set; }
-        public string MyReadOnlyProperty { get; private set; }
+        public string MyReadOnlyProperty { get; internal set; }
         public Type MyUnconvertibleProperty { get; set; }
 
         public BoundObject()
