@@ -83,6 +83,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AssemblyDebug>true</AssemblyDebug>
       <TargetMachine>MachineX86</TargetMachine>
+      <GenerateMapFile>false</GenerateMapFile>
+      <MapExports>false</MapExports>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -136,7 +138,7 @@
     <ClCompile Include="TypeUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BindingData.h" />
+    <ClInclude Include="UnmanagedWrapper.h" />
     <ClInclude Include="BindingHandler.h" />
     <ClInclude Include="BrowserCore.h" />
     <ClInclude Include="CefSharp.h" />

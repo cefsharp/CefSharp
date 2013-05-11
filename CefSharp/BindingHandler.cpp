@@ -1,5 +1,5 @@
 #include "Stdafx.h"
-#include "BindingData.h"
+#include "UnmanagedWrapper.h"
 #include "BindingHandler.h"
 #include "PropertyAccessor.h"
 
@@ -134,8 +134,8 @@ namespace CefSharp
 
 			bool BindingHandler::Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception)
 			{
-				CefRefPtr<BindingData> bindingData = static_cast<BindingData*>(object->GetUserData().get());
-				Object^ self = bindingData->Get();
+				auto unmanagedWrapper = static_cast<UnmanagedWrapper*>(object->GetUserData().get());
+				Object^ self = unmanagedWrapper->Get();
 				if(self == nullptr) 
 				{
 					exception = "Binding's CLR object is null.";
@@ -258,13 +258,12 @@ namespace CefSharp
 
 			void BindingHandler::Bind(String^ name, Object^ obj, CefRefPtr<CefV8Value> window)
 			{
-				// Wrap the managed object in an unmanaged wrapper
-				auto bindingData = new BindingData(obj);
+				auto unmanagedWrapper = new UnmanagedWrapper(obj);
 
-				// Create the javascript object and associate the wrapped object
+				// Create the Javascript/V8 object and associate it with the wrapped object.
 				auto propertyAccessor = new PropertyAccessor();
 				auto wrappedObject = window->CreateObject(static_cast<CefRefPtr<CefV8Accessor>>(propertyAccessor));
-				wrappedObject->SetUserData(static_cast<CefRefPtr<CefBase>>(bindingData));
+				wrappedObject->SetUserData(static_cast<CefRefPtr<CefBase>>(unmanagedWrapper));
 
 				auto handler = static_cast<CefV8Handler*>(new BindingHandler());
 
