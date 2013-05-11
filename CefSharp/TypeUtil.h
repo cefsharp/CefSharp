@@ -9,7 +9,8 @@ namespace CefSharp
 	///	Converts a .NET object to an (unmanaged) Chromium V8 object.
 	/// </summary>
 	/// <param name="obj">The .NET object that should be converted.</param>
-	/// <param name="type">The type of the source object.</param>
+	/// <param name="type">The type of the source object. If this parameter is a null reference, the type will be determined
+	/// automatically.</param>
 	/// <returns>A corresponding V8 value.</returns>
     CefRefPtr<CefV8Value> convertToCef(Object^ obj, Type^ type);
 

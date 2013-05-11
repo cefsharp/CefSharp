@@ -15,6 +15,11 @@ namespace CefSharp
 			return CefV8Value::CreateNull();
 		}
 
+		if (type == nullptr)
+		{
+			type = obj->GetType();
+		}
+
 		Type^ underlyingType = Nullable::GetUnderlyingType(type);
 		if(underlyingType != nullptr) type = underlyingType;
 
