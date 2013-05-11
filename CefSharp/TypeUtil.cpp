@@ -133,7 +133,7 @@ namespace CefSharp
 			return cefArray;
 		}
 		//TODO: What exception type?
-		throw gcnew Exception("Cannot convert object from CLR to Cef " + type->ToString() + ".");
+		throw gcnew Exception(String::Format("Cannot convert '{0}' object from CLR to CEF.", type->FullName));
 	}
 
 	System::String^ stdToString(const std::string& s)
