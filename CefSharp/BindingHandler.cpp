@@ -314,7 +314,15 @@ namespace CefSharp
 				{
 					// TODO: Handle read-only properties correctly here.
 					auto nameStr = toNative(propertyName);
-					javascriptObject->SetValue(nameStr, V8_ACCESS_CONTROL_DEFAULT, V8_PROPERTY_ATTRIBUTE_NONE);
+
+					cef_v8_propertyattribute_t propertyAttribute = V8_PROPERTY_ATTRIBUTE_NONE;
+
+					if (properties[propertyName]->GetSetMethod() == nullptr)
+					{
+						propertyAttribute = V8_PROPERTY_ATTRIBUTE_READONLY;
+					}
+
+					javascriptObject->SetValue(nameStr, V8_ACCESS_CONTROL_DEFAULT, propertyAttribute);
 				}
 			}
 		}

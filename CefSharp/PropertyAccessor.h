@@ -66,8 +66,31 @@ namespace CefSharp
 				virtual bool Set(const CefString& name, const CefRefPtr<CefV8Value> object, const CefRefPtr<CefV8Value> value,
 					CefString& exception) override
 				{
-					// TODO: implement.
-					return false;
+					auto unmanagedWrapper = static_cast<UnmanagedWrapper*>(object->GetUserData().get());
+					auto clrName = toClr(name);
+					PropertyInfo^ property;
+
+					if (unmanagedWrapper->Properties->TryGetValue(clrName, property))
+					{
+						auto wrappedObject = unmanagedWrapper->Get();
+
+						if (wrappedObject == nullptr)
+						{
+							exception = "Binding's CLR object is null.";
+							return true;
+						}
+
+						auto clrValue = convertFromCef(value);
+						property->SetValue(wrappedObject, clrValue, nullptr);
+
+						return true;
+					}
+					else
+					{
+						// Will probably never get here in reality, since V8 knows the name of the properties that exist on this
+						// object and will only call us for existant properties.
+						return false;
+					}
 				}
 
 				IMPLEMENT_REFCOUNTING(PropertyAccessor)
