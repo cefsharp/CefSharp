@@ -6,17 +6,17 @@ namespace CefSharp
 {
 	CefRefPtr<CefV8Value> convertToCef(Object^ obj, Type^ type)
 	{
-		if(type == Void::typeid)
+		if (type == Void::typeid)
 		{
 			return CefV8Value::CreateUndefined();
 		}
-		if(obj == nullptr)
+		if (obj == nullptr)
 		{
 			return CefV8Value::CreateNull();
 		}
 
 		Type^ underlyingType = Nullable::GetUnderlyingType(type);
-		if(underlyingType!=nullptr)type = underlyingType;
+		if(underlyingType != nullptr) type = underlyingType;
 
 		if (type == Boolean::typeid)
 		{
