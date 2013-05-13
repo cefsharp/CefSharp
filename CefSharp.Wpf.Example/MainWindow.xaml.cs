@@ -49,37 +49,37 @@ namespace CefSharp.Wpf.Example
                 invoke => Dispatcher.BeginInvoke(invoke));
 
             handlers = new Dictionary<object, EventHandler>
-                    {
-                        // file
-                        { showDevToolsMenuItem, ShowDevToolsActivated},
-                        { closeDevToolsMenuItem, CloseDevToolsActivated},
-                        { exitMenuItem, ExitActivated },
+            {
+                // file
+                { showDevToolsMenuItem, ShowDevToolsActivated},
+                { closeDevToolsMenuItem, CloseDevToolsActivated},
+                { exitMenuItem, ExitActivated },
 
-                        // edit
-                        { undoMenuItem, UndoActivated },
-                        { redoMenuItem, RedoActivated },
-                        { cutMenuItem, CutActivated },
-                        { copyMenuItem, CopyActivated },
-                        { pasteMenuItem, PasteActivated },
-                        { deleteMenuItem, DeleteActivated },
-                        { selectAllMenuItem, SelectAllActivated },
+                // edit
+                { undoMenuItem, UndoActivated },
+                { redoMenuItem, RedoActivated },
+                { cutMenuItem, CutActivated },
+                { copyMenuItem, CopyActivated },
+                { pasteMenuItem, PasteActivated },
+                { deleteMenuItem, DeleteActivated },
+                { selectAllMenuItem, SelectAllActivated },
 
-                        // test
-                        { testResourceLoadMenuItem, TestResourceLoadActivated },
-                        { testSchemeLoadMenuItem, TestSchemeLoadActivated },
-                        { testExecuteScriptMenuItem, TestExecuteScriptActivated },
-                        { testEvaluateScriptMenuItem, TestEvaluateScriptActivated },
-                        { testBindMenuItem, TestBindActivated },
-                        { testConsoleMessageMenuItem, TestConsoleMessageActivated },
-                        { testTooltipMenuItem, TestTooltipActivated },
-                        { testPopupMenuItem, TestPopupActivated },
-                        { testLoadStringMenuItem, TestLoadStringActivated },
-                        { testCookieVisitorMenuItem, TestCookieVisitorActivated },
+                // test
+                { testResourceLoadMenuItem, TestResourceLoadActivated },
+                { testSchemeLoadMenuItem, TestSchemeLoadActivated },
+                { testExecuteScriptMenuItem, TestExecuteScriptActivated },
+                { testEvaluateScriptMenuItem, TestEvaluateScriptActivated },
+                { testBindMenuItem, TestBindActivated },
+                { testConsoleMessageMenuItem, TestConsoleMessageActivated },
+                { testTooltipMenuItem, TestTooltipActivated },
+                { testPopupMenuItem, TestPopupActivated },
+                { testLoadStringMenuItem, TestLoadStringActivated },
+                { testCookieVisitorMenuItem, TestCookieVisitorActivated },
 
-                        // navigation
-                        { backButton, BackActivated },
-                        { forwardButton, ForwardActivated },
-                    };
+                // navigation
+                { backButton, BackActivated },
+                { forwardButton, ForwardActivated },
+            };
         }
 
         public void SetTitle(string title)
