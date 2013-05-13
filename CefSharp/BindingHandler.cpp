@@ -312,7 +312,6 @@ namespace CefSharp
             {
                 for each(String^ propertyName in properties->Keys)
                 {
-                    // TODO: Handle read-only properties correctly here.
                     auto nameStr = toNative(propertyName);
 
                     cef_v8_propertyattribute_t propertyAttribute = V8_PROPERTY_ATTRIBUTE_NONE;
