@@ -15,7 +15,7 @@ _ReSharper*
 
 obj/
 bin/
-Debug/
+/Debug/
 CefSharp/app.aps
 TestResult.xml
 debug.log
