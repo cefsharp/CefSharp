@@ -30,6 +30,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -39,6 +40,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -86,11 +88,11 @@
       <Project>{A4394E7B-1155-43A6-989E-8AB72DDDC9E4}</Project>
       <Name>CefSharp.Example</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CefSharp.Wpf\CefSharp.Wpf.vcxproj">
+    <ProjectReference Include="..\CefSharp.Wpf\CefSharp.Wpf.2012.vcxproj">
       <Project>{c944b6a6-7caf-4101-b81b-2de47296fc40}</Project>
       <Name>CefSharp.Wpf</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CefSharp\CefSharp.vcxproj">
+    <ProjectReference Include="..\CefSharp\CefSharp.2012.vcxproj">
       <Project>{7b495581-2271-4f41-9476-acb86e8c864f}</Project>
       <Name>CefSharp</Name>
     </ProjectReference>
