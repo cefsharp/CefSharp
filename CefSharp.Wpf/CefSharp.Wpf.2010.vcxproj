@@ -68,7 +68,7 @@
     <Link>
       <AdditionalDependencies>libcef.lib;libcef_dll_wrapper.lib;CefSharp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ShowProgress>LinkVerbose</ShowProgress>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs\$(Configuration);$(SolutionDir)CefSharp\bin\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\$(Configuration);$(SolutionDir)libs\$(Configuration)\VS2010;$(SolutionDir)CefSharp\bin\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AssemblyDebug>true</AssemblyDebug>
       <TargetMachine>MachineX86</TargetMachine>
@@ -87,7 +87,7 @@
     <Link>
       <AdditionalDependencies>libcef.lib;libcef_dll_wrapper.lib;CefSharp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ShowProgress>LinkVerbose</ShowProgress>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs\$(Configuration);$(SolutionDir)CefSharp\bin\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\$(Configuration);$(SolutionDir)libs\$(Configuration)\VS2010;$(SolutionDir)CefSharp\bin\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
@@ -111,19 +111,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CefSharp\CefSharp.vcxproj">
-      <Project>{7b495581-2271-4f41-9476-acb86e8c864f}</Project>
-      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
-      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="..\CefSharp\StringUtil.cpp" />
     <ClCompile Include="WebView.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WebView.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CefSharp\CefSharp.2010.vcxproj">
+      <Project>{7b495581-2271-4f41-9476-acb86e8c864f}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
