@@ -84,17 +84,17 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CefSharp.Example\CefSharp.Example.csproj">
+    <ProjectReference Include="..\CefSharp.Example\CefSharp.Example.2010.csproj">
       <Project>{A4394E7B-1155-43A6-989E-8AB72DDDC9E4}</Project>
-      <Name>CefSharp.Example</Name>
+      <Name>CefSharp.Example.2010</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CefSharp.Wpf\CefSharp.Wpf.2012.vcxproj">
-      <Project>{c944b6a6-7caf-4101-b81b-2de47296fc40}</Project>
-      <Name>CefSharp.Wpf</Name>
+    <ProjectReference Include="..\CefSharp.Wpf\CefSharp.Wpf.2010.vcxproj">
+      <Project>{C944B6A6-7CAF-4101-B81B-2DE47296FC40}</Project>
+      <Name>CefSharp.Wpf.2010</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CefSharp\CefSharp.2012.vcxproj">
-      <Project>{7b495581-2271-4f41-9476-acb86e8c864f}</Project>
-      <Name>CefSharp</Name>
+    <ProjectReference Include="..\CefSharp\CefSharp.2010.vcxproj">
+      <Project>{7B495581-2271-4F41-9476-ACB86E8C864F}</Project>
+      <Name>CefSharp.2010</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

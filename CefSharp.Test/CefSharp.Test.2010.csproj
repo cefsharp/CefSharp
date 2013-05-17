@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{310B527B-A811-450D-A1B2-79352FDB338A}</ProjectGuid>
+    <ProjectGuid>{7A4D5447-183B-4A11-8E63-9848991B46FF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CefSharp.WinForms.Test</RootNamespace>
-    <AssemblyName>CefSharp.WinForms.Test</AssemblyName>
+    <RootNamespace>CefSharp.Test</RootNamespace>
+    <AssemblyName>CefSharp.Test</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
@@ -47,17 +47,19 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="InitTest.cs" />
+    <Compile Include="BrowserCoreTest.cs" />
+    <Compile Include="BrowserTest.cs" />
+    <Compile Include="Fixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CefSharp.WinForms\CefSharp.WinForms.2012.vcxproj">
+    <ProjectReference Include="..\CefSharp.WinForms\CefSharp.WinForms.2010.vcxproj">
       <Project>{978C9B2B-04B6-4359-A341-CA3FCBE98D32}</Project>
-      <Name>CefSharp.WinForms</Name>
+      <Name>CefSharp.WinForms.2010</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CefSharp\CefSharp.2012.vcxproj">
+    <ProjectReference Include="..\CefSharp\CefSharp.2010.vcxproj">
       <Project>{7B495581-2271-4F41-9476-ACB86E8C864F}</Project>
-      <Name>CefSharp</Name>
+      <Name>CefSharp.2010</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

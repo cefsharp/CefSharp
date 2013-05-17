@@ -60,13 +60,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CefSharp.Wpf\CefSharp.Wpf.2012.vcxproj">
+    <ProjectReference Include="..\CefSharp.Wpf\CefSharp.Wpf.2010.vcxproj">
       <Project>{C944B6A6-7CAF-4101-B81B-2DE47296FC40}</Project>
-      <Name>CefSharp.Wpf</Name>
+      <Name>CefSharp.Wpf.2010</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CefSharp\CefSharp.2012.vcxproj">
+    <ProjectReference Include="..\CefSharp\CefSharp.2010.vcxproj">
       <Project>{7B495581-2271-4F41-9476-ACB86E8C864F}</Project>
-      <Name>CefSharp</Name>
+      <Name>CefSharp.2010</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

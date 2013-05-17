@@ -3,21 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CefSharp", "CefSharp\CefSharp.2010.vcxproj", "{7B495581-2271-4F41-9476-ACB86E8C864F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.Test", "CefSharp.Test\CefSharp.Test.csproj", "{7A4D5447-183B-4A11-8E63-9848991B46FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.Test", "CefSharp.Test\CefSharp.Test.2010.csproj", "{7A4D5447-183B-4A11-8E63-9848991B46FF}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CefSharp.WinForms", "CefSharp.WinForms\CefSharp.WinForms.2010.vcxproj", "{978C9B2B-04B6-4359-A341-CA3FCBE98D32}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CefSharp.Wpf", "CefSharp.Wpf\CefSharp.Wpf.2010.vcxproj", "{C944B6A6-7CAF-4101-B81B-2DE47296FC40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.Example", "CefSharp.Example\CefSharp.Example.csproj", "{A4394E7B-1155-43A6-989E-8AB72DDDC9E4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.Example", "CefSharp.Example\CefSharp.Example.2010.csproj", "{A4394E7B-1155-43A6-989E-8AB72DDDC9E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.WinForms.Example", "CefSharp.WinForms.Example\CefSharp.WinForms.Example.csproj", "{C043FFF7-5F71-4FFC-989A-E09E18548589}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.WinForms.Example", "CefSharp.WinForms.Example\CefSharp.WinForms.Example.2010.csproj", "{C043FFF7-5F71-4FFC-989A-E09E18548589}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.Wpf.Example", "CefSharp.Wpf.Example\CefSharp.Wpf.Example.csproj", "{4828DAEC-EF99-4553-B674-4374F77C6D66}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.Wpf.Example", "CefSharp.Wpf.Example\CefSharp.Wpf.Example.2010.csproj", "{4828DAEC-EF99-4553-B674-4374F77C6D66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.Wpf.Test", "CefSharp.Wpf.Test\CefSharp.Wpf.Test.csproj", "{86704B8F-D72C-493C-9B8C-AB3F0C13A89C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.Wpf.Test", "CefSharp.Wpf.Test\CefSharp.Wpf.Test.2010.csproj", "{86704B8F-D72C-493C-9B8C-AB3F0C13A89C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.WinForms.Test", "CefSharp.WinForms.Test\CefSharp.WinForms.Test.csproj", "{310B527B-A811-450D-A1B2-79352FDB338A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.WinForms.Test", "CefSharp.WinForms.Test\CefSharp.WinForms.Test.2010.csproj", "{310B527B-A811-450D-A1B2-79352FDB338A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
