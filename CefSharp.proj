@@ -4,7 +4,7 @@
          InitialTargets="Initialize"
          xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <PropertyGroup>
+  <PropertyGroup Label="Early definitions">
     <SolutionFile>$(MSBuildThisFileDirectory)CefSharp.sln</SolutionFile>
 
     <Configuration Condition="'$(Configuration)'==''">Debug</Configuration>
@@ -14,6 +14,13 @@
   </PropertyGroup>
 
   <Import Project="CefSharp.targets" />
+
+  <PropertyGroup>
+    <TestDir>$(SolutionDir)$(Configuration)\</TestDir>
+    <NunitExe Condition="'$(NunitExe)'==''">$(SolutionDir)nunit\nunit-console-x86.exe</NunitExe>
+    <NunitArgs>-domain=None -process=Multiple</NunitArgs>
+    <NunitEnvironment>PATH=$(TestDir)$([MSBuild]::Escape(';$(Path)'))</NunitEnvironment>
+  </PropertyGroup>
 
   <Target Name="Initialize">
     <Message Text="VisualStudioVersion: $(VisualStudioVersion)" />
@@ -26,8 +33,14 @@
   <Target Name="Clean">
     <MSBuild Projects="$(SolutionFile)" Targets="Clean" Properties="$(BuildProperties)" />
   </Target>
-  
-  <!-- TODO Tests -->
+
+  <Target Name="Test">
+    <ItemGroup>
+      <TestDlls Include="$(TestDir)\*.Test.dll" />
+    </ItemGroup>
+    <Exec Command="$(NunitExe) $(NunitArgs) @(TestDlls,' ')" EnvironmentVariables="$(NunitEnvironment)" />
+  </Target>
+
   <!-- TODO NuGet -->
 
 </Project>
