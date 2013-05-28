@@ -2,6 +2,11 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
+    <IsExeProject Condition="'$(OutputType)'=='Exe'">True</IsExeProject>
+    <IsExeProject Condition="'$(OutputType)'=='WinExe'">True</IsExeProject>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(IsExeProject)'!=''">
     <BuildDependsOn>
       $(BuildDependsOn);
       CefSharpPostBuild
