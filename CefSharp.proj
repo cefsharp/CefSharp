@@ -41,6 +41,10 @@
     <Exec Command="$(NunitExe) $(NunitArgs) @(TestDlls,' ')" EnvironmentVariables="$(NunitEnvironment)" />
   </Target>
 
-  <!-- TODO NuGet -->
+  <Target Name="NuGet" DependsOnTargets="Build;NuGet-BuildPackage" />
+
+  <Target Name="NuGet-BuildPackage">
+    <MSBuild Projects="nuget\nuget.proj" Targets="BuildPackage" />
+  </Target>
 
 </Project>

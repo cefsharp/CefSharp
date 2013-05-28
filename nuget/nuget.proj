@@ -13,14 +13,15 @@
   <ItemGroup>
     <CefCoreNativeLib Include="libcef.dll;icudt.dll" />
     <CefCoreAssembly Include="CefSharp.dll;CefSharp.WinForms.dll;CefSharp.WPF.dll" />
-    <CefDevTools Include="chrome.pak;" />
+    <CefDevTools Include="devtools_resources.pak;" />
     <!-- expanding it later will lose .RecursiveDir metadata due to a bug in CreateItem -->
     <!--<CefDevTools Include="locales\%2A%2A" /--><!-- %2A == '*' -->
     <CefMediaNativeLib Include="avcodec-54.dll;avformat-54.dll;avutil-51.dll;libEGL.dll;libGLESv2.dll" />
     <CefDxLibs Include="d3dcompiler_43.dll;d3dx9_43.dll" /><!-- only for media ? -->
     <CefDoc Include="CefSharp.xml" />
 
-    <CefAllNativeLib Include="@(CefCoreNativeLib);@(CefMediaNativeLib);@(CefDxLibs)" />
+    <CefAllNativeLib Include="@(CefCoreNativeLib);@(CefMediaNativeLib)" />
+	<!--CefAllNativeLib Include="@(CefDxLibs)" /-->
   </ItemGroup>
   <ItemGroup>
     <BinAssemblies Include="@(CefCoreAssembly -> '$(SrcDir)%(Identity)')" />
