@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <SolutionDir Condition="'$(SolutionDir)'==''">$(MSBuildThisFileDirectory)</SolutionDir>
+    <CopyLibsSrcDir>$(SolutionDir)libs\Release\dll\</CopyLibsSrcDir>
+    <CopyLibsDestDir>$(SolutionDir)$(Configuration)\</CopyLibsDestDir>
+  </PropertyGroup>
+  
+  <Target Name="CopyCefLibs">
+    <ItemGroup>
+      <CopyLibs Include="$(CopyLibsSrcDir)\**" />
+    </ItemGroup>
+    <Message Text="Copying CEF libraries to destination folder" Importance="High" />
+    <Copy SourceFiles="@(CopyLibs)"
+          DestinationFolder="$(CopyLibsDestDir)%(RecursiveDir)"
+          SkipUnchangedFiles="true" UseHardlinksIfPossible="true" />
+  </Target>
+
+</Project>
