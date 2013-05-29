@@ -2,18 +2,18 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
     <metadata>
         <id>CefSharp</id>
-        <version>1.1180.724.0</version>
+        <version>1.25.1-pre50</version><!-- 1.25.0.23149 + 50 commits -->
         <title />
         <authors>Anthony Taranto</authors>
         <owners>mwisnicki@gmail.com</owners>
-        <licenseUrl>https://raw.github.com/mwisnicki/CefSharp/integration-icenium/LICENSE</licenseUrl>
+        <licenseUrl>https://raw.github.com/ataranto/CefSharp/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/mwisnicki/CefSharp/</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>.Net binding for the Chromium Embedded Framework</description>
         <summary>BSD License</summary>
-        <releaseNotes>Git-Branch: integration-icenium
-Git-Version: v0.11-96-g1fffd02
-Chromium: 21.1180.724
-MSVC2010, .NET4.0 Client Profile</releaseNotes>
+        <releaseNotes>Git-Branch: master
+Git-Version: v1.25.0-50-g18d86f7
+Chromium: 25.0.1364.152
+MSVC2012, .NET4.0</releaseNotes>
     </metadata>
 </package>
