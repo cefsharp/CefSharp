@@ -6,7 +6,7 @@
 	ProjectGUID="{7B495581-2271-4F41-9476-ACB86E8C864F}"
 	RootNamespace="CefSharp"
 	Keyword="ManagedCProj"
-	TargetFrameworkVersion="196613"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -18,8 +18,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="bin\$(ConfigurationName)"
+			IntermediateDirectory="obj\$(ConfigurationName)"
 			ConfigurationType="2"
 			CharacterSet="1"
 			ManagedExtensions="1"
@@ -42,8 +42,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(SolutionDir)include"
-				PreprocessorDefinitions="_DEBUG;_WIN32_WINNT=0x0600;WINVER=0x0600;WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;USING_CEF_SHARED;_CRT_SECURE_NO_WARNINGS"
+				AdditionalIncludeDirectories="$(SolutionDir)"
+				PreprocessorDefinitions="_DEBUG;_WIN32_WINNT=0x0600;WINVER=0x0600;WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;USING_CEF_SHARED;_CRT_SECURE_NO_WARNINGS;EXPORT"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
 				GenerateXMLDocumentationFiles="true"
@@ -98,8 +98,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="bin\$(ConfigurationName)"
+			IntermediateDirectory="obj\$(ConfigurationName)"
 			ConfigurationType="2"
 			CharacterSet="1"
 			ManagedExtensions="1"
@@ -122,8 +122,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="$(SolutionDir)include"
-				PreprocessorDefinitions="_NDEBUG;_WIN32_WINNT=0x0600;WINVER=0x0600;WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;USING_CEF_SHARED;_CRT_SECURE_NO_WARNINGS"
+				AdditionalIncludeDirectories="$(SolutionDir)"
+				PreprocessorDefinitions="_NDEBUG;_WIN32_WINNT=0x0600;WINVER=0x0600;WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;USING_CEF_SHARED;_CRT_SECURE_NO_WARNINGS;EXPORT"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
 				WarningLevel="3"
@@ -144,7 +144,7 @@
 				ShowProgress="1"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(SolutionDir)libs\$(ConfigurationName)\"
-				GenerateDebugInformation="true"
+				GenerateDebugInformation="false"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -177,39 +177,9 @@
 			MinFrameworkVersion="131072"
 		/>
 		<AssemblyReference
-			RelativePath="System.Data.dll"
-			AssemblyName="System.Data, Version=2.0.0.0, PublicKeyToken=b77a5c561934e089, processorArchitecture=x86"
-			MinFrameworkVersion="131072"
-		/>
-		<AssemblyReference
-			RelativePath="System.XML.dll"
-			AssemblyName="System.Xml, Version=2.0.0.0, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL"
-			MinFrameworkVersion="131072"
-		/>
-		<AssemblyReference
-			RelativePath="System.Windows.Forms.dll"
-			AssemblyName="System.Windows.Forms, Version=2.0.0.0, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL"
-			MinFrameworkVersion="131072"
-		/>
-		<AssemblyReference
 			RelativePath="System.Drawing.dll"
 			AssemblyName="System.Drawing, Version=2.0.0.0, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
 			MinFrameworkVersion="131072"
-		/>
-		<AssemblyReference
-			RelativePath="PresentationCore.dll"
-			AssemblyName="PresentationCore, Version=3.0.0.0, PublicKeyToken=31bf3856ad364e35, processorArchitecture=IA64"
-			MinFrameworkVersion="196608"
-		/>
-		<AssemblyReference
-			RelativePath="PresentationFramework.dll"
-			AssemblyName="PresentationFramework, Version=3.0.0.0, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
-			MinFrameworkVersion="196608"
-		/>
-		<AssemblyReference
-			RelativePath="WindowsBase.dll"
-			AssemblyName="WindowsBase, Version=3.0.0.0, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
-			MinFrameworkVersion="196608"
 		/>
 	</References>
 	<Files>
@@ -227,15 +197,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\CefFormsWebBrowser.cpp"
+				RelativePath=".\BrowserCore.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\CefSharp.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CefWpfWebBrowser.cpp"
+				RelativePath=".\BrowserSettings.cpp"
 				>
 			</File>
 			<File
@@ -243,7 +209,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\JsTask.cpp"
+				RelativePath=".\CookieVisitor.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\DownloadAdapter.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderClientAdapter.cpp"
 				>
 			</File>
 			<File
@@ -263,7 +237,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ScriptException.cpp"
+				RelativePath=".\ScriptCore.cpp"
 				>
 			</File>
 			<File
@@ -291,11 +265,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Utils.cpp"
+				RelativePath=".\StringUtil.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\WpfClientAdapter.cpp"
+				RelativePath=".\TypeUtil.cpp"
 				>
 			</File>
 		</Filter>
@@ -309,11 +283,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\BrowserSettings.h"
-				>
-			</File>
-			<File
-				RelativePath=".\CefFormsWebBrowser.h"
+				RelativePath=".\BrowserCore.h"
 				>
 			</File>
 			<File
@@ -321,39 +291,67 @@
 				>
 			</File>
 			<File
-				RelativePath=".\CefWpfWebBrowser.h"
-				>
-			</File>
-			<File
 				RelativePath=".\ClientAdapter.h"
 				>
 			</File>
 			<File
-				RelativePath=".\IAfterResponse.h"
+				RelativePath=".\ConsoleMessageEventArgs.h"
 				>
 			</File>
 			<File
-				RelativePath=".\IBeforeMenu.h"
+				RelativePath=".\CookieVisitor.h"
 				>
 			</File>
 			<File
-				RelativePath=".\IBeforePopup.h"
+				RelativePath=".\DownloadAdapter.h"
 				>
 			</File>
 			<File
-				RelativePath=".\IBeforeResourceLoad.h"
+				RelativePath=".\ICookieVisitor.h"
 				>
 			</File>
 			<File
-				RelativePath=".\ICefWebBrowser.h"
+				RelativePath=".\IDownloadHandler.h"
 				>
 			</File>
 			<File
-				RelativePath=".\JsTask.h"
+				RelativePath=".\IKeyboardHandler.h"
 				>
 			</File>
 			<File
-				RelativePath=".\ManagedCefRefPtr.h"
+				RelativePath=".\ILifeSpanHandler.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ILoadHandler.h"
+				>
+			</File>
+			<File
+				RelativePath=".\IMenuHandler.h"
+				>
+			</File>
+			<File
+				RelativePath=".\IRenderWebBrowser.h"
+				>
+			</File>
+			<File
+				RelativePath=".\IRequestHandler.h"
+				>
+			</File>
+			<File
+				RelativePath=".\IWebBrowser.h"
+				>
+			</File>
+			<File
+				RelativePath=".\LoadCompletedEventArgs.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MCefRefPtr.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderClientAdapter.h"
 				>
 			</File>
 			<File
@@ -365,15 +363,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\resource.h"
-				>
-			</File>
-			<File
 				RelativePath=".\RtzCountdownEvent.h"
 				>
 			</File>
 			<File
 				RelativePath=".\SchemeHandler.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ScriptCore.h"
 				>
 			</File>
 			<File
@@ -393,32 +391,14 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Utils.h"
+				RelativePath=".\StringUtil.h"
 				>
 			</File>
 			<File
-				RelativePath=".\WpfClientAdapter.h"
+				RelativePath=".\TypeUtil.h"
 				>
 			</File>
 		</Filter>
-		<Filter
-			Name="Resource Files"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
-			>
-			<File
-				RelativePath=".\app.ico"
-				>
-			</File>
-			<File
-				RelativePath=".\app.rc"
-				>
-			</File>
-		</Filter>
-		<File
-			RelativePath=".\ReadMe.txt"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>

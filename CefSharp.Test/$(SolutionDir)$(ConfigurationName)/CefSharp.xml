@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        "CefSharp"
+    </assembly>
+    <members>
+        <member name="M:CefSharp.BindingHandler.GetChangeTypeCost(System.Object,System.Type)">
+            <summary />
+            <return>Returns conversion cost, or -1 if no conversion available.</return>
+        </member>
+        <member name="M:CefSharp.IBeforeResourceLoad.HandleBeforeResourceLoad(CefSharp.ICefWebBrowser,CefSharp.IRequestResponse)">
+called before all resource loads.
+allows the Request to be manipulated or an alternate response to be provided
+</member>
+        <member name="M:CefSharp.IRequestResponse.RespondWith(System.IO.Stream,System.String)">
+respond with data from Stream
+</member>
+        <member name="M:CefSharp.IRequestResponse.Redirect(System.String)">
+respond with redirection to the provided URL
+</member>
+        <member name="P:CefSharp.IRequestResponse.Request">
+the current request
+</member>
+        <member name="M:CefSharp.IRequestResponse.Cancel">
+cancel the request, return nothing
+</member>
+        <member name="T:CefSharp.RtzCountdownEvent">
+            <summary>Return-To-Zero latch, signals whenever count is zero</summary>
+        </member>
+        <member name="M:CefSharp.ISchemeHandler.ProcessRequest(CefSharp.IRequest,System.String@,System.IO.Stream@)">
+            <summary>
+if request is handled return true and set mimeType and stream accordingly.
+if no data the leave stream null
+</summary>
+        </member>
+    </members>
+</doc>

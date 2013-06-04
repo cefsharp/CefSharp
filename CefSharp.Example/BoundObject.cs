@@ -1,14 +1,12 @@
-using System;
+﻿using System;
 
 namespace CefSharp.Example
 {
-    public class BoundObject
+    class BoundObject
     {
         public string Repeat(string str, int n)
         {
-            Console.WriteLine("In bound object method");
-
-            string result = "";
+            string result = String.Empty;
             for (int i = 0; i < n; i++)
             {
                 result += str;

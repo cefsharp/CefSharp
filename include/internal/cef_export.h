@@ -28,7 +28,11 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#include "cef_build.h"
+#ifndef CEF_INCLUDE_INTERNAL_CEF_EXPORT_H_
+#define CEF_INCLUDE_INTERNAL_CEF_EXPORT_H_
+#pragma once
+
+#include "include/internal/cef_build.h"
 
 #if defined(COMPILER_MSVC)
 
@@ -47,3 +51,5 @@
 #define CEF_CALLBACK
 
 #endif  // COMPILER_GCC
+
+#endif  // CEF_INCLUDE_INTERNAL_CEF_EXPORT_H_

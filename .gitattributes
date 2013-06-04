@@ -1,0 +1,8 @@
+*           text=auto
+
+*.h         text diff=cpp
+*.cpp       text diff=cpp
+
+*.vcproj    text merge=union
+*.csproj    text merge=union
+*.sln       text merge=union eol=crlf

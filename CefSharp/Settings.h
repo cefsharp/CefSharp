@@ -3,8 +3,18 @@
 
 using namespace System;
 
-namespace CefSharp 
+namespace CefSharp
 {
+    public enum class LogSeverity
+    {
+        Verbose = LOGSEVERITY_VERBOSE,
+        Info = LOGSEVERITY_INFO,
+        Warning = LOGSEVERITY_WARNING,
+        Error = LOGSEVERITY_ERROR,
+        ErrorReport = LOGSEVERITY_ERROR_REPORT,
+        Disable = LOGSEVERITY_DISABLE,
+    };
+    
     public ref class Settings
     {
     internal:
@@ -14,7 +24,7 @@ namespace CefSharp
         property bool MultiThreadedMessageLoop
         {
             bool get() { return _cefSettings->multi_threaded_message_loop; }
-            void set(bool val) { _cefSettings->multi_threaded_message_loop = val; }
+            void set(bool value) { _cefSettings->multi_threaded_message_loop = value; }
         }
 
         void AddPluginPath(const cef_string_t *path)
@@ -33,59 +43,31 @@ namespace CefSharp
             MultiThreadedMessageLoop = true;
         }
 
-        !Settings()	{ delete _cefSettings; }
+        !Settings() { delete _cefSettings; }
         ~Settings() { delete _cefSettings; }
 
         property String^ CachePath
         {
-            String^ get() 
-            { 
-                return toClr(_cefSettings->cache_path); 
-            }
-
-            void set(String^ path) 
-            {
-                assignFromString(_cefSettings->cache_path, path);
-            }
+            String^ get() { return toClr(_cefSettings->cache_path); }
+            void set(String^ value) { assignFromString(_cefSettings->cache_path, value); }
         }
 
         property String^ UserAgent
         {
-            String^ get() 
-            { 
-                return toClr(_cefSettings->user_agent); 
-            }
-
-            void set(String^ userAgent) 
-            {
-                assignFromString(_cefSettings->user_agent, userAgent);
-            }
+            String^ get() { return toClr(_cefSettings->user_agent); }
+            void set(String^ value) { assignFromString(_cefSettings->user_agent, value); }
         }
 
         property String^ ProductVersion
         {
-            String^ get() 
-            { 
-                return toClr(_cefSettings->product_version); 
-            }
-
-            void set(String^ productVersion) 
-            {
-                assignFromString(_cefSettings->product_version, productVersion);
-            }
+            String^ get() { return toClr(_cefSettings->product_version); }
+            void set(String^ value) { assignFromString(_cefSettings->product_version, value); }
         }
 
         property String^ Locale
         {
-            String^ get() 
-            { 
-                return toClr(_cefSettings->locale); 
-            }
-
-            void set(String^ locale) 
-            {
-                assignFromString(_cefSettings->locale, locale);
-            }
+            String^ get() { return toClr(_cefSettings->locale); }
+            void set(String^ value) { assignFromString(_cefSettings->locale, value); }
         }
 
         void AddPluginPath(String^ path)
@@ -96,34 +78,36 @@ namespace CefSharp
             assignFromString(str, path);
 
             AddPluginPath(&str);
-            // XXX: free?
         }
 
         property String^ LogFile
         {
-            String^ get()
-            {
-                return toClr(_cefSettings->log_file);
-            }
-
-            void set(String^ log_file)
-            {
-                assignFromString(_cefSettings->log_file, log_file);
-            }
+            String^ get() { return toClr(_cefSettings->log_file); }
+            void set(String^ value) { assignFromString(_cefSettings->log_file, value); }
         }
 
-        property int LogSeverity
+        property CefSharp::LogSeverity LogSeverity
         {
-            int get()
-            {
-                return _cefSettings->log_severity;
-            }
+            CefSharp::LogSeverity get() { return static_cast<CefSharp::LogSeverity>(_cefSettings->log_severity); }
+            void set(CefSharp::LogSeverity value) { _cefSettings->log_severity = static_cast<cef_log_severity_t>(value); }
+        }
 
-            void set(int log_severity)
-            {
-                _cefSettings->log_severity = (cef_log_severity_t)log_severity;
-            }
+        property bool AutoDetectProxySettings
+        {
+            bool get() { return _cefSettings->auto_detect_proxy_settings_enabled; }
+            void set(bool value) { _cefSettings->auto_detect_proxy_settings_enabled = value; }
+        }
+
+        property String^ LocalesDirPath
+        {
+            String^ get() { return toClr(_cefSettings->locales_dir_path); }
+            void set(String^ value) { assignFromString(_cefSettings->locales_dir_path, value); }
+        }
+
+        property bool PackLoadingDisabled
+        {
+            bool get() { return _cefSettings->pack_loading_disabled; }
+            void set(bool value) { _cefSettings->pack_loading_disabled = value; }
         }
     };
-
 }

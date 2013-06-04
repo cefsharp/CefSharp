@@ -1,66 +1,64 @@
 #include "stdafx.h"
 #pragma once
 
+#include "include/cef_scheme.h"
 #include "Request.h"
 
 using namespace System;
 using namespace System::IO;
 
-namespace CefSharp {
-
-public interface class ISchemeHandler
+namespace CefSharp
 {
-    /// <summary>
-    /// if request is handled return true and set mimeType and stream accordingly.
-    /// if no data the leave stream null
-    /// </summary>
-    bool ProcessRequest(IRequest^ request, String^% mimeType, Stream^% stream);
-};
-
-public interface class ISchemeHandlerFactory
-{
-    ISchemeHandler^ Create();
-};
-
-class SchemeHandlerWrapper : public CefSchemeHandler
-{
-    gcroot<ISchemeHandler^> _handler;
-    gcroot<Stream^> _stream;
-    CefString _mime_type;
-
-
-    int SizeFromStream();
-
-public:
-
-    SchemeHandlerWrapper(ISchemeHandler^ handler) : _handler(handler) 
+    public interface class ISchemeHandler
     {
-        if(!_handler)
+        /// <summary>
+        /// if request is handled return true and set mimeType and stream accordingly.
+        /// if no data the leave stream null
+        /// </summary>
+        bool ProcessRequest(IRequest^ request, String^% mimeType, Stream^% stream);
+    };
+
+    public interface class ISchemeHandlerFactory
+    {
+        ISchemeHandler^ Create();
+    };
+
+    class SchemeHandlerWrapper : public CefSchemeHandler
+    {
+        gcroot<ISchemeHandler^> _handler;
+        gcroot<Stream^> _stream;
+        CefString _mime_type;
+
+        int SizeFromStream();
+
+    public:
+        SchemeHandlerWrapper(ISchemeHandler^ handler) : _handler(handler)
         {
-            throw gcnew ArgumentException("handler must not be null");
+            if(!_handler)
+            {
+                throw gcnew ArgumentException("handler must not be null");
+            }
         }
-    }
 
-    virtual bool ProcessRequest(CefRefPtr<CefRequest> request, CefString& redirectUrl, CefRefPtr<CefSchemeHandlerCallback> callback);
-    virtual void GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length);
-    virtual bool ReadResponse(void* data_out, int bytes_to_read, int& bytes_read, CefRefPtr<CefSchemeHandlerCallback> callback);
-    virtual void Cancel();
+        virtual bool ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefSchemeHandlerCallback> callback);
+        virtual void GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl);
+        virtual bool ReadResponse(void* data_out, int bytes_to_read, int& bytes_read, CefRefPtr<CefSchemeHandlerCallback> callback);
+        virtual void Cancel();
 
-    IMPLEMENT_LOCKING(SchemeHandlerWrapper);
-    IMPLEMENT_REFCOUNTING(SchemeHandlerWrapper);
-};
+        IMPLEMENT_LOCKING(SchemeHandlerWrapper);
+        IMPLEMENT_REFCOUNTING(SchemeHandlerWrapper);
+    };
 
-class SchemeHandlerFactoryWrapper : public CefSchemeHandlerFactory
-{
-    gcroot<ISchemeHandlerFactory^> _factory;
-   
-public:
-    SchemeHandlerFactoryWrapper(ISchemeHandlerFactory^ factory) 
-        : _factory(factory) {}
+    class SchemeHandlerFactoryWrapper : public CefSchemeHandlerFactory
+    {
+        gcroot<ISchemeHandlerFactory^> _factory;
 
-    virtual CefRefPtr<CefSchemeHandler> Create(const CefString& scheme_name, CefRefPtr<CefRequest> request);
+    public:
+        SchemeHandlerFactoryWrapper(ISchemeHandlerFactory^ factory)
+            : _factory(factory) {}
 
-    IMPLEMENT_REFCOUNTING(SchemeHandlerFactoryWrapper);
-};
+        virtual CefRefPtr<CefSchemeHandler> Create(CefRefPtr<CefBrowser> browser, const CefString& scheme_name, CefRefPtr<CefRequest> request);
 
-};
+        IMPLEMENT_REFCOUNTING(SchemeHandlerFactoryWrapper);
+    };
+}

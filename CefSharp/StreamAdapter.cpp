@@ -17,15 +17,15 @@ namespace CefSharp
             int ret = _stream->Read(buffer, 0, n);
             pin_ptr<Byte> src = &buffer[0];
             memcpy(ptr, static_cast<void*>(src), ret);
-            return ret / size;	
-        } 
+            return ret / size;
+        }
         catch(Exception^)
         {
             return -1;
         }
     }
-        
-    int StreamAdapter::Seek(long offset, int whence)
+
+    int StreamAdapter::Seek(int64 offset, int whence)
     {
         SeekOrigin seekOrigin;
         switch(whence)
@@ -36,17 +36,17 @@ namespace CefSharp
         case SEEK_END:
             seekOrigin = SeekOrigin::End;
             break;
-        case SEEK_SET:		
+        case SEEK_SET:
             seekOrigin = SeekOrigin::Begin;
             break;
         default:
             return -1;
         }
 
-        try 
+        try
         {
             _stream->Seek(offset, seekOrigin);
-        } 
+        }
         catch (Exception^)
         {
             return -1;
@@ -54,15 +54,14 @@ namespace CefSharp
 
         return 0;
     }
-        
-    long StreamAdapter::Tell()
+
+    int64 StreamAdapter::Tell()
     {
-        return static_cast<long>(_stream->Position);
+        return static_cast<int64>(_stream->Position);
     }
 
     int StreamAdapter::Eof()
     {
         return _stream->Length == _stream->Position;
     }
-
 }

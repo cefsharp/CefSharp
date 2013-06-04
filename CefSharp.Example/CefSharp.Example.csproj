@@ -5,85 +5,53 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{C043FFF7-5F71-4FFC-989A-E09E18548589}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <ProjectGuid>{A4394E7B-1155-43A6-989E-8AB72DDDC9E4}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CefSharp.Example</RootNamespace>
     <AssemblyName>CefSharp.Example</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>
-    </StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Debug\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Release\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=2.5.7.10213, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\libs\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data.DataSetExtensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AboutBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AboutBox.Designer.cs">
-      <DependentUpon>AboutBox.cs</DependentUpon>
-    </Compile>
     <Compile Include="BoundObject.cs" />
-    <Compile Include="Browser.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Browser.Designer.cs">
-      <DependentUpon>Browser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="InputForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="InputForm.Designer.cs">
-      <DependentUpon>InputForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Program.cs">
-    </Compile>
+    <Compile Include="DownloadHandler.cs" />
+    <Compile Include="ExamplePresenter.cs" />
+    <Compile Include="IExampleView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="TestSchemeHandler.cs" />
-    <Compile Include="TestSettings.cs" />
+    <Compile Include="SchemeHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CefSharp\CefSharp.vcproj">
@@ -92,42 +60,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="AboutBox.resx">
-      <DependentUpon>AboutBox.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Browser.resx">
-      <DependentUpon>Browser.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="InputForm.resx">
-      <DependentUpon>InputForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\nav_left_green.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\nav_plain_green.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\nav_plain_red.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\nav_right_green.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\chromium-256.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Resources\BindingTest.html" />
-    <None Include="Resources\PopupTest.html" />
+    <Content Include="Resources\PopupTest.html" />
     <Content Include="Resources\SchemeTest.html" />
     <Content Include="Resources\TooltipTest.html" />
   </ItemGroup>

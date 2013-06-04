@@ -1,4 +1,4 @@
-// Copyright (c) 2010, Tom Rathbone.
+// Copyright (c) 2012, Anthony Taranto.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are
@@ -13,7 +13,7 @@
 //      distribution.
 //
 //    * Neither the name of Google Inc. nor the name Chromium Embedded
-//      Framework nor the name CefSharp nor the names of its contributors 
+//      Framework nor the name CefSharp nor the names of its contributors
 //      may be used to endorse or promote products derived from this software
 //      without specific prior written permission.
 //
