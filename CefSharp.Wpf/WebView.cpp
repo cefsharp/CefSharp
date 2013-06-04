@@ -875,10 +875,13 @@ namespace Wpf
         if (_source == nullptr)
         {
             _source = (HwndSource^)PresentationSource::FromVisual(this);
-            _matrix = _source->CompositionTarget->TransformToDevice;
+			if (_source != nullptr)
+			{
+				_matrix = _source->CompositionTarget->TransformToDevice;
 
-            _hook = gcnew Interop::HwndSourceHook(this, &WebView::SourceHook);
-            _source->AddHook(_hook);
+				_hook = gcnew Interop::HwndSourceHook(this, &WebView::SourceHook);
+				_source->AddHook(_hook);
+			}
         }
     }
 }}
