@@ -229,23 +229,18 @@ namespace Wpf
     void WebView::OnVisualParentChanged(DependencyObject^ oldParent)
     {
         EventHandler^ _handler = gcnew EventHandler(this, &WebView::OnHidePopup);
-        Window^ window;
 
-        if (oldParent != nullptr)
+        if (_currentWindow != nullptr)
         {
-            window = Window::GetWindow(oldParent);
-            if (window != nullptr)
-            {
-                window->LocationChanged -= _handler;
-                window->Deactivated -= _handler;
-            }
+			_currentWindow->LocationChanged -= _handler;
+			_currentWindow->Deactivated -= _handler;
         }
 
-        window = Window::GetWindow(this);
-        if (window != nullptr)
+        _currentWindow = Window::GetWindow(this);
+        if (_currentWindow != nullptr)
         {
-            window->LocationChanged += _handler;
-            window->Deactivated += _handler;
+            _currentWindow->LocationChanged += _handler;
+            _currentWindow->Deactivated += _handler;
         }
 
         ContentControl::OnVisualParentChanged(oldParent);
