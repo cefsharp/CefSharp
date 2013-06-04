@@ -54,12 +54,6 @@
     <Compile Include="SchemeHandler.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CefSharp\CefSharp.vcproj">
-      <Project>{7B495581-2271-4F41-9476-ACB86E8C864F}</Project>
-      <Name>CefSharp</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -70,6 +64,12 @@
     <Content Include="Resources\PopupTest.html" />
     <Content Include="Resources\SchemeTest.html" />
     <Content Include="Resources\TooltipTest.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CefSharp\CefSharp.vcproj">
+      <Project>{7B495581-2271-4F41-9476-ACB86E8C864F}</Project>
+      <Name>CefSharp</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

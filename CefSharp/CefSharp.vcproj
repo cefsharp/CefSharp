@@ -72,7 +72,7 @@
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
 				TargetMachine="1"
-				KeyFile="$(SolutionDir)\CefSharp.snk"
+				KeyFile=""
 			/>
 			<Tool
 				Name="VCALinkTool"
