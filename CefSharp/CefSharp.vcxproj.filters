@@ -166,13 +166,13 @@
     <ClInclude Include="vcclr_local.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PropertyAccessor.h">
-      <Filter>Header Files\Internals\JavascriptBinding</Filter>
-    </ClInclude>
     <ClInclude Include="Internals\JavascriptBinding\BindingHandler.h">
       <Filter>Header Files\Internals\JavascriptBinding</Filter>
     </ClInclude>
     <ClInclude Include="Internals\JavascriptBinding\UnmanagedWrapper.h">
+      <Filter>Header Files\Internals\JavascriptBinding</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\JavascriptBinding\PropertyAccessor.h">
       <Filter>Header Files\Internals\JavascriptBinding</Filter>
     </ClInclude>
   </ItemGroup>

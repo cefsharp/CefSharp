@@ -157,7 +157,7 @@
     <ClInclude Include="IWebBrowser.h" />
     <ClInclude Include="LoadCompletedEventArgs.h" />
     <ClInclude Include="MCefRefPtr.h" />
-    <ClInclude Include="PropertyAccessor.h" />
+    <ClInclude Include="Internals\JavascriptBinding\PropertyAccessor.h" />
     <ClInclude Include="RenderClientAdapter.h" />
     <ClInclude Include="Request.h" />
     <ClInclude Include="RequestResponse.h" />
