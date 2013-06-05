@@ -173,5 +173,16 @@ namespace CefSharp.Example
         {
             return arg0;
         }
+
+        // This will currently not work, as it causes a collision w/ the EchoString() method.
+        //public String echoString(String arg)
+        //{
+        //    return "Lowercase echo: " + arg;
+        //}
+
+        public String lowercaseMethod()
+        {
+            return "lowercase";
+        }
     }
 }
