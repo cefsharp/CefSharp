@@ -136,13 +136,15 @@ namespace CefSharp
             {
                 auto unmanagedWrapper = static_cast<UnmanagedWrapper*>(object->GetUserData().get());
                 Object^ self = unmanagedWrapper->Get();
-                if(self == nullptr) 
+                
+                if(self == nullptr)
                 {
                     exception = "Binding's CLR object is null.";
                     return true;
                 }
 
                 String^ methodName = toClr(name);
+                methodName = unmanagedWrapper->GetMethodMapping(methodName);
                 Type^ type = self->GetType();
                 auto methods = type->GetMember(methodName, MemberTypes::Method, BindingFlags::Instance | BindingFlags::Public);
 
@@ -301,11 +303,14 @@ namespace CefSharp
 
             void BindingHandler::CreateJavascriptMethods(CefV8Handler* handler, CefRefPtr<CefV8Value> javascriptObject, IEnumerable<String^>^ methodNames)
             {
-                auto unmanagedWrapper = javascriptObject->GetUserData();
+                auto unmanagedWrapper = static_cast<UnmanagedWrapper*>(javascriptObject->GetUserData().get());
 
                 for each(String^ methodName in methodNames)
                 {
-                    auto nameStr = toNative(methodName);
+                    auto jsMethodName = LowercaseFirst(methodName);
+                    unmanagedWrapper->AddMethodMapping(methodName, jsMethodName);
+
+                    auto nameStr = toNative(jsMethodName);
                     javascriptObject->SetValue(nameStr, CefV8Value::CreateFunction(nameStr, handler), V8_PROPERTY_ATTRIBUTE_NONE);
                 }
             }
@@ -334,7 +339,7 @@ namespace CefSharp
                     return str;
                 }
 
-                return Char::ToUpper(str[0]) + str->Substring(1);
+                return Char::ToLower(str[0]) + str->Substring(1);
             }
         }
     }

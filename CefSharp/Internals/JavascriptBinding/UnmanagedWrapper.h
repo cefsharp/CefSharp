@@ -17,6 +17,7 @@ namespace CefSharp
 			{
 			protected:
 				gcroot<Object^> _obj;
+                gcroot<Dictionary<String^, String^>^> _methodMap;
 
 			public:
 				gcroot<Dictionary<String^, PropertyInfo^>^> Properties;
@@ -24,6 +25,7 @@ namespace CefSharp
 				UnmanagedWrapper(Object^ obj)
 				{
 					_obj = obj;
+                    _methodMap = gcnew Dictionary<String^, String^>();
 				}
 
 				/// <summary>
@@ -35,8 +37,27 @@ namespace CefSharp
 					return _obj;
 				}
 
+                void AddMethodMapping(String^ from, String^ to)
+                {
+                    _methodMap->Add(to, from);
+                }
+
+                String^ GetMethodMapping(String^ from)
+                {
+                    String^ value;
+
+                    if (_methodMap->TryGetValue(from, value))
+                    {
+                        return value;
+                    }
+                    else
+                    {
+                        return nullptr;
+                    }
+                }
+
 				IMPLEMENT_REFCOUNTING(UnmanagedWrapper);
-			};
+            };
 		}
 	}
 }
