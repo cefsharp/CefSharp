@@ -71,7 +71,7 @@
     <ClCompile Include="TypeUtil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BindingHandler.cpp">
+    <ClCompile Include="Internals\JavascriptBinding\BindingHandler.cpp">
       <Filter>Source Files\Internals\JavascriptBinding</Filter>
     </ClCompile>
   </ItemGroup>
@@ -166,13 +166,13 @@
     <ClInclude Include="vcclr_local.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BindingHandler.h">
-      <Filter>Header Files\Internals\JavascriptBinding</Filter>
-    </ClInclude>
     <ClInclude Include="PropertyAccessor.h">
       <Filter>Header Files\Internals\JavascriptBinding</Filter>
     </ClInclude>
-    <ClInclude Include="UnmanagedWrapper.h">
+    <ClInclude Include="Internals\JavascriptBinding\BindingHandler.h">
+      <Filter>Header Files\Internals\JavascriptBinding</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\JavascriptBinding\UnmanagedWrapper.h">
       <Filter>Header Files\Internals\JavascriptBinding</Filter>
     </ClInclude>
   </ItemGroup>

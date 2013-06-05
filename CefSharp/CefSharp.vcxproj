@@ -117,7 +117,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
-    <ClCompile Include="BindingHandler.cpp" />
+    <ClCompile Include="Internals\JavascriptBinding\BindingHandler.cpp" />
     <ClCompile Include="BrowserCore.cpp" />
     <ClCompile Include="BrowserSettings.cpp" />
     <ClCompile Include="ClientAdapter.cpp" />
@@ -138,8 +138,8 @@
     <ClCompile Include="TypeUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="UnmanagedWrapper.h" />
-    <ClInclude Include="BindingHandler.h" />
+    <ClInclude Include="Internals\JavascriptBinding\UnmanagedWrapper.h" />
+    <ClInclude Include="Internals\JavascriptBinding\BindingHandler.h" />
     <ClInclude Include="BrowserCore.h" />
     <ClInclude Include="CefSharp.h" />
     <ClInclude Include="ClientAdapter.h" />
