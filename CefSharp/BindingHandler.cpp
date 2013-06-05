@@ -301,6 +301,8 @@ namespace CefSharp
 
             void BindingHandler::CreateJavascriptMethods(CefV8Handler* handler, CefRefPtr<CefV8Value> javascriptObject, IEnumerable<String^>^ methodNames)
             {
+                auto unmanagedWrapper = javascriptObject->GetUserData();
+
                 for each(String^ methodName in methodNames)
                 {
                     auto nameStr = toNative(methodName);
@@ -323,6 +325,16 @@ namespace CefSharp
 
                     javascriptObject->SetValue(nameStr, V8_ACCESS_CONTROL_DEFAULT, propertyAttribute);
                 }
+            }
+
+            String^ BindingHandler::LowercaseFirst(String^ str)
+            {
+                if (str == String::Empty)
+                {
+                    return str;
+                }
+
+                return Char::ToUpper(str[0]) + str->Substring(1);
             }
         }
     }
