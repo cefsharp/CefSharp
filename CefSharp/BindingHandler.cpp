@@ -262,8 +262,8 @@ namespace CefSharp
 
                 // Create the Javascript/V8 object and associate it with the wrapped object.
                 auto propertyAccessor = new PropertyAccessor();
-                auto wrappedObject = window->CreateObject(static_cast<CefRefPtr<CefV8Accessor>>(propertyAccessor));
-                wrappedObject->SetUserData(static_cast<CefRefPtr<CefBase>>(unmanagedWrapper));
+                auto javascriptWrapper = window->CreateObject(static_cast<CefRefPtr<CefV8Accessor>>(propertyAccessor));
+                javascriptWrapper->SetUserData(static_cast<CefRefPtr<CefBase>>(unmanagedWrapper));
 
                 auto handler = static_cast<CefV8Handler*>(new BindingHandler());
 
@@ -278,12 +278,12 @@ namespace CefSharp
                     methodNames->Add(method->Name, nullptr);
                 }
 
-                CreateJavascriptMethods(handler, wrappedObject, methodNames->Keys);
+                CreateJavascriptMethods(handler, javascriptWrapper, methodNames->Keys);
 
                 unmanagedWrapper->Properties = GetProperties(obj->GetType());
-                CreateJavascriptProperties(handler, wrappedObject, unmanagedWrapper->Properties);
+                CreateJavascriptProperties(handler, javascriptWrapper, unmanagedWrapper->Properties);
 
-                window->SetValue(toNative(name), wrappedObject, V8_PROPERTY_ATTRIBUTE_NONE);
+                window->SetValue(toNative(name), javascriptWrapper, V8_PROPERTY_ATTRIBUTE_NONE);
             }
 
             Dictionary<String^, PropertyInfo^>^ BindingHandler::GetProperties(Type^ type)
