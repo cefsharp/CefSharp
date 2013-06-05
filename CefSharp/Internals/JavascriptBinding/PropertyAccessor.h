@@ -50,7 +50,7 @@ namespace CefSharp
                     else
                     {
                         // Will probably never get here in reality, since V8 knows the name of the properties that exist on this
-                        // object and will only call us for existant properties.
+                        // object and will only call us for existent properties.
                         return false;
                     }
                 }
@@ -88,7 +88,7 @@ namespace CefSharp
                     else
                     {
                         // Will probably never get here in reality, since V8 knows the name of the properties that exist on this
-                        // object and will only call us for existant properties.
+                        // object and will only call us for existent properties.
                         return false;
                     }
                 }
