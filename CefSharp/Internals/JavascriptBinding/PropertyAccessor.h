@@ -22,6 +22,7 @@ namespace CefSharp
                 {
                     auto unmanagedWrapper = static_cast<UnmanagedWrapper*>(object->GetUserData().get());
                     auto clrName = toClr(name);
+                    clrName = unmanagedWrapper->GetPropertyMapping(clrName);
                     PropertyInfo^ property;
 
                     if (unmanagedWrapper->Properties->TryGetValue(clrName, property))

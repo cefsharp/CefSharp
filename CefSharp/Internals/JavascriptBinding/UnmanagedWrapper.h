@@ -18,6 +18,7 @@ namespace CefSharp
 			protected:
 				gcroot<Object^> _obj;
                 gcroot<Dictionary<String^, String^>^> _methodMap;
+                gcroot<Dictionary<String^, String^>^> _propertyMap;
 
 			public:
 				gcroot<Dictionary<String^, PropertyInfo^>^> Properties;
@@ -26,6 +27,7 @@ namespace CefSharp
 				{
 					_obj = obj;
                     _methodMap = gcnew Dictionary<String^, String^>();
+                    _propertyMap = gcnew Dictionary<String^, String^>();
 				}
 
 				/// <summary>
@@ -47,6 +49,25 @@ namespace CefSharp
                     String^ value;
 
                     if (_methodMap->TryGetValue(from, value))
+                    {
+                        return value;
+                    }
+                    else
+                    {
+                        return nullptr;
+                    }
+                }
+
+                void AddPropertyMapping(String^ from, String^ to)
+                {
+                    _propertyMap->Add(to, from);
+                }
+
+                String^ GetPropertyMapping(String^ from)
+                {
+                    String^ value;
+
+                    if (_propertyMap->TryGetValue(from, value))
                     {
                         return value;
                     }

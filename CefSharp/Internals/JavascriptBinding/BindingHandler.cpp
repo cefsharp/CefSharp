@@ -317,9 +317,14 @@ namespace CefSharp
 
             void BindingHandler::CreateJavascriptProperties(CefV8Handler* handler, CefRefPtr<CefV8Value> javascriptObject, Dictionary<String^, PropertyInfo^>^ properties)
             {
+                auto unmanagedWrapper = static_cast<UnmanagedWrapper*>(javascriptObject->GetUserData().get());
+
                 for each(String^ propertyName in properties->Keys)
                 {
-                    auto nameStr = toNative(propertyName);
+                    auto jsPropertyName = LowercaseFirst(propertyName);
+                    unmanagedWrapper->AddPropertyMapping(propertyName, jsPropertyName);
+
+                    auto nameStr = toNative(jsPropertyName);
 
                     cef_v8_propertyattribute_t propertyAttribute = V8_PROPERTY_ATTRIBUTE_NONE;
 
