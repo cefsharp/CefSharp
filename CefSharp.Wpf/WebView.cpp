@@ -854,14 +854,11 @@ namespace Wpf
     void WebView::HidePopup()
     {
         CefRefPtr<CefBrowser> browser;
-        if (TryGetCefBrowser(browser))
+        if (_popup != nullptr && _popup->IsOpen && TryGetCefBrowser(browser))
         {           
-            if(_popup != nullptr && _popup->IsOpen)
-            {
-                // This is the only decent way I found to hide popup properly so that clicking again on the a drop down (<select>) 
-                // opens it. 
-                browser->SendMouseClickEvent(-1,-1, CefBrowser::MouseButtonType::MBT_LEFT, false, 1 );
-            }
+			// This is the only decent way I found to hide popup properly so that clicking again on the a drop down (<select>) 
+            // opens it. 
+            browser->SendMouseClickEvent(-1,-1, CefBrowser::MouseButtonType::MBT_LEFT, false, 1 );
         }
     }
 
