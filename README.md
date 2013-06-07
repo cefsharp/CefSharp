@@ -15,7 +15,10 @@ See the [ChangeLog](https://github.com/ataranto/CefSharp/blob/master/ChangeLog.m
 
 # Forks
 
-[The chillitom fork](https://github.com/chillitom/CefSharp) was the original CefSharp repo, but is updated only when a new release is made. Active maintainership occurs on [the ataranto fork](https://github.com/ataranto/CefSharp). You can also view [the entire network of public forks/branches](https://github.com/chillitom/CefSharp/network).
+- [The chillitom fork](https://github.com/chillitom/CefSharp) was the original CefSharp repo, but is updated only when a new release is made.
+- Semi-active maintainership occurs on [the ataranto fork](https://github.com/ataranto/CefSharp).
+- "Bleeding edge" work is done on other branches, including [the perlun fork](https://github.com/perlun/CefSharp).
+- You can also view [the entire network of public forks/branches](https://github.com/chillitom/CefSharp/network).
 
 # Contact
 
