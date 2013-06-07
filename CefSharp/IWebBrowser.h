@@ -70,5 +70,7 @@ namespace CefSharp
 
         void RegisterJsObject(String^ name, Object^ objectToBind);
         IDictionary<String^, Object^>^ GetBoundObjects();
+			
+		property IDictionary<String^, Object^>^ BoundObjects { IDictionary<String^, Object^>^ get(); }		
     };
 }

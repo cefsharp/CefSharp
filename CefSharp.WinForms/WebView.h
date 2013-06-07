@@ -146,6 +146,11 @@ namespace WinForms
             void set(IKeyboardHandler^ handler) { _browserCore->KeyboardHandler = handler; }
         }
 
+		virtual property IDictionary<String^, Object^>^ BoundObjects
+		{
+			IDictionary<String^, Object^>^ get() { return GetBoundObjects(); }
+		}
+
         virtual void OnInitialized();
 
         virtual void Load(String^ url);

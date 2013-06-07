@@ -1,10 +1,12 @@
 #include "stdafx.h"
+#include "BindingHandler.h"
+#include <cstdlib>
 
 using namespace System::Collections::Generic;
 
 namespace CefSharp
 {
-    CefRefPtr<CefV8Value> convertToCef(Object^ obj, Type^ type)
+    CefRefPtr<CefV8Value> convertToCef(Object^ obj, Type^ type, CefRefPtr<CefV8Value> parent)
     {
         if(type == Void::typeid)
         {
@@ -16,7 +18,7 @@ namespace CefSharp
         }
 
         Type^ underlyingType = Nullable::GetUnderlyingType(type);
-        if(underlyingType!=nullptr)type = underlyingType;
+		if (underlyingType!=nullptr) type = underlyingType;
 
         if (type == Boolean::typeid)
         {
@@ -75,10 +77,11 @@ namespace CefSharp
         {
             return CefV8Value::CreateInt( Convert::ToInt32(obj) );
         }
-		if (type->IsArray)
+		if (type->IsArray || obj->GetType()->IsArray)
         {
             System::Array^ managedArray = (System::Array^)obj;
-            CefRefPtr<CefV8Value> cefArray = CefV8Value::CreateArray(managedArray->Length);
+			
+			CefRefPtr<CefV8Value> cefArray = CefV8Value::CreateArray(managedArray->Length);
 
             for (int i = 0; i < managedArray->Length; i++)
             {
@@ -88,7 +91,7 @@ namespace CefSharp
 
 				if (arrObj != nullptr)
 				{
-					CefRefPtr<CefV8Value> cefObj = convertToCef(arrObj, arrObj->GetType());
+					CefRefPtr<CefV8Value> cefObj = convertToCef(arrObj, arrObj->GetType(), parent);
 
 					cefArray->SetValue(i, cefObj);
 				}
@@ -103,19 +106,20 @@ namespace CefSharp
         if (type->IsValueType && !type->IsPrimitive && !type->IsEnum)
         {
             cli::array<System::Reflection::FieldInfo^>^ fields = type->GetFields();
+
             CefRefPtr<CefV8Value> cefArray = CefV8Value::CreateArray(fields->Length);
 
             for (int i = 0; i < fields->Length; i++)
             {
                 String^ fieldName = fields[i]->Name;
 
-                CefString strFieldName = toNative(safe_cast<String^>(fieldName));
+                CefString strFieldName = toNative(fieldName);
 
                 Object^ fieldVal = fields[i]->GetValue(obj);
 
 				if (fieldVal != nullptr)
 				{
-	                CefRefPtr<CefV8Value> cefVal = convertToCef(fieldVal, fieldVal->GetType());
+	                CefRefPtr<CefV8Value> cefVal = type == fieldVal->GetType() ? cefArray : convertToCef(fieldVal, fieldVal->GetType(), parent);
 
 		            cefArray->SetValue(strFieldName, cefVal, V8_PROPERTY_ATTRIBUTE_NONE);
 				}
@@ -127,8 +131,10 @@ namespace CefSharp
 
             return cefArray;
         }
-        //TODO: What exception type?
-        throw gcnew Exception("Cannot convert object from CLR to Cef " + type->ToString() + ".");
+
+		return BindingHandler::Bind(obj, parent);
+       //TODO: What exception type?
+       //throw gcnew Exception("Cannot convert object from CLR to Cef " + type->ToString() + ".");
     }
 
 	System::String^ stdToString(const std::string& s)
@@ -161,7 +167,7 @@ namespace CefSharp
 				std::vector<CefString> keys;
 				if (obj->GetKeys(keys))
 				{
-					Dictionary<String^, Object^>^ result = gcnew Dictionary<String^, Object^>();
+					array<Object^>^ result = gcnew array<Object^>(arrLength);
 
 					for (int i = 0; i < arrLength; i++)
 					{
@@ -175,9 +181,8 @@ namespace CefSharp
 							data = obj->GetValue(keys[i]);
 							if (data != nullptr)
 							{
-								Object^ p_data = convertFromCef(data);
-
-								result->Add(p_keyStr, p_data);
+								Object^ p_data = data == obj ? result : convertFromCef(data);
+								result->SetValue(p_data, strtol(p_key.c_str(), NULL, 10)); //instead of result[i] = p_data; because the array may not in order
 							}
 						}
 					}
@@ -188,6 +193,43 @@ namespace CefSharp
 
 			return nullptr;
 		}
+				
+		//if (obj->IsArray())
+		//{
+		//	int arrLength = obj->GetArrayLength();
+
+		//	if (arrLength > 0)
+		//	{
+		//		std::vector<CefString> keys;
+		//		if (obj->GetKeys(keys))
+		//		{
+		//			Dictionary<String^, Object^>^ result = gcnew Dictionary<String^, Object^>();
+
+		//			for (int i = 0; i < arrLength; i++)
+		//			{
+		//				std::string p_key = keys[i].ToString();
+		//				String^ p_keyStr = stdToString(p_key);
+
+		//				if ((obj->HasValue(keys[i])) && (!p_keyStr->StartsWith("__")))
+		//				{
+		//					CefRefPtr<CefV8Value> data;
+
+		//					data = obj->GetValue(keys[i]);
+		//					if (data != nullptr)
+		//					{
+		//						Object^ p_data = convertFromCef(data);
+
+		//						result->Add(p_keyStr, p_data);
+		//					}
+		//				}
+		//			}
+
+		//			return result;
+		//		}
+		//	}
+
+		//	return nullptr;
+		//}
 
 		if (obj->IsObject())
 		{
@@ -211,7 +253,7 @@ namespace CefSharp
 							data = obj->GetValue(keys[i]);
 							if (data != nullptr)
 							{
-								Object^ p_data = convertFromCef(data);
+								Object^ p_data = data == obj ? result : convertFromCef(data);
 
 								result->Add(p_keyStr, p_data);
 							}
