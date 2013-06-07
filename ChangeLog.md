@@ -1,3 +1,10 @@
+###### 1.25.1-perlun.0
+June 7, 2013, Chromium 25.0.1364.1123
+
+- Upgraded the project to be compiled with VS2010 SP1 and/or VS2012, instead of VS2008. This means that you will now only be able to consume this version of CefSharp from .NET 4.0 code (3.5 and 2.0 is no longer supported). [@plundberg, @mwisnicki]
+- Added support for exposing CLR properties to Javascript code. [@plundberg]
+- Breaking change: Changed CLR methods and properties to use camelCase (rather than just exposing them as-is, which was the previous case), to make them act more like regular Javascript methods and properties. [@plundberg]
+
 ###### 1.25.0
 March 11, 2013, Chromium 25.0.1364.68
 
