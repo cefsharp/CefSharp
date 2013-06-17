@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("CefSharp.Example")]
@@ -7,5 +6,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("CefSharp.Example")]
 [assembly: AssemblyCopyright("Copyright © 2013")]
 
-[assembly: AssemblyVersion("1.25.0.*")]
+[assembly: AssemblyVersion("1.25.2.*")]
 [assembly: ComVisible(false)]
