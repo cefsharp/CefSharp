@@ -7,7 +7,7 @@
     <owners>CefSharp community</owners>
     <projectUrl>https://github.com/perlun/cefsharp</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>CefSharp (WPF version).</description>
+    <description>The CefSharp Chromium-based browser component (WPF version).</description>
     <tags>wpf chrome browser</tags>
 	<copyright>Copyright © 2013 Per Lundberg, Anthony Taranto and others</copyright>
     <frameworkAssemblies>
