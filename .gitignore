@@ -12,6 +12,7 @@
 *.sdf
 *.ipch
 *.exe.config
+*.xml
 *.ReSharper
 _ReSharper*
 
@@ -19,5 +20,4 @@ obj/
 bin/
 /Debug/
 CefSharp/app.aps
-TestResult.xml
 debug.log
