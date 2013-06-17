@@ -1,3 +1,8 @@
+June 17, 2013, Chromium 25.0.1364.1123
+###### 1.25.2-perlun.0
+
+- Updated to compile correctly with VS2010 in Release mode. [@plundberg]
+
 ###### 1.25.1-perlun.0
 June 7, 2013, Chromium 25.0.1364.1123
 

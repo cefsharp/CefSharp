@@ -10,6 +10,7 @@ Binary releases contain everything needed to embed Chromium in your CLR applicat
 
 **Stable**: [CefSharp-1.25.0](http://sourceforge.net/projects/cefsharp/files/CefSharp-1.25.0.7z/download "Download")
 Chromium 25.0.1364.152
+**Unstable: CefSharp-1.25.2-perlun.0 - no binary release yet; compile from source using the code at https://github.com/perlun/CefSharp
 
 See the [ChangeLog](https://github.com/ataranto/CefSharp/blob/master/ChangeLog.md) for update information, or [Downloads](https://sourceforge.net/projects/cefsharp/files/) for older releases.
 
