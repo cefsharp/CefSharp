@@ -96,9 +96,9 @@ namespace CefSharp.Example.Properties {
         ///		&lt;title&gt;Popup Test&lt;/title&gt;
         ///	&lt;/head&gt;
         ///	&lt;body&gt;
-        ///        &lt;a href=&quot;https://github.com/ataranto/CefSharp&quot; target=&quot;_blank&quot;&gt;target=_blank&lt;/a&gt;
+        ///        &lt;a href=&quot;https://github.com/perlun/CefSharp&quot; target=&quot;_blank&quot;&gt;target=_blank&lt;/a&gt;
         ///        &lt;br /&gt;
-        ///        &lt;a href=&quot;#&quot; onclick=&quot;window.open(&apos;https://github.com/ataranto/CefSharp&apos;)&quot;&gt;window.open()&lt;/a&gt;
+        ///        &lt;a href=&quot;#&quot; onclick=&quot;window.open(&apos;https://github.com/perlun/CefSharp&apos;)&quot;&gt;window.open()&lt;/a&gt;
         ///	&lt;/body&gt;
         ///&lt;/html&gt;
         ///.
