@@ -27,8 +27,6 @@ namespace CefSharp
 
 		virtual ~BindingData() 
 		{			
-			//System::Console::WriteLine("Destroying binding object " + _obj->GetType()->ToString());
-			//lock x(cache);
 			if (cache->ContainsKey(_obj)) {
 				cacheLock->EnterWriteLock();
 				try {
@@ -40,7 +38,6 @@ namespace CefSharp
 					cacheLock->ExitWriteLock();
 				}
 			}
-			//_obj = nullptr;
 		}
 
         Object^ Get()

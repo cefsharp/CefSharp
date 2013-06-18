@@ -269,19 +269,15 @@ namespace CefSharp
 	CefRefPtr<CefV8Value> BindingHandler::Bind(Object^ obj, CefRefPtr<CefV8Value> window)
     {
 		IDictionary<Object^, unsigned long>^ $ = cache;
-		{
-			//lock x(cache);
-			cacheLock->EnterReadLock();
-			try {
-				if (cache->ContainsKey(obj)) 
-					return map4cache[$[obj]];
-			}
-			finally {
-				cacheLock->ExitReadLock();
-			}
+		cacheLock->EnterReadLock();
+		try {
+			if (cache->ContainsKey(obj)) 
+				return map4cache[$[obj]];
+		}
+		finally {
+			cacheLock->ExitReadLock();
 		}
 
-        //CefRefPtr<BindingData> bindingData = new BindingData(obj);
         CefRefPtr<CefBase> userData = new BindingData(obj);
         static CefRefPtr<CefV8Handler> handler = new BindingHandler();
 		static CefRefPtr<CefV8Accessor> acc = new Accessor();
@@ -315,8 +311,11 @@ namespace CefSharp
 				if(methodNames->Contains(mi->Name)) continue;
 				methodNames->Add(mi->Name);
 				MethodInfo^ m = (MethodInfo^) mi;
-				if (!m->IsSpecialName && !m->IsConstructor && m->GetBaseDefinition()->DeclaringType !=  System::Dynamic::DynamicObject::typeid)
-					wrappedObject->SetValue(nameStr, CefV8Value::CreateFunction(nameStr, handler), V8_PROPERTY_ATTRIBUTE_NONE);
+				if (!m->IsSpecialName && !m->IsConstructor && m->GetBaseDefinition()->DeclaringType !=  System::Dynamic::DynamicObject::typeid) {
+					CefRefPtr<CefV8Value> fun = CefV8Value::CreateFunction(nameStr, handler);
+					wrappedObject->SetValue(nameStr, fun, V8_PROPERTY_ATTRIBUTE_NONE);
+					fun->AddRef();
+				}
 			}
 			else if (mi->MemberType == MemberTypes::Property) {
 				PropertyInfo^ p = (PropertyInfo^) mi;
