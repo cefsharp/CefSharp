@@ -9,7 +9,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>The CefSharp Chromium-based browser component (WPF version).</description>
     <tags>wpf chrome browser</tags>
-	<copyright>Copyright © 2013 Per Lundberg, Anthony Taranto and others</copyright>
+	<copyright>Copyright Â© 2013 Per Lundberg, Anthony Taranto and others</copyright>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" />
       <frameworkAssembly assemblyName="System.Windows.Browser" targetFramework="sl50" />
