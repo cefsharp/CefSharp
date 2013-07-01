@@ -21,3 +21,4 @@ bin/
 /Debug/
 CefSharp/app.aps
 debug.log
+*.nupkg
