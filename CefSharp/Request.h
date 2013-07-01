@@ -10,6 +10,7 @@ namespace CefSharp
     {
         property String^ Url { String^ get(); void set(String^ url); }
         property String^ Method { String^ get(); }
+        property String^ Body { String^ get(); }
         IDictionary<String^, String^>^ GetHeaders();
         void SetHeaders(IDictionary<String^, String^>^ headers);
     };
@@ -23,6 +24,7 @@ namespace CefSharp
     public:
         virtual property String^ Url { String^ get(); void set(String^ url); }
         virtual property String^ Method { String^ get(); }
+        virtual property String^ Body { String^ get(); }
         virtual IDictionary<String^, String^>^ GetHeaders();
         virtual void SetHeaders(IDictionary<String^, String^>^ headers);
 
