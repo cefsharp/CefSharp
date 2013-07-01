@@ -153,6 +153,7 @@
     <ClInclude Include="ILoadHandler.h" />
     <ClInclude Include="IMenuHandler.h" />
     <ClInclude Include="IRenderWebBrowser.h" />
+    <ClInclude Include="IRequest.h" />
     <ClInclude Include="IRequestHandler.h" />
     <ClInclude Include="IWebBrowser.h" />
     <ClInclude Include="LoadCompletedEventArgs.h" />
