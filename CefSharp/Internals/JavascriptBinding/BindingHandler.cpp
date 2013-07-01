@@ -30,6 +30,10 @@ namespace CefSharp
                     || conversionType == Nullable<UInt64>::typeid
                     )
                     return -1;
+				
+                // Actual conversion cost is 0, but set to 2 to give priority to better matches
+                if (conversionType == Object::typeid)
+                    return 2;
 
                 // Null conversion
                 if (value == nullptr)
@@ -125,6 +129,10 @@ namespace CefSharp
                 }
 
                 if (value == nullptr) return nullptr;
+				
+                // if converting to Object, do nothing
+                if (conversionType == Object::typeid)
+                    return value;
 
                 Type^ targetType = Nullable::GetUnderlyingType(conversionType);
                 if (targetType != nullptr) conversionType = targetType;
@@ -277,7 +285,9 @@ namespace CefSharp
                 {
                     // "Special name"-methods are things like property getters and setters, which we don't want to include in the list.
                     if (method->IsSpecialName) continue;
-                    methodNames->Add(method->Name, nullptr);
+					// add names once only, allowing multiple methods with same name
+                    if (!methodNames->ContainsKey(method->Name))
+                        methodNames->Add(method->Name, nullptr);
                 }
 
                 CreateJavascriptMethods(handler, javascriptWrapper, methodNames->Keys);
