@@ -11,7 +11,7 @@ namespace CefSharp
 
     void CefRequestWrapper::Url::set(String^ url)
     {
-        if(url == nullptr)
+        if (url == nullptr)
         {
             throw gcnew System::ArgumentException("cannot be null", "url");
         }
@@ -24,35 +24,38 @@ namespace CefSharp
     {
         return toClr(_wrappedRequest->GetMethod());
     }
-    
+
     String^ CefRequestWrapper::Body::get()
     {
-		CefPostData::ElementVector ev;
-		
-		CefRefPtr<CefPostData> data = _wrappedRequest->GetPostData();
+        CefPostData::ElementVector ev;
 
-		if(data.get() != nullptr) {
-			data.get()->GetElements(ev);
+        CefRefPtr<CefPostData> data = _wrappedRequest->GetPostData();
 
-			for (CefPostData::ElementVector::iterator it = ev.begin(); it != ev.end(); ++it)
-			{
-				CefPostDataElement *el = it->get();
-				
-				if(el->GetType() == PDE_TYPE_BYTES) 
-				{
-					size_t count = el->GetBytesCount();
-					char* bytes = new char[count];
+        if (data.get() != nullptr) 
+        {
+            data.get()->GetElements(ev);
 
-					el->GetBytes(count, bytes);
+            for (CefPostData::ElementVector::iterator it = ev.begin(); it != ev.end(); ++it)
+            {
+                CefPostDataElement *el = it->get();
 
-					return gcnew String(bytes, 0, count);
-				} else if(el->GetType() == PDE_TYPE_FILE) {
-					return toClr(el->GetFile());
-				}
-			}
-		}
+                if (el->GetType() == PDE_TYPE_BYTES) 
+                {
+                    size_t count = el->GetBytesCount();
+                    char* bytes = new char[count];
 
-		return nullptr;
+                    el->GetBytes(count, bytes);
+
+                    return gcnew String(bytes, 0, count);
+                }
+                else if (el->GetType() == PDE_TYPE_FILE)
+                {
+                    return toClr(el->GetFile());
+                }
+            }
+        }
+
+        return nullptr;
     }
 
     IDictionary<String^, String^>^ CefRequestWrapper::GetHeaders()
