@@ -130,7 +130,7 @@ namespace CefSharp
 
                 if (value == nullptr) return nullptr;
                 
-                // if converting to Object, do nothing
+                // Converting to Object, so nothing needs to be done.
                 if (conversionType == Object::typeid)
                     return value;
 
