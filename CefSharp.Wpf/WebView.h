@@ -46,7 +46,7 @@ namespace Wpf
         InteropBitmap^ _ibitmap;
 		HANDLE _fileMappingHandle, _backBufferHandle;
 		ActionHandler^ _paintDelegate;
-        
+
         Image^ _popupImage;
         int _popupWidth, _popupHeight, _popupX, _popupY;
         int _popupImageWidth, _popupImageHeight;
@@ -224,6 +224,11 @@ namespace Wpf
             IKeyboardHandler^ get() { return _browserCore->KeyboardHandler; }
             void set(IKeyboardHandler^ handler) { _browserCore->KeyboardHandler = handler; }
         }
+				
+		virtual property IDictionary<String^, Object^>^ BoundObjects
+		{
+			IDictionary<String^, Object^>^ get() { return GetBoundObjects(); }
+		}
 
         virtual void OnInitialized();
 

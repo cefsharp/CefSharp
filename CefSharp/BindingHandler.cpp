@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "BindingHandler.h"
 
+using namespace System::ComponentModel;
+
 namespace CefSharp
 {
     bool BindingHandler::IsNullableType(Type^ type)
@@ -102,6 +104,8 @@ namespace CefSharp
             if(conversionType == String::typeid) return baseCost + 0;
             return -1;
         }
+		else if (valueType->IsArray && (conversionType->IsArray || conversionType == Object::typeid))
+			return baseCost + 0;
         else
         {
             // No conversion available
@@ -120,6 +124,24 @@ namespace CefSharp
 
         Type^ targetType = Nullable::GetUnderlyingType(conversionType);
         if (targetType != nullptr) conversionType = targetType;
+		
+		Type^ inType = value->GetType();
+		if (inType == conversionType) return value;
+
+		if (inType->IsArray) {
+			if (!conversionType->HasElementType) return value;
+
+			Type^ outType = conversionType->GetElementType();
+			if (outType == inType->GetElementType()) return value;
+
+			Array^ in = (Array^) value;
+			Array^ out = Array::CreateInstance(outType,  in->Length);
+
+			for (int i = 0; i < in->Length; i++)
+				out->SetValue(Convert::ChangeType(in->GetValue(i), outType), i);
+
+			return out;
+		}
 
         return Convert::ChangeType(value, conversionType);
     }
@@ -137,17 +159,17 @@ namespace CefSharp
         String^ memberName = toClr(name);
         Type^ type = self->GetType();
         array<System::Reflection::MemberInfo^>^ members = type->GetMember(memberName, MemberTypes::Method, 
-            BindingFlags::Instance | BindingFlags::Public);
+            /* BindingFlags::IgnoreCase |*/ BindingFlags::Instance | BindingFlags::Public);
 
         if(members->Length == 0)
-        {
-            exception = toNative("No member named " + memberName + ".");
-            return true;
+		{
+			exception = toNative("No member named " + memberName + ".");
+			return true;
         }
 
         //TODO: cache for type info here
 
-        array<System::Object^>^ suppliedArguments = gcnew array<Object^>(arguments.size());
+        array<Object^>^ suppliedArguments = gcnew array<Object^>(arguments.size());
         try
         {
             for(int i = 0; i < suppliedArguments->Length; i++) 
@@ -225,7 +247,7 @@ namespace CefSharp
             try
             {
                 Object^ result = bestMethod->Invoke(self, bestMethodArguments);
-                retval = convertToCef(result, bestMethod->ReturnType);
+                retval = convertToCef(result, bestMethod->ReturnType, object);
                 return true;
             }
             catch(System::Reflection::TargetInvocationException^ err)
@@ -244,32 +266,153 @@ namespace CefSharp
         return true;
     }
 
+	CefRefPtr<CefV8Value> BindingHandler::Bind(Object^ obj, CefRefPtr<CefV8Value> window)
+    {
+		IDictionary<Object^, unsigned long>^ $ = cache;
+		cacheLock->EnterReadLock();
+		try {
+			if (cache->ContainsKey(obj)) 
+				return map4cache[$[obj]];
+		}
+		finally {
+			cacheLock->ExitReadLock();
+		}
+
+        CefRefPtr<CefBase> userData = new BindingData(obj);
+        static CefRefPtr<CefV8Handler> handler = new BindingHandler();
+		static CefRefPtr<CefV8Accessor> acc = new Accessor();
+        CefRefPtr<CefV8Value> wrappedObject = window->CreateObject(acc);
+		wrappedObject->SetUserData(userData);
+		//wrappedObject->AdjustExternallyAllocatedMemory(100 * 1024 * 1024); // TODO: need to find out size of obj!
+
+		array<MemberInfo^>^ members = obj->GetType()->GetMembers(BindingFlags::Instance | BindingFlags::Public);
+
+        IList<String^>^ methodNames = gcnew List<String^>();
+		for each(MemberInfo^ mi in members) 
+		{
+			CefString nameStr = toNative(mi->Name);
+			
+			// filter out certain system type properties               
+			if (mi->DeclaringType == System::Dynamic::DynamicObject::typeid || mi->DeclaringType == System::MarshalByRefObject::typeid || mi->DeclaringType == System::Object::typeid) continue;
+
+			if (mi->DeclaringType->GetInterface(System::Reflection::IReflect::typeid->ToString()) != nullptr) {
+				bool browsable = true;
+				for each(Object^ o in mi->GetCustomAttributes(EditorBrowsableAttribute::typeid, false)) {
+					EditorBrowsableAttribute^ a = (EditorBrowsableAttribute^) o;
+					if (a->State ==  EditorBrowsableState::Never) {
+						browsable = false;
+						break;
+					}
+				}
+				if (!browsable) continue;
+			}
+
+			if (mi->MemberType == MemberTypes::Method) {
+				if(methodNames->Contains(mi->Name)) continue;
+				methodNames->Add(mi->Name);
+				MethodInfo^ m = (MethodInfo^) mi;
+				if (!m->IsSpecialName && !m->IsConstructor && m->GetBaseDefinition()->DeclaringType !=  System::Dynamic::DynamicObject::typeid) {
+					CefRefPtr<CefV8Value> fun = CefV8Value::CreateFunction(nameStr, handler);
+					wrappedObject->SetValue(nameStr, fun, V8_PROPERTY_ATTRIBUTE_NONE);
+					fun->AddRef();
+				}
+			}
+			else if (mi->MemberType == MemberTypes::Property) {
+				PropertyInfo^ p = (PropertyInfo^) mi;
+				if (!p->IsSpecialName && (p->DeclaringType == nullptr || 
+					( (p->DeclaringType->Attributes & TypeAttributes::SpecialName) != TypeAttributes::SpecialName && !p->IsSpecialName && p->GetIndexParameters()->Length == 0))) {
+					CefV8Value::AccessControl ctrl = V8_ACCESS_CONTROL_DEFAULT;
+					if (p->CanRead)
+						ctrl = static_cast<CefV8Value::AccessControl>(ctrl | V8_ACCESS_CONTROL_ALL_CAN_READ);
+					if (p->CanWrite)
+						ctrl = static_cast<CefV8Value::AccessControl>(ctrl | V8_ACCESS_CONTROL_ALL_CAN_WRITE);
+					wrappedObject->SetValue(nameStr, ctrl, V8_PROPERTY_ATTRIBUTE_NONE);
+				}
+			}
+		}
+
+		static unsigned long key = -1;
+		unsigned long k = CefAtomicIncrement(&key);
+		if (InterlockedCompareExchange(&key, -1, -1) == -1) {
+			// when key reach 0xFFFFFFFF (-1) clear cache so we don't put a wrong wrappedObject in there.
+			cacheLock->EnterWriteLock();
+			try {
+				$->Clear();
+				map4cache.clear();
+			}
+			finally {
+				cacheLock->ExitWriteLock();
+			}
+		}
+		$[obj] = k;
+		map4cache[k] = wrappedObject;
+        return wrappedObject;
+    }
+
     void BindingHandler::Bind(String^ name, Object^ obj, CefRefPtr<CefV8Value> window)
     {
-        // wrap the managed object in an unmanaged wrapper
-        CefRefPtr<BindingData> bindingData = new BindingData(obj);
-        CefRefPtr<CefBase> userData = static_cast<CefRefPtr<CefBase>>(bindingData);
-
-        // create the javascript object and associate the wrapped object
-        CefRefPtr<CefV8Value> wrappedObject = window->CreateObject(NULL);
-        wrappedObject->SetUserData(userData);
-
-        // build a list of methods on the bound object
-        array<MethodInfo^>^ methods = obj->GetType()->GetMethods(BindingFlags::Instance | BindingFlags::Public);
-        IDictionary<String^, Object^>^ methodNames = gcnew Dictionary<String^, Object^>();
-        for each(MethodInfo^ method in methods) 
-        {
-            methodNames->Add(method->Name, nullptr);
-        }
-
-        // create a corresponding javascript method for each c# method
-        CefRefPtr<CefV8Handler> handler = static_cast<CefV8Handler*>(new BindingHandler());
-        for each(String^ methodName in methodNames->Keys)
-        {
-            CefString nameStr = toNative(methodName);
-            wrappedObject->SetValue(nameStr, CefV8Value::CreateFunction(nameStr, handler), V8_PROPERTY_ATTRIBUTE_NONE);
-        }
-
-        window->SetValue(toNative(name), wrappedObject, V8_PROPERTY_ATTRIBUTE_NONE);
+        window->SetValue(toNative(name), Bind(obj, window), V8_PROPERTY_ATTRIBUTE_NONE);
     }
+
+	bool Accessor::Get(const CefString& name,
+									const CefRefPtr<CefV8Value> object,
+									CefRefPtr<CefV8Value>& retval,
+									CefString& exception) {
+			CefRefPtr<BindingData> bindingData = static_cast<BindingData*>(object->GetUserData().get());
+			Object^ self = bindingData->Get();
+			if(self == nullptr) 
+			{
+				exception = "Binding's CLR object is null.";
+				return true;
+			}
+
+			String^ memberName = toClr(name);
+			Type^ type = self->GetType();
+			PropertyInfo^ p = type->GetProperty(memberName, BindingFlags::Instance | BindingFlags::Public);
+
+			if(p == nullptr)
+			{
+				exception = toNative("No member named " + memberName + ".");
+				return true;
+			}
+
+			try {
+				Object^ result = p->GetValue(self, nullptr);
+				retval = result == self ? object : convertToCef(result, p->PropertyType, object);
+			}
+			catch (Exception^ e) {
+				exception = toNative(e->Message);
+				return true;
+			}
+
+			return true;
+	}
+
+      bool  Accessor::Set(const CefString& name,
+                       const CefRefPtr<CefV8Value> object,
+                       const CefRefPtr<CefV8Value> value,
+                       CefString& exception) {						           
+	   CefRefPtr<BindingData> bindingData = static_cast<BindingData*>(object->GetUserData().get());
+	   Object^ self = bindingData->Get();
+	   if(self == nullptr) 
+	   {
+		   exception = "Binding's CLR object is null.";
+		   return true;
+	   }
+
+	   String^ memberName = toClr(name);
+	   Type^ type = self->GetType();
+	   PropertyInfo^ p = type->GetProperty(memberName, BindingFlags::Instance | BindingFlags::Public);
+
+	   if(p == nullptr)
+	   {
+		   exception = toNative("No member named " + memberName + ".");
+		   return true;
+	   }
+
+	   Object^ v = value == object ? self : convertFromCef(value);	   
+	   p->SetValue(self, BindingHandler::ChangeType(v, p->PropertyType), nullptr);
+
+        return true;
+      }
 }
