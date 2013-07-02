@@ -343,7 +343,7 @@ namespace CefSharp
                     methodNames->Add(method->Name);
                 }
 
-                CreateJavascriptMethods(handler, javascriptWrapper, methodNames->Keys);
+                CreateJavascriptMethods(handler, javascriptWrapper, methodNames);
 
                 unmanagedWrapper->Properties = GetProperties(obj->GetType());
                 CreateJavascriptProperties(handler, javascriptWrapper, unmanagedWrapper->Properties);
