@@ -216,31 +216,85 @@ namespace CefSharp
                 {
                     auto method = (MethodInfo^) methods[i];
                     auto parametersInfo = method->GetParameters();
-
-                    if (suppliedArguments->Length == parametersInfo->Length)
+                    
+                    if (parametersInfo->Length == 0)
+                    {
+                        if (suppliedArguments->Length == 0)
+                        {
+                            bestMethod = method;
+                            bestMethodArguments = suppliedArguments;
+                            bestMethodCost = 0;
+                            break;
+                        }
+                    }
+                    else
                     {
                         int failed = 0;
                         int cost = 0;
-                        auto arguments = gcnew array<Object^>(suppliedArguments->Length);
+                        auto arguments = gcnew List<Object^>();
 
                         try
                         {
-                            for (int p = 0; p < suppliedArguments->Length; p++)
+                            int p = 0, a = 0;
+                            while (p < parametersInfo->Length && a < suppliedArguments->Length)
                             {
-                                Type^ paramType = parametersInfo[p]->ParameterType;
+                                ParameterInfo^ pi = parametersInfo[p++];
+                                Type^ paramType = pi->ParameterType;
 
-                                int paramCost = GetChangeTypeCost(suppliedArguments[p], paramType);
-                                if (paramCost < 0 )
+                                if (paramType->IsArray && paramType->GetElementType() == Object::typeid)
+                                {
+                                    if (p < parametersInfo->Length - 1)
+                                    {
+                                        ++failed;
+                                        break;
+                                    }
+
+                                    auto parm = gcnew List<Object^>();
+                                    for (; a < suppliedArguments->Length; ++a)
+                                        parm->Add(suppliedArguments[a]);
+                                    arguments->Add(parm->ToArray());
+                                    
+                                    cost += arguments->Count * 2;
+                                }
+                                else 
+                                {
+                                    int paramCost = GetChangeTypeCost(suppliedArguments[a], paramType);
+                                    if (paramCost < 0)
+                                    {
+                                        failed++;
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        arguments->Add(ChangeType(suppliedArguments[a++], paramType));
+                                        cost += paramCost;
+                                    }
+                                }
+                            }
+
+                            // check all required parameters are supplied
+                            for (; p < parametersInfo->Length; ++p)
+                            {
+                                ParameterInfo^ pi = parametersInfo[p];
+                                if (pi->IsOptional)
+                                {
+                                    if (pi->DefaultValue != DBNull::Value)
+                                        arguments->Add(pi->DefaultValue);
+                                    else
+                                        arguments->Add(nullptr);
+                                }
+                                else if (p == parametersInfo->Length - 1 && pi->ParameterType->IsArray && pi->ParameterType->GetElementType() == Object::typeid)
+                                    arguments->Add(gcnew array<Object^>(0));
+                                else
                                 {
                                     failed++;
                                     break;
                                 }
-                                else
-                                {
-                                    arguments[p] = ChangeType(suppliedArguments[p], paramType);
-                                    cost += paramCost;
-                                }
                             }
+                            
+                            // check all supplied arguments used
+                            if (!failed && a < suppliedArguments->Length)
+                                failed++;
                         }
                         catch(Exception^)
                         {
@@ -255,7 +309,7 @@ namespace CefSharp
                         if (cost < bestMethodCost || bestMethodCost < 0)
                         {
                             bestMethod = method;
-                            bestMethodArguments = arguments;
+                            bestMethodArguments = arguments->ToArray();
                             bestMethodCost = cost;
                         }
 
@@ -279,15 +333,14 @@ namespace CefSharp
 
                 // Build a list of methods on the bound object
                 auto methods = obj->GetType()->GetMethods(BindingFlags::Instance | BindingFlags::Public);
-                auto methodNames = gcnew Dictionary<String^, Object^>();
+                auto methodNames = gcnew HashSet<String^>();
 
                 for each(auto method in methods) 
                 {
                     // "Special name"-methods are things like property getters and setters, which we don't want to include in the list.
                     if (method->IsSpecialName) continue;
 
-                    if (!methodNames->ContainsKey(method->Name))
-                        methodNames->Add(method->Name, nullptr);
+                    methodNames->Add(method->Name);
                 }
 
                 CreateJavascriptMethods(handler, javascriptWrapper, methodNames->Keys);
