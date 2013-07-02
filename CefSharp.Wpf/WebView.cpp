@@ -875,6 +875,7 @@ namespace Wpf
         if (_source == nullptr)
         {
             _source = (HwndSource^)PresentationSource::FromVisual(this);
+			if (_source == nullptr) return;
             _matrix = _source->CompositionTarget->TransformToDevice;
 
             _hook = gcnew Interop::HwndSourceHook(this, &WebView::SourceHook);
