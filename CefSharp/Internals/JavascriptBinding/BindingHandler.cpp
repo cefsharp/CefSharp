@@ -214,7 +214,7 @@ namespace CefSharp
 
                 for (int i = 0; i < methods->Length; i++)
                 {
-                    auto method = (MethodInfo^) methods[i];
+                    auto method = (MethodInfo^)methods[i];
                     auto parametersInfo = method->GetParameters();
                     
                     if (parametersInfo->Length == 0)
@@ -235,25 +235,25 @@ namespace CefSharp
 
                         try
                         {
-                            int p = 0, a = 0;
-                            while (p < parametersInfo->Length && a < suppliedArguments->Length)
+                            int p, a;
+                            for (p = 0, a = 0; !failed && p < parametersInfo->Length && a < suppliedArguments->Length; p++)
                             {
-                                ParameterInfo^ pi = parametersInfo[p++];
+                                ParameterInfo^ pi = parametersInfo[p];
                                 Type^ paramType = pi->ParameterType;
 
                                 if (paramType->IsArray && paramType->GetElementType() == Object::typeid)
                                 {
                                     if (p < parametersInfo->Length - 1)
                                     {
-                                        ++failed;
+                                        failed++;
                                         break;
                                     }
 
+                                    // add remaining arguments as array
                                     auto parm = gcnew List<Object^>();
-                                    for (; a < suppliedArguments->Length; ++a)
+                                    for (; a < suppliedArguments->Length; a++)
                                         parm->Add(suppliedArguments[a]);
                                     arguments->Add(parm->ToArray());
-                                    
                                     cost += arguments->Count * 2;
                                 }
                                 else 
@@ -264,16 +264,13 @@ namespace CefSharp
                                         failed++;
                                         break;
                                     }
-                                    else
-                                    {
-                                        arguments->Add(ChangeType(suppliedArguments[a++], paramType));
-                                        cost += paramCost;
-                                    }
+                                    arguments->Add(ChangeType(suppliedArguments[a++], paramType));
+                                    cost += paramCost;
                                 }
                             }
 
                             // check all required parameters are supplied
-                            for (; p < parametersInfo->Length; ++p)
+                            for (; !failed && p < parametersInfo->Length; p++)
                             {
                                 ParameterInfo^ pi = parametersInfo[p];
                                 if (pi->IsOptional)
@@ -286,10 +283,7 @@ namespace CefSharp
                                 else if (p == parametersInfo->Length - 1 && pi->ParameterType->IsArray && pi->ParameterType->GetElementType() == Object::typeid)
                                     arguments->Add(gcnew array<Object^>(0));
                                 else
-                                {
                                     failed++;
-                                    break;
-                                }
                             }
                             
                             // check all supplied arguments used
@@ -302,9 +296,7 @@ namespace CefSharp
                         }
 
                         if (failed > 0)
-                        {
                             continue;
-                        }
 
                         if (cost < bestMethodCost || bestMethodCost < 0)
                         {
@@ -343,7 +335,7 @@ namespace CefSharp
                     methodNames->Add(method->Name);
                 }
 
-                CreateJavascriptMethods(handler, javascriptWrapper, methodNames->Keys);
+                CreateJavascriptMethods(handler, javascriptWrapper, methodNames);
 
                 unmanagedWrapper->Properties = GetProperties(obj->GetType());
                 CreateJavascriptProperties(handler, javascriptWrapper, unmanagedWrapper->Properties);
