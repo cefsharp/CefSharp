@@ -14,6 +14,7 @@ namespace CefSharp
     interface class IRequestHandler;
     interface class IMenuHandler;
     interface class IKeyboardHandler;
+    interface class IJsDialogHandler;
 
     public ref class BrowserCore : INotifyPropertyChanged
     {
@@ -37,6 +38,7 @@ namespace CefSharp
         IRequestHandler^ _requestHandler;
         IMenuHandler^ _menuHandler;
         IKeyboardHandler^ _keyboardHandler;
+        IJsDialogHandler^ _jsDialogHandler;
 
         IDictionary<String^, Object^>^ _boundObjects;
 
@@ -170,6 +172,12 @@ namespace CefSharp
         {
             IKeyboardHandler^ get() { return _keyboardHandler; }
             void set(IKeyboardHandler^ handler) { _keyboardHandler = handler; }
+        }
+
+        virtual property IJsDialogHandler^ JsDialogHandler
+        {
+            IJsDialogHandler^ get() { return _jsDialogHandler; }
+            void set(IJsDialogHandler^ handler) { _jsDialogHandler = handler; }
         }
 
         void CheckBrowserInitialization();
