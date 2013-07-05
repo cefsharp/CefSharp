@@ -55,6 +55,8 @@ namespace CefSharp
             ActionHandler^ _paintPopupDelegate;
             ActionHandler^ _resizePopupDelegate;
 
+            Window^ _currentWindow;
+
             void Initialize(String^ address, BrowserSettings^ settings);
             bool TryGetCefBrowser(CefRefPtr<CefBrowser>& browser);
             void BrowserCore_PropertyChanged(Object^ sender, PropertyChangedEventArgs^ e);
