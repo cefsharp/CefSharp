@@ -27,7 +27,7 @@ namespace Wpf
             gcnew PropertyChangedEventHandler(this, &WebView::BrowserCore_PropertyChanged);
 
         _scriptCore = new ScriptCore();
-		_paintDelegate = gcnew ActionHandler(this, &WebView::SetBitmap);
+        _paintDelegate = gcnew ActionHandler(this, &WebView::SetBitmap);
         _paintPopupDelegate = gcnew ActionHandler(this, &WebView::SetPopupBitmap);
         _resizePopupDelegate = gcnew ActionHandler(this, &WebView::SetPopupSizeAndPositionImpl);
 
@@ -232,8 +232,8 @@ namespace Wpf
 
         if (_currentWindow != nullptr)
         {
-			_currentWindow->LocationChanged -= _handler;
-			_currentWindow->Deactivated -= _handler;
+            _currentWindow->LocationChanged -= _handler;
+            _currentWindow->Deactivated -= _handler;
         }
 
         _currentWindow = Window::GetWindow(this);
@@ -253,7 +253,7 @@ namespace Wpf
         {
             Point point = _matrix->Transform(Point(size.Width, size.Height));
             browser->SetSize(PET_VIEW, (int)size.Width, (int)size.Height);
-			HidePopup();
+            HidePopup();
         }
         else
         {
@@ -282,7 +282,7 @@ namespace Wpf
         {
             browser->SendFocusEvent(false);
         }
-		
+        
         HidePopup();
 
         ContentControl::OnLostFocus(e);
@@ -569,7 +569,7 @@ namespace Wpf
 
     Object^ WebView::EvaluateScript(String^ script, TimeSpan timeout)
     {
-	    _browserCore->CheckBrowserInitialization();
+        _browserCore->CheckBrowserInitialization();
 
         CefRefPtr<CefBrowser> browser;
         if (TryGetCefBrowser(browser))
@@ -775,7 +775,7 @@ namespace Wpf
 
     void WebView::SetPopupSizeAndPosition(const void* rect)
     {
-		auto cefRect = (const CefRect&) rect;
+        auto cefRect = (const CefRect&) rect;
 
         _popupX = cefRect.x;
         _popupY = cefRect.y;
@@ -858,7 +858,7 @@ namespace Wpf
         CefRefPtr<CefBrowser> browser;
         if (_popup != nullptr && _popup->IsOpen && TryGetCefBrowser(browser))
         {           
-			// This is the only decent way I found to hide popup properly so that clicking again on the a drop down (<select>) 
+            // This is the only decent way I found to hide popup properly so that clicking again on the a drop down (<select>) 
             // opens it. 
             browser->SendMouseClickEvent(-1,-1, CefBrowser::MouseButtonType::MBT_LEFT, false, 1 );
         }
@@ -869,13 +869,13 @@ namespace Wpf
         if (_source == nullptr)
         {
             _source = (HwndSource^)PresentationSource::FromVisual(this);
-			if (_source != nullptr)
-			{
-				_matrix = _source->CompositionTarget->TransformToDevice;
+            if (_source != nullptr)
+            {
+                _matrix = _source->CompositionTarget->TransformToDevice;
 
-				_hook = gcnew Interop::HwndSourceHook(this, &WebView::SourceHook);
-				_source->AddHook(_hook);
-			}
+                _hook = gcnew Interop::HwndSourceHook(this, &WebView::SourceHook);
+                _source->AddHook(_hook);
+            }
         }
     }
 }}
