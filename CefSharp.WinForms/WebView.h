@@ -146,6 +146,12 @@ namespace WinForms
             void set(IKeyboardHandler^ handler) { _browserCore->KeyboardHandler = handler; }
         }
 
+        virtual property IJsDialogHandler^ JsDialogHandler
+        {
+            IJsDialogHandler^ get() { return _browserCore->JsDialogHandler; }
+            void set(IJsDialogHandler^ handler) { _browserCore->JsDialogHandler = handler; }
+        }
+
         virtual void OnInitialized();
 
         virtual void Load(String^ url);
