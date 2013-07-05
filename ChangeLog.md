@@ -7,6 +7,8 @@ WIP
 - Added support for overriding the window.alert(), window.confirm() and window.prompt() methods by using the new IJsDialogHandler
   interface + the new IWebBrowser.JsDialogHandler property, which is presumed to be your own implementation of this interface.
   [@KristinaKoeva]
+- Fixed a null pointer exception that occurs when WebView is loaded. [@joaompneves]
+- Fixed crash on window deactivate. [@joaompneves]
 
 June 17, 2013, Chromium 25.0.1364.1123
 ###### 1.25.2-perlun.0
