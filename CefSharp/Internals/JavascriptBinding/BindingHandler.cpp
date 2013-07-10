@@ -325,17 +325,17 @@ namespace CefSharp
 
                 // Build a list of methods on the bound object
                 auto methods = obj->GetType()->GetMethods(BindingFlags::Instance | BindingFlags::Public);
-                auto methodNames = gcnew Dictionary<String^, Object^>();
+                auto methodNames = gcnew HashSet<String^>();
 
                 for each(auto method in methods) 
                 {
                     // "Special name"-methods are things like property getters and setters, which we don't want to include in the list.
                     if (method->IsSpecialName) continue;
 
-                    methodNames[method->Name] = nullptr;
+                    methodNames->Add(method->Name);
                 }
 
-                CreateJavascriptMethods(handler, javascriptWrapper, methodNames->Keys);
+                CreateJavascriptMethods(handler, javascriptWrapper, methodNames);
 
                 unmanagedWrapper->Properties = GetProperties(obj->GetType());
                 CreateJavascriptProperties(handler, javascriptWrapper, unmanagedWrapper->Properties);
