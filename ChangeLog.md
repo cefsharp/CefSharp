@@ -3,6 +3,8 @@ WIP
 
 - Add support for parameters of type 'Object' accepting any type of value. [@EMonk72]
 - Fix object binding to allow multiple methods with same name. [@EMonk72]
+- Reimplemented Javascript-to-.NET binding to support a range of options including C#-style param arrays and optional parameters
+  with default values. [@EMonk72]
 - Added support for accessing the body of the request in a custom scheme handler. [@kpko]
 - Added support for overriding the window.alert(), window.confirm() and window.prompt() methods by using the new IJsDialogHandler
   interface + the new IWebBrowser.JsDialogHandler property, which is presumed to be your own implementation of this interface.
