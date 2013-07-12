@@ -12,6 +12,13 @@ namespace CefSharp
         {
             private class BindingHandler : public CefV8Handler
             {
+            public:
+                static void Bind(String^ name, Object^ obj, CefRefPtr<CefV8Value> window);          
+                IMPLEMENT_REFCOUNTING(BindingHandler);
+
+            private:
+                virtual bool Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception);
+
                 static bool IsNullableType(Type^ type);
                 static int GetChangeTypeCost(Object^ value, Type^ conversionType);
                 static Object^ ChangeType(Object^ value, Type^ conversionType);
@@ -23,13 +30,7 @@ namespace CefSharp
 
                 CefRefPtr<CefV8Value> ConvertToCef(Object^ obj, Type^ type);
                 Object^ ConvertFromCef(CefRefPtr<CefV8Value> obj);
-                virtual bool Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception);
-                static String^ BindingHandler::LowercaseFirst(String^ str);
-            
-            public:
-                static void Bind(String^ name, Object^ obj, CefRefPtr<CefV8Value> window);
-
-                IMPLEMENT_REFCOUNTING(BindingHandler);
+                static String^ BindingHandler::LowercaseFirst(String^ str);          
             };
         }
     }

@@ -11,6 +11,104 @@ namespace CefSharp
     {
         namespace JavascriptBinding
         {
+            void BindingHandler::Bind(String^ name, Object^ obj, CefRefPtr<CefV8Value> window)
+            {
+                auto unmanagedWrapper = new UnmanagedWrapper(obj);
+
+                // Create the Javascript/V8 object and associate it with the wrapped object.
+                auto propertyAccessor = new PropertyAccessor();
+                auto javascriptWrapper = window->CreateObject(static_cast<CefRefPtr<CefV8Accessor>>(propertyAccessor));
+                javascriptWrapper->SetUserData(static_cast<CefRefPtr<CefBase>>(unmanagedWrapper));
+
+                auto handler = static_cast<CefV8Handler*>(new BindingHandler());
+
+                // Build a list of methods on the bound object
+                auto methods = obj->GetType()->GetMethods(BindingFlags::Instance | BindingFlags::Public);
+                auto methodNames = gcnew HashSet<String^>();
+
+                for each(auto method in methods) 
+                {
+                    // "Special name"-methods are things like property getters and setters, which we don't want to include in the list.
+                    if (method->IsSpecialName) continue;
+
+                    methodNames->Add(method->Name);
+                }
+
+                CreateJavascriptMethods(handler, javascriptWrapper, methodNames);
+
+                unmanagedWrapper->Properties = GetProperties(obj->GetType());
+                CreateJavascriptProperties(handler, javascriptWrapper, unmanagedWrapper->Properties);
+
+                window->SetValue(toNative(name), javascriptWrapper, V8_PROPERTY_ATTRIBUTE_NONE);
+            }
+
+            bool BindingHandler::Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception)
+            {
+                auto unmanagedWrapper = static_cast<UnmanagedWrapper*>(object->GetUserData().get());
+                Object^ self = unmanagedWrapper->Get();
+
+                if(self == nullptr)
+                {
+                    exception = "Binding's CLR object is null.";
+                    return true;
+                }
+
+                String^ methodName = toClr(name);
+                methodName = unmanagedWrapper->GetMethodMapping(methodName);
+                Type^ type = self->GetType();
+                auto methods = type->GetMember(methodName, MemberTypes::Method, BindingFlags::Instance | BindingFlags::Public);
+
+                if(methods->Length == 0)
+                {
+                    exception = toNative("No method named " + methodName + ".");
+                    return true;
+                }
+
+                //TODO: cache for type info here
+
+                auto suppliedArguments = gcnew array<Object^>(arguments.size());
+                try
+                {
+                    for(int i = 0; i < suppliedArguments->Length; i++) 
+                    {
+                        suppliedArguments[i] = convertFromCef(arguments[i]);
+                    }
+                }
+                catch(System::Exception^ err)
+                {
+                    exception = toNative(err->Message);
+                    return true;
+                }
+
+                MethodInfo^ bestMethod;
+                array<Object^>^ bestMethodArguments;
+
+                FindBestMethod(methods, suppliedArguments, bestMethod, bestMethodArguments);
+
+                if (bestMethod != nullptr)
+                {
+                    try
+                    {
+                        Object^ result = bestMethod->Invoke(self, bestMethodArguments);
+                        retval = convertToCef(result, bestMethod->ReturnType);
+                        return true;
+                    }
+                    catch(System::Reflection::TargetInvocationException^ err)
+                    {
+                        exception = toNative(err->InnerException->Message);
+                    }
+                    catch(System::Exception^ err)
+                    {
+                        exception = toNative(err->Message);
+                    }
+                }
+                else
+                {
+                    exception = toNative("Argument mismatch for method \"" + methodName + "\".");
+                }
+                return true;
+            }
+
             bool BindingHandler::IsNullableType(Type^ type)
             {
                 // This is traditionally checked by this C# code:
@@ -143,73 +241,6 @@ namespace CefSharp
                 return Convert::ChangeType(value, conversionType);
             }
 
-            bool BindingHandler::Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception)
-            {
-                auto unmanagedWrapper = static_cast<UnmanagedWrapper*>(object->GetUserData().get());
-                Object^ self = unmanagedWrapper->Get();
-
-                if(self == nullptr)
-                {
-                    exception = "Binding's CLR object is null.";
-                    return true;
-                }
-
-                String^ methodName = toClr(name);
-                methodName = unmanagedWrapper->GetMethodMapping(methodName);
-                Type^ type = self->GetType();
-                auto methods = type->GetMember(methodName, MemberTypes::Method, BindingFlags::Instance | BindingFlags::Public);
-
-                if(methods->Length == 0)
-                {
-                    exception = toNative("No method named " + methodName + ".");
-                    return true;
-                }
-
-                //TODO: cache for type info here
-
-                auto suppliedArguments = gcnew array<Object^>(arguments.size());
-                try
-                {
-                    for(int i = 0; i < suppliedArguments->Length; i++) 
-                    {
-                        suppliedArguments[i] = convertFromCef(arguments[i]);
-                    }
-                }
-                catch(System::Exception^ err)
-                {
-                    exception = toNative(err->Message);
-                    return true;
-                }
-
-                MethodInfo^ bestMethod;
-                array<Object^>^ bestMethodArguments;
-
-                FindBestMethod(methods, suppliedArguments, bestMethod, bestMethodArguments);
-
-                if (bestMethod != nullptr)
-                {
-                    try
-                    {
-                        Object^ result = bestMethod->Invoke(self, bestMethodArguments);
-                        retval = convertToCef(result, bestMethod->ReturnType);
-                        return true;
-                    }
-                    catch(System::Reflection::TargetInvocationException^ err)
-                    {
-                        exception = toNative(err->InnerException->Message);
-                    }
-                    catch(System::Exception^ err)
-                    {
-                        exception = toNative(err->Message);
-                    }
-                }
-                else
-                {
-                    exception = toNative("Argument mismatch for method \"" + methodName + "\".");
-                }
-                return true;
-            }
-
             void BindingHandler::FindBestMethod(array<MemberInfo^>^ methods, array<Object^>^ suppliedArguments, MethodInfo^% bestMethod, array<Object^>^% bestMethodArguments)
             {
                 auto bestMethodCost = -1;
@@ -312,37 +343,6 @@ namespace CefSharp
                             break;
                     }
                 }
-            }
-
-            void BindingHandler::Bind(String^ name, Object^ obj, CefRefPtr<CefV8Value> window)
-            {
-                auto unmanagedWrapper = new UnmanagedWrapper(obj);
-
-                // Create the Javascript/V8 object and associate it with the wrapped object.
-                auto propertyAccessor = new PropertyAccessor();
-                auto javascriptWrapper = window->CreateObject(static_cast<CefRefPtr<CefV8Accessor>>(propertyAccessor));
-                javascriptWrapper->SetUserData(static_cast<CefRefPtr<CefBase>>(unmanagedWrapper));
-
-                auto handler = static_cast<CefV8Handler*>(new BindingHandler());
-
-                // Build a list of methods on the bound object
-                auto methods = obj->GetType()->GetMethods(BindingFlags::Instance | BindingFlags::Public);
-                auto methodNames = gcnew HashSet<String^>();
-
-                for each(auto method in methods) 
-                {
-                    // "Special name"-methods are things like property getters and setters, which we don't want to include in the list.
-                    if (method->IsSpecialName) continue;
-
-                    methodNames->Add(method->Name);
-                }
-
-                CreateJavascriptMethods(handler, javascriptWrapper, methodNames);
-
-                unmanagedWrapper->Properties = GetProperties(obj->GetType());
-                CreateJavascriptProperties(handler, javascriptWrapper, unmanagedWrapper->Properties);
-
-                window->SetValue(toNative(name), javascriptWrapper, V8_PROPERTY_ATTRIBUTE_NONE);
             }
 
             Dictionary<String^, PropertyInfo^>^ BindingHandler::GetProperties(Type^ type)
