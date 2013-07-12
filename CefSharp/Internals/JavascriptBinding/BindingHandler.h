@@ -19,6 +19,8 @@ namespace CefSharp
             private:
                 virtual bool Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception);
 
+                static HashSet<String^>^ GetMethodNames(Type^ type);
+
                 static bool IsNullableType(Type^ type);
                 static int GetChangeTypeCost(Object^ value, Type^ conversionType);
                 static Object^ ChangeType(Object^ value, Type^ conversionType);

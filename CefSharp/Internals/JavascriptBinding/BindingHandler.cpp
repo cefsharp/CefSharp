@@ -21,19 +21,7 @@ namespace CefSharp
                 javascriptWrapper->SetUserData(static_cast<CefRefPtr<CefBase>>(unmanagedWrapper));
 
                 auto handler = static_cast<CefV8Handler*>(new BindingHandler());
-
-                // Build a list of methods on the bound object
-                auto methods = obj->GetType()->GetMethods(BindingFlags::Instance | BindingFlags::Public);
-                auto methodNames = gcnew HashSet<String^>();
-
-                for each(auto method in methods) 
-                {
-                    // "Special name"-methods are things like property getters and setters, which we don't want to include in the list.
-                    if (method->IsSpecialName) continue;
-
-                    methodNames->Add(method->Name);
-                }
-
+                auto methodNames = GetMethodNames(obj->GetType());
                 CreateJavascriptMethods(handler, javascriptWrapper, methodNames);
 
                 unmanagedWrapper->Properties = GetProperties(obj->GetType());
@@ -47,7 +35,7 @@ namespace CefSharp
                 auto unmanagedWrapper = static_cast<UnmanagedWrapper*>(object->GetUserData().get());
                 Object^ self = unmanagedWrapper->Get();
 
-                if(self == nullptr)
+                if (self == nullptr)
                 {
                     exception = "Binding's CLR object is null.";
                     return true;
@@ -58,7 +46,7 @@ namespace CefSharp
                 Type^ type = self->GetType();
                 auto methods = type->GetMember(methodName, MemberTypes::Method, BindingFlags::Instance | BindingFlags::Public);
 
-                if(methods->Length == 0)
+                if (methods->Length == 0)
                 {
                     exception = toNative("No method named " + methodName + ".");
                     return true;
@@ -69,12 +57,12 @@ namespace CefSharp
                 auto suppliedArguments = gcnew array<Object^>(arguments.size());
                 try
                 {
-                    for(int i = 0; i < suppliedArguments->Length; i++) 
+                    for (int i = 0; i < suppliedArguments->Length; i++) 
                     {
                         suppliedArguments[i] = convertFromCef(arguments[i]);
                     }
                 }
-                catch(System::Exception^ err)
+                catch (System::Exception^ err)
                 {
                     exception = toNative(err->Message);
                     return true;
@@ -93,11 +81,11 @@ namespace CefSharp
                         retval = convertToCef(result, bestMethod->ReturnType);
                         return true;
                     }
-                    catch(System::Reflection::TargetInvocationException^ err)
+                    catch (System::Reflection::TargetInvocationException^ err)
                     {
                         exception = toNative(err->InnerException->Message);
                     }
-                    catch(System::Exception^ err)
+                    catch (System::Exception^ err)
                     {
                         exception = toNative(err->Message);
                     }
@@ -239,6 +227,22 @@ namespace CefSharp
                 if (targetType != nullptr) conversionType = targetType;
 
                 return Convert::ChangeType(value, conversionType);
+            }
+
+            HashSet<String^>^ BindingHandler::GetMethodNames(Type^ type)
+            {
+                auto methods = type->GetMethods(BindingFlags::Instance | BindingFlags::Public);
+                auto result = gcnew HashSet<String^>();
+
+                for each(auto method in methods) 
+                {
+                    // "Special name"-methods are things like property getters and setters, which we don't want to include in the list.
+                    if (method->IsSpecialName) continue;
+
+                    result->Add(method->Name);
+                }
+
+                return result;
             }
 
             void BindingHandler::FindBestMethod(array<MemberInfo^>^ methods, array<Object^>^ suppliedArguments, MethodInfo^% bestMethod, array<Object^>^% bestMethodArguments)
