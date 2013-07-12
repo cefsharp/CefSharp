@@ -3,6 +3,8 @@ WIP
 
 - Add support for parameters of type 'Object' accepting any type of value. [@EMonk72]
 - Fix object binding to allow multiple methods with same name. [@EMonk72]
+- Reimplemented Javascript-to-.NET binding to support a range of options including C#-style param arrays and optional parameters
+  with default values. [@EMonk72]
 - Added support for accessing the body of the request in a custom scheme handler. [@kpko]
 
 June 17, 2013, Chromium 25.0.1364.1123
