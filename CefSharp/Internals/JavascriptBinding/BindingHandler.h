@@ -12,7 +12,6 @@ namespace CefSharp
         {
             private class BindingHandler : public CefV8Handler
             {
-                // Type Converter
                 static bool IsNullableType(Type^ type);
                 static int GetChangeTypeCost(Object^ value, Type^ conversionType);
                 static Object^ ChangeType(Object^ value, Type^ conversionType);

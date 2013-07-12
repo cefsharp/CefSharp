@@ -13,27 +13,31 @@ namespace CefSharp
         {
             bool BindingHandler::IsNullableType(Type^ type)
             {
-                // This is check traditionaly perform by this C# code:
+                // This is traditionally checked by this C# code:
                 // return (type.IsGenericType && type.GetGenericTypeDefinition().Equals(typeof(Nullable<>)));
                 // But we have some problems with Nullable<>::typeid.
                 return Nullable::GetUnderlyingType(type) != nullptr;
             }
 
-            /// <summary></summary>
-            /// <return>Returns conversion cost, or -1 if no conversion available.</return>
+            /// <summary>Gets the cost of changing the type an object to another type.</summary>
+            /// <param name="conversionType">The target type.</param>
+            /// <return>The conversion cost, or -1 if no conversion available. Lower cost is better.</return>
             int BindingHandler::GetChangeTypeCost(Object^ value, Type^ conversionType)
             {
                 // TODO: temporary Int64 support fully disabled
-                if (conversionType == Int64::typeid 
-                    || conversionType == Nullable<Int64>::typeid
-                    || conversionType == UInt64::typeid 
-                    || conversionType == Nullable<UInt64>::typeid
-                    )
+                if (conversionType == Int64::typeid ||
+                    conversionType == Nullable<Int64>::typeid ||
+                    conversionType == UInt64::typeid ||
+                    conversionType == Nullable<UInt64>::typeid)
+                {
                     return -1;
-                
+                }
+
                 // Actual conversion cost is 0, but set to 2 to give priority to better matches
                 if (conversionType == Object::typeid)
+                {
                     return 2;
+                }
 
                 // Null conversion
                 if (value == nullptr)
@@ -50,17 +54,16 @@ namespace CefSharp
 
                 // value is not null
 
-                // value have same type - no conversion required
                 Type^ valueType = value->GetType();
+
                 if (valueType == conversionType) return 0;
 
                 int baseCost = 0;
 
-                // but conversionType can be Nullable
+                // The target type may be nullable, in which case the cost is increased slightly.
                 Type^ targetType = Nullable::GetUnderlyingType(conversionType);
                 if (targetType != nullptr)
                 {
-                    // this is a nullable type, and it cost + 1
                     conversionType = targetType;
                     baseCost++;
                 }
@@ -129,7 +132,7 @@ namespace CefSharp
                 }
 
                 if (value == nullptr) return nullptr;
-                
+
                 // Converting to Object, so nothing needs to be done.
                 if (conversionType == Object::typeid)
                     return value;
@@ -144,7 +147,7 @@ namespace CefSharp
             {
                 auto unmanagedWrapper = static_cast<UnmanagedWrapper*>(object->GetUserData().get());
                 Object^ self = unmanagedWrapper->Get();
-                
+
                 if(self == nullptr)
                 {
                     exception = "Binding's CLR object is null.";
@@ -178,7 +181,6 @@ namespace CefSharp
                     return true;
                 }
 
-                // choose best method
                 MethodInfo^ bestMethod;
                 array<Object^>^ bestMethodArguments;
 
@@ -216,7 +218,7 @@ namespace CefSharp
                 {
                     auto method = (MethodInfo^)methods[i];
                     auto parametersInfo = method->GetParameters();
-                    
+
                     if (parametersInfo->Length == 0)
                     {
                         if (suppliedArguments->Length == 0)
@@ -285,7 +287,7 @@ namespace CefSharp
                                 else
                                     failed++;
                             }
-                            
+
                             // check all supplied arguments used
                             if (!failed && a < suppliedArguments->Length)
                                 failed++;
