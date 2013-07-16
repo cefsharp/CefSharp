@@ -42,64 +42,48 @@
 extern "C" {
 #endif
 
-// Window handle.
-#define cef_window_handle_t HWND
+// Handle types.
 #define cef_cursor_handle_t HCURSOR
+#define cef_event_handle_t MSG*
+#define cef_window_handle_t HWND
 
 ///
-// Supported graphics implementations.
+// Structure representing CefExecuteProcess arguments.
 ///
-enum cef_graphics_implementation_t {
-  ANGLE_IN_PROCESS = 0,
-  ANGLE_IN_PROCESS_COMMAND_BUFFER,
-  DESKTOP_IN_PROCESS,
-  DESKTOP_IN_PROCESS_COMMAND_BUFFER,
-};
+typedef struct _cef_main_args_t {
+  HINSTANCE instance;
+} cef_main_args_t;
 
 ///
-// Class representing window information.
+// Structure representing window information.
 ///
 typedef struct _cef_window_info_t {
   // Standard parameters required by CreateWindowEx()
-  DWORD m_dwExStyle;
-  cef_string_t m_windowName;
-  DWORD m_dwStyle;
-  int m_x;
-  int m_y;
-  int m_nWidth;
-  int m_nHeight;
-  cef_window_handle_t m_hWndParent;
-  HMENU m_hMenu;
+  DWORD ex_style;
+  cef_string_t window_name;
+  DWORD style;
+  int x;
+  int y;
+  int width;
+  int height;
+  cef_window_handle_t parent_window;
+  HMENU menu;
 
   // If window rendering is disabled no browser window will be created. Set
-  // |m_hWndParent| to the window that will act as the parent for popup menus,
-  // dialog boxes, etc.
-  BOOL m_bWindowRenderingDisabled;
+  // |parent_window| to be used for identifying monitor info
+  // (MonitorFromWindow). If |parent_window| is not provided the main screen
+  // monitor will be used.
+  BOOL window_rendering_disabled;
 
   // Set to true to enable transparent painting.
-  BOOL m_bTransparentPainting;
+  // If window rendering is disabled and |transparent_painting| is set to true
+  // WebKit rendering will draw on a transparent background (RGBA=0x00000000).
+  // When this value is false the background will be white and opaque.
+  BOOL transparent_painting;
 
   // Handle for the new browser window.
-  cef_window_handle_t m_hWnd;
+  cef_window_handle_t window;
 } cef_window_info_t;
-
-///
-// Class representing print context information.
-///
-typedef struct _cef_print_info_t {
-  HDC m_hDC;
-  RECT m_Rect;
-  double m_Scale;
-} cef_print_info_t;
-
-///
-// Class representing key information.
-///
-typedef struct _cef_key_info_t {
-  int key;
-  BOOL sysChar;
-  BOOL imeChar;
-} cef_key_info_t;
 
 #ifdef __cplusplus
 }

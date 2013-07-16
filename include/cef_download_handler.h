@@ -1,4 +1,4 @@
-// Copyright (c) 2011 Marshall A. Greenblatt. All rights reserved.
+// Copyright (c) 2012 Marshall A. Greenblatt. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are
@@ -39,27 +39,74 @@
 #pragma once
 
 #include "include/cef_base.h"
+#include "include/cef_browser.h"
+#include "include/cef_download_item.h"
+
 
 ///
-// Class used to handle file downloads. The methods of this class will always be
-// called on the UI thread.
+// Callback interface used to asynchronously continue a download.
+///
+/*--cef(source=library)--*/
+class CefBeforeDownloadCallback : public virtual CefBase {
+ public:
+  ///
+  // Call to continue the download. Set |download_path| to the full file path
+  // for the download including the file name or leave blank to use the
+  // suggested name and the default temp directory. Set |show_dialog| to true
+  // if you do wish to show the default "Save As" dialog.
+  ///
+  /*--cef(capi_name=cont,optional_param=download_path)--*/
+  virtual void Continue(const CefString& download_path, bool show_dialog) =0;
+};
+
+
+///
+// Callback interface used to asynchronously cancel a download.
+///
+/*--cef(source=library)--*/
+class CefDownloadItemCallback : public virtual CefBase {
+ public:
+  ///
+  // Call to cancel the download.
+  ///
+  /*--cef()--*/
+  virtual void Cancel() =0;
+};
+
+
+///
+// Class used to handle file downloads. The methods of this class will called
+// on the browser process UI thread.
 ///
 /*--cef(source=client)--*/
 class CefDownloadHandler : public virtual CefBase {
  public:
   ///
-  // A portion of the file contents have been received. This method will be
-  // called multiple times until the download is complete. Return |true| to
-  // continue receiving data and |false| to cancel.
+  // Called before a download begins. |suggested_name| is the suggested name for
+  // the download file. By default the download will be canceled. Execute
+  // |callback| either asynchronously or in this method to continue the download
+  // if desired. Do not keep a reference to |download_item| outside of this
+  // method.
   ///
   /*--cef()--*/
-  virtual bool ReceivedData(void* data, int data_size) =0;
+  virtual void OnBeforeDownload(
+      CefRefPtr<CefBrowser> browser,
+      CefRefPtr<CefDownloadItem> download_item,
+      const CefString& suggested_name,
+      CefRefPtr<CefBeforeDownloadCallback> callback) =0;
 
   ///
-  // The download is complete.
+  // Called when a download's status or progress information has been updated.
+  // This may be called multiple times before and after OnBeforeDownload().
+  // Execute |callback| either asynchronously or in this method to cancel the
+  // download if desired. Do not keep a reference to |download_item| outside of
+  // this method.
   ///
   /*--cef()--*/
-  virtual void Complete() =0;
+  virtual void OnDownloadUpdated(
+      CefRefPtr<CefBrowser> browser,
+      CefRefPtr<CefDownloadItem> download_item,
+      CefRefPtr<CefDownloadItemCallback> callback) {}
 };
 
 #endif  // CEF_INCLUDE_CEF_DOWNLOAD_HANDLER_H_

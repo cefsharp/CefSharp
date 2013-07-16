@@ -1,4 +1,4 @@
-// Copyright (c) 2011 Marshall A. Greenblatt. All rights reserved.
+// Copyright (c) 2012 Marshall A. Greenblatt. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are
@@ -42,47 +42,62 @@
 #include "include/cef_dom.h"
 #include "include/cef_request.h"
 #include "include/cef_stream.h"
+#include "include/cef_string_visitor.h"
 
 class CefBrowser;
 class CefV8Context;
 
 ///
-// Class used to represent a frame in the browser window. The methods of this
-// class may be called on any thread unless otherwise indicated in the comments.
+// Class used to represent a frame in the browser window. When used in the
+// browser process the methods of this class may be called on any thread unless
+// otherwise indicated in the comments. When used in the render process the
+// methods of this class may only be called on the main thread.
 ///
 /*--cef(source=library)--*/
 class CefFrame : public virtual CefBase {
  public:
   ///
+  // True if this object is currently attached to a valid frame.
+  ///
+  /*--cef()--*/
+  virtual bool IsValid() =0;
+
+  ///
   // Execute undo in this frame.
   ///
   /*--cef()--*/
   virtual void Undo() =0;
+
   ///
   // Execute redo in this frame.
   ///
   /*--cef()--*/
   virtual void Redo() =0;
+
   ///
   // Execute cut in this frame.
   ///
   /*--cef()--*/
   virtual void Cut() =0;
+
   ///
   // Execute copy in this frame.
   ///
   /*--cef()--*/
   virtual void Copy() =0;
+
   ///
   // Execute paste in this frame.
   ///
   /*--cef()--*/
   virtual void Paste() =0;
+
   ///
   // Execute delete in this frame.
   ///
   /*--cef(capi_name=del)--*/
   virtual void Delete() =0;
+
   ///
   // Execute select all in this frame.
   ///
@@ -90,32 +105,26 @@ class CefFrame : public virtual CefBase {
   virtual void SelectAll() =0;
 
   ///
-  // Execute printing in the this frame.  The user will be prompted with the
-  // print dialog appropriate to the operating system.
-  ///
-  /*--cef()--*/
-  virtual void Print() =0;
-
-  ///
   // Save this frame's HTML source to a temporary file and open it in the
-  // default text viewing application.
+  // default text viewing application. This method can only be called from the
+  // browser process.
   ///
   /*--cef()--*/
   virtual void ViewSource() =0;
 
   ///
-  // Returns this frame's HTML source as a string. This method should only be
-  // called on the UI thread.
+  // Retrieve this frame's HTML source as a string sent to the specified
+  // visitor.
   ///
   /*--cef()--*/
-  virtual CefString GetSource() =0;
+  virtual void GetSource(CefRefPtr<CefStringVisitor> visitor) =0;
 
   ///
-  // Returns this frame's display text as a string. This method should only be
-  // called on the UI thread.
+  // Retrieve this frame's display text as a string sent to the specified
+  // visitor.
   ///
   /*--cef()--*/
-  virtual CefString GetText() =0;
+  virtual void GetText(CefRefPtr<CefStringVisitor> visitor) =0;
 
   ///
   // Load the request represented by the |request| object.
@@ -130,17 +139,12 @@ class CefFrame : public virtual CefBase {
   virtual void LoadURL(const CefString& url) =0;
 
   ///
-  // Load the contents of |string_val| with the optional dummy target |url|.
+  // Load the contents of |string_val| with the specified dummy |url|. |url|
+  // should have a standard scheme (for example, http scheme) or behaviors like
+  // link clicks and web security restrictions may not behave as expected.
   ///
   /*--cef()--*/
   virtual void LoadString(const CefString& string_val,
-                          const CefString& url) =0;
-
-  ///
-  // Load the contents of |stream| with the optional dummy target |url|.
-  ///
-  /*--cef()--*/
-  virtual void LoadStream(CefRefPtr<CefStreamReader> stream,
                           const CefString& url) =0;
 
   ///
@@ -150,10 +154,10 @@ class CefFrame : public virtual CefBase {
   // error.  The |start_line| parameter is the base line number to use for error
   // reporting.
   ///
-  /*--cef(optional_param=scriptUrl)--*/
-  virtual void ExecuteJavaScript(const CefString& jsCode,
-                                 const CefString& scriptUrl,
-                                 int startLine) =0;
+  /*--cef(optional_param=script_url)--*/
+  virtual void ExecuteJavaScript(const CefString& code,
+                                 const CefString& script_url,
+                                 int start_line) =0;
 
   ///
   // Returns true if this is the main (top-level) frame.
@@ -162,8 +166,7 @@ class CefFrame : public virtual CefBase {
   virtual bool IsMain() =0;
 
   ///
-  // Returns true if this is the focused frame. This method should only be
-  // called on the UI thread.
+  // Returns true if this is the focused frame.
   ///
   /*--cef()--*/
   virtual bool IsFocused() =0;
@@ -186,7 +189,7 @@ class CefFrame : public virtual CefBase {
 
   ///
   // Returns the parent of this frame or NULL if this is the main (top-level)
-  // frame. This method should only be called on the UI thread.
+  // frame.
   ///
   /*--cef()--*/
   virtual CefRefPtr<CefFrame> GetParent() =0;
@@ -204,17 +207,18 @@ class CefFrame : public virtual CefBase {
   virtual CefRefPtr<CefBrowser> GetBrowser() =0;
 
   ///
-  // Visit the DOM document.
-  ///
-  /*--cef()--*/
-  virtual void VisitDOM(CefRefPtr<CefDOMVisitor> visitor) =0;
-
-  ///
-  // Get the V8 context associated with the frame. This method should only be
-  // called on the UI thread.
+  // Get the V8 context associated with the frame. This method can only be
+  // called from the render process.
   ///
   /*--cef()--*/
   virtual CefRefPtr<CefV8Context> GetV8Context() =0;
+  
+  ///
+  // Visit the DOM document. This method can only be called from the render
+  // process.
+  ///
+  /*--cef()--*/
+  virtual void VisitDOM(CefRefPtr<CefDOMVisitor> visitor) =0;
 };
 
 #endif  // CEF_INCLUDE_CEF_FRAME_H_

@@ -1,4 +1,4 @@
-// Copyright (c) 2011 Marshall A. Greenblatt. All rights reserved.
+// Copyright (c) 2012 Marshall A. Greenblatt. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are
@@ -50,7 +50,7 @@
 /*--cef(source=client)--*/
 class CefFocusHandler : public virtual CefBase {
  public:
-  typedef cef_handler_focus_source_t FocusSource;
+  typedef cef_focus_source_t FocusSource;
 
   ///
   // Called when the browser component is about to loose focus. For instance, if
@@ -72,17 +72,10 @@ class CefFocusHandler : public virtual CefBase {
                           FocusSource source) { return false; }
 
   ///
-  // Called when a new node in the the browser gets focus. The |node| value may
-  // be empty if no specific node has gained focus. The node object passed to
-  // this method represents a snapshot of the DOM at the time this method is
-  // executed. DOM objects are only valid for the scope of this method. Do not
-  // keep references to or attempt to access any DOM objects outside the scope
-  // of this method.
+  // Called when the browser component has received focus.
   ///
-  /*--cef(optional_param=frame,optional_param=node)--*/
-  virtual void OnFocusedNodeChanged(CefRefPtr<CefBrowser> browser,
-                                    CefRefPtr<CefFrame> frame,
-                                    CefRefPtr<CefDOMNode> node) {}
+  /*--cef()--*/
+  virtual void OnGotFocus(CefRefPtr<CefBrowser> browser) {}
 };
 
 #endif  // CEF_INCLUDE_CEF_FOCUS_HANDLER_H_

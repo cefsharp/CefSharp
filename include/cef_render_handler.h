@@ -1,4 +1,4 @@
-// Copyright (c) 2011 Marshall A. Greenblatt. All rights reserved.
+// Copyright (c) 2012 Marshall A. Greenblatt. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are
@@ -53,20 +53,19 @@ class CefRenderHandler : public virtual CefBase {
   typedef std::vector<CefRect> RectList;
 
   ///
+  // Called to retrieve the root window rectangle in screen coordinates. Return
+  // true if the rectangle was provided.
+  ///
+  /*--cef()--*/
+  virtual bool GetRootScreenRect(CefRefPtr<CefBrowser> browser,
+                                 CefRect& rect) { return false; }
+
+  ///
   // Called to retrieve the view rectangle which is relative to screen
   // coordinates. Return true if the rectangle was provided.
   ///
   /*--cef()--*/
-  virtual bool GetViewRect(CefRefPtr<CefBrowser> browser,
-                           CefRect& rect) { return false; }
-
-  ///
-  // Called to retrieve the simulated screen rectangle. Return true if the
-  // rectangle was provided.
-  ///
-  /*--cef()--*/
-  virtual bool GetScreenRect(CefRefPtr<CefBrowser> browser,
-                             CefRect& rect) { return false; }
+  virtual bool GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) =0;
 
   ///
   // Called to retrieve the translation from view coordinates to actual screen
@@ -78,6 +77,19 @@ class CefRenderHandler : public virtual CefBase {
                               int viewY,
                               int& screenX,
                               int& screenY) { return false; }
+
+  ///
+  // Called to allow the client to fill in the CefScreenInfo object with
+  // appropriate values. Return true if the |screen_info| structure has been
+  // modified.
+  //
+  // If the screen info rectangle is left empty the rectangle from GetViewRect
+  // will be used. If the rectangle is still empty or invalid popups may not be
+  // drawn correctly.
+  ///
+  /*--cef()--*/
+  virtual bool GetScreenInfo(CefRefPtr<CefBrowser> browser,
+                             CefScreenInfo& screen_info) { return false; }
 
   ///
   // Called when the browser wants to show or hide the popup widget. The popup
@@ -99,16 +111,15 @@ class CefRenderHandler : public virtual CefBase {
   // Called when an element should be painted. |type| indicates whether the
   // element is the view or the popup widget. |buffer| contains the pixel data
   // for the whole image. |dirtyRects| contains the set of rectangles that need
-  // to be repainted. On Windows |buffer| will be width*height*4 bytes in size
-  // and represents a BGRA image with an upper-left origin. The
-  // CefBrowserSettings.animation_frame_rate value controls the rate at which
-  // this method is called.
+  // to be repainted. On Windows |buffer| will be |width|*|height|*4 bytes
+  // in size and represents a BGRA image with an upper-left origin.
   ///
   /*--cef()--*/
   virtual void OnPaint(CefRefPtr<CefBrowser> browser,
                        PaintElementType type,
                        const RectList& dirtyRects,
-                       const void* buffer) {}
+                       const void* buffer,
+                       int width, int height) =0;
 
   ///
   // Called when the browser window's cursor has changed.

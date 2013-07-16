@@ -1,4 +1,4 @@
-// Copyright (c) 2011 Marshall A. Greenblatt. All rights reserved.
+// Copyright (c) 2012 Marshall A. Greenblatt. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are
@@ -45,16 +45,29 @@
 // Class used to represent a web response. The methods of this class may be
 // called on any thread.
 ///
-/*--cef(source=library)--*/
+/*--cef(source=library,no_debugct_check)--*/
 class CefResponse : public virtual CefBase {
  public:
   typedef std::multimap<CefString, CefString> HeaderMap;
+
+  ///
+  // Create a new CefResponse object.
+  ///
+  /*--cef()--*/
+  static CefRefPtr<CefResponse> Create();
+
+  ///
+  // Returns true if this object is read-only.
+  ///
+  /*--cef()--*/
+  virtual bool IsReadOnly() =0;
 
   ///
   // Get the response status code.
   ///
   /*--cef()--*/
   virtual int GetStatus() =0;
+
   ///
   // Set the response status code.
   ///
@@ -66,6 +79,7 @@ class CefResponse : public virtual CefBase {
   ///
   /*--cef()--*/
   virtual CefString GetStatusText() =0;
+
   ///
   // Set the response status text.
   ///
@@ -77,6 +91,7 @@ class CefResponse : public virtual CefBase {
   ///
   /*--cef()--*/
   virtual CefString GetMimeType() = 0;
+
   ///
   // Set the response mime type.
   ///
@@ -94,6 +109,7 @@ class CefResponse : public virtual CefBase {
   ///
   /*--cef()--*/
   virtual void GetHeaderMap(HeaderMap& headerMap) =0;
+
   ///
   // Set all response header fields.
   ///

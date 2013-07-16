@@ -1,4 +1,4 @@
-// Copyright (c) 2011 Marshall A. Greenblatt. All rights reserved.
+// Copyright (c) 2012 Marshall A. Greenblatt. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are
@@ -47,7 +47,7 @@ class CefDOMNode;
 
 ///
 // Interface to implement for visiting the DOM. The methods of this class will
-// be called on the UI thread.
+// be called on the render process main thread.
 ///
 /*--cef(source=client)--*/
 class CefDOMVisitor : public virtual CefBase {
@@ -66,7 +66,7 @@ class CefDOMVisitor : public virtual CefBase {
 
 ///
 // Class used to represent a DOM document. The methods of this class should only
-// be called on the UI thread.
+// be called on the render process main thread thread.
 ///
 /*--cef(source=library)--*/
 class CefDOMDocument : public virtual CefBase {
@@ -174,7 +174,7 @@ class CefDOMDocument : public virtual CefBase {
 
 ///
 // Class used to represent a DOM node. The methods of this class should only be
-// called on the UI thread.
+// called on the render process main thread.
 ///
 /*--cef(source=library)--*/
 class CefDOMNode : public virtual CefBase {
@@ -199,6 +199,12 @@ class CefDOMNode : public virtual CefBase {
   ///
   /*--cef()--*/
   virtual bool IsElement() =0;
+
+  ///
+  // Returns true if this is an editable node.
+  ///
+  /*--cef()--*/
+  virtual bool IsEditable() =0;
 
   ///
   // Returns true if this is a form control element node.
@@ -351,7 +357,7 @@ class CefDOMNode : public virtual CefBase {
 
 ///
 // Class used to represent a DOM event. The methods of this class should only
-// be called on the UI thread.
+// be called on the render process main thread.
 ///
 /*--cef(source=library)--*/
 class CefDOMEvent : public virtual CefBase {
@@ -411,7 +417,7 @@ class CefDOMEvent : public virtual CefBase {
 
 ///
 // Interface to implement for handling DOM events. The methods of this class
-// will be called on the UI thread.
+// will be called on the render process main thread.
 ///
 /*--cef(source=client)--*/
 class CefDOMEventListener : public virtual CefBase {
