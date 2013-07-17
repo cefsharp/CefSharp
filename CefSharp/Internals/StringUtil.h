@@ -37,7 +37,7 @@ namespace CefSharp
             /// </summary>
             /// <param name="cefStr">The cef_string_t that should be updated.</param>
             /// <param name="str">The .NET string whose value should be used to update cefStr.</param>
-            static void AssignNativeFromClrString(cef_string_t& cefStr, String^ str);
+            static void AssignNativeFromClr(cef_string_t& cefStr, String^ str);
         };
     }
 }
