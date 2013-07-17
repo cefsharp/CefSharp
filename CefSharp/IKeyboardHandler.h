@@ -20,6 +20,6 @@ namespace CefSharp
     public interface class IKeyboardHandler
     {
     public:
-        bool OnKeyEvent(IWebBrowser^ browser, KeyType type, int code, int modifiers, bool isSystemKey, bool isAfterJavaScript);
+        bool OnKeyEvent(IWebBrowser^ browser, KeyType type, int code, int modifiers, bool isSystemKey);
     };
 }
