@@ -14,13 +14,12 @@ namespace CefSharp
 {
     public enum class NavigationType
     {
-        LinkClicked = NAVTYPE_LINKCLICKED,
-        FormSubmitted = NAVTYPE_FORMSUBMITTED,
-        BackForward = NAVTYPE_BACKFORWARD,
-        Reload = NAVTYPE_RELOAD,
-        FormResubmitted = NAVTYPE_FORMRESUBMITTED,
-        Other = NAVTYPE_OTHER,
-        LinkDropped = NAVTYPE_LINKDROPPED,
+        LinkClicked = NAVIGATION_LINK_CLICKED,
+        FormSubmitted = NAVIGATION_FORM_SUBMITTED,
+        BackForward = NAVIGATION_BACK_FORWARD,
+        Reload = NAVIGATION_RELOAD,
+        FormResubmitted = NAVIGATION_FORM_RESUBMITTED,
+        Other = NAVIGATION_OTHER
     };
 
     public interface class IRequestHandler
