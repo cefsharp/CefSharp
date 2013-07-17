@@ -39,32 +39,32 @@ namespace CefSharp
 
         property String^ CachePath
         {
-            String^ get() { return StringUtil::ToClr(_cefSettings->cache_path); }
-            void set(String^ value) { StringUtil::AssignNativeFromClr(_cefSettings->cache_path, value); }
+            String^ get() { return StringUtils::ToClr(_cefSettings->cache_path); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->cache_path, value); }
         }
 
         property String^ UserAgent
         {
-            String^ get() { return StringUtil::ToClr(_cefSettings->user_agent); }
-            void set(String^ value) { StringUtil::AssignNativeFromClr(_cefSettings->user_agent, value); }
+            String^ get() { return StringUtils::ToClr(_cefSettings->user_agent); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->user_agent, value); }
         }
 
         property String^ ProductVersion
         {
-            String^ get() { return StringUtil::ToClr(_cefSettings->product_version); }
-            void set(String^ value) { StringUtil::AssignNativeFromClr(_cefSettings->product_version, value); }
+            String^ get() { return StringUtils::ToClr(_cefSettings->product_version); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->product_version, value); }
         }
 
         property String^ Locale
         {
-            String^ get() { return StringUtil::ToClr(_cefSettings->locale); }
-            void set(String^ value) { StringUtil::AssignNativeFromClr(_cefSettings->locale, value); }
+            String^ get() { return StringUtils::ToClr(_cefSettings->locale); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->locale, value); }
         }
 
         property String^ LogFile
         {
-            String^ get() { return StringUtil::ToClr(_cefSettings->log_file); }
-            void set(String^ value) { StringUtil::AssignNativeFromClr(_cefSettings->log_file, value); }
+            String^ get() { return StringUtils::ToClr(_cefSettings->log_file); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->log_file, value); }
         }
 
         property CefSharp::LogSeverity LogSeverity
@@ -75,8 +75,8 @@ namespace CefSharp
 
         property String^ LocalesDirPath
         {
-            String^ get() { return StringUtil::ToClr(_cefSettings->locales_dir_path); }
-            void set(String^ value) { StringUtil::AssignNativeFromClr(_cefSettings->locales_dir_path, value); }
+            String^ get() { return StringUtils::ToClr(_cefSettings->locales_dir_path); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->locales_dir_path, value); }
         }
 
         property bool PackLoadingDisabled

@@ -7,7 +7,7 @@ namespace CefSharp
 {
     namespace Internals
     {
-        private class StringUtil
+        private class StringUtils
         {
         public:
             /// <summary>
