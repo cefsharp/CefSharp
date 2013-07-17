@@ -19,16 +19,19 @@ namespace CefSharp
         ErrorReport = LOGSEVERITY_ERROR_REPORT,
         Disable = LOGSEVERITY_DISABLE,
     };
-    
+
     public ref class Settings
     {
     internal:
         CefSettings* _cefSettings;
 
-        // CefSharp doesn't support single thread message loop yet
         property bool MultiThreadedMessageLoop
         {
             bool get() { return _cefSettings->multi_threaded_message_loop; }
+
+            // CefSharp doesn't support single threaded message loop (and there's little point in supporting it), so we make this
+            // property read-only externally.
+        private:
             void set(bool value) { _cefSettings->multi_threaded_message_loop = value; }
         }
 
