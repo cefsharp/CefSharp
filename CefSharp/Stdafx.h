@@ -10,5 +10,5 @@
 
 #include "include/cef_base.h"
 #include "MCefRefPtr.h"
-#include "StringUtil.h"
+#include "Internals/StringUtil.h"
 #include "TypeUtil.h"
