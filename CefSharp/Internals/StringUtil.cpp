@@ -21,7 +21,7 @@ namespace CefSharp
             return cefStr;
         }
 
-        void StringUtil::AssignFromString(cef_string_t& cefStr, String^ str)
+        void StringUtil::AssignNativeFromClrString(cef_string_t& cefStr, String^ str)
         {
             cef_string_clear(&cefStr);
 
