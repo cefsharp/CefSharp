@@ -14,7 +14,7 @@
 #define _INC_VCCLR
 #ifndef RC_INVOKED
 
-// Deliberately disabled, since this causes mscorlib.dll to be references twice from two different locations, breaking
+// Deliberately disabled, since this causes mscorlib.dll to be referenced twice from two different locations, breaking
 // IntelliSense whenever this header file is included.
 //#using <mscorlib.dll>
 #include <gcroot.h>
