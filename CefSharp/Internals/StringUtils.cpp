@@ -20,6 +20,11 @@ namespace CefSharp
 
         CefString StringUtils::ToNative(String^ str)
         {
+            if (str == nullptr)
+            {
+                str = String::Empty;
+            }
+
             pin_ptr<const wchar_t> pStr = PtrToStringChars(str);
             CefString cefStr(pStr);
             return cefStr;

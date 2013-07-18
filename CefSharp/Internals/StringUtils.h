@@ -29,11 +29,11 @@ namespace CefSharp
             static String^ ToClr(const CefString& cefStr);
 
             /// <summary>
-            /// Converts a .NET string to native (unmanaged) format. Note that this method does not allocate a new copy of the string, but
-            /// rather returns a pointer to the memory in the existing managed String object.
+            /// Converts a .NET string to native (unmanaged) format. Note that this method does not allocate a new copy of the
+            // string, but rather returns a pointer to the memory in the existing managed String object.
             /// </summary>
             /// <param name="str">The string that should be converted.</param>
-            /// <returns>An unmanaged representation of the provided string.</returns>
+            /// <returns>An unmanaged representation of the provided string, or an empty string if the input string is a nullptr.</returns>
             static CefString ToNative(String^ str);
 
             /// <summary>
