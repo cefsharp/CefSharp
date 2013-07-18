@@ -2,9 +2,9 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-#include "Stdafx.h"
 #pragma once
 
+#include "Stdafx.h"
 #include "ClientAdapter.h"
 #include "RtzCountdownEvent.h"
 
