@@ -22,7 +22,7 @@ namespace CefSharp
         {
             if (str == nullptr)
             {
-                str = String::Empty;
+                return CefString();
             }
 
             pin_ptr<const wchar_t> pStr = PtrToStringChars(str);
