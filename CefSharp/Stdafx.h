@@ -10,9 +10,11 @@
   #define DECL __declspec(dllimport)
 #endif
 
-#include "vcclr_local.h"
+#include <include/cef_base.h>
 
-#include "include/cef_base.h"
 #include "MCefRefPtr.h"
 #include "Internals/StringUtils.h"
 #include "TypeUtil.h"
+#include "vcclr_local.h"
+
+using namespace CefSharp::Internals;
