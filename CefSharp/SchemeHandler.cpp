@@ -3,8 +3,8 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 #include "Stdafx.h"
-
 #include "SchemeHandler.h"
+#include "Internals/CefRequestWrapper.h"
 
 namespace CefSharp
 {

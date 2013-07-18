@@ -6,7 +6,7 @@
 #pragma once
 
 #include "include/cef_scheme.h"
-#include "Request.h"
+#include "IRequest.h"
 
 using namespace System;
 using namespace System::IO;
