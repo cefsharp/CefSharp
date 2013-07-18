@@ -2,28 +2,17 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-#include "Stdafx.h"
 #pragma once
 
-#include "Request.h"
+#include "Stdafx.h"
+#include "IRequest.h"
+#include "IRequestResponse.h"
 
 using namespace System;
 using namespace System::IO;
 
 namespace CefSharp
 {
-    public interface class IRequestResponse
-    {
-        /// cancel the request, return nothing
-        void Cancel();
-        /// the current request
-        property IRequest^ Request { IRequest^ get(); };
-        /// respond with redirection to the provided URL
-        void Redirect(String^ url);
-        /// respond with data from Stream
-        void RespondWith(Stream^ stream, String^ mimeType);
-    };
-
     enum class ResponseAction
     {
         Continue,
