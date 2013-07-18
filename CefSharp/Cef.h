@@ -9,6 +9,7 @@
 #include <include/cef_runnable.h>
 
 #include "Internals/CefSharpApp.h"
+#include "Internals/StringUtils.h"
 #include "CookieVisitor.h"
 #include "Settings.h"
 #include "SchemeHandler.h"
