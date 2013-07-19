@@ -10,7 +10,7 @@
 
 namespace CefSharp
 {
-    public class CookieVisitor : public CefCookieVisitor
+    private class CookieVisitor : public CefCookieVisitor
     {
     private:
         gcroot<ICookieVisitor^> _visitor;
