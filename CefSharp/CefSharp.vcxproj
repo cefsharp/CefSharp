@@ -126,6 +126,7 @@
     <ClCompile Include="ClientAdapter.cpp" />
     <ClCompile Include="Internals\CookieVisitor.cpp" />
     <ClCompile Include="Internals\CefRequestWrapper.cpp" />
+    <ClCompile Include="Internals\RenderClientAdapterInternal.cpp" />
     <ClCompile Include="RequestResponse.cpp" />
     <ClCompile Include="RtzCountdownEvent.cpp" />
     <ClCompile Include="SchemeHandler.cpp" />
@@ -139,6 +140,7 @@
     <ClInclude Include="BrowserCore.h" />
     <ClInclude Include="Cef.h" />
     <ClInclude Include="ClientAdapter.h" />
+    <ClInclude Include="IMenuHandler.h" />
     <ClInclude Include="Internals\CookieVisitor.h" />
     <ClInclude Include="ICookieVisitor.h" />
     <ClInclude Include="IJsDialogHandler.h" />
@@ -146,10 +148,15 @@
     <ClInclude Include="ILifeSpanHandler.h" />
     <ClInclude Include="ILoadHandler.h" />
     <ClInclude Include="Internals\CefSharpApp.h" />
+    <ClInclude Include="IRequestHandler.h" />
     <ClInclude Include="IRequestResponse.h" />
     <ClInclude Include="IRequest.h" />
     <ClInclude Include="Internals\CefRequestWrapper.h" />
     <ClInclude Include="Internals\MCefRefPtr.h" />
+    <ClInclude Include="IWebBrowser.h" />
+    <ClInclude Include="Internals\RenderClientAdapterInternal.h" />
+    <ClInclude Include="LoadCompletedEventArgs.h" />
+    <ClInclude Include="RenderClientAdapter.h" />
     <ClInclude Include="RequestResponse.h" />
     <ClInclude Include="RtzCountdownEvent.h" />
     <ClInclude Include="SchemeHandler.h" />
