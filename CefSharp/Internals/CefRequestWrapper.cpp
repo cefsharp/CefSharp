@@ -11,7 +11,7 @@ namespace CefSharp
     {
         String^ CefRequestWrapper::Url::get()
         {
-            return toClr(_wrappedRequest->GetURL());
+            return StringUtils::ToClr(_wrappedRequest->GetURL());
         }
 
         void CefRequestWrapper::Url::set(String^ url)
@@ -21,13 +21,13 @@ namespace CefSharp
                 throw gcnew System::ArgumentException("cannot be null", "url");
             }
 
-            CefString str = toNative(url);
+            CefString str = StringUtils::ToNative(url);
             _wrappedRequest->SetURL(str);
         }
 
         String^ CefRequestWrapper::Method::get()
         {
-            return toClr(_wrappedRequest->GetMethod());
+            return StringUtils::ToClr(_wrappedRequest->GetMethod());
         }
 
         String^ CefRequestWrapper::Body::get()
@@ -55,7 +55,7 @@ namespace CefSharp
                     }
                     else if (el->GetType() == PDE_TYPE_FILE)
                     {
-                        return toClr(el->GetFile());
+                        return StringUtils::ToClr(el->GetFile());
                     }
                 }
             }
@@ -72,8 +72,8 @@ namespace CefSharp
 
             for (CefRequest::HeaderMap::iterator it = hm.begin(); it != hm.end(); ++it)
             {
-                String^ name = toClr(it->first);
-                String^ value = toClr(it->second);
+                String^ name = StringUtils::ToClr(it->first);
+                String^ value = StringUtils::ToClr(it->second);
                 headers->Add(name, value);
             }
 
@@ -86,8 +86,8 @@ namespace CefSharp
 
             for each(KeyValuePair<String^, String^>^ pair in headers)
             {
-                CefString name = toNative(pair->Key);
-                CefString value = toNative(pair->Value);
+                CefString name = StringUtils::ToNative(pair->Key);
+                CefString value = StringUtils::ToNative(pair->Value);
                 hm.insert(std::make_pair(name, value));
             }
 
