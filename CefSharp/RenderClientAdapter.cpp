@@ -2,6 +2,7 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+#include "Stdafx.h"
 #include "IRenderWebBrowser.h"
 #include "RenderClientAdapter.h"
 
@@ -17,20 +18,15 @@ namespace CefSharp
         _renderBrowserControl->SetPopupSizeAndPosition((void*) &rect);
     }
 
-    void RenderClientAdapter::OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects, const void* buffer)
+    void RenderClientAdapter::OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects,
+        const void* buffer, int width, int height)
     {
         if (type == PET_VIEW)
         {
-            int width, height;
-            browser->GetSize(type, width, height);
-
             _renderBrowserControl->SetBuffer(width, height, buffer);
         }
         else if (type == PET_POPUP)
         {
-            int width, height;
-            browser->GetSize(type, width, height);
-
             _renderBrowserControl->SetPopupBuffer(width, height, buffer);
         }
     }
