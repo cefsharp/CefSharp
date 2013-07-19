@@ -15,7 +15,7 @@ namespace CefSharp
     {
         using namespace System;
 
-        public class RenderClientAdapter :
+        public class RenderClientAdapterInternal :
             public ClientAdapter,
             public CefRenderHandler
         {
@@ -23,8 +23,8 @@ namespace CefSharp
             gcroot<IRenderWebBrowser^> _renderBrowserControl;
 
         public:
-            ~RenderClientAdapter() { _renderBrowserControl = nullptr; }
-            RenderClientAdapter(IRenderWebBrowser^ offscreenBrowserControl) : 
+            ~RenderClientAdapterInternal() { _renderBrowserControl = nullptr; }
+            RenderClientAdapterInternal(IRenderWebBrowser^ offscreenBrowserControl) : 
                 ClientAdapter((IWebBrowser^) offscreenBrowserControl)
             {
                 _renderBrowserControl = offscreenBrowserControl;

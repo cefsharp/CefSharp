@@ -4,23 +4,23 @@
 
 #include "Stdafx.h"
 #include "IRenderWebBrowser.h"
-#include "RenderClientAdapter.h"
+#include "RenderClientAdapterInternal.h"
 
 namespace CefSharp
 {
     namespace Internals
     {
-        void RenderClientAdapter::OnPopupShow(CefRefPtr<CefBrowser> browser, bool show)
+        void RenderClientAdapterInternal::OnPopupShow(CefRefPtr<CefBrowser> browser, bool show)
         {
             _renderBrowserControl->SetPopupIsOpen(show);
         }
 
-        void RenderClientAdapter::OnPopupSize(CefRefPtr<CefBrowser> browser, const CefRect& rect)
+        void RenderClientAdapterInternal::OnPopupSize(CefRefPtr<CefBrowser> browser, const CefRect& rect)
         {
             _renderBrowserControl->SetPopupSizeAndPosition((void*) &rect);
         }
 
-        void RenderClientAdapter::OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects,
+        void RenderClientAdapterInternal::OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects,
             const void* buffer, int width, int height)
         {
             if (type == PET_VIEW)
@@ -33,7 +33,7 @@ namespace CefSharp
             }
         }
 
-        void RenderClientAdapter::OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor)
+        void RenderClientAdapterInternal::OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor)
         {
             _renderBrowserControl->SetCursor((IntPtr)cursor);
         }
