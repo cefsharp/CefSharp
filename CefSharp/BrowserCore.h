@@ -34,7 +34,7 @@ namespace CefSharp
         int _contentsHeight;
 
         String^ _tooltip;
-        String^ _address;
+        Uri^ _address;
         String^ _title;
 
         ILifeSpanHandler^ _lifeSpanHandler;
@@ -49,7 +49,7 @@ namespace CefSharp
     public:
         virtual event PropertyChangedEventHandler^ PropertyChanged;
 
-        BrowserCore(String^ address)
+        BrowserCore(Uri^ address)
         {
             _loadCompleted = gcnew RtzCountdownEvent();
             _address = address;
@@ -104,19 +104,23 @@ namespace CefSharp
             }
         }
 
-        property String^ Address
+        property Uri^ Address
         {
-            String^ get() { return _address; }
+            Uri^ get() { return _address; }
 
-            void set(String^ address)
+            void set(Uri^ address)
             {
-                if (_address != address)
+                if (_address != nullptr &&
+                    _address->Equals(address))
                 {
-                    _address = address;
-                    PropertyChanged(this, gcnew PropertyChangedEventArgs(L"Address"));
-
-                    TooltipText = nullptr;
+                    // The URI:s are identical, so nothing needs to be done.
+                    return;
                 }
+
+                _address = address;
+                PropertyChanged(this, gcnew PropertyChangedEventArgs(L"Address"));
+
+                TooltipText = nullptr;
             }
         }
 
