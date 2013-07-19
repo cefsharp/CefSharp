@@ -3,7 +3,6 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 #include "Stdafx.h"
-
 #include "BrowserCore.h"
 
 namespace CefSharp
@@ -28,19 +27,19 @@ namespace CefSharp
 
     void BrowserCore::SetNavState(bool isLoading, bool canGoBack, bool canGoForward)
     {
-        if(isLoading != _isLoading) 
+        if (isLoading != _isLoading) 
         {
             _isLoading = isLoading;
             PropertyChanged(this, gcnew PropertyChangedEventArgs(L"IsLoading"));
         }
 
-        if(canGoBack != _canGoBack) 
+        if (canGoBack != _canGoBack) 
         {
             _canGoBack = canGoBack;
             PropertyChanged(this, gcnew PropertyChangedEventArgs(L"CanGoBack"));
         }
 
-        if(canGoForward != _canGoForward)
+        if (canGoForward != _canGoForward)
         {
             _canGoForward = canGoForward;
             PropertyChanged(this, gcnew PropertyChangedEventArgs(L"CanGoForward"));
