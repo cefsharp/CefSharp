@@ -92,6 +92,12 @@ namespace CefSharp
             }
         }
 
+        static bool Initialize()
+        {
+            auto settings = gcnew Settings();
+            return Initialize(settings);
+        }
+
         static bool Initialize(Settings^ settings)
         {
             bool success = false;
