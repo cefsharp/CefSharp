@@ -34,7 +34,7 @@ namespace CefSharp
         property int ContentsWidth;
         property int ContentsHeight;
 
-        property String^ Address;
+        property Uri^ Uri;
         property String^ Title;
         property String^ TooltipText;
 
@@ -47,7 +47,10 @@ namespace CefSharp
 
         void OnInitialized();
 
-        void Load(String^ url);
+        // FIXME: Would like to get rid of this in favor of property-change notification on the Uri (which is already the way the
+        // WPF control works). Have to sync it with WinForms.
+        void Load(System::Uri^ url);
+
         void LoadHtml(String^ html);
         void Stop();
         void Back();

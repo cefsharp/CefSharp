@@ -10,19 +10,21 @@ namespace CefSharp.Example
     {
         public static void Init()
         {
-            if (Cef.Initialize())
+            if (!Cef.Initialize())
             {
+                return;
+            }
+
                 Cef.RegisterScheme("test", new SchemeHandlerFactory());
                 Cef.RegisterJsObject("bound", new BoundObject());
             }
-        }
 
-        private const string home_url = "http://github.com/perlun/CefSharp";
-        private const string resource_url = "http://test/resource/load";
-        private const string scheme_url = "test://test/SchemeTest.html";
-        private const string bind_url = "test://test/BindingTest.html";
-        private const string tooltip_url = "test://test/TooltipTest.html";
-        private const string popup_url = "test:/test/PopupTest.html";
+        public static Uri DefaultUrl = new Uri("http://github.com/perlun/CefSharp");
+        private static readonly Uri resource_url = new Uri("http://test/resource/load");
+        private static readonly Uri scheme_url = new Uri("test://test/SchemeTest.html");
+        private static readonly Uri bind_url = new Uri("test://test/BindingTest.html");
+        private static readonly Uri tooltip_url = new Uri("test://test/TooltipTest.html");
+        private static readonly Uri popup_url = new Uri("test:/test/PopupTest.html");
 
         private int color_index = 0;
         private readonly string[] colors =
@@ -266,7 +268,7 @@ namespace CefSharp.Example
         bool IRequestHandler.OnBeforeResourceLoad(IWebBrowser browser, IRequestResponse requestResponse)
         {
             IRequest request = requestResponse.Request;
-            if (request.Url.StartsWith(resource_url))
+            if (request.Url.StartsWith(resource_url.ToString()))
             {
                 Stream resourceStream = new MemoryStream(Encoding.UTF8.GetBytes(
                     "<html><body><h1>Success</h1><p>This document is loaded from a System.IO.Stream</p></body></html>"));
