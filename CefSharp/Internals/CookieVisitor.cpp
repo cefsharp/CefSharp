@@ -10,10 +10,10 @@ namespace CefSharp
     bool CookieVisitor::Visit(const CefCookie& cefCookie, int count, int total, bool& deleteCookie)
     {
         Cookie^ cookie = gcnew Cookie();
-        cookie->Name = toClr(cefCookie.name);
-        cookie->Value = toClr(cefCookie.value);
-        cookie->Domain = toClr(cefCookie.domain);
-        cookie->Path = toClr(cefCookie.path);
+        cookie->Name = StringUtils::ToClr(cefCookie.name);
+        cookie->Value = StringUtils::ToClr(cefCookie.value);
+        cookie->Domain = StringUtils::ToClr(cefCookie.domain);
+        cookie->Path = StringUtils::ToClr(cefCookie.path);
         cookie->Secure = cefCookie.secure;
         cookie->HttpOnly = cefCookie.httponly;
 
@@ -22,9 +22,9 @@ namespace CefSharp
             cookie->Expires = DateTime(cefCookie.expires.year,
                 cefCookie.expires.month, cefCookie.expires.day_of_month);
         }
-        catch (Exception^ ex)
+        catch (Exception^)
         {
-
+            // TODO: Why should we just ignore exceptions here...?
         }
 
         return _visitor->Visit(cookie, count, total, deleteCookie);
