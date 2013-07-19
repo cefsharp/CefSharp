@@ -122,13 +122,40 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="BrowserCore.cpp" />
+    <ClCompile Include="ClientAdapter.cpp" />
+    <ClCompile Include="Internals\CookieVisitor.cpp" />
+    <ClCompile Include="Internals\CefRequestWrapper.cpp" />
+    <ClCompile Include="RequestResponse.cpp" />
+    <ClCompile Include="RtzCountdownEvent.cpp" />
+    <ClCompile Include="SchemeHandler.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Internals\StringUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BrowserCore.h" />
+    <ClInclude Include="Cef.h" />
+    <ClInclude Include="ClientAdapter.h" />
+    <ClInclude Include="Internals\CookieVisitor.h" />
+    <ClInclude Include="ICookieVisitor.h" />
+    <ClInclude Include="IJsDialogHandler.h" />
+    <ClInclude Include="IKeyboardHandler.h" />
+    <ClInclude Include="ILifeSpanHandler.h" />
+    <ClInclude Include="ILoadHandler.h" />
+    <ClInclude Include="Internals\CefSharpApp.h" />
+    <ClInclude Include="IRequestResponse.h" />
+    <ClInclude Include="IRequest.h" />
+    <ClInclude Include="Internals\CefRequestWrapper.h" />
+    <ClInclude Include="Internals\MCefRefPtr.h" />
+    <ClInclude Include="RequestResponse.h" />
+    <ClInclude Include="RtzCountdownEvent.h" />
+    <ClInclude Include="SchemeHandler.h" />
+    <ClInclude Include="Settings.h" />
     <ClInclude Include="Stdafx.h" />
+    <ClInclude Include="Internals\StringUtils.h" />
     <ClInclude Include="vcclr_local.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
