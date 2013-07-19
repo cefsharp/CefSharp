@@ -1,6 +1,10 @@
-#include "Stdafx.h"
+// Copyright © 2010-2013 The CefSharp Project. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
 #pragma once
 
+#include "Stdafx.h"
 #include "ClientAdapter.h"
 
 namespace CefSharp
@@ -8,9 +12,10 @@ namespace CefSharp
     using namespace System;
 
     interface class IRenderWebBrowser;
-    
-    class RenderClientAdapter : public ClientAdapter,
-                                public CefRenderHandler
+
+    public class RenderClientAdapter :
+        public ClientAdapter,
+        public CefRenderHandler
     {
     private:
         gcroot<IRenderWebBrowser^> _renderBrowserControl;
