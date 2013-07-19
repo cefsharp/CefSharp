@@ -8,31 +8,34 @@
 
 namespace CefSharp
 {
-    void RenderClientAdapter::OnPopupShow(CefRefPtr<CefBrowser> browser, bool show)
+    namespace Internals
     {
-        _renderBrowserControl->SetPopupIsOpen(show);
-    }
-
-    void RenderClientAdapter::OnPopupSize(CefRefPtr<CefBrowser> browser, const CefRect& rect)
-    {
-        _renderBrowserControl->SetPopupSizeAndPosition((void*) &rect);
-    }
-
-    void RenderClientAdapter::OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects,
-        const void* buffer, int width, int height)
-    {
-        if (type == PET_VIEW)
+        void RenderClientAdapter::OnPopupShow(CefRefPtr<CefBrowser> browser, bool show)
         {
-            _renderBrowserControl->SetBuffer(width, height, buffer);
+            _renderBrowserControl->SetPopupIsOpen(show);
         }
-        else if (type == PET_POPUP)
-        {
-            _renderBrowserControl->SetPopupBuffer(width, height, buffer);
-        }
-    }
 
-    void RenderClientAdapter::OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor)
-    {
-        _renderBrowserControl->SetCursor((IntPtr)cursor);
+        void RenderClientAdapter::OnPopupSize(CefRefPtr<CefBrowser> browser, const CefRect& rect)
+        {
+            _renderBrowserControl->SetPopupSizeAndPosition((void*) &rect);
+        }
+
+        void RenderClientAdapter::OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects,
+            const void* buffer, int width, int height)
+        {
+            if (type == PET_VIEW)
+            {
+                _renderBrowserControl->SetBuffer(width, height, buffer);
+            }
+            else if (type == PET_POPUP)
+            {
+                _renderBrowserControl->SetPopupBuffer(width, height, buffer);
+            }
+        }
+
+        void RenderClientAdapter::OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor)
+        {
+            _renderBrowserControl->SetCursor((IntPtr)cursor);
+        }
     }
 }

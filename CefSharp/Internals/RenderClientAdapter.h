@@ -9,32 +9,36 @@
 
 namespace CefSharp
 {
-    using namespace System;
-
     interface class IRenderWebBrowser;
 
-    public class RenderClientAdapter :
-        public ClientAdapter,
-        public CefRenderHandler
+    namespace Internals
     {
-    private:
-        gcroot<IRenderWebBrowser^> _renderBrowserControl;
+        using namespace System;
 
-    public:
-        ~RenderClientAdapter() { _renderBrowserControl = nullptr; }
-        RenderClientAdapter(IRenderWebBrowser^ offscreenBrowserControl) : ClientAdapter((IWebBrowser^)offscreenBrowserControl)
+        public class RenderClientAdapter :
+            public ClientAdapter,
+            public CefRenderHandler
         {
-            _renderBrowserControl = offscreenBrowserControl;
-        }
+        private:
+            gcroot<IRenderWebBrowser^> _renderBrowserControl;
 
-        // CefClient
-        virtual CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE { return this; }
+        public:
+            ~RenderClientAdapter() { _renderBrowserControl = nullptr; }
+            RenderClientAdapter(IRenderWebBrowser^ offscreenBrowserControl) : 
+                ClientAdapter((IWebBrowser^) offscreenBrowserControl)
+            {
+                _renderBrowserControl = offscreenBrowserControl;
+            }
 
-        // CefRenderHandler
-        virtual DECL void OnPopupShow(CefRefPtr<CefBrowser> browser, bool show) OVERRIDE;
-        virtual DECL void OnPopupSize(CefRefPtr<CefBrowser> browser,const CefRect& rect) OVERRIDE;
-        virtual DECL void OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects,
-            const void* buffer, int width, int height) OVERRIDE;
-        virtual DECL void OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor) OVERRIDE;
-    };
+            // CefClient
+            virtual CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE { return this; }
+
+            // CefRenderHandler
+            virtual DECL void OnPopupShow(CefRefPtr<CefBrowser> browser, bool show) OVERRIDE;
+            virtual DECL void OnPopupSize(CefRefPtr<CefBrowser> browser,const CefRect& rect) OVERRIDE;
+            virtual DECL void OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects,
+                const void* buffer, int width, int height) OVERRIDE;
+            virtual DECL void OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor) OVERRIDE;
+        };
+    }
 }
