@@ -10,11 +10,10 @@ namespace CefSharp.Example
     {
         public static void Init()
         {
-            Settings settings = new Settings();
-            if (CEF.Initialize(settings))
+            if (Cef.Initialize())
             {
-                CEF.RegisterScheme("test", new SchemeHandlerFactory());
-                CEF.RegisterJsObject("bound", new BoundObject());
+                Cef.RegisterScheme("test", new SchemeHandlerFactory());
+                Cef.RegisterJsObject("bound", new BoundObject());
             }
         }
 
@@ -44,8 +43,7 @@ namespace CefSharp.Example
             this.view = view;
             this.gui_invoke = gui_invoke;
 
-            var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}",
-                CEF.ChromiumVersion, CEF.CefVersion, CEF.CefSharpVersion);
+            var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
             view.DisplayOutput(version);
 
             model.RequestHandler = this;
@@ -64,7 +62,7 @@ namespace CefSharp.Example
             view.CopyActivated += view_CopyActivated;
             view.PasteActivated += view_PasteActivated;
             view.DeleteActivated += view_DeleteActivated;
-            view.SelectAllActivated +=  view_SelectAllActivated;
+            view.SelectAllActivated += view_SelectAllActivated;
 
             // test
             view.TestResourceLoadActivated += view_TestResourceLoadActivated;
@@ -116,7 +114,7 @@ namespace CefSharp.Example
                 case "IsLoading":
                     @bool = model.IsLoading;
                     gui_invoke(() => view.SetIsLoading(@bool));
-                    break; 
+                    break;
             }
         }
 
@@ -138,8 +136,8 @@ namespace CefSharp.Example
         private void view_ExitActivated(object sender, EventArgs e)
         {
             model.Dispose();
-            CEF.Shutdown();
-            System.Environment.Exit(0);
+            Cef.Shutdown();
+            Environment.Exit(0);
         }
 
         void view_UndoActivated(object sender, EventArgs e)
@@ -240,7 +238,7 @@ namespace CefSharp.Example
 
         private void view_TestCookieVisitorActivated(object sender, EventArgs e)
         {
-            CEF.VisitAllCookies(this);
+            Cef.VisitAllCookies(this);
         }
 
         private void view_UrlActivated(object sender, string url)
