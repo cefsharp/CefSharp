@@ -8,6 +8,8 @@
 #include "include/cef_download_handler.h"
 #include "IDownloadHandler.h"
 
+using namespace System::Runtime::InteropServices;
+
 namespace CefSharp
 {
     namespace Internals
@@ -17,10 +19,23 @@ namespace CefSharp
             gcroot<IDownloadHandler^> _handler;
 
         public:
-            DownloadAdapter(IDownloadHandler^ handler) : _handler(handler) { }
+            DownloadAdapter(IDownloadHandler^ handler) :
+                _handler(handler)
+            {
+            }
 
-            virtual bool ReceivedData(void* data, int data_size);
-            virtual void Complete();
+            virtual bool ReceivedData(void* data, int data_size)
+            {
+                array<Byte>^ bytes = gcnew array<Byte>(data_size);
+                Marshal::Copy(IntPtr(data), bytes, 0, data_size);
+
+                return _handler->ReceivedData(bytes);
+            }
+
+            virtual void Complete()
+            {
+                _handler->Complete();
+            }
 
             IMPLEMENT_REFCOUNTING(DownloadAdapter);
         };
