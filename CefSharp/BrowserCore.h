@@ -5,7 +5,6 @@
 #pragma once
 
 #include "Stdafx.h"
-#include "ClientAdapter.h"
 #include "RtzCountdownEvent.h"
 
 using namespace System::ComponentModel;
