@@ -235,26 +235,26 @@ namespace CefSharp
         }
         */
 
-        // TODO: Check how we can support this with CEF3.
-        /*
-        bool ClientAdapter::GetDownloadHandler(CefRefPtr<CefBrowser> browser, const CefString& mimeType, const CefString& fileName, int64 contentLength, CefRefPtr<CefDownloadHandler>& handler)
+        CefRefPtr<CefDownloadHandler> ClientAdapter::GetDownloadHandler()
         {
-        IRequestHandler^ requestHandler = _browserControl->RequestHandler;
-        if (requestHandler == nullptr)
-        {
-        return false;
-        }
+            IRequestHandler^ requestHandler = _browserControl->RequestHandler;
+            if (requestHandler == nullptr)
+            {
+                return false;
+            }
 
-        IDownloadHandler^ downloadHandler;
-        bool ret = requestHandler->GetDownloadHandler(_browserControl, StringUtils::ToClr(mimeType), StringUtils::ToClr(fileName), contentLength, downloadHandler);
-        if (ret)
-        {
-        handler = new DownloadAdapter(downloadHandler);
+            IDownloadHandler^ downloadHandler;
+            bool ret = requestHandler->GetDownloadHandler(_browserControl, downloadHandler);
+            
+            if (ret)
+            {
+                return new DownloadAdapter(downloadHandler);
+            }
+            else
+            {
+                return nullptr;
+            }
         }
-
-        return ret;
-        }
-        */
 
         bool ClientAdapter::GetAuthCredentials(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, bool isProxy,
             const CefString& host, int port, const CefString& realm, const CefString& scheme, CefRefPtr<CefAuthCallback> callback)
