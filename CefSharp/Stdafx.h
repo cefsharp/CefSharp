@@ -17,5 +17,3 @@
 #include "Internals/StringUtils.h"
 #include "TypeUtil.h"
 #include "vcclr_local.h"
-
-using namespace CefSharp::Internals;
