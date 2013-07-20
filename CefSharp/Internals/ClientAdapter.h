@@ -13,10 +13,10 @@ using namespace System;
 
 namespace CefSharp
 {
+    interface class IWebBrowser;
+
     namespace Internals
     {
-        interface class IWebBrowser;
-
         private class ClientAdapter : public CefClient,
                                       public CefLifeSpanHandler,
                                       public CefLoadHandler,
