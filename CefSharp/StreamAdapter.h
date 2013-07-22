@@ -1,3 +1,7 @@
+// Copyright © 2010-2013 The CefSharp Project. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
 #include "Stdafx.h"
 #pragma once
 
@@ -6,7 +10,7 @@ using namespace System::IO;
 
 namespace CefSharp
 {
-    class StreamAdapter : public CefReadHandler
+    private class StreamAdapter : public CefReadHandler
     {
         gcroot<Stream^> _stream;
 
