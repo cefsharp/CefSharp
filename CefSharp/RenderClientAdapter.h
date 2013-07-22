@@ -5,6 +5,7 @@
 #pragma once
 
 #include "Stdafx.h"
+#include "BrowserSettings.h"
 #include "IRenderWebBrowser.h"
 #include "Internals/RenderClientAdapterInternal.h"
 
@@ -26,6 +27,17 @@ namespace CefSharp
         ~RenderClientAdapter()
         {
             delete _renderClientAdapterInternal;
+        }
+
+        void CreateOffscreenBrowser(BrowserSettings^ browserSettings, IntPtr^ sourceHandle, Uri^ uri)
+        {
+            HWND hwnd = static_cast<HWND>(sourceHandle->ToPointer());
+            CefWindowInfo window;
+            window.SetAsOffScreen(hwnd);
+            CefString url = StringUtils::ToNative(uri->ToString());
+
+            CefBrowserHost::CreateBrowser(window, _renderClientAdapterInternal, url,
+                *(CefBrowserSettings*) browserSettings->_internalBrowserSettings);
         }
     };
 }
