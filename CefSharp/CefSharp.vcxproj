@@ -139,6 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BrowserCore.h" />
+    <ClInclude Include="BrowserSettings.h" />
     <ClInclude Include="Cef.h" />
     <ClInclude Include="IDownloadHandler.h" />
     <ClInclude Include="Internals\DownloadAdapter.h" />
