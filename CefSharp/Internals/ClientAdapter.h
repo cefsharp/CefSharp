@@ -2,9 +2,9 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-#include "Stdafx.h"
 #pragma once
 
+#include "Stdafx.h"
 #include "include/cef_app.h"
 #include "include/cef_client.h"
 #include "include/cef_render_process_handler.h"
@@ -36,8 +36,12 @@ namespace CefSharp
             gcroot<String^> _tooltip;
 
         public:
+            ClientAdapter(IWebBrowser^ browserControl) :
+                _browserControl(browserControl)
+            {
+            }
+
             ~ClientAdapter() { _browserControl = nullptr; }
-            ClientAdapter(IWebBrowser^ browserControl) : _browserControl(browserControl) {}
 
             HWND GetBrowserHwnd() { return _browserHwnd; }
             CefRefPtr<CefBrowser> GetCefBrowser() { return _cefBrowser; }

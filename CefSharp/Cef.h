@@ -104,7 +104,7 @@ namespace CefSharp
             bool success = false;
 
             // TODO: is it really sensible to completely skip initialization if we get called multiple times, but with
-            // (potentially) different settings...?
+            // (potentially) different settings...? :)
             if (!IsInitialized)
             {
                 CefMainArgs main_args;
