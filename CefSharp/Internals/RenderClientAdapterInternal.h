@@ -15,30 +15,34 @@ namespace CefSharp
     {
         using namespace System;
 
-        public class RenderClientAdapterInternal :
-            public ClientAdapter,
-            public CefRenderHandler
+        private class RenderClientAdapterInternal : public ClientAdapter,
+                                                    public CefRenderHandler
         {
         private:
             gcroot<IRenderWebBrowser^> _renderBrowserControl;
 
         public:
-            ~RenderClientAdapterInternal() { _renderBrowserControl = nullptr; }
-            RenderClientAdapterInternal(IRenderWebBrowser^ offscreenBrowserControl) : 
+            RenderClientAdapterInternal(IRenderWebBrowser^ offscreenBrowserControl) :
                 ClientAdapter((IWebBrowser^) offscreenBrowserControl)
             {
                 _renderBrowserControl = offscreenBrowserControl;
             }
 
+            ~RenderClientAdapterInternal() { _renderBrowserControl = nullptr; }
+
             // CefClient
             virtual CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE { return this; }
 
             // CefRenderHandler
+            // TODO: Do we have to do something about GetViewRect?
+            virtual DECL bool GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) OVERRIDE { return false; }
             virtual DECL void OnPopupShow(CefRefPtr<CefBrowser> browser, bool show) OVERRIDE;
             virtual DECL void OnPopupSize(CefRefPtr<CefBrowser> browser,const CefRect& rect) OVERRIDE;
             virtual DECL void OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects,
                 const void* buffer, int width, int height) OVERRIDE;
             virtual DECL void OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor) OVERRIDE;
+
+            IMPLEMENT_REFCOUNTING(RenderClientAdapterInternal)
         };
     }
 }

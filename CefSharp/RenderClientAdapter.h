@@ -4,9 +4,28 @@
 
 #pragma once
 
+#include "Stdafx.h"
+#include "IRenderWebBrowser.h"
+#include "Internals/RenderClientAdapterInternal.h"
+
+using namespace CefSharp::Internals;
+
 namespace CefSharp
 {
     public ref class RenderClientAdapter
     {
+    private:
+        RenderClientAdapterInternal* _renderClientAdapterInternal;
+
+    public:
+        RenderClientAdapter(IRenderWebBrowser^ offscreenBrowserControl)
+        {
+            _renderClientAdapterInternal = new RenderClientAdapterInternal(offscreenBrowserControl);
+        }
+
+        ~RenderClientAdapter()
+        {
+            delete _renderClientAdapterInternal;
+        }
     };
 }

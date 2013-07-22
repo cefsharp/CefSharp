@@ -4,6 +4,8 @@
 
 #include "Stdafx.h"
 
+#include "Internals/CefRequestWrapper.h"
+#include "Internals/RequestResponse.h"
 #include "Internals/JavascriptBinding/BindingHandler.h"
 #include "ClientAdapter.h"
 #include "Cef.h"
@@ -186,54 +188,54 @@ namespace CefSharp
         }
         */
 
-        // TOOD: Try to support with CEF3; seems quite difficult because the method signature has changed greatly with many parts
-        // seemingly MIA...
-        /*
         bool ClientAdapter::OnBeforeResourceLoad(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request)
         {
-        IRequestHandler^ handler = _browserControl->RequestHandler;
+            // TOOD: Try to support with CEF3; seems quite difficult because the method signature has changed greatly with many parts
+            // seemingly MIA...
+            IRequestHandler^ handler = _browserControl->RequestHandler;
 
-        if (handler == nullptr)
-        {
-        return false;
+            if (handler == nullptr)
+            {
+                return false;
+            }
+
+            CefRequestWrapper^ wrapper = gcnew CefRequestWrapper(request);
+            RequestResponse^ requestResponse = gcnew RequestResponse(wrapper);
+
+            bool ret = handler->OnBeforeResourceLoad(_browserControl, requestResponse);
+
+            if (requestResponse->Action == ResponseAction::Redirect)
+            {
+                // TODO: Not supported at the moment; there does not seem any obvious way to give a redirect back in an
+                // OnBeforeResourceLoad() handler nowadays.
+                //request.redirectUrl = StringUtils::ToNative(requestResponse->RedirectUrl);
+            }
+            else if (requestResponse->Action == ResponseAction::Respond)
+            {
+                CefRefPtr<StreamAdapter> adapter = new StreamAdapter(requestResponse->ResponseStream);
+
+                throw gcnew NotImplementedException("Respond is not yet supported.");
+
+                //resourceStream = CefStreamReader::CreateForHandler(static_cast<CefRefPtr<CefReadHandler>>(adapter));
+                //response->SetMimeType(StringUtils::ToNative(requestResponse->MimeType));
+                //response->SetStatus(requestResponse->StatusCode);
+                //response->SetStatusText(StringUtils::ToNative(requestResponse->StatusText));
+
+                //CefResponse::HeaderMap map;
+
+                //if (requestResponse->ResponseHeaders != nullptr)
+                //{
+                //    for each (KeyValuePair<String^, String^>^ kvp in requestResponse->ResponseHeaders)
+                //    {
+                //        map.insert(pair<CefString,CefString>(StringUtils::ToNative(kvp->Key),StringUtils::ToNative(kvp->Value)));
+                //    }
+                //}
+
+                //response->SetHeaderMap(map);
+            }
+
+            return ret;
         }
-
-        CefRequestWrapper^ wrapper = gcnew CefRequestWrapper(request);
-        RequestResponse^ requestResponse = gcnew RequestResponse(wrapper);
-
-        bool ret = handler->OnBeforeResourceLoad(_browserControl, requestResponse);
-
-        if (requestResponse->Action == ResponseAction::Redirect)
-        {
-        // TODO: Not supported at the moment; there does not seem any obvious way to give a redirect back in an
-        // OnBeforeResourceLoad() handler nowadays.
-        //request.redirectUrl = StringUtils::ToNative(requestResponse->RedirectUrl);
-        }
-        else if (requestResponse->Action == ResponseAction::Respond)
-        {
-        CefRefPtr<StreamAdapter> adapter = new StreamAdapter(requestResponse->ResponseStream);
-
-        resourceStream = CefStreamReader::CreateForHandler(static_cast<CefRefPtr<CefReadHandler>>(adapter));
-        response->SetMimeType(StringUtils::ToNative(requestResponse->MimeType));
-        response->SetStatus(requestResponse->StatusCode);
-        response->SetStatusText(StringUtils::ToNative(requestResponse->StatusText));
-
-        CefResponse::HeaderMap map;
-
-        if (requestResponse->ResponseHeaders != nullptr)
-        {
-        for each (KeyValuePair<String^, String^>^ kvp in requestResponse->ResponseHeaders)
-        {
-        map.insert(pair<CefString,CefString>(StringUtils::ToNative(kvp->Key),StringUtils::ToNative(kvp->Value)));
-        }
-        }
-
-        response->SetHeaderMap(map);
-        }
-
-        return ret;
-        }
-        */
 
         CefRefPtr<CefDownloadHandler> ClientAdapter::GetDownloadHandler()
         {
@@ -245,7 +247,7 @@ namespace CefSharp
 
             IDownloadHandler^ downloadHandler;
             bool ret = requestHandler->GetDownloadHandler(_browserControl, downloadHandler);
-            
+
             if (ret)
             {
                 return new DownloadAdapter(downloadHandler);
@@ -332,35 +334,33 @@ namespace CefSharp
         headers);
         }*/
 
-        // TODO: Investigate how we can support in CEF3.
-        /*
         void ClientAdapter::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
         {
-        for each(KeyValuePair<String^, Object^>^ kvp in CEF::GetBoundObjects())
-        {
-        BindingHandler::Bind(kvp->Key, kvp->Value, context->GetGlobal());
+            // TODO: Support the BindingHandler with CEF3.
+            /*
+            for each(KeyValuePair<String^, Object^>^ kvp in Cef::GetBoundObjects())
+            {
+            BindingHandler::Bind(kvp->Key, kvp->Value, context->GetGlobal());
+            }
+
+            for each(KeyValuePair<String^, Object^>^ kvp in _browserControl->GetBoundObjects())
+            {
+            BindingHandler::Bind(kvp->Key, kvp->Value, context->GetGlobal());
+            }
+            */
         }
 
-        for each(KeyValuePair<String^, Object^>^ kvp in _browserControl->GetBoundObjects())
+        void ClientAdapter::OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
+            CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model)
         {
-        BindingHandler::Bind(kvp->Key, kvp->Value, context->GetGlobal());
-        }
-        }
-        */
+            IMenuHandler^ handler = _browserControl->MenuHandler;
 
-        // TODO: Investigate how we can support in CEF3.
-        /*
-        bool ClientAdapter::OnBeforeMenu(CefRefPtr<CefBrowser> browser, const CefMenuInfo& menuInfo)
-        {
-        IMenuHandler^ handler = _browserControl->MenuHandler;
-        if (handler == nullptr)
-        {
-        return false;
+            if (handler != nullptr)
+            {
+                throw gcnew NotImplementedException("IMenuHandler is not yet supported with CefSharp 3.");
+                //return handler->OnBeforeContextMenu(_browserControl);
+            }
         }
-
-        return handler->OnBeforeMenu(_browserControl);
-        }
-        */
 
         void ClientAdapter::OnTakeFocus(CefRefPtr<CefBrowser> browser, bool next)
         {
