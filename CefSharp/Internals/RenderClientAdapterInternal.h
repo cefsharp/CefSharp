@@ -34,8 +34,13 @@ namespace CefSharp
             virtual CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE { return this; }
 
             // CefRenderHandler
-            // TODO: Do we have to do something about GetViewRect?
-            virtual DECL bool GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) OVERRIDE { return false; }
+            virtual DECL bool GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) OVERRIDE
+            {
+                // TODO: add a real implementation... :)
+                rect = CefRect(0, 0, 500, 500);
+                return true;
+            }
+
             virtual DECL void OnPopupShow(CefRefPtr<CefBrowser> browser, bool show) OVERRIDE;
             virtual DECL void OnPopupSize(CefRefPtr<CefBrowser> browser,const CefRect& rect) OVERRIDE;
             virtual DECL void OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects,
