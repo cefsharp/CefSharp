@@ -6,6 +6,41 @@
 
 namespace CefSharp
 {
+    namespace
+    {
+        Nullable<bool>^ CefStateToBoolean(cef_state_t state)
+        {
+            if (state == STATE_DEFAULT)
+            {
+                return nullptr;
+            }
+            else if (state == STATE_ENABLED)
+            {
+                return gcnew Nullable<bool>(true);
+            }
+            else if (state == STATE_DISABLED)
+            {
+                return gcnew Nullable<bool>(false);
+            }
+        }
+
+        cef_state_t CefStateFromBoolean(Nullable<bool>^ value)
+        {
+            if (value == nullptr)
+            {
+                return STATE_DEFAULT;
+            }
+            else if (value->Value)
+            {
+                return STATE_ENABLED;
+            }
+            else // !value->Value
+            {
+                return STATE_DISABLED;
+            }
+        }
+    }
+
     public ref class BrowserSettings
     {
     internal:
@@ -23,58 +58,40 @@ namespace CefSharp
             void* get() { return _browserSettings; }
         }
 
-        property bool DragDropDisabled
-        {
-            bool get() { return _browserSettings->drag_drop_disabled; }
-            void set(bool value) { _browserSettings->drag_drop_disabled = value; }
-        }
-
-        property bool LoadDropsDisabled
-        {
-            bool get() { return _browserSettings->load_drops_disabled; }
-            void set(bool value) { _browserSettings->load_drops_disabled = value; }
-        }
-
-        property bool HistoryDisabled
-        {
-            bool get() { return _browserSettings->history_disabled; }
-            void set(bool value) { _browserSettings->history_disabled = value; }
-        }
-
         property String^ StandardFontFamily
         {
-            String^ get() { return toClr(_browserSettings->standard_font_family); }
-            void set(String^ value) { assignFromString(_browserSettings->standard_font_family, value); }
+            String^ get() { return StringUtils::ToClr(_browserSettings->standard_font_family); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_browserSettings->standard_font_family, value); }
         }
 
         property String^ FixedFontFamily
         {
-            String^ get() { return toClr(_browserSettings->fixed_font_family); }
-            void set(String^ value) { assignFromString(_browserSettings->fixed_font_family, value); }
+            String^ get() { return StringUtils::ToClr(_browserSettings->fixed_font_family); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_browserSettings->fixed_font_family, value); }
         }
 
         property String^ SerifFontFamily
         {
-            String^ get() { return toClr(_browserSettings->serif_font_family); }
-            void set(String^ value) { assignFromString(_browserSettings->serif_font_family, value); }
+            String^ get() { return StringUtils::ToClr(_browserSettings->serif_font_family); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_browserSettings->serif_font_family, value); }
         }
 
         property String^ SansSerifFontFamily
         {
-            String^ get() { return toClr(_browserSettings->sans_serif_font_family); }
-            void set(String^ value) { assignFromString(_browserSettings->sans_serif_font_family, value); }
+            String^ get() { return StringUtils::ToClr(_browserSettings->sans_serif_font_family); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_browserSettings->sans_serif_font_family, value); }
         }
 
         property String^ CursiveFontFamily
         {
-            String^ get() { return toClr(_browserSettings->cursive_font_family); }
-            void set(String^ value) { assignFromString(_browserSettings->cursive_font_family, value); }
+            String^ get() { return StringUtils::ToClr(_browserSettings->cursive_font_family); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_browserSettings->cursive_font_family, value); }
         }
 
         property String^ FantasyFontFamily
         {
-            String^ get() { return toClr(_browserSettings->fantasy_font_family); }
-            void set(String^ value) { assignFromString(_browserSettings->fantasy_font_family, value); }
+            String^ get() { return StringUtils::ToClr(_browserSettings->fantasy_font_family); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_browserSettings->fantasy_font_family, value); }
         }
 
         property int DefaultFontSize
@@ -101,18 +118,20 @@ namespace CefSharp
             void set(int value) { _browserSettings->minimum_logical_font_size = value; }
         }
 
-        property bool RemoteFontsDisabled
+        property Nullable<bool>^ RemoteFontsDisabled
         {
-            bool get() { return _browserSettings->remote_fonts_disabled; }
-            void set(bool value) { _browserSettings->remote_fonts_disabled = value; }
+            Nullable<bool>^ get() { return CefStateToBoolean(_browserSettings->remote_fonts); }
+            void set(Nullable<bool>^ value) { _browserSettings->remote_fonts = CefStateFromBoolean(value); }
         }
 
         property String^ DefaultEncoding
         {
-            String^ get() { return toClr(_browserSettings->default_encoding); }
-            void set(String^ value) { assignFromString(_browserSettings->default_encoding, value); }
+            String^ get() { return StringUtils::ToClr(_browserSettings->default_encoding); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_browserSettings->default_encoding, value); }
         }
 
+        // TODO: Convert the rest to use the CefStateToFoo syntax.
+        /*
         property bool EncodingDetectorEnabled
         {
             bool get() { return _browserSettings->encoding_detector_enabled; }
@@ -241,8 +260,8 @@ namespace CefSharp
 
         property String^ UserStyleSheetLocation
         {
-            String^ get() { return toClr(_browserSettings->user_style_sheet_location); }
-            void set(String^ value) { assignFromString(_browserSettings->user_style_sheet_location, value); }
+            String^ get() { return StringUtils::ToClr(_browserSettings->user_style_sheet_location); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_browserSettings->user_style_sheet_location, value); }
         }
 
         property bool AuthorAndUserStylesDisabled
@@ -322,5 +341,6 @@ namespace CefSharp
             bool get() { return _browserSettings->fullscreen_enabled; }
             void set(bool value) { _browserSettings->fullscreen_enabled = value; }
         }
+        */
     };
 }
