@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CefSharp", "CefSharp\CefSharp.vcxproj", "{7B495581-2271-4F41-9476-ACB86E8C864F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.Test", "CefSharp.Test\CefSharp.Test.csproj", "{7A4D5447-183B-4A11-8E63-9848991B46FF}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CefSharp.WinForms", "CefSharp.WinForms\CefSharp.WinForms.vcxproj", "{978C9B2B-04B6-4359-A341-CA3FCBE98D32}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CefSharp.Wpf", "CefSharp.Wpf\CefSharp.Wpf.vcxproj", "{C944B6A6-7CAF-4101-B81B-2DE47296FC40}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.Example", "CefSharp.Example\CefSharp.Example.csproj", "{A4394E7B-1155-43A6-989E-8AB72DDDC9E4}"
 EndProject
@@ -24,7 +22,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		CefSharp.props = CefSharp.props
 		NuGet\CefSharp.Wpf.nuspec = NuGet\CefSharp.Wpf.nuspec
 		ChangeLog.md = ChangeLog.md
+		LICENSE = LICENSE
 		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.Wpf", "CefSharp.Wpf\CefSharp.Wpf.csproj", "{E6CB3790-F267-4AC7-892C-2620737682CA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7B495581-2271-4F41-9476-ACB86E8C864F} = {7B495581-2271-4F41-9476-ACB86E8C864F}
 	EndProjectSection
 EndProject
 Global
@@ -67,16 +71,6 @@ Global
 		{978C9B2B-04B6-4359-A341-CA3FCBE98D32}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{978C9B2B-04B6-4359-A341-CA3FCBE98D32}.Release|Win32.ActiveCfg = Release|Win32
 		{978C9B2B-04B6-4359-A341-CA3FCBE98D32}.Release|Win32.Build.0 = Release|Win32
-		{C944B6A6-7CAF-4101-B81B-2DE47296FC40}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{C944B6A6-7CAF-4101-B81B-2DE47296FC40}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{C944B6A6-7CAF-4101-B81B-2DE47296FC40}.Debug|Mixed Platforms.Build.0 = Debug|Win32
-		{C944B6A6-7CAF-4101-B81B-2DE47296FC40}.Debug|Win32.ActiveCfg = Debug|Win32
-		{C944B6A6-7CAF-4101-B81B-2DE47296FC40}.Debug|Win32.Build.0 = Debug|Win32
-		{C944B6A6-7CAF-4101-B81B-2DE47296FC40}.Release|Any CPU.ActiveCfg = Release|Win32
-		{C944B6A6-7CAF-4101-B81B-2DE47296FC40}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{C944B6A6-7CAF-4101-B81B-2DE47296FC40}.Release|Mixed Platforms.Build.0 = Release|Win32
-		{C944B6A6-7CAF-4101-B81B-2DE47296FC40}.Release|Win32.ActiveCfg = Release|Win32
-		{C944B6A6-7CAF-4101-B81B-2DE47296FC40}.Release|Win32.Build.0 = Release|Win32
 		{A4394E7B-1155-43A6-989E-8AB72DDDC9E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A4394E7B-1155-43A6-989E-8AB72DDDC9E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4394E7B-1155-43A6-989E-8AB72DDDC9E4}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -127,6 +121,16 @@ Global
 		{310B527B-A811-450D-A1B2-79352FDB338A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{310B527B-A811-450D-A1B2-79352FDB338A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{310B527B-A811-450D-A1B2-79352FDB338A}.Release|Win32.ActiveCfg = Release|Any CPU
+		{E6CB3790-F267-4AC7-892C-2620737682CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6CB3790-F267-4AC7-892C-2620737682CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6CB3790-F267-4AC7-892C-2620737682CA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{E6CB3790-F267-4AC7-892C-2620737682CA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{E6CB3790-F267-4AC7-892C-2620737682CA}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{E6CB3790-F267-4AC7-892C-2620737682CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6CB3790-F267-4AC7-892C-2620737682CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6CB3790-F267-4AC7-892C-2620737682CA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E6CB3790-F267-4AC7-892C-2620737682CA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{E6CB3790-F267-4AC7-892C-2620737682CA}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
