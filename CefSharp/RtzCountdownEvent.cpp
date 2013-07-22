@@ -3,7 +3,6 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 #include "Stdafx.h"
-
 #include "RtzCountdownEvent.h"
 
 namespace CefSharp
@@ -12,26 +11,26 @@ namespace CefSharp
     {
         int num;
 
-        if(count <= 0)
+        if (count <= 0)
         {
             throw gcnew ArgumentOutOfRangeException("count");
         }
 
-        if(_disposed)
+        if (_disposed)
         {
             throw gcnew ObjectDisposedException("RtzCountdownEvent");
         }
 
-    addLoop:
+addLoop:
         num = _currentCount;
 
-        if(Interlocked::CompareExchange(_currentCount, num + count, num) != num)
+        if (Interlocked::CompareExchange(_currentCount, num + count, num) != num)
         {
             Thread::SpinWait(1);
             goto addLoop;
         }
 
-        if(num == count)
+        if (num == count)
         {
             _event->Reset();
         }
@@ -42,27 +41,27 @@ namespace CefSharp
     {
         int num;
 
-        if(count <= 0)
+        if (count <= 0)
         {
             throw gcnew ArgumentOutOfRangeException("count");
         }
 
-        if(_disposed)
+        if (_disposed)
         {
             throw gcnew ObjectDisposedException("RtzCountdownEvent");
         }
 
-    signalLoop:
+signalLoop:
         num = _currentCount;
         int newCount = Math::Max(0, num - count);
 
-        if(Interlocked::CompareExchange(_currentCount, newCount, num) != num)
+        if (Interlocked::CompareExchange(_currentCount, newCount, num) != num)
         {
             Thread::SpinWait(1);
             goto signalLoop;
         }
 
-        if(num <= count)
+        if (num <= count)
         {
             _event->Set();
             return true;
@@ -83,7 +82,7 @@ namespace CefSharp
 
     void RtzCountdownEvent::Reset()
     {
-        if(_disposed)
+        if (_disposed)
         {
             throw gcnew ObjectDisposedException("RtzCountdownEvent");
         }
