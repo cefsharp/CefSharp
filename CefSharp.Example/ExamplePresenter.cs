@@ -15,9 +15,9 @@ namespace CefSharp.Example
                 return;
             }
 
-                Cef.RegisterScheme("test", new SchemeHandlerFactory());
-                Cef.RegisterJsObject("bound", new BoundObject());
-            }
+            Cef.RegisterScheme("test", new SchemeHandlerFactory());
+            Cef.RegisterJsObject("bound", new BoundObject());
+        }
 
         public static Uri DefaultUrl = new Uri("http://github.com/perlun/CefSharp");
         private static readonly Uri resource_url = new Uri("http://test/resource/load");
@@ -36,158 +36,154 @@ namespace CefSharp.Example
 
         private readonly IWebBrowser model;
         private readonly IExampleView view;
-        private readonly Action<Action> gui_invoke;
+        private readonly Action<Action> uiThreadInvoke;
 
-        public ExamplePresenter(IWebBrowser model, IExampleView view,
-            Action<Action> gui_invoke)
+        public ExamplePresenter(IWebBrowser model, IExampleView view, Action<Action> uiThreadInvoke)
         {
             this.model = model;
             this.view = view;
-            this.gui_invoke = gui_invoke;
+            this.uiThreadInvoke = uiThreadInvoke;
 
             var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
             view.DisplayOutput(version);
 
             model.RequestHandler = this;
-            model.PropertyChanged += model_PropertyChanged;
-            model.ConsoleMessage += model_ConsoleMessage;
+            model.PropertyChanged += OnModelPropertyChanged;
+            model.ConsoleMessage += OnModelConsoleMessage;
 
             // file
-            view.ShowDevToolsActivated += view_ShowDevToolsActivated;
-            view.CloseDevToolsActivated += view_CloseDevToolsActivated;
-            view.ExitActivated += view_ExitActivated;
+            view.ShowDevToolsActivated += OnViewShowDevToolsActivated;
+            view.CloseDevToolsActivated += OnViewCloseDevToolsActivated;
+            view.ExitActivated += OnViewExitActivated;
 
             // edit
-            view.UndoActivated += view_UndoActivated;
-            view.RedoActivated += view_RedoActivated;
-            view.CutActivated += view_CutActivated;
-            view.CopyActivated += view_CopyActivated;
-            view.PasteActivated += view_PasteActivated;
-            view.DeleteActivated += view_DeleteActivated;
-            view.SelectAllActivated += view_SelectAllActivated;
+            view.UndoActivated += OnViewUndoActivated;
+            view.RedoActivated += OnViewRedoActivated;
+            view.CutActivated += OnViewCutActivated;
+            view.CopyActivated += OnViewCopyActivated;
+            view.PasteActivated += OnViewPasteActivated;
+            view.DeleteActivated += OnViewDeleteActivated;
+            view.SelectAllActivated += OnViewSelectAllActivated;
 
             // test
-            view.TestResourceLoadActivated += view_TestResourceLoadActivated;
-            view.TestSchemeLoadActivated += view_TestSchemeLoadActivated;
-            view.TestExecuteScriptActivated += view_TestExecuteScriptActivated;
-            view.TestEvaluateScriptActivated += view_TestEvaluateScriptActivated;
-            view.TestBindActivated += view_TestBindActivated;
-            view.TestConsoleMessageActivated += view_TestConsoleMessageActivated;
-            view.TestTooltipActivated += view_TestTooltipActivated;
-            view.TestPopupActivated += view_TestPopupActivated;
-            view.TestLoadStringActivated += view_TestLoadStringActivated;
-            view.TestCookieVisitorActivated += view_TestCookieVisitorActivated;
+            view.TestResourceLoadActivated += OnViewTestResourceLoadActivated;
+            view.TestSchemeLoadActivated += OnViewTestSchemeLoadActivated;
+            view.TestExecuteScriptActivated += OnViewTestExecuteScriptActivated;
+            view.TestEvaluateScriptActivated += OnViewTestEvaluateScriptActivated;
+            view.TestBindActivated += OnViewTestBindActivated;
+            view.TestConsoleMessageActivated += OnViewTestConsoleMessageActivated;
+            view.TestTooltipActivated += OnViewTestTooltipActivated;
+            view.TestPopupActivated += OnViewTestPopupActivated;
+            view.TestLoadStringActivated += OnViewTestLoadStringActivated;
+            view.TestCookieVisitorActivated += OnViewTestCookieVisitorActivated;
 
             // navigation
-            view.UrlActivated += view_UrlActivated;
-            view.ForwardActivated += view_ForwardActivated;
-            view.BackActivated += view_BackActivated;
+            view.UrlActivated += OnViewUrlActivated;
+            view.ForwardActivated += OnViewForwardActivated;
+            view.BackActivated += OnViewBackActivated;
         }
 
-        private void model_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            string @string = null;
-            bool @bool = false;
-
             switch (e.PropertyName)
             {
                 case "IsBrowserInitialized":
                     if (model.IsBrowserInitialized)
                     {
-                        model.Load(home_url);
+                        model.Load(DefaultUrl);
                     }
                     break;
+
                 case "Title":
-                    @string = model.Title;
-                    gui_invoke(() => view.SetTitle(@string));
+                    uiThreadInvoke(() => view.SetTitle(model.Title));
                     break;
-                case "Address":
-                    @string = model.Address;
-                    gui_invoke(() => view.SetAddress(@string));
+
+                case "Uri":
+                    uiThreadInvoke(() => view.SetUri(model.Uri));
                     break;
+
                 case "CanGoBack":
-                    @bool = model.CanGoBack;
-                    gui_invoke(() => view.SetCanGoBack(@bool));
+                    uiThreadInvoke(() => view.SetCanGoBack(model.CanGoBack));
                     break;
+
                 case "CanGoForward":
-                    @bool = model.CanGoForward;
-                    gui_invoke(() => view.SetCanGoForward(@bool));
+                    uiThreadInvoke(() => view.SetCanGoForward(model.CanGoForward));
                     break;
+
                 case "IsLoading":
-                    @bool = model.IsLoading;
-                    gui_invoke(() => view.SetIsLoading(@bool));
+                    uiThreadInvoke(() => view.SetIsLoading(model.IsLoading));
                     break;
             }
         }
 
-        private void model_ConsoleMessage(object sender, ConsoleMessageEventArgs e)
+        private void OnModelConsoleMessage(object sender, ConsoleMessageEventArgs e)
         {
-            gui_invoke(() => view.DisplayOutput(e.Message));
+            uiThreadInvoke(() => view.DisplayOutput(e.Message));
         }
 
-        private void view_ShowDevToolsActivated(object sender, EventArgs e)
+        private void OnViewShowDevToolsActivated(object sender, EventArgs e)
         {
             model.ShowDevTools();
         }
 
-        private void view_CloseDevToolsActivated(object sender, EventArgs e)
+        private void OnViewCloseDevToolsActivated(object sender, EventArgs e)
         {
             model.CloseDevTools();
         }
 
-        private void view_ExitActivated(object sender, EventArgs e)
+        private void OnViewExitActivated(object sender, EventArgs e)
         {
             model.Dispose();
             Cef.Shutdown();
             Environment.Exit(0);
         }
 
-        void view_UndoActivated(object sender, EventArgs e)
+        void OnViewUndoActivated(object sender, EventArgs e)
         {
             model.Undo();
         }
 
-        void view_RedoActivated(object sender, EventArgs e)
+        void OnViewRedoActivated(object sender, EventArgs e)
         {
             model.Redo();
         }
 
-        void view_CutActivated(object sender, EventArgs e)
+        void OnViewCutActivated(object sender, EventArgs e)
         {
             model.Cut();
         }
 
-        void view_CopyActivated(object sender, EventArgs e)
+        void OnViewCopyActivated(object sender, EventArgs e)
         {
             model.Copy();
         }
 
-        void view_PasteActivated(object sender, EventArgs e)
+        void OnViewPasteActivated(object sender, EventArgs e)
         {
             model.Paste();
         }
 
-        void view_DeleteActivated(object sender, EventArgs e)
+        void OnViewDeleteActivated(object sender, EventArgs e)
         {
             model.Delete();
         }
 
-        void view_SelectAllActivated(object sender, EventArgs e)
+        void OnViewSelectAllActivated(object sender, EventArgs e)
         {
             model.SelectAll();
         }
 
-        private void view_TestResourceLoadActivated(object sender, EventArgs e)
+        private void OnViewTestResourceLoadActivated(object sender, EventArgs e)
         {
             model.Load(resource_url);
         }
 
-        private void view_TestSchemeLoadActivated(object sender, EventArgs e)
+        private void OnViewTestSchemeLoadActivated(object sender, EventArgs e)
         {
             model.Load(scheme_url);
         }
 
-        private void view_TestExecuteScriptActivated(object sender, EventArgs e)
+        private void OnViewTestExecuteScriptActivated(object sender, EventArgs e)
         {
             var script = String.Format("document.body.style.background = '{0}'",
                 colors[color_index++]);
@@ -199,7 +195,7 @@ namespace CefSharp.Example
             view.ExecuteScript(script);
         }
 
-        private void view_TestEvaluateScriptActivated(object sender, EventArgs e)
+        private void OnViewTestEvaluateScriptActivated(object sender, EventArgs e)
         {
             var rand = new Random();
             var x = rand.Next(1, 10);
@@ -209,56 +205,54 @@ namespace CefSharp.Example
             var result = view.EvaluateScript(script);
             var output = String.Format("{0} => {1}", script, result);
 
-            gui_invoke(() => view.DisplayOutput(output));
+            uiThreadInvoke(() => view.DisplayOutput(output));
         }
 
-        private void view_TestBindActivated(object sender, EventArgs e)
+        private void OnViewTestBindActivated(object sender, EventArgs e)
         {
             model.Load(bind_url);
         }
 
-        private void view_TestConsoleMessageActivated(object sender, EventArgs e)
+        private void OnViewTestConsoleMessageActivated(object sender, EventArgs e)
         {
             var script = "console.log('Hello, world!')";
             view.ExecuteScript(script);
         }
 
-        private void view_TestTooltipActivated(object sender, EventArgs e)
+        private void OnViewTestTooltipActivated(object sender, EventArgs e)
         {
             model.Load(tooltip_url);
         }
 
-        private void view_TestPopupActivated(object sender, EventArgs e)
+        private void OnViewTestPopupActivated(object sender, EventArgs e)
         {
             model.Load(popup_url);
         }
 
-        private void view_TestLoadStringActivated(object sender, EventArgs e)
+        private void OnViewTestLoadStringActivated(object sender, EventArgs e)
         {
-            model.LoadHtml(string.Format("<html><body><a href='{0}'>CefSharp Home</a></body></html>", home_url));
+            model.LoadHtml(string.Format("<html><body><a href='{0}'>CefSharp Home</a></body></html>", DefaultUrl));
         }
 
-        private void view_TestCookieVisitorActivated(object sender, EventArgs e)
+        private void OnViewTestCookieVisitorActivated(object sender, EventArgs e)
         {
             Cef.VisitAllCookies(this);
         }
 
-        private void view_UrlActivated(object sender, string url)
+        private void OnViewUrlActivated(object sender, Uri url)
         {
             model.Load(url);
         }
 
-        private void view_BackActivated(object sender, EventArgs e)
+        private void OnViewBackActivated(object sender, EventArgs e)
         {
             model.Back();
         }
 
-        private void view_ForwardActivated(object sender, EventArgs e)
+        private void OnViewForwardActivated(object sender, EventArgs e)
         {
             model.Forward();
         }
-
-        #region IRequestHandler Members
 
         bool IRequestHandler.OnBeforeBrowse(IWebBrowser browser, IRequest request, NavigationType naigationvType, bool isRedirect)
         {
@@ -283,9 +277,9 @@ namespace CefSharp.Example
 
         }
 
-        bool IRequestHandler.GetDownloadHandler(IWebBrowser browser, string mimeType, string fileName, long contentLength, ref IDownloadHandler handler)
+        bool IRequestHandler.GetDownloadHandler(IWebBrowser browser, out IDownloadHandler handler)
         {
-            handler = new DownloadHandler(fileName);
+            handler = new DownloadHandler();
             return true;
         }
 
@@ -294,16 +288,10 @@ namespace CefSharp.Example
             return false;
         }
 
-        #endregion
-
-        #region ICookieVisitor Members
-
         bool ICookieVisitor.Visit(Cookie cookie, int count, int total, ref bool deleteCookie)
         {
             Console.WriteLine("Cookie #{0}: {1}", count, cookie.Name);
             return true;
         }
-
-        #endregion
     }
 }
