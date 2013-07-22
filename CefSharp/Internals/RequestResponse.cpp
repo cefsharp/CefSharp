@@ -7,40 +7,43 @@
 
 namespace CefSharp
 {
-    void RequestResponse::Cancel()
+    namespace Internals
     {
-        _action = ResponseAction::Cancel;
-    }
-
-    void RequestResponse::Redirect(String^ url)
-    {
-        _redirectUrl = url;
-        _action = ResponseAction::Redirect;
-    }
-
-    void RequestResponse::RespondWith(Stream^ stream, String^ mimeType)
-    {
-        RespondWith(stream, mimeType, "OK", 200, nullptr);
-    }
-
-    void RequestResponse::RespondWith(Stream^ stream, String^ mimeType, String^ statusText, int statusCode, IDictionary<String^, String^>^ responseHeaders)
-    {
-        if (String::IsNullOrEmpty(mimeType))
+        void RequestResponse::Cancel()
         {
-            throw gcnew ArgumentException("must provide a mime type", "mimeType");
+            _action = ResponseAction::Cancel;
         }
 
-        if (stream == nullptr)
+        void RequestResponse::Redirect(String^ url)
         {
-            throw gcnew ArgumentNullException("stream");
+            _redirectUrl = url;
+            _action = ResponseAction::Redirect;
         }
 
-        _responseStream = stream;
-        _mimeType = mimeType;
-        _statusText = statusText;
-        _statusCode = statusCode;
-        _responseHeaders = responseHeaders;
+        void RequestResponse::RespondWith(Stream^ stream, String^ mimeType)
+        {
+            RespondWith(stream, mimeType, "OK", 200, nullptr);
+        }
 
-        _action = ResponseAction::Respond;
+        void RequestResponse::RespondWith(Stream^ stream, String^ mimeType, String^ statusText, int statusCode, IDictionary<String^, String^>^ responseHeaders)
+        {
+            if (String::IsNullOrEmpty(mimeType))
+            {
+                throw gcnew ArgumentException("must provide a mime type", "mimeType");
+            }
+
+            if (stream == nullptr)
+            {
+                throw gcnew ArgumentNullException("stream");
+            }
+
+            _responseStream = stream;
+            _mimeType = mimeType;
+            _statusText = statusText;
+            _statusCode = statusCode;
+            _responseHeaders = responseHeaders;
+
+            _action = ResponseAction::Respond;
+        }
     }
 }
