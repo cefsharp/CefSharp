@@ -12,7 +12,6 @@ namespace CefSharp
 {
     public interface class IMenuHandler
     {
-    public:
-        bool OnBeforeMenu(IWebBrowser^ browser);
+        bool OnBeforeContextMenu(IWebBrowser^ browser);
     };
 }
