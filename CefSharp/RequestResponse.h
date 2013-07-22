@@ -21,7 +21,7 @@ namespace CefSharp
         Respond
     };
 
-    ref class RequestResponse : IRequestResponse
+    private ref class RequestResponse : IRequestResponse
     {
         IRequest^ _request;
         Stream^ _responseStream;
