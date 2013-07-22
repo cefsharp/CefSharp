@@ -31,12 +31,13 @@ namespace CefSharp.Example
         event EventHandler TestCookieVisitorActivated;
 
         // navigation
-        event Action<object, Uri> UrlActivated;
+        event Action<object, string> UrlActivated;
         event EventHandler BackActivated;
         event EventHandler ForwardActivated;
 
         void SetTitle(string title);
-        void SetUri(Uri uri);
+        void SetAddress(string address);
+        void SetAddress(Uri uri);
         void SetCanGoBack(bool can_go_back);
         void SetCanGoForward(bool can_go_forward);
         void SetIsLoading(bool is_loading);

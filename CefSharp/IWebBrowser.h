@@ -47,10 +47,8 @@ namespace CefSharp
 
         void OnInitialized();
 
-        // FIXME: Would like to get rid of this in favor of property-change notification on the Uri (which is already the way the
-        // WPF control works). Have to sync it with WinForms.
-        void Load(System::Uri^ url);
-
+        void Load(String^ adress);
+        void Load(::Uri^ uri);
         void LoadHtml(String^ html);
         void Stop();
         void Back();

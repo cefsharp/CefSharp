@@ -15,8 +15,8 @@ namespace CefSharp.Example
                 return;
             }
 
-            Cef.RegisterScheme("test", new SchemeHandlerFactory());
-            Cef.RegisterJsObject("bound", new BoundObject());
+                Cef.RegisterScheme("test", new SchemeHandlerFactory());
+                Cef.RegisterJsObject("bound", new BoundObject());
         }
 
         public static Uri DefaultUrl = new Uri("http://github.com/perlun/CefSharp");
@@ -99,7 +99,7 @@ namespace CefSharp.Example
                     break;
 
                 case "Uri":
-                    uiThreadInvoke(() => view.SetUri(model.Uri));
+                    uiThreadInvoke(() => view.SetAddress(model.Uri));
                     break;
 
                 case "CanGoBack":
@@ -239,9 +239,9 @@ namespace CefSharp.Example
             Cef.VisitAllCookies(this);
         }
 
-        private void OnViewUrlActivated(object sender, Uri url)
+        private void OnViewUrlActivated(object sender, string address)
         {
-            model.Load(url);
+            model.Load(address);
         }
 
         private void OnViewBackActivated(object sender, EventArgs e)

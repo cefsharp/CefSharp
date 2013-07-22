@@ -66,11 +66,11 @@ namespace CefSharp
             }
         }
 
-        void ClientAdapter::OnAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& url)
+        void ClientAdapter::OnAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& address)
         {
             if (frame->IsMain())
             {
-                _browserControl->Uri = gcnew Uri(StringUtils::ToClr(url));
+                _browserControl->Uri = gcnew Uri(StringUtils::ToClr(address));
             }
         }
 
