@@ -17,19 +17,21 @@ namespace CefSharp
 
         void RenderClientAdapterInternal::OnPopupSize(CefRefPtr<CefBrowser> browser, const CefRect& rect)
         {
-            _renderBrowserControl->SetPopupSizeAndPosition((void*) &rect);
+            _renderBrowserControl->SetPopupSizeAndPosition((IntPtr) (void*) &rect);
         }
 
         void RenderClientAdapterInternal::OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects,
             const void* buffer, int width, int height)
         {
+            auto intPtrBuffer = (IntPtr) (void *) buffer;
+
             if (type == PET_VIEW)
             {
-                _renderBrowserControl->SetBuffer(width, height, buffer);
+                _renderBrowserControl->SetBuffer(width, height, intPtrBuffer);
             }
             else if (type == PET_POPUP)
             {
-                _renderBrowserControl->SetPopupBuffer(width, height, buffer);
+                _renderBrowserControl->SetPopupBuffer(width, height, intPtrBuffer);
             }
         }
 

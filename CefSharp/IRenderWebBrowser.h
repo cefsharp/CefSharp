@@ -12,11 +12,11 @@ namespace CefSharp
     public interface class IRenderWebBrowser : IWebBrowser
     {
         void SetCursor(IntPtr cursor);
-        void SetBuffer(int width, int height, const void* buffer);
+        void SetBuffer(int width, int height, IntPtr buffer);
 
-        void SetPopupBuffer(int width, int height, const void* buffer);
+        void SetPopupBuffer(int width, int height, IntPtr buffer);
         void SetPopupIsOpen(bool isOpen);
 
-        void SetPopupSizeAndPosition(const void* rect);
+        void SetPopupSizeAndPosition(IntPtr rect);
     };
 }
