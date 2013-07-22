@@ -6,10 +6,13 @@
 
 #include "Stdafx.h"
 
+using namespace System::Runtime::InteropServices;
+
 namespace CefSharp
 {
     public interface class IDownloadHandler
     {
+        bool OnBeforeDownload(String^ suggestedName, [Out] String^% downloadPath, [Out] bool% showDialog);
         bool ReceivedData(array<Byte>^ data);
         void Complete();
     };
