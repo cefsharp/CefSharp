@@ -53,8 +53,7 @@ namespace CefSharp
             // CefRenderHandler
             virtual DECL bool GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) OVERRIDE
             {
-                // TODO: add a real implementation... :)
-                rect = CefRect(0, 0, _width, _height);
+                rect = CefRect(0, 0, _renderWebBrowser->Width, _renderWebBrowser->Height);
                 return true;
             }
 

@@ -25,7 +25,6 @@ namespace CefSharp.Wpf
         private RenderClientAdapter renderClientAdapter;
 
         private Image image;
-        private int width, height;
         private InteropBitmap interopBitmap;
         private InteropBitmap popupInteropBitmap;
 
@@ -51,6 +50,16 @@ namespace CefSharp.Wpf
         public int BytesPerPixel
         {
             get { return PixelFormats.Bgr32.BitsPerPixel / 8; }
+        }
+
+        int IRenderWebBrowser.Width
+        {
+            get { return (int) ActualWidth; }
+        }
+
+        int IRenderWebBrowser.Height
+        {
+            get { return (int) ActualWidth; }
         }
 
         public Uri Uri
@@ -106,10 +115,6 @@ namespace CefSharp.Wpf
             IsTabStop = true;
 
             sync = new Object();
-
-            // FIXME: Fix this to be done correctly.
-            width = 500;
-            height = 500;
 
             //_scriptCore = new ScriptCore();
             //_paintPopupDelegate = gcnew ActionHandler(this, &WebView::SetPopupBitmap);
@@ -502,9 +507,9 @@ namespace CefSharp.Wpf
                     image.Source = null;
                     GC.Collect(1);
 
-                    var stride = width * BytesPerPixel;
-                    var bitmap = (InteropBitmap) Imaging.CreateBitmapSourceFromMemorySection(FileMappingHandle, width, height,
-                        PixelFormats.Bgr32, stride, 0);
+                    var stride = (int) ActualWidth * BytesPerPixel;
+                    var bitmap = (InteropBitmap) Imaging.CreateBitmapSourceFromMemorySection(FileMappingHandle, (int) ActualWidth,
+                        (int) ActualHeight, PixelFormats.Bgr32, stride, 0);
                     image.Source = bitmap;
                     interopBitmap = bitmap;
                 }

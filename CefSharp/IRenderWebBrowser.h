@@ -15,6 +15,9 @@ namespace CefSharp
         property IntPtr PopupFileMappingHandle;
         property int BytesPerPixel { int get(); };
 
+        property int Width { int get(); };
+        property int Height { int get(); };
+
         void InvokeRenderAsync(Action^ callback);
 
         void SetCursor(IntPtr cursor);
