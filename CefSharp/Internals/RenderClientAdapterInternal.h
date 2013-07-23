@@ -85,16 +85,17 @@ namespace CefSharp
                 _renderWebBrowser->SetCursor((IntPtr) cursor);
             }
 
-            void WasResized()
+            CefRefPtr<CefBrowserHost> TryGetCefHost()
             {
                 if (this->GetCefBrowser() == nullptr ||
                     this->GetCefBrowser()->GetHost() == nullptr)
                 {
-                    return;
+                    return nullptr;
                 }
-
-                this->GetCefBrowser()->GetHost()->WasResized();
-
+                else
+                {
+                    return this->GetCefBrowser()->GetHost();
+                }
             }
 
         private:

@@ -42,7 +42,12 @@ namespace CefSharp
 
         void WasResized()
         {
-            _renderClientAdapterInternal->WasResized();
+            auto cefHost = _renderClientAdapterInternal->TryGetCefHost();
+
+            if (cefHost != nullptr)
+            {
+                cefHost->WasResized();
+            }
         }
     };
 }
