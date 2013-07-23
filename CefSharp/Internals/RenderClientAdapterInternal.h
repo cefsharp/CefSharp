@@ -16,7 +16,7 @@ namespace CefSharp
         using namespace System;
 
         private class RenderClientAdapterInternal : public ClientAdapter,
-                                                    public CefRenderHandler
+            public CefRenderHandler
         {
         private:
             gcroot<IRenderWebBrowser^> _renderBrowserControl;
@@ -41,11 +41,35 @@ namespace CefSharp
                 return true;
             }
 
-            virtual DECL void OnPopupShow(CefRefPtr<CefBrowser> browser, bool show) OVERRIDE;
-            virtual DECL void OnPopupSize(CefRefPtr<CefBrowser> browser,const CefRect& rect) OVERRIDE;
+            virtual DECL void OnPopupShow(CefRefPtr<CefBrowser> browser, bool show) OVERRIDE
+            {
+                _renderBrowserControl->SetPopupIsOpen(show);
+            }
+
+            virtual DECL void OnPopupSize(CefRefPtr<CefBrowser> browser, const CefRect& rect) OVERRIDE
+            {
+                _renderBrowserControl->SetPopupSizeAndPosition((IntPtr) (void*) &rect);
+            }
+
             virtual DECL void OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects,
-                const void* buffer, int width, int height) OVERRIDE;
-            virtual DECL void OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor) OVERRIDE;
+                const void* buffer, int width, int height) OVERRIDE
+            {
+                auto intPtrBuffer = (IntPtr) (void *) buffer;
+
+                if (type == PET_VIEW)
+                {
+                    _renderBrowserControl->SetBuffer(width, height, intPtrBuffer);
+                }
+                else if (type == PET_POPUP)
+                {
+                    _renderBrowserControl->SetPopupBuffer(width, height, intPtrBuffer);
+                }
+            }
+
+            virtual DECL void OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor) OVERRIDE
+            {
+                _renderBrowserControl->SetCursor((IntPtr) cursor);
+            }
 
             IMPLEMENT_REFCOUNTING(RenderClientAdapterInternal)
         };

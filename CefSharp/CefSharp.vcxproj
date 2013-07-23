@@ -126,7 +126,6 @@
     <ClCompile Include="Internals\ClientAdapter.cpp" />
     <ClCompile Include="Internals\CookieVisitor.cpp" />
     <ClCompile Include="Internals\CefRequestWrapper.cpp" />
-    <ClCompile Include="Internals\RenderClientAdapterInternal.cpp" />
     <ClCompile Include="Internals\RequestResponse.cpp" />
     <ClCompile Include="RtzCountdownEvent.cpp" />
     <ClCompile Include="SchemeHandler.cpp" />

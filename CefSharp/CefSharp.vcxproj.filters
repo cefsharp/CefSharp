@@ -47,9 +47,6 @@
     <ClCompile Include="Internals\CookieVisitor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Internals\RenderClientAdapterInternal.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Internals\ClientAdapter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
