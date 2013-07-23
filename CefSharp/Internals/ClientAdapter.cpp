@@ -74,18 +74,6 @@ namespace CefSharp
             }
         }
 
-        // TODO: How is this done with CEF3?
-        /*
-        void ClientAdapter::OnContentsSizeChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int width, int height)
-        {
-        if (frame->IsMain())
-        {
-        _browserControl->ContentsWidth = width;
-        _browserControl->ContentsHeight = height;
-        }
-        }
-        */
-
         void ClientAdapter::OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString& title)
         {
             _browserControl->Title = StringUtils::ToClr(title);

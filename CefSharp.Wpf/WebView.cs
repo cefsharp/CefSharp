@@ -37,8 +37,6 @@ namespace CefSharp.Wpf
         public ILifeSpanHandler LifeSpanHandler { get; set; }
         public string TooltipText { get; set; }
         public string Title { get; set; }
-        public int ContentsHeight { get; set; }
-        public int ContentsWidth { get; set; }
         public bool CanGoForward { get; private set; }
         public bool CanGoBack { get; private set; }
         public bool IsLoading { get; private set; }
