@@ -25,6 +25,8 @@ namespace CefSharp
             {
                 return gcnew Nullable<bool>(false);
             }
+
+            return nullptr;
         }
 
         cef_state_t CefStateFromBoolean(Nullable<bool>^ value)
@@ -41,6 +43,8 @@ namespace CefSharp
             {
                 return STATE_DISABLED;
             }
+
+            return STATE_DEFAULT;
         }
     }
 
