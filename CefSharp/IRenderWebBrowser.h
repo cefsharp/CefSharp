@@ -11,12 +11,18 @@ namespace CefSharp
 {
     public interface class IRenderWebBrowser : IWebBrowser
     {
+        property IntPtr FileMappingHandle;
+        property IntPtr PopupFileMappingHandle;
+        property int BytesPerPixel { int get(); };
+
+        void InvokeRenderAsync(Action^ callback);
+
         void SetCursor(IntPtr cursor);
-        void SetBuffer(int width, int height, IntPtr buffer);
 
-        void SetPopupBuffer(int width, int height, IntPtr buffer);
+        void SetBitmap();
+
+        void SetPopupBitmap();
         void SetPopupIsOpen(bool isOpen);
-
         void SetPopupSizeAndPosition(IntPtr rect);
     };
 }

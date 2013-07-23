@@ -85,11 +85,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CefSharp.Example\CefSharp.Example.csproj">
-      <Project>{a4394e7b-1155-43a6-989e-8ab72dddc9e4}</Project>
+      <Project>{A4394E7B-1155-43A6-989E-8AB72DDDC9E4}</Project>
       <Name>CefSharp.Example</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CefSharp.Wpf\CefSharp.Wpf.vcxproj">
-      <Project>{c944b6a6-7caf-4101-b81b-2de47296fc40}</Project>
+    <ProjectReference Include="..\CefSharp.Wpf\CefSharp.Wpf.csproj">
+      <Project>{E6CB3790-F267-4AC7-892C-2620737682CA}</Project>
       <Name>CefSharp.Wpf</Name>
     </ProjectReference>
     <ProjectReference Include="..\CefSharp\CefSharp.vcxproj">

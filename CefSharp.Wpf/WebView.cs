@@ -27,7 +27,7 @@ namespace CefSharp.Wpf
         private Image image;
         private int width, height;
         private InteropBitmap interopBitmap;
-        private IntPtr fileMappingHandle, backBufferHandle;
+        private InteropBitmap popupInteropBitmap;
 
         public IJsDialogHandler JsDialogHandler { get; set; }
         public IKeyboardHandler KeyboardHandler { get; set; }
@@ -47,6 +47,14 @@ namespace CefSharp.Wpf
         public event PropertyChangedEventHandler PropertyChanged;
         public event LoadCompletedEventHandler LoadCompleted;
 
+        public IntPtr FileMappingHandle { get; set; }
+        public IntPtr PopupFileMappingHandle { get; set; }
+
+        public int BytesPerPixel
+        {
+            get { return PixelFormats.Bgr32.BitsPerPixel / 8; }
+        }
+
         public Uri Uri
         {
             get { return (Uri) GetValue(UriProperty); }
@@ -59,8 +67,8 @@ namespace CefSharp.Wpf
                     Dispatcher.Invoke((Action) (() => Uri = value));
                     return;
                 }
-                
-                SetValue(UriProperty, value); 
+
+                SetValue(UriProperty, value);
             }
         }
 
@@ -100,6 +108,10 @@ namespace CefSharp.Wpf
             IsTabStop = true;
 
             sync = new Object();
+
+            // FIXME: Fix this to be done correctly.
+            width = 500;
+            height = 500;
 
             //_scriptCore = new ScriptCore();
             //_paintPopupDelegate = gcnew ActionHandler(this, &WebView::SetPopupBitmap);
@@ -147,6 +159,14 @@ namespace CefSharp.Wpf
             //_popupImage->Stretch = Stretch::None;
             //_popupImage->HorizontalAlignment = ::HorizontalAlignment::Left;
             //_popupImage->VerticalAlignment = ::VerticalAlignment::Top;
+        }
+
+        public void InvokeRenderAsync(Action callback)
+        {
+            if (!Dispatcher.HasShutdownStarted)
+            {
+                Dispatcher.BeginInvoke(DispatcherPriority.Render, callback);
+            }
         }
 
         private void OnBrowserCorePropertyChanged(Object sender, PropertyChangedEventArgs e)
@@ -440,90 +460,6 @@ namespace CefSharp.Wpf
             //}
         }
 
-        public void SetBuffer(int newWidth, int newHeight, IntPtr buffer)
-        {
-            lock (sync)
-            {
-                int currentWidth = width, currentHeight = height;
-                IntPtr newFileMappingHandle = fileMappingHandle, newBackBufferHandle = backBufferHandle;
-                InteropBitmap newInteropBitmap = interopBitmap;
-
-                SetBufferHelper(ref currentWidth, ref currentHeight, newWidth, newHeight, ref newFileMappingHandle,
-                    ref newBackBufferHandle, ref newInteropBitmap, SetBitmap, buffer);
-
-                interopBitmap = newInteropBitmap;
-                fileMappingHandle = newFileMappingHandle;
-                backBufferHandle = newBackBufferHandle;
-
-                width = currentWidth;
-                height = currentHeight;
-            }
-        }
-
-        private void SetBufferHelper(ref int currentWidth, ref int currentHeight, int width, int height,
-            ref IntPtr fileMappingHandle, ref IntPtr backBufferHandle, ref InteropBitmap ibitmap, Action paintDelegate,
-            IntPtr buffer)
-        {
-            //    if (!backBufferHandle || currentWidth != width || currentHeight != height)
-            //    {
-            //        ibitmap = nullptr;
-
-            //        if (backBufferHandle)
-            //        {
-            //            UnmapViewOfFile(backBufferHandle);
-            //            backBufferHandle = NULL;
-            //        }
-
-            //        if (fileMappingHandle)
-            //        {
-            //            CloseHandle(fileMappingHandle);
-            //            fileMappingHandle = NULL;
-            //        }
-
-            //        int pixels = width * height;
-            //        int bytes = pixels * PixelFormats::Bgr32.BitsPerPixel / 8;
-
-            //        fileMappingHandle = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, bytes, NULL);
-            //        if(!fileMappingHandle) 
-            //        {
-            //            return;
-            //        }
-
-            //        backBufferHandle = MapViewOfFile(fileMappingHandle, FILE_MAP_ALL_ACCESS, 0, 0, bytes);
-            //        if(!backBufferHandle) 
-            //        {
-            //            return;
-            //        }
-
-            //        currentWidth = width;
-            //        currentHeight = height;
-            //    }
-
-            //    int stride = width * PixelFormats::Bgr32.BitsPerPixel / 8;
-            //    CopyMemory(backBufferHandle, (void*) buffer, height * stride);
-
-            //    if(!Dispatcher->HasShutdownStarted) {
-            //        Dispatcher->BeginInvoke(DispatcherPriority::Render, paintDelegate);
-            //    }
-        }
-
-        public void SetPopupBuffer(int width, int height, IntPtr buffer)
-        {
-        //    int currentWidth = _popupImageWidth, currentHeight = _popupImageHeight;
-        //    HANDLE fileMappingHandle = _popupFileMappingHandle, backBufferHandle = _popupBackBufferHandle;
-        //    InteropBitmap^ ibitmap = _popupIbitmap;
-
-        //    SetBuffer(currentWidth, currentHeight, width, height, fileMappingHandle, backBufferHandle, ibitmap,
-        //        _paintPopupDelegate, buffer);
-
-        //    _popupIbitmap = ibitmap;
-        //    _popupFileMappingHandle = fileMappingHandle;
-        //    _popupBackBufferHandle = backBufferHandle;
-
-        //    _popupImageWidth = currentWidth;
-        //    _popupImageHeight = currentHeight;
-        }
-
         public void SetCursor(IntPtr handle)
         {
             Cursor = CursorInteropHelper.Create(new SafeFileHandle(handle, ownsHandle: false));
@@ -531,9 +467,9 @@ namespace CefSharp.Wpf
 
         public void SetPopupIsOpen(bool isOpen)
         {
-        //    if(!Dispatcher->HasShutdownStarted) {
-        //        Dispatcher->BeginInvoke(gcnew Action<bool>(this, &WebView::ShowHidePopup), DispatcherPriority::Render, isOpen);
-        //    }
+            //    if(!Dispatcher->HasShutdownStarted) {
+            //        Dispatcher->BeginInvoke(gcnew Action<bool>(this, &WebView::ShowHidePopup), DispatcherPriority::Render, isOpen);
+            //    }
         }
 
         public void SetPopupSizeAndPosition(IntPtr rect)
@@ -560,7 +496,7 @@ namespace CefSharp.Wpf
         //}
 
         public void SetBitmap()
-        {            
+        {
             lock (sync)
             {
                 if (interopBitmap == null)
@@ -568,8 +504,8 @@ namespace CefSharp.Wpf
                     image.Source = null;
                     GC.Collect(1);
 
-                    var stride = (width * PixelFormats.Bgr32.BitsPerPixel) / 8;
-                    var bitmap = (InteropBitmap) Imaging.CreateBitmapSourceFromMemorySection(fileMappingHandle, width, height,
+                    var stride = width * BytesPerPixel;
+                    var bitmap = (InteropBitmap) Imaging.CreateBitmapSourceFromMemorySection(FileMappingHandle, width, height,
                         PixelFormats.Bgr32, stride, 0);
                     image.Source = bitmap;
                     interopBitmap = bitmap;
@@ -577,6 +513,24 @@ namespace CefSharp.Wpf
 
                 interopBitmap.Invalidate();
             }
+        }
+
+        public void SetPopupBitmap()
+        {
+            throw new NotImplementedException();
+            //if(popupInteropBitmap == null) 
+            //{
+            //    _popupImage->Source = nullptr;
+            //    GC::Collect(1);
+
+            //    int stride = _popupImageWidth * PixelFormats::Bgr32.BitsPerPixel / 8;
+            //    bitmap = (InteropBitmap^)Interop::Imaging::CreateBitmapSourceFromMemorySection(
+            //        (IntPtr)_popupFileMappingHandle, _popupImageWidth, _popupImageHeight, PixelFormats::Bgr32, stride, 0);
+            //    _popupImage->Source = bitmap;
+            //    _popupIbitmap = bitmap;
+            //}
+
+            //bitmap->Invalidate();
         }
     }
 }

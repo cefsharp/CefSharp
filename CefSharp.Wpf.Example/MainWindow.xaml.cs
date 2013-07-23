@@ -1,8 +1,8 @@
-﻿using CefSharp.Example;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
+using CefSharp.Example;
 
 namespace CefSharp.Wpf.Example
 {
@@ -45,81 +45,40 @@ namespace CefSharp.Wpf.Example
         {
             InitializeComponent();
 
-            var presenter = new ExamplePresenter(web_view, this,
-                invoke => Dispatcher.BeginInvoke(invoke));
+            var presenter = new ExamplePresenter(webView, this, invoke => Dispatcher.BeginInvoke(invoke));
 
             handlers = new Dictionary<object, EventHandler>
             {
                 // file
-                { showDevToolsMenuItem, ShowDevToolsActivated},
-                { closeDevToolsMenuItem, CloseDevToolsActivated},
-                { exitMenuItem, ExitActivated },
+                {showDevToolsMenuItem, ShowDevToolsActivated},
+                {closeDevToolsMenuItem, CloseDevToolsActivated},
+                {exitMenuItem, ExitActivated},
 
                 // edit
-                { undoMenuItem, UndoActivated },
-                { redoMenuItem, RedoActivated },
-                { cutMenuItem, CutActivated },
-                { copyMenuItem, CopyActivated },
-                { pasteMenuItem, PasteActivated },
-                { deleteMenuItem, DeleteActivated },
-                { selectAllMenuItem, SelectAllActivated },
+                {undoMenuItem, UndoActivated},
+                {redoMenuItem, RedoActivated},
+                {cutMenuItem, CutActivated},
+                {copyMenuItem, CopyActivated},
+                {pasteMenuItem, PasteActivated},
+                {deleteMenuItem, DeleteActivated},
+                {selectAllMenuItem, SelectAllActivated},
 
                 // test
-                { testResourceLoadMenuItem, TestResourceLoadActivated },
-                { testSchemeLoadMenuItem, TestSchemeLoadActivated },
-                { testExecuteScriptMenuItem, TestExecuteScriptActivated },
-                { testEvaluateScriptMenuItem, TestEvaluateScriptActivated },
-                { testBindMenuItem, TestBindActivated },
-                { testConsoleMessageMenuItem, TestConsoleMessageActivated },
-                { testTooltipMenuItem, TestTooltipActivated },
-                { testPopupMenuItem, TestPopupActivated },
-                { testLoadStringMenuItem, TestLoadStringActivated },
-                { testCookieVisitorMenuItem, TestCookieVisitorActivated },
+                {testResourceLoadMenuItem, TestResourceLoadActivated},
+                {testSchemeLoadMenuItem, TestSchemeLoadActivated},
+                {testExecuteScriptMenuItem, TestExecuteScriptActivated},
+                {testEvaluateScriptMenuItem, TestEvaluateScriptActivated},
+                {testBindMenuItem, TestBindActivated},
+                {testConsoleMessageMenuItem, TestConsoleMessageActivated},
+                {testTooltipMenuItem, TestTooltipActivated},
+                {testPopupMenuItem, TestPopupActivated},
+                {testLoadStringMenuItem, TestLoadStringActivated},
+                {testCookieVisitorMenuItem, TestCookieVisitorActivated},
 
                 // navigation
-                { backButton, BackActivated },
-                { forwardButton, ForwardActivated },
+                {backButton, BackActivated},
+                {forwardButton, ForwardActivated},
             };
-        }
-
-        public void SetTitle(string title)
-        {
-            Title = title;
-        }
-
-        public void SetAddress(string address)
-        {
-            urlTextBox.Text = address;
-        }
-
-        public void SetCanGoBack(bool can_go_back)
-        {
-            backButton.IsEnabled = can_go_back;
-        }
-
-        public void SetCanGoForward(bool can_go_forward)
-        {
-            forwardButton.IsEnabled = can_go_forward;
-        }
-
-        public void SetIsLoading(bool is_loading)
-        {
-
-        }
-
-        public void ExecuteScript(string script)
-        {
-            web_view.ExecuteScript(script);
-        }
-
-        public object EvaluateScript(string script)
-        {
-            return web_view.EvaluateScript(script);
-        }
-
-        public void DisplayOutput(string output)
-        {
-            outputLabel.Content = output;
         }
 
         private void control_Activated(object sender, RoutedEventArgs e)
@@ -144,6 +103,51 @@ namespace CefSharp.Wpf.Example
             {
                 handler(this, urlTextBox.Text);
             }
+        }
+
+        public void SetTitle(string title)
+        {
+            Title = title;
+        }
+
+        public void SetAddress(string address)
+        {
+            urlTextBox.Text = address;
+        }
+
+        public void SetAddress(Uri uri)
+        {
+            urlTextBox.Text = uri.ToString();
+        }
+
+        public void SetCanGoBack(bool can_go_back)
+        {
+            backButton.IsEnabled = can_go_back;
+        }
+
+        public void SetCanGoForward(bool can_go_forward)
+        {
+            forwardButton.IsEnabled = can_go_forward;
+        }
+
+        public void SetIsLoading(bool is_loading)
+        {
+
+        }
+
+        public void ExecuteScript(string script)
+        {
+            webView.ExecuteScript(script);
+        }
+
+        public object EvaluateScript(string script)
+        {
+            return webView.EvaluateScript(script);
+        }
+
+        public void DisplayOutput(string output)
+        {
+            outputLabel.Content = output;
         }
     }
 }
