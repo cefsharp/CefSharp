@@ -59,7 +59,7 @@ namespace CefSharp.Wpf
 
         int IRenderWebBrowser.Height
         {
-            get { return (int) ActualWidth; }
+            get { return (int) ActualHeight; }
         }
 
         public Uri Uri
