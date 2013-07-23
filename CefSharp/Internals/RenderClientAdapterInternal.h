@@ -85,6 +85,18 @@ namespace CefSharp
                 _renderWebBrowser->SetCursor((IntPtr) cursor);
             }
 
+            void WasResized()
+            {
+                if (this->GetCefBrowser() == nullptr ||
+                    this->GetCefBrowser()->GetHost() == nullptr)
+                {
+                    return;
+                }
+
+                this->GetCefBrowser()->GetHost()->WasResized();
+
+            }
+
         private:
 
             void SetBuffer(int width, int height, const void* buffer)
@@ -119,6 +131,8 @@ namespace CefSharp
                     currentWidth != width ||
                     currentHeight != height)
                 {
+                    _renderWebBrowser->ClearBitmap();
+
                     if (backBufferHandle)
                     {
                         UnmapViewOfFile(backBufferHandle);

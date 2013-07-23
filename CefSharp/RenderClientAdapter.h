@@ -39,5 +39,10 @@ namespace CefSharp
             CefBrowserHost::CreateBrowser(window, _renderClientAdapterInternal, url,
                 *(CefBrowserSettings*) browserSettings->_internalBrowserSettings);
         }
+
+        void WasResized()
+        {
+            _renderClientAdapterInternal->WasResized();
+        }
     };
 }
