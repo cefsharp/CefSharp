@@ -250,6 +250,20 @@ namespace CefSharp.Wpf
             }
         }
 
+        protected override void OnGotFocus(RoutedEventArgs e)
+        {
+            renderClientAdapter.SendFocusEvent(true);
+
+            base.OnGotFocus(e);
+        }
+
+        protected override void OnLostFocus(RoutedEventArgs e)
+        {
+            renderClientAdapter.SendFocusEvent(false);
+
+            base.OnLostFocus(e);
+        }
+
         protected override void OnMouseMove(MouseEventArgs e)
         {
             var point = e.GetPosition(this);

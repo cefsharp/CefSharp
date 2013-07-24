@@ -51,6 +51,16 @@ namespace CefSharp
             }
         }
 
+        void SendFocusEvent(bool isFocused)
+        {
+            auto cefHost = _renderClientAdapterInternal->TryGetCefHost();
+
+            if (cefHost != nullptr)
+            {
+                cefHost->SendFocusEvent(isFocused);
+            }
+        }
+
         void OnMouseMove(int x, int y, bool mouseLeave)
         {
             auto cefHost = _renderClientAdapterInternal->TryGetCefHost();
