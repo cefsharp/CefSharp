@@ -196,11 +196,18 @@ namespace CefSharp.Wpf
 
         private void OnBrowserCorePropertyChanged(Object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName != "TooltipText")
+            if (e.PropertyName == "TooltipText")
             {
-                return;
+                HandleTooltipUpdate();
             }
+            else if (e.PropertyName == "Address")
+            {
+                Uri = browserCore.Address;
+            }
+        }
 
+        private void HandleTooltipUpdate()
+        {
             timer.Stop();
 
             if (String.IsNullOrEmpty(browserCore.TooltipText))
@@ -248,6 +255,7 @@ namespace CefSharp.Wpf
             var point = e.GetPosition(this);
             renderClientAdapter.OnMouseMove((int) point.X, (int) point.Y, mouseLeave: false);
         }
+
         protected override void OnMouseWheel(System.Windows.Input.MouseWheelEventArgs e)
         {
             base.OnMouseWheel(e);

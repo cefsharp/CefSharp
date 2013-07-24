@@ -91,7 +91,7 @@ namespace CefSharp.Wpf.Example
             }
         }
 
-        private void urlTextBox_KeyDown(object sender, KeyEventArgs e)
+        private void OnUrlTextBoxKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key != Key.Enter)
             {

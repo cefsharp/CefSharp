@@ -100,10 +100,13 @@
                 <Button Height="23"
                         Name="goStopButton"
                         Width="75"
-                        DockPanel.Dock="Right">Go</Button>
+                        DockPanel.Dock="Right"
+                        IsEnabled="False">Go</Button>
                 <TextBox Height="23"
                          Name="urlTextBox"
-                         KeyDown="urlTextBox_KeyDown" />
+                         KeyDown="OnUrlTextBoxKeyDown"
+                         Text="{Binding Uri, Mode=OneWay, ElementName=webView}"
+                         IsEnabled="False" />
             </DockPanel>
             <GroupBox VerticalAlignment="Top"
                       DockPanel.Dock="Top">
