@@ -480,6 +480,12 @@ namespace CefSharp.Wpf
 
         public void SetCursor(IntPtr handle)
         {
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.BeginInvoke((Action<IntPtr>) SetCursor, handle);
+                return;
+            }
+
             Cursor = CursorInteropHelper.Create(new SafeFileHandle(handle, ownsHandle: false));
         }
 
