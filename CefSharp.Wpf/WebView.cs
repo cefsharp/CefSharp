@@ -275,7 +275,7 @@ namespace CefSharp.Wpf
             Mouse.Capture(this);
         }
 
-        protected override void OnMouseUp(System.Windows.Input.MouseButtonEventArgs e)
+        protected override void OnMouseUp(MouseButtonEventArgs e)
         {
             OnMouseButton(e);
             Mouse.Capture(null);
