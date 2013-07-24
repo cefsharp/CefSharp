@@ -12,7 +12,6 @@ namespace CefSharp
 {
     public interface class ICookieVisitor
     {
-    public:
         bool Visit(Cookie^ cookie, int count, int total, bool%  deleteCookie);
     };
 }

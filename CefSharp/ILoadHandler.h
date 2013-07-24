@@ -11,7 +11,6 @@ namespace CefSharp
 {
     public interface class ILoadHandler
     {
-    public:
         bool OnLoadError(IWebBrowser^ browser, String^ url, int errorCode, String^ errorText);
     };
 }
