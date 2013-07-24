@@ -4,8 +4,8 @@
         xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
         xmlns:example="clr-namespace:CefSharp.Example;assembly=CefSharp.Example"
         Title="CefSharp.Wpf.Example"
-        Height="480"
-        Width="640">
+        Width="1024"
+        Height="768">
     <Grid>
         <TextBlock Text="CefSharp WPF Rocks!"
                    FontSize="72"
