@@ -136,7 +136,7 @@
                             Minimum="0"
                             Maximum="1"
                             TickFrequency="0.01"
-                            Value="0.50" />
+                            Value="0.90" />
                 </Grid>
             </GroupBox>
             <Label Name="outputLabel"
