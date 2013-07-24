@@ -2,20 +2,21 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
-using Microsoft.Win32.SafeHandles;
 
 namespace CefSharp.Wpf
 {
-    public class WebView : ContentControl, IRenderWebBrowser
+    public class WebView : ContentControl, IRenderWebBrowser, IDisposable
     {
         private readonly object sync;
         private HwndSource source;
@@ -234,6 +235,62 @@ namespace CefSharp.Wpf
             {
                 //source.AddHook(SourceHook);
             }
+        }
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            var point = e.GetPosition(this);
+            renderClientAdapter.OnMouseMove((int) point.X, (int) point.Y, mouseLeave: false);
+        }
+        protected override void OnMouseWheel(System.Windows.Input.MouseWheelEventArgs e)
+        {
+            base.OnMouseWheel(e);
+        }
+
+        protected override void OnMouseDown(MouseButtonEventArgs e)
+        {
+            Focus();
+            OnMouseButton(e);
+            Mouse.Capture(this);
+        }
+
+        protected override void OnMouseUp(System.Windows.Input.MouseButtonEventArgs e)
+        {
+            OnMouseButton(e);
+            Mouse.Capture(null);
+        }
+
+        protected override void OnMouseLeave(MouseEventArgs e)
+        {
+            renderClientAdapter.OnMouseMove(0, 0, mouseLeave: true);
+        }
+
+        private void OnMouseButton(MouseButtonEventArgs e)
+        {
+            MouseButtonType mouseButtonType;
+            
+            switch (e.ChangedButton)
+            {
+                case MouseButton.Left:
+                    mouseButtonType = MouseButtonType.Left;
+                    break;
+
+                case MouseButton.Middle:
+                    mouseButtonType = MouseButtonType.Middle;
+                    break;
+
+                case MouseButton.Right:
+                    mouseButtonType = MouseButtonType.Right;
+                    break;
+
+                default:
+                    return;
+            }
+
+            var mouseUp = (e.ButtonState == MouseButtonState.Released);
+
+            var point = e.GetPosition(this);
+            renderClientAdapter.OnMouseButton((int) point.X, (int) point.Y, mouseButtonType, mouseUp, e.ClickCount);
         }
 
         // TODO: Will likely have to be done in the C++ part.

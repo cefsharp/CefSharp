@@ -154,5 +154,8 @@
     <ClInclude Include="BrowserSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MouseButtonType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -160,6 +160,7 @@
     <ClInclude Include="IWebBrowser.h" />
     <ClInclude Include="Internals\RenderClientAdapterInternal.h" />
     <ClInclude Include="LoadCompletedEventArgs.h" />
+    <ClInclude Include="MouseButtonType.h" />
     <ClInclude Include="RenderClientAdapter.h" />
     <ClInclude Include="Internals\RequestResponse.h" />
     <ClInclude Include="RtzCountdownEvent.h" />

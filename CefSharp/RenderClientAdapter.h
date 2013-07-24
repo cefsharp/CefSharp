@@ -6,6 +6,7 @@
 
 #include "Stdafx.h"
 #include "BrowserSettings.h"
+#include "MouseButtonType.h"
 #include "IRenderWebBrowser.h"
 #include "Internals/RenderClientAdapterInternal.h"
 
@@ -47,6 +48,34 @@ namespace CefSharp
             if (cefHost != nullptr)
             {
                 cefHost->WasResized();
+            }
+        }
+
+        void OnMouseMove(int x, int y, bool mouseLeave)
+        {
+            auto cefHost = _renderClientAdapterInternal->TryGetCefHost();
+
+            if (cefHost != nullptr)
+            {
+                CefMouseEvent mouseEvent;
+                mouseEvent.x = x;
+                mouseEvent.y = y;
+
+                cefHost->SendMouseMoveEvent(mouseEvent, mouseLeave);
+            }
+        }
+
+        void OnMouseButton(int x, int y, MouseButtonType mouseButtonType, bool mouseUp, int clickCount)
+        {
+            auto cefHost = _renderClientAdapterInternal->TryGetCefHost();
+
+            if (cefHost != nullptr)
+            {
+                CefMouseEvent mouseEvent;
+                mouseEvent.x = x;
+                mouseEvent.y = y;
+
+                cefHost->SendMouseClickEvent(mouseEvent, (CefBrowserHost::MouseButtonType) mouseButtonType, mouseUp, clickCount);
             }
         }
     };
