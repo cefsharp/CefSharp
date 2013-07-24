@@ -164,6 +164,21 @@ namespace CefSharp.Wpf
             //_popupImage->VerticalAlignment = ::VerticalAlignment::Top;
         }
 
+        protected override Size ArrangeOverride(Size arrangeBounds)
+        {
+            var size = base.ArrangeOverride(arrangeBounds);
+            var newWidth = size.Width;
+            var newHeight = size.Height;
+
+            if (newWidth > 0 &&
+                newHeight > 0)
+            {
+                renderClientAdapter.WasResized();
+            }
+
+            return size;
+        }
+
         public void InvokeRenderAsync(Action callback)
         {
             if (!Dispatcher.HasShutdownStarted)
@@ -498,6 +513,14 @@ namespace CefSharp.Wpf
         //    _popup->VerticalOffset = _popupY;
         //}
 
+        public void ClearBitmap()
+        {
+            lock (sync)
+            {
+                interopBitmap = null;
+            }
+        }
+
         public void SetBitmap()
         {
             lock (sync)
@@ -508,6 +531,11 @@ namespace CefSharp.Wpf
                     GC.Collect(1);
 
                     var stride = (int) ActualWidth * BytesPerPixel;
+
+                    // TODO: Throws Access Denied exceptions sometimes like below. Could this be because
+                    // RenderClientAdapterInternal has closed the FileMappingHandle, because it gets called reentrantly? At first
+                    // glance, when looking at the list of threads, this should not be the case but I wouldn't bet on it...
+                    // "Additional information: Access is denied. (Exception from HRESULT: 0x80070005 (E_ACCESSDENIED))"
                     var bitmap = (InteropBitmap) Imaging.CreateBitmapSourceFromMemorySection(FileMappingHandle, (int) ActualWidth,
                         (int) ActualHeight, PixelFormats.Bgr32, stride, 0);
                     image.Source = bitmap;
