@@ -130,6 +130,12 @@ namespace CefSharp.Wpf
             //this->Unloaded += gcnew RoutedEventHandler(this, &WebView::OnUnloaded);	
         }
 
+        public void Dispose()
+        {
+            // TODO: This is crazy and essentially makes it only possible to ever have one WebView in an application...
+            Cef.Shutdown();
+        }
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -352,11 +358,6 @@ namespace CefSharp.Wpf
                 toolTip.Visibility = Visibility.Visible;
                 toolTip.IsOpen = true;
             }
-        }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
         }
 
         public void OnInitialized()
