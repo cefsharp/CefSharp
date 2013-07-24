@@ -256,9 +256,16 @@ namespace CefSharp.Wpf
             renderClientAdapter.OnMouseMove((int) point.X, (int) point.Y, mouseLeave: false);
         }
 
-        protected override void OnMouseWheel(System.Windows.Input.MouseWheelEventArgs e)
+        protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
-            base.OnMouseWheel(e);
+            var point = e.GetPosition(this);
+            
+            renderClientAdapter.OnMouseWheel(
+                (int) point.X,
+                (int) point.Y, 
+                deltaX: 0,
+                deltaY: e.Delta
+            );
         }
 
         protected override void OnMouseDown(MouseButtonEventArgs e)

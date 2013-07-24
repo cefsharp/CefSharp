@@ -78,5 +78,19 @@ namespace CefSharp
                 cefHost->SendMouseClickEvent(mouseEvent, (CefBrowserHost::MouseButtonType) mouseButtonType, mouseUp, clickCount);
             }
         }
+
+        void OnMouseWheel(int x, int y, int deltaX, int deltaY)
+        {
+            auto cefHost = _renderClientAdapterInternal->TryGetCefHost();
+
+            if (cefHost != nullptr)
+            {
+                CefMouseEvent mouseEvent;
+                mouseEvent.x = x;
+                mouseEvent.y = y;
+
+                cefHost->SendMouseWheelEvent(mouseEvent, deltaX, deltaY);
+            }
+        }
     };
 }
