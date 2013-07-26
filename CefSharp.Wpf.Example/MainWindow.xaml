@@ -11,7 +11,7 @@
                    FontWeight="Bold"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center" />
-        <DockPanel>
+        <DockPanel Name="MainDock">
             <Menu Height="22"
                   DockPanel.Dock="Top">
                 <MenuItem Header="File">
@@ -137,14 +137,14 @@
             </GroupBox>
             <Label Name="outputLabel"
                    DockPanel.Dock="Bottom" />
-            <cs:WebView x:Name="web_view"
+´            <!--<cs:WebView x:Name="web_view"
                         Opacity="{Binding ElementName=opacitySlider, Path=Value}">
                 <cs:WebView.LayoutTransform>
                     <TransformGroup>
                         <RotateTransform Angle="{Binding Value, ElementName=angleSlider}" />
                     </TransformGroup>
                 </cs:WebView.LayoutTransform>
-            </cs:WebView>
+            </cs:WebView>-->
         </DockPanel>
     </Grid>
 </Window>
