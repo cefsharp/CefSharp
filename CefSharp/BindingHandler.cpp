@@ -98,14 +98,14 @@ namespace CefSharp
             else if (conversionType == UInt64::typeid) return -1;
             return -1;
         }
+        else if (valueType->IsArray && (conversionType->IsArray || conversionType == Object::typeid))
+            return baseCost + 0;
         else if(valueType == String::typeid)
         {
             // String can be converted only to String
             if(conversionType == String::typeid) return baseCost + 0;
             return -1;
         }
-        else if (valueType->IsArray && (conversionType->IsArray || conversionType == Object::typeid))
-            return baseCost + 0;
         else
         {
             // No conversion available
@@ -125,7 +125,7 @@ namespace CefSharp
         Type^ targetType = Nullable::GetUnderlyingType(conversionType);
         if (targetType != nullptr) conversionType = targetType;
 
-        Type^ inType = value->GetType();
+                Type^ inType = value->GetType();
         if (inType == conversionType) return value;
 
         if (inType->IsArray) {
@@ -169,7 +169,7 @@ namespace CefSharp
 
         //TODO: cache for type info here
 
-        array<Object^>^ suppliedArguments = gcnew array<Object^>(arguments.size());
+        array<System::Object^>^ suppliedArguments = gcnew array<Object^>(arguments.size());
         try
         {
             for(int i = 0; i < suppliedArguments->Length; i++) 
@@ -266,6 +266,11 @@ namespace CefSharp
         return true;
     }
 
+    void BindingHandler::Bind(String^ name, Object^ obj, CefRefPtr<CefV8Value> window)
+    {
+        window->SetValue(toNative(name), Bind(obj, window), V8_PROPERTY_ATTRIBUTE_NONE);
+    }
+
     CefRefPtr<CefV8Value> BindingHandler::Bind(Object^ obj, CefRefPtr<CefV8Value> window)
     {
         IDictionary<Object^, unsigned long>^ $ = cache;
@@ -278,12 +283,12 @@ namespace CefSharp
             cacheLock->ExitReadLock();
         }
 
-        CefRefPtr<CefBase> userData = new BindingData(obj);
-        static CefRefPtr<CefV8Handler> handler = new BindingHandler();
+        CefRefPtr<BindingData> bindingData = new BindingData(obj);
+        CefRefPtr<CefBase> userData = static_cast<CefRefPtr<CefBase>>(bindingData);
         static CefRefPtr<CefV8Accessor> acc = new Accessor();
         CefRefPtr<CefV8Value> wrappedObject = window->CreateObject(acc);
+        static CefRefPtr<CefV8Handler> handler = static_cast<CefV8Handler*>(new BindingHandler());
         wrappedObject->SetUserData(userData);
-        //wrappedObject->AdjustExternallyAllocatedMemory(100 * 1024 * 1024); // TODO: need to find out size of obj!
 
         array<MemberInfo^>^ members = obj->GetType()->GetMembers(BindingFlags::Instance | BindingFlags::Public);
 
@@ -347,11 +352,6 @@ namespace CefSharp
         $[obj] = k;
         map4cache[k] = wrappedObject;
         return wrappedObject;
-    }
-
-    void BindingHandler::Bind(String^ name, Object^ obj, CefRefPtr<CefV8Value> window)
-    {
-        window->SetValue(toNative(name), Bind(obj, window), V8_PROPERTY_ATTRIBUTE_NONE);
     }
 
     bool Accessor::Get(const CefString& name,
