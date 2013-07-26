@@ -205,11 +205,19 @@ namespace CefSharp.Wpf
 
         IntPtr SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-
             handled = false;
 
             switch ((WM) message)
             {
+                case WM.CLOSE:
+                    if (renderClientAdapter != null)
+                    {
+                        renderClientAdapter.Close();
+                        renderClientAdapter.Dispose();
+                        renderClientAdapter = null;
+                    }
+                    break;
+
                 case WM.SYSCHAR:
                 case WM.SYSKEYDOWN:
                 case WM.SYSKEYUP:

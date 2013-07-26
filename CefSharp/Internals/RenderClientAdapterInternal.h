@@ -31,10 +31,10 @@ namespace CefSharp
         public:
             RenderClientAdapterInternal(IRenderWebBrowser^ offscreenBrowserControl) :
                 ClientAdapter(offscreenBrowserControl),
-            
+
                 // TODO: Get these from the IRenderWebBrowser instead of hardwiring.
                 _width(500), _height(500),
-                
+
                 _backBufferHandle(NULL),
                 _popupBackBufferHandle(NULL)
             {
@@ -45,7 +45,10 @@ namespace CefSharp
                 _setPopupBitmapDelegate = gcnew Action(offscreenBrowserControl, &IRenderWebBrowser::SetPopupBitmap);
             }
 
-            ~RenderClientAdapterInternal() { _renderWebBrowser = nullptr; }
+            ~RenderClientAdapterInternal()
+            {
+                _renderWebBrowser = nullptr;
+            }
 
             // CefClient
             virtual CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE { return this; }
@@ -53,8 +56,15 @@ namespace CefSharp
             // CefRenderHandler
             virtual DECL bool GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) OVERRIDE
             {
-                rect = CefRect(0, 0, _renderWebBrowser->Width, _renderWebBrowser->Height);
-                return true;
+                if ((IRenderWebBrowser^) _renderWebBrowser == nullptr)
+                {
+                    return false;
+                }
+                else
+                {
+                    rect = CefRect(0, 0, _renderWebBrowser->Width, _renderWebBrowser->Height);
+                    return true;
+                }
             }
 
             virtual DECL void OnPopupShow(CefRefPtr<CefBrowser> browser, bool show) OVERRIDE

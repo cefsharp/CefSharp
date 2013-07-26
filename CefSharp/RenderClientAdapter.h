@@ -41,6 +41,16 @@ namespace CefSharp
                 *(CefBrowserSettings*) browserSettings->_internalBrowserSettings);
         }
 
+        void Close()
+        {
+            auto cefHost = _renderClientAdapterInternal->TryGetCefHost();
+
+            if (cefHost != nullptr)
+            {
+                cefHost->CloseBrowser(true);
+            }
+        }
+
         void WasResized()
         {
             auto cefHost = _renderClientAdapterInternal->TryGetCefHost();
