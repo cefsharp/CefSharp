@@ -61,6 +61,34 @@ namespace CefSharp
             }
         }
 
+        bool SendKeyEvent(int message, int wParam, int lParam)
+        {
+            auto cefHost = _renderClientAdapterInternal->TryGetCefHost();
+
+            if (cefHost == nullptr)
+            {
+                return false;
+            }
+            else
+            {
+                CefKeyEvent keyEvent;
+                if (message == WM_CHAR)
+                    keyEvent.type = KEYEVENT_CHAR;
+                else if (message == WM_KEYDOWN || message == WM_SYSKEYDOWN)
+                    keyEvent.type = KEYEVENT_KEYDOWN;
+                else if (message == WM_KEYUP || message == WM_SYSKEYUP)
+                    keyEvent.type = KEYEVENT_KEYUP;
+
+                keyEvent.windows_key_code = keyEvent.native_key_code = wParam;
+                keyEvent.is_system_key = 
+                    message == WM_SYSKEYDOWN ||
+                    message == WM_SYSKEYUP ||
+                    message == WM_SYSCHAR;
+
+                cefHost->SendKeyEvent(keyEvent);
+            }
+        }
+
         void OnMouseMove(int x, int y, bool mouseLeave)
         {
             auto cefHost = _renderClientAdapterInternal->TryGetCefHost();

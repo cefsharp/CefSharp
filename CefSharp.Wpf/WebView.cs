@@ -20,6 +20,7 @@ namespace CefSharp.Wpf
     {
         private readonly object sync;
         private HwndSource source;
+        private HwndSourceHook sourceHook;
         private BrowserCore browserCore;
         private DispatcherTimer timer;
         private readonly ToolTip toolTip;
@@ -121,15 +122,21 @@ namespace CefSharp.Wpf
             //_paintPopupDelegate = gcnew ActionHandler(this, &WebView::SetPopupBitmap);
             //_resizePopupDelegate = gcnew ActionHandler(this, &WebView::SetPopupSizeAndPositionImpl);
 
+            Unloaded += OnUnloaded;
+
             ToolTip = toolTip = new ToolTip();
             toolTip.StaysOpen = true;
             toolTip.Visibility = Visibility.Collapsed;
             toolTip.Closed += OnTooltipClosed;
-
-            //this->Loaded +=	gcnew RoutedEventHandler(this, &WebView::OnLoaded);	
-            //this->Unloaded += gcnew RoutedEventHandler(this, &WebView::OnUnloaded);	
         }
 
+        public void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            RemoveSourceHook();
+        }
+
+        // TODO: IDisposable doesn't really work for this. We should probably use Dispatcher.ShutdownStarted() or something
+        // instead.
         public void Dispose()
         {
             // TODO: This is crazy and essentially makes it only possible to ever have one WebView in an application...
@@ -169,6 +176,60 @@ namespace CefSharp.Wpf
             //_popupImage->Stretch = Stretch::None;
             //_popupImage->HorizontalAlignment = ::HorizontalAlignment::Left;
             //_popupImage->VerticalAlignment = ::VerticalAlignment::Top;
+        }
+
+        void AddSourceHook()
+        {
+            if (source != null)
+            {
+                return;
+            }
+
+            source = (HwndSource) PresentationSource.FromVisual(this);
+
+            if (source != null)
+            {
+                sourceHook = SourceHook;
+                source.AddHook(sourceHook);
+            }
+        }
+
+        void RemoveSourceHook()
+        {
+            if (source != null &&
+                sourceHook != null)
+            {
+                source.RemoveHook(sourceHook);
+            }
+        }
+
+        IntPtr SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+
+            handled = false;
+
+            switch ((WM) message)
+            {
+                case WM.SYSCHAR:
+                case WM.SYSKEYDOWN:
+                case WM.SYSKEYUP:
+                case WM.KEYDOWN:
+                case WM.KEYUP:
+                case WM.CHAR:
+                    if (!IsFocused)
+                    {
+                        break;
+                    }
+
+                    if (renderClientAdapter.SendKeyEvent(message, wParam.ToInt32(), lParam.ToInt32()))
+                    {
+                        handled = true;
+                    }
+
+                    break;
+            }
+
+            return IntPtr.Zero;
         }
 
         protected override Size ArrangeOverride(Size arrangeBounds)
@@ -235,21 +296,6 @@ namespace CefSharp.Wpf
             toolTip.Placement = PlacementMode.Absolute;
         }
 
-        void AddSourceHook()
-        {
-            if (source != null)
-            {
-                return;
-            }
-
-            source = (HwndSource) PresentationSource.FromVisual(this);
-
-            if (source != null)
-            {
-                //source.AddHook(SourceHook);
-            }
-        }
-
         protected override void OnGotFocus(RoutedEventArgs e)
         {
             renderClientAdapter.SendFocusEvent(true);
@@ -273,10 +319,10 @@ namespace CefSharp.Wpf
         protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
             var point = e.GetPosition(this);
-            
+
             renderClientAdapter.OnMouseWheel(
                 (int) point.X,
-                (int) point.Y, 
+                (int) point.Y,
                 deltaX: 0,
                 deltaY: e.Delta
             );
@@ -303,7 +349,7 @@ namespace CefSharp.Wpf
         private void OnMouseButton(MouseButtonEventArgs e)
         {
             MouseButtonType mouseButtonType;
-            
+
             switch (e.ChangedButton)
             {
                 case MouseButton.Left:
