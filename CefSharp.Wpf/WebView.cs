@@ -16,7 +16,7 @@ using System.Windows.Threading;
 
 namespace CefSharp.Wpf
 {
-    public class WebView : ContentControl, IRenderWebBrowser, IDisposable
+    public class WebView : ContentControl, IRenderWebBrowser
     {
         private readonly object sync;
         private HwndSource source;
@@ -133,14 +133,6 @@ namespace CefSharp.Wpf
         public void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
         {
             RemoveSourceHook();
-        }
-
-        // TODO: IDisposable doesn't really work for this. We should probably use Dispatcher.ShutdownStarted() or something
-        // instead.
-        public void Dispose()
-        {
-            // TODO: This is crazy and essentially makes it only possible to ever have one WebView in an application...
-            Cef.Shutdown();
         }
 
         public override void OnApplyTemplate()
