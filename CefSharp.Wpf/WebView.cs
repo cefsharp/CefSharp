@@ -374,52 +374,6 @@ namespace CefSharp.Wpf
             renderClientAdapter.OnMouseButton((int) point.X, (int) point.Y, mouseButtonType, mouseUp, e.ClickCount);
         }
 
-        // TODO: Will likely have to be done in the C++ part.
-        //private IntPtr SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
-        //{
-        //    handled = false;
-
-        //    switch(message)
-        //    {
-        //    case WM_KEYDOWN:
-        //    case WM_KEYUP:
-        //    case WM_SYSKEYDOWN:
-        //    case WM_SYSKEYUP:
-        //    case WM_CHAR:
-        //    case WM_SYSCHAR:
-        //    case WM_IME_CHAR:
-        //        CefRefPtr<CefBrowser> browser;
-        //        if (!IsFocused ||
-        //            !TryGetCefBrowser(browser))
-        //        {
-        //            break;
-        //        }
-
-        //        CefBrowser::KeyType type;
-        //        if (message == WM_CHAR)
-        //            type = KT_CHAR;
-        //        else if (message == WM_KEYDOWN || message == WM_SYSKEYDOWN)
-        //            type = KT_KEYDOWN;
-        //        else if (message == WM_KEYUP || message == WM_SYSKEYUP)
-        //            type = KT_KEYUP;
-
-        //        CefKeyInfo keyInfo;
-        //        keyInfo.key =
-        //            wParam.ToInt32();
-        //        keyInfo.sysChar =
-        //            message == WM_SYSKEYDOWN ||
-        //            message == WM_SYSKEYUP ||
-        //            message == WM_SYSCHAR;
-        //        keyInfo.imeChar =
-        //            message == WM_IME_CHAR;
-
-        //        browser->SendKeyEvent(type, keyInfo, lParam.ToInt32());
-        //        handled = true;
-        //    }
-
-        //    return IntPtr.Zero;
-        //}
-
         private void SetTooltipText(String text)
         {
             if (String.IsNullOrEmpty(text))
