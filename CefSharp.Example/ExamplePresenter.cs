@@ -133,7 +133,13 @@ namespace CefSharp.Example
 
         private void OnViewExitActivated(object sender, EventArgs e)
         {
-            model.Dispose();
+            var disposableModel = model as IDisposable;
+
+            if (disposableModel != null)
+            {
+                disposableModel.Dispose();
+            }
+
             Cef.Shutdown();
             Environment.Exit(0);
         }
