@@ -21,7 +21,7 @@ namespace CefSharp
     interface class IKeyboardHandler;
     interface class IJsDialogHandler;
 
-    public interface class IWebBrowser : IDisposable, INotifyPropertyChanged
+    public interface class IWebBrowser : INotifyPropertyChanged
     {
     public:
         event ConsoleMessageEventHandler^ ConsoleMessage;
