@@ -16,7 +16,7 @@ namespace CefSharp
 
     namespace Internals
     {
-        private class RenderClientAdapterInternal : public ClientAdapter,
+        private class RenderClientAdapter : public ClientAdapter,
             public CefRenderHandler
         {
         private:
@@ -29,7 +29,7 @@ namespace CefSharp
             int BitmapWidth;
             int BitmapHeight;
 
-            RenderClientAdapterInternal(IRenderWebBrowser^ offscreenBrowserControl) :
+            RenderClientAdapter(IRenderWebBrowser^ offscreenBrowserControl) :
                 ClientAdapter(offscreenBrowserControl),
                 BitmapWidth(0), 
                 BitmapHeight(0),
@@ -43,7 +43,7 @@ namespace CefSharp
                 _setPopupBitmapDelegate = gcnew Action(offscreenBrowserControl, &IRenderWebBrowser::SetPopupBitmap);
             }
 
-            ~RenderClientAdapterInternal()
+            ~RenderClientAdapter()
             {
                 _renderWebBrowser = nullptr;
             }

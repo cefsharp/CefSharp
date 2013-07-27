@@ -8,41 +8,41 @@
 #include "BrowserSettings.h"
 #include "MouseButtonType.h"
 #include "IRenderWebBrowser.h"
-#include "Internals/RenderClientAdapterInternal.h"
+#include "Internals/RenderClientAdapter.h"
 
 using namespace CefSharp::Internals;
 
 namespace CefSharp
 {
-    public ref class RenderClientAdapter
+    public ref class CefBrowserWrapper
     {
     private:
-        RenderClientAdapterInternal* _renderClientAdapterInternal;
+        RenderClientAdapter* _renderClientAdapter;
 
     public:
         property Object^ BitmapLock
         {
-            Object^ get() { return _renderClientAdapterInternal->BitmapLock; }
+            Object^ get() { return _renderClientAdapter->BitmapLock; }
         }
 
         property int BitmapWidth
         {
-            int get() { return _renderClientAdapterInternal->BitmapWidth; }
+            int get() { return _renderClientAdapter->BitmapWidth; }
         }
 
         property int BitmapHeight
         {
-            int get() { return _renderClientAdapterInternal->BitmapHeight; }
+            int get() { return _renderClientAdapter->BitmapHeight; }
         }
 
-        RenderClientAdapter(IRenderWebBrowser^ offscreenBrowserControl)
+        CefBrowserWrapper(IRenderWebBrowser^ offscreenBrowserControl)
         {
-            _renderClientAdapterInternal = new RenderClientAdapterInternal(offscreenBrowserControl);
+            _renderClientAdapter = new RenderClientAdapter(offscreenBrowserControl);
         }
 
-        ~RenderClientAdapter()
+        ~CefBrowserWrapper()
         {
-            _renderClientAdapterInternal = nullptr;
+            _renderClientAdapter = nullptr;
         }
 
         void CreateOffscreenBrowser(BrowserSettings^ browserSettings, IntPtr^ sourceHandle, Uri^ uri)
@@ -52,13 +52,13 @@ namespace CefSharp
             window.SetAsOffScreen(hwnd);
             CefString url = StringUtils::ToNative(uri->ToString());
 
-            CefBrowserHost::CreateBrowser(window, _renderClientAdapterInternal, url,
+            CefBrowserHost::CreateBrowser(window, _renderClientAdapter, url,
                 *(CefBrowserSettings*) browserSettings->_internalBrowserSettings);
         }
 
         void Close()
         {
-            auto cefHost = _renderClientAdapterInternal->TryGetCefHost();
+            auto cefHost = _renderClientAdapter->TryGetCefHost();
 
             if (cefHost != nullptr)
             {
@@ -68,7 +68,7 @@ namespace CefSharp
 
         void WasResized()
         {
-            auto cefHost = _renderClientAdapterInternal->TryGetCefHost();
+            auto cefHost = _renderClientAdapter->TryGetCefHost();
 
             if (cefHost != nullptr)
             {
@@ -78,7 +78,7 @@ namespace CefSharp
 
         void SendFocusEvent(bool isFocused)
         {
-            auto cefHost = _renderClientAdapterInternal->TryGetCefHost();
+            auto cefHost = _renderClientAdapter->TryGetCefHost();
 
             if (cefHost != nullptr)
             {
@@ -88,7 +88,7 @@ namespace CefSharp
 
         bool SendKeyEvent(int message, int wParam, int lParam)
         {
-            auto cefHost = _renderClientAdapterInternal->TryGetCefHost();
+            auto cefHost = _renderClientAdapter->TryGetCefHost();
 
             if (cefHost == nullptr)
             {
@@ -116,7 +116,7 @@ namespace CefSharp
 
         void OnMouseMove(int x, int y, bool mouseLeave)
         {
-            auto cefHost = _renderClientAdapterInternal->TryGetCefHost();
+            auto cefHost = _renderClientAdapter->TryGetCefHost();
 
             if (cefHost != nullptr)
             {
@@ -130,7 +130,7 @@ namespace CefSharp
 
         void OnMouseButton(int x, int y, MouseButtonType mouseButtonType, bool mouseUp, int clickCount)
         {
-            auto cefHost = _renderClientAdapterInternal->TryGetCefHost();
+            auto cefHost = _renderClientAdapter->TryGetCefHost();
 
             if (cefHost != nullptr)
             {
@@ -144,7 +144,7 @@ namespace CefSharp
 
         void OnMouseWheel(int x, int y, int deltaX, int deltaY)
         {
-            auto cefHost = _renderClientAdapterInternal->TryGetCefHost();
+            auto cefHost = _renderClientAdapter->TryGetCefHost();
 
             if (cefHost != nullptr)
             {

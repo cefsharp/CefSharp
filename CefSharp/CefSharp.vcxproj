@@ -159,10 +159,10 @@
     <ClInclude Include="Internals\CefRequestWrapper.h" />
     <ClInclude Include="Internals\MCefRefPtr.h" />
     <ClInclude Include="IWebBrowser.h" />
-    <ClInclude Include="Internals\RenderClientAdapterInternal.h" />
+    <ClInclude Include="Internals\RenderClientAdapter.h" />
     <ClInclude Include="LoadCompletedEventArgs.h" />
     <ClInclude Include="MouseButtonType.h" />
-    <ClInclude Include="RenderClientAdapter.h" />
+    <ClInclude Include="CefBrowserWrapper.h" />
     <ClInclude Include="Internals\RequestResponse.h" />
     <ClInclude Include="RtzCountdownEvent.h" />
     <ClInclude Include="SchemeHandler.h" />

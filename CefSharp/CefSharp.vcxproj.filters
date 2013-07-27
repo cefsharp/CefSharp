@@ -124,12 +124,6 @@
     <ClInclude Include="IRequestHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Internals\RenderClientAdapterInternal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderClientAdapter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="LoadCompletedEventArgs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -158,6 +152,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ConsoleMessageEventArgs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\RenderClientAdapter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CefBrowserWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

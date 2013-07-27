@@ -23,7 +23,7 @@ namespace CefSharp.Wpf
         private BrowserCore browserCore;
         private DispatcherTimer timer;
         private readonly ToolTip toolTip;
-        private RenderClientAdapter renderClientAdapter;
+        private CefBrowserWrapper cefBrowserWrapper;
 
         private Image image;
         private InteropBitmap interopBitmap;
@@ -136,12 +136,12 @@ namespace CefSharp.Wpf
         {
             base.OnApplyTemplate();
 
-            renderClientAdapter = new RenderClientAdapter(this);
+            cefBrowserWrapper = new CefBrowserWrapper(this);
 
             AddSourceHook();
 
             // TODO: Make it possible to override the BrowserSettings using a dependency property.
-            renderClientAdapter.CreateOffscreenBrowser(new BrowserSettings(), source.Handle, Uri);
+            cefBrowserWrapper.CreateOffscreenBrowser(new BrowserSettings(), source.Handle, Uri);
 
             Content = image = new Image();
             RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.NearestNeighbor);
@@ -199,11 +199,11 @@ namespace CefSharp.Wpf
             switch ((WM) message)
             {
                 case WM.CLOSE:
-                    if (renderClientAdapter != null)
+                    if (cefBrowserWrapper != null)
                     {
-                        renderClientAdapter.Close();
-                        renderClientAdapter.Dispose();
-                        renderClientAdapter = null;
+                        cefBrowserWrapper.Close();
+                        cefBrowserWrapper.Dispose();
+                        cefBrowserWrapper = null;
                     }
                     break;
 
@@ -218,7 +218,7 @@ namespace CefSharp.Wpf
                         break;
                     }
 
-                    if (renderClientAdapter.SendKeyEvent(message, wParam.ToInt32(), lParam.ToInt32()))
+                    if (cefBrowserWrapper.SendKeyEvent(message, wParam.ToInt32(), lParam.ToInt32()))
                     {
                         handled = true;
                     }
@@ -238,7 +238,7 @@ namespace CefSharp.Wpf
             if (newWidth > 0 &&
                 newHeight > 0)
             {
-                renderClientAdapter.WasResized();
+                cefBrowserWrapper.WasResized();
             }
 
             return size;
@@ -295,14 +295,14 @@ namespace CefSharp.Wpf
 
         protected override void OnGotFocus(RoutedEventArgs e)
         {
-            renderClientAdapter.SendFocusEvent(true);
+            cefBrowserWrapper.SendFocusEvent(true);
 
             base.OnGotFocus(e);
         }
 
         protected override void OnLostFocus(RoutedEventArgs e)
         {
-            renderClientAdapter.SendFocusEvent(false);
+            cefBrowserWrapper.SendFocusEvent(false);
 
             base.OnLostFocus(e);
         }
@@ -310,14 +310,14 @@ namespace CefSharp.Wpf
         protected override void OnMouseMove(MouseEventArgs e)
         {
             var point = e.GetPosition(this);
-            renderClientAdapter.OnMouseMove((int) point.X, (int) point.Y, mouseLeave: false);
+            cefBrowserWrapper.OnMouseMove((int) point.X, (int) point.Y, mouseLeave: false);
         }
 
         protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
             var point = e.GetPosition(this);
 
-            renderClientAdapter.OnMouseWheel(
+            cefBrowserWrapper.OnMouseWheel(
                 (int) point.X,
                 (int) point.Y,
                 deltaX: 0,
@@ -340,7 +340,7 @@ namespace CefSharp.Wpf
 
         protected override void OnMouseLeave(MouseEventArgs e)
         {
-            renderClientAdapter.OnMouseMove(0, 0, mouseLeave: true);
+            cefBrowserWrapper.OnMouseMove(0, 0, mouseLeave: true);
         }
 
         private void OnMouseButton(MouseButtonEventArgs e)
@@ -368,7 +368,7 @@ namespace CefSharp.Wpf
             var mouseUp = (e.ButtonState == MouseButtonState.Released);
 
             var point = e.GetPosition(this);
-            renderClientAdapter.OnMouseButton((int) point.X, (int) point.Y, mouseButtonType, mouseUp, e.ClickCount);
+            cefBrowserWrapper.OnMouseButton((int) point.X, (int) point.Y, mouseButtonType, mouseUp, e.ClickCount);
         }
 
         private void SetTooltipText(String text)
@@ -612,17 +612,17 @@ namespace CefSharp.Wpf
         {
             var bitmap = interopBitmap;
 
-            lock (renderClientAdapter.BitmapLock)
+            lock (cefBrowserWrapper.BitmapLock)
             {
                 if (bitmap == null)
                 {
                     image.Source = null;
                     GC.Collect(1);
 
-                    var stride = renderClientAdapter.BitmapWidth * BytesPerPixel;
+                    var stride = cefBrowserWrapper.BitmapWidth * BytesPerPixel;
 
                     bitmap = (InteropBitmap) Imaging.CreateBitmapSourceFromMemorySection(FileMappingHandle,
-                        renderClientAdapter.BitmapWidth, renderClientAdapter.BitmapHeight, PixelFormats.Bgr32, stride, 0);
+                        cefBrowserWrapper.BitmapWidth, cefBrowserWrapper.BitmapHeight, PixelFormats.Bgr32, stride, 0);
                     image.Source = bitmap;
                     interopBitmap = bitmap;
                 }
