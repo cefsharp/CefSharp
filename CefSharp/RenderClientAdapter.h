@@ -20,6 +20,11 @@ namespace CefSharp
         RenderClientAdapterInternal* _renderClientAdapterInternal;
 
     public:
+        property Object^ BitmapLock
+        {
+            Object^ get() { return _renderClientAdapterInternal->BitmapLock; }
+        }
+
         RenderClientAdapter(IRenderWebBrowser^ offscreenBrowserControl)
         {
             _renderClientAdapterInternal = new RenderClientAdapterInternal(offscreenBrowserControl);

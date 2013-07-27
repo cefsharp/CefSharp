@@ -18,6 +18,7 @@ namespace CefSharp
         property int Width { int get(); };
         property int Height { int get(); };
 
+        void InvokeRender(Action^ callback);
         void InvokeRenderAsync(Action^ callback);
 
         void SetCursor(IntPtr cursor);
