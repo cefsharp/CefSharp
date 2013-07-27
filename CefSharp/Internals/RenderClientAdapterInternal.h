@@ -94,8 +94,8 @@ namespace CefSharp
 
             CefRefPtr<CefBrowserHost> TryGetCefHost()
             {
-                if (this->GetCefBrowser() == nullptr ||
-                    this->GetCefBrowser()->GetHost() == nullptr)
+                if (!this->GetCefBrowser().get() ||
+                    !this->GetCefBrowser()->GetHost().get())
                 {
                     return nullptr;
                 }
