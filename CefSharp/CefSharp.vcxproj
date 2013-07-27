@@ -166,7 +166,7 @@
     <ClInclude Include="Internals\RequestResponse.h" />
     <ClInclude Include="RtzCountdownEvent.h" />
     <ClInclude Include="SchemeHandler.h" />
-    <ClInclude Include="Settings.h" />
+    <ClInclude Include="CefSettings.h" />
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="Internals\StringUtils.h" />
     <ClInclude Include="Internals\StreamAdapter.h" />

@@ -12,7 +12,7 @@
 #include "Internals/CookieVisitor.h"
 #include "Internals/StringUtils.h"
 #include "CefBrowserWrapper.h"
-#include "Settings.h"
+#include "CefSettings.h"
 #include "SchemeHandler.h"
 
 using namespace System::Collections::Generic;
