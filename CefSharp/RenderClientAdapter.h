@@ -42,7 +42,7 @@ namespace CefSharp
 
         ~RenderClientAdapter()
         {
-            delete _renderClientAdapterInternal;
+            _renderClientAdapterInternal = nullptr;
         }
 
         void CreateOffscreenBrowser(BrowserSettings^ browserSettings, IntPtr^ sourceHandle, Uri^ uri)
