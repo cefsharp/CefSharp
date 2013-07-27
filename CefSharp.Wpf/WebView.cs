@@ -18,7 +18,6 @@ namespace CefSharp.Wpf
 {
     public class WebView : ContentControl, IRenderWebBrowser
     {
-        private readonly object sync;
         private HwndSource source;
         private HwndSourceHook sourceHook;
         private BrowserCore browserCore;
@@ -115,8 +114,6 @@ namespace CefSharp.Wpf
             Focusable = true;
             FocusVisualStyle = null;
             IsTabStop = true;
-
-            sync = new Object();
 
             //_scriptCore = new ScriptCore();
             //_paintPopupDelegate = gcnew ActionHandler(this, &WebView::SetPopupBitmap);
@@ -608,29 +605,24 @@ namespace CefSharp.Wpf
 
         public void ClearBitmap()
         {
-            lock (sync)
-            {
-                interopBitmap = null;
-            }
+            interopBitmap = null;
         }
 
         public void SetBitmap()
         {
-            lock (sync)
+            var bitmap = interopBitmap;
+
+            lock (renderClientAdapter.BitmapLock)
             {
-                if (interopBitmap == null)
+                if (bitmap == null)
                 {
                     image.Source = null;
                     GC.Collect(1);
 
-                    var stride = (int) ActualWidth * BytesPerPixel;
+                    var stride = renderClientAdapter.BitmapWidth * BytesPerPixel;
 
-                    // TODO: Throws Access Denied exceptions sometimes like below. Could this be because
-                    // RenderClientAdapterInternal has closed the FileMappingHandle, because it gets called reentrantly? At first
-                    // glance, when looking at the list of threads, this should not be the case but I wouldn't bet on it...
-                    // "Additional information: Access is denied. (Exception from HRESULT: 0x80070005 (E_ACCESSDENIED))"
-                    var bitmap = (InteropBitmap) Imaging.CreateBitmapSourceFromMemorySection(FileMappingHandle, (int) ActualWidth,
-                        (int) ActualHeight, PixelFormats.Bgr32, stride, 0);
+                    bitmap = (InteropBitmap) Imaging.CreateBitmapSourceFromMemorySection(FileMappingHandle,
+                        renderClientAdapter.BitmapWidth, renderClientAdapter.BitmapHeight, PixelFormats.Bgr32, stride, 0);
                     image.Source = bitmap;
                     interopBitmap = bitmap;
                 }

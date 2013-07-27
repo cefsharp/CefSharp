@@ -23,15 +23,16 @@ namespace CefSharp
             gcroot<IRenderWebBrowser^> _renderWebBrowser;
             gcroot<Action^> _setBitmapDelegate, _setPopupBitmapDelegate;
             HANDLE _backBufferHandle, _popupBackBufferHandle;
-            int _width, _height;
 
         public:
             gcroot<Object^> BitmapLock;
+            int BitmapWidth;
+            int BitmapHeight;
 
             RenderClientAdapterInternal(IRenderWebBrowser^ offscreenBrowserControl) :
                 ClientAdapter(offscreenBrowserControl),
-                _width(0), 
-                _height(0),
+                BitmapWidth(0), 
+                BitmapHeight(0),
                 _backBufferHandle(NULL),
                 _popupBackBufferHandle(NULL),
                 _renderWebBrowser(offscreenBrowserControl)
@@ -107,21 +108,21 @@ namespace CefSharp
 
         private:
 
-            void SetBuffer(int width, int height, const void* buffer)
+            void SetBuffer(int newWidth, int newHeight, const void* buffer)
             {
                 lock l(BitmapLock);
 
-                int currentWidth = _width, currentHeight = _height;
+                int currentWidth = BitmapWidth, currentHeight = BitmapHeight;
                 auto fileMappingHandle = (HANDLE) _renderWebBrowser->FileMappingHandle, backBufferHandle = _backBufferHandle;
 
-                SetBufferHelper(currentWidth, currentHeight, width, height, fileMappingHandle, backBufferHandle, buffer);
+                SetBufferHelper(currentWidth, currentHeight, newWidth, newHeight, fileMappingHandle, backBufferHandle, buffer);
 
                 _renderWebBrowser->FileMappingHandle = (IntPtr) fileMappingHandle;
                 _backBufferHandle = backBufferHandle;
 
-                _width = currentWidth;
-                _height = currentHeight;
-                
+                BitmapWidth = currentWidth;
+                BitmapHeight = currentHeight;
+
                 _renderWebBrowser->InvokeRenderAsync(_setBitmapDelegate);
             }
 

@@ -25,6 +25,16 @@ namespace CefSharp
             Object^ get() { return _renderClientAdapterInternal->BitmapLock; }
         }
 
+        property int BitmapWidth
+        {
+            int get() { return _renderClientAdapterInternal->BitmapWidth; }
+        }
+
+        property int BitmapHeight
+        {
+            int get() { return _renderClientAdapterInternal->BitmapHeight; }
+        }
+
         RenderClientAdapter(IRenderWebBrowser^ offscreenBrowserControl)
         {
             _renderClientAdapterInternal = new RenderClientAdapterInternal(offscreenBrowserControl);
