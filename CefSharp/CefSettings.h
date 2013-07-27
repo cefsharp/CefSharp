@@ -2,8 +2,9 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-#include "Stdafx.h"
 #pragma once
+
+#include "Stdafx.h"
 
 using namespace System;
 using namespace CefSharp::Internals;
@@ -20,10 +21,10 @@ namespace CefSharp
         Disable = LOGSEVERITY_DISABLE,
     };
 
-    public ref class Settings
+    public ref class CefSettings
     {
     internal:
-        CefSettings* _cefSettings;
+        ::CefSettings* _cefSettings;
 
         property bool MultiThreadedMessageLoop
         {
@@ -36,13 +37,13 @@ namespace CefSharp
         }
 
     public:
-        Settings() : _cefSettings(new CefSettings())
+        CefSettings() : _cefSettings(new ::CefSettings())
         {
             MultiThreadedMessageLoop = true;
         }
 
-        !Settings() { delete _cefSettings; }
-        ~Settings() { delete _cefSettings; }
+        !CefSettings() { delete _cefSettings; }
+        ~CefSettings() { delete _cefSettings; }
 
         property String^ CachePath
         {

@@ -95,11 +95,11 @@ namespace CefSharp
 
         static bool Initialize()
         {
-            auto settings = gcnew Settings();
-            return Initialize(settings);
+            auto cefSettings = gcnew CefSettings();
+            return Initialize(cefSettings);
         }
 
-        static bool Initialize(Settings^ settings)
+        static bool Initialize(CefSettings^ cefSettings)
         {
             bool success = false;
 
@@ -119,7 +119,7 @@ namespace CefSharp
                         "recompiling CefSharp). Error code was: " + exitCode);
                 }
 
-                success = CefInitialize(main_args, *(settings->_cefSettings), app.get());
+                success = CefInitialize(main_args, *(cefSettings->_cefSettings), app.get());
                 _initialized = success;
             }
 
