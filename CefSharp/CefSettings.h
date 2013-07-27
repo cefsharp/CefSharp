@@ -87,6 +87,12 @@ namespace CefSharp
             void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->product_version, value); }
         }
 
+        property int RemoteDebuggingPort
+        {
+            int get() { return _cefSettings->remote_debugging_port; }
+            void set(int value) { _cefSettings->remote_debugging_port = value; }
+        }
+
         property String^ UserAgent
         {
             String^ get() { return StringUtils::ToClr(_cefSettings->user_agent); }
