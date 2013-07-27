@@ -51,22 +51,16 @@ namespace CefSharp
             void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->cache_path, value); }
         }
 
-        property String^ UserAgent
-        {
-            String^ get() { return StringUtils::ToClr(_cefSettings->user_agent); }
-            void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->user_agent, value); }
-        }
-
-        property String^ ProductVersion
-        {
-            String^ get() { return StringUtils::ToClr(_cefSettings->product_version); }
-            void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->product_version, value); }
-        }
-
         property String^ Locale
         {
             String^ get() { return StringUtils::ToClr(_cefSettings->locale); }
             void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->locale, value); }
+        }
+
+        property String^ LocalesDirPath
+        {
+            String^ get() { return StringUtils::ToClr(_cefSettings->locales_dir_path); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->locales_dir_path, value); }
         }
 
         property String^ LogFile
@@ -81,16 +75,22 @@ namespace CefSharp
             void set(CefSharp::LogSeverity value) { _cefSettings->log_severity = static_cast<cef_log_severity_t>(value); }
         }
 
-        property String^ LocalesDirPath
-        {
-            String^ get() { return StringUtils::ToClr(_cefSettings->locales_dir_path); }
-            void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->locales_dir_path, value); }
-        }
-
         property bool PackLoadingDisabled
         {
             bool get() { return _cefSettings->pack_loading_disabled; }
             void set(bool value) { _cefSettings->pack_loading_disabled = value; }
+        }
+
+        property String^ ProductVersion
+        {
+            String^ get() { return StringUtils::ToClr(_cefSettings->product_version); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->product_version, value); }
+        }
+
+        property String^ UserAgent
+        {
+            String^ get() { return StringUtils::ToClr(_cefSettings->user_agent); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->user_agent, value); }
         }
     };
 }
