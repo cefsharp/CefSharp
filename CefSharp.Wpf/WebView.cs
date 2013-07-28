@@ -302,7 +302,10 @@ namespace CefSharp.Wpf
 
         protected override void OnLostFocus(RoutedEventArgs e)
         {
+            if (cefBrowserWrapper != null)
+            {
             cefBrowserWrapper.SendFocusEvent(false);
+            }
 
             base.OnLostFocus(e);
         }
