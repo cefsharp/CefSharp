@@ -35,6 +35,23 @@ namespace CefSharp
             int get() { return _renderClientAdapter->BitmapHeight; }
         }
 
+        property String^ DevToolsUrl
+        {
+            String^ get()
+            {
+                auto cefHost = _renderClientAdapter->TryGetCefHost();
+
+                if (cefHost != nullptr)
+                {
+                    return StringUtils::ToClr(cefHost->GetDevToolsURL(true));
+                }
+                else
+                {
+                    return nullptr;
+                }
+            }
+        }
+
         CefBrowserWrapper(IRenderWebBrowser^ offscreenBrowserControl)
         {
             _renderClientAdapter = new RenderClientAdapter(offscreenBrowserControl);

@@ -304,7 +304,7 @@ namespace CefSharp.Wpf
         {
             if (cefBrowserWrapper != null)
             {
-            cefBrowserWrapper.SendFocusEvent(false);
+                cefBrowserWrapper.SendFocusEvent(false);
             }
 
             base.OnLostFocus(e);
@@ -441,6 +441,7 @@ namespace CefSharp.Wpf
 
         public void ShowDevTools()
         {
+            var devToolsUrl = cefBrowserWrapper.DevToolsUrl;
             throw new NotImplementedException();
         }
 
