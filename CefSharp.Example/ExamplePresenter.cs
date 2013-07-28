@@ -10,13 +10,18 @@ namespace CefSharp.Example
     {
         public static void Init()
         {
-            if (!Cef.Initialize())
+            var settings = new CefSettings
+            {
+                RemoteDebuggingPort = 8088
+            };
+
+            if (!Cef.Initialize(settings))
             {
                 return;
             }
 
-                Cef.RegisterScheme("test", new SchemeHandlerFactory());
-                Cef.RegisterJsObject("bound", new BoundObject());
+            Cef.RegisterScheme("test", new SchemeHandlerFactory());
+            Cef.RegisterJsObject("bound", new BoundObject());
         }
 
         public static string DefaultUrl = "http://github.com/perlun/CefSharp";
