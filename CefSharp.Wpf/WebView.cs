@@ -24,6 +24,7 @@ namespace CefSharp.Wpf
         private DispatcherTimer timer;
         private readonly ToolTip toolTip;
         private CefBrowserWrapper cefBrowserWrapper;
+        private bool isOffscreenBrowserCreated;
 
         private Image image;
         private InteropBitmap interopBitmap;
@@ -107,6 +108,12 @@ namespace CefSharp.Wpf
             }
 
             webView.browserCore.Address = webView.Uri;
+
+            if (!webView.isOffscreenBrowserCreated &&
+                webView.source != null)
+            {
+                webView.CreateOffscreenBrowser();
+            }
         }
 
         public WebView()
@@ -140,8 +147,10 @@ namespace CefSharp.Wpf
 
             AddSourceHook();
 
-            // TODO: Make it possible to override the BrowserSettings using a dependency property.
-            cefBrowserWrapper.CreateOffscreenBrowser(new BrowserSettings(), source.Handle, Uri);
+            if (Uri != null)
+            {
+                CreateOffscreenBrowser();
+            }
 
             Content = image = new Image();
             RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.NearestNeighbor);
@@ -165,6 +174,13 @@ namespace CefSharp.Wpf
             //_popupImage->Stretch = Stretch::None;
             //_popupImage->HorizontalAlignment = ::HorizontalAlignment::Left;
             //_popupImage->VerticalAlignment = ::VerticalAlignment::Top;
+        }
+
+        private void CreateOffscreenBrowser()
+        {
+            // TODO: Make it possible to override the BrowserSettings using a dependency property.
+            cefBrowserWrapper.CreateOffscreenBrowser(new BrowserSettings(), source.Handle, Uri);
+            isOffscreenBrowserCreated = true;
         }
 
         void AddSourceHook()
