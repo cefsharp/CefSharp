@@ -19,7 +19,7 @@ namespace CefSharp.Example
                 Cef.RegisterJsObject("bound", new BoundObject());
         }
 
-        public static Uri DefaultUrl = new Uri("http://github.com/perlun/CefSharp");
+        public static string DefaultUrl = "http://github.com/perlun/CefSharp";
         private static readonly Uri resource_url = new Uri("http://test/resource/load");
         private static readonly Uri scheme_url = new Uri("test://test/SchemeTest.html");
         private static readonly Uri bind_url = new Uri("test://test/BindingTest.html");

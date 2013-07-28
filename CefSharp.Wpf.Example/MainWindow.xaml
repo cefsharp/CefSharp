@@ -6,14 +6,8 @@
         Title="CefSharp.Wpf.Example"
         Width="1024"
         Height="768">
-    <Grid>
-        <TextBlock Text="CefSharp WPF Rocks!"
-                   FontSize="72"
-                   FontWeight="Bold"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center" />
-        <DockPanel>
-            <Menu Height="22"
+    <ContentControl x:Name="Content" />
+    <!--<Menu Height="22"
                   DockPanel.Dock="Top">
                 <MenuItem Header="File">
                     <MenuItem Header="Show Dev Tools"
@@ -83,73 +77,5 @@
                               Name="testCookieVisitorMenuItem"
                               Click="control_Activated" />
                 </MenuItem>
-            </Menu>
-            <DockPanel VerticalAlignment="Top"
-                       DockPanel.Dock="Top">
-                <Button Height="23"
-                        Name="backButton"
-                        Width="75"
-                        IsEnabled="False"
-                        Click="control_Activated">Back</Button>
-                <Button Height="23"
-                        Name="forwardButton"
-                        Width="75"
-                        IsEnabled="False"
-                        Click="control_Activated">Forward</Button>
-
-                <Button Height="23"
-                        Name="goStopButton"
-                        Width="75"
-                        DockPanel.Dock="Right"
-                        IsEnabled="False">Go</Button>
-                <TextBox Height="23"
-                         Name="urlTextBox"
-                         KeyDown="OnUrlTextBoxKeyDown"
-                         Text="{Binding Uri, Mode=OneWay, ElementName=webView}"
-                         IsEnabled="False" />
-            </DockPanel>
-            <GroupBox VerticalAlignment="Top"
-                      DockPanel.Dock="Top">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Label Grid.Row="0"
-                           Grid.Column="0"
-                           Content="Angle:" />
-                    <Slider Grid.Row="0"
-                            Grid.Column="1"
-                            Name="angleSlider"
-                            Minimum="-180"
-                            Maximum="180" />
-                    <Label Grid.Row="1"
-                           Grid.Column="0"
-                           Content="Opacity:" />
-                    <Slider Grid.Row="1"
-                            Grid.Column="1"
-                            Name="opacitySlider"
-                            Minimum="0"
-                            Maximum="1"
-                            TickFrequency="0.01"
-                            Value="0.90" />
-                </Grid>
-            </GroupBox>
-            <Label Name="outputLabel"
-                   DockPanel.Dock="Bottom" />
-            <cefSharp:WebView x:Name="webView"
-                              Opacity="{Binding ElementName=opacitySlider, Path=Value}"
-                              Uri="{x:Static example:ExamplePresenter.DefaultUrl}">
-                <FrameworkElement.LayoutTransform>
-                    <TransformGroup>
-                        <RotateTransform Angle="{Binding Value, ElementName=angleSlider}" />
-                    </TransformGroup>
-                </FrameworkElement.LayoutTransform>
-            </cefSharp:WebView>
-        </DockPanel>
-    </Grid>
+            </Menu>-->
 </Window>
