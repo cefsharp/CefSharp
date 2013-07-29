@@ -27,6 +27,8 @@ namespace CefSharp.Wpf.Example.Mvvm
                 return false;
             }
 
+            field = value;
+
             var vmExpression = body.Expression as ConstantExpression;
             if (vmExpression != null)
             {
@@ -40,7 +42,6 @@ namespace CefSharp.Wpf.Example.Mvvm
                 }
             }
 
-            field = value;
             return true;
         }
     }
