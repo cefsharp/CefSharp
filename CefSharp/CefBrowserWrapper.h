@@ -128,6 +128,7 @@ namespace CefSharp
                     message == WM_SYSCHAR;
 
                 cefHost->SendKeyEvent(keyEvent);
+                return true;
             }
         }
 
