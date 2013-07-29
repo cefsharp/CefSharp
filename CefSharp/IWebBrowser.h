@@ -31,7 +31,7 @@ namespace CefSharp
         property bool CanGoBack { bool get(); }
         property bool CanGoForward { bool get(); }
 
-        property Uri^ Uri;
+        property String^ Address;
         property String^ Title;
         property String^ TooltipText;
 
@@ -44,8 +44,7 @@ namespace CefSharp
 
         void OnInitialized();
 
-        void Load(String^ adress);
-        void Load(::Uri^ uri);
+        void SetAddress(String^ address);
         void LoadHtml(String^ html);
         void Stop();
         void Back();

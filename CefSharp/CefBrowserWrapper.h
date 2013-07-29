@@ -62,14 +62,14 @@ namespace CefSharp
             _renderClientAdapter = nullptr;
         }
 
-        void CreateOffscreenBrowser(BrowserSettings^ browserSettings, IntPtr^ sourceHandle, Uri^ uri)
+        void CreateOffscreenBrowser(BrowserSettings^ browserSettings, IntPtr^ sourceHandle, String^ address)
         {
             HWND hwnd = static_cast<HWND>(sourceHandle->ToPointer());
             CefWindowInfo window;
             window.SetAsOffScreen(hwnd);
-            CefString url = StringUtils::ToNative(uri->ToString());
+            CefString addressNative = StringUtils::ToNative(address);
 
-            CefBrowserHost::CreateBrowser(window, _renderClientAdapter, url,
+            CefBrowserHost::CreateBrowser(window, _renderClientAdapter, addressNative,
                 *(CefBrowserSettings*) browserSettings->_internalBrowserSettings);
         }
 

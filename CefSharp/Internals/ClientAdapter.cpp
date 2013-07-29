@@ -70,7 +70,7 @@ namespace CefSharp
         {
             if (frame->IsMain())
             {
-                _browserControl->Uri = gcnew Uri(StringUtils::ToClr(address));
+                _browserControl->SetAddress(StringUtils::ToClr(address));
             }
         }
 
