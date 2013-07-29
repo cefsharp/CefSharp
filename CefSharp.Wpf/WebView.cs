@@ -132,11 +132,33 @@ namespace CefSharp.Wpf
             toolTip.StaysOpen = true;
             toolTip.Visibility = Visibility.Collapsed;
             toolTip.Closed += OnTooltipClosed;
+
+            Application.Current.Exit += OnApplicationExit;
+        }
+
+        private void OnApplicationExit(object sender, ExitEventArgs e)
+        {
+            ShutdownCefBrowserWrapper();
         }
 
         public void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
         {
+            // TODO: Will this really work correctly in a TabControl-based approach? (where we might get Loaded and Unloaded
+            // multiple times)
             RemoveSourceHook();
+            ShutdownCefBrowserWrapper();
+        }
+
+        private void ShutdownCefBrowserWrapper()
+        {
+            if (cefBrowserWrapper == null)
+            {
+                return;
+            }
+
+            cefBrowserWrapper.Close();
+            cefBrowserWrapper.Dispose();
+            cefBrowserWrapper = null;
         }
 
         public override void OnApplyTemplate()
@@ -214,15 +236,6 @@ namespace CefSharp.Wpf
 
             switch ((WM) message)
             {
-                case WM.CLOSE:
-                    if (cefBrowserWrapper != null)
-                    {
-                        cefBrowserWrapper.Close();
-                        cefBrowserWrapper.Dispose();
-                        cefBrowserWrapper = null;
-                    }
-                    break;
-
                 case WM.SYSCHAR:
                 case WM.SYSKEYDOWN:
                 case WM.SYSKEYUP:

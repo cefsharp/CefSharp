@@ -4,11 +4,6 @@
     public enum WM : uint
     {
         /// <summary>
-        /// The WM_CLOSE message is sent as a signal that a window or an application should terminate.
-        /// </summary>
-        CLOSE = 0x0010,
-
-        /// <summary>
         /// The WM_KEYDOWN message is posted to the window with the keyboard focus when a nonsystem key is pressed. A nonsystem
         /// key is a key that is pressed when the ALT key is not pressed.
         /// </summary>
