@@ -272,6 +272,14 @@ namespace CefSharp.Wpf
                         break;
                     }
 
+                    if (message == (int) WM.SYSKEYDOWN &&
+                        wParam.ToInt32() == KeyInterop.VirtualKeyFromKey(Key.F4))
+                    {
+                        // We don't want CEF to receive this event (and mark it as handled), since that makes it impossible to
+                        // shut down a CefSharp-based app by pressing Alt-F4, which is kind of bad.
+                        return IntPtr.Zero;
+                    }
+
                     if (cefBrowserWrapper.SendKeyEvent(message, wParam.ToInt32()))
                     {
                         handled = true;
