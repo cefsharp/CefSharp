@@ -16,7 +16,7 @@ using System.Windows.Threading;
 
 namespace CefSharp.Wpf
 {
-    public class WebView : ContentControl, IRenderWebBrowser
+    public class WebView : ContentControl, IRenderWebBrowser, IWpfWebBrowser
     {
         private HwndSource source;
         private HwndSourceHook sourceHook;
@@ -39,8 +39,6 @@ namespace CefSharp.Wpf
         public ILifeSpanHandler LifeSpanHandler { get; set; }
         public string TooltipText { get; set; }
         public string Title { get; set; }
-        public bool CanGoForward { get; private set; }
-        public bool CanGoBack { get; private set; }
         public bool IsLoading { get; private set; }
         public bool IsBrowserInitialized { get; private set; }
         public event ConsoleMessageEventHandler ConsoleMessage;
@@ -49,6 +47,9 @@ namespace CefSharp.Wpf
 
         public IntPtr FileMappingHandle { get; set; }
         public IntPtr PopupFileMappingHandle { get; set; }
+
+        public ICommand BackCommand { get; private set; }
+        public ICommand ForwardCommand { get; private set; }
 
         public int BytesPerPixel
         {
@@ -154,6 +155,9 @@ namespace CefSharp.Wpf
             toolTip.Closed += OnTooltipClosed;
 
             Application.Current.Exit += OnApplicationExit;
+
+            BackCommand = new DelegateCommand(Back, CanGoBack);
+            ForwardCommand = new DelegateCommand(Forward, CanGoForward);
         }
 
         private void OnApplicationExit(object sender, ExitEventArgs e)
@@ -476,14 +480,24 @@ namespace CefSharp.Wpf
             throw new NotImplementedException();
         }
 
-        public void Back()
+        private void Back()
         {
-            throw new NotImplementedException();
+            cefBrowserWrapper.GoBack();
         }
 
-        public void Forward()
+        private bool CanGoBack()
         {
-            throw new NotImplementedException();
+            return browserCore.CanGoBack;
+        }
+
+        private void Forward()
+        {
+            cefBrowserWrapper.GoForward();
+        }
+
+        private bool CanGoForward()
+        {
+            return browserCore.CanGoForward;
         }
 
         public void Reload(bool ignoreCache)
@@ -555,6 +569,8 @@ namespace CefSharp.Wpf
         public void SetNavState(bool isLoading, bool canGoBack, bool canGoForward)
         {
             browserCore.SetNavState(isLoading, canGoBack, canGoForward);
+            ((DelegateCommand) BackCommand).RaiseCanExecuteChanged();
+            ((DelegateCommand) ForwardCommand).RaiseCanExecuteChanged();
         }
 
         public void OnFrameLoadStart(string url)
