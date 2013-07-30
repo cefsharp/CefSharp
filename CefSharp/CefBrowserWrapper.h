@@ -14,7 +14,7 @@ using namespace CefSharp::Internals;
 
 namespace CefSharp
 {
-    public ref class CefBrowserWrapper
+    private ref class CefBrowserWrapper
     {
     private:
         RenderClientAdapter* _renderClientAdapter;
