@@ -18,11 +18,11 @@
             <DockPanel VerticalAlignment="Top"
                        DockPanel.Dock="Top">
                 <Button Height="23"
-                        Name="backButton"
-                        Width="75">Back</Button>
+                        Width="75"
+                        Command="{Binding WebBrowser.BackCommand}">Back</Button>
                 <Button Height="23"
-                        Name="forwardButton"
-                        Width="75">Forward</Button>
+                        Width="75"
+                        Command="{Binding WebBrowser.ForwardCommand}">Forward</Button>
                 <Button Height="23"
                         Name="goStopButton"
                         Width="75"
