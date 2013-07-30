@@ -7,7 +7,7 @@
 #include "Stdafx.h"
 #include "BrowserSettings.h"
 #include "MouseButtonType.h"
-#include "IRenderWebBrowser.h"
+#include "Internals/IRenderWebBrowser.h"
 #include "Internals/RenderClientAdapter.h"
 
 using namespace CefSharp::Internals;
