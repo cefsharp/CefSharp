@@ -113,7 +113,7 @@ namespace CefSharp
             }
         }
 
-        bool SendKeyEvent(int message, int wParam, int lParam)
+        bool SendKeyEvent(int message, int wParam)
         {
             auto cefHost = _renderClientAdapter->TryGetCefHost();
 

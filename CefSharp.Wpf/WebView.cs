@@ -229,7 +229,7 @@ namespace CefSharp.Wpf
             isOffscreenBrowserCreated = true;
         }
 
-        void AddSourceHook()
+        private void AddSourceHook()
         {
             if (source != null)
             {
@@ -245,7 +245,7 @@ namespace CefSharp.Wpf
             }
         }
 
-        void RemoveSourceHook()
+        private void RemoveSourceHook()
         {
             if (source != null &&
                 sourceHook != null)
@@ -254,7 +254,7 @@ namespace CefSharp.Wpf
             }
         }
 
-        IntPtr SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
+        private IntPtr SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             handled = false;
 
@@ -271,7 +271,7 @@ namespace CefSharp.Wpf
                         break;
                     }
 
-                    if (cefBrowserWrapper.SendKeyEvent(message, wParam.ToInt32(), lParam.ToInt32()))
+                    if (cefBrowserWrapper.SendKeyEvent(message, wParam.ToInt32()))
                     {
                         handled = true;
                     }
