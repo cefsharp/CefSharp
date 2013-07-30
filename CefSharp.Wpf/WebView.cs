@@ -6,6 +6,7 @@ using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -374,6 +375,32 @@ namespace CefSharp.Wpf
             }
 
             base.OnLostFocus(e);
+        }
+
+        protected override void OnPreviewKeyDown(KeyEventArgs e)
+        {
+            OnPreviewKey(e);
+        }
+
+        protected override void OnPreviewKeyUp(KeyEventArgs e)
+        {
+            OnPreviewKey(e);
+        }
+
+        private void OnPreviewKey(KeyEventArgs e)
+        {
+            // For some reason, not all kinds of keypresses triggers the appropriate WM_ messages handled by our SourceHook, so
+            // we have to handle these extra keys here. Hooking the Tab key like this makes the tab focusing in essence work like
+            // KeyboardNavigation.TabNavigation="Cycle"; you will never be able to Tab out of the web browser control.
+
+            if (e.Key == Key.Tab ||
+                new[] { Key.Left, Key.Right, Key.Up, Key.Down }.Contains(e.Key))
+            {
+                var message = (int) (e.IsDown ? WM.KEYDOWN : WM.KEYUP);
+                var virtualKey = KeyInterop.VirtualKeyFromKey(e.Key);
+                cefBrowserWrapper.SendKeyEvent(message, virtualKey);
+                e.Handled = true;
+            }
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
