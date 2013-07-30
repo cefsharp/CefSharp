@@ -106,6 +106,18 @@ namespace CefSharp
                 }
             }
 
+            CefRefPtr<CefFrame> TryGetCefMainFrame()
+            {
+                auto cefBrowser = this->GetCefBrowser().get();
+
+                if (!cefBrowser)
+                {
+                    return nullptr;
+                }
+
+                return cefBrowser->GetMainFrame();
+            }
+
         private:
 
             void SetBuffer(int newWidth, int newHeight, const void* buffer)
