@@ -9,11 +9,6 @@
              d:DesignWidth="640"
              d:DesignHeight="480">
     <Grid>
-        <TextBlock Text="CefSharp WPF Rocks!"
-                   FontSize="72"
-                   FontWeight="Bold"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center" />
         <DockPanel>
             <DockPanel VerticalAlignment="Top"
                        DockPanel.Dock="Top">
@@ -59,28 +54,48 @@
                             Maximum="180" />
                     <Label Grid.Row="1"
                            Grid.Column="0"
-                           Content="Opacity:" />
+                           Content="Watermark Opacity:" />
                     <Slider Grid.Row="1"
                             Grid.Column="1"
                             Name="opacitySlider"
                             Minimum="0"
                             Maximum="1"
                             TickFrequency="0.01"
-                            Value="0.90" />
+                            Value="0.95" />
                 </Grid>
             </GroupBox>
             <Label Name="outputLabel"
                    DockPanel.Dock="Bottom" />
-            <cefSharp:WebView x:Name="webView"
-                              Opacity="{Binding ElementName=opacitySlider, Path=Value}"
-                              Address="{Binding Address, Mode=TwoWay}"
-                              WebBrowser="{Binding WebBrowser, Mode=OneWayToSource}">
-                <FrameworkElement.LayoutTransform>
-                    <TransformGroup>
-                        <RotateTransform Angle="{Binding Value, ElementName=angleSlider}" />
-                    </TransformGroup>
-                </FrameworkElement.LayoutTransform>
-            </cefSharp:WebView>
+            <Grid>
+                <Rectangle>
+                    <Rectangle.Fill>
+                        <VisualBrush TileMode="Tile"
+                                     Viewport="0,0,500,90"
+                                     ViewportUnits="Absolute">
+                            <VisualBrush.Visual>
+                                <StackPanel>
+                                    <TextBlock Margin="6,12"
+                                               FontWeight="Bold">CefSharp Rocks!</TextBlock>
+                                </StackPanel>
+                            </VisualBrush.Visual>
+                            <VisualBrush.Transform>
+                                <RotateTransform Angle="-22.5" />
+                            </VisualBrush.Transform>
+                        </VisualBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+
+                <cefSharp:WebView x:Name="webView"
+                                  Opacity="{Binding ElementName=opacitySlider, Path=Value}"
+                                  Address="{Binding Address, Mode=TwoWay}"
+                                  WebBrowser="{Binding WebBrowser, Mode=OneWayToSource}">
+                    <FrameworkElement.LayoutTransform>
+                        <TransformGroup>
+                            <RotateTransform Angle="{Binding Value, ElementName=angleSlider}" />
+                        </TransformGroup>
+                    </FrameworkElement.LayoutTransform>
+                </cefSharp:WebView>
+            </Grid>
         </DockPanel>
     </Grid>
 </UserControl>
