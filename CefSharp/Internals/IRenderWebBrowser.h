@@ -9,7 +9,7 @@
 
 namespace CefSharp
 {
-    public interface class IRenderWebBrowser : IWebBrowser
+    private interface class IRenderWebBrowser : IWebBrowser
     {
         property IntPtr FileMappingHandle;
         property IntPtr PopupFileMappingHandle;
