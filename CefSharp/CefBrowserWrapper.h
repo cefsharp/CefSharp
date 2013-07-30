@@ -85,11 +85,11 @@ namespace CefSharp
 
         void LoadUrl(String^ address)
         {
-            auto cefBrowser = _renderClientAdapter->GetCefBrowser();
+            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
 
-            if (cefBrowser != nullptr)
+            if (cefFrame != nullptr)
             {
-                cefBrowser->GetMainFrame()->LoadURL(StringUtils::ToNative(address));
+                cefFrame->LoadURL(StringUtils::ToNative(address));
             }
         }
 
@@ -181,6 +181,26 @@ namespace CefSharp
                 mouseEvent.y = y;
 
                 cefHost->SendMouseWheelEvent(mouseEvent, deltaX, deltaY);
+            }
+        }
+
+        void GoBack()
+        {
+            auto cefBrowser = _renderClientAdapter->GetCefBrowser();
+
+            if (cefBrowser != nullptr)
+            {
+                cefBrowser->GoBack();
+            }
+        }
+
+        void GoForward()
+        {
+            auto cefBrowser = _renderClientAdapter->GetCefBrowser();
+
+            if (cefBrowser != nullptr)
+            {
+                cefBrowser->GoForward();
             }
         }
     };
