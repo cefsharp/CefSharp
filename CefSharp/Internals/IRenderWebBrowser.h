@@ -5,7 +5,7 @@
 #pragma once
 
 #include "Stdafx.h"
-#include "IWebBrowser.h"
+#include "IWebBrowserInternal.h"
 
 namespace CefSharp
 {

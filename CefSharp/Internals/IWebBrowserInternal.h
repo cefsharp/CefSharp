@@ -18,7 +18,7 @@ namespace CefSharp
 
     private interface class IWebBrowserInternal : IWebBrowser
     {
-               event ConsoleMessageEventHandler^ ConsoleMessage;
+        event ConsoleMessageEventHandler^ ConsoleMessage;
 
         property bool IsBrowserInitialized { bool get(); }
         property bool IsLoading { bool get(); }
@@ -67,5 +67,5 @@ namespace CefSharp
 
         void RegisterJsObject(String^ name, Object^ objectToBind);
         IDictionary<String^, Object^>^ GetBoundObjects();
-    }
+    };
 }

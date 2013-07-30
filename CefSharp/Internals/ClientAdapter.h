@@ -13,7 +13,7 @@ using namespace System;
 
 namespace CefSharp
 {
-    interface class IWebBrowser;
+    interface class IWebBrowserInternal;
 
     namespace Internals
     {
@@ -29,14 +29,14 @@ namespace CefSharp
                                       public CefJSDialogHandler
         {
         private:
-            gcroot<IWebBrowser^> _browserControl;
+            gcroot<IWebBrowserInternal^> _browserControl;
             HWND _browserHwnd;
             CefRefPtr<CefBrowser> _cefBrowser;
 
             gcroot<String^> _tooltip;
 
         public:
-            ClientAdapter(IWebBrowser^ browserControl) :
+            ClientAdapter(IWebBrowserInternal^ browserControl) :
                 _browserControl(browserControl)
             {
             }
