@@ -139,9 +139,6 @@
     <ClInclude Include="Internals\StreamAdapter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IRenderWebBrowser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="BrowserSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -158,6 +155,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CefSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\IWebBrowserInternal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\IRenderWebBrowser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
