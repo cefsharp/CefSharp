@@ -25,6 +25,7 @@ namespace CefSharp.Wpf
         private readonly ToolTip toolTip;
         private CefBrowserWrapper cefBrowserWrapper;
         private bool isOffscreenBrowserCreated;
+        private bool ignoreUriChange;
 
         private Image image;
         private InteropBitmap interopBitmap;
@@ -64,29 +65,25 @@ namespace CefSharp.Wpf
             get { return (int) ActualHeight; }
         }
 
-        public Uri Uri
-        {
-            get { return (Uri) GetValue(UriProperty); }
-            set
-            {
-                // TODO: Not-so-orthodox WPF, but the caller is unmanaged code which has no notion of the Dispatcher or anything.
-                // Should perhaps be solved by adding an exra property to IWebBrowser for invoking stuff on the UI thread.
-                if (!Dispatcher.CheckAccess())
-                {
-                    Dispatcher.Invoke((Action) (() => Uri = value));
-                    return;
-                }
+        #region Address dependency property
 
-                SetValue(UriProperty, value);
-            }
+        public string Address
+        {
+            get { return (string) GetValue(AddressProperty); }
+            set { SetValue(AddressProperty, value); }
         }
 
-        public static readonly DependencyProperty UriProperty =
-            DependencyProperty.Register("Uri", typeof(Uri), typeof(WebView), new UIPropertyMetadata(null, OnUriChanged));
+        public static readonly DependencyProperty AddressProperty =
+            DependencyProperty.Register("Address", typeof(string), typeof(WebView), new UIPropertyMetadata(null, OnAddressChanged));
 
-        private static void OnUriChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnAddressChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var webView = (WebView) d;
+
+            if (webView.ignoreUriChange)
+            {
+                return;
+            }
 
             if (!Cef.IsInitialized &&
                 !Cef.Initialize())
@@ -96,7 +93,7 @@ namespace CefSharp.Wpf
 
             if (webView.browserCore == null)
             {
-                webView.browserCore = new BrowserCore(webView.Uri);
+                webView.browserCore = new BrowserCore(webView.Address);
                 webView.browserCore.PropertyChanged += webView.OnBrowserCorePropertyChanged;
 
                 webView.timer = new DispatcherTimer(
@@ -107,20 +104,43 @@ namespace CefSharp.Wpf
                 );
             }
 
-            webView.browserCore.Address = webView.Uri;
+            webView.browserCore.Address = webView.Address;
 
-            if (!webView.isOffscreenBrowserCreated &&
-                webView.source != null)
+            if (webView.isOffscreenBrowserCreated)
             {
-                webView.CreateOffscreenBrowser();
+                webView.cefBrowserWrapper.LoadUrl(webView.Address);
+            }
+            else
+            {
+                if (webView.source != null)
+                {
+                    webView.CreateOffscreenBrowser();
+                }
             }
         }
+
+        #endregion Address dependency property
+
+        #region WebBrowser dependency property
+
+        public IWebBrowser WebBrowser
+        {
+            get { return (IWebBrowser) GetValue(WebBrowserProperty); }
+            set { SetValue(WebBrowserProperty, value); }
+        }
+
+        public static readonly DependencyProperty WebBrowserProperty =
+            DependencyProperty.Register("WebBrowser", typeof(IWebBrowser), typeof(WebView), new UIPropertyMetadata(defaultValue: null));
+
+        #endregion WebBrowser dependency property
 
         public WebView()
         {
             Focusable = true;
             FocusVisualStyle = null;
             IsTabStop = true;
+
+            Dispatcher.BeginInvoke((Action) (() => WebBrowser = this));
 
             //_scriptCore = new ScriptCore();
             //_paintPopupDelegate = gcnew ActionHandler(this, &WebView::SetPopupBitmap);
@@ -169,7 +189,7 @@ namespace CefSharp.Wpf
 
             AddSourceHook();
 
-            if (Uri != null)
+            if (Address != null)
             {
                 CreateOffscreenBrowser();
             }
@@ -201,7 +221,7 @@ namespace CefSharp.Wpf
         private void CreateOffscreenBrowser()
         {
             // TODO: Make it possible to override the BrowserSettings using a dependency property.
-            cefBrowserWrapper.CreateOffscreenBrowser(new BrowserSettings(), source.Handle, Uri);
+            cefBrowserWrapper.CreateOffscreenBrowser(new BrowserSettings(), source.Handle, Address);
             isOffscreenBrowserCreated = true;
         }
 
@@ -281,6 +301,19 @@ namespace CefSharp.Wpf
             }
         }
 
+        public void SetAddress(string address)
+        {
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.Invoke((Action) (() => SetAddress(address)));
+                return;
+            }
+
+            ignoreUriChange = true;
+            Address = address;
+            ignoreUriChange = false;
+        }
+
         private void OnBrowserCorePropertyChanged(Object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "TooltipText")
@@ -289,7 +322,7 @@ namespace CefSharp.Wpf
             }
             else if (e.PropertyName == "Address")
             {
-                Uri = browserCore.Address;
+                Address = browserCore.Address;
             }
         }
 

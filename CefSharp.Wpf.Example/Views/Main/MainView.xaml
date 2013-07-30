@@ -30,7 +30,7 @@
                         Command="{Binding GoCommand}">Go</Button>
                 <TextBox Height="23"
                          Name="urlTextBox"
-                         Text="{Binding Address, Mode=TwoWay}">
+                         Text="{Binding AddressEditable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <TextBox.InputBindings>
                         <KeyBinding Key="Enter"
                                     Command="{Binding GoCommand}" />
@@ -72,7 +72,8 @@
                    DockPanel.Dock="Bottom" />
             <cefSharp:WebView x:Name="webView"
                               Opacity="{Binding ElementName=opacitySlider, Path=Value}"
-                              Uri="{Binding Address, Mode=TwoWay, UpdateSourceTrigger=Explicit}">
+                              Address="{Binding Address, Mode=TwoWay}"
+                              WebBrowser="{Binding WebBrowser, Mode=OneWayToSource}">
                 <FrameworkElement.LayoutTransform>
                     <TransformGroup>
                         <RotateTransform Angle="{Binding Value, ElementName=angleSlider}" />
