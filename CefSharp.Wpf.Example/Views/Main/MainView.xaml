@@ -29,8 +29,9 @@
                         DockPanel.Dock="Right"
                         Command="{Binding GoCommand}">Go</Button>
                 <TextBox Height="23"
-                         Name="urlTextBox"
-                         Text="{Binding AddressEditable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                         Text="{Binding AddressEditable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         GotKeyboardFocus="OnTextBoxGotKeyboardFocus"
+                         GotMouseCapture="OnTextBoxGotMouseCapture">
                     <TextBox.InputBindings>
                         <KeyBinding Key="Enter"
                                     Command="{Binding GoCommand}" />
