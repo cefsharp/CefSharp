@@ -22,8 +22,6 @@ namespace CefSharp
 
         property bool IsBrowserInitialized { bool get(); }
         property bool IsLoading { bool get(); }
-        property bool CanGoBack { bool get(); }
-        property bool CanGoForward { bool get(); }
 
         property String^ Address;
         property String^ Title;
@@ -41,8 +39,6 @@ namespace CefSharp
         void SetAddress(String^ address);
         void LoadHtml(String^ html);
         void Stop();
-        void Back();
-        void Forward();
         void Reload();
         void Reload(bool ignoreCache);
         void ClearHistory();
