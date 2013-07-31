@@ -39,7 +39,6 @@ namespace CefSharp.Wpf
         public ILoadHandler LoadHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
         public string TooltipText { get; set; }
-        public string Title { get; set; }
         public bool IsLoading { get; private set; }
         public bool IsBrowserInitialized { get; private set; }
         public event ConsoleMessageEventHandler ConsoleMessage;
@@ -122,6 +121,19 @@ namespace CefSharp.Wpf
         }
 
         #endregion Address dependency property
+
+        #region Title dependency property
+
+        public string Title
+        {
+            get { return (string) GetValue(TitleProperty); }
+            set { SetValue(TitleProperty, value); }
+        }
+
+        public static readonly DependencyProperty TitleProperty =
+            DependencyProperty.Register("Title", typeof(string), typeof(WebView), new PropertyMetadata(defaultValue: null));
+
+        #endregion Title dependency property
 
         #region WebBrowser dependency property
 
@@ -325,6 +337,17 @@ namespace CefSharp.Wpf
             ignoreUriChange = true;
             Address = address;
             ignoreUriChange = false;
+        }
+
+        public void SetTitle(string title)
+        {
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.Invoke((Action) (() => SetTitle(title)));
+                return;
+            }
+
+            Title = title;
         }
 
         private void OnBrowserCorePropertyChanged(Object sender, PropertyChangedEventArgs e)
