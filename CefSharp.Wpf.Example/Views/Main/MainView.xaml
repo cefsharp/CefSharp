@@ -88,6 +88,7 @@
                 <cefSharp:WebView x:Name="webView"
                                   Opacity="{Binding ElementName=opacitySlider, Path=Value}"
                                   Address="{Binding Address, Mode=TwoWay}"
+                                  Title="{Binding Title, Mode=OneWayToSource}"
                                   WebBrowser="{Binding WebBrowser, Mode=OneWayToSource}">
                     <FrameworkElement.LayoutTransform>
                         <TransformGroup>

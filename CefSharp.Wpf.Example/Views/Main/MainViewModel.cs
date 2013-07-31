@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Windows;
 using CefSharp.Example;
 using CefSharp.Wpf.Example.Mvvm;
 
@@ -10,6 +11,7 @@ namespace CefSharp.Wpf.Example.Views.Main
         private string address;
         private IWpfWebBrowser webBrowser;
         private string addressEditable;
+        private string title;
 
         public string Address
         {
@@ -21,6 +23,12 @@ namespace CefSharp.Wpf.Example.Views.Main
         {
             get { return addressEditable; }
             set { PropertyChanged.ChangeAndNotify(ref addressEditable, value, () => AddressEditable); }
+        }
+
+        public string Title
+        {
+            get { return title; }
+            set { PropertyChanged.ChangeAndNotify(ref title, value, () => Title); }
         }
 
         public IWpfWebBrowser WebBrowser
@@ -44,14 +52,20 @@ namespace CefSharp.Wpf.Example.Views.Main
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Address")
+            switch (e.PropertyName)
             {
-                AddressEditable = Address;
+                case "Address":
+                    AddressEditable = Address;
+                    break;
+
+                case "Title":
+                    Application.Current.MainWindow.Title = "CefSharp.WPf.Example - " + Title;
+                    break;
             }
         }
 
         private void Go()
-        {            
+        {
             Address = AddressEditable;
         }
     }
