@@ -76,7 +76,7 @@ namespace CefSharp
 
         void ClientAdapter::OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString& title)
         {
-            _browserControl->Title = StringUtils::ToClr(title);
+            _browserControl->SetTitle(StringUtils::ToClr(title));
         }
 
         bool ClientAdapter::OnTooltip(CefRefPtr<CefBrowser> browser, CefString& text)

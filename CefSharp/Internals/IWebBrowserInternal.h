@@ -23,8 +23,6 @@ namespace CefSharp
         property bool IsBrowserInitialized { bool get(); }
         property bool IsLoading { bool get(); }
 
-        property String^ Address;
-        property String^ Title;
         property String^ TooltipText;
 
         property ILifeSpanHandler^ LifeSpanHandler;
@@ -37,6 +35,7 @@ namespace CefSharp
         void OnInitialized();
 
         void SetAddress(String^ address);
+        void SetTitle(String^ title);
         void LoadHtml(String^ html);
         void Stop();
         void Reload();
