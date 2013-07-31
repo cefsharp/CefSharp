@@ -235,6 +235,11 @@ namespace CefSharp
                 void set(IJsDialogHandler^ handler) { _browserCore->JsDialogHandler = handler; }
             }
 
+            virtual property IDictionary<String^, Object^>^ BoundObjects
+            {
+                IDictionary<String^, Object^>^ get() { return GetBoundObjects(); }
+            }
+
             virtual void OnInitialized();
 
             virtual void Load(String^ url);

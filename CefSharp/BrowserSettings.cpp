@@ -1,4 +1,5 @@
 #include "Stdafx.h"
+#include "include/cef_version.h"
 
 namespace CefSharp
 {
@@ -289,11 +290,13 @@ namespace CefSharp
             void set(bool value) { _browserSettings->accelerated_2d_canvas_disabled = value; }
         }
 
+#if (CHROME_VERSION_MAJOR < 27)
         property bool AcceleratedPaintingDisabled
         {
             bool get() { return _browserSettings->accelerated_painting_disabled; }
             void set(bool value) { _browserSettings->accelerated_painting_disabled = value; }
         }
+#endif
 
         property bool AcceleratedFiltersDisabled
         {
