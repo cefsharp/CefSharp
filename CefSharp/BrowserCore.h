@@ -90,8 +90,6 @@ namespace CefSharp
 
                 _address = address;
                 PropertyChanged(this, gcnew PropertyChangedEventArgs(L"Address"));
-
-                TooltipText = nullptr;
             }
         }
 
@@ -105,20 +103,6 @@ namespace CefSharp
                 {
                     _title = title;
                     PropertyChanged(this, gcnew PropertyChangedEventArgs(L"Title"));
-                }
-            }
-        }
-
-        property String^ TooltipText
-        {
-            String^ get() { return _tooltip; }
-
-            void set(String^ text)
-            {
-                if (_tooltip != text)
-                {
-                    _tooltip = text;
-                   PropertyChanged(this, gcnew PropertyChangedEventArgs(L"TooltipText"));
                 }
             }
         }

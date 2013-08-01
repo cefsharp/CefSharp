@@ -86,7 +86,7 @@ namespace CefSharp
             if (tooltip != _tooltip)
             {
                 _tooltip = tooltip;
-                _browserControl->TooltipText = _tooltip;
+                _browserControl->SetTooltipText(_tooltip);
             }
 
             return true;
