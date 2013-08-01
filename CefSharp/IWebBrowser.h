@@ -5,16 +5,15 @@
 #pragma once
 
 #include "Stdafx.h"
-#include "BrowserCore.h"
 #include "ConsoleMessageEventArgs.h"
-#include "LoadCompletedEventArgs.h"
-
-using namespace System;
-using namespace System::ComponentModel;
 
 namespace CefSharp
 {
     public interface class IWebBrowser
     {
+        /// <summary>
+        /// Event handler for receiving Javascript console messages being sent from web pages.
+        /// </summary>
+        event ConsoleMessageEventHandler^ ConsoleMessage;
     };
 }

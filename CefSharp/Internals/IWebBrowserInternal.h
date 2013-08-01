@@ -7,6 +7,8 @@
 #include "Stdafx.h"
 #include "IWebBrowser.h"
 
+using namespace System::Collections::Generic;
+
 namespace CefSharp
 {
     interface class ILifeSpanHandler;
@@ -18,8 +20,6 @@ namespace CefSharp
 
     private interface class IWebBrowserInternal : IWebBrowser
     {
-        event ConsoleMessageEventHandler^ ConsoleMessage;
-
         property bool IsBrowserInitialized { bool get(); }
         property bool IsLoading { bool get(); }
 
