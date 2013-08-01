@@ -10,16 +10,27 @@ using namespace System;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Event arguments to the LoadCompleted event handler set up in IWebBrowser.
+    /// </summary>
     public ref class LoadCompletedEventArgs : EventArgs
     {
+    private:
         String^ _url;
 
-    public:
+    internal:
         LoadCompletedEventArgs(String^ url)
             : _url(url) {}
 
+    public:
+        /// <summary>
+        /// The URL that was loaded.
+        /// </summary>
         property String^ Url { String^ get() { return _url; } }
     };
 
+    /// <summary>
+    /// A delegate type used to listen to LoadCompleted events.
+    /// </summary>
     public delegate void LoadCompletedEventHandler(Object^ sender, LoadCompletedEventArgs^ url);
 }

@@ -6,6 +6,7 @@
 
 #include "Stdafx.h"
 #include "ConsoleMessageEventArgs.h"
+#include "LoadCompletedEventArgs.h"
 
 namespace CefSharp
 {
@@ -15,5 +16,10 @@ namespace CefSharp
         /// Event handler for receiving Javascript console messages being sent from web pages.
         /// </summary>
         event ConsoleMessageEventHandler^ ConsoleMessage;
+
+        /// <summary>
+        /// Event handler that will get called whenever page loading is complete.
+        /// </summary>        
+        event LoadCompletedEventHandler^ LoadCompleted;
     };
 }
