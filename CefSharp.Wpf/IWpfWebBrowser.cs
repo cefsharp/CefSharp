@@ -30,5 +30,11 @@ namespace CefSharp.Wpf
         /// the availability of the command.
         /// </summary>
         ICommand ForwardCommand { get; }
+
+        /// <summary>
+        /// Opens up a new program window (using the default text editor) where the source code of the currently displayed web
+        /// page is shown.
+        /// </summary>
+        void ViewSource();
     }
 }

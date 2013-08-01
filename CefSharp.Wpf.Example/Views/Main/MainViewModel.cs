@@ -38,6 +38,8 @@ namespace CefSharp.Wpf.Example.Views.Main
         }
 
         public DelegateCommand GoCommand { get; set; }
+        public DelegateCommand ViewSourceCommand { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public MainViewModel()
@@ -46,6 +48,7 @@ namespace CefSharp.Wpf.Example.Views.Main
             AddressEditable = ExamplePresenter.DefaultUrl;
 
             GoCommand = new DelegateCommand(Go, () => !String.IsNullOrWhiteSpace(Address));
+            ViewSourceCommand = new DelegateCommand(ViewSource);
 
             PropertyChanged += OnPropertyChanged;
         }
@@ -67,6 +70,11 @@ namespace CefSharp.Wpf.Example.Views.Main
         private void Go()
         {
             Address = AddressEditable;
+        }
+
+        private void ViewSource()
+        {
+            webBrowser.ViewSource();
         }
     }
 }

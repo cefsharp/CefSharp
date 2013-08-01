@@ -203,5 +203,15 @@ namespace CefSharp
                 cefBrowser->GoForward();
             }
         }
+
+        void ViewSource()
+        {
+            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
+
+            if (cefFrame != nullptr)
+            {
+                cefFrame->ViewSource();
+            }
+        }
     };
 }

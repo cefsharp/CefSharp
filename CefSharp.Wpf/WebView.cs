@@ -804,5 +804,10 @@ namespace CefSharp.Wpf
 
             //bitmap->Invalidate();
         }
+
+        public void ViewSource()
+        {
+            cefBrowserWrapper.ViewSource();
+        }
     }
 }
