@@ -75,13 +75,12 @@ namespace CefSharp.Wpf
         }
 
         public static readonly DependencyProperty AddressProperty =
-            DependencyProperty.Register("Address", typeof(string), typeof(WebView), new UIPropertyMetadata(null, OnAddressChanged));
+            DependencyProperty.Register("Address", typeof(string), typeof(WebView),
+                                        new UIPropertyMetadata(null, (sender, e) => ((WebView) sender).OnAddressChanged()));
 
-        private static void OnAddressChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private void OnAddressChanged()
         {
-            var webView = (WebView) d;
-
-            if (webView.ignoreUriChange)
+            if (ignoreUriChange)
             {
                 return;
             }
@@ -92,30 +91,31 @@ namespace CefSharp.Wpf
                 throw new InvalidOperationException("Cef::Initialize() failed");
             }
 
-            if (webView.browserCore == null)
+            if (browserCore == null)
             {
-                webView.browserCore = new BrowserCore(webView.Address);
-                webView.browserCore.PropertyChanged += webView.OnBrowserCorePropertyChanged;
+                browserCore = new BrowserCore(Address);
+                browserCore.PropertyChanged += OnBrowserCorePropertyChanged;
 
-                webView.timer = new DispatcherTimer(
+                // TODO: Consider making the delay here configurable.
+                tooltipTimer = new DispatcherTimer(
                     TimeSpan.FromSeconds(0.5),
                     DispatcherPriority.Render,
-                    webView.OnTimerTick,
-                    webView.Dispatcher
+                    OnTooltipTimerTick,
+                    Dispatcher
                 );
             }
 
-            webView.browserCore.Address = webView.Address;
+            browserCore.Address = browserCore.Address;
 
-            if (webView.isOffscreenBrowserCreated)
+            if (isOffscreenBrowserCreated)
             {
-                webView.cefBrowserWrapper.LoadUrl(webView.Address);
+                cefBrowserWrapper.LoadUrl(Address);
             }
             else
             {
-                if (webView.source != null)
+                if (source != null)
                 {
-                    webView.CreateOffscreenBrowser();
+                    CreateOffscreenBrowser();
                 }
             }
         }
