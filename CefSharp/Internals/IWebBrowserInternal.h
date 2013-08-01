@@ -18,21 +18,27 @@ namespace CefSharp
     interface class IKeyboardHandler;
     interface class IJsDialogHandler;
 
+    // TODO: Move to the CefSharp.WinForms project once we have recreated it with C#.
+    private interface class IWinFormsWebBrowser : IWebBrowser
+    {
+        property IMenuHandler^ MenuHandler;
+    };
+
     private interface class IWebBrowserInternal : IWebBrowser
     {
         property bool IsBrowserInitialized { bool get(); }
-        property bool IsLoading { bool get(); }
 
         property ILifeSpanHandler^ LifeSpanHandler;
         property ILoadHandler^ LoadHandler;
         property IRequestHandler^ RequestHandler;
-        property IMenuHandler^ MenuHandler;
         property IKeyboardHandler^ KeyboardHandler;
         property IJsDialogHandler^ JsDialogHandler;
 
         void OnInitialized();
 
         void SetAddress(String^ address);
+        void SetIsLoading(bool);
+        void SetNavState(bool canGoBack, bool canGoForward);
         void SetTitle(String^ title);
         void SetTooltipText(String^ tooltipText);
         void LoadHtml(String^ html);
@@ -51,8 +57,6 @@ namespace CefSharp
         void Delete();
         void SelectAll();
         void Print();
-
-        void SetNavState(bool isLoading, bool canGoBack, bool canGoForward);
 
         void OnFrameLoadStart(String^ url);
         void OnFrameLoadEnd(String^ url);

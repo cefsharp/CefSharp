@@ -34,11 +34,9 @@ namespace CefSharp.Wpf
 
         public IJsDialogHandler JsDialogHandler { get; set; }
         public IKeyboardHandler KeyboardHandler { get; set; }
-        public IMenuHandler MenuHandler { get; set; }
         public IRequestHandler RequestHandler { get; set; }
         public ILoadHandler LoadHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
-        public bool IsLoading { get; private set; }
         public bool IsBrowserInitialized { get; private set; }
         public event ConsoleMessageEventHandler ConsoleMessage;
         public event PropertyChangedEventHandler PropertyChanged;
@@ -120,6 +118,19 @@ namespace CefSharp.Wpf
         }
 
         #endregion Address dependency property
+
+        #region IsLoading dependency property
+
+        public bool IsLoading
+        {
+            get { return (bool) GetValue(IsLoadingProperty); }
+            set { SetValue(IsLoadingProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsLoadingProperty =
+            DependencyProperty.Register("IsLoading", typeof(bool), typeof(WebView), new PropertyMetadata(false));
+
+        #endregion IsLoading dependency property
 
         #region Title dependency property
 
@@ -366,6 +377,24 @@ namespace CefSharp.Wpf
 
             // The tooltip should obviously also be reset (and hidden) when the address changes.
             TooltipText = null;
+        }
+
+        public void SetIsLoading(bool isLoading)
+        {
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.Invoke((Action) (() => SetIsLoading(isLoading)));
+                return;
+            }
+
+            IsLoading = isLoading;
+        }
+
+        public void SetNavState(bool canGoBack, bool canGoForward)
+        {
+            browserCore.SetNavState(canGoBack, canGoForward);
+            ((DelegateCommand) BackCommand).RaiseCanExecuteChanged();
+            ((DelegateCommand) ForwardCommand).RaiseCanExecuteChanged();
         }
 
         public void SetTitle(string title)
@@ -635,13 +664,6 @@ namespace CefSharp.Wpf
         public void Print()
         {
             throw new NotImplementedException();
-        }
-
-        public void SetNavState(bool isLoading, bool canGoBack, bool canGoForward)
-        {
-            browserCore.SetNavState(isLoading, canGoBack, canGoForward);
-            ((DelegateCommand) BackCommand).RaiseCanExecuteChanged();
-            ((DelegateCommand) ForwardCommand).RaiseCanExecuteChanged();
         }
 
         public void OnFrameLoadStart(string url)

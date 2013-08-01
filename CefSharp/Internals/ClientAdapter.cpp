@@ -66,6 +66,12 @@ namespace CefSharp
             }
         }
 
+        void ClientAdapter::OnLoadingStateChange(CefRefPtr<CefBrowser> browser, bool isLoading, bool canGoBack, bool canGoForward)
+        {
+            _browserControl->SetIsLoading(isLoading);
+            _browserControl->SetNavState(canGoBack, canGoForward);
+        }
+
         void ClientAdapter::OnAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& address)
         {
             if (frame->IsMain())
@@ -125,7 +131,8 @@ namespace CefSharp
             AutoLock lock_scope(this);
             if (frame->IsMain())
             {
-                _browserControl->SetNavState(true, false, false);
+                _browserControl->SetIsLoading(true);
+                _browserControl->SetNavState(false, false);
             }
 
             _browserControl->OnFrameLoadStart(StringUtils::ToClr(frame->GetURL()));
@@ -133,7 +140,7 @@ namespace CefSharp
 
         void ClientAdapter::OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode)
         {
-            if(browser->IsPopup())
+            if (browser->IsPopup())
             {
                 return;
             }
@@ -141,7 +148,7 @@ namespace CefSharp
             AutoLock lock_scope(this);
             if (frame->IsMain())
             {
-                _browserControl->SetNavState(false, browser->CanGoBack(), browser->CanGoForward());
+                _browserControl->SetIsLoading(false);
             }
 
             _browserControl->OnFrameLoadEnd(StringUtils::ToClr(frame->GetURL()));
@@ -341,13 +348,14 @@ namespace CefSharp
         void ClientAdapter::OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
             CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model)
         {
-            IMenuHandler^ handler = _browserControl->MenuHandler;
+            // TODO: How do we handle this? Should we place IWinFormsWebBrowser in CefSharp, or have a separate interface?
+            //    IMenuHandler^ handler = _browserControl->MenuHandler;
 
-            if (handler != nullptr)
-            {
-                throw gcnew NotImplementedException("IMenuHandler is not yet supported with CefSharp 3.");
-                //return handler->OnBeforeContextMenu(_browserControl);
-            }
+            //    if (handler != nullptr)
+            //    {
+            //        throw gcnew NotImplementedException("IMenuHandler is not yet supported with CefSharp 3.");
+            //        //return handler->OnBeforeContextMenu(_browserControl);
+            //    }
         }
 
         void ClientAdapter::OnTakeFocus(CefRefPtr<CefBrowser> browser, bool next)

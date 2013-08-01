@@ -25,27 +25,6 @@ namespace CefSharp
         return _boundObjects;
     }
 
-    void BrowserCore::SetNavState(bool isLoading, bool canGoBack, bool canGoForward)
-    {
-        if (isLoading != _isLoading) 
-        {
-            _isLoading = isLoading;
-            PropertyChanged(this, gcnew PropertyChangedEventArgs(L"IsLoading"));
-        }
-
-        if (canGoBack != _canGoBack) 
-        {
-            _canGoBack = canGoBack;
-            PropertyChanged(this, gcnew PropertyChangedEventArgs(L"CanGoBack"));
-        }
-
-        if (canGoForward != _canGoForward)
-        {
-            _canGoForward = canGoForward;
-            PropertyChanged(this, gcnew PropertyChangedEventArgs(L"CanGoForward"));
-        }
-    }
-
     void BrowserCore::OnInitialized()
     {
         _isBrowserInitialized = true;

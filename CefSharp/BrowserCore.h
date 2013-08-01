@@ -25,7 +25,6 @@ namespace CefSharp
         RtzCountdownEvent^ _loadCompleted;
 
         bool _isBrowserInitialized;
-        bool _isLoading;
         bool _canGoBack;
         bool _canGoForward;
 
@@ -58,11 +57,6 @@ namespace CefSharp
         property bool IsBrowserInitialized
         {
             bool get() { return _isBrowserInitialized; }
-        }
-
-        property bool IsLoading
-        {
-            bool get() { return _isLoading; }
         }
 
         property bool CanGoBack
@@ -148,7 +142,20 @@ namespace CefSharp
         void RegisterJsObject(String^ name, Object^ objectToBind);
         IDictionary<String^, Object^>^ GetBoundObjects();
 
-        void SetNavState(bool isLoading, bool canGoBack, bool canGoForward);
+        void SetNavState(bool canGoBack, bool canGoForward)
+        {
+            if (canGoBack != _canGoBack) 
+            {
+                _canGoBack = canGoBack;
+                PropertyChanged(this, gcnew PropertyChangedEventArgs(L"CanGoBack"));
+            }
+
+            if (canGoForward != _canGoForward)
+            {
+                _canGoForward = canGoForward;
+                PropertyChanged(this, gcnew PropertyChangedEventArgs(L"CanGoForward"));
+            }
+        }
 
         void OnInitialized();
         void OnLoad();

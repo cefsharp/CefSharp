@@ -14,6 +14,12 @@ namespace CefSharp.Wpf
         string Address { get; set; }
 
         /// <summary>
+        /// A flag that indicates whether the control is currently loading one or more web pages (true) or not (false).
+        /// </summary>
+        /// <remarks>This property is a Dependency Property and fully supports data binding.</remarks>
+        bool IsLoading { get; set; }
+
+        /// <summary>
         /// The title of the web page being currently displayed.
         /// </summary>
         /// <remarks>This property is a Dependency Property and fully supports data binding.</remarks>
