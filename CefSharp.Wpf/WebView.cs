@@ -22,7 +22,7 @@ namespace CefSharp.Wpf
         private HwndSource source;
         private HwndSourceHook sourceHook;
         private BrowserCore browserCore;
-        private DispatcherTimer timer;
+        private DispatcherTimer tooltipTimer;
         private readonly ToolTip toolTip;
         private CefBrowserWrapper cefBrowserWrapper;
         private bool isOffscreenBrowserCreated;
@@ -38,7 +38,6 @@ namespace CefSharp.Wpf
         public IRequestHandler RequestHandler { get; set; }
         public ILoadHandler LoadHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
-        public string TooltipText { get; set; }
         public bool IsLoading { get; private set; }
         public bool IsBrowserInitialized { get; private set; }
         public event ConsoleMessageEventHandler ConsoleMessage;
@@ -134,6 +133,33 @@ namespace CefSharp.Wpf
             DependencyProperty.Register("Title", typeof(string), typeof(WebView), new PropertyMetadata(defaultValue: null));
 
         #endregion Title dependency property
+
+        #region TooltipText dependency property
+
+        public string TooltipText
+        {
+            get { return (string)GetValue(TooltipTextProperty); }
+            set { SetValue(TooltipTextProperty, value); }
+        }
+
+        public static readonly DependencyProperty TooltipTextProperty = 
+            DependencyProperty.Register("TooltipText", typeof(string), typeof(WebView), new PropertyMetadata(null, (sender, e) => ((WebView) sender).OnTooltipTextChanged()));
+
+        private void OnTooltipTextChanged()
+        {
+            tooltipTimer.Stop();
+
+            if (String.IsNullOrEmpty(TooltipText))
+            {
+                Dispatcher.BeginInvoke((Action) (() => UpdateTooltip(null)), DispatcherPriority.Render);
+            }
+            else
+            {
+                tooltipTimer.Start();
+            }
+        }
+
+        #endregion
 
         #region WebBrowser dependency property
 
@@ -337,6 +363,9 @@ namespace CefSharp.Wpf
             ignoreUriChange = true;
             Address = address;
             ignoreUriChange = false;
+
+            // The tooltip should obviously also be reset (and hidden) when the address changes.
+            TooltipText = null;
         }
 
         public void SetTitle(string title)
@@ -350,36 +379,30 @@ namespace CefSharp.Wpf
             Title = title;
         }
 
+        public void SetTooltipText(string tooltipText)
+        {
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.Invoke((Action) (() => SetTooltipText(tooltipText)));
+                return;
+            }
+
+            TooltipText = tooltipText;
+        }
+
         private void OnBrowserCorePropertyChanged(Object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "TooltipText")
-            {
-                HandleTooltipUpdate();
-            }
-            else if (e.PropertyName == "Address")
+            if (e.PropertyName == "Address")
             {
                 Address = browserCore.Address;
             }
         }
 
-        private void HandleTooltipUpdate()
+        private void OnTooltipTimerTick(object sender, EventArgs e)
         {
-            timer.Stop();
+            tooltipTimer.Stop();
 
-            if (String.IsNullOrEmpty(browserCore.TooltipText))
-            {
-                Dispatcher.BeginInvoke((Action) (() => SetTooltipText(null)), DispatcherPriority.Render);
-            }
-            else
-            {
-                timer.Start();
-            }
-        }
-
-        private void OnTimerTick(object sender, EventArgs e)
-        {
-            timer.Stop();
-            SetTooltipText(browserCore.TooltipText);
+            UpdateTooltip(TooltipText);
         }
 
         private void OnTooltipClosed(object sender, RoutedEventArgs e)
@@ -387,8 +410,23 @@ namespace CefSharp.Wpf
             toolTip.Visibility = Visibility.Collapsed;
 
             // Set Placement to something other than PlacementMode::Mouse, so that when we re-show the tooltip in
-            // SetTooltipText(), the tooltip will be repositioned to the new mouse point.
+            // UpdateTooltip(), the tooltip will be repositioned to the new mouse point.
             toolTip.Placement = PlacementMode.Absolute;
+        }
+
+        private void UpdateTooltip(string text)
+        {
+            if (String.IsNullOrEmpty(text))
+            {
+                toolTip.IsOpen = false;
+            }
+            else
+            {
+                toolTip.Content = text;
+                toolTip.Placement = PlacementMode.Mouse;
+                toolTip.Visibility = Visibility.Visible;
+                toolTip.IsOpen = true;
+            }
         }
 
         protected override void OnGotFocus(RoutedEventArgs e)
@@ -498,34 +536,9 @@ namespace CefSharp.Wpf
             cefBrowserWrapper.OnMouseButton((int) point.X, (int) point.Y, mouseButtonType, mouseUp, e.ClickCount);
         }
 
-        private void SetTooltipText(String text)
-        {
-            if (String.IsNullOrEmpty(text))
-            {
-                toolTip.IsOpen = false;
-            }
-            else
-            {
-                toolTip.Content = text;
-                toolTip.Placement = PlacementMode.Mouse;
-                toolTip.Visibility = Visibility.Visible;
-                toolTip.IsOpen = true;
-            }
-        }
-
         public void OnInitialized()
         {
             browserCore.OnInitialized();
-        }
-
-        public void Load(string address)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Load(Uri url)
-        {
-            throw new NotImplementedException();
         }
 
         public void LoadHtml(string html)
@@ -653,7 +666,10 @@ namespace CefSharp.Wpf
 
         public void OnConsoleMessage(string message, string source, int line)
         {
-            throw new NotImplementedException();
+            if (ConsoleMessage != null)
+            {
+                ConsoleMessage(this, new ConsoleMessageEventArgs(message, source, line));
+            }
         }
 
         public void RegisterJsObject(string name, object objectToBind)
