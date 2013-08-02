@@ -35,12 +35,12 @@ namespace CefSharp.Wpf
         public IJsDialogHandler JsDialogHandler { get; set; }
         public IKeyboardHandler KeyboardHandler { get; set; }
         public IRequestHandler RequestHandler { get; set; }
-        public ILoadHandler LoadHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
         public bool IsBrowserInitialized { get; private set; }
         public event ConsoleMessageEventHandler ConsoleMessage;
         public event PropertyChangedEventHandler PropertyChanged;
         public event LoadCompletedEventHandler LoadCompleted;
+        public event LoadErrorEventHandler LoadError;
 
         public IntPtr FileMappingHandle { get; set; }
         public IntPtr PopupFileMappingHandle { get; set; }
@@ -691,6 +691,14 @@ namespace CefSharp.Wpf
             if (ConsoleMessage != null)
             {
                 ConsoleMessage(this, new ConsoleMessageEventArgs(message, source, line));
+            }
+        }
+
+        public void OnLoadError(string url, int errorCode, string errorText)
+        {
+            if (LoadError != null)
+            {
+                LoadError(url, errorCode, errorText);
             }
         }
 

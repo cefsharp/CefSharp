@@ -13,7 +13,6 @@ using namespace System::Collections::Generic;
 namespace CefSharp
 {
     interface class ILifeSpanHandler;
-    interface class ILoadHandler;
     interface class IRequestHandler;
     interface class IMenuHandler;
     interface class IKeyboardHandler;
@@ -36,7 +35,6 @@ namespace CefSharp
         String^ _title;
 
         ILifeSpanHandler^ _lifeSpanHandler;
-        ILoadHandler^ _loadHandler;
         IRequestHandler^ _requestHandler;
         IMenuHandler^ _menuHandler;
         IKeyboardHandler^ _keyboardHandler;
@@ -105,12 +103,6 @@ namespace CefSharp
         {
             ILifeSpanHandler^ get() { return _lifeSpanHandler; }
             void set(ILifeSpanHandler^ handler) { _lifeSpanHandler = handler; }
-        }
-
-        virtual property ILoadHandler^ LoadHandler
-        {
-            ILoadHandler^ get() { return _loadHandler; }
-            void set(ILoadHandler^ handler) { _loadHandler = handler; }
         }
 
         virtual property IRequestHandler^ RequestHandler

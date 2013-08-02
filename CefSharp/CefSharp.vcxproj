@@ -150,7 +150,6 @@
     <ClInclude Include="IJsDialogHandler.h" />
     <ClInclude Include="IKeyboardHandler.h" />
     <ClInclude Include="ILifeSpanHandler.h" />
-    <ClInclude Include="ILoadHandler.h" />
     <ClInclude Include="Internals\CefSharpApp.h" />
     <ClInclude Include="Internals\IWebBrowserInternal.h" />
     <ClInclude Include="Internals\IRenderWebBrowser.h" />

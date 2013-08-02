@@ -79,9 +79,6 @@
     <ClInclude Include="ILifeSpanHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ILoadHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="IJsDialogHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>

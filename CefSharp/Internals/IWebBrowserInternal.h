@@ -12,7 +12,6 @@ using namespace System::Collections::Generic;
 namespace CefSharp
 {
     interface class ILifeSpanHandler;
-    interface class ILoadHandler;
     interface class IRequestHandler;
     interface class IMenuHandler;
     interface class IKeyboardHandler;
@@ -29,7 +28,6 @@ namespace CefSharp
         property bool IsBrowserInitialized { bool get(); }
 
         property ILifeSpanHandler^ LifeSpanHandler;
-        property ILoadHandler^ LoadHandler;
         property IRequestHandler^ RequestHandler;
         property IKeyboardHandler^ KeyboardHandler;
         property IJsDialogHandler^ JsDialogHandler;
@@ -62,6 +60,7 @@ namespace CefSharp
         void OnFrameLoadEnd(String^ url);
         void OnTakeFocus(bool next);
         void OnConsoleMessage(String^ message, String^ source, int line);
+        void OnLoadError(String^ url, int errorCode, String^ errorText);
 
         void RegisterJsObject(String^ name, Object^ objectToBind);
         IDictionary<String^, Object^>^ GetBoundObjects();

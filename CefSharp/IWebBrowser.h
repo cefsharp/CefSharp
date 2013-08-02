@@ -10,6 +10,16 @@
 
 namespace CefSharp
 {
+    interface class IWebBrowser;
+
+    /// <summary>
+    /// A delegate type used to listen to LoadError messages.
+    /// </summary>
+    /// <param name="failedUrl">The URL that failed to load.</param>
+    /// <param name="errorCode">The error code.</param>
+    /// <param name="errorText">The error text.</param>
+    public delegate void LoadErrorEventHandler(String^ failedUrl, int errorCode, String^ errorText);
+
     public interface class IWebBrowser
     {
         /// <summary>
@@ -21,5 +31,10 @@ namespace CefSharp
         /// Event handler that will get called whenever page loading is complete.
         /// </summary>        
         event LoadCompletedEventHandler^ LoadCompleted;
+
+        /// <summary>
+        /// Event handler that will get called whenever a load error occurs.
+        /// </summary>        
+        event LoadErrorEventHandler^ LoadError;
     };
 }
