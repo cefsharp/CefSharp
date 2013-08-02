@@ -12,6 +12,7 @@ namespace CefSharp.Wpf.Example.Views.Main
         private IWpfWebBrowser webBrowser;
         private string addressEditable;
         private string title;
+        private string outputMessage;
 
         public string Address
         {
@@ -23,6 +24,12 @@ namespace CefSharp.Wpf.Example.Views.Main
         {
             get { return addressEditable; }
             set { PropertyChanged.ChangeAndNotify(ref addressEditable, value, () => AddressEditable); }
+        }
+
+        public string OutputMessage
+        {
+            get { return outputMessage; }
+            set { PropertyChanged.ChangeAndNotify(ref outputMessage, value, () => OutputMessage); }
         }
 
         public string Title
@@ -51,6 +58,9 @@ namespace CefSharp.Wpf.Example.Views.Main
             ViewSourceCommand = new DelegateCommand(ViewSource);
 
             PropertyChanged += OnPropertyChanged;
+
+            var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
+            OutputMessage = version;
         }
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -64,7 +74,20 @@ namespace CefSharp.Wpf.Example.Views.Main
                 case "Title":
                     Application.Current.MainWindow.Title = "CefSharp.WPf.Example - " + Title;
                     break;
+
+                case "WebBrowser":
+                    if (WebBrowser != null)
+                    {
+                        WebBrowser.ConsoleMessage += OnWebBrowserConsoleMessage;
+                    }
+
+                    break;
             }
+        }
+
+        private void OnWebBrowserConsoleMessage(object sender, ConsoleMessageEventArgs e)
+        {
+            OutputMessage = e.Message;
         }
 
         private void Go()

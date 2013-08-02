@@ -43,9 +43,6 @@
     //        this.view = view;
     //        this.uiThreadInvoke = uiThreadInvoke;
 
-    //        var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
-    //        view.DisplayOutput(version);
-
     //        model.RequestHandler = this;
     //        model.PropertyChanged += OnModelPropertyChanged;
     //        model.ConsoleMessage += OnModelConsoleMessage;
