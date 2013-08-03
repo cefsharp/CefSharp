@@ -33,8 +33,9 @@
                     </TextBox.InputBindings>
                 </TextBox>
             </DockPanel>
-            <GroupBox VerticalAlignment="Top"
-                      DockPanel.Dock="Top">
+            <Expander VerticalAlignment="Top"
+                      DockPanel.Dock="Top"
+                      Header="Tweak WPF Rendering">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -63,7 +64,7 @@
                             TickFrequency="0.01"
                             Value="0.95" />
                 </Grid>
-            </GroupBox>
+            </Expander>
             <StatusBar DockPanel.Dock="Bottom">
                 <ProgressBar HorizontalAlignment="Right"
                              IsIndeterminate="{Binding WebBrowser.IsLoading}"
