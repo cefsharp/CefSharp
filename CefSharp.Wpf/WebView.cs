@@ -30,7 +30,6 @@ namespace CefSharp.Wpf
 
         private Image image;
         private InteropBitmap interopBitmap;
-        private InteropBitmap popupInteropBitmap;
 
         public IJsDialogHandler JsDialogHandler { get; set; }
         public IKeyboardHandler KeyboardHandler { get; set; }
@@ -43,7 +42,6 @@ namespace CefSharp.Wpf
         public event LoadErrorEventHandler LoadError;
 
         public IntPtr FileMappingHandle { get; set; }
-        public IntPtr PopupFileMappingHandle { get; set; }
 
         public ICommand BackCommand { get; private set; }
         public ICommand ForwardCommand { get; private set; }
@@ -194,9 +192,7 @@ namespace CefSharp.Wpf
             Dispatcher.BeginInvoke((Action) (() => WebBrowser = this));
 
             //_scriptCore = new ScriptCore();
-            //_paintPopupDelegate = gcnew ActionHandler(this, &WebView::SetPopupBitmap);
-            //_resizePopupDelegate = gcnew ActionHandler(this, &WebView::SetPopupSizeAndPositionImpl);
-
+            
             Unloaded += OnUnloaded;
 
             ToolTip = toolTip = new ToolTip();
@@ -251,25 +247,9 @@ namespace CefSharp.Wpf
             Content = image = new Image();
             RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.NearestNeighbor);
 
-            //_popup = gcnew Popup();
-            //_popup->Child = _popupImage = gcnew Image();
-
-            //_popup->MouseDown += gcnew MouseButtonEventHandler(this, &WebView::OnPopupMouseDown);
-            //_popup->MouseUp += gcnew MouseButtonEventHandler(this, &WebView::OnPopupMouseUp);
-            //_popup->MouseMove += gcnew MouseEventHandler(this, &WebView::OnPopupMouseMove);
-            //_popup->MouseLeave += gcnew MouseEventHandler(this, &WebView::OnPopupMouseLeave);
-            //_popup->MouseWheel += gcnew MouseWheelEventHandler(this, &WebView::OnPopupMouseWheel);
-
-            //_popup->PlacementTarget = this;
-            //_popup->Placement = PlacementMode::Relative;
-
             image.Stretch = Stretch.None;
             image.HorizontalAlignment = HorizontalAlignment.Left;
             image.VerticalAlignment = VerticalAlignment.Top;
-
-            //_popupImage->Stretch = Stretch::None;
-            //_popupImage->HorizontalAlignment = ::HorizontalAlignment::Left;
-            //_popupImage->VerticalAlignment = ::VerticalAlignment::Top;
         }
 
         private void CreateOffscreenBrowser()
@@ -438,7 +418,7 @@ namespace CefSharp.Wpf
         {
             toolTip.Visibility = Visibility.Collapsed;
 
-            // Set Placement to something other than PlacementMode::Mouse, so that when we re-show the tooltip in
+            // Set Placement to something other than PlacementMode.Mouse, so that when we re-show the tooltip in
             // UpdateTooltip(), the tooltip will be repositioned to the new mouse point.
             toolTip.Placement = PlacementMode.Absolute;
         }
@@ -759,36 +739,6 @@ namespace CefSharp.Wpf
             Cursor = CursorInteropHelper.Create(new SafeFileHandle(handle, ownsHandle: false));
         }
 
-        public void SetPopupIsOpen(bool isOpen)
-        {
-            //    if(!Dispatcher->HasShutdownStarted) {
-            //        Dispatcher->BeginInvoke(gcnew Action<bool>(this, &WebView::ShowHidePopup), DispatcherPriority::Render, isOpen);
-            //    }
-        }
-
-        public void SetPopupSizeAndPosition(IntPtr rect)
-        {
-            //    auto cefRect = (const CefRect&) rect;
-
-            //    _popupX = cefRect.x;
-            //    _popupY = cefRect.y;
-            //    _popupWidth = cefRect.width;
-            //    _popupHeight = cefRect.height;
-
-            //    if(!Dispatcher->HasShutdownStarted) {
-            //        Dispatcher->BeginInvoke(DispatcherPriority::Render, _resizePopupDelegate);
-            //    }
-        }
-
-        //void WebView::SetPopupSizeAndPositionImpl()
-        //{
-        //    _popup->Width = _popupWidth;
-        //    _popup->Height = _popupHeight;
-
-        //    _popup->HorizontalOffset = _popupX;
-        //    _popup->VerticalOffset = _popupY;
-        //}
-
         public void ClearBitmap()
         {
             interopBitmap = null;
@@ -815,24 +765,6 @@ namespace CefSharp.Wpf
 
                 interopBitmap.Invalidate();
             }
-        }
-
-        public void SetPopupBitmap()
-        {
-            throw new NotImplementedException();
-            //if(popupInteropBitmap == null) 
-            //{
-            //    _popupImage->Source = nullptr;
-            //    GC::Collect(1);
-
-            //    int stride = _popupImageWidth * PixelFormats::Bgr32.BitsPerPixel / 8;
-            //    bitmap = (InteropBitmap^)Interop::Imaging::CreateBitmapSourceFromMemorySection(
-            //        (IntPtr)_popupFileMappingHandle, _popupImageWidth, _popupImageHeight, PixelFormats::Bgr32, stride, 0);
-            //    _popupImage->Source = bitmap;
-            //    _popupIbitmap = bitmap;
-            //}
-
-            //bitmap->Invalidate();
         }
 
         public void ViewSource()

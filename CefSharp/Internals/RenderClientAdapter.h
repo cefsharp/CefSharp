@@ -21,8 +21,8 @@ namespace CefSharp
         {
         private:
             gcroot<IRenderWebBrowser^> _renderWebBrowser;
-            gcroot<Action^> _setBitmapDelegate, _setPopupBitmapDelegate;
-            HANDLE _backBufferHandle, _popupBackBufferHandle;
+            gcroot<Action^> _setBitmapDelegate;
+            HANDLE _backBufferHandle;
 
         public:
             gcroot<Object^> BitmapLock;
@@ -34,13 +34,11 @@ namespace CefSharp
                 BitmapWidth(0), 
                 BitmapHeight(0),
                 _backBufferHandle(NULL),
-                _popupBackBufferHandle(NULL),
                 _renderWebBrowser(offscreenBrowserControl)
             {
                 BitmapLock = gcnew Object();
 
                 _setBitmapDelegate = gcnew Action(offscreenBrowserControl, &IRenderWebBrowser::SetBitmap);
-                _setPopupBitmapDelegate = gcnew Action(offscreenBrowserControl, &IRenderWebBrowser::SetPopupBitmap);
             }
 
             ~RenderClientAdapter()
@@ -63,16 +61,6 @@ namespace CefSharp
                     rect = CefRect(0, 0, _renderWebBrowser->Width, _renderWebBrowser->Height);
                     return true;
                 }
-            }
-
-            virtual DECL void OnPopupShow(CefRefPtr<CefBrowser> browser, bool show) OVERRIDE
-            {
-                _renderWebBrowser->SetPopupIsOpen(show);
-            }
-
-            virtual DECL void OnPopupSize(CefRefPtr<CefBrowser> browser, const CefRect& rect) OVERRIDE
-            {
-                _renderWebBrowser->SetPopupSizeAndPosition((IntPtr) (void*) &rect);
             }
 
             virtual DECL void OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects,

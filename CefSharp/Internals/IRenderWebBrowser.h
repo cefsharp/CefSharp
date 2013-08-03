@@ -12,7 +12,6 @@ namespace CefSharp
     private interface class IRenderWebBrowser : IWebBrowserInternal
     {
         property IntPtr FileMappingHandle;
-        property IntPtr PopupFileMappingHandle;
         property int BytesPerPixel { int get(); };
 
         property int Width { int get(); };
@@ -24,9 +23,5 @@ namespace CefSharp
 
         void ClearBitmap();
         void SetBitmap();
-
-        void SetPopupBitmap();
-        void SetPopupIsOpen(bool isOpen);
-        void SetPopupSizeAndPosition(IntPtr rect);
     };
 }
