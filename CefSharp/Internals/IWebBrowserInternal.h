@@ -39,7 +39,6 @@ namespace CefSharp
         void SetNavState(bool canGoBack, bool canGoForward);
         void SetTitle(String^ title);
         void SetTooltipText(String^ tooltipText);
-        void LoadHtml(String^ html);
         void Stop();
         void Reload();
         void Reload(bool ignoreCache);
@@ -60,7 +59,7 @@ namespace CefSharp
         void OnFrameLoadEnd(String^ url);
         void OnTakeFocus(bool next);
         void OnConsoleMessage(String^ message, String^ source, int line);
-        void OnLoadError(String^ url, int errorCode, String^ errorText);
+        void OnLoadError(String^ url, CefErrorCode errorCode, String^ errorText);
 
         void RegisterJsObject(String^ name, Object^ objectToBind);
         IDictionary<String^, Object^>^ GetBoundObjects();

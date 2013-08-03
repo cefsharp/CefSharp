@@ -142,6 +142,7 @@
     <ClInclude Include="Cef.h" />
     <ClInclude Include="ConsoleMessageEventArgs.h" />
     <ClInclude Include="IDownloadHandler.h" />
+    <ClInclude Include="CefErrorCode.h" />
     <ClInclude Include="Internals\DownloadAdapter.h" />
     <ClInclude Include="Internals\ClientAdapter.h" />
     <ClInclude Include="IMenuHandler.h" />

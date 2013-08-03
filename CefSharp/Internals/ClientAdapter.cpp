@@ -155,7 +155,7 @@ namespace CefSharp
 
         void ClientAdapter::OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, ErrorCode errorCode, const CefString& errorText, const CefString& failedUrl)
         {
-            _browserControl->OnLoadError(StringUtils::ToClr(failedUrl), errorCode, StringUtils::ToClr(errorText));
+            _browserControl->OnLoadError(StringUtils::ToClr(failedUrl), (CefErrorCode) errorCode, StringUtils::ToClr(errorText));
         }
 
         // TODO: Check how we can support this with CEF3.

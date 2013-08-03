@@ -5,6 +5,7 @@
 #pragma once
 
 #include "Stdafx.h"
+#include "CefErrorCode.h"
 #include "ConsoleMessageEventArgs.h"
 #include "LoadCompletedEventArgs.h"
 
@@ -18,7 +19,7 @@ namespace CefSharp
     /// <param name="failedUrl">The URL that failed to load.</param>
     /// <param name="errorCode">The error code.</param>
     /// <param name="errorText">The error text.</param>
-    public delegate void LoadErrorEventHandler(String^ failedUrl, int errorCode, String^ errorText);
+    public delegate void LoadErrorEventHandler(String^ failedUrl, CefErrorCode errorCode, String^ errorText);
 
     public interface class IWebBrowser
     {
@@ -36,5 +37,12 @@ namespace CefSharp
         /// Event handler that will get called whenever a load error occurs.
         /// </summary>        
         event LoadErrorEventHandler^ LoadError;
+
+        /// <summary>
+        /// Loads custom HTML content into the web browser.
+        /// </summary>
+        /// <param name="html">The HTML content.</param>
+        /// <param name="url">The URL that will be treated as the address of the content.</param>
+        void LoadHtml(String^ html, String^ url);
     };
 }

@@ -93,6 +93,17 @@ namespace CefSharp
             }
         }
 
+        void LoadHtml(String^ html, String^ url)
+        {
+            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
+
+            if (cefFrame != nullptr)
+            {
+                cefFrame->LoadString(StringUtils::ToNative(html), StringUtils::ToNative(url));
+            }
+        }
+
+
         void WasResized()
         {
             auto cefHost = _renderClientAdapter->TryGetCefHost();

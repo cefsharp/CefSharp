@@ -160,5 +160,8 @@
     <ClInclude Include="Internals\IRenderWebBrowser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CefErrorCode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

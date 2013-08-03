@@ -12,6 +12,7 @@
 #include "Internals/CookieVisitor.h"
 #include "Internals/StringUtils.h"
 #include "CefBrowserWrapper.h"
+#include "CefErrorCode.h"
 #include "CefSettings.h"
 #include "SchemeHandler.h"
 

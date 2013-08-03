@@ -570,9 +570,9 @@ namespace CefSharp.Wpf
             browserCore.OnInitialized();
         }
 
-        public void LoadHtml(string html)
+        public void LoadHtml(string html, string url)
         {
-            throw new NotImplementedException();
+            cefBrowserWrapper.LoadHtml(html, url);
         }
 
         public void Stop()
@@ -694,7 +694,7 @@ namespace CefSharp.Wpf
             }
         }
 
-        public void OnLoadError(string url, int errorCode, string errorText)
+        public void OnLoadError(string url, CefErrorCode errorCode, string errorText)
         {
             if (LoadError != null)
             {
