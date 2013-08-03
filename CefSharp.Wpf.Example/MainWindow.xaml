@@ -5,7 +5,8 @@
         xmlns:example="clr-namespace:CefSharp.Example;assembly=CefSharp.Example"
         Title="CefSharp.Wpf.Example"
         Width="1024"
-        Height="768">
+        Height="768"
+        WindowStartupLocation="CenterScreen">
     <ContentControl x:Name="Content" />
     <!--<Menu Height="22"
                   DockPanel.Dock="Top">
