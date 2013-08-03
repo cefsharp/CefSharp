@@ -115,9 +115,9 @@ namespace CefSharp
         
                 if (exitCode >= 0)
                 {
-                    throw gcnew Exception(
-                        "Failed to execute CEF process. Possible causes could be version mismatches (replacing libcef.dll etc. without " +
-                        "recompiling CefSharp). Error code was: " + exitCode);
+                    // Something went "wrong", but it may also be caused in the case where we are the secondary process, so we
+                    // can't really throw exceptions or anything like that.
+                    return false;
                 }
 
                 success = CefInitialize(main_args, *(cefSettings->_cefSettings), app.get());
