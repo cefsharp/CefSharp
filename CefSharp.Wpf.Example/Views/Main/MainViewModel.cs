@@ -79,6 +79,7 @@ namespace CefSharp.Wpf.Example.Views.Main
                     if (WebBrowser != null)
                     {
                         WebBrowser.ConsoleMessage += OnWebBrowserConsoleMessage;
+                        WebBrowser.LoadError += OnWebBrowserLoadError;
                     }
 
                     break;
@@ -88,6 +89,19 @@ namespace CefSharp.Wpf.Example.Views.Main
         private void OnWebBrowserConsoleMessage(object sender, ConsoleMessageEventArgs e)
         {
             OutputMessage = e.Message;
+        }
+
+        private void OnWebBrowserLoadError(string failedUrl, CefErrorCode errorCode, string errorText)
+        {
+            // Don't display an error for downloaded files where the user aborted the download.
+            if (errorCode == CefErrorCode.Aborted)
+                return;
+
+            var errorMessage = "<html><body><h2>Failed to load URL " + failedUrl +
+                  " with error " + errorText + " (" + errorCode +
+                  ").</h2></body></html>";
+
+            webBrowser.LoadHtml(errorMessage, failedUrl);
         }
 
         private void Go()
