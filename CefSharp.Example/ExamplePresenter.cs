@@ -1,4 +1,7 @@
-﻿namespace CefSharp.Example
+﻿using System;
+using System.Linq;
+
+namespace CefSharp.Example
 {
     public class ExamplePresenter
     {
@@ -11,7 +14,14 @@
 
             if (!Cef.Initialize(settings))
             {
-                return;
+                if (Environment.GetCommandLineArgs().Contains("--type=renderer"))
+                {
+                    Environment.Exit(0);
+                }
+                else
+                {
+                    return;
+                }
             }
 
             Cef.RegisterScheme("test", new SchemeHandlerFactory());
