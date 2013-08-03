@@ -61,7 +61,6 @@ namespace CefSharp
         void OnConsoleMessage(String^ message, String^ source, int line);
         void OnLoadError(String^ url, CefErrorCode errorCode, String^ errorText);
 
-        void RegisterJsObject(String^ name, Object^ objectToBind);
         IDictionary<String^, Object^>^ GetBoundObjects();
     };
 }

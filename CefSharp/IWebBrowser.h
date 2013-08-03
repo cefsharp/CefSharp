@@ -44,5 +44,12 @@ namespace CefSharp
         /// <param name="html">The HTML content.</param>
         /// <param name="url">The URL that will be treated as the address of the content.</param>
         void LoadHtml(String^ html, String^ url);
+
+        /// <summary>
+        /// Registers a Javascript object in this specific browser instance.
+        /// </summary>
+        /// <param name="name">The name of the object. (e.g. "foo", if you want the object to be accessible as window.foo).</param>
+        /// <param name="objectToBind">The object to be made accessible to Javascript.</param>
+        void RegisterJsObject(String^ name, Object^ objectToBind);
     };
 }
