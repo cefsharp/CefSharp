@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Input;
+using System.Windows.Threading;
 using CefSharp.Example;
 using CefSharp.Wpf.Example.Mvvm;
 
@@ -72,7 +74,7 @@ namespace CefSharp.Wpf.Example.Views.Main
                     break;
 
                 case "Title":
-                    Application.Current.MainWindow.Title = "CefSharp.WPf.Example - " + Title;
+                    Application.Current.MainWindow.Title = "CefSharp.Wpf.Example - " + Title;
                     break;
 
                 case "WebBrowser":
@@ -80,6 +82,11 @@ namespace CefSharp.Wpf.Example.Views.Main
                     {
                         WebBrowser.ConsoleMessage += OnWebBrowserConsoleMessage;
                         WebBrowser.LoadError += OnWebBrowserLoadError;
+
+                        // TODO: This is a bit of a hack. It would be nicer/cleaner to give the webBrowser focus in the Go()
+                        // method, but it seems like "something" gets messed up (= doesn't work correctly) if we give it focus
+                        // "too early" in the loading process...
+                        WebBrowser.LoadCompleted += delegate { Application.Current.Dispatcher.BeginInvoke((Action) (() => webBrowser.Focus())); };
                     }
 
                     break;
@@ -107,6 +114,9 @@ namespace CefSharp.Wpf.Example.Views.Main
         private void Go()
         {
             Address = AddressEditable;
+
+            // Part of the Focus hack further described in the OnPropertyChanged() method...
+            Keyboard.ClearFocus();
         }
 
         private void ViewSource()

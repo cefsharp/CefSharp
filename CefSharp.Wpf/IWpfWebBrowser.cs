@@ -42,5 +42,12 @@ namespace CefSharp.Wpf
         /// page is shown.
         /// </summary>
         void ViewSource();
+
+        /// <summary>
+        /// Attempts to give focus to the WebBrowser control.
+        /// </summary>
+        /// <returns><c>true</c> if keyboard focus and logical focus were set to this element; <c>false</c> if only logical focus
+        /// was set to this element, or if the call to this method did not force the focus to change.</returns>
+        bool Focus();
     }
 }
