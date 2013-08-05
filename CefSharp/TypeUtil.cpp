@@ -8,7 +8,7 @@ using namespace System::Collections::Generic;
 
 namespace CefSharp
 {
-    CefRefPtr<CefV8Value> convertToCef(Object^ obj, Type^ type)
+    CefRefPtr<CefV8Value> TypeUtil::ConvertToCef(Object^ obj, Type^ type)
     {
         if (type == Void::typeid)
         {
@@ -37,7 +37,7 @@ namespace CefSharp
         }
         if (type == String::typeid)
         {
-            CefString str = toNative(safe_cast<String^>(obj));
+            CefString str = StringUtils::ToNative(safe_cast<String^>(obj));
             return CefV8Value::CreateString(str);
         }
         if (type == Double::typeid)
@@ -97,7 +97,7 @@ namespace CefSharp
 
                 if (arrObj != nullptr)
                 {
-                    CefRefPtr<CefV8Value> cefObj = convertToCef(arrObj, arrObj->GetType());
+                    CefRefPtr<CefV8Value> cefObj = TypeUtil::ConvertToCef(arrObj, arrObj->GetType());
 
                     cefArray->SetValue(i, cefObj);
                 }
@@ -118,13 +118,13 @@ namespace CefSharp
             {
                 String^ fieldName = fields[i]->Name;
 
-                CefString strFieldName = toNative(safe_cast<String^>(fieldName));
+                CefString strFieldName = StringUtils::ToNative(safe_cast<String^>(fieldName));
 
                 Object^ fieldVal = fields[i]->GetValue(obj);
 
                 if (fieldVal != nullptr)
                 {
-                    CefRefPtr<CefV8Value> cefVal = convertToCef(fieldVal, fieldVal->GetType());
+                    CefRefPtr<CefV8Value> cefVal = TypeUtil::ConvertToCef(fieldVal, fieldVal->GetType());
 
                     cefArray->SetValue(strFieldName, cefVal, V8_PROPERTY_ATTRIBUTE_NONE);
                 }
@@ -145,7 +145,7 @@ namespace CefSharp
         return gcnew System::String(s.c_str());
     }
 
-    Object^ convertFromCef(CefRefPtr<CefV8Value> obj)
+    Object^ TypeUtil::ConvertFromCef(CefRefPtr<CefV8Value> obj)
     {
         if (obj->IsNull() || obj->IsUndefined())
         {
@@ -159,7 +159,7 @@ namespace CefSharp
         if (obj->IsDouble())
             return gcnew System::Double(obj->GetDoubleValue());
         if (obj->IsString())
-            return toClr(obj->GetStringValue());
+            return StringUtils::ToClr(obj->GetStringValue());
 
         if (obj->IsArray())
         {
@@ -184,7 +184,7 @@ namespace CefSharp
                             data = obj->GetValue(keys[i]);
                             if (data != nullptr)
                             {
-                                Object^ p_data = convertFromCef(data);
+                                Object^ p_data = TypeUtil::ConvertFromCef(data);
 
                                 result->Add(p_keyStr, p_data);
                             }
@@ -220,7 +220,7 @@ namespace CefSharp
                             data = obj->GetValue(keys[i]);
                             if (data != nullptr)
                             {
-                                Object^ p_data = convertFromCef(data);
+                                Object^ p_data = TypeUtil::ConvertFromCef(data);
 
                                 result->Add(p_keyStr, p_data);
                             }
