@@ -237,5 +237,19 @@ namespace CefSharp
                 _scriptCore->Execute(browser, StringUtils::ToNative(script));
             }
         }
+
+        Object^ EvaluateScript(String^ script, TimeSpan timeout)
+        {
+            auto browser = _renderClientAdapter->GetCefBrowser();
+
+            if (browser != nullptr)
+            {
+                return _scriptCore->Evaluate(browser, StringUtils::ToNative(script), (DWORD) timeout.TotalMilliseconds);
+            }
+            else
+            {
+                return nullptr;
+            }
+        }
     };
 }

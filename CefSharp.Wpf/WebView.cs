@@ -695,27 +695,19 @@ namespace CefSharp.Wpf
             cefBrowserWrapper.ExecuteScript(script);
         }
 
-        public object EvaluateScript(string script, TimeSpan? timeout = null)
+        public object EvaluateScript(string script)
+        {
+            return EvaluateScript(script, timeout: null);
+        }
+
+        public object EvaluateScript(string script, TimeSpan? timeout)
         {
             if (timeout == null)
             {
                 timeout = TimeSpan.MaxValue;
             }
 
-            // Not supported at the moment. Can be done, but will not be able to support a return value here like we're supposed
-            // to, because of CEF3:s asynchronous nature.
-            throw new NotImplementedException();
-            //_browserCore->CheckBrowserInitialization();
-
-            //CefRefPtr<CefBrowser> browser;
-            //if (TryGetCefBrowser(browser))
-            //{
-            //    return _scriptCore->Evaluate(browser, toNative(script), timeout.TotalMilliseconds);
-            //}
-            //else
-            //{
-            //    return nullptr;
-            //}
+            return cefBrowserWrapper.EvaluateScript(script, timeout.Value);
         }
 
         public void SetCursor(IntPtr handle)

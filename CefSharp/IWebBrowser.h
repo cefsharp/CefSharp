@@ -57,5 +57,18 @@ namespace CefSharp
         /// </summary>
         /// <param name="script">The Javascript code that should be executed.</param>
         void ExecuteScript(String^ script);
+
+        /// <summary>
+        /// Execute some Javascript code in the context of this WebBrowser, and return the result of the evaluation.
+        /// </summary>
+        /// <param name="script">The Javascript code that should be executed.</param>
+        Object^ EvaluateScript(String^ script);
+
+        /// <summary>
+        /// Execute some Javascript code in the context of this WebBrowser, and return the result of the evaluation.
+        /// </summary>
+        /// <param name="script">The Javascript code that should be executed.</param>
+        /// <param name="timeout">The timeout after which the Javascript code execution should be aborted.</param>
+        Object^ EvaluateScript(String^ script, Nullable<TimeSpan> timeout);
     };
 }
