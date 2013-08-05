@@ -1,3 +1,7 @@
+// Copyright © 2010-2013 The CefSharp Project. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
 #include "Stdafx.h"
 #include "include/cef_runnable.h"
 #include "ScriptCore.h"
@@ -44,7 +48,7 @@ namespace CefSharp
                 {
                    try
                     {
-                        _result = convertFromCef(result);
+                        _result = TypeUtils::ConvertFromCef(result);
                     }
                     catch (Exception^ ex)
                     {
@@ -53,7 +57,7 @@ namespace CefSharp
                 }
                 else if (exception.get())
                 {
-                    _exceptionMessage = toClr(exception->GetMessage());
+                    _exceptionMessage = StringUtils::ToClr(exception->GetMessage());
                 }
                 else
                 {
