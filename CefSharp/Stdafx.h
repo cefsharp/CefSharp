@@ -15,5 +15,5 @@
 #include "Cef.h"
 #include "Internals/MCefRefPtr.h"
 #include "Internals/StringUtils.h"
-#include "TypeUtil.h"
+#include "TypeUtils.h"
 #include "vcclr_local.h"

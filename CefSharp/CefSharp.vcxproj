@@ -135,7 +135,7 @@
     </ClCompile>
     <ClCompile Include="Internals\StringUtils.cpp" />
     <ClCompile Include="Internals\StreamAdapter.cpp" />
-    <ClCompile Include="TypeUtil.cpp" />
+    <ClCompile Include="TypeUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BrowserCore.h" />
@@ -172,7 +172,7 @@
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="Internals\StringUtils.h" />
     <ClInclude Include="Internals\StreamAdapter.h" />
-    <ClInclude Include="TypeUtil.h" />
+    <ClInclude Include="TypeUtils.h" />
     <ClInclude Include="vcclr_local.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -56,7 +56,7 @@
     <ClCompile Include="Internals\StreamAdapter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TypeUtil.cpp">
+    <ClCompile Include="TypeUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -166,7 +166,7 @@
     <ClInclude Include="CefErrorCode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TypeUtil.h">
+    <ClInclude Include="TypeUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
