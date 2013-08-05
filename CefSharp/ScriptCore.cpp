@@ -36,6 +36,7 @@ namespace CefSharp
         CefRefPtr<CefFrame> mainFrame;
         if (TryGetMainFrame(browser, mainFrame))
         {
+            // TODO: fails, most likely because we are not in the render process.
             CefRefPtr<CefV8Context> context = mainFrame->GetV8Context();
 
             if (context.get() && context->Enter())
