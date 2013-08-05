@@ -37,6 +37,7 @@ namespace CefSharp.Example
 
         void SetTitle(string title);
         void SetAddress(string address);
+        void SetAddress(Uri uri);
         void SetCanGoBack(bool can_go_back);
         void SetCanGoForward(bool can_go_forward);
         void SetIsLoading(bool is_loading);

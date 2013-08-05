@@ -1,34 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 
 namespace CefSharp.Example
 {
-    class DownloadHandler : IDownloadHandler
+    internal class DownloadHandler : IDownloadHandler
     {
-        private readonly string _path;
-        private Stream _stream;
-
-        public DownloadHandler(string fileName)
+        public bool OnBeforeDownload(string suggestedName, out string downloadPath, out bool showDialog)
         {
-            _path = Path.Combine(Path.GetTempPath(), fileName);
-            _stream = File.Create(_path);
+            downloadPath = Path.GetTempPath();
+            showDialog = true;
+
+            return true;
         }
 
         public bool ReceivedData(byte[] data)
         {
-            _stream.Write(data, 0, data.GetLength(0));
-            return true;
-
+            throw new NotImplementedException();
         }
+
         public void Complete()
         {
-            _stream.Dispose();
-            _stream = null;
-
-            Console.WriteLine("Downloaded: {0}", _path);
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,4 +1,4 @@
-// Copyright (c) 2011 Marshall A. Greenblatt. All rights reserved.
+// Copyright (c) 2012 Marshall A. Greenblatt. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are
@@ -49,7 +49,8 @@
 /*--cef(source=client)--*/
 class CefLoadHandler : public virtual CefBase {
  public:
-  typedef cef_handler_errorcode_t ErrorCode;
+  typedef cef_errorcode_t ErrorCode;
+  typedef cef_termination_status_t TerminationStatus;
 
   ///
   // Called when the browser begins loading a frame. The |frame| value will
@@ -78,17 +79,32 @@ class CefLoadHandler : public virtual CefBase {
 
   ///
   // Called when the browser fails to load a resource. |errorCode| is the error
-  // code number and |failedUrl| is the URL that failed to load. To provide
-  // custom error text assign the text to |errorText| and return true.
-  // Otherwise, return false for the default error text. See
-  // net\base\net_error_list.h for complete descriptions of the error codes.
+  // code number, |errorText| is the error text and and |failedUrl| is the URL
+  // that failed to load. See net\base\net_error_list.h for complete
+  // descriptions of the error codes.
   ///
-  /*--cef()--*/
-  virtual bool OnLoadError(CefRefPtr<CefBrowser> browser,
+  /*--cef(optional_param=errorText)--*/
+  virtual void OnLoadError(CefRefPtr<CefBrowser> browser,
                            CefRefPtr<CefFrame> frame,
                            ErrorCode errorCode,
-                           const CefString& failedUrl,
-                           CefString& errorText) { return false; }
+                           const CefString& errorText,
+                           const CefString& failedUrl) {}
+
+  ///
+  // Called when the render process terminates unexpectedly. |status| indicates
+  // how the process terminated.
+  ///
+  /*--cef()--*/
+  virtual void OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser,
+                                         TerminationStatus status) {}
+
+  ///
+  // Called when a plugin has crashed. |plugin_path| is the path of the plugin
+  // that crashed.
+  ///
+  /*--cef()--*/
+  virtual void OnPluginCrashed(CefRefPtr<CefBrowser> browser,
+                               const CefString& plugin_path) {}
 };
 
 #endif  // CEF_INCLUDE_CEF_LOAD_HANDLER_H_

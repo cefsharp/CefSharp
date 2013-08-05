@@ -1,3 +1,7 @@
+// Copyright © 2010-2013 The CefSharp Project. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
 #include "Stdafx.h"
 #include "include/cef_runnable.h"
 #include "ScriptCore.h"
@@ -32,6 +36,7 @@ namespace CefSharp
         CefRefPtr<CefFrame> mainFrame;
         if (TryGetMainFrame(browser, mainFrame))
         {
+            // TODO: fails, most likely because we are not in the render process.
             CefRefPtr<CefV8Context> context = mainFrame->GetV8Context();
 
             if (context.get() && context->Enter())
@@ -44,7 +49,7 @@ namespace CefSharp
                 {
                    try
                     {
-                        _result = convertFromCef(result);
+                        _result = TypeUtils::ConvertFromCef(result);
                     }
                     catch (Exception^ ex)
                     {
@@ -53,7 +58,7 @@ namespace CefSharp
                 }
                 else if (exception.get())
                 {
-                    _exceptionMessage = toClr(exception->GetMessage());
+                    _exceptionMessage = StringUtils::ToClr(exception->GetMessage());
                 }
                 else
                 {
@@ -84,7 +89,7 @@ namespace CefSharp
         }
     }
 
-    gcroot<Object^> ScriptCore::Evaluate(CefRefPtr<CefBrowser> browser, CefString script, double timeout)
+    gcroot<Object^> ScriptCore::Evaluate(CefRefPtr<CefBrowser> browser, CefString script, DWORD timeout)
     {
         AutoLock lock_scope(this);
         _result = nullptr;
@@ -96,8 +101,7 @@ namespace CefSharp
         }
         else
         {
-            CefPostTask(TID_UI, NewCefRunnableMethod(this, &ScriptCore::UIT_Evaluate,
-                browser, script));
+            CefPostTask(TID_UI, NewCefRunnableMethod(this, &ScriptCore::UIT_Evaluate, browser, script));
         }
 
         switch (WaitForSingleObject(_event, timeout))

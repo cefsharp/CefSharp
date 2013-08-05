@@ -1,4 +1,4 @@
-// Copyright (c) 2013 Marshall A. Greenblatt. All rights reserved.
+// Copyright (c) 2012 Marshall A. Greenblatt. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are
@@ -40,24 +40,39 @@
 #pragma once
 
 #include "include/cef_base.h"
-#include "include/cef_proxy_handler.h"
+#include "include/cef_browser_process_handler.h"
+#include "include/cef_command_line.h"
+#include "include/cef_render_process_handler.h"
 #include "include/cef_resource_bundle_handler.h"
 #include "include/cef_scheme.h"
 
 class CefApp;
 
 ///
-// This function should be called on the main application thread to initialize
-// CEF when the application is started. The |application| parameter may be
-// empty. A return value of true indicates that it succeeded and false indicates
-// that it failed.
+// This function should be called from the application entry point function to
+// execute a secondary process. It can be used to run secondary processes from
+// the browser client executable (default behavior) or from a separate
+// executable specified by the CefSettings.browser_subprocess_path value. If
+// called for the browser process (identified by no "type" command-line value)
+// it will return immediately with a value of -1. If called for a recognized
+// secondary process it will block until the process should exit and then return
+// the process exit code. The |application| parameter may be empty.
 ///
-/*--cef(revision_check,optional_param=application)--*/
-bool CefInitialize(const CefSettings& settings, CefRefPtr<CefApp> application);
+/*--cef(api_hash_check,optional_param=application)--*/
+int CefExecuteProcess(const CefMainArgs& args, CefRefPtr<CefApp> application);
+
+///
+// This function should be called on the main application thread to initialize
+// the CEF browser process. The |application| parameter may be empty. A return
+// value of true indicates that it succeeded and false indicates that it failed.
+///
+/*--cef(api_hash_check,optional_param=application)--*/
+bool CefInitialize(const CefMainArgs& args, const CefSettings& settings,
+                   CefRefPtr<CefApp> application);
 
 ///
 // This function should be called on the main application thread to shut down
-// CEF before the application exits.
+// the CEF browser process before the application exits.
 ///
 /*--cef()--*/
 void CefShutdown();
@@ -93,22 +108,34 @@ void CefRunMessageLoop();
 void CefQuitMessageLoop();
 
 ///
-// Set to true before calling Windows APIs like TrackPopupMenu that enter a
-// modal message loop. Set to false after exiting the modal message loop.
-///
-/*--cef()--*/
-void CefSetOSModalLoop(bool osModalLoop);
-
-///
 // Implement this interface to provide handler implementations. Methods will be
-// called on the thread indicated.
+// called by the process and/or thread indicated.
 ///
 /*--cef(source=client,no_debugct_check)--*/
 class CefApp : public virtual CefBase {
  public:
   ///
+  // Provides an opportunity to view and/or modify command-line arguments before
+  // processing by CEF and Chromium. The |process_type| value will be empty for
+  // the browser process. Do not keep a reference to the CefCommandLine object
+  // passed to this method. The CefSettings.command_line_args_disabled value
+  // can be used to start with an empty command-line object. Any values
+  // specified in CefSettings that equate to command-line arguments will be set
+  // before this method is called. Be cautious when using this method to modify
+  // command-line arguments for non-browser processes as this may result in
+  // undefined behavior including crashes.
+  ///
+  /*--cef(optional_param=process_type)--*/
+  virtual void OnBeforeCommandLineProcessing(
+      const CefString& process_type,
+      CefRefPtr<CefCommandLine> command_line) {
+  }
+
+  ///
   // Provides an opportunity to register custom schemes. Do not keep a reference
-  // to the |registrar| object. This method is called on the UI thread.
+  // to the |registrar| object. This method is called on the main thread for
+  // each process and the registered schemes should be the same across all
+  // processes.
   ///
   /*--cef()--*/
   virtual void OnRegisterCustomSchemes(
@@ -119,7 +146,7 @@ class CefApp : public virtual CefBase {
   // Return the handler for resource bundle events. If
   // CefSettings.pack_loading_disabled is true a handler must be returned. If no
   // handler is returned resources will be loaded from pack files. This method
-  // is called on multiple threads.
+  // is called by the browser and render processes on multiple threads.
   ///
   /*--cef()--*/
   virtual CefRefPtr<CefResourceBundleHandler> GetResourceBundleHandler() {
@@ -127,11 +154,20 @@ class CefApp : public virtual CefBase {
   }
 
   ///
-  // Return the handler for proxy events. If not handler is returned the default
-  // system handler will be used. This method is called on the IO thread.
+  // Return the handler for functionality specific to the browser process. This
+  // method is called on multiple threads in the browser process.
   ///
   /*--cef()--*/
-  virtual CefRefPtr<CefProxyHandler> GetProxyHandler() {
+  virtual CefRefPtr<CefBrowserProcessHandler> GetBrowserProcessHandler() {
+    return NULL;
+  }
+
+  ///
+  // Return the handler for functionality specific to the render process. This
+  // method is called on the render process main thread.
+  ///
+  /*--cef()--*/
+  virtual CefRefPtr<CefRenderProcessHandler> GetRenderProcessHandler() {
     return NULL;
   }
 };

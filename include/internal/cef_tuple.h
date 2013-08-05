@@ -57,6 +57,10 @@
 #define CEF_INCLUDE_INTERNAL_CEF_TUPLE_H_
 #pragma once
 
+// If base/tuple.h is included first then exclude this file. This is to
+// facilitate the use of both base/bind.h and cef_runnable.h in unit tests.
+#ifndef BASE_TUPLE_H__
+
 #if defined(OS_CHROMEOS)
 // To troubleshoot crosbug.com/7327.
 #include "base/logging.h"
@@ -1078,5 +1082,7 @@ inline void DispatchToMethod(ObjT* obj, Method method,
   (obj->*method)(in.a, in.b, in.c, in.d, in.e, in.f,
                  &out->a, &out->b, &out->c, &out->d, &out->e);
 }
+
+#endif  // BASE_TUPLE_H__
 
 #endif  // CEF_INCLUDE_INTERNAL_CEF_TUPLE_H_

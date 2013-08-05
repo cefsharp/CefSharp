@@ -58,7 +58,7 @@ class CefGeolocationCallback : public virtual CefBase {
 
 ///
 // Implement this interface to handle events related to geolocation permission
-// requests. The methods of this class will be called on the browser process UI
+// requests. The methods of this class will be called on the browser process IO
 // thread.
 ///
 /*--cef(source=client)--*/

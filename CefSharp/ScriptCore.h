@@ -1,9 +1,14 @@
-#include "Stdafx.h"
+// Copyright © 2010-2013 The CefSharp Project. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
 #pragma once
+
+#include "Stdafx.h"
 
 namespace CefSharp
 {
-    class ScriptCore
+    private class ScriptCore
     {
     private:
         HANDLE _event;
@@ -22,7 +27,7 @@ namespace CefSharp
         }
 
         DECL void Execute(CefRefPtr<CefBrowser> browser, CefString script);
-        DECL gcroot<Object^> Evaluate(CefRefPtr<CefBrowser> browser, CefString script, double timeout);
+        DECL gcroot<Object^> Evaluate(CefRefPtr<CefBrowser> browser, CefString script, DWORD timeout);
 
         IMPLEMENT_LOCKING(ScriptCore);
         IMPLEMENT_REFCOUNTING(ScriptCore);

@@ -1,4 +1,4 @@
-// Copyright (c) 2011 Marshall A. Greenblatt. All rights reserved.
+// Copyright (c) 2012 Marshall A. Greenblatt. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are
@@ -49,23 +49,29 @@ class CefPostDataElement;
 // Class used to represent a web request. The methods of this class may be
 // called on any thread.
 ///
-/*--cef(source=library)--*/
+/*--cef(source=library,no_debugct_check)--*/
 class CefRequest : public virtual CefBase {
  public:
   typedef std::multimap<CefString, CefString> HeaderMap;
-  typedef cef_weburlrequest_flags_t RequestFlags;
 
   ///
   // Create a new CefRequest object.
   ///
   /*--cef()--*/
-  static CefRefPtr<CefRequest> CreateRequest();
+  static CefRefPtr<CefRequest> Create();
+
+  ///
+  // Returns true if this object is read-only.
+  ///
+  /*--cef()--*/
+  virtual bool IsReadOnly() =0;
 
   ///
   // Get the fully qualified URL.
   ///
   /*--cef()--*/
   virtual CefString GetURL() =0;
+
   ///
   // Set the fully qualified URL.
   ///
@@ -78,6 +84,7 @@ class CefRequest : public virtual CefBase {
   ///
   /*--cef()--*/
   virtual CefString GetMethod() =0;
+
   ///
   // Set the request method type.
   ///
@@ -89,6 +96,7 @@ class CefRequest : public virtual CefBase {
   ///
   /*--cef()--*/
   virtual CefRefPtr<CefPostData> GetPostData() =0;
+
   ///
   // Set the post data.
   ///
@@ -100,6 +108,7 @@ class CefRequest : public virtual CefBase {
   ///
   /*--cef()--*/
   virtual void GetHeaderMap(HeaderMap& headerMap) =0;
+
   ///
   // Set the header values.
   ///
@@ -116,25 +125,29 @@ class CefRequest : public virtual CefBase {
                    const HeaderMap& headerMap) =0;
 
   ///
-  // Get the flags used in combination with CefWebURLRequest.
+  // Get the flags used in combination with CefURLRequest. See
+  // cef_urlrequest_flags_t for supported values.
   ///
-  /*--cef(default_retval=WUR_FLAG_NONE)--*/
-  virtual RequestFlags GetFlags() =0;
+  /*--cef(default_retval=UR_FLAG_NONE)--*/
+  virtual int GetFlags() =0;
+
   ///
-  // Set the flags used in combination with CefWebURLRequest.
+  // Set the flags used in combination with CefURLRequest.  See
+  // cef_urlrequest_flags_t for supported values.
   ///
   /*--cef()--*/
-  virtual void SetFlags(RequestFlags flags) =0;
+  virtual void SetFlags(int flags) =0;
 
   ///
   // Set the URL to the first party for cookies used in combination with
-  // CefWebURLRequest.
+  // CefURLRequest.
   ///
   /*--cef()--*/
   virtual CefString GetFirstPartyForCookies() =0;
+
   ///
   // Get the URL to the first party for cookies used in combination with
-  // CefWebURLRequest.
+  // CefURLRequest.
   ///
   /*--cef()--*/
   virtual void SetFirstPartyForCookies(const CefString& url) =0;
@@ -145,7 +158,7 @@ class CefRequest : public virtual CefBase {
 // Class used to represent post data for a web request. The methods of this
 // class may be called on any thread.
 ///
-/*--cef(source=library)--*/
+/*--cef(source=library,no_debugct_check)--*/
 class CefPostData : public virtual CefBase {
  public:
   typedef std::vector<CefRefPtr<CefPostDataElement> > ElementVector;
@@ -154,7 +167,13 @@ class CefPostData : public virtual CefBase {
   // Create a new CefPostData object.
   ///
   /*--cef()--*/
-  static CefRefPtr<CefPostData> CreatePostData();
+  static CefRefPtr<CefPostData> Create();
+
+  ///
+  // Returns true if this object is read-only.
+  ///
+  /*--cef()--*/
+  virtual bool IsReadOnly() =0;
 
   ///
   // Returns the number of existing post data elements.
@@ -193,7 +212,7 @@ class CefPostData : public virtual CefBase {
 // Class used to represent a single element in the request post data. The
 // methods of this class may be called on any thread.
 ///
-/*--cef(source=library)--*/
+/*--cef(source=library,no_debugct_check)--*/
 class CefPostDataElement : public virtual CefBase {
  public:
   ///
@@ -205,7 +224,13 @@ class CefPostDataElement : public virtual CefBase {
   // Create a new CefPostDataElement object.
   ///
   /*--cef()--*/
-  static CefRefPtr<CefPostDataElement> CreatePostDataElement();
+  static CefRefPtr<CefPostDataElement> Create();
+
+  ///
+  // Returns true if this object is read-only.
+  ///
+  /*--cef()--*/
+  virtual bool IsReadOnly() =0;
 
   ///
   // Remove all contents from the post data element.

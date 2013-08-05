@@ -1,5 +1,8 @@
-#include "Stdafx.h"
+// Copyright © 2010-2013 The CefSharp Project. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+#include "Stdafx.h"
 #include "BrowserCore.h"
 
 namespace CefSharp
@@ -20,27 +23,6 @@ namespace CefSharp
     IDictionary<String^, Object^>^ BrowserCore::GetBoundObjects()
     {
         return _boundObjects;
-    }
-
-    void BrowserCore::SetNavState(bool isLoading, bool canGoBack, bool canGoForward)
-    {
-        if(isLoading != _isLoading) 
-        {
-            _isLoading = isLoading;
-            PropertyChanged(this, gcnew PropertyChangedEventArgs(L"IsLoading"));
-        }
-
-        if(canGoBack != _canGoBack) 
-        {
-            _canGoBack = canGoBack;
-            PropertyChanged(this, gcnew PropertyChangedEventArgs(L"CanGoBack"));
-        }
-
-        if(canGoForward != _canGoForward)
-        {
-            _canGoForward = canGoForward;
-            PropertyChanged(this, gcnew PropertyChangedEventArgs(L"CanGoForward"));
-        }
     }
 
     void BrowserCore::OnInitialized()

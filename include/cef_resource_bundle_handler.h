@@ -51,11 +51,7 @@ class CefResourceBundleHandler : public virtual CefBase {
   // Called to retrieve a localized translation for the string specified by
   // |message_id|. To provide the translation set |string| to the translation
   // string and return true. To use the default translation return false.
-  //
-  // WARNING: Be cautious when implementing this method. ID values are auto-
-  // generated when CEF is built and may change between versions. Existing ID
-  // values can be discovered by searching for *_strings.h in the
-  // "obj/global_intermediate" build output directory.
+  // Supported message IDs are listed in cef_pack_strings.h.
   ///
   /*--cef()--*/
   virtual bool GetLocalizedString(int message_id,
@@ -66,12 +62,7 @@ class CefResourceBundleHandler : public virtual CefBase {
   // provide the resource data set |data| and |data_size| to the data pointer
   // and size respectively and return true. To use the default resource data
   // return false. The resource data will not be copied and must remain resident
-  // in memory.
-  //
-  // WARNING: Be cautious when implementing this method. ID values are auto-
-  // generated when CEF is built and may change between versions. Existing ID
-  // values can be discovered by searching for *_resources.h in the
-  // "obj/global_intermediate" build output directory.
+  // in memory. Supported resource IDs are listed in cef_pack_resources.h.
   ///
   /*--cef()--*/
   virtual bool GetDataResource(int resource_id,

@@ -39,6 +39,7 @@
 #pragma once
 
 #include "include/cef_base.h"
+#include "include/cef_callback.h"
 #include <vector>
 
 class CefCookieVisitor;
@@ -60,10 +61,16 @@ class CefCookieManager : public virtual CefBase {
 
   ///
   // Creates a new cookie manager. If |path| is empty data will be stored in
-  // memory only. Returns NULL if creation fails.
+  // memory only. Otherwise, data will be stored at the specified |path|. To
+  // persist session cookies (cookies without an expiry date or validity
+  // interval) set |persist_session_cookies| to true. Session cookies are
+  // generally intended to be transient and most Web browsers do not persist
+  // them. Returns NULL if creation fails.
   ///
   /*--cef(optional_param=path)--*/
-  static CefRefPtr<CefCookieManager> CreateManager(const CefString& path);
+  static CefRefPtr<CefCookieManager> CreateManager(
+      const CefString& path,
+      bool persist_session_cookies);
 
   ///
   // Set the schemes supported by this manager. By default only "http" and
@@ -117,11 +124,23 @@ class CefCookieManager : public virtual CefBase {
 
   ///
   // Sets the directory path that will be used for storing cookie data. If
-  // |path| is empty data will be stored in memory only. Returns false if
-  // cookies cannot be accessed.
+  // |path| is empty data will be stored in memory only. Otherwise, data will be
+  // stored at the specified |path|. To persist session cookies (cookies without
+  // an expiry date or validity interval) set |persist_session_cookies| to true.
+  // Session cookies are generally intended to be transient and most Web browsers
+  // do not persist them. Returns false if cookies cannot be accessed.
   ///
   /*--cef(optional_param=path)--*/
-  virtual bool SetStoragePath(const CefString& path) =0;
+  virtual bool SetStoragePath(const CefString& path,
+                              bool persist_session_cookies) =0;
+
+  ///
+  // Flush the backing store (if any) to disk and execute the specified
+  // |handler| on the IO thread when done. Returns false if cookies cannot be
+  // accessed.
+  ///
+  /*--cef(optional_param=handler)--*/
+  virtual bool FlushStore(CefRefPtr<CefCompletionHandler> handler) =0;
 };
 
 

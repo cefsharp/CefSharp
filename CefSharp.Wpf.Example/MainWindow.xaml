@@ -1,18 +1,14 @@
 ﻿<Window x:Class="CefSharp.Wpf.Example.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:cs="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
+        xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
+        xmlns:example="clr-namespace:CefSharp.Example;assembly=CefSharp.Example"
         Title="CefSharp.Wpf.Example"
-        Height="480"
-        Width="640">
-    <Grid>
-        <TextBlock Text="CefSharp WPF Rocks!"
-                   FontSize="72"
-                   FontWeight="Bold"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center" />
-        <DockPanel>
-            <Menu Height="22"
+        Width="1024"
+        Height="768"
+        WindowStartupLocation="CenterScreen">
+    <ContentControl x:Name="Content" />
+    <!--<Menu Height="22"
                   DockPanel.Dock="Top">
                 <MenuItem Header="File">
                     <MenuItem Header="Show Dev Tools"
@@ -82,69 +78,5 @@
                               Name="testCookieVisitorMenuItem"
                               Click="control_Activated" />
                 </MenuItem>
-            </Menu>
-            <DockPanel VerticalAlignment="Top"
-                       DockPanel.Dock="Top">
-                <Button Height="23"
-                        Name="backButton"
-                        Width="75"
-                        IsEnabled="False"
-                        Click="control_Activated">Back</Button>
-                <Button Height="23"
-                        Name="forwardButton"
-                        Width="75"
-                        IsEnabled="False"
-                        Click="control_Activated">Forward</Button>
-
-                <Button Height="23"
-                        Name="goStopButton"
-                        Width="75"
-                        DockPanel.Dock="Right">Go</Button>
-                <TextBox Height="23"
-                         Name="urlTextBox"
-                         KeyDown="urlTextBox_KeyDown" />
-            </DockPanel>
-            <GroupBox VerticalAlignment="Top"
-                      DockPanel.Dock="Top">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Label Grid.Row="0"
-                           Grid.Column="0"
-                           Content="Angle:" />
-                    <Slider Grid.Row="0"
-                            Grid.Column="1"
-                            Name="angleSlider"
-                            Minimum="-180"
-                            Maximum="180" />
-                    <Label Grid.Row="1"
-                           Grid.Column="0"
-                           Content="Opacity:" />
-                    <Slider Grid.Row="1"
-                            Grid.Column="1"
-                            Name="opacitySlider"
-                            Minimum="0"
-                            Maximum="1"
-                            TickFrequency="0.01"
-                            Value="0.50" />
-                </Grid>
-            </GroupBox>
-            <Label Name="outputLabel"
-                   DockPanel.Dock="Bottom" />
-            <cs:WebView x:Name="web_view"
-                        Opacity="{Binding ElementName=opacitySlider, Path=Value}">
-                <cs:WebView.LayoutTransform>
-                    <TransformGroup>
-                        <RotateTransform Angle="{Binding Value, ElementName=angleSlider}" />
-                    </TransformGroup>
-                </cs:WebView.LayoutTransform>
-            </cs:WebView>
-        </DockPanel>
-    </Grid>
+            </Menu>-->
 </Window>

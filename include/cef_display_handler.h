@@ -1,4 +1,4 @@
-// Copyright (c) 2011 Marshall A. Greenblatt. All rights reserved.
+// Copyright (c) 2012 Marshall A. Greenblatt. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are
@@ -49,15 +49,14 @@
 /*--cef(source=client)--*/
 class CefDisplayHandler : public virtual CefBase {
  public:
-  typedef cef_handler_statustype_t StatusType;
-
   ///
-  // Called when the navigation state has changed.
+  // Called when the loading state has changed.
   ///
   /*--cef()--*/
-  virtual void OnNavStateChange(CefRefPtr<CefBrowser> browser,
-                                bool canGoBack,
-                                bool canGoForward) {}
+  virtual void OnLoadingStateChange(CefRefPtr<CefBrowser> browser,
+                                    bool isLoading,
+                                    bool canGoBack,
+                                    bool canGoForward) {}
 
   ///
   // Called when a frame's address has changed.
@@ -68,15 +67,6 @@ class CefDisplayHandler : public virtual CefBase {
                                const CefString& url) {}
 
   ///
-  // Called when the size of the content area has changed.
-  ///
-  /*--cef()--*/
-  virtual void OnContentsSizeChange(CefRefPtr<CefBrowser> browser,
-                                    CefRefPtr<CefFrame> frame,
-                                    int width,
-                                    int height) {}
-
-  ///
   // Called when the page title changes.
   ///
   /*--cef(optional_param=title)--*/
@@ -84,17 +74,12 @@ class CefDisplayHandler : public virtual CefBase {
                              const CefString& title) {}
 
   ///
-  // Called when the Favicon URL for a page changes.
-  ///
-  /*--cef()--*/
-  virtual void OnFaviconURLChange(CefRefPtr<CefBrowser> browser,
-                                  const std::vector<CefString>& icon_urls) {}
-
-  ///
   // Called when the browser is about to display a tooltip. |text| contains the
   // text that will be displayed in the tooltip. To handle the display of the
   // tooltip yourself return true. Otherwise, you can optionally modify |text|
   // and then return false to allow the browser to display the tooltip.
+  // When window rendering is disabled the application is responsible for
+  // drawing tooltips and the return value is ignored.
   ///
   /*--cef(optional_param=text)--*/
   virtual bool OnTooltip(CefRefPtr<CefBrowser> browser,
@@ -107,8 +92,7 @@ class CefDisplayHandler : public virtual CefBase {
   ///
   /*--cef(optional_param=value)--*/
   virtual void OnStatusMessage(CefRefPtr<CefBrowser> browser,
-                               const CefString& value,
-                               StatusType type) {}
+                               const CefString& value) {}
 
   ///
   // Called to display a console message. Return true to stop the message from

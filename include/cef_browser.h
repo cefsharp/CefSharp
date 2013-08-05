@@ -1,4 +1,4 @@
-// Copyright (c) 2011 Marshall A. Greenblatt. All rights reserved.
+// Copyright (c) 2012 Marshall A. Greenblatt. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are
@@ -40,91 +40,238 @@
 
 #include "include/cef_base.h"
 #include "include/cef_frame.h"
+#include "include/cef_process_message.h"
 #include <vector>
 
+class CefBrowserHost;
 class CefClient;
 
+
 ///
-// Class used to represent a browser window. The methods of this class may be
-// called on any thread unless otherwise indicated in the comments.
+// Class used to represent a browser window. When used in the browser process
+// the methods of this class may be called on any thread unless otherwise
+// indicated in the comments. When used in the render process the methods of
+// this class may only be called on the main thread.
 ///
 /*--cef(source=library)--*/
 class CefBrowser : public virtual CefBase {
  public:
-  typedef cef_key_type_t KeyType;
-  typedef cef_mouse_button_type_t MouseButtonType;
-  typedef cef_paint_element_type_t PaintElementType;
-
   ///
-  // Create a new browser window using the window parameters specified by
-  // |windowInfo|. All values will be copied internally and the actual window
-  // will be created on the UI thread. This method call will not block.
-  ///
-  /*--cef(optional_param=url)--*/
-  static bool CreateBrowser(CefWindowInfo& windowInfo,
-                            CefRefPtr<CefClient> client,
-                            const CefString& url,
-                            const CefBrowserSettings& settings);
-
-  ///
-  // Create a new browser window using the window parameters specified by
-  // |windowInfo|. This method should only be called on the UI thread.
-  ///
-  /*--cef(optional_param=url)--*/
-  static CefRefPtr<CefBrowser> CreateBrowserSync(CefWindowInfo& windowInfo,
-                                            CefRefPtr<CefClient> client,
-                                            const CefString& url,
-                                            const CefBrowserSettings& settings);
-
-  ///
-  // Call this method before destroying a contained browser window. This method
-  // performs any internal cleanup that may be needed before the browser window
-  // is destroyed.
+  // Returns the browser host object. This method can only be called in the
+  // browser process.
   ///
   /*--cef()--*/
-  virtual void ParentWindowWillClose() =0;
-
-  ///
-  // Closes this browser window.
-  ///
-  /*--cef()--*/
-  virtual void CloseBrowser() =0;
+  virtual CefRefPtr<CefBrowserHost> GetHost() =0;
 
   ///
   // Returns true if the browser can navigate backwards.
   ///
   /*--cef()--*/
   virtual bool CanGoBack() =0;
+
   ///
   // Navigate backwards.
   ///
   /*--cef()--*/
   virtual void GoBack() =0;
+
   ///
   // Returns true if the browser can navigate forwards.
   ///
   /*--cef()--*/
   virtual bool CanGoForward() =0;
+
   ///
   // Navigate forwards.
   ///
   /*--cef()--*/
   virtual void GoForward() =0;
+
+  ///
+  // Returns true if the browser is currently loading.
+  ///
+  /*--cef()--*/
+  virtual bool IsLoading() =0;
+
   ///
   // Reload the current page.
   ///
   /*--cef()--*/
   virtual void Reload() =0;
+
   ///
   // Reload the current page ignoring any cached data.
   ///
   /*--cef()--*/
   virtual void ReloadIgnoreCache() =0;
+
   ///
   // Stop loading the page.
   ///
   /*--cef()--*/
   virtual void StopLoad() =0;
+
+  ///
+  // Returns the globally unique identifier for this browser.
+  ///
+  /*--cef()--*/
+  virtual int GetIdentifier() =0;
+
+  ///
+  // Returns true if this object is pointing to the same handle as |that|
+  // object.
+  ///
+  /*--cef()--*/
+  virtual bool IsSame(CefRefPtr<CefBrowser> that) =0;
+
+  ///
+  // Returns true if the window is a popup window.
+  ///
+  /*--cef()--*/
+  virtual bool IsPopup() =0;
+
+  ///
+  // Returns true if a document has been loaded in the browser.
+  ///
+  /*--cef()--*/
+  virtual bool HasDocument() =0;
+
+  ///
+  // Returns the main (top-level) frame for the browser window.
+  ///
+  /*--cef()--*/
+  virtual CefRefPtr<CefFrame> GetMainFrame() =0;
+
+  ///
+  // Returns the focused frame for the browser window.
+  ///
+  /*--cef()--*/
+  virtual CefRefPtr<CefFrame> GetFocusedFrame() =0;
+
+  ///
+  // Returns the frame with the specified identifier, or NULL if not found.
+  ///
+  /*--cef(capi_name=get_frame_byident)--*/
+  virtual CefRefPtr<CefFrame> GetFrame(int64 identifier) =0;
+
+  ///
+  // Returns the frame with the specified name, or NULL if not found.
+  ///
+  /*--cef()--*/
+  virtual CefRefPtr<CefFrame> GetFrame(const CefString& name) =0;
+
+  ///
+  // Returns the number of frames that currently exist.
+  ///
+  /*--cef()--*/
+  virtual size_t GetFrameCount() =0;
+
+  ///
+  // Returns the identifiers of all existing frames.
+  ///
+  /*--cef(count_func=identifiers:GetFrameCount)--*/
+  virtual void GetFrameIdentifiers(std::vector<int64>& identifiers) =0;
+
+  ///
+  // Returns the names of all existing frames.
+  ///
+  /*--cef()--*/
+  virtual void GetFrameNames(std::vector<CefString>& names) =0;
+
+  //
+  // Send a message to the specified |target_process|. Returns true if the
+  // message was sent successfully.
+  ///
+  /*--cef()--*/
+  virtual bool SendProcessMessage(CefProcessId target_process,
+                                  CefRefPtr<CefProcessMessage> message) =0;
+};
+
+
+///
+// Callback interface for CefBrowserHost::RunFileDialog. The methods of this
+// class will be called on the browser process UI thread.
+///
+/*--cef(source=client)--*/
+class CefRunFileDialogCallback : public virtual CefBase {
+ public:
+  ///
+  // Called asynchronously after the file dialog is dismissed. If the selection
+  // was successful |file_paths| will be a single value or a list of values
+  // depending on the dialog mode. If the selection was cancelled |file_paths|
+  // will be empty.
+  ///
+  /*--cef(capi_name=cont)--*/
+  virtual void OnFileDialogDismissed(
+      CefRefPtr<CefBrowserHost> browser_host,
+      const std::vector<CefString>& file_paths) =0;
+};
+
+
+///
+// Class used to represent the browser process aspects of a browser window. The
+// methods of this class can only be called in the browser process. They may be
+// called on any thread in that process unless otherwise indicated in the
+// comments.
+///
+/*--cef(source=library)--*/
+class CefBrowserHost : public virtual CefBase {
+ public:
+  typedef cef_file_dialog_mode_t FileDialogMode;
+  typedef cef_mouse_button_type_t MouseButtonType;
+  typedef cef_paint_element_type_t PaintElementType;
+
+  ///
+  // Create a new browser window using the window parameters specified by
+  // |windowInfo|. All values will be copied internally and the actual window
+  // will be created on the UI thread. This method can be called on any browser
+  // process thread and will not block.
+  ///
+  /*--cef(optional_param=client,optional_param=url)--*/
+  static bool CreateBrowser(const CefWindowInfo& windowInfo,
+                            CefRefPtr<CefClient> client,
+                            const CefString& url,
+                            const CefBrowserSettings& settings);
+
+  ///
+  // Create a new browser window using the window parameters specified by
+  // |windowInfo|. This method can only be called on the browser process UI
+  // thread.
+  ///
+  /*--cef(optional_param=client,optional_param=url)--*/
+  static CefRefPtr<CefBrowser> CreateBrowserSync(
+      const CefWindowInfo& windowInfo,
+      CefRefPtr<CefClient> client,
+      const CefString& url,
+      const CefBrowserSettings& settings);
+
+  ///
+  // Returns the hosted browser object.
+  ///
+  /*--cef()--*/
+  virtual CefRefPtr<CefBrowser> GetBrowser() =0;
+
+  ///
+  // Call this method before destroying a contained browser window. This method
+  // performs any internal cleanup that may be needed before the browser window
+  // is destroyed. See CefLifeSpanHandler::DoClose() documentation for
+  // additional usage information.
+  ///
+  /*--cef()--*/
+  virtual void ParentWindowWillClose() =0;
+
+  ///
+  // Request that the browser close. The JavaScript 'onbeforeunload' event will
+  // be fired. If |force_close| is false the event handler, if any, will be
+  // allowed to prompt the user and the user can optionally cancel the close.
+  // If |force_close| is true the prompt will not be displayed and the close
+  // will proceed. Results in a call to CefLifeSpanHandler::DoClose() if the
+  // event handler allows the close or if |force_close| is true. See
+  // CefLifeSpanHandler::DoClose() documentation for additional usage
+  // information.
+  ///
+  /*--cef()--*/
+  virtual void CloseBrowser(bool force_close) =0;
 
   ///
   // Set focus for the browser window. If |enable| is true focus will be set to
@@ -148,70 +295,21 @@ class CefBrowser : public virtual CefBase {
   virtual CefWindowHandle GetOpenerWindowHandle() =0;
 
   ///
-  // Returns the globally unique identifier for this browser.
-  ///
-  /*--cef()--*/
-  virtual int GetIdentifier() =0;
-
-  ///
-  // Returns true if the window is a popup window.
-  ///
-  /*--cef()--*/
-  virtual bool IsPopup() =0;
-
-  // Returns true if a document has been loaded in the browser.
-  /*--cef()--*/
-  virtual bool HasDocument() =0;
-
-  ///
   // Returns the client for this browser.
   ///
   /*--cef()--*/
   virtual CefRefPtr<CefClient> GetClient() =0;
 
   ///
-  // Returns the main (top-level) frame for the browser window.
+  // Returns the DevTools URL for this browser. If |http_scheme| is true the
+  // returned URL will use the http scheme instead of the chrome-devtools
+  // scheme. Remote debugging can be enabled by specifying the
+  // "remote-debugging-port" command-line flag or by setting the
+  // CefSettings.remote_debugging_port value. If remote debugging is not enabled
+  // this method will return an empty string.
   ///
   /*--cef()--*/
-  virtual CefRefPtr<CefFrame> GetMainFrame() =0;
-
-  ///
-  // Returns the focused frame for the browser window. This method should only
-  // be called on the UI thread.
-  ///
-  /*--cef()--*/
-  virtual CefRefPtr<CefFrame> GetFocusedFrame() =0;
-
-  ///
-  // Returns the frame with the specified name, or NULL if not found. This
-  // method should only be called on the UI thread.
-  ///
-  /*--cef()--*/
-  virtual CefRefPtr<CefFrame> GetFrame(const CefString& name) =0;
-
-  ///
-  // Returns the names of all existing frames. This method should only be called
-  // on the UI thread.
-  ///
-  /*--cef()--*/
-  virtual void GetFrameNames(std::vector<CefString>& names) =0;
-
-  ///
-  // Search for |searchText|. |identifier| can be used to have multiple searches
-  // running simultaniously. |forward| indicates whether to search forward or
-  // backward within the page. |matchCase| indicates whether the search should
-  // be case-sensitive. |findNext| indicates whether this is the first request
-  // or a follow-up.
-  ///
-  /*--cef()--*/
-  virtual void Find(int identifier, const CefString& searchText,
-                    bool forward, bool matchCase, bool findNext) =0;
-
-  ///
-  // Cancel all searches that are currently going on.
-  ///
-  /*--cef()--*/
-  virtual void StopFinding(bool clearSelection) =0;
+  virtual CefString GetDevToolsURL(bool http_scheme) =0;
 
   ///
   // Get the current zoom level. The default zoom level is 0.0. This method can
@@ -222,29 +320,50 @@ class CefBrowser : public virtual CefBase {
 
   ///
   // Change the zoom level to the specified value. Specify 0.0 to reset the
-  // zoom level. The change will be applied asynchronously on the UI thread.
+  // zoom level. If called on the UI thread the change will be applied
+  // immediately. Otherwise, the change will be applied asynchronously on the
+  // UI thread.
   ///
   /*--cef()--*/
   virtual void SetZoomLevel(double zoomLevel) =0;
 
   ///
-  // Clear the back/forward browsing history.
+  // Call to run a file chooser dialog. Only a single file chooser dialog may be
+  // pending at any given time. |mode| represents the type of dialog to display.
+  // |title| to the title to be used for the dialog and may be empty to show the
+  // default title ("Open" or "Save" depending on the mode). |default_file_name|
+  // is the default file name to select in the dialog. |accept_types| is a list
+  // of valid lower-cased MIME types or file extensions specified in an input
+  // element and is used to restrict selectable files to such types. |callback|
+  // will be executed after the dialog is dismissed or immediately if another
+  // dialog is already pending. The dialog will be initiated asynchronously on
+  // the UI thread.
   ///
-  /*--cef()--*/
-  virtual void ClearHistory() =0;
+  /*--cef(optional_param=title,optional_param=default_file_name,
+          optional_param=accept_types)--*/
+  virtual void RunFileDialog(FileDialogMode mode,
+                             const CefString& title,
+                             const CefString& default_file_name,
+                             const std::vector<CefString>& accept_types,
+                             CefRefPtr<CefRunFileDialogCallback> callback) =0;
 
   ///
-  // Open developer tools in its own window.
+  // Download the file at |url| using CefDownloadHandler.
   ///
   /*--cef()--*/
-  virtual void ShowDevTools() =0;
+  virtual void StartDownload(const CefString& url) =0;
 
   ///
-  // Explicitly close the developer tools window if one exists for this browser
-  // instance.
+  // Set whether mouse cursor change is disabled.
   ///
   /*--cef()--*/
-  virtual void CloseDevTools() =0;
+  virtual void SetMouseCursorChangeDisabled(bool disabled) =0;
+
+  ///
+  // Returns true if mouse cursor change is disabled.
+  ///
+  /*--cef()--*/
+  virtual bool IsMouseCursorChangeDisabled() =0;
 
   ///
   // Returns true if window rendering is disabled.
@@ -253,64 +372,54 @@ class CefBrowser : public virtual CefBase {
   virtual bool IsWindowRenderingDisabled() =0;
 
   ///
-  // Get the size of the specified element. This method should only be called on
-  // the UI thread.
+  // Notify the browser that the widget has been resized. The browser will first
+  // call CefRenderHandler::GetViewRect to get the new size and then call
+  // CefRenderHandler::OnPaint asynchronously with the updated regions. This
+  // method is only used when window rendering is disabled.
   ///
   /*--cef()--*/
-  virtual bool GetSize(PaintElementType type, int& width, int& height) =0;
+  virtual void WasResized() =0;
 
   ///
-  // Set the size of the specified element. This method is only used when window
-  // rendering is disabled.
+  // Notify the browser that it has been hidden or shown. Layouting and
+  // CefRenderHandler::OnPaint notification will stop when the browser is
+  // hidden. This method is only used when window rendering is disabled.
   ///
   /*--cef()--*/
-  virtual void SetSize(PaintElementType type, int width, int height) =0;
+  virtual void WasHidden(bool hidden) =0;
 
   ///
-  // Returns true if a popup is currently visible. This method should only be
-  // called on the UI thread.
+  // Send a notification to the browser that the screen info has changed. The
+  // browser will then call CefRenderHandler::GetScreenInfo to update the
+  // screen information with the new values. This simulates moving the webview
+  // window from one display to another, or changing the properties of the
+  // current display. This method is only used when window rendering is
+  // disabled.
   ///
   /*--cef()--*/
-  virtual bool IsPopupVisible() =0;
+  virtual void NotifyScreenInfoChanged() =0;
 
   ///
-  // Hide the currently visible popup, if any.
+  // Invalidate the |dirtyRect| region of the view. The browser will call
+  // CefRenderHandler::OnPaint asynchronously with the updated regions. This
+  // method is only used when window rendering is disabled.
   ///
   /*--cef()--*/
-  virtual void HidePopup() =0;
-
-  ///
-  // Invalidate the |dirtyRect| region of the view. This method is only used
-  // when window rendering is disabled and will result in a call to
-  // HandlePaint().
-  ///
-  /*--cef()--*/
-  virtual void Invalidate(const CefRect& dirtyRect) =0;
-
-  ///
-  // Get the raw image data contained in the specified element without
-  // performing validation. The specified |width| and |height| dimensions must
-  // match the current element size. On Windows |buffer| must be width*height*4
-  // bytes in size and represents a BGRA image with an upper-left origin. This
-  // method should only be called on the UI thread.
-  ///
-  /*--cef()--*/
-  virtual bool GetImage(PaintElementType type, int width, int height,
-                        void* buffer) =0;
+  virtual void Invalidate(const CefRect& dirtyRect, PaintElementType type) =0;
 
   ///
   // Send a key event to the browser.
   ///
   /*--cef()--*/
-  virtual void SendKeyEvent(KeyType type, const CefKeyInfo& keyInfo,
-                            int modifiers) =0;
+  virtual void SendKeyEvent(const CefKeyEvent& event) =0;
 
   ///
   // Send a mouse click event to the browser. The |x| and |y| coordinates are
   // relative to the upper-left corner of the view.
   ///
   /*--cef()--*/
-  virtual void SendMouseClickEvent(int x, int y, MouseButtonType type,
+  virtual void SendMouseClickEvent(const CefMouseEvent& event,
+                                   MouseButtonType type,
                                    bool mouseUp, int clickCount) =0;
 
   ///
@@ -318,15 +427,19 @@ class CefBrowser : public virtual CefBase {
   // relative to the upper-left corner of the view.
   ///
   /*--cef()--*/
-  virtual void SendMouseMoveEvent(int x, int y, bool mouseLeave) =0;
+  virtual void SendMouseMoveEvent(const CefMouseEvent& event,
+                                  bool mouseLeave) =0;
 
   ///
   // Send a mouse wheel event to the browser. The |x| and |y| coordinates are
   // relative to the upper-left corner of the view. The |deltaX| and |deltaY|
   // values represent the movement delta in the X and Y directions respectively.
+  // In order to scroll inside select popups with window rendering disabled
+  // CefRenderHandler::GetScreenPoint should be implemented properly.
   ///
   /*--cef()--*/
-  virtual void SendMouseWheelEvent(int x, int y, int deltaX, int deltaY) =0;
+  virtual void SendMouseWheelEvent(const CefMouseEvent& event,
+                                   int deltaX, int deltaY) =0;
 
   ///
   // Send a focus event to the browser.

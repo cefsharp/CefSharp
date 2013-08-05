@@ -1,4 +1,4 @@
-// Copyright (c) 2011 Marshall A. Greenblatt. All rights reserved.
+// Copyright (c) 2012 Marshall A. Greenblatt. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are
@@ -48,29 +48,27 @@
 /*--cef(source=client)--*/
 class CefKeyboardHandler : public virtual CefBase {
  public:
-  typedef cef_handler_keyevent_type_t KeyEventType;
+  // Called before a keyboard event is sent to the renderer. |event| contains
+  // information about the keyboard event. |os_event| is the operating system
+  // event message, if any. Return true if the event was handled or false
+  // otherwise. If the event will be handled in OnKeyEvent() as a keyboard
+  // shortcut set |is_keyboard_shortcut| to true and return false.
+  /*--cef()--*/
+  virtual bool OnPreKeyEvent(CefRefPtr<CefBrowser> browser,
+                             const CefKeyEvent& event,
+                             CefEventHandle os_event,
+                             bool* is_keyboard_shortcut) { return false; }
 
   ///
-  // Called when the browser component receives a keyboard event. This method
-  // is called both before the event is passed to the renderer and after
-  // JavaScript in the page has had a chance to handle the event. |type| is the
-  // type of keyboard event, |code| is the windows scan-code for the event,
-  // |modifiers| is a set of bit- flags describing any pressed modifier keys and
-  // |isSystemKey| is true if Windows considers this a 'system key' message (see
-  // http://msdn.microsoft.com/en-us/library/ms646286(VS.85).aspx). If
-  // |isAfterJavaScript| is true then JavaScript in the page has had a chance
-  // to handle the event and has chosen not to. Only RAWKEYDOWN, KEYDOWN and
-  // CHAR events will be sent with |isAfterJavaScript| set to true. Return
-  // true if the keyboard event was handled or false to allow continued handling
-  // of the event by the renderer.
+  // Called after the renderer and JavaScript in the page has had a chance to
+  // handle the event. |event| contains information about the keyboard event.
+  // |os_event| is the operating system event message, if any. Return true if
+  // the keyboard event was handled or false otherwise.
   ///
   /*--cef()--*/
   virtual bool OnKeyEvent(CefRefPtr<CefBrowser> browser,
-                          KeyEventType type,
-                          int code,
-                          int modifiers,
-                          bool isSystemKey,
-                          bool isAfterJavaScript) { return false; }
+                          const CefKeyEvent& event,
+                          CefEventHandle os_event) { return false; }
 };
 
 #endif  // CEF_INCLUDE_CEF_KEYBOARD_HANDLER_H_

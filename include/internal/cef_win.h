@@ -68,8 +68,34 @@ class CefCriticalSection {
 ///
 // Handle types.
 ///
-#define CefWindowHandle cef_window_handle_t
 #define CefCursorHandle cef_cursor_handle_t
+#define CefEventHandle cef_event_handle_t
+#define CefWindowHandle cef_window_handle_t
+
+struct CefMainArgsTraits {
+  typedef cef_main_args_t struct_type;
+
+  static inline void init(struct_type* s) {}
+  static inline void clear(struct_type* s) {}
+
+  static inline void set(const struct_type* src, struct_type* target,
+      bool copy) {
+    target->instance = src->instance;
+  }
+};
+
+// Class representing CefExecuteProcess arguments.
+class CefMainArgs : public CefStructBase<CefMainArgsTraits> {
+ public:
+  typedef CefStructBase<CefMainArgsTraits> parent;
+
+  CefMainArgs() : parent() {}
+  explicit CefMainArgs(const cef_main_args_t& r) : parent(r) {}
+  explicit CefMainArgs(const CefMainArgs& r) : parent(r) {}
+  explicit CefMainArgs(HINSTANCE hInstance) : parent() {
+    instance = hInstance;
+  }
+};
 
 struct CefWindowInfoTraits {
   typedef cef_window_info_t struct_type;
@@ -77,24 +103,24 @@ struct CefWindowInfoTraits {
   static inline void init(struct_type* s) {}
 
   static inline void clear(struct_type* s) {
-    cef_string_clear(&s->m_windowName);
+    cef_string_clear(&s->window_name);
   }
 
   static inline void set(const struct_type* src, struct_type* target,
       bool copy) {
-    target->m_dwExStyle = src->m_dwExStyle;
-    cef_string_set(src->m_windowName.str, src->m_windowName.length,
-        &target->m_windowName, copy);
-    target->m_dwStyle = src->m_dwStyle;
-    target->m_x = src->m_x;
-    target->m_y = src->m_y;
-    target->m_nWidth = src->m_nWidth;
-    target->m_nHeight = src->m_nHeight;
-    target->m_hWndParent = src->m_hWndParent;
-    target->m_hMenu = src->m_hMenu;
-    target->m_bWindowRenderingDisabled = src->m_bWindowRenderingDisabled;
-    target->m_bTransparentPainting = src->m_bTransparentPainting;
-    target->m_hWnd = src->m_hWnd;
+    target->ex_style = src->ex_style;
+    cef_string_set(src->window_name.str, src->window_name.length,
+        &target->window_name, copy);
+    target->style = src->style;
+    target->x = src->x;
+    target->y = src->y;
+    target->width = src->width;
+    target->height = src->height;
+    target->parent_window = src->parent_window;
+    target->menu = src->menu;
+    target->window = src->window;
+    target->transparent_painting = src->transparent_painting;
+    target->window_rendering_disabled = src->window_rendering_disabled;
   }
 };
 
@@ -110,76 +136,36 @@ class CefWindowInfo : public CefStructBase<CefWindowInfoTraits> {
   explicit CefWindowInfo(const CefWindowInfo& r) : parent(r) {}
 
   void SetAsChild(HWND hWndParent, RECT windowRect) {
-    m_dwStyle = WS_CHILD | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_TABSTOP |
-                WS_VISIBLE;
-    m_hWndParent = hWndParent;
-    m_x = windowRect.left;
-    m_y = windowRect.top;
-    m_nWidth = windowRect.right - windowRect.left;
-    m_nHeight = windowRect.bottom - windowRect.top;
+    style = WS_CHILD | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_TABSTOP |
+            WS_VISIBLE;
+    parent_window = hWndParent;
+    x = windowRect.left;
+    y = windowRect.top;
+    width = windowRect.right - windowRect.left;
+    height = windowRect.bottom - windowRect.top;
   }
 
   void SetAsPopup(HWND hWndParent, const CefString& windowName) {
-    m_dwStyle = WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS |
-                WS_VISIBLE;
-    m_hWndParent = hWndParent;
-    m_x = CW_USEDEFAULT;
-    m_y = CW_USEDEFAULT;
-    m_nWidth = CW_USEDEFAULT;
-    m_nHeight = CW_USEDEFAULT;
+    style = WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS |
+            WS_VISIBLE;
+    parent_window = hWndParent;
+    x = CW_USEDEFAULT;
+    y = CW_USEDEFAULT;
+    width = CW_USEDEFAULT;
+    height = CW_USEDEFAULT;
 
-    cef_string_copy(windowName.c_str(), windowName.length(), &m_windowName);
-  }
-
-  void SetAsOffScreen(HWND hWndParent) {
-    m_bWindowRenderingDisabled = TRUE;
-    m_hWndParent = hWndParent;
+    cef_string_copy(windowName.c_str(), windowName.length(), &window_name);
   }
 
   void SetTransparentPainting(BOOL transparentPainting) {
-    m_bTransparentPainting = transparentPainting;
+    transparent_painting = transparentPainting;
+  }
+
+  void SetAsOffScreen(HWND hWndParent) {
+    window_rendering_disabled = TRUE;
+    parent_window = hWndParent;
   }
 };
-
-
-struct CefPrintInfoTraits {
-  typedef cef_print_info_t struct_type;
-
-  static inline void init(struct_type* s) {}
-  static inline void clear(struct_type* s) {}
-
-  static inline void set(const struct_type* src, struct_type* target,
-      bool copy) {
-    target->m_hDC = src->m_hDC;
-    target->m_Rect = src->m_Rect;
-    target->m_Scale = src->m_Scale;
-  }
-};
-
-///
-// Class representing print context information.
-///
-typedef CefStructBase<CefPrintInfoTraits> CefPrintInfo;
-
-
-struct CefKeyInfoTraits {
-  typedef cef_key_info_t struct_type;
-
-  static inline void init(struct_type* s) {}
-  static inline void clear(struct_type* s) {}
-
-  static inline void set(const struct_type* src, struct_type* target,
-      bool copy) {
-    target->key = src->key;
-    target->sysChar = src->sysChar;
-    target->imeChar = src->imeChar;
-  }
-};
-
-///
-// Class representing key information.
-///
-typedef CefStructBase<CefKeyInfoTraits> CefKeyInfo;
 
 #endif  // OS_WIN
 

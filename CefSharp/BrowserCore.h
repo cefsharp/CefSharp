@@ -1,7 +1,10 @@
-#include "Stdafx.h"
+// Copyright © 2010-2013 The CefSharp Project. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
 #pragma once
 
-#include "ClientAdapter.h"
+#include "Stdafx.h"
 #include "RtzCountdownEvent.h"
 
 using namespace System::ComponentModel;
@@ -10,7 +13,6 @@ using namespace System::Collections::Generic;
 namespace CefSharp
 {
     interface class ILifeSpanHandler;
-    interface class ILoadHandler;
     interface class IRequestHandler;
     interface class IMenuHandler;
     interface class IKeyboardHandler;
@@ -22,7 +24,6 @@ namespace CefSharp
         RtzCountdownEvent^ _loadCompleted;
 
         bool _isBrowserInitialized;
-        bool _isLoading;
         bool _canGoBack;
         bool _canGoForward;
 
@@ -34,7 +35,6 @@ namespace CefSharp
         String^ _title;
 
         ILifeSpanHandler^ _lifeSpanHandler;
-        ILoadHandler^ _loadHandler;
         IRequestHandler^ _requestHandler;
         IMenuHandler^ _menuHandler;
         IKeyboardHandler^ _keyboardHandler;
@@ -57,11 +57,6 @@ namespace CefSharp
             bool get() { return _isBrowserInitialized; }
         }
 
-        property bool IsLoading
-        {
-            bool get() { return _isLoading; }
-        }
-
         property bool CanGoBack
         {
             bool get() { return _canGoBack; }
@@ -72,47 +67,21 @@ namespace CefSharp
             bool get() { return _canGoForward; }
         }
 
-        property int ContentsWidth
-        {
-            int get() { return _contentsWidth; }
-
-            void set(int contentsWidth)
-            {
-                if (_contentsWidth != contentsWidth)
-                {
-                    _contentsWidth = contentsWidth;
-                    PropertyChanged(this, gcnew PropertyChangedEventArgs(L"ContentsWidth"));
-                }
-            }
-        }
-
-        property int ContentsHeight
-        {
-            int get() { return _contentsHeight; }
-
-            void set(int contentsHeight)
-            {
-                if (_contentsHeight != contentsHeight)
-                {
-                    _contentsHeight = contentsHeight;
-                    PropertyChanged(this, gcnew PropertyChangedEventArgs(L"ContentsHeight"));
-                }
-            }
-        }
-
         property String^ Address
         {
             String^ get() { return _address; }
 
             void set(String^ address)
             {
-                if (_address != address)
+                if (_address != nullptr &&
+                    _address->Equals(address))
                 {
-                    _address = address;
-                    PropertyChanged(this, gcnew PropertyChangedEventArgs(L"Address"));
-
-                    TooltipText = nullptr;
+                    // The URI:s are identical, so nothing needs to be done.
+                    return;
                 }
+
+                _address = address;
+                PropertyChanged(this, gcnew PropertyChangedEventArgs(L"Address"));
             }
         }
 
@@ -130,30 +99,10 @@ namespace CefSharp
             }
         }
 
-        property String^ TooltipText
-        {
-            String^ get() { return _tooltip; }
-
-            void set(String^ text)
-            {
-                if (_tooltip != text)
-                {
-                    _tooltip = text;
-                   PropertyChanged(this, gcnew PropertyChangedEventArgs(L"TooltipText"));
-                }
-            }
-        }
-
         virtual property ILifeSpanHandler^ LifeSpanHandler
         {
             ILifeSpanHandler^ get() { return _lifeSpanHandler; }
             void set(ILifeSpanHandler^ handler) { _lifeSpanHandler = handler; }
-        }
-
-        virtual property ILoadHandler^ LoadHandler
-        {
-            ILoadHandler^ get() { return _loadHandler; }
-            void set(ILoadHandler^ handler) { _loadHandler = handler; }
         }
 
         virtual property IRequestHandler^ RequestHandler
@@ -185,7 +134,20 @@ namespace CefSharp
         void RegisterJsObject(String^ name, Object^ objectToBind);
         IDictionary<String^, Object^>^ GetBoundObjects();
 
-        void SetNavState(bool isLoading, bool canGoBack, bool canGoForward);
+        void SetNavState(bool canGoBack, bool canGoForward)
+        {
+            if (canGoBack != _canGoBack) 
+            {
+                _canGoBack = canGoBack;
+                PropertyChanged(this, gcnew PropertyChangedEventArgs(L"CanGoBack"));
+            }
+
+            if (canGoForward != _canGoForward)
+            {
+                _canGoForward = canGoForward;
+                PropertyChanged(this, gcnew PropertyChangedEventArgs(L"CanGoForward"));
+            }
+        }
 
         void OnInitialized();
         void OnLoad();

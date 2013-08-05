@@ -28,6 +28,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -44,7 +45,6 @@
       <HintPath>..\nunit\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BrowserCoreTest.cs" />
@@ -53,15 +53,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CefSharp.WinForms\CefSharp.WinForms.vcxproj">
-      <Project>{978c9b2b-04b6-4359-a341-ca3fcbe98d32}</Project>
-      <Name>CefSharp.WinForms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CefSharp\CefSharp.vcxproj">
-      <Project>{7b495581-2271-4f41-9476-acb86e8c864f}</Project>
-      <Project>{978C9B2B-04B6-4359-A341-CA3FCBE98D32}</Project>
-      <Name>CefSharp.WinForms</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CefSharp\CefSharp.vcxproj">
       <Project>{7B495581-2271-4F41-9476-ACB86E8C864F}</Project>
       <Name>CefSharp</Name>
