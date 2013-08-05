@@ -11,6 +11,7 @@ namespace CefSharp
 {
     private class TypeUtils
     {
+    public:
         /// <summary>
         /// Converts a .NET object to an (unmanaged) Chromium V8 object.
         /// </summary>
