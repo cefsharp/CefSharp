@@ -117,6 +117,10 @@ namespace CefSharp.Wpf.Example.Views.Main
 
             // Part of the Focus hack further described in the OnPropertyChanged() method...
             Keyboard.ClearFocus();
+
+            // Commented out, just want to be able to test EvaluateScript.
+            //var result = webBrowser.EvaluateScript("return 10 * 20;", null);
+            //var result2 = result;
         }
 
         private void ViewSource()
