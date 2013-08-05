@@ -191,8 +191,6 @@ namespace CefSharp.Wpf
 
             Dispatcher.BeginInvoke((Action) (() => WebBrowser = this));
 
-            //_scriptCore = new ScriptCore();
-            
             Unloaded += OnUnloaded;
 
             ToolTip = toolTip = new ToolTip();
@@ -694,15 +692,7 @@ namespace CefSharp.Wpf
 
         public void ExecuteScript(string script)
         {
-            browserCore.CheckBrowserInitialization();
-
-            // Not yet ported to CEF3/C#-based WebView.
-            throw new NotImplementedException();
-            //CefRefPtr<CefBrowser> browser;
-            //if (TryGetCefBrowser(browser))
-            //{
-            //    _scriptCore->Execute(browser, toNative(script));
-            //}
+            cefBrowserWrapper.ExecuteScript(script);
         }
 
         public object EvaluateScript(string script, TimeSpan? timeout = null)
