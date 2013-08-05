@@ -4,22 +4,27 @@ This project contains .Net CLR bindings for The [Chromium Embedded Framework (CE
 
 This project is [BSD](http://www.opensource.org/licenses/bsd-license.php "BSD License") licensed.
 
+# Documentation
+
+Work-in-progress documentation can be found [here](https://github.com/cefsharp/CefSharp/wiki). Feel free to suggest changes to the
+wiki pages, and also make changes yourself if you find something wrong/missing. Editing is open for all registered GitHub users.
+
 # Binary Release
 
 Binary releases contain everything needed to embed Chromium in your CLR application. You will need the [7-Zip archiver](http://www.7-zip.org/ "7-Zip") to extract.
 
-**Stable**: [CefSharp-1.25.0](http://sourceforge.net/projects/cefsharp/files/CefSharp-1.25.0.7z/download "Download")
-Chromium 25.0.1364.152
-**Unstable: CefSharp-1.25.2-perlun.0 - no binary release yet; compile from source using the code at https://github.com/perlun/CefSharp
+**Stable (older)**: [CefSharp-1.25.0](http://sourceforge.net/projects/cefsharp/files/CefSharp-1.25.0.7z/download "Download")
+Chromium 25.0.1364.152  
+**Stable**: CefSharp-1.25.2-perlun.0 - no binary release yet; compile from source using the code at
+https://github.com/cefsharp/CefSharp (look for the tag named v1.25.2-perlun.0)
 
 See the [ChangeLog](https://github.com/ataranto/CefSharp/blob/master/ChangeLog.md) for update information, or [Downloads](https://sourceforge.net/projects/cefsharp/files/) for older releases.
 
 # Forks
 
-- [The chillitom fork](https://github.com/chillitom/CefSharp) was the original CefSharp repo, but is updated only when a new release is made.
-- Semi-active maintainership occurs on [the ataranto fork](https://github.com/ataranto/CefSharp).
-- "Bleeding edge" work is done on other branches, including [the perlun fork](https://github.com/perlun/CefSharp).
-- You can also view [the entire network of public forks/branches](https://github.com/chillitom/CefSharp/network).
+- [The cefsharp project page](https://github.com/cefsharp/CefSharp) is the recommended starting place. This is the "official"
+  CefSharp fork, as maintained by the CefSharp community.
+- You can also view [the entire network of public forks/branches](https://github.com/cefsharp/CefSharp/network).
 
 # Contact
 
