@@ -8,7 +8,7 @@ using namespace System::Collections::Generic;
 
 namespace CefSharp
 {
-    CefRefPtr<CefV8Value> TypeUtil::ConvertToCef(Object^ obj, Type^ type)
+    CefRefPtr<CefV8Value> TypeUtils::ConvertToCef(Object^ obj, Type^ type)
     {
         if (type == Void::typeid)
         {
@@ -97,7 +97,7 @@ namespace CefSharp
 
                 if (arrObj != nullptr)
                 {
-                    CefRefPtr<CefV8Value> cefObj = TypeUtil::ConvertToCef(arrObj, arrObj->GetType());
+                    CefRefPtr<CefV8Value> cefObj = TypeUtils::ConvertToCef(arrObj, arrObj->GetType());
 
                     cefArray->SetValue(i, cefObj);
                 }
@@ -124,7 +124,7 @@ namespace CefSharp
 
                 if (fieldVal != nullptr)
                 {
-                    CefRefPtr<CefV8Value> cefVal = TypeUtil::ConvertToCef(fieldVal, fieldVal->GetType());
+                    CefRefPtr<CefV8Value> cefVal = TypeUtils::ConvertToCef(fieldVal, fieldVal->GetType());
 
                     cefArray->SetValue(strFieldName, cefVal, V8_PROPERTY_ATTRIBUTE_NONE);
                 }
@@ -145,7 +145,7 @@ namespace CefSharp
         return gcnew System::String(s.c_str());
     }
 
-    Object^ TypeUtil::ConvertFromCef(CefRefPtr<CefV8Value> obj)
+    Object^ TypeUtils::ConvertFromCef(CefRefPtr<CefV8Value> obj)
     {
         if (obj->IsNull() || obj->IsUndefined())
         {
@@ -184,7 +184,7 @@ namespace CefSharp
                             data = obj->GetValue(keys[i]);
                             if (data != nullptr)
                             {
-                                Object^ p_data = TypeUtil::ConvertFromCef(data);
+                                Object^ p_data = TypeUtils::ConvertFromCef(data);
 
                                 result->Add(p_keyStr, p_data);
                             }
@@ -220,7 +220,7 @@ namespace CefSharp
                             data = obj->GetValue(keys[i]);
                             if (data != nullptr)
                             {
-                                Object^ p_data = TypeUtil::ConvertFromCef(data);
+                                Object^ p_data = TypeUtils::ConvertFromCef(data);
 
                                 result->Add(p_keyStr, p_data);
                             }
