@@ -88,7 +88,7 @@ namespace CefSharp
         }
     }
 
-    gcroot<Object^> ScriptCore::Evaluate(CefRefPtr<CefBrowser> browser, CefString script, double timeout)
+    gcroot<Object^> ScriptCore::Evaluate(CefRefPtr<CefBrowser> browser, CefString script, DWORD timeout)
     {
         AutoLock lock_scope(this);
         _result = nullptr;
@@ -100,8 +100,7 @@ namespace CefSharp
         }
         else
         {
-            CefPostTask(TID_UI, NewCefRunnableMethod(this, &ScriptCore::UIT_Evaluate,
-                browser, script));
+            CefPostTask(TID_UI, NewCefRunnableMethod(this, &ScriptCore::UIT_Evaluate, browser, script));
         }
 
         switch (WaitForSingleObject(_event, timeout))

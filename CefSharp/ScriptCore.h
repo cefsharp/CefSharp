@@ -27,7 +27,7 @@ namespace CefSharp
         }
 
         DECL void Execute(CefRefPtr<CefBrowser> browser, CefString script);
-        DECL gcroot<Object^> Evaluate(CefRefPtr<CefBrowser> browser, CefString script, double timeout);
+        DECL gcroot<Object^> Evaluate(CefRefPtr<CefBrowser> browser, CefString script, DWORD timeout);
 
         IMPLEMENT_LOCKING(ScriptCore);
         IMPLEMENT_REFCOUNTING(ScriptCore);
