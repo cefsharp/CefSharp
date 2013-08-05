@@ -7,6 +7,7 @@
 #include "Stdafx.h"
 #include "BrowserSettings.h"
 #include "MouseButtonType.h"
+#include "ScriptCore.h"
 #include "Internals/IRenderWebBrowser.h"
 #include "Internals/RenderClientAdapter.h"
 
@@ -18,6 +19,7 @@ namespace CefSharp
     {
     private:
         RenderClientAdapter* _renderClientAdapter;
+        ScriptCore* _scriptCore;
 
     public:
         property Object^ BitmapLock
@@ -55,6 +57,7 @@ namespace CefSharp
         CefBrowserWrapper(IRenderWebBrowser^ offscreenBrowserControl)
         {
             _renderClientAdapter = new RenderClientAdapter(offscreenBrowserControl);
+            _scriptCore = new ScriptCore();
         }
 
         ~CefBrowserWrapper()
@@ -222,6 +225,16 @@ namespace CefSharp
             if (cefFrame != nullptr)
             {
                 cefFrame->ViewSource();
+            }
+        }
+
+        void ExecuteScript(String^ script)
+        {
+            auto browser = _renderClientAdapter->GetCefBrowser();
+
+            if (browser != nullptr)
+            {
+                _scriptCore->Execute(browser, StringUtils::ToNative(script));
             }
         }
     };

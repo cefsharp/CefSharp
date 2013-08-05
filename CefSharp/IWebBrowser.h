@@ -51,5 +51,11 @@ namespace CefSharp
         /// <param name="name">The name of the object. (e.g. "foo", if you want the object to be accessible as window.foo).</param>
         /// <param name="objectToBind">The object to be made accessible to Javascript.</param>
         void RegisterJsObject(String^ name, Object^ objectToBind);
+
+        /// <summary>
+        /// Execute some Javascript code in the context of this WebBrowser.
+        /// </summary>
+        /// <param name="script">The Javascript code that should be executed.</param>
+        void ExecuteScript(String^ script);
     };
 }
