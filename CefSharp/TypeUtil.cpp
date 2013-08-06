@@ -18,7 +18,7 @@ namespace CefSharp
 
         if (type == Object::typeid) {
             auto t = obj->GetType();
-            if (t->IsValueType)
+            if (t->IsValueType || t == String::typeid)
                 type = t;
         }
 
