@@ -30,6 +30,9 @@ namespace CefSharp
                     }
 
                     auto clrName = toClr(name);
+#ifdef CHANGE_FIRST_CHAR_TO_LOWER
+                    clrName = unmanagedWrapper->GetPropertyMapping(clrName);
+#endif
                     auto prop = wrappedObject->GetType()->GetProperty(clrName, BindingFlags::Instance | BindingFlags::Public);
 
                     if (prop == nullptr)
@@ -73,6 +76,9 @@ namespace CefSharp
                     }
 
                     auto clrName = toClr(name);
+#ifdef CHANGE_FIRST_CHAR_TO_LOWER
+                    clrName = unmanagedWrapper->GetPropertyMapping(clrName);
+#endif
                     auto prop = wrappedObject->GetType()->GetProperty(clrName, BindingFlags::Instance | BindingFlags::Public);
 
                     if (prop == nullptr)

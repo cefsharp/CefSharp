@@ -69,6 +69,9 @@ namespace CefSharp
                 }
 
                 String^ methodName = toClr(name);
+#ifdef CHANGE_FIRST_CHAR_TO_LOWER
+                methodName = unmanagedWrapper->GetMethodMapping(methodName);
+#endif
                 Type^ type = self->GetType();
                 auto methods = type->GetMember(methodName, MemberTypes::Method, BindingFlags::Instance | BindingFlags::Public);
 
@@ -409,11 +412,16 @@ namespace CefSharp
 
             void BindingHandler::CreateJavascriptMethods(CefV8Handler* handler, CefRefPtr<CefV8Value> javascriptObject, IEnumerable<String^>^ methodNames)
             {
-                auto unmanagedWrapper = static_cast<UnmanagedWrapper*>(javascriptObject->GetUserData().get());
-
                 for each(String^ methodName in methodNames)
                 {
-                    auto nameStr = toNative(methodName);
+#ifdef CHANGE_FIRST_CHAR_TO_LOWER
+                    auto jsMethodName = LowercaseFirst(methodName);
+                    auto unmanagedWrapper = static_cast<UnmanagedWrapper*>(javascriptObject->GetUserData().get());
+                    if (!unmanagedWrapper->AddMethodMapping(methodName, jsMethodName)) continue;
+#else
+                    auto jsMethodName = methodName;
+#endif
+                    auto nameStr = toNative(jsMethodName);
                     auto fun = CefV8Value::CreateFunction(nameStr, handler);
                     javascriptObject->SetValue(nameStr, fun, V8_PROPERTY_ATTRIBUTE_NONE);
                     fun->AddRef();
@@ -422,11 +430,17 @@ namespace CefSharp
 
             void BindingHandler::CreateJavascriptProperties(CefRefPtr<CefV8Value> javascriptObject, Dictionary<String^, PropertyInfo^>^ properties)
             {
-                auto unmanagedWrapper = static_cast<UnmanagedWrapper*>(javascriptObject->GetUserData().get());
 
                 for each(String^ propertyName in properties->Keys)
                 {
-                    auto nameStr = toNative(propertyName);
+#ifdef CHANGE_FIRST_CHAR_TO_LOWER
+                    auto jsPropertyName = LowercaseFirst(propertyName);
+                    auto unmanagedWrapper = static_cast<UnmanagedWrapper*>(javascriptObject->GetUserData().get());
+                    if (!unmanagedWrapper->AddPropertyMapping(propertyName, jsPropertyName)) continue;
+#else
+                    auto jsPropertyName = propertyName;
+#endif
+                    auto nameStr = toNative(jsPropertyName);
 
                     auto ctrl = V8_ACCESS_CONTROL_DEFAULT;
                     auto propertyAttribute = V8_PROPERTY_ATTRIBUTE_NONE;
@@ -449,6 +463,16 @@ namespace CefSharp
 
                      javascriptObject->SetValue(nameStr, ctrl, propertyAttribute);
                 }
+            }
+
+            String^ BindingHandler::LowercaseFirst(String^ str)
+            {
+                if (str == String::Empty)
+                {
+                    return str;
+                }
+
+                return Char::ToLower(str[0]) + str->Substring(1);
             }
         }
     }

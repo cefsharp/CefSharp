@@ -32,7 +32,8 @@ namespace CefSharp
                 static void BindingHandler::FindBestMethod(array<MemberInfo^>^ methods, array<Object^>^ suppliedArguments, MethodInfo^% bestMethod, array<Object^>^% bestMethodArguments);
 
                 CefRefPtr<CefV8Value> ConvertToCef(Object^ obj, Type^ type);
-                Object^ ConvertFromCef(CefRefPtr<CefV8Value> obj);     
+                Object^ ConvertFromCef(CefRefPtr<CefV8Value> obj);    
+                static String^ BindingHandler::LowercaseFirst(String^ str);
             };
         }
     }

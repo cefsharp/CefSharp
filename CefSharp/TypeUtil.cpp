@@ -16,6 +16,12 @@ namespace CefSharp
             return CefV8Value::CreateNull();
         }
 
+        if (type == Object::typeid) {
+            auto t = obj->GetType();
+            if (t->IsValueType)
+                type = t;
+        }
+
         if (type == nullptr)
         {
             type = obj->GetType();
@@ -133,7 +139,7 @@ namespace CefSharp
 
             return cefArray;
         }
-       return Internals::JavascriptBinding::BindingHandler::Bind(obj, parent);
+        return Internals::JavascriptBinding::BindingHandler::Bind(obj, parent);
     }
 
     System::String^ stdToString(const std::string& s)
