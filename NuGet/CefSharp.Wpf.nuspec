@@ -9,7 +9,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>The CefSharp Chromium-based browser component (WPF version).</description>
     <tags>wpf chrome browser</tags>
-  <copyright>Copyright © 2013 Per Lundberg, Anthony Taranto and others</copyright>
+  <copyright>Copyright © 2013 The CefSharp Project</copyright>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" />
       <frameworkAssembly assemblyName="System.Windows.Browser" targetFramework="sl50" />
@@ -23,17 +23,17 @@
     <file src="..\Release\CefSharp.Wpf.dll" target="lib\net40"/>
 
     <!-- CEF/Chromium files -->
-    <file src="..\Release\avcodec-54.dll" target="content\bin\Debug"/>
-    <file src="..\Release\avformat-54.dll" target="content\bin\Debug"/>
-    <file src="..\Release\avutil-51.dll" target="content\bin\Debug"/>
-    <file src="..\Release\icudt.dll" target="content\bin\Debug"/>
-    <file src="..\Release\libcef.dll" target="content\bin\Debug"/>
-    <file src="..\Release\libcef.dll" target="content\bin\Debug"/>
-    <file src="..\Release\libEGL.dll" target="content\bin\Debug"/>
-    <file src="..\Release\libGLESv2.dll" target="content\bin\Debug"/>
-    <file src="..\Release\devtools_resources.pak" target="content\bin\Debug\devtools_resources.pak"/>
+    <file src="..\Release\avcodec-54.dll" target="cef"/>
+    <file src="..\Release\avformat-54.dll" target="cef"/>
+    <file src="..\Release\avutil-51.dll" target="cef"/>
+    <file src="..\Release\icudt.dll" target="cef"/>
+    <file src="..\Release\libcef.dll" target="cef"/>
+    <file src="..\Release\libcef.dll" target="cef"/>
+    <file src="..\Release\libEGL.dll" target="cef"/>
+    <file src="..\Release\libGLESv2.dll" target="cef"/>
+    <file src="..\Release\devtools_resources.pak" target="cef\devtools_resources.pak"/>
 
     <!-- Only including en-US for now -->
-    <file src="..\Release\locales\en-US.pak" target="content\bin\Debug\locales"/>
+    <file src="..\Release\locales\en-US.pak" target="cef\locales"/>
   </files>
 </package>
