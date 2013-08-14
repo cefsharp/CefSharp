@@ -3,8 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:cs="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
         Title="CefSharp.Wpf.Example"
-        Height="480"
-        Width="640">
+        Width="1024"
+        Height="768"
+        WindowStartupLocation="CenterScreen">
     <Grid>
         <TextBlock Text="CefSharp WPF Rocks!"
                    FontSize="72"
@@ -132,7 +133,7 @@
                             Minimum="0"
                             Maximum="1"
                             TickFrequency="0.01"
-                            Value="0.50" />
+                            Value="0.85" />
                 </Grid>
             </GroupBox>
             <Label Name="outputLabel"
