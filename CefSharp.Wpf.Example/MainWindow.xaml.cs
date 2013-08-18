@@ -41,9 +41,43 @@ namespace CefSharp.Wpf.Example
 
         private readonly IDictionary<object, EventHandler> handlers;
 
+        public static CefSharp.Wpf.WebView web_view;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            //Fix WPF XAML-Designer
+
+            /*
+            <cs:WebView x:Name="web_view"
+                        Opacity="{Binding ElementName=opacitySlider, Path=Value}">
+                <cs:WebView.LayoutTransform>
+                    <TransformGroup>
+                        <RotateTransform Angle="{Binding Value, ElementName=angleSlider}" />
+                    </TransformGroup>
+                </cs:WebView.LayoutTransform>
+            </cs:WebView>
+            */
+
+            web_view = new WebView() { Name = "web_view" };
+
+            RotateTransform myRotateTransform = new RotateTransform();
+            myRotateTransform.Angle = angleSlider.Value;
+            TransformGroup myTransformGroup = new TransformGroup();
+            myTransformGroup.Children.Add(myRotateTransform);
+
+            Binding b = new Binding("Value");
+            b.Source = angleSlider;
+            BindingOperations.SetBinding(myRotateTransform, RotateTransform.AngleProperty, b);
+
+            web_view.RenderTransform = myTransformGroup;
+
+            opacitySlider.SetBinding(Slider.ValueProperty, new Binding("Opacity") { Mode = BindingMode.TwoWay, Source = web_view });
+
+            // Finally add CefSharp.Wpf.WebView web_view to Grid->MainDock
+            MainDock.Children.Add(web_view);
+
 
             var presenter = new ExamplePresenter(web_view, this,
                 invoke => Dispatcher.BeginInvoke(invoke));
