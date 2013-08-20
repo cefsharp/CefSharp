@@ -101,7 +101,7 @@ namespace CefSharp
             return success;
         }
 
-        static bool RegisterScheme(String^ schemeName, String^ hostName, bool is_standard, ISchemeHandlerFactory^ factory)
+        static bool RegisterScheme(String^ schemeName, String^ hostName, ISchemeHandlerFactory^ factory)
         {
             hostName = hostName ? hostName : String::Empty;
 
@@ -111,7 +111,7 @@ namespace CefSharp
 
         static bool RegisterScheme(String^ schemeName, ISchemeHandlerFactory^ factory)
         {
-            return RegisterScheme(schemeName, nullptr, true, factory);
+            return RegisterScheme(schemeName, nullptr, factory);
         }
 
         static bool RegisterJsObject(String^ name, Object^ objectToBind)
