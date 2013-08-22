@@ -45,6 +45,12 @@ namespace CefSharp
         !CefSettings() { delete _cefSettings; }
         ~CefSettings() { delete _cefSettings; }
 
+        property String^ BrowserSubprocessPath
+        {
+            String^ get() { return StringUtils::ToClr(_cefSettings->browser_subprocess_path); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->browser_subprocess_path, value); }
+        }
+
         property String^ CachePath
         {
             String^ get() { return StringUtils::ToClr(_cefSettings->cache_path); }
