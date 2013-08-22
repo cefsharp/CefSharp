@@ -9,7 +9,8 @@ namespace CefSharp.Example
         {
             var settings = new CefSettings
             {
-                RemoteDebuggingPort = 8088
+                RemoteDebuggingPort = 8088,
+                BrowserSubprocessPath = "CefSharp.BrowserSubprocess.exe"
             };
 
             if (!Cef.Initialize(settings))
