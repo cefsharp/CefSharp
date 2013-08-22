@@ -18,7 +18,7 @@ _ReSharper*
 
 obj/
 bin/
-/Debug/
+Debug/
 CefSharp/app.aps
 debug.log
 *.nupkg
