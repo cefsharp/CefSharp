@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
-             xmlns:local="clr-namespace:CefSharp.Wpf.Example.Views.Main"
              mc:Ignorable="d"
              d:DesignWidth="640"
              d:DesignHeight="480">
