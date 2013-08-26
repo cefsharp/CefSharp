@@ -31,11 +31,13 @@ namespace CefSharp.Wpf
         private Image image;
         private InteropBitmap interopBitmap;
 
+        public BrowserSettings BrowserSettings { get; set; }
+        public bool IsBrowserInitialized { get; private set; }
         public IJsDialogHandler JsDialogHandler { get; set; }
         public IKeyboardHandler KeyboardHandler { get; set; }
         public IRequestHandler RequestHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
-        public bool IsBrowserInitialized { get; private set; }
+
         public event ConsoleMessageEventHandler ConsoleMessage;
         public event PropertyChangedEventHandler PropertyChanged;
         public event LoadCompletedEventHandler LoadCompleted;
@@ -252,8 +254,7 @@ namespace CefSharp.Wpf
 
         private void CreateOffscreenBrowser()
         {
-            // TODO: Make it possible to override the BrowserSettings using a dependency property.
-            cefBrowserWrapper.CreateOffscreenBrowser(new BrowserSettings(), source.Handle, Address);
+            cefBrowserWrapper.CreateOffscreenBrowser(BrowserSettings ?? new BrowserSettings(), source.Handle, Address);
             isOffscreenBrowserCreated = true;
         }
 
