@@ -8,6 +8,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.Example", "CefSharp.Example\CefSharp.Example.csproj", "{A4394E7B-1155-43A6-989E-8AB72DDDC9E4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.Wpf.Example", "CefSharp.Wpf.Example\CefSharp.Wpf.Example.csproj", "{4828DAEC-EF99-4553-B674-4374F77C6D66}"
+	ProjectSection(ProjectDependencies) = postProject
+		{33A26358-8DB0-4C0C-9603-FEA61B697B8B} = {33A26358-8DB0-4C0C-9603-FEA61B697B8B}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{47D0DC8C-D707-4D8A-A578-7737AA9CE79B}"
 	ProjectSection(SolutionItems) = preProject
