@@ -15,7 +15,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CefSharp.BrowserSubProcess.cpp">
+    <ClInclude Include="JavascriptProxy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CefSharp.BrowserSubprocess.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

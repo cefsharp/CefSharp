@@ -178,5 +178,8 @@
     <ClInclude Include="ScriptException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Internals\JavascriptBinding\IJavascriptProxy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

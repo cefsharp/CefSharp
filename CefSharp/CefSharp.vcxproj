@@ -119,6 +119,7 @@
       <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
     </Reference>
+    <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
@@ -156,6 +157,7 @@
     <ClInclude Include="Internals\CefSharpApp.h" />
     <ClInclude Include="Internals\IWebBrowserInternal.h" />
     <ClInclude Include="Internals\IRenderWebBrowser.h" />
+    <ClInclude Include="Internals\JavascriptBinding\IJavascriptProxy.h" />
     <ClInclude Include="IRequestHandler.h" />
     <ClInclude Include="IRequestResponse.h" />
     <ClInclude Include="IRequest.h" />

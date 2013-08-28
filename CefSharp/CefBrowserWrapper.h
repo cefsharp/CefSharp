@@ -8,10 +8,13 @@
 #include "BrowserSettings.h"
 #include "MouseButtonType.h"
 #include "ScriptCore.h"
+#include "Internals/JavascriptBinding/IJavascriptProxy.h"
 #include "Internals/IRenderWebBrowser.h"
 #include "Internals/RenderClientAdapter.h"
 
 using namespace CefSharp::Internals;
+using namespace CefSharp::Internals::JavascriptBinding;
+using namespace System::ServiceModel;
 
 namespace CefSharp
 {
@@ -20,6 +23,7 @@ namespace CefSharp
     private:
         RenderClientAdapter* _renderClientAdapter;
         ScriptCore* _scriptCore;
+        IJavascriptProxy^ _javaScriptProxy;
 
     public:
         property Object^ BitmapLock
@@ -58,6 +62,14 @@ namespace CefSharp
         {
             _renderClientAdapter = new RenderClientAdapter(offscreenBrowserControl);
             _scriptCore = new ScriptCore();
+
+            // TODO: Address should certainly not be hardwired like this.
+            auto channelFactory = gcnew ChannelFactory<IJavascriptProxy^>(
+                gcnew NetNamedPipeBinding(),
+                gcnew EndpointAddress("net.pipe://localhost/JavaScriptProxy")
+            );
+            
+            _javaScriptProxy = channelFactory->CreateChannel();
         }
 
         ~CefBrowserWrapper()
@@ -105,7 +117,6 @@ namespace CefSharp
                 cefFrame->LoadString(StringUtils::ToNative(html), StringUtils::ToNative(url));
             }
         }
-
 
         void WasResized()
         {
@@ -240,16 +251,19 @@ namespace CefSharp
 
         Object^ EvaluateScript(String^ script, TimeSpan timeout)
         {
-            auto browser = _renderClientAdapter->GetCefBrowser();
+            // TODO: implement the browserprocess and make it implement IScriptProxy, and set up a WCF listener.
+            return _javaScriptProxy->EvaluateScript(script, timeout.TotalMilliseconds);
 
-            if (browser != nullptr)
-            {
-                return _scriptCore->Evaluate(browser, StringUtils::ToNative(script), (DWORD) timeout.TotalMilliseconds);
-            }
-            else
-            {
-                return nullptr;
-            }
+            //auto browser = _renderClientAdapter->GetCefBrowser();
+
+            //if (browser != nullptr)
+            //{
+            //    return _scriptCore->Evaluate(browser, StringUtils::ToNative(script), (DWORD) timeout.TotalMilliseconds);
+            //}
+            //elser
+            //{
+            //    return nullptr;
+            //}
         }
     };
 }
