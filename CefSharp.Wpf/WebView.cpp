@@ -153,9 +153,9 @@ namespace CefSharp
                 _image->Source = nullptr;
                 GC::Collect(1);
 
-                int stride = _width * PixelFormats::Bgr32.BitsPerPixel / 8;
+                int stride = _width * PixelFormats::Bgra32.BitsPerPixel / 8;
                 bitmap = (InteropBitmap^)Interop::Imaging::CreateBitmapSourceFromMemorySection(
-                    (IntPtr)_fileMappingHandle, _width, _height, PixelFormats::Bgr32, stride, 0);
+                    (IntPtr)_fileMappingHandle, _width, _height, PixelFormats::Bgra32, stride, 0);
                 _image->Source = bitmap;
                 _ibitmap = bitmap;
             }
@@ -172,9 +172,9 @@ namespace CefSharp
                 _popupImage->Source = nullptr;
                 GC::Collect(1);
 
-                int stride = _popupImageWidth * PixelFormats::Bgr32.BitsPerPixel / 8;
+                int stride = _popupImageWidth * PixelFormats::Bgra32.BitsPerPixel / 8;
                 bitmap = (InteropBitmap^)Interop::Imaging::CreateBitmapSourceFromMemorySection(
-                    (IntPtr)_popupFileMappingHandle, _popupImageWidth, _popupImageHeight, PixelFormats::Bgr32, stride, 0);
+                    (IntPtr)_popupFileMappingHandle, _popupImageWidth, _popupImageHeight, PixelFormats::Bgra32, stride, 0);
                 _popupImage->Source = bitmap;
                 _popupIbitmap = bitmap;
             }
@@ -638,6 +638,7 @@ namespace CefSharp
             HWND hwnd = static_cast<HWND>(_source->Handle.ToPointer());
             CefWindowInfo window;
             window.SetAsOffScreen(hwnd);
+            window.SetTransparentPainting(TRUE);
             CefString url = toNative(_browserCore->Address);
 
             CefBrowser::CreateBrowser(window, _clientAdapter.get(),
