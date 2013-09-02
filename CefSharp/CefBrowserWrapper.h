@@ -251,8 +251,18 @@ namespace CefSharp
 
         Object^ EvaluateScript(String^ script, TimeSpan timeout)
         {
-            // TODO: implement the browserprocess and make it implement IScriptProxy, and set up a WCF listener.
-            return _javaScriptProxy->EvaluateScript(script, timeout.TotalMilliseconds);
+            auto browser = _renderClientAdapter->GetCefBrowser();
+            auto frame = _renderClientAdapter->TryGetCefMainFrame();
+
+            if (browser != nullptr &&
+                frame != nullptr)
+            {
+                return _javaScriptProxy->EvaluateScript(browser->GetIdentifier(), frame->GetIdentifier(), script, timeout.TotalMilliseconds);
+            }
+            else
+            {
+                return nullptr;
+            }
 
             //auto browser = _renderClientAdapter->GetCefBrowser();
 
