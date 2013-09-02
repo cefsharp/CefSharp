@@ -91,6 +91,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Program.cpp" />
+    <ClCompile Include="SubprocessCefApp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CefSharp\CefSharp.vcxproj">
@@ -105,6 +106,8 @@
     <ClInclude Include="CefRenderProcess.h" />
     <ClInclude Include="JavascriptProxy.h" />
     <ClInclude Include="JavascriptProxyService.h" />
+    <ClInclude Include="Program.h" />
+    <ClInclude Include="SubprocessCefApp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

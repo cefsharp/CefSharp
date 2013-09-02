@@ -24,9 +24,18 @@
     <ClInclude Include="CefRenderProcess.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SubprocessCefApp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Program.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Program.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SubprocessCefApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
