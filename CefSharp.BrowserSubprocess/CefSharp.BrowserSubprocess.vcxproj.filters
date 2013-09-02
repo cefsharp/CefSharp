@@ -18,6 +18,12 @@
     <ClInclude Include="JavascriptProxy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="JavascriptProxyService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CefRenderProcess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Program.cpp">

@@ -102,7 +102,9 @@
     <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CefRenderProcess.h" />
     <ClInclude Include="JavascriptProxy.h" />
+    <ClInclude Include="JavascriptProxyService.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
