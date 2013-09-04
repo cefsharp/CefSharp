@@ -56,6 +56,10 @@ namespace CefSharp
         _headers = ToHeaderMap(response->ResponseHeaders);
 
         _callback->HeadersAvailable();
+
+        // Must be done AFTER CEF has been allowed to consume the headers etc. After this call is made, the SchemeHandlerWrapper
+        // instance has likely been deallocated.
+        response->ReleaseSchemeHandlerWrapper();
     }
 
     void SchemeHandlerWrapper::GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl)

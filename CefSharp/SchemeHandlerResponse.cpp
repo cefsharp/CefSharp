@@ -5,6 +5,6 @@ namespace CefSharp
 {
     void SchemeHandlerResponse::OnRequestCompleted()
     {
-        _schemeHandlerWrapper->ProcessRequestCallback(this);
+        _schemeHandlerWrapper->get()->ProcessRequestCallback(this);
     }
 }

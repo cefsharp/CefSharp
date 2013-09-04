@@ -14,7 +14,7 @@ namespace CefSharp
     public ref class SchemeHandlerResponse
     {
     internal:
-        SchemeHandlerWrapper* _schemeHandlerWrapper;
+        CefRefPtr<SchemeHandlerWrapper>* _schemeHandlerWrapper;
         void OnRequestCompleted();
         
     public:
@@ -28,7 +28,12 @@ namespace CefSharp
 
         SchemeHandlerResponse(SchemeHandlerWrapper* schemeHandlerWrapper)
         {
-            _schemeHandlerWrapper = schemeHandlerWrapper;
+            _schemeHandlerWrapper = new CefRefPtr<SchemeHandlerWrapper>(schemeHandlerWrapper);
+        }
+
+        void ReleaseSchemeHandlerWrapper()
+        {
+            delete _schemeHandlerWrapper;
         }
     };
 };
