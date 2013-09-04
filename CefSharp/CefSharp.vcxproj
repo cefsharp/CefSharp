@@ -132,7 +132,8 @@
     <ClCompile Include="Request.cpp" />
     <ClCompile Include="RequestResponse.cpp" />
     <ClCompile Include="RtzCountdownEvent.cpp" />
-    <ClCompile Include="SchemeHandler.cpp" />
+    <ClCompile Include="SchemeHandlerResponse.cpp" />
+    <ClCompile Include="SchemeHandlerWrapper.cpp" />
     <ClCompile Include="ScriptCore.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -169,7 +170,8 @@
     <ClInclude Include="Request.h" />
     <ClInclude Include="RequestResponse.h" />
     <ClInclude Include="RtzCountdownEvent.h" />
-    <ClInclude Include="SchemeHandler.h" />
+    <ClInclude Include="SchemeHandlerWrapper.h" />
+    <ClInclude Include="SchemeHandlerResponse.h" />
     <ClInclude Include="ScriptCore.h" />
     <ClInclude Include="ScriptException.h" />
     <ClInclude Include="Settings.h" />

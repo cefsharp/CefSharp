@@ -69,7 +69,7 @@ namespace CefSharp
         {
             String^ name = toClr(it->first);
             String^ value = toClr(it->second);
-            headers->Add(name, value);
+            headers[name] = value;
         }
 
         return headers;

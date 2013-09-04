@@ -9,7 +9,7 @@
 #include "include/cef_task.h"
 #include "CookieVisitor.h"
 #include "Settings.h"
-#include "SchemeHandler.h"
+#include "SchemeHandlerWrapper.h"
 #include "StringUtil.h"
 
 using namespace System;

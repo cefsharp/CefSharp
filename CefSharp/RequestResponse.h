@@ -12,12 +12,17 @@ namespace CefSharp
     {
         /// cancel the request, return nothing
         void Cancel();
+
         /// the current request
         property IRequest^ Request { IRequest^ get(); };
+
         /// respond with redirection to the provided URL
         void Redirect(String^ url);
+
         /// respond with data from Stream
         void RespondWith(Stream^ stream, String^ mimeType);
+
+        void RespondWith(Stream^ stream, String^ mimeType, String^ statusText, int statusCode, IDictionary<String^, String^>^ responseHeaders);
     };
 
     enum class ResponseAction
@@ -59,5 +64,4 @@ namespace CefSharp
         virtual void RespondWith(Stream^ stream, String^ mimeType);
         virtual void RespondWith(Stream^ stream, String^ mimeType, String^ statusText, int statusCode, IDictionary<String^, String^>^ responseHeaders);
     };
-
 }

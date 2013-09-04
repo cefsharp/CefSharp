@@ -1,35 +1,64 @@
 #include "Stdafx.h"
 
-#include "SchemeHandler.h"
+#include "SchemeHandlerWrapper.h"
+
+using namespace System::Runtime::InteropServices;
 
 namespace CefSharp
 {
-    void SchemeHandlerWrapper::GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl)
+    namespace
     {
-        response->SetMimeType(_mime_type);
-        response->SetStatus(200);
-        response_length = SizeFromStream();
-    }
+        CefResponse::HeaderMap ToHeaderMap(IDictionary<String^, String^>^ headers)
+        {
+            CefResponse::HeaderMap result;
+
+            for each (KeyValuePair<String^, String^> header in headers)
+            {
+                result.insert(std::pair<CefString,CefString>(toNative(header.Key), toNative(header.Value)));
+            }
+
+            return result;
+        }
+    };
 
     bool SchemeHandlerWrapper::ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefSchemeHandlerCallback> callback)
     {
+        _callback = callback;
+
         bool handled = false;
         Stream^ stream;
         String^ mimeType;
 
         AutoLock lock_scope(this);
 
-        IRequest^ requestWrapper = gcnew CefRequestWrapper(request);
-        if (_handler->ProcessRequest(requestWrapper, mimeType, stream))
-        {
-            _mime_type = toNative(mimeType);
-            _stream = stream;
-            callback->HeadersAvailable();
+        auto schemeResponse = gcnew SchemeHandlerResponse(this);
+        auto onRequestCompleted = gcnew OnRequestCompletedHandler(schemeResponse, &SchemeHandlerResponse::OnRequestCompleted);
 
+        auto requestWrapper = gcnew CefRequestWrapper(request);
+        if (_handler->ProcessRequestAsync(requestWrapper, schemeResponse, onRequestCompleted))
+        {
             handled = true;
         }
 
         return handled;
+    }
+
+    void SchemeHandlerWrapper::ProcessRequestCallback(SchemeHandlerResponse^ response)
+    {
+        _mime_type = toNative(response->MimeType);
+        _stream = response->ResponseStream;
+
+        _headers = ToHeaderMap(response->ResponseHeaders);
+
+        _callback->HeadersAvailable();
+    }
+
+    void SchemeHandlerWrapper::GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl)
+    {
+        response->SetMimeType(_mime_type);
+        response->SetStatus(200);
+        response->SetHeaderMap(_headers);
+        response_length = SizeFromStream();
     }
 
     bool SchemeHandlerWrapper::ReadResponse(void* data_out, int bytes_to_read, int& bytes_read, CefRefPtr<CefSchemeHandlerCallback> callback)

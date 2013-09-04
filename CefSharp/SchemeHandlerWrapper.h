@@ -9,13 +9,18 @@ using namespace System::IO;
 
 namespace CefSharp
 {
+    ref class SchemeHandlerResponse;
+
+    public delegate void OnRequestCompletedHandler();
+
     public interface class ISchemeHandler
     {
         /// <summary>
-        /// if request is handled return true and set mimeType and stream accordingly.
-        /// if no data the leave stream null
+        /// Processes a custom scheme-based request asynchronously. The implementing method should call the callback whenever the
+        /// request is completed.
         /// </summary>
-        bool ProcessRequest(IRequest^ request, String^% mimeType, Stream^% stream);
+        /// <returns>true if the request is handled, false otherwise.</returns>
+        bool ProcessRequestAsync(IRequest^ request, SchemeHandlerResponse^ response, OnRequestCompletedHandler^ callback);
     };
 
     public interface class ISchemeHandlerFactory
@@ -23,15 +28,18 @@ namespace CefSharp
         ISchemeHandler^ Create();
     };
 
-    class SchemeHandlerWrapper : public CefSchemeHandler
+    public class SchemeHandlerWrapper : public CefSchemeHandler
     {
         gcroot<ISchemeHandler^> _handler;
         gcroot<Stream^> _stream;
         CefString _mime_type;
+        CefResponse::HeaderMap _headers;
+        CefRefPtr<CefSchemeHandlerCallback> _callback;
 
         int SizeFromStream();
 
     public:
+
         SchemeHandlerWrapper(ISchemeHandler^ handler) : _handler(handler)
         {
             if(!_handler)
@@ -41,6 +49,7 @@ namespace CefSharp
         }
 
         virtual bool ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefSchemeHandlerCallback> callback);
+        virtual void ProcessRequestCallback(SchemeHandlerResponse^ handlerResponse);
         virtual void GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl);
         virtual bool ReadResponse(void* data_out, int bytes_to_read, int& bytes_read, CefRefPtr<CefSchemeHandlerCallback> callback);
         virtual void Cancel();

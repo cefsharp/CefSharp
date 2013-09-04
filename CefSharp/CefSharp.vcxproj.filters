@@ -53,9 +53,6 @@
     <ClCompile Include="RtzCountdownEvent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SchemeHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ScriptCore.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -73,6 +70,12 @@
     </ClCompile>
     <ClCompile Include="Internals\JavascriptBinding\BindingHandler.cpp">
       <Filter>Source Files\Internals\JavascriptBinding</Filter>
+    </ClCompile>
+    <ClCompile Include="SchemeHandlerWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SchemeHandlerResponse.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -139,9 +142,6 @@
     <ClInclude Include="RtzCountdownEvent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SchemeHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ScriptCore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -179,6 +179,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="IJsDialogHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SchemeHandlerWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SchemeHandlerResponse.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
