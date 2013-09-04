@@ -12,6 +12,11 @@ namespace CefSharp
         {
             CefResponse::HeaderMap result;
 
+            if (headers == nullptr)
+            {
+                return result;
+            }
+
             for each (KeyValuePair<String^, String^> header in headers)
             {
                 result.insert(std::pair<CefString,CefString>(toNative(header.Key), toNative(header.Value)));
