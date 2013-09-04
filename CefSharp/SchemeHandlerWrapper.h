@@ -3,6 +3,7 @@
 
 #include "include/cef_scheme.h"
 #include "Request.h"
+#include "ISchemeHandler.h"
 
 using namespace System;
 using namespace System::IO;
@@ -10,18 +11,6 @@ using namespace System::IO;
 namespace CefSharp
 {
     ref class SchemeHandlerResponse;
-
-    public delegate void OnRequestCompletedHandler();
-
-    public interface class ISchemeHandler
-    {
-        /// <summary>
-        /// Processes a custom scheme-based request asynchronously. The implementing method should call the callback whenever the
-        /// request is completed.
-        /// </summary>
-        /// <returns>true if the request is handled, false otherwise.</returns>
-        bool ProcessRequestAsync(IRequest^ request, SchemeHandlerResponse^ response, OnRequestCompletedHandler^ callback);
-    };
 
     public interface class ISchemeHandlerFactory
     {
