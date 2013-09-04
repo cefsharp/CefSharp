@@ -29,7 +29,7 @@ namespace CefSharp.Example
             };
         }
 
-        public bool ProcessRequest(IRequest request, ref string mimeType, ref Stream stream)
+        public bool ProcessRequestAsync(IRequest request, SchemeHandlerResponse response, OnRequestCompletedHandler requestCompletedCallback)
         {
             var uri = new Uri(request.Url);
             var segments = uri.Segments;
@@ -40,8 +40,9 @@ namespace CefSharp.Example
                 !String.IsNullOrEmpty(resource))
             {
                 var bytes = Encoding.UTF8.GetBytes(resource);
-                stream = new MemoryStream(bytes);
-                mimeType = "text/html";
+                response.ResponseStream = new MemoryStream(bytes);
+                response.MimeType = "text/html";
+                requestCompletedCallback();
                 
                 return true;
             }
