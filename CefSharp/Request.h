@@ -14,11 +14,9 @@ namespace CefSharp
     ref class CefRequestWrapper : public IRequest
     {
         MCefRefPtr<CefRequest> _wrappedRequest;
+
     internal:
         CefRequestWrapper(CefRefPtr<CefRequest> cefRequest) : _wrappedRequest(cefRequest) {}
-        //void (SchemeHandlerWrapper::* RequestCompletedCallback)(SchemeResponse^);
-
-        //void OnRequestCompleted(SchemeResponse^ response);
 
     public:
         virtual property String^ Url { String^ get(); void set(String^ url); }
