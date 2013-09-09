@@ -13,21 +13,48 @@ namespace CefSharp
         {
             void BindingHandler::Bind(String^ name, Object^ obj, CefRefPtr<CefV8Value> window)
             {
+                window->SetValue(toNative(name), Bind(obj, window), V8_PROPERTY_ATTRIBUTE_NONE);
+            }
+
+            CefRefPtr<CefV8Value> BindingHandler::Bind(Object^ obj, CefRefPtr<CefV8Value> window)
+            {
+                IDictionary<Object^, unsigned long>^ $ = cache;
+                cacheLock->EnterReadLock();
+                try {
+                    if (cache->ContainsKey(obj)) 
+                        return map4cache[$[obj]];
+                }
+                finally {
+                    cacheLock->ExitReadLock();
+                }
+
                 auto unmanagedWrapper = new UnmanagedWrapper(obj);
 
                 // Create the Javascript/V8 object and associate it with the wrapped object.
-                auto propertyAccessor = new PropertyAccessor();
+                static auto propertyAccessor = new PropertyAccessor();
                 auto javascriptWrapper = window->CreateObject(static_cast<CefRefPtr<CefV8Accessor>>(propertyAccessor));
                 javascriptWrapper->SetUserData(static_cast<CefRefPtr<CefBase>>(unmanagedWrapper));
 
-                auto handler = static_cast<CefV8Handler*>(new BindingHandler());
-                auto methodNames = GetMethodNames(obj->GetType());
-                CreateJavascriptMethods(handler, javascriptWrapper, methodNames);
+                static auto handler = static_cast<CefV8Handler*>(new BindingHandler());
+                CreateJavascriptMethods(handler, javascriptWrapper, GetMethodNames(obj->GetType()));
+                CreateJavascriptProperties(javascriptWrapper, GetProperties(obj->GetType()));
 
-                unmanagedWrapper->Properties = GetProperties(obj->GetType());
-                CreateJavascriptProperties(handler, javascriptWrapper, unmanagedWrapper->Properties);
-
-                window->SetValue(toNative(name), javascriptWrapper, V8_PROPERTY_ATTRIBUTE_NONE);
+                static unsigned long key = -1;
+                unsigned long k = CefAtomicIncrement(&key);
+                if (InterlockedCompareExchange(&key, -1, -1) == -1) {
+                    // when key reach 0xFFFFFFFF (-1) clear cache so we don't put a wrong wrappedObject in there.
+                    cacheLock->EnterWriteLock();
+                    try {
+                        $->Clear();
+                        map4cache.clear();
+                    }
+                    finally {
+                        cacheLock->ExitWriteLock();
+                    }
+                }
+                $[obj] = k;
+                map4cache[k] = javascriptWrapper;
+                return javascriptWrapper;
             }
 
             bool BindingHandler::Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception)
@@ -42,7 +69,9 @@ namespace CefSharp
                 }
 
                 String^ methodName = toClr(name);
+#ifdef CHANGE_FIRST_CHAR_TO_LOWER
                 methodName = unmanagedWrapper->GetMethodMapping(methodName);
+#endif
                 Type^ type = self->GetType();
                 auto methods = type->GetMember(methodName, MemberTypes::Method, BindingFlags::Instance | BindingFlags::Public);
 
@@ -78,7 +107,7 @@ namespace CefSharp
                     try
                     {
                         Object^ result = bestMethod->Invoke(self, bestMethodArguments);
-                        retval = convertToCef(result, bestMethod->ReturnType);
+                        retval = convertToCef(result, bestMethod->ReturnType, object);
                         return true;
                     }
                     catch (System::Reflection::TargetInvocationException^ err)
@@ -197,6 +226,8 @@ namespace CefSharp
                     else if (conversionType == UInt64::typeid) return -1;
                     return -1;
                 }
+                else if (valueType->IsArray && (conversionType->IsArray || conversionType == Object::typeid))
+                    return baseCost + 0;
                 else if(valueType == String::typeid)
                 {
                     // String can be converted only to String
@@ -226,6 +257,23 @@ namespace CefSharp
                 Type^ targetType = Nullable::GetUnderlyingType(conversionType);
                 if (targetType != nullptr) conversionType = targetType;
 
+                Type^ inType = value->GetType();
+                if (inType == conversionType) return value;
+
+                if (inType->IsArray) {
+                    if (!conversionType->HasElementType) return value;
+
+                    Type^ outType = conversionType->GetElementType();
+                    if (outType == inType->GetElementType()) return value;
+
+                    Array^ in = (Array^) value;
+                    Array^ out = Array::CreateInstance(outType,  in->Length);
+
+                    for (int i = 0; i < in->Length; i++)
+                        out->SetValue(Convert::ChangeType(in->GetValue(i), outType), i);
+
+                    return out;
+                }
                 return Convert::ChangeType(value, conversionType);
             }
 
@@ -364,37 +412,56 @@ namespace CefSharp
 
             void BindingHandler::CreateJavascriptMethods(CefV8Handler* handler, CefRefPtr<CefV8Value> javascriptObject, IEnumerable<String^>^ methodNames)
             {
-                auto unmanagedWrapper = static_cast<UnmanagedWrapper*>(javascriptObject->GetUserData().get());
-
                 for each(String^ methodName in methodNames)
                 {
+#ifdef CHANGE_FIRST_CHAR_TO_LOWER
                     auto jsMethodName = LowercaseFirst(methodName);
-                    unmanagedWrapper->AddMethodMapping(methodName, jsMethodName);
-
+                    auto unmanagedWrapper = static_cast<UnmanagedWrapper*>(javascriptObject->GetUserData().get());
+                    if (!unmanagedWrapper->AddMethodMapping(methodName, jsMethodName)) continue;
+#else
+                    auto jsMethodName = methodName;
+#endif
                     auto nameStr = toNative(jsMethodName);
-                    javascriptObject->SetValue(nameStr, CefV8Value::CreateFunction(nameStr, handler), V8_PROPERTY_ATTRIBUTE_NONE);
+                    auto fun = CefV8Value::CreateFunction(nameStr, handler);
+                    javascriptObject->SetValue(nameStr, fun, V8_PROPERTY_ATTRIBUTE_NONE);
+                    fun->AddRef();
                 }
             }
 
-            void BindingHandler::CreateJavascriptProperties(CefV8Handler* handler, CefRefPtr<CefV8Value> javascriptObject, Dictionary<String^, PropertyInfo^>^ properties)
+            void BindingHandler::CreateJavascriptProperties(CefRefPtr<CefV8Value> javascriptObject, Dictionary<String^, PropertyInfo^>^ properties)
             {
-                auto unmanagedWrapper = static_cast<UnmanagedWrapper*>(javascriptObject->GetUserData().get());
 
                 for each(String^ propertyName in properties->Keys)
                 {
+#ifdef CHANGE_FIRST_CHAR_TO_LOWER
                     auto jsPropertyName = LowercaseFirst(propertyName);
-                    unmanagedWrapper->AddPropertyMapping(propertyName, jsPropertyName);
-
+                    auto unmanagedWrapper = static_cast<UnmanagedWrapper*>(javascriptObject->GetUserData().get());
+                    if (!unmanagedWrapper->AddPropertyMapping(propertyName, jsPropertyName)) continue;
+#else
+                    auto jsPropertyName = propertyName;
+#endif
                     auto nameStr = toNative(jsPropertyName);
 
-                    cef_v8_propertyattribute_t propertyAttribute = V8_PROPERTY_ATTRIBUTE_NONE;
+                    auto ctrl = V8_ACCESS_CONTROL_DEFAULT;
+                    auto propertyAttribute = V8_PROPERTY_ATTRIBUTE_NONE;
+                    auto prop = properties[propertyName];
 
-                    if (properties[propertyName]->GetSetMethod() == nullptr)
+                    auto get = prop->GetGetMethod();
+                    if (get != nullptr && get->IsPublic)
                     {
+                        ctrl = static_cast<CefV8Value::AccessControl>(ctrl | V8_ACCESS_CONTROL_ALL_CAN_READ);
+                    }
+
+                    auto set = prop->GetSetMethod();
+                    if (set != nullptr && set->IsPublic)
+                        ctrl = static_cast<CefV8Value::AccessControl>(ctrl | V8_ACCESS_CONTROL_ALL_CAN_WRITE);
+                    else
+                    {
+                         ctrl = static_cast<CefV8Value::AccessControl>(ctrl | V8_ACCESS_CONTROL_PROHIBITS_OVERWRITING);
                         propertyAttribute = V8_PROPERTY_ATTRIBUTE_READONLY;
                     }
 
-                    javascriptObject->SetValue(nameStr, V8_ACCESS_CONTROL_DEFAULT, propertyAttribute);
+                     javascriptObject->SetValue(nameStr, ctrl, propertyAttribute);
                 }
             }
 

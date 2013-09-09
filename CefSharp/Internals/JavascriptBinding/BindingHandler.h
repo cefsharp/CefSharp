@@ -13,7 +13,9 @@ namespace CefSharp
             private class BindingHandler : public CefV8Handler
             {
             public:
-                static void Bind(String^ name, Object^ obj, CefRefPtr<CefV8Value> window);          
+                static void Bind(String^ name, Object^ obj, CefRefPtr<CefV8Value> window);  
+                static CefRefPtr<CefV8Value> Bind(Object^ obj, CefRefPtr<CefV8Value> window);
+                static Object^ ChangeType(Object^ value, Type^ conversionType);
                 IMPLEMENT_REFCOUNTING(BindingHandler);
 
             private:
@@ -23,16 +25,15 @@ namespace CefSharp
 
                 static bool IsNullableType(Type^ type);
                 static int GetChangeTypeCost(Object^ value, Type^ conversionType);
-                static Object^ ChangeType(Object^ value, Type^ conversionType);
 
                 static void CreateJavascriptMethods(CefV8Handler* handler, CefRefPtr<CefV8Value> javascriptObject, IEnumerable<String^>^ methodNames);
-                static void CreateJavascriptProperties(CefV8Handler* handler, CefRefPtr<CefV8Value> javascriptObject, Dictionary<String^, PropertyInfo^>^ properties);
+                static void CreateJavascriptProperties(CefRefPtr<CefV8Value> javascriptObject, Dictionary<String^, PropertyInfo^>^ properties);
                 static Dictionary<String^, PropertyInfo^>^ GetProperties(Type^ type);
                 static void BindingHandler::FindBestMethod(array<MemberInfo^>^ methods, array<Object^>^ suppliedArguments, MethodInfo^% bestMethod, array<Object^>^% bestMethodArguments);
 
                 CefRefPtr<CefV8Value> ConvertToCef(Object^ obj, Type^ type);
-                Object^ ConvertFromCef(CefRefPtr<CefV8Value> obj);
-                static String^ BindingHandler::LowercaseFirst(String^ str);          
+                Object^ ConvertFromCef(CefRefPtr<CefV8Value> obj);    
+                static String^ BindingHandler::LowercaseFirst(String^ str);
             };
         }
     }

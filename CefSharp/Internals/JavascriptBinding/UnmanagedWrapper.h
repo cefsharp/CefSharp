@@ -1,8 +1,11 @@
 #include "Stdafx.h"
 #pragma once
+#define CHANGE_FIRST_CHAR_TO_LOWER // comment out this if want to keep the orignal case of methods and properties
 
 using namespace System::Collections::Generic;
 using namespace System::Reflection;
+using namespace System::Collections::Concurrent;
+using namespace System::Threading;
 
 namespace CefSharp
 {
@@ -10,6 +13,9 @@ namespace CefSharp
 	{
 		namespace JavascriptBinding
 		{
+            static gcroot<IDictionary<Object^, unsigned long>^> cache = gcnew Dictionary<Object^, unsigned long>();
+            static std::map<unsigned long, CefRefPtr<CefV8Value>> map4cache;
+            static gcroot<ReaderWriterLockSlim^> cacheLock = gcnew ReaderWriterLockSlim();
 			/// <summary>
 			/// Acts as an unmanaged wrapper for a managed .NET object.
 			/// </summary>
@@ -17,18 +23,35 @@ namespace CefSharp
 			{
 			protected:
 				gcroot<Object^> _obj;
+#ifdef CHANGE_FIRST_CHAR_TO_LOWER
                 gcroot<Dictionary<String^, String^>^> _methodMap;
                 gcroot<Dictionary<String^, String^>^> _propertyMap;
-
+#endif
 			public:
-				gcroot<Dictionary<String^, PropertyInfo^>^> Properties;
 
 				UnmanagedWrapper(Object^ obj)
 				{
 					_obj = obj;
+#ifdef CHANGE_FIRST_CHAR_TO_LOWER
                     _methodMap = gcnew Dictionary<String^, String^>();
                     _propertyMap = gcnew Dictionary<String^, String^>();
+#endif
 				}
+
+                virtual ~UnmanagedWrapper()
+                {
+                    if (cache->ContainsKey(_obj)) {
+                        cacheLock->EnterWriteLock();
+                        try {
+                            IDictionary<Object^, unsigned long>^ $ = cache;
+                            map4cache.erase($[_obj]);
+                            cache->Remove(_obj);
+                        }
+                        finally {
+                            cacheLock->ExitWriteLock();
+                        }
+                    }
+                }
 
 				/// <summary>
 				/// Gets a reference to the wrapped object.
@@ -39,9 +62,12 @@ namespace CefSharp
 					return _obj;
 				}
 
-                void AddMethodMapping(String^ from, String^ to)
+#ifdef CHANGE_FIRST_CHAR_TO_LOWER
+                bool AddMethodMapping(String^ from, String^ to)
                 {
-                    _methodMap->Add(to, from);
+                    if (_methodMap->ContainsKey(to) && Char::IsLower(from[0])) return false; // another method already exists!
+                    ((IDictionary<String^, String^>^) _methodMap)[to] = from;
+                    return true;
                 }
 
                 String^ GetMethodMapping(String^ from)
@@ -58,9 +84,11 @@ namespace CefSharp
                     }
                 }
 
-                void AddPropertyMapping(String^ from, String^ to)
+                bool AddPropertyMapping(String^ from, String^ to)
                 {
-                    _propertyMap->Add(to, from);
+                    if (_propertyMap->ContainsKey(to) && Char::IsLower(from[0])) return false; // another property already exists!
+                    ((IDictionary<String^, String^>^) _propertyMap)[to] = from;
+                    return true;
                 }
 
                 String^ GetPropertyMapping(String^ from)
@@ -76,7 +104,7 @@ namespace CefSharp
                         return nullptr;
                     }
                 }
-
+#endif
 				IMPLEMENT_REFCOUNTING(UnmanagedWrapper);
             };
 		}

@@ -21,40 +21,39 @@ namespace CefSharp
                     CefString& exception) override
                 {
                     auto unmanagedWrapper = static_cast<UnmanagedWrapper*>(object->GetUserData().get());
+                    auto wrappedObject = unmanagedWrapper->Get();
+
+                    if (wrappedObject == nullptr)
+                    {
+                        exception = "Binding's CLR object is null.";
+                        return true;
+                    }
+
                     auto clrName = toClr(name);
+#ifdef CHANGE_FIRST_CHAR_TO_LOWER
                     clrName = unmanagedWrapper->GetPropertyMapping(clrName);
-                    PropertyInfo^ property;
+#endif
+                    auto prop = wrappedObject->GetType()->GetProperty(clrName, BindingFlags::Instance | BindingFlags::Public);
 
-                    if (unmanagedWrapper->Properties->TryGetValue(clrName, property))
+                    if (prop == nullptr)
                     {
-                        auto wrappedObject = unmanagedWrapper->Get();
-
-                        if (wrappedObject == nullptr)
-                        {
-                            exception = "Binding's CLR object is null.";
-                            return true;
-                        }
-
-                        try
-                        {
-                            auto clrValue = property->GetValue(wrappedObject, nullptr);
-
-                            retval = convertToCef(clrValue, nullptr);
-                            return true;
-                        }
-                        catch (Exception^ e)
-                        {
-                            exception = toNative(e->Message);
-                            return true;
-                        }
+                        exception = toNative("No member named " + clrName + " to read.");
+                        return true;
                     }
-                    else
+
+                    try
                     {
-                        // Will probably never get here in reality, since V8 knows the name of the properties that exist on this
-                        // object and will only call us for existent properties.
-                        return false;
+                        auto clrValue = prop->GetValue(wrappedObject, nullptr);
+                        retval = clrValue == wrappedObject ? object : convertToCef(clrValue, prop->PropertyType, object);
                     }
-                }
+                    catch (Exception^ e)
+                    {
+                        exception = toNative(e->Message);
+                     }
+                    return true;
+               }
+
+
 
                 ///
                 // Handle assignment of the accessor value identified by |name|. |object| is
@@ -68,30 +67,36 @@ namespace CefSharp
                     CefString& exception) override
                 {
                     auto unmanagedWrapper = static_cast<UnmanagedWrapper*>(object->GetUserData().get());
-                    auto clrName = toClr(name);
-                    PropertyInfo^ property;
+                    auto wrappedObject = unmanagedWrapper->Get();
 
-                    if (unmanagedWrapper->Properties->TryGetValue(clrName, property))
+                    if (wrappedObject == nullptr)
                     {
-                        auto wrappedObject = unmanagedWrapper->Get();
-
-                        if (wrappedObject == nullptr)
-                        {
-                            exception = "Binding's CLR object is null.";
-                            return true;
-                        }
-
-                        auto clrValue = convertFromCef(value);
-                        property->SetValue(wrappedObject, clrValue, nullptr);
-
+                        exception = "Binding's CLR object is null.";
                         return true;
                     }
-                    else
+
+                    auto clrName = toClr(name);
+#ifdef CHANGE_FIRST_CHAR_TO_LOWER
+                    clrName = unmanagedWrapper->GetPropertyMapping(clrName);
+#endif
+                    auto prop = wrappedObject->GetType()->GetProperty(clrName, BindingFlags::Instance | BindingFlags::Public);
+
+                    if (prop == nullptr)
                     {
-                        // Will probably never get here in reality, since V8 knows the name of the properties that exist on this
-                        // object and will only call us for existent properties.
-                        return false;
+                        exception = toNative("No member named " + clrName + " to write.");
+                        return true;
                     }
+
+                    try
+                    { 
+                        auto clrValue = value == object ? wrappedObject : convertFromCef(value);
+                        prop->SetValue(wrappedObject, BindingHandler::ChangeType(clrValue, prop->PropertyType), nullptr);
+                    }
+                    catch (Exception^ e)
+                    {
+                        exception = toNative(e->Message);
+                    }
+                    return true;
                 }
 
                 IMPLEMENT_REFCOUNTING(PropertyAccessor)

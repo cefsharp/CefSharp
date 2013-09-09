@@ -25,8 +25,13 @@
             <script type="text/javascript">
                 for (var name in bound)
                 {
-                    if (bound[name].constructor.name != 'Function') continue;
-                    document.write("<li>" + name + "</li>");
+                    try {
+                        if (Object.prototype.toString.call(bound[name]) != '[object Function]') continue;
+                        document.write("<li>" + name + "</li>");
+                     }
+                     catch (e) {
+                         document.write("<li>" + name + " exeption: " + e.message + "</li>");
+                     }
                 }
             </script>
         </ul>
@@ -35,9 +40,14 @@
         <ul>
             <script type="text/javascript">
                 for (var name in bound)
-                {
-                    if (bound[name].constructor.name == 'Function') continue;
-                    document.write("<li>" + name + "</li>");
+                 {
+                    try {
+                        if (bound[name] !== null && bound[name].constructor.name == 'Function') continue;
+                        document.write("<li>" + name + "</li>");
+                    }
+                    catch (e) {
+                        document.write("<li>" + name + " exeption: " + e.message + "</li>");
+                    }
                 }
             </script>
         </ul>
