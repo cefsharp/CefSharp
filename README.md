@@ -1,8 +1,8 @@
-# CefSharp - Embedded Chromium for .Net
+# CefSharp - Embedded Chromium for .NET
 
-This project contains .Net CLR bindings for The
+This project contains .NET CLR bindings for The
 [Chromium Embedded Framework (CEF)](http://code.google.com/p/chromiumembedded/ "Google Code") by Marshall A. Greenblatt. The
-bindings are written in C++/CLI but can be used from any CLR language e.g. C# or VB. CefSharp provides both WinForms and WPF web
+bindings are written in C++/CLI but can be used from any CLR language, e.g. C# or VB. CefSharp provides both WinForms and WPF web
 browser control implementations. See the CefSharp.WinForms.Example or CefSharp.Wpf.Example projects for example web browsers built
 using this library; they are (at this moment) the best "documentation" of how the control can actually be used.
 
