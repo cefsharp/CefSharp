@@ -210,7 +210,8 @@ namespace CefSharp
                 return;
             }
 
-            Point point = e->GetPosition(this);
+            auto deviceIndependentPosition = e->GetPosition(this);
+            auto pixelPosition = _matrix->Transform(deviceIndependentPosition);
 
             CefBrowser::MouseButtonType type;
             if (e->ChangedButton == MouseButton::Left)
@@ -222,7 +223,7 @@ namespace CefSharp
 
             bool mouseUp = e->ButtonState == MouseButtonState::Released;
 
-            browser->SendMouseClickEvent((int)point.X, (int)point.Y,
+            browser->SendMouseClickEvent((int)pixelPosition.X, (int)pixelPosition.Y,
                 type, mouseUp, e->ClickCount);
         }
 
@@ -252,7 +253,7 @@ namespace CefSharp
             if (TryGetCefBrowser(browser))
             {
                 Point point = _matrix->Transform(Point(size.Width, size.Height));
-                browser->SetSize(PET_VIEW, (int)size.Width, (int)size.Height);
+                browser->SetSize(PET_VIEW, (int)point.X, (int)point.Y);
                 HidePopup();
             }
             else
@@ -303,8 +304,9 @@ namespace CefSharp
             CefRefPtr<CefBrowser> browser;
             if (TryGetCefBrowser(browser))
             {
-                Point point = e->GetPosition(this);
-                browser->SendMouseMoveEvent((int)point.X, (int)point.Y, false);
+                auto deviceIndependentPosition = e->GetPosition(this);
+                auto pixelPosition = _matrix->Transform(deviceIndependentPosition);
+                browser->SendMouseMoveEvent((int)pixelPosition.X, (int)pixelPosition.Y, false);
             }
         }
 
@@ -313,8 +315,9 @@ namespace CefSharp
             CefRefPtr<CefBrowser> browser;
             if (TryGetCefBrowser(browser))
             {
-                Point point = e->GetPosition(this);
-                browser->SendMouseWheelEvent((int)point.X, (int)point.Y, 0, e->Delta);
+                auto deviceIndependentPosition = e->GetPosition(this);
+                auto pixelPosition = _matrix->Transform(deviceIndependentPosition);
+                browser->SendMouseWheelEvent((int)pixelPosition.X, (int)pixelPosition.Y, 0, e->Delta);
             }
         }
 
@@ -646,6 +649,13 @@ namespace CefSharp
 
             Content = _image = gcnew Image();
             RenderOptions::SetBitmapScalingMode(_image, BitmapScalingMode::NearestNeighbor);
+            
+            // If the display properties is set to 125%, M11 and M22 will be 1.25.
+            auto factorX = _matrix->M11;
+            auto factorY = _matrix->M22;
+            auto scaleX = 1 / factorX;
+            auto scaleY = 1 / factorY;
+            _image->LayoutTransform = gcnew ScaleTransform(scaleX, scaleY);
 
             _popup = gcnew Popup();
             _popup->Child = _popupImage = gcnew Image();
@@ -789,7 +799,7 @@ namespace CefSharp
         }
 
         void WebView::SetPopupIsOpen(bool isOpen)
-        {		
+        {
             if(!Dispatcher->HasShutdownStarted) {
                 Dispatcher->BeginInvoke(gcnew Action<bool>(this, &WebView::ShowHidePopup), DispatcherPriority::Render, isOpen);
             }
