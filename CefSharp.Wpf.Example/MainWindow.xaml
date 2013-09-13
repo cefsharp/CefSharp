@@ -111,6 +111,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -134,6 +135,17 @@
                             Maximum="1"
                             TickFrequency="0.01"
                             Value="0.85" />
+                    <Label Grid.Row="2"
+                           Grid.Column="0"
+                           Content="Zoom level:" />
+                    <Slider Grid.Row="2"
+                            Grid.Column="1"
+                            Name="zoomSlider"
+                            Minimum="0"
+                            Maximum="1"
+                            TickFrequency="0.1"
+                            Value="0.0" 
+                            ValueChanged="SetZoomLevel"/>
                 </Grid>
             </GroupBox>
             <Label Name="outputLabel"

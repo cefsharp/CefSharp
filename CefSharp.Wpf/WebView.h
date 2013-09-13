@@ -235,6 +235,25 @@ namespace CefSharp
                 void set(IJsDialogHandler^ handler) { _browserCore->JsDialogHandler = handler; }
             }
 
+            virtual property double ZoomLevel
+            {
+                double get() { 
+                  CefRefPtr<CefBrowser> browser;
+                  if(!TryGetCefBrowser(browser)) {
+                    return 0;
+                  }
+                  return browser->GetZoomLevel();
+                }
+                void set(double zoomLevel)
+                {
+                  CefRefPtr<CefBrowser> browser;
+                  if(!TryGetCefBrowser(browser)) {
+                    return;
+                  }
+                  browser->SetZoomLevel(zoomLevel);
+                }
+            }
+
             virtual void OnInitialized();
 
             virtual void Load(String^ url);
