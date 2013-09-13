@@ -122,6 +122,11 @@ namespace CefSharp.Wpf.Example
             outputLabel.Content = output;
         }
 
+        public void SetZoomLevel(object sender, RoutedPropertyChangedEventArgs<double> zoomLevelArgs)
+        {
+            web_view.ZoomLevel = zoomLevelArgs.NewValue;
+        }
+
         private void control_Activated(object sender, RoutedEventArgs e)
         {
             EventHandler handler;
