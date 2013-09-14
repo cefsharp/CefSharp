@@ -137,13 +137,13 @@
                             Value="0.85" />
                     <Label Grid.Row="2"
                            Grid.Column="0"
-                           Content="Zoom level:" />
+                           Content="Zoom Level:" />
                     <Slider Grid.Row="2"
                             Grid.Column="1"
                             Name="zoomSlider"
-                            Minimum="0"
-                            Maximum="1"
-                            TickFrequency="0.1"
+                            Minimum="-3"
+                            Maximum="6"
+                            TickFrequency="0.5"
                             Value="0.0" 
                             ValueChanged="SetZoomLevel"/>
                 </Grid>
