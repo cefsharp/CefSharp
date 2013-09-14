@@ -237,20 +237,24 @@ namespace CefSharp
 
             virtual property double ZoomLevel
             {
-                double get() { 
-                  CefRefPtr<CefBrowser> browser;
-                  if(!TryGetCefBrowser(browser)) {
-                    return 0;
-                  }
-                  return browser->GetZoomLevel();
+                double get()
+                {
+                    CefRefPtr<CefBrowser> browser;
+                    if(!TryGetCefBrowser(browser))
+                    {
+                        return 0;
+                    }
+                    return browser->GetZoomLevel();
                 }
+
                 void set(double zoomLevel)
                 {
-                  CefRefPtr<CefBrowser> browser;
-                  if(!TryGetCefBrowser(browser)) {
-                    return;
-                  }
-                  browser->SetZoomLevel(zoomLevel);
+                    CefRefPtr<CefBrowser> browser;
+                    if(!TryGetCefBrowser(browser))
+                    {
+                        return;
+                    }
+                    browser->SetZoomLevel(zoomLevel);
                 }
             }
 
