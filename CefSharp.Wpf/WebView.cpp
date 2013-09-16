@@ -786,12 +786,12 @@ namespace CefSharp
 
         void WebView::SetPopupSizeAndPosition(const void* rect)
         {
-            auto cefRect = (const CefRect&) rect;
-
-            _popupX = cefRect.x;
-            _popupY = cefRect.y;
-            _popupWidth = cefRect.width;
-            _popupHeight = cefRect.height;
+            auto cefRect = (const CefRect*) rect;
+			
+            _popupX = cefRect->x;
+            _popupY = cefRect->y;
+            _popupWidth = cefRect->width;
+            _popupHeight = cefRect->height;
 
             if(!Dispatcher->HasShutdownStarted) {
                 Dispatcher->BeginInvoke(DispatcherPriority::Render, _resizePopupDelegate);
