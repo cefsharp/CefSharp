@@ -1,0 +1,1 @@
+To be able to run the program in the "Debug" configuration (which is the default in Visual Studio unless you change it), you must copy the contents of the "Release" folder here. (The reason why it isn't in both folders is to keep the repository a bit smaller.)
