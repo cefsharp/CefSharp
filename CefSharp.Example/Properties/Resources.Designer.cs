@@ -68,9 +68,9 @@ namespace CefSharp.Example.Properties {
         ///	&lt;/head&gt;
         ///	&lt;body&gt;
         ///	    &lt;p&gt;
-        ///	    Result of calling bound.Repeat(&quot;hi &quot;, 5) =
+        ///	    Result of calling bound.repeat(&quot;hi &quot;, 5) =
         ///	    &lt;script type=&quot;text/javascript&quot;&gt;
-        ///	        var result = bound.Repeat(&quot;hi &quot;, 5);
+        ///	        var result = bound.repeat(&quot;hi &quot;, 5);
         ///	        document.write(&apos;&quot;&apos; + result + &apos;&quot;&apos;);
         ///	        if(result == &quot;hi hi hi hi hi &quot;)
         ///	        {
@@ -86,6 +86,71 @@ namespace CefSharp.Example.Properties {
         internal static string BindingTest {
             get {
                 return ResourceManager.GetString("BindingTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to /*!
+        /// * Bootstrap v3.0.0
+        /// *
+        /// * Copyright 2013 Twitter, Inc
+        /// * Licensed under the Apache License v2.0
+        /// * http://www.apache.org/licenses/LICENSE-2.0
+        /// *
+        /// * Designed and built with all the love in the world by @mdo and @fat.
+        /// *//*! normalize.css v2.1.0 | MIT License | git.io/normalize */article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}audio,canvas,video{display:inline-block}audio:not([controls]){display:none;height:0}[hidden]{display:none}html{font-family:sans-s [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string bootstrap_min_css {
+            get {
+                return ResourceManager.GetString("bootstrap_min_css", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to /**
+        ///* bootstrap.js v3.0.0 by @fat and @mdo
+        ///* Copyright 2013 Twitter Inc.
+        ///* http://www.apache.org/licenses/LICENSE-2.0
+        ///*/
+        ///if(!jQuery)throw new Error(&quot;Bootstrap requires jQuery&quot;);+function(a){&quot;use strict&quot;;function b(){var a=document.createElement(&quot;bootstrap&quot;),b={WebkitTransition:&quot;webkitTransitionEnd&quot;,MozTransition:&quot;transitionend&quot;,OTransition:&quot;oTransitionEnd otransitionend&quot;,transition:&quot;transitionend&quot;};for(var c in b)if(void 0!==a.style[c])return{end:b[c]}}a.fn.emulateTransitionEnd=function(b){var c=!1,d=this;a [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string bootstrap_min_js {
+            get {
+                return ResourceManager.GetString("bootstrap_min_js", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .btn-default,.btn-primary,.btn-success,.btn-info,.btn-warning,.btn-danger{text-shadow:0 -1px 0 rgba(0,0,0,0.2);-webkit-box-shadow:inset 0 1px 0 rgba(255,255,255,0.15),0 1px 1px rgba(0,0,0,0.075);box-shadow:inset 0 1px 0 rgba(255,255,255,0.15),0 1px 1px rgba(0,0,0,0.075)}.btn-default:active,.btn-primary:active,.btn-success:active,.btn-info:active,.btn-warning:active,.btn-danger:active,.btn-default.active,.btn-primary.active,.btn-success.active,.btn-info.active,.btn-warning.active,.btn-danger.active{-webkit-b [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string bootstrap_theme_min_css {
+            get {
+                return ResourceManager.GetString("bootstrap_theme_min_css", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///
+        ///&lt;html lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
+        ///    &lt;title&gt;CefSharp&lt;/title&gt;
+        ///    &lt;style type=&quot;text/css&quot;&gt;
+        ///        *
+        ///        {
+        ///            font-family: Verdana;
+        ///        }
+        ///    &lt;/style&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///    Home is where your heart is.
+        ///&lt;/body&gt;
+        ///&lt;/html&gt;.
+        /// </summary>
+        internal static string Home {
+            get {
+                return ResourceManager.GetString("Home", resourceCulture);
             }
         }
         

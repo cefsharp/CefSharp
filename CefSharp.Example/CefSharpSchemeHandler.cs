@@ -14,31 +14,43 @@ namespace CefSharp.Example
         {
             resources = new Dictionary<string, string>
             {
-                { "BindingTest.html", Resources.BindingTest },
-                { "PopupTest.html", Resources.PopupTest },
-                { "SchemeTest.html", Resources.SchemeTest },
-                { "TooltipTest.html", Resources.TooltipTest },
+                { "/", Resources.Home },
+                { "/bootstrap/bootstrap-theme.min.css", Resources.bootstrap_theme_min_css },
+                { "/bootstrap/bootstrap.min.css", Resources.bootstrap_min_css },
+                { "/bootstrap/bootstrap.min.js", Resources.bootstrap_min_js },
+
+                { "/BindingTest.html", Resources.BindingTest },
+                { "/PopupTest.html", Resources.PopupTest },
+                { "/SchemeTest.html", Resources.SchemeTest },
+                { "/TooltipTest.html", Resources.TooltipTest },
             };
         }
 
         public bool ProcessRequest(IRequest request, ref string mimeType, ref Stream stream)
         {
             var uri = new Uri(request.Url);
-            var segments = uri.Segments;
-            var file = segments[segments.Length - 1];
+            var fileName = uri.AbsolutePath;
 
             string resource;
-            if (resources.TryGetValue(file, out resource) &&
+            if (resources.TryGetValue(fileName, out resource) &&
                 !String.IsNullOrEmpty(resource))
             {
                 var bytes = Encoding.UTF8.GetBytes(resource);
                 stream = new MemoryStream(bytes);
-                mimeType = "text/html";
+                mimeType = GetMimeType(fileName);
                 
                 return true;
             }
 
             return false;
+        }
+
+        private string GetMimeType(string fileName)
+        {
+            if (fileName.EndsWith(".css")) return "text/css";
+            if (fileName.EndsWith(".js")) return "text/javascript";
+            
+            return "text/html";
         }
     }
 }

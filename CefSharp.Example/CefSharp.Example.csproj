@@ -64,10 +64,15 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\BindingTest.html" />
+    <Content Include="Resources\bootstrap\bootstrap-theme.min.css" />
+    <Content Include="Resources\bootstrap\bootstrap.min.css" />
+    <Content Include="Resources\bootstrap\bootstrap.min.js" />
+    <Content Include="Resources\Home.html" />
     <Content Include="Resources\PopupTest.html" />
     <Content Include="Resources\SchemeTest.html" />
     <Content Include="Resources\TooltipTest.html" />
