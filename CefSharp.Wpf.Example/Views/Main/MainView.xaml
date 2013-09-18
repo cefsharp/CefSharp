@@ -73,13 +73,13 @@
                 <Separator />
                 <TextBlock Text="{Binding OutputMessage}" />
             </StatusBar>
-            <Grid Background="LightGray">
+            <Grid Background="#FFF0F0F0">
                 <Rectangle>
                     <Rectangle.Fill>
                         <VisualBrush TileMode="Tile"
                                      Viewport="0,0,500,90"
                                      ViewportUnits="Absolute"
-                                     Opacity="0.1">
+                                     Opacity="0.05">
                             <VisualBrush.Visual>
                                 <StackPanel>
                                     <TextBlock Margin="6,12"
