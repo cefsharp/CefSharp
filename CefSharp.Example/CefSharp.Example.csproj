@@ -57,7 +57,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SchemeHandler.cs" />
+    <Compile Include="CefSharpSchemeHandler.cs" />
+    <Compile Include="CefSharpSchemeHandlerFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

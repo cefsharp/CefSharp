@@ -6,19 +6,11 @@ using CefSharp.Example.Properties;
 
 namespace CefSharp.Example
 {
-    class SchemeHandlerFactory : ISchemeHandlerFactory
-    {
-        public ISchemeHandler Create()
-        {
-            return new SchemeHandler();
-        }
-    }
-
-    class SchemeHandler : ISchemeHandler
+    internal class CefSharpSchemeHandler : ISchemeHandler
     {
         private readonly IDictionary<string, string> resources;
 
-        public SchemeHandler()
+        public CefSharpSchemeHandler()
         {
             resources = new Dictionary<string, string>
             {

@@ -25,7 +25,7 @@ namespace CefSharp.Example
                 }
             }
 
-            Cef.RegisterScheme("test", new SchemeHandlerFactory());
+            Cef.RegisterScheme(CefSharpSchemeHandlerFactory.SchemeName, new CefSharpSchemeHandlerFactory());
             Cef.RegisterJsObject("bound", new BoundObject());
         }
 
