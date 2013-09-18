@@ -55,25 +55,25 @@ namespace CefSharp.Wpf
 
         int IRenderWebBrowser.Width
         {
-            get { return (int) ActualWidth; }
+            get { return (int)ActualWidth; }
         }
 
         int IRenderWebBrowser.Height
         {
-            get { return (int) ActualHeight; }
+            get { return (int)ActualHeight; }
         }
 
         #region Address dependency property
 
         public string Address
         {
-            get { return (string) GetValue(AddressProperty); }
+            get { return (string)GetValue(AddressProperty); }
             set { SetValue(AddressProperty, value); }
         }
 
         public static readonly DependencyProperty AddressProperty =
             DependencyProperty.Register("Address", typeof(string), typeof(WebView),
-                                        new UIPropertyMetadata(null, (sender, e) => ((WebView) sender).OnAddressChanged()));
+                                        new UIPropertyMetadata(null, (sender, e) => ((WebView)sender).OnAddressChanged()));
 
         private void OnAddressChanged()
         {
@@ -123,7 +123,7 @@ namespace CefSharp.Wpf
 
         public bool IsLoading
         {
-            get { return (bool) GetValue(IsLoadingProperty); }
+            get { return (bool)GetValue(IsLoadingProperty); }
             set { SetValue(IsLoadingProperty, value); }
         }
 
@@ -136,7 +136,7 @@ namespace CefSharp.Wpf
 
         public string Title
         {
-            get { return (string) GetValue(TitleProperty); }
+            get { return (string)GetValue(TitleProperty); }
             set { SetValue(TitleProperty, value); }
         }
 
@@ -153,8 +153,8 @@ namespace CefSharp.Wpf
             set { SetValue(TooltipTextProperty, value); }
         }
 
-        public static readonly DependencyProperty TooltipTextProperty = 
-            DependencyProperty.Register("TooltipText", typeof(string), typeof(WebView), new PropertyMetadata(null, (sender, e) => ((WebView) sender).OnTooltipTextChanged()));
+        public static readonly DependencyProperty TooltipTextProperty =
+            DependencyProperty.Register("TooltipText", typeof(string), typeof(WebView), new PropertyMetadata(null, (sender, e) => ((WebView)sender).OnTooltipTextChanged()));
 
         private void OnTooltipTextChanged()
         {
@@ -162,7 +162,7 @@ namespace CefSharp.Wpf
 
             if (String.IsNullOrEmpty(TooltipText))
             {
-                Dispatcher.BeginInvoke((Action) (() => UpdateTooltip(null)), DispatcherPriority.Render);
+                Dispatcher.BeginInvoke((Action)(() => UpdateTooltip(null)), DispatcherPriority.Render);
             }
             else
             {
@@ -176,7 +176,7 @@ namespace CefSharp.Wpf
 
         public IWebBrowser WebBrowser
         {
-            get { return (IWebBrowser) GetValue(WebBrowserProperty); }
+            get { return (IWebBrowser)GetValue(WebBrowserProperty); }
             set { SetValue(WebBrowserProperty, value); }
         }
 
@@ -191,7 +191,7 @@ namespace CefSharp.Wpf
             FocusVisualStyle = null;
             IsTabStop = true;
 
-            Dispatcher.BeginInvoke((Action) (() => WebBrowser = this));
+            Dispatcher.BeginInvoke((Action)(() => WebBrowser = this));
 
             Unloaded += OnUnloaded;
 
@@ -265,7 +265,7 @@ namespace CefSharp.Wpf
                 return;
             }
 
-            source = (HwndSource) PresentationSource.FromVisual(this);
+            source = (HwndSource)PresentationSource.FromVisual(this);
 
             if (source != null)
             {
@@ -287,7 +287,7 @@ namespace CefSharp.Wpf
         {
             handled = false;
 
-            switch ((WM) message)
+            switch ((WM)message)
             {
                 case WM.SYSCHAR:
                 case WM.SYSKEYDOWN:
@@ -300,7 +300,7 @@ namespace CefSharp.Wpf
                         break;
                     }
 
-                    if (message == (int) WM.SYSKEYDOWN &&
+                    if (message == (int)WM.SYSKEYDOWN &&
                         wParam.ToInt32() == KeyInterop.VirtualKeyFromKey(Key.F4))
                     {
                         // We don't want CEF to receive this event (and mark it as handled), since that makes it impossible to
@@ -346,7 +346,7 @@ namespace CefSharp.Wpf
         {
             if (!Dispatcher.CheckAccess())
             {
-                Dispatcher.Invoke((Action) (() => SetAddress(address)));
+                Dispatcher.Invoke((Action)(() => SetAddress(address)));
                 return;
             }
 
@@ -362,7 +362,7 @@ namespace CefSharp.Wpf
         {
             if (!Dispatcher.CheckAccess())
             {
-                Dispatcher.Invoke((Action) (() => SetIsLoading(isLoading)));
+                Dispatcher.Invoke((Action)(() => SetIsLoading(isLoading)));
                 return;
             }
 
@@ -372,15 +372,15 @@ namespace CefSharp.Wpf
         public void SetNavState(bool canGoBack, bool canGoForward)
         {
             browserCore.SetNavState(canGoBack, canGoForward);
-            ((DelegateCommand) BackCommand).RaiseCanExecuteChanged();
-            ((DelegateCommand) ForwardCommand).RaiseCanExecuteChanged();
+            ((DelegateCommand)BackCommand).RaiseCanExecuteChanged();
+            ((DelegateCommand)ForwardCommand).RaiseCanExecuteChanged();
         }
 
         public void SetTitle(string title)
         {
             if (!Dispatcher.CheckAccess())
             {
-                Dispatcher.Invoke((Action) (() => SetTitle(title)));
+                Dispatcher.Invoke((Action)(() => SetTitle(title)));
                 return;
             }
 
@@ -391,7 +391,7 @@ namespace CefSharp.Wpf
         {
             if (!Dispatcher.CheckAccess())
             {
-                Dispatcher.Invoke((Action) (() => SetTooltipText(tooltipText)));
+                Dispatcher.Invoke((Action)(() => SetTooltipText(tooltipText)));
                 return;
             }
 
@@ -473,7 +473,7 @@ namespace CefSharp.Wpf
             if (e.Key == Key.Tab ||
                 new[] { Key.Left, Key.Right, Key.Up, Key.Down }.Contains(e.Key))
             {
-                var message = (int) (e.IsDown ? WM.KEYDOWN : WM.KEYUP);
+                var message = (int)(e.IsDown ? WM.KEYDOWN : WM.KEYUP);
                 var virtualKey = KeyInterop.VirtualKeyFromKey(e.Key);
                 cefBrowserWrapper.SendKeyEvent(message, virtualKey);
                 e.Handled = true;
@@ -483,7 +483,7 @@ namespace CefSharp.Wpf
         protected override void OnMouseMove(MouseEventArgs e)
         {
             var point = e.GetPosition(this);
-            cefBrowserWrapper.OnMouseMove((int) point.X, (int) point.Y, mouseLeave: false);
+            cefBrowserWrapper.OnMouseMove((int)point.X, (int)point.Y, mouseLeave: false);
         }
 
         protected override void OnMouseWheel(MouseWheelEventArgs e)
@@ -491,8 +491,8 @@ namespace CefSharp.Wpf
             var point = e.GetPosition(this);
 
             cefBrowserWrapper.OnMouseWheel(
-                (int) point.X,
-                (int) point.Y,
+                (int)point.X,
+                (int)point.Y,
                 deltaX: 0,
                 deltaY: e.Delta
             );
@@ -541,7 +541,7 @@ namespace CefSharp.Wpf
             var mouseUp = (e.ButtonState == MouseButtonState.Released);
 
             var point = e.GetPosition(this);
-            cefBrowserWrapper.OnMouseButton((int) point.X, (int) point.Y, mouseButtonType, mouseUp, e.ClickCount);
+            cefBrowserWrapper.OnMouseButton((int)point.X, (int)point.Y, mouseButtonType, mouseUp, e.ClickCount);
         }
 
         public void OnInitialized()
@@ -715,7 +715,7 @@ namespace CefSharp.Wpf
         {
             if (!Dispatcher.CheckAccess())
             {
-                Dispatcher.BeginInvoke((Action<IntPtr>) SetCursor, handle);
+                Dispatcher.BeginInvoke((Action<IntPtr>)SetCursor, handle);
                 return;
             }
 
@@ -740,7 +740,7 @@ namespace CefSharp.Wpf
 
                     var stride = cefBrowserWrapper.BitmapWidth * BytesPerPixel;
 
-                    bitmap = (InteropBitmap) Imaging.CreateBitmapSourceFromMemorySection(FileMappingHandle,
+                    bitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(FileMappingHandle,
                         cefBrowserWrapper.BitmapWidth, cefBrowserWrapper.BitmapHeight, PixelFormats.Bgr32, stride, 0);
                     image.Source = bitmap;
                     interopBitmap = bitmap;
