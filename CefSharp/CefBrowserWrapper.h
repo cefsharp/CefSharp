@@ -82,6 +82,7 @@ namespace CefSharp
             HWND hwnd = static_cast<HWND>(sourceHandle->ToPointer());
             CefWindowInfo window;
             window.SetAsOffScreen(hwnd);
+            window.SetTransparentPainting(true);
             CefString addressNative = StringUtils::ToNative(address);
 
             CefBrowserHost::CreateBrowser(window, _renderClientAdapter, addressNative,

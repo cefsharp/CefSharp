@@ -50,7 +50,7 @@ namespace CefSharp.Wpf
 
         public int BytesPerPixel
         {
-            get { return PixelFormats.Bgr32.BitsPerPixel / 8; }
+            get { return PixelFormat.BitsPerPixel / 8; }
         }
 
         int IRenderWebBrowser.Width
@@ -61,6 +61,11 @@ namespace CefSharp.Wpf
         int IRenderWebBrowser.Height
         {
             get { return (int)ActualHeight; }
+        }
+
+        private static PixelFormat PixelFormat
+        {
+            get { return PixelFormats.Bgra32; }
         }
 
         #region Address dependency property
@@ -741,7 +746,7 @@ namespace CefSharp.Wpf
                     var stride = cefBrowserWrapper.BitmapWidth * BytesPerPixel;
 
                     bitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(FileMappingHandle,
-                        cefBrowserWrapper.BitmapWidth, cefBrowserWrapper.BitmapHeight, PixelFormats.Bgr32, stride, 0);
+                        cefBrowserWrapper.BitmapWidth, cefBrowserWrapper.BitmapHeight, PixelFormat, stride, 0);
                     image.Source = bitmap;
                     interopBitmap = bitmap;
                 }
