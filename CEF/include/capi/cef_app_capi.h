@@ -101,6 +101,12 @@ CEF_EXPORT void cef_run_message_loop();
 CEF_EXPORT void cef_quit_message_loop();
 
 ///
+// Set to true (1) before calling Windows APIs like TrackPopupMenu that enter a
+// modal message loop. Set to false (0) after exiting the modal message loop.
+///
+CEF_EXPORT void cef_set_osmodal_loop(int osModalLoop);
+
+///
 // Implement this structure to provide handler implementations. Methods will be
 // called by the process and/or thread indicated.
 ///

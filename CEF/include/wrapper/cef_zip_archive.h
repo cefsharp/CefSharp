@@ -86,11 +86,14 @@ class CefZipArchive : public CefBase {
 
   ///
   // Load the contents of the specified zip archive stream into this object.
+  // If the zip archive requires a password then provide it via |password|.
   // If |overwriteExisting| is true then any files in this object that also
   // exist in the specified archive will be replaced with the new files.
   // Returns the number of files successfully loaded.
   ///
-  size_t Load(CefRefPtr<CefStreamReader> stream, bool overwriteExisting);
+  size_t Load(CefRefPtr<CefStreamReader> stream,
+              const CefString& password,
+              bool overwriteExisting);
 
   ///
   // Clears the contents of this object.

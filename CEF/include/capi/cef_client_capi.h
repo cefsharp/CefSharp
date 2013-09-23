@@ -82,6 +82,12 @@ typedef struct _cef_client_t {
       struct _cef_client_t* self);
 
   ///
+  // Return the handler for drag events.
+  ///
+  struct _cef_drag_handler_t* (CEF_CALLBACK *get_drag_handler)(
+      struct _cef_client_t* self);
+
+  ///
   // Return the handler for focus events.
   ///
   struct _cef_focus_handler_t* (CEF_CALLBACK *get_focus_handler)(

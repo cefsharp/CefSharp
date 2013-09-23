@@ -407,6 +407,26 @@ typedef struct _cef_browser_host_t {
   ///
   void (CEF_CALLBACK *send_capture_lost_event)(
       struct _cef_browser_host_t* self);
+
+  ///
+  // Get the NSTextInputContext implementation for enabling IME on Mac when
+  // window rendering is disabled.
+  ///
+  cef_text_input_context_t (CEF_CALLBACK *get_nstext_input_context)(
+      struct _cef_browser_host_t* self);
+
+  ///
+  // Handles a keyDown event prior to passing it through the NSTextInputClient
+  // machinery.
+  ///
+  void (CEF_CALLBACK *handle_key_event_before_text_input_client)(
+      struct _cef_browser_host_t* self, cef_event_handle_t keyEvent);
+
+  ///
+  // Performs any additional actions after NSTextInputClient handles the event.
+  ///
+  void (CEF_CALLBACK *handle_key_event_after_text_input_client)(
+      struct _cef_browser_host_t* self, cef_event_handle_t keyEvent);
 } cef_browser_host_t;
 
 

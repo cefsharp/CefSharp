@@ -448,7 +448,6 @@ struct CefBrowserSettingsTraits {
     target->image_shrink_standalone_to_fit =
         src->image_shrink_standalone_to_fit;
     target->text_area_resize = src->text_area_resize;
-    target->page_cache = src->page_cache;
     target->tab_to_links = src->tab_to_links;
     target->author_and_user_styles = src->author_and_user_styles;
     target->local_storage = src->local_storage;
@@ -456,7 +455,6 @@ struct CefBrowserSettingsTraits {
     target->application_cache = src->application_cache;
     target->webgl = src->webgl;
     target->accelerated_compositing = src->accelerated_compositing;
-    target->developer_tools = src->developer_tools;
   }
 };
 

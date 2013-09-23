@@ -479,12 +479,6 @@ typedef struct _cef_browser_settings_t {
   cef_state_t text_area_resize;
 
   ///
-  // Controls whether the fastback (back/forward) page cache will be used. Also
-  // configurable using the "enable-fastback" command-line switch.
-  ///
-  cef_state_t page_cache;
-
-  ///
   // Controls whether the tab key can advance focus to links. Also configurable
   // using the "disable-tab-to-links" command-line switch.
   ///
@@ -528,12 +522,6 @@ typedef struct _cef_browser_settings_t {
   // "disable-accelerated-compositing" command-line switch.
   ///
   cef_state_t accelerated_compositing;
-
-  ///
-  // Controls whether developer tools (WebKit inspector) can be used. Also
-  // configurable using the "disable-developer-tools" command-line switch.
-  ///
-  cef_state_t developer_tools;
 } cef_browser_settings_t;
 
 ///
@@ -756,6 +744,22 @@ enum cef_errorcode_t {
   ERR_RESPONSE_HEADERS_TOO_BIG = -325,
   ERR_CACHE_MISS = -400,
   ERR_INSECURE_RESPONSE = -501,
+};
+
+///
+// "Verb" of a drag-and-drop operation as negotiated between the source and
+// destination. These constants match their equivalents in WebCore's
+// DragActions.h and should not be renumbered.
+///
+enum cef_drag_operations_mask_t {
+    DRAG_OPERATION_NONE    = 0,
+    DRAG_OPERATION_COPY    = 1,
+    DRAG_OPERATION_LINK    = 2,
+    DRAG_OPERATION_GENERIC = 4,
+    DRAG_OPERATION_PRIVATE = 8,
+    DRAG_OPERATION_MOVE    = 16,
+    DRAG_OPERATION_DELETE  = 32,
+    DRAG_OPERATION_EVERY   = UINT_MAX
 };
 
 ///
@@ -1403,9 +1407,7 @@ enum cef_dom_event_category_t {
   DOM_EVENT_CATEGORY_POPSTATE = 0x2000,
   DOM_EVENT_CATEGORY_PROGRESS = 0x4000,
   DOM_EVENT_CATEGORY_XMLHTTPREQUEST_PROGRESS = 0x8000,
-  DOM_EVENT_CATEGORY_WEBKIT_ANIMATION = 0x10000,
-  DOM_EVENT_CATEGORY_WEBKIT_TRANSITION = 0x20000,
-  DOM_EVENT_CATEGORY_BEFORE_LOAD = 0x40000,
+  DOM_EVENT_CATEGORY_BEFORE_LOAD = 0x10000,
 };
 
 ///
@@ -1427,7 +1429,6 @@ enum cef_dom_node_type_t {
   DOM_NODE_TYPE_ATTRIBUTE,
   DOM_NODE_TYPE_TEXT,
   DOM_NODE_TYPE_CDATA_SECTION,
-  DOM_NODE_TYPE_ENTITY_REFERENCE,
   DOM_NODE_TYPE_ENTITY,
   DOM_NODE_TYPE_PROCESSING_INSTRUCTIONS,
   DOM_NODE_TYPE_COMMENT,

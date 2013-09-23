@@ -452,6 +452,27 @@ class CefBrowserHost : public virtual CefBase {
   ///
   /*--cef()--*/
   virtual void SendCaptureLostEvent() =0;
+
+  ///
+  // Get the NSTextInputContext implementation for enabling IME on Mac when
+  // window rendering is disabled.
+  ///
+  /*--cef(default_retval=NULL)--*/
+  virtual CefTextInputContext GetNSTextInputContext() =0;
+
+  ///
+  // Handles a keyDown event prior to passing it through the NSTextInputClient
+  // machinery.
+  ///
+  /*--cef()--*/
+  virtual void HandleKeyEventBeforeTextInputClient(CefEventHandle keyEvent) =0;
+
+  ///
+  // Performs any additional actions after NSTextInputClient handles the event.
+  ///
+  /*--cef()--*/
+  virtual void HandleKeyEventAfterTextInputClient(CefEventHandle keyEvent) =0;
+
 };
 
 #endif  // CEF_INCLUDE_CEF_BROWSER_H_

@@ -36,7 +36,7 @@
 #include "include/internal/cef_string_types.h"
 
 #ifdef BUILDING_CEF_SHARED
-#include "base/string16.h"
+#include "base/strings/string16.h"
 #endif
 
 

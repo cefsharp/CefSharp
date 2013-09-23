@@ -116,6 +116,12 @@ typedef struct _cef_jsdialog_handler_t {
   ///
   void (CEF_CALLBACK *on_reset_dialog_state)(
       struct _cef_jsdialog_handler_t* self, struct _cef_browser_t* browser);
+
+  ///
+  // Called when the default implementation dialog is closed.
+  ///
+  void (CEF_CALLBACK *on_dialog_closed)(struct _cef_jsdialog_handler_t* self,
+      struct _cef_browser_t* browser);
 } cef_jsdialog_handler_t;
 
 

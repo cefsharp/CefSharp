@@ -49,7 +49,7 @@ class CefCookieVisitor;
 // Class used for managing cookies. The methods of this class may be called on
 // any thread unless otherwise indicated.
 ///
-/*--cef(source=library)--*/
+/*--cef(source=library,no_debugct_check)--*/
 class CefCookieManager : public virtual CefBase {
  public:
   ///
