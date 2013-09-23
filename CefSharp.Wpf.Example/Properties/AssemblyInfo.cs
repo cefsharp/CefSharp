@@ -6,5 +6,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("CefSharp")]
 [assembly: AssemblyCopyright("Copyright © The CefSharp Project 2010-2013")]
 
-[assembly: AssemblyVersion("3.25.2.*")]
+[assembly: AssemblyVersion("3.29.0.0")]
 [assembly: ComVisible(false)]
