@@ -155,8 +155,10 @@
     <ItemGroup>
       <CefBinaries Include="$(SolutionDir)CEF\$(Platform)\*.*" />
       <LocaleFiles Include="$(SolutionDir)CEF\locales\*.*" />
+      <SubProcessFiles Include="$(SolutionDir)$(Platform)\$(Configuration)\CefSharp.BrowserSubprocess.exe" />
     </ItemGroup>
     <Copy SourceFiles="@(CefBinaries)" DestinationFolder="$(TargetDir)" />
     <Copy SourceFiles="@(LocaleFiles)" DestinationFolder="$(TargetDir)locales" />
+    <Copy SourceFiles="@(SubProcessFiles)" DestinationFolder="$(TargetDir)" />
   </Target>
 </Project>
