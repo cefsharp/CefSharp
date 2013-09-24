@@ -64,6 +64,12 @@ namespace CefSharp
             {
                 return _initialized;
             }
+
+        private:
+            void set(bool value)
+            {
+                _initialized = value;
+            }
         }
 
         static property String^ CefSharpVersion
@@ -112,7 +118,7 @@ namespace CefSharp
                 CefRefPtr<CefSharpApp> app(new CefSharpApp);
 
                 int exitCode = CefExecuteProcess(main_args, app.get());
-        
+
                 if (exitCode >= 0)
                 {
                     // Something went "wrong", but it may also be caused in the case where we are the secondary process, so we
@@ -246,11 +252,17 @@ namespace CefSharp
             }
         }
 
+        ///
+        /// <summary>
+        /// Shuts down CefSharp and the underlying CEF infrastructure. This method is safe to call multiple times; it will only
+        /// shut down CEF on the first calls (all following calls will be ignored).
+        /// </summary>
         static void Shutdown()
         {
             if (IsInitialized)
             {
                 CefShutdown();
+                IsInitialized = false;
             }
         }
     };
