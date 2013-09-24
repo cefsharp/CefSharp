@@ -216,6 +216,8 @@ namespace CefSharp.Wpf
         private void OnApplicationExit(object sender, ExitEventArgs e)
         {
             ShutdownCefBrowserWrapper();
+
+            Cef.Shutdown();
         }
 
         public void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
