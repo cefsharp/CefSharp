@@ -4,20 +4,25 @@
 
 #include "Stdafx.h"
 
+using namespace System::Diagnostics;
+
 namespace CefSharp
 {
     namespace Internals
     {
+        [DebuggerStepThrough]
         String^ StringUtils::ToClr(const cef_string_t& cefStr)
         {
             return gcnew String(cefStr.str);
         }
 
+        [DebuggerStepThrough]
         String^ StringUtils::ToClr(const CefString& cefStr)
         {
             return gcnew String(cefStr.c_str());
         }
 
+        [DebuggerStepThrough]
         CefString StringUtils::ToNative(String^ str)
         {
             if (str == nullptr)
@@ -30,6 +35,7 @@ namespace CefSharp
             return cefStr;
         }
 
+        [DebuggerStepThrough]
         void StringUtils::AssignNativeFromClr(cef_string_t& cefStr, String^ str)
         {
             cef_string_clear(&cefStr);
