@@ -68,7 +68,9 @@ namespace CefSharp
         void ClientAdapter::OnLoadingStateChange(CefRefPtr<CefBrowser> browser, bool isLoading, bool canGoBack, bool canGoForward)
         {
             _browserControl->SetIsLoading(isLoading);
-            _browserControl->SetNavState(canGoBack, canGoForward);
+
+            auto canReload = !isLoading;
+            _browserControl->SetNavState(canGoBack, canGoForward, canReload);
         }
 
         void ClientAdapter::OnAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& address)
@@ -131,7 +133,7 @@ namespace CefSharp
             if (frame->IsMain())
             {
                 _browserControl->SetIsLoading(true);
-                _browserControl->SetNavState(false, false);
+                _browserControl->SetNavState(false, false, false);
             }
 
             _browserControl->OnFrameLoadStart(StringUtils::ToClr(frame->GetURL()));

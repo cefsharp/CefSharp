@@ -27,15 +27,21 @@ namespace CefSharp.Wpf
 
         /// <summary>
         /// Command which navigates to the previous page in the browser history. Will automatically be enabled/disabled depending
-        /// on the availability of the command.
+        /// on the browser state.
         /// </summary>
         ICommand BackCommand { get; }
 
         /// <summary>
         /// Command which navigates to the next page in the browser history. Will automatically be enabled/disabled depending on
-        /// the availability of the command.
+        /// the browser state.
         /// </summary>
         ICommand ForwardCommand { get; }
+
+        /// <summary>
+        /// Command which reloads the content of the current page. Will automatically be enabled/disabled depending on the
+        /// browser state.
+        /// </summary>
+        ICommand ReloadCommand { get; }
 
         /// <summary>
         /// Opens up a new program window (using the default text editor) where the source code of the currently displayed web

@@ -47,6 +47,7 @@ namespace CefSharp.Wpf
 
         public ICommand BackCommand { get; private set; }
         public ICommand ForwardCommand { get; private set; }
+        public ICommand ReloadCommand { get; private set; }
 
         public int BytesPerPixel
         {
@@ -209,6 +210,7 @@ namespace CefSharp.Wpf
 
             BackCommand = new DelegateCommand(Back, CanGoBack);
             ForwardCommand = new DelegateCommand(Forward, CanGoForward);
+            ReloadCommand = new DelegateCommand(Reload, CanReload);
         }
 
         private void OnApplicationExit(object sender, ExitEventArgs e)
@@ -374,11 +376,17 @@ namespace CefSharp.Wpf
             IsLoading = isLoading;
         }
 
-        public void SetNavState(bool canGoBack, bool canGoForward)
+        public void SetNavState(bool canGoBack, bool canGoForward, bool canReload)
         {
-            browserCore.SetNavState(canGoBack, canGoForward);
+            browserCore.SetNavState(canGoBack, canGoForward, canReload);
+            RaiseCommandsCanExecuteChanged();
+        }
+
+        private void RaiseCommandsCanExecuteChanged()
+        {
             ((DelegateCommand)BackCommand).RaiseCanExecuteChanged();
             ((DelegateCommand)ForwardCommand).RaiseCanExecuteChanged();
+            ((DelegateCommand)ReloadCommand).RaiseCanExecuteChanged();
         }
 
         public void SetTitle(string title)
@@ -584,14 +592,14 @@ namespace CefSharp.Wpf
             return browserCore.CanGoForward;
         }
 
-        public void Reload(bool ignoreCache)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Reload()
         {
-            throw new NotImplementedException();
+            cefBrowserWrapper.Reload();
+        }
+
+        public bool CanReload()
+        {
+            return browserCore.CanReload;
         }
 
         public void ClearHistory()

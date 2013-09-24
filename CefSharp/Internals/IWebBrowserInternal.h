@@ -36,12 +36,10 @@ namespace CefSharp
 
         void SetAddress(String^ address);
         void SetIsLoading(bool);
-        void SetNavState(bool canGoBack, bool canGoForward);
+        void SetNavState(bool canGoBack, bool canGoForward, bool canReload);
         void SetTitle(String^ title);
         void SetTooltipText(String^ tooltipText);
         void Stop();
-        void Reload();
-        void Reload(bool ignoreCache);
         void ClearHistory();
         void ShowDevTools();
         void CloseDevTools();

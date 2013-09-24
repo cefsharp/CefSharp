@@ -26,6 +26,7 @@ namespace CefSharp
         bool _isBrowserInitialized;
         bool _canGoBack;
         bool _canGoForward;
+        bool _canReload;
 
         int _contentsWidth;
         int _contentsHeight;
@@ -65,6 +66,11 @@ namespace CefSharp
         property bool CanGoForward
         {
             bool get() { return _canGoForward; }
+        }
+
+        property bool CanReload
+        {
+            bool get() { return _canReload; }
         }
 
         property String^ Address
@@ -134,7 +140,7 @@ namespace CefSharp
         void RegisterJsObject(String^ name, Object^ objectToBind);
         IDictionary<String^, Object^>^ GetBoundObjects();
 
-        void SetNavState(bool canGoBack, bool canGoForward)
+        void SetNavState(bool canGoBack, bool canGoForward, bool canReload)
         {
             if (canGoBack != _canGoBack) 
             {
@@ -146,6 +152,12 @@ namespace CefSharp
             {
                 _canGoForward = canGoForward;
                 PropertyChanged(this, gcnew PropertyChangedEventArgs(L"CanGoForward"));
+            }
+
+            if (canReload != _canReload)
+            {
+                _canReload = canReload;
+                PropertyChanged(this, gcnew PropertyChangedEventArgs(L"CanReload"));
             }
         }
 

@@ -18,6 +18,9 @@
                         Width="75"
                         Command="{Binding WebBrowser.ForwardCommand}">Forward</Button>
                 <Button Height="23"
+                        Width="75"
+                        Command="{Binding WebBrowser.ReloadCommand}">Reload</Button>
+                <Button Height="23"
                         Name="goStopButton"
                         Width="75"
                         DockPanel.Dock="Right"

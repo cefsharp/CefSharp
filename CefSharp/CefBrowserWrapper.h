@@ -230,6 +230,16 @@ namespace CefSharp
             }
         }
 
+        void Reload()
+        {
+            auto cefBrowser = _renderClientAdapter->GetCefBrowser();
+
+            if (cefBrowser != nullptr)
+            {
+                cefBrowser->Reload();
+            }
+        }
+
         void ViewSource()
         {
             auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
