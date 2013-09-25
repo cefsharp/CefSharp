@@ -311,6 +311,8 @@
     <ClCompile Include="Internals\RequestResponse.cpp" />
     <ClCompile Include="RtzCountdownEvent.cpp" />
     <ClCompile Include="SchemeHandler.cpp" />
+    <ClCompile Include="SchemeHandlerResponse.cpp" />
+    <ClCompile Include="SchemeHandlerWrapper.cpp" />
     <ClCompile Include="ScriptCore.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -348,6 +350,8 @@
     <ClInclude Include="IRequest.h" />
     <ClInclude Include="Internals\CefRequestWrapper.h" />
     <ClInclude Include="Internals\MCefRefPtr.h" />
+    <ClInclude Include="ISchemeHandler.h" />
+    <ClInclude Include="ISchemeHandlerFactory.h" />
     <ClInclude Include="IWebBrowser.h" />
     <ClInclude Include="Internals\RenderClientAdapter.h" />
     <ClInclude Include="LoadCompletedEventArgs.h" />
@@ -355,8 +359,9 @@
     <ClInclude Include="CefBrowserWrapper.h" />
     <ClInclude Include="Internals\RequestResponse.h" />
     <ClInclude Include="RtzCountdownEvent.h" />
-    <ClInclude Include="SchemeHandler.h" />
     <ClInclude Include="CefSettings.h" />
+    <ClInclude Include="SchemeHandlerResponse.h" />
+    <ClInclude Include="SchemeHandlerWrapper.h" />
     <ClInclude Include="ScriptCore.h" />
     <ClInclude Include="ScriptException.h" />
     <ClInclude Include="Stdafx.h" />

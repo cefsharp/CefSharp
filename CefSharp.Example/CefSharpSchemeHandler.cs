@@ -26,7 +26,7 @@ namespace CefSharp.Example
             };
         }
 
-        public bool ProcessRequest(IRequest request, ref string mimeType, ref Stream stream)
+        public bool ProcessRequestAsync(IRequest request, SchemeHandlerResponse response, OnRequestCompletedHandler requestCompletedCallback)
         {
             var uri = new Uri(request.Url);
             var fileName = uri.AbsolutePath;
@@ -36,9 +36,10 @@ namespace CefSharp.Example
                 !String.IsNullOrEmpty(resource))
             {
                 var bytes = Encoding.UTF8.GetBytes(resource);
-                stream = new MemoryStream(bytes);
-                mimeType = GetMimeType(fileName);
-                
+                response.ResponseStream = new MemoryStream(bytes);
+                response.MimeType = GetMimeType(fileName);
+                requestCompletedCallback();
+
                 return true;
             }
 

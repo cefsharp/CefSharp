@@ -14,7 +14,8 @@
 #include "CefBrowserWrapper.h"
 #include "CefErrorCode.h"
 #include "CefSettings.h"
-#include "SchemeHandler.h"
+#include "ISchemeHandlerFactory.h"
+#include "SchemeHandlerWrapper.h"
 
 using namespace System::Collections::Generic;
 using namespace System::Reflection;
