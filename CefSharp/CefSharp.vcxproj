@@ -310,7 +310,6 @@
     <ClCompile Include="Internals\CefRequestWrapper.cpp" />
     <ClCompile Include="Internals\RequestResponse.cpp" />
     <ClCompile Include="RtzCountdownEvent.cpp" />
-    <ClCompile Include="SchemeHandler.cpp" />
     <ClCompile Include="SchemeHandlerResponse.cpp" />
     <ClCompile Include="SchemeHandlerWrapper.cpp" />
     <ClCompile Include="ScriptCore.cpp" />

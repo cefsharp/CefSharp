@@ -38,9 +38,6 @@
     <ClCompile Include="RtzCountdownEvent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SchemeHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Internals\CefRequestWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
