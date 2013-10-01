@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "SchemeHandler.h"
+#include "ISchemeHandlerFactory.h"
 
 using namespace System;
 
@@ -12,9 +12,10 @@ namespace CefSharp
 {
     public ref class CefCustomScheme
     {
+    public:
         property String^ SchemeName;
         property String^ DomainName;
         property bool IsStandard;
-        property ISchemeHandlerFactory ^SchemeHandlerFactory;
+        property ISchemeHandlerFactory^ SchemeHandlerFactory;
     };
 }

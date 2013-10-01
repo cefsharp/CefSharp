@@ -149,6 +149,9 @@
       <Name>CefSharp</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\Images\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- TODO: Extract this to an includable .props file, which we can then bundle with the CefSharp.Wpf NuGet package. -->
   <Target Name="AfterBuild">

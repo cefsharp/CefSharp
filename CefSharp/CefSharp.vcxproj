@@ -329,6 +329,7 @@
     <ClInclude Include="BrowserCore.h" />
     <ClInclude Include="BrowserSettings.h" />
     <ClInclude Include="Cef.h" />
+    <ClInclude Include="CefCustomScheme.h" />
     <ClInclude Include="ConsoleMessageEventArgs.h" />
     <ClInclude Include="IDownloadHandler.h" />
     <ClInclude Include="CefErrorCode.h" />

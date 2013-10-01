@@ -2,9 +2,52 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-#include "include/cef_app.h"
+#pragma once
 
-public class CefSharpApp : public CefApp
+#include "include/cef_app.h"
+#include "CefCustomScheme.h"
+#include "CefSettings.h"
+#include "SchemeHandlerWrapper.h"
+
+namespace CefSharp
 {
-    IMPLEMENT_REFCOUNTING(CefSharpApp)
-};
+    namespace Internals
+    {
+        public class CefSharpApp : public CefApp
+        {
+            gcroot<CefSettings^> _cefSettings;
+
+        public:
+            CefSharpApp(CefSettings^ cefSettings) : 
+                _cefSettings(cefSettings)
+            {            
+            }
+
+            virtual void OnRegisterCustomSchemes(CefRefPtr<CefSchemeRegistrar> registrar) OVERRIDE
+            {
+                for each (CefCustomScheme^ cefCustomScheme in _cefSettings->_cefCustomSchemes)
+                {
+                    // TODO: Causes an "assertion failed" error here: DCHECK_EQ(CefCallbackCToCpp::DebugObjCt, 0)
+                    // when the process is shutting down.
+
+                    // TOOD: Consider adding error handling here. But where do we report any errors that may have occurred?
+                    registrar->AddCustomScheme(StringUtils::ToNative(cefCustomScheme->SchemeName), cefCustomScheme->IsStandard, false, false);
+                }
+            }
+
+            void CompleteSchemeRegistrations()
+            {
+                // TOOD: Consider adding error handling here. But where do we report any errors that may have occurred?
+                for each (CefCustomScheme^ cefCustomScheme in _cefSettings->_cefCustomSchemes)
+                {
+                    auto domainName = cefCustomScheme->DomainName ? cefCustomScheme->DomainName : String::Empty;
+
+                    CefRefPtr<CefSchemeHandlerFactory> wrapper = new SchemeHandlerFactoryWrapper(cefCustomScheme->SchemeHandlerFactory);
+                    CefRegisterSchemeHandlerFactory(StringUtils::ToNative(cefCustomScheme->SchemeName), StringUtils::ToNative(domainName), wrapper);
+                }
+            }
+
+            IMPLEMENT_REFCOUNTING(CefSharpApp)
+        };
+    }
+}

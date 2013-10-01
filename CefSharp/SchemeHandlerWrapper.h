@@ -8,6 +8,7 @@
 #include "include/cef_scheme.h"
 #include "IRequest.h"
 #include "ISchemeHandler.h"
+#include "ISchemeHandlerFactory.h"
 
 using namespace System;
 using namespace System::IO;

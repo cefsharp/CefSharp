@@ -5,8 +5,11 @@
 #pragma once
 
 #include "Stdafx.h"
+#include "Internals/StringUtils.h"
+#include "CefCustomScheme.h"
 
 using namespace System;
+using namespace System::Collections::Generic;
 using namespace CefSharp::Internals;
 
 namespace CefSharp
@@ -25,6 +28,7 @@ namespace CefSharp
     {
     internal:
         ::CefSettings* _cefSettings;
+        List<CefCustomScheme^>^ _cefCustomSchemes;
 
         property bool MultiThreadedMessageLoop
         {
@@ -39,6 +43,7 @@ namespace CefSharp
     public:
         CefSettings() : _cefSettings(new ::CefSettings())
         {
+            _cefCustomSchemes = gcnew List<CefCustomScheme^>();
             MultiThreadedMessageLoop = true;
         }
 
@@ -103,6 +108,15 @@ namespace CefSharp
         {
             String^ get() { return StringUtils::ToClr(_cefSettings->user_agent); }
             void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->user_agent, value); }
+        }
+
+        /// <summary>
+        /// Registers a custom scheme using the provided settings.
+        /// </summary>
+        /// <param name="cefCustomScheme">The CefCustomScheme which provides the details about the scheme.</param>
+        void RegisterScheme(CefCustomScheme^ cefCustomScheme)
+        {
+            _cefCustomSchemes->Add(cefCustomScheme);
         }
     };
 }

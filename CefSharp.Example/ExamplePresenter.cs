@@ -13,6 +13,13 @@ namespace CefSharp.Example
                 BrowserSubprocessPath = "CefSharp.BrowserSubprocess.exe"
             };
 
+            settings.RegisterScheme(new CefCustomScheme
+            {
+                SchemeName = CefSharpSchemeHandlerFactory.SchemeName,
+                SchemeHandlerFactory = new CefSharpSchemeHandlerFactory(),
+                IsStandard = true
+            });
+
             if (!Cef.Initialize(settings))
             {
                 if (Environment.GetCommandLineArgs().Contains("--type=renderer"))
@@ -25,7 +32,6 @@ namespace CefSharp.Example
                 }
             }
 
-            Cef.RegisterScheme(CefSharpSchemeHandlerFactory.SchemeName, new CefSharpSchemeHandlerFactory());
             Cef.RegisterJsObject("bound", new BoundObject());
         }
 

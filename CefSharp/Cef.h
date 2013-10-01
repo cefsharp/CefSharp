@@ -116,7 +116,7 @@ namespace CefSharp
             if (!IsInitialized)
             {
                 CefMainArgs main_args;
-                CefRefPtr<CefSharpApp> app(new CefSharpApp);
+                CefRefPtr<CefSharpApp> app(new CefSharpApp(cefSettings));
 
                 int exitCode = CefExecuteProcess(main_args, app.get());
 
@@ -128,23 +128,11 @@ namespace CefSharp
                 }
 
                 success = CefInitialize(main_args, *(cefSettings->_cefSettings), app.get());
+                app->CompleteSchemeRegistrations();
                 _initialized = success;
             }
 
             return success;
-        }
-
-        static bool RegisterScheme(String^ schemeName, String^ hostName, bool is_standard, ISchemeHandlerFactory^ factory)
-        {
-            hostName = hostName ? hostName : String::Empty;
-
-            CefRefPtr<CefSchemeHandlerFactory> wrapper = new SchemeHandlerFactoryWrapper(factory);
-            return CefRegisterSchemeHandlerFactory(StringUtils::ToNative(schemeName), StringUtils::ToNative(hostName), wrapper);
-        }
-
-        static bool RegisterScheme(String^ schemeName, ISchemeHandlerFactory^ factory)
-        {
-            return RegisterScheme(schemeName, nullptr, true, factory);
         }
 
         static bool RegisterJsObject(String^ name, Object^ objectToBind)
