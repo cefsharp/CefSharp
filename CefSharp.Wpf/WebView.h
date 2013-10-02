@@ -90,6 +90,8 @@ namespace CefSharp
 
             void HidePopup();
             void AddSourceHook();
+            bool IsNonStandardDpi();
+            Transform^ GetScaleTransform();
 
         public protected: // a.k.a protected internal
             virtual void OnVisualParentChanged(DependencyObject^ oldParent) override;

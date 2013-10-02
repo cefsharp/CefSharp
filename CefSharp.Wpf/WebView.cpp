@@ -650,12 +650,10 @@ namespace CefSharp
             Content = _image = gcnew Image();
             RenderOptions::SetBitmapScalingMode(_image, BitmapScalingMode::NearestNeighbor);
             
-            // If the display properties is set to 125%, M11 and M22 will be 1.25.
-            auto factorX = _matrix->M11;
-            auto factorY = _matrix->M22;
-            auto scaleX = 1 / factorX;
-            auto scaleY = 1 / factorY;
-            _image->LayoutTransform = gcnew ScaleTransform(scaleX, scaleY);
+            if (IsNonStandardDpi())
+            {
+                _image->LayoutTransform = GetScaleTransform();
+            }
 
             _popup = gcnew Popup();
             _popup->Child = _popupImage = gcnew Image();
@@ -676,6 +674,22 @@ namespace CefSharp
             _popupImage->Stretch = Stretch::None;
             _popupImage->HorizontalAlignment = ::HorizontalAlignment::Left;
             _popupImage->VerticalAlignment = ::VerticalAlignment::Top;
+        }
+
+        bool WebView::IsNonStandardDpi()
+        {
+            // If the display properties is set to e.g. 125%, M11 and M22 will be 1.25.
+            return _matrix->M11 != 1 ||
+                   _matrix->M22 != 1;
+        }
+
+        Transform^ WebView::GetScaleTransform()
+        {
+            auto factorX = _matrix->M11;
+            auto factorY = _matrix->M22;
+            auto scaleX = 1 / factorX;
+            auto scaleY = 1 / factorY;
+            return gcnew ScaleTransform(scaleX, scaleY);
         }
 
         void WebView::SetCursor(IntPtr cursor)
