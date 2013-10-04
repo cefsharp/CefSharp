@@ -104,5 +104,7 @@ namespace CefSharp
             String^ get() { return StringUtils::ToClr(_cefSettings->user_agent); }
             void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->user_agent, value); }
         }
+
+
     };
 }

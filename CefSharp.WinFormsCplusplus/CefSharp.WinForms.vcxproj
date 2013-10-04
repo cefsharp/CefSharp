@@ -14,6 +14,7 @@
     <ProjectGuid>{978C9B2B-04B6-4359-A341-CA3FCBE98D32}</ProjectGuid>
     <RootNamespace>CefSharpWinForms</RootNamespace>
     <Keyword>ManagedCProj</Keyword>
+    <ProjectName>CefSharp.WinFormsCPlusPlus</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <Import Project="$(SolutionDir)\CefSharp.props" />

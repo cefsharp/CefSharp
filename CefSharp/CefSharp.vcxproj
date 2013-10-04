@@ -142,6 +142,7 @@
   <ItemGroup>
     <ClInclude Include="BrowserCore.h" />
     <ClInclude Include="BrowserSettings.h" />
+    <ClInclude Include="BrowserWrapper.h" />
     <ClInclude Include="Cef.h" />
     <ClInclude Include="ConsoleMessageEventArgs.h" />
     <ClInclude Include="IDownloadHandler.h" />

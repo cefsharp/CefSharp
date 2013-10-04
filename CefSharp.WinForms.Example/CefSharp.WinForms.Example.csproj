@@ -112,8 +112,8 @@
       <Project>{a4394e7b-1155-43a6-989e-8ab72dddc9e4}</Project>
       <Name>CefSharp.Example</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CefSharp.WinForms\CefSharp.WinForms.vcxproj">
-      <Project>{978c9b2b-04b6-4359-a341-ca3fcbe98d32}</Project>
+    <ProjectReference Include="..\CefSharp.WinForms\CefSharp.WinForms.csproj">
+      <Project>{06007297-52cf-4960-ae8b-a5e136e40f66}</Project>
       <Name>CefSharp.WinForms</Name>
     </ProjectReference>
     <ProjectReference Include="..\CefSharp\CefSharp.vcxproj">

@@ -181,5 +181,8 @@
     <ClInclude Include="Internals\JavascriptBinding\IJavascriptProxy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BrowserWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

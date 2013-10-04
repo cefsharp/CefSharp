@@ -82,6 +82,8 @@ namespace CefSharp
 
                 _address = address;
                 PropertyChanged(this, gcnew PropertyChangedEventArgs(L"Address"));
+
+				
             }
         }
 
