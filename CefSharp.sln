@@ -28,6 +28,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.Wpf", "CefSharp.Wp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CefSharp.BrowserSubprocess", "CefSharp.BrowserSubprocess\CefSharp.BrowserSubprocess.vcxproj", "{33A26358-8DB0-4C0C-9603-FEA61B697B8B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.WinForms", "CefSharp.WinForms\CefSharp.WinForms.csproj", "{06007297-52CF-4960-AE8B-A5E136E40F66}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.WinForms.Example", "CefSharp.WinForms.Example\CefSharp.WinForms.Example.csproj", "{C043FFF7-5F71-4FFC-989A-E09E18548589}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -98,6 +102,26 @@ Global
 		{33A26358-8DB0-4C0C-9603-FEA61B697B8B}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{33A26358-8DB0-4C0C-9603-FEA61B697B8B}.Release|Win32.ActiveCfg = Release|Win32
 		{33A26358-8DB0-4C0C-9603-FEA61B697B8B}.Release|Win32.Build.0 = Release|Win32
+		{06007297-52CF-4960-AE8B-A5E136E40F66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06007297-52CF-4960-AE8B-A5E136E40F66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06007297-52CF-4960-AE8B-A5E136E40F66}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{06007297-52CF-4960-AE8B-A5E136E40F66}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{06007297-52CF-4960-AE8B-A5E136E40F66}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{06007297-52CF-4960-AE8B-A5E136E40F66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06007297-52CF-4960-AE8B-A5E136E40F66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06007297-52CF-4960-AE8B-A5E136E40F66}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{06007297-52CF-4960-AE8B-A5E136E40F66}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{06007297-52CF-4960-AE8B-A5E136E40F66}.Release|Win32.ActiveCfg = Release|Any CPU
+		{C043FFF7-5F71-4FFC-989A-E09E18548589}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C043FFF7-5F71-4FFC-989A-E09E18548589}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C043FFF7-5F71-4FFC-989A-E09E18548589}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C043FFF7-5F71-4FFC-989A-E09E18548589}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C043FFF7-5F71-4FFC-989A-E09E18548589}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{C043FFF7-5F71-4FFC-989A-E09E18548589}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C043FFF7-5F71-4FFC-989A-E09E18548589}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C043FFF7-5F71-4FFC-989A-E09E18548589}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C043FFF7-5F71-4FFC-989A-E09E18548589}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C043FFF7-5F71-4FFC-989A-E09E18548589}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

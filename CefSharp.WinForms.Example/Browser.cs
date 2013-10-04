@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 using CefSharp.Example;
 
@@ -147,12 +148,59 @@ namespace CefSharp.WinForms.Example
             InitializeComponent();
             Text = "CefSharp";
 
-            web_view = new WebView("https://github.com/perlun/CefSharp", new BrowserSettings());
+            //web_view = new WebView("https://github.com/perlun/CefSharp", new BrowserSettings());
+            web_view = new WebView(@"C:\Projects\WindowsFormsApplication2\WindowsFormsApplication2\bin\Release\index.html", new BrowserSettings());
             web_view.Dock = DockStyle.Fill;
             toolStripContainer.ContentPanel.Controls.Add(web_view);
 
             var presenter = new ExamplePresenter(web_view, this,
                 invoke => Invoke(invoke));
+        }
+
+        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case "Address":
+                    //AddressEditable = Address;
+                    break;
+
+                case "Title":
+                    //Application.Current.MainWindow.Title = "CefSharp.Wpf.Example - " + Title;
+                    break;
+
+                case "WebBrowser":
+                    if (web_view != null)
+                    {
+                        web_view.ConsoleMessage += OnWebBrowserConsoleMessage;
+                        web_view.LoadError += OnWebBrowserLoadError;
+
+                        // TODO: This is a bit of a hack. It would be nicer/cleaner to give the webBrowser focus in the Go()
+                        // method, but it seems like "something" gets messed up (= doesn't work correctly) if we give it focus
+                        // "too early" in the loading process...
+                        web_view.LoadCompleted += delegate { web_view.Focus(); };
+                    }
+
+                    break;
+            }
+        }
+
+        private void OnWebBrowserLoadError(string failedUrl, CefErrorCode errorCode, string errorText)
+        {
+            // Don't display an error for downloaded files where the user aborted the download.
+            if (errorCode == CefErrorCode.Aborted)
+                return;
+
+            var errorMessage = "<html><body><h2>Failed to load URL " + failedUrl +
+                  " with error " + errorText + " (" + errorCode +
+                  ").</h2></body></html>";
+
+            web_view.LoadHtml(errorMessage, failedUrl);
+        }
+
+        private void OnWebBrowserConsoleMessage(object sender, ConsoleMessageEventArgs e)
+        {
+            outputLabel.Text = e.Message;
         }
 
         public void SetTitle(string title)
@@ -163,6 +211,11 @@ namespace CefSharp.WinForms.Example
         public void SetAddress(string address)
         {
             urlTextBox.Text = address;
+        }
+
+        public void SetAddress(Uri uri)
+        {
+            urlTextBox.Text = uri.ToString();
         }
 
         public void SetCanGoBack(bool can_go_back)

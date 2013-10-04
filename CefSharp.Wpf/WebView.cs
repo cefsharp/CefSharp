@@ -71,6 +71,9 @@ namespace CefSharp.Wpf
             set { SetValue(AddressProperty, value); }
         }
 
+        bool IWebBrowser.CanGoForward { get { return browserCore.CanGoForward; } }
+        bool IWebBrowser.CanGoBack { get { return browserCore.CanGoBack; } }
+
         public static readonly DependencyProperty AddressProperty =
             DependencyProperty.Register("Address", typeof(string), typeof(WebView),
                                         new UIPropertyMetadata(null, (sender, e) => ((WebView) sender).OnAddressChanged()));
@@ -110,6 +113,7 @@ namespace CefSharp.Wpf
             }
             else
             {
+                source = (HwndSource)PresentationSource.FromVisual(this);
                 if (source != null)
                 {
                     CreateOffscreenBrowser();
@@ -237,7 +241,7 @@ namespace CefSharp.Wpf
 
             cefBrowserWrapper = new CefBrowserWrapper(this);
 
-            AddSourceHook();
+            //AddSourceHook();
 
             if (Address != null)
             {
@@ -549,6 +553,11 @@ namespace CefSharp.Wpf
             browserCore.OnInitialized();
         }
 
+        public void Load(string url)
+        {
+            throw new NotImplementedException();
+        }
+
         public void LoadHtml(string html, string url)
         {
             cefBrowserWrapper.LoadHtml(html, url);
@@ -753,6 +762,11 @@ namespace CefSharp.Wpf
         public void ViewSource()
         {
             cefBrowserWrapper.ViewSource();
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -69,7 +69,7 @@ namespace CefSharp
                 gcnew EndpointAddress("net.pipe://localhost/JavaScriptProxy")
             );
             
-            _javaScriptProxy = channelFactory->CreateChannel();
+            //_javaScriptProxy = channelFactory->CreateChannel();
         }
 
         ~CefBrowserWrapper()
