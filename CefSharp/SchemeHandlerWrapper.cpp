@@ -102,6 +102,7 @@ namespace CefSharp
     void SchemeHandlerWrapper::Cancel()
     {
         _stream = nullptr;
+        _callback = nullptr;
     }
 
     int SchemeHandlerWrapper::SizeFromStream()
