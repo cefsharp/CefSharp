@@ -247,5 +247,19 @@ namespace CefSharp.WinForms.Example
         {
             new AboutBox().ShowDialog();
         }
+                private void zoomInToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            web_view.ZoomIn();
+        }
+
+        private void zoomOutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            web_view.ZoomOut();
+        }
+
+        private void resetZoomToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            web_view.ResetZoom();
+        }
     }
 }
