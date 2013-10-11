@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0"
+         DefaultTargets="Build"
+         InitialTargets="Initialize"
+         xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup Label="Early definitions">
+    <SolutionFile>$(MSBuildThisFileDirectory)CefSharp.sln</SolutionFile>
+
+    <Configuration Condition="'$(Configuration)'==''">Debug</Configuration>
+    <Platform Condition="'$(Platform)'==''">Mixed Platforms</Platform>
+
+    <BuildProperties>Configuration=$(Configuration);Platform=$(Platform)</BuildProperties>
+  </PropertyGroup>
+
+  <Import Project="CefSharp.targets" />
+
+  <PropertyGroup>
+    <TestDir>$(SolutionDir)$(Configuration)\</TestDir>
+    <NunitExe Condition="'$(NunitExe)'==''">$(SolutionDir)nunit\nunit-console-x86.exe</NunitExe>
+    <NunitArgs>-domain=None -process=Multiple</NunitArgs>
+    <NunitEnvironment>PATH=$(TestDir)$([MSBuild]::Escape(';$(Path)'))</NunitEnvironment>
+  </PropertyGroup>
+
+  <Target Name="Initialize">
+    <Message Text="VisualStudioVersion: $(VisualStudioVersion)" />
+  </Target>
+
+  <Target Name="Build">
+    <MSBuild Projects="$(SolutionFile)" Properties="$(BuildProperties)" />
+  </Target>
+
+  <Target Name="Clean">
+    <MSBuild Projects="$(SolutionFile)" Targets="Clean" Properties="$(BuildProperties)" />
+  </Target>
+
+  <Target Name="Test">
+    <ItemGroup>
+      <TestDlls Include="$(TestDir)\*.Test.dll" />
+    </ItemGroup>
+    <Exec Command="$(NunitExe) $(NunitArgs) @(TestDlls,' ')" EnvironmentVariables="$(NunitEnvironment)" />
+  </Target>
+
+  <Target Name="NuGet" DependsOnTargets="Build;NuGet-BuildPackage" />
+
+  <Target Name="NuGet-BuildPackage">
+    <MSBuild Projects="nuget\nuget.proj" Targets="BuildPackage" />
+  </Target>
+
+</Project>
