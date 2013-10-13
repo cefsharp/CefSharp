@@ -25,6 +25,7 @@ namespace CefSharp
         CefResponse::HeaderMap _headers;
         CefRefPtr<CefSchemeHandlerCallback> _callback;
         int _statusCode;
+        CefString _redirectUrl;
 
         int SizeFromStream();
 

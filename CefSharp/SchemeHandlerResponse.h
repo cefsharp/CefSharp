@@ -32,6 +32,11 @@ namespace CefSharp
         /// </summary>
         property int StatusCode;
 
+        /// <summary>
+        /// URL to redirect to (leave empty to not redirect).
+        /// </summary>
+        property String^ RedirectUrl;
+
         SchemeHandlerResponse(SchemeHandlerWrapper* schemeHandlerWrapper)
         {
             _schemeHandlerWrapper = new CefRefPtr<SchemeHandlerWrapper>(schemeHandlerWrapper);
