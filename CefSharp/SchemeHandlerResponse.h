@@ -33,12 +33,20 @@ namespace CefSharp
         property int StatusCode;
 
         /// <summary>
+        /// The length of the response contents. Defaults to -1, which means unknown length
+        /// and causes CefSharp to read the response stream in pieces. Thus, setting a length
+        /// is optional but allows for more optimal response reading.
+        /// </summary>
+        property int ContentLength;
+
+        /// <summary>
         /// URL to redirect to (leave empty to not redirect).
         /// </summary>
         property String^ RedirectUrl;
 
         SchemeHandlerResponse(SchemeHandlerWrapper* schemeHandlerWrapper)
         {
+            ContentLength = -1;
             _schemeHandlerWrapper = new CefRefPtr<SchemeHandlerWrapper>(schemeHandlerWrapper);
         }
 

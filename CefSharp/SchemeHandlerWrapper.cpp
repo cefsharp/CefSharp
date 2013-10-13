@@ -54,6 +54,7 @@ namespace CefSharp
         _stream = response->ResponseStream;
         _statusCode = response->StatusCode;
         _redirectUrl = toNative(response->RedirectUrl);
+        _contentLength = response->ContentLength;
 
         _headers = ToHeaderMap(response->ResponseHeaders);
 
@@ -69,7 +70,14 @@ namespace CefSharp
         response->SetMimeType(_mime_type);
         response->SetStatus(_statusCode > 0 ? _statusCode : 200);
         response->SetHeaderMap(_headers);
-        response_length = SizeFromStream();
+        if (_contentLength >= 0)
+        {
+            response_length = _contentLength;
+        }
+        else
+        {
+            response_length = SizeFromStream();
+        }
         redirectUrl = _redirectUrl;
     }
 
