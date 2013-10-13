@@ -104,7 +104,8 @@ namespace CefSharp
             pin_ptr<Byte> src = &buffer[0];
             memcpy(data_out, static_cast<void*>(src), ret);
             bytes_read = ret;
-            has_data = true;
+            // must return false when the response is complete
+            has_data = ret > 0;
         }
 
         return has_data;
