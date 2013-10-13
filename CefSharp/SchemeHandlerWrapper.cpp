@@ -61,6 +61,7 @@ namespace CefSharp
         _statusCode = response->StatusCode;
         _redirectUrl = toNative(response->RedirectUrl);
         _contentLength = response->ContentLength;
+        _closeStream = response->CloseStream;
 
         _headers = ToHeaderMap(response->ResponseHeaders);
 
@@ -106,6 +107,10 @@ namespace CefSharp
             bytes_read = ret;
             // must return false when the response is complete
             has_data = ret > 0;
+            if (!has_data && _closeStream)
+            {
+                _stream->Close();
+            }
         }
 
         return has_data;
@@ -113,6 +118,10 @@ namespace CefSharp
 
     void SchemeHandlerWrapper::Cancel()
     {
+        if (!!_stream && _closeStream)
+        {
+            _stream->Close();
+        }
         _stream = nullptr;
         _callback = nullptr;
     }

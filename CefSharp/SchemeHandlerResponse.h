@@ -48,6 +48,12 @@ namespace CefSharp
         /// </summary>
         property String^ RedirectUrl;
 
+        /// <summary>
+        /// Set to true to close the response stream once it has been read. The default value
+        /// is false in order to preserve the old CefSharp behavior of not closing the stream.
+        /// </summary>
+        property bool CloseStream;
+
         SchemeHandlerResponse(SchemeHandlerWrapper* schemeHandlerWrapper)
         {
             ContentLength = -1;
