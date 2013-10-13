@@ -30,6 +30,12 @@ namespace CefSharp
         property String^ MimeType;
         property IDictionary<String^, String^>^ ResponseHeaders;
 
+        /// <summary>
+        /// The status code of the response. Unless set, the default value used is 200
+        /// (corresponding to HTTP status OK).
+        /// </summary>
+        property int StatusCode;
+
         SchemeHandlerResponse(SchemeHandlerWrapper* schemeHandlerWrapper)
         {
             _schemeHandlerWrapper = new CefRefPtr<SchemeHandlerWrapper>(schemeHandlerWrapper);
