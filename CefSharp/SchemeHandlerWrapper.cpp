@@ -59,6 +59,7 @@ namespace CefSharp
         _mime_type = StringUtils::ToNative(response->MimeType);
         _stream = response->ResponseStream;
         _statusCode = response->StatusCode;
+        _redirectUrl = toNative(response->RedirectUrl);
 
         _headers = ToHeaderMap(response->ResponseHeaders);
 
@@ -75,6 +76,7 @@ namespace CefSharp
         response->SetStatus(_statusCode > 0 ? _statusCode : 200);
         response->SetHeaderMap(_headers);
         response_length = SizeFromStream();
+        redirectUrl = _redirectUrl;
     }
 
     bool SchemeHandlerWrapper::ReadResponse(void* data_out, int bytes_to_read, int& bytes_read, CefRefPtr<CefCallback> callback)
