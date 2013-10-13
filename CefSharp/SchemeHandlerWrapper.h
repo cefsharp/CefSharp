@@ -27,6 +27,7 @@ namespace CefSharp
         int _statusCode;
         CefString _redirectUrl;
         int _contentLength;
+        bool _closeStream;
 
         int SizeFromStream();
 
