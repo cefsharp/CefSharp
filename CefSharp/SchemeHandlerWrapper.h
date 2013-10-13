@@ -24,6 +24,7 @@ namespace CefSharp
         CefString _mime_type;
         CefResponse::HeaderMap _headers;
         CefRefPtr<CefSchemeHandlerCallback> _callback;
+        int _statusCode;
 
         int SizeFromStream();
 
