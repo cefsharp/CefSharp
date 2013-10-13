@@ -26,6 +26,7 @@ namespace CefSharp
         CefRefPtr<CefCallback> _callback;
         int _statusCode;
         CefString _redirectUrl;
+        int _contentLength;
 
         int SizeFromStream();
 
