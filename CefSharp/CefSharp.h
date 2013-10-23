@@ -48,6 +48,14 @@ namespace CefSharp
             SetEvent(_event);
         }
 
+        static void ParentProcessExitHandler(Object^ sender, EventArgs^ e)
+        {
+            if (CEF::IsInitialized)
+            {
+                CEF::Shutdown();
+            }
+        }
+
     internal:
         static IDictionary<String^, Object^>^ GetBoundObjects()
         {
@@ -97,6 +105,11 @@ namespace CefSharp
             {
                 success = CefInitialize(*settings->_cefSettings, nullptr);
                 _initialized = success;
+				
+                if (_initialized)
+                {
+                    AppDomain::CurrentDomain->ProcessExit += gcnew EventHandler(ParentProcessExitHandler);
+                }
             }
             return success;
         }
