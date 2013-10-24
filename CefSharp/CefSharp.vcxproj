@@ -94,6 +94,7 @@
     <CodeAnalysisRules />
     <CodeAnalysisRuleAssemblies />
     <TargetName>CefSharp</TargetName>
+    <LinkKeyFile>$(SolutionDir)\CefSharp.snk</LinkKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
