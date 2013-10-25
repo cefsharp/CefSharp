@@ -44,11 +44,13 @@ public:
     {
         // FIXME: Doesn't seem to work. Our list contains a browser w/ ID == 0, and the parameter we get is 1. How come?
         // We could experiment with OnContextCreated() to see if it would work better...
-        for (auto browser : _browsers)
+		for (auto browser = _browsers.begin();
+			 browser != _browsers.end();
+			 browser++)
         {
-            if (browser->GetIdentifier() == browser_id)
+            if ((*browser)->GetIdentifier() == browser_id)
             {
-                return browser;
+                return *browser;
             }
         }
         
