@@ -28,3 +28,4 @@ CefSharp.BrowserSubprocess/Release
 CefSharp.BrowserSubprocess/x64/Release
 CefSharp/x64/Release
 CefSharp.BrowserSubprocess.lib
+x64/Release
