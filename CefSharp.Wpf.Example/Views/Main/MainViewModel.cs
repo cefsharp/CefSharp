@@ -84,8 +84,8 @@ namespace CefSharp.Wpf.Example.Views.Main
                         WebBrowser.LoadError += OnWebBrowserLoadError;
 
                         // TODO: This is a bit of a hack. It would be nicer/cleaner to give the webBrowser focus in the Go()
-                        // method, but it seems like "something" gets messed up (= doesn't work correctly) if we give it focus
-                        // "too early" in the loading process...
+                        // TODO: method, but it seems like "something" gets messed up (= doesn't work correctly) if we give it
+                        // TODO: focus "too early" in the loading process...
                         WebBrowser.LoadCompleted += delegate { Application.Current.Dispatcher.BeginInvoke((Action) (() => webBrowser.Focus())); };
                     }
 
