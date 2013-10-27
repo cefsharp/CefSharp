@@ -17,5 +17,10 @@ namespace CefSharp
         property String^ DomainName;
         property bool IsStandard;
         property ISchemeHandlerFactory^ SchemeHandlerFactory;
+
+		CefCustomScheme()
+		{
+			IsStandard = true;
+		}
     };
 }
