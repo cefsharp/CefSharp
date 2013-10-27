@@ -8,6 +8,8 @@
 
 int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow)
 {
-    //CreateJavascriptProxyServiceHost();
-    return ExecuteCefRenderProcess(hInstance);
+	CefMainArgs main_args(hInstance);
+
+    CreateJavascriptProxyServiceHost();
+	return ExecuteCefRenderProcess(main_args);
 }
