@@ -5,52 +5,20 @@
 #pragma once
 
 #include "JavascriptProxy.h"
+#include "include/cef_browser.h"
 
-using namespace CefSharp::Internals::JavascriptBinding;
-using namespace CefSharp::BrowserSubprocess;
-using namespace System;
-using namespace System::ServiceModel;
-using namespace System::ServiceModel::Description;
-using namespace System::Threading;
-
-static void JavascriptProxyServiceEntryPoint();
-static void AddDebugBehavior(ServiceHost^ host);
-
-void CreateJavascriptProxyServiceHost()
+ref class JavascriptProxyService
 {
-    auto thread = gcnew Thread(gcnew ThreadStart(JavascriptProxyServiceEntryPoint));
-    thread->Start();
-}
+	CefRefPtr<CefBrowser>* _browser;
+	int _browserIdentifier;
 
-void JavascriptProxyServiceEntryPoint()
-{
-    auto uris = gcnew array<Uri^>(1);
-    uris[0] = gcnew Uri(JavascriptProxy::BaseAddress);
+public:
+	JavascriptProxyService(CefRefPtr<CefBrowser> browser);
 
-    auto host = gcnew ServiceHost(JavascriptProxy::typeid, uris);
-    AddDebugBehavior(host);
+	void CreateJavascriptProxyServiceHost();
 
-    host->AddServiceEndpoint(
-        IJavascriptProxy::typeid,
-        gcnew NetNamedPipeBinding(),
-        JavascriptProxy::ServiceName
-    );
+private:
 
-    host->Open();
-}
-
-void AddDebugBehavior(ServiceHost^ host)
-{
-    auto serviceDebugBehavior = host->Description->Behaviors->Find<ServiceDebugBehavior^>();
-
-    if (serviceDebugBehavior == nullptr)
-    {    
-        serviceDebugBehavior = gcnew ServiceDebugBehavior();
-        serviceDebugBehavior->IncludeExceptionDetailInFaults = true;
-        host->Description->Behaviors->Add(serviceDebugBehavior);
-    }
-    else
-    {
-        serviceDebugBehavior->IncludeExceptionDetailInFaults = true;
-    }
-}
+	void JavascriptProxyServiceEntryPoint();
+	void AddDebugBehavior(System::ServiceModel::ServiceHost^ host);
+};

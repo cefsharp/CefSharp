@@ -7,6 +7,8 @@
 using namespace CefSharp::Internals::JavascriptBinding;
 using namespace System;
 
+class SubprocessCefApp;
+
 namespace CefSharp
 {
     namespace BrowserSubprocess
@@ -22,27 +24,8 @@ namespace CefSharp
             literal String^ ServiceName = "JavaScriptProxy";
             static String^ Address = BaseAddress + "/" + ServiceName;
 
-            JavascriptProxy()
-            {
-                _subprocessCefApp = SubprocessCefApp::GetInstance();
-            }
-
-            virtual Object^ EvaluateScript(int browserId, int frameId, String^ script, double timeout)
-            {
-                auto browser = _subprocessCefApp->GetBrowserById(browserId);
-                auto frame = browser->GetFrame(frameId);
-                auto v8Context = frame->GetV8Context();
-
-                if (v8Context.get() && v8Context->Enter())
-                {
-                    CefRefPtr<CefV8Value> result;
-                    CefRefPtr<CefV8Exception> exception;
-
-                    v8Context->Eval("10 + 20", result, exception);
-                }
-
-                return "gurka";
-            }
+			JavascriptProxy();
+			virtual Object^ EvaluateScript(int browserId, int frameId, String^ script, double timeout);
         };
     }
 }

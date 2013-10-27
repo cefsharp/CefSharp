@@ -4,57 +4,29 @@
 
 #pragma once
 
-#include <list>
+#include "Common.h"
 #include "include/cef_app.h"
 
 private class SubprocessCefApp : public CefApp,
                                  public CefRenderProcessHandler
 {
     static SubprocessCefApp* _instance;
-    std::list<CefRefPtr<CefBrowser>> _browsers;
 
 public:
 
-    static SubprocessCefApp* GetInstance()
-    {
-        if (_instance == nullptr)
-        {
-            _instance = new SubprocessCefApp();
-        }
-
-        return _instance;
-    }
+	static SubprocessCefApp* GetInstance();
 
     virtual DECL CefRefPtr<CefRenderProcessHandler> GetRenderProcessHandler() OVERRIDE
     {
         return this;
     }
 
-    virtual DECL void OnBrowserCreated(CefRefPtr<CefBrowser> browser) OVERRIDE
-    {
-        _browsers.push_back(browser);
-    }
+	virtual DECL void OnBrowserCreated(CefRefPtr<CefBrowser> browser) OVERRIDE;
 
     virtual DECL void OnBrowserDestroyed(CefRefPtr<CefBrowser> browser) OVERRIDE
     {
-        _browsers.remove(browser);
-    }
-
-    virtual DECL CefRefPtr<CefBrowser> GetBrowserById(int browser_id)
-    {
-        // FIXME: Doesn't seem to work. Our list contains a browser w/ ID == 0, and the parameter we get is 1. How come?
-        // We could experiment with OnContextCreated() to see if it would work better...
-		for (auto browser = _browsers.begin();
-			 browser != _browsers.end();
-			 browser++)
-        {
-            if ((*browser)->GetIdentifier() == browser_id)
-            {
-                return *browser;
-            }
-        }
-        
-        return nullptr;
+		// FIXME: Why do we never get called?
+		OutputDebugString(L"OnBrowserDestroyed called");
     }
 
     IMPLEMENT_REFCOUNTING(SubprocessCefApp);

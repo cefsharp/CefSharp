@@ -166,6 +166,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="JavascriptProxy.cpp" />
+    <ClCompile Include="JavascriptProxyService.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="SubprocessCefApp.cpp" />
   </ItemGroup>
@@ -181,8 +183,8 @@
   <ItemGroup>
     <ClInclude Include="CefRenderProcess.h" />
     <ClInclude Include="JavascriptProxy.h" />
+    <ClInclude Include="Common.h" />
     <ClInclude Include="JavascriptProxyService.h" />
-    <ClInclude Include="Program.h" />
     <ClInclude Include="SubprocessCefApp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
