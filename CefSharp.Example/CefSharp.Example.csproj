@@ -104,11 +104,18 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\assets\css\docs.css" />
+    <Content Include="Resources\assets\css\shCore.css" />
+    <Content Include="Resources\assets\css\shCoreDefault.css" />
+    <Content Include="Resources\assets\js\application.js" />
+    <Content Include="Resources\assets\js\jquery.js" />
+    <Content Include="Resources\assets\js\shBrushCSharp.js" />
+    <Content Include="Resources\assets\js\shCore.js" />
     <Content Include="Resources\BindingTest.html" />
     <Content Include="Resources\bootstrap\bootstrap-theme.min.css" />
     <Content Include="Resources\bootstrap\bootstrap.min.css" />
     <Content Include="Resources\bootstrap\bootstrap.min.js" />
-    <Content Include="Resources\Home.html" />
+    <Content Include="Resources\home.html" />
     <Content Include="Resources\PopupTest.html" />
     <Content Include="Resources\SchemeTest.html" />
     <Content Include="Resources\TooltipTest.html" />

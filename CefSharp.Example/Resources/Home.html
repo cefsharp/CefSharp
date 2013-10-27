@@ -1,59 +1,252 @@
 ﻿<!DOCTYPE html>
-
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <title>CefSharp</title>
-    <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
-    <link rel="stylesheet" href="bootstrap/bootstrap-theme.min.css">
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-    <script type="text/javascript" src="bootstrap/bootstrap.min.js"></script>
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Getting started &middot; CefSharp </title>
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap/bootstrap.min.css" rel="stylesheet">
+    <!-- Page-specific extras -->
+    <link href="assets/css/docs.css" rel="stylesheet">
+    <link href="assets/css/shCore.css" rel="stylesheet">
+    <link href="assets/css/shCoreDefault.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-
-        <!-- Static navbar -->
-        <div class="navbar navbar-default">
+    <a class="sr-only" href="#content">Skip navigation</a>
+    <header class="navbar navbar-inverse navbar-fixed-top bs-docs-nav" role="banner">
+        <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Project name</a>
+                <a href="../" class="navbar-brand">CefSharp</a>
             </div>
-            <div class="navbar-collapse collapse">
+            <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Link</a></li>
-                    <li><a href="#">Link</a></li>
-                    <li><a href="#">Link</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li class="divider"></li>
-                            <li class="dropdown-header">Nav header</li>
-                            <li><a href="#">Separated link</a></li>
-                            <li><a href="#">One more separated link</a></li>
-                        </ul>
+                    <li class="active">
+                        <a href="../getting-started">Getting started</a>
+                    </li>
+                    <li>
+                        <a href="test-suite">Test Suite</a>
                     </li>
                 </ul>
-            </div>
-            <!--/.nav-collapse -->
+            </nav>
         </div>
-
-        <!-- Main component for a primary marketing message or call to action -->
-        <div class="jumbotron">
-            <h1>Navbar example</h1>
-            <p>This example is a quick exercise to illustrate how the default, static navbar and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
+    </header>
+    <!-- Docs page layout -->
+    <div class="bs-header" id="content">
+        <div class="container">
+            <h1>
+                Getting started
+            </h1>
             <p>
-                <a class="btn btn-lg btn-primary" href="../../components/#navbar">View navbar docs &raquo;</a>
+                An overview of CefSharp, how to use it, and an overview of some of the included features.
             </p>
         </div>
-
     </div>
-    <!-- /container -->
+    <div class="container bs-docs-container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="bs-sidebar hidden-print" role="complementary">
+                    <ul class="nav bs-sidenav">
+                        <li><a href="#introduction">Introduction</a></li>
+                        <li>
+                            <a href="#features">Features</a>
+                            <ul class="nav">
+                                <li><a href="#features-custom-schemes">Custom Schemes</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#useful-links">Useful Links</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-9" role="main">
+                <div class="bs-docs-section">
+                    <div class="page-header">
+                        <h1 id="introduction">Introduction to CefSharp</h1>
+                    </div>
+                    <p class="lead">
+                        Welcome to CefSharp! We are excited about you being here.
+                    </p>
+                    <p>
+                        So, what is CefSharp, really? You probably have a bit of a clue already, since you've actually managed to
+                        download (and perhaps even compile) the software. Nonetheless, let's try to explain it in a few bullet
+                        points:
+
+                        <ul>
+                            <li>
+                                <strong>A framework</strong> for embedding web-browsing-like capabilities to a standard .NET
+                                application (WPF or Windows Forms).
+                            </li>
+
+                            <li>
+                                <strong>A set of high-level custom controls</strong> to make it reasonably easy to integrate
+                                these capabilities in your application.
+                            </li>
+
+                            <li>
+                                <strong>
+                                    Built on top of <a href="http://code.google.com/p/chromiumembedded/">CEF</a>,
+                                </strong> the Chromium Embedded Framework by Marshall A. Greenblatt.
+                            </li>
+                        </ul>
+                    </p>
+                </div>
+
+                <div class="bs-docs-section">
+                    <div class="page-header">
+                        <h1 id="features">Features</h1>
+                    </div>
+
+                    <h3>State-of-the-art HTML5 and Javascript support</h3>
+                    <p>
+                        Perhaps very obvious, but still worth mentioning. Since CefSharp is based on
+                        <a href="http://code.google.com/p/chromiumembedded/">CEF</a>, which is in turn based on
+                        <a href="http://www.chromium.org/Home">Chromium</a> (version 29 for the time being), CefSharp provides
+                        one of the best HTML5 rendering experiences available -
+                        <a href="http://html5test.com/compare/browser/chrome29.html">463 points out of 500</a> on
+                        <a href="http://www.html5test.com">html5test.com</a>.
+                    </p>
+
+                    <h3>Support for both x86 and x64</h3>
+                    <p>
+                        Chromium 29 supports both x86 and x64, and so do we as of CefSharp 3.29.0. For the time being, it does not
+                        "auto-detect" the platform being used (since this is quite complex), so you have to choose either one for
+                        your project. This practically means that you will have to compile &amp; package separate
+                        binaries/installers of your app for x86 and x64 respectively.
+                    </p>
+
+                    <h3 id="features-custom-schemes">Custom Schemes</h3>
+                    <p>
+                        Declare a factory class like this:
+
+                        <pre data-shbrush="csharp">
+                        internal class CefSharpSchemeHandlerFactory : ISchemeHandlerFactory
+                        {
+                            // This is the name of your custom scheme.
+                            public const string SchemeName = "custom";
+                            
+                            public ISchemeHandler Create()
+                            {
+                                return new CefSharpSchemeHandler();
+                            }
+                        }
+                        </pre>
+
+                        ...and the actual scheme handler class like this:
+
+                        <pre data-shbrush="csharp">
+                                internal class CefSharpSchemeHandler : ISchemeHandler
+                                {
+                                    public bool ProcessRequestAsync(IRequest request, SchemeHandlerResponse response,
+                                                                    OnRequestCompletedHandler requestCompletedCallback)
+                                    {
+                                        // TODO: Add your custom scheme code here, so that "bytes" is a byte[] with the
+                                        // TODO: response data for the given request. Examine the "request" object for info
+                                        // TODO: about the URI being requested and so forth.
+                                        response.ResponseStream = new MemoryStream(bytes);
+                                        response.MimeType = GetMimeType(fileName);
+                                        
+                                        // This signals to CefSharp that your scheme handler is ready with the processing.
+                                        requestCompletedCallback();
+                                        
+                                        // You can also return "false" here if the requested URI is invalid for your scheme
+                                        // handler.
+                                        return true;
+                                    }
+                                }
+                        </pre>
+
+                        Finally, you have to register this scheme handler using some code like this:
+
+                        <pre data-shbrush="csharp">
+                                    public static void Init()
+                                    {
+                                        // Pseudo code; you probably need more in your CefSettings also.
+                                        var settings = new CefSettings();
+                                        
+                                        settings.RegisterScheme(new CefCustomScheme
+                                        {
+                                            SchemeName = CefSharpSchemeHandlerFactory.SchemeName,
+                                            SchemeHandlerFactory = new CefSharpSchemeHandlerFactory()
+                                        });
+                                        
+                                        Cef.Initialize(settings);
+                                    }
+                        </pre>
+
+                        It's important that the scheme registration takes place before the <code>Cef.Initialize()</code> gets
+                        called. (This is different to how things was being done in CefSharp version 1.)
+                    </p>
+
+                    <h4>Asynchrony</h4>
+                    <p>
+                        CefSharp supports custom schemes using an
+                        <a href="https://en.wikipedia.org/wiki/Asynchronous_I/O">asynchronous</a> pattern, which is desirable if
+                        your custom scheme handler performs e.g. network requests or other long-running operations. In other, more
+                        trivial cases (e.g. if you are just serving out static content which is already loaded in memory), you can
+                        just signal using the <code>requestCompletedCallback()</code> straight away, as in the example above.
+                    </p>
+
+                    <h3>Javascript integration</h3>
+                    <h3>Hooks by which you can modify and/or override certain features of the web browsing</h3>
+                </div>
+
+                <div class="bs-docs-section">
+                    <div class="page-header">
+                        <h1 id="useful-links">
+                            Useful Links
+                        </h1>
+                    </div>
+                    <p>
+                        Here are a few pointers that might help you further explore the wonderful world of CefSharp:
+                    </p>
+
+                    <ul>
+                        <li>The <a href="http://github.com/cefsharp/CefSharp">GitHub project page</a></li>
+                        <li>
+                            The current list of <a href="https://github.com/cefsharp/CefSharp/issues?state=open">open issues</a>.
+                            Please check this list before reporting in new issues, to ensure that your problem isn't already covered.
+                        </li>
+                        <li>
+                            Our list of <a href="https://github.com/cefsharp/CefSharp/releases">releases</a>. Perhaps we've
+                            released something new since the version you are using? (Your current version is $foo.)
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer
+    ================================================== -->
+    <footer class="bs-footer" role="contentinfo">
+        <div class="container">
+            <p>
+                Based on the <a href="http://getbootstrap.com/getting-started/">Twitter Bootstrap documentation</a> HTML/CSS template,
+                whose code is licensed under <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache License v2.0</a>
+                and documentation is licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.
+            </p>
+            <ul class="footer-links">
+                <li><a href="https://github.com/cefsharp/CefSharp/issues?state=open">Issues</a></li>
+                <li class="muted">&middot;</li>
+                <li><a href="https://github.com/cefsharp/CefSharp/releases">Releases</a></li>
+            </ul>
+        </div>
+    </footer>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="assets/js/shCore.js"></script>
+    <script src="assets/js/shBrushCSharp.js"></script>
+    <script src="assets/js/jquery.js"></script>
+    <script src="bootstrap/bootstrap.min.js"></script>
+    <script src="http://platform.twitter.com/widgets.js"></script>
+    <script src="assets/js/application.js"></script>
 </body>
 </html>
