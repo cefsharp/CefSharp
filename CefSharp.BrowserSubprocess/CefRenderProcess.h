@@ -7,8 +7,8 @@
 #include "include/cef_app.h"
 #include "SubprocessCefApp.h"
 
-int ExecuteCefRenderProcess(CefMainArgs& main_args)
+int ExecuteCefRenderProcess(CefMainArgs& mainArgs)
 {
 	CefRefPtr<SubprocessCefApp> subprocessCefAppPtr = SubprocessCefApp::GetInstance();
-	return CefExecuteProcess(main_args, (CefRefPtr<CefApp>)subprocessCefAppPtr);
+	return CefExecuteProcess(mainArgs, (CefRefPtr<CefApp>)subprocessCefAppPtr);
 }

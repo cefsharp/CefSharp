@@ -6,10 +6,20 @@
 #include "CefRenderProcess.h"
 #include "JavascriptProxyService.h"
 
+void LogCommandLine(LPTSTR cmdLine);
+
 int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow)
 {
-	CefMainArgs main_args(hInstance);
+	CefMainArgs mainArgs(hInstance);
+	LogCommandLine(lpCmdLine);
 
-    CreateJavascriptProxyServiceHost();
-	return ExecuteCefRenderProcess(main_args);
+    //CreateJavascriptProxyServiceHost();
+	return ExecuteCefRenderProcess(mainArgs);
+}
+
+void LogCommandLine(LPTSTR cmdLine)
+{
+	std::wstring message = L"BrowserSubprocess starting up with command line: ";
+	message = message + cmdLine;
+	OutputDebugString(message.c_str());
 }
