@@ -16,8 +16,7 @@ namespace CefSharp.Example
             settings.RegisterScheme(new CefCustomScheme
             {
                 SchemeName = CefSharpSchemeHandlerFactory.SchemeName,
-                SchemeHandlerFactory = new CefSharpSchemeHandlerFactory(),
-                IsStandard = true
+                SchemeHandlerFactory = new CefSharpSchemeHandlerFactory()
             });
 
             if (!Cef.Initialize(settings))
