@@ -152,6 +152,20 @@
   <ItemGroup>
     <Folder Include="Assets\Images\" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\Win32\Debug\CefSharp.BrowserSubprocess.exe">
+      <Link>ExeDependencies\Win32\Debug\CefSharp.BrowserSubprocess.exe</Link>
+    </Content>
+    <Content Include="..\Win32\Release\CefSharp.BrowserSubprocess.exe">
+      <Link>ExeDependencies\Win32\Release\CefSharp.BrowserSubprocess.exe</Link>
+    </Content>
+    <Content Include="..\x64\Debug\CefSharp.BrowserSubprocess.exe">
+      <Link>ExeDependencies\x64\Debug\CefSharp.BrowserSubprocess.exe</Link>
+    </Content>
+    <Content Include="..\x64\Release\CefSharp.BrowserSubprocess.exe">
+      <Link>ExeDependencies\x64\Release\CefSharp.BrowserSubprocess.exe</Link>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <UnmanagedPlatform>x64</UnmanagedPlatform>
