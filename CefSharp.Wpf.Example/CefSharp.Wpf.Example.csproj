@@ -176,7 +176,8 @@
     <ItemGroup>
       <CefBinaries Include="$(SolutionDir)CEF\$(UnmanagedPlatform)\*.*" />
       <LocaleFiles Include="$(SolutionDir)CEF\locales\*.*" />
-      <SubProcessFiles Include="$(SolutionDir)$(UnmanagedPlatform)\$(Configuration)\CefSharp.BrowserSubprocess.exe" />
+      <!-- We only need the .exe and .pdb but I don't know how to express that easily with MSBuild... -->
+      <SubProcessFiles Include="$(SolutionDir)$(UnmanagedPlatform)\$(Configuration)\CefSharp.BrowserSubprocess.*" />
     </ItemGroup>
     <Copy SourceFiles="@(CefBinaries)" DestinationFolder="$(TargetDir)" />
     <Copy SourceFiles="@(LocaleFiles)" DestinationFolder="$(TargetDir)locales" />
