@@ -13,6 +13,9 @@
                        DockPanel.Dock="Top">
                 <Button Height="23"
                         Width="75"
+                        Command="{Binding HomeCommand}">Home</Button>
+                <Button Height="23"
+                        Width="75"
                         Command="{Binding WebBrowser.BackCommand}">Back</Button>
                 <Button Height="23"
                         Width="75"

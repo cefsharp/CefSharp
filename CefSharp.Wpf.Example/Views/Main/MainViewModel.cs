@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Threading;
 using CefSharp.Example;
 using CefSharp.Wpf.Example.Mvvm;
 
@@ -48,6 +47,7 @@ namespace CefSharp.Wpf.Example.Views.Main
 
         public DelegateCommand GoCommand { get; set; }
         public DelegateCommand ViewSourceCommand { get; set; }
+        public DelegateCommand HomeCommand { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -58,6 +58,7 @@ namespace CefSharp.Wpf.Example.Views.Main
 
             GoCommand = new DelegateCommand(Go, () => !String.IsNullOrWhiteSpace(Address));
             ViewSourceCommand = new DelegateCommand(ViewSource);
+            HomeCommand = new DelegateCommand(() => AddressEditable = Address = ExamplePresenter.DefaultUrl);
 
             PropertyChanged += OnPropertyChanged;
 
