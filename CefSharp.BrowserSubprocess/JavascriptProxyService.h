@@ -7,13 +7,13 @@
 #include "JavascriptProxy.h"
 #include "include/cef_browser.h"
 
-ref class JavascriptProxyService
+class JavascriptProxyService
 {
 	CefRefPtr<CefBrowser>* _browser;
 	int _browserIdentifier;
 
 public:
-	JavascriptProxyService(CefRefPtr<CefBrowser> browser);
+	JavascriptProxyService(int browserIdentifier);
 
 	void CreateJavascriptProxyServiceHost();
 
@@ -21,4 +21,5 @@ private:
 
 	void JavascriptProxyServiceEntryPoint();
 	void AddDebugBehavior(System::ServiceModel::ServiceHost^ host);
+	void EvaluateScriptHelper(String^ script);
 };

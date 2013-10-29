@@ -11,10 +11,12 @@ private class SubprocessCefApp : public CefApp,
                                  public CefRenderProcessHandler
 {
     static SubprocessCefApp* _instance;
+	static CefRefPtr<CefBrowser> _browser;
 
 public:
 
 	static SubprocessCefApp* GetInstance();
+	static CefRefPtr<CefBrowser> GetCefBrowser();
 
     virtual DECL CefRefPtr<CefRenderProcessHandler> GetRenderProcessHandler() OVERRIDE
     {

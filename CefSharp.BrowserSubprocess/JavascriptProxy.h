@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "include/cef_browser.h"
+
 using namespace CefSharp::Internals::JavascriptBinding;
 using namespace System;
 
@@ -25,7 +27,7 @@ namespace CefSharp
             static String^ Address = BaseAddress + "/" + ServiceName;
 
 			JavascriptProxy();
-			virtual Object^ EvaluateScript(int browserId, int frameId, String^ script, double timeout);
+			virtual Object^ EvaluateScript(int frameId, String^ script, double timeout);
         };
     }
 }

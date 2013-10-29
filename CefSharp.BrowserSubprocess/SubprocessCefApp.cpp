@@ -7,6 +7,7 @@
 #include "SubprocessCefApp.h"
 
 SubprocessCefApp* SubprocessCefApp::_instance = nullptr;
+CefRefPtr<CefBrowser> SubprocessCefApp::_browser = nullptr;
 
 SubprocessCefApp* SubprocessCefApp::GetInstance()
 {
@@ -18,8 +19,16 @@ SubprocessCefApp* SubprocessCefApp::GetInstance()
 	return _instance;
 }
 
+CefRefPtr<CefBrowser> SubprocessCefApp::GetCefBrowser()
+{
+	return _browser;
+}
+
 void SubprocessCefApp::OnBrowserCreated(CefRefPtr<CefBrowser> browser)
 {
-	auto javascriptProxyService = gcnew JavascriptProxyService(browser);
+	_browser = browser;
+
+	// FIXME: deallocate this sometime.
+	auto javascriptProxyService = new JavascriptProxyService(browser->GetIdentifier());
 	javascriptProxyService->CreateJavascriptProxyServiceHost();
 }

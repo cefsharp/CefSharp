@@ -16,7 +16,7 @@ namespace CefSharp
             public interface class IJavascriptProxy
             {
                 [OperationContract]
-                Object^ EvaluateScript(int browserId, int frameId, String^ script, double timeout);
+                Object^ EvaluateScript(int frameId, String^ script, double timeout);
             };
         }
     }

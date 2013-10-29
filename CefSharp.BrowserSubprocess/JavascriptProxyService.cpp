@@ -14,19 +14,12 @@ using namespace System::ServiceModel;
 using namespace System::ServiceModel::Description;
 using namespace System::Threading;
 
-JavascriptProxyService::JavascriptProxyService(CefRefPtr<CefBrowser> browser)
+JavascriptProxyService::JavascriptProxyService(int browserIdentifier)
 {
-	_browser = &browser;
-	_browserIdentifier = browser->GetIdentifier();
+	_browserIdentifier = browserIdentifier;
 }
 
 void JavascriptProxyService::CreateJavascriptProxyServiceHost()
-{
-	auto thread = gcnew Thread(gcnew ThreadStart(this, &JavascriptProxyService::JavascriptProxyServiceEntryPoint));
-	thread->Start();
-}
-
-void JavascriptProxyService::JavascriptProxyServiceEntryPoint()
 {
 	auto uris = gcnew array<Uri^>(1);
 	uris[0] = gcnew Uri(JavascriptProxy::BaseAddress);

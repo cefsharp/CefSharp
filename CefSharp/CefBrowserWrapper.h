@@ -62,14 +62,6 @@ namespace CefSharp
         {
             _renderClientAdapter = new RenderClientAdapter(offscreenBrowserControl);
             _scriptCore = new ScriptCore();
-
-            // TODO: Address should certainly not be hardwired like this.
-            auto channelFactory = gcnew ChannelFactory<IJavascriptProxy^>(
-                gcnew NetNamedPipeBinding(),
-                gcnew EndpointAddress("net.pipe://localhost/JavaScriptProxy")
-            );
-            
-            _javaScriptProxy = channelFactory->CreateChannel();
         }
 
         ~CefBrowserWrapper()
@@ -268,23 +260,22 @@ namespace CefSharp
             if (browser != nullptr &&
                 frame != nullptr)
             {
-                return _javaScriptProxy->EvaluateScript(browser->GetIdentifier(), frame->GetIdentifier(), script, timeout.TotalMilliseconds);
+				// TODO: Make the address be shared between the Subprocess and the CefSharp projects.
+				// TODO: Don't instantiate this on every request. The problem is that the CefBrowser is not set in our constructor.
+				auto channelFactory = gcnew ChannelFactory<IJavascriptProxy^>(
+					gcnew NetNamedPipeBinding(),
+					gcnew EndpointAddress("net.pipe://localhost/JavaScriptProxy_" + _renderClientAdapter->GetCefBrowser()->GetIdentifier())
+				);
+
+				_javaScriptProxy = channelFactory->CreateChannel();
+
+
+                return _javaScriptProxy->EvaluateScript(frame->GetIdentifier(), script, timeout.TotalMilliseconds);
             }
             else
             {
                 return nullptr;
             }
-
-            //auto browser = _renderClientAdapter->GetCefBrowser();
-
-            //if (browser != nullptr)
-            //{
-            //    return _scriptCore->Evaluate(browser, StringUtils::ToNative(script), (DWORD) timeout.TotalMilliseconds);
-            //}
-            //elser
-            //{
-            //    return nullptr;
-            //}
         }
     };
 }
