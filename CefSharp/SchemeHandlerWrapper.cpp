@@ -59,7 +59,7 @@ namespace CefSharp
         _mime_type = StringUtils::ToNative(response->MimeType);
         _stream = response->ResponseStream;
         _statusCode = response->StatusCode;
-        _redirectUrl = toNative(response->RedirectUrl);
+        _redirectUrl = StringUtils::ToNative(response->RedirectUrl);
         _contentLength = response->ContentLength;
         _closeStream = response->CloseStream;
 
