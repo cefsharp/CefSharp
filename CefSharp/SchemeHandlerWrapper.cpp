@@ -52,6 +52,10 @@ namespace CefSharp
     {
         _mime_type = toNative(response->MimeType);
         _stream = response->ResponseStream;
+        _statusCode = response->StatusCode;
+        _redirectUrl = toNative(response->RedirectUrl);
+        _contentLength = response->ContentLength;
+        _closeStream = response->CloseStream;
 
         _headers = ToHeaderMap(response->ResponseHeaders);
 
@@ -65,9 +69,17 @@ namespace CefSharp
     void SchemeHandlerWrapper::GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl)
     {
         response->SetMimeType(_mime_type);
-        response->SetStatus(200);
+        response->SetStatus(_statusCode > 0 ? _statusCode : 200);
         response->SetHeaderMap(_headers);
-        response_length = SizeFromStream();
+        if (_contentLength >= 0)
+        {
+            response_length = _contentLength;
+        }
+        else
+        {
+            response_length = SizeFromStream();
+        }
+        redirectUrl = _redirectUrl;
     }
 
     bool SchemeHandlerWrapper::ReadResponse(void* data_out, int bytes_to_read, int& bytes_read, CefRefPtr<CefSchemeHandlerCallback> callback)
@@ -87,7 +99,12 @@ namespace CefSharp
             pin_ptr<Byte> src = &buffer[0];
             memcpy(data_out, static_cast<void*>(src), ret);
             bytes_read = ret;
-            has_data = true;
+            // must return false when the response is complete
+            has_data = ret > 0;
+            if (!has_data && _closeStream)
+            {
+                _stream->Close();
+            }
         }
 
         return has_data;
@@ -95,6 +112,10 @@ namespace CefSharp
 
     void SchemeHandlerWrapper::Cancel()
     {
+        if (!!_stream && _closeStream)
+        {
+            _stream->Close();
+        }
         _stream = nullptr;
     }
 
