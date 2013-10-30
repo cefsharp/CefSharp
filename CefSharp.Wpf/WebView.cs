@@ -24,7 +24,7 @@ namespace CefSharp.Wpf
         private BrowserCore browserCore;
         private DispatcherTimer tooltipTimer;
         private readonly ToolTip toolTip;
-        private CefBrowserWrapper cefBrowserWrapper;
+        private ManagedCefBrowserAdapter managedCefBrowserAdapter;
         private bool isOffscreenBrowserCreated;
         private bool ignoreUriChange;
 
@@ -112,7 +112,7 @@ namespace CefSharp.Wpf
 
             if (isOffscreenBrowserCreated)
             {
-                cefBrowserWrapper.LoadUrl(Address);
+                managedCefBrowserAdapter.LoadUrl(Address);
             }
             else
             {
@@ -215,7 +215,7 @@ namespace CefSharp.Wpf
 
         private void OnApplicationExit(object sender, ExitEventArgs e)
         {
-            ShutdownCefBrowserWrapper();
+            ShutdownManagedCefBrowserAdapter();
 
             Cef.Shutdown();
         }
@@ -225,26 +225,26 @@ namespace CefSharp.Wpf
             // TODO: Will this really work correctly in a TabControl-based approach? (where we might get Loaded and Unloaded
             // multiple times)
             RemoveSourceHook();
-            ShutdownCefBrowserWrapper();
+            ShutdownManagedCefBrowserAdapter();
         }
 
-        private void ShutdownCefBrowserWrapper()
+        private void ShutdownManagedCefBrowserAdapter()
         {
-            if (cefBrowserWrapper == null)
+            if (managedCefBrowserAdapter == null)
             {
                 return;
             }
 
-            cefBrowserWrapper.Close();
-            cefBrowserWrapper.Dispose();
-            cefBrowserWrapper = null;
+            managedCefBrowserAdapter.Close();
+            managedCefBrowserAdapter.Dispose();
+            managedCefBrowserAdapter = null;
         }
 
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
 
-            cefBrowserWrapper = new CefBrowserWrapper(this);
+            managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
 
             AddSourceHook();
 
@@ -263,7 +263,7 @@ namespace CefSharp.Wpf
 
         private void CreateOffscreenBrowser()
         {
-            cefBrowserWrapper.CreateOffscreenBrowser(BrowserSettings ?? new BrowserSettings(), source.Handle, Address);
+            managedCefBrowserAdapter.CreateOffscreenBrowser(BrowserSettings ?? new BrowserSettings(), source.Handle, Address);
             isOffscreenBrowserCreated = true;
         }
 
@@ -317,7 +317,7 @@ namespace CefSharp.Wpf
                         return IntPtr.Zero;
                     }
 
-                    if (cefBrowserWrapper.SendKeyEvent(message, wParam.ToInt32()))
+                    if (managedCefBrowserAdapter.SendKeyEvent(message, wParam.ToInt32()))
                     {
                         handled = true;
                     }
@@ -337,7 +337,7 @@ namespace CefSharp.Wpf
             if (newWidth > 0 &&
                 newHeight > 0)
             {
-                cefBrowserWrapper.WasResized();
+                managedCefBrowserAdapter.WasResized();
             }
 
             return size;
@@ -454,16 +454,16 @@ namespace CefSharp.Wpf
 
         protected override void OnGotFocus(RoutedEventArgs e)
         {
-            cefBrowserWrapper.SendFocusEvent(true);
+            managedCefBrowserAdapter.SendFocusEvent(true);
 
             base.OnGotFocus(e);
         }
 
         protected override void OnLostFocus(RoutedEventArgs e)
         {
-            if (cefBrowserWrapper != null)
+            if (managedCefBrowserAdapter != null)
             {
-                cefBrowserWrapper.SendFocusEvent(false);
+                managedCefBrowserAdapter.SendFocusEvent(false);
             }
 
             base.OnLostFocus(e);
@@ -490,7 +490,7 @@ namespace CefSharp.Wpf
             {
                 var message = (int)(e.IsDown ? WM.KEYDOWN : WM.KEYUP);
                 var virtualKey = KeyInterop.VirtualKeyFromKey(e.Key);
-                cefBrowserWrapper.SendKeyEvent(message, virtualKey);
+                managedCefBrowserAdapter.SendKeyEvent(message, virtualKey);
                 e.Handled = true;
             }
         }
@@ -498,14 +498,14 @@ namespace CefSharp.Wpf
         protected override void OnMouseMove(MouseEventArgs e)
         {
             var point = e.GetPosition(this);
-            cefBrowserWrapper.OnMouseMove((int)point.X, (int)point.Y, mouseLeave: false);
+            managedCefBrowserAdapter.OnMouseMove((int)point.X, (int)point.Y, mouseLeave: false);
         }
 
         protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
             var point = e.GetPosition(this);
 
-            cefBrowserWrapper.OnMouseWheel(
+            managedCefBrowserAdapter.OnMouseWheel(
                 (int)point.X,
                 (int)point.Y,
                 deltaX: 0,
@@ -528,7 +528,7 @@ namespace CefSharp.Wpf
 
         protected override void OnMouseLeave(MouseEventArgs e)
         {
-            cefBrowserWrapper.OnMouseMove(0, 0, mouseLeave: true);
+            managedCefBrowserAdapter.OnMouseMove(0, 0, mouseLeave: true);
         }
 
         private void OnMouseButton(MouseButtonEventArgs e)
@@ -556,7 +556,7 @@ namespace CefSharp.Wpf
             var mouseUp = (e.ButtonState == MouseButtonState.Released);
 
             var point = e.GetPosition(this);
-            cefBrowserWrapper.OnMouseButton((int)point.X, (int)point.Y, mouseButtonType, mouseUp, e.ClickCount);
+            managedCefBrowserAdapter.OnMouseButton((int)point.X, (int)point.Y, mouseButtonType, mouseUp, e.ClickCount);
         }
 
         public void OnInitialized()
@@ -566,7 +566,7 @@ namespace CefSharp.Wpf
 
         public void LoadHtml(string html, string url)
         {
-            cefBrowserWrapper.LoadHtml(html, url);
+            managedCefBrowserAdapter.LoadHtml(html, url);
         }
 
         public void Stop()
@@ -576,7 +576,7 @@ namespace CefSharp.Wpf
 
         private void Back()
         {
-            cefBrowserWrapper.GoBack();
+            managedCefBrowserAdapter.GoBack();
         }
 
         private bool CanGoBack()
@@ -586,7 +586,7 @@ namespace CefSharp.Wpf
 
         private void Forward()
         {
-            cefBrowserWrapper.GoForward();
+            managedCefBrowserAdapter.GoForward();
         }
 
         private bool CanGoForward()
@@ -596,7 +596,7 @@ namespace CefSharp.Wpf
 
         public void Reload()
         {
-            cefBrowserWrapper.Reload();
+            managedCefBrowserAdapter.Reload();
         }
 
         public bool CanReload()
@@ -611,7 +611,7 @@ namespace CefSharp.Wpf
 
         public void ShowDevTools()
         {
-            var devToolsUrl = cefBrowserWrapper.DevToolsUrl;
+            var devToolsUrl = managedCefBrowserAdapter.DevToolsUrl;
             throw new NotImplementedException();
         }
 
@@ -708,7 +708,7 @@ namespace CefSharp.Wpf
 
         public void ExecuteScript(string script)
         {
-            cefBrowserWrapper.ExecuteScript(script);
+            managedCefBrowserAdapter.ExecuteScript(script);
         }
 
         public object EvaluateScript(string script)
@@ -723,7 +723,7 @@ namespace CefSharp.Wpf
                 timeout = TimeSpan.MaxValue;
             }
 
-            return cefBrowserWrapper.EvaluateScript(script, timeout.Value);
+            return managedCefBrowserAdapter.EvaluateScript(script, timeout.Value);
         }
 
         public void SetCursor(IntPtr handle)
@@ -746,17 +746,17 @@ namespace CefSharp.Wpf
         {
             var bitmap = interopBitmap;
 
-            lock (cefBrowserWrapper.BitmapLock)
+            lock (managedCefBrowserAdapter.BitmapLock)
             {
                 if (bitmap == null)
                 {
                     image.Source = null;
                     GC.Collect(1);
 
-                    var stride = cefBrowserWrapper.BitmapWidth * BytesPerPixel;
+                    var stride = managedCefBrowserAdapter.BitmapWidth * BytesPerPixel;
 
                     bitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(FileMappingHandle,
-                        cefBrowserWrapper.BitmapWidth, cefBrowserWrapper.BitmapHeight, PixelFormat, stride, 0);
+                        managedCefBrowserAdapter.BitmapWidth, managedCefBrowserAdapter.BitmapHeight, PixelFormat, stride, 0);
                     image.Source = bitmap;
                     interopBitmap = bitmap;
                 }
@@ -767,7 +767,7 @@ namespace CefSharp.Wpf
 
         public void ViewSource()
         {
-            cefBrowserWrapper.ViewSource();
+            managedCefBrowserAdapter.ViewSource();
         }
     }
 }

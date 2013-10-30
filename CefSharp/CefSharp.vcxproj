@@ -266,7 +266,7 @@
     <ClInclude Include="Internals\RenderClientAdapter.h" />
     <ClInclude Include="LoadCompletedEventArgs.h" />
     <ClInclude Include="MouseButtonType.h" />
-    <ClInclude Include="CefBrowserWrapper.h" />
+    <ClInclude Include="ManagedCefBrowserAdapter.h" />
     <ClInclude Include="Internals\RequestResponse.h" />
     <ClInclude Include="RtzCountdownEvent.h" />
     <ClInclude Include="CefSettings.h" />

@@ -163,9 +163,6 @@
     <ClInclude Include="Internals\RenderClientAdapter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CefBrowserWrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CefSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -207,6 +204,9 @@
     </ClInclude>
     <ClInclude Include="Wrappers\CefAppWrapper.h">
       <Filter>Source Files\Wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagedCefBrowserAdapter.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

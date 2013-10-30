@@ -18,7 +18,7 @@ using namespace System::ServiceModel;
 
 namespace CefSharp
 {
-    private ref class CefBrowserWrapper
+    private ref class ManagedCefBrowserAdapter
     {
     private:
         RenderClientAdapter* _renderClientAdapter;
@@ -58,13 +58,13 @@ namespace CefSharp
             }
         }
 
-        CefBrowserWrapper(IRenderWebBrowser^ offscreenBrowserControl)
+        ManagedCefBrowserAdapter(IRenderWebBrowser^ offscreenBrowserControl)
         {
             _renderClientAdapter = new RenderClientAdapter(offscreenBrowserControl);
             _scriptCore = new ScriptCore();
         }
 
-        ~CefBrowserWrapper()
+        ~ManagedCefBrowserAdapter()
         {
             _renderClientAdapter = nullptr;
         }
@@ -268,7 +268,6 @@ namespace CefSharp
 				);
 
 				_javaScriptProxy = channelFactory->CreateChannel();
-
 
                 return _javaScriptProxy->EvaluateScript(frame->GetIdentifier(), script, timeout.TotalMilliseconds);
             }
