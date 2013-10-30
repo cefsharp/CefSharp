@@ -214,7 +214,6 @@
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="BrowserCore.cpp" />
-    <ClCompile Include="CefWrappers\GlobalMethods.cpp" />
     <ClCompile Include="Internals\ClientAdapter.cpp" />
     <ClCompile Include="Internals\CookieVisitor.cpp" />
     <ClCompile Include="Internals\CefRequestWrapper.cpp" />
@@ -232,12 +231,15 @@
     <ClCompile Include="Internals\StringUtils.cpp" />
     <ClCompile Include="Internals\StreamAdapter.cpp" />
     <ClCompile Include="TypeUtils.cpp" />
+    <ClCompile Include="Wrappers\GlobalMethods.cpp" />
+    <ClCompile Include="Wrappers\CefAppWrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BrowserCore.h" />
     <ClInclude Include="BrowserSettings.h" />
     <ClInclude Include="Cef.h" />
     <ClInclude Include="CefCustomScheme.h" />
+    <ClInclude Include="Wrappers\CefAppWrapper.h" />
     <ClInclude Include="ConsoleMessageEventArgs.h" />
     <ClInclude Include="IDownloadHandler.h" />
     <ClInclude Include="CefErrorCode.h" />

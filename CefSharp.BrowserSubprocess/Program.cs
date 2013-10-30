@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using CefSharp.Wrappers;
 
 namespace CefSharp.BrowserSubprocess
 {
@@ -14,7 +15,7 @@ namespace CefSharp.BrowserSubprocess
         {
             var hInstance = Process.GetCurrentProcess().Handle;
             LogCommandLine(args);
-            MessageBox.Show("Please attach debugger now");
+            //MessageBox.Show("Please attach debugger now");
 
             return ExecuteCefRenderProcess(hInstance);
         }
