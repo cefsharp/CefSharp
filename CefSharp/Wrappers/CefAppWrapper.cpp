@@ -11,7 +11,7 @@ namespace CefSharp
 	{
 		CefAppWrapper::CefAppWrapper()
 		{
-			cefApp = new CefRefPtr<CefAppUnmanagedWrapper>(new CefAppUnmanagedWrapper());
+			cefApp = new CefRefPtr<CefAppUnmanagedWrapper>(new CefAppUnmanagedWrapper(this));
 		}
 
 		CefAppWrapper::~CefAppWrapper()

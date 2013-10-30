@@ -279,6 +279,7 @@
     <ClInclude Include="Internals\StreamAdapter.h" />
     <ClInclude Include="TypeUtils.h" />
     <ClInclude Include="vcclr_local.h" />
+    <ClInclude Include="Wrappers\CefBrowserWrapper.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

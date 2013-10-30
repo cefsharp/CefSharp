@@ -208,5 +208,8 @@
     <ClInclude Include="ManagedCefBrowserAdapter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Wrappers\CefBrowserWrapper.h">
+      <Filter>Source Files\Wrappers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -15,7 +15,7 @@ namespace CefSharp.BrowserSubprocess
         {
             var hInstance = Process.GetCurrentProcess().Handle;
             LogCommandLine(args);
-            //MessageBox.Show("Please attach debugger now");
+            MessageBox.Show("Please attach debugger now", null, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             return ExecuteCefRenderProcess(hInstance);
         }
@@ -27,7 +27,7 @@ namespace CefSharp.BrowserSubprocess
 
         private static int ExecuteCefRenderProcess(IntPtr hInstance)
         {
-            var subprocessCefApp = new SubprocessCefApp();
+            var subprocessCefApp = SubprocessCefApp.Instance;
             return GlobalMethods.CefExecuteProcess(hInstance, subprocessCefApp);
         }
     }
