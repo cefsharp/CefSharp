@@ -3,7 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 #include "Stdafx.h"
-#include "CefBrowserWrapper.h"
+#include "CefSubprocessWrapper.h"
 #include "include/cef_app.h"
 
 namespace CefSharp
@@ -25,7 +25,7 @@ namespace CefSharp
 			CefAppWrapper();
 			~CefAppWrapper();
 			void* GetUnmanaged();
-			virtual void OnBrowserCreated(CefBrowserWrapper^ cefBrowserWrapper) {};
+			virtual void OnBrowserCreated(CefSubprocessWrapper^ cefBrowserWrapper) {};
 
 		private:
 			!CefAppWrapper();
@@ -51,7 +51,7 @@ namespace CefSharp
 			virtual DECL void CefAppUnmanagedWrapper::OnBrowserCreated(CefRefPtr<CefBrowser> browser) OVERRIDE
 			{
 				// TODO: Could destroy this CefBrowserWrapper in OnBrowserDestroyed(), but it doesn't seem to be reliably called...
-				_cefAppWrapper->OnBrowserCreated(gcnew CefBrowserWrapper(browser));
+				_cefAppWrapper->OnBrowserCreated(gcnew CefSubprocessWrapper(browser));
 			}
 
 			IMPLEMENT_REFCOUNTING(CefAppUnmanagedWrapper);

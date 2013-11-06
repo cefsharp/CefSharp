@@ -11,12 +11,17 @@ namespace CefSharp.BrowserSubprocess
             get { return instance ?? (instance = new SubprocessCefApp()); }
         }
 
-        public CefBrowserWrapper CefBrowserWrapper { get; private set; }
+        public CefSubprocessWrapper CefSubprocessWrapper { get; private set; }
+        public int? ParentProcessId { get; set; }
 
-        public override void OnBrowserCreated(CefBrowserWrapper cefBrowserWrapper)
+        public override void OnBrowserCreated(CefSubprocessWrapper cefBrowserWrapper)
         {
-            CefBrowserWrapper = cefBrowserWrapper;
-            JavascriptServiceHost.Create(cefBrowserWrapper.BrowserId);
+            CefSubprocessWrapper = cefBrowserWrapper;
+
+            if (ParentProcessId != null)
+            {
+                JavascriptServiceHost.Create(ParentProcessId.Value, CefSubprocessWrapper.BrowserId);
+            }
         }
     }
 }

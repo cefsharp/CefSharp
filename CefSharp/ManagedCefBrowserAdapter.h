@@ -9,11 +9,13 @@
 #include "MouseButtonType.h"
 #include "ScriptCore.h"
 #include "Internals/JavascriptBinding/IJavascriptProxy.h"
+#include "Internals/JavascriptBinding/JavascriptProxySupport.h"
 #include "Internals/IRenderWebBrowser.h"
 #include "Internals/RenderClientAdapter.h"
 
 using namespace CefSharp::Internals;
 using namespace CefSharp::Internals::JavascriptBinding;
+using namespace System::Diagnostics;
 using namespace System::ServiceModel;
 
 namespace CefSharp
@@ -260,11 +262,11 @@ namespace CefSharp
             if (browser != nullptr &&
                 frame != nullptr)
             {
-				// TODO: Make the address be shared between the Subprocess and the CefSharp projects.
 				// TODO: Don't instantiate this on every request. The problem is that the CefBrowser is not set in our constructor.
+				auto serviceName = JavascriptProxySupport::GetServiceName(Process::GetCurrentProcess()->Id, _renderClientAdapter->GetCefBrowser()->GetIdentifier());
 				auto channelFactory = gcnew ChannelFactory<IJavascriptProxy^>(
 					gcnew NetNamedPipeBinding(),
-					gcnew EndpointAddress("net.pipe://localhost/JavaScriptProxy_" + _renderClientAdapter->GetCefBrowser()->GetIdentifier())
+					gcnew EndpointAddress(JavascriptProxySupport::BaseAddress + "/" + serviceName)
 				);
 
 				_javaScriptProxy = channelFactory->CreateChannel();

@@ -7,20 +7,18 @@ namespace CefSharp.BrowserSubprocess
 {
     internal class JavascriptServiceHost
     {
-        public static void Create(int browserId)
+        public static void Create(int parentProcessId, int browserId)
         {
             var uris = new[]
             {
-                new Uri(JavascriptProxy.BaseAddress)
+                new Uri(JavascriptProxySupport.BaseAddress)
             };
 
             var host = new ServiceHost(typeof(JavascriptProxy), uris);
             AddDebugBehavior(host);
 
-            // TODO: Include the name of the "parent process" here also, so you can run more than one CefSharp-based application
-            // TODO: simultaneously. :)
-            var serviceName = JavascriptProxy.ServiceName + "_" + browserId;
-
+            var serviceName = JavascriptProxySupport.GetServiceName(parentProcessId, browserId);
+            Kernel32.OutputDebugString("Setting up IJavascriptProxy using service name: " + serviceName);
             host.AddServiceEndpoint(
                 typeof(IJavascriptProxy),
                 new NetNamedPipeBinding(),

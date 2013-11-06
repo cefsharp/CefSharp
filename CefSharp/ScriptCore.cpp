@@ -37,36 +37,6 @@ namespace CefSharp
         if (TryGetMainFrame(browser, mainFrame))
         {
             // TODO: fails, most likely because we are not in the render process.
-            CefRefPtr<CefV8Context> context = mainFrame->GetV8Context();
-
-            if (context.get() && context->Enter())
-            {
-                CefRefPtr<CefV8Value> result;
-                CefRefPtr<CefV8Exception> exception;
-
-                bool success = context->Eval(script, result, exception);
-                if (success)
-                {
-                   try
-                    {
-                        _result = TypeUtils::ConvertFromCef(result);
-                    }
-                    catch (Exception^ ex)
-                    {
-                        _exceptionMessage = ex->Message;
-                    }
-                }
-                else if (exception.get())
-                {
-                    _exceptionMessage = StringUtils::ToClr(exception->GetMessage());
-                }
-                else
-                {
-                    _exceptionMessage = "Failed to evaluate script";
-                }
-
-                context->Exit();
-            }
         }
         else
         {

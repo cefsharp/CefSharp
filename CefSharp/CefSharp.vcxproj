@@ -239,6 +239,7 @@
     <ClInclude Include="BrowserSettings.h" />
     <ClInclude Include="Cef.h" />
     <ClInclude Include="CefCustomScheme.h" />
+    <ClInclude Include="Internals\JavascriptBinding\JavascriptProxySupport.h" />
     <ClInclude Include="Wrappers\CefAppWrapper.h" />
     <ClInclude Include="ConsoleMessageEventArgs.h" />
     <ClInclude Include="IDownloadHandler.h" />
@@ -279,7 +280,7 @@
     <ClInclude Include="Internals\StreamAdapter.h" />
     <ClInclude Include="TypeUtils.h" />
     <ClInclude Include="vcclr_local.h" />
-    <ClInclude Include="Wrappers\CefBrowserWrapper.h" />
+    <ClInclude Include="Wrappers\CefSubprocessWrapper.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

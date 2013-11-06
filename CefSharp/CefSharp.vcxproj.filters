@@ -24,6 +24,9 @@
     <Filter Include="Source Files\Wrappers">
       <UniqueIdentifier>{b5511138-8f2e-4ace-9e68-76929de8c004}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Wrappers">
+      <UniqueIdentifier>{598626f0-6a78-477c-955b-8cdf26d2cb64}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -184,9 +187,6 @@
     <ClInclude Include="ScriptException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Internals\JavascriptBinding\IJavascriptProxy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ISchemeHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -202,14 +202,20 @@
     <ClInclude Include="CefCustomScheme.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Wrappers\CefAppWrapper.h">
-      <Filter>Source Files\Wrappers</Filter>
-    </ClInclude>
     <ClInclude Include="ManagedCefBrowserAdapter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Wrappers\CefBrowserWrapper.h">
-      <Filter>Source Files\Wrappers</Filter>
+    <ClInclude Include="Wrappers\CefAppWrapper.h">
+      <Filter>Header Files\Wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="Wrappers\CefSubprocessWrapper.h">
+      <Filter>Header Files\Wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\JavascriptBinding\IJavascriptProxy.h">
+      <Filter>Header Files\Internals\JavascriptBinding</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\JavascriptBinding\JavascriptProxySupport.h">
+      <Filter>Header Files\Internals\JavascriptBinding</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
