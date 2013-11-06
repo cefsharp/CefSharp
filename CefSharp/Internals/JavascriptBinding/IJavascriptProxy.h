@@ -17,6 +17,9 @@ namespace CefSharp
             {
                 [OperationContract]
                 Object^ EvaluateScript(int frameId, String^ script, double timeout);
+
+				[OperationContract]
+				void Terminate();
             };
         }
     }
