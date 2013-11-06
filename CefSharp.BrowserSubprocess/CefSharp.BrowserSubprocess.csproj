@@ -81,6 +81,7 @@
   <ItemGroup>
     <Compile Include="JavascriptProxy.cs" />
     <Compile Include="JavascriptServiceHost.cs" />
+    <Compile Include="Kernel32.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SubprocessCefApp.cs" />

@@ -8,9 +8,6 @@ namespace CefSharp.BrowserSubprocess
 {
     public class Program
     {
-        [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
-        public static extern void OutputDebugString(string message);
-
         static int Main(string[] args)
         {
             var hInstance = Process.GetCurrentProcess().Handle;
@@ -22,7 +19,7 @@ namespace CefSharp.BrowserSubprocess
 
         private static void LogCommandLine(string[] args)
         {
-            OutputDebugString("BrowserSubprocess starting up with command line: " + String.Join("\n", args));
+            Kernel32.OutputDebugString("BrowserSubprocess starting up with command line: " + String.Join("\n", args));
         }
 
         private static int ExecuteCefRenderProcess(IntPtr hInstance)
