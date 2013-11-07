@@ -11,7 +11,7 @@
 #include "Internals/CefSharpApp.h"
 #include "Internals/CookieVisitor.h"
 #include "Internals/StringUtils.h"
-#include "CefBrowserWrapper.h"
+#include "ManagedCefBrowserAdapter.h"
 #include "CefErrorCode.h"
 #include "CefSettings.h"
 #include "ISchemeHandlerFactory.h"

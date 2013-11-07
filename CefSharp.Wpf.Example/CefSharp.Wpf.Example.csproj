@@ -153,16 +153,16 @@
     <Folder Include="Assets\Images\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\Win32\Debug\CefSharp.BrowserSubprocess.exe">
+    <Content Include="..\CefSharp.BrowserSubprocess\bin\x86\Debug\CefSharp.BrowserSubprocess.exe">
       <Link>ExeDependencies\Win32\Debug\CefSharp.BrowserSubprocess.exe</Link>
     </Content>
-    <Content Include="..\Win32\Release\CefSharp.BrowserSubprocess.exe">
+    <Content Include="..\CefSharp.BrowserSubprocess\bin\x86\Release\CefSharp.BrowserSubprocess.exe">
       <Link>ExeDependencies\Win32\Release\CefSharp.BrowserSubprocess.exe</Link>
     </Content>
-    <Content Include="..\x64\Debug\CefSharp.BrowserSubprocess.exe">
+    <Content Include="..\CefSharp.BrowserSubprocess\bin\x64\Debug\CefSharp.BrowserSubprocess.exe">
       <Link>ExeDependencies\x64\Debug\CefSharp.BrowserSubprocess.exe</Link>
     </Content>
-    <Content Include="..\x64\Release\CefSharp.BrowserSubprocess.exe">
+    <Content Include="..\CefSharp.BrowserSubprocess\bin\x64\Release\CefSharp.BrowserSubprocess.exe">
       <Link>ExeDependencies\x64\Release\CefSharp.BrowserSubprocess.exe</Link>
     </Content>
   </ItemGroup>
@@ -177,7 +177,7 @@
       <CefBinaries Include="$(SolutionDir)CEF\$(UnmanagedPlatform)\*.*" />
       <LocaleFiles Include="$(SolutionDir)CEF\locales\*.*" />
       <!-- We only need the .exe and .pdb but I don't know how to express that easily with MSBuild... -->
-      <SubProcessFiles Include="$(SolutionDir)$(UnmanagedPlatform)\$(Configuration)\CefSharp.BrowserSubprocess.*" />
+      <SubProcessFiles Include="$(SolutionDir)\CefSharp.BrowserSubprocess\bin\$(Platform)\$(Configuration)\CefSharp.BrowserSubprocess.*" />
     </ItemGroup>
     <Copy SourceFiles="@(CefBinaries)" DestinationFolder="$(TargetDir)" />
     <Copy SourceFiles="@(LocaleFiles)" DestinationFolder="$(TargetDir)locales" />

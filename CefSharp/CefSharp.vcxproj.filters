@@ -21,6 +21,12 @@
     <Filter Include="Header Files\Internals\JavascriptBinding">
       <UniqueIdentifier>{4bc3c074-5cd6-4061-a5b8-b1b43688a707}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Wrappers">
+      <UniqueIdentifier>{b5511138-8f2e-4ace-9e68-76929de8c004}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Wrappers">
+      <UniqueIdentifier>{598626f0-6a78-477c-955b-8cdf26d2cb64}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -64,6 +70,12 @@
     </ClCompile>
     <ClCompile Include="SchemeHandlerResponse.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Wrappers\GlobalMethods.cpp">
+      <Filter>Source Files\Wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="Wrappers\CefAppWrapper.cpp">
+      <Filter>Source Files\Wrappers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -154,9 +166,6 @@
     <ClInclude Include="Internals\RenderClientAdapter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CefBrowserWrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CefSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -178,9 +187,6 @@
     <ClInclude Include="ScriptException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Internals\JavascriptBinding\IJavascriptProxy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ISchemeHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -195,6 +201,21 @@
     </ClInclude>
     <ClInclude Include="CefCustomScheme.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagedCefBrowserAdapter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Wrappers\CefAppWrapper.h">
+      <Filter>Header Files\Wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="Wrappers\CefSubprocessWrapper.h">
+      <Filter>Header Files\Wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\JavascriptBinding\IJavascriptProxy.h">
+      <Filter>Header Files\Internals\JavascriptBinding</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\JavascriptBinding\JavascriptProxySupport.h">
+      <Filter>Header Files\Internals\JavascriptBinding</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -231,12 +231,16 @@
     <ClCompile Include="Internals\StringUtils.cpp" />
     <ClCompile Include="Internals\StreamAdapter.cpp" />
     <ClCompile Include="TypeUtils.cpp" />
+    <ClCompile Include="Wrappers\GlobalMethods.cpp" />
+    <ClCompile Include="Wrappers\CefAppWrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BrowserCore.h" />
     <ClInclude Include="BrowserSettings.h" />
     <ClInclude Include="Cef.h" />
     <ClInclude Include="CefCustomScheme.h" />
+    <ClInclude Include="Internals\JavascriptBinding\JavascriptProxySupport.h" />
+    <ClInclude Include="Wrappers\CefAppWrapper.h" />
     <ClInclude Include="ConsoleMessageEventArgs.h" />
     <ClInclude Include="IDownloadHandler.h" />
     <ClInclude Include="CefErrorCode.h" />
@@ -263,7 +267,7 @@
     <ClInclude Include="Internals\RenderClientAdapter.h" />
     <ClInclude Include="LoadCompletedEventArgs.h" />
     <ClInclude Include="MouseButtonType.h" />
-    <ClInclude Include="CefBrowserWrapper.h" />
+    <ClInclude Include="ManagedCefBrowserAdapter.h" />
     <ClInclude Include="Internals\RequestResponse.h" />
     <ClInclude Include="RtzCountdownEvent.h" />
     <ClInclude Include="CefSettings.h" />
@@ -276,6 +280,7 @@
     <ClInclude Include="Internals\StreamAdapter.h" />
     <ClInclude Include="TypeUtils.h" />
     <ClInclude Include="vcclr_local.h" />
+    <ClInclude Include="Wrappers\CefSubprocessWrapper.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
