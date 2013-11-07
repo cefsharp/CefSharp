@@ -1,9 +1,9 @@
-﻿using System;
+﻿using CefSharp.Example;
+using CefSharp.Wpf.Example.Mvvm;
+using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
-using CefSharp.Example;
-using CefSharp.Wpf.Example.Mvvm;
 
 namespace CefSharp.Wpf.Example.Views.Main
 {
@@ -48,6 +48,8 @@ namespace CefSharp.Wpf.Example.Views.Main
         public DelegateCommand GoCommand { get; set; }
         public DelegateCommand ViewSourceCommand { get; set; }
         public DelegateCommand HomeCommand { get; set; }
+        public DelegateCommand<string> ExecuteJavaScriptCommand { get; set; }
+        public DelegateCommand<string> EvaluateJavaScriptCommand { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -59,11 +61,24 @@ namespace CefSharp.Wpf.Example.Views.Main
             GoCommand = new DelegateCommand(Go, () => !String.IsNullOrWhiteSpace(Address));
             ViewSourceCommand = new DelegateCommand(ViewSource);
             HomeCommand = new DelegateCommand(() => AddressEditable = Address = ExamplePresenter.DefaultUrl);
+            ExecuteJavaScriptCommand = new DelegateCommand<string>(ExecuteJavaScript, s => !String.IsNullOrWhiteSpace(s));
+            EvaluateJavaScriptCommand = new DelegateCommand<string>(EvaluateJavaScript, s => !String.IsNullOrWhiteSpace(s));
 
             PropertyChanged += OnPropertyChanged;
 
             var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
             OutputMessage = version;
+        }
+
+        private void EvaluateJavaScript(string s)
+        {
+            var result = webBrowser.EvaluateScript(s) ?? "null";
+            MessageBox.Show("Result: " + result);
+        }
+
+        private void ExecuteJavaScript(string s)
+        {
+            webBrowser.ExecuteScriptAsync(s);
         }
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -120,8 +135,15 @@ namespace CefSharp.Wpf.Example.Views.Main
             Keyboard.ClearFocus();
 
             // Commented out, just want to be able to test EvaluateScript.
-            //var result = webBrowser.EvaluateScript("return 10 * 20;", null);
-            //var result2 = result;
+            try
+            {
+                var result = webBrowser.EvaluateScript("10 * 20;", null);
+                var result2 = result;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error while evaluating Javascript: " + e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void ViewSource()

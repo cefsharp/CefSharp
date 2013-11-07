@@ -4,9 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
+             xmlns:local="clr-namespace:CefSharp.Wpf.Example.Views.Main"
              mc:Ignorable="d"
              d:DesignWidth="640"
-             d:DesignHeight="480">
+             d:DesignHeight="480"
+             d:DataContext="{d:DesignInstance local:MainViewModel}">
     <Grid>
         <DockPanel>
             <DockPanel VerticalAlignment="Top"
@@ -40,35 +42,98 @@
             </DockPanel>
             <Expander VerticalAlignment="Top"
                       DockPanel.Dock="Top"
-                      Header="Tweak WPF Rendering">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Label Grid.Row="0"
-                           Grid.Column="0"
-                           Content="Angle:" />
-                    <Slider Grid.Row="0"
-                            Grid.Column="1"
-                            Name="angleSlider"
-                            Minimum="-180"
-                            Maximum="180" />
-                    <Label Grid.Row="1"
-                           Grid.Column="0"
-                           Content="Watermark Opacity:" />
-                    <Slider Grid.Row="1"
-                            Grid.Column="1"
-                            Name="opacitySlider"
-                            Minimum="0"
-                            Maximum="1"
-                            TickFrequency="0.01"
-                            Value="0.95" />
-                </Grid>
+                      Header="Miscellaneous">
+                <StackPanel>
+                    <GroupBox Header="Tweak WPF Rendering">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Row="0"
+                                   Grid.Column="0"
+                                   Content="Angle:" />
+                            <Slider Grid.Row="0"
+                                    Grid.Column="1"
+                                    Name="angleSlider"
+                                    Minimum="-180"
+                                    Maximum="180" />
+                            <Label Grid.Row="1"
+                                   Grid.Column="0"
+                                   Content="Watermark Opacity:" />
+                            <Slider Grid.Row="1"
+                                    Grid.Column="1"
+                                    Name="opacitySlider"
+                                    Minimum="0"
+                                    Maximum="1"
+                                    TickFrequency="0.01"
+                                    Value="0.95" />
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Header="Javascript Integration"
+                              Margin="0,10,0,0">
+                        <Grid Width="700">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Row="0"
+                                   Grid.Column="0">Execute Javascript (asynchronously):</Label>
+                            <TextBox x:Name="ExecuteJavascriptTextBox"
+                                     Grid.Row="0"
+                                     Grid.Column="1"
+                                     Margin="0,0,0,5">
+                                <TextBox.InputBindings>
+                                    <KeyBinding Key="Enter"
+                                                Command="{Binding ExecuteJavaScriptCommand}"
+                                                CommandParameter="{Binding Text, RelativeSource={RelativeSource AncestorType=TextBox}}" />
+                                </TextBox.InputBindings>
+
+                                alert('Hello World, do you copy?')
+                            </TextBox>
+                            <Button Grid.Row="0"
+                                    Grid.Column="2"
+                                    Content="Run"
+                                    Margin="10,0,0,3"
+                                    Padding="5,2"
+                                    Command="{Binding ExecuteJavaScriptCommand}"
+                                    CommandParameter="{Binding Text, ElementName=ExecuteJavascriptTextBox}" />
+
+                            <Label Grid.Row="2"
+                                   Grid.Column="0">Evaluate Javascript (and display result):</Label>
+                            <TextBox x:Name="EvaluateJavascriptTextBox"
+                                     Grid.Row="2"
+                                     Grid.Column="1"
+                                     Margin="0,5,0,0">
+                                <TextBox.InputBindings>
+                                    <KeyBinding Key="Enter"
+                                                Command="{Binding EvaluateJavaScriptCommand}"
+                                                CommandParameter="{Binding Text, RelativeSource={RelativeSource AncestorType=TextBox}}" />
+                                </TextBox.InputBindings>
+                                                                
+                                $.get('body').length
+                            </TextBox>
+                            <Button Grid.Row="2"
+                                    Grid.Column="2"
+                                    Content="Run"
+                                    Margin="10,3,0,0"
+                                    Padding="5,2"
+                                    Command="{Binding EvaluateJavaScriptCommand}"
+                                    CommandParameter="{Binding Text, ElementName=EvaluateJavascriptTextBox}" />
+                        </Grid>
+                    </GroupBox>
+                </StackPanel>
             </Expander>
             <StatusBar DockPanel.Dock="Bottom">
                 <ProgressBar HorizontalAlignment="Right"
