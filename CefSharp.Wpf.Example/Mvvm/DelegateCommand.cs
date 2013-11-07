@@ -22,7 +22,7 @@ namespace CefSharp.Wpf.Example.Mvvm
         public bool CanExecute(object parameter)
         {
             return
-                canExecuteHandler == null || 
+                canExecuteHandler == null ||
                 canExecuteHandler();
         }
 
