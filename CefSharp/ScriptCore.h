@@ -18,7 +18,6 @@ namespace CefSharp
 
         bool TryGetMainFrame(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame>& frame);
         void UIT_Execute(CefRefPtr<CefBrowser> browser, CefString script);
-        void UIT_Evaluate(CefRefPtr<CefBrowser> browser, CefString script);
 
     public:
         ScriptCore()
@@ -27,7 +26,6 @@ namespace CefSharp
         }
 
         DECL void Execute(CefRefPtr<CefBrowser> browser, CefString script);
-        DECL gcroot<Object^> Evaluate(CefRefPtr<CefBrowser> browser, CefString script, DWORD timeout);
 
         IMPLEMENT_LOCKING(ScriptCore);
         IMPLEMENT_REFCOUNTING(ScriptCore);

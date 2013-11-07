@@ -31,21 +31,6 @@ namespace CefSharp
         }
     }
 
-    void ScriptCore::UIT_Evaluate(CefRefPtr<CefBrowser> browser, CefString script)
-    {
-        CefRefPtr<CefFrame> mainFrame;
-        if (TryGetMainFrame(browser, mainFrame))
-        {
-            // TODO: fails, most likely because we are not in the render process.
-        }
-        else
-        {
-            _exceptionMessage = "Failed to obtain reference to main frame";
-        }
-
-        SetEvent(_event);
-    }
-
     void ScriptCore::Execute(CefRefPtr<CefBrowser> browser, CefString script)
     {
         if (CefCurrentlyOn(TID_UI))
@@ -54,42 +39,7 @@ namespace CefSharp
         }
         else
         {
-            CefPostTask(TID_UI, NewCefRunnableMethod(this, &ScriptCore::UIT_Execute,
-                browser, script));
-        }
-    }
-
-    gcroot<Object^> ScriptCore::Evaluate(CefRefPtr<CefBrowser> browser, CefString script, DWORD timeout)
-    {
-        AutoLock lock_scope(this);
-        _result = nullptr;
-        _exceptionMessage = nullptr;
-
-        if (CefCurrentlyOn(TID_UI))
-        {
-            UIT_Evaluate(browser, script);
-        }
-        else
-        {
-            CefPostTask(TID_UI, NewCefRunnableMethod(this, &ScriptCore::UIT_Evaluate, browser, script));
-        }
-
-        switch (WaitForSingleObject(_event, timeout))
-        {
-        case WAIT_TIMEOUT:
-            throw gcnew ScriptException("Script timed out");
-        case WAIT_ABANDONED:
-        case WAIT_FAILED:
-            throw gcnew ScriptException("Script error");
-        }
-
-        if (_exceptionMessage)
-        {
-            throw gcnew ScriptException(_exceptionMessage);
-        }
-        else
-        {
-            return _result;
+            CefPostTask(TID_UI, NewCefRunnableMethod(this, &ScriptCore::UIT_Execute, browser, script));
         }
     }
 }
