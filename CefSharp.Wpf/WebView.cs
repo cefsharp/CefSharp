@@ -706,9 +706,9 @@ namespace CefSharp.Wpf
             throw new NotImplementedException();
         }
 
-        public void ExecuteScript(string script)
+        public void ExecuteScriptAsync(string script)
         {
-            managedCefBrowserAdapter.ExecuteScript(script);
+            managedCefBrowserAdapter.ExecuteScriptAsync(script);
         }
 
         public object EvaluateScript(string script)

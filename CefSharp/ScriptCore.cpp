@@ -31,7 +31,7 @@ namespace CefSharp
         }
     }
 
-    void ScriptCore::Execute(CefRefPtr<CefBrowser> browser, CefString script)
+	void ScriptCore::ExecuteAsync(CefRefPtr<CefBrowser> browser, CefString script)
     {
         if (CefCurrentlyOn(TID_UI))
         {

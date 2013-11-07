@@ -244,13 +244,13 @@ namespace CefSharp
             }
         }
 
-        void ExecuteScript(String^ script)
+        void ExecuteScriptAsync(String^ script)
         {
             auto browser = _renderClientAdapter->GetCefBrowser();
 
             if (browser != nullptr)
             {
-                _scriptCore->Execute(browser, StringUtils::ToNative(script));
+                _scriptCore->ExecuteAsync(browser, StringUtils::ToNative(script));
             }
         }
 

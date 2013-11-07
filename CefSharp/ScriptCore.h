@@ -25,7 +25,7 @@ namespace CefSharp
             _event = CreateEvent(NULL, FALSE, FALSE, NULL);
         }
 
-        DECL void Execute(CefRefPtr<CefBrowser> browser, CefString script);
+		DECL void ExecuteAsync(CefRefPtr<CefBrowser> browser, CefString script);
 
         IMPLEMENT_LOCKING(ScriptCore);
         IMPLEMENT_REFCOUNTING(ScriptCore);
