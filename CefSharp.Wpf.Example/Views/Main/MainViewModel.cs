@@ -10,35 +10,34 @@ namespace CefSharp.Wpf.Example.Views.Main
     public class MainViewModel : INotifyPropertyChanged
     {
         private string address;
-        private IWpfWebBrowser webBrowser;
-        private string addressEditable;
-        private string title;
-        private string outputMessage;
-
         public string Address
         {
             get { return address; }
             set { PropertyChanged.ChangeAndNotify(ref address, value, () => Address); }
         }
 
+        private string addressEditable;
         public string AddressEditable
         {
             get { return addressEditable; }
             set { PropertyChanged.ChangeAndNotify(ref addressEditable, value, () => AddressEditable); }
         }
 
+        private string outputMessage;
         public string OutputMessage
         {
             get { return outputMessage; }
             set { PropertyChanged.ChangeAndNotify(ref outputMessage, value, () => OutputMessage); }
         }
 
+        private string title;
         public string Title
         {
             get { return title; }
             set { PropertyChanged.ChangeAndNotify(ref title, value, () => Title); }
         }
 
+        private IWpfWebBrowser webBrowser;
         public IWpfWebBrowser WebBrowser
         {
             get { return webBrowser; }
