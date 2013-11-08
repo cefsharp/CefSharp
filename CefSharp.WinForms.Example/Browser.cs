@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using CefSharp.Example;
+using CefSharp.WinForm;
 
 namespace CefSharp.WinForms.Example
 {
@@ -147,7 +148,7 @@ namespace CefSharp.WinForms.Example
             InitializeComponent();
             Text = "CefSharp";
 
-            web_view = new WebView("https://github.com/perlun/CefSharp", new BrowserSettings());
+            web_view = new WebView("custom://cefsharp/home", new BrowserSettings());
             web_view.Dock = DockStyle.Fill;
             toolStripContainer.ContentPanel.Controls.Add(web_view);
 
@@ -163,6 +164,11 @@ namespace CefSharp.WinForms.Example
         public void SetAddress(string address)
         {
             urlTextBox.Text = address;
+        }
+
+        public void SetAddress(Uri uri)
+        {
+            urlTextBox.Text = uri.ToString();
         }
 
         public void SetCanGoBack(bool can_go_back)

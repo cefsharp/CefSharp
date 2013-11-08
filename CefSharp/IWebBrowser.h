@@ -9,9 +9,13 @@
 #include "ConsoleMessageEventArgs.h"
 #include "LoadCompletedEventArgs.h"
 
+using namespace System;
+using namespace System::ComponentModel;
+
 namespace CefSharp
 {
     interface class IWebBrowser;
+	interface class IRequestHandler;
 
     /// <summary>
     /// A delegate type used to listen to LoadError messages.
@@ -21,7 +25,7 @@ namespace CefSharp
     /// <param name="errorText">The error text.</param>
     public delegate void LoadErrorEventHandler(String^ failedUrl, CefErrorCode errorCode, String^ errorText);
 
-    public interface class IWebBrowser
+	public interface class IWebBrowser : IDisposable, INotifyPropertyChanged
     {
         /// <summary>
         /// Event handler for receiving Javascript console messages being sent from web pages.
@@ -37,8 +41,10 @@ namespace CefSharp
         /// Event handler that will get called whenever a load error occurs.
         /// </summary>        
         event LoadErrorEventHandler^ LoadError;
-
-        /// <summary>
+		
+		void Load(String^ url);
+        
+		/// <summary>
         /// Loads custom HTML content into the web browser.
         /// </summary>
         /// <param name="html">The HTML content.</param>
@@ -70,5 +76,14 @@ namespace CefSharp
         /// <param name="script">The Javascript code that should be executed.</param>
         /// <param name="timeout">The timeout after which the Javascript code execution should be aborted.</param>
         Object^ EvaluateScript(String^ script, Nullable<TimeSpan> timeout);
+
+		property IRequestHandler^ RequestHandler;
+		property bool IsBrowserInitialized { bool get(); }
+        property bool IsLoading { bool get(); }
+        property bool CanGoBack { bool get(); }
+        property bool CanGoForward { bool get(); }
+		property String^ Address;
+        property String^ Title;
+        property String^ TooltipText;
     };
 }
