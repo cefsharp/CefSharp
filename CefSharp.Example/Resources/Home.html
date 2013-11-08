@@ -60,6 +60,7 @@
                             <a href="#features">Features</a>
                             <ul class="nav">
                                 <li><a href="#features-custom-schemes">Custom Schemes</a></li>
+                                <li><a href="#features-javascript-integration">JavaScript Integration</a></li>
                             </ul>
                         </li>
                         <li><a href="#useful-links">Useful Links</a></li>
@@ -84,12 +85,10 @@
                                 <strong>A framework</strong> for embedding web-browsing-like capabilities to a standard .NET
                                 application (WPF or Windows Forms).
                             </li>
-
                             <li>
                                 <strong>A set of high-level custom controls</strong> to make it reasonably easy to integrate
                                 these capabilities in your application.
                             </li>
-
                             <li>
                                 <strong>
                                     Built on top of <a href="http://code.google.com/p/chromiumembedded/">CEF</a>,
@@ -98,12 +97,10 @@
                         </ul>
                     </p>
                 </div>
-
                 <div class="bs-docs-section">
                     <div class="page-header">
                         <h1 id="features">Features</h1>
                     </div>
-
                     <h3>State-of-the-art HTML5 and Javascript support</h3>
                     <p>
                         Perhaps very obvious, but still worth mentioning. Since CefSharp is based on
@@ -113,15 +110,13 @@
                         <a href="http://html5test.com/compare/browser/chrome29.html">463 points out of 500</a> on
                         <a href="http://www.html5test.com">html5test.com</a>.
                     </p>
-
                     <h3>Support for both x86 and x64</h3>
                     <p>
                         Chromium 29 supports both x86 and x64, and so do we as of CefSharp 3.29.0. For the time being, it does not
                         "auto-detect" the platform being used (since this is quite complex), so you have to choose either one for
                         your project. This practically means that you will have to compile &amp; package separate
-                        binaries/installers of your app for x86 and x64 respectively.
+                        binaries/installers of your app for x86 and x64 respectively if you want/need to support both of them.
                     </p>
-
                     <h3 id="features-custom-schemes">Custom Schemes</h3>
                     <p>
                         Declare a factory class like this:
@@ -138,7 +133,6 @@
                             }
                         }
                         </pre>
-
                         ...and the actual scheme handler class like this:
 
                         <pre data-shbrush="csharp">
@@ -162,7 +156,6 @@
                                     }
                                 }
                         </pre>
-
                         Finally, you have to register this scheme handler using some code like this:
 
                         <pre data-shbrush="csharp">
@@ -180,11 +173,9 @@
                                         Cef.Initialize(settings);
                                     }
                         </pre>
-
                         It's important that the scheme registration takes place before the <code>Cef.Initialize()</code> gets
                         called. (This is different to how things was being done in CefSharp version 1.)
                     </p>
-
                     <h4>Asynchrony</h4>
                     <p>
                         CefSharp supports custom schemes using an
@@ -194,10 +185,43 @@
                         just signal using the <code>requestCompletedCallback()</code> straight away, as in the example above.
                     </p>
 
-                    <h3>Javascript integration</h3>
+                    <h3 id="features-javascript-integration">JavaScript integration</h3>
+                    <p>
+                        If you are reading this page in either one of the <strong>CefSharp.Wpf.Example</strong> or
+                        <strong>CefSharp.WinForms.Example</strong> sample applications, you can use the boxes on the right side
+                        of the screen to run arbitrary JavaScript code towards the context of this page. The C# code for performing
+                        these kinds of interactions are quite simple. Like this:
+                    </p>
+
+                    <pre data-shbrush="csharp">
+                        webBrowser.ExecuteScriptAsync(someScriptCode);
+                    </pre>
+                    
+                    <p>
+                        The code above will run the provided JavaScript snippet (which may do interesting things, like
+                        interrogating or modifying the DOM of the page, just to name one example out of many potential ones). The
+                        execution is of the "fire-and-forget" style; any result of the execution is silently disregarded. The
+                        execution is also <em>asynchronous</em> in nature, a term which means that (among other things) the method
+                        may return before the actual code has actually been executed.
+                    </p>
+                    
+                    <p>
+                        This is the preferrably approach if possible, since it does not deadlock the UI in any way. However, we
+                        realize that it's not suitable for all scenarios. Have faith &mdash; there is a solution even for cases
+                        where you <em>do</em> need to return a value. Just write your code like this:
+                    </p>
+                    
+                    <pre data-shbrush="csharp">
+                        var result = webBrowser.EvaluateScript("10 + 20");
+                    </pre>
+                                        
+                    <p>
+                        Please note that only a limited number of data types are supported when returning the result above. Simple
+                        value types (int, float, etc) and strings all work, but do not expect to be able to return other JavaScript
+                        objects.
+                    </p>
                     <h3>Hooks by which you can modify and/or override certain features of the web browsing</h3>
                 </div>
-
                 <div class="bs-docs-section">
                     <div class="page-header">
                         <h1 id="useful-links">
@@ -207,7 +231,6 @@
                     <p>
                         Here are a few pointers that might help you further explore the wonderful world of CefSharp:
                     </p>
-
                     <ul>
                         <li>The <a href="http://github.com/cefsharp/CefSharp">GitHub project page</a></li>
                         <li>
