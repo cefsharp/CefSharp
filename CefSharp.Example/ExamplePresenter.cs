@@ -5,13 +5,21 @@ namespace CefSharp.Example
 {
     public class ExamplePresenter
     {
+        // Use when debugging the actual SubProcess, to make breakpoints etc. inside that project work.
+        private const bool debuggingSubProcess = false;
+
         public static void Init()
         {
             var settings = new CefSettings
             {
                 RemoteDebuggingPort = 8088,
-                BrowserSubprocessPath = "CefSharp.BrowserSubprocess.exe"
+                BrowserSubprocessPath = "CefSharp.BrowserSubprocess.exe",
             };
+
+            if (debuggingSubProcess)
+            {
+                settings.BrowserSubprocessPath = "..\\..\\..\\..\\CefSharp.BrowserSubprocess\\bin\\x86\\Debug\\CefSharp.BrowserSubprocess.exe";
+            }
 
             settings.RegisterScheme(new CefCustomScheme
             {
