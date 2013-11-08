@@ -40,107 +40,107 @@
                     </TextBox.InputBindings>
                 </TextBox>
             </DockPanel>
-            <Expander VerticalAlignment="Top"
-                      DockPanel.Dock="Top"
-                      Header="Miscellaneous">
-                <StackPanel>
-                    <GroupBox Header="Tweak WPF Rendering">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Row="0"
-                                   Grid.Column="0"
-                                   Content="Angle:" />
-                            <Slider Grid.Row="0"
-                                    Grid.Column="1"
-                                    Name="angleSlider"
-                                    Minimum="-180"
-                                    Maximum="180" />
-                            <Label Grid.Row="1"
-                                   Grid.Column="0"
-                                   Content="Watermark Opacity:" />
-                            <Slider Grid.Row="1"
-                                    Grid.Column="1"
-                                    Name="opacitySlider"
-                                    Minimum="0"
-                                    Maximum="1"
-                                    TickFrequency="0.01"
-                                    Value="0.95" />
-                        </Grid>
-                    </GroupBox>
-                    <GroupBox Header="Javascript Integration"
-                              Margin="0,10,0,0">
-                        <Grid Width="700">
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Row="0"
-                                   Grid.Column="0">Execute Javascript (asynchronously):</Label>
-                            <TextBox x:Name="ExecuteJavascriptTextBox"
-                                     Grid.Row="0"
-                                     Grid.Column="1"
-                                     Margin="0,0,0,5">
-                                <TextBox.InputBindings>
-                                    <KeyBinding Key="Enter"
-                                                Command="{Binding ExecuteJavaScriptCommand}"
-                                                CommandParameter="{Binding Text, RelativeSource={RelativeSource AncestorType=TextBox}}" />
-                                </TextBox.InputBindings>
-
-                                alert('Hello World, do you copy?')
-                            </TextBox>
-                            <Button Grid.Row="0"
-                                    Grid.Column="2"
-                                    Content="Run"
-                                    Margin="10,0,0,3"
-                                    Padding="5,2"
-                                    Command="{Binding ExecuteJavaScriptCommand}"
-                                    CommandParameter="{Binding Text, ElementName=ExecuteJavascriptTextBox}" />
-
-                            <Label Grid.Row="2"
-                                   Grid.Column="0">Evaluate Javascript (and display result):</Label>
-                            <TextBox x:Name="EvaluateJavascriptTextBox"
-                                     Grid.Row="2"
-                                     Grid.Column="1"
-                                     Margin="0,5,0,0">
-                                <TextBox.InputBindings>
-                                    <KeyBinding Key="Enter"
-                                                Command="{Binding EvaluateJavaScriptCommand}"
-                                                CommandParameter="{Binding Text, RelativeSource={RelativeSource AncestorType=TextBox}}" />
-                                </TextBox.InputBindings>
-                                                                
-                                $.get('body').length
-                            </TextBox>
-                            <Button Grid.Row="2"
-                                    Grid.Column="2"
-                                    Content="Run"
-                                    Margin="10,3,0,0"
-                                    Padding="5,2"
-                                    Command="{Binding EvaluateJavaScriptCommand}"
-                                    CommandParameter="{Binding Text, ElementName=EvaluateJavascriptTextBox}" />
-                        </Grid>
-                    </GroupBox>
-                </StackPanel>
-            </Expander>
+            <StackPanel DockPanel.Dock="Right">
+                <GroupBox Header="Tweak WPF Rendering">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0"
+                               Grid.Column="0"
+                               Content="Angle:" />
+                        <Slider Grid.Row="0"
+                                Grid.Column="1"
+                                Name="angleSlider"
+                                Minimum="-180"
+                                Maximum="180" />
+                        <Label Grid.Row="1"
+                               Grid.Column="0"
+                               Content="Watermark Opacity:" />
+                        <Slider Grid.Row="1"
+                                Grid.Column="1"
+                                Name="opacitySlider"
+                                Minimum="0"
+                                Maximum="1"
+                                TickFrequency="0.01"
+                                Value="0.95" />
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Execute Javascript (asynchronously)">
+                    <Grid Width="300">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="75" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBox x:Name="ExecuteJavascriptTextBox"
+                                 Grid.Row="0"
+                                 AcceptsReturn="True"
+                                 Margin="6"
+                                 Text="alert('Hello World, do you copy?')">
+                            <TextBox.InputBindings>
+                                <KeyBinding Key="Enter"
+                                            Modifiers="Control"
+                                            Command="{Binding ExecuteJavaScriptCommand}"
+                                            CommandParameter="{Binding Text, RelativeSource={RelativeSource AncestorType=TextBox}}" />
+                            </TextBox.InputBindings>
+                        </TextBox>
+                        <Button Grid.Row="1"
+                                HorizontalAlignment="Left"
+                                Margin="6,0,6,6"
+                                Padding="5,2"
+                                Content="Run"
+                                Command="{Binding ExecuteJavaScriptCommand}"
+                                CommandParameter="{Binding Text, ElementName=ExecuteJavascriptTextBox}" />
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Execute Javascript (synchronously)">
+                    <Grid Width="300">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="75" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBox x:Name="EvaluateJavascriptTextBox"
+                                 Grid.Row="0"
+                                 Margin="6"
+                                 AcceptsReturn="True"
+                                 Text="$('body').children().length">
+                            <TextBox.InputBindings>
+                                <KeyBinding Key="Enter"
+                                            Modifiers="Control"
+                                            Command="{Binding EvaluateJavaScriptCommand}"
+                                            CommandParameter="{Binding Text, RelativeSource={RelativeSource AncestorType=TextBox}}" />
+                            </TextBox.InputBindings>
+                        </TextBox>
+                        <Button Grid.Row="1"
+                                HorizontalAlignment="Left"
+                                Margin="6,0"
+                                Padding="5,2"
+                                Content="Run"
+                                Command="{Binding EvaluateJavaScriptCommand}"
+                                CommandParameter="{Binding Text, ElementName=EvaluateJavascriptTextBox}" />
+                        <TextBlock Grid.Row="2"
+                                   Margin="6">Result:</TextBlock>
+                        <TextBox Grid.Row="3"
+                                 IsReadOnly="True"
+                                 Margin="6,0,6,6"
+                                 Text="{Binding EvaluateJavaScriptResult}" />
+                    </Grid>
+                </GroupBox>
+            </StackPanel>
             <StatusBar DockPanel.Dock="Bottom">
                 <ProgressBar HorizontalAlignment="Right"
                              IsIndeterminate="{Binding WebBrowser.IsLoading}"
                              Width="100"
                              Height="16"
                              Margin="3" />
+                <!-- TODO: Show hover link URL here -->
                 <Separator />
                 <TextBlock Text="{Binding OutputMessage}" />
             </StatusBar>

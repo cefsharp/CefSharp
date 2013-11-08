@@ -44,6 +44,13 @@ namespace CefSharp.Wpf.Example.Views.Main
             set { PropertyChanged.ChangeAndNotify(ref webBrowser, value, () => WebBrowser); }
         }
 
+        private object evaluateJavaScriptResult;
+        public object EvaluateJavaScriptResult
+        {
+            get { return evaluateJavaScriptResult; }
+            set { PropertyChanged.ChangeAndNotify(ref evaluateJavaScriptResult, value, () => EvaluateJavaScriptResult); }
+        }
+
         public DelegateCommand GoCommand { get; set; }
         public DelegateCommand ViewSourceCommand { get; set; }
         public DelegateCommand HomeCommand { get; set; }
@@ -73,8 +80,7 @@ namespace CefSharp.Wpf.Example.Views.Main
         {
             try
             {
-                var result = webBrowser.EvaluateScript(s) ?? "null";
-                MessageBox.Show("Result: " + result);
+                EvaluateJavaScriptResult = webBrowser.EvaluateScript(s) ?? "null";
             }
             catch (Exception e)
             {
