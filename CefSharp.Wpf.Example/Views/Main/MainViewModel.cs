@@ -72,13 +72,27 @@ namespace CefSharp.Wpf.Example.Views.Main
 
         private void EvaluateJavaScript(string s)
         {
-            var result = webBrowser.EvaluateScript(s) ?? "null";
-            MessageBox.Show("Result: " + result);
+            try
+            {
+                var result = webBrowser.EvaluateScript(s) ?? "null";
+                MessageBox.Show("Result: " + result);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error while evaluating Javascript: " + e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void ExecuteJavaScript(string s)
         {
-            webBrowser.ExecuteScriptAsync(s);
+            try
+            {
+                webBrowser.ExecuteScriptAsync(s);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error while executing Javascript: " + e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -102,7 +116,7 @@ namespace CefSharp.Wpf.Example.Views.Main
                         // TODO: This is a bit of a hack. It would be nicer/cleaner to give the webBrowser focus in the Go()
                         // TODO: method, but it seems like "something" gets messed up (= doesn't work correctly) if we give it
                         // TODO: focus "too early" in the loading process...
-                        WebBrowser.LoadCompleted += delegate { Application.Current.Dispatcher.BeginInvoke((Action) (() => webBrowser.Focus())); };
+                        WebBrowser.LoadCompleted += delegate { Application.Current.Dispatcher.BeginInvoke((Action)(() => webBrowser.Focus())); };
                     }
 
                     break;
@@ -133,17 +147,6 @@ namespace CefSharp.Wpf.Example.Views.Main
 
             // Part of the Focus hack further described in the OnPropertyChanged() method...
             Keyboard.ClearFocus();
-
-            // Commented out, just want to be able to test EvaluateScript.
-            try
-            {
-                var result = webBrowser.EvaluateScript("10 * 20;", null);
-                var result2 = result;
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Error while evaluating Javascript: " + e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
         }
 
         private void ViewSource()
