@@ -40,7 +40,8 @@
                     </TextBox.InputBindings>
                 </TextBox>
             </DockPanel>
-            <StackPanel DockPanel.Dock="Right">
+            <StackPanel DockPanel.Dock="Right"
+                        Margin="6,3">
                 <GroupBox Header="Tweak WPF Rendering">
                     <Grid>
                         <Grid.RowDefinitions>
