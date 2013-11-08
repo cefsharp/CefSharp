@@ -7,7 +7,6 @@
 #include "Stdafx.h"
 #include "BrowserSettings.h"
 #include "MouseButtonType.h"
-#include "ScriptCore.h"
 #include "Internals/JavascriptBinding/IJavascriptProxy.h"
 #include "Internals/JavascriptBinding/JavascriptProxySupport.h"
 #include "Internals/IRenderWebBrowser.h"
@@ -24,7 +23,6 @@ namespace CefSharp
     {
     private:
         RenderClientAdapter* _renderClientAdapter;
-        ScriptCore* _scriptCore;
         IJavascriptProxy^ _javaScriptProxy;
 
     public:
@@ -63,7 +61,6 @@ namespace CefSharp
         ManagedCefBrowserAdapter(IRenderWebBrowser^ offscreenBrowserControl)
         {
             _renderClientAdapter = new RenderClientAdapter(offscreenBrowserControl);
-            _scriptCore = new ScriptCore();
         }
 
         ~ManagedCefBrowserAdapter()
@@ -246,12 +243,12 @@ namespace CefSharp
 
         void ExecuteScriptAsync(String^ script)
         {
-            auto browser = _renderClientAdapter->GetCefBrowser();
+			auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
 
-            if (browser != nullptr)
-            {
-                _scriptCore->ExecuteAsync(browser, StringUtils::ToNative(script));
-            }
+			if (cefFrame != nullptr)
+			{
+				cefFrame->ExecuteJavaScript(StringUtils::ToNative(script), "about:blank", 0);
+			}
         }
 
         Object^ EvaluateScript(String^ script, TimeSpan timeout)
