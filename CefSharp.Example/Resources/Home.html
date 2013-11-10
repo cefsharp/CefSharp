@@ -189,14 +189,18 @@
                     <p>
                         If you are reading this page in either one of the <strong>CefSharp.Wpf.Example</strong> or
                         <strong>CefSharp.WinForms.Example</strong> sample applications, you can use the boxes on the right side
-                        of the screen to run arbitrary JavaScript code towards the context of this page. The C# code for performing
-                        these kinds of interactions are quite simple. Like this:
+                        of the screen to run arbitrary JavaScript code towards the context of this page. By default, the content
+                        of the block below will be modified/inspected by the script code.
+
+                        <pre id="modify-me">You can modify the value of this text field using JavaScript!</pre>
+
+                        The C# code for performing these kinds of interactions is quite simple. Like this:
                     </p>
 
                     <pre data-shbrush="csharp">
                         webBrowser.ExecuteScriptAsync(someScriptCode);
                     </pre>
-                    
+
                     <p>
                         The code above will run the provided JavaScript snippet (which may do interesting things, like
                         interrogating or modifying the DOM of the page, just to name one example out of many potential ones). The
@@ -204,17 +208,17 @@
                         execution is also <em>asynchronous</em> in nature, a term which means that (among other things) the method
                         may return before the actual code has actually been executed.
                     </p>
-                    
+
                     <p>
                         This is the preferrably approach if possible, since it does not deadlock the UI in any way. However, we
                         realize that it's not suitable for all scenarios. Have faith &mdash; there is a solution even for cases
                         where you <em>do</em> need to return a value. Just write your code like this:
                     </p>
-                    
+
                     <pre data-shbrush="csharp">
                         var result = webBrowser.EvaluateScript("10 + 20");
                     </pre>
-                                        
+
                     <p>
                         Please note that only a limited number of data types are supported when returning the result above. Simple
                         value types (int, float, etc) and strings all work, but do not expect to be able to return other JavaScript

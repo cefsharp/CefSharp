@@ -82,7 +82,7 @@
                                  Grid.Row="0"
                                  AcceptsReturn="True"
                                  Margin="6"
-                                 Text="alert('Hello World, do you copy?')">
+                                 Text="$('#modify-me').text('See how easy that was?')">
                             <TextBox.InputBindings>
                                 <KeyBinding Key="Enter"
                                             Modifiers="Control"
@@ -111,7 +111,7 @@
                                  Grid.Row="0"
                                  Margin="6"
                                  AcceptsReturn="True"
-                                 Text="$('body').children().length">
+                                 Text="$('#modify-me').text()">
                             <TextBox.InputBindings>
                                 <KeyBinding Key="Enter"
                                             Modifiers="Control"
