@@ -12,14 +12,14 @@ namespace CefSharp.WinForms.Example
             InitializeComponent();
             Text = "About CefTest";
             labelProductName.Text = AssemblyProduct;
-            labelVersion.Text = String.Format("Version {0} ", CEF.CefSharpVersion);
+            labelVersion.Text = String.Format("Version {0} ", Cef.CefSharpVersion);
             labelCopyright.Text = AssemblyCopyright;
             labelCompanyName.Text = AssemblyCompany;
             textBoxDescription.Text = "CefSharp - .Net binding for Chromium\r\n\r\n"
                 + "Built on Chromium Embedded Framework\r\n"
-                + "   - " + CEF.CefVersion + "\r\n"
+                + "   - " + Cef.CefVersion + "\r\n"
                 + "Built on Chromium\r\n"
-                + "   - " + CEF.ChromiumVersion + "\r\n";
+                + "   - " + Cef.ChromiumVersion + "\r\n";
         }
 
         #region Assembly Attribute Accessors

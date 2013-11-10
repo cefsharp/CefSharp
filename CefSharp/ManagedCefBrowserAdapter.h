@@ -275,5 +275,30 @@ namespace CefSharp
                 return nullptr;
             }
         }
+
+		void CreateBrowser(BrowserSettings^ browserSettings, IntPtr^ sourceHandle, String^ address)
+        {
+            HWND hwnd = static_cast<HWND>(sourceHandle->ToPointer());
+			RECT rect;
+			GetClientRect(hwnd, &rect);
+            CefWindowInfo window;
+            window.SetAsChild(hwnd, rect);
+            CefString addressNative = StringUtils::ToNative(address);
+
+            CefBrowserHost::CreateBrowser(window, _renderClientAdapter, addressNative,
+                *(CefBrowserSettings*) browserSettings->_internalBrowserSettings);
+        }
+
+		void OnSizeChanged(IntPtr^ sourceHandle)
+		{
+			HWND hWnd = static_cast<HWND>(sourceHandle->ToPointer());
+			RECT rect;
+			GetClientRect(hWnd, &rect);
+			HDWP hdwp = BeginDeferWindowPos(1);
+
+			HWND browserHwnd = _renderClientAdapter->GetBrowserHwnd();
+			hdwp = DeferWindowPos(hdwp, browserHwnd, NULL, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, SWP_NOZORDER);
+			EndDeferWindowPos(hdwp);
+		}
     };
 }

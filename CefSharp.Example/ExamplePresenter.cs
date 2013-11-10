@@ -1,9 +1,13 @@
 ﻿using System;
+using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text;
 
 namespace CefSharp.Example
 {
-    public class ExamplePresenter
+    public class ExamplePresenter : IRequestHandler
     {
         // Use when debugging the actual SubProcess, to make breakpoints etc. inside that project work.
         private const bool debuggingSubProcess = false;
@@ -43,7 +47,7 @@ namespace CefSharp.Example
         }
 
         public static string DefaultUrl = "custom://cefsharp/home";
-    //    private static readonly Uri resource_url = new Uri("http://test/resource/load");
+        private static readonly Uri resource_url = new Uri("http://test/resource/load");
     //    private static readonly Uri scheme_url = new Uri("test://test/SchemeTest.html");
     //    private static readonly Uri bind_url = new Uri("test://test/BindingTest.html");
     //    private static readonly Uri tooltip_url = new Uri("test://test/TooltipTest.html");
@@ -57,84 +61,88 @@ namespace CefSharp.Example
     //        "green",
     //    };
 
-    //    private readonly IWebBrowser model;
-    //    private readonly IExampleView view;
-    //    private readonly Action<Action> uiThreadInvoke;
+        private readonly IWebBrowser model;
+        private readonly IExampleView view;
+        private readonly Action<Action> uiThreadInvoke;
 
-    //    public ExamplePresenter(IWebBrowser model, IExampleView view, Action<Action> uiThreadInvoke)
-    //    {
-    //        this.model = model;
-    //        this.view = view;
-    //        this.uiThreadInvoke = uiThreadInvoke;
+        public ExamplePresenter(IWebBrowser model, IExampleView view, Action<Action> uiThreadInvoke)
+        {
+            this.model = model;
+            this.view = view;
+            this.uiThreadInvoke = uiThreadInvoke;
 
-    //        model.RequestHandler = this;
-    //        model.PropertyChanged += OnModelPropertyChanged;
-    //        model.ConsoleMessage += OnModelConsoleMessage;
+            var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}",
+                Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
+            view.DisplayOutput(version);
 
-    //        // file
-    //        view.ShowDevToolsActivated += OnViewShowDevToolsActivated;
-    //        view.CloseDevToolsActivated += OnViewCloseDevToolsActivated;
-    //        view.ExitActivated += OnViewExitActivated;
+            model.RequestHandler = this;
+            model.PropertyChanged += OnModelPropertyChanged;
+            //model.ConsoleMessage += OnModelConsoleMessage;
 
-    //        // edit
-    //        view.UndoActivated += OnViewUndoActivated;
-    //        view.RedoActivated += OnViewRedoActivated;
-    //        view.CutActivated += OnViewCutActivated;
-    //        view.CopyActivated += OnViewCopyActivated;
-    //        view.PasteActivated += OnViewPasteActivated;
-    //        view.DeleteActivated += OnViewDeleteActivated;
-    //        view.SelectAllActivated += OnViewSelectAllActivated;
+            //// file
+            //view.ShowDevToolsActivated += OnViewShowDevToolsActivated;
+            //view.CloseDevToolsActivated += OnViewCloseDevToolsActivated;
+            //view.ExitActivated += OnViewExitActivated;
 
-    //        // test
-    //        view.TestResourceLoadActivated += OnViewTestResourceLoadActivated;
-    //        view.TestSchemeLoadActivated += OnViewTestSchemeLoadActivated;
-    //        view.TestExecuteScriptActivated += OnViewTestExecuteScriptActivated;
-    //        view.TestEvaluateScriptActivated += OnViewTestEvaluateScriptActivated;
-    //        view.TestBindActivated += OnViewTestBindActivated;
-    //        view.TestConsoleMessageActivated += OnViewTestConsoleMessageActivated;
-    //        view.TestTooltipActivated += OnViewTestTooltipActivated;
-    //        view.TestPopupActivated += OnViewTestPopupActivated;
-    //        view.TestLoadStringActivated += OnViewTestLoadStringActivated;
-    //        view.TestCookieVisitorActivated += OnViewTestCookieVisitorActivated;
+            //// edit
+            //view.UndoActivated += OnViewUndoActivated;
+            //view.RedoActivated += OnViewRedoActivated;
+            //view.CutActivated += OnViewCutActivated;
+            //view.CopyActivated += OnViewCopyActivated;
+            //view.PasteActivated += OnViewPasteActivated;
+            //view.DeleteActivated += OnViewDeleteActivated;
+            //view.SelectAllActivated += OnViewSelectAllActivated;
 
-    //        // navigation
-    //        view.UrlActivated += OnViewUrlActivated;
-    //        view.ForwardActivated += OnViewForwardActivated;
-    //        view.BackActivated += OnViewBackActivated;
-    //    }
+            //// test
+            //view.TestResourceLoadActivated += OnViewTestResourceLoadActivated;
+            //view.TestSchemeLoadActivated += OnViewTestSchemeLoadActivated;
+            //view.TestExecuteScriptActivated += OnViewTestExecuteScriptActivated;
+            //view.TestEvaluateScriptActivated += OnViewTestEvaluateScriptActivated;
+            //view.TestBindActivated += OnViewTestBindActivated;
+            //view.TestConsoleMessageActivated += OnViewTestConsoleMessageActivated;
+            //view.TestTooltipActivated += OnViewTestTooltipActivated;
+            //view.TestPopupActivated += OnViewTestPopupActivated;
+            //view.TestLoadStringActivated += OnViewTestLoadStringActivated;
+            //view.TestCookieVisitorActivated += OnViewTestCookieVisitorActivated;
 
-    //    private void OnModelPropertyChanged(object sender, PropertyChangedEventArgs e)
-    //    {
-    //        switch (e.PropertyName)
-    //        {
-    //            case "IsBrowserInitialized":
-    //                if (model.IsBrowserInitialized)
-    //                {
-    //                    //model.Load(DefaultUrl);
-    //                }
-    //                break;
+            //// navigation
+            view.UrlActivated += OnViewUrlActivated;
+            //view.ForwardActivated += OnViewForwardActivated;
+            //view.BackActivated += OnViewBackActivated;
+        }
 
-    //            case "Title":
-    //                uiThreadInvoke(() => view.SetTitle(model.Title));
-    //                break;
+        private void OnModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                //case "IsBrowserInitialized":
+                //    if (model.IsBrowserInitialized)
+                //    {
+                //        //model.Load(DefaultUrl);
+                //    }
+                //    break;
 
-    //            case "Uri":
-    //                uiThreadInvoke(() => view.SetAddress(model.Address));
-    //                break;
+                case "Title":
+                    uiThreadInvoke(() => view.SetTitle(model.Title));
+                    break;
 
-    //            case "CanGoBack":
-    //                uiThreadInvoke(() => view.SetCanGoBack(model.CanGoBack));
-    //                break;
+                case "Address":
+                    uiThreadInvoke(() => view.SetAddress(model.Address));
+                    break;
 
-    //            case "CanGoForward":
-    //                uiThreadInvoke(() => view.SetCanGoForward(model.CanGoForward));
-    //                break;
+                case "CanGoBack":
+                    uiThreadInvoke(() => view.SetCanGoBack(model.CanGoBack));
+                    break;
 
-    //            case "IsLoading":
-    //                uiThreadInvoke(() => view.SetIsLoading(model.IsLoading));
-    //                break;
-    //        }
-    //    }
+                case "CanGoForward":
+                    uiThreadInvoke(() => view.SetCanGoForward(model.CanGoForward));
+                    break;
+
+                case "IsLoading":
+                    uiThreadInvoke(() => view.SetIsLoading(model.IsLoading));
+                    break;
+            }
+        }
 
     //    private void OnModelConsoleMessage(object sender, ConsoleMessageEventArgs e)
     //    {
@@ -265,10 +273,10 @@ namespace CefSharp.Example
     //        Cef.VisitAllCookies(this);
     //    }
 
-    //    private void OnViewUrlActivated(object sender, string address)
-    //    {
-    //        //model.Load(address);
-    //    }
+        private void OnViewUrlActivated(object sender, string address)
+        {
+            model.Load(address);
+        }
 
     //    private void OnViewBackActivated(object sender, EventArgs e)
     //    {
@@ -280,39 +288,39 @@ namespace CefSharp.Example
     //        model.Forward();
     //    }
 
-    //    bool IRequestHandler.OnBeforeBrowse(IWebBrowser browser, IRequest request, NavigationType naigationvType, bool isRedirect)
-    //    {
-    //        return false;
-    //    }
+        bool IRequestHandler.OnBeforeBrowse(IWebBrowser browser, IRequest request, NavigationType naigationvType, bool isRedirect)
+        {
+            return false;
+        }
 
-    //    bool IRequestHandler.OnBeforeResourceLoad(IWebBrowser browser, IRequestResponse requestResponse)
-    //    {
-    //        IRequest request = requestResponse.Request;
-    //        if (request.Url.StartsWith(resource_url.ToString()))
-    //        {
-    //            Stream resourceStream = new MemoryStream(Encoding.UTF8.GetBytes(
-    //                "<html><body><h1>Success</h1><p>This document is loaded from a System.IO.Stream</p></body></html>"));
-    //            requestResponse.RespondWith(resourceStream, "text/html");
-    //        }
+        bool IRequestHandler.OnBeforeResourceLoad(IWebBrowser browser, IRequestResponse requestResponse)
+        {
+            IRequest request = requestResponse.Request;
+            if (request.Url.StartsWith(resource_url.ToString()))
+            {
+                Stream resourceStream = new MemoryStream(Encoding.UTF8.GetBytes(
+                    "<html><body><h1>Success</h1><p>This document is loaded from a System.IO.Stream</p></body></html>"));
+                requestResponse.RespondWith(resourceStream, "text/html");
+            }
 
-    //        return false;
-    //    }
+            return false;
+        }
 
-    //    void IRequestHandler.OnResourceResponse(IWebBrowser browser, string url, int status, string statusText, string mimeType, WebHeaderCollection headers)
-    //    {
+        void IRequestHandler.OnResourceResponse(IWebBrowser browser, string url, int status, string statusText, string mimeType, WebHeaderCollection headers)
+        {
 
-    //    }
+        }
 
-    //    bool IRequestHandler.GetDownloadHandler(IWebBrowser browser, out IDownloadHandler handler)
-    //    {
-    //        handler = new DownloadHandler();
-    //        return true;
-    //    }
+        bool IRequestHandler.GetDownloadHandler(IWebBrowser browser, out IDownloadHandler handler)
+        {
+            handler = new DownloadHandler();
+            return true;
+        }
 
-    //    bool IRequestHandler.GetAuthCredentials(IWebBrowser browser, bool isProxy, string host, int port, string realm, string scheme, ref string username, ref string password)
-    //    {
-    //        return false;
-    //    }
+        bool IRequestHandler.GetAuthCredentials(IWebBrowser browser, bool isProxy, string host, int port, string realm, string scheme, ref string username, ref string password)
+        {
+            return false;
+        }
 
     //    bool ICookieVisitor.Visit(Cookie cookie, int count, int total, ref bool deleteCookie)
     //    {

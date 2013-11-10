@@ -42,6 +42,14 @@
     <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Release\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework, Version=2.6.0.12035, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -112,9 +120,9 @@
       <Project>{a4394e7b-1155-43a6-989e-8ab72dddc9e4}</Project>
       <Name>CefSharp.Example</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CefSharp.WinForms\CefSharp.WinForms.vcxproj">
-      <Project>{978c9b2b-04b6-4359-a341-ca3fcbe98d32}</Project>
-      <Name>CefSharp.WinForms</Name>
+    <ProjectReference Include="..\CefSharp.WinForm\CefSharp.WinForm.csproj">
+      <Project>{882505ad-246d-402a-8414-347efb8e2c8d}</Project>
+      <Name>CefSharp.WinForm</Name>
     </ProjectReference>
     <ProjectReference Include="..\CefSharp\CefSharp.vcxproj">
       <Project>{7b495581-2271-4f41-9476-acb86e8c864f}</Project>
