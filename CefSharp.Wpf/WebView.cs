@@ -702,8 +702,15 @@ namespace CefSharp.Wpf
             interopBitmap = null;
         }
 
+        public void ClearPopupBitmap()
+        {
+            interopPopupBitmap = null;
+        }
+
         public void SetBitmap()
         {
+            // TODO: Extract most of this out into a common helper which may be used by both the SetBitmap and SetPopupBitmap
+            // methods.
             var bitmap = interopBitmap;
 
             lock (managedCefBrowserAdapter.BitmapLock)
