@@ -110,14 +110,14 @@
       <Project>{a4394e7b-1155-43a6-989e-8ab72dddc9e4}</Project>
       <Name>CefSharp.Example</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CefSharp.WinForm\CefSharp.WinForm.csproj">
+    <ProjectReference Include="..\CefSharp.WinForms\CefSharp.WinForms.csproj">
       <Project>{882505ad-246d-402a-8414-347efb8e2c8d}</Project>
-      <Name>CefSharp.WinForm</Name>
+      <Name>CefSharp.WinForms</Name>
     </ProjectReference>
     <ProjectReference Include="..\CefSharp\CefSharp.vcxproj">
       <Project>{7b495581-2271-4f41-9476-acb86e8c864f}</Project>
-      <Project>{978C9B2B-04B6-4359-A341-CA3FCBE98D32}</Project>
-      <Name>CefSharp.WinForms</Name>
+      <Project>{7B495581-2271-4F41-9476-ACB86E8C864F}</Project>
+      <Name>CefSharp</Name>
     </ProjectReference>
     <ProjectReference Include="..\CefSharp\CefSharp.vcxproj">
       <Project>{7B495581-2271-4F41-9476-ACB86E8C864F}</Project>
