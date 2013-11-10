@@ -8,7 +8,7 @@ namespace CefSharp.WinForm
     public class WebView : Control, IRenderWebBrowser
     {
         private BrowserCore browserCore;
-        private CefBrowserWrapper cefBrowserWrapper;
+        private ManagedCefBrowserAdapter managedCefBrowserAdapter;
         public BrowserSettings BrowserSettings { get; set; }
 
         public string Title { get; set; }
@@ -43,14 +43,14 @@ namespace CefSharp.WinForm
 
         private void OnApplicationExit(object sender, EventArgs e)
         {
-            if (cefBrowserWrapper == null)
+            if (managedCefBrowserAdapter == null)
             {
                 return;
             }
 
-            cefBrowserWrapper.Close();
-            cefBrowserWrapper.Dispose();
-            cefBrowserWrapper = null;
+            managedCefBrowserAdapter.Close();
+            managedCefBrowserAdapter.Dispose();
+            managedCefBrowserAdapter = null;
         
             Cef.Shutdown();
         }
@@ -61,7 +61,7 @@ namespace CefSharp.WinForm
 
         public void Load(String url)
         {
-            cefBrowserWrapper.LoadUrl(url);
+            managedCefBrowserAdapter.LoadUrl(url);
         }
 
         public void RegisterJsObject(string name, object objectToBind)
@@ -69,7 +69,7 @@ namespace CefSharp.WinForm
             throw new NotImplementedException();
         }
 
-        public void ExecuteScript(string script)
+        public void ExecuteScriptAsync(string script)
         {
             throw new NotImplementedException();
         }
@@ -97,15 +97,15 @@ namespace CefSharp.WinForm
         protected override void OnHandleCreated(EventArgs e)
         {
             base.OnHandleCreated(e);
-            cefBrowserWrapper = new CefBrowserWrapper(this);
-            cefBrowserWrapper.CreateBrowser(BrowserSettings ?? new BrowserSettings(), Handle, browserCore.Address);
+            managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
+            managedCefBrowserAdapter.CreateBrowser(BrowserSettings ?? new BrowserSettings(), Handle, browserCore.Address);
         }
 
         protected override void OnSizeChanged(EventArgs e)
         {
             base.OnSizeChanged(e);
-            if (cefBrowserWrapper != null)
-                cefBrowserWrapper.OnSizeChanged(Handle);
+            if (managedCefBrowserAdapter != null)
+                managedCefBrowserAdapter.OnSizeChanged(Handle);
         }
 
         public void SetAddress(string address)

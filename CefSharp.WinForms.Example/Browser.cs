@@ -195,7 +195,7 @@ namespace CefSharp.WinForms.Example
 
         public void ExecuteScript(string script)
         {
-            web_view.ExecuteScript(script);
+            web_view.ExecuteScriptAsync(script);
         }
 
         public object EvaluateScript(string script)
