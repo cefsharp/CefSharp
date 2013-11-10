@@ -147,6 +147,7 @@ namespace CefSharp.WinForms.Example
         {
             InitializeComponent();
             Text = "CefSharp";
+            WindowState = FormWindowState.Maximized;
 
             web_view = new WebView("custom://cefsharp/home", new BrowserSettings());
             web_view.Dock = DockStyle.Fill;
