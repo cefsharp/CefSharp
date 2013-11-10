@@ -9,7 +9,7 @@ using namespace System::Security::Permissions;
 [assembly:AssemblyTitle("CefSharp")];
 [assembly:AssemblyCompany("The CefSharp Project")];
 [assembly:AssemblyProduct("CefSharp")];
-[assembly:AssemblyCopyright("Copyright (c) The CefSharp Project 2010-2013")];
+[assembly:AssemblyCopyright("Copyright © The CefSharp Authors 2010-2013")]
 
 [assembly:AssemblyVersion("3.29.0.0")];
 [assembly:ComVisible(false)];
