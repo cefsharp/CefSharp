@@ -7,11 +7,11 @@ namespace CefSharp.WinForms.Example
     class Program
     {
         [STAThread]
-        static void Main(string[] args)
+        static void Main()
         {
             ExamplePresenter.Init();
 
-            Browser browser = new Browser();
+            var browser = new Browser();
             Application.Run(browser);
         }
     }
