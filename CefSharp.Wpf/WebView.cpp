@@ -184,22 +184,21 @@ namespace CefSharp
 
         void WebView::OnPreviewKey(KeyEventArgs^ e)
         {
-            CefRefPtr<CefBrowser> browser;
-            if (!TryGetCefBrowser(browser))
-            {
-                return;
-            }
+           CefRefPtr<CefBrowser> browser;
+           if (!TryGetCefBrowser(browser))
+           {
+               return;
+           }
 
-            if (e->Key == Key::Tab ||
-                e->Key >= Key::Left && e->Key <= Key::Down)
-            {
-                CefBrowser::KeyType type = e->IsDown ? KT_KEYDOWN : KT_KEYUP;
-                CefKeyInfo keyInfo;
-                keyInfo.key = KeyInterop::VirtualKeyFromKey(e->Key);
-                browser->SendKeyEvent(type, keyInfo, 0);
+           if (e->Key == Key::Tab ||e->Key >= Key::Left && e->Key <= Key::Down)
+           {
+               CefBrowser::KeyType type = e->IsDown ? KT_KEYDOWN : KT_KEYUP;
+               CefKeyInfo keyInfo;
+               keyInfo.key = KeyInterop::VirtualKeyFromKey(e->Key);
+               browser->SendKeyEvent(type, keyInfo, 0);
 
-                e->Handled = true;
-            }
+               e->Handled = true;
+           }
         }
         
         void WebView::OnPreviewTextInput(TextCompositionEventArgs^ e)
