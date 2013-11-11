@@ -202,9 +202,9 @@ namespace CefSharp
             }
         }
         
-        void WebView::OnPreviewTextInput(TextCompositionEventArgs^ e)
+		void WebView::OnPreviewTextInput(TextCompositionEventArgs^ e)
 		{
-			CefRefPtr<CefBrowser> browser;
+			CefRefPtr<CefBrowser> browser; 
 			if (!TryGetCefBrowser(browser))
 			{
 				return;
