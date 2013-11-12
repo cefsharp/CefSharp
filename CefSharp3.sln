@@ -17,7 +17,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{47D0DC8C-D707-4D8A-A578-7737AA9CE79B}"
 	ProjectSection(SolutionItems) = preProject
 		CefSharp.props = CefSharp.props
-		NuGet\CefSharp.Wpf.nuspec = NuGet\CefSharp.Wpf.nuspec
 		ChangeLog.md = ChangeLog.md
 		LICENSE = LICENSE
 		README.md = README.md
@@ -33,6 +32,20 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.WinForms", "CefSharp.WinForms\CefSharp.WinForms.csproj", "{882505AD-246D-402A-8414-347EFB8E2C8D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.WinForms.Example", "CefSharp.WinForms.Example\CefSharp.WinForms.Example.csproj", "{C043FFF7-5F71-4FFC-989A-E09E18548589}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{A23AA466-1903-44F2-946D-25AD0500D56B}"
+	ProjectSection(SolutionItems) = preProject
+		NuGet\CefSharp.Core.nuspec = NuGet\CefSharp.Core.nuspec
+		NuGet\CefSharp.Core.props = NuGet\CefSharp.Core.props
+		NuGet\CefSharp.Core.targets = NuGet\CefSharp.Core.targets
+		NuGet\CefSharp.DevTools.nuspec = NuGet\CefSharp.DevTools.nuspec
+		NuGet\CefSharp.Locales.nuspec = NuGet\CefSharp.Locales.nuspec
+		NuGet\CefSharp.Multimedia.nuspec = NuGet\CefSharp.Multimedia.nuspec
+		NuGet\CefSharp.WinForms.nuspec = NuGet\CefSharp.WinForms.nuspec
+		NuGet\CefSharp.Wpf.nuspec = NuGet\CefSharp.Wpf.nuspec
+		NuGet\CefSharp.Wpf.props = NuGet\CefSharp.Wpf.props
+		NuGet\pack.bat = NuGet\pack.bat
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -109,5 +122,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A23AA466-1903-44F2-946D-25AD0500D56B} = {47D0DC8C-D707-4D8A-A578-7737AA9CE79B}
 	EndGlobalSection
 EndGlobal

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>CefSharp.Core</id>
+    <version>$version$</version>
+    <authors>The CefSharp Authors</authors>
+    <owners>The CefSharp Authors</owners>
+    <projectUrl>https://github.com/cefsharp/cefsharp</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>The CefSharp Chromium-based browser component (Core components, needed by both WPF and WinForms).</description>
+    <tags>chrome browser</tags>
+    <copyright>Copyright © 2010-2013 The CefSharp Authors</copyright>
+  </metadata>
+  <files>
+    <!-- CEF/Chromium files -->
+    <file src="..\CEF\Win32\icudt.dll" target="CEF\x86" />
+    <file src="..\CEF\x64\icudt.dll" target="CEF\x64" />
+    <file src="..\CEF\Win32\libcef.dll" target="CEF\x86"/>
+    <file src="..\CEF\x64\libcef.dll" target="CEF\x64"/>
+    <file src="..\CEF\locales\en-US.pak" target="CEF\locales"/>
+
+    <!-- Common CefSharp stuff (shared between both WPF and WinForms) -->
+    <file src="..\Win32\Release\CefSharp.dll" target="CefSharp\x86"/>
+    <file src="..\x64\Release\CefSharp.dll" target="CefSharp\x64"/>
+    <file src="..\CefSharp.BrowserSubprocess\bin\x86\Release\CefSharp.BrowserSubprocess.exe" target="CefSharp\x86"/>
+    <file src="..\CefSharp.BrowserSubprocess\bin\x64\Release\CefSharp.BrowserSubprocess.exe" target="CefSharp\x64"/>
+
+    <file src="CefSharp.Core.props" target="build" />
+    <file src="CefSharp.Core.targets" target="build" />
+  </files>
+</package>

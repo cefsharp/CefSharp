@@ -3,37 +3,23 @@
   <metadata>
     <id>CefSharp.Wpf</id>
     <version>$version$</version>
-    <authors>CefSharp community</authors>
-    <owners>CefSharp community</owners>
-    <projectUrl>https://github.com/perlun/cefsharp</projectUrl>
+    <authors>The CefSharp Authors</authors>
+    <owners>The CefSharp Authors</owners>
+    <projectUrl>https://github.com/cefsharp/cefsharp</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>The CefSharp Chromium-based browser component (WPF version).</description>
+    <description>The CefSharp Chromium-based browser component (WPF control).</description>
     <tags>wpf chrome browser</tags>
-  <copyright>Copyright © 2013 Per Lundberg, Anthony Taranto and others</copyright>
-    <frameworkAssemblies>
-      <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" />
-      <frameworkAssembly assemblyName="System.Windows.Browser" targetFramework="sl50" />
-      <frameworkAssembly assemblyName="System.Windows.Controls" targetFramework="sl50" />
-      <frameworkAssembly assemblyName="System.Windows.Controls.Navigation" targetFramework="sl50" />
-    </frameworkAssemblies>
+    <copyright>Copyright © 2010-2013 The CefSharp Authors</copyright>
+    <dependencies>
+      <dependency id="CefSharp.Core" version="[$version$]" />
+    </dependencies>
   </metadata>
   <files>
-    <!-- CefSharp files -->
-    <file src="..\Release\CefSharp.dll" target="lib\net40"/>
-    <file src="..\Release\CefSharp.Wpf.dll" target="lib\net40"/>
+    <!-- Cannot put these inside lib\net40 etc, since there are both x86 and x64 versions which we must distinguish between. We
+         solve this using a .props file instead. -->
+    <file src="..\CefSharp.Wpf\bin\x86\Release\CefSharp.Wpf.dll" target="CefSharp\x86" />
+    <file src="..\CefSharp.Wpf\bin\x64\Release\CefSharp.Wpf.dll" target="CefSharp\x64" />
 
-    <!-- CEF/Chromium files -->
-    <file src="..\Release\avcodec-54.dll" target="content\bin\Debug"/>
-    <file src="..\Release\avformat-54.dll" target="content\bin\Debug"/>
-    <file src="..\Release\avutil-51.dll" target="content\bin\Debug"/>
-    <file src="..\Release\icudt.dll" target="content\bin\Debug"/>
-    <file src="..\Release\libcef.dll" target="content\bin\Debug"/>
-    <file src="..\Release\libcef.dll" target="content\bin\Debug"/>
-    <file src="..\Release\libEGL.dll" target="content\bin\Debug"/>
-    <file src="..\Release\libGLESv2.dll" target="content\bin\Debug"/>
-    <file src="..\Release\devtools_resources.pak" target="content\bin\Debug\devtools_resources.pak"/>
-
-    <!-- Only including en-US for now -->
-    <file src="..\Release\locales\en-US.pak" target="content\bin\Debug\locales"/>
+    <file src="CefSharp.Wpf.props" target="build" />
   </files>
 </package>
