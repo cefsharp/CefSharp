@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace CefSharp.WinForm
+namespace CefSharp.WinForms
 {
     // TODO: Should not implement IRenderWebBrowser straight away, since it means we have to add a bunch of boilerplate properties
     // TODO: which aren't even used. The proper way would be to add another interface, which is only used for WinForms (which the
@@ -74,17 +74,22 @@ namespace CefSharp.WinForm
 
         public void ExecuteScriptAsync(string script)
         {
-            throw new NotImplementedException();
-        }
-
-        public object EvaluateScript(string script, TimeSpan? timeout)
-        {
-            throw new NotImplementedException();
+            managedCefBrowserAdapter.ExecuteScriptAsync(script);
         }
 
         public object EvaluateScript(string script)
         {
-            throw new NotImplementedException();
+            return EvaluateScript(script, timeout: null);
+        }
+
+        public object EvaluateScript(string script, TimeSpan? timeout)
+        {
+            if (timeout == null)
+            {
+                timeout = TimeSpan.MaxValue;
+            }
+
+            return managedCefBrowserAdapter.EvaluateScript(script, timeout.Value);
         }
 
         public event LoadErrorEventHandler LoadError;

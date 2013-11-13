@@ -7,8 +7,8 @@
     <ProjectGuid>{882505AD-246D-402A-8414-347EFB8E2C8D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CefSharp.WinForm</RootNamespace>
-    <AssemblyName>CefSharp.WinForm</AssemblyName>
+    <RootNamespace>CefSharp.WinForms</RootNamespace>
+    <AssemblyName>CefSharp.WinForms</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
