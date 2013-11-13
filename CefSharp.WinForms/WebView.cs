@@ -119,7 +119,11 @@ namespace CefSharp.WinForms
         public void SetAddress(string address)
         {
             browserCore.Address = address;
-            PropertyChanged(this, new PropertyChangedEventArgs("Address"));
+
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs("Address"));
+            }
         }
 
         public void SetIsLoading(bool isLoading)
