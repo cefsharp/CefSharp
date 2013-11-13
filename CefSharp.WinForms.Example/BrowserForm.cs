@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using CefSharp.Example;
-using CefSharp.WinForms;
 
 namespace CefSharp.WinForms.Example
 {
