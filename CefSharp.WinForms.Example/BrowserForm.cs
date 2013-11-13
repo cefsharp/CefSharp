@@ -154,8 +154,6 @@ namespace CefSharp.WinForms.Example
                 Dock = DockStyle.Fill
             };
             toolStripContainer.ContentPanel.Controls.Add(webView);
-
-            new ExamplePresenter(webView, this, invoke => Invoke(invoke));
         }
 
         public void SetTitle(string title)
