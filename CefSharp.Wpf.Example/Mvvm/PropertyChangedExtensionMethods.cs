@@ -30,16 +30,18 @@ namespace CefSharp.Wpf.Example.Mvvm
             field = value;
 
             var vmExpression = body.Expression as ConstantExpression;
-            if (vmExpression != null)
+            if (vmExpression == null)
             {
-                var lambda = Expression.Lambda(vmExpression);
-                var vmFunc = lambda.Compile();
-                var sender = vmFunc.DynamicInvoke();
+                return true;
+            }
 
-                if (handler != null)
-                {
-                    handler(sender, new PropertyChangedEventArgs(body.Member.Name));
-                }
+            var lambda = Expression.Lambda(vmExpression);
+            var vmFunc = lambda.Compile();
+            var sender = vmFunc.DynamicInvoke();
+
+            if (handler != null)
+            {
+                handler(sender, new PropertyChangedEventArgs(body.Member.Name));
             }
 
             return true;
