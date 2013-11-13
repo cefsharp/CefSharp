@@ -98,7 +98,6 @@
     </ApplicationDefinition>
     <Compile Include="Mvvm\DelegateCommand.cs" />
     <Compile Include="Mvvm\DelegateCommandT.cs" />
-    <Compile Include="Mvvm\PropertyChangedExtensionMethods.cs" />
     <Compile Include="Views\Main\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>

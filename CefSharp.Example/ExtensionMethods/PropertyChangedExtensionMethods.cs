@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq.Expressions;
 
-namespace CefSharp.Wpf.Example.Mvvm
+namespace CefSharp.Example
 {
     public static class PropertyChangedExtensionMethods
     {
