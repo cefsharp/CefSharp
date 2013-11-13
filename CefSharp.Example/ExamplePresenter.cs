@@ -48,35 +48,21 @@ namespace CefSharp.Example
 
         public static string DefaultUrl = "custom://cefsharp/home";
         private static readonly Uri resource_url = new Uri("http://test/resource/load");
-    //    private static readonly Uri scheme_url = new Uri("test://test/SchemeTest.html");
-    //    private static readonly Uri bind_url = new Uri("test://test/BindingTest.html");
-    //    private static readonly Uri tooltip_url = new Uri("test://test/TooltipTest.html");
-    //    private static readonly Uri popup_url = new Uri("test:/test/PopupTest.html");
-
-    //    private int color_index = 0;
-    //    private readonly string[] colors =
-    //    {
-    //        "red",
-    //        "blue",
-    //        "green",
-    //    };
 
         private readonly IWebBrowser model;
-        private readonly IExampleView view;
         private readonly Action<Action> uiThreadInvoke;
 
-        public ExamplePresenter(IWebBrowser model, IExampleView view, Action<Action> uiThreadInvoke)
+        public ExamplePresenter(IWebBrowser model, Action<Action> uiThreadInvoke)
         {
             this.model = model;
-            this.view = view;
             this.uiThreadInvoke = uiThreadInvoke;
 
             var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}",
                 Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
-            view.DisplayOutput(version);
+            //view.DisplayOutput(version);
 
             model.RequestHandler = this;
-            model.PropertyChanged += OnModelPropertyChanged;
+            //model.PropertyChanged += OnModelPropertyChanged;
             //model.ConsoleMessage += OnModelConsoleMessage;
 
             //// file
@@ -106,43 +92,38 @@ namespace CefSharp.Example
             //view.TestCookieVisitorActivated += OnViewTestCookieVisitorActivated;
 
             //// navigation
-            view.UrlActivated += OnViewUrlActivated;
+            // TODO: This one might actually be needed.
+            //view.UrlActivated += OnViewUrlActivated;
+            
             //view.ForwardActivated += OnViewForwardActivated;
             //view.BackActivated += OnViewBackActivated;
         }
 
-        private void OnModelPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                //case "IsBrowserInitialized":
-                //    if (model.IsBrowserInitialized)
-                //    {
-                //        //model.Load(DefaultUrl);
-                //    }
-                //    break;
+        //private void OnModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+        //{
+        //    switch (e.PropertyName)
+        //    {
+        //        case "Title":
+        //            uiThreadInvoke(() => view.SetTitle(model.Title));
+        //            break;
 
-                case "Title":
-                    uiThreadInvoke(() => view.SetTitle(model.Title));
-                    break;
+        //        case "Address":
+        //            uiThreadInvoke(() => view.SetAddress(model.Address));
+        //            break;
 
-                case "Address":
-                    uiThreadInvoke(() => view.SetAddress(model.Address));
-                    break;
+        //        case "CanGoBack":
+        //            uiThreadInvoke(() => view.SetCanGoBack(model.CanGoBack));
+        //            break;
 
-                case "CanGoBack":
-                    uiThreadInvoke(() => view.SetCanGoBack(model.CanGoBack));
-                    break;
+        //        case "CanGoForward":
+        //            uiThreadInvoke(() => view.SetCanGoForward(model.CanGoForward));
+        //            break;
 
-                case "CanGoForward":
-                    uiThreadInvoke(() => view.SetCanGoForward(model.CanGoForward));
-                    break;
-
-                case "IsLoading":
-                    uiThreadInvoke(() => view.SetIsLoading(model.IsLoading));
-                    break;
-            }
-        }
+        //        case "IsLoading":
+        //            uiThreadInvoke(() => view.SetIsLoading(model.IsLoading));
+        //            break;
+        //    }
+        //}
 
     //    private void OnModelConsoleMessage(object sender, ConsoleMessageEventArgs e)
     //    {
@@ -273,10 +254,11 @@ namespace CefSharp.Example
     //        Cef.VisitAllCookies(this);
     //    }
 
-        private void OnViewUrlActivated(object sender, string address)
-        {
-            model.Load(address);
-        }
+        // TODO: This one might be needed...
+        //private void OnViewUrlActivated(object sender, string address)
+        //{
+        //    model.Load(address);
+        //}
 
     //    private void OnViewBackActivated(object sender, EventArgs e)
     //    {
