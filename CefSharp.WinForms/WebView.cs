@@ -10,7 +10,7 @@ namespace CefSharp.WinForm
     // TODO: IRenderWebBrowser should then inherit from, and extend as appropriate).
     public class WebView : Control, IRenderWebBrowser
     {
-        private BrowserCore browserCore;
+        private readonly BrowserCore browserCore;
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
         public BrowserSettings BrowserSettings { get; set; }
 
@@ -38,7 +38,7 @@ namespace CefSharp.WinForm
             get { return browserCore.CanGoBack; }
         }
 
-        public WebView(string address, BrowserSettings settings)
+        public WebView(string address)
         {
             browserCore = new BrowserCore(address);
             Application.ApplicationExit += OnApplicationExit;
