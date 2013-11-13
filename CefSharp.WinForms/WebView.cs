@@ -146,66 +146,6 @@ namespace CefSharp.WinForms
             TooltipText = tooltipText;
         }
 
-        public void Stop()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ClearHistory()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ShowDevTools()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void CloseDevTools()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Undo()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Redo()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Cut()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Copy()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Paste()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SelectAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Print()
-        {
-            throw new NotImplementedException();
-        }
-
         public void OnFrameLoadStart(string url)
         {
             browserCore.OnFrameLoadStart();

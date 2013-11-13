@@ -577,11 +577,6 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter.LoadHtml(html, url);
         }
 
-        public void Stop()
-        {
-            throw new NotImplementedException();
-        }
-
         private void Back()
         {
             managedCefBrowserAdapter.GoBack();
@@ -612,58 +607,14 @@ namespace CefSharp.Wpf
             return browserCore.CanReload;
         }
 
-        public void ClearHistory()
-        {
-            throw new NotImplementedException();
-        }
-
         public void ShowDevTools()
         {
+            // TODO: Do something about this one.
             var devToolsUrl = managedCefBrowserAdapter.DevToolsUrl;
             throw new NotImplementedException();
         }
 
         public void CloseDevTools()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Undo()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Redo()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Cut()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Copy()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Paste()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SelectAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Print()
         {
             throw new NotImplementedException();
         }

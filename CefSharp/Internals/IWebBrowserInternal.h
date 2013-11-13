@@ -39,19 +39,8 @@ namespace CefSharp
         void SetNavState(bool canGoBack, bool canGoForward, bool canReload);
         void SetTitle(String^ title);
         void SetTooltipText(String^ tooltipText);
-        void Stop();
-        void ClearHistory();
         void ShowDevTools();
         void CloseDevTools();
-
-        void Undo();
-        void Redo();
-        void Cut();
-        void Copy();
-        void Paste();
-        void Delete();
-        void SelectAll();
-        void Print();
 
         void OnFrameLoadStart(String^ url);
         void OnFrameLoadEnd(String^ url);
