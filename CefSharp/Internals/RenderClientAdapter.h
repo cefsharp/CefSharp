@@ -20,6 +20,7 @@ namespace CefSharp
             public CefRenderHandler
         {
         private:
+            gcroot<IWebBrowserInternal^> _webBrowserInternal;
             gcroot<IRenderWebBrowser^> _renderWebBrowser;
             gcroot<Action^> _setBitmapDelegate;
             HANDLE _backBufferHandle;
@@ -29,16 +30,20 @@ namespace CefSharp
             int BitmapWidth;
             int BitmapHeight;
 
-            RenderClientAdapter(IRenderWebBrowser^ offscreenBrowserControl) :
-                ClientAdapter(offscreenBrowserControl),
-                BitmapWidth(0), 
+            RenderClientAdapter(IWebBrowserInternal^ webBrowserInternal) :
+                ClientAdapter(webBrowserInternal),
+                BitmapWidth(0),
                 BitmapHeight(0),
-                _backBufferHandle(NULL),
-                _renderWebBrowser(offscreenBrowserControl)
+                _webBrowserInternal(webBrowserInternal),
+                _backBufferHandle(NULL)
             {
                 BitmapLock = gcnew Object();
 
-                _setBitmapDelegate = gcnew Action(offscreenBrowserControl, &IRenderWebBrowser::SetBitmap);
+                _renderWebBrowser = dynamic_cast<IRenderWebBrowser^>(webBrowserInternal);
+                if ((IRenderWebBrowser^)_renderWebBrowser != nullptr)
+                {
+                    _setBitmapDelegate = gcnew Action(_renderWebBrowser, &IRenderWebBrowser::SetBitmap);
+                }
             }
 
             ~RenderClientAdapter()
@@ -47,12 +52,12 @@ namespace CefSharp
             }
 
             // CefClient
-            virtual CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE { return this; }
+            virtual CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE{ return this; }
 
             // CefRenderHandler
             virtual DECL bool GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) OVERRIDE
             {
-                if ((IRenderWebBrowser^) _renderWebBrowser == nullptr)
+                if ((IRenderWebBrowser^)_renderWebBrowser == nullptr)
                 {
                     return false;
                 }
@@ -78,7 +83,7 @@ namespace CefSharp
 
             virtual DECL void OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor) OVERRIDE
             {
-                _renderWebBrowser->SetCursor((IntPtr) cursor);
+                _renderWebBrowser->SetCursor((IntPtr)cursor);
             }
 
             CefRefPtr<CefBrowserHost> TryGetCefHost()
@@ -113,11 +118,11 @@ namespace CefSharp
                 lock l(BitmapLock);
 
                 int currentWidth = BitmapWidth, currentHeight = BitmapHeight;
-                auto fileMappingHandle = (HANDLE) _renderWebBrowser->FileMappingHandle, backBufferHandle = _backBufferHandle;
+                auto fileMappingHandle = (HANDLE)_renderWebBrowser->FileMappingHandle, backBufferHandle = _backBufferHandle;
 
                 SetBufferHelper(currentWidth, currentHeight, newWidth, newHeight, fileMappingHandle, backBufferHandle, buffer);
 
-                _renderWebBrowser->FileMappingHandle = (IntPtr) fileMappingHandle;
+                _renderWebBrowser->FileMappingHandle = (IntPtr)fileMappingHandle;
                 _backBufferHandle = backBufferHandle;
 
                 BitmapWidth = currentWidth;
@@ -157,13 +162,13 @@ namespace CefSharp
 
 
                     fileMappingHandle = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, numberOfBytes, NULL);
-                    if (!fileMappingHandle) 
+                    if (!fileMappingHandle)
                     {
                         return;
                     }
 
                     backBufferHandle = MapViewOfFile(fileMappingHandle, FILE_MAP_ALL_ACCESS, 0, 0, numberOfBytes);
-                    if (!backBufferHandle) 
+                    if (!backBufferHandle)
                     {
                         return;
                     }
@@ -172,7 +177,7 @@ namespace CefSharp
                     currentHeight = height;
                 }
 
-                CopyMemory(backBufferHandle, (void*) buffer, numberOfBytes);
+                CopyMemory(backBufferHandle, (void*)buffer, numberOfBytes);
             }
 
             IMPLEMENT_REFCOUNTING(RenderClientAdapterInternal)

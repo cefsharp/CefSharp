@@ -58,9 +58,9 @@ namespace CefSharp
             }
         }
 
-        ManagedCefBrowserAdapter(IRenderWebBrowser^ offscreenBrowserControl)
+        ManagedCefBrowserAdapter(IWebBrowserInternal^ webBrowserInternal)
         {
-            _renderClientAdapter = new RenderClientAdapter(offscreenBrowserControl);
+			_renderClientAdapter = new RenderClientAdapter(webBrowserInternal);
         }
 
         ~ManagedCefBrowserAdapter()

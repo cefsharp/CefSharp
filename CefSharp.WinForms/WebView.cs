@@ -8,7 +8,7 @@ namespace CefSharp.WinForms
     // TODO: Should not implement IRenderWebBrowser straight away, since it means we have to add a bunch of boilerplate properties
     // TODO: which aren't even used. The proper way would be to add another interface, which is only used for WinForms (which the
     // TODO: IRenderWebBrowser should then inherit from, and extend as appropriate).
-    public class WebView : Control, IRenderWebBrowser
+    public class WebView : Control, IWebBrowserInternal
     {
         private readonly BrowserCore browserCore;
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
@@ -29,14 +29,22 @@ namespace CefSharp.WinForms
                 browserCore.Address = value;
             }
         }
+
         bool IWebBrowser.CanGoForward
         {
             get { return browserCore.CanGoForward; }
         }
+
         bool IWebBrowser.CanGoBack
         {
             get { return browserCore.CanGoBack; }
         }
+
+        public IJsDialogHandler JsDialogHandler { get; set; }
+        public IKeyboardHandler KeyboardHandler { get; set; }
+        public IRequestHandler RequestHandler { get; set; }
+        public ILifeSpanHandler LifeSpanHandler { get; set; }
+        public bool IsBrowserInitialized { get; private set; }
 
         public WebView(string address)
         {
@@ -58,13 +66,19 @@ namespace CefSharp.WinForms
             Cef.Shutdown();
         }
 
-        public void LoadHtml(string html, string url)
+        public void OnInitialized()
         {
+            browserCore.OnInitialized();
         }
 
         public void Load(String url)
         {
             managedCefBrowserAdapter.LoadUrl(url);
+        }
+
+        public void LoadHtml(string html, string url)
+        {
+            managedCefBrowserAdapter.LoadHtml(html, url);
         }
 
         public void RegisterJsObject(string name, object objectToBind)
@@ -97,11 +111,6 @@ namespace CefSharp.WinForms
         public event ConsoleMessageEventHandler ConsoleMessage;
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void OnInitialized()
-        {
-            browserCore.OnInitialized();
-        }
-
         protected override void OnHandleCreated(EventArgs e)
         {
             base.OnHandleCreated(e);
@@ -119,11 +128,6 @@ namespace CefSharp.WinForms
         public void SetAddress(string address)
         {
             browserCore.Address = address;
-
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs("Address"));
-            }
         }
 
         public void SetIsLoading(bool isLoading)
@@ -139,6 +143,7 @@ namespace CefSharp.WinForms
         public void SetTitle(string title)
         {
             Title = title;
+            RaisePropertyChanged("Title");
         }
 
         public void SetTooltipText(string tooltipText)
@@ -187,32 +192,24 @@ namespace CefSharp.WinForms
             throw new NotImplementedException();
         }
 
-        public IJsDialogHandler JsDialogHandler { get; set; }
-        public IKeyboardHandler KeyboardHandler { get; set; }
-        public IRequestHandler RequestHandler { get; set; }
-        public ILifeSpanHandler LifeSpanHandler { get; set; }
-        public bool IsBrowserInitialized { get; private set; }
-        public void InvokeRenderAsync(Action callback)
+        public void ShowDevTools()
+        {
+            // TODO: Do something about this one.
+            var devToolsUrl = managedCefBrowserAdapter.DevToolsUrl;
+            throw new NotImplementedException();
+        }
+
+        public void CloseDevTools()
         {
             throw new NotImplementedException();
         }
 
-        public void SetCursor(IntPtr cursor)
+        private void RaisePropertyChanged(string propertyName)
         {
-            throw new NotImplementedException();
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
-
-        public void ClearBitmap()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetBitmap()
-        {
-            throw new NotImplementedException();
-        }
-
-        public int BytesPerPixel { get; private set; }
-        public IntPtr FileMappingHandle { get; set; }
     }
 }
