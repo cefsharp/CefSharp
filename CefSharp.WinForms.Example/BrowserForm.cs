@@ -67,66 +67,6 @@ namespace CefSharp.WinForms.Example
             remove { selectAllMenuItem.Click -= value; }
         }
 
-        public event EventHandler TestResourceLoadActivated
-        {
-            add { testResourceLoadMenuItem.Click += value; }
-            remove { testResourceLoadMenuItem.Click -= value; }
-        }
-
-        public event EventHandler TestSchemeLoadActivated
-        {
-            add { testSchemeLoadMenuItem.Click += value; }
-            remove { testSchemeLoadMenuItem.Click -= value; }
-        }
-
-        public event EventHandler TestExecuteScriptActivated
-        {
-            add { testExecuteScriptMenuItem.Click += value; }
-            remove { testExecuteScriptMenuItem.Click -= value; }
-        }
-
-        public event EventHandler TestEvaluateScriptActivated
-        {
-            add { testEvaluateScriptMenuItem.Click += value; }
-            remove { testEvaluateScriptMenuItem.Click -= value; }
-        }
-
-        public event EventHandler TestBindActivated
-        {
-            add { testBindMenuItem.Click += value; }
-            remove { testBindMenuItem.Click -= value; }
-        }
-
-        public event EventHandler TestConsoleMessageActivated
-        {
-            add { testConsoleMessageMenuItem.Click += value; }
-            remove { testConsoleMessageMenuItem.Click -= value; }
-        }
-
-        public event EventHandler TestTooltipActivated
-        {
-            add { testTooltipMenuItem.Click += value; }
-            remove { testTooltipMenuItem.Click -= value; }
-        }
-
-        public event EventHandler TestPopupActivated
-        {
-            add { testPopupMenuItem.Click += value; }
-            remove { testPopupMenuItem.Click -= value; }
-        }
-
-        public event EventHandler TestLoadStringActivated
-        {
-            add { testLoadStringMenuItem.Click += value; }
-            remove { testLoadStringMenuItem.Click -= value; }
-        }
-
-        public event EventHandler TestCookieVisitorActivated
-        {
-            add { testCookieVisitorMenuItem.Click += value; }
-            remove { testCookieVisitorMenuItem.Click -= value; }
-        }
-
         public event Action<object, string> UrlActivated;
 
         public event EventHandler BackActivated

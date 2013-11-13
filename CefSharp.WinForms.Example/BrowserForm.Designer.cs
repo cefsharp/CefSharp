@@ -52,17 +52,6 @@
             this.pasteMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectAllMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.testsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.testResourceLoadMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.testSchemeLoadMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.testExecuteScriptMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.testEvaluateScriptMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.testBindMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.testConsoleMessageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.testTooltipMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.testPopupMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.testLoadStringMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.testCookieVisitorMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer.ContentPanel.SuspendLayout();
             this.toolStripContainer.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer.SuspendLayout();
@@ -154,8 +143,7 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.editToolStripMenuItem,
-            this.testsToolStripMenuItem});
+            this.editToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(730, 24);
@@ -183,12 +171,14 @@
             // 
             // showDevToolsMenuItem
             // 
+            this.showDevToolsMenuItem.Enabled = false;
             this.showDevToolsMenuItem.Name = "showDevToolsMenuItem";
             this.showDevToolsMenuItem.Size = new System.Drawing.Size(158, 22);
             this.showDevToolsMenuItem.Text = "Show Dev Tools";
             // 
             // closeDevToolsMenuItem
             // 
+            this.closeDevToolsMenuItem.Enabled = false;
             this.closeDevToolsMenuItem.Name = "closeDevToolsMenuItem";
             this.closeDevToolsMenuItem.Size = new System.Drawing.Size(158, 22);
             this.closeDevToolsMenuItem.Text = "Close Dev Tools";
@@ -222,126 +212,49 @@
             // undoMenuItem
             // 
             this.undoMenuItem.Name = "undoMenuItem";
-            this.undoMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.undoMenuItem.Size = new System.Drawing.Size(152, 22);
             this.undoMenuItem.Text = "Undo";
             // 
             // redoMenuItem
             // 
             this.redoMenuItem.Name = "redoMenuItem";
-            this.redoMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.redoMenuItem.Size = new System.Drawing.Size(152, 22);
             this.redoMenuItem.Text = "Redo";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(119, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(149, 6);
             // 
             // cutMenuItem
             // 
             this.cutMenuItem.Name = "cutMenuItem";
-            this.cutMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.cutMenuItem.Size = new System.Drawing.Size(152, 22);
             this.cutMenuItem.Text = "Cut";
             // 
             // copyMenuItem
             // 
             this.copyMenuItem.Name = "copyMenuItem";
-            this.copyMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.copyMenuItem.Size = new System.Drawing.Size(152, 22);
             this.copyMenuItem.Text = "Copy";
             // 
             // pasteMenuItem
             // 
             this.pasteMenuItem.Name = "pasteMenuItem";
-            this.pasteMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.pasteMenuItem.Size = new System.Drawing.Size(152, 22);
             this.pasteMenuItem.Text = "Paste";
             // 
             // deleteMenuItem
             // 
             this.deleteMenuItem.Name = "deleteMenuItem";
-            this.deleteMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.deleteMenuItem.Size = new System.Drawing.Size(152, 22);
             this.deleteMenuItem.Text = "Delete";
             // 
             // selectAllMenuItem
             // 
             this.selectAllMenuItem.Name = "selectAllMenuItem";
-            this.selectAllMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.selectAllMenuItem.Size = new System.Drawing.Size(152, 22);
             this.selectAllMenuItem.Text = "Select All";
-            // 
-            // testsToolStripMenuItem
-            // 
-            this.testsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.testResourceLoadMenuItem,
-            this.testSchemeLoadMenuItem,
-            this.testExecuteScriptMenuItem,
-            this.testEvaluateScriptMenuItem,
-            this.testBindMenuItem,
-            this.testConsoleMessageMenuItem,
-            this.testTooltipMenuItem,
-            this.testPopupMenuItem,
-            this.testLoadStringMenuItem,
-            this.testCookieVisitorMenuItem});
-            this.testsToolStripMenuItem.Name = "testsToolStripMenuItem";
-            this.testsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
-            this.testsToolStripMenuItem.Text = "Tests";
-            // 
-            // testResourceLoadMenuItem
-            // 
-            this.testResourceLoadMenuItem.Name = "testResourceLoadMenuItem";
-            this.testResourceLoadMenuItem.Size = new System.Drawing.Size(254, 22);
-            this.testResourceLoadMenuItem.Text = "Test Resource Load Handler";
-            // 
-            // testSchemeLoadMenuItem
-            // 
-            this.testSchemeLoadMenuItem.Name = "testSchemeLoadMenuItem";
-            this.testSchemeLoadMenuItem.Size = new System.Drawing.Size(254, 22);
-            this.testSchemeLoadMenuItem.Text = "Test Scheme Handler";
-            // 
-            // testExecuteScriptMenuItem
-            // 
-            this.testExecuteScriptMenuItem.Name = "testExecuteScriptMenuItem";
-            this.testExecuteScriptMenuItem.Size = new System.Drawing.Size(254, 22);
-            this.testExecuteScriptMenuItem.Text = "Test Execute JavaScript";
-            // 
-            // testEvaluateScriptMenuItem
-            // 
-            this.testEvaluateScriptMenuItem.Name = "testEvaluateScriptMenuItem";
-            this.testEvaluateScriptMenuItem.Size = new System.Drawing.Size(254, 22);
-            this.testEvaluateScriptMenuItem.Text = "Test Evaluate JavaScript";
-            // 
-            // testBindMenuItem
-            // 
-            this.testBindMenuItem.Name = "testBindMenuItem";
-            this.testBindMenuItem.Size = new System.Drawing.Size(254, 22);
-            this.testBindMenuItem.Text = "Test Bind CLR Object to JavaScript";
-            // 
-            // testConsoleMessageMenuItem
-            // 
-            this.testConsoleMessageMenuItem.Name = "testConsoleMessageMenuItem";
-            this.testConsoleMessageMenuItem.Size = new System.Drawing.Size(254, 22);
-            this.testConsoleMessageMenuItem.Text = "Test Console Message";
-            // 
-            // testTooltipMenuItem
-            // 
-            this.testTooltipMenuItem.Name = "testTooltipMenuItem";
-            this.testTooltipMenuItem.Size = new System.Drawing.Size(254, 22);
-            this.testTooltipMenuItem.Text = "Test Tooltip";
-            // 
-            // testPopupMenuItem
-            // 
-            this.testPopupMenuItem.Name = "testPopupMenuItem";
-            this.testPopupMenuItem.Size = new System.Drawing.Size(254, 22);
-            this.testPopupMenuItem.Text = "Test Popup";
-            // 
-            // testLoadStringMenuItem
-            // 
-            this.testLoadStringMenuItem.Name = "testLoadStringMenuItem";
-            this.testLoadStringMenuItem.Size = new System.Drawing.Size(254, 22);
-            this.testLoadStringMenuItem.Text = "Test Load String";
-            // 
-            // testCookieVisitorMenuItem
-            // 
-            this.testCookieVisitorMenuItem.Name = "testCookieVisitorMenuItem";
-            this.testCookieVisitorMenuItem.Size = new System.Drawing.Size(254, 22);
-            this.testCookieVisitorMenuItem.Text = "Test Cookie Visitor";
             // 
             // BrowserForm
             // 
@@ -378,20 +291,10 @@
         private System.Windows.Forms.ToolStripTextBox urlTextBox;
         private System.Windows.Forms.ToolStripButton goButton;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem testsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem testResourceLoadMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem testExecuteScriptMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem testEvaluateScriptMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem testSchemeLoadMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem testBindMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem testConsoleMessageMenuItem;
         private System.Windows.Forms.Label outputLabel;
-        private System.Windows.Forms.ToolStripMenuItem testTooltipMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem testPopupMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem testLoadStringMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem undoMenuItem;
         private System.Windows.Forms.ToolStripMenuItem redoMenuItem;
@@ -404,7 +307,6 @@
         private System.Windows.Forms.ToolStripMenuItem showDevToolsMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeDevToolsMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
-        private System.Windows.Forms.ToolStripMenuItem testCookieVisitorMenuItem;
 
     }
 }
