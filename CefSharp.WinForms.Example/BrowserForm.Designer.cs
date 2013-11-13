@@ -1,6 +1,6 @@
 ﻿namespace CefSharp.WinForms.Example
 {
-    partial class Browser
+    partial class BrowserForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Browser));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BrowserForm));
             this.toolStripContainer = new System.Windows.Forms.ToolStripContainer();
             this.outputLabel = new System.Windows.Forms.Label();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -343,7 +343,7 @@
             this.testCookieVisitorMenuItem.Size = new System.Drawing.Size(254, 22);
             this.testCookieVisitorMenuItem.Text = "Test Cookie Visitor";
             // 
-            // Browser
+            // BrowserForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -352,8 +352,8 @@
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Browser";
-            this.Text = "Browser";
+            this.Name = "BrowserForm";
+            this.Text = "BrowserForm";
             this.toolStripContainer.ContentPanel.ResumeLayout(false);
             this.toolStripContainer.ContentPanel.PerformLayout();
             this.toolStripContainer.TopToolStripPanel.ResumeLayout(false);

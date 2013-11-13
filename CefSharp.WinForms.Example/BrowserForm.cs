@@ -5,7 +5,7 @@ using CefSharp.WinForms;
 
 namespace CefSharp.WinForms.Example
 {
-    public partial class Browser : Form, IExampleView
+    public partial class BrowserForm : Form
     {
         public event EventHandler ShowDevToolsActivated
         {
@@ -141,20 +141,21 @@ namespace CefSharp.WinForms.Example
             remove { forwardButton.Click -= value; }
         }
 
-        private readonly WebView web_view;
+        private readonly WebView webView;
 
-        public Browser()
+        public BrowserForm()
         {
             InitializeComponent();
             Text = "CefSharp";
             WindowState = FormWindowState.Maximized;
 
-            web_view = new WebView("custom://cefsharp/home");
-            web_view.Dock = DockStyle.Fill;
-            toolStripContainer.ContentPanel.Controls.Add(web_view);
+            webView = new WebView("custom://cefsharp/home")
+            {
+                Dock = DockStyle.Fill
+            };
+            toolStripContainer.ContentPanel.Controls.Add(webView);
 
-            var presenter = new ExamplePresenter(web_view, this,
-                invoke => Invoke(invoke));
+            new ExamplePresenter(webView, this, invoke => Invoke(invoke));
         }
 
         public void SetTitle(string title)
@@ -196,12 +197,12 @@ namespace CefSharp.WinForms.Example
 
         public void ExecuteScript(string script)
         {
-            web_view.ExecuteScriptAsync(script);
+            webView.ExecuteScriptAsync(script);
         }
 
         public object EvaluateScript(string script)
         {
-            return web_view.EvaluateScript(script);
+            return webView.EvaluateScript(script);
         }
 
         public void DisplayOutput(string output)
