@@ -670,13 +670,13 @@ namespace CefSharp
             _popupImage->HorizontalAlignment = ::HorizontalAlignment::Left;
             _popupImage->VerticalAlignment = ::VerticalAlignment::Top;
 
-			if (IsNonStandardDpi())
-			{
-				auto transform = GetScaleTransform();
-				_image->LayoutTransform = transform;
-				_popup->LayoutTransform = transform;
-				_popupOffsetTransform = transform;
-			}
+	    if (IsNonStandardDpi())
+	    {
+		auto transform = GetScaleTransform();
+		_image->LayoutTransform = transform;
+		_popup->LayoutTransform = transform;
+		_popupOffsetTransform = transform;
+	    }
         }
 
         bool WebView::IsNonStandardDpi()
@@ -827,11 +827,11 @@ namespace CefSharp
             _popup->Width = _popupWidth;
             _popup->Height = _popupHeight;
 
-			auto popupOffset = Point(_popupX, _popupY);
-			if(_popupOffsetTransform != nullptr) 
-			{
-				popupOffset = _popupOffsetTransform->GeneralTransform::Transform(popupOffset);
-			}
+	    auto popupOffset = Point(_popupX, _popupY);
+	    if(_popupOffsetTransform != nullptr) 
+	    {
+		popupOffset = _popupOffsetTransform->GeneralTransform::Transform(popupOffset);
+	    }
 
             _popup->HorizontalOffset = popupOffset.X;
             _popup->VerticalOffset = popupOffset.Y;
