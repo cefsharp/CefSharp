@@ -671,12 +671,12 @@ namespace CefSharp
             _popupImage->VerticalAlignment = ::VerticalAlignment::Top;
 
 			if (IsNonStandardDpi())
-            {
+			{
 				auto transform = GetScaleTransform();
-                _image->LayoutTransform = transform;
+				_image->LayoutTransform = transform;
 				_popup->LayoutTransform = transform;
 				_popupOffsetTransform = transform;
-            }
+			}
         }
 
         bool WebView::IsNonStandardDpi()
