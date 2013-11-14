@@ -50,7 +50,7 @@ namespace CefSharp
             Image^ _popupImage;
             int _popupWidth, _popupHeight, _popupX, _popupY;
             int _popupImageWidth, _popupImageHeight;
-			Transform^ _popupOffsetTransform;
+	    Transform^ _popupOffsetTransform;
             InteropBitmap^ _popupIbitmap;
             HANDLE _popupFileMappingHandle, _popupBackBufferHandle;
             ActionHandler^ _paintPopupDelegate;
