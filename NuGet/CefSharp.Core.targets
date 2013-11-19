@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="AfterBuild">
+    <ItemGroup>
+      <CefBinaries Include="$(MSBuildThisFileDirectory)..\CEF\$(Platform)\*.*" />
+      <Locales Include="$(MSBuildThisFileDirectory)..\CEF\locales\*.*" />
+      <CefSharpBinaries Include="$(MSBuildThisFileDirectory)..\CefSharp\$(Platform)\*.*" />
+    </ItemGroup>
+    <Message Importance="high" Text="Copying source files from $(MSBuildThisFileDirectory)..\CEF\$(Platform) to $(TargetDir)" />
+    <Copy SourceFiles="@(CefBinaries)" DestinationFolder="$(TargetDir)" />
+    <Message Importance="high" Text="Copying locales from $(MSBuildThisFileDirectory)..\CEF\locales to $(TargetDir)\locales" />
+    <Copy SourceFiles="@(Locales)" DestinationFolder="$(TargetDir)\locales" />
+    <Message Importance="high" Text="Copying source files from $(MSBuildThisFileDirectory)..\CefSharp\$(Platform) to $(TargetDir)" />
+    <Copy SourceFiles="@(CefSharpBinaries)" DestinationFolder="$(TargetDir)" />
+  </Target>
+</Project>
