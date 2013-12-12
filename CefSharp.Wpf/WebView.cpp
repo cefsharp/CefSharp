@@ -804,7 +804,7 @@ namespace CefSharp
         void WebView::SetPopupSizeAndPosition(const void* rect)
         {
             auto cefRect = (const CefRect*) rect;
-			
+            
             _popupX = cefRect->x;
             _popupY = cefRect->y;
             _popupWidth = cefRect->width;
