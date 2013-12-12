@@ -22,8 +22,8 @@ namespace CefSharp
         void SetCursor(IntPtr cursor);
 
         void ClearBitmap();
-		void ClearPopupBitmap();
-		void SetBitmap();
-		void SetPopupBitmap();
+        void ClearPopupBitmap();
+        void SetBitmap();
+        void SetPopupBitmap();
     };
 }
