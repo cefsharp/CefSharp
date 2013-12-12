@@ -45,5 +45,11 @@
         /// that is pressed while the ALT key is down.
         /// </summary>
         SYSCHAR = 0x0106,
+
+        /// <summary>
+        /// Sent to an application when the IME gets a character of the conversion result. A window receives this message through
+        /// its WindowProc function. 
+        /// </summary>
+        IME_CHAR = 0x0286,
     }
 }
