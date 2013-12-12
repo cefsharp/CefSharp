@@ -119,7 +119,7 @@ namespace CefSharp
                 }
 
                 CefBrowser::KeyType type;
-                if (message == WM_CHAR)
+                if (message == WM_CHAR || message== WM_IME_CHAR)
                     type = KT_CHAR;
                 else if (message == WM_KEYDOWN || message == WM_SYSKEYDOWN)
                     type = KT_KEYDOWN;
