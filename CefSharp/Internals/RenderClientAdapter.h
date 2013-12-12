@@ -22,27 +22,24 @@ namespace CefSharp
         private:
             gcroot<IWebBrowserInternal^> _webBrowserInternal;
             gcroot<IRenderWebBrowser^> _renderWebBrowser;
-            gcroot<Action^> _setBitmapDelegate;
-            HANDLE _backBufferHandle;
+            gcroot<Action<BitmapInfo^>^> _setBitmapDelegate;
 
         public:
-            gcroot<Object^> BitmapLock;
-            int BitmapWidth;
-            int BitmapHeight;
+            gcroot<BitmapInfo^> MainBitmapInfo;
+            gcroot<BitmapInfo^> PopupBitmapInfo;
 
             RenderClientAdapter(IWebBrowserInternal^ webBrowserInternal) :
                 ClientAdapter(webBrowserInternal),
-                BitmapWidth(0),
-                BitmapHeight(0),
-                _webBrowserInternal(webBrowserInternal),
-                _backBufferHandle(NULL)
+                _webBrowserInternal(webBrowserInternal)
             {
-                BitmapLock = gcnew Object();
+                MainBitmapInfo = gcnew BitmapInfo();
+                PopupBitmapInfo = gcnew BitmapInfo();
+                PopupBitmapInfo->IsPopup = true;
 
                 _renderWebBrowser = dynamic_cast<IRenderWebBrowser^>(webBrowserInternal);
                 if ((IRenderWebBrowser^)_renderWebBrowser != nullptr)
                 {
-                    _setBitmapDelegate = gcnew Action(_renderWebBrowser, &IRenderWebBrowser::SetBitmap);
+                    _setBitmapDelegate = gcnew Action<BitmapInfo^>(_renderWebBrowser, &IRenderWebBrowser::SetBitmap);
                 }
             }
 
@@ -73,11 +70,11 @@ namespace CefSharp
             {
                 if (type == PET_VIEW)
                 {
-                    SetBuffer(width, height, buffer);
+                    SetBuffer(MainBitmapInfo, width, height, buffer);
                 }
                 else if (type == PET_POPUP)
                 {
-                    SetPopupBuffer(width, height, buffer);
+                    SetBuffer(PopupBitmapInfo, width, height, buffer);
                 }
             }
 
@@ -113,63 +110,64 @@ namespace CefSharp
 
         private:
 
-            void SetBuffer(int newWidth, int newHeight, const void* buffer)
+            void SetBuffer(BitmapInfo^ bitmapInfo, int newWidth, int newHeight, const void* buffer)
             {
-                lock l(BitmapLock);
+                lock l(bitmapInfo->BitmapLock);
 
-                int currentWidth = BitmapWidth, currentHeight = BitmapHeight;
-                auto fileMappingHandle = (HANDLE)_renderWebBrowser->FileMappingHandle, backBufferHandle = _backBufferHandle;
+                int currentWidth = bitmapInfo->Width, currentHeight = bitmapInfo->Height;
+                
+                auto fileMappingHandle = (HANDLE)bitmapInfo->FileMappingHandle;
+                auto backBufferHandle = (HANDLE)bitmapInfo->BackBufferHandle;
 
-                SetBufferHelper(currentWidth, currentHeight, newWidth, newHeight, fileMappingHandle, backBufferHandle, buffer);
+                SetBufferHelper(bitmapInfo, currentWidth, currentHeight, newWidth, newHeight, &fileMappingHandle,
+                    &backBufferHandle, buffer);
 
-                _renderWebBrowser->FileMappingHandle = (IntPtr)fileMappingHandle;
-                _backBufferHandle = backBufferHandle;
+                bitmapInfo->FileMappingHandle = (IntPtr)fileMappingHandle;
+                bitmapInfo->BackBufferHandle = backBufferHandle;
 
-                BitmapWidth = currentWidth;
-                BitmapHeight = currentHeight;
+                bitmapInfo->Width = newWidth;
+                bitmapInfo->Height = newHeight;
 
-                _renderWebBrowser->InvokeRenderAsync(_setBitmapDelegate);
+                _renderWebBrowser->InvokeRenderAsync(_setBitmapDelegate, bitmapInfo);
             }
 
-            void SetPopupBuffer(int width, int height, const void* buffer)
-            {
-                // TODO: implement
-            }
-
-            void SetBufferHelper(int &currentWidth, int& currentHeight, int width, int height, HANDLE& fileMappingHandle,
-                HANDLE& backBufferHandle, const void* buffer)
+            void SetBufferHelper(BitmapInfo^ bitmapInfo, int &currentWidth, int& currentHeight, int width, int height,
+                HANDLE* fileMappingHandle, HANDLE* backBufferHandle, const void* buffer)
             {
                 int pixels = width * height;
                 int numberOfBytes = pixels * _renderWebBrowser->BytesPerPixel;
 
-                if (!backBufferHandle ||
+                if (*backBufferHandle == NULL ||
                     currentWidth != width ||
                     currentHeight != height)
                 {
-                    _renderWebBrowser->ClearBitmap();
+                    _renderWebBrowser->ClearBitmap(bitmapInfo);
 
-                    if (backBufferHandle)
+                    if (*backBufferHandle != NULL)
                     {
-                        UnmapViewOfFile(backBufferHandle);
-                        backBufferHandle = NULL;
+                        UnmapViewOfFile(*backBufferHandle);
+                        *backBufferHandle = NULL;
                     }
 
-                    if (fileMappingHandle)
+                    if (*fileMappingHandle != NULL)
                     {
-                        CloseHandle(fileMappingHandle);
-                        fileMappingHandle = NULL;
+                        CloseHandle(*fileMappingHandle);
+                        *fileMappingHandle = NULL;
                     }
 
-
-                    fileMappingHandle = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, numberOfBytes, NULL);
-                    if (!fileMappingHandle)
+                    *fileMappingHandle = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, numberOfBytes, NULL);
+                    if (*fileMappingHandle == NULL)
                     {
+                        // TODO: Consider doing something more sensible here, since the browser will be very badly broken if this
+                        // TODO: method call fails.
                         return;
                     }
 
-                    backBufferHandle = MapViewOfFile(fileMappingHandle, FILE_MAP_ALL_ACCESS, 0, 0, numberOfBytes);
-                    if (!backBufferHandle)
+                    *backBufferHandle = MapViewOfFile(*fileMappingHandle, FILE_MAP_ALL_ACCESS, 0, 0, numberOfBytes);
+                    if (*backBufferHandle == NULL)
                     {
+                        // TODO: Consider doing something more sensible here, since the browser will be very badly broken if this
+                        // TODO: method call fails.
                         return;
                     }
 
@@ -177,7 +175,7 @@ namespace CefSharp
                     currentHeight = height;
                 }
 
-                CopyMemory(backBufferHandle, (void*)buffer, numberOfBytes);
+                CopyMemory(*backBufferHandle, (void*)buffer, numberOfBytes);
             }
 
             IMPLEMENT_REFCOUNTING(RenderClientAdapterInternal)

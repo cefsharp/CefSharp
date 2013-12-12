@@ -213,6 +213,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="BitmapInfo.cpp" />
     <ClCompile Include="BrowserCore.cpp" />
     <ClCompile Include="Internals\ClientAdapter.cpp" />
     <ClCompile Include="Internals\CookieVisitor.cpp" />
@@ -240,6 +241,7 @@
     <ClInclude Include="CefCustomScheme.h" />
     <ClInclude Include="Internals\JavascriptBinding\JavascriptProxySupport.h" />
     <ClInclude Include="IWinFormsWebBrowser.h" />
+    <ClInclude Include="BitmapInfo.h" />
     <ClInclude Include="Wrappers\CefAppWrapper.h" />
     <ClInclude Include="ConsoleMessageEventArgs.h" />
     <ClInclude Include="IDownloadHandler.h" />

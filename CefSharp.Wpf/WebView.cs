@@ -29,7 +29,6 @@ namespace CefSharp.Wpf
         private bool ignoreUriChange;
 
         private Image image;
-        private InteropBitmap interopBitmap;
 
         public BrowserSettings BrowserSettings { get; set; }
         public bool IsBrowserInitialized { get; private set; }
@@ -42,8 +41,6 @@ namespace CefSharp.Wpf
         public event PropertyChangedEventHandler PropertyChanged;
         public event LoadCompletedEventHandler LoadCompleted;
         public event LoadErrorEventHandler LoadError;
-
-        public IntPtr FileMappingHandle { get; set; }
 
         public ICommand BackCommand { get; private set; }
         public ICommand ForwardCommand { get; private set; }
@@ -347,11 +344,11 @@ namespace CefSharp.Wpf
             return size;
         }
 
-        public void InvokeRenderAsync(Action callback)
+        public void InvokeRenderAsync(Action<BitmapInfo> callback, BitmapInfo bitmapInfo)
         {
             if (!Dispatcher.HasShutdownStarted)
             {
-                Dispatcher.BeginInvoke(DispatcherPriority.Render, callback);
+                Dispatcher.BeginInvoke(DispatcherPriority.Render, callback, bitmapInfo);
             }
         }
 
@@ -697,39 +694,43 @@ namespace CefSharp.Wpf
             Cursor = CursorInteropHelper.Create(new SafeFileHandle(handle, ownsHandle: false));
         }
 
-        public void ClearBitmap()
+        public void ClearBitmap(BitmapInfo bitmapInfo)
         {
-            interopBitmap = null;
+            bitmapInfo.InteropBitmap = null;
         }
 
-        public void ClearPopupBitmap()
+        public void SetBitmap(BitmapInfo bitmapInfo)
         {
-            interopPopupBitmap = null;
-        }
-
-        public void SetBitmap()
-        {
-            // TODO: Extract most of this out into a common helper which may be used by both the SetBitmap and SetPopupBitmap
-            // methods.
-            var bitmap = interopBitmap;
-
-            lock (managedCefBrowserAdapter.BitmapLock)
+            lock (bitmapInfo.BitmapLock)
             {
-                if (bitmap == null)
+                if (bitmapInfo.IsPopup)
                 {
-                    image.Source = null;
-                    GC.Collect(1);
-
-                    var stride = managedCefBrowserAdapter.BitmapWidth * BytesPerPixel;
-
-                    bitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(FileMappingHandle,
-                        managedCefBrowserAdapter.BitmapWidth, managedCefBrowserAdapter.BitmapHeight, PixelFormat, stride, 0);
-                    image.Source = bitmap;
-                    interopBitmap = bitmap;
+                    throw new NotImplementedException();
                 }
-
-                interopBitmap.Invalidate();
+                else
+                {
+                    bitmapInfo.InteropBitmap = SetBitmapHelper(bitmapInfo, (InteropBitmap)bitmapInfo.InteropBitmap, bitmap => image.Source = bitmap);
+                }
             }
+        }
+
+        private object SetBitmapHelper(BitmapInfo bitmapInfo, InteropBitmap bitmap, Action<InteropBitmap> imageSourceSetter)
+        {
+            if (bitmap == null)
+            {
+                imageSourceSetter(null);
+                GC.Collect(1);
+
+                var stride = bitmapInfo.Width * BytesPerPixel;
+
+                bitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(bitmapInfo.FileMappingHandle,
+                    bitmapInfo.Width, bitmapInfo.Height, PixelFormat, stride, 0);
+                imageSourceSetter(bitmap);
+            }
+
+            bitmap.Invalidate();
+
+            return bitmap;
         }
 
         public void ViewSource()

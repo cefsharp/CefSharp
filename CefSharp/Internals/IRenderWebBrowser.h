@@ -5,25 +5,23 @@
 #pragma once
 
 #include "Stdafx.h"
+#include "BitmapInfo.h"
 #include "IWebBrowserInternal.h"
 
 namespace CefSharp
 {
     private interface class IRenderWebBrowser : IWebBrowserInternal
     {
-        property IntPtr FileMappingHandle;
         property int BytesPerPixel { int get(); };
 
         property int Width { int get(); };
         property int Height { int get(); };
 
-        void InvokeRenderAsync(Action^ callback);
+        void InvokeRenderAsync(Action<BitmapInfo^>^ callback, BitmapInfo^ bitmapInfo);
 
         void SetCursor(IntPtr cursor);
 
-        void ClearBitmap();
-        void ClearPopupBitmap();
-        void SetBitmap();
-        void SetPopupBitmap();
+        void ClearBitmap(BitmapInfo^ bitmapInfo);
+        void SetBitmap(BitmapInfo^ bitmapInfo);
     };
 }

@@ -5,6 +5,7 @@
 #pragma once
 
 #include "Stdafx.h"
+#include "BitmapInfo.h"
 #include "BrowserSettings.h"
 #include "MouseButtonType.h"
 #include "Internals/JavascriptBinding/IJavascriptProxy.h"
@@ -26,21 +27,6 @@ namespace CefSharp
         IJavascriptProxy^ _javaScriptProxy;
 
     public:
-        property Object^ BitmapLock
-        {
-            Object^ get() { return _renderClientAdapter->BitmapLock; }
-        }
-
-        property int BitmapWidth
-        {
-            int get() { return _renderClientAdapter->BitmapWidth; }
-        }
-
-        property int BitmapHeight
-        {
-            int get() { return _renderClientAdapter->BitmapHeight; }
-        }
-
         property String^ DevToolsUrl
         {
             String^ get()
