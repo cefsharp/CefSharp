@@ -5,9 +5,6 @@ using System.Windows.Forms;
 
 namespace CefSharp.WinForms
 {
-    // TODO: Should not implement IRenderWebBrowser straight away, since it means we have to add a bunch of boilerplate properties
-    // TODO: which aren't even used. The proper way would be to add another interface, which is only used for WinForms (which the
-    // TODO: IRenderWebBrowser should then inherit from, and extend as appropriate).
     public class WebView : Control, IWebBrowserInternal
     {
         private readonly BrowserCore browserCore;
