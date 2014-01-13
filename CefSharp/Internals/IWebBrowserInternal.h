@@ -17,12 +17,6 @@ namespace CefSharp
     interface class IKeyboardHandler;
     interface class IJsDialogHandler;
 
-    // TODO: Move to the CefSharp.WinForms project once we have recreated it with C#.
-    private interface class IWinFormsWebBrowser : IWebBrowser
-    {
-        property IMenuHandler^ MenuHandler;
-    };
-
     private interface class IWebBrowserInternal : IWebBrowser
     {
         property bool IsBrowserInitialized { bool get(); }
