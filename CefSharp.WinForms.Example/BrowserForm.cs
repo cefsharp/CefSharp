@@ -93,6 +93,8 @@ namespace CefSharp.WinForms.Example
                 Dock = DockStyle.Fill
             };
             toolStripContainer.ContentPanel.Controls.Add(webView);
+            
+            webView.MenuHandler = new MenuHandler();
         }
 
         public void SetTitle(string title)
