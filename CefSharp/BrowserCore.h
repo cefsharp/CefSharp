@@ -14,7 +14,6 @@ namespace CefSharp
 {
     interface class ILifeSpanHandler;
     interface class IRequestHandler;
-    interface class IMenuHandler;
     interface class IKeyboardHandler;
     interface class IJsDialogHandler;
 
@@ -37,7 +36,6 @@ namespace CefSharp
 
         ILifeSpanHandler^ _lifeSpanHandler;
         IRequestHandler^ _requestHandler;
-        IMenuHandler^ _menuHandler;
         IKeyboardHandler^ _keyboardHandler;
         IJsDialogHandler^ _jsDialogHandler;
 
@@ -115,12 +113,6 @@ namespace CefSharp
         {
             IRequestHandler^ get() { return _requestHandler; }
             void set(IRequestHandler^ handler) { _requestHandler = handler; }
-        }
-
-        virtual property IMenuHandler^ MenuHandler
-        {
-            IMenuHandler^ get() { return _menuHandler; }
-            void set(IMenuHandler^ handler) { _menuHandler = handler; }
         }
 
         virtual property IKeyboardHandler^ KeyboardHandler
