@@ -16,6 +16,7 @@
 #include "ILifeSpanHandler.h"
 #include "IMenuHandler.h"
 #include "IRequestHandler.h"
+#include "IWinFormsWebBrowser.h"
 #include "StreamAdapter.h"
 
 using namespace std;
@@ -342,14 +343,20 @@ namespace CefSharp
         void ClientAdapter::OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
             CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model)
         {
-            // TODO: How do we handle this? Should we place IWinFormsWebBrowser in CefSharp, or have a separate interface?
-            //    IMenuHandler^ handler = _browserControl->MenuHandler;
+            // Something like this...
+            auto winFormsWebBrowserControl = dynamic_cast<IWinFormsWebBrowser^>((IWebBrowserInternal^)_browserControl);
+            if (winFormsWebBrowserControl == nullptr) return;
 
-            //    if (handler != nullptr)
-            //    {
-            //        throw gcnew NotImplementedException("IMenuHandler is not yet supported with CefSharp 3.");
-            //        //return handler->OnBeforeContextMenu(_browserControl);
-            //    }
+            IMenuHandler^ handler = winFormsWebBrowserControl->MenuHandler;
+            if (handler == nullptr) return;
+
+            auto result = handler->OnBeforeContextMenu(_browserControl);
+            if (!result) {
+                // The only way I found for preventing the context menu to be displayed is by removing all items. :-)
+                while (model->GetCount() > 0) {
+                    model->RemoveAt(0);
+                }
+            }
         }
 
         void ClientAdapter::OnTakeFocus(CefRefPtr<CefBrowser> browser, bool next)
