@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace CefSharp.WinForms
 {
-    public class WebView : Control, IWebBrowserInternal
+    public class WebView : Control, IWebBrowserInternal, IWinFormsWebBrowser
     {
         private readonly BrowserCore browserCore;
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
@@ -41,6 +41,7 @@ namespace CefSharp.WinForms
         public IKeyboardHandler KeyboardHandler { get; set; }
         public IRequestHandler RequestHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
+        public IMenuHandler MenuHandler { get; set; }
         public bool IsBrowserInitialized { get; private set; }
 
         public WebView(string address)
