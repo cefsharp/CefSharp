@@ -26,6 +26,8 @@ CefSharp/app.aps
 debug.log
 CefSharp.BrowserSubprocess/Release
 CefSharp.BrowserSubprocess/x64/Release
+CefSharp/Win32/Release
 CefSharp/x64/Release
 CefSharp.BrowserSubprocess.lib
+Win32/Release
 x64/Release
