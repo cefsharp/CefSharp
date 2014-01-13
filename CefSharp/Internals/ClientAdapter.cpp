@@ -5,18 +5,18 @@
 #include "Stdafx.h"
 
 #include "Internals/CefRequestWrapper.h"
-#include "Internals/JavascriptBinding/BindingHandler.h"
 #include "Internals/IWebBrowserInternal.h"
+#include "Internals/JavascriptBinding/BindingHandler.h"
 #include "Internals/RequestResponse.h"
 #include "ClientAdapter.h"
 #include "Cef.h"
-#include "StreamAdapter.h"
 #include "DownloadAdapter.h"
-#include "ILifeSpanHandler.h"
-#include "IRequestHandler.h"
-#include "IMenuHandler.h"
-#include "IKeyboardHandler.h"
 #include "IJsDialogHandler.h"
+#include "IKeyboardHandler.h"
+#include "ILifeSpanHandler.h"
+#include "IMenuHandler.h"
+#include "IRequestHandler.h"
+#include "StreamAdapter.h"
 
 using namespace std;
 using namespace CefSharp::Internals::JavascriptBinding;
