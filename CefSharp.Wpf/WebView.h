@@ -103,6 +103,7 @@ namespace CefSharp
             virtual void OnLostFocus(RoutedEventArgs^ e) override;
             virtual void OnPreviewKeyDown(KeyEventArgs^ e) override;
             virtual void OnPreviewKeyUp(KeyEventArgs^ e) override;
+            virtual void OnPreviewTextInput(TextCompositionEventArgs^ e) override;
 
             virtual void OnMouseMove(MouseEventArgs^ e) override;
             virtual void OnMouseWheel(MouseWheelEventArgs^ e) override;
