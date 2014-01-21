@@ -190,7 +190,8 @@ namespace CefSharp
                 return;
             }
 
-            if (e->Key == Key::Tab || e->Key >= Key::Left && e->Key <= Key::Down)
+            if (e->Key == Key::Tab ||
+                (e->Key >= Key::Left && e->Key <= Key::Down))
             {
                 CefBrowser::KeyType type = e->IsDown ? KT_KEYDOWN : KT_KEYUP;
                 CefKeyInfo keyInfo;
