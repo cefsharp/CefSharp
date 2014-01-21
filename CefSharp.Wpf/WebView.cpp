@@ -184,24 +184,42 @@ namespace CefSharp
 
         void WebView::OnPreviewKey(KeyEventArgs^ e)
         {
-            CefRefPtr<CefBrowser> browser;
-            if (!TryGetCefBrowser(browser))
-            {
-                return;
-            }
+           CefRefPtr<CefBrowser> browser;
+           if (!TryGetCefBrowser(browser))
+           {
+               return;
+           }
 
-            if (e->Key == Key::Tab ||
-                e->Key >= Key::Left && e->Key <= Key::Down)
-            {
-                CefBrowser::KeyType type = e->IsDown ? KT_KEYDOWN : KT_KEYUP;
-                CefKeyInfo keyInfo;
-                keyInfo.key = KeyInterop::VirtualKeyFromKey(e->Key);
-                browser->SendKeyEvent(type, keyInfo, 0);
+           if (e->Key == Key::Tab ||e->Key >= Key::Left && e->Key <= Key::Down)
+           {
+               CefBrowser::KeyType type = e->IsDown ? KT_KEYDOWN : KT_KEYUP;
+               CefKeyInfo keyInfo;
+               keyInfo.key = KeyInterop::VirtualKeyFromKey(e->Key);
+               browser->SendKeyEvent(type, keyInfo, 0);
 
-                e->Handled = true;
-            }
+               e->Handled = true;
+           }
         }
+        
+        void WebView::OnPreviewTextInput(TextCompositionEventArgs^ e)
+	{
+		CefRefPtr<CefBrowser> browser;
+		if (!TryGetCefBrowser(browser))
+		{
+			return;
+		}
 
+		CefBrowser::KeyType type;
+		for (int i = 0;i<e->Text->Length;i++)
+		{
+			CefKeyInfo keyInfo;
+			keyInfo.key =(int)e->Text[i];
+			type = KT_CHAR; 
+			browser->SendKeyEvent(type, keyInfo, 0);
+		}
+		e->Handled = true;
+		}
+		
         void WebView::OnMouseButton(MouseButtonEventArgs^ e)
         {
             CefRefPtr<CefBrowser> browser;
