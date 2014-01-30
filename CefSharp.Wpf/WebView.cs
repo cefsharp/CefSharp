@@ -29,6 +29,8 @@ namespace CefSharp.Wpf
         private bool ignoreUriChange;
 
         private Image image;
+        private Image popupImage;
+        private Popup popup;
 
         public BrowserSettings BrowserSettings { get; set; }
         public bool IsBrowserInitialized { get; private set; }
@@ -254,11 +256,25 @@ namespace CefSharp.Wpf
             }
 
             Content = image = new Image();
+            popup = CreatePopup();
+
             RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.NearestNeighbor);
 
             image.Stretch = Stretch.None;
             image.HorizontalAlignment = HorizontalAlignment.Left;
             image.VerticalAlignment = VerticalAlignment.Top;
+        }
+
+        private Popup CreatePopup()
+        {
+            var popup = new Popup
+            {
+                Child = popupImage = new Image(),
+                PlacementTarget = this,
+                Placement = PlacementMode.Relative
+            };
+
+            return popup;
         }
 
         private void CreateOffscreenBrowser()
@@ -420,6 +436,38 @@ namespace CefSharp.Wpf
             {
                 Address = browserCore.Address;
             }
+        }
+
+        public void SetPopupSizeAndPosition(int width, int height, int x, int y)
+        {
+            if (!Dispatcher.HasShutdownStarted)
+            {
+                Dispatcher.BeginInvoke((Action<int, int, int, int>)SetPopupSizeAndPositionImpl, width, height, x, y);
+            }
+            }
+
+        public void SetPopupIsOpen(bool isOpen)
+        {
+            if (!Dispatcher.HasShutdownStarted)
+            {
+                Dispatcher.BeginInvoke((Action)(() => popup.IsOpen = isOpen));
+            };
+        }
+
+        private void SetPopupSizeAndPositionImpl(int width, int height, int x, int y)
+        {
+            popup.Width = width;
+            popup.Height = height;
+
+            var popupOffset = new Point(x, y);
+            // TODO: Port over this from CefSharp1.
+            //if (popupOffsetTransform != null) 
+            //{
+            //    popupOffset = popupOffsetTransform->GeneralTransform::Transform(popupOffset);
+            //}
+
+            popup.HorizontalOffset = popupOffset.X;
+            popup.VerticalOffset = popupOffset.Y;
         }
 
         private void OnTooltipTimerTick(object sender, EventArgs e)
@@ -705,7 +753,7 @@ namespace CefSharp.Wpf
             {
                 if (bitmapInfo.IsPopup)
                 {
-                    throw new NotImplementedException();
+                    bitmapInfo.InteropBitmap = SetBitmapHelper(bitmapInfo, (InteropBitmap)bitmapInfo.InteropBitmap, bitmap => popupImage.Source = bitmap);
                 }
                 else
                 {

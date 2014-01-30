@@ -65,6 +65,26 @@ namespace CefSharp
                 }
             }
 
+            ///
+            // Called when the browser wants to show or hide the popup widget. The popup
+            // should be shown if |show| is true and hidden if |show| is false.
+            ///
+            /*--cef()--*/
+            virtual DECL void OnPopupShow(CefRefPtr<CefBrowser> browser, bool show) OVERRIDE
+            {
+                _renderWebBrowser->SetPopupIsOpen(show);
+            }
+
+            ///
+            // Called when the browser wants to move or resize the popup widget. |rect|
+            // contains the new location and size.
+            ///
+            /*--cef()--*/
+            virtual void OnPopupSize(CefRefPtr<CefBrowser> browser, const CefRect& rect) OVERRIDE
+            {
+                _renderWebBrowser->SetPopupSizeAndPosition(rect.width, rect.height, rect.x, rect.y);
+            }
+
             virtual DECL void OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects,
                 const void* buffer, int width, int height) OVERRIDE
             {
