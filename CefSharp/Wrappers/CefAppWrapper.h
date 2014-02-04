@@ -12,9 +12,6 @@ namespace CefSharp
 	{
 		class CefAppUnmanagedWrapper;
 
-		// TODO: Support the stuff that CefApp has. One important question is whether we go with the C++ API or make the (seemingly a bit
-		// strange) move to start using the C API instead. It may actually make it possible to write our code in a cleaner fashion. Worth
-		// thinking about.
 		public ref class CefAppWrapper
 		{
 		private:
