@@ -112,7 +112,7 @@ namespace CefSharp
             case WM_SYSCHAR:
             case WM_IME_CHAR:
                 CefRefPtr<CefBrowser> browser;
-                if (!IsFocused ||
+                if (!IsKeyboardFocused ||
                     !TryGetCefBrowser(browser))
                 {
                     break;
