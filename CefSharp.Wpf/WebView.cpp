@@ -45,6 +45,8 @@ namespace CefSharp
 
             this->Loaded +=	gcnew RoutedEventHandler(this, &WebView::OnLoaded);	
             this->Unloaded += gcnew RoutedEventHandler(this, &WebView::OnUnloaded);	
+            this->GotKeyboardFocus += gcnew KeyboardFocusChangedEventHandler(this, &WebView::OnGotKeyboardFocus);
+            this->LostKeyboardFocus += gcnew KeyboardFocusChangedEventHandler(this, &WebView::OnLostKeyboardFocus);
         }
 
         bool WebView::TryGetCefBrowser(CefRefPtr<CefBrowser>& browser)
@@ -284,18 +286,16 @@ namespace CefSharp
             return ContentControl::ArrangeOverride(size);
         }
 
-        void WebView::OnGotFocus(RoutedEventArgs^ e)
+        void WebView::OnGotKeyboardFocus(Object^ sender, KeyboardFocusChangedEventArgs^ e)
         {
             CefRefPtr<CefBrowser> browser;
             if (TryGetCefBrowser(browser))
             {
                 browser->SendFocusEvent(true);
             }
-
-            ContentControl::OnGotFocus(e);
         }
 
-        void WebView::OnLostFocus(RoutedEventArgs^ e)
+        void WebView::OnLostKeyboardFocus(Object^ sender, KeyboardFocusChangedEventArgs^ e)
         {
             CefRefPtr<CefBrowser> browser;
             if (TryGetCefBrowser(browser))
@@ -304,8 +304,6 @@ namespace CefSharp
             }
 
             HidePopup();
-
-            ContentControl::OnLostFocus(e);
         }
 
         void WebView::OnPreviewKeyDown(KeyEventArgs^ e)

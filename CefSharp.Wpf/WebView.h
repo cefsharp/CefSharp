@@ -82,6 +82,8 @@ namespace CefSharp
 
             void OnLoaded(Object^ sender, RoutedEventArgs^ e);
             void OnUnloaded(Object^ sender, RoutedEventArgs^ e);
+            void OnGotKeyboardFocus(Object^ sender, KeyboardFocusChangedEventArgs^ e);
+            void OnLostKeyboardFocus(Object^ sender, KeyboardFocusChangedEventArgs^ e);
             void OnPopupMouseMove(Object^ sender, MouseEventArgs^ e);
             void OnPopupMouseWheel(Object^ sender,MouseWheelEventArgs^ e);
             void OnPopupMouseDown(Object^ sender,MouseButtonEventArgs^ e);
@@ -99,8 +101,6 @@ namespace CefSharp
 
         protected:
             virtual Size ArrangeOverride(Size size) override;
-            virtual void OnGotFocus(RoutedEventArgs^ e) override;
-            virtual void OnLostFocus(RoutedEventArgs^ e) override;
             virtual void OnPreviewKeyDown(KeyEventArgs^ e) override;
             virtual void OnPreviewKeyUp(KeyEventArgs^ e) override;
             virtual void OnPreviewTextInput(TextCompositionEventArgs^ e) override;
