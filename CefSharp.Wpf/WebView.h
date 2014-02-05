@@ -306,7 +306,6 @@ namespace CefSharp
 
             virtual void SetPopupIsOpen(bool isOpen);
             virtual void SetPopupSizeAndPosition(const void* rect);
-
         };
     }
 }

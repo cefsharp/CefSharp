@@ -931,4 +931,5 @@ namespace CefSharp
                 }
             }
         }
-    }}
+    }
+}
