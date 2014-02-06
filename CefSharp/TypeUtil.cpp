@@ -108,7 +108,7 @@ namespace CefSharp
         if (type->IsValueType && !type->IsPrimitive && !type->IsEnum)
         {
             cli::array<System::Reflection::FieldInfo^>^ fields = type->GetFields();
-            CefRefPtr<CefV8Value> cefArray = CefV8Value::CreateArray(fields->Length);
+            CefRefPtr<CefV8Value> cefObj = CefV8Value::CreateObject(NULL);
 
             for (int i = 0; i < fields->Length; i++)
             {
@@ -122,15 +122,15 @@ namespace CefSharp
                 {
                     CefRefPtr<CefV8Value> cefVal = convertToCef(fieldVal, fieldVal->GetType());
 
-                    cefArray->SetValue(strFieldName, cefVal, V8_PROPERTY_ATTRIBUTE_NONE);
+                    cefObj->SetValue(strFieldName, cefVal, V8_PROPERTY_ATTRIBUTE_NONE);
                 }
                 else
                 {
-                    cefArray->SetValue(strFieldName, CefV8Value::CreateNull(), V8_PROPERTY_ATTRIBUTE_NONE);
+                    cefObj->SetValue(strFieldName, CefV8Value::CreateNull(), V8_PROPERTY_ATTRIBUTE_NONE);
                 }
             }
 
-            return cefArray;
+            return cefObj;
         }
         //TODO: What exception type?
         throw gcnew Exception(String::Format("Cannot convert '{0}' object from CLR to CEF.", type->FullName));
