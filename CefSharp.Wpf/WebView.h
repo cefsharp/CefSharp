@@ -98,6 +98,8 @@ namespace CefSharp
             bool IsNonStandardDpi();
             Transform^ GetScaleTransform();
 
+			void RegisterWindowHandlers();
+
         public protected: // a.k.a protected internal
             virtual void OnVisualParentChanged(DependencyObject^ oldParent) override;
 
