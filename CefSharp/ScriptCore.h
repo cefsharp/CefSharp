@@ -3,15 +3,20 @@
 
 namespace CefSharp
 {
-    class ScriptCore
+    class ScriptCore : public AppDomainSafeCefBase
     {
+    private:
+        static void _UIT_Evaluate(ScriptCore* const _this, CefRefPtr<CefBrowser> browser, CefString script);
+        static gcroot<Object^> _Evaluate(ScriptCore* const _this, CefRefPtr<CefBrowser> browser, CefString script, double timeout);
+        static void _Execute(ScriptCore* const _this, CefRefPtr<CefBrowser> browser, CefString script);
+
     private:
         HANDLE _event;
 
         gcroot<Object^> _result;
         gcroot<String^> _exceptionMessage;
 
-        bool TryGetMainFrame(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame>& frame);
+        static bool TryGetMainFrame(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame>& frame);
         void UIT_Execute(CefRefPtr<CefBrowser> browser, CefString script);
         void UIT_Evaluate(CefRefPtr<CefBrowser> browser, CefString script);
 
@@ -25,6 +30,6 @@ namespace CefSharp
         DECL gcroot<Object^> Evaluate(CefRefPtr<CefBrowser> browser, CefString script, double timeout);
 
         IMPLEMENT_LOCKING(ScriptCore);
-        IMPLEMENT_REFCOUNTING(ScriptCore);
+        IMPLEMENT_SAFE_REFCOUNTING(ScriptCore);
     };
 }

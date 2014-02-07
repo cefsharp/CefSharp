@@ -12,6 +12,14 @@ namespace CefSharp
     class RenderClientAdapter : public ClientAdapter,
                                 public CefRenderHandler
     {
+
+    private:
+        static void _SetBuffer(RenderClientAdapter* const _this, int width, int height, const void* buffer);
+        static void _SetPopupBuffer(RenderClientAdapter* const _this, int width, int height, const void* buffer);
+        static void _SetCursor(RenderClientAdapter* const _this, CefCursorHandle cursor);
+        static void _OnPopupShow(RenderClientAdapter* const _this, bool show);
+        static void _OnPopupSize(RenderClientAdapter* const _this, const CefRect* const _rect);
+
     private:
         gcroot<IRenderWebBrowser^> _renderBrowserControl;
 

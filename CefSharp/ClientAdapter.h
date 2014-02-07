@@ -18,8 +18,33 @@ namespace CefSharp
                           public CefMenuHandler,
                           public CefFocusHandler,
                           public CefKeyboardHandler,
-                          public CefJSDialogHandler
+                          public CefJSDialogHandler,
+                          public AppDomainSafeCefBase
     {
+
+    private:
+        static void _OnInitialized(ClientAdapter* const _this);
+        static void _OnBeforeClose(ClientAdapter* const _this);
+        static bool _OnBeforeBrowse(ClientAdapter* const _this, CefRefPtr<CefRequest> request, NavType navType, bool isRedirect);
+        static void _OnContextCreated(ClientAdapter* const _this, CefRefPtr<CefV8Context> context);
+        static void _SetTitle(ClientAdapter* const _this, const CefString* const _title);
+        static void _SetAddress(ClientAdapter* const _this, const CefString* const _url);
+        static void _SetNavState(ClientAdapter* const _this, bool isLoading, bool canGoBack, bool canGoForward);
+        static void _OnFrameLoadStart(ClientAdapter* const _this, CefRefPtr<CefFrame> frame);
+        static void _SetSize(ClientAdapter* const _this, int width, int height);
+        static void _OnFrameLoadEnd(ClientAdapter* const _this, CefRefPtr<CefFrame> frame);
+        static void _OnTooltip(ClientAdapter* const _this, CefString* const _text);
+        static void _OnTakeFocus(ClientAdapter* const _this, bool next);
+        static bool _OnBeforeMenu(ClientAdapter* const _this);
+        static bool _OnBeforePopup(ClientAdapter* const _this, CefWindowInfo* const _windowInfo, const CefString* const _url);
+        static bool _OnConsoleMessage(ClientAdapter* const _this, const CefString* const _message, const CefString* const _source, int line);
+        static bool _OnKeyEvent(ClientAdapter* const _this, KeyEventType type, int code, int modifiers, bool isSystemKey, bool isAfterJavaScript);
+        static bool _OnLoadError(ClientAdapter* const _this, ErrorCode errorCode, const CefString* const _failedUrl, CefString* const _errorText);
+        static bool _OnBeforeResourceLoad(ClientAdapter* const _this, CefRefPtr<CefRequest> request, CefString* const _redirectUrl, CefRefPtr<CefStreamReader>* const _resourceStream, CefRefPtr<CefResponse> response);
+        static bool _GetDownloadHandler(ClientAdapter* const _this, const CefString* const _mimeType, const CefString* const _fileName, int64 contentLength, CefRefPtr<CefDownloadHandler>* const _handler);
+        static bool _GetAuthCredentials(ClientAdapter* const _this, bool isProxy, const CefString* const _host, int port, const CefString* const _realm, const CefString* const _scheme, CefString* const _username, CefString* const _password);
+        static void _OnResourceResponse(ClientAdapter* const _this, const CefString* const _url, CefRefPtr<CefResponse> response);
+
     private:
         gcroot<IWebBrowser^> _browserControl;
         HWND _browserHwnd;
@@ -88,6 +113,6 @@ namespace CefSharp
         virtual DECL bool OnJSPrompt(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& message, const CefString& defaultValue, bool& retval,  CefString& result) OVERRIDE;
 
         IMPLEMENT_LOCKING(ClientAdapter);
-        IMPLEMENT_REFCOUNTING(ClientAdapter);
+        IMPLEMENT_SAFE_REFCOUNTING(ClientAdapter);
     };
 }

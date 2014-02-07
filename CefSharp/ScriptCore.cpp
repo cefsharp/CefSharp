@@ -27,7 +27,7 @@ namespace CefSharp
         }
     }
 
-    void ScriptCore::UIT_Evaluate(CefRefPtr<CefBrowser> browser, CefString script)
+    void ScriptCore::_UIT_Evaluate(ScriptCore* const _this, CefRefPtr<CefBrowser> browser, CefString script)
     {
         CefRefPtr<CefFrame> mainFrame;
         if (TryGetMainFrame(browser, mainFrame))
@@ -44,20 +44,20 @@ namespace CefSharp
                 {
                    try
                     {
-                        _result = convertFromCef(result);
+                        _this->_result = convertFromCef(result);
                     }
                     catch (Exception^ ex)
                     {
-                        _exceptionMessage = ex->Message;
+                        _this->_exceptionMessage = ex->Message;
                     }
                 }
                 else if (exception.get())
                 {
-                    _exceptionMessage = toClr(exception->GetMessage());
+                    _this->_exceptionMessage = toClr(exception->GetMessage());
                 }
                 else
                 {
-                    _exceptionMessage = "Failed to evaluate script";
+                    _this->_exceptionMessage = "Failed to evaluate script";
                 }
 
                 context->Exit();
@@ -65,42 +65,70 @@ namespace CefSharp
         }
         else
         {
-            _exceptionMessage = "Failed to obtain reference to main frame";
+            _this->_exceptionMessage = "Failed to obtain reference to main frame";
         }
 
-        SetEvent(_event);
+        SetEvent(_this->_event);
+    }
+
+    void ScriptCore::UIT_Evaluate(CefRefPtr<CefBrowser> browser, CefString script)
+    {
+        if (IsCrossDomainCallRequired()) {
+            msclr::call_in_appdomain(GetAppDomainId(), &_UIT_Evaluate, this, browser, script);
+        } else {
+            _UIT_Evaluate(this, browser, script);
+        }
+    }
+
+    void ScriptCore::_Execute(ScriptCore* const _this, CefRefPtr<CefBrowser> browser, CefString script)
+    {
+        if (CefCurrentlyOn(TID_UI))
+        {
+            _this->UIT_Execute(browser, script);
+        }
+        else
+        {
+            CefPostTask(TID_UI, NewCefRunnableMethod(_this, &ScriptCore::UIT_Execute,
+                browser, script));
+        }
     }
 
     void ScriptCore::Execute(CefRefPtr<CefBrowser> browser, CefString script)
     {
-        if (CefCurrentlyOn(TID_UI))
-        {
-            UIT_Execute(browser, script);
-        }
-        else
-        {
-            CefPostTask(TID_UI, NewCefRunnableMethod(this, &ScriptCore::UIT_Execute,
-                browser, script));
+        if (IsCrossDomainCallRequired()) {
+            msclr::call_in_appdomain(GetAppDomainId(), &_Execute, this, browser, script);
+        } else {
+            _Execute(this, browser, script);
         }
     }
 
     gcroot<Object^> ScriptCore::Evaluate(CefRefPtr<CefBrowser> browser, CefString script, double timeout)
     {
         AutoLock lock_scope(this);
-        _result = nullptr;
-        _exceptionMessage = nullptr;
+
+        if (IsCrossDomainCallRequired()) {
+            return msclr::call_in_appdomain(GetAppDomainId(), &_Evaluate, this, browser, script, timeout);
+        } else {
+            return _Evaluate(this, browser, script, timeout);
+        }
+    }
+
+    gcroot<Object^> ScriptCore::_Evaluate(ScriptCore* const _this, CefRefPtr<CefBrowser> browser, CefString script, double timeout)
+    {
+        _this->_result = nullptr;
+        _this->_exceptionMessage = nullptr;
 
         if (CefCurrentlyOn(TID_UI))
         {
-            UIT_Evaluate(browser, script);
+            _UIT_Evaluate(_this, browser, script);
         }
         else
         {
-            CefPostTask(TID_UI, NewCefRunnableMethod(this, &ScriptCore::UIT_Evaluate,
+            CefPostTask(TID_UI, NewCefRunnableMethod(_this, &ScriptCore::UIT_Evaluate,
                 browser, script));
         }
 
-        switch (WaitForSingleObject(_event, timeout))
+        switch (WaitForSingleObject(_this->_event, timeout))
         {
         case WAIT_TIMEOUT:
             throw gcnew ScriptException("Script timed out");
@@ -109,13 +137,13 @@ namespace CefSharp
             throw gcnew ScriptException("Script error");
         }
 
-        if (_exceptionMessage)
+        if (_this->_exceptionMessage)
         {
-            throw gcnew ScriptException(_exceptionMessage);
+            throw gcnew ScriptException(_this->_exceptionMessage);
         }
         else
         {
-            return _result;
+            return _this->_result;
         }
     }
 }
