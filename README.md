@@ -18,7 +18,7 @@ help by searching the archive to that same Google Group for previous questions.
 
 Binary releases contain everything needed to embed Chromium in your CLR application.
 
-* **Stable** (requires .NET 4): CefSharp-1.25.7 - [binaries](https://github.com/cefsharp/CefSharp/releases/download/v1.25.7/CefSharp-v1.25.7-binaries.zip),
+* **Stable** (requires .NET 4): CefSharp-1.25.7 - [binaries](https://github.com/cefsharp/CefSharp/releases/download/v1.25.7/CefSharp-binaries-v1.25.7.zip),
 [source](https://github.com/cefsharp/CefSharp/archive/v1.25.7.zip). Based on Chromium 25.0.1364.152
 * **Stable** (older release, works with .NET 2. Requires [7-Zip](http://www.7-zip.org/) to extract.): [CefSharp-1.25.0](http://sourceforge.net/projects/cefsharp/files/CefSharp-1.25.0.7z/download).
 Based on Chromium 25.0.1364.152
