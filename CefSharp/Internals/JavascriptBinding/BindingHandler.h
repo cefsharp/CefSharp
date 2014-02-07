@@ -10,7 +10,7 @@ namespace CefSharp
     {
         namespace JavascriptBinding
         {
-            private class BindingHandler : public CefV8Handler
+            private class BindingHandler : public CefV8Handler, public AppDomainSafeCefBase
             {
             public:
                 static void Bind(String^ name, Object^ obj, CefRefPtr<CefV8Value> window);          
@@ -18,6 +18,7 @@ namespace CefSharp
 
             private:
                 virtual bool Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception);
+				static bool _Execute(const CefString* const name, CefRefPtr<CefV8Value> object, const CefV8ValueList* const arguments, CefRefPtr<CefV8Value>* const  retval, CefString* const exception);
 
                 static HashSet<String^>^ GetMethodNames(Type^ type);
 

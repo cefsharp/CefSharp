@@ -29,9 +29,14 @@ namespace CefSharp
 
                 window->SetValue(toNative(name), javascriptWrapper, V8_PROPERTY_ATTRIBUTE_NONE);
             }
+			
+			bool BindingHandler::_Execute(const CefString* const _name, CefRefPtr<CefV8Value> object, const CefV8ValueList* const _arguments, CefRefPtr<CefV8Value>* const _retval, CefString* const _exception)
+			{
+				const CefString& name = *_name;
+				const CefV8ValueList& arguments = *_arguments;
+				CefRefPtr<CefV8Value>& retval = *_retval;
+				CefString& exception = *_exception;
 
-            bool BindingHandler::Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception)
-            {
                 auto unmanagedWrapper = static_cast<UnmanagedWrapper*>(object->GetUserData().get());
                 if (unmanagedWrapper == nullptr)
                 {
@@ -102,6 +107,15 @@ namespace CefSharp
                 }
                 return true;
             }
+			
+			bool BindingHandler::Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception)
+			{
+				if (IsCrossDomainCallRequired()) {
+					return msclr::call_in_appdomain(GetAppDomainId(), &_Execute, &name, object, &arguments, &retval, &exception);
+				} else {
+					return _Execute(&name, object, &arguments, &retval, &exception);
+				}
+			}
 
             bool BindingHandler::IsNullableType(Type^ type)
             {

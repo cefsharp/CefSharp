@@ -6,7 +6,7 @@
 
 namespace CefSharp
 {
-    class DownloadAdapter : public CefDownloadHandler
+    class DownloadAdapter : public CefDownloadHandler, public AppDomainSafeCefBase
     {
         gcroot<IDownloadHandler^> _handler;
 
@@ -16,6 +16,6 @@ namespace CefSharp
         virtual bool ReceivedData(void* data, int data_size);
         virtual void Complete();
 
-        IMPLEMENT_REFCOUNTING(DownloadAdapter);
+        IMPLEMENT_SAFE_REFCOUNTING(DownloadAdapter);
     };
 }
