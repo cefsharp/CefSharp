@@ -15,6 +15,7 @@ namespace CefSharp
                 throw gcnew InvalidOperationException("CEF::Initialize() failed");
             }
 
+			_disposed = false;
             Focusable = true;
             FocusVisualStyle = nullptr;
             IsTabStop = true;
@@ -51,7 +52,7 @@ namespace CefSharp
 
         bool WebView::TryGetCefBrowser(CefRefPtr<CefBrowser>& browser)
         {
-            if (_browserCore->IsBrowserInitialized)
+            if (!_disposed && _browserCore->IsBrowserInitialized)
             {
                 browser = _clientAdapter->GetCefBrowser();
                 return browser != nullptr;

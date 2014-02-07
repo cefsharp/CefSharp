@@ -58,6 +58,8 @@ namespace CefSharp
 
             Window^ _currentWindow;
 
+			bool _disposed;
+
             void Initialize(String^ address, BrowserSettings^ settings);
             bool TryGetCefBrowser(CefRefPtr<CefBrowser>& browser);
             void BrowserCore_PropertyChanged(Object^ sender, PropertyChangedEventArgs^ e);
@@ -151,6 +153,7 @@ namespace CefSharp
                 {
                     browser->CloseBrowser();
                 }
+				_disposed = true;
             }
 
             virtual property bool IsBrowserInitialized
