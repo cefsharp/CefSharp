@@ -61,6 +61,7 @@ namespace CefSharp
 			bool _disposed;
 
             void Initialize(String^ address, BrowserSettings^ settings);
+			CefRefPtr<CefBrowser> GetCefBrowser();
             bool TryGetCefBrowser(CefRefPtr<CefBrowser>& browser);
             void BrowserCore_PropertyChanged(Object^ sender, PropertyChangedEventArgs^ e);
             void Timer_Tick(Object^ sender, EventArgs^ e);
