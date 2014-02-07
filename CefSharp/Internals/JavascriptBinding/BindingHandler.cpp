@@ -33,6 +33,12 @@ namespace CefSharp
             bool BindingHandler::Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception)
             {
                 auto unmanagedWrapper = static_cast<UnmanagedWrapper*>(object->GetUserData().get());
+                if (unmanagedWrapper == nullptr)
+                {
+                    exception = "Illegal invocation";
+                    return true;
+                }
+
                 Object^ self = unmanagedWrapper->Get();
 
                 if (self == nullptr)
