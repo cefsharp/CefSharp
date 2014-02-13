@@ -65,8 +65,10 @@ namespace CefSharp
             return _boundObjects;
         }
 
-        // TODO: Add proper XML comments for all of these, so we can get proper IntelliSense in C# code.
     public:
+
+        /// <summary> Gets whether CefSharp is initialized. </summary>
+        /// <value> True if CefSharp is initalized, false otherwise </value>
         static property bool IsInitialized
         {
             bool get()
@@ -81,6 +83,8 @@ namespace CefSharp
             }
         }
 
+        /// <summary> Returns CefSharp Version </summary>
+        /// <value> CefSharp Version as a String</value>
         static property String^ CefSharpVersion
         {
             String^ get()
@@ -90,6 +94,8 @@ namespace CefSharp
             }
         }
 
+        /// <summary> Returns CEF Version </summary>
+        /// <value>CEF Version as a String</value>
         static property String^ CefVersion
         {
             String^ get()
@@ -98,6 +104,8 @@ namespace CefSharp
             }
         }
 
+        /// <summary> Returns Chromium Version </summary>
+        /// <value> Chromium Version as a String</value>
         static property String^ ChromiumVersion
         {
             String^ get()
@@ -109,12 +117,17 @@ namespace CefSharp
             }
         }
 
+        /// <summary> Initialize CefSharp with default settings. </summary>
+        /// <return> True if successful and false otherwise.</return>
         static bool Initialize()
         {
             auto cefSettings = gcnew CefSettings();
             return Initialize(cefSettings);
         }
 
+        /// <summary> Initialize CefSharp settings. </summary>
+        ///<param name="cefSettings">CefSharp configuration settings.</param>
+        /// <return> True if successful and false otherwise.</return>
         static bool Initialize(CefSettings^ cefSettings)
         {
             bool success = false;
@@ -148,12 +161,19 @@ namespace CefSharp
             return success;
         }
 
+        /// <summary>Bind a C# class to a javascript object.</summary>
+        ///<param name="name">Name of javascript object.</param>
+        ///<param name="objectToBind">C# object to bind.</param>
+        /// <return> Returns True</return>
         static bool RegisterJsObject(String^ name, Object^ objectToBind)
         {
             _boundObjects[name] = objectToBind;
             return true;
         }
 
+        /// <summary> Vist all cookies. The returned cookies are ordered by longest path, then by earliest creation date.</summary>
+        ///<param name="visitor">CefSharp Cookie Visitor</param>
+        /// <return> Returns false if cookies cannot be accessed, otherwise true.</return>
         static bool VisitAllCookies(ICookieVisitor^ visitor)
         {
             CefRefPtr<CookieVisitor> cookieVisitor = new CookieVisitor(visitor);
@@ -169,6 +189,13 @@ namespace CefSharp
             }
         }
 
+        /// <summary> Vist a subset of cookies.  The results are filtered by the given url scheme, host, domain and path. 
+        /// If |includeHttpOnly| is true HTTP-only cookies will also be included in the results. The returned cookies 
+        /// are ordered by longest path, then by earliest creation date.</summary>
+        ///<param name="url">Cookie Url</param>
+        ///<param name="includeHttpOnly">Allow HTTP-only cookies to be shown in results</param>
+        ///<param name="visitor">CefSharp Cookie Visitor</param>
+        /// <return> Returns false if cookies cannot be accessed, otherwise true.</return>
         static bool VisitUrlCookies(String^ url, bool includeHttpOnly, ICookieVisitor^ visitor)
         {
             CefRefPtr<CookieVisitor> cookieVisitor = new CookieVisitor(visitor);
@@ -185,6 +212,19 @@ namespace CefSharp
             }
         }
 
+        /// <summary>Set a CefSharp Cookie. This function expects each attribute to be well-formed. It will check for disallowed
+        /// characters (e.g. the ';' character is disallowed within the cookie value attribute) and will return false without setting
+        /// the cookie if such characters are found.</summary>
+        ///<param name="url">Cookie Url</param>
+        ///<param name="name">Cookie Name</param>
+        ///<param name="value">Cookie Value</param>
+        ///<param name="domain">Cookie Domain</param>
+        ///<param name="path">Cookie Path</param>
+        ///<param name="secure">Marks cookie as secure (i.e. its scope is limited to secure channels, typically HTTPS).</param>
+        ///<param name="httponly">Marks the cookiet as HTTP Only(i.e. the cookie is inaccessible to client-side scripts).</param>
+        ///<param name="has_expires">The cookie expiration date is only used if this is true.</param>
+        ///<param name="expires">Date of cookie expiration. Only used if has_expires is true.</param>
+        /// <return> Returns false if cookie cannot be set (Like if illegal charecters such as ';' are used), otherwise true.</return>
         static bool SetCookie(String^ url, String^ name, String^ value, String^ domain, String^ path, bool secure, bool httponly, bool has_expires, DateTime expires)
         {
             msclr::lock l(_sync);
@@ -216,11 +256,24 @@ namespace CefSharp
             return _result;
         }
 
+        /// <summary>Set a CefSharp Cookie using mostly default parameters. This function expects each attribute to be well-formed. It will check for disallowed
+        /// characters (e.g. the ';' character is disallowed within the cookie value attribute) and will return false without setting
+        /// the cookie if such characters are found.</summary>
+        ///<param name="url">Cookie Url</param>
+        ///<param name="name">Cookie Name</param>
+        ///<param name="value">Cookie Value</param>
+        ///<param name="domain">Cookie Domain</param>
+        ///<param name="expires">Date of cookie expiration. Only used if has_expires is true.</param>
+        /// <return> Returns false if cookie cannot be set (Like if illegal charecters such as ';' are used), otherwise true.</return>
         static bool SetCookie(String^ url, String^ domain, String^ name, String^ value, DateTime expires)
         {
             return SetCookie(url, name, value, domain, "/", false, false, true, expires);
         }
 
+        /// <summary> Delete all cookies that match the both following parameters. If both |url| and |name| are empty all cookies will be deleted.</summary>
+        ///<param name="url">(Optional) Cookie Url</param>
+        ///<param name="name">(Optional) Name of Cookie/param>
+        /// <return> Returns false if a non-empty invalid URL is specified or if cookies cannot be accessed, otherwise true.</return>
         static bool DeleteCookies(String^ url, String^ name)
         {
             msclr::lock l(_sync);
@@ -240,6 +293,13 @@ namespace CefSharp
             return _result;
         }
 
+        /// <summary> Sets the directory path that will be used for storing cookie data. If |path| is empty data will be stored in 
+        /// memory only. Otherwise, data will be stored at the specified |path|. To persist session cookies (cookies without an expiry 
+        /// date or validity interval) set |persist_session_cookies| to true. Session cookies are generally intended to be transient and 
+        /// most Web browsers do not persist them. Returns false if cookies cannot be accessed.</summary>
+        ///<param name="path"> (Optional) File path to write cookies to.</param>
+        ///<param name="persistSessionCookies">(Optional) Persist Session Cookies.</param>
+        /// <return> Returns false if a non-empty invalid URL is specified or if cookies cannot be accessed, otherwise true.</return>
         static bool SetCookiePath(String^ path, bool persistSessionCookies)
         {
             CefRefPtr<CefCookieManager> manager = CefCookieManager::GetGlobalManager();
@@ -254,9 +314,8 @@ namespace CefSharp
             }
         }
 
-        ///
-        /// <summary>
-        /// Shuts down CefSharp and the underlying CEF infrastructure. This method is safe to call multiple times; it will only
+        /// <summary> Shuts down CefSharp and the underlying CEF infrastructure. 
+        /// This method is safe to call multiple times; it will only
         /// shut down CEF on the first calls (all following calls will be ignored).
         /// </summary>
         static void Shutdown()
