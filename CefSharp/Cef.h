@@ -1,4 +1,4 @@
-// Copyright © 2010-2013 The CefSharp Project. All rights reserved.
+// Copyright ï¿½ 2010-2013 The CefSharp Project. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -67,8 +67,8 @@ namespace CefSharp
 
     public:
 
-        /// <summary> Gets whether CefSharp is initialized. </summary>
-        /// <value> True if CefSharp is initalized, false otherwise </value>
+        /// <summary>Gets a value that indicates whether CefSharp is initialized.</summary>
+        /// <value>true if CefSharp is initalized; otherwise, false.</value>
         static property bool IsInitialized
         {
             bool get()
@@ -83,8 +83,8 @@ namespace CefSharp
             }
         }
 
-        /// <summary> Returns CefSharp Version </summary>
-        /// <value> CefSharp Version as a String</value>
+        /// <summary>Gets a value that indicates the version of CefSharp currently being used.</summary>
+        /// <value>The CefSharp version.</value>
         static property String^ CefSharpVersion
         {
             String^ get()
@@ -94,8 +94,8 @@ namespace CefSharp
             }
         }
 
-        /// <summary> Returns CEF Version </summary>
-        /// <value>CEF Version as a String</value>
+        /// <summary>Gets a value that indicates the CEF version currently being used.</summary>
+        /// <value>The CEF Version</value>
         static property String^ CefVersion
         {
             String^ get()
@@ -104,8 +104,8 @@ namespace CefSharp
             }
         }
 
-        /// <summary> Returns Chromium Version </summary>
-        /// <value> Chromium Version as a String</value>
+        /// <summary>Gets a value that indicates the Chromium version currently being used.</summary>
+        /// <value>The Chromium version.</value>
         static property String^ ChromiumVersion
         {
             String^ get()
@@ -117,17 +117,17 @@ namespace CefSharp
             }
         }
 
-        /// <summary> Initialize CefSharp with default settings. </summary>
-        /// <return> True if successful and false otherwise.</return>
+        /// <summary>Initializes CefSharp with the default settings.</summary>
+        /// <return>true if successful; otherwise, false.</return>
         static bool Initialize()
         {
             auto cefSettings = gcnew CefSettings();
             return Initialize(cefSettings);
         }
 
-        /// <summary> Initialize CefSharp settings. </summary>
+        /// <summary>Initializes CefSharp with user-provided settings.</summary>
         ///<param name="cefSettings">CefSharp configuration settings.</param>
-        /// <return> True if successful and false otherwise.</return>
+        /// <return>true if successful; otherwise, false.</return>
         static bool Initialize(CefSettings^ cefSettings)
         {
             bool success = false;
@@ -161,19 +161,19 @@ namespace CefSharp
             return success;
         }
 
-        /// <summary>Bind a C# class to a javascript object.</summary>
-        ///<param name="name">Name of javascript object.</param>
-        ///<param name="objectToBind">C# object to bind.</param>
-        /// <return> Returns True</return>
+        /// <summary>Binds a C# class to a JavaScript object.</summary>
+        /// <param name="name">The name for the new object in the JavaScript engine (e.g. 'foo' for an object accessible as 'foo' or 'window.foo').</param>
+        /// <param name="objectToBind">The .NET object to bind.</param>
+        /// <return>Always returns true.</return>
         static bool RegisterJsObject(String^ name, Object^ objectToBind)
         {
             _boundObjects[name] = objectToBind;
             return true;
         }
 
-        /// <summary> Vist all cookies. The returned cookies are ordered by longest path, then by earliest creation date.</summary>
-        ///<param name="visitor">CefSharp Cookie Visitor</param>
-        /// <return> Returns false if cookies cannot be accessed, otherwise true.</return>
+        /// <summary>Visits all cookies using the provided Cookie Visitor. The returned cookies are sorted by longest path, then by earliest creation date.</summary>
+        /// <param name="visitor">A user-provided Cookie Visitor implementation.</param>
+        /// <return>Returns false if the CookieManager is not available; otherwise, true.</return>
         static bool VisitAllCookies(ICookieVisitor^ visitor)
         {
             CefRefPtr<CookieVisitor> cookieVisitor = new CookieVisitor(visitor);
@@ -189,13 +189,13 @@ namespace CefSharp
             }
         }
 
-        /// <summary> Vist a subset of cookies.  The results are filtered by the given url scheme, host, domain and path. 
-        /// If |includeHttpOnly| is true HTTP-only cookies will also be included in the results. The returned cookies 
-        /// are ordered by longest path, then by earliest creation date.</summary>
-        ///<param name="url">Cookie Url</param>
-        ///<param name="includeHttpOnly">Allow HTTP-only cookies to be shown in results</param>
-        ///<param name="visitor">CefSharp Cookie Visitor</param>
-        /// <return> Returns false if cookies cannot be accessed, otherwise true.</return>
+        /// <summary>Visits a subset of the cookies. The results are filtered by the given url scheme, host, domain and path. 
+        /// If <paramref name="includeHttpOnly"/> is true, HTTP-only cookies will also be included in the results. The returned cookies 
+        /// are sorted by longest path, then by earliest creation date.</summary>
+        /// <param name="url">The URL to use for filtering a subset of the cookies available.</param>
+        /// <param name="includeHttpOnly">A flag that determines whether HTTP-only cookies will be shown in results.</param>
+        /// <param name="visitor">A user-provided Cookie Visitor implementation.</param>
+        /// <return>Returns false if the CookieManager is not available; otherwise, true.</return>
         static bool VisitUrlCookies(String^ url, bool includeHttpOnly, ICookieVisitor^ visitor)
         {
             CefRefPtr<CookieVisitor> cookieVisitor = new CookieVisitor(visitor);
@@ -212,19 +212,19 @@ namespace CefSharp
             }
         }
 
-        /// <summary>Set a CefSharp Cookie. This function expects each attribute to be well-formed. It will check for disallowed
+        /// <summary>Sets a CefSharp Cookie. This function expects each attribute to be well-formed. It will check for disallowed
         /// characters (e.g. the ';' character is disallowed within the cookie value attribute) and will return false without setting
         /// the cookie if such characters are found.</summary>
-        ///<param name="url">Cookie Url</param>
-        ///<param name="name">Cookie Name</param>
-        ///<param name="value">Cookie Value</param>
-        ///<param name="domain">Cookie Domain</param>
-        ///<param name="path">Cookie Path</param>
-        ///<param name="secure">Marks cookie as secure (i.e. its scope is limited to secure channels, typically HTTPS).</param>
-        ///<param name="httponly">Marks the cookiet as HTTP Only(i.e. the cookie is inaccessible to client-side scripts).</param>
-        ///<param name="has_expires">The cookie expiration date is only used if this is true.</param>
-        ///<param name="expires">Date of cookie expiration. Only used if has_expires is true.</param>
-        /// <return> Returns false if cookie cannot be set (Like if illegal charecters such as ';' are used), otherwise true.</return>
+        /// <param name="url">The cookie URL</param>
+        /// <param name="name">The cookie name</param>
+        /// <param name="value">The cookie value</param>
+        /// <param name="domain">The cookie domain</param>
+        /// <param name="path">The cookie path</param>
+        /// <param name="secure">A flag that determines whether the cookie will be marked as "secure" (i.e. its scope is limited to secure channels, typically HTTPS).</param>
+        /// <param name="httponly">A flag that determines whether the cookie will be marked as HTTP Only (i.e. the cookie is inaccessible to client-side scripts).</param>
+        /// <param name="has_expires">A flag that determines whether the cookie has an expiration date. Must be set to true when the "expires" parameter is provided.</param>
+        /// <param name="expires">The DateTime when the cookie will be treated as expired. Will only be taken into account if the "has_expires" is set to true.</param>
+        /// <return>false if the cookie cannot be set (e.g. if illegal charecters such as ';' are used); otherwise true.</return>
         static bool SetCookie(String^ url, String^ name, String^ value, String^ domain, String^ path, bool secure, bool httponly, bool has_expires, DateTime expires)
         {
             msclr::lock l(_sync);
@@ -256,24 +256,24 @@ namespace CefSharp
             return _result;
         }
 
-        /// <summary>Set a CefSharp Cookie using mostly default parameters. This function expects each attribute to be well-formed. It will check for disallowed
+        /// <summary>Sets a cookie using mostly default parameters. This function expects each attribute to be well-formed. It will check for disallowed
         /// characters (e.g. the ';' character is disallowed within the cookie value attribute) and will return false without setting
         /// the cookie if such characters are found.</summary>
-        ///<param name="url">Cookie Url</param>
-        ///<param name="name">Cookie Name</param>
-        ///<param name="value">Cookie Value</param>
-        ///<param name="domain">Cookie Domain</param>
-        ///<param name="expires">Date of cookie expiration. Only used if has_expires is true.</param>
-        /// <return> Returns false if cookie cannot be set (Like if illegal charecters such as ';' are used), otherwise true.</return>
+        /// <param name="url">The cookie URL</param>
+        /// <param name="name">The cookie name.</param>
+        /// <param name="value">The cookie value.</param>
+        /// <param name="domain">The cookie domain.</param>
+        /// <param name="expires">The DateTime when the cookie will be treated as expired.</param>
+        /// <return>false if the cookie cannot be set (e.g. if illegal charecters such as ';' are used); otherwise true.</return>
         static bool SetCookie(String^ url, String^ domain, String^ name, String^ value, DateTime expires)
         {
             return SetCookie(url, name, value, domain, "/", false, false, true, expires);
         }
 
-        /// <summary> Delete all cookies that match the both following parameters. If both |url| and |name| are empty all cookies will be deleted.</summary>
-        ///<param name="url">(Optional) Cookie Url</param>
-        ///<param name="name">(Optional) Name of Cookie/param>
-        /// <return> Returns false if a non-empty invalid URL is specified or if cookies cannot be accessed, otherwise true.</return>
+        /// <summary>Deletes all cookies that matches all the provided parameters. If both <paramref name="url"/> and <paramref name="name"/> are empty, all cookies will be deleted.</summary>
+        /// <param name="url">The cookie URL. If an empty string is provided, any URL will be matched.</param>
+        /// <param name="name">The name of the cookie. If an empty string is provided, any URL will be matched.</param>
+        /// <return>false if a non-empty invalid URL is specified, or if cookies cannot be accessed; otherwise, true.</return>
         static bool DeleteCookies(String^ url, String^ name)
         {
             msclr::lock l(_sync);
@@ -293,13 +293,13 @@ namespace CefSharp
             return _result;
         }
 
-        /// <summary> Sets the directory path that will be used for storing cookie data. If |path| is empty data will be stored in 
-        /// memory only. Otherwise, data will be stored at the specified |path|. To persist session cookies (cookies without an expiry 
-        /// date or validity interval) set |persist_session_cookies| to true. Session cookies are generally intended to be transient and 
-        /// most Web browsers do not persist them. Returns false if cookies cannot be accessed.</summary>
-        ///<param name="path"> (Optional) File path to write cookies to.</param>
-        ///<param name="persistSessionCookies">(Optional) Persist Session Cookies.</param>
-        /// <return> Returns false if a non-empty invalid URL is specified or if cookies cannot be accessed, otherwise true.</return>
+        /// <summary> Sets the directory path that will be used for storing cookie data. If <paramref name="path"/> is empty data will be stored in 
+        /// memory only. Otherwise, data will be stored at the specified path. To persist session cookies (cookies without an expiry 
+        /// date or validity interval) set <paramref name="persist_session_cookies"/> to true. Session cookies are generally intended to be transient and 
+        /// most Web browsers do not persist them.</summary>
+        /// <param name="path">The file path to write cookies to.</param>
+        /// <param name="persistSessionCookies">A flag that determines whether session cookies will be persisted or not.</param>
+        /// <return> false if a non-empty invalid URL is specified, or if the CookieManager is not available; otherwise, true.</return>
         static bool SetCookiePath(String^ path, bool persistSessionCookies)
         {
             CefRefPtr<CefCookieManager> manager = CefCookieManager::GetGlobalManager();
@@ -314,9 +314,8 @@ namespace CefSharp
             }
         }
 
-        /// <summary> Shuts down CefSharp and the underlying CEF infrastructure. 
-        /// This method is safe to call multiple times; it will only
-        /// shut down CEF on the first calls (all following calls will be ignored).
+        /// <summary>Shuts down CefSharp and the underlying CEF infrastructure. This method is safe to call multiple times; it will only
+        /// shut down CEF on the first call (all subsequent calls will be ignored).
         /// </summary>
         static void Shutdown()
         {
