@@ -1,4 +1,5 @@
-﻿using CefSharp.Internals.JavascriptBinding;
+﻿using System.Diagnostics;
+using CefSharp.Internals.JavascriptBinding;
 using System;
 using System.ServiceModel;
 using System.ServiceModel.Description;
@@ -9,28 +10,29 @@ namespace CefSharp.BrowserSubprocess
     {
         public static ServiceHost Create(int parentProcessId, int browserId)
         {
-            var uris = new[]
-            {
-                new Uri(JavascriptProxySupport.BaseAddress)
-            };
-
-            var host = new ServiceHost(typeof(JavascriptProxy), uris);
+            var host = new ServiceHost(typeof(JavascriptProxy), new Uri[0]);
             AddDebugBehavior(host);
 
             var serviceName = JavascriptProxySupport.GetServiceName(parentProcessId, browserId);
-            KillExistingServiceIfNeeded(serviceName);
+            
+            //use absultadress for hosting 
+            //http://stackoverflow.com/questions/10362246/two-unique-named-pipes-conflicting-and-invalidcredentialexception
 
+            serviceName = JavascriptProxySupport.BaseAddress + "/" + serviceName;
+
+            KillExistingServiceIfNeeded(serviceName);
+            
             Kernel32.OutputDebugString("Setting up IJavascriptProxy using service name: " + serviceName);
             host.AddServiceEndpoint(
                 typeof(IJavascriptProxy),
                 new NetNamedPipeBinding(),
-                serviceName
+                new Uri( serviceName )
             );
-
+            
             host.Open();
             return host;
         }
-
+        
         private static void KillExistingServiceIfNeeded(string serviceName)
         {
             // It might be that there is an existing process already bound to this port. We must get rid of that one, so that the
@@ -39,7 +41,7 @@ namespace CefSharp.BrowserSubprocess
             {
                 var channelFactory = new ChannelFactory<IJavascriptProxy>(
                     new NetNamedPipeBinding(),
-                    new EndpointAddress(JavascriptProxySupport.BaseAddress + "/" + serviceName)
+                    new EndpointAddress( serviceName )
                     );
                 channelFactory.Open(TimeSpan.FromSeconds(1));
                 var javascriptProxy = channelFactory.CreateChannel();
