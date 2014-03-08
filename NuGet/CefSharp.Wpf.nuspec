@@ -5,11 +5,11 @@
     <version>$version$</version>
     <authors>CefSharp community</authors>
     <owners>CefSharp community</owners>
-    <projectUrl>https://github.com/perlun/cefsharp</projectUrl>
+    <projectUrl>https://github.com/cefsharp/cefsharp</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>The CefSharp Chromium-based browser component (WPF version).</description>
     <tags>wpf chrome browser</tags>
-  <copyright>Copyright © 2010-2013 The CefSharp Project</copyright>
+  <copyright>Copyright © 2010-2014 The CefSharp Project</copyright>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" />
       <frameworkAssembly assemblyName="System.Windows.Browser" targetFramework="sl50" />
