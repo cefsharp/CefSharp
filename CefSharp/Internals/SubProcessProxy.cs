@@ -18,7 +18,7 @@ namespace CefSharp.Internals
             callback = OperationContext.Current.GetCallbackChannel<ISubProcessCallback>();
         }
 
-        public object EvaluateScript(int frameId, string script, double timeout)
+        public object EvaluateScript(long frameId, string script, double timeout)
         {
             var result = CefSubprocessBase.Instance.Browser.EvaluateScript(frameId, script, timeout);
             return result;

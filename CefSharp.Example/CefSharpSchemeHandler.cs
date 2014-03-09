@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using CefSharp.Example.Properties;
+using System.Threading.Tasks;
 
 namespace CefSharp.Example
 {
@@ -35,7 +36,7 @@ namespace CefSharp.Example
             };
         }
 
-        public bool ProcessRequestAsync(IRequest request, ISchemeHandlerResponse response, OnRequestCompletedHandler requestCompletedCallback )
+        public Task ProcessRequestAsync(IRequest request, SchemeHandlerResponse response)
         {
             // The 'host' portion is entirely ignored by this scheme handler.
             var uri = new Uri(request.Url);
@@ -45,15 +46,21 @@ namespace CefSharp.Example
             if (resources.TryGetValue(fileName, out resource) &&
                 !String.IsNullOrEmpty(resource))
             {
-                var bytes = Encoding.UTF8.GetBytes(resource);
-                response.ResponseStream = new MemoryStream(bytes);
-                response.MimeType = GetMimeType(fileName);
-                requestCompletedCallback();
-
-                return true;
+                return Task.Factory.StartNew( () =>
+                {
+                    var bytes = Encoding.UTF8.GetBytes(resource);
+                    response.ResponseStream = new MemoryStream(bytes);
+                    response.MimeType = GetMimeType(fileName);
+                    return response;
+                } );
             }
 
-            return false;
+            return Task.Factory.StartNew(() =>
+                {
+                    response.StatusCode = System.Net.HttpStatusCode.NotFound;
+                    response.MimeType = "text";
+                    return response;
+                } );
         }
 
         private string GetMimeType(string fileName)

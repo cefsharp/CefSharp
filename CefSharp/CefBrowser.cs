@@ -7,13 +7,13 @@ namespace CefSharp
 {
     public abstract class CefBrowserBase : ObjectBase
     {
-        public int BrowserId { get; set; }
+        public long BrowserId { get; set; }
 
         protected CefBrowserBase()
         {
         }
 
-        public abstract object EvaluateScript(int frameId, string script, double timeout);
+        public abstract object EvaluateScript(long frameId, string script, double timeout);
 
     }
 }

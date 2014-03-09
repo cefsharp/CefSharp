@@ -59,7 +59,8 @@ namespace CefSharp
         }
 
     public:
-        CefSettingsWrapper() : _cefSettings(new ::CefSettings())
+        CefSettingsWrapper() : 
+            _cefSettings(new ::CefSettings())
         {
             MultiThreadedMessageLoop = true;
         }

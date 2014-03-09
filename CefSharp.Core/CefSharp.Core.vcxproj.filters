@@ -41,10 +41,10 @@
     <ClCompile Include="SchemeHandlerWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SchemeHandlerResponse.cpp">
+    <ClCompile Include="CefAppWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CefAppWrapper.cpp">
+    <ClCompile Include="SchemeHandlerResponse.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -109,13 +109,13 @@
     <ClInclude Include="UnmanagedTaskWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CefSettingsWrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Wrappers\CefSubprocessWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Wrappers\CefAppWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CefSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

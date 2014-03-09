@@ -215,10 +215,13 @@ namespace CefSharp.Wpf
             toolTip.Visibility = Visibility.Collapsed;
             toolTip.Closed += OnTooltipClosed;
 
+            BrowserSettings = Cef.CreateBrowserSettings();
 
             BackCommand = new DelegateCommand(Back, () => CanGoBack );
             ForwardCommand = new DelegateCommand(Forward, () => CanGoForward);
             ReloadCommand = new DelegateCommand(Reload, () => CanReload);
+
+            Application.Current.MainWindow.Closed += OnInstanceApplicationExit;
         }
 
         private void DoInUi(Action action, DispatcherPriority priority = DispatcherPriority.DataBind )
@@ -239,6 +242,10 @@ namespace CefSharp.Wpf
             InitializeCefAdapter();
         }
 
+        private void OnInstanceApplicationExit(object sender, EventArgs e)
+        {
+            ShutdownManagedCefBrowserAdapter();
+        }
 
         private static void OnApplicationExit(object sender, ExitEventArgs e)
         {
@@ -253,12 +260,13 @@ namespace CefSharp.Wpf
 
         public void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            RemoveSourceHook();
             ShutdownManagedCefBrowserAdapter();
         }
 
         private void ShutdownManagedCefBrowserAdapter()
         {
+            RemoveSourceHook();
+
             var temp = managedCefBrowserAdapter;
 
             if (temp == null)
@@ -268,7 +276,6 @@ namespace CefSharp.Wpf
 
             managedCefBrowserAdapter = null;
             isOffscreenBrowserCreated = false;
-            temp.Close();
             temp.Dispose();
         }
 
@@ -333,7 +340,7 @@ namespace CefSharp.Wpf
             }
 
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter( this );
-            managedCefBrowserAdapter.CreateOffscreenBrowser( BrowserSettings ?? new BrowserSettings(), source.Handle, Address );
+            managedCefBrowserAdapter.CreateOffscreenBrowser( BrowserSettings, source.Handle, Address );
 
             return true;
         }

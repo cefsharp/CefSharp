@@ -85,6 +85,12 @@ namespace CefSharp
             return gcnew CefSettingsWrapper();
         }
 
+
+        virtual BrowserSettings^ CreateBrowserSettings()
+        {
+            return gcnew BrowserSettingsWrapper();
+        }
+
         /// <summary>Gets a value that indicates the CEF version currently being used.</summary>
         /// <value>The CEF Version</value>
         virtual property Version^ CefVersion
@@ -246,6 +252,9 @@ namespace CefSharp
 
         virtual void ShutDown()
         {
+            GC::Collect();
+            GC::WaitForPendingFinalizers();
+
             CefShutdown();
         }
     };

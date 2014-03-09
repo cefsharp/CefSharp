@@ -8,6 +8,7 @@
 #include "BrowserSettings.h"
 #include "MouseButtonType.h"
 #include "Internals/RenderClientAdapter.h"
+#include "Internals/MCefRefPtr.h"
 
 using namespace CefSharp::Internals;
 using namespace System::Diagnostics;
@@ -16,10 +17,10 @@ using namespace System::Threading;
 
 namespace CefSharp
 {
-    private ref class ManagedCefBrowserAdapter : ISubProcessCallback
+    private ref class ManagedCefBrowserAdapter : ObjectBase, ISubProcessCallback
     {
     private:
-        RenderClientAdapter* _renderClientAdapter;
+        MCefRefPtr<RenderClientAdapter> _renderClientAdapter;
         ISubProcessProxy^ _javaScriptProxy;
 
     public:
@@ -45,37 +46,43 @@ namespace CefSharp
             _renderClientAdapter = new RenderClientAdapter(webBrowserInternal);
         }
 
-        ~ManagedCefBrowserAdapter()
+        virtual void DoDispose( bool isDisposing ) override
         {
+            auto cefHost = _renderClientAdapter->TryGetCefHost();
+            if (cefHost != nullptr)
+            {
+                cefHost->CloseBrowser(true);
+            }
+
             _renderClientAdapter = nullptr;
+
+            if (_javaScriptProxy != nullptr)
+            {
+                _javaScriptProxy->Terminate();
+                _javaScriptProxy = nullptr;
+            }
+
+            ObjectBase::DoDispose(isDisposing);
         }
-        
+                
         void CreateOffscreenBrowser(BrowserSettings^ browserSettings, IntPtr^ sourceHandle, String^ address)
         {
+            auto realBrowserSettings = (BrowserSettingsWrapper^)browserSettings;
+
             HWND hwnd = static_cast<HWND>(sourceHandle->ToPointer());
             CefWindowInfo window;
             window.SetAsOffScreen(hwnd);
             window.SetTransparentPainting(true);
             CefString addressNative = StringUtils::ToNative(address);
 
-            CefBrowserHost::CreateBrowser(window, _renderClientAdapter, addressNative,
-                *(CefBrowserSettings*)browserSettings->_internalBrowserSettings);
+            CefBrowserHost::CreateBrowser(window, _renderClientAdapter.get(), addressNative,
+                *realBrowserSettings->_browserSettings);
         }
 
         virtual void Error(Exception^ e)
         {
         }
-
-        void Close()
-        {
-            auto cefHost = _renderClientAdapter->TryGetCefHost();
-
-            if (cefHost != nullptr)
-            {
-                cefHost->CloseBrowser(true);
-            }
-        }
-
+        
         void LoadUrl(String^ address)
         {
             auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
@@ -243,14 +250,17 @@ namespace CefSharp
             auto frame = _renderClientAdapter->TryGetCefMainFrame();
             
             // TODO: Don't instantiate this on every request. The problem is that the CefBrowser is not set in our constructor.
-            auto serviceName = SubProcessProxySupport::GetServiceName(Process::GetCurrentProcess()->Id, _renderClientAdapter->GetCefBrowser()->GetIdentifier());
-            auto channelFactory = gcnew DuplexChannelFactory<ISubProcessProxy^>(this,
-                gcnew NetNamedPipeBinding(),
-                gcnew EndpointAddress(serviceName)
-                );
+            if (_javaScriptProxy == nullptr)
+            {
+                auto serviceName = SubProcessProxySupport::GetServiceName(Process::GetCurrentProcess()->Id, _renderClientAdapter->GetCefBrowser()->GetIdentifier());
+                auto channelFactory = gcnew DuplexChannelFactory<ISubProcessProxy^>(this,
+                    gcnew NetNamedPipeBinding(),
+                    gcnew EndpointAddress(serviceName)
+                    );
 
-            _javaScriptProxy = channelFactory->CreateChannel();
-
+                _javaScriptProxy = channelFactory->CreateChannel();
+            }
+            
             if (browser != nullptr &&
                 frame != nullptr)
             {
@@ -264,6 +274,8 @@ namespace CefSharp
 
         void CreateBrowser(BrowserSettings^ browserSettings, IntPtr^ sourceHandle, String^ address)
         {
+            auto realBrowserSettings = (BrowserSettingsWrapper^)browserSettings;
+
             HWND hwnd = static_cast<HWND>(sourceHandle->ToPointer());
             RECT rect;
             GetClientRect(hwnd, &rect);
@@ -271,8 +283,8 @@ namespace CefSharp
             window.SetAsChild(hwnd, rect);
             CefString addressNative = StringUtils::ToNative(address);
 
-            CefBrowserHost::CreateBrowser(window, _renderClientAdapter, addressNative,
-                *(CefBrowserSettings*)browserSettings->_internalBrowserSettings);
+            CefBrowserHost::CreateBrowser(window, _renderClientAdapter.get(), addressNative,
+                *realBrowserSettings->_browserSettings);
         }
 
         void OnSizeChanged(IntPtr^ sourceHandle)

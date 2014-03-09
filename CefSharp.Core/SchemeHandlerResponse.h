@@ -6,63 +6,35 @@
 
 #include "Stdafx.h"
 #include "SchemeHandlerWrapper.h"
+#include "MCefRefPtr.h"
 
 using namespace System;
 using namespace System::Collections::Generic;
 using namespace System::IO;
+using namespace System::Threading::Tasks;
 
 namespace CefSharp
 {
     class SchemeHandlerWrapper;
 
-    public ref class SchemeHandlerResponse : ISchemeHandlerResponse
+    public ref class SchemeHandlerResponseWrapper : public SchemeHandlerResponse
     {
     internal:
-        CefRefPtr<SchemeHandlerWrapper>* _schemeHandlerWrapper;
-        void OnRequestCompleted();
+        MCefRefPtr<SchemeHandlerWrapper> _schemeHandlerWrapper; 
+        
+        void OnRequestCompleted(Task^ previous );
 
     public:
-        /// <summary>
-        /// A Stream with the response data. If the request didn't return any response, leave this property as null.
-        /// </summary>
-        virtual property Stream^ ResponseStream;
-
-        virtual property String^ MimeType;
-        virtual property IDictionary<String^, String^>^ ResponseHeaders;
-
-        /// <summary>
-        /// The status code of the response. Unless set, the default value used is 200
-        /// (corresponding to HTTP status OK).
-        /// </summary>
-        virtual property int StatusCode;
-
-        /// <summary>
-        /// The length of the response contents. Defaults to -1, which means unknown length
-        /// and causes CefSharp to read the response stream in pieces. Thus, setting a length
-        /// is optional but allows for more optimal response reading.
-        /// </summary>
-        virtual property int ContentLength;
-
-        /// <summary>
-        /// URL to redirect to (leave empty to not redirect).
-        /// </summary>
-        virtual property String^ RedirectUrl;
-
-        /// <summary>
-        /// Set to true to close the response stream once it has been read. The default value
-        /// is false in order to preserve the old CefSharp behavior of not closing the stream.
-        /// </summary>
-        virtual property bool CloseStream;
-
-        SchemeHandlerResponse(SchemeHandlerWrapper* schemeHandlerWrapper)
+        SchemeHandlerResponseWrapper(CefRefPtr<SchemeHandlerWrapper> schemeHandlerWrapper) :
+            _schemeHandlerWrapper(schemeHandlerWrapper)
         {
-            ContentLength = -1;
-            _schemeHandlerWrapper = new CefRefPtr<SchemeHandlerWrapper>(schemeHandlerWrapper);
-        }
+        };
 
-        void ReleaseSchemeHandlerWrapper()
+        virtual void DoDispose(bool isdisposing) override
         {
-            delete _schemeHandlerWrapper;
+            _schemeHandlerWrapper = nullptr;
+
+            SchemeHandlerResponse::DoDispose(isdisposing);
         }
     };
 };

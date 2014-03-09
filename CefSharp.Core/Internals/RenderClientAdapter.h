@@ -39,6 +39,13 @@ namespace CefSharp
             ~RenderClientAdapter()
             {
                 _renderWebBrowser = nullptr;
+                _webBrowserInternal = nullptr;
+
+                delete MainBitmapInfo;
+                MainBitmapInfo = nullptr;
+
+                delete PopupBitmapInfo;
+                PopupBitmapInfo = nullptr;
             }
 
             // CefClient

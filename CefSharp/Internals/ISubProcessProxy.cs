@@ -13,7 +13,7 @@ namespace CefSharp.Internals
         void Initialize();
 
         [OperationContract]
-        object EvaluateScript(int frameId, string script, double timeout);
+        object EvaluateScript(long frameId, string script, double timeout);
 
         [OperationContract]
         void Terminate();

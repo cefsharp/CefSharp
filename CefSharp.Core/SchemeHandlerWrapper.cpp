@@ -28,83 +28,84 @@ namespace CefSharp
 
         return result;
     }
+    
+    void SchemeHandlerWrapper::DeleteResponse()
+    {
+        SchemeHandlerResponseWrapper^ response = _response;
+        _response = nullptr;
+        if (response != nullptr)
+        {
+            delete response;
+        }
+
+        _callback = nullptr;
+    }
 
     bool SchemeHandlerWrapper::ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefCallback> callback)
     {
-        _callback = callback;
-
         bool handled = false;
-
-        AutoLock lock_scope(this);
-
-        auto schemeResponse = gcnew SchemeHandlerResponse(this);
-        auto onRequestCompleted = gcnew OnRequestCompletedHandler(schemeResponse, &SchemeHandlerResponse::OnRequestCompleted);
-
+        
+        _callback = callback;
+        _response = gcnew SchemeHandlerResponseWrapper(this);
+                
+        auto onRequestCompleted = gcnew Action<Task^>(_response, &SchemeHandlerResponseWrapper::OnRequestCompleted);
         auto requestWrapper = gcnew CefRequestWrapper(request);
-        if (_handler->ProcessRequestAsync(requestWrapper, schemeResponse, onRequestCompleted))
+
+        auto task = _handler->ProcessRequestAsync(requestWrapper, _response);
+        if (task != nullptr)
         {
+            task->ContinueWith(onRequestCompleted);
             handled = true;
+        }
+        else
+        {
+            DeleteResponse();
         }
 
         return handled;
     }
 
-    void SchemeHandlerWrapper::ProcessRequestCallback(SchemeHandlerResponse^ response)
+    void SchemeHandlerWrapper::ProcessRequestCallback(Task^ previous)
     {
-        _mime_type = StringUtils::ToNative(response->MimeType);
-        _stream = response->ResponseStream;
-        _statusCode = response->StatusCode;
-        _redirectUrl = StringUtils::ToNative(response->RedirectUrl);
-        _contentLength = response->ContentLength;
-        _closeStream = response->CloseStream;
-
-        _headers = ToHeaderMap(response->ResponseHeaders);
-
-        _callback->Continue();
-
-        // Must be done AFTER CEF has been allowed to consume the headers etc. After this call is made, the SchemeHandlerWrapper
-        // instance has likely been deallocated.
-        response->ReleaseSchemeHandlerWrapper();
+        _callback->Continue();        
     }
 
     void SchemeHandlerWrapper::GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl)
     {
-        response->SetMimeType(_mime_type);
-        response->SetStatus(_statusCode > 0 ? _statusCode : 200);
-        response->SetHeaderMap(_headers);
-        if (_contentLength >= 0)
+        response->SetMimeType(StringUtils::ToNative(_response->MimeType));
+        response->SetStatus((int)_response->StatusCode );
+        response->SetHeaderMap(ToHeaderMap(_response->ResponseHeaders));
+        if (_response->ContentLength >= 0)
         {
-            response_length = _contentLength;
+            response_length = _response->ContentLength;
         }
         else
         {
-            response_length = SizeFromStream();
+            response_length = _response->SizeFromStream();
         }
-        redirectUrl = _redirectUrl;
+        redirectUrl = StringUtils::ToNative(_response->RedirectUrl);
     }
 
     bool SchemeHandlerWrapper::ReadResponse(void* data_out, int bytes_to_read, int& bytes_read, CefRefPtr<CefCallback> callback)
     {
         bool has_data = false;
-
-        AutoLock lock_scope(this);
-
-        if (!_stream)
+        
+        if (!_response->ResponseStream)
         {
             bytes_read = 0;
         }
         else
         {
             array<Byte>^ buffer = gcnew array<Byte>(bytes_to_read);
-            int ret = _stream->Read(buffer, 0, bytes_to_read);
+            int ret = _response->ResponseStream->Read(buffer, 0, bytes_to_read);
             pin_ptr<Byte> src = &buffer[0];
             memcpy(data_out, static_cast<void*>(src), ret);
             bytes_read = ret;
             // must return false when the response is complete
             has_data = ret > 0;
-            if (!has_data && _closeStream)
+            if (!has_data && _response->CloseStream)
             {
-                _stream->Close();
+                _response->ResponseStream->Close();
             }
         }
 
@@ -112,31 +113,18 @@ namespace CefSharp
     }
 
     void SchemeHandlerWrapper::Cancel()
-    {
-        if (!!_stream && _closeStream)
+    {        
+        if (static_cast<SchemeHandlerResponseWrapper^>(_response) != nullptr 
+            && _response->ResponseStream != nullptr 
+            && _response->CloseStream)
         {
-            _stream->Close();
-        }
-        _stream = nullptr;
-        _callback = nullptr;
-    }
-
-    int SchemeHandlerWrapper::SizeFromStream()
-    {
-        if (!_stream)
-        {
-            return 0;
+            _response->ResponseStream->Close();
         }
 
-        if (_stream->CanSeek)
-        {
-            _stream->Seek(0, SeekOrigin::End);
-            int length = static_cast<int>(_stream->Position);
-            _stream->Seek(0, SeekOrigin::Begin);
-            return length;
-        }
-        return -1;
+        DeleteResponse();
     }
+
+    
 
     CefRefPtr<CefResourceHandler> SchemeHandlerFactoryWrapper::Create(
         CefRefPtr<CefBrowser> browser,

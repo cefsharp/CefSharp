@@ -7,8 +7,8 @@
 
 namespace CefSharp
 {
-    void SchemeHandlerResponse::OnRequestCompleted()
+    void SchemeHandlerResponseWrapper::OnRequestCompleted( Task^ previous )
     {
-        _schemeHandlerWrapper->get()->ProcessRequestCallback(this);
+        _schemeHandlerWrapper->ProcessRequestCallback(previous);
     }
 }

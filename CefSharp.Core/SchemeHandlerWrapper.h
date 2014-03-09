@@ -6,43 +6,50 @@
 
 #include "Stdafx.h"
 #include "include/cef_scheme.h"
+#include "schemehandlerResponse.h"
 
 using namespace System;
 using namespace System::IO;
 
 namespace CefSharp
 {
-    ref class SchemeHandlerResponse;
+    ref class SchemeHandlerResponseWrapper;
 
     public class SchemeHandlerWrapper : public CefResourceHandler
     {
+    private:
         gcroot<ISchemeHandler^> _handler;
-        gcroot<Stream^> _stream;
+        gcroot<SchemeHandlerResponseWrapper^> _response; 
         CefRefPtr<CefCallback> _callback;
-        CefString _mime_type;
-        CefResponse::HeaderMap _headers;
-        int _statusCode;
-        CefString _redirectUrl;
-        int _contentLength;
-        bool _closeStream;
-        int SizeFromStream();
+        void DeleteResponse();
         CefResponse::HeaderMap ToHeaderMap(IDictionary<String^, String^>^ headers);
-
+    
     public:
 
-        SchemeHandlerWrapper(ISchemeHandler^ handler) : _handler(handler)
+        SchemeHandlerWrapper(ISchemeHandler^ handler) : 
+            _handler(handler)
         {
             if (!_handler)
             {
                 throw gcnew ArgumentException("handler must not be null");
             }
+        };
+
+        ~SchemeHandlerWrapper()
+        {
+            _handler = nullptr;
+            _response = nullptr;
+            _callback = nullptr;
+
+            DeleteResponse();
         }
 
-        virtual bool ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefCallback> callback);
-        virtual void ProcessRequestCallback(SchemeHandlerResponse^ handlerResponse);
-        virtual void GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl);
-        virtual bool ReadResponse(void* data_out, int bytes_to_read, int& bytes_read, CefRefPtr<CefCallback> callback);
-        virtual void Cancel();
+        void ProcessRequestCallback(Task^ previous);
+
+        virtual bool ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefCallback> callback) override;
+        virtual void GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl) override;
+        virtual bool ReadResponse(void* data_out, int bytes_to_read, int& bytes_read, CefRefPtr<CefCallback> callback) override;
+        virtual void Cancel() override;
 
         IMPLEMENT_LOCKING(SchemeHandlerWrapper);
         IMPLEMENT_REFCOUNTING(SchemeHandlerWrapper);
@@ -54,7 +61,14 @@ namespace CefSharp
 
     public:
         SchemeHandlerFactoryWrapper(ISchemeHandlerFactory^ factory)
-            : _factory(factory) {}
+            : _factory(factory) 
+        {
+        };
+
+        ~SchemeHandlerFactoryWrapper()
+        {
+            _factory = nullptr;
+        };
 
         virtual CefRefPtr<CefResourceHandler> Create(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& scheme_name, CefRefPtr<CefRequest> request);
 

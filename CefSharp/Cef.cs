@@ -71,6 +71,11 @@ namespace CefSharp
             return _cef.CreateSettings();
         }
 
+        public static BrowserSettings CreateBrowserSettings()
+        {
+            return _cef.CreateBrowserSettings();
+        }
+
         /// <summary>Initializes CefSharp with user-provided settings.</summary>
         ///<param name="cefSettings">CefSharp configuration settings.</param>
         /// <return>true if successful; otherwise, false.</return>

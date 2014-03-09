@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BrowserSettings.cs" />
     <Compile Include="Internals\BitmapInfo.cs" />
     <Compile Include="Cef.cs" />
     <Compile Include="CefApp.cs" />
@@ -69,7 +70,6 @@
     <Compile Include="IRequestResponse.cs" />
     <Compile Include="ISchemeHandler.cs" />
     <Compile Include="ISchemeHandlerFactory.cs" />
-    <Compile Include="ISchemeHandlerResponse.cs" />
     <Compile Include="Internals\ISubProcessProxy.cs" />
     <Compile Include="IWebBrowser.cs" />
     <Compile Include="Internals\IWebBrowserInternal.cs" />
@@ -81,6 +81,7 @@
     <Compile Include="Internals\ICef.cs" />
     <Compile Include="ObjectBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SchemeHandlerResponse.cs" />
     <Compile Include="ScriptException.cs" />
     <Compile Include="Internals\SubProcessProxy.cs" />
     <Compile Include="Internals\SubProcessProxySupport.cs" />

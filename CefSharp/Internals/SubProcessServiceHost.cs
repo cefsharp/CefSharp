@@ -15,7 +15,7 @@ namespace CefSharp.Internals
 
         }
 
-        public static SubProcessServiceHost Create(int parentProcessId, int browserId)
+        public static SubProcessServiceHost Create(int parentProcessId, long browserId)
         {
             var host = new SubProcessServiceHost();
             AddDebugBehavior(host);

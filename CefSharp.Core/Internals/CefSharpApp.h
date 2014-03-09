@@ -20,6 +20,11 @@ namespace CefSharp
         {
         }
 
+        ~CefSharpApp()
+        {
+            _cefSettings = nullptr;
+        }
+
         virtual void OnRegisterCustomSchemes(CefRefPtr<CefSchemeRegistrar> registrar) OVERRIDE
         {
             for each (CefCustomScheme^ cefCustomScheme in _cefSettings->CefCustomSchemes)

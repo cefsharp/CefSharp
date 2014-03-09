@@ -50,7 +50,6 @@ namespace CefSharp.WinForms
             {
                 if (managedCefBrowserAdapter != null)
                 {
-                    managedCefBrowserAdapter.Close();
                     managedCefBrowserAdapter.Dispose();
                     managedCefBrowserAdapter = null;
                 }

@@ -7,9 +7,14 @@ using namespace System::Runtime::InteropServices;
 
 
 
+
+typedef void(*Continue)(Task^ task);
 typedef void(*Functor)();
+
 
 CefRefPtr<CefTask> GetCefTaskFromTask(Task^ task)
 {
-    return NewCefRunnableFunction((Functor)(void*)Marshal::GetFunctionPointerForDelegate(gcnew Action(task, &Task::RunSynchronously)));
+    auto intPtr = Marshal::GetFunctionPointerForDelegate(gcnew Action(task, &Task::RunSynchronously));
+
+    return NewCefRunnableFunction(static_cast<Functor>(intPtr.ToPointer()));
 }

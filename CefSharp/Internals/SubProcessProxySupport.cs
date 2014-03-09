@@ -10,7 +10,7 @@ namespace CefSharp.Internals
         private const string BaseAddress = "net.pipe://localhost";
         private const string ServiceName = "CefSharpSubProcessProxy";
 
-        public static string GetServiceName(int parentProcessId, int browserId)
+        public static string GetServiceName(int parentProcessId, long browserId)
         {
             return string.Join("/", BaseAddress, ServiceName, parentProcessId, browserId);
         }

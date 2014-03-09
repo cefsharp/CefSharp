@@ -15,6 +15,8 @@ namespace CefSharp.Internals
 
         CefSettingsBase CreateSettings();
 
+        BrowserSettings CreateBrowserSettings();
+
         bool Initialize(CefSettingsBase settings);
 
         void ShutDown();

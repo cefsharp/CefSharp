@@ -19,5 +19,9 @@ namespace CefSharp
         /// A request was aborted, possibly by the user.
         /// </summary>
         Aborted,
+
+        FileNotFound,
+
+        Unknown,
     };
 }
