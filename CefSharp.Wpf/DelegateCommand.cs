@@ -1,46 +1,64 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
 
 namespace CefSharp.Wpf
 {
-    internal class DelegateCommand : ICommand
+    internal class DelegateCommand : DependencyObject, ICommand
     {
-        private readonly Action commandHandler;
-        private readonly Func<bool> canExecuteHandler;
+        private readonly Action _commandHandler;
 
         public event EventHandler CanExecuteChanged;
 
-        public DelegateCommand(Action commandHandler, Func<bool> canExecuteHandler = null)
+        public void SetBinding( DependencyProperty dp, BindingBase binding )
         {
-            this.commandHandler = commandHandler;
-            this.canExecuteHandler = canExecuteHandler;
+            BindingOperations.SetBinding( this, dp,binding); 
+        }
+
+        public static DependencyProperty CanExecuteValueProperty = DependencyProperty.Register("CanExecuteValue", typeof(bool), typeof(DelegateCommand), new PropertyMetadata(true, OnCanExecutePropertyChange));
+        public bool CanExecuteValue 
+        {
+            get { return (bool)GetValue(CanExecuteValueProperty); }
+            set { SetValue( CanExecuteValueProperty, value ); }
+        }
+
+        private static void OnCanExecutePropertyChange( DependencyObject sender, DependencyPropertyChangedEventArgs args )
+        {
+            DelegateCommand owner = (DelegateCommand)sender;
+            bool oldvalue = (bool)args.OldValue;
+            bool newvalue = (bool)args.NewValue;
+
+            owner.OnCanExecutePropertyChange( oldvalue, newvalue );
+        }
+
+        protected virtual void OnCanExecutePropertyChange( bool oldValue, bool newValue )
+        {
+            RaiseCanExecuteChanged();
+        }
+
+        public DelegateCommand(Action commandHandler )
+        {
+            _commandHandler = commandHandler;
         }
 
         public void Execute(object parameter)
         {
-            commandHandler();
+            _commandHandler();
         }
 
         public bool CanExecute(object parameter)
         {
-            return
-                canExecuteHandler == null || 
-                canExecuteHandler();
+            return CanExecuteValue;
         }
-
-        public void RaiseCanExecuteChanged()
+        
+        private void RaiseCanExecuteChanged()
         {
-            if (!Application.Current.Dispatcher.CheckAccess())
+            var handlers = CanExecuteChanged;
+            if (handlers != null)
             {
-                Application.Current.Dispatcher.BeginInvoke((Action) RaiseCanExecuteChanged);
-                return;
-            }
-
-            if (CanExecuteChanged != null)
-            {
-                CanExecuteChanged(this, new EventArgs());
+                handlers(this, new EventArgs());
             }
         }
     }
