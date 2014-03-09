@@ -20,7 +20,7 @@ namespace CefSharp
 
         cef_log_severity_t SeverityToNative(CefSharp::LogSeverity severity)
         {
-            switch (severity)
+            switch(severity)
             {
             case CefSharp::LogSeverity::Verbose:
                 return LOGSEVERITY_VERBOSE;
@@ -40,7 +40,7 @@ namespace CefSharp
 
         CefSharp::LogSeverity SeverityToManaged(cef_log_severity_t severity)
         {
-            switch (severity)
+            switch(severity)
             {
             case LOGSEVERITY_VERBOSE:
                 return CefSharp::LogSeverity::Verbose;

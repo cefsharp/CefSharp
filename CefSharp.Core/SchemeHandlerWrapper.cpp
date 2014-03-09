@@ -16,7 +16,7 @@ namespace CefSharp
     {
         CefResponse::HeaderMap result;
 
-        if (headers == nullptr)
+        if(headers == nullptr)
         {
             return result;
         }
@@ -41,7 +41,7 @@ namespace CefSharp
         auto onRequestCompleted = gcnew OnRequestCompletedHandler(schemeResponse, &SchemeHandlerResponse::OnRequestCompleted);
 
         auto requestWrapper = gcnew CefRequestWrapper(request);
-        if (_handler->ProcessRequestAsync(requestWrapper, schemeResponse, onRequestCompleted))
+        if(_handler->ProcessRequestAsync(requestWrapper, schemeResponse, onRequestCompleted))
         {
             handled = true;
         }
@@ -72,7 +72,7 @@ namespace CefSharp
         response->SetMimeType(_mime_type);
         response->SetStatus(_statusCode > 0 ? _statusCode : 200);
         response->SetHeaderMap(_headers);
-        if (_contentLength >= 0)
+        if(_contentLength >= 0)
         {
             response_length = _contentLength;
         }
@@ -89,7 +89,7 @@ namespace CefSharp
 
         AutoLock lock_scope(this);
 
-        if (!_stream)
+        if(!_stream)
         {
             bytes_read = 0;
         }
@@ -102,7 +102,7 @@ namespace CefSharp
             bytes_read = ret;
             // must return false when the response is complete
             has_data = ret > 0;
-            if (!has_data && _closeStream)
+            if(!has_data && _closeStream)
             {
                 _stream->Close();
             }
@@ -113,7 +113,7 @@ namespace CefSharp
 
     void SchemeHandlerWrapper::Cancel()
     {
-        if (!!_stream && _closeStream)
+        if(!!_stream && _closeStream)
         {
             _stream->Close();
         }
@@ -123,12 +123,12 @@ namespace CefSharp
 
     int SchemeHandlerWrapper::SizeFromStream()
     {
-        if (!_stream)
+        if(!_stream)
         {
             return 0;
         }
 
-        if (_stream->CanSeek)
+        if(_stream->CanSeek)
         {
             _stream->Seek(0, SeekOrigin::End);
             int length = static_cast<int>(_stream->Position);

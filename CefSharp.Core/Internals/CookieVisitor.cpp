@@ -19,7 +19,7 @@ namespace CefSharp
         cookie->Secure = cefCookie.secure;
         cookie->HttpOnly = cefCookie.httponly;
 
-        if (cefCookie.has_expires)
+        if(cefCookie.has_expires)
         {
             cookie->Expires = DateTime(cefCookie.expires.year,
                 cefCookie.expires.month, cefCookie.expires.day_of_month);

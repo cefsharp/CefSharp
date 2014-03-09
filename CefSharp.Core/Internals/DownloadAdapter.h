@@ -31,7 +31,7 @@ namespace CefSharp
                 String^ download_path;
                 bool show_dialog;
 
-                if (_handler->OnBeforeDownload(StringUtils::ToClr(suggested_name), download_path, show_dialog))
+                if(_handler->OnBeforeDownload(StringUtils::ToClr(suggested_name), download_path, show_dialog))
                 {
                     callback->Continue(StringUtils::ToNative(download_path), show_dialog);
                 }

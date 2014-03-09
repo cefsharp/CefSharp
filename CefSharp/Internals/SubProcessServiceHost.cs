@@ -62,7 +62,7 @@ namespace CefSharp.Internals
         {
             var serviceDebugBehavior = host.Description.Behaviors.Find<ServiceDebugBehavior>();
 
-            if (serviceDebugBehavior == null)
+            if(serviceDebugBehavior == null)
             {
                 serviceDebugBehavior = new ServiceDebugBehavior
                 {

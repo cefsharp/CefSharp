@@ -16,7 +16,7 @@ namespace CefSharp
 
         void CefRequestWrapper::Url::set(String^ url)
         {
-            if (url == nullptr)
+            if(url == nullptr)
             {
                 throw gcnew System::ArgumentException("cannot be null", "url");
             }
@@ -36,15 +36,15 @@ namespace CefSharp
 
             CefRefPtr<CefPostData> data = _wrappedRequest->GetPostData();
 
-            if (data.get() != nullptr)
+            if(data.get() != nullptr)
             {
                 data.get()->GetElements(ev);
 
-                for (CefPostData::ElementVector::iterator it = ev.begin(); it != ev.end(); ++it)
+                for(CefPostData::ElementVector::iterator it = ev.begin(); it != ev.end(); ++it)
                 {
                     CefPostDataElement *el = it->get();
 
-                    if (el->GetType() == PDE_TYPE_BYTES)
+                    if(el->GetType() == PDE_TYPE_BYTES)
                     {
                         size_t count = el->GetBytesCount();
                         char* bytes = new char[count];
@@ -53,7 +53,7 @@ namespace CefSharp
 
                         return gcnew String(bytes, 0, count);
                     }
-                    else if (el->GetType() == PDE_TYPE_FILE)
+                    else if(el->GetType() == PDE_TYPE_FILE)
                     {
                         return StringUtils::ToClr(el->GetFile());
                     }
@@ -70,7 +70,7 @@ namespace CefSharp
 
             IDictionary<String^, String^>^ headers = gcnew Dictionary<String^, String^>();
 
-            for (CefRequest::HeaderMap::iterator it = hm.begin(); it != hm.end(); ++it)
+            for(CefRequest::HeaderMap::iterator it = hm.begin(); it != hm.end(); ++it)
             {
                 String^ name = StringUtils::ToClr(it->first);
                 String^ value = StringUtils::ToClr(it->second);

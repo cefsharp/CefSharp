@@ -19,7 +19,7 @@ namespace CefSharp
 
             MCefRefPtr(T* p) : _ptr(p)
             {
-                if (_ptr)
+                if(_ptr)
                 {
                     _ptr->AddRef();
                 }
@@ -27,7 +27,7 @@ namespace CefSharp
 
             MCefRefPtr(const MCefRefPtr<T>% r) : _ptr(r._ptr)
             {
-                if (_ptr)
+                if(_ptr)
                 {
                     _ptr->AddRef();
                 }
@@ -35,7 +35,7 @@ namespace CefSharp
 
             MCefRefPtr(const CefRefPtr<T>& r) : _ptr(r.get())
             {
-                if (_ptr)
+                if(_ptr)
                 {
                     _ptr->AddRef();
                 }
@@ -43,7 +43,7 @@ namespace CefSharp
 
             ~MCefRefPtr()
             {
-                if (_ptr)
+                if(_ptr)
                 {
                     _ptr->Release();
                 }
@@ -51,7 +51,7 @@ namespace CefSharp
 
             !MCefRefPtr()
             {
-                if (_ptr)
+                if(_ptr)
                 {
                     _ptr->Release();
                 }
@@ -79,11 +79,11 @@ namespace CefSharp
             MCefRefPtr<T>% operator=(T* p)
             {
                 // AddRef first so that self assignment should work
-                if (p)
+                if(p)
                 {
                     p->AddRef();
                 }
-                if (_ptr)
+                if(_ptr)
                 {
                     _ptr->Release();
                 }
@@ -111,7 +111,7 @@ namespace CefSharp
 
             virtual bool Equals(Object^ obj) override
             {
-                if (obj->GetType() == GetType())
+                if(obj->GetType() == GetType())
                 {
                     MCefRefPtr^ other = safe_cast<MCefRefPtr^>(obj);
                     return (*other)._ptr == _ptr;

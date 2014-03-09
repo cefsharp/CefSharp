@@ -32,7 +32,7 @@ namespace CefSharp
 
         SchemeHandlerWrapper(ISchemeHandler^ handler) : _handler(handler)
         {
-            if (!_handler)
+            if(!_handler)
             {
                 throw gcnew ArgumentException("handler must not be null");
             }

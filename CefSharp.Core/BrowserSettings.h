@@ -11,15 +11,15 @@ namespace CefSharp
 {
     Nullable<bool>^ CefStateToBoolean(cef_state_t state)
     {
-        if (state == STATE_DEFAULT)
+        if(state == STATE_DEFAULT)
         {
             return nullptr;
         }
-        else if (state == STATE_ENABLED)
+        else if(state == STATE_ENABLED)
         {
             return gcnew Nullable<bool>(true);
         }
-        else if (state == STATE_DISABLED)
+        else if(state == STATE_DISABLED)
         {
             return gcnew Nullable<bool>(false);
         }
@@ -29,11 +29,11 @@ namespace CefSharp
 
     cef_state_t CefStateFromBoolean(Nullable<bool>^ value)
     {
-        if (value == nullptr)
+        if(value == nullptr)
         {
             return STATE_DEFAULT;
         }
-        else if (value->Value)
+        else if(value->Value)
         {
             return STATE_ENABLED;
         }

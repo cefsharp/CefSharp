@@ -25,7 +25,7 @@ namespace CefSharp
             gcroot<BitmapInfo^> MainBitmapInfo;
             gcroot<BitmapInfo^> PopupBitmapInfo;
 
-            RenderClientAdapter(IWebBrowserInternal^ webBrowserInternal ) :
+            RenderClientAdapter(IWebBrowserInternal^ webBrowserInternal) :
                 ClientAdapter(webBrowserInternal),
                 _webBrowserInternal(webBrowserInternal)
             {
@@ -47,7 +47,7 @@ namespace CefSharp
             // CefRenderHandler
             virtual DECL bool GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) OVERRIDE
             {
-                if ((IRenderWebBrowser^)_renderWebBrowser == nullptr)
+                if((IRenderWebBrowser^)_renderWebBrowser == nullptr)
                 {
                     return false;
                 }
@@ -81,11 +81,11 @@ namespace CefSharp
             virtual DECL void OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects,
                 const void* buffer, int width, int height) OVERRIDE
             {
-                if (type == PET_VIEW)
+                if(type == PET_VIEW)
                 {
                     SetBuffer(MainBitmapInfo, width, height, buffer);
                 }
-                else if (type == PET_POPUP)
+                else if(type == PET_POPUP)
                 {
                     SetBuffer(PopupBitmapInfo, width, height, buffer);
                 }
@@ -98,7 +98,7 @@ namespace CefSharp
 
             CefRefPtr<CefBrowserHost> TryGetCefHost()
             {
-                if (!this->GetCefBrowser().get() ||
+                if(!this->GetCefBrowser().get() ||
                     !this->GetCefBrowser()->GetHost().get())
                 {
                     return nullptr;
@@ -113,7 +113,7 @@ namespace CefSharp
             {
                 auto cefBrowser = this->GetCefBrowser().get();
 
-                if (!cefBrowser)
+                if(!cefBrowser)
                 {
                     return nullptr;
                 }
@@ -130,13 +130,13 @@ namespace CefSharp
                 int currentWidth = bitmapInfo->Width, currentHeight = bitmapInfo->Height;
 
                 auto fileMappingHandle = (HANDLE)bitmapInfo->FileMappingHandle;
-                auto backBufferHandle = (HANDLE)bitmapInfo->_backBufferHandle;
+                auto backBufferHandle = (HANDLE)bitmapInfo->BackBufferHandle;
 
                 SetBufferHelper(bitmapInfo, currentWidth, currentHeight, newWidth, newHeight, &fileMappingHandle,
                     &backBufferHandle, buffer);
 
                 bitmapInfo->FileMappingHandle = (IntPtr)fileMappingHandle;
-                bitmapInfo->_backBufferHandle = (IntPtr)backBufferHandle;
+                bitmapInfo->BackBufferHandle = (IntPtr)backBufferHandle;
 
                 bitmapInfo->Width = newWidth;
                 bitmapInfo->Height = newHeight;
@@ -150,26 +150,26 @@ namespace CefSharp
                 int pixels = width * height;
                 int numberOfBytes = pixels * _renderWebBrowser->BytesPerPixel;
 
-                if (*backBufferHandle == NULL ||
+                if(*backBufferHandle == NULL ||
                     currentWidth != width ||
                     currentHeight != height)
                 {
                     _renderWebBrowser->ClearBitmap(bitmapInfo);
 
-                    if (*backBufferHandle != NULL)
+                    if(*backBufferHandle != NULL)
                     {
                         UnmapViewOfFile(*backBufferHandle);
                         *backBufferHandle = NULL;
                     }
 
-                    if (*fileMappingHandle != NULL)
+                    if(*fileMappingHandle != NULL)
                     {
                         CloseHandle(*fileMappingHandle);
                         *fileMappingHandle = NULL;
                     }
 
                     *fileMappingHandle = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, numberOfBytes, NULL);
-                    if (*fileMappingHandle == NULL)
+                    if(*fileMappingHandle == NULL)
                     {
                         // TODO: Consider doing something more sensible here, since the browser will be very badly broken if this
                         // TODO: method call fails.
@@ -177,7 +177,7 @@ namespace CefSharp
                     }
 
                     *backBufferHandle = MapViewOfFile(*fileMappingHandle, FILE_MAP_ALL_ACCESS, 0, 0, numberOfBytes);
-                    if (*backBufferHandle == NULL)
+                    if(*backBufferHandle == NULL)
                     {
                         // TODO: Consider doing something more sensible here, since the browser will be very badly broken if this
                         // TODO: method call fails.

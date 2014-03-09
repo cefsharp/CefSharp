@@ -110,7 +110,7 @@ namespace CefSharp
             {
                 // Need explicit cast here to avoid C4965 warning when the minor version is zero.
                 return String::Format("{0}.{1}.{2}.{3}",
-                    CHROME_VERSION_MAJOR, (Object^) CHROME_VERSION_MINOR,
+                    CHROME_VERSION_MAJOR, (Object^)CHROME_VERSION_MINOR,
                     CHROME_VERSION_BUILD, CHROME_VERSION_PATCH);
             }
         }

@@ -28,7 +28,7 @@ namespace CefSharp
             {
                 auto cefHost = _renderClientAdapter->TryGetCefHost();
 
-                if (cefHost != nullptr)
+                if(cefHost != nullptr)
                 {
                     return StringUtils::ToClr(cefHost->GetDevToolsURL(true));
                 }
@@ -58,14 +58,14 @@ namespace CefSharp
             CefString addressNative = StringUtils::ToNative("about:blank");
 
             CefBrowserHost::CreateBrowser(window, _renderClientAdapter, addressNative,
-                *(CefBrowserSettings*) browserSettings->_internalBrowserSettings);
+                *(CefBrowserSettings*)browserSettings->_internalBrowserSettings);
         }
 
         void Close()
         {
             auto cefHost = _renderClientAdapter->TryGetCefHost();
 
-            if (cefHost != nullptr)
+            if(cefHost != nullptr)
             {
                 cefHost->CloseBrowser(true);
             }
@@ -75,7 +75,7 @@ namespace CefSharp
         {
             auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
 
-            if (cefFrame != nullptr)
+            if(cefFrame != nullptr)
             {
                 cefFrame->LoadURL(StringUtils::ToNative(address));
             }
@@ -85,7 +85,7 @@ namespace CefSharp
         {
             auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
 
-            if (cefFrame != nullptr)
+            if(cefFrame != nullptr)
             {
                 cefFrame->LoadString(StringUtils::ToNative(html), StringUtils::ToNative(url));
             }
@@ -95,7 +95,7 @@ namespace CefSharp
         {
             auto cefHost = _renderClientAdapter->TryGetCefHost();
 
-            if (cefHost != nullptr)
+            if(cefHost != nullptr)
             {
                 cefHost->WasResized();
             }
@@ -105,7 +105,7 @@ namespace CefSharp
         {
             auto cefHost = _renderClientAdapter->TryGetCefHost();
 
-            if (cefHost != nullptr)
+            if(cefHost != nullptr)
             {
                 cefHost->SendFocusEvent(isFocused);
             }
@@ -115,22 +115,22 @@ namespace CefSharp
         {
             auto cefHost = _renderClientAdapter->TryGetCefHost();
 
-            if (cefHost == nullptr)
+            if(cefHost == nullptr)
             {
                 return false;
             }
             else
             {
                 CefKeyEvent keyEvent;
-                if (message == WM_CHAR)
+                if(message == WM_CHAR)
                     keyEvent.type = KEYEVENT_CHAR;
-                else if (message == WM_KEYDOWN || message == WM_SYSKEYDOWN)
+                else if(message == WM_KEYDOWN || message == WM_SYSKEYDOWN)
                     keyEvent.type = KEYEVENT_KEYDOWN;
-                else if (message == WM_KEYUP || message == WM_SYSKEYUP)
+                else if(message == WM_KEYUP || message == WM_SYSKEYUP)
                     keyEvent.type = KEYEVENT_KEYUP;
 
                 keyEvent.windows_key_code = keyEvent.native_key_code = wParam;
-                keyEvent.is_system_key = 
+                keyEvent.is_system_key =
                     message == WM_SYSKEYDOWN ||
                     message == WM_SYSKEYUP ||
                     message == WM_SYSCHAR;
@@ -144,7 +144,7 @@ namespace CefSharp
         {
             auto cefHost = _renderClientAdapter->TryGetCefHost();
 
-            if (cefHost != nullptr)
+            if(cefHost != nullptr)
             {
                 CefMouseEvent mouseEvent;
                 mouseEvent.x = x;
@@ -158,7 +158,7 @@ namespace CefSharp
         {
             auto cefHost = _renderClientAdapter->TryGetCefHost();
 
-            if (cefHost != nullptr)
+            if(cefHost != nullptr)
             {
                 CefMouseEvent mouseEvent;
                 mouseEvent.x = x;
@@ -172,7 +172,7 @@ namespace CefSharp
         {
             auto cefHost = _renderClientAdapter->TryGetCefHost();
 
-            if (cefHost != nullptr)
+            if(cefHost != nullptr)
             {
                 CefMouseEvent mouseEvent;
                 mouseEvent.x = x;
@@ -186,7 +186,7 @@ namespace CefSharp
         {
             auto cefBrowser = _renderClientAdapter->GetCefBrowser();
 
-            if (cefBrowser != nullptr)
+            if(cefBrowser != nullptr)
             {
                 cefBrowser->GoBack();
             }
@@ -196,7 +196,7 @@ namespace CefSharp
         {
             auto cefBrowser = _renderClientAdapter->GetCefBrowser();
 
-            if (cefBrowser != nullptr)
+            if(cefBrowser != nullptr)
             {
                 cefBrowser->GoForward();
             }
@@ -206,7 +206,7 @@ namespace CefSharp
         {
             auto cefBrowser = _renderClientAdapter->GetCefBrowser();
 
-            if (cefBrowser != nullptr)
+            if(cefBrowser != nullptr)
             {
                 cefBrowser->Reload();
             }
@@ -216,7 +216,7 @@ namespace CefSharp
         {
             auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
 
-            if (cefFrame != nullptr)
+            if(cefFrame != nullptr)
             {
                 cefFrame->ViewSource();
             }
@@ -226,7 +226,7 @@ namespace CefSharp
         {
             auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
 
-            if (cefFrame != nullptr)
+            if(cefFrame != nullptr)
             {
                 cefFrame->ExecuteJavaScript(StringUtils::ToNative(script), "about:blank", 0);
             }
@@ -237,7 +237,7 @@ namespace CefSharp
             auto browser = _renderClientAdapter->GetCefBrowser();
             auto frame = _renderClientAdapter->TryGetCefMainFrame();
 
-            if (browser != nullptr &&
+            if(browser != nullptr &&
                 frame != nullptr)
             {
                 // TODO: Don't instantiate this on every request. The problem is that the CefBrowser is not set in our constructor.
@@ -246,7 +246,7 @@ namespace CefSharp
                     this,
                     gcnew NetNamedPipeBinding(),
                     gcnew EndpointAddress(serviceName)
-                );
+                    );
 
                 _javaScriptProxy = channelFactory->CreateChannel();
 
@@ -258,7 +258,7 @@ namespace CefSharp
             }
         }
 
-        virtual void Error( Exception^ ex )
+        virtual void Error(Exception^ ex)
         {
 
         }
@@ -273,7 +273,7 @@ namespace CefSharp
             CefString addressNative = StringUtils::ToNative(address);
 
             CefBrowserHost::CreateBrowser(window, _renderClientAdapter, addressNative,
-                *(CefBrowserSettings*) browserSettings->_internalBrowserSettings);
+                *(CefBrowserSettings*)browserSettings->_internalBrowserSettings);
         }
 
         void OnSizeChanged(IntPtr^ sourceHandle)

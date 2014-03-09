@@ -25,7 +25,7 @@ namespace CefSharp
         {
             ILifeSpanHandler^ handler = _browserControl->LifeSpanHandler;
 
-            if (handler == nullptr)
+            if(handler == nullptr)
             {
                 return false;
             }
@@ -36,7 +36,7 @@ namespace CefSharp
 
         void ClientAdapter::OnAfterCreated(CefRefPtr<CefBrowser> browser)
         {
-            if (!browser->IsPopup())
+            if(!browser->IsPopup())
             {
                 _browserHwnd = browser->GetHost()->GetWindowHandle();
                 _cefBrowser = browser;
@@ -47,10 +47,10 @@ namespace CefSharp
 
         void ClientAdapter::OnBeforeClose(CefRefPtr<CefBrowser> browser)
         {
-            if (_browserHwnd == browser->GetHost()->GetWindowHandle())
+            if(_browserHwnd == browser->GetHost()->GetWindowHandle())
             {
                 ILifeSpanHandler^ handler = _browserControl->LifeSpanHandler;
-                if (handler != nullptr)
+                if(handler != nullptr)
                 {
                     handler->OnBeforeClose(_browserControl);
                 }
@@ -69,7 +69,7 @@ namespace CefSharp
 
         void ClientAdapter::OnAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& address)
         {
-            if (frame->IsMain())
+            if(frame->IsMain())
             {
                 _browserControl->SetAddress(StringUtils::ToClr(address));
             }
@@ -84,7 +84,7 @@ namespace CefSharp
         {
             String^ tooltip = StringUtils::ToClr(text);
 
-            if (tooltip != _tooltip)
+            if(tooltip != _tooltip)
             {
                 _tooltip = tooltip;
                 _browserControl->SetTooltipText(_tooltip);
@@ -104,7 +104,7 @@ namespace CefSharp
 
         KeyType KeyTypeToManaged(cef_key_event_type_t keytype)
         {
-            switch (keytype)
+            switch(keytype)
             {
             case KEYEVENT_RAWKEYDOWN:
                 return KeyType::RawKeyDown;
@@ -121,7 +121,7 @@ namespace CefSharp
         {
             IKeyboardHandler^ handler = _browserControl->KeyboardHandler;
 
-            if (handler == nullptr)
+            if(handler == nullptr)
             {
                 return false;
             }
@@ -133,13 +133,13 @@ namespace CefSharp
 
         void ClientAdapter::OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame)
         {
-            if (browser->IsPopup())
+            if(browser->IsPopup())
             {
                 return;
             }
 
             AutoLock lock_scope(this);
-            if (frame->IsMain())
+            if(frame->IsMain())
             {
                 _browserControl->SetIsLoading(true);
                 _browserControl->SetNavState(false, false, false);
@@ -150,13 +150,13 @@ namespace CefSharp
 
         void ClientAdapter::OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode)
         {
-            if (browser->IsPopup())
+            if(browser->IsPopup())
             {
                 return;
             }
 
             AutoLock lock_scope(this);
-            if (frame->IsMain())
+            if(frame->IsMain())
             {
                 _browserControl->SetIsLoading(false);
             }
@@ -192,7 +192,7 @@ namespace CefSharp
             // seemingly MIA...
             IRequestHandler^ handler = _browserControl->RequestHandler;
 
-            if (handler == nullptr)
+            if(handler == nullptr)
             {
                 return false;
             }
@@ -202,13 +202,13 @@ namespace CefSharp
 
             bool ret = handler->OnBeforeResourceLoad(_browserControl, requestResponse);
 
-            if (requestResponse->Action == ResponseAction::Redirect)
+            if(requestResponse->Action == ResponseAction::Redirect)
             {
                 // TODO: Not supported at the moment; there does not seem any obvious way to give a redirect back in an
                 // OnBeforeResourceLoad() handler nowadays.
                 //request.redirectUrl = StringUtils::ToNative(requestResponse->RedirectUrl);
             }
-            else if (requestResponse->Action == ResponseAction::Respond)
+            else if(requestResponse->Action == ResponseAction::Respond)
             {
                 CefRefPtr<StreamAdapter> adapter = new StreamAdapter(requestResponse->ResponseStream);
 
@@ -238,7 +238,7 @@ namespace CefSharp
         CefRefPtr<CefDownloadHandler> ClientAdapter::GetDownloadHandler()
         {
             IRequestHandler^ requestHandler = _browserControl->RequestHandler;
-            if (requestHandler == nullptr)
+            if(requestHandler == nullptr)
             {
                 return false;
             }
@@ -246,7 +246,7 @@ namespace CefSharp
             IDownloadHandler^ downloadHandler;
             bool ret = requestHandler->GetDownloadHandler(_browserControl, downloadHandler);
 
-            if (ret)
+            if(ret)
             {
                 return new DownloadAdapter(downloadHandler);
             }
@@ -260,7 +260,7 @@ namespace CefSharp
             const CefString& host, int port, const CefString& realm, const CefString& scheme, CefRefPtr<CefAuthCallback> callback)
         {
             IRequestHandler^ handler = _browserControl->RequestHandler;
-            if (handler == nullptr)
+            if(handler == nullptr)
             {
                 return false;
             }
@@ -269,17 +269,17 @@ namespace CefSharp
             String^ passwordString = nullptr;
             bool handled = handler->GetAuthCredentials(_browserControl, isProxy, StringUtils::ToClr(host), port, StringUtils::ToClr(realm), StringUtils::ToClr(scheme), usernameString, passwordString);
 
-            if (handled)
+            if(handled)
             {
                 CefString username;
                 CefString password;
 
-                if (usernameString != nullptr)
+                if(usernameString != nullptr)
                 {
                     username = StringUtils::ToNative(usernameString);
                 }
 
-                if (passwordString != nullptr)
+                if(passwordString != nullptr)
                 {
                     password = StringUtils::ToNative(passwordString);
                 }
@@ -353,15 +353,15 @@ namespace CefSharp
         {
             // Something like this...
             auto winFormsWebBrowserControl = dynamic_cast<IWinFormsWebBrowser^>((IWebBrowserInternal^)_browserControl);
-            if (winFormsWebBrowserControl == nullptr) return;
+            if(winFormsWebBrowserControl == nullptr) return;
 
             IMenuHandler^ handler = winFormsWebBrowserControl->MenuHandler;
-            if (handler == nullptr) return;
+            if(handler == nullptr) return;
 
             auto result = handler->OnBeforeContextMenu(_browserControl);
-            if (!result) {
+            if(!result) {
                 // The only way I found for preventing the context menu to be displayed is by removing all items. :-)
-                while (model->GetCount() > 0) {
+                while(model->GetCount() > 0) {
                     model->RemoveAt(0);
                 }
             }
@@ -378,7 +378,7 @@ namespace CefSharp
         {
             IJsDialogHandler^ handler = _browserControl->JsDialogHandler;
 
-            if (handler == nullptr)
+            if(handler == nullptr)
             {
                 return false;
             }
@@ -386,7 +386,7 @@ namespace CefSharp
             bool result;
             bool handled;
 
-            switch (dialog_type)
+            switch(dialog_type)
             {
             case JSDIALOGTYPE_ALERT:
                 handled = handler->OnJSAlert(_browserControl, StringUtils::ToClr(origin_url), StringUtils::ToClr(message_text));

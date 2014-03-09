@@ -37,7 +37,7 @@ namespace CefSharp.Internals
             // We only really care about the PID (3828) part.
             var channelPrefix = "--channel=";
             var channelArgument = args.SingleOrDefault(arg => arg.StartsWith(channelPrefix));
-            if (channelArgument == null)
+            if(channelArgument == null)
             {
                 return;
             }
@@ -70,7 +70,7 @@ namespace CefSharp.Internals
         {
             _browser = cefBrowserWrapper;
 
-            if (ParentProcessId == null)
+            if(ParentProcessId == null)
             {
                 return;
             }

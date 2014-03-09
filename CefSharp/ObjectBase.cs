@@ -33,7 +33,7 @@ namespace CefSharp
             var oldvalue = field;
             field = null;
 
-            if (oldvalue != null)
+            if(oldvalue != null)
             {
                 oldvalue.Dispose();
             }
@@ -53,14 +53,14 @@ namespace CefSharp
         private PropertyChangedEventHandler _propertyChanged;
         public event PropertyChangedEventHandler PropertyChanged
         {
-            add { if (!IsDisposed) _propertyChanged += value; }
+            add { if(!IsDisposed) _propertyChanged += value; }
             remove { _propertyChanged -= value; }
         }
 
         protected virtual void OnPropertyChanged<T>(T oldvalue, T newValue, PropertyChangedEventArgs e)
         {
             var handlers = _propertyChanged;
-            if (handlers == null)
+            if(handlers == null)
             {
                 return;
             }
@@ -70,13 +70,13 @@ namespace CefSharp
 
         public static PropertyChangedEventArgs GetArgs<T>(Expression<Func<T, object>> propertyexpression)
         {
-            if (propertyexpression == null)
+            if(propertyexpression == null)
             {
                 throw new ArgumentNullException("memberExpression");
             }
 
             var body = propertyexpression.Body as MemberExpression;
-            if (body == null)
+            if(body == null)
             {
                 throw new ArgumentException("Lambda must return a property.");
             }
@@ -88,7 +88,7 @@ namespace CefSharp
         {
             var oldvalue = field;
 
-            if (EqualityComparer<T>.Default.Equals(oldvalue, value))
+            if(EqualityComparer<T>.Default.Equals(oldvalue, value))
             {
                 return;
             }

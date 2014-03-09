@@ -31,7 +31,7 @@ namespace CefSharp
             auto frame = _cefBrowser->GetFrame(frameId);
             CefRefPtr<CefV8Context> context = frame->GetV8Context();
 
-            if (context.get() && context->Enter())
+            if(context.get() && context->Enter())
             {
                 EvaluateScriptInContext(context, script);
                 context->Exit();
@@ -47,18 +47,18 @@ namespace CefSharp
             EvaluateScriptExceptionMessage = nullptr;
 
             bool success = context->Eval(script, result, exception);
-            if (success)
+            if(success)
             {
                 try
                 {
                     EvaluateScriptResult = TypeUtils::ConvertFromCef(result);
                 }
-                catch (Exception^ ex)
+                catch(Exception^ ex)
                 {
                     EvaluateScriptExceptionMessage = ex->Message;
                 }
             }
-            else if (exception.get())
+            else if(exception.get())
             {
                 EvaluateScriptExceptionMessage = StringUtils::ToClr(exception->GetMessage());
             }
@@ -104,7 +104,7 @@ namespace CefSharp
                 &CefBrowserUnmanagedWrapper::EvaluateScriptCallback, frameId, StringUtils::ToNative(script), timeout));
             unmanagedWrapper->WaitHandle->WaitOne();
 
-            if (static_cast<String^>(unmanagedWrapper->EvaluateScriptExceptionMessage) != nullptr)
+            if(static_cast<String^>(unmanagedWrapper->EvaluateScriptExceptionMessage) != nullptr)
             {
                 throw gcnew FaultException(unmanagedWrapper->EvaluateScriptExceptionMessage);
             }

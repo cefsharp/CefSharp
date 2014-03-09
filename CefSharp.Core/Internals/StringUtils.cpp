@@ -25,7 +25,7 @@ namespace CefSharp
         [DebuggerStepThrough]
         CefString StringUtils::ToNative(String^ str)
         {
-            if (str == nullptr)
+            if(str == nullptr)
             {
                 return CefString();
             }
@@ -40,7 +40,7 @@ namespace CefSharp
         {
             cef_string_clear(&cefStr);
 
-            if (str != nullptr)
+            if(str != nullptr)
             {
                 pin_ptr<const wchar_t> pStr = PtrToStringChars(str);
                 cef_string_copy(pStr, str->Length, &cefStr);
