@@ -18,7 +18,15 @@ namespace CefSharp
         {
             MCefRefPtr<CefRequest> _wrappedRequest;
         internal:
-            CefRequestWrapper(CefRefPtr<CefRequest> cefRequest) : _wrappedRequest(cefRequest) {}
+            CefRequestWrapper(CefRefPtr<CefRequest> cefRequest) : 
+                _wrappedRequest(cefRequest) 
+            {
+            }
+
+            ~CefRequestWrapper()
+            {
+                _wrappedRequest = nullptr;
+            }
 
         public:
             virtual property String^ Url { String^ get(); void set(String^ url); }

@@ -14,6 +14,7 @@ namespace CefSharp
         {
             DoDispose(false);
             IsDisposed = true;
+            GC.SuppressFinalize(this);
         }
 
         public void Dispose()

@@ -8,6 +8,7 @@
 #include "BrowserSettings.h"
 #include "MouseButtonType.h"
 #include "Internals/RenderClientAdapter.h"
+#include "Internals/MCefRefPtr.h"
 
 using namespace CefSharp::Internals;
 using namespace System::Diagnostics;
@@ -15,11 +16,18 @@ using namespace System::ServiceModel;
 
 namespace CefSharp
 {
-    private ref class ManagedCefBrowserAdapter : ISubProcessCallback
+    private ref class ManagedCefBrowserAdapter : public ObjectBase, ISubProcessCallback
     {
-    private:
-        RenderClientAdapter* _renderClientAdapter;
+        MCefRefPtr<RenderClientAdapter> _renderClientAdapter;
         ISubProcessProxy^ _javaScriptProxy;
+
+    protected:
+        virtual void DoDispose(bool isDisposing) override
+        {
+            _renderClientAdapter = nullptr;
+
+            ObjectBase::DoDispose(isDisposing);
+        };
 
     public:
         property String^ DevToolsUrl
@@ -44,11 +52,6 @@ namespace CefSharp
             _renderClientAdapter = new RenderClientAdapter(webBrowserInternal);
         }
 
-        ~ManagedCefBrowserAdapter()
-        {
-            _renderClientAdapter = nullptr;
-        }
-
         void CreateOffscreenBrowser(BrowserSettings^ browserSettings)
         {
             HWND hwnd = HWND();
@@ -57,7 +60,7 @@ namespace CefSharp
             window.SetTransparentPainting(true);
             CefString addressNative = StringUtils::ToNative("about:blank");
 
-            CefBrowserHost::CreateBrowser(window, _renderClientAdapter, addressNative,
+            CefBrowserHost::CreateBrowser(window, _renderClientAdapter.get(), addressNative,
                 *(CefBrowserSettings*) browserSettings->_internalBrowserSettings, NULL);
         }
 
@@ -281,7 +284,7 @@ namespace CefSharp
             }
         }
 
-        virtual void Error( Exception^ ex )
+        virtual void Error(Exception^ ex)
         {
 
         }
@@ -295,7 +298,7 @@ namespace CefSharp
             window.SetAsChild(hwnd, rect);
             CefString addressNative = StringUtils::ToNative(address);
 
-            CefBrowserHost::CreateBrowser(window, _renderClientAdapter, addressNative,
+            CefBrowserHost::CreateBrowser(window, _renderClientAdapter.get(), addressNative,
                 *(CefBrowserSettings*) browserSettings->_internalBrowserSettings, NULL);
         }
 

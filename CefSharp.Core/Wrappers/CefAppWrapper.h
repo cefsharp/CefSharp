@@ -13,7 +13,7 @@ namespace CefSharp
     public ref class CefAppWrapper
     {
     private:
-        CefRefPtr<CefAppUnmanagedWrapper>* cefApp;
+        MCefRefPtr<CefAppUnmanagedWrapper> cefApp;
     internal:
         CefSubprocess^ _managedApp;
 
@@ -30,9 +30,15 @@ namespace CefSharp
         CefRefPtr<CefBrowser> _browser;
 
     public:
-        CefAppUnmanagedWrapper(CefAppWrapper^ cefAppWrapper)
+        CefAppUnmanagedWrapper(CefAppWrapper^ cefAppWrapper) :
+            _cefAppWrapper(cefAppWrapper)
         {
-            _cefAppWrapper = cefAppWrapper;
+        }
+
+        ~CefAppUnmanagedWrapper()
+        {
+            _cefAppWrapper = nullptr;
+            _browser = nullptr;
         }
 
         virtual DECL CefRefPtr<CefRenderProcessHandler> GetRenderProcessHandler() OVERRIDE
