@@ -113,6 +113,7 @@ namespace CefSharp
             case KEYEVENT_KEYUP:
                 return KeyType::KeyUp;
             case KEYEVENT_CHAR:
+            default:
                 return KeyType::Char;
             }
         }
@@ -164,9 +165,118 @@ namespace CefSharp
             _browserControl->OnFrameLoadEnd(StringUtils::ToClr(frame->GetURL()));
         }
 
+        CefErrorCode ToManagedErrorCode(cef_errorcode_t error)
+        {
+            switch (error)
+            {
+            case ERR_NONE:
+                return CefErrorCode::None;
+            case ERR_FAILED:
+                break;
+            case ERR_ABORTED:
+                return CefErrorCode::Aborted;
+            case ERR_INVALID_ARGUMENT:
+                break;
+            case ERR_INVALID_HANDLE:
+                break;
+            case ERR_FILE_NOT_FOUND:
+                return CefErrorCode::FileNotFound;
+            case ERR_TIMED_OUT:
+                break;
+            case ERR_FILE_TOO_BIG:
+                break;
+            case ERR_UNEXPECTED:
+                break;
+            case ERR_ACCESS_DENIED:
+                break;
+            case ERR_NOT_IMPLEMENTED:
+                break;
+            case ERR_CONNECTION_CLOSED:
+                break;
+            case ERR_CONNECTION_RESET:
+                break;
+            case ERR_CONNECTION_REFUSED:
+                break;
+            case ERR_CONNECTION_ABORTED:
+                break;
+            case ERR_CONNECTION_FAILED:
+                break;
+            case ERR_NAME_NOT_RESOLVED:
+                break;
+            case ERR_INTERNET_DISCONNECTED:
+                break;
+            case ERR_SSL_PROTOCOL_ERROR:
+                break;
+            case ERR_ADDRESS_INVALID:
+                break;
+            case ERR_ADDRESS_UNREACHABLE:
+                break;
+            case ERR_SSL_CLIENT_AUTH_CERT_NEEDED:
+                break;
+            case ERR_TUNNEL_CONNECTION_FAILED:
+                break;
+            case ERR_NO_SSL_VERSIONS_ENABLED:
+                break;
+            case ERR_SSL_VERSION_OR_CIPHER_MISMATCH:
+                break;
+            case ERR_SSL_RENEGOTIATION_REQUESTED:
+                break;
+            case ERR_CERT_COMMON_NAME_INVALID:
+                break;
+            case ERR_CERT_DATE_INVALID:
+                break;
+            case ERR_CERT_AUTHORITY_INVALID:
+                break;
+            case ERR_CERT_CONTAINS_ERRORS:
+                break;
+            case ERR_CERT_NO_REVOCATION_MECHANISM:
+                break;
+            case ERR_CERT_UNABLE_TO_CHECK_REVOCATION:
+                break;
+            case ERR_CERT_REVOKED:
+                break;
+            case ERR_CERT_INVALID:
+                break;
+            case ERR_CERT_END:
+                break;
+            case ERR_INVALID_URL:
+                break;
+            case ERR_DISALLOWED_URL_SCHEME:
+                break;
+            case ERR_UNKNOWN_URL_SCHEME:
+                break;
+            case ERR_TOO_MANY_REDIRECTS:
+                break;
+            case ERR_UNSAFE_REDIRECT:
+                break;
+            case ERR_UNSAFE_PORT:
+                break;
+            case ERR_INVALID_RESPONSE:
+                break;
+            case ERR_INVALID_CHUNKED_ENCODING:
+                break;
+            case ERR_METHOD_NOT_SUPPORTED:
+                break;
+            case ERR_UNEXPECTED_PROXY_AUTH:
+                break;
+            case ERR_EMPTY_RESPONSE:
+                break;
+            case ERR_RESPONSE_HEADERS_TOO_BIG:
+                break;
+            case ERR_CACHE_MISS:
+                break;
+            case ERR_INSECURE_RESPONSE:
+                break;
+            default:
+                break;
+            }
+
+            return CefErrorCode::Unknown;
+        }
+
         void ClientAdapter::OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, ErrorCode errorCode, const CefString& errorText, const CefString& failedUrl)
         {
-            _browserControl->OnLoadError(StringUtils::ToClr(failedUrl), (CefErrorCode)errorCode, StringUtils::ToClr(errorText));
+            _browserControl->OnLoadError(StringUtils::ToClr(failedUrl), ToManagedErrorCode(errorCode), StringUtils::ToClr(errorText));
         }
 
         // TODO: Check how we can support this with CEF3.

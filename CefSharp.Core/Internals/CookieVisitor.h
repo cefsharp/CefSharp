@@ -15,9 +15,14 @@ namespace CefSharp
         gcroot<ICookieVisitor^> _visitor;
 
     public:
-        CookieVisitor(ICookieVisitor^ visitor)
+        CookieVisitor(ICookieVisitor^ visitor) :
+            _visitor(visitor)
         {
-            _visitor = visitor;
+        }
+
+        ~CookieVisitor()
+        {
+            _visitor = nullptr;
         }
 
         virtual bool Visit(const CefCookie& cookie, int count, int total, bool& deleteCookie) OVERRIDE;

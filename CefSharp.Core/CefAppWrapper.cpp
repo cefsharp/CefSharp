@@ -7,7 +7,7 @@ namespace CefSharp
     CefAppWrapper::CefAppWrapper(CefSubprocess^ managedApp)
     {
         _managedApp = managedApp;
-        cefApp = new CefRefPtr<CefAppUnmanagedWrapper>(new CefAppUnmanagedWrapper(this));
+        cefApp = new CefAppUnmanagedWrapper(this);
     }
 
     int CefAppWrapper::Run(array<String^>^ args)
@@ -18,6 +18,6 @@ namespace CefSharp
 
         CefMainArgs cefMainArgs((HINSTANCE)hInstance.ToPointer());
 
-        return CefExecuteProcess(cefMainArgs, *(CefRefPtr<CefApp>*)cefApp);
+        return CefExecuteProcess(cefMainArgs, (CefApp*)cefApp.get());
     }
 }
