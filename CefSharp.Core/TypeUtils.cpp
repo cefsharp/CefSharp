@@ -25,7 +25,7 @@ namespace CefSharp
         }
 
         Type^ underlyingType = Nullable::GetUnderlyingType(type);
-        if(underlyingType != nullptr) type = underlyingType;
+        if (underlyingType != nullptr) type = underlyingType;
 
         if (type == Boolean::typeid)
         {

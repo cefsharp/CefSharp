@@ -13,20 +13,18 @@ using namespace System;
 
 namespace CefSharp
 {
-    interface class IWebBrowserInternal;
-
     namespace Internals
     {
         private class ClientAdapter : public CefClient,
-                                      public CefLifeSpanHandler,
-                                      public CefLoadHandler,
-                                      public CefRequestHandler,
-                                      public CefDisplayHandler,
-                                      public CefRenderProcessHandler,
-                                      public CefContextMenuHandler,
-                                      public CefFocusHandler,
-                                      public CefKeyboardHandler,
-                                      public CefJSDialogHandler
+            public CefLifeSpanHandler,
+            public CefLoadHandler,
+            public CefRequestHandler,
+            public CefDisplayHandler,
+            public CefRenderProcessHandler,
+            public CefContextMenuHandler,
+            public CefFocusHandler,
+            public CefKeyboardHandler,
+            public CefJSDialogHandler
         {
         private:
             gcroot<IWebBrowserInternal^> _browserControl;
@@ -47,18 +45,18 @@ namespace CefSharp
             CefRefPtr<CefBrowser> GetCefBrowser() { return _cefBrowser; }
 
             // CefClient
-            virtual CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() OVERRIDE { return this; }
-            virtual CefRefPtr<CefLoadHandler> GetLoadHandler() OVERRIDE { return this; }
-            virtual CefRefPtr<CefRequestHandler> GetRequestHandler() OVERRIDE { return this; }
-            virtual CefRefPtr<CefDisplayHandler> GetDisplayHandler() OVERRIDE { return this; }
+            virtual CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() OVERRIDE{ return this; }
+            virtual CefRefPtr<CefLoadHandler> GetLoadHandler() OVERRIDE{ return this; }
+            virtual CefRefPtr<CefRequestHandler> GetRequestHandler() OVERRIDE{ return this; }
+            virtual CefRefPtr<CefDisplayHandler> GetDisplayHandler() OVERRIDE{ return this; }
             virtual CefRefPtr<CefDownloadHandler> GetDownloadHandler() OVERRIDE;
-            virtual CefRefPtr<CefContextMenuHandler> GetContextMenuHandler() OVERRIDE { return this; }
-            virtual CefRefPtr<CefFocusHandler> GetFocusHandler() OVERRIDE { return this; }
-            virtual CefRefPtr<CefKeyboardHandler> GetKeyboardHandler() OVERRIDE { return this; }
-            virtual CefRefPtr<CefJSDialogHandler> GetJSDialogHandler() OVERRIDE { return this; }
+            virtual CefRefPtr<CefContextMenuHandler> GetContextMenuHandler() OVERRIDE{ return this; }
+            virtual CefRefPtr<CefFocusHandler> GetFocusHandler() OVERRIDE{ return this; }
+            virtual CefRefPtr<CefKeyboardHandler> GetKeyboardHandler() OVERRIDE{ return this; }
+            virtual CefRefPtr<CefJSDialogHandler> GetJSDialogHandler() OVERRIDE{ return this; }
 
-            // CefLifeSpanHandler
-            virtual DECL bool OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
+                // CefLifeSpanHandler
+                virtual DECL bool OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
                 const CefString& target_url, const CefString& target_frame_name, const CefPopupFeatures& popupFeatures,
                 CefWindowInfo& windowInfo, CefRefPtr<CefClient>& client, CefBrowserSettings& settings, bool* no_javascript_access) OVERRIDE;
             virtual DECL void OnAfterCreated(CefRefPtr<CefBrowser> browser) OVERRIDE;

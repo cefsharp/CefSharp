@@ -12,8 +12,6 @@ using namespace System;
 
 namespace CefSharp
 {
-    interface class IRenderWebBrowser;
-
     namespace Internals
     {
         private class RenderClientAdapter : public ClientAdapter,
@@ -22,13 +20,12 @@ namespace CefSharp
         private:
             gcroot<IWebBrowserInternal^> _webBrowserInternal;
             gcroot<IRenderWebBrowser^> _renderWebBrowser;
-            gcroot<Action<BitmapInfo^>^> _setBitmapDelegate;
 
         public:
             gcroot<BitmapInfo^> MainBitmapInfo;
             gcroot<BitmapInfo^> PopupBitmapInfo;
 
-            RenderClientAdapter(IWebBrowserInternal^ webBrowserInternal) :
+            RenderClientAdapter(IWebBrowserInternal^ webBrowserInternal ) :
                 ClientAdapter(webBrowserInternal),
                 _webBrowserInternal(webBrowserInternal)
             {
@@ -37,10 +34,6 @@ namespace CefSharp
                 PopupBitmapInfo->IsPopup = true;
 
                 _renderWebBrowser = dynamic_cast<IRenderWebBrowser^>(webBrowserInternal);
-                if ((IRenderWebBrowser^)_renderWebBrowser != nullptr)
-                {
-                    _setBitmapDelegate = gcnew Action<BitmapInfo^>(_renderWebBrowser, &IRenderWebBrowser::SetBitmap);
-                }
             }
 
             ~RenderClientAdapter()
@@ -49,7 +42,7 @@ namespace CefSharp
             }
 
             // CefClient
-            virtual CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE{ return this; }
+            virtual CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE{ return this; };
 
             // CefRenderHandler
             virtual DECL bool GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) OVERRIDE
@@ -63,7 +56,7 @@ namespace CefSharp
                     rect = CefRect(0, 0, _renderWebBrowser->Width, _renderWebBrowser->Height);
                     return true;
                 }
-            }
+            };
 
             ///
             // Called when the browser wants to show or hide the popup widget. The popup
@@ -73,7 +66,7 @@ namespace CefSharp
             virtual DECL void OnPopupShow(CefRefPtr<CefBrowser> browser, bool show) OVERRIDE
             {
                 _renderWebBrowser->SetPopupIsOpen(show);
-            }
+            };
 
             ///
             // Called when the browser wants to move or resize the popup widget. |rect|
@@ -83,7 +76,7 @@ namespace CefSharp
             virtual void OnPopupSize(CefRefPtr<CefBrowser> browser, const CefRect& rect) OVERRIDE
             {
                 _renderWebBrowser->SetPopupSizeAndPosition(rect.width, rect.height, rect.x, rect.y);
-            }
+            };
 
             virtual DECL void OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects,
                 const void* buffer, int width, int height) OVERRIDE
@@ -96,12 +89,12 @@ namespace CefSharp
                 {
                     SetBuffer(PopupBitmapInfo, width, height, buffer);
                 }
-            }
+            };
 
             virtual DECL void OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor) OVERRIDE
             {
                 _renderWebBrowser->SetCursor((IntPtr)cursor);
-            }
+            };
 
             CefRefPtr<CefBrowserHost> TryGetCefHost()
             {
@@ -114,7 +107,7 @@ namespace CefSharp
                 {
                     return this->GetCefBrowser()->GetHost();
                 }
-            }
+            };
 
             CefRefPtr<CefFrame> TryGetCefMainFrame()
             {
@@ -126,30 +119,30 @@ namespace CefSharp
                 }
 
                 return cefBrowser->GetMainFrame();
-            }
+            };
 
         private:
 
             void SetBuffer(BitmapInfo^ bitmapInfo, int newWidth, int newHeight, const void* buffer)
             {
-                lock l(bitmapInfo->BitmapLock);
+                lock l(bitmapInfo->_bitmapLock);
 
                 int currentWidth = bitmapInfo->Width, currentHeight = bitmapInfo->Height;
-                
+
                 auto fileMappingHandle = (HANDLE)bitmapInfo->FileMappingHandle;
-                auto backBufferHandle = (HANDLE)bitmapInfo->BackBufferHandle;
+                auto backBufferHandle = (HANDLE)bitmapInfo->_backBufferHandle;
 
                 SetBufferHelper(bitmapInfo, currentWidth, currentHeight, newWidth, newHeight, &fileMappingHandle,
                     &backBufferHandle, buffer);
 
                 bitmapInfo->FileMappingHandle = (IntPtr)fileMappingHandle;
-                bitmapInfo->BackBufferHandle = backBufferHandle;
+                bitmapInfo->_backBufferHandle = (IntPtr)backBufferHandle;
 
                 bitmapInfo->Width = newWidth;
                 bitmapInfo->Height = newHeight;
 
-                _renderWebBrowser->InvokeRenderAsync(_setBitmapDelegate, bitmapInfo);
-            }
+                _renderWebBrowser->InvokeRenderAsync(bitmapInfo);
+            };
 
             void SetBufferHelper(BitmapInfo^ bitmapInfo, int &currentWidth, int& currentHeight, int width, int height,
                 HANDLE* fileMappingHandle, HANDLE* backBufferHandle, const void* buffer)
@@ -196,7 +189,7 @@ namespace CefSharp
                 }
 
                 CopyMemory(*backBufferHandle, (void*)buffer, numberOfBytes);
-            }
+            };
 
             IMPLEMENT_REFCOUNTING(RenderClientAdapterInternal)
         };

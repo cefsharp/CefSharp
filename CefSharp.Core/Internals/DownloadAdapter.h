@@ -6,7 +6,6 @@
 
 #include "Stdafx.h"
 #include "include/cef_download_handler.h"
-#include "IDownloadHandler.h"
 
 using namespace System::Runtime::InteropServices;
 
@@ -36,7 +35,7 @@ namespace CefSharp
                 {
                     callback->Continue(StringUtils::ToNative(download_path), show_dialog);
                 }
-            }
+            };
 
             virtual bool ReceivedData(void* data, int data_size)
             {

@@ -5,26 +5,22 @@
 #pragma once
 
 #include "Stdafx.h"
-#include "BitmapInfo.h"
 #include "BrowserSettings.h"
 #include "MouseButtonType.h"
-#include "Internals/JavascriptBinding/IJavascriptProxy.h"
-#include "Internals/JavascriptBinding/JavascriptProxySupport.h"
-#include "Internals/IRenderWebBrowser.h"
 #include "Internals/RenderClientAdapter.h"
 
 using namespace CefSharp::Internals;
-using namespace CefSharp::Internals::JavascriptBinding;
 using namespace System::Diagnostics;
 using namespace System::ServiceModel;
+using namespace System::Threading;
 
 namespace CefSharp
 {
-    private ref class ManagedCefBrowserAdapter
+    private ref class ManagedCefBrowserAdapter : ISubProcessCallback
     {
     private:
         RenderClientAdapter* _renderClientAdapter;
-        IJavascriptProxy^ _javaScriptProxy;
+        ISubProcessProxy^ _javaScriptProxy;
 
     public:
         property String^ DevToolsUrl
@@ -53,7 +49,7 @@ namespace CefSharp
         {
             _renderClientAdapter = nullptr;
         }
-
+        
         void CreateOffscreenBrowser(BrowserSettings^ browserSettings, IntPtr^ sourceHandle, String^ address)
         {
             HWND hwnd = static_cast<HWND>(sourceHandle->ToPointer());
@@ -63,7 +59,11 @@ namespace CefSharp
             CefString addressNative = StringUtils::ToNative(address);
 
             CefBrowserHost::CreateBrowser(window, _renderClientAdapter, addressNative,
-                *(CefBrowserSettings*) browserSettings->_internalBrowserSettings);
+                *(CefBrowserSettings*)browserSettings->_internalBrowserSettings);
+        }
+
+        virtual void Error(Exception^ e)
+        {
         }
 
         void Close()
@@ -135,7 +135,7 @@ namespace CefSharp
                     keyEvent.type = KEYEVENT_KEYUP;
 
                 keyEvent.windows_key_code = keyEvent.native_key_code = wParam;
-                keyEvent.is_system_key = 
+                keyEvent.is_system_key =
                     message == WM_SYSKEYDOWN ||
                     message == WM_SYSKEYUP ||
                     message == WM_SYSCHAR;
@@ -241,19 +241,19 @@ namespace CefSharp
         {
             auto browser = _renderClientAdapter->GetCefBrowser();
             auto frame = _renderClientAdapter->TryGetCefMainFrame();
+            
+            // TODO: Don't instantiate this on every request. The problem is that the CefBrowser is not set in our constructor.
+            auto serviceName = SubProcessProxySupport::GetServiceName(Process::GetCurrentProcess()->Id, _renderClientAdapter->GetCefBrowser()->GetIdentifier());
+            auto channelFactory = gcnew DuplexChannelFactory<ISubProcessProxy^>(this,
+                gcnew NetNamedPipeBinding(),
+                gcnew EndpointAddress(serviceName)
+                );
+
+            _javaScriptProxy = channelFactory->CreateChannel();
 
             if (browser != nullptr &&
                 frame != nullptr)
             {
-                // TODO: Don't instantiate this on every request. The problem is that the CefBrowser is not set in our constructor.
-                auto serviceName = JavascriptProxySupport::GetServiceName(Process::GetCurrentProcess()->Id, _renderClientAdapter->GetCefBrowser()->GetIdentifier());
-                auto channelFactory = gcnew ChannelFactory<IJavascriptProxy^>(
-                    gcnew NetNamedPipeBinding(),
-                    gcnew EndpointAddress(JavascriptProxySupport::BaseAddress + "/" + serviceName)
-                );
-
-                _javaScriptProxy = channelFactory->CreateChannel();
-
                 return _javaScriptProxy->EvaluateScript(frame->GetIdentifier(), script, timeout.TotalMilliseconds);
             }
             else
@@ -272,7 +272,7 @@ namespace CefSharp
             CefString addressNative = StringUtils::ToNative(address);
 
             CefBrowserHost::CreateBrowser(window, _renderClientAdapter, addressNative,
-                *(CefBrowserSettings*) browserSettings->_internalBrowserSettings);
+                *(CefBrowserSettings*)browserSettings->_internalBrowserSettings);
         }
 
         void OnSizeChanged(IntPtr^ sourceHandle)

@@ -25,7 +25,7 @@ namespace CefSharp
                 memcpy(ptr, static_cast<void*>(src), ret);
                 return ret / size;
             }
-            catch(Exception^)
+            catch (Exception^)
             {
                 return -1;
             }
@@ -34,7 +34,7 @@ namespace CefSharp
         int StreamAdapter::Seek(int64 offset, int whence)
         {
             SeekOrigin seekOrigin;
-            switch(whence)
+            switch (whence)
             {
             case SEEK_CUR:
                 seekOrigin = SeekOrigin::Current;

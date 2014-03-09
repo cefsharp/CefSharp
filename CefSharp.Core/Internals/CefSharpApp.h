@@ -5,49 +5,45 @@
 #pragma once
 
 #include "include/cef_app.h"
-#include "CefCustomScheme.h"
 #include "CefSettings.h"
 #include "SchemeHandlerWrapper.h"
 
 namespace CefSharp
 {
-    namespace Internals
+    class CefSharpApp : public CefApp
     {
-        public class CefSharpApp : public CefApp
+        gcroot<CefSettingsWrapper^> _cefSettings;
+
+    public:
+        CefSharpApp(CefSettingsWrapper^ cefSettings) :
+            _cefSettings(cefSettings)
         {
-            gcroot<CefSettings^> _cefSettings;
+        }
 
-        public:
-            CefSharpApp(CefSettings^ cefSettings) : 
-                _cefSettings(cefSettings)
-            {            
-            }
-
-            virtual void OnRegisterCustomSchemes(CefRefPtr<CefSchemeRegistrar> registrar) OVERRIDE
+        virtual void OnRegisterCustomSchemes(CefRefPtr<CefSchemeRegistrar> registrar) OVERRIDE
+        {
+            for each (CefCustomScheme^ cefCustomScheme in _cefSettings->CefCustomSchemes)
             {
-                for each (CefCustomScheme^ cefCustomScheme in _cefSettings->_cefCustomSchemes)
-                {
-                    // TODO: Causes an "assertion failed" error here: DCHECK_EQ(CefCallbackCToCpp::DebugObjCt, 0)
-                    // when the process is shutting down.
+                // TODO: Causes an "assertion failed" error here: DCHECK_EQ(CefCallbackCToCpp::DebugObjCt, 0)
+                // when the process is shutting down.
 
-                    // TOOD: Consider adding error handling here. But where do we report any errors that may have occurred?
-                    registrar->AddCustomScheme(StringUtils::ToNative(cefCustomScheme->SchemeName), cefCustomScheme->IsStandard, false, false);
-                }
-            }
-
-            void CompleteSchemeRegistrations()
-            {
                 // TOOD: Consider adding error handling here. But where do we report any errors that may have occurred?
-                for each (CefCustomScheme^ cefCustomScheme in _cefSettings->_cefCustomSchemes)
-                {
-                    auto domainName = cefCustomScheme->DomainName ? cefCustomScheme->DomainName : String::Empty;
-
-                    CefRefPtr<CefSchemeHandlerFactory> wrapper = new SchemeHandlerFactoryWrapper(cefCustomScheme->SchemeHandlerFactory);
-                    CefRegisterSchemeHandlerFactory(StringUtils::ToNative(cefCustomScheme->SchemeName), StringUtils::ToNative(domainName), wrapper);
-                }
+                registrar->AddCustomScheme(StringUtils::ToNative(cefCustomScheme->SchemeName), cefCustomScheme->IsStandard, false, false);
             }
-
-            IMPLEMENT_REFCOUNTING(CefSharpApp)
         };
-    }
+
+        void CompleteSchemeRegistrations()
+        {
+            // TOOD: Consider adding error handling here. But where do we report any errors that may have occurred?
+            for each (CefCustomScheme^ cefCustomScheme in _cefSettings->CefCustomSchemes)
+            {
+                auto domainName = cefCustomScheme->DomainName ? cefCustomScheme->DomainName : String::Empty;
+
+                CefRefPtr<CefSchemeHandlerFactory> wrapper = new SchemeHandlerFactoryWrapper(cefCustomScheme->SchemeHandlerFactory);
+                CefRegisterSchemeHandlerFactory(StringUtils::ToNative(cefCustomScheme->SchemeName), StringUtils::ToNative(domainName), wrapper);
+            }
+        };
+
+        IMPLEMENT_REFCOUNTING(CefSharpApp)
+    };
 }

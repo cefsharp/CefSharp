@@ -5,7 +5,6 @@
 #pragma once
 
 #include "Stdafx.h"
-#include "IRequest.h"
 #include "MCefRefPtr.h"
 
 using namespace System;
@@ -25,8 +24,7 @@ namespace CefSharp
             virtual property String^ Url { String^ get(); void set(String^ url); }
             virtual property String^ Method { String^ get(); }
             virtual property String^ Body { String^ get(); }
-            virtual IDictionary<String^, String^>^ GetHeaders();
-            virtual void SetHeaders(IDictionary<String^, String^>^ headers);
+            virtual property IDictionary<String^, String^>^ Headers { IDictionary<String^, String^>^  get(); void set(IDictionary<String^, String^>^ url); }
 
         };
     }

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using CefSharp.Internals;
+using System.IO;
 
 namespace CefSharp
 {
@@ -39,7 +40,12 @@ namespace CefSharp
 
             byte[] key = name.GetPublicKey();
 
-            var stringkey = string.Concat(key.Select(b => b.ToString("X2")).ToArray());
+            var stringkey = string.Concat(key.Select(b => b.ToString("x2")).ToArray());
+
+            if ( stringkey != AssemblyInfo.PublicKey )
+            {
+                throw new FileNotFoundException( string.Format( "key mismatch expected {0} actual {1}",  AssemblyInfo.PublicKey, stringkey ), name.FullName); 
+            }
 
             _catalog = new AssemblyCatalog(Assembly.Load(name));
             _container = new CompositionContainer(_catalog);

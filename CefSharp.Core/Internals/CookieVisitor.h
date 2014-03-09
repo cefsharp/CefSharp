@@ -6,7 +6,6 @@
 
 #include "Stdafx.h"
 #include "include/cef_cookie.h"
-#include "ICookieVisitor.h"
 
 namespace CefSharp
 {

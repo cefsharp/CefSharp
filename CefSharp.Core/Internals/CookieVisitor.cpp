@@ -5,6 +5,8 @@
 #include "Stdafx.h"
 #include "CookieVisitor.h"
 
+using namespace System::Net;
+
 namespace CefSharp
 {
     bool CookieVisitor::Visit(const CefCookie& cefCookie, int count, int total, bool& deleteCookie)
@@ -17,14 +19,10 @@ namespace CefSharp
         cookie->Secure = cefCookie.secure;
         cookie->HttpOnly = cefCookie.httponly;
 
-        try
+        if (cefCookie.has_expires)
         {
             cookie->Expires = DateTime(cefCookie.expires.year,
                 cefCookie.expires.month, cefCookie.expires.day_of_month);
-        }
-        catch (Exception^)
-        {
-            // TODO: Why should we just ignore exceptions here...?
         }
 
         return _visitor->Visit(cookie, count, total, deleteCookie);

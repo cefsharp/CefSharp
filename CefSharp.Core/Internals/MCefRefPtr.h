@@ -66,12 +66,12 @@ namespace CefSharp
             * commented out for now as this operator interferes with the
             * return statement of MCefRefPtr<T>% operator=(T* p)
             operator T*()
-            { 
-            return _ptr; 
+            {
+            return _ptr;
             }
             */
 
-            T* operator->() 
+            T* operator->()
             {
                 return _ptr;
             }
@@ -83,7 +83,7 @@ namespace CefSharp
                 {
                     p->AddRef();
                 }
-                if (_ptr )
+                if (_ptr)
                 {
                     _ptr->Release();
                 }
@@ -111,7 +111,7 @@ namespace CefSharp
 
             virtual bool Equals(Object^ obj) override
             {
-                if(obj->GetType() == GetType())
+                if (obj->GetType() == GetType())
                 {
                     MCefRefPtr^ other = safe_cast<MCefRefPtr^>(obj);
                     return (*other)._ptr == _ptr;

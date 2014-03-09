@@ -6,9 +6,6 @@
 
 #include "Stdafx.h"
 #include "include/cef_scheme.h"
-#include "IRequest.h"
-#include "ISchemeHandler.h"
-#include "ISchemeHandlerFactory.h"
 
 using namespace System;
 using namespace System::IO;
@@ -21,21 +18,21 @@ namespace CefSharp
     {
         gcroot<ISchemeHandler^> _handler;
         gcroot<Stream^> _stream;
+        CefRefPtr<CefCallback> _callback;
         CefString _mime_type;
         CefResponse::HeaderMap _headers;
-        CefRefPtr<CefCallback> _callback;
         int _statusCode;
         CefString _redirectUrl;
         int _contentLength;
         bool _closeStream;
-
         int SizeFromStream();
+        CefResponse::HeaderMap ToHeaderMap(IDictionary<String^, String^>^ headers);
 
     public:
 
         SchemeHandlerWrapper(ISchemeHandler^ handler) : _handler(handler)
         {
-            if(!_handler)
+            if (!_handler)
             {
                 throw gcnew ArgumentException("handler must not be null");
             }

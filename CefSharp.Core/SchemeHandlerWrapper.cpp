@@ -12,33 +12,28 @@ using namespace System::IO;
 
 namespace CefSharp
 {
-    namespace
+    CefResponse::HeaderMap SchemeHandlerWrapper::ToHeaderMap(IDictionary<String^, String^>^ headers)
     {
-        CefResponse::HeaderMap ToHeaderMap(IDictionary<String^, String^>^ headers)
+        CefResponse::HeaderMap result;
+
+        if (headers == nullptr)
         {
-            CefResponse::HeaderMap result;
-
-            if (headers == nullptr)
-            {
-                return result;
-            }
-
-            for each (KeyValuePair<String^, String^> header in headers)
-            {
-                result.insert(std::pair<CefString,CefString>(StringUtils::ToNative(header.Key), StringUtils::ToNative(header.Value)));
-            }
-
             return result;
         }
-    };
+
+        for each (KeyValuePair<String^, String^> header in headers)
+        {
+            result.insert(std::pair<CefString, CefString>(StringUtils::ToNative(header.Key), StringUtils::ToNative(header.Value)));
+        }
+
+        return result;
+    }
 
     bool SchemeHandlerWrapper::ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefCallback> callback)
     {
         _callback = callback;
 
         bool handled = false;
-        Stream^ stream;
-        String^ mimeType;
 
         AutoLock lock_scope(this);
 
@@ -94,7 +89,7 @@ namespace CefSharp
 
         AutoLock lock_scope(this);
 
-        if(!_stream)
+        if (!_stream)
         {
             bytes_read = 0;
         }
@@ -128,12 +123,12 @@ namespace CefSharp
 
     int SchemeHandlerWrapper::SizeFromStream()
     {
-        if(!_stream)
+        if (!_stream)
         {
             return 0;
         }
 
-        if(_stream->CanSeek)
+        if (_stream->CanSeek)
         {
             _stream->Seek(0, SeekOrigin::End);
             int length = static_cast<int>(_stream->Position);

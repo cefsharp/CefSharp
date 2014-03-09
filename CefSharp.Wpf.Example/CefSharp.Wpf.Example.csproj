@@ -131,6 +131,14 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CefSharp.BrowserSubprocess\CefSharp.BrowserSubprocess.csproj">
+      <Project>{23ee5140-2c2c-4b53-a954-10b08dca6bd6}</Project>
+      <Name>CefSharp.BrowserSubprocess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.vcxproj">
+      <Project>{7b495581-2271-4f41-9476-acb86e8c864f}</Project>
+      <Name>CefSharp.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CefSharp.Example\CefSharp.Example.csproj">
       <Project>{a4394e7b-1155-43a6-989e-8ab72dddc9e4}</Project>
       <Name>CefSharp.Example</Name>
@@ -139,32 +147,18 @@
       <Project>{e6cb3790-f267-4ac7-892c-2620737682ca}</Project>
       <Name>CefSharp.Wpf</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CefSharp\CefSharp.csproj">
+      <Project>{a55848cc-10e7-40cb-addb-04740b16dd43}</Project>
+      <Name>CefSharp</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CefSharp\CefSharp.vcxproj">
       <Project>{7b495581-2271-4f41-9476-acb86e8c864f}</Project>
       <Project>{C944B6A6-7CAF-4101-B81B-2DE47296FC40}</Project>
       <Name>CefSharp.Wpf</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CefSharp\CefSharp.vcxproj">
-      <Project>{7b495581-2271-4f41-9476-acb86e8c864f}</Project>
-      <Name>CefSharp</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Images\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\CefSharp.BrowserSubprocess\bin\x86\Debug\CefSharp.BrowserSubprocess.exe">
-      <Link>ExeDependencies\Win32\Debug\CefSharp.BrowserSubprocess.exe</Link>
-    </Content>
-    <Content Include="..\CefSharp.BrowserSubprocess\bin\x86\Release\CefSharp.BrowserSubprocess.exe">
-      <Link>ExeDependencies\Win32\Release\CefSharp.BrowserSubprocess.exe</Link>
-    </Content>
-    <Content Include="..\CefSharp.BrowserSubprocess\bin\x64\Debug\CefSharp.BrowserSubprocess.exe">
-      <Link>ExeDependencies\x64\Debug\CefSharp.BrowserSubprocess.exe</Link>
-    </Content>
-    <Content Include="..\CefSharp.BrowserSubprocess\bin\x64\Release\CefSharp.BrowserSubprocess.exe">
-      <Link>ExeDependencies\x64\Release\CefSharp.BrowserSubprocess.exe</Link>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

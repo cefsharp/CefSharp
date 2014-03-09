@@ -5,8 +5,6 @@
 #pragma once
 
 #include "Stdafx.h"
-#include "IRequest.h"
-#include "IRequestResponse.h"
 
 using namespace System;
 using namespace System::IO;

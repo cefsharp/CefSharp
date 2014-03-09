@@ -41,6 +41,7 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
     <CLRSupport>true</CLRSupport>
+    <PlatformToolset>v100</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -75,7 +76,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules />
     <CodeAnalysisRuleAssemblies />
-    <TargetName>CefSharp</TargetName>
+    <TargetName>CefSharp.Core</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IgnoreImportLibrary>false</IgnoreImportLibrary>
@@ -201,6 +202,7 @@
       <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
     </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core">
       <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
@@ -213,13 +215,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
-    <ClCompile Include="BitmapInfo.cpp" />
-    <ClCompile Include="BrowserCore.cpp" />
+    <ClCompile Include="CefAppWrapper.cpp" />
     <ClCompile Include="Internals\ClientAdapter.cpp" />
     <ClCompile Include="Internals\CookieVisitor.cpp" />
     <ClCompile Include="Internals\CefRequestWrapper.cpp" />
     <ClCompile Include="Internals\RequestResponse.cpp" />
-    <ClCompile Include="RtzCountdownEvent.cpp" />
     <ClCompile Include="SchemeHandlerResponse.cpp" />
     <ClCompile Include="SchemeHandlerWrapper.cpp" />
     <ClCompile Include="Stdafx.cpp">
@@ -231,57 +231,41 @@
     <ClCompile Include="Internals\StringUtils.cpp" />
     <ClCompile Include="Internals\StreamAdapter.cpp" />
     <ClCompile Include="TypeUtils.cpp" />
-    <ClCompile Include="Wrappers\GlobalMethods.cpp" />
-    <ClCompile Include="Wrappers\CefAppWrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BrowserCore.h" />
     <ClInclude Include="BrowserSettings.h" />
     <ClInclude Include="Cef.h" />
-    <ClInclude Include="CefCustomScheme.h" />
-    <ClInclude Include="Internals\JavascriptBinding\JavascriptProxySupport.h" />
-    <ClInclude Include="IWinFormsWebBrowser.h" />
-    <ClInclude Include="BitmapInfo.h" />
+    <ClInclude Include="UnmanagedTaskWrapper.h" />
     <ClInclude Include="Wrappers\CefAppWrapper.h" />
-    <ClInclude Include="ConsoleMessageEventArgs.h" />
-    <ClInclude Include="IDownloadHandler.h" />
-    <ClInclude Include="CefErrorCode.h" />
     <ClInclude Include="Internals\DownloadAdapter.h" />
     <ClInclude Include="Internals\ClientAdapter.h" />
-    <ClInclude Include="IMenuHandler.h" />
     <ClInclude Include="Internals\CookieVisitor.h" />
-    <ClInclude Include="ICookieVisitor.h" />
-    <ClInclude Include="IJsDialogHandler.h" />
-    <ClInclude Include="IKeyboardHandler.h" />
-    <ClInclude Include="ILifeSpanHandler.h" />
     <ClInclude Include="Internals\CefSharpApp.h" />
-    <ClInclude Include="Internals\IWebBrowserInternal.h" />
-    <ClInclude Include="Internals\IRenderWebBrowser.h" />
-    <ClInclude Include="Internals\JavascriptBinding\IJavascriptProxy.h" />
-    <ClInclude Include="IRequestHandler.h" />
-    <ClInclude Include="IRequestResponse.h" />
-    <ClInclude Include="IRequest.h" />
     <ClInclude Include="Internals\CefRequestWrapper.h" />
     <ClInclude Include="Internals\MCefRefPtr.h" />
-    <ClInclude Include="ISchemeHandler.h" />
-    <ClInclude Include="ISchemeHandlerFactory.h" />
-    <ClInclude Include="IWebBrowser.h" />
     <ClInclude Include="Internals\RenderClientAdapter.h" />
-    <ClInclude Include="LoadCompletedEventArgs.h" />
     <ClInclude Include="MouseButtonType.h" />
     <ClInclude Include="ManagedCefBrowserAdapter.h" />
     <ClInclude Include="Internals\RequestResponse.h" />
-    <ClInclude Include="RtzCountdownEvent.h" />
     <ClInclude Include="CefSettings.h" />
     <ClInclude Include="SchemeHandlerResponse.h" />
     <ClInclude Include="SchemeHandlerWrapper.h" />
-    <ClInclude Include="ScriptException.h" />
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="Internals\StringUtils.h" />
     <ClInclude Include="Internals\StreamAdapter.h" />
     <ClInclude Include="TypeUtils.h" />
     <ClInclude Include="vcclr_local.h" />
     <ClInclude Include="Wrappers\CefSubprocessWrapper.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CefSharp\CefSharp.csproj">
+      <Project>{a55848cc-10e7-40cb-addb-04740b16dd43}</Project>
+      <Private>false</Private>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

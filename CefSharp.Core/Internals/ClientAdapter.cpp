@@ -5,18 +5,11 @@
 #include "Stdafx.h"
 
 #include "Internals/CefRequestWrapper.h"
-#include "Internals/IWebBrowserInternal.h"
 #include "Internals/JavascriptBinding/BindingHandler.h"
 #include "Internals/RequestResponse.h"
 #include "ClientAdapter.h"
 #include "Cef.h"
 #include "DownloadAdapter.h"
-#include "IJsDialogHandler.h"
-#include "IKeyboardHandler.h"
-#include "ILifeSpanHandler.h"
-#include "IMenuHandler.h"
-#include "IRequestHandler.h"
-#include "IWinFormsWebBrowser.h"
 #include "StreamAdapter.h"
 
 using namespace std;
@@ -109,6 +102,21 @@ namespace CefSharp
             return true;
         }
 
+        KeyType KeyTypeToManaged(cef_key_event_type_t keytype)
+        {
+            switch (keytype)
+            {
+            case KEYEVENT_RAWKEYDOWN:
+                return KeyType::RawKeyDown;
+            case KEYEVENT_KEYDOWN:
+                return KeyType::KeyDown;
+            case KEYEVENT_KEYUP:
+                return KeyType::KeyUp;
+            case KEYEVENT_CHAR:
+                return KeyType::Char;
+            }
+        }
+
         bool ClientAdapter::OnKeyEvent(CefRefPtr<CefBrowser> browser, const CefKeyEvent& event, CefEventHandle os_event)
         {
             IKeyboardHandler^ handler = _browserControl->KeyboardHandler;
@@ -120,7 +128,7 @@ namespace CefSharp
 
             // TODO: windows_key_code could possibly be the wrong choice here (the OnKeyEvent signature has changed since CEF1). The
             // other option would be native_key_code.
-            return handler->OnKeyEvent(_browserControl, (KeyType) event.type, event.windows_key_code, event.modifiers, event.is_system_key);
+            return handler->OnKeyEvent(_browserControl, KeyTypeToManaged(event.type), event.windows_key_code, event.modifiers, event.is_system_key);
         }
 
         void ClientAdapter::OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame)
@@ -158,7 +166,7 @@ namespace CefSharp
 
         void ClientAdapter::OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, ErrorCode errorCode, const CefString& errorText, const CefString& failedUrl)
         {
-            _browserControl->OnLoadError(StringUtils::ToClr(failedUrl), (CefErrorCode) errorCode, StringUtils::ToClr(errorText));
+            _browserControl->OnLoadError(StringUtils::ToClr(failedUrl), (CefErrorCode)errorCode, StringUtils::ToClr(errorText));
         }
 
         // TODO: Check how we can support this with CEF3.

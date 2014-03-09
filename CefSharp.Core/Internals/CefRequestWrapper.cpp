@@ -36,7 +36,7 @@ namespace CefSharp
 
             CefRefPtr<CefPostData> data = _wrappedRequest->GetPostData();
 
-            if (data.get() != nullptr) 
+            if (data.get() != nullptr)
             {
                 data.get()->GetElements(ev);
 
@@ -44,7 +44,7 @@ namespace CefSharp
                 {
                     CefPostDataElement *el = it->get();
 
-                    if (el->GetType() == PDE_TYPE_BYTES) 
+                    if (el->GetType() == PDE_TYPE_BYTES)
                     {
                         size_t count = el->GetBytesCount();
                         char* bytes = new char[count];
@@ -63,7 +63,7 @@ namespace CefSharp
             return nullptr;
         }
 
-        IDictionary<String^, String^>^ CefRequestWrapper::GetHeaders()
+        IDictionary<String^, String^>^ CefRequestWrapper::Headers::get()
         {
             CefRequest::HeaderMap hm;
             _wrappedRequest->GetHeaderMap(hm);
@@ -80,7 +80,7 @@ namespace CefSharp
             return headers;
         }
 
-        void CefRequestWrapper::SetHeaders(IDictionary<String^, String^>^ headers)
+        void CefRequestWrapper::Headers::set(IDictionary<String^, String^>^ headers)
         {
             CefRequest::HeaderMap hm;
 
