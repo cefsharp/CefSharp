@@ -63,24 +63,6 @@ namespace CefSharp.Wpf
         public ICommand CleanupCommand { get; private set; }
         public ICommand StopCommand { get; private set; }
 
-        public static DependencyProperty CanGoBackProperty = DependencyProperty.Register( "CanGoBack", typeof(bool), typeof(WebView) );
-        public bool CanGoBack 
-        {
-            get { return (bool)GetValue(CanGoBackProperty); }
-            private set { SetValue(CanGoBackProperty, value); }
-        }
-        public static DependencyProperty CanGoForwardProperty = DependencyProperty.Register("CanGoForward", typeof(bool), typeof(WebView));
-        public bool CanGoForward
-        {
-            get { return (bool)GetValue(CanGoForwardProperty); }
-            private set { SetValue(CanGoForwardProperty, value); }
-        }
-        public static DependencyProperty CanReloadProperty = DependencyProperty.Register("CanReload", typeof(bool), typeof(WebView));
-        public bool CanReload
-        {
-            get { return (bool)GetValue(CanReloadProperty); }
-            private set { SetValue(CanReloadProperty, value); }
-        }
 
         int IRenderWebBrowser.BytesPerPixel
         {
@@ -148,6 +130,39 @@ namespace CefSharp.Wpf
         }
 
         #endregion Address dependency property
+
+        #region CanGoBack
+
+        public static DependencyProperty CanGoBackProperty = DependencyProperty.Register( "CanGoBack", typeof(bool), typeof(WebView) );
+        public bool CanGoBack 
+        {
+            get { return (bool)GetValue(CanGoBackProperty); }
+            private set { SetValue((DependencyProperty) CanGoBackProperty, value); }
+        }
+
+        #endregion
+
+        #region CanGoForward
+
+        public static DependencyProperty CanGoForwardProperty = DependencyProperty.Register("CanGoForward", typeof(bool), typeof(WebView));
+        public bool CanGoForward
+        {
+            get { return (bool)GetValue(CanGoForwardProperty); }
+            private set { SetValue((DependencyProperty) CanGoForwardProperty, value); }
+        }
+
+        #endregion
+
+        #region CanReload
+
+        public static DependencyProperty CanReloadProperty = DependencyProperty.Register("CanReload", typeof(bool), typeof(WebView));
+        public bool CanReload
+        {
+            get { return (bool)GetValue(CanReloadProperty); }
+            private set { SetValue((DependencyProperty) CanReloadProperty, value); }
+        }
+
+        #endregion
 
         #region IsLoading dependency property
 
