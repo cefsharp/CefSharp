@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -16,6 +17,8 @@ namespace CefSharp.Wpf
         {
             BindingOperations.SetBinding( this, dp,binding); 
         }
+
+        #region CanExecuteValue
 
         public static DependencyProperty CanExecuteValueProperty = DependencyProperty.Register("CanExecuteValue", typeof(bool), typeof(DelegateCommand), new PropertyMetadata(true, OnCanExecutePropertyChange));
         public bool CanExecuteValue 
@@ -38,14 +41,40 @@ namespace CefSharp.Wpf
             RaiseCanExecuteChanged();
         }
 
-        public DelegateCommand(Action commandHandler )
+        #endregion
+
+        #region IsBusy
+
+        public static DependencyProperty IsBusyProperty = DependencyProperty.Register( "IsBusy", typeof( bool ), typeof( DelegateCommand ), new PropertyMetadata( false ) );
+        public bool IsBusy
+        {
+            get { return (bool) GetValue( IsBusyProperty ); }
+            set { SetValue( IsBusyProperty, value ); }
+        }
+
+        #endregion
+
+        public DelegateCommand( Action commandHandler )
         {
             _commandHandler = commandHandler;
         }
 
         public void Execute(object parameter)
         {
-            _commandHandler();
+            OnTaskBegin();
+
+            Task.Factory.StartNew(_commandHandler)
+                .ContinueWith(OnTaskCompleted);
+        }
+
+        private void OnTaskBegin()
+        {
+            SetCurrentValue( IsBusyProperty, true );
+        }
+
+        private void OnTaskCompleted( Task task )
+        {
+            SetCurrentValue( IsBusyProperty, false );
         }
 
         public bool CanExecute(object parameter)
@@ -53,7 +82,7 @@ namespace CefSharp.Wpf
             return CanExecuteValue;
         }
         
-        private void RaiseCanExecuteChanged()
+        protected void RaiseCanExecuteChanged()
         {
             var handlers = CanExecuteChanged;
             if (handlers != null)

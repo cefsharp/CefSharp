@@ -167,6 +167,7 @@
 
                 <cefSharp:WebView x:Name="webView"
                                   Opacity="{Binding ElementName=opacitySlider, Path=Value}"
+                                  HomeAddress="{Binding HomeAddress, Mode=TwoWay}"
                                   Address="{Binding Address, Mode=TwoWay}"
                                   Title="{Binding Title, Mode=OneWayToSource}"
                                   WebBrowser="{Binding WebBrowser, Mode=OneWayToSource}">
