@@ -10,6 +10,7 @@ namespace CefSharp.Wpf
     internal class DelegateCommand : DependencyObject, ICommand
     {
         private readonly Action _commandHandler;
+        private TaskFactory _factory = new TaskFactory( TaskScheduler.FromCurrentSynchronizationContext() );
 
         public event EventHandler CanExecuteChanged;
 
@@ -63,8 +64,8 @@ namespace CefSharp.Wpf
         {
             OnTaskBegin();
 
-            Task.Factory.StartNew(_commandHandler)
-                .ContinueWith(OnTaskCompleted);
+            _factory.StartNew(_commandHandler)
+                .ContinueWith(OnTaskCompleted, _factory.Scheduler );
         }
 
         private void OnTaskBegin()

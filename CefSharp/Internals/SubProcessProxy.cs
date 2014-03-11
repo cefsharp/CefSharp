@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CefSharp.Internals
 {
-    public class SubProcessProxy : ISubProcessProxy
+    public class SubProcessProxy : ObjectBase, ISubProcessProxy
     {
         public ISubProcessCallback callback { get; private set; }
 

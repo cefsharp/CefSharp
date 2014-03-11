@@ -1,20 +1,68 @@
 
+#include "Stdafx.h"
 #include <include/cef_runnable.h>
+#pragma once
+
 
 using namespace System;
 using namespace System::Threading::Tasks;
 using namespace System::Runtime::InteropServices;
 
-
-
-
-typedef void(*Continue)(Task^ task);
-typedef void(*Functor)();
-
-
-CefRefPtr<CefTask> GetCefTaskFromTask(Task^ task)
+namespace CefSharp
 {
-    auto intPtr = Marshal::GetFunctionPointerForDelegate(gcnew Action(task, &Task::RunSynchronously));
+    ref class CefTaskScheduler;
 
-    return NewCefRunnableFunction(static_cast<Functor>(intPtr.ToPointer()));
+    class CefTaskWrapper
+    {
+    public:
+        gcroot<Task^> _task;
+        gcroot<CefTaskScheduler^> _scheduler;
+        void Execute();
+
+        CefTaskWrapper(Task^ task, CefTaskScheduler^ scheduler) :
+            _task(task),
+            _scheduler(scheduler)
+        {
+        };
+
+        IMPLEMENT_REFCOUNTING(CefTaskWrapper)
+    };
+
+    public ref class CefTaskScheduler : TaskScheduler
+    {
+    public:
+        cef_thread_id_t _thread;
+
+        CefTaskScheduler(cef_thread_id_t thread) :
+            _thread(thread)
+        {
+        };
+
+
+
+        virtual void QueueTask(Task^ task) override
+        {
+            auto taskwrapper = new CefTaskWrapper(task, this);
+
+            CefPostTask(_thread, NewCefRunnableMethod(taskwrapper, &CefTaskWrapper::Execute));
+        };
+
+        void ExecuteTask(CefTaskWrapper wapper)
+        {
+            TryExecuteTask(wapper._task);
+        };
+
+    protected:
+
+        virtual bool TryExecuteTaskInline(Task^ task, bool taskWasPreviouslyQueued) override
+        {
+            return false;
+        };
+
+        virtual IEnumerable<Task^>^ GetScheduledTasks() override
+        {
+            return nullptr;
+        };
+        typedef void(*Executor)(CefTaskWrapper*);
+    };
 }

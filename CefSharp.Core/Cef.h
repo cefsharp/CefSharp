@@ -23,77 +23,22 @@ using namespace System::Threading::Tasks;
 
 namespace CefSharp
 {
-    ref class SetCookieTask
-    {
-    public:
-
-        property CefCookieNew^ Cookie;
-
-        bool Execute()
-        {
-            CefCookie cookie;
-            StringUtils::AssignNativeFromClr(cookie.name, Cookie->name);
-            StringUtils::AssignNativeFromClr(cookie.value, Cookie->value);
-            StringUtils::AssignNativeFromClr(cookie.domain, Cookie->domain);
-            StringUtils::AssignNativeFromClr(cookie.path, Cookie->path);
-            cookie.secure = Cookie->secure;
-            cookie.httponly = Cookie->httponly;
-            cookie.has_expires = Cookie->has_expires;
-            cookie.expires.year = Cookie->expires.Year;
-            cookie.expires.month = Cookie->expires.Month;
-            cookie.expires.day_of_month = Cookie->expires.Day;
-
-            return IOT_SetCookie(StringUtils::ToNative(Cookie->url), cookie);
-        }
-
-        static bool IOT_SetCookie(const CefString& url, const CefCookie& cookie)
-        {
-            return CefCookieManager::GetGlobalManager()->SetCookie(url, cookie);
-        }
-    };
-
-    ref class DeleteCookieTask
-    {
-    public:
-
-        property String^ Url;
-        property String^ Name;
-
-        bool Execute()
-        {
-            return IOT_DeleteCookies(StringUtils::ToNative(Url), StringUtils::ToNative(Name));
-        }
-
-        static bool IOT_DeleteCookies(const CefString& url, const CefString& name)
-        {
-            return CefCookieManager::GetGlobalManager()->DeleteCookies(url, name);
-        }
-    };
-
-    public ref class CefImplementation : ICef
+    public ref class Cef : CefManagedBase
     {
     private:
 
-        CefImplementation()
+        Cef()
         {
+            IOTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_IO));
         }
 
 
     public:
-        virtual CefSettingsBase^ CreateSettings()
-        {
-            return gcnew CefSettingsWrapper();
-        }
-
-
-        virtual BrowserSettings^ CreateBrowserSettings()
-        {
-            return gcnew BrowserSettingsWrapper();
-        }
+        static Cef^ Instance = gcnew Cef();
 
         /// <summary>Gets a value that indicates the CEF version currently being used.</summary>
         /// <value>The CEF Version</value>
-        virtual property Version^ CefVersion
+        static property Version^ CefVersion
         {
             Version^ get()
             {
@@ -103,7 +48,7 @@ namespace CefSharp
 
         /// <summary>Gets a value that indicates the Chromium version currently being used.</summary>
         /// <value>The Chromium version.</value>
-        virtual property Version^ ChromiumVersion
+        static property Version^ ChromiumVersion
         {
             Version^ get()
             {
@@ -113,14 +58,19 @@ namespace CefSharp
             }
         }
 
+        bool Initialize()
+        {
+            return Initialize(gcnew CefSettings());
+        }
+
         /// <summary>Initializes CefSharp with user-provided settings.</summary>
         ///<param name="cefSettings">CefSharp configuration settings.</param>
         /// <return>true if successful; otherwise, false.</return>
-        virtual bool Initialize(CefSettingsBase^ cefSettings)
+        virtual bool DoInitialize(CefSettingsBase^ cefSettings) override
         {
             bool success = false;
 
-            auto realSettings = (CefSettingsWrapper^)cefSettings;
+            auto realSettings = (CefSettings^)cefSettings;
 
             CefMainArgs main_args;
             CefRefPtr<CefSharpApp> app(new CefSharpApp(realSettings));
@@ -143,7 +93,7 @@ namespace CefSharp
         /// <summary>Visits all cookies using the provided Cookie Visitor. The returned cookies are sorted by longest path, then by earliest creation date.</summary>
         /// <param name="visitor">A user-provided Cookie Visitor implementation.</param>
         /// <return>Returns false if the CookieManager is not available; otherwise, true.</return>
-        virtual bool VisitAllCookies(ICookieVisitor^ visitor)
+        virtual bool VisitAllCookies(ICookieVisitor^ visitor) override
         {
             CefRefPtr<CookieVisitor> cookieVisitor = new CookieVisitor(visitor);
             CefRefPtr<CefCookieManager> manager = CefCookieManager::GetGlobalManager();
@@ -165,7 +115,7 @@ namespace CefSharp
         /// <param name="includeHttpOnly">A flag that determines whether HTTP-only cookies will be shown in results.</param>
         /// <param name="visitor">A user-provided Cookie Visitor implementation.</param>
         /// <return>Returns false if the CookieManager is not available; otherwise, true.</return>
-        virtual bool VisitUrlCookies(String^ url, bool includeHttpOnly, ICookieVisitor^ visitor)
+        virtual bool VisitUrlCookies(String^ url, bool includeHttpOnly, ICookieVisitor^ visitor) override
         {
             CefRefPtr<CookieVisitor> cookieVisitor = new CookieVisitor(visitor);
             CefRefPtr<CefCookieManager> manager = CefCookieManager::GetGlobalManager();
@@ -185,48 +135,30 @@ namespace CefSharp
         /// characters (e.g. the ';' character is disallowed within the cookie value attribute) and will return false without setting
         /// the cookie if such characters are found.</summary>
         /// <return>false if the cookie cannot be set (e.g. if illegal charecters such as ';' are used); otherwise true.</return>
-        virtual Task<bool>^ SetCookie(CefCookieNew^ cookie)
+        virtual bool DoSetCookie(String^ url, String^ name, String^ value, String^ domain, String^ path, bool secure, bool httponly, bool has_expires, DateTime expires) override
         {
-            auto setCookie = gcnew SetCookieTask();
-            setCookie->Cookie = cookie;
+            CefCookie cookie;
+            StringUtils::AssignNativeFromClr(cookie.name, name);
+            StringUtils::AssignNativeFromClr(cookie.value, value);
+            StringUtils::AssignNativeFromClr(cookie.domain, domain);
+            StringUtils::AssignNativeFromClr(cookie.path, path);
+            cookie.secure = secure;
+            cookie.httponly = httponly;
+            cookie.has_expires = has_expires;
+            cookie.expires.year = expires.Year;
+            cookie.expires.month = expires.Month;
+            cookie.expires.day_of_month = expires.Day;
 
-            auto task = gcnew Task<bool>(gcnew Func<bool>(setCookie, &SetCookieTask::Execute));
-
-            if (CefCurrentlyOn(TID_IO))
-            {
-                task->RunSynchronously();
-            }
-            else
-            {
-                CefPostTask(TID_IO, GetCefTaskFromTask(task));
-            }
-
-            return task;
+            return CefCookieManager::GetGlobalManager()->SetCookie(StringUtils::ToNative(url), cookie);
         }
-
 
         /// <summary>Deletes all cookies that matches all the provided parameters. If both <paramref name="url"/> and <paramref name="name"/> are empty, all cookies will be deleted.</summary>
         /// <param name="url">The cookie URL. If an empty string is provided, any URL will be matched.</param>
         /// <param name="name">The name of the cookie. If an empty string is provided, any URL will be matched.</param>
         /// <return>false if a non-empty invalid URL is specified, or if cookies cannot be accessed; otherwise, true.</return>
-        virtual Task<bool>^ DeleteCookies(String^ url, String^ name)
+        virtual bool DoDeleteCookies(String^ url, String^ name) override
         {
-            auto deleteCookieTask = gcnew DeleteCookieTask();
-            deleteCookieTask->Url = url;
-            deleteCookieTask->Name = name;
-
-            auto task = gcnew Task<bool>(gcnew Func<bool>(deleteCookieTask, &DeleteCookieTask::Execute));
-
-            if (CefCurrentlyOn(TID_IO))
-            {
-                task->RunSynchronously();
-            }
-            else
-            {
-                CefPostTask(TID_IO, GetCefTaskFromTask(task));
-            }
-
-            return task;
+            return CefCookieManager::GetGlobalManager()->DeleteCookies(StringUtils::ToNative(url), StringUtils::ToNative(name));;
         }
 
         /// <summary> Sets the directory path that will be used for storing cookie data. If <paramref name="path"/> is empty data will be stored in 
@@ -236,7 +168,7 @@ namespace CefSharp
         /// <param name="path">The file path to write cookies to.</param>
         /// <param name="persistSessionCookies">A flag that determines whether session cookies will be persisted or not.</param>
         /// <return> false if a non-empty invalid URL is specified, or if the CookieManager is not available; otherwise, true.</return>
-        virtual bool SetCookiePath(String^ path, bool persistSessionCookies)
+        virtual bool DoSetCookiePath(String^ path, bool persistSessionCookies) override
         {
             CefRefPtr<CefCookieManager> manager = CefCookieManager::GetGlobalManager();
 
@@ -250,12 +182,14 @@ namespace CefSharp
             }
         }
 
-        virtual void ShutDown()
+        virtual void DoDispose(bool disposing) override
         {
             GC::Collect();
             GC::WaitForPendingFinalizers();
 
             CefShutdown();
-        }
+
+            CefManagedBase::DoDispose(disposing);
+        };
     };
 }

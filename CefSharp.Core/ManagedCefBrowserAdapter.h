@@ -17,16 +17,15 @@ using namespace System::Threading;
 
 namespace CefSharp
 {
-    private ref class ManagedCefBrowserAdapter : ObjectBase, ISubProcessCallback
+    private ref class ManagedCefBrowserAdapter : ManagedCefBrowserAdapterBase
     {
     private:
         MCefRefPtr<RenderClientAdapter> _renderClientAdapter;
-        ISubProcessProxy^ _javaScriptProxy;
 
     public:
-        property String^ DevToolsUrl
+        virtual property String^ DevToolsUrl
         {
-            String^ get()
+            String^ get() override
             {
                 auto cefHost = _renderClientAdapter->TryGetCefHost();
 
@@ -55,14 +54,8 @@ namespace CefSharp
             }
 
             _renderClientAdapter = nullptr;
-
-            if (_javaScriptProxy != nullptr)
-            {
-                _javaScriptProxy->Terminate();
-                _javaScriptProxy = nullptr;
-            }
-
-            ObjectBase::DoDispose(isDisposing);
+            
+            ManagedCefBrowserAdapterBase::DoDispose(isDisposing);
         }
                 
         void CreateOffscreenBrowser(BrowserSettings^ browserSettings, IntPtr^ sourceHandle, String^ address)
@@ -78,10 +71,7 @@ namespace CefSharp
             CefBrowserHost::CreateBrowser(window, _renderClientAdapter.get(), addressNative,
                 *realBrowserSettings->_browserSettings);
         }
-
-        virtual void Error(Exception^ e)
-        {
-        }
+               
         
         void LoadUrl(String^ address)
         {

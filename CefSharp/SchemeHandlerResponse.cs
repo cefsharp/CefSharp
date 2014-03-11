@@ -7,14 +7,26 @@ using System.Text;
 
 namespace CefSharp
 {
-    public abstract class SchemeHandlerResponse : ObjectBase
+    public abstract class SchemeHandlerResponseBase : ObjectBase
     {
-        protected SchemeHandlerResponse()
+        protected SchemeHandlerResponseBase()
         {
             StatusCode = HttpStatusCode.OK;
             ContentLength = -1;
             MimeType = string.Empty;
             RedirectUrl = string.Empty;
+        }
+
+        protected override void DoDispose(bool isDisposing)
+        {
+            if ( CloseStream )
+            {
+                ResponseStream.Close();
+            }
+            ResponseStream = null;
+            ResponseHeaders = null;
+
+            base.DoDispose(isDisposing);
         }
 
         /// <summary>

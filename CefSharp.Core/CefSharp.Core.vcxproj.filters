@@ -47,6 +47,9 @@
     <ClCompile Include="SchemeHandlerResponse.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="UnmanagedTaskWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vcclr_local.h">

@@ -17,7 +17,7 @@ namespace CefSharp
 {
     class SchemeHandlerWrapper;
 
-    public ref class SchemeHandlerResponseWrapper : public SchemeHandlerResponse
+    public ref class SchemeHandlerResponseWrapper : public SchemeHandlerResponseBase
     {
     internal:
         MCefRefPtr<SchemeHandlerWrapper> _schemeHandlerWrapper; 
@@ -34,7 +34,7 @@ namespace CefSharp
         {
             _schemeHandlerWrapper = nullptr;
 
-            SchemeHandlerResponse::DoDispose(isdisposing);
+            SchemeHandlerResponseBase::DoDispose(isdisposing);
         }
     };
 };

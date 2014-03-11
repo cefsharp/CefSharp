@@ -12,10 +12,10 @@ namespace CefSharp
 {
     class CefSharpApp : public CefApp
     {
-        gcroot<CefSettingsWrapper^> _cefSettings;
+        gcroot<CefSettings^> _cefSettings;
 
     public:
-        CefSharpApp(CefSettingsWrapper^ cefSettings) :
+        CefSharpApp(CefSettings^ cefSettings) :
             _cefSettings(cefSettings)
         {
         }

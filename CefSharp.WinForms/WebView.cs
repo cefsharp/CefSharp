@@ -16,7 +16,7 @@ namespace CefSharp.WinForms
         public bool IsLoading { get; set; }
         public string TooltipText { get; set; }
         public string Address { get; set; }
-                
+
         public IJsDialogHandler JsDialogHandler { get; set; }
         public IKeyboardHandler KeyboardHandler { get; set; }
         public IRequestHandler RequestHandler { get; set; }
@@ -36,12 +36,13 @@ namespace CefSharp.WinForms
 
         private static void OnApplicationExit(object sender, EventArgs e)
         {
-            Cef.Shutdown();
+            CefManagedBase.Shutdown();
         }
 
         public WebView(string address)
         {
-                
+            Address = address;
+            BrowserSettings = CefManagedBase.CreateBrowserSettings();
         }
 
         protected override void Dispose(bool disposing)
@@ -104,7 +105,7 @@ namespace CefSharp.WinForms
         {
             base.OnHandleCreated(e);
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
-            managedCefBrowserAdapter.CreateBrowser(BrowserSettings ?? new BrowserSettings(), Handle, Address);
+            managedCefBrowserAdapter.CreateBrowser(BrowserSettings, Handle, Address);
         }
 
         protected override void OnSizeChanged(EventArgs e)
@@ -174,7 +175,7 @@ namespace CefSharp.WinForms
             }
         }
 
-        
+
 
         public void ShowDevTools()
         {

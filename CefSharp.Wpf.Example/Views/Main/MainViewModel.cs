@@ -72,7 +72,7 @@ namespace CefSharp.Wpf.Example.Views.Main
 
         public MainViewModel()
         {
-            HomeAddress = ExamplePresenter.DefaultUrl;
+            HomeAddress = Address = AddressEditable = ExamplePresenter.DefaultUrl;
 
             GoCommand = new DelegateCommand( Go, () => !String.IsNullOrWhiteSpace( Address ) );
             ViewSourceCommand = new DelegateCommand( ViewSource );

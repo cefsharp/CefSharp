@@ -122,8 +122,8 @@ namespace CefSharp.Wpf
                 return;
             }
 
-            if (!Cef.IsInitialized &&
-                !Cef.Initialize())
+            if (!Cef.Instance.IsInitialized &&
+                !Cef.Instance.Initialize())
             {
                 throw new InvalidOperationException("Cef::Initialize() failed");
             }
@@ -136,7 +136,7 @@ namespace CefSharp.Wpf
                 Dispatcher
             );
 
-            if (_isOffscreenBrowserCreated)
+            if (_isOffscreenBrowserCreated && Address != null )
             {
                 _managedCefBrowserAdapter.LoadUrl(Address);
             }
@@ -302,7 +302,7 @@ namespace CefSharp.Wpf
             _toolTip.Visibility = Visibility.Collapsed;
             _toolTip.Closed += OnTooltipClosed;
 
-            BrowserSettings = Cef.CreateBrowserSettings();
+            BrowserSettings = new BrowserSettingsWrapper();
 
             var backCommand = new DelegateCommand(Back);
             var forwardCommand = new DelegateCommand(Forward);
@@ -336,7 +336,7 @@ namespace CefSharp.Wpf
 
         private static void OnApplicationExit(object sender, ExitEventArgs e)
         {
-            Cef.Shutdown();
+            Cef.Instance.Dispose();
         }
 
 

@@ -13,7 +13,7 @@ using namespace CefSharp::Internals;
 
 namespace CefSharp
 {
-    ref class CefSettingsWrapper : CefSettingsBase
+    public ref class CefSettings : CefSettingsBase
     {
     internal:
         ::CefSettings* _cefSettings;
@@ -59,14 +59,14 @@ namespace CefSharp
         }
 
     public:
-        CefSettingsWrapper() : 
+        CefSettings() :
             _cefSettings(new ::CefSettings())
         {
             MultiThreadedMessageLoop = true;
         }
 
-        !CefSettingsWrapper() { delete _cefSettings; }
-        ~CefSettingsWrapper() { delete _cefSettings; }
+        !CefSettings() { delete _cefSettings; }
+        ~CefSettings() { delete _cefSettings; }
 
         virtual property bool MultiThreadedMessageLoop
         {

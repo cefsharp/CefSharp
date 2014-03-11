@@ -36,7 +36,7 @@ namespace CefSharp.Example
             };
         }
 
-        public Task ProcessRequestAsync(IRequest request, SchemeHandlerResponse response)
+        public Task ProcessRequestAsync(IRequest request, SchemeHandlerResponseBase response)
         {
             // The 'host' portion is entirely ignored by this scheme handler.
             var uri = new Uri(request.Url);

@@ -17,6 +17,6 @@ namespace CefSharp
         /// <returns>the task that fullfils the request if the request is handled, null otherwise.
         /// the result of the task should be the provided filled ISchemeHandlerResponse
         /// </returns>
-        Task ProcessRequestAsync(IRequest request, SchemeHandlerResponse response);
+        Task ProcessRequestAsync(IRequest request, SchemeHandlerResponseBase response);
     }
 }

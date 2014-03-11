@@ -231,6 +231,7 @@
     <ClCompile Include="Internals\StringUtils.cpp" />
     <ClCompile Include="Internals\StreamAdapter.cpp" />
     <ClCompile Include="TypeUtils.cpp" />
+    <ClCompile Include="UnmanagedTaskWrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BrowserSettings.h" />

@@ -7,7 +7,7 @@ using System.Text;
 namespace CefSharp.Internals
 {
     [ServiceContract(CallbackContract = typeof(ISubProcessCallback))]
-    public interface ISubProcessProxy
+    public interface ISubProcessProxy : IDisposable
     {
         [OperationContract]
         void Initialize();
