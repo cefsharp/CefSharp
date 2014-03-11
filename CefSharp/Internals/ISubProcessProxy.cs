@@ -13,11 +13,9 @@ namespace CefSharp.Internals
         [OperationContract]
         void Initialize();
 
-        [OperationContract(AsyncPattern = true)]
-        IAsyncResult BeginEvaluateScript(long frameId, string script, AsyncCallback callback, object asyncState);
-
-        object EndEvaluateScript(IAsyncResult result);
-
+        [OperationContract]
+        Task<object> EvaluateScript(long frameId, string script);
+        
         [OperationContract]
         void Terminate();
     }

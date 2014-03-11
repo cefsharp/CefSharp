@@ -39,9 +39,8 @@ namespace CefSharp
         }
 
         protected Task<object> DoEvalueteScript( long frameId, string script )
-        { 
-            var result = _javaScriptProxy.BeginEvaluateScript(frameId, script, null, null);
-            return Task<object>.Factory.FromAsync(result, _javaScriptProxy.EndEvaluateScript);
+        {
+            return _javaScriptProxy.EvaluateScript(frameId, script);
         }
     }
 }
