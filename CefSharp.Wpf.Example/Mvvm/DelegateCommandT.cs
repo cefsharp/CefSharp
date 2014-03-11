@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace CefSharp.Wpf.Example.Mvvm
 {
-    public class DelegateCommand<T>
+    public class DelegateCommand<T> : ICommand
     {
         private readonly Action<T> commandHandler;
         private readonly Func<T, bool> canExecuteHandler;

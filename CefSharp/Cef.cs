@@ -13,9 +13,12 @@ namespace CefSharp
 {
     public abstract class CefManagedBase : ObjectBase
     {
+        public static CefManagedBase Instance { get; protected set; }
+
         public bool IsInitialized { get; private set; }
         public IDictionary<string, object> BoundObjects { get; private set; }
 
+        public TaskFactory RenderTaskFactory { get; protected set; }
         public TaskFactory IOTaskFactory { get; protected set; }
 
         /// <summary>Gets a value that indicates the version of CefSharp currently being used.</summary>

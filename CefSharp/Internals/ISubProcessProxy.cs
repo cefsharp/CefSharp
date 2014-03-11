@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace CefSharp.Internals
 {
@@ -12,8 +13,10 @@ namespace CefSharp.Internals
         [OperationContract]
         void Initialize();
 
-        [OperationContract]
-        object EvaluateScript(long frameId, string script, double timeout);
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginEvaluateScript(long frameId, string script, AsyncCallback callback, object asyncState);
+
+        object EndEvaluateScript(IAsyncResult result);
 
         [OperationContract]
         void Terminate();

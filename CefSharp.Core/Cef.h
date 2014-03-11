@@ -27,14 +27,22 @@ namespace CefSharp
     {
     private:
 
+        static Cef()
+        {
+            Instance = gcnew Cef();
+            CefManagedBase::Instance = Instance;
+        };
+
         Cef()
         {
             IOTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_IO));
+            RenderTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_RENDERER));
         }
 
 
     public:
-        static Cef^ Instance = gcnew Cef();
+        
+        static Cef^ Instance;
 
         /// <summary>Gets a value that indicates the CEF version currently being used.</summary>
         /// <value>The CEF Version</value>

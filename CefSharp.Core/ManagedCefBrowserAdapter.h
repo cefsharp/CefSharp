@@ -234,7 +234,7 @@ namespace CefSharp
             }
         }
 
-        Object^ EvaluateScript(String^ script, TimeSpan timeout)
+        Task<Object^>^ EvaluateScript(String^ script )
         {
             auto browser = _renderClientAdapter->GetCefBrowser();
             auto frame = _renderClientAdapter->TryGetCefMainFrame();
@@ -254,7 +254,7 @@ namespace CefSharp
             if (browser != nullptr &&
                 frame != nullptr)
             {
-                return _javaScriptProxy->EvaluateScript(frame->GetIdentifier(), script, timeout.TotalMilliseconds);
+                return DoEvalueteScript(frame->GetIdentifier(), script);
             }
             else
             {

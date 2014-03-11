@@ -17,6 +17,7 @@ using System.Windows.Threading;
 
 using CefSharp.Internals;
 using System.Windows.Data;
+using System.Threading.Tasks;
 
 namespace CefSharp.Wpf
 {
@@ -290,7 +291,8 @@ namespace CefSharp.Wpf
             FocusVisualStyle = null;
             IsTabStop = true;
 
-            WebBrowser = (IWebBrowser)this;
+            // begin invoke is requred otherwise there is no change which trigger the transport to the viewmodel
+            Dispatcher.BeginInvoke((Action)(() => WebBrowser = this));
 
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
@@ -553,22 +555,12 @@ namespace CefSharp.Wpf
                 _managedCefBrowserAdapter.ExecuteScriptAsync(script);
             }
         }
-
-        public object EvaluateScript(string script)
+        
+        public Task<object> EvaluateScript(string script)
         {
-            return EvaluateScript(script, timeout: null);
-        }
-
-        public object EvaluateScript(string script, TimeSpan? timeout)
-        {
-            if (timeout == null)
-            {
-                timeout = TimeSpan.MaxValue;
-            }
-
             if (_isOffscreenBrowserCreated)
             {
-                return _managedCefBrowserAdapter.EvaluateScript(script, timeout.Value);
+                return _managedCefBrowserAdapter.EvaluateScript(script);
             }
             else
             {

@@ -87,7 +87,7 @@ namespace CefSharp.Wpf.Example.Views.Main
         {
             try
             {
-                EvaluateJavaScriptResult = webBrowser.EvaluateScript( s ) ?? "null";
+                EvaluateJavaScriptResult = webBrowser.EvaluateScript( s ).Result ?? "null";
             }
             catch ( Exception e )
             {
@@ -99,7 +99,7 @@ namespace CefSharp.Wpf.Example.Views.Main
         {
             try
             {
-                webBrowser.ExecuteScriptAsync( s );
+                webBrowser.EvaluateScript(s);
             }
             catch ( Exception e )
             {

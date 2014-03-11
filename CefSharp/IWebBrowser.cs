@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace CefSharp
 {
@@ -45,20 +46,13 @@ namespace CefSharp
         /// <param name="name">The name of the object. (e.g. "foo", if you want the object to be accessible as window.foo).</param>
         /// <param name="objectToBind">The object to be made accessible to Javascript.</param>
         void RegisterJsObject(string name, object objectToBind);
-
-        /// <summary>
-        /// Execute some JavaScript code in the context of this WebBrowser. As the method name implies, the script will be
-        /// executed asynchronously, and the method therefore returns before the script has actually been executed.
-        /// </summary>
-        /// <param name="script">The JavaScript code that should be executed.</param>
-        void ExecuteScriptAsync(string script);
-
+        
         /// <summary>
         /// Execute some JavaScript code in the context of this WebBrowser, and return the result of the evaluation.
         /// </summary>
         /// <param name="script">The Javascript code that should be executed.</param>
         /// <param name="timeout">The timeout after which the JavaScript code execution should be aborted.</param>
-        object EvaluateScript(string script, TimeSpan? timeout = null);
+        Task<object> EvaluateScript(string script );
 
         IRequestHandler RequestHandler { get; set; }
         bool IsBrowserInitialized { get; }

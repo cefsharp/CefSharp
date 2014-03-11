@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 
 using CefSharp.Internals;
+using System.Threading.Tasks;
 
 namespace CefSharp.WinForms
 {
@@ -76,25 +77,10 @@ namespace CefSharp.WinForms
         {
             throw new NotImplementedException();
         }
-
-        public void ExecuteScriptAsync(string script)
+                
+        public Task<object> EvaluateScript(string script )
         {
-            managedCefBrowserAdapter.ExecuteScriptAsync(script);
-        }
-
-        public object EvaluateScript(string script)
-        {
-            return EvaluateScript(script, timeout: null);
-        }
-
-        public object EvaluateScript(string script, TimeSpan? timeout)
-        {
-            if (timeout == null)
-            {
-                timeout = TimeSpan.MaxValue;
-            }
-
-            return managedCefBrowserAdapter.EvaluateScript(script, timeout.Value);
+            return managedCefBrowserAdapter.EvaluateScript(script );
         }
 
         public event LoadErrorEventHandler LoadError;

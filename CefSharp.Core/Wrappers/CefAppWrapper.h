@@ -33,6 +33,8 @@ namespace CefSharp
         CefAppUnmanagedWrapper(CefAppWrapper^ cefAppWrapper) :
             _cefAppWrapper(cefAppWrapper)
         {
+            // make shure CEF Cingleton is instanciated so it can be used
+            Cef::Instance->ToString();
         }
 
         ~CefAppUnmanagedWrapper()

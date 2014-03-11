@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace CefSharp
 {
@@ -13,7 +15,14 @@ namespace CefSharp
         {
         }
 
-        public abstract object EvaluateScript(long frameId, string script, double timeout);
+        public Task<object> EvaluateScript(long frameId, string script)
+        {
+            return CefManagedBase.Instance.RenderTaskFactory.StartNew( () => 
+            {
+                return DoEvaluateScript(frameId, script);
+            } );
+        }
 
+        protected abstract object DoEvaluateScript(long frameId, string script);
     }
 }

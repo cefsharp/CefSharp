@@ -42,14 +42,14 @@ namespace CefSharp
 
         virtual void QueueTask(Task^ task) override
         {
-            auto taskwrapper = new CefTaskWrapper(task, this);
+            auto taskwrapper = CefRefPtr<CefTaskWrapper>(new CefTaskWrapper(task, this));
 
-            CefPostTask(_thread, NewCefRunnableMethod(taskwrapper, &CefTaskWrapper::Execute));
+            CefPostTask(_thread, NewCefRunnableMethod(taskwrapper.get(), &CefTaskWrapper::Execute));
         };
 
-        void ExecuteTask(CefTaskWrapper wapper)
+        void ExecuteTask(CefRefPtr<CefTaskWrapper> wapper)
         {
-            TryExecuteTask(wapper._task);
+            TryExecuteTask(wapper->_task);
         };
 
     protected:
