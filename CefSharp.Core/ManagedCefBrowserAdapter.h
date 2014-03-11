@@ -239,18 +239,6 @@ namespace CefSharp
             auto browser = _renderClientAdapter->GetCefBrowser();
             auto frame = _renderClientAdapter->TryGetCefMainFrame();
             
-            // TODO: Don't instantiate this on every request. The problem is that the CefBrowser is not set in our constructor.
-            if (_javaScriptProxy == nullptr)
-            {
-                auto serviceName = SubProcessProxySupport::GetServiceName(Process::GetCurrentProcess()->Id, _renderClientAdapter->GetCefBrowser()->GetIdentifier());
-                auto channelFactory = gcnew DuplexChannelFactory<ISubProcessProxy^>(this,
-                    gcnew NetNamedPipeBinding(),
-                    gcnew EndpointAddress(serviceName)
-                    );
-
-                _javaScriptProxy = channelFactory->CreateChannel();
-            }
-            
             if (browser != nullptr &&
                 frame != nullptr)
             {
