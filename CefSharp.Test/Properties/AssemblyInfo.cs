@@ -1,10 +1,18 @@
-﻿using System.Reflection;
+﻿using CefSharp;
+using System;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("CefSharp.Test")]
-[assembly: AssemblyCompany("Anthony Taranto")]
-[assembly: AssemblyProduct("CefSharp")]
-[assembly: AssemblyCopyright("Copyright © The CefSharp Authors 2010-2013")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
 
-[assembly: AssemblyVersion("1.25.2.*")]
-[assembly: ComVisible(false)]
+[assembly: AssemblyCompany(AssemblyInfo.AssemblyCompany)]
+[assembly: AssemblyProduct(AssemblyInfo.AssemblyProduct)]
+[assembly: AssemblyCopyright(AssemblyInfo.AssemblyCopyright)]
+[assembly: ComVisible(AssemblyInfo.ComVisible)]
+[assembly: AssemblyVersion(AssemblyInfo.AssemblyVersion)]
+[assembly: AssemblyFileVersion(AssemblyInfo.AssemblyFileVersion)]
+[assembly: CLSCompliant(AssemblyInfo.ClsCompliant)]
