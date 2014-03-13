@@ -1,41 +1,55 @@
-﻿using NUnit.Framework;
+﻿using CefSharp.Wpf;
+using System.Collections.Generic;
+using System.Linq;
+using Xunit;
+using Xunit.Extensions;
+using Xunit.Should;
 
 namespace CefSharp.Test
 {
-    [TestFixture]
-    public class BrowserTest
+    public class BrowserTest : ObjectBase
     {
-        [TestCase("'2'", "2")]
-        [TestCase("2+2", 4)]
+        public BrowserTest()
+        {
+         
+        }
+
+        protected override void DoDispose(bool isDisposing)
+        {
+            base.DoDispose(isDisposing);
+        }
+        
+        [Theory]
+        [InlineData("'2'", "2")]
+        [InlineData("2+2", 4)]
         public void EvaluateScriptTest(string script, object result)
         {
-            //Assert.AreEqual(result, Fixture.Browser.EvaluateScript(script));
+            using (var testwindow = new TestWindowWrapper())
+            {
+                testwindow.Window.WebView.EvaluateScript(script).Result.ShouldBe(result);
+            }
         }
-
-        [TestCase("!!!")]
+        [Theory]
+        [InlineData("!!!")]
         public void EvaluateScriptExceptionTest(string script)
         {
-            //Assert.Throws<ScriptException>(() =>
-            //    Fixture.Browser.EvaluateScript(script));
+            using (var testwindow = new TestWindowWrapper())
+            {
+                Assert.Throws<ScriptException>(() =>
+                    testwindow.Window.WebView.EvaluateScript(script));
+            }
         }
 
-        [Test]
+        [Fact]
         public void RunScriptConcurrentTest()
         {
-            //var threads = new List<Thread>(10);
-
-            //for (var x = 0; x < 64; x++)
-            //{
-            //    var thread = new Thread(() =>
-            //    {
-            //        var script = x.ToString();
-            //        Assert.AreEqual(x, Fixture.Browser.EvaluateScript(script));
-            //    });
-            //    threads.Add(thread);
-            //    thread.Start();
-            //}
-
-            //threads.ForEach(x => x.Join());
+            using (var testwindow = new TestWindowWrapper())
+            {
+                foreach (var item in Enumerable.Range( 0, 64 ).AsParallel())
+                {
+                    testwindow.Window.WebView.EvaluateScript(item.ToString()).Result.ToString();
+                }
+            }
         }
     }
 }

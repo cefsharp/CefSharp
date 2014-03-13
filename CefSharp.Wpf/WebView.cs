@@ -105,7 +105,7 @@ namespace CefSharp.Wpf
 
         public static readonly DependencyProperty AddressProperty =
             DependencyProperty.Register("Address", typeof(string), typeof(WebView),
-                                        new UIPropertyMetadata(null, OnAdressChanged));
+                                        new UIPropertyMetadata("about:blank", OnAdressChanged));
 
         private static void OnAdressChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
@@ -218,7 +218,7 @@ namespace CefSharp.Wpf
         #region HomeAddress dependency property
 
         public static readonly DependencyProperty HomeAddressProperty = DependencyProperty.Register(
-            "HomeAddress", typeof (string), typeof (WebView), new PropertyMetadata(default(string), OnHomeAdressPropertyChanged));
+            "HomeAddress", typeof (string), typeof (WebView), new PropertyMetadata("about:blank", OnHomeAdressPropertyChanged));
         
         public string HomeAddress
         {
@@ -282,7 +282,16 @@ namespace CefSharp.Wpf
 
         static WebView()
         {
-            Application.Current.Exit += OnApplicationExit;
+            WithApp( a => a.Exit += OnApplicationExit );
+        }
+
+        private static void WithApp( Action<Application> action )
+        {
+            var app = Application.Current;
+            if ( app != null )
+            {
+                action(app);
+            } 
         }
         
         public WebView()
@@ -328,7 +337,7 @@ namespace CefSharp.Wpf
             ReloadCommand = reloadCommand;
             HomeCommand = homeCommand;
 
-            Application.Current.MainWindow.Closed += OnInstanceApplicationExit;
+            WithApp( a => a.MainWindow.Closed += OnInstanceApplicationExit );
         }
 
         private void OnInstanceApplicationExit(object sender, EventArgs e)
@@ -424,7 +433,7 @@ namespace CefSharp.Wpf
 
         private bool CreateOffscreenBrowser()
         {
-            if (Address == null || _source == null)
+            if ( _source == null)
             {
                 return false;
             }
