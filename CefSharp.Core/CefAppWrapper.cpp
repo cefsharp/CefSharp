@@ -4,20 +4,28 @@
 
 namespace CefSharp
 {
-    CefAppWrapper::CefAppWrapper(CefSubprocessBase^ managedApp)
+    CefAppWrapper::CefAppWrapper()
+    {        
+        cefApp = new CefAppUnmanagedWrapper(this);
+    };
+
+    void CefAppWrapper::DoDispose( bool disposing )
     {
-        _managedApp = managedApp;
-        cefApp = new CefRefPtr<CefAppUnmanagedWrapper>(new CefAppUnmanagedWrapper(this));
-    }
+        cefApp = nullptr;
+
+        CefAppBase::DoDispose(disposing);
+    };
+
 
     int CefAppWrapper::Run(array<String^>^ args)
     {
-        _managedApp->FindParentProcessId(args);
+        FindParentProcessId(args);
 
         auto hInstance = Process::GetCurrentProcess()->Handle;
 
         CefMainArgs cefMainArgs((HINSTANCE)hInstance.ToPointer());
 
-        return CefExecuteProcess(cefMainArgs, *(CefRefPtr<CefApp>*)cefApp);
+        auto ptr = cefApp.get();
+        return CefExecuteProcess(cefMainArgs, ptr);
     }
 }

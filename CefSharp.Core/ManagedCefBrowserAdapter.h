@@ -17,7 +17,7 @@ using namespace System::Threading;
 
 namespace CefSharp
 {
-    private ref class ManagedCefBrowserAdapter : ManagedCefBrowserAdapterBase
+    public ref class ManagedCefBrowserAdapter : ManagedCefBrowserAdapterBase
     {
     private:
         MCefRefPtr<RenderClientAdapter> _renderClientAdapter;
@@ -242,8 +242,8 @@ namespace CefSharp
             if (browser != nullptr &&
                 frame != nullptr)
             {
-                return DoEvalueteScript(frame->GetIdentifier(), script);
-            }
+            return DoEvalueteScript(frame->GetIdentifier(), script);
+        }
             else
             {
                 return nullptr;

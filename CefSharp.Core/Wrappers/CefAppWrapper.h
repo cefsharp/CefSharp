@@ -10,20 +10,19 @@ namespace CefSharp
 {
     class CefAppUnmanagedWrapper;
 
-    public ref class CefAppWrapper
+    public ref class CefAppWrapper : CefSubprocessBase
     {
     private:
-        CefRefPtr<CefAppUnmanagedWrapper>* cefApp;
-    internal:
-        CefSubprocessBase^ _managedApp;
+        MCefRefPtr<CefAppUnmanagedWrapper> cefApp;
 
     public:
-        CefAppWrapper(CefSubprocessBase^ managedApp);
+        CefAppWrapper();
+        virtual void DoDispose( bool disposing ) override;
 
         int Run(array<String^>^ args);
     };
 
-    private class CefAppUnmanagedWrapper : CefApp, CefRenderProcessHandler
+    public class CefAppUnmanagedWrapper : public CefApp, CefRenderProcessHandler
     {
     private:
         gcroot<CefAppWrapper^> _cefAppWrapper;
@@ -52,7 +51,7 @@ namespace CefSharp
         {
             _browser = browser;
             // TODO: Could destroy this CefBrowserWrapper in OnBrowserDestroyed(), but it doesn't seem to be reliably called...
-            _cefAppWrapper->_managedApp->OnBrowserCreated(gcnew CefBrowserWrapper(browser));
+            _cefAppWrapper->OnBrowserCreated(gcnew CefBrowserWrapper(browser));
         }
 
         IMPLEMENT_REFCOUNTING(CefAppUnmanagedWrapper);

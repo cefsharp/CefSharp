@@ -10,7 +10,7 @@
 
 namespace CefSharp
 {
-    class CefSharpApp : public CefApp
+    public class CefSharpApp : public CefApp
     {
         gcroot<CefSettings^> _cefSettings;
 
