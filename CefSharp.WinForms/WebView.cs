@@ -37,13 +37,13 @@ namespace CefSharp.WinForms
 
         private static void OnApplicationExit(object sender, EventArgs e)
         {
-            CefManagedBase.Shutdown();
+            CefManagedBase.Instance.Dispose();
         }
 
         public WebView(string address)
         {
             Address = address;
-            BrowserSettings = CefManagedBase.CreateBrowserSettings();
+            BrowserSettings = new BrowserSettingsWrapper();
         }
 
         protected override void Dispose(bool disposing)
