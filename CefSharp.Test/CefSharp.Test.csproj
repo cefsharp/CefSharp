@@ -100,7 +100,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BrowserTest.cs" />
-    <Compile Include="Fixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WindowWrapper.cs" />
   </ItemGroup>
