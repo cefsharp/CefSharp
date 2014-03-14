@@ -177,4 +177,6 @@
     <Copy SourceFiles="@(LocaleFiles)" DestinationFolder="$(TargetDir)locales" />
     <Copy SourceFiles="@(SubProcessFiles)" DestinationFolder="$(TargetDir)" />
   </Target>
+  <Import Project="$(SolutionDir)\CefSharp.props" />
+  <Import Project="$(SolutionDir)\CefSharp.Native.props" />
 </Project>
