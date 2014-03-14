@@ -106,16 +106,13 @@
     <ClInclude Include="ManagedCefBrowserAdapter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UnmanagedTaskWrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CefSettingsWrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Wrappers\CefSubprocessWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Wrappers\CefAppWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CefSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

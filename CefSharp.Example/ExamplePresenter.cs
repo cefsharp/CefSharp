@@ -14,7 +14,7 @@ namespace CefSharp.Example
 
         public static void Init()
         {
-            var settings = Cef.CreateSettings();
+            var settings = new CefSettings();
             settings.RemoteDebuggingPort = 8088;
 
             if (debuggingSubProcess)
