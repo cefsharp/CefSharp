@@ -8,7 +8,7 @@
     
     <TabControl>
         <TabItem Header="OneBrowser" >
-            <ContentControl x:Name="Content" />
+            <ContentControl x:Name="Content1" />
         </TabItem>
 
         <TabItem Header="ManyBrowser" >

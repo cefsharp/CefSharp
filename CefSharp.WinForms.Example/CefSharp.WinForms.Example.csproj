@@ -123,10 +123,6 @@
       <Project>{a55848cc-10e7-40cb-addb-04740b16dd43}</Project>
       <Name>CefSharp</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CefSharp\CefSharp.vcxproj">
-      <Project>{7B495581-2271-4F41-9476-ACB86E8C864F}</Project>
-      <Name>CefSharp</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\CefSharp.props" />
