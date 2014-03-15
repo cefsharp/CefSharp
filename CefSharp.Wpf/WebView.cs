@@ -37,13 +37,11 @@ namespace CefSharp.Wpf
 
 
         public BrowserSettings BrowserSettings { get; set; }
-        public bool IsBrowserInitialized { get; private set; }
         public IJsDialogHandler JsDialogHandler { get; set; }
         public IKeyboardHandler KeyboardHandler { get; set; }
         public IRequestHandler RequestHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
-
-
+        
         public int BytesPerPixel
         {
             get { return PixelFormat.BitsPerPixel / 8; }
@@ -94,6 +92,42 @@ namespace CefSharp.Wpf
         }
 
         #endregion
+
+        #region IsBrowserInitialized dependency property
+
+        public event DependencyPropertyChangedEventHandler IsBrowserInitializedChanged;
+
+        public static readonly DependencyProperty IsBrowserInitializedProperty =
+            DependencyProperty.Register("IsBrowserInitialized", typeof(bool), typeof(WebView),
+                                        new UIPropertyMetadata(false, OnIsBrowserInitializedChanged));
+
+        public bool IsBrowserInitialized
+        {
+            get { return (bool)GetValue(IsBrowserInitializedProperty); }
+            private set { SetValue(IsBrowserInitializedProperty, value); }
+        }
+
+        private static void OnIsBrowserInitializedChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+            WebView owner = (WebView)sender;
+            bool oldValue = (bool)args.OldValue;
+            bool newValue = (bool)args.NewValue;
+
+            owner.OnIsBrowserInitializedChanged(oldValue, newValue);
+
+            var handlers = owner.IsBrowserInitializedChanged;
+            if (handlers != null)
+            {
+                handlers(owner, args);
+            }
+        }
+
+        protected virtual void OnIsBrowserInitializedChanged(bool oldValue, bool newValue)
+        {
+           
+        }
+
+        #endregion IsBrowserInitialized dependency property
 
         #region Address dependency property
 
@@ -251,7 +285,7 @@ namespace CefSharp.Wpf
         public bool CanGoBack 
         {
             get { return (bool)GetValue(CanGoBackProperty); }
-            private set { SetValue((DependencyProperty) CanGoBackProperty, value); }
+            private set { SetValue(CanGoBackProperty, value); }
         }
 
         #endregion
@@ -262,7 +296,7 @@ namespace CefSharp.Wpf
         public bool CanGoForward
         {
             get { return (bool)GetValue(CanGoForwardProperty); }
-            private set { SetValue((DependencyProperty) CanGoForwardProperty, value); }
+            private set { SetValue( CanGoForwardProperty, value); }
         }
 
         #endregion
@@ -273,7 +307,7 @@ namespace CefSharp.Wpf
         public bool CanReload
         {
             get { return (bool)GetValue(CanReloadProperty); }
-            private set { SetValue((DependencyProperty) CanReloadProperty, value); }
+            private set { SetValue( CanReloadProperty, value); }
         }
 
         #endregion
@@ -672,26 +706,27 @@ namespace CefSharp.Wpf
             DoInUi(() =>
             {
                 _ignoreUriChange = true;
-                Address = address;
+                SetCurrentValue( AddressProperty, address );
                 _ignoreUriChange = false;
 
                 // The tooltip should obviously also be reset (and hidden) when the address changes.
-                TooltipText = null;
+                SetCurrentValue( TooltipTextProperty, null );
             });
         }
 
         void IWebBrowserInternal.SetTitle( string title )
         {
-            DoInUi( () => Title = title );
+            DoInUi( () => SetCurrentValue( TitleProperty, title ) );
         }
 
         void IWebBrowserInternal.SetTooltipText( string tooltipText )
         {
-            DoInUi( () => TooltipText = tooltipText );
+            DoInUi( () => SetCurrentValue( TooltipTextProperty, tooltipText ) );
         }
 
         void IWebBrowserInternal.OnInitialized()
         {
+            DoInUi(() => SetCurrentValue( IsBrowserInitializedProperty, true ) );
         }
 
         void IWebBrowserInternal.ShowDevTools()

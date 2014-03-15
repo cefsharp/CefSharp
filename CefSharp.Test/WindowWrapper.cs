@@ -50,7 +50,7 @@ namespace CefSharp.Test
                 Action init = () =>
                 {
                     Window = new TestWindow();
-                    Window.WebView.IsVisibleChanged += ( o, e ) => 
+                    Window.WebView.IsBrowserInitializedChanged += ( o, e ) => 
                     {
                         if ( !evt.SafeWaitHandle.IsClosed && !evt.SafeWaitHandle.IsInvalid )
                         {
@@ -59,12 +59,10 @@ namespace CefSharp.Test
                     }; 
 
                     Window.Show();
-
-                    Window.ToString();
                 };
 
                 _frame.Dispatcher.UnhandledException += Dispatcher_UnhandledException;
-                _frame.Dispatcher.Invoke(init);  
+                _frame.Dispatcher.BeginInvoke(init);  
                 
                 evt.WaitOne(); 
             }      
