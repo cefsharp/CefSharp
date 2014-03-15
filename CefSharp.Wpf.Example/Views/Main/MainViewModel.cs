@@ -2,6 +2,7 @@
 using CefSharp.Wpf.Example.Mvvm;
 using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -85,28 +86,37 @@ namespace CefSharp.Wpf.Example.Views.Main
 
         private void EvaluateJavaScript( string s )
         {
-            try
-            {
-                using ( var task = webBrowser.EvaluateScript( s ) )
-                {
-                    EvaluateJavaScriptResult = task.Result ?? "null";
-                }
-            }
-            catch ( Exception e )
-            {
-                MessageBox.Show( "Error while evaluating Javascript: " + e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error );
-            }
+            webBrowser.EvaluateScript(s).ContinueWith(OnScriptExecutionCompleted);
         }
 
         private void ExecuteJavaScript( string s )
         {
-            try
+            webBrowser.EvaluateScript(s).ContinueWith(OnScriptExecutionCompleted);
+        }
+
+        private void OnScriptExecutionCompleted( Task<object> completedTask )
+        {
+            if (completedTask.Exception != null)
             {
-                webBrowser.EvaluateScript(s);
+                var e = UnwrappException(completedTask.Exception );
+                MessageBox.Show("Error while executing Javascript: " + e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch ( Exception e )
+            else
             {
-                MessageBox.Show( "Error while executing Javascript: " + e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error );
+                EvaluateJavaScriptResult = completedTask.Result;
+            }
+        }
+
+        private Exception UnwrappException( AggregateException ex )
+        {
+            var innerex = ex.InnerException as AggregateException;
+            if ( innerex != null )
+            {
+                return UnwrappException( innerex ); 
+            } 
+            else
+            {
+                return ex.InnerException;
             }
         }
 

@@ -10,7 +10,8 @@ using System.Threading.Tasks;
 namespace CefSharp
 {
     public abstract class ManagedCefBrowserAdapterBase : ObjectBase, ISubProcessCallback
-    {    
+    {
+        private DuplexChannelFactory<ISubProcessProxy> _javaScriptProxyFactory;
         protected ISubProcessProxy _javaScriptProxy;
 
         public ManagedCefBrowserAdapterBase()
@@ -48,12 +49,12 @@ namespace CefSharp
                 if (_javaScriptProxy == null)
                 {
                     var serviceName = SubProcessProxySupport.GetServiceName(Process.GetCurrentProcess().Id, frameId);
-                    var channelFactory = new DuplexChannelFactory<ISubProcessProxy>(this,
+                    _javaScriptProxyFactory = new DuplexChannelFactory<ISubProcessProxy>(this,
                         new NetNamedPipeBinding(),
                         new EndpointAddress(serviceName)
                         );
 
-                    _javaScriptProxy = channelFactory.CreateChannel();
+                    _javaScriptProxy = _javaScriptProxyFactory.CreateChannel();
                 }
                 try
                 {
@@ -61,11 +62,11 @@ namespace CefSharp
                 }
                 catch (Exception)
                 {
-                    _javaScriptProxy.Dispose();
-                    _javaScriptProxy = null;
+                    (_javaScriptProxy as ICommunicationObject).Abort();
+                    _javaScriptProxy = _javaScriptProxyFactory.CreateChannel();
                     throw;
                 }
-            } );            
+            }, TaskCreationOptions.AttachedToParent );            
         }
     }
 }
