@@ -15,6 +15,21 @@ namespace CefSharp.Wpf.Example
             };
 
             Content.Content = mainView;
+
+
+            mainView = new MainView
+            {
+                DataContext = new MainViewModel()
+            };
+
+            Content2.Content = mainView;
+
+            mainView = new MainView
+            {
+                DataContext = new MainViewModel()
+            };
+
+            Content3.Content = mainView;
         }
     }
 }
