@@ -5,22 +5,15 @@
         xmlns:example="clr-namespace:CefSharp.Example;assembly=CefSharp.Example"
         Title="CefSharp.Wpf.Example"
         WindowState="Maximized">
-    
+
     <TabControl>
-        <TabItem Header="OneBrowser" >
+        <!-- TODO: Add support for opening/closing tabs freely, as the user wishes -->
+        <TabItem Header="Foo">
             <ContentControl x:Name="Content" />
         </TabItem>
 
-        <TabItem Header="ManyBrowser" >
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                </Grid.RowDefinitions>
-
-                <ContentControl x:Name="Content2" Grid.Row="0" />
-                <ContentControl x:Name="Content3" Grid.Row="1" />
-            </Grid>
+        <TabItem Header="Bar">
+            <ContentControl x:Name="Content2" />
         </TabItem>
     </TabControl>
 </Window>

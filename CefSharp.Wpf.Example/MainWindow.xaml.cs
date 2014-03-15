@@ -1,5 +1,5 @@
-﻿using System.Windows;
-using CefSharp.Wpf.Example.Views.Main;
+﻿using CefSharp.Wpf.Example.Views.Main;
+using System.Windows;
 
 namespace CefSharp.Wpf.Example
 {
@@ -9,27 +9,15 @@ namespace CefSharp.Wpf.Example
         {
             InitializeComponent();
 
-            var mainView = new MainView
+            Content.Content = new MainView
             {
                 DataContext = new MainViewModel()
             };
 
-            Content.Content = mainView;
-
-
-            mainView = new MainView
+            Content2.Content = new MainView
             {
-                DataContext = new MainViewModel()
-            };
-
-            Content2.Content = mainView;
-
-            mainView = new MainView
-            {
-                DataContext = new MainViewModel()
-            };
-
-            Content3.Content = mainView;
+                DataContext = new MainViewModel("http://www.google.com")
+            }; ;
         }
     }
 }
