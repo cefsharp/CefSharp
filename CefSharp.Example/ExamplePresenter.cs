@@ -14,11 +14,8 @@ namespace CefSharp.Example
 
         public static void Init()
         {
-            var settings = new CefSettings
-            {
-                RemoteDebuggingPort = 8088,
-                BrowserSubprocessPath = "CefSharp.BrowserSubprocess.exe",
-            };
+            var settings = new CefSettings();
+            settings.RemoteDebuggingPort = 8088;
 
             if (debuggingSubProcess)
             {
@@ -31,7 +28,7 @@ namespace CefSharp.Example
                 SchemeHandlerFactory = new CefSharpSchemeHandlerFactory()
             });
 
-            if (!Cef.Initialize(settings))
+            if (!Cef.Instance.Initialize(settings))
             {
                 if (Environment.GetCommandLineArgs().Contains("--type=renderer"))
                 {
@@ -43,7 +40,7 @@ namespace CefSharp.Example
                 }
             }
 
-            Cef.RegisterJsObject("bound", new BoundObject());
+            Cef.Instance.RegisterJsObject("bound", new BoundObject());
         }
 
         public static string DefaultUrl = "custom://cefsharp/home";

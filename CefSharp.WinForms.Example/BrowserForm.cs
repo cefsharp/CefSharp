@@ -136,12 +136,12 @@ namespace CefSharp.WinForms.Example
 
         public void ExecuteScript(string script)
         {
-            webView.ExecuteScriptAsync(script);
+            webView.EvaluateScript(script);
         }
 
         public object EvaluateScript(string script)
         {
-            return webView.EvaluateScript(script);
+            return webView.EvaluateScript(script).Result;
         }
 
         public void DisplayOutput(string output)
