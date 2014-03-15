@@ -1,6 +1,6 @@
-﻿using System.Diagnostics;
-using CefSharp.Internals.JavascriptBinding;
+﻿using CefSharp.Internals.JavascriptBinding;
 using System;
+using System.Diagnostics;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 
