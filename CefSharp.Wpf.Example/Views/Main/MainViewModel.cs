@@ -108,10 +108,6 @@ namespace CefSharp.Wpf.Example.Views.Main
                     AddressEditable = Address;
                     break;
 
-                case "Title":
-                    Application.Current.MainWindow.Title = "CefSharp.Wpf.Example - " + Title;
-                    break;
-
                 case "WebBrowser":
                     if (WebBrowser != null)
                     {
