@@ -5,19 +5,23 @@ namespace CefSharp.Wpf.Example
 {
     public partial class MainWindow : Window
     {
+        public FrameworkElement Tab1Content { get; set; }
+        public FrameworkElement Tab2Content { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = this;
 
-            Content.Content = new MainView
+            Tab1Content = new MainView
             {
                 DataContext = new MainViewModel()
             };
 
-            Content2.Content = new MainView
+            Tab2Content = new MainView
             {
                 DataContext = new MainViewModel("http://www.google.com")
-            }; ;
+            };
         }
     }
 }
