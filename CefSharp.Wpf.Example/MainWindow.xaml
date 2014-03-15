@@ -5,76 +5,22 @@
         xmlns:example="clr-namespace:CefSharp.Example;assembly=CefSharp.Example"
         Title="CefSharp.Wpf.Example"
         WindowState="Maximized">
-    <ContentControl x:Name="Content" />
-    <!--<Menu Height="22"
-                  DockPanel.Dock="Top">
-                <MenuItem Header="File">
-                    <MenuItem Header="Show Dev Tools"
-                              Name="showDevToolsMenuItem"
-                              Click="control_Activated" />
-                    <MenuItem Header="Close Dev Tools"
-                              Name="closeDevToolsMenuItem"
-                              Click="control_Activated" />
-                    <Separator />
-                    <MenuItem Header="Exit"
-                              Name="exitMenuItem"
-                              Click="control_Activated" />
-                </MenuItem>
-                <MenuItem Header="Edit">
-                    <MenuItem Header="Undo"
-                              Name="undoMenuItem"
-                              Click="control_Activated" />
-                    <MenuItem Header="Redo"
-                              Name="redoMenuItem"
-                              Click="control_Activated" />
-                    <Separator />
-                    <MenuItem Header="Cut"
-                              Name="cutMenuItem"
-                              Click="control_Activated" />
-                    <MenuItem Header="Copy"
-                              Name="copyMenuItem"
-                              Click="control_Activated" />
-                    <MenuItem Header="Paste"
-                              Name="pasteMenuItem"
-                              Click="control_Activated" />
-                    <MenuItem Header="Delete"
-                              Name="deleteMenuItem"
-                              Click="control_Activated" />
-                    <MenuItem Header="Select All"
-                              Name="selectAllMenuItem"
-                              Click="control_Activated" />
-                </MenuItem>
-                <MenuItem Header="Tests">
-                    <MenuItem Header="Test Resource Load Handler"
-                              Name="testResourceLoadMenuItem"
-                              Click="control_Activated" />
-                    <MenuItem Header="Test Scheme Load Handler"
-                              Name="testSchemeLoadMenuItem"
-                              Click="control_Activated" />
-                    <MenuItem Header="Test Execute JavaScript"
-                              Name="testExecuteScriptMenuItem"
-                              Click="control_Activated" />
-                    <MenuItem Header="Test Evaluate JavaScript"
-                              Name="testEvaluateScriptMenuItem"
-                              Click="control_Activated" />
-                    <MenuItem Header="Test Bind CLR Object to JavaScript"
-                              Name="testBindMenuItem"
-                              Click="control_Activated" />
-                    <MenuItem Header="Test Console Message"
-                              Name="testConsoleMessageMenuItem"
-                              Click="control_Activated" />
-                    <MenuItem Header="Test Tooltip"
-                              Name="testTooltipMenuItem"
-                              Click="control_Activated" />
-                    <MenuItem Header="Test Popup"
-                              Name="testPopupMenuItem"
-                              Click="control_Activated" />
-                    <MenuItem Header="Test Load String"
-                              Name="testLoadStringMenuItem"
-                              Click="control_Activated" />
-                    <MenuItem Header="Test Cookie Visitor"
-                              Name="testCookieVisitorMenuItem"
-                              Click="control_Activated" />
-                </MenuItem>
-            </Menu>-->
+    
+    <TabControl>
+        <TabItem Header="OneBrowser" >
+            <ContentControl x:Name="Content" />
+        </TabItem>
+
+        <TabItem Header="ManyBrowser" >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <ContentControl x:Name="Content2" Grid.Row="0" />
+                <ContentControl x:Name="Content3" Grid.Row="1" />
+            </Grid>
+        </TabItem>
+    </TabControl>
 </Window>

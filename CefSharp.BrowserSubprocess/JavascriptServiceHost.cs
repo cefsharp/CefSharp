@@ -1,4 +1,5 @@
-﻿using CefSharp.Internals.JavascriptBinding;
+﻿using System.Diagnostics;
+using CefSharp.Internals.JavascriptBinding;
 using System;
 using System.ServiceModel;
 using System.ServiceModel.Description;
@@ -9,22 +10,21 @@ namespace CefSharp.BrowserSubprocess
     {
         public static ServiceHost Create(int parentProcessId, int browserId)
         {
-            var uris = new[]
-            {
-                new Uri(JavascriptProxySupport.BaseAddress)
-            };
-
-            var host = new ServiceHost(typeof(JavascriptProxy), uris);
+            // The setup of the WCF host here is a bit non-trivial because we must support multiple subprocesses (when there is
+            // more than one WebView in the application, for example). Inspired by this SO post:
+            // http://stackoverflow.com/questions/10362246/two-unique-named-pipes-conflicting-and-invalidcredentialexception
+            var host = new ServiceHost(typeof(JavascriptProxy), new Uri[0]);
             AddDebugBehavior(host);
 
-            var serviceName = JavascriptProxySupport.GetServiceName(parentProcessId, browserId);
+            var serviceName = JavascriptProxySupport.BaseAddress + "/" + JavascriptProxySupport.GetServiceName(parentProcessId, browserId);
+
             KillExistingServiceIfNeeded(serviceName);
 
             Kernel32.OutputDebugString("Setting up IJavascriptProxy using service name: " + serviceName);
             host.AddServiceEndpoint(
                 typeof(IJavascriptProxy),
                 new NetNamedPipeBinding(),
-                serviceName
+                new Uri(serviceName)
             );
 
             host.Open();
@@ -39,7 +39,7 @@ namespace CefSharp.BrowserSubprocess
             {
                 var channelFactory = new ChannelFactory<IJavascriptProxy>(
                     new NetNamedPipeBinding(),
-                    new EndpointAddress(JavascriptProxySupport.BaseAddress + "/" + serviceName)
+                    new EndpointAddress(serviceName)
                     );
                 channelFactory.Open(TimeSpan.FromSeconds(1));
                 var javascriptProxy = channelFactory.CreateChannel();
