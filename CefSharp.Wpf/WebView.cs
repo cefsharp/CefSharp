@@ -310,11 +310,11 @@ namespace CefSharp.Wpf
             return popup;
         }
 
-        private bool AddSourceHookIfNotAlreadyPresent()
+        private void AddSourceHookIfNotAlreadyPresent()
         {
             if (source != null)
             {
-                return true;
+                return;
             }
 
             source = (HwndSource)PresentationSource.FromVisual(this);
@@ -323,10 +323,7 @@ namespace CefSharp.Wpf
             {
                 sourceHook = SourceHook;
                 source.AddHook(sourceHook);
-                return true;
             }
-
-            return false;
         }
 
         private void RemoveSourceHook()
