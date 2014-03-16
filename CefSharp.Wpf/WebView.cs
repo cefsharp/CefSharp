@@ -251,10 +251,10 @@ namespace CefSharp.Wpf
 
         private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs args)
         {
-            //(HwndSource) PresentationSource.FromVisual( this ); will fail if the control was not rendered yet so we need to try initialize if visibility changes 
-            AddSourceHook();
+            // If the control was not rendered yet when we tried to set up the source hook, it may have failed (since it couldn't
+            // lookup the HwndSource), so we need to retry it whenever visibility changes.
+            AddSourceHookIfNotAlreadyPresent();
         }
-
 
         private static void OnApplicationExit(object sender, ExitEventArgs e)
         {
@@ -274,7 +274,7 @@ namespace CefSharp.Wpf
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            AddSourceHook();
+            AddSourceHookIfNotAlreadyPresent();
         }
 
         public void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
@@ -306,7 +306,7 @@ namespace CefSharp.Wpf
             Content = image = new Image();
             popup = CreatePopup();
 
-            AddSourceHook();
+            AddSourceHookIfNotAlreadyPresent();
 
             RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.NearestNeighbor);
 
@@ -327,7 +327,7 @@ namespace CefSharp.Wpf
             return popup;
         }
 
-        private bool AddSourceHook()
+        private bool AddSourceHookIfNotAlreadyPresent()
         {
             if (source != null)
             {
