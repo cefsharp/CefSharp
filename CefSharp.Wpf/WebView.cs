@@ -282,23 +282,6 @@ namespace CefSharp.Wpf
             RemoveSourceHook();
         }
 
-        private void ShutdownManagedCefBrowserAdapter()
-        {
-            var temp = managedCefBrowserAdapter;
-
-            if (temp == null)
-            {
-                return;
-            }
-
-            managedCefBrowserAdapter = null;
-            temp.Close();
-            temp.Dispose();
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-        }
-
-
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
