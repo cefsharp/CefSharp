@@ -21,10 +21,10 @@ namespace CefSharp.Wpf
     {
         private HwndSource source;
         private HwndSourceHook sourceHook;
-        private BrowserCore browserCore;
+        private readonly BrowserCore browserCore;
         private DispatcherTimer tooltipTimer;
         private readonly ToolTip toolTip;
-        private ManagedCefBrowserAdapter managedCefBrowserAdapter;
+        private readonly ManagedCefBrowserAdapter managedCefBrowserAdapter;
         private bool ignoreUriChange;
 
         private Image image;
