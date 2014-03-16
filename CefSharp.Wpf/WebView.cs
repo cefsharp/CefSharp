@@ -30,7 +30,7 @@ namespace CefSharp.Wpf
         private Image image;
         private Image popupImage;
         private Popup popup;
-        private static List<IDisposable> cleanup = new List<IDisposable>();
+        private static readonly List<IDisposable> disposables = new List<IDisposable>();
 
         public BrowserSettings BrowserSettings { get; set; }
         public bool IsBrowserInitialized { get; private set; }
@@ -218,10 +218,10 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
             managedCefBrowserAdapter.CreateOffscreenBrowser(BrowserSettings ?? new BrowserSettings());
 
-            cleanup.Add(managedCefBrowserAdapter);
+            disposables.Add(managedCefBrowserAdapter);
 
-            cleanup.Add(new DisposableEventWrapper(this, ActualHeightProperty, OnActualSizeChanged));
-            cleanup.Add(new DisposableEventWrapper(this, ActualWidthProperty, OnActualSizeChanged));
+            disposables.Add(new DisposableEventWrapper(this, ActualHeightProperty, OnActualSizeChanged));
+            disposables.Add(new DisposableEventWrapper(this, ActualWidthProperty, OnActualSizeChanged));
         }
 
         private class DisposableEventWrapper : IDisposable
@@ -262,9 +262,9 @@ namespace CefSharp.Wpf
             // should not explicitly have to perform this.
             if (Cef.IsInitialized)
             {
-                foreach (var item in cleanup)
+                foreach (var disposable in disposables)
                 {
-                    item.Dispose();
+                    disposable.Dispose();
                 }
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
