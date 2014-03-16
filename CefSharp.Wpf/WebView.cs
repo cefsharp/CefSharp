@@ -258,7 +258,8 @@ namespace CefSharp.Wpf
 
         private static void OnApplicationExit(object sender, ExitEventArgs e)
         {
-            //TODO: this prevents accessviolation on shutdown but should be handled by Cef not the view class explicit call to shutdown shoulld not be necesary
+            // TODO: This prevents AccessViolation on shutdown, but it would be better handled by the Cef class; the WebView control
+            // should not explicitly have to perform this.
             if (Cef.IsInitialized)
             {
                 foreach (var item in cleanup)
