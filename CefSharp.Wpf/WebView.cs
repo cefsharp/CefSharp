@@ -81,18 +81,18 @@ namespace CefSharp.Wpf
 
         public static readonly DependencyProperty AddressProperty =
             DependencyProperty.Register("Address", typeof(string), typeof(WebView),
-                                        new UIPropertyMetadata( null, OnAdressChanged ) );
+                                        new UIPropertyMetadata(null, OnAdressChanged));
 
         private static void OnAdressChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
-            WebView owner = (WebView) sender;
-            string oldValue = (string) args.OldValue;
-            string newValue = (string) args.NewValue;
+            WebView owner = (WebView)sender;
+            string oldValue = (string)args.OldValue;
+            string newValue = (string)args.NewValue;
 
-            owner.OnAddressChanged( oldValue, newValue );
+            owner.OnAddressChanged(oldValue, newValue);
         }
 
-        protected virtual void OnAddressChanged( string oldValue, string newValue )
+        protected virtual void OnAddressChanged(string oldValue, string newValue)
         {
             if (ignoreUriChange)
             {
@@ -208,20 +208,20 @@ namespace CefSharp.Wpf
             toolTip.StaysOpen = true;
             toolTip.Visibility = Visibility.Collapsed;
             toolTip.Closed += OnTooltipClosed;
-            
+
             BackCommand = new DelegateCommand(Back, CanGoBack);
             ForwardCommand = new DelegateCommand(Forward, CanGoForward);
             ReloadCommand = new DelegateCommand(Reload, CanReload);
 
-            browserCore = new BrowserCore( "about:blank" );
-                browserCore.PropertyChanged += OnBrowserCorePropertyChanged;
+            browserCore = new BrowserCore("about:blank");
+            browserCore.PropertyChanged += OnBrowserCorePropertyChanged;
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
             managedCefBrowserAdapter.CreateOffscreenBrowser(BrowserSettings ?? new BrowserSettings());
 
             cleanup.Add(managedCefBrowserAdapter);
 
-            cleanup.Add( new DisposableEventWrapper( this, ActualHeightProperty, OnActualSizeChanged ) );
-            cleanup.Add( new DisposableEventWrapper( this, ActualWidthProperty, OnActualSizeChanged ) );
+            cleanup.Add(new DisposableEventWrapper(this, ActualHeightProperty, OnActualSizeChanged));
+            cleanup.Add(new DisposableEventWrapper(this, ActualWidthProperty, OnActualSizeChanged));
         }
 
         private class DisposableEventWrapper : IDisposable
@@ -257,7 +257,7 @@ namespace CefSharp.Wpf
 
 
         private static void OnApplicationExit(object sender, ExitEventArgs e)
-        {           
+        {
             //TODO: this prevents accessviolation on shutdown but should be handled by Cef not the view class explicit call to shutdown shoulld not be necesary
             if (Cef.IsInitialized)
             {
@@ -272,7 +272,7 @@ namespace CefSharp.Wpf
             }
         }
 
-        private void OnLoaded( object sender, RoutedEventArgs routedEventArgs )
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             AddSourceHook();
         }
@@ -298,24 +298,22 @@ namespace CefSharp.Wpf
             GC.WaitForPendingFinalizers();
         }
 
-        
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            
+
             Content = image = new Image();
             popup = CreatePopup();
 
             AddSourceHook();
 
-            RenderOptions.SetBitmapScalingMode( image, BitmapScalingMode.NearestNeighbor );
+            RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.NearestNeighbor);
 
             image.Stretch = Stretch.None;
             image.HorizontalAlignment = HorizontalAlignment.Left;
             image.VerticalAlignment = VerticalAlignment.Top;
         }
-
-        
 
         private Popup CreatePopup()
         {
@@ -587,7 +585,7 @@ namespace CefSharp.Wpf
         protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
             var point = e.GetPosition(this);
-            
+
             managedCefBrowserAdapter.OnMouseWheel(
                 (int)point.X,
                 (int)point.Y,
