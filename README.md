@@ -32,11 +32,13 @@ See the [SF Downloads](https://sourceforge.net/projects/cefsharp/files/) page fo
 release, *or preferably the new CEF3 Pre-release getting out of beta real-soon-now*, is the only version officially supported; it's very 
 unlikely that we will fix bugs in older releases.
 
-# Forks
+# Branches & Forks
 
-- [The cefsharp project page](https://github.com/cefsharp/CefSharp) is the recommended starting place. This is the "official"
+* Development is done in `master`. *formerly called* `CefSharp3` New features are preferably added in feature branches, if the changes are more than trivial.
+* Ultra-stable/LTS work is done in `CefSharp1`.
+* [The CefSharp project page](https://github.com/cefsharp/CefSharp) is the recommended starting place. This is the "official"
   CefSharp fork, as maintained by the CefSharp community.
-- You can also view [the entire network of public forks/branches](https://github.com/cefsharp/CefSharp/network).
+  You can also view [the entire network of public forks/branches](https://github.com/cefsharp/CefSharp/network).
 
 # Links
 
