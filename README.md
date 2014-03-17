@@ -10,7 +10,7 @@ This project is [BSD](http://www.opensource.org/licenses/bsd-license.php "BSD Li
 
 # Documentation & mailing list
 
-Work-in-progress documentation can be found [here](https://github.com/cefsharp/CefSharp/wiki). If something is missing/incomplete,
+Work-in-progress documentation can be found [in the wiki](https://github.com/cefsharp/CefSharp/wiki). If something is missing/incomplete,
 please don't hesitate to ask at the [CefSharp Google Group](https://groups.google.com/forum/#!forum/cefsharp). You might also find
 help by searching the archive to that same Google Group for previous questions.
 
@@ -42,4 +42,4 @@ unlikely that we will fix bugs in older releases.
 
 # Links
 
-- [CefGlue](https://bitbucket.org/fddima/cefglue/wiki/Home): An alternative .NET CEF wrapper build using P/Invoke.
+- [CefGlue](https://bitbucket.org/fddima/cefglue/wiki/Home): An alternative .NET CEF wrapper built using P/Invoke.
