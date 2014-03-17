@@ -2,6 +2,7 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using CefSharp.Internals;
 using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections.Generic;
@@ -15,8 +16,6 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
 
-using CefSharp.Internals;
-
 namespace CefSharp.Wpf
 {
     public class WebView : ContentControl, IRenderWebBrowser, IWpfWebBrowser
@@ -25,13 +24,13 @@ namespace CefSharp.Wpf
         private HwndSourceHook sourceHook;
         private DispatcherTimer tooltipTimer;
         private readonly ToolTip toolTip;
-        private ManagedCefBrowserAdapter managedCefBrowserAdapter;
-        private bool isOffscreenBrowserCreated;
+        private readonly ManagedCefBrowserAdapter managedCefBrowserAdapter;
         private bool ignoreUriChange;
 
         private Image image;
         private Image popupImage;
         private Popup popup;
+        private static readonly List<IDisposable> disposables = new List<IDisposable>();
 
         public BrowserSettings BrowserSettings { get; set; }
         public bool IsBrowserInitialized { get; private set; }
@@ -46,8 +45,8 @@ namespace CefSharp.Wpf
 
         public ICommand BackCommand { get; private set; }
         public ICommand ForwardCommand { get; private set; }
-        public ICommand ReloadCommand { get; private set; }
-
+        public ICommand ReloadCommand { get; private set; }        
+        
         public bool CanGoBack { get; private set; }
         public bool CanGoForward { get; private set; }
         public bool CanReload { get; private set; }
@@ -79,21 +78,21 @@ namespace CefSharp.Wpf
             get { return (string)GetValue(AddressProperty); }
             set { SetValue(AddressProperty, value); }
         }
-        
+
         public static readonly DependencyProperty AddressProperty =
             DependencyProperty.Register("Address", typeof(string), typeof(WebView),
-                                        new UIPropertyMetadata( null, OnAdressChanged ) );
+                                        new UIPropertyMetadata(null, OnAdressChanged));
 
         private static void OnAdressChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
-            WebView owner = (WebView) sender;
-            string oldValue = (string) args.OldValue;
-            string newValue = (string) args.NewValue;
+            WebView owner = (WebView)sender;
+            string oldValue = (string)args.OldValue;
+            string newValue = (string)args.NewValue;
 
-            owner.OnAddressChanged( oldValue, newValue );
+            owner.OnAddressChanged(oldValue, newValue);
         }
 
-        protected virtual void OnAddressChanged( string oldValue, string newValue )
+        protected virtual void OnAddressChanged(string oldValue, string newValue)
         {
             if (ignoreUriChange)
             {
@@ -113,15 +112,8 @@ namespace CefSharp.Wpf
                 OnTooltipTimerTick,
                 Dispatcher
             );
-
-            if (isOffscreenBrowserCreated)
-            {
-                managedCefBrowserAdapter.LoadUrl(Address);
-            }
-            else
-            {
-                InitializeCefAdapter();
-            }
+            
+            managedCefBrowserAdapter.LoadUrl(Address);
         }
 
         #endregion Address dependency property
@@ -216,12 +208,40 @@ namespace CefSharp.Wpf
             toolTip.Closed += OnTooltipClosed;
 
 
-            BackCommand = new DelegateCommand(Back, () => CanGoBack );
+            BackCommand = new DelegateCommand(Back, () => CanGoBack);
             ForwardCommand = new DelegateCommand(Forward, () => CanGoForward);
             ReloadCommand = new DelegateCommand(Reload, () => CanReload);
+
+            managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
+            managedCefBrowserAdapter.CreateOffscreenBrowser(BrowserSettings ?? new BrowserSettings());
+
+            disposables.Add(managedCefBrowserAdapter);
+
+            disposables.Add(new DisposableEventWrapper(this, ActualHeightProperty, OnActualSizeChanged));
+            disposables.Add(new DisposableEventWrapper(this, ActualWidthProperty, OnActualSizeChanged));
         }
 
-        private void DoInUi(Action action, DispatcherPriority priority = DispatcherPriority.DataBind )
+        private class DisposableEventWrapper : IDisposable
+        {
+            public DependencyObject Source { get; private set; }
+            public DependencyProperty Property { get; private set; }
+            public EventHandler Handler { get; private set; }
+
+            public DisposableEventWrapper(DependencyObject source, DependencyProperty property, EventHandler handler)
+            {
+                Source = source;
+                Property = property;
+                Handler = handler;
+                DependencyPropertyDescriptor.FromProperty(Property, Source.GetType()).AddValueChanged(Source, Handler);
+            }
+
+            public void Dispose()
+            {
+                DependencyPropertyDescriptor.FromProperty(Property, Source.GetType()).RemoveValueChanged(Source, Handler);
+            }
+        }
+
+        private void DoInUi(Action action, DispatcherPriority priority = DispatcherPriority.DataBind)
         {
             if ( Dispatcher.CheckAccess() )
             {
@@ -233,79 +253,60 @@ namespace CefSharp.Wpf
             }
         }
 
-        private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs args)
+
+        private void OnActualSizeChanged(object sender, EventArgs e)
         {
-            //(HwndSource) PresentationSource.FromVisual( this ); will fail if the control was not rendered yet so we need to try initialize if visibility changes 
-            InitializeCefAdapter();
+            managedCefBrowserAdapter.WasResized();
         }
 
+        private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs args)
+        {
+            // If the control was not rendered yet when we tried to set up the source hook, it may have failed (since it couldn't
+            // lookup the HwndSource), so we need to retry it whenever visibility changes.
+            AddSourceHookIfNotAlreadyPresent();
+        }
 
         private static void OnApplicationExit(object sender, ExitEventArgs e)
         {
-            Cef.Shutdown();
+            // TODO: This prevents AccessViolation on shutdown, but it would be better handled by the Cef class; the WebView control
+            // should not explicitly have to perform this.
+            if (Cef.IsInitialized)
+            {
+                foreach (var disposable in disposables)
+                {
+                    disposable.Dispose();
+                }
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+
+                Cef.Shutdown();
+            }
         }
 
-
-        private void OnLoaded( object sender, RoutedEventArgs routedEventArgs )
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            InitializeCefAdapter();
+            AddSourceHookIfNotAlreadyPresent();
         }
 
         public void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
         {
             RemoveSourceHook();
-            ShutdownManagedCefBrowserAdapter();
-        }
-
-        private void ShutdownManagedCefBrowserAdapter()
-        {
-            var temp = managedCefBrowserAdapter;
-
-            if (temp == null)
-            {
-                return;
-            }
-
-            managedCefBrowserAdapter = null;
-            isOffscreenBrowserCreated = false;
-            temp.Close();
-            temp.Dispose();
         }
 
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
 
-            InitializeCefAdapter();
-
             Content = image = new Image();
             popup = CreatePopup();
 
-            RenderOptions.SetBitmapScalingMode( image, BitmapScalingMode.NearestNeighbor );
+            AddSourceHookIfNotAlreadyPresent();
+
+            RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.NearestNeighbor);
 
             image.Stretch = Stretch.None;
             image.HorizontalAlignment = HorizontalAlignment.Left;
             image.VerticalAlignment = VerticalAlignment.Top;
-        }
-
-        private void InitializeCefAdapter()
-        {
-            if ( isOffscreenBrowserCreated )
-            {
-                return;
-            }
-            
-            if (!AddSourceHook())
-            {
-                return;
-            }
-
-            if (!CreateOffscreenBrowser())
-            {
-                return;
-            }
-
-            isOffscreenBrowserCreated = true;
         }
 
         private Popup CreatePopup()
@@ -320,29 +321,11 @@ namespace CefSharp.Wpf
             return popup;
         }
 
-        private bool CreateOffscreenBrowser()
-        {
-            if ( Address == null || source == null )
-            {
-                return false;
-            }
-
-            if (isOffscreenBrowserCreated)
-            {
-                return true;
-            }
-
-            managedCefBrowserAdapter = new ManagedCefBrowserAdapter( this );
-            managedCefBrowserAdapter.CreateOffscreenBrowser( BrowserSettings ?? new BrowserSettings(), source.Handle, Address );
-
-            return true;
-        }
-
-        private bool AddSourceHook()
+        private void AddSourceHookIfNotAlreadyPresent()
         {
             if (source != null)
             {
-                return true;
+                return;
             }
 
             source = (HwndSource)PresentationSource.FromVisual(this);
@@ -351,10 +334,7 @@ namespace CefSharp.Wpf
             {
                 sourceHook = SourceHook;
                 source.AddHook(sourceHook);
-                return true;
             }
-
-            return false;
         }
 
         private void RemoveSourceHook()
@@ -404,20 +384,6 @@ namespace CefSharp.Wpf
             return IntPtr.Zero;
         }
 
-        protected override Size ArrangeOverride(Size arrangeBounds)
-        {
-            var size = base.ArrangeOverride(arrangeBounds);
-            var newWidth = size.Width;
-            var newHeight = size.Height;
-
-            if (newWidth > 0 && newHeight > 0 && isOffscreenBrowserCreated )
-            {
-                managedCefBrowserAdapter.WasResized();
-            }
-
-            return size;
-        }
-
         public void InvokeRenderAsync( BitmapInfo bitmapInfo)
         {
             DoInUi(() => SetBitmap(bitmapInfo), DispatcherPriority.Render);
@@ -459,12 +425,18 @@ namespace CefSharp.Wpf
 
         public void SetTitle(string title)
         {
-            DoInUi(() => Title = title);
+            DoInUi(() => 
+            {
+                Title = title;
+            });
         }
 
         public void SetTooltipText(string tooltipText)
         {
-            DoInUi(() => TooltipText = tooltipText);
+            DoInUi(() => 
+            { 
+                TooltipText = tooltipText;
+            });
         }
         
         public void SetPopupSizeAndPosition(int width, int height, int x, int y)
@@ -488,7 +460,10 @@ namespace CefSharp.Wpf
 
         public void SetPopupIsOpen(bool isOpen)
         {
-            DoInUi(() => popup.IsOpen = isOpen);
+            DoInUi(() =>
+            {
+                popup.IsOpen = isOpen;
+            } );
         }
 
         private void OnTooltipTimerTick(object sender, EventArgs e)
@@ -524,20 +499,14 @@ namespace CefSharp.Wpf
 
         protected override void OnGotFocus(RoutedEventArgs e)
         {
-            if (isOffscreenBrowserCreated)
-            {
-                managedCefBrowserAdapter.SendFocusEvent( true );
-            }
+            managedCefBrowserAdapter.SendFocusEvent(true);
 
             base.OnGotFocus(e);
         }
 
         protected override void OnLostFocus(RoutedEventArgs e)
         {
-            if ( isOffscreenBrowserCreated )
-            {
-                managedCefBrowserAdapter.SendFocusEvent(false);
-            }
+            managedCefBrowserAdapter.SendFocusEvent(false);
 
             base.OnLostFocus(e);
         }
@@ -577,16 +546,13 @@ namespace CefSharp.Wpf
         protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
             var point = e.GetPosition(this);
-            
-            if (isOffscreenBrowserCreated)
-            {
-                managedCefBrowserAdapter.OnMouseWheel(
-                    (int) point.X,
-                    (int) point.Y,
-                    deltaX: 0,
-                    deltaY: e.Delta
-                );
-            }
+
+            managedCefBrowserAdapter.OnMouseWheel(
+                (int)point.X,
+                (int)point.Y,
+                deltaX: 0,
+                deltaY: e.Delta
+            );
         }
 
         protected override void OnMouseDown(MouseButtonEventArgs e)
@@ -604,10 +570,7 @@ namespace CefSharp.Wpf
 
         protected override void OnMouseLeave(MouseEventArgs e)
         {
-            if (isOffscreenBrowserCreated)
-            {
-                managedCefBrowserAdapter.OnMouseMove( 0, 0, mouseLeave: true );
-            }
+            managedCefBrowserAdapter.OnMouseMove(0, 0, mouseLeave: true);
         }
 
         private void OnMouseButton(MouseButtonEventArgs e)
@@ -636,14 +599,12 @@ namespace CefSharp.Wpf
 
             var point = e.GetPosition(this);
 
-            if (isOffscreenBrowserCreated)
-            {
-                managedCefBrowserAdapter.OnMouseButton( (int) point.X, (int) point.Y, mouseButtonType, mouseUp, e.ClickCount );
-            }
+            managedCefBrowserAdapter.OnMouseButton((int)point.X, (int)point.Y, mouseButtonType, mouseUp, e.ClickCount);
         }
 
         public void OnInitialized()
         {
+            //browserCore.OnInitialized();
         }
 
         public void Load(string url)
@@ -653,36 +614,24 @@ namespace CefSharp.Wpf
 
         public void LoadHtml(string html, string url)
         {
-            if (isOffscreenBrowserCreated)
-            {
-                managedCefBrowserAdapter.LoadHtml( html, url );
-            }
+            managedCefBrowserAdapter.LoadHtml(html, url);
         }
 
         private void Back()
         {
-            if (isOffscreenBrowserCreated)
-            {
-                managedCefBrowserAdapter.GoBack();
-            }
+            managedCefBrowserAdapter.GoBack();
         }
-
+        
         private void Forward()
         {
-            if (isOffscreenBrowserCreated)
-            {
-                managedCefBrowserAdapter.GoForward();
-            }
+            managedCefBrowserAdapter.GoForward();
         }
         
         public void Reload()
         {
-            if (isOffscreenBrowserCreated)
-            {
-                managedCefBrowserAdapter.Reload();
-            }
+            managedCefBrowserAdapter.Reload();
         }
-
+        
         public void ShowDevTools()
         {
             // TODO: Do something about this one.
@@ -697,10 +646,13 @@ namespace CefSharp.Wpf
 
         public void OnFrameLoadStart(string url)
         {
+            //browserCore.OnFrameLoadStart();
         }
 
         public void OnFrameLoadEnd(string url)
         {
+            //browserCore.OnFrameLoadEnd();
+
             if (LoadCompleted != null)
             {
                 LoadCompleted(this, new LoadCompletedEventArgs(url));
@@ -737,10 +689,7 @@ namespace CefSharp.Wpf
 
         public void ExecuteScriptAsync(string script)
         {
-            if (isOffscreenBrowserCreated)
-            {
-                managedCefBrowserAdapter.ExecuteScriptAsync( script );
-            }
+            managedCefBrowserAdapter.ExecuteScriptAsync(script);
         }
 
         public object EvaluateScript(string script)
@@ -755,32 +704,28 @@ namespace CefSharp.Wpf
                 timeout = TimeSpan.MaxValue;
             }
 
-            if (isOffscreenBrowserCreated)
-            {
-                return managedCefBrowserAdapter.EvaluateScript( script, timeout.Value );
-            }
-            else
-            {
-                return null;
-            }
+            return managedCefBrowserAdapter.EvaluateScript(script, timeout.Value);
         }
 
         public void SetCursor(IntPtr handle)
         {
-            DoInUi(() => Cursor = CursorInteropHelper.Create(new SafeFileHandle(handle, ownsHandle: false)));
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.BeginInvoke((Action<IntPtr>)SetCursor, handle);
+                return;
+            }
+
+            Cursor = CursorInteropHelper.Create(new SafeFileHandle(handle, ownsHandle: false));
         }
 
         public void ClearBitmap(BitmapInfo bitmapInfo)
         {
-            lock (bitmapInfo._bitmapLock)
-            {
-                bitmapInfo.InteropBitmap = null;
-            }
+            bitmapInfo.InteropBitmap = null;
         }
 
         public void SetBitmap(BitmapInfo bitmapInfo)
         {
-            lock (bitmapInfo._bitmapLock)
+            lock (bitmapInfo.BitmapLock)
             {
                 if (bitmapInfo.IsPopup)
                 {
@@ -814,10 +759,7 @@ namespace CefSharp.Wpf
 
         public void ViewSource()
         {
-            if (isOffscreenBrowserCreated)
-            {
-                managedCefBrowserAdapter.ViewSource();
-            }
+            managedCefBrowserAdapter.ViewSource();
         }
     }
 }

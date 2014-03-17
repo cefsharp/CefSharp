@@ -59,10 +59,10 @@ namespace CefSharp.Wpf.Example.Views.Main
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public MainViewModel()
+        public MainViewModel(string address = null)
         {
-            Address = ExamplePresenter.DefaultUrl;
-            AddressEditable = ExamplePresenter.DefaultUrl;
+            Address = address ?? ExamplePresenter.DefaultUrl;
+            AddressEditable = Address;
 
             GoCommand = new DelegateCommand(Go, () => !String.IsNullOrWhiteSpace(Address));
             ViewSourceCommand = new DelegateCommand(ViewSource);
@@ -106,10 +106,6 @@ namespace CefSharp.Wpf.Example.Views.Main
             {
                 case "Address":
                     AddressEditable = Address;
-                    break;
-
-                case "Title":
-                    Application.Current.MainWindow.Title = "CefSharp.Wpf.Example - " + Title;
                     break;
 
                 case "WebBrowser":

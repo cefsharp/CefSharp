@@ -12,7 +12,6 @@
 using namespace CefSharp::Internals;
 using namespace System::Diagnostics;
 using namespace System::ServiceModel;
-using namespace System::Threading;
 
 namespace CefSharp
 {
@@ -49,21 +48,17 @@ namespace CefSharp
         {
             _renderClientAdapter = nullptr;
         }
-        
-        void CreateOffscreenBrowser(BrowserSettings^ browserSettings, IntPtr^ sourceHandle, String^ address)
+
+        void CreateOffscreenBrowser(BrowserSettings^ browserSettings)
         {
-            HWND hwnd = static_cast<HWND>(sourceHandle->ToPointer());
+            HWND hwnd = HWND();
             CefWindowInfo window;
             window.SetAsOffScreen(hwnd);
             window.SetTransparentPainting(true);
-            CefString addressNative = StringUtils::ToNative(address);
+            CefString addressNative = StringUtils::ToNative("about:blank");
 
             CefBrowserHost::CreateBrowser(window, _renderClientAdapter, addressNative,
-                *(CefBrowserSettings*)browserSettings->_internalBrowserSettings);
-        }
-
-        virtual void Error(Exception^ e)
-        {
+                *(CefBrowserSettings*) browserSettings->_internalBrowserSettings);
         }
 
         void Close()
@@ -135,7 +130,7 @@ namespace CefSharp
                     keyEvent.type = KEYEVENT_KEYUP;
 
                 keyEvent.windows_key_code = keyEvent.native_key_code = wParam;
-                keyEvent.is_system_key =
+                keyEvent.is_system_key = 
                     message == WM_SYSKEYDOWN ||
                     message == WM_SYSKEYUP ||
                     message == WM_SYSCHAR;
@@ -241,25 +236,31 @@ namespace CefSharp
         {
             auto browser = _renderClientAdapter->GetCefBrowser();
             auto frame = _renderClientAdapter->TryGetCefMainFrame();
-            
-            // TODO: Don't instantiate this on every request. The problem is that the CefBrowser is not set in our constructor.
-            auto serviceName = SubProcessProxySupport::GetServiceName(Process::GetCurrentProcess()->Id, _renderClientAdapter->GetCefBrowser()->GetIdentifier());
-            auto channelFactory = gcnew DuplexChannelFactory<ISubProcessProxy^>(this,
-                gcnew NetNamedPipeBinding(),
-                gcnew EndpointAddress(serviceName)
-                );
-
-            _javaScriptProxy = channelFactory->CreateChannel();
 
             if (browser != nullptr &&
                 frame != nullptr)
             {
+                // TODO: Don't instantiate this on every request. The problem is that the CefBrowser is not set in our constructor.
+                auto serviceName = SubProcessProxySupport::GetServiceName(Process::GetCurrentProcess()->Id, _renderClientAdapter->GetCefBrowser()->GetIdentifier());
+                auto channelFactory = gcnew DuplexChannelFactory<ISubProcessProxy^>(
+                    this,
+                    gcnew NetNamedPipeBinding(),
+                    gcnew EndpointAddress(serviceName)
+                );
+
+                _javaScriptProxy = channelFactory->CreateChannel();
+
                 return _javaScriptProxy->EvaluateScript(frame->GetIdentifier(), script, timeout.TotalMilliseconds);
             }
             else
             {
                 return nullptr;
             }
+        }
+
+        virtual void Error( Exception^ ex )
+        {
+
         }
 
         void CreateBrowser(BrowserSettings^ browserSettings, IntPtr^ sourceHandle, String^ address)
@@ -272,7 +273,7 @@ namespace CefSharp
             CefString addressNative = StringUtils::ToNative(address);
 
             CefBrowserHost::CreateBrowser(window, _renderClientAdapter, addressNative,
-                *(CefBrowserSettings*)browserSettings->_internalBrowserSettings);
+                *(CefBrowserSettings*) browserSettings->_internalBrowserSettings);
         }
 
         void OnSizeChanged(IntPtr^ sourceHandle)

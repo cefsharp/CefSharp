@@ -125,7 +125,7 @@ namespace CefSharp
 
             void SetBuffer(BitmapInfo^ bitmapInfo, int newWidth, int newHeight, const void* buffer)
             {
-                lock l(bitmapInfo->_bitmapLock);
+                lock l(bitmapInfo->BitmapLock);
 
                 int currentWidth = bitmapInfo->Width, currentHeight = bitmapInfo->Height;
 

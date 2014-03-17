@@ -7,7 +7,7 @@ namespace CefSharp.Internals
 {
     public class BitmapInfo
     {
-        public object _bitmapLock;
+        public object BitmapLock;
         public IntPtr _backBufferHandle;
 
         public bool IsPopup { get; set; }
@@ -21,7 +21,7 @@ namespace CefSharp.Internals
 
         public BitmapInfo()
         {
-            _bitmapLock = new object();
+            BitmapLock = new object();
         }
     }
 }

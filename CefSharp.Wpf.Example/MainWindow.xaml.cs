@@ -1,35 +1,27 @@
-﻿using System.Windows;
-using CefSharp.Wpf.Example.Views.Main;
+﻿using CefSharp.Wpf.Example.Views.Main;
+using System.Windows;
 
 namespace CefSharp.Wpf.Example
 {
     public partial class MainWindow : Window
     {
+        public FrameworkElement Tab1Content { get; set; }
+        public FrameworkElement Tab2Content { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = this;
 
-            var mainView = new MainView
+            Tab1Content = new MainView
             {
                 DataContext = new MainViewModel()
             };
 
-            Content1.Content = mainView;
-
-
-            mainView = new MainView
+            Tab2Content = new MainView
             {
-                DataContext = new MainViewModel()
+                DataContext = new MainViewModel("http://www.google.com")
             };
-
-            Content2.Content = mainView;
-
-            mainView = new MainView
-            {
-                DataContext = new MainViewModel()
-            };
-
-            Content3.Content = mainView;
         }
     }
 }
