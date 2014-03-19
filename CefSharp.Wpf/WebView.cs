@@ -26,6 +26,7 @@ namespace CefSharp.Wpf
         private readonly ToolTip toolTip;
         private readonly ManagedCefBrowserAdapter managedCefBrowserAdapter;
         private bool ignoreUriChange;
+        private Matrix matrix;
 
         private Image image;
         private Image popupImage;
@@ -53,14 +54,15 @@ namespace CefSharp.Wpf
             get { return PixelFormat.BitsPerPixel / 8; }
         }
 
+
         int IRenderWebBrowser.Width
         {
-            get { return (int)ActualWidth; }
+            get { return (int)matrix.Transform(new Point(ActualWidth, ActualHeight)).X; }
         }
 
         int IRenderWebBrowser.Height
         {
-            get { return (int)ActualHeight; }
+            get { return (int)matrix.Transform(new Point(ActualWidth, ActualHeight)).Y; }
         }
 
         private static PixelFormat PixelFormat
@@ -94,12 +96,12 @@ namespace CefSharp.Wpf
 
         protected virtual void OnAddressChanged(string oldValue, string newValue)
         {
-            if (ignoreUriChange)
+            if(ignoreUriChange)
             {
                 return;
             }
 
-            if (!Cef.IsInitialized &&
+            if(!Cef.IsInitialized &&
                 !Cef.Initialize())
             {
                 throw new InvalidOperationException("Cef::Initialize() failed");
@@ -161,7 +163,7 @@ namespace CefSharp.Wpf
         {
             tooltipTimer.Stop();
 
-            if (String.IsNullOrEmpty(TooltipText))
+            if(String.IsNullOrEmpty(TooltipText))
             {
                 Dispatcher.BeginInvoke((Action)(() => UpdateTooltip(null)), DispatcherPriority.Render);
             }
@@ -260,9 +262,9 @@ namespace CefSharp.Wpf
         {
             // TODO: This prevents AccessViolation on shutdown, but it would be better handled by the Cef class; the WebView control
             // should not explicitly have to perform this.
-            if (Cef.IsInitialized)
+            if(Cef.IsInitialized)
             {
-                foreach (var disposable in disposables)
+                foreach(var disposable in disposables)
                 {
                     disposable.Dispose();
                 }
@@ -288,6 +290,14 @@ namespace CefSharp.Wpf
             base.OnApplyTemplate();
 
             Content = image = new Image();
+
+            // If the display properties is set to 125%, M11 and M22 will be 1.25.
+            var factorX = matrix.M11;
+            var factorY = matrix.M22;
+            var scaleX = 1 / factorX;
+            var scaleY = 1 / factorY;
+            image.LayoutTransform = new ScaleTransform(scaleX, scaleY);
+
             popup = CreatePopup();
 
             AddSourceHookIfNotAlreadyPresent();
@@ -313,15 +323,16 @@ namespace CefSharp.Wpf
 
         private void AddSourceHookIfNotAlreadyPresent()
         {
-            if (source != null)
+            if(source != null)
             {
                 return;
             }
 
             source = (HwndSource)PresentationSource.FromVisual(this);
 
-            if (source != null)
+            if(source != null)
             {
+                matrix = source.CompositionTarget.TransformToDevice;
                 sourceHook = SourceHook;
                 source.AddHook(sourceHook);
             }
@@ -329,7 +340,7 @@ namespace CefSharp.Wpf
 
         private void RemoveSourceHook()
         {
-            if (source != null &&
+            if(source != null &&
                 sourceHook != null)
             {
                 source.RemoveHook(sourceHook);
@@ -341,7 +352,7 @@ namespace CefSharp.Wpf
         {
             handled = false;
 
-            switch ((WM)message)
+            switch((WM)message)
             {
                 case WM.SYSCHAR:
                 case WM.SYSKEYDOWN:
@@ -350,12 +361,12 @@ namespace CefSharp.Wpf
                 case WM.KEYUP:
                 case WM.CHAR:
                 case WM.IME_CHAR:
-                    if (!IsFocused)
+                    if(!IsFocused)
                     {
                         break;
                     }
 
-                    if (message == (int)WM.SYSKEYDOWN &&
+                    if(message == (int)WM.SYSKEYDOWN &&
                         wParam.ToInt32() == KeyInterop.VirtualKeyFromKey(Key.F4))
                     {
                         // We don't want CEF to receive this event (and mark it as handled), since that makes it impossible to
@@ -363,7 +374,7 @@ namespace CefSharp.Wpf
                         return IntPtr.Zero;
                     }
 
-                    if (managedCefBrowserAdapter.SendKeyEvent(message, wParam.ToInt32()))
+                    if(managedCefBrowserAdapter.SendKeyEvent(message, wParam.ToInt32()))
                     {
                         handled = true;
                     }
@@ -376,7 +387,7 @@ namespace CefSharp.Wpf
 
         public void InvokeRenderAsync(Action<BitmapInfo> callback, BitmapInfo bitmapInfo)
         {
-            if (!Dispatcher.HasShutdownStarted)
+            if(!Dispatcher.HasShutdownStarted)
             {
                 Dispatcher.BeginInvoke(DispatcherPriority.Render, callback, bitmapInfo);
             }
@@ -384,7 +395,7 @@ namespace CefSharp.Wpf
 
         public void SetAddress(string address)
         {
-            if (!Dispatcher.CheckAccess())
+            if(!Dispatcher.CheckAccess())
             {
                 Dispatcher.Invoke((Action)(() => SetAddress(address)));
                 return;
@@ -400,7 +411,7 @@ namespace CefSharp.Wpf
 
         public void SetIsLoading(bool isLoading)
         {
-            if (!Dispatcher.CheckAccess())
+            if(!Dispatcher.CheckAccess())
             {
                 Dispatcher.Invoke((Action)(() => SetIsLoading(isLoading)));
                 return;
@@ -424,7 +435,7 @@ namespace CefSharp.Wpf
 
         public void SetTitle(string title)
         {
-            if (!Dispatcher.CheckAccess())
+            if(!Dispatcher.CheckAccess())
             {
                 Dispatcher.Invoke((Action)(() => SetTitle(title)));
                 return;
@@ -435,7 +446,7 @@ namespace CefSharp.Wpf
 
         public void SetTooltipText(string tooltipText)
         {
-            if (!Dispatcher.CheckAccess())
+            if(!Dispatcher.CheckAccess())
             {
                 Dispatcher.Invoke((Action)(() => SetTooltipText(tooltipText)));
                 return;
@@ -446,7 +457,7 @@ namespace CefSharp.Wpf
 
         private void OnBrowserCorePropertyChanged(Object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Address")
+            if(e.PropertyName == "Address")
             {
                 Address = browserCore.Address;
             }
@@ -456,7 +467,7 @@ namespace CefSharp.Wpf
 
         public void SetPopupSizeAndPosition(int width, int height, int x, int y)
         {
-            if (!Dispatcher.HasShutdownStarted)
+            if(!Dispatcher.HasShutdownStarted)
             {
                 Dispatcher.BeginInvoke((Action<int, int, int, int>)SetPopupSizeAndPositionImpl, width, height, x, y);
             }
@@ -464,7 +475,7 @@ namespace CefSharp.Wpf
 
         public void SetPopupIsOpen(bool isOpen)
         {
-            if (!Dispatcher.HasShutdownStarted)
+            if(!Dispatcher.HasShutdownStarted)
             {
                 Dispatcher.BeginInvoke((Action)(() => popup.IsOpen = isOpen));
             };
@@ -504,7 +515,7 @@ namespace CefSharp.Wpf
 
         private void UpdateTooltip(string text)
         {
-            if (String.IsNullOrEmpty(text))
+            if(String.IsNullOrEmpty(text))
             {
                 toolTip.IsOpen = false;
             }
@@ -547,7 +558,7 @@ namespace CefSharp.Wpf
             // we have to handle these extra keys here. Hooking the Tab key like this makes the tab focusing in essence work like
             // KeyboardNavigation.TabNavigation="Cycle"; you will never be able to Tab out of the web browser control.
 
-            if (e.Key == Key.Tab ||
+            if(e.Key == Key.Tab ||
                 new[] { Key.Left, Key.Right, Key.Up, Key.Down }.Contains(e.Key))
             {
                 var message = (int)(e.IsDown ? WM.KEYDOWN : WM.KEYUP);
@@ -559,13 +570,13 @@ namespace CefSharp.Wpf
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
-            var point = e.GetPosition(this);
+            var point = GetPixelPosition(e);
             managedCefBrowserAdapter.OnMouseMove((int)point.X, (int)point.Y, mouseLeave: false);
         }
 
         protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
-            var point = e.GetPosition(this);
+            var point = GetPixelPosition(e);
 
             managedCefBrowserAdapter.OnMouseWheel(
                 (int)point.X,
@@ -597,7 +608,7 @@ namespace CefSharp.Wpf
         {
             MouseButtonType mouseButtonType;
 
-            switch (e.ChangedButton)
+            switch(e.ChangedButton)
             {
                 case MouseButton.Left:
                     mouseButtonType = MouseButtonType.Left;
@@ -616,8 +627,7 @@ namespace CefSharp.Wpf
             }
 
             var mouseUp = (e.ButtonState == MouseButtonState.Released);
-
-            var point = e.GetPosition(this);
+            var point = GetPixelPosition(e);
 
             managedCefBrowserAdapter.OnMouseButton((int)point.X, (int)point.Y, mouseButtonType, mouseUp, e.ClickCount);
         }
@@ -688,7 +698,7 @@ namespace CefSharp.Wpf
         {
             browserCore.OnFrameLoadEnd();
 
-            if (LoadCompleted != null)
+            if(LoadCompleted != null)
             {
                 LoadCompleted(this, new LoadCompletedEventArgs(url));
             }
@@ -701,7 +711,7 @@ namespace CefSharp.Wpf
 
         public void OnConsoleMessage(string message, string source, int line)
         {
-            if (ConsoleMessage != null)
+            if(ConsoleMessage != null)
             {
                 ConsoleMessage(this, new ConsoleMessageEventArgs(message, source, line));
             }
@@ -709,7 +719,7 @@ namespace CefSharp.Wpf
 
         public void OnLoadError(string url, CefErrorCode errorCode, string errorText)
         {
-            if (LoadError != null)
+            if(LoadError != null)
             {
                 LoadError(url, errorCode, errorText);
             }
@@ -737,7 +747,7 @@ namespace CefSharp.Wpf
 
         public object EvaluateScript(string script, TimeSpan? timeout)
         {
-            if (timeout == null)
+            if(timeout == null)
             {
                 timeout = TimeSpan.MaxValue;
             }
@@ -747,7 +757,7 @@ namespace CefSharp.Wpf
 
         public void SetCursor(IntPtr handle)
         {
-            if (!Dispatcher.CheckAccess())
+            if(!Dispatcher.CheckAccess())
             {
                 Dispatcher.BeginInvoke((Action<IntPtr>)SetCursor, handle);
                 return;
@@ -763,9 +773,9 @@ namespace CefSharp.Wpf
 
         public void SetBitmap(BitmapInfo bitmapInfo)
         {
-            lock (bitmapInfo.BitmapLock)
+            lock(bitmapInfo.BitmapLock)
             {
-                if (bitmapInfo.IsPopup)
+                if(bitmapInfo.IsPopup)
                 {
                     bitmapInfo.InteropBitmap = SetBitmapHelper(bitmapInfo, (InteropBitmap)bitmapInfo.InteropBitmap, bitmap => popupImage.Source = bitmap);
                 }
@@ -776,9 +786,17 @@ namespace CefSharp.Wpf
             }
         }
 
+        private Point GetPixelPosition(MouseEventArgs e)
+        {
+            var deviceIndependentPosition = e.GetPosition(this);
+            var pixelPosition = matrix.Transform(deviceIndependentPosition);
+
+            return pixelPosition;
+        }
+
         private object SetBitmapHelper(BitmapInfo bitmapInfo, InteropBitmap bitmap, Action<InteropBitmap> imageSourceSetter)
         {
-            if (bitmap == null)
+            if(bitmap == null)
             {
                 imageSourceSetter(null);
                 GC.Collect(1);
