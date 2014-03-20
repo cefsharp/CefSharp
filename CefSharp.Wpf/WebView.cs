@@ -26,6 +26,7 @@ namespace CefSharp.Wpf
         private readonly ToolTip toolTip;
         private readonly ManagedCefBrowserAdapter managedCefBrowserAdapter;
         private bool ignoreUriChange;
+        private Matrix matrix;
 
         private Image image;
         private Image popupImage;
@@ -56,14 +57,15 @@ namespace CefSharp.Wpf
             get { return PixelFormat.BitsPerPixel / 8; }
         }
 
+
         int IRenderWebBrowser.Width
         {
-            get { return (int)ActualWidth; }
+            get { return (int)matrix.Transform(new Point(ActualWidth, ActualHeight)).X; }
         }
 
         int IRenderWebBrowser.Height
         {
-            get { return (int)ActualHeight; }
+            get { return (int)matrix.Transform(new Point(ActualWidth, ActualHeight)).Y; }
         }
 
         private static PixelFormat PixelFormat
@@ -298,6 +300,14 @@ namespace CefSharp.Wpf
             base.OnApplyTemplate();
 
             Content = image = new Image();
+
+            // If the display properties is set to 125%, M11 and M22 will be 1.25.
+            var factorX = matrix.M11;
+            var factorY = matrix.M22;
+            var scaleX = 1 / factorX;
+            var scaleY = 1 / factorY;
+            image.LayoutTransform = new ScaleTransform(scaleX, scaleY);
+
             popup = CreatePopup();
 
             AddSourceHookIfNotAlreadyPresent();
@@ -332,6 +342,7 @@ namespace CefSharp.Wpf
 
             if (source != null)
             {
+                matrix = source.CompositionTarget.TransformToDevice;
                 sourceHook = SourceHook;
                 source.AddHook(sourceHook);
             }
@@ -539,13 +550,13 @@ namespace CefSharp.Wpf
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
-            var point = e.GetPosition(this);
+            var point = GetPixelPosition(e);
             managedCefBrowserAdapter.OnMouseMove((int)point.X, (int)point.Y, mouseLeave: false);
         }
 
         protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
-            var point = e.GetPosition(this);
+            var point = GetPixelPosition(e);
 
             managedCefBrowserAdapter.OnMouseWheel(
                 (int)point.X,
@@ -596,8 +607,7 @@ namespace CefSharp.Wpf
             }
 
             var mouseUp = (e.ButtonState == MouseButtonState.Released);
-
-            var point = e.GetPosition(this);
+            var point = GetPixelPosition(e);
 
             managedCefBrowserAdapter.OnMouseButton((int)point.X, (int)point.Y, mouseButtonType, mouseUp, e.ClickCount);
         }
@@ -736,6 +746,14 @@ namespace CefSharp.Wpf
                     bitmapInfo.InteropBitmap = SetBitmapHelper(bitmapInfo, (InteropBitmap)bitmapInfo.InteropBitmap, bitmap => image.Source = bitmap);
                 }
             }
+        }
+
+        private Point GetPixelPosition(MouseEventArgs e)
+        {
+            var deviceIndependentPosition = e.GetPosition(this);
+            var pixelPosition = matrix.Transform(deviceIndependentPosition);
+
+            return pixelPosition;
         }
 
         private object SetBitmapHelper(BitmapInfo bitmapInfo, InteropBitmap bitmap, Action<InteropBitmap> imageSourceSetter)

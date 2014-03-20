@@ -1,35 +1,34 @@
-# CefSharp - Embedded Chromium for .Net
+# CefSharp - Embedded Chromium for .NET
 
-This project contains .Net CLR bindings for The [Chromium Embedded Framework (CEF)](http://code.google.com/p/chromiumembedded/ "Google Code") by Marshall A. Greenblatt. The bindings are written in C++/CLI but can be used from any CLR language e.g. C# or VB. CefSharp provides both WinForms and WPF web browser control implementations. See the CefSharp.WinForms.Example or CefSharp.Wpf.Example projects for example web browsers built using this library.
+This project contains .NET CLR bindings for The [Chromium Embedded Framework (CEF)](http://code.google.com/p/chromiumembedded/ "Google Code") by Marshall A. Greenblatt. The bindings are written in C++/CLI but can be used from any CLR language, e.g. C# or VB. CefSharp provides both WinForms and WPF web browser control implementations. See the CefSharp.WinForms.Example or CefSharp.Wpf.Example projects for example web browsers built using this library; they are (at this moment) the best "documentation" of how the control can actually be used.
 
 This project is [BSD](http://www.opensource.org/licenses/bsd-license.php "BSD License") licensed, which means that it can be used from both proprietary and free/open source applications. For the full details, see the [LICENSE](LICENSE) file.
 
-# Documentation
+# Documentation & mailing list
 
-Work-in-progress documentation can be found [here](https://github.com/cefsharp/CefSharp/wiki). Feel free to suggest changes to the
-wiki pages, and also make changes yourself if you find something wrong/missing. Editing is open for all registered GitHub users.
+Work-in-progress documentation can be found [in the wiki](https://github.com/cefsharp/CefSharp/wiki). If something is missing/incomplete, please don't hesitate to ask at the [CefSharp Google Group](https://groups.google.com/forum/#!forum/cefsharp). You might also find help by searching the archive to that same Google Group for previous questions.
 
 # Binary Release
 
-Binary releases contain everything needed to embed Chromium in your CLR application. You will need the [7-Zip archiver](http://www.7-zip.org/ "7-Zip") to extract.
+Binary releases contain everything needed to embed Chromium in your CLR application.
 
-**Stable (older)**: [CefSharp-1.25.0](http://sourceforge.net/projects/cefsharp/files/CefSharp-1.25.0.7z/download "Download")
-Chromium 25.0.1364.152  
-**Stable**: CefSharp-1.25.2-perlun.0 - no binary release yet; compile from source using the code at
-https://github.com/cefsharp/CefSharp (look for the tag named v1.25.2-perlun.0)
+- **Pre-release** - CefSharp-3.29.0-pre.0 Currently only available as a WPF [NuGet](http://www.nuget.org/packages/CefSharp.Wpf/3.29.0-pre0). NuGet is CefSharp's new primary (only?) binary delivery mechanism. 
+* **Stable** (.NET 4): CefSharp-1.25.7 - 
+[binaries](https://github.com/cefsharp/CefSharp/releases/download/v1.25.7/CefSharp-v1.25.7-binaries.zip),
+[source](https://github.com/cefsharp/CefSharp/archive/v1.25.7.zip), + [WPF](http://www.nuget.org/packages/CefSharp.Wpf/) or 
+[WinForms](http://www.nuget.org/packages/CefSharp.WinForms/) NuGet's. Based on Chromium 25.0.1364.152
+* **Legacy** (older release, works with .NET 2. Requires [7-Zip](http://www.7-zip.org/) to extract.): 
+[CefSharp-1.25.0](http://sourceforge.net/projects/cefsharp/files/CefSharp-1.25.0.7z/download).
+Based on Chromium 25.0.1364.152
 
-See the [ChangeLog](https://github.com/ataranto/CefSharp/blob/master/ChangeLog.md) for update information, or [Downloads](https://sourceforge.net/projects/cefsharp/files/) for older releases.
+See the [SF Downloads](https://sourceforge.net/projects/cefsharp/files/) page for even older releases. Please note that the latest Stable release, *or preferably the new CEF3 Pre-release getting out of beta real-soon-now*, is the only version officially supported; it's very unlikely that we will fix bugs in older releases.
 
-# Forks
+# Branches & Forks
 
-- [The cefsharp project page](https://github.com/cefsharp/CefSharp) is the recommended starting place. This is the "official"
-  CefSharp fork, as maintained by the CefSharp community.
-- You can also view [the entire network of public forks/branches](https://github.com/cefsharp/CefSharp/network).
-
-# Contact
-
-Please use the [CefSharp Google Group](https://groups.google.com/forum/#!forum/cefsharp) for discussions of CefSharp usage.
+* Development is done in the `master` branch, which *used to be called* `CefSharp3` during the development cycle. New features are preferably added in feature branches, if the changes are more than trivial.
+* Ultra-stable/LTS work is done in `CefSharp1`.
+* [The CefSharp project page](https://github.com/cefsharp/CefSharp) is the recommended starting place. This is the "official" CefSharp fork, as maintained by the CefSharp community. You can also view [the entire network of public forks/branches](https://github.com/cefsharp/CefSharp/network).
 
 # Links
 
-- [CefGlue](https://bitbucket.org/fddima/cefglue/wiki/Home): An alternative .NET CEF wrapper build using P/Invoke.
+- [CefGlue](https://bitbucket.org/fddima/cefglue/wiki/Home): An alternative .NET CEF wrapper built using P/Invoke.

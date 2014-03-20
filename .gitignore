@@ -22,6 +22,8 @@ _ReSharper*
 obj/
 bin/
 Debug/
+!/CEF/Win32/Debug
+!/CEF/x64/Debug
 CefSharp/app.aps
 debug.log
 CefSharp.BrowserSubprocess/Release
