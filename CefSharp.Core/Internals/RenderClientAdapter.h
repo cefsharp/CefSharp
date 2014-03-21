@@ -130,13 +130,13 @@ namespace CefSharp
                 int currentWidth = bitmapInfo->Width, currentHeight = bitmapInfo->Height;
 
                 auto fileMappingHandle = (HANDLE)bitmapInfo->FileMappingHandle;
-                auto backBufferHandle = (HANDLE)bitmapInfo->_backBufferHandle;
+                auto backBufferHandle = (HANDLE)bitmapInfo->BackBufferHandle;
 
                 SetBufferHelper(bitmapInfo, currentWidth, currentHeight, newWidth, newHeight, &fileMappingHandle,
                     &backBufferHandle, buffer);
 
                 bitmapInfo->FileMappingHandle = (IntPtr)fileMappingHandle;
-                bitmapInfo->_backBufferHandle = (IntPtr)backBufferHandle;
+                bitmapInfo->BackBufferHandle = (IntPtr)backBufferHandle;
 
                 bitmapInfo->Width = newWidth;
                 bitmapInfo->Height = newHeight;
