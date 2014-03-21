@@ -45,10 +45,18 @@ namespace CefSharp.Wpf.Example.Views.Main
         }
 
         private object evaluateJavaScriptResult;
+
         public object EvaluateJavaScriptResult
         {
             get { return evaluateJavaScriptResult; }
             set { PropertyChanged.ChangeAndNotify(ref evaluateJavaScriptResult, value, () => EvaluateJavaScriptResult); }
+        }
+
+        private bool showSidebar;
+        public bool ShowSidebar
+        {
+            get { return showSidebar; }
+            set { PropertyChanged.ChangeAndNotify(ref showSidebar, value, () => ShowSidebar); }
         }
 
         public DelegateCommand GoCommand { get; set; }

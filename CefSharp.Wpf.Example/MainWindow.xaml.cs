@@ -15,7 +15,7 @@ namespace CefSharp.Wpf.Example
 
             Tab1Content = new MainView
             {
-                DataContext = new MainViewModel()
+                DataContext = new MainViewModel { ShowSidebar = true }
             };
 
             Tab2Content = new MainView

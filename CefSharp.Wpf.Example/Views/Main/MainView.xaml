@@ -9,6 +9,9 @@
              d:DesignWidth="640"
              d:DesignHeight="480"
              d:DataContext="{d:DesignInstance local:MainViewModel}">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
     <Grid>
         <DockPanel>
             <DockPanel VerticalAlignment="Top"
@@ -41,7 +44,8 @@
                 </TextBox>
             </DockPanel>
             <StackPanel DockPanel.Dock="Right"
-                        Margin="6,3">
+                        Margin="6,3"
+                        Visibility="{Binding ShowSidebar, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <GroupBox Header="Tweak WPF Rendering">
                     <Grid>
                         <Grid.RowDefinitions>
