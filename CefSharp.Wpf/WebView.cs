@@ -248,13 +248,13 @@ namespace CefSharp.Wpf
 
         private void DoInUi(Action action, DispatcherPriority priority = DispatcherPriority.DataBind)
         {
-            if ( Dispatcher.CheckAccess() )
+            if (Dispatcher.CheckAccess())
             {
                 action();
             }
-            else if ( !Dispatcher.HasShutdownStarted )
+            else if (!Dispatcher.HasShutdownStarted)
             {
-                Dispatcher.BeginInvoke(action, priority );
+                Dispatcher.BeginInvoke(action, priority);
             }
         }
 
@@ -398,7 +398,7 @@ namespace CefSharp.Wpf
             return IntPtr.Zero;
         }
 
-        public void InvokeRenderAsync( BitmapInfo bitmapInfo)
+        public void InvokeRenderAsync(BitmapInfo bitmapInfo)
         {
             DoInUi(() => SetBitmap(bitmapInfo), DispatcherPriority.Render);
         }
@@ -477,7 +477,7 @@ namespace CefSharp.Wpf
             DoInUi(() =>
             {
                 popup.IsOpen = isOpen;
-            } );
+            });
         }
 
         private static CefEventFlags GetModifiers(MouseEventArgs e)
@@ -581,7 +581,7 @@ namespace CefSharp.Wpf
                 e.Handled = true;
             }
 
-            if ( e.IsDown && e.KeyboardDevice.Modifiers == ModifierKeys.Control )
+            if (e.IsDown && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
             {
                 if (e.Key == Key.C)
                 {
