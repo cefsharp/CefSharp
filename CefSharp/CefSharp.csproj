@@ -114,6 +114,7 @@
     <Compile Include="Internals\SubProcessServiceHost.cs" />
     <Compile Include="IWinFormsWebBrowser.cs" />
     <Compile Include="LoadedCompletedEventArgs.cs" />
+    <Compile Include="LogSeverity.cs" />
     <Compile Include="ObjectBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptException.cs" />

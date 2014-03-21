@@ -5,16 +5,6 @@ using System.Text;
 
 namespace CefSharp
 {
-    public enum LogSeverity
-    {
-        Verbose,
-        Info,
-        Warning,
-        Error,
-        ErrorReport,
-        Disable,
-    };
-
     public abstract class CefSettingsBase
     {
         protected CefSettingsBase()
