@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-
-using CefSharp;
 using CefSharp.Internals;
 
 namespace CefSharp.BrowserSubprocess
