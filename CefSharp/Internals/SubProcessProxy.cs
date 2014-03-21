@@ -4,12 +4,12 @@ namespace CefSharp.Internals
 {
     public class SubProcessProxy : ISubProcessProxy
     {
-        public ISubProcessCallback callback { get; private set; }
+        public ISubProcessCallback Callback { get; private set; }
 
         public void Initialize()
         {
             CefSubprocessBase.Instance.ServiceHost.Service = this;
-            callback = OperationContext.Current.GetCallbackChannel<ISubProcessCallback>();
+            Callback = OperationContext.Current.GetCallbackChannel<ISubProcessCallback>();
         }
 
         public object EvaluateScript(int frameId, string script, double timeout)

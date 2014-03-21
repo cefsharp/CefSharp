@@ -17,8 +17,8 @@ namespace CefSharp.Internals
 
         protected override void DoDispose(bool isDisposing)
         {
-            DisposeMember(ref _javascriptServiceHost);
-            DisposeMember(ref _browser);
+            DisposeMember(ref javascriptServiceHost);
+            DisposeMember(ref browser);
 
             Instance = null;
 
@@ -47,32 +47,31 @@ namespace CefSharp.Internals
         }
 
 
-        private SubProcessServiceHost _javascriptServiceHost;
-        private CefBrowserBase _browser;
+        private SubProcessServiceHost javascriptServiceHost;
+        private CefBrowserBase browser;
 
         public int? ParentProcessId { get; private set; }
 
         public CefBrowserBase Browser
         {
-            get { return _browser; }
+            get { return browser; }
         }
 
         public SubProcessServiceHost ServiceHost
         {
-            get { return _javascriptServiceHost; }
+            get { return javascriptServiceHost; }
         }
-
 
         public override void OnBrowserCreated(CefBrowserBase cefBrowserWrapper)
         {
-            _browser = cefBrowserWrapper;
+            browser = cefBrowserWrapper;
 
             if (ParentProcessId == null)
             {
                 return;
             }
 
-            Task.Factory.StartNew(() => _javascriptServiceHost = SubProcessServiceHost.Create(ParentProcessId.Value, cefBrowserWrapper.BrowserId));
+            Task.Factory.StartNew(() => javascriptServiceHost = SubProcessServiceHost.Create(ParentProcessId.Value, cefBrowserWrapper.BrowserId));
         }
     }
 }

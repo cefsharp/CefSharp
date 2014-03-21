@@ -35,7 +35,7 @@ namespace CefSharp
 
         protected virtual void DoDispose(bool isDisposing)
         {
-            _propertyChanged = null;
+            propertyChanged = null;
         }
 
         public bool IsDisposed { get; private set; }
@@ -44,16 +44,16 @@ namespace CefSharp
 
         #region INotifyPropertyChanged
 
-        private PropertyChangedEventHandler _propertyChanged;
+        private PropertyChangedEventHandler propertyChanged;
         public event PropertyChangedEventHandler PropertyChanged
         {
-            add { if (!IsDisposed) _propertyChanged += value; }
-            remove { _propertyChanged -= value; }
+            add { if (!IsDisposed) propertyChanged += value; }
+            remove { propertyChanged -= value; }
         }
 
         protected virtual void OnPropertyChanged<T>(T oldvalue, T newValue, PropertyChangedEventArgs e)
         {
-            var handlers = _propertyChanged;
+            var handlers = propertyChanged;
             if (handlers == null)
             {
                 return;

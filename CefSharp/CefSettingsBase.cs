@@ -6,7 +6,7 @@ namespace CefSharp
     {
         protected CefSettingsBase()
         {
-            _cefCustomSchemes = new List<CefCustomScheme>();
+            cefCustomSchemes = new List<CefCustomScheme>();
             BrowserSubprocessPath = "CefSharp.BrowserSubprocess.exe";
         }
 
@@ -32,9 +32,9 @@ namespace CefSharp
 
         public abstract string UserAgent { get; set; }
 
-        public IEnumerable<CefCustomScheme> CefCustomSchemes { get { return _cefCustomSchemes; } }
+        public IEnumerable<CefCustomScheme> CefCustomSchemes { get { return cefCustomSchemes; } }
 
-        private List<CefCustomScheme> _cefCustomSchemes;
+        private readonly List<CefCustomScheme> cefCustomSchemes;
 
         /// <summary>
         /// Registers a custom scheme using the provided settings.
@@ -42,7 +42,7 @@ namespace CefSharp
         /// <param name="cefCustomScheme">The CefCustomScheme which provides the details about the scheme.</param>
         public void RegisterScheme(CefCustomScheme cefCustomScheme)
         {
-            _cefCustomSchemes.Add(cefCustomScheme);
+            cefCustomSchemes.Add(cefCustomScheme);
         }
     }
 }
