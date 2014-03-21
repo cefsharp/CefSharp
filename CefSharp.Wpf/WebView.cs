@@ -585,6 +585,18 @@ namespace CefSharp.Wpf
                 managedCefBrowserAdapter.SendKeyEvent(message, virtualKey);
                 e.Handled = true;
             }
+
+            if ( e.IsDown && e.KeyboardDevice.Modifiers == ModifierKeys.Control )
+            {
+                if (e.Key == Key.C)
+                {
+                    managedCefBrowserAdapter.Copy();
+                }
+                else if (e.Key == Key.V)
+                {
+                    managedCefBrowserAdapter.Paste();
+                }
+            }
         }
 
         protected override void OnMouseMove(MouseEventArgs e)

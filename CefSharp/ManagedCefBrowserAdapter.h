@@ -230,6 +230,26 @@ namespace CefSharp
             }
         }
 
+        void Copy()
+        {
+            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame(); 
+            
+            if (cefFrame != nullptr)
+            {
+                cefFrame->Copy();
+            }
+        }
+
+        void Paste()
+        {
+            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
+
+            if (cefFrame != nullptr)
+            {
+                cefFrame->Paste();
+            }
+        }
+        
         void ExecuteScriptAsync(String^ script)
         {
             auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
