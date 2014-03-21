@@ -1,7 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.ServiceModel;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
 
@@ -35,7 +32,7 @@ namespace CefSharp.Internals
             // Format being parsed:
             // --channel=3828.2.1260352072\1102986608
             // We only really care about the PID (3828) part.
-            var channelPrefix = "--channel=";
+            const string channelPrefix = "--channel=";
             var channelArgument = args.SingleOrDefault(arg => arg.StartsWith(channelPrefix));
             if (channelArgument == null)
             {

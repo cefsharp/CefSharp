@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System;
+﻿using System;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 
@@ -12,7 +11,6 @@ namespace CefSharp.Internals
         public SubProcessServiceHost()
             : base(typeof(SubProcessProxy), new Uri[0])
         {
-
         }
 
         public static SubProcessServiceHost Create(int parentProcessId, int browserId)

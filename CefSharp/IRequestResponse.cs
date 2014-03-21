@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 
 namespace CefSharp
 {
     public interface IRequestResponse
     {
+        // TODO: Improve these comments.
+
         /// cancel the request, return nothing
         void Cancel();
 
