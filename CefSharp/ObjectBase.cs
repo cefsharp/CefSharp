@@ -66,7 +66,7 @@ namespace CefSharp
         {
             if (propertyexpression == null)
             {
-                throw new ArgumentNullException("memberExpression");
+                throw new ArgumentNullException("propertyexpression");
             }
 
             var body = propertyexpression.Body as MemberExpression;
