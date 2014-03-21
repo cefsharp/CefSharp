@@ -5,7 +5,6 @@ namespace CefSharp
     public class ScriptException : Exception
     {
         public ScriptException()
-            : base()
         {
         }
 

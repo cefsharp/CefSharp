@@ -7,10 +7,6 @@ namespace CefSharp
 {
     public class ObjectBase : INotifyPropertyChanged, IDisposable
     {
-        public ObjectBase()
-        {
-        }
-
         #region idisposable
 
         ~ObjectBase()
