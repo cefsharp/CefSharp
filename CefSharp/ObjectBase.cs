@@ -5,9 +5,10 @@ using System.Linq.Expressions;
 
 namespace CefSharp
 {
+    // TODO: Why do we need this one?
     public class ObjectBase : INotifyPropertyChanged, IDisposable
     {
-        #region idisposable
+        #region IDisposable
 
         ~ObjectBase()
         {
