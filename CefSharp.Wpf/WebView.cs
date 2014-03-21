@@ -46,8 +46,8 @@ namespace CefSharp.Wpf
 
         public ICommand BackCommand { get; private set; }
         public ICommand ForwardCommand { get; private set; }
-        public ICommand ReloadCommand { get; private set; }        
-        
+        public ICommand ReloadCommand { get; private set; }
+
         public bool CanGoBack { get; private set; }
         public bool CanGoForward { get; private set; }
         public bool CanReload { get; private set; }
@@ -114,7 +114,7 @@ namespace CefSharp.Wpf
                 OnTooltipTimerTick,
                 Dispatcher
             );
-            
+
             managedCefBrowserAdapter.LoadUrl(Address);
         }
 
@@ -202,7 +202,10 @@ namespace CefSharp.Wpf
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
 
-            this.IsVisibleChanged += OnIsVisibleChanged;
+            GotKeyboardFocus += OnGotKeyboardFocus;
+            LostKeyboardFocus += OnLostKeyboardFocus;
+
+            IsVisibleChanged += OnIsVisibleChanged;
 
             ToolTip = toolTip = new ToolTip();
             toolTip.StaysOpen = true;
@@ -436,7 +439,7 @@ namespace CefSharp.Wpf
 
         public void SetTitle(string title)
         {
-            DoInUi(() => 
+            DoInUi(() =>
             {
                 Title = title;
             });
@@ -444,22 +447,22 @@ namespace CefSharp.Wpf
 
         public void SetTooltipText(string tooltipText)
         {
-            DoInUi(() => 
-            { 
+            DoInUi(() =>
+            {
                 TooltipText = tooltipText;
             });
         }
-        
+
         public void SetPopupSizeAndPosition(int width, int height, int x, int y)
         {
-            DoInUi(() => 
+            DoInUi(() =>
             {
                 popup.Width = width;
                 popup.Height = height;
 
                 var popupOffset = new Point(x, y);
                 // TODO: Port over this from CefSharp1.
-                //if (popupOffsetTransform != null) 
+                //if (popupOffsetTransform != null)
                 //{
                 //    popupOffset = popupOffsetTransform->GeneralTransform::Transform(popupOffset);
                 //}
@@ -475,6 +478,41 @@ namespace CefSharp.Wpf
             {
                 popup.IsOpen = isOpen;
             } );
+        }
+
+        private static CefEventFlags GetModifiers(MouseEventArgs e)
+        {
+            CefEventFlags modifiers = 0;
+
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                modifiers |= CefEventFlags.LeftMouseButton;
+            }
+            if (e.MiddleButton == MouseButtonState.Pressed)
+            {
+                modifiers |= CefEventFlags.MiddleMouseButton;
+            }
+            if (e.RightButton == MouseButtonState.Pressed)
+            {
+                modifiers |= CefEventFlags.RightMouseButton;
+            }
+            return modifiers;
+        }
+
+        private void SetPopupSizeAndPositionImpl(int width, int height, int x, int y)
+        {
+            popup.Width = width;
+            popup.Height = height;
+
+            var popupOffset = new Point(x, y);
+            // TODO: Port over this from CefSharp1.
+            //if (popupOffsetTransform != null)
+            //{
+            //    popupOffset = popupOffsetTransform->GeneralTransform::Transform(popupOffset);
+            //}
+
+            popup.HorizontalOffset = popupOffset.X;
+            popup.VerticalOffset = popupOffset.Y;
         }
 
         private void OnTooltipTimerTick(object sender, EventArgs e)
@@ -508,18 +546,14 @@ namespace CefSharp.Wpf
             }
         }
 
-        protected override void OnGotFocus(RoutedEventArgs e)
+        private void OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             managedCefBrowserAdapter.SendFocusEvent(true);
-
-            base.OnGotFocus(e);
         }
 
-        protected override void OnLostFocus(RoutedEventArgs e)
+        private void OnLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             managedCefBrowserAdapter.SendFocusEvent(false);
-
-            base.OnLostFocus(e);
         }
 
         protected override void OnPreviewKeyDown(KeyEventArgs e)
@@ -546,12 +580,26 @@ namespace CefSharp.Wpf
                 managedCefBrowserAdapter.SendKeyEvent(message, virtualKey);
                 e.Handled = true;
             }
+
+            if ( e.IsDown && e.KeyboardDevice.Modifiers == ModifierKeys.Control )
+            {
+                if (e.Key == Key.C)
+                {
+                    managedCefBrowserAdapter.Copy();
+                }
+                else if (e.Key == Key.V)
+                {
+                    managedCefBrowserAdapter.Paste();
+                }
+            }
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
             var point = GetPixelPosition(e);
-            managedCefBrowserAdapter.OnMouseMove((int)point.X, (int)point.Y, mouseLeave: false);
+            var modifiers = GetModifiers(e);
+
+            managedCefBrowserAdapter.OnMouseMove((int)point.X, (int)point.Y, false, modifiers);
         }
 
         protected override void OnMouseWheel(MouseWheelEventArgs e)
@@ -581,7 +629,8 @@ namespace CefSharp.Wpf
 
         protected override void OnMouseLeave(MouseEventArgs e)
         {
-            managedCefBrowserAdapter.OnMouseMove(0, 0, mouseLeave: true);
+            var modifiers = GetModifiers(e);
+            managedCefBrowserAdapter.OnMouseMove(0, 0, true, modifiers);
         }
 
         private void OnMouseButton(MouseButtonEventArgs e)
@@ -606,10 +655,11 @@ namespace CefSharp.Wpf
                     return;
             }
 
+            var modifiers = GetModifiers(e);
             var mouseUp = (e.ButtonState == MouseButtonState.Released);
             var point = GetPixelPosition(e);
 
-            managedCefBrowserAdapter.OnMouseButton((int)point.X, (int)point.Y, mouseButtonType, mouseUp, e.ClickCount);
+            managedCefBrowserAdapter.OnMouseButton((int)point.X, (int)point.Y, mouseButtonType, mouseUp, e.ClickCount, modifiers);
         }
 
         public void OnInitialized()
@@ -631,17 +681,17 @@ namespace CefSharp.Wpf
         {
             managedCefBrowserAdapter.GoBack();
         }
-        
+
         private void Forward()
         {
             managedCefBrowserAdapter.GoForward();
         }
-        
+
         public void Reload()
         {
             managedCefBrowserAdapter.Reload();
         }
-        
+
         public void ShowDevTools()
         {
             // TODO: Do something about this one.

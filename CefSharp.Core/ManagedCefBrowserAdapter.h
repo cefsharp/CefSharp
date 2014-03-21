@@ -140,7 +140,7 @@ namespace CefSharp
             }
         }
 
-        void OnMouseMove(int x, int y, bool mouseLeave)
+        void OnMouseMove(int x, int y, bool mouseLeave, CefEventFlags modifiers)
         {
             auto cefHost = _renderClientAdapter->TryGetCefHost();
 
@@ -149,12 +149,14 @@ namespace CefSharp
                 CefMouseEvent mouseEvent;
                 mouseEvent.x = x;
                 mouseEvent.y = y;
+
+                mouseEvent.modifiers = (uint32)modifiers;
 
                 cefHost->SendMouseMoveEvent(mouseEvent, mouseLeave);
             }
         }
 
-        void OnMouseButton(int x, int y, MouseButtonType mouseButtonType, bool mouseUp, int clickCount)
+        void OnMouseButton(int x, int y, MouseButtonType mouseButtonType, bool mouseUp, int clickCount, CefEventFlags modifiers)
         {
             auto cefHost = _renderClientAdapter->TryGetCefHost();
 
@@ -163,6 +165,7 @@ namespace CefSharp
                 CefMouseEvent mouseEvent;
                 mouseEvent.x = x;
                 mouseEvent.y = y;
+                mouseEvent.modifiers = (uint32)modifiers;
 
                 cefHost->SendMouseClickEvent(mouseEvent, (CefBrowserHost::MouseButtonType) mouseButtonType, mouseUp, clickCount);
             }
@@ -222,6 +225,26 @@ namespace CefSharp
             }
         }
 
+        void Copy()
+        {
+            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame(); 
+            
+            if (cefFrame != nullptr)
+            {
+                cefFrame->Copy();
+            }
+        }
+
+        void Paste()
+        {
+            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
+
+            if (cefFrame != nullptr)
+            {
+                cefFrame->Paste();
+            }
+        }
+        
         void ExecuteScriptAsync(String^ script)
         {
             auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
