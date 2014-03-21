@@ -204,7 +204,10 @@ namespace CefSharp.Wpf
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
 
-            this.IsVisibleChanged += OnIsVisibleChanged;
+            GotKeyboardFocus += OnGotKeyboardFocus;
+            LostKeyboardFocus += OnLostKeyboardFocus;
+
+            IsVisibleChanged += OnIsVisibleChanged;
 
             ToolTip = toolTip = new ToolTip();
             toolTip.StaysOpen = true;
@@ -528,18 +531,14 @@ namespace CefSharp.Wpf
             }
         }
 
-        protected override void OnGotFocus(RoutedEventArgs e)
+        private void OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             managedCefBrowserAdapter.SendFocusEvent(true);
-
-            base.OnGotFocus(e);
         }
 
-        protected override void OnLostFocus(RoutedEventArgs e)
+        private void OnLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             managedCefBrowserAdapter.SendFocusEvent(false);
-
-            base.OnLostFocus(e);
         }
 
         protected override void OnPreviewKeyDown(KeyEventArgs e)
