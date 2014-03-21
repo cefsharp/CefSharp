@@ -9,7 +9,7 @@ namespace CefSharp
     {
         public LoadCompletedEventArgs(string url)
         {
-            Url = Url;
+            Url = url;
         }
 
         /// <summary>
