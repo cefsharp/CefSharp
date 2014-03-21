@@ -15,10 +15,10 @@ namespace CefSharp
     private:
         CefRefPtr<CefAppUnmanagedWrapper>* cefApp;
     internal:
-        CefSubprocessBase^ _managedApp;
+        CefSubprocess^ _managedApp;
 
     public:
-        CefAppWrapper(CefSubprocessBase^ managedApp);
+        CefAppWrapper(CefSubprocess^ managedApp);
 
         int Run(array<String^>^ args);
     };

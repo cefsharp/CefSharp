@@ -4,13 +4,13 @@ using System.Linq;
 
 namespace CefSharp.Internals
 {
-    public class CefSubprocessBase : CefAppBase
+    public class CefSubprocess : ManagedCefApp
     {
         #region Singleton pattern
 
-        public static CefSubprocessBase Instance { get; private set; }
+        public static CefSubprocess Instance { get; private set; }
 
-        public CefSubprocessBase()
+        public CefSubprocess()
         {
             Instance = this;
         }

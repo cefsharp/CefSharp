@@ -13,7 +13,7 @@ namespace CefSharp.BrowserSubprocess
 
             int result = 0;
 
-            using (var subprocess = new CefSubprocessBase())
+            using (var subprocess = new CefSubprocess())
             {
                 var wrapper = new CefAppWrapper(subprocess);
 

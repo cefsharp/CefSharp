@@ -4,7 +4,7 @@
 
 namespace CefSharp
 {
-    CefAppWrapper::CefAppWrapper(CefSubprocessBase^ managedApp)
+    CefAppWrapper::CefAppWrapper(CefSubprocess^ managedApp)
     {
         _managedApp = managedApp;
         cefApp = new CefRefPtr<CefAppUnmanagedWrapper>(new CefAppUnmanagedWrapper(this));

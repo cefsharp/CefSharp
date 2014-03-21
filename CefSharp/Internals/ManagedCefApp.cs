@@ -1,6 +1,6 @@
-﻿namespace CefSharp
+﻿namespace CefSharp.Internals
 {
-    public abstract class CefAppBase : ObjectBase
+    public abstract class ManagedCefApp : ObjectBase
     {
         public abstract void OnBrowserCreated(CefBrowserBase cefBrowserWrapper);
     }

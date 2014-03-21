@@ -8,20 +8,20 @@ namespace CefSharp.Internals
 
         public void Initialize()
         {
-            CefSubprocessBase.Instance.ServiceHost.Service = this;
+            CefSubprocess.Instance.ServiceHost.Service = this;
             Callback = OperationContext.Current.GetCallbackChannel<ISubProcessCallback>();
         }
 
         public object EvaluateScript(int frameId, string script, double timeout)
         {
-            var result = CefSubprocessBase.Instance.Browser.EvaluateScript(frameId, script, timeout);
+            var result = CefSubprocess.Instance.Browser.EvaluateScript(frameId, script, timeout);
             return result;
         }
 
         public void Terminate()
         {
-            CefSubprocessBase.Instance.ServiceHost.Service = null;
-            CefSubprocessBase.Instance.Dispose();
+            CefSubprocess.Instance.ServiceHost.Service = null;
+            CefSubprocess.Instance.Dispose();
         }
     }
 }
