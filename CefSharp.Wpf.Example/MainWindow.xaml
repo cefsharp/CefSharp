@@ -6,8 +6,10 @@
         Title="CefSharp.Wpf.Example"
         WindowState="Maximized">
 
-    <TabControl Margin="0,5,0,0">
-        <!-- TODO: Add support for opening/closing tabs freely, as the user wishes -->
+    <TabControl x:Name="TabControl"
+                Margin="0,5,0,0"
+                SelectionChanged="OnTabControlSelectionChanged">
+        <!-- TODO: Change the TabItems to use a proper ItemsSource-based approach instead. This is just a big hack for now. -->
         <TabItem Header="{Binding Tab1Content.DataContext.Title}"
                  Width="150"
                  Height="20">
@@ -19,5 +21,7 @@
                  Height="20">
             <ContentControl Content="{Binding Tab2Content}" />
         </TabItem>
+        
+        <TabItem Header="+"/>
     </TabControl>
 </Window>
