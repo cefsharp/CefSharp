@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace CefSharp.Wpf
 {
-    public interface IWpfWebBrowser : IWebBrowser, INotifyPropertyChanged
+    public interface IWpfWebBrowser : IWebBrowser
     {
         /// <summary>
         /// The address (URL) which the browser control is currently displaying. Can be set to a simplified URL

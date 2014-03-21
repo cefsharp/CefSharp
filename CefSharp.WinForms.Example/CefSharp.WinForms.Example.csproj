@@ -107,6 +107,10 @@
     <None Include="Resources\chromium-256.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.vcxproj">
+      <Project>{7b495581-2271-4f41-9476-acb86e8c864f}</Project>
+      <Name>CefSharp.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CefSharp.Example\CefSharp.Example.csproj">
       <Project>{a4394e7b-1155-43a6-989e-8ab72dddc9e4}</Project>
       <Name>CefSharp.Example</Name>
@@ -115,31 +119,12 @@
       <Project>{882505ad-246d-402a-8414-347efb8e2c8d}</Project>
       <Name>CefSharp.WinForms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CefSharp\CefSharp.vcxproj">
-      <Project>{7b495581-2271-4f41-9476-acb86e8c864f}</Project>
-      <Project>{7B495581-2271-4F41-9476-ACB86E8C864F}</Project>
-      <Name>CefSharp</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CefSharp\CefSharp.vcxproj">
-      <Project>{7B495581-2271-4F41-9476-ACB86E8C864F}</Project>
+    <ProjectReference Include="..\CefSharp\CefSharp.csproj">
+      <Project>{a55848cc-10e7-40cb-addb-04740b16dd43}</Project>
       <Name>CefSharp</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <UnmanagedPlatform>x64</UnmanagedPlatform>
-    <UnmanagedPlatform Condition="'$(Platform)'=='x86'">Win32</UnmanagedPlatform>
-  </PropertyGroup>
-  <!-- TODO: Extract this to an includable .props file, which we can then bundle with the CefSharp.Wpf NuGet package. -->
-  <Target Name="AfterBuild">
-    <ItemGroup>
-      <CefBinaries Include="$(SolutionDir)CEF\$(UnmanagedPlatform)\*.*" />
-      <LocaleFiles Include="$(SolutionDir)CEF\locales\*.*" />
-      <!-- We only need the .exe and .pdb but I don't know how to express that easily with MSBuild... -->
-      <SubProcessFiles Include="$(SolutionDir)\CefSharp.BrowserSubprocess\bin\$(Platform)\$(Configuration)\CefSharp.BrowserSubprocess.*" />
-    </ItemGroup>
-    <Copy SourceFiles="@(CefBinaries)" DestinationFolder="$(TargetDir)" />
-    <Copy SourceFiles="@(LocaleFiles)" DestinationFolder="$(TargetDir)locales" />
-    <Copy SourceFiles="@(SubProcessFiles)" DestinationFolder="$(TargetDir)" />
-  </Target>
+  <Import Project="$(SolutionDir)\CefSharp.props" />
+  <Import Project="$(SolutionDir)\CefSharp.Native.props" />
 </Project>

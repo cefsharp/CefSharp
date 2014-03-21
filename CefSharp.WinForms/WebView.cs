@@ -3,70 +3,63 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 
+using CefSharp.Internals;
+
 namespace CefSharp.WinForms
 {
     public class WebView : Control, IWebBrowserInternal, IWinFormsWebBrowser
     {
-        private readonly BrowserCore browserCore;
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
-        public BrowserSettings BrowserSettings { get; set; }
 
+        public BrowserSettings BrowserSettings { get; set; }
         public string Title { get; set; }
         public bool IsLoading { get; set; }
         public string TooltipText { get; set; }
-
-        public string Address
-        {
-            get
-            {
-                return browserCore.Address;
-            }
-            set
-            {
-                browserCore.Address = value;
-            }
-        }
-
-        bool IWebBrowser.CanGoForward
-        {
-            get { return browserCore.CanGoForward; }
-        }
-
-        bool IWebBrowser.CanGoBack
-        {
-            get { return browserCore.CanGoBack; }
-        }
-
+        public string Address { get; set; }
+                
         public IJsDialogHandler JsDialogHandler { get; set; }
         public IKeyboardHandler KeyboardHandler { get; set; }
         public IRequestHandler RequestHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
         public IMenuHandler MenuHandler { get; set; }
-        public bool IsBrowserInitialized { get; private set; }
 
-        public WebView(string address)
+        public bool CanGoForward { get; private set; }
+        public bool CanGoBack { get; private set; }
+        public bool CanReload { get; private set; }
+        public bool IsBrowserInitialized { get; private set; }
+        public IDictionary<string, object> BoundObjects { get; private set; }
+
+        static WebView()
         {
-            browserCore = new BrowserCore(address);
             Application.ApplicationExit += OnApplicationExit;
         }
 
-        private void OnApplicationExit(object sender, EventArgs e)
+        private static void OnApplicationExit(object sender, EventArgs e)
         {
-            if (managedCefBrowserAdapter == null)
-            {
-                return;
-            }
-
-            managedCefBrowserAdapter.Close();
-            managedCefBrowserAdapter.Dispose();
-            managedCefBrowserAdapter = null;
-        
             Cef.Shutdown();
+        }
+
+        public WebView(string address)
+        {
+                
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (managedCefBrowserAdapter != null)
+                {
+                    managedCefBrowserAdapter.Close();
+                    managedCefBrowserAdapter.Dispose();
+                    managedCefBrowserAdapter = null;
+                }
+            }
+            base.Dispose(disposing);
         }
 
         public void OnInitialized()
         {
-            browserCore.OnInitialized();
         }
 
         public void Load(String url)
@@ -107,13 +100,12 @@ namespace CefSharp.WinForms
         public event LoadErrorEventHandler LoadError;
         public event LoadCompletedEventHandler LoadCompleted;
         public event ConsoleMessageEventHandler ConsoleMessage;
-        public event PropertyChangedEventHandler PropertyChanged;
 
         protected override void OnHandleCreated(EventArgs e)
         {
             base.OnHandleCreated(e);
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
-            managedCefBrowserAdapter.CreateBrowser(BrowserSettings ?? new BrowserSettings(), Handle, browserCore.Address);
+            managedCefBrowserAdapter.CreateBrowser(BrowserSettings ?? new BrowserSettings(), Handle, Address);
         }
 
         protected override void OnSizeChanged(EventArgs e)
@@ -125,7 +117,7 @@ namespace CefSharp.WinForms
 
         public void SetAddress(string address)
         {
-            browserCore.Address = address;
+            Address = address;
         }
 
         public void SetIsLoading(bool isLoading)
@@ -135,13 +127,14 @@ namespace CefSharp.WinForms
 
         public void SetNavState(bool canGoBack, bool canGoForward, bool canReload)
         {
-            browserCore.SetNavState(canGoBack, canGoForward, canReload);
+            CanGoBack = canGoBack;
+            CanGoForward = canGoForward;
+            CanReload = canReload;
         }
 
         public void SetTitle(string title)
         {
             Title = title;
-            RaisePropertyChanged("Title");
         }
 
         public void SetTooltipText(string tooltipText)
@@ -151,13 +144,10 @@ namespace CefSharp.WinForms
 
         public void OnFrameLoadStart(string url)
         {
-            browserCore.OnFrameLoadStart();
         }
 
         public void OnFrameLoadEnd(string url)
         {
-            browserCore.OnFrameLoadEnd();
-
             if (LoadCompleted != null)
             {
                 LoadCompleted(this, new LoadCompletedEventArgs(url));
@@ -185,10 +175,7 @@ namespace CefSharp.WinForms
             }
         }
 
-        public IDictionary<string, object> GetBoundObjects()
-        {
-            throw new NotImplementedException();
-        }
+        
 
         public void ShowDevTools()
         {
@@ -200,14 +187,6 @@ namespace CefSharp.WinForms
         public void CloseDevTools()
         {
             throw new NotImplementedException();
-        }
-
-        private void RaisePropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
         }
     }
 }
