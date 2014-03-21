@@ -15,6 +15,8 @@ namespace CefSharp.Internals
             Instance = this;
         }
 
+        #endregion
+
         protected override void DoDispose(bool isDisposing)
         {
             DisposeMember(ref javascriptServiceHost);
@@ -24,8 +26,6 @@ namespace CefSharp.Internals
 
             base.DoDispose(isDisposing);
         }
-
-        #endregion
 
         public void FindParentProcessId(IEnumerable<string> args)
         {
