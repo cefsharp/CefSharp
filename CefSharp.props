@@ -4,9 +4,11 @@
   <PropertyGroup>
     <VisualStudioProductVersion>2010</VisualStudioProductVersion>
     <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='11.0'">2012</VisualStudioProductVersion>
+    <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='12.0'">2013</VisualStudioProductVersion>
 
     <PlatformToolset>v100</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)'=='11.0'">v110</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)'=='12.0'">v120</PlatformToolset>
   </PropertyGroup>
 
 </Project>
