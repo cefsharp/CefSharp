@@ -23,6 +23,7 @@ obj/
 bin/
 Debug/
 !/CEF/Win32/Debug
+packages
 !/CEF/x64/Debug
 CefSharp/app.aps
 debug.log
