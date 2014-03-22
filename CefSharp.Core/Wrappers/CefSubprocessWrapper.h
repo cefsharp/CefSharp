@@ -4,8 +4,10 @@
 
 #include "include/cef_browser.h"
 #include "include/cef_runnable.h"
+#include "CefTaskScheduler.h";
 
 using namespace System::Threading;
+using namespace System::Threading::Tasks;
 
 namespace CefSharp
 {
@@ -14,57 +16,54 @@ namespace CefSharp
         CefRefPtr<CefBrowser> _cefBrowser;
 
     public:
-        gcroot<AutoResetEvent^> WaitHandle;
-        gcroot<Object^> EvaluateScriptResult;
-        gcroot<String^> EvaluateScriptExceptionMessage;
-
         CefBrowserUnmanagedWrapper(CefRefPtr<CefBrowser> cefBrowser)
         {
             _cefBrowser = cefBrowser;
-            WaitHandle = gcnew AutoResetEvent(false);
         }
 
-        void EvaluateScriptCallback(int64 frameId, CefString script, double timeout)
+        ~CefBrowserUnmanagedWrapper()
         {
-            // TODO: Do something about the timeout...
+            _cefBrowser = nullptr;
+        }
 
+        Object^ EvaluateScriptCallback(int64 frameId, CefString script)
+        {
             auto frame = _cefBrowser->GetFrame(frameId);
             CefRefPtr<CefV8Context> context = frame->GetV8Context();
 
             if (context.get() && context->Enter())
             {
-                EvaluateScriptInContext(context, script);
-                context->Exit();
+                try
+                {
+                    return EvaluateScriptInContext(context, script);
+                }
+                finally
+                {
+                    context->Exit();
+                }
             }
-            WaitHandle->Set();
+
+            return nullptr;
         }
 
-        void EvaluateScriptInContext(CefRefPtr<CefV8Context> context, CefString script)
+        Object^ EvaluateScriptInContext(CefRefPtr<CefV8Context> context, CefString script)
         {
             CefRefPtr<CefV8Value> result;
             CefRefPtr<CefV8Exception> exception;
 
-            EvaluateScriptExceptionMessage = nullptr;
-
             bool success = context->Eval(script, result, exception);
             if (success)
             {
-                try
-                {
-                    EvaluateScriptResult = TypeUtils::ConvertFromCef(result);
-                }
-                catch (Exception^ ex)
-                {
-                    EvaluateScriptExceptionMessage = ex->Message;
-                }
+                return TypeUtils::ConvertFromCef(result);
             }
             else if (exception.get())
             {
-                EvaluateScriptExceptionMessage = StringUtils::ToClr(exception->GetMessage());
+                throw gcnew ScriptException(StringUtils::ToClr(exception->GetMessage()));
             }
             else
             {
-                EvaluateScriptExceptionMessage = "Failed to evaluate script";
+                return nullptr;
+                //EvaluateScriptExceptionMessage = "Failed to evaluate script";
             }
         }
 
@@ -74,42 +73,29 @@ namespace CefSharp
     // "Master class" for wrapping everything that the CefSubprocess needs.
     ref class CefBrowserWrapper : CefBrowserBase
     {
-        CefRefPtr<CefBrowser>* _cefBrowser;
-        CefRefPtr<CefBrowserUnmanagedWrapper>* _unmanagedWrapper;
+        MCefRefPtr<CefBrowser> _cefBrowser;
+        MCefRefPtr<CefBrowserUnmanagedWrapper> _unmanagedWrapper;
 
     public:
 
-        CefBrowserWrapper(CefRefPtr<CefBrowser> cefBrowser)
+        CefBrowserWrapper(CefRefPtr<CefBrowser> cefBrowser) :
+            _cefBrowser(cefBrowser)
         {
-            _cefBrowser = &cefBrowser;
+            RenderThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_RENDERER));
             BrowserId = cefBrowser->GetIdentifier();
-
-            // TODO: Should be deallocated at some point to avoid leaking memory.
-            _unmanagedWrapper = new CefRefPtr<CefBrowserUnmanagedWrapper>(new CefBrowserUnmanagedWrapper(cefBrowser));
+            _unmanagedWrapper = new CefBrowserUnmanagedWrapper(cefBrowser);
         }
 
-        virtual Object^ CefBrowserWrapper::EvaluateScript(int frameId, String^ script, double timeout) override
+        virtual void DoDispose(bool disposing) override
         {
-            auto unmanagedWrapper = _unmanagedWrapper->get();
+            _cefBrowser = nullptr;
+            _unmanagedWrapper = nullptr;
+            CefBrowserBase::DoDispose(disposing);
+        }
 
-            // TODO: Could we do something genericly useful here using C++ lambdas? To avoid having to make a lot of of these...
-            // TODO: DON'T USE AUTORESETEVENT STUPIDITY! Even though the code below compiles & runs correctly, it deadlocks the
-            // thread from which the request came, which is very, very stupid, especially since V8 and Chromium are built
-            // with asynchrony in mind. Instead, we should re-think this API to utilize WCF callbacks instead:
-            // http://idunno.org/archive/2008/05/29/wcf-callbacks-a-beginners-guide.aspx
-            // That feels much more like 2013, and not 1994... :)
-            // TODO: How about concurrency? One way to easily resolve it is to new() up something unique here and use that to
-            // invoke the method.
-            CefPostTask(CefThreadId::TID_RENDERER, NewCefRunnableMethod(unmanagedWrapper,
-                &CefBrowserUnmanagedWrapper::EvaluateScriptCallback, frameId, StringUtils::ToNative(script), timeout));
-            unmanagedWrapper->WaitHandle->WaitOne();
-
-            if (static_cast<String^>(unmanagedWrapper->EvaluateScriptExceptionMessage) != nullptr)
-            {
-                throw gcnew FaultException(unmanagedWrapper->EvaluateScriptExceptionMessage);
-            }
-
-            return unmanagedWrapper->EvaluateScriptResult;
+        virtual Object^ DoEvaluateScript(System::Int64 frameId, String^ script) override
+        {
+            return _unmanagedWrapper->EvaluateScriptCallback(frameId, StringUtils::ToNative(script));
         }
     };
 }
