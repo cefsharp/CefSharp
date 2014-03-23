@@ -31,7 +31,7 @@ namespace CefSharp.Wpf
         private Image image;
         private Image popupImage;
         private Popup popup;
-        private static readonly List<IDisposable> disposables = new List<IDisposable>();
+        private readonly List<IDisposable> disposables = new List<IDisposable>();
 
         public BrowserSettings BrowserSettings { get; set; }
         public bool IsBrowserInitialized { get; private set; }
@@ -83,9 +83,9 @@ namespace CefSharp.Wpf
 
         public static readonly DependencyProperty AddressProperty =
             DependencyProperty.Register("Address", typeof(string), typeof(WebView),
-                                        new UIPropertyMetadata(null, OnAdressChanged));
+                                        new UIPropertyMetadata(null, OnAddressChanged));
 
-        private static void OnAdressChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        private static void OnAddressChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
             WebView owner = (WebView)sender;
             string oldValue = (string)args.OldValue;
@@ -143,6 +143,65 @@ namespace CefSharp.Wpf
 
         public static readonly DependencyProperty TitleProperty =
             DependencyProperty.Register("Title", typeof(string), typeof(WebView), new PropertyMetadata(defaultValue: null));
+
+        #endregion CleanupElement dependency property
+
+        #region CleanupElement dependency property
+
+        /// <summary>
+        /// The CleanupElement Controls when the BrowserResources will be cleand up. 
+        /// The WebView will register on Unloaded of the provided Element and dispose all resources when that handler is called.
+        /// By default the cleanup element is the Window that contains the WebView. 
+        /// if you want cleanup to happen earlier provide another FrameworkElement.
+        /// Be aware that this Control is not usable anymore after cleanup is done. 
+        /// </summary>
+        /// <value>
+        /// The cleanup element.
+        /// </value>
+        public FrameworkElement CleanupElement
+        {
+            get { return (FrameworkElement)GetValue(CleanupElementProperty); }
+            set { SetValue(CleanupElementProperty, value); }
+        }
+
+        public static readonly DependencyProperty CleanupElementProperty =
+            DependencyProperty.Register("CleanupElement", typeof(FrameworkElement), typeof(WebView), new PropertyMetadata(null, OnCleanupElementChanged));
+
+        private static void OnCleanupElementChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+            var owner = (WebView)sender;
+            var oldValue = (FrameworkElement)args.OldValue;
+            var newValue = (FrameworkElement)args.NewValue;
+
+            owner.OnCleanupElementChanged(oldValue, newValue);
+        }
+
+        protected virtual void OnCleanupElementChanged(FrameworkElement oldValue, FrameworkElement newValue)
+        {
+            if (oldValue != null)
+            {
+                oldValue.Unloaded -= OnCleanupElementUnloaded;
+            }
+
+            if (newValue != null)
+            {
+                newValue.Unloaded -= OnCleanupElementUnloaded;
+                newValue.Unloaded += OnCleanupElementUnloaded;
+            }
+        }
+
+        private void OnCleanupElementUnloaded(object sender, RoutedEventArgs e)
+        {
+            Cleanup();
+        }
+
+        protected virtual void Cleanup()
+        {
+            foreach (var disposable in disposables)
+            {
+                disposable.Dispose();
+            }
+        }
 
         #endregion Title dependency property
 
@@ -277,10 +336,6 @@ namespace CefSharp.Wpf
             // should not explicitly have to perform this.
             if (Cef.IsInitialized)
             {
-                foreach (var disposable in disposables)
-                {
-                    disposable.Dispose();
-                }
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
 
@@ -290,10 +345,11 @@ namespace CefSharp.Wpf
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
+            CleanupElement = Window.GetWindow(this);
             AddSourceHookIfNotAlreadyPresent();
         }
 
-        public void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
+        private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
         {
             RemoveSourceHook();
         }
