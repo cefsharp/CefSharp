@@ -69,7 +69,7 @@ namespace CefSharp
                 {
                     return -1;
                 }
-            }; 
+            };
         }
 
         ManagedCefBrowserAdapter(IWebBrowserInternal^ webBrowserInternal)
@@ -91,7 +91,7 @@ namespace CefSharp
             CefString addressNative = StringUtils::ToNative("about:blank");
 
             CefBrowserHost::CreateBrowser(window, _renderClientAdapter, addressNative,
-                *(CefBrowserSettings*) browserSettings->_internalBrowserSettings);
+                *(CefBrowserSettings*)browserSettings->_internalBrowserSettings);
         }
 
         void Close()
@@ -163,7 +163,7 @@ namespace CefSharp
                     keyEvent.type = KEYEVENT_KEYUP;
 
                 keyEvent.windows_key_code = keyEvent.native_key_code = wParam;
-                keyEvent.is_system_key = 
+                keyEvent.is_system_key =
                     message == WM_SYSKEYDOWN ||
                     message == WM_SYSKEYUP ||
                     message == WM_SYSCHAR;
@@ -260,8 +260,8 @@ namespace CefSharp
 
         void Copy()
         {
-            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame(); 
-            
+            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
+
             if (cefFrame != nullptr)
             {
                 cefFrame->Copy();
@@ -277,7 +277,7 @@ namespace CefSharp
                 cefFrame->Paste();
             }
         }
-        
+
         void ExecuteScriptAsync(String^ script)
         {
             auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
@@ -287,7 +287,7 @@ namespace CefSharp
                 cefFrame->ExecuteJavaScript(StringUtils::ToNative(script), "about:blank", 0);
             }
         }
-               
+
 
         void CreateBrowser(BrowserSettings^ browserSettings, IntPtr^ sourceHandle, String^ address)
         {
@@ -299,7 +299,7 @@ namespace CefSharp
             CefString addressNative = StringUtils::ToNative(address);
 
             CefBrowserHost::CreateBrowser(window, _renderClientAdapter, addressNative,
-                *(CefBrowserSettings*) browserSettings->_internalBrowserSettings);
+                *(CefBrowserSettings*)browserSettings->_internalBrowserSettings);
         }
 
         void OnSizeChanged(IntPtr^ sourceHandle)

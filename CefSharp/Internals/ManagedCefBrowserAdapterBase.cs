@@ -14,7 +14,7 @@ namespace CefSharp.Internals
 
         protected override void DoDispose(bool isDisposing)
         {
-            if ( JavaScriptProxy != null )
+            if (JavaScriptProxy != null)
             {
                 try
                 {
@@ -23,7 +23,7 @@ namespace CefSharp.Internals
                 // ReSharper disable once EmptyGeneralCatchClause
                 catch
                 {
-                    Abort();          
+                    Abort();
                 }
                 JavaScriptProxy.Dispose();
                 JavaScriptProxy = null;
@@ -39,8 +39,8 @@ namespace CefSharp.Internals
         public void Error(Exception ex)
         {
         }
-        
-        public Task<object> EvaluateScript( string script )
+
+        public Task<object> EvaluateScript(string script)
         {
             return Task<object>.Factory.StartNew(() =>
             {
@@ -68,7 +68,7 @@ namespace CefSharp.Internals
                 JavaScriptProxy = javaScriptProxyFactory.CreateChannel();
             }
         }
-        
+
         private void CreateChannelFactory()
         {
             if (javaScriptProxyFactory != null)
@@ -77,7 +77,7 @@ namespace CefSharp.Internals
             }
 
             var serviceName = SubProcessProxySupport.GetServiceName(Process.GetCurrentProcess().Id, BrowserId);
-                
+
             javaScriptProxyFactory = new DuplexChannelFactory<ISubProcessProxy>(this,
                         new NetNamedPipeBinding(),
                         new EndpointAddress(serviceName)

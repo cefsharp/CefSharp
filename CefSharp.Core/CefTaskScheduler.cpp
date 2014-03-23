@@ -7,13 +7,13 @@ namespace CefSharp
 {
     void CefTaskWrapper::Execute()
     {
-        try 
+        try
         {
             _scheduler->ExecuteTask(this);
         }
-        catch ( Exception^ )
+        catch (Exception^)
         {
-            
+
         }
     };
 }
