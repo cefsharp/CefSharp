@@ -239,6 +239,10 @@ namespace CefSharp
             cookie.expires.year = expires.Year;
             cookie.expires.month = expires.Month;
             cookie.expires.day_of_month = expires.Day;
+            cookie.expires.hour = expires.Hour;
+            cookie.expires.minute = expires.Minute;
+            cookie.expires.second = expires.Second;
+            cookie.expires.millisecond = expires.Millisecond;
 
             if (CefCurrentlyOn(TID_IO))
             {
