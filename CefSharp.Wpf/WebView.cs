@@ -20,6 +20,8 @@ namespace CefSharp.Wpf
 {
     public class WebView : ContentControl, IRenderWebBrowser, IWpfWebBrowser
     {
+        #region private members
+
         private HwndSource source;
         private HwndSourceHook sourceHook;
         private DispatcherTimer tooltipTimer;
@@ -31,7 +33,10 @@ namespace CefSharp.Wpf
         private Image image;
         private Image popupImage;
         private Popup popup;
+        
         private readonly List<IDisposable> disposables = new List<IDisposable>();
+
+        #endregion
 
         public BrowserSettings BrowserSettings { get; set; }
         public bool IsBrowserInitialized { get; private set; }
@@ -44,35 +49,77 @@ namespace CefSharp.Wpf
         public event LoadCompletedEventHandler LoadCompleted;
         public event LoadErrorEventHandler LoadError;
 
-        public ICommand BackCommand { get; private set; }
-        public ICommand ForwardCommand { get; private set; }
-        public ICommand ReloadCommand { get; private set; }
-
         public bool CanGoBack { get; private set; }
         public bool CanGoForward { get; private set; }
         public bool CanReload { get; private set; }
-
-        public int BytesPerPixel
-        {
-            get { return PixelFormat.BitsPerPixel / 8; }
-        }
-
-
-        int IRenderWebBrowser.Width
-        {
-            get { return (int)matrix.Transform(new Point(ActualWidth, ActualHeight)).X; }
-        }
-
-        int IRenderWebBrowser.Height
-        {
-            get { return (int)matrix.Transform(new Point(ActualWidth, ActualHeight)).Y; }
-        }
 
         private static PixelFormat PixelFormat
         {
             get { return PixelFormats.Bgra32; }
         }
 
+
+        #region CleanupElement dependency property
+
+        /// <summary>
+        /// The CleanupElement Controls when the BrowserResources will be cleand up. 
+        /// The WebView will register on Unloaded of the provided Element and dispose all resources when that handler is called.
+        /// By default the cleanup element is the Window that contains the WebView. 
+        /// if you want cleanup to happen earlier provide another FrameworkElement.
+        /// Be aware that this Control is not usable anymore after cleanup is done. 
+        /// </summary>
+        /// <value>
+        /// The cleanup element.
+        /// </value>
+        public FrameworkElement CleanupElement
+        {
+            get { return (FrameworkElement)GetValue(CleanupElementProperty); }
+            set { SetValue(CleanupElementProperty, value); }
+        }
+
+        public static readonly DependencyProperty CleanupElementProperty =
+            DependencyProperty.Register("CleanupElement", typeof(FrameworkElement), typeof(WebView), new PropertyMetadata(null, OnCleanupElementChanged));
+       
+        private static void OnCleanupElementChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+            var owner = (WebView)sender;
+            var oldValue = (FrameworkElement)args.OldValue;
+            var newValue = (FrameworkElement)args.NewValue;
+
+            owner.OnCleanupElementChanged(oldValue, newValue);
+        }
+
+        protected virtual void OnCleanupElementChanged(FrameworkElement oldValue, FrameworkElement newValue)
+        {
+            if (oldValue != null)
+            {
+                oldValue.Unloaded -= OnCleanupElementUnloaded;
+            }
+
+            if (newValue != null)
+            {
+                newValue.Unloaded -= OnCleanupElementUnloaded;
+                newValue.Unloaded += OnCleanupElementUnloaded;
+            }
+        }
+
+        private void OnCleanupElementUnloaded(object sender, RoutedEventArgs e)
+        {
+            Cleanup();
+        }
+
+        protected virtual void Cleanup()
+        {
+            foreach (var disposable in disposables)
+            {
+                disposable.Dispose();
+            }
+        }
+
+        #endregion CleanupElement dependency property
+
+        #region IWpfWebBrowser implementation
+        
         #region Address dependency property
 
         public string Address
@@ -144,66 +191,33 @@ namespace CefSharp.Wpf
         public static readonly DependencyProperty TitleProperty =
             DependencyProperty.Register("Title", typeof(string), typeof(WebView), new PropertyMetadata(defaultValue: null));
 
-        #endregion CleanupElement dependency property
-
-        #region CleanupElement dependency property
-
-        /// <summary>
-        /// The CleanupElement Controls when the BrowserResources will be cleand up. 
-        /// The WebView will register on Unloaded of the provided Element and dispose all resources when that handler is called.
-        /// By default the cleanup element is the Window that contains the WebView. 
-        /// if you want cleanup to happen earlier provide another FrameworkElement.
-        /// Be aware that this Control is not usable anymore after cleanup is done. 
-        /// </summary>
-        /// <value>
-        /// The cleanup element.
-        /// </value>
-        public FrameworkElement CleanupElement
+        private void Back()
         {
-            get { return (FrameworkElement)GetValue(CleanupElementProperty); }
-            set { SetValue(CleanupElementProperty, value); }
+            managedCefBrowserAdapter.GoBack();
         }
 
-        public static readonly DependencyProperty CleanupElementProperty =
-            DependencyProperty.Register("CleanupElement", typeof(FrameworkElement), typeof(WebView), new PropertyMetadata(null, OnCleanupElementChanged));
-
-        private static void OnCleanupElementChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        private void Forward()
         {
-            var owner = (WebView)sender;
-            var oldValue = (FrameworkElement)args.OldValue;
-            var newValue = (FrameworkElement)args.NewValue;
-
-            owner.OnCleanupElementChanged(oldValue, newValue);
+            managedCefBrowserAdapter.GoForward();
         }
 
-        protected virtual void OnCleanupElementChanged(FrameworkElement oldValue, FrameworkElement newValue)
+        public void Reload()
         {
-            if (oldValue != null)
-            {
-                oldValue.Unloaded -= OnCleanupElementUnloaded;
-            }
-
-            if (newValue != null)
-            {
-                newValue.Unloaded -= OnCleanupElementUnloaded;
-                newValue.Unloaded += OnCleanupElementUnloaded;
-            }
+            managedCefBrowserAdapter.Reload();
         }
 
-        private void OnCleanupElementUnloaded(object sender, RoutedEventArgs e)
+        #endregion
+
+        public ICommand BackCommand { get; private set; }
+        public ICommand ForwardCommand { get; private set; }
+        public ICommand ReloadCommand { get; private set; }
+
+        public void ViewSource()
         {
-            Cleanup();
+            managedCefBrowserAdapter.ViewSource();
         }
 
-        protected virtual void Cleanup()
-        {
-            foreach (var disposable in disposables)
-            {
-                disposable.Dispose();
-            }
-        }
-
-        #endregion Title dependency property
+        #endregion
 
         #region TooltipText dependency property
 
@@ -317,6 +331,7 @@ namespace CefSharp.Wpf
             }
         }
 
+        #region event handlers
 
         private void OnActualSizeChanged(object sender, EventArgs e)
         {
@@ -354,6 +369,32 @@ namespace CefSharp.Wpf
             RemoveSourceHook();
         }
 
+        private void OnTooltipTimerTick(object sender, EventArgs e)
+        {
+            tooltipTimer.Stop();
+
+            UpdateTooltip(TooltipText);
+        }
+
+        private void OnTooltipClosed(object sender, RoutedEventArgs e)
+        {
+            toolTip.Visibility = Visibility.Collapsed;
+
+            // Set Placement to something other than PlacementMode.Mouse, so that when we re-show the tooltip in
+            // UpdateTooltip(), the tooltip will be repositioned to the new mouse point.
+            toolTip.Placement = PlacementMode.Absolute;
+        }
+
+        private void OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            managedCefBrowserAdapter.SendFocusEvent(true);
+        }
+
+        private void OnLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            managedCefBrowserAdapter.SendFocusEvent(false);
+        }
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -378,16 +419,110 @@ namespace CefSharp.Wpf
             image.VerticalAlignment = VerticalAlignment.Top;
         }
 
-        private Popup CreatePopup()
+        protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
-            var popup = new Popup
-            {
-                Child = popupImage = new Image(),
-                PlacementTarget = this,
-                Placement = PlacementMode.Relative
-            };
+            OnPreviewKey(e);
+        }
 
-            return popup;
+        protected override void OnPreviewKeyUp(KeyEventArgs e)
+        {
+            OnPreviewKey(e);
+        }
+
+        private void OnPreviewKey(KeyEventArgs e)
+        {
+            // For some reason, not all kinds of keypresses triggers the appropriate WM_ messages handled by our SourceHook, so
+            // we have to handle these extra keys here. Hooking the Tab key like this makes the tab focusing in essence work like
+            // KeyboardNavigation.TabNavigation="Cycle"; you will never be able to Tab out of the web browser control.
+
+            if (e.Key == Key.Tab ||
+                new[] { Key.Left, Key.Right, Key.Up, Key.Down }.Contains(e.Key))
+            {
+                var message = (int)(e.IsDown ? WM.KEYDOWN : WM.KEYUP);
+                var virtualKey = KeyInterop.VirtualKeyFromKey(e.Key);
+                managedCefBrowserAdapter.SendKeyEvent(message, virtualKey);
+                e.Handled = true;
+            }
+
+            if (e.IsDown && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
+            {
+                if (e.Key == Key.C)
+                {
+                    managedCefBrowserAdapter.Copy();
+                }
+                else if (e.Key == Key.V)
+                {
+                    managedCefBrowserAdapter.Paste();
+                }
+            }
+        }
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            var point = GetPixelPosition(e);
+            var modifiers = GetModifiers(e);
+
+            managedCefBrowserAdapter.OnMouseMove((int)point.X, (int)point.Y, false, modifiers);
+        }
+
+        protected override void OnMouseWheel(MouseWheelEventArgs e)
+        {
+            var point = GetPixelPosition(e);
+
+            managedCefBrowserAdapter.OnMouseWheel(
+                (int)point.X,
+                (int)point.Y,
+                deltaX: 0,
+                deltaY: e.Delta
+                );
+        }
+
+        protected override void OnMouseDown(MouseButtonEventArgs e)
+        {
+            Focus();
+            OnMouseButton(e);
+            Mouse.Capture(this);
+        }
+
+        protected override void OnMouseUp(MouseButtonEventArgs e)
+        {
+            OnMouseButton(e);
+            Mouse.Capture(null);
+        }
+
+        protected override void OnMouseLeave(MouseEventArgs e)
+        {
+            var modifiers = GetModifiers(e);
+            managedCefBrowserAdapter.OnMouseMove(0, 0, true, modifiers);
+        }
+
+        private void OnMouseButton(MouseButtonEventArgs e)
+        {
+            MouseButtonType mouseButtonType;
+
+            switch (e.ChangedButton)
+            {
+                case MouseButton.Left:
+                    mouseButtonType = MouseButtonType.Left;
+                    break;
+
+                case MouseButton.Middle:
+                    mouseButtonType = MouseButtonType.Middle;
+                    break;
+
+                case MouseButton.Right:
+                    mouseButtonType = MouseButtonType.Right;
+                    break;
+
+                default:
+                    return;
+            }
+
+            var modifiers = GetModifiers(e);
+            var mouseUp = (e.ButtonState == MouseButtonState.Released);
+            var point = GetPixelPosition(e);
+
+            managedCefBrowserAdapter.OnMouseButton((int)point.X, (int)point.Y, mouseButtonType, mouseUp, e.ClickCount, modifiers);
         }
 
         private void AddSourceHookIfNotAlreadyPresent()
@@ -454,88 +589,6 @@ namespace CefSharp.Wpf
             return IntPtr.Zero;
         }
 
-        public void InvokeRenderAsync(BitmapInfo bitmapInfo)
-        {
-            DoInUi(() => SetBitmap(bitmapInfo), DispatcherPriority.Render);
-        }
-
-        public void SetAddress(string address)
-        {
-            DoInUi(() =>
-            {
-                ignoreUriChange = true;
-                Address = address;
-                ignoreUriChange = false;
-
-                // The tooltip should obviously also be reset (and hidden) when the address changes.
-                TooltipText = null;
-            });
-        }
-
-        public void SetIsLoading(bool isLoading)
-        {
-            DoInUi(() => IsLoading = isLoading);
-        }
-
-        public void SetNavState(bool canGoBack, bool canGoForward, bool canReload)
-        {
-            CanGoBack = canGoBack;
-            CanGoForward = canGoForward;
-            CanReload = canReload;
-
-            RaiseCommandsCanExecuteChanged();
-        }
-
-        private void RaiseCommandsCanExecuteChanged()
-        {
-            ((DelegateCommand)BackCommand).RaiseCanExecuteChanged();
-            ((DelegateCommand)ForwardCommand).RaiseCanExecuteChanged();
-            ((DelegateCommand)ReloadCommand).RaiseCanExecuteChanged();
-        }
-
-        public void SetTitle(string title)
-        {
-            DoInUi(() =>
-            {
-                Title = title;
-            });
-        }
-
-        public void SetTooltipText(string tooltipText)
-        {
-            DoInUi(() =>
-            {
-                TooltipText = tooltipText;
-            });
-        }
-
-        public void SetPopupSizeAndPosition(int width, int height, int x, int y)
-        {
-            DoInUi(() =>
-            {
-                popup.Width = width;
-                popup.Height = height;
-
-                var popupOffset = new Point(x, y);
-                // TODO: Port over this from CefSharp1.
-                //if (popupOffsetTransform != null)
-                //{
-                //    popupOffset = popupOffsetTransform->GeneralTransform::Transform(popupOffset);
-                //}
-
-                popup.HorizontalOffset = popupOffset.X;
-                popup.VerticalOffset = popupOffset.Y;
-            });
-        }
-
-        public void SetPopupIsOpen(bool isOpen)
-        {
-            DoInUi(() =>
-            {
-                popup.IsOpen = isOpen;
-            });
-        }
-
         private static CefEventFlags GetModifiers(MouseEventArgs e)
         {
             CefEventFlags modifiers = 0;
@@ -555,36 +608,24 @@ namespace CefSharp.Wpf
             return modifiers;
         }
 
-        private void SetPopupSizeAndPositionImpl(int width, int height, int x, int y)
+        private Point GetPixelPosition(MouseEventArgs e)
         {
-            popup.Width = width;
-            popup.Height = height;
+            var deviceIndependentPosition = e.GetPosition(this);
+            var pixelPosition = matrix.Transform(deviceIndependentPosition);
 
-            var popupOffset = new Point(x, y);
-            // TODO: Port over this from CefSharp1.
-            //if (popupOffsetTransform != null)
-            //{
-            //    popupOffset = popupOffsetTransform->GeneralTransform::Transform(popupOffset);
-            //}
-
-            popup.HorizontalOffset = popupOffset.X;
-            popup.VerticalOffset = popupOffset.Y;
+            return pixelPosition;
         }
 
-        private void OnTooltipTimerTick(object sender, EventArgs e)
+        private Popup CreatePopup()
         {
-            tooltipTimer.Stop();
+            var popup = new Popup
+            {
+                Child = popupImage = new Image(),
+                PlacementTarget = this,
+                Placement = PlacementMode.Relative
+            };
 
-            UpdateTooltip(TooltipText);
-        }
-
-        private void OnTooltipClosed(object sender, RoutedEventArgs e)
-        {
-            toolTip.Visibility = Visibility.Collapsed;
-
-            // Set Placement to something other than PlacementMode.Mouse, so that when we re-show the tooltip in
-            // UpdateTooltip(), the tooltip will be repositioned to the new mouse point.
-            toolTip.Placement = PlacementMode.Absolute;
+            return popup;
         }
 
         private void UpdateTooltip(string text)
@@ -602,126 +643,9 @@ namespace CefSharp.Wpf
             }
         }
 
-        private void OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            managedCefBrowserAdapter.SendFocusEvent(true);
-        }
+        #endregion
 
-        private void OnLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            managedCefBrowserAdapter.SendFocusEvent(false);
-        }
-
-        protected override void OnPreviewKeyDown(KeyEventArgs e)
-        {
-            OnPreviewKey(e);
-        }
-
-        protected override void OnPreviewKeyUp(KeyEventArgs e)
-        {
-            OnPreviewKey(e);
-        }
-
-        private void OnPreviewKey(KeyEventArgs e)
-        {
-            // For some reason, not all kinds of keypresses triggers the appropriate WM_ messages handled by our SourceHook, so
-            // we have to handle these extra keys here. Hooking the Tab key like this makes the tab focusing in essence work like
-            // KeyboardNavigation.TabNavigation="Cycle"; you will never be able to Tab out of the web browser control.
-
-            if (e.Key == Key.Tab ||
-                new[] { Key.Left, Key.Right, Key.Up, Key.Down }.Contains(e.Key))
-            {
-                var message = (int)(e.IsDown ? WM.KEYDOWN : WM.KEYUP);
-                var virtualKey = KeyInterop.VirtualKeyFromKey(e.Key);
-                managedCefBrowserAdapter.SendKeyEvent(message, virtualKey);
-                e.Handled = true;
-            }
-
-            if (e.IsDown && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
-            {
-                if (e.Key == Key.C)
-                {
-                    managedCefBrowserAdapter.Copy();
-                }
-                else if (e.Key == Key.V)
-                {
-                    managedCefBrowserAdapter.Paste();
-                }
-            }
-        }
-
-        protected override void OnMouseMove(MouseEventArgs e)
-        {
-            var point = GetPixelPosition(e);
-            var modifiers = GetModifiers(e);
-
-            managedCefBrowserAdapter.OnMouseMove((int)point.X, (int)point.Y, false, modifiers);
-        }
-
-        protected override void OnMouseWheel(MouseWheelEventArgs e)
-        {
-            var point = GetPixelPosition(e);
-
-            managedCefBrowserAdapter.OnMouseWheel(
-                (int)point.X,
-                (int)point.Y,
-                deltaX: 0,
-                deltaY: e.Delta
-            );
-        }
-
-        protected override void OnMouseDown(MouseButtonEventArgs e)
-        {
-            Focus();
-            OnMouseButton(e);
-            Mouse.Capture(this);
-        }
-
-        protected override void OnMouseUp(MouseButtonEventArgs e)
-        {
-            OnMouseButton(e);
-            Mouse.Capture(null);
-        }
-
-        protected override void OnMouseLeave(MouseEventArgs e)
-        {
-            var modifiers = GetModifiers(e);
-            managedCefBrowserAdapter.OnMouseMove(0, 0, true, modifiers);
-        }
-
-        private void OnMouseButton(MouseButtonEventArgs e)
-        {
-            MouseButtonType mouseButtonType;
-
-            switch (e.ChangedButton)
-            {
-                case MouseButton.Left:
-                    mouseButtonType = MouseButtonType.Left;
-                    break;
-
-                case MouseButton.Middle:
-                    mouseButtonType = MouseButtonType.Middle;
-                    break;
-
-                case MouseButton.Right:
-                    mouseButtonType = MouseButtonType.Right;
-                    break;
-
-                default:
-                    return;
-            }
-
-            var modifiers = GetModifiers(e);
-            var mouseUp = (e.ButtonState == MouseButtonState.Released);
-            var point = GetPixelPosition(e);
-
-            managedCefBrowserAdapter.OnMouseButton((int)point.X, (int)point.Y, mouseButtonType, mouseUp, e.ClickCount, modifiers);
-        }
-
-        public void OnInitialized()
-        {
-            //browserCore.OnInitialized();
-        }
+        #region IWebBrowser 
 
         public void Load(string url)
         {
@@ -731,69 +655,6 @@ namespace CefSharp.Wpf
         public void LoadHtml(string html, string url)
         {
             managedCefBrowserAdapter.LoadHtml(html, url);
-        }
-
-        private void Back()
-        {
-            managedCefBrowserAdapter.GoBack();
-        }
-
-        private void Forward()
-        {
-            managedCefBrowserAdapter.GoForward();
-        }
-
-        public void Reload()
-        {
-            managedCefBrowserAdapter.Reload();
-        }
-
-        public void ShowDevTools()
-        {
-            // TODO: Do something about this one.
-            var devToolsUrl = managedCefBrowserAdapter.DevToolsUrl;
-            throw new NotImplementedException();
-        }
-
-        public void CloseDevTools()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnFrameLoadStart(string url)
-        {
-            //browserCore.OnFrameLoadStart();
-        }
-
-        public void OnFrameLoadEnd(string url)
-        {
-            //browserCore.OnFrameLoadEnd();
-
-            if (LoadCompleted != null)
-            {
-                LoadCompleted(this, new LoadCompletedEventArgs(url));
-            }
-        }
-
-        public void OnTakeFocus(bool next)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnConsoleMessage(string message, string source, int line)
-        {
-            if (ConsoleMessage != null)
-            {
-                ConsoleMessage(this, new ConsoleMessageEventArgs(message, source, line));
-            }
-        }
-
-        public void OnLoadError(string url, CefErrorCode errorCode, string errorText)
-        {
-            if (LoadError != null)
-            {
-                LoadError(url, errorCode, errorText);
-            }
         }
 
         public void RegisterJsObject(string name, object objectToBind)
@@ -823,23 +684,151 @@ namespace CefSharp.Wpf
             return managedCefBrowserAdapter.EvaluateScript(script, timeout.Value);
         }
 
-        public void SetCursor(IntPtr handle)
-        {
-            if (!Dispatcher.CheckAccess())
-            {
-                Dispatcher.BeginInvoke((Action<IntPtr>)SetCursor, handle);
-                return;
-            }
+        #endregion
 
-            Cursor = CursorInteropHelper.Create(new SafeFileHandle(handle, ownsHandle: false));
+        #region IWebBrowserInternal Implementation
+
+        void IWebBrowserInternal.OnInitialized()
+        {
+            //browserCore.OnInitialized();
         }
 
-        public void ClearBitmap(BitmapInfo bitmapInfo)
+        void IWebBrowserInternal.SetAddress(string address)
+        {
+            DoInUi(() =>
+            {
+                ignoreUriChange = true;
+                Address = address;
+                ignoreUriChange = false;
+
+                // The tooltip should obviously also be reset (and hidden) when the address changes.
+                TooltipText = null;
+            });
+        }
+
+        void IWebBrowserInternal.SetIsLoading(bool isLoading)
+        {
+            DoInUi(() => IsLoading = isLoading);
+        }
+
+        void IWebBrowserInternal.SetNavState(bool canGoBack, bool canGoForward, bool canReload)
+        {
+            CanGoBack = canGoBack;
+            CanGoForward = canGoForward;
+            CanReload = canReload;
+
+            RaiseCommandsCanExecuteChanged();
+        }
+
+        void IWebBrowserInternal.SetTitle(string title)
+        {
+            DoInUi(() =>
+            {
+                Title = title;
+            });
+        }
+
+        void IWebBrowserInternal.SetTooltipText(string tooltipText)
+        {
+            DoInUi(() =>
+            {
+                TooltipText = tooltipText;
+            });
+        }
+
+        void IWebBrowserInternal.ShowDevTools()
+        {
+            // TODO: Do something about this one.
+            var devToolsUrl = managedCefBrowserAdapter.DevToolsUrl;
+            throw new NotImplementedException();
+        }
+
+        void IWebBrowserInternal.CloseDevTools()
+        {
+            throw new NotImplementedException();
+        }
+
+        void IWebBrowserInternal.OnFrameLoadStart(string url)
+        {
+            //browserCore.OnFrameLoadStart();
+        }
+
+        void IWebBrowserInternal.OnFrameLoadEnd(string url)
+        {
+            //browserCore.OnFrameLoadEnd();
+
+            if (LoadCompleted != null)
+            {
+                LoadCompleted(this, new LoadCompletedEventArgs(url));
+            }
+        }
+
+        void IWebBrowserInternal.OnTakeFocus(bool next)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IWebBrowserInternal.OnConsoleMessage(string message, string source, int line)
+        {
+            if (ConsoleMessage != null)
+            {
+                ConsoleMessage(this, new ConsoleMessageEventArgs(message, source, line));
+            }
+        }
+
+        void IWebBrowserInternal.OnLoadError(string url, CefErrorCode errorCode, string errorText)
+        {
+            if (LoadError != null)
+            {
+                LoadError(url, errorCode, errorText);
+            }
+        }
+
+        private void RaiseCommandsCanExecuteChanged()
+        {
+            ((DelegateCommand)BackCommand).RaiseCanExecuteChanged();
+            ((DelegateCommand)ForwardCommand).RaiseCanExecuteChanged();
+            ((DelegateCommand)ReloadCommand).RaiseCanExecuteChanged();
+        }
+
+        #endregion
+
+        #region IRenderWebBrowser Implementation
+
+        int IRenderWebBrowser.BytesPerPixel
+        {
+            get { return PixelFormat.BitsPerPixel / 8; }
+        }
+
+        int IRenderWebBrowser.Width
+        {
+            get { return (int)matrix.Transform(new Point(ActualWidth, ActualHeight)).X; }
+        }
+
+        int IRenderWebBrowser.Height
+        {
+            get { return (int)matrix.Transform(new Point(ActualWidth, ActualHeight)).Y; }
+        }
+
+        void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
+        {
+            DoInUi(() => ((IRenderWebBrowser)this).SetBitmap(bitmapInfo), DispatcherPriority.Render);
+        }
+
+        void IRenderWebBrowser.SetCursor(IntPtr handle)
+        {
+            DoInUi(() =>
+            {
+                Cursor = CursorInteropHelper.Create(new SafeFileHandle(handle, ownsHandle: false));
+            });
+        }
+
+        void IRenderWebBrowser.ClearBitmap(BitmapInfo bitmapInfo)
         {
             bitmapInfo.InteropBitmap = null;
         }
 
-        public void SetBitmap(BitmapInfo bitmapInfo)
+        void IRenderWebBrowser.SetBitmap(BitmapInfo bitmapInfo)
         {
             lock (bitmapInfo.BitmapLock)
             {
@@ -854,12 +843,31 @@ namespace CefSharp.Wpf
             }
         }
 
-        private Point GetPixelPosition(MouseEventArgs e)
+        void IRenderWebBrowser.SetPopupSizeAndPosition(int width, int height, int x, int y)
         {
-            var deviceIndependentPosition = e.GetPosition(this);
-            var pixelPosition = matrix.Transform(deviceIndependentPosition);
+            DoInUi(() =>
+            {
+                popup.Width = width;
+                popup.Height = height;
 
-            return pixelPosition;
+                var popupOffset = new Point(x, y);
+                // TODO: Port over this from CefSharp1.
+                //if (popupOffsetTransform != null)
+                //{
+                //    popupOffset = popupOffsetTransform->GeneralTransform::Transform(popupOffset);
+                //}
+
+                popup.HorizontalOffset = popupOffset.X;
+                popup.VerticalOffset = popupOffset.Y;
+            });
+        }
+
+        void IRenderWebBrowser.SetPopupIsOpen(bool isOpen)
+        {
+            DoInUi(() =>
+            {
+                popup.IsOpen = isOpen;
+            });
         }
 
         private object SetBitmapHelper(BitmapInfo bitmapInfo, InteropBitmap bitmap, Action<InteropBitmap> imageSourceSetter)
@@ -869,7 +877,7 @@ namespace CefSharp.Wpf
                 imageSourceSetter(null);
                 GC.Collect(1);
 
-                var stride = bitmapInfo.Width * BytesPerPixel;
+                var stride = bitmapInfo.Width * ((IRenderWebBrowser)this).BytesPerPixel;
 
                 bitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(bitmapInfo.FileMappingHandle,
                     bitmapInfo.Width, bitmapInfo.Height, PixelFormat, stride, 0);
@@ -881,9 +889,6 @@ namespace CefSharp.Wpf
             return bitmap;
         }
 
-        public void ViewSource()
-        {
-            managedCefBrowserAdapter.ViewSource();
-        }
+        #endregion
     }
 }
