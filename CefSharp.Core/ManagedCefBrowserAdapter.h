@@ -58,7 +58,7 @@ namespace CefSharp
             CefString addressNative = StringUtils::ToNative("about:blank");
 
             CefBrowserHost::CreateBrowser(window, _renderClientAdapter, addressNative,
-                *(CefBrowserSettings*) browserSettings->_internalBrowserSettings);
+                *(CefBrowserSettings*) browserSettings->_browserSettings);
         }
 
         void Close()
@@ -296,7 +296,7 @@ namespace CefSharp
             CefString addressNative = StringUtils::ToNative(address);
 
             CefBrowserHost::CreateBrowser(window, _renderClientAdapter, addressNative,
-                *(CefBrowserSettings*) browserSettings->_internalBrowserSettings);
+                *(CefBrowserSettings*)browserSettings->_browserSettings);
         }
 
         void OnSizeChanged(IntPtr^ sourceHandle)

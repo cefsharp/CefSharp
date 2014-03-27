@@ -9,22 +9,22 @@ using namespace CefSharp::Internals;
 
 namespace CefSharp
 {
-    Nullable<bool>^ CefStateToBoolean(cef_state_t state)
+    Nullable<bool> CefStateToBoolean(cef_state_t state)
     {
         if (state == STATE_DEFAULT)
         {
-            return nullptr;
+            return Nullable<bool>();
         }
         else if (state == STATE_ENABLED)
         {
-            return gcnew Nullable<bool>(true);
+            return Nullable<bool>(true);
         }
         else if (state == STATE_DISABLED)
         {
-            return gcnew Nullable<bool>(false);
+            return Nullable<bool>(false);
         }
 
-        return nullptr;
+        return Nullable<bool>();
     }
 
     cef_state_t CefStateFromBoolean(Nullable<bool>^ value)
@@ -45,306 +45,305 @@ namespace CefSharp
         return STATE_DEFAULT;
     }
 
-    public ref class BrowserSettings
+    public ref class BrowserSettings : public BrowserSettingsBase
     {
     internal:
         CefBrowserSettings* _browserSettings;
 
     public:
-        BrowserSettings() : _browserSettings(new CefBrowserSettings()) { }
-        !BrowserSettings() { delete _browserSettings; }
-        ~BrowserSettings() { delete _browserSettings; }
-
-        // CefBrowserSettings is private causing whole field to be private
-        // exposing void* as a workaround
-        property void* _internalBrowserSettings
+        BrowserSettings() :
+            _browserSettings(new CefBrowserSettings())
         {
-            void* get() { return _browserSettings; }
         }
 
-        property String^ StandardFontFamily
+        virtual void DoDispose(bool disposing) override
         {
-            String^ get() { return StringUtils::ToClr(_browserSettings->standard_font_family); }
-            void set(String^ value) { StringUtils::AssignNativeFromClr(_browserSettings->standard_font_family, value); }
+            delete _browserSettings;
+            _browserSettings = nullptr;
+
+            BrowserSettingsBase::DoDispose(disposing);
         }
 
-        property String^ FixedFontFamily
+        virtual property String^ StandardFontFamily
         {
-            String^ get() { return StringUtils::ToClr(_browserSettings->fixed_font_family); }
-            void set(String^ value) { StringUtils::AssignNativeFromClr(_browserSettings->fixed_font_family, value); }
+            String^ get() override { return StringUtils::ToClr(_browserSettings->standard_font_family); }
+            void set(String^ value) override { StringUtils::AssignNativeFromClr(_browserSettings->standard_font_family, value); }
         }
 
-        property String^ SerifFontFamily
+        virtual property String^ FixedFontFamily
         {
-            String^ get() { return StringUtils::ToClr(_browserSettings->serif_font_family); }
-            void set(String^ value) { StringUtils::AssignNativeFromClr(_browserSettings->serif_font_family, value); }
+            String^ get() override { return StringUtils::ToClr(_browserSettings->fixed_font_family); }
+            void set(String^ value) override { StringUtils::AssignNativeFromClr(_browserSettings->fixed_font_family, value); }
         }
 
-        property String^ SansSerifFontFamily
+        virtual property String^ SerifFontFamily
         {
-            String^ get() { return StringUtils::ToClr(_browserSettings->sans_serif_font_family); }
-            void set(String^ value) { StringUtils::AssignNativeFromClr(_browserSettings->sans_serif_font_family, value); }
+            String^ get() override { return StringUtils::ToClr(_browserSettings->serif_font_family); }
+            void set(String^ value) override { StringUtils::AssignNativeFromClr(_browserSettings->serif_font_family, value); }
         }
 
-        property String^ CursiveFontFamily
+        virtual property String^ SansSerifFontFamily
         {
-            String^ get() { return StringUtils::ToClr(_browserSettings->cursive_font_family); }
-            void set(String^ value) { StringUtils::AssignNativeFromClr(_browserSettings->cursive_font_family, value); }
+            String^ get() override { return StringUtils::ToClr(_browserSettings->sans_serif_font_family); }
+            void set(String^ value) override { StringUtils::AssignNativeFromClr(_browserSettings->sans_serif_font_family, value); }
         }
 
-        property String^ FantasyFontFamily
+        virtual property String^ CursiveFontFamily
         {
-            String^ get() { return StringUtils::ToClr(_browserSettings->fantasy_font_family); }
-            void set(String^ value) { StringUtils::AssignNativeFromClr(_browserSettings->fantasy_font_family, value); }
+            String^ get() override { return StringUtils::ToClr(_browserSettings->cursive_font_family); }
+            void set(String^ value) override { StringUtils::AssignNativeFromClr(_browserSettings->cursive_font_family, value); }
         }
 
-        property int DefaultFontSize
+        virtual property String^ FantasyFontFamily
         {
-            int get() { return _browserSettings->default_font_size; }
-            void set(int value) { _browserSettings->default_font_size = value; }
+            String^ get() override { return StringUtils::ToClr(_browserSettings->fantasy_font_family); }
+            void set(String^ value) override { StringUtils::AssignNativeFromClr(_browserSettings->fantasy_font_family, value); }
         }
 
-        property int DefaultFixedFontSize
+        virtual property int DefaultFontSize
         {
-            int get() { return _browserSettings->default_fixed_font_size; }
-            void set(int value) { _browserSettings->default_fixed_font_size = value; }
+            int get() override { return _browserSettings->default_font_size; }
+            void set(int value) override { _browserSettings->default_font_size = value; }
         }
 
-        property int MinimumFontSize
+        virtual property int DefaultFixedFontSize
         {
-            int get() { return _browserSettings->minimum_font_size; }
-            void set(int value) { _browserSettings->minimum_font_size = value; }
+            int get() override { return _browserSettings->default_fixed_font_size; }
+            void set(int value) override { _browserSettings->default_fixed_font_size = value; }
         }
 
-        property int MinimumLogicalFontSize
+        virtual property int MinimumFontSize
         {
-            int get() { return _browserSettings->minimum_logical_font_size; }
-            void set(int value) { _browserSettings->minimum_logical_font_size = value; }
+            int get() override { return _browserSettings->minimum_font_size; }
+            void set(int value) override { _browserSettings->minimum_font_size = value; }
         }
 
-        property Nullable<bool>^ RemoteFontsDisabled
+        virtual property int MinimumLogicalFontSize
         {
-            Nullable<bool>^ get() { return CefStateToBoolean(_browserSettings->remote_fonts); }
-            void set(Nullable<bool>^ value) { _browserSettings->remote_fonts = CefStateFromBoolean(value); }
+            int get() override { return _browserSettings->minimum_logical_font_size; }
+            void set(int value) override { _browserSettings->minimum_logical_font_size = value; }
         }
 
-        property String^ DefaultEncoding
+        virtual property Nullable<bool> RemoteFontsDisabled
         {
-            String^ get() { return StringUtils::ToClr(_browserSettings->default_encoding); }
-            void set(String^ value) { StringUtils::AssignNativeFromClr(_browserSettings->default_encoding, value); }
+            Nullable<bool> get() override { return CefStateToBoolean(_browserSettings->remote_fonts); }
+            void set(Nullable<bool> value) override { _browserSettings->remote_fonts = CefStateFromBoolean(value); }
         }
 
-        // TODO: Convert the rest to use the CefStateToFoo syntax.
-        /*
-        property bool EncodingDetectorEnabled
+        virtual property String^ DefaultEncoding
         {
-        bool get() { return _browserSettings->encoding_detector_enabled; }
-        void set(bool value) { _browserSettings->encoding_detector_enabled = value; }
+            String^ get() override { return StringUtils::ToClr(_browserSettings->default_encoding); }
+            void set(String^ value) override { StringUtils::AssignNativeFromClr(_browserSettings->default_encoding, value); }
         }
 
-        property bool JavaScriptDisabled
+        /* virtual property Nullable<bool> EncodingDetectorEnabled
         {
-        bool get() { return _browserSettings->javascript_disabled; }
-        void set(bool value) { _browserSettings->javascript_disabled = value; }
+        Nullable<bool> get() override { return CefStateToBoolean(_browserSettings->encoding_detector_enabled ); }
+        void set(Nullable<bool> value) override { _browserSettings->encoding_detector_enabled = CefStateFromBoolean(value); }
+        }*/
+
+        virtual property Nullable<bool> JavaScriptDisabled
+        {
+            Nullable<bool> get() override { return CefStateToBoolean(_browserSettings->javascript); }
+            void set(Nullable<bool> value) override { _browserSettings->javascript = CefStateFromBoolean(value); }
         }
 
-        property bool JavaScriptOpenWindowsDisallowed
+        virtual property Nullable<bool> JavaScriptOpenWindowsDisallowed
         {
-        bool get() { return _browserSettings->javascript_open_windows_disallowed; }
-        void set(bool value) { _browserSettings->javascript_open_windows_disallowed = value; }
+            Nullable<bool> get() override { return CefStateToBoolean(_browserSettings->javascript_open_windows); }
+            void set(Nullable<bool> value) override { _browserSettings->javascript_open_windows = CefStateFromBoolean(value); }
         }
 
-        property bool JavaScriptCloseWindowsDisallowed
+        virtual property Nullable<bool> JavaScriptCloseWindowsDisallowed
         {
-        bool get() { return _browserSettings->javascript_close_windows_disallowed; }
-        void set(bool value) { _browserSettings->javascript_close_windows_disallowed = value; }
+            Nullable<bool> get() override { return CefStateToBoolean(_browserSettings->javascript_close_windows); }
+            void set(Nullable<bool> value) override { _browserSettings->javascript_close_windows = CefStateFromBoolean(value); }
         }
 
-        property bool JavaScriptAccessClipboardDisallowed
+        virtual property Nullable<bool> JavaScriptAccessClipboardDisallowed
         {
-        bool get() { return _browserSettings->javascript_access_clipboard_disallowed; }
-        void set(bool value) { _browserSettings->javascript_access_clipboard_disallowed = value; }
+            Nullable<bool> get() override { return CefStateToBoolean(_browserSettings->javascript_access_clipboard); }
+            void set(Nullable<bool> value) override { _browserSettings->javascript_access_clipboard = CefStateFromBoolean(value); }
         }
 
-        property bool DomPasteDisabled
+        virtual property Nullable<bool> DomPasteDisabled
         {
-        bool get() { return _browserSettings->dom_paste_disabled; }
-        void set(bool value) { _browserSettings->dom_paste_disabled = value; }
+            Nullable<bool> get() override { return CefStateToBoolean(_browserSettings->javascript_dom_paste); }
+            void set(Nullable<bool> value) override { _browserSettings->javascript_dom_paste = CefStateFromBoolean(value); }
         }
 
-        property bool CaretBrowsingEnabled
+        virtual property Nullable<bool> CaretBrowsingEnabled
         {
-        bool get() { return _browserSettings->caret_browsing_enabled; }
-        void set(bool value) { _browserSettings->caret_browsing_enabled = value; }
+            Nullable<bool> get() override { return CefStateToBoolean(_browserSettings->caret_browsing); }
+            void set(Nullable<bool> value) override { _browserSettings->caret_browsing = CefStateFromBoolean(value); }
         }
 
-        property bool JavaDisabled
+        virtual property Nullable<bool> JavaDisabled
         {
-        bool get() { return _browserSettings->java_disabled; }
-        void set(bool value) { _browserSettings->java_disabled = value; }
+            Nullable<bool> get() override { return CefStateToBoolean(_browserSettings->java); }
+            void set(Nullable<bool> value) override { _browserSettings->java = CefStateFromBoolean(value); }
         }
 
-        property bool PluginsDisabled
+        virtual property Nullable<bool> PluginsDisabled
         {
-        bool get() { return _browserSettings->plugins_disabled; }
-        void set(bool value) { _browserSettings->plugins_disabled = value; }
+            Nullable<bool> get() override { return CefStateToBoolean(_browserSettings->plugins); }
+            void set(Nullable<bool> value) override { _browserSettings->plugins = CefStateFromBoolean(value); }
         }
 
-        property bool UniversalAccessFromFileUrlsAllowed
+        virtual property Nullable<bool> UniversalAccessFromFileUrlsAllowed
         {
-        bool get() { return _browserSettings->universal_access_from_file_urls_allowed; }
-        void set(bool value) { _browserSettings->universal_access_from_file_urls_allowed = value; }
+            Nullable<bool> get() override { return CefStateToBoolean(_browserSettings->universal_access_from_file_urls); }
+            void set(Nullable<bool> value) override { _browserSettings->universal_access_from_file_urls = CefStateFromBoolean(value); }
         }
 
-        property bool FileAccessFromFileUrlsAllowed
+        virtual property Nullable<bool> FileAccessFromFileUrlsAllowed
         {
-        bool get() { return _browserSettings->file_access_from_file_urls_allowed; }
-        void set(bool value) { _browserSettings->file_access_from_file_urls_allowed = value; }
+            Nullable<bool> get() override { return CefStateToBoolean(_browserSettings->file_access_from_file_urls); }
+            void set(Nullable<bool> value) override { _browserSettings->file_access_from_file_urls = CefStateFromBoolean(value); }
         }
 
-        property bool WebSecurityDisabled
+        virtual property Nullable<bool> WebSecurityDisabled
         {
-        bool get() { return _browserSettings->web_security_disabled; }
-        void set(bool value) { _browserSettings->web_security_disabled = value; }
+            Nullable<bool> get() override { return CefStateToBoolean(_browserSettings->web_security); }
+            void set(Nullable<bool> value) override { _browserSettings->web_security = CefStateFromBoolean(value); }
         }
 
-        property bool XssAuditorEnabled
+        /*virtual property Nullable<bool> XssAuditorEnabled
         {
-        bool get() { return _browserSettings->xss_auditor_enabled; }
-        void set(bool value) { _browserSettings->xss_auditor_enabled = value; }
+        Nullable<bool>^ get() override { return CefStateToBoolean(_browserSettings->xss_auditor_enabled; }
+        void set(Nullable<bool>^ value) override { _browserSettings->xss_auditor_enabled = CefStateFromBoolean(value); }
+        }*/
+
+        virtual property Nullable<bool> ImageLoadDisabled
+        {
+            Nullable<bool> get() override { return CefStateToBoolean(_browserSettings->image_loading); }
+            void set(Nullable<bool> value) override { _browserSettings->image_loading = CefStateFromBoolean(value); }
         }
 
-        property bool ImageLoadDisabled
+        virtual property Nullable<bool> ShrinkStandaloneImagesToFit
         {
-        bool get() { return _browserSettings->image_load_disabled; }
-        void set(bool value) { _browserSettings->image_load_disabled = value; }
+            Nullable<bool> get() override { return CefStateToBoolean(_browserSettings->image_shrink_standalone_to_fit); }
+            void set(Nullable<bool> value) override { _browserSettings->image_shrink_standalone_to_fit = CefStateFromBoolean(value); }
         }
 
-        property bool ShrinkStandaloneImagesToFit
+        //virtual property Nullable<bool> SiteSpecificQuirksDisabled
+        //{
+        //    Nullable<bool> get() override { return CefStateToBoolean(_browserSettings->site_specific_quirks_disabled; }
+        //    void set(Nullable<bool> value) override { _browserSettings->site_specific_quirks_disabled = CefStateFromBoolean(value); }
+        //}
+
+        virtual property Nullable<bool> TextAreaResizeDisabled
         {
-        bool get() { return _browserSettings->shrink_standalone_images_to_fit; }
-        void set(bool value) { _browserSettings->shrink_standalone_images_to_fit = value; }
+            Nullable<bool> get() override { return CefStateToBoolean(_browserSettings->text_area_resize); }
+            void set(Nullable<bool> value) override { _browserSettings->text_area_resize = CefStateFromBoolean(value); }
         }
 
-        property bool SiteSpecificQuirksDisabled
+        /*virtual property Nullable<bool> PageCacheDisabled
         {
-        bool get() { return _browserSettings->site_specific_quirks_disabled; }
-        void set(bool value) { _browserSettings->site_specific_quirks_disabled = value; }
+        Nullable<bool> get() override { return CefStateToBoolean(_browserSettings->application_cache); }
+        void set(Nullable<bool> value) override { _browserSettings->application_cache xxx = CefStateFromBoolean(value); }
+        }*/
+
+        virtual property Nullable<bool> TabToLinksDisabled
+        {
+            Nullable<bool> get() override { return CefStateToBoolean(_browserSettings->tab_to_links); }
+            void set(Nullable<bool> value) override { _browserSettings->tab_to_links = CefStateFromBoolean(value); }
         }
 
-        property bool TextAreaResizeDisabled
+        /* virtual property Nullable<bool> HyperlinkAuditingDisabled
         {
-        bool get() { return _browserSettings->text_area_resize_disabled; }
-        void set(bool value) { _browserSettings->text_area_resize_disabled = value; }
+        Nullable<bool> get() override { return CefStateToBoolean(_browserSettings->hyperlink_auditing_disabled; }
+        void set(Nullable<bool> value) override { _browserSettings->hyperlink_auditing_disabled = CefStateFromBoolean(value); }
         }
 
-        property bool PageCacheDisabled
+        virtual property Nullable<bool> UserStyleSheetEnabled
         {
-        bool get() { return _browserSettings->page_cache_disabled; }
-        void set(bool value) { _browserSettings->page_cache_disabled = value; }
+        Nullable<bool> get() override { return CefStateToBoolean(_browserSettings->user_style_sheet_enabled; }
+        void set(Nullable<bool> value) override { _browserSettings->user_style_sheet_enabled = CefStateFromBoolean(value); }
+        }*/
+
+        virtual property String^ UserStyleSheetLocation
+        {
+            String^ get() override { return StringUtils::ToClr(_browserSettings->user_style_sheet_location); }
+            void set(String^ value) override { StringUtils::AssignNativeFromClr(_browserSettings->user_style_sheet_location, value); }
         }
 
-        property bool TabToLinksDisabled
+        virtual property Nullable<bool> AuthorAndUserStylesDisabled
         {
-        bool get() { return _browserSettings->tab_to_links_disabled; }
-        void set(bool value) { _browserSettings->tab_to_links_disabled = value; }
+            Nullable<bool> get() override { return CefStateToBoolean(_browserSettings->author_and_user_styles); }
+            void set(Nullable<bool> value) override { _browserSettings->author_and_user_styles = CefStateFromBoolean(value); }
         }
 
-        property bool HyperlinkAuditingDisabled
+        virtual property Nullable<bool> LocalStorageDisabled
         {
-        bool get() { return _browserSettings->hyperlink_auditing_disabled; }
-        void set(bool value) { _browserSettings->hyperlink_auditing_disabled = value; }
+            Nullable<bool> get() override { return CefStateToBoolean(_browserSettings->local_storage); }
+            void set(Nullable<bool> value) override { _browserSettings->local_storage = CefStateFromBoolean(value); }
         }
 
-        property bool UserStyleSheetEnabled
+        virtual property Nullable<bool> DatabasesDisabled
         {
-        bool get() { return _browserSettings->user_style_sheet_enabled; }
-        void set(bool value) { _browserSettings->user_style_sheet_enabled = value; }
+            Nullable<bool> get() override { return CefStateToBoolean(_browserSettings->databases); }
+            void set(Nullable<bool> value) override { _browserSettings->databases = CefStateFromBoolean(value); }
         }
 
-        property String^ UserStyleSheetLocation
+        virtual property Nullable<bool> ApplicationCacheDisabled
         {
-        String^ get() { return StringUtils::ToClr(_browserSettings->user_style_sheet_location); }
-        void set(String^ value) { StringUtils::AssignNativeFromClr(_browserSettings->user_style_sheet_location, value); }
+            Nullable<bool> get() override { return CefStateToBoolean(_browserSettings->application_cache); }
+            void set(Nullable<bool> value) override { _browserSettings->application_cache = CefStateFromBoolean(value); }
         }
 
-        property bool AuthorAndUserStylesDisabled
+        virtual property Nullable<bool> WebGlDisabled
         {
-        bool get() { return _browserSettings->author_and_user_styles_disabled; }
-        void set(bool value) { _browserSettings->author_and_user_styles_disabled = value; }
+            Nullable<bool> get() override { return CefStateToBoolean(_browserSettings->webgl); }
+            void set(Nullable<bool> value) override { _browserSettings->webgl = CefStateFromBoolean(value); }
         }
 
-        property bool LocalStorageDisabled
+        virtual property Nullable<bool> AcceleratedCompositingEnabled
         {
-        bool get() { return _browserSettings->local_storage_disabled; }
-        void set(bool value) { _browserSettings->local_storage_disabled = value; }
+            Nullable<bool> get() override { return CefStateToBoolean(_browserSettings->accelerated_compositing); }
+            void set(Nullable<bool> value) override { _browserSettings->accelerated_compositing = CefStateFromBoolean(value); }
         }
 
-        property bool DatabasesDisabled
+        /* virtual property Nullable<bool> AcceleratedLayersDisabled
         {
-        bool get() { return _browserSettings->databases_disabled; }
-        void set(bool value) { _browserSettings->databases_disabled = value; }
+        Nullable<bool> get() override { return CefStateToBoolean(_browserSettings->accelerated_layers_disabled; }
+        void set(Nullable<bool>^ value) override { _browserSettings->accelerated_layers_disabled = CefStateFromBoolean(value); }
         }
 
-        property bool ApplicationCacheDisabled
+        virtual property Nullable<bool> Accelerated2dCanvasDisabled
         {
-        bool get() { return _browserSettings->application_cache_disabled; }
-        void set(bool value) { _browserSettings->application_cache_disabled = value; }
+        Nullable<bool> get() override { return CefStateToBoolean(_browserSettings->accelerated_2d_canvas_disabled; }
+        void set(Nullable<bool> value) override { _browserSettings->accelerated_2d_canvas_disabled = CefStateFromBoolean(value); }
         }
 
-        property bool WebGlDisabled
+        virtual property Nullable<bool> AcceleratedPaintingDisabled
         {
-        bool get() { return _browserSettings->webgl_disabled; }
-        void set(bool value) { _browserSettings->webgl_disabled = value; }
+        Nullable<bool> get() override { return CefStateToBoolean(_browserSettings->accelerated_painting_disabled; }
+        void set(Nullable<bool> value) override { _browserSettings->accelerated_painting_disabled = CefStateFromBoolean(value); }
         }
 
-        property bool AcceleratedCompositingEnabled
+        virtual property Nullable<bool> AcceleratedFiltersDisabled
         {
-        bool get() { return _browserSettings->accelerated_compositing_enabled; }
-        void set(bool value) { _browserSettings->accelerated_compositing_enabled = value; }
+        Nullable<bool> get() override { return CefStateToBoolean(_browserSettings->accelerated_filters_disabled; }
+        void set(Nullable<bool> value) override { _browserSettings->accelerated_filters_disabled = CefStateFromBoolean(value); }
         }
 
-        property bool AcceleratedLayersDisabled
+        virtual property Nullable<bool> AcceleratedPluginsDisabled
         {
-        bool get() { return _browserSettings->accelerated_layers_disabled; }
-        void set(bool value) { _browserSettings->accelerated_layers_disabled = value; }
+        Nullable<bool> get() override { return CefStateToBoolean(_browserSettings->accelerated_plugins_disabled; }
+        void set(Nullable<bool> value) override { _browserSettings->accelerated_plugins_disabled = CefStateFromBoolean(value); }
         }
 
-        property bool Accelerated2dCanvasDisabled
+        virtual property Nullable<bool> DeveloperToolsDisabled
         {
-        bool get() { return _browserSettings->accelerated_2d_canvas_disabled; }
-        void set(bool value) { _browserSettings->accelerated_2d_canvas_disabled = value; }
+        Nullable<bool> get() override { return CefStateToBoolean(_browserSettings->developer_tools_disabled; }
+        void set(Nullable<bool>^ value) override { _browserSettings->developer_tools_disabled = CefStateFromBoolean(value); }
         }
 
-        property bool AcceleratedPaintingDisabled
+        virtual property Nullable<bool> FullscreenEnabled
         {
-        bool get() { return _browserSettings->accelerated_painting_disabled; }
-        void set(bool value) { _browserSettings->accelerated_painting_disabled = value; }
-        }
-
-        property bool AcceleratedFiltersDisabled
-        {
-        bool get() { return _browserSettings->accelerated_filters_disabled; }
-        void set(bool value) { _browserSettings->accelerated_filters_disabled = value; }
-        }
-
-        property bool AcceleratedPluginsDisabled
-        {
-        bool get() { return _browserSettings->accelerated_plugins_disabled; }
-        void set(bool value) { _browserSettings->accelerated_plugins_disabled = value; }
-        }
-
-        property bool DeveloperToolsDisabled
-        {
-        bool get() { return _browserSettings->developer_tools_disabled; }
-        void set(bool value) { _browserSettings->developer_tools_disabled = value; }
-        }
-
-        property bool FullscreenEnabled
-        {
-        bool get() { return _browserSettings->fullscreen_enabled; }
-        void set(bool value) { _browserSettings->fullscreen_enabled = value; }
-        }
-        */
+        Nullable<bool> get() override { return CefStateToBoolean(_browserSettings->fullscreen_enabled; }
+        void set(Nullable<bool> value) override { _browserSettings->fullscreen_enabled = CefStateFromBoolean(value); }
+        }*/
     };
 }
