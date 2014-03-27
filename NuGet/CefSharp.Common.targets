@@ -9,9 +9,9 @@
       
       <!-- TODO FIGURE out pro/con of $(SolutionDir) or $(MSBuildThisFileDirectory) ... 
            guess difference is if everything is not flat - and SolutionDir is is not ROOT for everything?? -->
-      <CefBinaries Include="$(SolutionDir)packages\cef.redist.3.1650.1562-pre1\CEF\$(Platform)\*.*" />
-      <ResourceFiles Include="$(SolutionDir)packages\cef.redist.3.1650.1562-pre1\CEF\*.*" />
-      <LocaleFiles Include="$(SolutionDir)packages\cef.redist.3.1650.1562-pre1\CEF\locales\*.*" />
+      <CefBinaries Include="$(SolutionDir)packages\cef.redist.3.1650.1562-pre0\CEF\$(Platform)\*.*" />
+      <ResourceFiles Include="$(SolutionDir)packages\cef.redist.3.1650.1562-pre0\CEF\*.*" />
+      <LocaleFiles Include="$(SolutionDir)packages\cef.redist.3.1650.1562-pre0\CEF\locales\*.*" />
 
       <CefSharpBinaries Include="$(MSBuildThisFileDirectory)..\CefSharp\$(Platform)\*.*" />
 
