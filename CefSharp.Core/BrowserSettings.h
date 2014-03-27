@@ -9,40 +9,43 @@ using namespace CefSharp::Internals;
 
 namespace CefSharp
 {
-    Nullable<bool>^ CefStateToBoolean(cef_state_t state)
+    namespace
     {
-        if (state == STATE_DEFAULT)
+        Nullable<bool>^ CefStateToBoolean(cef_state_t state)
         {
+            if (state == STATE_DEFAULT)
+            {
+                return nullptr;
+            }
+            else if (state == STATE_ENABLED)
+            {
+                return gcnew Nullable<bool>(true);
+            }
+            else if (state == STATE_DISABLED)
+            {
+                return gcnew Nullable<bool>(false);
+            }
+
             return nullptr;
         }
-        else if (state == STATE_ENABLED)
-        {
-            return gcnew Nullable<bool>(true);
-        }
-        else if (state == STATE_DISABLED)
-        {
-            return gcnew Nullable<bool>(false);
-        }
 
-        return nullptr;
-    }
-
-    cef_state_t CefStateFromBoolean(Nullable<bool>^ value)
-    {
-        if (value == nullptr)
+        cef_state_t CefStateFromBoolean(Nullable<bool>^ value)
         {
+            if (value == nullptr)
+            {
+                return STATE_DEFAULT;
+            }
+            else if (value->Value)
+            {
+                return STATE_ENABLED;
+            }
+            else // !value->Value
+            {
+                return STATE_DISABLED;
+            }
+
             return STATE_DEFAULT;
         }
-        else if (value->Value)
-        {
-            return STATE_ENABLED;
-        }
-        else // !value->Value
-        {
-            return STATE_DISABLED;
-        }
-
-        return STATE_DEFAULT;
     }
 
     public ref class BrowserSettings

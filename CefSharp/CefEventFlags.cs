@@ -1,23 +1,12 @@
-// Copyright © 2010-2013 The CefSharp Project. All rights reserved.
-//
-// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
-
-#include "include/cef_browser.h"
+ï»¿using System;
 
 namespace CefSharp
 {
-    public enum class MouseButtonType
-    {
-        Left = CefBrowserHost::MouseButtonType::MBT_LEFT,
-        Middle = CefBrowserHost::MouseButtonType::MBT_MIDDLE,
-        Right = CefBrowserHost::MouseButtonType::MBT_RIGHT
-    };
-
     /// <summary>
     /// Supported event bit flags.
     /// </summary>
     [FlagsAttribute]
-    public enum class CefEventFlags : UInt32
+    public enum CefEventFlags : uint
     {
         None = 0,
 
