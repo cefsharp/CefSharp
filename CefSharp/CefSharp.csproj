@@ -86,7 +86,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BrowserSettingsBase.cs" />
     <Compile Include="CefEventFlags.cs" />
     <Compile Include="Internals\BitmapInfo.cs" />
     <Compile Include="Internals\ManagedCefApp.cs" />
