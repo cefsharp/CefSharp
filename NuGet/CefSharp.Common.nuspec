@@ -10,7 +10,10 @@
     <description>The CefSharp Chromium-based browser component ('Core' and common 'Element' components, needed by both WPF and WinForms).</description>
     <tags>chrome browser</tags>
     <copyright>Copyright © 2010-2014 The CefSharp Authors</copyright>
-  </metadata>
+    <dependencies>
+      <dependency id="cef.redist" version="3.1650.1562-pre1" />
+    </dependencies>
+</metadata>
   <files>
     <!-- Common CefSharp stuff (shared between both WPF and WinForms) -->
     <file src="..\Win32\Release\CefSharp.Core.dll" target="CefSharp\x86"/>

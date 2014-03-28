@@ -3,8 +3,12 @@
   <ItemGroup>
     <Reference Condition="'$(Platform)' == 'x86'"
              Include="$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.dll" />
-
     <Reference Condition="'$(Platform)' == 'x64'"
                Include="$(MSBuildThisFileDirectory)..\CefSharp\x64\CefSharp.dll" />
+
+    <Reference Condition="'$(Platform)' == 'x86'"
+             Include="$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.dll" />
+    <Reference Condition="'$(Platform)' == 'x64'"
+               Include="$(MSBuildThisFileDirectory)..\CefSharp\x64\CefSharp.Core.dll" />
   </ItemGroup>
 </Project>
