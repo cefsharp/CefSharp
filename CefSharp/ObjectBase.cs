@@ -6,6 +6,8 @@ using System.Linq.Expressions;
 namespace CefSharp
 {
     // TODO: Why do we need this one?
+    // TODO: Would like to get rid of the INotifyPropertyChanged part of this; it doesn't belong in CefSharp IMO. More so in the
+    // WPF example, or something like that.
     public class ObjectBase : INotifyPropertyChanged, IDisposable
     {
         #region IDisposable
