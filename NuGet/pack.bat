@@ -1,3 +1,4 @@
-set version=3.29.0-pre0
-NuGet pack CefSharp.Core.nuspec -NoPackageAnalysis -Version %version%
+set version=3.31.0-pre1
+NuGet pack CefSharp.Common.nuspec -NoPackageAnalysis -Version %version%
 NuGet pack CefSharp.Wpf.nuspec -NoPackageAnalysis -Version %version%
+NuGet pack CefSharp.WinForms.nuspec -NoPackageAnalysis -Version %version%

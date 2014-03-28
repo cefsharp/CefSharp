@@ -9,9 +9,9 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>The CefSharp Chromium-based browser component (WPF control).</description>
     <tags>wpf chrome browser</tags>
-    <copyright>Copyright © 2010-2013 The CefSharp Authors</copyright>
+    <copyright>Copyright © 2010-2014 The CefSharp Authors</copyright>
     <dependencies>
-      <dependency id="CefSharp.Core" version="[$version$]" />
+      <dependency id="CefSharp.Common" version="[$version$]" />
     </dependencies>
   </metadata>
   <files>
