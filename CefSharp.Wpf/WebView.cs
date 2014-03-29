@@ -454,9 +454,9 @@ namespace CefSharp.Wpf
             return IntPtr.Zero;
         }
 
-        public void InvokeRenderAsync(BitmapInfo bitmapInfo)
+        void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
         {
-            DoInUi(() => SetBitmap(bitmapInfo), DispatcherPriority.Render);
+            DoInUi(() => ((IRenderWebBrowser)(this)).SetBitmap(bitmapInfo), DispatcherPriority.Render);
         }
 
         public void SetAddress(string address)
@@ -477,7 +477,7 @@ namespace CefSharp.Wpf
             DoInUi(() => IsLoading = isLoading);
         }
 
-        public void SetNavState(bool canGoBack, bool canGoForward, bool canReload)
+        void IWebBrowserInternal.SetNavState(bool canGoBack, bool canGoForward, bool canReload)
         {
             CanGoBack = canGoBack;
             CanGoForward = canGoForward;
@@ -493,7 +493,7 @@ namespace CefSharp.Wpf
             ((DelegateCommand)ReloadCommand).RaiseCanExecuteChanged();
         }
 
-        public void SetTitle(string title)
+        void IWebBrowserInternal.SetTitle(string title)
         {
             DoInUi(() =>
             {
@@ -501,7 +501,7 @@ namespace CefSharp.Wpf
             });
         }
 
-        public void SetTooltipText(string tooltipText)
+        void IWebBrowserInternal.SetTooltipText(string tooltipText)
         {
             DoInUi(() =>
             {
@@ -509,7 +509,7 @@ namespace CefSharp.Wpf
             });
         }
 
-        public void SetPopupSizeAndPosition(int width, int height, int x, int y)
+        void IRenderWebBrowser.SetPopupSizeAndPosition(int width, int height, int x, int y)
         {
             DoInUi(() =>
             {
@@ -528,7 +528,7 @@ namespace CefSharp.Wpf
             });
         }
 
-        public void SetPopupIsOpen(bool isOpen)
+        void IRenderWebBrowser.SetPopupIsOpen(bool isOpen)
         {
             DoInUi(() =>
             {
@@ -554,23 +554,7 @@ namespace CefSharp.Wpf
             }
             return modifiers;
         }
-
-        private void SetPopupSizeAndPositionImpl(int width, int height, int x, int y)
-        {
-            popup.Width = width;
-            popup.Height = height;
-
-            var popupOffset = new Point(x, y);
-            // TODO: Port over this from CefSharp1.
-            //if (popupOffsetTransform != null)
-            //{
-            //    popupOffset = popupOffsetTransform->GeneralTransform::Transform(popupOffset);
-            //}
-
-            popup.HorizontalOffset = popupOffset.X;
-            popup.VerticalOffset = popupOffset.Y;
-        }
-
+        
         private void OnTooltipTimerTick(object sender, EventArgs e)
         {
             tooltipTimer.Stop();
@@ -718,7 +702,7 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter.OnMouseButton((int)point.X, (int)point.Y, mouseButtonType, mouseUp, e.ClickCount, modifiers);
         }
 
-        public void OnInitialized()
+        void IWebBrowserInternal.OnInitialized()
         {
             //browserCore.OnInitialized();
         }
@@ -748,24 +732,24 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter.Reload();
         }
 
-        public void ShowDevTools()
+        void IWebBrowserInternal.ShowDevTools()
         {
             // TODO: Do something about this one.
             var devToolsUrl = managedCefBrowserAdapter.DevToolsUrl;
             throw new NotImplementedException();
         }
 
-        public void CloseDevTools()
+        void IWebBrowserInternal.CloseDevTools()
         {
             throw new NotImplementedException();
         }
 
-        public void OnFrameLoadStart(string url)
+        void IWebBrowserInternal.OnFrameLoadStart(string url)
         {
             //browserCore.OnFrameLoadStart();
         }
 
-        public void OnFrameLoadEnd(string url)
+        void IWebBrowserInternal.OnFrameLoadEnd(string url)
         {
             //browserCore.OnFrameLoadEnd();
 
@@ -775,12 +759,12 @@ namespace CefSharp.Wpf
             }
         }
 
-        public void OnTakeFocus(bool next)
+        void IWebBrowserInternal.OnTakeFocus(bool next)
         {
             throw new NotImplementedException();
         }
 
-        public void OnConsoleMessage(string message, string source, int line)
+        void IWebBrowserInternal.OnConsoleMessage(string message, string source, int line)
         {
             if (ConsoleMessage != null)
             {
@@ -788,7 +772,7 @@ namespace CefSharp.Wpf
             }
         }
 
-        public void OnLoadError(string url, CefErrorCode errorCode, string errorText)
+        void IWebBrowserInternal.OnLoadError(string url, CefErrorCode errorCode, string errorText)
         {
             if (LoadError != null)
             {
@@ -823,23 +807,20 @@ namespace CefSharp.Wpf
             return managedCefBrowserAdapter.EvaluateScript(script, timeout.Value);
         }
 
-        public void SetCursor(IntPtr handle)
+        void IRenderWebBrowser.SetCursor(IntPtr handle)
         {
-            if (!Dispatcher.CheckAccess())
+            DoInUi(() =>
             {
-                Dispatcher.BeginInvoke((Action<IntPtr>)SetCursor, handle);
-                return;
-            }
-
-            Cursor = CursorInteropHelper.Create(new SafeFileHandle(handle, ownsHandle: false));
+                Cursor = CursorInteropHelper.Create(new SafeFileHandle(handle, ownsHandle: false));
+            });
         }
 
-        public void ClearBitmap(BitmapInfo bitmapInfo)
+        void IRenderWebBrowser.ClearBitmap(BitmapInfo bitmapInfo)
         {
             bitmapInfo.InteropBitmap = null;
         }
 
-        public void SetBitmap(BitmapInfo bitmapInfo)
+        void IRenderWebBrowser.SetBitmap(BitmapInfo bitmapInfo)
         {
             lock (bitmapInfo.BitmapLock)
             {
