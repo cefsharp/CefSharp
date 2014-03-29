@@ -459,7 +459,7 @@ namespace CefSharp.Wpf
             DoInUi(() => ((IRenderWebBrowser)(this)).SetBitmap(bitmapInfo), DispatcherPriority.Render);
         }
 
-        public void SetAddress(string address)
+        void IWebBrowserInternal.SetAddress(string address)
         {
             DoInUi(() =>
             {
