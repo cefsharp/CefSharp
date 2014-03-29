@@ -113,6 +113,7 @@ namespace CefSharp
             case KEYEVENT_KEYUP:
                 return KeyType::KeyUp;
             case KEYEVENT_CHAR:
+            default:
                 return KeyType::Char;
             }
         }

@@ -27,5 +27,15 @@ namespace CefSharp.Wpf.Example.Mvvm
         }
 
         public event EventHandler CanExecuteChanged;
+
+        protected void RaiseCanExecuteChanged()
+        {
+            var handler = CanExecuteChanged;
+
+            if (handler != null)
+            {
+                handler(this, EventArgs.Empty);
+            }
+        }
     }
 }
