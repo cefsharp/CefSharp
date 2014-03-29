@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq.Expressions;
 
 namespace CefSharp
 {
-    // TODO: Why do we need this one?
-    // TODO: Would like to get rid of the INotifyPropertyChanged part of this; it doesn't belong in CefSharp IMO. More so in the
-    // WPF example, or something like that.
-    public class ObjectBase : INotifyPropertyChanged, IDisposable
+    /// <summary>
+    /// This Class provides tool functionality for managed Dispose Pattern
+    /// http://msdn.microsoft.com/en-us/library/fs2xkftw(v=vs.110).aspx
+    /// </summary>
+    public class ObjectBase : IDisposable
     {
         #region IDisposable
 
@@ -38,62 +36,30 @@ namespace CefSharp
 
         protected virtual void DoDispose(bool isDisposing)
         {
-            propertyChanged = null;
         }
 
+        /// <summary>
+        /// If this Object is disposed the Method will throw a <see cref="ObjectDisposedException"/>.
+        /// Use this method to guard methods that are not allowed to be called after dispose was called
+        /// </summary>
+        /// <exception cref="System.ObjectDisposedException"></exception>
+        protected virtual void DisposeGuard()
+        {
+            if (IsDisposed)
+            {
+                throw new ObjectDisposedException(GetType().FullName);
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this instance is disposed. 
+        /// This Value Should be used for lifetime management. 
+        /// i.e. EventHandlers may not be registered if this object is already disposed
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance is disposed; otherwise, <c>false</c>.
+        /// </value>
         public bool IsDisposed { get; private set; }
-
-        #endregion
-
-        #region INotifyPropertyChanged
-
-        private PropertyChangedEventHandler propertyChanged;
-        public event PropertyChangedEventHandler PropertyChanged
-        {
-            add { if (!IsDisposed) propertyChanged += value; }
-            remove { propertyChanged -= value; }
-        }
-
-        protected virtual void OnPropertyChanged<T>(T oldvalue, T newValue, PropertyChangedEventArgs e)
-        {
-            var handlers = propertyChanged;
-            if (handlers == null)
-            {
-                return;
-            }
-
-            handlers(this, e);
-        }
-
-        public static PropertyChangedEventArgs GetArgs<T>(Expression<Func<T, object>> propertyexpression)
-        {
-            if (propertyexpression == null)
-            {
-                throw new ArgumentNullException("propertyexpression");
-            }
-
-            var body = propertyexpression.Body as MemberExpression;
-            if (body == null)
-            {
-                throw new ArgumentException("Lambda must return a property.");
-            }
-
-            return new PropertyChangedEventArgs(body.Member.Name);
-        }
-
-        protected void Set<T>(ref T field, T value, PropertyChangedEventArgs e)
-        {
-            var oldvalue = field;
-
-            if (EqualityComparer<T>.Default.Equals(oldvalue, value))
-            {
-                return;
-            }
-
-            field = value;
-
-            OnPropertyChanged(oldvalue, value, e);
-        }
 
         #endregion
     }
