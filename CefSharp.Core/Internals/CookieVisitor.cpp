@@ -21,8 +21,14 @@ namespace CefSharp
 
         if (cefCookie.has_expires)
         {
-            cookie->Expires = DateTime(cefCookie.expires.year,
-                cefCookie.expires.month, cefCookie.expires.day_of_month);
+            cookie->Expires = DateTime(
+                cefCookie.expires.year,
+                cefCookie.expires.month, 
+                cefCookie.expires.day_of_month,
+                cefCookie.expires.hour,
+                cefCookie.expires.minute,
+                cefCookie.expires.second,
+                cefCookie.expires.millisecond);
         }
 
         return _visitor->Visit(cookie, count, total, deleteCookie);

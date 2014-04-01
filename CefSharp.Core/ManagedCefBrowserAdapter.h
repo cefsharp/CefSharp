@@ -46,6 +46,7 @@ namespace CefSharp
 
         ~ManagedCefBrowserAdapter()
         {
+            this->Close();
             _renderClientAdapter = nullptr;
         }
 
