@@ -55,8 +55,8 @@ namespace CefSharp
             virtual CefRefPtr<CefKeyboardHandler> GetKeyboardHandler() OVERRIDE{ return this; }
             virtual CefRefPtr<CefJSDialogHandler> GetJSDialogHandler() OVERRIDE{ return this; }
 
-                // CefLifeSpanHandler
-                virtual DECL bool OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
+            // CefLifeSpanHandler
+            virtual DECL bool OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
                 const CefString& target_url, const CefString& target_frame_name, const CefPopupFeatures& popupFeatures,
                 CefWindowInfo& windowInfo, CefRefPtr<CefClient>& client, CefBrowserSettings& settings, bool* no_javascript_access) OVERRIDE;
             virtual DECL void OnAfterCreated(CefRefPtr<CefBrowser> browser) OVERRIDE;
