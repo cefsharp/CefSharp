@@ -464,17 +464,20 @@ namespace CefSharp.Wpf
             DoInUi(() =>
             {
                 ignoreUriChange = true;
-                Address = address;
+                SetCurrentValue(AddressProperty, address);
                 ignoreUriChange = false;
 
                 // The tooltip should obviously also be reset (and hidden) when the address changes.
-                TooltipText = null;
+                SetCurrentValue(TooltipTextProperty, null);
             });
         }
 
         public void SetIsLoading(bool isLoading)
         {
-            DoInUi(() => IsLoading = isLoading);
+            DoInUi(() =>
+            {
+                SetCurrentValue(IsLoadingProperty, isLoading);
+            });
         }
 
         public void SetNavState(bool canGoBack, bool canGoForward, bool canReload)
@@ -497,7 +500,7 @@ namespace CefSharp.Wpf
         {
             DoInUi(() =>
             {
-                Title = title;
+                SetCurrentValue(TitleProperty, title);
             });
         }
 
@@ -505,7 +508,7 @@ namespace CefSharp.Wpf
         {
             DoInUi(() =>
             {
-                TooltipText = tooltipText;
+                SetCurrentValue(TooltipTextProperty, tooltipText);
             });
         }
 
