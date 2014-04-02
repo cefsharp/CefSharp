@@ -1,5 +1,4 @@
-﻿using System;
-using System.ServiceModel;
+﻿using System.ServiceModel;
 
 namespace CefSharp.Internals
 {
@@ -14,12 +13,5 @@ namespace CefSharp.Internals
 
         [OperationContract]
         void Terminate();
-    }
-
-    [ServiceContract]
-    public interface ISubProcessCallback
-    {
-        [OperationContract]
-        void Error(Exception ex);
     }
 }

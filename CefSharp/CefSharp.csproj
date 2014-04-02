@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Internals\BitmapInfo.cs" />
+    <Compile Include="Internals\ISubProcessCallback.cs" />
     <Compile Include="Internals\JavascriptMemberDescription.cs" />
     <Compile Include="Internals\JavascriptMethodDescription.cs" />
     <Compile Include="Internals\JavascriptObject.cs" />
