@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Internals\BitmapInfo.cs" />
+    <Compile Include="Internals\JavaScriptMemberDescription.cs" />
     <Compile Include="Internals\JavaScriptObject.cs" />
     <Compile Include="Internals\JavaScriptMember.cs" />
     <Compile Include="Internals\ManagedCefApp.cs" />
