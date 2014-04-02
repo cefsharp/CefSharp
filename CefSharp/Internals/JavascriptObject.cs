@@ -5,13 +5,13 @@ using System.Runtime.Serialization;
 namespace CefSharp.Internals
 {
     [DataContract]
-    public class JavaScriptObject //: DynamicObject maybe later
+    public class JavascriptObject //: DynamicObject maybe later
     {
         private static long nextId = 0;
         private static readonly object Lock = new object();
 
         /// <summary>
-        /// Identifies the <see cref="JavaScriptObject" /> for BrowserProcess to RenderProcess communication
+        /// Identifies the <see cref="JavascriptObject" /> for BrowserProcess to RenderProcess communication
         /// </summary>
         /// <value>
         /// The identifier.
@@ -20,22 +20,22 @@ namespace CefSharp.Internals
         public long Id { get; private set; }
 
         /// <summary>
-        /// Gets the members of the <see cref="JavaScriptObject" />.
+        /// Gets the members of the <see cref="JavascriptObject" />.
         /// </summary>
         /// <value>
         /// The members.
         /// </value>
         [DataMember]
-        public List<JavaScriptMember> Members { get; private set; }
+        public List<JavascriptMember> Members { get; private set; }
 
-        public JavaScriptObject()
+        public JavascriptObject()
         {
             lock (Lock)
             {
                 Id = ++nextId;
             }
 
-            Members = new List<JavaScriptMember>();
+            Members = new List<JavascriptMember>();
         }
     }
 }

@@ -4,10 +4,10 @@ using System.Runtime.Serialization;
 namespace CefSharp.Internals
 {
     [DataContract]
-    public class JavaScriptMemberDescription
+    public abstract class JavascriptMemberDescription
     {
         /// <summary>
-        /// Identifies the <see cref="JavaScriptMemberDescription" /> for BrowserProcess to RenderProcess communication
+        /// Identifies the <see cref="JavascriptMemberDescription" /> for BrowserProcess to RenderProcess communication
         /// </summary>
         [DataMember]
         public long Id { get; set; }
