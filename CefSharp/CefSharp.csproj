@@ -87,6 +87,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Internals\BitmapInfo.cs" />
+    <Compile Include="Internals\JavaScriptObject.cs" />
+    <Compile Include="Internals\JavaScriptMember.cs" />
     <Compile Include="Internals\ManagedCefApp.cs" />
     <Compile Include="CefCustomScheme.cs" />
     <Compile Include="CefErrorCode.cs" />
