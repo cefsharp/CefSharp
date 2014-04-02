@@ -1,9 +1,7 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace CefSharp.Internals
 {
-    [DataContract]
     public abstract class JavascriptMemberDescription
     {
         /// <summary>
@@ -23,22 +21,5 @@ namespace CefSharp.Internals
         /// </summary>
         [DataMember]
         public string JavascriptName { get; set; }
-
-        // The following members are used to cache reflection code to improve performance
-
-        /// <summary>
-        /// Gets or sets a delegate which is used to set the property / field value in the managed object.
-        /// </summary>
-        public Action<object, object> SetValue { get; set; }
-
-        /// <summary>
-        /// Gets or sets a delegate which is used to get the property / field value from the managed object.
-        /// </summary>
-        public Func<object, object> GetValue { get; set; }
-
-        /// <summary>
-        /// Gets or sets a delegate which is used to invoke the method if the member is a method. 
-        /// </summary>
-        public Delegate Function { get; set; }
     }
 }
