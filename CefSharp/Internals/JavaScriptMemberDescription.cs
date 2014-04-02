@@ -14,32 +14,30 @@ namespace CefSharp.Internals
 
         /// <summary>
         /// Gets or sets the name of the managed property.
-        /// May be null as <see cref="JavaScriptObject" />s may have values attached that are not present in the managed object
         /// </summary>
         [DataMember]
         public string ManagedName { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the JavaScriptProperty.
+        /// Gets or sets the name of the property in the JavaScript runtime.
         /// </summary>
         [DataMember]
-        public string JSName { get; set; }
+        public string JavascriptName { get; set; }
 
         // The following members are used to cache reflection code to improve performance
 
         /// <summary>
-        /// Gets or sets the set value Action which is used to set the property / field value in the managed Object.
+        /// Gets or sets a delegate which is used to set the property / field value in the managed object.
         /// </summary>
         public Action<object, object> SetValue { get; set; }
 
         /// <summary>
-        /// Gets or sets the get value Function which is used to get the property / field value from the managed Object.
+        /// Gets or sets a delegate which is used to get the property / field value from the managed object.
         /// </summary>
         public Func<object, object> GetValue { get; set; }
 
         /// <summary>
-        /// Gets or sets the function that is called if the Member is a Function.
-        /// Will be null if the Member is no function.
+        /// Gets or sets a delegate which is used to invoke the method if the member is a method. 
         /// </summary>
         public Delegate Function { get; set; }
     }
