@@ -12,13 +12,13 @@ namespace CefSharp.Wpf.Example.Views.BrowserTab
 
         private void OnTextBoxGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            var textBox = (TextBox) sender;
+            var textBox = (TextBox)sender;
             textBox.SelectAll();
         }
 
         private void OnTextBoxGotMouseCapture(object sender, MouseEventArgs e)
         {
-            var textBox = (TextBox) sender;
+            var textBox = (TextBox)sender;
             textBox.SelectAll();
         }
     }
