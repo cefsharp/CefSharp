@@ -5,9 +5,9 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 
-namespace CefSharp.Wpf.Example.Views.Main
+namespace CefSharp.Wpf.Example.Views.BrowserTab
 {
-    public class MainViewModel : INotifyPropertyChanged
+    public class BrowserTabViewModel : INotifyPropertyChanged
     {
         private string address;
         public string Address
@@ -67,7 +67,7 @@ namespace CefSharp.Wpf.Example.Views.Main
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public MainViewModel(string address = null)
+        public BrowserTabViewModel(string address = null)
         {
             Address = address ?? ExamplePresenter.DefaultUrl;
             AddressEditable = Address;
