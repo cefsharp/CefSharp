@@ -191,6 +191,13 @@
                             <MenuItem Header="Forward"
                                       Command="{Binding WebBrowser.ForwardCommand}" />
                             <Separator />
+                            <MenuItem Header="Zoom In"
+                                      Command="{Binding WebBrowser.ZoomInCommand}" />
+                            <MenuItem Header="Zoom Out"
+                                      Command="{Binding WebBrowser.ZoomOutCommand}" />
+                            <MenuItem Header="Zoom Reset"
+                                      Command="{Binding WebBrowser.ZoomResetCommand}" />
+                            <Separator />
                             <MenuItem Header="View Source"
                                       Command="{Binding ViewSourceCommand}" />
                         </ContextMenu>

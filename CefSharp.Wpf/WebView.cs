@@ -47,8 +47,11 @@ namespace CefSharp.Wpf
         public ICommand BackCommand { get; private set; }
         public ICommand ForwardCommand { get; private set; }
         public ICommand ReloadCommand { get; private set; }
+	    public ICommand ZoomInCommand { get; private set; }
+	    public ICommand ZoomOutCommand { get; private set; }
+	    public ICommand ZoomResetCommand { get; private set; }
 
-        public bool CanGoBack { get; private set; }
+	    public bool CanGoBack { get; private set; }
         public bool CanGoForward { get; private set; }
         public bool CanReload { get; private set; }
 
@@ -144,11 +147,65 @@ namespace CefSharp.Wpf
         public static readonly DependencyProperty TitleProperty =
             DependencyProperty.Register("Title", typeof(string), typeof(WebView), new PropertyMetadata(defaultValue: null));
 
-        #endregion CleanupElement dependency property
+		#endregion Title dependency property
 
-        #region CleanupElement dependency property
+		#region ZoomLevel dependency property
 
-        /// <summary>
+		/// <summary>
+		/// The zoom level at which the browser control is currently displaying. Can be set to 0 to clear the zoom level(resets to default zoom level)
+		/// </summary>
+		/// <remarks>This property is a Dependency Property and fully supports data binding.</remarks>
+		public double ZoomLevel
+		{
+			get { return (double)GetValue(ZoomLevelProperty); }
+			set { SetValue(ZoomLevelProperty, value); }
+		}
+
+		public static readonly DependencyProperty ZoomLevelProperty =
+			DependencyProperty.Register("ZoomLevel", typeof(double), typeof(WebView),
+										new UIPropertyMetadata(0d, OnZoomLevelChanged));
+
+		private static void OnZoomLevelChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+		{
+			var owner = (WebView)sender;
+			var oldValue = (double)args.OldValue;
+			var newValue = (double)args.NewValue;
+
+			owner.OnZoomLevelChanged(oldValue, newValue);
+		}
+
+		protected virtual void OnZoomLevelChanged(double oldValue, double newValue)
+		{
+			if (!Cef.IsInitialized && !Cef.Initialize())
+			{
+				throw new InvalidOperationException("Cef::Initialize() failed");
+			}
+
+			managedCefBrowserAdapter.SetZoomLevel(newValue);
+		}
+
+		#endregion ZoomLevel dependency property
+
+		#region ZoomLevelIncrement dependency property
+
+		/// <summary>
+		/// Specifies the amount used to increase/decrease to ZoomLevel by
+		/// By Default this value is 0.10
+		/// </summary>
+		public double ZoomLevelIncrement
+		{
+			get { return (double)GetValue(ZoomLevelIncrementProperty); }
+			set { SetValue(ZoomLevelIncrementProperty, value); }
+		}
+
+		public static readonly DependencyProperty ZoomLevelIncrementProperty =
+			DependencyProperty.Register("ZoomLevelIncrement", typeof(double), typeof(WebView), new PropertyMetadata(0.10));
+
+		#endregion ZoomLevelIncrement dependency property
+
+		#region CleanupElement dependency property
+
+		/// <summary>
         /// The CleanupElement Controls when the BrowserResources will be cleand up. 
         /// The WebView will register on Unloaded of the provided Element and dispose all resources when that handler is called.
         /// By default the cleanup element is the Window that contains the WebView. 
@@ -203,11 +260,11 @@ namespace CefSharp.Wpf
             }
         }
 
-        #endregion Title dependency property
+		#endregion CleanupElement dependency property
 
-        #region TooltipText dependency property
+		#region TooltipText dependency property
 
-        public string TooltipText
+		public string TooltipText
         {
             get { return (string)GetValue(TooltipTextProperty); }
             set { SetValue(TooltipTextProperty, value); }
@@ -275,6 +332,9 @@ namespace CefSharp.Wpf
             BackCommand = new DelegateCommand(Back, () => CanGoBack);
             ForwardCommand = new DelegateCommand(Forward, () => CanGoForward);
             ReloadCommand = new DelegateCommand(Reload, () => CanReload);
+	        ZoomInCommand = new DelegateCommand(ZoomIn);
+			ZoomOutCommand = new DelegateCommand(ZoomOut);
+			ZoomResetCommand = new DelegateCommand(ZoomReset);
 
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
             managedCefBrowserAdapter.CreateOffscreenBrowser(BrowserSettings ?? new BrowserSettings());
@@ -285,7 +345,7 @@ namespace CefSharp.Wpf
             disposables.Add(new DisposableEventWrapper(this, ActualWidthProperty, OnActualSizeChanged));
         }
 
-        private class DisposableEventWrapper : IDisposable
+	    private class DisposableEventWrapper : IDisposable
         {
             public DependencyObject Source { get; private set; }
             public DependencyProperty Property { get; private set; }
@@ -748,6 +808,30 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter.Reload();
         }
 
+		private void ZoomIn()
+		{
+			DoInUi(() =>
+			{
+				ZoomLevel = ZoomLevel + ZoomLevelIncrement;
+			});
+		}
+
+		private void ZoomOut()
+		{
+			DoInUi(() =>
+			{
+				ZoomLevel = ZoomLevel - ZoomLevelIncrement;
+			});
+		}
+
+		private void ZoomReset()
+		{
+			DoInUi(() =>
+			{
+				ZoomLevel = 0;
+			});
+		}
+
         public void ShowDevTools()
         {
             // TODO: Do something about this one.
@@ -885,5 +969,11 @@ namespace CefSharp.Wpf
         {
             managedCefBrowserAdapter.ViewSource();
         }
+
+		//public double ZoomLevel
+		//{
+		//	get { return managedCefBrowserAdapter.GetZoomLevel(); }
+		//	set { managedCefBrowserAdapter.SetZoomLevel(value); }
+		//}
     }
 }
