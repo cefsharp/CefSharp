@@ -284,7 +284,6 @@ namespace CefSharp
 
         virtual void Error( Exception^ ex )
         {
-
         }
 
         void CreateBrowser(BrowserSettings^ browserSettings, IntPtr^ sourceHandle, String^ address)
