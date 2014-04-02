@@ -9,8 +9,5 @@ namespace CefSharp.Internals
 
         [DataMember]
         public long DescriptionId { get; set; }
-
-        [DataMember]
-        public JavascriptObject Value { get; set; }
     }
 }
