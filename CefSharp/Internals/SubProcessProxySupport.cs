@@ -12,6 +12,7 @@ namespace CefSharp.Internals
             return string.Join("/", BaseAddress, ServiceName, parentProcessId, browserId);
         }
 
+        // TODO: Refactor to actually perform the creation of the channel also. We need to add a TimeSpan parameter to get that going though.
         public static DuplexChannelFactory<ISubProcessProxy> CreateChannelFactory(string serviceName, ISubProcessCallback callbackObject)
         {
             return new DuplexChannelFactory<ISubProcessProxy>(
