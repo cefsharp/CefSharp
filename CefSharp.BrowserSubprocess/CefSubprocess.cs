@@ -7,8 +7,6 @@ namespace CefSharp.BrowserSubprocess
 {
     public class CefSubprocess : ManagedCefApp
     {
-        #region Singleton pattern
-
         public static CefSubprocess Instance { get; private set; }
 
         public CefSubprocess(IEnumerable<string> args)
@@ -17,8 +15,6 @@ namespace CefSharp.BrowserSubprocess
            
             LocateParentProcessId(args);
         }
-
-        #endregion
 
         protected override void DoDispose(bool isDisposing)
         {
