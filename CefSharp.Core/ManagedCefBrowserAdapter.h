@@ -305,19 +305,9 @@ namespace CefSharp
             // is not possible to have an unmanaged type as a type argument to a .NET generic type. Doing it like this is quite
             // safe, unless we hold on to a reference to this browser...
             auto cefBrowser = (CefBrowser*)(void*)browser;
-            _javaScriptProxy = CreateJavascriptProxy(cefBrowser->GetIdentifier());
-        }
-
-        ISubProcessProxy^ CreateJavascriptProxy(int browserId)
-        {
+            auto browserId = cefBrowser->GetIdentifier();
             auto serviceName = SubProcessProxySupport::GetServiceName(Process::GetCurrentProcess()->Id, browserId);
-            auto channelFactory = gcnew DuplexChannelFactory<ISubProcessProxy^>(
-                this,
-                gcnew NetNamedPipeBinding(),
-                gcnew EndpointAddress(serviceName)
-            );
-
-            return channelFactory->CreateChannel();
+            _javaScriptProxy = SubProcessProxySupport::CreateChannelFactory(serviceName, this)->CreateChannel();
         }
     };
 }
