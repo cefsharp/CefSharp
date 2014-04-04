@@ -229,7 +229,7 @@ namespace CefSharp
         void Copy()
         {
             auto cefFrame = _renderClientAdapter->TryGetCefMainFrame(); 
-            
+
             if (cefFrame != nullptr)
             {
                 cefFrame->Copy();
@@ -245,7 +245,7 @@ namespace CefSharp
                 cefFrame->Paste();
             }
         }
-        
+
         void ExecuteScriptAsync(String^ script)
         {
             auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
