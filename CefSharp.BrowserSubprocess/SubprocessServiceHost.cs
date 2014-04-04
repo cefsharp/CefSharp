@@ -5,7 +5,7 @@ using CefSharp.Internals;
 
 namespace CefSharp.BrowserSubprocess
 {
-    public class SubprocessServiceHost : ServiceHost, ISubProcessCallback
+    public class SubprocessServiceHost : ServiceHost, ISubprocessCallback
     {
         public SubprocessProxy Service { get; set; }
 

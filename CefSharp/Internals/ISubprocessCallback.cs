@@ -4,7 +4,7 @@ using System.ServiceModel;
 namespace CefSharp.Internals
 {
     [ServiceContract]
-    public interface ISubProcessCallback
+    public interface ISubprocessCallback
     {
         [OperationContract]
         void Error(Exception ex);

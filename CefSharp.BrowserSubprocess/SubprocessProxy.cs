@@ -5,12 +5,12 @@ namespace CefSharp.BrowserSubprocess
 {
     public class SubprocessProxy : ISubprocessProxy
     {
-        public ISubProcessCallback Callback { get; private set; }
+        public ISubprocessCallback Callback { get; private set; }
 
         public void Initialize()
         {
             CefSubprocess.Instance.ServiceHost.Service = this;
-            Callback = OperationContext.Current.GetCallbackChannel<ISubProcessCallback>();
+            Callback = OperationContext.Current.GetCallbackChannel<ISubprocessCallback>();
         }
 
         public object EvaluateScript(int frameId, string script, double timeout)
