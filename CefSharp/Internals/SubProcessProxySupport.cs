@@ -12,7 +12,7 @@ namespace CefSharp.Internals
             return string.Join("/", BaseAddress, ServiceName, parentProcessId, browserId);
         }
 
-        public static DuplexChannelFactory<ISubProcessProxy> CreateChannelFactory(string serviceName, object callbackObject)
+        public static DuplexChannelFactory<ISubProcessProxy> CreateChannelFactory(string serviceName, ISubProcessCallback callbackObject)
         {
             return new DuplexChannelFactory<ISubProcessProxy>(
                 callbackObject,
