@@ -1,7 +1,7 @@
-﻿using System;
+﻿using CefSharp.Internals;
+using System;
 using System.ServiceModel;
 using System.ServiceModel.Description;
-using CefSharp.Internals;
 
 namespace CefSharp.BrowserSubprocess
 {
