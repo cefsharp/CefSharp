@@ -1,8 +1,9 @@
 ﻿using System.ServiceModel;
+using CefSharp.Internals;
 
-namespace CefSharp.Internals
+namespace CefSharp.BrowserSubprocess
 {
-    public class SubProcessProxy : ISubProcessProxy
+    public class SubprocessProxy : ISubProcessProxy
     {
         public ISubProcessCallback Callback { get; private set; }
 

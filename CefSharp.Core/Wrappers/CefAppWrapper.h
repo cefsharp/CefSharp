@@ -14,25 +14,25 @@ namespace CefSharp
     {
     private:
         CefRefPtr<CefAppUnmanagedWrapper>* cefApp;
+
     internal:
-        CefSubprocess^ _managedApp;
+        Action<CefBrowserWrapper^>^ OnBrowserCreated;
 
     public:
-        CefAppWrapper(CefSubprocess^ managedApp);
 
-        int Run(array<String^>^ args);
+        CefAppWrapper(Action<CefBrowserWrapper^>^ onBrowserCreated);
+        int Run();
     };
 
     private class CefAppUnmanagedWrapper : CefApp, CefRenderProcessHandler
     {
     private:
-        gcroot<CefAppWrapper^> _cefAppWrapper;
-        CefRefPtr<CefBrowser> _browser;
+        gcroot<Action<CefBrowserWrapper^>^> _onBrowserCreated;
 
     public:
-        CefAppUnmanagedWrapper(CefAppWrapper^ cefAppWrapper)
+        CefAppUnmanagedWrapper(Action<CefBrowserWrapper^>^ onBrowserCreated)
         {
-            _cefAppWrapper = cefAppWrapper;
+            _onBrowserCreated = onBrowserCreated;
         }
 
         virtual DECL CefRefPtr<CefRenderProcessHandler> GetRenderProcessHandler() OVERRIDE
@@ -42,9 +42,8 @@ namespace CefSharp
 
         virtual DECL void CefAppUnmanagedWrapper::OnBrowserCreated(CefRefPtr<CefBrowser> browser) OVERRIDE
         {
-            _browser = browser;
             // TODO: Could destroy this CefBrowserWrapper in OnBrowserDestroyed(), but it doesn't seem to be reliably called...
-            _cefAppWrapper->_managedApp->OnBrowserCreated(gcnew CefBrowserWrapper(browser));
+            _onBrowserCreated->Invoke(gcnew CefBrowserWrapper(browser));
         }
 
         IMPLEMENT_REFCOUNTING(CefAppUnmanagedWrapper);

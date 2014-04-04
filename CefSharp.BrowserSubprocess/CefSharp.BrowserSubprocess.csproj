@@ -85,8 +85,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CefSubprocess.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SubprocessProxy.cs" />
+    <Compile Include="SubprocessServiceHost.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

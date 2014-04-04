@@ -13,11 +13,9 @@ namespace CefSharp.BrowserSubprocess
 
             int result = 0;
 
-            using (var subprocess = new CefSubprocess())
+            using (var subprocess = new CefSubprocess(args))
             {
-                var wrapper = new CefAppWrapper(subprocess);
-
-                result = wrapper.Run(args);
+                result = subprocess.Run();
             }
 
             Kernel32.OutputDebugString("BrowserSubprocess shutting down.");

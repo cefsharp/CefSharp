@@ -1,19 +1,20 @@
+// Copyright © 2010-2014 The CefSharp Project. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
 #include "Stdafx.h"
 
 #include "Wrappers\CefAppWrapper.h"
 
 namespace CefSharp
 {
-    CefAppWrapper::CefAppWrapper(CefSubprocess^ managedApp)
+    CefAppWrapper::CefAppWrapper(Action<CefBrowserWrapper^>^ onBrowserCreated)
     {
-        _managedApp = managedApp;
-        cefApp = new CefRefPtr<CefAppUnmanagedWrapper>(new CefAppUnmanagedWrapper(this));
+        cefApp = new CefRefPtr<CefAppUnmanagedWrapper>(new CefAppUnmanagedWrapper(onBrowserCreated));
     }
 
-    int CefAppWrapper::Run(array<String^>^ args)
+    int CefAppWrapper::Run()
     {
-        _managedApp->FindParentProcessId(args);
-
         auto hInstance = Process::GetCurrentProcess()->Handle;
 
         CefMainArgs cefMainArgs((HINSTANCE)hInstance.ToPointer());

@@ -116,15 +116,12 @@
     <Compile Include="IWebBrowser.cs" />
     <Compile Include="Internals\IWebBrowserInternal.cs" />
     <Compile Include="Internals\Kernel32.cs" />
-    <Compile Include="Internals\CefSubprocess.cs" />
-    <Compile Include="Internals\SubProcessServiceHost.cs" />
     <Compile Include="IWinFormsWebBrowser.cs" />
     <Compile Include="LoadedCompletedEventArgs.cs" />
     <Compile Include="LogSeverity.cs" />
     <Compile Include="DisposableResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptException.cs" />
-    <Compile Include="Internals\SubProcessProxy.cs" />
     <Compile Include="Internals\SubProcessProxySupport.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Linq;
+using System.Threading.Tasks;
+using CefSharp.Internals;
 
-namespace CefSharp.Internals
+namespace CefSharp.BrowserSubprocess
 {
     public class CefSubprocess : ManagedCefApp
     {
@@ -10,9 +11,11 @@ namespace CefSharp.Internals
 
         public static CefSubprocess Instance { get; private set; }
 
-        public CefSubprocess()
+        public CefSubprocess(IEnumerable<string> args)
         {
             Instance = this;
+           
+            LocateParentProcessId(args);
         }
 
         #endregion
@@ -27,7 +30,7 @@ namespace CefSharp.Internals
             base.DoDispose(isDisposing);
         }
 
-        public void FindParentProcessId(IEnumerable<string> args)
+        private void LocateParentProcessId(IEnumerable<string> args)
         {
             // Format being parsed:
             // --channel=3828.2.1260352072\1102986608
@@ -46,8 +49,7 @@ namespace CefSharp.Internals
             ParentProcessId = int.Parse(parentProcessId);
         }
 
-
-        private SubProcessServiceHost javascriptServiceHost;
+        private SubprocessServiceHost javascriptServiceHost;
         private CefBrowserBase browser;
 
         public int? ParentProcessId { get; private set; }
@@ -57,7 +59,7 @@ namespace CefSharp.Internals
             get { return browser; }
         }
 
-        public SubProcessServiceHost ServiceHost
+        public SubprocessServiceHost ServiceHost
         {
             get { return javascriptServiceHost; }
         }
@@ -71,7 +73,13 @@ namespace CefSharp.Internals
                 return;
             }
 
-            Task.Factory.StartNew(() => javascriptServiceHost = SubProcessServiceHost.Create(ParentProcessId.Value, cefBrowserWrapper.BrowserId));
+            Task.Factory.StartNew(() => javascriptServiceHost = SubprocessServiceHost.Create(ParentProcessId.Value, cefBrowserWrapper.BrowserId));
+        }
+
+        public int Run()
+        {
+            var wrapper = new CefAppWrapper(OnBrowserCreated);
+            return wrapper.Run();
         }
     }
 }

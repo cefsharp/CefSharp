@@ -1,21 +1,22 @@
 ﻿using System;
 using System.ServiceModel;
 using System.ServiceModel.Description;
+using CefSharp.Internals;
 
-namespace CefSharp.Internals
+namespace CefSharp.BrowserSubprocess
 {
-    public class SubProcessServiceHost : ServiceHost
+    public class SubprocessServiceHost : ServiceHost
     {
-        public SubProcessProxy Service { get; set; }
+        public SubprocessProxy Service { get; set; }
 
-        public SubProcessServiceHost()
-            : base(typeof(SubProcessProxy), new Uri[0])
+        public SubprocessServiceHost()
+            : base(typeof(SubprocessProxy), new Uri[0])
         {
         }
 
-        public static SubProcessServiceHost Create(int parentProcessId, int browserId)
+        public static SubprocessServiceHost Create(int parentProcessId, int browserId)
         {
-            var host = new SubProcessServiceHost();
+            var host = new SubprocessServiceHost();
             AddDebugBehavior(host);
 
             //use absultadress for hosting 
