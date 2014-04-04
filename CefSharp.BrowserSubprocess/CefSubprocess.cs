@@ -7,6 +7,21 @@ namespace CefSharp.BrowserSubprocess
 {
     public class CefSubprocess : ManagedCefApp
     {
+        private SubprocessServiceHost javascriptServiceHost;
+        private CefBrowserBase browser;
+
+        public int? ParentProcessId { get; private set; }
+
+        public CefBrowserBase Browser
+        {
+            get { return browser; }
+        }
+
+        public SubprocessServiceHost ServiceHost
+        {
+            get { return javascriptServiceHost; }
+        }
+
         public static CefSubprocess Instance { get; private set; }
 
         public CefSubprocess(IEnumerable<string> args)
@@ -43,21 +58,6 @@ namespace CefSharp.BrowserSubprocess
                 .Split('.')
                 .First();
             ParentProcessId = int.Parse(parentProcessId);
-        }
-
-        private SubprocessServiceHost javascriptServiceHost;
-        private CefBrowserBase browser;
-
-        public int? ParentProcessId { get; private set; }
-
-        public CefBrowserBase Browser
-        {
-            get { return browser; }
-        }
-
-        public SubprocessServiceHost ServiceHost
-        {
-            get { return javascriptServiceHost; }
         }
 
         public override void OnBrowserCreated(CefBrowserBase cefBrowserWrapper)
