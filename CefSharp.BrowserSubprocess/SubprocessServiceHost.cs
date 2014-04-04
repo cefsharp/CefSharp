@@ -5,7 +5,7 @@ using CefSharp.Internals;
 
 namespace CefSharp.BrowserSubprocess
 {
-    public class SubprocessServiceHost : ServiceHost
+    public class SubprocessServiceHost : ServiceHost, ISubProcessCallback
     {
         public SubprocessProxy Service { get; set; }
 
@@ -36,16 +36,13 @@ namespace CefSharp.BrowserSubprocess
             return host;
         }
 
-        private static void KillExistingServiceIfNeeded(string serviceName)
+        private void KillExistingServiceIfNeeded(string serviceName)
         {
             // It might be that there is an existing process already bound to this port. We must get rid of that one, so that the
             // endpoint address gets available for us to use.
             try
             {
-                var channelFactory = new ChannelFactory<ISubProcessProxy>(
-                    new NetNamedPipeBinding(),
-                    new EndpointAddress(serviceName)
-                    );
+                var channelFactory = SubProcessProxySupport.CreateChannelFactory(serviceName, this);
                 channelFactory.Open(TimeSpan.FromSeconds(1));
                 var javascriptProxy = channelFactory.CreateChannel();
                 javascriptProxy.Terminate();
@@ -73,6 +70,11 @@ namespace CefSharp.BrowserSubprocess
             {
                 serviceDebugBehavior.IncludeExceptionDetailInFaults = true;
             }
+        }
+
+        public void Error(Exception ex)
+        {
+            throw new NotImplementedException();
         }
     }
 }
