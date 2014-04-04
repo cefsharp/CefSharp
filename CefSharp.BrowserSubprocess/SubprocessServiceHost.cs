@@ -72,7 +72,6 @@ namespace CefSharp.BrowserSubprocess
 
         public void Error(Exception ex)
         {
-            throw new NotImplementedException();
         }
     }
 }
