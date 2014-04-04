@@ -11,9 +11,21 @@ namespace CefSharp.Wpf.Example
         public FrameworkElement Tab1Content { get; set; }
         public FrameworkElement Tab2Content { get; set; }
 
+        private RoutedCommand newTab;
+        private RoutedCommand closeTab;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            newTab = new RoutedCommand();
+            newTab.InputGestures.Add(new KeyGesture(Key.T, ModifierKeys.Control));
+            CommandBindings.Add(new CommandBinding(newTab, tabShortcut));
+
+            closeTab = new RoutedCommand();
+            closeTab.InputGestures.Add(new KeyGesture(Key.W, ModifierKeys.Control));
+            CommandBindings.Add(new CommandBinding(closeTab, closeTabShortcut));
+
             DataContext = this;
 
             Tab1Content = new MainView
@@ -52,6 +64,18 @@ namespace CefSharp.Wpf.Example
                 RelativeSource = RelativeSource.Self
             });
             return tabItem;
+        }
+
+        private void tabShortcut(object sender, ExecutedRoutedEventArgs e)
+        {
+            var tabItem = CreateTabItem();
+            TabControl.Items.Insert(TabControl.Items.Count - 1, tabItem);
+        }
+
+        private void closeTabShortcut(object sender, ExecutedRoutedEventArgs e)
+        {
+            MessageBox.Show("Tab closing is not enabled at this time :(");
+            //TabControl.Items.RemoveAt(TabControl.SelectedIndex);
         }
 
         private static MainView CreateNewTab()
