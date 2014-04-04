@@ -3,7 +3,7 @@
 namespace CefSharp.Internals
 {
     [ServiceContract(CallbackContract = typeof(ISubProcessCallback))]
-    public interface ISubProcessProxy
+    public interface ISubprocessProxy
     {
         [OperationContract]
         void Initialize();

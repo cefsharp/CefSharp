@@ -27,7 +27,7 @@ namespace CefSharp.BrowserSubprocess
 
             Kernel32.OutputDebugString("Setting up IJavascriptProxy using service name: " + serviceName);
             host.AddServiceEndpoint(
-                typeof(ISubProcessProxy),
+                typeof(ISubprocessProxy),
                 new NetNamedPipeBinding(),
                 new Uri(serviceName)
             );

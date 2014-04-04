@@ -3,7 +3,7 @@ using CefSharp.Internals;
 
 namespace CefSharp.BrowserSubprocess
 {
-    public class SubprocessProxy : ISubProcessProxy
+    public class SubprocessProxy : ISubprocessProxy
     {
         public ISubProcessCallback Callback { get; private set; }
 

@@ -13,9 +13,9 @@ namespace CefSharp.Internals
         }
 
         // TODO: Refactor to actually perform the creation of the channel also. We need to add a TimeSpan parameter to get that going though.
-        public static DuplexChannelFactory<ISubProcessProxy> CreateChannelFactory(string serviceName, ISubProcessCallback callbackObject)
+        public static DuplexChannelFactory<ISubprocessProxy> CreateChannelFactory(string serviceName, ISubProcessCallback callbackObject)
         {
-            return new DuplexChannelFactory<ISubProcessProxy>(
+            return new DuplexChannelFactory<ISubprocessProxy>(
                 callbackObject,
                 new NetNamedPipeBinding(),
                 new EndpointAddress(serviceName)
