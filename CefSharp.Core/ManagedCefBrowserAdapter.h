@@ -41,7 +41,7 @@ namespace CefSharp
 
         ManagedCefBrowserAdapter(IWebBrowserInternal^ webBrowserInternal)
         {
-            _renderClientAdapter = new RenderClientAdapter(webBrowserInternal);
+            _renderClientAdapter = new RenderClientAdapter(webBrowserInternal, gcnew Action<IntPtr>(this, &ManagedCefBrowserAdapter::OnBrowserCreated));
         }
 
         ~ManagedCefBrowserAdapter()
@@ -258,22 +258,11 @@ namespace CefSharp
 
         Object^ EvaluateScript(String^ script, TimeSpan timeout)
         {
-            auto browser = _renderClientAdapter->GetCefBrowser();
             auto frame = _renderClientAdapter->TryGetCefMainFrame();
 
-            if (browser != nullptr &&
+            if (_javaScriptProxy != nullptr &&
                 frame != nullptr)
             {
-                // TODO: Don't instantiate this on every request. The problem is that the CefBrowser is not set in our constructor.
-                auto serviceName = SubProcessProxySupport::GetServiceName(Process::GetCurrentProcess()->Id, _renderClientAdapter->GetCefBrowser()->GetIdentifier());
-                auto channelFactory = gcnew DuplexChannelFactory<ISubProcessProxy^>(
-                    this,
-                    gcnew NetNamedPipeBinding(),
-                    gcnew EndpointAddress(serviceName)
-                );
-
-                _javaScriptProxy = channelFactory->CreateChannel();
-
                 return _javaScriptProxy->EvaluateScript(frame->GetIdentifier(), script, timeout.TotalMilliseconds);
             }
             else
@@ -309,6 +298,26 @@ namespace CefSharp
             HWND browserHwnd = _renderClientAdapter->GetBrowserHwnd();
             hdwp = DeferWindowPos(hdwp, browserHwnd, NULL, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, SWP_NOZORDER);
             EndDeferWindowPos(hdwp);
+        }
+        void OnBrowserCreated(IntPtr browser)
+        {
+            // Cannot use CefRefPtr<T> in this case, since we need to use the browser as a parameter to an Action delegate and it
+            // is not possible to have an unmanaged type as a type argument to a .NET generic type. Doing it like this is quite
+            // safe, unless we hold on to a reference to this browser...
+            auto cefBrowser = (CefBrowser*)(void*)browser;
+            _javaScriptProxy = CreateJavascriptProxy(cefBrowser->GetIdentifier());
+        }
+
+        ISubProcessProxy^ CreateJavascriptProxy(int browserId)
+        {
+            auto serviceName = SubProcessProxySupport::GetServiceName(Process::GetCurrentProcess()->Id, browserId);
+            auto channelFactory = gcnew DuplexChannelFactory<ISubProcessProxy^>(
+                this,
+                gcnew NetNamedPipeBinding(),
+                gcnew EndpointAddress(serviceName)
+            );
+
+            return channelFactory->CreateChannel();
         }
     };
 }

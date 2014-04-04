@@ -42,6 +42,11 @@ namespace CefSharp
                 _cefBrowser = browser;
 
                 _browserControl->OnInitialized();
+
+                if (static_cast<Action<IntPtr>^>(_onBrowserCreated) != nullptr)
+                {
+                    _onBrowserCreated->Invoke((IntPtr)browser.get());
+                }
             }
         }
 

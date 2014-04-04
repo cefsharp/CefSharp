@@ -27,15 +27,16 @@ namespace CefSharp
             public CefJSDialogHandler
         {
         private:
-            gcroot<IWebBrowserInternal^> _browserControl;
+            gcroot<IWebBrowserInternal^> _browserControl;            
+            gcroot<Action<IntPtr>^> _onBrowserCreated;
             HWND _browserHwnd;
             CefRefPtr<CefBrowser> _cefBrowser;
 
             gcroot<String^> _tooltip;
 
         public:
-            ClientAdapter(IWebBrowserInternal^ browserControl) :
-                _browserControl(browserControl)
+            ClientAdapter(IWebBrowserInternal^ browserControl, Action<IntPtr>^ onBrowserCreated) :
+                _browserControl(browserControl), _onBrowserCreated(onBrowserCreated)
             {
             }
 
