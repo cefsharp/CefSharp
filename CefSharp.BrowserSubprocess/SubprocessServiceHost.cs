@@ -23,7 +23,7 @@ namespace CefSharp.BrowserSubprocess
             //http://stackoverflow.com/questions/10362246/two-unique-named-pipes-conflicting-and-invalidcredentialexception
             var serviceName = SubprocessProxySupport.GetServiceName(parentProcessId, browserId);
 
-            KillExistingServiceIfNeeded(serviceName);
+            host.KillExistingServiceIfNeeded(serviceName);
 
             Kernel32.OutputDebugString("Setting up IJavascriptProxy using service name: " + serviceName);
             host.AddServiceEndpoint(
@@ -42,9 +42,7 @@ namespace CefSharp.BrowserSubprocess
             // endpoint address gets available for us to use.
             try
             {
-                var channelFactory = SubprocessProxySupport.CreateChannelFactory(serviceName, this);
-                channelFactory.Open(TimeSpan.FromSeconds(1));
-                var javascriptProxy = channelFactory.CreateChannel();
+                var javascriptProxy = SubprocessProxySupport.CreateSubprocessProxyClient(serviceName, this, TimeSpan.FromSeconds(1));
                 javascriptProxy.Terminate();
             }
             catch

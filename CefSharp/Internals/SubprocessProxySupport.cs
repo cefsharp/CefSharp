@@ -1,4 +1,5 @@
-﻿using System.ServiceModel;
+﻿using System;
+using System.ServiceModel;
 
 namespace CefSharp.Internals
 {
@@ -12,14 +13,31 @@ namespace CefSharp.Internals
             return string.Join("/", BaseAddress, ServiceName, parentProcessId, browserId);
         }
 
-        // TODO: Refactor to actually perform the creation of the channel also. We need to add a TimeSpan parameter to get that going though.
-        public static DuplexChannelFactory<ISubprocessProxy> CreateChannelFactory(string serviceName, ISubprocessCallback callbackObject)
+        public static ISubprocessProxy CreateSubprocessProxyClient(string serviceName,
+            ISubprocessCallback callbackObject)
         {
-            return new DuplexChannelFactory<ISubprocessProxy>(
+            return CreateSubprocessProxyClient(serviceName, callbackObject, null);
+        }
+
+        public static ISubprocessProxy CreateSubprocessProxyClient(string serviceName, 
+            ISubprocessCallback callbackObject, TimeSpan? timeout)
+        {
+            var channel = new DuplexChannelFactory<ISubprocessProxy>(
                 callbackObject,
                 new NetNamedPipeBinding(),
                 new EndpointAddress(serviceName)
             );
+
+            if (timeout != null)
+            {
+                channel.Open(timeout.Value);
+            }
+            else
+            {
+                channel.Open();
+            }
+
+            return channel.CreateChannel();
         }
     }
 }
