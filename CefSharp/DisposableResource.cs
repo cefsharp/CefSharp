@@ -2,15 +2,14 @@
 
 namespace CefSharp
 {
+    /// Based on: http://msdn.microsoft.com/en-us/library/fs2xkftw(v=vs.110).aspx
+    
     /// <summary>
-    /// This Class provides tool functionality for managed Dispose Pattern
-    /// http://msdn.microsoft.com/en-us/library/fs2xkftw(v=vs.110).aspx
+    /// Provides base class functionality for implementing the Dispose Pattern.
     /// </summary>
-    public class ObjectBase : IDisposable
+    public abstract class DisposableResource : IDisposable
     {
-        #region IDisposable
-
-        ~ObjectBase()
+        ~DisposableResource()
         {
             DoDispose(false);
             IsDisposed = true;
@@ -60,7 +59,5 @@ namespace CefSharp
         /// <c>true</c> if this instance is disposed; otherwise, <c>false</c>.
         /// </value>
         public bool IsDisposed { get; private set; }
-
-        #endregion
     }
 }

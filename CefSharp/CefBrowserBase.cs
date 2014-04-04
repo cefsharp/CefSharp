@@ -1,6 +1,6 @@
 ﻿namespace CefSharp
 {
-    public abstract class CefBrowserBase : ObjectBase
+    public abstract class CefBrowserBase : DisposableResource
     {
         public int BrowserId { get; set; }
 
