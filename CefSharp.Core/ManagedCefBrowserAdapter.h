@@ -15,11 +15,11 @@ using namespace System::ServiceModel;
 
 namespace CefSharp
 {
-    private ref class ManagedCefBrowserAdapter : ISubProcessCallback
+    private ref class ManagedCefBrowserAdapter : ISubprocessCallback
     {
     private:
         RenderClientAdapter* _renderClientAdapter;
-        ISubProcessProxy^ _javaScriptProxy;
+        ISubprocessProxy^ _javaScriptProxy;
 
     public:
         property String^ DevToolsUrl
