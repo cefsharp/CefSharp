@@ -2,7 +2,7 @@
 
 namespace CefSharp.Internals
 {
-    public class SubProcessProxySupport
+    public class SubprocessProxySupport
     {
         private const string BaseAddress = "net.pipe://localhost";
         private const string ServiceName = "CefSharpSubProcessProxy";

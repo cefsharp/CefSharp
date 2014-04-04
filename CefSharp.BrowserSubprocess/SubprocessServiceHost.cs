@@ -21,7 +21,7 @@ namespace CefSharp.BrowserSubprocess
 
             //use absultadress for hosting 
             //http://stackoverflow.com/questions/10362246/two-unique-named-pipes-conflicting-and-invalidcredentialexception
-            var serviceName = SubProcessProxySupport.GetServiceName(parentProcessId, browserId);
+            var serviceName = SubprocessProxySupport.GetServiceName(parentProcessId, browserId);
 
             KillExistingServiceIfNeeded(serviceName);
 
@@ -42,7 +42,7 @@ namespace CefSharp.BrowserSubprocess
             // endpoint address gets available for us to use.
             try
             {
-                var channelFactory = SubProcessProxySupport.CreateChannelFactory(serviceName, this);
+                var channelFactory = SubprocessProxySupport.CreateChannelFactory(serviceName, this);
                 channelFactory.Open(TimeSpan.FromSeconds(1));
                 var javascriptProxy = channelFactory.CreateChannel();
                 javascriptProxy.Terminate();
