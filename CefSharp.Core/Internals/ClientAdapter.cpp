@@ -337,22 +337,6 @@ namespace CefSharp
         headers);
         }*/
 
-        void ClientAdapter::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
-        {
-            // TODO: Support the BindingHandler with CEF3.
-            /*
-            for each(KeyValuePair<String^, Object^>^ kvp in Cef::GetBoundObjects())
-            {
-            BindingHandler::Bind(kvp->Key, kvp->Value, context->GetGlobal());
-            }
-
-            for each(KeyValuePair<String^, Object^>^ kvp in _browserControl->GetBoundObjects())
-            {
-            BindingHandler::Bind(kvp->Key, kvp->Value, context->GetGlobal());
-            }
-            */
-        }
-
         void ClientAdapter::OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
             CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model)
         {
