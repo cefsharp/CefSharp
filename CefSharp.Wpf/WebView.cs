@@ -798,7 +798,7 @@ namespace CefSharp.Wpf
 
         public void RegisterJsObject(string name, object objectToBind)
         {
-            throw new NotImplementedException();
+            managedCefBrowserAdapter.RegisterJsObject(name, objectToBind);
         }
 
         public IDictionary<string, object> BoundObjects { get; private set; }

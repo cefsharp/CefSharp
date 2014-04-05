@@ -126,6 +126,8 @@ namespace CefSharp.Wpf.Example.Views.Main
                         // TODO: method, but it seems like "something" gets messed up (= doesn't work correctly) if we give it
                         // TODO: focus "too early" in the loading process...
                         WebBrowser.LoadCompleted += delegate { Application.Current.Dispatcher.BeginInvoke((Action)(() => WebBrowser.Focus())); };
+
+                        BindJavascriptObject(webBrowser);
                     }
 
                     break;
@@ -148,6 +150,11 @@ namespace CefSharp.Wpf.Example.Views.Main
                   ").</h2></body></html>";
 
             webBrowser.LoadHtml(errorMessage, failedUrl);
+        }
+
+        private void BindJavascriptObject(IWpfWebBrowser wpfWebBrowser)
+        {
+            wpfWebBrowser.RegisterJsObject("bindingTest", new BindingTest());
         }
 
         private void Go()

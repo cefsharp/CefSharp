@@ -299,6 +299,14 @@ namespace CefSharp
             hdwp = DeferWindowPos(hdwp, browserHwnd, NULL, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, SWP_NOZORDER);
             EndDeferWindowPos(hdwp);
         }
+
+        void RegisterJsObject(String^ name, Object^ object)
+        {
+            // BindingHelper->GetJavascriptObject(object);
+            // Pass the information to the subprocess.
+            // Set it up when the context is created.
+        }
+
         void OnBrowserCreated(IntPtr browser)
         {
             // Cannot use CefRefPtr<T> in this case, since we need to use the browser as a parameter to an Action delegate and it
