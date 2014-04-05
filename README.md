@@ -2,7 +2,7 @@
 
 This project contains .NET CLR bindings for The [Chromium Embedded Framework (CEF)](http://code.google.com/p/chromiumembedded/ "Google Code") by Marshall A. Greenblatt. A small [Core](https://github.com/cefsharp/CefSharp/tree/master/CefSharp.Core) of the bindings are written in C++/CLI but the majority of code here is C#. It can of course be used from any CLR language, e.g. C# or VB. 
 
-CefSharp provides both WinForms and WPF web browser control implementations. See the [CefSharp.WinForms.Example](https://github.com/cefsharp/CefSharp/tree/master/CefSharp.WinForms.Example) or CefSharp.Wpf.Example(https://github.com/cefsharp/CefSharp/tree/master/CefSharp.Wpf.Example) projects for example web browsers built using this library; they are (at this moment) the best "documentation" of how the control can actually be used.
+CefSharp provides both WinForms and WPF web browser control implementations. See the [CefSharp.WinForms.Example](https://github.com/cefsharp/CefSharp/tree/master/CefSharp.WinForms.Example) or [CefSharp.Wpf.Example](https://github.com/cefsharp/CefSharp/tree/master/CefSharp.Wpf.Example) projects for example web browsers built using this library; they are (at this moment) the best "documentation" of features. In addition see [CefSharp.MinimalExample](https://github.com/cefsharp/MinimalExample/) how the control can actually be used via NuGet packages.
 
 This project is [BSD](http://www.opensource.org/licenses/bsd-license.php "BSD License") licensed, which means that it can be used from both proprietary and free/open source applications. For the full details, see the [LICENSE](LICENSE) file.
 
