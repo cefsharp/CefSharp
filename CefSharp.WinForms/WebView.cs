@@ -41,7 +41,7 @@ namespace CefSharp.WinForms
 
         public WebView(string address)
         {
-            address = address;
+            Address = address;
         }
 
         protected override void Dispose(bool disposing)
