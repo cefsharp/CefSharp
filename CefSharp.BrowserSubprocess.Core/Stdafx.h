@@ -5,3 +5,9 @@
 #pragma once
 
 #include <vcclr_local.h>
+
+#ifdef EXPORT
+  #define DECL __declspec(dllexport)
+#else
+  #define DECL __declspec(dllimport)
+#endif

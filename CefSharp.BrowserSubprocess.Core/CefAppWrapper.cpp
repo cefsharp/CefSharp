@@ -7,6 +7,7 @@
 #include "CefAppWrapper.h"
 
 using namespace System;
+using namespace System::Diagnostics;
 
 namespace CefSharp
 {

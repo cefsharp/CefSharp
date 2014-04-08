@@ -3,7 +3,9 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 #include "Stdafx.h"
+#include "StringUtils.h"
 
+using namespace System;
 using namespace System::Diagnostics;
 
 namespace CefSharp

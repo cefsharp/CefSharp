@@ -7,6 +7,7 @@
 #include "JavascriptPropertyHandler.h"
 #include "CefSubprocessWrapper.h"
 #include "include/cef_app.h"
+#include "include/cef_base.h"
 
 namespace CefSharp
 {
