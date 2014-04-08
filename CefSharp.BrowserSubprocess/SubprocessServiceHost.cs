@@ -19,8 +19,6 @@ namespace CefSharp.BrowserSubprocess
             var host = new SubprocessServiceHost();
             AddDebugBehavior(host);
 
-            //use absultadress for hosting 
-            //http://stackoverflow.com/questions/10362246/two-unique-named-pipes-conflicting-and-invalidcredentialexception
             var serviceName = SubprocessProxySupport.GetServiceName(parentProcessId, browserId);
 
             host.KillExistingServiceIfNeeded(serviceName);
