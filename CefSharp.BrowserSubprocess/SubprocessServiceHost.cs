@@ -67,5 +67,22 @@ namespace CefSharp.BrowserSubprocess
                 // the first render subprocess instance).
             }
         }
+
+        // Don't need to provide an implementation of those methods, since we only instantiate the JavascriptProxy to be able
+        // to terminate dangling instances.
+        public object CallMethod(int objectId, string name, object[] parameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object GetProperty(int objectId, string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object SetProperty(int objectId, string name)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
