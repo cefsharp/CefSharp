@@ -282,27 +282,27 @@ namespace CefSharp
             }
         }
 
-		double GetZoomLevel()
-		{
-			auto cefHost = _renderClientAdapter->TryGetCefHost();
+        double GetZoomLevel()
+        {
+            auto cefHost = _renderClientAdapter->TryGetCefHost();
 
             if (cefHost != nullptr)
             {
-				return cefHost->GetZoomLevel();
-			}
-			
-			return 0;
-		}
+                return cefHost->GetZoomLevel();
+            }
+            
+            return 0;
+        }
 
-		void SetZoomLevel(double zoomLevel)
-		{
-			auto cefHost = _renderClientAdapter->TryGetCefHost();
+        void SetZoomLevel(double zoomLevel)
+        {
+            auto cefHost = _renderClientAdapter->TryGetCefHost();
 
             if (cefHost != nullptr)
             {
                 cefHost->SetZoomLevel(zoomLevel);
             }
-		}
+        }
 
         virtual void Error( Exception^ ex )
         {
