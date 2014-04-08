@@ -84,6 +84,7 @@
     <ClInclude Include="JavascriptMethodHandler.h" />
     <ClInclude Include="JavascriptPropertyHandler.h" />
     <ClInclude Include="Stdafx.h" />
+    <ClInclude Include="TypeUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
@@ -92,6 +93,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="TypeUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CefSharp\CefSharp.csproj">
