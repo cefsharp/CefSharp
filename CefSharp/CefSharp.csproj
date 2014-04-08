@@ -86,6 +86,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CefEventFlags.cs" />
     <Compile Include="Internals\BitmapInfo.cs" />
     <Compile Include="Internals\ISubprocessCallback.cs" />
     <Compile Include="Internals\JavascriptMemberDescription.cs" />
