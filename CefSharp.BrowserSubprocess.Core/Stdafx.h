@@ -4,4 +4,4 @@
 
 #pragma once
 
-
+#include <vcclr_local.h>

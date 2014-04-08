@@ -85,6 +85,7 @@
     <ClInclude Include="JavascriptPropertyHandler.h" />
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="TypeUtils.h" />
+    <ClInclude Include="vcclr_local.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
