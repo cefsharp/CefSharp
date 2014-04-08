@@ -4,7 +4,7 @@
 
 #include "Stdafx.h"
 
-#include "Wrappers\CefAppWrapper.h"
+#include "CefAppWrapper.h"
 
 namespace CefSharp
 {
