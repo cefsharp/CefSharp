@@ -44,9 +44,6 @@
     <ClCompile Include="SchemeHandlerResponse.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CefAppWrapper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vcclr_local.h">
@@ -107,9 +104,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Wrappers\CefSubprocessWrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Wrappers\CefAppWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CefSettings.h">

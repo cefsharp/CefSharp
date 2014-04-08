@@ -215,7 +215,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
-    <ClCompile Include="CefAppWrapper.cpp" />
     <ClCompile Include="Internals\ClientAdapter.cpp" />
     <ClCompile Include="Internals\CookieVisitor.cpp" />
     <ClCompile Include="Internals\CefRequestWrapper.cpp" />
@@ -237,7 +236,6 @@
     <ClInclude Include="Cef.h" />
     <ClInclude Include="JavascriptMethodHandler.h" />
     <ClInclude Include="JavascriptPropertyHandler.h" />
-    <ClInclude Include="Wrappers\CefAppWrapper.h" />
     <ClInclude Include="Internals\DownloadAdapter.h" />
     <ClInclude Include="Internals\ClientAdapter.h" />
     <ClInclude Include="Internals\CookieVisitor.h" />
