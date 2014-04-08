@@ -36,21 +36,6 @@ namespace CefSharp.BrowserSubprocess
             return host;
         }
 
-        private void KillExistingServiceIfNeeded(string serviceName)
-        {
-            // It might be that there is an existing process already bound to this port. We must get rid of that one, so that the
-            // endpoint address gets available for us to use.
-            try
-            {
-                var javascriptProxy = SubprocessProxySupport.CreateSubprocessProxyClient(serviceName, this, TimeSpan.FromSeconds(1));
-                javascriptProxy.Terminate();
-            }
-            catch
-            {
-                // We assume errors at this point are caused by things like the endpoint not being present (which will happen in
-                // the first render subprocess instance).
-            }
-        }
 
         private static void AddDebugBehavior(ServiceHostBase host)
         {
@@ -70,8 +55,21 @@ namespace CefSharp.BrowserSubprocess
             }
         }
 
-        public void Error(Exception ex)
+
+        private void KillExistingServiceIfNeeded(string serviceName)
         {
+            // It might be that there is an existing process already bound to this port. We must get rid of that one, so that the
+            // endpoint address gets available for us to use.
+            try
+        {
+                var javascriptProxy = SubprocessProxySupport.CreateSubprocessProxyClient(serviceName, this, TimeSpan.FromSeconds(1));
+                javascriptProxy.Terminate();
+            }
+            catch
+            {
+                // We assume errors at this point are caused by things like the endpoint not being present (which will happen in
+                // the first render subprocess instance).
+            }
         }
     }
 }
