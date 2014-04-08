@@ -21,3 +21,5 @@ using namespace CefSharp;
 [assembly:AssemblyConfiguration("")];
 [assembly:AssemblyTrademark("")];
 [assembly:AssemblyCulture("")];
+
+[assembly:InternalsVisibleTo(AssemblyInfo::CefSharpBrowserSubprocessProject)];
