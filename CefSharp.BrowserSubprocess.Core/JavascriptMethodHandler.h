@@ -4,6 +4,8 @@
 
 #include "Stdafx.h"
 
+#include "include/cef_v8.h"
+
 namespace CefSharp
 {
     private class JavascriptMethodHandler : public CefV8Handler
