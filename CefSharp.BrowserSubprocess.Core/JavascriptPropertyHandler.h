@@ -22,6 +22,6 @@ namespace CefSharp
             return false;
         }
 
-        IMPLEMENT_REFCOUNTING(PropertyAccessor)
+        IMPLEMENT_REFCOUNTING(JavascriptPropertyHandler)
     };
 }
