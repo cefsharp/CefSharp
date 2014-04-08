@@ -6,6 +6,8 @@
 
 #include "CefAppWrapper.h"
 
+using namespace System;
+
 namespace CefSharp
 {
     CefAppWrapper::CefAppWrapper(Action<CefBrowserWrapper^>^ onBrowserCreated)

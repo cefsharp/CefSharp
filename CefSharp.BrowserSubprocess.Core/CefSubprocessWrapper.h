@@ -4,7 +4,10 @@
 
 #include "include/cef_browser.h"
 #include "include/cef_runnable.h"
+#include "include/cef_v8.h"
 
+using namespace System;
+using namespace System::ServiceModel;
 using namespace System::Threading;
 
 namespace CefSharp
