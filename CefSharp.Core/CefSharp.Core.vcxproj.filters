@@ -106,12 +106,6 @@
     <ClInclude Include="CefSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="JavascriptPropertyHandler.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="JavascriptMethodHandler.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -81,6 +81,8 @@
   <ItemGroup>
     <ClInclude Include="CefAppWrapper.h" />
     <ClInclude Include="CefSubprocessWrapper.h" />
+    <ClInclude Include="JavascriptMethodHandler.h" />
+    <ClInclude Include="JavascriptPropertyHandler.h" />
     <ClInclude Include="Stdafx.h" />
   </ItemGroup>
   <ItemGroup>
