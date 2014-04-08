@@ -18,7 +18,7 @@ namespace CefSharp.BrowserSubprocess
         {
             var host = CreateServiceHost();
 
-            var serviceName = SubprocessProxySupport.GetServiceName(parentProcessId, browserId);
+            var serviceName = SubprocessProxyFactory.GetServiceName(parentProcessId, browserId);
             host.KillExistingServiceIfNeeded(serviceName);
 
             host.AddServiceEndpoint(
@@ -58,7 +58,7 @@ namespace CefSharp.BrowserSubprocess
             // endpoint address gets available for us to use.
             try
             {
-                var javascriptProxy = SubprocessProxySupport.CreateSubprocessProxyClient(serviceName, this, TimeSpan.FromSeconds(1));
+                var javascriptProxy = SubprocessProxyFactory.CreateSubprocessProxyClient(serviceName, this, TimeSpan.FromSeconds(1));
                 javascriptProxy.Terminate();
             }
             catch

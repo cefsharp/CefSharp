@@ -3,7 +3,7 @@ using System.ServiceModel;
 
 namespace CefSharp.Internals
 {
-    public class SubprocessProxySupport
+    public class SubprocessProxyFactory
     {
         private const string BaseAddress = "net.pipe://localhost";
         private const string ServiceName = "CefSharpSubProcessProxy";

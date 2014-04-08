@@ -314,8 +314,8 @@ namespace CefSharp
             // safe, unless we hold on to a reference to this browser...
             auto cefBrowser = (CefBrowser*)(void*)browser;
             auto browserId = cefBrowser->GetIdentifier();
-            auto serviceName = SubprocessProxySupport::GetServiceName(Process::GetCurrentProcess()->Id, browserId);
-            _javaScriptProxy = SubprocessProxySupport::CreateSubprocessProxyClient(serviceName, this);
+            auto serviceName = SubprocessProxyFactory::GetServiceName(Process::GetCurrentProcess()->Id, browserId);
+            _javaScriptProxy = SubprocessProxyFactory::CreateSubprocessProxyClient(serviceName, this);
         }
     };
 }
