@@ -85,6 +85,7 @@
     <ClInclude Include="JavascriptMethodHandler.h" />
     <ClInclude Include="JavascriptPropertyHandler.h" />
     <ClInclude Include="Stdafx.h" />
+    <ClInclude Include="StringUtils.h" />
     <ClInclude Include="TypeUtils.h" />
     <ClInclude Include="vcclr_local.h" />
   </ItemGroup>
@@ -95,6 +96,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="StringUtils.cpp" />
     <ClCompile Include="TypeUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
