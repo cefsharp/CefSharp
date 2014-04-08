@@ -9,7 +9,7 @@ namespace CefSharp.BrowserSubprocess
     {
         public SubprocessProxy Service { get; set; }
 
-        public SubprocessServiceHost()
+        private SubprocessServiceHost()
             : base(typeof(SubprocessProxy), new Uri[0])
         {
         }
