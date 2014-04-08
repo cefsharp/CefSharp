@@ -103,9 +103,6 @@
     <ClInclude Include="ManagedCefBrowserAdapter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Wrappers\CefSubprocessWrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CefSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>

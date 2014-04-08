@@ -254,7 +254,6 @@
     <ClInclude Include="Internals\StreamAdapter.h" />
     <ClInclude Include="TypeUtils.h" />
     <ClInclude Include="vcclr_local.h" />
-    <ClInclude Include="Wrappers\CefSubprocessWrapper.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CefSharp\CefSharp.csproj">
