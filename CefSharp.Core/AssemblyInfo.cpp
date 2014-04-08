@@ -10,17 +10,17 @@ using namespace CefSharp;
 [assembly:AssemblyTitle("CefSharp.Core")];
 [assembly:AssemblyCompany(AssemblyInfo::AssemblyCompany)];
 [assembly:AssemblyProduct(AssemblyInfo::AssemblyProduct)];
-[assembly:AssemblyCopyright(AssemblyInfo::AssemblyCopyright)]
+[assembly:AssemblyCopyright(AssemblyInfo::AssemblyCopyright)];
 
 [assembly:AssemblyVersion(AssemblyInfo::AssemblyVersion)];
 [assembly:ComVisible(AssemblyInfo::ComVisible)];
 [assembly:CLSCompliant(AssemblyInfo::ClsCompliant)];
 [assembly:SecurityPermission(SecurityAction::RequestMinimum, UnmanagedCode = true)];
 
-[assembly:AssemblyDescription("")]
-[assembly:AssemblyConfiguration("")]
-[assembly:AssemblyTrademark("")]
-[assembly:AssemblyCulture("")]
+[assembly:AssemblyDescription("")];
+[assembly:AssemblyConfiguration("")];
+[assembly:AssemblyTrademark("")];
+[assembly:AssemblyCulture("")];
 
 [assembly:InternalsVisibleTo(AssemblyInfo::CefSharpBrowserSubprocessProject)];
 [assembly:InternalsVisibleTo(AssemblyInfo::CefSharpWpfProject)];
