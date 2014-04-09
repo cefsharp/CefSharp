@@ -27,11 +27,21 @@ namespace CefSharp.Wpf.Example
 
 		private void CloseTab(object sender, ExecutedRoutedEventArgs e)
 		{
-			//Obtain the original source element for this event
-			var originalSource = (FrameworkElement)e.OriginalSource;
+			if (BrowserTabs.Count > 0)
+			{
+				//Obtain the original source element for this event
+				var originalSource = (FrameworkElement)e.OriginalSource;
 
-			//Remove the matching DataContext from the BrowserTabs collection
-			BrowserTabs.Remove((BrowserTabViewModel)originalSource.DataContext);
+				if (originalSource is MainWindow)
+				{
+					BrowserTabs.RemoveAt(TabControl.SelectedIndex);
+				}
+				else
+				{
+					//Remove the matching DataContext from the BrowserTabs collection
+					BrowserTabs.Remove((BrowserTabViewModel)originalSource.DataContext);
+				}
+			}
 		}
 
 		private void OpenNewTab(object sender, ExecutedRoutedEventArgs e)
