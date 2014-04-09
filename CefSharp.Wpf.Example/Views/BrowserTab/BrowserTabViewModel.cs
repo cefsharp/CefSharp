@@ -1,79 +1,74 @@
 ﻿using CefSharp.Example;
-using CefSharp.Wpf.Example.Mvvm;
 using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
+using CefSharp.Wpf.Example.Mvvm;
 
-namespace CefSharp.Wpf.Example.Views.BrowserTab
+namespace CefSharp.Wpf.Example.Views.Main
 {
-    public class BrowserTabViewModel : INotifyPropertyChanged
+    public class BrowserTabViewModel : ViewModelBase
     {
         private string address;
         public string Address
         {
             get { return address; }
-            set { PropertyChanged.ChangeAndNotify(ref address, value, () => Address); }
+            set { ChangeAndNotify(ref address, value, () => Address); }
         }
 
         private string addressEditable;
         public string AddressEditable
         {
             get { return addressEditable; }
-            set { PropertyChanged.ChangeAndNotify(ref addressEditable, value, () => AddressEditable); }
+            set { ChangeAndNotify(ref addressEditable, value, () => AddressEditable); }
         }
 
         private string outputMessage;
         public string OutputMessage
         {
             get { return outputMessage; }
-            set { PropertyChanged.ChangeAndNotify(ref outputMessage, value, () => OutputMessage); }
+            set { ChangeAndNotify(ref outputMessage, value, () => OutputMessage); }
         }
 
         private string title;
         public string Title
         {
             get { return title; }
-            set { PropertyChanged.ChangeAndNotify(ref title, value, () => Title); }
+            set { ChangeAndNotify(ref title, value, () => Title); }
         }
 
         private IWpfWebBrowser webBrowser;
         public IWpfWebBrowser WebBrowser
         {
             get { return webBrowser; }
-            set { PropertyChanged.ChangeAndNotify(ref webBrowser, value, () => WebBrowser); }
+            set { ChangeAndNotify(ref webBrowser, value, () => WebBrowser); }
         }
 
         private object evaluateJavaScriptResult;
-
         public object EvaluateJavaScriptResult
         {
             get { return evaluateJavaScriptResult; }
-            set { PropertyChanged.ChangeAndNotify(ref evaluateJavaScriptResult, value, () => EvaluateJavaScriptResult); }
+            set { ChangeAndNotify(ref evaluateJavaScriptResult, value, () => EvaluateJavaScriptResult); }
         }
 
         private bool showSidebar;
         public bool ShowSidebar
         {
             get { return showSidebar; }
-            set { PropertyChanged.ChangeAndNotify(ref showSidebar, value, () => ShowSidebar); }
+            set { ChangeAndNotify(ref showSidebar, value, () => ShowSidebar); }
         }
 
-        public DelegateCommand GoCommand { get; set; }
-        public DelegateCommand ViewSourceCommand { get; set; }
-        public DelegateCommand HomeCommand { get; set; }
-        public DelegateCommand<string> ExecuteJavaScriptCommand { get; set; }
-        public DelegateCommand<string> EvaluateJavaScriptCommand { get; set; }
+        public ICommand GoCommand { get; set; }
+        public ICommand HomeCommand { get; set; }
+        public ICommand ExecuteJavaScriptCommand { get; set; }
+        public ICommand EvaluateJavaScriptCommand { get; set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public BrowserTabViewModel(string address = null)
+        public BrowserTabViewModel(string address)
         {
-            Address = address ?? ExamplePresenter.DefaultUrl;
+            Address = address;
             AddressEditable = Address;
 
             GoCommand = new DelegateCommand(Go, () => !String.IsNullOrWhiteSpace(Address));
-            ViewSourceCommand = new DelegateCommand(ViewSource);
             HomeCommand = new DelegateCommand(() => AddressEditable = Address = ExamplePresenter.DefaultUrl);
             ExecuteJavaScriptCommand = new DelegateCommand<string>(ExecuteJavaScript, s => !String.IsNullOrWhiteSpace(s));
             EvaluateJavaScriptCommand = new DelegateCommand<string>(EvaluateJavaScript, s => !String.IsNullOrWhiteSpace(s));
@@ -117,15 +112,15 @@ namespace CefSharp.Wpf.Example.Views.BrowserTab
                     break;
 
                 case "WebBrowser":
-                    if (WebBrowser != null)
+                    if (webBrowser != null)
                     {
-                        WebBrowser.ConsoleMessage += OnWebBrowserConsoleMessage;
-                        WebBrowser.LoadError += OnWebBrowserLoadError;
+                        webBrowser.ConsoleMessage += OnWebBrowserConsoleMessage;
+                        webBrowser.LoadError += OnWebBrowserLoadError;
 
                         // TODO: This is a bit of a hack. It would be nicer/cleaner to give the webBrowser focus in the Go()
                         // TODO: method, but it seems like "something" gets messed up (= doesn't work correctly) if we give it
                         // TODO: focus "too early" in the loading process...
-                        WebBrowser.LoadCompleted += delegate { Application.Current.Dispatcher.BeginInvoke((Action)(() => webBrowser.Focus())); };
+                        webBrowser.LoadCompleted += delegate { Application.Current.Dispatcher.BeginInvoke((Action)(() => webBrowser.Focus())); };
                     }
 
                     break;
@@ -147,7 +142,7 @@ namespace CefSharp.Wpf.Example.Views.BrowserTab
                   " with error " + errorText + " (" + errorCode +
                   ").</h2></body></html>";
 
-            webBrowser.LoadHtml(errorMessage, failedUrl);
+           webBrowser.LoadHtml(errorMessage, failedUrl);
         }
 
         private void Go()
@@ -156,11 +151,6 @@ namespace CefSharp.Wpf.Example.Views.BrowserTab
 
             // Part of the Focus hack further described in the OnPropertyChanged() method...
             Keyboard.ClearFocus();
-        }
-
-        private void ViewSource()
-        {
-            webBrowser.ViewSource();
         }
     }
 }

@@ -1,8 +1,28 @@
 ﻿<Window x:Class="CefSharp.Wpf.Example.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:main="clr-namespace:CefSharp.Wpf.Example.Views.Main"
+        xmlns:controls="clr-namespace:CefSharp.Wpf.Example.Controls"
         Title="CefSharp.Wpf.Example"
         WindowState="Maximized">
-    <main:MainView/>
+
+    <Window.InputBindings>
+        <KeyBinding Key="t" Modifiers="Control" Command="New"/>
+    </Window.InputBindings>
+    <Grid>
+        <controls:TabControlEx x:Name="TabControl" Margin="0,5,0,0" ItemsSource="{Binding BrowserTabs, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="0">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Title}"/>
+                        <Button Content="X" Height="20" Width="20" FontFamily="Courier" FontWeight="Bold" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="Close" FontSize="10" Padding="0" ToolTip="Close"/>
+                    </StackPanel>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <ContentControl Content="{Binding}" />
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </controls:TabControlEx>
+    </Grid>
 </Window>

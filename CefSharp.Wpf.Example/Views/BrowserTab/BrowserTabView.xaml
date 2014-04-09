@@ -8,7 +8,7 @@
              mc:Ignorable="d"
              d:DesignWidth="640"
              d:DesignHeight="480"
-             d:DataContext="{d:DesignInstance local:MainViewModel}">
+             d:DataContext="{d:DesignInstance local:BrowserTabViewModel}">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
@@ -191,8 +191,15 @@
                             <MenuItem Header="Forward"
                                       Command="{Binding WebBrowser.ForwardCommand}" />
                             <Separator />
+                            <MenuItem Header="Zoom In"
+                                      Command="{Binding WebBrowser.ZoomInCommand}" />
+                            <MenuItem Header="Zoom Out"
+                                      Command="{Binding WebBrowser.ZoomOutCommand}" />
+                            <MenuItem Header="Zoom Reset"
+                                      Command="{Binding WebBrowser.ZoomResetCommand}" />
+                            <Separator />
                             <MenuItem Header="View Source"
-                                      Command="{Binding ViewSourceCommand}" />
+                                      Command="{Binding WebBrowser.ViewSourceCommand}" />
                         </ContextMenu>
                     </FrameworkElement.ContextMenu>
                 </cefSharp:WebView>

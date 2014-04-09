@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq.Expressions;
+using CefSharp.Example;
 
 namespace CefSharp.Wpf.Example.Mvvm
 {
@@ -17,8 +18,13 @@ namespace CefSharp.Wpf.Example.Mvvm
             remove { propertyChanged -= value; }
         }
 
+        public bool ChangeAndNotify<T>(ref T field, T value, Expression<Func<T>> memberExpression)
+        {
+            return propertyChanged.ChangeAndNotify(ref field, value, memberExpression);
+        }
+
         /// <summary>
-        /// Is called when a property is changed and raises a  <see cref="PropertyChangedEvent"/>
+        /// Is called when a property is changed and raises a <see cref="PropertyChanged"/>
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="oldvalue">The old value.</param>

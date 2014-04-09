@@ -58,6 +58,11 @@ namespace CefSharp.Wpf
         ICommand ZoomResetCommand { get; }
 
         /// <summary>
+        /// Views the source of current page
+        /// </summary>
+        ICommand ViewSourceCommand { get; }
+
+        /// <summary>
         /// Opens up a new program window (using the default text editor) where the source code of the currently displayed web
         /// page is shown.
         /// </summary>

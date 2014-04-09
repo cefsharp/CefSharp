@@ -79,6 +79,12 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\CefSharp.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -96,17 +102,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Mvvm\DelegateCommand.cs" />
-    <Compile Include="Mvvm\DelegateCommandT.cs" />
+    <Compile Include="Controls\TabControlEx.cs" />
     <Compile Include="Mvvm\ViewModelBase.cs" />
     <Compile Include="Views\BrowserTab\BrowserTabView.xaml.cs">
       <DependentUpon>BrowserTabView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\BrowserTab\BrowserTabViewModel.cs" />
-    <Compile Include="Views\Main\MainView.xaml.cs">
-      <DependentUpon>MainView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Main\MainViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -122,10 +123,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\BrowserTab\BrowserTabView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Main\MainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
