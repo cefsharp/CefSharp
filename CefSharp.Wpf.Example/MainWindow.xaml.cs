@@ -15,6 +15,8 @@ namespace CefSharp.Wpf.Example
 
 		public ObservableCollection<BrowserTabViewModel> BrowserTabs { get; set; }
 
+		public ICommand ExitCommand { get; set; }
+
 		public MainWindow()
 		{
 			InitializeComponent();
@@ -22,10 +24,14 @@ namespace CefSharp.Wpf.Example
 
 			BrowserTabs = new ObservableCollection<BrowserTabViewModel>();
 
+			ExitCommand = new DelegateCommand(Close);
+
 			CommandBindings.Add(new CommandBinding(ApplicationCommands.New, OpenNewTab));
 			CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, CloseTab));
 			CommandBindings.Add(new CommandBinding(NavigationCommands.Refresh, ReloadTab));
 			CommandBindings.Add(new CommandBinding(CefBrowserRoutedCommands.FocusAddress, FocusAddress));
+
+			
 			
 			Loaded += MainWindowLoaded;
 		}

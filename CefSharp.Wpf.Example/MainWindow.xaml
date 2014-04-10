@@ -12,7 +12,27 @@
         <KeyBinding Key="r" Modifiers="Control" Command="Refresh"/>
         <KeyBinding Key="F6" Command="{x:Static mvvm:CefBrowserRoutedCommands.FocusAddress}" />
     </Window.InputBindings>
-    <Grid>
+    <DockPanel>
+        <Menu Width="Auto" FontSize="14" IsMainMenu="True" DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="New Tab" InputGestureText="CTRL-T" Command="New" />
+                <MenuItem Header="Close Tab" InputGestureText="CTRL-W" Command="Close" />
+                <Separator />
+                <MenuItem Header="Exit" Command="{Binding ExitCommand}" />
+            </MenuItem>
+            <MenuItem Header="_Edit">
+                <MenuItem Command="ApplicationCommands.Cut"/>
+                <MenuItem Command="ApplicationCommands.Copy"/>
+                <MenuItem Command="ApplicationCommands.Paste"/>
+                <MenuItem Command="ApplicationCommands.Undo"/>
+                <MenuItem Command="ApplicationCommands.Redo"/>
+                <MenuItem Command="ApplicationCommands.SelectAll"/>
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="About"/>
+            </MenuItem>
+        </Menu>
+        <Separator DockPanel.Dock="Top"/>
         <controls:TabControlEx x:Name="TabControl" Margin="0,5,0,0" ItemsSource="{Binding BrowserTabs, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="0">
             <TabControl.ItemTemplate>
                 <DataTemplate>
@@ -28,5 +48,5 @@
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </controls:TabControlEx>
-    </Grid>
+    </DockPanel>
 </Window>
