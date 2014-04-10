@@ -11,7 +11,7 @@ namespace CefSharp
         FormResubmitted,
         Other
     };
-
+     
     public interface IRequestHandler
     {
         bool OnBeforeBrowse(IWebBrowser browser, IRequest request, NavigationType navigationType, bool isRedirect);
@@ -19,6 +19,6 @@ namespace CefSharp
         void OnResourceResponse(IWebBrowser browser, string url, int status, string statusText, string mimeType, WebHeaderCollection headers);
         bool GetDownloadHandler(IWebBrowser browser, out IDownloadHandler handler);
         bool GetAuthCredentials(IWebBrowser browser, bool isProxy, string host, int port, string realm, string scheme, ref string username, ref string password);
-
+        bool OnBeforePluginLoad(IWebBrowser browser, string url, string policy_url, IWebPluginInfo info);
     }
 }
