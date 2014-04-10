@@ -2,6 +2,9 @@
 using System.Windows;
 using System.Windows.Input;
 using CefSharp.Example;
+using CefSharp.Wpf.Example.Controls;
+using CefSharp.Wpf.Example.Mvvm;
+using CefSharp.Wpf.Example.Views.BrowserTab;
 using CefSharp.Wpf.Example.Views.Main;
 
 namespace CefSharp.Wpf.Example
@@ -22,16 +25,32 @@ namespace CefSharp.Wpf.Example
 			CommandBindings.Add(new CommandBinding(ApplicationCommands.New, OpenNewTab));
 			CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, CloseTab));
 			CommandBindings.Add(new CommandBinding(NavigationCommands.Refresh, ReloadTab));
+			CommandBindings.Add(new CommandBinding(CefBrowserRoutedCommands.FocusAddress, FocusAddress));
 			
 			Loaded += MainWindowLoaded;
 		}
 
+		//TODO: This is a bit of a hack - ideally would like to find a WPF/RoutedEvent method of passing the focus command
+		// Previously had the Command binding captured in the BrowserTabView which only works if it has focus - this will work in all cases
+		private void FocusAddress(object sender, ExecutedRoutedEventArgs e)
+		{
+			var view = GetCurrentView();
+			view.FocusAddress();
+		}
+
+		//TODO: Look at using routed commands as this isn't really a concern of the ViewModel
+		// It's more a presentation issue and should probably be handled by the View directly
 		private void ReloadTab(object sender, ExecutedRoutedEventArgs e)
 		{
-			//TODO: Look at using routed commands as this isn't really a concern of the ViewModel
-			// It's more a presentation issue and should probably be handled by the View directly
-			var currentViewModel = BrowserTabs[TabControl.SelectedIndex];
-			currentViewModel.WebBrowser.Reload(true);
+			var view = GetCurrentView();
+			view.Reload(true);
+		}
+
+		private BrowserTabView GetCurrentView()
+		{
+			var children = TabControl.FindChildren<BrowserTabView>();
+			
+			return children.Count == 0 ? null : children[TabControl.SelectedIndex];
 		}
 
 		private void CloseTab(object sender, ExecutedRoutedEventArgs e)

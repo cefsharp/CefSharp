@@ -103,6 +103,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controls\TabControlEx.cs" />
+    <Compile Include="Controls\VisualTreeExtensions.cs" />
     <Compile Include="Mvvm\CefBrowserRoutedCommands.cs" />
     <Compile Include="Mvvm\ViewModelBase.cs" />
     <Compile Include="Views\BrowserTab\BrowserTabView.xaml.cs">
