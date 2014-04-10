@@ -28,6 +28,8 @@ namespace CefSharp.Wpf.Example
 
 		private void ReloadTab(object sender, ExecutedRoutedEventArgs e)
 		{
+			//TODO: Look at using routed commands as this isn't really a concern of the ViewModel
+			// It's more a presentation issue and should probably be handled by the View directly
 			var currentViewModel = BrowserTabs[TabControl.SelectedIndex];
 			currentViewModel.WebBrowser.Reload(true);
 		}

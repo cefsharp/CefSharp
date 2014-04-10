@@ -1,5 +1,6 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
+using CefSharp.Wpf.Example.Mvvm;
 
 namespace CefSharp.Wpf.Example.Views.BrowserTab
 {
@@ -8,6 +9,14 @@ namespace CefSharp.Wpf.Example.Views.BrowserTab
         public BrowserTabView()
         {
             InitializeComponent();
+
+            CommandBindings.Add(new CommandBinding(CefBrowserRoutedCommands.FocusAddress, FocusAddress));
+        }
+
+        private void FocusAddress(object sender, ExecutedRoutedEventArgs e)
+        {
+            BrowserAddress.SelectAll();
+            BrowserAddress.Focus();
         }
 
         private void OnTextBoxGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)

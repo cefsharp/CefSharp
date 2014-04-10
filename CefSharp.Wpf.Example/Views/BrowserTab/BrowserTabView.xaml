@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
              xmlns:local="clr-namespace:CefSharp.Wpf.Example.Views.Main"
+             xmlns:mvvm="clr-namespace:CefSharp.Wpf.Example.Mvvm"
              mc:Ignorable="d"
              d:DesignWidth="640"
              d:DesignHeight="480"
@@ -12,6 +13,9 @@
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
+    <UserControl.InputBindings>
+        <KeyBinding Key="F6" Command="{x:Static mvvm:CefBrowserRoutedCommands.FocusAddress}" />
+    </UserControl.InputBindings>
     <Grid>
         <DockPanel>
             <DockPanel VerticalAlignment="Top"
@@ -191,6 +195,8 @@
                                       Command="{Binding WebBrowser.BackCommand}" />
                             <MenuItem Header="Forward"
                                       Command="{Binding WebBrowser.ForwardCommand}" />
+                            <MenuItem Header="Reload"
+                                      Command="{Binding WebBrowser.ReloadCommand}" />
                             <Separator />
                             <MenuItem Header="Zoom In"
                                       Command="{Binding WebBrowser.ZoomInCommand}" />
