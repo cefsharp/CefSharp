@@ -6,7 +6,6 @@ using CefSharp.Internals;
 using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -91,9 +90,9 @@ namespace CefSharp.Wpf
 
         private static void OnAddressChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
-            WebView owner = (WebView)sender;
-            string oldValue = (string)args.OldValue;
-            string newValue = (string)args.NewValue;
+            var owner = (WebView)sender;
+            var oldValue = (string)args.OldValue;
+            var newValue = (string)args.NewValue;
 
             owner.OnAddressChanged(oldValue, newValue);
         }
@@ -345,26 +344,12 @@ namespace CefSharp.Wpf
 
             disposables.Add(new DisposableEventWrapper(this, ActualHeightProperty, OnActualSizeChanged));
             disposables.Add(new DisposableEventWrapper(this, ActualWidthProperty, OnActualSizeChanged));
-        }
 
-        private class DisposableEventWrapper : IDisposable
-        {
-            public DependencyObject Source { get; private set; }
-            public DependencyProperty Property { get; private set; }
-            public EventHandler Handler { get; private set; }
-
-            public DisposableEventWrapper(DependencyObject source, DependencyProperty property, EventHandler handler)
-            {
-                Source = source;
-                Property = property;
-                Handler = handler;
-                DependencyPropertyDescriptor.FromProperty(Property, Source.GetType()).AddValueChanged(Source, Handler);
-            }
-
-            public void Dispose()
-            {
-                DependencyPropertyDescriptor.FromProperty(Property, Source.GetType()).RemoveValueChanged(Source, Handler);
-            }
+            CommandBindings.Add(new CommandBinding(NavigationCommands.BrowseBack, Back, (sender, e) => { e.CanExecute = CanGoBack; }));
+            CommandBindings.Add(new CommandBinding(NavigationCommands.BrowseForward, Forward, (sender, e) => { e.CanExecute = CanGoForward; }));
+            CommandBindings.Add(new CommandBinding(NavigationCommands.Refresh, Reload, (sender, e) => { e.CanExecute = CanReload; }));
+            CommandBindings.Add(new CommandBinding(NavigationCommands.IncreaseZoom, ZoomIn));
+            CommandBindings.Add(new CommandBinding(NavigationCommands.DecreaseZoom, ZoomOut));
         }
 
         private void DoInUi(Action action, DispatcherPriority priority = DispatcherPriority.DataBind)
@@ -800,14 +785,34 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter.GoBack();
         }
 
+        private void Back(object sender, ExecutedRoutedEventArgs e)
+        {
+            Back();
+        }
+
         private void Forward()
         {
             managedCefBrowserAdapter.GoForward();
         }
 
+        private void Forward(object sender, ExecutedRoutedEventArgs e)
+        {
+            Forward();
+        }
+
         public void Reload()
         {
-            managedCefBrowserAdapter.Reload();
+            managedCefBrowserAdapter.Reload(false);
+        }
+
+        public void Reload(bool ignoreCache)
+        {
+            managedCefBrowserAdapter.Reload(true);
+        }
+
+        private void Reload(object sender, ExecutedRoutedEventArgs e)
+        {
+            Reload();
         }
 
         private void ZoomIn()
@@ -818,12 +823,22 @@ namespace CefSharp.Wpf
             });
         }
 
+        private void ZoomIn(object sender, ExecutedRoutedEventArgs e)
+        {
+            ZoomIn();
+        }
+
         private void ZoomOut()
         {
             DoInUi(() =>
             {
                 ZoomLevel = ZoomLevel - ZoomLevelIncrement;
             });
+        }
+
+        private void ZoomOut(object sender, ExecutedRoutedEventArgs e)
+        {
+            ZoomOut();
         }
 
         private void ZoomReset()

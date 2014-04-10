@@ -80,5 +80,16 @@ namespace CefSharp.Wpf
         /// </summary>
         /// <remarks>This property is a Dependency Property and fully supports data binding.</remarks>
         double ZoomLevel { get; set; }
+
+        /// <summary>
+        /// Reloads the current WebView
+        /// </summary>
+        void Reload();
+
+        /// <summary>
+        /// Reloads the current WebView ignoring hte cache (refreshes the whole page and all resources)
+        /// </summary>
+        /// <param name="ignoreCache"></param>
+        void Reload(bool ignoreCache);
     }
 }

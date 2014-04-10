@@ -21,8 +21,15 @@ namespace CefSharp.Wpf.Example
 
 			CommandBindings.Add(new CommandBinding(ApplicationCommands.New, OpenNewTab));
 			CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, CloseTab));
-
+			CommandBindings.Add(new CommandBinding(NavigationCommands.Refresh, ReloadTab));
+			
 			Loaded += MainWindowLoaded;
+		}
+
+		private void ReloadTab(object sender, ExecutedRoutedEventArgs e)
+		{
+			var currentViewModel = BrowserTabs[TabControl.SelectedIndex];
+			currentViewModel.WebBrowser.Reload(true);
 		}
 
 		private void CloseTab(object sender, ExecutedRoutedEventArgs e)

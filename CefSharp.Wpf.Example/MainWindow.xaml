@@ -1,13 +1,16 @@
 ﻿<Window x:Class="CefSharp.Wpf.Example.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:controls="clr-namespace:CefSharp.Wpf.Example.Controls"
+        xmlns:controls="clr-namespace:CefSharp.Wpf.Example.Controls" xmlns:mvvm="clr-namespace:CefSharp.Wpf.Example.Mvvm"
         Title="CefSharp.Wpf.Example"
         WindowState="Maximized">
 
     <Window.InputBindings>
         <KeyBinding Key="t" Modifiers="Control" Command="New"/>
         <KeyBinding Key="w" Modifiers="Control" Command="Close"/>
+        <!--<KeyBinding Key="F6" Command="CefBrowserRoutedCommands.FocusAddress"/>-->
+        <KeyBinding Key="r" Modifiers="Control" Command="Refresh"/>
+        <!--<KeyBinding Key="F6" Command="{x:Static mvvm:CefBrowserRoutedCommands.FocusAddress}" />-->
     </Window.InputBindings>
     <Grid>
         <controls:TabControlEx x:Name="TabControl" Margin="0,5,0,0" ItemsSource="{Binding BrowserTabs, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="0">
