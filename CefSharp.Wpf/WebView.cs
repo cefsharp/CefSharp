@@ -176,9 +176,9 @@ namespace CefSharp.Wpf
 
         protected virtual void OnZoomLevelChanged(double oldValue, double newValue)
         {
-            if (!Cef.IsInitialized && !Cef.Initialize())
+            if (!Cef.IsInitialized)
             {
-                throw new InvalidOperationException("Cef::Initialize() failed");
+                throw new InvalidOperationException("Cef::IsInitialized is false");
             }
 
             managedCefBrowserAdapter.SetZoomLevel(newValue);
@@ -986,11 +986,5 @@ namespace CefSharp.Wpf
         {
             managedCefBrowserAdapter.ViewSource();
         }
-
-        //public double ZoomLevel
-        //{
-        //	get { return managedCefBrowserAdapter.GetZoomLevel(); }
-        //	set { managedCefBrowserAdapter.SetZoomLevel(value); }
-        //}
     }
 }
