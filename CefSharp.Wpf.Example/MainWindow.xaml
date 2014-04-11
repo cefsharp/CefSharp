@@ -10,10 +10,12 @@
         <KeyBinding Key="t" Modifiers="Control" Command="New"/>
         <KeyBinding Key="w" Modifiers="Control" Command="Close"/>
         <KeyBinding Key="r" Modifiers="Control" Command="Refresh"/>
+        <KeyBinding Key="F5" Command="Refresh"/>
+        <KeyBinding Key="F5" Modifiers="Control" Command="Refresh" CommandParameter="Force"/>
         <KeyBinding Key="F6" Command="{x:Static mvvm:CefBrowserRoutedCommands.FocusAddress}" />
     </Window.InputBindings>
-    <DockPanel>
-        <Menu Width="Auto" FontSize="14" IsMainMenu="True" DockPanel.Dock="Top">
+    <DockPanel Background="{StaticResource BackgroundKey}">
+        <Menu Width="Auto" FontSize="14" IsMainMenu="True" DockPanel.Dock="Top" Background="{StaticResource BackgroundKey}">
             <MenuItem Header="_File">
                 <MenuItem Header="New Tab" InputGestureText="CTRL-T" Command="New" />
                 <MenuItem Header="Close Tab" InputGestureText="CTRL-W" Command="Close" />
@@ -32,13 +34,12 @@
                 <MenuItem Header="About"/>
             </MenuItem>
         </Menu>
-        <Separator DockPanel.Dock="Top"/>
         <controls:TabControlEx x:Name="TabControl" Margin="0,5,0,0" ItemsSource="{Binding BrowserTabs, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="0">
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding Title}"/>
-                        <Button Content="X" Height="20" Width="20" FontFamily="Courier" FontWeight="Bold" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="Close" FontSize="10" Padding="0" ToolTip="Close"/>
+                        <Button Content="X" Height="20" Width="20" FontFamily="Courier" FontWeight="Bold" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="Close" FontSize="10" Margin="5, 0, 0, 0" ToolTip="Close Tab"/>
                     </StackPanel>
                 </DataTemplate>
             </TabControl.ItemTemplate>

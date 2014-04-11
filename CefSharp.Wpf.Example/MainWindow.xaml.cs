@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using CefSharp.Example;
@@ -30,8 +31,6 @@ namespace CefSharp.Wpf.Example
 			CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, CloseTab));
 			CommandBindings.Add(new CommandBinding(NavigationCommands.Refresh, ReloadTab));
 			CommandBindings.Add(new CommandBinding(CefBrowserRoutedCommands.FocusAddress, FocusAddress));
-
-			
 			
 			Loaded += MainWindowLoaded;
 		}
@@ -49,7 +48,10 @@ namespace CefSharp.Wpf.Example
 		private void ReloadTab(object sender, ExecutedRoutedEventArgs e)
 		{
 			var view = GetCurrentView();
-			view.Reload(true);
+
+			var forceReload = e.Parameter != null && string.Compare(e.Parameter.ToString(), "Force", StringComparison.OrdinalIgnoreCase) == 0;
+
+			view.Reload(forceReload);
 		}
 
 		private BrowserTabView GetCurrentView()

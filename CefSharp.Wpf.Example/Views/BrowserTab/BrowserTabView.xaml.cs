@@ -1,5 +1,6 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
+using CefSharp.Wpf.Example.Mvvm;
 
 namespace CefSharp.Wpf.Example.Views.BrowserTab
 {
@@ -8,6 +9,8 @@ namespace CefSharp.Wpf.Example.Views.BrowserTab
         public BrowserTabView()
         {
             InitializeComponent();
+
+            webView.RequestHandler = new DefaultRequestHandler();
         }
 
         public void FocusAddress()

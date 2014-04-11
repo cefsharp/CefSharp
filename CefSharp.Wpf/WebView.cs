@@ -802,12 +802,12 @@ namespace CefSharp.Wpf
 
         public void Reload()
         {
-            managedCefBrowserAdapter.Reload(false);
+            Reload(false);
         }
 
         public void Reload(bool ignoreCache)
         {
-            managedCefBrowserAdapter.Reload(true);
+            managedCefBrowserAdapter.Reload(ignoreCache);
         }
 
         private void Reload(object sender, ExecutedRoutedEventArgs e)
