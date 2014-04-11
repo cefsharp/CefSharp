@@ -1,0 +1,80 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d">
+
+    <!-- ********************************** THEME BRUSHES - For Color Tuner **********************************-->
+    <SolidColorBrush x:Key="Brush01" Color="#FF00AADE"/>
+    <SolidColorBrush x:Key="Brush02" Color="White"/>
+    <SolidColorBrush x:Key="Brush03" Color="#FFC6C6C6"/>
+    <SolidColorBrush x:Key="Brush04" Color="#FF565656"/>
+    <SolidColorBrush x:Key="Brush05" Color="#FF333333"/>
+    
+    <!-- ********************************** THEME COLORS **********************************-->
+    <!--Base Colors-->		
+    <Color x:Key="Color_000">#FF282828</Color>
+    <Color x:Key="Color_001">#FF3F3F3F</Color>
+    <Color x:Key="Color_002">#FF565656</Color>
+    <Color x:Key="Color_003">#FF858585</Color>
+    <Color x:Key="Color_004">#FFB9B9B9</Color>
+    <Color x:Key="Color_005">#FFD7D7D7</Color>
+    <Color x:Key="Color_006">#FFE7E7E7</Color>
+    <Color x:Key="Color_007">#FFF4F4F4</Color>
+    <Color x:Key="Color_008">#FFF9F9F9</Color>
+    <Color x:Key="Color_009">#FFFFFFFF</Color>
+    
+<!--Transparent and Whites with transparency-->		
+    <Color x:Key="Color_010">#E5FFFFFF</Color><!--90% White-->
+    <Color x:Key="Color_011">#BFFFFFFF</Color><!--75% White-->
+    <Color x:Key="Color_012">#99FFFFFF</Color><!--60% White-->
+    <Color x:Key="Color_013">#72FFFFFF</Color><!--45% White-->
+    <Color x:Key="Color_014">#4CFFFFFF</Color><!--30% White-->
+    <Color x:Key="Color_016">#00FFFFFF</Color><!--0% White-->
+                        
+<!--Blacks and grays with transparency-->		
+    <Color x:Key="Color_018">#72000000</Color><!--45% Black-->
+    <Color x:Key="Color_019">#4C000000</Color><!--30% Black-->
+    <Color x:Key="Color_020">#26000000</Color><!--15% Black-->
+    <Color x:Key="Color_021">#00000000</Color><!--0% Black-->
+    <Color x:Key="Color_022">#66E2E2E2</Color>
+    
+<!--Theme Accent colors -->		
+    <Color x:Key="Color_023">#FF0086AF</Color>
+    <Color x:Key="Color_024">#FF00AADE</Color>
+    <Color x:Key="Color_025">#FF80D5EF</Color>
+    <Color x:Key="Color_026">#FFB2E1EF</Color>
+    <Color x:Key="Color_027">#2600AADE</Color>
+    
+<!--Theme Error colors -->		
+    <Color x:Key="Color_028">#FFD0284C</Color>
+    <Color x:Key="Color_029">#FFF55E7F</Color>
+    <Color x:Key="Color_030">#FFFFCAD5</Color>
+    
+<!--Colors for Chart Series-->		
+    <Color x:Key="Color_035">#FF006481</Color>
+    <Color x:Key="Color_037">#FF8A9B0F</Color>
+    <Color x:Key="Color_038">#FF3E4700</Color>
+    <Color x:Key="Color_040">#FFF14D0F</Color>
+    <Color x:Key="Color_041">#FF8D2E00</Color>
+    <Color x:Key="Color_043">#FF81106B</Color>
+    <Color x:Key="Color_044">#FF410135</Color>
+    <Color x:Key="Color_046">#FFFCA910</Color>
+    <Color x:Key="Color_047">#FF8D4902</Color>
+    <Color x:Key="Color_049">#FF037A54</Color>
+    <Color x:Key="Color_050">#FF003F2A</Color>
+    <Color x:Key="Color_052">#FF154D85</Color>
+    <Color x:Key="Color_053">#FF02284D</Color>
+    <Color x:Key="Color_055">#FF543511</Color>
+    <Color x:Key="Color_056">#FF211303</Color>
+    <Color x:Key="Color_058">#FF89806D</Color>
+    <Color x:Key="Color_059">#FF393225</Color>
+    <Color x:Key="Color_061">#FF58458B</Color>
+    <Color x:Key="Color_062">#FF211347</Color>
+    <Color x:Key="Color_063">#7FB9B9B9</Color>
+    <Color x:Key="Color_064">#33565656</Color>
+    <Color x:Key="Color_065">#7F3F3F3F</Color>
+    <Color x:Key="Color_066">#FF686868</Color>
+    <Color x:Key="Color_067">#8000AADE</Color>
+    <Color x:Key="Color_068">#CC3F3F3F</Color>
+</ResourceDictionary>

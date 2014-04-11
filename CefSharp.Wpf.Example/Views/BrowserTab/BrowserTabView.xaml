@@ -8,7 +8,7 @@
              mc:Ignorable="d"
              d:DesignWidth="640"
              d:DesignHeight="480"
-             d:DataContext="{d:DesignInstance local:MainViewModel}">
+             d:DataContext="{d:DesignInstance local:BrowserTabViewModel}">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
@@ -34,6 +34,7 @@
                         DockPanel.Dock="Right"
                         Command="{Binding GoCommand}">Go</Button>
                 <TextBox Height="23"
+                         x:Name="BrowserAddress"
                          Text="{Binding AddressEditable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          GotKeyboardFocus="OnTextBoxGotKeyboardFocus"
                          GotMouseCapture="OnTextBoxGotMouseCapture">
@@ -190,9 +191,18 @@
                                       Command="{Binding WebBrowser.BackCommand}" />
                             <MenuItem Header="Forward"
                                       Command="{Binding WebBrowser.ForwardCommand}" />
+                            <MenuItem Header="Reload"
+                                      Command="{Binding WebBrowser.ReloadCommand}" />
+                            <Separator />
+                            <MenuItem Header="Zoom In"
+                                      Command="{Binding WebBrowser.ZoomInCommand}" />
+                            <MenuItem Header="Zoom Out"
+                                      Command="{Binding WebBrowser.ZoomOutCommand}" />
+                            <MenuItem Header="Zoom Reset"
+                                      Command="{Binding WebBrowser.ZoomResetCommand}" />
                             <Separator />
                             <MenuItem Header="View Source"
-                                      Command="{Binding ViewSourceCommand}" />
+                                      Command="{Binding WebBrowser.ViewSourceCommand}" />
                         </ContextMenu>
                     </FrameworkElement.ContextMenu>
                 </cefSharp:WebView>

@@ -1,14 +1,14 @@
-﻿using System;
+using System;
 using System.Windows.Input;
 
-namespace CefSharp.Wpf.Example.Mvvm
+namespace CefSharp.Wpf
 {
-    public class DelegateCommand : ICommand
+    internal class DelegateCommand<T> : ICommand
     {
-        private readonly Action commandHandler;
-        private readonly Func<bool> canExecuteHandler;
+        private readonly Action<T> commandHandler;
+        private readonly Func<T, bool> canExecuteHandler;
 
-        public DelegateCommand(Action commandHandler, Func<bool> canExecuteHandler = null)
+        public DelegateCommand(Action<T> commandHandler, Func<T, bool> canExecuteHandler = null)
         {
             this.commandHandler = commandHandler;
             this.canExecuteHandler = canExecuteHandler;
@@ -16,14 +16,14 @@ namespace CefSharp.Wpf.Example.Mvvm
 
         public void Execute(object parameter)
         {
-            commandHandler();
+            commandHandler((T)parameter);
         }
 
         public bool CanExecute(object parameter)
         {
             return
                 canExecuteHandler == null ||
-                canExecuteHandler();
+                canExecuteHandler((T)parameter);
         }
 
         public event EventHandler CanExecuteChanged;

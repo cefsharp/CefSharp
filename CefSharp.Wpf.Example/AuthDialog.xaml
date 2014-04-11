@@ -1,0 +1,19 @@
+﻿<Window x:Class="CefSharp.Wpf.Example.AuthDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        FocusManager.FocusedElement="{Binding ElementName=UserNameTextBox}"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="ToolWindow"
+        Title="Website Authentication"
+        Height="200" Width="300">
+    <StackPanel Margin="10">
+        <TextBlock Text="UserName" />
+        <TextBox Text="{Binding UserName}" x:Name="UserNameTextBox" />
+        <TextBlock Text="Password" />
+        <PasswordBox PasswordChanged="PasswordBoxPasswordChanged" />
+        <DockPanel LastChildFill="False" Margin="0, 10, 0, 0">
+            <Button Content="Ok" Command="Close" CommandParameter="True" Width="100" DockPanel.Dock="Left" IsDefault="True" />
+            <Button Content="Cancel" Command="Close" CommandParameter="False" Width="100" DockPanel.Dock="Right" />
+        </DockPanel>
+    </StackPanel>
+</Window>

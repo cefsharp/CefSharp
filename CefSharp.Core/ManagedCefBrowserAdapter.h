@@ -208,11 +208,23 @@ namespace CefSharp
 
         void Reload()
         {
+            Reload(false);
+        }
+
+        void Reload(bool ignoreCache)
+        {
             auto cefBrowser = _renderClientAdapter->GetCefBrowser();
 
             if (cefBrowser != nullptr)
             {
-                cefBrowser->Reload();
+                if(ignoreCache)
+                {
+                    cefBrowser->ReloadIgnoreCache();
+                }
+                else
+                {
+                    cefBrowser->Reload();
+                }
             }
         }
 
@@ -279,6 +291,28 @@ namespace CefSharp
             else
             {
                 return nullptr;
+            }
+        }
+
+        double GetZoomLevel()
+        {
+            auto cefHost = _renderClientAdapter->TryGetCefHost();
+
+            if (cefHost != nullptr)
+            {
+                return cefHost->GetZoomLevel();
+            }
+            
+            return 0;
+        }
+
+        void SetZoomLevel(double zoomLevel)
+        {
+            auto cefHost = _renderClientAdapter->TryGetCefHost();
+
+            if (cefHost != nullptr)
+            {
+                cefHost->SetZoomLevel(zoomLevel);
             }
         }
 
