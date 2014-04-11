@@ -344,12 +344,6 @@ namespace CefSharp.Wpf
 
             disposables.Add(new DisposableEventWrapper(this, ActualHeightProperty, OnActualSizeChanged));
             disposables.Add(new DisposableEventWrapper(this, ActualWidthProperty, OnActualSizeChanged));
-
-            CommandBindings.Add(new CommandBinding(NavigationCommands.BrowseBack, Back, (sender, e) => { e.CanExecute = CanGoBack; }));
-            CommandBindings.Add(new CommandBinding(NavigationCommands.BrowseForward, Forward, (sender, e) => { e.CanExecute = CanGoForward; }));
-            CommandBindings.Add(new CommandBinding(NavigationCommands.Refresh, Reload, (sender, e) => { e.CanExecute = CanReload; }));
-            CommandBindings.Add(new CommandBinding(NavigationCommands.IncreaseZoom, ZoomIn));
-            CommandBindings.Add(new CommandBinding(NavigationCommands.DecreaseZoom, ZoomOut));
         }
 
         private void DoInUi(Action action, DispatcherPriority priority = DispatcherPriority.DataBind)
@@ -785,19 +779,9 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter.GoBack();
         }
 
-        private void Back(object sender, ExecutedRoutedEventArgs e)
-        {
-            Back();
-        }
-
         private void Forward()
         {
             managedCefBrowserAdapter.GoForward();
-        }
-
-        private void Forward(object sender, ExecutedRoutedEventArgs e)
-        {
-            Forward();
         }
 
         public void Reload()
@@ -810,11 +794,6 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter.Reload(ignoreCache);
         }
 
-        private void Reload(object sender, ExecutedRoutedEventArgs e)
-        {
-            Reload();
-        }
-
         private void ZoomIn()
         {
             DoInUi(() =>
@@ -823,22 +802,12 @@ namespace CefSharp.Wpf
             });
         }
 
-        private void ZoomIn(object sender, ExecutedRoutedEventArgs e)
-        {
-            ZoomIn();
-        }
-
         private void ZoomOut()
         {
             DoInUi(() =>
             {
                 ZoomLevel = ZoomLevel - ZoomLevelIncrement;
             });
-        }
-
-        private void ZoomOut(object sender, ExecutedRoutedEventArgs e)
-        {
-            ZoomOut();
         }
 
         private void ZoomReset()
