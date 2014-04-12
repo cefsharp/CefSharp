@@ -7,6 +7,8 @@
 #include "Stdafx.h"
 #include "include/cef_v8.h"
 
+using namespace System;
+
 namespace CefSharp
 {
     private class TypeUtils

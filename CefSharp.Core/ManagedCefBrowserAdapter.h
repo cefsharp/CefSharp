@@ -271,10 +271,6 @@ namespace CefSharp
             }
         }
 
-        virtual void Error( Exception^ ex )
-        {
-        }
-
         void CreateBrowser(BrowserSettings^ browserSettings, IntPtr^ sourceHandle, String^ address)
         {
             HWND hwnd = static_cast<HWND>(sourceHandle->ToPointer());
@@ -285,7 +281,7 @@ namespace CefSharp
             CefString addressNative = StringUtils::ToNative(address);
 
             CefBrowserHost::CreateBrowser(window, _renderClientAdapter, addressNative,
-                *(CefBrowserSettings*) browserSettings->_internalBrowserSettings, NULL);
+                *(CefBrowserSettings*)browserSettings->_internalBrowserSettings, NULL);
         }
 
         void OnSizeChanged(IntPtr^ sourceHandle)
@@ -314,8 +310,23 @@ namespace CefSharp
             // safe, unless we hold on to a reference to this browser...
             auto cefBrowser = (CefBrowser*)(void*)browser;
             auto browserId = cefBrowser->GetIdentifier();
-            auto serviceName = SubprocessProxySupport::GetServiceName(Process::GetCurrentProcess()->Id, browserId);
-            _javaScriptProxy = SubprocessProxySupport::CreateSubprocessProxyClient(serviceName, this);
+            auto serviceName = SubprocessProxyFactory::GetServiceName(Process::GetCurrentProcess()->Id, browserId);
+            _javaScriptProxy = SubprocessProxyFactory::CreateSubprocessProxyClient(serviceName, this);
+        }
+
+        virtual Object^ CallMethod(int objectId, String^ name, array<Object^>^ parameters)
+        {
+            throw gcnew NotImplementedException();
+        }
+
+        virtual Object^ GetProperty(int objectId, String^ name)
+        {
+            throw gcnew NotImplementedException();
+        }
+
+        virtual Object^ SetProperty(int objectId, String^ name)
+        {
+            throw gcnew NotImplementedException();
         }
     };
 }

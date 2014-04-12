@@ -35,16 +35,10 @@
     <ClCompile Include="Internals\StreamAdapter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TypeUtils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SchemeHandlerWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SchemeHandlerResponse.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CefAppWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -94,9 +88,6 @@
     <ClInclude Include="Internals\RenderClientAdapter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TypeUtils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SchemeHandlerWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -106,20 +97,8 @@
     <ClInclude Include="ManagedCefBrowserAdapter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Wrappers\CefSubprocessWrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Wrappers\CefAppWrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CefSettings.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="JavascriptPropertyHandler.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="JavascriptMethodHandler.h">
-      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

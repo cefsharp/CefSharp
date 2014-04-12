@@ -7,10 +7,10 @@ using namespace System::Runtime::InteropServices;
 using namespace System::Security::Permissions;
 using namespace CefSharp;
 
-[assembly:AssemblyTitle("CefSharp.Core")];
-[assembly:AssemblyCompany(AssemblyInfo::AssemblyCompany)];
-[assembly:AssemblyProduct(AssemblyInfo::AssemblyProduct)];
-[assembly:AssemblyCopyright(AssemblyInfo::AssemblyCopyright)];
+//[assembly:AssemblyTitle("CefSharpBrowserSubprocess.Core")];
+//[assembly:AssemblyCompany(AssemblyInfo::AssemblyCompany)];
+//[assembly:AssemblyProduct(AssemblyInfo::AssemblyProduct)];
+//[assembly:AssemblyCopyright(AssemblyInfo::AssemblyCopyright)];
 
 [assembly:AssemblyVersion(AssemblyInfo::AssemblyVersion)];
 [assembly:ComVisible(AssemblyInfo::ComVisible)];
@@ -23,6 +23,3 @@ using namespace CefSharp;
 [assembly:AssemblyCulture("")];
 
 [assembly:InternalsVisibleTo(AssemblyInfo::CefSharpBrowserSubprocessProject)];
-[assembly:InternalsVisibleTo(AssemblyInfo::CefSharpWpfProject)];
-[assembly:InternalsVisibleTo(AssemblyInfo::CefSharpWinFormsProject)];
-[assembly:InternalsVisibleTo(AssemblyInfo::CefSharpTestProject)];

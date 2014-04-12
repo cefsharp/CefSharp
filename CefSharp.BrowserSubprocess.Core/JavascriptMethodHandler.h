@@ -4,9 +4,11 @@
 
 #include "Stdafx.h"
 
+#include "include/cef_v8.h"
+
 namespace CefSharp
 {
-    private class BindingHandler : public CefV8Handler
+    private class JavascriptMethodHandler : public CefV8Handler
     {
         virtual bool Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception)
         {
@@ -14,6 +16,6 @@ namespace CefSharp
             return false;
         }
 
-        IMPLEMENT_REFCOUNTING(PropertyAccessor)
+        IMPLEMENT_REFCOUNTING(JavascriptMethodHandler)
     };
 }

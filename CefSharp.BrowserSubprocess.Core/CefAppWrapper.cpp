@@ -4,7 +4,10 @@
 
 #include "Stdafx.h"
 
-#include "Wrappers\CefAppWrapper.h"
+#include "CefAppWrapper.h"
+
+using namespace System;
+using namespace System::Diagnostics;
 
 namespace CefSharp
 {

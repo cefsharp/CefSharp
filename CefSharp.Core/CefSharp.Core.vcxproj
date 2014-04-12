@@ -215,7 +215,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
-    <ClCompile Include="CefAppWrapper.cpp" />
     <ClCompile Include="Internals\ClientAdapter.cpp" />
     <ClCompile Include="Internals\CookieVisitor.cpp" />
     <ClCompile Include="Internals\CefRequestWrapper.cpp" />
@@ -230,14 +229,10 @@
     </ClCompile>
     <ClCompile Include="Internals\StringUtils.cpp" />
     <ClCompile Include="Internals\StreamAdapter.cpp" />
-    <ClCompile Include="TypeUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BrowserSettings.h" />
     <ClInclude Include="Cef.h" />
-    <ClInclude Include="JavascriptMethodHandler.h" />
-    <ClInclude Include="JavascriptPropertyHandler.h" />
-    <ClInclude Include="Wrappers\CefAppWrapper.h" />
     <ClInclude Include="Internals\DownloadAdapter.h" />
     <ClInclude Include="Internals\ClientAdapter.h" />
     <ClInclude Include="Internals\CookieVisitor.h" />
@@ -254,9 +249,7 @@
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="Internals\StringUtils.h" />
     <ClInclude Include="Internals\StreamAdapter.h" />
-    <ClInclude Include="TypeUtils.h" />
     <ClInclude Include="vcclr_local.h" />
-    <ClInclude Include="Wrappers\CefSubprocessWrapper.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CefSharp\CefSharp.csproj">
