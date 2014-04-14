@@ -639,13 +639,17 @@ namespace CefSharp.Wpf
 
             if (e.IsDown && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
             {
-                if (e.Key == Key.C)
+                switch (e.Key)
                 {
-                    managedCefBrowserAdapter.Copy();
-                }
-                else if (e.Key == Key.V)
-                {
-                    managedCefBrowserAdapter.Paste();
+                    case Key.X:
+                        managedCefBrowserAdapter.Cut();
+                        break;
+                    case Key.C:
+                        managedCefBrowserAdapter.Copy();
+                        break;
+                    case Key.V:
+                        managedCefBrowserAdapter.Paste();
+                        break;
                 }
             }
         }
