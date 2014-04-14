@@ -226,6 +226,16 @@ namespace CefSharp
             }
         }
 
+        void Cut()
+        {
+            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame(); 
+            
+            if (cefFrame != nullptr)
+            {
+                cefFrame->Cut();
+            }
+        }
+
         void Copy()
         {
             auto cefFrame = _renderClientAdapter->TryGetCefMainFrame(); 
