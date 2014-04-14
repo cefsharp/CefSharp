@@ -774,7 +774,12 @@ namespace CefSharp.Wpf
 
         public void Reload()
         {
-            managedCefBrowserAdapter.Reload();
+            Reload(false);
+        }
+
+        public void Reload(bool ignoreCache)
+        {
+            managedCefBrowserAdapter.Reload(ignoreCache);
         }
 
         public void ShowDevTools()
