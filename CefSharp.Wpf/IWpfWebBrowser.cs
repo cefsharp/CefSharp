@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
 namespace CefSharp.Wpf
 {
@@ -44,6 +43,21 @@ namespace CefSharp.Wpf
         ICommand ReloadCommand { get; }
 
         /// <summary>
+        /// Command which increases the zoom level
+        /// </summary>
+        ICommand ZoomInCommand { get; }
+
+        /// <summary>
+        /// Command which decreases the zoom level
+        /// </summary>
+        ICommand ZoomOutCommand { get; }
+
+        /// <summary>
+        /// Command which resets the zoom level to default
+        /// </summary>
+        ICommand ZoomResetCommand { get; }
+
+        /// <summary>
         /// Opens up a new program window (using the default text editor) where the source code of the currently displayed web
         /// page is shown.
         /// </summary>
@@ -55,5 +69,11 @@ namespace CefSharp.Wpf
         /// <returns><c>true</c> if keyboard focus and logical focus were set to this element; <c>false</c> if only logical focus
         /// was set to this element, or if the call to this method did not force the focus to change.</returns>
         bool Focus();
+
+        /// <summary>
+        /// The zoom level at which the browser control is currently displaying. Can be set to 0 to clear the zoom level(resets to default zoom level)
+        /// </summary>
+        /// <remarks>This property is a Dependency Property and fully supports data binding.</remarks>
+        double ZoomLevel { get; set; }
     }
 }
