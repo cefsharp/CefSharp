@@ -19,7 +19,7 @@ namespace CefSharp
             MCefRefPtr<CefWebPluginInfo> _wrappedInfo;
 
         internal:
-			CefWebPluginInfoWrapper(CefRefPtr<CefWebPluginInfo> cefInfo) : _wrappedInfo(cefInfo) {}
+            CefWebPluginInfoWrapper(CefRefPtr<CefWebPluginInfo> cefInfo) : _wrappedInfo(cefInfo) {}
 
         public:
             virtual property String^ Description { String^ get(); }

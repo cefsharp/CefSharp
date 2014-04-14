@@ -187,13 +187,13 @@ namespace CefSharp
         }
         */
 
-		// CEF3 API: public virtual bool OnBeforePluginLoad( CefRefPtr< CefBrowser > browser, const CefString& url, const CefString& policy_url, CefRefPtr< CefWebPluginInfo > info );
-		// ---
-		// return value:
-		//     false: Load Plugin (do not block it)
-		//     true:  Ignore Plugin (Block it)
-		bool ClientAdapter::OnBeforePluginLoad( CefRefPtr< CefBrowser > browser, const CefString& url, const CefString& policy_url, CefRefPtr< CefWebPluginInfo > info )
-		{
+        // CEF3 API: public virtual bool OnBeforePluginLoad( CefRefPtr< CefBrowser > browser, const CefString& url, const CefString& policy_url, CefRefPtr< CefWebPluginInfo > info );
+        // ---
+        // return value:
+        //     false: Load Plugin (do not block it)
+        //     true:  Ignore Plugin (Block it)
+        bool ClientAdapter::OnBeforePluginLoad( CefRefPtr< CefBrowser > browser, const CefString& url, const CefString& policy_url, CefRefPtr< CefWebPluginInfo > info )
+        {
             IRequestHandler^ handler = _browserControl->RequestHandler;
 
             if (handler == nullptr)
@@ -201,10 +201,10 @@ namespace CefSharp
                 return false;
             }
 
-			CefWebPluginInfoWrapper^ wrapper = gcnew CefWebPluginInfoWrapper(info);
+            CefWebPluginInfoWrapper^ wrapper = gcnew CefWebPluginInfoWrapper(info);
 
-			return handler->OnBeforePluginLoad(_browserControl, StringUtils::ToClr(url), StringUtils::ToClr(policy_url), wrapper);
-		}
+            return handler->OnBeforePluginLoad(_browserControl, StringUtils::ToClr(url), StringUtils::ToClr(policy_url), wrapper);
+        }
 
         bool ClientAdapter::OnBeforeResourceLoad(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request)
         {

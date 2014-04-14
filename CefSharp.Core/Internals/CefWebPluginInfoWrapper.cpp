@@ -9,7 +9,7 @@ namespace CefSharp
 {
     namespace Internals
     {
-		String^ CefWebPluginInfoWrapper::Description::get()
+        String^ CefWebPluginInfoWrapper::Description::get()
         {
             return StringUtils::ToClr(_wrappedInfo->GetDescription());
         }
@@ -28,5 +28,5 @@ namespace CefSharp
         {
             return StringUtils::ToClr(_wrappedInfo->GetVersion());
         }
-}
+    }
 }
