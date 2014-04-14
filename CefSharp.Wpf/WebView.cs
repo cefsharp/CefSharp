@@ -153,10 +153,6 @@ namespace CefSharp.Wpf
 
         #region ZoomLevel dependency property
 
-        /// <summary>
-        /// The zoom level at which the browser control is currently displaying. Can be set to 0 to clear the zoom level(resets to default zoom level)
-        /// </summary>
-        /// <remarks>This property is a Dependency Property and fully supports data binding.</remarks>
         public double ZoomLevel
         {
             get { return (double)GetValue(ZoomLevelProperty); }
