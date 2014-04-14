@@ -71,7 +71,8 @@ namespace CefSharp.Wpf
         bool Focus();
 
         /// <summary>
-        /// The zoom level at which the browser control is currently displaying. Can be set to 0 to clear the zoom level(resets to default zoom level)
+        /// The zoom level at which the browser control is currently displaying. Can be set to 0 to clear the zoom level (resets to
+        /// default zoom level)
         /// </summary>
         /// <remarks>This property is a Dependency Property and fully supports data binding.</remarks>
         double ZoomLevel { get; set; }
