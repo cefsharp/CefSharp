@@ -20,6 +20,8 @@ namespace CefSharp.Wpf
 {
     public class WebView : ContentControl, IRenderWebBrowser, IWpfWebBrowser
     {
+        private static readonly Key[] KeysToSendtoBrowser = new[] { Key.Tab, Key.Home, Key.End, Key.Left, Key.Right, Key.Up, Key.Down };
+
         private HwndSource source;
         private HwndSourceHook sourceHook;
         private DispatcherTimer tooltipTimer;
@@ -443,7 +445,7 @@ namespace CefSharp.Wpf
                         return IntPtr.Zero;
                     }
 
-                    if (managedCefBrowserAdapter.SendKeyEvent(message, wParam.ToInt32()))
+                    if (managedCefBrowserAdapter.SendKeyEvent(message, wParam.ToInt32(), 0))
                     {
                         handled = true;
                     }
@@ -555,6 +557,28 @@ namespace CefSharp.Wpf
             return modifiers;
         }
 
+        private static CefEventFlags GetModifiers(KeyEventArgs e)
+        {
+            CefEventFlags modifiers = 0;
+
+            if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Shift))
+            {
+                modifiers |= CefEventFlags.ShiftDown;
+            }
+
+            if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Alt))
+            {
+                modifiers |= CefEventFlags.AltDown;
+            }
+
+            if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Control))
+            {
+                modifiers |= CefEventFlags.ControlDown;
+            }
+
+            return modifiers;
+        }
+
         private void SetPopupSizeAndPositionImpl(int width, int height, int x, int y)
         {
             popup.Width = width;
@@ -628,12 +652,13 @@ namespace CefSharp.Wpf
             // we have to handle these extra keys here. Hooking the Tab key like this makes the tab focusing in essence work like
             // KeyboardNavigation.TabNavigation="Cycle"; you will never be able to Tab out of the web browser control.
 
-            if (e.Key == Key.Tab ||
-                new[] { Key.Left, Key.Right, Key.Up, Key.Down }.Contains(e.Key))
+            if (KeysToSendtoBrowser.Contains(e.Key))
             {
                 var message = (int)(e.IsDown ? WM.KEYDOWN : WM.KEYUP);
                 var virtualKey = KeyInterop.VirtualKeyFromKey(e.Key);
-                managedCefBrowserAdapter.SendKeyEvent(message, virtualKey);
+
+                var modifiers = GetModifiers(e);
+                managedCefBrowserAdapter.SendKeyEvent(message, virtualKey, modifiers);
                 e.Handled = true;
             }
 

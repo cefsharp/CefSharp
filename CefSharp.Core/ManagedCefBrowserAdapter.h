@@ -112,7 +112,7 @@ namespace CefSharp
             }
         }
 
-        bool SendKeyEvent(int message, int wParam)
+        bool SendKeyEvent(int message, int wParam, CefEventFlags modifiers)
         {
             auto cefHost = _renderClientAdapter->TryGetCefHost();
 
@@ -135,6 +135,8 @@ namespace CefSharp
                     message == WM_SYSKEYDOWN ||
                     message == WM_SYSKEYUP ||
                     message == WM_SYSCHAR;
+
+                keyEvent.modifiers = (uint32)modifiers;
 
                 cefHost->SendKeyEvent(keyEvent);
                 return true;
