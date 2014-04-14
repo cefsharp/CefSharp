@@ -208,11 +208,23 @@ namespace CefSharp
 
         void Reload()
         {
+            Reload(false);
+        }
+
+        void Reload(bool ignoreCache)
+        {
             auto cefBrowser = _renderClientAdapter->GetCefBrowser();
 
             if (cefBrowser != nullptr)
             {
-                cefBrowser->Reload();
+                if(ignoreCache)
+                {
+                    cefBrowser->ReloadIgnoreCache();
+                }
+                else
+                {
+                    cefBrowser->Reload();
+                }
             }
         }
 

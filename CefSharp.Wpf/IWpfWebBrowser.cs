@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
 namespace CefSharp.Wpf
 {
@@ -55,5 +54,16 @@ namespace CefSharp.Wpf
         /// <returns><c>true</c> if keyboard focus and logical focus were set to this element; <c>false</c> if only logical focus
         /// was set to this element, or if the call to this method did not force the focus to change.</returns>
         bool Focus();
+
+        /// <summary>
+        /// Reloads the current WebView
+        /// </summary>
+        void Reload();
+
+        /// <summary>
+        /// Reloads the current WebView ignoring hte cache (refreshes the whole page and all resources)
+        /// </summary>
+        /// <param name="ignoreCache"></param>
+        void Reload(bool ignoreCache);
     }
 }
