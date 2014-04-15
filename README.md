@@ -29,7 +29,7 @@ See the [SF Downloads](https://sourceforge.net/projects/cefsharp/files/) page fo
 
 * Development is done in the `master` branch, which *used to be called* `CefSharp3` during the development cycle. New features are preferably added in feature branches, if the changes are more than trivial.
 * Ultra-stable/LTS work is done in `CefSharp1`.
-* [The CefSharp Authors page](https://github.com/cefsharp/CefSharp) is the recommended starting place. This is the "official" CefSharp fork, as maintained by the CefSharp community. You can also view [the entire network of public forks/branches](https://github.com/cefsharp/CefSharp/network).
+* [The CefSharp GitHub project page](https://github.com/cefsharp/CefSharp) is the recommended starting place. This is the "official" CefSharp fork, as maintained by the CefSharp community. You can also view [the entire network of public forks/branches](https://github.com/cefsharp/CefSharp/network).
 
 # Links
 
