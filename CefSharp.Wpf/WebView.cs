@@ -278,11 +278,7 @@ namespace CefSharp.Wpf
 
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
 
-            BrowserSettings settings = new CefSharp.BrowserSettings();
-            settings.Plugins = BrowserSettingsState.ENABLED;
-
-            //managedCefBrowserAdapter.CreateOffscreenBrowser(BrowserSettings ?? new BrowserSettings());
-            managedCefBrowserAdapter.CreateOffscreenBrowser(settings);
+            managedCefBrowserAdapter.CreateOffscreenBrowser(BrowserSettings ?? new BrowserSettings());
 
             disposables.Add(managedCefBrowserAdapter);
 
