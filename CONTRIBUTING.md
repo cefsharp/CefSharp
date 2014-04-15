@@ -11,6 +11,7 @@ Thanks for your interest in contributing to the project! Please follow these sim
 - Most importantly, **use spaces** - do not use tabs (which is the default setting for C++ projects in Visual Studio).
 - The "preview" function when creating a Pull Request on GitHub is very useful for identifying whitespace issues (and for checking out the impact of your changes) - please use it.
 - Max number of columns are 132, please format your code accordingly
+- Please don't add #Regions to the code
 - When adding new files, please prepend the standard license disclaimer (just copy and paste from another source file)
 - Do your best to follow these guidelines but don't be afraid to make mistakes when trying to apply them. We are all novices in the beginning.
 
