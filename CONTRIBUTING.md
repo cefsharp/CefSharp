@@ -14,7 +14,7 @@ Thanks for your interest in contributing to the project! Please follow these sim
 - Do your best to follow these guidelines but don't be afraid to make mistakes when trying to apply them. We are all novices in the beginning.
 
 ### Pull Requests/Feature Branches
-- Please limit your changes to a logical grouping, keeping changesets small increases the likely hood they will be merged
+- Please limit your changes to a logical grouping, keeping changesets small increases the likelihood they will be merged
 - If you then want to make subsequent changes, it's actually best to not do them before the feature is merged. Please wait for feedback/review before progressing. This greatly improves our ability to review your changes and dramatically increases the likelihood they will be merged in a timely fashion.
 - If you wish to keep progressing on your work, please maintain a feature branch independent of the branch referenced by your pull request. From your WIP branch you can selectively merge in changes to the PR branch as required.
-- In general, it's much better to be "too granular" PR's that contain "change-the-world"-kind of changes, which usually tend to lag behind a lot longer before getting merged (if they ever will...).
+- In general, it's much better to be "too granular" with PR's that contain "change-the-world"-kind of changes, which usually tend to lag behind a lot longer before getting merged (if they ever will...).
