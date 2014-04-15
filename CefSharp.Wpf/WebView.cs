@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2013 The CefSharp Project. All rights reserved.
+﻿// Copyright © 2010-2014 The CefSharp Project. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -20,7 +20,12 @@ namespace CefSharp.Wpf
 {
     public class WebView : ContentControl, IRenderWebBrowser, IWpfWebBrowser
     {
-        private static readonly Key[] KeysToSendtoBrowser = new[] { Key.Tab, Key.Home, Key.End, Key.Left, Key.Right, Key.Up, Key.Down };
+        private static readonly Key[] KeysToSendtoBrowser = new[] { 
+            Key.Tab, 
+            Key.Home, Key.End, 
+            Key.Left, Key.Right, 
+            Key.Up, Key.Down 
+        };
 
         private HwndSource source;
         private HwndSourceHook sourceHook;
@@ -390,8 +395,8 @@ namespace CefSharp.Wpf
 
         private static void OnApplicationExit(object sender, ExitEventArgs e)
         {
-            // TODO: This prevents AccessViolation on shutdown, but it would be better handled by the Cef class; the WebView control
-            // should not explicitly have to perform this.
+            // TODO: This prevents AccessViolation on shutdown, but it would be better handled by the Cef class; the WebView 
+            // control should not explicitly have to perform this.
             if (Cef.IsInitialized)
             {
                 GC.Collect();
@@ -954,11 +959,13 @@ namespace CefSharp.Wpf
             {
                 if (bitmapInfo.IsPopup)
                 {
-                    bitmapInfo.InteropBitmap = SetBitmapHelper(bitmapInfo, (InteropBitmap)bitmapInfo.InteropBitmap, bitmap => popupImage.Source = bitmap);
+                    bitmapInfo.InteropBitmap = SetBitmapHelper(bitmapInfo, 
+                        (InteropBitmap)bitmapInfo.InteropBitmap, bitmap => popupImage.Source = bitmap);
                 }
                 else
                 {
-                    bitmapInfo.InteropBitmap = SetBitmapHelper(bitmapInfo, (InteropBitmap)bitmapInfo.InteropBitmap, bitmap => image.Source = bitmap);
+                    bitmapInfo.InteropBitmap = SetBitmapHelper(bitmapInfo,
+                        (InteropBitmap)bitmapInfo.InteropBitmap, bitmap => image.Source = bitmap);
                 }
             }
         }
