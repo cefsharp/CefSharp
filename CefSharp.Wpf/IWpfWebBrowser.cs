@@ -61,9 +61,11 @@ namespace CefSharp.Wpf
         void Reload();
 
         /// <summary>
-        /// Reloads the current WebView ignoring hte cache (refreshes the whole page and all resources)
+        /// Reloads the current WebView, optionally ignoring the cache
+        /// (which means the whole page including all .css, .js etc. resources will be re-fetched)
         /// </summary>
-        /// <param name="ignoreCache"></param>
+        /// <param name="ignoreCache"><c>true</c> A reload is performed ignoring borwser cache; <c>false</c> A reload is
+        /// performed using browser cache</param>
         void Reload(bool ignoreCache);
     }
 }

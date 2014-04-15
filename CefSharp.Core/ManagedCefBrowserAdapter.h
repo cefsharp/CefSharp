@@ -217,7 +217,7 @@ namespace CefSharp
 
             if (cefBrowser != nullptr)
             {
-                if(ignoreCache)
+                if (ignoreCache)
                 {
                     cefBrowser->ReloadIgnoreCache();
                 }
