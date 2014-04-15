@@ -277,7 +277,6 @@ namespace CefSharp.Wpf
             ReloadCommand = new DelegateCommand(Reload, () => CanReload);
 
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
-
             managedCefBrowserAdapter.CreateOffscreenBrowser(BrowserSettings ?? new BrowserSettings());
 
             disposables.Add(managedCefBrowserAdapter);
