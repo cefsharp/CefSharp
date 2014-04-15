@@ -30,7 +30,7 @@ namespace CefSharp
     {
         public const bool ClsCompliant = false;
         public const bool ComVisible = false;
-        public const string AssemblyCompany = "The CefSharp Project";
+        public const string AssemblyCompany = "The CefSharp Authors";
         public const string AssemblyProduct = "CefSharp";
         public const string AssemblyVersion = "31.0.0.0";
         public const string AssemblyFileVersion = "31.0.0.0";
