@@ -120,13 +120,6 @@ namespace CefSharp
             void set(String^ value) { StringUtils::AssignNativeFromClr(_browserSettings->default_encoding, value); }
         }
 
-        /* TODO: Nothing similar found
-        property BrowserSettingsState EncodingDetectorEnabled
-        {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->encoding_detector _enabled); }
-            void set(BrowserSettingsState value) { _browserSettings->encoding_detector_enabled = CefStateFromSettingState(value); }
-        }*/
-
         property BrowserSettingsState JavaScript
         {
             BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->javascript); }
@@ -193,13 +186,6 @@ namespace CefSharp
             void set(BrowserSettingsState value) { _browserSettings->web_security = CefStateFromSettingsState(value); }
         }
 
-        /* TODO: No corresponding CEF3 setting found
-        property BrowserSettingsState XssAuditor
-        {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->xss_auditor); }
-            void set(BrowserSettingsState value) { _browserSettings->xss_auditor = CefStateFromSettingsState(value); }
-        } */
-
         property BrowserSettingsState ImageLoading
         {
             BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->image_loading); }
@@ -212,45 +198,17 @@ namespace CefSharp
             void set(BrowserSettingsState value) { _browserSettings->image_shrink_standalone_to_fit= CefStateFromSettingsState(value); }
         }
 
-        /* TODO: No corresponding CEF3 setting found
-        property BrowserSettingsState SiteSpecificQuirksDisabled
-        {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->site_specific_quirks); }
-            void set(BrowserSettingsState value) { _browserSettings->site_specific_quirks_disabled = CefStateFromSettingsState(value); }
-        } */
-
         property BrowserSettingsState TextAreaResize
         {
             BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->text_area_resize); }
             void set(BrowserSettingsState value) { _browserSettings->text_area_resize = CefStateFromSettingsState(value); }
         }
 
-        /* TODO: No corresponding CEF3 setting found
-        property BrowserSettingsState PageCacheDisabled
-        {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->page_cache; }
-            void set(BrowserSettingsState value) { _browserSettings->page_cache_disab = CefStateFromSettingsState(value); }
-        } */
-
         property BrowserSettingsState TabToLinks
         {
             BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->tab_to_links); }
             void set(BrowserSettingsState value) { _browserSettings->tab_to_links = CefStateFromSettingsState(value); }
         }
-
-        /* TODO: No corresponding CEF3 setting found
-        property BrowserSettingsState HyperlinkAuditing
-        {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->hyperlink_auditing); }
-            void set(BrowserSettingsState value) { _browserSettings->hyperlink_auditing_disabled = CefStateFromSettingsState(value); }
-        } */
-
-        /* TODO: No corresponding CEF3 setting found
-        property BrowserSettingsState UserStyleSheetEnabled
-        {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->user_style_sheet_enabled; }
-            void set(BrowserSettingsState value) { _browserSettings->user_style_sheet_enabled = CefStateFromSettingsState(value); }
-        } */
 
         property String^ UserStyleSheetLocation
         {
@@ -293,48 +251,5 @@ namespace CefSharp
             BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->accelerated_compositing); }
             void set(BrowserSettingsState value) { _browserSettings->accelerated_compositing = CefStateFromSettingsState(value); }
         }
-
-        /* TODO: No corresponding CEF3 setting found
-        property BrowserSettingsState AcceleratedLayers
-        {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->accelerated_layers); }
-            void set(BrowserSettingsState value) { _browserSettings->accelerated_layers = CefStateFromSettingsState(value); }
-        }
-
-        property BrowserSettingsState Accelerated2dCanvasDisabled
-        {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->accelerated_2d_canvas_disabled; }
-            void set(BrowserSettingsState value) { _browserSettings->accelerated_2d_canvas_disabled = CefStateFromSettingsState(value); }
-        }
-
-        property BrowserSettingsState AcceleratedPaintingDisabled
-        {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->accelerated_painting_disabled; }
-            void set(BrowserSettingsState value) { _browserSettings->accelerated_painting_disabled = CefStateFromSettingsState(value); }
-        }
-
-        property BrowserSettingsState AcceleratedFiltersDisabled
-        {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->accelerated_filters_disabled; }
-            void set(BrowserSettingsState value) { _browserSettings->accelerated_filters_disabled = CefStateFromSettingsState(value); }
-        }
-
-        property BrowserSettingsState AcceleratedPluginsDisabled
-        {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->accelerated_plugins_disabled; }
-            void set(BrowserSettingsState value) { _browserSettings->accelerated_plugins_disabled = CefStateFromSettingsState(value); }
-        }
-
-        property BrowserSettingsState DeveloperTools
-        {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->developer_tools); }
-            void set(BrowserSettingsState value) { _browserSettings->developer_tools_disabled = CefStateFromSettingsState(value); }
-        }
-
-        property BrowserSettingsState FullscreenEnabled
-        {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->fullscreen_enabled); }
-            void set(BrowserSettingsState value) { _browserSettings->fullscreen_enabled = CefStateFromSettingsState(value); }
-        } */
     };
 }
