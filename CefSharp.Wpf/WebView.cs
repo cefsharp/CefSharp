@@ -736,6 +736,15 @@ namespace CefSharp.Wpf
                     case Key.V:
                         managedCefBrowserAdapter.Paste();
                         break;
+                    case Key.A:
+                        managedCefBrowserAdapter.SelectAll();
+                        break;
+                    case Key.Z:
+                        managedCefBrowserAdapter.Undo();
+                        break;
+                    case Key.Y:
+                        managedCefBrowserAdapter.Redo();
+                        break;
                 }
             }
         }

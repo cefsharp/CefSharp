@@ -269,6 +269,36 @@ namespace CefSharp
                 cefFrame->Paste();
             }
         }
+
+        void SelectAll()
+        {
+            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
+
+            if (cefFrame != nullptr)
+            {
+                cefFrame->SelectAll();
+            }
+        }
+
+        void Undo()
+        {
+            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
+
+            if (cefFrame != nullptr)
+            {
+                cefFrame->Undo();
+            }
+        }
+
+        void Redo()
+        {
+            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
+
+            if (cefFrame != nullptr)
+            {
+                cefFrame->Redo();
+            }
+        }
         
         void ExecuteScriptAsync(String^ script)
         {
