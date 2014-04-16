@@ -1,13 +1,17 @@
-﻿using CefSharp.Example;
-using CefSharp.Wpf.Example.Mvvm;
+﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
+using CefSharp.Example;
 using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
+using CefSharp.Wpf.Example.Mvvm;
 
 namespace CefSharp.Wpf.Example.Views.Main
 {
-    public class MainViewModel : INotifyPropertyChanged
+    public class BrowserTabViewModel : INotifyPropertyChanged
     {
         private string address;
         public string Address
@@ -67,7 +71,7 @@ namespace CefSharp.Wpf.Example.Views.Main
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public MainViewModel(string address = null)
+        public BrowserTabViewModel(string address = null)
         {
             Address = address ?? ExamplePresenter.DefaultUrl;
             AddressEditable = Address;
