@@ -82,6 +82,7 @@ namespace CefSharp.Wpf
         /// <param name="ignoreCache"><c>true</c> A reload is performed ignoring borwser cache; <c>false</c> A reload is
         /// performed using browser cache</param>
         void Reload(bool ignoreCache);
+
         /// <summary>
         /// The zoom level at which the browser control is currently displaying. Can be set to 0 to clear the zoom level (resets to
         /// default zoom level)
