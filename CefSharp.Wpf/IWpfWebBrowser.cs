@@ -71,6 +71,18 @@ namespace CefSharp.Wpf
         bool Focus();
 
         /// <summary>
+        /// Reloads the current WebView
+        /// </summary>
+        void Reload();
+
+        /// <summary>
+        /// Reloads the current WebView, optionally ignoring the cache
+        /// (which means the whole page including all .css, .js etc. resources will be re-fetched)
+        /// </summary>
+        /// <param name="ignoreCache"><c>true</c> A reload is performed ignoring borwser cache; <c>false</c> A reload is
+        /// performed using browser cache</param>
+        void Reload(bool ignoreCache);
+        /// <summary>
         /// The zoom level at which the browser control is currently displaying. Can be set to 0 to clear the zoom level (resets to
         /// default zoom level)
         /// </summary>
