@@ -1,4 +1,5 @@
-﻿using CefSharp;
+﻿using System.Runtime.CompilerServices;
+using CefSharp;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -20,3 +21,5 @@ using System.Windows;
     ResourceDictionaryLocation.None,
     ResourceDictionaryLocation.SourceAssembly
 )]
+
+[assembly: InternalsVisibleTo(AssemblyInfo.CefSharpWpfExampleProject)]

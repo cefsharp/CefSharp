@@ -1,5 +1,4 @@
 ﻿using CefSharp.Example;
-using CefSharp.Wpf.Example.Mvvm;
 using System;
 using System.ComponentModel;
 using System.Windows;
@@ -59,11 +58,11 @@ namespace CefSharp.Wpf.Example.Views.Main
             set { PropertyChanged.ChangeAndNotify(ref showSidebar, value, () => ShowSidebar); }
         }
 
-        public DelegateCommand GoCommand { get; set; }
-        public DelegateCommand ViewSourceCommand { get; set; }
-        public DelegateCommand HomeCommand { get; set; }
-        public DelegateCommand<string> ExecuteJavaScriptCommand { get; set; }
-        public DelegateCommand<string> EvaluateJavaScriptCommand { get; set; }
+        public ICommand GoCommand { get; set; }
+        public ICommand ViewSourceCommand { get; set; }
+        public ICommand HomeCommand { get; set; }
+        public ICommand ExecuteJavaScriptCommand { get; set; }
+        public ICommand EvaluateJavaScriptCommand { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
