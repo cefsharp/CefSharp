@@ -9,27 +9,65 @@ using namespace CefSharp::Internals;
 
 namespace CefSharp
 {
-#pragma region enum BrowserSettingsState
-    
-    public enum class BrowserSettingsState
+    Nullable<bool> CefStateToDisabledSetting(cef_state_t state)
     {
-        DEFAULT = cef_state_t::STATE_DEFAULT,
-        ENABLED = cef_state_t::STATE_ENABLED,
-        DISABLED = cef_state_t::STATE_DISABLED
-    };
-
-    BrowserSettingsState CefStateToSettingsState(cef_state_t state)
-    {
-        return (BrowserSettingsState)BrowserSettingsState::DEFAULT;
+        if (state == STATE_ENABLED)
+        {
+            return Nullable<bool>(false);
+        }
+        else if (state == STATE_DISABLED)
+        {
+            return Nullable<bool>(true);
+        }
+        return Nullable<bool>();
     }
 
-    cef_state_t CefStateFromSettingsState(BrowserSettingsState value)
+    cef_state_t CefStateFromDisabledSetting(Nullable<bool>^ value)
     {
-        return (cef_state_t)value;
+        if (value == nullptr)
+        {
+            return STATE_DEFAULT;
+        }
+        else if (value->Value)
+        {
+            return STATE_DISABLED;
+        }
+        else // !value->Value
+        {
+            return STATE_ENABLED;
+        }
+        return STATE_DEFAULT;
     } 
 
-#pragma endregion
+    Nullable<bool> CefStateToEnabledSetting(cef_state_t state)
+    {
+        if (state == STATE_ENABLED)
+        {
+            return Nullable<bool>(true);
+        }
+        else if (state == STATE_DISABLED)
+        {
+            return Nullable<bool>(false);
+        }
+        return Nullable<bool>();
+    }
 
+    cef_state_t CefStateFromEnabledSetting(Nullable<bool>^ value)
+    {
+        if (value == nullptr)
+        {
+            return STATE_DEFAULT;
+        }
+        else if (value->Value)
+        {
+            return STATE_ENABLED;
+        }
+        else // !value->Value
+        {
+            return STATE_DISABLED;
+        }
+        return STATE_DEFAULT;
+    } 
 
     public ref class BrowserSettings
     {
@@ -108,10 +146,10 @@ namespace CefSharp
             void set(int value) { _browserSettings->minimum_logical_font_size = value; }
         }
 
-        property BrowserSettingsState RemoteFonts
+        property Nullable<bool>^ RemoteFontsDisabled
         {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->remote_fonts); }
-            void set(BrowserSettingsState value) { _browserSettings->remote_fonts = CefStateFromSettingsState(value); }
+            Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->remote_fonts); }
+            void set(Nullable<bool>^ value) { _browserSettings->remote_fonts = CefStateFromDisabledSetting(value); }
         }
 
         property String^ DefaultEncoding
@@ -120,94 +158,94 @@ namespace CefSharp
             void set(String^ value) { StringUtils::AssignNativeFromClr(_browserSettings->default_encoding, value); }
         }
 
-        property BrowserSettingsState JavaScript
+        property Nullable<bool>^ JavaScriptDisabled
         {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->javascript); }
-            void set(BrowserSettingsState value) { _browserSettings->javascript = CefStateFromSettingsState(value); }
+            Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->javascript); }
+            void set(Nullable<bool>^ value) { _browserSettings->javascript = CefStateFromDisabledSetting(value); }
         }
 
-        property BrowserSettingsState JavaScriptOpenWindows
+        property Nullable<bool>^ JavaScriptOpenWindowsDisabled
         {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->javascript_open_windows); }
-            void set(BrowserSettingsState value) { _browserSettings->javascript_open_windows = CefStateFromSettingsState(value); }
+            Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->javascript_open_windows); }
+            void set(Nullable<bool>^ value) { _browserSettings->javascript_open_windows = CefStateFromDisabledSetting(value); }
         }
 
-        property BrowserSettingsState JavaScriptCloseWindows
+        property Nullable<bool>^ JavaScriptCloseWindowsDisabled
         {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->javascript_close_windows); }
-            void set(BrowserSettingsState value) { _browserSettings->javascript_close_windows = CefStateFromSettingsState(value); }
+            Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->javascript_close_windows); }
+            void set(Nullable<bool>^ value) { _browserSettings->javascript_close_windows = CefStateFromDisabledSetting(value); }
         }
 
-        property BrowserSettingsState JavaScriptAccessClipboard
+        property Nullable<bool>^ JavaScriptAccessClipboardDisabled
         {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->javascript_access_clipboard); }
-            void set(BrowserSettingsState value) { _browserSettings->javascript_access_clipboard = CefStateFromSettingsState(value); }
+            Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->javascript_access_clipboard); }
+            void set(Nullable<bool>^ value) { _browserSettings->javascript_access_clipboard = CefStateFromDisabledSetting(value); }
         }
 
-        property BrowserSettingsState JavascriptDomPaste
+        property Nullable<bool>^ JavascriptDomPasteDisabled
         {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->javascript_dom_paste); }
-            void set(BrowserSettingsState value) { _browserSettings->javascript_dom_paste = CefStateFromSettingsState(value); }
+            Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->javascript_dom_paste); }
+            void set(Nullable<bool>^ value) { _browserSettings->javascript_dom_paste = CefStateFromDisabledSetting(value); }
         }
 
-        property BrowserSettingsState CaretBrowsing
+        property Nullable<bool>^ CaretBrowsingEnabled
         {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->caret_browsing); }
-            void set(BrowserSettingsState value) { _browserSettings->caret_browsing = CefStateFromSettingsState(value); }
+            Nullable<bool>^ get() { return CefStateToEnabledSetting(_browserSettings->caret_browsing); }
+            void set(Nullable<bool>^ value) { _browserSettings->caret_browsing = CefStateFromEnabledSetting(value); }
         }
 
-        property BrowserSettingsState Java
+        property Nullable<bool>^ JavaDisabled
         {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->java); }
-            void set(BrowserSettingsState value) { _browserSettings->java = CefStateFromSettingsState(value); }
+            Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->java); }
+            void set(Nullable<bool>^ value) { _browserSettings->java = CefStateFromDisabledSetting(value); }
         } 
 
-        property BrowserSettingsState Plugins
+        property Nullable<bool>^ PluginsDisabled
         {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->plugins); }
-            void set(BrowserSettingsState value) { _browserSettings->plugins = CefStateFromSettingsState(value); }
+            Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->plugins); }
+            void set(Nullable<bool>^ value) { _browserSettings->plugins = CefStateFromDisabledSetting(value); }
         }
 
-        property BrowserSettingsState UniversalAccessFromFileUrls
+        property Nullable<bool>^ UniversalAccessFromFileUrlsAllowed
         {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->universal_access_from_file_urls); }
-            void set(BrowserSettingsState value) { _browserSettings->universal_access_from_file_urls = CefStateFromSettingsState(value); }
+            Nullable<bool>^ get() { return CefStateToEnabledSetting(_browserSettings->universal_access_from_file_urls); }
+            void set(Nullable<bool>^ value) { _browserSettings->universal_access_from_file_urls = CefStateFromEnabledSetting(value); }
         }
 
-        property BrowserSettingsState FileAccessFromFileUrls
+        property Nullable<bool>^ FileAccessFromFileUrlsAllowed
         {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->file_access_from_file_urls); }
-            void set(BrowserSettingsState value) { _browserSettings->file_access_from_file_urls = CefStateFromSettingsState(value); }
+            Nullable<bool>^ get() { return CefStateToEnabledSetting(_browserSettings->file_access_from_file_urls); }
+            void set(Nullable<bool>^ value) { _browserSettings->file_access_from_file_urls = CefStateFromEnabledSetting(value); }
         }
 
-        property BrowserSettingsState WebSecurity
+        property Nullable<bool>^ WebSecurityDisabled
         {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->web_security); }
-            void set(BrowserSettingsState value) { _browserSettings->web_security = CefStateFromSettingsState(value); }
+            Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->web_security); }
+            void set(Nullable<bool>^ value) { _browserSettings->web_security = CefStateFromDisabledSetting(value); }
         }
 
-        property BrowserSettingsState ImageLoading
+        property Nullable<bool>^ ImageLoadingDisabled
         {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->image_loading); }
-            void set(BrowserSettingsState value) { _browserSettings->image_loading = CefStateFromSettingsState(value); }
+            Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->image_loading); }
+            void set(Nullable<bool>^ value) { _browserSettings->image_loading = CefStateFromDisabledSetting(value); }
         }
 
-        property BrowserSettingsState ImageShrinkStandaloneToFit
+        property Nullable<bool>^ ImageShrinkStandaloneToFitEnabled
         {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->image_shrink_standalone_to_fit); }
-            void set(BrowserSettingsState value) { _browserSettings->image_shrink_standalone_to_fit= CefStateFromSettingsState(value); }
+            Nullable<bool>^ get() { return CefStateToEnabledSetting(_browserSettings->image_shrink_standalone_to_fit); }
+            void set(Nullable<bool>^ value) { _browserSettings->image_shrink_standalone_to_fit= CefStateFromEnabledSetting(value); }
         }
 
-        property BrowserSettingsState TextAreaResize
+        property Nullable<bool>^ TextAreaResizeDisabled
         {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->text_area_resize); }
-            void set(BrowserSettingsState value) { _browserSettings->text_area_resize = CefStateFromSettingsState(value); }
+            Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->text_area_resize); }
+            void set(Nullable<bool>^ value) { _browserSettings->text_area_resize = CefStateFromDisabledSetting(value); }
         }
 
-        property BrowserSettingsState TabToLinks
+        property Nullable<bool>^ TabToLinksDisabled
         {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->tab_to_links); }
-            void set(BrowserSettingsState value) { _browserSettings->tab_to_links = CefStateFromSettingsState(value); }
+            Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->tab_to_links); }
+            void set(Nullable<bool>^ value) { _browserSettings->tab_to_links = CefStateFromDisabledSetting(value); }
         }
 
         property String^ UserStyleSheetLocation
@@ -216,40 +254,40 @@ namespace CefSharp
             void set(String^ value) { StringUtils::AssignNativeFromClr(_browserSettings->user_style_sheet_location, value); }
         }
 
-        property BrowserSettingsState AuthorAndUserStyles
+        property Nullable<bool>^ AuthorAndUserStylesDisabled
         {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->author_and_user_styles); }
-            void set(BrowserSettingsState value) { _browserSettings->author_and_user_styles = CefStateFromSettingsState(value); }
+            Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->author_and_user_styles); }
+            void set(Nullable<bool>^ value) { _browserSettings->author_and_user_styles = CefStateFromDisabledSetting(value); }
         }
 
-        property BrowserSettingsState LocalStorage
+        property Nullable<bool>^ LocalStorageDisabled
         {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->local_storage); }
-            void set(BrowserSettingsState value) { _browserSettings->local_storage = CefStateFromSettingsState(value); }
+            Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->local_storage); }
+            void set(Nullable<bool>^ value) { _browserSettings->local_storage = CefStateFromDisabledSetting(value); }
         }
 
-        property BrowserSettingsState Databases
+        property Nullable<bool>^ DatabasesDisabled
         {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->databases); }
-            void set(BrowserSettingsState value) { _browserSettings->databases = CefStateFromSettingsState(value); }
+            Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->databases); }
+            void set(Nullable<bool>^ value) { _browserSettings->databases = CefStateFromDisabledSetting(value); }
         }
 
-        property BrowserSettingsState ApplicationCache
+        property Nullable<bool>^ ApplicationCacheDisabled
         {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->application_cache); }
-            void set(BrowserSettingsState value) { _browserSettings->application_cache = CefStateFromSettingsState(value); }
+            Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->application_cache); }
+            void set(Nullable<bool>^ value) { _browserSettings->application_cache = CefStateFromDisabledSetting(value); }
         }
 
-        property BrowserSettingsState WebGl
+        property Nullable<bool>^ WebGlDisabled
         {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->webgl); }
-            void set(BrowserSettingsState value) { _browserSettings->webgl = CefStateFromSettingsState(value); }
+            Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->webgl); }
+            void set(Nullable<bool>^ value) { _browserSettings->webgl = CefStateFromDisabledSetting(value); }
         }
 
-        property BrowserSettingsState AcceleratedCompositing
+        property Nullable<bool>^ AcceleratedCompositingDisabled
         {
-            BrowserSettingsState get() { return CefStateToSettingsState(_browserSettings->accelerated_compositing); }
-            void set(BrowserSettingsState value) { _browserSettings->accelerated_compositing = CefStateFromSettingsState(value); }
+            Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->accelerated_compositing); }
+            void set(Nullable<bool>^ value) { _browserSettings->accelerated_compositing = CefStateFromDisabledSetting(value); }
         }
     };
 }
