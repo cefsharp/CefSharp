@@ -208,6 +208,16 @@ namespace CefSharp
             }
         }
 
+        void Print()
+        {
+            auto cefHost = _renderClientAdapter->TryGetCefHost();
+
+            if (cefHost != nullptr)
+            {
+                cefHost->Print();
+            }
+        }
+
         void Reload()
         {
             Reload(false);

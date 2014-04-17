@@ -54,6 +54,7 @@ namespace CefSharp.Wpf
         public ICommand BackCommand { get; private set; }
         public ICommand ForwardCommand { get; private set; }
         public ICommand ReloadCommand { get; private set; }
+        public ICommand PrintCommand { get; private set; }
         public ICommand ZoomInCommand { get; private set; }
         public ICommand ZoomOutCommand { get; private set; }
         public ICommand ZoomResetCommand { get; private set; }
@@ -335,6 +336,7 @@ namespace CefSharp.Wpf
             BackCommand = new DelegateCommand(Back, () => CanGoBack);
             ForwardCommand = new DelegateCommand(Forward, () => CanGoForward);
             ReloadCommand = new DelegateCommand(Reload, () => CanReload);
+            PrintCommand = new DelegateCommand(Print);
             ZoomInCommand = new DelegateCommand(ZoomIn);
             ZoomOutCommand = new DelegateCommand(ZoomOut);
             ZoomResetCommand = new DelegateCommand(ZoomReset);
@@ -850,6 +852,11 @@ namespace CefSharp.Wpf
         public void Reload(bool ignoreCache)
         {
             managedCefBrowserAdapter.Reload(ignoreCache);
+        }
+
+        private void Print()
+        {
+            managedCefBrowserAdapter.Print();
         }
 
         private void ZoomIn()

@@ -43,6 +43,11 @@ namespace CefSharp.Wpf
         ICommand ReloadCommand { get; }
 
         /// <summary>
+        /// Command which prints the current browser contents.
+        /// </summary>
+        ICommand PrintCommand { get; }
+
+        /// <summary>
         /// Command which increases the zoom level
         /// </summary>
         ICommand ZoomInCommand { get; }
