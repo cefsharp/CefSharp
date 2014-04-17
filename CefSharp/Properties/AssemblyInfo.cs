@@ -38,6 +38,7 @@ namespace CefSharp
         public const string CefSharpCoreProject = "CefSharp.Core, PublicKey=" + PublicKey;
         public const string CefSharpBrowserSubprocessProject = "CefSharp.BrowserSubprocess, PublicKey=" + PublicKey;
         public const string CefSharpWpfProject = "CefSharp.Wpf, PublicKey=" + PublicKey;
+        public const string CefSharpWpfExampleProject = "CefSharp.Wpf.Example, PublicKey=" + PublicKey;
         public const string CefSharpWinFormsProject = "CefSharp.WinForms, PublicKey=" + PublicKey;
         public const string CefSharpTestProject = "CefSharp.Test, PublicKey=" + PublicKey;
 
