@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace CefSharp.Wpf.Example.Mvvm
+namespace CefSharp.Wpf
 {
     internal class DelegateCommand<T> : ICommand
     {

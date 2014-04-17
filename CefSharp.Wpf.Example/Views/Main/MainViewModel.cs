@@ -1,5 +1,4 @@
 ﻿using CefSharp.Example;
-using CefSharp.Wpf.Example.Mvvm;
 using System;
 using System.ComponentModel;
 using System.Windows;
