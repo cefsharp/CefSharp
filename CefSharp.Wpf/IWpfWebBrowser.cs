@@ -61,6 +61,12 @@ namespace CefSharp.Wpf
         /// Opens up a new program window (using the default text editor) where the source code of the currently displayed web
         /// page is shown.
         /// </summary>
+        ICommand ViewSourceCommand { get; }
+
+        /// <summary>
+        /// Opens up a new program window (using the default text editor) where the source code of the currently displayed web
+        /// page is shown.
+        /// </summary>
         void ViewSource();
 
         /// <summary>
