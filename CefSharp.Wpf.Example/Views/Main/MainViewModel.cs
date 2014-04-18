@@ -1,4 +1,8 @@
-﻿using CefSharp.Example;
+﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
+using CefSharp.Example;
 using CefSharp.Wpf.Example.Mvvm;
 using System;
 using System.ComponentModel;
