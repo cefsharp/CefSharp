@@ -26,7 +26,7 @@ namespace CefSharp
         int _contentLength;
         bool _closeStream;
         int SizeFromStream();
-        CefResponse::HeaderMap ToHeaderMap(IDictionary<String^, String^>^ headers);
+		CefResponse::HeaderMap ToHeaderMap(IHeaderDictionary^ headers);
 
     public:
 

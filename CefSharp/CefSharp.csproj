@@ -86,6 +86,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HeaderDictionary.cs" />
+    <Compile Include="IHeaderCollection.cs" />
+    <Compile Include="IHeaderDictionary.cs" />
     <Compile Include="Internals\BitmapInfo.cs" />
     <Compile Include="Internals\ManagedCefApp.cs" />
     <Compile Include="CefCustomScheme.cs" />

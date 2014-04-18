@@ -63,32 +63,35 @@ namespace CefSharp
             return nullptr;
         }
 
-        IDictionary<String^, String^>^ CefRequestWrapper::Headers::get()
+		IHeaderDictionary^ CefRequestWrapper::Headers::get()
         {
             CefRequest::HeaderMap hm;
             _wrappedRequest->GetHeaderMap(hm);
 
-            IDictionary<String^, String^>^ headers = gcnew Dictionary<String^, String^>();
+			IHeaderDictionary^ headers = gcnew HeaderDictionary(gcnew Dictionary<String^, array<String^>^>());
 
             for (CefRequest::HeaderMap::iterator it = hm.begin(); it != hm.end(); ++it)
             {
                 String^ name = StringUtils::ToClr(it->first);
                 String^ value = StringUtils::ToClr(it->second);
-                headers->Add(name, value);
+				headers->AppendValues(name, gcnew array<String^>(1){ value });
             }
 
             return headers;
         }
 
-        void CefRequestWrapper::Headers::set(IDictionary<String^, String^>^ headers)
+        void CefRequestWrapper::Headers::set(IHeaderDictionary^ headers)
         {
             CefRequest::HeaderMap hm;
 
-            for each(KeyValuePair<String^, String^>^ pair in headers)
+			for each(KeyValuePair<String^, array<String^>^>^ pair in headers)
             {
                 CefString name = StringUtils::ToNative(pair->Key);
-                CefString value = StringUtils::ToNative(pair->Value);
-                hm.insert(std::make_pair(name, value));
+				for each(String^ header in pair->Value)
+				{
+					CefString value = StringUtils::ToNative(header);
+					hm.insert(std::make_pair(name, value));
+				}
             }
 
             _wrappedRequest->SetHeaderMap(hm);
