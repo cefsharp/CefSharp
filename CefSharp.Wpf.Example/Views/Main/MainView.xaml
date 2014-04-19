@@ -191,6 +191,9 @@
                             <MenuItem Header="Forward"
                                       Command="{Binding WebBrowser.ForwardCommand}" />
                             <Separator />
+                            <MenuItem Header="Print ..."
+                                      Command="{Binding WebBrowser.PrintCommand}" />
+                            <Separator />
                             <MenuItem Header="Zoom In"
                                       Command="{Binding WebBrowser.ZoomInCommand}" />
                             <MenuItem Header="Zoom Out"
