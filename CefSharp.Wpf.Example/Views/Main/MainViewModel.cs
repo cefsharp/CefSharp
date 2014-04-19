@@ -27,6 +27,20 @@ namespace CefSharp.Wpf.Example.Views.Main
             set { PropertyChanged.ChangeAndNotify(ref addressEditable, value, () => AddressEditable); }
         }
 
+        private string devToolsUrl;
+        public string DevToolsUrl
+        {
+            get { return webBrowser.DevToolsUrl; }
+            set { PropertyChanged.ChangeAndNotify(ref devToolsUrl, value, () => DevToolsUrl); }
+        }
+
+        private bool showDevTools;
+        public bool ShowDevTools 
+        {
+            get { return showDevTools; }
+            set { PropertyChanged.ChangeAndNotify(ref showDevTools, value, () => ShowDevTools); } 
+        }
+
         private string outputMessage;
         public string OutputMessage
         {
@@ -68,6 +82,7 @@ namespace CefSharp.Wpf.Example.Views.Main
         public DelegateCommand HomeCommand { get; set; }
         public DelegateCommand<string> ExecuteJavaScriptCommand { get; set; }
         public DelegateCommand<string> EvaluateJavaScriptCommand { get; set; }
+        public DelegateCommand ShowDevToolsCommand { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -81,11 +96,18 @@ namespace CefSharp.Wpf.Example.Views.Main
             HomeCommand = new DelegateCommand(() => AddressEditable = Address = ExamplePresenter.DefaultUrl);
             ExecuteJavaScriptCommand = new DelegateCommand<string>(ExecuteJavaScript, s => !String.IsNullOrWhiteSpace(s));
             EvaluateJavaScriptCommand = new DelegateCommand<string>(EvaluateJavaScript, s => !String.IsNullOrWhiteSpace(s));
+            ShowDevToolsCommand = new DelegateCommand(OnShowDevTools);
 
             PropertyChanged += OnPropertyChanged;
 
             var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
             OutputMessage = version;
+        }
+
+        private void OnShowDevTools()
+        {
+            DevToolsUrl = webBrowser.DevToolsUrl;
+            ShowDevTools = true;
         }
 
         private void EvaluateJavaScript(string s)
@@ -118,6 +140,9 @@ namespace CefSharp.Wpf.Example.Views.Main
             {
                 case "Address":
                     AddressEditable = Address;
+
+                    // ahem
+                    DevToolsUrl = webBrowser.DevToolsUrl;
                     break;
 
                 case "WebBrowser":

@@ -149,6 +149,15 @@
                 <Separator />
                 <TextBlock Text="{Binding OutputMessage}" />
             </StatusBar>
+            <DockPanel DockPanel.Dock="Bottom">
+                <Button Content="wee"></Button>
+                <cefSharp:WebView 
+                    Height="300" 
+                    Visibility="{Binding ShowDevTools, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    Address="{Binding DevToolsUrl, Mode=TwoWay}"
+                    x:Name="DevTools">
+                </cefSharp:WebView>
+            </DockPanel>
             <Grid Background="#FFF0F0F0">
                 <Rectangle>
                     <Rectangle.Fill>
@@ -200,6 +209,8 @@
                             <Separator />
                             <MenuItem Header="View Source"
                                       Command="{Binding ViewSourceCommand}" />
+                            <MenuItem Header="Show DevTools"
+                                      Command="{Binding ShowDevToolsCommand}" />
                         </ContextMenu>
                     </FrameworkElement.ContextMenu>
                 </cefSharp:WebView>

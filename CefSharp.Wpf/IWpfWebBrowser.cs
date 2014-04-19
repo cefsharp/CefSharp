@@ -16,6 +16,9 @@ namespace CefSharp.Wpf
         /// <remarks>This property is a Dependency Property and fully supports data binding.</remarks>
         string Address { get; set; }
 
+        // TODO add info
+        string DevToolsUrl { get; }
+
         /// <summary>
         /// A flag that indicates whether the control is currently loading one or more web pages (true) or not (false).
         /// </summary>
