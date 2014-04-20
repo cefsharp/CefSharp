@@ -41,7 +41,7 @@ namespace CefSharp
                 _browserHwnd = browser->GetHost()->GetWindowHandle();
                 _cefBrowser = browser;
 
-                _browserControl->OnInitialized();
+                _managedCefBrowserAdapter->OnInitialized();
             }
         }
 
