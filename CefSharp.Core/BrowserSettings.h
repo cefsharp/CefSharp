@@ -1,4 +1,4 @@
-// Copyright © 2010-2013 The CefSharp Project. All rights reserved.
+// Copyright © 2010-2014 The CefSharp Project. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -37,7 +37,7 @@ namespace CefSharp
             return STATE_ENABLED;
         }
         return STATE_DEFAULT;
-    } 
+    }
 
     Nullable<bool> CefStateToEnabledSetting(cef_state_t state)
     {
@@ -67,7 +67,7 @@ namespace CefSharp
             return STATE_DISABLED;
         }
         return STATE_DEFAULT;
-    } 
+    }
 
     public ref class BrowserSettings
     {
