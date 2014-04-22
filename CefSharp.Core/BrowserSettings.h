@@ -158,7 +158,7 @@ namespace CefSharp
             void set(String^ value) { StringUtils::AssignNativeFromClr(_browserSettings->default_encoding, value); }
         }
 
-        property Nullable<bool>^ JavaScriptDisabled
+        property Nullable<bool>^ JavascriptDisabled
         {
             Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->javascript); }
             void set(Nullable<bool>^ value) { _browserSettings->javascript = CefStateFromDisabledSetting(value); }
