@@ -126,8 +126,6 @@ namespace CefSharp.Wpf.Example.Views.Main
                         // TODO: method, but it seems like "something" gets messed up (= doesn't work correctly) if we give it
                         // TODO: focus "too early" in the loading process...
                         WebBrowser.LoadCompleted += delegate { Application.Current.Dispatcher.BeginInvoke((Action)(() => webBrowser.Focus())); };
-
-                        ExamplePresenter presenter = new ExamplePresenter(WebBrowser);
                     }
 
                     break;
@@ -149,7 +147,7 @@ namespace CefSharp.Wpf.Example.Views.Main
                   " with error " + errorText + " (" + errorCode +
                   ").</h2></body></html>";
 
-            //webBrowser.LoadHtml(errorMessage, failedUrl);
+            webBrowser.LoadHtml(errorMessage, failedUrl);
         }
 
         private void Go()

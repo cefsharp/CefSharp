@@ -49,10 +49,10 @@ namespace CefSharp.Example
         private readonly IWebBrowser model;
         private readonly Action<Action> uiThreadInvoke;
 
-        public ExamplePresenter(IWebBrowser model) //, Action<Action> uiThreadInvoke)
+        public ExamplePresenter(IWebBrowser model, Action<Action> uiThreadInvoke)
         {
             this.model = model;
-            //this.uiThreadInvoke = uiThreadInvoke;
+            this.uiThreadInvoke = uiThreadInvoke;
 
             var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}",
                 Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
@@ -297,11 +297,6 @@ namespace CefSharp.Example
         }
 
         bool IRequestHandler.GetAuthCredentials(IWebBrowser browser, bool isProxy, string host, int port, string realm, string scheme, ref string username, ref string password)
-        {
-            return false;
-        }
-
-        bool IRequestHandler.OnBeforePluginLoad(IWebBrowser browser, string url, string policy_url, IWebPluginInfo info)
         {
             return false;
         }
