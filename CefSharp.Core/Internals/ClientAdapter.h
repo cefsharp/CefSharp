@@ -26,7 +26,8 @@ namespace CefSharp
             public CefContextMenuHandler,
             public CefFocusHandler,
             public CefKeyboardHandler,
-            public CefJSDialogHandler
+            public CefJSDialogHandler,
+			public CefDialogHandler
         {
         private:
             gcroot<IWebBrowserInternal^> _browserControl;
@@ -62,6 +63,7 @@ namespace CefSharp
             virtual CefRefPtr<CefFocusHandler> GetFocusHandler() OVERRIDE{ return this; }
             virtual CefRefPtr<CefKeyboardHandler> GetKeyboardHandler() OVERRIDE{ return this; }
             virtual CefRefPtr<CefJSDialogHandler> GetJSDialogHandler() OVERRIDE{ return this; }
+			virtual CefRefPtr<CefDialogHandler> GetDialogHandler() OVERRIDE{ return this; }
 
             // CefLifeSpanHandler
             virtual DECL bool OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
@@ -104,6 +106,14 @@ namespace CefSharp
             virtual bool OnJSDialog(CefRefPtr<CefBrowser> browser, const CefString& origin_url, const CefString& accept_lang,
                 JSDialogType dialog_type, const CefString& message_text, const CefString& default_prompt_text,
                 CefRefPtr<CefJSDialogCallback> callback, bool& suppress_message) OVERRIDE;
+
+			// CefDialogHandler
+			virtual bool OnFileDialog(CefRefPtr<CefBrowser> browser,
+				FileDialogMode mode,
+				const CefString& title,
+				const CefString& default_file_name,
+				const std::vector<CefString>& accept_types,
+				CefRefPtr<CefFileDialogCallback> callback) OVERRIDE;
 
             IMPLEMENT_LOCKING(ClientAdapter);
             IMPLEMENT_REFCOUNTING(ClientAdapter);

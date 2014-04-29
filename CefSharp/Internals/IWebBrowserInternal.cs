@@ -9,6 +9,7 @@ namespace CefSharp.Internals
         ILifeSpanHandler LifeSpanHandler { get; set; }
         IKeyboardHandler KeyboardHandler { get; set; }
         IJsDialogHandler JsDialogHandler { get; set; }
+        IDialogHandler DialogHandler { get; set; }
 
         void OnInitialized();
 

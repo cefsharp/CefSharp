@@ -408,5 +408,31 @@ namespace CefSharp
             // Unknown dialog type, so we return "not handled".
             return false;
         }
+
+		bool ClientAdapter::OnFileDialog(CefRefPtr<CefBrowser> browser,
+			FileDialogMode mode,
+			const CefString& title,
+			const CefString& default_file_name,
+			const std::vector<CefString>& accept_types,
+			CefRefPtr<CefFileDialogCallback> callback)
+		{
+			IDialogHandler^ handler = _browserControl->DialogHandler;
+
+			if (handler == nullptr)
+			{
+				return false;
+			}
+
+			bool result;
+			bool handled;
+
+			List<System::String ^>^ resultString = nullptr;
+
+			result = handler->OnOpenFile(_browserControl, StringUtils::ToClr(title), StringUtils::ToClr(default_file_name), StringUtils::ToClr(accept_types), resultString);
+			callback->Continue(StringUtils::ToNative(resultString));
+
+			// Unknown dialog type, so we return "not handled".
+			return false;
+		}
     }
 }

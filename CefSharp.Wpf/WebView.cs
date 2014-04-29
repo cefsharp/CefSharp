@@ -42,6 +42,7 @@ namespace CefSharp.Wpf
 
         public BrowserSettings BrowserSettings { get; set; }
         public bool IsBrowserInitialized { get; private set; }
+        public IDialogHandler DialogHandler { get; set; }
         public IJsDialogHandler JsDialogHandler { get; set; }
         public IKeyboardHandler KeyboardHandler { get; set; }
         public IRequestHandler RequestHandler { get; set; }
