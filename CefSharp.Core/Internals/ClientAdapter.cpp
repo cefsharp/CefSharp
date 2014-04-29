@@ -394,6 +394,16 @@ namespace CefSharp
             }
         }
 
+        void ClientAdapter::OnGotFocus(CefRefPtr<CefBrowser> browser)
+        {
+            _browserControl->OnGotFocus();
+        }
+
+        bool ClientAdapter::OnSetFocus(CefRefPtr<CefBrowser> browser,  FocusSource source)
+        {
+            return _browserControl->OnSetFocus((CefFocusSource)source);
+        }
+
         void ClientAdapter::OnTakeFocus(CefRefPtr<CefBrowser> browser, bool next)
         {
             _browserControl->OnTakeFocus(next);

@@ -1028,9 +1028,19 @@ namespace CefSharp.Wpf
             }
         }
 
+        void IWebBrowserInternal.OnGotFocus()
+        {
+            
+        }
+
+        bool IWebBrowserInternal.OnSetFocus(CefFocusSource source)
+        {
+            return false;
+        }
+
         void IWebBrowserInternal.OnTakeFocus(bool next)
         {
-            throw new NotImplementedException();
+            
         }
 
         void IWebBrowserInternal.OnConsoleMessage(string message, string source, int line)
