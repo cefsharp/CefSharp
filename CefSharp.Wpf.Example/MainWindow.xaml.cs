@@ -10,16 +10,16 @@ using CefSharp.Wpf.Example.ViewModels;
 
 namespace CefSharp.Wpf.Example
 {
-    public partial class MainWindow : Window
-    {
-		private const string DefaultUrl = "https://www.google.com.au";
+	public partial class MainWindow : Window
+	{
+		private const string DefaultUrlForAddedTabs = "https://www.google.com";
 
 		public ObservableCollection<BrowserTabViewModel> BrowserTabs { get; set; }
 
-        public MainWindow()
-        {
-            InitializeComponent();
-            DataContext = this;
+		public MainWindow()
+		{
+			InitializeComponent();
+			DataContext = this;
 
 			BrowserTabs = new ObservableCollection<BrowserTabViewModel>();
 
@@ -27,17 +27,17 @@ namespace CefSharp.Wpf.Example
 			CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, CloseTab));
 
 			Loaded += MainWindowLoaded;
-        }
+		}
 
 		private void CloseTab(object sender, ExecutedRoutedEventArgs e)
 		{
 			if (BrowserTabs.Count > 0)
-        {
+			{
 				//Obtain the original source element for this event
 				var originalSource = (FrameworkElement)e.OriginalSource;
 
 				if (originalSource is MainWindow)
-            {
+				{
 					BrowserTabs.RemoveAt(TabControl.SelectedIndex);
 				}
 				else
@@ -45,24 +45,24 @@ namespace CefSharp.Wpf.Example
 					//Remove the matching DataContext from the BrowserTabs collection
 					BrowserTabs.Remove((BrowserTabViewModel)originalSource.DataContext);
 				}
-            }
-        }
+			}
+		}
 
 		private void OpenNewTab(object sender, ExecutedRoutedEventArgs e)
-        {
+		{
 			CreateNewTab();
 
 			TabControl.SelectedIndex = TabControl.Items.Count - 1;
-        }
+		}
 
 		private void MainWindowLoaded(object sender, RoutedEventArgs e)
-        {
+		{
 			CreateNewTab(ExamplePresenter.DefaultUrl, true);
 		}
 
-		private void CreateNewTab(string url = DefaultUrl, bool showSideBar = false)
-            {
+		private void CreateNewTab(string url = DefaultUrlForAddedTabs, bool showSideBar = false)
+		{
 			BrowserTabs.Add(new BrowserTabViewModel(url) { ShowSidebar = showSideBar });
-        }
-    }
+		}
+	}
 }
