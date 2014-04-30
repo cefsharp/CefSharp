@@ -10,7 +10,7 @@
     </Window.InputBindings>
     <Grid>
         <controls:NonReloadingTabControl x:Name="TabControl"
-                Margin="0,5,0,0"
+                               Margin="0,5,0,0"
                                ItemsSource="{Binding BrowserTabs, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                SelectedIndex="0">
             <TabControl.ItemTemplate>
@@ -26,6 +26,7 @@
                                 Command="Close"
                                 FontSize="10"
                                 Padding="0"
+                                Margin="10,0,0,0"
                                 ToolTip="Close"/>
                     </StackPanel>
                 </DataTemplate>
