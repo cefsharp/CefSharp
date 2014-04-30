@@ -70,9 +70,9 @@ namespace CefSharp.Wpf.Example.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public BrowserTabViewModel(string address = null)
+        public BrowserTabViewModel(string address)
         {
-            Address = address ?? ExamplePresenter.DefaultUrl;
+            Address = address;
             AddressEditable = Address;
 
             GoCommand = new DelegateCommand(Go, () => !String.IsNullOrWhiteSpace(Address));
