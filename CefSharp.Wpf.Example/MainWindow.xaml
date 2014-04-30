@@ -4,7 +4,6 @@
         xmlns:controls="clr-namespace:CefSharp.Wpf.Example.Controls"
         Title="CefSharp.Wpf.Example"
         WindowState="Maximized">
-
     <Window.InputBindings>
         <KeyBinding Key="T" Modifiers="Control" Command="New"/>
         <KeyBinding Key="W" Modifiers="Control" Command="Close"/>
