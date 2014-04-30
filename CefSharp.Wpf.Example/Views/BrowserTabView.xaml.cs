@@ -5,11 +5,11 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace CefSharp.Wpf.Example.Views.Main
+namespace CefSharp.Wpf.Example.Views
 {
-    public partial class MainView : UserControl
+    public partial class BrowserTabView : UserControl
     {
-        public MainView()
+        public BrowserTabView()
         {
             InitializeComponent();
         }

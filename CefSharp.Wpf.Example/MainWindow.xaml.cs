@@ -2,67 +2,67 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using System.Windows.Data;
-using CefSharp.Wpf.Example.Views.Main;
+using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Input;
+using CefSharp.Example;
+using CefSharp.Wpf.Example.ViewModels;
 
 namespace CefSharp.Wpf.Example
 {
-    public partial class MainWindow : Window
-    {
-        public FrameworkElement Tab1Content { get; set; }
-        public FrameworkElement Tab2Content { get; set; }
+	public partial class MainWindow : Window
+	{
+		private const string DefaultUrlForAddedTabs = "https://www.google.com";
 
-        public MainWindow()
-        {
-            InitializeComponent();
-            DataContext = this;
+		public ObservableCollection<BrowserTabViewModel> BrowserTabs { get; set; }
 
-            Tab1Content = new MainView
-            {
-                DataContext = new MainViewModel { ShowSidebar = true }
-            };
+		public MainWindow()
+		{
+			InitializeComponent();
+			DataContext = this;
 
-            Tab2Content = CreateNewTab();
-        }
+			BrowserTabs = new ObservableCollection<BrowserTabViewModel>();
 
-        private void OnTabControlSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (e.AddedItems.Count != 1) return;
+			CommandBindings.Add(new CommandBinding(ApplicationCommands.New, OpenNewTab));
+			CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, CloseTab));
 
-            var selectedtab = (TabItem)e.AddedItems[0];
-            if ((string)selectedtab.Header != "+")
-            {
-                return;
-            }
+			Loaded += MainWindowLoaded;
+		}
 
-            var tabItem = CreateTabItem();
-            TabControl.Items.Insert(TabControl.Items.Count - 1, tabItem);
-        }
+		private void CloseTab(object sender, ExecutedRoutedEventArgs e)
+		{
+			if (BrowserTabs.Count > 0)
+			{
+				//Obtain the original source element for this event
+				var originalSource = (FrameworkElement)e.OriginalSource;
 
-        private static TabItem CreateTabItem()
-        {
-            var tabItem = new TabItem
-            {
-                Width = 150,
-                Height = 20,
-                IsSelected = true,
-                Content = CreateNewTab()
-            };
-            tabItem.SetBinding(HeaderedContentControl.HeaderProperty, new Binding("Content.DataContext.Title")
-            {
-                RelativeSource = RelativeSource.Self
-            });
-            return tabItem;
-        }
+				if (originalSource is MainWindow)
+				{
+					BrowserTabs.RemoveAt(TabControl.SelectedIndex);
+				}
+				else
+				{
+					//Remove the matching DataContext from the BrowserTabs collection
+					BrowserTabs.Remove((BrowserTabViewModel)originalSource.DataContext);
+				}
+			}
+		}
 
-        private static MainView CreateNewTab()
-        {
-            return new MainView
-            {
-                DataContext = new MainViewModel("http://www.google.com")
-            };
-        }
-    }
+		private void OpenNewTab(object sender, ExecutedRoutedEventArgs e)
+		{
+			CreateNewTab();
+
+			TabControl.SelectedIndex = TabControl.Items.Count - 1;
+		}
+
+		private void MainWindowLoaded(object sender, RoutedEventArgs e)
+		{
+			CreateNewTab(ExamplePresenter.DefaultUrl, true);
+		}
+
+		private void CreateNewTab(string url = DefaultUrlForAddedTabs, bool showSideBar = false)
+		{
+			BrowserTabs.Add(new BrowserTabViewModel(url) { ShowSidebar = showSideBar });
+		}
+	}
 }
