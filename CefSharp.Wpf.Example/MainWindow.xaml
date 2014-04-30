@@ -14,6 +14,23 @@
                 Margin="0,5,0,0"
                                ItemsSource="{Binding BrowserTabs, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                SelectedIndex="0">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Title}"/>
+                        <Button Content="X"
+                                Height="20"
+                                Width="20"
+                                FontFamily="Courier"
+                                FontWeight="Bold"
+                                Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                Command="Close"
+                                FontSize="10"
+                                Padding="0"
+                                ToolTip="Close"/>
+                    </StackPanel>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
                 <DataTemplate>
                     <ContentControl Content="{Binding}" />
