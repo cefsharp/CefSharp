@@ -3,7 +3,8 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System.Windows.Data;
-using CefSharp.Wpf.Example.Views.Main;
+using CefSharp.Wpf.Example.ViewModels;
+using CefSharp.Wpf.Example.Views;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -19,9 +20,9 @@ namespace CefSharp.Wpf.Example
             InitializeComponent();
             DataContext = this;
 
-            Tab1Content = new MainView
+            Tab1Content = new BrowserTabView
             {
-                DataContext = new MainViewModel { ShowSidebar = true }
+                DataContext = new BrowserTabViewModel { ShowSidebar = true }
             };
 
             Tab2Content = CreateNewTab();
@@ -57,11 +58,11 @@ namespace CefSharp.Wpf.Example
             return tabItem;
         }
 
-        private static MainView CreateNewTab()
+        private static BrowserTabView CreateNewTab()
         {
-            return new MainView
+            return new BrowserTabView
             {
-                DataContext = new MainViewModel("http://www.google.com")
+                DataContext = new BrowserTabViewModel("http://www.google.com")
             };
         }
     }
