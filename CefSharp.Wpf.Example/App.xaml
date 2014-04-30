@@ -2,6 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="clr-namespace:CefSharp.Wpf.Example.Controls"
+             xmlns:view="clr-namespace:CefSharp.Wpf.Example.Views"
+             xmlns:viewModel="clr-namespace:CefSharp.Wpf.Example.ViewModels"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <Style TargetType="{x:Type controls:NonReloadingTabControl}">
@@ -52,4 +54,9 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <DataTemplate DataType="{x:Type viewModel:BrowserTabViewModel}">
+            <view:BrowserTabView />
+        </DataTemplate>
+    </Application.Resources>
 </Application>
