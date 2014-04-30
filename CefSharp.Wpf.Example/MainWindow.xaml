@@ -1,8 +1,7 @@
 ﻿<Window x:Class="CefSharp.Wpf.Example.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
-        xmlns:example="clr-namespace:CefSharp.Example;assembly=CefSharp.Example"
+        xmlns:controls="clr-namespace:CefSharp.Wpf.Example.Controls"
         Title="CefSharp.Wpf.Example"
         WindowState="Maximized">
 
