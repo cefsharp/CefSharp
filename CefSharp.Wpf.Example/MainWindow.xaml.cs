@@ -23,6 +23,9 @@ namespace CefSharp.Wpf.Example
 
 			BrowserTabs = new ObservableCollection<BrowserTabViewModel>();
 
+			CommandBindings.Add(new CommandBinding(ApplicationCommands.New, OpenNewTab));
+			CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, CloseTab));
+
 			Loaded += MainWindowLoaded;
         }
 

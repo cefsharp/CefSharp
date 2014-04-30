@@ -6,6 +6,10 @@
         Title="CefSharp.Wpf.Example"
         WindowState="Maximized">
 
+    <Window.InputBindings>
+        <KeyBinding Key="T" Modifiers="Control" Command="New"/>
+        <KeyBinding Key="W" Modifiers="Control" Command="Close"/>
+    </Window.InputBindings>
     <Grid>
         <controls:NonReloadingTabControl x:Name="TabControl"
                 Margin="0,5,0,0"
