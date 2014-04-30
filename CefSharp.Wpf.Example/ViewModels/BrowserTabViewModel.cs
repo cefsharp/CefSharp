@@ -64,7 +64,6 @@ namespace CefSharp.Wpf.Example.ViewModels
         }
 
         public DelegateCommand GoCommand { get; set; }
-        public DelegateCommand ViewSourceCommand { get; set; }
         public DelegateCommand HomeCommand { get; set; }
         public DelegateCommand<string> ExecuteJavaScriptCommand { get; set; }
         public DelegateCommand<string> EvaluateJavaScriptCommand { get; set; }
@@ -77,7 +76,6 @@ namespace CefSharp.Wpf.Example.ViewModels
             AddressEditable = Address;
 
             GoCommand = new DelegateCommand(Go, () => !String.IsNullOrWhiteSpace(Address));
-            ViewSourceCommand = new DelegateCommand(ViewSource);
             HomeCommand = new DelegateCommand(() => AddressEditable = Address = ExamplePresenter.DefaultUrl);
             ExecuteJavaScriptCommand = new DelegateCommand<string>(ExecuteJavaScript, s => !String.IsNullOrWhiteSpace(s));
             EvaluateJavaScriptCommand = new DelegateCommand<string>(EvaluateJavaScript, s => !String.IsNullOrWhiteSpace(s));
@@ -160,11 +158,6 @@ namespace CefSharp.Wpf.Example.ViewModels
 
             // Part of the Focus hack further described in the OnPropertyChanged() method...
             Keyboard.ClearFocus();
-        }
-
-        private void ViewSource()
-        {
-            webBrowser.ViewSource();
         }
     }
 }

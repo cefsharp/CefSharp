@@ -201,7 +201,7 @@
                                       Command="{Binding WebBrowser.ZoomResetCommand}" />
                             <Separator />
                             <MenuItem Header="View Source"
-                                      Command="{Binding ViewSourceCommand}" />
+                                      Command="{Binding WebBrowser.ViewSourceCommand}" />
                         </ContextMenu>
                     </FrameworkElement.ContextMenu>
                 </cefSharp:WebView>
