@@ -14,6 +14,17 @@ namespace CefSharp.Wpf.Example.Views
             InitializeComponent();
         }
 
+        public void FocusAddress()
+        {
+            BrowserAddress.SelectAll();
+            BrowserAddress.Focus();
+        }
+
+        public void Reload(bool ignoreCache)
+        {
+            webView.Reload(ignoreCache);
+        }
+
         private void OnTextBoxGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             var textBox = (TextBox) sender;

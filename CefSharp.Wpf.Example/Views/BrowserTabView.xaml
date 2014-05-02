@@ -33,6 +33,7 @@
                         DockPanel.Dock="Right"
                         Command="{Binding GoCommand}">Go</Button>
                 <TextBox Height="23"
+                         x:Name="BrowserAddress"
                          Text="{Binding AddressEditable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          GotKeyboardFocus="OnTextBoxGotKeyboardFocus"
                          GotMouseCapture="OnTextBoxGotMouseCapture">
