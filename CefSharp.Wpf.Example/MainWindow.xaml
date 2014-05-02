@@ -13,7 +13,16 @@
         <KeyBinding Key="F5" Modifiers="Control" Command="Refresh" CommandParameter="Force"/>
         <KeyBinding Key="F6" Command="{x:Static mvvm:CefBrowserRoutedCommands.FocusAddress}" />
     </Window.InputBindings>
-    <Grid>
+    <DockPanel>
+        <Menu Width="Auto" FontSize="14" IsMainMenu="True" DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="New Tab" InputGestureText="CTRL-T" Command="New" />
+                <MenuItem Header="Close Tab" InputGestureText="CTRL-W" Command="Close" />
+                <MenuItem Header="Reload Tab" InputGestureText="CTRL-R" Command="Refresh" />
+                <Separator />
+                <MenuItem Header="Exit" Command="{Binding ExitCommand}" />
+            </MenuItem>
+        </Menu>
         <controls:NonReloadingTabControl x:Name="TabControl"
                                Margin="0,5,0,0"
                                ItemsSource="{Binding BrowserTabs, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -42,5 +51,5 @@
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </controls:NonReloadingTabControl>
-    </Grid>
+    </DockPanel>
 </Window>
