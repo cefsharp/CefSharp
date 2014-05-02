@@ -97,6 +97,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controls\NonReloadingTabControl.cs" />
+    <Compile Include="Controls\VisualTreeExtensions.cs" />
+    <Compile Include="Mvvm\CefBrowserRoutedCommands.cs" />
     <Compile Include="Mvvm\DelegateCommand.cs" />
     <Compile Include="Mvvm\DelegateCommandT.cs" />
     <Compile Include="Mvvm\ViewModelBase.cs" />
