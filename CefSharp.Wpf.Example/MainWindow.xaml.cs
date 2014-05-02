@@ -6,7 +6,9 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using CefSharp.Example;
+using CefSharp.Wpf.Example.Controls;
 using CefSharp.Wpf.Example.ViewModels;
+using CefSharp.Wpf.Example.Views;
 
 namespace CefSharp.Wpf.Example
 {
@@ -63,6 +65,13 @@ namespace CefSharp.Wpf.Example
 		private void CreateNewTab(string url = DefaultUrlForAddedTabs, bool showSideBar = false)
 		{
 			BrowserTabs.Add(new BrowserTabViewModel(url) { ShowSidebar = showSideBar });
+		}
+
+		private BrowserTabView GetCurrentView()
+		{
+			var children = TabControl.FindChildren<BrowserTabView>();
+
+			return children.Count == 0 ? null : children[TabControl.SelectedIndex];
 		}
 	}
 }
