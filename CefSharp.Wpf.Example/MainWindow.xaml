@@ -16,9 +16,9 @@
     <DockPanel>
         <Menu Width="Auto" FontSize="14" IsMainMenu="True" DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="New Tab" InputGestureText="CTRL-T" Command="New" />
-                <MenuItem Header="Close Tab" InputGestureText="CTRL-W" Command="Close" />
-                <MenuItem Header="Reload Tab" InputGestureText="CTRL-R" Command="Refresh" />
+                <MenuItem Header="New Tab" InputGestureText="Ctrl+T" Command="New" />
+                <MenuItem Header="Close Tab" InputGestureText="Ctrl+W" Command="Close" />
+                <MenuItem Header="Reload Tab" InputGestureText="Ctrl+R" Command="Refresh" />
                 <Separator />
                 <MenuItem Header="Exit" Command="{Binding ExitCommand}" />
             </MenuItem>
