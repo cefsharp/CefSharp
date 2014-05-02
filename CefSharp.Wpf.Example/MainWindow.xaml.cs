@@ -20,12 +20,16 @@ namespace CefSharp.Wpf.Example
 
 		public ObservableCollection<BrowserTabViewModel> BrowserTabs { get; set; }
 
+		public ICommand ExitCommand { get; private set; }
+
 		public MainWindow()
 		{
 			InitializeComponent();
 			DataContext = this;
 
 			BrowserTabs = new ObservableCollection<BrowserTabViewModel>();
+
+			ExitCommand = new DelegateCommand(Close);
 
 			CommandBindings.Add(new CommandBinding(ApplicationCommands.New, OpenNewTab));
 			CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, CloseTab));
