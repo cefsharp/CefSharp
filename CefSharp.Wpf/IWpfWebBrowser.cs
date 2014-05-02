@@ -99,6 +99,23 @@ namespace CefSharp.Wpf
         void Reload(bool ignoreCache);
 
         /// <summary>
+        /// Search for text within the current page
+        /// </summary>
+        /// <param name="identifier">Can be used in can conjunction with searchText to have multiple
+        /// searches running simultaniously.</param>
+        /// <param name="searchText">search text</param>
+        /// <param name="forward">indicates whether to search forward or backward within the page.</param>
+        /// <param name="matchCase">indicates whether the search should be case-sensitive. </param>
+        /// <param name="findNext">indicates whether this is the first request or a follow-up.</param>
+        void Find(int identifier, string searchText, bool forward, bool matchCase, bool findNext);
+
+        /// <summary>
+        /// Cancel all searches that are currently going on.
+        /// </summary>
+        /// <param name="clearSelection">clear the current search selection</param>
+        void StopFinding(bool clearSelection);
+
+        /// <summary>
         /// The zoom level at which the browser control is currently displaying. Can be set to 0 to clear the zoom level (resets to
         /// default zoom level)
         /// </summary>
