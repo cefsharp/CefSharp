@@ -2,11 +2,16 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="clr-namespace:CefSharp.Wpf.Example.Controls"
+        xmlns:mvvm="clr-namespace:CefSharp.Wpf.Example.Mvvm"
         Title="CefSharp.Wpf.Example"
         WindowState="Maximized">
     <Window.InputBindings>
         <KeyBinding Key="T" Modifiers="Control" Command="New"/>
         <KeyBinding Key="W" Modifiers="Control" Command="Close"/>
+        <KeyBinding Key="R" Modifiers="Control" Command="Refresh"/>
+        <KeyBinding Key="F5" Command="Refresh"/>
+        <KeyBinding Key="F5" Modifiers="Control" Command="Refresh" CommandParameter="Force"/>
+        <KeyBinding Key="F6" Command="{x:Static mvvm:CefBrowserRoutedCommands.FocusAddress}" />
     </Window.InputBindings>
     <Grid>
         <controls:NonReloadingTabControl x:Name="TabControl"
