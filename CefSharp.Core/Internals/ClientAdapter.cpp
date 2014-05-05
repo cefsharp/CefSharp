@@ -114,7 +114,7 @@ namespace CefSharp
                 return KeyType::KeyUp;
             case KEYEVENT_CHAR:
             default:
-                return KeyType::Char;
+                throw gcnew ArgumentOutOfRangeException("keytype", String::Format("'{0}' is not a valid keytype", gcnew array<Object^>(keytype)));
             }
         }
 
