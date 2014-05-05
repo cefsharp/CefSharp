@@ -26,16 +26,8 @@ namespace CefSharp.Wpf.Example.Mvvm
                 canExecuteHandler();
         }
 
+        #pragma warning disable 0067
         public event EventHandler CanExecuteChanged;
-
-        protected void RaiseCanExecuteChanged()
-        {
-            var handler = CanExecuteChanged;
-
-            if (handler != null)
-            {
-                handler(this, EventArgs.Empty);
-            }
-        }
+        #pragma warning restore 0067
     }
 }
