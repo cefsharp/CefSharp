@@ -1,4 +1,4 @@
-// Copyright © 2010-2013 The CefSharp Project. All rights reserved.
+// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -21,8 +21,14 @@ namespace CefSharp
 
         if (cefCookie.has_expires)
         {
-            cookie->Expires = DateTime(cefCookie.expires.year,
-                cefCookie.expires.month, cefCookie.expires.day_of_month);
+            cookie->Expires = DateTime(
+                cefCookie.expires.year,
+                cefCookie.expires.month, 
+                cefCookie.expires.day_of_month,
+                cefCookie.expires.hour,
+                cefCookie.expires.minute,
+                cefCookie.expires.second,
+                cefCookie.expires.millisecond);
         }
 
         return _visitor->Visit(cookie, count, total, deleteCookie);

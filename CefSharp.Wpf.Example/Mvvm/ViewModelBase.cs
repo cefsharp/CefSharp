@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq.Expressions;
@@ -18,7 +22,7 @@ namespace CefSharp.Wpf.Example.Mvvm
         }
 
         /// <summary>
-        /// Is called when a property is changed and raises a  <see cref="PropertyChangedEvent"/>
+        /// Is called when a property is changed and raises a <see cref="PropertyChanged"/> event
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="oldvalue">The old value.</param>
