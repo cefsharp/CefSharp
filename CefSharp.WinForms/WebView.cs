@@ -195,7 +195,7 @@ namespace CefSharp.WinForms
 
         public void Stop()
         {
-            throw new NotImplementedException();
+            managedCefBrowserAdapter.Stop();
         }
 
         public void Back()
