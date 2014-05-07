@@ -126,6 +126,13 @@ namespace CefSharp.WinForms.Example
             urlTextBox.Width = Math.Max(0, width - urlTextBox.Margin.Horizontal - 18);
         }
 
+        private void ExitMenuItemClick(object sender, EventArgs e)
+        {
+            webView.Dispose();
+            Cef.Shutdown();
+            Close();
+        }
+
         private void GoButtonClick(object sender, EventArgs e)
         {
             LoadUrl(urlTextBox.Text);
