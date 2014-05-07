@@ -107,11 +107,12 @@ namespace CefSharp.WinForms.Example
         private void WebViewLoadCompleted(object sender, LoadCompletedEventArgs args)
         {
             SetAddress(args.Url);
+            SetTitle(webView.Title);
         }
 
         public void SetTitle(string title)
         {
-            Text = title;
+            this.InvokeOnUiThreadIfRequired(() => Text = title);
         }
 
         public void SetAddress(string address)
