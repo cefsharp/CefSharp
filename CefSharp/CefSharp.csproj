@@ -115,7 +115,7 @@
     <Compile Include="Internals\CefSubprocess.cs" />
     <Compile Include="Internals\SubProcessServiceHost.cs" />
     <Compile Include="IWinFormsWebBrowser.cs" />
-    <Compile Include="LoadedCompletedEventArgs.cs" />
+    <Compile Include="LoadCompletedEventArgs.cs" />
     <Compile Include="LogSeverity.cs" />
     <Compile Include="ObjectBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
