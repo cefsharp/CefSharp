@@ -95,6 +95,13 @@ namespace CefSharp.WinForms.Example
             
             webView.MenuHandler = new MenuHandler();
             webView.LoadCompleted += WebViewLoadCompleted;
+            webView.NavStateChanged += WebViewNavStateChanged;
+        }
+
+        private void WebViewNavStateChanged(object sender, NavStateChangedEventArgs args)
+        {
+            SetCanGoBack(args.CanGoBack);
+            SetCanGoForward(args.CanGoForward);
         }
 
         private void WebViewLoadCompleted(object sender, LoadCompletedEventArgs args)
@@ -119,12 +126,12 @@ namespace CefSharp.WinForms.Example
 
         public void SetCanGoBack(bool canGoBack)
         {
-            backButton.Enabled = canGoBack;
+            this.InvokeOnUiThreadIfRequired(() => backButton.Enabled = canGoBack);
         }
 
         public void SetCanGoForward(bool canGoForward)
         {
-            forwardButton.Enabled = canGoForward;
+            this.InvokeOnUiThreadIfRequired(() => forwardButton.Enabled = canGoForward);
         }
 
         public void SetIsLoading(bool isLoading)

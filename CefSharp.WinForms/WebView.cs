@@ -98,6 +98,7 @@ namespace CefSharp.WinForms
 
         public event LoadErrorEventHandler LoadError;
         public event LoadCompletedEventHandler LoadCompleted;
+        public event NavStateChangedEventHandler NavStateChanged;
         public event ConsoleMessageEventHandler ConsoleMessage;
 
         protected override void OnHandleCreated(EventArgs e)
@@ -129,6 +130,12 @@ namespace CefSharp.WinForms
             CanGoBack = canGoBack;
             CanGoForward = canGoForward;
             CanReload = canReload;
+
+            var onNavStateChanged = NavStateChanged;
+            if (onNavStateChanged != null)
+            {
+                onNavStateChanged(this, new NavStateChangedEventArgs(canGoBack, canGoForward, canReload));
+            }
         }
 
         public void SetTitle(string title)
