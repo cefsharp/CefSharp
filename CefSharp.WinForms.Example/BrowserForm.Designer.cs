@@ -114,6 +114,7 @@
             this.backButton.Name = "backButton";
             this.backButton.Size = new System.Drawing.Size(52, 22);
             this.backButton.Text = "Back";
+            this.backButton.Click += BackButtonClick;
             // 
             // forwardButton
             // 
@@ -123,6 +124,7 @@
             this.forwardButton.Name = "forwardButton";
             this.forwardButton.Size = new System.Drawing.Size(70, 22);
             this.forwardButton.Text = "Forward";
+            this.forwardButton.Click += ForwardButtonClick;
             // 
             // urlTextBox
             // 

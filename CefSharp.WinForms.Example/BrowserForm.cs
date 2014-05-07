@@ -193,6 +193,16 @@ namespace CefSharp.WinForms.Example
             LoadUrl(urlTextBox.Text);
         }
 
+        private void BackButtonClick(object sender, EventArgs e)
+        {
+            webView.Back();
+        }
+
+        private void ForwardButtonClick(object sender, EventArgs e)
+        {
+            webView.Forward();
+        }
+
         private void UrlTextBoxKeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode != Keys.Enter)
