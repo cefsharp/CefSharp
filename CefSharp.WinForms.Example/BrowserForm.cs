@@ -66,8 +66,6 @@ namespace CefSharp.WinForms.Example
             remove { selectAllMenuItem.Click -= value; }
         }
 
-        public event Action<object, string> UrlActivated;
-
         public event EventHandler BackActivated
         {
             add { backButton.Click += value; }
@@ -167,13 +165,9 @@ namespace CefSharp.WinForms.Example
             urlTextBox.Width = Math.Max(0, width - urlTextBox.Margin.Horizontal - 18);
         }
 
-        private void HandleGoButtonClick(object sender, EventArgs e)
+        private void GoButtonClick(object sender, EventArgs e)
         {
-            var handler = this.UrlActivated;
-            if (handler != null)
-            {
-                handler(this, urlTextBox.Text);
-            }
+            LoadUrl(urlTextBox.Text);
         }
 
         private void UrlTextBoxKeyUp(object sender, KeyEventArgs e)
@@ -183,10 +177,14 @@ namespace CefSharp.WinForms.Example
                 return;
             }
 
-            var handler = UrlActivated;
-            if (handler != null)
+            LoadUrl(urlTextBox.Text);
+        }
+
+        private void LoadUrl(string url)
+        {
+            if (Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute))
             {
-                handler(this, urlTextBox.Text);
+                webView.Load(url);
             }
         }
 
