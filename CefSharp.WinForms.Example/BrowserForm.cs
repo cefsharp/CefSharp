@@ -111,7 +111,7 @@ namespace CefSharp.WinForms.Example
 
         private void WebViewLoadStart(object sender, LoadStartEventArgs args)
         {
-            DisplayOutput(args.Url);
+            SetAddress(args.Url);
         }
 
         private void WebViewNavStateChanged(object sender, NavStateChangedEventArgs args)
