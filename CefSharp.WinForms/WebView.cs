@@ -213,6 +213,7 @@ namespace CefSharp.WinForms
         {
             managedCefBrowserAdapter.GoForward();
         }
+
         public void Reload()
         {
             Reload(false);
@@ -221,6 +222,42 @@ namespace CefSharp.WinForms
         public void Reload(bool ignoreCache)
         {
             managedCefBrowserAdapter.Reload(ignoreCache);
+        }
+
+        public void Undo()
+        {
+            managedCefBrowserAdapter.Undo();
+        }
+
+        public void Redo()
+        {
+            managedCefBrowserAdapter.Redo();
+        }
+
+        public void Cut()
+        {
+            managedCefBrowserAdapter.Cut();
+        }
+
+        public void Copy()
+        {
+            managedCefBrowserAdapter.Copy();
+        }
+
+        public void Paste()
+        {
+            managedCefBrowserAdapter.Paste();
+        }
+
+        public void Delete()
+        {
+            //managedCefBrowserAdapter.Delete();
+            throw new NotImplementedException();
+        }
+
+        public void SelectAll()
+        {
+            managedCefBrowserAdapter.SelectAll();
         }
 
         public void Print()
