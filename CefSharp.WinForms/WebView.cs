@@ -168,7 +168,7 @@ namespace CefSharp.WinForms
 
         public void OnTakeFocus(bool next)
         {
-            throw new NotImplementedException();
+            SelectNextControl(this, next, true, true, true);
         }
 
         public void OnConsoleMessage(string message, string source, int line)
