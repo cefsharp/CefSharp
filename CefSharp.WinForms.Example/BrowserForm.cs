@@ -108,6 +108,8 @@ namespace CefSharp.WinForms.Example
         {
             SetCanGoBack(args.CanGoBack);
             SetCanGoForward(args.CanGoForward);
+
+            this.InvokeOnUiThreadIfRequired(() => SetIsLoading(!args.CanReload));
         }
 
         private void WebViewLoadCompleted(object sender, LoadCompletedEventArgs args)
