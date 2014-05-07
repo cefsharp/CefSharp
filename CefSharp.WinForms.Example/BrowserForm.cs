@@ -97,6 +97,9 @@ namespace CefSharp.WinForms.Example
             webView.LoadStart += WebViewLoadStart;
             webView.LoadCompleted += WebViewLoadCompleted;
             webView.NavStateChanged += WebViewNavStateChanged;
+
+            var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
+            DisplayOutput(version);
         }
 
         private void WebViewLoadStart(object sender, LoadStartEventArgs args)
