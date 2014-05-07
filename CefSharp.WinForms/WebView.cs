@@ -193,6 +193,20 @@ namespace CefSharp.WinForms
             throw new NotImplementedException();
         }
 
+        public void Stop()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Back()
+        {
+            managedCefBrowserAdapter.GoBack();
+        }
+
+        public void Forward()
+        {
+            managedCefBrowserAdapter.GoForward();
+        }
         public void Reload()
         {
             Reload(false);
