@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using CefSharp.Example;
+using CefSharp.WinForms.Example.Controls;
 
 namespace CefSharp.WinForms.Example
 {
@@ -88,11 +89,17 @@ namespace CefSharp.WinForms.Example
 
             webView = new WebView(ExamplePresenter.DefaultUrl)
             {
-                Dock = DockStyle.Fill
+                Dock = DockStyle.Fill,
             };
             toolStripContainer.ContentPanel.Controls.Add(webView);
             
             webView.MenuHandler = new MenuHandler();
+            webView.LoadCompleted += WebViewLoadCompleted;
+        }
+
+        private void WebViewLoadCompleted(object sender, LoadCompletedEventArgs args)
+        {
+            SetAddress(args.Url);
         }
 
         public void SetTitle(string title)
@@ -102,12 +109,12 @@ namespace CefSharp.WinForms.Example
 
         public void SetAddress(string address)
         {
-            urlTextBox.Text = address;
+            this.InvokeOnUiThreadIfRequired(() => urlTextBox.Text = address);
         }
 
         public void SetAddress(Uri uri)
         {
-            urlTextBox.Text = uri.ToString();
+            this.InvokeOnUiThreadIfRequired(() => urlTextBox.Text = uri.ToString());
         }
 
         public void SetCanGoBack(bool can_go_back)
