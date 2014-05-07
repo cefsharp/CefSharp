@@ -175,8 +175,6 @@ namespace CefSharp.WinForms
             }
         }
 
-        
-
         public void ShowDevTools()
         {
             // TODO: Do something about this one.
@@ -187,6 +185,36 @@ namespace CefSharp.WinForms
         public void CloseDevTools()
         {
             throw new NotImplementedException();
+        }
+
+        public void Reload()
+        {
+            Reload(false);
+        }
+
+        public void Reload(bool ignoreCache)
+        {
+            managedCefBrowserAdapter.Reload(ignoreCache);
+        }
+
+        public void Print()
+        {
+            managedCefBrowserAdapter.Print();
+        }
+
+        public void Find(int identifier, string searchText, bool forward, bool matchCase, bool findNext)
+        {
+            managedCefBrowserAdapter.Find(identifier, searchText, forward, matchCase, findNext);
+        }
+
+        public void StopFinding(bool clearSelection)
+        {
+            managedCefBrowserAdapter.StopFinding(clearSelection);
+        }
+
+        public void ViewSource()
+        {
+            managedCefBrowserAdapter.ViewSource();
         }
     }
 }
