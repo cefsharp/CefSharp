@@ -117,22 +117,22 @@ namespace CefSharp.WinForms.Example
             this.InvokeOnUiThreadIfRequired(() => urlTextBox.Text = uri.ToString());
         }
 
-        public void SetCanGoBack(bool can_go_back)
+        public void SetCanGoBack(bool canGoBack)
         {
-            backButton.Enabled = can_go_back;
+            backButton.Enabled = canGoBack;
         }
 
-        public void SetCanGoForward(bool can_go_forward)
+        public void SetCanGoForward(bool canGoForward)
         {
-            forwardButton.Enabled = can_go_forward;
+            forwardButton.Enabled = canGoForward;
         }
 
-        public void SetIsLoading(bool is_loading)
+        public void SetIsLoading(bool isLoading)
         {
-            goButton.Text = is_loading ?
+            goButton.Text = isLoading ?
                 "Stop" :
                 "Go";
-            goButton.Image = is_loading ?
+            goButton.Image = isLoading ?
                 Properties.Resources.nav_plain_red :
                 Properties.Resources.nav_plain_green;
 
