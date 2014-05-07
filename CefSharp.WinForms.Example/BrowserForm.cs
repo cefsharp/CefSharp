@@ -33,7 +33,6 @@ namespace CefSharp.WinForms.Example
 
         private void WebViewConsoleMessage(object sender, ConsoleMessageEventArgs args)
         {
-            
             DisplayOutput(string.Format("Line: {0}, Source: {1}, Message: {2}", args.Line, args.Source, args.Message));
         }
 
