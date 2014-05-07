@@ -160,9 +160,10 @@ namespace CefSharp.WinForms
 
         public void OnFrameLoadEnd(string url)
         {
-            if (LoadCompleted != null)
+            var handler = LoadCompleted;
+            if (handler != null)
             {
-                LoadCompleted(this, new LoadCompletedEventArgs(url));
+                handler(this, new LoadCompletedEventArgs(url));
             }
         }
 
