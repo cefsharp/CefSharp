@@ -94,8 +94,14 @@ namespace CefSharp.WinForms.Example
             toolStripContainer.ContentPanel.Controls.Add(webView);
             
             webView.MenuHandler = new MenuHandler();
+            webView.LoadStart += WebViewLoadStart;
             webView.LoadCompleted += WebViewLoadCompleted;
             webView.NavStateChanged += WebViewNavStateChanged;
+        }
+
+        private void WebViewLoadStart(object sender, LoadStartEventArgs args)
+        {
+            SetAddress(args.Url);
         }
 
         private void WebViewNavStateChanged(object sender, NavStateChangedEventArgs args)
