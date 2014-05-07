@@ -97,14 +97,21 @@ namespace CefSharp.WinForms.Example
             webView.LoadStart += WebViewLoadStart;
             webView.LoadCompleted += WebViewLoadCompleted;
             webView.NavStateChanged += WebViewNavStateChanged;
+            webView.ConsoleMessage += WebViewConsoleMessage;
 
             var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
             DisplayOutput(version);
         }
 
+        private void WebViewConsoleMessage(object sender, ConsoleMessageEventArgs args)
+        {
+            
+            DisplayOutput(string.Format("Line: {0}, Source: {1}, Message: {2}", args.Line, args.Source, args.Message));
+        }
+
         private void WebViewLoadStart(object sender, LoadStartEventArgs args)
         {
-            SetAddress(args.Url);
+            DisplayOutput(args.Url);
         }
 
         private void WebViewNavStateChanged(object sender, NavStateChangedEventArgs args)
@@ -170,7 +177,7 @@ namespace CefSharp.WinForms.Example
 
         public void DisplayOutput(string output)
         {
-            outputLabel.Text = output;
+            this.InvokeOnUiThreadIfRequired(() => outputLabel.Text = output);
         }
 
         private void HandleToolStripLayout(object sender, LayoutEventArgs e)
