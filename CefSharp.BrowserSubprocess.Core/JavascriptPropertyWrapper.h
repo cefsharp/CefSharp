@@ -13,6 +13,7 @@ namespace CefSharp
     {    
     private:
         MCefRefPtr<JavascriptPropertyHandler> _javascriptPropertyHandler;
+        JavascriptObjectWrapper^ _owner;
         
     public:
         
@@ -23,13 +24,13 @@ namespace CefSharp
         
         virtual void Bind(JavascriptObject^ owner) override
         {
-            auto realOwner = static_cast<JavascriptObjectWrapper^>(owner);
+            _owner = static_cast<JavascriptObjectWrapper^>(owner);
             auto realValue = static_cast<JavascriptObjectWrapper^>(Value);
-            auto v8Value = realOwner->Value->CreateObject(_javascriptPropertyHandler.get());
+            auto v8Value = _owner->Value->CreateObject(_javascriptPropertyHandler.get());
             
             realValue->Value = v8Value;
 
-            realOwner->Value->SetValue(StringUtils::ToNative(Description->JavascriptName), v8Value, V8_PROPERTY_ATTRIBUTE_NONE);
+            _owner->Value->SetValue(StringUtils::ToNative(Description->JavascriptName), v8Value, V8_PROPERTY_ATTRIBUTE_NONE);
 
             realValue->Bind();
         };

@@ -7,7 +7,20 @@ namespace CefSharp.BrowserSubprocess
 {
     public class SubprocessServiceHost : ServiceHost, ISubprocessCallback
     {
-        public SubprocessProxy Service { get; set; }
+        public SubprocessProxy Service { get; private set; }
+
+        public event Action<ISubprocessCallback> Initialized;
+
+        public void Initialize(SubprocessProxy service)
+        {
+            Service = service;
+
+            var handler = Initialized;
+            if (handler != null)
+            {
+                handler(this);
+            }
+        }
 
         private SubprocessServiceHost()
             : base(typeof(SubprocessProxy), new Uri[0])

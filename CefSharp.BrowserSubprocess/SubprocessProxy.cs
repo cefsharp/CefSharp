@@ -1,4 +1,5 @@
-﻿using System.ServiceModel;
+﻿using System.Diagnostics;
+using System.ServiceModel;
 using CefSharp.Internals;
 
 namespace CefSharp.BrowserSubprocess
@@ -9,8 +10,10 @@ namespace CefSharp.BrowserSubprocess
 
         public void Initialize()
         {
-            CefSubprocess.Instance.ServiceHost.Service = this;
+            Debugger.Break();
             Callback = OperationContext.Current.GetCallbackChannel<ISubprocessCallback>();
+
+            CefSubprocess.Instance.ServiceHost.Initialize(this);
         }
 
         public object EvaluateScript(int frameId, string script, double timeout)
@@ -21,7 +24,6 @@ namespace CefSharp.BrowserSubprocess
 
         public void Terminate()
         {
-            CefSubprocess.Instance.ServiceHost.Service = null;
             CefSubprocess.Instance.Dispose();
         }
     }

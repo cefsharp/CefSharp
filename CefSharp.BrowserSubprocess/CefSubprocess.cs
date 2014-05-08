@@ -9,6 +9,7 @@ namespace CefSharp.BrowserSubprocess
     {
         private SubprocessServiceHost javascriptServiceHost;
         private CefBrowserBase browser;
+        private CefAppWrapper appwrapper;
 
         public int? ParentProcessId { get; private set; }
 
@@ -69,13 +70,17 @@ namespace CefSharp.BrowserSubprocess
                 return;
             }
 
-            Task.Factory.StartNew(() => javascriptServiceHost = SubprocessServiceHost.Create(ParentProcessId.Value, cefBrowserWrapper.BrowserId));
+            Task.Factory.StartNew(() =>
+            { 
+                javascriptServiceHost = SubprocessServiceHost.Create(ParentProcessId.Value, cefBrowserWrapper.BrowserId);
+                javascriptServiceHost.Initialized += ( c ) => appwrapper.Callback = c;
+            } );
         }
 
         public int Run()
         {
-            var wrapper = new CefAppWrapper(OnBrowserCreated);
-            return wrapper.Run();
+            appwrapper = new CefAppWrapper(OnBrowserCreated);
+            return appwrapper.Run();
         }
     }
 }

@@ -20,11 +20,19 @@ namespace CefSharp
     {
     private:
         CefRefPtr<CefAppUnmanagedWrapper>* cefApp;
+        ISubprocessCallback^ _callback;
 
     internal:
         Action<CefBrowserWrapper^>^ OnBrowserCreated;
 
-    public:
+        virtual property ISubprocessCallback^ Callback 
+        {
+            ISubprocessCallback^ get() { return _callback; }
+            void set(ISubprocessCallback^ value) { _callback = value; }
+        }
+
+    public:        
+        static CefAppWrapper^ Instance;
 
         CefAppWrapper(Action<CefBrowserWrapper^>^ onBrowserCreated);
         int Run();
@@ -34,6 +42,7 @@ namespace CefSharp
     {
     private:
         gcroot<Action<CefBrowserWrapper^>^> _onBrowserCreated;
+        gcroot<JavascriptObject^> _boundObject;
 
     public:
         CefAppUnmanagedWrapper(Action<CefBrowserWrapper^>^ onBrowserCreated)
@@ -58,13 +67,15 @@ namespace CefSharp
             // TODO: Dummy code for now which just sets up a global window.foo object with a bar() method. :)
             System::Diagnostics::Debugger::Launch();
 
-            auto bar = gcnew JavascriptMethodWrapper(); 
+            auto bar = gcnew JavascriptMethodWrapper();
             bar->Description = gcnew JavascriptMethodDescription();
             bar->Description->JavascriptName = "bar";
+            bar->Description->ManagedName = "Bar";
 
             auto foo = gcnew JavascriptPropertyWrapper();
             foo->Description = gcnew JavascriptPropertyDescription();
             foo->Description->JavascriptName = "foo";
+            foo->Description->ManagedName = "Foo";
             foo->Value = gcnew JavascriptObjectWrapper();
             foo->Value->Members->Add(bar);
 

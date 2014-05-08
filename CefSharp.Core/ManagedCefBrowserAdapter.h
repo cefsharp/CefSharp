@@ -263,6 +263,7 @@ namespace CefSharp
             if (_javaScriptProxy != nullptr &&
                 frame != nullptr)
             {
+                _javaScriptProxy->Initialize();
                 return _javaScriptProxy->EvaluateScript(frame->GetIdentifier(), script, timeout.TotalMilliseconds);
             }
             else
@@ -312,11 +313,14 @@ namespace CefSharp
             auto browserId = cefBrowser->GetIdentifier();
             auto serviceName = SubprocessProxyFactory::GetServiceName(Process::GetCurrentProcess()->Id, browserId);
             _javaScriptProxy = SubprocessProxyFactory::CreateSubprocessProxyClient(serviceName, this);
-        }
 
+            //CefTaskRunner::GetForCurrentThread()->PostDelayedTask(NewCefRunnableMethod(???), 100 );
+            //_javaScriptProxy->Initialize();
+        }
+        
         virtual Object^ CallMethod(int objectId, String^ name, array<Object^>^ parameters)
         {
-            throw gcnew NotImplementedException();
+            return nullptr;
         }
 
         virtual Object^ GetProperty(int objectId, String^ name)
