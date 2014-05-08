@@ -22,6 +22,7 @@ using namespace CefSharp;
 [assembly:AssemblyTrademark("")];
 [assembly:AssemblyCulture("")];
 
+[assembly:InternalsVisibleTo(AssemblyInfo::CefSharpBrowserSubprocessCoreProject)];
 [assembly:InternalsVisibleTo(AssemblyInfo::CefSharpBrowserSubprocessProject)];
 [assembly:InternalsVisibleTo(AssemblyInfo::CefSharpWpfProject)];
 [assembly:InternalsVisibleTo(AssemblyInfo::CefSharpWinFormsProject)];

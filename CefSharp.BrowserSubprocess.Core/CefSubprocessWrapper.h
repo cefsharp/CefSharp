@@ -7,7 +7,7 @@
 #include "include/cef_v8.h"
 
 #include "TypeUtils.h"
-#include "StringUtils.h"
+#include "Stdafx.h"
 
 using namespace CefSharp::Internals;
 using namespace System;
