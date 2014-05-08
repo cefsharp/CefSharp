@@ -68,21 +68,19 @@ namespace CefSharp.BrowserSubprocess
             }
         }
 
-        // Don't need to provide an implementation of those methods, since we only instantiate the JavascriptProxy to be able
-        // to terminate dangling instances.
         public object CallMethod(int objectId, string name, object[] parameters)
         {
-            throw new NotImplementedException();
+            return Service.Callback.CallMethod(objectId, name, parameters);
         }
 
         public object GetProperty(int objectId, string name)
         {
-            throw new NotImplementedException();
+            return Service.Callback.GetProperty(objectId, name);
         }
 
         public object SetProperty(int objectId, string name)
         {
-            throw new NotImplementedException();
+            return Service.Callback.SetProperty(objectId, name);
         }
     }
 }
