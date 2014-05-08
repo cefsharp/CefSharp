@@ -9,5 +9,9 @@ namespace CefSharp.Internals
 
         [DataMember]
         public long DescriptionId { get; set; }
+        
+        public virtual void Bind( JavascriptObject owner )
+        {
+        }
     }
 }

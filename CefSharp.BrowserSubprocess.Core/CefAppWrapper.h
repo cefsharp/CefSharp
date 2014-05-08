@@ -4,7 +4,10 @@
 
 #include "Stdafx.h"
 #include "JavascriptMethodHandler.h"
+#include "JavascriptMethodWrapper.h"
+#include "JavascriptObjectWrapper.h"
 #include "JavascriptPropertyHandler.h"
+#include "JavascriptPropertyWrapper.h"
 #include "CefSubprocessWrapper.h"
 #include "include/cef_app.h"
 #include "include/cef_base.h"
@@ -53,28 +56,23 @@ namespace CefSharp
         virtual DECL void OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context) OVERRIDE
         {
             // TODO: Dummy code for now which just sets up a global window.foo object with a bar() method. :)
-            auto window = context->GetGlobal();
-            auto javascriptPropertyHandler = new JavascriptPropertyHandler();
-            auto boundObject = window->CreateObject(static_cast<CefRefPtr<CefV8Accessor>>(javascriptPropertyHandler));
+            System::Diagnostics::Debugger::Launch();
 
-            auto methodName = StringUtils::ToNative("bar");
-            auto handler = static_cast<CefV8Handler*>(new JavascriptMethodHandler());
-            boundObject->SetValue(methodName, CefV8Value::CreateFunction(methodName, handler), V8_PROPERTY_ATTRIBUTE_NONE);
+            auto bar = gcnew JavascriptMethodWrapper(); 
+            bar->Description = gcnew JavascriptMethodDescription();
+            bar->Description->JavascriptName = "bar";
 
-            window->SetValue(StringUtils::ToNative("foo"), boundObject, V8_PROPERTY_ATTRIBUTE_NONE);            
+            auto foo = gcnew JavascriptPropertyWrapper();
+            foo->Description = gcnew JavascriptPropertyDescription();
+            foo->Description->JavascriptName = "foo";
+            foo->Value = gcnew JavascriptObjectWrapper();
+            foo->Value->Members->Add(bar);
 
-            // TODO: Support the BindingHandler with CEF3.
-            /*
-            for each(KeyValuePair<String^, Object^>^ kvp in Cef::GetBoundObjects())
-            {
-            BindingHandler::Bind(kvp->Key, kvp->Value, context->GetGlobal());
-            }
+            auto windowObject = gcnew JavascriptObjectWrapper();
+            windowObject->Members->Add(foo);
+            windowObject->Value = context->GetGlobal();
 
-            for each(KeyValuePair<String^, Object^>^ kvp in _browserControl->GetBoundObjects())
-            {
-            BindingHandler::Bind(kvp->Key, kvp->Value, context->GetGlobal());
-            }
-            */
+            windowObject->Bind();
         }
 
         IMPLEMENT_REFCOUNTING(CefAppUnmanagedWrapper);
