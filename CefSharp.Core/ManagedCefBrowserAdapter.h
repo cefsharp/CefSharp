@@ -20,7 +20,9 @@ namespace CefSharp
     private:
         RenderClientAdapter* _renderClientAdapter;
         ISubProcessProxy^ _javaScriptProxy;
-
+        IWebBrowserInternal^ _webBrowserInternal;
+        String^ _address;
+        
     public:
         property String^ DevToolsUrl
         {
@@ -41,13 +43,15 @@ namespace CefSharp
 
         ManagedCefBrowserAdapter(IWebBrowserInternal^ webBrowserInternal)
         {
-            _renderClientAdapter = new RenderClientAdapter(webBrowserInternal);
+            _webBrowserInternal = webBrowserInternal;
+            _renderClientAdapter = new RenderClientAdapter(webBrowserInternal, this);
         }
 
         ~ManagedCefBrowserAdapter()
         {
             this->Close();
             _renderClientAdapter = nullptr;
+            _address = nullptr;
         }
 
         void CreateOffscreenBrowser(BrowserSettings^ browserSettings)
@@ -74,6 +78,7 @@ namespace CefSharp
 
         void LoadUrl(String^ address)
         {
+            _address = address;
             auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
 
             if (cefFrame != nullptr)
@@ -81,6 +86,19 @@ namespace CefSharp
                 cefFrame->LoadURL(StringUtils::ToNative(address));
             }
         }
+
+
+        void OnInitialized()
+        {
+            _webBrowserInternal->OnInitialized();
+
+            auto address = _address;
+
+            if ( address != nullptr )
+            {
+                LoadUrl(address);
+            }
+        };
 
         void LoadHtml(String^ html, String^ url)
         {
@@ -205,6 +223,16 @@ namespace CefSharp
             if (cefBrowser != nullptr)
             {
                 cefBrowser->GoForward();
+            }
+        }
+
+        void Print()
+        {
+            auto cefHost = _renderClientAdapter->TryGetCefHost();
+
+            if (cefHost != nullptr)
+            {
+                cefHost->Print();
             }
         }
 

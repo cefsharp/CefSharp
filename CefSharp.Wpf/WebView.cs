@@ -38,6 +38,7 @@ namespace CefSharp.Wpf
         private Image image;
         private Image popupImage;
         private Popup popup;
+        private ScaleTransform dpiTransform; 
         private readonly List<IDisposable> disposables = new List<IDisposable>();
 
         public BrowserSettings BrowserSettings { get; set; }
@@ -54,6 +55,7 @@ namespace CefSharp.Wpf
         public ICommand BackCommand { get; private set; }
         public ICommand ForwardCommand { get; private set; }
         public ICommand ReloadCommand { get; private set; }
+        public ICommand PrintCommand { get; private set; }
         public ICommand ZoomInCommand { get; private set; }
         public ICommand ZoomOutCommand { get; private set; }
         public ICommand ZoomResetCommand { get; private set; }
@@ -341,6 +343,7 @@ namespace CefSharp.Wpf
             BackCommand = new DelegateCommand(Back, () => CanGoBack);
             ForwardCommand = new DelegateCommand(Forward, () => CanGoForward);
             ReloadCommand = new DelegateCommand(Reload, () => CanReload);
+            PrintCommand = new DelegateCommand(Print);
             ZoomInCommand = new DelegateCommand(ZoomIn);
             ZoomOutCommand = new DelegateCommand(ZoomOut);
             ZoomResetCommand = new DelegateCommand(ZoomReset);
@@ -428,36 +431,62 @@ namespace CefSharp.Wpf
         {
             base.OnApplyTemplate();
 
-            Content = image = new Image();
-
-            // If the display properties is set to 125%, M11 and M22 will be 1.25.
-            var factorX = matrix.M11;
-            var factorY = matrix.M22;
-            var scaleX = 1 / factorX;
-            var scaleY = 1 / factorY;
-            image.LayoutTransform = new ScaleTransform(scaleX, scaleY);
-
-            popup = CreatePopup();
-
             AddSourceHookIfNotAlreadyPresent();
 
-            RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.NearestNeighbor);
+            CheckIsNonStandardDpi();
+            
+            // Create main window
+            Content = image = CreateImage(); 
+            Transform(image);
+           
+            popup = CreatePopup();
+            Transform(popup);
+        }
 
-            image.Stretch = Stretch.None;
-            image.HorizontalAlignment = HorizontalAlignment.Left;
-            image.VerticalAlignment = VerticalAlignment.Top;
+        private Image CreateImage() 
+        {
+            Image temp = new Image();
+
+            RenderOptions.SetBitmapScalingMode(temp, BitmapScalingMode.NearestNeighbor);
+
+            temp.Stretch = Stretch.None;
+            temp.HorizontalAlignment = HorizontalAlignment.Left;
+            temp.VerticalAlignment = VerticalAlignment.Top;
+            return temp;
         }
 
         private Popup CreatePopup()
         {
             var popup = new Popup
             {
-                Child = popupImage = new Image(),
+                Child = popupImage = CreateImage(),
                 PlacementTarget = this,
-                Placement = PlacementMode.Relative
+                Placement = PlacementMode.Relative,
             };
 
+            popup.MouseEnter += this.PopupMouseEnter;
+            popup.MouseLeave += this.PopupMouseLeave;
+
             return popup;
+        }
+
+        private void Transform(FrameworkElement element)
+        {
+            if (dpiTransform != null)
+            {
+                element.LayoutTransform = dpiTransform;
+            }
+        }
+
+        private void CheckIsNonStandardDpi()
+        {
+            if (matrix != null) // make sure it's connected
+            {
+                dpiTransform = new ScaleTransform(
+                    1 / matrix.M11,
+                    1 / matrix.M22
+                );
+            }
         }
 
         private void AddSourceHookIfNotAlreadyPresent()
@@ -534,17 +563,20 @@ namespace CefSharp.Wpf
             DoInUi(() =>
             {
                 ignoreUriChange = true;
-                Address = address;
+                SetCurrentValue(AddressProperty, address);
                 ignoreUriChange = false;
 
                 // The tooltip should obviously also be reset (and hidden) when the address changes.
-                TooltipText = null;
+                SetCurrentValue(TooltipTextProperty, null);
             });
         }
 
         public void SetIsLoading(bool isLoading)
         {
-            DoInUi(() => IsLoading = isLoading);
+            DoInUi(() =>
+            {
+                SetCurrentValue(IsLoadingProperty, isLoading);
+            });
         }
 
         public void SetNavState(bool canGoBack, bool canGoForward, bool canReload)
@@ -567,7 +599,7 @@ namespace CefSharp.Wpf
         {
             DoInUi(() =>
             {
-                Title = title;
+                SetCurrentValue(TitleProperty, title);
             });
         }
 
@@ -575,7 +607,7 @@ namespace CefSharp.Wpf
         {
             DoInUi(() =>
             {
-                TooltipText = tooltipText;
+                SetCurrentValue(TooltipTextProperty, tooltipText);
             });
         }
 
@@ -583,18 +615,7 @@ namespace CefSharp.Wpf
         {
             DoInUi(() =>
             {
-                popup.Width = width;
-                popup.Height = height;
-
-                var popupOffset = new Point(x, y);
-                // TODO: Port over this from CefSharp1.
-                //if (popupOffsetTransform != null)
-                //{
-                //    popupOffset = popupOffsetTransform->GeneralTransform::Transform(popupOffset);
-                //}
-
-                popup.HorizontalOffset = popupOffset.X;
-                popup.VerticalOffset = popupOffset.Y;
+                this.SetPopupSizeAndPositionImpl(width, height, x, y);
             });
         }
 
@@ -653,14 +674,9 @@ namespace CefSharp.Wpf
             popup.Height = height;
 
             var popupOffset = new Point(x, y);
-            // TODO: Port over this from CefSharp1.
-            //if (popupOffsetTransform != null)
-            //{
-            //    popupOffset = popupOffsetTransform->GeneralTransform::Transform(popupOffset);
-            //}
 
-            popup.HorizontalOffset = popupOffset.X;
-            popup.VerticalOffset = popupOffset.Y;
+            popup.HorizontalOffset = popupOffset.X / matrix.M11;
+            popup.VerticalOffset = popupOffset.Y / matrix.M22;
         }
 
         private void OnTooltipTimerTick(object sender, EventArgs e)
@@ -776,6 +792,17 @@ namespace CefSharp.Wpf
             );
         }
 
+        protected void PopupMouseEnter(object sender, MouseEventArgs e)
+        {
+            Focus();
+            Mouse.Capture(this);
+        }
+
+        protected void PopupMouseLeave(object sender, MouseEventArgs e)
+        {
+            Mouse.Capture(null);
+        }
+
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
             Focus();
@@ -787,6 +814,11 @@ namespace CefSharp.Wpf
         {
             OnMouseButton(e);
             Mouse.Capture(null);
+        }
+
+        protected override void OnMouseEnter(MouseEventArgs e)
+        {
+            base.OnMouseEnter(e);
         }
 
         protected override void OnMouseLeave(MouseEventArgs e)
@@ -857,6 +889,11 @@ namespace CefSharp.Wpf
         public void Reload(bool ignoreCache)
         {
             managedCefBrowserAdapter.Reload(ignoreCache);
+        }
+
+        private void Print()
+        {
+            managedCefBrowserAdapter.Print();
         }
 
         private void ZoomIn()
