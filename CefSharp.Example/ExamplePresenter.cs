@@ -272,7 +272,7 @@ namespace CefSharp.Example
             return false;
         }
 
-        bool IRequestHandler.OnBeforeBrowse(IWebBrowser browser, IRequest request, NavigationType naigationvType, bool isRedirect)
+        bool IRequestHandler.OnBeforeBrowse(IWebBrowser browser, IRequest request, bool isRedirect)
         {
             return false;
         }
