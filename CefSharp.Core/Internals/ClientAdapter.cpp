@@ -350,6 +350,19 @@ namespace CefSharp
             */
         }
 
+        bool ClientAdapter::OnBeforeNavigation(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,CefRefPtr<CefRequest> request, NavigationType navigationType, bool isRedirect)
+        {
+            IRequestHandler^ handler = _browserControl->RequestHandler;
+            if (handler == nullptr)
+            {
+                return false;
+            }
+
+            CefRequestWrapper^ wrapper = gcnew CefRequestWrapper(request);
+
+            return handler->OnBeforeNavigation(_browserControl, wrapper, (CefSharp::NavigationType) navigationType, isRedirect);
+        }
+
         void ClientAdapter::OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
             CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model)
         {

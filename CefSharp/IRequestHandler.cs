@@ -14,6 +14,7 @@ namespace CefSharp
 
     public interface IRequestHandler
     {
+        bool OnBeforeNavigation(IWebBrowser browser, IRequest request, NavigationType navigationType, bool isRedirect);
         bool OnBeforeBrowse(IWebBrowser browser, IRequest request, NavigationType navigationType, bool isRedirect);
         bool OnBeforeResourceLoad(IWebBrowser browser, IRequestResponse requestResponse);
         void OnResourceResponse(IWebBrowser browser, string url, int status, string statusText, string mimeType, WebHeaderCollection headers);
