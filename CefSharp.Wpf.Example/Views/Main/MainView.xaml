@@ -115,7 +115,7 @@
                                  Grid.Row="0"
                                  Margin="6"
                                  AcceptsReturn="True"
-                                 Text="$('#modify-me').text()">
+                                 Text="foo.bar()">
                             <TextBox.InputBindings>
                                 <KeyBinding Key="Enter"
                                             Modifiers="Control"
