@@ -90,9 +90,12 @@
     <Compile Include="Internals\BitmapInfo.cs" />
     <Compile Include="Internals\ISubprocessCallback.cs" />
     <Compile Include="Internals\JavascriptMemberDescription.cs" />
+    <Compile Include="Internals\JavascriptMethod.cs" />
     <Compile Include="Internals\JavascriptMethodDescription.cs" />
     <Compile Include="Internals\JavascriptObject.cs" />
     <Compile Include="Internals\JavascriptMember.cs" />
+    <Compile Include="Internals\JavascriptObjectRepository.cs" />
+    <Compile Include="Internals\JavascriptProperty.cs" />
     <Compile Include="Internals\JavascriptPropertyDescription.cs" />
     <Compile Include="Internals\ManagedCefApp.cs" />
     <Compile Include="CefCustomScheme.cs" />

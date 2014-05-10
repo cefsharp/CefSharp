@@ -2,6 +2,9 @@
 
 namespace CefSharp.Internals
 {
+    [KnownType(typeof(JavascriptMethodDescription))]
+    [KnownType(typeof(JavascriptPropertyDescription))] 
+    [DataContract]
     public abstract class JavascriptMemberDescription
     {
         /// <summary>
@@ -21,5 +24,15 @@ namespace CefSharp.Internals
         /// </summary>
         [DataMember]
         public string JavascriptName { get; set; }
+
+        public static string LowercaseFirst(string str)
+        {
+            if (string.IsNullOrEmpty(str))
+            {
+                return string.Empty;
+            }
+
+            return char.ToLower(str[0]) + str.Substring(1);
+        }
     }
 }

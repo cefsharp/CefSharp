@@ -26,13 +26,25 @@
     <ClInclude Include="JavascriptPropertyHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TypeUtils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="vcclr_local.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StringUtils.h">
+    <ClInclude Include="JavascriptPropertyWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JavascriptMethodWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JavascriptObjectWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CefSharp.Core\Internals\MCefRefPtr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CefSharp.Core\Internals\StringUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -49,7 +61,10 @@
     <ClCompile Include="TypeUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="StringUtils.cpp">
+    <ClCompile Include="..\CefSharp.Core\Internals\StringUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JavascriptMethodWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

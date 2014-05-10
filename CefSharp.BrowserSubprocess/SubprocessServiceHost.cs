@@ -7,7 +7,20 @@ namespace CefSharp.BrowserSubprocess
 {
     public class SubprocessServiceHost : ServiceHost, ISubprocessCallback
     {
-        public SubprocessProxy Service { get; set; }
+        public SubprocessProxy Service { get; private set; }
+
+        public event Action<ISubprocessCallback> Initialized;
+
+        public void Initialize(SubprocessProxy service)
+        {
+            Service = service;
+
+            var handler = Initialized;
+            if (handler != null)
+            {
+                handler(this);
+            }
+        }
 
         private SubprocessServiceHost()
             : base(typeof(SubprocessProxy), new Uri[0])
@@ -26,6 +39,17 @@ namespace CefSharp.BrowserSubprocess
                 new NetNamedPipeBinding(),
                 new Uri(serviceName)
             );
+
+            var dataContractResolver = new SubprocessDataContractResolver();
+            var surrogate = new SubprocessSurrogates();
+
+            host.ApplyOperationBehavior(
+             (op) => new DataContractSerializerOperationBehavior(op),
+                (b) =>
+                {
+                    b.DataContractResolver = dataContractResolver;
+                    b.DataContractSurrogate = surrogate;
+                }  );
 
             host.Open();
             return host;
@@ -68,21 +92,37 @@ namespace CefSharp.BrowserSubprocess
             }
         }
 
-        // Don't need to provide an implementation of those methods, since we only instantiate the JavascriptProxy to be able
-        // to terminate dangling instances.
+        public void ApplyOperationBehavior<T>(Func<OperationDescription,T> behaviorFactory,Action<T> behaviorManipulation)
+            where T : class, IOperationBehavior
+        {
+            foreach (ServiceEndpoint ep in Description.Endpoints)
+            {
+                foreach (OperationDescription op in ep.Contract.Operations)
+                {
+                    T behavior = op.Behaviors.Find<T>();
+                    if (behavior == null)
+                    {
+                        behavior = behaviorFactory(op);
+                        op.Behaviors.Add(behavior);
+                    }
+                    behaviorManipulation(behavior);
+                }
+            }
+        }
+
         public object CallMethod(int objectId, string name, object[] parameters)
         {
-            throw new NotImplementedException();
+            return Service.Callback.CallMethod(objectId, name, parameters);
         }
 
         public object GetProperty(int objectId, string name)
         {
-            throw new NotImplementedException();
+            return Service.Callback.GetProperty(objectId, name);
         }
 
-        public object SetProperty(int objectId, string name)
+        public void SetProperty(int objectId, string name, object value)
         {
-            throw new NotImplementedException();
+            Service.Callback.SetProperty(objectId, name, value);
         }
     }
 }

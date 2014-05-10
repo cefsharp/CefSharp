@@ -21,7 +21,7 @@ namespace CefSharp.Wpf.Example
                 DataContext = new MainViewModel { ShowSidebar = true }
             };
 
-            Tab2Content = CreateNewTab();
+            //Tab2Content = CreateNewTab();
         }
 
         private void OnTabControlSelectionChanged(object sender, SelectionChangedEventArgs e)

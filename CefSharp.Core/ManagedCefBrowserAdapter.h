@@ -20,6 +20,7 @@ namespace CefSharp
     private:
         RenderClientAdapter* _renderClientAdapter;
         ISubprocessProxy^ _javaScriptProxy;
+        JavascriptObjectRepository^ _javaScriptObjectRepository;
 
     public:
         property String^ DevToolsUrl
@@ -42,12 +43,14 @@ namespace CefSharp
         ManagedCefBrowserAdapter(IWebBrowserInternal^ webBrowserInternal)
         {
             _renderClientAdapter = new RenderClientAdapter(webBrowserInternal, gcnew Action<IntPtr>(this, &ManagedCefBrowserAdapter::OnBrowserCreated));
+            _javaScriptObjectRepository = gcnew JavascriptObjectRepository();
         }
 
         ~ManagedCefBrowserAdapter()
         {
             this->Close();
             _renderClientAdapter = nullptr;
+            _javaScriptObjectRepository = nullptr;
         }
 
         void CreateOffscreenBrowser(BrowserSettings^ browserSettings)
@@ -263,6 +266,8 @@ namespace CefSharp
             if (_javaScriptProxy != nullptr &&
                 frame != nullptr)
             {
+                _javaScriptProxy->Initialize();
+                _javaScriptProxy->RegisterJavascriptObjects(_javaScriptObjectRepository->RootObject);
                 return _javaScriptProxy->EvaluateScript(frame->GetIdentifier(), script, timeout.TotalMilliseconds);
             }
             else
@@ -298,9 +303,7 @@ namespace CefSharp
 
         void RegisterJsObject(String^ name, Object^ object)
         {
-            // BindingHelper->GetJavascriptObject(object);
-            // Pass the information to the subprocess.
-            // Set it up when the context is created.
+            _javaScriptObjectRepository->Register(name, object);
         }
 
         void OnBrowserCreated(IntPtr browser)
@@ -312,21 +315,13 @@ namespace CefSharp
             auto browserId = cefBrowser->GetIdentifier();
             auto serviceName = SubprocessProxyFactory::GetServiceName(Process::GetCurrentProcess()->Id, browserId);
             _javaScriptProxy = SubprocessProxyFactory::CreateSubprocessProxyClient(serviceName, this);
-        }
 
-        virtual Object^ CallMethod(int objectId, String^ name, array<Object^>^ parameters)
-        {
-            throw gcnew NotImplementedException();
+            //CefTaskRunner::GetForCurrentThread()->PostDelayedTask(NewCefRunnableMethod(???), 100 );
+            //_javaScriptProxy->Initialize();
         }
-
-        virtual Object^ GetProperty(int objectId, String^ name)
-        {
-            throw gcnew NotImplementedException();
-        }
-
-        virtual Object^ SetProperty(int objectId, String^ name)
-        {
-            throw gcnew NotImplementedException();
-        }
+        
+        virtual Object^ CallMethod(int objectId, String^ name, array<Object^>^ parameters);
+        virtual Object^ GetProperty(int objectId, String^ name);
+        virtual void SetProperty(int objectId, String^ name, Object^ value);
     };
 }

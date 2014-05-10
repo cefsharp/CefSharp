@@ -6,7 +6,7 @@
 
 namespace CefSharp
 {
-    private class JavascriptPropertyHandler : CefV8Accessor
+    private class JavascriptPropertyHandler : public CefV8Accessor
     {
         virtual bool Get(const CefString& name, const CefRefPtr<CefV8Value> object, CefRefPtr<CefV8Value>& retval,
             CefString& exception) override

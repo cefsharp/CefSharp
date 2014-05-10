@@ -21,7 +21,15 @@ namespace CefSharp
         auto hInstance = Process::GetCurrentProcess()->Handle;
 
         CefMainArgs cefMainArgs((HINSTANCE)hInstance.ToPointer());
+        Instance = this;
 
         return CefExecuteProcess(cefMainArgs, *(CefRefPtr<CefApp>*)cefApp);
+    }
+    
+    void CefAppWrapper::RegisterJavascriptObjects(JavascriptObjectWrapper^ windowObject)
+    {
+        auto app = *cefApp;
+        
+        app->RegisterJavascriptObjects(windowObject);
     }
 }

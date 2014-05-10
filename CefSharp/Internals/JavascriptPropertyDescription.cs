@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Runtime.Serialization;
 
 namespace CefSharp.Internals
@@ -18,5 +19,12 @@ namespace CefSharp.Internals
         /// </summary>
         public Func<object, object> GetValue { get; set; }
 
+        public void Analyse(PropertyInfo propertyInfo)
+        {
+            ManagedName = propertyInfo.Name;
+            JavascriptName = LowercaseFirst(propertyInfo.Name);
+            SetValue = (o, v) => propertyInfo.SetValue(o, v, null);
+            GetValue = (o) => propertyInfo.GetValue(o, null);
+        }
     }
 }

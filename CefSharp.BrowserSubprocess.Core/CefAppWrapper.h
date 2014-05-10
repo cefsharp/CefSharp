@@ -4,7 +4,10 @@
 
 #include "Stdafx.h"
 #include "JavascriptMethodHandler.h"
+#include "JavascriptMethodWrapper.h"
+#include "JavascriptObjectWrapper.h"
 #include "JavascriptPropertyHandler.h"
+#include "JavascriptPropertyWrapper.h"
 #include "CefSubprocessWrapper.h"
 #include "include/cef_app.h"
 #include "include/cef_base.h"
@@ -17,20 +20,34 @@ namespace CefSharp
     {
     private:
         CefRefPtr<CefAppUnmanagedWrapper>* cefApp;
+        ISubprocessCallback^ _callback;
 
     internal:
         Action<CefBrowserWrapper^>^ OnBrowserCreated;
 
-    public:
+        virtual property ISubprocessCallback^ Callback 
+        {
+            ISubprocessCallback^ get() { return _callback; }
+            void set(ISubprocessCallback^ value) { _callback = value; }
+        }
+
+    public:        
+        static CefAppWrapper^ Instance;
 
         CefAppWrapper(Action<CefBrowserWrapper^>^ onBrowserCreated);
         int Run();
+
+        void RegisterJavascriptObjects(JavascriptObjectWrapper^ windowObject);
     };
 
     private class CefAppUnmanagedWrapper : CefApp, CefRenderProcessHandler
     {
     private:
         gcroot<Action<CefBrowserWrapper^>^> _onBrowserCreated;
+        gcroot<JavascriptObject^> _boundObject;
+        CefRefPtr<CefV8Context> _context;
+        CefRefPtr<CefV8Value> _window;
+        gcroot<JavascriptObjectWrapper^> _windowObject;
 
     public:
         CefAppUnmanagedWrapper(Action<CefBrowserWrapper^>^ onBrowserCreated)
@@ -52,30 +69,44 @@ namespace CefSharp
 
         virtual DECL void OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context) OVERRIDE
         {
-            // TODO: Dummy code for now which just sets up a global window.foo object with a bar() method. :)
-            auto window = context->GetGlobal();
-            auto javascriptPropertyHandler = new JavascriptPropertyHandler();
-            auto boundObject = window->CreateObject(static_cast<CefRefPtr<CefV8Accessor>>(javascriptPropertyHandler));
+            _context = context;
+            _window = context->GetGlobal();
 
-            auto methodName = StringUtils::ToNative("bar");
-            auto handler = static_cast<CefV8Handler*>(new JavascriptMethodHandler());
-            boundObject->SetValue(methodName, CefV8Value::CreateFunction(methodName, handler), V8_PROPERTY_ATTRIBUTE_NONE);
+            //TODO; whats the right timing here
+            //TODO: _windowObject is not yet set
+            Bind();
+        };
 
-            window->SetValue(StringUtils::ToNative("foo"), boundObject, V8_PROPERTY_ATTRIBUTE_NONE);            
+        void RegisterJavascriptObjects(JavascriptObjectWrapper^ windowObject)
+        {   
+            _windowObject = windowObject;
 
-            // TODO: Support the BindingHandler with CEF3.
-            /*
-            for each(KeyValuePair<String^, Object^>^ kvp in Cef::GetBoundObjects())
+            //TODO; whats the right timing here
+            //TODO: cant get a valid window here 
+            //Bind();
+        };
+
+        void Bind()
+        {
+            /*auto currentthread = CefTaskRunner::GetForCurrentThread();
+            auto renderThread = CefTaskRunner::GetForThread(CefThreadId::TID_RENDERER);
+
+            if (currentthread == nullptr || !currentthread->IsSame(renderThread))
             {
-            BindingHandler::Bind(kvp->Key, kvp->Value, context->GetGlobal());
-            }
+                CefPostTask(CefThreadId::TID_RENDERER, NewCefRunnableMethod(this, &CefAppUnmanagedWrapper::Bind));
+                return;
+            }*/
+            
 
-            for each(KeyValuePair<String^, Object^>^ kvp in _browserControl->GetBoundObjects())
+            JavascriptObjectWrapper^ windowObject = _windowObject;
+            CefRefPtr<CefV8Context> context = _context;
+
+            if (windowObject != nullptr && context != nullptr)
             {
-            BindingHandler::Bind(kvp->Key, kvp->Value, context->GetGlobal());
+                windowObject->Value = _window;
+                windowObject->Bind();
             }
-            */
-        }
+        };
 
         IMPLEMENT_REFCOUNTING(CefAppUnmanagedWrapper);
     };
