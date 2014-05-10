@@ -82,5 +82,10 @@ namespace CefSharp.BrowserSubprocess
             appwrapper = new CefAppWrapper(OnBrowserCreated);
             return appwrapper.Run();
         }
+
+        internal void RegisterJavascriptObjects(JavascriptObjectWrapper obj)
+        {
+            appwrapper.RegisterJavascriptObjects(obj);
+        }
     }
 }

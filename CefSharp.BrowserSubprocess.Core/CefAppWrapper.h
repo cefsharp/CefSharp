@@ -36,6 +36,8 @@ namespace CefSharp
 
         CefAppWrapper(Action<CefBrowserWrapper^>^ onBrowserCreated);
         int Run();
+
+        void RegisterJavascriptObjects(JavascriptObjectWrapper^ windowObject);
     };
 
     private class CefAppUnmanagedWrapper : CefApp, CefRenderProcessHandler
@@ -43,6 +45,9 @@ namespace CefSharp
     private:
         gcroot<Action<CefBrowserWrapper^>^> _onBrowserCreated;
         gcroot<JavascriptObject^> _boundObject;
+        CefRefPtr<CefV8Context> _context;
+        CefRefPtr<CefV8Value> _window;
+        gcroot<JavascriptObjectWrapper^> _windowObject;
 
     public:
         CefAppUnmanagedWrapper(Action<CefBrowserWrapper^>^ onBrowserCreated)
@@ -64,23 +69,44 @@ namespace CefSharp
 
         virtual DECL void OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context) OVERRIDE
         {
-            // TODO: Dummy code for now which just sets up a global window.foo object with a bar() method. :)
+            _context = context;
+            _window = context->GetGlobal();
+
+            //TODO; whats the right timing here
+            //TODO: _windowObject is not yet set
+            Bind();
+        };
+
+        void RegisterJavascriptObjects(JavascriptObjectWrapper^ windowObject)
+        {   
+            _windowObject = windowObject;
+
+            //TODO; whats the right timing here
+            //TODO: cant get a valid window here 
+            //Bind();
+        };
+
+        void Bind()
+        {
+            /*auto currentthread = CefTaskRunner::GetForCurrentThread();
+            auto renderThread = CefTaskRunner::GetForThread(CefThreadId::TID_RENDERER);
+
+            if (currentthread == nullptr || !currentthread->IsSame(renderThread))
+            {
+                CefPostTask(CefThreadId::TID_RENDERER, NewCefRunnableMethod(this, &CefAppUnmanagedWrapper::Bind));
+                return;
+            }*/
             
-            auto bar = gcnew JavascriptMethodWrapper();
-            bar->Description->JavascriptName = "bar";
-            bar->Description->ManagedName = "Bar";
 
-            auto foo = gcnew JavascriptPropertyWrapper();
-            foo->Description->JavascriptName = "foo";
-            foo->Description->ManagedName = "Foo";
-            foo->Value->Members->Add(bar);
+            JavascriptObjectWrapper^ windowObject = _windowObject;
+            CefRefPtr<CefV8Context> context = _context;
 
-            auto windowObject = gcnew JavascriptObjectWrapper();
-            windowObject->Members->Add(foo);
-            windowObject->Value = context->GetGlobal();
-
-            windowObject->Bind();
-        }
+            if (windowObject != nullptr && context != nullptr)
+            {
+                windowObject->Value = _window;
+                windowObject->Bind();
+            }
+        };
 
         IMPLEMENT_REFCOUNTING(CefAppUnmanagedWrapper);
     };

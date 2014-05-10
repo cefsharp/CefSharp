@@ -25,4 +25,11 @@ namespace CefSharp
 
         return CefExecuteProcess(cefMainArgs, *(CefRefPtr<CefApp>*)cefApp);
     }
+    
+    void CefAppWrapper::RegisterJavascriptObjects(JavascriptObjectWrapper^ windowObject)
+    {
+        auto app = *cefApp;
+        
+        app->RegisterJavascriptObjects(windowObject);
+    }
 }

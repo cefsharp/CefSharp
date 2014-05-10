@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.ServiceModel;
 using CefSharp.Internals;
 
@@ -25,11 +26,10 @@ namespace CefSharp.BrowserSubprocess
         {
             CefSubprocess.Instance.Dispose();
         }
-
-
+        
         public void RegisterJavascriptObjects(JavascriptObject obj)
         {
-            Debugger.Launch();
+            CefSubprocess.Instance.RegisterJavascriptObjects((JavascriptObjectWrapper)obj);
         }
     }
 }

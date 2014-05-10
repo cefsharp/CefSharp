@@ -34,7 +34,7 @@ namespace CefSharp.BrowserSubprocess
 
         public object GetObjectToSerialize(object obj, Type targetType)
         {
-            throw new NotImplementedException();
+            return obj;
         }
 
         public object GetDeserializedObject(object obj, Type targetType)
