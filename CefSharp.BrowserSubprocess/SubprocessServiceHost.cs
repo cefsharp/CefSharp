@@ -40,6 +40,17 @@ namespace CefSharp.BrowserSubprocess
                 new Uri(serviceName)
             );
 
+            var dataContractResolver = new SubprocessDataContractResolver();
+            var surrogate = new SubprocessSurrogates();
+
+            host.ApplyOperationBehavior(
+             (op) => new DataContractSerializerOperationBehavior(op),
+                (b) =>
+                {
+                    b.DataContractResolver = dataContractResolver;
+                    b.DataContractSurrogate = surrogate;
+                }  );
+
             host.Open();
             return host;
         }
@@ -78,6 +89,24 @@ namespace CefSharp.BrowserSubprocess
             {
                 // We assume errors at this point are caused by things like the endpoint not being present (which will happen in
                 // the first render subprocess instance).
+            }
+        }
+
+        public void ApplyOperationBehavior<T>(Func<OperationDescription,T> behaviorFactory,Action<T> behaviorManipulation)
+            where T : class, IOperationBehavior
+        {
+            foreach (ServiceEndpoint ep in Description.Endpoints)
+            {
+                foreach (OperationDescription op in ep.Contract.Operations)
+                {
+                    T behavior = op.Behaviors.Find<T>();
+                    if (behavior == null)
+                    {
+                        behavior = behaviorFactory(op);
+                        op.Behaviors.Add(behavior);
+                    }
+                    behaviorManipulation(behavior);
+                }
             }
         }
 

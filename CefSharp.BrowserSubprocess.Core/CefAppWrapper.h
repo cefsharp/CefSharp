@@ -65,8 +65,7 @@ namespace CefSharp
         virtual DECL void OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context) OVERRIDE
         {
             // TODO: Dummy code for now which just sets up a global window.foo object with a bar() method. :)
-            System::Diagnostics::Debugger::Launch();
-
+            
             auto bar = gcnew JavascriptMethodWrapper();
             bar->Description->JavascriptName = "bar";
             bar->Description->ManagedName = "Bar";

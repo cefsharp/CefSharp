@@ -9,6 +9,7 @@ using namespace CefSharp::Internals;
 
 namespace CefSharp
 {
+    [System::Runtime::Serialization::DataContractAttribute]
     private ref class JavascriptPropertyWrapper : public JavascriptProperty
     {    
     private:

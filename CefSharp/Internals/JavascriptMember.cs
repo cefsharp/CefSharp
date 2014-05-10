@@ -2,9 +2,12 @@
 
 namespace CefSharp.Internals
 {
+    [KnownType(typeof(JavascriptMethod))]
+    [KnownType(typeof(JavascriptProperty))] 
     [DataContract]
     public class JavascriptMember
     {
+        [DataMember]
         public JavascriptMemberDescription Description { get; set; }
 
         [DataMember]

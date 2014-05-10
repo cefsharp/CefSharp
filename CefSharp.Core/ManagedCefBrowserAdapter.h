@@ -264,6 +264,20 @@ namespace CefSharp
                 frame != nullptr)
             {
                 _javaScriptProxy->Initialize();
+
+                auto bar = gcnew JavascriptMethod();
+                bar->Description->JavascriptName = "bar";
+                bar->Description->ManagedName = "Bar";
+
+                auto foo = gcnew JavascriptProperty();
+                foo->Description->JavascriptName = "foo";
+                foo->Description->ManagedName = "Foo";
+                foo->Value->Members->Add(bar);
+
+                auto windowObject = gcnew JavascriptObject();
+                windowObject->Members->Add(foo);
+
+                _javaScriptProxy->RegisterJavascriptObjects(windowObject);
                 return _javaScriptProxy->EvaluateScript(frame->GetIdentifier(), script, timeout.TotalMilliseconds);
             }
             else

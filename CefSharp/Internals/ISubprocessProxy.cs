@@ -16,5 +16,8 @@ namespace CefSharp.Internals
 
         [OperationContract]
         void Terminate();
+
+        [OperationContract]
+        void RegisterJavascriptObjects(JavascriptObject obj);
     }
 }

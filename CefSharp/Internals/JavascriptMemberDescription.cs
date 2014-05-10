@@ -2,6 +2,9 @@
 
 namespace CefSharp.Internals
 {
+    [KnownType(typeof(JavascriptMethodDescription))]
+    [KnownType(typeof(JavascriptPropertyDescription))] 
+    [DataContract]
     public abstract class JavascriptMemberDescription
     {
         /// <summary>

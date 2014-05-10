@@ -10,7 +10,6 @@ namespace CefSharp.BrowserSubprocess
 
         public void Initialize()
         {
-            Debugger.Break();
             Callback = OperationContext.Current.GetCallbackChannel<ISubprocessCallback>();
 
             CefSubprocess.Instance.ServiceHost.Initialize(this);
@@ -25,6 +24,12 @@ namespace CefSharp.BrowserSubprocess
         public void Terminate()
         {
             CefSubprocess.Instance.Dispose();
+        }
+
+
+        public void RegisterJavascriptObjects(JavascriptObject obj)
+        {
+            Debugger.Launch();
         }
     }
 }
