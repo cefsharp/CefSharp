@@ -4,8 +4,6 @@ namespace CefSharp.Internals
 {
     public interface IWebBrowserInternal : IWebBrowser
     {
-        IDictionary<string, object> BoundObjects { get; }
-
         ILifeSpanHandler LifeSpanHandler { get; set; }
         IKeyboardHandler KeyboardHandler { get; set; }
         IJsDialogHandler JsDialogHandler { get; set; }

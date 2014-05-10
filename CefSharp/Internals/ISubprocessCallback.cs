@@ -12,6 +12,6 @@ namespace CefSharp.Internals
         object GetProperty(int objectId, string name);
 
         [OperationContract]
-        object SetProperty(int objectId, string name);
+        void SetProperty(int objectId, string name, object value);
     }
 }

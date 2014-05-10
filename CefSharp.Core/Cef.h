@@ -28,13 +28,12 @@ namespace CefSharp
         static bool _result;
 
         static bool _initialized = false;
-        static IDictionary<String^, Object^>^ _boundObjects;
 
         static Cef()
         {
             _event = CreateEvent(NULL, FALSE, FALSE, NULL);
             _sync = gcnew Object();
-            _boundObjects = gcnew Dictionary<String^, Object^>();
+            _javaScriptObjectRepository = gcnew JavascriptObjectRepository();
         }
 
         static void IOT_SetCookie(const CefString& url, const CefCookie& cookie)
@@ -58,15 +57,12 @@ namespace CefSharp
         }
 
     internal:
-        static IDictionary<String^, Object^>^ GetBoundObjects()
-        {
-            return _boundObjects;
-        }
+        static JavascriptObjectRepository^ _javaScriptObjectRepository;
 
     public:
 
         /// <summary>Gets a value that indicates whether CefSharp is initialized.</summary>
-        /// <value>true if CefSharp is initalized; otherwise, false.</value>
+        /// <value>true if CefSharp is initialized; otherwise, false.</value>
         static property bool IsInitialized
         {
             bool get()
@@ -162,11 +158,9 @@ namespace CefSharp
         /// <summary>Binds a C# class to a JavaScript object.</summary>
         /// <param name="name">The name for the new object in the JavaScript engine (e.g. 'foo' for an object accessible as 'foo' or 'window.foo').</param>
         /// <param name="objectToBind">The .NET object to bind.</param>
-        /// <return>Always returns true.</return>
-        static bool RegisterJsObject(String^ name, Object^ objectToBind)
+        static void RegisterJsObject(String^ name, Object^ objectToBind)
         {
-            _boundObjects[name] = objectToBind;
-            return true;
+            _javaScriptObjectRepository->Register(name, objectToBind);
         }
 
         /// <summary>Visits all cookies using the provided Cookie Visitor. The returned cookies are sorted by longest path, then by earliest creation date.</summary>

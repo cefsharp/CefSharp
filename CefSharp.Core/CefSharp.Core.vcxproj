@@ -219,6 +219,7 @@
     <ClCompile Include="Internals\CookieVisitor.cpp" />
     <ClCompile Include="Internals\CefRequestWrapper.cpp" />
     <ClCompile Include="Internals\RequestResponse.cpp" />
+    <ClCompile Include="ManagedCefBrowserAdapter.cpp" />
     <ClCompile Include="SchemeHandlerResponse.cpp" />
     <ClCompile Include="SchemeHandlerWrapper.cpp" />
     <ClCompile Include="Stdafx.cpp">

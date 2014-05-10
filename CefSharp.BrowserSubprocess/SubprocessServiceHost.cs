@@ -120,9 +120,9 @@ namespace CefSharp.BrowserSubprocess
             return Service.Callback.GetProperty(objectId, name);
         }
 
-        public object SetProperty(int objectId, string name)
+        public void SetProperty(int objectId, string name, object value)
         {
-            return Service.Callback.SetProperty(objectId, name);
+            Service.Callback.SetProperty(objectId, name, value);
         }
     }
 }
