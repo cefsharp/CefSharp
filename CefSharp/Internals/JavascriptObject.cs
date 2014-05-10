@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Dynamic;
+using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization;
 
 namespace CefSharp.Internals
@@ -63,6 +66,25 @@ namespace CefSharp.Internals
             }
 
             Members = new List<JavascriptMember>();
+        }
+
+        public void Analyse()
+        {
+            foreach (var methodInfo in _value.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public).Where( p => !p.IsSpecialName ) )
+            {
+                var jsMethod = new JavascriptMethod();
+                jsMethod.Description.Analyse(methodInfo);
+                Members.Add(jsMethod);
+            }
+
+            foreach (var propertyInfo in _value.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
+            {
+                var jsProperty = new JavascriptProperty();
+                jsProperty.Description.Analyse(propertyInfo);
+                jsProperty.Value.Value = jsProperty.Description.GetValue(_value);
+                jsProperty.Value.Analyse();
+                Members.Add(jsProperty);
+            }
         }
     }
 }

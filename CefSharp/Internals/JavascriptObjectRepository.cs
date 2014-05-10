@@ -32,11 +32,10 @@ namespace CefSharp.Internals
         {
             var member = new JavascriptProperty();
             member.Description.ManagedName = name;
-            member.Description.JavascriptName = name;
+            member.Description.JavascriptName = JavascriptMemberDescription.LowercaseFirst(name);
             member.Value.Value = value;
-
-            //TODO: analyze object and build a object graph
-
+            member.Value.Analyse();
+            
             rootObject.Members.Add(member);
         }
 
@@ -60,7 +59,7 @@ namespace CefSharp.Internals
                 throw new InvalidOperationException(string.Format("Method {0} not found on Object of Type {1}", name, obj.Value.GetType()));
             }
 
-            result = method.Description.Function.DynamicInvoke(obj.Value, parameters);
+            result = method.Description.Function(obj.Value, parameters);
             return true;
         }
 
