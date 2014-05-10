@@ -11,7 +11,7 @@ using namespace CefSharp::Internals;
 
 namespace CefSharp
 {
-    private ref class JavascriptMethodWrapper : public JavascriptMember
+    private ref class JavascriptMethodWrapper : public JavascriptMethod
     {
     private:
         MCefRefPtr<JavascriptMethodHandler> _javascriptMethodHandler;

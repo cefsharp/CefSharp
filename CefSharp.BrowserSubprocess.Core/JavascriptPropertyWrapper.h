@@ -20,19 +20,25 @@ namespace CefSharp
         JavascriptPropertyWrapper()
         {
             _javascriptPropertyHandler = new JavascriptPropertyHandler();
+            Value = gcnew JavascriptObjectWrapper();
         }
         
+        property JavascriptObjectWrapper^ Value
+        {
+            JavascriptObjectWrapper^ get() { return static_cast<JavascriptObjectWrapper^>(JavascriptProperty::Value::get()); }
+            void set(JavascriptObjectWrapper^ value) { JavascriptProperty::Value::set(value); }
+        }
+
         virtual void Bind(JavascriptObject^ owner) override
         {
             _owner = static_cast<JavascriptObjectWrapper^>(owner);
-            auto realValue = static_cast<JavascriptObjectWrapper^>(Value);
             auto v8Value = _owner->Value->CreateObject(_javascriptPropertyHandler.get());
             
-            realValue->Value = v8Value;
+            Value->Value = v8Value;
 
             _owner->Value->SetValue(StringUtils::ToNative(Description->JavascriptName), v8Value, V8_PROPERTY_ATTRIBUTE_NONE);
 
-            realValue->Bind();
+            Value->Bind();
         };
     };
 }

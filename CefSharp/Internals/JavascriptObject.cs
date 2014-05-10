@@ -27,6 +27,33 @@ namespace CefSharp.Internals
         /// </value>
         [DataMember]
         public List<JavascriptMember> Members { get; private set; }
+        
+        [DataMember]
+        private object serializeableValue;
+        private object _value;
+
+        /// <summary>
+        /// Gets or sets the value.
+        /// </summary>
+        /// <value>
+        /// The value.
+        /// </value>
+        public object Value 
+        {
+            get { return _value; }
+            set 
+            {
+                _value = value;
+                if ( value != null )
+                {
+                    var type = value.GetType();
+                    if (type.IsValueType || type == typeof (string))
+                    {
+                        serializeableValue = value;
+                    }
+                }
+            }
+        }
 
         public JavascriptObject()
         {

@@ -9,6 +9,18 @@ namespace CefSharp.Internals
     [DataContract]
     public class JavascriptProperty : JavascriptMember
     {
+        public JavascriptProperty()
+        {
+            Value = new JavascriptObject();
+            Description = new JavascriptPropertyDescription();
+        }
+
+        public new JavascriptPropertyDescription Description 
+        {
+            get { return (JavascriptPropertyDescription)base.Description; }
+            set { base.Description = value; }
+        }
+
         [DataMember]
         public JavascriptObject Value { get; set; }
     }

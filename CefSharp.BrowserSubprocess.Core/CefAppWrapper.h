@@ -68,15 +68,12 @@ namespace CefSharp
             System::Diagnostics::Debugger::Launch();
 
             auto bar = gcnew JavascriptMethodWrapper();
-            bar->Description = gcnew JavascriptMethodDescription();
             bar->Description->JavascriptName = "bar";
             bar->Description->ManagedName = "Bar";
 
             auto foo = gcnew JavascriptPropertyWrapper();
-            foo->Description = gcnew JavascriptPropertyDescription();
             foo->Description->JavascriptName = "foo";
             foo->Description->ManagedName = "Foo";
-            foo->Value = gcnew JavascriptObjectWrapper();
             foo->Value->Members->Add(bar);
 
             auto windowObject = gcnew JavascriptObjectWrapper();

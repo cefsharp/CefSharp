@@ -320,6 +320,7 @@ namespace CefSharp
         
         virtual Object^ CallMethod(int objectId, String^ name, array<Object^>^ parameters)
         {
+            Debugger::Break();
             return nullptr;
         }
 
