@@ -148,16 +148,17 @@
                 <Separator />
                 <TextBlock Text="{Binding OutputMessage}" />
             </StatusBar>
-            <DockPanel DockPanel.Dock="Bottom">
-                <Button Content="wee"></Button>
-                <cefSharp:WebView 
-                    Height="300" 
-                    Visibility="{Binding ShowDevTools, Converter={StaticResource BooleanToVisibilityConverter}}"
-                    Address="{Binding DevToolsUrl, Mode=TwoWay}"
-                    x:Name="DevTools">
-                </cefSharp:WebView>
-            </DockPanel>
-            <Grid Background="#FFF0F0F0">
+            <Grid Background="#FFF0F0F0"
+                   VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <!-- <Grid.ColumnDefinitions >
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*"  />
+                </Grid.ColumnDefinitions> -->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
                 <Rectangle>
                     <Rectangle.Fill>
                         <VisualBrush TileMode="Tile"
@@ -176,7 +177,6 @@
                         </VisualBrush>
                     </Rectangle.Fill>
                 </Rectangle>
-
                 <cefSharp:WebView x:Name="webView"
                                   Opacity="{Binding ElementName=opacitySlider, Path=Value}"
                                   Address="{Binding Address, Mode=TwoWay}"
@@ -216,6 +216,28 @@
                         </ContextMenu>
                     </FrameworkElement.ContextMenu>
                 </cefSharp:WebView>
+                <GridSplitter 
+                    ResizeDirection="Rows" 
+                    Grid.Column="0" 
+                    Grid.ColumnSpan="2"
+                    Grid.Row="1"
+                    Width="Auto" 
+                    Height="3" 
+                    HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Stretch" 
+                    Margin="0" />
+                <DockPanel Grid.Row="2" 
+                    Visibility="{Binding ShowDevTools, Converter={StaticResource BooleanToVisibilityConverter}}"
+                           DockPanel.Dock="Bottom">
+                    <Button Content="wee"></Button>
+                    <cefSharp:WebView 
+                    Height="300" 
+                    Visibility="{Binding ShowDevTools, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    Address="{Binding DevToolsUrl, Mode=TwoWay}"
+                    x:Name="DevTools">
+                    </cefSharp:WebView>
+                </DockPanel>
+
             </Grid>
         </DockPanel>
     </Grid>
