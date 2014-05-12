@@ -3,7 +3,7 @@
 namespace CefSharp
 {
     /// <summary>
-    /// Event arguments to the LoadCompleted event handler set up in IWebBrowser.
+    /// Event arguments to the NavStateChanged event handler set up in IWebBrowser.
     /// </summary>
     public class NavStateChangedEventArgs : EventArgs
     {
