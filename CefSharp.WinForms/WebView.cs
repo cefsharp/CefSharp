@@ -172,12 +172,12 @@ namespace CefSharp.WinForms
             }
         }
 
-        public void OnFrameLoadEnd(string url)
+        public void OnFrameLoadEnd(string url, bool isMainFrame)
         {
             var handler = LoadCompleted;
             if (handler != null)
             {
-                handler(this, new LoadCompletedEventArgs(url));
+                handler(this, new LoadCompletedEventArgs(url, isMainFrame));
             }
         }
 

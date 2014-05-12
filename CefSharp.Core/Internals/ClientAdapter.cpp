@@ -163,7 +163,7 @@ namespace CefSharp
                 _browserControl->SetIsLoading(false);
             }
 
-            _browserControl->OnFrameLoadEnd(StringUtils::ToClr(frame->GetURL()));
+            _browserControl->OnFrameLoadEnd(StringUtils::ToClr(frame->GetURL()), frame->IsMain());
         }
 
         void ClientAdapter::OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, ErrorCode errorCode, const CefString& errorText, const CefString& failedUrl)

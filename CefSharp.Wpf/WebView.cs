@@ -932,13 +932,13 @@ namespace CefSharp.Wpf
             //browserCore.OnFrameLoadStart();
         }
 
-        public void OnFrameLoadEnd(string url)
+        public void OnFrameLoadEnd(string url, bool isMainFrame)
         {
             //browserCore.OnFrameLoadEnd();
 
             if (LoadCompleted != null)
             {
-                LoadCompleted(this, new LoadCompletedEventArgs(url));
+                LoadCompleted(this, new LoadCompletedEventArgs(url, isMainFrame));
             }
         }
 
