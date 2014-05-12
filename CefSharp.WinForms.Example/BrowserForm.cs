@@ -22,7 +22,6 @@ namespace CefSharp.WinForms.Example
             toolStripContainer.ContentPanel.Controls.Add(webView);
             
             webView.MenuHandler = new MenuHandler();
-            webView.LoadStart += WebViewLoadStart;
             webView.LoadCompleted += WebViewLoadCompleted;
             webView.NavStateChanged += WebViewNavStateChanged;
             webView.ConsoleMessage += WebViewConsoleMessage;
@@ -36,11 +35,6 @@ namespace CefSharp.WinForms.Example
         private void WebViewConsoleMessage(object sender, ConsoleMessageEventArgs args)
         {
             DisplayOutput(string.Format("Line: {0}, Source: {1}, Message: {2}", args.Line, args.Source, args.Message));
-        }
-
-        private void WebViewLoadStart(object sender, LoadStartEventArgs args)
-        {
-            
         }
 
         private void WebViewNavStateChanged(object sender, NavStateChangedEventArgs args)
