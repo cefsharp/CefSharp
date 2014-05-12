@@ -18,7 +18,12 @@ namespace CefSharp
         event ConsoleMessageEventHandler ConsoleMessage;
 
         /// <summary>
-        /// Event handler that will get called whenever page loading is complete.
+        /// Event handler that will get called whenever loading of a frame starts.
+        /// </summary>        
+        event FrameLoadStartEventHandler FrameLoadStart;
+        
+        /// <summary>
+        /// Event handler that will get called whenever loading of a frame is complete.
         /// </summary>        
         event FrameLoadEndEventHandler FrameLoadEnd;
 

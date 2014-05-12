@@ -49,6 +49,7 @@ namespace CefSharp.Wpf
         public ILifeSpanHandler LifeSpanHandler { get; set; }
 
         public event ConsoleMessageEventHandler ConsoleMessage;
+        public event FrameLoadStartEventHandler FrameLoadStart;
         public event FrameLoadEndEventHandler FrameLoadEnd;
         public event LoadErrorEventHandler LoadError;
 
@@ -929,7 +930,11 @@ namespace CefSharp.Wpf
 
         public void OnFrameLoadStart(string url, bool isMainFrame)
         {
-            //browserCore.OnFrameLoadStart();
+            var handler = FrameLoadStart;
+            if (handler != null)
+            {
+                handler(this, new FrameLoadStartEventArgs(url, isMainFrame));
+            }
         }
 
         public void OnFrameLoadEnd(string url, bool isMainFrame)
