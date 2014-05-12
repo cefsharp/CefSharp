@@ -46,17 +46,12 @@ namespace CefSharp.WinForms.Example
 
         private void WebViewTitleChanged(object sender, TitleChangedEventArgs args)
         {
-            SetTitle(args.Title);
+            this.InvokeOnUiThreadIfRequired(() => Text = args.Title);
         }
 
         private void WebViewAddressChanged(object sender, AddressChangedEventArgs args)
         {
             SetAddress(args.Address);
-        }
-
-        public void SetTitle(string title)
-        {
-            this.InvokeOnUiThreadIfRequired(() => Text = title);
         }
 
         public void SetAddress(string address)
