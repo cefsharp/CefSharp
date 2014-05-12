@@ -22,7 +22,6 @@ namespace CefSharp.WinForms.Example
             toolStripContainer.ContentPanel.Controls.Add(webView);
             
             webView.MenuHandler = new MenuHandler();
-            webView.LoadCompleted += WebViewLoadCompleted;
             webView.NavStateChanged += WebViewNavStateChanged;
             webView.ConsoleMessage += WebViewConsoleMessage;
             webView.TitleChanged += WebViewTitleChanged;
@@ -43,11 +42,6 @@ namespace CefSharp.WinForms.Example
             SetCanGoForward(args.CanGoForward);
 
             this.InvokeOnUiThreadIfRequired(() => SetIsLoading(!args.CanReload));
-        }
-
-        private void WebViewLoadCompleted(object sender, LoadCompletedEventArgs args)
-        {
-            SetAddress(args.Url);
         }
 
         private void WebViewTitleChanged(object sender, TitleChangedEventArgs args)
