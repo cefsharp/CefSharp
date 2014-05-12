@@ -7,10 +7,11 @@ namespace CefSharp
     /// </summary>
     public class FrameLoadEndEventArgs : EventArgs
     {
-        public FrameLoadEndEventArgs(string url, bool isMainFrame)
+        public FrameLoadEndEventArgs(string url, bool isMainFrame, int httpStatusCode)
         {
             Url = url;
             IsMainFrame = isMainFrame;
+            HttpStatusCode = httpStatusCode;
         }
 
         /// <summary>
@@ -22,6 +23,11 @@ namespace CefSharp
         /// Is this the Main Frame
         /// </summary>
         public bool IsMainFrame { get; private set; }
+
+        /// <summary>
+        /// Http Status Code
+        /// </summary>
+        public int HttpStatusCode { get; set; }
     };
 
     /// <summary>

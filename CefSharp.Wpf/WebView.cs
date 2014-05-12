@@ -937,13 +937,13 @@ namespace CefSharp.Wpf
             }
         }
 
-        public void OnFrameLoadEnd(string url, bool isMainFrame)
+        public void OnFrameLoadEnd(string url, bool isMainFrame, int httpStatusCode)
         {
             var handler = FrameLoadEnd;
 
             if (handler != null)
             {
-                handler(this, new FrameLoadEndEventArgs(url, isMainFrame));
+                handler(this, new FrameLoadEndEventArgs(url, isMainFrame, httpStatusCode));
             }
         }
 
