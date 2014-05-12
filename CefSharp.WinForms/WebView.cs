@@ -102,6 +102,7 @@ namespace CefSharp.WinForms
         public event NavStateChangedEventHandler NavStateChanged;
         public event ConsoleMessageEventHandler ConsoleMessage;
         public event AddressChangedEventHandler AddressChanged;
+        public event TitleChangedEventHandler TitleChanged;
 
         protected override void OnHandleCreated(EventArgs e)
         {
@@ -149,6 +150,12 @@ namespace CefSharp.WinForms
         public void SetTitle(string title)
         {
             Title = title;
+
+            var handler = TitleChanged;
+            if (handler != null)
+            {
+                handler(this, new TitleChangedEventArgs(title));
+            }
         }
 
         public void SetTooltipText(string tooltipText)
