@@ -20,7 +20,7 @@ namespace CefSharp.Internals
         void ShowDevTools();
         void CloseDevTools();
 
-        void OnFrameLoadStart(string url);
+        void OnFrameLoadStart(string url, bool isMainFrame);
         void OnFrameLoadEnd(string url);
         void OnTakeFocus(bool next);
         void OnConsoleMessage(string message, string source, int line);

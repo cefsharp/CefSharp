@@ -927,7 +927,7 @@ namespace CefSharp.Wpf
             throw new NotImplementedException();
         }
 
-        public void OnFrameLoadStart(string url)
+        public void OnFrameLoadStart(string url, bool isMainFrame)
         {
             //browserCore.OnFrameLoadStart();
         }

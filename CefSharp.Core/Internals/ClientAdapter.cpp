@@ -147,7 +147,7 @@ namespace CefSharp
                 _browserControl->SetNavState(false, false, false);
             }
 
-            _browserControl->OnFrameLoadStart(StringUtils::ToClr(frame->GetURL()));
+            _browserControl->OnFrameLoadStart(StringUtils::ToClr(frame->GetURL()), frame->IsMain());
         }
 
         void ClientAdapter::OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode)

@@ -7,15 +7,21 @@ namespace CefSharp
     /// </summary>
     public class LoadStartEventArgs : EventArgs
     {
-        public LoadStartEventArgs(string url)
+        public LoadStartEventArgs(string url, bool isMainFrame)
         {
             Url = url;
+            IsMainFrame = isMainFrame;
         }
 
         /// <summary>
         /// The URL that was loaded.
         /// </summary>
         public string Url { get; private set; }
+
+        /// <summary>
+        /// Is this the Main Frame
+        /// </summary>
+        public bool IsMainFrame { get; private set; }
     };
 
     /// <summary>

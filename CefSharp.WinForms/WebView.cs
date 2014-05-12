@@ -163,12 +163,12 @@ namespace CefSharp.WinForms
             TooltipText = tooltipText;
         }
 
-        public void OnFrameLoadStart(string url)
+        public void OnFrameLoadStart(string url, bool isMainFrame)
         {
             var handler = LoadStart;
             if (handler != null)
             {
-                handler(this, new LoadStartEventArgs(url));
+                handler(this, new LoadStartEventArgs(url, isMainFrame));
             }
         }
 
