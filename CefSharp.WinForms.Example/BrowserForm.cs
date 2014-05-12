@@ -51,17 +51,7 @@ namespace CefSharp.WinForms.Example
 
         private void WebViewAddressChanged(object sender, AddressChangedEventArgs args)
         {
-            SetAddress(args.Address);
-        }
-
-        public void SetAddress(string address)
-        {
-            this.InvokeOnUiThreadIfRequired(() => urlTextBox.Text = address);
-        }
-
-        public void SetAddress(Uri uri)
-        {
-            this.InvokeOnUiThreadIfRequired(() => urlTextBox.Text = uri.ToString());
+            this.InvokeOnUiThreadIfRequired(() => urlTextBox.Text = args.Address);
         }
 
         public void SetCanGoBack(bool canGoBack)
