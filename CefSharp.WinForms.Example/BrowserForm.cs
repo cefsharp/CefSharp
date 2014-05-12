@@ -54,17 +54,17 @@ namespace CefSharp.WinForms.Example
             this.InvokeOnUiThreadIfRequired(() => urlTextBox.Text = args.Address);
         }
 
-        public void SetCanGoBack(bool canGoBack)
+        private void SetCanGoBack(bool canGoBack)
         {
             this.InvokeOnUiThreadIfRequired(() => backButton.Enabled = canGoBack);
         }
 
-        public void SetCanGoForward(bool canGoForward)
+        private void SetCanGoForward(bool canGoForward)
         {
             this.InvokeOnUiThreadIfRequired(() => forwardButton.Enabled = canGoForward);
         }
 
-        public void SetIsLoading(bool isLoading)
+        private void SetIsLoading(bool isLoading)
         {
             goButton.Text = isLoading ?
                 "Stop" :
