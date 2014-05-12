@@ -939,11 +939,11 @@ namespace CefSharp.Wpf
 
         public void OnFrameLoadEnd(string url, bool isMainFrame)
         {
-            //browserCore.OnFrameLoadEnd();
+            var handler = FrameLoadEnd;
 
-            if (FrameLoadEnd != null)
+            if (handler != null)
             {
-                FrameLoadEnd(this, new FrameLoadEndEventArgs(url, isMainFrame));
+                handler(this, new FrameLoadEndEventArgs(url, isMainFrame));
             }
         }
 
@@ -954,17 +954,19 @@ namespace CefSharp.Wpf
 
         public void OnConsoleMessage(string message, string source, int line)
         {
-            if (ConsoleMessage != null)
+            var handler = ConsoleMessage;
+            if (handler != null)
             {
-                ConsoleMessage(this, new ConsoleMessageEventArgs(message, source, line));
+                handler(this, new ConsoleMessageEventArgs(message, source, line));
             }
         }
 
         public void OnLoadError(string url, CefErrorCode errorCode, string errorText)
         {
-            if (LoadError != null)
+            var handler = LoadError;
+            if (handler != null)
             {
-                LoadError(url, errorCode, errorText);
+                handler(url, errorCode, errorText);
             }
         }
 
