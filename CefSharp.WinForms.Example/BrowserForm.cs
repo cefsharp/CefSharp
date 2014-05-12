@@ -27,6 +27,7 @@ namespace CefSharp.WinForms.Example
             webView.NavStateChanged += WebViewNavStateChanged;
             webView.ConsoleMessage += WebViewConsoleMessage;
             webView.TitleChanged += WebViewTitleChanged;
+            webView.AddressChanged += WebViewAddressChanged;
 
             var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
             DisplayOutput(version);
@@ -39,7 +40,7 @@ namespace CefSharp.WinForms.Example
 
         private void WebViewLoadStart(object sender, LoadStartEventArgs args)
         {
-            SetAddress(args.Url);
+            
         }
 
         private void WebViewNavStateChanged(object sender, NavStateChangedEventArgs args)
@@ -58,6 +59,11 @@ namespace CefSharp.WinForms.Example
         private void WebViewTitleChanged(object sender, TitleChangedEventArgs args)
         {
             SetTitle(args.Title);
+        }
+
+        private void WebViewAddressChanged(object sender, AddressChangedEventArgs args)
+        {
+            SetAddress(args.Address);
         }
 
         public void SetTitle(string title)
