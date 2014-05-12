@@ -3,11 +3,11 @@
 namespace CefSharp
 {
     /// <summary>
-    /// Event arguments to the LoadCompleted event handler set up in IWebBrowser.
+    /// Event arguments to the FrameLoadEnd event handler set up in IWebBrowser.
     /// </summary>
-    public class LoadCompletedEventArgs : EventArgs
+    public class FrameLoadEndEventArgs : EventArgs
     {
-        public LoadCompletedEventArgs(string url, bool isMainFrame)
+        public FrameLoadEndEventArgs(string url, bool isMainFrame)
         {
             Url = url;
             IsMainFrame = isMainFrame;
@@ -25,7 +25,7 @@ namespace CefSharp
     };
 
     /// <summary>
-    /// A delegate type used to listen to LoadCompleted events.
+    /// A delegate type used to listen to FrameLoadEnd events.
     /// </summary>
-    public delegate void LoadCompletedEventHandler(object sender, LoadCompletedEventArgs url);
+    public delegate void FrameLoadEndEventHandler(object sender, FrameLoadEndEventArgs url);
 }

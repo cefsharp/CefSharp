@@ -20,7 +20,7 @@ namespace CefSharp
         /// <summary>
         /// Event handler that will get called whenever page loading is complete.
         /// </summary>        
-        event LoadCompletedEventHandler LoadCompleted;
+        event FrameLoadEndEventHandler FrameLoadEnd;
 
         /// <summary>
         /// Event handler that will get called whenever a load error occurs.

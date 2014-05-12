@@ -49,7 +49,7 @@ namespace CefSharp.Wpf
         public ILifeSpanHandler LifeSpanHandler { get; set; }
 
         public event ConsoleMessageEventHandler ConsoleMessage;
-        public event LoadCompletedEventHandler LoadCompleted;
+        public event FrameLoadEndEventHandler FrameLoadEnd;
         public event LoadErrorEventHandler LoadError;
 
         public ICommand BackCommand { get; private set; }
@@ -936,9 +936,9 @@ namespace CefSharp.Wpf
         {
             //browserCore.OnFrameLoadEnd();
 
-            if (LoadCompleted != null)
+            if (FrameLoadEnd != null)
             {
-                LoadCompleted(this, new LoadCompletedEventArgs(url, isMainFrame));
+                FrameLoadEnd(this, new FrameLoadEndEventArgs(url, isMainFrame));
             }
         }
 
