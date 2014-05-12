@@ -101,6 +101,7 @@ namespace CefSharp.WinForms
         public event LoadCompletedEventHandler LoadCompleted;
         public event NavStateChangedEventHandler NavStateChanged;
         public event ConsoleMessageEventHandler ConsoleMessage;
+        public event AddressChangedEventHandler AddressChanged;
 
         protected override void OnHandleCreated(EventArgs e)
         {
@@ -119,6 +120,12 @@ namespace CefSharp.WinForms
         public void SetAddress(string address)
         {
             Address = address;
+
+            var handler = AddressChanged;
+            if (handler != null)
+            {
+                handler(this, new AddressChangedEventArgs(address));
+            }
         }
 
         public void SetIsLoading(bool isLoading)
