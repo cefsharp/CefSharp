@@ -3,11 +3,11 @@
 namespace CefSharp
 {
     /// <summary>
-    /// Event arguments to the LoadStart event handler set up in IWebBrowser.
+    /// Event arguments to the FrameLoadStart event handler set up in IWebBrowser.
     /// </summary>
-    public class LoadStartEventArgs : EventArgs
+    public class FrameLoadStartEventArgs : EventArgs
     {
-        public LoadStartEventArgs(string url, bool isMainFrame)
+        public FrameLoadStartEventArgs(string url, bool isMainFrame)
         {
             Url = url;
             IsMainFrame = isMainFrame;
@@ -25,7 +25,7 @@ namespace CefSharp
     };
 
     /// <summary>
-    /// A delegate type used to listen to LoadStart events.
+    /// A delegate type used to listen to FrameLoadStart events.
     /// </summary>
-    public delegate void LoadStartEventHandler(object sender, LoadStartEventArgs args);
+    public delegate void FrameLoadStartEventHandler(object sender, FrameLoadStartEventArgs args);
 }

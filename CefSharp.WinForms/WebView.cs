@@ -97,7 +97,7 @@ namespace CefSharp.WinForms
         }
 
         public event LoadErrorEventHandler LoadError;
-        public event LoadStartEventHandler LoadStart;
+        public event FrameLoadStartEventHandler FrameLoadStart;
         public event FrameLoadEndEventHandler FrameLoadEnd;
         public event NavStateChangedEventHandler NavStateChanged;
         public event ConsoleMessageEventHandler ConsoleMessage;
@@ -165,10 +165,10 @@ namespace CefSharp.WinForms
 
         public void OnFrameLoadStart(string url, bool isMainFrame)
         {
-            var handler = LoadStart;
+            var handler = FrameLoadStart;
             if (handler != null)
             {
-                handler(this, new LoadStartEventArgs(url, isMainFrame));
+                handler(this, new FrameLoadStartEventArgs(url, isMainFrame));
             }
         }
 

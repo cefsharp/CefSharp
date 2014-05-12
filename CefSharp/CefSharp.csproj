@@ -87,7 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddressChangedEventArgs.cs" />
-    <Compile Include="LoadStartEventArgs.cs" />
+    <Compile Include="FrameLoadStartEventArgs.cs" />
     <Compile Include="NavStateChangedEventArgs.cs" />
     <Compile Include="Internals\BitmapInfo.cs" />
     <Compile Include="Internals\ManagedCefApp.cs" />
