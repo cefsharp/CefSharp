@@ -188,17 +188,19 @@ namespace CefSharp.WinForms
 
         public void OnConsoleMessage(string message, string source, int line)
         {
-            if (ConsoleMessage != null)
+            var handler = ConsoleMessage;
+            if (handler != null)
             {
-                ConsoleMessage(this, new ConsoleMessageEventArgs(message, source, line));
+                handler(this, new ConsoleMessageEventArgs(message, source, line));
             }
         }
 
         public void OnLoadError(string url, CefErrorCode errorCode, string errorText)
         {
-            if (LoadError != null)
+            var handler = LoadError;
+            if (handler != null)
             {
-                LoadError(url, errorCode, errorText);
+                handler(url, errorCode, errorText);
             }
         }
 
