@@ -12,7 +12,7 @@ namespace CefSharp
 
         string MimeType { get; set; }
 
-        IDictionary<string, string> ResponseHeaders { get; set; }
+        IHeaderDictionary ResponseHeaders { get; set; }
 
         /// <summary>
         /// The status code of the response. Unless set, the default value used is 200

@@ -8,6 +8,6 @@ namespace CefSharp
         string Url { get; set; }
         string Method { get; }
         string Body { get; }
-        IDictionary<string, String> Headers { get; set; }
+        IHeaderDictionary Headers { get; set; }
     }
 }

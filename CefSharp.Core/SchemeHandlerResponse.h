@@ -28,7 +28,7 @@ namespace CefSharp
         virtual property Stream^ ResponseStream;
 
         virtual property String^ MimeType;
-        virtual property IDictionary<String^, String^>^ ResponseHeaders;
+        virtual property IHeaderDictionary^ ResponseHeaders;
 
         /// <summary>
         /// The status code of the response. Unless set, the default value used is 200
