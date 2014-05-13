@@ -12,7 +12,7 @@ using namespace System::IO;
 
 namespace CefSharp
 {
-	CefResponse::HeaderMap SchemeHandlerWrapper::ToHeaderMap(IHeaderDictionary^ headers)
+    CefResponse::HeaderMap SchemeHandlerWrapper::ToHeaderMap(IHeaderDictionary^ headers)
     {
         CefResponse::HeaderMap result;
 
@@ -21,12 +21,12 @@ namespace CefSharp
             return result;
         }
 
-		for each (KeyValuePair<String^, array<String^>^> header in headers)
+        for each (KeyValuePair<String^, array<String^>^> header in headers)
         {
-			for each(String^ value in header.Value)
-			{
-				result.insert(std::pair<CefString, CefString>(StringUtils::ToNative(header.Key), StringUtils::ToNative(value)));
-			}
+            for each(String^ value in header.Value)
+            {
+                result.insert(std::pair<CefString, CefString>(StringUtils::ToNative(header.Key), StringUtils::ToNative(value)));
+            }
         }
 
         return result;

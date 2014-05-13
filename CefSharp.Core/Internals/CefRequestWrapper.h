@@ -24,7 +24,7 @@ namespace CefSharp
             virtual property String^ Url { String^ get(); void set(String^ url); }
             virtual property String^ Method { String^ get(); }
             virtual property String^ Body { String^ get(); }
-			virtual property IHeaderDictionary^ Headers { IHeaderDictionary^  get(); void set(IHeaderDictionary^ url); }
+            virtual property IHeaderDictionary^ Headers { IHeaderDictionary^  get(); void set(IHeaderDictionary^ url); }
 
         };
     }
