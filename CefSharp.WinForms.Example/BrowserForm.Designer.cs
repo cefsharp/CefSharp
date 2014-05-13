@@ -114,6 +114,7 @@
             this.backButton.Name = "backButton";
             this.backButton.Size = new System.Drawing.Size(52, 22);
             this.backButton.Text = "Back";
+            this.backButton.Click += BackButtonClick;
             // 
             // forwardButton
             // 
@@ -123,6 +124,7 @@
             this.forwardButton.Name = "forwardButton";
             this.forwardButton.Size = new System.Drawing.Size(70, 22);
             this.forwardButton.Text = "Forward";
+            this.forwardButton.Click += ForwardButtonClick;
             // 
             // urlTextBox
             // 
@@ -138,6 +140,7 @@
             this.goButton.Name = "goButton";
             this.goButton.Size = new System.Drawing.Size(42, 22);
             this.goButton.Text = "Go";
+            this.goButton.Click += this.GoButtonClick;
             // 
             // menuStrip1
             // 
@@ -193,6 +196,7 @@
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += ExitMenuItemClick;
             // 
             // editToolStripMenuItem
             // 

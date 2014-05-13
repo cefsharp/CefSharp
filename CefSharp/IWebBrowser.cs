@@ -18,12 +18,22 @@ namespace CefSharp
         event ConsoleMessageEventHandler ConsoleMessage;
 
         /// <summary>
-        /// Event handler that will get called whenever page loading is complete.
+        /// Event handler that will get called when the browser begins loading a frame. Multiple frames may be loading at the same
+        /// time. Sub-frames may start or continue loading after the main frame load has ended. This method may not be called for a
+        /// particular frame if the load request for that frame fails. For notification of overall browser load status use
+        /// OnLoadingStateChange instead.
         /// </summary>        
-        event LoadCompletedEventHandler LoadCompleted;
+        event FrameLoadStartEventHandler FrameLoadStart;
+        
+        /// <summary>
+        /// Event handler that will get called when the browser is done loading a frame. Multiple frames may be loading at the same
+        /// time. Sub-frames may start or continue loading after the main frame load has ended. This method will always be called
+        /// for all frames irrespective of whether the request completes successfully. 
+        /// </summary>        
+        event FrameLoadEndEventHandler FrameLoadEnd;
 
         /// <summary>
-        /// Event handler that will get called whenever a load error occurs.
+        /// Event handler that will get called when the resource load for a navigation fails or is canceled.
         /// </summary>        
         event LoadErrorEventHandler LoadError;
 
