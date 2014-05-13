@@ -41,7 +41,7 @@ namespace CefSharp
                 _browserHwnd = browser->GetHost()->GetWindowHandle();
                 _cefBrowser = browser;
 
-                _browserControl->OnInitialized();
+                _managedCefBrowserAdapter->OnInitialized();
             }
         }
 
@@ -114,6 +114,8 @@ namespace CefSharp
                 return KeyType::KeyUp;
             case KEYEVENT_CHAR:
                 return KeyType::Char;
+            default:
+                throw gcnew ArgumentOutOfRangeException("keytype", String::Format("'{0}' is not a valid keytype", gcnew array<Object^>(keytype)));
             }
         }
 

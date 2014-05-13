@@ -13,6 +13,8 @@ using namespace System;
 
 namespace CefSharp
 {
+    ref class ManagedCefBrowserAdapter;
+
     namespace Internals
     {
         private class ClientAdapter : public CefClient,
@@ -28,18 +30,24 @@ namespace CefSharp
         {
         private:
             gcroot<IWebBrowserInternal^> _browserControl;
+            gcroot<ManagedCefBrowserAdapter^> _managedCefBrowserAdapter;
             HWND _browserHwnd;
             CefRefPtr<CefBrowser> _cefBrowser;
 
             gcroot<String^> _tooltip;
 
         public:
-            ClientAdapter(IWebBrowserInternal^ browserControl) :
-                _browserControl(browserControl)
+            ClientAdapter(IWebBrowserInternal^ browserControl, ManagedCefBrowserAdapter^ managedCefBrowserAdapter) :
+                _browserControl(browserControl),
+                _managedCefBrowserAdapter(managedCefBrowserAdapter)
             {
             }
 
-            ~ClientAdapter() { _browserControl = nullptr; }
+            ~ClientAdapter() 
+            {
+                _browserControl = nullptr; 
+                _managedCefBrowserAdapter = nullptr;
+            }
 
             HWND GetBrowserHwnd() { return _browserHwnd; }
             CefRefPtr<CefBrowser> GetCefBrowser() { return _cefBrowser; }
