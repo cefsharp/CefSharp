@@ -140,10 +140,10 @@ namespace CefSharp.WinForms
             CanGoForward = canGoForward;
             CanReload = canReload;
 
-            var onNavStateChanged = NavStateChanged;
-            if (onNavStateChanged != null)
+            var handler = NavStateChanged;
+            if (handler != null)
             {
-                onNavStateChanged(this, new NavStateChangedEventArgs(canGoBack, canGoForward, canReload));
+                handler(this, new NavStateChangedEventArgs(canGoBack, canGoForward, canReload));
             }
         }
 
