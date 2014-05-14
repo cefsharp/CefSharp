@@ -202,9 +202,7 @@ namespace CefSharp
 
             if (requestResponse->Action == ResponseAction::Redirect)
             {
-                // TODO: Not supported at the moment; there does not seem any obvious way to give a redirect back in an
-                // OnBeforeResourceLoad() handler nowadays.
-                //request.redirectUrl = StringUtils::ToNative(requestResponse->RedirectUrl);
+                request->SetURL(StringUtils::ToNative(requestResponse->RedirectUrl));
             }
             else if (requestResponse->Action == ResponseAction::Respond)
             {
