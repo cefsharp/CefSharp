@@ -71,7 +71,7 @@ namespace CefSharp
         /// Search for text within the current page
         /// </summary>
         /// <param name="identifier">Can be used in can conjunction with searchText to have multiple
-        /// searches running simultaniously.</param>
+        /// searches running simultaneously.</param>
         /// <param name="searchText">search text</param>
         /// <param name="forward">indicates whether to search forward or backward within the page.</param>
         /// <param name="matchCase">indicates whether the search should be case-sensitive. </param>
