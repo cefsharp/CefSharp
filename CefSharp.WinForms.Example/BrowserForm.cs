@@ -190,7 +190,6 @@ namespace CefSharp.WinForms.Example
         {
             Find(true);
         }
-
         
         private void FindPreviousButtonClick(object sender, EventArgs e)
         {
