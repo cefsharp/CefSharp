@@ -1,85 +1,12 @@
 ﻿using System;
 using System.Windows.Forms;
 using CefSharp.Example;
+using CefSharp.WinForms.Example.Controls;
 
 namespace CefSharp.WinForms.Example
 {
     public partial class BrowserForm : Form
     {
-        public event EventHandler ShowDevToolsActivated
-        {
-            add { showDevToolsMenuItem.Click += value; }
-            remove { showDevToolsMenuItem.Click -= value; }
-        }
-
-        public event EventHandler CloseDevToolsActivated
-        {
-            add { closeDevToolsMenuItem.Click += value; }
-            remove { showDevToolsMenuItem.Click -= value; }
-        }
-
-        public event EventHandler ExitActivated
-        {
-            add { exitToolStripMenuItem.Click += value; }
-            remove { exitToolStripMenuItem.Click -= value; }
-        }
-
-        public event EventHandler UndoActivated
-        {
-            add { undoMenuItem.Click += value; }
-            remove { undoMenuItem.Click -= value; }
-        }
-
-        public event EventHandler RedoActivated
-        {
-            add { redoMenuItem.Click += value; }
-            remove { redoMenuItem.Click -= value; }
-        }
-
-        public event EventHandler CutActivated
-        {
-            add { cutMenuItem.Click += value; }
-            remove { cutMenuItem.Click -= value; }
-        }
-
-        public event EventHandler CopyActivated
-        {
-            add { copyMenuItem.Click += value; }
-            remove { copyMenuItem.Click -= value; }
-        }
-
-        public event EventHandler PasteActivated
-        {
-            add { pasteMenuItem.Click += value; }
-            remove { pasteMenuItem.Click -= value; }
-        }
-
-        public event EventHandler DeleteActivated
-        {
-            add { deleteMenuItem.Click += value; }
-            remove { deleteMenuItem.Click -= value; }
-        }
-
-        public event EventHandler SelectAllActivated
-        {
-            add { selectAllMenuItem.Click += value; }
-            remove { selectAllMenuItem.Click -= value; }
-        }
-
-        public event Action<object, string> UrlActivated;
-
-        public event EventHandler BackActivated
-        {
-            add { backButton.Click += value; }
-            remove { backButton.Click -= value; }
-        }
-
-        public event EventHandler ForwardActivated
-        {
-            add { forwardButton.Click += value; }
-            remove { forwardButton.Click -= value; }
-        }
-
         private readonly WebView webView;
 
         public BrowserForm()
@@ -90,44 +17,59 @@ namespace CefSharp.WinForms.Example
 
             webView = new WebView(ExamplePresenter.DefaultUrl)
             {
-                Dock = DockStyle.Fill
+                Dock = DockStyle.Fill,
             };
             toolStripContainer.ContentPanel.Controls.Add(webView);
             
             webView.MenuHandler = new MenuHandler();
+            webView.NavStateChanged += WebViewNavStateChanged;
+            webView.ConsoleMessage += WebViewConsoleMessage;
+            webView.TitleChanged += WebViewTitleChanged;
+            webView.AddressChanged += WebViewAddressChanged;
+
+            var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
+            DisplayOutput(version);
         }
 
-        public void SetTitle(string title)
+        private void WebViewConsoleMessage(object sender, ConsoleMessageEventArgs args)
         {
-            Text = title;
+            DisplayOutput(string.Format("Line: {0}, Source: {1}, Message: {2}", args.Line, args.Source, args.Message));
         }
 
-        public void SetAddress(string address)
+        private void WebViewNavStateChanged(object sender, NavStateChangedEventArgs args)
         {
-            urlTextBox.Text = address;
+            SetCanGoBack(args.CanGoBack);
+            SetCanGoForward(args.CanGoForward);
+
+            this.InvokeOnUiThreadIfRequired(() => SetIsLoading(!args.CanReload));
         }
 
-        public void SetAddress(Uri uri)
+        private void WebViewTitleChanged(object sender, TitleChangedEventArgs args)
         {
-            urlTextBox.Text = uri.ToString();
+            this.InvokeOnUiThreadIfRequired(() => Text = args.Title);
         }
 
-        public void SetCanGoBack(bool can_go_back)
+        private void WebViewAddressChanged(object sender, AddressChangedEventArgs args)
         {
-            backButton.Enabled = can_go_back;
+            this.InvokeOnUiThreadIfRequired(() => urlTextBox.Text = args.Address);
         }
 
-        public void SetCanGoForward(bool can_go_forward)
+        private void SetCanGoBack(bool canGoBack)
         {
-            forwardButton.Enabled = can_go_forward;
+            this.InvokeOnUiThreadIfRequired(() => backButton.Enabled = canGoBack);
         }
 
-        public void SetIsLoading(bool is_loading)
+        private void SetCanGoForward(bool canGoForward)
         {
-            goButton.Text = is_loading ?
+            this.InvokeOnUiThreadIfRequired(() => forwardButton.Enabled = canGoForward);
+        }
+
+        private void SetIsLoading(bool isLoading)
+        {
+            goButton.Text = isLoading ?
                 "Stop" :
                 "Go";
-            goButton.Image = is_loading ?
+            goButton.Image = isLoading ?
                 Properties.Resources.nav_plain_red :
                 Properties.Resources.nav_plain_green;
 
@@ -146,7 +88,7 @@ namespace CefSharp.WinForms.Example
 
         public void DisplayOutput(string output)
         {
-            outputLabel.Text = output;
+            this.InvokeOnUiThreadIfRequired(() => outputLabel.Text = output);
         }
 
         private void HandleToolStripLayout(object sender, LayoutEventArgs e)
@@ -167,13 +109,26 @@ namespace CefSharp.WinForms.Example
             urlTextBox.Width = Math.Max(0, width - urlTextBox.Margin.Horizontal - 18);
         }
 
-        private void HandleGoButtonClick(object sender, EventArgs e)
+        private void ExitMenuItemClick(object sender, EventArgs e)
         {
-            var handler = this.UrlActivated;
-            if (handler != null)
-            {
-                handler(this, urlTextBox.Text);
-            }
+            webView.Dispose();
+            Cef.Shutdown();
+            Close();
+        }
+
+        private void GoButtonClick(object sender, EventArgs e)
+        {
+            LoadUrl(urlTextBox.Text);
+        }
+
+        private void BackButtonClick(object sender, EventArgs e)
+        {
+            webView.Back();
+        }
+
+        private void ForwardButtonClick(object sender, EventArgs e)
+        {
+            webView.Forward();
         }
 
         private void UrlTextBoxKeyUp(object sender, KeyEventArgs e)
@@ -183,10 +138,14 @@ namespace CefSharp.WinForms.Example
                 return;
             }
 
-            var handler = UrlActivated;
-            if (handler != null)
+            LoadUrl(urlTextBox.Text);
+        }
+
+        private void LoadUrl(string url)
+        {
+            if (Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute))
             {
-                handler(this, urlTextBox.Text);
+                webView.Load(url);
             }
         }
 

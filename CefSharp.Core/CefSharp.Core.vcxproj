@@ -131,6 +131,7 @@
       <GenerateMapFile>false</GenerateMapFile>
       <MapExports>false</MapExports>
       <KeyFile>$(LinkKeyFile)</KeyFile>
+      <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
