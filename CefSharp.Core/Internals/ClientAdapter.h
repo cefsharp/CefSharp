@@ -90,7 +90,6 @@ namespace CefSharp
 
             // CefRenderProcessHandler
             virtual DECL void OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context) OVERRIDE;
-            virtual DECL bool OnBeforeNavigation(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,CefRefPtr<CefRequest> request, NavigationType navigationType, bool isRedirect) OVERRIDE;
 
             // CefContextMenuHandler
             virtual DECL void OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
