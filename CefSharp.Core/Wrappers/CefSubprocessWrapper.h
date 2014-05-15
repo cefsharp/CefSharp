@@ -114,16 +114,17 @@ namespace CefSharp
             // That feels much more like 2013, and not 1994... :)
             // TODO: How about concurrency? One way to easily resolve it is to new() up something unique here and use that to
             // invoke the method.
-            CefPostTask(TID_RENDERER, NewCefRunnableMethod(_unmanagedWrapper.get(),
+            CefBrowserUnmanagedWrapper* unmanagedWrapper = _unmanagedWrapper.get();
+            CefPostTask(TID_RENDERER, NewCefRunnableMethod(unmanagedWrapper,
                 &CefBrowserUnmanagedWrapper::EvaluateScriptCallback, frameId, StringUtils::ToNative(script), timeout));
-            _unmanagedWrapper->WaitHandle->WaitOne();
+            unmanagedWrapper->WaitHandle->WaitOne();
 
-            if (static_cast<String^>(_unmanagedWrapper->EvaluateScriptExceptionMessage) != nullptr)
+            if (static_cast<String^>(unmanagedWrapper->EvaluateScriptExceptionMessage) != nullptr)
             {
-                throw gcnew FaultException(_unmanagedWrapper->EvaluateScriptExceptionMessage);
+                throw gcnew FaultException(unmanagedWrapper->EvaluateScriptExceptionMessage);
             }
 
-            return _unmanagedWrapper->EvaluateScriptResult;
+            return unmanagedWrapper->EvaluateScriptResult;
         }
     };
 }
