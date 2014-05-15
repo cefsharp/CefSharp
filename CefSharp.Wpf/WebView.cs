@@ -550,7 +550,8 @@ namespace CefSharp.Wpf
 
         void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
         {
-            DoInUi(() => ((IRenderWebBrowser)(this)).SetBitmap(bitmapInfo), DispatcherPriority.Render);
+            IRenderWebBrowser renderer = this;
+            DoInUi(() => renderer.SetBitmap(bitmapInfo), DispatcherPriority.Render);
         }
 
         void IWebBrowserInternal.SetAddress(string address)

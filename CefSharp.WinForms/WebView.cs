@@ -115,38 +115,38 @@ namespace CefSharp.WinForms
                 managedCefBrowserAdapter.OnSizeChanged(Handle);
         }
 
-        public void SetAddress(string address)
+        void IWebBrowserInternal.SetAddress(string address)
         {
             Address = address;
         }
 
-        public void SetIsLoading(bool isLoading)
+        void IWebBrowserInternal.SetIsLoading(bool isLoading)
         {
             IsLoading = isLoading;
         }
 
-        public void SetNavState(bool canGoBack, bool canGoForward, bool canReload)
+        void IWebBrowserInternal.SetNavState(bool canGoBack, bool canGoForward, bool canReload)
         {
             CanGoBack = canGoBack;
             CanGoForward = canGoForward;
             CanReload = canReload;
         }
 
-        public void SetTitle(string title)
+        void IWebBrowserInternal.SetTitle(string title)
         {
             Title = title;
         }
 
-        public void SetTooltipText(string tooltipText)
+        void IWebBrowserInternal.SetTooltipText(string tooltipText)
         {
             TooltipText = tooltipText;
         }
 
-        public void OnFrameLoadStart(string url)
+        void IWebBrowserInternal.OnFrameLoadStart(string url)
         {
         }
 
-        public void OnFrameLoadEnd(string url)
+        void IWebBrowserInternal.OnFrameLoadEnd(string url)
         {
             if (LoadCompleted != null)
             {
@@ -154,12 +154,12 @@ namespace CefSharp.WinForms
             }
         }
 
-        public void OnTakeFocus(bool next)
+        void IWebBrowserInternal.OnTakeFocus(bool next)
         {
             throw new NotImplementedException();
         }
 
-        public void OnConsoleMessage(string message, string source, int line)
+        void IWebBrowserInternal.OnConsoleMessage(string message, string source, int line)
         {
             if (ConsoleMessage != null)
             {
@@ -167,7 +167,7 @@ namespace CefSharp.WinForms
             }
         }
 
-        public void OnLoadError(string url, CefErrorCode errorCode, string errorText)
+        void IWebBrowserInternal.OnLoadError(string url, CefErrorCode errorCode, string errorText)
         {
             if (LoadError != null)
             {
@@ -175,16 +175,16 @@ namespace CefSharp.WinForms
             }
         }
 
-        
 
-        public void ShowDevTools()
+
+        void IWebBrowserInternal.ShowDevTools()
         {
             // TODO: Do something about this one.
             var devToolsUrl = managedCefBrowserAdapter.DevToolsUrl;
             throw new NotImplementedException();
         }
 
-        public void CloseDevTools()
+        void IWebBrowserInternal.CloseDevTools()
         {
             throw new NotImplementedException();
         }
