@@ -1,4 +1,4 @@
-// Copyright © 2010-2013 The CefSharp Project. All rights reserved.
+// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -20,7 +20,9 @@ namespace CefSharp
     private:
         RenderClientAdapter* _renderClientAdapter;
         ISubProcessProxy^ _javaScriptProxy;
-
+        IWebBrowserInternal^ _webBrowserInternal;
+        String^ _address;
+        
     public:
         property String^ DevToolsUrl
         {
@@ -41,12 +43,15 @@ namespace CefSharp
 
         ManagedCefBrowserAdapter(IWebBrowserInternal^ webBrowserInternal)
         {
-            _renderClientAdapter = new RenderClientAdapter(webBrowserInternal);
+            _webBrowserInternal = webBrowserInternal;
+            _renderClientAdapter = new RenderClientAdapter(webBrowserInternal, this);
         }
 
         ~ManagedCefBrowserAdapter()
         {
+            this->Close();
             _renderClientAdapter = nullptr;
+            _address = nullptr;
         }
 
         void CreateOffscreenBrowser(BrowserSettings^ browserSettings)
@@ -73,6 +78,7 @@ namespace CefSharp
 
         void LoadUrl(String^ address)
         {
+            _address = address;
             auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
 
             if (cefFrame != nullptr)
@@ -80,6 +86,19 @@ namespace CefSharp
                 cefFrame->LoadURL(StringUtils::ToNative(address));
             }
         }
+
+
+        void OnInitialized()
+        {
+            _webBrowserInternal->OnInitialized();
+
+            auto address = _address;
+
+            if ( address != nullptr )
+            {
+                LoadUrl(address);
+            }
+        };
 
         void LoadHtml(String^ html, String^ url)
         {
@@ -111,7 +130,7 @@ namespace CefSharp
             }
         }
 
-        bool SendKeyEvent(int message, int wParam)
+        bool SendKeyEvent(int message, int wParam, CefEventFlags modifiers)
         {
             auto cefHost = _renderClientAdapter->TryGetCefHost();
 
@@ -134,6 +153,8 @@ namespace CefSharp
                     message == WM_SYSKEYDOWN ||
                     message == WM_SYSKEYUP ||
                     message == WM_SYSCHAR;
+
+                keyEvent.modifiers = (uint32)modifiers;
 
                 cefHost->SendKeyEvent(keyEvent);
                 return true;
@@ -205,13 +226,35 @@ namespace CefSharp
             }
         }
 
+        void Print()
+        {
+            auto cefHost = _renderClientAdapter->TryGetCefHost();
+
+            if (cefHost != nullptr)
+            {
+                cefHost->Print();
+            }
+        }
+
         void Reload()
+        {
+            Reload(false);
+        }
+
+        void Reload(bool ignoreCache)
         {
             auto cefBrowser = _renderClientAdapter->GetCefBrowser();
 
             if (cefBrowser != nullptr)
             {
-                cefBrowser->Reload();
+                if (ignoreCache)
+                {
+                    cefBrowser->ReloadIgnoreCache();
+                }
+                else
+                {
+                    cefBrowser->Reload();
+                }
             }
         }
 
@@ -222,6 +265,16 @@ namespace CefSharp
             if (cefFrame != nullptr)
             {
                 cefFrame->ViewSource();
+            }
+        }
+
+        void Cut()
+        {
+            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame(); 
+            
+            if (cefFrame != nullptr)
+            {
+                cefFrame->Cut();
             }
         }
 
@@ -242,6 +295,36 @@ namespace CefSharp
             if (cefFrame != nullptr)
             {
                 cefFrame->Paste();
+            }
+        }
+
+        void SelectAll()
+        {
+            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
+
+            if (cefFrame != nullptr)
+            {
+                cefFrame->SelectAll();
+            }
+        }
+
+        void Undo()
+        {
+            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
+
+            if (cefFrame != nullptr)
+            {
+                cefFrame->Undo();
+            }
+        }
+
+        void Redo()
+        {
+            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
+
+            if (cefFrame != nullptr)
+            {
+                cefFrame->Redo();
             }
         }
         
@@ -278,6 +361,28 @@ namespace CefSharp
             else
             {
                 return nullptr;
+            }
+        }
+
+        double GetZoomLevel()
+        {
+            auto cefHost = _renderClientAdapter->TryGetCefHost();
+
+            if (cefHost != nullptr)
+            {
+                return cefHost->GetZoomLevel();
+            }
+            
+            return 0;
+        }
+
+        void SetZoomLevel(double zoomLevel)
+        {
+            auto cefHost = _renderClientAdapter->TryGetCefHost();
+
+            if (cefHost != nullptr)
+            {
+                cefHost->SetZoomLevel(zoomLevel);
             }
         }
 
