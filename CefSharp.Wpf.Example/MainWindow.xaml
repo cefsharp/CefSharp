@@ -1,27 +1,41 @@
 ﻿<Window x:Class="CefSharp.Wpf.Example.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
-        xmlns:example="clr-namespace:CefSharp.Example;assembly=CefSharp.Example"
+        xmlns:controls="clr-namespace:CefSharp.Wpf.Example.Controls"
         Title="CefSharp.Wpf.Example"
         WindowState="Maximized">
-
-    <TabControl x:Name="TabControl"
-                Margin="0,5,0,0"
-                SelectionChanged="OnTabControlSelectionChanged">
-        <!-- TODO: Change the TabItems to use a proper ItemsSource-based approach instead. This is just a big hack for now. -->
-        <TabItem Header="{Binding Tab1Content.DataContext.Title}"
-                 Width="150"
-                 Height="20">
-            <ContentControl Content="{Binding Tab1Content}" />
-        </TabItem>
-
-        <TabItem Header="{Binding Tab2Content.DataContext.Title}"
-                 Width="150"
-                 Height="20">
-            <ContentControl Content="{Binding Tab2Content}" />
-        </TabItem>
-        
-        <TabItem Header="+"/>
-    </TabControl>
+    <Window.InputBindings>
+        <KeyBinding Key="T" Modifiers="Control" Command="New"/>
+        <KeyBinding Key="W" Modifiers="Control" Command="Close"/>
+    </Window.InputBindings>
+    <Grid>
+        <controls:NonReloadingTabControl x:Name="TabControl"
+                               Margin="0,5,0,0"
+                               ItemsSource="{Binding BrowserTabs, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                               SelectedIndex="0">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Title}"/>
+                        <Button Content="X"
+                                Height="20"
+                                Width="20"
+                                FontFamily="Courier"
+                                FontWeight="Bold"
+                                Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                Command="Close"
+                                FontSize="10"
+                                Padding="0"
+                                Margin="10,0,0,0"
+                                ToolTip="Close"/>
+                    </StackPanel>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <ContentControl Content="{Binding}" />
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </controls:NonReloadingTabControl>
+    </Grid>
 </Window>
