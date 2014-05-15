@@ -36,15 +36,21 @@ namespace CefSharp.Wpf.Example
 				//Obtain the original source element for this event
 				var originalSource = (FrameworkElement)e.OriginalSource;
 
+                BrowserTabViewModel browserViewModel = null;
+
 				if (originalSource is MainWindow)
 				{
-					BrowserTabs.RemoveAt(TabControl.SelectedIndex);
+                    browserViewModel = BrowserTabs[TabControl.SelectedIndex];
+                    BrowserTabs.RemoveAt(TabControl.SelectedIndex);
 				}
 				else
 				{
 					//Remove the matching DataContext from the BrowserTabs collection
-					BrowserTabs.Remove((BrowserTabViewModel)originalSource.DataContext);
+                    browserViewModel = (BrowserTabViewModel)originalSource.DataContext;
+                    BrowserTabs.Remove(browserViewModel);
 				}
+
+			    browserViewModel.WebBrowser.CleanupCommand.Execute( null );
 			}
 		}
 
