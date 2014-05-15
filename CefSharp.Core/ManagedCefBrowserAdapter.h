@@ -26,7 +26,12 @@ namespace CefSharp
     protected:
         virtual void DoDispose(bool isDisposing) override
         {
+            Close();
+
             _renderClientAdapter = nullptr;
+            _javaScriptProxy = nullptr;
+            _webBrowserInternal = nullptr;
+            _address = nullptr;
 
             ObjectBase::DoDispose(isDisposing);
         };
