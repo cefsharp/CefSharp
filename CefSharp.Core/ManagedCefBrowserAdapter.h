@@ -206,6 +206,16 @@ namespace CefSharp
             }
         }
 
+        void Stop()
+        {
+            auto cefBrowser = _renderClientAdapter->GetCefBrowser();
+
+            if (cefBrowser != nullptr)
+            {
+                cefBrowser->StopLoad();
+            }
+        }
+
         void GoBack()
         {
             auto cefBrowser = _renderClientAdapter->GetCefBrowser();
@@ -236,6 +246,26 @@ namespace CefSharp
             }
         }
 
+        void Find(int identifier, String^ searchText, bool forward, bool matchCase, bool findNext)
+        {
+            auto cefHost = _renderClientAdapter->TryGetCefHost();
+
+            if (cefHost != nullptr)
+            {
+                cefHost->Find(identifier, StringUtils::ToNative(searchText), forward, matchCase, findNext);
+            }
+        }
+
+        void StopFinding(bool clearSelection)
+        {
+            auto cefHost = _renderClientAdapter->TryGetCefHost();
+
+            if (cefHost != nullptr)
+            {
+                cefHost->StopFinding(clearSelection);
+            }
+        }
+        
         void Reload()
         {
             Reload(false);

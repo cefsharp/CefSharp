@@ -49,7 +49,8 @@ namespace CefSharp.Wpf
         public ILifeSpanHandler LifeSpanHandler { get; set; }
 
         public event ConsoleMessageEventHandler ConsoleMessage;
-        public event LoadCompletedEventHandler LoadCompleted;
+        public event FrameLoadStartEventHandler FrameLoadStart;
+        public event FrameLoadEndEventHandler FrameLoadEnd;
         public event LoadErrorEventHandler LoadError;
 
         public ICommand BackCommand { get; private set; }
@@ -896,6 +897,16 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter.Print();
         }
 
+        public void Find(int identifier, string searchText, bool forward, bool matchCase, bool findNext)
+        {
+            managedCefBrowserAdapter.Find(identifier, searchText, forward, matchCase, findNext);
+        }
+
+        public void StopFinding(bool clearSelection)
+        {
+            managedCefBrowserAdapter.StopFinding(clearSelection);
+        }
+
         private void ZoomIn()
         {
             DoInUi(() =>
@@ -932,18 +943,22 @@ namespace CefSharp.Wpf
             throw new NotImplementedException();
         }
 
-        public void OnFrameLoadStart(string url)
+        public void OnFrameLoadStart(string url, bool isMainFrame)
         {
-            //browserCore.OnFrameLoadStart();
+            var handler = FrameLoadStart;
+            if (handler != null)
+            {
+                handler(this, new FrameLoadStartEventArgs(url, isMainFrame));
+            }
         }
 
-        public void OnFrameLoadEnd(string url)
+        public void OnFrameLoadEnd(string url, bool isMainFrame, int httpStatusCode)
         {
-            //browserCore.OnFrameLoadEnd();
+            var handler = FrameLoadEnd;
 
-            if (LoadCompleted != null)
+            if (handler != null)
             {
-                LoadCompleted(this, new LoadCompletedEventArgs(url));
+                handler(this, new FrameLoadEndEventArgs(url, isMainFrame, httpStatusCode));
             }
         }
 
@@ -954,17 +969,19 @@ namespace CefSharp.Wpf
 
         public void OnConsoleMessage(string message, string source, int line)
         {
-            if (ConsoleMessage != null)
+            var handler = ConsoleMessage;
+            if (handler != null)
             {
-                ConsoleMessage(this, new ConsoleMessageEventArgs(message, source, line));
+                handler(this, new ConsoleMessageEventArgs(message, source, line));
             }
         }
 
         public void OnLoadError(string url, CefErrorCode errorCode, string errorText)
         {
-            if (LoadError != null)
+            var handler = LoadError;
+            if (handler != null)
             {
-                LoadError(url, errorCode, errorText);
+                handler(url, errorCode, errorText);
             }
         }
 

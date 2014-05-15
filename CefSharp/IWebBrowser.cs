@@ -18,12 +18,22 @@ namespace CefSharp
         event ConsoleMessageEventHandler ConsoleMessage;
 
         /// <summary>
-        /// Event handler that will get called whenever page loading is complete.
+        /// Event handler that will get called when the browser begins loading a frame. Multiple frames may be loading at the same
+        /// time. Sub-frames may start or continue loading after the main frame load has ended. This method may not be called for a
+        /// particular frame if the load request for that frame fails. For notification of overall browser load status use
+        /// OnLoadingStateChange instead.
         /// </summary>        
-        event LoadCompletedEventHandler LoadCompleted;
+        event FrameLoadStartEventHandler FrameLoadStart;
+        
+        /// <summary>
+        /// Event handler that will get called when the browser is done loading a frame. Multiple frames may be loading at the same
+        /// time. Sub-frames may start or continue loading after the main frame load has ended. This method will always be called
+        /// for all frames irrespective of whether the request completes successfully. 
+        /// </summary>        
+        event FrameLoadEndEventHandler FrameLoadEnd;
 
         /// <summary>
-        /// Event handler that will get called whenever a load error occurs.
+        /// Event handler that will get called when the resource load for a navigation fails or is canceled.
         /// </summary>        
         event LoadErrorEventHandler LoadError;
 
@@ -83,5 +93,22 @@ namespace CefSharp
         string Title { get; }
 
         string TooltipText { get; set; }
+
+        /// <summary>
+        /// Search for text within the current page
+        /// </summary>
+        /// <param name="identifier">Can be used in can conjunction with searchText to have multiple
+        /// searches running simultaneously.</param>
+        /// <param name="searchText">search text</param>
+        /// <param name="forward">indicates whether to search forward or backward within the page.</param>
+        /// <param name="matchCase">indicates whether the search should be case-sensitive. </param>
+        /// <param name="findNext">indicates whether this is the first request or a follow-up.</param>
+        void Find(int identifier, string searchText, bool forward, bool matchCase, bool findNext);
+
+        /// <summary>
+        /// Cancel all searches that are currently going on.
+        /// </summary>
+        /// <param name="clearSelection">clear the current search selection</param>
+        void StopFinding(bool clearSelection);
     }
 }

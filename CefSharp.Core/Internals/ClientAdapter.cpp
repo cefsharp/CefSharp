@@ -147,7 +147,7 @@ namespace CefSharp
                 _browserControl->SetNavState(false, false, false);
             }
 
-            _browserControl->OnFrameLoadStart(StringUtils::ToClr(frame->GetURL()));
+            _browserControl->OnFrameLoadStart(StringUtils::ToClr(frame->GetURL()), frame->IsMain());
         }
 
         void ClientAdapter::OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode)
@@ -163,7 +163,7 @@ namespace CefSharp
                 _browserControl->SetIsLoading(false);
             }
 
-            _browserControl->OnFrameLoadEnd(StringUtils::ToClr(frame->GetURL()));
+            _browserControl->OnFrameLoadEnd(StringUtils::ToClr(frame->GetURL()), frame->IsMain(), httpStatusCode);
         }
 
         void ClientAdapter::OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, ErrorCode errorCode, const CefString& errorText, const CefString& failedUrl)

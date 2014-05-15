@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Windows.Forms;
 
 using CefSharp.Internals;
@@ -98,8 +97,12 @@ namespace CefSharp.WinForms
         }
 
         public event LoadErrorEventHandler LoadError;
-        public event LoadCompletedEventHandler LoadCompleted;
+        public event FrameLoadStartEventHandler FrameLoadStart;
+        public event FrameLoadEndEventHandler FrameLoadEnd;
+        public event NavStateChangedEventHandler NavStateChanged;
         public event ConsoleMessageEventHandler ConsoleMessage;
+        public event AddressChangedEventHandler AddressChanged;
+        public event TitleChangedEventHandler TitleChanged;
 
         protected override void OnHandleCreated(EventArgs e)
         {
@@ -118,6 +121,12 @@ namespace CefSharp.WinForms
         public void SetAddress(string address)
         {
             Address = address;
+
+            var handler = AddressChanged;
+            if (handler != null)
+            {
+                handler(this, new AddressChangedEventArgs(address));
+            }
         }
 
         public void SetIsLoading(bool isLoading)
@@ -130,11 +139,23 @@ namespace CefSharp.WinForms
             CanGoBack = canGoBack;
             CanGoForward = canGoForward;
             CanReload = canReload;
+
+            var handler = NavStateChanged;
+            if (handler != null)
+            {
+                handler(this, new NavStateChangedEventArgs(canGoBack, canGoForward, canReload));
+            }
         }
 
         public void SetTitle(string title)
         {
             Title = title;
+
+            var handler = TitleChanged;
+            if (handler != null)
+            {
+                handler(this, new TitleChangedEventArgs(title));
+            }
         }
 
         public void SetTooltipText(string tooltipText)
@@ -142,40 +163,56 @@ namespace CefSharp.WinForms
             TooltipText = tooltipText;
         }
 
-        public void OnFrameLoadStart(string url)
+        public void OnFrameLoadStart(string url, bool isMainFrame)
         {
+            var handler = FrameLoadStart;
+            if (handler != null)
+            {
+                handler(this, new FrameLoadStartEventArgs(url, isMainFrame));
+            }
         }
 
-        public void OnFrameLoadEnd(string url)
+        public void OnFrameLoadEnd(string url, bool isMainFrame, int httpStatusCode)
         {
-            if (LoadCompleted != null)
+            var handler = FrameLoadEnd;
+            if (handler != null)
             {
-                LoadCompleted(this, new LoadCompletedEventArgs(url));
+                handler(this, new FrameLoadEndEventArgs(url, isMainFrame, httpStatusCode));
             }
         }
 
         public void OnTakeFocus(bool next)
         {
-            throw new NotImplementedException();
+            SelectNextControl(this, next, true, true, true);
         }
 
         public void OnConsoleMessage(string message, string source, int line)
         {
-            if (ConsoleMessage != null)
+            var handler = ConsoleMessage;
+            if (handler != null)
             {
-                ConsoleMessage(this, new ConsoleMessageEventArgs(message, source, line));
+                handler(this, new ConsoleMessageEventArgs(message, source, line));
             }
         }
 
         public void OnLoadError(string url, CefErrorCode errorCode, string errorText)
         {
-            if (LoadError != null)
+            var handler = LoadError;
+            if (handler != null)
             {
-                LoadError(url, errorCode, errorText);
+                handler(url, errorCode, errorText);
             }
         }
 
-        
+        public void Find(int identifier, string searchText, bool forward, bool matchCase, bool findNext)
+        {
+            managedCefBrowserAdapter.Find(identifier, searchText, forward, matchCase, findNext);
+        }
+
+        public void StopFinding(bool clearSelection)
+        {
+            managedCefBrowserAdapter.StopFinding(clearSelection);
+        }
 
         public void ShowDevTools()
         {
@@ -187,6 +224,77 @@ namespace CefSharp.WinForms
         public void CloseDevTools()
         {
             throw new NotImplementedException();
+        }
+
+        public void Stop()
+        {
+            managedCefBrowserAdapter.Stop();
+        }
+
+        public void Back()
+        {
+            managedCefBrowserAdapter.GoBack();
+        }
+
+        public void Forward()
+        {
+            managedCefBrowserAdapter.GoForward();
+        }
+
+        public void Reload()
+        {
+            Reload(false);
+        }
+
+        public void Reload(bool ignoreCache)
+        {
+            managedCefBrowserAdapter.Reload(ignoreCache);
+        }
+
+        public void Undo()
+        {
+            managedCefBrowserAdapter.Undo();
+        }
+
+        public void Redo()
+        {
+            managedCefBrowserAdapter.Redo();
+        }
+
+        public void Cut()
+        {
+            managedCefBrowserAdapter.Cut();
+        }
+
+        public void Copy()
+        {
+            managedCefBrowserAdapter.Copy();
+        }
+
+        public void Paste()
+        {
+            managedCefBrowserAdapter.Paste();
+        }
+
+        public void Delete()
+        {
+            //managedCefBrowserAdapter.Delete();
+            throw new NotImplementedException();
+        }
+
+        public void SelectAll()
+        {
+            managedCefBrowserAdapter.SelectAll();
+        }
+
+        public void Print()
+        {
+            managedCefBrowserAdapter.Print();
+        }
+
+        public void ViewSource()
+        {
+            managedCefBrowserAdapter.ViewSource();
         }
     }
 }
