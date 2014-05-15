@@ -14,13 +14,13 @@ namespace CefSharp
         {
             DoDispose(false);
             IsDisposed = true;
-            GC.SuppressFinalize(this);
         }
 
         public void Dispose()
         {
             DoDispose(true);
             IsDisposed = true;
+            GC.SuppressFinalize(this);
         }
 
         protected virtual void DisposeMember<T>(ref T field)
