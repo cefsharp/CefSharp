@@ -40,6 +40,7 @@ namespace CefSharp.Wpf
         private Popup popup;
         private ScaleTransform dpiTransform; 
         private readonly List<IDisposable> disposables = new List<IDisposable>();
+        private static readonly List<WebView> webViews = new List<WebView>();
 
         public BrowserSettings BrowserSettings { get; set; }
         public bool IsBrowserInitialized { get; private set; }
@@ -265,6 +266,8 @@ namespace CefSharp.Wpf
             {
                 disposable.Dispose();
             }
+
+            webViews.Remove(this);
         }
 
         #endregion CleanupElement dependency property
@@ -316,6 +319,7 @@ namespace CefSharp.Wpf
 
         public WebView()
         {
+            webViews.Add(this);
             Focusable = true;
             FocusVisualStyle = null;
             IsTabStop = true;
@@ -405,6 +409,10 @@ namespace CefSharp.Wpf
             // control should not explicitly have to perform this.
             if (Cef.IsInitialized)
             {
+                foreach (var webView in webViews.ToList())
+                {
+                    webView.Cleanup();
+                }
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
 
