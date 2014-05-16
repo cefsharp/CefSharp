@@ -57,6 +57,11 @@ namespace CefSharp.Wpf
         ICommand CleanupCommand { get; }
 
         /// <summary>
+        /// Stop loading the current page
+        /// </summary>
+        ICommand StopCommand { get; }
+
+        /// <summary>
         /// Opens up a new program window (using the default text editor) where the source code of the currently displayed web
         /// page is shown.
         /// </summary>
