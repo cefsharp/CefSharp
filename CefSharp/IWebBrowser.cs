@@ -110,5 +110,10 @@ namespace CefSharp
         /// </summary>
         /// <param name="clearSelection">clear the current search selection</param>
         void StopFinding(bool clearSelection);
+
+        /// <summary>
+        /// Stop loading the current page
+        /// </summary>
+        void Stop();
     }
 }

@@ -895,6 +895,11 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter.LoadHtml(html, url);
         }
 
+        public void Stop()
+        {
+            managedCefBrowserAdapter.Stop();
+        }
+
         private void Back()
         {
             managedCefBrowserAdapter.GoBack();
