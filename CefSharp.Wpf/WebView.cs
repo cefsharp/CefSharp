@@ -40,7 +40,6 @@ namespace CefSharp.Wpf
         private Popup popup;
         private ScaleTransform dpiTransform; 
         private readonly List<IDisposable> disposables = new List<IDisposable>();
-        private static readonly List<WebView> webViews = new List<WebView>();
 
         public BrowserSettings BrowserSettings { get; set; }
         public bool IsBrowserInitialized { get; private set; }
@@ -258,17 +257,22 @@ namespace CefSharp.Wpf
 
         private void OnCleanupElementUnloaded(object sender, RoutedEventArgs e)
         {
-            Cleanup();
+            Dispose();
         }
 
-        protected virtual void Cleanup()
+        public void Dispose()
         {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool isdisposing)
+        {
+            Cef.RemoveDisposable(this);
             foreach (var disposable in disposables)
             {
                 disposable.Dispose();
             }
-
-            webViews.Remove(this);
         }
 
         #endregion CleanupElement dependency property
@@ -320,7 +324,7 @@ namespace CefSharp.Wpf
 
         public WebView()
         {
-            webViews.Add(this);
+            Cef.AddDisposable(this);
             Focusable = true;
             FocusVisualStyle = null;
             IsTabStop = true;
@@ -349,7 +353,7 @@ namespace CefSharp.Wpf
             ZoomOutCommand = new DelegateCommand(ZoomOut);
             ZoomResetCommand = new DelegateCommand(ZoomReset);
             ViewSourceCommand = new DelegateCommand(ViewSource);
-            CleanupCommand = new DelegateCommand(Cleanup);
+            CleanupCommand = new DelegateCommand(Dispose);
 
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
             managedCefBrowserAdapter.CreateOffscreenBrowser(BrowserSettings ?? new BrowserSettings());
@@ -358,6 +362,11 @@ namespace CefSharp.Wpf
 
             disposables.Add(new DisposableEventWrapper(this, ActualHeightProperty, OnActualSizeChanged));
             disposables.Add(new DisposableEventWrapper(this, ActualWidthProperty, OnActualSizeChanged));
+        }
+
+        ~WebView()
+        {
+            Dispose(false);
         }
 
         private class DisposableEventWrapper : IDisposable
@@ -407,19 +416,7 @@ namespace CefSharp.Wpf
 
         private static void OnApplicationExit(object sender, ExitEventArgs e)
         {
-            // TODO: This prevents AccessViolation on shutdown, but it would be better handled by the Cef class; the WebView 
-            // control should not explicitly have to perform this.
-            if (Cef.IsInitialized)
-            {
-                foreach (var webView in webViews.ToList())
-                {
-                    webView.Cleanup();
-                }
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
-
-                Cef.Shutdown();
-            }
+            Cef.Shutdown();
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
