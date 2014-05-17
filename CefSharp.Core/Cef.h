@@ -1,4 +1,4 @@
-// Copyright � 2010-2013 The CefSharp Project. All rights reserved.
+// Copyright � 2010-2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -239,6 +239,10 @@ namespace CefSharp
             cookie.expires.year = expires.Year;
             cookie.expires.month = expires.Month;
             cookie.expires.day_of_month = expires.Day;
+            cookie.expires.hour = expires.Hour;
+            cookie.expires.minute = expires.Minute;
+            cookie.expires.second = expires.Second;
+            cookie.expires.millisecond = expires.Millisecond;
 
             if (CefCurrentlyOn(TID_IO))
             {
@@ -293,7 +297,7 @@ namespace CefSharp
 
         /// <summary> Sets the directory path that will be used for storing cookie data. If <paramref name="path"/> is empty data will be stored in 
         /// memory only. Otherwise, data will be stored at the specified path. To persist session cookies (cookies without an expiry 
-        /// date or validity interval) set <paramref name="persist_session_cookies"/> to true. Session cookies are generally intended to be transient and 
+        /// date or validity interval) set <paramref name="persistSessionCookies"/> to true. Session cookies are generally intended to be transient and 
         /// most Web browsers do not persist them.</summary>
         /// <param name="path">The file path to write cookies to.</param>
         /// <param name="persistSessionCookies">A flag that determines whether session cookies will be persisted or not.</param>

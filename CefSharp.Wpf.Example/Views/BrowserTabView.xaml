@@ -1,0 +1,211 @@
+﻿<UserControl x:Class="CefSharp.Wpf.Example.Views.BrowserTabView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf" xmlns:local="clr-namespace:CefSharp.Wpf.Example.ViewModels"
+             mc:Ignorable="d"
+             d:DesignWidth="640"
+             d:DesignHeight="480"
+             d:DataContext="{d:DesignInstance local:BrowserTabViewModel}">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <DockPanel>
+            <DockPanel VerticalAlignment="Top"
+                       DockPanel.Dock="Top">
+                <Button Height="23"
+                        Width="75"
+                        Command="{Binding HomeCommand}">Home</Button>
+                <Button Height="23"
+                        Width="75"
+                        Command="{Binding WebBrowser.BackCommand}">Back</Button>
+                <Button Height="23"
+                        Width="75"
+                        Command="{Binding WebBrowser.ForwardCommand}">Forward</Button>
+                <Button Height="23"
+                        Width="75"
+                        Command="{Binding WebBrowser.ReloadCommand}">Reload</Button>
+                <Button Height="23"
+                        Name="goStopButton"
+                        Width="75"
+                        DockPanel.Dock="Right"
+                        Command="{Binding GoCommand}">Go</Button>
+                <TextBox Height="23"
+                         Text="{Binding AddressEditable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         GotKeyboardFocus="OnTextBoxGotKeyboardFocus"
+                         GotMouseCapture="OnTextBoxGotMouseCapture">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Enter"
+                                    Command="{Binding GoCommand}" />
+                    </TextBox.InputBindings>
+                </TextBox>
+            </DockPanel>
+            <StackPanel DockPanel.Dock="Right"
+                        Margin="6,3"
+                        Visibility="{Binding ShowSidebar, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <GroupBox Header="Tweak WPF Rendering">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0"
+                               Grid.Column="0"
+                               Content="Angle:" />
+                        <Slider Grid.Row="0"
+                                Grid.Column="1"
+                                Name="angleSlider"
+                                Minimum="-180"
+                                Maximum="180" />
+                        <Label Grid.Row="1"
+                               Grid.Column="0"
+                               Content="Watermark Opacity:" />
+                        <Slider Grid.Row="1"
+                                Grid.Column="1"
+                                Name="opacitySlider"
+                                Minimum="0"
+                                Maximum="1"
+                                TickFrequency="0.01"
+                                Value="0.95" />
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Execute Javascript (asynchronously)">
+                    <Grid Width="300">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="75" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBox x:Name="ExecuteJavascriptTextBox"
+                                 Grid.Row="0"
+                                 AcceptsReturn="True"
+                                 Margin="6"
+                                 Text="$('#modify-me').text('See how easy that was?')">
+                            <TextBox.InputBindings>
+                                <KeyBinding Key="Enter"
+                                            Modifiers="Control"
+                                            Command="{Binding ExecuteJavaScriptCommand}"
+                                            CommandParameter="{Binding Text, RelativeSource={RelativeSource AncestorType=TextBox}}" />
+                            </TextBox.InputBindings>
+                        </TextBox>
+                        <Button Grid.Row="1"
+                                HorizontalAlignment="Left"
+                                Margin="6,0,6,6"
+                                Padding="5,2"
+                                Content="Run"
+                                Command="{Binding ExecuteJavaScriptCommand}"
+                                CommandParameter="{Binding Text, ElementName=ExecuteJavascriptTextBox}" />
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Execute Javascript (synchronously)">
+                    <Grid Width="300">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="75" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBox x:Name="EvaluateJavascriptTextBox"
+                                 Grid.Row="0"
+                                 Margin="6"
+                                 AcceptsReturn="True"
+                                 Text="$('#modify-me').text()">
+                            <TextBox.InputBindings>
+                                <KeyBinding Key="Enter"
+                                            Modifiers="Control"
+                                            Command="{Binding EvaluateJavaScriptCommand}"
+                                            CommandParameter="{Binding Text, RelativeSource={RelativeSource AncestorType=TextBox}}" />
+                            </TextBox.InputBindings>
+                        </TextBox>
+                        <Button Grid.Row="1"
+                                HorizontalAlignment="Left"
+                                Margin="6,0"
+                                Padding="5,2"
+                                Content="Run"
+                                Command="{Binding EvaluateJavaScriptCommand}"
+                                CommandParameter="{Binding Text, ElementName=EvaluateJavascriptTextBox}" />
+                        <TextBlock Grid.Row="2"
+                                   Margin="6">Result:</TextBlock>
+                        <TextBox Grid.Row="3"
+                                 IsReadOnly="True"
+                                 Margin="6,0,6,6"
+                                 Text="{Binding EvaluateJavaScriptResult}" />
+                    </Grid>
+                </GroupBox>
+            </StackPanel>
+            <StatusBar DockPanel.Dock="Bottom">
+                <ProgressBar HorizontalAlignment="Right"
+                             IsIndeterminate="{Binding WebBrowser.IsLoading}"
+                             Width="100"
+                             Height="16"
+                             Margin="3" />
+                <!-- TODO: Show hover link URL here -->
+                <Separator />
+                <TextBlock Text="{Binding OutputMessage}" />
+            </StatusBar>
+            <Grid Background="#FFF0F0F0">
+                <Rectangle>
+                    <Rectangle.Fill>
+                        <VisualBrush TileMode="Tile"
+                                     Viewport="0,0,500,90"
+                                     ViewportUnits="Absolute"
+                                     Opacity="0.05">
+                            <VisualBrush.Visual>
+                                <StackPanel>
+                                    <TextBlock Margin="6,12"
+                                               FontWeight="Bold">CefSharp Rocks!</TextBlock>
+                                </StackPanel>
+                            </VisualBrush.Visual>
+                            <VisualBrush.Transform>
+                                <RotateTransform Angle="-22.5" />
+                            </VisualBrush.Transform>
+                        </VisualBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+
+                <cefSharp:WebView x:Name="webView"
+                                  Opacity="{Binding ElementName=opacitySlider, Path=Value}"
+                                  Address="{Binding Address, Mode=TwoWay}"
+                                  Title="{Binding Title, Mode=OneWayToSource}"
+                                  WebBrowser="{Binding WebBrowser, Mode=OneWayToSource}">
+                    <!-- Just an example of how you may override the BrowserSettings. Disabled by default since it looks so
+                         incredibly ugly... -->
+                    <!--<cefSharp:WebView.BrowserSettings>
+                        <CefSharp:BrowserSettings MinimumFontSize="36" />
+                    </cefSharp:WebView.BrowserSettings>-->
+                    <FrameworkElement.LayoutTransform>
+                        <TransformGroup>
+                            <RotateTransform Angle="{Binding Value, ElementName=angleSlider}" />
+                        </TransformGroup>
+                    </FrameworkElement.LayoutTransform>
+                    <FrameworkElement.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Back"
+                                      Command="{Binding WebBrowser.BackCommand}" />
+                            <MenuItem Header="Forward"
+                                      Command="{Binding WebBrowser.ForwardCommand}" />
+                            <Separator />
+                            <MenuItem Header="Print ..."
+                                      Command="{Binding WebBrowser.PrintCommand}" />
+                            <Separator />
+                            <MenuItem Header="Zoom In"
+                                      Command="{Binding WebBrowser.ZoomInCommand}" />
+                            <MenuItem Header="Zoom Out"
+                                      Command="{Binding WebBrowser.ZoomOutCommand}" />
+                            <MenuItem Header="Zoom Reset"
+                                      Command="{Binding WebBrowser.ZoomResetCommand}" />
+                            <Separator />
+                            <MenuItem Header="View Source"
+                                      Command="{Binding WebBrowser.ViewSourceCommand}" />
+                        </ContextMenu>
+                    </FrameworkElement.ContextMenu>
+                </cefSharp:WebView>
+            </Grid>
+        </DockPanel>
+    </Grid>
+</UserControl>

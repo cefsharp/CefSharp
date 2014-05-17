@@ -86,6 +86,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddressChangedEventArgs.cs" />
+    <Compile Include="FrameLoadStartEventArgs.cs" />
+    <Compile Include="NavStateChangedEventArgs.cs" />
     <Compile Include="Internals\BitmapInfo.cs" />
     <Compile Include="Internals\ManagedCefApp.cs" />
     <Compile Include="CefCustomScheme.cs" />
@@ -113,7 +116,7 @@
     <Compile Include="Internals\CefSubprocess.cs" />
     <Compile Include="Internals\SubProcessServiceHost.cs" />
     <Compile Include="IWinFormsWebBrowser.cs" />
-    <Compile Include="LoadedCompletedEventArgs.cs" />
+    <Compile Include="FrameLoadEndEventArgs.cs" />
     <Compile Include="LogSeverity.cs" />
     <Compile Include="Internals\ManagedCefBrowserAdapterBase.cs" />
     <Compile Include="ObjectBase.cs" />
@@ -121,6 +124,7 @@
     <Compile Include="ScriptException.cs" />
     <Compile Include="Internals\SubProcessProxy.cs" />
     <Compile Include="Internals\SubProcessProxySupport.cs" />
+    <Compile Include="TitleChangedEventArgs.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

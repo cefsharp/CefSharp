@@ -30,11 +30,11 @@ namespace CefSharp
     {
         public const bool ClsCompliant = false;
         public const bool ComVisible = false;
-        public const string AssemblyCompany = "The CefSharp Project";
+        public const string AssemblyCompany = "The CefSharp Authors";
         public const string AssemblyProduct = "CefSharp";
-        public const string AssemblyVersion = "3.29.0.0";
-        public const string AssemblyFileVersion = "3.29.0.0";
-        public const string AssemblyCopyright = "Copyright © The CefSharp Authors 2010-2013";
+        public const string AssemblyVersion = "31.0.0.0";
+        public const string AssemblyFileVersion = "31.0.0.0";
+        public const string AssemblyCopyright = "Copyright © The CefSharp Authors 2010-2014";
         public const string CefSharpCoreProject = "CefSharp.Core, PublicKey=" + PublicKey;
         public const string CefSharpBrowserSubprocessProject = "CefSharp.BrowserSubprocess, PublicKey=" + PublicKey;
         public const string CefSharpWpfProject = "CefSharp.Wpf, PublicKey=" + PublicKey;

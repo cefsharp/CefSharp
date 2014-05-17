@@ -6,12 +6,13 @@
     <authors>The CefSharp Authors</authors>
     <owners>The CefSharp Authors</owners>
     <projectUrl>https://github.com/cefsharp/cefsharp</projectUrl>
+    <licenseUrl>https://raw.github.com/cefsharp/CefSharp/master/LICENSE</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>The CefSharp Chromium-based browser component (WPF control).</description>
     <tags>wpf chrome browser</tags>
-    <copyright>Copyright © 2010-2013 The CefSharp Authors</copyright>
+    <copyright>Copyright © 2010-2014 The CefSharp Authors</copyright>
     <dependencies>
-      <dependency id="CefSharp.Core" version="[$version$]" />
+      <dependency id="CefSharp.Common" version="[$version$]" />
     </dependencies>
   </metadata>
   <files>

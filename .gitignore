@@ -19,15 +19,16 @@
 *.xml
 _ReSharper*
 
-obj/
 bin/
+obj/
+packages/
 Debug/
-!/CEF/Win32/Debug
-!/CEF/x64/Debug
 CefSharp/app.aps
 debug.log
 CefSharp.BrowserSubprocess/Release
 CefSharp.BrowserSubprocess/x64/Release
+CefSharp.Core/Win32/Release
+CefSharp.Core/x64/Release
 CefSharp/Win32/Release
 CefSharp/x64/Release
 CefSharp.BrowserSubprocess.lib

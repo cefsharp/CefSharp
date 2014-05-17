@@ -1,4 +1,4 @@
-// Copyright © 2010-2013 The CefSharp Project. All rights reserved.
+// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -41,7 +41,7 @@ namespace CefSharp
                 _browserHwnd = browser->GetHost()->GetWindowHandle();
                 _cefBrowser = browser;
 
-                _browserControl->OnInitialized();
+                _managedCefBrowserAdapter->OnInitialized();
             }
         }
 
@@ -114,6 +114,8 @@ namespace CefSharp
                 return KeyType::KeyUp;
             case KEYEVENT_CHAR:
                 return KeyType::Char;
+            default:
+                throw gcnew ArgumentOutOfRangeException("keytype", String::Format("'{0}' is not a valid keytype", gcnew array<Object^>(keytype)));
             }
         }
 
@@ -145,7 +147,7 @@ namespace CefSharp
                 _browserControl->SetNavState(false, false, false);
             }
 
-            _browserControl->OnFrameLoadStart(StringUtils::ToClr(frame->GetURL()));
+            _browserControl->OnFrameLoadStart(StringUtils::ToClr(frame->GetURL()), frame->IsMain());
         }
 
         void ClientAdapter::OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode)
@@ -161,7 +163,7 @@ namespace CefSharp
                 _browserControl->SetIsLoading(false);
             }
 
-            _browserControl->OnFrameLoadEnd(StringUtils::ToClr(frame->GetURL()));
+            _browserControl->OnFrameLoadEnd(StringUtils::ToClr(frame->GetURL()), frame->IsMain(), httpStatusCode);
         }
 
         void ClientAdapter::OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, ErrorCode errorCode, const CefString& errorText, const CefString& failedUrl)
@@ -169,22 +171,18 @@ namespace CefSharp
             _browserControl->OnLoadError(StringUtils::ToClr(failedUrl), (CefErrorCode)errorCode, StringUtils::ToClr(errorText));
         }
 
-        // TODO: Check how we can support this with CEF3.
-        /*
-        bool ClientAdapter::OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, NavType navType, bool isRedirect)
+        bool ClientAdapter:: OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool isRedirect)
         {
-        IRequestHandler^ handler = _browserControl->RequestHandler;
-        if (handler == nullptr)
-        {
-        return false;
-        }
+            IRequestHandler^ handler = _browserControl->RequestHandler;
+            if (handler == nullptr)
+            {
+                return false;
+            }
 
-        CefRequestWrapper^ wrapper = gcnew CefRequestWrapper(request);
-        NavigationType navigationType = (NavigationType)navType;
+            CefRequestWrapper^ wrapper = gcnew CefRequestWrapper(request);
 
-        return handler->OnBeforeBrowse(_browserControl, wrapper, navigationType, isRedirect);
+            return handler->OnBeforeBrowse(_browserControl, wrapper, isRedirect);
         }
-        */
 
         bool ClientAdapter::OnBeforeResourceLoad(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request)
         {
@@ -204,9 +202,7 @@ namespace CefSharp
 
             if (requestResponse->Action == ResponseAction::Redirect)
             {
-                // TODO: Not supported at the moment; there does not seem any obvious way to give a redirect back in an
-                // OnBeforeResourceLoad() handler nowadays.
-                //request.redirectUrl = StringUtils::ToNative(requestResponse->RedirectUrl);
+                request->SetURL(StringUtils::ToNative(requestResponse->RedirectUrl));
             }
             else if (requestResponse->Action == ResponseAction::Respond)
             {
