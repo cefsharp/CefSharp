@@ -15,7 +15,8 @@
 #include "CefSettings.h"
 #include "SchemeHandlerWrapper.h"
 
-using namespace System::Collections::Generic;
+using namespace System::Collections::Generic; 
+using namespace System::Linq;
 using namespace System::Reflection;
 
 namespace CefSharp
@@ -29,12 +30,14 @@ namespace CefSharp
 
         static bool _initialized = false;
         static IDictionary<String^, Object^>^ _boundObjects;
+        static HashSet<IDisposable^>^ _disposables;
 
         static Cef()
         {
             _event = CreateEvent(NULL, FALSE, FALSE, NULL);
             _sync = gcnew Object();
             _boundObjects = gcnew Dictionary<String^, Object^>();
+            _disposables = gcnew HashSet<IDisposable^>();
         }
 
         static void IOT_SetCookie(const CefString& url, const CefCookie& cookie)
@@ -61,6 +64,20 @@ namespace CefSharp
         static IDictionary<String^, Object^>^ GetBoundObjects()
         {
             return _boundObjects;
+        }
+
+        static void AddDisposable(IDisposable^ item)
+        {
+            msclr::lock l(_sync);
+
+            _disposables->Add(item);
+        }
+
+        static void RemoveDisposable(IDisposable^ item)
+        {
+            msclr::lock l(_sync);
+
+            _disposables->Remove(item);
         }
 
     public:
@@ -322,7 +339,17 @@ namespace CefSharp
         static void Shutdown()
         {
             if (IsInitialized)
-            {
+            { 
+                {
+                    msclr::lock l(_sync);
+                    for each(auto diposable in Enumerable::ToList(_disposables))
+                    {
+                        delete diposable;
+                    }
+                }
+                GC::Collect();
+                GC::WaitForPendingFinalizers();
+
                 CefShutdown();
                 IsInitialized = false;
             }
