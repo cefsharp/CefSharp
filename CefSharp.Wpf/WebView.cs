@@ -31,7 +31,7 @@ namespace CefSharp.Wpf
         private HwndSourceHook sourceHook;
         private DispatcherTimer tooltipTimer;
         private readonly ToolTip toolTip;
-        private readonly ManagedCefBrowserAdapter managedCefBrowserAdapter;
+        private ManagedCefBrowserAdapter managedCefBrowserAdapter;
         private bool ignoreUriChange;
         private Matrix matrix;
 
@@ -269,10 +269,21 @@ namespace CefSharp.Wpf
         protected virtual void Dispose(bool isdisposing)
         {
             Cef.RemoveDisposable(this);
+
             foreach (var disposable in disposables)
             {
                 disposable.Dispose();
             }
+            disposables.Clear();
+
+            RemoveSourceHook();
+
+            WebBrowser = null;
+            managedCefBrowserAdapter = null;
+            ConsoleMessage = null;
+            FrameLoadStart = null;
+            FrameLoadEnd = null;
+            LoadError = null;
         }
 
         #endregion CleanupElement dependency property
