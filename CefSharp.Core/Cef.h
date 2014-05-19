@@ -342,7 +342,7 @@ namespace CefSharp
             { 
                 {
                     msclr::lock l(_sync);
-                    for each(auto diposable in Enumerable::ToList(_disposables))
+                    for each(IDisposable^ diposable in Enumerable::ToList(_disposables))
                     {
                         delete diposable;
                     }
