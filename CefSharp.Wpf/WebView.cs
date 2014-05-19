@@ -290,15 +290,21 @@ namespace CefSharp.Wpf
 
         private void OnTooltipTextChanged()
         {
-            tooltipTimer.Stop();
+            var timer = tooltipTimer;
+            if (timer == null)
+            {
+                return;
+            }
+
+            timer.Stop();
 
             if (String.IsNullOrEmpty(TooltipText))
             {
-                Dispatcher.BeginInvoke((Action)(() => UpdateTooltip(null)), DispatcherPriority.Render);
+                DoInUi(() => UpdateTooltip(null), DispatcherPriority.Render);
             }
             else
             {
-                tooltipTimer.Start();
+                timer.Start();
             }
         }
 
