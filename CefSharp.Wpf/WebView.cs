@@ -427,7 +427,11 @@ namespace CefSharp.Wpf
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            CleanupElement = Window.GetWindow(this);
+            if (CleanupElement == null)
+            {
+                CleanupElement = Window.GetWindow(this);
+            }
+
             AddSourceHookIfNotAlreadyPresent();
         }
 
