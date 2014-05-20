@@ -63,10 +63,10 @@ namespace CefSharp.Wpf.Example.ViewModels
             set { PropertyChanged.ChangeAndNotify(ref showSidebar, value, () => ShowSidebar); }
         }
 
-        public DelegateCommand GoCommand { get; set; }
-        public DelegateCommand HomeCommand { get; set; }
-        public DelegateCommand<string> ExecuteJavaScriptCommand { get; set; }
-        public DelegateCommand<string> EvaluateJavaScriptCommand { get; set; }
+        public ICommand GoCommand { get; set; }
+        public ICommand HomeCommand { get; set; }
+        public ICommand ExecuteJavaScriptCommand { get; set; }
+        public ICommand EvaluateJavaScriptCommand { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
