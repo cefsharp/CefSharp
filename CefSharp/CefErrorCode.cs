@@ -8,11 +8,11 @@
         /// <summary>
         /// No error occurred.
         /// </summary>
-        None,
+        None = 0,
 
         /// <summary>
         /// A request was aborted, possibly by the user.
         /// </summary>
-        Aborted,
+        Aborted = -3,
     };
 }
