@@ -34,7 +34,7 @@ namespace CefSharp.Internals
             member.Description.ManagedName = name;
             member.Description.JavascriptName = JavascriptMemberDescription.LowercaseFirst(name);
             member.Value.Value = value;
-            member.Value.Analyse();
+            //member.Value.Analyse();
             
             rootObject.Members.Add(member);
         }

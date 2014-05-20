@@ -1,4 +1,4 @@
-// Copyright © 2010-2013 The CefSharp Project. All rights reserved.
+// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -35,7 +35,9 @@ namespace CefSharp
         internal:
             RequestResponse(IRequest^ request) :
                 _action(ResponseAction::Continue),
-                _request(request) {}
+                _request(request) 
+            {
+            }
 
             property Stream^ ResponseStream { Stream^ get() { return _responseStream; } }
             property String^ MimeType { String^ get() { return _mimeType; } }

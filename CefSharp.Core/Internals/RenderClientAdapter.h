@@ -1,4 +1,4 @@
-// Copyright © 2010-2013 The CefSharp Project. All rights reserved.
+// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -25,7 +25,7 @@ namespace CefSharp
             gcroot<BitmapInfo^> MainBitmapInfo;
             gcroot<BitmapInfo^> PopupBitmapInfo;
 
-            RenderClientAdapter(IWebBrowserInternal^ webBrowserInternal, Action<IntPtr>^ onBrowserCreated):
+            RenderClientAdapter(IWebBrowserInternal^ webBrowserInternal, Action^ onBrowserCreated):
                 ClientAdapter(webBrowserInternal, onBrowserCreated),
                 _webBrowserInternal(webBrowserInternal)
             {
@@ -39,6 +39,13 @@ namespace CefSharp
             ~RenderClientAdapter()
             {
                 _renderWebBrowser = nullptr;
+                _webBrowserInternal = nullptr;
+
+                delete MainBitmapInfo;
+                MainBitmapInfo = nullptr;
+
+                delete PopupBitmapInfo;
+                PopupBitmapInfo = nullptr;
             }
 
             // CefClient

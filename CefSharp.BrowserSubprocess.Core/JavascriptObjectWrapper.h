@@ -13,10 +13,11 @@ using namespace CefSharp::Internals;
 namespace CefSharp
 {
     [System::Runtime::Serialization::DataContractAttribute]
-    private ref class JavascriptObjectWrapper : public JavascriptObject
+    public ref class JavascriptObjectWrapper : public JavascriptObject
     {
-    public:
+    internal:
         MCefRefPtr<CefV8Value> Value;
+    public:
 
         void Bind()
         {

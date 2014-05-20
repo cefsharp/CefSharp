@@ -1,4 +1,4 @@
-// Copyright © 2010-2013 The CefSharp Project. All rights reserved.
+// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -13,6 +13,8 @@ using namespace System;
 
 namespace CefSharp
 {
+    ref class ManagedCefBrowserAdapter;
+
     namespace Internals
     {
         private class ClientAdapter : public CefClient,
@@ -28,19 +30,27 @@ namespace CefSharp
         {
         private:
             gcroot<IWebBrowserInternal^> _browserControl;            
-            gcroot<Action<IntPtr>^> _onBrowserCreated;
+            gcroot<Action^> _onBrowserCreated;
             HWND _browserHwnd;
             CefRefPtr<CefBrowser> _cefBrowser;
 
             gcroot<String^> _tooltip;
 
         public:
-            ClientAdapter(IWebBrowserInternal^ browserControl, Action<IntPtr>^ onBrowserCreated) :
-                _browserControl(browserControl), _onBrowserCreated(onBrowserCreated)
+            ClientAdapter(IWebBrowserInternal^ browserControl, Action^ onBrowserCreated) :
+                _browserControl(browserControl), 
+                _onBrowserCreated(onBrowserCreated)
             {
             }
 
-            ~ClientAdapter() { _browserControl = nullptr; }
+            ~ClientAdapter() 
+            {
+                _browserControl = nullptr;
+                _onBrowserCreated = nullptr;
+                _browserHwnd = nullptr;
+                _cefBrowser = nullptr;
+                _tooltip = nullptr;
+            }
 
             HWND GetBrowserHwnd() { return _browserHwnd; }
             CefRefPtr<CefBrowser> GetCefBrowser() { return _cefBrowser; }
@@ -72,6 +82,7 @@ namespace CefSharp
             virtual DECL bool OnBeforeResourceLoad(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request) OVERRIDE;
             virtual DECL bool GetAuthCredentials(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, bool isProxy,
                 const CefString& host, int port, const CefString& realm, const CefString& scheme, CefRefPtr<CefAuthCallback> callback) OVERRIDE;
+            virtual DECL bool OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool isRedirect) OVERRIDE;
 
             // CefDisplayHandler
             virtual DECL void OnLoadingStateChange(CefRefPtr<CefBrowser> browser, bool isLoading, bool canGoBack, bool canGoForward) OVERRIDE;

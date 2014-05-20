@@ -30,6 +30,11 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BrowserForm));
             this.toolStripContainer = new System.Windows.Forms.ToolStripContainer();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.findTextBox = new System.Windows.Forms.ToolStripTextBox();
+            this.findPreviousButton = new System.Windows.Forms.ToolStripButton();
+            this.findNextButton = new System.Windows.Forms.ToolStripButton();
+            this.findCloseButton = new System.Windows.Forms.ToolStripButton();
             this.outputLabel = new System.Windows.Forms.Label();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.backButton = new System.Windows.Forms.ToolStripButton();
@@ -46,27 +51,33 @@
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.undoMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.redoMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.findMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.cutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectAllMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripContainer.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer.ContentPanel.SuspendLayout();
             this.toolStripContainer.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer.SuspendLayout();
+            this.toolStrip2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer
             // 
-            this.toolStripContainer.BottomToolStripPanelVisible = false;
+            // 
+            // toolStripContainer.BottomToolStripPanel
+            // 
+            this.toolStripContainer.BottomToolStripPanel.Controls.Add(this.toolStrip2);
             // 
             // toolStripContainer.ContentPanel
             // 
             this.toolStripContainer.ContentPanel.Controls.Add(this.outputLabel);
-            this.toolStripContainer.ContentPanel.Size = new System.Drawing.Size(730, 441);
+            this.toolStripContainer.ContentPanel.Size = new System.Drawing.Size(730, 416);
             this.toolStripContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer.LeftToolStripPanelVisible = false;
             this.toolStripContainer.Location = new System.Drawing.Point(0, 24);
@@ -80,11 +91,62 @@
             // 
             this.toolStripContainer.TopToolStripPanel.Controls.Add(this.toolStrip1);
             // 
+            // toolStrip2
+            // 
+            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.findTextBox,
+            this.findPreviousButton,
+            this.findNextButton,
+            this.findCloseButton});
+            this.toolStrip2.Location = new System.Drawing.Point(3, 0);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.Size = new System.Drawing.Size(205, 25);
+            this.toolStrip2.TabIndex = 0;
+            // 
+            // findTextBox
+            // 
+            this.findTextBox.Name = "findTextBox";
+            this.findTextBox.Size = new System.Drawing.Size(100, 25);
+            this.findTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FindTextBoxKeyDown);
+            // 
+            // findPreviousButton
+            // 
+            this.findPreviousButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.findPreviousButton.Image = global::CefSharp.WinForms.Example.Properties.Resources.nav_left_green;
+            this.findPreviousButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.findPreviousButton.Name = "findPreviousButton";
+            this.findPreviousButton.Size = new System.Drawing.Size(23, 22);
+            this.findPreviousButton.Text = "Find Previous";
+            this.findPreviousButton.Click += new System.EventHandler(this.FindPreviousButtonClick);
+            // 
+            // findNextButton
+            // 
+            this.findNextButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.findNextButton.Image = global::CefSharp.WinForms.Example.Properties.Resources.nav_right_green;
+            this.findNextButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.findNextButton.Name = "findNextButton";
+            this.findNextButton.Size = new System.Drawing.Size(23, 22);
+            this.findNextButton.Text = "Find Next";
+            this.findNextButton.Click += new System.EventHandler(this.FindNextButtonClick);
+            // 
+            // findCloseButton
+            // 
+            this.findCloseButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.findCloseButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.findCloseButton.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold);
+            this.findCloseButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.findCloseButton.Name = "findCloseButton";
+            this.findCloseButton.Size = new System.Drawing.Size(23, 22);
+            this.findCloseButton.Text = "X";
+            this.findCloseButton.Click += new System.EventHandler(this.FindCloseButtonClick);
+            // 
             // outputLabel
             // 
             this.outputLabel.AutoSize = true;
             this.outputLabel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.outputLabel.Location = new System.Drawing.Point(0, 428);
+            this.outputLabel.Location = new System.Drawing.Point(0, 403);
             this.outputLabel.Name = "outputLabel";
             this.outputLabel.Size = new System.Drawing.Size(0, 13);
             this.outputLabel.TabIndex = 0;
@@ -114,6 +176,7 @@
             this.backButton.Name = "backButton";
             this.backButton.Size = new System.Drawing.Size(52, 22);
             this.backButton.Text = "Back";
+            this.backButton.Click += new System.EventHandler(this.BackButtonClick);
             // 
             // forwardButton
             // 
@@ -123,6 +186,7 @@
             this.forwardButton.Name = "forwardButton";
             this.forwardButton.Size = new System.Drawing.Size(70, 22);
             this.forwardButton.Text = "Forward";
+            this.forwardButton.Click += new System.EventHandler(this.ForwardButtonClick);
             // 
             // urlTextBox
             // 
@@ -138,6 +202,7 @@
             this.goButton.Name = "goButton";
             this.goButton.Size = new System.Drawing.Size(42, 22);
             this.goButton.Text = "Go";
+            this.goButton.Click += new System.EventHandler(this.GoButtonClick);
             // 
             // menuStrip1
             // 
@@ -193,12 +258,14 @@
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitMenuItemClick);
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.undoMenuItem,
             this.redoMenuItem,
+            this.findMenuItem,
             this.toolStripMenuItem2,
             this.cutMenuItem,
             this.copyMenuItem,
@@ -212,48 +279,55 @@
             // undoMenuItem
             // 
             this.undoMenuItem.Name = "undoMenuItem";
-            this.undoMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.undoMenuItem.Size = new System.Drawing.Size(122, 22);
             this.undoMenuItem.Text = "Undo";
             // 
             // redoMenuItem
             // 
             this.redoMenuItem.Name = "redoMenuItem";
-            this.redoMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.redoMenuItem.Size = new System.Drawing.Size(122, 22);
             this.redoMenuItem.Text = "Redo";
+            // 
+            // findMenuItem
+            // 
+            this.findMenuItem.Name = "findMenuItem";
+            this.findMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.findMenuItem.Text = "Find";
+            this.findMenuItem.Click += new System.EventHandler(this.FindMenuItemClick);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(149, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(119, 6);
             // 
             // cutMenuItem
             // 
             this.cutMenuItem.Name = "cutMenuItem";
-            this.cutMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.cutMenuItem.Size = new System.Drawing.Size(122, 22);
             this.cutMenuItem.Text = "Cut";
             // 
             // copyMenuItem
             // 
             this.copyMenuItem.Name = "copyMenuItem";
-            this.copyMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.copyMenuItem.Size = new System.Drawing.Size(122, 22);
             this.copyMenuItem.Text = "Copy";
             // 
             // pasteMenuItem
             // 
             this.pasteMenuItem.Name = "pasteMenuItem";
-            this.pasteMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.pasteMenuItem.Size = new System.Drawing.Size(122, 22);
             this.pasteMenuItem.Text = "Paste";
             // 
             // deleteMenuItem
             // 
             this.deleteMenuItem.Name = "deleteMenuItem";
-            this.deleteMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.deleteMenuItem.Size = new System.Drawing.Size(122, 22);
             this.deleteMenuItem.Text = "Delete";
             // 
             // selectAllMenuItem
             // 
             this.selectAllMenuItem.Name = "selectAllMenuItem";
-            this.selectAllMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.selectAllMenuItem.Size = new System.Drawing.Size(122, 22);
             this.selectAllMenuItem.Text = "Select All";
             // 
             // BrowserForm
@@ -267,12 +341,16 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "BrowserForm";
             this.Text = "BrowserForm";
+            this.toolStripContainer.BottomToolStripPanel.ResumeLayout(false);
+            this.toolStripContainer.BottomToolStripPanel.PerformLayout();
             this.toolStripContainer.ContentPanel.ResumeLayout(false);
             this.toolStripContainer.ContentPanel.PerformLayout();
             this.toolStripContainer.TopToolStripPanel.ResumeLayout(false);
             this.toolStripContainer.TopToolStripPanel.PerformLayout();
             this.toolStripContainer.ResumeLayout(false);
             this.toolStripContainer.PerformLayout();
+            this.toolStrip2.ResumeLayout(false);
+            this.toolStrip2.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
@@ -307,6 +385,12 @@
         private System.Windows.Forms.ToolStripMenuItem showDevToolsMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeDevToolsMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+        private System.Windows.Forms.ToolStrip toolStrip2;
+        private System.Windows.Forms.ToolStripButton findPreviousButton;
+        private System.Windows.Forms.ToolStripTextBox findTextBox;
+        private System.Windows.Forms.ToolStripButton findNextButton;
+        private System.Windows.Forms.ToolStripButton findCloseButton;
+        private System.Windows.Forms.ToolStripMenuItem findMenuItem;
 
     }
 }

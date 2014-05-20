@@ -1,4 +1,4 @@
-// Copyright © 2010-2013 The CefSharp Project. All rights reserved.
+// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -6,6 +6,7 @@
 
 #include "Stdafx.h"
 #include "SchemeHandlerWrapper.h"
+#include "Internals/MCefRefPtr.h"
 
 using namespace System;
 using namespace System::Collections::Generic;
@@ -18,7 +19,7 @@ namespace CefSharp
     public ref class SchemeHandlerResponse : ISchemeHandlerResponse
     {
     internal:
-        CefRefPtr<SchemeHandlerWrapper>* _schemeHandlerWrapper;
+        MCefRefPtr<SchemeHandlerWrapper> _schemeHandlerWrapper;
         void OnRequestCompleted();
 
     public:
@@ -57,12 +58,12 @@ namespace CefSharp
         SchemeHandlerResponse(SchemeHandlerWrapper* schemeHandlerWrapper)
         {
             ContentLength = -1;
-            _schemeHandlerWrapper = new CefRefPtr<SchemeHandlerWrapper>(schemeHandlerWrapper);
+            _schemeHandlerWrapper = schemeHandlerWrapper;
         }
 
         void ReleaseSchemeHandlerWrapper()
         {
-            delete _schemeHandlerWrapper;
+            _schemeHandlerWrapper = nullptr;
         }
     };
 };

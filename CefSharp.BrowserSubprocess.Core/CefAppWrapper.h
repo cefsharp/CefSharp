@@ -16,14 +16,13 @@ namespace CefSharp
 {
     class CefAppUnmanagedWrapper;
 
-    public ref class CefAppWrapper
+    public ref class CefAppWrapper abstract : public ManagedCefApp
     {
     private:
-        CefRefPtr<CefAppUnmanagedWrapper>* cefApp;
+        MCefRefPtr<CefAppUnmanagedWrapper> cefApp;
         ISubprocessCallback^ _callback;
 
     internal:
-        Action<CefBrowserWrapper^>^ OnBrowserCreated;
 
         virtual property ISubprocessCallback^ Callback 
         {
@@ -34,7 +33,7 @@ namespace CefSharp
     public:        
         static CefAppWrapper^ Instance;
 
-        CefAppWrapper(Action<CefBrowserWrapper^>^ onBrowserCreated);
+        CefAppWrapper();
         int Run();
 
         void RegisterJavascriptObjects(JavascriptObjectWrapper^ windowObject);
@@ -43,14 +42,14 @@ namespace CefSharp
     private class CefAppUnmanagedWrapper : CefApp, CefRenderProcessHandler
     {
     private:
-        gcroot<Action<CefBrowserWrapper^>^> _onBrowserCreated;
+        gcroot<Action<CefBrowserBase^>^> _onBrowserCreated;
         gcroot<JavascriptObject^> _boundObject;
         CefRefPtr<CefV8Context> _context;
         CefRefPtr<CefV8Value> _window;
         gcroot<JavascriptObjectWrapper^> _windowObject;
 
     public:
-        CefAppUnmanagedWrapper(Action<CefBrowserWrapper^>^ onBrowserCreated)
+        CefAppUnmanagedWrapper(Action<CefBrowserBase^>^ onBrowserCreated)
         {
             _onBrowserCreated = onBrowserCreated;
         }

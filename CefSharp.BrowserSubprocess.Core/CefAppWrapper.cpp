@@ -11,9 +11,10 @@ using namespace System::Diagnostics;
 
 namespace CefSharp
 {
-    CefAppWrapper::CefAppWrapper(Action<CefBrowserWrapper^>^ onBrowserCreated)
+    CefAppWrapper::CefAppWrapper()
     {
-        cefApp = new CefRefPtr<CefAppUnmanagedWrapper>(new CefAppUnmanagedWrapper(onBrowserCreated));
+        Action<CefBrowserBase^>^ onBrowserCreated = gcnew Action<CefBrowserBase^>(this, &ManagedCefApp::OnBrowserCreated);
+        cefApp = new CefAppUnmanagedWrapper(onBrowserCreated);
     }
 
     int CefAppWrapper::Run()
@@ -23,12 +24,12 @@ namespace CefSharp
         CefMainArgs cefMainArgs((HINSTANCE)hInstance.ToPointer());
         Instance = this;
 
-        return CefExecuteProcess(cefMainArgs, *(CefRefPtr<CefApp>*)cefApp);
+        return CefExecuteProcess(cefMainArgs, (CefApp*)cefApp.get());
     }
     
     void CefAppWrapper::RegisterJavascriptObjects(JavascriptObjectWrapper^ windowObject)
     {
-        auto app = *cefApp;
+        auto app = cefApp.get();
         
         app->RegisterJavascriptObjects(windowObject);
     }

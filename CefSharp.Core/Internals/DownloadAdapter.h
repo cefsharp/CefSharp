@@ -1,4 +1,4 @@
-// Copyright © 2010-2013 The CefSharp Project. All rights reserved.
+// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -21,6 +21,11 @@ namespace CefSharp
             DownloadAdapter(IDownloadHandler^ handler) :
                 _handler(handler)
             {
+            }
+
+            ~DownloadAdapter()
+            {
+                _handler = nullptr;
             }
 
             virtual void OnBeforeDownload(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDownloadItem> download_item,

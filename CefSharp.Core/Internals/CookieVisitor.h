@@ -1,4 +1,4 @@
-// Copyright © 2010-2013 The CefSharp Project. All rights reserved.
+// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -15,9 +15,14 @@ namespace CefSharp
         gcroot<ICookieVisitor^> _visitor;
 
     public:
-        CookieVisitor(ICookieVisitor^ visitor)
+        CookieVisitor(ICookieVisitor^ visitor) :
+            _visitor(visitor)
         {
-            _visitor = visitor;
+        }
+
+        ~CookieVisitor()
+        {
+            _visitor = nullptr;
         }
 
         virtual bool Visit(const CefCookie& cookie, int count, int total, bool& deleteCookie) OVERRIDE;

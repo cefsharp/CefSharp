@@ -1,4 +1,4 @@
-// Copyright © 2010-2013 The CefSharp Project. All rights reserved.
+// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -18,7 +18,15 @@ namespace CefSharp
         {
             MCefRefPtr<CefRequest> _wrappedRequest;
         internal:
-            CefRequestWrapper(CefRefPtr<CefRequest> cefRequest) : _wrappedRequest(cefRequest) {}
+            CefRequestWrapper(CefRefPtr<CefRequest> cefRequest) : 
+                _wrappedRequest(cefRequest) 
+            {
+            }
+
+            ~CefRequestWrapper()
+            {
+                _wrappedRequest = nullptr;
+            }
 
         public:
             virtual property String^ Url { String^ get(); void set(String^ url); }

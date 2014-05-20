@@ -5,11 +5,10 @@ using CefSharp.Internals;
 
 namespace CefSharp.BrowserSubprocess
 {
-    public class CefSubprocess : ManagedCefApp
+    public class CefSubprocess : CefAppWrapper
     {
         private SubprocessServiceHost javascriptServiceHost;
         private CefBrowserBase browser;
-        private CefAppWrapper appwrapper;
 
         public int? ParentProcessId { get; private set; }
 
@@ -23,7 +22,11 @@ namespace CefSharp.BrowserSubprocess
             get { return javascriptServiceHost; }
         }
 
-        public static CefSubprocess Instance { get; private set; }
+        public static new CefSubprocess Instance 
+        {
+            get { return (CefSubprocess)CefAppWrapper.Instance; }
+            private set { CefAppWrapper.Instance = value; }
+        }
 
         public CefSubprocess(IEnumerable<string> args)
         {
@@ -41,6 +44,7 @@ namespace CefSharp.BrowserSubprocess
 
             base.DoDispose(isDisposing);
         }
+
 
         private void LocateParentProcessId(IEnumerable<string> args)
         {
@@ -71,21 +75,10 @@ namespace CefSharp.BrowserSubprocess
             }
 
             Task.Factory.StartNew(() =>
-            { 
+            {
                 javascriptServiceHost = SubprocessServiceHost.Create(ParentProcessId.Value, cefBrowserWrapper.BrowserId);
-                javascriptServiceHost.Initialized += ( c ) => appwrapper.Callback = c;
-            } );
-        }
-
-        public int Run()
-        {
-            appwrapper = new CefAppWrapper(OnBrowserCreated);
-            return appwrapper.Run();
-        }
-
-        internal void RegisterJavascriptObjects(JavascriptObjectWrapper obj)
-        {
-            appwrapper.RegisterJavascriptObjects(obj);
+                javascriptServiceHost.Initialized += (c) => Callback = c;
+            });
         }
     }
 }
