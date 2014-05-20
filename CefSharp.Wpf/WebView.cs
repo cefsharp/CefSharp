@@ -31,7 +31,7 @@ namespace CefSharp.Wpf
         private HwndSourceHook sourceHook;
         private DispatcherTimer tooltipTimer;
         private readonly ToolTip toolTip;
-        private readonly ManagedCefBrowserAdapter managedCefBrowserAdapter;
+        private ManagedCefBrowserAdapter managedCefBrowserAdapter;
         private bool ignoreUriChange;
         private Matrix matrix;
 
@@ -61,6 +61,7 @@ namespace CefSharp.Wpf
         public ICommand ZoomOutCommand { get; private set; }
         public ICommand ZoomResetCommand { get; private set; }
         public ICommand ViewSourceCommand { get; private set; }
+        public ICommand CleanupCommand { get; private set; }
 
         public bool CanGoBack { get; private set; }
         public bool CanGoForward { get; private set; }
@@ -256,15 +257,33 @@ namespace CefSharp.Wpf
 
         private void OnCleanupElementUnloaded(object sender, RoutedEventArgs e)
         {
-            Cleanup();
+            Dispose();
         }
 
-        protected virtual void Cleanup()
+        public void Dispose()
         {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool isdisposing)
+        {
+            Cef.RemoveDisposable(this);
+
             foreach (var disposable in disposables)
             {
                 disposable.Dispose();
             }
+            disposables.Clear();
+
+            RemoveSourceHook();
+
+            WebBrowser = null;
+            managedCefBrowserAdapter = null;
+            ConsoleMessage = null;
+            FrameLoadStart = null;
+            FrameLoadEnd = null;
+            LoadError = null;
         }
 
         #endregion CleanupElement dependency property
@@ -282,15 +301,21 @@ namespace CefSharp.Wpf
 
         private void OnTooltipTextChanged()
         {
-            tooltipTimer.Stop();
+            var timer = tooltipTimer;
+            if (timer == null)
+            {
+                return;
+            }
+
+            timer.Stop();
 
             if (String.IsNullOrEmpty(TooltipText))
             {
-                Dispatcher.BeginInvoke((Action)(() => UpdateTooltip(null)), DispatcherPriority.Render);
+                DoInUi(() => UpdateTooltip(null), DispatcherPriority.Render);
             }
             else
             {
-                tooltipTimer.Start();
+                timer.Start();
             }
         }
 
@@ -316,6 +341,7 @@ namespace CefSharp.Wpf
 
         public WebView()
         {
+            Cef.AddDisposable(this);
             Focusable = true;
             FocusVisualStyle = null;
             IsTabStop = true;
@@ -344,6 +370,7 @@ namespace CefSharp.Wpf
             ZoomOutCommand = new DelegateCommand(ZoomOut);
             ZoomResetCommand = new DelegateCommand(ZoomReset);
             ViewSourceCommand = new DelegateCommand(ViewSource);
+            CleanupCommand = new DelegateCommand(Dispose);
 
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
             managedCefBrowserAdapter.CreateOffscreenBrowser(BrowserSettings ?? new BrowserSettings());
@@ -352,6 +379,11 @@ namespace CefSharp.Wpf
 
             disposables.Add(new DisposableEventWrapper(this, ActualHeightProperty, OnActualSizeChanged));
             disposables.Add(new DisposableEventWrapper(this, ActualWidthProperty, OnActualSizeChanged));
+        }
+
+        ~WebView()
+        {
+            Dispose(false);
         }
 
         private class DisposableEventWrapper : IDisposable
@@ -401,20 +433,16 @@ namespace CefSharp.Wpf
 
         private static void OnApplicationExit(object sender, ExitEventArgs e)
         {
-            // TODO: This prevents AccessViolation on shutdown, but it would be better handled by the Cef class; the WebView 
-            // control should not explicitly have to perform this.
-            if (Cef.IsInitialized)
-            {
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
-
-                Cef.Shutdown();
-            }
+            Cef.Shutdown();
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            CleanupElement = Window.GetWindow(this);
+            if (CleanupElement == null)
+            {
+                CleanupElement = Window.GetWindow(this);
+            }
+
             AddSourceHookIfNotAlreadyPresent();
         }
 

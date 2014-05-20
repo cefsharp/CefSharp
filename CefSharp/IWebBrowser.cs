@@ -10,7 +10,7 @@ namespace CefSharp
     /// <param name="errorText">The error text.</param>
     public delegate void LoadErrorEventHandler(string failedUrl, CefErrorCode errorCode, string errorText);
 
-    public interface IWebBrowser
+    public interface IWebBrowser : IDisposable
     {
         /// <summary>
         /// Event handler for receiving Javascript console messages being sent from web pages.

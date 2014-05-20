@@ -45,8 +45,11 @@ namespace CefSharp
 
             ~ClientAdapter() 
             {
-                _browserControl = nullptr; 
+                _browserControl = nullptr;
                 _managedCefBrowserAdapter = nullptr;
+                _browserHwnd = nullptr;
+                _cefBrowser = nullptr;
+                _tooltip = nullptr;
             }
 
             HWND GetBrowserHwnd() { return _browserHwnd; }

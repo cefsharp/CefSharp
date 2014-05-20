@@ -20,6 +20,7 @@ namespace CefSharp
         {
             DoDispose(true);
             IsDisposed = true;
+            GC.SuppressFinalize(this);
         }
 
         protected virtual void DisposeMember<T>(ref T field)

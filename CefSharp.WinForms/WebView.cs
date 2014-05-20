@@ -40,16 +40,18 @@ namespace CefSharp.WinForms
 
         public WebView(string address)
         {
+            Cef.AddDisposable(this);
             Address = address;
         }
 
         protected override void Dispose(bool disposing)
         {
+            Cef.RemoveDisposable(this);
+
             if (disposing)
             {
                 if (managedCefBrowserAdapter != null)
                 {
-                    managedCefBrowserAdapter.Close();
                     managedCefBrowserAdapter.Dispose();
                     managedCefBrowserAdapter = null;
                 }

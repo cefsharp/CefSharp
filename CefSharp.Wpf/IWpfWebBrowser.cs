@@ -51,6 +51,10 @@ namespace CefSharp.Wpf
         /// page is shown.
         /// </summary>
         ICommand ViewSourceCommand { get; }
+        /// <summary>
+        /// command which cleans up the Resources used by the WebView 
+        /// </summary>
+        ICommand CleanupCommand { get; }
 
         /// <summary>
         /// Opens up a new program window (using the default text editor) where the source code of the currently displayed web
