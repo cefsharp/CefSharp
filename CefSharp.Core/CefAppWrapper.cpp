@@ -18,6 +18,7 @@ namespace CefSharp
 
         CefMainArgs cefMainArgs((HINSTANCE)hInstance.ToPointer());
 
-        return CefExecuteProcess(cefMainArgs, (CefApp*)cefApp.get());
+		// New in CEF branch 1916, potential to sandbox the browser, NULL parameter if not sandboxing
+        return CefExecuteProcess(cefMainArgs, (CefApp*)cefApp.get(), NULL);
     }
 }

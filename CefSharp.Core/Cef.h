@@ -154,7 +154,9 @@ namespace CefSharp
                 CefMainArgs main_args;
                 CefRefPtr<CefSharpApp> app(new CefSharpApp(cefSettings));
 
-                int exitCode = CefExecuteProcess(main_args, app.get());
+				// New in CEF branch 1916, potential to sandbox the browser, NULL parameter if not sandboxing
+				// TODO: add sandbox option? (see include/cef_sandbox_win.h for details)
+                int exitCode = CefExecuteProcess(main_args, app.get(), NULL);
 
                 if (exitCode >= 0)
                 {
@@ -163,7 +165,8 @@ namespace CefSharp
                     return false;
                 }
 
-                success = CefInitialize(main_args, *(cefSettings->_cefSettings), app.get());
+				// New in CEF branch 1916, potential to sandbox the browser, NULL parameter if not sandboxing
+                success = CefInitialize(main_args, *(cefSettings->_cefSettings), app.get(), NULL);
                 app->CompleteSchemeRegistrations();
                 _initialized = success;
 

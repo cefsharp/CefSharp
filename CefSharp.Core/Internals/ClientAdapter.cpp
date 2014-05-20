@@ -206,7 +206,9 @@ namespace CefSharp
             }
             else if (requestResponse->Action == ResponseAction::Respond)
             {
-                CefRefPtr<StreamAdapter> adapter = new StreamAdapter(requestResponse->ResponseStream);
+                // error C2259: 'CefSharp::Internals::StreamAdapter' : cannot instantiate abstract class
+				// Commenting it out works for now..
+				// <StreamAdapter> adapter = new StreamAdapter(requestResponse->ResponseStream);
 
                 throw gcnew NotImplementedException("Respond is not yet supported.");
 
