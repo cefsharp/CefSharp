@@ -37,6 +37,10 @@ namespace CefSharp
         /// </summary>        
         event LoadErrorEventHandler LoadError;
 
+        /// <summary>
+        /// Loads the specified URL.
+        /// </summary>
+        /// <param name="url">The URL to be loaded.</param>
         void Load(string url);
 
         /// <summary>
@@ -75,7 +79,15 @@ namespace CefSharp
         /// </summary>
         /// <remarks>This property is a Dependency Property and fully supports data binding.</remarks>
         bool IsLoading { get; set; }
+        
+        /// <summary>
+        /// A flag that indicates whether the control can navigate backwards (true) or not (false).
+        /// </summary>
         bool CanGoBack { get; }
+
+        /// <summary>
+        /// A flag that indicates whether the control can navigate forwards (true) or not (false).
+        /// </summary>
         bool CanGoForward { get; }
 
         /// <summary>
@@ -95,7 +107,7 @@ namespace CefSharp
         string TooltipText { get; set; }
 
         /// <summary>
-        /// Search for text within the current page
+        /// Search for text within the current page.
         /// </summary>
         /// <param name="identifier">Can be used in can conjunction with searchText to have multiple
         /// searches running simultaneously.</param>
@@ -110,5 +122,10 @@ namespace CefSharp
         /// </summary>
         /// <param name="clearSelection">clear the current search selection</param>
         void StopFinding(bool clearSelection);
+
+        /// <summary>
+        /// Stops loading the current page.
+        /// </summary>
+        void Stop();
     }
 }
