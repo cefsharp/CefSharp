@@ -1,13 +1,18 @@
-﻿using CefSharp.Example;
+﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
+using CefSharp.Example;
 using CefSharp.Wpf.Example.Mvvm;
 using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
+using CefSharp.Wpf.Example.Views.Main;
 
-namespace CefSharp.Wpf.Example.Views.Main
+namespace CefSharp.Wpf.Example.ViewModels
 {
-    public class MainViewModel : INotifyPropertyChanged
+    public class BrowserTabViewModel : INotifyPropertyChanged
     {
         private string address;
         public string Address
@@ -60,20 +65,18 @@ namespace CefSharp.Wpf.Example.Views.Main
         }
 
         public DelegateCommand GoCommand { get; set; }
-        public DelegateCommand ViewSourceCommand { get; set; }
         public DelegateCommand HomeCommand { get; set; }
         public DelegateCommand<string> ExecuteJavaScriptCommand { get; set; }
         public DelegateCommand<string> EvaluateJavaScriptCommand { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public MainViewModel(string address = null)
+        public BrowserTabViewModel(string address)
         {
-            Address = address ?? ExamplePresenter.DefaultUrl;
+            Address = address;
             AddressEditable = Address;
 
             GoCommand = new DelegateCommand(Go, () => !String.IsNullOrWhiteSpace(Address));
-            ViewSourceCommand = new DelegateCommand(ViewSource);
             HomeCommand = new DelegateCommand(() => AddressEditable = Address = ExamplePresenter.DefaultUrl);
             ExecuteJavaScriptCommand = new DelegateCommand<string>(ExecuteJavaScript, s => !String.IsNullOrWhiteSpace(s));
             EvaluateJavaScriptCommand = new DelegateCommand<string>(EvaluateJavaScript, s => !String.IsNullOrWhiteSpace(s));
@@ -125,7 +128,7 @@ namespace CefSharp.Wpf.Example.Views.Main
                         // TODO: This is a bit of a hack. It would be nicer/cleaner to give the webBrowser focus in the Go()
                         // TODO: method, but it seems like "something" gets messed up (= doesn't work correctly) if we give it
                         // TODO: focus "too early" in the loading process...
-                        WebBrowser.LoadCompleted += delegate { Application.Current.Dispatcher.BeginInvoke((Action)(() => WebBrowser.Focus())); };
+                        WebBrowser.FrameLoadEnd += delegate { Application.Current.Dispatcher.BeginInvoke((Action)(() => webBrowser.Focus())); };
 
                         BindJavascriptObject(webBrowser);
                     }
@@ -163,11 +166,6 @@ namespace CefSharp.Wpf.Example.Views.Main
 
             // Part of the Focus hack further described in the OnPropertyChanged() method...
             Keyboard.ClearFocus();
-        }
-
-        private void ViewSource()
-        {
-            webBrowser.ViewSource();
         }
     }
 }

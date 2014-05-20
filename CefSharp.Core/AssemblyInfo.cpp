@@ -15,7 +15,6 @@ using namespace CefSharp;
 [assembly:AssemblyVersion(AssemblyInfo::AssemblyVersion)];
 [assembly:ComVisible(AssemblyInfo::ComVisible)];
 [assembly:CLSCompliant(AssemblyInfo::ClsCompliant)];
-[assembly:SecurityPermission(SecurityAction::RequestMinimum, UnmanagedCode = true)];
 
 [assembly:AssemblyDescription("")];
 [assembly:AssemblyConfiguration("")];

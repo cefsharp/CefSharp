@@ -87,6 +87,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CefEventFlags.cs" />
+    <Compile Include="AddressChangedEventArgs.cs" />
+    <Compile Include="FrameLoadStartEventArgs.cs" />
+    <Compile Include="NavStateChangedEventArgs.cs" />
     <Compile Include="Internals\BitmapInfo.cs" />
     <Compile Include="Internals\ISubprocessCallback.cs" />
     <Compile Include="Internals\JavascriptMemberDescription.cs" />
@@ -121,12 +124,13 @@
     <Compile Include="Internals\IWebBrowserInternal.cs" />
     <Compile Include="Internals\Kernel32.cs" />
     <Compile Include="IWinFormsWebBrowser.cs" />
-    <Compile Include="LoadedCompletedEventArgs.cs" />
+    <Compile Include="FrameLoadEndEventArgs.cs" />
     <Compile Include="LogSeverity.cs" />
     <Compile Include="DisposableResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptException.cs" />
     <Compile Include="Internals\SubprocessProxyFactory.cs" />
+    <Compile Include="TitleChangedEventArgs.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

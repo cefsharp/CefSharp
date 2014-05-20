@@ -1,4 +1,4 @@
-// Copyright © 2010-2013 The CefSharp Project. All rights reserved.
+// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -29,6 +29,17 @@ namespace CefSharp
         {
             _cefBrowser = cefBrowser;
             WaitHandle = gcnew AutoResetEvent(false);
+        }
+
+        ~CefBrowserUnmanagedWrapper()
+        {
+            _cefBrowser = nullptr;
+            EvaluateScriptResult = nullptr;
+            EvaluateScriptExceptionMessage = nullptr;
+            
+            AutoResetEvent^ waithandle = WaitHandle;
+            WaitHandle = nullptr;
+            delete waithandle;
         }
 
         void EvaluateScriptCallback(int64 frameId, CefString script, double timeout)
@@ -81,24 +92,27 @@ namespace CefSharp
     // "Master class" for wrapping everything that the CefSubprocess needs.
     ref class CefBrowserWrapper : CefBrowserBase
     {
-        CefRefPtr<CefBrowser>* _cefBrowser;
-        CefRefPtr<CefBrowserUnmanagedWrapper>* _unmanagedWrapper;
+        MCefRefPtr<CefBrowser> _cefBrowser;
+        MCefRefPtr<CefBrowserUnmanagedWrapper> _unmanagedWrapper;
 
     public:
 
-        CefBrowserWrapper(CefRefPtr<CefBrowser> cefBrowser)
+        CefBrowserWrapper(CefRefPtr<CefBrowser> cefBrowser) :
+            _cefBrowser(cefBrowser)
         {
-            _cefBrowser = &cefBrowser;
             BrowserId = cefBrowser->GetIdentifier();
-
-            // TODO: Should be deallocated at some point to avoid leaking memory.
-            _unmanagedWrapper = new CefRefPtr<CefBrowserUnmanagedWrapper>(new CefBrowserUnmanagedWrapper(cefBrowser));
+            _unmanagedWrapper = new CefBrowserUnmanagedWrapper(cefBrowser);
         }
 
-        virtual Object^ CefBrowserWrapper::EvaluateScript(int frameId, String^ script, double timeout) override
+        virtual void DoDispose( bool disposing ) override
         {
-            auto unmanagedWrapper = _unmanagedWrapper->get();
+            _cefBrowser = nullptr;
+            _unmanagedWrapper = nullptr;
+            CefBrowserBase::DoDispose( disposing );
+        }
 
+        virtual Object^ EvaluateScript(System::Int32 frameId, String^ script, double timeout) override
+        {
             // TODO: Could we do something genericly useful here using C++ lambdas? To avoid having to make a lot of of these...
             // TODO: DON'T USE AUTORESETEVENT STUPIDITY! Even though the code below compiles & runs correctly, it deadlocks the
             // thread from which the request came, which is very, very stupid, especially since V8 and Chromium are built
@@ -107,7 +121,8 @@ namespace CefSharp
             // That feels much more like 2013, and not 1994... :)
             // TODO: How about concurrency? One way to easily resolve it is to new() up something unique here and use that to
             // invoke the method.
-            CefPostTask(CefThreadId::TID_RENDERER, NewCefRunnableMethod(unmanagedWrapper,
+            CefBrowserUnmanagedWrapper* unmanagedWrapper = _unmanagedWrapper.get();
+            CefPostTask(TID_RENDERER, NewCefRunnableMethod(unmanagedWrapper,
                 &CefBrowserUnmanagedWrapper::EvaluateScriptCallback, frameId, StringUtils::ToNative(script), timeout));
             unmanagedWrapper->WaitHandle->WaitOne();
 

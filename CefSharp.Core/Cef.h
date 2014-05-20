@@ -1,4 +1,4 @@
-// Copyright � 2010-2013 The CefSharp Project. All rights reserved.
+// Copyright � 2010-2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -15,7 +15,8 @@
 #include "CefSettings.h"
 #include "SchemeHandlerWrapper.h"
 
-using namespace System::Collections::Generic;
+using namespace System::Collections::Generic; 
+using namespace System::Linq;
 using namespace System::Reflection;
 
 namespace CefSharp
@@ -28,12 +29,14 @@ namespace CefSharp
         static bool _result;
 
         static bool _initialized = false;
+        static HashSet<IDisposable^>^ _disposables;
 
         static Cef()
         {
             _event = CreateEvent(NULL, FALSE, FALSE, NULL);
             _sync = gcnew Object();
             _javaScriptObjectRepository = gcnew JavascriptObjectRepository();
+            _disposables = gcnew HashSet<IDisposable^>();
         }
 
         static void IOT_SetCookie(const CefString& url, const CefCookie& cookie)
@@ -58,6 +61,20 @@ namespace CefSharp
 
     internal:
         static JavascriptObjectRepository^ _javaScriptObjectRepository;
+
+        static void AddDisposable(IDisposable^ item)
+        {
+            msclr::lock l(_sync);
+
+            _disposables->Add(item);
+        }
+
+        static void RemoveDisposable(IDisposable^ item)
+        {
+            msclr::lock l(_sync);
+
+            _disposables->Remove(item);
+        }
 
     public:
 
@@ -291,7 +308,7 @@ namespace CefSharp
 
         /// <summary> Sets the directory path that will be used for storing cookie data. If <paramref name="path"/> is empty data will be stored in 
         /// memory only. Otherwise, data will be stored at the specified path. To persist session cookies (cookies without an expiry 
-        /// date or validity interval) set <paramref name="persist_session_cookies"/> to true. Session cookies are generally intended to be transient and 
+        /// date or validity interval) set <paramref name="persistSessionCookies"/> to true. Session cookies are generally intended to be transient and 
         /// most Web browsers do not persist them.</summary>
         /// <param name="path">The file path to write cookies to.</param>
         /// <param name="persistSessionCookies">A flag that determines whether session cookies will be persisted or not.</param>
@@ -316,7 +333,17 @@ namespace CefSharp
         static void Shutdown()
         {
             if (IsInitialized)
-            {
+            { 
+                {
+                    msclr::lock l(_sync);
+                    for each(IDisposable^ diposable in Enumerable::ToList(_disposables))
+                    {
+                        delete diposable;
+                    }
+                }
+                GC::Collect();
+                GC::WaitForPendingFinalizers();
+
                 CefShutdown();
                 IsInitialized = false;
             }
