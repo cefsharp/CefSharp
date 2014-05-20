@@ -9,6 +9,10 @@ namespace CefSharp.Wpf
     public interface IWpfWebBrowser : IWebBrowser
     {
         /// <summary>
+
+        // TODO add info
+        string DevToolsUrl { get; }
+
         /// Command which navigates to the previous page in the browser history. Will automatically be enabled/disabled depending
         /// on the browser state.
         /// </summary>

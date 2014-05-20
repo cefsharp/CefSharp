@@ -89,6 +89,11 @@ namespace CefSharp.Wpf
             get { return PixelFormats.Bgra32; }
         }
 
+        public string DevToolsUrl
+        {
+            get { return managedCefBrowserAdapter.DevToolsUrl; }
+        }
+
         #region Address dependency property
 
         public string Address
