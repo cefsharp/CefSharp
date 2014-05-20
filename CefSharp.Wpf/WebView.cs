@@ -966,7 +966,7 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter.Reload(ignoreCache);
         }
 
-        private void Print()
+        public void Print()
         {
             managedCefBrowserAdapter.Print();
         }
