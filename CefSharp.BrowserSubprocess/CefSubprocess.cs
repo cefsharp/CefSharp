@@ -22,7 +22,11 @@ namespace CefSharp.BrowserSubprocess
             get { return javascriptServiceHost; }
         }
 
-        public static CefSubprocess Instance { get; private set; }
+        public static new CefSubprocess Instance 
+        {
+            get { return (CefSubprocess)CefAppWrapper.Instance; }
+            private set { CefAppWrapper.Instance = value; }
+        }
 
         public CefSubprocess(IEnumerable<string> args)
         {
