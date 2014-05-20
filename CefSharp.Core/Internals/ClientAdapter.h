@@ -30,14 +30,14 @@ namespace CefSharp
         {
         private:
             gcroot<IWebBrowserInternal^> _browserControl;            
-            gcroot<Action<IntPtr>^> _onBrowserCreated;
+            gcroot<Action^> _onBrowserCreated;
             HWND _browserHwnd;
             CefRefPtr<CefBrowser> _cefBrowser;
 
             gcroot<String^> _tooltip;
 
         public:
-            ClientAdapter(IWebBrowserInternal^ browserControl, Action<IntPtr>^ onBrowserCreated) :
+            ClientAdapter(IWebBrowserInternal^ browserControl, Action^ onBrowserCreated) :
                 _browserControl(browserControl), 
                 _onBrowserCreated(onBrowserCreated)
             {

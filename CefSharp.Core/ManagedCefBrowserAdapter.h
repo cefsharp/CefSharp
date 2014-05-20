@@ -58,7 +58,7 @@ namespace CefSharp
 
         ManagedCefBrowserAdapter(IWebBrowserInternal^ webBrowserInternal)
         {
-            _renderClientAdapter = new RenderClientAdapter(webBrowserInternal, gcnew Action<IntPtr>(this, &ManagedCefBrowserAdapter::OnBrowserCreated));
+            _renderClientAdapter = new RenderClientAdapter(webBrowserInternal, gcnew Action(this, &ManagedCefBrowserAdapter::OnInitialized));
             _javaScriptObjectRepository = gcnew JavascriptObjectRepository();
             _webBrowserInternal = webBrowserInternal;
         }
@@ -99,11 +99,19 @@ namespace CefSharp
 
         void OnInitialized()
         {
+            auto browserId = _renderClientAdapter->GetCefBrowser()->GetIdentifier();           
+
+            auto serviceName = SubprocessProxyFactory::GetServiceName(Process::GetCurrentProcess()->Id, browserId);
+            _javaScriptProxy = SubprocessProxyFactory::CreateSubprocessProxyClient(serviceName, this);
+
+            //CefTaskRunner::GetForCurrentThread()->PostDelayedTask(NewCefRunnableMethod(???), 100 );
+            //_javaScriptProxy->Initialize();
+
             _webBrowserInternal->OnInitialized();
 
             auto address = _address;
 
-            if ( address != nullptr )
+            if (address != nullptr)
             {
                 LoadUrl(address);
             }
@@ -449,20 +457,6 @@ namespace CefSharp
         void RegisterJsObject(String^ name, Object^ object)
         {
             _javaScriptObjectRepository->Register(name, object);
-        }
-
-        void OnBrowserCreated(IntPtr browser)
-        {
-            // Cannot use CefRefPtr<T> in this case, since we need to use the browser as a parameter to an Action delegate and it
-            // is not possible to have an unmanaged type as a type argument to a .NET generic type. Doing it like this is quite
-            // safe, unless we hold on to a reference to this browser...
-            auto cefBrowser = (CefBrowser*)(void*)browser;
-            auto browserId = cefBrowser->GetIdentifier();
-            auto serviceName = SubprocessProxyFactory::GetServiceName(Process::GetCurrentProcess()->Id, browserId);
-            _javaScriptProxy = SubprocessProxyFactory::CreateSubprocessProxyClient(serviceName, this);
-
-            //CefTaskRunner::GetForCurrentThread()->PostDelayedTask(NewCefRunnableMethod(???), 100 );
-            //_javaScriptProxy->Initialize();
         }
         
         virtual Object^ CallMethod(int objectId, String^ name, array<Object^>^ parameters);

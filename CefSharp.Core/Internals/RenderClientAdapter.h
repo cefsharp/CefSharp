@@ -25,7 +25,7 @@ namespace CefSharp
             gcroot<BitmapInfo^> MainBitmapInfo;
             gcroot<BitmapInfo^> PopupBitmapInfo;
 
-            RenderClientAdapter(IWebBrowserInternal^ webBrowserInternal, Action<IntPtr>^ onBrowserCreated):
+            RenderClientAdapter(IWebBrowserInternal^ webBrowserInternal, Action^ onBrowserCreated):
                 ClientAdapter(webBrowserInternal, onBrowserCreated),
                 _webBrowserInternal(webBrowserInternal)
             {
