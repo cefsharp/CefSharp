@@ -62,6 +62,7 @@ namespace CefSharp.Wpf
         public ICommand ZoomResetCommand { get; private set; }
         public ICommand ViewSourceCommand { get; private set; }
         public ICommand CleanupCommand { get; private set; }
+        public ICommand StopCommand { get; private set; }
 
         public bool CanGoBack { get; private set; }
         public bool CanGoForward { get; private set; }
@@ -371,6 +372,7 @@ namespace CefSharp.Wpf
             ZoomResetCommand = new DelegateCommand(ZoomReset);
             ViewSourceCommand = new DelegateCommand(ViewSource);
             CleanupCommand = new DelegateCommand(Dispose);
+            StopCommand = new DelegateCommand(Stop);
 
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
             managedCefBrowserAdapter.CreateOffscreenBrowser(BrowserSettings ?? new BrowserSettings());
