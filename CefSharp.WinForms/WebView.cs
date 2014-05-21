@@ -120,7 +120,7 @@ namespace CefSharp.WinForms
                 managedCefBrowserAdapter.OnSizeChanged(Handle);
         }
 
-        public void SetAddress(string address)
+        void IWebBrowserInternal.SetAddress(string address)
         {
             Address = address;
 
@@ -131,12 +131,12 @@ namespace CefSharp.WinForms
             }
         }
 
-        public void SetIsLoading(bool isLoading)
+        void IWebBrowserInternal.SetIsLoading(bool isLoading)
         {
             IsLoading = isLoading;
         }
 
-        public void SetNavState(bool canGoBack, bool canGoForward, bool canReload)
+        void IWebBrowserInternal.SetNavState(bool canGoBack, bool canGoForward, bool canReload)
         {
             CanGoBack = canGoBack;
             CanGoForward = canGoForward;
@@ -149,7 +149,7 @@ namespace CefSharp.WinForms
             }
         }
 
-        public void SetTitle(string title)
+        void IWebBrowserInternal.SetTitle(string title)
         {
             Title = title;
 
@@ -160,12 +160,12 @@ namespace CefSharp.WinForms
             }
         }
 
-        public void SetTooltipText(string tooltipText)
+        void IWebBrowserInternal.SetTooltipText(string tooltipText)
         {
             TooltipText = tooltipText;
         }
 
-        public void OnFrameLoadStart(string url, bool isMainFrame)
+        void IWebBrowserInternal.OnFrameLoadStart(string url, bool isMainFrame)
         {
             var handler = FrameLoadStart;
             if (handler != null)
@@ -174,7 +174,7 @@ namespace CefSharp.WinForms
             }
         }
 
-        public void OnFrameLoadEnd(string url, bool isMainFrame, int httpStatusCode)
+        void IWebBrowserInternal.OnFrameLoadEnd(string url, bool isMainFrame, int httpStatusCode)
         {
             var handler = FrameLoadEnd;
             if (handler != null)
@@ -183,12 +183,12 @@ namespace CefSharp.WinForms
             }
         }
 
-        public void OnTakeFocus(bool next)
+        void IWebBrowserInternal.OnTakeFocus(bool next)
         {
             SelectNextControl(this, next, true, true, true);
         }
 
-        public void OnConsoleMessage(string message, string source, int line)
+        void IWebBrowserInternal.OnConsoleMessage(string message, string source, int line)
         {
             var handler = ConsoleMessage;
             if (handler != null)
@@ -197,7 +197,7 @@ namespace CefSharp.WinForms
             }
         }
 
-        public void OnLoadError(string url, CefErrorCode errorCode, string errorText)
+        void IWebBrowserInternal.OnLoadError(string url, CefErrorCode errorCode, string errorText)
         {
             var handler = LoadError;
             if (handler != null)
@@ -216,14 +216,14 @@ namespace CefSharp.WinForms
             managedCefBrowserAdapter.StopFinding(clearSelection);
         }
 
-        public void ShowDevTools()
+        void IWebBrowserInternal.ShowDevTools()
         {
             // TODO: Do something about this one.
             var devToolsUrl = managedCefBrowserAdapter.DevToolsUrl;
             throw new NotImplementedException();
         }
 
-        public void CloseDevTools()
+        void IWebBrowserInternal.CloseDevTools()
         {
             throw new NotImplementedException();
         }
