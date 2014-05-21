@@ -254,6 +254,12 @@ namespace CefSharp.WinForms
             managedCefBrowserAdapter.Reload(ignoreCache);
         }
 
+        public double ZoomLevel
+        { 
+            get { return managedCefBrowserAdapter.GetZoomLevel(); }
+            set { managedCefBrowserAdapter.SetZoomLevel(value); }
+         }
+
         public void Undo()
         {
             managedCefBrowserAdapter.Undo();
