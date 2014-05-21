@@ -22,8 +22,8 @@ namespace CefSharp.Internals
         void ShowDevTools();
         void CloseDevTools();
 
-        void OnFrameLoadStart(string url);
-        void OnFrameLoadEnd(string url);
+        void OnFrameLoadStart(string url, bool isMainFrame);
+        void OnFrameLoadEnd(string url, bool isMainFrame, int httpStatusCode);
         void OnTakeFocus(bool next);
         void OnConsoleMessage(string message, string source, int line);
         void OnLoadError(string url, CefErrorCode errorCode, string errorText);
