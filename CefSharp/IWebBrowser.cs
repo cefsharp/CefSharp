@@ -65,6 +65,10 @@ namespace CefSharp
         object EvaluateScript(string script, TimeSpan? timeout = null);
 
         IRequestHandler RequestHandler { get; set; }
+        ILifeSpanHandler LifeSpanHandler { get; set; }
+        IKeyboardHandler KeyboardHandler { get; set; }
+        IJsDialogHandler JsDialogHandler { get; set; }
+        
         bool IsBrowserInitialized { get; }
         
         /// <summary>
