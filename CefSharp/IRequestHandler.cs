@@ -41,7 +41,8 @@ namespace CefSharp
         /// <returns>To cancel loading of the resource return true or false o allow the resource to load normally.</returns>
         bool OnBeforeResourceLoad(IWebBrowser browser, IRequestResponse requestResponse);
         
-        void OnResourceResponse(IWebBrowser browser, string url, int status, string statusText, string mimeType, WebHeaderCollection headers);
+        // TODO: Investigate how we can support in CEF3.
+        //void OnResourceResponse(IWebBrowser browser, string url, int status, string statusText, string mimeType, WebHeaderCollection headers);
 
         /// <summary>
         /// Called when a server indicates via the 'Content-Disposition' header that a response represents a file to download.
