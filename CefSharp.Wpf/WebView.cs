@@ -489,6 +489,8 @@ namespace CefSharp.Wpf
 
         #region TooltipText dependency property
 
+        public event DependencyPropertyChangedEventHandler TooltipTextChanged;
+
         public string TooltipText
         {
             get { return (string)GetValue(TooltipTextProperty); }
@@ -496,9 +498,24 @@ namespace CefSharp.Wpf
         }
 
         public static readonly DependencyProperty TooltipTextProperty =
-            DependencyProperty.Register("TooltipText", typeof(string), typeof(WebView), new PropertyMetadata(null, (sender, e) => ((WebView)sender).OnTooltipTextChanged()));
+            DependencyProperty.Register("TooltipText", typeof(string), typeof(WebView), new PropertyMetadata(null, OnTooltipTextChanged));
 
-        private void OnTooltipTextChanged()
+        private static void OnTooltipTextChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+            var owner = (WebView)sender;
+            var oldValue = (string)args.OldValue;
+            var newValue = (string)args.NewValue;
+
+            owner.OnTooltipTextChanged(oldValue, newValue);
+
+            var handlers = owner.TooltipTextChanged;
+            if (handlers != null)
+            {
+                handlers(owner, args);
+            }
+        }
+
+        protected virtual void OnTooltipTextChanged(string oldValue, string newValue)
         {
             var timer = tooltipTimer;
             if (timer == null)
@@ -508,7 +525,7 @@ namespace CefSharp.Wpf
 
             timer.Stop();
 
-            if (String.IsNullOrEmpty(TooltipText))
+            if (String.IsNullOrEmpty(newValue))
             {
                 DoInUi(() => UpdateTooltip(null), DispatcherPriority.Render);
             }
