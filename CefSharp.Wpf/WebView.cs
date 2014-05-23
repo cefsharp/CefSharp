@@ -319,6 +319,8 @@ namespace CefSharp.Wpf
 
         #region Title dependency property
 
+        public event DependencyPropertyChangedEventHandler TitleChanged;
+
         public string Title
         {
             get { return (string)GetValue(TitleProperty); }
@@ -326,8 +328,27 @@ namespace CefSharp.Wpf
         }
 
         public static readonly DependencyProperty TitleProperty =
-            DependencyProperty.Register("Title", typeof(string), typeof(WebView), new PropertyMetadata(defaultValue: null));
+            DependencyProperty.Register("Title", typeof(string), typeof(WebView), new PropertyMetadata(null, OnTitleChanged));
 
+        private static void OnTitleChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+            var owner = (WebView)sender;
+            var oldValue = (string)args.OldValue;
+            var newValue = (string)args.NewValue;
+
+            owner.OnTitleChanged(oldValue, newValue);
+
+            var handlers = owner.TitleChanged;
+            if (handlers != null)
+            {
+                handlers(owner, args);
+            }
+        }
+
+        protected virtual void OnTitleChanged(string oldValue, string newValue)
+        {
+
+        }
         #endregion Title dependency property
 
         #region ZoomLevel dependency property
