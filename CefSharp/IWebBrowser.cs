@@ -66,6 +66,10 @@ namespace CefSharp
 
         IDialogHandler DialogHandler { get; set; }
         IRequestHandler RequestHandler { get; set; }
+        ILifeSpanHandler LifeSpanHandler { get; set; }
+        IKeyboardHandler KeyboardHandler { get; set; }
+        IJsDialogHandler JsDialogHandler { get; set; }
+        
         bool IsBrowserInitialized { get; }
 
         /// <summary>
