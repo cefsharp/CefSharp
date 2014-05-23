@@ -42,7 +42,6 @@ namespace CefSharp.Wpf
         private readonly List<IDisposable> disposables = new List<IDisposable>();
 
         public BrowserSettings BrowserSettings { get; set; }
-        public bool IsBrowserInitialized { get; private set; }
         public IJsDialogHandler JsDialogHandler { get; set; }
         public IKeyboardHandler KeyboardHandler { get; set; }
         public IRequestHandler RequestHandler { get; set; }
@@ -148,6 +147,42 @@ namespace CefSharp.Wpf
             DependencyProperty.Register("IsLoading", typeof(bool), typeof(WebView), new PropertyMetadata(false));
 
         #endregion IsLoading dependency property
+
+        #region IsBrowserInitialized dependency property
+
+        public bool IsBrowserInitialized
+        {
+            get { return (bool)GetValue(IsBrowserInitializedProperty); }
+            set { SetValue(IsBrowserInitializedProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsBrowserInitializedProperty =
+            DependencyProperty.Register("IsBrowserInitialized", typeof(bool), typeof(WebView), new PropertyMetadata(false, OnIsBrowserInitializedChanged ));
+
+        public event DependencyPropertyChangedEventHandler IsBrowserInitializedChanged;
+
+        private static void OnIsBrowserInitializedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            WebView owner = (WebView)d;
+            bool oldValue = (bool)e.OldValue;
+            bool newValue = (bool)e.NewValue;
+            
+            owner.OnIsBrowserInitializedChanged(oldValue, newValue);
+
+            var handlers = owner.IsBrowserInitializedChanged;
+
+            if (handlers != null)
+            {
+                handlers(owner, e);
+            }
+        }
+
+        protected virtual void OnIsBrowserInitializedChanged(bool oldValue, bool newValue)
+        {
+            
+        }
+
+        #endregion IsInitialized dependency property
 
         #region Title dependency property
 
@@ -884,7 +919,10 @@ namespace CefSharp.Wpf
 
         void IWebBrowserInternal.OnInitialized()
         {
-            //browserCore.OnInitialized();
+            DoInUi(() =>
+            {
+                SetCurrentValue(IsBrowserInitializedProperty, true);
+            });
         }
 
         public void Load(string url)
