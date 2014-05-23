@@ -176,11 +176,36 @@ namespace CefSharp.Wpf
 
         #region CanGoForward
 
-        public static DependencyProperty CanGoForwardProperty = DependencyProperty.Register("CanGoForward", typeof(bool), typeof(WebView));
+        public event DependencyPropertyChangedEventHandler CanGoForwardChanged;
+
+        public static DependencyProperty CanGoForwardProperty =
+            DependencyProperty.Register("CanGoForward", typeof(bool), typeof(WebView),
+                                        new UIPropertyMetadata(false, OnCanGoForwardChanged));
+
         public bool CanGoForward
         {
             get { return (bool)GetValue(CanGoForwardProperty); }
             private set { SetValue(CanGoForwardProperty, value); }
+        }
+
+        private static void OnCanGoForwardChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+            var owner = (WebView)sender;
+            var oldValue = (bool)args.OldValue;
+            var newValue = (bool)args.NewValue;
+
+            owner.OnCanGoForwardChanged(oldValue, newValue);
+
+            var handlers = owner.CanGoForwardChanged;
+            if (handlers != null)
+            {
+                handlers(owner, args);
+            }
+        }
+
+        protected virtual void OnCanGoForwardChanged(bool oldValue, bool newValue)
+        {
+
         }
 
         #endregion
