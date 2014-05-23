@@ -287,8 +287,7 @@ namespace CefSharp.WinForms
 
         public void Delete()
         {
-            //managedCefBrowserAdapter.Delete();
-            throw new NotImplementedException();
+            managedCefBrowserAdapter.Delete();
         }
 
         public void SelectAll()
