@@ -68,11 +68,10 @@ namespace CefSharp.Wpf
         public bool CanGoForward { get; private set; }
         public bool CanReload { get; private set; }
 
-        public int BytesPerPixel
+        int IRenderWebBrowser.BytesPerPixel
         {
             get { return PixelFormat.BitsPerPixel / 8; }
         }
-
 
         int IRenderWebBrowser.Width
         {
@@ -1131,7 +1130,7 @@ namespace CefSharp.Wpf
                 imageSourceSetter(null);
                 GC.Collect(1);
 
-                var stride = bitmapInfo.Width * BytesPerPixel;
+                var stride = bitmapInfo.Width * ((IRenderWebBrowser)this).BytesPerPixel;
 
                 bitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(bitmapInfo.FileMappingHandle,
                     bitmapInfo.Width, bitmapInfo.Height, PixelFormat, stride, 0);
