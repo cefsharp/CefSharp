@@ -140,11 +140,36 @@ namespace CefSharp.Wpf
 
         #region CanGoBack
 
-        public static DependencyProperty CanGoBackProperty = DependencyProperty.Register( "CanGoBack", typeof(bool), typeof(WebView) );
+        public event DependencyPropertyChangedEventHandler CanGoBackChanged;
+
+        public static DependencyProperty CanGoBackProperty =
+            DependencyProperty.Register("CanGoBack", typeof(bool), typeof(WebView),
+                                        new UIPropertyMetadata(false, OnCanGoBackChanged));
+
         public bool CanGoBack 
         {
             get { return (bool)GetValue(CanGoBackProperty); }
             private set { SetValue(CanGoBackProperty, value); }
+        }
+
+        private static void OnCanGoBackChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+            var owner = (WebView)sender;
+            var oldValue = (bool)args.OldValue;
+            var newValue = (bool)args.NewValue;
+
+            owner.OnCanGoBackChanged(oldValue, newValue);
+
+            var handlers = owner.CanGoBackChanged;
+            if (handlers != null)
+            {
+                handlers(owner, args);
+            }
+        }
+
+        protected virtual void OnCanGoBackChanged(bool oldValue, bool newValue)
+        {
+
         }
 
         #endregion
