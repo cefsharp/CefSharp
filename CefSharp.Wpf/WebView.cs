@@ -522,6 +522,8 @@ namespace CefSharp.Wpf
 
         #region WebBrowser dependency property
 
+        public event DependencyPropertyChangedEventHandler WebBrowserChanged;
+
         public IWebBrowser WebBrowser
         {
             get { return (IWebBrowser)GetValue(WebBrowserProperty); }
@@ -529,7 +531,27 @@ namespace CefSharp.Wpf
         }
 
         public static readonly DependencyProperty WebBrowserProperty =
-            DependencyProperty.Register("WebBrowser", typeof(IWebBrowser), typeof(WebView), new UIPropertyMetadata(defaultValue: null));
+            DependencyProperty.Register("WebBrowser", typeof(IWebBrowser), typeof(WebView), new UIPropertyMetadata(null, OnWebBrowserChanged));
+
+        private static void OnWebBrowserChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+            var owner = (WebView)sender;
+            var oldValue = (IWebBrowser)args.OldValue;
+            var newValue = (IWebBrowser)args.NewValue;
+
+            owner.OnWebBrowserChanged(oldValue, newValue);
+
+            var handlers = owner.WebBrowserChanged;
+            if (handlers != null)
+            {
+                handlers(owner, args);
+            }
+        }
+
+        protected virtual void OnWebBrowserChanged(IWebBrowser oldValue, IWebBrowser newValue)
+        {
+
+        }
 
         #endregion WebBrowser dependency property
 
