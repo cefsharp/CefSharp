@@ -248,6 +248,8 @@ namespace CefSharp.Wpf
 
         #region IsLoading dependency property
 
+        public event DependencyPropertyChangedEventHandler IsLoadingChanged;
+
         public bool IsLoading
         {
             get { return (bool)GetValue(IsLoadingProperty); }
@@ -255,7 +257,27 @@ namespace CefSharp.Wpf
         }
 
         public static readonly DependencyProperty IsLoadingProperty =
-            DependencyProperty.Register("IsLoading", typeof(bool), typeof(WebView), new PropertyMetadata(false));
+            DependencyProperty.Register("IsLoading", typeof(bool), typeof(WebView), new PropertyMetadata(false, OnIsLoadingChanged));
+
+        private static void OnIsLoadingChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+            var owner = (WebView)sender;
+            var oldValue = (bool)args.OldValue;
+            var newValue = (bool)args.NewValue;
+
+            owner.OnIsLoadingChanged(oldValue, newValue);
+
+            var handlers = owner.IsLoadingChanged;
+            if (handlers != null)
+            {
+                handlers(owner, args);
+            }
+        }
+
+        protected virtual void OnIsLoadingChanged(bool oldValue, bool newValue)
+        {
+
+        }
 
         #endregion IsLoading dependency property
 
