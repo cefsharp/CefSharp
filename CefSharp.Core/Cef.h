@@ -143,10 +143,10 @@ namespace CefSharp
         /// <summary>Initializes CefSharp with user-provided CefSharp settings.</summary>
         /// <param name="cefSettings">CefSharp configuration settings.</param>
         /// <return>true if successful; otherwise, false.</return>
-		static bool Initialize(CefSettings^ cefSettings)
-		{
-			return Initialize(cefSettings, nullptr);
-		}
+        static bool Initialize(CefSettings^ cefSettings)
+        {
+            return Initialize(cefSettings, nullptr);
+        }
 
         /// <summary>Initializes CefSharp with user-provided settings.</summary>
         /// <param name="cefSettings">CefSharp configuration settings.</param>
