@@ -98,9 +98,9 @@ namespace CefSharp.Wpf
 
         private static void OnAddressChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
-            WebView owner = (WebView)sender;
-            string oldValue = (string)args.OldValue;
-            string newValue = (string)args.NewValue;
+            var owner = (WebView)sender;
+            var oldValue = (string)args.OldValue;
+            var newValue = (string)args.NewValue;
 
             owner.OnAddressChanged(oldValue, newValue);
         }
@@ -137,7 +137,7 @@ namespace CefSharp.Wpf
         public bool CanGoBack 
         {
             get { return (bool)GetValue(CanGoBackProperty); }
-            private set { SetValue((DependencyProperty) CanGoBackProperty, value); }
+            private set { SetValue(CanGoBackProperty, value); }
         }
 
         #endregion
@@ -148,7 +148,7 @@ namespace CefSharp.Wpf
         public bool CanGoForward
         {
             get { return (bool)GetValue(CanGoForwardProperty); }
-            private set { SetValue((DependencyProperty) CanGoForwardProperty, value); }
+            private set { SetValue(CanGoForwardProperty, value); }
         }
 
         #endregion
@@ -159,7 +159,7 @@ namespace CefSharp.Wpf
         public bool CanReload
         {
             get { return (bool)GetValue(CanReloadProperty); }
-            private set { SetValue((DependencyProperty) CanReloadProperty, value); }
+            private set { SetValue(CanReloadProperty, value); }
         }
 
         #endregion
@@ -469,7 +469,6 @@ namespace CefSharp.Wpf
             }
         }
 
-
         private void OnActualSizeChanged(object sender, EventArgs e)
         {
             managedCefBrowserAdapter.WasResized();
@@ -520,7 +519,7 @@ namespace CefSharp.Wpf
 
         private Image CreateImage() 
         {
-            Image temp = new Image();
+            var temp = new Image();
 
             RenderOptions.SetBitmapScalingMode(temp, BitmapScalingMode.NearestNeighbor);
 
@@ -532,17 +531,17 @@ namespace CefSharp.Wpf
 
         private Popup CreatePopup()
         {
-            var popup = new Popup
+            var newPopup = new Popup
             {
                 Child = popupImage = CreateImage(),
                 PlacementTarget = this,
                 Placement = PlacementMode.Relative,
             };
 
-            popup.MouseEnter += this.PopupMouseEnter;
-            popup.MouseLeave += this.PopupMouseLeave;
+            newPopup.MouseEnter += PopupMouseEnter;
+            newPopup.MouseLeave += PopupMouseLeave;
 
-            return popup;
+            return newPopup;
         }
 
         private void Transform(FrameworkElement element)
@@ -649,10 +648,7 @@ namespace CefSharp.Wpf
 
         public void SetIsLoading(bool isLoading)
         {
-            DoInUi(() =>
-            {
-                SetCurrentValue(IsLoadingProperty, isLoading);
-            });
+            DoInUi(() => SetCurrentValue(IsLoadingProperty, isLoading));
         }
 
         void IWebBrowserInternal.SetNavState(bool canGoBack, bool canGoForward, bool canReload)
@@ -673,34 +669,22 @@ namespace CefSharp.Wpf
 
         void IWebBrowserInternal.SetTitle(string title)
         {
-            DoInUi(() =>
-            {
-                SetCurrentValue(TitleProperty, title);
-            });
+            DoInUi(() => SetCurrentValue(TitleProperty, title));
         }
 
         void IWebBrowserInternal.SetTooltipText(string tooltipText)
         {
-            DoInUi(() =>
-            {
-                SetCurrentValue(TooltipTextProperty, tooltipText);
-            });
+            DoInUi(() => SetCurrentValue(TooltipTextProperty, tooltipText));
         }
 
         void IRenderWebBrowser.SetPopupSizeAndPosition(int width, int height, int x, int y)
         {
-            DoInUi(() =>
-            {
-                this.SetPopupSizeAndPositionImpl(width, height, x, y);
-            });
+            DoInUi(() => SetPopupSizeAndPositionImpl(width, height, x, y));
         }
 
         void IRenderWebBrowser.SetPopupIsOpen(bool isOpen)
         {
-            DoInUi(() =>
-            {
-                popup.IsOpen = isOpen;
-            });
+            DoInUi(() => { popup.IsOpen = isOpen; });
         }
 
         private static CefEventFlags GetModifiers(MouseEventArgs e)
@@ -889,11 +873,6 @@ namespace CefSharp.Wpf
         {
             OnMouseButton(e);
             Mouse.Capture(null);
-        }
-
-        protected override void OnMouseEnter(MouseEventArgs e)
-        {
-            base.OnMouseEnter(e);
         }
 
         protected override void OnMouseLeave(MouseEventArgs e)
