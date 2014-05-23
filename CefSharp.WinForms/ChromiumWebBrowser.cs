@@ -72,6 +72,7 @@ namespace CefSharp.WinForms
 
         public void OnInitialized()
         {
+            IsBrowserInitialized = true;
         }
 
         public void Load(String url)
