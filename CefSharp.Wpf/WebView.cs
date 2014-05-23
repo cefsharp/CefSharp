@@ -138,7 +138,7 @@ namespace CefSharp.Wpf
 
         #endregion Address dependency property
 
-        #region CanGoBack
+        #region CanGoBack dependency property
 
         public event DependencyPropertyChangedEventHandler CanGoBackChanged;
 
@@ -172,9 +172,9 @@ namespace CefSharp.Wpf
 
         }
 
-        #endregion
+        #endregion CanGoBack dependency property
 
-        #region CanGoForward
+        #region CanGoForward dependency property
 
         public event DependencyPropertyChangedEventHandler CanGoForwardChanged;
 
@@ -208,11 +208,11 @@ namespace CefSharp.Wpf
 
         }
 
-        #endregion
+        #endregion CanGoForward dependency property
 
         public event DependencyPropertyChangedEventHandler CanReloadChanged;
 
-        #region CanReload
+        #region CanReload dependency property
 
         public static DependencyProperty CanReloadProperty =
             DependencyProperty.Register("CanReload", typeof(bool), typeof(WebView),
@@ -244,7 +244,7 @@ namespace CefSharp.Wpf
 
         }
 
-        #endregion
+        #endregion CanReload dependency property
 
         #region IsLoading dependency property
 
