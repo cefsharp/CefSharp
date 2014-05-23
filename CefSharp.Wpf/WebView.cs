@@ -210,13 +210,38 @@ namespace CefSharp.Wpf
 
         #endregion
 
+        public event DependencyPropertyChangedEventHandler CanReloadChanged;
+
         #region CanReload
 
-        public static DependencyProperty CanReloadProperty = DependencyProperty.Register("CanReload", typeof(bool), typeof(WebView));
+        public static DependencyProperty CanReloadProperty =
+            DependencyProperty.Register("CanReload", typeof(bool), typeof(WebView),
+                                        new UIPropertyMetadata(false, OnCanReloadChanged));
+
         public bool CanReload
         {
             get { return (bool)GetValue(CanReloadProperty); }
             private set { SetValue(CanReloadProperty, value); }
+        }
+
+        private static void OnCanReloadChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+            var owner = (WebView)sender;
+            var oldValue = (bool)args.OldValue;
+            var newValue = (bool)args.NewValue;
+
+            owner.OnCanReloadChanged(oldValue, newValue);
+
+            var handlers = owner.CanReloadChanged;
+            if (handlers != null)
+            {
+                handlers(owner, args);
+            }
+        }
+
+        protected virtual void OnCanReloadChanged(bool oldValue, bool newValue)
+        {
+
         }
 
         #endregion
