@@ -20,11 +20,11 @@ namespace CefSharp.Wpf
 {
     public class ChromiumWebBrowser : ContentControl, IRenderWebBrowser, IWpfWebBrowser
     {
-        private static readonly Key[] KeysToSendtoBrowser = new[] { 
-            Key.Tab, 
-            Key.Home, Key.End, 
-            Key.Left, Key.Right, 
-            Key.Up, Key.Down 
+        private static readonly Key[] KeysToSendtoBrowser = new[] {
+            Key.Tab,
+            Key.Home, Key.End,
+            Key.Left, Key.Right,
+            Key.Up, Key.Down
         };
 
         private HwndSource source;
@@ -38,7 +38,7 @@ namespace CefSharp.Wpf
         private Image image;
         private Image popupImage;
         private Popup popup;
-        private ScaleTransform dpiTransform; 
+        private ScaleTransform dpiTransform;
         private readonly List<IDisposable> disposables = new List<IDisposable>();
 
         public BrowserSettings BrowserSettings { get; set; }
@@ -134,9 +134,9 @@ namespace CefSharp.Wpf
 
         private static void OnAddressChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
-            ChromiumWebBrowser owner = (ChromiumWebBrowser)sender;
-            string oldValue = (string)args.OldValue;
-            string newValue = (string)args.NewValue;
+            var owner = (ChromiumWebBrowser)sender;
+            var oldValue = (string)args.OldValue;
+            var newValue = (string)args.NewValue;
 
             owner.OnAddressChanged(oldValue, newValue);
         }
@@ -198,7 +198,7 @@ namespace CefSharp.Wpf
             var owner = (ChromiumWebBrowser)d;
             bool oldValue = (bool)e.OldValue;
             bool newValue = (bool)e.NewValue;
-            
+
             owner.OnIsBrowserInitializedChanged(oldValue, newValue);
 
             var handlers = owner.IsBrowserInitializedChanged;
@@ -211,7 +211,7 @@ namespace CefSharp.Wpf
 
         protected virtual void OnIsBrowserInitializedChanged(bool oldValue, bool newValue)
         {
-            
+
         }
 
         #endregion IsInitialized dependency property
@@ -282,11 +282,11 @@ namespace CefSharp.Wpf
         #region CleanupElement dependency property
 
         /// <summary>
-        /// The CleanupElement Controls when the BrowserResources will be cleand up. 
+        /// The CleanupElement Controls when the BrowserResources will be cleand up.
         /// The ChromiumWebBrowser will register on Unloaded of the provided Element and dispose all resources when that handler is called.
-        /// By default the cleanup element is the Window that contains the ChromiumWebBrowser. 
+        /// By default the cleanup element is the Window that contains the ChromiumWebBrowser.
         /// if you want cleanup to happen earlier provide another FrameworkElement.
-        /// Be aware that this Control is not usable anymore after cleanup is done. 
+        /// Be aware that this Control is not usable anymore after cleanup is done.
         /// </summary>
         /// <value>
         /// The cleanup element.
@@ -472,7 +472,6 @@ namespace CefSharp.Wpf
             }
         }
 
-
         private void OnActualSizeChanged(object sender, EventArgs e)
         {
             managedCefBrowserAdapter.WasResized();
@@ -512,16 +511,16 @@ namespace CefSharp.Wpf
             AddSourceHookIfNotAlreadyPresent();
 
             CheckIsNonStandardDpi();
-            
+
             // Create main window
-            Content = image = CreateImage(); 
+            Content = image = CreateImage();
             Transform(image);
-           
+
             popup = CreatePopup();
             Transform(popup);
         }
 
-        private static Image CreateImage() 
+        private static Image CreateImage()
         {
             var temp = new Image();
 
@@ -535,17 +534,17 @@ namespace CefSharp.Wpf
 
         private Popup CreatePopup()
         {
-            var popup = new Popup
+            var newPopup = new Popup
             {
                 Child = popupImage = CreateImage(),
                 PlacementTarget = this,
                 Placement = PlacementMode.Relative,
             };
 
-            popup.MouseEnter += this.PopupMouseEnter;
-            popup.MouseLeave += this.PopupMouseLeave;
+            newPopup.MouseEnter += PopupMouseEnter;
+            newPopup.MouseLeave += PopupMouseLeave;
 
-            return popup;
+            return newPopup;
         }
 
         private void Transform(FrameworkElement element)
@@ -688,10 +687,7 @@ namespace CefSharp.Wpf
 
         void IRenderWebBrowser.SetPopupIsOpen(bool isOpen)
         {
-            DoInUi(() =>
-            {
-                popup.IsOpen = isOpen;
-            });
+            DoInUi(() => { popup.IsOpen = isOpen; });
         }
 
         private static CefEventFlags GetModifiers(MouseEventArgs e)
@@ -712,7 +708,7 @@ namespace CefSharp.Wpf
             }
             return modifiers;
         }
-        
+
         private static CefEventFlags GetModifiers(KeyEventArgs e)
         {
             CefEventFlags modifiers = 0;
@@ -880,11 +876,6 @@ namespace CefSharp.Wpf
         {
             OnMouseButton(e);
             Mouse.Capture(null);
-        }
-
-        protected override void OnMouseEnter(MouseEventArgs e)
-        {
-            base.OnMouseEnter(e);
         }
 
         protected override void OnMouseLeave(MouseEventArgs e)
@@ -1104,7 +1095,7 @@ namespace CefSharp.Wpf
             {
                 if (bitmapInfo.IsPopup)
                 {
-                    bitmapInfo.InteropBitmap = SetBitmapHelper(bitmapInfo, 
+                    bitmapInfo.InteropBitmap = SetBitmapHelper(bitmapInfo,
                         (InteropBitmap)bitmapInfo.InteropBitmap, bitmap => popupImage.Source = bitmap);
                 }
                 else
