@@ -819,7 +819,7 @@ namespace CefSharp.Wpf
             });
         }
 
-        public void SetIsLoading(bool isLoading)
+        void IWebBrowserInternal.SetIsLoading(bool isLoading)
         {
             DoInUi(() => SetCurrentValue(IsLoadingProperty, isLoading));
         }

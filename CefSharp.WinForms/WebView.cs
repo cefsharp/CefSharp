@@ -60,7 +60,7 @@ namespace CefSharp.WinForms
             base.Dispose(disposing);
         }
 
-        public void OnInitialized()
+        void IWebBrowserInternal.OnInitialized()
         {
             IsBrowserInitialized = true;
         }
