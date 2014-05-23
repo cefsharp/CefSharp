@@ -349,9 +349,12 @@ namespace CefSharp.Wpf
         {
 
         }
+
         #endregion Title dependency property
 
         #region ZoomLevel dependency property
+
+        public event DependencyPropertyChangedEventHandler ZoomLevelChanged;
 
         public double ZoomLevel
         {
@@ -370,6 +373,12 @@ namespace CefSharp.Wpf
             var newValue = (double)args.NewValue;
 
             owner.OnZoomLevelChanged(oldValue, newValue);
+
+            var handlers = owner.ZoomLevelChanged;
+            if (handlers != null)
+            {
+                handlers(owner, args);
+            }
         }
 
         protected virtual void OnZoomLevelChanged(double oldValue, double newValue)
