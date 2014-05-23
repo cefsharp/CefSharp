@@ -85,6 +85,7 @@ namespace CefSharp.Wpf
         }
 
         #region Address dependency property
+        public event DependencyPropertyChangedEventHandler AddressChanged;
 
         public string Address
         {
@@ -103,6 +104,12 @@ namespace CefSharp.Wpf
             var newValue = (string)args.NewValue;
 
             owner.OnAddressChanged(oldValue, newValue);
+
+            var handlers = owner.AddressChanged;
+            if (handlers != null)
+            {
+                handlers(owner, args);
+            }
         }
 
         protected virtual void OnAddressChanged(string oldValue, string newValue)
