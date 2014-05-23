@@ -826,11 +826,14 @@ namespace CefSharp.Wpf
 
         void IWebBrowserInternal.SetNavState(bool canGoBack, bool canGoForward, bool canReload)
         {
-            CanGoBack = canGoBack;
-            CanGoForward = canGoForward;
-            CanReload = canReload;
+            DoInUi(() =>
+            {
+                CanGoBack = canGoBack;
+                CanGoForward = canGoForward;
+                CanReload = canReload;
 
-            RaiseCommandsCanExecuteChanged();
+                RaiseCommandsCanExecuteChanged();
+            });
         }
 
         private void RaiseCommandsCanExecuteChanged()
