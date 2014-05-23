@@ -6,7 +6,6 @@ using CefSharp.Internals;
 using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -427,26 +426,6 @@ namespace CefSharp.Wpf
         ~ChromiumWebBrowser()
         {
             Dispose(false);
-        }
-
-        private class DisposableEventWrapper : IDisposable
-        {
-            public DependencyObject Source { get; private set; }
-            public DependencyProperty Property { get; private set; }
-            public EventHandler Handler { get; private set; }
-
-            public DisposableEventWrapper(DependencyObject source, DependencyProperty property, EventHandler handler)
-            {
-                Source = source;
-                Property = property;
-                Handler = handler;
-                DependencyPropertyDescriptor.FromProperty(Property, Source.GetType()).AddValueChanged(Source, Handler);
-            }
-
-            public void Dispose()
-            {
-                DependencyPropertyDescriptor.FromProperty(Property, Source.GetType()).RemoveValueChanged(Source, Handler);
-            }
         }
 
         private void DoInUi(Action action, DispatcherPriority priority = DispatcherPriority.DataBind)
