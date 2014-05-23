@@ -372,7 +372,12 @@ namespace CefSharp.Wpf
 
         static WebView()
         {
-            Application.Current.Exit += OnApplicationExit;
+            var app = Application.Current;
+
+            if (app != null)
+            {
+                app.Exit += OnApplicationExit;
+            }
         }
 
         public WebView()
