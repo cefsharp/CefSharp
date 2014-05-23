@@ -13,16 +13,50 @@ namespace CefSharp
     class CefSharpApp : public CefApp
     {
         gcroot<CefSettings^> _cefSettings;
+        gcroot<IDictionary<String^, String^>^> _cefCommandLineArgs;
 
     public:
         CefSharpApp(CefSettings^ cefSettings) :
+            _cefSettings(cefSettings),
+            _cefCommandLineArgs(gcnew Dictionary<String^, String^>())
+        {
+        }
+
+        CefSharpApp(CefSettings^ cefSettings, IDictionary<String^, String^>^ commandLineArgs) :
             _cefSettings(cefSettings)
         {
+            if(commandLineArgs != nullptr)
+                _cefCommandLineArgs = commandLineArgs;
+            else
+                _cefCommandLineArgs = gcnew Dictionary<String^, String^>();
         }
 
         ~CefSharpApp()
         {
             _cefSettings = nullptr;
+            _cefCommandLineArgs = nullptr;
+        }
+        
+        virtual void OnBeforeCommandLineProcessing(const CefString& process_type, CefRefPtr<CefCommandLine> command_line) OVERRIDE
+		{
+            if(_cefCommandLineArgs->Count == 0)
+                return;
+
+            auto enumerator = _cefCommandLineArgs->GetEnumerator();
+            auto commandLine = command_line.get();
+
+            // Not clear what should happen if we 
+            // * already have some command line flags given (is this possible? Perhaps from globalCommandLine)
+            // * have no flags given (-> call SetProgramm() with first argument?)
+
+            while(enumerator->MoveNext())
+            {
+		        CefString name = StringUtils::ToNative(enumerator->Current.Key);
+		        CefString value = StringUtils::ToNative(enumerator->Current.Value);
+
+                if(!commandLine->HasSwitch(name))
+		            commandLine->AppendSwitchWithValue(name, value);
+            }
         }
 
         virtual void OnRegisterCustomSchemes(CefRefPtr<CefSchemeRegistrar> registrar) OVERRIDE

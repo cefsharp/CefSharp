@@ -137,13 +137,22 @@ namespace CefSharp
         static bool Initialize()
         {
             auto cefSettings = gcnew CefSettings();
-            return Initialize(cefSettings);
+            return Initialize(cefSettings, nullptr);
         }
 
-        /// <summary>Initializes CefSharp with user-provided settings.</summary>
-        ///<param name="cefSettings">CefSharp configuration settings.</param>
+        /// <summary>Initializes CefSharp with user-provided CefSharp settings.</summary>
+        /// <param name="cefSettings">CefSharp configuration settings.</param>
         /// <return>true if successful; otherwise, false.</return>
-        static bool Initialize(CefSettings^ cefSettings)
+		static bool Initialize(CefSettings^ cefSettings)
+		{
+			return Initialize(cefSettings, nullptr);
+		}
+
+        /// <summary>Initializes CefSharp with user-provided settings.</summary>
+        /// <param name="cefSettings">CefSharp configuration settings.</param>
+        /// <param name="commandLineArgs">Command line arguments provided by the calling party.</param>
+        /// <return>true if successful; otherwise, false.</return>
+        static bool Initialize(CefSettings^ cefSettings, IDictionary<String^, String^>^ commandLineArgs)
         {
             bool success = false;
 
@@ -152,7 +161,7 @@ namespace CefSharp
             if (!IsInitialized)
             {
                 CefMainArgs main_args;
-                CefRefPtr<CefSharpApp> app(new CefSharpApp(cefSettings));
+                CefRefPtr<CefSharpApp> app(new CefSharpApp(cefSettings, commandLineArgs));
 
                 int exitCode = CefExecuteProcess(main_args, app.get());
 

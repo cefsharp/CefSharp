@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace CefSharp.Example
                 SchemeHandlerFactory = new CefSharpSchemeHandlerFactory()
             });
 
-            if (!Cef.Initialize(settings))
+            if (!Cef.Initialize(settings, new Dictionary<string, string>{ {"user-agent", "me"}}))
             {
                 if (Environment.GetCommandLineArgs().Contains("--type=renderer"))
                 {
