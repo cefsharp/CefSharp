@@ -286,11 +286,6 @@ namespace CefSharp.Example
             return false;
         }
 
-        void IRequestHandler.OnResourceResponse(IWebBrowser browser, string url, int status, string statusText, string mimeType, WebHeaderCollection headers)
-        {
-
-        }
-
         bool IRequestHandler.GetDownloadHandler(IWebBrowser browser, out IDownloadHandler handler)
         {
             handler = new DownloadHandler();
