@@ -1,4 +1,4 @@
-// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+// Copyright ï¿½ 2010-2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -38,7 +38,7 @@ namespace CefSharp
         }
         
         virtual void OnBeforeCommandLineProcessing(const CefString& process_type, CefRefPtr<CefCommandLine> command_line) OVERRIDE
-		{
+        {
             if(_cefCommandLineArgs->Count == 0)
                 return;
 
@@ -51,11 +51,11 @@ namespace CefSharp
 
             while(enumerator->MoveNext())
             {
-		        CefString name = StringUtils::ToNative(enumerator->Current.Key);
-		        CefString value = StringUtils::ToNative(enumerator->Current.Value);
+                CefString name = StringUtils::ToNative(enumerator->Current.Key);
+                CefString value = StringUtils::ToNative(enumerator->Current.Value);
 
                 if(!commandLine->HasSwitch(name))
-		            commandLine->AppendSwitchWithValue(name, value);
+                    commandLine->AppendSwitchWithValue(name, value);
             }
         }
 
