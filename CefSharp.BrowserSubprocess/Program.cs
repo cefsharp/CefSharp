@@ -13,7 +13,7 @@ namespace CefSharp.BrowserSubprocess
 
             int result = 0;
 
-            using (var subprocess = new CefSubprocess(args))
+            using (var subprocess = CefSubprocess.Create(args))
             {
                 result = subprocess.Run();
             }

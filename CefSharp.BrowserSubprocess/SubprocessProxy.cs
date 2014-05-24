@@ -13,23 +13,23 @@ namespace CefSharp.BrowserSubprocess
         {
             Callback = OperationContext.Current.GetCallbackChannel<ISubprocessCallback>();
 
-            CefSubprocess.Instance.ServiceHost.Initialize(this);
+            CefRenderprocess.Instance.ServiceHost.Initialize(this);
         }
 
         public object EvaluateScript(int frameId, string script, double timeout)
         {
-            var result = CefSubprocess.Instance.Browser.EvaluateScript(frameId, script, timeout);
+            var result = CefRenderprocess.Instance.Browser.EvaluateScript(frameId, script, timeout);
             return result;
         }
 
         public void Terminate()
         {
-            CefSubprocess.Instance.Dispose();
+            CefRenderprocess.Instance.Dispose();
         }
         
         public void RegisterJavascriptObjects(JavascriptObject obj)
         {
-            CefSubprocess.Instance.RegisterJavascriptObjects((JavascriptObjectWrapper)obj);
+            CefRenderprocess.Instance.RegisterJavascriptObjects((JavascriptObjectWrapper)obj);
         }
     }
 }

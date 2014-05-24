@@ -1,48 +1,38 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using CefSharp.Internals;
 
 namespace CefSharp.BrowserSubprocess
 {
     public class CefSubprocess : CefAppWrapper
     {
-        private SubprocessServiceHost javascriptServiceHost;
-        private CefBrowserBase browser;
-
         public int? ParentProcessId { get; private set; }
-
-        public CefBrowserBase Browser
-        {
-            get { return browser; }
-        }
-
-        public SubprocessServiceHost ServiceHost
-        {
-            get { return javascriptServiceHost; }
-        }
 
         public static new CefSubprocess Instance 
         {
             get { return (CefSubprocess)CefAppWrapper.Instance; }
-            private set { CefAppWrapper.Instance = value; }
         }
 
-        public CefSubprocess(IEnumerable<string> args)
+        public static CefSubprocess Create(IEnumerable<string> args)
         {
-            Instance = this;
-           
+            const string typePrefix = "--type=";
+            var typeArgument = args.SingleOrDefault(arg => arg.StartsWith(typePrefix));
+
+            var type = typeArgument.Substring(typePrefix.Length);
+            
+            switch (type)
+            {
+                case "renderer":
+                    return new CefRenderprocess(args);
+                case "gpu-process":
+                    return new CefGpuprocess(args);
+                default:
+                    return new CefSubprocess(args);
+            }
+        }
+
+        protected CefSubprocess(IEnumerable<string> args)
+        {
             LocateParentProcessId(args);
-        }
-
-        protected override void DoDispose(bool isDisposing)
-        {
-            DisposeMember(ref javascriptServiceHost);
-            DisposeMember(ref browser);
-
-            Instance = null;
-
-            base.DoDispose(isDisposing);
         }
 
 
@@ -63,22 +53,6 @@ namespace CefSharp.BrowserSubprocess
                 .Split('.')
                 .First();
             ParentProcessId = int.Parse(parentProcessId);
-        }
-
-        public override void OnBrowserCreated(CefBrowserBase cefBrowserWrapper)
-        {
-            browser = cefBrowserWrapper;
-
-            if (ParentProcessId == null)
-            {
-                return;
-            }
-
-            Task.Factory.StartNew(() =>
-            {
-                javascriptServiceHost = SubprocessServiceHost.Create(ParentProcessId.Value, cefBrowserWrapper.BrowserId);
-                javascriptServiceHost.Initialized += (c) => Callback = c;
-            });
         }
     }
 }

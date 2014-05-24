@@ -2,6 +2,8 @@
 {
     public abstract class ManagedCefApp : DisposableResource
     {
-        public abstract void OnBrowserCreated(CefBrowserBase cefBrowserWrapper);
+        public virtual void OnBrowserCreated(CefBrowserBase cefBrowserWrapper)
+        {
+        }
     }
 }
