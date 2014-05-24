@@ -20,14 +20,14 @@ namespace CefSharp
     {
     private:
         MCefRefPtr<CefAppUnmanagedWrapper> cefApp;
-        ISubprocessCallback^ _callback;
+        IBrowserProcess^ _browserProcess;
 
     internal:
 
-        virtual property ISubprocessCallback^ Callback 
+        virtual property IBrowserProcess^ BrowserProcess
         {
-            ISubprocessCallback^ get() { return _callback; }
-            void set(ISubprocessCallback^ value) { _callback = value; }
+            IBrowserProcess^ get() { return _browserProcess; }
+            void set(IBrowserProcess^ value) { _browserProcess = value; }
         }
 
     public:        
@@ -36,19 +36,16 @@ namespace CefSharp
         CefAppWrapper();
         int Run();
 
-        void RegisterJavascriptObjects(JavascriptObjectWrapper^ windowObject);
+        void Bind(JavascriptObject^ windowObject);
     };
 
     private class CefAppUnmanagedWrapper : CefApp, CefRenderProcessHandler
     {
     private:
         gcroot<Action<CefBrowserBase^>^> _onBrowserCreated;
-        gcroot<JavascriptObject^> _boundObject;
-        CefRefPtr<CefV8Context> _context;
-        CefRefPtr<CefV8Value> _window;
         gcroot<JavascriptObjectWrapper^> _windowObject;
-
     public:
+        
         CefAppUnmanagedWrapper(Action<CefBrowserBase^>^ onBrowserCreated)
         {
             _onBrowserCreated = onBrowserCreated;
@@ -68,43 +65,26 @@ namespace CefSharp
 
         virtual DECL void OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context) OVERRIDE
         {
-            _context = context;
-            _window = context->GetGlobal();
+            System::Diagnostics::Debugger::Break();
 
-            //TODO; whats the right timing here
-            //TODO: _windowObject is not yet set
-            Bind();
-        };
+            auto window = context->GetGlobal();
 
-        void RegisterJavascriptObjects(JavascriptObjectWrapper^ windowObject)
-        {   
-            _windowObject = windowObject;
+            JavascriptObjectWrapper^ jswindow = _windowObject;
 
-            //TODO; whats the right timing here
-            //TODO: cant get a valid window here 
-            //Bind();
-        };
 
-        void Bind()
-        {
-            /*auto currentthread = CefTaskRunner::GetForCurrentThread();
-            auto renderThread = CefTaskRunner::GetForThread(CefThreadId::TID_RENDERER);
-
-            if (currentthread == nullptr || !currentthread->IsSame(renderThread))
+            if (jswindow != nullptr)
             {
-                CefPostTask(CefThreadId::TID_RENDERER, NewCefRunnableMethod(this, &CefAppUnmanagedWrapper::Bind));
-                return;
-            }*/
-            
-
-            JavascriptObjectWrapper^ windowObject = _windowObject;
-            CefRefPtr<CefV8Context> context = _context;
-
-            if (windowObject != nullptr && context != nullptr)
-            {
-                windowObject->Value = _window;
-                windowObject->Bind();
+                jswindow->Value = window;
+                jswindow->Bind();
             }
+        };
+        
+        void Bind(JavascriptObject^ windowObject)
+        {
+            System::Diagnostics::Debugger::Break();
+
+            _windowObject = gcnew JavascriptObjectWrapper();
+            _windowObject->Clone(windowObject);
         };
 
         IMPLEMENT_REFCOUNTING(CefAppUnmanagedWrapper);

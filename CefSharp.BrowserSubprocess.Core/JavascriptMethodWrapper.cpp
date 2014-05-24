@@ -9,12 +9,11 @@
 #include "CefAppWrapper.h"
 
 using namespace System;
-using namespace System::Diagnostics;
 
 namespace CefSharp
 {
     Object^ JavascriptMethodWrapper::Execute(array<Object^>^ parameters)
     {
-        return CefAppWrapper::Instance->Callback->CallMethod(_owner->Id, Description->ManagedName, parameters);
+        return CefAppWrapper::Instance->BrowserProcess->CallMethod(_owner->Id, Description->ManagedName, parameters);
     }
 }

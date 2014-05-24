@@ -35,6 +35,11 @@ namespace CefSharp
             _owner->Value->SetValue(methodName, v8Value, V8_PROPERTY_ATTRIBUTE_NONE);
         };
 
+        void Clone(JavascriptMethod^ obj)
+        {
+            Description = obj->Description;
+        }
+
         Object^ Execute(array<Object^>^ parameters );
     };
 }

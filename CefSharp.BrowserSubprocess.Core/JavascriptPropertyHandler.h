@@ -4,6 +4,8 @@
 
 #include "Stdafx.h"
 
+#pragma once
+
 namespace CefSharp
 {
     private class JavascriptPropertyHandler : public CefV8Accessor

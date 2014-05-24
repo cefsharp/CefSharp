@@ -4,6 +4,7 @@
 
 #include "Stdafx.h"
 #include "JavascriptObjectWrapper.h"
+#include "JavascriptPropertyHandler.h"
 
 using namespace CefSharp::Internals;
 
@@ -41,5 +42,12 @@ namespace CefSharp
 
             Value->Bind();
         };
+
+        void Clone(JavascriptProperty^ obj)
+        {
+            Description = obj->Description;
+
+            Value->Clone( obj->Value );
+        }
     };
 }

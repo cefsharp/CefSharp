@@ -20,7 +20,7 @@ namespace CefSharp.Internals
         /// The identifier.
         /// </value>
         [DataMember]
-        public long Id { get; private set; }
+        public long Id { get; protected set; }
 
         /// <summary>
         /// Gets the members of the <see cref="JavascriptObject" />.

@@ -2,8 +2,8 @@
 
 namespace CefSharp.Internals
 {
-    [ServiceContract]
-    public interface ISubprocessCallback
+    [ServiceContract(CallbackContract = typeof(IRenderprocess))]
+    public interface IBrowserProcess
     {
         [OperationContract]
         object CallMethod(int objectId, string name, object[] parameters);
@@ -13,5 +13,8 @@ namespace CefSharp.Internals
 
         [OperationContract]
         void SetProperty(int objectId, string name, object value);
+        
+        [OperationContract]
+        JavascriptObject GetRegisteredJavascriptObjects();
     }
 }

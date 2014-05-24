@@ -16,10 +16,10 @@ using namespace System::ServiceModel;
 
 namespace CefSharp
 {
-    private ref class ManagedCefBrowserAdapter : public DisposableResource, ISubprocessCallback
+    private ref class ManagedCefBrowserAdapter : public DisposableResource, IBrowserProcess
     {
         MCefRefPtr<RenderClientAdapter> _renderClientAdapter;
-        ISubprocessProxy^ _javaScriptProxy;
+        BrowserprocessServiceHost^ _browserprocessServiceHost;
         IWebBrowserInternal^ _webBrowserInternal;
         String^ _address;
         JavascriptObjectRepository^ _javaScriptObjectRepository;
@@ -30,7 +30,12 @@ namespace CefSharp
             Close();
 
             _renderClientAdapter = nullptr;
-            _javaScriptProxy = nullptr;
+            if (_browserprocessServiceHost != nullptr)
+            {
+                _browserprocessServiceHost->Close();
+                _browserprocessServiceHost = nullptr;
+            }
+
             _webBrowserInternal = nullptr;
             _address = nullptr;
             _javaScriptObjectRepository = nullptr;
@@ -100,12 +105,9 @@ namespace CefSharp
         void OnInitialized()
         {
             auto browserId = _renderClientAdapter->GetCefBrowser()->GetIdentifier();           
-
-            auto serviceName = SubprocessProxyFactory::GetServiceName(Process::GetCurrentProcess()->Id, browserId);
-            _javaScriptProxy = SubprocessProxyFactory::CreateSubprocessProxyClient(serviceName, this);
-
-            //CefTaskRunner::GetForCurrentThread()->PostDelayedTask(NewCefRunnableMethod(???), 100 );
-            //_javaScriptProxy->Initialize();
+                        
+            _browserprocessServiceHost = gcnew BrowserprocessServiceHost(this, Process::GetCurrentProcess()->Id, browserId);
+            _browserprocessServiceHost->Open();
 
             _webBrowserInternal->OnInitialized();
 
@@ -389,12 +391,11 @@ namespace CefSharp
         {
             auto frame = _renderClientAdapter->TryGetCefMainFrame();
 
-            if (_javaScriptProxy != nullptr &&
-                frame != nullptr)
+            if (_browserprocessServiceHost != nullptr
+             && _browserprocessServiceHost->Renderprocess != nullptr
+             && frame != nullptr)
             {
-                _javaScriptProxy->Initialize();
-                _javaScriptProxy->RegisterJavascriptObjects(_javaScriptObjectRepository->RootObject);
-                return _javaScriptProxy->EvaluateScript(frame->GetIdentifier(), script, timeout.TotalMilliseconds);
+                return _browserprocessServiceHost->Renderprocess->EvaluateScript(frame->GetIdentifier(), script, timeout.TotalMilliseconds);
             }
             else
             {
@@ -462,5 +463,10 @@ namespace CefSharp
         virtual Object^ CallMethod(int objectId, String^ name, array<Object^>^ parameters);
         virtual Object^ GetProperty(int objectId, String^ name);
         virtual void SetProperty(int objectId, String^ name, Object^ value);
+
+        virtual JavascriptObject^ GetRegisteredJavascriptObjects()
+        {
+            return _javaScriptObjectRepository->RootObject;
+        }
     };
 }

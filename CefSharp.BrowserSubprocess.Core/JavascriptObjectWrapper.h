@@ -8,6 +8,9 @@
 #include "include/cef_app.h"
 #include "include/cef_base.h"
 
+using namespace System::Runtime::Serialization;
+using namespace System::Linq;
+
 using namespace CefSharp::Internals;
 
 namespace CefSharp
@@ -26,5 +29,7 @@ namespace CefSharp
                 member->Bind(this);
             }
         };
+
+        void Clone(JavascriptObject^ obj);
     };
 }
