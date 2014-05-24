@@ -58,6 +58,14 @@ namespace CefSharp
         /// <returns>Return true to continue the request and call CefAuthCallback::Continue() when the authentication information is available. Return false to cancel the request. </returns>
         bool GetAuthCredentials(IWebBrowser browser, bool isProxy, string host, int port, string realm, string scheme, ref string username, ref string password);
 
+        /// <summary>
+        /// Called on the browser process IO thread before a plugin is loaded.
+        /// </summary>
+        /// <param name="browser">the browser object</param>
+        /// <param name="url">URL</param>
+        /// <param name="policy_url">policy URL</param>
+        /// <param name="info">plugin information</param>
+        /// <returns>Return true to block loading of the plugin.</returns>
         bool OnBeforePluginLoad(IWebBrowser browser, string url, string policy_url, IWebPluginInfo info);
     }
 }
