@@ -20,16 +20,7 @@ namespace CefSharp
     {
     private:
         MCefRefPtr<CefAppUnmanagedWrapper> cefApp;
-        IBrowserProcess^ _browserProcess;
-
-    internal:
-
-        virtual property IBrowserProcess^ BrowserProcess
-        {
-            IBrowserProcess^ get() { return _browserProcess; }
-            void set(IBrowserProcess^ value) { _browserProcess = value; }
-        }
-
+        
     public:        
         static CefAppWrapper^ Instance;
 
@@ -65,8 +56,6 @@ namespace CefSharp
 
         virtual DECL void OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context) OVERRIDE
         {
-            System::Diagnostics::Debugger::Break();
-
             auto window = context->GetGlobal();
 
             JavascriptObjectWrapper^ jswindow = _windowObject;
@@ -81,8 +70,6 @@ namespace CefSharp
         
         void Bind(JavascriptObject^ windowObject)
         {
-            System::Diagnostics::Debugger::Break();
-
             _windowObject = gcnew JavascriptObjectWrapper();
             _windowObject->Clone(windowObject);
         };

@@ -14,6 +14,8 @@ namespace CefSharp
 {
     Object^ JavascriptMethodWrapper::Execute(array<Object^>^ parameters)
     {
-        return CefAppWrapper::Instance->BrowserProcess->CallMethod(_owner->Id, Description->ManagedName, parameters);
+        auto browserProxy = CefAppWrapper::Instance->CreateBrowserProxy();
+
+        return browserProxy->CallMethod(_owner->Id, Description->ManagedName, parameters);
     }
 }

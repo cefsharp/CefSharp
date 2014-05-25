@@ -9,11 +9,13 @@ namespace CefSharp.BrowserSubprocess
 {
     public class CefRenderprocess : CefSubprocess, IRenderprocess
     {
+        private DuplexChannelFactory<IBrowserProcess> channelFactory;
         private CefBrowserBase browser;
         public CefBrowserBase Browser
         {
             get { return browser; }
         }
+        
 
         public CefRenderprocess(IEnumerable<string> args) 
             : base(args)
@@ -24,9 +26,7 @@ namespace CefSharp.BrowserSubprocess
         {
             get { return (CefRenderprocess)CefSubprocess.Instance; }
         }
-
-
-
+        
         protected override void DoDispose(bool isDisposing)
         {
             //DisposeMember(ref renderprocess);
@@ -44,23 +44,26 @@ namespace CefSharp.BrowserSubprocess
                 return;
             }
 
-            var channel = new DuplexChannelFactory<IBrowserProcess>(
+            channelFactory = new DuplexChannelFactory<IBrowserProcess>(
                 this,
                 new NetNamedPipeBinding(),
                 new EndpointAddress(RenderprocessClientFactory.GetServiceName(ParentProcessId.Value, cefBrowserWrapper.BrowserId))
             );
 
-            channel.Open();
-
-            BrowserProcess = channel.CreateChannel();
-
-            Bind(BrowserProcess.GetRegisteredJavascriptObjects());
+            channelFactory.Open();
+            
+            Bind(CreateBrowserProxy().GetRegisteredJavascriptObjects());
         }
         
         public object EvaluateScript(int frameId, string script, double timeout)
         {
             var result = Browser.EvaluateScript(frameId, script, timeout);
             return result;
+        }
+
+        public override IBrowserProcess CreateBrowserProxy()
+        {
+            return channelFactory.CreateChannel();
         }
     }
 }

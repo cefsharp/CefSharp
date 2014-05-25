@@ -5,5 +5,10 @@
         public virtual void OnBrowserCreated(CefBrowserBase cefBrowserWrapper)
         {
         }
+
+        public virtual IBrowserProcess CreateBrowserProxy()
+        {
+            return null;
+        }
     }
 }
