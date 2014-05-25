@@ -13,47 +13,36 @@ namespace CefSharp
     class CefSharpApp : public CefApp
     {
         gcroot<CefSettings^> _cefSettings;
-        gcroot<IDictionary<String^, String^>^> _cefCommandLineArgs;
 
     public:
         CefSharpApp(CefSettings^ cefSettings) :
-            _cefSettings(cefSettings),
-            _cefCommandLineArgs(gcnew Dictionary<String^, String^>())
-        {
-        }
-
-        CefSharpApp(CefSettings^ cefSettings, IDictionary<String^, String^>^ commandLineArgs) :
             _cefSettings(cefSettings)
         {
-            if(commandLineArgs != nullptr)
-                _cefCommandLineArgs = commandLineArgs;
-            else
-                _cefCommandLineArgs = gcnew Dictionary<String^, String^>();
         }
 
         ~CefSharpApp()
         {
             _cefSettings = nullptr;
-            _cefCommandLineArgs = nullptr;
         }
         
         virtual void OnBeforeCommandLineProcessing(const CefString& process_type, CefRefPtr<CefCommandLine> command_line) OVERRIDE
         {
-            if(_cefCommandLineArgs->Count == 0)
+            if(_cefSettings->CefCommandLineArgs->Count == 0)
                 return;
 
-            auto enumerator = _cefCommandLineArgs->GetEnumerator();
             auto commandLine = command_line.get();
 
             // Not clear what should happen if we 
             // * already have some command line flags given (is this possible? Perhaps from globalCommandLine)
             // * have no flags given (-> call SetProgramm() with first argument?)
 
-            while(enumerator->MoveNext())
+            for each(KeyValuePair<String^, String^>^ kvp in _cefSettings->CefCommandLineArgs)
             {
-                CefString name = StringUtils::ToNative(enumerator->Current.Key);
-                CefString value = StringUtils::ToNative(enumerator->Current.Value);
+                CefString name = StringUtils::ToNative(kvp->Key);
+                CefString value = StringUtils::ToNative(kvp->Value);
 
+                // Right now the command line args handed to the application (global command line) have higher
+                // precedence than command line args provided by the app
                 if(!commandLine->HasSwitch(name))
                     commandLine->AppendSwitchWithValue(name, value);
             }

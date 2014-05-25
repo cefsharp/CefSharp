@@ -23,13 +23,14 @@ namespace CefSharp.Example
                 settings.BrowserSubprocessPath = "..\\..\\..\\..\\CefSharp.BrowserSubprocess\\bin\\x86\\Debug\\CefSharp.BrowserSubprocess.exe";
             }
 
+            settings.CefCommandLineArgs.Add("user-agent", "me");
             settings.RegisterScheme(new CefCustomScheme
             {
                 SchemeName = CefSharpSchemeHandlerFactory.SchemeName,
                 SchemeHandlerFactory = new CefSharpSchemeHandlerFactory()
             });
 
-            if (!Cef.Initialize(settings, new Dictionary<string, string>{ {"user-agent", "me"}}))
+            if (!Cef.Initialize(settings))
             {
                 if (Environment.GetCommandLineArgs().Contains("--type=renderer"))
                 {
