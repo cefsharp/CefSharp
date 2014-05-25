@@ -84,7 +84,6 @@ namespace CefSharp.Wpf
             get { return PixelFormats.Bgra32; }
         }
 
-        #region Address dependency property
         public event DependencyPropertyChangedEventHandler AddressChanged;
 
         public string Address
@@ -136,10 +135,6 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter.LoadUrl(Address);
         }
 
-        #endregion Address dependency property
-
-        #region CanGoBack dependency property
-
         public event DependencyPropertyChangedEventHandler CanGoBackChanged;
 
         public static DependencyProperty CanGoBackProperty =
@@ -171,10 +166,6 @@ namespace CefSharp.Wpf
         {
 
         }
-
-        #endregion CanGoBack dependency property
-
-        #region CanGoForward dependency property
 
         public event DependencyPropertyChangedEventHandler CanGoForwardChanged;
 
@@ -208,11 +199,7 @@ namespace CefSharp.Wpf
 
         }
 
-        #endregion CanGoForward dependency property
-
         public event DependencyPropertyChangedEventHandler CanReloadChanged;
-
-        #region CanReload dependency property
 
         public static DependencyProperty CanReloadProperty =
             DependencyProperty.Register("CanReload", typeof(bool), typeof(WebView),
@@ -243,10 +230,6 @@ namespace CefSharp.Wpf
         {
 
         }
-
-        #endregion CanReload dependency property
-
-        #region IsLoading dependency property
 
         public event DependencyPropertyChangedEventHandler IsLoadingChanged;
 
@@ -279,9 +262,6 @@ namespace CefSharp.Wpf
 
         }
 
-        #endregion IsLoading dependency property
-
-        #region IsBrowserInitialized dependency property
 
         public bool IsBrowserInitialized
         {
@@ -315,9 +295,6 @@ namespace CefSharp.Wpf
             
         }
 
-        #endregion IsInitialized dependency property
-
-        #region Title dependency property
 
         public event DependencyPropertyChangedEventHandler TitleChanged;
 
@@ -349,10 +326,6 @@ namespace CefSharp.Wpf
         {
 
         }
-
-        #endregion Title dependency property
-
-        #region ZoomLevel dependency property
 
         public event DependencyPropertyChangedEventHandler ZoomLevelChanged;
 
@@ -391,10 +364,6 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter.SetZoomLevel(newValue);
         }
 
-        #endregion ZoomLevel dependency property
-
-        #region ZoomLevelIncrement dependency property
-
         /// <summary>
         /// Specifies the amount used to increase/decrease to ZoomLevel by
         /// By Default this value is 0.10
@@ -407,10 +376,6 @@ namespace CefSharp.Wpf
 
         public static readonly DependencyProperty ZoomLevelIncrementProperty =
             DependencyProperty.Register("ZoomLevelIncrement", typeof(double), typeof(WebView), new PropertyMetadata(0.10));
-
-        #endregion ZoomLevelIncrement dependency property
-
-        #region CleanupElement dependency property
 
         /// <summary>
         /// The CleanupElement Controls when the BrowserResources will be cleand up. 
@@ -485,10 +450,6 @@ namespace CefSharp.Wpf
             LoadError = null;
         }
 
-        #endregion CleanupElement dependency property
-
-        #region TooltipText dependency property
-
         public event DependencyPropertyChangedEventHandler TooltipTextChanged;
 
         public string TooltipText
@@ -535,10 +496,6 @@ namespace CefSharp.Wpf
             }
         }
 
-        #endregion
-
-        #region WebBrowser dependency property
-
         public event DependencyPropertyChangedEventHandler WebBrowserChanged;
 
         public IWebBrowser WebBrowser
@@ -569,8 +526,6 @@ namespace CefSharp.Wpf
         {
 
         }
-
-        #endregion WebBrowser dependency property
 
         static WebView()
         {
