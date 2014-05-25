@@ -8,8 +8,6 @@ namespace CefSharp
     /// </summary>
     public class ObjectBase : IDisposable
     {
-        #region IDisposable
-
         ~ObjectBase()
         {
             DoDispose(false);
@@ -61,7 +59,5 @@ namespace CefSharp
         /// <c>true</c> if this instance is disposed; otherwise, <c>false</c>.
         /// </value>
         public bool IsDisposed { get; private set; }
-
-        #endregion
     }
 }

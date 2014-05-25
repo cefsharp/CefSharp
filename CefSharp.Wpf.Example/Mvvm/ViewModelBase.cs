@@ -11,8 +11,6 @@ namespace CefSharp.Wpf.Example.Mvvm
 {
     public class ViewModelBase : ObjectBase, INotifyPropertyChanged
     {
-        #region INotifyPropertyChanged
-
         private PropertyChangedEventHandler propertyChanged;
         /// <inheritdoc/>
         public event PropertyChangedEventHandler PropertyChanged
@@ -75,7 +73,5 @@ namespace CefSharp.Wpf.Example.Mvvm
 
             OnPropertyChanged(oldvalue, value, e);
         }
-
-        #endregion
     }
 }
