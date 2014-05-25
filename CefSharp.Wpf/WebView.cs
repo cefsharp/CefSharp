@@ -477,7 +477,7 @@ namespace CefSharp.Wpf
 
             RemoveSourceHook();
 
-            WebBrowser = null;
+            DoInUi(() => WebBrowser = null);
             managedCefBrowserAdapter = null;
             ConsoleMessage = null;
             FrameLoadStart = null;
