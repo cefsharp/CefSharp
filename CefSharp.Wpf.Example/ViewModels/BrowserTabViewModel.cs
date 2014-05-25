@@ -128,6 +128,7 @@ namespace CefSharp.Wpf.Example.ViewModels
                         // TODO: method, but it seems like "something" gets messed up (= doesn't work correctly) if we give it
                         // TODO: focus "too early" in the loading process...
                         WebBrowser.FrameLoadEnd += delegate { Application.Current.Dispatcher.BeginInvoke((Action)(() => webBrowser.Focus())); };
+                        ExamplePresenter presenter = new ExamplePresenter(WebBrowser, (action) => Application.Current.Dispatcher.BeginInvoke(action));
                     }
 
                     break;

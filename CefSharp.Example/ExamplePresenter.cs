@@ -301,6 +301,19 @@ namespace CefSharp.Example
             return false;
         }
 
+        /// <summary>
+        /// OnBeforePluginLoad is called before a Plugin is loaded
+        /// </summary>
+        /// <param name="browser">Reference to the browser</param>
+        /// <param name="url">URL</param>
+        /// <param name="policy_url">Policy URL</param>
+        /// <param name="info">Plugin Information</param>
+        /// <returns>Return false when the plugin should not be loaded</returns>
+        bool IRequestHandler.OnBeforePluginLoad(IWebBrowser browser, string url, string policy_url, IWebPluginInfo info)
+        {
+            return !info.Name.ToLower().Contains("flash");   //Do not allow to load a plugin which has "flash" in its name
+        }
+
     //    bool ICookieVisitor.Visit(Cookie cookie, int count, int total, ref bool deleteCookie)
     //    {
     //        Console.WriteLine("Cookie #{0}: {1}", count, cookie.Name);
