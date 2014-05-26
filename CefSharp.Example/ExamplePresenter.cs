@@ -301,6 +301,16 @@ namespace CefSharp.Example
             return false;
         }
 
+        bool IRequestHandler.OnBeforePluginLoad(IWebBrowser browser, string url, string policy_url, IWebPluginInfo info)
+        {
+            bool blockPluginLoad = false;
+
+            // Enable next line to demo: Block any plugin with "flash" in its name
+            // try it out with e.g. http://www.youtube.com/watch?v=0uBOtQOO70Y 
+            //blockPluginLoad = info.Name.ToLower().Contains("flash");
+            return blockPluginLoad;
+        }
+
     //    bool ICookieVisitor.Visit(Cookie cookie, int count, int total, ref bool deleteCookie)
     //    {
     //        Console.WriteLine("Cookie #{0}: {1}", count, cookie.Name);

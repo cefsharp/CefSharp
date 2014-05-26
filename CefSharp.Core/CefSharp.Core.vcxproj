@@ -217,6 +217,7 @@
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="CefAppWrapper.cpp" />
+    <ClCompile Include="Internals\CefWebPluginInfoWrapper.cpp" />
     <ClCompile Include="Internals\ClientAdapter.cpp" />
     <ClCompile Include="Internals\CookieVisitor.cpp" />
     <ClCompile Include="Internals\CefRequestWrapper.cpp" />
@@ -256,6 +257,7 @@
     <ClInclude Include="TypeUtils.h" />
     <ClInclude Include="vcclr_local.h" />
     <ClInclude Include="Wrappers\CefSubprocessWrapper.h" />
+    <ClInclude Include="Internals\CefWebPluginInfoWrapper.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CefSharp\CefSharp.csproj">
