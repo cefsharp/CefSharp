@@ -204,14 +204,14 @@ namespace CefSharp
             return handler->OnBeforePluginLoad(_browserControl, StringUtils::ToClr(url), StringUtils::ToClr(policy_url), wrapper);
         }
 
-		void ClientAdapter::OnPluginCrashed(CefRefPtr<CefBrowser> browser, const CefString& plugin_path)
-		{
-			IRequestHandler^ handler = _browserControl->RequestHandler;
-			if (handler != nullptr)
-			{
-				handler->OnPluginCrashed(_browserControl, StringUtils::ToClr(plugin_path));
-			}			
-		}
+        void ClientAdapter::OnPluginCrashed(CefRefPtr<CefBrowser> browser, const CefString& plugin_path)
+        {
+            IRequestHandler^ handler = _browserControl->RequestHandler;
+            if (handler != nullptr)
+            {
+                handler->OnPluginCrashed(_browserControl, StringUtils::ToClr(plugin_path));
+            }			
+        }
 
         bool ClientAdapter::OnBeforeResourceLoad(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request)
         {
