@@ -85,6 +85,7 @@
   <ItemGroup>
     <Compile Include="BoundObject.cs" />
     <Compile Include="TempFileDialogHandler.cs" />
+    <Compile Include="CefExample.cs" />
     <Compile Include="DownloadHandler.cs" />
     <Compile Include="ExamplePresenter.cs" />
     <Compile Include="ExtensionMethods\PropertyChangedExtensionMethods.cs" />

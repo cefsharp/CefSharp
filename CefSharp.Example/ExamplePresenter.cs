@@ -1,50 +1,11 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
-using System.Net;
 using System.Text;
 
 namespace CefSharp.Example
 {
     public class ExamplePresenter : IRequestHandler
     {
-        // Use when debugging the actual SubProcess, to make breakpoints etc. inside that project work.
-        private const bool debuggingSubProcess = false;
-
-        public static void Init()
-        {
-            var settings = new CefSettings();
-            settings.RemoteDebuggingPort = 8088;
-
-            if (debuggingSubProcess)
-            {
-                settings.BrowserSubprocessPath = "..\\..\\..\\..\\CefSharp.BrowserSubprocess\\bin\\x86\\Debug\\CefSharp.BrowserSubprocess.exe";
-            }
-
-            //NOTE: Add command line args before Cef.Initialize() called
-            //settings.CefCommandLineArgs.Add("user-agent", "me");
-            settings.RegisterScheme(new CefCustomScheme
-            {
-                SchemeName = CefSharpSchemeHandlerFactory.SchemeName,
-                SchemeHandlerFactory = new CefSharpSchemeHandlerFactory()
-            });
-
-            if (!Cef.Initialize(settings))
-            {
-                if (Environment.GetCommandLineArgs().Contains("--type=renderer"))
-                {
-                    Environment.Exit(0);
-                }
-                else
-                {
-                    return;
-                }
-            }
-
-            Cef.RegisterJsObject("bound", new BoundObject());
-        }
-
-        public static string DefaultUrl = "custom://cefsharp/home";
         private static readonly Uri resource_url = new Uri("http://test/resource/load");
 
         private readonly IWebBrowser model;
