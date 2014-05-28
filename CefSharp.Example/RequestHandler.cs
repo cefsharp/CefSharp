@@ -36,8 +36,7 @@ namespace CefSharp.Example
 
         bool IRequestHandler.GetDownloadHandler(IWebBrowser browser, out IDownloadHandler handler)
         {
-            //handler = new DownloadHandler();
-            handler = null;
+            handler = new DownloadHandler();
 
             return true;
         }
