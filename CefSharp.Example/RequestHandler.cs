@@ -36,7 +36,9 @@ namespace CefSharp.Example
 
         bool IRequestHandler.GetDownloadHandler(IWebBrowser browser, out IDownloadHandler handler)
         {
-            handler = new DownloadHandler();
+            //handler = new DownloadHandler();
+            handler = null;
+
             return true;
         }
 
@@ -54,11 +56,5 @@ namespace CefSharp.Example
             //blockPluginLoad = info.Name.ToLower().Contains("flash");
             return blockPluginLoad;
         }
-
-    //    bool ICookieVisitor.Visit(Cookie cookie, int count, int total, ref bool deleteCookie)
-    //    {
-    //        Console.WriteLine("Cookie #{0}: {1}", count, cookie.Name);
-    //        return true;
-    //    }
     }
 }
