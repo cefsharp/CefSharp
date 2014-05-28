@@ -11,7 +11,7 @@ namespace CefSharp.Wpf.Example
     {
         private App()
         {
-            ExamplePresenter.Init();
+            CefExample.Init();
         }
     }
 }

@@ -19,7 +19,7 @@ namespace CefSharp.WinForms.Example
             Text = "CefSharp";
             WindowState = FormWindowState.Maximized;
 
-            webView = new WebView(ExamplePresenter.DefaultUrl)
+            webView = new WebView(CefExample.DefaultUrl)
             {
                 Dock = DockStyle.Fill,
             };
