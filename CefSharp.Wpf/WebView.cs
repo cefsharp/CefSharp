@@ -1112,6 +1112,15 @@ namespace CefSharp.Wpf
             return taskStringVisitor.Task;
         }
 
+        public string GetSource()
+        {
+            var task = GetSourceAsync();
+
+            task.Wait();
+
+            return task.Result;
+        }
+
         public Task<string> GetTextAsync()
         {
             var taskStringVisitor = new TaskStringVisitor();

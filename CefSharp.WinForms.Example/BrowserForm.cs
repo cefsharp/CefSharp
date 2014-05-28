@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using CefSharp.Example;
 using CefSharp.WinForms.Example.Controls;
@@ -212,6 +213,28 @@ namespace CefSharp.WinForms.Example
             }
 
             Find(true);
+        }
+
+        private void CopySourceToClipBoardClick(object sender, EventArgs e)
+        {
+            var source = webView.GetSource();
+            Clipboard.SetText(source);
+            DisplayOutput("HTML Source copied to clipboard");
+        }
+
+        private void CopySourceToClipBoardAsyncClick(object sender, EventArgs e)
+        {
+            var task = webView.GetSourceAsync();
+
+            task.ContinueWith(t =>
+            {
+                if (!t.IsFaulted)
+                {
+                    Clipboard.SetText(t.Result);
+                    DisplayOutput("HTML Source copied to clipboard");
+                }
+            },
+            TaskScheduler.FromCurrentSynchronizationContext());
         }
     }
 }
