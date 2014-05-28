@@ -128,10 +128,6 @@ namespace CefSharp.Wpf.Example.ViewModels
                         // TODO: method, but it seems like "something" gets messed up (= doesn't work correctly) if we give it
                         // TODO: focus "too early" in the loading process...
                         WebBrowser.FrameLoadEnd += delegate { Application.Current.Dispatcher.BeginInvoke((Action)(() => webBrowser.Focus())); };
-
-                        // TODO: enable to quickly try out IRequestHandlers like OnBeforePluginLoad. 
-                        // Currently disabled until it's checked for sideeffects from old code in other handlers
-                        //RequestHandler requestHandler = new RequestHandler();
                     }
 
                     break;
