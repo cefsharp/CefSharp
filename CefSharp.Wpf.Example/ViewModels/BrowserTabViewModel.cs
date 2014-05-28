@@ -131,7 +131,7 @@ namespace CefSharp.Wpf.Example.ViewModels
 
                         // TODO: enable to quickly try out IRequestHandlers like OnBeforePluginLoad. 
                         // Currently disabled until it's checked for sideeffects from old code in other handlers
-                        //ExamplePresenter presenter = new ExamplePresenter(WebBrowser, (action) => Application.Current.Dispatcher.BeginInvoke(action));
+                        //RequestHandler requestHandler = new RequestHandler();
                     }
 
                     break;

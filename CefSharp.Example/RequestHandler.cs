@@ -53,7 +53,7 @@ namespace CefSharp.Example
             //// navigation
             // TODO: This one might actually be needed.
             //view.UrlActivated += OnViewUrlActivated;
-            
+
             //view.ForwardActivated += OnViewForwardActivated;
             //view.BackActivated += OnViewBackActivated;
         }
@@ -268,7 +268,7 @@ namespace CefSharp.Example
             bool blockPluginLoad = false;
 
             // Enable next line to demo: Block any plugin with "flash" in its name
-            // try it out with e.g. http://www.youtube.com/watch?v=0uBOtQOO70Y 
+            // try it out with e.g. http://www.youtube.com/watch?v=0uBOtQOO70Y
             //blockPluginLoad = info.Name.ToLower().Contains("flash");
             return blockPluginLoad;
         }
