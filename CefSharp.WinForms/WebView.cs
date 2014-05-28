@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using CefSharp.Internals;
@@ -297,6 +298,20 @@ namespace CefSharp.WinForms
         public void ViewSource()
         {
             managedCefBrowserAdapter.ViewSource();
+        }
+
+        public Task<string> GetSourceAsync()
+        {
+            var taskStringVisitor = new TaskStringVisitor();
+            managedCefBrowserAdapter.GetSource(taskStringVisitor);
+            return taskStringVisitor.Task;
+        }
+
+        public Task<string> GetTextAsync()
+        {
+            var taskStringVisitor = new TaskStringVisitor();
+            managedCefBrowserAdapter.GetText(taskStringVisitor);
+            return taskStringVisitor.Task;
         }
     }
 }

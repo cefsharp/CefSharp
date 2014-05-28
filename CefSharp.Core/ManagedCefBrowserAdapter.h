@@ -316,6 +316,17 @@ namespace CefSharp
             }
         }
 
+        void GetText(IStringVisitor^ visitor)
+        {
+            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
+
+            if (cefFrame != nullptr)
+            {
+                auto stringVisitor = new StringVisitor(visitor);
+                cefFrame->GetText(stringVisitor);
+            }
+        }
+
         void Cut()
         {
             auto cefFrame = _renderClientAdapter->TryGetCefMainFrame(); 

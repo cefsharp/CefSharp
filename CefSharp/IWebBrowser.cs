@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace CefSharp
 {
@@ -127,5 +128,17 @@ namespace CefSharp
         /// Stops loading the current page.
         /// </summary>
         void Stop();
+
+        /// <summary>
+        /// Retrieve the main frame's HTML source using a <see cref="Task{String}"/>. 
+        /// </summary>
+        /// <returns><see cref="Task{String}"/> that when executed returns the frame source as a string</returns>
+        Task<string> GetSourceAsync();
+
+        /// <summary>
+        /// Retrieve the main frame's display text using a <see cref="Task{String}"/>. 
+        /// </summary>
+        /// <returns><see cref="Task{String}"/> that when executed returns the frame display text as a string.</returns>
+        Task<string> GetTextAsync();
     }
 }
