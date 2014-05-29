@@ -88,7 +88,6 @@
   <ItemGroup>
     <Compile Include="AddressChangedEventArgs.cs" />
     <Compile Include="IStringVisitor.cs" />
-    <Compile Include="LoadErrorEventArgs.cs" />
     <Compile Include="FrameLoadStartEventArgs.cs" />
     <Compile Include="NavStateChangedEventArgs.cs" />
     <Compile Include="Internals\BitmapInfo.cs" />
