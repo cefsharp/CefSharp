@@ -11,7 +11,7 @@ namespace CefSharp
 {
     private class StringVisitor : public CefStringVisitor
     {
-     private:
+    private:
         gcroot<IStringVisitor^> _visitor;
 
     public:
