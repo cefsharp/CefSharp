@@ -146,5 +146,11 @@ namespace CefSharp
         /// </summary>
         /// <returns><see cref="Task{String}"/> that when executed returns the frame display text as a string.</returns>
         Task<string> GetTextAsync();
+
+        /// <summary>
+        /// Retrieve the main frame's display text.
+        /// </summary>
+        /// <returns>The main frame display text as a string.</returns>
+        string GetText();
     }
 }
