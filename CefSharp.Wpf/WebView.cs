@@ -2,6 +2,7 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System.Threading.Tasks;
 using CefSharp.Internals;
 using Microsoft.Win32.SafeHandles;
 using System;
@@ -1145,6 +1146,38 @@ namespace CefSharp.Wpf
         public void ViewSource()
         {
             managedCefBrowserAdapter.ViewSource();
+        }
+
+        public Task<string> GetSourceAsync()
+        {
+            var taskStringVisitor = new TaskStringVisitor();
+            managedCefBrowserAdapter.GetSource(taskStringVisitor);
+            return taskStringVisitor.Task;
+        }
+
+        public string GetSource()
+        {
+            var task = GetSourceAsync();
+
+            task.Wait();
+
+            return task.Result;
+        }
+
+        public Task<string> GetTextAsync()
+        {
+            var taskStringVisitor = new TaskStringVisitor();
+            managedCefBrowserAdapter.GetText(taskStringVisitor);
+            return taskStringVisitor.Task;
+        }
+
+        public string GetText()
+        {
+            var task = GetTextAsync();
+
+            task.Wait();
+
+            return task.Result;
         }
     }
 }

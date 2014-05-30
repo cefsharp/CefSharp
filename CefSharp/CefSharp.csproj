@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddressChangedEventArgs.cs" />
+    <Compile Include="IStringVisitor.cs" />
     <Compile Include="FrameLoadStartEventArgs.cs" />
     <Compile Include="NavStateChangedEventArgs.cs" />
     <Compile Include="Internals\BitmapInfo.cs" />
@@ -124,6 +125,7 @@
     <Compile Include="ScriptException.cs" />
     <Compile Include="Internals\SubProcessProxy.cs" />
     <Compile Include="Internals\SubProcessProxySupport.cs" />
+    <Compile Include="TaskStringVisitor.cs" />
     <Compile Include="TitleChangedEventArgs.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

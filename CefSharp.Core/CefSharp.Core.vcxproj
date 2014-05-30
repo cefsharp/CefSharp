@@ -222,6 +222,7 @@
     <ClCompile Include="Internals\CookieVisitor.cpp" />
     <ClCompile Include="Internals\CefRequestWrapper.cpp" />
     <ClCompile Include="Internals\RequestResponse.cpp" />
+    <ClCompile Include="Internals\StringVisitor.cpp" />
     <ClCompile Include="SchemeHandlerResponse.cpp" />
     <ClCompile Include="SchemeHandlerWrapper.cpp" />
     <ClCompile Include="Stdafx.cpp">
@@ -237,6 +238,7 @@
   <ItemGroup>
     <ClInclude Include="BrowserSettings.h" />
     <ClInclude Include="Cef.h" />
+    <ClInclude Include="Internals\StringVisitor.h" />
     <ClInclude Include="Wrappers\CefAppWrapper.h" />
     <ClInclude Include="Internals\DownloadAdapter.h" />
     <ClInclude Include="Internals\ClientAdapter.h" />

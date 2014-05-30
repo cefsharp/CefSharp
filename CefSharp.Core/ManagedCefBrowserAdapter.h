@@ -9,6 +9,7 @@
 #include "MouseButtonType.h"
 #include "Internals/RenderClientAdapter.h"
 #include "Internals/MCefRefPtr.h"
+#include "Internals/StringVisitor.h"
 
 using namespace CefSharp::Internals;
 using namespace System::Diagnostics;
@@ -304,6 +305,28 @@ namespace CefSharp
             if (cefFrame != nullptr)
             {
                 cefFrame->ViewSource();
+            }
+        }
+
+        void GetSource(IStringVisitor^ visitor)
+        {
+            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
+
+            if (cefFrame != nullptr)
+            {
+                auto stringVisitor = new StringVisitor(visitor);
+                cefFrame->GetSource(stringVisitor);
+            }
+        }
+
+        void GetText(IStringVisitor^ visitor)
+        {
+            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
+
+            if (cefFrame != nullptr)
+            {
+                auto stringVisitor = new StringVisitor(visitor);
+                cefFrame->GetText(stringVisitor);
             }
         }
 
