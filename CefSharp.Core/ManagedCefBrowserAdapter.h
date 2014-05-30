@@ -68,8 +68,11 @@ namespace CefSharp
             window.SetTransparentPainting(true);
             CefString addressNative = StringUtils::ToNative("about:blank");
 
-            CefBrowserHost::CreateBrowser(window, _renderClientAdapter.get(), addressNative,
-                *(CefBrowserSettings*) browserSettings->_internalBrowserSettings, NULL);
+            if (!CefBrowserHost::CreateBrowser(window, _renderClientAdapter.get(), addressNative,
+                *(CefBrowserSettings*) browserSettings->_internalBrowserSettings, NULL))
+            {
+                throw gcnew InvalidOperationException( "Failed to create offscreen browser. Call Cef.Initialize() first." );
+            }
         }
 
         void Close()
