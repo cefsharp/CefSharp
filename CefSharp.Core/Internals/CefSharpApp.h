@@ -1,4 +1,4 @@
-// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+// Copyright Â© 2010-2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -18,6 +18,34 @@ namespace CefSharp
         CefSharpApp(CefSettings^ cefSettings) :
             _cefSettings(cefSettings)
         {
+        }
+
+        ~CefSharpApp()
+        {
+            _cefSettings = nullptr;
+        }
+        
+        virtual void OnBeforeCommandLineProcessing(const CefString& process_type, CefRefPtr<CefCommandLine> command_line) OVERRIDE
+        {
+            if(_cefSettings->CefCommandLineArgs->Count == 0)
+                return;
+
+            auto commandLine = command_line.get();
+
+            // Not clear what should happen if we 
+            // * already have some command line flags given (is this possible? Perhaps from globalCommandLine)
+            // * have no flags given (-> call SetProgramm() with first argument?)
+
+            for each(KeyValuePair<String^, String^>^ kvp in _cefSettings->CefCommandLineArgs)
+            {
+                CefString name = StringUtils::ToNative(kvp->Key);
+                CefString value = StringUtils::ToNative(kvp->Value);
+
+                // Right now the command line args handed to the application (global command line) have higher
+                // precedence than command line args provided by the app
+                if(!commandLine->HasSwitch(name))
+                    commandLine->AppendSwitchWithValue(name, value);
+            }
         }
 
         virtual void OnRegisterCustomSchemes(CefRefPtr<CefSchemeRegistrar> registrar) OVERRIDE

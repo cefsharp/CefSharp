@@ -35,7 +35,9 @@ namespace CefSharp
         internal:
             RequestResponse(IRequest^ request) :
                 _action(ResponseAction::Continue),
-                _request(request) {}
+                _request(request) 
+            {
+            }
 
             property Stream^ ResponseStream { Stream^ get() { return _responseStream; } }
             property String^ MimeType { String^ get() { return _mimeType; } }

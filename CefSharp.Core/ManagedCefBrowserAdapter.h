@@ -8,6 +8,8 @@
 #include "BrowserSettings.h"
 #include "MouseButtonType.h"
 #include "Internals/RenderClientAdapter.h"
+#include "Internals/MCefRefPtr.h"
+#include "Internals/StringVisitor.h"
 
 using namespace CefSharp::Internals;
 using namespace System::Diagnostics;
@@ -15,10 +17,9 @@ using namespace System::ServiceModel;
 
 namespace CefSharp
 {
-    private ref class ManagedCefBrowserAdapter : ManagedCefBrowserAdapterBase
+    private ref class ManagedCefBrowserAdapter : public ManagedCefBrowserAdapterBase, ISubProcessCallback
     {
-    private:
-        RenderClientAdapter* _renderClientAdapter;
+        MCefRefPtr<RenderClientAdapter> _renderClientAdapter;
 
         ISubProcessProxy^ _javaScriptProxy;
         IWebBrowserInternal^ _webBrowserInternal;
@@ -82,13 +83,6 @@ namespace CefSharp
             _renderClientAdapter = new RenderClientAdapter(webBrowserInternal, this);
         }
 
-        ~ManagedCefBrowserAdapter()
-        {
-            this->Close();
-            _renderClientAdapter = nullptr;
-            _address = nullptr;
-        }
-
         void CreateOffscreenBrowser(BrowserSettings^ browserSettings)
         {
             HWND hwnd = HWND();
@@ -97,8 +91,11 @@ namespace CefSharp
             window.SetTransparentPainting(true);
             CefString addressNative = StringUtils::ToNative("about:blank");
 
-            CefBrowserHost::CreateBrowser(window, _renderClientAdapter, addressNative,
-                *(CefBrowserSettings*) browserSettings->_internalBrowserSettings, NULL);
+            if (!CefBrowserHost::CreateBrowser(window, _renderClientAdapter.get(), addressNative,
+                *(CefBrowserSettings*) browserSettings->_internalBrowserSettings, NULL))
+            {
+                throw gcnew InvalidOperationException( "Failed to create offscreen browser. Call Cef.Initialize() first." );
+            }
         }
 
         void Close()
@@ -333,6 +330,28 @@ namespace CefSharp
             }
         }
 
+        void GetSource(IStringVisitor^ visitor)
+        {
+            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
+
+            if (cefFrame != nullptr)
+            {
+                auto stringVisitor = new StringVisitor(visitor);
+                cefFrame->GetSource(stringVisitor);
+            }
+        }
+
+        void GetText(IStringVisitor^ visitor)
+        {
+            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
+
+            if (cefFrame != nullptr)
+            {
+                auto stringVisitor = new StringVisitor(visitor);
+                cefFrame->GetText(stringVisitor);
+            }
+        }
+
         void Cut()
         {
             auto cefFrame = _renderClientAdapter->TryGetCefMainFrame(); 
@@ -425,7 +444,6 @@ namespace CefSharp
             }
         }
 
-
         void CreateBrowser(BrowserSettings^ browserSettings, IntPtr^ sourceHandle, String^ address)
         {
             HWND hwnd = static_cast<HWND>(sourceHandle->ToPointer());
@@ -435,7 +453,7 @@ namespace CefSharp
             window.SetAsChild(hwnd, rect);
             CefString addressNative = StringUtils::ToNative(address);
 
-            CefBrowserHost::CreateBrowser(window, _renderClientAdapter, addressNative,
+            CefBrowserHost::CreateBrowser(window, _renderClientAdapter.get(), addressNative,
                 *(CefBrowserSettings*) browserSettings->_internalBrowserSettings, NULL);
         }
 

@@ -5,28 +5,28 @@
 #pragma once
 
 #include "Stdafx.h"
-#include "include/cef_cookie.h"
+#include "include/cef_string_visitor.h"
 
 namespace CefSharp
 {
-    private class CookieVisitor : public CefCookieVisitor
+    private class StringVisitor : public CefStringVisitor
     {
     private:
-        gcroot<ICookieVisitor^> _visitor;
+        gcroot<IStringVisitor^> _visitor;
 
     public:
-        CookieVisitor(ICookieVisitor^ visitor) :
+        StringVisitor(IStringVisitor^ visitor) :
             _visitor(visitor)
         {
         }
 
-        ~CookieVisitor()
+        ~StringVisitor()
         {
             _visitor = nullptr;
         }
 
-        virtual bool Visit(const CefCookie& cookie, int count, int total, bool& deleteCookie) OVERRIDE;
+        virtual void Visit(const CefString& string) OVERRIDE;
 
-        IMPLEMENT_REFCOUNTING(CookieVisitor);
+        IMPLEMENT_REFCOUNTING(StringVisitor);
     };
 }

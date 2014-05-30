@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace CefSharp
 {
@@ -10,7 +11,7 @@ namespace CefSharp
     /// <param name="errorText">The error text.</param>
     public delegate void LoadErrorEventHandler(string failedUrl, CefErrorCode errorCode, string errorText);
 
-    public interface IWebBrowser
+    public interface IWebBrowser : IDisposable
     {
         /// <summary>
         /// Event handler for receiving Javascript console messages being sent from web pages.
@@ -37,6 +38,10 @@ namespace CefSharp
         /// </summary>        
         event LoadErrorEventHandler LoadError;
 
+        /// <summary>
+        /// Loads the specified URL.
+        /// </summary>
+        /// <param name="url">The URL to be loaded.</param>
         void Load(string url);
 
         /// <summary>
@@ -75,7 +80,15 @@ namespace CefSharp
         /// </summary>
         /// <remarks>This property is a Dependency Property and fully supports data binding.</remarks>
         bool IsLoading { get; set; }
+        
+        /// <summary>
+        /// A flag that indicates whether the control can navigate backwards (true) or not (false).
+        /// </summary>
         bool CanGoBack { get; }
+
+        /// <summary>
+        /// A flag that indicates whether the control can navigate forwards (true) or not (false).
+        /// </summary>
         bool CanGoForward { get; }
 
         /// <summary>
@@ -95,7 +108,7 @@ namespace CefSharp
         string TooltipText { get; set; }
 
         /// <summary>
-        /// Search for text within the current page
+        /// Search for text within the current page.
         /// </summary>
         /// <param name="identifier">Can be used in can conjunction with searchText to have multiple
         /// searches running simultaneously.</param>
@@ -110,5 +123,34 @@ namespace CefSharp
         /// </summary>
         /// <param name="clearSelection">clear the current search selection</param>
         void StopFinding(bool clearSelection);
+
+        /// <summary>
+        /// Stops loading the current page.
+        /// </summary>
+        void Stop();
+
+        /// <summary>
+        /// Retrieve the main frame's HTML source using a <see cref="Task{String}"/>. 
+        /// </summary>
+        /// <returns><see cref="Task{String}"/> that when executed returns the frame source as a string</returns>
+        Task<string> GetSourceAsync();
+
+        /// <summary>
+        /// Retrieve the main frame's HTML source
+        /// </summary>
+        /// <returns>HTML source as a string</returns>
+        string GetSource();
+
+        /// <summary>
+        /// Retrieve the main frame's display text using a <see cref="Task{String}"/>. 
+        /// </summary>
+        /// <returns><see cref="Task{String}"/> that when executed returns the frame display text as a string.</returns>
+        Task<string> GetTextAsync();
+
+        /// <summary>
+        /// Retrieve the main frame's display text.
+        /// </summary>
+        /// <returns>The main frame display text as a string.</returns>
+        string GetText();
     }
 }

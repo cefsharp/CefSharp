@@ -58,6 +58,9 @@
             this.pasteMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectAllMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copySourceToClipBoardMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.copySourceToClipBoardAsyncMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer.ContentPanel.SuspendLayout();
             this.toolStripContainer.TopToolStripPanel.SuspendLayout();
@@ -271,7 +274,10 @@
             this.copyMenuItem,
             this.pasteMenuItem,
             this.deleteMenuItem,
-            this.selectAllMenuItem});
+            this.selectAllMenuItem,
+            this.toolStripSeparator1,
+            this.copySourceToClipBoardMenuItem,
+            this.copySourceToClipBoardAsyncMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.editToolStripMenuItem.Text = "Edit";
@@ -329,6 +335,25 @@
             this.selectAllMenuItem.Name = "selectAllMenuItem";
             this.selectAllMenuItem.Size = new System.Drawing.Size(122, 22);
             this.selectAllMenuItem.Text = "Select All";
+            // 
+            // copySourceToClipBoardMenuItem
+            // 
+            this.copySourceToClipBoardMenuItem.Name = "copySourceToClipBoardMenuItem";
+            this.copySourceToClipBoardMenuItem.Size = new System.Drawing.Size(213, 22);
+            this.copySourceToClipBoardMenuItem.Text = "Copy Source To ClipBoard";
+            this.copySourceToClipBoardMenuItem.Click += new System.EventHandler(this.CopySourceToClipBoardClick);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(242, 6);
+            // 
+            // copySourceToClipBoardAsyncMenuItem
+            // 
+            this.copySourceToClipBoardAsyncMenuItem.Name = "copySourceToClipBoardAsyncMenuItem";
+            this.copySourceToClipBoardAsyncMenuItem.Size = new System.Drawing.Size(245, 22);
+            this.copySourceToClipBoardAsyncMenuItem.Text = "Copy Source to ClipBoard Async";
+            this.copySourceToClipBoardAsyncMenuItem.Click += new System.EventHandler(this.CopySourceToClipBoardAsyncClick);
             // 
             // BrowserForm
             // 
@@ -391,6 +416,9 @@
         private System.Windows.Forms.ToolStripButton findNextButton;
         private System.Windows.Forms.ToolStripButton findCloseButton;
         private System.Windows.Forms.ToolStripMenuItem findMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copySourceToClipBoardMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem copySourceToClipBoardAsyncMenuItem;
 
     }
 }

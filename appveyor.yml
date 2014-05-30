@@ -1,0 +1,15 @@
+environment:
+  VisualStudioVersion: 11.0
+
+configuration:
+  - Debug
+  - Release
+
+before_build:
+  - cmd: nuget restore
+
+test_script:
+  - cd C:\projects\cefsharp\CefSharp.Test\bin\x86\%configuration%\
+  - cd
+  - REM copy C:\Tools\xUnit\*.*
+  - REM xunit.console.clr4.x86 CefSharp.Test.dll /appveyor

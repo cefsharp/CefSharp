@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -22,6 +21,8 @@ namespace CefSharp.Example
                 settings.BrowserSubprocessPath = "..\\..\\..\\..\\CefSharp.BrowserSubprocess\\bin\\x86\\Debug\\CefSharp.BrowserSubprocess.exe";
             }
 
+            //NOTE: Add command line args before Cef.Initialize() called
+            //settings.CefCommandLineArgs.Add("user-agent", "me");
             settings.RegisterScheme(new CefCustomScheme
             {
                 SchemeName = CefSharpSchemeHandlerFactory.SchemeName,
@@ -299,6 +300,16 @@ namespace CefSharp.Example
         bool IRequestHandler.GetAuthCredentials(IWebBrowser browser, bool isProxy, string host, int port, string realm, string scheme, ref string username, ref string password)
         {
             return false;
+        }
+
+        bool IRequestHandler.OnBeforePluginLoad(IWebBrowser browser, string url, string policy_url, IWebPluginInfo info)
+        {
+            bool blockPluginLoad = false;
+
+            // Enable next line to demo: Block any plugin with "flash" in its name
+            // try it out with e.g. http://www.youtube.com/watch?v=0uBOtQOO70Y 
+            //blockPluginLoad = info.Name.ToLower().Contains("flash");
+            return blockPluginLoad;
         }
 
     //    bool ICookieVisitor.Visit(Cookie cookie, int count, int total, ref bool deleteCookie)

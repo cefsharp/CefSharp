@@ -4,7 +4,7 @@
 
 #include "include/cef_browser.h"
 #include "include/cef_runnable.h"
-#include "CefTaskScheduler.h";
+#include "CefTaskScheduler.h"
 
 using namespace System::Threading;
 using namespace System::Threading::Tasks;

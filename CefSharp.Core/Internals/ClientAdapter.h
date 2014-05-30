@@ -45,8 +45,11 @@ namespace CefSharp
 
             ~ClientAdapter() 
             {
-                _browserControl = nullptr; 
+                _browserControl = nullptr;
                 _managedCefBrowserAdapter = nullptr;
+                _browserHwnd = nullptr;
+                _cefBrowser = nullptr;
+                _tooltip = nullptr;
             }
 
             HWND GetBrowserHwnd() { return _browserHwnd; }
@@ -80,6 +83,7 @@ namespace CefSharp
             virtual DECL bool GetAuthCredentials(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, bool isProxy,
                 const CefString& host, int port, const CefString& realm, const CefString& scheme, CefRefPtr<CefAuthCallback> callback) OVERRIDE;
             virtual DECL bool OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool isRedirect) OVERRIDE;
+            virtual DECL bool OnBeforePluginLoad( CefRefPtr< CefBrowser > browser, const CefString& url, const CefString& policy_url, CefRefPtr< CefWebPluginInfo > info ) OVERRIDE;
 
             // CefDisplayHandler
             virtual DECL void OnLoadingStateChange(CefRefPtr<CefBrowser> browser, bool isLoading, bool canGoBack, bool canGoForward) OVERRIDE;
