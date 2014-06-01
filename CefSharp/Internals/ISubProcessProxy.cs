@@ -1,21 +1,25 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.ServiceModel;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace CefSharp.Internals
 {
     [ServiceContract(CallbackContract = typeof(ISubProcessCallback))]
-    public interface ISubProcessProxy
+    public interface ISubProcessProxy : IDisposable
     {
         [OperationContract]
         void Initialize();
 
         [OperationContract]
-        object EvaluateScript(int frameId, string script, double timeout);
-
+        Task<object> EvaluateScript(long frameId, string script);
+        
         [OperationContract]
         void Terminate();
     }
-
+    
     [ServiceContract]
     public interface ISubProcessCallback
     {

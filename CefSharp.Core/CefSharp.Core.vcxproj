@@ -234,10 +234,12 @@
     <ClCompile Include="Internals\StringUtils.cpp" />
     <ClCompile Include="Internals\StreamAdapter.cpp" />
     <ClCompile Include="TypeUtils.cpp" />
+    <ClCompile Include="CefTaskScheduler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BrowserSettings.h" />
     <ClInclude Include="Cef.h" />
+    <ClInclude Include="CefTaskScheduler.h" />    
     <ClInclude Include="Internals\StringVisitor.h" />
     <ClInclude Include="Wrappers\CefAppWrapper.h" />
     <ClInclude Include="Internals\DownloadAdapter.h" />

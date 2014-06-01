@@ -90,7 +90,7 @@ namespace CefSharp.Wpf.Example.ViewModels
         {
             try
             {
-                EvaluateJavaScriptResult = webBrowser.EvaluateScript(s) ?? "null";
+                EvaluateJavaScriptResult = webBrowser.EvaluateScriptAsync(s).Result ?? "null";
             }
             catch (Exception e)
             {

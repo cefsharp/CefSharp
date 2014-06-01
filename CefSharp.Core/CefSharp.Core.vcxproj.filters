@@ -44,6 +44,9 @@
     <ClCompile Include="CefAppWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CefTaskScheduler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Internals\CefWebPluginInfoWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -116,6 +119,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CefSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CefTaskScheduler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Internals\CefWebPluginInfoWrapper.h">

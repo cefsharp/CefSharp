@@ -16,7 +16,7 @@ namespace CefSharp.Test
             using (var fixture = new Fixture())
             {
                 fixture.Initialize().Wait();
-                Assert.Equal(result, fixture.Browser.EvaluateScript(script));
+                Assert.Equal(result, fixture.Browser.EvaluateScriptAsync(script));
             }
         }
 
@@ -28,7 +28,7 @@ namespace CefSharp.Test
             {
                 fixture.Initialize().Wait();
                 Assert.Throws<ScriptException>(() =>
-                    fixture.Browser.EvaluateScript(script));
+                    fixture.Browser.EvaluateScriptAsync(script));
             }
         }
 
@@ -42,7 +42,7 @@ namespace CefSharp.Test
             //    var thread = new Thread(() =>
             //    {
             //        var script = x.ToString();
-            //        Assert.AreEqual(x, Fixture.Browser.EvaluateScript(script));
+            //        Assert.AreEqual(x, Fixture.Browser.EvaluateScriptAsync(script));
             //    });
             //    threads.Add(thread);
             //    thread.Start();

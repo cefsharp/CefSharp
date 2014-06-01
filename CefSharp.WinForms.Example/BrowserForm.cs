@@ -85,14 +85,14 @@ namespace CefSharp.WinForms.Example
             HandleToolStripLayout();
         }
 
-        public void ExecuteScript(string script)
+        public void ExecuteScriptAsync(string script)
         {
             webView.ExecuteScriptAsync(script);
         }
 
-        public object EvaluateScript(string script)
+        public Task<object> EvaluateScriptAsync(string script)
         {
-            return webView.EvaluateScript(script);
+            return webView.EvaluateScriptAsync(script);
         }
 
         public void DisplayOutput(string output)

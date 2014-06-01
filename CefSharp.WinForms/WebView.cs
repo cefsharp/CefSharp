@@ -84,19 +84,9 @@ namespace CefSharp.WinForms
             managedCefBrowserAdapter.ExecuteScriptAsync(script);
         }
 
-        public object EvaluateScript(string script)
+        public Task<object> EvaluateScriptAsync(string script)
         {
-            return EvaluateScript(script, timeout: null);
-        }
-
-        public object EvaluateScript(string script, TimeSpan? timeout)
-        {
-            if (timeout == null)
-            {
-                timeout = TimeSpan.MaxValue;
-            }
-
-            return managedCefBrowserAdapter.EvaluateScript(script, timeout.Value);
+            return managedCefBrowserAdapter.EvaluateScriptAsync(script);
         }
 
         public event LoadErrorEventHandler LoadError;

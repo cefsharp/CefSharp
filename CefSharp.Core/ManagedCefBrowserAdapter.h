@@ -17,30 +17,46 @@ using namespace System::ServiceModel;
 
 namespace CefSharp
 {
-    private ref class ManagedCefBrowserAdapter : public ObjectBase, ISubProcessCallback
+    private ref class ManagedCefBrowserAdapter : public ManagedCefBrowserAdapterBase, ISubProcessCallback
     {
         MCefRefPtr<RenderClientAdapter> _renderClientAdapter;
+
         ISubProcessProxy^ _javaScriptProxy;
         IWebBrowserInternal^ _webBrowserInternal;
         String^ _address;
         
     protected:
+        virtual property Int64 FrameId
+        {
+            Int64 get() override
+            {
+                auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
+
+                if (cefFrame != nullptr)
+                {
+                    return cefFrame->GetIdentifier();
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+        }
+
         virtual void DoDispose(bool isDisposing) override
         {
-            Close();
-
             _renderClientAdapter = nullptr;
             _javaScriptProxy = nullptr;
             _webBrowserInternal = nullptr;
             _address = nullptr;
 
-            ObjectBase::DoDispose(isDisposing);
-        };
-
+            ManagedCefBrowserAdapterBase::DoDispose(isDisposing);
+        }
+        
     public:
-        property String^ DevToolsUrl
+        virtual property String^ DevToolsUrl
         {
-            String^ get()
+            String^ get() override
             {
                 auto cefHost = _renderClientAdapter->TryGetCefHost();
 
@@ -53,6 +69,22 @@ namespace CefSharp
                     return nullptr;
                 }
             }
+        }
+
+        virtual property int BrowserId
+        {
+            int get() override
+            {
+                auto browser = _renderClientAdapter->GetCefBrowser();
+                if (browser != nullptr)
+                {
+                    return browser->GetIdentifier();
+                }
+                else
+                {
+                    return -1;
+                }
+            };
         }
 
         ManagedCefBrowserAdapter(IWebBrowserInternal^ webBrowserInternal)
@@ -159,7 +191,7 @@ namespace CefSharp
                     keyEvent.type = KEYEVENT_KEYUP;
 
                 keyEvent.windows_key_code = keyEvent.native_key_code = wParam;
-                keyEvent.is_system_key = 
+                keyEvent.is_system_key =
                     message == WM_SYSKEYDOWN ||
                     message == WM_SYSKEYUP ||
                     message == WM_SYSCHAR;
@@ -342,8 +374,8 @@ namespace CefSharp
 
         void Copy()
         {
-            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame(); 
-            
+            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
+
             if (cefFrame != nullptr)
             {
                 cefFrame->Copy();
@@ -400,32 +432,6 @@ namespace CefSharp
             }
         }
 
-        Object^ EvaluateScript(String^ script, TimeSpan timeout)
-        {
-            auto browser = _renderClientAdapter->GetCefBrowser();
-            auto frame = _renderClientAdapter->TryGetCefMainFrame();
-
-            if (browser != nullptr &&
-                frame != nullptr)
-            {
-                // TODO: Don't instantiate this on every request. The problem is that the CefBrowser is not set in our constructor.
-                auto serviceName = SubProcessProxySupport::GetServiceName(Process::GetCurrentProcess()->Id, _renderClientAdapter->GetCefBrowser()->GetIdentifier());
-                auto channelFactory = gcnew DuplexChannelFactory<ISubProcessProxy^>(
-                    this,
-                    gcnew NetNamedPipeBinding(),
-                    gcnew EndpointAddress(serviceName)
-                );
-
-                _javaScriptProxy = channelFactory->CreateChannel();
-
-                return _javaScriptProxy->EvaluateScript(frame->GetIdentifier(), script, timeout.TotalMilliseconds);
-            }
-            else
-            {
-                return nullptr;
-            }
-        }
-
         double GetZoomLevel()
         {
             auto cefHost = _renderClientAdapter->TryGetCefHost();
@@ -446,11 +452,6 @@ namespace CefSharp
             {
                 cefHost->SetZoomLevel(zoomLevel);
             }
-        }
-
-        virtual void Error(Exception^ ex)
-        {
-
         }
 
         void CreateBrowser(BrowserSettings^ browserSettings, IntPtr^ sourceHandle, String^ address)
