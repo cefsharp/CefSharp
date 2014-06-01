@@ -40,7 +40,7 @@ namespace CefSharp.Internals
         {
         }
 
-        public Task<object> EvaluateScript(string script)
+        public Task<object> EvaluateScriptAsync(string script)
         {
             return Task<object>.Factory.StartNew(() =>
             {

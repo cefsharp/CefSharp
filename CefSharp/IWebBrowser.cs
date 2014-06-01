@@ -69,8 +69,7 @@ namespace CefSharp
         /// Execute some Javascript code in the context of this WebBrowser, and return the result of the evaluation.
         /// </summary>
         /// <param name="script">The Javascript code that should be executed.</param>
-        /// <param name="timeout">The timeout after which the Javascript code execution should be aborted.</param>
-        object EvaluateScript(string script, TimeSpan? timeout = null);
+        Task<object> EvaluateScriptAsync(string script);
 
         IRequestHandler RequestHandler { get; set; }
         bool IsBrowserInitialized { get; }

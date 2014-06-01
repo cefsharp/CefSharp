@@ -1071,9 +1071,9 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter.ExecuteScriptAsync(script);
         }
         
-        public Task<object> EvaluateScript(string script)
+        public Task<object> EvaluateScriptAsync(string script)
         {
-            return managedCefBrowserAdapter.EvaluateScript(script);
+            return managedCefBrowserAdapter.EvaluateScriptAsync(script);
         }
 
         void IRenderWebBrowser.SetCursor(IntPtr handle)

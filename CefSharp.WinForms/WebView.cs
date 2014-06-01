@@ -84,9 +84,9 @@ namespace CefSharp.WinForms
             managedCefBrowserAdapter.ExecuteScriptAsync(script);
         }
 
-        public Task<object> EvaluateScript(string script)
+        public Task<object> EvaluateScriptAsync(string script)
         {
-            return managedCefBrowserAdapter.EvaluateScript(script);
+            return managedCefBrowserAdapter.EvaluateScriptAsync(script);
         }
 
         public event LoadErrorEventHandler LoadError;

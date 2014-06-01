@@ -215,7 +215,7 @@ namespace CefSharp.Example
     //        var y = rand.Next(1, 10);
 
     //        var script = String.Format("{0} + {1}", x, y);
-    //        var result = view.EvaluateScript(script);
+    //        var result = view.EvaluateScriptAsync(script);
     //        var output = String.Format("{0} => {1}", script, result);
 
     //        uiThreadInvoke(() => view.DisplayOutput(output));
