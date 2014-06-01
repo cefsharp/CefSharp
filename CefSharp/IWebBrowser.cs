@@ -136,12 +136,6 @@ namespace CefSharp
         Task<string> GetSourceAsync();
 
         /// <summary>
-        /// Retrieve the main frame's HTML source
-        /// </summary>
-        /// <returns>HTML source as a string</returns>
-        string GetSource();
-
-        /// <summary>
         /// Retrieve the main frame's display text using a <see cref="Task{String}"/>. 
         /// </summary>
         /// <returns><see cref="Task{String}"/> that when executed returns the frame display text as a string.</returns>
