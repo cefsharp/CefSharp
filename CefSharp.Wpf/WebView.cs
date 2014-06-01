@@ -1161,14 +1161,5 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter.GetText(taskStringVisitor);
             return taskStringVisitor.Task;
         }
-
-        public string GetText()
-        {
-            var task = GetTextAsync();
-
-            task.Wait();
-
-            return task.Result;
-        }
     }
 }
