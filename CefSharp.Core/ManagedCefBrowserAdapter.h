@@ -42,6 +42,16 @@ namespace CefSharp
                 }
             }
         }
+
+        virtual void DoDispose(bool isDisposing) override
+        {
+            _renderClientAdapter = nullptr;
+            _javaScriptProxy = nullptr;
+            _webBrowserInternal = nullptr;
+            _address = nullptr;
+
+            ManagedCefBrowserAdapterBase::DoDispose(isDisposing);
+        }
         
     public:
         virtual property String^ DevToolsUrl
