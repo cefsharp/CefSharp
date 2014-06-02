@@ -26,8 +26,14 @@ namespace CefSharp
         [DebuggerStepThrough]
         List<String^>^ StringUtils::ToClr(const std::vector<CefString>& cefStr)
         {
-            //cefStr.c_str()
-            return gcnew List<String^>();
+            auto result = gcnew List<String^>();
+
+            for each(CefString s in cefStr)
+            {
+                result->Add(StringUtils::ToClr(s));
+            }
+
+            return result;
         }
 
         [DebuggerStepThrough]
