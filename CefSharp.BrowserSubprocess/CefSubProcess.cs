@@ -35,7 +35,6 @@ namespace CefSharp.BrowserSubprocess
             LocateParentProcessId(args);
         }
 
-
         private void LocateParentProcessId(IEnumerable<string> args)
         {
             // Format being parsed:
