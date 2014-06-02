@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using CefSharp.Internals;
+using System.Collections.Generic;
 using System.ServiceModel;
-using System.ServiceModel.Description;
-using System.Threading.Tasks;
-using CefSharp.Internals;
 
 namespace CefSharp.BrowserSubprocess
 {
