@@ -23,12 +23,12 @@ namespace CefSharp
             return gcnew String(cefStr.c_str());
         }
 
-		[DebuggerStepThrough]
-		List<String^>^ StringUtils::ToClr(const std::vector<CefString>& cefStr)
-		{
-			//cefStr.c_str()
-			return gcnew List<String^>();
-		}
+        [DebuggerStepThrough]
+        List<String^>^ StringUtils::ToClr(const std::vector<CefString>& cefStr)
+        {
+            //cefStr.c_str()
+            return gcnew List<String^>();
+        }
 
         [DebuggerStepThrough]
         CefString StringUtils::ToNative(String^ str)
@@ -43,25 +43,25 @@ namespace CefSharp
             return cefStr;
         }
 
-		[DebuggerStepThrough]
-		std::vector<CefString> StringUtils::ToNative(List<String^>^ str)
-		{
-			if (str == nullptr)
-			{
-				return std::vector<CefString>();
-			}
+        [DebuggerStepThrough]
+        std::vector<CefString> StringUtils::ToNative(List<String^>^ str)
+        {
+            if (str == nullptr)
+            {
+                return std::vector<CefString>();
+            }
 
-			std::vector<CefString> result = std::vector<CefString>();
+            std::vector<CefString> result = std::vector<CefString>();
 
-			for each (String^ s in str)
-			{
-				pin_ptr<const wchar_t> pStr = PtrToStringChars(s);
-				CefString cefStr(pStr);
-				result.push_back(cefStr);
-			}
+            for each (String^ s in str)
+            {
+                pin_ptr<const wchar_t> pStr = PtrToStringChars(s);
+                CefString cefStr(pStr);
+                result.push_back(cefStr);
+            }
 
-			return result;
-		}
+            return result;
+        }
 
         [DebuggerStepThrough]
         void StringUtils::AssignNativeFromClr(cef_string_t& cefStr, String^ str)
