@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -10,50 +8,43 @@ namespace CefSharp.Internals
     [DataContract]
     public class JavascriptObject //: DynamicObject maybe later
     {
-        private static long nextId = 0;
+        private static long lastId;
         private static readonly object Lock = new object();
 
         /// <summary>
         /// Identifies the <see cref="JavascriptObject" /> for BrowserProcess to RenderProcess communication
         /// </summary>
-        /// <value>
-        /// The identifier.
-        /// </value>
         [DataMember]
         public long Id { get; protected set; }
 
         /// <summary>
         /// Gets the members of the <see cref="JavascriptObject" />.
         /// </summary>
-        /// <value>
-        /// The members.
-        /// </value>
         [DataMember]
         public List<JavascriptMember> Members { get; private set; }
-        
+
         [DataMember]
         private object serializeableValue;
-        private object _value;
+        private object value;
 
         /// <summary>
         /// Gets or sets the value.
         /// </summary>
-        /// <value>
-        /// The value.
-        /// </value>
-        public object Value 
+        public object Value
         {
-            get { return _value; }
-            set 
+            get { return value; }
+            set
             {
-                _value = value;
-                if ( value != null )
+                this.value = value;
+                if (value == null)
                 {
-                    var type = value.GetType();
-                    if (type.IsValueType || type == typeof (string))
-                    {
-                        serializeableValue = value;
-                    }
+                    return;
+                }
+
+                var type = value.GetType();
+                if (type.IsValueType || type == typeof(string))
+                {
+                    serializeableValue = value;
                 }
             }
         }
@@ -62,7 +53,7 @@ namespace CefSharp.Internals
         {
             lock (Lock)
             {
-                Id = ++nextId;
+                Id = lastId++;
             }
 
             Members = new List<JavascriptMember>();
@@ -70,18 +61,18 @@ namespace CefSharp.Internals
 
         public void Analyse()
         {
-            foreach (var methodInfo in _value.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public).Where( p => !p.IsSpecialName ) )
+            foreach (var methodInfo in value.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
             {
                 var jsMethod = new JavascriptMethod();
                 jsMethod.Description.Analyse(methodInfo);
                 Members.Add(jsMethod);
             }
 
-            foreach (var propertyInfo in _value.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
+            foreach (var propertyInfo in value.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
             {
                 var jsProperty = new JavascriptProperty();
                 jsProperty.Description.Analyse(propertyInfo);
-                jsProperty.Value.Value = jsProperty.Description.GetValue(_value);
+                jsProperty.Value.Value = jsProperty.Description.GetValue(value);
                 jsProperty.Value.Analyse();
                 Members.Add(jsProperty);
             }
