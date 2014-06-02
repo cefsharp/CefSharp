@@ -88,6 +88,7 @@
   <ItemGroup>
     <Compile Include="CefEventFlags.cs" />
     <Compile Include="AddressChangedEventArgs.cs" />
+    <Compile Include="IStringVisitor.cs" />
     <Compile Include="FrameLoadStartEventArgs.cs" />
     <Compile Include="Internals\BrowserprocessService.cs" />
     <Compile Include="Internals\BrowserprocessServiceHost.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="ILifeSpanHandler.cs" />
     <Compile Include="IMenuHandler.cs" />
     <Compile Include="Internals\IRenderWebBrowser.cs" />
+    <Compile Include="IWebPluginInfo.cs" />
     <Compile Include="IRequest.cs" />
     <Compile Include="IRequestHandler.cs" />
     <Compile Include="IRequestResponse.cs" />
@@ -133,6 +135,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptException.cs" />
     <Compile Include="Internals\RenderprocessClientFactory.cs" />
+    <Compile Include="TaskStringVisitor.cs" />
     <Compile Include="TitleChangedEventArgs.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

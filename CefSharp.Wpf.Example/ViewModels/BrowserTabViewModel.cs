@@ -131,6 +131,9 @@ namespace CefSharp.Wpf.Example.ViewModels
                         WebBrowser.FrameLoadEnd += delegate { Application.Current.Dispatcher.BeginInvoke((Action)(() => webBrowser.Focus())); };
 
                         BindJavascriptObject(webBrowser);
+                        // TODO: enable to quickly try out IRequestHandlers like OnBeforePluginLoad. 
+                        // Currently disabled until it's checked for sideeffects from old code in other handlers
+                        //ExamplePresenter presenter = new ExamplePresenter(WebBrowser, (action) => Application.Current.Dispatcher.BeginInvoke(action));
                     }
 
                     break;

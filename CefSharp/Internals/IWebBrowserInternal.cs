@@ -4,9 +4,11 @@ namespace CefSharp.Internals
 {
     public interface IWebBrowserInternal : IWebBrowser
     {
+        //TODO: shouldnt this be part of IWebBrowser
         ILifeSpanHandler LifeSpanHandler { get; set; }
         IKeyboardHandler KeyboardHandler { get; set; }
         IJsDialogHandler JsDialogHandler { get; set; }
+        //end
 
         void OnInitialized();
 
