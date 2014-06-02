@@ -3,12 +3,12 @@ using System.IO;
 
 namespace CefSharp.Example
 {
-	public class TempFileDialogHandler : IDialogHandler
-	{
-		public bool OnFileDialog(IWebBrowser browser, string title, string defaultFileName, List<string> acceptTypes, out List<string> result)
-		{
-			result = new List<string> { Path.GetRandomFileName() };
-			return true;
-		}
-	}
+    public class TempFileDialogHandler : IDialogHandler
+    {
+        public bool OnFileDialog(IWebBrowser browser, string title, string defaultFileName, List<string> acceptTypes, out List<string> result)
+        {
+            result = new List<string> { Path.GetRandomFileName() };
+            return true;
+        }
+    }
 }
