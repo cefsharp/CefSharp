@@ -53,7 +53,7 @@ namespace CefSharp.Wpf
         ICommand ViewSourceCommand { get; }
 
         /// <summary>
-        /// command which cleans up the Resources used by the WebView 
+        /// command which cleans up the Resources used by the ChromiumWebBrowser 
         /// </summary>
         ICommand CleanupCommand { get; }
 
@@ -76,12 +76,12 @@ namespace CefSharp.Wpf
         bool Focus();
 
         /// <summary>
-        /// Reloads the current WebView.
+        /// Reloads the current ChromiumWebBrowser.
         /// </summary>
         void Reload();
 
         /// <summary>
-        /// Reloads the current WebView, optionally ignoring the cache
+        /// Reloads the current ChromiumWebBrowser, optionally ignoring the cache
         /// (which means the whole page including all .css, .js etc. resources will be re-fetched).
         /// </summary>
         /// <param name="ignoreCache"><c>true</c> A reload is performed ignoring borwser cache; <c>false</c> A reload is

@@ -95,7 +95,7 @@
       <SubType>Code</SubType>
     </Compile>
     <AppDesigner Include="Properties\" />
-    <Compile Include="WebView.cs" />
+    <Compile Include="ChromiumWebBrowser.cs" />
     <Compile Include="WM.cs" />
   </ItemGroup>
   <ItemGroup>
