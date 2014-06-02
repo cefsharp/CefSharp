@@ -131,6 +131,7 @@
       <GenerateMapFile>false</GenerateMapFile>
       <MapExports>false</MapExports>
       <KeyFile>$(LinkKeyFile)</KeyFile>
+      <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -216,10 +217,12 @@
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="CefAppWrapper.cpp" />
+    <ClCompile Include="Internals\CefWebPluginInfoWrapper.cpp" />
     <ClCompile Include="Internals\ClientAdapter.cpp" />
     <ClCompile Include="Internals\CookieVisitor.cpp" />
     <ClCompile Include="Internals\CefRequestWrapper.cpp" />
     <ClCompile Include="Internals\RequestResponse.cpp" />
+    <ClCompile Include="Internals\StringVisitor.cpp" />
     <ClCompile Include="SchemeHandlerResponse.cpp" />
     <ClCompile Include="SchemeHandlerWrapper.cpp" />
     <ClCompile Include="Stdafx.cpp">
@@ -235,6 +238,7 @@
   <ItemGroup>
     <ClInclude Include="BrowserSettings.h" />
     <ClInclude Include="Cef.h" />
+    <ClInclude Include="Internals\StringVisitor.h" />
     <ClInclude Include="Wrappers\CefAppWrapper.h" />
     <ClInclude Include="Internals\DownloadAdapter.h" />
     <ClInclude Include="Internals\ClientAdapter.h" />
@@ -255,6 +259,7 @@
     <ClInclude Include="TypeUtils.h" />
     <ClInclude Include="vcclr_local.h" />
     <ClInclude Include="Wrappers\CefSubprocessWrapper.h" />
+    <ClInclude Include="Internals\CefWebPluginInfoWrapper.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CefSharp\CefSharp.csproj">

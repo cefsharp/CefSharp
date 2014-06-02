@@ -3,12 +3,12 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 #include "Stdafx.h"
-#include "SchemeHandlerResponse.h"
+#include "StringVisitor.h"
 
 namespace CefSharp
 {
-    void SchemeHandlerResponse::OnRequestCompleted()
+    void StringVisitor::Visit(const CefString& string)
     {
-        _schemeHandlerWrapper->ProcessRequestCallback(this);
+        _visitor->Visit(StringUtils::ToClr(string));
     }
 }

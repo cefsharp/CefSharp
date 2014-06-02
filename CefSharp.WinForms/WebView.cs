@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using CefSharp.Internals;
@@ -42,16 +42,18 @@ namespace CefSharp.WinForms
 
         public WebView(string address)
         {
+            Cef.AddDisposable(this);
             Address = address;
         }
 
         protected override void Dispose(bool disposing)
         {
+            Cef.RemoveDisposable(this);
+
             if (disposing)
             {
                 if (managedCefBrowserAdapter != null)
                 {
-                    managedCefBrowserAdapter.Close();
                     managedCefBrowserAdapter.Dispose();
                     managedCefBrowserAdapter = null;
                 }
@@ -99,8 +101,12 @@ namespace CefSharp.WinForms
         }
 
         public event LoadErrorEventHandler LoadError;
-        public event LoadCompletedEventHandler LoadCompleted;
+        public event FrameLoadStartEventHandler FrameLoadStart;
+        public event FrameLoadEndEventHandler FrameLoadEnd;
+        public event NavStateChangedEventHandler NavStateChanged;
         public event ConsoleMessageEventHandler ConsoleMessage;
+        public event AddressChangedEventHandler AddressChanged;
+        public event TitleChangedEventHandler TitleChanged;
 
         protected override void OnHandleCreated(EventArgs e)
         {
@@ -116,78 +122,215 @@ namespace CefSharp.WinForms
                 managedCefBrowserAdapter.OnSizeChanged(Handle);
         }
 
-        public void SetAddress(string address)
+        void IWebBrowserInternal.SetAddress(string address)
         {
             Address = address;
+
+            var handler = AddressChanged;
+            if (handler != null)
+            {
+                handler(this, new AddressChangedEventArgs(address));
+            }
         }
 
-        public void SetIsLoading(bool isLoading)
+        void IWebBrowserInternal.SetIsLoading(bool isLoading)
         {
             IsLoading = isLoading;
         }
 
-        public void SetNavState(bool canGoBack, bool canGoForward, bool canReload)
+        void IWebBrowserInternal.SetNavState(bool canGoBack, bool canGoForward, bool canReload)
         {
             CanGoBack = canGoBack;
             CanGoForward = canGoForward;
             CanReload = canReload;
+
+            var handler = NavStateChanged;
+            if (handler != null)
+            {
+                handler(this, new NavStateChangedEventArgs(canGoBack, canGoForward, canReload));
+            }
         }
 
-        public void SetTitle(string title)
+        void IWebBrowserInternal.SetTitle(string title)
         {
             Title = title;
+
+            var handler = TitleChanged;
+            if (handler != null)
+            {
+                handler(this, new TitleChangedEventArgs(title));
+            }
         }
 
-        public void SetTooltipText(string tooltipText)
+        void IWebBrowserInternal.SetTooltipText(string tooltipText)
         {
             TooltipText = tooltipText;
         }
 
-        public void OnFrameLoadStart(string url)
+        void IWebBrowserInternal.OnFrameLoadStart(string url, bool isMainFrame)
         {
-        }
-
-        public void OnFrameLoadEnd(string url)
-        {
-            if (LoadCompleted != null)
+            var handler = FrameLoadStart;
+            if (handler != null)
             {
-                LoadCompleted(this, new LoadCompletedEventArgs(url));
+                handler(this, new FrameLoadStartEventArgs(url, isMainFrame));
             }
         }
 
-        public void OnTakeFocus(bool next)
+        void IWebBrowserInternal.OnFrameLoadEnd(string url, bool isMainFrame, int httpStatusCode)
         {
-            throw new NotImplementedException();
-        }
-
-        public void OnConsoleMessage(string message, string source, int line)
-        {
-            if (ConsoleMessage != null)
+            var handler = FrameLoadEnd;
+            if (handler != null)
             {
-                ConsoleMessage(this, new ConsoleMessageEventArgs(message, source, line));
+                handler(this, new FrameLoadEndEventArgs(url, isMainFrame, httpStatusCode));
             }
         }
 
-        public void OnLoadError(string url, CefErrorCode errorCode, string errorText)
+        void IWebBrowserInternal.OnTakeFocus(bool next)
         {
-            if (LoadError != null)
+            SelectNextControl(this, next, true, true, true);
+        }
+
+        void IWebBrowserInternal.OnConsoleMessage(string message, string source, int line)
+        {
+            var handler = ConsoleMessage;
+            if (handler != null)
             {
-                LoadError(url, errorCode, errorText);
+                handler(this, new ConsoleMessageEventArgs(message, source, line));
             }
         }
 
-        
+        void IWebBrowserInternal.OnLoadError(string url, CefErrorCode errorCode, string errorText)
+        {
+            var handler = LoadError;
+            if (handler != null)
+            {
+                handler(url, errorCode, errorText);
+            }
+        }
 
-        public void ShowDevTools()
+        public void Find(int identifier, string searchText, bool forward, bool matchCase, bool findNext)
+        {
+            managedCefBrowserAdapter.Find(identifier, searchText, forward, matchCase, findNext);
+        }
+
+        public void StopFinding(bool clearSelection)
+        {
+            managedCefBrowserAdapter.StopFinding(clearSelection);
+        }
+
+        void IWebBrowserInternal.ShowDevTools()
         {
             // TODO: Do something about this one.
             var devToolsUrl = managedCefBrowserAdapter.DevToolsUrl;
             throw new NotImplementedException();
         }
 
-        public void CloseDevTools()
+        void IWebBrowserInternal.CloseDevTools()
         {
             throw new NotImplementedException();
+        }
+
+        public void Stop()
+        {
+            managedCefBrowserAdapter.Stop();
+        }
+
+        public void Back()
+        {
+            managedCefBrowserAdapter.GoBack();
+        }
+
+        public void Forward()
+        {
+            managedCefBrowserAdapter.GoForward();
+        }
+
+        public void Reload()
+        {
+            Reload(false);
+        }
+
+        public void Reload(bool ignoreCache)
+        {
+            managedCefBrowserAdapter.Reload(ignoreCache);
+        }
+
+        public void Undo()
+        {
+            managedCefBrowserAdapter.Undo();
+        }
+
+        public void Redo()
+        {
+            managedCefBrowserAdapter.Redo();
+        }
+
+        public void Cut()
+        {
+            managedCefBrowserAdapter.Cut();
+        }
+
+        public void Copy()
+        {
+            managedCefBrowserAdapter.Copy();
+        }
+
+        public void Paste()
+        {
+            managedCefBrowserAdapter.Paste();
+        }
+
+        public void Delete()
+        {
+            //managedCefBrowserAdapter.Delete();
+            throw new NotImplementedException();
+        }
+
+        public void SelectAll()
+        {
+            managedCefBrowserAdapter.SelectAll();
+        }
+
+        public void Print()
+        {
+            managedCefBrowserAdapter.Print();
+        }
+
+        public void ViewSource()
+        {
+            managedCefBrowserAdapter.ViewSource();
+        }
+
+        public Task<string> GetSourceAsync()
+        {
+            var taskStringVisitor = new TaskStringVisitor();
+            managedCefBrowserAdapter.GetSource(taskStringVisitor);
+            return taskStringVisitor.Task;
+        }
+
+        public string GetSource()
+        {
+            var task = GetSourceAsync();
+
+            task.Wait();
+
+            return task.Result;
+        }
+
+        public Task<string> GetTextAsync()
+        {
+            var taskStringVisitor = new TaskStringVisitor();
+            managedCefBrowserAdapter.GetText(taskStringVisitor);
+            return taskStringVisitor.Task;
+        }
+
+        public string GetText()
+        {
+            var task = GetTextAsync();
+
+            task.Wait();
+
+            return task.Result;
         }
     }
 }

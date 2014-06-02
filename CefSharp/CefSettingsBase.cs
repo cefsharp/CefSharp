@@ -7,6 +7,7 @@ namespace CefSharp
         protected CefSettingsBase()
         {
             cefCustomSchemes = new List<CefCustomScheme>();
+            cefCommandLineArgs = new Dictionary<string, string>();
             BrowserSubprocessPath = "CefSharp.BrowserSubprocess.exe";
         }
 
@@ -34,7 +35,11 @@ namespace CefSharp
 
         public IEnumerable<CefCustomScheme> CefCustomSchemes { get { return cefCustomSchemes; } }
 
+        public IDictionary<string, string> CefCommandLineArgs { get { return cefCommandLineArgs; } }
+
         private readonly List<CefCustomScheme> cefCustomSchemes;
+
+        private readonly IDictionary<string, string> cefCommandLineArgs;
 
         /// <summary>
         /// Registers a custom scheme using the provided settings.
