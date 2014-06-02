@@ -7,7 +7,7 @@ using CefSharp.Internals;
 
 namespace CefSharp.WinForms
 {
-    public class WebView : Control, IWebBrowserInternal, IWinFormsWebBrowser
+    public class ChromiumWebBrowser : Control, IWebBrowserInternal, IWinFormsWebBrowser
     {
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
 
@@ -29,7 +29,7 @@ namespace CefSharp.WinForms
         public bool IsBrowserInitialized { get; private set; }
         public IDictionary<string, object> BoundObjects { get; private set; }
 
-        static WebView()
+        static ChromiumWebBrowser()
         {
             Application.ApplicationExit += OnApplicationExit;
         }
@@ -39,7 +39,7 @@ namespace CefSharp.WinForms
             Cef.Shutdown();
         }
 
-        public WebView(string address)
+        public ChromiumWebBrowser(string address)
         {
             Cef.AddDisposable(this);
             Address = address;
