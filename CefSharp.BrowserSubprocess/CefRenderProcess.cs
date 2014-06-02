@@ -7,7 +7,7 @@ using CefSharp.Internals;
 
 namespace CefSharp.BrowserSubprocess
 {
-    public class CefRenderprocess : CefSubprocess, IRenderprocess
+    public class CefRenderProcess : CefSubProcess, IRenderprocess
     {
         private DuplexChannelFactory<IBrowserProcess> channelFactory;
         private CefBrowserBase browser;
@@ -17,14 +17,14 @@ namespace CefSharp.BrowserSubprocess
         }
         
 
-        public CefRenderprocess(IEnumerable<string> args) 
+        public CefRenderProcess(IEnumerable<string> args) 
             : base(args)
         {
         }
 
-        public static new CefRenderprocess Instance
+        public static new CefRenderProcess Instance
         {
-            get { return (CefRenderprocess)CefSubprocess.Instance; }
+            get { return (CefRenderProcess)CefSubProcess.Instance; }
         }
         
         protected override void DoDispose(bool isDisposing)

@@ -3,16 +3,16 @@ using System.Linq;
 
 namespace CefSharp.BrowserSubprocess
 {
-    public class CefSubprocess : CefAppWrapper
+    public class CefSubProcess : CefAppWrapper
     {
         public int? ParentProcessId { get; private set; }
 
-        public static new CefSubprocess Instance 
+        public static new CefSubProcess Instance 
         {
-            get { return (CefSubprocess)CefAppWrapper.Instance; }
+            get { return (CefSubProcess)CefAppWrapper.Instance; }
         }
 
-        public static CefSubprocess Create(IEnumerable<string> args)
+        public static CefSubProcess Create(IEnumerable<string> args)
         {
             const string typePrefix = "--type=";
             var typeArgument = args.SingleOrDefault(arg => arg.StartsWith(typePrefix));
@@ -22,15 +22,15 @@ namespace CefSharp.BrowserSubprocess
             switch (type)
             {
                 case "renderer":
-                    return new CefRenderprocess(args);
+                    return new CefRenderProcess(args);
                 case "gpu-process":
-                    return new CefGpuprocess(args);
+                    return new CefGpuProcess(args);
                 default:
-                    return new CefSubprocess(args);
+                    return new CefSubProcess(args);
             }
         }
 
-        protected CefSubprocess(IEnumerable<string> args)
+        protected CefSubProcess(IEnumerable<string> args)
         {
             LocateParentProcessId(args);
         }
