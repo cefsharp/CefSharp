@@ -220,7 +220,7 @@ namespace CefSharp.WinForms
         void IWebBrowserInternal.ShowDevTools()
         {
             // TODO: Do something about this one.
-            var devToolsUrl = managedCefBrowserAdapter.DevToolsUrl;
+            // var devToolsUrl = managedCefBrowserAdapter.DevToolsUrl;
             throw new NotImplementedException();
         }
 

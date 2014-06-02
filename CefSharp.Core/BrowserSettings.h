@@ -248,6 +248,9 @@ namespace CefSharp
             void set(Nullable<bool>^ value) { _browserSettings->tab_to_links = CefStateFromDisabledSetting(value); }
         }
 
+		/*
+		 *	Removed in CEF branch 1916
+
         property String^ UserStyleSheetLocation
         {
             String^ get() { return StringUtils::ToClr(_browserSettings->user_style_sheet_location); }
@@ -259,6 +262,7 @@ namespace CefSharp
             Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->author_and_user_styles); }
             void set(Nullable<bool>^ value) { _browserSettings->author_and_user_styles = CefStateFromDisabledSetting(value); }
         }
+		*/
 
         property Nullable<bool>^ LocalStorageDisabled
         {

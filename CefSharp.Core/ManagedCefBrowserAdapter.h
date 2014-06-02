@@ -38,6 +38,8 @@ namespace CefSharp
         };
 
     public:
+		/*
+		 * Removed in CEF branch 1916
         property String^ DevToolsUrl
         {
             String^ get()
@@ -54,6 +56,7 @@ namespace CefSharp
                 }
             }
         }
+		*/
 
         ManagedCefBrowserAdapter(IWebBrowserInternal^ webBrowserInternal)
         {
@@ -65,8 +68,10 @@ namespace CefSharp
         {
             HWND hwnd = HWND();
             CefWindowInfo window;
-            window.SetAsOffScreen(hwnd);
-            window.SetTransparentPainting(true);
+
+			// CefWindowInfo.SetAsOffScreen() and CefWindowInfo.SetTransparentPainting() merged into one method in CEF branch 1916
+			// Now CefWindowInfo.SetAsWindowless(CefWindowHandle parent, bool transparent)
+			window.SetAsWindowless(hwnd, true);
             CefString addressNative = StringUtils::ToNative("about:blank");
 
             if (!CefBrowserHost::CreateBrowser(window, _renderClientAdapter.get(), addressNative,
