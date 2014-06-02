@@ -6,13 +6,13 @@ namespace CefSharp.Internals
 {
     public class JavascriptObjectRepository : DisposableResource
     {
-        private JavascriptObject rootObject;
         private Dictionary<long, JavascriptObject> objects = new Dictionary<long, JavascriptObject>();
+        public JavascriptObject RootObject { get; private set; }
 
         public JavascriptObjectRepository()
         {
-            rootObject = new JavascriptObject();
-            objects[rootObject.Id] = rootObject;
+            RootObject = new JavascriptObject();
+            objects[RootObject.Id] = RootObject;
 
             //TODO: remove this dummy code
             var bar = new JavascriptMethod();
@@ -24,7 +24,7 @@ namespace CefSharp.Internals
             foo.Description.ManagedName = "Foo";
             foo.Value.Members.Add(bar);
 
-            rootObject.Members.Add(foo);
+            RootObject.Members.Add(foo);
         }
 
         public void Register(string name, object value)
@@ -35,12 +35,7 @@ namespace CefSharp.Internals
             member.Value.Value = value;
             //member.Value.Analyse();
             
-            rootObject.Members.Add(member);
-        }
-
-        public JavascriptObject RootObject 
-        {
-            get { return rootObject; }
+            RootObject.Members.Add(member);
         }
 
         public bool TryCallMethod(int objectId, string name, object[] parameters, out object result)
