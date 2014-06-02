@@ -444,8 +444,7 @@ namespace CefSharp
             result = handler->OnOpenFile(_browserControl, StringUtils::ToClr(title), StringUtils::ToClr(default_file_name), StringUtils::ToClr(accept_types), resultString);
             callback->Continue(StringUtils::ToNative(resultString));
 
-            // Unknown dialog type, so we return "not handled".
-            return false;
+            return result;
         }
     }
 }
