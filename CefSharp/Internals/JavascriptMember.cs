@@ -16,5 +16,14 @@ namespace CefSharp.Internals
         public virtual void Bind( JavascriptObject owner )
         {
         }
+
+        public override string ToString()
+        {
+            if (Description != null)
+            {
+                return Description.ToString();
+            }
+            return base.ToString();
+        }
     }
 }

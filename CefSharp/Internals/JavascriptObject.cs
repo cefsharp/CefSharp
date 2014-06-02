@@ -77,5 +77,14 @@ namespace CefSharp.Internals
                 Members.Add(jsProperty);
             }
         }
+
+        public override string ToString()
+        {
+            if (Value != null)
+            {
+                return Value.ToString();
+            }
+            return base.ToString();
+        }
     }
 }

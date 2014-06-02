@@ -34,5 +34,10 @@ namespace CefSharp.Internals
 
             return char.ToLower(str[0]) + str.Substring(1);
         }
+
+        public override string ToString()
+        {
+            return ManagedName;
+        }
     }
 }
