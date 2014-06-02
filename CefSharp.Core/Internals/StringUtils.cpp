@@ -55,9 +55,7 @@ namespace CefSharp
 
             for each (String^ s in str)
             {
-                pin_ptr<const wchar_t> pStr = PtrToStringChars(s);
-                CefString cefStr(pStr);
-                result.push_back(cefStr);
+                result.push_back(StringUtils::ToNative(s));
             }
 
             return result;
