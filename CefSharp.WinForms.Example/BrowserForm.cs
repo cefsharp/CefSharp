@@ -215,7 +215,7 @@ namespace CefSharp.WinForms.Example
             Find(true);
         }
 
-        private void CopySourceToClipboardAsync40()
+        private void CopySourceToClipBoardAsyncClick(object sender, EventArgs e)
         {
             var task = webView.GetSourceAsync();
 
@@ -228,26 +228,6 @@ namespace CefSharp.WinForms.Example
                 }
             },
             TaskScheduler.FromCurrentSynchronizationContext());
-        }
-
-#if NET45
-        private async Task CopySourceToClipboardAsync45()
-        {
-            var source = await webView.GetSourceAsync();
-            await Task.Delay(10000); // demonstrate loading lag doesn't freeze UI
-            Clipboard.SetText(source);
-            DisplayOutput("HTML Source copied to clipboard");
-        }
-#endif
-
-        private void CopySourceToClipBoardAsyncClick(object sender, EventArgs e)
-        {
-            // NOTE: If you don't need to be able to deploy to .NET 4.0, you can use 4.5 await/async
-#if NET45
-            await CopySourceToClipboardAsync45();
-#else
-            CopySourceToClipboardAsync40();
-#endif
         }
     }
 }
