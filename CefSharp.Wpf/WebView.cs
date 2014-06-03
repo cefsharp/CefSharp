@@ -596,7 +596,7 @@ namespace CefSharp.Wpf
                 case WM.KEYUP:
                 case WM.CHAR:
                 case WM.IME_CHAR:
-                    if (!IsFocused)
+                    if (!IsKeyboardFocused)
                     {
                         break;
                     }
