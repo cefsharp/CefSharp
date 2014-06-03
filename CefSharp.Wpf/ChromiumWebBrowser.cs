@@ -595,7 +595,7 @@ namespace CefSharp.Wpf
                 case WM.KEYUP:
                 case WM.CHAR:
                 case WM.IME_CHAR:
-                    if (!IsFocused)
+                    if (!IsKeyboardFocused)
                     {
                         break;
                     }
@@ -1154,29 +1154,11 @@ namespace CefSharp.Wpf
             return taskStringVisitor.Task;
         }
 
-        public string GetSource()
-        {
-            var task = GetSourceAsync();
-
-            task.Wait();
-
-            return task.Result;
-        }
-
         public Task<string> GetTextAsync()
         {
             var taskStringVisitor = new TaskStringVisitor();
             managedCefBrowserAdapter.GetText(taskStringVisitor);
             return taskStringVisitor.Task;
-        }
-
-        public string GetText()
-        {
-            var task = GetTextAsync();
-
-            task.Wait();
-
-            return task.Result;
         }
     }
 }

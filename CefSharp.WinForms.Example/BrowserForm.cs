@@ -24,7 +24,7 @@ namespace CefSharp.WinForms.Example
                 Dock = DockStyle.Fill,
             };
             toolStripContainer.ContentPanel.Controls.Add(browser);
-            
+
             browser.MenuHandler = new MenuHandler();
             browser.NavStateChanged += OnBrowserNavStateChanged;
             browser.ConsoleMessage += OnBrowserConsoleMessage;
@@ -191,7 +191,7 @@ namespace CefSharp.WinForms.Example
         {
             Find(true);
         }
-        
+
         private void FindPreviousButtonClick(object sender, EventArgs e)
         {
             Find(false);
@@ -213,13 +213,6 @@ namespace CefSharp.WinForms.Example
             }
 
             Find(true);
-        }
-
-        private void CopySourceToClipBoardClick(object sender, EventArgs e)
-        {
-            var source = browser.GetSource();
-            Clipboard.SetText(source);
-            DisplayOutput("HTML Source copied to clipboard");
         }
 
         private void CopySourceToClipBoardAsyncClick(object sender, EventArgs e)
