@@ -215,13 +215,6 @@ namespace CefSharp.WinForms.Example
             Find(true);
         }
 
-        private void CopySourceToClipBoardClick(object sender, EventArgs e)
-        {
-            var source = webView.GetSource();
-            Clipboard.SetText(source);
-            DisplayOutput("HTML Source copied to clipboard");
-        }
-
         private void CopySourceToClipBoardAsyncClick(object sender, EventArgs e)
         {
             var task = webView.GetSourceAsync();
