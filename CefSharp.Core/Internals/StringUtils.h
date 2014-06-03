@@ -33,7 +33,7 @@ namespace CefSharp
             /// Converts an unmanaged vector of strings to a (managed) .NET List of strings.
             /// </summary>
             /// <param name="cefStr">The vector of strings that should be converted.</param>
-            /// <returns>A .NET string.</returns>
+            /// <returns>A .NET List of strings.</returns>
             static List<String^>^ ToClr(const std::vector<CefString>& cefStr);
 
             /// <summary>
