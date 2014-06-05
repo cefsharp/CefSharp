@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -7,7 +11,7 @@ using CefSharp.Internals;
 
 namespace CefSharp.WinForms
 {
-    public class WebView : Control, IWebBrowserInternal, IWinFormsWebBrowser
+    public class ChromiumWebBrowser : Control, IWebBrowserInternal, IWinFormsWebBrowser
     {
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
 
@@ -30,7 +34,7 @@ namespace CefSharp.WinForms
         public bool IsBrowserInitialized { get; private set; }
         public IDictionary<string, object> BoundObjects { get; private set; }
 
-        static WebView()
+        static ChromiumWebBrowser()
         {
             Application.ApplicationExit += OnApplicationExit;
         }
@@ -40,7 +44,7 @@ namespace CefSharp.WinForms
             Cef.Shutdown();
         }
 
-        public WebView(string address)
+        public ChromiumWebBrowser(string address)
         {
             Cef.AddDisposable(this);
             Address = address;

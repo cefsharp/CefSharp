@@ -27,6 +27,13 @@ namespace CefSharp
         bool OnBeforeBrowse(IWebBrowser browser, IRequest request, bool isRedirect);
 
         /// <summary>
+        /// Called when a plugin has crashed
+        /// </summary>
+        /// <param name="browser">the browser object</param>
+        /// <param name="pluginPath">path of the plugin that crashed</param>
+        void OnPluginCrashed(IWebBrowser browser, string pluginPath);
+
+        /// <summary>
         /// Called before a resource request is loaded.
         /// </summary>
         /// <param name="browser">the browser object</param>

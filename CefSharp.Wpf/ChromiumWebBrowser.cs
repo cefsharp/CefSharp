@@ -2,13 +2,13 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using System.Threading.Tasks;
 using CefSharp.Internals;
 using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -19,7 +19,7 @@ using System.Windows.Threading;
 
 namespace CefSharp.Wpf
 {
-    public class WebView : ContentControl, IRenderWebBrowser, IWpfWebBrowser
+    public class ChromiumWebBrowser : ContentControl, IRenderWebBrowser, IWpfWebBrowser
     {
         private static readonly Key[] KeysToSendtoBrowser = new[] { 
             Key.Tab, 
@@ -74,7 +74,6 @@ namespace CefSharp.Wpf
             get { return PixelFormat.BitsPerPixel / 8; }
         }
 
-
         int IRenderWebBrowser.Width
         {
             get { return (int)matrix.Transform(new Point(ActualWidth, ActualHeight)).X; }
@@ -99,12 +98,12 @@ namespace CefSharp.Wpf
         }
 
         public static readonly DependencyProperty AddressProperty =
-            DependencyProperty.Register("Address", typeof(string), typeof(WebView),
+            DependencyProperty.Register("Address", typeof(string), typeof(ChromiumWebBrowser),
                                         new UIPropertyMetadata(null, OnAddressChanged));
 
         private static void OnAddressChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
-            WebView owner = (WebView)sender;
+            ChromiumWebBrowser owner = (ChromiumWebBrowser)sender;
             string oldValue = (string)args.OldValue;
             string newValue = (string)args.NewValue;
 
@@ -146,7 +145,7 @@ namespace CefSharp.Wpf
         }
 
         public static readonly DependencyProperty IsLoadingProperty =
-            DependencyProperty.Register("IsLoading", typeof(bool), typeof(WebView), new PropertyMetadata(false));
+            DependencyProperty.Register("IsLoading", typeof(bool), typeof(ChromiumWebBrowser), new PropertyMetadata(false));
 
         #endregion IsLoading dependency property
 
@@ -159,13 +158,13 @@ namespace CefSharp.Wpf
         }
 
         public static readonly DependencyProperty IsBrowserInitializedProperty =
-            DependencyProperty.Register("IsBrowserInitialized", typeof(bool), typeof(WebView), new PropertyMetadata(false, OnIsBrowserInitializedChanged ));
+            DependencyProperty.Register("IsBrowserInitialized", typeof(bool), typeof(ChromiumWebBrowser), new PropertyMetadata(false, OnIsBrowserInitializedChanged ));
 
         public event DependencyPropertyChangedEventHandler IsBrowserInitializedChanged;
 
         private static void OnIsBrowserInitializedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            WebView owner = (WebView)d;
+            ChromiumWebBrowser owner = (ChromiumWebBrowser)d;
             bool oldValue = (bool)e.OldValue;
             bool newValue = (bool)e.NewValue;
             
@@ -195,7 +194,7 @@ namespace CefSharp.Wpf
         }
 
         public static readonly DependencyProperty TitleProperty =
-            DependencyProperty.Register("Title", typeof(string), typeof(WebView), new PropertyMetadata(defaultValue: null));
+            DependencyProperty.Register("Title", typeof(string), typeof(ChromiumWebBrowser), new PropertyMetadata(defaultValue: null));
 
         #endregion Title dependency property
 
@@ -208,12 +207,12 @@ namespace CefSharp.Wpf
         }
 
         public static readonly DependencyProperty ZoomLevelProperty =
-            DependencyProperty.Register("ZoomLevel", typeof(double), typeof(WebView),
+            DependencyProperty.Register("ZoomLevel", typeof(double), typeof(ChromiumWebBrowser),
                                         new UIPropertyMetadata(0d, OnZoomLevelChanged));
 
         private static void OnZoomLevelChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
-            var owner = (WebView)sender;
+            var owner = (ChromiumWebBrowser)sender;
             var oldValue = (double)args.OldValue;
             var newValue = (double)args.NewValue;
 
@@ -245,7 +244,7 @@ namespace CefSharp.Wpf
         }
 
         public static readonly DependencyProperty ZoomLevelIncrementProperty =
-            DependencyProperty.Register("ZoomLevelIncrement", typeof(double), typeof(WebView), new PropertyMetadata(0.10));
+            DependencyProperty.Register("ZoomLevelIncrement", typeof(double), typeof(ChromiumWebBrowser), new PropertyMetadata(0.10));
 
         #endregion ZoomLevelIncrement dependency property
 
@@ -253,8 +252,8 @@ namespace CefSharp.Wpf
 
         /// <summary>
         /// The CleanupElement Controls when the BrowserResources will be cleand up. 
-        /// The WebView will register on Unloaded of the provided Element and dispose all resources when that handler is called.
-        /// By default the cleanup element is the Window that contains the WebView. 
+        /// The ChromiumWebBrowser will register on Unloaded of the provided Element and dispose all resources when that handler is called.
+        /// By default the cleanup element is the Window that contains the ChromiumWebBrowser. 
         /// if you want cleanup to happen earlier provide another FrameworkElement.
         /// Be aware that this Control is not usable anymore after cleanup is done. 
         /// </summary>
@@ -268,11 +267,11 @@ namespace CefSharp.Wpf
         }
 
         public static readonly DependencyProperty CleanupElementProperty =
-            DependencyProperty.Register("CleanupElement", typeof(FrameworkElement), typeof(WebView), new PropertyMetadata(null, OnCleanupElementChanged));
+            DependencyProperty.Register("CleanupElement", typeof(FrameworkElement), typeof(ChromiumWebBrowser), new PropertyMetadata(null, OnCleanupElementChanged));
 
         private static void OnCleanupElementChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
-            var owner = (WebView)sender;
+            var owner = (ChromiumWebBrowser)sender;
             var oldValue = (FrameworkElement)args.OldValue;
             var newValue = (FrameworkElement)args.NewValue;
 
@@ -335,7 +334,7 @@ namespace CefSharp.Wpf
         }
 
         public static readonly DependencyProperty TooltipTextProperty =
-            DependencyProperty.Register("TooltipText", typeof(string), typeof(WebView), new PropertyMetadata(null, (sender, e) => ((WebView)sender).OnTooltipTextChanged()));
+            DependencyProperty.Register("TooltipText", typeof(string), typeof(ChromiumWebBrowser), new PropertyMetadata(null, (sender, e) => ((ChromiumWebBrowser)sender).OnTooltipTextChanged()));
 
         private void OnTooltipTextChanged()
         {
@@ -368,11 +367,11 @@ namespace CefSharp.Wpf
         }
 
         public static readonly DependencyProperty WebBrowserProperty =
-            DependencyProperty.Register("WebBrowser", typeof(IWebBrowser), typeof(WebView), new UIPropertyMetadata(defaultValue: null));
+            DependencyProperty.Register("WebBrowser", typeof(IWebBrowser), typeof(ChromiumWebBrowser), new UIPropertyMetadata(defaultValue: null));
 
         #endregion WebBrowser dependency property
 
-        static WebView()
+        static ChromiumWebBrowser()
         {
             var app = Application.Current;
 
@@ -382,7 +381,7 @@ namespace CefSharp.Wpf
             }
         }
 
-        public WebView()
+        public ChromiumWebBrowser()
         {
             Cef.AddDisposable(this);
             Focusable = true;
@@ -425,7 +424,7 @@ namespace CefSharp.Wpf
             disposables.Add(new DisposableEventWrapper(this, ActualWidthProperty, OnActualSizeChanged));
         }
 
-        ~WebView()
+        ~ChromiumWebBrowser()
         {
             Dispose(false);
         }
