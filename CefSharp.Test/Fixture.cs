@@ -10,7 +10,7 @@ namespace CefSharp.Test
 {
     public class Fixture : ObjectBase
     {
-        public WebView Browser { get; set; }
+        public ChromiumWebBrowser Browser { get; set; }
         public Window Window { get; set; }
         public DispatcherThread DispatcherThread { get; set; }
 
@@ -37,7 +37,7 @@ namespace CefSharp.Test
                     
                 }
 
-                Window.Content = Browser = new WebView();
+                Window.Content = Browser = new ChromiumWebBrowser();
 
                 Window.Show();
             }).ContinueWith((t) =>

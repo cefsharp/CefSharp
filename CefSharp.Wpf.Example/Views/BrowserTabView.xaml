@@ -168,7 +168,7 @@
                     </Rectangle.Fill>
                 </Rectangle>
 
-                <cefSharp:WebView x:Name="webView"
+                <cefSharp:ChromiumWebBrowser x:Name="browser"
                                   Opacity="{Binding ElementName=opacitySlider, Path=Value}"
                                   Address="{Binding Address, Mode=TwoWay}"
                                   Title="{Binding Title, Mode=OneWayToSource}"
@@ -204,7 +204,7 @@
                                       Command="{Binding WebBrowser.ViewSourceCommand}" />
                         </ContextMenu>
                     </FrameworkElement.ContextMenu>
-                </cefSharp:WebView>
+                </cefSharp:ChromiumWebBrowser>
             </Grid>
         </DockPanel>
     </Grid>
