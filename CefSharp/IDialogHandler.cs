@@ -3,6 +3,6 @@ namespace CefSharp
 {
     public interface IDialogHandler
     {
-        bool OnFileDialog(IWebBrowser browser, string title, string defaultFileName, List<string> acceptTypes, out List<string> result);
+        bool OnFileDialog(IWebBrowser browser, CefFileDialogMode mode, string title, string defaultFileName, List<string> acceptTypes, out List<string> result);
     }
 }
