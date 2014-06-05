@@ -94,6 +94,7 @@
     <Compile Include="FrameLoadStartEventArgs.cs" />
     <Compile Include="KeyType.cs" />
     <Compile Include="LoadErrorEventHandler.cs" />
+    <Compile Include="NavigationType.cs" />
     <Compile Include="NavStateChangedEventArgs.cs" />
     <Compile Include="Internals\BitmapInfo.cs" />
     <Compile Include="Internals\ManagedCefApp.cs" />
