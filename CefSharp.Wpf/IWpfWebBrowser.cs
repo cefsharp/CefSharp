@@ -9,40 +9,39 @@ namespace CefSharp.Wpf
     public interface IWpfWebBrowser : IWebBrowser
     {
         /// <summary>
-        /// Command which navigates to the previous page in the browser history. Will automatically be enabled/disabled depending
-        /// on the browser state.
+        /// Navigates to the previous page in the browser history. Will automatically be enabled/disabled depending on the
+        /// browser state.
         /// </summary>
         ICommand BackCommand { get; }
 
         /// <summary>
-        /// Command which navigates to the next page in the browser history. Will automatically be enabled/disabled depending on
-        /// the browser state.
+        /// Navigates to the next page in the browser history. Will automatically be enabled/disabled depending on the
+        /// browser state.
         /// </summary>
         ICommand ForwardCommand { get; }
 
         /// <summary>
-        /// Command which reloads the content of the current page. Will automatically be enabled/disabled depending on the
-        /// browser state.
+        /// Reloads the content of the current page. Will automatically be enabled/disabled depending on the browser state.
         /// </summary>
         ICommand ReloadCommand { get; }
 
         /// <summary>
-        /// Command which prints the current browser contents.
+        /// Prints the current browser contents.
         /// </summary>
         ICommand PrintCommand { get; }
 
         /// <summary>
-        /// Command which increases the zoom level.
+        /// Increases the zoom level.
         /// </summary>
         ICommand ZoomInCommand { get; }
 
         /// <summary>
-        /// Command which decreases the zoom level.
+        /// Decreases the zoom level.
         /// </summary>
         ICommand ZoomOutCommand { get; }
 
         /// <summary>
-        /// Command which resets the zoom level to default.
+        /// Resets the zoom level to the default. (100%)
         /// </summary>
         ICommand ZoomResetCommand { get; }
 
@@ -51,13 +50,14 @@ namespace CefSharp.Wpf
         /// page is shown.
         /// </summary>
         ICommand ViewSourceCommand { get; }
+
         /// <summary>
-        /// command which cleans up the Resources used by the WebView 
+        /// Command which cleans up the Resources used by the ChromiumWebBrowser 
         /// </summary>
         ICommand CleanupCommand { get; }
 
         /// <summary>
-        /// Command which stops loading the current page.
+        /// Stops loading the current page.
         /// </summary>
         ICommand StopCommand { get; }
     }

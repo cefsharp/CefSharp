@@ -14,7 +14,7 @@ namespace CefSharp.Wpf.Example.Views
         {
             InitializeComponent();
 
-            webView.RequestHandler = new RequestHandler();
+            browser.RequestHandler = new RequestHandler();
         }
 
         private void OnTextBoxGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
