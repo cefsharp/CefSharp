@@ -2,8 +2,8 @@
 {
     public interface IDownloadHandler
     {
-        bool OnBeforeDownload(string suggestedName, out string downloadPath, out bool showDialog);
-        bool ReceivedData(byte[] data);
-        void Complete();
+        bool OnBeforeDownload(DownloadItem downloadItem, out string downloadPath, out bool showDialog);
+
+        bool OnDownloadUpdated(DownloadItem downloadItem);
     }
 }
