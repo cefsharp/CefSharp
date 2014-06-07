@@ -10,33 +10,8 @@ using namespace System::Net;
 
 namespace CefSharp
 {
-    Object^ ManagedCefBrowserAdapter::CallMethod(int objectId, String^ name, array<Object^>^ parameters)
+    void ManagedCefBrowserAdapter::Initialize()
     {
-        Object^ result;
-        if (!_javaScriptObjectRepository->TryCallMethod(objectId, name, parameters, result))
-        {
-            Cef::_javaScriptObjectRepository->TryCallMethod(objectId, name, parameters, result);
-        }
-
-        return result;
-    }
-
-    Object^ ManagedCefBrowserAdapter::GetProperty(int objectId, String^ name)
-    {
-        Object^ result;
-        if (!_javaScriptObjectRepository->TryGetProperty(objectId, name, result))
-        {
-            Cef::_javaScriptObjectRepository->TryGetProperty(objectId, name, result);
-        }
-
-        return result;
-    }
-
-    void ManagedCefBrowserAdapter::SetProperty(int objectId, String^ name, Object^ value)
-    {
-        if (!_javaScriptObjectRepository->TrySetProperty(objectId, name, value))
-        {
-            Cef::_javaScriptObjectRepository->TrySetProperty(objectId, name, value);
-        }
+        _javaScriptObjectRepository = Cef::_javaScriptObjectRepository->Clone();
     }
 }

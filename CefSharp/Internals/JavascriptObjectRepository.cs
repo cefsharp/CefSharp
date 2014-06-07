@@ -89,5 +89,18 @@ namespace CefSharp.Internals
             property.Description.SetValue(obj.Value, value);
             return true;
         }
+
+        public JavascriptObjectRepository Clone()
+        {
+            var clone = new JavascriptObjectRepository();
+            foreach (var o in objects)
+            {
+                clone.objects.Add(o.Key, o.Value);
+            }
+            
+            clone.RootObject.Members.AddRange(RootObject.Members);
+
+            return clone;
+        }
     }
 }
