@@ -134,6 +134,18 @@ namespace CefSharp
             return handler->OnKeyEvent(_browserControl, KeyTypeToManaged(event.type), event.windows_key_code, event.modifiers, event.is_system_key);
         }
 
+        bool ClientAdapter::OnPreKeyEvent(CefRefPtr<CefBrowser> browser, const CefKeyEvent& event, CefEventHandle os_event, bool* is_keyboard_shortcut)
+        {
+            IKeyboardHandler^ handler = _browserControl->KeyboardHandler;
+
+            if (handler == nullptr)
+            {
+                return false;
+            }
+
+            return handler->OnPreKeyEvent(_browserControl, (CefKeyType)event.type, event.windows_key_code, event.native_key_code, event.modifiers, event.is_system_key, is_keyboard_shortcut);
+        }
+
         void ClientAdapter::OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame)
         {
             if (browser->IsPopup())
