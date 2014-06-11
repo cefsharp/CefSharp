@@ -159,7 +159,7 @@ namespace CefSharp
         bool Focus();
 
         /// <summary>
-        /// Reloads the page being displayed.
+        /// Reloads the page being displayed. This method will use data from the browser's cache, if available.
         /// </summary>
         void Reload();
 
@@ -167,8 +167,8 @@ namespace CefSharp
         /// Reloads the page being displayed, optionally ignoring the cache (which means the whole page including all .css, .js
         /// etc. resources will be re-fetched).
         /// </summary>
-        /// <param name="ignoreCache"><c>true</c> A reload is performed ignoring borwser cache; <c>false</c> A reload is
-        /// performed using browser cache</param>
+        /// <param name="ignoreCache"><c>true</c> A reload is performed ignoring brwpser cache; <c>false</c> A reload is
+        /// performed using files from the browser cache, if available.</param>
         void Reload(bool ignoreCache);
     }
 }
