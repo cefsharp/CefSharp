@@ -9,27 +9,27 @@ namespace CefSharp.Internals
         public BrowserProcessService()
         {
             host = (BrowserProcessServiceHost)OperationContext.Current.Host;
-            host.Renderprocess = OperationContext.Current.GetCallbackChannel<IRenderprocess>();
+            host.RenderProcess = OperationContext.Current.GetCallbackChannel<IRenderprocess>();
         }
 
         public object CallMethod(int objectId, string name, object[] parameters)
         {
-            return host.Browserprocess.CallMethod(objectId, name, parameters);
+            return host.BrowserProcess.CallMethod(objectId, name, parameters);
         }
 
         public object GetProperty(int objectId, string name)
         {
-            return host.Browserprocess.GetProperty(objectId, name);
+            return host.BrowserProcess.GetProperty(objectId, name);
         }
 
         public void SetProperty(int objectId, string name, object value)
         {
-            host.Browserprocess.SetProperty(objectId, name, value);
+            host.BrowserProcess.SetProperty(objectId, name, value);
         }
 
         public JavascriptObject GetRegisteredJavascriptObjects()
         {
-            return host.Browserprocess.GetRegisteredJavascriptObjects();
+            return host.BrowserProcess.GetRegisteredJavascriptObjects();
         }
     }
 }

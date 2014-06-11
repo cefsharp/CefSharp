@@ -6,13 +6,13 @@ namespace CefSharp.Internals
 {
     public class BrowserProcessServiceHost : ServiceHost
     {
-        public IBrowserProcess Browserprocess { get; private set; }
-        public IRenderprocess Renderprocess { get; set; }
+        public IBrowserProcess BrowserProcess { get; private set; }
+        public IRenderprocess RenderProcess { get; set; }
         
-        public BrowserProcessServiceHost(IBrowserProcess browserprocess, int parentProcessId, int browserId)
+        public BrowserProcessServiceHost(IBrowserProcess browserProcess, int parentProcessId, int browserId)
             : base(typeof(BrowserProcessService), new Uri[0])
         {
-            Browserprocess = browserprocess;
+            BrowserProcess = browserProcess;
 
             var serviceName = RenderprocessClientFactory.GetServiceName(parentProcessId, browserId);
 
@@ -28,8 +28,8 @@ namespace CefSharp.Internals
         protected override void OnClosed()
         {
             base.OnClosed();
-            Browserprocess = null;
-            Renderprocess = null;
+            BrowserProcess = null;
+            RenderProcess = null;
         }
     }
 }
