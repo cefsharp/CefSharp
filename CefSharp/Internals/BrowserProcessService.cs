@@ -4,11 +4,11 @@ namespace CefSharp.Internals
 {
     public class BrowserProcessService : IBrowserProcess
     {
-        private readonly BrowserprocessServiceHost host;
+        private readonly BrowserProcessServiceHost host;
         
         public BrowserProcessService()
         {
-            host = (BrowserprocessServiceHost)OperationContext.Current.Host;
+            host = (BrowserProcessServiceHost)OperationContext.Current.Host;
             host.Renderprocess = OperationContext.Current.GetCallbackChannel<IRenderprocess>();
         }
 

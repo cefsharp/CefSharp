@@ -94,7 +94,7 @@
     <Compile Include="LoadErrorEventArgs.cs" />
     <Compile Include="FrameLoadStartEventArgs.cs" />
     <Compile Include="Internals\BrowserProcessService.cs" />
-    <Compile Include="Internals\BrowserprocessServiceHost.cs" />
+    <Compile Include="Internals\BrowserProcessServiceHost.cs" />
     <Compile Include="Internals\WCFExtensions.cs" />
     <Compile Include="KeyType.cs" />
     <Compile Include="LoadErrorEventHandler.cs" />
