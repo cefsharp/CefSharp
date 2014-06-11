@@ -4,13 +4,8 @@ namespace CefSharp.Example
 {
     class BoundObject
     {
-        private int myProperty;
+        public int MyProperty { get; set; }
 
-        public int MyProperty 
-        {
-            get { return myProperty; }
-            set { myProperty = value; }
-        }
         public string MyReadOnlyProperty { get; internal set; }
         public Type MyUnconvertibleProperty { get; set; }
 
@@ -180,7 +175,7 @@ namespace CefSharp.Example
             return arg0;
         }
 
-        // This will currently not work, as it causes a collision w/ the EchoString() method.
+        // TODO: This will currently not work, as it causes a collision w/ the EchoString() method. We need to find a way around that I guess.
         //public String echoString(String arg)
         //{
         //    return "Lowercase echo: " + arg;
