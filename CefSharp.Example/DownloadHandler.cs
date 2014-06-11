@@ -1,6 +1,6 @@
 ﻿namespace CefSharp.Example
 {
-    internal class DownloadHandler : IDownloadHandler
+    public class DownloadHandler : IDownloadHandler
     {
         public bool OnBeforeDownload(DownloadItem downloadItem, out string downloadPath, out bool showDialog)
         {
