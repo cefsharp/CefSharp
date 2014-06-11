@@ -77,7 +77,7 @@ namespace CefSharp
             {
                 return Nullable<DateTime>();
             }
-            return Nullable<DateTime>(DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(epoch));
+            return Nullable<DateTime>(DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(epoch).ToLocalTime());
         }
     }
 }
