@@ -178,7 +178,7 @@ namespace CefSharp.Wpf
 
         private static void OnIsBrowserInitializedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ChromiumWebBrowser owner = (ChromiumWebBrowser)d;
+            var owner = (ChromiumWebBrowser)d;
             bool oldValue = (bool)e.OldValue;
             bool newValue = (bool)e.NewValue;
             
@@ -504,9 +504,9 @@ namespace CefSharp.Wpf
             Transform(popup);
         }
 
-        private Image CreateImage() 
+        private static Image CreateImage() 
         {
-            Image temp = new Image();
+            var temp = new Image();
 
             RenderOptions.SetBitmapScalingMode(temp, BitmapScalingMode.NearestNeighbor);
 
@@ -635,10 +635,7 @@ namespace CefSharp.Wpf
 
         public void SetIsLoading(bool isLoading)
         {
-            DoInUi(() =>
-            {
-                SetCurrentValue(IsLoadingProperty, isLoading);
-            });
+            DoInUi(() => SetCurrentValue(IsLoadingProperty, isLoading));
         }
 
         void IWebBrowserInternal.SetNavState(bool canGoBack, bool canGoForward, bool canReload)
@@ -659,26 +656,17 @@ namespace CefSharp.Wpf
 
         void IWebBrowserInternal.SetTitle(string title)
         {
-            DoInUi(() =>
-            {
-                SetCurrentValue(TitleProperty, title);
-            });
+            DoInUi(() => SetCurrentValue(TitleProperty, title));
         }
 
         void IWebBrowserInternal.SetTooltipText(string tooltipText)
         {
-            DoInUi(() =>
-            {
-                SetCurrentValue(TooltipTextProperty, tooltipText);
-            });
+            DoInUi(() => SetCurrentValue(TooltipTextProperty, tooltipText));
         }
 
         void IRenderWebBrowser.SetPopupSizeAndPosition(int width, int height, int x, int y)
         {
-            DoInUi(() =>
-            {
-                this.SetPopupSizeAndPositionImpl(width, height, x, y);
-            });
+            DoInUi(() => SetPopupSizeAndPositionImpl(width, height, x, y));
         }
 
         void IRenderWebBrowser.SetPopupIsOpen(bool isOpen)
