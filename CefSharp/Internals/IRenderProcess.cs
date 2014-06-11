@@ -3,7 +3,7 @@
 namespace CefSharp.Internals
 {
     [ServiceContract()]
-    public interface IRenderprocess 
+    public interface IRenderProcess 
     {
         // TODO: Jan Eggers (and the rest of the world, basically) is right. We should do away with this method and instead use
         // a Task-based approach. The question is just how to make that work over the WCF channel? But perhaps this isn't really

@@ -2,7 +2,7 @@
 
 namespace CefSharp.Internals
 {
-    [ServiceContract(CallbackContract = typeof(IRenderprocess))]
+    [ServiceContract(CallbackContract = typeof(IRenderProcess))]
     public interface IBrowserProcess
     {
         [OperationContract]

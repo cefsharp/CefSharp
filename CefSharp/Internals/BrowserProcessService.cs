@@ -9,7 +9,7 @@ namespace CefSharp.Internals
         public BrowserProcessService()
         {
             host = (BrowserProcessServiceHost)OperationContext.Current.Host;
-            host.RenderProcess = OperationContext.Current.GetCallbackChannel<IRenderprocess>();
+            host.RenderProcess = OperationContext.Current.GetCallbackChannel<IRenderProcess>();
         }
 
         public object CallMethod(int objectId, string name, object[] parameters)

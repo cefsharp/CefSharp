@@ -4,7 +4,7 @@ using System.ServiceModel;
 
 namespace CefSharp.BrowserSubprocess
 {
-    public class CefRenderProcess : CefSubProcess, IRenderprocess
+    public class CefRenderProcess : CefSubProcess, IRenderProcess
     {
         private DuplexChannelFactory<IBrowserProcess> channelFactory;
         private CefBrowserBase browser;

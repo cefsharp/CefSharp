@@ -7,7 +7,7 @@ namespace CefSharp.Internals
     public class BrowserProcessServiceHost : ServiceHost
     {
         public IBrowserProcess BrowserProcess { get; private set; }
-        public IRenderprocess RenderProcess { get; set; }
+        public IRenderProcess RenderProcess { get; set; }
         
         public BrowserProcessServiceHost(IBrowserProcess browserProcess, int parentProcessId, int browserId)
             : base(typeof(BrowserProcessService), new Uri[0])
