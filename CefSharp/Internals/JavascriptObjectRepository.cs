@@ -6,7 +6,7 @@ namespace CefSharp.Internals
 {
     public class JavascriptObjectRepository : DisposableResource
     {
-        private Dictionary<long, JavascriptObject> objects = new Dictionary<long, JavascriptObject>();
+        private readonly Dictionary<long, JavascriptObject> objects = new Dictionary<long, JavascriptObject>();
         public JavascriptObject RootObject { get; private set; }
 
         public JavascriptObjectRepository()
@@ -24,10 +24,15 @@ namespace CefSharp.Internals
 
         public void Register(string name, object value)
         {
-            var member = new JavascriptProperty();
-            member.Value = CreateJavascriptObject();
-            member.Description.ManagedName = name;
-            member.Description.JavascriptName = JavascriptMemberDescription.LowercaseFirst(name);
+            var member = new JavascriptProperty
+            {
+                Value = CreateJavascriptObject(),
+                Description =
+                {
+                    ManagedName = name,
+                    JavascriptName = JavascriptMemberDescription.LowercaseFirst(name)
+                }
+            };
             member.Value.Value = value;
             member.Value.Analyse(this);
             
