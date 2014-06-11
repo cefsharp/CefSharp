@@ -64,19 +64,19 @@ namespace CefSharp.Wpf
         public ICommand CleanupCommand { get; private set; }
         public ICommand StopCommand { get; private set; }
 
-        public static DependencyProperty CanGoBackProperty = DependencyProperty.Register( "CanGoBack", typeof(bool), typeof(WebView) );
+        public static DependencyProperty CanGoBackProperty = DependencyProperty.Register("CanGoBack", typeof(bool), typeof(ChromiumWebBrowser));
         public bool CanGoBack 
         {
             get { return (bool)GetValue(CanGoBackProperty); }
             private set { SetValue(CanGoBackProperty, value); }
         }
-        public static DependencyProperty CanGoForwardProperty = DependencyProperty.Register("CanGoForward", typeof(bool), typeof(WebView));
+        public static DependencyProperty CanGoForwardProperty = DependencyProperty.Register("CanGoForward", typeof(bool), typeof(ChromiumWebBrowser));
         public bool CanGoForward
         {
             get { return (bool)GetValue(CanGoForwardProperty); }
             private set { SetValue(CanGoForwardProperty, value); }
         }
-        public static DependencyProperty CanReloadProperty = DependencyProperty.Register("CanReload", typeof(bool), typeof(WebView));
+        public static DependencyProperty CanReloadProperty = DependencyProperty.Register("CanReload", typeof(bool), typeof(ChromiumWebBrowser));
         public bool CanReload
         {
             get { return (bool)GetValue(CanReloadProperty); }
