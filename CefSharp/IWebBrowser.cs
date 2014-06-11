@@ -71,7 +71,8 @@ namespace CefSharp
         /// <summary>
         /// A flag that indicates whether the control is currently loading one or more web pages (true) or not (false).
         /// </summary>
-        /// <remarks>This property is a Dependency Property and fully supports data binding.</remarks>
+        /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
+        /// binding.</remarks>
         bool IsLoading { get; set; }
 
         /// <summary>
@@ -89,13 +90,15 @@ namespace CefSharp
         /// (e.g. www.google.com) or a full URL (e.g. http://www.google.com). Will automatically be updated as the user
         /// navigates to another page (e.g. by clicking on a link).
         /// </summary>
-        /// <remarks>This property is a Dependency Property and fully supports data binding.</remarks>
+        /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
+        /// binding.</remarks>
         string Address { get; set; }
 
         /// <summary>
         /// The title of the web page being currently displayed.
         /// </summary>
-        /// <remarks>This property is a Dependency Property and fully supports data binding.</remarks>
+        /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
+        /// binding.</remarks>
         string Title { get; }
 
         string TooltipText { get; set; }
@@ -104,7 +107,8 @@ namespace CefSharp
         /// The zoom level at which the browser control is currently displaying. Can be set to 0 to clear the zoom level (resets to
         /// default zoom level).
         /// </summary>
-        /// <remarks>This property is a Dependency Property and fully supports data binding.</remarks>
+        /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
+        /// binding.</remarks>
         double ZoomLevel { get; set; }
 
         /// <summary>
