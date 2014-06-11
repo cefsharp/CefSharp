@@ -346,7 +346,7 @@ namespace CefSharp.Wpf
 
             RemoveSourceHook();
 
-            DoInUi(() => WebBrowser = null);
+            UiThreadRunAsync(() => WebBrowser = null);
             managedCefBrowserAdapter = null;
             ConsoleMessage = null;
             FrameLoadStart = null;
@@ -379,7 +379,7 @@ namespace CefSharp.Wpf
 
             if (String.IsNullOrEmpty(TooltipText))
             {
-                DoInUi(() => UpdateTooltip(null), DispatcherPriority.Render);
+                UiThreadRunAsync(() => UpdateTooltip(null), DispatcherPriority.Render);
             }
             else
             {
@@ -460,7 +460,7 @@ namespace CefSharp.Wpf
             Dispose(false);
         }
 
-        private void DoInUi(Action action, DispatcherPriority priority = DispatcherPriority.DataBind)
+        private void UiThreadRunAsync(Action action, DispatcherPriority priority = DispatcherPriority.DataBind)
         {
             if (Dispatcher.CheckAccess())
             {
@@ -633,12 +633,12 @@ namespace CefSharp.Wpf
         void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
         {
             IRenderWebBrowser renderer = this;
-            DoInUi(() => renderer.SetBitmap(bitmapInfo), DispatcherPriority.Render);
+            UiThreadRunAsync(() => renderer.SetBitmap(bitmapInfo), DispatcherPriority.Render);
         }
 
         void IWebBrowserInternal.SetAddress(string address)
         {
-            DoInUi(() =>
+            UiThreadRunAsync(() =>
             {
                 ignoreUriChange = true;
                 SetCurrentValue(AddressProperty, address);
@@ -651,12 +651,12 @@ namespace CefSharp.Wpf
 
         void IWebBrowserInternal.SetIsLoading(bool isLoading)
         {
-            DoInUi(() => SetCurrentValue(IsLoadingProperty, isLoading));
+            UiThreadRunAsync(() => SetCurrentValue(IsLoadingProperty, isLoading));
         }
 
         void IWebBrowserInternal.SetNavState(bool canGoBack, bool canGoForward, bool canReload)
         {
-            DoInUi(() =>
+            UiThreadRunAsync(() =>
             {
                 CanGoBack = canGoBack;
                 CanGoForward = canGoForward;
@@ -675,22 +675,22 @@ namespace CefSharp.Wpf
 
         void IWebBrowserInternal.SetTitle(string title)
         {
-            DoInUi(() => SetCurrentValue(TitleProperty, title));
+            UiThreadRunAsync(() => SetCurrentValue(TitleProperty, title));
         }
 
         void IWebBrowserInternal.SetTooltipText(string tooltipText)
         {
-            DoInUi(() => SetCurrentValue(TooltipTextProperty, tooltipText));
+            UiThreadRunAsync(() => SetCurrentValue(TooltipTextProperty, tooltipText));
         }
 
         void IRenderWebBrowser.SetPopupSizeAndPosition(int width, int height, int x, int y)
         {
-            DoInUi(() => SetPopupSizeAndPositionImpl(width, height, x, y));
+            UiThreadRunAsync(() => SetPopupSizeAndPositionImpl(width, height, x, y));
         }
 
         void IRenderWebBrowser.SetPopupIsOpen(bool isOpen)
         {
-            DoInUi(() => { popup.IsOpen = isOpen; });
+            UiThreadRunAsync(() => { popup.IsOpen = isOpen; });
         }
 
         private static CefEventFlags GetModifiers(MouseEventArgs e)
@@ -918,7 +918,7 @@ namespace CefSharp.Wpf
 
         void IWebBrowserInternal.OnInitialized()
         {
-            DoInUi(() =>
+            UiThreadRunAsync(() =>
             {
                 SetCurrentValue(IsBrowserInitializedProperty, true);
             });
@@ -976,7 +976,7 @@ namespace CefSharp.Wpf
 
         private void ZoomIn()
         {
-            DoInUi(() =>
+            UiThreadRunAsync(() =>
             {
                 ZoomLevel = ZoomLevel + ZoomLevelIncrement;
             });
@@ -984,7 +984,7 @@ namespace CefSharp.Wpf
 
         private void ZoomOut()
         {
-            DoInUi(() =>
+            UiThreadRunAsync(() =>
             {
                 ZoomLevel = ZoomLevel - ZoomLevelIncrement;
             });
@@ -992,7 +992,7 @@ namespace CefSharp.Wpf
 
         private void ZoomReset()
         {
-            DoInUi(() =>
+            UiThreadRunAsync(() =>
             {
                 ZoomLevel = 0;
             });
@@ -1081,7 +1081,7 @@ namespace CefSharp.Wpf
 
         void IRenderWebBrowser.SetCursor(IntPtr handle)
         {
-            DoInUi(() =>
+            UiThreadRunAsync(() =>
             {
                 Cursor = CursorInteropHelper.Create(new SafeFileHandle(handle, ownsHandle: false));
             });
