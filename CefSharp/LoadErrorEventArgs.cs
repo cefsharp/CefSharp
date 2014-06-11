@@ -29,9 +29,4 @@ namespace CefSharp
         /// </summary>
         public string ErrorText { get; private set; }
     }
-
-    /// <summary>
-    /// A delegate type used to listen to LoadError messages.
-    /// </summary>
-    public delegate void LoadErrorEventHandler(object sender, LoadErrorEventArgs e);
 }

@@ -3,6 +3,14 @@ using System.Threading.Tasks;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// A delegate type used to listen to LoadError messages.
+    /// </summary>
+    /// <param name="failedUrl">The URL that failed to load.</param>
+    /// <param name="errorCode">The error code.</param>
+    /// <param name="errorText">The error text.</param>
+    public delegate void LoadErrorEventHandler(string failedUrl, CefErrorCode errorCode, string errorText);
+
     public interface IWebBrowser : IDisposable
     {
         /// <summary>
