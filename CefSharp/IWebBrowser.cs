@@ -69,7 +69,7 @@ namespace CefSharp
         ILifeSpanHandler LifeSpanHandler { get; set; }
         IKeyboardHandler KeyboardHandler { get; set; }
         IJsDialogHandler JsDialogHandler { get; set; }
-        
+
         bool IsBrowserInitialized { get; }
 
         /// <summary>
@@ -82,11 +82,15 @@ namespace CefSharp
         /// <summary>
         /// A flag that indicates whether the control can navigate backwards (true) or not (false).
         /// </summary>
+        /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
+        /// binding.</remarks>
         bool CanGoBack { get; }
 
         /// <summary>
         /// A flag that indicates whether the control can navigate forwards (true) or not (false).
         /// </summary>
+        /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
+        /// binding.</remarks>
         bool CanGoForward { get; }
 
         /// <summary>
