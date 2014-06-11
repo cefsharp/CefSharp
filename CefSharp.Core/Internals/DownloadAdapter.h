@@ -7,6 +7,7 @@
 #include "Stdafx.h"
 #include "include/cef_download_handler.h"
 
+using namespace System;
 using namespace CefSharp;
 
 namespace CefSharp
@@ -18,6 +19,7 @@ namespace CefSharp
         private:
             gcroot<IDownloadHandler^> _handler;
             DownloadItem^ DownloadAdapter::GetDownloadItem(CefRefPtr<CefDownloadItem> download_item);
+            Nullable<DateTime> ConvertCefTimeToNullableDateTime(CefTime time);
 
         public:
             DownloadAdapter(IDownloadHandler^ handler) : _handler(handler) { }
