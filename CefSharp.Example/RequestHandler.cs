@@ -46,7 +46,7 @@ namespace CefSharp.Example
             return false;
         }
 
-        bool IRequestHandler.OnBeforePluginLoad(IWebBrowser browser, string url, string policy_url, IWebPluginInfo info)
+        bool IRequestHandler.OnBeforePluginLoad(IWebBrowser browser, string url, string policyUrl, IWebPluginInfo info)
         {
             bool blockPluginLoad = false;
 
