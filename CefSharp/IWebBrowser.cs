@@ -80,18 +80,25 @@ namespace CefSharp
         bool IsLoading { get; set; }
 
         /// <summary>
-        /// A flag that indicates whether the control can navigate backwards (true) or not (false).
+        /// A flag that indicates whether the state of the control current supports the GoBack action (true) or not (false).
         /// </summary>
         /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
         /// binding.</remarks>
         bool CanGoBack { get; }
 
         /// <summary>
-        /// A flag that indicates whether the control can navigate forwards (true) or not (false).
+        /// A flag that indicates whether the state of the control currently supports the GoForward action (true) or not (false).
         /// </summary>
         /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
         /// binding.</remarks>
         bool CanGoForward { get; }
+
+        /// <summary>
+        /// A flag that indicates whether the state of the control currently supports the Reload action (true) or not (false).
+        /// </summary>
+        /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
+        /// binding.</remarks>
+        bool CanReload { get; }
 
         /// <summary>
         /// The address (URL) which the browser control is currently displaying. Can be set to a simplified URL
