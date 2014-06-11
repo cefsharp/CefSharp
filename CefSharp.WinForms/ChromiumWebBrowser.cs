@@ -65,8 +65,9 @@ namespace CefSharp.WinForms
             base.Dispose(disposing);
         }
 
-        public void OnInitialized()
+        void IWebBrowserInternal.OnInitialized()
         {
+            IsBrowserInitialized = true;
         }
 
         public void Load(String url)
@@ -208,7 +209,7 @@ namespace CefSharp.WinForms
             var handler = LoadError;
             if (handler != null)
             {
-                handler(url, errorCode, errorText);
+                handler(this, new LoadErrorEventArgs(url, errorCode, errorText));
             }
         }
 
@@ -259,6 +260,12 @@ namespace CefSharp.WinForms
             managedCefBrowserAdapter.Reload(ignoreCache);
         }
 
+        public double ZoomLevel
+        { 
+            get { return managedCefBrowserAdapter.GetZoomLevel(); }
+            set { managedCefBrowserAdapter.SetZoomLevel(value); }
+         }
+
         public void Undo()
         {
             managedCefBrowserAdapter.Undo();
@@ -286,8 +293,7 @@ namespace CefSharp.WinForms
 
         public void Delete()
         {
-            //managedCefBrowserAdapter.Delete();
-            throw new NotImplementedException();
+            managedCefBrowserAdapter.Delete();
         }
 
         public void SelectAll()

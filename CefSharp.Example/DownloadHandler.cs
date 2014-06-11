@@ -1,26 +1,23 @@
-﻿using System;
-using System.IO;
-
-namespace CefSharp.Example
+﻿namespace CefSharp.Example
 {
     internal class DownloadHandler : IDownloadHandler
     {
-        public bool OnBeforeDownload(string suggestedName, out string downloadPath, out bool showDialog)
+        bool IDownloadHandler.OnBeforeDownload(string suggestedName, out string downloadPath, out bool showDialog)
         {
-            downloadPath = Path.GetTempPath();
+            downloadPath = suggestedName;
             showDialog = true;
 
             return true;
         }
 
-        public bool ReceivedData(byte[] data)
+        bool IDownloadHandler.ReceivedData(byte[] data)
         {
-            throw new NotImplementedException();
+            return false;
         }
 
-        public void Complete()
+        void IDownloadHandler.Complete()
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

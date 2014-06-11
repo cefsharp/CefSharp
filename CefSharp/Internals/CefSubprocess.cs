@@ -6,16 +6,12 @@ namespace CefSharp.Internals
 {
     public class CefSubprocess : ManagedCefApp
     {
-        #region Singleton pattern
-
         public static CefSubprocess Instance { get; private set; }
 
         public CefSubprocess()
         {
             Instance = this;
         }
-
-        #endregion
 
         protected override void DoDispose(bool isDisposing)
         {

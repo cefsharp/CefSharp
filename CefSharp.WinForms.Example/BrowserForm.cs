@@ -19,7 +19,7 @@ namespace CefSharp.WinForms.Example
             Text = "CefSharp";
             WindowState = FormWindowState.Maximized;
 
-            browser = new ChromiumWebBrowser(ExamplePresenter.DefaultUrl)
+            browser = new ChromiumWebBrowser(CefExample.DefaultUrl)
             {
                 Dock = DockStyle.Fill,
             };

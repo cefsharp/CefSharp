@@ -4,6 +4,7 @@
 
 using System.Windows.Controls;
 using System.Windows.Input;
+using CefSharp.Example;
 
 namespace CefSharp.Wpf.Example.Views
 {
@@ -12,6 +13,8 @@ namespace CefSharp.Wpf.Example.Views
         public BrowserTabView()
         {
             InitializeComponent();
+
+            browser.RequestHandler = new RequestHandler();
         }
 
         private void OnTextBoxGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
