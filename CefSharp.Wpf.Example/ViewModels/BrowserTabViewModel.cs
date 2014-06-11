@@ -64,10 +64,10 @@ namespace CefSharp.Wpf.Example.ViewModels
             set { PropertyChanged.ChangeAndNotify(ref showSidebar, value, () => ShowSidebar); }
         }
 
-        public DelegateCommand GoCommand { get; set; }
-        public DelegateCommand HomeCommand { get; set; }
-        public DelegateCommand<string> ExecuteJavaScriptCommand { get; set; }
-        public DelegateCommand<string> EvaluateJavaScriptCommand { get; set; }
+        public ICommand GoCommand { get; set; }
+        public ICommand HomeCommand { get; set; }
+        public ICommand ExecuteJavaScriptCommand { get; set; }
+        public ICommand EvaluateJavaScriptCommand { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -77,7 +77,7 @@ namespace CefSharp.Wpf.Example.ViewModels
             AddressEditable = Address;
 
             GoCommand = new DelegateCommand(Go, () => !String.IsNullOrWhiteSpace(Address));
-            HomeCommand = new DelegateCommand(() => AddressEditable = Address = ExamplePresenter.DefaultUrl);
+            HomeCommand = new DelegateCommand(() => AddressEditable = Address = CefExample.DefaultUrl);
             ExecuteJavaScriptCommand = new DelegateCommand<string>(ExecuteJavaScript, s => !String.IsNullOrWhiteSpace(s));
             EvaluateJavaScriptCommand = new DelegateCommand<string>(EvaluateJavaScript, s => !String.IsNullOrWhiteSpace(s));
 
@@ -142,17 +142,17 @@ namespace CefSharp.Wpf.Example.ViewModels
             OutputMessage = e.Message;
         }
 
-        private void OnWebBrowserLoadError(string failedUrl, CefErrorCode errorCode, string errorText)
+        private void OnWebBrowserLoadError(object sender, LoadErrorEventArgs args)
         {
             // Don't display an error for downloaded files where the user aborted the download.
-            if (errorCode == CefErrorCode.Aborted)
+            if (args.ErrorCode == CefErrorCode.Aborted)
                 return;
 
-            var errorMessage = "<html><body><h2>Failed to load URL " + failedUrl +
-                  " with error " + errorText + " (" + errorCode +
+            var errorMessage = "<html><body><h2>Failed to load URL " + args.FailedUrl +
+                  " with error " + args.ErrorText + " (" + args.ErrorCode +
                   ").</h2></body></html>";
 
-            webBrowser.LoadHtml(errorMessage, failedUrl);
+            webBrowser.LoadHtml(errorMessage, args.FailedUrl);
         }
 
         private void BindJavascriptObject(IWpfWebBrowser wpfWebBrowser)

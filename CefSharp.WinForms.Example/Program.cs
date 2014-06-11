@@ -9,7 +9,7 @@ namespace CefSharp.WinForms.Example
         [STAThread]
         static void Main()
         {
-            ExamplePresenter.Init();
+            CefExample.Init();
 
             var browser = new BrowserForm();
             Application.Run(browser);

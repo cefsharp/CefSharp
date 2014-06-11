@@ -5,6 +5,7 @@
 #include "Stdafx.h"
 
 #include "Internals/CefRequestWrapper.h"
+#include "Internals/CefWebPluginInfoWrapper.h"
 #include "Internals/JavascriptBinding/BindingHandler.h"
 #include "Internals/RequestResponse.h"
 #include "ClientAdapter.h"
@@ -136,6 +137,18 @@ namespace CefSharp
             return handler->OnKeyEvent(_browserControl, KeyTypeToManaged(event.type), event.windows_key_code, event.modifiers, event.is_system_key);
         }
 
+        bool ClientAdapter::OnPreKeyEvent(CefRefPtr<CefBrowser> browser, const CefKeyEvent& event, CefEventHandle os_event, bool* is_keyboard_shortcut)
+        {
+            IKeyboardHandler^ handler = _browserControl->KeyboardHandler;
+
+            if (handler == nullptr)
+            {
+                return false;
+            }
+
+            return handler->OnPreKeyEvent(_browserControl, (CefKeyType)event.type, event.windows_key_code, event.native_key_code, event.modifiers, event.is_system_key, is_keyboard_shortcut);
+        }
+
         void ClientAdapter::OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame)
         {
             if (browser->IsPopup())
@@ -185,6 +198,34 @@ namespace CefSharp
             CefRequestWrapper^ wrapper = gcnew CefRequestWrapper(request);
 
             return handler->OnBeforeBrowse(_browserControl, wrapper, isRedirect);
+        }
+
+        // CEF3 API: public virtual bool OnBeforePluginLoad( CefRefPtr< CefBrowser > browser, const CefString& url, const CefString& policy_url, CefRefPtr< CefWebPluginInfo > info );
+        // ---
+        // return value:
+        //     false: Load Plugin (do not block it)
+        //     true:  Ignore Plugin (Block it)
+        bool ClientAdapter::OnBeforePluginLoad( CefRefPtr< CefBrowser > browser, const CefString& url, const CefString& policy_url, CefRefPtr< CefWebPluginInfo > info )
+        {
+            IRequestHandler^ handler = _browserControl->RequestHandler;
+
+            if (handler == nullptr)
+            {
+                return false;
+            }
+
+            CefWebPluginInfoWrapper^ wrapper = gcnew CefWebPluginInfoWrapper(info);
+
+            return handler->OnBeforePluginLoad(_browserControl, StringUtils::ToClr(url), StringUtils::ToClr(policy_url), wrapper);
+        }
+
+        void ClientAdapter::OnPluginCrashed(CefRefPtr<CefBrowser> browser, const CefString& plugin_path)
+        {
+            IRequestHandler^ handler = _browserControl->RequestHandler;
+            if (handler != nullptr)
+            {
+                handler->OnPluginCrashed(_browserControl, StringUtils::ToClr(plugin_path));
+            }			
         }
 
         bool ClientAdapter::OnBeforeResourceLoad(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request)
@@ -390,6 +431,28 @@ namespace CefSharp
 
             // Unknown dialog type, so we return "not handled".
             return false;
+        }
+
+        bool ClientAdapter::OnFileDialog(CefRefPtr<CefBrowser> browser, FileDialogMode mode, const CefString& title,
+            const CefString& default_file_name, const std::vector<CefString>& accept_types,
+            CefRefPtr<CefFileDialogCallback> callback)
+        {
+            IDialogHandler^ handler = _browserControl->DialogHandler;
+
+            if (handler == nullptr)
+            {
+                return false;
+            }
+
+            bool result;
+            bool handled;
+
+            List<System::String ^>^ resultString = nullptr;
+
+            result = handler->OnFileDialog(_browserControl, (CefFileDialogMode)mode, StringUtils::ToClr(title), StringUtils::ToClr(default_file_name), StringUtils::ToClr(accept_types), resultString);
+            callback->Continue(StringUtils::ToNative(resultString));
+
+            return result;
         }
     }
 }

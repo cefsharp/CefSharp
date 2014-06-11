@@ -1,15 +1,8 @@
 ﻿namespace CefSharp
 {
-    public enum KeyType
-    {
-        RawKeyDown,
-        KeyDown,
-        KeyUp,
-        Char,
-    };
-
     public interface IKeyboardHandler
     {
         bool OnKeyEvent(IWebBrowser browser, KeyType type, int code, int modifiers, bool isSystemKey);
+        bool OnPreKeyEvent(IWebBrowser browser, CefKeyType type, int windowsKeyCode, int nativeKeyCode, int modifiers, bool isSystemKey, bool isKeyboardShortcut);
     }
 }

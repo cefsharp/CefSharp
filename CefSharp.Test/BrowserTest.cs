@@ -1,25 +1,38 @@
-﻿using NUnit.Framework;
+﻿using System;
+using System.Threading;
+using CefSharp.Wpf;
+using Xunit;
+using Xunit.Extensions;
 
 namespace CefSharp.Test
 {
-    [TestFixture]
     public class BrowserTest
     {
-        [TestCase("'2'", "2")]
-        [TestCase("2+2", 4)]
+        [Theory()]
+        [InlineData("'2'", "2")]
+        [InlineData("2+2", 4)]
         public void EvaluateScriptTest(string script, object result)
         {
-            //Assert.AreEqual(result, Fixture.Browser.EvaluateScript(script));
+            using (var fixture = new Fixture())
+            {
+                fixture.Initialize().Wait();
+                Assert.Equal(result, fixture.Browser.EvaluateScript(script));
+            }
         }
 
-        [TestCase("!!!")]
+        [Theory()]
+        [InlineData("!!!")]
         public void EvaluateScriptExceptionTest(string script)
         {
-            //Assert.Throws<ScriptException>(() =>
-            //    Fixture.Browser.EvaluateScript(script));
+            using (var fixture = new Fixture())
+            {
+                fixture.Initialize().Wait();
+                Assert.Throws<ScriptException>(() =>
+                    fixture.Browser.EvaluateScript(script));
+            }
         }
 
-        [Test]
+        [Fact]
         public void RunScriptConcurrentTest()
         {
             //var threads = new List<Thread>(10);

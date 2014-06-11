@@ -91,12 +91,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DelegateCommand.cs" />
+    <Compile Include="DisposableEventWrapper.cs" />
     <Compile Include="IWpfWebBrowser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
     <AppDesigner Include="Properties\" />
-    <Compile Include="WebView.cs" />
+    <Compile Include="ChromiumWebBrowser.cs" />
     <Compile Include="WM.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,13 +1,14 @@
-﻿using System;
-using System.Windows.Forms;
-using CefSharp.Example;
+﻿using CefSharp.Example;
 using CefSharp.WinForms.Example.Controls;
+using System;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CefSharp.WinForms.Example
 {
     public partial class BrowserForm : Form
     {
-        private readonly WebView webView;
+        private readonly ChromiumWebBrowser browser;
 
         public BrowserForm()
         {
@@ -18,17 +19,17 @@ namespace CefSharp.WinForms.Example
             Text = "CefSharp";
             WindowState = FormWindowState.Maximized;
 
-            webView = new WebView(ExamplePresenter.DefaultUrl)
+            browser = new ChromiumWebBrowser(CefExample.DefaultUrl)
             {
                 Dock = DockStyle.Fill,
             };
-            toolStripContainer.ContentPanel.Controls.Add(webView);
-            
-            webView.MenuHandler = new MenuHandler();
-            webView.NavStateChanged += WebViewNavStateChanged;
-            webView.ConsoleMessage += WebViewConsoleMessage;
-            webView.TitleChanged += WebViewTitleChanged;
-            webView.AddressChanged += WebViewAddressChanged;
+            toolStripContainer.ContentPanel.Controls.Add(browser);
+
+            browser.MenuHandler = new MenuHandler();
+            browser.NavStateChanged += OnBrowserNavStateChanged;
+            browser.ConsoleMessage += OnBrowserConsoleMessage;
+            browser.TitleChanged += OnBrowserTitleChanged;
+            browser.AddressChanged += OnBrowserAddressChanged;
 
             var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
             DisplayOutput(version);
@@ -39,12 +40,12 @@ namespace CefSharp.WinForms.Example
             ToggleBottomToolStrip();
         }
 
-        private void WebViewConsoleMessage(object sender, ConsoleMessageEventArgs args)
+        private void OnBrowserConsoleMessage(object sender, ConsoleMessageEventArgs args)
         {
             DisplayOutput(string.Format("Line: {0}, Source: {1}, Message: {2}", args.Line, args.Source, args.Message));
         }
 
-        private void WebViewNavStateChanged(object sender, NavStateChangedEventArgs args)
+        private void OnBrowserNavStateChanged(object sender, NavStateChangedEventArgs args)
         {
             SetCanGoBack(args.CanGoBack);
             SetCanGoForward(args.CanGoForward);
@@ -52,12 +53,12 @@ namespace CefSharp.WinForms.Example
             this.InvokeOnUiThreadIfRequired(() => SetIsLoading(!args.CanReload));
         }
 
-        private void WebViewTitleChanged(object sender, TitleChangedEventArgs args)
+        private void OnBrowserTitleChanged(object sender, TitleChangedEventArgs args)
         {
             this.InvokeOnUiThreadIfRequired(() => Text = args.Title);
         }
 
-        private void WebViewAddressChanged(object sender, AddressChangedEventArgs args)
+        private void OnBrowserAddressChanged(object sender, AddressChangedEventArgs args)
         {
             this.InvokeOnUiThreadIfRequired(() => urlTextBox.Text = args.Address);
         }
@@ -86,12 +87,12 @@ namespace CefSharp.WinForms.Example
 
         public void ExecuteScript(string script)
         {
-            webView.ExecuteScriptAsync(script);
+            browser.ExecuteScriptAsync(script);
         }
 
         public object EvaluateScript(string script)
         {
-            return webView.EvaluateScript(script);
+            return browser.EvaluateScript(script);
         }
 
         public void DisplayOutput(string output)
@@ -119,7 +120,7 @@ namespace CefSharp.WinForms.Example
 
         private void ExitMenuItemClick(object sender, EventArgs e)
         {
-            webView.Dispose();
+            browser.Dispose();
             Cef.Shutdown();
             Close();
         }
@@ -131,12 +132,12 @@ namespace CefSharp.WinForms.Example
 
         private void BackButtonClick(object sender, EventArgs e)
         {
-            webView.Back();
+            browser.Back();
         }
 
         private void ForwardButtonClick(object sender, EventArgs e)
         {
-            webView.Forward();
+            browser.Forward();
         }
 
         private void UrlTextBoxKeyUp(object sender, KeyEventArgs e)
@@ -153,7 +154,7 @@ namespace CefSharp.WinForms.Example
         {
             if (Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute))
             {
-                webView.Load(url);
+                browser.Load(url);
             }
         }
 
@@ -176,7 +177,7 @@ namespace CefSharp.WinForms.Example
         {
             if (toolStripContainer.BottomToolStripPanelVisible)
             {
-                webView.StopFinding(true);
+                browser.StopFinding(true);
                 toolStripContainer.BottomToolStripPanelVisible = false;
             }
             else
@@ -190,7 +191,7 @@ namespace CefSharp.WinForms.Example
         {
             Find(true);
         }
-        
+
         private void FindPreviousButtonClick(object sender, EventArgs e)
         {
             Find(false);
@@ -200,7 +201,7 @@ namespace CefSharp.WinForms.Example
         {
             if (!string.IsNullOrEmpty(findTextBox.Text))
             {
-                webView.Find(0, findTextBox.Text, next, false, false);
+                browser.Find(0, findTextBox.Text, next, false, false);
             }
         }
 
@@ -212,6 +213,21 @@ namespace CefSharp.WinForms.Example
             }
 
             Find(true);
+        }
+
+        private void CopySourceToClipBoardAsyncClick(object sender, EventArgs e)
+        {
+            var task = browser.GetSourceAsync();
+
+            task.ContinueWith(t =>
+            {
+                if (!t.IsFaulted)
+                {
+                    Clipboard.SetText(t.Result);
+                    DisplayOutput("HTML Source copied to clipboard");
+                }
+            },
+            TaskScheduler.FromCurrentSynchronizationContext());
         }
     }
 }

@@ -29,9 +29,6 @@
     <ClCompile Include="Internals\ClientAdapter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Internals\RequestResponse.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Internals\StreamAdapter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -42,6 +39,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ManagedCefBrowserAdapter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Internals\CefWebPluginInfoWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Internals\RequestResponse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Internals\StringVisitor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -76,9 +82,6 @@
     <ClInclude Include="Internals\DownloadAdapter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Internals\RequestResponse.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Internals\StreamAdapter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -101,6 +104,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CefSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\CefWebPluginInfoWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\RequestResponse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\StringVisitor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

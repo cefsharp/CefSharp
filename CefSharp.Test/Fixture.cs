@@ -1,51 +1,87 @@
-﻿using System.Threading;
-using NUnit.Framework;
+﻿using System;
+using System.IO;
+using System.Threading;
+//using NUnit.Framework;
+using System.Threading.Tasks;
+using System.Windows;
+using CefSharp.Wpf;
 
 namespace CefSharp.Test
 {
-    [SetUpFixture]
-    public class Fixture
+    public class Fixture : ObjectBase
     {
-        //public static WebView Browser { get; private set; }
+        public ChromiumWebBrowser Browser { get; set; }
+        public Window Window { get; set; }
+        public DispatcherThread DispatcherThread { get; set; }
 
-        private ManualResetEvent createdEvent = new ManualResetEvent(false);
 
-        [SetUp]
-        public void SetUp()
+        public Fixture()
         {
-            //var settings = new Settings();
-
-            //var cef = new Cef();
-            //cef.Initialize(settings);
-
-            //    var thread = new Thread(() =>
-            //    {
-            //        var form = new Form();
-            //        form.Shown += (sender, e) =>
-            //        {
-            //            Browser = new WebView
-            //            {
-            //                Parent = form,
-            //                Dock = DockStyle.Fill,
-            //            };
-
-            //            createdEvent.Set();
-            //        };
-
-            //        Application.Run(form);
-            //    });
-            //    thread.SetApartmentState(ApartmentState.STA);
-            //    thread.Start();
-
-            //    createdEvent.WaitOne();
+            DispatcherThread = new DispatcherThread();
         }
 
-        [TearDown]
-        public void TearDown()
+        public Task Initialize()
         {
-            //createdEvent.WaitOne();
-            //CEF.Shutdown();
-            //Application.Exit();
+            return DoInUi(() =>
+            {
+                Window = new Window();
+
+                var cefsettings = new CefSettings();
+                cefsettings.BrowserSubprocessPath = Path.Combine( Environment.CurrentDirectory, "CefSharp.BrowserSubprocess.exe" );
+                cefsettings.LogSeverity = LogSeverity.Verbose;
+                cefsettings.LocalesDirPath = Path.Combine(Environment.CurrentDirectory, "locales");
+                cefsettings.PackLoadingDisabled = true;
+
+                if (!Cef.Initialize(cefsettings))
+                {
+                    
+                }
+
+                Window.Content = Browser = new ChromiumWebBrowser();
+
+                Window.Show();
+            }).ContinueWith((t) =>
+            {
+                if (t.IsFaulted)
+                {
+                    throw t.Exception;
+                }
+                using (var evt = new ManualResetEvent(false))
+                {
+                    Browser.IsBrowserInitializedChanged += (o, e) => evt.Set();
+
+                    DoInUi(() =>
+                    {
+                        if (Browser.IsBrowserInitialized)
+                        {
+                            evt.Set();
+                        }
+                    });
+
+                    evt.WaitOne();
+                }
+            }, DispatcherThread.TaskFactory.Scheduler);
+        }
+
+        public Task DoInUi(Action action)
+        {
+            return DispatcherThread.TaskFactory.StartNew(action);
+        }
+
+        public Task<T> DoInUi<T>(Func<T> action)
+        {
+            return DispatcherThread.TaskFactory.StartNew(action);
+        }
+        
+        protected override void DoDispose(bool isDisposing)
+        {
+            if (DispatcherThread != null)
+            {
+                DispatcherThread.Dispose();
+                DispatcherThread = null;
+            }
+            Browser = null;
+            base.DoDispose(isDisposing);
         }
     }
 }

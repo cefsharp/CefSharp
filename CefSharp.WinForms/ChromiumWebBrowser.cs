@@ -1,12 +1,17 @@
-﻿using System;
+﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using CefSharp.Internals;
 
 namespace CefSharp.WinForms
 {
-    public class WebView : Control, IWebBrowserInternal, IWinFormsWebBrowser
+    public class ChromiumWebBrowser : Control, IWebBrowserInternal, IWinFormsWebBrowser
     {
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
 
@@ -15,7 +20,8 @@ namespace CefSharp.WinForms
         public bool IsLoading { get; set; }
         public string TooltipText { get; set; }
         public string Address { get; set; }
-                
+
+        public IDialogHandler DialogHandler { get; set; }
         public IJsDialogHandler JsDialogHandler { get; set; }
         public IKeyboardHandler KeyboardHandler { get; set; }
         public IRequestHandler RequestHandler { get; set; }
@@ -27,8 +33,13 @@ namespace CefSharp.WinForms
         public bool CanReload { get; private set; }
         public bool IsBrowserInitialized { get; private set; }
         public IDictionary<string, object> BoundObjects { get; private set; }
+        public double ZoomLevel
+        {
+            get { return managedCefBrowserAdapter.GetZoomLevel(); }
+            set { managedCefBrowserAdapter.SetZoomLevel(value); }
+         }
 
-        static WebView()
+        static ChromiumWebBrowser()
         {
             Application.ApplicationExit += OnApplicationExit;
         }
@@ -38,7 +49,7 @@ namespace CefSharp.WinForms
             Cef.Shutdown();
         }
 
-        public WebView(string address)
+        public ChromiumWebBrowser(string address)
         {
             Cef.AddDisposable(this);
             Address = address;
@@ -59,8 +70,9 @@ namespace CefSharp.WinForms
             base.Dispose(disposing);
         }
 
-        public void OnInitialized()
+        void IWebBrowserInternal.OnInitialized()
         {
+            IsBrowserInitialized = true;
         }
 
         public void Load(String url)
@@ -120,7 +132,7 @@ namespace CefSharp.WinForms
                 managedCefBrowserAdapter.OnSizeChanged(Handle);
         }
 
-        public void SetAddress(string address)
+        void IWebBrowserInternal.SetAddress(string address)
         {
             Address = address;
 
@@ -131,12 +143,12 @@ namespace CefSharp.WinForms
             }
         }
 
-        public void SetIsLoading(bool isLoading)
+        void IWebBrowserInternal.SetIsLoading(bool isLoading)
         {
             IsLoading = isLoading;
         }
 
-        public void SetNavState(bool canGoBack, bool canGoForward, bool canReload)
+        void IWebBrowserInternal.SetNavState(bool canGoBack, bool canGoForward, bool canReload)
         {
             CanGoBack = canGoBack;
             CanGoForward = canGoForward;
@@ -149,7 +161,7 @@ namespace CefSharp.WinForms
             }
         }
 
-        public void SetTitle(string title)
+        void IWebBrowserInternal.SetTitle(string title)
         {
             Title = title;
 
@@ -160,12 +172,12 @@ namespace CefSharp.WinForms
             }
         }
 
-        public void SetTooltipText(string tooltipText)
+        void IWebBrowserInternal.SetTooltipText(string tooltipText)
         {
             TooltipText = tooltipText;
         }
 
-        public void OnFrameLoadStart(string url, bool isMainFrame)
+        void IWebBrowserInternal.OnFrameLoadStart(string url, bool isMainFrame)
         {
             var handler = FrameLoadStart;
             if (handler != null)
@@ -174,7 +186,7 @@ namespace CefSharp.WinForms
             }
         }
 
-        public void OnFrameLoadEnd(string url, bool isMainFrame, int httpStatusCode)
+        void IWebBrowserInternal.OnFrameLoadEnd(string url, bool isMainFrame, int httpStatusCode)
         {
             var handler = FrameLoadEnd;
             if (handler != null)
@@ -183,12 +195,12 @@ namespace CefSharp.WinForms
             }
         }
 
-        public void OnTakeFocus(bool next)
+        void IWebBrowserInternal.OnTakeFocus(bool next)
         {
             SelectNextControl(this, next, true, true, true);
         }
 
-        public void OnConsoleMessage(string message, string source, int line)
+        void IWebBrowserInternal.OnConsoleMessage(string message, string source, int line)
         {
             var handler = ConsoleMessage;
             if (handler != null)
@@ -197,12 +209,12 @@ namespace CefSharp.WinForms
             }
         }
 
-        public void OnLoadError(string url, CefErrorCode errorCode, string errorText)
+        void IWebBrowserInternal.OnLoadError(string url, CefErrorCode errorCode, string errorText)
         {
             var handler = LoadError;
             if (handler != null)
             {
-                handler(url, errorCode, errorText);
+                handler(this, new LoadErrorEventArgs(url, errorCode, errorText));
             }
         }
 
@@ -216,14 +228,14 @@ namespace CefSharp.WinForms
             managedCefBrowserAdapter.StopFinding(clearSelection);
         }
 
-        public void ShowDevTools()
+        void IWebBrowserInternal.ShowDevTools()
         {
             // TODO: Do something about this one.
             var devToolsUrl = managedCefBrowserAdapter.DevToolsUrl;
             throw new NotImplementedException();
         }
 
-        public void CloseDevTools()
+        void IWebBrowserInternal.CloseDevTools()
         {
             throw new NotImplementedException();
         }
@@ -280,8 +292,7 @@ namespace CefSharp.WinForms
 
         public void Delete()
         {
-            //managedCefBrowserAdapter.Delete();
-            throw new NotImplementedException();
+            managedCefBrowserAdapter.Delete();
         }
 
         public void SelectAll()
@@ -297,6 +308,20 @@ namespace CefSharp.WinForms
         public void ViewSource()
         {
             managedCefBrowserAdapter.ViewSource();
+        }
+
+        public Task<string> GetSourceAsync()
+        {
+            var taskStringVisitor = new TaskStringVisitor();
+            managedCefBrowserAdapter.GetSource(taskStringVisitor);
+            return taskStringVisitor.Task;
+        }
+
+        public Task<string> GetTextAsync()
+        {
+            var taskStringVisitor = new TaskStringVisitor();
+            managedCefBrowserAdapter.GetText(taskStringVisitor);
+            return taskStringVisitor.Task;
         }
     }
 }

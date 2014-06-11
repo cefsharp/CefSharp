@@ -6,7 +6,7 @@ namespace CefSharp
     /// Supported event bit flags.
     /// </summary>
     [FlagsAttribute]
-    public enum CefEventFlags
+    public enum CefEventFlags : uint
     {
         None = 0,
 
@@ -29,5 +29,5 @@ namespace CefSharp
         IsKeyPad = 1 << 9,
         IsLeft = 1 << 10,
         IsRight = 1 << 11,
-    };
+    }
 }

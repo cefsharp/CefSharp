@@ -9,6 +9,7 @@
 #include "MouseButtonType.h"
 #include "Internals/RenderClientAdapter.h"
 #include "Internals/MCefRefPtr.h"
+#include "Internals/StringVisitor.h"
 
 using namespace CefSharp::Internals;
 using namespace System::Diagnostics;
@@ -76,8 +77,11 @@ namespace CefSharp
             window.SetTransparentPainting(true);
             CefString addressNative = StringUtils::ToNative("about:blank");
 
-            CefBrowserHost::CreateBrowser(window, _renderClientAdapter.get(), addressNative,
-                *(CefBrowserSettings*) browserSettings->_internalBrowserSettings, NULL);
+            if (!CefBrowserHost::CreateBrowser(window, _renderClientAdapter.get(), addressNative,
+                *(CefBrowserSettings*) browserSettings->_internalBrowserSettings, NULL))
+            {
+                throw gcnew InvalidOperationException( "Failed to create offscreen browser. Call Cef.Initialize() first." );
+            }
         }
 
         void Close()
@@ -317,6 +321,28 @@ namespace CefSharp
             }
         }
 
+        void GetSource(IStringVisitor^ visitor)
+        {
+            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
+
+            if (cefFrame != nullptr)
+            {
+                auto stringVisitor = new StringVisitor(visitor);
+                cefFrame->GetSource(stringVisitor);
+            }
+        }
+
+        void GetText(IStringVisitor^ visitor)
+        {
+            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
+
+            if (cefFrame != nullptr)
+            {
+                auto stringVisitor = new StringVisitor(visitor);
+                cefFrame->GetText(stringVisitor);
+            }
+        }
+
         void Cut()
         {
             auto cefFrame = _renderClientAdapter->TryGetCefMainFrame(); 
@@ -344,6 +370,16 @@ namespace CefSharp
             if (cefFrame != nullptr)
             {
                 cefFrame->Paste();
+            }
+        }
+
+        void Delete()
+        {
+            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
+
+            if (cefFrame != nullptr)
+            {
+                cefFrame->Delete();
             }
         }
 
