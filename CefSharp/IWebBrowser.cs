@@ -64,6 +64,7 @@ namespace CefSharp
         /// <param name="timeout">The timeout after which the Javascript code execution should be aborted.</param>
         object EvaluateScript(string script, TimeSpan? timeout = null);
 
+        IDialogHandler DialogHandler { get; set; }
         IRequestHandler RequestHandler { get; set; }
         ILifeSpanHandler LifeSpanHandler { get; set; }
         IKeyboardHandler KeyboardHandler { get; set; }

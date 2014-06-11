@@ -86,6 +86,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CefFileDialogMode.cs" />
+    <Compile Include="IDialogHandler.cs" />
     <Compile Include="AddressChangedEventArgs.cs" />
     <Compile Include="IStringVisitor.cs" />
     <Compile Include="LoadErrorEventArgs.cs" />

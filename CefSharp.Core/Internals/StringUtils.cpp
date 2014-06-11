@@ -5,6 +5,7 @@
 #include "Stdafx.h"
 
 using namespace System::Diagnostics;
+using namespace System::Collections::Generic;
 
 namespace CefSharp
 {
@@ -23,6 +24,19 @@ namespace CefSharp
         }
 
         [DebuggerStepThrough]
+        List<String^>^ StringUtils::ToClr(const std::vector<CefString>& cefStr)
+        {
+            auto result = gcnew List<String^>();
+
+            for each(CefString s in cefStr)
+            {
+                result->Add(StringUtils::ToClr(s));
+            }
+
+            return result;
+        }
+
+        [DebuggerStepThrough]
         CefString StringUtils::ToNative(String^ str)
         {
             if (str == nullptr)
@@ -33,6 +47,24 @@ namespace CefSharp
             pin_ptr<const wchar_t> pStr = PtrToStringChars(str);
             CefString cefStr(pStr);
             return cefStr;
+        }
+
+        [DebuggerStepThrough]
+        std::vector<CefString> StringUtils::ToNative(List<String^>^ str)
+        {
+            if (str == nullptr)
+            {
+                return std::vector<CefString>();
+            }
+
+            std::vector<CefString> result = std::vector<CefString>();
+
+            for each (String^ s in str)
+            {
+                result.push_back(StringUtils::ToNative(s));
+            }
+
+            return result;
         }
 
         [DebuggerStepThrough]
