@@ -11,7 +11,7 @@ namespace CefSharp.Internals
         public IRenderprocess Renderprocess { get; set; }
         
         public BrowserprocessServiceHost(IBrowserProcess browserprocess, int parentProcessId, int browserId)
-            : base(typeof(BrowserprocessService), new Uri[0])
+            : base(typeof(BrowserProcessService), new Uri[0])
         {
             Browserprocess = browserprocess;
 
