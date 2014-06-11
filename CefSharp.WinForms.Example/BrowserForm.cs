@@ -25,7 +25,8 @@ namespace CefSharp.WinForms.Example
             };
             toolStripContainer.ContentPanel.Controls.Add(browser);
 
-            browser.MenuHandler = new MenuHandler();
+	        browser.DownloadHandler = new DownloadHandler();
+			browser.MenuHandler = new MenuHandler();
             browser.NavStateChanged += OnBrowserNavStateChanged;
             browser.ConsoleMessage += OnBrowserConsoleMessage;
             browser.TitleChanged += OnBrowserTitleChanged;
