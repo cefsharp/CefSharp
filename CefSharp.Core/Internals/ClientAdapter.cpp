@@ -143,7 +143,7 @@ namespace CefSharp
                 return false;
             }
 
-            return handler->OnPreKeyEvent(_browserControl, (CefKeyType)event.type, event.windows_key_code, event.native_key_code, event.modifiers, event.is_system_key, is_keyboard_shortcut);
+            return handler->OnPreKeyEvent(_browserControl, (KeyType)event.type, event.windows_key_code, event.native_key_code, event.modifiers, event.is_system_key, is_keyboard_shortcut);
         }
 
         void ClientAdapter::OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame)
