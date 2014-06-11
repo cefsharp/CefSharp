@@ -11,7 +11,6 @@ namespace CefSharp.Internals
     {
         public JavascriptProperty()
         {
-            Value = new JavascriptObject();
             Description = new JavascriptPropertyDescription();
         }
 

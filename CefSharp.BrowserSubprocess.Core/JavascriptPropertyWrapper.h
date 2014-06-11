@@ -21,7 +21,10 @@ namespace CefSharp
         
         JavascriptPropertyWrapper()
         {
-            _javascriptPropertyHandler = new JavascriptPropertyHandler();
+            _javascriptPropertyHandler = new JavascriptPropertyHandler(
+                gcnew Func<Object^>(this, &JavascriptPropertyWrapper::GetProperty),
+                gcnew Action<Object^>(this, &JavascriptPropertyWrapper::SetProperty)
+                );
             Value = gcnew JavascriptObjectWrapper();
         }
         
@@ -49,5 +52,8 @@ namespace CefSharp
 
             Value->Clone( obj->Value );
         }
+
+        void SetProperty(Object^ value);
+        Object^ GetProperty();
     };
 }

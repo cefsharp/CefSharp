@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -58,24 +59,54 @@ namespace CefSharp.Internals
 
             Members = new List<JavascriptMember>();
         }
-
-        public void Analyse()
+        
+        public void Analyse(JavascriptObjectRepository repository)
         {
-            foreach (var methodInfo in value.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
+            if (value == null)
             {
+                return;
+            }
+            
+            var type = value.GetType();
+            if (type.IsPrimitive || type == typeof(string))
+            {
+                return;
+            }
+
+            foreach (var methodInfo in type.GetMethods(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
+            {
+                // types can not be serialized
+                if (methodInfo.ReturnType == typeof (Type))
+                {
+                    continue;
+                }
                 var jsMethod = new JavascriptMethod();
                 jsMethod.Description.Analyse(methodInfo);
                 Members.Add(jsMethod);
             }
 
-            foreach (var propertyInfo in value.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
+            foreach (var propertyInfo in type.GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
             {
+                if (propertyInfo.PropertyType == typeof(Type))
+                {
+                    continue;
+                }
                 var jsProperty = new JavascriptProperty();
+                jsProperty.Value = repository.CreateJavascriptObject();
                 jsProperty.Description.Analyse(propertyInfo);
                 jsProperty.Value.Value = jsProperty.Description.GetValue(value);
-                jsProperty.Value.Analyse();
+                jsProperty.Value.Analyse(repository);
                 Members.Add(jsProperty);
             }
+        }
+
+        public override string ToString()
+        {
+            if (Value != null)
+            {
+                return Value.ToString();
+            }
+            return base.ToString();
         }
     }
 }

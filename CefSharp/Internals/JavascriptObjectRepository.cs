@@ -11,29 +11,25 @@ namespace CefSharp.Internals
 
         public JavascriptObjectRepository()
         {
-            RootObject = new JavascriptObject();
-            objects[RootObject.Id] = RootObject;
+            RootObject = CreateJavascriptObject();
+        }
 
-            //TODO: remove this dummy code
-            var bar = new JavascriptMethod();
-            bar.Description.JavascriptName = "bar";
-            bar.Description.ManagedName = "Bar";
+        internal JavascriptObject CreateJavascriptObject()
+        {
+            var result = new JavascriptObject();
+            objects[result.Id] = result;
 
-            var foo = new JavascriptProperty();
-            foo.Description.JavascriptName = "foo";
-            foo.Description.ManagedName = "Foo";
-            foo.Value.Members.Add(bar);
-
-            RootObject.Members.Add(foo);
+            return result;
         }
 
         public void Register(string name, object value)
         {
             var member = new JavascriptProperty();
+            member.Value = CreateJavascriptObject();
             member.Description.ManagedName = name;
             member.Description.JavascriptName = JavascriptMemberDescription.LowercaseFirst(name);
             member.Value.Value = value;
-            //member.Value.Analyse();
+            member.Value.Analyse(this);
             
             RootObject.Members.Add(member);
         }
@@ -92,6 +88,19 @@ namespace CefSharp.Internals
 
             property.Description.SetValue(obj.Value, value);
             return true;
+        }
+
+        public JavascriptObjectRepository Clone()
+        {
+            var clone = new JavascriptObjectRepository();
+            foreach (var o in objects)
+            {
+                clone.objects.Add(o.Key, o.Value);
+            }
+            
+            clone.RootObject.Members.AddRange(RootObject.Members);
+
+            return clone;
         }
     }
 }

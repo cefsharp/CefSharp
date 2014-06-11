@@ -24,6 +24,8 @@ namespace CefSharp
         IWebBrowserInternal^ _webBrowserInternal;
         String^ _address;
         JavascriptObjectRepository^ _javaScriptObjectRepository;
+
+        void Initialize();
         
     protected:
         virtual void DoDispose(bool isDisposing) override
@@ -65,8 +67,9 @@ namespace CefSharp
         ManagedCefBrowserAdapter(IWebBrowserInternal^ webBrowserInternal)
         {
             _renderClientAdapter = new RenderClientAdapter(webBrowserInternal, gcnew Action(this, &ManagedCefBrowserAdapter::OnInitialized));
-            _javaScriptObjectRepository = gcnew JavascriptObjectRepository();
             _webBrowserInternal = webBrowserInternal;
+
+            Initialize();
         }
 
         void CreateOffscreenBrowser(BrowserSettings^ browserSettings)
@@ -496,9 +499,24 @@ namespace CefSharp
             _javaScriptObjectRepository->Register(name, object);
         }
         
-        virtual Object^ CallMethod(int objectId, String^ name, array<Object^>^ parameters);
-        virtual Object^ GetProperty(int objectId, String^ name);
-        virtual void SetProperty(int objectId, String^ name, Object^ value);
+        virtual Object^ CallMethod(int objectId, String^ name, array<Object^>^ parameters)
+        {
+            Object^ result;
+            _javaScriptObjectRepository->TryCallMethod(objectId, name, parameters, result);
+            return result;
+        };
+
+        virtual Object^ GetProperty(int objectId, String^ name)
+        {
+            Object^ result;
+            _javaScriptObjectRepository->TryGetProperty(objectId, name, result);
+            return result;
+        };
+
+        virtual void SetProperty(int objectId, String^ name, Object^ value)
+        {
+            _javaScriptObjectRepository->TrySetProperty(objectId, name, value);
+        };
 
         virtual JavascriptObject^ GetRegisteredJavascriptObjects()
         {
