@@ -9,6 +9,7 @@
 
 using namespace System;
 using namespace System::IO;
+using namespace System::Collections::Specialized;
 
 namespace CefSharp
 {
@@ -26,7 +27,7 @@ namespace CefSharp
         int _contentLength;
         bool _closeStream;
         int SizeFromStream();
-        CefResponse::HeaderMap ToHeaderMap(IDictionary<String^, String^>^ headers);
+        CefResponse::HeaderMap ToHeaderMap(NameValueCollection^ headers);
 
     public:
 

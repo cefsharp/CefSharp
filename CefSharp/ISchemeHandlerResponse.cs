@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Specialized;
 using System.IO;
 
 namespace CefSharp
@@ -12,7 +12,7 @@ namespace CefSharp
 
         string MimeType { get; set; }
 
-        IDictionary<string, string> ResponseHeaders { get; set; }
+        NameValueCollection ResponseHeaders { get; set; }
 
         /// <summary>
         /// The status code of the response. Unless set, the default value used is 200

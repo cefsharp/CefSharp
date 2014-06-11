@@ -9,7 +9,7 @@
 #include "Internals/MCefRefPtr.h"
 
 using namespace System;
-using namespace System::Collections::Generic;
+using namespace System::Collections::Specialized;
 using namespace System::IO;
 
 namespace CefSharp
@@ -29,7 +29,7 @@ namespace CefSharp
         virtual property Stream^ ResponseStream;
 
         virtual property String^ MimeType;
-        virtual property IDictionary<String^, String^>^ ResponseHeaders;
+        virtual property NameValueCollection^ ResponseHeaders;
 
         /// <summary>
         /// The status code of the response. Unless set, the default value used is 200

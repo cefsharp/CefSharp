@@ -63,12 +63,12 @@ namespace CefSharp
             return nullptr;
         }
 
-        IDictionary<String^, String^>^ CefRequestWrapper::Headers::get()
+        NameValueCollection^ CefRequestWrapper::Headers::get()
         {
             CefRequest::HeaderMap hm;
             _wrappedRequest->GetHeaderMap(hm);
 
-            IDictionary<String^, String^>^ headers = gcnew Dictionary<String^, String^>();
+            NameValueCollection^ headers = gcnew NameValueCollection();
 
             for (CefRequest::HeaderMap::iterator it = hm.begin(); it != hm.end(); ++it)
             {
@@ -80,7 +80,7 @@ namespace CefSharp
             return headers;
         }
 
-        void CefRequestWrapper::Headers::set(IDictionary<String^, String^>^ headers)
+        void CefRequestWrapper::Headers::set(NameValueCollection^ headers)
         {
             CefRequest::HeaderMap hm;
 
