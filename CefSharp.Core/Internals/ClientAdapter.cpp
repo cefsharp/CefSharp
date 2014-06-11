@@ -262,23 +262,13 @@ namespace CefSharp
 
         CefRefPtr<CefDownloadHandler> ClientAdapter::GetDownloadHandler()
         {
-            IRequestHandler^ requestHandler = _browserControl->RequestHandler;
-            if (requestHandler == nullptr)
-            {
-                return false;
-            }
-
-            IDownloadHandler^ downloadHandler;
-            bool ret = requestHandler->GetDownloadHandler(_browserControl, downloadHandler);
-
-            if (ret)
-            {
-                return new DownloadAdapter(downloadHandler);
-            }
-            else
+            IDownloadHandler^ downloadHandler = _browserControl->DownloadHandler;
+            if (downloadHandler == nullptr)
             {
                 return nullptr;
             }
+
+            return new DownloadAdapter(downloadHandler);
         }
 
         bool ClientAdapter::GetAuthCredentials(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, bool isProxy,

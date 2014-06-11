@@ -44,14 +44,6 @@ namespace CefSharp
         void OnResourceResponse(IWebBrowser browser, string url, int status, string statusText, string mimeType, WebHeaderCollection headers);
 
         /// <summary>
-        /// Called when a server indicates via the 'Content-Disposition' header that a response represents a file to download.
-        /// </summary>
-        /// <param name="browser">the browser object</param>
-        /// <param name="handler">Set instance of IDownloadHandler that will recieve the file contents</param>
-        /// <returns>Return true to download the file or false to cancel the file download</returns>
-        bool GetDownloadHandler(IWebBrowser browser, out IDownloadHandler handler);
-
-        /// <summary>
         /// Called when the browser needs credentials from the user.
         /// </summary>
         /// <param name="browser">the browser object</param>

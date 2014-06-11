@@ -74,6 +74,8 @@ namespace CefSharp
 
         IDialogHandler DialogHandler { get; set; }
         IRequestHandler RequestHandler { get; set; }
+        IDownloadHandler DownloadHandler { get; set; }
+
         bool IsBrowserInitialized { get; }
         
         /// <summary>
