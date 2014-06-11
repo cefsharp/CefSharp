@@ -53,6 +53,9 @@
     <ClCompile Include="Internals\StringVisitor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Internals\DownloadAdapter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vcclr_local.h">
