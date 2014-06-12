@@ -16,7 +16,7 @@ namespace CefSharp
         gcroot<Func<array<Object^>^, Object^>^> _method;
 
     public:
-        JavascriptMethodHandler( Func<array<Object^>^,Object^>^ method )
+        JavascriptMethodHandler(Func<array<Object^>^, Object^>^ method)
         {
             _method = method;
         }
