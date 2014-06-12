@@ -15,7 +15,7 @@ using namespace CefSharp::Internals;
 
 namespace CefSharp
 {
-    [System::Runtime::Serialization::DataContractAttribute]
+    [DataContract]
     public ref class JavascriptObjectWrapper : public JavascriptObject
     {
     internal:
