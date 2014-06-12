@@ -457,15 +457,14 @@ namespace CefSharp
                 return false;
             }
 
-            bool result;
             bool handled;
 
             List<System::String ^>^ resultString = nullptr;
 
-            result = handler->OnFileDialog(_browserControl, (CefFileDialogMode)mode, StringUtils::ToClr(title), StringUtils::ToClr(default_file_name), StringUtils::ToClr(accept_types), resultString);
+            handled = handler->OnFileDialog(_browserControl, (CefFileDialogMode)mode, StringUtils::ToClr(title), StringUtils::ToClr(default_file_name), StringUtils::ToClr(accept_types), resultString);
             callback->Continue(StringUtils::ToNative(resultString));
 
-            return result;
+            return handled;
         }
     }
 }
