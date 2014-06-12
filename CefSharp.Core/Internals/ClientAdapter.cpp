@@ -421,7 +421,7 @@ namespace CefSharp
             }
 
             bool result;
-            bool handled;
+            bool handled = false;
 
             switch (dialog_type)
             {
@@ -436,14 +436,13 @@ namespace CefSharp
 
             case JSDIALOGTYPE_PROMPT:
                 String^ resultString = nullptr;
-                result = handler->OnJSPrompt(_browserControl, StringUtils::ToClr(origin_url), StringUtils::ToClr(message_text),
+                handled = handler->OnJSPrompt(_browserControl, StringUtils::ToClr(origin_url), StringUtils::ToClr(message_text),
                     StringUtils::ToClr(default_prompt_text), result, resultString);
                 callback->Continue(result, StringUtils::ToNative(resultString));
                 break;
             }
 
-            // Unknown dialog type, so we return "not handled".
-            return false;
+            return handled;
         }
 
         bool ClientAdapter::OnFileDialog(CefRefPtr<CefBrowser> browser, FileDialogMode mode, const CefString& title,
