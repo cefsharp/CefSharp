@@ -59,14 +59,14 @@ namespace CefSharp.Internals
 
             Members = new List<JavascriptMember>();
         }
-        
+
         public void Analyse(JavascriptObjectRepository repository)
         {
             if (value == null)
             {
                 return;
             }
-            
+
             var type = value.GetType();
             if (type.IsPrimitive || type == typeof(string))
             {
@@ -76,7 +76,7 @@ namespace CefSharp.Internals
             foreach (var methodInfo in type.GetMethods(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
             {
                 // types can not be serialized
-                if (methodInfo.ReturnType == typeof (Type))
+                if (methodInfo.ReturnType == typeof(Type))
                 {
                     continue;
                 }
