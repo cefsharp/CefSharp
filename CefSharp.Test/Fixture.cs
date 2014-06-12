@@ -39,7 +39,7 @@ namespace CefSharp.Test
                 Window.Content = Browser = new ChromiumWebBrowser();
 
                 Window.Show();
-            }).ContinueWith((t) =>
+            }).ContinueWith(t =>
             {
                 if (t.IsFaulted)
                 {

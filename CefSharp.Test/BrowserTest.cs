@@ -5,7 +5,7 @@ namespace CefSharp.Test
 {
     public class BrowserTest
     {
-        [Theory()]
+        [Theory]
         [InlineData("'2'", "2")]
         [InlineData("2+2", 4)]
         public void EvaluateScriptTest(string script, object result)
@@ -17,7 +17,7 @@ namespace CefSharp.Test
             }
         }
 
-        [Theory()]
+        [Theory]
         [InlineData("!!!")]
         public void EvaluateScriptExceptionTest(string script)
         {
