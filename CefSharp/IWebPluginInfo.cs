@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CefSharp
+﻿namespace CefSharp
 {
     /// <summary>
     /// Wrapper for the CEF3 CefWebPluginInfo

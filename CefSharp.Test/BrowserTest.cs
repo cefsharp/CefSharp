@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-using CefSharp.Wpf;
-using Xunit;
+﻿using Xunit;
 using Xunit.Extensions;
 
 namespace CefSharp.Test

@@ -1,6 +1,4 @@
-﻿using System.Net;
-
-namespace CefSharp
+﻿namespace CefSharp
 {
     public interface IRequestHandler
     {
