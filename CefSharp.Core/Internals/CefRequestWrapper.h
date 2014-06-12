@@ -8,7 +8,7 @@
 #include "MCefRefPtr.h"
 
 using namespace System;
-using namespace System::Collections::Generic;
+using namespace System::Collections::Specialized;
 
 namespace CefSharp
 {
@@ -32,7 +32,7 @@ namespace CefSharp
             virtual property String^ Url { String^ get(); void set(String^ url); }
             virtual property String^ Method { String^ get(); }
             virtual property String^ Body { String^ get(); }
-            virtual property IDictionary<String^, String^>^ Headers { IDictionary<String^, String^>^  get(); void set(IDictionary<String^, String^>^ url); }
+            virtual property NameValueCollection^ Headers { NameValueCollection^ get(); void set(NameValueCollection^ url); }
 
         };
     }

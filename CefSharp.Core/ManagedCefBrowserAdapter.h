@@ -360,6 +360,16 @@ namespace CefSharp
             }
         }
 
+        void Delete()
+        {
+            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
+
+            if (cefFrame != nullptr)
+            {
+                cefFrame->Delete();
+            }
+        }
+
         void SelectAll()
         {
             auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();

@@ -34,6 +34,11 @@ namespace CefSharp.WinForms
         public bool CanReload { get; private set; }
         public bool IsBrowserInitialized { get; private set; }
         public IDictionary<string, object> BoundObjects { get; private set; }
+        public double ZoomLevel
+        {
+            get { return managedCefBrowserAdapter.GetZoomLevel(); }
+            set { managedCefBrowserAdapter.SetZoomLevel(value); }
+         }
 
         static ChromiumWebBrowser()
         {
@@ -66,8 +71,9 @@ namespace CefSharp.WinForms
             base.Dispose(disposing);
         }
 
-        public void OnInitialized()
+        void IWebBrowserInternal.OnInitialized()
         {
+            IsBrowserInitialized = true;
         }
 
         public void Load(String url)
@@ -209,7 +215,7 @@ namespace CefSharp.WinForms
             var handler = LoadError;
             if (handler != null)
             {
-                handler(url, errorCode, errorText);
+                handler(this, new LoadErrorEventArgs(url, errorCode, errorText));
             }
         }
 
@@ -287,8 +293,7 @@ namespace CefSharp.WinForms
 
         public void Delete()
         {
-            //managedCefBrowserAdapter.Delete();
-            throw new NotImplementedException();
+            managedCefBrowserAdapter.Delete();
         }
 
         public void SelectAll()

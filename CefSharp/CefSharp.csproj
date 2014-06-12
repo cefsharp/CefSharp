@@ -90,9 +90,12 @@
     <Compile Include="IDialogHandler.cs" />
     <Compile Include="AddressChangedEventArgs.cs" />
     <Compile Include="DownloadItem.cs" />
+    <Compile Include="CefEventFlags.cs" />
     <Compile Include="IStringVisitor.cs" />
+    <Compile Include="LoadErrorEventArgs.cs" />
     <Compile Include="FrameLoadStartEventArgs.cs" />
     <Compile Include="KeyType.cs" />
+    <Compile Include="LoadErrorEventHandler.cs" />
     <Compile Include="NavStateChangedEventArgs.cs" />
     <Compile Include="Internals\BitmapInfo.cs" />
     <Compile Include="Internals\ManagedCefApp.cs" />

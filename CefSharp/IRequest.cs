@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Specialized;
 
 namespace CefSharp
 {
@@ -8,6 +7,6 @@ namespace CefSharp
         string Url { get; set; }
         string Method { get; }
         string Body { get; }
-        IDictionary<string, String> Headers { get; set; }
+        NameValueCollection Headers { get; set; }
     }
 }

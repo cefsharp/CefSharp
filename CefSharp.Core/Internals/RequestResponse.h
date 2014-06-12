@@ -8,6 +8,7 @@
 
 using namespace System;
 using namespace System::IO;
+using namespace System::Collections::Specialized;
 
 namespace CefSharp
 {
@@ -30,7 +31,7 @@ namespace CefSharp
             ResponseAction _action;
             String^ _statusText;
             int _statusCode;
-            IDictionary<String^, String^>^ _responseHeaders;
+            NameValueCollection^ _responseHeaders;
 
         internal:
             RequestResponse(IRequest^ request) :
@@ -43,7 +44,7 @@ namespace CefSharp
             property String^ MimeType { String^ get() { return _mimeType; } }
             property String^ StatusText { String^ get() { return _statusText; } }
             property int StatusCode { int get() { return _statusCode; } }
-            property IDictionary<String^, String^>^ ResponseHeaders { IDictionary<String^, String^>^ get() { return _responseHeaders; } }
+            property NameValueCollection^ ResponseHeaders { NameValueCollection^ get() { return _responseHeaders; } }
             property String^ RedirectUrl { String^ get() { return _redirectUrl; } }
             property ResponseAction Action { ResponseAction get() { return _action; } }
 
@@ -52,7 +53,7 @@ namespace CefSharp
             virtual property IRequest^ Request { IRequest^ get() { return _request; } }
             virtual void Redirect(String^ url);
             virtual void RespondWith(Stream^ stream, String^ mimeType);
-            virtual void RespondWith(Stream^ stream, String^ mimeType, String^ statusText, int statusCode, IDictionary<String^, String^>^ responseHeaders);
+            virtual void RespondWith(Stream^ stream, String^ mimeType, String^ statusText, int statusCode, NameValueCollection^ responseHeaders);
         };
     }
 }

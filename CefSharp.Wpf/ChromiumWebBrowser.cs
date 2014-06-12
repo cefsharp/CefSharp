@@ -6,7 +6,6 @@ using CefSharp.Internals;
 using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,11 +20,11 @@ namespace CefSharp.Wpf
 {
     public class ChromiumWebBrowser : ContentControl, IRenderWebBrowser, IWpfWebBrowser
     {
-        private static readonly Key[] KeysToSendtoBrowser = new[] { 
-            Key.Tab, 
-            Key.Home, Key.End, 
-            Key.Left, Key.Right, 
-            Key.Up, Key.Down 
+        private static readonly Key[] KeysToSendtoBrowser = new[] {
+            Key.Tab,
+            Key.Home, Key.End,
+            Key.Left, Key.Right,
+            Key.Up, Key.Down
         };
 
         private HwndSource source;
@@ -39,7 +38,7 @@ namespace CefSharp.Wpf
         private Image image;
         private Image popupImage;
         private Popup popup;
-        private ScaleTransform dpiTransform; 
+        private ScaleTransform dpiTransform;
         private readonly List<IDisposable> disposables = new List<IDisposable>();
 
         public BrowserSettings BrowserSettings { get; set; }
@@ -66,11 +65,43 @@ namespace CefSharp.Wpf
         public ICommand CleanupCommand { get; private set; }
         public ICommand StopCommand { get; private set; }
 
-        public bool CanGoBack { get; private set; }
-        public bool CanGoForward { get; private set; }
-        public bool CanReload { get; private set; }
+        #region CanGoBack dependency property
 
-        public int BytesPerPixel
+        public bool CanGoBack
+        {
+            get { return (bool)GetValue(CanGoBackProperty); }
+            private set { SetValue(CanGoBackProperty, value); }
+        }
+
+        public static DependencyProperty CanGoBackProperty = DependencyProperty.Register("CanGoBack", typeof (bool), typeof (ChromiumWebBrowser));
+
+        #endregion
+
+        #region CanGoForward dependency property
+
+        public bool CanGoForward
+        {
+            get { return (bool)GetValue(CanGoForwardProperty); }
+            private set { SetValue(CanGoForwardProperty, value); }
+        }
+
+        public static DependencyProperty CanGoForwardProperty = DependencyProperty.Register("CanGoForward", typeof (bool), typeof (ChromiumWebBrowser));
+
+        #endregion
+
+        #region CanReload dependency property
+
+        public bool CanReload
+        {
+            get { return (bool)GetValue(CanReloadProperty); }
+            private set { SetValue(CanReloadProperty, value); }
+        }
+
+        public static DependencyProperty CanReloadProperty = DependencyProperty.Register("CanReload", typeof (bool), typeof (ChromiumWebBrowser));
+
+        #endregion
+
+        int IRenderWebBrowser.BytesPerPixel
         {
             get { return PixelFormat.BitsPerPixel / 8; }
         }
@@ -104,9 +135,9 @@ namespace CefSharp.Wpf
 
         private static void OnAddressChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
-            ChromiumWebBrowser owner = (ChromiumWebBrowser)sender;
-            string oldValue = (string)args.OldValue;
-            string newValue = (string)args.NewValue;
+            var owner = (ChromiumWebBrowser)sender;
+            var oldValue = (string)args.OldValue;
+            var newValue = (string)args.NewValue;
 
             owner.OnAddressChanged(oldValue, newValue);
         }
@@ -165,10 +196,10 @@ namespace CefSharp.Wpf
 
         private static void OnIsBrowserInitializedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ChromiumWebBrowser owner = (ChromiumWebBrowser)d;
+            var owner = (ChromiumWebBrowser)d;
             bool oldValue = (bool)e.OldValue;
             bool newValue = (bool)e.NewValue;
-            
+
             owner.OnIsBrowserInitializedChanged(oldValue, newValue);
 
             var handlers = owner.IsBrowserInitializedChanged;
@@ -181,7 +212,7 @@ namespace CefSharp.Wpf
 
         protected virtual void OnIsBrowserInitializedChanged(bool oldValue, bool newValue)
         {
-            
+
         }
 
         #endregion IsInitialized dependency property
@@ -252,11 +283,11 @@ namespace CefSharp.Wpf
         #region CleanupElement dependency property
 
         /// <summary>
-        /// The CleanupElement Controls when the BrowserResources will be cleand up. 
+        /// The CleanupElement Controls when the BrowserResources will be cleand up.
         /// The ChromiumWebBrowser will register on Unloaded of the provided Element and dispose all resources when that handler is called.
-        /// By default the cleanup element is the Window that contains the ChromiumWebBrowser. 
+        /// By default the cleanup element is the Window that contains the ChromiumWebBrowser.
         /// if you want cleanup to happen earlier provide another FrameworkElement.
-        /// Be aware that this Control is not usable anymore after cleanup is done. 
+        /// Be aware that this Control is not usable anymore after cleanup is done.
         /// </summary>
         /// <value>
         /// The cleanup element.
@@ -316,7 +347,7 @@ namespace CefSharp.Wpf
 
             RemoveSourceHook();
 
-            WebBrowser = null;
+            DoInUi(() => WebBrowser = null);
             managedCefBrowserAdapter = null;
             ConsoleMessage = null;
             FrameLoadStart = null;
@@ -430,26 +461,6 @@ namespace CefSharp.Wpf
             Dispose(false);
         }
 
-        private class DisposableEventWrapper : IDisposable
-        {
-            public DependencyObject Source { get; private set; }
-            public DependencyProperty Property { get; private set; }
-            public EventHandler Handler { get; private set; }
-
-            public DisposableEventWrapper(DependencyObject source, DependencyProperty property, EventHandler handler)
-            {
-                Source = source;
-                Property = property;
-                Handler = handler;
-                DependencyPropertyDescriptor.FromProperty(Property, Source.GetType()).AddValueChanged(Source, Handler);
-            }
-
-            public void Dispose()
-            {
-                DependencyPropertyDescriptor.FromProperty(Property, Source.GetType()).RemoveValueChanged(Source, Handler);
-            }
-        }
-
         private void DoInUi(Action action, DispatcherPriority priority = DispatcherPriority.DataBind)
         {
             if (Dispatcher.CheckAccess())
@@ -461,7 +472,6 @@ namespace CefSharp.Wpf
                 Dispatcher.BeginInvoke(action, priority);
             }
         }
-
 
         private void OnActualSizeChanged(object sender, EventArgs e)
         {
@@ -502,18 +512,18 @@ namespace CefSharp.Wpf
             AddSourceHookIfNotAlreadyPresent();
 
             CheckIsNonStandardDpi();
-            
+
             // Create main window
-            Content = image = CreateImage(); 
+            Content = image = CreateImage();
             Transform(image);
-           
+
             popup = CreatePopup();
             Transform(popup);
         }
 
-        private Image CreateImage() 
+        private static Image CreateImage()
         {
-            Image temp = new Image();
+            var temp = new Image();
 
             RenderOptions.SetBitmapScalingMode(temp, BitmapScalingMode.NearestNeighbor);
 
@@ -525,17 +535,17 @@ namespace CefSharp.Wpf
 
         private Popup CreatePopup()
         {
-            var popup = new Popup
+            var newPopup = new Popup
             {
                 Child = popupImage = CreateImage(),
                 PlacementTarget = this,
                 Placement = PlacementMode.Relative,
             };
 
-            popup.MouseEnter += this.PopupMouseEnter;
-            popup.MouseLeave += this.PopupMouseLeave;
+            newPopup.MouseEnter += PopupMouseEnter;
+            newPopup.MouseLeave += PopupMouseLeave;
 
-            return popup;
+            return newPopup;
         }
 
         private void Transform(FrameworkElement element)
@@ -640,12 +650,9 @@ namespace CefSharp.Wpf
             });
         }
 
-        public void SetIsLoading(bool isLoading)
+        void IWebBrowserInternal.SetIsLoading(bool isLoading)
         {
-            DoInUi(() =>
-            {
-                SetCurrentValue(IsLoadingProperty, isLoading);
-            });
+            DoInUi(() => SetCurrentValue(IsLoadingProperty, isLoading));
         }
 
         void IWebBrowserInternal.SetNavState(bool canGoBack, bool canGoForward, bool canReload)
@@ -666,34 +673,22 @@ namespace CefSharp.Wpf
 
         void IWebBrowserInternal.SetTitle(string title)
         {
-            DoInUi(() =>
-            {
-                SetCurrentValue(TitleProperty, title);
-            });
+            DoInUi(() => SetCurrentValue(TitleProperty, title));
         }
 
         void IWebBrowserInternal.SetTooltipText(string tooltipText)
         {
-            DoInUi(() =>
-            {
-                SetCurrentValue(TooltipTextProperty, tooltipText);
-            });
+            DoInUi(() => SetCurrentValue(TooltipTextProperty, tooltipText));
         }
 
         void IRenderWebBrowser.SetPopupSizeAndPosition(int width, int height, int x, int y)
         {
-            DoInUi(() =>
-            {
-                this.SetPopupSizeAndPositionImpl(width, height, x, y);
-            });
+            DoInUi(() => SetPopupSizeAndPositionImpl(width, height, x, y));
         }
 
         void IRenderWebBrowser.SetPopupIsOpen(bool isOpen)
         {
-            DoInUi(() =>
-            {
-                popup.IsOpen = isOpen;
-            });
+            DoInUi(() => { popup.IsOpen = isOpen; });
         }
 
         private static CefEventFlags GetModifiers(MouseEventArgs e)
@@ -714,7 +709,7 @@ namespace CefSharp.Wpf
             }
             return modifiers;
         }
-        
+
         private static CefEventFlags GetModifiers(KeyEventArgs e)
         {
             CefEventFlags modifiers = 0;
@@ -884,11 +879,6 @@ namespace CefSharp.Wpf
             Mouse.Capture(null);
         }
 
-        protected override void OnMouseEnter(MouseEventArgs e)
-        {
-            base.OnMouseEnter(e);
-        }
-
         protected override void OnMouseLeave(MouseEventArgs e)
         {
             var modifiers = GetModifiers(e);
@@ -1056,7 +1046,7 @@ namespace CefSharp.Wpf
             var handler = LoadError;
             if (handler != null)
             {
-                handler(url, errorCode, errorText);
+                handler(this, new LoadErrorEventArgs(url, errorCode, errorText));
             }
         }
 
@@ -1106,7 +1096,7 @@ namespace CefSharp.Wpf
             {
                 if (bitmapInfo.IsPopup)
                 {
-                    bitmapInfo.InteropBitmap = SetBitmapHelper(bitmapInfo, 
+                    bitmapInfo.InteropBitmap = SetBitmapHelper(bitmapInfo,
                         (InteropBitmap)bitmapInfo.InteropBitmap, bitmap => popupImage.Source = bitmap);
                 }
                 else
@@ -1132,7 +1122,7 @@ namespace CefSharp.Wpf
                 imageSourceSetter(null);
                 GC.Collect(1);
 
-                var stride = bitmapInfo.Width * BytesPerPixel;
+                var stride = bitmapInfo.Width * ((IRenderWebBrowser)this).BytesPerPixel;
 
                 bitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(bitmapInfo.FileMappingHandle,
                     bitmapInfo.Width, bitmapInfo.Height, PixelFormat, stride, 0);

@@ -3,14 +3,6 @@ using System.Threading.Tasks;
 
 namespace CefSharp
 {
-    /// <summary>
-    /// A delegate type used to listen to LoadError messages.
-    /// </summary>
-    /// <param name="failedUrl">The URL that failed to load.</param>
-    /// <param name="errorCode">The error code.</param>
-    /// <param name="errorText">The error text.</param>
-    public delegate void LoadErrorEventHandler(string failedUrl, CefErrorCode errorCode, string errorText);
-
     public interface IWebBrowser : IDisposable
     {
         /// <summary>
@@ -23,19 +15,19 @@ namespace CefSharp
         /// time. Sub-frames may start or continue loading after the main frame load has ended. This method may not be called for a
         /// particular frame if the load request for that frame fails. For notification of overall browser load status use
         /// OnLoadingStateChange instead.
-        /// </summary>        
+        /// </summary>
         event FrameLoadStartEventHandler FrameLoadStart;
-        
+
         /// <summary>
         /// Event handler that will get called when the browser is done loading a frame. Multiple frames may be loading at the same
         /// time. Sub-frames may start or continue loading after the main frame load has ended. This method will always be called
-        /// for all frames irrespective of whether the request completes successfully. 
-        /// </summary>        
+        /// for all frames irrespective of whether the request completes successfully.
+        /// </summary>
         event FrameLoadEndEventHandler FrameLoadEnd;
 
         /// <summary>
         /// Event handler that will get called when the resource load for a navigation fails or is canceled.
-        /// </summary>        
+        /// </summary>
         event LoadErrorEventHandler LoadError;
 
         /// <summary>
@@ -74,41 +66,65 @@ namespace CefSharp
 
         IDialogHandler DialogHandler { get; set; }
         IRequestHandler RequestHandler { get; set; }
+        ILifeSpanHandler LifeSpanHandler { get; set; }
+        IKeyboardHandler KeyboardHandler { get; set; }
+        IJsDialogHandler JsDialogHandler { get; set; }
         IDownloadHandler DownloadHandler { get; set; }
-
         bool IsBrowserInitialized { get; }
-        
+
         /// <summary>
         /// A flag that indicates whether the control is currently loading one or more web pages (true) or not (false).
         /// </summary>
-        /// <remarks>This property is a Dependency Property and fully supports data binding.</remarks>
+        /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
+        /// binding.</remarks>
         bool IsLoading { get; set; }
-        
+
         /// <summary>
-        /// A flag that indicates whether the control can navigate backwards (true) or not (false).
+        /// A flag that indicates whether the state of the control current supports the GoBack action (true) or not (false).
         /// </summary>
+        /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
+        /// binding.</remarks>
         bool CanGoBack { get; }
 
         /// <summary>
-        /// A flag that indicates whether the control can navigate forwards (true) or not (false).
+        /// A flag that indicates whether the state of the control currently supports the GoForward action (true) or not (false).
         /// </summary>
+        /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
+        /// binding.</remarks>
         bool CanGoForward { get; }
+
+        /// <summary>
+        /// A flag that indicates whether the state of the control currently supports the Reload action (true) or not (false).
+        /// </summary>
+        /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
+        /// binding.</remarks>
+        bool CanReload { get; }
 
         /// <summary>
         /// The address (URL) which the browser control is currently displaying. Can be set to a simplified URL
         /// (e.g. www.google.com) or a full URL (e.g. http://www.google.com). Will automatically be updated as the user
         /// navigates to another page (e.g. by clicking on a link).
         /// </summary>
-        /// <remarks>This property is a Dependency Property and fully supports data binding.</remarks>
+        /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
+        /// binding.</remarks>
         string Address { get; set; }
-        
+
         /// <summary>
         /// The title of the web page being currently displayed.
         /// </summary>
-        /// <remarks>This property is a Dependency Property and fully supports data binding.</remarks>
+        /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
+        /// binding.</remarks>
         string Title { get; }
 
         string TooltipText { get; set; }
+
+        /// <summary>
+        /// The zoom level at which the browser control is currently displaying. Can be set to 0 to clear the zoom level (resets to
+        /// default zoom level).
+        /// </summary>
+        /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
+        /// binding.</remarks>
+        double ZoomLevel { get; set; }
 
         /// <summary>
         /// Search for text within the current page.
@@ -133,15 +149,41 @@ namespace CefSharp
         void Stop();
 
         /// <summary>
-        /// Retrieve the main frame's HTML source using a <see cref="Task{String}"/>. 
+        /// Retrieve the main frame's HTML source using a <see cref="Task{String}"/>.
         /// </summary>
         /// <returns><see cref="Task{String}"/> that when executed returns the frame source as a string</returns>
         Task<string> GetSourceAsync();
 
         /// <summary>
-        /// Retrieve the main frame's display text using a <see cref="Task{String}"/>. 
+        /// Retrieve the main frame's display text using a <see cref="Task{String}"/>.
         /// </summary>
         /// <returns><see cref="Task{String}"/> that when executed returns the frame display text as a string.</returns>
         Task<string> GetTextAsync();
+
+        /// <summary>
+        /// Opens up a new program window (using the default text editor) where the source code of the currently displayed web
+        /// page is shown.
+        /// </summary>
+        void ViewSource();
+
+        /// <summary>
+        /// Attempts to give focus to the IWpfWebBrowser control.
+        /// </summary>
+        /// <returns><c>true</c> if keyboard focus and logical focus were set to this element; <c>false</c> if only logical focus
+        /// was set to this element, or if the call to this method did not force the focus to change.</returns>
+        bool Focus();
+
+        /// <summary>
+        /// Reloads the page being displayed. This method will use data from the browser's cache, if available.
+        /// </summary>
+        void Reload();
+
+        /// <summary>
+        /// Reloads the page being displayed, optionally ignoring the cache (which means the whole page including all .css, .js
+        /// etc. resources will be re-fetched).
+        /// </summary>
+        /// <param name="ignoreCache"><c>true</c> A reload is performed ignoring brwpser cache; <c>false</c> A reload is
+        /// performed using files from the browser cache, if available.</param>
+        void Reload(bool ignoreCache);
     }
 }
