@@ -49,6 +49,7 @@ namespace CefSharp.Internals
                 var javascriptProxy = channelFactory.CreateChannel();
                 javascriptProxy.Terminate();
             }
+            // ReSharper disable once EmptyGeneralCatchClause
             catch
             {
                 // We assume errors at this point are caused by things like the endpoint not being present (which will happen in
