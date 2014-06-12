@@ -7,10 +7,11 @@
 #include "JavascriptPropertyHandler.h"
 
 using namespace CefSharp::Internals;
+using namespace System::Runtime::Serialization;
 
 namespace CefSharp
 {
-    [System::Runtime::Serialization::DataContractAttribute]
+    [DataContract]
     private ref class JavascriptPropertyWrapper : public JavascriptProperty
     {
     private:
