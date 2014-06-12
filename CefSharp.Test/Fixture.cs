@@ -25,11 +25,13 @@ namespace CefSharp.Test
             {
                 Window = new Window();
 
-                var cefsettings = new CefSettings();
-                cefsettings.BrowserSubprocessPath = Path.Combine( Environment.CurrentDirectory, "CefSharp.BrowserSubprocess.exe" );
-                cefsettings.LogSeverity = LogSeverity.Verbose;
-                cefsettings.LocalesDirPath = Path.Combine(Environment.CurrentDirectory, "locales");
-                cefsettings.PackLoadingDisabled = true;
+                var cefsettings = new CefSettings
+                {
+                    BrowserSubprocessPath = Path.Combine(Environment.CurrentDirectory, "CefSharp.BrowserSubprocess.exe"),
+                    LogSeverity = LogSeverity.Verbose,
+                    LocalesDirPath = Path.Combine(Environment.CurrentDirectory, "locales"),
+                    PackLoadingDisabled = true
+                };
 
                 if (!Cef.Initialize(cefsettings))
                 {

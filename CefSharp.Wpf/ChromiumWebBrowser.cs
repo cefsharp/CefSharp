@@ -20,7 +20,8 @@ namespace CefSharp.Wpf
 {
     public class ChromiumWebBrowser : ContentControl, IRenderWebBrowser, IWpfWebBrowser
     {
-        private static readonly Key[] KeysToSendtoBrowser = new[] {
+        private static readonly Key[] KeysToSendtoBrowser =
+        {
             Key.Tab,
             Key.Home, Key.End,
             Key.Left, Key.Right,
