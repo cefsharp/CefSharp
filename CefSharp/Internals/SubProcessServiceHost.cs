@@ -18,7 +18,7 @@ namespace CefSharp.Internals
             var host = new SubProcessServiceHost();
             AddDebugBehavior(host);
 
-            //use absultadress for hosting 
+            //use absolute address for hosting 
             //http://stackoverflow.com/questions/10362246/two-unique-named-pipes-conflicting-and-invalidcredentialexception
             var serviceName = SubProcessProxySupport.GetServiceName(parentProcessId, browserId);
 
