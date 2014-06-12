@@ -558,13 +558,10 @@ namespace CefSharp.Wpf
 
         private void CheckIsNonStandardDpi()
         {
-            if (matrix != null) // make sure it's connected
-            {
-                dpiTransform = new ScaleTransform(
-                    1 / matrix.M11,
-                    1 / matrix.M22
-                );
-            }
+            dpiTransform = new ScaleTransform(
+                   1 / matrix.M11,
+                   1 / matrix.M22
+               );
         }
 
         private void AddSourceHookIfNotAlreadyPresent()
