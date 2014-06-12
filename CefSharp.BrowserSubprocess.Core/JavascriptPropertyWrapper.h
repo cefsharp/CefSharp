@@ -12,22 +12,22 @@ namespace CefSharp
 {
     [System::Runtime::Serialization::DataContractAttribute]
     private ref class JavascriptPropertyWrapper : public JavascriptProperty
-    {    
+    {
     private:
         MCefRefPtr<JavascriptPropertyHandler> _javascriptPropertyHandler;
         JavascriptObjectWrapper^ _owner;
-        
+
     public:
-        
+
         JavascriptPropertyWrapper()
         {
             _javascriptPropertyHandler = new JavascriptPropertyHandler(
                 gcnew Func<Object^>(this, &JavascriptPropertyWrapper::GetProperty),
                 gcnew Action<Object^>(this, &JavascriptPropertyWrapper::SetProperty)
-                );
+            );
             Value = gcnew JavascriptObjectWrapper();
         }
-        
+
         property JavascriptObjectWrapper^ Value
         {
             JavascriptObjectWrapper^ get() { return static_cast<JavascriptObjectWrapper^>(JavascriptProperty::Value::get()); }
@@ -38,7 +38,7 @@ namespace CefSharp
         {
             _owner = static_cast<JavascriptObjectWrapper^>(owner);
             auto v8Value = _owner->Value->CreateObject(_javascriptPropertyHandler.get());
-            
+
             Value->Value = v8Value;
 
             _owner->Value->SetValue(StringUtils::ToNative(Description->JavascriptName), v8Value, V8_PROPERTY_ATTRIBUTE_NONE);
@@ -50,7 +50,7 @@ namespace CefSharp
         {
             Description = obj->Description;
 
-            Value->Clone( obj->Value );
+            Value->Clone(obj->Value);
         }
 
         void SetProperty(Object^ value);
