@@ -102,11 +102,7 @@ namespace CefSharp.Internals
 
         public override string ToString()
         {
-            if (Value != null)
-            {
-                return Value.ToString();
-            }
-            return base.ToString();
+            return Value != null ? Value.ToString() : base.ToString();
         }
     }
 }
