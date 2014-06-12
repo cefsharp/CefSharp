@@ -90,6 +90,7 @@
     <Compile Include="CefFileDialogMode.cs" />
     <Compile Include="IDialogHandler.cs" />
     <Compile Include="AddressChangedEventArgs.cs" />
+    <Compile Include="Internals\IBindableJavascriptMember.cs" />
     <Compile Include="IStringVisitor.cs" />
     <Compile Include="LoadErrorEventArgs.cs" />
     <Compile Include="FrameLoadStartEventArgs.cs" />

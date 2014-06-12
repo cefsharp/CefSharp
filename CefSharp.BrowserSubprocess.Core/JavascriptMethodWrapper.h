@@ -13,11 +13,11 @@ using namespace System::Runtime::Serialization;
 namespace CefSharp
 {
     [DataContract]
-    private ref class JavascriptMethodWrapper : public JavascriptMethod
+    private ref class JavascriptMethodWrapper : public JavascriptMethod, IBindableJavascriptMember
     {
     private:
         MCefRefPtr<JavascriptMethodHandler> _javascriptMethodHandler;
-        JavascriptObjectWrapper^ _owner; 
+        JavascriptObjectWrapper^ _owner;
 
     public:
 
@@ -26,10 +26,10 @@ namespace CefSharp
             _javascriptMethodHandler = new JavascriptMethodHandler(gcnew Func<array<Object^>^, Object^>(this, &JavascriptMethodWrapper::Execute));
         }
 
-        virtual void Bind(JavascriptObject^ owner) override
+        virtual void Bind(JavascriptObject^ owner)
         {
             _owner = static_cast<JavascriptObjectWrapper^>(owner);
-            
+
             auto methodName = StringUtils::ToNative(Description->JavascriptName);
             auto v8Value = CefV8Value::CreateFunction(methodName, _javascriptMethodHandler.get());
 
@@ -41,6 +41,6 @@ namespace CefSharp
             Description = obj->Description;
         }
 
-        Object^ Execute(array<Object^>^ parameters );
+        Object^ Execute(array<Object^>^ parameters);
     };
 }

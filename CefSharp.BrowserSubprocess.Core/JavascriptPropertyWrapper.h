@@ -12,7 +12,7 @@ using namespace System::Runtime::Serialization;
 namespace CefSharp
 {
     [DataContract]
-    private ref class JavascriptPropertyWrapper : public JavascriptProperty
+    private ref class JavascriptPropertyWrapper : public JavascriptProperty, IBindableJavascriptMember
     {
     private:
         MCefRefPtr<JavascriptPropertyHandler> _javascriptPropertyHandler;
@@ -35,7 +35,7 @@ namespace CefSharp
             void set(JavascriptObjectWrapper^ value) { JavascriptProperty::Value::set(value); }
         }
 
-        virtual void Bind(JavascriptObject^ owner) override
+        virtual void Bind(JavascriptObject^ owner)
         {
             _owner = static_cast<JavascriptObjectWrapper^>(owner);
             auto v8Value = _owner->Value->CreateObject(_javascriptPropertyHandler.get());

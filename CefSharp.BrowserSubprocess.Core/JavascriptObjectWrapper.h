@@ -24,7 +24,7 @@ namespace CefSharp
 
         void Bind()
         {
-            for each (JavascriptMember^ member in Members)
+            for each (IBindableJavascriptMember^ member in Enumerable::OfType<IBindableJavascriptMember^>(Members))
             {
                 member->Bind(this);
             }
