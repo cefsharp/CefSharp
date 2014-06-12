@@ -55,5 +55,12 @@
         /// <param name="info">plugin information</param>
         /// <returns>Return true to block loading of the plugin.</returns>
         bool OnBeforePluginLoad(IWebBrowser browser, string url, string policyUrl, IWebPluginInfo info);
+
+        /// <summary>
+        /// Called when the render process terminates unexpectedly.
+        /// </summary>
+        /// <param name="browser">the browser object</param>
+        /// <param name="status">indicates how the process terminated.</param>
+        void OnRenderProcessTerminated(IWebBrowser browser, CefTerminationStatus status);
     }
 }
