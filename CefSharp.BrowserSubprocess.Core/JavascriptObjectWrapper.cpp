@@ -19,14 +19,14 @@ namespace CefSharp
 
         for each (JavascriptProperty^ member in Enumerable::OfType<JavascriptProperty^>(obj->Members))
         {
-            JavascriptPropertyWrapper^ propertywrapper = gcnew JavascriptPropertyWrapper();
+            auto propertywrapper = gcnew JavascriptPropertyWrapper();
             propertywrapper->Clone(member);
             Members->Add(propertywrapper);
         }
 
         for each (JavascriptMethod^ member in Enumerable::OfType<JavascriptMethod^>(obj->Members))
         {
-            JavascriptMethodWrapper^ methodwrapper = gcnew JavascriptMethodWrapper();
+            auto methodwrapper = gcnew JavascriptMethodWrapper();
             methodwrapper->Clone(member);
             Members->Add(methodwrapper);
         }
