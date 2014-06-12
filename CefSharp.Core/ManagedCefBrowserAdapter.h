@@ -20,7 +20,7 @@ namespace CefSharp
     private ref class ManagedCefBrowserAdapter : public DisposableResource, IBrowserProcess
     {
         MCefRefPtr<RenderClientAdapter> _renderClientAdapter;
-        BrowserprocessServiceHost^ _browserprocessServiceHost;
+        BrowserProcessServiceHost^ _browserProcessServiceHost;
         IWebBrowserInternal^ _webBrowserInternal;
         String^ _address;
         JavascriptObjectRepository^ _javaScriptObjectRepository;
@@ -33,10 +33,10 @@ namespace CefSharp
             Close();
 
             _renderClientAdapter = nullptr;
-            if (_browserprocessServiceHost != nullptr)
+            if (_browserProcessServiceHost != nullptr)
             {
-                _browserprocessServiceHost->Close();
-                _browserprocessServiceHost = nullptr;
+                _browserProcessServiceHost->Close();
+                _browserProcessServiceHost = nullptr;
             }
 
             _webBrowserInternal = nullptr;
@@ -113,8 +113,8 @@ namespace CefSharp
         {
             auto browserId = _renderClientAdapter->GetCefBrowser()->GetIdentifier();           
                         
-            _browserprocessServiceHost = gcnew BrowserprocessServiceHost(this, Process::GetCurrentProcess()->Id, browserId);
-            _browserprocessServiceHost->Open();
+            _browserProcessServiceHost = gcnew BrowserProcessServiceHost(this, Process::GetCurrentProcess()->Id, browserId);
+            _browserProcessServiceHost->Open();
 
             _webBrowserInternal->OnInitialized();
 
@@ -430,11 +430,11 @@ namespace CefSharp
         {
             auto frame = _renderClientAdapter->TryGetCefMainFrame();
 
-            if (_browserprocessServiceHost != nullptr
-             && _browserprocessServiceHost->Renderprocess != nullptr
+            if (_browserProcessServiceHost != nullptr
+             && _browserProcessServiceHost->RenderProcess != nullptr
              && frame != nullptr)
             {
-                return _browserprocessServiceHost->Renderprocess->EvaluateScript(frame->GetIdentifier(), script, timeout.TotalMilliseconds);
+                return _browserProcessServiceHost->RenderProcess->EvaluateScript(frame->GetIdentifier(), script, timeout.TotalMilliseconds);
             }
             else
             {
