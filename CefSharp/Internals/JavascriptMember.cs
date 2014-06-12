@@ -19,11 +19,7 @@ namespace CefSharp.Internals
 
         public override string ToString()
         {
-            if (Description != null)
-            {
-                return Description.ToString();
-            }
-            return base.ToString();
+            return Description != null ? Description.ToString() : base.ToString();
         }
     }
 }
