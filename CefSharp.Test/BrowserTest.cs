@@ -1,14 +1,11 @@
-﻿using System;
-using System.Threading;
-using CefSharp.Wpf;
-using Xunit;
+﻿using Xunit;
 using Xunit.Extensions;
 
 namespace CefSharp.Test
 {
     public class BrowserTest
     {
-        [Theory()]
+        [Theory]
         [InlineData("'2'", "2")]
         [InlineData("2+2", 4)]
         public void EvaluateScriptTest(string script, object result)
@@ -20,7 +17,7 @@ namespace CefSharp.Test
             }
         }
 
-        [Theory()]
+        [Theory]
         [InlineData("!!!")]
         public void EvaluateScriptExceptionTest(string script)
         {

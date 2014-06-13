@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Threading;
-//using NUnit.Framework;
 using System.Threading.Tasks;
 using System.Windows;
 using CefSharp.Wpf;
@@ -26,11 +25,13 @@ namespace CefSharp.Test
             {
                 Window = new Window();
 
-                var cefsettings = new CefSettings();
-                cefsettings.BrowserSubprocessPath = Path.Combine( Environment.CurrentDirectory, "CefSharp.BrowserSubprocess.exe" );
-                cefsettings.LogSeverity = LogSeverity.Verbose;
-                cefsettings.LocalesDirPath = Path.Combine(Environment.CurrentDirectory, "locales");
-                cefsettings.PackLoadingDisabled = true;
+                var cefsettings = new CefSettings
+                {
+                    BrowserSubprocessPath = Path.Combine(Environment.CurrentDirectory, "CefSharp.BrowserSubprocess.exe"),
+                    LogSeverity = LogSeverity.Verbose,
+                    LocalesDirPath = Path.Combine(Environment.CurrentDirectory, "locales"),
+                    PackLoadingDisabled = true
+                };
 
                 if (!Cef.Initialize(cefsettings))
                 {
@@ -40,7 +41,7 @@ namespace CefSharp.Test
                 Window.Content = Browser = new ChromiumWebBrowser();
 
                 Window.Show();
-            }).ContinueWith((t) =>
+            }).ContinueWith(t =>
             {
                 if (t.IsFaulted)
                 {
