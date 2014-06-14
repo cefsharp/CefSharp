@@ -1,6 +1,8 @@
 environment:
   VisualStudioVersion: 11.0
 
+shallow_clone: true
+
 configuration:
   - Debug
   - Release
