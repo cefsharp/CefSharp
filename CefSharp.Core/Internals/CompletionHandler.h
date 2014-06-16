@@ -12,10 +12,10 @@ namespace CefSharp
     private class CompletionHandler : public CefCompletionHandler
     {
     private:
-        gcroot<IComplete^> _handler;
+        gcroot<ICompletionHandler^> _handler;
 
     public:
-        CompletionHandler(IComplete^ handler)
+        CompletionHandler(ICompletionHandler^ handler)
         {
             _handler = handler;
         }
