@@ -7,8 +7,19 @@ configuration:
 #  - Debug
   - Release
 
+platform:
+  - x64
+
 before_build:
   - cmd: nuget restore
+
+# MSBuild verbosity level
+#  verbosity: quiet|minimal|normal|detailed
+
+build:
+#  verbosity: detailed
+  verbosity: minimal
+
 
 test_script:
   - cd C:\projects\cefsharp\CefSharp.Test\bin\x86\%configuration%\
