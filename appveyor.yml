@@ -18,7 +18,9 @@ test_script:
 
 after_test:
   - cmd: cd \projects\cefsharp\NuGet
-  - cmd: pack.bat
+  - cmd: set version=31.0.0-pre1a
+  - cmd: NuGet pack CefSharp.Common.nuspec -NoPackageAnalysis -Version %version% -Properties DotPlatform=.%Platform%;Platform=%Platform%
+  - rem cmd: pack.bat
 
 artifacts:
   - path: NuGet\*.nupkg
