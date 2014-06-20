@@ -17,12 +17,9 @@
 </metadata>
   <files>
     <!-- Common CefSharp stuff (shared between both WPF and WinForms) -->
-    <file src="..\Win32\Release\CefSharp.Core.dll" target="CefSharp\x86"/>
-    <file src="..\x64\Release\CefSharp.Core.dll" target="CefSharp\x64"/>
-    <file src="..\CefSharp\bin\x86\Release\CefSharp.dll" target="CefSharp\x86"/>
-    <file src="..\CefSharp\bin\x64\Release\CefSharp.dll" target="CefSharp\x64"/>
-    <file src="..\CefSharp.BrowserSubprocess\bin\x86\Release\CefSharp.BrowserSubprocess.exe" target="CefSharp\x86"/>
-    <file src="..\CefSharp.BrowserSubprocess\bin\x64\Release\CefSharp.BrowserSubprocess.exe" target="CefSharp\x64"/>
+    <file src="..\Win32\Release\CefSharp.Core.dll" target="CefSharp\$Platform$"/>
+    <file src="..\CefSharp\bin\$Platform$\Release\CefSharp.dll" target="CefSharp\$Platform$"/>
+    <file src="..\CefSharp.BrowserSubprocess\bin\$Platform$\Release\CefSharp.BrowserSubprocess.exe" target="CefSharp\$Platform$"/>
 
     <file src="CefSharp.Common.props" target="build\CefSharp.Common$DotPlatform$.props" />
     <file src="CefSharp.Common.targets" target="build\CefSharp.Common$DotPlatform$.targets" />
