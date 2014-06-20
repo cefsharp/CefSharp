@@ -6,4 +6,3 @@ NuGet pack CefSharp.Wpf.nuspec -NoPackageAnalysis -Version %version% -Properties
 NuGet pack CefSharp.Wpf.nuspec -NoPackageAnalysis -Version %version% -Properties DotPlatform=.x86
 NuGet pack CefSharp.Wpf.nuspec -NoPackageAnalysis -Version %version% -Properties DotPlatform=.x64
 rem NuGet pack CefSharp.WinForms.nuspec -NoPackageAnalysis -Version %version%
-pause
