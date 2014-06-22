@@ -9,9 +9,7 @@ configuration:
 
 platform:
   - x64
-  -
   - Win32
-  - x86
 
 before_build:
   - cmd: nuget restore
@@ -36,10 +34,3 @@ after_test:
 
 artifacts:
   - path: NuGet\*.nupkg
-
-matrix:
-  allow_failures:
-    - platform: Win32
-      configuration: Release
-    - platform: x86
-      configuration: Release
