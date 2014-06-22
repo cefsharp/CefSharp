@@ -9,6 +9,8 @@ configuration:
 
 platform:
   - x64
+  -
+  - Win32
   - x86
 
 before_build:
@@ -37,7 +39,7 @@ artifacts:
 
 matrix:
   allow_failures:
-    - platform: x86
-      configuration: Debug
+    - platform: Win32
+      configuration: Release
     - platform: x86
       configuration: Release
