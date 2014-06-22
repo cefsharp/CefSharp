@@ -7,6 +7,7 @@ if "%platform%"=="x64" (
 	set DotPlatform=.x64
 ) else (
 	copy ..\Win32\Release\CefSharp.Core.dll
+	set Platform=x86
 	set DotPlatform=
 )
 
