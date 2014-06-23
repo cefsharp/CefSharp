@@ -217,6 +217,7 @@
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="CefAppWrapper.cpp" />
+    <ClCompile Include="Internals\DownloadAdapter.cpp" />
     <ClCompile Include="Internals\CefWebPluginInfoWrapper.cpp" />
     <ClCompile Include="Internals\ClientAdapter.cpp" />
     <ClCompile Include="Internals\CookieVisitor.cpp" />

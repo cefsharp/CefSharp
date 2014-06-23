@@ -69,7 +69,7 @@ namespace CefSharp
         ILifeSpanHandler LifeSpanHandler { get; set; }
         IKeyboardHandler KeyboardHandler { get; set; }
         IJsDialogHandler JsDialogHandler { get; set; }
-
+        IDownloadHandler DownloadHandler { get; set; }
         bool IsBrowserInitialized { get; }
 
         /// <summary>
