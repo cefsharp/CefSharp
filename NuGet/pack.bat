@@ -1,6 +1,5 @@
-set version=31.0.0-pre1b
+REM set version=31.0.0-pre1b
 REM set platform=x86
-rem NuGet pack CefSharp.Common.nuspec -NoPackageAnalysis -Version %version% -Properties DotPlatform=
 
 if "%platform%"=="x64" (
 	copy ..\x64\Release\CefSharp.Core.dll
