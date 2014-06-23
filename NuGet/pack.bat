@@ -1,4 +1,4 @@
-REM set version=31.0.0-pre1b
+set version=31.0.0-CI-%APPVEYOR_BUILD_NUMBER%
 REM set platform=x86
 
 if "%platform%"=="x64" (
