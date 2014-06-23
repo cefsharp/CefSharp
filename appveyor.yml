@@ -1,6 +1,8 @@
 environment:
   VisualStudioVersion: 11.0
 
+version: 31.0.0.CI{build}
+
 shallow_clone: true
 
 configuration:
