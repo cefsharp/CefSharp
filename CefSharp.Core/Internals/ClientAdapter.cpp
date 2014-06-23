@@ -431,14 +431,20 @@ namespace CefSharp
 
             case JSDIALOGTYPE_CONFIRM:
                 handled = handler->OnJSConfirm(_browserControl, StringUtils::ToClr(origin_url), StringUtils::ToClr(message_text), result);
-                callback->Continue(result, CefString());
+                if(handled)
+                {
+                    callback->Continue(result, CefString());
+                }
                 break;
 
             case JSDIALOGTYPE_PROMPT:
                 String^ resultString = nullptr;
                 handled = handler->OnJSPrompt(_browserControl, StringUtils::ToClr(origin_url), StringUtils::ToClr(message_text),
                     StringUtils::ToClr(default_prompt_text), result, resultString);
-                callback->Continue(result, StringUtils::ToNative(resultString));
+                if(handled)
+                {
+                    callback->Continue(result, StringUtils::ToNative(resultString));
+                }
                 break;
             }
 
