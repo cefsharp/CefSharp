@@ -74,6 +74,12 @@ namespace CefSharp
         IKeyboardHandler KeyboardHandler { get; set; }
         IJsDialogHandler JsDialogHandler { get; set; }
         IDownloadHandler DownloadHandler { get; set; }
+
+        /// <summary>
+        /// A flag that indicates whether the WebBrowser is initialized (true) or not (false).
+        /// </summary>
+        /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
+        /// binding.</remarks>
         bool IsBrowserInitialized { get; }
 
         /// <summary>
