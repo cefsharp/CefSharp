@@ -74,6 +74,13 @@ namespace CefSharp.WinForms
         void IWebBrowserInternal.OnInitialized()
         {
             IsBrowserInitialized = true;
+
+            var handler = IsBrowserInitializedChanged;
+
+            if (handler != null)
+            {
+                handler(this, new IsBrowserInitializedChangedEventArgs(IsBrowserInitialized));
+            }
         }
 
         public void Load(String url)
@@ -118,6 +125,7 @@ namespace CefSharp.WinForms
         public event ConsoleMessageEventHandler ConsoleMessage;
         public event AddressChangedEventHandler AddressChanged;
         public event TitleChangedEventHandler TitleChanged;
+        public event IsBrowserInitializedChangedEventHandler IsBrowserInitializedChanged;
 
         protected override void OnHandleCreated(EventArgs e)
         {
