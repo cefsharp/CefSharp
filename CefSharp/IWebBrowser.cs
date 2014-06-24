@@ -150,7 +150,7 @@ namespace CefSharp
         string Title { get; }
 
         /// <summary>
-        /// The text that will be displayed in the tooltip
+        /// The text that will be displayed as a ToolTip
         /// </summary>
         string TooltipText { get; }
 
