@@ -68,11 +68,34 @@ namespace CefSharp
         /// <param name="timeout">The timeout after which the Javascript code execution should be aborted.</param>
         object EvaluateScript(string script, TimeSpan? timeout = null);
 
+        /// <summary>
+        /// Implement <see cref="IDialogHandler"/> and assign to handle dialog events.
+        /// </summary>
         IDialogHandler DialogHandler { get; set; }
+        
+        /// <summary>
+        /// Implement <see cref="IRequestHandler"/> and assign to handle events related to browser requests.
+        /// </summary>
         IRequestHandler RequestHandler { get; set; }
+        
+        /// <summary>
+        /// Implement <see cref="ILifeSpanHandler"/> and assign to handle events related to popups.
+        /// </summary>
         ILifeSpanHandler LifeSpanHandler { get; set; }
+        
+        /// <summary>
+        /// Implement <see cref="IKeyboardHandler"/> and assign to handle events related to key press.
+        /// </summary>
         IKeyboardHandler KeyboardHandler { get; set; }
+        
+        /// <summary>
+        /// Implement <see cref="IJsDialogHandler"/> and assign to handle events related to JavaScript Dialogs.
+        /// </summary>
         IJsDialogHandler JsDialogHandler { get; set; }
+        
+        /// <summary>
+        /// Implement <see cref="IDownloadHandler"/> and assign to handle events related to downloading files.
+        /// </summary>
         IDownloadHandler DownloadHandler { get; set; }
 
         /// <summary>
