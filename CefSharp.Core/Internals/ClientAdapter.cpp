@@ -143,7 +143,7 @@ namespace CefSharp
                 return false;
             }
 
-            return handler->OnPreKeyEvent(_browserControl, (KeyType)event.type, event.windows_key_code, event.native_key_code, event.modifiers, event.is_system_key, is_keyboard_shortcut);
+            return handler->OnPreKeyEvent(_browserControl, (KeyType)event.type, event.windows_key_code, event.native_key_code, event.modifiers, event.is_system_key, *is_keyboard_shortcut);
         }
 
         void ClientAdapter::OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame)
@@ -411,7 +411,7 @@ namespace CefSharp
             }
 
             bool result;
-            bool handled;
+            bool handled = false;
 
             switch (dialog_type)
             {
@@ -421,19 +421,24 @@ namespace CefSharp
 
             case JSDIALOGTYPE_CONFIRM:
                 handled = handler->OnJSConfirm(_browserControl, StringUtils::ToClr(origin_url), StringUtils::ToClr(message_text), result);
-                callback->Continue(result, CefString());
+                if(handled)
+                {
+                    callback->Continue(result, CefString());
+                }
                 break;
 
             case JSDIALOGTYPE_PROMPT:
                 String^ resultString = nullptr;
-                result = handler->OnJSPrompt(_browserControl, StringUtils::ToClr(origin_url), StringUtils::ToClr(message_text),
+                handled = handler->OnJSPrompt(_browserControl, StringUtils::ToClr(origin_url), StringUtils::ToClr(message_text),
                     StringUtils::ToClr(default_prompt_text), result, resultString);
-                callback->Continue(result, StringUtils::ToNative(resultString));
+                if(handled)
+                {
+                    callback->Continue(result, StringUtils::ToNative(resultString));
+                }
                 break;
             }
 
-            // Unknown dialog type, so we return "not handled".
-            return false;
+            return handled;
         }
 
         bool ClientAdapter::OnFileDialog(CefRefPtr<CefBrowser> browser, FileDialogMode mode, const CefString& title,
@@ -447,15 +452,14 @@ namespace CefSharp
                 return false;
             }
 
-            bool result;
             bool handled;
 
             List<System::String ^>^ resultString = nullptr;
 
-            result = handler->OnFileDialog(_browserControl, (CefFileDialogMode)mode, StringUtils::ToClr(title), StringUtils::ToClr(default_file_name), StringUtils::ToClr(accept_types), resultString);
+            handled = handler->OnFileDialog(_browserControl, (CefFileDialogMode)mode, StringUtils::ToClr(title), StringUtils::ToClr(default_file_name), StringUtils::ToClr(accept_types), resultString);
             callback->Continue(StringUtils::ToNative(resultString));
 
-            return result;
+            return handled;
         }
     }
 }
