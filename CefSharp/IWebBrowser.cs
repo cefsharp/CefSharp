@@ -149,6 +149,9 @@ namespace CefSharp
         /// binding.</remarks>
         string Title { get; }
 
+        /// <summary>
+        /// The text that will be displayed in the tooltip
+        /// </summary>
         string TooltipText { get; set; }
 
         /// <summary>
