@@ -361,7 +361,6 @@ namespace CefSharp.Wpf
         public string TooltipText
         {
             get { return (string)GetValue(TooltipTextProperty); }
-            set { SetValue(TooltipTextProperty, value); }
         }
 
         public static readonly DependencyProperty TooltipTextProperty =

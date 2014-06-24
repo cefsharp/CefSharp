@@ -152,7 +152,7 @@ namespace CefSharp
         /// <summary>
         /// The text that will be displayed in the tooltip
         /// </summary>
-        string TooltipText { get; set; }
+        string TooltipText { get; }
 
         /// <summary>
         /// The zoom level at which the browser control is currently displaying. Can be set to 0 to clear the zoom level (resets to
