@@ -186,19 +186,18 @@ namespace CefSharp.Wpf
         public bool IsBrowserInitialized
         {
             get { return (bool)GetValue(IsBrowserInitializedProperty); }
-            set { SetValue(IsBrowserInitializedProperty, value); }
         }
 
         public static readonly DependencyProperty IsBrowserInitializedProperty =
-            DependencyProperty.Register("IsBrowserInitialized", typeof(bool), typeof(ChromiumWebBrowser), new PropertyMetadata(false, OnIsBrowserInitializedChanged ));
+            DependencyProperty.Register("IsBrowserInitialized", typeof(bool), typeof(ChromiumWebBrowser), new PropertyMetadata(false, OnIsBrowserInitializedChanged));
 
         public event DependencyPropertyChangedEventHandler IsBrowserInitializedChanged;
 
         private static void OnIsBrowserInitializedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var owner = (ChromiumWebBrowser)d;
-            bool oldValue = (bool)e.OldValue;
-            bool newValue = (bool)e.NewValue;
+            var oldValue = (bool)e.OldValue;
+            var newValue = (bool)e.NewValue;
 
             owner.OnIsBrowserInitializedChanged(oldValue, newValue);
 
