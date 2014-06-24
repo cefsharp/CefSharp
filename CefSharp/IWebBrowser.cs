@@ -81,7 +81,7 @@ namespace CefSharp
         /// </summary>
         /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
         /// binding.</remarks>
-        bool IsLoading { get; set; }
+        bool IsLoading { get; }
 
         /// <summary>
         /// A flag that indicates whether the state of the control current supports the GoBack action (true) or not (false).

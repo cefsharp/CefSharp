@@ -174,7 +174,6 @@ namespace CefSharp.Wpf
         public bool IsLoading
         {
             get { return (bool)GetValue(IsLoadingProperty); }
-            set { SetValue(IsLoadingProperty, value); }
         }
 
         public static readonly DependencyProperty IsLoadingProperty =

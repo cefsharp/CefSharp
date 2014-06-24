@@ -17,7 +17,7 @@ namespace CefSharp.WinForms
 
         public BrowserSettings BrowserSettings { get; set; }
         public string Title { get; set; }
-        public bool IsLoading { get; set; }
+        public bool IsLoading { get; private set; }
         public string TooltipText { get; set; }
         public string Address { get; set; }
 
