@@ -7,17 +7,19 @@ namespace CefSharp.WinForms.Example
 {
     public partial class BrowserTabUserControl : UserControl
     {
-        public ChromiumWebBrowser Browser { get; private set; }
+        public IWinFormsWebBrowser Browser { get; private set; }
 
         public BrowserTabUserControl(string url)
         {
             InitializeComponent();
 
-            Browser = new ChromiumWebBrowser(url)
+            var browser = new ChromiumWebBrowser(url)
             {
                 Dock = DockStyle.Fill
             };
-            toolStripContainer.ContentPanel.Controls.Add(Browser);
+            toolStripContainer.ContentPanel.Controls.Add(browser);
+
+            Browser = browser;
 
             Browser.MenuHandler = new MenuHandler();
             Browser.NavStateChanged += OnBrowserNavStateChanged;
