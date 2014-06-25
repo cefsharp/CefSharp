@@ -170,5 +170,14 @@ namespace CefSharp.WinForms.Example
                 control.Browser.SelectAll();
             }
         }
+
+        private void PrintToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                control.Browser.Print();
+            }
+        }
     }
 }
