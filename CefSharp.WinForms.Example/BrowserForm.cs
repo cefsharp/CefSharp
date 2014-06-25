@@ -110,37 +110,65 @@ namespace CefSharp.WinForms.Example
 
         private void UndoMenuItemClick(object sender, EventArgs e)
         {
-
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                control.Browser.Undo();
+            }
         }
 
         private void RedoMenuItemClick(object sender, EventArgs e)
         {
-
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                control.Browser.Redo();
+            }
         }
 
         private void CutMenuItemClick(object sender, EventArgs e)
         {
-
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                control.Browser.Cut();
+            }
         }
 
         private void CopyMenuItemClick(object sender, EventArgs e)
         {
-
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                control.Browser.Copy();
+            }
         }
 
         private void PasteMenuItemClick(object sender, EventArgs e)
         {
-
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                control.Browser.Paste();
+            }
         }
 
         private void DeleteMenuItemClick(object sender, EventArgs e)
         {
-
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                control.Browser.Delete();
+            }
         }
 
         private void SelectAllMenuItemClick(object sender, EventArgs e)
         {
-
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                control.Browser.SelectAll();
+            }
         }
     }
 }
