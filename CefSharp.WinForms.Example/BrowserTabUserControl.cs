@@ -28,6 +28,13 @@ namespace CefSharp.WinForms.Example
 
             var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
             DisplayOutput(version);
+
+            Load += BrowserTabUserControlLoad;
+        }
+
+        private void BrowserTabUserControlLoad(object sender, EventArgs e)
+        {
+            ToggleBottomToolStrip();
         }
 
         private void OnBrowserConsoleMessage(object sender, ConsoleMessageEventArgs args)
@@ -144,6 +151,58 @@ namespace CefSharp.WinForms.Example
                 }
             },
             TaskScheduler.FromCurrentSynchronizationContext());
+        }
+
+        private void ToggleBottomToolStrip()
+        {
+            if (toolStripContainer.BottomToolStripPanelVisible)
+            {
+                browser.StopFinding(true);
+                toolStripContainer.BottomToolStripPanelVisible = false;
+            }
+            else
+            {
+                toolStripContainer.BottomToolStripPanelVisible = true;
+                findTextBox.Focus();
+            }
+        }
+
+        private void FindNextButtonClick(object sender, EventArgs e)
+        {
+            Find(true);
+        }
+
+        private void FindPreviousButtonClick(object sender, EventArgs e)
+        {
+            Find(false);
+        }
+
+        private void Find(bool next)
+        {
+            if (!string.IsNullOrEmpty(findTextBox.Text))
+            {
+                browser.Find(0, findTextBox.Text, next, false, false);
+            }
+        }
+
+        private void FindTextBoxKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode != Keys.Enter)
+            {
+                return;
+            }
+
+            Find(true);
+        }
+
+        public void ShowFind()
+        {
+            ToggleBottomToolStrip();
+        }
+
+        private void FindCloseButtonClick(object sender, EventArgs e)
+        {
+            ToggleBottomToolStrip();
         }
     }
 }

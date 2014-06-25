@@ -53,9 +53,12 @@ namespace CefSharp.WinForms.Example
 
         private void FindMenuItemClick(object sender, EventArgs e)
         {
-            
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                control.ShowFind();
+            }
         }
-
 
         private void CopySourceToClipBoardAsyncClick(object sender, EventArgs e)
         {
