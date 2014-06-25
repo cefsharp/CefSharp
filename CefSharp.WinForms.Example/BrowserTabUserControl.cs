@@ -7,23 +7,23 @@ namespace CefSharp.WinForms.Example
 {
     public partial class BrowserTabUserControl : UserControl
     {
-        private readonly ChromiumWebBrowser browser;
+        public ChromiumWebBrowser Browser { get; private set; }
 
         public BrowserTabUserControl(string url)
         {
             InitializeComponent();
 
-            browser = new ChromiumWebBrowser(url)
+            Browser = new ChromiumWebBrowser(url)
             {
                 Dock = DockStyle.Fill
             };
-            toolStripContainer.ContentPanel.Controls.Add(browser);
+            toolStripContainer.ContentPanel.Controls.Add(Browser);
 
-            browser.MenuHandler = new MenuHandler();
-            browser.NavStateChanged += OnBrowserNavStateChanged;
-            browser.ConsoleMessage += OnBrowserConsoleMessage;
-            browser.TitleChanged += OnBrowserTitleChanged;
-            browser.AddressChanged += OnBrowserAddressChanged;
+            Browser.MenuHandler = new MenuHandler();
+            Browser.NavStateChanged += OnBrowserNavStateChanged;
+            Browser.ConsoleMessage += OnBrowserConsoleMessage;
+            Browser.TitleChanged += OnBrowserTitleChanged;
+            Browser.AddressChanged += OnBrowserAddressChanged;
 
             var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
             DisplayOutput(version);
@@ -44,12 +44,12 @@ namespace CefSharp.WinForms.Example
             Load -= BrowserTabUserControlLoad;
             Disposed -= BrowserTabUserControlDisposed;
 
-            browser.NavStateChanged -= OnBrowserNavStateChanged;
-            browser.ConsoleMessage -= OnBrowserConsoleMessage;
-            browser.TitleChanged -= OnBrowserTitleChanged;
-            browser.AddressChanged -= OnBrowserAddressChanged;
+            Browser.NavStateChanged -= OnBrowserNavStateChanged;
+            Browser.ConsoleMessage -= OnBrowserConsoleMessage;
+            Browser.TitleChanged -= OnBrowserTitleChanged;
+            Browser.AddressChanged -= OnBrowserAddressChanged;
 
-            browser.Dispose();
+            Browser.Dispose();
         }
 
         private void OnBrowserConsoleMessage(object sender, ConsoleMessageEventArgs args)
@@ -127,12 +127,12 @@ namespace CefSharp.WinForms.Example
 
         private void BackButtonClick(object sender, EventArgs e)
         {
-            browser.Back();
+            Browser.Back();
         }
 
         private void ForwardButtonClick(object sender, EventArgs e)
         {
-            browser.Forward();
+            Browser.Forward();
         }
 
         private void UrlTextBoxKeyUp(object sender, KeyEventArgs e)
@@ -149,13 +149,13 @@ namespace CefSharp.WinForms.Example
         {
             if (Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute))
             {
-                browser.Load(url);
+                Browser.Load(url);
             }
         }
 
         public void CopySourceToClipBoardAsync()
         {
-            var task = browser.GetSourceAsync();
+            var task = Browser.GetSourceAsync();
 
             task.ContinueWith(t =>
             {
@@ -172,7 +172,7 @@ namespace CefSharp.WinForms.Example
         {
             if (toolStripContainer.BottomToolStripPanelVisible)
             {
-                browser.StopFinding(true);
+                Browser.StopFinding(true);
                 toolStripContainer.BottomToolStripPanelVisible = false;
             }
             else
@@ -196,7 +196,7 @@ namespace CefSharp.WinForms.Example
         {
             if (!string.IsNullOrEmpty(findTextBox.Text))
             {
-                browser.Find(0, findTextBox.Text, next, false, false);
+                Browser.Find(0, findTextBox.Text, next, false, false);
             }
         }
 
