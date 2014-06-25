@@ -84,5 +84,23 @@ namespace CefSharp.WinForms.Example
         {
             AddTab(DefaultUrlForAddedTabs);
         }
+
+        private void CloseTabToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            if(browserTabControl.Controls.Count == 0)
+            {
+                return;
+            }
+
+            var tabPage = browserTabControl.Controls[browserTabControl.SelectedIndex];
+
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                control.Dispose();
+            }
+
+            browserTabControl.Controls.Remove(tabPage);
+        }
     }
 }

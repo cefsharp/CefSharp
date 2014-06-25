@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BrowserForm));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showDevToolsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeDevToolsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,7 +50,7 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.copySourceToClipBoardAsyncMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.browserTabControl = new System.Windows.Forms.TabControl();
-            this.newTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.closeTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -68,6 +69,7 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newTabToolStripMenuItem,
+            this.closeTabToolStripMenuItem,
             this.aboutToolStripMenuItem,
             this.showDevToolsMenuItem,
             this.closeDevToolsMenuItem,
@@ -76,6 +78,13 @@
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
+            // 
+            // newTabToolStripMenuItem
+            // 
+            this.newTabToolStripMenuItem.Name = "newTabToolStripMenuItem";
+            this.newTabToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.newTabToolStripMenuItem.Text = "&New Tab";
+            this.newTabToolStripMenuItem.Click += new System.EventHandler(this.NewTabToolStripMenuItemClick);
             // 
             // aboutToolStripMenuItem
             // 
@@ -203,12 +212,12 @@
             this.browserTabControl.Size = new System.Drawing.Size(730, 466);
             this.browserTabControl.TabIndex = 2;
             // 
-            // newTabToolStripMenuItem
+            // closeTabToolStripMenuItem
             // 
-            this.newTabToolStripMenuItem.Name = "newTabToolStripMenuItem";
-            this.newTabToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
-            this.newTabToolStripMenuItem.Text = "&New Tab";
-            this.newTabToolStripMenuItem.Click += new System.EventHandler(this.NewTabToolStripMenuItemClick);
+            this.closeTabToolStripMenuItem.Name = "closeTabToolStripMenuItem";
+            this.closeTabToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.closeTabToolStripMenuItem.Text = "&Close Tab";
+            this.closeTabToolStripMenuItem.Click += new System.EventHandler(this.CloseTabToolStripMenuItemClick);
             // 
             // BrowserForm
             // 
@@ -251,6 +260,7 @@
         private System.Windows.Forms.ToolStripMenuItem copySourceToClipBoardAsyncMenuItem;
         private System.Windows.Forms.TabControl browserTabControl;
         private System.Windows.Forms.ToolStripMenuItem newTabToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem closeTabToolStripMenuItem;
 
     }
 }
