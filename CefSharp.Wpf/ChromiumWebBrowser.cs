@@ -161,7 +161,7 @@ namespace CefSharp.Wpf
                 Dispatcher
             );
 
-            managedCefBrowserAdapter.LoadUrl(Address);
+            managedCefBrowserAdapter.LoadUrl(newValue);
         }
 
         #endregion Address dependency property
