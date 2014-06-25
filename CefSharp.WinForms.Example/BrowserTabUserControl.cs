@@ -16,7 +16,7 @@ namespace CefSharp.WinForms.Example
 
             browser = new ChromiumWebBrowser(CefExample.DefaultUrl)
             {
-                Dock = DockStyle.Fill,
+                Dock = DockStyle.Fill
             };
             toolStripContainer.ContentPanel.Controls.Add(browser);
 
@@ -30,11 +30,27 @@ namespace CefSharp.WinForms.Example
             DisplayOutput(version);
 
             Load += BrowserTabUserControlLoad;
+
+            Disposed += BrowserTabUserControlDisposed;
+            
         }
 
         private void BrowserTabUserControlLoad(object sender, EventArgs e)
         {
             ToggleBottomToolStrip();
+        }
+
+        private void BrowserTabUserControlDisposed(object sender, EventArgs e)
+        {
+            Load -= BrowserTabUserControlLoad;
+            Disposed -= BrowserTabUserControlDisposed;
+
+            browser.NavStateChanged -= OnBrowserNavStateChanged;
+            browser.ConsoleMessage -= OnBrowserConsoleMessage;
+            browser.TitleChanged -= OnBrowserTitleChanged;
+            browser.AddressChanged -= OnBrowserAddressChanged;
+
+            browser.Dispose();
         }
 
         private void OnBrowserConsoleMessage(object sender, ConsoleMessageEventArgs args)
