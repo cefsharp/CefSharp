@@ -221,6 +221,5 @@
         private System.Windows.Forms.ToolStripTextBox findTextBox;
         private System.Windows.Forms.ToolStripButton findNextButton;
         private System.Windows.Forms.ToolStripButton findCloseButton;
-
     }
 }

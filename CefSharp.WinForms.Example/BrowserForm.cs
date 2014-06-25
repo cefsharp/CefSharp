@@ -33,6 +33,9 @@ namespace CefSharp.WinForms.Example
             };
             tabPage.Controls.Add(browser);
             browserTabControl.Controls.Add(tabPage);
+
+            //Make newly created tab active
+            browserTabControl.SelectedIndex = browserTabControl.Controls.Count - 1;
         }
 
         private void ExitMenuItemClick(object sender, EventArgs e)
