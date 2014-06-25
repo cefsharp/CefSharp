@@ -22,7 +22,7 @@ namespace CefSharp.WinForms.Example
 
         private void AddTab(string url)
         {
-            var browser = new BrowserTabUserControl
+            var browser = new BrowserTabUserControl(url)
             {
                 Dock = DockStyle.Fill,
             };

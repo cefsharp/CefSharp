@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using CefSharp.Example;
 using CefSharp.WinForms.Example.Controls;
 using System;
 using System.Windows.Forms;
@@ -10,11 +9,11 @@ namespace CefSharp.WinForms.Example
     {
         private readonly ChromiumWebBrowser browser;
 
-        public BrowserTabUserControl()
+        public BrowserTabUserControl(string url)
         {
             InitializeComponent();
 
-            browser = new ChromiumWebBrowser(CefExample.DefaultUrl)
+            browser = new ChromiumWebBrowser(url)
             {
                 Dock = DockStyle.Fill
             };
