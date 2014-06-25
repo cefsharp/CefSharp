@@ -8,6 +8,8 @@ namespace CefSharp.WinForms.Example
 {
     public partial class BrowserForm : Form
     {
+        private const string DefaultUrlForAddedTabs = "https://www.google.com";
+
         public BrowserForm()
         {
             InitializeComponent();
@@ -73,6 +75,11 @@ namespace CefSharp.WinForms.Example
             var control = (BrowserTabUserControl)tabPage.Controls[0];
 
             return control;
+        }
+
+        private void NewTabToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            AddTab(DefaultUrlForAddedTabs);
         }
     }
 }
