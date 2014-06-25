@@ -107,5 +107,40 @@ namespace CefSharp.WinForms.Example
 
             browserTabControl.Controls.Remove(tabPage);
         }
+
+        private void UndoMenuItemClick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void RedoMenuItemClick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CutMenuItemClick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CopyMenuItemClick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void PasteMenuItemClick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void DeleteMenuItemClick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SelectAllMenuItemClick(object sender, EventArgs e)
+        {
+
+        }
     }
 }

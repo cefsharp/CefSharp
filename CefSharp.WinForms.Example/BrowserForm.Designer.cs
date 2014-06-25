@@ -32,6 +32,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.closeTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showDevToolsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeDevToolsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,7 +51,6 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.copySourceToClipBoardAsyncMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.browserTabControl = new System.Windows.Forms.TabControl();
-            this.closeTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -85,6 +85,13 @@
             this.newTabToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.newTabToolStripMenuItem.Text = "&New Tab";
             this.newTabToolStripMenuItem.Click += new System.EventHandler(this.NewTabToolStripMenuItemClick);
+            // 
+            // closeTabToolStripMenuItem
+            // 
+            this.closeTabToolStripMenuItem.Name = "closeTabToolStripMenuItem";
+            this.closeTabToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.closeTabToolStripMenuItem.Text = "&Close Tab";
+            this.closeTabToolStripMenuItem.Click += new System.EventHandler(this.CloseTabToolStripMenuItemClick);
             // 
             // aboutToolStripMenuItem
             // 
@@ -142,12 +149,14 @@
             this.undoMenuItem.Name = "undoMenuItem";
             this.undoMenuItem.Size = new System.Drawing.Size(251, 22);
             this.undoMenuItem.Text = "Undo";
+            this.undoMenuItem.Click += new System.EventHandler(this.UndoMenuItemClick);
             // 
             // redoMenuItem
             // 
             this.redoMenuItem.Name = "redoMenuItem";
             this.redoMenuItem.Size = new System.Drawing.Size(251, 22);
             this.redoMenuItem.Text = "Redo";
+            this.redoMenuItem.Click += new System.EventHandler(this.RedoMenuItemClick);
             // 
             // findMenuItem
             // 
@@ -166,30 +175,35 @@
             this.cutMenuItem.Name = "cutMenuItem";
             this.cutMenuItem.Size = new System.Drawing.Size(251, 22);
             this.cutMenuItem.Text = "Cut";
+            this.cutMenuItem.Click += new System.EventHandler(this.CutMenuItemClick);
             // 
             // copyMenuItem
             // 
             this.copyMenuItem.Name = "copyMenuItem";
             this.copyMenuItem.Size = new System.Drawing.Size(251, 22);
             this.copyMenuItem.Text = "Copy";
+            this.copyMenuItem.Click += new System.EventHandler(this.CopyMenuItemClick);
             // 
             // pasteMenuItem
             // 
             this.pasteMenuItem.Name = "pasteMenuItem";
             this.pasteMenuItem.Size = new System.Drawing.Size(251, 22);
             this.pasteMenuItem.Text = "Paste";
+            this.pasteMenuItem.Click += new System.EventHandler(this.PasteMenuItemClick);
             // 
             // deleteMenuItem
             // 
             this.deleteMenuItem.Name = "deleteMenuItem";
             this.deleteMenuItem.Size = new System.Drawing.Size(251, 22);
             this.deleteMenuItem.Text = "Delete";
+            this.deleteMenuItem.Click += new System.EventHandler(this.DeleteMenuItemClick);
             // 
             // selectAllMenuItem
             // 
             this.selectAllMenuItem.Name = "selectAllMenuItem";
             this.selectAllMenuItem.Size = new System.Drawing.Size(251, 22);
             this.selectAllMenuItem.Text = "Select All";
+            this.selectAllMenuItem.Click += new System.EventHandler(this.SelectAllMenuItemClick);
             // 
             // toolStripSeparator1
             // 
@@ -211,13 +225,6 @@
             this.browserTabControl.SelectedIndex = 0;
             this.browserTabControl.Size = new System.Drawing.Size(730, 466);
             this.browserTabControl.TabIndex = 2;
-            // 
-            // closeTabToolStripMenuItem
-            // 
-            this.closeTabToolStripMenuItem.Name = "closeTabToolStripMenuItem";
-            this.closeTabToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
-            this.closeTabToolStripMenuItem.Text = "&Close Tab";
-            this.closeTabToolStripMenuItem.Click += new System.EventHandler(this.CloseTabToolStripMenuItemClick);
             // 
             // BrowserForm
             // 
