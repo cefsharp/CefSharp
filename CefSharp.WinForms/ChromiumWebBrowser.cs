@@ -125,8 +125,8 @@ namespace CefSharp.WinForms
         public event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
         public event EventHandler<AddressChangedEventArgs> AddressChanged;
         public event EventHandler<TitleChangedEventArgs> TitleChanged;
-        public event IsBrowserInitializedChangedEventHandler IsBrowserInitializedChanged;
-        public event IsLoadingChangedEventHandler IsLoadingChanged;
+        public event EventHandler<IsBrowserInitializedChangedEventArgs> IsBrowserInitializedChanged;
+        public event EventHandler<IsLoadingChangedEventArgs> IsLoadingChanged;
 
         protected override void OnHandleCreated(EventArgs e)
         {

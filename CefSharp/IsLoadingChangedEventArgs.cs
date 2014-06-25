@@ -17,11 +17,6 @@ namespace CefSharp
         {
             IsLoading = isLoading;
         }
-    };
-
-    /// <summary>
-    /// A delegate type used to listen to IsLoadingChanged event.
-    /// </summary>
-    public delegate void IsLoadingChangedEventHandler(object sender, IsLoadingChangedEventArgs args);
+    }
 }
 
