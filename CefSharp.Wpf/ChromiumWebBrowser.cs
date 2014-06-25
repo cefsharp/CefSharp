@@ -911,10 +911,7 @@ namespace CefSharp.Wpf
 
         void IWebBrowserInternal.OnInitialized()
         {
-            DoInUi(() =>
-            {
-                SetCurrentValue(IsBrowserInitializedProperty, true);
-            });
+            DoInUi(() => SetCurrentValue(IsBrowserInitializedProperty, true));
         }
 
         public void Load(string url)
