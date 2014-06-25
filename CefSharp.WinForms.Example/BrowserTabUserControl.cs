@@ -1,4 +1,5 @@
-﻿using CefSharp.Example;
+﻿using System.Threading.Tasks;
+using CefSharp.Example;
 using CefSharp.WinForms.Example.Controls;
 using System;
 using System.Windows.Forms;
@@ -128,6 +129,21 @@ namespace CefSharp.WinForms.Example
             {
                 browser.Load(url);
             }
+        }
+
+        public void CopySourceToClipBoardAsync()
+        {
+            var task = browser.GetSourceAsync();
+
+            task.ContinueWith(t =>
+            {
+                if (!t.IsFaulted)
+                {
+                    Clipboard.SetText(t.Result);
+                    DisplayOutput("HTML Source copied to clipboard");
+                }
+            },
+            TaskScheduler.FromCurrentSynchronizationContext());
         }
     }
 }

@@ -59,17 +59,24 @@ namespace CefSharp.WinForms.Example
 
         private void CopySourceToClipBoardAsyncClick(object sender, EventArgs e)
         {
-            //var task = browser.GetSourceAsync();
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                control.CopySourceToClipBoardAsync();
+            }
+        }
 
-            //task.ContinueWith(t =>
-            //{
-            //	if (!t.IsFaulted)
-            //	{
-            //		Clipboard.SetText(t.Result);
-            //		DisplayOutput("HTML Source copied to clipboard");
-            //	}
-            //},
-            //TaskScheduler.FromCurrentSynchronizationContext());
+        private BrowserTabUserControl GetCurrentTabControl()
+        {
+            if (browserTabControl.SelectedIndex == -1)
+            {
+                return null;
+            }
+
+            var tabPage = browserTabControl.Controls[browserTabControl.SelectedIndex];
+            var control = (BrowserTabUserControl)tabPage.Controls[0];
+
+            return control;
         }
     }
 }
