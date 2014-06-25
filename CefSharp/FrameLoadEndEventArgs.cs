@@ -37,5 +37,7 @@ namespace CefSharp
     /// <summary>
     /// A delegate type used to listen to FrameLoadEnd events.
     /// </summary>
+    /// <param name="sender">The object that raised the event.</param>
+    /// <param name="e">The event arguments.</param>
     public delegate void FrameLoadEndEventHandler(object sender, FrameLoadEndEventArgs url);
 }
