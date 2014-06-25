@@ -71,7 +71,6 @@ namespace CefSharp.Wpf
         public bool CanGoBack
         {
             get { return (bool)GetValue(CanGoBackProperty); }
-            private set { SetValue(CanGoBackProperty, value); }
         }
 
         public static DependencyProperty CanGoBackProperty = DependencyProperty.Register("CanGoBack", typeof (bool), typeof (ChromiumWebBrowser));
@@ -83,7 +82,6 @@ namespace CefSharp.Wpf
         public bool CanGoForward
         {
             get { return (bool)GetValue(CanGoForwardProperty); }
-            private set { SetValue(CanGoForwardProperty, value); }
         }
 
         public static DependencyProperty CanGoForwardProperty = DependencyProperty.Register("CanGoForward", typeof (bool), typeof (ChromiumWebBrowser));
@@ -95,7 +93,6 @@ namespace CefSharp.Wpf
         public bool CanReload
         {
             get { return (bool)GetValue(CanReloadProperty); }
-            private set { SetValue(CanReloadProperty, value); }
         }
 
         public static DependencyProperty CanReloadProperty = DependencyProperty.Register("CanReload", typeof (bool), typeof (ChromiumWebBrowser));
@@ -654,9 +651,9 @@ namespace CefSharp.Wpf
         {
             DoInUi(() =>
             {
-                CanGoBack = canGoBack;
-                CanGoForward = canGoForward;
-                CanReload = canReload;
+                SetCurrentValue(CanGoBackProperty, canGoBack);
+                SetCurrentValue(CanGoForwardProperty, canGoForward);
+                SetCurrentValue(CanReloadProperty, canReload);
 
                 RaiseCommandsCanExecuteChanged();
             });
