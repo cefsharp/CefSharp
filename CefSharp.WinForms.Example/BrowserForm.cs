@@ -12,8 +12,6 @@ namespace CefSharp.WinForms.Example
         {
             InitializeComponent();
 
-            Load += BrowserFormLoad;
-
             Text = "CefSharp";
             WindowState = FormWindowState.Maximized;
 
@@ -33,11 +31,6 @@ namespace CefSharp.WinForms.Example
             };
             tabPage.Controls.Add(browser);
             browserTabControl.Controls.Add(tabPage);
-        }
-
-        private void BrowserFormLoad(object sender, EventArgs e)
-        {
-            
         }
 
         private void ExitMenuItemClick(object sender, EventArgs e)
