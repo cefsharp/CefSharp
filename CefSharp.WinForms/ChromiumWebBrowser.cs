@@ -126,6 +126,7 @@ namespace CefSharp.WinForms
         public event AddressChangedEventHandler AddressChanged;
         public event TitleChangedEventHandler TitleChanged;
         public event IsBrowserInitializedChangedEventHandler IsBrowserInitializedChanged;
+        public event IsLoadingChangedEventHandler IsLoadingChanged;
 
         protected override void OnHandleCreated(EventArgs e)
         {
@@ -155,6 +156,12 @@ namespace CefSharp.WinForms
         void IWebBrowserInternal.SetIsLoading(bool isLoading)
         {
             IsLoading = isLoading;
+
+            var handler = IsLoadingChanged;
+            if (handler != null)
+            {
+                handler(this, new IsLoadingChangedEventArgs(isLoading));
+            }
         }
 
         void IWebBrowserInternal.SetNavState(bool canGoBack, bool canGoForward, bool canReload)
