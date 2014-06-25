@@ -233,7 +233,7 @@ namespace CefSharp
         void Reload(bool ignoreCache);
 
         /// <summary>
-        /// Opens a Print Dialog allowing to user to print the contents of the browser.
+        /// Opens a Print Dialog which if used (can be user cancelled) will print the browser contents.
         /// </summary>
         void Print();
     }
