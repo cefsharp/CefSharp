@@ -31,11 +31,14 @@ namespace CefSharp.WinForms.Example
             {
                 Dock = DockStyle.Fill
             };
+            tabPage.SuspendLayout();
             tabPage.Controls.Add(browser);
             browserTabControl.Controls.Add(tabPage);
 
             //Make newly created tab active
             browserTabControl.SelectedIndex = browserTabControl.Controls.Count - 1;
+            tabPage.ResumeLayout(false);
+            tabPage.PerformLayout();
         }
 
         private void ExitMenuItemClick(object sender, EventArgs e)
