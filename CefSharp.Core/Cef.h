@@ -344,8 +344,7 @@ namespace CefSharp
 
             if (manager != nullptr)
             {
-                manager->FlushStore(static_cast<CefRefPtr<CefCompletionHandler>>(wrapper));
-                return true;
+                return manager->FlushStore(static_cast<CefRefPtr<CefCompletionHandler>>(wrapper));
             }
             else
             {
