@@ -929,12 +929,12 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter.Stop();
         }
 
-        private void Back()
+        public void Back()
         {
             managedCefBrowserAdapter.GoBack();
         }
 
-        private void Forward()
+        public void Forward()
         {
             managedCefBrowserAdapter.GoForward();
         }
