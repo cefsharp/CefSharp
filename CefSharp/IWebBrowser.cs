@@ -180,12 +180,12 @@ namespace CefSharp
         void StopFinding(bool clearSelection);
 
         /// <summary>
-        /// Navigates back, check <see cref="CanGoBack"/> before calling this method.
+        /// Navigates back, must check <see cref="CanGoBack"/> before calling this method.
         /// </summary>
         void Back();
 
         /// <summary>
-        /// Navigates forward, check <see cref="CanGoForward"/> before calling this method.
+        /// Navigates forward, must check <see cref="CanGoForward"/> before calling this method.
         /// </summary>
         void Forward();
 
