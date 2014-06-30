@@ -24,5 +24,5 @@ namespace CefSharp
     /// </summary>
     /// <param name="sender">The object that raised the event.</param>
     /// <param name="e">The event arguments.</param>
-    public delegate void AddressChangedEventHandler(object sender, AddressChangedEventArgs args);
+    public delegate void AddressChangedEventHandler(object sender, AddressChangedEventArgs e);
 }

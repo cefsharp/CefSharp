@@ -33,5 +33,5 @@ namespace CefSharp
     /// </summary>
     /// <param name="sender">The object that raised the event.</param>
     /// <param name="e">The event arguments.</param>
-    public delegate void FrameLoadStartEventHandler(object sender, FrameLoadStartEventArgs args);
+    public delegate void FrameLoadStartEventHandler(object sender, FrameLoadStartEventArgs e);
 }

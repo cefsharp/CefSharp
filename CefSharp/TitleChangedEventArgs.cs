@@ -24,5 +24,5 @@ namespace CefSharp
     /// </summary>
     /// <param name="sender">The object that raised the event.</param>
     /// <param name="e">The event arguments.</param>
-    public delegate void TitleChangedEventHandler(object sender, TitleChangedEventArgs args);
+    public delegate void TitleChangedEventHandler(object sender, TitleChangedEventArgs e);
 }
