@@ -221,5 +221,10 @@ namespace CefSharp
         /// <param name="ignoreCache"><c>true</c> A reload is performed ignoring browser cache; <c>false</c> A reload is
         /// performed using files from the browser cache, if available.</param>
         void Reload(bool ignoreCache);
+
+        /// <summary>
+        /// Opens a Print Dialog allowing to user to print the contents of the browser.
+        /// </summary>
+        void Print();
     }
 }
