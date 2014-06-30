@@ -17,12 +17,5 @@ namespace CefSharp
         {
             Title = title;
         }
-    };
-
-    /// <summary>
-    /// A delegate type used to listen to TitleChanged events.
-    /// </summary>
-    /// <param name="sender">The object that raised the event.</param>
-    /// <param name="e">The event arguments.</param>
-    public delegate void TitleChangedEventHandler(object sender, TitleChangedEventArgs e);
+    }
 }

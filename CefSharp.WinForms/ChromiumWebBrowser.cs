@@ -118,13 +118,13 @@ namespace CefSharp.WinForms
             return managedCefBrowserAdapter.EvaluateScript(script, timeout.Value);
         }
 
-        public event LoadErrorEventHandler LoadError;
-        public event FrameLoadStartEventHandler FrameLoadStart;
-        public event FrameLoadEndEventHandler FrameLoadEnd;
-        public event NavStateChangedEventHandler NavStateChanged;
-        public event ConsoleMessageEventHandler ConsoleMessage;
-        public event AddressChangedEventHandler AddressChanged;
-        public event TitleChangedEventHandler TitleChanged;
+        public event EventHandler<LoadErrorEventArgs> LoadError;
+        public event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
+        public event EventHandler<FrameLoadEndEventArgs> FrameLoadEnd;
+        public event EventHandler<NavStateChangedEventArgs> NavStateChanged;
+        public event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
+        public event EventHandler<AddressChangedEventArgs> AddressChanged;
+        public event EventHandler<TitleChangedEventArgs> TitleChanged;
         public event IsBrowserInitializedChangedEventHandler IsBrowserInitializedChanged;
         public event IsLoadingChangedEventHandler IsLoadingChanged;
 

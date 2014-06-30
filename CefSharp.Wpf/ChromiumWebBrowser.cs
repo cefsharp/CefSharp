@@ -50,10 +50,10 @@ namespace CefSharp.Wpf
         public IDownloadHandler DownloadHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
 
-        public event ConsoleMessageEventHandler ConsoleMessage;
-        public event FrameLoadStartEventHandler FrameLoadStart;
-        public event FrameLoadEndEventHandler FrameLoadEnd;
-        public event LoadErrorEventHandler LoadError;
+        public event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
+        public event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
+        public event EventHandler<FrameLoadEndEventArgs> FrameLoadEnd;
+        public event EventHandler<LoadErrorEventArgs> LoadError;
 
         public ICommand BackCommand { get; private set; }
         public ICommand ForwardCommand { get; private set; }
