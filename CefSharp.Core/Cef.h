@@ -339,17 +339,16 @@ namespace CefSharp
         /// <return>Returns false if cookies cannot be accessed.</return>
         static bool FlushStore(ICompletionHandler^ handler)
         {
-            CefRefPtr<CompletionHandler> wrapper = new CompletionHandler(handler);
             CefRefPtr<CefCookieManager> manager = CefCookieManager::GetGlobalManager();
 
-            if (manager != nullptr)
-            {
-                return manager->FlushStore(static_cast<CefRefPtr<CefCompletionHandler>>(wrapper));
-            }
-            else
+            if (manager == nullptr)
             {
                 return false;
             }
+
+            auto wrapper = new CompletionHandler(handler);
+
+            return manager->FlushStore(static_cast<CefRefPtr<CefCompletionHandler>>(wrapper));
         }
 
         /// <summary>Shuts down CefSharp and the underlying CEF infrastructure. This method is safe to call multiple times; it will only
