@@ -195,16 +195,6 @@ namespace CefSharp
         void Stop();
 
         /// <summary>
-        /// Navigates forwards, must check <see cref="CanGoForward"/> before calling.
-        /// </summary>
-        void Forward();
-
-        /// <summary>
-        /// Navigates backwards, must check <see cref="CanGoBack"/> before calling.
-        /// </summary>
-        void Back();
-
-        /// <summary>
         /// Retrieve the main frame's HTML source using a <see cref="Task{String}"/>.
         /// </summary>
         /// <returns><see cref="Task{String}"/> that when executed returns the frame source as a string</returns>
