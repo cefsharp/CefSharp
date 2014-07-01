@@ -1,23 +1,18 @@
 ﻿namespace CefSharp.Example
 {
-    internal class DownloadHandler : IDownloadHandler
+    public class DownloadHandler : IDownloadHandler
     {
-        bool IDownloadHandler.OnBeforeDownload(string suggestedName, out string downloadPath, out bool showDialog)
+        public bool OnBeforeDownload(DownloadItem downloadItem, out string downloadPath, out bool showDialog)
         {
-            downloadPath = suggestedName;
+            downloadPath = downloadItem.SuggestedFileName;
             showDialog = true;
 
             return true;
         }
 
-        bool IDownloadHandler.ReceivedData(byte[] data)
+        public bool OnDownloadUpdated(DownloadItem downloadItem)
         {
             return false;
-        }
-
-        void IDownloadHandler.Complete()
-        {
-            
         }
     }
 }

@@ -7,7 +7,8 @@
 #include "Stdafx.h"
 #include "include/cef_download_handler.h"
 
-using namespace System::Runtime::InteropServices;
+using namespace System;
+using namespace CefSharp;
 
 namespace CefSharp
 {
@@ -15,46 +16,20 @@ namespace CefSharp
     {
         private class DownloadAdapter : public CefDownloadHandler
         {
+        private:
             gcroot<IDownloadHandler^> _handler;
+            DownloadItem^ DownloadAdapter::GetDownloadItem(CefRefPtr<CefDownloadItem> download_item);
+            Nullable<DateTime> ConvertCefTimeToNullableDateTime(CefTime time);
 
         public:
-            DownloadAdapter(IDownloadHandler^ handler) :
-                _handler(handler)
-            {
-            }
-
-            ~DownloadAdapter()
-            {
-                _handler = nullptr;
-            }
+            DownloadAdapter(IDownloadHandler^ handler) : _handler(handler) { }
+            ~DownloadAdapter();
 
             virtual void OnBeforeDownload(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDownloadItem> download_item,
-                const CefString& suggested_name, CefRefPtr<CefBeforeDownloadCallback> callback) OVERRIDE
-            {
-                // TODO: Could consider making more of the stuff in CefDownloadItem available here to the OnBeforeDownload
-                // handler.
-                String^ download_path;
-                bool show_dialog;
-
-                if (_handler->OnBeforeDownload(StringUtils::ToClr(suggested_name), download_path, show_dialog))
-                {
-                    callback->Continue(StringUtils::ToNative(download_path), show_dialog);
-                }
-            };
-
-            virtual bool ReceivedData(void* data, int data_size)
-            {
-                array<Byte>^ bytes = gcnew array<Byte>(data_size);
-                Marshal::Copy(IntPtr(data), bytes, 0, data_size);
-
-                return _handler->ReceivedData(bytes);
-            }
-
-            virtual void Complete()
-            {
-                _handler->Complete();
-            }
-
+                const CefString& suggested_name, CefRefPtr<CefBeforeDownloadCallback> callback) OVERRIDE;
+            virtual void OnDownloadUpdated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDownloadItem> download_item,
+                CefRefPtr<CefDownloadItemCallback> callback) OVERRIDE;
+            
             IMPLEMENT_REFCOUNTING(DownloadAdapter);
         };
     }

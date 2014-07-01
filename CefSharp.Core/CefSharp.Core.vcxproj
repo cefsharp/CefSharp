@@ -218,8 +218,10 @@
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="Internals\CefWebPluginInfoWrapper.cpp" />
     <ClCompile Include="Internals\ClientAdapter.cpp" />
+    <ClCompile Include="Internals\CompletionHandler.cpp" />
     <ClCompile Include="Internals\CookieVisitor.cpp" />
     <ClCompile Include="Internals\CefRequestWrapper.cpp" />
+    <ClCompile Include="Internals\DownloadAdapter.cpp" />
     <ClCompile Include="Internals\RequestResponse.cpp" />
     <ClCompile Include="Internals\StringVisitor.cpp" />
     <ClCompile Include="ManagedCefBrowserAdapter.cpp" />
@@ -237,8 +239,7 @@
   <ItemGroup>
     <ClInclude Include="BrowserSettings.h" />
     <ClInclude Include="Cef.h" />
-    <ClInclude Include="Wrappers\CefAppWrapper.h" />
-    <ClInclude Include="Wrappers\CefSubprocessWrapper.h" />
+    <ClInclude Include="Internals\CompletionHandler.h" />
     <ClInclude Include="Internals\DownloadAdapter.h" />
     <ClInclude Include="Internals\ClientAdapter.h" />
     <ClInclude Include="Internals\CookieVisitor.h" />

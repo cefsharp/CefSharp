@@ -1,4 +1,8 @@
-﻿using CefSharp.Example;
+﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
+using CefSharp.Example;
 using CefSharp.WinForms.Example.Controls;
 using System;
 using System.Threading.Tasks;
@@ -25,6 +29,7 @@ namespace CefSharp.WinForms.Example
             };
             toolStripContainer.ContentPanel.Controls.Add(browser);
 
+            browser.DownloadHandler = new DownloadHandler();
             browser.MenuHandler = new MenuHandler();
             browser.NavStateChanged += OnBrowserNavStateChanged;
             browser.ConsoleMessage += OnBrowserConsoleMessage;

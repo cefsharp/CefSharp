@@ -2,10 +2,17 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+#pragma once
+
+#include "Stdafx.h"
+#include "CompletionHandler.h"
+
+using namespace System::Net;
+
 namespace CefSharp
 {
-    public interface IMenuHandler
+    void CompletionHandler::OnComplete()
     {
-        bool OnBeforeContextMenu(IWebBrowser browser);
+        _handler->OnComplete();
     }
 }

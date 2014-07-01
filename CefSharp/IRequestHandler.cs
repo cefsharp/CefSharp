@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 namespace CefSharp
 {
@@ -33,14 +35,6 @@ namespace CefSharp
         
         // TODO: Investigate how we can support in CEF3.
         //void OnResourceResponse(IWebBrowser browser, string url, int status, string statusText, string mimeType, WebHeaderCollection headers);
-
-        /// <summary>
-        /// Called when a server indicates via the 'Content-Disposition' header that a response represents a file to download.
-        /// </summary>
-        /// <param name="browser">the browser object</param>
-        /// <param name="handler">Set instance of IDownloadHandler that will recieve the file contents</param>
-        /// <returns>Return true to download the file or false to cancel the file download</returns>
-        bool GetDownloadHandler(IWebBrowser browser, out IDownloadHandler handler);
 
         /// <summary>
         /// Called when the browser needs credentials from the user.

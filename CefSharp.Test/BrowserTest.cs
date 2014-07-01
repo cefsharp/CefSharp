@@ -1,6 +1,7 @@
-﻿using System;
-using System.Threading;
-using CefSharp.Wpf;
+﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
 using Xunit;
 using Xunit.Extensions;
 
@@ -8,7 +9,7 @@ namespace CefSharp.Test
 {
     public class BrowserTest
     {
-        [Theory()]
+        [Theory]
         [InlineData("'2'", "2")]
         [InlineData("2+2", 4)]
         public void EvaluateScriptTest(string script, object result)
@@ -20,7 +21,7 @@ namespace CefSharp.Test
             }
         }
 
-        [Theory()]
+        [Theory]
         [InlineData("!!!")]
         public void EvaluateScriptExceptionTest(string script)
         {

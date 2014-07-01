@@ -4,8 +4,8 @@
 
 namespace CefSharp
 {
-    public interface IMenuHandler
+    public interface ICompletionHandler
     {
-        bool OnBeforeContextMenu(IWebBrowser browser);
+        void OnComplete();
     }
 }

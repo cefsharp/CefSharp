@@ -20,7 +20,8 @@ namespace CefSharp.Wpf
 {
     public class ChromiumWebBrowser : ContentControl, IRenderWebBrowser, IWpfWebBrowser
     {
-        private static readonly Key[] KeysToSendtoBrowser = new[] {
+        private static readonly Key[] KeysToSendtoBrowser =
+        {
             Key.Tab,
             Key.Home, Key.End,
             Key.Left, Key.Right,
@@ -46,6 +47,7 @@ namespace CefSharp.Wpf
         public IJsDialogHandler JsDialogHandler { get; set; }
         public IKeyboardHandler KeyboardHandler { get; set; }
         public IRequestHandler RequestHandler { get; set; }
+        public IDownloadHandler DownloadHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
 
         public event ConsoleMessageEventHandler ConsoleMessage;
@@ -557,13 +559,10 @@ namespace CefSharp.Wpf
 
         private void CheckIsNonStandardDpi()
         {
-            if (matrix != null) // make sure it's connected
-            {
-                dpiTransform = new ScaleTransform(
-                    1 / matrix.M11,
-                    1 / matrix.M22
-                );
-            }
+            dpiTransform = new ScaleTransform(
+                   1 / matrix.M11,
+                   1 / matrix.M22
+               );
         }
 
         private void AddSourceHookIfNotAlreadyPresent()
