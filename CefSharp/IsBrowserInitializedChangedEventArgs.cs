@@ -6,22 +6,16 @@ using System;
 
 namespace CefSharp
 {
-	/// <summary>
-	/// Event arguments to the IsBrowserInitializedChanged event handler.
-	/// </summary>
-	public class IsBrowserInitializedChangedEventArgs : EventArgs
-	{
-		public bool IsBrowserInitialized { get; private set; }
-
-		public IsBrowserInitializedChangedEventArgs(bool isBrowserInitialized)
-		{
-			IsBrowserInitialized = isBrowserInitialized;
-		}
-	}
-    };
-
     /// <summary>
-    /// A delegate type used to listen to IsBrowserInitializedChanged events.
+    /// Event arguments to the IsBrowserInitializedChanged event handler.
     /// </summary>
-    public delegate void IsBrowserInitializedChangedEventHandler(object sender, IsBrowserInitializedChangedEventArgs args);
+    public class IsBrowserInitializedChangedEventArgs : EventArgs
+    {
+        public bool IsBrowserInitialized { get; private set; }
+
+        public IsBrowserInitializedChangedEventArgs(bool isBrowserInitialized)
+        {
+            IsBrowserInitialized = isBrowserInitialized;
+        }
+    }
 }
