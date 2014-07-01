@@ -10,6 +10,7 @@
 
 #include "Internals/CefSharpApp.h"
 #include "Internals/CookieVisitor.h"
+#include "Internals/CompletionHandler.h"
 #include "Internals/StringUtils.h"
 #include "ManagedCefBrowserAdapter.h"
 #include "CefSettings.h"
@@ -331,6 +332,23 @@ namespace CefSharp
             {
                 return false;
             }
+        }
+
+        /// <summary> Flush the backing store (if any) to disk and execute the specified |handler| on the IO thread when done. Returns </summary>
+        /// <param name="visitor">A user-provided Cookie Visitor implementation.</param>
+        /// <return>Returns false if cookies cannot be accessed.</return>
+        static bool FlushStore(ICompletionHandler^ handler)
+        {
+            CefRefPtr<CefCookieManager> manager = CefCookieManager::GetGlobalManager();
+
+            if (manager == nullptr)
+            {
+                return false;
+            }
+
+            auto wrapper = new CompletionHandler(handler);
+
+            return manager->FlushStore(static_cast<CefRefPtr<CefCompletionHandler>>(wrapper));
         }
 
         /// <summary>Shuts down CefSharp and the underlying CEF infrastructure. This method is safe to call multiple times; it will only
