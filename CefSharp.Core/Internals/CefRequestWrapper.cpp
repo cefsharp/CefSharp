@@ -84,10 +84,10 @@ namespace CefSharp
         {
             CefRequest::HeaderMap hm;
 
-            for each(KeyValuePair<String^, String^>^ pair in headers)
+			for each(String^ key in headers)
             {
-                CefString name = StringUtils::ToNative(pair->Key);
-                CefString value = StringUtils::ToNative(pair->Value);
+				CefString name = StringUtils::ToNative(key);
+				CefString value = StringUtils::ToNative(headers->Get(key));
                 hm.insert(std::make_pair(name, value));
             }
 
