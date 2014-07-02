@@ -87,8 +87,11 @@ namespace CefSharp
             for each(String^ key in headers)
             {
                 CefString name = StringUtils::ToNative(key);
-                CefString value = StringUtils::ToNative(headers->Get(key));
-                hm.insert(std::make_pair(name, value));
+                for each(String^ element in headers->GetValues(key))
+                {
+                    CefString value = StringUtils::ToNative(element);
+                    hm.insert(std::make_pair(name, value));
+                }
             }
 
             _wrappedRequest->SetHeaderMap(hm);
