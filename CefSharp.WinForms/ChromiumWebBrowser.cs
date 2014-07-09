@@ -196,12 +196,12 @@ namespace CefSharp.WinForms
             }
         }
 
-        void IWebBrowserInternal. OnGotFocus()
+        void IWebBrowserInternal.OnGotFocus()
         {
             
         }
 
-        void IWebBrowserInternal. OnSetFocus(CefFocusSource source)
+        bool IWebBrowserInternal.OnSetFocus(CefFocusSource source)
         {
             return false;
         }
