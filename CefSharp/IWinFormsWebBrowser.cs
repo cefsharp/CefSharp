@@ -9,5 +9,9 @@ namespace CefSharp
     public interface IWinFormsWebBrowser : IWebBrowser
     {
         IMenuHandler MenuHandler { get; set; }
+
+        void OnGotFocus();
+        bool OnSetFocus(CefFocusSource source);
+        void OnTakeFocus(bool next);
     }
 }
