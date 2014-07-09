@@ -20,5 +20,9 @@ namespace CefSharp
         void Paste();
         void Delete();
         void SelectAll();
+
+        void OnGotFocus();
+        bool OnSetFocus(CefFocusSource source);
+        void OnTakeFocus(bool next);
     }
 }

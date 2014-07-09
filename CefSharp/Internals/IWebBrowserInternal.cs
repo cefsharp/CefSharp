@@ -16,9 +16,6 @@ namespace CefSharp.Internals
 
         void OnFrameLoadStart(string url, bool isMainFrame);
         void OnFrameLoadEnd(string url, bool isMainFrame, int httpStatusCode);
-        void OnGotFocus();
-        bool OnSetFocus(CefFocusSource source);
-        void OnTakeFocus(bool next);
         void OnConsoleMessage(string message, string source, int line);
         void OnStatusMessage(string value);
         void OnLoadError(string url, CefErrorCode errorCode, string errorText);
