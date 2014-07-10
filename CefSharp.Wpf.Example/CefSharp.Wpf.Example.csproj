@@ -104,7 +104,6 @@
       <DependentUpon>BrowserTabView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\BrowserTabViewModel.cs" />
-    <Compile Include="Views\Main\BindingTest.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
