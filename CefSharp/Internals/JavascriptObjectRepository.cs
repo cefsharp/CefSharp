@@ -27,11 +27,8 @@ namespace CefSharp.Internals
             var member = new JavascriptProperty
             {
                 Value = CreateJavascriptObject(),
-                Description =
-                {
-                    ManagedName = name,
-                    JavascriptName = JavascriptMemberDescription.LowercaseFirst(name)
-                }
+                ManagedName = name,
+                JavascriptName = JavascriptMember.LowercaseFirst(name)
             };
             member.Value.Value = value;
             member.Value.Analyse(this);
@@ -48,13 +45,13 @@ namespace CefSharp.Internals
                 return false;
             }
 
-            var method = obj.Members.OfType<JavascriptMethod>().FirstOrDefault(p => p.Description.ManagedName == name);
+            var method = obj.Members.OfType<JavascriptMethod>().FirstOrDefault(p => p.ManagedName == name);
             if (method == null)
             {
                 throw new InvalidOperationException(string.Format("Method {0} not found on Object of Type {1}", name, obj.Value.GetType()));
             }
 
-            result = method.Description.Function(obj.Value, parameters);
+            result = method.Function(obj.Value, parameters);
             return true;
         }
 
@@ -67,13 +64,13 @@ namespace CefSharp.Internals
                 return false;
             }
 
-            var property = obj.Members.OfType<JavascriptProperty>().FirstOrDefault(p => p.Description.ManagedName == name);
+            var property = obj.Members.OfType<JavascriptProperty>().FirstOrDefault(p => p.ManagedName == name);
             if (property == null)
             {
                 throw new InvalidOperationException(string.Format("Property {0} not found on Object of Type {1}", name, obj.Value.GetType()));
             }
 
-            result = property.Description.GetValue(obj.Value);
+            result = property.GetValue(obj.Value);
             return true;
         }
 
@@ -85,13 +82,13 @@ namespace CefSharp.Internals
                 return false;
             }
 
-            var property = obj.Members.OfType<JavascriptProperty>().FirstOrDefault(p => p.Description.ManagedName == name);
+            var property = obj.Members.OfType<JavascriptProperty>().FirstOrDefault(p => p.ManagedName == name);
             if (property == null)
             {
                 throw new InvalidOperationException(string.Format("Property {0} not found on Object of Type {1}", name, obj.Value.GetType()));
             }
 
-            property.Description.SetValue(obj.Value, value);
+            property.SetValue(obj.Value, value);
             return true;
         }
 

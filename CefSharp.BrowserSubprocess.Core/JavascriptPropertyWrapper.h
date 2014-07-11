@@ -38,7 +38,7 @@ namespace CefSharp
         virtual void Bind(JavascriptObject^ owner)
         {
             _owner = static_cast<JavascriptObjectWrapper^>(owner);
-            auto methodName = StringUtils::ToNative(Description->JavascriptName);
+            auto methodName = StringUtils::ToNative(JavascriptName);
             auto v8Value = _owner->V8Value->CreateObject(_javascriptPropertyHandler.get());
 
             JsObject->V8Value = v8Value;
@@ -50,7 +50,8 @@ namespace CefSharp
 
         void Clone(JavascriptProperty^ obj)
         {
-            Description = obj->Description;
+            JavascriptName = obj->JavascriptName;
+            ManagedName = obj->ManagedName;
 
             JsObject->Clone(obj->Value);
         }

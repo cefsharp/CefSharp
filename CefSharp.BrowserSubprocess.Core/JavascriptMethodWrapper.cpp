@@ -16,6 +16,6 @@ namespace CefSharp
     {
         auto browserProxy = CefAppWrapper::Instance->CreateBrowserProxy();
 
-        return browserProxy->CallMethod(_owner->Id, Description->ManagedName, parameters);
+        return browserProxy->CallMethod(_owner->Id, ManagedName, parameters);
     }
 }

@@ -16,13 +16,13 @@ namespace CefSharp
     {
         auto browserProxy = CefAppWrapper::Instance->CreateBrowserProxy();
 
-        return browserProxy->SetProperty(_owner->Id, Description->ManagedName, value);
+        return browserProxy->SetProperty(_owner->Id, ManagedName, value);
     };
 
     Object^ JavascriptPropertyWrapper::GetProperty()
     {
         auto browserProxy = CefAppWrapper::Instance->CreateBrowserProxy();
 
-        return browserProxy->GetProperty(_owner->Id, Description->ManagedName);
+        return browserProxy->GetProperty(_owner->Id, ManagedName);
     };
 }
