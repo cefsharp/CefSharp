@@ -2,6 +2,6 @@
 {
     public interface IBindableJavascriptMember
     {
-        void Bind(JavascriptObject owner);
+        void Bind(JavascriptObject owner, bool topLevel);
     }
 }

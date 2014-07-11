@@ -35,17 +35,28 @@ namespace CefSharp
             void set(JavascriptObjectWrapper^ value) { JavascriptProperty::Value::set(value); }
         }
 
-        virtual void Bind(JavascriptObject^ owner)
+        virtual void Bind(JavascriptObject^ owner, bool topLevel)
         {
             _owner = static_cast<JavascriptObjectWrapper^>(owner);
             auto methodName = StringUtils::ToNative(JavascriptName);
-            auto v8Value = _owner->V8Value->CreateObject(_javascriptPropertyHandler.get());
+            CefRefPtr<CefV8Value> topLevelParent = nullptr;
+            
+            if(topLevel)
+            {
+                topLevelParent = _owner->V8Value->CreateObject(_javascriptPropertyHandler.get());
+                JsObject->V8Value = topLevelParent;
+            }
 
-            JsObject->V8Value = v8Value;
+            JsObject->Bind(false);
 
-            _owner->V8Value->SetValue(methodName, v8Value, V8_PROPERTY_ATTRIBUTE_NONE);
-
-            JsObject->Bind();
+            if(topLevel)
+            {
+                _owner->V8Value->SetValue(methodName, topLevelParent, V8_PROPERTY_ATTRIBUTE_NONE);
+            }
+            else
+            {
+                _owner->V8Value->SetValue(methodName, V8_ACCESS_CONTROL_DEFAULT, V8_PROPERTY_ATTRIBUTE_NONE);
+            }
         };
 
         void Clone(JavascriptProperty^ obj)

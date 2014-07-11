@@ -22,11 +22,11 @@ namespace CefSharp
         MCefRefPtr<CefV8Value> V8Value;
     public:
 
-        void Bind()
+        void Bind(bool topLevel)
         {
             for each (IBindableJavascriptMember^ member in Enumerable::OfType<IBindableJavascriptMember^>(Members))
             {
-                member->Bind(this);
+                member->Bind(this, topLevel);
             }
         };
 

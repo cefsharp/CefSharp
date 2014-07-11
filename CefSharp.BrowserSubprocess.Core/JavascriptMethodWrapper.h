@@ -26,7 +26,7 @@ namespace CefSharp
             _javascriptMethodHandler = new JavascriptMethodHandler(gcnew Func<array<Object^>^, Object^>(this, &JavascriptMethodWrapper::Execute));
         }
 
-        virtual void Bind(JavascriptObject^ owner)
+        virtual void Bind(JavascriptObject^ owner, bool topLevel)
         {
             _owner = static_cast<JavascriptObjectWrapper^>(owner);
 

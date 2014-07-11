@@ -16,6 +16,11 @@ namespace CefSharp.Example
             MyUnconvertibleProperty = GetType();
         }
 
+        public int EchoMyProperty()
+        {
+            return MyProperty;
+        }
+
         public string Repeat(string str, int n)
         {
             string result = String.Empty;

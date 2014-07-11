@@ -63,7 +63,7 @@ namespace CefSharp
             if (jswindow != nullptr)
             {
                 jswindow->V8Value = window;
-                jswindow->Bind();
+                jswindow->Bind(true);
             }
         };
         
