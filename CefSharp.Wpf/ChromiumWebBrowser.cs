@@ -925,7 +925,7 @@ namespace CefSharp.Wpf
 
         public void Load(string url)
         {
-            throw new NotImplementedException();
+            managedCefBrowserAdapter.LoadUrl(url);
         }
 
         public void LoadHtml(string html, string url)
@@ -956,6 +956,41 @@ namespace CefSharp.Wpf
         public void Reload(bool ignoreCache)
         {
             managedCefBrowserAdapter.Reload(ignoreCache);
+        }
+
+        public void Undo()
+        {
+            managedCefBrowserAdapter.Undo();
+        }
+
+        public void Redo()
+        {
+            managedCefBrowserAdapter.Redo();
+        }
+
+        public void Cut()
+        {
+            managedCefBrowserAdapter.Cut();
+        }
+
+        public void Copy()
+        {
+            managedCefBrowserAdapter.Copy();
+        }
+
+        public void Paste()
+        {
+            managedCefBrowserAdapter.Paste();
+        }
+
+        public void Delete()
+        {
+            managedCefBrowserAdapter.Delete();
+        }
+
+        public void SelectAll()
+        {
+            managedCefBrowserAdapter.SelectAll();
         }
 
         private void Print()
