@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Windows.Forms;
 using CefSharp.Internals;
 
 namespace CefSharp.BrowserSubprocess
@@ -13,7 +14,7 @@ namespace CefSharp.BrowserSubprocess
         {
             Kernel32.OutputDebugString("BrowserSubprocess starting up with command line: " + String.Join("\n", args));
 
-            //MessageBox.Show("Please attach debugger now", null, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Please attach debugger now", null, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             int result = 0;
 
