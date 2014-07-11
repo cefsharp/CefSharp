@@ -38,11 +38,12 @@ namespace CefSharp
         virtual void Bind(JavascriptObject^ owner)
         {
             _owner = static_cast<JavascriptObjectWrapper^>(owner);
+            auto methodName = StringUtils::ToNative(Description->JavascriptName);
             auto v8Value = _owner->V8Value->CreateObject(_javascriptPropertyHandler.get());
 
             Value->V8Value = v8Value;
 
-            _owner->V8Value->SetValue(StringUtils::ToNative(Description->JavascriptName), v8Value, V8_PROPERTY_ATTRIBUTE_NONE);
+            _owner->V8Value->SetValue(methodName, v8Value, V8_PROPERTY_ATTRIBUTE_NONE);
 
             Value->Bind();
         };
