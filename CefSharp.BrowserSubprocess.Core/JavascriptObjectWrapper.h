@@ -19,7 +19,7 @@ namespace CefSharp
     public ref class JavascriptObjectWrapper : public JavascriptObject
     {
     internal:
-        MCefRefPtr<CefV8Value> Value;
+        MCefRefPtr<CefV8Value> V8Value;
     public:
 
         void Bind()

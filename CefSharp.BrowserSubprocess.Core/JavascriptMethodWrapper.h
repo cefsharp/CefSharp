@@ -33,7 +33,7 @@ namespace CefSharp
             auto methodName = StringUtils::ToNative(Description->JavascriptName);
             auto v8Value = CefV8Value::CreateFunction(methodName, _javascriptMethodHandler.get());
 
-            _owner->Value->SetValue(methodName, v8Value, V8_PROPERTY_ATTRIBUTE_NONE);
+            _owner->V8Value->SetValue(methodName, v8Value, V8_PROPERTY_ATTRIBUTE_NONE);
         };
 
         void Clone(JavascriptMethod^ obj)
