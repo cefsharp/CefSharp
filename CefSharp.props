@@ -2,13 +2,13 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
-    <VisualStudioProductVersion>2010</VisualStudioProductVersion>
-    <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='11.0'">2012</VisualStudioProductVersion>
-    <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='12.0'">2013</VisualStudioProductVersion>
+    <PlatformToolset Condition="'$(PlatformToolset)'=='' and '$(VisualStudioVersion)'=='10.0'">v100</PlatformToolset>
+    <PlatformToolset Condition="'$(PlatformToolset)'=='' and '$(VisualStudioVersion)'=='11.0'">v110</PlatformToolset>
+    <PlatformToolset Condition="'$(PlatformToolset)'=='' and '$(VisualStudioVersion)'=='12.0'">v120</PlatformToolset>
 
-    <PlatformToolset>v100</PlatformToolset>
-    <PlatformToolset Condition="'$(VisualStudioVersion)'=='11.0'">v110</PlatformToolset>
-    <PlatformToolset Condition="'$(VisualStudioVersion)'=='12.0'">v120</PlatformToolset>
+    <PlatformToolsetVisualStudioVersion Condition="'$(PlatformToolset)'=='v100'">VS2010</PlatformToolsetVisualStudioVersion>
+    <PlatformToolsetVisualStudioVersion Condition="'$(PlatformToolset)'=='v110'">VS2012</PlatformToolsetVisualStudioVersion>
+    <PlatformToolsetVisualStudioVersion Condition="'$(PlatformToolset)'=='v120'">VS2013</PlatformToolsetVisualStudioVersion>
   </PropertyGroup>
 
 </Project>
