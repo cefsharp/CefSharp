@@ -30,7 +30,8 @@ namespace CefSharp.Internals
                 Description =
                 {
                     ManagedName = name,
-                    JavascriptName = JavascriptMemberDescription.LowercaseFirst(name)
+                    JavascriptName = JavascriptMemberDescription.LowercaseFirst(name),
+                    IsComplexType = true
                 }
             };
             member.Value.Value = value;

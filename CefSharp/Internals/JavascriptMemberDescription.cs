@@ -25,6 +25,9 @@ namespace CefSharp.Internals
         [DataMember]
         public string JavascriptName { get; set; }
 
+        [DataMember]
+        public bool IsComplexType { get; set; }
+
         public static string LowercaseFirst(string str)
         {
             if (string.IsNullOrEmpty(str))

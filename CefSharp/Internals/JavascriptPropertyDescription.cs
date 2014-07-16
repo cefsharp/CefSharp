@@ -25,6 +25,8 @@ namespace CefSharp.Internals
             JavascriptName = LowercaseFirst(propertyInfo.Name);
             SetValue = (o, v) => propertyInfo.SetValue(o, v, null);
             GetValue = (o) => propertyInfo.GetValue(o, null);
+
+            IsComplexType = !propertyInfo.PropertyType.IsPrimitive;
         }
     }
 }

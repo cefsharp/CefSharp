@@ -5,10 +5,10 @@ namespace CefSharp.Example
 {
     public static class CefExample
     {
-        public const string DefaultUrl = "custom://cefsharp/home";
+        public const string DefaultUrl = "custom://cefsharp/BindingTest.html";
 
         // Use when debugging the actual SubProcess, to make breakpoints etc. inside that project work.
-        private const bool debuggingSubProcess = false;
+        private const bool debuggingSubProcess = true;
 
         public static void Init()
         {
