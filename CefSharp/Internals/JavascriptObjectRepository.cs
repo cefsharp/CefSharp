@@ -29,7 +29,8 @@ namespace CefSharp.Internals
                 Value = CreateJavascriptObject(),
                 ManagedName = name,
                 JavascriptName = JavascriptMember.LowercaseFirst(name),
-                IsComplexType = true
+                IsComplexType = true,
+                GetValue = obj => value
             };
             member.Value.Value = value;
             member.Value.Analyse(this);
