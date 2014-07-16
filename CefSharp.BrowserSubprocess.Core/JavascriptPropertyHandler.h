@@ -26,6 +26,7 @@ namespace CefSharp
         virtual bool Get(const CefString& name, const CefRefPtr<CefV8Value> object, CefRefPtr<CefV8Value>& retval,
             CefString& exception) override
         {
+            System::Diagnostics::Debugger::Break();
             auto result = _getter->Invoke();
             retval = TypeUtils::ConvertToCef(result, nullptr);
             return true;

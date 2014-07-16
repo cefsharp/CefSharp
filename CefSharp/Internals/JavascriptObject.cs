@@ -81,7 +81,7 @@ namespace CefSharp.Internals
                     continue;
                 }
                 var jsMethod = new JavascriptMethod();
-                jsMethod.Description.Analyse(methodInfo);
+                jsMethod.Analyse(methodInfo);
                 Members.Add(jsMethod);
             }
 
@@ -97,8 +97,8 @@ namespace CefSharp.Internals
                     Value = repository.CreateJavascriptObject()
                 };
 
-                jsProperty.Description.Analyse(propertyInfo);
-                jsProperty.Value.Value = jsProperty.Description.GetValue(value);
+                jsProperty.Analyse(propertyInfo);
+                jsProperty.Value.Value = jsProperty.GetValue(value);
                 jsProperty.Value.Analyse(repository);
                 Members.Add(jsProperty);
             }

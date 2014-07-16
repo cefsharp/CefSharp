@@ -8,9 +8,6 @@ namespace CefSharp.Internals
 {
     public interface IWebBrowserInternal : IWebBrowser
     {
-        ILifeSpanHandler LifeSpanHandler { get; set; }
-        IKeyboardHandler KeyboardHandler { get; set; }
-        IJsDialogHandler JsDialogHandler { get; set; }
         IDictionary<string, object> BoundObjects { get; }
 
         void OnInitialized();

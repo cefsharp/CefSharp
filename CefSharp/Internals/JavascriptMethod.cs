@@ -1,19 +1,22 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Reflection;
+using System.Runtime.Serialization;
 
 namespace CefSharp.Internals
 {
     [DataContract]
     public class JavascriptMethod : JavascriptMember
     {
-        public JavascriptMethod()
-        {
-            Description = new JavascriptMethodDescription();
-        }
+        /// <summary>
+        /// Gets or sets a delegate which is used to invoke the method if the member is a method. 
+        /// </summary>
+        public Func<object, object[], object> Function { get; set; }
 
-        public new JavascriptMethodDescription Description 
+        public void Analyse(MethodInfo method)
         {
-            get { return (JavascriptMethodDescription)base.Description; }
-            set { base.Description = value; }
+            ManagedName = method.Name;
+            JavascriptName = LowercaseFirst(method.Name);
+            Function = method.Invoke;
         }
     }
 }

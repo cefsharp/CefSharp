@@ -30,15 +30,16 @@ namespace CefSharp
         {
             _owner = static_cast<JavascriptObjectWrapper^>(owner);
 
-            auto methodName = StringUtils::ToNative(Description->JavascriptName);
+            auto methodName = StringUtils::ToNative(JavascriptName);
             auto v8Value = CefV8Value::CreateFunction(methodName, _javascriptMethodHandler.get());
 
-            _owner->Value->SetValue(methodName, v8Value, V8_PROPERTY_ATTRIBUTE_NONE);
+            _owner->V8Value->SetValue(methodName, v8Value, V8_PROPERTY_ATTRIBUTE_NONE);
         };
 
         void Clone(JavascriptMethod^ obj)
         {
-            Description = obj->Description;
+            JavascriptName = obj->JavascriptName;
+            ManagedName = obj->ManagedName;
         }
 
         Object^ Execute(array<Object^>^ parameters);

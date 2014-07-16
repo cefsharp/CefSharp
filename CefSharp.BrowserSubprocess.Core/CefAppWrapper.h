@@ -60,10 +60,9 @@ namespace CefSharp
 
             JavascriptObjectWrapper^ jswindow = _windowObject;
 
-
             if (jswindow != nullptr)
             {
-                jswindow->Value = window;
+                jswindow->V8Value = window;
                 jswindow->Bind();
             }
         };

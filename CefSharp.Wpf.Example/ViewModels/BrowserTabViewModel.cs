@@ -8,7 +8,6 @@ using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
-using CefSharp.Wpf.Example.Views.Main;
 
 namespace CefSharp.Wpf.Example.ViewModels
 {
@@ -129,8 +128,6 @@ namespace CefSharp.Wpf.Example.ViewModels
                         // TODO: method, but it seems like "something" gets messed up (= doesn't work correctly) if we give it
                         // TODO: focus "too early" in the loading process...
                         WebBrowser.FrameLoadEnd += delegate { Application.Current.Dispatcher.BeginInvoke((Action)(() => webBrowser.Focus())); };
-
-                        BindJavascriptObject(webBrowser);
                     }
 
                     break;
@@ -153,11 +150,6 @@ namespace CefSharp.Wpf.Example.ViewModels
                   ").</h2></body></html>";
 
             webBrowser.LoadHtml(errorMessage, args.FailedUrl);
-        }
-
-        private void BindJavascriptObject(IWpfWebBrowser wpfWebBrowser)
-        {
-            wpfWebBrowser.RegisterJsObject("bindingTest", new BindingTest());
         }
 
         private void Go()
