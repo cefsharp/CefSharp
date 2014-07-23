@@ -14,6 +14,7 @@ namespace CefSharp.WinForms
     public class ChromiumWebBrowser : Control, IWebBrowserInternal, IWinFormsWebBrowser
     {
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
+        private ChromiumDevToolsForm devToolsForm;
 
         public BrowserSettings BrowserSettings { get; set; }
         public string Title { get; set; }
@@ -231,14 +232,35 @@ namespace CefSharp.WinForms
 
         void IWebBrowserInternal.ShowDevTools()
         {
-            // TODO: Do something about this one.
-            var devToolsUrl = managedCefBrowserAdapter.DevToolsUrl;
-            throw new NotImplementedException();
+            ShowDevTools();
         }
 
         void IWebBrowserInternal.CloseDevTools()
         {
-            throw new NotImplementedException();
+            CloseDevTools();
+        }
+
+        public void ShowDevTools()
+        {
+            if (null == devToolsForm)
+            {
+                string devToolsUrl = managedCefBrowserAdapter.DevToolsUrl;
+                devToolsForm = new ChromiumDevToolsForm(devToolsUrl);
+                devToolsForm.Disposed += devToolsForm_Disposed;
+                devToolsForm.Show();
+            }
+        }
+
+        void devToolsForm_Disposed(object sender, EventArgs e)
+        {
+            devToolsForm = null;
+        }
+
+        public void CloseDevTools()
+        {
+            if(null != devToolsForm) {
+                devToolsForm.Dispose();
+            }
         }
 
         public void Stop()
