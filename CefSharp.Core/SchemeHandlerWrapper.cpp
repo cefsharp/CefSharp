@@ -61,7 +61,11 @@ namespace CefSharp
 
         _headers = ToHeaderMap(response->ResponseHeaders);
 
-        _callback->Continue();
+        // If CEF has cancelled the initial request, throw away a response that comes afterwards.
+        if (_callback != nullptr)
+        {
+            _callback->Continue();
+        }
 
         // Must be done AFTER CEF has been allowed to consume the headers etc. After this call is made, the SchemeHandlerWrapper
         // instance has likely been deallocated.

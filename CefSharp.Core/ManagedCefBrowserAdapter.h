@@ -17,7 +17,7 @@ using namespace System::ServiceModel;
 
 namespace CefSharp
 {
-    private ref class ManagedCefBrowserAdapter : public ObjectBase, ISubProcessCallback
+    public ref class ManagedCefBrowserAdapter : public ObjectBase, ISubProcessCallback
     {
         MCefRefPtr<RenderClientAdapter> _renderClientAdapter;
         ISubProcessProxy^ _javaScriptProxy;
