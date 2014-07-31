@@ -67,7 +67,9 @@ namespace CefSharp
             return _boundObjects;
         }
 
-        static void AddDisposable(IDisposable^ item)
+    public:
+
+		static void AddDisposable(IDisposable^ item)
         {
             msclr::lock l(_sync);
 
@@ -80,8 +82,6 @@ namespace CefSharp
 
             _disposables->Remove(item);
         }
-
-    public:
 
         /// <summary>Gets a value that indicates whether CefSharp is initialized.</summary>
         /// <value>true if CefSharp is initalized; otherwise, false.</value>
