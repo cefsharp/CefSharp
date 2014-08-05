@@ -933,6 +933,41 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter.LoadHtml(html, url);
         }
 
+        public void Undo()
+        {
+            managedCefBrowserAdapter.Undo();
+        }
+
+        public void Redo()
+        {
+            managedCefBrowserAdapter.Redo();
+        }
+
+        public void Cut()
+        {
+            managedCefBrowserAdapter.Cut();
+        }
+
+        public void Copy()
+        {
+            managedCefBrowserAdapter.Copy();
+        }
+
+        public void Paste()
+        {
+            managedCefBrowserAdapter.Paste();
+        }
+
+        public void Delete()
+        {
+            managedCefBrowserAdapter.Delete();
+        }
+
+        public void SelectAll()
+        {
+            managedCefBrowserAdapter.SelectAll();
+        }
+
         public void Stop()
         {
             managedCefBrowserAdapter.Stop();
