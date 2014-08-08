@@ -176,6 +176,8 @@
     <ClInclude Include="ScriptCore.h" />
     <ClInclude Include="ScriptException.h" />
     <ClInclude Include="Settings.h" />
+    <ClInclude Include="StatusMessageEventArgs.h" />
+    <ClInclude Include="StatusType.h" />
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="StreamAdapter.h" />
     <ClInclude Include="StringUtil.h" />

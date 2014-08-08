@@ -4,6 +4,8 @@
 #include "BrowserCore.h"
 #include "ConsoleMessageEventArgs.h"
 #include "LoadCompletedEventArgs.h"
+#include "StatusMessageEventArgs.h"
+#include "StatusType.h"
 
 using namespace System;
 using namespace System::ComponentModel;
@@ -69,6 +71,7 @@ namespace CefSharp
         void OnFrameLoadEnd(String^ url);
         void OnTakeFocus(bool next);
         void OnConsoleMessage(String^ message, String^ source, int line);
+        void OnStatusMessage(String^ value, StatusType type);
 
         void RegisterJsObject(String^ name, Object^ objectToBind);
         IDictionary<String^, Object^>^ GetBoundObjects();

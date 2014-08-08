@@ -12,6 +12,7 @@
 #include "IMenuHandler.h"
 #include "IKeyboardHandler.h"
 #include "IJsDialogHandler.h"
+#include "StatusType.h"
 
 using namespace std;
 using namespace CefSharp::Internals::JavascriptBinding;
@@ -97,6 +98,12 @@ namespace CefSharp
         _browserControl->OnConsoleMessage(messageStr, sourceStr, line);
 
         return true;
+    }
+
+    void ClientAdapter::OnStatusMessage(CefRefPtr<CefBrowser> browser, const CefString& value, CefDisplayHandler::StatusType type)
+    {
+        String^ valueStr = toClr(value);
+        _browserControl->OnStatusMessage(valueStr, (CefSharp::StatusType)type);
     }
 
     bool ClientAdapter::OnKeyEvent(CefRefPtr<CefBrowser> browser, KeyEventType type, int code, int modifiers, bool isSystemKey, bool isAfterJavaScript)

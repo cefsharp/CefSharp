@@ -190,5 +190,11 @@
     <ClInclude Include="ISchemeHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="StatusMessageEventArgs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StatusType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
