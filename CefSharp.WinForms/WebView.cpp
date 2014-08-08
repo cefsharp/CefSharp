@@ -332,6 +332,11 @@ namespace WinForms
         ConsoleMessage(this, gcnew ConsoleMessageEventArgs(message, source, line));
     }
 
+    void WebView::OnStatusMessage(String^ value, StatusType type)
+    {
+        StatusMessage(this, gcnew StatusMessageEventArgs(value, type));
+    }
+
     void WebView::OnFrameLoadStart(String^ url)
     {
         _browserCore->OnFrameLoadStart();

@@ -613,6 +613,11 @@ namespace CefSharp
             ConsoleMessage(this, gcnew ConsoleMessageEventArgs(message, source, line));
         }
 
+        void WebView::OnStatusMessage(String^ value, StatusType type)
+        {
+            StatusMessage(this, gcnew StatusMessageEventArgs(value, type));
+        }
+
         void WebView::RegisterJsObject(String^ name, Object^ objectToBind)
         {
             _browserCore->RegisterJsObject(name, objectToBind);

@@ -126,6 +126,7 @@ namespace CefSharp
             }
 
             virtual event ConsoleMessageEventHandler^ ConsoleMessage;
+            virtual event StatusMessageEventHandler^ StatusMessage;
             virtual event KeyEventHandler^ BrowserKey;
             virtual event LoadCompletedEventHandler^ LoadCompleted;
 
@@ -295,6 +296,7 @@ namespace CefSharp
             virtual void OnFrameLoadEnd(String^ url);
             virtual void OnTakeFocus(bool next);
             virtual void OnConsoleMessage(String^ message, String^ source, int line);
+            virtual void OnStatusMessage(String^ value, StatusType type);
 
             virtual void RegisterJsObject(String^ name, Object^ objectToBind);
             virtual IDictionary<String^, Object^>^ GetBoundObjects();
