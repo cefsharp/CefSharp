@@ -15,6 +15,11 @@ namespace CefSharp
         event ConsoleMessageEventHandler ConsoleMessage;
 
         /// <summary>
+        /// Event handler for changes to the status message.
+        /// </summary>
+        event StatusMessageEventHandler StatusMessage;
+
+        /// <summary>
         /// Event handler that will get called when the browser begins loading a frame. Multiple frames may be loading at the same
         /// time. Sub-frames may start or continue loading after the main frame load has ended. This method may not be called for a
         /// particular frame if the load request for that frame fails. For notification of overall browser load status use
