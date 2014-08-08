@@ -225,6 +225,15 @@ namespace CefSharp
             }			
         }
 
+        void ClientAdapter::OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser, TerminationStatus status)
+        {
+            IRequestHandler^ handler = _browserControl->RequestHandler;
+            if (handler != nullptr)
+            {
+                handler->OnRenderProcessTerminated(_browserControl, (CefTerminationStatus)status);
+            }			
+        }
+
         bool ClientAdapter::OnBeforeResourceLoad(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request)
         {
             // TOOD: Try to support with CEF3; seems quite difficult because the method signature has changed greatly with many parts
