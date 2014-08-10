@@ -35,7 +35,7 @@ namespace CefSharp.Wpf
                     _snapshotHeight = dimensions.First();
                     _snapshotWidth = dimensions.Last();
 
-                    _snapshotFile = Path.GetTempFileName() + ".jpg";
+                    _snapshotFile = Path.GetTempFileName() + ".png";
                     _isTakingSnapshot = true;
                     _snapshotIsComplete.Reset();
                     OnActualSizeChanged(this, EventArgs.Empty);
@@ -54,11 +54,11 @@ namespace CefSharp.Wpf
             return result;
         }
 
-        private void SaveBitmapAsJpeg(BitmapSource bitmapSource, string fileName)
+        private void SaveBitmapAsPng(BitmapSource bitmapSource, string fileName)
         {
             using (FileStream stream = new FileStream(fileName, FileMode.Create))
             {
-                JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+                PngBitmapEncoder encoder = new PngBitmapEncoder();
                 encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
                 encoder.Save(stream);
             }
@@ -104,7 +104,7 @@ namespace CefSharp.Wpf
             {
                 var snapshotBitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(bitmapInfo.FileMappingHandle,
                     bitmapInfo.Width, bitmapInfo.Height, PixelFormat, stride, 0);
-                SaveBitmapAsJpeg(snapshotBitmap, _snapshotFile);
+                SaveBitmapAsPng(snapshotBitmap, _snapshotFile);
                 _snapshotIsComplete.Set();
             }
         }
