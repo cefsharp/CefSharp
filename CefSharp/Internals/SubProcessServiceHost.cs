@@ -45,7 +45,8 @@ namespace CefSharp.Internals
             // endpoint address gets available for us to use.
             try
             {
-                var channelFactory = new ChannelFactory<ISubProcessProxy>(
+                var channelFactory = new DuplexChannelFactory<ISubProcessProxy>(
+                    new DummyCallback(),
                     new NetNamedPipeBinding(),
                     new EndpointAddress(serviceName)
                     );
@@ -76,6 +77,13 @@ namespace CefSharp.Internals
             else
             {
                 serviceDebugBehavior.IncludeExceptionDetailInFaults = true;
+            }
+        }
+
+        private class DummyCallback : ISubProcessCallback
+        {
+            public void Error(Exception ex)
+            {
             }
         }
     }
