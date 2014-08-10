@@ -16,6 +16,9 @@
             <DockPanel VerticalAlignment="Top"
                        DockPanel.Dock="Top">
                 <Button Height="23"
+                        Width="100"
+                        Command="{Binding SnapshotCommand}">Snapshot</Button>
+                <Button Height="23"
                         Width="75"
                         Command="{Binding HomeCommand}">Home</Button>
                 <Button Height="23"
@@ -168,7 +171,7 @@
                     </Rectangle.Fill>
                 </Rectangle>
 
-                <cefSharp:ChromiumWebBrowser x:Name="browser"
+                <cefSharp:ChromiumWebBrowserWithSnapshotSupport x:Name="browser"
                                   Opacity="{Binding ElementName=opacitySlider, Path=Value}"
                                   Address="{Binding Address, Mode=TwoWay}"
                                   Title="{Binding Title, Mode=OneWayToSource}"
@@ -204,7 +207,7 @@
                                       Command="{Binding WebBrowser.ViewSourceCommand}" />
                         </ContextMenu>
                     </FrameworkElement.ContextMenu>
-                </cefSharp:ChromiumWebBrowser>
+                </cefSharp:ChromiumWebBrowserWithSnapshotSupport>
             </Grid>
         </DockPanel>
     </Grid>

@@ -89,6 +89,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChromiumWebBrowserWithSnapshotSupport.cs" />
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="DisposableEventWrapper.cs" />
     <Compile Include="IWpfWebBrowser.cs" />

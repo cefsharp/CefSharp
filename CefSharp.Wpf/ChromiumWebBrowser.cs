@@ -109,15 +109,25 @@ namespace CefSharp.Wpf
 
         int IRenderWebBrowser.Width
         {
+            get { return WidthToRender; }
+        }
+
+        protected virtual int WidthToRender
+        {
             get { return (int)matrix.Transform(new Point(ActualWidth, ActualHeight)).X; }
         }
 
         int IRenderWebBrowser.Height
         {
+            get { return HeightToRender; }
+        }
+
+        protected virtual int HeightToRender
+        {
             get { return (int)matrix.Transform(new Point(ActualWidth, ActualHeight)).Y; }
         }
 
-        private static PixelFormat PixelFormat
+        protected static PixelFormat PixelFormat
         {
             get { return PixelFormats.Bgra32; }
         }
@@ -474,7 +484,7 @@ namespace CefSharp.Wpf
             }
         }
 
-        private void OnActualSizeChanged(object sender, EventArgs e)
+        protected void OnActualSizeChanged(object sender, EventArgs e)
         {
             managedCefBrowserAdapter.WasResized();
         }
@@ -630,6 +640,11 @@ namespace CefSharp.Wpf
         }
 
         void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
+        {
+            InvokeRenderAsync(bitmapInfo);
+        }
+
+        protected virtual void InvokeRenderAsync(BitmapInfo bitmapInfo)
         {
             IRenderWebBrowser renderer = this;
             DoInUi(() => renderer.SetBitmap(bitmapInfo), DispatcherPriority.Render);
@@ -1127,6 +1142,11 @@ namespace CefSharp.Wpf
         }
 
         void IRenderWebBrowser.SetBitmap(BitmapInfo bitmapInfo)
+        {
+            SetBitmap(bitmapInfo);
+        }
+
+        protected virtual void SetBitmap(BitmapInfo bitmapInfo)
         {
             lock (bitmapInfo.BitmapLock)
             {

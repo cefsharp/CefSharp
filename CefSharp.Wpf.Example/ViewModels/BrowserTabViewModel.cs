@@ -67,6 +67,7 @@ namespace CefSharp.Wpf.Example.ViewModels
         public ICommand HomeCommand { get; set; }
         public ICommand ExecuteJavaScriptCommand { get; set; }
         public ICommand EvaluateJavaScriptCommand { get; set; }
+        public ICommand SnapshotCommand { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -79,6 +80,7 @@ namespace CefSharp.Wpf.Example.ViewModels
             HomeCommand = new DelegateCommand(() => AddressEditable = Address = CefExample.DefaultUrl);
             ExecuteJavaScriptCommand = new DelegateCommand<string>(ExecuteJavaScript, s => !String.IsNullOrWhiteSpace(s));
             EvaluateJavaScriptCommand = new DelegateCommand<string>(EvaluateJavaScript, s => !String.IsNullOrWhiteSpace(s));
+            SnapshotCommand = new DelegateCommand(TakeSnapshot);
 
             PropertyChanged += OnPropertyChanged;
 
@@ -107,6 +109,24 @@ namespace CefSharp.Wpf.Example.ViewModels
             catch (Exception e)
             {
                 MessageBox.Show("Error while executing Javascript: " + e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void TakeSnapshot()
+        {
+            try
+            {
+                string imagePath = null;
+                if (((ChromiumWebBrowserWithSnapshotSupport)webBrowser).TakeSnapshot(out imagePath))
+                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                    {
+                        UseShellExecute = true,
+                        FileName = imagePath
+                    });
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error while taking snapshot: " + e, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
