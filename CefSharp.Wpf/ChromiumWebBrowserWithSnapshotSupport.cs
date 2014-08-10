@@ -15,7 +15,6 @@ namespace CefSharp.Wpf
         private int _snapshotWidth;
         private int _snapshotHeight;
         private string _snapshotFile;
-        private int _snapshotRenderEventsCount;
         private ManualResetEvent _snapshotIsComplete = new ManualResetEvent(true);
 
         public bool TakeSnapshot(out string imagePath)
@@ -37,7 +36,6 @@ namespace CefSharp.Wpf
                     _snapshotWidth = dimensions.Last();
 
                     _snapshotFile = Path.GetTempFileName() + ".jpg";
-                    _snapshotRenderEventsCount = 0;
                     _isTakingSnapshot = true;
                     _snapshotIsComplete.Reset();
                     OnActualSizeChanged(this, EventArgs.Empty);
