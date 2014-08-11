@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 
-namespace CefSharp.Wpf
+namespace CefSharp.Wpf.Example.Controls
 {
     public class ChromiumWebBrowserWithSnapshotSupport : ChromiumWebBrowser
     {

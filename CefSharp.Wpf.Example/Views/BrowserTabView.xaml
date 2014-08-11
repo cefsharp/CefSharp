@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf" xmlns:local="clr-namespace:CefSharp.Wpf.Example.ViewModels"
+             xmlns:controls="clr-namespace:CefSharp.Wpf.Example.Controls"
              mc:Ignorable="d"
              d:DesignWidth="640"
              d:DesignHeight="480"
@@ -171,7 +171,7 @@
                     </Rectangle.Fill>
                 </Rectangle>
 
-                <cefSharp:ChromiumWebBrowserWithSnapshotSupport x:Name="browser"
+                <controls:ChromiumWebBrowserWithSnapshotSupport x:Name="browser"
                                   Opacity="{Binding ElementName=opacitySlider, Path=Value}"
                                   Address="{Binding Address, Mode=TwoWay}"
                                   Title="{Binding Title, Mode=OneWayToSource}"
@@ -207,7 +207,7 @@
                                       Command="{Binding WebBrowser.ViewSourceCommand}" />
                         </ContextMenu>
                     </FrameworkElement.ContextMenu>
-                </cefSharp:ChromiumWebBrowserWithSnapshotSupport>
+                </controls:ChromiumWebBrowserWithSnapshotSupport>
             </Grid>
         </DockPanel>
     </Grid>
