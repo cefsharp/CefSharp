@@ -34,6 +34,13 @@ namespace CefSharp.Wpf.Example.ViewModels
             set { PropertyChanged.ChangeAndNotify(ref outputMessage, value, () => OutputMessage); }
         }
 
+        private string statusMessage;
+        public string StatusMessage
+        {
+            get { return statusMessage; }
+            set { PropertyChanged.ChangeAndNotify(ref statusMessage, value, () => StatusMessage); }
+        }
+
         private string title;
         public string Title
         {
@@ -122,6 +129,7 @@ namespace CefSharp.Wpf.Example.ViewModels
                     if (WebBrowser != null)
                     {
                         WebBrowser.ConsoleMessage += OnWebBrowserConsoleMessage;
+                        WebBrowser.StatusMessage += OnWebBrowserStatusMessage;
                         WebBrowser.LoadError += OnWebBrowserLoadError;
 
                         // TODO: This is a bit of a hack. It would be nicer/cleaner to give the webBrowser focus in the Go()
@@ -137,6 +145,11 @@ namespace CefSharp.Wpf.Example.ViewModels
         private void OnWebBrowserConsoleMessage(object sender, ConsoleMessageEventArgs e)
         {
             OutputMessage = e.Message;
+        }
+
+        private void OnWebBrowserStatusMessage(object sender, StatusMessageEventArgs e)
+        {
+            StatusMessage = e.Value;
         }
 
         private void OnWebBrowserLoadError(object sender, LoadErrorEventArgs args)

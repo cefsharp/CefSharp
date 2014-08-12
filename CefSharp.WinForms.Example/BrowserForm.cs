@@ -33,6 +33,7 @@ namespace CefSharp.WinForms.Example
             browser.MenuHandler = new MenuHandler();
             browser.NavStateChanged += OnBrowserNavStateChanged;
             browser.ConsoleMessage += OnBrowserConsoleMessage;
+            browser.StatusMessage += OnBrowserStatusMessage;
             browser.TitleChanged += OnBrowserTitleChanged;
             browser.AddressChanged += OnBrowserAddressChanged;
 
@@ -48,6 +49,11 @@ namespace CefSharp.WinForms.Example
         private void OnBrowserConsoleMessage(object sender, ConsoleMessageEventArgs args)
         {
             DisplayOutput(string.Format("Line: {0}, Source: {1}, Message: {2}", args.Line, args.Source, args.Message));
+        }
+
+        private void OnBrowserStatusMessage(object sender, StatusMessageEventArgs args)
+        {
+            this.InvokeOnUiThreadIfRequired(() => statusLabel.Text = args.Value);
         }
 
         private void OnBrowserNavStateChanged(object sender, NavStateChangedEventArgs args)
