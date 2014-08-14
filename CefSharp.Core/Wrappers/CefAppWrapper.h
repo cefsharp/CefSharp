@@ -17,8 +17,8 @@ namespace CefSharp
     private:
         MCefRefPtr<CefAppUnmanagedWrapper> cefApp;
     internal:
-		CefSubprocess^ _managedApp;
-		List<CefBrowserWrapper^>^ browserWrappers;
+        CefSubprocess^ _managedApp;
+        List<CefBrowserWrapper^>^ browserWrappers;
 
     public:
         CefAppWrapper(CefSubprocess^ managedApp);
@@ -48,31 +48,31 @@ namespace CefSharp
         };
 
         virtual DECL void CefAppUnmanagedWrapper::OnBrowserCreated(CefRefPtr<CefBrowser> browser) OVERRIDE
-		{
-			auto wrapper = gcnew CefBrowserWrapper(browser);
-			_cefAppWrapper->browserWrappers->Add(wrapper);
-			_cefAppWrapper->_managedApp->OnBrowserCreated(wrapper);
-        }
+        {
+            auto wrapper = gcnew CefBrowserWrapper(browser);
+            _cefAppWrapper->browserWrappers->Add(wrapper);
+            _cefAppWrapper->_managedApp->OnBrowserCreated(wrapper);
+        };
 
-		virtual DECL void CefAppUnmanagedWrapper::OnBrowserDestroyed(CefRefPtr<CefBrowser> browser) OVERRIDE
-		{
-			auto browserId = browser->GetIdentifier();
-			CefBrowserWrapper^ wrapper = nullptr;
-			for (int i = 0; i < _cefAppWrapper->browserWrappers->Count; i++)
-			{
-				if (_cefAppWrapper->browserWrappers[i]->BrowserId == browserId)
-				{
-					wrapper = _cefAppWrapper->browserWrappers[i];
-					_cefAppWrapper->browserWrappers->RemoveAt(i);
-					break;
-				}
-			}
+        virtual DECL void CefAppUnmanagedWrapper::OnBrowserDestroyed(CefRefPtr<CefBrowser> browser) OVERRIDE
+        {
+            auto browserId = browser->GetIdentifier();
+            CefBrowserWrapper^ wrapper = nullptr;
+            for (int i = 0; i < _cefAppWrapper->browserWrappers->Count; i++)
+            {
+                if (_cefAppWrapper->browserWrappers[i]->BrowserId == browserId)
+                {
+                    wrapper = _cefAppWrapper->browserWrappers[i];
+                    _cefAppWrapper->browserWrappers->RemoveAt(i);
+                    break;
+                }
+            }
 
-			if (wrapper != nullptr)
-			{
-				delete wrapper;
-			}
-		}
+            if (wrapper != nullptr)
+            {
+                delete wrapper;
+            }
+        };
 
         IMPLEMENT_REFCOUNTING(CefAppUnmanagedWrapper);
     };
