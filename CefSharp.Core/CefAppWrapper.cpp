@@ -5,6 +5,9 @@
 #include "Stdafx.h"
 
 #include "Wrappers\CefAppWrapper.h"
+#include "Wrappers\CefSubprocessWrapper.h"
+
+using namespace System::Collections::Generic;
 
 namespace CefSharp
 {
@@ -12,6 +15,7 @@ namespace CefSharp
     {
         _managedApp = managedApp;
         cefApp = new CefAppUnmanagedWrapper(this);
+		browserWrappers = gcnew List<CefBrowserWrapper^>();
     }
 
     int CefAppWrapper::Run(array<String^>^ args)
