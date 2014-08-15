@@ -7,9 +7,9 @@
     <!-- TODO: Extract this to an includable .props file, which we can then bundle with the CefSharp.Wpf NuGet package. -->
     <Target Name="AfterBuild">
         <ItemGroup>
-            <CefBinaries Include="$(SolutionDir)packages\cef.redist.3.1650.1562-pre0\CEF\$(Platform)\*.*" />
-            <ResourceFiles Include="$(SolutionDir)packages\cef.redist.3.1650.1562-pre0\CEF\*.*" />
-            <LocaleFiles Include="$(SolutionDir)packages\cef.redist.3.1650.1562-pre0\CEF\locales\*.*" />
+            <CefBinaries Include="$(SolutionDir)packages\cef.redist.3.1650.1562-pre3\CEF\$(Platform)\*.*" />
+            <ResourceFiles Include="$(SolutionDir)packages\cef.redist.3.1650.1562-pre3\CEF\*.*" />
+            <LocaleFiles Include="$(SolutionDir)packages\cef.redist.3.1650.1562-pre3\CEF\locales\*.*" />
             <!-- We only need the .exe and .pdb but I don't know how to express that easily with MSBuild... -->
             <SubProcessFiles Include="$(SolutionDir)\CefSharp.BrowserSubprocess\bin\$(Platform)\$(Configuration)\CefSharp.BrowserSubprocess.*" />
         </ItemGroup>
