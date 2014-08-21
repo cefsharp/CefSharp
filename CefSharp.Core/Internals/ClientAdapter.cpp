@@ -103,6 +103,12 @@ namespace CefSharp
             return true;
         }
 
+        void ClientAdapter::OnStatusMessage(CefRefPtr<CefBrowser> browser, const CefString& value)
+        {
+            String^ valueStr = StringUtils::ToClr(value);
+            _browserControl->OnStatusMessage(valueStr);
+        }
+
         KeyType KeyTypeToManaged(cef_key_event_type_t keytype)
         {
             switch (keytype)
