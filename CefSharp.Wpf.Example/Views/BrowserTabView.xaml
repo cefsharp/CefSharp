@@ -144,7 +144,7 @@
                              Width="100"
                              Height="16"
                              Margin="3" />
-                <!-- TODO: Show hover link URL here -->
+                <TextBlock Text="{Binding StatusMessage}" />
                 <Separator />
                 <TextBlock Text="{Binding OutputMessage}" />
             </StatusBar>
