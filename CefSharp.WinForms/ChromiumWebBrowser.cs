@@ -243,12 +243,12 @@ namespace CefSharp.WinForms
         {
             // TODO: Do something about this one.
             var devToolsUrl = managedCefBrowserAdapter.DevToolsUrl;
-            throw new NotImplementedException("Implement when Cef upgraded to 1738.");
+            throw new NotImplementedException("Implement when Cef upgraded to 1750.");
         }
 
         void IWebBrowserInternal.CloseDevTools()
         {
-            throw new NotImplementedException("Implement when Cef upgraded to 1738.");
+            throw new NotImplementedException("Implement when Cef upgraded to 1750.");
         }
 
         public string DevToolsUrl
