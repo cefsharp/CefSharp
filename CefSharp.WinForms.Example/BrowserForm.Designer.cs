@@ -35,6 +35,7 @@
             this.findPreviousButton = new System.Windows.Forms.ToolStripButton();
             this.findNextButton = new System.Windows.Forms.ToolStripButton();
             this.findCloseButton = new System.Windows.Forms.ToolStripButton();
+            this.statusLabel = new System.Windows.Forms.Label();
             this.outputLabel = new System.Windows.Forms.Label();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.backButton = new System.Windows.Forms.ToolStripButton();
@@ -78,6 +79,7 @@
             // 
             // toolStripContainer.ContentPanel
             // 
+            this.toolStripContainer.ContentPanel.Controls.Add(this.statusLabel);
             this.toolStripContainer.ContentPanel.Controls.Add(this.outputLabel);
             this.toolStripContainer.ContentPanel.Size = new System.Drawing.Size(730, 416);
             this.toolStripContainer.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -143,6 +145,15 @@
             this.findCloseButton.Size = new System.Drawing.Size(23, 22);
             this.findCloseButton.Text = "X";
             this.findCloseButton.Click += new System.EventHandler(this.FindCloseButtonClick);
+            // 
+            // statusLabel
+            // 
+            this.statusLabel.AutoSize = true;
+            this.statusLabel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.statusLabel.Location = new System.Drawing.Point(0, 403);
+            this.statusLabel.Name = "statusLabel";
+            this.statusLabel.Size = new System.Drawing.Size(0, 13);
+            this.statusLabel.TabIndex = 1;
             // 
             // outputLabel
             // 
@@ -409,6 +420,7 @@
         private System.Windows.Forms.ToolStripMenuItem findMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem copySourceToClipBoardAsyncMenuItem;
+        private System.Windows.Forms.Label statusLabel;
 
     }
 }

@@ -116,6 +116,7 @@ namespace CefSharp.WinForms
         public event FrameLoadEndEventHandler FrameLoadEnd;
         public event NavStateChangedEventHandler NavStateChanged;
         public event ConsoleMessageEventHandler ConsoleMessage;
+        public event StatusMessageEventHandler StatusMessage;
         public event AddressChangedEventHandler AddressChanged;
         public event TitleChangedEventHandler TitleChanged;
 
@@ -207,6 +208,15 @@ namespace CefSharp.WinForms
             if (handler != null)
             {
                 handler(this, new ConsoleMessageEventArgs(message, source, line));
+            }
+        }
+
+        void IWebBrowserInternal.OnStatusMessage(string value)
+        {
+            var handler = StatusMessage;
+            if (handler != null)
+            {
+                handler(this, new StatusMessageEventArgs(value));
             }
         }
 

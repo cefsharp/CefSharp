@@ -51,6 +51,7 @@ namespace CefSharp.Wpf
         public ILifeSpanHandler LifeSpanHandler { get; set; }
 
         public event ConsoleMessageEventHandler ConsoleMessage;
+        public event StatusMessageEventHandler StatusMessage;
         public event FrameLoadStartEventHandler FrameLoadStart;
         public event FrameLoadEndEventHandler FrameLoadEnd;
         public event LoadErrorEventHandler LoadError;
@@ -1079,6 +1080,15 @@ namespace CefSharp.Wpf
             if (handler != null)
             {
                 handler(this, new ConsoleMessageEventArgs(message, source, line));
+            }
+        }
+
+        void IWebBrowserInternal.OnStatusMessage(string value)
+        {
+            var handler = StatusMessage;
+            if (handler != null)
+            {
+                handler(this, new StatusMessageEventArgs(value));
             }
         }
 
