@@ -17,7 +17,7 @@ namespace CefSharp
         /// <summary>
         /// Event handler for changes to the status message.
         /// </summary>
-        event StatusMessageEventHandler StatusMessage;
+        event EventHandler<StatusMessageEventArgs> StatusMessage;
 
         /// <summary>
         /// Event handler that will get called when the browser begins loading a frame. Multiple frames may be loading at the same

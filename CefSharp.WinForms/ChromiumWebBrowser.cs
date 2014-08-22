@@ -124,7 +124,7 @@ namespace CefSharp.WinForms
         public event EventHandler<FrameLoadEndEventArgs> FrameLoadEnd;
         public event EventHandler<NavStateChangedEventArgs> NavStateChanged;
         public event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
-        public event StatusMessageEventHandler StatusMessage;
+        public event EventHandler<StatusMessageEventArgs> StatusMessage;
         public event EventHandler<AddressChangedEventArgs> AddressChanged;
         public event EventHandler<TitleChangedEventArgs> TitleChanged;
         public event EventHandler<IsBrowserInitializedChangedEventArgs> IsBrowserInitializedChanged;

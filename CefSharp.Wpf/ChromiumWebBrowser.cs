@@ -51,7 +51,7 @@ namespace CefSharp.Wpf
         public ILifeSpanHandler LifeSpanHandler { get; set; }
 
         public event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
-        public event StatusMessageEventHandler StatusMessage;
+        public event EventHandler<StatusMessageEventArgs> StatusMessage;
         public event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
         public event EventHandler<FrameLoadEndEventArgs> FrameLoadEnd;
         public event EventHandler<LoadErrorEventArgs> LoadError;
