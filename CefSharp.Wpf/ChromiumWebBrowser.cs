@@ -1037,12 +1037,17 @@ namespace CefSharp.Wpf
         {
             // TODO: Do something about this one.
             var devToolsUrl = managedCefBrowserAdapter.DevToolsUrl;
-            throw new NotImplementedException();
+            throw new NotImplementedException("Implement when Cef upgraded to 1750.");
         }
 
         void IWebBrowserInternal.CloseDevTools()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("Implement when Cef upgraded to 1750.");
+        }
+
+        public string DevToolsUrl
+        {
+            get { return managedCefBrowserAdapter.DevToolsUrl; }
         }
 
         void IWebBrowserInternal.OnFrameLoadStart(string url, bool isMainFrame)
