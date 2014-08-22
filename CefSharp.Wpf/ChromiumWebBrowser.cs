@@ -51,6 +51,7 @@ namespace CefSharp.Wpf
         public ILifeSpanHandler LifeSpanHandler { get; set; }
 
         public event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
+        public event StatusMessageEventHandler StatusMessage;
         public event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
         public event EventHandler<FrameLoadEndEventArgs> FrameLoadEnd;
         public event EventHandler<LoadErrorEventArgs> LoadError;
@@ -1027,12 +1028,17 @@ namespace CefSharp.Wpf
         {
             // TODO: Do something about this one.
             var devToolsUrl = managedCefBrowserAdapter.DevToolsUrl;
-            throw new NotImplementedException();
+            throw new NotImplementedException("Implement when Cef upgraded to 1750.");
         }
 
         void IWebBrowserInternal.CloseDevTools()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("Implement when Cef upgraded to 1750.");
+        }
+
+        public string DevToolsUrl
+        {
+            get { return managedCefBrowserAdapter.DevToolsUrl; }
         }
 
         void IWebBrowserInternal.OnFrameLoadStart(string url, bool isMainFrame)
@@ -1065,6 +1071,15 @@ namespace CefSharp.Wpf
             if (handler != null)
             {
                 handler(this, new ConsoleMessageEventArgs(message, source, line));
+            }
+        }
+
+        void IWebBrowserInternal.OnStatusMessage(string value)
+        {
+            var handler = StatusMessage;
+            if (handler != null)
+            {
+                handler(this, new StatusMessageEventArgs(value));
             }
         }
 
