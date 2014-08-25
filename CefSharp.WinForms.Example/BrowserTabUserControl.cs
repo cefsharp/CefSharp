@@ -26,6 +26,7 @@ namespace CefSharp.WinForms.Example
             Browser.ConsoleMessage += OnBrowserConsoleMessage;
             Browser.TitleChanged += OnBrowserTitleChanged;
             Browser.AddressChanged += OnBrowserAddressChanged;
+            Browser.StatusMessage += OnBrowserStatusMessage;
 
             var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
             DisplayOutput(version);
@@ -57,6 +58,11 @@ namespace CefSharp.WinForms.Example
         private void OnBrowserConsoleMessage(object sender, ConsoleMessageEventArgs args)
         {
             DisplayOutput(string.Format("Line: {0}, Source: {1}, Message: {2}", args.Line, args.Source, args.Message));
+        }
+
+        private void OnBrowserStatusMessage(object sender, StatusMessageEventArgs args)
+        {
+            this.InvokeOnUiThreadIfRequired(() => statusLabel.Text = args.Value);
         }
 
         private void OnBrowserNavStateChanged(object sender, NavStateChangedEventArgs args)

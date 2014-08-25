@@ -34,6 +34,7 @@
             this.findPreviousButton = new System.Windows.Forms.ToolStripButton();
             this.findNextButton = new System.Windows.Forms.ToolStripButton();
             this.findCloseButton = new System.Windows.Forms.ToolStripButton();
+			this.statusLabel = new System.Windows.Forms.Label();
             this.outputLabel = new System.Windows.Forms.Label();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.backButton = new System.Windows.Forms.ToolStripButton();
@@ -57,7 +58,8 @@
             // 
             // toolStripContainer.ContentPanel
             // 
-            this.toolStripContainer.ContentPanel.Controls.Add(this.outputLabel);
+			this.toolStripContainer.ContentPanel.Controls.Add(this.statusLabel);
+			this.toolStripContainer.ContentPanel.Controls.Add(this.outputLabel);
             this.toolStripContainer.ContentPanel.Size = new System.Drawing.Size(730, 440);
             this.toolStripContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer.LeftToolStripPanelVisible = false;
@@ -122,7 +124,16 @@
             this.findCloseButton.Size = new System.Drawing.Size(23, 22);
             this.findCloseButton.Text = "X";
             this.findCloseButton.Click += new System.EventHandler(this.FindCloseButtonClick);
-            // 
+			//
+			// statusLabel
+			//
+			this.statusLabel.AutoSize = true;
+			this.statusLabel.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.statusLabel.Location = new System.Drawing.Point(0, 403);
+			this.statusLabel.Name = "statusLabel";
+			this.statusLabel.Size = new System.Drawing.Size(0, 13);
+			this.statusLabel.TabIndex = 1;
+			// 
             // outputLabel
             // 
             this.outputLabel.AutoSize = true;
@@ -221,5 +232,6 @@
         private System.Windows.Forms.ToolStripTextBox findTextBox;
         private System.Windows.Forms.ToolStripButton findNextButton;
         private System.Windows.Forms.ToolStripButton findCloseButton;
+		private System.Windows.Forms.Label statusLabel;
     }
 }
