@@ -38,21 +38,17 @@ namespace CefSharp.WinForms.Example
             
             tabPage.Controls.Add(browser);
 
-            int activeTabIndex;
-
             if (insertIndex == null)
             {
                 browserTabControl.TabPages.Add(tabPage);
-                activeTabIndex = browserTabControl.Controls.Count - 1;
             }
             else
             {
                 browserTabControl.TabPages.Insert(insertIndex.Value, tabPage);
-                activeTabIndex = insertIndex.Value;
             }
 
             //Make newly created tab active
-            browserTabControl.SelectedIndex = activeTabIndex;
+            browserTabControl.SelectedTab = tabPage;
 
             browserTabControl.ResumeLayout(true);
         }
