@@ -55,6 +55,11 @@ namespace CefSharp.WinForms.Example
 
         private void ExitMenuItemClick(object sender, EventArgs e)
         {
+            ExitApplication();
+        }
+
+        private void ExitApplication()
+        {
             Cef.Shutdown();
             Close();
         }
@@ -123,7 +128,7 @@ namespace CefSharp.WinForms.Example
 
             if (browserTabControl.Controls.Count == 0)
             {
-                Close();
+                ExitApplication();
             }
         }
 
