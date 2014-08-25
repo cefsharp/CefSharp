@@ -106,6 +106,11 @@ namespace CefSharp.WinForms.Example
             }
 
             browserTabControl.Controls.Remove(tabPage);
+
+            if (browserTabControl.Controls.Count == 0)
+            {
+                Close();
+            }
         }
 
         private void UndoMenuItemClick(object sender, EventArgs e)
