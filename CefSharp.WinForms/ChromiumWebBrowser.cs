@@ -124,6 +124,7 @@ namespace CefSharp.WinForms
         public event EventHandler<FrameLoadEndEventArgs> FrameLoadEnd;
         public event EventHandler<NavStateChangedEventArgs> NavStateChanged;
         public event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
+        public event EventHandler<StatusMessageEventArgs> StatusMessage;
         public event EventHandler<AddressChangedEventArgs> AddressChanged;
         public event EventHandler<TitleChangedEventArgs> TitleChanged;
         public event EventHandler<IsBrowserInitializedChangedEventArgs> IsBrowserInitializedChanged;
@@ -226,6 +227,15 @@ namespace CefSharp.WinForms
             }
         }
 
+        void IWebBrowserInternal.OnStatusMessage(string value)
+        {
+            var handler = StatusMessage;
+            if (handler != null)
+            {
+                handler(this, new StatusMessageEventArgs(value));
+            }
+        }
+
         void IWebBrowserInternal.OnLoadError(string url, CefErrorCode errorCode, string errorText)
         {
             var handler = LoadError;
@@ -249,12 +259,17 @@ namespace CefSharp.WinForms
         {
             // TODO: Do something about this one.
             var devToolsUrl = managedCefBrowserAdapter.DevToolsUrl;
-            throw new NotImplementedException();
+            throw new NotImplementedException("Implement when Cef upgraded to 1750.");
         }
 
         void IWebBrowserInternal.CloseDevTools()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("Implement when Cef upgraded to 1750.");
+        }
+
+        public string DevToolsUrl
+        {
+            get { return managedCefBrowserAdapter.DevToolsUrl; }
         }
 
         public void Stop()

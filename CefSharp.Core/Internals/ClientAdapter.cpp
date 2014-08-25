@@ -103,6 +103,12 @@ namespace CefSharp
             return true;
         }
 
+        void ClientAdapter::OnStatusMessage(CefRefPtr<CefBrowser> browser, const CefString& value)
+        {
+            String^ valueStr = StringUtils::ToClr(value);
+            _browserControl->OnStatusMessage(valueStr);
+        }
+
         KeyType KeyTypeToManaged(cef_key_event_type_t keytype)
         {
             switch (keytype)
@@ -222,6 +228,15 @@ namespace CefSharp
             if (handler != nullptr)
             {
                 handler->OnPluginCrashed(_browserControl, StringUtils::ToClr(plugin_path));
+            }			
+        }
+
+        void ClientAdapter::OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser, TerminationStatus status)
+        {
+            IRequestHandler^ handler = _browserControl->RequestHandler;
+            if (handler != nullptr)
+            {
+                handler->OnRenderProcessTerminated(_browserControl, (CefTerminationStatus)status);
             }			
         }
 

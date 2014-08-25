@@ -88,6 +88,7 @@
   <ItemGroup>
     <Compile Include="CefFileDialogMode.cs" />
     <Compile Include="IsBrowserInitializedChangedEventArgs.cs" />
+    <Compile Include="CefTerminationStatus.cs" />
     <Compile Include="IDialogHandler.cs" />
     <Compile Include="AddressChangedEventArgs.cs" />
     <Compile Include="DownloadItem.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="ScriptException.cs" />
     <Compile Include="Internals\SubProcessProxy.cs" />
     <Compile Include="Internals\SubProcessProxySupport.cs" />
+    <Compile Include="StatusMessageEventHandler.cs" />
     <Compile Include="TaskStringVisitor.cs" />
     <Compile Include="TitleChangedEventArgs.cs" />
   </ItemGroup>
