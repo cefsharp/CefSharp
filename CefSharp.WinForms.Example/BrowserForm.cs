@@ -22,7 +22,7 @@ namespace CefSharp.WinForms.Example
             AddTab(CefExample.DefaultUrl);
         }
 
-        private void AddTab(string url)
+        private void AddTab(string url, int? insertIndex = null)
         {
             var browser = new BrowserTabUserControl(url)
             {
@@ -35,12 +35,24 @@ namespace CefSharp.WinForms.Example
             };
             tabPage.SuspendLayout();
             tabPage.Controls.Add(browser);
-            browserTabControl.Controls.Add(tabPage);
+
+            int activeTabIndex;
+
+            if (insertIndex == null)
+            {
+                browserTabControl.TabPages.Add(tabPage);
+                activeTabIndex = browserTabControl.Controls.Count - 1;
+            }
+            else
+            {
+                browserTabControl.TabPages.Insert(insertIndex.Value, tabPage);
+                activeTabIndex = insertIndex.Value;
+            }
 
             //Make newly created tab active
-            browserTabControl.SelectedIndex = browserTabControl.Controls.Count - 1;
-            tabPage.ResumeLayout(false);
-            tabPage.PerformLayout();
+            browserTabControl.SelectedIndex = activeTabIndex;
+            
+            tabPage.ResumeLayout(true);
         }
 
         private void ExitMenuItemClick(object sender, EventArgs e)
@@ -182,6 +194,16 @@ namespace CefSharp.WinForms.Example
             if (control != null)
             {
                 control.Browser.Print();
+            }
+        }
+
+        private void ShowDevToolsItemClick(object sender, EventArgs e)
+        {
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                var browser = (ChromiumWebBrowser)control.Browser;
+                AddTab(browser.DevToolsUrl, browserTabControl.SelectedIndex + 1);
             }
         }
     }
