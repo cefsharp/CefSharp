@@ -34,7 +34,6 @@ namespace CefSharp.WinForms.Example
             Load += BrowserTabUserControlLoad;
 
             Disposed += BrowserTabUserControlDisposed;
-            
         }
 
         private void BrowserTabUserControlLoad(object sender, EventArgs e)
@@ -51,6 +50,7 @@ namespace CefSharp.WinForms.Example
             Browser.ConsoleMessage -= OnBrowserConsoleMessage;
             Browser.TitleChanged -= OnBrowserTitleChanged;
             Browser.AddressChanged -= OnBrowserAddressChanged;
+            Browser.StatusMessage -= OnBrowserStatusMessage;
 
             Browser.Dispose();
         }
