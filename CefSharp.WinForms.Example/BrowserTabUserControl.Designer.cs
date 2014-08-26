@@ -40,6 +40,7 @@
             this.forwardButton = new System.Windows.Forms.ToolStripButton();
             this.urlTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.goButton = new System.Windows.Forms.ToolStripButton();
+            this.browserPanel = new System.Windows.Forms.Panel();
             this.toolStrip2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -53,9 +54,9 @@
             this.findPreviousButton,
             this.findNextButton,
             this.findCloseButton});
-            this.toolStrip2.Location = new System.Drawing.Point(3, 0);
+            this.toolStrip2.Location = new System.Drawing.Point(0, 465);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(174, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(730, 25);
             this.toolStrip2.TabIndex = 0;
             // 
             // findTextBox
@@ -99,7 +100,7 @@
             // 
             this.statusLabel.AutoSize = true;
             this.statusLabel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.statusLabel.Location = new System.Drawing.Point(0, 464);
+            this.statusLabel.Location = new System.Drawing.Point(0, 439);
             this.statusLabel.Name = "statusLabel";
             this.statusLabel.Size = new System.Drawing.Size(0, 13);
             this.statusLabel.TabIndex = 1;
@@ -108,14 +109,13 @@
             // 
             this.outputLabel.AutoSize = true;
             this.outputLabel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.outputLabel.Location = new System.Drawing.Point(0, 477);
+            this.outputLabel.Location = new System.Drawing.Point(0, 452);
             this.outputLabel.Name = "outputLabel";
             this.outputLabel.Size = new System.Drawing.Size(0, 13);
             this.outputLabel.TabIndex = 0;
             // 
             // toolStrip1
             // 
-            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Top;
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.backButton,
@@ -125,7 +125,7 @@
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0);
-            this.toolStrip1.Size = new System.Drawing.Size(668, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(730, 25);
             this.toolStrip1.Stretch = true;
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Layout += new System.Windows.Forms.LayoutEventHandler(this.HandleToolStripLayout);
@@ -166,8 +166,17 @@
             this.goButton.Text = "Go";
             this.goButton.Click += new System.EventHandler(this.GoButtonClick);
             // 
+            // browserPanel
+            // 
+            this.browserPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.browserPanel.Location = new System.Drawing.Point(0, 25);
+            this.browserPanel.Name = "browserPanel";
+            this.browserPanel.Size = new System.Drawing.Size(730, 414);
+            this.browserPanel.TabIndex = 2;
+            // 
             // BrowserTabUserControl
             // 
+            this.Controls.Add(this.browserPanel);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.statusLabel);
             this.Controls.Add(this.outputLabel);
@@ -198,5 +207,6 @@
         private System.Windows.Forms.ToolStripButton findNextButton;
         private System.Windows.Forms.ToolStripButton findCloseButton;
         private System.Windows.Forms.Label statusLabel;
+        private System.Windows.Forms.Panel browserPanel;
     }
 }

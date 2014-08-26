@@ -17,8 +17,7 @@ namespace CefSharp.WinForms.Example
             {
                 Dock = DockStyle.Fill
             };
-            Controls.Add(browser);
-            Controls.SetChildIndex(browser, 1);
+            browserPanel.Controls.Add(browser);
 
             Browser = browser;
 
