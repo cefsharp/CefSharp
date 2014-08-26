@@ -66,7 +66,8 @@ namespace CefSharp
             HWND hwnd = HWND();
             CefWindowInfo window;
             window.SetAsOffScreen(hwnd);
-            window.SetTransparentPainting(true);
+            // Commented out as it causes fonts to be rendered without ClearType, making them blurry
+            //window.SetTransparentPainting(true);
             CefString addressNative = StringUtils::ToNative("about:blank");
 
             if (!CefBrowserHost::CreateBrowser(window, _renderClientAdapter.get(), addressNative,
