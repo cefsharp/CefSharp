@@ -17,7 +17,8 @@ namespace CefSharp.WinForms.Example
             {
                 Dock = DockStyle.Fill
             };
-            toolStripContainer.ContentPanel.Controls.Add(browser);
+            Controls.Add(browser);
+            Controls.SetChildIndex(browser, 1);
 
             Browser = browser;
 
@@ -178,14 +179,14 @@ namespace CefSharp.WinForms.Example
 
         private void ToggleBottomToolStrip()
         {
-            if (toolStripContainer.BottomToolStripPanelVisible)
+            if (toolStrip2.Visible)
             {
                 Browser.StopFinding(true);
-                toolStripContainer.BottomToolStripPanelVisible = false;
+                toolStrip2.Visible = false;
             }
             else
             {
-                toolStripContainer.BottomToolStripPanelVisible = true;
+                toolStrip2.Visible = true;
                 findTextBox.Focus();
             }
         }
