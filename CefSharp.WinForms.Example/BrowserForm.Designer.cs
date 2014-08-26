@@ -51,6 +51,7 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.copySourceToClipBoardAsyncMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.browserTabControl = new System.Windows.Forms.TabControl();
+            this.closeDevToolsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -73,6 +74,7 @@
             this.printToolStripMenuItem,
             this.aboutToolStripMenuItem,
             this.showDevToolsMenuItem,
+            this.closeDevToolsMenuItem,
             this.toolStripMenuItem3,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -226,6 +228,13 @@
             this.browserTabControl.Size = new System.Drawing.Size(730, 466);
             this.browserTabControl.TabIndex = 2;
             // 
+            // closeDevToolsMenuItem
+            // 
+            this.closeDevToolsMenuItem.Name = "closeDevToolsMenuItem";
+            this.closeDevToolsMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.closeDevToolsMenuItem.Text = "Close Dev Tools";
+            this.closeDevToolsMenuItem.Click += new System.EventHandler(this.CloseDevToolsMenuItemClick);
+            // 
             // BrowserForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -268,6 +277,7 @@
         private System.Windows.Forms.ToolStripMenuItem newTabToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeTabToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem closeDevToolsMenuItem;
 
     }
 }

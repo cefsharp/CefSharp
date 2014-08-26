@@ -205,5 +205,14 @@ namespace CefSharp.WinForms.Example
                 control.ShowDevTools();
             }
         }
+
+        private void CloseDevToolsMenuItemClick(object sender, EventArgs e)
+        {
+			var control = GetCurrentTabControl();
+			if (control != null)
+			{
+				control.CloseDevTools();
+			}
+        }
     }
 }

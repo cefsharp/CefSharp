@@ -239,5 +239,13 @@ namespace CefSharp.WinForms.Example
             browserPanel.Panel2.Controls.Add(browser);
             browserPanel.Panel2Collapsed = false;
         }
+
+        public void CloseDevTools()
+        {
+            if (!browserPanel.Panel2Collapsed)
+            {
+                browserPanel.Panel2Collapsed = true;
+            }
+        }
     }
 }
