@@ -40,9 +40,11 @@
             this.forwardButton = new System.Windows.Forms.ToolStripButton();
             this.urlTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.goButton = new System.Windows.Forms.ToolStripButton();
-            this.browserPanel = new System.Windows.Forms.Panel();
+            this.browserPanel = new System.Windows.Forms.SplitContainer();
             this.toolStrip2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.browserPanel)).BeginInit();
+            this.browserPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip2
@@ -171,7 +173,9 @@
             this.browserPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.browserPanel.Location = new System.Drawing.Point(0, 25);
             this.browserPanel.Name = "browserPanel";
+            this.browserPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
             this.browserPanel.Size = new System.Drawing.Size(730, 414);
+            this.browserPanel.SplitterDistance = 243;
             this.browserPanel.TabIndex = 2;
             // 
             // BrowserTabUserControl
@@ -187,6 +191,8 @@
             this.toolStrip2.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.browserPanel)).EndInit();
+            this.browserPanel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -207,6 +213,6 @@
         private System.Windows.Forms.ToolStripButton findNextButton;
         private System.Windows.Forms.ToolStripButton findCloseButton;
         private System.Windows.Forms.Label statusLabel;
-        private System.Windows.Forms.Panel browserPanel;
+        private System.Windows.Forms.SplitContainer browserPanel;
     }
 }

@@ -17,7 +17,8 @@ namespace CefSharp.WinForms.Example
             {
                 Dock = DockStyle.Fill
             };
-            browserPanel.Controls.Add(browser);
+            browserPanel.Panel1.Controls.Add(browser);
+            browserPanel.Panel2Collapsed = true;
 
             Browser = browser;
 
@@ -226,6 +227,17 @@ namespace CefSharp.WinForms.Example
         private void FindCloseButtonClick(object sender, EventArgs e)
         {
             ToggleBottomToolStrip();
+        }
+
+        public void ShowDevTools()
+        {
+            var primaryBrowser = (ChromiumWebBrowser)Browser;
+            var browser = new ChromiumWebBrowser(primaryBrowser.DevToolsUrl)
+            {
+                Dock = DockStyle.Fill
+            };
+            browserPanel.Panel2.Controls.Add(browser);
+            browserPanel.Panel2Collapsed = false;
         }
     }
 }

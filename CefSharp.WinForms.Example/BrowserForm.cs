@@ -202,8 +202,7 @@ namespace CefSharp.WinForms.Example
             var control = GetCurrentTabControl();
             if (control != null)
             {
-                var browser = (ChromiumWebBrowser)control.Browser;
-                AddTab(browser.DevToolsUrl, browserTabControl.SelectedIndex + 1);
+                control.ShowDevTools();
             }
         }
     }
