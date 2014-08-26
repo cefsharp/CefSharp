@@ -231,12 +231,16 @@ namespace CefSharp.WinForms.Example
 
         public void ShowDevTools()
         {
-            var primaryBrowser = (ChromiumWebBrowser)Browser;
-            var browser = new ChromiumWebBrowser(primaryBrowser.DevToolsUrl)
+            if (browserPanel.Panel2.Controls.Count == 0)
             {
-                Dock = DockStyle.Fill
-            };
-            browserPanel.Panel2.Controls.Add(browser);
+                //TODO: Shouldn't need to cast this to get DevToolsUrl
+                var primaryBrowser = (ChromiumWebBrowser)Browser;
+                var browser = new ChromiumWebBrowser(primaryBrowser.DevToolsUrl)
+                {
+                    Dock = DockStyle.Fill
+                };
+                browserPanel.Panel2.Controls.Add(browser);
+            }
             browserPanel.Panel2Collapsed = false;
         }
 
