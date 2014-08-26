@@ -334,6 +334,14 @@ namespace CefSharp.Wpf
 
         protected virtual void Dispose(bool isdisposing)
         {
+            Loaded -= OnLoaded;
+            Unloaded -= OnUnloaded;
+
+            GotKeyboardFocus -= OnGotKeyboardFocus;
+            LostKeyboardFocus -= OnLostKeyboardFocus;
+
+            IsVisibleChanged -= OnIsVisibleChanged;
+
             Cef.RemoveDisposable(this);
 
             foreach (var disposable in disposables)
