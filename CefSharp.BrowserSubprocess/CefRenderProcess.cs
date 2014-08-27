@@ -18,11 +18,6 @@ namespace CefSharp.BrowserSubprocess
             : base(args)
         {
         }
-
-        public static new CefRenderProcess Instance
-        {
-            get { return (CefRenderProcess)CefSubProcess.Instance; }
-        }
         
         protected override void DoDispose(bool isDisposing)
         {

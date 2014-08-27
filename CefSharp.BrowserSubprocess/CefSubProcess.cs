@@ -7,30 +7,7 @@ namespace CefSharp.BrowserSubprocess
     {
         public int? ParentProcessId { get; private set; }
 
-        public static new CefSubProcess Instance 
-        {
-            get { return (CefSubProcess)CefAppWrapper.Instance; }
-        }
-
-        public static CefSubProcess Create(IEnumerable<string> args)
-        {
-            const string typePrefix = "--type=";
-            var typeArgument = args.SingleOrDefault(arg => arg.StartsWith(typePrefix));
-
-            var type = typeArgument.Substring(typePrefix.Length);
-            
-            switch (type)
-            {
-                case "renderer":
-                    return new CefRenderProcess(args);
-                case "gpu-process":
-                    return new CefGpuProcess(args);
-                default:
-                    return new CefSubProcess(args);
-            }
-        }
-
-        protected CefSubProcess(IEnumerable<string> args)
+        internal CefSubProcess(IEnumerable<string> args)
         {
             LocateParentProcessId(args);
         }
