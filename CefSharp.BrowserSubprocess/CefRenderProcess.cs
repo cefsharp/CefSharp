@@ -21,7 +21,6 @@ namespace CefSharp.BrowserSubprocess
         
         protected override void DoDispose(bool isDisposing)
         {
-            //DisposeMember(ref renderprocess);
             DisposeMember(ref browser);
 
             base.DoDispose(isDisposing);
