@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CefFileDialogMode.cs" />
+    <Compile Include="CefTerminationStatus.cs" />
     <Compile Include="IDialogHandler.cs" />
     <Compile Include="AddressChangedEventArgs.cs" />
     <Compile Include="Internals\IBindableJavascriptMember.cs" />
@@ -140,6 +141,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptException.cs" />
     <Compile Include="Internals\RenderprocessClientFactory.cs" />
+    <Compile Include="StatusMessageEventHandler.cs" />
     <Compile Include="TaskStringVisitor.cs" />
     <Compile Include="TitleChangedEventArgs.cs" />
   </ItemGroup>

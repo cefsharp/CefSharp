@@ -51,6 +51,7 @@ namespace CefSharp.Wpf
         public ILifeSpanHandler LifeSpanHandler { get; set; }
 
         public event ConsoleMessageEventHandler ConsoleMessage;
+        public event StatusMessageEventHandler StatusMessage;
         public event FrameLoadStartEventHandler FrameLoadStart;
         public event FrameLoadEndEventHandler FrameLoadEnd;
         public event LoadErrorEventHandler LoadError;
@@ -933,6 +934,41 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter.LoadHtml(html, url);
         }
 
+        public void Undo()
+        {
+            managedCefBrowserAdapter.Undo();
+        }
+
+        public void Redo()
+        {
+            managedCefBrowserAdapter.Redo();
+        }
+
+        public void Cut()
+        {
+            managedCefBrowserAdapter.Cut();
+        }
+
+        public void Copy()
+        {
+            managedCefBrowserAdapter.Copy();
+        }
+
+        public void Paste()
+        {
+            managedCefBrowserAdapter.Paste();
+        }
+
+        public void Delete()
+        {
+            managedCefBrowserAdapter.Delete();
+        }
+
+        public void SelectAll()
+        {
+            managedCefBrowserAdapter.SelectAll();
+        }
+
         public void Stop()
         {
             managedCefBrowserAdapter.Stop();
@@ -1001,12 +1037,17 @@ namespace CefSharp.Wpf
         {
             // TODO: Do something about this one.
             var devToolsUrl = managedCefBrowserAdapter.DevToolsUrl;
-            throw new NotImplementedException();
+            throw new NotImplementedException("Implement when Cef upgraded to 1750.");
         }
 
         void IWebBrowserInternal.CloseDevTools()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("Implement when Cef upgraded to 1750.");
+        }
+
+        public string DevToolsUrl
+        {
+            get { return managedCefBrowserAdapter.DevToolsUrl; }
         }
 
         void IWebBrowserInternal.OnFrameLoadStart(string url, bool isMainFrame)
@@ -1039,6 +1080,15 @@ namespace CefSharp.Wpf
             if (handler != null)
             {
                 handler(this, new ConsoleMessageEventArgs(message, source, line));
+            }
+        }
+
+        void IWebBrowserInternal.OnStatusMessage(string value)
+        {
+            var handler = StatusMessage;
+            if (handler != null)
+            {
+                handler(this, new StatusMessageEventArgs(value));
             }
         }
 

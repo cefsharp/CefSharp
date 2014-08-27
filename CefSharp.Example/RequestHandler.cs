@@ -48,5 +48,10 @@ namespace CefSharp.Example
             //blockPluginLoad = info.Name.ToLower().Contains("flash");
             return blockPluginLoad;
         }
+
+        void IRequestHandler.OnRenderProcessTerminated(IWebBrowser browser, CefTerminationStatus status)
+        {
+            // TODO: Add your own code here for handling scenarios where the Render Process terminated for one reason or another.
+        }
     }
 }
