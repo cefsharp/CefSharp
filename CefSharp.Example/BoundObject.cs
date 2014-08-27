@@ -2,7 +2,7 @@
 
 namespace CefSharp.Example
 {
-    class BoundObject
+    public class BoundObject
     {
         public int MyProperty { get; set; }
 

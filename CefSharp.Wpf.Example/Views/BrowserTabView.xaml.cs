@@ -15,6 +15,7 @@ namespace CefSharp.Wpf.Example.Views
             InitializeComponent();
 
             browser.RequestHandler = new RequestHandler();
+            browser.RegisterJsObject("bound", new BoundObject());
         }
 
         private void OnTextBoxGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
