@@ -36,7 +36,6 @@ namespace CefSharp
         {
             _event = CreateEvent(NULL, FALSE, FALSE, NULL);
             _sync = gcnew Object();
-            _javaScriptObjectRepository = gcnew JavascriptObjectRepository();
             _disposables = gcnew HashSet<IDisposable^>();
         }
 
@@ -61,8 +60,6 @@ namespace CefSharp
         }
 
     internal:
-        static JavascriptObjectRepository^ _javaScriptObjectRepository;
-
         static void AddDisposable(IDisposable^ item)
         {
             msclr::lock l(_sync);
@@ -171,14 +168,6 @@ namespace CefSharp
             }
 
             return success;
-        }
-
-        /// <summary>Binds a C# class to a JavaScript object.</summary>
-        /// <param name="name">The name for the new object in the JavaScript engine (e.g. 'foo' for an object accessible as 'foo' or 'window.foo').</param>
-        /// <param name="objectToBind">The .NET object to bind.</param>
-        static void RegisterJsObject(String^ name, Object^ objectToBind)
-        {
-            _javaScriptObjectRepository->Register(name, objectToBind);
         }
 
         /// <summary>Visits all cookies using the provided Cookie Visitor. The returned cookies are sorted by longest path, then by earliest creation date.</summary>

@@ -37,8 +37,6 @@ namespace CefSharp.Example
                     return;
                 }
             }
-
-            Cef.RegisterJsObject("bound", new BoundObject());
         }
     }
 }

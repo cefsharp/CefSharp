@@ -12,6 +12,6 @@ namespace CefSharp
 {
     void ManagedCefBrowserAdapter::Initialize()
     {
-        _javaScriptObjectRepository = Cef::_javaScriptObjectRepository->Clone();
+        _javaScriptObjectRepository = gcnew JavascriptObjectRepository();
     }
 }
