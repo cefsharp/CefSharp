@@ -44,8 +44,11 @@ namespace CefSharp.BrowserSubprocess
             );
 
             channelFactory.Open();
+
+            var proxy = CreateBrowserProxy();
+            var javascriptObject = proxy.GetRegisteredJavascriptObjects();
             
-            Bind(CreateBrowserProxy().GetRegisteredJavascriptObjects());
+            Bind(javascriptObject);
         }
         
         public object EvaluateScript(int frameId, string script, double timeout)
