@@ -15,7 +15,7 @@ using namespace CefSharp::Internals;
 
 namespace CefSharp
 {
-    public ref class JavascriptObjectWrapper : public JavascriptObject
+    public ref class JavascriptRootObjectWrapper
     {
     internal:
         MCefRefPtr<CefV8Value> V8Value;
@@ -23,16 +23,8 @@ namespace CefSharp
 
         void Bind()
         {
-            //TODO: Simplify this
-            for each (IBindableJavascriptMember^ method in Enumerable::OfType<IBindableJavascriptMember^>(Methods))
-            {
-                method->Bind(this);
-            }
-
-            for each (IBindableJavascriptMember^ prop in Enumerable::OfType<IBindableJavascriptMember^>(Properties))
-            {
-                prop->Bind(this);
-            }
+            
         };
     };
 }
+

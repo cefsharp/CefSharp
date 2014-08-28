@@ -12,7 +12,6 @@ using namespace System::Runtime::Serialization;
 
 namespace CefSharp
 {
-    [DataContract]
     private ref class JavascriptMethodWrapper : IBindableJavascriptMember
     {
     private:

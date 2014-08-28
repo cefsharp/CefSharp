@@ -8,6 +8,7 @@
 #include "JavascriptObjectWrapper.h"
 #include "JavascriptPropertyHandler.h"
 #include "JavascriptPropertyWrapper.h"
+#include "JavascriptRootObjectWrapper.h"
 #include "CefSubprocessWrapper.h"
 #include "include/cef_app.h"
 #include "include/cef_base.h"
@@ -39,7 +40,7 @@ namespace CefSharp
 	{
 	private:
 		gcroot<Action<CefBrowserBase^>^> _onBrowserCreated;
-		gcroot<JavascriptObjectWrapper^> _windowObject;
+		gcroot<JavascriptRootObjectWrapper^> _windowObject;
 	public:
 		
 		CefAppUnmanagedWrapper(Action<CefBrowserBase^>^ onBrowserCreated)
@@ -64,7 +65,7 @@ namespace CefSharp
 		{
 			auto window = context->GetGlobal();
 
-			JavascriptObjectWrapper^ jswindow = _windowObject;
+			JavascriptRootObjectWrapper^ jswindow = _windowObject;
 
 			if (jswindow != nullptr)
 			{
@@ -75,7 +76,7 @@ namespace CefSharp
 		
 		void Bind(JavascriptRootObject^ rootObject)
 		{
-			_windowObject = gcnew JavascriptObjectWrapper();
+			_windowObject = gcnew JavascriptRootObjectWrapper();
 			//TODO:
 			//_windowObject->Clone(windowObject);
 		};
