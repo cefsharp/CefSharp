@@ -26,7 +26,9 @@ namespace CefSharp
         }
         else
         {
-            V8Value->SetValue(methodName, V8_ACCESS_CONTROL_DEFAULT, V8_PROPERTY_ATTRIBUTE_NONE);
+            auto propertyAttribute = _javascriptProperty->IsReadOnly ? V8_PROPERTY_ATTRIBUTE_READONLY : V8_PROPERTY_ATTRIBUTE_NONE;
+
+            V8Value->SetValue(methodName, V8_ACCESS_CONTROL_DEFAULT, propertyAttribute);
         }
     };
 }

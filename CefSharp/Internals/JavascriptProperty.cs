@@ -19,30 +19,39 @@ namespace CefSharp.Internals
         /// </summary>
         public Func<object, object> GetValue { get; set; }
 
-		/// <summary>
-		/// Identifies the <see cref="JavascriptProperty" /> for BrowserProcess to RenderProcess communication
-		/// </summary>
-		[DataMember]
-		public long Id { get; set; }
+        /// <summary>
+        /// Identifies the <see cref="JavascriptProperty" /> for BrowserProcess to RenderProcess communication
+        /// </summary>
+        [DataMember]
+        public long Id { get; set; }
 
-		/// <summary>
-		/// Gets or sets the name of the managed property.
-		/// </summary>
-		[DataMember]
-		public string ManagedName { get; set; }
+        /// <summary>
+        /// Gets or sets the name of the managed property.
+        /// </summary>
+        [DataMember]
+        public string ManagedName { get; set; }
 
-		/// <summary>
-		/// Gets or sets the name of the property in the JavaScript runtime.
-		/// </summary>
-		[DataMember]
-		public string JavascriptName { get; set; }
+        /// <summary>
+        /// Gets or sets the name of the property in the JavaScript runtime.
+        /// </summary>
+        [DataMember]
+        public string JavascriptName { get; set; }
 
-		[DataMember]
-		public bool IsComplexType { get; set; }
+        /// <summary>
+        /// Gets or sets if this property represents a complex type
+        /// </summary>
+        [DataMember]
+        public bool IsComplexType { get; set; }
 
-		public override string ToString()
-		{
-			return ManagedName ?? base.ToString();
-		}
+        /// <summary>
+        /// Gets or sets if this property is read-only
+        /// </summary>
+        [DataMember]
+        public bool IsReadOnly { get; set; }
+
+        public override string ToString()
+        {
+            return ManagedName ?? base.ToString();
+        }
     }
 }

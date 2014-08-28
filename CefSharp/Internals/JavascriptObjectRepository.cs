@@ -160,6 +160,7 @@ namespace CefSharp.Internals
             jsProperty.GetValue = (o) => propertyInfo.GetValue(o, null);
 
             jsProperty.IsComplexType = !propertyInfo.PropertyType.IsPrimitive && propertyInfo.PropertyType != typeof(string);
+            jsProperty.IsReadOnly = !propertyInfo.CanWrite;
 
             return jsProperty;
         }
