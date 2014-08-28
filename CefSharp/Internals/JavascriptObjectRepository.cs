@@ -52,7 +52,7 @@ namespace CefSharp.Internals
                 return false;
             }
 
-            var method = obj.Methods.FirstOrDefault(p => p.ManagedName == name);
+            var method = obj.Methods.FirstOrDefault(p => p.JavascriptName == name);
             if (method == null)
             {
                 throw new InvalidOperationException(string.Format("Method {0} not found on Object of Type {1}", name, obj.Value.GetType()));
@@ -71,7 +71,7 @@ namespace CefSharp.Internals
                 return false;
             }
 
-            var property = obj.Properties.FirstOrDefault(p => p.ManagedName == name);
+            var property = obj.Properties.FirstOrDefault(p => p.JavascriptName == name);
             if (property == null)
             {
                 throw new InvalidOperationException(string.Format("Property {0} not found on Object of Type {1}", name, obj.Value.GetType()));
@@ -89,7 +89,7 @@ namespace CefSharp.Internals
                 return false;
             }
 
-            var property = obj.Properties.FirstOrDefault(p => p.ManagedName == name);
+            var property = obj.Properties.FirstOrDefault(p => p.JavascriptName == name);
             if (property == null)
             {
                 throw new InvalidOperationException(string.Format("Property {0} not found on Object of Type {1}", name, obj.Value.GetType()));
