@@ -12,6 +12,14 @@ using namespace System;
 
 namespace CefSharp
 {
+    void JavascriptMethodWrapper::Bind()
+    {
+        auto methodName = StringUtils::ToNative(_javascriptMethod->JavascriptName);
+        auto v8Function = CefV8Value::CreateFunction(methodName, _javascriptMethodHandler.get());
+
+        V8Value->SetValue(methodName, v8Function, V8_PROPERTY_ATTRIBUTE_NONE);
+    };
+
     Object^ JavascriptMethodWrapper::Execute(array<Object^>^ parameters)
     {
         auto browserProxy = CefAppWrapper::Instance->CreateBrowserProxy();

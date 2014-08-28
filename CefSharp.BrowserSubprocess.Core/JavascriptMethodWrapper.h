@@ -31,14 +31,7 @@ namespace CefSharp
             _javascriptMethodHandler = new JavascriptMethodHandler(gcnew Func<array<Object^>^, Object^>(this, &JavascriptMethodWrapper::Execute));
         }
 
-        void Bind()
-        {
-            auto methodName = StringUtils::ToNative(_javascriptMethod->JavascriptName);
-            auto v8Function = CefV8Value::CreateFunction(methodName, _javascriptMethodHandler.get());
-
-            V8Value->SetValue(methodName, v8Function, V8_PROPERTY_ATTRIBUTE_NONE);
-        };
-
+        void Bind();
         Object^ Execute(array<Object^>^ parameters);
     };
 }
