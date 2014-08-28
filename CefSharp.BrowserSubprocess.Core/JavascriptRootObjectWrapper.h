@@ -5,12 +5,13 @@
 #pragma once
 
 #include "Stdafx.h"
-#include "include/cef_app.h"
-#include "include/cef_base.h"
 #include "include/cef_v8.h"
 
+#include "JavascriptMethodWrapper.h"
+#include "JavascriptPropertyWrapper.h"
 #include "JavascriptObjectWrapper.h"
 
+using namespace System::Runtime::Serialization;
 using namespace System::Linq;
 using namespace System::Collections::Generic;
 
@@ -40,7 +41,8 @@ namespace CefSharp
             for each (JavascriptObject^ obj in Enumerable::OfType<JavascriptObject^>(memberObjects))
             {
                 auto wrapperObject = gcnew JavascriptObjectWrapper(obj);
-                wrapperObject->V8Value = V8Value;
+                //TODO: this needs to be set!
+                //wrapperObject->V8Value = V8Value;
                 wrapperObject->Bind();
 
                 _wrappedObjects->Add(wrapperObject);

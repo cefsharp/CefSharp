@@ -5,8 +5,6 @@
 #pragma once
 
 #include "Stdafx.h"
-#include "include/cef_app.h"
-#include "include/cef_base.h"
 #include "include/cef_v8.h"
 
 #include "JavascriptObjectWrapper.h"
@@ -17,7 +15,7 @@ using namespace System::Runtime::Serialization;
 
 namespace CefSharp
 {
-    public ref class JavascriptPropertyWrapper
+    private ref class JavascriptPropertyWrapper
     {
     private:
         MCefRefPtr<JavascriptPropertyHandler> _javascriptPropertyHandler;
