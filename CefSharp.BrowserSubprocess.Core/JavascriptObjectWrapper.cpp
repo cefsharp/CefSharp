@@ -15,9 +15,10 @@ namespace CefSharp
 	void JavascriptObjectWrapper::Bind()
 	{
 		//Create property handler with only a getter for root objects
+		//TODO: Store reference to this
 		auto propertyHandler = new JavascriptPropertyHandler(
 			gcnew Func<String^, Object^>(this, &JavascriptObjectWrapper::GetProperty),
-			nullptr
+			gcnew Action<String^, Object^>(this, &JavascriptObjectWrapper::SetProperty)
 			);
 
 		auto v8Value = V8Value->CreateObject(propertyHandler);
@@ -48,5 +49,12 @@ namespace CefSharp
 		auto browserProxy = CefAppWrapper::Instance->CreateBrowserProxy();
 
 		return browserProxy->GetProperty(_object->Id, memberName);
+	};
+
+	void JavascriptObjectWrapper::SetProperty(String^ memberName, Object^ value)
+	{
+		auto browserProxy = CefAppWrapper::Instance->CreateBrowserProxy();
+
+		browserProxy->SetProperty(_object->Id, memberName, value);
 	};
 }

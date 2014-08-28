@@ -39,5 +39,6 @@ namespace CefSharp
 
         void Bind();
         Object^ GetProperty(String^ memberName);
+        void SetProperty(String^ memberName, Object^ value);
     };
 }

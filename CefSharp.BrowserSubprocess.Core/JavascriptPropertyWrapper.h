@@ -21,21 +21,14 @@ namespace CefSharp
 
     internal:
         MCefRefPtr<CefV8Value> V8Value;
-        MCefRefPtr<JavascriptPropertyHandler> JsPropertyHandler;
 
     public:
         JavascriptPropertyWrapper(JavascriptProperty^ javascriptProperty, long ownerId)
         {
             _javascriptProperty = javascriptProperty;
             _ownerId = ownerId;
-            JsPropertyHandler = new JavascriptPropertyHandler(
-                gcnew Func<String^, Object^>(this, &JavascriptPropertyWrapper::GetProperty),
-                gcnew Action<String^, Object^>(this, &JavascriptPropertyWrapper::SetProperty)
-            );
         }
 
         void Bind();
-        void SetProperty(String^ memberName, Object^ value);
-        Object^ GetProperty(String^ memberName);
     };
 }

@@ -29,18 +29,4 @@ namespace CefSharp
             V8Value->SetValue(methodName, V8_ACCESS_CONTROL_DEFAULT, V8_PROPERTY_ATTRIBUTE_NONE);
         }
     };
-
-    void JavascriptPropertyWrapper::SetProperty(String^ memberName, Object^ value)
-    {
-        auto browserProxy = CefAppWrapper::Instance->CreateBrowserProxy();
-
-        browserProxy->SetProperty(_ownerId, memberName, value);
-    };
-
-    Object^ JavascriptPropertyWrapper::GetProperty(String^ memberName)
-    {
-        auto browserProxy = CefAppWrapper::Instance->CreateBrowserProxy();
-
-        return browserProxy->GetProperty(_ownerId, memberName);
-    };
 }
