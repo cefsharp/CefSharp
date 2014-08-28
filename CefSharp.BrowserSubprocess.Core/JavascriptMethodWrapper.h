@@ -18,13 +18,13 @@ namespace CefSharp
     private:
         MCefRefPtr<JavascriptMethodHandler> _javascriptMethodHandler;
         JavascriptMethod^ _javascriptMethod;
-        int _ownerId;
+        long _ownerId;
 
     internal:
         MCefRefPtr<CefV8Value> V8Value;
 
     public:
-        JavascriptMethodWrapper(JavascriptMethod^ javascriptMethod, int ownerId)
+        JavascriptMethodWrapper(JavascriptMethod^ javascriptMethod, long ownerId)
         {
             _javascriptMethod = javascriptMethod;
             _ownerId = ownerId;

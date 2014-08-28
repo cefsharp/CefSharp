@@ -17,14 +17,14 @@ namespace CefSharp
     {
     private:
         JavascriptProperty^ _javascriptProperty;
-        int _ownerId;
+        long _ownerId;
 
     internal:
         MCefRefPtr<CefV8Value> V8Value;
         MCefRefPtr<JavascriptPropertyHandler> JsPropertyHandler;
 
     public:
-        JavascriptPropertyWrapper(JavascriptProperty^ javascriptProperty, int ownerId)
+        JavascriptPropertyWrapper(JavascriptProperty^ javascriptProperty, long ownerId)
         {
             _javascriptProperty = javascriptProperty;
             _ownerId = ownerId;
