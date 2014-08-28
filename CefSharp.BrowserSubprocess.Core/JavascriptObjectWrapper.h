@@ -23,7 +23,7 @@ namespace CefSharp
     private:
         JavascriptObject^ _object;
         //List<JavascriptMethodWrapper^>^ _wrappedMethods;
-        //List<JavascriptPropertyWrapper^>^ _wrappedProperties;
+        List<JavascriptPropertyWrapper^>^ _wrappedProperties;
 
     internal:
         MCefRefPtr<CefV8Value> V8Value;
@@ -34,7 +34,7 @@ namespace CefSharp
             _object = object;
 
             //_wrappedMethods = gcnew List<JavascriptMethodWrapper^>();
-            //_wrappedProperties = gcnew List<JavascriptPropertyWrapper^>();
+            _wrappedProperties = gcnew List<JavascriptPropertyWrapper^>();
         }
 
         void Bind()
@@ -48,14 +48,14 @@ namespace CefSharp
             //    //_wrappedMethods->Add(wrappedMethod);
             //}
 
-            //for each (JavascriptProperty^ prop in Enumerable::OfType<JavascriptProperty^>(_object->Properties))
-            //{
-            //    //auto wrappedproperty = gcnew JavascriptPropertyWrapper(prop, _object->Id);
-            //    //wrappedproperty->V8Value = V8Value;
-            //    //wrappedproperty->Bind();
+            for each (JavascriptProperty^ prop in Enumerable::OfType<JavascriptProperty^>(_object->Properties))
+            {
+                auto wrappedproperty = gcnew JavascriptPropertyWrapper(prop, _object->Id);
+                //wrappedproperty->V8Value = V8Value;
+                wrappedproperty->Bind();
 
-            //    //_wrappedProperties->Add(wrappedproperty);
-            //}
+                _wrappedProperties->Add(wrappedproperty);
+            }
         }
     };
 }
