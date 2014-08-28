@@ -22,8 +22,8 @@ namespace CefSharp
 			);
 
 		auto v8Value = V8Value->CreateObject(propertyHandler);
-		auto methodName = StringUtils::ToNative(_object->JavascriptName);
-		V8Value->SetValue(methodName, v8Value, V8_PROPERTY_ATTRIBUTE_NONE);
+		auto objectName = StringUtils::ToNative(_object->JavascriptName);
+		V8Value->SetValue(objectName, v8Value, V8_PROPERTY_ATTRIBUTE_NONE);
 
 		for each (JavascriptMethod^ method in Enumerable::OfType<JavascriptMethod^>(_object->Methods))
 		{
