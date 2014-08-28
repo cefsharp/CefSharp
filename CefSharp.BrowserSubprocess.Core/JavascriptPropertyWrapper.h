@@ -35,7 +35,7 @@ namespace CefSharp
             );
         }
 
-        virtual void Bind()
+        void Bind()
         {
             auto methodName = StringUtils::ToNative(_javascriptProperty->JavascriptName);
             auto clrMethodName = _javascriptProperty->JavascriptName;
