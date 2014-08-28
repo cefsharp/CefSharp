@@ -37,9 +37,11 @@ namespace CefSharp.BrowserSubprocess
 
             var serviceName = RenderprocessClientFactory.GetServiceName(ParentProcessId.Value, cefBrowserWrapper.BrowserId);
 
+            var binding = BrowserProcessServiceHost.CreateBinding();
+
             channelFactory = new DuplexChannelFactory<IBrowserProcess>(
                 this,
-                new NetNamedPipeBinding(),
+                binding,
                 new EndpointAddress(serviceName)
             );
 
