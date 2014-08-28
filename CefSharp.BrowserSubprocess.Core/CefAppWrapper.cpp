@@ -30,10 +30,10 @@ namespace CefSharp
         return CefExecuteProcess(cefMainArgs, (CefApp*)cefApp.get());
     }
     
-    void CefAppWrapper::Bind(JavascriptRootObject^ windowObject)
+    void CefAppWrapper::Bind(JavascriptRootObject^ rootObject)
     {
         auto app = cefApp.get();
         
-        app->Bind(windowObject);
+        app->Bind(rootObject);
     }
 }

@@ -32,7 +32,7 @@ namespace CefSharp
 		CefAppWrapper();
 		int Run();
 
-		void Bind(JavascriptRootObject^ windowObject);
+		void Bind(JavascriptRootObject^ rootObject);
 	};
 
 	private class CefAppUnmanagedWrapper : CefApp, CefRenderProcessHandler
@@ -73,7 +73,7 @@ namespace CefSharp
 			}
 		};
 		
-		void Bind(JavascriptRootObject^ windowObject)
+		void Bind(JavascriptRootObject^ rootObject)
 		{
 			_windowObject = gcnew JavascriptObjectWrapper();
 			//TODO:
