@@ -9,6 +9,8 @@
 #include "include/cef_v8.h"
 #include "TypeUtils.h"
 
+using namespace CefSharp::Internals;
+
 namespace CefSharp
 {
     private class JavascriptPropertyHandler : public CefV8Accessor
@@ -27,7 +29,8 @@ namespace CefSharp
             CefString& exception) override
         {
             System::Diagnostics::Debugger::Break();
-            auto result = _getter->Invoke();
+            auto propertyName = StringUtils::ToClr(name);
+            auto result = _getter->Invoke();			
             retval = TypeUtils::ConvertToCef(result, nullptr);
             return true;
         }
@@ -36,6 +39,7 @@ namespace CefSharp
             CefString& exception) override
         {
             System::Diagnostics::Debugger::Break();
+            auto propertyName = StringUtils::ToClr(name);
             auto managedValue = TypeUtils::ConvertFromCef(value);
             _setter->Invoke(managedValue);
             return true;
