@@ -15,11 +15,11 @@ namespace CefSharp
 {
     private class JavascriptPropertyHandler : public CefV8Accessor
     {
-        gcroot<Func<Object^>^> _getter;
+		gcroot<Func<String^, Object^>^> _getter;
         gcroot<Action<Object^>^> _setter;
 
     public:
-        JavascriptPropertyHandler(Func<Object^>^ getter, Action<Object^>^ setter)
+		JavascriptPropertyHandler(Func<String^, Object^>^ getter, Action<Object^>^ setter)
         {
             _getter = getter;
             _setter = setter;
@@ -30,7 +30,7 @@ namespace CefSharp
         {
             System::Diagnostics::Debugger::Break();
             auto propertyName = StringUtils::ToClr(name);
-            auto result = _getter->Invoke();			
+			auto result = _getter->Invoke(propertyName);
             retval = TypeUtils::ConvertToCef(result, nullptr);
             return true;
         }
