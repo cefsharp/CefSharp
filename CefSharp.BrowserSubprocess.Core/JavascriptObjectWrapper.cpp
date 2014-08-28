@@ -13,22 +13,20 @@ using namespace System;
 
 namespace CefSharp
 {
-    void JavascriptObjectWrapper::Clone(JavascriptObject^ obj)
+    /*void JavascriptObjectWrapper::Clone(JavascriptObject^ obj)
     {
         Id = obj->Id;
 
         for each (JavascriptProperty^ prop in Enumerable::OfType<JavascriptProperty^>(obj->Properties))
         {
-            auto propertywrapper = gcnew JavascriptPropertyWrapper();
-            propertywrapper->Clone(prop);
+            auto propertywrapper = gcnew JavascriptPropertyWrapper(prop);
             Properties->Add(propertywrapper);
         }
 
         for each (JavascriptMethod^ method in Enumerable::OfType<JavascriptMethod^>(obj->Methods))
         {
-            auto methodwrapper = gcnew JavascriptMethodWrapper();
-            methodwrapper->Clone(method);
+            auto methodwrapper = gcnew JavascriptMethodWrapper(method);
             Methods->Add(methodwrapper);
         }
-    };
+    };*/
 }

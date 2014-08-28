@@ -12,6 +12,12 @@ namespace CefSharp.Internals
         [DataMember]
         public long Id { get; set; }
 
+        [DataMember]
+        public string Name { get; set; }
+
+        [DataMember]
+        public string JavascriptName { get; set; }
+
         /// <summary>
         /// Gets the methods of the <see cref="JavascriptObject" />.
         /// </summary>

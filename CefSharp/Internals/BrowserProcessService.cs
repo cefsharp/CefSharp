@@ -36,7 +36,7 @@ namespace CefSharp.Internals
             javascriptObjectRepository.TrySetProperty(objectId, name, value);
         }
 
-        public JavascriptObject GetRegisteredJavascriptObjects()
+        public JavascriptRootObject GetRegisteredJavascriptObjects()
         {
             var javascriptObjectRepository = host.JavascriptObjectRepository;
 

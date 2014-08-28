@@ -15,6 +15,6 @@ namespace CefSharp.Internals
         void SetProperty(long objectId, string name, object value);
         
         [OperationContract]
-        JavascriptObject GetRegisteredJavascriptObjects();
+        JavascriptRootObject GetRegisteredJavascriptObjects();
     }
 }

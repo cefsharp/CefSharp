@@ -13,16 +13,17 @@ using namespace System::Runtime::Serialization;
 namespace CefSharp
 {
     [DataContract]
-    private ref class JavascriptMethodWrapper : public JavascriptMethod, IBindableJavascriptMember
+    private ref class JavascriptMethodWrapper : IBindableJavascriptMember
     {
     private:
         MCefRefPtr<JavascriptMethodHandler> _javascriptMethodHandler;
         JavascriptObjectWrapper^ _owner;
+        JavascriptMethod^ _method;
 
     public:
-
-        JavascriptMethodWrapper()
+        JavascriptMethodWrapper(JavascriptMethod^ method)
         {
+            _method = method;
             _javascriptMethodHandler = new JavascriptMethodHandler(gcnew Func<array<Object^>^, Object^>(this, &JavascriptMethodWrapper::Execute));
         }
 
@@ -30,17 +31,11 @@ namespace CefSharp
         {
             _owner = static_cast<JavascriptObjectWrapper^>(owner);
 
-            auto methodName = StringUtils::ToNative(JavascriptName);
+            auto methodName = StringUtils::ToNative(_method->JavascriptName);
             auto v8Value = CefV8Value::CreateFunction(methodName, _javascriptMethodHandler.get());
 
             _owner->V8Value->SetValue(methodName, v8Value, V8_PROPERTY_ATTRIBUTE_NONE);
         };
-
-        void Clone(JavascriptMethod^ obj)
-        {
-            JavascriptName = obj->JavascriptName;
-            ManagedName = obj->ManagedName;
-        }
 
         Object^ Execute(array<Object^>^ parameters);
     };

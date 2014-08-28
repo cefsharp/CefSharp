@@ -12,16 +12,17 @@ using namespace System::Runtime::Serialization;
 namespace CefSharp
 {
     [DataContract]
-    private ref class JavascriptPropertyWrapper : public JavascriptProperty, IBindableJavascriptMember
+    private ref class JavascriptPropertyWrapper : public IBindableJavascriptMember
     {
     private:
         MCefRefPtr<JavascriptPropertyHandler> _javascriptPropertyHandler;
         JavascriptObjectWrapper^ _owner;
+        JavascriptProperty^ _prop;
 
     public:
-
-        JavascriptPropertyWrapper()
+        JavascriptPropertyWrapper(JavascriptProperty^ prop)
         {
+            _prop = prop;
             _javascriptPropertyHandler = new JavascriptPropertyHandler(
                 gcnew Func<Object^>(this, &JavascriptPropertyWrapper::GetProperty),
                 gcnew Action<Object^>(this, &JavascriptPropertyWrapper::SetProperty)
@@ -31,17 +32,17 @@ namespace CefSharp
 
         property JavascriptObjectWrapper^ JsObject
         {
-            JavascriptObjectWrapper^ get() { return static_cast<JavascriptObjectWrapper^>(JavascriptProperty::Value::get()); }
-            void set(JavascriptObjectWrapper^ value) { JavascriptProperty::Value::set(value); }
+            JavascriptObjectWrapper^ get() { return static_cast<JavascriptObjectWrapper^>(_prop->Value::get()); }
+            void set(JavascriptObjectWrapper^ value) { _prop->Value::set(value); }
         }
 
         virtual void Bind(JavascriptObject^ owner)
         {
             _owner = static_cast<JavascriptObjectWrapper^>(owner);
-            auto methodName = StringUtils::ToNative(JavascriptName);
-            auto clrMethodName = JavascriptName;
+            auto methodName = StringUtils::ToNative(_prop->JavascriptName);
+            auto clrMethodName = _prop->JavascriptName;
             
-            if(IsComplexType)
+            if(_prop->IsComplexType)
             {
                 auto v8Value = _owner->V8Value->CreateObject(_javascriptPropertyHandler.get());
 
@@ -56,15 +57,6 @@ namespace CefSharp
                 _owner->V8Value->SetValue(methodName, V8_ACCESS_CONTROL_DEFAULT, V8_PROPERTY_ATTRIBUTE_NONE);
             }
         };
-
-        void Clone(JavascriptProperty^ obj)
-        {
-            JavascriptName = obj->JavascriptName;
-            ManagedName = obj->ManagedName;
-            IsComplexType = obj->IsComplexType;
-
-            JsObject->Clone(obj->Value);
-        }
 
         void SetProperty(Object^ value);
         Object^ GetProperty();

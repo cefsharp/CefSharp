@@ -36,6 +36,6 @@ namespace CefSharp
             }
         };
 
-        void Clone(JavascriptObject^ obj);
+        //void Clone(JavascriptObject^ obj);
     };
 }
