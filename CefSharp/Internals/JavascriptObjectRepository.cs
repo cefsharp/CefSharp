@@ -7,6 +7,9 @@ namespace CefSharp.Internals
 {
     public class JavascriptObjectRepository : DisposableResource
     {
+        private static long lastId;
+        private static readonly object Lock = new object();
+
         private readonly Dictionary<long, JavascriptObject> objects = new Dictionary<long, JavascriptObject>();
         public JavascriptObject RootObject { get; private set; }
 
@@ -17,8 +20,13 @@ namespace CefSharp.Internals
 
         internal JavascriptObject CreateJavascriptObject()
         {
-            var result = new JavascriptObject();
-            objects[result.Id] = result;
+            long id;
+            lock (Lock)
+            {
+                id = lastId++;
+            }
+            var result = new JavascriptObject { Id = id };
+            objects[id] = result;
 
             return result;
         }
@@ -37,7 +45,7 @@ namespace CefSharp.Internals
             jsProperty.Value.Value = rootMemberWrapper;
             Analyse(jsProperty.Value);
 
-            RootObject.Members.Add(jsProperty);
+            RootObject.Properties.Add(jsProperty);
         }
 
         public void Analyse(JavascriptObject obj)
@@ -62,7 +70,7 @@ namespace CefSharp.Internals
                 }
 
                 var jsMethod = CreateJavaScriptMethod(methodInfo);
-                obj.Members.Add(jsMethod);
+                obj.Methods.Add(jsMethod);
             }
 
             foreach (var propertyInfo in type.GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
@@ -76,7 +84,7 @@ namespace CefSharp.Internals
                 jsProperty.Value = CreateJavascriptObject();
                 jsProperty.Value.Value = jsProperty.GetValue(obj.Value);
                 Analyse(jsProperty.Value);
-                obj.Members.Add(jsProperty);
+                obj.Properties.Add(jsProperty);
             }
         }
 
@@ -124,7 +132,7 @@ namespace CefSharp.Internals
                 return false;
             }
 
-            var method = obj.Members.OfType<JavascriptMethod>().FirstOrDefault(p => p.ManagedName == name);
+            var method = obj.Methods.FirstOrDefault(p => p.ManagedName == name);
             if (method == null)
             {
                 throw new InvalidOperationException(string.Format("Method {0} not found on Object of Type {1}", name, obj.Value.GetType()));
@@ -143,7 +151,7 @@ namespace CefSharp.Internals
                 return false;
             }
 
-            var property = obj.Members.OfType<JavascriptProperty>().FirstOrDefault(p => p.ManagedName == name);
+            var property = obj.Properties.FirstOrDefault(p => p.ManagedName == name);
             if (property == null)
             {
                 throw new InvalidOperationException(string.Format("Property {0} not found on Object of Type {1}", name, obj.Value.GetType()));
@@ -161,7 +169,7 @@ namespace CefSharp.Internals
                 return false;
             }
 
-            var property = obj.Members.OfType<JavascriptProperty>().FirstOrDefault(p => p.ManagedName == name);
+            var property = obj.Properties.FirstOrDefault(p => p.ManagedName == name);
             if (property == null)
             {
                 throw new InvalidOperationException(string.Format("Property {0} not found on Object of Type {1}", name, obj.Value.GetType()));

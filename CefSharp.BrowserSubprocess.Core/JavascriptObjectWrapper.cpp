@@ -17,18 +17,18 @@ namespace CefSharp
     {
         Id = obj->Id;
 
-        for each (JavascriptProperty^ member in Enumerable::OfType<JavascriptProperty^>(obj->Members))
+        for each (JavascriptProperty^ prop in Enumerable::OfType<JavascriptProperty^>(obj->Properties))
         {
             auto propertywrapper = gcnew JavascriptPropertyWrapper();
-            propertywrapper->Clone(member);
-            Members->Add(propertywrapper);
+            propertywrapper->Clone(prop);
+            Properties->Add(propertywrapper);
         }
 
-        for each (JavascriptMethod^ member in Enumerable::OfType<JavascriptMethod^>(obj->Members))
+        for each (JavascriptMethod^ method in Enumerable::OfType<JavascriptMethod^>(obj->Methods))
         {
             auto methodwrapper = gcnew JavascriptMethodWrapper();
-            methodwrapper->Clone(member);
-            Members->Add(methodwrapper);
+            methodwrapper->Clone(method);
+            Methods->Add(methodwrapper);
         }
     };
 }
