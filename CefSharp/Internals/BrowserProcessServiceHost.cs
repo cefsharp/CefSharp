@@ -6,13 +6,13 @@ namespace CefSharp.Internals
 {
     public class BrowserProcessServiceHost : ServiceHost
     {
-        public IBrowserProcess BrowserProcess { get; private set; }
+        public JavascriptObjectRepository JavascriptObjectRepository { get; private set; }
         public IRenderProcess RenderProcess { get; set; }
         
-        public BrowserProcessServiceHost(IBrowserProcess browserProcess, int parentProcessId, int browserId)
+        public BrowserProcessServiceHost(JavascriptObjectRepository javascriptObjectRepository, int parentProcessId, int browserId)
             : base(typeof(BrowserProcessService), new Uri[0])
         {
-            BrowserProcess = browserProcess;
+            JavascriptObjectRepository = javascriptObjectRepository;
 
             var serviceName = RenderprocessClientFactory.GetServiceName(parentProcessId, browserId);
 
@@ -28,7 +28,7 @@ namespace CefSharp.Internals
         protected override void OnClosed()
         {
             base.OnClosed();
-            BrowserProcess = null;
+            JavascriptObjectRepository = null;
             RenderProcess = null;
         }
     }

@@ -38,7 +38,7 @@ namespace CefSharp.Internals
             RootObject.Members.Add(member);
         }
 
-        public bool TryCallMethod(int objectId, string name, object[] parameters, out object result)
+        public bool TryCallMethod(long objectId, string name, object[] parameters, out object result)
         {
             result = null;
             JavascriptObject obj;
@@ -57,7 +57,7 @@ namespace CefSharp.Internals
             return true;
         }
 
-        public bool TryGetProperty(int objectId, string name, out object result)
+        public bool TryGetProperty(long objectId, string name, out object result)
         {
             result = null;
             JavascriptObject obj;
@@ -76,7 +76,7 @@ namespace CefSharp.Internals
             return true;
         }
 
-        public bool TrySetProperty(int objectId, string name, object value)
+        public bool TrySetProperty(long objectId, string name, object value)
         {
             JavascriptObject obj;
             if (!objects.TryGetValue(objectId, out obj))

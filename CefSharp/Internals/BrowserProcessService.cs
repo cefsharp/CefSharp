@@ -12,24 +12,35 @@ namespace CefSharp.Internals
             host.RenderProcess = OperationContext.Current.GetCallbackChannel<IRenderProcess>();
         }
 
-        public object CallMethod(int objectId, string name, object[] parameters)
+        public object CallMethod(long objectId, string name, object[] parameters)
         {
-            return host.BrowserProcess.CallMethod(objectId, name, parameters);
+            var javascriptObjectRepository = host.JavascriptObjectRepository;
+
+            object result;
+            javascriptObjectRepository.TryCallMethod(objectId, name, parameters, out result);
+            return result;
         }
 
-        public object GetProperty(int objectId, string name)
+        public object GetProperty(long objectId, string name)
         {
-            return host.BrowserProcess.GetProperty(objectId, name);
+            var javascriptObjectRepository = host.JavascriptObjectRepository;
+
+            object result;
+            javascriptObjectRepository.TryGetProperty(objectId, name, out result);
+            return result;
         }
 
-        public void SetProperty(int objectId, string name, object value)
+        public void SetProperty(long objectId, string name, object value)
         {
-            host.BrowserProcess.SetProperty(objectId, name, value);
+            var javascriptObjectRepository = host.JavascriptObjectRepository;
+            javascriptObjectRepository.TrySetProperty(objectId, name, value);
         }
 
         public JavascriptObject GetRegisteredJavascriptObjects()
         {
-            return host.BrowserProcess.GetRegisteredJavascriptObjects();
+            var javascriptObjectRepository = host.JavascriptObjectRepository;
+
+            return javascriptObjectRepository.RootObject;
         }
     }
 }

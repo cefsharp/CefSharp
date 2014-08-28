@@ -17,7 +17,7 @@ using namespace System::ServiceModel;
 
 namespace CefSharp
 {
-    private ref class ManagedCefBrowserAdapter : public DisposableResource, IBrowserProcess
+    private ref class ManagedCefBrowserAdapter : public DisposableResource
     {
         MCefRefPtr<RenderClientAdapter> _renderClientAdapter;
         BrowserProcessServiceHost^ _browserProcessServiceHost;
@@ -113,7 +113,7 @@ namespace CefSharp
         {
             auto browserId = _renderClientAdapter->GetCefBrowser()->GetIdentifier();           
                         
-            _browserProcessServiceHost = gcnew BrowserProcessServiceHost(this, Process::GetCurrentProcess()->Id, browserId);
+            _browserProcessServiceHost = gcnew BrowserProcessServiceHost(_javaScriptObjectRepository, Process::GetCurrentProcess()->Id, browserId);
             _browserProcessServiceHost->Open();
 
             _webBrowserInternal->OnInitialized();
@@ -497,30 +497,6 @@ namespace CefSharp
         void RegisterJsObject(String^ name, Object^ object)
         {
             _javaScriptObjectRepository->Register(name, object);
-        }
-        
-        virtual Object^ CallMethod(int objectId, String^ name, array<Object^>^ parameters)
-        {
-            Object^ result;
-            _javaScriptObjectRepository->TryCallMethod(objectId, name, parameters, result);
-            return result;
-        };
-
-        virtual Object^ GetProperty(int objectId, String^ name)
-        {
-            Object^ result;
-            _javaScriptObjectRepository->TryGetProperty(objectId, name, result);
-            return result;
-        };
-
-        virtual void SetProperty(int objectId, String^ name, Object^ value)
-        {
-            _javaScriptObjectRepository->TrySetProperty(objectId, name, value);
-        };
-
-        virtual JavascriptObject^ GetRegisteredJavascriptObjects()
-        {
-            return _javaScriptObjectRepository->RootObject;
         }
     };
 }
