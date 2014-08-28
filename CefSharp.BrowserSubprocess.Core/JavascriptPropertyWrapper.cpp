@@ -12,17 +12,17 @@ using namespace System;
 
 namespace CefSharp
 {
-    void JavascriptPropertyWrapper::SetProperty(Object^ value)
+    void JavascriptPropertyWrapper::SetProperty(String^ memberName, Object^ value)
     {
         auto browserProxy = CefAppWrapper::Instance->CreateBrowserProxy();
 
-        browserProxy->SetProperty(_ownerId, _javascriptProperty->ManagedName, value);
+        browserProxy->SetProperty(_ownerId, memberName, value);
     };
 
     Object^ JavascriptPropertyWrapper::GetProperty(String^ memberName)
     {
         auto browserProxy = CefAppWrapper::Instance->CreateBrowserProxy();
 
-		return browserProxy->GetProperty(_ownerId, memberName);
+        return browserProxy->GetProperty(_ownerId, memberName);
     };
 }

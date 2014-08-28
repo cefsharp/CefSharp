@@ -29,8 +29,8 @@ namespace CefSharp
             _javascriptProperty = javascriptProperty;
             _ownerId = ownerId;
             JsPropertyHandler = new JavascriptPropertyHandler(
-				gcnew Func<String^, Object^>(this, &JavascriptPropertyWrapper::GetProperty),
-                gcnew Action<Object^>(this, &JavascriptPropertyWrapper::SetProperty)
+                gcnew Func<String^, Object^>(this, &JavascriptPropertyWrapper::GetProperty),
+                gcnew Action<String^, Object^>(this, &JavascriptPropertyWrapper::SetProperty)
             );
         }
 
@@ -57,7 +57,7 @@ namespace CefSharp
             }
         };
 
-        void SetProperty(Object^ value);
+        void SetProperty(String^ memberName, Object^ value);
         Object^ GetProperty(String^ memberName);
     };
 }
