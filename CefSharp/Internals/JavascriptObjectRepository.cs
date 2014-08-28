@@ -52,7 +52,7 @@ namespace CefSharp.Internals
                 return false;
             }
 
-            var method = obj.Methods.FirstOrDefault(p => p.JavascriptName == name);
+            var method = obj.Methods.FirstOrDefault(p => p.ManagedName == name);
             if (method == null)
             {
                 throw new InvalidOperationException(string.Format("Method {0} not found on Object of Type {1}", name, obj.Value.GetType()));
