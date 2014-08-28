@@ -16,22 +16,31 @@ namespace CefSharp
     public ref class JavascriptPropertyWrapper
     {
     private:
-        MCefRefPtr<JavascriptPropertyHandler> _javascriptPropertyHandler;
         JavascriptProperty^ _javascriptProperty;
         int _ownerId;
 
     internal:
         MCefRefPtr<CefV8Value> V8Value;
+        MCefRefPtr<JavascriptPropertyHandler> JsPropertyHandler;
 
     public:
         JavascriptPropertyWrapper(JavascriptProperty^ javascriptProperty, int ownerId)
         {
             _javascriptProperty = javascriptProperty;
             _ownerId = ownerId;
-            _javascriptPropertyHandler = new JavascriptPropertyHandler(
+            JsPropertyHandler = new JavascriptPropertyHandler(
                 gcnew Func<Object^>(this, &JavascriptPropertyWrapper::GetProperty),
                 gcnew Action<Object^>(this, &JavascriptPropertyWrapper::SetProperty)
             );
+        }
+
+        JavascriptPropertyWrapper(int ownerId)
+        {
+            _ownerId = ownerId;
+            JsPropertyHandler = new JavascriptPropertyHandler(
+                gcnew Func<Object^>(this, &JavascriptPropertyWrapper::GetProperty),
+                gcnew Action<Object^>(this, &JavascriptPropertyWrapper::SetProperty)
+                );
         }
 
         virtual void Bind()
