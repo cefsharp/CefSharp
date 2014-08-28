@@ -2,7 +2,13 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+#pragma once
+
 #include "Stdafx.h"
+#include "include/cef_app.h"
+#include "include/cef_base.h"
+#include "include/cef_v8.h"
+
 #include "JavascriptObjectWrapper.h"
 #include "JavascriptPropertyHandler.h"
 
@@ -11,49 +17,47 @@ using namespace System::Runtime::Serialization;
 
 namespace CefSharp
 {
-    private ref class JavascriptPropertyWrapper : public IBindableJavascriptMember
+    public ref class JavascriptPropertyWrapper
     {
     private:
         MCefRefPtr<JavascriptPropertyHandler> _javascriptPropertyHandler;
-        JavascriptObjectWrapper^ _owner;
-        JavascriptProperty^ _prop;
+        JavascriptProperty^ _javascriptProperty;
+        int _ownerId;
+
+    internal:
+        MCefRefPtr<CefV8Value> V8Value;
 
     public:
-        JavascriptPropertyWrapper(JavascriptProperty^ prop)
+        JavascriptPropertyWrapper(JavascriptProperty^ javascriptProperty, int ownerId)
         {
-            _prop = prop;
+            _javascriptProperty = javascriptProperty;
+            _ownerId = ownerId;
             _javascriptPropertyHandler = new JavascriptPropertyHandler(
                 gcnew Func<Object^>(this, &JavascriptPropertyWrapper::GetProperty),
                 gcnew Action<Object^>(this, &JavascriptPropertyWrapper::SetProperty)
             );
-            JsObject = gcnew JavascriptObjectWrapper();
         }
 
-        property JavascriptObjectWrapper^ JsObject
+        virtual void Bind()
         {
-            JavascriptObjectWrapper^ get() { return static_cast<JavascriptObjectWrapper^>(_prop->Value::get()); }
-            void set(JavascriptObjectWrapper^ value) { _prop->Value::set(value); }
-        }
-
-        virtual void Bind(JavascriptObject^ owner)
-        {
-            _owner = static_cast<JavascriptObjectWrapper^>(owner);
-            auto methodName = StringUtils::ToNative(_prop->JavascriptName);
-            auto clrMethodName = _prop->JavascriptName;
+            auto methodName = StringUtils::ToNative(_javascriptProperty->JavascriptName);
+            auto clrMethodName = _javascriptProperty->JavascriptName;
             
-            if(_prop->IsComplexType)
+            if(_javascriptProperty->IsComplexType)
             {
-                auto v8Value = _owner->V8Value->CreateObject(_javascriptPropertyHandler.get());
+                //TODO: Implement complex type
+                //TODO: Should have property of type JavascriptObjectWrapper here
+                //auto v8Value = V8Value->CreateObject(_javascriptPropertyHandler.get());
 
-                JsObject->V8Value = v8Value;
+                //JsObject->V8Value = v8Value;
 
-                JsObject->Bind();
+                //JsObject->Bind();
 
-                _owner->V8Value->SetValue(methodName, v8Value, V8_PROPERTY_ATTRIBUTE_NONE);
+                //_owner->V8Value->SetValue(methodName, v8Value, V8_PROPERTY_ATTRIBUTE_NONE);
             }
             else
             {
-                _owner->V8Value->SetValue(methodName, V8_ACCESS_CONTROL_DEFAULT, V8_PROPERTY_ATTRIBUTE_NONE);
+                V8Value->SetValue(methodName, V8_ACCESS_CONTROL_DEFAULT, V8_PROPERTY_ATTRIBUTE_NONE);
             }
         };
 

@@ -76,9 +76,7 @@ namespace CefSharp
 		
 		void Bind(JavascriptRootObject^ rootObject)
 		{
-			_windowObject = gcnew JavascriptRootObjectWrapper();
-			//TODO:
-			//_windowObject->Clone(windowObject);
+			_windowObject = gcnew JavascriptRootObjectWrapper(rootObject);
 		};
 
 		virtual DECL void CefAppUnmanagedWrapper::OnBrowserDestroyed(CefRefPtr<CefBrowser> browser) OVERRIDE

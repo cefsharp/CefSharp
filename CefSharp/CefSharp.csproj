@@ -90,7 +90,6 @@
     <Compile Include="CefTerminationStatus.cs" />
     <Compile Include="IDialogHandler.cs" />
     <Compile Include="AddressChangedEventArgs.cs" />
-    <Compile Include="Internals\IBindableJavascriptMember.cs" />
     <Compile Include="DownloadItem.cs" />
     <Compile Include="CefEventFlags.cs" />
     <Compile Include="Internals\JavascriptRootObject.cs" />
