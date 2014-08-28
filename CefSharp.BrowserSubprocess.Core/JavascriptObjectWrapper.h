@@ -25,6 +25,14 @@ namespace CefSharp
         List<JavascriptMethodWrapper^>^ _wrappedMethods;
         List<JavascriptPropertyWrapper^>^ _wrappedProperties;
 
+        Object^ GetProperty(String^ memberName)
+        {
+            //auto browserProxy = CefAppWrapper::Instance->CreateBrowserProxy();
+
+            //return browserProxy->GetProperty(_object->Id, memberName);
+            return nullptr;
+        };
+
     internal:
         MCefRefPtr<CefV8Value> V8Value;
 
@@ -39,10 +47,20 @@ namespace CefSharp
 
         void Bind()
         {
+            //Create property handler with only a getter for root objects
+            auto propertyHandler = new JavascriptPropertyHandler(
+                gcnew Func<String^, Object^>(this, &JavascriptObjectWrapper::GetProperty),
+                nullptr
+                );
+
+            auto v8Value = V8Value->CreateObject(propertyHandler);
+            auto methodName = StringUtils::ToNative(_object->JavascriptName);
+            V8Value->SetValue(methodName, v8Value, V8_PROPERTY_ATTRIBUTE_NONE);
+
             for each (JavascriptMethod^ method in Enumerable::OfType<JavascriptMethod^>(_object->Methods))
             {
                 auto wrappedMethod = gcnew JavascriptMethodWrapper(method, _object->Id);
-                wrappedMethod->V8Value = V8Value.get();
+                wrappedMethod->V8Value = v8Value;
                 wrappedMethod->Bind();
 
                 _wrappedMethods->Add(wrappedMethod);
