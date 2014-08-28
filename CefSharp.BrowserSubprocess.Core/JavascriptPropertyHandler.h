@@ -28,7 +28,7 @@ namespace CefSharp
         virtual bool Get(const CefString& name, const CefRefPtr<CefV8Value> object, CefRefPtr<CefV8Value>& retval,
             CefString& exception) override
         {
-            System::Diagnostics::Debugger::Break();
+            //System::Diagnostics::Debugger::Break();
             auto propertyName = StringUtils::ToClr(name);
             auto result = _getter->Invoke(propertyName);
             retval = TypeUtils::ConvertToCef(result, nullptr);
@@ -38,7 +38,7 @@ namespace CefSharp
         virtual bool Set(const CefString& name, const CefRefPtr<CefV8Value> object, const CefRefPtr<CefV8Value> value,
             CefString& exception) override
         {
-            System::Diagnostics::Debugger::Break();
+            //System::Diagnostics::Debugger::Break();
             auto propertyName = StringUtils::ToClr(name);
             auto managedValue = TypeUtils::ConvertFromCef(value);
             _setter->Invoke(propertyName, managedValue);
