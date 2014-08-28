@@ -7,7 +7,6 @@
 #include "Stdafx.h"
 #include "include/cef_v8.h"
 
-//#include "JavascriptObjectWrapper.h"
 #include "JavascriptPropertyHandler.h"
 
 using namespace CefSharp::Internals;
@@ -35,23 +34,7 @@ namespace CefSharp
             );
         }
 
-        void Bind()
-        {
-            auto methodName = StringUtils::ToNative(_javascriptProperty->JavascriptName);
-            auto clrMethodName = _javascriptProperty->JavascriptName;
-            
-            if(_javascriptProperty->IsComplexType)
-            {
-                //auto wrapperObject = gcnew JavascriptObjectWrapper(_javascriptProperty->Value);
-                //wrapperObject->V8Value = V8Value.get();
-                //wrapperObject->Bind();
-            }
-            else
-            {
-                V8Value->SetValue(methodName, V8_ACCESS_CONTROL_DEFAULT, V8_PROPERTY_ATTRIBUTE_NONE);
-            }
-        };
-
+        void Bind();
         void SetProperty(String^ memberName, Object^ value);
         Object^ GetProperty(String^ memberName);
     };
