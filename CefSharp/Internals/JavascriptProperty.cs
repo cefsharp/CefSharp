@@ -27,7 +27,7 @@ namespace CefSharp.Internals
             SetValue = (o, v) => propertyInfo.SetValue(o, v, null);
             GetValue = (o) => propertyInfo.GetValue(o, null);
 
-			IsComplexType = !propertyInfo.PropertyType.IsPrimitive && propertyInfo.PropertyType != typeof(string);
+            IsComplexType = !propertyInfo.PropertyType.IsPrimitive && propertyInfo.PropertyType != typeof(string);
         }
     }
 }
