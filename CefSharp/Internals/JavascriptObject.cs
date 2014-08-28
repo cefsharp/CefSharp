@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace CefSharp.Internals
@@ -60,49 +57,7 @@ namespace CefSharp.Internals
             Members = new List<JavascriptMember>();
         }
 
-        public void Analyse(JavascriptObjectRepository repository)
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            var type = value.GetType();
-            if (type.IsPrimitive || type == typeof(string))
-            {
-                return;
-            }
-
-            foreach (var methodInfo in type.GetMethods(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
-            {
-                // Type objects can not be serialized.
-                if (methodInfo.ReturnType == typeof(Type))
-                {
-                    continue;
-                }
-                var jsMethod = new JavascriptMethod();
-                jsMethod.Analyse(methodInfo);
-                Members.Add(jsMethod);
-            }
-
-            foreach (var propertyInfo in type.GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
-            {
-                if (propertyInfo.PropertyType == typeof(Type))
-                {
-                    continue;
-                }
-
-                var jsProperty = new JavascriptProperty
-                {
-                    Value = repository.CreateJavascriptObject()
-                };
-
-                jsProperty.Analyse(propertyInfo);
-                jsProperty.Value.Value = jsProperty.GetValue(value);
-                jsProperty.Value.Analyse(repository);
-                Members.Add(jsProperty);
-            }
-        }
+        
 
         public override string ToString()
         {

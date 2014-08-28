@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace CefSharp.Internals
 {
@@ -33,9 +34,53 @@ namespace CefSharp.Internals
                 GetValue = obj => value
             };
             member.Value.Value = value;
-            member.Value.Analyse(this);
+            Analyse(member.Value);
             
             RootObject.Members.Add(member);
+        }
+
+        public void Analyse(JavascriptObject obj)
+        {
+            if (obj.Value == null)
+            {
+                return;
+            }
+
+            var type = obj.Value.GetType();
+            if (type.IsPrimitive || type == typeof(string))
+            {
+                return;
+            }
+
+            foreach (var methodInfo in type.GetMethods(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
+            {
+                // Type objects can not be serialized.
+                if (methodInfo.ReturnType == typeof(Type))
+                {
+                    continue;
+                }
+                var jsMethod = new JavascriptMethod();
+                jsMethod.Analyse(methodInfo);
+                obj.Members.Add(jsMethod);
+            }
+
+            foreach (var propertyInfo in type.GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
+            {
+                if (propertyInfo.PropertyType == typeof(Type))
+                {
+                    continue;
+                }
+
+                var jsProperty = new JavascriptProperty
+                {
+                    Value = CreateJavascriptObject()
+                };
+
+                jsProperty.Analyse(propertyInfo);
+                jsProperty.Value.Value = jsProperty.GetValue(obj.Value);
+                Analyse(jsProperty.Value);
+                obj.Members.Add(jsProperty);
+            }
         }
 
         public bool TryCallMethod(long objectId, string name, object[] parameters, out object result)
