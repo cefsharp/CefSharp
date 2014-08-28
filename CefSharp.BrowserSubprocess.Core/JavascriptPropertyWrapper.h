@@ -34,15 +34,6 @@ namespace CefSharp
             );
         }
 
-        JavascriptPropertyWrapper(int ownerId)
-        {
-            _ownerId = ownerId;
-            JsPropertyHandler = new JavascriptPropertyHandler(
-                gcnew Func<Object^>(this, &JavascriptPropertyWrapper::GetProperty),
-                gcnew Action<Object^>(this, &JavascriptPropertyWrapper::SetProperty)
-                );
-        }
-
         virtual void Bind()
         {
             auto methodName = StringUtils::ToNative(_javascriptProperty->JavascriptName);

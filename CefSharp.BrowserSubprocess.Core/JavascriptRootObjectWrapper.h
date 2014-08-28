@@ -40,7 +40,12 @@ namespace CefSharp
             auto memberObjects = _rootObject->MemberObjects;
             for each (JavascriptObject^ obj in Enumerable::OfType<JavascriptObject^>(memberObjects))
             {
-                auto propertyWrapper = gcnew JavascriptPropertyWrapper(obj->Id);
+                auto memberProperty = gcnew JavascriptProperty();
+                memberProperty->ManagedName = obj->Name;
+                memberProperty->JavascriptName = obj->JavascriptName;
+                memberProperty->Id = obj->Id;
+
+                auto propertyWrapper = gcnew JavascriptPropertyWrapper(memberProperty, obj->Id);
 
                 auto v8Value = V8Value->CreateObject(propertyWrapper->JsPropertyHandler.get());
                 auto methodName = StringUtils::ToNative(obj->JavascriptName);
