@@ -36,7 +36,7 @@ namespace CefSharp
 		for each (JavascriptProperty^ prop in Enumerable::OfType<JavascriptProperty^>(_object->Properties))
 		{
 			auto wrappedproperty = gcnew JavascriptPropertyWrapper(prop, _object->Id);
-			wrappedproperty->V8Value = V8Value.get();
+			wrappedproperty->V8Value = v8Value;
 			wrappedproperty->Bind();
 
 			_wrappedProperties->Add(wrappedproperty);
