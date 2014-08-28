@@ -41,9 +41,7 @@ namespace CefSharp
             for each (JavascriptObject^ obj in Enumerable::OfType<JavascriptObject^>(memberObjects))
             {
                 auto wrapperObject = gcnew JavascriptObjectWrapper(obj);
-                //TODO: this needs to be set!
-                throw gcnew NotImplementedException();
-                //wrapperObject->V8Value = V8Value;
+                wrapperObject->V8Value = V8Value.get();
                 wrapperObject->Bind();
 
                 _wrappedObjects->Add(wrapperObject);

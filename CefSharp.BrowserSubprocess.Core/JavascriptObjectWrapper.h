@@ -42,8 +42,7 @@ namespace CefSharp
             for each (JavascriptMethod^ method in Enumerable::OfType<JavascriptMethod^>(_object->Methods))
             {
                 auto wrappedMethod = gcnew JavascriptMethodWrapper(method, _object->Id);
-                throw gcnew NotImplementedException();
-                //wrappedMethod->V8Value = V8Value;
+                wrappedMethod->V8Value = V8Value.get();
                 wrappedMethod->Bind();
 
                 _wrappedMethods->Add(wrappedMethod);
@@ -52,8 +51,7 @@ namespace CefSharp
             for each (JavascriptProperty^ prop in Enumerable::OfType<JavascriptProperty^>(_object->Properties))
             {
                 auto wrappedproperty = gcnew JavascriptPropertyWrapper(prop, _object->Id);
-                throw gcnew NotImplementedException();
-                //wrappedproperty->V8Value = V8Value;
+                wrappedproperty->V8Value = V8Value.get();
                 wrappedproperty->Bind();
 
                 _wrappedProperties->Add(wrappedproperty);
