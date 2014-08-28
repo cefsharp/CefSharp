@@ -7,6 +7,7 @@
 #include "Stdafx.h"
 #include "include/cef_v8.h"
 
+//#include "JavascriptObjectWrapper.h"
 #include "JavascriptPropertyHandler.h"
 
 using namespace CefSharp::Internals;
@@ -41,15 +42,9 @@ namespace CefSharp
             
             if(_javascriptProperty->IsComplexType)
             {
-                //TODO: Implement complex type
-                //TODO: Should have property of type JavascriptObjectWrapper here
-                //auto v8Value = V8Value->CreateObject(_javascriptPropertyHandler.get());
-
-                //JsObject->V8Value = v8Value;
-
-                //JsObject->Bind();
-
-                //_owner->V8Value->SetValue(methodName, v8Value, V8_PROPERTY_ATTRIBUTE_NONE);
+                //auto wrapperObject = gcnew JavascriptObjectWrapper(_javascriptProperty->Value);
+                //wrapperObject->V8Value = V8Value.get();
+                //wrapperObject->Bind();
             }
             else
             {
