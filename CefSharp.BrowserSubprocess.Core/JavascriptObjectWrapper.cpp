@@ -14,21 +14,22 @@ namespace CefSharp
 {
 	void JavascriptObjectWrapper::Bind()
 	{
-		//Create property handler with only a getter for root objects
+		//Create property handler for get and set of Properties of this object
 		//TODO: Store reference to this
 		auto propertyHandler = new JavascriptPropertyHandler(
 			gcnew Func<String^, Object^>(this, &JavascriptObjectWrapper::GetProperty),
 			gcnew Action<String^, Object^>(this, &JavascriptObjectWrapper::SetProperty)
 			);
 
-		auto v8Value = V8Value->CreateObject(propertyHandler);
+		//V8Value that represents this javascript object - only one per complex type
+		auto javascriptObject = V8Value->CreateObject(propertyHandler);
 		auto objectName = StringUtils::ToNative(_object->JavascriptName);
-		V8Value->SetValue(objectName, v8Value, V8_PROPERTY_ATTRIBUTE_NONE);
+		V8Value->SetValue(objectName, javascriptObject, V8_PROPERTY_ATTRIBUTE_NONE);
 
 		for each (JavascriptMethod^ method in Enumerable::OfType<JavascriptMethod^>(_object->Methods))
 		{
 			auto wrappedMethod = gcnew JavascriptMethodWrapper(method, _object->Id);
-			wrappedMethod->V8Value = v8Value;
+			wrappedMethod->V8Value = javascriptObject;
 			wrappedMethod->Bind();
 
 			_wrappedMethods->Add(wrappedMethod);
@@ -37,7 +38,7 @@ namespace CefSharp
 		for each (JavascriptProperty^ prop in Enumerable::OfType<JavascriptProperty^>(_object->Properties))
 		{
 			auto wrappedproperty = gcnew JavascriptPropertyWrapper(prop, _object->Id);
-			wrappedproperty->V8Value = v8Value;
+			wrappedproperty->V8Value = javascriptObject;
 			wrappedproperty->Bind();
 
 			_wrappedProperties->Add(wrappedproperty);
