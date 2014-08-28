@@ -6,6 +6,7 @@
 #include "Stdafx.h"
 
 #include "JavascriptPropertyWrapper.h"
+#include "JavascriptObjectWrapper.h"
 #include "CefAppWrapper.h"
 
 using namespace System;
@@ -19,9 +20,9 @@ namespace CefSharp
 
         if (_javascriptProperty->IsComplexType)
         {
-            //auto wrapperObject = gcnew JavascriptObjectWrapper(_javascriptProperty->Value);
-            //wrapperObject->V8Value = V8Value.get();
-            //wrapperObject->Bind();
+            auto wrapperObject = gcnew JavascriptObjectWrapper(_javascriptProperty->Value);
+            wrapperObject->V8Value = V8Value.get();
+            wrapperObject->Bind();
         }
         else
         {
