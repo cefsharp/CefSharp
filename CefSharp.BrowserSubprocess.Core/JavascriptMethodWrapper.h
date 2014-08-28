@@ -14,7 +14,7 @@ using namespace System::Runtime::Serialization;
 
 namespace CefSharp
 {
-    private ref class JavascriptMethodWrapper
+    public ref class JavascriptMethodWrapper
     {
     private:
         MCefRefPtr<JavascriptMethodHandler> _javascriptMethodHandler;

@@ -18,7 +18,7 @@ using namespace CefSharp::Internals;
 
 namespace CefSharp
 {
-    private ref class JavascriptObjectWrapper
+    public ref class JavascriptObjectWrapper
     {
     private:
         JavascriptObject^ _object;
