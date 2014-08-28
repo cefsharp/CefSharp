@@ -25,14 +25,6 @@ namespace CefSharp
         List<JavascriptMethodWrapper^>^ _wrappedMethods;
         List<JavascriptPropertyWrapper^>^ _wrappedProperties;
 
-        Object^ GetProperty(String^ memberName)
-        {
-            //auto browserProxy = CefAppWrapper::Instance->CreateBrowserProxy();
-
-            //return browserProxy->GetProperty(_object->Id, memberName);
-            return nullptr;
-        };
-
     internal:
         MCefRefPtr<CefV8Value> V8Value;
 
@@ -75,5 +67,7 @@ namespace CefSharp
                 _wrappedProperties->Add(wrappedproperty);
             }
         }
+
+        Object^ GetProperty(String^ memberName);
     };
 }

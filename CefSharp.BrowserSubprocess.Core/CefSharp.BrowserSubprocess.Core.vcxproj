@@ -105,6 +105,7 @@
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="CefAppWrapper.cpp" />
     <ClCompile Include="JavascriptMethodWrapper.cpp" />
+    <ClCompile Include="JavascriptObjectWrapper.cpp" />
     <ClCompile Include="JavascriptPropertyWrapper.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
