@@ -25,18 +25,19 @@ namespace CefSharp.Internals
 
         public void Register(string name, object value)
         {
-            var member = new JavascriptProperty
-            {
-                Value = CreateJavascriptObject(),
-                ManagedName = name,
-                JavascriptName = JavascriptMember.LowercaseFirst(name),
-                IsComplexType = true,
-                GetValue = obj => value
-            };
-            member.Value.Value = value;
-            Analyse(member.Value);
-            
-            RootObject.Members.Add(member);
+            var rootMemberWrapper = new RootMemberWrapper { Object = value };
+
+            var jsProperty = CreateJavaScriptProperty(RootMemberWrapper.PropertyInfo);
+
+            jsProperty.Value = CreateJavascriptObject();
+            //Specify Custom Managed Name and JavascriptName
+            jsProperty.ManagedName = name;
+            jsProperty.JavascriptName = LowercaseFirst(name);
+
+            jsProperty.Value.Value = rootMemberWrapper;
+            Analyse(jsProperty.Value);
+
+            RootObject.Members.Add(jsProperty);
         }
 
         public void Analyse(JavascriptObject obj)
@@ -59,8 +60,8 @@ namespace CefSharp.Internals
                 {
                     continue;
                 }
-                var jsMethod = new JavascriptMethod();
-                jsMethod.Analyse(methodInfo);
+
+                var jsMethod = CreateJavaScriptMethod(methodInfo);
                 obj.Members.Add(jsMethod);
             }
 
@@ -71,16 +72,47 @@ namespace CefSharp.Internals
                     continue;
                 }
 
-                var jsProperty = new JavascriptProperty
-                {
-                    Value = CreateJavascriptObject()
-                };
-
-                jsProperty.Analyse(propertyInfo);
+                var jsProperty = CreateJavaScriptProperty(propertyInfo);
+                jsProperty.Value = CreateJavascriptObject();
                 jsProperty.Value.Value = jsProperty.GetValue(obj.Value);
                 Analyse(jsProperty.Value);
                 obj.Members.Add(jsProperty);
             }
+        }
+
+        private JavascriptMethod CreateJavaScriptMethod(MethodInfo methodInfo)
+        {
+            var jsMethod = new JavascriptMethod();
+
+            jsMethod.ManagedName = methodInfo.Name;
+            jsMethod.JavascriptName = LowercaseFirst(methodInfo.Name);
+            jsMethod.Function = methodInfo.Invoke;
+
+            return jsMethod;
+        }
+
+        private JavascriptProperty CreateJavaScriptProperty(PropertyInfo propertyInfo)
+        {
+            var jsProperty = new JavascriptProperty();
+
+            jsProperty.ManagedName = propertyInfo.Name;
+            jsProperty.JavascriptName = LowercaseFirst(propertyInfo.Name);
+            jsProperty.SetValue = (o, v) => propertyInfo.SetValue(o, v, null);
+            jsProperty.GetValue = (o) => propertyInfo.GetValue(o, null);
+
+            jsProperty.IsComplexType = !propertyInfo.PropertyType.IsPrimitive && propertyInfo.PropertyType != typeof(string);
+
+            return jsProperty;
+        }
+
+        public static string LowercaseFirst(string str)
+        {
+            if (string.IsNullOrEmpty(str))
+            {
+                return string.Empty;
+            }
+
+            return char.ToLower(str[0]) + str.Substring(1);
         }
 
         public bool TryCallMethod(long objectId, string name, object[] parameters, out object result)

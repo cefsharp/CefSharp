@@ -93,6 +93,7 @@
     <Compile Include="Internals\IBindableJavascriptMember.cs" />
     <Compile Include="DownloadItem.cs" />
     <Compile Include="CefEventFlags.cs" />
+    <Compile Include="Internals\RootMemberWrapper.cs" />
     <Compile Include="IStringVisitor.cs" />
     <Compile Include="LoadErrorEventArgs.cs" />
     <Compile Include="FrameLoadStartEventArgs.cs" />

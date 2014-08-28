@@ -19,15 +19,5 @@ namespace CefSharp.Internals
         /// Gets or sets a delegate which is used to get the property / field value from the managed object.
         /// </summary>
         public Func<object, object> GetValue { get; set; }
-
-        public void Analyse(PropertyInfo propertyInfo)
-        {
-            ManagedName = propertyInfo.Name;
-            JavascriptName = LowercaseFirst(propertyInfo.Name);
-            SetValue = (o, v) => propertyInfo.SetValue(o, v, null);
-            GetValue = (o) => propertyInfo.GetValue(o, null);
-
-            IsComplexType = !propertyInfo.PropertyType.IsPrimitive && propertyInfo.PropertyType != typeof(string);
-        }
     }
 }
