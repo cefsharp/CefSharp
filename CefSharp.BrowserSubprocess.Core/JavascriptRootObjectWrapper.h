@@ -42,6 +42,7 @@ namespace CefSharp
             {
                 auto wrapperObject = gcnew JavascriptObjectWrapper(obj);
                 //TODO: this needs to be set!
+                throw gcnew NotImplementedException();
                 //wrapperObject->V8Value = V8Value;
                 wrapperObject->Bind();
 
