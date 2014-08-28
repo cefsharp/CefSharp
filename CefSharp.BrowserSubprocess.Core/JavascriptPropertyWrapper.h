@@ -7,11 +7,9 @@
 #include "Stdafx.h"
 #include "include/cef_v8.h"
 
-#include "JavascriptObjectWrapper.h"
 #include "JavascriptPropertyHandler.h"
 
 using namespace CefSharp::Internals;
-using namespace System::Runtime::Serialization;
 
 namespace CefSharp
 {

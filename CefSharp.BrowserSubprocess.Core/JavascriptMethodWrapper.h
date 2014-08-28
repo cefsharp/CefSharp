@@ -6,7 +6,6 @@
 #include "Stdafx.h"
 #include "include/cef_v8.h"
 
-#include "JavascriptObjectWrapper.h"
 #include "JavascriptMethodHandler.h"
 
 using namespace CefSharp::Internals;

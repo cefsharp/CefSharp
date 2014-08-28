@@ -22,7 +22,7 @@ namespace CefSharp
     {
     private:
         JavascriptObject^ _object;
-        //List<JavascriptMethodWrapper^>^ _wrappedMethods;
+        List<JavascriptMethodWrapper^>^ _wrappedMethods;
         List<JavascriptPropertyWrapper^>^ _wrappedProperties;
 
     internal:
