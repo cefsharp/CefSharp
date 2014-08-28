@@ -33,20 +33,20 @@ namespace CefSharp
         {
             _object = object;
 
-            //_wrappedMethods = gcnew List<JavascriptMethodWrapper^>();
+            _wrappedMethods = gcnew List<JavascriptMethodWrapper^>();
             _wrappedProperties = gcnew List<JavascriptPropertyWrapper^>();
         }
 
         void Bind()
         {
-            //for each (JavascriptMethod^ method in Enumerable::OfType<JavascriptMethod^>(_object->Methods))
-            //{
-            //    //auto wrappedMethod = gcnew JavascriptMethodWrapper(method, _object->Id);
-            //    //wrappedMethod->V8Value = V8Value;
-            //    //wrappedMethod->Bind();
+            for each (JavascriptMethod^ method in Enumerable::OfType<JavascriptMethod^>(_object->Methods))
+            {
+                auto wrappedMethod = gcnew JavascriptMethodWrapper(method, _object->Id);
+                //wrappedMethod->V8Value = V8Value;
+                wrappedMethod->Bind();
 
-            //    //_wrappedMethods->Add(wrappedMethod);
-            //}
+                _wrappedMethods->Add(wrappedMethod);
+            }
 
             for each (JavascriptProperty^ prop in Enumerable::OfType<JavascriptProperty^>(_object->Properties))
             {
