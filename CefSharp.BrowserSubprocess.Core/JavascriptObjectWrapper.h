@@ -27,6 +27,7 @@ namespace CefSharp
 
     internal:
         MCefRefPtr<CefV8Value> V8Value;
+        MCefRefPtr<JavascriptPropertyHandler> JsPropertyHandler;
 
     public:
         JavascriptObjectWrapper(JavascriptObject^ object)

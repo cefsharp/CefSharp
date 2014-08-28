@@ -15,14 +15,13 @@ namespace CefSharp
 	void JavascriptObjectWrapper::Bind()
 	{
 		//Create property handler for get and set of Properties of this object
-		//TODO: Store reference to this
-		auto propertyHandler = new JavascriptPropertyHandler(
+		JsPropertyHandler = new JavascriptPropertyHandler(
 			gcnew Func<String^, Object^>(this, &JavascriptObjectWrapper::GetProperty),
 			gcnew Action<String^, Object^>(this, &JavascriptObjectWrapper::SetProperty)
 			);
 
 		//V8Value that represents this javascript object - only one per complex type
-		auto javascriptObject = V8Value->CreateObject(propertyHandler);
+		auto javascriptObject = V8Value->CreateObject(JsPropertyHandler.get());
 		auto objectName = StringUtils::ToNative(_object->JavascriptName);
 		V8Value->SetValue(objectName, javascriptObject, V8_PROPERTY_ATTRIBUTE_NONE);
 
