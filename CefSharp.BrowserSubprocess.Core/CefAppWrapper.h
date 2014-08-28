@@ -5,11 +5,6 @@
 #pragma once
 
 #include "Stdafx.h"
-#include "JavascriptMethodHandler.h"
-#include "JavascriptMethodWrapper.h"
-#include "JavascriptObjectWrapper.h"
-#include "JavascriptPropertyHandler.h"
-#include "JavascriptPropertyWrapper.h"
 #include "JavascriptRootObjectWrapper.h"
 #include "CefSubprocessWrapper.h"
 #include "include/cef_app.h"
