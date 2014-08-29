@@ -92,6 +92,7 @@
     <ClInclude Include="CefAppWrapper.h" />
     <ClInclude Include="CefBrowserUnmanagedWrapper.h" />
     <ClInclude Include="CefSubprocessWrapper.h" />
+    <ClInclude Include="CefTaskScheduler.h" />
     <ClInclude Include="JavascriptMethodWrapper.h" />
     <ClInclude Include="JavascriptMethodHandler.h" />
     <ClInclude Include="JavascriptObjectWrapper.h" />
@@ -107,6 +108,7 @@
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="CefAppUnmanagedWrapper.cpp" />
     <ClCompile Include="CefAppWrapper.cpp" />
+    <ClCompile Include="CefTaskScheduler.cpp" />
     <ClCompile Include="JavascriptMethodWrapper.cpp" />
     <ClCompile Include="JavascriptObjectWrapper.cpp" />
     <ClCompile Include="JavascriptPropertyWrapper.cpp" />
