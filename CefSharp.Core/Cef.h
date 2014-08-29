@@ -318,7 +318,7 @@ namespace CefSharp
         }
 
         /// <summary> Flush the backing store (if any) to disk and execute the specified |handler| on the IO thread when done. Returns </summary>
-        /// <param name="visitor">A user-provided Cookie Visitor implementation.</param>
+        /// <param name="handler">A user-provided ICompletion handler implementation.</param>
         /// <return>Returns false if cookies cannot be accessed.</return>
         static bool FlushStore(ICompletionHandler^ handler)
         {
