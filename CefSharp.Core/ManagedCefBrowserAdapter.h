@@ -14,6 +14,7 @@
 using namespace CefSharp::Internals;
 using namespace System::Diagnostics;
 using namespace System::ServiceModel;
+using namespace System::Threading::Tasks;
 
 namespace CefSharp
 {
@@ -426,7 +427,7 @@ namespace CefSharp
             }
         }
 
-        Object^ EvaluateScript(String^ script, TimeSpan timeout)
+        Task<Object^>^ EvaluateScript(String^ script, TimeSpan timeout)
         {
             auto frame = _renderClientAdapter->TryGetCefMainFrame();
 
@@ -434,7 +435,9 @@ namespace CefSharp
              && _browserProcessServiceHost->RenderProcess != nullptr
              && frame != nullptr)
             {
-                return _browserProcessServiceHost->RenderProcess->EvaluateScript(frame->GetIdentifier(), script, timeout.TotalMilliseconds);
+                auto task = _browserProcessServiceHost->RenderProcess->EvaluateScript(frame->GetIdentifier(), script, timeout.TotalMilliseconds);
+
+                return task;
             }
             else
             {

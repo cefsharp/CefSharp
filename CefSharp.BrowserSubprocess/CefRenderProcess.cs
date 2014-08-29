@@ -1,4 +1,5 @@
-﻿using CefSharp.Internals;
+﻿using System.Threading.Tasks;
+using CefSharp.Internals;
 using System.Collections.Generic;
 using System.ServiceModel;
 
@@ -52,11 +53,14 @@ namespace CefSharp.BrowserSubprocess
             
             Bind(javascriptObject);
         }
-        
-        public object EvaluateScript(int frameId, string script, double timeout)
+
+        public Task<object> EvaluateScript(int frameId, string script, double timeout)
         {
-            var result = Browser.EvaluateScript(frameId, script, timeout);
-            return result;
+            return Task<object>.Factory.StartNew(() =>
+            {
+                var result = Browser.EvaluateScript(frameId, script, timeout);
+                return result;
+            }, TaskCreationOptions.AttachedToParent);
         }
 
         public override IBrowserProcess CreateBrowserProxy()

@@ -1123,10 +1123,7 @@ namespace CefSharp.Wpf
                 timeout = TimeSpan.MaxValue;
             }
 
-            return Task<object>.Factory.StartNew(() =>
-            {
-                return managedCefBrowserAdapter.EvaluateScript(script, timeout.Value);
-            }, TaskCreationOptions.AttachedToParent);
+            return managedCefBrowserAdapter.EvaluateScript(script, timeout.Value);
         }
 
         void IRenderWebBrowser.SetCursor(IntPtr handle)

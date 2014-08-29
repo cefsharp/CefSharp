@@ -107,10 +107,7 @@ namespace CefSharp.WinForms
                 timeout = TimeSpan.MaxValue;
             }
 
-            return Task<object>.Factory.StartNew(() =>
-            {
-                return managedCefBrowserAdapter.EvaluateScript(script, timeout.Value);
-            }, TaskCreationOptions.AttachedToParent);
+            return managedCefBrowserAdapter.EvaluateScript(script, timeout.Value);
         }
 
         public event LoadErrorEventHandler LoadError;
