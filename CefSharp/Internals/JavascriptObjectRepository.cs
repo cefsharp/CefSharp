@@ -136,8 +136,12 @@ namespace CefSharp.Internals
                 }
 
                 var jsProperty = CreateJavaScriptProperty(propertyInfo);
-                jsProperty.Value = CreateJavascriptObject();
-                jsProperty.Value.Value = jsProperty.GetValue(obj.Value);
+                var jsObject = CreateJavascriptObject();
+                jsObject.Name = propertyInfo.Name;
+                jsObject.JavascriptName = LowercaseFirst(propertyInfo.Name);
+                jsObject.Value = jsProperty.GetValue(obj.Value);
+                jsProperty.Value = jsObject;
+                
                 Analyse(jsProperty.Value);
                 obj.Properties.Add(jsProperty);
             }

@@ -8,12 +8,14 @@ namespace CefSharp.Example
 
         public string MyReadOnlyProperty { get; internal set; }
         public Type MyUnconvertibleProperty { get; set; }
+        public SubBoundObject SubObject { get; set; }
 
         public BoundObject()
         {
             MyProperty = 42;
             MyReadOnlyProperty = "I'm immutable!";
             MyUnconvertibleProperty = GetType();
+            SubObject = new SubBoundObject();
         }
 
         public int EchoMyProperty()
