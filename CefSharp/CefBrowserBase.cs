@@ -4,6 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
+using CefSharp.Internals;
 
 namespace CefSharp
 {
@@ -17,7 +18,8 @@ namespace CefSharp
             return RenderThreadTaskFactory.StartNew(() =>
             {
                 return DoEvaluateScript(frameId, script);
-            }, TaskCreationOptions.AttachedToParent);
+            }, TaskCreationOptions.AttachedToParent)
+            .WithTimeout(timeout);
         }
 
         protected abstract object DoEvaluateScript(long frameId, string script);

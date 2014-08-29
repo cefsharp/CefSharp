@@ -93,6 +93,7 @@
     <Compile Include="DownloadItem.cs" />
     <Compile Include="CefEventFlags.cs" />
     <Compile Include="Internals\JavascriptRootObject.cs" />
+    <Compile Include="Internals\TaskExtensions.cs" />
     <Compile Include="IStringVisitor.cs" />
     <Compile Include="LoadErrorEventArgs.cs" />
     <Compile Include="FrameLoadStartEventArgs.cs" />

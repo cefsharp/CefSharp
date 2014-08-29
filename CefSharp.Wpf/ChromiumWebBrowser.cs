@@ -1120,7 +1120,7 @@ namespace CefSharp.Wpf
         {
             if (timeout == null)
             {
-                timeout = TimeSpan.MaxValue;
+                timeout = TimeSpan.FromSeconds(60);
             }
 
             return managedCefBrowserAdapter.EvaluateScript(script, timeout.Value);
