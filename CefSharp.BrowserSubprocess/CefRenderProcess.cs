@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using CefSharp.Internals;
 using System.Collections.Generic;
 using System.ServiceModel;
@@ -54,7 +55,7 @@ namespace CefSharp.BrowserSubprocess
             Bind(javascriptObject);
         }
 
-        public Task<object> EvaluateScript(int frameId, string script, double timeout)
+        public Task<object> EvaluateScript(int frameId, string script, TimeSpan timeout)
         {
             var task = Browser.EvaluateScript(frameId, script, timeout);
 

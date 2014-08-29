@@ -435,7 +435,7 @@ namespace CefSharp
              && _browserProcessServiceHost->RenderProcess != nullptr
              && frame != nullptr)
             {
-                auto task = _browserProcessServiceHost->RenderProcess->EvaluateScript(frame->GetIdentifier(), script, timeout.TotalMilliseconds);
+                auto task = _browserProcessServiceHost->RenderProcess->EvaluateScript(frame->GetIdentifier(), script, timeout);
 
                 return task;
             }

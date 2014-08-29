@@ -1,4 +1,5 @@
-﻿using System.ServiceModel;
+﻿using System;
+using System.ServiceModel;
 using System.Threading.Tasks;
 
 namespace CefSharp.Internals
@@ -7,6 +8,6 @@ namespace CefSharp.Internals
     public interface IRenderProcess 
     {
         [OperationContract]
-        Task<object> EvaluateScript(int frameId, string script, double timeout);
+        Task<object> EvaluateScript(int frameId, string script, TimeSpan timeout);
     }
 }

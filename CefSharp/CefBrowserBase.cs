@@ -2,6 +2,7 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
 using System.Threading.Tasks;
 
 namespace CefSharp
@@ -11,7 +12,7 @@ namespace CefSharp
         public int BrowserId { get; set; }
         public TaskFactory RenderThreadTaskFactory { get; protected set; }
 
-        public Task<object> EvaluateScript(long frameId, string script, double timeout)
+        public Task<object> EvaluateScript(long frameId, string script, TimeSpan timeout)
         {
             return RenderThreadTaskFactory.StartNew(() =>
             {
