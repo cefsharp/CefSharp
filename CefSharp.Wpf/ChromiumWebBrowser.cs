@@ -1113,19 +1113,22 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter.ExecuteScriptAsync(script);
         }
 
-        public object EvaluateScript(string script)
+        public Task<object> EvaluateScriptAsync(string script)
         {
-            return EvaluateScript(script, timeout: null);
+            return EvaluateScriptAsync(script, timeout: null);
         }
 
-        public object EvaluateScript(string script, TimeSpan? timeout)
+        public Task<object> EvaluateScriptAsync(string script, TimeSpan? timeout)
         {
             if (timeout == null)
             {
                 timeout = TimeSpan.MaxValue;
             }
 
-            return managedCefBrowserAdapter.EvaluateScript(script, timeout.Value);
+            return Task<object>.Factory.StartNew(() =>
+            {
+                return managedCefBrowserAdapter.EvaluateScript(script, timeout.Value);
+            }, TaskCreationOptions.AttachedToParent);
         }
 
         void IRenderWebBrowser.SetCursor(IntPtr handle)

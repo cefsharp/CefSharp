@@ -67,11 +67,13 @@ namespace CefSharp
         void ExecuteScriptAsync(string script);
 
         /// <summary>
-        /// Execute some Javascript code in the context of this WebBrowser, and return the result of the evaluation.
+        /// Execute some Javascript code in the context of this WebBrowser, and return the result of the evaluation
+        /// in an Async fashion
         /// </summary>
         /// <param name="script">The Javascript code that should be executed.</param>
         /// <param name="timeout">The timeout after which the Javascript code execution should be aborted.</param>
-        object EvaluateScript(string script, TimeSpan? timeout = null);
+        /// /// <returns>A Task that can be awaited to perform the script execution</returns>
+        Task<object> EvaluateScriptAsync(string script, TimeSpan? timeout = null);
 
         IDialogHandler DialogHandler { get; set; }
         IRequestHandler RequestHandler { get; set; }

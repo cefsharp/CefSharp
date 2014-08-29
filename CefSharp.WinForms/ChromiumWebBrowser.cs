@@ -33,6 +33,7 @@ namespace CefSharp.WinForms
         public bool CanGoBack { get; private set; }
         public bool CanReload { get; private set; }
         public bool IsBrowserInitialized { get; private set; }
+        //TODO: Remove
         public IDictionary<string, object> BoundObjects { get; private set; }
         public double ZoomLevel
         {
@@ -96,19 +97,22 @@ namespace CefSharp.WinForms
             managedCefBrowserAdapter.ExecuteScriptAsync(script);
         }
 
-        public object EvaluateScript(string script)
+        public Task<object> EvaluateScriptAsync(string script)
         {
-            return EvaluateScript(script, timeout: null);
+            return EvaluateScriptAsync(script, timeout: null);
         }
 
-        public object EvaluateScript(string script, TimeSpan? timeout)
+        public Task<object> EvaluateScriptAsync(string script, TimeSpan? timeout)
         {
             if (timeout == null)
             {
                 timeout = TimeSpan.MaxValue;
             }
 
-            return managedCefBrowserAdapter.EvaluateScript(script, timeout.Value);
+            return Task<object>.Factory.StartNew(() =>
+            {
+                return managedCefBrowserAdapter.EvaluateScript(script, timeout.Value);
+            }, TaskCreationOptions.AttachedToParent);
         }
 
         public event LoadErrorEventHandler LoadError;

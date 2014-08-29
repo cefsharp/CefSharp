@@ -2,6 +2,7 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System.Threading.Tasks;
 using CefSharp.Example;
 using CefSharp.Wpf.Example.Mvvm;
 using System;
@@ -97,7 +98,16 @@ namespace CefSharp.Wpf.Example.ViewModels
         {
             try
             {
-                EvaluateJavaScriptResult = webBrowser.EvaluateScript(s) ?? "null";
+                var task = webBrowser.EvaluateScriptAsync(s);
+
+                task.ContinueWith(t =>
+                {
+                    if (!t.IsFaulted)
+                    {
+                        EvaluateJavaScriptResult = t.Result ?? "null";
+                    }
+                },
+                TaskScheduler.FromCurrentSynchronizationContext());
             }
             catch (Exception e)
             {

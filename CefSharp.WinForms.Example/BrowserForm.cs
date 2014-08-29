@@ -103,7 +103,11 @@ namespace CefSharp.WinForms.Example
 
         public object EvaluateScript(string script)
         {
-            return browser.EvaluateScript(script);
+            var task = browser.EvaluateScriptAsync(script);
+
+            task.Wait();
+
+            return task.Result;
         }
 
         public void DisplayOutput(string output)
