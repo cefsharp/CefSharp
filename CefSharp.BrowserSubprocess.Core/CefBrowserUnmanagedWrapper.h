@@ -44,47 +44,43 @@ namespace CefSharp
             delete waithandle;
         }
 
-        void EvaluateScriptCallback(int64 frameId, CefString script, double timeout)
+        Object^ EvaluateScriptCallback(int64 frameId, CefString script)
         {
-            // TODO: Do something about the timeout...
-
             auto frame = _cefBrowser->GetFrame(frameId);
             CefRefPtr<CefV8Context> context = frame->GetV8Context();
 
             if (context.get() && context->Enter())
             {
-                EvaluateScriptInContext(context, script);
-                context->Exit();
+                try
+                {
+                    return EvaluateScriptInContext(context, script);
+                }
+                finally
+                {
+                    context->Exit();
+                }
             }
-            WaitHandle->Set();
+
+            return nullptr;
         }
 
-        void EvaluateScriptInContext(CefRefPtr<CefV8Context> context, CefString script)
+        Object^ EvaluateScriptInContext(CefRefPtr<CefV8Context> context, CefString script)
         {
             CefRefPtr<CefV8Value> result;
             CefRefPtr<CefV8Exception> exception;
 
-            EvaluateScriptExceptionMessage = nullptr;
-
             bool success = context->Eval(script, result, exception);
             if (success)
             {
-                try
-                {
-                    EvaluateScriptResult = TypeUtils::ConvertFromCef(result);
-                }
-                catch (Exception^ ex)
-                {
-                    EvaluateScriptExceptionMessage = ex->Message;
-                }
+                return TypeUtils::ConvertFromCef(result);
             }
             else if (exception.get())
             {
-                EvaluateScriptExceptionMessage = StringUtils::ToClr(exception->GetMessage());
+                throw gcnew ScriptException(StringUtils::ToClr(exception->GetMessage()));
             }
             else
             {
-                EvaluateScriptExceptionMessage = "Failed to evaluate script";
+                return nullptr;
             }
         }
 

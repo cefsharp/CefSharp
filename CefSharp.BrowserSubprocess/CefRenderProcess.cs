@@ -56,11 +56,9 @@ namespace CefSharp.BrowserSubprocess
 
         public Task<object> EvaluateScript(int frameId, string script, double timeout)
         {
-            return Task<object>.Factory.StartNew(() =>
-            {
-                var result = Browser.EvaluateScript(frameId, script, timeout);
-                return result;
-            }, TaskCreationOptions.AttachedToParent);
+            var task = Browser.EvaluateScript(frameId, script, timeout);
+
+            return task;
         }
 
         public override IBrowserProcess CreateBrowserProxy()
