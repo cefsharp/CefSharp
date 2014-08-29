@@ -3,7 +3,6 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -33,8 +32,7 @@ namespace CefSharp.WinForms
         public bool CanGoBack { get; private set; }
         public bool CanReload { get; private set; }
         public bool IsBrowserInitialized { get; private set; }
-        //TODO: Remove
-        public IDictionary<string, object> BoundObjects { get; private set; }
+
         public double ZoomLevel
         {
             get { return managedCefBrowserAdapter.GetZoomLevel(); }

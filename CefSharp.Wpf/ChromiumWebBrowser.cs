@@ -1106,8 +1106,6 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter.RegisterJsObject(name, objectToBind);
         }
 
-        public IDictionary<string, object> BoundObjects { get; private set; }
-
         public void ExecuteScriptAsync(string script)
         {
             managedCefBrowserAdapter.ExecuteScriptAsync(script);
