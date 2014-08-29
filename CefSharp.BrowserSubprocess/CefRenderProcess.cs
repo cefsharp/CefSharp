@@ -55,7 +55,7 @@ namespace CefSharp.BrowserSubprocess
             Bind(javascriptObject);
         }
 
-        public Task<JavascriptResponse> EvaluateScript(int frameId, string script, TimeSpan timeout)
+        public Task<JavascriptResponse> EvaluateScript(long frameId, string script, TimeSpan timeout)
         {
             var task = Browser.EvaluateScript(frameId, script, timeout);
 
