@@ -89,6 +89,7 @@
     <ClInclude Include="..\CefSharp.Core\Internals\MCefRefPtr.h" />
     <ClInclude Include="..\CefSharp.Core\Internals\StringUtils.h" />
     <ClInclude Include="CefAppWrapper.h" />
+    <ClInclude Include="CefBrowserUnmanagedWrapper.h" />
     <ClInclude Include="CefSubprocessWrapper.h" />
     <ClInclude Include="JavascriptMethodWrapper.h" />
     <ClInclude Include="JavascriptMethodHandler.h" />
