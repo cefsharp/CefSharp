@@ -88,6 +88,7 @@
   <ItemGroup>
     <ClInclude Include="..\CefSharp.Core\Internals\MCefRefPtr.h" />
     <ClInclude Include="..\CefSharp.Core\Internals\StringUtils.h" />
+    <ClInclude Include="CefAppUnmanagedWrapper.h" />
     <ClInclude Include="CefAppWrapper.h" />
     <ClInclude Include="CefBrowserUnmanagedWrapper.h" />
     <ClInclude Include="CefSubprocessWrapper.h" />
@@ -104,6 +105,7 @@
   <ItemGroup>
     <ClCompile Include="..\CefSharp.Core\Internals\StringUtils.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="CefAppUnmanagedWrapper.cpp" />
     <ClCompile Include="CefAppWrapper.cpp" />
     <ClCompile Include="JavascriptMethodWrapper.cpp" />
     <ClCompile Include="JavascriptObjectWrapper.cpp" />
