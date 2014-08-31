@@ -11,13 +11,14 @@ namespace CefSharp.Wpf.Example.Controls
 {
     public class ChromiumWebBrowserWithSnapshotSupport : ChromiumWebBrowser
     {
-        private bool _isTakingSnapshot = false;
-        private int _snapshotWidth;
-        private int _snapshotHeight;
-        private string _snapshotFile;
-        private ManualResetEvent _snapshotIsComplete = new ManualResetEvent(true);
+        private volatile bool _isTakingSnapshot = false;
+        private volatile int _snapshotWidth;
+        private volatile int _snapshotHeight;
+        private volatile string _snapshotFile;
+        private ManualResetEventSlim _snapshotIsComplete = new ManualResetEventSlim(true);
+        private readonly object _takingSnapshotLock = new object();
 
-        public bool TakeSnapshot(out string imagePath)
+        public bool TakeSnapshot(out string imagePath, TimeSpan? timeout = null)
         {
             imagePath = null;
             bool result = false;
@@ -25,25 +26,47 @@ namespace CefSharp.Wpf.Example.Controls
             if (!WebBrowser.IsBrowserInitialized || WebBrowser.IsLoading || _isTakingSnapshot)
                 return result;
 
+            var cancellationTokenSrc = new CancellationTokenSource();
+            var cancellationToken = cancellationTokenSrc.Token;
             try
             {
-                result = Task.Factory.StartNew(() =>
+                var task = Task<string>.Factory.StartNew(() =>
                 {
                     var size = Convert.ToString(EvaluateScript(
-                        "''.concat(document.body.scrollHeight, ':', document.body.scrollWidth)"));
-                    var dimensions = size.Split(':').Select(int.Parse);
-                    _snapshotHeight = dimensions.First();
-                    _snapshotWidth = dimensions.Last();
+                        "''.concat(document.body.scrollHeight, ':', document.body.scrollWidth)", timeout));
+                    cancellationToken.ThrowIfCancellationRequested();
 
-                    _snapshotFile = Path.GetTempFileName() + ".png";
-                    _isTakingSnapshot = true;
-                    _snapshotIsComplete.Reset();
-                    OnActualSizeChanged(this, EventArgs.Empty);
-                    _snapshotIsComplete.WaitOne();
-                }).Wait(5000);
+                    var dimensions = size.Split(':').Select(int.Parse);
+                    var tmpFileName = Path.GetTempFileName();
+                    lock (_takingSnapshotLock)
+                    {
+                        _snapshotHeight = dimensions.First();
+                        _snapshotWidth = dimensions.Last();
+
+                        _snapshotFile = tmpFileName + ".png";
+                        _snapshotIsComplete.Reset();
+
+                        _isTakingSnapshot = !cancellationToken.IsCancellationRequested;
+                        // it may take some time waiting on a lock
+                        cancellationToken.ThrowIfCancellationRequested();
+                        OnActualSizeChanged(this, EventArgs.Empty);
+                        _snapshotIsComplete.Wait(cancellationToken);
+                        return _snapshotFile;
+                    }
+                }, cancellationToken);
+
+                if (timeout.HasValue)
+                    result = task.Wait(timeout.Value);
+                else
+                {
+                    task.Wait();
+                    result = true;
+                }
 
                 if (result)
-                    imagePath = _snapshotFile;
+                    imagePath = task.Result;
+                else
+                    cancellationTokenSrc.Cancel();
             }
             finally
             {
@@ -91,9 +114,16 @@ namespace CefSharp.Wpf.Example.Controls
         protected override void InvokeRenderAsync(BitmapInfo bitmapInfo)
         {
             if (_isTakingSnapshot)
-                SetSnapshotBitmap(bitmapInfo);
+            {
+                if (bitmapInfo.Height == _snapshotHeight && bitmapInfo.Width == _snapshotWidth)
+                    SetSnapshotBitmap(bitmapInfo);
+                else
+                    OnActualSizeChanged(this, EventArgs.Empty);
+            }
             else
+            {
                 base.InvokeRenderAsync(bitmapInfo);
+            }
         }
 
         protected void SetSnapshotBitmap(BitmapInfo bitmapInfo)
