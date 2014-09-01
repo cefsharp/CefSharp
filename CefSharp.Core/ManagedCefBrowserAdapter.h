@@ -431,11 +431,9 @@ namespace CefSharp
         {
             auto frame = _renderClientAdapter->TryGetCefMainFrame();
 
-            if (_browserProcessServiceHost != nullptr
-             && _browserProcessServiceHost->RenderProcess != nullptr
-             && frame != nullptr)
+            if (_browserProcessServiceHost != nullptr && frame != nullptr)
             {
-                auto task = _browserProcessServiceHost->RenderProcess->EvaluateScript(frame->GetIdentifier(), script, timeout);
+                auto task = _browserProcessServiceHost->EvaluateScript(frame->GetIdentifier(), script, timeout);
 
                 return task;
             }

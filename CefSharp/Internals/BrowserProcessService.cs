@@ -6,20 +6,23 @@ using System.ServiceModel;
 
 namespace CefSharp.Internals
 {
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession)]
     public class BrowserProcessService : IBrowserProcess
     {
+        private readonly JavascriptObjectRepository javascriptObjectRepository;
         private readonly BrowserProcessServiceHost host;
+        public  OperationContext Context { get; private set; }
         
         public BrowserProcessService()
         {
-            host = (BrowserProcessServiceHost)OperationContext.Current.Host;
-            host.RenderProcess = OperationContext.Current.GetCallbackChannel<IRenderProcess>();
+            var context = OperationContext.Current;
+            host = (BrowserProcessServiceHost)context.Host;
+
+            javascriptObjectRepository = host.JavascriptObjectRepository;
         }
 
         public object CallMethod(long objectId, string name, object[] parameters)
         {
-            var javascriptObjectRepository = host.JavascriptObjectRepository;
-
             object result;
             javascriptObjectRepository.TryCallMethod(objectId, name, parameters, out result);
             return result;
@@ -27,8 +30,6 @@ namespace CefSharp.Internals
 
         public object GetProperty(long objectId, string name)
         {
-            var javascriptObjectRepository = host.JavascriptObjectRepository;
-
             object result;
             javascriptObjectRepository.TryGetProperty(objectId, name, out result);
             return result;
@@ -36,14 +37,17 @@ namespace CefSharp.Internals
 
         public void SetProperty(long objectId, string name, object value)
         {
-            var javascriptObjectRepository = host.JavascriptObjectRepository;
             javascriptObjectRepository.TrySetProperty(objectId, name, value);
         }
 
         public JavascriptRootObject GetRegisteredJavascriptObjects()
         {
-            var javascriptObjectRepository = host.JavascriptObjectRepository;
-
+            if (Context == null)
+            {
+                Context = OperationContext.Current;
+                host.SetOperationContext(Context);
+            }
+            
             return javascriptObjectRepository.RootObject;
         }
     }

@@ -6,6 +6,7 @@ using System;
 using System.Net.Security;
 using System.ServiceModel;
 using System.ServiceModel.Description;
+using System.Threading.Tasks;
 
 namespace CefSharp.Internals
 {
@@ -14,7 +15,7 @@ namespace CefSharp.Internals
         private const long SixteenMegaBytesInBytes = 16*1024*1024;
 
         public JavascriptObjectRepository JavascriptObjectRepository { get; private set; }
-        public IRenderProcess RenderProcess { get; set; }
+        private TaskCompletionSource<OperationContext> operationContextTaskCompletionSource = new TaskCompletionSource<OperationContext>();
         
         public BrowserProcessServiceHost(JavascriptObjectRepository javascriptObjectRepository, int parentProcessId, int browserId)
             : base(typeof(BrowserProcessService), new Uri[0])
@@ -36,16 +37,33 @@ namespace CefSharp.Internals
             endPoint.Contract.ProtectionLevel = ProtectionLevel.None;
         }
 
+        public void SetOperationContext(OperationContext operationContext)
+        {
+            operationContextTaskCompletionSource.SetResult(operationContext);
+        }
+
+        public Task<object> EvaluateScript(int frameId, string script, TimeSpan timeout)
+        {
+            var operationContextTask = operationContextTaskCompletionSource.Task;
+
+            return operationContextTask.ContinueWith(t =>
+            {
+                var context = t.Result;
+                var renderProcess = context.GetCallbackChannel<IRenderProcess>();
+                return renderProcess.EvaluateScript(frameId, script, timeout);
+            }).Unwrap();
+        }
+
         protected override void OnClosed()
         {
             base.OnClosed();
             JavascriptObjectRepository = null;
-            RenderProcess = null;
+            operationContextTaskCompletionSource = null;
         }
 
         public static NetNamedPipeBinding CreateBinding()
         {
-            var binding = new NetNamedPipeBinding();
+            var binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
             binding.MaxReceivedMessageSize = SixteenMegaBytesInBytes;
             return binding;
         }

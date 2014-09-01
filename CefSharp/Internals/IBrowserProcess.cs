@@ -6,7 +6,7 @@ using System.ServiceModel;
 
 namespace CefSharp.Internals
 {
-    [ServiceContract(CallbackContract = typeof(IRenderProcess))]
+    [ServiceContract(CallbackContract = typeof(IRenderProcess), SessionMode = SessionMode.Required)]
     public interface IBrowserProcess
     {
         [OperationContract]
