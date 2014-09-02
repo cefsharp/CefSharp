@@ -20,24 +20,20 @@ namespace CefSharp.Internals
 
             javascriptObjectRepository = host.JavascriptObjectRepository;
         }
-
-        public object CallMethod(long objectId, string name, object[] parameters)
+        
+        public bool CallMethod(long objectId, string name, object[] parameters, out object result)
         {
-            object result;
-            javascriptObjectRepository.TryCallMethod(objectId, name, parameters, out result);
-            return result;
+            return javascriptObjectRepository.TryCallMethod(objectId, name, parameters, out result);
         }
 
-        public object GetProperty(long objectId, string name)
+        public bool GetProperty(long objectId, string name, out object result)
         {
-            object result;
-            javascriptObjectRepository.TryGetProperty(objectId, name, out result);
-            return result;
+            return javascriptObjectRepository.TryGetProperty(objectId, name, out result);
         }
 
-        public void SetProperty(long objectId, string name, object value)
+        public bool SetProperty(long objectId, string name, object value)
         {
-            javascriptObjectRepository.TrySetProperty(objectId, name, value);
+            return javascriptObjectRepository.TrySetProperty(objectId, name, value);
         }
 
         public JavascriptRootObject GetRegisteredJavascriptObjects()

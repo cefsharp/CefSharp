@@ -48,7 +48,9 @@ namespace CefSharp
 	{
 		auto browserProxy = CefAppWrapper::Instance->CreateBrowserProxy();
 
-		return browserProxy->GetProperty(_object->Id, memberName);
+		Object^ result;
+		auto success = browserProxy->GetProperty(_object->Id, memberName, result);
+		return result;
 	};
 
 	void JavascriptObjectWrapper::SetProperty(String^ memberName, Object^ value)
