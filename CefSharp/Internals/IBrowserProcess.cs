@@ -10,13 +10,13 @@ namespace CefSharp.Internals
     public interface IBrowserProcess
     {
         [OperationContract]
-        bool CallMethod(long objectId, string name, object[] parameters, out object result, out string exception);
+        BrowserProcessResponse CallMethod(long objectId, string name, object[] parameters);
 
         [OperationContract]
-        bool GetProperty(long objectId, string name, out object result, out string exception);
+        BrowserProcessResponse GetProperty(long objectId, string name);
 
         [OperationContract]
-        bool SetProperty(long objectId, string name, object value, out string exception);
+        BrowserProcessResponse SetProperty(long objectId, string name, object value);
         
         [OperationContract]
         JavascriptRootObject GetRegisteredJavascriptObjects();
