@@ -66,13 +66,15 @@ namespace CefSharp.Internals
             try
             {
                 result = method.Function(obj.Value, parameters);
+
+                return true;
             }
             catch (Exception ex)
             {
                 exception = ex.Message;
             }
 
-            return true;
+            return false;
         }
 
         public bool TryGetProperty(long objectId, string name, out object result, out string exception)
@@ -94,13 +96,15 @@ namespace CefSharp.Internals
             try
             {
                 result = property.GetValue(obj.Value);
+
+                return true;
             }
             catch (Exception ex)
             {
                 exception = ex.Message;
             }
 
-            return true;
+            return false;
         }
 
         public bool TrySetProperty(long objectId, string name, object value, out string exception)
@@ -120,13 +124,15 @@ namespace CefSharp.Internals
             try
             {
                 property.SetValue(obj.Value, value);
+
+                return true;
             }
             catch (Exception ex)
             {
                 exception = ex.Message;
             }
 
-            return true;
+            return false;
         }
 
         private void Analyse(JavascriptObject obj)
