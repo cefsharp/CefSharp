@@ -23,25 +23,15 @@ namespace CefSharp
         CefRefPtr<CefBrowser> _cefBrowser;
 
     public:
-        gcroot<AutoResetEvent^> WaitHandle;
-        gcroot<Object^> EvaluateScriptResult;
-        gcroot<String^> EvaluateScriptExceptionMessage;
 
         CefBrowserUnmanagedWrapper(CefRefPtr<CefBrowser> cefBrowser)
         {
             _cefBrowser = cefBrowser;
-            WaitHandle = gcnew AutoResetEvent(false);
         }
 
         ~CefBrowserUnmanagedWrapper()
         {
             _cefBrowser = nullptr;
-            EvaluateScriptResult = nullptr;
-            EvaluateScriptExceptionMessage = nullptr;
-            
-            AutoResetEvent^ waithandle = WaitHandle;
-            WaitHandle = nullptr;
-            delete waithandle;
         }
 
         JavascriptResponse^ EvaluateScriptCallback(int64 frameId, CefString script)
