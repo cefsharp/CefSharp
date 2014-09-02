@@ -49,7 +49,8 @@ namespace CefSharp
 		auto browserProxy = CefAppWrapper::Instance->CreateBrowserProxy();
 
 		Object^ result;
-		auto success = browserProxy->GetProperty(_object->Id, memberName, result);
+		String^ exception;
+		auto success = browserProxy->GetProperty(_object->Id, memberName, result, exception);
 		return result;
 	};
 
@@ -57,6 +58,7 @@ namespace CefSharp
 	{
 		auto browserProxy = CefAppWrapper::Instance->CreateBrowserProxy();
 
-		browserProxy->SetProperty(_object->Id, memberName, value);
+		String^ exception;
+		browserProxy->SetProperty(_object->Id, memberName, value, exception);
 	};
 }

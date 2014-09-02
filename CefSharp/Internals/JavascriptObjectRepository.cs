@@ -47,8 +47,9 @@ namespace CefSharp.Internals
             RootObject.MemberObjects.Add(jsObject);
         }
 
-        public bool TryCallMethod(long objectId, string name, object[] parameters, out object result)
+        public bool TryCallMethod(long objectId, string name, object[] parameters, out object result, out string exception)
         {
+            exception = "";
             result = null;
             JavascriptObject obj;
             if (!objects.TryGetValue(objectId, out obj))
@@ -62,12 +63,21 @@ namespace CefSharp.Internals
                 throw new InvalidOperationException(string.Format("Method {0} not found on Object of Type {1}", name, obj.Value.GetType()));
             }
 
-            result = method.Function(obj.Value, parameters);
+            try
+            {
+                result = method.Function(obj.Value, parameters);
+            }
+            catch (Exception ex)
+            {
+                exception = ex.Message;
+            }
+
             return true;
         }
 
-        public bool TryGetProperty(long objectId, string name, out object result)
+        public bool TryGetProperty(long objectId, string name, out object result, out string exception)
         {
+            exception = "";
             result = null;
             JavascriptObject obj;
             if (!objects.TryGetValue(objectId, out obj))
@@ -81,12 +91,21 @@ namespace CefSharp.Internals
                 throw new InvalidOperationException(string.Format("Property {0} not found on Object of Type {1}", name, obj.Value.GetType()));
             }
 
-            result = property.GetValue(obj.Value);
+            try
+            {
+                result = property.GetValue(obj.Value);
+            }
+            catch (Exception ex)
+            {
+                exception = ex.Message;
+            }
+
             return true;
         }
 
-        public bool TrySetProperty(long objectId, string name, object value)
+        public bool TrySetProperty(long objectId, string name, object value, out string exception)
         {
+            exception = "";
             JavascriptObject obj;
             if (!objects.TryGetValue(objectId, out obj))
             {
@@ -98,8 +117,15 @@ namespace CefSharp.Internals
             {
                 throw new InvalidOperationException(string.Format("Property {0} not found on Object of Type {1}", name, obj.Value.GetType()));
             }
+            try
+            {
+                property.SetValue(obj.Value, value);
+            }
+            catch (Exception ex)
+            {
+                exception = ex.Message;
+            }
 
-            property.SetValue(obj.Value, value);
             return true;
         }
 
