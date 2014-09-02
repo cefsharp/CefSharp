@@ -8,15 +8,17 @@
 #include "include/cef_v8.h"
 #include "TypeUtils.h"
 
+using namespace CefSharp::Internals;
+
 namespace CefSharp
 {
     private class JavascriptMethodHandler : public CefV8Handler
     {
     private:
-        gcroot<Func<array<Object^>^, Object^>^> _method;
+        gcroot<Func<array<Object^>^, BrowserProcessResponse^>^> _method;
 
     public:
-        JavascriptMethodHandler(Func<array<Object^>^, Object^>^ method)
+        JavascriptMethodHandler(Func<array<Object^>^, BrowserProcessResponse^>^ method)
         {
             _method = method;
         }
@@ -30,10 +32,14 @@ namespace CefSharp
                 parameter[i] = TypeUtils::ConvertFromCef(arguments[i]);
             }
 
-            auto result = _method->Invoke(parameter);
+            auto response = _method->Invoke(parameter);
 
-            retval = TypeUtils::ConvertToCef(result, nullptr);
-            return true;
+            retval = TypeUtils::ConvertToCef(response->Result, nullptr);
+            if(!response->Success)
+            {
+                exception = StringUtils::ToNative(response->Message);
+            }
+            return response->Success;
         }
 
         IMPLEMENT_REFCOUNTING(JavascriptMethodHandler)

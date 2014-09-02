@@ -20,11 +20,10 @@ namespace CefSharp
         V8Value->SetValue(methodName, v8Function, V8_PROPERTY_ATTRIBUTE_NONE);
     };
 
-    Object^ JavascriptMethodWrapper::Execute(array<Object^>^ parameters)
+    BrowserProcessResponse^ JavascriptMethodWrapper::Execute(array<Object^>^ parameters)
     {
         auto browserProxy = CefAppWrapper::Instance->CreateBrowserProxy();
 
-        auto response = browserProxy->CallMethod(_ownerId, _javascriptMethod->JavascriptName, parameters);
-        return response->Result;
+        return browserProxy->CallMethod(_ownerId, _javascriptMethod->JavascriptName, parameters);
     }
 }

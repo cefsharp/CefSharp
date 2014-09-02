@@ -15,11 +15,11 @@ namespace CefSharp
 {
     private class JavascriptPropertyHandler : public CefV8Accessor
     {
-        gcroot<Func<String^, Object^>^> _getter;
-        gcroot<Action<String^, Object^>^> _setter;
+        gcroot<Func<String^, BrowserProcessResponse^>^> _getter;
+        gcroot<Func<String^, Object^, BrowserProcessResponse^>^> _setter;
 
     public:
-        JavascriptPropertyHandler(Func<String^, Object^>^ getter, Action<String^, Object^>^ setter)
+        JavascriptPropertyHandler(Func<String^, BrowserProcessResponse^>^ getter, Func<String^, Object^, BrowserProcessResponse^>^ setter)
         {
             _getter = getter;
             _setter = setter;
@@ -30,9 +30,13 @@ namespace CefSharp
         {
             //System::Diagnostics::Debugger::Break();
             auto propertyName = StringUtils::ToClr(name);
-            auto result = _getter->Invoke(propertyName);
-            retval = TypeUtils::ConvertToCef(result, nullptr);
-            return true;
+            auto response = _getter->Invoke(propertyName);
+            retval = TypeUtils::ConvertToCef(response->Result, nullptr);
+            if(!response->Success)
+            {
+                exception = StringUtils::ToNative(response->Message);
+            }
+            return response->Success;
         }
 
         virtual bool Set(const CefString& name, const CefRefPtr<CefV8Value> object, const CefRefPtr<CefV8Value> value,
@@ -41,8 +45,12 @@ namespace CefSharp
             //System::Diagnostics::Debugger::Break();
             auto propertyName = StringUtils::ToClr(name);
             auto managedValue = TypeUtils::ConvertFromCef(value);
-            _setter->Invoke(propertyName, managedValue);
-            return true;
+            auto response = _setter->Invoke(propertyName, managedValue);
+            if(!response->Success)
+            {
+                exception = StringUtils::ToNative(response->Message);
+            }
+            return response->Success;
         }
 
         IMPLEMENT_REFCOUNTING(JavascriptPropertyHandler)

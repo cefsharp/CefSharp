@@ -9,6 +9,7 @@
 #include "CefAppWrapper.h"
 
 using namespace System;
+using namespace CefSharp::Internals;
 
 namespace CefSharp
 {
@@ -16,8 +17,8 @@ namespace CefSharp
 	{
 		//Create property handler for get and set of Properties of this object
 		JsPropertyHandler = new JavascriptPropertyHandler(
-			gcnew Func<String^, Object^>(this, &JavascriptObjectWrapper::GetProperty),
-			gcnew Action<String^, Object^>(this, &JavascriptObjectWrapper::SetProperty)
+			gcnew Func<String^, BrowserProcessResponse^>(this, &JavascriptObjectWrapper::GetProperty),
+			gcnew Func<String^, Object^, BrowserProcessResponse^>(this, &JavascriptObjectWrapper::SetProperty)
 			);
 
 		//V8Value that represents this javascript object - only one per complex type
@@ -44,18 +45,17 @@ namespace CefSharp
 		}
 	}
 
-	Object^ JavascriptObjectWrapper::GetProperty(String^ memberName)
+	BrowserProcessResponse^ JavascriptObjectWrapper::GetProperty(String^ memberName)
 	{
 		auto browserProxy = CefAppWrapper::Instance->CreateBrowserProxy();
 
-		auto response = browserProxy->GetProperty(_object->Id, memberName);
-		return response->Result;
+		return browserProxy->GetProperty(_object->Id, memberName);
 	};
 
-	void JavascriptObjectWrapper::SetProperty(String^ memberName, Object^ value)
+	BrowserProcessResponse^ JavascriptObjectWrapper::SetProperty(String^ memberName, Object^ value)
 	{
 		auto browserProxy = CefAppWrapper::Instance->CreateBrowserProxy();
 
-		auto response = browserProxy->SetProperty(_object->Id, memberName, value);
+		return browserProxy->SetProperty(_object->Id, memberName, value);
 	};
 }

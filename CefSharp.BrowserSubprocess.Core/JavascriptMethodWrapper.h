@@ -28,10 +28,10 @@ namespace CefSharp
         {
             _javascriptMethod = javascriptMethod;
             _ownerId = ownerId;
-            _javascriptMethodHandler = new JavascriptMethodHandler(gcnew Func<array<Object^>^, Object^>(this, &JavascriptMethodWrapper::Execute));
+            _javascriptMethodHandler = new JavascriptMethodHandler(gcnew Func<array<Object^>^, BrowserProcessResponse^>(this, &JavascriptMethodWrapper::Execute));
         }
 
         void Bind();
-        Object^ Execute(array<Object^>^ parameters);
+        BrowserProcessResponse^ Execute(array<Object^>^ parameters);
     };
 }
