@@ -39,7 +39,8 @@ namespace CefSharp
             {
                 exception = StringUtils::ToNative(response->Message);
             }
-            return response->Success;
+            //NOTE: Return true otherwise exception is ignored
+            return true;
         }
 
         IMPLEMENT_REFCOUNTING(JavascriptMethodHandler)

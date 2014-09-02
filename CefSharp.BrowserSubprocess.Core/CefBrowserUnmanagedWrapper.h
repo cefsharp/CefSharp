@@ -44,7 +44,7 @@ namespace CefSharp
             delete waithandle;
         }
 
-        Object^ EvaluateScriptCallback(int64 frameId, CefString script)
+        JavascriptResponse^ EvaluateScriptCallback(int64 frameId, CefString script)
         {
             auto frame = _cefBrowser->GetFrame(frameId);
             CefRefPtr<CefV8Context> context = frame->GetV8Context();
@@ -64,24 +64,23 @@ namespace CefSharp
             return nullptr;
         }
 
-        Object^ EvaluateScriptInContext(CefRefPtr<CefV8Context> context, CefString script)
+        JavascriptResponse^ EvaluateScriptInContext(CefRefPtr<CefV8Context> context, CefString script)
         {
             CefRefPtr<CefV8Value> result;
             CefRefPtr<CefV8Exception> exception;
+            JavascriptResponse^ response = gcnew JavascriptResponse();
 
-            bool success = context->Eval(script, result, exception);
-            if (success)
+            response->Success = context->Eval(script, result, exception);
+            if (response->Success)
             {
-                return TypeUtils::ConvertFromCef(result);
+                response->Result = TypeUtils::ConvertFromCef(result);
             }
             else if (exception.get())
             {
-                throw gcnew ScriptException(StringUtils::ToClr(exception->GetMessage()));
+                response->Message = StringUtils::ToClr(exception->GetMessage());
             }
-            else
-            {
-                return nullptr;
-            }
+
+            return response;
         }
 
         IMPLEMENT_REFCOUNTING(CefBrowserUnmanagedWrapper);

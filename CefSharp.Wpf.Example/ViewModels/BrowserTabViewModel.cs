@@ -104,7 +104,8 @@ namespace CefSharp.Wpf.Example.ViewModels
                 {
                     if (!t.IsFaulted)
                     {
-                        EvaluateJavaScriptResult = t.Result ?? "null";
+                        var response = t.Result;
+                        EvaluateJavaScriptResult = response.Success ? (response.Result ?? "null") : response.Message;
                     }
                 },
                 TaskScheduler.FromCurrentSynchronizationContext());

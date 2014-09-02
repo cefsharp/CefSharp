@@ -44,7 +44,7 @@ namespace CefSharp
             CefBrowserBase::DoDispose( disposing );
         }
 
-        virtual Object^ DoEvaluateScript(System::Int64 frameId, String^ script) override
+        virtual JavascriptResponse^ DoEvaluateScript(System::Int64 frameId, String^ script) override
         {
             return _unmanagedWrapper->EvaluateScriptCallback(frameId, StringUtils::ToNative(script));
         }

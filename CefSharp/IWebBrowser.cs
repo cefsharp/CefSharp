@@ -73,7 +73,7 @@ namespace CefSharp
         /// <param name="script">The Javascript code that should be executed.</param>
         /// <param name="timeout">The timeout after which the Javascript code execution should be aborted.</param>
         /// /// <returns>A Task that can be awaited to perform the script execution</returns>
-        Task<object> EvaluateScriptAsync(string script, TimeSpan? timeout = null);
+        Task<JavascriptResponse> EvaluateScriptAsync(string script, TimeSpan? timeout = null);
 
         IDialogHandler DialogHandler { get; set; }
         IRequestHandler RequestHandler { get; set; }

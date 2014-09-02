@@ -95,12 +95,12 @@ namespace CefSharp.WinForms
             managedCefBrowserAdapter.ExecuteScriptAsync(script);
         }
 
-        public Task<object> EvaluateScriptAsync(string script)
+		public Task<JavascriptResponse> EvaluateScriptAsync(string script)
         {
             return EvaluateScriptAsync(script, timeout: null);
         }
 
-        public Task<object> EvaluateScriptAsync(string script, TimeSpan? timeout)
+		public Task<JavascriptResponse> EvaluateScriptAsync(string script, TimeSpan? timeout)
         {
             if (timeout == null)
             {

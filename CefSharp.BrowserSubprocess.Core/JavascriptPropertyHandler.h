@@ -36,7 +36,8 @@ namespace CefSharp
             {
                 exception = StringUtils::ToNative(response->Message);
             }
-            return response->Success;
+            //NOTE: Return true otherwise exception is ignored
+            return true;
         }
 
         virtual bool Set(const CefString& name, const CefRefPtr<CefV8Value> object, const CefRefPtr<CefV8Value> value,
@@ -50,7 +51,8 @@ namespace CefSharp
             {
                 exception = StringUtils::ToNative(response->Message);
             }
-            return response->Success;
+            //NOTE: Return true otherwise exception is ignored
+            return true;
         }
 
         IMPLEMENT_REFCOUNTING(JavascriptPropertyHandler)

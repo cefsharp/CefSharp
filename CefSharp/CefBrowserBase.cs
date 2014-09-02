@@ -13,7 +13,7 @@ namespace CefSharp
         public int BrowserId { get; set; }
         public TaskFactory RenderThreadTaskFactory { get; protected set; }
 
-        public Task<object> EvaluateScript(long frameId, string script, TimeSpan timeout)
+        public Task<JavascriptResponse> EvaluateScript(long frameId, string script, TimeSpan timeout)
         {
             return RenderThreadTaskFactory.StartNew(() =>
             {
@@ -22,6 +22,6 @@ namespace CefSharp
             .WithTimeout(timeout);
         }
 
-        protected abstract object DoEvaluateScript(long frameId, string script);
+        protected abstract JavascriptResponse DoEvaluateScript(long frameId, string script);
     }
 }

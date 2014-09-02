@@ -427,7 +427,7 @@ namespace CefSharp
             }
         }
 
-        Task<Object^>^ EvaluateScript(String^ script, TimeSpan timeout)
+        Task<JavascriptResponse^>^ EvaluateScript(String^ script, TimeSpan timeout)
         {
             auto frame = _renderClientAdapter->TryGetCefMainFrame();
 

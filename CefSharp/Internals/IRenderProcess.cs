@@ -12,6 +12,6 @@ namespace CefSharp.Internals
     public interface IRenderProcess 
     {
         [OperationContract]
-        Task<object> EvaluateScript(int frameId, string script, TimeSpan timeout);
+        Task<JavascriptResponse> EvaluateScript(int frameId, string script, TimeSpan timeout);
     }
 }

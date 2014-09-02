@@ -42,7 +42,7 @@ namespace CefSharp.Internals
             operationContextTaskCompletionSource.SetResult(operationContext);
         }
 
-        public Task<object> EvaluateScript(int frameId, string script, TimeSpan timeout)
+        public Task<JavascriptResponse> EvaluateScript(int frameId, string script, TimeSpan timeout)
         {
             var operationContextTask = operationContextTaskCompletionSource.Task;
 
