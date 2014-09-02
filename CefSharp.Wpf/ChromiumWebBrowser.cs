@@ -1111,12 +1111,12 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter.ExecuteScriptAsync(script);
         }
 
-		public Task<JavascriptResponse> EvaluateScriptAsync(string script)
+        public Task<JavascriptResponse> EvaluateScriptAsync(string script)
         {
             return EvaluateScriptAsync(script, timeout: null);
         }
 
-		public Task<JavascriptResponse> EvaluateScriptAsync(string script, TimeSpan? timeout)
+        public Task<JavascriptResponse> EvaluateScriptAsync(string script, TimeSpan? timeout)
         {
             if (timeout == null)
             {
