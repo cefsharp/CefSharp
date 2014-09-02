@@ -90,6 +90,10 @@ namespace CefSharp
         {
             return CefV8Value::CreateInt(Convert::ToInt32(obj));
         }
+        if (type == DateTime::typeid)
+        {
+            return CefV8Value::CreateDate(TypeUtils::ConvertDateTimeToCefTime(safe_cast<DateTime>(obj)));
+        }
         if (type->IsArray)
         {
             Array^ managedArray = (Array^)obj;
@@ -166,6 +170,8 @@ namespace CefSharp
             return gcnew System::Double(obj->GetDoubleValue());
         if (obj->IsString())
             return StringUtils::ToClr(obj->GetStringValue());
+        if (obj->IsDate())
+            return TypeUtils::ConvertCefTimeToDateTime(obj->GetDateValue());
 
         if (obj->IsArray())
         {
@@ -242,5 +248,22 @@ namespace CefSharp
 
         //TODO: What exception type?
         throw gcnew Exception("Cannot convert object from Cef to CLR.");
+    }
+
+    DateTime TypeUtils::ConvertCefTimeToDateTime(CefTime time)
+    {
+        auto epoch = time.GetDoubleT();
+        if(epoch == 0)
+        {
+            return DateTime::MinValue;
+        }
+        return DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(epoch).ToLocalTime();
+    }
+
+    CefTime TypeUtils::ConvertDateTimeToCefTime(DateTime dateTime)
+    {
+        auto timeSpan = dateTime - DateTime(1970, 1, 1);
+        
+        return CefTime(timeSpan.TotalSeconds);
     }
 }
