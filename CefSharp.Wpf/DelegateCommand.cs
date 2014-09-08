@@ -3,7 +3,6 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using System.Windows;
 using System.Windows.Input;
 
 namespace CefSharp.Wpf
@@ -35,12 +34,6 @@ namespace CefSharp.Wpf
 
         public void RaiseCanExecuteChanged()
         {
-            if (!Application.Current.Dispatcher.CheckAccess())
-            {
-                Application.Current.Dispatcher.BeginInvoke((Action) RaiseCanExecuteChanged);
-                return;
-            }
-
             if (CanExecuteChanged != null)
             {
                 CanExecuteChanged(this, new EventArgs());
