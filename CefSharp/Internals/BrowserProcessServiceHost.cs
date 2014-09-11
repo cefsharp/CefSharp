@@ -39,6 +39,8 @@ namespace CefSharp.Internals
 
         public void SetOperationContext(OperationContext operationContext)
         {
+            if (operationContextTaskCompletionSource.Task.Status == TaskStatus.RanToCompletion)
+                return;
             operationContextTaskCompletionSource.SetResult(operationContext);
         }
 
