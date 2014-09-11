@@ -151,21 +151,7 @@ namespace CefSharp.Wpf
                 return;
             }
 
-            if (!Cef.IsInitialized &&
-                !Cef.Initialize())
-            {
-                throw new InvalidOperationException("Cef::Initialize() failed");
-            }
-
-            // TODO: Consider making the delay here configurable.
-            tooltipTimer = new DispatcherTimer(
-                TimeSpan.FromSeconds(0.5),
-                DispatcherPriority.Render,
-                OnTooltipTimerTick,
-                Dispatcher
-            );
-
-            managedCefBrowserAdapter.LoadUrl(newValue);
+            Load(newValue);
         }
 
         #endregion Address dependency property
@@ -926,7 +912,21 @@ namespace CefSharp.Wpf
 
         public void Load(string url)
         {
-            throw new NotImplementedException();
+            if (!Cef.IsInitialized &&
+                !Cef.Initialize())
+            {
+                throw new InvalidOperationException("Cef::Initialize() failed");
+            }
+
+            // TODO: Consider making the delay here configurable.
+            tooltipTimer = new DispatcherTimer(
+                TimeSpan.FromSeconds(0.5),
+                DispatcherPriority.Render,
+                OnTooltipTimerTick,
+                Dispatcher
+                );
+
+            managedCefBrowserAdapter.LoadUrl(url);
         }
 
         public void LoadHtml(string html, string url)
