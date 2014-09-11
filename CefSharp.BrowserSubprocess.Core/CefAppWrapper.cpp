@@ -6,7 +6,7 @@
 #include "Stdafx.h"
 
 #include "CefAppWrapper.h"
-#include "CefSubprocessWrapper.h"
+#include "CefBrowserWrapper.h"
 
 using namespace System;
 using namespace System::Diagnostics;

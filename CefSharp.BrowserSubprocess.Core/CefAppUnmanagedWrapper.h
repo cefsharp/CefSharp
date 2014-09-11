@@ -10,7 +10,7 @@
 #include "include/cef_base.h"
 
 #include "JavascriptRootObjectWrapper.h"
-#include "CefSubprocessWrapper.h"
+#include "CefBrowserWrapper.h"
 #include "CefAppWrapper.h"
 
 using namespace System::Collections::Generic;

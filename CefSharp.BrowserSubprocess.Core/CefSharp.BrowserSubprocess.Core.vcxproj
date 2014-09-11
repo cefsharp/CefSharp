@@ -91,7 +91,7 @@
     <ClInclude Include="CefAppUnmanagedWrapper.h" />
     <ClInclude Include="CefAppWrapper.h" />
     <ClInclude Include="CefBrowserUnmanagedWrapper.h" />
-    <ClInclude Include="CefSubprocessWrapper.h" />
+    <ClInclude Include="CefBrowserWrapper.h" />
     <ClInclude Include="CefTaskScheduler.h" />
     <ClInclude Include="JavascriptMethodWrapper.h" />
     <ClInclude Include="JavascriptMethodHandler.h" />
