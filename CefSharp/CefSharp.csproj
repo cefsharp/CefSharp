@@ -112,7 +112,6 @@
     <Compile Include="Internals\JavascriptObject.cs" />
     <Compile Include="Internals\JavascriptObjectRepository.cs" />
     <Compile Include="Internals\JavascriptProperty.cs" />
-    <Compile Include="Internals\ManagedCefApp.cs" />
     <Compile Include="CefCustomScheme.cs" />
     <Compile Include="CefErrorCode.cs" />
     <Compile Include="CefBrowserBase.cs" />

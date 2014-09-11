@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using CefSharp.Internals;
 
 namespace CefSharp.BrowserSubprocess
 {
@@ -29,6 +30,16 @@ namespace CefSharp.BrowserSubprocess
                 .Split('.')
                 .First();
             ParentProcessId = int.Parse(parentProcessId);
+        }
+
+        public override void OnBrowserCreated(CefBrowserBase cefBrowserWrapper)
+        {
+            
+        }
+
+        public override IBrowserProcess CreateBrowserProxy()
+        {
+            return null;
         }
     }
 }

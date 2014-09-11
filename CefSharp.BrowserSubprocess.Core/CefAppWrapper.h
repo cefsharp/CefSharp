@@ -16,7 +16,7 @@ using namespace System::Collections::Generic;
 
 namespace CefSharp
 {
-	public ref class CefAppWrapper abstract : public ManagedCefApp
+	public ref class CefAppWrapper abstract : public DisposableResource
 	{
 	private:
 		MCefRefPtr<CefAppUnmanagedWrapper> cefApp;
@@ -31,5 +31,8 @@ namespace CefSharp
 		int Run();
 
 		void Bind(JavascriptRootObject^ rootObject);
+
+		virtual void OnBrowserCreated(CefBrowserBase^ cefBrowserWrapper) abstract;
+		virtual IBrowserProcess^ CreateBrowserProxy() abstract;
 	};
 }
