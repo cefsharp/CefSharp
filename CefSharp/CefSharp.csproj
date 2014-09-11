@@ -115,7 +115,6 @@
     <Compile Include="Internals\ManagedCefApp.cs" />
     <Compile Include="CefCustomScheme.cs" />
     <Compile Include="CefErrorCode.cs" />
-    <Compile Include="CefSettingsBase.cs" />
     <Compile Include="CefBrowserBase.cs" />
     <Compile Include="ConsoleMessageEventArgs.cs" />
     <Compile Include="ICookieVisitor.cs" />

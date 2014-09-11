@@ -13,8 +13,12 @@ using namespace CefSharp::Internals;
 
 namespace CefSharp
 {
-    public ref class CefSettings : CefSettingsBase
+    public ref class CefSettings
     {
+    private:
+        List<CefCustomScheme^>^ cefCustomSchemes;
+        IDictionary<String^, String^>^ cefCommandLineArgs;
+
     internal:
         ::CefSettings* _cefSettings;
 
@@ -62,14 +66,27 @@ namespace CefSharp
         CefSettings() : _cefSettings(new ::CefSettings())
         {
             MultiThreadedMessageLoop = true;
+            BrowserSubprocessPath = "CefSharp.BrowserSubprocess.exe";
+            cefCustomSchemes = gcnew List<CefCustomScheme^>();
+            cefCommandLineArgs = gcnew Dictionary<String^, String^>();
         }
 
         !CefSettings() { delete _cefSettings; }
         ~CefSettings() { delete _cefSettings; }
 
+        virtual property IEnumerable<CefCustomScheme^>^ CefCustomSchemes
+        {
+            IEnumerable<CefCustomScheme^>^ get() { return cefCustomSchemes; }
+        }
+
+        virtual property IDictionary<String^, String^>^ CefCommandLineArgs
+        {
+            IDictionary<String^, String^>^ get() { return cefCommandLineArgs; }
+        }
+
         virtual property bool MultiThreadedMessageLoop
         {
-            bool get() override { return _cefSettings->multi_threaded_message_loop; }
+            bool get() { return _cefSettings->multi_threaded_message_loop; }
 
             // CefSharp doesn't support single threaded message loop (and there's little point in supporting it), so we make this
             // property read-only externally.
@@ -79,62 +96,71 @@ namespace CefSharp
 
         virtual property String^ BrowserSubprocessPath
         {
-            String^ get() override { return StringUtils::ToClr(_cefSettings->browser_subprocess_path); }
-            void set(String^ value) override { StringUtils::AssignNativeFromClr(_cefSettings->browser_subprocess_path, value); }
+            String^ get() { return StringUtils::ToClr(_cefSettings->browser_subprocess_path); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->browser_subprocess_path, value); }
         }
 
         virtual property String^ CachePath
         {
-            String^ get() override { return StringUtils::ToClr(_cefSettings->cache_path); }
-            void set(String^ value) override { StringUtils::AssignNativeFromClr(_cefSettings->cache_path, value); }
+            String^ get() { return StringUtils::ToClr(_cefSettings->cache_path); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->cache_path, value); }
         }
 
         virtual property String^ Locale
         {
-            String^ get() override { return StringUtils::ToClr(_cefSettings->locale); }
-            void set(String^ value) override { StringUtils::AssignNativeFromClr(_cefSettings->locale, value); }
+            String^ get() { return StringUtils::ToClr(_cefSettings->locale); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->locale, value); }
         }
 
         virtual property String^ LocalesDirPath
         {
-            String^ get() override { return StringUtils::ToClr(_cefSettings->locales_dir_path); }
-            void set(String^ value) override { StringUtils::AssignNativeFromClr(_cefSettings->locales_dir_path, value); }
+            String^ get() { return StringUtils::ToClr(_cefSettings->locales_dir_path); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->locales_dir_path, value); }
         }
 
         virtual property String^ LogFile
         {
-            String^ get() override { return StringUtils::ToClr(_cefSettings->log_file); }
-            void set(String^ value) override { StringUtils::AssignNativeFromClr(_cefSettings->log_file, value); }
+            String^ get() { return StringUtils::ToClr(_cefSettings->log_file); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->log_file, value); }
         }
 
         virtual property CefSharp::LogSeverity LogSeverity
         {
-            CefSharp::LogSeverity get() override { return SeverityToManaged(_cefSettings->log_severity); }
-            void set(CefSharp::LogSeverity value) override { _cefSettings->log_severity = SeverityToNative(value); }
+            CefSharp::LogSeverity get() { return SeverityToManaged(_cefSettings->log_severity); }
+            void set(CefSharp::LogSeverity value) { _cefSettings->log_severity = SeverityToNative(value); }
         }
 
         virtual property bool PackLoadingDisabled
         {
-            bool get() override { return _cefSettings->pack_loading_disabled; }
-            void set(bool value) override { _cefSettings->pack_loading_disabled = value; }
+            bool get() { return _cefSettings->pack_loading_disabled; }
+            void set(bool value) { _cefSettings->pack_loading_disabled = value; }
         }
 
         virtual property String^ ProductVersion
         {
-            String^ get() override { return StringUtils::ToClr(_cefSettings->product_version); }
-            void set(String^ value) override { StringUtils::AssignNativeFromClr(_cefSettings->product_version, value); }
+            String^ get() { return StringUtils::ToClr(_cefSettings->product_version); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->product_version, value); }
         }
 
         virtual property int RemoteDebuggingPort
         {
-            int get() override { return _cefSettings->remote_debugging_port; }
-            void set(int value) override { _cefSettings->remote_debugging_port = value; }
+            int get() { return _cefSettings->remote_debugging_port; }
+            void set(int value) { _cefSettings->remote_debugging_port = value; }
         }
 
         virtual property String^ UserAgent
         {
-            String^ get() override { return StringUtils::ToClr(_cefSettings->user_agent); }
-            void set(String^ value) override { StringUtils::AssignNativeFromClr(_cefSettings->user_agent, value); }
+            String^ get() { return StringUtils::ToClr(_cefSettings->user_agent); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->user_agent, value); }
+        }
+
+        /// <summary>
+        /// Registers a custom scheme using the provided settings.
+        /// </summary>
+        /// <param name="cefCustomScheme">The CefCustomScheme which provides the details about the scheme.</param>
+        void RegisterScheme(CefCustomScheme^ cefCustomScheme)
+        {
+            cefCustomSchemes->Add(cefCustomScheme);
         }
     };
 }
