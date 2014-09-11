@@ -36,9 +36,15 @@ namespace CefSharp.WinForms.Example
             browser.StatusMessage += OnBrowserStatusMessage;
             browser.TitleChanged += OnBrowserTitleChanged;
             browser.AddressChanged += OnBrowserAddressChanged;
+            browser.HandleCreated += OnBrowserHandleCreated;
 
             var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
             DisplayOutput(version);
+        }
+
+        private void OnBrowserHandleCreated(object sender, EventArgs e)
+        {
+            browser.RegisterJsObject("bound", new BoundObject());
         }
 
         private void BrowserFormLoad(object sender, EventArgs e)

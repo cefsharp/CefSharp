@@ -121,9 +121,10 @@ namespace CefSharp.WinForms
 
         protected override void OnHandleCreated(EventArgs e)
         {
-            base.OnHandleCreated(e);
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
             managedCefBrowserAdapter.CreateBrowser(BrowserSettings ?? new BrowserSettings(), Handle, Address);
+
+            base.OnHandleCreated(e);
         }
 
         protected override void OnSizeChanged(EventArgs e)
