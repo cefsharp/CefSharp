@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 using CefSharp.Internals;
@@ -16,12 +17,15 @@ namespace CefSharp.BrowserSubprocess
         {
             Kernel32.OutputDebugString("BrowserSubprocess starting up with command line: " + String.Join("\n", args));
 
-            //MessageBox.Show("Please attach debugger now", null, MessageBoxButtons.OK, MessageBoxIcon.Information);
-
             int result;
 
             using (var subprocess = Create(args))
             {
+                //if (subprocess is CefRenderProcess)
+                //{
+                //    MessageBox.Show("Please attach debugger now", null, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //}
+                
                 result = subprocess.Run();
             }
 
