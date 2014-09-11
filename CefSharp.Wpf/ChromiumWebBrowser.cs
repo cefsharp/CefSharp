@@ -341,13 +341,13 @@ namespace CefSharp.Wpf
         {
             Cef.RemoveDisposable(this);
 
+            RemoveSourceHook();
+
             foreach (var disposable in disposables)
             {
                 disposable.Dispose();
             }
             disposables.Clear();
-
-            RemoveSourceHook();
 
             UiThreadRunAsync(() => WebBrowser = null);
             managedCefBrowserAdapter = null;
