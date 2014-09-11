@@ -25,12 +25,10 @@ namespace CefSharp
     // "Master class" for wrapping everything that the CefSubprocess needs.
     ref class CefBrowserWrapper : CefBrowserBase
     {
-        MCefRefPtr<CefBrowser> _cefBrowser;
         MCefRefPtr<CefBrowserUnmanagedWrapper> _unmanagedWrapper;
 
     public:
-        CefBrowserWrapper(CefRefPtr<CefBrowser> cefBrowser) :
-            _cefBrowser(cefBrowser)
+        CefBrowserWrapper(CefRefPtr<CefBrowser> cefBrowser)
         {
             BrowserId = cefBrowser->GetIdentifier();
             _unmanagedWrapper = new CefBrowserUnmanagedWrapper(cefBrowser);
@@ -39,7 +37,6 @@ namespace CefSharp
 
         virtual void DoDispose( bool disposing ) override
         {
-            _cefBrowser = nullptr;
             _unmanagedWrapper = nullptr;
             CefBrowserBase::DoDispose( disposing );
         }
