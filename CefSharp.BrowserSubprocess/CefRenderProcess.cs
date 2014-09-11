@@ -10,11 +10,6 @@ namespace CefSharp.BrowserSubprocess
     {
         private DuplexChannelFactory<IBrowserProcess> channelFactory;
         private CefBrowserBase browser;
-        public CefBrowserBase Browser
-        {
-            get { return browser; }
-        }
-        
 
         public CefRenderProcess(IEnumerable<string> args) 
             : base(args)
@@ -57,7 +52,7 @@ namespace CefSharp.BrowserSubprocess
 
         public Task<JavascriptResponse> EvaluateScript(long frameId, string script, TimeSpan timeout)
         {
-            var task = Browser.EvaluateScript(frameId, script, timeout);
+            var task = browser.EvaluateScript(frameId, script, timeout);
 
             return task;
         }
