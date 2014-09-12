@@ -24,7 +24,7 @@ namespace CefSharp
     void CefAppUnmanagedWrapper::OnBrowserCreated(CefRefPtr<CefBrowser> browser)
     {
         auto wrapper = gcnew CefBrowserWrapper(browser);
-        CefAppWrapper::Instance->browserWrappers->Add(wrapper);
+        _browserWrapper = wrapper;
         _onBrowserCreated->Invoke(wrapper);
     }
 
@@ -43,21 +43,10 @@ namespace CefSharp
 
     void CefAppUnmanagedWrapper::OnBrowserDestroyed(CefRefPtr<CefBrowser> browser)
     {
-        auto browserWrappers = CefAppWrapper::Instance->browserWrappers;
-        auto browserId = browser->GetIdentifier();
-        CefBrowserWrapper^ wrapper = nullptr;
-        for (int i = 0; i < browserWrappers->Count; i++)
+        if (!Object::ReferenceEquals(_browserWrapper, nullptr))
         {
-            if (browserWrappers[i]->BrowserId == browserId)
-            {
-                wrapper = browserWrappers[i];
-                browserWrappers->RemoveAt(i);
-                break;
-            }
-        }
-        if (wrapper != nullptr)
-        {
-            delete wrapper;
+            delete _browserWrapper;
+            _browserWrapper = nullptr;
         }
     };
 

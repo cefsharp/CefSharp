@@ -22,6 +22,7 @@ namespace CefSharp
 	private:
 		gcroot<Action<CefBrowserWrapper^>^> _onBrowserCreated;
 		gcroot<JavascriptRootObjectWrapper^> _windowObject;
+		gcroot<CefBrowserWrapper^> _browserWrapper;
 	public:
 		
 		CefAppUnmanagedWrapper(Action<CefBrowserWrapper^>^ onBrowserCreated)
