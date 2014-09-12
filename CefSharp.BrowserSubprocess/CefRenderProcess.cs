@@ -52,6 +52,11 @@ namespace CefSharp.BrowserSubprocess
             Bind(javascriptObject);
         }
 
+        public override void OnBrowserDestroyed(CefBrowserWrapper cefBrowserWrapper)
+        {
+            channelFactory.Close();
+        }
+
         public Task<JavascriptResponse> EvaluateScript(long frameId, string script, TimeSpan timeout)
         {
             var factory = browser.RenderThreadTaskFactory;
