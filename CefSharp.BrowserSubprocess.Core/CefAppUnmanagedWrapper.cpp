@@ -40,11 +40,6 @@ namespace CefSharp
             jswindow->Bind();
         }
     };
-        
-    void CefAppUnmanagedWrapper::Bind(JavascriptRootObject^ rootObject)
-    {
-        _windowObject = gcnew JavascriptRootObjectWrapper(rootObject);
-    };
 
     void CefAppUnmanagedWrapper::OnBrowserDestroyed(CefRefPtr<CefBrowser> browser)
     {
@@ -64,5 +59,10 @@ namespace CefSharp
         {
             delete wrapper;
         }
+    };
+
+    void CefAppUnmanagedWrapper::Bind(JavascriptRootObject^ rootObject)
+    {
+        _windowObject = gcnew JavascriptRootObjectWrapper(rootObject);
     };
 }
