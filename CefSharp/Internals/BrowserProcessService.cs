@@ -11,7 +11,6 @@ namespace CefSharp.Internals
     {
         private readonly JavascriptObjectRepository javascriptObjectRepository;
         private readonly BrowserProcessServiceHost host;
-        public  OperationContext Context { get; private set; }
         
         public BrowserProcessService()
         {
@@ -50,13 +49,13 @@ namespace CefSharp.Internals
 
         public JavascriptRootObject GetRegisteredJavascriptObjects()
         {
-            if (Context == null)
-            {
-                Context = OperationContext.Current;
-                host.SetOperationContext(Context);
-            }
-            
             return javascriptObjectRepository.RootObject;
+        }
+
+        public void Connect()
+        {
+            var context = OperationContext.Current;
+            host.SetOperationContext(context);
         }
     }
 }

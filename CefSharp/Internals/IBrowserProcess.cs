@@ -20,5 +20,8 @@ namespace CefSharp.Internals
         
         [OperationContract]
         JavascriptRootObject GetRegisteredJavascriptObjects();
+
+        [OperationContract]
+        void Connect();
     }
 }
