@@ -67,10 +67,10 @@ namespace CefSharp
         {
             _cefBrowser = nullptr;
             RenderThreadTaskFactory = nullptr;
-            CefBrowserWrapper::DoDispose( disposing );
+            DisposableResource::DoDispose( disposing );
         }
 
-        virtual JavascriptResponse^ DoEvaluateScript(System::Int64 frameId, String^ script) override
+        virtual JavascriptResponse^ DoEvaluateScript(System::Int64 frameId, String^ script)
         {
             auto frame = _cefBrowser->GetFrame(frameId);
             CefRefPtr<CefV8Context> context = frame->GetV8Context();
