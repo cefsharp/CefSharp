@@ -11,7 +11,6 @@
 #include "TypeUtils.h"
 #include "Stdafx.h"
 
-#include "CefBrowserUnmanagedWrapper.h"
 #include "CefTaskScheduler.h"
 
 using namespace CefSharp::Internals;
@@ -25,25 +24,66 @@ namespace CefSharp
     // "Master class" for wrapping everything that the CefSubprocess needs.
     ref class CefBrowserWrapper : CefBrowserBase
     {
-        MCefRefPtr<CefBrowserUnmanagedWrapper> _unmanagedWrapper;
+    
+    private:
+        MCefRefPtr<CefBrowser> _cefBrowser;
 
     public:
         CefBrowserWrapper(CefRefPtr<CefBrowser> cefBrowser)
         {
+            _cefBrowser = cefBrowser;
             BrowserId = cefBrowser->GetIdentifier();
-            _unmanagedWrapper = new CefBrowserUnmanagedWrapper(cefBrowser);
             RenderThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_RENDERER));
+        }
+
+        ~CefBrowserWrapper()
+        {
+            _cefBrowser = nullptr;
+        }
+
+        JavascriptResponse^ EvaluateScriptInContext(CefRefPtr<CefV8Context> context, CefString script)
+        {
+            CefRefPtr<CefV8Value> result;
+            CefRefPtr<CefV8Exception> exception;
+            JavascriptResponse^ response = gcnew JavascriptResponse();
+
+            response->Success = context->Eval(script, result, exception);
+            if (response->Success)
+            {
+                response->Result = TypeUtils::ConvertFromCef(result);
+            }
+            else if (exception.get())
+            {
+                response->Message = StringUtils::ToClr(exception->GetMessage());
+            }
+
+            return response;
         }
 
         virtual void DoDispose( bool disposing ) override
         {
-            _unmanagedWrapper = nullptr;
+            _cefBrowser = nullptr;
             CefBrowserBase::DoDispose( disposing );
         }
 
         virtual JavascriptResponse^ DoEvaluateScript(System::Int64 frameId, String^ script) override
         {
-            return _unmanagedWrapper->EvaluateScriptCallback(frameId, StringUtils::ToNative(script));
+            auto frame = _cefBrowser->GetFrame(frameId);
+            CefRefPtr<CefV8Context> context = frame->GetV8Context();
+
+            if (context.get() && context->Enter())
+            {
+                try
+                {
+                    return EvaluateScriptInContext(context, StringUtils::ToNative(script));
+                }
+                finally
+                {
+                    context->Exit();
+                }
+            }
+
+            return nullptr;
         }
     };
 }

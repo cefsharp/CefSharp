@@ -47,9 +47,6 @@
     <ClInclude Include="JavascriptRootObjectWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CefBrowserUnmanagedWrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CefAppUnmanagedWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
