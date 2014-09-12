@@ -22,7 +22,6 @@ namespace CefSharp
             public CefLoadHandler,
             public CefRequestHandler,
             public CefDisplayHandler,
-            public CefRenderProcessHandler,
             public CefContextMenuHandler,
             public CefFocusHandler,
             public CefKeyboardHandler,
