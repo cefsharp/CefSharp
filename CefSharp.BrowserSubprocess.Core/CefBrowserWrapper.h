@@ -22,7 +22,7 @@ using namespace System::Threading::Tasks;
 namespace CefSharp
 {
     // "Master class" for wrapping everything that the CefSubprocess needs.
-    ref class CefBrowserWrapper : CefBrowserBase
+    public ref class CefBrowserWrapper : DisposableResource
     {
     
     private:
@@ -40,6 +40,9 @@ namespace CefSharp
         {
             _cefBrowser = nullptr;
         }
+
+        property int BrowserId;
+        property TaskFactory^ RenderThreadTaskFactory;
 
         JavascriptResponse^ EvaluateScriptInContext(CefRefPtr<CefV8Context> context, CefString script)
         {
@@ -63,7 +66,8 @@ namespace CefSharp
         virtual void DoDispose( bool disposing ) override
         {
             _cefBrowser = nullptr;
-            CefBrowserBase::DoDispose( disposing );
+            RenderThreadTaskFactory = nullptr;
+            CefBrowserWrapper::DoDispose( disposing );
         }
 
         virtual JavascriptResponse^ DoEvaluateScript(System::Int64 frameId, String^ script) override

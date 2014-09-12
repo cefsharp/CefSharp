@@ -32,7 +32,7 @@ namespace CefSharp
 
 		void Bind(JavascriptRootObject^ rootObject);
 
-		virtual void OnBrowserCreated(CefBrowserBase^ cefBrowserWrapper) abstract;
+		virtual void OnBrowserCreated(CefBrowserWrapper^ cefBrowserWrapper) abstract;
 		virtual IBrowserProcess^ CreateBrowserProxy() abstract;
 	};
 }

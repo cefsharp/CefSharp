@@ -9,7 +9,7 @@ namespace CefSharp.BrowserSubprocess
     public class CefRenderProcess : CefSubProcess, IRenderProcess
     {
         private DuplexChannelFactory<IBrowserProcess> channelFactory;
-        private CefBrowserBase browser;
+        private CefBrowserWrapper browser;
 
         public CefRenderProcess(IEnumerable<string> args) 
             : base(args)
@@ -23,7 +23,7 @@ namespace CefSharp.BrowserSubprocess
             base.DoDispose(isDisposing);
         }
 
-        public override void OnBrowserCreated(CefBrowserBase cefBrowserWrapper)
+        public override void OnBrowserCreated(CefBrowserWrapper cefBrowserWrapper)
         {
             browser = cefBrowserWrapper;
 
@@ -32,7 +32,7 @@ namespace CefSharp.BrowserSubprocess
                 return;
             }
 
-            var serviceName = RenderprocessClientFactory.GetServiceName(ParentProcessId.Value, cefBrowserWrapper.BrowserId);
+            var serviceName = RenderprocessClientFactory.GetServiceName(ParentProcessId.Value, browser.BrowserId);
 
             var binding = BrowserProcessServiceHost.CreateBinding();
 
@@ -52,9 +52,13 @@ namespace CefSharp.BrowserSubprocess
 
         public Task<JavascriptResponse> EvaluateScript(long frameId, string script, TimeSpan timeout)
         {
-            var task = browser.EvaluateScript(frameId, script, timeout);
+            var factory = browser.RenderThreadTaskFactory;
 
-            return task;
+            return factory.StartNew(() =>
+            {
+                return browser.DoEvaluateScript(frameId, script);
+            }, TaskCreationOptions.AttachedToParent)
+            .WithTimeout(timeout);
         }
 
         public override IBrowserProcess CreateBrowserProxy()

@@ -20,11 +20,11 @@ namespace CefSharp
 	private class CefAppUnmanagedWrapper : CefApp, CefRenderProcessHandler
 	{
 	private:
-		gcroot<Action<CefBrowserBase^>^> _onBrowserCreated;
+		gcroot<Action<CefBrowserWrapper^>^> _onBrowserCreated;
 		gcroot<JavascriptRootObjectWrapper^> _windowObject;
 	public:
 		
-		CefAppUnmanagedWrapper(Action<CefBrowserBase^>^ onBrowserCreated)
+		CefAppUnmanagedWrapper(Action<CefBrowserWrapper^>^ onBrowserCreated)
 		{
 			_onBrowserCreated = onBrowserCreated;
 		}
