@@ -17,7 +17,7 @@ namespace CefSharp
     CefAppWrapper::CefAppWrapper()
     {
         auto onBrowserCreated = gcnew Action<CefBrowserWrapper^>(this, &CefAppWrapper::OnBrowserCreated);
-		auto onBrowserDestroyed = gcnew Action<CefBrowserWrapper^>(this, &CefAppWrapper::OnBrowserDestroyed);
+        auto onBrowserDestroyed = gcnew Action<CefBrowserWrapper^>(this, &CefAppWrapper::OnBrowserDestroyed);
         cefApp = new CefAppUnmanagedWrapper(onBrowserCreated, onBrowserDestroyed);
     }
 
