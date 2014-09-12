@@ -15,8 +15,8 @@ namespace CefSharp
 {
     void JavascriptPropertyWrapper::Bind()
     {
-        auto methodName = StringUtils::ToNative(_javascriptProperty->JavascriptName);
-        auto clrMethodName = _javascriptProperty->JavascriptName;
+        auto propertyName = StringUtils::ToNative(_javascriptProperty->JavascriptName);
+        auto clrPropertyName = _javascriptProperty->JavascriptName;
 
         if (_javascriptProperty->IsComplexType)
         {
@@ -28,7 +28,7 @@ namespace CefSharp
         {
             auto propertyAttribute = _javascriptProperty->IsReadOnly ? V8_PROPERTY_ATTRIBUTE_READONLY : V8_PROPERTY_ATTRIBUTE_NONE;
 
-            V8Value->SetValue(methodName, V8_ACCESS_CONTROL_DEFAULT, propertyAttribute);
+            V8Value->SetValue(propertyName, V8_ACCESS_CONTROL_DEFAULT, propertyAttribute);
         }
     };
 }
