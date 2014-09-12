@@ -28,6 +28,17 @@ namespace CefSharp
         _onBrowserCreated->Invoke(wrapper);
     }
 
+    void CefAppUnmanagedWrapper::OnBrowserDestroyed(CefRefPtr<CefBrowser> browser)
+    {
+        _onBrowserDestroyed->Invoke(_browserWrapper);
+
+        if (!Object::ReferenceEquals(_browserWrapper, nullptr))
+        {
+            delete _browserWrapper;
+            _browserWrapper = nullptr;
+        }
+    };
+
     void CefAppUnmanagedWrapper::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
     {
         auto window = context->GetGlobal();
@@ -41,15 +52,9 @@ namespace CefSharp
         }
     };
 
-    void CefAppUnmanagedWrapper::OnBrowserDestroyed(CefRefPtr<CefBrowser> browser)
+    void CefAppUnmanagedWrapper::OnContextReleased(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
     {
-        _onBrowserDestroyed->Invoke(_browserWrapper);
-
-        if (!Object::ReferenceEquals(_browserWrapper, nullptr))
-        {
-            delete _browserWrapper;
-            _browserWrapper = nullptr;
-        }
+        
     };
 
     void CefAppUnmanagedWrapper::Bind(JavascriptRootObject^ rootObject)
