@@ -32,11 +32,7 @@ namespace CefSharp
     {
         _onBrowserDestroyed->Invoke(_browserWrapper);
 
-        if (!Object::ReferenceEquals(_browserWrapper, nullptr))
-        {
-            delete _browserWrapper;
-            _browserWrapper = nullptr;
-        }
+        delete _browserWrapper;
     };
 
     void CefAppUnmanagedWrapper::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
