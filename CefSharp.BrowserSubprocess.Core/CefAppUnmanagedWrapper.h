@@ -32,6 +32,14 @@ namespace CefSharp
 			_onBrowserDestroyed = onBrowserDestoryed;
 		}
 
+		~CefAppUnmanagedWrapper()
+		{
+			delete _browserWrapper;
+			delete _windowObject;
+			delete _onBrowserCreated;
+			delete _onBrowserDestroyed;
+		}
+
 		virtual DECL CefRefPtr<CefRenderProcessHandler> GetRenderProcessHandler() OVERRIDE;
 		virtual DECL void OnBrowserCreated(CefRefPtr<CefBrowser> browser) OVERRIDE;
 		virtual DECL void OnBrowserDestroyed(CefRefPtr<CefBrowser> browser) OVERRIDE;
