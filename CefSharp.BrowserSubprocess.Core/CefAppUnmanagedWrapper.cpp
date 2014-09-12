@@ -43,6 +43,8 @@ namespace CefSharp
 
     void CefAppUnmanagedWrapper::OnBrowserDestroyed(CefRefPtr<CefBrowser> browser)
     {
+        _onBrowserDestroyed->Invoke(_browserWrapper);
+
         if (!Object::ReferenceEquals(_browserWrapper, nullptr))
         {
             delete _browserWrapper;

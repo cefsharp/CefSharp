@@ -37,6 +37,11 @@ namespace CefSharp.BrowserSubprocess
             
         }
 
+        public override void OnBrowserDestroyed(CefBrowserWrapper cefBrowserWrapper)
+        {
+            
+        }
+
         public override IBrowserProcess CreateBrowserProxy()
         {
             return null;
