@@ -45,16 +45,35 @@ namespace CefSharp.BrowserSubprocess
             channelFactory.Open();
 
             var proxy = CreateBrowserProxy();
-            proxy.Connect();
 
-            var javascriptObject = proxy.GetRegisteredJavascriptObjects();
+            var clientChannel = ((IClientChannel)proxy);
             
-            Bind(javascriptObject);
+            try
+            {
+                clientChannel.Open();
+
+                proxy.Connect();
+
+                var javascriptObject = proxy.GetRegisteredJavascriptObjects();
+
+                if (javascriptObject.MemberObjects.Count > 0)
+                {
+                    Bind(javascriptObject);
+                }
+
+            }
+            catch(Exception)
+            {
+
+            }
         }
 
         public override void OnBrowserDestroyed(CefBrowserWrapper cefBrowserWrapper)
         {
-            channelFactory.Close();
+            if (channelFactory.State == CommunicationState.Opened)
+            {
+                channelFactory.Close();
+            }
         }
 
         public Task<JavascriptResponse> EvaluateScript(long frameId, string script, TimeSpan timeout)
