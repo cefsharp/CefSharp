@@ -23,7 +23,6 @@ namespace CefSharp
 		gcroot<Action<CefBrowserWrapper^>^> _onBrowserCreated;
 		gcroot<Action<CefBrowserWrapper^>^> _onBrowserDestroyed;
 		gcroot<JavascriptRootObjectWrapper^> _windowObject;
-		gcroot<CefBrowserWrapper^> _browserWrapper;
 	public:
 		
 		CefAppUnmanagedWrapper(Action<CefBrowserWrapper^>^ onBrowserCreated, Action<CefBrowserWrapper^>^ onBrowserDestoryed)
@@ -34,7 +33,6 @@ namespace CefSharp
 
 		~CefAppUnmanagedWrapper()
 		{
-			delete _browserWrapper;
 			delete _windowObject;
 			delete _onBrowserCreated;
 			delete _onBrowserDestroyed;
