@@ -168,13 +168,16 @@ namespace CefSharp.Internals
                 }
 
                 var jsProperty = CreateJavaScriptProperty(propertyInfo);
-                var jsObject = CreateJavascriptObject();
-                jsObject.Name = propertyInfo.Name;
-                jsObject.JavascriptName = LowercaseFirst(propertyInfo.Name);
-                jsObject.Value = jsProperty.GetValue(obj.Value);
-                jsProperty.JsObject = jsObject;
-                
-                Analyse(jsProperty.JsObject);
+                if (jsProperty.IsComplexType)
+                {
+                    var jsObject = CreateJavascriptObject();
+                    jsObject.Name = propertyInfo.Name;
+                    jsObject.JavascriptName = LowercaseFirst(propertyInfo.Name);
+                    jsObject.Value = jsProperty.GetValue(obj.Value);
+                    jsProperty.JsObject = jsObject;
+
+                    Analyse(jsProperty.JsObject);
+                }
                 obj.Properties.Add(jsProperty);
             }
         }
