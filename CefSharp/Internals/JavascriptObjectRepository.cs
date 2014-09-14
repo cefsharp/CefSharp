@@ -172,9 +172,9 @@ namespace CefSharp.Internals
                 jsObject.Name = propertyInfo.Name;
                 jsObject.JavascriptName = LowercaseFirst(propertyInfo.Name);
                 jsObject.Value = jsProperty.GetValue(obj.Value);
-                jsProperty.Value = jsObject;
+                jsProperty.JsObject = jsObject;
                 
-                Analyse(jsProperty.Value);
+                Analyse(jsProperty.JsObject);
                 obj.Properties.Add(jsProperty);
             }
         }

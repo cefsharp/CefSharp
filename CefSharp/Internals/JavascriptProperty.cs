@@ -11,7 +11,7 @@ namespace CefSharp.Internals
     public class JavascriptProperty
     {
         [DataMember]
-        public JavascriptObject Value { get; set; }
+        public JavascriptObject JsObject { get; set; }
 
         /// <summary>
         /// Gets or sets a delegate which is used to set the property / field value in the managed object.
