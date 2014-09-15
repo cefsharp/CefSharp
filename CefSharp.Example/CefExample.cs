@@ -14,6 +14,9 @@ namespace CefSharp.Example
         {
             var settings = new CefSettings();
             settings.RemoteDebuggingPort = 8088;
+            //settings.CefCommandLineArgs.Add("renderer-process-limit", "1");
+            //settings.CefCommandLineArgs.Add("renderer-startup-dialog", "renderer-startup-dialog");
+            
 
             if (debuggingSubProcess)
             {
