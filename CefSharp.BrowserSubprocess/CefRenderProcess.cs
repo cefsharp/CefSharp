@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using CefSharp.Internals;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ namespace CefSharp.BrowserSubprocess
     public class CefRenderProcess : CefSubProcess, IRenderProcess
     {
         private DuplexChannelFactory<IBrowserProcess> channelFactory;
+        private int? parentBrowserId;
         private CefBrowserWrapper browser;
 
         public CefRenderProcess(IEnumerable<string> args) 
@@ -27,12 +29,17 @@ namespace CefSharp.BrowserSubprocess
         {
             browser = cefBrowserWrapper;
 
-            if (ParentProcessId == null)
+            if (parentBrowserId == null)
+            {
+                parentBrowserId = browser.BrowserId;
+            }
+
+            if (ParentProcessId == null || parentBrowserId == null)
             {
                 return;
             }
 
-            var serviceName = RenderprocessClientFactory.GetServiceName(ParentProcessId.Value, browser.BrowserId);
+            var serviceName = RenderprocessClientFactory.GetServiceName(ParentProcessId.Value, parentBrowserId.Value);
 
             var binding = BrowserProcessServiceHost.CreateBinding();
 
