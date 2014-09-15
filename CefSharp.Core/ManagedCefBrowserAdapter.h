@@ -436,6 +436,11 @@ namespace CefSharp
                 return nullptr;
             }
 
+            if(timeout.HasValue && timeout.Value.TotalMilliseconds > UInt32::MaxValue)
+            {
+                throw gcnew ArgumentOutOfRangeException("timeout", "Timeout greater than Maximum allowable value of " + UInt32::MaxValue);
+            }
+
             return _browserProcessServiceHost->EvaluateScriptAsync(frame->GetIdentifier(), script, timeout);
         }
 
