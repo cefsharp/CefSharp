@@ -431,16 +431,12 @@ namespace CefSharp
         {
             auto frame = _renderClientAdapter->TryGetCefMainFrame();
 
-            if (_browserProcessServiceHost != nullptr && frame != nullptr)
-            {
-                auto task = _browserProcessServiceHost->EvaluateScript(frame->GetIdentifier(), script, timeout);
-
-                return task;
-            }
-            else
+            if (_browserProcessServiceHost == nullptr && frame == nullptr)
             {
                 return nullptr;
             }
+
+            return _browserProcessServiceHost->EvaluateScript(frame->GetIdentifier(), script, timeout);
         }
 
         double GetZoomLevel()
