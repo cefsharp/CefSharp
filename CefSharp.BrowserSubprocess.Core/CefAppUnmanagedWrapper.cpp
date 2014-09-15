@@ -47,14 +47,14 @@ namespace CefSharp
 
     void CefAppUnmanagedWrapper::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
     {
-        auto window = context->GetGlobal();
-
-        JavascriptRootObjectWrapper^ jswindow = _windowObject;
-
-        if (jswindow != nullptr)
+        if (!Object::ReferenceEquals(_javascriptRootObject, nullptr))
         {
-            jswindow->V8Value = window;
-            jswindow->Bind();
+            auto window = context->GetGlobal();
+            
+            auto jsRootWrapper = gcnew JavascriptRootObjectWrapper(_javascriptRootObject);
+        
+            jsRootWrapper->V8Value = window;
+            jsRootWrapper->Bind();
         }
     };
 
@@ -65,6 +65,6 @@ namespace CefSharp
 
     void CefAppUnmanagedWrapper::Bind(JavascriptRootObject^ rootObject)
     {
-        _windowObject = gcnew JavascriptRootObjectWrapper(rootObject);
+        _javascriptRootObject = rootObject;
     };
 }

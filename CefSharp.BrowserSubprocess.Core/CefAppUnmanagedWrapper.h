@@ -9,7 +9,6 @@
 #include "include/cef_app.h"
 #include "include/cef_base.h"
 
-#include "JavascriptRootObjectWrapper.h"
 #include "CefBrowserWrapper.h"
 #include "CefAppWrapper.h"
 
@@ -22,7 +21,7 @@ namespace CefSharp
 	private:
 		gcroot<Action<CefBrowserWrapper^>^> _onBrowserCreated;
 		gcroot<Action<CefBrowserWrapper^>^> _onBrowserDestroyed;
-		gcroot<JavascriptRootObjectWrapper^> _windowObject;
+		gcroot<JavascriptRootObject^> _javascriptRootObject;
 		gcroot<Dictionary<int, CefBrowserWrapper^>^> _browserWrappers;
 	public:
 		
@@ -36,7 +35,7 @@ namespace CefSharp
 		~CefAppUnmanagedWrapper()
 		{
 			delete _browserWrappers;
-			delete _windowObject;
+			delete _javascriptRootObject;
 			delete _onBrowserCreated;
 			delete _onBrowserDestroyed;
 		}
