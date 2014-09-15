@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using CefSharp.Internals;
 using System.Collections.Generic;
@@ -83,15 +82,16 @@ namespace CefSharp.BrowserSubprocess
             }
         }
 
-        public Task<JavascriptResponse> EvaluateScript(long frameId, string script, TimeSpan timeout)
+        public Task<JavascriptResponse> EvaluateScript(long frameId, string script, TimeSpan? timeout)
         {
             var factory = browser.RenderThreadTaskFactory;
 
-            return factory.StartNew(() =>
+            var task = factory.StartNew(() =>
             {
                 return browser.DoEvaluateScript(frameId, script);
-            }, TaskCreationOptions.AttachedToParent)
-            .WithTimeout(timeout);
+            }, TaskCreationOptions.AttachedToParent);
+
+            return timeout.HasValue ? task.WithTimeout(timeout.Value) : task;
         }
 
         public override IBrowserProcess CreateBrowserProxy()
