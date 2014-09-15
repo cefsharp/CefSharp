@@ -19,7 +19,14 @@ namespace CefSharp.BrowserSubprocess
 
             int result;
 
-            using (var subprocess = Create(args))
+            //MessageBox.Show("Please attach debugger now", null, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            var commandLineArgs = new List<string>(args)
+            {
+                "--renderer-startup-dialog"
+            };
+
+            using (var subprocess = Create(commandLineArgs.ToArray()))
             {
                 //if (subprocess is CefRenderProcess)
                 //{
