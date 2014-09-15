@@ -22,7 +22,7 @@ namespace CefSharp
 		MCefRefPtr<CefAppUnmanagedWrapper> cefApp;
 
 	internal:
-		List<CefBrowserWrapper^>^ browserWrappers;
+		Dictionary<int, CefBrowserWrapper^>^ browserWrappers;
 		
 	public:        
 		static CefAppWrapper^ Instance;
