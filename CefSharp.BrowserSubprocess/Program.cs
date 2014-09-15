@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 using CefSharp.Internals;
@@ -19,14 +18,7 @@ namespace CefSharp.BrowserSubprocess
 
             int result;
 
-            //MessageBox.Show("Please attach debugger now", null, MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-            var commandLineArgs = new List<string>(args)
-            {
-                "--renderer-startup-dialog"
-            };
-
-            using (var subprocess = Create(commandLineArgs.ToArray()))
+            using (var subprocess = Create(args))
             {
                 //if (subprocess is CefRenderProcess)
                 //{
