@@ -47,7 +47,7 @@ namespace CefSharp.Internals
             operationContextTaskCompletionSource.SetResult(operationContext);
         }
 
-        public Task<JavascriptResponse> EvaluateScript(int frameId, string script, TimeSpan? timeout)
+        public Task<JavascriptResponse> EvaluateScriptAsync(int frameId, string script, TimeSpan? timeout)
         {
             var operationContextTask = operationContextTaskCompletionSource.Task;
 
@@ -55,7 +55,7 @@ namespace CefSharp.Internals
             {
                 var context = t.Result;
                 var renderProcess = context.GetCallbackChannel<IRenderProcess>();
-                return renderProcess.EvaluateScript(frameId, script, timeout);
+                return renderProcess.EvaluateScriptAsync(frameId, script, timeout);
             }).Unwrap();
         }
 

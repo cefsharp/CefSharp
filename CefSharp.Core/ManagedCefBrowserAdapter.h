@@ -427,7 +427,7 @@ namespace CefSharp
             }
         }
 
-        Task<JavascriptResponse^>^ EvaluateScript(String^ script, Nullable<TimeSpan> timeout)
+        Task<JavascriptResponse^>^ EvaluateScriptAsync(String^ script, Nullable<TimeSpan> timeout)
         {
             auto frame = _renderClientAdapter->TryGetCefMainFrame();
 
@@ -436,7 +436,7 @@ namespace CefSharp
                 return nullptr;
             }
 
-            return _browserProcessServiceHost->EvaluateScript(frame->GetIdentifier(), script, timeout);
+            return _browserProcessServiceHost->EvaluateScriptAsync(frame->GetIdentifier(), script, timeout);
         }
 
         double GetZoomLevel()

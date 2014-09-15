@@ -102,7 +102,7 @@ namespace CefSharp.WinForms
 
         public Task<JavascriptResponse> EvaluateScriptAsync(string script, TimeSpan? timeout)
         {
-            return managedCefBrowserAdapter.EvaluateScript(script, timeout);
+            return managedCefBrowserAdapter.EvaluateScriptAsync(script, timeout);
         }
 
         public event LoadErrorEventHandler LoadError;
