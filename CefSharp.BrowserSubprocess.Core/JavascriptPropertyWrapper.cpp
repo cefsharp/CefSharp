@@ -7,7 +7,6 @@
 
 #include "JavascriptPropertyWrapper.h"
 #include "JavascriptObjectWrapper.h"
-#include "CefAppWrapper.h"
 
 using namespace System;
 
