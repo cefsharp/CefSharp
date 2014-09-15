@@ -27,20 +27,19 @@ namespace CefSharp
         _onBrowserCreated->Invoke(wrapper);
 
         //Multiple CefBrowserWrappers created when opening popups
-        CefAppWrapper::Instance->browserWrappers->Add(browser->GetIdentifier(), wrapper);
+        _browserWrappers->Add(browser->GetIdentifier(), wrapper);
     }
 
     void CefAppUnmanagedWrapper::OnBrowserDestroyed(CefRefPtr<CefBrowser> browser)
     {
-        auto browserWrappers = CefAppWrapper::Instance->browserWrappers;
         auto browserId = browser->GetIdentifier();
         CefBrowserWrapper^ wrapper = nullptr;
 
-        browserWrappers->TryGetValue(browserId, wrapper);
+        _browserWrappers->TryGetValue(browserId, wrapper);
 
         if (wrapper != nullptr)
         {
-            browserWrappers->Remove(browserId);
+            _browserWrappers->Remove(browserId);
             _onBrowserDestroyed->Invoke(wrapper);
             delete wrapper;
         }

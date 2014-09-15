@@ -20,9 +20,6 @@ namespace CefSharp
 	{
 	private:
 		MCefRefPtr<CefAppUnmanagedWrapper> cefApp;
-
-	internal:
-		Dictionary<int, CefBrowserWrapper^>^ browserWrappers;
 		
 	public:        
 		static CefAppWrapper^ Instance;
