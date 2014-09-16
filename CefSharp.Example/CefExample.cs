@@ -16,11 +16,11 @@ namespace CefSharp.Example
             settings.RemoteDebuggingPort = 8088;
             //settings.CefCommandLineArgs.Add("renderer-process-limit", "1");
             //settings.CefCommandLineArgs.Add("renderer-startup-dialog", "renderer-startup-dialog");
-            
 
             if (debuggingSubProcess)
             {
-                settings.BrowserSubprocessPath = "..\\..\\..\\..\\CefSharp.BrowserSubprocess\\bin\\x86\\Debug\\CefSharp.BrowserSubprocess.exe";
+                var architecture = Environment.Is64BitProcess ? "x64" : "x86";
+                settings.BrowserSubprocessPath = "..\\..\\..\\..\\CefSharp.BrowserSubprocess\\bin\\" + architecture + "\\Debug\\CefSharp.BrowserSubprocess.exe";
             }
 
             settings.RegisterScheme(new CefCustomScheme
