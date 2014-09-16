@@ -56,5 +56,12 @@ namespace CefSharp.Internals
 		{
 			return TrySetFromTask(resultSetter, (Task)task);
 		}
+
+		public static Task<T> FromResult<T>(T value)
+		{
+			var tcs = new TaskCompletionSource<T>();
+			tcs.SetResult(value);
+			return tcs.Task;
+		}
 	}
 }

@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using CefSharp.Internals;
 using System.Collections.Generic;
 using System.ServiceModel;
+using TaskExtensions = CefSharp.Internals.TaskExtensions;
 
 namespace CefSharp.BrowserSubprocess
 {
@@ -10,7 +12,7 @@ namespace CefSharp.BrowserSubprocess
     {
         private DuplexChannelFactory<IBrowserProcess> channelFactory;
         private int? parentBrowserId;
-        private CefBrowserWrapper browser;
+        private List<CefBrowserWrapper> browsers = new List<CefBrowserWrapper>();
 
         public CefRenderProcess(IEnumerable<string> args) 
             : base(args)
@@ -19,14 +21,19 @@ namespace CefSharp.BrowserSubprocess
         
         protected override void DoDispose(bool isDisposing)
         {
-            DisposeMember(ref browser);
+            foreach(var browser in browsers)
+            {
+                browser.Dispose();
+            }
+
+            browsers = null;
 
             base.DoDispose(isDisposing);
         }
 
-        public override void OnBrowserCreated(CefBrowserWrapper cefBrowserWrapper)
+        public override void OnBrowserCreated(CefBrowserWrapper browser)
         {
-            browser = cefBrowserWrapper;
+            browsers.Add(browser);
 
             if (parentBrowserId == null)
             {
@@ -74,8 +81,10 @@ namespace CefSharp.BrowserSubprocess
             }
         }
 
-        public override void OnBrowserDestroyed(CefBrowserWrapper cefBrowserWrapper)
+        public override void OnBrowserDestroyed(CefBrowserWrapper browser)
         {
+            browsers.Remove(browser);
+
             if (channelFactory.State == CommunicationState.Opened)
             {
                 channelFactory.Close();
@@ -85,6 +94,15 @@ namespace CefSharp.BrowserSubprocess
         public Task<JavascriptResponse> EvaluateScriptAsync(int browserId, long frameId, string script, TimeSpan? timeout)
         {
             var factory = RenderThreadTaskFactory;
+            var browser = browsers.FirstOrDefault(x => x.BrowserId == browserId);
+            if (browser == null)
+            {
+                return TaskExtensions.FromResult(new JavascriptResponse
+                {
+                    Success = false,
+                    Message = string.Format("Browser with Id {0} not found in Render Sub Process.", browserId)
+                });
+            }
 
             var task = factory.StartNew(() =>
             {
