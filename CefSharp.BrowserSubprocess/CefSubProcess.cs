@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using CefSharp.Internals;
 
 namespace CefSharp.BrowserSubprocess
 {
@@ -40,11 +39,6 @@ namespace CefSharp.BrowserSubprocess
         public override void OnBrowserDestroyed(CefBrowserWrapper cefBrowserWrapper)
         {
             
-        }
-
-        public override IBrowserProcess CreateBrowserProxy()
-        {
-            return null;
         }
     }
 }

@@ -18,15 +18,17 @@ namespace CefSharp
     private:
         JavascriptProperty^ _javascriptProperty;
         int64 _ownerId;
+        Func<IBrowserProcess^>^ _createBrowserProxyDelegate;
 
     internal:
         MCefRefPtr<CefV8Value> V8Value;
 
     public:
-        JavascriptPropertyWrapper(JavascriptProperty^ javascriptProperty, int64 ownerId)
+        JavascriptPropertyWrapper(JavascriptProperty^ javascriptProperty, int64 ownerId, Func<IBrowserProcess^>^ createBrowserProxyDelegate)
         {
             _javascriptProperty = javascriptProperty;
             _ownerId = ownerId;
+            _createBrowserProxyDelegate = createBrowserProxyDelegate;
         }
 
         void Bind();

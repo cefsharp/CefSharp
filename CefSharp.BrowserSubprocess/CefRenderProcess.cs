@@ -10,7 +10,6 @@ namespace CefSharp.BrowserSubprocess
 {
     public class CefRenderProcess : CefSubProcess, IRenderProcess
     {
-        private DuplexChannelFactory<IBrowserProcess> channelFactory;
         private int? parentBrowserId;
         private List<CefBrowserWrapper> browsers = new List<CefBrowserWrapper>();
 
@@ -51,7 +50,7 @@ namespace CefSharp.BrowserSubprocess
 
             var binding = BrowserProcessServiceHost.CreateBinding();
 
-            channelFactory = new DuplexChannelFactory<IBrowserProcess>(
+            var channelFactory = new DuplexChannelFactory<IBrowserProcess>(
                 this,
                 binding,
                 new EndpointAddress(serviceName)
@@ -59,7 +58,7 @@ namespace CefSharp.BrowserSubprocess
 
             channelFactory.Open();
 
-            var proxy = CreateBrowserProxy();
+            var proxy = channelFactory.CreateChannel();
 
             var clientChannel = ((IClientChannel)proxy);
             
@@ -73,8 +72,10 @@ namespace CefSharp.BrowserSubprocess
 
                 if (javascriptObject.MemberObjects.Count > 0)
                 {
-                    Bind(javascriptObject);
+                    Bind(javascriptObject, channelFactory.CreateChannel);
                 }
+
+                browser.ChannelFactory = channelFactory;
 
             }
             catch(Exception)
@@ -87,10 +88,14 @@ namespace CefSharp.BrowserSubprocess
         {
             browsers.Remove(browser);
 
+            var channelFactory = browser.ChannelFactory;
+
             if (channelFactory.State == CommunicationState.Opened)
             {
                 channelFactory.Close();
             }
+
+            browser.ChannelFactory = null;
         }
 
         public Task<JavascriptResponse> EvaluateScriptAsync(int browserId, long frameId, string script, TimeSpan? timeout)
@@ -112,11 +117,6 @@ namespace CefSharp.BrowserSubprocess
             }, TaskCreationOptions.AttachedToParent);
 
             return timeout.HasValue ? task.WithTimeout(timeout.Value) : task;
-        }
-
-        public override IBrowserProcess CreateBrowserProxy()
-        {
-            return channelFactory.CreateChannel();
         }
     }
 }

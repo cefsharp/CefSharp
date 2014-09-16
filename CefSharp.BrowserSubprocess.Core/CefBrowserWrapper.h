@@ -40,7 +40,8 @@ namespace CefSharp
         }
 
         property int BrowserId;
-        property bool IsPopup;        
+        property bool IsPopup;
+        property DuplexChannelFactory<IBrowserProcess^>^ ChannelFactory;
 
         JavascriptResponse^ EvaluateScriptInContext(CefRefPtr<CefV8Context> context, CefString script)
         {

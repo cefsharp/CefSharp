@@ -22,6 +22,7 @@ namespace CefSharp
 		gcroot<Action<CefBrowserWrapper^>^> _onBrowserCreated;
 		gcroot<Action<CefBrowserWrapper^>^> _onBrowserDestroyed;
 		gcroot<JavascriptRootObject^> _javascriptRootObject;
+		gcroot<Func<IBrowserProcess^>^> _createBrowserProxyDelegate;
 		gcroot<Dictionary<int, CefBrowserWrapper^>^> _browserWrappers;
 	public:
 		
@@ -38,6 +39,7 @@ namespace CefSharp
 			delete _javascriptRootObject;
 			delete _onBrowserCreated;
 			delete _onBrowserDestroyed;
+			delete _createBrowserProxyDelegate;
 		}
 
 		virtual DECL CefRefPtr<CefRenderProcessHandler> GetRenderProcessHandler() OVERRIDE;
@@ -46,7 +48,7 @@ namespace CefSharp
 		virtual DECL void OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context) OVERRIDE;
 		virtual DECL void OnContextReleased(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context) OVERRIDE;
 
-		void Bind(JavascriptRootObject^ rootObject);
+		void Bind(JavascriptRootObject^ rootObject, Func<IBrowserProcess^>^ createBrowserProxyDelegate);
 
 		IMPLEMENT_REFCOUNTING(CefAppUnmanagedWrapper);
 	};

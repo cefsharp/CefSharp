@@ -39,10 +39,10 @@ namespace CefSharp
         return CefExecuteProcess(cefMainArgs, (CefApp*)cefApp.get());
     }
     
-    void CefAppWrapper::Bind(JavascriptRootObject^ rootObject)
+    void CefAppWrapper::Bind(JavascriptRootObject^ rootObject, Func<IBrowserProcess^>^ createBrowserProxyDelegate)
     {
         auto app = cefApp.get();
         
-        app->Bind(rootObject);
+        app->Bind(rootObject, createBrowserProxyDelegate);
     }
 }

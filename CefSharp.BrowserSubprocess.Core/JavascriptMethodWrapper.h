@@ -19,15 +19,17 @@ namespace CefSharp
         MCefRefPtr<JavascriptMethodHandler> _javascriptMethodHandler;
         JavascriptMethod^ _javascriptMethod;
         int64 _ownerId;
+        Func<IBrowserProcess^>^ _createBrowserProxyDelegate;
 
     internal:
         MCefRefPtr<CefV8Value> V8Value;
 
     public:
-        JavascriptMethodWrapper(JavascriptMethod^ javascriptMethod, int64 ownerId)
+        JavascriptMethodWrapper(JavascriptMethod^ javascriptMethod, int64 ownerId, Func<IBrowserProcess^>^ createBrowserProxyDelegate)
         {
             _javascriptMethod = javascriptMethod;
             _ownerId = ownerId;
+            _createBrowserProxyDelegate = createBrowserProxyDelegate;
             _javascriptMethodHandler = new JavascriptMethodHandler(gcnew Func<array<Object^>^, BrowserProcessResponse^>(this, &JavascriptMethodWrapper::Execute));
         }
 

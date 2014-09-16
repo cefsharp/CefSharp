@@ -51,7 +51,7 @@ namespace CefSharp
         {
             auto window = context->GetGlobal();
             
-            auto jsRootWrapper = gcnew JavascriptRootObjectWrapper(_javascriptRootObject);
+            auto jsRootWrapper = gcnew JavascriptRootObjectWrapper(_javascriptRootObject, _createBrowserProxyDelegate);
         
             jsRootWrapper->V8Value = window;
             jsRootWrapper->Bind();
@@ -63,8 +63,9 @@ namespace CefSharp
         
     };
 
-    void CefAppUnmanagedWrapper::Bind(JavascriptRootObject^ rootObject)
+    void CefAppUnmanagedWrapper::Bind(JavascriptRootObject^ rootObject, Func<IBrowserProcess^>^ createBrowserProxyDelegate)
     {
         _javascriptRootObject = rootObject;
+        _createBrowserProxyDelegate = createBrowserProxyDelegate;
     };
 }

@@ -31,10 +31,9 @@ namespace CefSharp
 
 		property TaskFactory^ RenderThreadTaskFactory;
 
-		void Bind(JavascriptRootObject^ rootObject);
+		void Bind(JavascriptRootObject^ rootObject, Func<IBrowserProcess^>^ createBrowserProxyDelegate);
 
 		virtual void OnBrowserCreated(CefBrowserWrapper^ cefBrowserWrapper) abstract;
 		virtual void OnBrowserDestroyed(CefBrowserWrapper^ cefBrowserWrapper) abstract;		
-		virtual IBrowserProcess^ CreateBrowserProxy() abstract;
 	};
 }

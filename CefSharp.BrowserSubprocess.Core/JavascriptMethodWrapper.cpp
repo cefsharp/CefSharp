@@ -22,7 +22,7 @@ namespace CefSharp
 
     BrowserProcessResponse^ JavascriptMethodWrapper::Execute(array<Object^>^ parameters)
     {
-        auto browserProxy = CefAppWrapper::Instance->CreateBrowserProxy();
+        auto browserProxy = _createBrowserProxyDelegate();
 
         return browserProxy->CallMethod(_ownerId, _javascriptMethod->JavascriptName, parameters);
     }
