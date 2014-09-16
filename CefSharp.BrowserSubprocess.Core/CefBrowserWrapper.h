@@ -31,6 +31,7 @@ namespace CefSharp
         {
             _cefBrowser = cefBrowser;
             BrowserId = cefBrowser->GetIdentifier();
+            IsPopup = cefBrowser->IsPopup();
         }
 
         ~CefBrowserWrapper()
@@ -39,7 +40,7 @@ namespace CefSharp
         }
 
         property int BrowserId;
-        
+        property bool IsPopup;        
 
         JavascriptResponse^ EvaluateScriptInContext(CefRefPtr<CefV8Context> context, CefString script)
         {

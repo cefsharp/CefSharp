@@ -45,7 +45,9 @@ namespace CefSharp.BrowserSubprocess
                 return;
             }
 
-            var serviceName = RenderprocessClientFactory.GetServiceName(ParentProcessId.Value, parentBrowserId.Value);
+            var browserId = browser.IsPopup ? parentBrowserId.Value : browser.BrowserId;
+
+            var serviceName = RenderprocessClientFactory.GetServiceName(ParentProcessId.Value, browserId);
 
             var binding = BrowserProcessServiceHost.CreateBinding();
 
