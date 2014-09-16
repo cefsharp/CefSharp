@@ -28,6 +28,14 @@ namespace CefSharp
         {
         };
 
+        ~CefTaskWrapper()
+        {
+            delete _task;
+            
+            //TODO: Currently can't delete _scheduler for some reason
+            //delete _scheduler;
+        }
+
         IMPLEMENT_REFCOUNTING(CefTaskWrapper)
     };
 

@@ -23,6 +23,11 @@ namespace CefSharp
             _method = method;
         }
 
+        ~JavascriptMethodHandler()
+        {
+            delete _method;
+        }
+
         virtual bool Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception)
         {
             auto parameter = gcnew array<Object^>(arguments.size());

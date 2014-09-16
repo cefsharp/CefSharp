@@ -31,6 +31,11 @@ namespace CefSharp
             _createBrowserProxyDelegate = createBrowserProxyDelegate;
         }
 
+        ~JavascriptPropertyWrapper()
+        {
+            V8Value = nullptr;
+        }
+
         void Bind();
     };
 }

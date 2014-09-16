@@ -36,6 +36,11 @@ namespace CefSharp
             _createBrowserProxyDelegate = createBrowserProxyDelegate;
             _wrappedObjects = gcnew List<JavascriptObjectWrapper^>();
         }
+
+        ~JavascriptRootObjectWrapper()
+        {
+            V8Value = nullptr;
+        }
         
         void Bind()
         {

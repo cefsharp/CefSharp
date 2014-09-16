@@ -40,6 +40,12 @@ namespace CefSharp
             _wrappedProperties = gcnew List<JavascriptPropertyWrapper^>();
         }
 
+        ~JavascriptObjectWrapper()
+        {
+            V8Value = nullptr;
+            JsPropertyHandler = nullptr;
+        }
+
         void Bind();
         BrowserProcessResponse^ GetProperty(String^ memberName);
         BrowserProcessResponse^ SetProperty(String^ memberName, Object^ value);

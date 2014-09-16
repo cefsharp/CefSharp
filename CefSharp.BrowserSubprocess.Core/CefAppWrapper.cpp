@@ -27,6 +27,7 @@ namespace CefSharp
     CefAppWrapper::~CefAppWrapper()
     {
         RenderThreadTaskFactory = nullptr;
+        cefApp = nullptr;
     }
 
     int CefAppWrapper::Run()

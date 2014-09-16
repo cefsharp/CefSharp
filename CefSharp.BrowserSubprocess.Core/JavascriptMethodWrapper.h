@@ -33,6 +33,12 @@ namespace CefSharp
             _javascriptMethodHandler = new JavascriptMethodHandler(gcnew Func<array<Object^>^, BrowserProcessResponse^>(this, &JavascriptMethodWrapper::Execute));
         }
 
+        ~JavascriptMethodWrapper()
+        {
+            V8Value = nullptr;
+            _javascriptMethodHandler = nullptr;
+        }
+
         void Bind();
         BrowserProcessResponse^ Execute(array<Object^>^ parameters);
     };
