@@ -430,6 +430,7 @@ namespace CefSharp
         Task<JavascriptResponse^>^ EvaluateScriptAsync(String^ script, Nullable<TimeSpan> timeout)
         {
             auto frame = _renderClientAdapter->TryGetCefMainFrame();
+            auto browser = frame->GetBrowser();
 
             if (_browserProcessServiceHost == nullptr && frame == nullptr)
             {
@@ -441,7 +442,7 @@ namespace CefSharp
                 throw gcnew ArgumentOutOfRangeException("timeout", "Timeout greater than Maximum allowable value of " + UInt32::MaxValue);
             }
 
-            return _browserProcessServiceHost->EvaluateScriptAsync(frame->GetIdentifier(), script, timeout);
+            return _browserProcessServiceHost->EvaluateScriptAsync(browser->GetIdentifier(), frame->GetIdentifier(), script, timeout);
         }
 
         double GetZoomLevel()
