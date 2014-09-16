@@ -13,5 +13,10 @@
 		{
 			return "My Type is " + GetType();
 		}
+
+		public string EchoSimpleProperty()
+		{
+			return SimpleProperty;
+		}
 	}
 }
