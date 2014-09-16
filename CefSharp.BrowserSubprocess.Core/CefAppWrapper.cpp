@@ -7,6 +7,7 @@
 
 #include "CefAppWrapper.h"
 #include "CefBrowserWrapper.h"
+#include "CefTaskScheduler.h"
 
 using namespace System;
 using namespace System::Diagnostics;
@@ -19,6 +20,13 @@ namespace CefSharp
         auto onBrowserCreated = gcnew Action<CefBrowserWrapper^>(this, &CefAppWrapper::OnBrowserCreated);
         auto onBrowserDestroyed = gcnew Action<CefBrowserWrapper^>(this, &CefAppWrapper::OnBrowserDestroyed);
         cefApp = new CefAppUnmanagedWrapper(onBrowserCreated, onBrowserDestroyed);
+
+        RenderThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_RENDERER));
+    };
+
+    CefAppWrapper::~CefAppWrapper()
+    {
+        RenderThreadTaskFactory = nullptr;
     }
 
     int CefAppWrapper::Run()

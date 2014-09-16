@@ -84,7 +84,7 @@ namespace CefSharp.BrowserSubprocess
 
         public Task<JavascriptResponse> EvaluateScriptAsync(long frameId, string script, TimeSpan? timeout)
         {
-            var factory = browser.RenderThreadTaskFactory;
+            var factory = RenderThreadTaskFactory;
 
             var task = factory.StartNew(() =>
             {

@@ -11,8 +11,6 @@
 #include "TypeUtils.h"
 #include "Stdafx.h"
 
-#include "CefTaskScheduler.h"
-
 using namespace CefSharp::Internals;
 using namespace System;
 using namespace System::ServiceModel;
@@ -33,7 +31,6 @@ namespace CefSharp
         {
             _cefBrowser = cefBrowser;
             BrowserId = cefBrowser->GetIdentifier();
-            RenderThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_RENDERER));
         }
 
         ~CefBrowserWrapper()
@@ -42,7 +39,7 @@ namespace CefSharp
         }
 
         property int BrowserId;
-        property TaskFactory^ RenderThreadTaskFactory;
+        
 
         JavascriptResponse^ EvaluateScriptInContext(CefRefPtr<CefV8Context> context, CefString script)
         {
@@ -66,7 +63,6 @@ namespace CefSharp
         virtual void DoDispose( bool disposing ) override
         {
             _cefBrowser = nullptr;
-            RenderThreadTaskFactory = nullptr;
             DisposableResource::DoDispose( disposing );
         }
 

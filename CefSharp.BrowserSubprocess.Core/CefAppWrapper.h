@@ -25,7 +25,11 @@ namespace CefSharp
 		static CefAppWrapper^ Instance;
 
 		CefAppWrapper();
+		~CefAppWrapper();
+
 		int Run();
+
+		property TaskFactory^ RenderThreadTaskFactory;
 
 		void Bind(JavascriptRootObject^ rootObject);
 
