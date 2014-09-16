@@ -19,7 +19,7 @@ namespace CefSharp
     {
         auto onBrowserCreated = gcnew Action<CefBrowserWrapper^>(this, &CefAppWrapper::OnBrowserCreated);
         auto onBrowserDestroyed = gcnew Action<CefBrowserWrapper^>(this, &CefAppWrapper::OnBrowserDestroyed);
-        cefApp = new CefAppUnmanagedWrapper(onBrowserCreated, onBrowserDestroyed);
+        _cefApp = new CefAppUnmanagedWrapper(onBrowserCreated, onBrowserDestroyed);
 
         RenderThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_RENDERER));
     };
@@ -27,7 +27,7 @@ namespace CefSharp
     CefAppWrapper::~CefAppWrapper()
     {
         RenderThreadTaskFactory = nullptr;
-        cefApp = nullptr;
+        _cefApp = nullptr;
     }
 
     int CefAppWrapper::Run()
@@ -36,12 +36,12 @@ namespace CefSharp
 
         CefMainArgs cefMainArgs((HINSTANCE)hInstance.ToPointer());
 
-        return CefExecuteProcess(cefMainArgs, (CefApp*)cefApp.get());
+        return CefExecuteProcess(cefMainArgs, (CefApp*)_cefApp.get());
     }
     
     void CefAppWrapper::Bind(JavascriptRootObject^ rootObject, Func<IBrowserProcess^>^ createBrowserProxyDelegate)
     {
-        auto app = cefApp.get();
+        auto app = _cefApp.get();
         
         app->Bind(rootObject, createBrowserProxyDelegate);
     }

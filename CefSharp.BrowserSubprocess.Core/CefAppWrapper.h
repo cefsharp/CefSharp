@@ -19,7 +19,7 @@ namespace CefSharp
 	public ref class CefAppWrapper abstract : public DisposableResource
 	{
 	private:
-		MCefRefPtr<CefAppUnmanagedWrapper> cefApp;
+		MCefRefPtr<CefAppUnmanagedWrapper> _cefApp;
 		
 	public:        
 		CefAppWrapper();
