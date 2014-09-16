@@ -22,8 +22,6 @@ namespace CefSharp
 		MCefRefPtr<CefAppUnmanagedWrapper> cefApp;
 		
 	public:        
-		static CefAppWrapper^ Instance;
-
 		CefAppWrapper();
 		~CefAppWrapper();
 
