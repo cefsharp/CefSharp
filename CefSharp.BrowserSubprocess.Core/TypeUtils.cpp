@@ -182,28 +182,20 @@ namespace CefSharp
                 std::vector<CefString> keys;
                 if (obj->GetKeys(keys))
                 {
-                    Dictionary<String^, Object^>^ result = gcnew Dictionary<String^, Object^>();
+                    auto array = gcnew List<Object^>();
 
                     for (int i = 0; i < arrLength; i++)
                     {
-                        std::string p_key = keys[i].ToString();
-                        String^ p_keyStr = stdToString(p_key);
-
-                        if ((obj->HasValue(keys[i])) && (!p_keyStr->StartsWith("__")))
+                        auto data = obj->GetValue(keys[i]);
+                        if (data != nullptr)
                         {
-                            CefRefPtr<CefV8Value> data;
+                            auto p_data = TypeUtils::ConvertFromCef(data);
 
-                            data = obj->GetValue(keys[i]);
-                            if (data != nullptr)
-                            {
-                                Object^ p_data = TypeUtils::ConvertFromCef(data);
-
-                                result->Add(p_keyStr, p_data);
-                            }
+                            array->Add(p_data);
                         }
                     }
 
-                    return result;
+                    return array->ToArray();
                 }
             }
 
