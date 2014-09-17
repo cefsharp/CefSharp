@@ -19,6 +19,19 @@
             }
         </script>
         </p>
+        
+        <p>
+            Function delegate to c# method
+            <br />
+            <script type="text/javascript">
+                function myFunction(functionParam)
+                {
+                    return functionParam();
+                }
+
+                document.write("echoMyProperty result: " + myFunction(bound.echoMyProperty));
+            </script>
+        </p>
 
         Methods on bound object 'bound':<br />
         <ul>
