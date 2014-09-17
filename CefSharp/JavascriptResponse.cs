@@ -3,6 +3,7 @@
 namespace CefSharp
 {
 	[DataContract]
+	[KnownType(typeof(object[]))]
 	public class JavascriptResponse
 	{
 		[DataMember]
