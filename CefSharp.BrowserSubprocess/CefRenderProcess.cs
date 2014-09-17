@@ -113,7 +113,21 @@ namespace CefSharp.BrowserSubprocess
 
             var task = factory.StartNew(() =>
             {
-                return browser.DoEvaluateScript(frameId, script);
+                try
+                {
+                    var response = browser.DoEvaluateScript(frameId, script);
+
+                    return response;
+                }
+                catch (Exception ex)
+                {
+                    return new JavascriptResponse
+                    {
+                        Success = false,
+                        Message = ex.ToString()
+                    };
+                }
+
             }, TaskCreationOptions.AttachedToParent);
 
             return timeout.HasValue ? task.WithTimeout(timeout.Value) : task;
