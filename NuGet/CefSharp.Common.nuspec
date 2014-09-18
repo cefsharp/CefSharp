@@ -17,9 +17,10 @@
 </metadata>
   <files>
     <!-- Common CefSharp stuff (shared between both WPF and WinForms) -->
-    <file src="CefSharp.Core.dll" target="CefSharp\$Platform$"/>
-    <file src="..\CefSharp\bin\$Platform$\Release\CefSharp.dll" target="CefSharp\$Platform$"/>
-    <file src="..\CefSharp.BrowserSubprocess\bin\$Platform$\Release\CefSharp.BrowserSubprocess.exe" target="CefSharp\$Platform$"/>
+    <file src="..\$CPlatform$\Release\CefSharp.Core.dll" target="lib\net40"/>
+    <file src="..\CefSharp\bin\$Platform$\Release\CefSharp.dll" target="lib\net40"/>
+    <file src="..\CefSharp.BrowserSubprocess\bin\$Platform$\Release\CefSharp.BrowserSubprocess.Core.dll" target="lib\net40"/>
+	<file src="..\CefSharp.BrowserSubprocess\bin\$Platform$\Release\CefSharp.BrowserSubprocess.exe" target="lib\net40"/>
 
     <file src="CefSharp.Common.props" target="build\CefSharp.Common$DotPlatform$.props" />
     <file src="CefSharp.Common.targets" target="build\CefSharp.Common$DotPlatform$.targets" />
