@@ -46,7 +46,7 @@ namespace CefSharp
 
                 if (cefHost != nullptr)
                 {
-                    return StringUtils::ToClr(cefHost->GetDevToolsURL(true));
+                    return String::Empty;
                 }
                 else
                 {
