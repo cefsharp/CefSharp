@@ -155,7 +155,7 @@ namespace CefSharp
                 CefMainArgs main_args;
                 CefRefPtr<CefSharpApp> app(new CefSharpApp(cefSettings));
 
-                int exitCode = CefExecuteProcess(main_args, app.get());
+                int exitCode = CefExecuteProcess(main_args, app.get(), NULL);
 
                 if (exitCode >= 0)
                 {
@@ -164,7 +164,7 @@ namespace CefSharp
                     return false;
                 }
 
-                success = CefInitialize(main_args, *(cefSettings->_cefSettings), app.get());
+                success = CefInitialize(main_args, *(cefSettings->_cefSettings), app.get(), NULL);
                 app->CompleteSchemeRegistrations();
                 _initialized = success;
 
