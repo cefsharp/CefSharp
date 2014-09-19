@@ -1,8 +1,11 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace CefSharp
 {
 	[DataContract]
+	[KnownType(typeof(object[]))]
+	[KnownType(typeof(Dictionary<string,object>))]
 	public class JavascriptResponse
 	{
 		[DataMember]

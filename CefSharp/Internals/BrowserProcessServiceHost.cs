@@ -5,6 +5,7 @@
 using System;
 using System.Net.Security;
 using System.ServiceModel;
+using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
 using System.Threading.Tasks;
 
@@ -66,11 +67,22 @@ namespace CefSharp.Internals
             operationContextTaskCompletionSource = null;
         }
 
-        public static NetNamedPipeBinding CreateBinding()
+        public static CustomBinding CreateBinding()
         {
             var binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
             binding.MaxReceivedMessageSize = SixteenMegaBytesInBytes;
-            return binding;
+            binding.ReceiveTimeout = TimeSpan.MaxValue;
+            binding.SendTimeout = TimeSpan.MaxValue;
+            binding.OpenTimeout = TimeSpan.MaxValue;
+            binding.CloseTimeout = TimeSpan.MaxValue;
+
+            // Ensure binding connection stays open indefinitely until closed
+            var customBinding = new CustomBinding(binding);
+            var connectionSettings = customBinding.Elements.Find<NamedPipeTransportBindingElement>().ConnectionPoolSettings;
+            connectionSettings.IdleTimeout = TimeSpan.MaxValue;
+            connectionSettings.MaxOutboundConnectionsPerEndpoint = 0;
+
+            return customBinding;
         }
     }
 }
