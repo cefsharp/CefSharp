@@ -89,6 +89,12 @@ namespace CefSharp
             void set(String^ value) override { StringUtils::AssignNativeFromClr(_cefSettings->cache_path, value); }
         }
 
+        virtual property bool IgnoreCertificateErrors
+        {
+            bool get() { return _cefSettings->ignore_certificate_errors; }
+            void set(bool value) { _cefSettings->ignore_certificate_errors = value; }
+        }
+
         virtual property String^ Locale
         {
             String^ get() override { return StringUtils::ToClr(_cefSettings->locale); }
