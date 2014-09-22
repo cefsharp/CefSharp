@@ -2,9 +2,9 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Target Name="CefSharpCommonCopyBinaries" BeforeTargets="AfterBuild">
     <ItemGroup>
-      <CefSharpBinaries Include="$(MSBuildThisFileDirectory)..\CefSharp\$(Platform)\*.*" />
+      <CefSharpBinaries Include="$(MSBuildThisFileDirectory)..\lib\net40\*.*" />
     </ItemGroup>
-    <Message Importance="high" Text="-- CefSharp.Common.targets: Copying files from $(MSBuildThisFileDirectory)..\CefSharp\$(Platform) to $(TargetDir)" />
+    <Message Importance="high" Text="-- CefSharp.Common.targets: Copying files from $(MSBuildThisFileDirectory)..\lib\net40 to $(TargetDir)" />
     <Copy SourceFiles="@(CefSharpBinaries)" DestinationFolder="$(TargetDir)" />
   </Target>
 </Project>
