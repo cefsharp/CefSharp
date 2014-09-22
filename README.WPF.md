@@ -6,7 +6,7 @@ CefSharp is based on CEF (Chromium Embeddable Framework), which is composed of a
 
 This is done automatically by the CefSharp.Wpf NuGet package (or the packages it depend on). However, it is only possible to copy these files into *either* the Debug or Release target of your project. Because it is the default when creating a new project, and the target which is normally used when developing .NET applications, I have chosen to place them in the bin\Debug folder for now. This means that if you want to run your application in Release mode, you need to copy these files from bin\Debug to bin\Release for the moment.
 
-To be able to use CefSharp.Wpf, you basically just have to add a WebView like this:
+To be able to use CefSharp.Wpf, you basically just have to add a ChromiumWebBrowser like this:
 
 ``` xml
 <Window x:Class="WpfApplication3.MainWindow"
@@ -14,7 +14,7 @@ To be able to use CefSharp.Wpf, you basically just have to add a WebView like th
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf" Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <cefSharp:WebView x:Name="WebView" />
+        <cefSharp:ChromiumWebBrowser x:Name="Browser" Address="http://www.google.com.au" />
     </Grid>
 </Window>
 ```
@@ -28,23 +28,7 @@ To be able to use CefSharp.Wpf, you basically just have to add a WebView like th
         {
             InitializeComponent();
 
-            WebView.PropertyChanged += OnWebViewPropertyChanged;
-
             Cef.Initialize(new Settings());
-        }
-
-        private void OnWebViewPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case "IsBrowserInitialized":
-                    if (WebView.IsBrowserInitialized)
-                    {
-                        WebView.Load("http://10.211.55.2:42000");
-                    }
-
-                    break;
-            }
         }
     }
 ```
