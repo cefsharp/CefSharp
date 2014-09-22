@@ -1,8 +1,8 @@
 if "%APPVEYOR_BUILD_NUMBER%"=="" (
-	set APPVEYOR_BUILD_NUMBER=10001
+	set APPVEYOR_BUILD_NUMBER=10000
 )
 
-set version=31.0.0.%APPVEYOR_BUILD_NUMBER%-CI
+set version=31.0.0-JSWIP-PRE-%APPVEYOR_BUILD_NUMBER%
 REM set platform=x86
 
 if "%platform%"=="x64" (
