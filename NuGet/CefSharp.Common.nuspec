@@ -22,7 +22,7 @@
     <file src="..\CefSharp.BrowserSubprocess\bin\$Platform$\Release\CefSharp.BrowserSubprocess.Core.dll" target="lib\net40"/>
 	<file src="..\CefSharp.BrowserSubprocess\bin\$Platform$\Release\CefSharp.BrowserSubprocess.exe" target="lib\net40"/>
 
-    <file src="CefSharp.Common.props" target="build\CefSharp.Common$DotPlatform$.props" />
-    <file src="CefSharp.Common.targets" target="build\CefSharp.Common$DotPlatform$.targets" />
+    <file src="CefSharp.Common.props" target="build\" />
+    <file src="CefSharp.Common.targets" target="build\" />
   </files>
 </package>
