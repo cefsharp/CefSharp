@@ -16,11 +16,7 @@
     </dependencies>
   </metadata>
   <files>
-    <!-- Cannot put these inside lib\net40 etc, since there are both x86 and x64 versions which we must distinguish between. We
-         solve this using a .props file instead. -->
-    <file src="..\CefSharp.$ControlType$\bin\$Platform$\Release\CefSharp.$ControlType$.dll" target="CefSharp\$Platform$" />
-    <!-- <file src="..\CefSharp.Wpf\bin\x64\Release\CefSharp.Wpf.dll" target="CefSharp\x64" /> -->
-
-    <file src="CefSharp.$ControlType$.props" target="build\CefSharp.$ControlType$$DotPlatform$.props" />
+    <file src="..\CefSharp.$ControlType$\bin\$Platform$\Release\CefSharp.$ControlType$.dll" target="lib\net40" />
+    <file src="CefSharp.$ControlType$.props" target="build\" />
   </files>
 </package>
