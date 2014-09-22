@@ -777,12 +777,18 @@ namespace CefSharp.Wpf
 
         private void OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            managedCefBrowserAdapter.SendFocusEvent(true);
+            if (managedCefBrowserAdapter != null)
+            {
+                managedCefBrowserAdapter.SendFocusEvent(true);
+            }
         }
 
         private void OnLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            managedCefBrowserAdapter.SendFocusEvent(false);
+            if (managedCefBrowserAdapter != null)
+            {
+                managedCefBrowserAdapter.SendFocusEvent(false);
+            }
         }
 
         protected override void OnPreviewKeyDown(KeyEventArgs e)
@@ -842,19 +848,25 @@ namespace CefSharp.Wpf
             var point = GetPixelPosition(e);
             var modifiers = GetModifiers(e);
 
-            managedCefBrowserAdapter.OnMouseMove((int)point.X, (int)point.Y, false, modifiers);
+            if (managedCefBrowserAdapter != null)
+            {
+                managedCefBrowserAdapter.OnMouseMove((int)point.X, (int)point.Y, false, modifiers);
+            }
         }
 
         protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
             var point = GetPixelPosition(e);
 
-            managedCefBrowserAdapter.OnMouseWheel(
-                (int)point.X,
-                (int)point.Y,
-                deltaX: 0,
-                deltaY: e.Delta
-            );
+            if (managedCefBrowserAdapter != null)
+            {
+                managedCefBrowserAdapter.OnMouseWheel(
+                    (int)point.X,
+                    (int)point.Y,
+                    deltaX: 0,
+                    deltaY: e.Delta
+                    );
+            }
         }
 
         protected void PopupMouseEnter(object sender, MouseEventArgs e)
@@ -884,7 +896,11 @@ namespace CefSharp.Wpf
         protected override void OnMouseLeave(MouseEventArgs e)
         {
             var modifiers = GetModifiers(e);
-            managedCefBrowserAdapter.OnMouseMove(0, 0, true, modifiers);
+
+            if (managedCefBrowserAdapter != null)
+            {
+                managedCefBrowserAdapter.OnMouseMove(0, 0, true, modifiers);
+            }
         }
 
         private void OnMouseButton(MouseButtonEventArgs e)
@@ -913,7 +929,10 @@ namespace CefSharp.Wpf
             var mouseUp = (e.ButtonState == MouseButtonState.Released);
             var point = GetPixelPosition(e);
 
-            managedCefBrowserAdapter.OnMouseButton((int)point.X, (int)point.Y, mouseButtonType, mouseUp, e.ClickCount, modifiers);
+            if (managedCefBrowserAdapter != null)
+            {
+                managedCefBrowserAdapter.OnMouseButton((int)point.X, (int)point.Y, mouseButtonType, mouseUp, e.ClickCount, modifiers);
+            }
         }
 
         void IWebBrowserInternal.OnInitialized()
