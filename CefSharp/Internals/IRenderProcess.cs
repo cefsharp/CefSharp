@@ -15,8 +15,5 @@ namespace CefSharp.Internals
         IAsyncResult BeginEvaluateScriptAsync(int browserId, long frameId, string script, TimeSpan? timeout, AsyncCallback callback, object state);
 
         JavascriptResponse EndEvaluateScriptAsync(IAsyncResult result);
-
-        //[OperationContract]
-        //Task<JavascriptResponse> EvaluateScriptAsync(int browserId, long frameId, string script, TimeSpan? timeout);
     }
 }
