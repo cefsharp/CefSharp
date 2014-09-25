@@ -262,8 +262,6 @@ namespace CefSharp
             }
             else if (requestResponse->Action == ResponseAction::Respond)
             {
-                CefRefPtr<StreamAdapter> adapter = new StreamAdapter(requestResponse->ResponseStream);
-
                 throw gcnew NotImplementedException("Respond is not yet supported.");
 
                 //resourceStream = CefStreamReader::CreateForHandler(static_cast<CefRefPtr<CefReadHandler>>(adapter));
