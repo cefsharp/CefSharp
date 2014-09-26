@@ -38,23 +38,6 @@ namespace CefSharp
         };
 
     public:
-        property String^ DevToolsUrl
-        {
-            String^ get()
-            {
-                auto cefHost = _renderClientAdapter->TryGetCefHost();
-
-                if (cefHost != nullptr)
-                {
-                    return String::Empty;
-                }
-                else
-                {
-                    return nullptr;
-                }
-            }
-        }
-
         ManagedCefBrowserAdapter(IWebBrowserInternal^ webBrowserInternal)
         {
             _webBrowserInternal = webBrowserInternal;
