@@ -441,6 +441,16 @@ namespace CefSharp
             }
         }
 
+        void ShowDevTools()
+        {
+            _renderClientAdapter->ShowDevTools();
+        }
+
+        void CloseDevTools()
+        {
+            _renderClientAdapter->CloseDevTools();
+        }
+
         virtual void Error(Exception^ ex)
         {
 
