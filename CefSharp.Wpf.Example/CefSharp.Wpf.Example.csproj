@@ -161,6 +161,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\CefSharp.props" />
+  <Import Project="$(SolutionDir)\CefSharp.Native.props" />
   <Import Project="..\packages\cef.redist.3.1750.1738-pre1\build\cef.redist.targets" Condition="Exists('..\packages\cef.redist.3.1750.1738-pre1\build\cef.redist.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
