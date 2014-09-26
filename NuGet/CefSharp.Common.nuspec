@@ -12,7 +12,7 @@
     <tags>chrome browser</tags>
     <copyright>Copyright © 2010-2014 The CefSharp Authors</copyright>
     <dependencies>
-      <dependency id="cef.redist" version="3.1750.1738-pre0" />
+      <dependency id="cef.redist" version="3.1750.1738-pre1" />
     </dependencies>
 </metadata>
   <files>
