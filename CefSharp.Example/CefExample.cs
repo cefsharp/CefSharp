@@ -14,6 +14,7 @@ namespace CefSharp.Example
         {
             var settings = new CefSettings();
             settings.RemoteDebuggingPort = 8088;
+            settings.LogSeverity = LogSeverity.Verbose;
 
             if (debuggingSubProcess)
             {
