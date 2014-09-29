@@ -429,18 +429,25 @@ namespace CefSharp
 
         Task<JavascriptResponse^>^ EvaluateScriptAsync(String^ script, Nullable<TimeSpan> timeout)
         {
-            auto frame = _renderClientAdapter->TryGetCefMainFrame();
-            auto browser = frame->GetBrowser();
+            if (timeout.HasValue && timeout.Value.TotalMilliseconds > UInt32::MaxValue)
+            {
+                throw gcnew ArgumentOutOfRangeException("timeout", "Timeout greater than Maximum allowable value of " + UInt32::MaxValue);
+            }
 
-            if (_browserProcessServiceHost == nullptr && frame == nullptr)
+            auto browser = _renderClientAdapter->GetCefBrowser();
+            
+
+            if (_browserProcessServiceHost == nullptr && browser == nullptr)
             {
                 return nullptr;
             }
 
-            if(timeout.HasValue && timeout.Value.TotalMilliseconds > UInt32::MaxValue)
+            auto frame = browser->GetMainFrame();
+
+            if (frame == nullptr)
             {
-                throw gcnew ArgumentOutOfRangeException("timeout", "Timeout greater than Maximum allowable value of " + UInt32::MaxValue);
-            }
+                return nullptr;
+            }            
 
             return _browserProcessServiceHost->EvaluateScriptAsync(browser->GetIdentifier(), frame->GetIdentifier(), script, timeout);
         }
