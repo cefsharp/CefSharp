@@ -87,16 +87,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CefFileDialogMode.cs" />
+    <Compile Include="IsBrowserInitializedChangedEventArgs.cs" />
     <Compile Include="CefTerminationStatus.cs" />
     <Compile Include="IDialogHandler.cs" />
     <Compile Include="AddressChangedEventArgs.cs" />
     <Compile Include="DownloadItem.cs" />
     <Compile Include="CefEventFlags.cs" />
+    <Compile Include="IsLoadingChangedEventArgs.cs" />
     <Compile Include="IStringVisitor.cs" />
     <Compile Include="LoadErrorEventArgs.cs" />
     <Compile Include="FrameLoadStartEventArgs.cs" />
     <Compile Include="KeyType.cs" />
-    <Compile Include="LoadErrorEventHandler.cs" />
     <Compile Include="NavStateChangedEventArgs.cs" />
     <Compile Include="ICompletionHandler.cs" />
     <Compile Include="Internals\BitmapInfo.cs" />

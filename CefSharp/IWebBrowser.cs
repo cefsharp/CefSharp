@@ -12,12 +12,12 @@ namespace CefSharp
         /// <summary>
         /// Event handler for receiving Javascript console messages being sent from web pages.
         /// </summary>
-        event ConsoleMessageEventHandler ConsoleMessage;
+        event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
 
         /// <summary>
         /// Event handler for changes to the status message.
         /// </summary>
-        event StatusMessageEventHandler StatusMessage;
+        event EventHandler<StatusMessageEventArgs> StatusMessage;
 
         /// <summary>
         /// Event handler that will get called when the browser begins loading a frame. Multiple frames may be loading at the same
@@ -25,19 +25,19 @@ namespace CefSharp
         /// particular frame if the load request for that frame fails. For notification of overall browser load status use
         /// OnLoadingStateChange instead.
         /// </summary>
-        event FrameLoadStartEventHandler FrameLoadStart;
+        event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
 
         /// <summary>
         /// Event handler that will get called when the browser is done loading a frame. Multiple frames may be loading at the same
         /// time. Sub-frames may start or continue loading after the main frame load has ended. This method will always be called
         /// for all frames irrespective of whether the request completes successfully.
         /// </summary>
-        event FrameLoadEndEventHandler FrameLoadEnd;
+        event EventHandler<FrameLoadEndEventArgs> FrameLoadEnd;
 
         /// <summary>
         /// Event handler that will get called when the resource load for a navigation fails or is canceled.
         /// </summary>
-        event LoadErrorEventHandler LoadError;
+        event EventHandler<LoadErrorEventArgs> LoadError;
 
         /// <summary>
         /// Loads the specified URL.
@@ -73,12 +73,41 @@ namespace CefSharp
         /// <param name="timeout">The timeout after which the Javascript code execution should be aborted.</param>
         object EvaluateScript(string script, TimeSpan? timeout = null);
 
+        /// <summary>
+        /// Implement <see cref="IDialogHandler"/> and assign to handle dialog events.
+        /// </summary>
         IDialogHandler DialogHandler { get; set; }
+        
+        /// <summary>
+        /// Implement <see cref="IRequestHandler"/> and assign to handle events related to browser requests.
+        /// </summary>
         IRequestHandler RequestHandler { get; set; }
+        
+        /// <summary>
+        /// Implement <see cref="ILifeSpanHandler"/> and assign to handle events related to popups.
+        /// </summary>
         ILifeSpanHandler LifeSpanHandler { get; set; }
+        
+        /// <summary>
+        /// Implement <see cref="IKeyboardHandler"/> and assign to handle events related to key press.
+        /// </summary>
         IKeyboardHandler KeyboardHandler { get; set; }
+        
+        /// <summary>
+        /// Implement <see cref="IJsDialogHandler"/> and assign to handle events related to JavaScript Dialogs.
+        /// </summary>
         IJsDialogHandler JsDialogHandler { get; set; }
+        
+        /// <summary>
+        /// Implement <see cref="IDownloadHandler"/> and assign to handle events related to downloading files.
+        /// </summary>
         IDownloadHandler DownloadHandler { get; set; }
+
+        /// <summary>
+        /// A flag that indicates whether the WebBrowser is initialized (true) or not (false).
+        /// </summary>
+        /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
+        /// binding.</remarks>
         bool IsBrowserInitialized { get; }
 
         /// <summary>
@@ -86,7 +115,7 @@ namespace CefSharp
         /// </summary>
         /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
         /// binding.</remarks>
-        bool IsLoading { get; set; }
+        bool IsLoading { get; }
 
         /// <summary>
         /// A flag that indicates whether the state of the control current supports the GoBack action (true) or not (false).
@@ -125,7 +154,10 @@ namespace CefSharp
         /// binding.</remarks>
         string Title { get; }
 
-        string TooltipText { get; set; }
+        /// <summary>
+        /// The text that will be displayed as a ToolTip
+        /// </summary>
+        string TooltipText { get; }
 
         /// <summary>
         /// The zoom level at which the browser control is currently displaying. Can be set to 0 to clear the zoom level (resets to
@@ -151,6 +183,16 @@ namespace CefSharp
         /// </summary>
         /// <param name="clearSelection">clear the current search selection</param>
         void StopFinding(bool clearSelection);
+
+        /// <summary>
+        /// Navigates back, check <see cref="CanGoBack"/> before calling this method.
+        /// </summary>
+        void Back();
+
+        /// <summary>
+        /// Navigates forward, check <see cref="CanGoForward"/> before calling this method.
+        /// </summary>
+        void Forward();
 
         /// <summary>
         /// Stops loading the current page.
@@ -191,8 +233,13 @@ namespace CefSharp
         /// Reloads the page being displayed, optionally ignoring the cache (which means the whole page including all .css, .js
         /// etc. resources will be re-fetched).
         /// </summary>
-        /// <param name="ignoreCache"><c>true</c> A reload is performed ignoring brwpser cache; <c>false</c> A reload is
+        /// <param name="ignoreCache"><c>true</c> A reload is performed ignoring browser cache; <c>false</c> A reload is
         /// performed using files from the browser cache, if available.</param>
         void Reload(bool ignoreCache);
+
+        /// <summary>
+        /// Opens a Print Dialog which if used (can be user cancelled) will print the browser contents.
+        /// </summary>
+        void Print();
     }
 }
