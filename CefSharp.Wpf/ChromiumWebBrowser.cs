@@ -50,11 +50,11 @@ namespace CefSharp.Wpf
         public IDownloadHandler DownloadHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
 
-        public event ConsoleMessageEventHandler ConsoleMessage;
-        public event StatusMessageEventHandler StatusMessage;
-        public event FrameLoadStartEventHandler FrameLoadStart;
-        public event FrameLoadEndEventHandler FrameLoadEnd;
-        public event LoadErrorEventHandler LoadError;
+        public event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
+        public event EventHandler<StatusMessageEventArgs> StatusMessage;
+        public event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
+        public event EventHandler<FrameLoadEndEventArgs> FrameLoadEnd;
+        public event EventHandler<LoadErrorEventArgs> LoadError;
 
         public ICommand BackCommand { get; private set; }
         public ICommand ForwardCommand { get; private set; }
@@ -72,7 +72,6 @@ namespace CefSharp.Wpf
         public bool CanGoBack
         {
             get { return (bool)GetValue(CanGoBackProperty); }
-            private set { SetValue(CanGoBackProperty, value); }
         }
 
         public static DependencyProperty CanGoBackProperty = DependencyProperty.Register("CanGoBack", typeof (bool), typeof (ChromiumWebBrowser));
@@ -84,7 +83,6 @@ namespace CefSharp.Wpf
         public bool CanGoForward
         {
             get { return (bool)GetValue(CanGoForwardProperty); }
-            private set { SetValue(CanGoForwardProperty, value); }
         }
 
         public static DependencyProperty CanGoForwardProperty = DependencyProperty.Register("CanGoForward", typeof (bool), typeof (ChromiumWebBrowser));
@@ -96,7 +94,6 @@ namespace CefSharp.Wpf
         public bool CanReload
         {
             get { return (bool)GetValue(CanReloadProperty); }
-            private set { SetValue(CanReloadProperty, value); }
         }
 
         public static DependencyProperty CanReloadProperty = DependencyProperty.Register("CanReload", typeof (bool), typeof (ChromiumWebBrowser));
@@ -165,7 +162,7 @@ namespace CefSharp.Wpf
                 Dispatcher
             );
 
-            managedCefBrowserAdapter.LoadUrl(Address);
+            managedCefBrowserAdapter.LoadUrl(newValue);
         }
 
         #endregion Address dependency property
@@ -175,7 +172,6 @@ namespace CefSharp.Wpf
         public bool IsLoading
         {
             get { return (bool)GetValue(IsLoadingProperty); }
-            set { SetValue(IsLoadingProperty, value); }
         }
 
         public static readonly DependencyProperty IsLoadingProperty =
@@ -188,19 +184,18 @@ namespace CefSharp.Wpf
         public bool IsBrowserInitialized
         {
             get { return (bool)GetValue(IsBrowserInitializedProperty); }
-            set { SetValue(IsBrowserInitializedProperty, value); }
         }
 
         public static readonly DependencyProperty IsBrowserInitializedProperty =
-            DependencyProperty.Register("IsBrowserInitialized", typeof(bool), typeof(ChromiumWebBrowser), new PropertyMetadata(false, OnIsBrowserInitializedChanged ));
+            DependencyProperty.Register("IsBrowserInitialized", typeof(bool), typeof(ChromiumWebBrowser), new PropertyMetadata(false, OnIsBrowserInitializedChanged));
 
         public event DependencyPropertyChangedEventHandler IsBrowserInitializedChanged;
 
         private static void OnIsBrowserInitializedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var owner = (ChromiumWebBrowser)d;
-            bool oldValue = (bool)e.OldValue;
-            bool newValue = (bool)e.NewValue;
+            var oldValue = (bool)e.OldValue;
+            var newValue = (bool)e.NewValue;
 
             owner.OnIsBrowserInitializedChanged(oldValue, newValue);
 
@@ -339,6 +334,14 @@ namespace CefSharp.Wpf
 
         protected virtual void Dispose(bool isdisposing)
         {
+            Loaded -= OnLoaded;
+            Unloaded -= OnUnloaded;
+
+            GotKeyboardFocus -= OnGotKeyboardFocus;
+            LostKeyboardFocus -= OnLostKeyboardFocus;
+
+            IsVisibleChanged -= OnIsVisibleChanged;
+
             Cef.RemoveDisposable(this);
 
             RemoveSourceHook();
@@ -364,7 +367,6 @@ namespace CefSharp.Wpf
         public string TooltipText
         {
             get { return (string)GetValue(TooltipTextProperty); }
-            set { SetValue(TooltipTextProperty, value); }
         }
 
         public static readonly DependencyProperty TooltipTextProperty =
@@ -658,9 +660,9 @@ namespace CefSharp.Wpf
         {
             DoInUi(() =>
             {
-                CanGoBack = canGoBack;
-                CanGoForward = canGoForward;
-                CanReload = canReload;
+                SetCurrentValue(CanGoBackProperty, canGoBack);
+                SetCurrentValue(CanGoForwardProperty, canGoForward);
+                SetCurrentValue(CanReloadProperty, canReload);
 
                 RaiseCommandsCanExecuteChanged();
             });
@@ -937,10 +939,7 @@ namespace CefSharp.Wpf
 
         void IWebBrowserInternal.OnInitialized()
         {
-            DoInUi(() =>
-            {
-                SetCurrentValue(IsBrowserInitializedProperty, true);
-            });
+            DoInUi(() => SetCurrentValue(IsBrowserInitializedProperty, true));
         }
 
         public void Load(string url)
@@ -993,12 +992,12 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter.Stop();
         }
 
-        private void Back()
+        public void Back()
         {
             managedCefBrowserAdapter.GoBack();
         }
 
-        private void Forward()
+        public void Forward()
         {
             managedCefBrowserAdapter.GoForward();
         }
@@ -1013,7 +1012,7 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter.Reload(ignoreCache);
         }
 
-        private void Print()
+        public void Print()
         {
             managedCefBrowserAdapter.Print();
         }

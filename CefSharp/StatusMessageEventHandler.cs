@@ -21,11 +21,4 @@ namespace CefSharp
         /// </summary>
         public string Value { get; private set; }
     }
-
-    /// <summary>
-    /// A delegate type used to listen to StatusMessage events.
-    /// </summary>
-    /// <param name="sender">The object that raised the event.</param>
-    /// <param name="e">The event arguments.</param>
-    public delegate void StatusMessageEventHandler(object sender, StatusMessageEventArgs e);
 }
