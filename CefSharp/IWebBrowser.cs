@@ -139,13 +139,12 @@ namespace CefSharp
         bool CanReload { get; }
 
         /// <summary>
-        /// The address (URL) which the browser control is currently displaying. Can be set to a simplified URL
-        /// (e.g. www.google.com) or a full URL (e.g. http://www.google.com). Will automatically be updated as the user
-        /// navigates to another page (e.g. by clicking on a link).
+        /// The address (URL) which the browser control is currently displaying.
+        /// Will automatically be updated as the user navigates to another page (e.g. by clicking on a link).
         /// </summary>
         /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
         /// binding.</remarks>
-        string Address { get; set; }
+        string Address { get; }
 
         /// <summary>
         /// The title of the web page being currently displayed.
