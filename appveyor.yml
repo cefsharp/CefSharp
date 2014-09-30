@@ -4,14 +4,33 @@ environment:
 shallow_clone: true
 
 configuration:
-  - Debug
+#  - Debug
   - Release
+
+platform:
+  - x64
+  - Win32
 
 before_build:
   - cmd: nuget restore
 
+# MSBuild verbosity level
+#  verbosity: quiet|minimal|normal|detailed
+
+build:
+#  verbosity: detailed
+  verbosity: minimal
+
+
 test_script:
-  - cd C:\projects\cefsharp\CefSharp.Test\bin\x86\%configuration%\
+  - REM cd C:\projects\cefsharp\CefSharp.Test\bin\x86\%configuration%\
   - cd
   - REM copy C:\Tools\xUnit\*.*
   - REM xunit.console.clr4.x86 CefSharp.Test.dll /appveyor
+
+after_test:
+  - cmd: cd \projects\cefsharp\NuGet
+  - cmd: pack.bat
+
+artifacts:
+  - path: NuGet\*.nupkg
