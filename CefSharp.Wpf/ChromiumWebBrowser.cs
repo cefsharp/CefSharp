@@ -57,6 +57,11 @@ namespace CefSharp.Wpf
         public event EventHandler<FrameLoadEndEventArgs> FrameLoadEnd;
         public event EventHandler<LoadErrorEventArgs> LoadError;
 
+        /// <summary>
+        /// Raised before each render cycle, and allows you to adjust the bitmap before it's rendered/applied
+        /// </summary>
+        public event RenderingEventHandler Rendering;
+
         public ICommand BackCommand { get; private set; }
         public ICommand ForwardCommand { get; private set; }
         public ICommand ReloadCommand { get; private set; }
@@ -455,6 +460,7 @@ namespace CefSharp.Wpf
             disposables.Add(managedCefBrowserAdapter);
             disposables.Add(new DisposableEventWrapper(this, ActualHeightProperty, OnActualSizeChanged));
             disposables.Add(new DisposableEventWrapper(this, ActualWidthProperty, OnActualSizeChanged));
+            
         }
 
         ~ChromiumWebBrowser()
@@ -1200,10 +1206,25 @@ namespace CefSharp.Wpf
             bitmapInfo.InteropBitmap = null;
         }
 
+        /// <summary>
+        /// Raises Rendering event
+        /// </summary>
+        protected virtual void OnRendering(object sender, RenderingEventArgs eventArgs)
+        {
+            if (Rendering != null)
+            {
+                Rendering(this, eventArgs);
+            }
+        }
+
         void IRenderWebBrowser.SetBitmap(BitmapInfo bitmapInfo)
         {
             lock (bitmapInfo.BitmapLock)
             {
+                // Inform parents that the browser rendering is updating
+                OnRendering(this, new RenderingEventArgs(bitmapInfo));
+
+                // Now update the WPF image
                 if (bitmapInfo.IsPopup)
                 {
                     bitmapInfo.InteropBitmap = SetBitmapHelper(bitmapInfo,
