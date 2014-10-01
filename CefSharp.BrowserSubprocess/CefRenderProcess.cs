@@ -132,5 +132,37 @@ namespace CefSharp.BrowserSubprocess
 
             return timeout.HasValue ? task.WithTimeout(timeout.Value) : task;
         }
+
+        public IAsyncResult BeginEvaluateScriptAsync(int browserId, long frameId, string script, TimeSpan? timeout, AsyncCallback callback, object state)
+        {
+            var tcs = new TaskCompletionSource<JavascriptResponse>(state);
+            var task = EvaluateScriptAsync(browserId, frameId, script, timeout);
+            task.ContinueWith(t =>
+            {
+                if (t.IsFaulted)
+                {
+                    tcs.TrySetException(t.Exception.InnerExceptions);
+                }
+                else if (t.IsCanceled)
+                {
+                    tcs.TrySetCanceled();
+                }
+                else
+                {
+                    tcs.TrySetResult(t.Result);
+                }
+
+                if (callback != null)
+                {
+                    callback(tcs.Task);
+                }
+            });
+            return tcs.Task;
+        }
+
+        public JavascriptResponse EndEvaluateScriptAsync(IAsyncResult result)
+        {
+            return ((Task<JavascriptResponse>)result).Result;
+        }
     }
 }

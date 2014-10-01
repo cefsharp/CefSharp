@@ -51,12 +51,11 @@ namespace CefSharp.Internals
         public Task<JavascriptResponse> EvaluateScriptAsync(int browserId, long frameId, string script, TimeSpan? timeout)
         {
             var operationContextTask = operationContextTaskCompletionSource.Task;
-
             return operationContextTask.ContinueWith(t =>
             {
                 var context = t.Result;
                 var renderProcess = context.GetCallbackChannel<IRenderProcess>();
-                return renderProcess.EvaluateScriptAsync(browserId, frameId, script, timeout);
+                return Task.Factory.FromAsync<JavascriptResponse>(renderProcess.BeginEvaluateScriptAsync(browserId, frameId, script, timeout, null, null), renderProcess.EndEvaluateScriptAsync);
             }).Unwrap();
         }
 
