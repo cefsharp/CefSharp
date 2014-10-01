@@ -55,7 +55,8 @@ namespace CefSharp.Internals
             {
                 var context = t.Result;
                 var renderProcess = context.GetCallbackChannel<IRenderProcess>();
-                return Task.Factory.FromAsync<JavascriptResponse>(renderProcess.BeginEvaluateScriptAsync(browserId, frameId, script, timeout, null, null), renderProcess.EndEvaluateScriptAsync);
+                var asyncResult = renderProcess.BeginEvaluateScriptAsync(browserId, frameId, script, timeout, null, null);
+                return Task.Factory.FromAsync<JavascriptResponse>(asyncResult, renderProcess.EndEvaluateScriptAsync);
             }).Unwrap();
         }
 
