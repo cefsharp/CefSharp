@@ -30,23 +30,23 @@ namespace CefSharp
         {
         private:
             gcroot<IWebBrowserInternal^> _browserControl;            
-            gcroot<Action^> _onBrowserCreated;
+            gcroot<Action^> _onAfterBrowserCreated;
             HWND _browserHwnd;
             CefRefPtr<CefBrowser> _cefBrowser;
 
             gcroot<String^> _tooltip;
 
         public:
-            ClientAdapter(IWebBrowserInternal^ browserControl, Action^ onBrowserCreated) :
+            ClientAdapter(IWebBrowserInternal^ browserControl, Action^ onAfterBrowserCreated) :
                 _browserControl(browserControl), 
-                _onBrowserCreated(onBrowserCreated)
+                _onAfterBrowserCreated(onAfterBrowserCreated)
             {
             }
 
             ~ClientAdapter() 
             {
                 _browserControl = nullptr;
-                _onBrowserCreated = nullptr;
+                _onAfterBrowserCreated = nullptr;
                 _browserHwnd = nullptr;
                 _cefBrowser = nullptr;
                 _tooltip = nullptr;
