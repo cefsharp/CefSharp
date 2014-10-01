@@ -67,7 +67,7 @@ namespace CefSharp
 
         ManagedCefBrowserAdapter(IWebBrowserInternal^ webBrowserInternal)
         {
-            _renderClientAdapter = new RenderClientAdapter(webBrowserInternal, gcnew Action(this, &ManagedCefBrowserAdapter::OnInitialized));
+            _renderClientAdapter = new RenderClientAdapter(webBrowserInternal, gcnew Action(this, &ManagedCefBrowserAdapter::OnAfterBrowserCreated));
             _webBrowserInternal = webBrowserInternal;
 
             Initialize();
@@ -110,7 +110,7 @@ namespace CefSharp
         }
 
 
-        void OnInitialized()
+        void OnAfterBrowserCreated()
         {
             auto browserId = _renderClientAdapter->GetCefBrowser()->GetIdentifier();           
                         
