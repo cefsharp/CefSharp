@@ -25,8 +25,6 @@ namespace CefSharp
         IWebBrowserInternal^ _webBrowserInternal;
         String^ _address;
         JavascriptObjectRepository^ _javaScriptObjectRepository;
-
-        void Initialize();
         
     protected:
         virtual void DoDispose(bool isDisposing) override
@@ -69,8 +67,7 @@ namespace CefSharp
         {
             _renderClientAdapter = new RenderClientAdapter(webBrowserInternal, gcnew Action<int>(this, &ManagedCefBrowserAdapter::OnAfterBrowserCreated));
             _webBrowserInternal = webBrowserInternal;
-
-            Initialize();
+            _javaScriptObjectRepository = gcnew JavascriptObjectRepository();
         }
 
         void CreateOffscreenBrowser(BrowserSettings^ browserSettings)

@@ -38,9 +38,6 @@
     <ClCompile Include="SchemeHandlerResponse.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ManagedCefBrowserAdapter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Internals\CefWebPluginInfoWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
