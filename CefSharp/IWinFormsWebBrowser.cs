@@ -2,6 +2,8 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
+
 namespace CefSharp
 {
     // Should rightfully live in the CefSharp.WinForms project, but the problem is that it's being used from CefSharp.Core
@@ -9,5 +11,15 @@ namespace CefSharp
     public interface IWinFormsWebBrowser : IWebBrowser
     {
         IMenuHandler MenuHandler { get; set; }
+        event EventHandler<NavStateChangedEventArgs> NavStateChanged;
+        event EventHandler<TitleChangedEventArgs> TitleChanged;
+        event EventHandler<AddressChangedEventArgs> AddressChanged;
+        void Undo();
+        void Redo();
+        void Cut();
+        void Copy();
+        void Paste();
+        void Delete();
+        void SelectAll();
     }
 }
