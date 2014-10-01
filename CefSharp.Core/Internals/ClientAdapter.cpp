@@ -41,10 +41,11 @@ namespace CefSharp
             {
                 _browserHwnd = browser->GetHost()->GetWindowHandle();
                 _cefBrowser = browser;
+                auto browserId = browser->GetIdentifier();
                 
-                if (static_cast<Action^>(_onAfterBrowserCreated) != nullptr)
+                if (static_cast<Action<int>^>(_onAfterBrowserCreated) != nullptr)
                 {
-                    _onAfterBrowserCreated->Invoke();
+                    _onAfterBrowserCreated->Invoke(browserId);
                 }
             }
         }

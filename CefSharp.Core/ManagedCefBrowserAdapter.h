@@ -67,7 +67,7 @@ namespace CefSharp
 
         ManagedCefBrowserAdapter(IWebBrowserInternal^ webBrowserInternal)
         {
-            _renderClientAdapter = new RenderClientAdapter(webBrowserInternal, gcnew Action(this, &ManagedCefBrowserAdapter::OnAfterBrowserCreated));
+            _renderClientAdapter = new RenderClientAdapter(webBrowserInternal, gcnew Action<int>(this, &ManagedCefBrowserAdapter::OnAfterBrowserCreated));
             _webBrowserInternal = webBrowserInternal;
 
             Initialize();
@@ -108,12 +108,9 @@ namespace CefSharp
                 cefFrame->LoadURL(StringUtils::ToNative(address));
             }
         }
-
-
-        void OnAfterBrowserCreated()
+        
+        void OnAfterBrowserCreated(int browserId)
         {
-            auto browserId = _renderClientAdapter->GetCefBrowser()->GetIdentifier();           
-                        
             _browserProcessServiceHost = gcnew BrowserProcessServiceHost(_javaScriptObjectRepository, Process::GetCurrentProcess()->Id, browserId);
             _browserProcessServiceHost->Open();
 
