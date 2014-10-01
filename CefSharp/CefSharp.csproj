@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CefFileDialogMode.cs" />
+    <Compile Include="IsBrowserInitializedChangedEventArgs.cs" />
     <Compile Include="CefTerminationStatus.cs" />
     <Compile Include="IDialogHandler.cs" />
     <Compile Include="AddressChangedEventArgs.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="Internals\BrowserProcessResponse.cs" />
     <Compile Include="Internals\JavascriptRootObject.cs" />
     <Compile Include="Internals\TaskExtensions.cs" />
+    <Compile Include="IsLoadingChangedEventArgs.cs" />
     <Compile Include="IStringVisitor.cs" />
     <Compile Include="JavascriptResponse.cs" />
     <Compile Include="LoadErrorEventArgs.cs" />
@@ -103,7 +105,6 @@
     <Compile Include="Internals\BrowserProcessServiceHost.cs" />
     <Compile Include="Internals\WCFExtensions.cs" />
     <Compile Include="KeyType.cs" />
-    <Compile Include="LoadErrorEventHandler.cs" />
     <Compile Include="NavStateChangedEventArgs.cs" />
     <Compile Include="ICompletionHandler.cs" />
     <Compile Include="Internals\BitmapInfo.cs" />

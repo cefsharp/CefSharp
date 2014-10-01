@@ -21,12 +21,5 @@ namespace CefSharp
             CanGoForward = canGoForward;
             CanReload = canReload;
         }
-    };
-
-    /// <summary>
-    /// A delegate type used to listen to NavStateChanged events.
-    /// </summary>
-    /// <param name="sender">The object that raised the event.</param>
-    /// <param name="e">The event arguments.</param>
-    public delegate void NavStateChangedEventHandler(object sender, NavStateChangedEventArgs args);
+    }
 }

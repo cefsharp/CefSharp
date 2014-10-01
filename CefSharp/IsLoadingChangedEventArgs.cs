@@ -7,15 +7,16 @@ using System;
 namespace CefSharp
 {
     /// <summary>
-    /// Event arguments to the TitleChanged event handler.
+    /// Event arguments to the IsLoadingChanged event handler.
     /// </summary>
-    public class TitleChangedEventArgs : EventArgs
+    public class IsLoadingChangedEventArgs : EventArgs
     {
-        public string Title { get; private set; }
+        public bool IsLoading { get; private set; }
 
-        public TitleChangedEventArgs(string title)
+        public IsLoadingChangedEventArgs(bool isLoading)
         {
-            Title = title;
+            IsLoading = isLoading;
         }
     }
 }
+
