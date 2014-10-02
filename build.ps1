@@ -204,7 +204,7 @@ function NugetPackageRestore
     Write-Diagnostic "Restore Nuget Packages"
 
     # Restore packages
-	. $nuget restore $CefSln
+    . $nuget restore $CefSln
 }
 
 function Nupkg
