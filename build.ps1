@@ -194,6 +194,19 @@ function VSX
     Write-Diagnostic "Finished build targeting toolchain $Toolchain"
 }
 
+function NugetPackageRestore
+{
+    $nuget = Join-Path $env:LOCALAPPDATA .\nuget\NuGet.exe
+    if(-not (Test-Path $nuget)) {
+        Die "Please install nuget. More information available at: http://docs.nuget.org/docs/start-here/installing-nuget"
+    }
+
+    Write-Diagnostic "Restore Nuget Packages"
+
+    # Restore packages
+	. $nuget restore $CefSln
+}
+
 function Nupkg
 {
     $nuget = Join-Path $env:LOCALAPPDATA .\nuget\NuGet.exe
@@ -208,6 +221,8 @@ function Nupkg
 	. $nuget pack nuget\CefSharp.Wpf.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
 	. $nuget pack nuget\CefSharp.WinForms.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
 }
+
+NugetPackageRestore
 
 switch -Exact ($Target) {
     "nupkg"
