@@ -19,7 +19,7 @@ namespace CefSharp.WinForms
         public string Title { get; set; }
         public bool IsLoading { get; private set; }
         public string TooltipText { get; private set; }
-        public string Address { get; set; }
+        public string Address { get; private set; }
 
         public IDialogHandler DialogHandler { get; set; }
         public IJsDialogHandler JsDialogHandler { get; set; }
