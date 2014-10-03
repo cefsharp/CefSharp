@@ -137,7 +137,7 @@ namespace CefSharp
 
             // TODO: windows_key_code could possibly be the wrong choice here (the OnKeyEvent signature has changed since CEF1). The
             // other option would be native_key_code.
-            return handler->OnKeyEvent(_browserControl, KeyTypeToManaged(event.type), event.windows_key_code, event.modifiers, event.is_system_key);
+            return handler->OnKeyEvent(_browserControl, KeyTypeToManaged(event.type), event.windows_key_code, event.modifiers, event.is_system_key == 1);
         }
 
         bool ClientAdapter::OnPreKeyEvent(CefRefPtr<CefBrowser> browser, const CefKeyEvent& event, CefEventHandle os_event, bool* is_keyboard_shortcut)
@@ -149,7 +149,7 @@ namespace CefSharp
                 return false;
             }
 
-            return handler->OnPreKeyEvent(_browserControl, (KeyType)event.type, event.windows_key_code, event.native_key_code, event.modifiers, event.is_system_key, *is_keyboard_shortcut);
+            return handler->OnPreKeyEvent(_browserControl, (KeyType)event.type, event.windows_key_code, event.native_key_code, event.modifiers, event.is_system_key == 1, *is_keyboard_shortcut);
         }
 
         void ClientAdapter::OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame)
@@ -262,8 +262,6 @@ namespace CefSharp
             }
             else if (requestResponse->Action == ResponseAction::Respond)
             {
-                CefRefPtr<StreamAdapter> adapter = new StreamAdapter(requestResponse->ResponseStream);
-
                 throw gcnew NotImplementedException("Respond is not yet supported.");
 
                 //resourceStream = CefStreamReader::CreateForHandler(static_cast<CefRefPtr<CefReadHandler>>(adapter));

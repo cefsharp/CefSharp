@@ -132,6 +132,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CefSharp.BrowserSubprocess\CefSharp.BrowserSubprocess.csproj">
@@ -159,22 +160,13 @@
     <Folder Include="Assets\Images\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <UnmanagedPlatform>x64</UnmanagedPlatform>
-    <UnmanagedPlatform Condition="'$(Platform)'=='x86'">Win32</UnmanagedPlatform>
-  </PropertyGroup>
-  <!-- TODO: Extract this to an includable .props file, which we can then bundle with the CefSharp.Wpf NuGet package. -->
-  <Target Name="AfterBuild">
-    <ItemGroup>
-      <CefBinaries Include="$(SolutionDir)CEF\$(UnmanagedPlatform)\*.*" />
-      <LocaleFiles Include="$(SolutionDir)CEF\locales\*.*" />
-      <!-- We only need the .exe and .pdb but I don't know how to express that easily with MSBuild... -->
-      <SubProcessFiles Include="$(SolutionDir)\CefSharp.BrowserSubprocess\bin\$(Platform)\$(Configuration)\CefSharp.BrowserSubprocess.*" />
-    </ItemGroup>
-    <Copy SourceFiles="@(CefBinaries)" DestinationFolder="$(TargetDir)" />
-    <Copy SourceFiles="@(LocaleFiles)" DestinationFolder="$(TargetDir)locales" />
-    <Copy SourceFiles="@(SubProcessFiles)" DestinationFolder="$(TargetDir)" />
-  </Target>
   <Import Project="$(SolutionDir)\CefSharp.props" />
   <Import Project="$(SolutionDir)\CefSharp.Native.props" />
+  <Import Project="..\packages\cef.redist.3.1750.1738\build\cef.redist.targets" Condition="Exists('..\packages\cef.redist.3.1750.1738\build\cef.redist.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\cef.redist.3.1750.1738\build\cef.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.redist.3.1750.1738\build\cef.redist.targets'))" />
+  </Target>
 </Project>

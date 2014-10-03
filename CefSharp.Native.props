@@ -1,22 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <PropertyGroup>
-        <UnmanagedPlatform>x64</UnmanagedPlatform>
-        <UnmanagedPlatform Condition="'$(Platform)'=='x86'">Win32</UnmanagedPlatform>
-    </PropertyGroup>
-    <!-- TODO: Extract this to an includable .props file, which we can then bundle with the CefSharp.Wpf NuGet package. -->
     <Target Name="AfterBuild">
         <ItemGroup>
-            <CefBinaries Include="$(SolutionDir)packages\cef.redist.3.1650.1562-pre0\CEF\$(Platform)\*.*" />
-            <ResourceFiles Include="$(SolutionDir)packages\cef.redist.3.1650.1562-pre0\CEF\*.*" />
-            <LocaleFiles Include="$(SolutionDir)packages\cef.redist.3.1650.1562-pre0\CEF\locales\*.*" />
             <!-- We only need the .exe and .pdb but I don't know how to express that easily with MSBuild... -->
             <SubProcessFiles Include="$(SolutionDir)\CefSharp.BrowserSubprocess\bin\$(Platform)\$(Configuration)\CefSharp.BrowserSubprocess.*" />
         </ItemGroup>
-        <Copy SourceFiles="@(CefBinaries)" DestinationFolder="$(TargetDir)" />
-        <Copy SourceFiles="@(ResourceFiles)" DestinationFolder="$(TargetDir)" />
-        <Copy SourceFiles="@(LocaleFiles)" DestinationFolder="$(TargetDir)locales" />
         <Copy SourceFiles="@(SubProcessFiles)" DestinationFolder="$(TargetDir)" />
     </Target>
-
 </Project>

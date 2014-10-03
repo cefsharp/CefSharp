@@ -26,6 +26,6 @@ namespace CefSharp
 
         CefMainArgs cefMainArgs((HINSTANCE)hInstance.ToPointer());
 
-        return CefExecuteProcess(cefMainArgs, (CefApp*)cefApp.get());
+        return CefExecuteProcess(cefMainArgs, (CefApp*)cefApp.get(), NULL);
     }
 }
