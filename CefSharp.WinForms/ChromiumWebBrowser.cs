@@ -249,15 +249,14 @@ namespace CefSharp.WinForms
             managedCefBrowserAdapter.StopFinding(clearSelection);
         }
 
-        void IWebBrowserInternal.ShowDevTools()
+        public void ShowDevTools()
         {
-            // TODO: Do something about this one.
-            throw new NotImplementedException("Implement when Cef upgraded to 1750.");
+            managedCefBrowserAdapter.ShowDevTools();
         }
 
-        void IWebBrowserInternal.CloseDevTools()
+        public void CloseDevTools()
         {
-            throw new NotImplementedException("Implement when Cef upgraded to 1750.");
+            managedCefBrowserAdapter.CloseDevTools();
         }
 
         public void Stop()

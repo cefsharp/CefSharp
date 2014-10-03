@@ -250,5 +250,15 @@ namespace CefSharp.WinForms.Example
             },
             TaskScheduler.FromCurrentSynchronizationContext());
         }
+
+        private void ShowDevToolsMenuItemClick(object sender, EventArgs e)
+        {
+            browser.ShowDevTools();
+        }
+
+        private void CloseDevToolsMenuItemClick(object sender, EventArgs e)
+        {
+            browser.CloseDevTools();
+        }
     }
 }

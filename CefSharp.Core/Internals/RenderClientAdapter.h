@@ -128,6 +128,31 @@ namespace CefSharp
                 return cefBrowser->GetMainFrame();
             };
 
+            void ShowDevTools()
+            {
+                auto cefHost = TryGetCefHost();
+
+                if (cefHost != nullptr)
+                {
+                    CefWindowInfo windowInfo;
+                    CefBrowserSettings settings;
+
+                    windowInfo.SetAsPopup(cefHost->GetWindowHandle(), "DevTools");
+                
+                    cefHost->ShowDevTools(windowInfo, this, settings);
+                }
+            }
+
+            void CloseDevTools()
+            {
+                auto cefHost = TryGetCefHost();
+
+                if (cefHost != nullptr)
+                {
+                    cefHost->CloseDevTools();
+                }
+            }
+
         private:
 
             void SetBuffer(BitmapInfo^ bitmapInfo, int newWidth, int newHeight, const void* buffer)

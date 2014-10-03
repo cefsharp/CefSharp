@@ -13,8 +13,6 @@ namespace CefSharp.Internals
         void SetNavState(bool canGoBack, bool canGoForward, bool canReload);
         void SetTitle(string title);
         void SetTooltipText(string tooltipText);
-        void ShowDevTools();
-        void CloseDevTools();
 
         void OnFrameLoadStart(string url, bool isMainFrame);
         void OnFrameLoadEnd(string url, bool isMainFrame, int httpStatusCode);
