@@ -240,5 +240,15 @@ namespace CefSharp
         /// Opens a Print Dialog which if used (can be user cancelled) will print the browser contents.
         /// </summary>
         void Print();
+
+        /// <summary>
+        /// Open developer tools in its own window. 
+        /// </summary>
+        void ShowDevTools();
+
+        /// <summary>
+        /// Explicitly close the developer tools window if one exists for this browser instance.
+        /// </summary>
+        void CloseDevTools();               
     }
 }
