@@ -65,7 +65,7 @@ namespace CefSharp
     public:
         CefSettings() : _cefSettings(new ::CefSettings())
         {
-            MultiThreadedMessageLoop = true;
+            _cefSettings->multi_threaded_message_loop = true;
             BrowserSubprocessPath = "CefSharp.BrowserSubprocess.exe";
             cefCustomSchemes = gcnew List<CefCustomScheme^>();
             cefCommandLineArgs = gcnew Dictionary<String^, String^>();
@@ -86,12 +86,7 @@ namespace CefSharp
 
         virtual property bool MultiThreadedMessageLoop
         {
-            bool get() { return _cefSettings->multi_threaded_message_loop; }
-
-            // CefSharp doesn't support single threaded message loop (and there's little point in supporting it), so we make this
-            // property read-only externally.
-        private:
-            void set(bool value) sealed { _cefSettings->multi_threaded_message_loop = value; }
+            bool get() { return _cefSettings->multi_threaded_message_loop == 1; }
         }
 
         virtual property String^ BrowserSubprocessPath
@@ -108,7 +103,7 @@ namespace CefSharp
 
         virtual property bool IgnoreCertificateErrors
         {
-            bool get() { return _cefSettings->ignore_certificate_errors; }
+            bool get() { return _cefSettings->ignore_certificate_errors == 1; }
             void set(bool value) { _cefSettings->ignore_certificate_errors = value; }
         }
 
@@ -138,7 +133,7 @@ namespace CefSharp
 
         virtual property bool PackLoadingDisabled
         {
-            bool get() { return _cefSettings->pack_loading_disabled; }
+            bool get() { return _cefSettings->pack_loading_disabled == 1; }
             void set(bool value) { _cefSettings->pack_loading_disabled = value; }
         }
 

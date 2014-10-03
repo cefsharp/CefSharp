@@ -148,7 +148,7 @@ namespace CefSharp
                 CefMainArgs main_args;
                 CefRefPtr<CefSharpApp> app(new CefSharpApp(cefSettings));
 
-                int exitCode = CefExecuteProcess(main_args, app.get());
+                int exitCode = CefExecuteProcess(main_args, app.get(), NULL);
 
                 if (exitCode >= 0)
                 {
@@ -157,7 +157,7 @@ namespace CefSharp
                     return false;
                 }
 
-                success = CefInitialize(main_args, *(cefSettings->_cefSettings), app.get());
+                success = CefInitialize(main_args, *(cefSettings->_cefSettings), app.get(), NULL);
                 app->CompleteSchemeRegistrations();
                 _initialized = success;
 
@@ -318,7 +318,7 @@ namespace CefSharp
         }
 
         /// <summary> Flush the backing store (if any) to disk and execute the specified |handler| on the IO thread when done. Returns </summary>
-        /// <param name="handler">A user-provided ICompletion handler implementation.</param>
+        /// <param name="handler">A user-provided ICompletionHandler implementation.</param>
         /// <return>Returns false if cookies cannot be accessed.</return>
         static bool FlushStore(ICompletionHandler^ handler)
         {

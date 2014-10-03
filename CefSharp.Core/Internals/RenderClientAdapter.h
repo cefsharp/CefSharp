@@ -198,7 +198,7 @@ namespace CefSharp
                 CopyMemory(*backBufferHandle, (void*)buffer, numberOfBytes);
             };
 
-            IMPLEMENT_REFCOUNTING(RenderClientAdapterInternal)
+            IMPLEMENT_REFCOUNTING(RenderClientAdapter)
         };
     }
 }
