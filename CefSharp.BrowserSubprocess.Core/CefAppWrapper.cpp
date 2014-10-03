@@ -36,7 +36,7 @@ namespace CefSharp
 
         CefMainArgs cefMainArgs((HINSTANCE)hInstance.ToPointer());
 
-        return CefExecuteProcess(cefMainArgs, (CefApp*)_cefApp.get());
+        return CefExecuteProcess(cefMainArgs, (CefApp*)_cefApp.get(), NULL);
     }
     
     void CefAppWrapper::Bind(JavascriptRootObject^ rootObject, Func<IBrowserProcess^>^ createBrowserProxyDelegate)
