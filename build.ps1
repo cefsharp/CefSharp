@@ -3,7 +3,7 @@ param(
     [Parameter(Position = 0)] 
     [string] $Target = "nupkg",
     [Parameter(Position = 1)]
-    [string] $Version = "33.0.0-pre2"
+    [string] $Version = "33.1.0-pre01"
 )
 
 $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
