@@ -1,19 +1,4 @@
-if "%APPVEYOR_BUILD_NUMBER%"=="" (
-	set APPVEYOR_BUILD_NUMBER=10000
-)
-
-set version=31.0.0-JSWIP-PRE-%APPVEYOR_BUILD_NUMBER%
-REM set platform=x86
-
-if "%platform%"=="x64" (
-	set DotPlatform=.x64
-	set CPlatform=x64
-) else (
-	set Platform=x86
-	set DotPlatform=.x86
-	set CPlatform=Win32
-)
-
-NuGet pack CefSharp.Common.nuspec -NoPackageAnalysis -Version %version% -Properties DotPlatform=%DotPlatform%;Platform=%Platform%;CPlatform=%CPlatform%
-NuGet pack CefSharp.WpfOrWinForms.nuspec -NoPackageAnalysis -Version %version% -Properties ControlType=Wpf;DotPlatform=%DotPlatform%;Platform=%Platform%
-NuGet pack CefSharp.WpfOrWinForms.nuspec -NoPackageAnalysis -Version %version% -Properties ControlType=WinForms;DotPlatform=%DotPlatform%;Platform=%Platform%
+set version=33.0.0-pre2
+NuGet pack CefSharp.Common.nuspec -NoPackageAnalysis -Version %version%
+NuGet pack CefSharp.Wpf.nuspec -NoPackageAnalysis -Version %version%
+NuGet pack CefSharp.WinForms.nuspec -NoPackageAnalysis -Version %version%

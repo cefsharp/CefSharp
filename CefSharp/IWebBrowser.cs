@@ -141,13 +141,12 @@ namespace CefSharp
         bool CanReload { get; }
 
         /// <summary>
-        /// The address (URL) which the browser control is currently displaying. Can be set to a simplified URL
-        /// (e.g. www.google.com) or a full URL (e.g. http://www.google.com). Will automatically be updated as the user
-        /// navigates to another page (e.g. by clicking on a link).
+        /// The address (URL) which the browser control is currently displaying.
+        /// Will automatically be updated as the user navigates to another page (e.g. by clicking on a link).
         /// </summary>
         /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
         /// binding.</remarks>
-        string Address { get; set; }
+        string Address { get; }
 
         /// <summary>
         /// The title of the web page being currently displayed.
@@ -168,11 +167,6 @@ namespace CefSharp
         /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
         /// binding.</remarks>
         double ZoomLevel { get; set; }
-
-        /// <summary>
-        /// Url which can be loaded in a browser control to view the dev tools
-        /// </summary>
-        string DevToolsUrl { get; }
 
         /// <summary>
         /// Search for text within the current page.
@@ -248,5 +242,15 @@ namespace CefSharp
         /// Opens a Print Dialog which if used (can be user cancelled) will print the browser contents.
         /// </summary>
         void Print();
+
+        /// <summary>
+        /// Open developer tools in its own window. 
+        /// </summary>
+        void ShowDevTools();
+
+        /// <summary>
+        /// Explicitly close the developer tools window if one exists for this browser instance.
+        /// </summary>
+        void CloseDevTools();               
     }
 }

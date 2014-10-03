@@ -148,21 +148,7 @@ namespace CefSharp.Wpf
                 return;
             }
 
-            if (!Cef.IsInitialized &&
-                !Cef.Initialize())
-            {
-                throw new InvalidOperationException("Cef::Initialize() failed");
-            }
-
-            // TODO: Consider making the delay here configurable.
-            tooltipTimer = new DispatcherTimer(
-                TimeSpan.FromSeconds(0.5),
-                DispatcherPriority.Render,
-                OnTooltipTimerTick,
-                Dispatcher
-            );
-
-            managedCefBrowserAdapter.LoadUrl(newValue);
+            Load(newValue);
         }
 
         #endregion Address dependency property
@@ -944,7 +930,21 @@ namespace CefSharp.Wpf
 
         public void Load(string url)
         {
-            throw new NotImplementedException();
+            if (!Cef.IsInitialized &&
+                !Cef.Initialize())
+            {
+                throw new InvalidOperationException("Cef::Initialize() failed");
+            }
+
+            // TODO: Consider making the delay here configurable.
+            tooltipTimer = new DispatcherTimer(
+                TimeSpan.FromSeconds(0.5),
+                DispatcherPriority.Render,
+                OnTooltipTimerTick,
+                Dispatcher
+                );
+
+            managedCefBrowserAdapter.LoadUrl(url);
         }
 
         public void LoadHtml(string html, string url)
@@ -1051,21 +1051,14 @@ namespace CefSharp.Wpf
             });
         }
 
-        void IWebBrowserInternal.ShowDevTools()
+        public void ShowDevTools()
         {
-            // TODO: Do something about this one.
-            var devToolsUrl = managedCefBrowserAdapter.DevToolsUrl;
-            throw new NotImplementedException("Implement when Cef upgraded to 1750.");
+            managedCefBrowserAdapter.ShowDevTools();
         }
 
-        void IWebBrowserInternal.CloseDevTools()
+        public void CloseDevTools()
         {
-            throw new NotImplementedException("Implement when Cef upgraded to 1750.");
-        }
-
-        public string DevToolsUrl
-        {
-            get { return managedCefBrowserAdapter.DevToolsUrl; }
+            managedCefBrowserAdapter.CloseDevTools();
         }
 
         void IWebBrowserInternal.OnFrameLoadStart(string url, bool isMainFrame)

@@ -20,8 +20,8 @@ namespace CefSharp
             cookie->Value = StringUtils::ToClr(cefCookie.value);
             cookie->Domain = StringUtils::ToClr(cefCookie.domain);
             cookie->Path = StringUtils::ToClr(cefCookie.path);
-            cookie->Secure = cefCookie.secure;
-            cookie->HttpOnly = cefCookie.httponly;
+            cookie->Secure = cefCookie.secure == 1;
+            cookie->HttpOnly = cefCookie.httponly == 1;
 
             if (cefCookie.has_expires)
             {
