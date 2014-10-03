@@ -169,11 +169,6 @@ namespace CefSharp
         double ZoomLevel { get; set; }
 
         /// <summary>
-        /// Url which can be loaded in a browser control to view the dev tools
-        /// </summary>
-        string DevToolsUrl { get; }
-
-        /// <summary>
         /// Search for text within the current page.
         /// </summary>
         /// <param name="identifier">Can be used in can conjunction with searchText to have multiple
