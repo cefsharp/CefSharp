@@ -26,7 +26,7 @@
     <file src="..\CefSharp.BrowserSubprocess\bin\x64\Release\CefSharp.BrowserSubprocess.Core.dll" target="CefSharp\x64"/>
 	<file src="..\CefSharp.BrowserSubprocess\bin\x64\Release\CefSharp.BrowserSubprocess.exe" target="CefSharp\x64"/>
 
-    <file src="..\x64\Release\CefSharp.Core.xml" target="CefSharp\x86"/>
+    <file src="..\Win32\Release\CefSharp.Core.xml" target="CefSharp\x86"/>
     <file src="..\x64\Release\CefSharp.Core.xml" target="CefSharp\x64"/>
     <file src="..\x64\Release\CefSharp.Core.xml" target="lib"/>
     <file src="..\CefSharp\bin\x64\Release\CefSharp.xml" target="CefSharp\x64"/>
