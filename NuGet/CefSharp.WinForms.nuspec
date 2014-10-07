@@ -21,6 +21,11 @@
     <file src="..\CefSharp.WinForms\bin\x86\Release\CefSharp.WinForms.dll" target="CefSharp\x86" />
     <file src="..\CefSharp.WinForms\bin\x64\Release\CefSharp.WinForms.dll" target="CefSharp\x64" />
 
+    <file src="..\CefSharp.WinForms\bin\x64\Release\CefSharp.WinForms.xml" target="CefSharp\x86" />
+    <file src="..\CefSharp.WinForms\bin\x64\Release\CefSharp.WinForms.xml" target="CefSharp\x64" />
+    <!-- Long shot, to see if it's here NuDoq.org looks for it, trial and error at it's best -->
+    <file src="..\CefSharp.WinForms\bin\x64\Release\CefSharp.WinForms.xml" target="lib" />
+
     <file src="CefSharp.WinForms.props" target="build" />
   </files>
 </package>
