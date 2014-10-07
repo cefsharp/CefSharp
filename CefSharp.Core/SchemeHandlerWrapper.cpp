@@ -123,7 +123,7 @@ namespace CefSharp
             _stream->Close();
         }
         _stream = nullptr;
-        _callback = nullptr;
+        _callback = NULL;
     }
 
     int SchemeHandlerWrapper::SizeFromStream()
