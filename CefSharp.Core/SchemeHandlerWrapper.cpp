@@ -94,7 +94,7 @@ namespace CefSharp
 
         AutoLock lock_scope(this);
 
-        if (!_stream)
+        if (static_cast<Stream^>(_stream) == nullptr)
         {
             bytes_read = 0;
         }
@@ -118,7 +118,7 @@ namespace CefSharp
 
     void SchemeHandlerWrapper::Cancel()
     {
-        if (!!_stream && _closeStream)
+        if (static_cast<Stream^>(_stream) != nullptr && _closeStream)
         {
             _stream->Close();
         }
@@ -128,7 +128,7 @@ namespace CefSharp
 
     int SchemeHandlerWrapper::SizeFromStream()
     {
-        if (!_stream)
+        if (static_cast<Stream^>(_stream) == nullptr)
         {
             return 0;
         }
