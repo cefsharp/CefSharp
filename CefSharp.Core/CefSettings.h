@@ -30,8 +30,6 @@ namespace CefSharp
                 return LOGSEVERITY_WARNING;
             case CefSharp::LogSeverity::Error:
                 return LOGSEVERITY_ERROR;
-            case CefSharp::LogSeverity::ErrorReport:
-                return LOGSEVERITY_ERROR_REPORT;
             case CefSharp::LogSeverity::Disable:
             default:
                 return LOGSEVERITY_DISABLE;
@@ -50,8 +48,6 @@ namespace CefSharp
                 return CefSharp::LogSeverity::Warning;
             case LOGSEVERITY_ERROR:
                 return CefSharp::LogSeverity::Error;
-            case LOGSEVERITY_ERROR_REPORT:
-                return CefSharp::LogSeverity::ErrorReport;
             case LOGSEVERITY_DISABLE:
             default:
                 return CefSharp::LogSeverity::Disable;
