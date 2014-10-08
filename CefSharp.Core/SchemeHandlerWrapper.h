@@ -34,7 +34,7 @@ namespace CefSharp
 
         SchemeHandlerWrapper(ISchemeHandler^ handler) : _handler(handler)
         {
-            if (!_handler)
+            if (static_cast<ISchemeHandler^>(_handler) == nullptr)
             {
                 throw gcnew ArgumentException("handler must not be null");
             }
