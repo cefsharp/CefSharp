@@ -36,7 +36,7 @@ namespace CefSharp
 
         bool handled = false;
 
-        AutoLock lock_scope(this);
+        _sync.Lock();
 
         auto schemeResponse = gcnew SchemeHandlerResponse(this);
         auto onRequestCompleted = gcnew OnRequestCompletedHandler(schemeResponse, &SchemeHandlerResponse::OnRequestCompleted);
@@ -46,6 +46,8 @@ namespace CefSharp
         {
             handled = true;
         }
+
+        _sync.Unlock();
 
         return handled;
     }
@@ -92,7 +94,7 @@ namespace CefSharp
     {
         bool has_data = false;
 
-        AutoLock lock_scope(this);
+        _sync.Lock();
 
         if (static_cast<Stream^>(_stream) == nullptr)
         {
@@ -112,6 +114,8 @@ namespace CefSharp
                 _stream->Close();
             }
         }
+
+        _sync.Unlock();
 
         return has_data;
     }

@@ -30,6 +30,7 @@ namespace CefSharp
             public CefDialogHandler
         {
         private:
+            base::internal::LockImpl _sync;
             gcroot<IWebBrowserInternal^> _browserControl;
             gcroot<ManagedCefBrowserAdapter^> _managedCefBrowserAdapter;
             HWND _browserHwnd;
@@ -121,7 +122,6 @@ namespace CefSharp
                 const CefString& default_file_name, const std::vector<CefString>& accept_types,
                 CefRefPtr<CefFileDialogCallback> callback) OVERRIDE;
 
-            IMPLEMENT_LOCKING(ClientAdapter);
             IMPLEMENT_REFCOUNTING(ClientAdapter);
         };
     }

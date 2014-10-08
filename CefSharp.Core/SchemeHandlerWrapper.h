@@ -17,6 +17,7 @@ namespace CefSharp
 
     public class SchemeHandlerWrapper : public CefResourceHandler
     {
+        base::internal::LockImpl _sync;
         gcroot<ISchemeHandler^> _handler;
         gcroot<Stream^> _stream;
         CefRefPtr<CefCallback> _callback;
@@ -45,7 +46,6 @@ namespace CefSharp
         virtual bool ReadResponse(void* data_out, int bytes_to_read, int& bytes_read, CefRefPtr<CefCallback> callback);
         virtual void Cancel();
 
-        IMPLEMENT_LOCKING(SchemeHandlerWrapper);
         IMPLEMENT_REFCOUNTING(SchemeHandlerWrapper);
     };
 

@@ -14,6 +14,7 @@ namespace CefSharp
     {
         private class StreamAdapter : public CefReadHandler
         {
+            base::internal::LockImpl _sync;
             gcroot<Stream^> _stream;
 
         public:
@@ -25,7 +26,6 @@ namespace CefSharp
             virtual int64 Tell();
             virtual int Eof();
 
-            IMPLEMENT_LOCKING(StreamAdapter);
             IMPLEMENT_REFCOUNTING(StreamAdapter);
         };
     }

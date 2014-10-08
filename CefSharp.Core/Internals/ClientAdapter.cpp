@@ -159,7 +159,8 @@ namespace CefSharp
                 return;
             }
 
-            AutoLock lock_scope(this);
+            _sync.Lock();
+
             if (frame->IsMain())
             {
                 _browserControl->SetIsLoading(true);
@@ -167,6 +168,8 @@ namespace CefSharp
             }
 
             _browserControl->OnFrameLoadStart(StringUtils::ToClr(frame->GetURL()), frame->IsMain());
+
+            _sync.Unlock();
         }
 
         void ClientAdapter::OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode)
@@ -176,13 +179,16 @@ namespace CefSharp
                 return;
             }
 
-            AutoLock lock_scope(this);
+            _sync.Lock();
+
             if (frame->IsMain())
             {
                 _browserControl->SetIsLoading(false);
             }
 
             _browserControl->OnFrameLoadEnd(StringUtils::ToClr(frame->GetURL()), frame->IsMain(), httpStatusCode);
+
+            _sync.Unlock();
         }
 
         void ClientAdapter::OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, ErrorCode errorCode, const CefString& errorText, const CefString& failedUrl)
