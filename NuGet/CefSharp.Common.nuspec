@@ -12,9 +12,12 @@
     <tags>chrome browser</tags>
     <copyright>Copyright © 2010-2014 The CefSharp Authors</copyright>
     <dependencies>
-      <dependency id="cef.redist" version="[$version$]" />
+      <dependency id="cef.redist.x86.debug" version="[$RedistVersion$]" />
+      <dependency id="cef.redist.x64.debug" version="[$RedistVersion$]" />
+      <dependency id="cef.redist.x86.release" version="[$RedistVersion$]" />
+      <dependency id="cef.redist.x64.release" version="[$RedistVersion$]" />
     </dependencies>
-</metadata>
+  </metadata>
   <files>
     <!-- Common CefSharp stuff (shared between both WPF and WinForms) -->
     <file src="..\Win32\Release\CefSharp.Core.dll" target="CefSharp\x86"/>
