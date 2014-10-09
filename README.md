@@ -6,29 +6,30 @@ CefSharp provides both WPF and WinForms web browser control implementations. See
 
 This project is [BSD](http://www.opensource.org/licenses/bsd-license.php "BSD License") licensed, which means that it can be used from both proprietary and free/open source applications. For the full details, see the [LICENSE](LICENSE) file.
 
-# Documentation & mailing list
+# Documentation, Contact etc.
 
-Apart from code samples mentioned above work-in-progress documentation can be found [in the wiki](https://github.com/cefsharp/CefSharp/wiki). If something is missing/incomplete, please don't hesitate to ask at the [CefSharp Google Group](https://groups.google.com/forum/#!forum/cefsharp). You might also find help by searching the archive to that same Google Group for previous questions.
+Apart from code samples mentioned above work-in-progress documentation can be found [in the wiki](https://github.com/cefsharp/CefSharp/wiki). If something is missing/incomplete, please don't hesitate to ask on [StackOverflow](http://stackoverflow.com/questions/tagged/cefsharp) in the [CefSharp Google Group](https://groups.google.com/forum/#!forum/cefsharp). You might also find help by searching the archive to that same Google Group for previous questions.
 
-# Binary Release
+# NuGet Packages
 
 Binary releases contain everything needed to embed Chromium in your CLR application.
 
-- **Pre-release** - CefSharp-3.29.0-pre.0 Currently only available as a WPF [NuGet](http://www.nuget.org/packages/CefSharp.Wpf/3.29.0-pre0). NuGet is CefSharp's new primary (only?) binary delivery mechanism. 
-* **Stable** (.NET 4): CefSharp-1.25.7 - 
-[binaries](https://github.com/cefsharp/CefSharp/releases/download/v1.25.7/CefSharp-v1.25.7-binaries.zip),
-[source](https://github.com/cefsharp/CefSharp/archive/v1.25.7.zip), + [WPF](http://www.nuget.org/packages/CefSharp.Wpf/) or 
-[WinForms](http://www.nuget.org/packages/CefSharp.WinForms/) NuGet's. Based on Chromium 25.0.1364.152
-* **Legacy** (older release, works with .NET 2. Requires [7-Zip](http://www.7-zip.org/) to extract.): 
-[CefSharp-1.25.0](http://sourceforge.net/projects/cefsharp/files/CefSharp-1.25.0.7z/download).
-Based on Chromium 25.0.1364.152
+**Pre-release**<br>
+![CefSharp.Wpf](http://img.shields.io/nuget/vpre/CefSharp.Wpf.svg?style=flat)
+   Has the final feature that a lot of people want, JS Binding ... reportedly some people already have it in productive use it and will never look back.
 
-See the [SF Downloads](https://sourceforge.net/projects/cefsharp/files/) page for even older releases. Please note that the latest Stable release, *or preferably the new CEF3 Pre-release getting out of beta real-soon-now*, is the only version officially supported; it's very unlikely that we will fix bugs in older releases.
+**Stable**<br> 
+![CefSharp.Wpf](http://img.shields.io/nuget/v/CefSharp.Wpf.svg?style=flat) for either  [WPF](http://www.nuget.org/packages/CefSharp.Wpf/) or 
+[WinForms](http://www.nuget.org/packages/CefSharp.WinForms/) If you want mature battle tested code, and don't *need* the JS Binding (yet) go for this one.
+
+**Ultra stable/LTS** Read "He's (almost) dead Jim", based on Chromium 25. See the [CefSharp1](https://github.com/jornh/CefSharp/tree/CefSharp1#binary-release) branch README for CefSharp1 info. We even date back to supporting .NET 2. Please note that the latest Stable release  is the only version officially supported; it's very unlikely that we will fix bugs in older releases.
 
 # Branches & Forks
 
+![](http://img.shields.io/appveyor/ci/cefsharp/cefsharp.svg)
+
 * Development is done in the `master` branch, which *used to be called* `CefSharp3` during the development cycle. New features are preferably added in feature branches, if the changes are more than trivial.
-* Ultra-stable/LTS work is done in `CefSharp1`.
+* Ultra-stable/LTS work ~~is done~~ has stalled in `CefSharp1`.
 * [The CefSharp GitHub project page](https://github.com/cefsharp/CefSharp) is the recommended starting place. This is the "official" CefSharp fork, as maintained by the CefSharp community. You can also view [the entire network of public forks/branches](https://github.com/cefsharp/CefSharp/network).
 
 # Links
