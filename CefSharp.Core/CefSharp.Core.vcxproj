@@ -241,6 +241,7 @@
   <ItemGroup>
     <ClInclude Include="BrowserSettings.h" />
     <ClInclude Include="Cef.h" />
+    <ClInclude Include="Internals\AutoLock.h" />
     <ClInclude Include="Internals\CompletionHandler.h" />
     <ClInclude Include="Internals\StringVisitor.h" />
     <ClInclude Include="Wrappers\CefAppWrapper.h" />

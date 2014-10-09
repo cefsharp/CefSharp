@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 #include "Stdafx.h"
+#include "AutoLock.h"
 #pragma once
 
 using namespace System;
@@ -14,7 +15,7 @@ namespace CefSharp
     {
         private class StreamAdapter : public CefReadHandler
         {
-            base::internal::LockImpl _sync;
+            CriticalSection _syncRoot;
             gcroot<Stream^> _stream;
 
         public:

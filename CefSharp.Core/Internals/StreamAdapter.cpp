@@ -16,7 +16,7 @@ namespace CefSharp
 
         size_t StreamAdapter::Read(void* ptr, size_t size, size_t n)
         {
-            _sync.Lock();
+            AutoLock lock_scope(_syncRoot);
 
             try {
                 array<Byte>^ buffer = gcnew array<Byte>(n * size);
@@ -28,9 +28,6 @@ namespace CefSharp
             catch (Exception^)
             {
                 return -1;
-            }
-            finally {
-              _sync.Unlock();
             }
         }
 
