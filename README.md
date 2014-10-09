@@ -8,7 +8,7 @@ This project is [BSD](http://www.opensource.org/licenses/bsd-license.php "BSD Li
 
 # Documentation, Contact etc.
 
-Apart from code samples mentioned above work-in-progress documentation can be found [in the wiki](https://github.com/cefsharp/CefSharp/wiki). If something is missing/incomplete, please don't hesitate to ask on [StackOverflow](http://stackoverflow.com/questions/tagged/cefsharp) in the [CefSharp Google Group](https://groups.google.com/forum/#!forum/cefsharp). You might also find help by searching the archive to that same Google Group for previous questions.
+Apart from code samples mentioned above work-in-progress documentation can be found [in the wiki](https://github.com/cefsharp/CefSharp/wiki). If something is missing/incomplete, please don't hesitate to ask on [StackOverflow](http://stackoverflow.com/questions/tagged/cefsharp) or in the [CefSharp Google Group](https://groups.google.com/forum/#!forum/cefsharp). You might also find help by searching the archive to that same Google Group for previous questions.
 
 # NuGet Packages
 
@@ -29,7 +29,7 @@ Binary releases contain everything needed to embed Chromium in your CLR applicat
 ![](http://img.shields.io/appveyor/ci/cefsharp/cefsharp.svg)
 
 * Development is done in the `master` branch, which *used to be called* `CefSharp3` during the development cycle. New features are preferably added in feature branches, if the changes are more than trivial.
-* Ultra-stable/LTS work ~~is done~~ has stalled in `CefSharp1`.
+* Ultra-stable/LTS sources are in `CefSharp1`.
 * [The CefSharp GitHub project page](https://github.com/cefsharp/CefSharp) is the recommended starting place. This is the "official" CefSharp fork, as maintained by the CefSharp community. You can also view [the entire network of public forks/branches](https://github.com/cefsharp/CefSharp/network).
 
 # Links
