@@ -34,12 +34,11 @@ namespace CefSharp.Wpf
         private readonly ToolTip toolTip;
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
         private bool ignoreUriChange;
-        private Matrix matrix;
 
         private Image image;
         private Image popupImage;
         private Popup popup;
-        private ScaleTransform dpiTransform;
+
         private readonly List<IDisposable> disposables = new List<IDisposable>();
 
         public BrowserSettings BrowserSettings { get; set; }
@@ -105,14 +104,14 @@ namespace CefSharp.Wpf
             get { return PixelFormat.BitsPerPixel / 8; }
         }
 
-        int IRenderWebBrowser.Width
+        double IRenderWebBrowser.Width
         {
-            get { return (int)matrix.Transform(new Point(ActualWidth, ActualHeight)).X; }
+            get { return ActualWidth; }
         }
 
-        int IRenderWebBrowser.Height
+        double IRenderWebBrowser.Height
         {
-            get { return (int)matrix.Transform(new Point(ActualWidth, ActualHeight)).Y; }
+            get { return ActualHeight; }
         }
 
         private static PixelFormat PixelFormat
@@ -501,14 +500,11 @@ namespace CefSharp.Wpf
 
             AddSourceHookIfNotAlreadyPresent();
 
-            CheckIsNonStandardDpi();
-
             // Create main window
             Content = image = CreateImage();
-            Transform(image);
 
+            // Create popup
             popup = CreatePopup();
-            Transform(popup);
         }
 
         private static Image CreateImage()
@@ -538,22 +534,6 @@ namespace CefSharp.Wpf
             return newPopup;
         }
 
-        private void Transform(FrameworkElement element)
-        {
-            if (dpiTransform != null)
-            {
-                element.LayoutTransform = dpiTransform;
-            }
-        }
-
-        private void CheckIsNonStandardDpi()
-        {
-            dpiTransform = new ScaleTransform(
-                   1 / matrix.M11,
-                   1 / matrix.M22
-               );
-        }
-
         private void AddSourceHookIfNotAlreadyPresent()
         {
             if (source != null)
@@ -565,7 +545,6 @@ namespace CefSharp.Wpf
 
             if (source != null)
             {
-                matrix = source.CompositionTarget.TransformToDevice;
                 sourceHook = SourceHook;
                 source.AddHook(sourceHook);
             }
@@ -726,10 +705,6 @@ namespace CefSharp.Wpf
         {
             popup.Width = width;
             popup.Height = height;
-
-            var popupOffset = new Point(x, y);
-            popup.HorizontalOffset = popupOffset.X / matrix.M11;
-            popup.VerticalOffset = popupOffset.Y / matrix.M22;
         }
 
         private void OnTooltipTimerTick(object sender, EventArgs e)
@@ -1171,10 +1146,7 @@ namespace CefSharp.Wpf
 
         private Point GetPixelPosition(MouseEventArgs e)
         {
-            var deviceIndependentPosition = e.GetPosition(this);
-            var pixelPosition = matrix.Transform(deviceIndependentPosition);
-
-            return pixelPosition;
+            return e.GetPosition(this);
         }
 
         private object SetBitmapHelper(BitmapInfo bitmapInfo, InteropBitmap bitmap, Action<InteropBitmap> imageSourceSetter)
