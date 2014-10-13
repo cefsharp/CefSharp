@@ -17,8 +17,8 @@ namespace CefSharp.WinForms.Example
             {
                 Dock = DockStyle.Fill
             };
-            browserPanel.Panel1.Controls.Add(browser);
-            browserPanel.Panel2Collapsed = true;
+
+            browserPanel.Controls.Add(browser);
 
             Browser = browser;
 
