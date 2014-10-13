@@ -111,7 +111,9 @@ namespace CefSharp.WinForms.Example
                 return;
             }
 
-            var tabPage = browserTabControl.Controls[browserTabControl.SelectedIndex];
+            var currentIndex = browserTabControl.SelectedIndex;
+
+            var tabPage = browserTabControl.Controls[currentIndex];
 
             var control = GetCurrentTabControl();
             if (control != null)
@@ -120,6 +122,8 @@ namespace CefSharp.WinForms.Example
             }
 
             browserTabControl.Controls.Remove(tabPage);
+
+            browserTabControl.SelectedIndex = currentIndex - 1;
 
             if (browserTabControl.Controls.Count == 0)
             {
