@@ -228,28 +228,5 @@ namespace CefSharp.WinForms.Example
         {
             ToggleBottomToolStrip();
         }
-
-        public void ShowDevTools()
-        {
-            if (browserPanel.Panel2.Controls.Count == 0)
-            {
-                //TODO: Shouldn't need to cast this to get DevToolsUrl
-                var primaryBrowser = (ChromiumWebBrowser)Browser;
-                var browser = new ChromiumWebBrowser(primaryBrowser.DevToolsUrl)
-                {
-                    Dock = DockStyle.Fill
-                };
-                browserPanel.Panel2.Controls.Add(browser);
-            }
-            browserPanel.Panel2Collapsed = false;
-        }
-
-        public void CloseDevTools()
-        {
-            if (!browserPanel.Panel2Collapsed)
-            {
-                browserPanel.Panel2Collapsed = true;
-            }
-        }
     }
 }

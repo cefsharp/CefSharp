@@ -197,32 +197,22 @@ namespace CefSharp.WinForms.Example
             }
         }
 
-        private void ShowDevToolsItemClick(object sender, EventArgs e)
+        private void ShowDevToolsMenuItemClick(object sender, EventArgs e)
         {
             var control = GetCurrentTabControl();
             if (control != null)
             {
-                control.ShowDevTools();
+                control.Browser.ShowDevTools();
             }
         }
 
         private void CloseDevToolsMenuItemClick(object sender, EventArgs e)
         {
-			var control = GetCurrentTabControl();
-			if (control != null)
-			{
-				control.CloseDevTools();
-			}
-        }
-
-        private void ShowDevToolsMenuItemClick(object sender, EventArgs e)
-        {
-            browser.ShowDevTools();
-        }
-
-        private void CloseDevToolsMenuItemClick(object sender, EventArgs e)
-        {
-            browser.CloseDevTools();
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                control.Browser.CloseDevTools();
+            }
         }
     }
 }
