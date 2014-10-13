@@ -114,7 +114,14 @@
             this.showDevToolsMenuItem.Name = "showDevToolsMenuItem";
             this.showDevToolsMenuItem.Size = new System.Drawing.Size(158, 22);
             this.showDevToolsMenuItem.Text = "Show Dev Tools";
-            this.showDevToolsMenuItem.Click += new System.EventHandler(this.ShowDevToolsItemClick);
+            this.showDevToolsMenuItem.Click += new System.EventHandler(this.ShowDevToolsMenuItemClick);
+            // 
+            // closeDevToolsMenuItem
+            // 
+            this.closeDevToolsMenuItem.Name = "closeDevToolsMenuItem";
+            this.closeDevToolsMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.closeDevToolsMenuItem.Text = "Close Dev Tools";
+            this.closeDevToolsMenuItem.Click += new System.EventHandler(this.CloseDevToolsMenuItemClick);
             // 
             // toolStripMenuItem3
             // 

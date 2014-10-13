@@ -19,7 +19,7 @@ namespace CefSharp.WinForms
         public string Title { get; set; }
         public bool IsLoading { get; private set; }
         public string TooltipText { get; private set; }
-        public string Address { get; set; }
+        public string Address { get; private set; }
 
         public IDialogHandler DialogHandler { get; set; }
         public IJsDialogHandler JsDialogHandler { get; set; }
@@ -255,21 +255,14 @@ namespace CefSharp.WinForms
             managedCefBrowserAdapter.StopFinding(clearSelection);
         }
 
-        void IWebBrowserInternal.ShowDevTools()
+        public void ShowDevTools()
         {
-            // TODO: Do something about this one.
-            var devToolsUrl = managedCefBrowserAdapter.DevToolsUrl;
-            throw new NotImplementedException("Implement when Cef upgraded to 1750.");
+            managedCefBrowserAdapter.ShowDevTools();
         }
 
-        void IWebBrowserInternal.CloseDevTools()
+        public void CloseDevTools()
         {
-            throw new NotImplementedException("Implement when Cef upgraded to 1750.");
-        }
-
-        public string DevToolsUrl
-        {
-            get { return managedCefBrowserAdapter.DevToolsUrl; }
+            managedCefBrowserAdapter.CloseDevTools();
         }
 
         public void Stop()

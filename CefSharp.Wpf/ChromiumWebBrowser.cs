@@ -148,21 +148,7 @@ namespace CefSharp.Wpf
                 return;
             }
 
-            if (!Cef.IsInitialized &&
-                !Cef.Initialize())
-            {
-                throw new InvalidOperationException("Cef::Initialize() failed");
-            }
-
-            // TODO: Consider making the delay here configurable.
-            tooltipTimer = new DispatcherTimer(
-                TimeSpan.FromSeconds(0.5),
-                DispatcherPriority.Render,
-                OnTooltipTimerTick,
-                Dispatcher
-            );
-
-            managedCefBrowserAdapter.LoadUrl(newValue);
+            Load(newValue);
         }
 
         #endregion Address dependency property
@@ -334,15 +320,23 @@ namespace CefSharp.Wpf
 
         protected virtual void Dispose(bool isdisposing)
         {
+            Loaded -= OnLoaded;
+            Unloaded -= OnUnloaded;
+
+            GotKeyboardFocus -= OnGotKeyboardFocus;
+            LostKeyboardFocus -= OnLostKeyboardFocus;
+
+            IsVisibleChanged -= OnIsVisibleChanged;
+
             Cef.RemoveDisposable(this);
+
+            RemoveSourceHook();
 
             foreach (var disposable in disposables)
             {
                 disposable.Dispose();
             }
             disposables.Clear();
-
-            RemoveSourceHook();
 
             DoInUi(() => WebBrowser = null);
             managedCefBrowserAdapter = null;
@@ -771,12 +765,18 @@ namespace CefSharp.Wpf
 
         private void OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            managedCefBrowserAdapter.SendFocusEvent(true);
+            if (managedCefBrowserAdapter != null)
+            {
+                managedCefBrowserAdapter.SendFocusEvent(true);
+            }
         }
 
         private void OnLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            managedCefBrowserAdapter.SendFocusEvent(false);
+            if (managedCefBrowserAdapter != null)
+            {
+                managedCefBrowserAdapter.SendFocusEvent(false);
+            }
         }
 
         protected override void OnPreviewKeyDown(KeyEventArgs e)
@@ -836,19 +836,25 @@ namespace CefSharp.Wpf
             var point = GetPixelPosition(e);
             var modifiers = GetModifiers(e);
 
-            managedCefBrowserAdapter.OnMouseMove((int)point.X, (int)point.Y, false, modifiers);
+            if (managedCefBrowserAdapter != null)
+            {
+                managedCefBrowserAdapter.OnMouseMove((int)point.X, (int)point.Y, false, modifiers);
+            }
         }
 
         protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
             var point = GetPixelPosition(e);
 
-            managedCefBrowserAdapter.OnMouseWheel(
-                (int)point.X,
-                (int)point.Y,
-                deltaX: 0,
-                deltaY: e.Delta
-            );
+            if (managedCefBrowserAdapter != null)
+            {
+                managedCefBrowserAdapter.OnMouseWheel(
+                    (int)point.X,
+                    (int)point.Y,
+                    deltaX: 0,
+                    deltaY: e.Delta
+                    );
+            }
         }
 
         protected void PopupMouseEnter(object sender, MouseEventArgs e)
@@ -878,7 +884,11 @@ namespace CefSharp.Wpf
         protected override void OnMouseLeave(MouseEventArgs e)
         {
             var modifiers = GetModifiers(e);
-            managedCefBrowserAdapter.OnMouseMove(0, 0, true, modifiers);
+
+            if (managedCefBrowserAdapter != null)
+            {
+                managedCefBrowserAdapter.OnMouseMove(0, 0, true, modifiers);
+            }
         }
 
         private void OnMouseButton(MouseButtonEventArgs e)
@@ -907,7 +917,10 @@ namespace CefSharp.Wpf
             var mouseUp = (e.ButtonState == MouseButtonState.Released);
             var point = GetPixelPosition(e);
 
-            managedCefBrowserAdapter.OnMouseButton((int)point.X, (int)point.Y, mouseButtonType, mouseUp, e.ClickCount, modifiers);
+            if (managedCefBrowserAdapter != null)
+            {
+                managedCefBrowserAdapter.OnMouseButton((int)point.X, (int)point.Y, mouseButtonType, mouseUp, e.ClickCount, modifiers);
+            }
         }
 
         void IWebBrowserInternal.OnInitialized()
@@ -917,7 +930,21 @@ namespace CefSharp.Wpf
 
         public void Load(string url)
         {
-            throw new NotImplementedException();
+            if (!Cef.IsInitialized &&
+                !Cef.Initialize())
+            {
+                throw new InvalidOperationException("Cef::Initialize() failed");
+            }
+
+            // TODO: Consider making the delay here configurable.
+            tooltipTimer = new DispatcherTimer(
+                TimeSpan.FromSeconds(0.5),
+                DispatcherPriority.Render,
+                OnTooltipTimerTick,
+                Dispatcher
+                );
+
+            managedCefBrowserAdapter.LoadUrl(url);
         }
 
         public void LoadHtml(string html, string url)
@@ -1024,21 +1051,14 @@ namespace CefSharp.Wpf
             });
         }
 
-        void IWebBrowserInternal.ShowDevTools()
+        public void ShowDevTools()
         {
-            // TODO: Do something about this one.
-            var devToolsUrl = managedCefBrowserAdapter.DevToolsUrl;
-            throw new NotImplementedException("Implement when Cef upgraded to 1750.");
+            managedCefBrowserAdapter.ShowDevTools();
         }
 
-        void IWebBrowserInternal.CloseDevTools()
+        public void CloseDevTools()
         {
-            throw new NotImplementedException("Implement when Cef upgraded to 1750.");
-        }
-
-        public string DevToolsUrl
-        {
-            get { return managedCefBrowserAdapter.DevToolsUrl; }
+            managedCefBrowserAdapter.CloseDevTools();
         }
 
         void IWebBrowserInternal.OnFrameLoadStart(string url, bool isMainFrame)

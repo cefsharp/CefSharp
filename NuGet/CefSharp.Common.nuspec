@@ -12,7 +12,7 @@
     <tags>chrome browser</tags>
     <copyright>Copyright © 2010-2014 The CefSharp Authors</copyright>
     <dependencies>
-      <dependency id="cef.redist" version="[3.1650.1562-pre3,3.1651)" />
+      <dependency id="cef.redist" version="[3.1750.1738, 3.1751)" />
     </dependencies>
 </metadata>
   <files>
@@ -23,6 +23,14 @@
     <file src="..\CefSharp\bin\x64\Release\CefSharp.dll" target="CefSharp\x64"/>
     <file src="..\CefSharp.BrowserSubprocess\bin\x86\Release\CefSharp.BrowserSubprocess.exe" target="CefSharp\x86"/>
     <file src="..\CefSharp.BrowserSubprocess\bin\x64\Release\CefSharp.BrowserSubprocess.exe" target="CefSharp\x64"/>
+
+    <file src="..\x64\Release\CefSharp.Core.xml" target="CefSharp\x86"/>
+    <file src="..\x64\Release\CefSharp.Core.xml" target="CefSharp\x64"/>
+    <file src="..\x64\Release\CefSharp.Core.xml" target="lib"/>
+    <file src="..\CefSharp\bin\x64\Release\CefSharp.xml" target="CefSharp\x64"/>
+    <file src="..\CefSharp\bin\x64\Release\CefSharp.xml" target="CefSharp\x86"/>
+    <!-- Long shot, to see if it's here NuDoq.org looks for it, trial and error at it's best -->
+    <file src="..\CefSharp\bin\x64\Release\CefSharp.xml" target="lib" />
 
     <file src="CefSharp.Common.props" target="build" />
     <file src="CefSharp.Common.targets" target="build" />

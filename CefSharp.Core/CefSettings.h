@@ -61,7 +61,7 @@ namespace CefSharp
     public:
         CefSettings() : _cefSettings(new ::CefSettings())
         {
-            MultiThreadedMessageLoop = true;
+            _cefSettings->multi_threaded_message_loop = true;
         }
 
         !CefSettings() { delete _cefSettings; }
@@ -69,12 +69,7 @@ namespace CefSharp
 
         virtual property bool MultiThreadedMessageLoop
         {
-            bool get() override { return _cefSettings->multi_threaded_message_loop; }
-
-            // CefSharp doesn't support single threaded message loop (and there's little point in supporting it), so we make this
-            // property read-only externally.
-        private:
-            void set(bool value) sealed { _cefSettings->multi_threaded_message_loop = value; }
+            bool get() override { return _cefSettings->multi_threaded_message_loop == 1; }
         }
 
         virtual property String^ BrowserSubprocessPath
@@ -87,6 +82,12 @@ namespace CefSharp
         {
             String^ get() override { return StringUtils::ToClr(_cefSettings->cache_path); }
             void set(String^ value) override { StringUtils::AssignNativeFromClr(_cefSettings->cache_path, value); }
+        }
+
+        virtual property bool IgnoreCertificateErrors
+        {
+            bool get() { return _cefSettings->ignore_certificate_errors == 1; }
+            void set(bool value) { _cefSettings->ignore_certificate_errors = value; }
         }
 
         virtual property String^ Locale
@@ -115,7 +116,7 @@ namespace CefSharp
 
         virtual property bool PackLoadingDisabled
         {
-            bool get() override { return _cefSettings->pack_loading_disabled; }
+            bool get() override { return _cefSettings->pack_loading_disabled == 1; }
             void set(bool value) override { _cefSettings->pack_loading_disabled = value; }
         }
 

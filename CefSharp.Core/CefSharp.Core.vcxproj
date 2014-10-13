@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\cef.sdk.3.1650.1562-pre2\build\cef.sdk.props" Condition="Exists('..\packages\cef.sdk.3.1650.1562-pre2\build\cef.sdk.props')" />
+  <Import Project="..\packages\cef.sdk.3.1750.1738\build\cef.sdk.props" Condition="Exists('..\packages\cef.sdk.3.1750.1738\build\cef.sdk.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -283,6 +283,6 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\cef.sdk.3.1650.1562-pre2\build\cef.sdk.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.sdk.3.1650.1562-pre2\build\cef.sdk.props'))" />
+    <Error Condition="!Exists('..\packages\cef.sdk.3.1750.1738\build\cef.sdk.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.sdk.3.1750.1738\build\cef.sdk.props'))" />
   </Target>
 </Project>
