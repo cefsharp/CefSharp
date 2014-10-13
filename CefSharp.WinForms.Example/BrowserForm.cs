@@ -24,6 +24,8 @@ namespace CefSharp.WinForms.Example
 
         private void AddTab(string url, int? insertIndex = null)
         {
+            browserTabControl.SuspendLayout();
+
             var browser = new BrowserTabUserControl(url)
             {
                 Dock = DockStyle.Fill,
@@ -33,7 +35,7 @@ namespace CefSharp.WinForms.Example
             {
                 Dock = DockStyle.Fill
             };
-            tabPage.SuspendLayout();
+            
             tabPage.Controls.Add(browser);
 
             int activeTabIndex;
@@ -51,8 +53,8 @@ namespace CefSharp.WinForms.Example
 
             //Make newly created tab active
             browserTabControl.SelectedIndex = activeTabIndex;
-            
-            tabPage.ResumeLayout(true);
+
+            browserTabControl.ResumeLayout(true);
         }
 
         private void ExitMenuItemClick(object sender, EventArgs e)
