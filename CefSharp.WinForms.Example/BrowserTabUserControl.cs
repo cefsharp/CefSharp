@@ -35,6 +35,16 @@ namespace CefSharp.WinForms.Example
             Load += BrowserTabUserControlLoad;
 
             Disposed += BrowserTabUserControlDisposed;
+
+            browserPanel.Paint += BrowserPanelPaint;
+        }
+
+        private void BrowserPanelPaint(object sender, PaintEventArgs e)
+        {
+            //NOTE: Hack to get child control to dock properly
+            browserPanel.Dock = DockStyle.Fill;
+
+            browserPanel.Paint -= BrowserPanelPaint;
         }
 
         private void BrowserTabUserControlLoad(object sender, EventArgs e)

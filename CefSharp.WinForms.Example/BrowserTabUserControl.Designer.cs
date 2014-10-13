@@ -168,7 +168,7 @@
             // 
             // browserPanel
             // 
-            this.browserPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.browserPanel.Dock = System.Windows.Forms.DockStyle.None;
             this.browserPanel.Location = new System.Drawing.Point(0, 25);
             this.browserPanel.Name = "browserPanel";
             this.browserPanel.Size = new System.Drawing.Size(730, 414);
