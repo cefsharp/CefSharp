@@ -32,29 +32,11 @@ namespace CefSharp.WinForms.Example
             var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
             DisplayOutput(version);
 
-            Load += BrowserTabUserControlLoad;
-
             Disposed += BrowserTabUserControlDisposed;
-
-            browserPanel.Paint += BrowserPanelPaint;
-        }
-
-        private void BrowserPanelPaint(object sender, PaintEventArgs e)
-        {
-            //NOTE: Hack to get child control to dock properly
-            browserPanel.Dock = DockStyle.Fill;
-
-            browserPanel.Paint -= BrowserPanelPaint;
-        }
-
-        private void BrowserTabUserControlLoad(object sender, EventArgs e)
-        {
-            ToggleBottomToolStrip();
         }
 
         private void BrowserTabUserControlDisposed(object sender, EventArgs e)
         {
-            Load -= BrowserTabUserControlLoad;
             Disposed -= BrowserTabUserControlDisposed;
 
             Browser.NavStateChanged -= OnBrowserNavStateChanged;

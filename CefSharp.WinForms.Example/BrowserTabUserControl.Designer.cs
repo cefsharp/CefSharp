@@ -58,6 +58,7 @@
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.Size = new System.Drawing.Size(730, 25);
             this.toolStrip2.TabIndex = 0;
+            this.toolStrip2.Visible = false;
             // 
             // findTextBox
             // 
@@ -168,7 +169,7 @@
             // 
             // browserPanel
             // 
-            this.browserPanel.Dock = System.Windows.Forms.DockStyle.None;
+            this.browserPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.browserPanel.Location = new System.Drawing.Point(0, 25);
             this.browserPanel.Name = "browserPanel";
             this.browserPanel.Size = new System.Drawing.Size(730, 414);
