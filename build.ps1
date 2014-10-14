@@ -234,9 +234,24 @@ function DownloadNuget()
 	}
 }
 
+function WriteAssemblyVersion
+{
+	param()
+
+	$Filename = Join-Path $WorkingDir CefSharp\Properties\AssemblyInfo.cs
+	$Regex = 'public const string AssemblyVersion = "(.*)"';
+	
+	$AssemblyInfo = Get-Content $Filename
+	$NewString = $AssemblyInfo -replace $Regex, "public const string AssemblyVersion = ""$Version"""
+	
+	$NewString | Set-Content $Filename -Encoding UTF8
+}
+
 DownloadNuget
 
 NugetPackageRestore
+
+WriteAssemblyVersion
 
 switch -Exact ($Target) {
     "nupkg"
