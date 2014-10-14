@@ -59,13 +59,6 @@ namespace CefSharp.WinForms
             Paint += OnPaint;
         }
 
-        private void OnPaint(object sender, PaintEventArgs e)
-        {
-            // Size is 0x0 when we are on a modeless Form which is minimized.
-            if (!Size.IsEmpty && managedCefBrowserAdapter != null)
-                managedCefBrowserAdapter.OnSizeChanged(Handle);
-        }
-
         protected override void Dispose(bool disposing)
         {
             Paint -= OnPaint;
@@ -351,6 +344,15 @@ namespace CefSharp.WinForms
             var taskStringVisitor = new TaskStringVisitor();
             managedCefBrowserAdapter.GetText(taskStringVisitor);
             return taskStringVisitor.Task;
+        }
+
+        private void OnPaint(object sender, PaintEventArgs e)
+        {
+            // Size is 0x0 when we are on a modeless Form which is minimized.
+            if (!Size.IsEmpty && managedCefBrowserAdapter != null)
+            {
+                managedCefBrowserAdapter.OnPaint(Handle);
+            }
         }
     }
 }
