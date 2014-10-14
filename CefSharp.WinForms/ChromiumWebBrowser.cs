@@ -140,7 +140,9 @@ namespace CefSharp.WinForms
         protected override void OnSizeChanged(EventArgs e)
         {
             base.OnSizeChanged(e);
-            if (managedCefBrowserAdapter != null)
+
+            // Size is 0x0 when we are on a modeless Form which is minimized.
+            if (!Size.IsEmpty && managedCefBrowserAdapter != null)
                 managedCefBrowserAdapter.OnSizeChanged(Handle);
         }
 
