@@ -222,6 +222,13 @@ function Nupkg
     . $nuget pack nuget\CefSharp.Common.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget -Properties "RedistVersion=$RedistVersion"
 	. $nuget pack nuget\CefSharp.Wpf.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
 	. $nuget pack nuget\CefSharp.WinForms.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
+
+	# Invoke `AfterBuild` script if available (ie. upload packages to myget)
+	if(-not (Test-Path $WorkingDir\AfterBuild.ps1)) {
+		return
+	}
+
+	. $WorkingDir\AfterBuild.ps1 -Version $Version
 }
 
 function DownloadNuget()
