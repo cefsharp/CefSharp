@@ -10,8 +10,8 @@ namespace CefSharp.Internals
     {
         int BytesPerPixel { get; }
 
-        double Width { get; }
-        double Height { get; }
+        int Width { get; }
+        int Height { get; }
 
         void InvokeRenderAsync(BitmapInfo bitmapInfo);
 
