@@ -59,11 +59,6 @@ namespace CefSharp
                     return false;
                 }
 
-                // Block until the source window is ready
-                while (_renderWebBrowser->Width == 0 && _renderWebBrowser->Height == 0) {
-                  ::Sleep(50); 
-                }
-
                 rect = CefRect(0, 0, _renderWebBrowser->Width, _renderWebBrowser->Height);
                 return true;
             };
