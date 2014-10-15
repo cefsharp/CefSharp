@@ -55,10 +55,14 @@ namespace CefSharp.WinForms
         {
             Cef.AddDisposable(this);
             Address = address;
+
+            Paint += OnPaint;
         }
 
         protected override void Dispose(bool disposing)
         {
+            Paint -= OnPaint;
+
             Cef.RemoveDisposable(this);
 
             if (disposing)
@@ -135,15 +139,6 @@ namespace CefSharp.WinForms
             base.OnHandleCreated(e);
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
             managedCefBrowserAdapter.CreateBrowser(BrowserSettings ?? new BrowserSettings(), Handle, Address);
-        }
-
-        protected override void OnSizeChanged(EventArgs e)
-        {
-            base.OnSizeChanged(e);
-
-            // Size is 0x0 when we are on a modeless Form which is minimized.
-            if (!Size.IsEmpty && managedCefBrowserAdapter != null)
-                managedCefBrowserAdapter.OnSizeChanged(Handle);
         }
 
         void IWebBrowserInternal.SetAddress(string address)
@@ -349,6 +344,15 @@ namespace CefSharp.WinForms
             var taskStringVisitor = new TaskStringVisitor();
             managedCefBrowserAdapter.GetText(taskStringVisitor);
             return taskStringVisitor.Task;
+        }
+
+        private void OnPaint(object sender, PaintEventArgs e)
+        {
+            // Size is 0x0 when we are on a modeless Form which is minimized.
+            if (!Size.IsEmpty && managedCefBrowserAdapter != null)
+            {
+                managedCefBrowserAdapter.OnPaint(Handle);
+            }
         }
     }
 }

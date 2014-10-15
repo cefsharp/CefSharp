@@ -469,7 +469,7 @@ namespace CefSharp
                 *(CefBrowserSettings*) browserSettings->_internalBrowserSettings, NULL);
         }
 
-        void OnSizeChanged(IntPtr^ sourceHandle)
+        void OnPaint(IntPtr^ sourceHandle)
         {
             HWND hWnd = static_cast<HWND>(sourceHandle->ToPointer());
             RECT rect;
