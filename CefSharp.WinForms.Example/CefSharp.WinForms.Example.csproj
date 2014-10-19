@@ -62,6 +62,12 @@
       <DependentUpon>BrowserForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\ControlExtensions.cs" />
+    <Compile Include="BrowserTabUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrowserTabUserControl.Designer.cs">
+      <DependentUpon>BrowserTabUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="MenuHandler.cs" />
     <Compile Include="Program.cs">
     </Compile>
@@ -79,6 +85,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BrowserForm.resx">
       <DependentUpon>BrowserForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BrowserTabUserControl.resx">
+      <DependentUpon>BrowserTabUserControl.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

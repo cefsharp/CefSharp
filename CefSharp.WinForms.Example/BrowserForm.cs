@@ -2,171 +2,66 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using CefSharp.Example;
-using CefSharp.WinForms.Example.Controls;
 using System;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using CefSharp.Example;
 
 namespace CefSharp.WinForms.Example
 {
     public partial class BrowserForm : Form
     {
-        private readonly ChromiumWebBrowser browser;
+        private const string DefaultUrlForAddedTabs = "https://www.google.com";
 
         public BrowserForm()
         {
             InitializeComponent();
 
-            Load += BrowserFormLoad;
-
             Text = "CefSharp";
             WindowState = FormWindowState.Maximized;
 
-            browser = new ChromiumWebBrowser(CefExample.DefaultUrl)
+            AddTab(CefExample.DefaultUrl);
+        }
+
+        private void AddTab(string url, int? insertIndex = null)
+        {
+            browserTabControl.SuspendLayout();
+
+            var browser = new BrowserTabUserControl(url)
             {
                 Dock = DockStyle.Fill,
             };
-            toolStripContainer.ContentPanel.Controls.Add(browser);
 
-            browser.DownloadHandler = new DownloadHandler();
-            browser.MenuHandler = new MenuHandler();
-            browser.NavStateChanged += OnBrowserNavStateChanged;
-            browser.ConsoleMessage += OnBrowserConsoleMessage;
-            browser.StatusMessage += OnBrowserStatusMessage;
-            browser.TitleChanged += OnBrowserTitleChanged;
-            browser.AddressChanged += OnBrowserAddressChanged;
-
-            var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
-            DisplayOutput(version);
-        }
-
-        private void BrowserFormLoad(object sender, EventArgs e)
-        {
-            ToggleBottomToolStrip();
-        }
-
-        private void OnBrowserConsoleMessage(object sender, ConsoleMessageEventArgs args)
-        {
-            DisplayOutput(string.Format("Line: {0}, Source: {1}, Message: {2}", args.Line, args.Source, args.Message));
-        }
-
-        private void OnBrowserStatusMessage(object sender, StatusMessageEventArgs args)
-        {
-            this.InvokeOnUiThreadIfRequired(() => statusLabel.Text = args.Value);
-        }
-
-        private void OnBrowserNavStateChanged(object sender, NavStateChangedEventArgs args)
-        {
-            SetCanGoBack(args.CanGoBack);
-            SetCanGoForward(args.CanGoForward);
-
-            this.InvokeOnUiThreadIfRequired(() => SetIsLoading(!args.CanReload));
-        }
-
-        private void OnBrowserTitleChanged(object sender, TitleChangedEventArgs args)
-        {
-            this.InvokeOnUiThreadIfRequired(() => Text = args.Title);
-        }
-
-        private void OnBrowserAddressChanged(object sender, AddressChangedEventArgs args)
-        {
-            this.InvokeOnUiThreadIfRequired(() => urlTextBox.Text = args.Address);
-        }
-
-        private void SetCanGoBack(bool canGoBack)
-        {
-            this.InvokeOnUiThreadIfRequired(() => backButton.Enabled = canGoBack);
-        }
-
-        private void SetCanGoForward(bool canGoForward)
-        {
-            this.InvokeOnUiThreadIfRequired(() => forwardButton.Enabled = canGoForward);
-        }
-
-        private void SetIsLoading(bool isLoading)
-        {
-            goButton.Text = isLoading ?
-                "Stop" :
-                "Go";
-            goButton.Image = isLoading ?
-                Properties.Resources.nav_plain_red :
-                Properties.Resources.nav_plain_green;
-
-            HandleToolStripLayout();
-        }
-
-        public void ExecuteScript(string script)
-        {
-            browser.ExecuteScriptAsync(script);
-        }
-
-        public object EvaluateScript(string script)
-        {
-            return browser.EvaluateScript(script);
-        }
-
-        public void DisplayOutput(string output)
-        {
-            this.InvokeOnUiThreadIfRequired(() => outputLabel.Text = output);
-        }
-
-        private void HandleToolStripLayout(object sender, LayoutEventArgs e)
-        {
-            HandleToolStripLayout();
-        }
-
-        private void HandleToolStripLayout()
-        {
-            var width = toolStrip1.Width;
-            foreach (ToolStripItem item in toolStrip1.Items)
+            var tabPage = new TabPage(url)
             {
-                if (item != urlTextBox)
-                {
-                    width -= item.Width - item.Margin.Horizontal;
-                }
+                Dock = DockStyle.Fill
+            };
+            
+            tabPage.Controls.Add(browser);
+
+            if (insertIndex == null)
+            {
+                browserTabControl.TabPages.Add(tabPage);
             }
-            urlTextBox.Width = Math.Max(0, width - urlTextBox.Margin.Horizontal - 18);
+            else
+            {
+                browserTabControl.TabPages.Insert(insertIndex.Value, tabPage);
+            }
+
+            //Make newly created tab active
+            browserTabControl.SelectedTab = tabPage;
+
+            browserTabControl.ResumeLayout(true);
         }
 
         private void ExitMenuItemClick(object sender, EventArgs e)
         {
-            browser.Dispose();
+            ExitApplication();
+        }
+
+        private void ExitApplication()
+        {
             Cef.Shutdown();
             Close();
-        }
-
-        private void GoButtonClick(object sender, EventArgs e)
-        {
-            LoadUrl(urlTextBox.Text);
-        }
-
-        private void BackButtonClick(object sender, EventArgs e)
-        {
-            browser.Back();
-        }
-
-        private void ForwardButtonClick(object sender, EventArgs e)
-        {
-            browser.Forward();
-        }
-
-        private void UrlTextBoxKeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode != Keys.Enter)
-            {
-                return;
-            }
-
-            LoadUrl(urlTextBox.Text);
-        }
-
-        private void LoadUrl(string url)
-        {
-            if (Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute))
-            {
-                browser.Load(url);
-            }
         }
 
         private void AboutToolStripMenuItemClick(object sender, EventArgs e)
@@ -174,81 +69,157 @@ namespace CefSharp.WinForms.Example
             new AboutBox().ShowDialog();
         }
 
-        private void FindCloseButtonClick(object sender, EventArgs e)
-        {
-            ToggleBottomToolStrip();
-        }
-
         private void FindMenuItemClick(object sender, EventArgs e)
         {
-            ToggleBottomToolStrip();
-        }
-
-        private void ToggleBottomToolStrip()
-        {
-            if (toolStripContainer.BottomToolStripPanelVisible)
+            var control = GetCurrentTabControl();
+            if (control != null)
             {
-                browser.StopFinding(true);
-                toolStripContainer.BottomToolStripPanelVisible = false;
+                control.ShowFind();
             }
-            else
-            {
-                toolStripContainer.BottomToolStripPanelVisible = true;
-                findTextBox.Focus();
-            }
-        }
-
-        private void FindNextButtonClick(object sender, EventArgs e)
-        {
-            Find(true);
-        }
-
-        private void FindPreviousButtonClick(object sender, EventArgs e)
-        {
-            Find(false);
-        }
-
-        private void Find(bool next)
-        {
-            if (!string.IsNullOrEmpty(findTextBox.Text))
-            {
-                browser.Find(0, findTextBox.Text, next, false, false);
-            }
-        }
-
-        private void FindTextBoxKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode != Keys.Enter)
-            {
-                return;
-            }
-
-            Find(true);
         }
 
         private void CopySourceToClipBoardAsyncClick(object sender, EventArgs e)
         {
-            var task = browser.GetSourceAsync();
-
-            task.ContinueWith(t =>
+            var control = GetCurrentTabControl();
+            if (control != null)
             {
-                if (!t.IsFaulted)
-                {
-                    Clipboard.SetText(t.Result);
-                    DisplayOutput("HTML Source copied to clipboard");
-                }
-            },
-            TaskScheduler.FromCurrentSynchronizationContext());
+                control.CopySourceToClipBoardAsync();
+            }
+        }
+
+        private BrowserTabUserControl GetCurrentTabControl()
+        {
+            if (browserTabControl.SelectedIndex == -1)
+            {
+                return null;
+            }
+
+            var tabPage = browserTabControl.Controls[browserTabControl.SelectedIndex];
+            var control = (BrowserTabUserControl)tabPage.Controls[0];
+
+            return control;
+        }
+
+        private void NewTabToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            AddTab(DefaultUrlForAddedTabs);
+        }
+
+        private void CloseTabToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            if(browserTabControl.Controls.Count == 0)
+            {
+                return;
+            }
+
+            var currentIndex = browserTabControl.SelectedIndex;
+
+            var tabPage = browserTabControl.Controls[currentIndex];
+
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                control.Dispose();
+            }
+
+            browserTabControl.Controls.Remove(tabPage);
+
+            browserTabControl.SelectedIndex = currentIndex - 1;
+
+            if (browserTabControl.Controls.Count == 0)
+            {
+                ExitApplication();
+            }
+        }
+
+        private void UndoMenuItemClick(object sender, EventArgs e)
+        {
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                control.Browser.Undo();
+            }
+        }
+
+        private void RedoMenuItemClick(object sender, EventArgs e)
+        {
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                control.Browser.Redo();
+            }
+        }
+
+        private void CutMenuItemClick(object sender, EventArgs e)
+        {
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                control.Browser.Cut();
+            }
+        }
+
+        private void CopyMenuItemClick(object sender, EventArgs e)
+        {
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                control.Browser.Copy();
+            }
+        }
+
+        private void PasteMenuItemClick(object sender, EventArgs e)
+        {
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                control.Browser.Paste();
+            }
+        }
+
+        private void DeleteMenuItemClick(object sender, EventArgs e)
+        {
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                control.Browser.Delete();
+            }
+        }
+
+        private void SelectAllMenuItemClick(object sender, EventArgs e)
+        {
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                control.Browser.SelectAll();
+            }
+        }
+
+        private void PrintToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                control.Browser.Print();
+            }
         }
 
         private void ShowDevToolsMenuItemClick(object sender, EventArgs e)
         {
-            browser.ShowDevTools();
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                control.Browser.ShowDevTools();
+            }
         }
 
         private void CloseDevToolsMenuItemClick(object sender, EventArgs e)
         {
-            browser.CloseDevTools();
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                control.Browser.CloseDevTools();
+            }
         }
     }
 }
