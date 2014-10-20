@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using CefSharp.Example;
 using CefSharp.WinForms.Example.Controls;
 using System;
 using System.Windows.Forms;
@@ -22,17 +23,23 @@ namespace CefSharp.WinForms.Example
 
             Browser = browser;
 
-            Browser.MenuHandler = new MenuHandler();
-            Browser.NavStateChanged += OnBrowserNavStateChanged;
-            Browser.ConsoleMessage += OnBrowserConsoleMessage;
-            Browser.TitleChanged += OnBrowserTitleChanged;
-            Browser.AddressChanged += OnBrowserAddressChanged;
-            Browser.StatusMessage += OnBrowserStatusMessage;
+            browser.MenuHandler = new MenuHandler();
+            browser.NavStateChanged += OnBrowserNavStateChanged;
+            browser.ConsoleMessage += OnBrowserConsoleMessage;
+            browser.TitleChanged += OnBrowserTitleChanged;
+            browser.AddressChanged += OnBrowserAddressChanged;
+            browser.StatusMessage += OnBrowserStatusMessage;
+            browser.HandleCreated += OnBrowserHandleCreated;
 
             var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
             DisplayOutput(version);
 
             Disposed += BrowserTabUserControlDisposed;
+        }
+
+        private void OnBrowserHandleCreated(object sender, EventArgs e)
+        {
+            Browser.RegisterJsObject("bound", new BoundObject());
         }
 
         private void BrowserTabUserControlDisposed(object sender, EventArgs e)
@@ -96,6 +103,18 @@ namespace CefSharp.WinForms.Example
                 Properties.Resources.nav_plain_green;
 
             HandleToolStripLayout();
+        }
+
+        public void ExecuteScript(string script)
+        {
+            Browser.ExecuteScriptAsync(script);
+        }
+
+        public object EvaluateScript(string script)
+        {
+            var task = Browser.EvaluateScriptAsync(script);
+            task.Wait();
+            return task.Result;
         }
 
         public void DisplayOutput(string output)
