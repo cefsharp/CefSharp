@@ -34,6 +34,10 @@ namespace CefSharp.WinForms.Example.Minimal
             var bitness = Environment.Is64BitProcess ? "x64" : "x86";
             var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}, Environment: {3}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion, bitness);
             DisplayOutput(version);
+
+            //Only perform layout when control has completly finished resizing
+            ResizeBegin += (s, e) => SuspendLayout();
+            ResizeEnd += (s, e) => ResumeLayout(true);
         }
 
         private void OnBrowserConsoleMessage(object sender, ConsoleMessageEventArgs args)
