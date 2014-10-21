@@ -57,7 +57,9 @@ namespace CefSharp.WinForms
             Address = address;
 
             Paint += OnPaint;
-            Resize += OnResize;
+
+            //Redraw on Resize so Cef is notified and updates accordingly
+            SetStyle(ControlStyles.ResizeRedraw, true);
 
             Dock = DockStyle.Fill;
         }
@@ -65,7 +67,6 @@ namespace CefSharp.WinForms
         protected override void Dispose(bool disposing)
         {
             Paint -= OnPaint;
-            Resize -= OnResize;
 
             Cef.RemoveDisposable(this);
 
@@ -357,11 +358,6 @@ namespace CefSharp.WinForms
             {
                 managedCefBrowserAdapter.OnPaint(Handle);
             }
-        }
-
-        private void OnResize(object sender, EventArgs e)
-        {
-            Invalidate();
         }
     }
 }
