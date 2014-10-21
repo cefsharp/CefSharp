@@ -58,6 +58,8 @@ namespace CefSharp.WinForms
 
             Paint += OnPaint;
             Resize += OnResize;
+
+            Dock = DockStyle.Fill;
         }
 
         protected override void Dispose(bool disposing)
