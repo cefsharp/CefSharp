@@ -5,6 +5,7 @@
 using System;
 using System.Windows.Forms;
 using CefSharp.Example;
+using CefSharp.WinForms.Example.Minimal;
 
 namespace CefSharp.WinForms.Example
 {
@@ -16,6 +17,7 @@ namespace CefSharp.WinForms.Example
             CefExample.Init();
 
             var browser = new BrowserForm();
+            //var browser = new SimpleBrowserForm();
             Application.Run(browser);
         }
     }
