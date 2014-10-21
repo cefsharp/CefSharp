@@ -57,11 +57,13 @@ namespace CefSharp.WinForms
             Address = address;
 
             Paint += OnPaint;
+            Resize += OnResize;
         }
 
         protected override void Dispose(bool disposing)
         {
             Paint -= OnPaint;
+            Resize -= OnResize;
 
             Cef.RemoveDisposable(this);
 
@@ -353,6 +355,11 @@ namespace CefSharp.WinForms
             {
                 managedCefBrowserAdapter.OnPaint(Handle);
             }
+        }
+
+        private void OnResize(object sender, EventArgs e)
+        {
+            Invalidate();
         }
     }
 }
