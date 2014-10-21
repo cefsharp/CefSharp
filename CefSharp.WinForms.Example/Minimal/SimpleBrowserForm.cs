@@ -10,7 +10,7 @@ namespace CefSharp.WinForms.Example.Minimal
 {
     public partial class SimpleBrowserForm : Form
     {
-        private readonly ChromiumWebBrowser browser;
+        private ChromiumWebBrowser browser;
 
         public SimpleBrowserForm()
         {
@@ -19,6 +19,19 @@ namespace CefSharp.WinForms.Example.Minimal
             Text = "CefSharp";
             WindowState = FormWindowState.Maximized;
 
+            CreateBrowser();
+
+            var bitness = Environment.Is64BitProcess ? "x64" : "x86";
+            var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}, Environment: {3}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion, bitness);
+            DisplayOutput(version);
+
+            //Only perform layout when control has completly finished resizing
+            ResizeBegin += (s, e) => SuspendLayout();
+            ResizeEnd += (s, e) => ResumeLayout(true);
+        }
+
+        private void CreateBrowser()
+        {
             browser = new ChromiumWebBrowser("www.google.com")
             {
                 Dock = DockStyle.Fill,
@@ -30,14 +43,6 @@ namespace CefSharp.WinForms.Example.Minimal
             browser.StatusMessage += OnBrowserStatusMessage;
             browser.TitleChanged += OnBrowserTitleChanged;
             browser.AddressChanged += OnBrowserAddressChanged;
-
-            var bitness = Environment.Is64BitProcess ? "x64" : "x86";
-            var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}, Environment: {3}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion, bitness);
-            DisplayOutput(version);
-
-            //Only perform layout when control has completly finished resizing
-            ResizeBegin += (s, e) => SuspendLayout();
-            ResizeEnd += (s, e) => ResumeLayout(true);
         }
 
         private void OnBrowserConsoleMessage(object sender, ConsoleMessageEventArgs args)
