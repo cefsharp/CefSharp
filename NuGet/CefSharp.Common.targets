@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="PlatformCheck" BeforeTargets="ResolveAssemblyReferences" Condition="(('$(Platform)' != 'x86') AND ('$(Platform)' != 'x64'))">
+    <Error Text="$(MSBuildThisFileName) does not work correctly on '$(Platform)' platform. You need to specify platform (x86 / x64)." />
+  </Target>
+  
   <Target Name="CefSharpCommonCopyBinaries" BeforeTargets="AfterBuild">
     <ItemGroup>
       <CefSharpBinaries Include="$(MSBuildThisFileDirectory)..\CefSharp\$(Platform)\*.*" />
