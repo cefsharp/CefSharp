@@ -20,6 +20,10 @@ namespace CefSharp.WinForms.Example
             WindowState = FormWindowState.Maximized;
 
             AddTab(CefExample.DefaultUrl);
+
+            //Only perform layout when control has completly finished resizing
+            ResizeBegin += (s, e) => SuspendLayout();
+            ResizeEnd += (s, e) => ResumeLayout(true);
         }
 
         private void AddTab(string url, int? insertIndex = null)
