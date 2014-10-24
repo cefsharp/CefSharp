@@ -3,7 +3,9 @@ param(
     [Parameter(Position = 0)] 
     [string] $Target = "nupkg",
     [Parameter(Position = 1)]
-    [string] $Version = "33.0.2"
+    [string] $Version = "37.0.0",
+    [Parameter(Position = 2)]
+    [string] $RedistVersion = "3.2062.1856"
 )
 
 $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
@@ -217,9 +219,16 @@ function Nupkg
     Write-Diagnostic "Building nuget package"
 
     # Build packages
-    . $nuget pack nuget\CefSharp.Common.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
+    . $nuget pack nuget\CefSharp.Common.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget -Properties "RedistVersion=$RedistVersion"
 	. $nuget pack nuget\CefSharp.Wpf.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
 	. $nuget pack nuget\CefSharp.WinForms.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
+
+	# Invoke `AfterBuild` script if available (ie. upload packages to myget)
+	if(-not (Test-Path $WorkingDir\AfterBuild.ps1)) {
+		return
+	}
+
+	. $WorkingDir\AfterBuild.ps1 -Version $Version
 }
 
 function DownloadNuget()
@@ -232,14 +241,29 @@ function DownloadNuget()
 	}
 }
 
+function WriteAssemblyVersion
+{
+	param()
+
+	$Filename = Join-Path $WorkingDir CefSharp\Properties\AssemblyInfo.cs
+	$Regex = 'public const string AssemblyVersion = "(.*)"';
+	
+	$AssemblyInfo = Get-Content $Filename
+	$NewString = $AssemblyInfo -replace $Regex, "public const string AssemblyVersion = ""$Version"""
+	
+	$NewString | Set-Content $Filename -Encoding UTF8
+}
+
 DownloadNuget
 
 NugetPackageRestore
 
+WriteAssemblyVersion
+
 switch -Exact ($Target) {
     "nupkg"
 	{
-		#VSX v120
+		VSX v120
         VSX v110
         Nupkg
     }
