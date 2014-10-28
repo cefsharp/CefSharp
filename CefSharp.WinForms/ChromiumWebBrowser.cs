@@ -122,6 +122,11 @@ namespace CefSharp.WinForms
             return managedCefBrowserAdapter.EvaluateScriptAsync(script, timeout);
         }
 
+        public void SendMouseWheelEvent(int x, int y, int deltaX, int deltaY)
+        {
+            managedCefBrowserAdapter.OnMouseWheel(x, y, deltaX, deltaY);
+        }
+
         public event EventHandler<LoadErrorEventArgs> LoadError;
         public event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
         public event EventHandler<FrameLoadEndEventArgs> FrameLoadEnd;
