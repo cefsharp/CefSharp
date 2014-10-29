@@ -14,6 +14,7 @@ namespace CefSharp.Example
         {
             MyProperty = 42;
             MyReadOnlyProperty = "I'm immutable!";
+            IgnoredProperty = "I am an Ignored Property";
             MyUnconvertibleProperty = GetType();
             SubObject = new SubBoundObject();
         }
@@ -191,6 +192,15 @@ namespace CefSharp.Example
         public String lowercaseMethod()
         {
             return "lowercase";
+        }
+
+        [JavascriptIgnore]
+        public string IgnoredProperty { get; set; }
+
+        [JavascriptIgnore]
+        public string IgnoredMethod()
+        {
+            return "I am an Ignored Method";
         }
     }
 }
