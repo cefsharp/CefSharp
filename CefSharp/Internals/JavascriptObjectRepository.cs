@@ -151,7 +151,7 @@ namespace CefSharp.Internals
             foreach (var methodInfo in type.GetMethods(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
             {
                 // Type objects can not be serialized.
-                if (methodInfo.ReturnType == typeof(Type))
+                if (methodInfo.ReturnType == typeof(Type) || Attribute.IsDefined(methodInfo, typeof(JavascriptIgnoreAttribute)))
                 {
                     continue;
                 }
@@ -162,7 +162,7 @@ namespace CefSharp.Internals
 
             foreach (var propertyInfo in type.GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
             {
-                if (propertyInfo.PropertyType == typeof(Type))
+                if (propertyInfo.PropertyType == typeof(Type) || Attribute.IsDefined(propertyInfo, typeof(JavascriptIgnoreAttribute)))
                 {
                     continue;
                 }
