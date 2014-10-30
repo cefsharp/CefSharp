@@ -55,6 +55,11 @@ namespace CefSharp.WinForms
             Address = address;
 
             Paint += OnPaint;
+
+            //Redraw on Resize so Cef is notified and updates accordingly
+            SetStyle(ControlStyles.ResizeRedraw, true);
+
+            Dock = DockStyle.Fill;
         }
 
         protected override void Dispose(bool disposing)
