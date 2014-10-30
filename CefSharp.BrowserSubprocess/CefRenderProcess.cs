@@ -97,6 +97,8 @@ namespace CefSharp.BrowserSubprocess
             }
 
             browser.ChannelFactory = null;
+            browser.CreateBrowserProxyDelegate = null;
+            browser.JavascriptRootObject = null;
         }
 
         public Task<JavascriptResponse> EvaluateScriptAsync(int browserId, long frameId, string script, TimeSpan? timeout)
