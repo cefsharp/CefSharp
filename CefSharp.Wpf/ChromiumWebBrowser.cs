@@ -697,6 +697,14 @@ namespace CefSharp.Wpf
             {
                 modifiers |= CefEventFlags.RightMouseButton;
             }
+
+            if (Keyboard.IsKeyDown(Key.LeftCtrl)) {
+              modifiers |= CefEventFlags.ControlDown | CefEventFlags.IsLeft;
+            }
+            if (Keyboard.IsKeyDown(Key.RightCtrl)) {
+              modifiers |= CefEventFlags.ControlDown | CefEventFlags.IsRight;
+            }
+
             return modifiers;
         }
 
