@@ -66,6 +66,12 @@ namespace CefSharp.Wpf
         public ICommand ViewSourceCommand { get; private set; }
         public ICommand CleanupCommand { get; private set; }
         public ICommand StopCommand { get; private set; }
+        public ICommand CutCommand { get; private set; }
+        public ICommand CopyCommand { get; private set; }
+        public ICommand PasteCommand { get; private set; }
+        public ICommand SelectAllCommand { get; private set; }
+        public ICommand UndoCommand { get; private set; }
+        public ICommand RedoCommand { get; private set; }
 
         #region CanGoBack dependency property
 
@@ -436,6 +442,12 @@ namespace CefSharp.Wpf
             ViewSourceCommand = new DelegateCommand(ViewSource);
             CleanupCommand = new DelegateCommand(Dispose);
             StopCommand = new DelegateCommand(Stop);
+            CutCommand = new DelegateCommand(Cut);
+            CopyCommand = new DelegateCommand(Copy);
+            PasteCommand = new DelegateCommand(Paste);
+            SelectAllCommand = new DelegateCommand(SelectAll);
+            UndoCommand = new DelegateCommand(Undo);
+            RedoCommand = new DelegateCommand(Redo);
 
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
             managedCefBrowserAdapter.CreateOffscreenBrowser(BrowserSettings ?? new BrowserSettings());
