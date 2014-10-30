@@ -72,7 +72,8 @@ namespace CefSharp.BrowserSubprocess
 
                 if (javascriptObject.MemberObjects.Count > 0)
                 {
-                    Bind(javascriptObject, channelFactory.CreateChannel);
+                    browser.JavascriptRootObject = javascriptObject;
+                    browser.CreateBrowserProxyDelegate = channelFactory.CreateChannel;
                 }
 
                 browser.ChannelFactory = channelFactory;

@@ -32,14 +32,11 @@ namespace CefSharp
 
     void CefAppUnmanagedWrapper::OnBrowserDestroyed(CefRefPtr<CefBrowser> browser)
     {
-        auto browserId = browser->GetIdentifier();
-        CefBrowserWrapper^ wrapper = nullptr;
-
-        _browserWrappers->TryGetValue(browserId, wrapper);
+        auto wrapper = FindBrowserWrapper(browser, false);
 
         if (wrapper != nullptr)
         {
-            _browserWrappers->Remove(browserId);
+            _browserWrappers->Remove(wrapper->BrowserId);
             _onBrowserDestroyed->Invoke(wrapper);
             delete wrapper;
         }
@@ -47,25 +44,35 @@ namespace CefSharp
 
     void CefAppUnmanagedWrapper::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
     {
-        if (!Object::ReferenceEquals(_javascriptRootObject, nullptr))
+        auto wrapper = FindBrowserWrapper(browser, true);
+
+        if (wrapper->JavascriptRootObject != nullptr)
         {
             auto window = context->GetGlobal();
-            
-            auto jsRootWrapper = gcnew JavascriptRootObjectWrapper(_javascriptRootObject, _createBrowserProxyDelegate);
-        
+
+            auto jsRootWrapper = gcnew JavascriptRootObjectWrapper(wrapper->JavascriptRootObject, wrapper->CreateBrowserProxyDelegate);
+
             jsRootWrapper->V8Value = window;
             jsRootWrapper->Bind();
         }
     };
 
     void CefAppUnmanagedWrapper::OnContextReleased(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
-    {
-        
+    {        
     };
 
-    void CefAppUnmanagedWrapper::Bind(JavascriptRootObject^ rootObject, Func<IBrowserProcess^>^ createBrowserProxyDelegate)
+    CefBrowserWrapper^ CefAppUnmanagedWrapper::FindBrowserWrapper(CefRefPtr<CefBrowser> browser, bool mustExist)
     {
-        _javascriptRootObject = rootObject;
-        _createBrowserProxyDelegate = createBrowserProxyDelegate;
+        auto browserId = browser->GetIdentifier();
+        CefBrowserWrapper^ wrapper = nullptr;
+
+        _browserWrappers->TryGetValue(browserId, wrapper);
+
+        if (mustExist && wrapper == nullptr)
+        {
+            throw gcnew InvalidOperationException(String::Format("Failed to identify BrowserWrapper in OnContextCreated. : {0}", browserId));
+        }
+
+        return wrapper;
     };
 }
