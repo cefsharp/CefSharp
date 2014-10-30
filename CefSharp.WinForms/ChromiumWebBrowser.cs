@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -353,6 +354,9 @@ namespace CefSharp.WinForms
 
         private void OnPaint(object sender, PaintEventArgs e)
         {
+            //HACK: Temp fix for #522
+            Thread.Sleep(50);
+
             // Size is 0x0 when we are on a modeless Form which is minimized.
             if (!Size.IsEmpty && managedCefBrowserAdapter != null)
             {
