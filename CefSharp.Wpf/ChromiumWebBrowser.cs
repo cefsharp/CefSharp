@@ -708,6 +708,23 @@ namespace CefSharp.Wpf
               modifiers |= CefEventFlags.ControlDown | CefEventFlags.IsRight;
             }
 
+            if (Keyboard.IsKeyDown(Key.LeftShift))
+            {
+              modifiers |= CefEventFlags.ShiftDown | CefEventFlags.IsLeft;
+            }
+
+            if (Keyboard.IsKeyDown(Key.RightShift)) {
+              modifiers |= CefEventFlags.ShiftDown | CefEventFlags.IsRight;
+            }
+
+            if (Keyboard.IsKeyDown(Key.LeftAlt)) {
+              modifiers |= CefEventFlags.AltDown| CefEventFlags.IsLeft;
+            }
+
+            if (Keyboard.IsKeyDown(Key.RightAlt)) {
+              modifiers |= CefEventFlags.AltDown | CefEventFlags.IsRight;
+            }
+
             return modifiers;
         }
 
