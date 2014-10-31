@@ -18,7 +18,9 @@ namespace CefSharp.Example
 
             if (debuggingSubProcess)
             {
-                settings.BrowserSubprocessPath = "..\\..\\..\\..\\CefSharp.BrowserSubprocess\\bin\\x86\\Debug\\CefSharp.BrowserSubprocess.exe";
+                var platform = IntPtr.Size == 4 ? "x86" : "x64";
+                settings.BrowserSubprocessPath = string.Format(
+                    "..\\..\\..\\..\\CefSharp.BrowserSubprocess\\bin\\{0}\\Debug\\CefSharp.BrowserSubprocess.exe", platform);
             }
 
             settings.RegisterScheme(new CefCustomScheme

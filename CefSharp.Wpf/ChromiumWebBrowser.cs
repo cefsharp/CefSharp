@@ -437,11 +437,6 @@ namespace CefSharp.Wpf
             CleanupCommand = new DelegateCommand(Dispose);
             StopCommand = new DelegateCommand(Stop);
 
-            managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
-            managedCefBrowserAdapter.CreateOffscreenBrowser(BrowserSettings ?? new BrowserSettings());
-
-            disposables.Add(managedCefBrowserAdapter);
-
             disposables.Add(new DisposableEventWrapper(this, ActualHeightProperty, OnActualSizeChanged));
             disposables.Add(new DisposableEventWrapper(this, ActualWidthProperty, OnActualSizeChanged));
         }
@@ -449,6 +444,18 @@ namespace CefSharp.Wpf
         ~ChromiumWebBrowser()
         {
             Dispose(false);
+        }
+
+        private void CreateOffscreenBrowserWhenActualSizeChanged()
+        {
+            if (managedCefBrowserAdapter != null)
+            {
+                return;
+            }
+            managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
+            managedCefBrowserAdapter.CreateOffscreenBrowser(BrowserSettings ?? new BrowserSettings());
+
+            disposables.Add(managedCefBrowserAdapter);
         }
 
         private void DoInUi(Action action, DispatcherPriority priority = DispatcherPriority.DataBind)
@@ -465,6 +472,8 @@ namespace CefSharp.Wpf
 
         private void OnActualSizeChanged(object sender, EventArgs e)
         {
+            // Initialize RenderClientAdapter when WPF has calculated the actual size of current content.
+            CreateOffscreenBrowserWhenActualSizeChanged();
             managedCefBrowserAdapter.WasResized();
         }
 

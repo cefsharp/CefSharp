@@ -6,6 +6,7 @@
 
 #include "Stdafx.h"
 #include "include/cef_scheme.h"
+#include "Internals/AutoLock.h"
 
 using namespace System;
 using namespace System::IO;
@@ -17,6 +18,7 @@ namespace CefSharp
 
     public class SchemeHandlerWrapper : public CefResourceHandler
     {
+        CriticalSection _syncRoot;
         gcroot<ISchemeHandler^> _handler;
         gcroot<Stream^> _stream;
         CefRefPtr<CefCallback> _callback;
@@ -33,7 +35,7 @@ namespace CefSharp
 
         SchemeHandlerWrapper(ISchemeHandler^ handler) : _handler(handler)
         {
-            if (!_handler)
+            if (static_cast<ISchemeHandler^>(_handler) == nullptr)
             {
                 throw gcnew ArgumentException("handler must not be null");
             }
@@ -45,7 +47,6 @@ namespace CefSharp
         virtual bool ReadResponse(void* data_out, int bytes_to_read, int& bytes_read, CefRefPtr<CefCallback> callback);
         virtual void Cancel();
 
-        IMPLEMENT_LOCKING(SchemeHandlerWrapper);
         IMPLEMENT_REFCOUNTING(SchemeHandlerWrapper);
     };
 

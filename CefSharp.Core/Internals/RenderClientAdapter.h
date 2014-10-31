@@ -58,11 +58,9 @@ namespace CefSharp
                 {
                     return false;
                 }
-                else
-                {
-                    rect = CefRect(0, 0, _renderWebBrowser->Width, _renderWebBrowser->Height);
-                    return true;
-                }
+
+                rect = CefRect(0, 0, _renderWebBrowser->Width, _renderWebBrowser->Height);
+                return true;
             };
 
             ///
