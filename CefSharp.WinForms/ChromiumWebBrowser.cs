@@ -4,10 +4,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
 using CefSharp.Internals;
 
 namespace CefSharp.WinForms
@@ -61,6 +59,8 @@ namespace CefSharp.WinForms
 
             //Redraw on Resize so Cef is notified and updates accordingly
             SetStyle(ControlStyles.ResizeRedraw, true);
+            //Fix for #522 - Enable DoubleBuffering
+            SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
 
             Dock = DockStyle.Fill;
         }
@@ -354,9 +354,6 @@ namespace CefSharp.WinForms
 
         private void OnPaint(object sender, PaintEventArgs e)
         {
-            //HACK: Temp fix for #522
-            Thread.Sleep(50);
-
             // Size is 0x0 when we are on a modeless Form which is minimized.
             if (!Size.IsEmpty && managedCefBrowserAdapter != null)
             {
