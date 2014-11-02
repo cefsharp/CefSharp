@@ -883,7 +883,7 @@ namespace CefSharp.Wpf
         protected override void OnMouseLeave(MouseEventArgs e)
         {
             var modifiers = GetModifiers(e);
-            managedCefBrowserAdapter.OnMouseMove(0, 0, true, modifiers);
+            managedCefBrowserAdapter.OnMouseMove(-1, -1, true, modifiers);
         }
 
         private void OnMouseButton(MouseButtonEventArgs e)
