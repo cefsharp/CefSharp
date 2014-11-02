@@ -32,11 +32,6 @@ namespace CefSharp
         Error,
 
         /// <summary>
-        /// ErrorReport logging
-        /// </summary>
-        ErrorReport,
-
-        /// <summary>
         /// Completely disable logging
         /// </summary>
         Disable = 99
