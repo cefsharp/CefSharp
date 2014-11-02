@@ -5,7 +5,7 @@ param(
     [Parameter(Position = 1)]
     [string] $Version = "37.0.0",
     [Parameter(Position = 2)]
-    [string] $RedistVersion = "3.2062.1876"
+    [string] $RedistVersion = "3.2171.1899"
 )
 
 $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
