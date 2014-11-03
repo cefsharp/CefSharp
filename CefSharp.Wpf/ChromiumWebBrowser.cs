@@ -930,7 +930,7 @@ namespace CefSharp.Wpf
 
             if (managedCefBrowserAdapter != null)
             {
-                managedCefBrowserAdapter.OnMouseMove(0, 0, true, modifiers);
+                managedCefBrowserAdapter.OnMouseMove(-1, -1, true, modifiers);
             }
         }
 
