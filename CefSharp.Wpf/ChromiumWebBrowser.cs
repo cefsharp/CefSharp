@@ -66,6 +66,12 @@ namespace CefSharp.Wpf
         public ICommand ViewSourceCommand { get; private set; }
         public ICommand CleanupCommand { get; private set; }
         public ICommand StopCommand { get; private set; }
+        public ICommand CutCommand { get; private set; }
+        public ICommand CopyCommand { get; private set; }
+        public ICommand PasteCommand { get; private set; }
+        public ICommand SelectAllCommand { get; private set; }
+        public ICommand UndoCommand { get; private set; }
+        public ICommand RedoCommand { get; private set; }
 
         #region CanGoBack dependency property
 
@@ -436,6 +442,12 @@ namespace CefSharp.Wpf
             ViewSourceCommand = new DelegateCommand(ViewSource);
             CleanupCommand = new DelegateCommand(Dispose);
             StopCommand = new DelegateCommand(Stop);
+            CutCommand = new DelegateCommand(Cut);
+            CopyCommand = new DelegateCommand(Copy);
+            PasteCommand = new DelegateCommand(Paste);
+            SelectAllCommand = new DelegateCommand(SelectAll);
+            UndoCommand = new DelegateCommand(Undo);
+            RedoCommand = new DelegateCommand(Redo);
 
             disposables.Add(new DisposableEventWrapper(this, ActualHeightProperty, OnActualSizeChanged));
             disposables.Add(new DisposableEventWrapper(this, ActualWidthProperty, OnActualSizeChanged));
@@ -706,6 +718,37 @@ namespace CefSharp.Wpf
             {
                 modifiers |= CefEventFlags.RightMouseButton;
             }
+
+            if (Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                modifiers |= CefEventFlags.ControlDown | CefEventFlags.IsLeft;
+            }
+
+            if (Keyboard.IsKeyDown(Key.RightCtrl))
+            {
+                modifiers |= CefEventFlags.ControlDown | CefEventFlags.IsRight;
+            }
+
+            if (Keyboard.IsKeyDown(Key.LeftShift))
+            {
+                modifiers |= CefEventFlags.ShiftDown | CefEventFlags.IsLeft;
+            }
+
+            if (Keyboard.IsKeyDown(Key.RightShift))
+            {
+                modifiers |= CefEventFlags.ShiftDown | CefEventFlags.IsRight;
+            }
+
+            if (Keyboard.IsKeyDown(Key.LeftAlt))
+            {
+                modifiers |= CefEventFlags.AltDown| CefEventFlags.IsLeft;
+            }
+
+            if (Keyboard.IsKeyDown(Key.RightAlt))
+            {
+                modifiers |= CefEventFlags.AltDown | CefEventFlags.IsRight;
+            }
+
             return modifiers;
         }
 
@@ -896,7 +939,7 @@ namespace CefSharp.Wpf
 
             if (managedCefBrowserAdapter != null)
             {
-                managedCefBrowserAdapter.OnMouseMove(0, 0, true, modifiers);
+                managedCefBrowserAdapter.OnMouseMove(-1, -1, true, modifiers);
             }
         }
 
