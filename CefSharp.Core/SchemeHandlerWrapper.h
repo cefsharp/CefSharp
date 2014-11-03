@@ -6,6 +6,7 @@
 
 #include "Stdafx.h"
 #include "include/cef_scheme.h"
+#include "Internals/AutoLock.h"
 
 using namespace System;
 using namespace System::IO;
@@ -17,7 +18,7 @@ namespace CefSharp
 
     public class SchemeHandlerWrapper : public CefResourceHandler
     {
-        base::Lock _syncRoot;
+        CriticalSection _syncRoot;
         gcroot<ISchemeHandler^> _handler;
         gcroot<Stream^> _stream;
         CefRefPtr<CefCallback> _callback;

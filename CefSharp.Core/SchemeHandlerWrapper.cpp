@@ -36,7 +36,7 @@ namespace CefSharp
 
         bool handled = false;
 
-        base::AutoLock lock_scope(_syncRoot);
+        AutoLock lock_scope(_syncRoot);
 
         auto schemeResponse = gcnew SchemeHandlerResponse(this);
         auto onRequestCompleted = gcnew OnRequestCompletedHandler(schemeResponse, &SchemeHandlerResponse::OnRequestCompleted);
@@ -92,7 +92,7 @@ namespace CefSharp
     {
         bool has_data = false;
 
-        base::AutoLock lock_scope(_syncRoot);
+        AutoLock lock_scope(_syncRoot);
 
         if (static_cast<Stream^>(_stream) == nullptr)
         {

@@ -163,7 +163,7 @@ namespace CefSharp
                 return;
             }
 
-            base::AutoLock lock_scope(_syncRoot);
+            AutoLock lock_scope(_syncRoot);
 
             if (frame->IsMain())
             {
@@ -181,7 +181,7 @@ namespace CefSharp
                 return;
             }
 
-            base::AutoLock lock_scope(_syncRoot);
+            AutoLock lock_scope(_syncRoot);
 
             if (frame->IsMain())
             {
