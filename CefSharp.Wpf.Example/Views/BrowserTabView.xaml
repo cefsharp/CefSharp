@@ -202,9 +202,9 @@
                             <Separator />
                             <MenuItem Header="View Source"
                                       Command="{Binding WebBrowser.ViewSourceCommand}" />
-                            <MenuItem Header="Cut" Command="{Binding WebBrowser.CutCommand}"></MenuItem>
-                            <MenuItem Header="Copy" Command="{Binding WebBrowser.CopyCommand}"></MenuItem>
-                            <MenuItem Header="Paste" Command="{Binding WebBrowser.PasteCommand}"></MenuItem>
+                            <MenuItem Header="Cut" Command="{Binding WebBrowser.CutCommand}"/>
+                            <MenuItem Header="Copy" Command="{Binding WebBrowser.CopyCommand}"/>
+                            <MenuItem Header="Paste" Command="{Binding WebBrowser.PasteCommand}"/>
                         </ContextMenu>
                     </FrameworkElement.ContextMenu>
                 </cefSharp:ChromiumWebBrowser>
