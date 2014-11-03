@@ -137,7 +137,7 @@ namespace CefSharp
 
                     windowInfo.SetAsPopup(cefHost->GetWindowHandle(), "DevTools");
                 
-					cefHost->ShowDevTools(windowInfo, this, settings, CefPoint());
+                    cefHost->ShowDevTools(windowInfo, this, settings, CefPoint());
                 }
             }
 
