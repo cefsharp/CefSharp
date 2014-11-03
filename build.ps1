@@ -3,9 +3,9 @@ param(
     [Parameter(Position = 0)] 
     [string] $Target = "nupkg",
     [Parameter(Position = 1)]
-    [string] $Version = "37.0.0-pre02",
+    [string] $Version = "39.0.0",
     [Parameter(Position = 2)]
-    [string] $RedistVersion = "3.2062.1898"
+    [string] $RedistVersion = "3.2171.1899-pre0"
 )
 
 $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
@@ -262,7 +262,7 @@ WriteAssemblyVersion
 
 switch -Exact ($Target) {
     "nupkg"
-	{
+    {
         VSX v120
         VSX v110
         Nupkg
