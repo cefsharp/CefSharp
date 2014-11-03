@@ -2,6 +2,7 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
@@ -27,6 +28,9 @@ namespace CefSharp.Wpf.Example
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, CloseTab));
 
             Loaded += MainWindowLoaded;
+
+            var bitness = Environment.Is64BitProcess ? "x64" : "x86";
+            Title += " - " + bitness;
         }
 
         private void CloseTab(object sender, ExecutedRoutedEventArgs e)
