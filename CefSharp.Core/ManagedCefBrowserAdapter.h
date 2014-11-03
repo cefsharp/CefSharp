@@ -80,20 +80,19 @@ namespace CefSharp
             }
         }
 
-
         void OnInitialized()
         {
             if(_webBrowserInternal != nullptr)
-			{
+            {
                 _webBrowserInternal->OnInitialized();
-    
+
                 auto address = _address;
-    
+
                 if ( address != nullptr )
                 {
                     LoadUrl(address);
                 }
-			}
+            }
         };
 
         void LoadHtml(String^ html, String^ url)
