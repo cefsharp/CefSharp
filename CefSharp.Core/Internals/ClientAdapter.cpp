@@ -6,6 +6,7 @@
 
 #include "Internals/CefRequestWrapper.h"
 #include "Internals/CefWebPluginInfoWrapper.h"
+#include "Internals/CefContextMenuParamsWrapper.h"
 #include "Internals/JavascriptBinding/BindingHandler.h"
 #include "Internals/RequestResponse.h"
 #include "ClientAdapter.h"
@@ -388,7 +389,10 @@ namespace CefSharp
             IMenuHandler^ handler = webBrowserControl->MenuHandler;
             if (handler == nullptr) return;
 
-            auto result = handler->OnBeforeContextMenu(_browserControl);
+            // Context menu params
+            CefContextMenuParamsWrapper^ contextMenuParamsWrapper = gcnew CefContextMenuParamsWrapper(params);
+
+            auto result = handler->OnBeforeContextMenu(_browserControl, contextMenuParamsWrapper);
             if (!result) {
                 // The only way I found for preventing the context menu to be displayed is by removing all items. :-)
                 while (model->GetCount() > 0) {
