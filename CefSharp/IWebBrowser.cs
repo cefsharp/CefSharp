@@ -260,10 +260,19 @@ namespace CefSharp
   
         /// <summary>
         /// If a misspelled word is currently selected in an editable node calling
-        /// this method will replace it with the specified |word|. 
+        /// this method will replace it with the specified word. 
         /// </summary>
         /// <param name="word">The new word that will replace the currently selected word.</param>
         void ReplaceMisspelling(string word);
+
+        /// <summary>
+        /// Add the specified word to the spelling dictionary.
+        /// </summary>
+        /// <param name="word">The new word that will be added to the dictionary.</param>
+        void AddWordToDictionary(string word);
+
+
+        
 
     }
 }

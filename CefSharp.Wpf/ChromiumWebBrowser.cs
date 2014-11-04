@@ -1290,5 +1290,10 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter.ReplaceMisspelling(word);
         }
 
+        public void AddWordToDictionary(string word)
+        {
+            managedCefBrowserAdapter.AddWordToDictionary(word);
+        }
+
     }
 }

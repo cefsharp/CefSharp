@@ -507,6 +507,16 @@ namespace CefSharp
             }
         }
 
+        void AddWordToDictionary(String^ word){
+            auto cefHost = _renderClientAdapter->TryGetCefHost();
+
+            if (cefHost != nullptr)
+            {
+                CefString wordNative = StringUtils::ToNative(word);
+                cefHost->AddWordToDictionary(wordNative);
+            }
+        }
+
 
     };
 }
