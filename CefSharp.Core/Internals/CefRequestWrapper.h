@@ -34,8 +34,7 @@ namespace CefSharp
             virtual property String^ Method { String^ get(); }
             virtual property String^ Body { String^ get(); }
             virtual property NameValueCollection^ Headers { NameValueCollection^ get(); void set(NameValueCollection^ url); }
-            virtual property TransitionType NavigationType { TransitionType get(); }
-
+            virtual property TransitionType TransitionType { CefSharp::TransitionType get(); }
         };
     }
 }
