@@ -6,16 +6,6 @@ using System.Collections.Specialized;
 
 namespace CefSharp
 {
-    public enum NavigationType
-    {
-        LinkClicked,
-        FormSubmitted,
-        BackForward,
-        Reload,
-        FormResubmitted,
-        Other
-    };
-
     public interface IRequest
     {
         string Url { get; set; }
