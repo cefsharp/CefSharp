@@ -43,8 +43,9 @@ namespace CefSharp
             virtual property String^ MisspelledWord { String^ get(); }
             virtual property int MisspellingHash { int get(); }
 
-            // TODO: Implement:
-            //virtual property bool GetDictionarySuggestions { String^ get(); }
+            virtual property List<String^>^ DictionarySuggestions { List<String^>^ get(); }
+            
+            
             //virtual bool GetDictionarySuggestions(std::vector<CefString>& suggestions) OVERRIDE;
 
             virtual property bool IsEditable { bool get(); }

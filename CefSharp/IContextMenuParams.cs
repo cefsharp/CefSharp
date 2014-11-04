@@ -2,6 +2,8 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System.Collections.Generic;
+
 namespace CefSharp
 {
     /// <summary>
@@ -36,9 +38,8 @@ namespace CefSharp
         string MisspelledWord { get; }
         int MisspellingHash { get; }
     
-        // TODO: Implement:
-        //virtual property bool GetDictionarySuggestions { String^ get(); }
-        //virtual bool GetDictionarySuggestions(std::vector<CefString>& suggestions) OVERRIDE;
+        List<string> DictionarySuggestions { get; }  
+
         bool IsEditable { get; }
         bool IsSpellCheckEnabled { get; }
      

@@ -60,6 +60,7 @@ namespace CefSharp
         {
             return StringUtils::ToClr(_wrappedInfo->GetFrameUrl());
         }
+
         String^ CefContextMenuParamsWrapper::FrameCharset::get()
         {
             return StringUtils::ToClr(_wrappedInfo->GetFrameCharset());
@@ -90,6 +91,17 @@ namespace CefSharp
 
         //// TODO: Implement:
         ////virtual bool GetDictionarySuggestions(std::vector<CefString>& suggestions) OVERRIDE;
+
+
+        List<String^>^ CefContextMenuParamsWrapper::DictionarySuggestions::get()
+        {
+            std::vector<CefString>& dictionarySuggestions = std::vector<CefString>();
+            bool result = _wrappedInfo->GetDictionarySuggestions(dictionarySuggestions);
+
+            return StringUtils::ToClr(dictionarySuggestions);
+        }
+
+
 
 
         bool CefContextMenuParamsWrapper::IsEditable::get()
