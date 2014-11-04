@@ -48,8 +48,7 @@ namespace CefSharp
         {
             HWND hwnd = HWND();
             CefWindowInfo window;
-            window.SetAsOffScreen(hwnd);
-            window.SetTransparentPainting(true);
+            window.SetAsWindowless(hwnd, TRUE);
             CefString addressNative = StringUtils::ToNative("about:blank");
 
             if (!CefBrowserHost::CreateBrowser(window, _renderClientAdapter.get(), addressNative,

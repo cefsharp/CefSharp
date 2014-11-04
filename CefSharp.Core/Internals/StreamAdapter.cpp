@@ -16,7 +16,7 @@ namespace CefSharp
 
         size_t StreamAdapter::Read(void* ptr, size_t size, size_t n)
         {
-            AutoLock lock_scope(this);
+            base::AutoLock lock_scope(_syncRoot);
 
             try {
                 array<Byte>^ buffer = gcnew array<Byte>(n * size);

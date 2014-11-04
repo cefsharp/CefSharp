@@ -348,7 +348,7 @@ namespace CefSharp
 
             auto wrapper = new CompletionHandler(handler);
 
-            return manager->FlushStore(static_cast<CefRefPtr<CefCompletionHandler>>(wrapper));
+            return manager->FlushStore(static_cast<CefRefPtr<CefCompletionCallback>>(wrapper));
         }
 
         /// <summary>Shuts down CefSharp and the underlying CEF infrastructure. This method is safe to call multiple times; it will only

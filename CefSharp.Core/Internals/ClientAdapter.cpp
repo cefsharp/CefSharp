@@ -56,7 +56,7 @@ namespace CefSharp
                     handler->OnBeforeClose(_browserControl);
                 }
 
-                _cefBrowser = nullptr;
+                _cefBrowser = NULL;
             }
         }
 
@@ -159,7 +159,8 @@ namespace CefSharp
                 return;
             }
 
-            AutoLock lock_scope(this);
+            base::AutoLock lock_scope(_syncRoot);
+
             if (frame->IsMain())
             {
                 _browserControl->SetIsLoading(true);
@@ -176,7 +177,8 @@ namespace CefSharp
                 return;
             }
 
-            AutoLock lock_scope(this);
+            base::AutoLock lock_scope(_syncRoot);
+
             if (frame->IsMain())
             {
                 _browserControl->SetIsLoading(false);

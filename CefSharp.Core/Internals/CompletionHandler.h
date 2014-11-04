@@ -9,7 +9,7 @@
 
 namespace CefSharp
 {
-    private class CompletionHandler : public CefCompletionHandler
+    private class CompletionHandler : public CefCompletionCallback
     {
     private:
         gcroot<ICompletionHandler^> _handler;
