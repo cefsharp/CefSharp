@@ -393,19 +393,14 @@ namespace CefSharp
         void ClientAdapter::OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
             CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model)
         {
-            // Something like this...
-            auto webBrowserControl = dynamic_cast<IWebBrowser^>((IWebBrowserInternal^)_browserControl);
-            if (webBrowserControl == nullptr) return;
 
-            IMenuHandler^ handler = webBrowserControl->MenuHandler;
+            IMenuHandler^ handler = _browserControl->MenuHandler;
             if (handler == nullptr) return;
 
             auto result = handler->OnBeforeContextMenu(_browserControl);
             if (!result) {
                 // The only way I found for preventing the context menu to be displayed is by removing all items. :-)
-                while (model->GetCount() > 0) {
-                    model->RemoveAt(0);
-                }
+                model->Clear();
             }
         }
 
