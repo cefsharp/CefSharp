@@ -1,6 +1,6 @@
 ﻿namespace CefSharp
 {
-	public enum NavigationType
+	public enum TransitionType
 	{
 		LinkClicked,
 		FormSubmitted,
