@@ -96,5 +96,10 @@ namespace CefSharp
 
             _wrappedRequest->SetHeaderMap(hm);
         }
+
+        CefSharp::NavigationType CefRequestWrapper::NavigationType::get()
+        {
+            return (CefSharp::NavigationType) _wrappedRequest->GetTransitionType();
+        }
     }
 }
