@@ -382,10 +382,10 @@ namespace CefSharp
             CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model)
         {
             // Something like this...
-            auto winFormsWebBrowserControl = dynamic_cast<IWinFormsWebBrowser^>((IWebBrowserInternal^)_browserControl);
-            if (winFormsWebBrowserControl == nullptr) return;
+            auto webBrowserControl = dynamic_cast<IWebBrowser^>((IWebBrowserInternal^)_browserControl);
+            if (webBrowserControl == nullptr) return;
 
-            IMenuHandler^ handler = winFormsWebBrowserControl->MenuHandler;
+            IMenuHandler^ handler = webBrowserControl->MenuHandler;
             if (handler == nullptr) return;
 
             auto result = handler->OnBeforeContextMenu(_browserControl);
