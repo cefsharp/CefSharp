@@ -58,7 +58,7 @@ namespace CefSharp
             HWND hwnd = HWND();
             CefWindowInfo window;
             window.SetAsWindowless(hwnd, TRUE);
-			CefString addressNative = StringUtils::ToNative(_address);
+            CefString addressNative = StringUtils::ToNative(_address);
 
             if (!CefBrowserHost::CreateBrowser(window, _renderClientAdapter.get(), addressNative,
                 *(CefBrowserSettings*) browserSettings->_internalBrowserSettings, NULL))
