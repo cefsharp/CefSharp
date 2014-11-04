@@ -9,6 +9,7 @@
 
 using namespace System;
 using namespace System::Collections::Specialized;
+using namespace CefSharp;
 
 namespace CefSharp
 {
@@ -33,7 +34,7 @@ namespace CefSharp
             virtual property String^ Method { String^ get(); }
             virtual property String^ Body { String^ get(); }
             virtual property NameValueCollection^ Headers { NameValueCollection^ get(); void set(NameValueCollection^ url); }
-            virtual property CefSharp::TransitionType NavigationType { CefSharp::TransitionType get(); }
+            virtual property TransitionType NavigationType { TransitionType get(); }
 
         };
     }

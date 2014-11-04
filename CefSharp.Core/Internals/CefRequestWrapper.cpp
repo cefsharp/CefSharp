@@ -97,9 +97,9 @@ namespace CefSharp
             _wrappedRequest->SetHeaderMap(hm);
         }
 
-        CefSharp::TransitionType CefRequestWrapper::NavigationType::get()
+        TransitionType CefRequestWrapper::NavigationType::get()
         {
-            return (CefSharp::TransitionType) _wrappedRequest->GetTransitionType();
+            return (TransitionType) _wrappedRequest->GetTransitionType();
         }
     }
 }
