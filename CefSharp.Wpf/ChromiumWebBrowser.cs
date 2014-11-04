@@ -1284,5 +1284,11 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter.GetText(taskStringVisitor);
             return taskStringVisitor.Task;
         }
+
+        public void ReplaceMisspelling(string word)
+        {
+            managedCefBrowserAdapter.ReplaceMisspelling(word);
+        }
+
     }
 }

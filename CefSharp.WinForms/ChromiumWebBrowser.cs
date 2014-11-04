@@ -353,5 +353,12 @@ namespace CefSharp.WinForms
                 managedCefBrowserAdapter.OnPaint(Handle);
             }
         }
+
+
+        public void ReplaceMisspelling(string word)
+        {
+            managedCefBrowserAdapter.ReplaceMisspelling(word);
+        }
+
     }
 }

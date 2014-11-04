@@ -256,6 +256,14 @@ namespace CefSharp
         /// <summary>
         /// Explicitly close the developer tools window if one exists for this browser instance.
         /// </summary>
-        void CloseDevTools();               
+        void CloseDevTools();   
+  
+        /// <summary>
+        /// If a misspelled word is currently selected in an editable node calling
+        /// this method will replace it with the specified |word|. 
+        /// </summary>
+        /// <param name="word">The new word that will replace the currently selected word.</param>
+        void ReplaceMisspelling(string word);
+
     }
 }

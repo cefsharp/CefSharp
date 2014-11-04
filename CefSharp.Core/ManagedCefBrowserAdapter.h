@@ -494,5 +494,19 @@ namespace CefSharp
         {
             _javaScriptObjectRepository->Register(name, object);
         }
+
+
+        void ReplaceMisspelling(String^ word)
+        {
+            auto cefHost = _renderClientAdapter->TryGetCefHost();
+
+            if (cefHost != nullptr)
+            {
+                CefString wordNative = StringUtils::ToNative(word);
+                cefHost->ReplaceMisspelling(wordNative);
+            }
+        }
+
+
     };
 }
