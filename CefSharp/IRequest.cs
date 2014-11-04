@@ -12,6 +12,6 @@ namespace CefSharp
         string Method { get; }
         string Body { get; }
         NameValueCollection Headers { get; set; }
-        TransitionType NavigationType { get; }
+        TransitionType TransitionType { get; }
     }
 }
