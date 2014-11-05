@@ -61,7 +61,7 @@ namespace CefSharp.Wpf
         /// <summary>
         /// Raised before each render cycle, and allows you to adjust the bitmap before it's rendered/applied
         /// </summary>
-        public event RenderingEventHandler Rendering;
+        public event EventHandler<RenderingEventArgs> Rendering;
 
         public ICommand BackCommand { get; private set; }
         public ICommand ForwardCommand { get; private set; }
@@ -1212,9 +1212,10 @@ namespace CefSharp.Wpf
         /// </summary>
         protected virtual void OnRendering(object sender, RenderingEventArgs eventArgs)
         {
-            if (Rendering != null)
+            var rendering = Rendering;
+            if (rendering != null)
             {
-                Rendering(this, eventArgs);
+                rendering(this, eventArgs);
             }
         }
 

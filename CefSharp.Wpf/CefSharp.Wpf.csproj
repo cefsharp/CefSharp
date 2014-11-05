@@ -100,7 +100,6 @@
     <AppDesigner Include="Properties\" />
     <Compile Include="ChromiumWebBrowser.cs" />
     <Compile Include="RenderingEventArgs.cs" />
-    <Compile Include="RenderingEventHandler.cs" />
     <Compile Include="WM.cs" />
   </ItemGroup>
   <ItemGroup>
