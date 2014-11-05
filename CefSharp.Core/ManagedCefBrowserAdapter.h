@@ -177,6 +177,11 @@ namespace CefSharp
                 mouseEvent.modifiers = (uint32)modifiers;
 
                 cefHost->SendMouseMoveEvent(mouseEvent, mouseLeave);
+
+                if (mouseLeave == true)
+                {
+                    _webBrowserInternal->SetTooltipText(nullptr);
+                }
             }
         }
 
