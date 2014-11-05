@@ -8,7 +8,7 @@
 #include "Internals/CefWebPluginInfoWrapper.h"
 #include "Internals/CefContextMenuParamsWrapper.h"
 #include "Internals/JavascriptBinding/BindingHandler.h"
-#include "Internals/RequestResponse.h"
+#include "Internals/Response.h"
 #include "ClientAdapter.h"
 #include "Cef.h"
 #include "DownloadAdapter.h"
@@ -259,7 +259,7 @@ namespace CefSharp
             }
 
             auto requestWrapper = gcnew CefRequestWrapper(request);
-            auto response = gcnew RequestResponse();
+            auto response = gcnew Response();
 
             bool ret = handler->OnBeforeResourceLoad(_browserControl, requestWrapper, response);
 
