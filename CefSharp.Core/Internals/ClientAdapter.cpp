@@ -390,8 +390,8 @@ namespace CefSharp
             CefContextMenuParamsWrapper^ contextMenuParamsWrapper = gcnew CefContextMenuParamsWrapper(params);
 
             auto result = handler->OnBeforeContextMenu(_browserControl, contextMenuParamsWrapper);
-            if (!result) {
-                // The only way I found for preventing the context menu to be displayed is by removing all items. :-)
+            if (!result)
+            {
                 model->Clear();
             }
         }
