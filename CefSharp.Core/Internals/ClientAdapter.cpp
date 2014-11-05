@@ -386,8 +386,8 @@ namespace CefSharp
             if (handler == nullptr) return;
 
             auto result = handler->OnBeforeContextMenu(_browserControl);
-            if (!result) {
-                // The only way I found for preventing the context menu to be displayed is by removing all items. :-)
+            if (!result)
+            {
                 model->Clear();
             }
         }
