@@ -89,7 +89,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CefFileDialogMode.cs" />
-    <Compile Include="IResponse.cs" />
     <Compile Include="IsBrowserInitializedChangedEventArgs.cs" />
     <Compile Include="CefTerminationStatus.cs" />
     <Compile Include="IDialogHandler.cs" />
@@ -131,6 +130,7 @@
     <Compile Include="IWebPluginInfo.cs" />
     <Compile Include="IRequest.cs" />
     <Compile Include="IRequestHandler.cs" />
+    <Compile Include="IRequestResponse.cs" />
     <Compile Include="ISchemeHandler.cs" />
     <Compile Include="ISchemeHandlerFactory.cs" />
     <Compile Include="ISchemeHandlerResponse.cs" />

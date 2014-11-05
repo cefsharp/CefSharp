@@ -224,7 +224,7 @@
     <ClCompile Include="Internals\CookieVisitor.cpp" />
     <ClCompile Include="Internals\CefRequestWrapper.cpp" />
     <ClCompile Include="Internals\DownloadAdapter.cpp" />
-    <ClCompile Include="Internals\Response.cpp" />
+    <ClCompile Include="Internals\RequestResponse.cpp" />
     <ClCompile Include="Internals\StringVisitor.cpp" />
     <ClCompile Include="SchemeHandlerResponse.cpp" />
     <ClCompile Include="SchemeHandlerWrapper.cpp" />
@@ -253,7 +253,7 @@
     <ClInclude Include="Internals\StringVisitor.h" />
     <ClInclude Include="MouseButtonType.h" />
     <ClInclude Include="ManagedCefBrowserAdapter.h" />
-    <ClInclude Include="Internals\Response.h" />
+    <ClInclude Include="Internals\RequestResponse.h" />
     <ClInclude Include="CefSettings.h" />
     <ClInclude Include="SchemeHandlerResponse.h" />
     <ClInclude Include="SchemeHandlerWrapper.h" />

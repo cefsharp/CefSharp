@@ -21,13 +21,14 @@ namespace CefSharp.Example
             // TODO: Add your own code here for handling scenarios where a plugin crashed, for one reason or another.
         }
 
-        bool IRequestHandler.OnBeforeResourceLoad(IWebBrowser browser, IRequest request, IResponse response)
+        bool IRequestHandler.OnBeforeResourceLoad(IWebBrowser browser, IRequestResponse requestResponse)
         {
+            IRequest request = requestResponse.Request;
             if (request.Url.StartsWith(ResourceUrl.ToString()))
             {
                 Stream resourceStream = new MemoryStream(Encoding.UTF8.GetBytes(
                     "<html><body><h1>Success</h1><p>This document is loaded from a System.IO.Stream</p></body></html>"));
-                response.RespondWith(resourceStream, "text/html");
+                requestResponse.RespondWith(resourceStream, "text/html");
             }
 
             return false;

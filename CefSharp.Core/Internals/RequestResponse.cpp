@@ -3,29 +3,29 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 #include "Stdafx.h"
-#include "Response.h"
+#include "RequestResponse.h"
 
 namespace CefSharp
 {
     namespace Internals
     {
-        void Response::Cancel()
+        void RequestResponse::Cancel()
         {
             _action = ResponseAction::Cancel;
         }
 
-        void Response::Redirect(String^ url)
+        void RequestResponse::Redirect(String^ url)
         {
             _redirectUrl = url;
             _action = ResponseAction::Redirect;
         }
 
-        void Response::RespondWith(Stream^ stream, String^ mimeType)
+        void RequestResponse::RespondWith(Stream^ stream, String^ mimeType)
         {
             RespondWith(stream, mimeType, "OK", 200, nullptr);
         }
 
-        void Response::RespondWith(Stream^ stream, String^ mimeType, String^ statusText, int statusCode, NameValueCollection^ responseHeaders)
+        void RequestResponse::RespondWith(Stream^ stream, String^ mimeType, String^ statusText, int statusCode, NameValueCollection^ responseHeaders)
         {
             if (String::IsNullOrEmpty(mimeType))
             {

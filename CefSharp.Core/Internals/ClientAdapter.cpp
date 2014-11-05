@@ -8,7 +8,7 @@
 #include "Internals/CefWebPluginInfoWrapper.h"
 #include "Internals/CefContextMenuParamsWrapper.h"
 #include "Internals/JavascriptBinding/BindingHandler.h"
-#include "Internals/Response.h"
+#include "Internals/RequestResponse.h"
 #include "ClientAdapter.h"
 #include "Cef.h"
 #include "DownloadAdapter.h"
@@ -258,16 +258,16 @@ namespace CefSharp
                 return false;
             }
 
-            auto requestWrapper = gcnew CefRequestWrapper(request);
-            auto response = gcnew Response();
+            CefRequestWrapper^ wrapper = gcnew CefRequestWrapper(request);
+            RequestResponse^ requestResponse = gcnew RequestResponse(wrapper);
 
-            bool ret = handler->OnBeforeResourceLoad(_browserControl, requestWrapper, response);
+            bool ret = handler->OnBeforeResourceLoad(_browserControl, requestResponse);
 
-            if (response->Action == ResponseAction::Redirect)
+            if (requestResponse->Action == ResponseAction::Redirect)
             {
-                request->SetURL(StringUtils::ToNative(response->RedirectUrl));
+                request->SetURL(StringUtils::ToNative(requestResponse->RedirectUrl));
             }
-            else if (response->Action == ResponseAction::Respond)
+            else if (requestResponse->Action == ResponseAction::Respond)
             {
                 throw gcnew NotImplementedException("Respond is not yet supported.");
 
