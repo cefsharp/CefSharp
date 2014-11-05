@@ -22,9 +22,8 @@ namespace CefSharp
             Respond
         };
 
-        private ref class RequestResponse : IRequestResponse
+        private ref class RequestResponse : IResponse
         {
-            IRequest^ _request;
             Stream^ _responseStream;
             String^ _mimeType;
             String^ _redirectUrl;
@@ -34,9 +33,7 @@ namespace CefSharp
             NameValueCollection^ _responseHeaders;
 
         internal:
-            RequestResponse(IRequest^ request) :
-                _action(ResponseAction::Continue),
-                _request(request) 
+            RequestResponse() : _action(ResponseAction::Continue)
             {
             }
 
@@ -50,7 +47,6 @@ namespace CefSharp
 
         public:
             virtual void Cancel();
-            virtual property IRequest^ Request { IRequest^ get() { return _request; } }
             virtual void Redirect(String^ url);
             virtual void RespondWith(Stream^ stream, String^ mimeType);
             virtual void RespondWith(Stream^ stream, String^ mimeType, String^ statusText, int statusCode, NameValueCollection^ responseHeaders);
