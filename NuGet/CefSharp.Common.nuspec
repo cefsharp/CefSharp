@@ -12,10 +12,8 @@
     <tags>chrome browser</tags>
     <copyright>Copyright © 2010-2014 The CefSharp Authors</copyright>
     <dependencies>
-      <dependency id="cef.redist.x86.debug" version="[$RedistVersion$]" />
-      <dependency id="cef.redist.x64.debug" version="[$RedistVersion$]" />
-      <dependency id="cef.redist.x86.release" version="[$RedistVersion$]" />
-      <dependency id="cef.redist.x64.release" version="[$RedistVersion$]" />
+      <dependency id="cef.redist.x86" version="[$RedistVersion$]" />
+      <dependency id="cef.redist.x64" version="[$RedistVersion$]" />
     </dependencies>
   </metadata>
   <files>
