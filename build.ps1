@@ -4,7 +4,9 @@ param(
     [string] $Target = "nupkg",
     [Parameter(Position = 1)]
     [string] $Version = "37.0.0-pre02",
-    [Parameter(Position = 2)]
+	[Parameter(Position = 2)]
+    [string] $AssemlyVersion = "37.0.0",
+    [Parameter(Position = 3)]
     [string] $RedistVersion = "3.2062.1898"
 )
 
@@ -249,7 +251,7 @@ function WriteAssemblyVersion
     $Regex = 'public const string AssemblyVersion = "(.*)"';
     
     $AssemblyInfo = Get-Content $Filename
-    $NewString = $AssemblyInfo -replace $Regex, "public const string AssemblyVersion = ""$Version"""
+    $NewString = $AssemblyInfo -replace $Regex, "public const string AssemblyVersion = ""$AssemlyVersion"""
     
     $NewString | Set-Content $Filename -Encoding UTF8
 }

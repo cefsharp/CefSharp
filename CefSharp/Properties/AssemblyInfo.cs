@@ -33,7 +33,7 @@ namespace CefSharp
         public const bool ComVisible = false;
         public const string AssemblyCompany = "The CefSharp Authors";
         public const string AssemblyProduct = "CefSharp";
-        public const string AssemblyVersion = "37.0.0.0";
+        public const string AssemblyVersion = "37.0.0";
         public const string AssemblyFileVersion = "37.0.0.0";
         public const string AssemblyCopyright = "Copyright © The CefSharp Authors 2010-2014";
         public const string CefSharpCoreProject = "CefSharp.Core, PublicKey=" + PublicKey;
