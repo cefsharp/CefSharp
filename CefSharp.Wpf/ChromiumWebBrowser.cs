@@ -254,6 +254,20 @@ namespace CefSharp.Wpf
 
         #endregion ZoomLevel dependency property
 
+        #region AutoZoom dependency property
+
+        public bool AutoZoom
+        {
+            get { return (bool)GetValue(AutoZoomProperty); }
+            set { SetValue(AutoZoomProperty, value); }
+        }
+
+        public static readonly DependencyProperty AutoZoomProperty =
+            DependencyProperty.Register("AutoZoom", typeof(bool), typeof(ChromiumWebBrowser),
+                                        new UIPropertyMetadata(true));
+
+        #endregion
+
         #region ZoomLevelIncrement dependency property
 
         /// <summary>
@@ -593,6 +607,8 @@ namespace CefSharp.Wpf
                 matrix = source.CompositionTarget.TransformToDevice;
                 sourceHook = SourceHook;
                 source.AddHook(sourceHook);
+
+                DoAutoZoom();
             }
         }
 
@@ -1103,7 +1119,14 @@ namespace CefSharp.Wpf
         {
             UiThreadRunAsync(() =>
             {
-                ZoomLevel = 0;
+                if (AutoZoom)
+                {
+                    DoAutoZoom();
+                }
+                else
+                {
+                    ZoomLevel = 0;
+                }
             });
         }
 
@@ -1119,6 +1142,8 @@ namespace CefSharp.Wpf
 
         void IWebBrowserInternal.OnFrameLoadStart(string url, bool isMainFrame)
         {
+            UiThreadRunAsync(() => managedCefBrowserAdapter.SetZoomLevel(ZoomLevel), DispatcherPriority.Render);
+
             var handler = FrameLoadStart;
             if (handler != null)
             {
@@ -1126,8 +1151,23 @@ namespace CefSharp.Wpf
             }
         }
 
+        private void DoAutoZoom()
+        {
+            UiThreadRunAsync(() =>
+            {
+                if (AutoZoom && matrix != null)
+                {
+                    var zl = Math.Log(matrix.M11, 1.2);
+                    ZoomLevel = zl;
+                }
+            }, DispatcherPriority.Render);
+        }
+
         void IWebBrowserInternal.OnFrameLoadEnd(string url, bool isMainFrame, int httpStatusCode)
         {
+            //if (httpStatusCode == 200)
+            //    DoAutoZoom();
+
             var handler = FrameLoadEnd;
 
             if (handler != null)
