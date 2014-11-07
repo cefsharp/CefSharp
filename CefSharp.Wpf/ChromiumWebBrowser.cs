@@ -1150,9 +1150,6 @@ namespace CefSharp.Wpf
 
         void IWebBrowserInternal.OnFrameLoadEnd(string url, bool isMainFrame, int httpStatusCode)
         {
-            //if (httpStatusCode == 200)
-            //    DoAutoZoom();
-
             var handler = FrameLoadEnd;
 
             if (handler != null)
