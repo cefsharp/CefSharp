@@ -50,7 +50,7 @@ namespace CefSharp
             CefWindowInfo window;
             window.SetAsOffScreen(hwnd);
             window.SetTransparentPainting(true);
-            CefString addressNative = StringUtils::ToNative("about:blank");
+            CefString addressNative = StringUtils::ToNative("");
 
             if (!CefBrowserHost::CreateBrowser(window, _renderClientAdapter.get(), addressNative,
                 *(CefBrowserSettings*) browserSettings->_internalBrowserSettings, NULL))
