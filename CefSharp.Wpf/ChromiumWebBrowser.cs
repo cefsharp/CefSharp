@@ -846,7 +846,7 @@ namespace CefSharp.Wpf
 
                 managedCefBrowserAdapter.SendKeyEvent(message, virtualKey, modifiers);
 
-                if (KeysToSendtoBrowser.Contains(e.Key) || (modifiers.HasFlag(CefEventFlags.ShiftDown) && modifiers.HasFlag(CefEventFlags.ControlDown)))
+                if (KeysToSendtoBrowser.Contains(e.Key))
                 {
                     e.Handled = true;
                 }
