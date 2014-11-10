@@ -837,40 +837,20 @@ namespace CefSharp.Wpf
             // For some reason, not all kinds of keypresses triggers the appropriate WM_ messages handled by our SourceHook, so
             // we have to handle these extra keys here. Hooking the Tab key like this makes the tab focusing in essence work like
             // KeyboardNavigation.TabNavigation="Cycle"; you will never be able to Tab out of the web browser control.
+            var modifiers = GetModifiers(e);
 
-            if (KeysToSendtoBrowser.Contains(e.Key))
+            if (KeysToSendtoBrowser.Contains(e.Key) || modifiers > 0)
             {
                 var message = (int)(e.IsDown ? WM.KEYDOWN : WM.KEYUP);
                 var virtualKey = KeyInterop.VirtualKeyFromKey(e.Key);
 
-                var modifiers = GetModifiers(e);
                 managedCefBrowserAdapter.SendKeyEvent(message, virtualKey, modifiers);
-                e.Handled = true;
-            }
 
-            if (e.IsDown && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
-            {
-                switch (e.Key)
+                if (KeysToSendtoBrowser.Contains(e.Key) || (modifiers.HasFlag(CefEventFlags.ShiftDown) && modifiers.HasFlag(CefEventFlags.ControlDown)))
                 {
-                    case Key.X:
-                        managedCefBrowserAdapter.Cut();
-                        break;
-                    case Key.C:
-                        managedCefBrowserAdapter.Copy();
-                        break;
-                    case Key.V:
-                        managedCefBrowserAdapter.Paste();
-                        break;
-                    case Key.A:
-                        managedCefBrowserAdapter.SelectAll();
-                        break;
-                    case Key.Z:
-                        managedCefBrowserAdapter.Undo();
-                        break;
-                    case Key.Y:
-                        managedCefBrowserAdapter.Redo();
-                        break;
+                    e.Handled = true;
                 }
+
             }
         }
 
