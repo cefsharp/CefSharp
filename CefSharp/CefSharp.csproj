@@ -108,6 +108,7 @@
     <Compile Include="Internals\BrowserProcessServiceHost.cs" />
     <Compile Include="Internals\WCFExtensions.cs" />
     <Compile Include="KeyType.cs" />
+    <Compile Include="TransitionType.cs" />
     <Compile Include="NavStateChangedEventArgs.cs" />
     <Compile Include="ICompletionHandler.cs" />
     <Compile Include="Internals\BitmapInfo.cs" />

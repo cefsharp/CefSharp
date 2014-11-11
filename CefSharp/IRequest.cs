@@ -12,5 +12,11 @@ namespace CefSharp
         string Method { get; }
         string Body { get; }
         NameValueCollection Headers { get; set; }
+        
+        /// <summary>
+        /// Get the transition type for this request.
+        /// Applies to requests that represent a main frame or sub-frame navigation.
+        /// </summary>
+        TransitionType TransitionType { get; }
     }
 }

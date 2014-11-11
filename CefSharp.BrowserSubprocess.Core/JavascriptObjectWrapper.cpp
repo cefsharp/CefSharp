@@ -28,7 +28,7 @@ namespace CefSharp
 
 		for each (JavascriptMethod^ method in Enumerable::OfType<JavascriptMethod^>(_object->Methods))
 		{
-			auto wrappedMethod = gcnew JavascriptMethodWrapper(method, _object->Id, _createBrowserProxyDelegate);
+			auto wrappedMethod = gcnew JavascriptMethodWrapper(method, _object->Id, _browserProcess);
 			wrappedMethod->V8Value = javascriptObject;
 			wrappedMethod->Bind();
 
@@ -37,7 +37,7 @@ namespace CefSharp
 
 		for each (JavascriptProperty^ prop in Enumerable::OfType<JavascriptProperty^>(_object->Properties))
 		{
-			auto wrappedproperty = gcnew JavascriptPropertyWrapper(prop, _object->Id, _createBrowserProxyDelegate);
+			auto wrappedproperty = gcnew JavascriptPropertyWrapper(prop, _object->Id, _browserProcess);
 			wrappedproperty->V8Value = javascriptObject;
 			wrappedproperty->Bind();
 
@@ -47,15 +47,11 @@ namespace CefSharp
 
 	BrowserProcessResponse^ JavascriptObjectWrapper::GetProperty(String^ memberName)
 	{
-		auto browserProxy = _createBrowserProxyDelegate();
-
-		return browserProxy->GetProperty(_object->Id, memberName);
+		return _browserProcess->GetProperty(_object->Id, memberName);
 	};
 
 	BrowserProcessResponse^ JavascriptObjectWrapper::SetProperty(String^ memberName, Object^ value)
 	{
-		auto browserProxy = _createBrowserProxyDelegate();
-
-		return browserProxy->SetProperty(_object->Id, memberName, value);
+		return _browserProcess->SetProperty(_object->Id, memberName, value);
 	};
 }

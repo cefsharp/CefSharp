@@ -43,7 +43,7 @@ namespace CefSharp
         property bool IsPopup;
         property DuplexChannelFactory<IBrowserProcess^>^ ChannelFactory;
         property JavascriptRootObject^ JavascriptRootObject;
-        property Func<IBrowserProcess^>^ CreateBrowserProxyDelegate;
+        property IBrowserProcess^ BrowserProcess;
 
         JavascriptResponse^ EvaluateScriptInContext(CefRefPtr<CefV8Context> context, CefString script)
         {

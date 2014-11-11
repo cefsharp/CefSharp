@@ -60,5 +60,35 @@ namespace CefSharp.Wpf
         /// Stops loading the current page.
         /// </summary>
         ICommand StopCommand { get; }
+
+        /// <summary>
+        /// Cut selected text to the clipboard.
+        /// </summary>
+        ICommand CutCommand { get; }
+
+        /// <summary>
+        /// Copy selected text to the clipboard.
+        /// </summary>
+        ICommand CopyCommand { get; }
+
+        /// <summary>
+        /// Paste text from the clipboard.
+        /// </summary>
+        ICommand PasteCommand { get; }
+
+        /// <summary>
+        /// Select all text.
+        /// </summary>
+        ICommand SelectAllCommand { get; }
+
+        /// <summary>
+        /// Undo last action.
+        /// </summary>
+        ICommand UndoCommand { get; }
+
+        /// <summary>
+        /// Redo last action.
+        /// </summary>
+        ICommand RedoCommand { get; }
     }
 }

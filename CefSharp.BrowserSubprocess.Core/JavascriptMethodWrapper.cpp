@@ -22,8 +22,6 @@ namespace CefSharp
 
     BrowserProcessResponse^ JavascriptMethodWrapper::Execute(array<Object^>^ parameters)
     {
-        auto browserProxy = _createBrowserProxyDelegate();
-
-        return browserProxy->CallMethod(_ownerId, _javascriptMethod->JavascriptName, parameters);
+        return _browserProcess->CallMethod(_ownerId, _javascriptMethod->JavascriptName, parameters);
     }
 }

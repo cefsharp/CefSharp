@@ -60,14 +60,12 @@ namespace CefSharp
                     handler->OnBeforeClose(_browserControl);
                 }
 
-                _cefBrowser = nullptr;
+                _cefBrowser = NULL;
             }
         }
 
         void ClientAdapter::OnLoadingStateChange(CefRefPtr<CefBrowser> browser, bool isLoading, bool canGoBack, bool canGoForward)
         {
-            _browserControl->SetIsLoading(isLoading);
-
             auto canReload = !isLoading;
             _browserControl->SetNavState(canGoBack, canGoForward, canReload);
         }
@@ -163,11 +161,11 @@ namespace CefSharp
                 return;
             }
 
-            AutoLock lock_scope(this);
+            AutoLock lock_scope(_syncRoot);
+
             if (frame->IsMain())
             {
                 _browserControl->SetIsLoading(true);
-                _browserControl->SetNavState(false, false, false);
             }
 
             _browserControl->OnFrameLoadStart(StringUtils::ToClr(frame->GetURL()), frame->IsMain());
@@ -180,7 +178,8 @@ namespace CefSharp
                 return;
             }
 
-            AutoLock lock_scope(this);
+            AutoLock lock_scope(_syncRoot);
+
             if (frame->IsMain())
             {
                 _browserControl->SetIsLoading(false);
@@ -379,19 +378,14 @@ namespace CefSharp
         void ClientAdapter::OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
             CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model)
         {
-            // Something like this...
-            auto winFormsWebBrowserControl = dynamic_cast<IWinFormsWebBrowser^>((IWebBrowserInternal^)_browserControl);
-            if (winFormsWebBrowserControl == nullptr) return;
 
-            IMenuHandler^ handler = winFormsWebBrowserControl->MenuHandler;
+            IMenuHandler^ handler = _browserControl->MenuHandler;
             if (handler == nullptr) return;
 
             auto result = handler->OnBeforeContextMenu(_browserControl);
-            if (!result) {
-                // The only way I found for preventing the context menu to be displayed is by removing all items. :-)
-                while (model->GetCount() > 0) {
-                    model->RemoveAt(0);
-                }
+            if (!result)
+            {
+                model->Clear();
             }
         }
 
