@@ -50,7 +50,7 @@ namespace CefSharp
         {
             auto window = context->GetGlobal();
 
-            auto jsRootWrapper = gcnew JavascriptRootObjectWrapper(wrapper->JavascriptRootObject, wrapper->CreateBrowserProxyDelegate);
+            auto jsRootWrapper = gcnew JavascriptRootObjectWrapper(wrapper->JavascriptRootObject, wrapper->BrowserProcess);
 
             jsRootWrapper->V8Value = window;
             jsRootWrapper->Bind();
