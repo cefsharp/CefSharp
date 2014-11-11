@@ -34,6 +34,7 @@ namespace CefSharp.Wpf
         private readonly ToolTip toolTip;
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
         private bool ignoreUriChange;
+        private bool browserCreated;
         private Matrix matrix;
 
         private Image image;
@@ -49,6 +50,7 @@ namespace CefSharp.Wpf
         public IRequestHandler RequestHandler { get; set; }
         public IDownloadHandler DownloadHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
+        public IMenuHandler MenuHandler { get; set; }
 
         public event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
         public event EventHandler<StatusMessageEventArgs> StatusMessage;
@@ -66,6 +68,12 @@ namespace CefSharp.Wpf
         public ICommand ViewSourceCommand { get; private set; }
         public ICommand CleanupCommand { get; private set; }
         public ICommand StopCommand { get; private set; }
+        public ICommand CutCommand { get; private set; }
+        public ICommand CopyCommand { get; private set; }
+        public ICommand PasteCommand { get; private set; }
+        public ICommand SelectAllCommand { get; private set; }
+        public ICommand UndoCommand { get; private set; }
+        public ICommand RedoCommand { get; private set; }
 
         #region CanGoBack dependency property
 
@@ -245,6 +253,20 @@ namespace CefSharp.Wpf
         }
 
         #endregion ZoomLevel dependency property
+
+        #region AutoZoom dependency property
+
+        public bool AutoZoom
+        {
+            get { return (bool)GetValue(AutoZoomProperty); }
+            set { SetValue(AutoZoomProperty, value); }
+        }
+
+        public static readonly DependencyProperty AutoZoomProperty =
+            DependencyProperty.Register("AutoZoom", typeof(bool), typeof(ChromiumWebBrowser),
+                                        new UIPropertyMetadata(true));
+
+        #endregion
 
         #region ZoomLevelIncrement dependency property
 
@@ -436,12 +458,16 @@ namespace CefSharp.Wpf
             ViewSourceCommand = new DelegateCommand(ViewSource);
             CleanupCommand = new DelegateCommand(Dispose);
             StopCommand = new DelegateCommand(Stop);
+            CutCommand = new DelegateCommand(Cut);
+            CopyCommand = new DelegateCommand(Copy);
+            PasteCommand = new DelegateCommand(Paste);
+            SelectAllCommand = new DelegateCommand(SelectAll);
+            UndoCommand = new DelegateCommand(Undo);
+            RedoCommand = new DelegateCommand(Redo);
 
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
-            managedCefBrowserAdapter.CreateOffscreenBrowser(BrowserSettings ?? new BrowserSettings());
 
             disposables.Add(managedCefBrowserAdapter);
-
             disposables.Add(new DisposableEventWrapper(this, ActualHeightProperty, OnActualSizeChanged));
             disposables.Add(new DisposableEventWrapper(this, ActualWidthProperty, OnActualSizeChanged));
         }
@@ -449,6 +475,17 @@ namespace CefSharp.Wpf
         ~ChromiumWebBrowser()
         {
             Dispose(false);
+        }
+
+        private void CreateOffscreenBrowserWhenActualSizeChanged()
+        {
+            if (browserCreated)
+            {
+                return;
+            }
+
+            managedCefBrowserAdapter.CreateOffscreenBrowser(BrowserSettings ?? new BrowserSettings());
+            browserCreated = true;
         }
 
         private void UiThreadRunAsync(Action action, DispatcherPriority priority = DispatcherPriority.DataBind)
@@ -465,6 +502,8 @@ namespace CefSharp.Wpf
 
         private void OnActualSizeChanged(object sender, EventArgs e)
         {
+            // Initialize RenderClientAdapter when WPF has calculated the actual size of current content.
+            CreateOffscreenBrowserWhenActualSizeChanged();
             managedCefBrowserAdapter.WasResized();
         }
 
@@ -568,6 +607,8 @@ namespace CefSharp.Wpf
                 matrix = source.CompositionTarget.TransformToDevice;
                 sourceHook = SourceHook;
                 source.AddHook(sourceHook);
+
+                DoAutoZoom();
             }
         }
 
@@ -697,6 +738,37 @@ namespace CefSharp.Wpf
             {
                 modifiers |= CefEventFlags.RightMouseButton;
             }
+
+            if (Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                modifiers |= CefEventFlags.ControlDown | CefEventFlags.IsLeft;
+            }
+
+            if (Keyboard.IsKeyDown(Key.RightCtrl))
+            {
+                modifiers |= CefEventFlags.ControlDown | CefEventFlags.IsRight;
+            }
+
+            if (Keyboard.IsKeyDown(Key.LeftShift))
+            {
+                modifiers |= CefEventFlags.ShiftDown | CefEventFlags.IsLeft;
+            }
+
+            if (Keyboard.IsKeyDown(Key.RightShift))
+            {
+                modifiers |= CefEventFlags.ShiftDown | CefEventFlags.IsRight;
+            }
+
+            if (Keyboard.IsKeyDown(Key.LeftAlt))
+            {
+                modifiers |= CefEventFlags.AltDown| CefEventFlags.IsLeft;
+            }
+
+            if (Keyboard.IsKeyDown(Key.RightAlt))
+            {
+                modifiers |= CefEventFlags.AltDown | CefEventFlags.IsRight;
+            }
+
             return modifiers;
         }
 
@@ -887,7 +959,7 @@ namespace CefSharp.Wpf
 
             if (managedCefBrowserAdapter != null)
             {
-                managedCefBrowserAdapter.OnMouseMove(0, 0, true, modifiers);
+                managedCefBrowserAdapter.OnMouseMove(-1, -1, true, modifiers);
             }
         }
 
@@ -1047,7 +1119,14 @@ namespace CefSharp.Wpf
         {
             UiThreadRunAsync(() =>
             {
-                ZoomLevel = 0;
+                if (AutoZoom)
+                {
+                    DoAutoZoom();
+                }
+                else
+                {
+                    ZoomLevel = 0;
+                }
             });
         }
 
@@ -1063,11 +1142,25 @@ namespace CefSharp.Wpf
 
         void IWebBrowserInternal.OnFrameLoadStart(string url, bool isMainFrame)
         {
+            UiThreadRunAsync(() => managedCefBrowserAdapter.SetZoomLevel(ZoomLevel), DispatcherPriority.Render);
+
             var handler = FrameLoadStart;
             if (handler != null)
             {
                 handler(this, new FrameLoadStartEventArgs(url, isMainFrame));
             }
+        }
+
+        private void DoAutoZoom()
+        {
+            UiThreadRunAsync(() =>
+            {
+                if (AutoZoom && matrix != null)
+                {
+                    var zl = Math.Log(matrix.M11, 1.2);
+                    ZoomLevel = zl;
+                }
+            }, DispatcherPriority.Render);
         }
 
         void IWebBrowserInternal.OnFrameLoadEnd(string url, bool isMainFrame, int httpStatusCode)

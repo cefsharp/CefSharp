@@ -3,7 +3,11 @@ param(
     [Parameter(Position = 0)] 
     [string] $Target = "nupkg",
     [Parameter(Position = 1)]
-    [string] $Version = "33.1.0-pre01"
+    [string] $Version = "37.0.0-pre02",
+	[Parameter(Position = 2)]
+    [string] $AssemlyVersion = "37.0.0",
+    [Parameter(Position = 3)]
+    [string] $RedistVersion = "3.2062.1898"
 )
 
 $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
@@ -54,8 +58,8 @@ function Die
     )
 
     Write-Host
-	Write-Error $Message 
-	exit 1
+    Write-Error $Message 
+    exit 1
 }
 
 function Warn 
@@ -66,8 +70,8 @@ function Warn
     )
 
     Write-Host
-	Write-Host $Message -ForegroundColor Yellow
-	Write-Host
+    Write-Host $Message -ForegroundColor Yellow
+    Write-Host
 }
 
 function TernaryReturn 
@@ -217,42 +221,64 @@ function Nupkg
     Write-Diagnostic "Building nuget package"
 
     # Build packages
-    . $nuget pack nuget\CefSharp.Common.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
-	. $nuget pack nuget\CefSharp.Wpf.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
-	. $nuget pack nuget\CefSharp.WinForms.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
+    . $nuget pack nuget\CefSharp.Common.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget -Properties "RedistVersion=$RedistVersion"
+    . $nuget pack nuget\CefSharp.Wpf.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
+    . $nuget pack nuget\CefSharp.WinForms.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
+
+    # Invoke `AfterBuild` script if available (ie. upload packages to myget)
+    if(-not (Test-Path $WorkingDir\AfterBuild.ps1)) {
+        return
+    }
+
+    . $WorkingDir\AfterBuild.ps1 -Version $Version
 }
 
 function DownloadNuget()
 {
-	$nuget = Join-Path $env:LOCALAPPDATA .\nuget\NuGet.exe
+    $nuget = Join-Path $env:LOCALAPPDATA .\nuget\NuGet.exe
     if(-not (Test-Path $nuget))
-	{
-		$client = New-Object System.Net.WebClient;
-		$client.DownloadFile('http://nuget.org/nuget.exe', $nuget);
-	}
+    {
+        $client = New-Object System.Net.WebClient;
+        $client.DownloadFile('http://nuget.org/nuget.exe', $nuget);
+    }
+}
+
+function WriteAssemblyVersion
+{
+    param()
+
+    $Filename = Join-Path $WorkingDir CefSharp\Properties\AssemblyInfo.cs
+    $Regex = 'public const string AssemblyVersion = "(.*)"';
+    
+    $AssemblyInfo = Get-Content $Filename
+    $NewString = $AssemblyInfo -replace $Regex, "public const string AssemblyVersion = ""$AssemlyVersion"""
+    
+    $NewString | Set-Content $Filename -Encoding UTF8
 }
 
 DownloadNuget
 
 NugetPackageRestore
 
+WriteAssemblyVersion
+
 switch -Exact ($Target) {
     "nupkg"
 	{
-        #VSX v120
+        VSX v120
         VSX v110
         Nupkg
     }
-	"nupkg-only"
-	{
+    "nupkg-only"
+    {
         Nupkg
     }
     "vs2013"
-	{
+    {
         VSX v120
     }
     "vs2012"
-	{
+    {
         VSX v110
     }
 }

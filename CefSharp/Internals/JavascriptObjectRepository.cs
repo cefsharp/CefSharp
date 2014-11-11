@@ -40,7 +40,7 @@ namespace CefSharp.Internals
             var jsObject = CreateJavascriptObject();
             jsObject.Value = value;
             jsObject.Name = name;
-            jsObject.JavascriptName = LowercaseFirst(name);
+            jsObject.JavascriptName = name;
 
             Analyse(jsObject);
 

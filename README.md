@@ -12,7 +12,7 @@ Apart from code samples mentioned above work-in-progress documentation can be fo
 
 # NuGet Packages
 
-Binary releases contain everything needed to embed Chromium in your CLR application.
+Binary releases contain everything needed to embed Chromium in your CLR application. For usage see [FAQ #8](https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions#CefSharp_binaries) item.
 
 **Pre-release**<br>
 ![CefSharp.Wpf](http://img.shields.io/nuget/vpre/CefSharp.Wpf.svg?style=flat)

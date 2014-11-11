@@ -8,6 +8,7 @@
 #include "include/cef_app.h"
 #include "include/cef_client.h"
 #include "include/cef_render_process_handler.h"
+#include "AutoLock.h"
 
 using namespace System;
 
@@ -29,7 +30,8 @@ namespace CefSharp
             public CefDialogHandler
         {
         private:
-            gcroot<IWebBrowserInternal^> _browserControl;            
+            CriticalSection _syncRoot;
+            gcroot<IWebBrowserInternal^> _browserControl;
             gcroot<Action<int>^> _onAfterBrowserCreated;
             HWND _browserHwnd;
             CefRefPtr<CefBrowser> _cefBrowser;
@@ -48,7 +50,7 @@ namespace CefSharp
                 _browserControl = nullptr;
                 _onAfterBrowserCreated = nullptr;
                 _browserHwnd = nullptr;
-                _cefBrowser = nullptr;
+                _cefBrowser = NULL;
                 _tooltip = nullptr;
             }
 
@@ -117,7 +119,6 @@ namespace CefSharp
                 const CefString& default_file_name, const std::vector<CefString>& accept_types,
                 CefRefPtr<CefFileDialogCallback> callback) OVERRIDE;
 
-            IMPLEMENT_LOCKING(ClientAdapter);
             IMPLEMENT_REFCOUNTING(ClientAdapter);
         };
     }
