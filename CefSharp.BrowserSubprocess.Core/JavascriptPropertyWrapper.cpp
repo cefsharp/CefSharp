@@ -19,7 +19,7 @@ namespace CefSharp
 
         if (_javascriptProperty->IsComplexType)
         {
-            auto wrapperObject = gcnew JavascriptObjectWrapper(_javascriptProperty->JsObject, _createBrowserProxyDelegate);
+            auto wrapperObject = gcnew JavascriptObjectWrapper(_javascriptProperty->JsObject, _browserProcess);
             wrapperObject->V8Value = V8Value.get();
             wrapperObject->Bind();
         }

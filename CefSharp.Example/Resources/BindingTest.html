@@ -33,6 +33,20 @@
             </script>
         </p>
 
+        <p>
+            Stress Test
+            <br />
+            <script type="text/javascript">
+                var stressTestCallCount = 1000;
+                for (var i = 1; i <= stressTestCallCount; i++) {
+                    bound.repeat("hi ", 5);
+                }
+
+                document.write("Stress Test done with : " + stressTestCallCount + " call to bound.repeat(\"hi \", 5)");
+            </script>
+        </p>
+
+
         Methods on bound object 'bound':<br />
         <ul>
             <script type="text/javascript">
