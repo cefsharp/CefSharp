@@ -3,10 +3,8 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
 using CefSharp.Internals;
 
 namespace CefSharp.WinForms
@@ -33,7 +31,6 @@ namespace CefSharp.WinForms
         public bool CanGoBack { get; private set; }
         public bool CanReload { get; private set; }
         public bool IsBrowserInitialized { get; private set; }
-        public IDictionary<string, object> BoundObjects { get; private set; }
 
         public double ZoomLevel
         {
@@ -60,6 +57,8 @@ namespace CefSharp.WinForms
 
             //Redraw on Resize so Cef is notified and updates accordingly
             SetStyle(ControlStyles.ResizeRedraw, true);
+            //Fix for #522 - Enable DoubleBuffering
+            SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
 
             Dock = DockStyle.Fill;
         }
@@ -105,7 +104,7 @@ namespace CefSharp.WinForms
 
         public void RegisterJsObject(string name, object objectToBind)
         {
-            throw new NotImplementedException();
+            managedCefBrowserAdapter.RegisterJsObject(name, objectToBind);
         }
 
         public void ExecuteScriptAsync(string script)
@@ -113,19 +112,14 @@ namespace CefSharp.WinForms
             managedCefBrowserAdapter.ExecuteScriptAsync(script);
         }
 
-        public object EvaluateScript(string script)
+        public Task<JavascriptResponse> EvaluateScriptAsync(string script)
         {
-            return EvaluateScript(script, timeout: null);
+            return EvaluateScriptAsync(script, timeout: null);
         }
 
-        public object EvaluateScript(string script, TimeSpan? timeout)
+        public Task<JavascriptResponse> EvaluateScriptAsync(string script, TimeSpan? timeout)
         {
-            if (timeout == null)
-            {
-                timeout = TimeSpan.MaxValue;
-            }
-
-            return managedCefBrowserAdapter.EvaluateScript(script, timeout.Value);
+            return managedCefBrowserAdapter.EvaluateScriptAsync(script, timeout);
         }
 
         public event EventHandler<LoadErrorEventArgs> LoadError;
@@ -141,9 +135,10 @@ namespace CefSharp.WinForms
 
         protected override void OnHandleCreated(EventArgs e)
         {
-            base.OnHandleCreated(e);
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
             managedCefBrowserAdapter.CreateBrowser(BrowserSettings ?? new BrowserSettings(), Handle, Address);
+
+            base.OnHandleCreated(e);
         }
 
         void IWebBrowserInternal.SetAddress(string address)

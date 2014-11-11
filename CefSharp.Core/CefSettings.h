@@ -13,8 +13,12 @@ using namespace CefSharp::Internals;
 
 namespace CefSharp
 {
-    public ref class CefSettings : CefSettingsBase
+    public ref class CefSettings
     {
+    private:
+        List<CefCustomScheme^>^ cefCustomSchemes;
+        IDictionary<String^, String^>^ cefCommandLineArgs;
+
     internal:
         ::CefSettings* _cefSettings;
 
@@ -30,8 +34,6 @@ namespace CefSharp
                 return LOGSEVERITY_WARNING;
             case CefSharp::LogSeverity::Error:
                 return LOGSEVERITY_ERROR;
-            case CefSharp::LogSeverity::ErrorReport:
-                return LOGSEVERITY_ERROR_REPORT;
             case CefSharp::LogSeverity::Disable:
             default:
                 return LOGSEVERITY_DISABLE;
@@ -50,8 +52,6 @@ namespace CefSharp
                 return CefSharp::LogSeverity::Warning;
             case LOGSEVERITY_ERROR:
                 return CefSharp::LogSeverity::Error;
-            case LOGSEVERITY_ERROR_REPORT:
-                return CefSharp::LogSeverity::ErrorReport;
             case LOGSEVERITY_DISABLE:
             default:
                 return CefSharp::LogSeverity::Disable;
@@ -62,26 +62,39 @@ namespace CefSharp
         CefSettings() : _cefSettings(new ::CefSettings())
         {
             _cefSettings->multi_threaded_message_loop = true;
+            BrowserSubprocessPath = "CefSharp.BrowserSubprocess.exe";
+            cefCustomSchemes = gcnew List<CefCustomScheme^>();
+            cefCommandLineArgs = gcnew Dictionary<String^, String^>();
         }
 
         !CefSettings() { delete _cefSettings; }
         ~CefSettings() { delete _cefSettings; }
 
+        virtual property IEnumerable<CefCustomScheme^>^ CefCustomSchemes
+        {
+            IEnumerable<CefCustomScheme^>^ get() { return cefCustomSchemes; }
+        }
+
+        virtual property IDictionary<String^, String^>^ CefCommandLineArgs
+        {
+            IDictionary<String^, String^>^ get() { return cefCommandLineArgs; }
+        }
+
         virtual property bool MultiThreadedMessageLoop
         {
-            bool get() override { return _cefSettings->multi_threaded_message_loop == 1; }
+            bool get() { return _cefSettings->multi_threaded_message_loop == 1; }
         }
 
         virtual property String^ BrowserSubprocessPath
         {
-            String^ get() override { return StringUtils::ToClr(_cefSettings->browser_subprocess_path); }
-            void set(String^ value) override { StringUtils::AssignNativeFromClr(_cefSettings->browser_subprocess_path, value); }
+            String^ get() { return StringUtils::ToClr(_cefSettings->browser_subprocess_path); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->browser_subprocess_path, value); }
         }
 
         virtual property String^ CachePath
         {
-            String^ get() override { return StringUtils::ToClr(_cefSettings->cache_path); }
-            void set(String^ value) override { StringUtils::AssignNativeFromClr(_cefSettings->cache_path, value); }
+            String^ get() { return StringUtils::ToClr(_cefSettings->cache_path); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->cache_path, value); }
         }
 
         virtual property bool IgnoreCertificateErrors
@@ -92,50 +105,59 @@ namespace CefSharp
 
         virtual property String^ Locale
         {
-            String^ get() override { return StringUtils::ToClr(_cefSettings->locale); }
-            void set(String^ value) override { StringUtils::AssignNativeFromClr(_cefSettings->locale, value); }
+            String^ get() { return StringUtils::ToClr(_cefSettings->locale); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->locale, value); }
         }
 
         virtual property String^ LocalesDirPath
         {
-            String^ get() override { return StringUtils::ToClr(_cefSettings->locales_dir_path); }
-            void set(String^ value) override { StringUtils::AssignNativeFromClr(_cefSettings->locales_dir_path, value); }
+            String^ get() { return StringUtils::ToClr(_cefSettings->locales_dir_path); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->locales_dir_path, value); }
         }
 
         virtual property String^ LogFile
         {
-            String^ get() override { return StringUtils::ToClr(_cefSettings->log_file); }
-            void set(String^ value) override { StringUtils::AssignNativeFromClr(_cefSettings->log_file, value); }
+            String^ get() { return StringUtils::ToClr(_cefSettings->log_file); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->log_file, value); }
         }
 
         virtual property CefSharp::LogSeverity LogSeverity
         {
-            CefSharp::LogSeverity get() override { return SeverityToManaged(_cefSettings->log_severity); }
-            void set(CefSharp::LogSeverity value) override { _cefSettings->log_severity = SeverityToNative(value); }
+            CefSharp::LogSeverity get() { return SeverityToManaged(_cefSettings->log_severity); }
+            void set(CefSharp::LogSeverity value) { _cefSettings->log_severity = SeverityToNative(value); }
         }
 
         virtual property bool PackLoadingDisabled
         {
-            bool get() override { return _cefSettings->pack_loading_disabled == 1; }
-            void set(bool value) override { _cefSettings->pack_loading_disabled = value; }
+            bool get() { return _cefSettings->pack_loading_disabled == 1; }
+            void set(bool value) { _cefSettings->pack_loading_disabled = value; }
         }
 
         virtual property String^ ProductVersion
         {
-            String^ get() override { return StringUtils::ToClr(_cefSettings->product_version); }
-            void set(String^ value) override { StringUtils::AssignNativeFromClr(_cefSettings->product_version, value); }
+            String^ get() { return StringUtils::ToClr(_cefSettings->product_version); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->product_version, value); }
         }
 
         virtual property int RemoteDebuggingPort
         {
-            int get() override { return _cefSettings->remote_debugging_port; }
-            void set(int value) override { _cefSettings->remote_debugging_port = value; }
+            int get() { return _cefSettings->remote_debugging_port; }
+            void set(int value) { _cefSettings->remote_debugging_port = value; }
         }
 
         virtual property String^ UserAgent
         {
-            String^ get() override { return StringUtils::ToClr(_cefSettings->user_agent); }
-            void set(String^ value) override { StringUtils::AssignNativeFromClr(_cefSettings->user_agent, value); }
+            String^ get() { return StringUtils::ToClr(_cefSettings->user_agent); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->user_agent, value); }
+        }
+
+        /// <summary>
+        /// Registers a custom scheme using the provided settings.
+        /// </summary>
+        /// <param name="cefCustomScheme">The CefCustomScheme which provides the details about the scheme.</param>
+        void RegisterScheme(CefCustomScheme^ cefCustomScheme)
+        {
+            cefCustomSchemes->Add(cefCustomScheme);
         }
     };
 }

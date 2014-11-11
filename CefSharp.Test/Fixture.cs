@@ -11,7 +11,7 @@ using CefSharp.Wpf;
 
 namespace CefSharp.Test
 {
-    public class Fixture : ObjectBase
+    public class Fixture : DisposableResource
     {
         public ChromiumWebBrowser Browser { get; set; }
         public Window Window { get; set; }

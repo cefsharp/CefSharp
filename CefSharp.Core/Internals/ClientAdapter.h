@@ -8,6 +8,7 @@
 #include "include/cef_app.h"
 #include "include/cef_client.h"
 #include "include/cef_render_process_handler.h"
+#include "AutoLock.h"
 
 using namespace System;
 
@@ -22,7 +23,6 @@ namespace CefSharp
             public CefLoadHandler,
             public CefRequestHandler,
             public CefDisplayHandler,
-            public CefRenderProcessHandler,
             public CefContextMenuHandler,
             public CefFocusHandler,
             public CefKeyboardHandler,
@@ -30,26 +30,27 @@ namespace CefSharp
             public CefDialogHandler
         {
         private:
+            CriticalSection _syncRoot;
             gcroot<IWebBrowserInternal^> _browserControl;
-            gcroot<ManagedCefBrowserAdapter^> _managedCefBrowserAdapter;
+            gcroot<Action<int>^> _onAfterBrowserCreated;
             HWND _browserHwnd;
             CefRefPtr<CefBrowser> _cefBrowser;
 
             gcroot<String^> _tooltip;
 
         public:
-            ClientAdapter(IWebBrowserInternal^ browserControl, ManagedCefBrowserAdapter^ managedCefBrowserAdapter) :
-                _browserControl(browserControl),
-                _managedCefBrowserAdapter(managedCefBrowserAdapter)
+            ClientAdapter(IWebBrowserInternal^ browserControl, Action<int>^ onAfterBrowserCreated) :
+                _browserControl(browserControl), 
+                _onAfterBrowserCreated(onAfterBrowserCreated)
             {
             }
 
             ~ClientAdapter() 
             {
                 _browserControl = nullptr;
-                _managedCefBrowserAdapter = nullptr;
+                _onAfterBrowserCreated = nullptr;
                 _browserHwnd = nullptr;
-                _cefBrowser = nullptr;
+                _cefBrowser = NULL;
                 _tooltip = nullptr;
             }
 
@@ -97,9 +98,6 @@ namespace CefSharp
             virtual DECL bool OnConsoleMessage(CefRefPtr<CefBrowser> browser, const CefString& message, const CefString& source, int line) OVERRIDE;
             virtual DECL void OnStatusMessage(CefRefPtr<CefBrowser> browser, const CefString& message) OVERRIDE;
 
-            // CefRenderProcessHandler
-            virtual DECL void OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context) OVERRIDE;
-
             // CefContextMenuHandler
             virtual DECL void OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
                 CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model) OVERRIDE;
@@ -121,7 +119,6 @@ namespace CefSharp
                 const CefString& default_file_name, const std::vector<CefString>& accept_types,
                 CefRefPtr<CefFileDialogCallback> callback) OVERRIDE;
 
-            IMPLEMENT_LOCKING(ClientAdapter);
             IMPLEMENT_REFCOUNTING(ClientAdapter);
         };
     }

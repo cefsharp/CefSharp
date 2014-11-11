@@ -23,6 +23,7 @@ bin/
 obj/
 packages/
 Debug/
+Release/
 CefSharp/app.aps
 debug.log
 CefSharp.BrowserSubprocess/Release

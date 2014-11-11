@@ -95,20 +95,30 @@
     <Compile Include="AddressChangedEventArgs.cs" />
     <Compile Include="DownloadItem.cs" />
     <Compile Include="CefEventFlags.cs" />
+    <Compile Include="Internals\BrowserProcessResponse.cs" />
+    <Compile Include="Internals\JavascriptRootObject.cs" />
+    <Compile Include="Internals\TaskExtensions.cs" />
     <Compile Include="IsLoadingChangedEventArgs.cs" />
     <Compile Include="IStringVisitor.cs" />
+    <Compile Include="JavascriptIgnoreAttribute.cs" />
+    <Compile Include="JavascriptResponse.cs" />
     <Compile Include="LoadErrorEventArgs.cs" />
     <Compile Include="FrameLoadStartEventArgs.cs" />
+    <Compile Include="Internals\BrowserProcessService.cs" />
+    <Compile Include="Internals\BrowserProcessServiceHost.cs" />
+    <Compile Include="Internals\WCFExtensions.cs" />
     <Compile Include="KeyType.cs" />
     <Compile Include="TransitionType.cs" />
     <Compile Include="NavStateChangedEventArgs.cs" />
     <Compile Include="ICompletionHandler.cs" />
     <Compile Include="Internals\BitmapInfo.cs" />
-    <Compile Include="Internals\ManagedCefApp.cs" />
+    <Compile Include="Internals\IBrowserProcess.cs" />
+    <Compile Include="Internals\JavascriptMethod.cs" />
+    <Compile Include="Internals\JavascriptObject.cs" />
+    <Compile Include="Internals\JavascriptObjectRepository.cs" />
+    <Compile Include="Internals\JavascriptProperty.cs" />
     <Compile Include="CefCustomScheme.cs" />
     <Compile Include="CefErrorCode.cs" />
-    <Compile Include="CefSettingsBase.cs" />
-    <Compile Include="CefBrowserBase.cs" />
     <Compile Include="ConsoleMessageEventArgs.cs" />
     <Compile Include="ICookieVisitor.cs" />
     <Compile Include="IDownloadHandler.cs" />
@@ -124,26 +134,23 @@
     <Compile Include="ISchemeHandler.cs" />
     <Compile Include="ISchemeHandlerFactory.cs" />
     <Compile Include="ISchemeHandlerResponse.cs" />
-    <Compile Include="Internals\ISubProcessProxy.cs" />
+    <Compile Include="Internals\IRenderProcess.cs" />
     <Compile Include="IWebBrowser.cs" />
     <Compile Include="Internals\IWebBrowserInternal.cs" />
     <Compile Include="Internals\Kernel32.cs" />
-    <Compile Include="Internals\CefSubprocess.cs" />
-    <Compile Include="Internals\SubProcessServiceHost.cs" />
     <Compile Include="IWinFormsWebBrowser.cs" />
     <Compile Include="FrameLoadEndEventArgs.cs" />
     <Compile Include="LogSeverity.cs" />
-    <Compile Include="ObjectBase.cs" />
+    <Compile Include="DisposableResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptException.cs" />
-    <Compile Include="Internals\SubProcessProxy.cs" />
-    <Compile Include="Internals\SubProcessProxySupport.cs" />
+    <Compile Include="Internals\RenderprocessClientFactory.cs" />
     <Compile Include="StatusMessageEventHandler.cs" />
     <Compile Include="TaskStringVisitor.cs" />
     <Compile Include="TitleChangedEventArgs.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

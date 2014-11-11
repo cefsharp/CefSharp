@@ -12,19 +12,22 @@
     <tags>chrome browser</tags>
     <copyright>Copyright © 2010-2014 The CefSharp Authors</copyright>
     <dependencies>
-      <dependency id="cef.redist" version="[3.1750.1738, 3.1751)" />
+      <dependency id="cef.redist.x86" version="[$RedistVersion$]" />
+      <dependency id="cef.redist.x64" version="[$RedistVersion$]" />
     </dependencies>
-</metadata>
+  </metadata>
   <files>
     <!-- Common CefSharp stuff (shared between both WPF and WinForms) -->
     <file src="..\Win32\Release\CefSharp.Core.dll" target="CefSharp\x86"/>
     <file src="..\x64\Release\CefSharp.Core.dll" target="CefSharp\x64"/>
     <file src="..\CefSharp\bin\x86\Release\CefSharp.dll" target="CefSharp\x86"/>
     <file src="..\CefSharp\bin\x64\Release\CefSharp.dll" target="CefSharp\x64"/>
+	<file src="..\CefSharp.BrowserSubprocess\bin\x86\Release\CefSharp.BrowserSubprocess.Core.dll" target="CefSharp\x86"/>
     <file src="..\CefSharp.BrowserSubprocess\bin\x86\Release\CefSharp.BrowserSubprocess.exe" target="CefSharp\x86"/>
-    <file src="..\CefSharp.BrowserSubprocess\bin\x64\Release\CefSharp.BrowserSubprocess.exe" target="CefSharp\x64"/>
+    <file src="..\CefSharp.BrowserSubprocess\bin\x64\Release\CefSharp.BrowserSubprocess.Core.dll" target="CefSharp\x64"/>
+	<file src="..\CefSharp.BrowserSubprocess\bin\x64\Release\CefSharp.BrowserSubprocess.exe" target="CefSharp\x64"/>
 
-    <file src="..\x64\Release\CefSharp.Core.xml" target="CefSharp\x86"/>
+    <file src="..\Win32\Release\CefSharp.Core.xml" target="CefSharp\x86"/>
     <file src="..\x64\Release\CefSharp.Core.xml" target="CefSharp\x64"/>
     <file src="..\x64\Release\CefSharp.Core.xml" target="lib"/>
     <file src="..\CefSharp\bin\x64\Release\CefSharp.xml" target="CefSharp\x64"/>
@@ -36,3 +39,4 @@
     <file src="CefSharp.Common.targets" target="build" />
   </files>
 </package>
+

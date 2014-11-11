@@ -67,11 +67,13 @@ namespace CefSharp
         void ExecuteScriptAsync(string script);
 
         /// <summary>
-        /// Execute some Javascript code in the context of this WebBrowser, and return the result of the evaluation.
+        /// Execute some Javascript code in the context of this WebBrowser, and return the result of the evaluation
+        /// in an Async fashion
         /// </summary>
         /// <param name="script">The Javascript code that should be executed.</param>
         /// <param name="timeout">The timeout after which the Javascript code execution should be aborted.</param>
-        object EvaluateScript(string script, TimeSpan? timeout = null);
+        /// /// <returns>A Task that can be awaited to perform the script execution</returns>
+        Task<JavascriptResponse> EvaluateScriptAsync(string script, TimeSpan? timeout = null);
 
         /// <summary>
         /// Implement <see cref="IDialogHandler"/> and assign to handle dialog events.
@@ -102,6 +104,11 @@ namespace CefSharp
         /// Implement <see cref="IDownloadHandler"/> and assign to handle events related to downloading files.
         /// </summary>
         IDownloadHandler DownloadHandler { get; set; }
+
+        /// <summary>
+        /// Implement <see cref="IMenuHandler"/> and assign to handle events related to the browser context menu
+        /// </summary>
+        IMenuHandler MenuHandler { get; set; }
 
         /// <summary>
         /// A flag that indicates whether the WebBrowser is initialized (true) or not (false).

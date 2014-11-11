@@ -3,29 +3,51 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
 using CefSharp.Internals;
 
 namespace CefSharp.BrowserSubprocess
 {
     public class Program
     {
-        static int Main(string[] args)
+        public static int Main(string[] args)
         {
             Kernel32.OutputDebugString("BrowserSubprocess starting up with command line: " + String.Join("\n", args));
 
-            //MessageBox.Show("Please attach debugger now", null, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            int result;
 
-            int result = 0;
-
-            using (var subprocess = new CefSubprocess())
+            using (var subprocess = Create(args))
             {
-                var wrapper = new CefAppWrapper(subprocess);
-
-                result = wrapper.Run(args);
+                //if (subprocess is CefRenderProcess)
+                //{
+                //    MessageBox.Show("Please attach debugger now", null, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //}
+                
+                result = subprocess.Run();
             }
 
             Kernel32.OutputDebugString("BrowserSubprocess shutting down.");
             return result;
+        }
+
+        public static CefSubProcess Create(IEnumerable<string> args)
+        {
+            const string typePrefix = "--type=";
+            var typeArgument = args.SingleOrDefault(arg => arg.StartsWith(typePrefix));
+
+            var type = typeArgument.Substring(typePrefix.Length);
+
+            switch (type)
+            {
+                case "renderer":
+                    return new CefRenderProcess(args);
+                case "gpu-process":
+                    return new CefGpuProcess(args);
+                default:
+                    return new CefSubProcess(args);
+            }
         }
     }
 }

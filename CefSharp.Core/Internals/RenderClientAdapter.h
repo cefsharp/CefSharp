@@ -25,8 +25,8 @@ namespace CefSharp
             gcroot<BitmapInfo^> MainBitmapInfo;
             gcroot<BitmapInfo^> PopupBitmapInfo;
 
-            RenderClientAdapter(IWebBrowserInternal^ webBrowserInternal, ManagedCefBrowserAdapter^ managedCefBrowserAdapter ) :
-                ClientAdapter(webBrowserInternal, managedCefBrowserAdapter),
+            RenderClientAdapter(IWebBrowserInternal^ webBrowserInternal, Action<int>^ onAfterBrowserCreated):
+                ClientAdapter(webBrowserInternal, onAfterBrowserCreated),
                 _webBrowserInternal(webBrowserInternal)
             {
                 MainBitmapInfo = gcnew BitmapInfo();
@@ -58,11 +58,9 @@ namespace CefSharp
                 {
                     return false;
                 }
-                else
-                {
-                    rect = CefRect(0, 0, _renderWebBrowser->Width, _renderWebBrowser->Height);
-                    return true;
-                }
+
+                rect = CefRect(0, 0, _renderWebBrowser->Width, _renderWebBrowser->Height);
+                return true;
             };
 
             ///

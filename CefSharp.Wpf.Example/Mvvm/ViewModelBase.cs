@@ -9,7 +9,7 @@ using System.Linq.Expressions;
 
 namespace CefSharp.Wpf.Example.Mvvm
 {
-    public class ViewModelBase : ObjectBase, INotifyPropertyChanged
+    public class ViewModelBase : DisposableResource, INotifyPropertyChanged
     {
         #region INotifyPropertyChanged
 

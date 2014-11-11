@@ -1,24 +1,37 @@
 ﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
-	<head>
-		<title>Binding Test</title>
-	</head>
-	<body>
-	    <p>
-	    Result of calling bound.repeat("hi ", 5) =
-	    <script type="text/javascript">
-	        var result = bound.repeat("hi ", 5);
-	        document.write('"' + result + '"');
-	        if(result == "hi hi hi hi hi ")
-	        {
-	            document.write(" SUCCESS");
-	        }
-	        else
-	        {
-	            document.write(" FAIL!");
-	        }
-	    </script>
-	    </p>
+    <head>
+        <title>Binding Test</title>
+    </head>
+    <body>
+        <p>
+        Result of calling bound.repeat("hi ", 5) =
+        <script type="text/javascript">
+            var result = bound.repeat("hi ", 5);
+            document.write('"' + result + '"');
+            if(result == "hi hi hi hi hi ")
+            {
+                document.write(" SUCCESS");
+            }
+            else
+            {
+                document.write(" FAIL!");
+            }
+        </script>
+        </p>
+        
+        <p>
+            Function delegate to c# method
+            <br />
+            <script type="text/javascript">
+                function myFunction(functionParam)
+                {
+                    return functionParam();
+                }
+
+                document.write("echoMyProperty result: " + myFunction(bound.echoMyProperty));
+            </script>
+        </p>
 
         Methods on bound object 'bound':<br />
         <ul>
@@ -37,9 +50,18 @@
                 for (var name in bound)
                 {
                     if (bound[name].constructor.name == 'Function') continue;
+
                     document.write("<li>" + name + "</li>");
+                    if (typeof bound[name] == "object" && bound[name] !== null)
+                    {
+                        for (var sub in bound[name])
+                        {
+                            var type = bound[name][sub].constructor.name == 'Function' ? "Function" : "Property";
+                            document.write("<li>" + name + "." + sub + "(" + type + ")" + "</li>");
+                        }
+                    }
                 }
             </script>
         </ul>
-	</body>
+    </body>
 </html>

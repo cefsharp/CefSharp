@@ -114,7 +114,7 @@
                                  Grid.Row="0"
                                  Margin="6"
                                  AcceptsReturn="True"
-                                 Text="$('#modify-me').text()">
+                                 Text="bound.subObject.simpleProperty = (bound.myProperty++).toString();">
                             <TextBox.InputBindings>
                                 <KeyBinding Key="Enter"
                                             Modifiers="Control"

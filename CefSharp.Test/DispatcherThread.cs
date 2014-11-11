@@ -9,7 +9,7 @@ using System.Windows.Threading;
 
 namespace CefSharp.Test
 {
-    public class DispatcherThread : ObjectBase
+    public class DispatcherThread : DisposableResource
     {
         public DispatcherThread()
         {

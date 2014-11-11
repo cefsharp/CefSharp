@@ -30,14 +30,12 @@ namespace CefSharp
         static bool _result;
 
         static bool _initialized = false;
-        static IDictionary<String^, Object^>^ _boundObjects;
         static HashSet<IDisposable^>^ _disposables;
 
         static Cef()
         {
             _event = CreateEvent(NULL, FALSE, FALSE, NULL);
             _sync = gcnew Object();
-            _boundObjects = gcnew Dictionary<String^, Object^>();
             _disposables = gcnew HashSet<IDisposable^>();
         }
 
@@ -62,11 +60,6 @@ namespace CefSharp
         }
 
     internal:
-        static IDictionary<String^, Object^>^ GetBoundObjects()
-        {
-            return _boundObjects;
-        }
-
         static void AddDisposable(IDisposable^ item)
         {
             msclr::lock l(_sync);
@@ -84,7 +77,7 @@ namespace CefSharp
     public:
 
         /// <summary>Gets a value that indicates whether CefSharp is initialized.</summary>
-        /// <value>true if CefSharp is initalized; otherwise, false.</value>
+        /// <value>true if CefSharp is initialized; otherwise, false.</value>
         static property bool IsInitialized
         {
             bool get()
@@ -175,16 +168,6 @@ namespace CefSharp
             }
 
             return success;
-        }
-
-        /// <summary>Binds a C# class to a JavaScript object.</summary>
-        /// <param name="name">The name for the new object in the JavaScript engine (e.g. 'foo' for an object accessible as 'foo' or 'window.foo').</param>
-        /// <param name="objectToBind">The .NET object to bind.</param>
-        /// <return>Always returns true.</return>
-        static bool RegisterJsObject(String^ name, Object^ objectToBind)
-        {
-            _boundObjects[name] = objectToBind;
-            return true;
         }
 
         /// <summary>Visits all cookies using the provided Cookie Visitor. The returned cookies are sorted by longest path, then by earliest creation date.</summary>
@@ -348,7 +331,7 @@ namespace CefSharp
 
             auto wrapper = new CompletionHandler(handler);
 
-            return manager->FlushStore(static_cast<CefRefPtr<CefCompletionHandler>>(wrapper));
+            return manager->FlushStore(static_cast<CefRefPtr<CefCompletionCallback>>(wrapper));
         }
 
         /// <summary>Shuts down CefSharp and the underlying CEF infrastructure. This method is safe to call multiple times; it will only

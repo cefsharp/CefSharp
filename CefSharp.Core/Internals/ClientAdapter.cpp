@@ -41,8 +41,12 @@ namespace CefSharp
             {
                 _browserHwnd = browser->GetHost()->GetWindowHandle();
                 _cefBrowser = browser;
-
-                _managedCefBrowserAdapter->OnInitialized();
+                auto browserId = browser->GetIdentifier();
+                
+                if (static_cast<Action<int>^>(_onAfterBrowserCreated) != nullptr)
+                {
+                    _onAfterBrowserCreated->Invoke(browserId);
+                }
             }
         }
 
@@ -56,7 +60,7 @@ namespace CefSharp
                     handler->OnBeforeClose(_browserControl);
                 }
 
-                _cefBrowser = nullptr;
+                _cefBrowser = NULL;
             }
         }
 
@@ -157,7 +161,8 @@ namespace CefSharp
                 return;
             }
 
-            AutoLock lock_scope(this);
+            AutoLock lock_scope(_syncRoot);
+
             if (frame->IsMain())
             {
                 _browserControl->SetIsLoading(true);
@@ -173,7 +178,8 @@ namespace CefSharp
                 return;
             }
 
-            AutoLock lock_scope(this);
+            AutoLock lock_scope(_syncRoot);
+
             if (frame->IsMain())
             {
                 _browserControl->SetIsLoading(false);
@@ -369,38 +375,17 @@ namespace CefSharp
         headers);
         }*/
 
-        void ClientAdapter::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
-        {
-            // TODO: Support the BindingHandler with CEF3.
-            /*
-            for each(KeyValuePair<String^, Object^>^ kvp in Cef::GetBoundObjects())
-            {
-            BindingHandler::Bind(kvp->Key, kvp->Value, context->GetGlobal());
-            }
-
-            for each(KeyValuePair<String^, Object^>^ kvp in _browserControl->GetBoundObjects())
-            {
-            BindingHandler::Bind(kvp->Key, kvp->Value, context->GetGlobal());
-            }
-            */
-        }
-
         void ClientAdapter::OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
             CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model)
         {
-            // Something like this...
-            auto winFormsWebBrowserControl = dynamic_cast<IWinFormsWebBrowser^>((IWebBrowserInternal^)_browserControl);
-            if (winFormsWebBrowserControl == nullptr) return;
 
-            IMenuHandler^ handler = winFormsWebBrowserControl->MenuHandler;
+            IMenuHandler^ handler = _browserControl->MenuHandler;
             if (handler == nullptr) return;
 
             auto result = handler->OnBeforeContextMenu(_browserControl);
-            if (!result) {
-                // The only way I found for preventing the context menu to be displayed is by removing all items. :-)
-                while (model->GetCount() > 0) {
-                    model->RemoveAt(0);
-                }
+            if (!result)
+            {
+                model->Clear();
             }
         }
 

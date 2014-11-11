@@ -15,14 +15,14 @@ namespace CefSharp
         None = 0,
 
         /// <summary>
-        /// A request was aborted, possibly by the user.
-        /// </summary>
-        Aborted = -3,
-
-        /// <summary>
         /// A generic failure occurred.
         /// </summary>
         Failed = -2,
+
+        /// <summary>
+        /// A request was aborted, possibly by the user.
+        /// </summary>
+        Aborted = -3,
 
         /// <summary>
         /// An argument to the function is incorrect.
@@ -236,7 +236,7 @@ namespace CefSharp
         UnsafeRedirect = -311,
 
         /// <summary>
-        /// Attempting to load an URL with an unsafe port number.  These are port 
+        /// Attempting to load an URL with an unsafe port number.  These are port
         /// numbers that correspond to services, which are not robust to spurious input
         /// that may be constructed as a result of an allowed web construct (e.g., HTTP
         /// looks a lot like SMTP, so form submission to port 25 is denied).

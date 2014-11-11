@@ -4,7 +4,7 @@
 
 namespace CefSharp.Internals
 {
-    public static class SubProcessProxySupport
+    public class RenderprocessClientFactory
     {
         private const string BaseAddress = "net.pipe://localhost";
         private const string ServiceName = "CefSharpSubProcessProxy";

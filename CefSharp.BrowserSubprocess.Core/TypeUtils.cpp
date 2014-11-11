@@ -2,8 +2,14 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-#include "Stdafx.h"
+#pragma once
 
+#include "Stdafx.h"
+#include ".\..\CefSharp.Core\Internals\StringUtils.h"
+#include "TypeUtils.h"
+
+using namespace CefSharp::Internals;
+using namespace System;
 using namespace System::Collections::Generic;
 
 namespace CefSharp
@@ -84,6 +90,10 @@ namespace CefSharp
         {
             return CefV8Value::CreateInt(Convert::ToInt32(obj));
         }
+        if (type == DateTime::typeid)
+        {
+            return CefV8Value::CreateDate(TypeUtils::ConvertDateTimeToCefTime(safe_cast<DateTime>(obj)));
+        }
         if (type->IsArray)
         {
             Array^ managedArray = (Array^)obj;
@@ -160,6 +170,8 @@ namespace CefSharp
             return gcnew System::Double(obj->GetDoubleValue());
         if (obj->IsString())
             return StringUtils::ToClr(obj->GetStringValue());
+        if (obj->IsDate())
+            return TypeUtils::ConvertCefTimeToDateTime(obj->GetDateValue());
 
         if (obj->IsArray())
         {
@@ -170,28 +182,20 @@ namespace CefSharp
                 std::vector<CefString> keys;
                 if (obj->GetKeys(keys))
                 {
-                    Dictionary<String^, Object^>^ result = gcnew Dictionary<String^, Object^>();
+                    auto array = gcnew List<Object^>();
 
                     for (int i = 0; i < arrLength; i++)
                     {
-                        std::string p_key = keys[i].ToString();
-                        String^ p_keyStr = stdToString(p_key);
-
-                        if ((obj->HasValue(keys[i])) && (!p_keyStr->StartsWith("__")))
+                        auto data = obj->GetValue(keys[i]);
+                        if (data != nullptr)
                         {
-                            CefRefPtr<CefV8Value> data;
+                            auto p_data = TypeUtils::ConvertFromCef(data);
 
-                            data = obj->GetValue(keys[i]);
-                            if (data != nullptr)
-                            {
-                                Object^ p_data = TypeUtils::ConvertFromCef(data);
-
-                                result->Add(p_keyStr, p_data);
-                            }
+                            array->Add(p_data);
                         }
                     }
 
-                    return result;
+                    return array->ToArray();
                 }
             }
 
@@ -236,5 +240,22 @@ namespace CefSharp
 
         //TODO: What exception type?
         throw gcnew Exception("Cannot convert object from Cef to CLR.");
+    }
+
+    DateTime TypeUtils::ConvertCefTimeToDateTime(CefTime time)
+    {
+        auto epoch = time.GetDoubleT();
+        if(epoch == 0)
+        {
+            return DateTime::MinValue;
+        }
+        return DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(epoch).ToLocalTime();
+    }
+
+    CefTime TypeUtils::ConvertDateTimeToCefTime(DateTime dateTime)
+    {
+        auto timeSpan = dateTime - DateTime(1970, 1, 1);
+        
+        return CefTime(timeSpan.TotalSeconds);
     }
 }

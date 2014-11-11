@@ -10,10 +10,11 @@
   #define DECL __declspec(dllimport)
 #endif
 
+#include <vector>
+
 #include <include/cef_base.h>
 
 #include "Cef.h"
 #include "Internals/MCefRefPtr.h"
 #include "Internals/StringUtils.h"
-#include "TypeUtils.h"
 #include "vcclr_local.h"

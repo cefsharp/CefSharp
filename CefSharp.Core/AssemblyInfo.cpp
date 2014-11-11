@@ -14,17 +14,18 @@ using namespace CefSharp;
 [assembly:AssemblyTitle("CefSharp.Core")];
 [assembly:AssemblyCompany(AssemblyInfo::AssemblyCompany)];
 [assembly:AssemblyProduct(AssemblyInfo::AssemblyProduct)];
-[assembly:AssemblyCopyright(AssemblyInfo::AssemblyCopyright)]
+[assembly:AssemblyCopyright(AssemblyInfo::AssemblyCopyright)];
 
 [assembly:AssemblyVersion(AssemblyInfo::AssemblyVersion)];
 [assembly:ComVisible(AssemblyInfo::ComVisible)];
 [assembly:CLSCompliant(AssemblyInfo::ClsCompliant)];
 
-[assembly:AssemblyDescription("")]
-[assembly:AssemblyConfiguration("")]
-[assembly:AssemblyTrademark("")]
-[assembly:AssemblyCulture("")]
+[assembly:AssemblyDescription("")];
+[assembly:AssemblyConfiguration("")];
+[assembly:AssemblyTrademark("")];
+[assembly:AssemblyCulture("")];
 
+[assembly:InternalsVisibleTo(AssemblyInfo::CefSharpBrowserSubprocessCoreProject)];
 [assembly:InternalsVisibleTo(AssemblyInfo::CefSharpBrowserSubprocessProject)];
 [assembly:InternalsVisibleTo(AssemblyInfo::CefSharpWpfProject)];
 [assembly:InternalsVisibleTo(AssemblyInfo::CefSharpWinFormsProject)];

@@ -14,15 +14,17 @@
 using namespace CefSharp::Internals;
 using namespace System::Diagnostics;
 using namespace System::ServiceModel;
+using namespace System::Threading::Tasks;
 
 namespace CefSharp
 {
-    private ref class ManagedCefBrowserAdapter : public ObjectBase, ISubProcessCallback
+    private ref class ManagedCefBrowserAdapter : public DisposableResource
     {
         MCefRefPtr<RenderClientAdapter> _renderClientAdapter;
-        ISubProcessProxy^ _javaScriptProxy;
+        BrowserProcessServiceHost^ _browserProcessServiceHost;
         IWebBrowserInternal^ _webBrowserInternal;
         String^ _address;
+        JavascriptObjectRepository^ _javaScriptObjectRepository;
         
     protected:
         virtual void DoDispose(bool isDisposing) override
@@ -30,27 +32,33 @@ namespace CefSharp
             Close();
 
             _renderClientAdapter = nullptr;
-            _javaScriptProxy = nullptr;
+            if (_browserProcessServiceHost != nullptr)
+            {
+                _browserProcessServiceHost->Close();
+                _browserProcessServiceHost = nullptr;
+            }
+
             _webBrowserInternal = nullptr;
             _address = nullptr;
+            _javaScriptObjectRepository = nullptr;
 
-            ObjectBase::DoDispose(isDisposing);
+            DisposableResource::DoDispose(isDisposing);
         };
 
     public:
         ManagedCefBrowserAdapter(IWebBrowserInternal^ webBrowserInternal)
         {
+            _renderClientAdapter = new RenderClientAdapter(webBrowserInternal, gcnew Action<int>(this, &ManagedCefBrowserAdapter::OnAfterBrowserCreated));
             _webBrowserInternal = webBrowserInternal;
-            _renderClientAdapter = new RenderClientAdapter(webBrowserInternal, this);
+            _javaScriptObjectRepository = gcnew JavascriptObjectRepository();
         }
 
         void CreateOffscreenBrowser(BrowserSettings^ browserSettings)
         {
             HWND hwnd = HWND();
             CefWindowInfo window;
-            window.SetAsOffScreen(hwnd);
-            window.SetTransparentPainting(true);
-            CefString addressNative = StringUtils::ToNative("about:blank");
+            window.SetAsWindowless(hwnd, TRUE);
+            CefString addressNative = StringUtils::ToNative(_address);
 
             if (!CefBrowserHost::CreateBrowser(window, _renderClientAdapter.get(), addressNative,
                 *(CefBrowserSettings*) browserSettings->_internalBrowserSettings, NULL))
@@ -80,20 +88,23 @@ namespace CefSharp
             }
         }
 
-        void OnInitialized()
+        void OnAfterBrowserCreated(int browserId)
         {
+            _browserProcessServiceHost = gcnew BrowserProcessServiceHost(_javaScriptObjectRepository, Process::GetCurrentProcess()->Id, browserId);
+            _browserProcessServiceHost->Open();
+
             if(_webBrowserInternal != nullptr)
             {
                 _webBrowserInternal->OnInitialized();
 
                 auto address = _address;
 
-                if ( address != nullptr )
+                if (address != nullptr)
                 {
                     LoadUrl(address);
                 }
             }
-        };
+        }
 
         void LoadHtml(String^ html, String^ url)
         {
@@ -169,6 +180,11 @@ namespace CefSharp
                 mouseEvent.modifiers = (uint32)modifiers;
 
                 cefHost->SendMouseMoveEvent(mouseEvent, mouseLeave);
+
+                if (mouseLeave == true)
+                {
+                    _webBrowserInternal->SetTooltipText(nullptr);
+                }
             }
         }
 
@@ -328,7 +344,7 @@ namespace CefSharp
         void Copy()
         {
             auto cefFrame = _renderClientAdapter->TryGetCefMainFrame(); 
-            
+
             if (cefFrame != nullptr)
             {
                 cefFrame->Copy();
@@ -395,30 +411,29 @@ namespace CefSharp
             }
         }
 
-        Object^ EvaluateScript(String^ script, TimeSpan timeout)
+        Task<JavascriptResponse^>^ EvaluateScriptAsync(String^ script, Nullable<TimeSpan> timeout)
         {
-            auto browser = _renderClientAdapter->GetCefBrowser();
-            auto frame = _renderClientAdapter->TryGetCefMainFrame();
-
-            if (browser != nullptr &&
-                frame != nullptr)
+            if (timeout.HasValue && timeout.Value.TotalMilliseconds > UInt32::MaxValue)
             {
-                // TODO: Don't instantiate this on every request. The problem is that the CefBrowser is not set in our constructor.
-                auto serviceName = SubProcessProxySupport::GetServiceName(Process::GetCurrentProcess()->Id, _renderClientAdapter->GetCefBrowser()->GetIdentifier());
-                auto channelFactory = gcnew DuplexChannelFactory<ISubProcessProxy^>(
-                    this,
-                    gcnew NetNamedPipeBinding(),
-                    gcnew EndpointAddress(serviceName)
-                );
-
-                _javaScriptProxy = channelFactory->CreateChannel();
-
-                return _javaScriptProxy->EvaluateScript(frame->GetIdentifier(), script, timeout.TotalMilliseconds);
+                throw gcnew ArgumentOutOfRangeException("timeout", "Timeout greater than Maximum allowable value of " + UInt32::MaxValue);
             }
-            else
+
+            auto browser = _renderClientAdapter->GetCefBrowser();
+            
+
+            if (_browserProcessServiceHost == nullptr && browser == nullptr)
             {
                 return nullptr;
             }
+
+            auto frame = browser->GetMainFrame();
+
+            if (frame == nullptr)
+            {
+                return nullptr;
+            }            
+
+            return _browserProcessServiceHost->EvaluateScriptAsync(browser->GetIdentifier(), frame->GetIdentifier(), script, timeout);
         }
 
         double GetZoomLevel()
@@ -453,11 +468,6 @@ namespace CefSharp
             _renderClientAdapter->CloseDevTools();
         }
 
-        virtual void Error(Exception^ ex)
-        {
-
-        }
-
         void CreateBrowser(BrowserSettings^ browserSettings, IntPtr^ sourceHandle, String^ address)
         {
             HWND hwnd = static_cast<HWND>(sourceHandle->ToPointer());
@@ -468,7 +478,7 @@ namespace CefSharp
             CefString addressNative = StringUtils::ToNative(address);
 
             CefBrowserHost::CreateBrowser(window, _renderClientAdapter.get(), addressNative,
-                *(CefBrowserSettings*) browserSettings->_internalBrowserSettings, NULL);
+                *(CefBrowserSettings*)browserSettings->_internalBrowserSettings, NULL);
         }
 
         void OnPaint(IntPtr^ sourceHandle)
@@ -481,6 +491,11 @@ namespace CefSharp
             HWND browserHwnd = _renderClientAdapter->GetBrowserHwnd();
             hdwp = DeferWindowPos(hdwp, browserHwnd, NULL, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, SWP_NOZORDER);
             EndDeferWindowPos(hdwp);
+        }
+
+        void RegisterJsObject(String^ name, Object^ object)
+        {
+            _javaScriptObjectRepository->Register(name, object);
         }
     };
 }
