@@ -857,19 +857,16 @@ namespace CefSharp.Wpf
             // we have to handle these extra keys here. Hooking the Tab key like this makes the tab focusing in essence work like
             // KeyboardNavigation.TabNavigation="Cycle"; you will never be able to Tab out of the web browser control.
             var modifiers = GetModifiers(e);
+            var sendKey = KeysToSendtoBrowser.Contains(e.Key);
 
-            if (KeysToSendtoBrowser.Contains(e.Key) || modifiers > 0)
+            if (sendKey || modifiers > 0)
             {
                 var message = (int)(e.IsDown ? WM.KEYDOWN : WM.KEYUP);
                 var virtualKey = KeyInterop.VirtualKeyFromKey(e.Key);
 
                 managedCefBrowserAdapter.SendKeyEvent(message, virtualKey, modifiers);
 
-                if (KeysToSendtoBrowser.Contains(e.Key))
-                {
-                    e.Handled = true;
-                }
-
+                e.Handled = sendKey;
             }
         }
 
