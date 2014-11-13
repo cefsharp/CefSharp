@@ -1,7 +1,7 @@
 environment:
   VisualStudioVersion: 11.0
 
-version: 37.0.0.CI{build}
+version: 37.0.0-CI{build}
   
 shallow_clone: true
 

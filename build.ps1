@@ -3,7 +3,7 @@ param(
     [Parameter(Position = 0)] 
     [string] $Target = "nupkg",
     [Parameter(Position = 1)]
-    [string] $Version = "37.0.0-pre02",
+    [string] $Version = "37.0.0-pre01",
 	[Parameter(Position = 2)]
     [string] $AssemlyVersion = "37.0.0",
     [Parameter(Position = 3)]
@@ -13,6 +13,11 @@ param(
 $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
 
 $CefSln = Join-Path $WorkingDir 'CefSharp3.sln'
+
+if (Test-Path Env:\APPVEYOR_BUILD_VERSION)
+{
+    $Version = Env:\APPVEYOR_BUILD_VERSION
+}
 
 # https://github.com/jbake/Powershell_scripts/blob/master/Invoke-BatchFile.ps1
 function Invoke-BatchFile 
