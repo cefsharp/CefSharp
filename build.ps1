@@ -265,7 +265,7 @@ WriteAssemblyVersion
 switch -Exact ($Target) {
     "nupkg"
 	{
-        VSX v120
+        #VSX v120
         VSX v110
         Nupkg
     }
