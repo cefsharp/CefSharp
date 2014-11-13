@@ -14,6 +14,11 @@ $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
 
 $CefSln = Join-Path $WorkingDir 'CefSharp3.sln'
 
+if (Test-Path Env:\APPVEYOR_BUILD_VERSION)
+{
+    $Version = $env:APPVEYOR_BUILD_VERSION
+}
+
 # https://github.com/jbake/Powershell_scripts/blob/master/Invoke-BatchFile.ps1
 function Invoke-BatchFile 
 {
@@ -200,7 +205,7 @@ function VSX
 
 function NugetPackageRestore
 {
-    $nuget = Join-Path $env:LOCALAPPDATA .\nuget\NuGet.exe
+    $nuget = Join-Path $WorkingDir .\nuget\NuGet.exe
     if(-not (Test-Path $nuget)) {
         Die "Please install nuget. More information available at: http://docs.nuget.org/docs/start-here/installing-nuget"
     }
@@ -213,7 +218,7 @@ function NugetPackageRestore
 
 function Nupkg
 {
-    $nuget = Join-Path $env:LOCALAPPDATA .\nuget\NuGet.exe
+    $nuget = Join-Path $WorkingDir .\nuget\NuGet.exe
     if(-not (Test-Path $nuget)) {
         Die "Please install nuget. More information available at: http://docs.nuget.org/docs/start-here/installing-nuget"
     }
@@ -235,7 +240,7 @@ function Nupkg
 
 function DownloadNuget()
 {
-    $nuget = Join-Path $env:LOCALAPPDATA .\nuget\NuGet.exe
+    $nuget = Join-Path $WorkingDir .\nuget\NuGet.exe
     if(-not (Test-Path $nuget))
     {
         $client = New-Object System.Net.WebClient;
@@ -265,7 +270,7 @@ WriteAssemblyVersion
 switch -Exact ($Target) {
     "nupkg"
     {
-        VSX v120
+        #VSX v120
         VSX v110
         Nupkg
     }

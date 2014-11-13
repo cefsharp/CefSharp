@@ -18,7 +18,7 @@ using namespace System::Threading::Tasks;
 
 namespace CefSharp
 {
-    private ref class ManagedCefBrowserAdapter : public DisposableResource
+    public ref class ManagedCefBrowserAdapter : public DisposableResource
     {
         MCefRefPtr<RenderClientAdapter> _renderClientAdapter;
         BrowserProcessServiceHost^ _browserProcessServiceHost;

@@ -24,16 +24,16 @@ namespace CefSharp
     private:
         JavascriptRootObject^ _rootObject;
         List<JavascriptObjectWrapper^>^ _wrappedObjects;
-        Func<IBrowserProcess^>^ _createBrowserProxyDelegate;
+        IBrowserProcess^ _browserProcess;
 
     internal:
         MCefRefPtr<CefV8Value> V8Value;
 
     public:
-        JavascriptRootObjectWrapper(JavascriptRootObject^ rootObject, Func<IBrowserProcess^>^ createBrowserProxyDelegate)
+        JavascriptRootObjectWrapper(JavascriptRootObject^ rootObject, IBrowserProcess^ browserProcess)
         {
             _rootObject = rootObject;
-            _createBrowserProxyDelegate = createBrowserProxyDelegate;
+            _browserProcess = browserProcess;
             _wrappedObjects = gcnew List<JavascriptObjectWrapper^>();
         }
 
@@ -41,13 +41,13 @@ namespace CefSharp
         {
             V8Value = nullptr;
         }
-        
+
         void Bind()
         {
             auto memberObjects = _rootObject->MemberObjects;
             for each (JavascriptObject^ obj in Enumerable::OfType<JavascriptObject^>(memberObjects))
             {
-                auto wrapperObject = gcnew JavascriptObjectWrapper(obj, _createBrowserProxyDelegate);
+                auto wrapperObject = gcnew JavascriptObjectWrapper(obj, _browserProcess);
                 wrapperObject->V8Value = V8Value.get();
                 wrapperObject->Bind();
 

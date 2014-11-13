@@ -57,8 +57,6 @@ namespace CefSharp.WinForms
 
             //Redraw on Resize so Cef is notified and updates accordingly
             SetStyle(ControlStyles.ResizeRedraw, true);
-            //Fix for #522 - Enable DoubleBuffering
-            SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
 
             Dock = DockStyle.Fill;
         }

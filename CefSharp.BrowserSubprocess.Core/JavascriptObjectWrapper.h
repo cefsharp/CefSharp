@@ -24,17 +24,17 @@ namespace CefSharp
         JavascriptObject^ _object;
         List<JavascriptMethodWrapper^>^ _wrappedMethods;
         List<JavascriptPropertyWrapper^>^ _wrappedProperties;
-        Func<IBrowserProcess^>^ _createBrowserProxyDelegate;
+        IBrowserProcess^ _browserProcess;
 
     internal:
         MCefRefPtr<CefV8Value> V8Value;
         MCefRefPtr<JavascriptPropertyHandler> JsPropertyHandler;
 
     public:
-        JavascriptObjectWrapper(JavascriptObject^ object, Func<IBrowserProcess^>^ createBrowserProxyDelegate)
+        JavascriptObjectWrapper(JavascriptObject^ object, IBrowserProcess^ browserProcess)
         {
             _object = object;
-            _createBrowserProxyDelegate = createBrowserProxyDelegate;
+            _browserProcess = browserProcess;
 
             _wrappedMethods = gcnew List<JavascriptMethodWrapper^>();
             _wrappedProperties = gcnew List<JavascriptPropertyWrapper^>();
