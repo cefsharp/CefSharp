@@ -16,10 +16,10 @@ artifacts:
   - path: NuGet\*.nupkg
     name: nupkgfiles
 
-# Temp publish to myget feed
+# Publish to myget.org feed
 deploy:
   provider: NuGet
-  server: https://www.myget.org/F/amaitland-cefsharp/
+  server: https://www.myget.org/F/cefsharp/
   api_key:
     secure: T3yoLSioRwXa7byUvu17t4I88RTQTvICh2j+KplLb1YVimd1IYy2m2akGqgOMJhY
   skip_symbols: true
