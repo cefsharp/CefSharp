@@ -23,7 +23,6 @@ namespace CefSharp
         MCefRefPtr<RenderClientAdapter> _renderClientAdapter;
         BrowserProcessServiceHost^ _browserProcessServiceHost;
         IWebBrowserInternal^ _webBrowserInternal;
-        String^ _address;
         JavascriptObjectRepository^ _javaScriptObjectRepository;
         
     protected:
@@ -39,7 +38,6 @@ namespace CefSharp
             }
 
             _webBrowserInternal = nullptr;
-            _address = nullptr;
             _javaScriptObjectRepository = nullptr;
 
             DisposableResource::DoDispose(isDisposing);
@@ -53,12 +51,12 @@ namespace CefSharp
             _javaScriptObjectRepository = gcnew JavascriptObjectRepository();
         }
 
-        void CreateOffscreenBrowser(BrowserSettings^ browserSettings)
+        void CreateOffscreenBrowser(BrowserSettings^ browserSettings, String^ address)
         {
             HWND hwnd = HWND();
             CefWindowInfo window;
             window.SetAsWindowless(hwnd, TRUE);
-            CefString addressNative = StringUtils::ToNative(_address);
+            CefString addressNative = StringUtils::ToNative(address);
 
             if (!CefBrowserHost::CreateBrowser(window, _renderClientAdapter.get(), addressNative,
                 *(CefBrowserSettings*) browserSettings->_internalBrowserSettings, NULL))
@@ -79,7 +77,6 @@ namespace CefSharp
 
         void LoadUrl(String^ address)
         {
-            _address = address;
             auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
 
             if (cefFrame != nullptr)
@@ -96,13 +93,6 @@ namespace CefSharp
             if(_webBrowserInternal != nullptr)
             {
                 _webBrowserInternal->OnInitialized();
-
-                auto address = _address;
-
-                if (address != nullptr)
-                {
-                    LoadUrl(address);
-                }
             }
         }
 

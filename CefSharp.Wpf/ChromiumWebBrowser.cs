@@ -476,7 +476,7 @@ namespace CefSharp.Wpf
                 return;
             }
 
-            managedCefBrowserAdapter.CreateOffscreenBrowser(BrowserSettings ?? new BrowserSettings());
+            managedCefBrowserAdapter.CreateOffscreenBrowser(BrowserSettings ?? new BrowserSettings(), Address);
             browserCreated = true;
         }
 
