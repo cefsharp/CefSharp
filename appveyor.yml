@@ -14,3 +14,12 @@ test: off
 
 artifacts:
   - path: NuGet\*.nupkg
+
+# Temp publish to myget feed
+deploy:
+  provider: NuGet
+  server: https://www.myget.org/F/amaitland-cefsharp/
+  api_key:
+    secure: T3yoLSioRwXa7byUvu17t4I88RTQTvICh2j+KplLb1YVimd1IYy2m2akGqgOMJhY
+  skip_symbols: true
+  artifact: NuGet\*.nupkg
