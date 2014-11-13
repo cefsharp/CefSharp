@@ -16,7 +16,7 @@ $CefSln = Join-Path $WorkingDir 'CefSharp3.sln'
 
 if (Test-Path Env:\APPVEYOR_BUILD_VERSION)
 {
-    $Version = Env:\APPVEYOR_BUILD_VERSION
+    $Version = $env:APPVEYOR_BUILD_VERSION
 }
 
 # https://github.com/jbake/Powershell_scripts/blob/master/Invoke-BatchFile.ps1
