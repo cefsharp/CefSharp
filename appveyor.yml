@@ -9,11 +9,5 @@ shallow_clone: true
 build_script:
   - ps: .\build.ps1
 
-test_script:
-  - REM cd C:\projects\cefsharp\CefSharp.Test\bin\x86\%configuration%\
-  - cd
-#  - REM copy C:\Tools\xUnit\*.*
-#  - REM xunit.console.clr4.x86 CefSharp.Test.dll /appveyor
-
 artifacts:
   - path: NuGet\*.nupkg
