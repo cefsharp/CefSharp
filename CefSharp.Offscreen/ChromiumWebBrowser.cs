@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -303,6 +304,11 @@ namespace CefSharp.Offscreen
         {
             get { return managedCefBrowserAdapter.GetZoomLevel(); }
             set { managedCefBrowserAdapter.SetZoomLevel(value); }
+        }
+
+        public void SendMouseWheelEvent(int x, int y, int deltaX, int deltaY)
+        {
+            managedCefBrowserAdapter.OnMouseWheel(x, y, deltaX, deltaY);
         }
 
         #region IRenderWebBrowser (rendering to bitmap; derived from CefSharp.Wpf.ChromiumWebBrowser)
