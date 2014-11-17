@@ -249,6 +249,37 @@ namespace CefSharp
         // this callback.
         CefRefPtr<CefResourceHandler> ClientAdapter::GetResourceHandler(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request)
         {
+            IRequestHandler^ handler = _browserControl->RequestHandler;
+
+            if (handler == nullptr)
+            {
+                return NULL;
+            }
+
+            auto requestWrapper = gcnew CefRequestWrapper(request);
+
+            auto resourceHandler = handler->GetResourceHandler(_browserControl, requestWrapper);
+
+            if(resourceHandler != nullptr)
+            {
+                //resourceStream = CefStreamReader::CreateForHandler(static_cast<CefRefPtr<CefReadHandler>>(adapter));
+                //response->SetMimeType(StringUtils::ToNative(requestResponse->MimeType));
+                //response->SetStatus(requestResponse->StatusCode);
+                //response->SetStatusText(StringUtils::ToNative(requestResponse->StatusText));
+
+                //CefResponse::HeaderMap map;
+
+                //if (requestResponse->ResponseHeaders != nullptr)
+                //{
+                //    for each (KeyValuePair<String^, String^>^ kvp in requestResponse->ResponseHeaders)
+                //    {
+                //        map.insert(pair<CefString,CefString>(StringUtils::ToNative(kvp->Key),StringUtils::ToNative(kvp->Value)));
+                //    }
+                //}
+
+                //response->SetHeaderMap(map);
+            }
+
             return NULL;
         }
 
@@ -270,27 +301,6 @@ namespace CefSharp
             {
                 request->SetURL(StringUtils::ToNative(response->RedirectUrl));
             }
-            //else if (response->Action == ResponseAction::Respond)
-            //{
-                //throw gcnew NotImplementedException("Respond is not yet supported.");
-
-                //resourceStream = CefStreamReader::CreateForHandler(static_cast<CefRefPtr<CefReadHandler>>(adapter));
-                //response->SetMimeType(StringUtils::ToNative(requestResponse->MimeType));
-                //response->SetStatus(requestResponse->StatusCode);
-                //response->SetStatusText(StringUtils::ToNative(requestResponse->StatusText));
-
-                //CefResponse::HeaderMap map;
-
-                //if (requestResponse->ResponseHeaders != nullptr)
-                //{
-                //    for each (KeyValuePair<String^, String^>^ kvp in requestResponse->ResponseHeaders)
-                //    {
-                //        map.insert(pair<CefString,CefString>(StringUtils::ToNative(kvp->Key),StringUtils::ToNative(kvp->Value)));
-                //    }
-                //}
-
-                //response->SetHeaderMap(map);
-            //}
 
             return ret;
         }
