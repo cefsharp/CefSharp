@@ -9,18 +9,13 @@
 using namespace System;
 using namespace System::IO;
 using namespace System::Collections::Specialized;
+using namespace CefSharp;
 
 namespace CefSharp
 {
     namespace Internals
     {
-        enum class ResponseAction
-        {
-            Continue,
-            Cancel,
-            Redirect,
-            Respond
-        };
+        
 
         private ref class Response : IResponse
         {
