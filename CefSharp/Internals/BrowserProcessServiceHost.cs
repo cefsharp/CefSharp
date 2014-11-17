@@ -75,6 +75,9 @@ namespace CefSharp.Internals
             binding.SendTimeout = TimeSpan.MaxValue;
             binding.OpenTimeout = TimeSpan.MaxValue;
             binding.CloseTimeout = TimeSpan.MaxValue;
+            binding.ReaderQuotas.MaxStringContentLength = int.MaxValue;
+            binding.ReaderQuotas.MaxArrayLength = int.MaxValue;
+            binding.ReaderQuotas.MaxDepth = int.MaxValue;
 
             // Ensure binding connection stays open indefinitely until closed
             var customBinding = new CustomBinding(binding);
