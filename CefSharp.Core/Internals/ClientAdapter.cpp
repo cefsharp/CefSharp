@@ -263,9 +263,9 @@ namespace CefSharp
             {
                 request->SetURL(StringUtils::ToNative(response->RedirectUrl));
             }
-            else if (response->Action == ResponseAction::Respond)
-            {
-                throw gcnew NotImplementedException("Respond is not yet supported.");
+            //else if (response->Action == ResponseAction::Respond)
+            //{
+                //throw gcnew NotImplementedException("Respond is not yet supported.");
 
                 //resourceStream = CefStreamReader::CreateForHandler(static_cast<CefRefPtr<CefReadHandler>>(adapter));
                 //response->SetMimeType(StringUtils::ToNative(requestResponse->MimeType));
@@ -283,7 +283,7 @@ namespace CefSharp
                 //}
 
                 //response->SetHeaderMap(map);
-            }
+            //}
 
             return ret;
         }

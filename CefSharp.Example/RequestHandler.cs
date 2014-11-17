@@ -25,9 +25,9 @@ namespace CefSharp.Example
         {
             if (request.Url.StartsWith(ResourceUrl.ToString()))
             {
-                Stream resourceStream = new MemoryStream(Encoding.UTF8.GetBytes(
-                    "<html><body><h1>Success</h1><p>This document is loaded from a System.IO.Stream</p></body></html>"));
-                response.RespondWith(resourceStream, "text/html");
+                //Stream resourceStream = new MemoryStream(Encoding.UTF8.GetBytes(
+                //	"<html><body><h1>Success</h1><p>This document is loaded from a System.IO.Stream</p></body></html>"));
+                //response.RespondWith(resourceStream, "text/html");
             }
 
             return false;

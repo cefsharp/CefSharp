@@ -8,7 +8,6 @@ namespace CefSharp
     {
         Continue,
         Cancel,
-        Redirect,
-        Respond
+        Redirect
     }
 }
