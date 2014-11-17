@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Text;
 
 namespace CefSharp.Example
 {
@@ -31,6 +29,11 @@ namespace CefSharp.Example
             }
 
             return false;
+        }
+
+        public ResourceHandler GetResourceHandler(IWebBrowser browser, IRequest request)
+        {
+            return null;
         }
 
         bool IRequestHandler.GetAuthCredentials(IWebBrowser browser, bool isProxy, string host, int port, string realm, string scheme, ref string username, ref string password)
