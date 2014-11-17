@@ -300,6 +300,10 @@ namespace CefSharp
             {
                 request->SetURL(StringUtils::ToNative(response->RedirectUrl));
             }
+            else if (response->Action == ResponseAction::Cancel)
+            {
+                return true;
+            }
 
             return ret;
         }
