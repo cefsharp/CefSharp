@@ -22,7 +22,7 @@ namespace CefSharp
             Respond
         };
 
-        private ref class RequestResponse : IRequestResponse
+        private ref class Response : IResponse
         {
             IRequest^ _request;
             Stream^ _responseStream;
@@ -34,7 +34,7 @@ namespace CefSharp
             NameValueCollection^ _responseHeaders;
 
         internal:
-            RequestResponse() : _action(ResponseAction::Continue)
+            Response() : _action(ResponseAction::Continue)
             {
             }
 

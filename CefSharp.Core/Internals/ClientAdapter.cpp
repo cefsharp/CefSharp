@@ -254,8 +254,8 @@ namespace CefSharp
                 return false;
             }
 
-            CefRequestWrapper^ requestWrapper = gcnew CefRequestWrapper(request);
-            RequestResponse^ response = gcnew RequestResponse();
+            auto requestWrapper = gcnew CefRequestWrapper(request);
+            auto response = gcnew Response();
 
             bool ret = handler->OnBeforeResourceLoad(_browserControl, requestWrapper, response);
 
