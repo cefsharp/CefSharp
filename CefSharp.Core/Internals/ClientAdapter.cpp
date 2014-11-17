@@ -254,16 +254,16 @@ namespace CefSharp
                 return false;
             }
 
-            CefRequestWrapper^ wrapper = gcnew CefRequestWrapper(request);
-            RequestResponse^ requestResponse = gcnew RequestResponse(wrapper);
+            CefRequestWrapper^ requestWrapper = gcnew CefRequestWrapper(request);
+            RequestResponse^ response = gcnew RequestResponse();
 
-            bool ret = handler->OnBeforeResourceLoad(_browserControl, requestResponse);
+            bool ret = handler->OnBeforeResourceLoad(_browserControl, requestWrapper, response);
 
-            if (requestResponse->Action == ResponseAction::Redirect)
+            if (response->Action == ResponseAction::Redirect)
             {
-                request->SetURL(StringUtils::ToNative(requestResponse->RedirectUrl));
+                request->SetURL(StringUtils::ToNative(response->RedirectUrl));
             }
-            else if (requestResponse->Action == ResponseAction::Respond)
+            else if (response->Action == ResponseAction::Respond)
             {
                 throw gcnew NotImplementedException("Respond is not yet supported.");
 
