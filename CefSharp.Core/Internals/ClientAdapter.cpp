@@ -262,6 +262,14 @@ namespace CefSharp
 
             if(resourceHandler != nullptr)
             {
+                auto mimeType = StringUtils::ToNative(resourceHandler->MimeType);
+                
+                CefRefPtr<StreamAdapter> streamAdapter = new StreamAdapter(resourceHandler->Stream);
+
+                // Load the resource from file.
+                CefRefPtr<CefStreamReader> stream = CefStreamReader::CreateForHandler(static_cast<CefRefPtr<CefReadHandler>>(streamAdapter));
+                //if (stream.get())
+                    //return new CefStreamResourceHandler(mimeType, stream);
                 //resourceStream = CefStreamReader::CreateForHandler(static_cast<CefRefPtr<CefReadHandler>>(adapter));
                 //response->SetMimeType(StringUtils::ToNative(requestResponse->MimeType));
                 //response->SetStatus(requestResponse->StatusCode);
