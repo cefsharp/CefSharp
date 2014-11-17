@@ -20,6 +20,7 @@ namespace CefSharp
 		{
 			StatusCode = 200;
 			StatusText = "OK";
+			MimeType = "text/html";
 		}
 
 		public static ResourceHandler FromFileName(string fileName)
