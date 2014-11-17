@@ -2,9 +2,18 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System.IO;
+
 namespace CefSharp
 {
-	public abstract class ResourceHandler
+	public class ResourceHandler
 	{
+		public string MimeType { get; set; }
+		public Stream Stream { get; set; }
+
+		public static ResourceHandler FromFileName(string fileName)
+		{
+			return new ResourceHandler { Stream = File.OpenRead(fileName) };
+		}
 	}
 }

@@ -18,7 +18,8 @@ namespace CefSharp
         {
             AutoLock lock_scope(_syncRoot);
 
-            try {
+            try
+            {
                 array<Byte>^ buffer = gcnew array<Byte>(n * size);
                 int ret = _stream->Read(buffer, 0, n);
                 pin_ptr<Byte> src = &buffer[0];
@@ -33,17 +34,18 @@ namespace CefSharp
 
         int StreamAdapter::Seek(int64 offset, int whence)
         {
-            SeekOrigin seekOrigin;
+            System::IO::SeekOrigin seekOrigin;
+
             switch (whence)
             {
             case SEEK_CUR:
-                seekOrigin = SeekOrigin::Current;
+                seekOrigin = System::IO::SeekOrigin::Current;
                 break;
             case SEEK_END:
-                seekOrigin = SeekOrigin::End;
+                seekOrigin = System::IO::SeekOrigin::End;
                 break;
             case SEEK_SET:
-                seekOrigin = SeekOrigin::Begin;
+                seekOrigin = System::IO::SeekOrigin::Begin;
                 break;
             default:
                 return -1;
@@ -69,6 +71,11 @@ namespace CefSharp
         int StreamAdapter::Eof()
         {
             return _stream->Length == _stream->Position;
+        }
+
+        bool StreamAdapter::MayBlock()
+        {
+            return true;
         }
     }
 }

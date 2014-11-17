@@ -34,7 +34,12 @@ namespace CefSharp
         /// <returns>To cancel loading of the resource return true or false o allow the resource to load normally.</returns>
         bool OnBeforeResourceLoad(IWebBrowser browser, IRequest request, IResponse response);
 
-
+        /// <summary>
+        /// Called before a resource is loaded. To specify a handler for the resource return a ResourceHandler object
+        /// </summary>
+        /// <param name="browser">the browser object</param>
+        /// <param name="request">the request object - cannot be modified in this callback</param>
+        /// <returns>To allow the resource to load normally return NULL otherwise return an instance of ResourceHandler with a valid stream</returns>
         ResourceHandler GetResourceHandler(IWebBrowser browser, IRequest request);
         
         /// <summary>
