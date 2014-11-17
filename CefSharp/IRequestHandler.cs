@@ -34,9 +34,6 @@ namespace CefSharp
         /// <returns>To cancel loading of the resource return true or false o allow the resource to load normally.</returns>
         bool OnBeforeResourceLoad(IWebBrowser browser, IRequest request, IResponse response);
         
-        // TODO: Investigate how we can support in CEF3.
-        //void OnResourceResponse(IWebBrowser browser, string url, int status, string statusText, string mimeType, WebHeaderCollection headers);
-
         /// <summary>
         /// Called when the browser needs credentials from the user.
         /// </summary>
