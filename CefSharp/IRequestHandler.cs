@@ -32,7 +32,7 @@ namespace CefSharp
         /// <param name="request">the request object - can be modified in this callback.</param>
         /// <param name="response">the request object - can be modified in this callback.</param>
         /// <returns>To cancel loading of the resource return true or false o allow the resource to load normally.</returns>
-        bool OnBeforeResourceLoad(IWebBrowser browser, IRequest request, IRequestResponse response);
+        bool OnBeforeResourceLoad(IWebBrowser browser, IRequest request, IResponse response);
         
         // TODO: Investigate how we can support in CEF3.
         //void OnResourceResponse(IWebBrowser browser, string url, int status, string statusText, string mimeType, WebHeaderCollection headers);

@@ -9,23 +9,23 @@ namespace CefSharp
 {
     namespace Internals
     {
-        void RequestResponse::Cancel()
+        void Response::Cancel()
         {
             _action = ResponseAction::Cancel;
         }
 
-        void RequestResponse::Redirect(String^ url)
+        void Response::Redirect(String^ url)
         {
             _redirectUrl = url;
             _action = ResponseAction::Redirect;
         }
 
-        void RequestResponse::RespondWith(Stream^ stream, String^ mimeType)
+        void Response::RespondWith(Stream^ stream, String^ mimeType)
         {
             RespondWith(stream, mimeType, "OK", 200, nullptr);
         }
 
-        void RequestResponse::RespondWith(Stream^ stream, String^ mimeType, String^ statusText, int statusCode, NameValueCollection^ responseHeaders)
+        void Response::RespondWith(Stream^ stream, String^ mimeType, String^ statusText, int statusCode, NameValueCollection^ responseHeaders)
         {
             if (String::IsNullOrEmpty(mimeType))
             {

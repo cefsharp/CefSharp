@@ -130,7 +130,7 @@
     <Compile Include="IWebPluginInfo.cs" />
     <Compile Include="IRequest.cs" />
     <Compile Include="IRequestHandler.cs" />
-    <Compile Include="IRequestResponse.cs" />
+    <Compile Include="IResponse.cs" />
     <Compile Include="ISchemeHandler.cs" />
     <Compile Include="ISchemeHandlerFactory.cs" />
     <Compile Include="ISchemeHandlerResponse.cs" />

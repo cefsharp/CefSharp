@@ -6,7 +6,7 @@ using System.IO;
 
 namespace CefSharp
 {
-    public interface IRequestResponse
+    public interface IResponse
     {
         /// cancel the request, return nothing
         void Cancel();

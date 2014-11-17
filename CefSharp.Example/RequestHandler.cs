@@ -21,7 +21,7 @@ namespace CefSharp.Example
             // TODO: Add your own code here for handling scenarios where a plugin crashed, for one reason or another.
         }
 
-        bool IRequestHandler.OnBeforeResourceLoad(IWebBrowser browser, IRequest request, IRequestResponse response)
+        bool IRequestHandler.OnBeforeResourceLoad(IWebBrowser browser, IRequest request, IResponse response)
         {
             if (request.Url.StartsWith(ResourceUrl.ToString()))
             {
