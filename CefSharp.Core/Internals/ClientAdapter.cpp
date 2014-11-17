@@ -273,8 +273,9 @@ namespace CefSharp
                 {
                     CefResponse::HeaderMap map = SchemeHandlerWrapper::ToHeaderMap(resourceHandler->Headers);
 
-                    return new CefStreamResourceHandler(resourceHandler->StatusCode, statusText, mimeType, map, stream);
-                    //return new CefStreamResourceHandler(mimeType, stream);
+                    //TODO: Investigate crash when using full response
+                    //return new CefStreamResourceHandler(resourceHandler->StatusCode, statusText, mimeType, map, stream);
+                    return new CefStreamResourceHandler(mimeType, stream);
                 }
             }
 
