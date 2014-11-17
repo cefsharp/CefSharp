@@ -4,6 +4,7 @@
 
 using System.Collections.Specialized;
 using System.IO;
+using System.Text;
 
 namespace CefSharp
 {
@@ -24,6 +25,11 @@ namespace CefSharp
 		public static ResourceHandler FromFileName(string fileName)
 		{
 			return new ResourceHandler { Stream = File.OpenRead(fileName) };
+		}
+
+		public static ResourceHandler FromString(string text)
+		{
+			return new ResourceHandler { Stream = new MemoryStream(Encoding.UTF8.GetBytes(text)) };
 		}
 	}
 }
