@@ -12,6 +12,7 @@ namespace CefSharp
         StreamAdapter::~StreamAdapter()
         {
             _stream->Close();
+            _stream = nullptr;
         }
 
         size_t StreamAdapter::Read(void* ptr, size_t size, size_t n)
