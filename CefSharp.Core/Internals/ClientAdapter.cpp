@@ -11,6 +11,7 @@
 #include "Cef.h"
 #include "DownloadAdapter.h"
 #include "StreamAdapter.h"
+#include "include/wrapper/cef_stream_resource_handler.h"
 
 using namespace std;
 using namespace CefSharp;
@@ -263,29 +264,18 @@ namespace CefSharp
             if(resourceHandler != nullptr)
             {
                 auto mimeType = StringUtils::ToNative(resourceHandler->MimeType);
+                auto statusText = StringUtils::ToNative(resourceHandler->StatusText);
                 
                 CefRefPtr<StreamAdapter> streamAdapter = new StreamAdapter(resourceHandler->Stream);
 
-                // Load the resource from file.
                 CefRefPtr<CefStreamReader> stream = CefStreamReader::CreateForHandler(static_cast<CefRefPtr<CefReadHandler>>(streamAdapter));
-                //if (stream.get())
+                if (stream.get())
+                {
+                    CefResponse::HeaderMap map = SchemeHandlerWrapper::ToHeaderMap(resourceHandler->Headers);
+
+                    return new CefStreamResourceHandler(resourceHandler->StatusCode, statusText, mimeType, map, stream);
                     //return new CefStreamResourceHandler(mimeType, stream);
-                //resourceStream = CefStreamReader::CreateForHandler(static_cast<CefRefPtr<CefReadHandler>>(adapter));
-                //response->SetMimeType(StringUtils::ToNative(requestResponse->MimeType));
-                //response->SetStatus(requestResponse->StatusCode);
-                //response->SetStatusText(StringUtils::ToNative(requestResponse->StatusText));
-
-                //CefResponse::HeaderMap map;
-
-                //if (requestResponse->ResponseHeaders != nullptr)
-                //{
-                //    for each (KeyValuePair<String^, String^>^ kvp in requestResponse->ResponseHeaders)
-                //    {
-                //        map.insert(pair<CefString,CefString>(StringUtils::ToNative(kvp->Key),StringUtils::ToNative(kvp->Value)));
-                //    }
-                //}
-
-                //response->SetHeaderMap(map);
+                }
             }
 
             return NULL;

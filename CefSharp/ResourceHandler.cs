@@ -2,6 +2,7 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System.Collections.Specialized;
 using System.IO;
 
 namespace CefSharp
@@ -10,6 +11,15 @@ namespace CefSharp
 	{
 		public string MimeType { get; set; }
 		public Stream Stream { get; set; }
+		public int StatusCode { get; set; }
+		public string StatusText { get; set; }
+		public NameValueCollection Headers { get; set; }
+
+		public ResourceHandler()
+		{
+			StatusCode = 200;
+			StatusText = "OK";
+		}
 
 		public static ResourceHandler FromFileName(string fileName)
 		{
