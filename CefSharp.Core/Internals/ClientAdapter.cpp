@@ -243,10 +243,17 @@ namespace CefSharp
             }			
         }
 
+        // Called on the IO thread before a resource is loaded. To allow the resource
+        // to load normally return NULL. To specify a handler for the resource return
+        // a CefResourceHandler object. The |request| object should not be modified in
+        // this callback.
+        CefRefPtr<CefResourceHandler> ClientAdapter::GetResourceHandler(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request)
+        {
+            return NULL;
+        }
+
         bool ClientAdapter::OnBeforeResourceLoad(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request)
         {
-            // TOOD: Try to support with CEF3; seems quite difficult because the method signature has changed greatly with many parts
-            // seemingly MIA...
             IRequestHandler^ handler = _browserControl->RequestHandler;
 
             if (handler == nullptr)
@@ -338,42 +345,6 @@ namespace CefSharp
 
             return handled;
         }
-
-        // TODO: Investigate how we can support in CEF3.
-        /*
-        void ClientAdapter::OnResourceResponse(CefRefPtr<CefBrowser> browser, const CefString& url, CefRefPtr<CefResponse> response, CefRefPtr<CefContentFilter>& filter)
-        {
-        IRequestHandler^ handler = _browserControl->RequestHandler;
-        if (handler == nullptr)
-        {
-        return;
-        }
-
-        WebHeaderCollection^ headers = gcnew WebHeaderCollection();
-        CefResponse::HeaderMap map;
-        response->GetHeaderMap(map);
-        for (CefResponse::HeaderMap::iterator it = map.begin(); it != map.end(); ++it)
-        {
-        try
-        {
-        headers->Add(StringUtils::ToClr(it->first), StringUtils::ToClr(it->second));
-        }
-        catch (Exception ^ex)
-        {
-        // adding a header with invalid characters can cause an exception to be
-        // thrown. we will drop those headers for now.
-        // we could eventually use reflection to call headers->AddWithoutValidate().
-        }
-        }
-
-        handler->OnResourceResponse(
-        _browserControl,
-        StringUtils::ToClr(url),
-        response->GetStatus(),
-        StringUtils::ToClr(response->GetStatusText()),
-        StringUtils::ToClr(response->GetMimeType()),
-        headers);
-        }*/
 
         void ClientAdapter::OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
             CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model)
