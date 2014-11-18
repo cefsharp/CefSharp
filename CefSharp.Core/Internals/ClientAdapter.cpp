@@ -7,13 +7,14 @@
 #include "Internals/CefRequestWrapper.h"
 #include "Internals/CefWebPluginInfoWrapper.h"
 #include "Internals/JavascriptBinding/BindingHandler.h"
-#include "Internals/RequestResponse.h"
 #include "ClientAdapter.h"
 #include "Cef.h"
 #include "DownloadAdapter.h"
 #include "StreamAdapter.h"
+#include "include/wrapper/cef_stream_resource_handler.h"
 
 using namespace std;
+using namespace CefSharp;
 using namespace CefSharp::Internals::JavascriptBinding;
 
 namespace CefSharp
@@ -193,7 +194,7 @@ namespace CefSharp
             _browserControl->OnLoadError(StringUtils::ToClr(failedUrl), (CefErrorCode)errorCode, StringUtils::ToClr(errorText));
         }
 
-        bool ClientAdapter:: OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool isRedirect)
+        bool ClientAdapter::OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool isRedirect)
         {
             IRequestHandler^ handler = _browserControl->RequestHandler;
             if (handler == nullptr)
@@ -243,10 +244,46 @@ namespace CefSharp
             }			
         }
 
+        // Called on the IO thread before a resource is loaded. To allow the resource
+        // to load normally return NULL. To specify a handler for the resource return
+        // a CefResourceHandler object. The |request| object should not be modified in
+        // this callback.
+        CefRefPtr<CefResourceHandler> ClientAdapter::GetResourceHandler(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request)
+        {
+            IRequestHandler^ handler = _browserControl->RequestHandler;
+
+            if (handler == nullptr)
+            {
+                return NULL;
+            }
+
+            auto requestWrapper = gcnew CefRequestWrapper(request);
+
+            auto resourceHandler = handler->GetResourceHandler(_browserControl, requestWrapper);
+
+            if(resourceHandler != nullptr)
+            {
+                auto mimeType = StringUtils::ToNative(resourceHandler->MimeType);
+                auto statusText = StringUtils::ToNative(resourceHandler->StatusText);
+                
+                CefRefPtr<StreamAdapter> streamAdapter = new StreamAdapter(resourceHandler->Stream);
+
+                CefRefPtr<CefStreamReader> stream = CefStreamReader::CreateForHandler(static_cast<CefRefPtr<CefReadHandler>>(streamAdapter));
+                if (stream.get())
+                {
+                    CefResponse::HeaderMap map = SchemeHandlerWrapper::ToHeaderMap(resourceHandler->Headers);
+
+                    //TODO: Investigate crash when using full response
+                    //return new CefStreamResourceHandler(resourceHandler->StatusCode, statusText, mimeType, map, stream);
+                    return new CefStreamResourceHandler(mimeType, stream);
+                }
+            }
+
+            return NULL;
+        }
+
         bool ClientAdapter::OnBeforeResourceLoad(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request)
         {
-            // TOOD: Try to support with CEF3; seems quite difficult because the method signature has changed greatly with many parts
-            // seemingly MIA...
             IRequestHandler^ handler = _browserControl->RequestHandler;
 
             if (handler == nullptr)
@@ -254,35 +291,18 @@ namespace CefSharp
                 return false;
             }
 
-            CefRequestWrapper^ wrapper = gcnew CefRequestWrapper(request);
-            RequestResponse^ requestResponse = gcnew RequestResponse(wrapper);
+            auto requestWrapper = gcnew CefRequestWrapper(request);
+            auto response = gcnew Response();
 
-            bool ret = handler->OnBeforeResourceLoad(_browserControl, requestResponse);
+            bool ret = handler->OnBeforeResourceLoad(_browserControl, requestWrapper, response);
 
-            if (requestResponse->Action == ResponseAction::Redirect)
+            if (response->Action == ResponseAction::Redirect)
             {
-                request->SetURL(StringUtils::ToNative(requestResponse->RedirectUrl));
+                request->SetURL(StringUtils::ToNative(response->RedirectUrl));
             }
-            else if (requestResponse->Action == ResponseAction::Respond)
+            else if (response->Action == ResponseAction::Cancel)
             {
-                throw gcnew NotImplementedException("Respond is not yet supported.");
-
-                //resourceStream = CefStreamReader::CreateForHandler(static_cast<CefRefPtr<CefReadHandler>>(adapter));
-                //response->SetMimeType(StringUtils::ToNative(requestResponse->MimeType));
-                //response->SetStatus(requestResponse->StatusCode);
-                //response->SetStatusText(StringUtils::ToNative(requestResponse->StatusText));
-
-                //CefResponse::HeaderMap map;
-
-                //if (requestResponse->ResponseHeaders != nullptr)
-                //{
-                //    for each (KeyValuePair<String^, String^>^ kvp in requestResponse->ResponseHeaders)
-                //    {
-                //        map.insert(pair<CefString,CefString>(StringUtils::ToNative(kvp->Key),StringUtils::ToNative(kvp->Value)));
-                //    }
-                //}
-
-                //response->SetHeaderMap(map);
+                return true;
             }
 
             return ret;
@@ -338,42 +358,6 @@ namespace CefSharp
 
             return handled;
         }
-
-        // TODO: Investigate how we can support in CEF3.
-        /*
-        void ClientAdapter::OnResourceResponse(CefRefPtr<CefBrowser> browser, const CefString& url, CefRefPtr<CefResponse> response, CefRefPtr<CefContentFilter>& filter)
-        {
-        IRequestHandler^ handler = _browserControl->RequestHandler;
-        if (handler == nullptr)
-        {
-        return;
-        }
-
-        WebHeaderCollection^ headers = gcnew WebHeaderCollection();
-        CefResponse::HeaderMap map;
-        response->GetHeaderMap(map);
-        for (CefResponse::HeaderMap::iterator it = map.begin(); it != map.end(); ++it)
-        {
-        try
-        {
-        headers->Add(StringUtils::ToClr(it->first), StringUtils::ToClr(it->second));
-        }
-        catch (Exception ^ex)
-        {
-        // adding a header with invalid characters can cause an exception to be
-        // thrown. we will drop those headers for now.
-        // we could eventually use reflection to call headers->AddWithoutValidate().
-        }
-        }
-
-        handler->OnResourceResponse(
-        _browserControl,
-        StringUtils::ToClr(url),
-        response->GetStatus(),
-        StringUtils::ToClr(response->GetStatusText()),
-        StringUtils::ToClr(response->GetMimeType()),
-        headers);
-        }*/
 
         void ClientAdapter::OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
             CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model)
