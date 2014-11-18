@@ -896,6 +896,11 @@ namespace CefSharp.Wpf
             }
         }
 
+        public void SendMouseWheelEvent(int x, int y, int deltaX, int deltaY)
+        {
+            managedCefBrowserAdapter.OnMouseWheel(x, y, deltaX, deltaY);
+        }
+
         protected void PopupMouseEnter(object sender, MouseEventArgs e)
         {
             Focus();

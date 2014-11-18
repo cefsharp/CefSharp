@@ -270,9 +270,14 @@ namespace CefSharp
         /// </summary>
         /// <param name="word">The new word that will be added to the dictionary.</param>
         void AddWordToDictionary(string word);
-
-
         
-
+        /// <summary>
+        /// Send a mouse wheel event to the browser.
+        /// </summary>
+        /// <param name="x">X-Axis coordinate relative to the upper-left corner of the view.</param>
+        /// <param name="y">Y-Axis coordinate relative to the upper-left corner of the view.</param>
+        /// <param name="deltaX">Movement delta for X direction.</param>
+        /// <param name="deltaY">movement delta for Y direction.</param>
+        void SendMouseWheelEvent(int x, int y, int deltaX, int deltaY);
     }
 }

@@ -218,6 +218,11 @@ function NugetPackageRestore
 
 function Nupkg
 {
+    if($SkipNugetForPr)
+    {
+        return;
+    }
+    
     $nuget = Join-Path $WorkingDir .\nuget\NuGet.exe
     if(-not (Test-Path $nuget)) {
         Die "Please install nuget. More information available at: http://docs.nuget.org/docs/start-here/installing-nuget"
@@ -260,6 +265,17 @@ function WriteAssemblyVersion
     
     $NewString | Set-Content $Filename -Encoding UTF8
 }
+
+function CheckIfPrBuild()
+{
+    if (Test-Path Env:\APPVEYOR_PULL_REQUEST_NUMBER)
+    {
+        Write-Diagnostic "Pr Number: $env:APPVEYOR_PULL_REQUEST_NUMBER"
+        $SkipNugetForPr = $true
+    }
+}
+
+CheckIfPrBuild
 
 DownloadNuget
 
