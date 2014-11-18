@@ -9,11 +9,11 @@ using CefSharp.Example;
 
 namespace CefSharp.Offscreen.Example
 {
-    class Program
+    public class Program
     {
-        static ChromiumWebBrowser chrome;
+        private static ChromiumWebBrowser browser;
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             const string testUrl = "https://www.google.com/";
 
@@ -25,14 +25,14 @@ namespace CefSharp.Offscreen.Example
             CefExample.Init();
 
             // Create the offscreen Chromium browser.
-            chrome = new ChromiumWebBrowser();
+            browser = new ChromiumWebBrowser();
 
             // An event that is fired when the first page is finished loading.
             // This returns to us from another thread.
-            chrome.FrameLoadEnd += chrome_FrameLoadEnd;
+            browser.FrameLoadEnd += BrowserFrameLoadEnd;
 
             // Start loading the test URL in Chrome's thread.
-            chrome.Load(testUrl);
+            browser.Load(testUrl);
 
             // We have to wait for something, otherwise the process will exit too soon.
             Console.ReadKey();
@@ -42,21 +42,21 @@ namespace CefSharp.Offscreen.Example
             Cef.Shutdown();
         }
 
-        static void chrome_FrameLoadEnd(object sender, FrameLoadEndEventArgs e)
+        private static void BrowserFrameLoadEnd(object sender, FrameLoadEndEventArgs e)
         {
             // Check to ensure it is the main frame which has finished loading
             // (rather than an iframe within the main frame).
             if (e.IsMainFrame)
             {
                 // Remove the load event handler, because we only want one snapshot of the initial page.
-                chrome.FrameLoadEnd -= chrome_FrameLoadEnd;
+                browser.FrameLoadEnd -= BrowserFrameLoadEnd;
 
                 // Wait for the screenshot to be taken.
-                var task = chrome.ScreenshotAsync();
+                var task = browser.ScreenshotAsync();
                 task.Wait();
 
                 // Make a file to save it to (e.g. C:\Users\jan\Desktop\CefSharp screenshot.png)
-                string screenshotPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "CefSharp screenshot.png");
+                var screenshotPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "CefSharp screenshot.png");
 
                 Console.WriteLine();
                 Console.WriteLine("Screenshot ready.  Saving to {0}", screenshotPath);
