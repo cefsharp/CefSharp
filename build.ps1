@@ -19,6 +19,12 @@ if (Test-Path Env:\APPVEYOR_BUILD_VERSION)
     $Version = $env:APPVEYOR_BUILD_VERSION
 }
 
+if (Test-Path Env:\APPVEYOR_PULL_REQUEST_NUMBER)
+{
+	Write-Diagnostic "Pr Number: $env:APPVEYOR_PULL_REQUEST_NUMBER"
+    $SkipNugetForPr = $true
+}
+
 # https://github.com/jbake/Powershell_scripts/blob/master/Invoke-BatchFile.ps1
 function Invoke-BatchFile 
 {
@@ -218,6 +224,11 @@ function NugetPackageRestore
 
 function Nupkg
 {
+	if($SkipNugetForPr)
+	{
+		return;
+	}
+	
     $nuget = Join-Path $WorkingDir .\nuget\NuGet.exe
     if(-not (Test-Path $nuget)) {
         Die "Please install nuget. More information available at: http://docs.nuget.org/docs/start-here/installing-nuget"
