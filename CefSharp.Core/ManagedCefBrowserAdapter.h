@@ -481,16 +481,10 @@ namespace CefSharp
                 *(CefBrowserSettings*)browserSettings->_internalBrowserSettings, NULL);
         }
 
-        void OnPaint(IntPtr^ sourceHandle)
+        void Resize(int width, int height)
         {
-            HWND hWnd = static_cast<HWND>(sourceHandle->ToPointer());
-            RECT rect;
-            GetClientRect(hWnd, &rect);
-            HDWP hdwp = BeginDeferWindowPos(1);
-
             HWND browserHwnd = _renderClientAdapter->GetBrowserHwnd();
-            hdwp = DeferWindowPos(hdwp, browserHwnd, NULL, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, SWP_NOZORDER);
-            EndDeferWindowPos(hdwp);
+            SetWindowPos(browserHwnd, NULL, 0, 0, width, height, SWP_NOZORDER);
         }
 
         void RegisterJsObject(String^ name, Object^ object)

@@ -53,18 +53,11 @@ namespace CefSharp.WinForms
             Cef.AddDisposable(this);
             Address = address;
 
-            Paint += OnPaint;
-
-            //Redraw on Resize so Cef is notified and updates accordingly
-            SetStyle(ControlStyles.ResizeRedraw, true);
-
             Dock = DockStyle.Fill;
         }
 
         protected override void Dispose(bool disposing)
         {
-            Paint -= OnPaint;
-
             Cef.RemoveDisposable(this);
 
             if (disposing)
@@ -81,6 +74,8 @@ namespace CefSharp.WinForms
         void IWebBrowserInternal.OnInitialized()
         {
             IsBrowserInitialized = true;
+
+            ResizeBrowser();
 
             var handler = IsBrowserInitializedChanged;
 
@@ -349,12 +344,20 @@ namespace CefSharp.WinForms
             return taskStringVisitor.Task;
         }
 
-        private void OnPaint(object sender, PaintEventArgs e)
+        protected override void OnSizeChanged(EventArgs e)
         {
-            // Size is 0x0 when we are on a modeless Form which is minimized.
-            if (!Size.IsEmpty && managedCefBrowserAdapter != null)
+            base.OnSizeChanged(e);
+            if (managedCefBrowserAdapter != null)
             {
-                managedCefBrowserAdapter.OnPaint(Handle);
+                ResizeBrowser();
+            }
+        }
+
+        private void ResizeBrowser()
+        {
+            if (IsBrowserInitialized)
+            {
+                managedCefBrowserAdapter.Resize(Width, Height);
             }
         }
     }
