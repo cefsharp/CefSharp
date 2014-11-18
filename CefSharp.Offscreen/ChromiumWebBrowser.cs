@@ -138,7 +138,9 @@ namespace CefSharp.Offscreen
                 var completionSource = new TaskCompletionSource<Bitmap>();
                 completionSource.SetResult(screenshot);
                 task = completionSource.Task;
-            } else {
+            }
+            else
+            {
                 // No existing screenshot, so wait for Chromium to render itself.
 
                 // A wait handle, so the task knows when NewScreenshot has fired.
