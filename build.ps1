@@ -4,7 +4,7 @@ param(
     [string] $Target = "nupkg",
     [Parameter(Position = 1)]
     [string] $Version = "37.0.0-pre01",
-	[Parameter(Position = 2)]
+    [Parameter(Position = 2)]
     [string] $AssemlyVersion = "37.0.0",
     [Parameter(Position = 3)]
     [string] $RedistVersion = "3.2062.1898"
@@ -17,12 +17,6 @@ $CefSln = Join-Path $WorkingDir 'CefSharp3.sln'
 if (Test-Path Env:\APPVEYOR_BUILD_VERSION)
 {
     $Version = $env:APPVEYOR_BUILD_VERSION
-}
-
-if (Test-Path Env:\APPVEYOR_PULL_REQUEST_NUMBER)
-{
-	Write-Diagnostic "Pr Number: $env:APPVEYOR_PULL_REQUEST_NUMBER"
-    $SkipNugetForPr = $true
 }
 
 # https://github.com/jbake/Powershell_scripts/blob/master/Invoke-BatchFile.ps1
@@ -224,11 +218,11 @@ function NugetPackageRestore
 
 function Nupkg
 {
-	if($SkipNugetForPr)
-	{
-		return;
-	}
-	
+    if($SkipNugetForPr)
+    {
+        return;
+    }
+    
     $nuget = Join-Path $WorkingDir .\nuget\NuGet.exe
     if(-not (Test-Path $nuget)) {
         Die "Please install nuget. More information available at: http://docs.nuget.org/docs/start-here/installing-nuget"
@@ -272,6 +266,17 @@ function WriteAssemblyVersion
     $NewString | Set-Content $Filename -Encoding UTF8
 }
 
+function CheckIfPrBuild()
+{
+    if (Test-Path Env:\APPVEYOR_PULL_REQUEST_NUMBER)
+    {
+        Write-Diagnostic "Pr Number: $env:APPVEYOR_PULL_REQUEST_NUMBER"
+        $SkipNugetForPr = $true
+    }
+}
+
+CheckIfPrBuild
+
 DownloadNuget
 
 NugetPackageRestore
@@ -280,7 +285,7 @@ WriteAssemblyVersion
 
 switch -Exact ($Target) {
     "nupkg"
-	{
+    {
         #VSX v120
         VSX v110
         Nupkg
