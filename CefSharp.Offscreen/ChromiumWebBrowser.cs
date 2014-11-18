@@ -21,20 +21,20 @@ namespace CefSharp.Offscreen
     /// </summary>
     public class ChromiumWebBrowser : IRenderWebBrowser
     {
-        ManagedCefBrowserAdapter managedCefBrowserAdapter;
+        private ManagedCefBrowserAdapter managedCefBrowserAdapter;
 
         /// <summary>Contains the last rendering from Chromium.</summary>
-        Bitmap bitmap;
+        private Bitmap bitmap;
 
         /// <summary>Need a lock because the caller may be asking for the bitmap
         /// while Chromium async rendering has returned on another thread.</summary>
-        object bitmapLock = new object();
+        private readonly object bitmapLock = new object();
 
         /// <summary>Size of the Chromium viewport.
         /// 
         /// This must be set to something other than 0x0 otherwise Chromium will not render,
         /// and the ScreenshotAsync task will deadlock.</summary>
-        System.Drawing.Size size = new System.Drawing.Size(1366, 768);
+        private System.Drawing.Size size = new System.Drawing.Size(1366, 768);
         
         /// <summary>
         /// Create a new offscreen Chromium with the initial URL of "about:blank".
@@ -80,7 +80,7 @@ namespace CefSharp.Offscreen
             {
                 if (size != value)
                 {
-                    this.size = value;
+                    size = value;
                     managedCefBrowserAdapter.WasResized();
                 }
             }
@@ -129,7 +129,7 @@ namespace CefSharp.Offscreen
         public Task<Bitmap> ScreenshotAsync()
         {
             // Try our luck and see if there is already a screenshot, to save us creating a new thread for nothing.
-            Bitmap screenshot = ScreenshotOrNull();
+            var screenshot = ScreenshotOrNull();
 
             Task<Bitmap> task;
 
@@ -225,7 +225,7 @@ namespace CefSharp.Offscreen
 
         public void Load(string url)
         {
-            this.Address = url;
+            Address = url;
             managedCefBrowserAdapter.LoadUrl(Address);
         }
 
@@ -324,7 +324,7 @@ namespace CefSharp.Offscreen
             {
                 if (bitmap != null)
                     bitmap.Dispose();
-                this.bitmap = null;
+                bitmap = null;
             }
         }
 
@@ -352,7 +352,7 @@ namespace CefSharp.Offscreen
                 {
                     var stride = bitmapInfo.Width * ((IRenderWebBrowser)this).BytesPerPixel;
 
-                    this.bitmap = BitmapSourceToBitmap2(Imaging.CreateBitmapSourceFromMemorySection(bitmapInfo.FileMappingHandle,
+                    bitmap = BitmapSourceToBitmap2(Imaging.CreateBitmapSourceFromMemorySection(bitmapInfo.FileMappingHandle,
                         bitmapInfo.Width, bitmapInfo.Height, PixelFormats.Bgra32, stride, 0));
 
                     if (NewScreenshot != null)
@@ -361,14 +361,18 @@ namespace CefSharp.Offscreen
             }
         }
 
-        /// <summary>http://stackoverflow.com/a/5709472/450141</summary>
-        static System.Drawing.Bitmap BitmapSourceToBitmap2(BitmapSource srs)
+        /// <summary>
+        /// http://stackoverflow.com/a/5709472/450141
+        /// </summary>
+        /// <param name="srs">BitmapSource</param>
+        /// <returns>Bitmap</returns>
+        private static Bitmap BitmapSourceToBitmap2(BitmapSource srs)
         {
-            Bitmap bmp = new Bitmap(
+            var bmp = new Bitmap(
               srs.PixelWidth,
               srs.PixelHeight,
               System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
-            BitmapData data = bmp.LockBits(
+            var data = bmp.LockBits(
               new Rectangle(System.Drawing.Point.Empty, bmp.Size),
               ImageLockMode.WriteOnly,
               System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
@@ -424,7 +428,7 @@ namespace CefSharp.Offscreen
 
         void IWebBrowserInternal.OnInitialized()
         {
-            this.IsBrowserInitialized = true;
+            IsBrowserInitialized = true;
 
             var handler = BrowserInitialized;
             if (handler != null)
@@ -463,24 +467,24 @@ namespace CefSharp.Offscreen
 
         void IWebBrowserInternal.SetIsLoading(bool isloading)
         {
-            this.IsLoading = isloading;
+            IsLoading = isloading;
         }
 
         void IWebBrowserInternal.SetNavState(bool canGoBack, bool canGoForward, bool canReload)
         {
-            this.CanGoBack = canGoBack;
-            this.CanGoForward = canGoForward;
-            this.CanReload = canReload;
+            CanGoBack = canGoBack;
+            CanGoForward = canGoForward;
+            CanReload = canReload;
         }
 
         void IWebBrowserInternal.SetTitle(string title)
         {
-            this.Title = title;
+            Title = title;
         }
 
         void IWebBrowserInternal.SetTooltipText(string tooltipText)
         {
-            this.TooltipText = tooltipText;
+            TooltipText = tooltipText;
         }
         #endregion
     }
