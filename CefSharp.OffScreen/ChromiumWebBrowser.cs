@@ -35,17 +35,18 @@ namespace CefSharp.OffScreen
         /// This must be set to something other than 0x0 otherwise Chromium will not render,
         /// and the ScreenshotAsync task will deadlock.</summary>
         private System.Drawing.Size size = new System.Drawing.Size(1366, 768);
-        
+
         /// <summary>
         /// Create a new offscreen Chromium with the initial URL of "about:blank".
         /// </summary>
+        /// <param name="address">Initial address (url) to load</param>
         /// <param name="browserSettings">The browser settings to use.  If null, the default settings are used.</param>
-        public ChromiumWebBrowser(BrowserSettings browserSettings = null)
+        public ChromiumWebBrowser(string address, BrowserSettings browserSettings = null)
         {
             Cef.AddDisposable(this);
 
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
-            managedCefBrowserAdapter.CreateOffscreenBrowser(browserSettings ?? new BrowserSettings());
+            managedCefBrowserAdapter.CreateOffscreenBrowser(browserSettings ?? new BrowserSettings(), address);
         }
 
         public void Dispose()
@@ -191,6 +192,16 @@ namespace CefSharp.OffScreen
         }
 
         public void CloseDevTools()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ReplaceMisspelling(string word)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddWordToDictionary(string word)
         {
             throw new NotImplementedException();
         }
