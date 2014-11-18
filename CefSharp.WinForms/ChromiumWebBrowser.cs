@@ -57,8 +57,6 @@ namespace CefSharp.WinForms
 
             //Redraw on Resize so Cef is notified and updates accordingly
             SetStyle(ControlStyles.ResizeRedraw, true);
-            //Fix for #522 - Enable DoubleBuffering
-            SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
 
             Dock = DockStyle.Fill;
         }
@@ -120,6 +118,11 @@ namespace CefSharp.WinForms
         public Task<JavascriptResponse> EvaluateScriptAsync(string script, TimeSpan? timeout)
         {
             return managedCefBrowserAdapter.EvaluateScriptAsync(script, timeout);
+        }
+
+        public void SendMouseWheelEvent(int x, int y, int deltaX, int deltaY)
+        {
+            managedCefBrowserAdapter.OnMouseWheel(x, y, deltaX, deltaY);
         }
 
         public event EventHandler<LoadErrorEventArgs> LoadError;

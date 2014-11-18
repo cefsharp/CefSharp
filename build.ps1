@@ -3,8 +3,8 @@ param(
     [Parameter(Position = 0)] 
     [string] $Target = "nupkg",
     [Parameter(Position = 1)]
-    [string] $Version = "37.0.0-pre02",
-	[Parameter(Position = 2)]
+    [string] $Version = "37.0.0-pre01",
+    [Parameter(Position = 2)]
     [string] $AssemlyVersion = "37.0.0",
     [Parameter(Position = 3)]
     [string] $RedistVersion = "3.2062.1898"
@@ -13,6 +13,11 @@ param(
 $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
 
 $CefSln = Join-Path $WorkingDir 'CefSharp3.sln'
+
+if (Test-Path Env:\APPVEYOR_BUILD_VERSION)
+{
+    $Version = $env:APPVEYOR_BUILD_VERSION
+}
 
 # https://github.com/jbake/Powershell_scripts/blob/master/Invoke-BatchFile.ps1
 function Invoke-BatchFile 
@@ -200,7 +205,7 @@ function VSX
 
 function NugetPackageRestore
 {
-    $nuget = Join-Path $env:LOCALAPPDATA .\nuget\NuGet.exe
+    $nuget = Join-Path $WorkingDir .\nuget\NuGet.exe
     if(-not (Test-Path $nuget)) {
         Die "Please install nuget. More information available at: http://docs.nuget.org/docs/start-here/installing-nuget"
     }
@@ -213,7 +218,14 @@ function NugetPackageRestore
 
 function Nupkg
 {
-    $nuget = Join-Path $env:LOCALAPPDATA .\nuget\NuGet.exe
+    if (Test-Path Env:\APPVEYOR_PULL_REQUEST_NUMBER)
+    {
+        Write-Diagnostic "Pr Number: $env:APPVEYOR_PULL_REQUEST_NUMBER"
+        Write-Diagnostic "Skipping Nupkg"
+        return
+    }
+    
+    $nuget = Join-Path $WorkingDir .\nuget\NuGet.exe
     if(-not (Test-Path $nuget)) {
         Die "Please install nuget. More information available at: http://docs.nuget.org/docs/start-here/installing-nuget"
     }
@@ -235,7 +247,7 @@ function Nupkg
 
 function DownloadNuget()
 {
-    $nuget = Join-Path $env:LOCALAPPDATA .\nuget\NuGet.exe
+    $nuget = Join-Path $WorkingDir .\nuget\NuGet.exe
     if(-not (Test-Path $nuget))
     {
         $client = New-Object System.Net.WebClient;
@@ -264,8 +276,8 @@ WriteAssemblyVersion
 
 switch -Exact ($Target) {
     "nupkg"
-	{
-        VSX v120
+    {
+        #VSX v120
         VSX v110
         Nupkg
     }
