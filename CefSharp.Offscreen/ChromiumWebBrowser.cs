@@ -355,8 +355,11 @@ namespace CefSharp.Offscreen
                     bitmap = BitmapSourceToBitmap2(Imaging.CreateBitmapSourceFromMemorySection(bitmapInfo.FileMappingHandle,
                         bitmapInfo.Width, bitmapInfo.Height, PixelFormats.Bgra32, stride, 0));
 
-                    if (NewScreenshot != null)
-                        NewScreenshot(this, EventArgs.Empty);
+                    var handler = NewScreenshot;
+                    if (handler != null)
+                    {
+                        handler(this, EventArgs.Empty);
+                    }
                 }
             }
         }
