@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using CefSharp.Example;
 
-namespace CefSharp.Offscreen.Example
+namespace CefSharp.OffScreen.Example
 {
     public class Program
     {

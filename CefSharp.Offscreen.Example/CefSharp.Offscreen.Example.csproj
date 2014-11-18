@@ -7,8 +7,8 @@
     <ProjectGuid>{A4DEB90C-A529-4A93-ACE3-226A39EFCB00}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CefSharp.Offscreen.Example</RootNamespace>
-    <AssemblyName>CefSharp.Offscreen.Example</AssemblyName>
+    <RootNamespace>CefSharp.OffScreen.Example</RootNamespace>
+    <AssemblyName>CefSharp.OffScreen.Example</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
@@ -68,9 +68,9 @@
       <Project>{a4394e7b-1155-43a6-989e-8ab72dddc9e4}</Project>
       <Name>CefSharp.Example</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CefSharp.Offscreen\CefSharp.Offscreen.csproj">
+    <ProjectReference Include="..\CefSharp.OffScreen\CefSharp.OffScreen.csproj">
       <Project>{483b158d-f57d-49d9-9046-31e6a73f8a53}</Project>
-      <Name>CefSharp.Offscreen</Name>
+      <Name>CefSharp.OffScreen</Name>
     </ProjectReference>
     <ProjectReference Include="..\CefSharp\CefSharp.csproj">
       <Project>{a55848cc-10e7-40cb-addb-04740b16dd43}</Project>

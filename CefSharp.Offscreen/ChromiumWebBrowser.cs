@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using CefSharp.Internals;
 
-namespace CefSharp.Offscreen
+namespace CefSharp.OffScreen
 {
     /// <summary>
     /// An offscreen instance of Chromium that you can use to take
