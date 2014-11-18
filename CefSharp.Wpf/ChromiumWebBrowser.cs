@@ -247,6 +247,20 @@ namespace CefSharp.Wpf
 
         #endregion ZoomLevel dependency property
 
+        #region AutoZoom dependency property
+
+        public bool AutoZoom
+        {
+            get { return (bool)GetValue(AutoZoomProperty); }
+            set { SetValue(AutoZoomProperty, value); }
+        }
+
+        public static readonly DependencyProperty AutoZoomProperty =
+            DependencyProperty.Register("AutoZoom", typeof (bool), typeof (ChromiumWebBrowser),
+                new UIPropertyMetadata(false));
+
+        #endregion
+
         #region ZoomLevelIncrement dependency property
 
         /// <summary>
@@ -1143,6 +1157,22 @@ namespace CefSharp.Wpf
             });
         }
 
+        private void DoAutoZoom()
+        {
+            UiThreadRunAsync(() =>
+            {
+                if (AutoZoom)
+                {
+                    ZoomLevel = CalculateZoomLevel(matrix.M11);
+                }
+            }, DispatcherPriority.Render);
+        }
+
+        public double CalculateZoomLevel(double scale)
+        {
+            return Math.Log(scale, 1.2);
+        }
+
         public void ShowDevTools()
         {
             managedCefBrowserAdapter.ShowDevTools();
@@ -1155,6 +1185,8 @@ namespace CefSharp.Wpf
 
         void IWebBrowserInternal.OnFrameLoadStart(string url, bool isMainFrame)
         {
+            DoAutoZoom();
+
             var handler = FrameLoadStart;
             if (handler != null)
             {
