@@ -221,8 +221,8 @@ function Nupkg
     if (Test-Path Env:\APPVEYOR_PULL_REQUEST_NUMBER)
     {
         Write-Diagnostic "Pr Number: $env:APPVEYOR_PULL_REQUEST_NUMBER"
-		Write-Diagnostic "Skipping Nupkg"
-		return
+        Write-Diagnostic "Skipping Nupkg"
+        return
     }
     
     $nuget = Join-Path $WorkingDir .\nuget\NuGet.exe
