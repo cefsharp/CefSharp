@@ -218,9 +218,11 @@ function NugetPackageRestore
 
 function Nupkg
 {
-    if($SkipNugetForPr)
+    if (Test-Path Env:\APPVEYOR_PULL_REQUEST_NUMBER)
     {
-        return;
+        Write-Diagnostic "Pr Number: $env:APPVEYOR_PULL_REQUEST_NUMBER"
+        Write-Diagnostic "Skipping Nupkg"
+        return
     }
     
     $nuget = Join-Path $WorkingDir .\nuget\NuGet.exe
@@ -265,17 +267,6 @@ function WriteAssemblyVersion
     
     $NewString | Set-Content $Filename -Encoding UTF8
 }
-
-function CheckIfPrBuild()
-{
-    if (Test-Path Env:\APPVEYOR_PULL_REQUEST_NUMBER)
-    {
-        Write-Diagnostic "Pr Number: $env:APPVEYOR_PULL_REQUEST_NUMBER"
-        $SkipNugetForPr = $true
-    }
-}
-
-CheckIfPrBuild
 
 DownloadNuget
 
