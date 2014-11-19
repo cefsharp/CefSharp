@@ -40,7 +40,11 @@ namespace CefSharp.WinForms.Example
             {
                 Dock = DockStyle.Fill
             };
-            
+
+            //This call isn't required for the sample to work. 
+            //It's sole purpose is to demonstrate that #553 has been resolved.
+            browser.CreateControl();
+
             tabPage.Controls.Add(browser);
 
             if (insertIndex == null)
