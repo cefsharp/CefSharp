@@ -347,15 +347,13 @@ namespace CefSharp.WinForms
         protected override void OnSizeChanged(EventArgs e)
         {
             base.OnSizeChanged(e);
-            if (managedCefBrowserAdapter != null)
-            {
-                ResizeBrowser();
-            }
+            
+            ResizeBrowser();
         }
 
         private void ResizeBrowser()
         {
-            if (IsBrowserInitialized)
+            if (IsBrowserInitialized && managedCefBrowserAdapter != null)
             {
                 managedCefBrowserAdapter.Resize(Width, Height);
             }
