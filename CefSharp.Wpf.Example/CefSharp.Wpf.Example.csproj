@@ -21,7 +21,7 @@
     <OldToolsVersion>3.5</OldToolsVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>1f156171</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>afb6365a</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -166,9 +166,9 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\cef.redist.x86.3.2171.1899-pre0\build\cef.redist.x86.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.redist.x86.3.2171.1899-pre0\build\cef.redist.x86.targets'))" />
-    <Error Condition="!Exists('..\packages\cef.redist.x64.3.2171.1899-pre0\build\cef.redist.x64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.redist.x64.3.2171.1899-pre0\build\cef.redist.x64.targets'))" />
+    <Error Condition="!Exists('..\packages\cef.redist.x64.3.2171.1902-pre0\build\cef.redist.x64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.redist.x64.3.2171.1902-pre0\build\cef.redist.x64.targets'))" />
+    <Error Condition="!Exists('..\packages\cef.redist.x86.3.2171.1902-pre0\build\cef.redist.x86.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.redist.x86.3.2171.1902-pre0\build\cef.redist.x86.targets'))" />
   </Target>
-  <Import Project="..\packages\cef.redist.x86.3.2171.1899-pre0\build\cef.redist.x86.targets" Condition="Exists('..\packages\cef.redist.x86.3.2171.1899-pre0\build\cef.redist.x86.targets')" />
-  <Import Project="..\packages\cef.redist.x64.3.2171.1899-pre0\build\cef.redist.x64.targets" Condition="Exists('..\packages\cef.redist.x64.3.2171.1899-pre0\build\cef.redist.x64.targets')" />
+  <Import Project="..\packages\cef.redist.x64.3.2171.1902-pre0\build\cef.redist.x64.targets" Condition="Exists('..\packages\cef.redist.x64.3.2171.1902-pre0\build\cef.redist.x64.targets')" />
+  <Import Project="..\packages\cef.redist.x86.3.2171.1902-pre0\build\cef.redist.x86.targets" Condition="Exists('..\packages\cef.redist.x86.3.2171.1902-pre0\build\cef.redist.x86.targets')" />
 </Project>
