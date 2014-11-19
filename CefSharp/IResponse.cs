@@ -2,24 +2,14 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using System.IO;
-
 namespace CefSharp
 {
-    public interface IRequestResponse
+    public interface IResponse
     {
-        // TODO: Improve these comments.
-
         /// cancel the request, return nothing
         void Cancel();
 
-        /// the current request
-        IRequest Request { get; }
-
         /// respond with redirection to the provided URL
         void Redirect(string url);
-
-        /// respond with data from Stream
-        void RespondWith(Stream stream, string mimeType);
     }
 }

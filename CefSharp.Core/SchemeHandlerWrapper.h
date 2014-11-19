@@ -29,8 +29,6 @@ namespace CefSharp
         int _contentLength;
         bool _closeStream;
         int SizeFromStream();
-        CefResponse::HeaderMap ToHeaderMap(NameValueCollection^ headers);
-
     public:
 
         SchemeHandlerWrapper(ISchemeHandler^ handler) : _handler(handler)
@@ -46,6 +44,8 @@ namespace CefSharp
         virtual void GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl);
         virtual bool ReadResponse(void* data_out, int bytes_to_read, int& bytes_read, CefRefPtr<CefCallback> callback);
         virtual void Cancel();
+
+        static CefResponse::HeaderMap ToHeaderMap(NameValueCollection^ headers);
 
         IMPLEMENT_REFCOUNTING(SchemeHandlerWrapper);
     };

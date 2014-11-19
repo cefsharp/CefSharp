@@ -41,9 +41,6 @@
     <ClCompile Include="Internals\CefWebPluginInfoWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Internals\RequestResponse.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Internals\StringVisitor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -113,9 +110,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Internals\CefWebPluginInfoWrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Internals\RequestResponse.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Internals\StringVisitor.h">

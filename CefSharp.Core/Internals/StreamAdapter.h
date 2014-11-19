@@ -26,6 +26,7 @@ namespace CefSharp
             virtual int Seek(int64 offset, int whence);
             virtual int64 Tell();
             virtual int Eof();
+            virtual bool MayBlock();
 
             IMPLEMENT_REFCOUNTING(StreamAdapter);
         };

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Text;
 
 namespace CefSharp.Example
 {
@@ -21,17 +19,20 @@ namespace CefSharp.Example
             // TODO: Add your own code here for handling scenarios where a plugin crashed, for one reason or another.
         }
 
-        bool IRequestHandler.OnBeforeResourceLoad(IWebBrowser browser, IRequestResponse requestResponse)
+        bool IRequestHandler.OnBeforeResourceLoad(IWebBrowser browser, IRequest request, IResponse response)
         {
-            IRequest request = requestResponse.Request;
+            return false;
+        }
+
+        public ResourceHandler GetResourceHandler(IWebBrowser browser, IRequest request)
+        {
             if (request.Url.StartsWith(ResourceUrl.ToString()))
             {
-                Stream resourceStream = new MemoryStream(Encoding.UTF8.GetBytes(
-                    "<html><body><h1>Success</h1><p>This document is loaded from a System.IO.Stream</p></body></html>"));
-                requestResponse.RespondWith(resourceStream, "text/html");
+                const string responseBody = "<html><body><h1>Success</h1><p>This document is loaded from a System.IO.Stream</p></body></html>";
+                return ResourceHandler.FromString(responseBody);
             }
 
-            return false;
+            return null;
         }
 
         bool IRequestHandler.GetAuthCredentials(IWebBrowser browser, bool isProxy, string host, int port, string realm, string scheme, ref string username, ref string password)
