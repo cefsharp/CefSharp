@@ -6,7 +6,8 @@ using System.ServiceModel;
 
 namespace CefSharp.Internals
 {
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession)]
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode = ConcurrencyMode.Multiple)]
+    [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Multiple)]
     public class BrowserProcessService : IBrowserProcess
     {
         private readonly JavascriptObjectRepository javascriptObjectRepository;
