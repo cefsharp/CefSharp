@@ -8,6 +8,7 @@ using TaskExtensions = CefSharp.Internals.TaskExtensions;
 
 namespace CefSharp.BrowserSubprocess
 {
+    [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Multiple)]
     public class CefRenderProcess : CefSubProcess, IRenderProcess
     {
         private int? parentBrowserId;
