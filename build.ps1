@@ -19,6 +19,11 @@ if (Test-Path Env:\APPVEYOR_BUILD_VERSION)
     $Version = $env:APPVEYOR_BUILD_VERSION
 }
 
+if (Test-Path Env:\APPVEYOR_REPO_TAG)
+{
+    $Version = "$env:APPVEYOR_REPO_BRANCH".Substring(1)  # trim leading "v"
+}
+
 # https://github.com/jbake/Powershell_scripts/blob/master/Invoke-BatchFile.ps1
 function Invoke-BatchFile 
 {
