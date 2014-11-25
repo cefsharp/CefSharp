@@ -208,7 +208,17 @@ namespace CefSharp.WinForms
             }
         }
 
-        void IWebBrowserInternal.OnTakeFocus(bool next)
+        void IWinFormsWebBrowser.OnGotFocus()
+        {
+            
+        }
+
+        bool IWinFormsWebBrowser.OnSetFocus(CefFocusSource source)
+        {
+            return false;
+        }
+
+        void IWinFormsWebBrowser.OnTakeFocus(bool next)
         {
             SelectNextControl(this, next, true, true, true);
         }
