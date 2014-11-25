@@ -375,31 +375,39 @@ namespace CefSharp
 
         void ClientAdapter::OnGotFocus(CefRefPtr<CefBrowser> browser)
         {
-            auto winFormsControl = dynamic_cast<IWinFormsWebBrowser^>((IWebBrowserInternal^)_browserControl);
-            if (winFormsControl != nullptr)
-            {
-                winFormsControl->OnGotFocus();
-            }
+			IFocusHandler^ handler = _browserControl->FocusHandler;
+
+            if (handler == nullptr)
+			{
+				return;
+			}
+
+			handler->OnGotFocus();
         }
 
-        bool ClientAdapter::OnSetFocus(CefRefPtr<CefBrowser> browser,  FocusSource source)
+        bool ClientAdapter::OnSetFocus(CefRefPtr<CefBrowser> browser, FocusSource source)
         {
-            auto winFormsControl = dynamic_cast<IWinFormsWebBrowser^>((IWebBrowserInternal^)_browserControl);
-            if (winFormsControl == nullptr)
-            {
-                return false;
-            }
+			IFocusHandler^ handler = _browserControl->FocusHandler;
 
-            return winFormsControl->OnSetFocus((CefFocusSource)source);
+            if (handler == nullptr)
+			{
+				// Allow the focus to be set by default.
+				return false;
+			}
+
+			return handler->OnSetFocus((CefFocusSource)source);
         }
 
         void ClientAdapter::OnTakeFocus(CefRefPtr<CefBrowser> browser, bool next)
         {
-            auto winFormsControl = dynamic_cast<IWinFormsWebBrowser^>((IWebBrowserInternal^)_browserControl);
-            if (winFormsControl != nullptr)
-            {
-                winFormsControl->OnTakeFocus(next);
-            }
+			IFocusHandler^ handler = _browserControl->FocusHandler;
+
+            if (handler == nullptr)
+			{
+				return;
+			}
+
+			handler->OnTakeFocus(next);
         }
 
         bool ClientAdapter::OnJSDialog(CefRefPtr<CefBrowser> browser, const CefString& origin_url, const CefString& accept_lang,

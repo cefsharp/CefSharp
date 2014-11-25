@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CefFileDialogMode.cs" />
+    <Compile Include="IFocusHandler.cs" />
     <Compile Include="IsBrowserInitializedChangedEventArgs.cs" />
     <Compile Include="CefTerminationStatus.cs" />
     <Compile Include="IDialogHandler.cs" />

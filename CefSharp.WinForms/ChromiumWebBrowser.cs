@@ -26,6 +26,7 @@ namespace CefSharp.WinForms
         public IDownloadHandler DownloadHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
         public IMenuHandler MenuHandler { get; set; }
+        public IFocusHandler FocusHandler { get; set; }
 
         public bool CanGoForward { get; private set; }
         public bool CanGoBack { get; private set; }
@@ -206,21 +207,6 @@ namespace CefSharp.WinForms
             {
                 handler(this, new FrameLoadEndEventArgs(url, isMainFrame, httpStatusCode));
             }
-        }
-
-        void IWinFormsWebBrowser.OnGotFocus()
-        {
-            
-        }
-
-        bool IWinFormsWebBrowser.OnSetFocus(CefFocusSource source)
-        {
-            return false;
-        }
-
-        void IWinFormsWebBrowser.OnTakeFocus(bool next)
-        {
-            SelectNextControl(this, next, true, true, true);
         }
 
         void IWebBrowserInternal.OnConsoleMessage(string message, string source, int line)

@@ -9,13 +9,13 @@ namespace CefSharp
 	/// </summary>
 	public enum CefFocusSource
 	{
-		///
-		// The source is explicit navigation via the API (LoadURL(), etc).
-		///
+		/// <summary>
+        /// The source is explicit navigation via the API (LoadURL(), etc).
+		/// </summary>
 		FocusSourceNavigation = 0,
-		///
-		// The source is a system-generated focus event.
-		///
+		/// <summary>
+        /// The source is a system-generated focus event.
+		/// </summary>
 		FocusSourceSystem
 	}
 }

@@ -70,6 +70,7 @@
     <Compile Include="BrowserTabUserControl.Designer.cs">
       <DependentUpon>BrowserTabUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="FocusHandler.cs" />
     <Compile Include="MenuHandler.cs" />
     <Compile Include="Minimal\SimpleBrowserForm.cs">
       <SubType>Form</SubType>
