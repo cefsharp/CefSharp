@@ -60,6 +60,35 @@ namespace CefSharp.Internals
             }).Unwrap();
         }
 
+        protected override void OnClose(TimeSpan timeout)
+        {
+            var task = operationContextTaskCompletionSource.Task;
+
+            CloseChannel(task);
+
+            base.OnClose(timeout);
+        }
+
+        private void CloseChannel(Task<OperationContext> task)
+        {
+            try
+            {
+                if (task.IsCompleted)
+                {
+                    var context = task.Result;
+
+                    if (context.Channel != null && context.Channel.State == CommunicationState.Opened)
+                    {
+                        context.Channel.Close();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
         protected override void OnClosed()
         {
             base.OnClosed();
@@ -75,6 +104,11 @@ namespace CefSharp.Internals
             binding.SendTimeout = TimeSpan.MaxValue;
             binding.OpenTimeout = TimeSpan.MaxValue;
             binding.CloseTimeout = TimeSpan.MaxValue;
+            binding.ReaderQuotas.MaxStringContentLength = int.MaxValue;
+            binding.ReaderQuotas.MaxArrayLength = int.MaxValue;
+            binding.ReaderQuotas.MaxDepth = int.MaxValue;
+            binding.ReaderQuotas.MaxNameTableCharCount = int.MaxValue;
+            binding.ReaderQuotas.MaxBytesPerRead = int.MaxValue;
 
             // Ensure binding connection stays open indefinitely until closed
             var customBinding = new CustomBinding(binding);

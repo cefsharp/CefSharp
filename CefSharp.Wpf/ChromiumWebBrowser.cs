@@ -471,7 +471,7 @@ namespace CefSharp.Wpf
 
         private void CreateOffscreenBrowserWhenActualSizeChanged()
         {
-            if (browserCreated)
+            if (browserCreated || System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
             {
                 return;
             }
