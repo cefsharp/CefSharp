@@ -1125,11 +1125,6 @@ namespace CefSharp.Wpf
             }
         }
 
-        void IWebBrowserInternal.OnTakeFocus(bool next)
-        {
-            throw new NotImplementedException();
-        }
-
         void IWebBrowserInternal.OnConsoleMessage(string message, string source, int line)
         {
             var handler = ConsoleMessage;
