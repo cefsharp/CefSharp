@@ -24,6 +24,7 @@ namespace CefSharp.WinForms.Example
             Browser = browser;
 
             browser.MenuHandler = new MenuHandler();
+            browser.RequestHandler = new RequestHandler();
             browser.NavStateChanged += OnBrowserNavStateChanged;
             browser.ConsoleMessage += OnBrowserConsoleMessage;
             browser.TitleChanged += OnBrowserTitleChanged;

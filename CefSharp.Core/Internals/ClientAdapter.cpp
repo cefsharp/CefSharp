@@ -207,6 +207,23 @@ namespace CefSharp
             return handler->OnBeforeBrowse(_browserControl, wrapper, isRedirect);
         }
 
+        bool ClientAdapter::OnCertificateError(cef_errorcode_t cert_error, const CefString& request_url, CefRefPtr<CefAllowCertificateErrorCallback> callback)
+        {
+            IRequestHandler^ handler = _browserControl->RequestHandler;
+            if (handler == nullptr)
+            {
+                return false;
+            }
+
+            if (handler->OnCertificateError(_browserControl, (CefErrorCode)cert_error, StringUtils::ToClr(request_url)))
+            {
+                callback->Continue(true);
+                return true;
+            }
+
+            return false;
+        }
+
         // CEF3 API: public virtual bool OnBeforePluginLoad( CefRefPtr< CefBrowser > browser, const CefString& url, const CefString& policy_url, CefRefPtr< CefWebPluginInfo > info );
         // ---
         // return value:

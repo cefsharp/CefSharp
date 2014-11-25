@@ -14,6 +14,11 @@ namespace CefSharp.Example
             return false;
         }
 
+        bool IRequestHandler.OnCertificateError(IWebBrowser browser, CefErrorCode errorCode, string requestUrl)
+        {
+            return false;
+        }
+
         void IRequestHandler.OnPluginCrashed(IWebBrowser browser, string pluginPath)
         {
             // TODO: Add your own code here for handling scenarios where a plugin crashed, for one reason or another.
