@@ -35,7 +35,7 @@ namespace CefSharp.WinForms.Example
             // or because they pressed Shift+Tab on the first link/field (in which case 'next' is false).
             
             // Here we always focus on the address bar.
-            urlTextBox.Focus();
+            urlTextBox.Control.BeginInvoke(new MethodInvoker(() => urlTextBox.Focus()));
         }
     }
 }
