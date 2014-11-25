@@ -977,15 +977,19 @@ namespace CefSharp.Wpf
                 throw new InvalidOperationException("Cef::Initialize() failed");
             }
 
-            // TODO: Consider making the delay here configurable.
-            tooltipTimer = new DispatcherTimer(
-                TimeSpan.FromSeconds(0.5),
-                DispatcherPriority.Render,
-                OnTooltipTimerTick,
-                Dispatcher
-                );
+            //Added null check -> binding-triggered changes of Address will lead to a nullref after Dispose has been called.
+            if (managedCefBrowserAdapter != null)
+            {
+                // TODO: Consider making the delay here configurable.
+                tooltipTimer = new DispatcherTimer(
+                    TimeSpan.FromSeconds(0.5),
+                    DispatcherPriority.Render,
+                    OnTooltipTimerTick,
+                    Dispatcher
+                    );
 
-            managedCefBrowserAdapter.LoadUrl(url);
+                managedCefBrowserAdapter.LoadUrl(url);
+            }
         }
 
         public void LoadHtml(string html, string url)
