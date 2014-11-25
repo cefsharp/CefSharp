@@ -25,6 +25,11 @@ namespace CefSharp
             _setter = setter;
         }
 
+        void DeleteGetterSetter(){
+            delete _getter;
+            delete _setter;
+        }
+
         ~JavascriptPropertyHandler()
         {
             delete _getter;

@@ -9,6 +9,7 @@
 
 #include "JavascriptMethodWrapper.h"
 #include "JavascriptPropertyWrapper.h"
+#include "JavascriptPropertyHandler.h"
 
 using namespace System::Runtime::Serialization;
 using namespace System::Linq;
@@ -43,7 +44,17 @@ namespace CefSharp
         ~JavascriptObjectWrapper()
         {
             V8Value = nullptr;
+            JsPropertyHandler->DeleteGetterSetter();
             JsPropertyHandler = nullptr;
+
+            for each (JavascriptMethodWrapper^ var in _wrappedMethods)
+            {
+                delete var;
+            }
+            for each (JavascriptPropertyWrapper^ var in _wrappedProperties)
+            {
+                delete var;
+            }
         }
 
         void Bind();

@@ -40,6 +40,10 @@ namespace CefSharp
         ~JavascriptRootObjectWrapper()
         {
             V8Value = nullptr;
+            for each (JavascriptObjectWrapper^ var in _wrappedObjects)
+            {
+                delete var;
+            }
         }
 
         void Bind()
