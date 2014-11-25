@@ -40,6 +40,13 @@ namespace CefSharp
         event EventHandler<LoadErrorEventArgs> LoadError;
 
         /// <summary>
+        /// Event handler that will get called when the Navigation state has changed (Maps to OnLoadingStateChange in Cef).
+        /// This event will be fired twice. Once when loading is initiated either programmatically or
+        /// by user action, and once when loading is terminated due to completion, cancellation of failure. 
+        /// </summary>
+        event EventHandler<NavStateChangedEventArgs> NavStateChanged;
+
+        /// <summary>
         /// Loads the specified URL.
         /// </summary>
         /// <param name="url">The URL to be loaded.</param>

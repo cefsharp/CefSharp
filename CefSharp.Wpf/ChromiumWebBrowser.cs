@@ -57,6 +57,7 @@ namespace CefSharp.Wpf
         public event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
         public event EventHandler<FrameLoadEndEventArgs> FrameLoadEnd;
         public event EventHandler<LoadErrorEventArgs> LoadError;
+        public event EventHandler<NavStateChangedEventArgs> NavStateChanged;
 
         public ICommand BackCommand { get; private set; }
         public ICommand ForwardCommand { get; private set; }
@@ -677,6 +678,12 @@ namespace CefSharp.Wpf
 
                 RaiseCommandsCanExecuteChanged();
             });
+
+            var handler = NavStateChanged;
+            if (handler != null)
+            {
+                handler(this, new NavStateChangedEventArgs(canGoBack, canGoForward, canReload));
+            }
         }
 
         private void RaiseCommandsCanExecuteChanged()

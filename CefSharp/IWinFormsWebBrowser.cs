@@ -10,7 +10,6 @@ namespace CefSharp
     // so the dependency would go the wrong way... Has to be here for the time being.
     public interface IWinFormsWebBrowser : IWebBrowser
     {
-        event EventHandler<NavStateChangedEventArgs> NavStateChanged;
         event EventHandler<TitleChangedEventArgs> TitleChanged;
         event EventHandler<AddressChangedEventArgs> AddressChanged;
         void Undo();
