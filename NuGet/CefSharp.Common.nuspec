@@ -22,10 +22,10 @@
     <file src="..\x64\Release\CefSharp.Core.dll" target="CefSharp\x64"/>
     <file src="..\CefSharp\bin\x86\Release\CefSharp.dll" target="CefSharp\x86"/>
     <file src="..\CefSharp\bin\x64\Release\CefSharp.dll" target="CefSharp\x64"/>
-	<file src="..\CefSharp.BrowserSubprocess\bin\x86\Release\CefSharp.BrowserSubprocess.Core.dll" target="CefSharp\x86"/>
+    <file src="..\CefSharp.BrowserSubprocess\bin\x86\Release\CefSharp.BrowserSubprocess.Core.dll" target="CefSharp\x86"/>
     <file src="..\CefSharp.BrowserSubprocess\bin\x86\Release\CefSharp.BrowserSubprocess.exe" target="CefSharp\x86"/>
     <file src="..\CefSharp.BrowserSubprocess\bin\x64\Release\CefSharp.BrowserSubprocess.Core.dll" target="CefSharp\x64"/>
-	<file src="..\CefSharp.BrowserSubprocess\bin\x64\Release\CefSharp.BrowserSubprocess.exe" target="CefSharp\x64"/>
+    <file src="..\CefSharp.BrowserSubprocess\bin\x64\Release\CefSharp.BrowserSubprocess.exe" target="CefSharp\x64"/>
 
     <file src="..\Win32\Release\CefSharp.Core.xml" target="CefSharp\x86"/>
     <file src="..\x64\Release\CefSharp.Core.xml" target="CefSharp\x64"/>
