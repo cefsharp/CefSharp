@@ -14,9 +14,27 @@ $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
 
 $CefSln = Join-Path $WorkingDir 'CefSharp3.sln'
 
+function Write-Diagnostic 
+{
+    param(
+        [Parameter(Position = 0, Mandatory = $true, ValueFromPipeline = $true)]
+        [string] $Message
+    )
+
+    Write-Host
+    Write-Host $Message -ForegroundColor Green
+    Write-Host
+}
+
 if (Test-Path Env:\APPVEYOR_BUILD_VERSION)
 {
     $Version = $env:APPVEYOR_BUILD_VERSION
+}
+
+if ($env:APPVEYOR_REPO_TAG -eq "True")
+{
+    $Version = "$env:APPVEYOR_REPO_BRANCH".Substring(1)  # trim leading "v"
+    Write-Diagnostic "Setting version based on tag to $Version"    
 }
 
 # https://github.com/jbake/Powershell_scripts/blob/master/Invoke-BatchFile.ps1
@@ -41,18 +59,6 @@ function Invoke-BatchFile
    }  
 
    Remove-Item $tempFile
-}
-
-function Write-Diagnostic 
-{
-    param(
-        [Parameter(Position = 0, Mandatory = $true, ValueFromPipeline = $true)]
-        [string] $Message
-    )
-
-    Write-Host
-    Write-Host $Message -ForegroundColor Green
-    Write-Host
 }
 
 function Die 
