@@ -6,6 +6,7 @@ using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CefSharp.Internals;
+using CefSharp.WinForms.Internals;
 
 namespace CefSharp.WinForms
 {
@@ -356,31 +357,5 @@ namespace CefSharp.WinForms
                 managedCefBrowserAdapter.Resize(Width, Height);
             }
         }
-
-        #region DefaultFocusHandler
-        private class DefaultFocusHandler : IFocusHandler
-        {
-            private ChromiumWebBrowser browser;
-
-            public DefaultFocusHandler(ChromiumWebBrowser browser)
-            {
-                this.browser = browser;
-            }
-
-            public void OnGotFocus()
-            {
-            }
-
-            public bool OnSetFocus(CefFocusSource source)
-            {
-                return false;
-            }
-
-            public void OnTakeFocus(bool next)
-            {
-                browser.BeginInvoke(new MethodInvoker(() => browser.SelectNextControl(browser, next, true, true, true)));
-            }
-        }
-        #endregion
     }
 }
