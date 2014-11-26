@@ -51,6 +51,7 @@ namespace CefSharp.Wpf
         public IDownloadHandler DownloadHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
         public IMenuHandler MenuHandler { get; set; }
+        public IFocusHandler FocusHandler { get; set; }
 
         public event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
         public event EventHandler<StatusMessageEventArgs> StatusMessage;
@@ -1130,11 +1131,6 @@ namespace CefSharp.Wpf
             {
                 handler(this, new FrameLoadEndEventArgs(url, isMainFrame, httpStatusCode));
             }
-        }
-
-        void IWebBrowserInternal.OnTakeFocus(bool next)
-        {
-            throw new NotImplementedException();
         }
 
         void IWebBrowserInternal.OnConsoleMessage(string message, string source, int line)

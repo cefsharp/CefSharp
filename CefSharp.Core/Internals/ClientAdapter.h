@@ -106,6 +106,8 @@ namespace CefSharp
                 CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model) OVERRIDE;
 
             // CefFocusHandler
+            virtual DECL void OnGotFocus(CefRefPtr<CefBrowser> browser) OVERRIDE;
+            virtual DECL bool OnSetFocus(CefRefPtr<CefBrowser> browser, FocusSource source) OVERRIDE;
             virtual DECL void OnTakeFocus(CefRefPtr<CefBrowser> browser, bool next) OVERRIDE;
 
             // CefKeyboardHandler

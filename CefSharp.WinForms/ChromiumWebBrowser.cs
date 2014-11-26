@@ -26,6 +26,7 @@ namespace CefSharp.WinForms
         public IDownloadHandler DownloadHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
         public IMenuHandler MenuHandler { get; set; }
+        public IFocusHandler FocusHandler { get; set; }
 
         public bool CanGoForward { get; private set; }
         public bool CanGoBack { get; private set; }
@@ -54,6 +55,8 @@ namespace CefSharp.WinForms
             Address = address;
 
             Dock = DockStyle.Fill;
+
+            FocusHandler = new DefaultFocusHandler(this);
         }
 
         protected override void Dispose(bool disposing)
@@ -208,11 +211,6 @@ namespace CefSharp.WinForms
             }
         }
 
-        void IWebBrowserInternal.OnTakeFocus(bool next)
-        {
-            SelectNextControl(this, next, true, true, true);
-        }
-
         void IWebBrowserInternal.OnConsoleMessage(string message, string source, int line)
         {
             var handler = ConsoleMessage;
@@ -358,5 +356,31 @@ namespace CefSharp.WinForms
                 managedCefBrowserAdapter.Resize(Width, Height);
             }
         }
+
+        #region DefaultFocusHandler
+        private class DefaultFocusHandler : IFocusHandler
+        {
+            private ChromiumWebBrowser browser;
+
+            public DefaultFocusHandler(ChromiumWebBrowser browser)
+            {
+                this.browser = browser;
+            }
+
+            public void OnGotFocus()
+            {
+            }
+
+            public bool OnSetFocus(CefFocusSource source)
+            {
+                return false;
+            }
+
+            public void OnTakeFocus(bool next)
+            {
+                browser.BeginInvoke(new MethodInvoker(() => browser.SelectNextControl(browser, next, true, true, true)));
+            }
+        }
+        #endregion
     }
 }

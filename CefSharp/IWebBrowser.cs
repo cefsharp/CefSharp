@@ -118,6 +118,11 @@ namespace CefSharp
         IMenuHandler MenuHandler { get; set; }
 
         /// <summary>
+        /// Implement <see cref="IFocusHandler"/> and assign to handle events related to the browser component's focus
+        /// </summary>
+        IFocusHandler FocusHandler { get; set; }
+
+        /// <summary>
         /// A flag that indicates whether the WebBrowser is initialized (true) or not (false).
         /// </summary>
         /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
