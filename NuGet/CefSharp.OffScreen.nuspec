@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>CefSharp.OffScreen</id>
+    <version>$version$</version>
+    <authors>The CefSharp Authors</authors>
+    <owners>The CefSharp Authors</owners>
+    <projectUrl>https://github.com/cefsharp/cefsharp</projectUrl>
+    <licenseUrl>https://raw.github.com/cefsharp/CefSharp/master/LICENSE</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>The CefSharp Chromium-based browser component (OffScreen control).</description>
+    <tags>osr chrome browser</tags>
+    <copyright>Copyright © 2010-2014 The CefSharp Authors</copyright>
+    <dependencies>
+      <dependency id="CefSharp.Common" version="[$version$]" />
+    </dependencies>
+  </metadata>
+  <files>
+    <!-- Cannot put these inside lib\net40 etc, since there are both x86 and x64 versions which we must distinguish between. We
+         solve this using a .props file instead. -->
+    <file src="..\CefSharp.OffScreen\bin\x86\Release\CefSharp.OffScreen.dll" target="CefSharp\x86" />
+    <file src="..\CefSharp.OffScreen\bin\x64\Release\CefSharp.OffScreen.dll" target="CefSharp\x64" />
+
+    <file src="..\CefSharp.OffScreen\bin\x64\Release\CefSharp.OffScreen.xml" target="CefSharp\x64" />
+    <file src="..\CefSharp.OffScreen\bin\x64\Release\CefSharp.OffScreen.xml" target="CefSharp\x86" />
+    <!-- Long shot, to see if it's here NuDoq.org looks for it, trial and error at it's best -->
+    <file src="..\CefSharp.OffScreen\bin\x64\Release\CefSharp.OffScreen.xml" target="lib" />
+
+    <file src="CefSharp.OffScreen.props" target="build" />
+  </files>
+</package>
