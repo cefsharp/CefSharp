@@ -62,6 +62,8 @@ namespace CefSharp.WinForms
 
         protected override void Dispose(bool disposing)
         {
+            FocusHandler = null;
+
             Cef.RemoveDisposable(this);
 
             if (disposing)
