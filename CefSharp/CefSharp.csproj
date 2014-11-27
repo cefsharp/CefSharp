@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CefFileDialogMode.cs" />
+    <Compile Include="IFocusHandler.cs" />
     <Compile Include="IsBrowserInitializedChangedEventArgs.cs" />
     <Compile Include="CefTerminationStatus.cs" />
     <Compile Include="IDialogHandler.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="TransitionType.cs" />
     <Compile Include="NavStateChangedEventArgs.cs" />
     <Compile Include="ICompletionHandler.cs" />
+    <Compile Include="CefFocusSource.cs" />
     <Compile Include="Internals\BitmapInfo.cs" />
     <Compile Include="Internals\IBrowserProcess.cs" />
     <Compile Include="Internals\JavascriptMethod.cs" />

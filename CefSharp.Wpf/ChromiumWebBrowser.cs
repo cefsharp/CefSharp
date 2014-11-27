@@ -51,12 +51,14 @@ namespace CefSharp.Wpf
         public IDownloadHandler DownloadHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
         public IMenuHandler MenuHandler { get; set; }
+        public IFocusHandler FocusHandler { get; set; }
 
         public event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
         public event EventHandler<StatusMessageEventArgs> StatusMessage;
         public event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
         public event EventHandler<FrameLoadEndEventArgs> FrameLoadEnd;
         public event EventHandler<LoadErrorEventArgs> LoadError;
+        public event EventHandler<NavStateChangedEventArgs> NavStateChanged;
 
         /// <summary>
         /// Raised before each render cycle, and allows you to adjust the bitmap before it's rendered/applied
@@ -683,6 +685,12 @@ namespace CefSharp.Wpf
 
                 RaiseCommandsCanExecuteChanged();
             });
+
+            var handler = NavStateChanged;
+            if (handler != null)
+            {
+                handler(this, new NavStateChangedEventArgs(canGoBack, canGoForward, canReload));
+            }
         }
 
         private void RaiseCommandsCanExecuteChanged()
@@ -1126,11 +1134,6 @@ namespace CefSharp.Wpf
             {
                 handler(this, new FrameLoadEndEventArgs(url, isMainFrame, httpStatusCode));
             }
-        }
-
-        void IWebBrowserInternal.OnTakeFocus(bool next)
-        {
-            throw new NotImplementedException();
         }
 
         void IWebBrowserInternal.OnConsoleMessage(string message, string source, int line)

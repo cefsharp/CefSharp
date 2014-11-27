@@ -208,6 +208,23 @@ namespace CefSharp
             return handler->OnBeforeBrowse(_browserControl, wrapper, isRedirect);
         }
 
+        bool ClientAdapter::OnCertificateError(cef_errorcode_t cert_error, const CefString& request_url, CefRefPtr<CefAllowCertificateErrorCallback> callback)
+        {
+            IRequestHandler^ handler = _browserControl->RequestHandler;
+            if (handler == nullptr)
+            {
+                return false;
+            }
+
+            if (handler->OnCertificateError(_browserControl, (CefErrorCode)cert_error, StringUtils::ToClr(request_url)))
+            {
+                callback->Continue(true);
+                return true;
+            }
+
+            return false;
+        }
+
         // CEF3 API: public virtual bool OnBeforePluginLoad( CefRefPtr< CefBrowser > browser, const CefString& url, const CefString& policy_url, CefRefPtr< CefWebPluginInfo > info );
         // ---
         // return value:
@@ -377,9 +394,41 @@ namespace CefSharp
             }
         }
 
+        void ClientAdapter::OnGotFocus(CefRefPtr<CefBrowser> browser)
+        {
+            IFocusHandler^ handler = _browserControl->FocusHandler;
+
+            if (handler == nullptr)
+            {
+                return;
+            }
+
+            handler->OnGotFocus();
+        }
+
+        bool ClientAdapter::OnSetFocus(CefRefPtr<CefBrowser> browser, FocusSource source)
+        {
+            IFocusHandler^ handler = _browserControl->FocusHandler;
+
+            if (handler == nullptr)
+            {
+                // Allow the focus to be set by default.
+                return false;
+            }
+
+            return handler->OnSetFocus((CefFocusSource)source);
+        }
+
         void ClientAdapter::OnTakeFocus(CefRefPtr<CefBrowser> browser, bool next)
         {
-            _browserControl->OnTakeFocus(next);
+            IFocusHandler^ handler = _browserControl->FocusHandler;
+
+            if (handler == nullptr)
+            {
+                return;
+            }
+
+            handler->OnTakeFocus(next);
         }
 
         bool ClientAdapter::OnJSDialog(CefRefPtr<CefBrowser> browser, const CefString& origin_url, const CefString& accept_lang,

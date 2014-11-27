@@ -6,6 +6,7 @@ using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CefSharp.Internals;
+using CefSharp.WinForms.Internals;
 
 namespace CefSharp.WinForms
 {
@@ -26,6 +27,7 @@ namespace CefSharp.WinForms
         public IDownloadHandler DownloadHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
         public IMenuHandler MenuHandler { get; set; }
+        public IFocusHandler FocusHandler { get; set; }
 
         public bool CanGoForward { get; private set; }
         public bool CanGoBack { get; private set; }
@@ -54,10 +56,14 @@ namespace CefSharp.WinForms
             Address = address;
 
             Dock = DockStyle.Fill;
+
+            FocusHandler = new DefaultFocusHandler(this);
         }
 
         protected override void Dispose(bool disposing)
         {
+            FocusHandler = null;
+
             Cef.RemoveDisposable(this);
 
             if (disposing)
@@ -206,11 +212,6 @@ namespace CefSharp.WinForms
             {
                 handler(this, new FrameLoadEndEventArgs(url, isMainFrame, httpStatusCode));
             }
-        }
-
-        void IWebBrowserInternal.OnTakeFocus(bool next)
-        {
-            SelectNextControl(this, next, true, true, true);
         }
 
         void IWebBrowserInternal.OnConsoleMessage(string message, string source, int line)

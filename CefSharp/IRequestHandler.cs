@@ -19,6 +19,15 @@ namespace CefSharp
         bool OnBeforeBrowse(IWebBrowser browser, IRequest request, bool isRedirect);
 
         /// <summary>
+        /// Called when a certificate error is thrown.
+        /// </summary>
+        /// <param name="browser">the browser object</param>
+        /// <param name="errorCode">the error code for this invalid certificate</param>
+        /// <param name="requestUrl">the url of the request for the invalid certificate</param>
+        /// <returns>Return true to allow the invalid certificate and continue the request.</returns>
+        bool OnCertificateError(IWebBrowser browser, CefErrorCode errorCode, string requestUrl);
+
+        /// <summary>
         /// Called when a plugin has crashed
         /// </summary>
         /// <param name="browser">the browser object</param>

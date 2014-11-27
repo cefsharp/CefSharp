@@ -177,6 +177,7 @@ namespace CefSharp.OffScreen
         public IKeyboardHandler KeyboardHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
         public IMenuHandler MenuHandler { get; set; }
+        public IFocusHandler FocusHandler { get; set; }
         public IRequestHandler RequestHandler { get; set; }
 
         public event EventHandler<LoadErrorEventArgs> LoadError;
@@ -185,6 +186,7 @@ namespace CefSharp.OffScreen
         public event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
         public event EventHandler BrowserInitialized;
         public event EventHandler<StatusMessageEventArgs> StatusMessage;
+        public event EventHandler<NavStateChangedEventArgs> NavStateChanged;
 
         public void ShowDevTools()
         {
@@ -460,11 +462,6 @@ namespace CefSharp.OffScreen
             {
                 handler(this, new LoadErrorEventArgs(url, errorCode, errorText));
             }
-        }
-
-        void IWebBrowserInternal.OnTakeFocus(bool next)
-        {
-            throw new NotImplementedException();
         }
 
         void IWebBrowserInternal.OnStatusMessage(string value)
