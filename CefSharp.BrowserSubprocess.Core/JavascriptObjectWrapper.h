@@ -25,10 +25,11 @@ namespace CefSharp
         List<JavascriptMethodWrapper^>^ _wrappedMethods;
         List<JavascriptPropertyWrapper^>^ _wrappedProperties;
         IBrowserProcess^ _browserProcess;
+        MCefRefPtr<JavascriptPropertyHandler> _jsPropertyHandler;
 
     internal:
         MCefRefPtr<CefV8Value> V8Value;
-        MCefRefPtr<JavascriptPropertyHandler> JsPropertyHandler;
+        
 
     public:
         JavascriptObjectWrapper(JavascriptObject^ object, IBrowserProcess^ browserProcess)
@@ -43,7 +44,7 @@ namespace CefSharp
         ~JavascriptObjectWrapper()
         {
             V8Value = nullptr;
-            JsPropertyHandler = nullptr;
+            _jsPropertyHandler = nullptr;
         }
 
         void Bind();
