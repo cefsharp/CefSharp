@@ -5,7 +5,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace CefSharp.Internals
+namespace CefSharp.WinForms.Internals
 {
     public static class User32
     {
