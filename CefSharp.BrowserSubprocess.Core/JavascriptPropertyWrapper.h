@@ -7,8 +7,6 @@
 #include "Stdafx.h"
 #include "include/cef_v8.h"
 
-#include "JavascriptPropertyHandler.h"
-
 using namespace CefSharp::Internals;
 
 namespace CefSharp

@@ -7,8 +7,6 @@
 #include "Stdafx.h"
 #include "include/cef_v8.h"
 
-#include "JavascriptMethodWrapper.h"
-#include "JavascriptPropertyWrapper.h"
 #include "JavascriptObjectWrapper.h"
 
 using namespace System::Runtime::Serialization;

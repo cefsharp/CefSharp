@@ -6,7 +6,6 @@
 #include "Stdafx.h"
 
 #include "JavascriptObjectWrapper.h"
-#include "CefAppWrapper.h"
 
 using namespace System;
 using namespace CefSharp::Internals;

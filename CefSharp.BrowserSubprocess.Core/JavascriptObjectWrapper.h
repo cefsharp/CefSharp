@@ -9,6 +9,7 @@
 
 #include "JavascriptMethodWrapper.h"
 #include "JavascriptPropertyWrapper.h"
+#include "JavascriptPropertyHandler.h"
 
 using namespace System::Runtime::Serialization;
 using namespace System::Linq;

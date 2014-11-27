@@ -5,9 +5,9 @@
 
 #include "Stdafx.h"
 
-#include "CefAppWrapper.h"
 #include "CefBrowserWrapper.h"
 #include "CefAppUnmanagedWrapper.h"
+#include "JavascriptRootObjectWrapper.h"
 
 using namespace System;
 using namespace System::Diagnostics;
