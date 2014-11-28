@@ -28,6 +28,7 @@ namespace CefSharp.WinForms
         public ILifeSpanHandler LifeSpanHandler { get; set; }
         public IMenuHandler MenuHandler { get; set; }
         public IFocusHandler FocusHandler { get; set; }
+        public IDragHandler DragHandler { get; set; }
 
         public bool CanGoForward { get; private set; }
         public bool CanGoBack { get; private set; }

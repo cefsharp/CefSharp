@@ -9,6 +9,7 @@
 #include "include/cef_client.h"
 #include "include/cef_render_process_handler.h"
 #include "AutoLock.h"
+#include "include/cef_drag_handler.h"
 
 using namespace System;
 
@@ -27,7 +28,8 @@ namespace CefSharp
             public CefFocusHandler,
             public CefKeyboardHandler,
             public CefJSDialogHandler,
-            public CefDialogHandler
+            public CefDialogHandler,
+			public CefDragHandler
         {
         private:
             CriticalSection _syncRoot;
@@ -68,6 +70,7 @@ namespace CefSharp
             virtual CefRefPtr<CefKeyboardHandler> GetKeyboardHandler() OVERRIDE{ return this; }
             virtual CefRefPtr<CefJSDialogHandler> GetJSDialogHandler() OVERRIDE{ return this; }
             virtual CefRefPtr<CefDialogHandler> GetDialogHandler() OVERRIDE{ return this; }
+			virtual CefRefPtr<CefDragHandler> GetDragHandler() OVERRIDE{ return this; }
 
             // CefLifeSpanHandler
             virtual DECL bool OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
@@ -123,6 +126,9 @@ namespace CefSharp
             virtual DECL bool OnFileDialog(CefRefPtr<CefBrowser> browser, FileDialogMode mode, const CefString& title,
                 const CefString& default_file_name, const std::vector<CefString>& accept_types,
                 CefRefPtr<CefFileDialogCallback> callback) OVERRIDE;
+
+			//CefDragHandler
+			virtual DECL bool OnDragEnter(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDragData> dragData, DragOperationsMask mask) OVERRIDE;
 
             IMPLEMENT_REFCOUNTING(ClientAdapter);
         };
