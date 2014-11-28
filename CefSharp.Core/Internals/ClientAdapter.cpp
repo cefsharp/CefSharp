@@ -474,40 +474,40 @@ namespace CefSharp
             return handled;
         }
 
-		bool ClientAdapter::OnDragEnter(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDragData> dragData, DragOperationsMask mask)
-		{
-			IDragHandler^ handler = _browserControl->DragHandler;
+        bool ClientAdapter::OnDragEnter(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDragData> dragData, DragOperationsMask mask)
+        {
+            IDragHandler^ handler = _browserControl->DragHandler;
 
-			if (handler == nullptr)
-			{
-				return false;
-			}
+            if (handler == nullptr)
+            {
+	            return false;
+            }
 
-			bool handled;
+            bool handled;
 
-			//more goes here
+            //more goes here
 
-			switch (mask)
-			{
-			case DRAG_OPERATION_NONE:
-				break;
-			case DRAG_OPERATION_COPY:
-				break;
-			case DRAG_OPERATION_LINK:
-				break;
-			case DRAG_OPERATION_GENERIC:
-				break;
-			case DRAG_OPERATION_PRIVATE:
-				break;
-			case DRAG_OPERATION_MOVE:
-				break;
-			case DRAG_OPERATION_DELETE:
-				break;
-			case DRAG_OPERATION_EVERY:
-				break;
+            switch (mask)
+            {
+            case DRAG_OPERATION_NONE:
+	            break;
+            case DRAG_OPERATION_COPY:
+	            break;
+            case DRAG_OPERATION_LINK:
+	            break;
+            case DRAG_OPERATION_GENERIC:
+	            break;
+            case DRAG_OPERATION_PRIVATE:
+	            break;
+            case DRAG_OPERATION_MOVE:
+	            break;
+            case DRAG_OPERATION_DELETE:
+	            break;
+            case DRAG_OPERATION_EVERY:
+	            break;
 
-			}
-		}
+            }
+        }
 
     }
 }

@@ -2,10 +2,10 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-namespace CefSharp
-{
-    public interface IDragHandler
+    namespace CefSharp
     {
-        bool OnDragEnter(IWebBrowser browser, DragData dragData, DragOperationsMask mask);
+        public interface IDragHandler
+        {
+            bool OnDragEnter(IWebBrowser browser, DragData dragData, DragOperationsMask mask);
+        }
     }
-}

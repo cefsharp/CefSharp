@@ -29,7 +29,7 @@ namespace CefSharp
             public CefKeyboardHandler,
             public CefJSDialogHandler,
             public CefDialogHandler,
-			public CefDragHandler
+            public CefDragHandler
         {
         private:
             CriticalSection _syncRoot;
@@ -70,7 +70,7 @@ namespace CefSharp
             virtual CefRefPtr<CefKeyboardHandler> GetKeyboardHandler() OVERRIDE{ return this; }
             virtual CefRefPtr<CefJSDialogHandler> GetJSDialogHandler() OVERRIDE{ return this; }
             virtual CefRefPtr<CefDialogHandler> GetDialogHandler() OVERRIDE{ return this; }
-			virtual CefRefPtr<CefDragHandler> GetDragHandler() OVERRIDE{ return this; }
+            virtual CefRefPtr<CefDragHandler> GetDragHandler() OVERRIDE{ return this; }
 
             // CefLifeSpanHandler
             virtual DECL bool OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
@@ -127,8 +127,8 @@ namespace CefSharp
                 const CefString& default_file_name, const std::vector<CefString>& accept_types,
                 CefRefPtr<CefFileDialogCallback> callback) OVERRIDE;
 
-			//CefDragHandler
-			virtual DECL bool OnDragEnter(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDragData> dragData, DragOperationsMask mask) OVERRIDE;
+            //CefDragHandler
+            virtual DECL bool OnDragEnter(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDragData> dragData, DragOperationsMask mask) OVERRIDE;
 
             IMPLEMENT_REFCOUNTING(ClientAdapter);
         };
