@@ -487,26 +487,30 @@ namespace CefSharp
 
             //more goes here
 
-            switch (mask)
-            {
-            case DRAG_OPERATION_NONE:
-	            break;
-            case DRAG_OPERATION_COPY:
-	            break;
-            case DRAG_OPERATION_LINK:
-	            break;
-            case DRAG_OPERATION_GENERIC:
-	            break;
-            case DRAG_OPERATION_PRIVATE:
-	            break;
-            case DRAG_OPERATION_MOVE:
-	            break;
-            case DRAG_OPERATION_DELETE:
-	            break;
-            case DRAG_OPERATION_EVERY:
-	            break;
+            //switch (mask)
+            //{
+            //case DRAG_OPERATION_NONE:
+	           // break;
+            //case DRAG_OPERATION_COPY:
+	           // break;
+            //case DRAG_OPERATION_LINK:
+	           // break;
+            //case DRAG_OPERATION_GENERIC:
+	           // break;
+            //case DRAG_OPERATION_PRIVATE:
+	           // break;
+            //case DRAG_OPERATION_MOVE:
+	           // break;
+            //case DRAG_OPERATION_DELETE:
+	           // break;
+            //case DRAG_OPERATION_EVERY:
+	           // break;
 
-            }
+            //}
+           
+            //Debug testing...  cancel all
+            handled = true;
+            return handled;
         }
 
     }
