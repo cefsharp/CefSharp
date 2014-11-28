@@ -12,6 +12,7 @@
 #include "DownloadAdapter.h"
 #include "StreamAdapter.h"
 #include "include/wrapper/cef_stream_resource_handler.h"
+#include "include/cef_drag_handler.h"
 
 using namespace std;
 using namespace CefSharp;

@@ -178,6 +178,7 @@ namespace CefSharp.OffScreen
         public IMenuHandler MenuHandler { get; set; }
         public IFocusHandler FocusHandler { get; set; }
         public IRequestHandler RequestHandler { get; set; }
+        public IDragHandler DragHandler { get; set; }
 
         public event EventHandler<LoadErrorEventArgs> LoadError;
         public event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
