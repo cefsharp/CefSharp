@@ -17,6 +17,6 @@ namespace CefSharp
         Private = 8, 
         Move = 16, 
         Delete = 32,
-        Every = UInt32.MaxValue
+        Every = uint.MaxValue
     } 
 }
