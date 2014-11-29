@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CefFileDialogMode.cs" />
+    <Compile Include="DragData.cs" />
     <Compile Include="IFocusHandler.cs" />
     <Compile Include="IDragHandler.cs" />
     <Compile Include="IsBrowserInitializedChangedEventArgs.cs" />
