@@ -482,9 +482,22 @@ namespace CefSharp
                 return false;
             }
 
+            auto data = gcnew DragData();
+            
+            data->FileName = StringUtils::ToClr(dragData->GetFileName());
+            data->FragmentBaseUrl = StringUtils::ToClr(dragData->GetFragmentBaseURL());
+            data->FragmentHtml = StringUtils::ToClr(dragData->GetFragmentHtml());
+            data->FragmentText = StringUtils::ToClr(dragData->GetFragmentText());
+            data->LinkMetaData = StringUtils::ToClr(dragData->GetLinkMetadata());
+            data->LinkTitle = StringUtils::ToClr(dragData->GetLinkTitle());
+            data->LinkUrl = StringUtils::ToClr(dragData->GetLinkURL());
+            data->IsFile = dragData->IsFile();
+            data->IsFragment = dragData->IsFragment();
+            data->IsLink = dragData->IsLink();			
+
             bool handled;
 
-            handled = handler->OnDragEnter(_browserControl, nullptr, (CefSharp::DragOperationsMask)mask);
+            handled = handler->OnDragEnter(_browserControl, data, (CefSharp::DragOperationsMask)mask);
 
             return handled;
         }
