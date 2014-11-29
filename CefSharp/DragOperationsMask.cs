@@ -8,7 +8,7 @@ using System;
 namespace CefSharp
 {
     [Flags]
-    public enum DragOperationsMask
+    public enum DragOperationsMask : uint
     {
         None = 0,
         Copy = 1,
@@ -17,6 +17,6 @@ namespace CefSharp
         Private = 8, 
         Move = 16, 
         Delete = 32,
-        Every = None | Copy | Link | Generic | Private | Move | Delete
+        Every = UInt32.MaxValue
     } 
 }
