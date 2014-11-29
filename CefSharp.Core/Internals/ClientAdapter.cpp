@@ -485,7 +485,7 @@ namespace CefSharp
 
             bool handled;
 
-            handled = handler->OnDragEnter(_browserControl, dragData, mask);
+            handled = handler->OnDragEnter(_browserControl);
 
             return handled;
         }

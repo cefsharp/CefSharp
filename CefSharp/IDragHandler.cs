@@ -6,6 +6,6 @@
     {
         public interface IDragHandler
         {
-            bool OnDragEnter(IWebBrowser browser, DragData dragData, DragOperationsMask mask);
+            bool OnDragEnter(IWebBrowser browser);
         }
     }

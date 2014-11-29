@@ -9,7 +9,6 @@
 #include "include/cef_client.h"
 #include "include/cef_render_process_handler.h"
 #include "AutoLock.h"
-#include "include/cef_drag_handler.h"
 
 using namespace System;
 

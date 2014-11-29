@@ -7,9 +7,9 @@ namespace CefSharp.Example
 {
     public class DragHandler : IDragHandler
     {
-        public bool OnDragEnter(IWebBrowser browser, DragData dragData, DragOperationsMask mask)
+        public bool OnDragEnter(IWebBrowser browser)
         {
-            //prevents draging object into browser
+            //return true prevents draging object into browser
             return true;
         }
     }
