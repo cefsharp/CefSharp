@@ -479,12 +479,12 @@ namespace CefSharp
 
             if (handler == nullptr)
             {
-	            return false;
+                return false;
             }
 
             bool handled;
 
-            handled = handler->OnDragEnter(_browserControl, (CefRefPtr<CefDragData>)dragData);
+            handled = handler->OnDragEnter(_browserControl, nullptr, (CefSharp::DragOperationsMask)mask);
 
             return handled;
         }

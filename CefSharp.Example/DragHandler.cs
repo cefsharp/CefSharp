@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace CefSharp.Example
+﻿namespace CefSharp.Example
 {
     public class DragHandler : IDragHandler
     {
-        public bool OnDragEnter(IWebBrowser browser)
+        public bool OnDragEnter(IWebBrowser browser, DragData dragData, DragOperationsMask mask)
         {
-            //return true prevents draging object into browser
-            return true;
+            return false;
         }
     }
 }
