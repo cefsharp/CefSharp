@@ -495,11 +495,7 @@ namespace CefSharp
             data->IsFragment = dragData->IsFragment();
             data->IsLink = dragData->IsLink();			
 
-            bool handled;
-
-            handled = handler->OnDragEnter(_browserControl, data, (CefSharp::DragOperationsMask)mask);
-
-            return handled;
+            return handler->OnDragEnter(_browserControl, data, (CefSharp::DragOperationsMask)mask);
         }
 
     }
