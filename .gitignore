@@ -36,3 +36,5 @@ CefSharp.BrowserSubprocess.lib
 Win32/Release
 x64/Release
 Win32/Release
+*.DotSettings
+*.sln

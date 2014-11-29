@@ -5,7 +5,7 @@
 
 namespace CefSharp
 {
-    public enum DragOperationsMask
+   public enum DragOperationsMask
     {
         DRAG_OPERATION_NONE = 0,
         DRAG_OPERATION_COPY = 1,
@@ -13,7 +13,7 @@ namespace CefSharp
         DRAG_OPERATION_GENERIC = 4, 
         DRAG_OPERATION_PRIVATE = 8, 
         DRAG_OPERATION_MOVE = 16, 
-        DRAG_OPERATION_DELETE = 32 
-        //DRAG_OPERATION_EVERY = UINT_MAX
-    }
+        DRAG_OPERATION_DELETE = 32
+        //DRAG_OPERATION_EVERY = UINT_MAX,
+    } 
 }
