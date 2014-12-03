@@ -18,14 +18,18 @@ using namespace System::Threading::Tasks;
 
 namespace CefSharp
 {
+
     public ref class ManagedCefBrowserAdapter : public DisposableResource
     {
         MCefRefPtr<RenderClientAdapter> _renderClientAdapter;
         BrowserProcessServiceHost^ _browserProcessServiceHost;
         IWebBrowserInternal^ _webBrowserInternal;
         JavascriptObjectRepository^ _javaScriptObjectRepository;
-        
+
+
     protected:
+
+
         virtual void DoDispose(bool isDisposing) override
         {
             Close();
@@ -43,7 +47,12 @@ namespace CefSharp
             DisposableResource::DoDispose(isDisposing);
         };
 
+
     public:
+
+
+
+
         ManagedCefBrowserAdapter(IWebBrowserInternal^ webBrowserInternal)
         {
             _renderClientAdapter = new RenderClientAdapter(webBrowserInternal, gcnew Action<int>(this, &ManagedCefBrowserAdapter::OnAfterBrowserCreated));
@@ -460,6 +469,7 @@ namespace CefSharp
 
         void CreateBrowser(BrowserSettings^ browserSettings, IntPtr^ sourceHandle, String^ address)
         {
+
             HWND hwnd = static_cast<HWND>(sourceHandle->ToPointer());
             RECT rect;
             GetClientRect(hwnd, &rect);
@@ -469,40 +479,36 @@ namespace CefSharp
 
             CefBrowserHost::CreateBrowser(window, _renderClientAdapter.get(), addressNative,
                 *(CefBrowserSettings*)browserSettings->_internalBrowserSettings, NULL);
+
         }
 
-		void Resize(int width, int height)
-		{
-			CefWindowHandle hwnd = _renderClientAdapter->TryGetCefHost()->GetWindowHandle();
-			if (hwnd) {
-				if (width <= 0 && height <= 0) {
-					// For windowed browsers when the frame window is minimized set the
-					// browser window size to 0x0 to reduce resource usage.
-					SetWindowPos(hwnd, NULL,
-						0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
-				}
-				else {
-					// Resize the window and address bar to match the new frame size.
-					RECT rect;
-					GetClientRect(hwnd, &rect);
-					HDWP hdwp = BeginDeferWindowPos(1);
-					hdwp = DeferWindowPos(hdwp, hwnd, NULL,
-						0, 0, width,
-						height, SWP_NOZORDER);
-					EndDeferWindowPos(hdwp);
-				}
-			}
-		}
+        void Resize(int width, int height)
+        {
+            HWND browserHwnd = _renderClientAdapter->GetBrowserHwnd();
+            if (browserHwnd) 
+            {
+                if (width == 0 && height == 0) 
+                {
+                    // For windowed browsers when the frame window is minimized set the
+                    // browser window size to 0x0 to reduce resource usage.
+                    SetWindowPos(browserHwnd, NULL, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
+                }
+                else 
+                {
+                    SetWindowPos(browserHwnd, NULL, 0, 0, width, height, SWP_NOZORDER);
+                }
+            }
+        }
 
-		void NotifyMoveOrResizeStarted()
-		{
-			auto cefHost = _renderClientAdapter->TryGetCefHost();
+        void NotifyMoveOrResizeStarted()
+        {
+            auto cefHost = _renderClientAdapter->TryGetCefHost();
 
-			if (cefHost != nullptr)
-			{
-				cefHost->NotifyMoveOrResizeStarted();
-			}
-		}
+            if (cefHost != nullptr)
+            {
+                cefHost->NotifyMoveOrResizeStarted();
+            }
+        }
 
 
         void RegisterJsObject(String^ name, Object^ object)

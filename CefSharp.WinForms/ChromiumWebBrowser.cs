@@ -348,7 +348,6 @@ namespace CefSharp.WinForms
         protected override void OnSizeChanged(EventArgs e)
         {
             base.OnSizeChanged(e);
-            
             ResizeBrowser();
         }
 
