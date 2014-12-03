@@ -360,6 +360,13 @@ namespace CefSharp.WinForms
             }
         }
 
+        public void NotifyMoveOrResizeStarted()
+        {
+            if (IsBrowserInitialized && managedCefBrowserAdapter != null)
+            {
+                managedCefBrowserAdapter.NotifyMoveOrResizeStarted();
+            }
+        }
 
         public void ReplaceMisspelling(string word)
         {

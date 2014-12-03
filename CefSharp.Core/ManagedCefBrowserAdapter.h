@@ -471,11 +471,39 @@ namespace CefSharp
                 *(CefBrowserSettings*)browserSettings->_internalBrowserSettings, NULL);
         }
 
-        void Resize(int width, int height)
-        {
-            HWND browserHwnd = _renderClientAdapter->GetBrowserHwnd();
-            SetWindowPos(browserHwnd, NULL, 0, 0, width, height, SWP_NOZORDER);
-        }
+		void Resize(int width, int height)
+		{
+			CefWindowHandle hwnd = _renderClientAdapter->TryGetCefHost()->GetWindowHandle();
+			if (hwnd) {
+				if (width <= 0 && height <= 0) {
+					// For windowed browsers when the frame window is minimized set the
+					// browser window size to 0x0 to reduce resource usage.
+					SetWindowPos(hwnd, NULL,
+						0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
+				}
+				else {
+					// Resize the window and address bar to match the new frame size.
+					RECT rect;
+					GetClientRect(hwnd, &rect);
+					HDWP hdwp = BeginDeferWindowPos(1);
+					hdwp = DeferWindowPos(hdwp, hwnd, NULL,
+						0, 0, width,
+						height, SWP_NOZORDER);
+					EndDeferWindowPos(hdwp);
+				}
+			}
+		}
+
+		void NotifyMoveOrResizeStarted()
+		{
+			auto cefHost = _renderClientAdapter->TryGetCefHost();
+
+			if (cefHost != nullptr)
+			{
+				cefHost->NotifyMoveOrResizeStarted();
+			}
+		}
+
 
         void RegisterJsObject(String^ name, Object^ object)
         {
