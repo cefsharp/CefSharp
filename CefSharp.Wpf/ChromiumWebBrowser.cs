@@ -506,6 +506,9 @@ namespace CefSharp.Wpf
             // If the control was not rendered yet when we tried to set up the source hook, it may have failed (since it couldn't
             // lookup the HwndSource), so we need to retry it whenever visibility changes.
             AddSourceHookIfNotAlreadyPresent();
+
+            var isVisible = (bool)args.NewValue;
+            managedCefBrowserAdapter.WasHidden(!isVisible);
         }
 
         private static void OnApplicationExit(object sender, ExitEventArgs e)
