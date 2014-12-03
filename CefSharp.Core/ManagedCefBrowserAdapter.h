@@ -122,7 +122,7 @@ namespace CefSharp
 
             if (cefHost != nullptr)
             {
-				cefHost->WasHidden(hidden);
+                cefHost->WasHidden(hidden);
             }
         }
 
