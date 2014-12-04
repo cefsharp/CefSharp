@@ -6,7 +6,7 @@ namespace CefSharp
 {
     public enum KeyType
     {
-        RawKeyDown,
+        RawKeyDown = 0,
         KeyDown,
         KeyUp,
         Char,
