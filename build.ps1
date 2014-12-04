@@ -3,7 +3,7 @@ param(
     [Parameter(Position = 0)] 
     [string] $Target = "nupkg",
     [Parameter(Position = 1)]
-    [string] $Version = "39.0.0-pre01-MB3",
+    [string] $Version = "39.0.0-pre01",
     [Parameter(Position = 2)]
     [string] $AssemblyVersion = "39.0.0",
     [Parameter(Position = 3)]
@@ -284,8 +284,8 @@ WriteAssemblyVersion
 switch -Exact ($Target) {
     "nupkg"
     {
-        VSX v120
-        #VSX v110
+        #VSX v120
+        VSX v110
         Nupkg
     }
     "nupkg-only"
