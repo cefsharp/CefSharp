@@ -127,15 +127,15 @@ namespace CefSharp
             }
         }
 
-		void Invalidate(PaintElementType type)
-		{
-			auto cefHost = _renderClientAdapter->TryGetCefHost();
+        void Invalidate(PaintElementType type)
+        {
+            auto cefHost = _renderClientAdapter->TryGetCefHost();
 
-			if (cefHost != nullptr)
-			{
-				cefHost->Invalidate((CefBrowserHost::PaintElementType)type);
-			}
-		}
+            if (cefHost != nullptr)
+            {
+                cefHost->Invalidate((CefBrowserHost::PaintElementType)type);
+            }
+        }
 
         void SendFocusEvent(bool isFocused)
         {
@@ -202,7 +202,6 @@ namespace CefSharp
         void OnMouseButton(int x, int y, MouseButtonType mouseButtonType, bool mouseUp, int clickCount, CefEventFlags modifiers)
         {
             auto cefHost = _renderClientAdapter->TryGetCefHost();
-			
             if (cefHost != nullptr)
             {
                 CefMouseEvent mouseEvent;

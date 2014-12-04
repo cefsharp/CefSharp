@@ -6,9 +6,9 @@
 
 namespace CefSharp
 {
-	public enum class PaintElementType
-	{
-		View = CefBrowserHost::PaintElementType::PET_VIEW,
-		Popup = CefBrowserHost::PaintElementType::PET_POPUP
-	};
+    public enum class PaintElementType
+    {
+        View = CefBrowserHost::PaintElementType::PET_VIEW,
+        Popup = CefBrowserHost::PaintElementType::PET_POPUP
+    };
 }
