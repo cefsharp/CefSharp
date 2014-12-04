@@ -45,7 +45,17 @@ namespace CefSharp
         ~JavascriptObjectWrapper()
         {
             V8Value = nullptr;
+            _jsPropertyHandlerHandler->DeleteGetterSetter();
             _jsPropertyHandler = nullptr;
+
+            for each (JavascriptMethodWrapper^ var in _wrappedMethods)
+            {
+                delete var;
+            }
+            for each (JavascriptPropertyWrapper^ var in _wrappedProperties)
+            {
+                delete var;
+            }
         }
 
         void Bind();
