@@ -112,23 +112,6 @@ namespace CefSharp
             _browserControl->OnStatusMessage(valueStr);
         }
 
-        KeyType KeyTypeToManaged(cef_key_event_type_t keytype)
-        {
-            switch (keytype)
-            {
-            case KEYEVENT_RAWKEYDOWN:
-                return KeyType::RawKeyDown;
-            case KEYEVENT_KEYDOWN:
-                return KeyType::KeyDown;
-            case KEYEVENT_KEYUP:
-                return KeyType::KeyUp;
-            case KEYEVENT_CHAR:
-                return KeyType::Char;
-            default:
-                throw gcnew ArgumentOutOfRangeException("keytype", String::Format("'{0}' is not a valid keytype", gcnew array<Object^>(keytype)));
-            }
-        }
-
         bool ClientAdapter::OnKeyEvent(CefRefPtr<CefBrowser> browser, const CefKeyEvent& event, CefEventHandle os_event)
         {
             IKeyboardHandler^ handler = _browserControl->KeyboardHandler;
@@ -140,7 +123,7 @@ namespace CefSharp
 
             // TODO: windows_key_code could possibly be the wrong choice here (the OnKeyEvent signature has changed since CEF1). The
             // other option would be native_key_code.
-            return handler->OnKeyEvent(_browserControl, KeyTypeToManaged(event.type), event.windows_key_code, (CefEventFlags)event.modifiers, event.is_system_key == 1);
+            return handler->OnKeyEvent(_browserControl, (KeyType)event.type, event.windows_key_code, (CefEventFlags)event.modifiers, event.is_system_key == 1);
         }
 
         bool ClientAdapter::OnPreKeyEvent(CefRefPtr<CefBrowser> browser, const CefKeyEvent& event, CefEventHandle os_event, bool* is_keyboard_shortcut)
