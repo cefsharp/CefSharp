@@ -41,11 +41,23 @@ namespace CefSharp
                 _renderWebBrowser = nullptr;
                 _webBrowserInternal = nullptr;
 
+                DisposeBitmapInfo(MainBitmapInfo);
+
                 delete MainBitmapInfo;
                 MainBitmapInfo = nullptr;
 
+                DisposeBitmapInfo(PopupBitmapInfo);
+
                 delete PopupBitmapInfo;
                 PopupBitmapInfo = nullptr;
+            }
+
+            void DisposeBitmapInfo(BitmapInfo^ bitmapInfo)
+            {
+                auto backBufferHandle = (HANDLE)bitmapInfo->BackBufferHandle;
+                auto fileMappingHandle = (HANDLE)bitmapInfo->FileMappingHandle;
+
+                ReleaseBitmapHandlers(&backBufferHandle, &fileMappingHandle);
             }
 
             // CefClient
@@ -186,17 +198,7 @@ namespace CefSharp
                 {
                     _renderWebBrowser->ClearBitmap(bitmapInfo);
 
-                    if (*backBufferHandle != NULL)
-                    {
-                        UnmapViewOfFile(*backBufferHandle);
-                        *backBufferHandle = NULL;
-                    }
-
-                    if (*fileMappingHandle != NULL)
-                    {
-                        CloseHandle(*fileMappingHandle);
-                        *fileMappingHandle = NULL;
-                    }
+                    ReleaseBitmapHandlers(backBufferHandle, fileMappingHandle);
 
                     *fileMappingHandle = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, numberOfBytes, NULL);
                     if (*fileMappingHandle == NULL)
@@ -220,6 +222,21 @@ namespace CefSharp
 
                 CopyMemory(*backBufferHandle, (void*)buffer, numberOfBytes);
             };
+
+            void ReleaseBitmapHandlers(HANDLE* backBufferHandle, HANDLE* fileMappingHandle)
+            {
+                if (*backBufferHandle != NULL)
+                {
+                    UnmapViewOfFile(*backBufferHandle);
+                    *backBufferHandle = NULL;
+                }
+
+                if (*fileMappingHandle != NULL)
+                {
+                    CloseHandle(*fileMappingHandle);
+                    *fileMappingHandle = NULL;
+                }
+            }
 
             IMPLEMENT_REFCOUNTING(RenderClientAdapter)
         };

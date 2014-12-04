@@ -345,6 +345,32 @@ namespace CefSharp.WinForms
             return taskStringVisitor.Task;
         }
 
+        /// <summary>
+        /// Manually implement Focused because cef does not implement it.
+        /// </summary>
+        /// <remarks>
+        /// This is also how the Microsoft's WebBrowserControl implements the Focused property.
+        /// </remarks>
+        public override bool Focused
+        {
+            get
+            {
+                if (base.Focused)
+                {
+                    return true;
+                }
+
+                if (!IsHandleCreated)
+                {
+                    return false;
+                }
+
+                // Ask Windows which control has the focus and then check if it's one of our children
+                var focus = User32.GetFocus();
+                return focus != IntPtr.Zero && User32.IsChild(Handle, focus);
+            }
+        }
+
         protected override void OnSizeChanged(EventArgs e)
         {
             base.OnSizeChanged(e);

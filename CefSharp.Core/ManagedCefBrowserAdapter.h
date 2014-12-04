@@ -123,6 +123,16 @@ namespace CefSharp
             }
         }
 
+        void WasHidden(bool hidden)
+        {
+            auto cefHost = _renderClientAdapter->TryGetCefHost();
+
+            if (cefHost != nullptr)
+            {
+                cefHost->WasHidden(hidden);
+            }
+        }
+
         void SendFocusEvent(bool isFocused)
         {
             auto cefHost = _renderClientAdapter->TryGetCefHost();
