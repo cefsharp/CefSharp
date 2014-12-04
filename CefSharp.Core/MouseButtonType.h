@@ -11,6 +11,5 @@ namespace CefSharp
         Left = CefBrowserHost::MouseButtonType::MBT_LEFT,
         Middle = CefBrowserHost::MouseButtonType::MBT_MIDDLE,
         Right = CefBrowserHost::MouseButtonType::MBT_RIGHT,
-		Blabla
     };
 }
