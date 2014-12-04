@@ -202,6 +202,7 @@ namespace CefSharp
         void OnMouseButton(int x, int y, MouseButtonType mouseButtonType, bool mouseUp, int clickCount, CefEventFlags modifiers)
         {
             auto cefHost = _renderClientAdapter->TryGetCefHost();
+
             if (cefHost != nullptr)
             {
                 CefMouseEvent mouseEvent;
