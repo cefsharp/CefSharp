@@ -6,7 +6,6 @@
 #include "Stdafx.h"
 
 #include "JavascriptMethodWrapper.h"
-#include "CefAppWrapper.h"
 
 using namespace System;
 
