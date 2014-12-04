@@ -6,7 +6,6 @@
 #include "Stdafx.h"
 
 #include "JavascriptObjectWrapper.h"
-#include "CefAppWrapper.h"
 
 using namespace System;
 using namespace CefSharp::Internals;
@@ -16,13 +15,13 @@ namespace CefSharp
 	void JavascriptObjectWrapper::Bind()
 	{
 		//Create property handler for get and set of Properties of this object
-		JsPropertyHandler = new JavascriptPropertyHandler(
+		_jsPropertyHandler = new JavascriptPropertyHandler(
 			gcnew Func<String^, BrowserProcessResponse^>(this, &JavascriptObjectWrapper::GetProperty),
 			gcnew Func<String^, Object^, BrowserProcessResponse^>(this, &JavascriptObjectWrapper::SetProperty)
 			);
 
 		//V8Value that represents this javascript object - only one per complex type
-		auto javascriptObject = V8Value->CreateObject(JsPropertyHandler.get());
+		auto javascriptObject = V8Value->CreateObject(_jsPropertyHandler.get());
 		auto objectName = StringUtils::ToNative(_object->JavascriptName);
 		V8Value->SetValue(objectName, javascriptObject, V8_PROPERTY_ATTRIBUTE_NONE);
 

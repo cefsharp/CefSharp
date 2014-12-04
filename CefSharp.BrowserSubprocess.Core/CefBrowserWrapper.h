@@ -10,6 +10,7 @@
 
 #include "TypeUtils.h"
 #include "Stdafx.h"
+#include "JavascriptRootObjectWrapper.h"
 
 using namespace CefSharp::Internals;
 using namespace System;
@@ -43,6 +44,7 @@ namespace CefSharp
         property bool IsPopup;
         property DuplexChannelFactory<IBrowserProcess^>^ ChannelFactory;
         property JavascriptRootObject^ JavascriptRootObject;
+        property JavascriptRootObjectWrapper^ JavascriptRootObjectWrapper;
         property IBrowserProcess^ BrowserProcess;
 
         JavascriptResponse^ EvaluateScriptInContext(CefRefPtr<CefV8Context> context, CefString script)

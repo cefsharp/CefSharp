@@ -8,7 +8,6 @@
 #include "include/cef_app.h"
 #include "include/cef_base.h"
 
-#include "JavascriptRootObjectWrapper.h"
 #include "CefBrowserWrapper.h"
 #include "CefAppUnmanagedWrapper.h"
 
