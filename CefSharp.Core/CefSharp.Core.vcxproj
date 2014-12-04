@@ -250,6 +250,7 @@
     <ClInclude Include="Internals\MCefRefPtr.h" />
     <ClInclude Include="Internals\RenderClientAdapter.h" />
     <ClInclude Include="Internals\StringVisitor.h" />
+	<ClInclude Include="PaintElementType.h" />
     <ClInclude Include="MouseButtonType.h" />
     <ClInclude Include="ManagedCefBrowserAdapter.h" />
     <ClInclude Include="CefSettings.h" />
