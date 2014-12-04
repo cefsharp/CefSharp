@@ -31,6 +31,12 @@ namespace CefSharp
             delete _setter;
         }
 
+        void Cleanup()
+        {
+            delete _getter;
+            delete _setter;
+        }
+
         virtual bool Get(const CefString& name, const CefRefPtr<CefV8Value> object, CefRefPtr<CefV8Value>& retval,
             CefString& exception) override
         {

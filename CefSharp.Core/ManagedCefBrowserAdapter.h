@@ -18,18 +18,14 @@ using namespace System::Threading::Tasks;
 
 namespace CefSharp
 {
-
     public ref class ManagedCefBrowserAdapter : public DisposableResource
     {
         MCefRefPtr<RenderClientAdapter> _renderClientAdapter;
         BrowserProcessServiceHost^ _browserProcessServiceHost;
         IWebBrowserInternal^ _webBrowserInternal;
         JavascriptObjectRepository^ _javaScriptObjectRepository;
-
-
+        
     protected:
-
-
         virtual void DoDispose(bool isDisposing) override
         {
             Close();
@@ -47,10 +43,7 @@ namespace CefSharp
             DisposableResource::DoDispose(isDisposing);
         };
 
-
     public:
-
-
         ManagedCefBrowserAdapter(IWebBrowserInternal^ webBrowserInternal)
         {
             _renderClientAdapter = new RenderClientAdapter(webBrowserInternal, gcnew Action<int>(this, &ManagedCefBrowserAdapter::OnAfterBrowserCreated));
@@ -477,7 +470,6 @@ namespace CefSharp
 
         void CreateBrowser(BrowserSettings^ browserSettings, IntPtr^ sourceHandle, String^ address)
         {
-
             HWND hwnd = static_cast<HWND>(sourceHandle->ToPointer());
             RECT rect;
             GetClientRect(hwnd, &rect);
@@ -487,7 +479,6 @@ namespace CefSharp
 
             CefBrowserHost::CreateBrowser(window, _renderClientAdapter.get(), addressNative,
                 *(CefBrowserSettings*)browserSettings->_internalBrowserSettings, NULL);
-
         }
 
         void Resize(int width, int height)
@@ -534,7 +525,8 @@ namespace CefSharp
             }
         }
 
-        void AddWordToDictionary(String^ word){
+        void AddWordToDictionary(String^ word)
+        {
             auto cefHost = _renderClientAdapter->TryGetCefHost();
 
             if (cefHost != nullptr)
@@ -543,7 +535,5 @@ namespace CefSharp
                 cefHost->AddWordToDictionary(wordNative);
             }
         }
-
-
     };
 }

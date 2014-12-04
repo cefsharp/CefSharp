@@ -7,8 +7,6 @@
 #include "Stdafx.h"
 #include "include/cef_v8.h"
 
-#include "JavascriptPropertyHandler.h"
-
 using namespace CefSharp::Internals;
 
 namespace CefSharp
@@ -19,7 +17,8 @@ namespace CefSharp
         JavascriptProperty^ _javascriptProperty;
         int64 _ownerId;
         IBrowserProcess^ _browserProcess;
-
+        //TODO: Strongly type this variable - currently trying to include JavascriptObjectWrapper.h creates a circular reference, so won't compile
+        Object^ _javascriptObjectWrapper;
     internal:
         MCefRefPtr<CefV8Value> V8Value;
 
@@ -34,6 +33,12 @@ namespace CefSharp
         ~JavascriptPropertyWrapper()
         {
             V8Value = nullptr;
+
+            if (_javascriptObjectWrapper != nullptr)
+            {
+                delete _javascriptObjectWrapper;
+                _javascriptObjectWrapper = nullptr;
+            }
         }
 
         void Bind();

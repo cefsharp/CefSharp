@@ -9,6 +9,7 @@
 
 #include "JavascriptMethodWrapper.h"
 #include "JavascriptPropertyWrapper.h"
+#include "JavascriptPropertyHandler.h"
 
 using namespace System::Runtime::Serialization;
 using namespace System::Linq;
@@ -25,10 +26,11 @@ namespace CefSharp
         List<JavascriptMethodWrapper^>^ _wrappedMethods;
         List<JavascriptPropertyWrapper^>^ _wrappedProperties;
         IBrowserProcess^ _browserProcess;
+        MCefRefPtr<JavascriptPropertyHandler> _jsPropertyHandler;
 
     internal:
         MCefRefPtr<CefV8Value> V8Value;
-        MCefRefPtr<JavascriptPropertyHandler> JsPropertyHandler;
+        
 
     public:
         JavascriptObjectWrapper(JavascriptObject^ object, IBrowserProcess^ browserProcess)
@@ -43,7 +45,17 @@ namespace CefSharp
         ~JavascriptObjectWrapper()
         {
             V8Value = nullptr;
-            JsPropertyHandler = nullptr;
+            _jsPropertyHandler->Cleanup();
+            _jsPropertyHandler = nullptr;
+
+            for each (JavascriptMethodWrapper^ var in _wrappedMethods)
+            {
+                delete var;
+            }
+            for each (JavascriptPropertyWrapper^ var in _wrappedProperties)
+            {
+                delete var;
+            }
         }
 
         void Bind();
