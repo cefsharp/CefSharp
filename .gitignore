@@ -4,7 +4,6 @@
 *.exe.config
 *.exp
 *.ipch
-*.manifest
 *.metagen
 *.ncb
 *.nupkg
