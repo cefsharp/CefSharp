@@ -7,6 +7,7 @@
 #include "Stdafx.h"
 #include "BrowserSettings.h"
 #include "MouseButtonType.h"
+#include "PaintElementType.h"
 #include "Internals/RenderClientAdapter.h"
 #include "Internals/MCefRefPtr.h"
 #include "Internals/StringVisitor.h"
@@ -126,6 +127,16 @@ namespace CefSharp
             }
         }
 
+		void Invalidate(PaintElementType type)
+		{
+			auto cefHost = _renderClientAdapter->TryGetCefHost();
+
+			if (cefHost != nullptr)
+			{
+				cefHost->Invalidate((CefBrowserHost::PaintElementType)type);
+			}
+		}
+
         void SendFocusEvent(bool isFocused)
         {
             auto cefHost = _renderClientAdapter->TryGetCefHost();
@@ -191,7 +202,7 @@ namespace CefSharp
         void OnMouseButton(int x, int y, MouseButtonType mouseButtonType, bool mouseUp, int clickCount, CefEventFlags modifiers)
         {
             auto cefHost = _renderClientAdapter->TryGetCefHost();
-
+			
             if (cefHost != nullptr)
             {
                 CefMouseEvent mouseEvent;
