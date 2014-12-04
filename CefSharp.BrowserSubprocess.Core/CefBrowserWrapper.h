@@ -10,6 +10,7 @@
 
 #include "TypeUtils.h"
 #include "Stdafx.h"
+#include "JavascriptRootObjectWrapper.h"
 
 using namespace CefSharp::Internals;
 using namespace System;
