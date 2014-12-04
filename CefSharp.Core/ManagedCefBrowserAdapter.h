@@ -484,7 +484,19 @@ namespace CefSharp
         void Resize(int width, int height)
         {
             HWND browserHwnd = _renderClientAdapter->GetBrowserHwnd();
-            SetWindowPos(browserHwnd, NULL, 0, 0, width, height, SWP_NOZORDER);
+            if (browserHwnd) 
+            {
+                if (width == 0 && height == 0) 
+                {
+                    // For windowed browsers when the frame window is minimized set the
+                    // browser window size to 0x0 to reduce resource usage.
+                    SetWindowPos(browserHwnd, NULL, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
+                }
+                else 
+                {
+                    SetWindowPos(browserHwnd, NULL, 0, 0, width, height, SWP_NOZORDER);
+                }
+            }
         }
 
         void RegisterJsObject(String^ name, Object^ object)
