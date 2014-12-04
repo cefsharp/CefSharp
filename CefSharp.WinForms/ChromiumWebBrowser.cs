@@ -34,7 +34,6 @@ namespace CefSharp.WinForms
         public bool CanReload { get; private set; }
         public bool IsBrowserInitialized { get; private set; }
 
-
         public double ZoomLevel
         {
             get { return managedCefBrowserAdapter.GetZoomLevel(); }
@@ -377,7 +376,6 @@ namespace CefSharp.WinForms
         {
             managedCefBrowserAdapter.AddWordToDictionary(word);
         }
-
 
     }
 }

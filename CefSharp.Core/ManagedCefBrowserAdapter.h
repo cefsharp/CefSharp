@@ -51,8 +51,6 @@ namespace CefSharp
     public:
 
 
-
-
         ManagedCefBrowserAdapter(IWebBrowserInternal^ webBrowserInternal)
         {
             _renderClientAdapter = new RenderClientAdapter(webBrowserInternal, gcnew Action<int>(this, &ManagedCefBrowserAdapter::OnAfterBrowserCreated));
@@ -510,12 +508,10 @@ namespace CefSharp
             }
         }
 
-
         void RegisterJsObject(String^ name, Object^ object)
         {
             _javaScriptObjectRepository->Register(name, object);
         }
-
 
         void ReplaceMisspelling(String^ word)
         {
