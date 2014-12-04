@@ -509,9 +509,6 @@ namespace CefSharp.Wpf
 
             var isVisible = (bool)args.NewValue;
             managedCefBrowserAdapter.WasHidden(!isVisible);
-
-            if (isVisible)
-                managedCefBrowserAdapter.Invalidate(PaintElementType.View);
         }
 
         private static void OnApplicationExit(object sender, ExitEventArgs e)
@@ -1289,6 +1286,14 @@ namespace CefSharp.Wpf
         public void AddWordToDictionary(string word)
         {
             managedCefBrowserAdapter.AddWordToDictionary(word);
+        }
+
+        // Invalidate the view. The browser will call CefRenderHandler::OnPaint
+        // asynchronously. This method is only used when window rendering is
+        // disabled.
+        public void Invalidate(PaintElementType type)
+        {
+            managedCefBrowserAdapter.Invalidate(type);
         }
 
     }
