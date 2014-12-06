@@ -5,9 +5,9 @@
 
 #include "Stdafx.h"
 
-#include "CefAppWrapper.h"
 #include "CefBrowserWrapper.h"
 #include "CefAppUnmanagedWrapper.h"
+#include "JavascriptRootObjectWrapper.h"
 
 using namespace System;
 using namespace System::Diagnostics;
@@ -50,15 +50,22 @@ namespace CefSharp
         {
             auto window = context->GetGlobal();
 
-            auto jsRootWrapper = gcnew JavascriptRootObjectWrapper(wrapper->JavascriptRootObject, wrapper->BrowserProcess);
+            wrapper->JavascriptRootObjectWrapper = gcnew JavascriptRootObjectWrapper(wrapper->JavascriptRootObject, wrapper->BrowserProcess);
 
-            jsRootWrapper->V8Value = window;
-            jsRootWrapper->Bind();
+            wrapper->JavascriptRootObjectWrapper->V8Value = window;
+            wrapper->JavascriptRootObjectWrapper->Bind();
         }
     };
 
     void CefAppUnmanagedWrapper::OnContextReleased(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
-    {        
+    { 
+        auto wrapper = FindBrowserWrapper(browser, true);
+
+        if (wrapper->JavascriptRootObjectWrapper != nullptr)
+        {
+            delete wrapper->JavascriptRootObjectWrapper;
+            wrapper->JavascriptRootObjectWrapper = nullptr;
+        }
     };
 
     CefBrowserWrapper^ CefAppUnmanagedWrapper::FindBrowserWrapper(CefRefPtr<CefBrowser> browser, bool mustExist)

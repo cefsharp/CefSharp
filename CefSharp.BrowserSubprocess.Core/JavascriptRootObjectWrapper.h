@@ -7,8 +7,6 @@
 #include "Stdafx.h"
 #include "include/cef_v8.h"
 
-#include "JavascriptMethodWrapper.h"
-#include "JavascriptPropertyWrapper.h"
 #include "JavascriptObjectWrapper.h"
 
 using namespace System::Runtime::Serialization;
@@ -40,6 +38,10 @@ namespace CefSharp
         ~JavascriptRootObjectWrapper()
         {
             V8Value = nullptr;
+            for each (JavascriptObjectWrapper^ var in _wrappedObjects)
+            {
+                delete var;
+            }
         }
 
         void Bind()
