@@ -63,5 +63,12 @@ namespace CefSharp
         /// Returns true if the drag data is a link
         /// </summary>
         bool IsLink { get; set; }
+
+        /// <summary>
+        /// Add a file that is being dragged into the webview.
+        /// </summary>
+        /// <param name="path">File Path</param>
+        /// <param name="displayName">Optional Display Name</param>
+        void AddFile(string path, string displayName = null);
     }
 }

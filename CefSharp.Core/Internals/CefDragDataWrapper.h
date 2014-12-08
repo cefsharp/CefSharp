@@ -126,6 +126,11 @@ namespace CefSharp
             virtual property bool IsFile;
             virtual property bool IsFragment;
             virtual property bool IsLink;
+
+            virtual void AddFile(String^ path, String^ displayName)
+            {
+                _wrappedDragData->AddFile(StringUtils::ToNative(path), StringUtils::ToNative(displayName));
+            }
         };
     }
 }
