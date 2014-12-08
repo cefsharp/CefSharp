@@ -1288,13 +1288,13 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter.AddWordToDictionary(word);
         }
 
-        // Invalidate the view. The browser will call CefRenderHandler::OnPaint
-        // asynchronously. This method is only used when window rendering is
-        // disabled.
+        /// <summary>
+        /// Invalidate the view. The browser will call CefRenderHandler::OnPaint asynchronously.
+        /// </summary>
+        /// <param name="type">indicates which surface to re-paint either View or Popup.</param>
         public void Invalidate(PaintElementType type)
         {
             managedCefBrowserAdapter.Invalidate(type);
         }
-
     }
 }
