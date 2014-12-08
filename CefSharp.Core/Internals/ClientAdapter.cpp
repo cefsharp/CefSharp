@@ -6,16 +6,10 @@
 
 #include "Internals/CefRequestWrapper.h"
 #include "Internals/CefWebPluginInfoWrapper.h"
-#include "Internals/JavascriptBinding/BindingHandler.h"
 #include "ClientAdapter.h"
-#include "Cef.h"
 #include "DownloadAdapter.h"
 #include "StreamAdapter.h"
 #include "include/wrapper/cef_stream_resource_handler.h"
-
-using namespace std;
-using namespace CefSharp;
-using namespace CefSharp::Internals::JavascriptBinding;
 
 namespace CefSharp
 {
