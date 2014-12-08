@@ -37,8 +37,11 @@ namespace CefSharp
         public:
             virtual property bool IsReadOnly;
             virtual property String^ FileName;
+            virtual property bool IsFile;
+            virtual property bool IsFragment;
+            virtual property bool IsLink;
 
-            //TODO: Vector is a pointer, so can potentially be updated
+            //TODO: Vector is a pointer, so can potentially be updated (items may be possibly removed)
             virtual property IList<String^>^ FileNames
             {
                 IList<String^>^ get()
@@ -49,7 +52,7 @@ namespace CefSharp
                     return StringUtils::ToClr(names);
                 }
             }
-            //property IList<String^>^ FileNames { IList<String^>^ get(); void set(IList<String^>^ fileNames); }
+
             virtual property String^ FragmentBaseUrl
             {
                 String^ get()
@@ -98,7 +101,6 @@ namespace CefSharp
                 }
             }
 
-
             virtual property String^ LinkTitle
             {
                 String^ get()
@@ -122,10 +124,6 @@ namespace CefSharp
                     _wrappedDragData->SetLinkURL(StringUtils::ToNative(linkUrl));
                 }
             }
-
-            virtual property bool IsFile;
-            virtual property bool IsFragment;
-            virtual property bool IsLink;
 
             virtual void AddFile(String^ path, String^ displayName)
             {
