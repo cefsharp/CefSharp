@@ -41,8 +41,7 @@ namespace CefSharp.WinForms.Example
 
             Disposed += BrowserTabUserControlDisposed;
         }
-
-
+        
         private void OnBrowserHandleCreated(object sender, EventArgs e)
         {
             Browser.RegisterJsObject("bound", new BoundObject());
