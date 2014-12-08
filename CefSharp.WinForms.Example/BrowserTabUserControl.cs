@@ -34,13 +34,14 @@ namespace CefSharp.WinForms.Example
             browser.IsBrowserInitializedChanged += OnIsBrowserInitializedChanged;
             browser.IsLoadingChanged += OnIsLoadingChanged;
             browser.HandleCreated += OnBrowserHandleCreated;
+            browser.DragHandler = new DragHandler();
 
             var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
             DisplayOutput(version);
 
             Disposed += BrowserTabUserControlDisposed;
         }
-
+        
         private void OnBrowserHandleCreated(object sender, EventArgs e)
         {
             Browser.RegisterJsObject("bound", new BoundObject());
