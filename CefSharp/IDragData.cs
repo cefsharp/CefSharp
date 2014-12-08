@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 
 namespace CefSharp
 {
@@ -77,5 +78,12 @@ namespace CefSharp
         /// drag in this kind of data.
         /// </summary>
         void ResetFileContents();
+
+        /// <summary>
+        /// Gets the Contents of the File as a <see cref="Stream"/>
+        /// For a suggested filename check the <see cref="FileName"/> property
+        /// </summary>
+        /// <returns></returns>
+        Stream GetFileContents();
     }
 }

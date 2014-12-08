@@ -136,6 +136,12 @@ namespace CefSharp
             {
                 _wrappedDragData->ResetFileContents();
             }
+
+            virtual Stream^ GetFileContents()
+            {
+                //_wrappedDragData->GetFileContents()
+                throw gcnew NotImplementedException("Need to implement a Wrapper around CefStreamWriter before this method can be implemented.");
+            }
         };
     }
 }
