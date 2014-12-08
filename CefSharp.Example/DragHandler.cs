@@ -2,7 +2,7 @@
 {
     public class DragHandler : IDragHandler
     {
-        public bool OnDragEnter(IWebBrowser browser, DragData dragData, DragOperationsMask mask)
+        public bool OnDragEnter(IWebBrowser browser, IDragData dragData, DragOperationsMask mask)
         {
             return false;
         }

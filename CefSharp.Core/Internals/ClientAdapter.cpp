@@ -6,6 +6,7 @@
 
 #include "Internals/CefRequestWrapper.h"
 #include "Internals/CefWebPluginInfoWrapper.h"
+#include "Internals/CefDragDataWrapper.h"
 #include "ClientAdapter.h"
 #include "DownloadAdapter.h"
 #include "StreamAdapter.h"
@@ -476,20 +477,9 @@ namespace CefSharp
                 return false;
             }
 
-            auto data = gcnew DragData();
-            
-            data->FileName = StringUtils::ToClr(dragData->GetFileName());
-            data->FragmentBaseUrl = StringUtils::ToClr(dragData->GetFragmentBaseURL());
-            data->FragmentHtml = StringUtils::ToClr(dragData->GetFragmentHtml());
-            data->FragmentText = StringUtils::ToClr(dragData->GetFragmentText());
-            data->LinkMetaData = StringUtils::ToClr(dragData->GetLinkMetadata());
-            data->LinkTitle = StringUtils::ToClr(dragData->GetLinkTitle());
-            data->LinkUrl = StringUtils::ToClr(dragData->GetLinkURL());
-            data->IsFile = dragData->IsFile();
-            data->IsFragment = dragData->IsFragment();
-            data->IsLink = dragData->IsLink();			
+            auto dragDataWrapper = gcnew CefDragDataWrapper(dragData);
 
-            return handler->OnDragEnter(_browserControl, data, (CefSharp::DragOperationsMask)mask);
+            return handler->OnDragEnter(_browserControl, dragDataWrapper, (CefSharp::DragOperationsMask)mask);
         }
 
     }
