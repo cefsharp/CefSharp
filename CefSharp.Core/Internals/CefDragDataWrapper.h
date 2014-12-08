@@ -131,6 +131,11 @@ namespace CefSharp
             {
                 _wrappedDragData->AddFile(StringUtils::ToNative(path), StringUtils::ToNative(displayName));
             }
+
+            virtual void ResetFileContents()
+            {
+                _wrappedDragData->ResetFileContents();
+            }
         };
     }
 }

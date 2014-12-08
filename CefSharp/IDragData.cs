@@ -70,5 +70,12 @@ namespace CefSharp
         /// <param name="path">File Path</param>
         /// <param name="displayName">Optional Display Name</param>
         void AddFile(string path, string displayName = null);
+
+        /// <summary>
+        /// Reset the file contents. You should do this before calling
+        /// CefBrowserHost::DragTargetDragEnter as the web view does not allow us to
+        /// drag in this kind of data.
+        /// </summary>
+        void ResetFileContents();
     }
 }
