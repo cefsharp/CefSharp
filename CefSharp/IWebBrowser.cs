@@ -128,6 +128,11 @@ namespace CefSharp
         IFocusHandler FocusHandler { get; set; }
 
         /// <summary>
+        /// Implement <see cref="IResourceHandler"/> and control the loading of resources
+        /// </summary>
+        IResourceHandler ResourceHandler { get; set; }
+
+        /// <summary>
         /// A flag that indicates whether the WebBrowser is initialized (true) or not (false).
         /// </summary>
         /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
