@@ -53,6 +53,7 @@ namespace CefSharp.Wpf
         public IMenuHandler MenuHandler { get; set; }
         public IFocusHandler FocusHandler { get; set; }
         public IDragHandler DragHandler { get; set; }
+        public IResourceHandler ResourceHandler { get; set; }
 
         public event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
         public event EventHandler<StatusMessageEventArgs> StatusMessage;
@@ -331,6 +332,8 @@ namespace CefSharp.Wpf
 
         protected virtual void Dispose(bool isdisposing)
         {
+            ResourceHandler = null;
+
             Loaded -= OnLoaded;
             Unloaded -= OnUnloaded;
 
@@ -459,6 +462,8 @@ namespace CefSharp.Wpf
             disposables.Add(managedCefBrowserAdapter);
             disposables.Add(new DisposableEventWrapper(this, ActualHeightProperty, OnActualSizeChanged));
             disposables.Add(new DisposableEventWrapper(this, ActualWidthProperty, OnActualSizeChanged));
+
+            ResourceHandler = new DefaultResourceHandler();
         }
 
         ~ChromiumWebBrowser()
@@ -1003,7 +1008,15 @@ namespace CefSharp.Wpf
 
         public void LoadHtml(string html, string url)
         {
-            managedCefBrowserAdapter.LoadHtml(html, url);
+            var handler = ResourceHandler;
+            if (handler == null)
+            {
+                throw new Exception("Implement IResourceHandler and assign to the ResourceHandler property to use this feature");
+            }
+
+            handler.RegisterHandler(url, CefSharp.ResourceHandler.FromString(html));
+
+            Load(url);
         }
 
         public void Undo()

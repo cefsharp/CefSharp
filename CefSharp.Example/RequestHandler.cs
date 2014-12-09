@@ -4,8 +4,6 @@ namespace CefSharp.Example
 {
     public class RequestHandler : IRequestHandler
     {
-        private static readonly Uri ResourceUrl = new Uri("http://test/resource/load");
-
         public static readonly string VersionNumberString = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}",
             Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
 
@@ -27,17 +25,6 @@ namespace CefSharp.Example
         bool IRequestHandler.OnBeforeResourceLoad(IWebBrowser browser, IRequest request, IResponse response)
         {
             return false;
-        }
-
-        public ResourceHandler GetResourceHandler(IWebBrowser browser, IRequest request)
-        {
-            if (request.Url.StartsWith(ResourceUrl.ToString()))
-            {
-                const string responseBody = "<html><body><h1>Success</h1><p>This document is loaded from a System.IO.Stream</p></body></html>";
-                return ResourceHandler.FromString(responseBody);
-            }
-
-            return null;
         }
 
         bool IRequestHandler.GetAuthCredentials(IWebBrowser browser, bool isProxy, string host, int port, string realm, string scheme, ref string username, ref string password)

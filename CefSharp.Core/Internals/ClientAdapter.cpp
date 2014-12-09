@@ -245,7 +245,7 @@ namespace CefSharp
         // this callback.
         CefRefPtr<CefResourceHandler> ClientAdapter::GetResourceHandler(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request)
         {
-            IRequestHandler^ handler = _browserControl->RequestHandler;
+            auto handler = _browserControl->ResourceHandler;
 
             if (handler == nullptr)
             {

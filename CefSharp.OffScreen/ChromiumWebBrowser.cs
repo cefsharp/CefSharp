@@ -42,6 +42,8 @@ namespace CefSharp.OffScreen
         /// <param name="browserSettings">The browser settings to use.  If null, the default settings are used.</param>
         public ChromiumWebBrowser(BrowserSettings browserSettings = null)
         {
+            ResourceHandler = new DefaultResourceHandler();
+
             Cef.AddDisposable(this);
 
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
@@ -50,6 +52,8 @@ namespace CefSharp.OffScreen
 
         public void Dispose()
         {
+            ResourceHandler = null;
+
             Cef.RemoveDisposable(this);
 
             if (bitmap != null)
@@ -179,6 +183,7 @@ namespace CefSharp.OffScreen
         public IFocusHandler FocusHandler { get; set; }
         public IRequestHandler RequestHandler { get; set; }
         public IDragHandler DragHandler { get; set; }
+        public IResourceHandler ResourceHandler { get; set; }
 
         public event EventHandler<LoadErrorEventArgs> LoadError;
         public event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
@@ -236,7 +241,15 @@ namespace CefSharp.OffScreen
 
         public void LoadHtml(string html, string url)
         {
-            managedCefBrowserAdapter.LoadHtml(html, url);
+            var handler = ResourceHandler;
+            if (handler == null)
+            {
+                throw new Exception("Implement IResourceHandler and assign to the ResourceHandler property to use this feature");
+            }
+
+            handler.RegisterHandler(url, CefSharp.ResourceHandler.FromString(html));
+
+            Load(url);
         }
 
         public void RegisterJsObject(string name, object objectToBind)

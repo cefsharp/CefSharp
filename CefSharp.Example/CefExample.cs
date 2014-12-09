@@ -7,6 +7,7 @@ namespace CefSharp.Example
     public static class CefExample
     {
         public const string DefaultUrl = "custom://cefsharp/BindingTest.html";
+        public const string TestResourceUrl = "http://test/resource/load";
 
         // Use when debugging the actual SubProcess, to make breakpoints etc. inside that project work.
         private static readonly bool DebuggingSubProcess = Debugger.IsAttached;
@@ -41,6 +42,16 @@ namespace CefSharp.Example
                 {
                     return;
                 }
+            }
+        }
+
+        public static void RegisterTestResources(IWebBrowser browser)
+        {
+            var handler = browser.ResourceHandler;
+            if (handler != null)
+            {
+                const string responseBody = "<html><body><h1>Success</h1><p>This document is loaded from a System.IO.Stream</p></body></html>";
+                handler.RegisterHandler(TestResourceUrl, ResourceHandler.FromString(responseBody));
             }
         }
     }
