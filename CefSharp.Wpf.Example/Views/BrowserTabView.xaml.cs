@@ -19,6 +19,8 @@ namespace CefSharp.Wpf.Example.Views
             browser.RegisterJsObject("bound", new BoundObject());
 
             browser.MenuHandler = new Handlers.MenuHandler();
+
+            CefExample.RegisterTestResources(browser);
         }
 
         private void OnTextBoxGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)

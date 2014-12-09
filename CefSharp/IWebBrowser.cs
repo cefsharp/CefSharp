@@ -53,8 +53,13 @@ namespace CefSharp
         void Load(string url);
 
         /// <summary>
-        /// Loads custom HTML content into the web browser.
+        /// Registers and loads a <see cref="ResourceHandler"/> that represents the HTML content.
         /// </summary>
+        /// <remarks>
+        /// `Cef` Native `LoadHtml` is unpredictable and only works sometimes, this method wraps
+        /// the provided HTML in a <see cref="ResourceHandler"/> and loads the provided url using
+        /// the <see cref="Load"/> method.
+        /// </remarks>
         /// <param name="html">The HTML content.</param>
         /// <param name="url">The URL that will be treated as the address of the content.</param>
         void LoadHtml(string html, string url);
@@ -96,17 +101,22 @@ namespace CefSharp
         /// Implement <see cref="ILifeSpanHandler"/> and assign to handle events related to popups.
         /// </summary>
         ILifeSpanHandler LifeSpanHandler { get; set; }
-        
+
         /// <summary>
         /// Implement <see cref="IKeyboardHandler"/> and assign to handle events related to key press.
         /// </summary>
         IKeyboardHandler KeyboardHandler { get; set; }
-        
+
         /// <summary>
         /// Implement <see cref="IJsDialogHandler"/> and assign to handle events related to JavaScript Dialogs.
         /// </summary>
         IJsDialogHandler JsDialogHandler { get; set; }
-        
+
+        /// <summary>
+        /// Implement <see cref="IDragHandler"/> and assign to handle events related to dragging.
+        /// </summary>
+        IDragHandler DragHandler { get; set; }
+
         /// <summary>
         /// Implement <see cref="IDownloadHandler"/> and assign to handle events related to downloading files.
         /// </summary>
@@ -121,6 +131,11 @@ namespace CefSharp
         /// Implement <see cref="IFocusHandler"/> and assign to handle events related to the browser component's focus
         /// </summary>
         IFocusHandler FocusHandler { get; set; }
+
+        /// <summary>
+        /// Implement <see cref="IResourceHandler"/> and control the loading of resources
+        /// </summary>
+        IResourceHandler ResourceHandler { get; set; }
 
         /// <summary>
         /// A flag that indicates whether the WebBrowser is initialized (true) or not (false).

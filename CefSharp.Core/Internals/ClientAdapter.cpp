@@ -7,16 +7,11 @@
 #include "Internals/CefRequestWrapper.h"
 #include "Internals/CefWebPluginInfoWrapper.h"
 #include "Internals/CefContextMenuParamsWrapper.h"
-#include "Internals/JavascriptBinding/BindingHandler.h"
+#include "Internals/CefDragDataWrapper.h"
 #include "ClientAdapter.h"
-#include "Cef.h"
 #include "DownloadAdapter.h"
 #include "StreamAdapter.h"
 #include "include/wrapper/cef_stream_resource_handler.h"
-
-using namespace std;
-using namespace CefSharp;
-using namespace CefSharp::Internals::JavascriptBinding;
 
 namespace CefSharp
 {
@@ -113,23 +108,6 @@ namespace CefSharp
             _browserControl->OnStatusMessage(valueStr);
         }
 
-        KeyType KeyTypeToManaged(cef_key_event_type_t keytype)
-        {
-            switch (keytype)
-            {
-            case KEYEVENT_RAWKEYDOWN:
-                return KeyType::RawKeyDown;
-            case KEYEVENT_KEYDOWN:
-                return KeyType::KeyDown;
-            case KEYEVENT_KEYUP:
-                return KeyType::KeyUp;
-            case KEYEVENT_CHAR:
-                return KeyType::Char;
-            default:
-                throw gcnew ArgumentOutOfRangeException("keytype", String::Format("'{0}' is not a valid keytype", gcnew array<Object^>(keytype)));
-            }
-        }
-
         bool ClientAdapter::OnKeyEvent(CefRefPtr<CefBrowser> browser, const CefKeyEvent& event, CefEventHandle os_event)
         {
             IKeyboardHandler^ handler = _browserControl->KeyboardHandler;
@@ -141,7 +119,7 @@ namespace CefSharp
 
             // TODO: windows_key_code could possibly be the wrong choice here (the OnKeyEvent signature has changed since CEF1). The
             // other option would be native_key_code.
-            return handler->OnKeyEvent(_browserControl, KeyTypeToManaged(event.type), event.windows_key_code, event.modifiers, event.is_system_key == 1);
+            return handler->OnKeyEvent(_browserControl, (KeyType)event.type, event.windows_key_code, (CefEventFlags)event.modifiers, event.is_system_key == 1);
         }
 
         bool ClientAdapter::OnPreKeyEvent(CefRefPtr<CefBrowser> browser, const CefKeyEvent& event, CefEventHandle os_event, bool* is_keyboard_shortcut)
@@ -153,7 +131,7 @@ namespace CefSharp
                 return false;
             }
 
-            return handler->OnPreKeyEvent(_browserControl, (KeyType)event.type, event.windows_key_code, event.native_key_code, event.modifiers, event.is_system_key == 1, *is_keyboard_shortcut);
+            return handler->OnPreKeyEvent(_browserControl, (KeyType)event.type, event.windows_key_code, event.native_key_code, (CefEventFlags)event.modifiers, event.is_system_key == 1, *is_keyboard_shortcut);
         }
 
         void ClientAdapter::OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame)
@@ -268,7 +246,7 @@ namespace CefSharp
         // this callback.
         CefRefPtr<CefResourceHandler> ClientAdapter::GetResourceHandler(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request)
         {
-            IRequestHandler^ handler = _browserControl->RequestHandler;
+            auto handler = _browserControl->ResourceHandler;
 
             if (handler == nullptr)
             {
@@ -493,5 +471,20 @@ namespace CefSharp
 
             return handled;
         }
+
+        bool ClientAdapter::OnDragEnter(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDragData> dragData, DragOperationsMask mask)
+        {
+            IDragHandler^ handler = _browserControl->DragHandler;
+
+            if (handler == nullptr)
+            {
+                return false;
+            }
+
+            auto dragDataWrapper = gcnew CefDragDataWrapper(dragData);
+
+            return handler->OnDragEnter(_browserControl, dragDataWrapper, (CefSharp::DragOperationsMask)mask);
+        }
+
     }
 }

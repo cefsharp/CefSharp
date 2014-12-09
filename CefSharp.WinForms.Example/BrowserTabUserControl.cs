@@ -31,14 +31,19 @@ namespace CefSharp.WinForms.Example
             browser.TitleChanged += OnBrowserTitleChanged;
             browser.AddressChanged += OnBrowserAddressChanged;
             browser.StatusMessage += OnBrowserStatusMessage;
+            browser.IsBrowserInitializedChanged += OnIsBrowserInitializedChanged;
+            browser.IsLoadingChanged += OnIsLoadingChanged;
             browser.HandleCreated += OnBrowserHandleCreated;
+            browser.DragHandler = new DragHandler();
+
+            CefExample.RegisterTestResources(browser);
 
             var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
             DisplayOutput(version);
 
             Disposed += BrowserTabUserControlDisposed;
         }
-
+        
         private void OnBrowserHandleCreated(object sender, EventArgs e)
         {
             Browser.RegisterJsObject("bound", new BoundObject());
@@ -46,15 +51,19 @@ namespace CefSharp.WinForms.Example
 
         private void BrowserTabUserControlDisposed(object sender, EventArgs e)
         {
+            var browser = (ChromiumWebBrowser)Browser;
             Disposed -= BrowserTabUserControlDisposed;
 
-            Browser.NavStateChanged -= OnBrowserNavStateChanged;
-            Browser.ConsoleMessage -= OnBrowserConsoleMessage;
-            Browser.TitleChanged -= OnBrowserTitleChanged;
-            Browser.AddressChanged -= OnBrowserAddressChanged;
-            Browser.StatusMessage -= OnBrowserStatusMessage;
+            browser.NavStateChanged -= OnBrowserNavStateChanged;
+            browser.ConsoleMessage -= OnBrowserConsoleMessage;
+            browser.TitleChanged -= OnBrowserTitleChanged;
+            browser.AddressChanged -= OnBrowserAddressChanged;
+            browser.StatusMessage -= OnBrowserStatusMessage;
+            browser.IsBrowserInitializedChanged -= OnIsBrowserInitializedChanged;
+            browser.IsLoadingChanged -= OnIsLoadingChanged;
+            browser.HandleCreated -= OnBrowserHandleCreated;
 
-            Browser.Dispose();
+            browser.Dispose();
         }
 
         private void OnBrowserConsoleMessage(object sender, ConsoleMessageEventArgs args)
@@ -105,6 +114,16 @@ namespace CefSharp.WinForms.Example
                 Properties.Resources.nav_plain_green;
 
             HandleToolStripLayout();
+        }
+
+        private void OnIsBrowserInitializedChanged(object sender, IsBrowserInitializedChangedEventArgs args)
+        {
+            
+        }
+
+        private void OnIsLoadingChanged(object sender, IsLoadingChangedEventArgs args)
+        {
+            
         }
 
         public void ExecuteScript(string script)

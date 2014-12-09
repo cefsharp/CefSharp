@@ -28,6 +28,8 @@ namespace CefSharp.WinForms
         public ILifeSpanHandler LifeSpanHandler { get; set; }
         public IMenuHandler MenuHandler { get; set; }
         public IFocusHandler FocusHandler { get; set; }
+        public IDragHandler DragHandler { get; set; }
+        public IResourceHandler ResourceHandler { get; set; }
 
         public bool CanGoForward { get; private set; }
         public bool CanGoBack { get; private set; }
@@ -58,11 +60,13 @@ namespace CefSharp.WinForms
             Dock = DockStyle.Fill;
 
             FocusHandler = new DefaultFocusHandler(this);
+            ResourceHandler = new DefaultResourceHandler();
         }
 
         protected override void Dispose(bool disposing)
         {
             FocusHandler = null;
+            ResourceHandler = null;
 
             Cef.RemoveDisposable(this);
 
@@ -98,7 +102,15 @@ namespace CefSharp.WinForms
 
         public void LoadHtml(string html, string url)
         {
-            managedCefBrowserAdapter.LoadHtml(html, url);
+            var handler = ResourceHandler;
+            if (handler == null)
+            {
+                throw new Exception("Implement IResourceHandler and assign to the ResourceHandler property to use this feature");
+            }
+
+            handler.RegisterHandler(url, CefSharp.ResourceHandler.FromString(html));
+
+            Load(url);
         }
 
         public void RegisterJsObject(string name, object objectToBind)
