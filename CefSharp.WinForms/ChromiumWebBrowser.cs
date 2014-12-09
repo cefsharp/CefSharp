@@ -60,11 +60,13 @@ namespace CefSharp.WinForms
             Dock = DockStyle.Fill;
 
             FocusHandler = new DefaultFocusHandler(this);
+            ResourceHandler = new DefaultResourceHandler();
         }
 
         protected override void Dispose(bool disposing)
         {
             FocusHandler = null;
+            ResourceHandler = null;
 
             Cef.RemoveDisposable(this);
 

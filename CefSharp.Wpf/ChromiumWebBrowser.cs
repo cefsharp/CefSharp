@@ -332,6 +332,8 @@ namespace CefSharp.Wpf
 
         protected virtual void Dispose(bool isdisposing)
         {
+            ResourceHandler = null;
+
             Loaded -= OnLoaded;
             Unloaded -= OnUnloaded;
 
@@ -460,6 +462,8 @@ namespace CefSharp.Wpf
             disposables.Add(managedCefBrowserAdapter);
             disposables.Add(new DisposableEventWrapper(this, ActualHeightProperty, OnActualSizeChanged));
             disposables.Add(new DisposableEventWrapper(this, ActualWidthProperty, OnActualSizeChanged));
+
+            ResourceHandler = new DefaultResourceHandler();
         }
 
         ~ChromiumWebBrowser()

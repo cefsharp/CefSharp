@@ -42,6 +42,8 @@ namespace CefSharp.OffScreen
         /// <param name="browserSettings">The browser settings to use.  If null, the default settings are used.</param>
         public ChromiumWebBrowser(BrowserSettings browserSettings = null)
         {
+            ResourceHandler = new DefaultResourceHandler();
+
             Cef.AddDisposable(this);
 
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
@@ -50,6 +52,8 @@ namespace CefSharp.OffScreen
 
         public void Dispose()
         {
+            ResourceHandler = null;
+
             Cef.RemoveDisposable(this);
 
             if (bitmap != null)
