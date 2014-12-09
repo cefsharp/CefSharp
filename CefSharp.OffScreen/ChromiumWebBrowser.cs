@@ -241,7 +241,15 @@ namespace CefSharp.OffScreen
 
         public void LoadHtml(string html, string url)
         {
-            managedCefBrowserAdapter.LoadHtml(html, url);
+            var handler = ResourceHandler;
+            if (handler == null)
+            {
+                throw new Exception("Implement IResourceHandler and assign to the ResourceHandler property to use this feature");
+            }
+
+            handler.RegisterHandler(url, CefSharp.ResourceHandler.FromString(html));
+
+            Load(url);
         }
 
         public void RegisterJsObject(string name, object objectToBind)
