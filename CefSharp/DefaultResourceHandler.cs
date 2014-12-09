@@ -18,14 +18,7 @@ namespace CefSharp
 
         public virtual void RegisterHandler(string url, ResourceHandler handler)
         {
-            if (Handlers.ContainsKey(url))
-            {
-                Handlers[url] = handler;
-            }
-            else
-            {
-                Handlers.Add(url, handler);
-            }
+            Handlers[url] = handler;
         }
 
         public virtual void UnregisterHandler(string url)
