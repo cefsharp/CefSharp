@@ -7,30 +7,30 @@ using System.Collections.Generic;
 
 namespace CefSharp
 {
-	public class DefaultResourceHandler : IResourceHandler
-	{
-		public Dictionary<string, ResourceHandler> Handlers { get; private set; }
+    public class DefaultResourceHandler : IResourceHandler
+    {
+        public Dictionary<string, ResourceHandler> Handlers { get; private set; }
 
-		public DefaultResourceHandler()
-		{
-			Handlers = new Dictionary<string, ResourceHandler>(StringComparer.OrdinalIgnoreCase);
-		}
+        public DefaultResourceHandler()
+        {
+            Handlers = new Dictionary<string, ResourceHandler>(StringComparer.OrdinalIgnoreCase);
+        }
 
-		public virtual void RegisterHandler(string url, ResourceHandler handler)
-		{
-			Handlers.Add(url, handler);
-		}
+        public virtual void RegisterHandler(string url, ResourceHandler handler)
+        {
+            Handlers.Add(url, handler);
+        }
 
-		public virtual void UnregisterHandler(string url)
-		{
-			Handlers.Remove(url);
-		}
+        public virtual void UnregisterHandler(string url)
+        {
+            Handlers.Remove(url);
+        }
 
-		public virtual ResourceHandler GetResourceHandler(IWebBrowser browser, IRequest request)
-		{
-			ResourceHandler handler;
+        public virtual ResourceHandler GetResourceHandler(IWebBrowser browser, IRequest request)
+        {
+            ResourceHandler handler;
 
-			return Handlers.TryGetValue(request.Url, out handler) ? handler : null;
-		}
-	}
+            return Handlers.TryGetValue(request.Url, out handler) ? handler : null;
+        }
+    }
 }
