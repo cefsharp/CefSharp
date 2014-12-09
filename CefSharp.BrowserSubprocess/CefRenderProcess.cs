@@ -65,7 +65,10 @@ namespace CefSharp.BrowserSubprocess
             try
             {
                 clientChannel.Open();
-                browserProcess.Connect();
+                if (!browser.IsPopup)
+                {
+                    browserProcess.Connect();
+                }
 
                 var javascriptObject = browserProcess.GetRegisteredJavascriptObjects();
 
