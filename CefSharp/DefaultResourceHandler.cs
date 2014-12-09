@@ -11,14 +11,21 @@ namespace CefSharp
     {
         public Dictionary<string, ResourceHandler> Handlers { get; private set; }
 
-        public DefaultResourceHandler()
+        public DefaultResourceHandler(IEqualityComparer<string> comparer = null)
         {
-            Handlers = new Dictionary<string, ResourceHandler>(StringComparer.OrdinalIgnoreCase);
+            Handlers = new Dictionary<string, ResourceHandler>(comparer ?? StringComparer.OrdinalIgnoreCase);
         }
 
         public virtual void RegisterHandler(string url, ResourceHandler handler)
         {
-            Handlers.Add(url, handler);
+            if (Handlers.ContainsKey(url))
+            {
+                Handlers[url] = handler;
+            }
+            else
+            {
+                Handlers.Add(url, handler);
+            }
         }
 
         public virtual void UnregisterHandler(string url)
