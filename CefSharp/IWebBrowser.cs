@@ -53,8 +53,13 @@ namespace CefSharp
         void Load(string url);
 
         /// <summary>
-        /// Loads custom HTML content into the web browser.
+        /// Registers and loads a <see cref="ResourceHandler"/> that represents the HTML content.
         /// </summary>
+        /// <remarks>
+        /// `Cef` Native `LoadHtml` is unpredictable and only works sometimes, this method wraps
+        /// the provided HTML in a <see cref="ResourceHandler"/> and loads the provided url using
+        /// the <see cref="Load"/> method.
+        /// </remarks>
         /// <param name="html">The HTML content.</param>
         /// <param name="url">The URL that will be treated as the address of the content.</param>
         void LoadHtml(string html, string url);
