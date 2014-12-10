@@ -383,6 +383,25 @@ namespace CefSharp.WinForms
             }
         }
 
+        /// <summary>
+        /// Sets input focus to the browser.
+        /// </summary>
+        /// <returns>true always</returns>
+        /// <remarks><see cref="System.Windows.Forms.Control.Focus()"/> is not able to be overridden.</remarks>
+        public new bool Focus()
+        {
+            SetFocus(true);
+            return true;
+        }
+
+        /// <summary>
+        /// Set whether the browser is focused.
+        /// </summary>
+        public void SetFocus(bool isFocused)
+        {
+            managedCefBrowserAdapter.SetFocus(isFocused);
+        }
+
         protected override void OnSizeChanged(EventArgs e)
         {
             base.OnSizeChanged(e);
