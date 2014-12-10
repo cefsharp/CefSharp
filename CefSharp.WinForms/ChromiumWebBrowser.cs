@@ -383,6 +383,14 @@ namespace CefSharp.WinForms
             }
         }
 
+        /// <summary>
+        /// Set whether the browser is focused.
+        /// </summary>
+        public void SetFocus(bool isFocused)
+        {
+            managedCefBrowserAdapter.SetFocus(isFocused);
+        }
+
         protected override void OnSizeChanged(EventArgs e)
         {
             base.OnSizeChanged(e);
