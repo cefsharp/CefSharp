@@ -238,7 +238,6 @@
   <ItemGroup>
     <ClInclude Include="BrowserSettings.h" />
     <ClInclude Include="Cef.h" />
-    <ClInclude Include="Internals\AutoLock.h" />
     <ClInclude Include="Internals\CefDragDataWrapper.h" />
     <ClInclude Include="Internals\CompletionHandler.h" />
     <ClInclude Include="Internals\DownloadAdapter.h" />
