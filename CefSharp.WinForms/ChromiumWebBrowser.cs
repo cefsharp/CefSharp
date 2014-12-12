@@ -61,6 +61,8 @@ namespace CefSharp.WinForms
 
             FocusHandler = new DefaultFocusHandler(this);
             ResourceHandler = new DefaultResourceHandler();
+
+            managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
         }
 
         protected override void Dispose(bool disposing)
@@ -151,7 +153,6 @@ namespace CefSharp.WinForms
 
         protected override void OnHandleCreated(EventArgs e)
         {
-            managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
             managedCefBrowserAdapter.CreateBrowser(BrowserSettings ?? new BrowserSettings(), Handle, Address);
 
             base.OnHandleCreated(e);
@@ -381,6 +382,14 @@ namespace CefSharp.WinForms
                 var focus = User32.GetFocus();
                 return focus != IntPtr.Zero && User32.IsChild(Handle, focus);
             }
+        }
+
+        /// <summary>
+        /// Set whether the browser is focused.
+        /// </summary>
+        public void SetFocus(bool isFocused)
+        {
+            managedCefBrowserAdapter.SetFocus(isFocused);
         }
 
         protected override void OnSizeChanged(EventArgs e)
