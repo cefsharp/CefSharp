@@ -33,8 +33,8 @@ namespace CefSharp.WinForms.Example
             browser.StatusMessage += OnBrowserStatusMessage;
             browser.IsBrowserInitializedChanged += OnIsBrowserInitializedChanged;
             browser.IsLoadingChanged += OnIsLoadingChanged;
-            browser.HandleCreated += OnBrowserHandleCreated;
             browser.DragHandler = new DragHandler();
+            browser.RegisterJsObject("bound", new BoundObject());
 
             CefExample.RegisterTestResources(browser);
 
@@ -42,11 +42,6 @@ namespace CefSharp.WinForms.Example
             DisplayOutput(version);
 
             Disposed += BrowserTabUserControlDisposed;
-        }
-        
-        private void OnBrowserHandleCreated(object sender, EventArgs e)
-        {
-            Browser.RegisterJsObject("bound", new BoundObject());
         }
 
         private void BrowserTabUserControlDisposed(object sender, EventArgs e)
@@ -61,7 +56,6 @@ namespace CefSharp.WinForms.Example
             browser.StatusMessage -= OnBrowserStatusMessage;
             browser.IsBrowserInitializedChanged -= OnIsBrowserInitializedChanged;
             browser.IsLoadingChanged -= OnIsLoadingChanged;
-            browser.HandleCreated -= OnBrowserHandleCreated;
 
             browser.Dispose();
         }

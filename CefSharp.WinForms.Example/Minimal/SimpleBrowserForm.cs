@@ -4,6 +4,7 @@
 
 using System;
 using System.Windows.Forms;
+using CefSharp.Example;
 using CefSharp.WinForms.Example.Controls;
 
 namespace CefSharp.WinForms.Example.Minimal
@@ -57,6 +58,7 @@ namespace CefSharp.WinForms.Example.Minimal
             browser.TitleChanged += OnBrowserTitleChanged;
             browser.AddressChanged += OnBrowserAddressChanged;
             browser.Paint += BrowserPaint;
+            browser.RegisterJsObject("bound", new BoundObject());
         }
 
         private void OnBrowserConsoleMessage(object sender, ConsoleMessageEventArgs args)
