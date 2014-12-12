@@ -447,14 +447,17 @@ namespace CefSharp.OffScreen
             }
         }
 
-        void IWebBrowserInternal.OnInitialized()
+        void IWebBrowserInternal.OnInitialized(bool isInitialized)
         {
-            IsBrowserInitialized = true;
+            IsBrowserInitialized = isInitialized;
 
-            var handler = BrowserInitialized;
-            if (handler != null)
+            if (isInitialized)
             {
-                handler(this, EventArgs.Empty);
+                var handler = BrowserInitialized;
+                if (handler != null)
+                {
+                    handler(this, EventArgs.Empty);
+                }
             }
         }
 

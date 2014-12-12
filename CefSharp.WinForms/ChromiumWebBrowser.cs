@@ -81,11 +81,14 @@ namespace CefSharp.WinForms
             base.Dispose(disposing);
         }
 
-        void IWebBrowserInternal.OnInitialized()
+        void IWebBrowserInternal.OnInitialized(bool isInitialized)
         {
-            IsBrowserInitialized = true;
+            IsBrowserInitialized = isInitialized;
 
-            ResizeBrowser();
+            if (isInitialized)
+            {
+                ResizeBrowser();
+            }
 
             var handler = IsBrowserInitializedChanged;
 

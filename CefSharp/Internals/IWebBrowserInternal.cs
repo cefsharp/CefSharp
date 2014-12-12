@@ -6,7 +6,7 @@ namespace CefSharp.Internals
 {
     public interface IWebBrowserInternal : IWebBrowser
     {
-        void OnInitialized();
+        void OnInitialized(bool isInitialized);
 
         void SetAddress(string address);
         void SetIsLoading(bool isloading);
