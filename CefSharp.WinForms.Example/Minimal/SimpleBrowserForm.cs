@@ -31,14 +31,6 @@ namespace CefSharp.WinForms.Example.Minimal
             Load += OnLoad;
         }
 
-        private void BrowserPaint(object sender, PaintEventArgs e)
-        {
-            browser.Paint -= BrowserPaint;
-
-            //Invalidate browser as short term fix for #522
-            browser.Invalidate();
-        }
-
         private void OnLoad(object sender, EventArgs e)
         {
             CreateBrowser();
@@ -57,7 +49,6 @@ namespace CefSharp.WinForms.Example.Minimal
             browser.StatusMessage += OnBrowserStatusMessage;
             browser.TitleChanged += OnBrowserTitleChanged;
             browser.AddressChanged += OnBrowserAddressChanged;
-            browser.Paint += BrowserPaint;
             browser.RegisterJsObject("bound", new BoundObject());
         }
 
