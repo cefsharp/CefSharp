@@ -154,6 +154,13 @@ namespace CefSharp.WinForms
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
             managedCefBrowserAdapter.CreateBrowser(BrowserSettings ?? new BrowserSettings(), Handle, Address);
 
+            var handler = IsBrowserInitializedChanged;
+
+            if (handler != null)
+            {
+                handler(this, new IsBrowserInitializedChangedEventArgs(false));
+            }
+
             base.OnHandleCreated(e);
         }
 

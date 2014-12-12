@@ -4,6 +4,7 @@
 
 using System;
 using System.Windows.Forms;
+using CefSharp.Example;
 using CefSharp.WinForms.Example.Controls;
 
 namespace CefSharp.WinForms.Example.Minimal
@@ -30,14 +31,6 @@ namespace CefSharp.WinForms.Example.Minimal
             Load += OnLoad;
         }
 
-        private void BrowserPaint(object sender, PaintEventArgs e)
-        {
-            browser.Paint -= BrowserPaint;
-
-            //Invalidate browser as short term fix for #522
-            browser.Invalidate();
-        }
-
         private void OnLoad(object sender, EventArgs e)
         {
             CreateBrowser();
@@ -56,7 +49,15 @@ namespace CefSharp.WinForms.Example.Minimal
             browser.StatusMessage += OnBrowserStatusMessage;
             browser.TitleChanged += OnBrowserTitleChanged;
             browser.AddressChanged += OnBrowserAddressChanged;
-            browser.Paint += BrowserPaint;
+            browser.IsBrowserInitializedChanged += OnBrowserIsBrowserInitializedChanged;
+        }
+
+        private void OnBrowserIsBrowserInitializedChanged(object sender, IsBrowserInitializedChangedEventArgs e)
+        {
+            if (!e.IsBrowserInitialized)
+            {
+                browser.RegisterJsObject("bound", new BoundObject());
+            }
         }
 
         private void OnBrowserConsoleMessage(object sender, ConsoleMessageEventArgs args)
