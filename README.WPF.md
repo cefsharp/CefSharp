@@ -28,7 +28,7 @@ To be able to use CefSharp.Wpf, you basically just have to add a ChromiumWebBrow
         {
             InitializeComponent();
 
-            Cef.Initialize(new Settings());
+            Cef.Initialize(new CefSettings());
         }
     }
 ```
