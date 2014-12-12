@@ -4,6 +4,7 @@
 
 using System;
 using System.Windows.Forms;
+using CefSharp.Example;
 using CefSharp.WinForms.Example.Controls;
 
 namespace CefSharp.WinForms.Example.Minimal
@@ -48,6 +49,15 @@ namespace CefSharp.WinForms.Example.Minimal
             browser.StatusMessage += OnBrowserStatusMessage;
             browser.TitleChanged += OnBrowserTitleChanged;
             browser.AddressChanged += OnBrowserAddressChanged;
+            browser.IsBrowserInitializedChanged += OnBrowserIsBrowserInitializedChanged;
+        }
+
+        private void OnBrowserIsBrowserInitializedChanged(object sender, IsBrowserInitializedChangedEventArgs e)
+        {
+            if (!e.IsBrowserInitialized)
+            {
+                browser.RegisterJsObject("bound", new BoundObject());
+            }
         }
 
         private void OnBrowserConsoleMessage(object sender, ConsoleMessageEventArgs args)
