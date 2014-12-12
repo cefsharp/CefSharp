@@ -81,14 +81,11 @@ namespace CefSharp.WinForms
             base.Dispose(disposing);
         }
 
-        void IWebBrowserInternal.OnInitialized(bool isInitialized)
+        void IWebBrowserInternal.OnInitialized()
         {
-            IsBrowserInitialized = isInitialized;
+            IsBrowserInitialized = true;
 
-            if (isInitialized)
-            {
-                ResizeBrowser();
-            }
+            ResizeBrowser();
 
             var handler = IsBrowserInitializedChanged;
 
@@ -156,6 +153,13 @@ namespace CefSharp.WinForms
         {
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
             managedCefBrowserAdapter.CreateBrowser(BrowserSettings ?? new BrowserSettings(), Handle, Address);
+
+            var handler = IsBrowserInitializedChanged;
+
+            if (handler != null)
+            {
+                handler(this, new IsBrowserInitializedChangedEventArgs(false));
+            }
 
             base.OnHandleCreated(e);
         }

@@ -90,24 +90,19 @@ namespace CefSharp
 
         void OnAfterBrowserCreated(int browserId)
         {
-            if(_webBrowserInternal != nullptr)
-            {
-                _webBrowserInternal->OnInitialized(false);
-            }
-
             _browserProcessServiceHost = gcnew BrowserProcessServiceHost(_javaScriptObjectRepository, Process::GetCurrentProcess()->Id, browserId);
             _browserProcessServiceHost->Open();
 
             if(_webBrowserInternal != nullptr)
             {
-                _webBrowserInternal->OnInitialized(true);
-            }
+                _webBrowserInternal->OnInitialized();
 
-            auto address = _address;
+                auto address = _address;
 
-            if (address != nullptr)
-            {
-                LoadUrl(address);
+                if (address != nullptr)
+                {
+                    LoadUrl(address);
+                }
             }
         }
 

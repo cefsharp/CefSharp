@@ -978,12 +978,9 @@ namespace CefSharp.Wpf
             }
         }
 
-        void IWebBrowserInternal.OnInitialized(bool isInitialized)
+        void IWebBrowserInternal.OnInitialized()
         {
-            if (isInitialized)
-            {
-                UiThreadRunAsync(() => SetCurrentValue(IsBrowserInitializedProperty, true));
-            }
+            UiThreadRunAsync(() => SetCurrentValue(IsBrowserInitializedProperty, true));
         }
 
         public void Load(string url)
