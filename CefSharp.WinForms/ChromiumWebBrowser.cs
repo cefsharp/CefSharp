@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CefSharp.Internals;
@@ -104,13 +105,18 @@ namespace CefSharp.WinForms
 
         public void LoadHtml(string html, string url)
         {
+            LoadHtml(html, url, Encoding.UTF8);
+        }
+
+        public void LoadHtml(string html, string url, Encoding encoding)
+        {
             var handler = ResourceHandler;
             if (handler == null)
             {
                 throw new Exception("Implement IResourceHandler and assign to the ResourceHandler property to use this feature");
             }
 
-            handler.RegisterHandler(url, CefSharp.ResourceHandler.FromString(html));
+            handler.RegisterHandler(url, CefSharp.ResourceHandler.FromString(html, encoding, true));
 
             Load(url);
         }
