@@ -664,18 +664,24 @@ namespace CefSharp.Wpf
             return IntPtr.Zero;
         }
 
+        public BitmapInfo CreateBitmapInfo(bool isPopup)
+        {
+            return new InteropBitmapInfo { IsPopup = isPopup };
+        }
+
         void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
         {
             UiThreadRunAsync(delegate
             {
                 lock (bitmapInfo.BitmapLock)
                 {
+                    var interopBitmapInfo = (InteropBitmapInfo)bitmapInfo;
                     // Inform parents that the browser rendering is updating
-                    OnRendering(this, bitmapInfo);
+                    OnRendering(this, interopBitmapInfo);
 
                     var img = bitmapInfo.IsPopup ? popupImage : image;
                     // Now update the WPF image
-                    var bitmap = bitmapInfo.InteropBitmap as InteropBitmap;
+                    var bitmap = interopBitmapInfo.InteropBitmap;
                     if (bitmap == null)
                     {
                         img.Source = null;
@@ -688,7 +694,7 @@ namespace CefSharp.Wpf
                             bitmapInfo.Width, bitmapInfo.Height, PixelFormat, stride, 0);
                         img.Source = bitmap;
 
-                        bitmapInfo.InteropBitmap = bitmap;
+                        interopBitmapInfo.InteropBitmap = bitmap;
                     }
 
                     bitmap.Invalidate();
@@ -1247,7 +1253,7 @@ namespace CefSharp.Wpf
         /// <summary>
         /// Raises Rendering event
         /// </summary>
-        protected virtual void OnRendering(object sender, BitmapInfo bitmapInfo)
+        protected virtual void OnRendering(object sender, InteropBitmapInfo bitmapInfo)
         {
             var rendering = Rendering;
             if (rendering != null)

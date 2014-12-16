@@ -3,7 +3,6 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using CefSharp.Internals;
 
 namespace CefSharp.Wpf
 {
@@ -12,7 +11,7 @@ namespace CefSharp.Wpf
     /// </summary>
     public class RenderingEventArgs : EventArgs
     {
-        public RenderingEventArgs(BitmapInfo bitmapInfo)
+        public RenderingEventArgs(InteropBitmapInfo bitmapInfo)
         {
             BitmapInfo = bitmapInfo;
         }
@@ -20,7 +19,7 @@ namespace CefSharp.Wpf
         /// <summary>
         /// The bitmap info being rendered.
         /// </summary>
-        public BitmapInfo BitmapInfo { get; private set; }
+        public InteropBitmapInfo BitmapInfo { get; private set; }
 
     }
 }

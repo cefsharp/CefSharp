@@ -29,11 +29,10 @@ namespace CefSharp
                 ClientAdapter(webBrowserInternal, onAfterBrowserCreated),
                 _webBrowserInternal(webBrowserInternal)
             {
-                MainBitmapInfo = gcnew BitmapInfo();
-                PopupBitmapInfo = gcnew BitmapInfo();
-                PopupBitmapInfo->IsPopup = true;
-
                 _renderWebBrowser = dynamic_cast<IRenderWebBrowser^>(webBrowserInternal);
+
+                MainBitmapInfo = _renderWebBrowser->CreateBitmapInfo(false);
+                PopupBitmapInfo = _renderWebBrowser->CreateBitmapInfo(true);
             }
 
             ~RenderClientAdapter()
@@ -184,8 +183,8 @@ namespace CefSharp
                     bitmapInfo->Width != newWidth ||
                     bitmapInfo->Height != newHeight)
                 {
-                    //Clear the reference to InteropBitmap so a new one is created by InvokeRenderAsync
-                    bitmapInfo->InteropBitmap = nullptr;
+                    //Clear the reference to Bitmap so a new one is created by InvokeRenderAsync
+                    bitmapInfo->ClearBitmap();
 
                     //Release the current handles (if not null)
                     ReleaseBitmapHandlers(backBufferHandle, fileMappingHandle);
