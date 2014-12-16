@@ -497,6 +497,12 @@ namespace CefSharp.OffScreen
             CanGoBack = canGoBack;
             CanGoForward = canGoForward;
             CanReload = canReload;
+
+            var handler = NavStateChanged;
+            if (handler != null)
+            {
+                handler(this, new NavStateChangedEventArgs(canGoBack, canGoForward, canReload));
+            }
         }
 
         void IWebBrowserInternal.SetTitle(string title)
