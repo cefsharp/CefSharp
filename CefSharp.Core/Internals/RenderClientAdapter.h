@@ -184,10 +184,13 @@ namespace CefSharp
                     bitmapInfo->Width != newWidth ||
                     bitmapInfo->Height != newHeight)
                 {
+                    //Clear the reference to InteropBitmap so a new one is created in by InvokeRenderAsync
                     bitmapInfo->InteropBitmap = nullptr;
 
+                    //Release the current handles (if not null)
                     ReleaseBitmapHandlers(backBufferHandle, fileMappingHandle);
 
+                    // Create new fileMappingHandle
                     *fileMappingHandle = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, numberOfBytes, NULL);
                     if (*fileMappingHandle == NULL)
                     {
