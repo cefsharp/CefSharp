@@ -17,7 +17,6 @@ namespace CefSharp.Internals
 
         void SetCursor(IntPtr cursor);
 
-        void ClearBitmap(BitmapInfo bitmapInfo);
         void SetBitmap(BitmapInfo bitmapInfo);
 
         void SetPopupIsOpen(bool show);

@@ -196,7 +196,7 @@ namespace CefSharp
                     currentWidth != width ||
                     currentHeight != height)
                 {
-                    _renderWebBrowser->ClearBitmap(bitmapInfo);
+                    bitmapInfo->InteropBitmap = nullptr;
 
                     ReleaseBitmapHandlers(backBufferHandle, fileMappingHandle);
 

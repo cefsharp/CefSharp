@@ -1213,11 +1213,6 @@ namespace CefSharp.Wpf
             });
         }
 
-        void IRenderWebBrowser.ClearBitmap(BitmapInfo bitmapInfo)
-        {
-            bitmapInfo.InteropBitmap = null;
-        }
-
         /// <summary>
         /// Raises Rendering event
         /// </summary>

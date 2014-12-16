@@ -353,16 +353,6 @@ namespace CefSharp.OffScreen
             get { return 4; }
         }
 
-        void IRenderWebBrowser.ClearBitmap(BitmapInfo bitmapInfo)
-        {
-            lock (bitmapLock) 
-            {
-                if (bitmap != null)
-                    bitmap.Dispose();
-                bitmap = null;
-            }
-        }
-
         int IRenderWebBrowser.Width
         {
             get { return size.Width; }
@@ -382,10 +372,15 @@ namespace CefSharp.OffScreen
         {
             lock (bitmapLock)
             {
-                ((IRenderWebBrowser)this).ClearBitmap(bitmapInfo);
+                if (bitmap != null)
+                {
+                    bitmap.Dispose();
+                    bitmap = null;
+                }
+
                 lock (bitmapInfo.BitmapLock)
                 {
-                    var stride = bitmapInfo.Width * ((IRenderWebBrowser)this).BytesPerPixel;
+                    var stride = bitmapInfo.Width*((IRenderWebBrowser)this).BytesPerPixel;
 
                     bitmap = BitmapSourceToBitmap2(Imaging.CreateBitmapSourceFromMemorySection(bitmapInfo.FileMappingHandle,
                         bitmapInfo.Width, bitmapInfo.Height, PixelFormats.Bgra32, stride, 0));
