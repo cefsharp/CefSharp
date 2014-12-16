@@ -662,7 +662,36 @@ namespace CefSharp.Wpf
 
         void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
         {
-            UiThreadRunAsync(() => SetBitmap(bitmapInfo), DispatcherPriority.Render);
+            UiThreadRunAsync(delegate
+            {
+                lock (bitmapInfo.BitmapLock)
+                {
+                    // Inform parents that the browser rendering is updating
+                    OnRendering(this, new RenderingEventArgs(bitmapInfo));
+
+                    var bytesPerPixel = ((IRenderWebBrowser)this).BytesPerPixel;
+
+                    var img = bitmapInfo.IsPopup ? popupImage : image;
+                    // Now update the WPF image
+                    var bitmap = bitmapInfo.InteropBitmap as InteropBitmap;
+                    if (bitmap == null)
+                    {
+                        img.Source = null;
+                        GC.Collect(1);
+
+                        var stride = bitmapInfo.Width * bytesPerPixel;
+
+                        bitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(bitmapInfo.FileMappingHandle,
+                            bitmapInfo.Width, bitmapInfo.Height, PixelFormat, stride, 0);
+                        img.Source = bitmap;
+
+                        bitmapInfo.InteropBitmap = bitmap;
+                    }
+
+                    bitmap.Invalidate();
+                }
+            },
+            DispatcherPriority.Render);
         }
 
         void IWebBrowserInternal.SetAddress(string address)
@@ -1221,36 +1250,6 @@ namespace CefSharp.Wpf
             if (rendering != null)
             {
                 rendering(this, eventArgs);
-            }
-        }
-
-        private void SetBitmap(BitmapInfo bitmapInfo)
-        {
-            lock (bitmapInfo.BitmapLock)
-            {
-                // Inform parents that the browser rendering is updating
-                OnRendering(this, new RenderingEventArgs(bitmapInfo));
-
-                var bytesPerPixel = ((IRenderWebBrowser)this).BytesPerPixel;
-                
-                var img = bitmapInfo.IsPopup ? popupImage : image;
-                // Now update the WPF image
-                var bitmap = bitmapInfo.InteropBitmap as InteropBitmap;
-                if (bitmap == null)
-                {
-                    img.Source = null;
-                    GC.Collect(1);
-
-                    var stride = bitmapInfo.Width * bytesPerPixel;
-
-                    bitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(bitmapInfo.FileMappingHandle,
-                        bitmapInfo.Width, bitmapInfo.Height, PixelFormat, stride, 0);
-                    img.Source = bitmap;
-
-                    bitmapInfo.InteropBitmap = bitmap;
-                }
-
-                bitmap.Invalidate();
             }
         }
 
