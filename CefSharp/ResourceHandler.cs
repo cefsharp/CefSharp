@@ -84,13 +84,59 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Gets the resource from the string.
+        /// Gets a <see cref="ResourceHandler"/> that represents a string.
+        /// Defaults to <see cref="Encoding.UTF8"/> and includes encoding preamble
         /// </summary>
         /// <param name="text">The text.</param>
         /// <returns>ResourceHandler.</returns>
         public static ResourceHandler FromString(string text)
         {
-            return new ResourceHandler { Stream = new MemoryStream(Encoding.UTF8.GetBytes(text)) };
+            return FromString(text, Encoding.UTF8, true);
+        }
+
+        /// <summary>
+        /// Gets a <see cref="ResourceHandler"/> that represents a string.
+        /// Uses the specified encoding and includes encoding preamble.
+        /// </summary>
+        /// <param name="text">The html string</param>
+        /// <param name="encoding">Character Encoding</param>
+        /// <returns>ResourceHandler</returns>
+        public static ResourceHandler FromString(string text, Encoding encoding)
+        {
+            return FromString(text, encoding, true);
+        }
+
+        /// <summary>
+        /// Gets a <see cref="ResourceHandler"/> that represents a string.
+        /// Without a Preamble, Cef will use BrowserSettings.DefaultEncoding to load the html.
+        /// </summary>
+        /// <param name="text">The html string</param>
+        /// <param name="encoding">Character Encoding</param>
+        /// <param name="includePreamble">Include encoding preamble</param>
+        /// <returns>ResourceHandler</returns>
+        public static ResourceHandler FromString(string text, Encoding encoding, bool includePreamble)
+        {
+            return new ResourceHandler { Stream = GetStream(text, encoding, includePreamble) };
+        }
+
+        private static MemoryStream GetStream(string text, Encoding encoding, bool includePreamble)
+        {
+            if (includePreamble)
+            {
+                var preamble = encoding.GetPreamble();
+                var bytes = encoding.GetBytes(text);
+
+                var memoryStream = new MemoryStream();
+
+                memoryStream.Write(preamble, 0, preamble.Length);
+                memoryStream.Write(bytes, 0, bytes.Length);
+
+                memoryStream.Position = 0;
+
+                return memoryStream;
+            }
+
+            return new MemoryStream(encoding.GetBytes(text));
         }
 
         /// <summary>
