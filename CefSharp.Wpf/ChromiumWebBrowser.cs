@@ -1246,11 +1246,11 @@ namespace CefSharp.Wpf
                     bitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(bitmapInfo.FileMappingHandle,
                         bitmapInfo.Width, bitmapInfo.Height, PixelFormat, stride, 0);
                     img.Source = bitmap;
+
+                    bitmapInfo.InteropBitmap = bitmap;
                 }
 
                 bitmap.Invalidate();
-
-                bitmapInfo.InteropBitmap = bitmap;
             }
         }
 
