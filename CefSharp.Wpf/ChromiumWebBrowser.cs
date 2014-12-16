@@ -667,7 +667,7 @@ namespace CefSharp.Wpf
                 lock (bitmapInfo.BitmapLock)
                 {
                     // Inform parents that the browser rendering is updating
-                    OnRendering(this, new RenderingEventArgs(bitmapInfo));
+                    OnRendering(this, bitmapInfo);
 
                     var img = bitmapInfo.IsPopup ? popupImage : image;
                     // Now update the WPF image
@@ -1243,12 +1243,12 @@ namespace CefSharp.Wpf
         /// <summary>
         /// Raises Rendering event
         /// </summary>
-        protected virtual void OnRendering(object sender, RenderingEventArgs eventArgs)
+        protected virtual void OnRendering(object sender, BitmapInfo bitmapInfo)
         {
             var rendering = Rendering;
             if (rendering != null)
             {
-                rendering(this, eventArgs);
+                rendering(sender, new RenderingEventArgs(bitmapInfo));
             }
         }
 
