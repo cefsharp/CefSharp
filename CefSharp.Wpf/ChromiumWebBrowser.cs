@@ -669,8 +669,6 @@ namespace CefSharp.Wpf
                     // Inform parents that the browser rendering is updating
                     OnRendering(this, new RenderingEventArgs(bitmapInfo));
 
-                    var bytesPerPixel = ((IRenderWebBrowser)this).BytesPerPixel;
-
                     var img = bitmapInfo.IsPopup ? popupImage : image;
                     // Now update the WPF image
                     var bitmap = bitmapInfo.InteropBitmap as InteropBitmap;
@@ -679,6 +677,7 @@ namespace CefSharp.Wpf
                         img.Source = null;
                         GC.Collect(1);
 
+                        var bytesPerPixel = ((IRenderWebBrowser)this).BytesPerPixel;
                         var stride = bitmapInfo.Width * bytesPerPixel;
 
                         bitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(bitmapInfo.FileMappingHandle,
