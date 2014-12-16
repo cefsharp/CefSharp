@@ -45,6 +45,25 @@
                 document.write("Stress Test done with : " + stressTestCallCount + " call to bound.repeat(\"hi \", 5)");
             </script>
         </p>
+        
+        <p>
+            JSON Serializer Test
+            <br />
+            <script type="text/javascript">
+                var json = bound.returnJsonEmployeeList();
+                var jsonObj = JSON.parse(json);
+
+                document.write("Employee Count : " + jsonObj.employees.length + "<br/>");
+
+                for (var i = 0; i <= jsonObj.employees.length; i++)
+                {
+                    var employee = jsonObj.employees[i];
+                    document.write("Employee : " + employee.firstName + " " + employee.lastName + "<br/>");
+                }
+            </script>
+        </p>
+        
+        
 
 
         Methods on bound object 'bound':<br />
