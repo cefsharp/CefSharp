@@ -662,8 +662,7 @@ namespace CefSharp.Wpf
 
         void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
         {
-            IRenderWebBrowser renderer = this;
-            UiThreadRunAsync(() => renderer.SetBitmap(bitmapInfo), DispatcherPriority.Render);
+            UiThreadRunAsync(() => SetBitmap(bitmapInfo), DispatcherPriority.Render);
         }
 
         void IWebBrowserInternal.SetAddress(string address)
@@ -1225,7 +1224,7 @@ namespace CefSharp.Wpf
             }
         }
 
-        void IRenderWebBrowser.SetBitmap(BitmapInfo bitmapInfo)
+        private void SetBitmap(BitmapInfo bitmapInfo)
         {
             lock (bitmapInfo.BitmapLock)
             {

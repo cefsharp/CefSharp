@@ -365,11 +365,6 @@ namespace CefSharp.OffScreen
 
         void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
         {
-            ((IRenderWebBrowser)this).SetBitmap(bitmapInfo);
-        }
-
-        void IRenderWebBrowser.SetBitmap(BitmapInfo bitmapInfo)
-        {
             lock (bitmapLock)
             {
                 if (bitmap != null)
@@ -380,7 +375,7 @@ namespace CefSharp.OffScreen
 
                 lock (bitmapInfo.BitmapLock)
                 {
-                    var stride = bitmapInfo.Width*((IRenderWebBrowser)this).BytesPerPixel;
+                    var stride = bitmapInfo.Width * ((IRenderWebBrowser)this).BytesPerPixel;
 
                     bitmap = BitmapSourceToBitmap2(Imaging.CreateBitmapSourceFromMemorySection(bitmapInfo.FileMappingHandle,
                         bitmapInfo.Width, bitmapInfo.Height, PixelFormats.Bgra32, stride, 0));
