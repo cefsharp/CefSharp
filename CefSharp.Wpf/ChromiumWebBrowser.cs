@@ -338,6 +338,9 @@ namespace CefSharp.Wpf
 
         protected virtual void Dispose(bool isdisposing)
         {
+            BrowserSettings.Dispose();
+
+            BrowserSettings = null;
             ResourceHandler = null;
 
             Loaded -= OnLoaded;
@@ -470,6 +473,7 @@ namespace CefSharp.Wpf
             disposables.Add(new DisposableEventWrapper(this, ActualWidthProperty, OnActualSizeChanged));
 
             ResourceHandler = new DefaultResourceHandler();
+            BrowserSettings = new BrowserSettings();
         }
 
         ~ChromiumWebBrowser()
@@ -484,7 +488,7 @@ namespace CefSharp.Wpf
                 return;
             }
 
-            managedCefBrowserAdapter.CreateOffscreenBrowser(BrowserSettings ?? new BrowserSettings(), Address);
+            managedCefBrowserAdapter.CreateOffscreenBrowser(BrowserSettings, Address);
             browserCreated = true;
         }
 
