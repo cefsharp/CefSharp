@@ -184,7 +184,7 @@ namespace CefSharp
                     bitmapInfo->Width != newWidth ||
                     bitmapInfo->Height != newHeight)
                 {
-                    //Clear the reference to InteropBitmap so a new one is created in by InvokeRenderAsync
+                    //Clear the reference to InteropBitmap so a new one is created by InvokeRenderAsync
                     bitmapInfo->InteropBitmap = nullptr;
 
                     //Release the current handles (if not null)
