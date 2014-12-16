@@ -108,11 +108,11 @@ namespace CefSharp
 
         /// <summary>
         /// Gets a <see cref="ResourceHandler"/> that represents a string.
-        /// Without a Preable, Cef will use BrowserSettings.DefaultEncoding to load the html.
+        /// Without a Preamble, Cef will use BrowserSettings.DefaultEncoding to load the html.
         /// </summary>
         /// <param name="text">The html string</param>
         /// <param name="encoding">Character Encoding</param>
-        /// <param name="includePreamble">Include encoding preable</param>
+        /// <param name="includePreamble">Include encoding preamble</param>
         /// <returns>ResourceHandler</returns>
         public static ResourceHandler FromString(string text, Encoding encoding, bool includePreamble)
         {
