@@ -1231,11 +1231,11 @@ namespace CefSharp.Wpf
                 // Inform parents that the browser rendering is updating
                 OnRendering(this, new RenderingEventArgs(bitmapInfo));
 
+                var bytesPerPixel = ((IRenderWebBrowser)this).BytesPerPixel;
+                
                 var img = bitmapInfo.IsPopup ? popupImage : image;
                 // Now update the WPF image
-
-                bitmapInfo.InteropBitmap = SetBitmapHelper(bitmapInfo,
-                    (InteropBitmap)bitmapInfo.InteropBitmap, img);
+                SetBitmapHelper(bitmapInfo, img, bytesPerPixel);
             }
         }
 
@@ -1247,23 +1247,24 @@ namespace CefSharp.Wpf
             return pixelPosition;
         }
 
-        private object SetBitmapHelper(BitmapInfo bitmapInfo, InteropBitmap bitmap, Image image)
+        private static void SetBitmapHelper(BitmapInfo bitmapInfo, Image img, int bytesPerPixel)
         {
+            var bitmap = bitmapInfo.InteropBitmap as InteropBitmap;
             if (bitmap == null)
             {
-                image.Source = null;
+                img.Source = null;
                 GC.Collect(1);
 
-                var stride = bitmapInfo.Width * ((IRenderWebBrowser)this).BytesPerPixel;
+                var stride = bitmapInfo.Width * bytesPerPixel;
 
                 bitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(bitmapInfo.FileMappingHandle,
                     bitmapInfo.Width, bitmapInfo.Height, PixelFormat, stride, 0);
-                image.Source = bitmap;
+                img.Source = bitmap;
             }
 
             bitmap.Invalidate();
 
-            return bitmap;
+            bitmapInfo.InteropBitmap = bitmap;
         }
 
         public void ViewSource()
