@@ -1235,7 +1235,22 @@ namespace CefSharp.Wpf
                 
                 var img = bitmapInfo.IsPopup ? popupImage : image;
                 // Now update the WPF image
-                SetBitmapHelper(bitmapInfo, img, bytesPerPixel);
+                var bitmap = bitmapInfo.InteropBitmap as InteropBitmap;
+                if (bitmap == null)
+                {
+                    img.Source = null;
+                    GC.Collect(1);
+
+                    var stride = bitmapInfo.Width * bytesPerPixel;
+
+                    bitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(bitmapInfo.FileMappingHandle,
+                        bitmapInfo.Width, bitmapInfo.Height, PixelFormat, stride, 0);
+                    img.Source = bitmap;
+                }
+
+                bitmap.Invalidate();
+
+                bitmapInfo.InteropBitmap = bitmap;
             }
         }
 
@@ -1245,26 +1260,6 @@ namespace CefSharp.Wpf
             var pixelPosition = matrix.Transform(deviceIndependentPosition);
 
             return pixelPosition;
-        }
-
-        private static void SetBitmapHelper(BitmapInfo bitmapInfo, Image img, int bytesPerPixel)
-        {
-            var bitmap = bitmapInfo.InteropBitmap as InteropBitmap;
-            if (bitmap == null)
-            {
-                img.Source = null;
-                GC.Collect(1);
-
-                var stride = bitmapInfo.Width * bytesPerPixel;
-
-                bitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(bitmapInfo.FileMappingHandle,
-                    bitmapInfo.Width, bitmapInfo.Height, PixelFormat, stride, 0);
-                img.Source = bitmap;
-            }
-
-            bitmap.Invalidate();
-
-            bitmapInfo.InteropBitmap = bitmap;
         }
 
         public void ViewSource()
