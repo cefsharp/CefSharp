@@ -694,6 +694,9 @@ namespace CefSharp.Wpf
                             bitmapInfo.Width, bitmapInfo.Height, PixelFormat, stride, 0);
                         img.Source = bitmap;
 
+                        //TODO: Look into
+                        //bitmap.CopyPixels
+
                         interopBitmapInfo.InteropBitmap = bitmap;
                     }
 
