@@ -126,7 +126,7 @@ namespace CefSharp
                 var preamble = encoding.GetPreamble();
                 var bytes = encoding.GetBytes(text);
 
-                var memoryStream = new MemoryStream();
+                var memoryStream = new MemoryStream(preamble.Length + bytes.Length);
 
                 memoryStream.Write(preamble, 0, preamble.Length);
                 memoryStream.Write(bytes, 0, bytes.Length);
