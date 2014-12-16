@@ -169,12 +169,10 @@ namespace CefSharp
             {
                 lock l(bitmapInfo->BitmapLock);
 
-                int currentWidth = bitmapInfo->Width, currentHeight = bitmapInfo->Height;
-
                 auto fileMappingHandle = (HANDLE)bitmapInfo->FileMappingHandle;
                 auto backBufferHandle = (HANDLE)bitmapInfo->BackBufferHandle;
 
-                SetBufferHelper(bitmapInfo, currentWidth, currentHeight, newWidth, newHeight, &fileMappingHandle,
+                SetBufferHelper(bitmapInfo, newWidth, newHeight, &fileMappingHandle,
                     &backBufferHandle, buffer);
 
                 bitmapInfo->FileMappingHandle = (IntPtr)fileMappingHandle;
@@ -183,9 +181,12 @@ namespace CefSharp
                 _renderWebBrowser->InvokeRenderAsync(bitmapInfo);
             };
 
-            void SetBufferHelper(BitmapInfo^ bitmapInfo, int currentWidth, int currentHeight, int newWidth, int newHeight,
+            void SetBufferHelper(BitmapInfo^ bitmapInfo, int newWidth, int newHeight,
                 HANDLE* fileMappingHandle, HANDLE* backBufferHandle, const void* buffer)
             {
+                int currentWidth = bitmapInfo->Width;
+                int currentHeight = bitmapInfo->Height;
+
                 int pixels = newWidth * newHeight;
                 int numberOfBytes = pixels * _renderWebBrowser->BytesPerPixel;
 
