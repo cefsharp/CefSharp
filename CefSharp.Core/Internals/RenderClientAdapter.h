@@ -98,14 +98,7 @@ namespace CefSharp
             virtual DECL void OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects,
                 const void* buffer, int width, int height) OVERRIDE
             {
-                if (type == PET_VIEW)
-                {
-                    SetBuffer(MainBitmapInfo, width, height, buffer);
-                }
-                else if (type == PET_POPUP)
-                {
-                    SetBuffer(PopupBitmapInfo, width, height, buffer);
-                }
+                SetBuffer(type == PET_VIEW ? MainBitmapInfo : PopupBitmapInfo, width, height, buffer);
             };
 
             virtual DECL void OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor) OVERRIDE
