@@ -5,6 +5,7 @@
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -252,13 +253,18 @@ namespace CefSharp.OffScreen
 
         public void LoadHtml(string html, string url)
         {
+            LoadHtml(html, url, Encoding.UTF8);
+        }
+
+        public void LoadHtml(string html, string url, Encoding encoding)
+        {
             var handler = ResourceHandler;
             if (handler == null)
             {
                 throw new Exception("Implement IResourceHandler and assign to the ResourceHandler property to use this feature");
             }
 
-            handler.RegisterHandler(url, CefSharp.ResourceHandler.FromString(html));
+            handler.RegisterHandler(url, CefSharp.ResourceHandler.FromString(html, encoding, true));
 
             Load(url);
         }
@@ -502,6 +508,12 @@ namespace CefSharp.OffScreen
             CanGoBack = canGoBack;
             CanGoForward = canGoForward;
             CanReload = canReload;
+
+            var handler = NavStateChanged;
+            if (handler != null)
+            {
+                handler(this, new NavStateChangedEventArgs(canGoBack, canGoForward, canReload));
+            }
         }
 
         void IWebBrowserInternal.SetTitle(string title)

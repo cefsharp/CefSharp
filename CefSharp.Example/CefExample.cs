@@ -8,6 +8,7 @@ namespace CefSharp.Example
     {
         public const string DefaultUrl = "custom://cefsharp/BindingTest.html";
         public const string TestResourceUrl = "http://test/resource/load";
+        public const string TestUnicodeResourceUrl = "http://test/resource/loadUnicode";
 
         // Use when debugging the actual SubProcess, to make breakpoints etc. inside that project work.
         private static readonly bool DebuggingSubProcess = Debugger.IsAttached;
@@ -52,6 +53,9 @@ namespace CefSharp.Example
             {
                 const string responseBody = "<html><body><h1>Success</h1><p>This document is loaded from a System.IO.Stream</p></body></html>";
                 handler.RegisterHandler(TestResourceUrl, ResourceHandler.FromString(responseBody));
+
+                const string unicodeResponseBody = "<html><body>整体满意度</body></html>";
+                handler.RegisterHandler(TestUnicodeResourceUrl, ResourceHandler.FromString(unicodeResponseBody));
             }
         }
     }

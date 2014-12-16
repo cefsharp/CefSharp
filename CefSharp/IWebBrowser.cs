@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace CefSharp
@@ -59,10 +60,24 @@ namespace CefSharp
         /// `Cef` Native `LoadHtml` is unpredictable and only works sometimes, this method wraps
         /// the provided HTML in a <see cref="ResourceHandler"/> and loads the provided url using
         /// the <see cref="Load"/> method.
+        /// Defaults to using <see cref="Encoding.UTF8"/> for character encoding 
         /// </remarks>
         /// <param name="html">The HTML content.</param>
         /// <param name="url">The URL that will be treated as the address of the content.</param>
         void LoadHtml(string html, string url);
+
+        /// <summary>
+        /// Registers and loads a <see cref="ResourceHandler"/> that represents the HTML content.
+        /// </summary>
+        /// <remarks>
+        /// `Cef` Native `LoadHtml` is unpredictable and only works sometimes, this method wraps
+        /// the provided HTML in a <see cref="ResourceHandler"/> and loads the provided url using
+        /// the <see cref="Load"/> method.
+        /// </remarks>
+        /// <param name="html">The HTML content.</param>
+        /// <param name="url">The URL that will be treated as the address of the content.</param>
+        /// <param name="encoding">Character Encoding</param>
+        void LoadHtml(string html, string url, Encoding encoding);
 
         /// <summary>
         /// Registers a Javascript object in this specific browser instance.
