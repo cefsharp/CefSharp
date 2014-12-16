@@ -21,6 +21,8 @@ namespace CefSharp.Wpf
 {
     public class ChromiumWebBrowser : ContentControl, IRenderWebBrowser, IWpfWebBrowser
     {
+        private static readonly PixelFormat PixelFormat = PixelFormats.Bgra32;
+        private static readonly int BytesPerPixel = PixelFormat.BitsPerPixel / 8;
         private static readonly Key[] KeysToSendtoBrowser =
         {
             Key.Tab,
@@ -118,11 +120,6 @@ namespace CefSharp.Wpf
 
         #endregion
 
-        int IRenderWebBrowser.BytesPerPixel
-        {
-            get { return PixelFormat.BitsPerPixel / 8; }
-        }
-
         int IRenderWebBrowser.Width
         {
             get { return (int)matrix.Transform(new Point(ActualWidth, ActualHeight)).X; }
@@ -131,11 +128,6 @@ namespace CefSharp.Wpf
         int IRenderWebBrowser.Height
         {
             get { return (int)matrix.Transform(new Point(ActualWidth, ActualHeight)).Y; }
-        }
-
-        private static PixelFormat PixelFormat
-        {
-            get { return PixelFormats.Bgra32; }
         }
 
         #region Address dependency property
@@ -666,7 +658,7 @@ namespace CefSharp.Wpf
 
         public BitmapInfo CreateBitmapInfo(bool isPopup)
         {
-            return new InteropBitmapInfo { IsPopup = isPopup };
+            return new InteropBitmapInfo { IsPopup = isPopup, BytesPerPixel = BytesPerPixel };
         }
 
         void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
@@ -687,8 +679,7 @@ namespace CefSharp.Wpf
                         img.Source = null;
                         GC.Collect(1);
 
-                        var bytesPerPixel = ((IRenderWebBrowser)this).BytesPerPixel;
-                        var stride = bitmapInfo.Width * bytesPerPixel;
+                        var stride = bitmapInfo.Width * bitmapInfo.BytesPerPixel;
 
                         bitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(bitmapInfo.FileMappingHandle,
                             bitmapInfo.Width, bitmapInfo.Height, PixelFormat, stride, 0);

@@ -8,8 +8,6 @@ namespace CefSharp.Internals
 {
     public interface IRenderWebBrowser : IWebBrowserInternal
     {
-        int BytesPerPixel { get; }
-
         int Width { get; }
         int Height { get; }
 

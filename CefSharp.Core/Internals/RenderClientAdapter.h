@@ -177,7 +177,7 @@ namespace CefSharp
                 HANDLE* fileMappingHandle, HANDLE* backBufferHandle, const void* buffer)
             {
                 int pixels = newWidth * newHeight;
-                int numberOfBytes = pixels * _renderWebBrowser->BytesPerPixel;
+                int numberOfBytes = pixels * bitmapInfo->BytesPerPixel;
 
                 if (*backBufferHandle == NULL ||
                     bitmapInfo->Width != newWidth ||

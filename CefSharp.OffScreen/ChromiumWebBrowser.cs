@@ -347,11 +347,6 @@ namespace CefSharp.OffScreen
         }
 
         #region IRenderWebBrowser (rendering to bitmap; derived from CefSharp.Wpf.ChromiumWebBrowser)
-        /// <summary>The bitmap buffer is 32 BPP.</summary>
-        int IRenderWebBrowser.BytesPerPixel
-        {
-            get { return 4; }
-        }
 
         int IRenderWebBrowser.Width
         {
@@ -365,7 +360,8 @@ namespace CefSharp.OffScreen
 
         public BitmapInfo CreateBitmapInfo(bool isPopup)
         {
-            return new GdiBitmapInfo { IsPopup = isPopup };
+            //The bitmap buffer is 32 BPP
+            return new GdiBitmapInfo { IsPopup = isPopup, BytesPerPixel = 4 };
         }
 
         void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
@@ -380,7 +376,7 @@ namespace CefSharp.OffScreen
 
                 lock (bitmapInfo.BitmapLock)
                 {
-                    var stride = bitmapInfo.Width * ((IRenderWebBrowser)this).BytesPerPixel;
+                    var stride = bitmapInfo.Width * bitmapInfo.BytesPerPixel;
 
                     bitmap = BitmapSourceToBitmap2(Imaging.CreateBitmapSourceFromMemorySection(bitmapInfo.FileMappingHandle,
                         bitmapInfo.Width, bitmapInfo.Height, PixelFormats.Bgra32, stride, 0));
