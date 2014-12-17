@@ -175,9 +175,9 @@
                                   WebBrowser="{Binding WebBrowser, Mode=OneWayToSource}">
                     <!-- Just an example of how you may override the BrowserSettings. Disabled by default since it looks so
                          incredibly ugly... -->
-                    <!--<cefSharp:WebView.BrowserSettings>
+                    <!--<cefSharp:ChromiumWebBrowser.BrowserSettings>
                         <CefSharp:BrowserSettings MinimumFontSize="36" />
-                    </cefSharp:WebView.BrowserSettings>-->
+                    </cefSharp:ChromiumWebBrowser.BrowserSettings>-->
                     <FrameworkElement.LayoutTransform>
                         <TransformGroup>
                             <RotateTransform Angle="{Binding Value, ElementName=angleSlider}" />
