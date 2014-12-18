@@ -25,7 +25,7 @@ namespace CefSharp
         BrowserProcessServiceHost^ _browserProcessServiceHost;
         IWebBrowserInternal^ _webBrowserInternal;
         JavascriptObjectRepository^ _javaScriptObjectRepository;
-        
+
     protected:
         virtual void DoDispose(bool isDisposing) override
         {
@@ -200,88 +200,91 @@ namespace CefSharp
 
         bool isKeyDown(WPARAM wparam)
         {
-          return (GetKeyState(wparam) & 0x8000) != 0;
+            return (GetKeyState(wparam) & 0x8000) != 0;
         }
 
+        //Code imported from
+        //https://bitbucket.org/chromiumembedded/branches-2062-cef3/src/a073e92426b3967f1fc2f1d3fd7711d809eeb03a/tests/cefclient/cefclient_osr_widget_win.cpp?at=master#cl-361
         int GetCefKeyboardModifiers(WPARAM wparam, LPARAM lparam)
         {
-          int modifiers = 0;
-          if (isKeyDown(VK_SHIFT))
-            modifiers |= EVENTFLAG_SHIFT_DOWN;
-          if (isKeyDown(VK_CONTROL))
-            modifiers |= EVENTFLAG_CONTROL_DOWN;
-          if (isKeyDown(VK_MENU))
-            modifiers |= EVENTFLAG_ALT_DOWN;
+            int modifiers = 0;
+            if (isKeyDown(VK_SHIFT))
+                modifiers |= EVENTFLAG_SHIFT_DOWN;
+            if (isKeyDown(VK_CONTROL))
+                modifiers |= EVENTFLAG_CONTROL_DOWN;
+            if (isKeyDown(VK_MENU))
+                modifiers |= EVENTFLAG_ALT_DOWN;
 
-          // Low bit set from GetKeyState indicates "toggled".
-          if (::GetKeyState(VK_NUMLOCK) & 1)
-            modifiers |= EVENTFLAG_NUM_LOCK_ON;
-          if (::GetKeyState(VK_CAPITAL) & 1)
-            modifiers |= EVENTFLAG_CAPS_LOCK_ON;
+            // Low bit set from GetKeyState indicates "toggled".
+            if (::GetKeyState(VK_NUMLOCK) & 1)
+                modifiers |= EVENTFLAG_NUM_LOCK_ON;
+            if (::GetKeyState(VK_CAPITAL) & 1)
+                modifiers |= EVENTFLAG_CAPS_LOCK_ON;
 
-          switch (wparam) {
-          case VK_RETURN:
-            if ((lparam >> 16) & KF_EXTENDED)
-              modifiers |= EVENTFLAG_IS_KEY_PAD;
-            break;
-          case VK_INSERT:
-          case VK_DELETE:
-          case VK_HOME:
-          case VK_END:
-          case VK_PRIOR:
-          case VK_NEXT:
-          case VK_UP:
-          case VK_DOWN:
-          case VK_LEFT:
-          case VK_RIGHT:
-            if (!((lparam >> 16) & KF_EXTENDED))
-              modifiers |= EVENTFLAG_IS_KEY_PAD;
-            break;
-          case VK_NUMLOCK:
-          case VK_NUMPAD0:
-          case VK_NUMPAD1:
-          case VK_NUMPAD2:
-          case VK_NUMPAD3:
-          case VK_NUMPAD4:
-          case VK_NUMPAD5:
-          case VK_NUMPAD6:
-          case VK_NUMPAD7:
-          case VK_NUMPAD8:
-          case VK_NUMPAD9:
-          case VK_DIVIDE:
-          case VK_MULTIPLY:
-          case VK_SUBTRACT:
-          case VK_ADD:
-          case VK_DECIMAL:
-          case VK_CLEAR:
-            modifiers |= EVENTFLAG_IS_KEY_PAD;
-            break;
-          case VK_SHIFT:
-            if (isKeyDown(VK_LSHIFT))
-              modifiers |= EVENTFLAG_IS_LEFT;
-            else if (isKeyDown(VK_RSHIFT))
-              modifiers |= EVENTFLAG_IS_RIGHT;
-            break;
-          case VK_CONTROL:
-            if (isKeyDown(VK_LCONTROL))
-              modifiers |= EVENTFLAG_IS_LEFT;
-            else if (isKeyDown(VK_RCONTROL))
-              modifiers |= EVENTFLAG_IS_RIGHT;
-            break;
-          case VK_MENU:
-            if (isKeyDown(VK_LMENU))
-              modifiers |= EVENTFLAG_IS_LEFT;
-            else if (isKeyDown(VK_RMENU))
-              modifiers |= EVENTFLAG_IS_RIGHT;
-            break;
-          case VK_LWIN:
-            modifiers |= EVENTFLAG_IS_LEFT;
-            break;
-          case VK_RWIN:
-            modifiers |= EVENTFLAG_IS_RIGHT;
-            break;
-          }
-          return modifiers;
+            switch (wparam)
+            {
+                case VK_RETURN:
+                    if ((lparam >> 16) & KF_EXTENDED)
+                        modifiers |= EVENTFLAG_IS_KEY_PAD;
+                    break;
+                case VK_INSERT:
+                case VK_DELETE:
+                case VK_HOME:
+                case VK_END:
+                case VK_PRIOR:
+                case VK_NEXT:
+                case VK_UP:
+                case VK_DOWN:
+                case VK_LEFT:
+                case VK_RIGHT:
+                    if (!((lparam >> 16) & KF_EXTENDED))
+                        modifiers |= EVENTFLAG_IS_KEY_PAD;
+                    break;
+                case VK_NUMLOCK:
+                case VK_NUMPAD0:
+                case VK_NUMPAD1:
+                case VK_NUMPAD2:
+                case VK_NUMPAD3:
+                case VK_NUMPAD4:
+                case VK_NUMPAD5:
+                case VK_NUMPAD6:
+                case VK_NUMPAD7:
+                case VK_NUMPAD8:
+                case VK_NUMPAD9:
+                case VK_DIVIDE:
+                case VK_MULTIPLY:
+                case VK_SUBTRACT:
+                case VK_ADD:
+                case VK_DECIMAL:
+                case VK_CLEAR:
+                    modifiers |= EVENTFLAG_IS_KEY_PAD;
+                    break;
+                case VK_SHIFT:
+                    if (isKeyDown(VK_LSHIFT))
+                        modifiers |= EVENTFLAG_IS_LEFT;
+                    else if (isKeyDown(VK_RSHIFT))
+                        modifiers |= EVENTFLAG_IS_RIGHT;
+                    break;
+                case VK_CONTROL:
+                    if (isKeyDown(VK_LCONTROL))
+                        modifiers |= EVENTFLAG_IS_LEFT;
+                    else if (isKeyDown(VK_RCONTROL))
+                        modifiers |= EVENTFLAG_IS_RIGHT;
+                    break;
+                case VK_MENU:
+                    if (isKeyDown(VK_LMENU))
+                        modifiers |= EVENTFLAG_IS_LEFT;
+                    else if (isKeyDown(VK_RMENU))
+                        modifiers |= EVENTFLAG_IS_RIGHT;
+                    break;
+                case VK_LWIN:
+                    modifiers |= EVENTFLAG_IS_LEFT;
+                    break;
+                case VK_RWIN:
+                    modifiers |= EVENTFLAG_IS_RIGHT;
+                    break;
+            }
+            return modifiers;
         }
 
         void OnMouseMove(int x, int y, bool mouseLeave, CefEventFlags modifiers)
@@ -393,7 +396,7 @@ namespace CefSharp
                 cefHost->StopFinding(clearSelection);
             }
         }
-        
+
         void Reload()
         {
             Reload(false);
@@ -451,7 +454,7 @@ namespace CefSharp
         void Cut()
         {
             auto cefFrame = _renderClientAdapter->TryGetCefMainFrame(); 
-            
+
             if (cefFrame != nullptr)
             {
                 cefFrame->Cut();
@@ -517,7 +520,7 @@ namespace CefSharp
                 cefFrame->Redo();
             }
         }
-        
+
         void ExecuteScriptAsync(String^ script)
         {
             auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
@@ -536,7 +539,7 @@ namespace CefSharp
             }
 
             auto browser = _renderClientAdapter->GetCefBrowser();
-            
+
 
             if (_browserProcessServiceHost == nullptr && browser == nullptr)
             {
@@ -561,7 +564,7 @@ namespace CefSharp
             {
                 return cefHost->GetZoomLevel();
             }
-            
+
             return 0;
         }
 
