@@ -324,19 +324,16 @@ namespace CefSharp.Wpf
 
         protected virtual void Dispose(bool isdisposing)
         {
+            PresentationSource.RemoveSourceChangedHandler(this, PresentationSourceChangedHandler);
+
             ResourceHandler = null;
 
             Loaded -= OnLoaded;
-            Unloaded -= OnUnloaded;
 
             GotKeyboardFocus -= OnGotKeyboardFocus;
             LostKeyboardFocus -= OnLostKeyboardFocus;
 
-            IsVisibleChanged -= OnIsVisibleChanged;
-
             Cef.RemoveDisposable(this);
-
-            RemoveSourceHook();
 
             foreach (var disposable in disposables)
             {
@@ -419,18 +416,14 @@ namespace CefSharp.Wpf
             Dispatcher.BeginInvoke((Action)(() => WebBrowser = this));
 
             Loaded += OnLoaded;
-            Unloaded += OnUnloaded;
 
             GotKeyboardFocus += OnGotKeyboardFocus;
             LostKeyboardFocus += OnLostKeyboardFocus;
-
-            IsVisibleChanged += OnIsVisibleChanged;
 
             ToolTip = toolTip = new ToolTip();
             toolTip.StaysOpen = true;
             toolTip.Visibility = Visibility.Collapsed;
             toolTip.Closed += OnTooltipClosed;
-
 
             BackCommand = new DelegateCommand(Back, () => CanGoBack);
             ForwardCommand = new DelegateCommand(Forward, () => CanGoForward);
@@ -456,11 +449,38 @@ namespace CefSharp.Wpf
             disposables.Add(new DisposableEventWrapper(this, ActualWidthProperty, OnActualSizeChanged));
 
             ResourceHandler = new DefaultResourceHandler();
+
+            PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
         }
 
         ~ChromiumWebBrowser()
         {
             Dispose(false);
+        }
+
+        private void PresentationSourceChangedHandler(object sender, SourceChangedEventArgs args)
+        {
+            if (args.NewSource != null)
+            {
+                var newSource = (HwndSource)args.NewSource;
+
+                source = newSource;
+
+                if (source != null)
+                {
+                    matrix = source.CompositionTarget.TransformToDevice;
+                    sourceHook = SourceHook;
+                    source.AddHook(sourceHook);
+                }
+            }
+            else if (args.OldSource != null)
+            {
+                if (source != null && sourceHook != null)
+                {
+                    source.RemoveHook(sourceHook);
+                    source = null;
+                }
+            }
         }
 
         private void CreateOffscreenBrowserWhenActualSizeChanged()
@@ -493,13 +513,6 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter.WasResized();
         }
 
-        private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs args)
-        {
-            // If the control was not rendered yet when we tried to set up the source hook, it may have failed (since it couldn't
-            // lookup the HwndSource), so we need to retry it whenever visibility changes.
-            AddSourceHookIfNotAlreadyPresent();
-        }
-
         private static void OnApplicationExit(object sender, ExitEventArgs e)
         {
             Cef.Shutdown();
@@ -511,20 +524,11 @@ namespace CefSharp.Wpf
             {
                 CleanupElement = Window.GetWindow(this);
             }
-
-            AddSourceHookIfNotAlreadyPresent();
-        }
-
-        private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
-        {
-            RemoveSourceHook();
         }
 
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-
-            AddSourceHookIfNotAlreadyPresent();
 
             CheckIsNonStandardDpi();
 
@@ -579,36 +583,12 @@ namespace CefSharp.Wpf
                );
         }
 
-        private void AddSourceHookIfNotAlreadyPresent()
-        {
-            if (source != null)
-            {
-                return;
-            }
-
-            source = (HwndSource)PresentationSource.FromVisual(this);
-
-            if (source != null)
-            {
-                matrix = source.CompositionTarget.TransformToDevice;
-                sourceHook = SourceHook;
-                source.AddHook(sourceHook);
-            }
-        }
-
-        private void RemoveSourceHook()
-        {
-            if (source != null &&
-                sourceHook != null)
-            {
-                source.RemoveHook(sourceHook);
-                source = null;
-            }
-        }
-
         private IntPtr SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            handled = false;
+            if(handled)
+            {
+                return IntPtr.Zero;
+            }
 
             switch ((WM)message)
             {
