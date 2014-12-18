@@ -837,26 +837,22 @@ namespace CefSharp.Wpf
 
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
-            if (e.Handled)
-            {
-                base.OnPreviewKeyDown(e);
-            }
-            else
+            if (!e.Handled)
             {
                 OnPreviewKey(e);
             }
+
+            base.OnPreviewKeyDown(e);
         }
 
         protected override void OnPreviewKeyUp(KeyEventArgs e)
         {
-            if (e.Handled)
-            {
-                base.OnPreviewKeyUp(e);
-            }
-            else
+            if (!e.Handled)
             {
                 OnPreviewKey(e);
             }
+
+            base.OnPreviewKeyUp(e);
         }
 
         private void OnPreviewKey(KeyEventArgs e)
