@@ -7,7 +7,6 @@ using CefSharp.Internals;
 using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,14 +20,6 @@ namespace CefSharp.Wpf
 {
     public class ChromiumWebBrowser : ContentControl, IRenderWebBrowser, IWpfWebBrowser
     {
-        private static readonly Key[] KeysToSendtoBrowser =
-        {
-            Key.Tab,
-            Key.Home, Key.End,
-            Key.Left, Key.Right,
-            Key.Up, Key.Down
-        };
-
         private HwndSource source;
         private HwndSourceHook sourceHook;
         private DispatcherTimer tooltipTimer;
@@ -628,6 +619,7 @@ namespace CefSharp.Wpf
                 case WM.KEYUP:
                 case WM.CHAR:
                 case WM.IME_CHAR:
+                {
                     if (!IsKeyboardFocused)
                     {
                         break;
@@ -641,12 +633,10 @@ namespace CefSharp.Wpf
                         return IntPtr.Zero;
                     }
 
-                    if (managedCefBrowserAdapter.SendKeyEvent(message, wParam.ToInt32(), 0))
-                    {
-                        handled = true;
-                    }
-
+                    handled = managedCefBrowserAdapter.SendKeyEvent(message, wParam.ToInt32(), lParam.ToInt32());
+                    
                     break;
+                }
             }
 
             return IntPtr.Zero;
@@ -852,33 +842,41 @@ namespace CefSharp.Wpf
 
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
-            OnPreviewKey(e);
+            if (e.Handled)
+            {
+                base.OnPreviewKeyDown(e);
+            }
+            else
+            {
+                OnPreviewKey(e);
+            }
         }
 
         protected override void OnPreviewKeyUp(KeyEventArgs e)
         {
-            OnPreviewKey(e);
+            if (e.Handled)
+            {
+                base.OnPreviewKeyUp(e);
+            }
+            else
+            {
+                OnPreviewKey(e);
+            }
         }
 
         private void OnPreviewKey(KeyEventArgs e)
         {
-            // For some reason, not all kinds of keypresses triggers the appropriate WM_ messages handled by our SourceHook, so
-            // we have to handle these extra keys here. Hooking the Tab key like this makes the tab focusing in essence work like
+            // As KeyDown and KeyUp bubble, it appears they're being handled before they get a chance to
+            // trigger the appropriate WM_ messages handled by our SourceHook, so we have to handle these extra keys here.
+            // Hooking the Tab key like this makes the tab focusing in essence work like
             // KeyboardNavigation.TabNavigation="Cycle"; you will never be able to Tab out of the web browser control.
-            var modifiers = GetModifiers(e);
-
-            if (KeysToSendtoBrowser.Contains(e.Key) || modifiers > 0)
+            if (e.Key == Key.Tab || e.Key == Key.Home || e.Key == Key.End || e.Key == Key.Up || e.Key == Key.Down)
             {
+                var modifiers = GetModifiers(e);
                 var message = (int)(e.IsDown ? WM.KEYDOWN : WM.KEYUP);
                 var virtualKey = KeyInterop.VirtualKeyFromKey(e.Key);
 
-                managedCefBrowserAdapter.SendKeyEvent(message, virtualKey, modifiers);
-
-                if (KeysToSendtoBrowser.Contains(e.Key))
-                {
-                    e.Handled = true;
-                }
-
+                e.Handled = managedCefBrowserAdapter.SendKeyEvent(message, virtualKey, (int)modifiers);
             }
         }
 
