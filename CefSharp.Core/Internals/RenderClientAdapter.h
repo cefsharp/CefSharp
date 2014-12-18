@@ -108,7 +108,8 @@ namespace CefSharp
                 }
             };
 
-            virtual DECL void OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor) OVERRIDE
+            virtual DECL void OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor, CursorType type,
+                const CefCursorInfo& custom_cursor_info) OVERRIDE
             {
                 _renderWebBrowser->SetCursor((IntPtr)cursor);
             };
