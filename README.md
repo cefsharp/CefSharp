@@ -12,17 +12,13 @@ Apart from code samples mentioned above work-in-progress documentation can be fo
 
 # NuGet Packages
 
-Binary releases contain everything needed to embed Chromium in your CLR application. For usage see [FAQ #8](https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions#CefSharp_binaries) item.
-
-**Pre-release**<br>
-![CefSharp.Wpf](http://img.shields.io/nuget/vpre/CefSharp.Wpf.svg?style=flat)
-   Has the final feature that a lot of people want, JS Binding ... reportedly some people already have it in productive use it and will never look back.
+Binary releases contain everything needed to embed Chromium in your .Net/CLR application. For usage see [FAQ #8](https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions#CefSharp_binaries) item.
 
 **Stable**<br> 
 ![CefSharp.Wpf](http://img.shields.io/nuget/v/CefSharp.Wpf.svg?style=flat) for either  [WPF](http://www.nuget.org/packages/CefSharp.Wpf/) or 
-[WinForms](http://www.nuget.org/packages/CefSharp.WinForms/) If you want mature battle tested code, and don't *need* the JS Binding (yet) go for this one.
+[WinForms](http://www.nuget.org/packages/CefSharp.WinForms/) based on Chromium 37 now **including** JS Binding.
 
-**Ultra stable/LTS** Read "He's (almost) dead Jim", based on Chromium 25. See the [CefSharp1](https://github.com/jornh/CefSharp/tree/CefSharp1#binary-release) branch README for CefSharp1 info. We even date back to supporting .NET 2. Please note that the latest Stable release  is the only version officially supported; it's very unlikely that we will fix bugs in older releases.
+**Ultra stable/LTS** Read "He's dead Jim", based on Chromium 25. See the [CefSharp1](https://github.com/jornh/CefSharp/tree/CefSharp1#binary-release) branch README for CefSharp1 info. Please note that this version is no longer supported.
 
 # Branches & Forks
 

@@ -33,7 +33,7 @@ if (Test-Path Env:\APPVEYOR_BUILD_VERSION)
 
 if ($env:APPVEYOR_REPO_TAG -eq "True")
 {
-    $Version = "$env:APPVEYOR_REPO_BRANCH".Substring(1)  # trim leading "v"
+    $Version = "$env:APPVEYOR_REPO_TAG_NAME".Substring(1)  # trim leading "v"
     Write-Diagnostic "Setting version based on tag to $Version"    
 }
 
