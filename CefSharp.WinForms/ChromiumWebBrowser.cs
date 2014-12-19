@@ -13,7 +13,9 @@ namespace CefSharp.WinForms
 {
     public class ChromiumWebBrowser : Control, IWebBrowserInternal, IWinFormsWebBrowser
     {
+        private const int WM_SETFOCUS = 0x0007;
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
+        private ChromiumWebBrowserMessageInterceptor messageInterceptor;
 
         public BrowserSettings BrowserSettings { get; set; }
         public string Title { get; set; }
@@ -28,7 +30,6 @@ namespace CefSharp.WinForms
         public IDownloadHandler DownloadHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
         public IMenuHandler MenuHandler { get; set; }
-        public IFocusHandler FocusHandler { get; set; }
         public IDragHandler DragHandler { get; set; }
         public IResourceHandler ResourceHandler { get; set; }
 
@@ -60,7 +61,7 @@ namespace CefSharp.WinForms
 
             Dock = DockStyle.Fill;
 
-            FocusHandler = new DefaultFocusHandler(this);
+            messageInterceptor = new ChromiumWebBrowserMessageInterceptor(this, OnCefWindowMessage);
             ResourceHandler = new DefaultResourceHandler();
 
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
@@ -68,7 +69,6 @@ namespace CefSharp.WinForms
 
         protected override void Dispose(bool disposing)
         {
-            FocusHandler = null;
             ResourceHandler = null;
 
             Cef.RemoveDisposable(this);
@@ -80,6 +80,13 @@ namespace CefSharp.WinForms
                     managedCefBrowserAdapter.Dispose();
                     managedCefBrowserAdapter = null;
                 }
+
+                if( messageInterceptor != null )
+                {
+                    messageInterceptor.Dispose();
+                    messageInterceptor = null;
+                }
+
             }
             base.Dispose(disposing);
         }
@@ -410,6 +417,58 @@ namespace CefSharp.WinForms
             if (IsBrowserInitialized && managedCefBrowserAdapter != null)
             {
                 managedCefBrowserAdapter.Resize(Width, Height);
+            }
+        }
+
+        public virtual void OnTakeFocus(bool next)
+        {
+            //Reminder: OnTakeFocus means leaving focus / not taking focus
+            BeginInvoke(new MethodInvoker(() => this.SelectNextControl(next)));
+        }
+
+        public virtual void OnGotFocus()
+        {
+            //Do nothing here because event is not fired property : we hook WM_SETFOCUS instead
+        }
+
+        public virtual bool OnSetFocus(CefFocusSource source)
+        {
+            if (source == CefFocusSource.FocusSourceNavigation)
+            {
+                return true; //Do not let the browser take focus when a Load method has been called
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        protected override void OnGotFocus(EventArgs e)
+        {
+            base.OnGotFocus(e);
+
+            //Notify browser we got focus from Windows Forms world
+            managedCefBrowserAdapter.SendFocusEvent(true);
+        }
+
+        protected virtual void OnCefWindowMessage(Message m)
+        {
+            if (m.Msg == WM_SETFOCUS)
+            {
+                BeginInvoke(new MethodInvoker(() => this.Activate()));
+            }
+        }
+
+        /// <summary>
+        /// Exposes Cef Window handle. Third party applications may want to send messages directly to this handle.
+        /// 
+        /// An example would be : prevent Drag'n'Drop using Win32 api : RevokeDragDrop(IntPtr hwnd)
+        /// </summary>
+        public IntPtr CefWindowHandle
+        {
+            get 
+            {
+                return messageInterceptor.Handle;
             }
         }
     }
