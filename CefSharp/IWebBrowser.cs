@@ -143,16 +143,11 @@ namespace CefSharp
         IMenuHandler MenuHandler { get; set; }
 
         /// <summary>
-        /// Implement <see cref="IFocusHandler"/> and assign to handle events related to the browser component's focus
-        /// </summary>
-        IFocusHandler FocusHandler { get; set; }
 
         /// <summary>
         /// Implement <see cref="IResourceHandler"/> and control the loading of resources
         /// </summary>
         IResourceHandler ResourceHandler { get; set; }
-
-        /// <summary>
         /// A flag that indicates whether the WebBrowser is initialized (true) or not (false).
         /// </summary>
         /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
@@ -299,14 +294,32 @@ namespace CefSharp
         /// Explicitly close the developer tools window if one exists for this browser instance.
         /// </summary>
         void CloseDevTools();
-
-        /// <summary>
+        
         /// Send a mouse wheel event to the browser.
         /// </summary>
         /// <param name="x">X-Axis coordinate relative to the upper-left corner of the view.</param>
         /// <param name="y">Y-Axis coordinate relative to the upper-left corner of the view.</param>
         /// <param name="deltaX">Movement delta for X direction.</param>
         /// <param name="deltaY">movement delta for Y direction.</param>
-        void SendMouseWheelEvent(int x, int y, int deltaX, int deltaY);
+        void SendMouseWheelEvent(int x, int y, int deltaX, int deltaY);        
+
+        /// <summary>
+        /// Called when the browser component is about to loose focus. For instance, if focus was on the last HTML element and the user pressed the TAB key. 
+        /// </summary>
+        /// <param name="next">will be true if the browser is giving focus to the next component and false if the browser is giving focus to the previous component.</param>
+        void OnTakeFocus(bool next);
+        
+       /// <summary>
+        /// Called when the browser component is requesting focus.
+        /// </summary>
+        /// <param name="source">Indicates where the focus request is originating from.</param>
+        /// <returns>Return false to allow the focus to be set or true to cancel setting the focus.</returns>
+        bool OnSetFocus(CefFocusSource source);
+        
+        /// <summary>
+        /// Called when the browser component has received focus.
+        /// </summary>
+        void OnGotFocus();
+        
     }
 }
