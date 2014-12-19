@@ -5,6 +5,7 @@
 #pragma once
 
 #include "Stdafx.h"
+#include <list>
 #include "include/cef_app.h"
 #include "include/cef_client.h"
 #include "include/cef_render_process_handler.h"
@@ -36,6 +37,7 @@ namespace CefSharp
             gcroot<Action<int>^> _onAfterBrowserCreated;
             HWND _browserHwnd;
             CefRefPtr<CefBrowser> _cefBrowser;
+            std::list<CefRefPtr<CefBrowser>> _popupBrowsers;
 
             gcroot<String^> _tooltip;
 
@@ -57,6 +59,7 @@ namespace CefSharp
 
             HWND GetBrowserHwnd() { return _browserHwnd; }
             CefRefPtr<CefBrowser> GetCefBrowser() { return _cefBrowser; }
+            void CloseAllPopups(bool forceClose);
 
             // CefClient
             virtual CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() OVERRIDE{ return this; }

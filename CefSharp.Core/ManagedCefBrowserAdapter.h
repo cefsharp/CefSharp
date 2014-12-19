@@ -29,7 +29,8 @@ namespace CefSharp
     protected:
         virtual void DoDispose(bool isDisposing) override
         {
-            Close();
+            CloseAllPopups(true);
+            Close(true);
 
             _renderClientAdapter = nullptr;
             if (_browserProcessServiceHost != nullptr)
@@ -66,14 +67,19 @@ namespace CefSharp
             }
         }
 
-        void Close()
+        void Close(bool forceClose)
         {
             auto cefHost = _renderClientAdapter->TryGetCefHost();
 
             if (cefHost != nullptr)
             {
-                cefHost->CloseBrowser(true);
+                cefHost->CloseBrowser(forceClose);
             }
+        }
+
+        void CloseAllPopups(bool forceClose)
+        {
+            _renderClientAdapter->CloseAllPopups(forceClose);
         }
 
         void LoadUrl(String^ address)
