@@ -77,7 +77,16 @@ namespace CefSharp
 
         void ClientAdapter::OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString& title)
         {
-            _browserControl->SetTitle(StringUtils::ToClr(title));
+            if(browser->IsPopup())
+            {
+                // Set the popup window title
+                auto hwnd = browser->GetHost()->GetWindowHandle();
+                SetWindowText(hwnd, std::wstring(title).c_str());
+            }
+            else
+            {
+                _browserControl->SetTitle(StringUtils::ToClr(title));
+            }
         }
 
         bool ClientAdapter::OnTooltip(CefRefPtr<CefBrowser> browser, CefString& text)
