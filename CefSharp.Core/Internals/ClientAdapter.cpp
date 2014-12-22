@@ -414,39 +414,17 @@ namespace CefSharp
 
         void ClientAdapter::OnGotFocus(CefRefPtr<CefBrowser> browser)
         {
-            IFocusHandler^ handler = _browserControl->FocusHandler;
-
-            if (handler == nullptr)
-            {
-                return;
-            }
-
-            handler->OnGotFocus();
+            _browserControl->OnGotFocus();
         }
 
         bool ClientAdapter::OnSetFocus(CefRefPtr<CefBrowser> browser, FocusSource source)
         {
-            IFocusHandler^ handler = _browserControl->FocusHandler;
-
-            if (handler == nullptr)
-            {
-                // Allow the focus to be set by default.
-                return false;
-            }
-
-            return handler->OnSetFocus((CefFocusSource)source);
+            return _browserControl->OnSetFocus((CefFocusSource)source);
         }
 
         void ClientAdapter::OnTakeFocus(CefRefPtr<CefBrowser> browser, bool next)
         {
-            IFocusHandler^ handler = _browserControl->FocusHandler;
-
-            if (handler == nullptr)
-            {
-                return;
-            }
-
-            handler->OnTakeFocus(next);
+            _browserControl->OnTakeFocus(next);
         }
 
         bool ClientAdapter::OnJSDialog(CefRefPtr<CefBrowser> browser, const CefString& origin_url, const CefString& accept_lang,
