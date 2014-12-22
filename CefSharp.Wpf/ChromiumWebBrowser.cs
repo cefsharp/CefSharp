@@ -52,6 +52,7 @@ namespace CefSharp.Wpf
         public IDownloadHandler DownloadHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
         public IMenuHandler MenuHandler { get; set; }
+        public IFocusHandler FocusHandler { get; set; }
         public IDragHandler DragHandler { get; set; }
         public IResourceHandler ResourceHandler { get; set; }
 
