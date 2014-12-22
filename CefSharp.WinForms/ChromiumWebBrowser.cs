@@ -287,6 +287,14 @@ namespace CefSharp.WinForms
             managedCefBrowserAdapter.SetFocus(true);
         }
 
+        protected override void OnLostFocus(EventArgs e)
+        {
+            base.OnLostFocus(e);
+
+            //Notify browser we lost focus from Windows Forms world
+            managedCefBrowserAdapter.SetFocus(false);
+        }
+
         public void Find(int identifier, string searchText, bool forward, bool matchCase, bool findNext)
         {
             managedCefBrowserAdapter.Find(identifier, searchText, forward, matchCase, findNext);
