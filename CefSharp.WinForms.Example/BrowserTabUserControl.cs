@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using CefSharp.Example;
-using CefSharp.WinForms.Example.Controls;
 using System;
 using System.Windows.Forms;
+using CefSharp.WinForms.Internals;
 
 namespace CefSharp.WinForms.Example
 {

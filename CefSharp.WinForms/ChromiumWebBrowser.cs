@@ -260,8 +260,8 @@ namespace CefSharp.WinForms
 
         void IWebBrowserInternal.OnTakeFocus(bool next)
         {
-            //Reminder: OnTakeFocus means leaving focus / not taking focus
-            BeginInvoke(new MethodInvoker(() => this.SelectNextControl(next)));
+            //NOTE: OnTakeFocus means leaving focus / not taking focus
+            this.InvokeOnUiThreadIfRequired(() => this.SelectNextControl(next));
         }
 
         bool IWebBrowserInternal.OnSetFocus(CefFocusSource source)
@@ -276,8 +276,7 @@ namespace CefSharp.WinForms
 
         void IWebBrowserInternal.OnGotFocus()
         {
-            //Do nothing here because event is not fired property : we hook WM_SETFOCUS instead
-            BeginInvoke(new MethodInvoker(this.Activate));
+            this.InvokeOnUiThreadIfRequired(this.Activate);
         }
 
         protected override void OnGotFocus(EventArgs e)

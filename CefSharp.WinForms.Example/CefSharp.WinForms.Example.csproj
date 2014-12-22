@@ -66,7 +66,6 @@
     <Compile Include="BrowserForm.Designer.cs">
       <DependentUpon>BrowserForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ControlExtensions.cs" />
     <Compile Include="BrowserTabUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
