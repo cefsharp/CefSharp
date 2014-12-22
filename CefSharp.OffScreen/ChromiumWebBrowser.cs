@@ -207,12 +207,12 @@ namespace CefSharp.OffScreen
 
         public void ReplaceMisspelling(string word)
         {
-            throw new NotImplementedException();
+            managedCefBrowserAdapter.ReplaceMisspelling(word);
         }
 
         public void AddWordToDictionary(string word)
         {
-            throw new NotImplementedException();
+            managedCefBrowserAdapter.AddWordToDictionary(word);
         }
 
         public string Address { get; set; }
