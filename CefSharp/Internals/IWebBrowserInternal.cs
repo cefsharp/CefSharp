@@ -19,5 +19,23 @@ namespace CefSharp.Internals
         void OnConsoleMessage(string message, string source, int line);
         void OnStatusMessage(string value);
         void OnLoadError(string url, CefErrorCode errorCode, string errorText);
+
+        /// <summary>
+        /// Called when the browser component is about to loose focus. For instance, if focus was on the last HTML element and the user pressed the TAB key. 
+        /// </summary>
+        /// <param name="next">will be true if the browser is giving focus to the next component and false if the browser is giving focus to the previous component.</param>
+        void OnTakeFocus(bool next);
+
+        /// <summary>
+        /// Called when the browser component is requesting focus.
+        /// </summary>
+        /// <param name="source">Indicates where the focus request is originating from.</param>
+        /// <returns>Return false to allow the focus to be set or true to cancel setting the focus.</returns>
+        bool OnSetFocus(CefFocusSource source);
+
+        /// <summary>
+        /// Called when the browser component has received focus.
+        /// </summary>
+        void OnGotFocus();
     }
 }

@@ -52,7 +52,6 @@ namespace CefSharp.Wpf
         public IDownloadHandler DownloadHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
         public IMenuHandler MenuHandler { get; set; }
-        public IFocusHandler FocusHandler { get; set; }
         public IDragHandler DragHandler { get; set; }
         public IResourceHandler ResourceHandler { get; set; }
 
@@ -1183,6 +1182,21 @@ namespace CefSharp.Wpf
             {
                 handler(this, new LoadErrorEventArgs(url, errorCode, errorText));
             }
+        }
+
+        void IWebBrowserInternal.OnTakeFocus(bool next)
+        {
+            
+        }
+
+        bool IWebBrowserInternal.OnSetFocus(CefFocusSource source)
+        {
+            return false;
+        }
+
+        void IWebBrowserInternal.OnGotFocus()
+        {
+            
         }
 
         public void RegisterJsObject(string name, object objectToBind)

@@ -304,17 +304,17 @@ namespace CefSharp.OffScreen
             return false;
         }
 
-        void IWebBrowser.OnTakeFocus(bool next)
+        void IWebBrowserInternal.OnTakeFocus(bool next)
         {
 
         }
 
-        bool IWebBrowser.OnSetFocus(CefFocusSource source)
+        bool IWebBrowserInternal.OnSetFocus(CefFocusSource source)
         {
             return false;
         }
 
-        void IWebBrowser.OnGotFocus()
+        void IWebBrowserInternal.OnGotFocus()
         {
 
         }

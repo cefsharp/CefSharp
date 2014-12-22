@@ -143,11 +143,6 @@ namespace CefSharp
         IMenuHandler MenuHandler { get; set; }
 
         /// <summary>
-        /// Implement <see cref="IFocusHandler"/> and assign to handle events related to the browser component's focus
-        /// </summary>
-        IFocusHandler FocusHandler { get; set; }
-
-        /// <summary>
         /// Implement <see cref="IResourceHandler"/> and control the loading of resources
         /// </summary>
         IResourceHandler ResourceHandler { get; set; }

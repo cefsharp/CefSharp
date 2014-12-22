@@ -28,7 +28,6 @@ namespace CefSharp.WinForms
         public IDownloadHandler DownloadHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
         public IMenuHandler MenuHandler { get; set; }
-        public IFocusHandler FocusHandler { get; set; }
         public IDragHandler DragHandler { get; set; }
         public IResourceHandler ResourceHandler { get; set; }
 
@@ -60,7 +59,6 @@ namespace CefSharp.WinForms
 
             Dock = DockStyle.Fill;
 
-            FocusHandler = new DefaultFocusHandler(this);
             ResourceHandler = new DefaultResourceHandler();
 
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
@@ -68,7 +66,6 @@ namespace CefSharp.WinForms
 
         protected override void Dispose(bool disposing)
         {
-            FocusHandler = null;
             ResourceHandler = null;
 
             Cef.RemoveDisposable(this);
@@ -257,6 +254,45 @@ namespace CefSharp.WinForms
             if (handler != null)
             {
                 handler(this, new LoadErrorEventArgs(url, errorCode, errorText));
+            }
+        }
+
+        void IWebBrowserInternal.OnTakeFocus(bool next)
+        {
+            //Reminder: OnTakeFocus means leaving focus / not taking focus
+            BeginInvoke(new MethodInvoker(() => this.SelectNextControl(next)));
+        }
+
+        bool IWebBrowserInternal.OnSetFocus(CefFocusSource source)
+        {
+            if (source == CefFocusSource.FocusSourceNavigation)
+            {
+                return true; //Do not let the browser take focus when a Load method has been called
+            }
+            
+            return false;
+        }
+
+        void IWebBrowserInternal.OnGotFocus()
+        {
+            //Do nothing here because event is not fired property : we hook WM_SETFOCUS instead
+        }
+
+        protected override void OnGotFocus(EventArgs e)
+        {
+            base.OnGotFocus(e);
+
+            //Notify browser we got focus from Windows Forms world
+            managedCefBrowserAdapter.SetFocus(true);
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+            base.WndProc(ref m);
+
+            if (m.Msg == 0x0007 /*WM_SETFOCUS*/)
+            {
+                BeginInvoke(new MethodInvoker(this.Activate));
             }
         }
 
