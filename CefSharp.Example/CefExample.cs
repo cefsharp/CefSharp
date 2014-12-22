@@ -35,14 +35,7 @@ namespace CefSharp.Example
 
             if (!Cef.Initialize(settings))
             {
-                if (Environment.GetCommandLineArgs().Contains("--type=renderer"))
-                {
-                    Environment.Exit(0);
-                }
-                else
-                {
-                    return;
-                }
+                throw new Exception("Unable to Initialize Cef");
             }
         }
 
