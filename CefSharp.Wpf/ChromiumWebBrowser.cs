@@ -7,7 +7,6 @@ using CefSharp.Internals;
 using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,14 +20,6 @@ namespace CefSharp.Wpf
 {
     public class ChromiumWebBrowser : ContentControl, IRenderWebBrowser, IWpfWebBrowser
     {
-        private static readonly Key[] KeysToSendtoBrowser =
-        {
-            Key.Tab,
-            Key.Home, Key.End,
-            Key.Left, Key.Right,
-            Key.Up, Key.Down
-        };
-
         private HwndSource source;
         private HwndSourceHook sourceHook;
         private DispatcherTimer tooltipTimer;
@@ -338,10 +329,11 @@ namespace CefSharp.Wpf
 
         protected virtual void Dispose(bool isdisposing)
         {
+            PresentationSource.RemoveSourceChangedHandler(this, PresentationSourceChangedHandler);
+
             ResourceHandler = null;
 
             Loaded -= OnLoaded;
-            Unloaded -= OnUnloaded;
 
             GotKeyboardFocus -= OnGotKeyboardFocus;
             LostKeyboardFocus -= OnLostKeyboardFocus;
@@ -349,8 +341,6 @@ namespace CefSharp.Wpf
             IsVisibleChanged -= OnIsVisibleChanged;
 
             Cef.RemoveDisposable(this);
-
-            RemoveSourceHook();
 
             foreach (var disposable in disposables)
             {
@@ -433,7 +423,6 @@ namespace CefSharp.Wpf
             Dispatcher.BeginInvoke((Action)(() => WebBrowser = this));
 
             Loaded += OnLoaded;
-            Unloaded += OnUnloaded;
 
             GotKeyboardFocus += OnGotKeyboardFocus;
             LostKeyboardFocus += OnLostKeyboardFocus;
@@ -444,7 +433,6 @@ namespace CefSharp.Wpf
             toolTip.StaysOpen = true;
             toolTip.Visibility = Visibility.Collapsed;
             toolTip.Closed += OnTooltipClosed;
-
 
             BackCommand = new DelegateCommand(Back, () => CanGoBack);
             ForwardCommand = new DelegateCommand(Forward, () => CanGoForward);
@@ -470,11 +458,38 @@ namespace CefSharp.Wpf
             disposables.Add(new DisposableEventWrapper(this, ActualWidthProperty, OnActualSizeChanged));
 
             ResourceHandler = new DefaultResourceHandler();
+
+            PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
         }
 
         ~ChromiumWebBrowser()
         {
             Dispose(false);
+        }
+
+        private void PresentationSourceChangedHandler(object sender, SourceChangedEventArgs args)
+        {
+            if (args.NewSource != null)
+            {
+                var newSource = (HwndSource)args.NewSource;
+
+                source = newSource;
+
+                if (source != null)
+                {
+                    matrix = source.CompositionTarget.TransformToDevice;
+                    sourceHook = SourceHook;
+                    source.AddHook(sourceHook);
+                }
+            }
+            else if (args.OldSource != null)
+            {
+                if (source != null && sourceHook != null)
+                {
+                    source.RemoveHook(sourceHook);
+                    source = null;
+                }
+            }
         }
 
         private void CreateOffscreenBrowserWhenActualSizeChanged()
@@ -509,10 +524,6 @@ namespace CefSharp.Wpf
 
         private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs args)
         {
-            // If the control was not rendered yet when we tried to set up the source hook, it may have failed (since it couldn't
-            // lookup the HwndSource), so we need to retry it whenever visibility changes.
-            AddSourceHookIfNotAlreadyPresent();
-
             var isVisible = (bool)args.NewValue;
             managedCefBrowserAdapter.WasHidden(!isVisible);
         }
@@ -528,20 +539,11 @@ namespace CefSharp.Wpf
             {
                 CleanupElement = Window.GetWindow(this);
             }
-
-            AddSourceHookIfNotAlreadyPresent();
-        }
-
-        private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
-        {
-            RemoveSourceHook();
         }
 
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-
-            AddSourceHookIfNotAlreadyPresent();
 
             CheckIsNonStandardDpi();
 
@@ -596,36 +598,12 @@ namespace CefSharp.Wpf
                );
         }
 
-        private void AddSourceHookIfNotAlreadyPresent()
-        {
-            if (source != null)
-            {
-                return;
-            }
-
-            source = (HwndSource)PresentationSource.FromVisual(this);
-
-            if (source != null)
-            {
-                matrix = source.CompositionTarget.TransformToDevice;
-                sourceHook = SourceHook;
-                source.AddHook(sourceHook);
-            }
-        }
-
-        private void RemoveSourceHook()
-        {
-            if (source != null &&
-                sourceHook != null)
-            {
-                source.RemoveHook(sourceHook);
-                source = null;
-            }
-        }
-
         private IntPtr SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            handled = false;
+            if(handled)
+            {
+                return IntPtr.Zero;
+            }
 
             switch ((WM)message)
             {
@@ -636,6 +614,7 @@ namespace CefSharp.Wpf
                 case WM.KEYUP:
                 case WM.CHAR:
                 case WM.IME_CHAR:
+                {
                     if (!IsKeyboardFocused)
                     {
                         break;
@@ -649,12 +628,10 @@ namespace CefSharp.Wpf
                         return IntPtr.Zero;
                     }
 
-                    if (managedCefBrowserAdapter.SendKeyEvent(message, wParam.ToInt32(), 0))
-                    {
-                        handled = true;
-                    }
-
+                    handled = managedCefBrowserAdapter.SendKeyEvent(message, wParam.ToInt32(), lParam.ToInt32());
+                    
                     break;
+                }
             }
 
             return IntPtr.Zero;
@@ -860,30 +837,37 @@ namespace CefSharp.Wpf
 
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
-            OnPreviewKey(e);
+            if (!e.Handled)
+            {
+                OnPreviewKey(e);
+            }
+
+            base.OnPreviewKeyDown(e);
         }
 
         protected override void OnPreviewKeyUp(KeyEventArgs e)
         {
-            OnPreviewKey(e);
+            if (!e.Handled)
+            {
+                OnPreviewKey(e);
+            }
+
+            base.OnPreviewKeyUp(e);
         }
 
         private void OnPreviewKey(KeyEventArgs e)
         {
-            // For some reason, not all kinds of keypresses triggers the appropriate WM_ messages handled by our SourceHook, so
-            // we have to handle these extra keys here. Hooking the Tab key like this makes the tab focusing in essence work like
+            // As KeyDown and KeyUp bubble, it appears they're being handled before they get a chance to
+            // trigger the appropriate WM_ messages handled by our SourceHook, so we have to handle these extra keys here.
+            // Hooking the Tab key like this makes the tab focusing in essence work like
             // KeyboardNavigation.TabNavigation="Cycle"; you will never be able to Tab out of the web browser control.
-            var modifiers = GetModifiers(e);
-            var sendKey = KeysToSendtoBrowser.Contains(e.Key);
-
-            if (sendKey || modifiers > 0)
+            if (e.Key == Key.Tab || e.Key == Key.Home || e.Key == Key.End || e.Key == Key.Up || e.Key == Key.Down)
             {
+                var modifiers = GetModifiers(e);
                 var message = (int)(e.IsDown ? WM.KEYDOWN : WM.KEYUP);
                 var virtualKey = KeyInterop.VirtualKeyFromKey(e.Key);
 
-                managedCefBrowserAdapter.SendKeyEvent(message, virtualKey, modifiers);
-
-                e.Handled = sendKey;
+                e.Handled = managedCefBrowserAdapter.SendKeyEvent(message, virtualKey, (int)modifiers);
             }
         }
 
