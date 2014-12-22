@@ -17,6 +17,19 @@ namespace CefSharp
 {
     namespace Internals
     {
+        void ClientAdapter::CloseAllPopups(bool forceClose)
+        {
+            if (!_popupBrowsers.empty())
+            {
+                // Request that any popup browsers close.
+                auto it = _popupBrowsers.begin();
+                for (; it != _popupBrowsers.end(); ++it)
+                {
+                    (*it)->GetHost()->CloseBrowser(forceClose);
+                }
+            }
+        }
+
         bool ClientAdapter::OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& target_url,
             const CefString& target_frame_name, const CefPopupFeatures& popupFeatures, CefWindowInfo& windowInfo,
             CefRefPtr<CefClient>& client, CefBrowserSettings& settings, bool* no_javascript_access)
@@ -34,7 +47,12 @@ namespace CefSharp
 
         void ClientAdapter::OnAfterCreated(CefRefPtr<CefBrowser> browser)
         {
-            if (!browser->IsPopup())
+            if (browser->IsPopup())
+            {
+                // Add to the list of popup browsers.
+                _popupBrowsers.push_back(browser);
+            }
+            else
             {
                 _browserHwnd = browser->GetHost()->GetWindowHandle();
                 _cefBrowser = browser;
@@ -49,7 +67,20 @@ namespace CefSharp
 
         void ClientAdapter::OnBeforeClose(CefRefPtr<CefBrowser> browser)
         {
-            if (_browserHwnd == browser->GetHost()->GetWindowHandle())
+            if (browser->IsPopup())
+            {
+                // Remove from the browser popup list.
+                auto it = _popupBrowsers.begin();
+                for (; it != _popupBrowsers.end(); ++it)
+                {
+                    if ((*it)->IsSame(browser))
+                    {
+                        _popupBrowsers.erase(it);
+                        break;
+                    }
+                }
+            }
+            else if (_browserHwnd == browser->GetHost()->GetWindowHandle())
             {
                 ILifeSpanHandler^ handler = _browserControl->LifeSpanHandler;
                 if (handler != nullptr)
@@ -63,8 +94,7 @@ namespace CefSharp
 
         void ClientAdapter::OnLoadingStateChange(CefRefPtr<CefBrowser> browser, bool isLoading, bool canGoBack, bool canGoForward)
         {
-            auto canReload = !isLoading;
-            _browserControl->SetNavState(canGoBack, canGoForward, canReload);
+            _browserControl->SetLoadingStateChange(canGoBack, canGoForward, isLoading);
         }
 
         void ClientAdapter::OnAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& address)
@@ -77,7 +107,16 @@ namespace CefSharp
 
         void ClientAdapter::OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString& title)
         {
-            _browserControl->SetTitle(StringUtils::ToClr(title));
+            if(browser->IsPopup())
+            {
+                // Set the popup window title
+                auto hwnd = browser->GetHost()->GetWindowHandle();
+                SetWindowText(hwnd, std::wstring(title).c_str());
+            }
+            else
+            {
+                _browserControl->SetTitle(StringUtils::ToClr(title));
+            }
         }
 
         bool ClientAdapter::OnTooltip(CefRefPtr<CefBrowser> browser, CefString& text)
@@ -261,7 +300,7 @@ namespace CefSharp
             {
                 auto mimeType = StringUtils::ToNative(resourceHandler->MimeType);
                 auto statusText = StringUtils::ToNative(resourceHandler->StatusText);
-                
+
                 CefRefPtr<StreamAdapter> streamAdapter = new StreamAdapter(resourceHandler->Stream);
 
                 CefRefPtr<CefStreamReader> stream = CefStreamReader::CreateForHandler(static_cast<CefRefPtr<CefReadHandler>>(streamAdapter));
@@ -485,6 +524,5 @@ namespace CefSharp
 
             return handler->OnDragEnter(_browserControl, dragDataWrapper, (CefSharp::DragOperationsMask)mask);
         }
-
     }
 }

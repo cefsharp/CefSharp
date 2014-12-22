@@ -9,8 +9,6 @@ namespace CefSharp
 {
     namespace Internals
     {
-
-
         int CefContextMenuParamsWrapper::YCoord::get()
         {
             return _wrappedInfo->GetYCoord();
@@ -21,40 +19,33 @@ namespace CefSharp
             return _wrappedInfo->GetXCoord();
         }
 
-
         //// TODO: Implement:
         ////virtual TypeFlags GetTypeFlags() OVERRIDE;
-
 
         String^ CefContextMenuParamsWrapper::LinkUrl::get()
         {
             return StringUtils::ToClr(_wrappedInfo->GetLinkUrl());
         }
 
-
         String^ CefContextMenuParamsWrapper::UnfilteredLinkUrl::get()
         {
             return StringUtils::ToClr(_wrappedInfo->GetUnfilteredLinkUrl());
         }
-
 
         String^ CefContextMenuParamsWrapper::SourceUrl::get()
         {
             return StringUtils::ToClr(_wrappedInfo->GetSourceUrl());
         }
 
-
         bool CefContextMenuParamsWrapper::HasImageContents::get()
         {
             return _wrappedInfo->HasImageContents();
         }
 
-
         String^ CefContextMenuParamsWrapper::PageUrl::get()
         {
             return StringUtils::ToClr(_wrappedInfo->GetPageUrl());
         }
-
 
         String^ CefContextMenuParamsWrapper::FrameUrl::get()
         {
@@ -66,17 +57,14 @@ namespace CefSharp
             return StringUtils::ToClr(_wrappedInfo->GetFrameCharset());
         }
 
-
         //// TODO: Implement:
         ////virtual MediaType GetMediaType() OVERRIDE;
         ////virtual MediaStateFlags GetMediaStateFlags() OVERRIDE;
-
 
         String^ CefContextMenuParamsWrapper::SelectionText::get()
         {
             return StringUtils::ToClr(_wrappedInfo->GetSelectionText());
         }
-
 
         String^ CefContextMenuParamsWrapper::MisspelledWord::get()
         {
@@ -88,10 +76,8 @@ namespace CefSharp
             return _wrappedInfo->GetMisspellingHash();
         }
 
-
         //// TODO: Implement:
         ////virtual bool GetDictionarySuggestions(std::vector<CefString>& suggestions) OVERRIDE;
-
 
         List<String^>^ CefContextMenuParamsWrapper::DictionarySuggestions::get()
         {
@@ -100,9 +86,6 @@ namespace CefSharp
 
             return StringUtils::ToClr(dictionarySuggestions);
         }
-
-
-
 
         bool CefContextMenuParamsWrapper::IsEditable::get()
         {
@@ -114,10 +97,7 @@ namespace CefSharp
             return _wrappedInfo->IsSpellCheckEnabled();
         }
 
-
         //// TODO: Implement:
         ////virtual EditStateFlags GetEditStateFlags() OVERRIDE;
-
-
     }
 }

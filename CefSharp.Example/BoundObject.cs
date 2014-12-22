@@ -194,6 +194,11 @@ namespace CefSharp.Example
             return "lowercase";
         }
 
+        public string ReturnJsonEmployeeList()
+        {
+            return "{\"employees\":[{\"firstName\":\"John\", \"lastName\":\"Doe\"},{\"firstName\":\"Anna\", \"lastName\":\"Smith\"},{\"firstName\":\"Peter\", \"lastName\":\"Jones\"}]}";
+        }
+
         [JavascriptIgnore]
         public string IgnoredProperty { get; set; }
 

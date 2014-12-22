@@ -146,15 +146,6 @@ namespace CefSharp
                 CefMainArgs main_args;
                 CefRefPtr<CefSharpApp> app(new CefSharpApp(cefSettings));
 
-                int exitCode = CefExecuteProcess(main_args, app.get(), NULL);
-
-                if (exitCode >= 0)
-                {
-                    // Something went "wrong", but it may also be caused in the case where we are the secondary process, so we
-                    // can't really throw exceptions or anything like that.
-                    return false;
-                }
-
                 success = CefInitialize(main_args, *(cefSettings->_cefSettings), app.get(), NULL);
                 app->CompleteSchemeRegistrations();
                 _initialized = success;

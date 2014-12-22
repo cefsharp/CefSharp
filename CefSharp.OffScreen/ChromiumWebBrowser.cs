@@ -207,12 +207,12 @@ namespace CefSharp.OffScreen
 
         public void ReplaceMisspelling(string word)
         {
-            throw new NotImplementedException();
+            managedCefBrowserAdapter.ReplaceMisspelling(word);
         }
 
         public void AddWordToDictionary(string word)
         {
-            throw new NotImplementedException();
+            managedCefBrowserAdapter.AddWordToDictionary(word);
         }
 
         public string Address { get; set; }
@@ -494,16 +494,16 @@ namespace CefSharp.OffScreen
             IsLoading = isloading;
         }
 
-        void IWebBrowserInternal.SetNavState(bool canGoBack, bool canGoForward, bool canReload)
+        void IWebBrowserInternal.SetLoadingStateChange(bool canGoBack, bool canGoForward, bool isLoading)
         {
             CanGoBack = canGoBack;
             CanGoForward = canGoForward;
-            CanReload = canReload;
+            CanReload = !isLoading;
 
             var handler = NavStateChanged;
             if (handler != null)
             {
-                handler(this, new NavStateChangedEventArgs(canGoBack, canGoForward, canReload));
+                handler(this, new NavStateChangedEventArgs(canGoBack, canGoForward, isLoading));
             }
         }
 
