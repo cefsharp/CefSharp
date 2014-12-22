@@ -276,6 +276,7 @@ namespace CefSharp.WinForms
         void IWebBrowserInternal.OnGotFocus()
         {
             //Do nothing here because event is not fired property : we hook WM_SETFOCUS instead
+            BeginInvoke(new MethodInvoker(this.Activate));
         }
 
         protected override void OnGotFocus(EventArgs e)
@@ -284,16 +285,6 @@ namespace CefSharp.WinForms
 
             //Notify browser we got focus from Windows Forms world
             managedCefBrowserAdapter.SetFocus(true);
-        }
-
-        protected override void WndProc(ref Message m)
-        {
-            base.WndProc(ref m);
-
-            if (m.Msg == 0x0007 /*WM_SETFOCUS*/)
-            {
-                BeginInvoke(new MethodInvoker(this.Activate));
-            }
         }
 
         public void Find(int identifier, string searchText, bool forward, bool matchCase, bool findNext)
