@@ -684,13 +684,13 @@ namespace CefSharp.Wpf
             UiThreadRunAsync(() => SetCurrentValue(IsLoadingProperty, isLoading));
         }
 
-        void IWebBrowserInternal.SetNavState(bool canGoBack, bool canGoForward, bool canReload)
+        void IWebBrowserInternal.SetLoadingStateChange(bool canGoBack, bool canGoForward, bool isLoading)
         {
             UiThreadRunAsync(() =>
             {
                 SetCurrentValue(CanGoBackProperty, canGoBack);
                 SetCurrentValue(CanGoForwardProperty, canGoForward);
-                SetCurrentValue(CanReloadProperty, canReload);
+                SetCurrentValue(CanReloadProperty, !isLoading);
 
                 RaiseCommandsCanExecuteChanged();
             });
@@ -698,7 +698,7 @@ namespace CefSharp.Wpf
             var handler = NavStateChanged;
             if (handler != null)
             {
-                handler(this, new NavStateChangedEventArgs(canGoBack, canGoForward, canReload));
+                handler(this, new NavStateChangedEventArgs(canGoBack, canGoForward, isLoading));
             }
         }
 

@@ -94,8 +94,7 @@ namespace CefSharp
 
         void ClientAdapter::OnLoadingStateChange(CefRefPtr<CefBrowser> browser, bool isLoading, bool canGoBack, bool canGoForward)
         {
-            auto canReload = !isLoading;
-            _browserControl->SetNavState(canGoBack, canGoForward, canReload);
+            _browserControl->SetLoadingStateChange(canGoBack, canGoForward, isLoading);
         }
 
         void ClientAdapter::OnAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& address)
