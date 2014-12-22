@@ -14,12 +14,14 @@ namespace CefSharp
         public bool CanGoForward { get; private set; }
         public bool CanGoBack { get; private set; }
         public bool CanReload { get; private set; }
+        public bool IsLoading { get; private set; }
 
-        public NavStateChangedEventArgs(bool canGoBack, bool canGoForward, bool canReload)
+        public NavStateChangedEventArgs(bool canGoBack, bool canGoForward, bool isLoading)
         {
             CanGoBack = canGoBack;
             CanGoForward = canGoForward;
-            CanReload = canReload;
+            IsLoading = isLoading;
+            CanReload = !isLoading;
         }
     }
 }

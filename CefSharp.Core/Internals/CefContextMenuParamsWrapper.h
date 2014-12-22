@@ -45,7 +45,7 @@ namespace CefSharp
 
             virtual property List<String^>^ DictionarySuggestions { List<String^>^ get(); }
             
-            
+            // TODO: Implement:
             //virtual bool GetDictionarySuggestions(std::vector<CefString>& suggestions) OVERRIDE;
 
             virtual property bool IsEditable { bool get(); }
@@ -53,8 +53,6 @@ namespace CefSharp
           
             // TODO: Implement:
             //virtual EditStateFlags GetEditStateFlags() OVERRIDE;
-
-          
         };
     }
 }
