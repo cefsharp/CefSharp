@@ -10,7 +10,7 @@ namespace CefSharp.Internals
 
         void SetAddress(string address);
         void SetIsLoading(bool isloading);
-        void SetNavState(bool canGoBack, bool canGoForward, bool isLoading);
+        void SetLoadingStateChange(bool canGoBack, bool canGoForward, bool isLoading);
         void SetTitle(string title);
         void SetTooltipText(string tooltipText);
 

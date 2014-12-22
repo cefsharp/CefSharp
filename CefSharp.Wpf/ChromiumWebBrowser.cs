@@ -676,7 +676,7 @@ namespace CefSharp.Wpf
             UiThreadRunAsync(() => SetCurrentValue(IsLoadingProperty, isLoading));
         }
 
-        void IWebBrowserInternal.SetNavState(bool canGoBack, bool canGoForward, bool isLoading)
+        void IWebBrowserInternal.SetLoadingStateChange(bool canGoBack, bool canGoForward, bool isLoading)
         {
             UiThreadRunAsync(() =>
             {

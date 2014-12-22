@@ -492,7 +492,7 @@ namespace CefSharp.OffScreen
             IsLoading = isloading;
         }
 
-        void IWebBrowserInternal.SetNavState(bool canGoBack, bool canGoForward, bool isLoading)
+        void IWebBrowserInternal.SetLoadingStateChange(bool canGoBack, bool canGoForward, bool isLoading)
         {
             CanGoBack = canGoBack;
             CanGoForward = canGoForward;
