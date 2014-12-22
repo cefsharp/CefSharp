@@ -21,7 +21,7 @@ namespace CefSharp.Internals
         void OnLoadError(string url, CefErrorCode errorCode, string errorText);
 
         /// <summary>
-        /// Called when the browser component is about to loose focus. For instance, if focus was on the last HTML element and the user pressed the TAB key. 
+        /// Called when the browser component is about to lose focus. For instance, if focus was on the last HTML element and the user pressed the TAB key. 
         /// </summary>
         /// <param name="next">will be true if the browser is giving focus to the next component and false if the browser is giving focus to the previous component.</param>
         void OnTakeFocus(bool next);
