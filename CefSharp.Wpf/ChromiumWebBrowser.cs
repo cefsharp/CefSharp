@@ -52,7 +52,6 @@ namespace CefSharp.Wpf
         public IDownloadHandler DownloadHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
         public IMenuHandler MenuHandler { get; set; }
-        public IFocusHandler FocusHandler { get; set; }
         public IDragHandler DragHandler { get; set; }
         public IResourceHandler ResourceHandler { get; set; }
 
@@ -1274,6 +1273,19 @@ namespace CefSharp.Wpf
             var taskStringVisitor = new TaskStringVisitor();
             managedCefBrowserAdapter.GetText(taskStringVisitor);
             return taskStringVisitor.Task;
+        }
+
+        public void OnTakeFocus(bool next)
+        {
+        }
+
+        public bool OnSetFocus(CefFocusSource source)
+        {
+            return false;
+        }
+
+        public void OnGotFocus()
+        {
         }
     }
 }

@@ -181,7 +181,6 @@ namespace CefSharp.OffScreen
         public IKeyboardHandler KeyboardHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
         public IMenuHandler MenuHandler { get; set; }
-        public IFocusHandler FocusHandler { get; set; }
         public IRequestHandler RequestHandler { get; set; }
         public IDragHandler DragHandler { get; set; }
         public IResourceHandler ResourceHandler { get; set; }
@@ -292,6 +291,21 @@ namespace CefSharp.OffScreen
         {
             // no control to focus for offscreen browser
             return false;
+        }
+
+        void IWebBrowserInternal.OnTakeFocus(bool next)
+        {
+
+        }
+
+        bool IWebBrowserInternal.OnSetFocus(CefFocusSource source)
+        {
+            return false;
+        }
+
+        void IWebBrowserInternal.OnGotFocus()
+        {
+
         }
 
         public void Reload()
@@ -514,6 +528,7 @@ namespace CefSharp.OffScreen
         {
             TooltipText = tooltipText;
         }
+
         #endregion
     }
 }
