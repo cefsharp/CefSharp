@@ -420,8 +420,10 @@ namespace CefSharp
             {
                 _browserControl->OnGotFocus();
             }
-
-            handler->OnGotFocus();			
+            else
+            {
+                handler->OnGotFocus();
+            }
         }
 
         bool ClientAdapter::OnSetFocus(CefRefPtr<CefBrowser> browser, FocusSource source)
@@ -444,8 +446,10 @@ namespace CefSharp
             {
                 _browserControl->OnTakeFocus(next);
             }
-
-            handler->OnTakeFocus(next);            
+            else
+            {
+                handler->OnTakeFocus(next);
+            }
         }
 
         bool ClientAdapter::OnJSDialog(CefRefPtr<CefBrowser> browser, const CefString& origin_url, const CefString& accept_lang,
