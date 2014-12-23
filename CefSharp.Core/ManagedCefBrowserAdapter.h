@@ -97,7 +97,9 @@ namespace CefSharp
             {
                 auto browserHandle = _renderClientAdapter->GetBrowserHwnd();
 
-                _webBrowserInternal->OnInitialized(IntPtr(browserHandle));
+                auto childHandle = GetWindow(browserHandle, GW_CHILD);
+
+                _webBrowserInternal->OnInitialized(IntPtr(childHandle));
 
                 auto address = _address;
 
