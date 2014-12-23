@@ -305,6 +305,21 @@ namespace CefSharp.OffScreen
             return false;
         }
 
+        void IWebBrowserInternal.OnTakeFocus(bool next)
+        {
+
+        }
+
+        bool IWebBrowserInternal.OnSetFocus(CefFocusSource source)
+        {
+            return false;
+        }
+
+        void IWebBrowserInternal.OnGotFocus()
+        {
+
+        }
+
         public void Reload()
         {
             Reload(false);
@@ -525,6 +540,7 @@ namespace CefSharp.OffScreen
         {
             TooltipText = tooltipText;
         }
+
         #endregion
     }
 }

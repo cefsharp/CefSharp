@@ -5,7 +5,7 @@
 using System;
 using System.Windows.Forms;
 using CefSharp.Example;
-using CefSharp.WinForms.Example.Controls;
+using CefSharp.WinForms.Internals;
 
 namespace CefSharp.WinForms.Example.Minimal
 {

@@ -14,6 +14,7 @@ namespace CefSharp.WinForms
     public class ChromiumWebBrowser : Control, IWebBrowserInternal, IWinFormsWebBrowser
     {
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
+        private bool hasFocus;
 
         public BrowserSettings BrowserSettings { get; set; }
         public string Title { get; set; }
@@ -60,7 +61,6 @@ namespace CefSharp.WinForms
 
             Dock = DockStyle.Fill;
 
-            FocusHandler = new DefaultFocusHandler(this);
             ResourceHandler = new DefaultResourceHandler();
 
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
@@ -68,7 +68,6 @@ namespace CefSharp.WinForms
 
         protected override void Dispose(bool disposing)
         {
-            FocusHandler = null;
             ResourceHandler = null;
 
             Cef.RemoveDisposable(this);
@@ -257,6 +256,58 @@ namespace CefSharp.WinForms
             if (handler != null)
             {
                 handler(this, new LoadErrorEventArgs(url, errorCode, errorText));
+            }
+        }
+
+        void IWebBrowserInternal.OnTakeFocus(bool next)
+        {
+            //NOTE: OnTakeFocus means leaving focus / not taking focus
+            this.InvokeOnUiThreadIfRequired(() => this.SelectNextControl(next));
+        }
+
+        bool IWebBrowserInternal.OnSetFocus(CefFocusSource source)
+        {
+            if (source == CefFocusSource.FocusSourceNavigation)
+            {
+                return true; //Do not let the browser take focus when a Load method has been called
+            }
+            
+            return false;
+        }
+
+        void IWebBrowserInternal.OnGotFocus()
+        {
+            this.InvokeOnUiThreadIfRequired(this.Activate);
+        }
+
+        protected override void OnEnter(EventArgs e)
+        {
+            base.OnEnter(e);
+
+            hasFocus = true;
+
+            //Notify browser we got focus from Windows Forms world
+            managedCefBrowserAdapter.SetFocus(true);
+        }
+
+        protected override void OnLeave(EventArgs e)
+        {
+            base.OnLeave(e);
+
+            hasFocus = false;
+
+            //Notify browser we lost focus from Windows Forms world
+            managedCefBrowserAdapter.SetFocus(false);
+        }
+
+        protected override void OnGotFocus(EventArgs e)
+        {
+            base.OnGotFocus(e);
+
+            if(hasFocus)
+            {
+                //Notify browser we got focus from Windows Forms world
+                managedCefBrowserAdapter.SetFocus(true);
             }
         }
 

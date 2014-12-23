@@ -1169,6 +1169,21 @@ namespace CefSharp.Wpf
             }
         }
 
+        void IWebBrowserInternal.OnTakeFocus(bool next)
+        {
+            
+        }
+
+        bool IWebBrowserInternal.OnSetFocus(CefFocusSource source)
+        {
+            return false;
+        }
+
+        void IWebBrowserInternal.OnGotFocus()
+        {
+            
+        }
+
         public void RegisterJsObject(string name, object objectToBind)
         {
             managedCefBrowserAdapter.RegisterJsObject(name, objectToBind);
