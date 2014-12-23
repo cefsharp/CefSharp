@@ -279,17 +279,17 @@ namespace CefSharp.WinForms
             this.InvokeOnUiThreadIfRequired(this.Activate);
         }
 
-        protected override void OnGotFocus(EventArgs e)
+        protected override void OnEnter(EventArgs e)
         {
-            base.OnGotFocus(e);
+            base.OnEnter(e);
 
             //Notify browser we got focus from Windows Forms world
             managedCefBrowserAdapter.SetFocus(true);
         }
 
-        protected override void OnLostFocus(EventArgs e)
+        protected override void OnLeave(EventArgs e)
         {
-            base.OnLostFocus(e);
+            base.OnLeave(e);
 
             //Notify browser we lost focus from Windows Forms world
             managedCefBrowserAdapter.SetFocus(false);
