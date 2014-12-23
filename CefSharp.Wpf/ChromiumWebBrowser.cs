@@ -978,7 +978,7 @@ namespace CefSharp.Wpf
             }
         }
 
-        void IWebBrowserInternal.OnInitialized()
+        void IWebBrowserInternal.OnInitialized(IntPtr browserHandle)
         {
             UiThreadRunAsync(() => SetCurrentValue(IsBrowserInitializedProperty, true));
         }

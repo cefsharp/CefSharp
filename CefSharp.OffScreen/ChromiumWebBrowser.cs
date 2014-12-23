@@ -467,7 +467,7 @@ namespace CefSharp.OffScreen
             }
         }
 
-        void IWebBrowserInternal.OnInitialized()
+        void IWebBrowserInternal.OnInitialized(IntPtr browserHandle)
         {
             IsBrowserInitialized = true;
 

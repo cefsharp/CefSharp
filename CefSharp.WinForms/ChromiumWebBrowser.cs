@@ -91,7 +91,7 @@ namespace CefSharp.WinForms
             base.Dispose(disposing);
         }
 
-        void IWebBrowserInternal.OnInitialized()
+        void IWebBrowserInternal.OnInitialized(IntPtr browserHandle)
         {
             IsBrowserInitialized = true;
 

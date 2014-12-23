@@ -95,7 +95,9 @@ namespace CefSharp
 
             if(_webBrowserInternal != nullptr)
             {
-                _webBrowserInternal->OnInitialized();
+                auto browserHandle = _renderClientAdapter->GetBrowserHwnd();
+
+                _webBrowserInternal->OnInitialized(IntPtr(browserHandle));
 
                 auto address = _address;
 

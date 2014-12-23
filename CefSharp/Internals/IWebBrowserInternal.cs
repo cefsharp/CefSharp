@@ -2,11 +2,13 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
+
 namespace CefSharp.Internals
 {
     public interface IWebBrowserInternal : IWebBrowser
     {
-        void OnInitialized();
+        void OnInitialized(IntPtr browserHandle);
 
         void SetAddress(string address);
         void SetIsLoading(bool isloading);
