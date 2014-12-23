@@ -466,12 +466,9 @@ namespace CefSharp.WinForms
         /// 
         /// An example would be : prevent Drag'n'Drop using Win32 api : RevokeDragDrop(IntPtr hwnd)
         /// </summary>
-        public IntPtr CefWindowHandle
+        public IntPtr BrowserHandle
         {
-            get 
-            {
-                return messageInterceptor.Handle;
-            }
+            get { return messageInterceptor.Handle; }
         }
     }
 }
