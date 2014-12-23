@@ -450,7 +450,7 @@ namespace CefSharp.WinForms
             base.OnGotFocus(e);
 
             //Notify browser we got focus from Windows Forms world
-            managedCefBrowserAdapter.SendFocusEvent(true);
+            managedCefBrowserAdapter.SetFocus(true);
         }
 
         protected virtual void OnCefWindowMessage(Message m)
