@@ -425,7 +425,7 @@ namespace CefSharp.WinForms
         public virtual void OnTakeFocus(bool next)
         {
             //Reminder: OnTakeFocus means leaving focus / not taking focus
-            BeginInvoke(new MethodInvoker(() => this.SelectNextControl(next)));
+            this.InvokeOnUiThreadIfRequired(() => this.SelectNextControl(next));
         }
 
         public virtual void OnGotFocus()
@@ -457,12 +457,12 @@ namespace CefSharp.WinForms
         {
             if (m.Msg == WM_SETFOCUS)
             {
-                BeginInvoke(new MethodInvoker(() => this.Activate()));
+                this.InvokeOnUiThreadIfRequired(this.Activate);
             }
         }
 
         /// <summary>
-        /// Exposes Cef Window handle. Third party applications may want to send messages directly to this handle.
+        /// Exposes Cef Browser handle. Third party applications may want to send messages directly to this handle.
         /// 
         /// An example would be : prevent Drag'n'Drop using Win32 api : RevokeDragDrop(IntPtr hwnd)
         /// </summary>
