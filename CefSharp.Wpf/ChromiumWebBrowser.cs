@@ -1180,6 +1180,21 @@ namespace CefSharp.Wpf
             }
         }
 
+        void IWebBrowserInternal.OnTakeFocus(bool next)
+        {
+            
+        }
+
+        bool IWebBrowserInternal.OnSetFocus(CefFocusSource source)
+        {
+            return false;
+        }
+
+        void IWebBrowserInternal.OnGotFocus()
+        {
+            
+        }
+
         public void RegisterJsObject(string name, object objectToBind)
         {
             managedCefBrowserAdapter.RegisterJsObject(name, objectToBind);
@@ -1274,19 +1289,6 @@ namespace CefSharp.Wpf
             var taskStringVisitor = new TaskStringVisitor();
             managedCefBrowserAdapter.GetText(taskStringVisitor);
             return taskStringVisitor.Task;
-        }
-
-        public void OnTakeFocus(bool next)
-        {
-        }
-
-        public bool OnSetFocus(CefFocusSource source)
-        {
-            return false;
-        }
-
-        public void OnGotFocus()
-        {
         }
     }
 }
