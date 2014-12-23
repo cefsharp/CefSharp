@@ -61,7 +61,7 @@ namespace CefSharp.WinForms
 
             Dock = DockStyle.Fill;
 
-            messageInterceptor = new ChromiumWebBrowserMessageInterceptor(this, OnCefWindowMessage);
+            messageInterceptor = new ChromiumWebBrowserMessageInterceptor(OnCefWindowMessage);
             ResourceHandler = new DefaultResourceHandler();
 
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
@@ -96,6 +96,8 @@ namespace CefSharp.WinForms
             IsBrowserInitialized = true;
 
             ResizeBrowser();
+
+            messageInterceptor.AssignHandle(browserHandle);
 
             var handler = IsBrowserInitializedChanged;
 
