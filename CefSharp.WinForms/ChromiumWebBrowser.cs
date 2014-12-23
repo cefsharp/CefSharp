@@ -14,6 +14,7 @@ namespace CefSharp.WinForms
     public class ChromiumWebBrowser : Control, IWebBrowserInternal, IWinFormsWebBrowser
     {
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
+        private bool hasFocus;
 
         public BrowserSettings BrowserSettings { get; set; }
         public string Title { get; set; }
@@ -283,6 +284,8 @@ namespace CefSharp.WinForms
         {
             base.OnEnter(e);
 
+            hasFocus = true;
+
             //Notify browser we got focus from Windows Forms world
             managedCefBrowserAdapter.SetFocus(true);
         }
@@ -291,8 +294,21 @@ namespace CefSharp.WinForms
         {
             base.OnLeave(e);
 
+            hasFocus = false;
+
             //Notify browser we lost focus from Windows Forms world
             managedCefBrowserAdapter.SetFocus(false);
+        }
+
+        protected override void OnGotFocus(EventArgs e)
+        {
+            base.OnGotFocus(e);
+
+            if(hasFocus)
+            {
+                //Notify browser we got focus from Windows Forms world
+                managedCefBrowserAdapter.SetFocus(true);
+            }
         }
 
         public void Find(int identifier, string searchText, bool forward, bool matchCase, bool findNext)
