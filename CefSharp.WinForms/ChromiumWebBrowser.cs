@@ -62,7 +62,7 @@ namespace CefSharp.WinForms
 
             Dock = DockStyle.Fill;
 
-            messageInterceptor = new ChromiumWebBrowserMessageInterceptor(OnCefWindowMessage);
+            messageInterceptor = new ChromiumWebBrowserMessageInterceptor(OnBrowserWndProcMessage);
             ResourceHandler = new DefaultResourceHandler();
 
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
@@ -440,10 +440,8 @@ namespace CefSharp.WinForms
             {
                 return true; //Do not let the browser take focus when a Load method has been called
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
 
         protected override void OnGotFocus(EventArgs e)
@@ -454,7 +452,7 @@ namespace CefSharp.WinForms
             managedCefBrowserAdapter.SetFocus(true);
         }
 
-        protected virtual void OnCefWindowMessage(Message m)
+        protected virtual void OnBrowserWndProcMessage(Message m)
         {
             if (m.Msg == WM_SETFOCUS)
             {
