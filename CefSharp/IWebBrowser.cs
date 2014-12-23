@@ -106,12 +106,12 @@ namespace CefSharp
         /// Implement <see cref="IDialogHandler"/> and assign to handle dialog events.
         /// </summary>
         IDialogHandler DialogHandler { get; set; }
-
+        
         /// <summary>
         /// Implement <see cref="IRequestHandler"/> and assign to handle events related to browser requests.
         /// </summary>
         IRequestHandler RequestHandler { get; set; }
-
+        
         /// <summary>
         /// Implement <see cref="ILifeSpanHandler"/> and assign to handle events related to popups.
         /// </summary>
@@ -143,9 +143,16 @@ namespace CefSharp
         IMenuHandler MenuHandler { get; set; }
 
         /// <summary>
+        /// Implement <see cref="IFocusHandler"/> and assign to handle events related to the browser component's focus
+        /// </summary>
+        IFocusHandler FocusHandler { get; set; }
+
+        /// <summary>
         /// Implement <see cref="IResourceHandler"/> and control the loading of resources
         /// </summary>
         IResourceHandler ResourceHandler { get; set; }
+
+        /// <summary>
         /// A flag that indicates whether the WebBrowser is initialized (true) or not (false).
         /// </summary>
         /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
@@ -293,6 +300,7 @@ namespace CefSharp
         /// </summary>
         void CloseDevTools();
 
+        /// <summary>
         /// Send a mouse wheel event to the browser.
         /// </summary>
         /// <param name="x">X-Axis coordinate relative to the upper-left corner of the view.</param>
