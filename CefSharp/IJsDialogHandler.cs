@@ -9,5 +9,6 @@ namespace CefSharp
         bool OnJSAlert(IWebBrowser browser, string url, string message);
         bool OnJSConfirm(IWebBrowser browser, string url, string message, out bool retval);
         bool OnJSPrompt(IWebBrowser browser, string url, string message, string defaultValue, out bool retval, out string result);
+        bool OnJSBeforeUnload(IWebBrowser browser, string message, out bool retval, out string result);
     }
 }

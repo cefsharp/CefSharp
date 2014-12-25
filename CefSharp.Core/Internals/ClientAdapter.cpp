@@ -446,6 +446,29 @@ namespace CefSharp
             return handled;
         }
 
+        bool ClientAdapter::OnBeforeUnloadDialog(CefRefPtr<CefBrowser> browser, const CefString& message_text, bool is_reload, CefRefPtr< CefJSDialogCallback > callback)
+        {
+            IJsDialogHandler^ handler = _browserControl->JsDialogHandler;
+
+            if (handler == nullptr)
+            {
+                return false;
+            }
+
+            bool result;
+            bool handled = false;
+
+            String^ resultString = nullptr;
+            handled = handler->OnJSBeforeUnload(_browserControl, StringUtils::ToClr(message_text), result, resultString);
+            if (handled)
+            {
+                callback->Continue(result, StringUtils::ToNative(resultString));
+            }
+
+            return handled;
+
+        }
+
         bool ClientAdapter::OnFileDialog(CefRefPtr<CefBrowser> browser, FileDialogMode mode, const CefString& title,
             const CefString& default_file_name, const std::vector<CefString>& accept_types,
             CefRefPtr<CefFileDialogCallback> callback)
