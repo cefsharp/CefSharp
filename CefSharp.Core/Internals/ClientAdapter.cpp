@@ -446,7 +446,7 @@ namespace CefSharp
             return handled;
         }
 
-        bool ClientAdapter::OnBeforeUnloadDialog(CefRefPtr<CefBrowser> browser, const CefString& message_text, bool is_reload, CefRefPtr< CefJSDialogCallback > callback)
+        bool ClientAdapter::OnBeforeUnloadDialog(CefRefPtr<CefBrowser> browser, const CefString& message_text, bool is_reload, CefRefPtr<CefJSDialogCallback> callback)
         {
             IJsDialogHandler^ handler = _browserControl->JsDialogHandler;
 
@@ -459,10 +459,10 @@ namespace CefSharp
             bool handled = false;
 
             String^ resultString = nullptr;
-            handled = handler->OnJSBeforeUnload(_browserControl, StringUtils::ToClr(message_text), result, resultString);
+            handled = handler->OnJSBeforeUnload(_browserControl, StringUtils::ToClr(message_text), is_reload, resultString);
             if (handled)
             {
-                callback->Continue(result, StringUtils::ToNative(resultString));
+                callback->Continue(is_reload, StringUtils::ToNative(resultString));
             }
 
             return handled;
