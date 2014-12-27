@@ -63,31 +63,6 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ResourceHandler"/> class.
-        /// </summary>
-        /// <param name="stream">A stream of the resource.</param>
-        public ResourceHandler(Stream stream)
-        {
-            StatusCode = 200;
-            StatusText = "OK";
-            MimeType = "text/html";
-            Stream = stream;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ResourceHandler"/> class.
-        /// </summary>
-        /// <param name="stream">A stream of the resource.</param>
-        /// <param name="mimeType">Type of MIME.</param>
-        public ResourceHandler(Stream stream, string mimeType)
-        {
-            StatusCode = 200;
-            StatusText = "OK";
-            MimeType = mimeType;
-            Stream = stream;
-        }
-
-        /// <summary>
         /// Gets the resource from the file.
         /// </summary>
         /// <param name="fileName">Location of the file.</param>
@@ -142,6 +117,27 @@ namespace CefSharp
         public static ResourceHandler FromString(string text, Encoding encoding, bool includePreamble)
         {
             return new ResourceHandler { Stream = GetStream(text, encoding, includePreamble) };
+        }
+
+        /// <summary>
+        /// Gets the resource from a stream.
+        /// </summary>
+        /// <param name="stream">A stream of the resource.</param>
+        /// <returns></returns>
+        public static ResourceHandler FromStream(Stream stream)
+        {
+            return new ResourceHandler() { Stream = stream };
+        }
+
+        /// <summary>
+        /// Gets the resource from a stream.
+        /// </summary>
+        /// <param name="stream">A stream of the resource.</param>
+        /// <param name="mimeType">Type of MIME.</param>
+        /// <returns></returns>
+        public static ResourceHandler FromStream(Stream stream, string mimeType)
+        {
+            return new ResourceHandler(mimeType) { Stream = stream };
         }
 
         private static MemoryStream GetStream(string text, Encoding encoding, bool includePreamble)
