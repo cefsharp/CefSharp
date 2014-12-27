@@ -63,6 +63,31 @@ namespace CefSharp
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ResourceHandler"/> class.
+        /// </summary>
+        /// <param name="stream">A stream of the resource.</param>
+        public ResourceHandler(Stream stream)
+        {
+            StatusCode = 200;
+            StatusText = "OK";
+            MimeType = "text/html";
+            Stream = stream;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ResourceHandler"/> class.
+        /// </summary>
+        /// <param name="stream">A stream of the resource.</param>
+        /// <param name="mimeType">Type of MIME.</param>
+        public ResourceHandler(Stream stream, string mimeType)
+        {
+            StatusCode = 200;
+            StatusText = "OK";
+            MimeType = mimeType;
+            Stream = stream;
+        }
+
+        /// <summary>
         /// Gets the resource from the file.
         /// </summary>
         /// <param name="fileName">Location of the file.</param>
