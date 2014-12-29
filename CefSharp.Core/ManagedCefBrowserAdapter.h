@@ -53,9 +53,10 @@ namespace CefSharp
             _javaScriptObjectRepository = gcnew JavascriptObjectRepository();
         }
 
-        void CreateOffscreenBrowser(BrowserSettings^ browserSettings, String^ address)
+        void CreateOffscreenBrowser(IntPtr^ windowHandle, BrowserSettings^ browserSettings, String^ address)
         {
-            HWND hwnd = HWND();
+            auto hwnd = static_cast<HWND>(windowHandle->ToPointer());
+
             CefWindowInfo window;
             window.SetAsWindowless(hwnd, TRUE);
             CefString addressNative = StringUtils::ToNative(address);

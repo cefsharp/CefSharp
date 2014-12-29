@@ -49,7 +49,7 @@ namespace CefSharp.OffScreen
             Cef.AddDisposable(this);
 
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
-            managedCefBrowserAdapter.CreateOffscreenBrowser(browserSettings ?? new BrowserSettings(), address);
+            managedCefBrowserAdapter.CreateOffscreenBrowser(IntPtr.Zero, browserSettings ?? new BrowserSettings(), address);
         }
 
         public void Dispose()
