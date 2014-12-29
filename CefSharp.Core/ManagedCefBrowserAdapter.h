@@ -22,7 +22,7 @@ namespace CefSharp
 {
     public ref class ManagedCefBrowserAdapter : public DisposableResource
     {
-        MCefRefPtr<ClientAdapter> _renderClientAdapter;
+        MCefRefPtr<ClientAdapter> _clientAdapter;
         BrowserProcessServiceHost^ _browserProcessServiceHost;
         IWebBrowserInternal^ _webBrowserInternal;
         JavascriptObjectRepository^ _javaScriptObjectRepository;
@@ -33,7 +33,7 @@ namespace CefSharp
             CloseAllPopups(true);
             Close(true);
 
-            _renderClientAdapter = nullptr;
+            _clientAdapter = nullptr;
             if (_browserProcessServiceHost != nullptr)
             {
                 _browserProcessServiceHost->Close();
@@ -51,12 +51,12 @@ namespace CefSharp
         {
             if (offScreenRendering)
             {
-                _renderClientAdapter = new RenderClientAdapter(webBrowserInternal,
+                _clientAdapter = new RenderClientAdapter(webBrowserInternal,
                     gcnew Action<int>(this, &ManagedCefBrowserAdapter::OnAfterBrowserCreated));
             }
             else
             {
-                _renderClientAdapter = new ClientAdapter(webBrowserInternal,
+                _clientAdapter = new ClientAdapter(webBrowserInternal,
                     gcnew Action<int>(this, &ManagedCefBrowserAdapter::OnAfterBrowserCreated));
             }
 
@@ -72,7 +72,7 @@ namespace CefSharp
             window.SetAsWindowless(hwnd, TRUE);
             CefString addressNative = StringUtils::ToNative(address);
 
-            if (!CefBrowserHost::CreateBrowser(window, _renderClientAdapter.get(), addressNative,
+            if (!CefBrowserHost::CreateBrowser(window, _clientAdapter.get(), addressNative,
                 *(CefBrowserSettings*) browserSettings->_internalBrowserSettings, NULL))
             {
                 throw gcnew InvalidOperationException( "Failed to create offscreen browser. Call Cef.Initialize() first." );
@@ -81,7 +81,7 @@ namespace CefSharp
 
         void Close(bool forceClose)
         {
-            auto cefHost = _renderClientAdapter->TryGetCefHost();
+            auto cefHost = _clientAdapter->TryGetCefHost();
 
             if (cefHost != nullptr)
             {
@@ -91,12 +91,12 @@ namespace CefSharp
 
         void CloseAllPopups(bool forceClose)
         {
-            _renderClientAdapter->CloseAllPopups(forceClose);
+            _clientAdapter->CloseAllPopups(forceClose);
         }
 
         void LoadUrl(String^ address)
         {
-            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
+            auto cefFrame = _clientAdapter->TryGetCefMainFrame();
 
             if (cefFrame != nullptr)
             {
@@ -117,7 +117,7 @@ namespace CefSharp
 
         void LoadHtml(String^ html, String^ url)
         {
-            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
+            auto cefFrame = _clientAdapter->TryGetCefMainFrame();
 
             if (cefFrame != nullptr)
             {
@@ -127,7 +127,7 @@ namespace CefSharp
 
         void WasResized()
         {
-            auto cefHost = _renderClientAdapter->TryGetCefHost();
+            auto cefHost = _clientAdapter->TryGetCefHost();
 
             if (cefHost != nullptr)
             {
@@ -137,7 +137,7 @@ namespace CefSharp
 
         void WasHidden(bool hidden)
         {
-            auto cefHost = _renderClientAdapter->TryGetCefHost();
+            auto cefHost = _clientAdapter->TryGetCefHost();
 
             if (cefHost != nullptr)
             {
@@ -147,7 +147,7 @@ namespace CefSharp
 
         void Invalidate(PaintElementType type)
         {
-            auto cefHost = _renderClientAdapter->TryGetCefHost();
+            auto cefHost = _clientAdapter->TryGetCefHost();
 
             if (cefHost != nullptr)
             {
@@ -157,7 +157,7 @@ namespace CefSharp
 
         void SendFocusEvent(bool isFocused)
         {
-            auto cefHost = _renderClientAdapter->TryGetCefHost();
+            auto cefHost = _clientAdapter->TryGetCefHost();
 
             if (cefHost != nullptr)
             {
@@ -167,7 +167,7 @@ namespace CefSharp
 
         void SetFocus(bool isFocused)
         {
-            auto cefHost = _renderClientAdapter->TryGetCefHost();
+            auto cefHost = _clientAdapter->TryGetCefHost();
 
             if (cefHost != nullptr)
             {
@@ -177,7 +177,7 @@ namespace CefSharp
 
         bool SendKeyEvent(int message, int wParam, int lParam)
         {
-            auto cefHost = _renderClientAdapter->TryGetCefHost();
+            auto cefHost = _clientAdapter->TryGetCefHost();
 
             if (cefHost == nullptr)
             {
@@ -301,7 +301,7 @@ namespace CefSharp
 
         void OnMouseMove(int x, int y, bool mouseLeave, CefEventFlags modifiers)
         {
-            auto cefHost = _renderClientAdapter->TryGetCefHost();
+            auto cefHost = _clientAdapter->TryGetCefHost();
 
             if (cefHost != nullptr)
             {
@@ -322,7 +322,7 @@ namespace CefSharp
 
         void OnMouseButton(int x, int y, MouseButtonType mouseButtonType, bool mouseUp, int clickCount, CefEventFlags modifiers)
         {
-            auto cefHost = _renderClientAdapter->TryGetCefHost();
+            auto cefHost = _clientAdapter->TryGetCefHost();
 
             if (cefHost != nullptr)
             {
@@ -337,7 +337,7 @@ namespace CefSharp
 
         void OnMouseWheel(int x, int y, int deltaX, int deltaY)
         {
-            auto cefHost = _renderClientAdapter->TryGetCefHost();
+            auto cefHost = _clientAdapter->TryGetCefHost();
 
             if (cefHost != nullptr)
             {
@@ -351,7 +351,7 @@ namespace CefSharp
 
         void Stop()
         {
-            auto cefBrowser = _renderClientAdapter->GetCefBrowser();
+            auto cefBrowser = _clientAdapter->GetCefBrowser();
 
             if (cefBrowser != nullptr)
             {
@@ -361,7 +361,7 @@ namespace CefSharp
 
         void GoBack()
         {
-            auto cefBrowser = _renderClientAdapter->GetCefBrowser();
+            auto cefBrowser = _clientAdapter->GetCefBrowser();
 
             if (cefBrowser != nullptr)
             {
@@ -371,7 +371,7 @@ namespace CefSharp
 
         void GoForward()
         {
-            auto cefBrowser = _renderClientAdapter->GetCefBrowser();
+            auto cefBrowser = _clientAdapter->GetCefBrowser();
 
             if (cefBrowser != nullptr)
             {
@@ -381,7 +381,7 @@ namespace CefSharp
 
         void Print()
         {
-            auto cefHost = _renderClientAdapter->TryGetCefHost();
+            auto cefHost = _clientAdapter->TryGetCefHost();
 
             if (cefHost != nullptr)
             {
@@ -391,7 +391,7 @@ namespace CefSharp
 
         void Find(int identifier, String^ searchText, bool forward, bool matchCase, bool findNext)
         {
-            auto cefHost = _renderClientAdapter->TryGetCefHost();
+            auto cefHost = _clientAdapter->TryGetCefHost();
 
             if (cefHost != nullptr)
             {
@@ -401,7 +401,7 @@ namespace CefSharp
 
         void StopFinding(bool clearSelection)
         {
-            auto cefHost = _renderClientAdapter->TryGetCefHost();
+            auto cefHost = _clientAdapter->TryGetCefHost();
 
             if (cefHost != nullptr)
             {
@@ -416,7 +416,7 @@ namespace CefSharp
 
         void Reload(bool ignoreCache)
         {
-            auto cefBrowser = _renderClientAdapter->GetCefBrowser();
+            auto cefBrowser = _clientAdapter->GetCefBrowser();
 
             if (cefBrowser != nullptr)
             {
@@ -433,7 +433,7 @@ namespace CefSharp
 
         void ViewSource()
         {
-            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
+            auto cefFrame = _clientAdapter->TryGetCefMainFrame();
 
             if (cefFrame != nullptr)
             {
@@ -443,7 +443,7 @@ namespace CefSharp
 
         void GetSource(IStringVisitor^ visitor)
         {
-            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
+            auto cefFrame = _clientAdapter->TryGetCefMainFrame();
 
             if (cefFrame != nullptr)
             {
@@ -454,7 +454,7 @@ namespace CefSharp
 
         void GetText(IStringVisitor^ visitor)
         {
-            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
+            auto cefFrame = _clientAdapter->TryGetCefMainFrame();
 
             if (cefFrame != nullptr)
             {
@@ -465,7 +465,7 @@ namespace CefSharp
 
         void Cut()
         {
-            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame(); 
+            auto cefFrame = _clientAdapter->TryGetCefMainFrame(); 
 
             if (cefFrame != nullptr)
             {
@@ -475,7 +475,7 @@ namespace CefSharp
 
         void Copy()
         {
-            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame(); 
+            auto cefFrame = _clientAdapter->TryGetCefMainFrame(); 
 
             if (cefFrame != nullptr)
             {
@@ -485,7 +485,7 @@ namespace CefSharp
 
         void Paste()
         {
-            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
+            auto cefFrame = _clientAdapter->TryGetCefMainFrame();
 
             if (cefFrame != nullptr)
             {
@@ -495,7 +495,7 @@ namespace CefSharp
 
         void Delete()
         {
-            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
+            auto cefFrame = _clientAdapter->TryGetCefMainFrame();
 
             if (cefFrame != nullptr)
             {
@@ -505,7 +505,7 @@ namespace CefSharp
 
         void SelectAll()
         {
-            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
+            auto cefFrame = _clientAdapter->TryGetCefMainFrame();
 
             if (cefFrame != nullptr)
             {
@@ -515,7 +515,7 @@ namespace CefSharp
 
         void Undo()
         {
-            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
+            auto cefFrame = _clientAdapter->TryGetCefMainFrame();
 
             if (cefFrame != nullptr)
             {
@@ -525,7 +525,7 @@ namespace CefSharp
 
         void Redo()
         {
-            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
+            auto cefFrame = _clientAdapter->TryGetCefMainFrame();
 
             if (cefFrame != nullptr)
             {
@@ -535,7 +535,7 @@ namespace CefSharp
 
         void ExecuteScriptAsync(String^ script)
         {
-            auto cefFrame = _renderClientAdapter->TryGetCefMainFrame();
+            auto cefFrame = _clientAdapter->TryGetCefMainFrame();
 
             if (cefFrame != nullptr)
             {
@@ -550,7 +550,7 @@ namespace CefSharp
                 throw gcnew ArgumentOutOfRangeException("timeout", "Timeout greater than Maximum allowable value of " + UInt32::MaxValue);
             }
 
-            auto browser = _renderClientAdapter->GetCefBrowser();
+            auto browser = _clientAdapter->GetCefBrowser();
 
 
             if (_browserProcessServiceHost == nullptr && browser == nullptr)
@@ -570,7 +570,7 @@ namespace CefSharp
 
         double GetZoomLevel()
         {
-            auto cefHost = _renderClientAdapter->TryGetCefHost();
+            auto cefHost = _clientAdapter->TryGetCefHost();
 
             if (cefHost != nullptr)
             {
@@ -582,7 +582,7 @@ namespace CefSharp
 
         void SetZoomLevel(double zoomLevel)
         {
-            auto cefHost = _renderClientAdapter->TryGetCefHost();
+            auto cefHost = _clientAdapter->TryGetCefHost();
 
             if (cefHost != nullptr)
             {
@@ -592,12 +592,12 @@ namespace CefSharp
 
         void ShowDevTools()
         {
-            _renderClientAdapter->ShowDevTools();
+            _clientAdapter->ShowDevTools();
         }
 
         void CloseDevTools()
         {
-            _renderClientAdapter->CloseDevTools();
+            _clientAdapter->CloseDevTools();
         }
 
         void CreateBrowser(BrowserSettings^ browserSettings, IntPtr^ sourceHandle, String^ address)
@@ -609,13 +609,13 @@ namespace CefSharp
             window.SetAsChild(hwnd, rect);
             CefString addressNative = StringUtils::ToNative(address);
 
-            CefBrowserHost::CreateBrowser(window, _renderClientAdapter.get(), addressNative,
+            CefBrowserHost::CreateBrowser(window, _clientAdapter.get(), addressNative,
                 *(CefBrowserSettings*)browserSettings->_internalBrowserSettings, NULL);
         }
 
         void Resize(int width, int height)
         {
-            HWND browserHwnd = _renderClientAdapter->GetBrowserHwnd();
+            HWND browserHwnd = _clientAdapter->GetBrowserHwnd();
             if (browserHwnd) 
             {
                 if (width == 0 && height == 0) 
@@ -633,7 +633,7 @@ namespace CefSharp
 
         void NotifyMoveOrResizeStarted()
         {
-            auto cefHost = _renderClientAdapter->TryGetCefHost();
+            auto cefHost = _clientAdapter->TryGetCefHost();
 
             if (cefHost != nullptr)
             {
@@ -648,7 +648,7 @@ namespace CefSharp
 
         void ReplaceMisspelling(String^ word)
         {
-            auto cefHost = _renderClientAdapter->TryGetCefHost();
+            auto cefHost = _clientAdapter->TryGetCefHost();
 
             if (cefHost != nullptr)
             {
@@ -659,7 +659,7 @@ namespace CefSharp
 
         void AddWordToDictionary(String^ word)
         {
-            auto cefHost = _renderClientAdapter->TryGetCefHost();
+            auto cefHost = _clientAdapter->TryGetCefHost();
 
             if (cefHost != nullptr)
             {
