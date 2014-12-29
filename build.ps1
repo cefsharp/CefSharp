@@ -173,13 +173,17 @@ function Msvs
 
     $StartInfo.UseShellExecute = $false
     $StartInfo.CreateNoWindow = $false
+	$StartInfo.RedirectStandardError = $true
 
     $Process = New-Object System.Diagnostics.Process
     $Process.StartInfo = $startInfo
     $Process.Start() 
     $Process.WaitForExit()
 
-    if($Process.ExitCode -ne 0) {
+    if($Process.ExitCode -ne 0)
+	{
+		$stderr = $p.StandardError.ReadToEnd()
+		Write-Host "stderr: $stderr"
         Die "Build failed"
     }
 }
