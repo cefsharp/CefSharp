@@ -182,7 +182,7 @@ function Msvs
 
     if($Process.ExitCode -ne 0)
 	{
-		$stderr = $p.StandardError.ReadToEnd()
+		$stderr = $Process.StandardError.ReadToEnd()
 		Write-Host "stderr: $stderr"
         Die "Build failed"
     }
