@@ -24,17 +24,22 @@ namespace CefSharp.OffScreen
     {
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
 
-        /// <summary>Contains the last rendering from Chromium.</summary>
+        /// <summary>
+        /// Contains the last rendering from Chromium.
+        /// </summary>
         private Bitmap bitmap;
 
-        /// <summary>Need a lock because the caller may be asking for the bitmap
-        /// while Chromium async rendering has returned on another thread.</summary>
+        /// <summary>
+        /// Need a lock because the caller may be asking for the bitmap
+        /// while Chromium async rendering has returned on another thread.
+        /// </summary>
         private readonly object bitmapLock = new object();
 
-        /// <summary>Size of the Chromium viewport.
-        /// 
+        /// <summary>
+        /// Size of the Chromium viewport.
         /// This must be set to something other than 0x0 otherwise Chromium will not render,
-        /// and the ScreenshotAsync task will deadlock.</summary>
+        /// and the ScreenshotAsync task will deadlock.
+        /// </summary>
         private System.Drawing.Size size = new System.Drawing.Size(1366, 768);
 
         /// <summary>
@@ -486,7 +491,7 @@ namespace CefSharp.OffScreen
 
         void IWebBrowserInternal.SetAddress(string address)
         {
-            this.Address = address;
+            Address = address;
         }
 
         void IWebBrowserInternal.SetIsLoading(bool isloading)
