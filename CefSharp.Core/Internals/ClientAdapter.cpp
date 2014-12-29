@@ -17,6 +17,57 @@ namespace CefSharp
 {
     namespace Internals
     {
+        
+        CefRefPtr<CefBrowserHost> ClientAdapter::TryGetCefHost()
+        {
+            if (!this->GetCefBrowser().get() ||
+                !this->GetCefBrowser()->GetHost().get())
+            {
+                return nullptr;
+            }
+            else
+            {
+                return this->GetCefBrowser()->GetHost();
+            }
+        };
+
+        CefRefPtr<CefFrame> ClientAdapter::TryGetCefMainFrame()
+        {
+            auto cefBrowser = this->GetCefBrowser().get();
+
+            if (!cefBrowser)
+            {
+                return nullptr;
+            }
+
+            return cefBrowser->GetMainFrame();
+        };
+
+        void ClientAdapter::ShowDevTools()
+        {
+            auto cefHost = TryGetCefHost();
+
+            if (cefHost != nullptr)
+            {
+                CefWindowInfo windowInfo;
+                CefBrowserSettings settings;
+
+                windowInfo.SetAsPopup(cefHost->GetWindowHandle(), "DevTools");
+
+                cefHost->ShowDevTools(windowInfo, this, settings, CefPoint());
+            }
+        }
+
+        void ClientAdapter::CloseDevTools()
+        {
+            auto cefHost = TryGetCefHost();
+
+            if (cefHost != nullptr)
+            {
+                cefHost->CloseDevTools();
+            }
+        }
+
         void ClientAdapter::CloseAllPopups(bool forceClose)
         {
             if (!_popupBrowsers.empty())
