@@ -157,7 +157,8 @@ function Msvs
         "/t:rebuild",
         "/p:VisualStudioVersion=$VisualStudioVersion",
         "/p:Configuration=$Configuration",
-        "/p:Platform=$Arch"
+        "/p:Platform=$Arch",
+		"/verbosity:normal"
     )
 
     $StartInfo = New-Object System.Diagnostics.ProcessStartInfo
