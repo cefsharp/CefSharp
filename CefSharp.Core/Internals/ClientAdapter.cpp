@@ -31,18 +31,6 @@ namespace CefSharp
             }
         };
 
-        CefRefPtr<CefFrame> ClientAdapter::TryGetCefMainFrame()
-        {
-            auto cefBrowser = this->GetCefBrowser().get();
-
-            if (!cefBrowser)
-            {
-                return nullptr;
-            }
-
-            return cefBrowser->GetMainFrame();
-        };
-
         void ClientAdapter::ShowDevTools()
         {
             auto cefHost = TryGetCefHost();
