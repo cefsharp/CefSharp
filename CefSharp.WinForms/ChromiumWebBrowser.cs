@@ -63,7 +63,7 @@ namespace CefSharp.WinForms
             FocusHandler = new DefaultFocusHandler(this);
             ResourceHandler = new DefaultResourceHandler();
 
-            managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
+            managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, false);
         }
 
         protected override void Dispose(bool disposing)

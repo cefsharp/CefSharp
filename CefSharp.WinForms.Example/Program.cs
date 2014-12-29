@@ -16,8 +16,8 @@ namespace CefSharp.WinForms.Example
         {
             CefExample.Init();
 
-            var browser = new BrowserForm();
-            //var browser = new SimpleBrowserForm();
+            //var browser = new BrowserForm();
+            var browser = new SimpleBrowserForm();
             Application.Run(browser);
         }
     }

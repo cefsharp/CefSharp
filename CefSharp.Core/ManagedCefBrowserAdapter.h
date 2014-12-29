@@ -8,6 +8,7 @@
 #include "BrowserSettings.h"
 #include "MouseButtonType.h"
 #include "PaintElementType.h"
+#include "Internals/ClientAdapter.h"
 #include "Internals/RenderClientAdapter.h"
 #include "Internals/MCefRefPtr.h"
 #include "Internals/StringVisitor.h"
@@ -21,7 +22,7 @@ namespace CefSharp
 {
     public ref class ManagedCefBrowserAdapter : public DisposableResource
     {
-        MCefRefPtr<RenderClientAdapter> _renderClientAdapter;
+        MCefRefPtr<ClientAdapter> _renderClientAdapter;
         BrowserProcessServiceHost^ _browserProcessServiceHost;
         IWebBrowserInternal^ _webBrowserInternal;
         JavascriptObjectRepository^ _javaScriptObjectRepository;
@@ -46,9 +47,19 @@ namespace CefSharp
         };
 
     public:
-        ManagedCefBrowserAdapter(IWebBrowserInternal^ webBrowserInternal)
+        ManagedCefBrowserAdapter(IWebBrowserInternal^ webBrowserInternal, bool offScreenRendering)
         {
-            _renderClientAdapter = new RenderClientAdapter(webBrowserInternal, gcnew Action<int>(this, &ManagedCefBrowserAdapter::OnAfterBrowserCreated));
+            if (offScreenRendering)
+            {
+                _renderClientAdapter = new RenderClientAdapter(webBrowserInternal,
+                    gcnew Action<int>(this, &ManagedCefBrowserAdapter::OnAfterBrowserCreated));
+            }
+            else
+            {
+                _renderClientAdapter = new ClientAdapter(webBrowserInternal,
+                    gcnew Action<int>(this, &ManagedCefBrowserAdapter::OnAfterBrowserCreated));
+            }
+
             _webBrowserInternal = webBrowserInternal;
             _javaScriptObjectRepository = gcnew JavascriptObjectRepository();
         }
