@@ -347,7 +347,7 @@ namespace CefSharp.OffScreen
         public BitmapInfo CreateBitmapInfo(bool isPopup)
         {
             //The bitmap buffer is 32 BPP
-            return new GdiBitmapInfo { IsPopup = isPopup, BytesPerPixel = 4 };
+            return new GdiBitmapInfo { IsPopup = isPopup, BytesPerPixel = 4, BitmapLock = bitmapLock };
         }
 
         void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
@@ -360,18 +360,15 @@ namespace CefSharp.OffScreen
                     bitmap = null;
                 }
 
-                lock (bitmapInfo.BitmapLock)
+                var stride = bitmapInfo.Width*bitmapInfo.BytesPerPixel;
+
+                bitmap = BitmapSourceToBitmap2(Imaging.CreateBitmapSourceFromMemorySection(bitmapInfo.FileMappingHandle,
+                    bitmapInfo.Width, bitmapInfo.Height, PixelFormats.Bgra32, stride, 0));
+
+                var handler = NewScreenshot;
+                if (handler != null)
                 {
-                    var stride = bitmapInfo.Width * bitmapInfo.BytesPerPixel;
-
-                    bitmap = BitmapSourceToBitmap2(Imaging.CreateBitmapSourceFromMemorySection(bitmapInfo.FileMappingHandle,
-                        bitmapInfo.Width, bitmapInfo.Height, PixelFormats.Bgra32, stride, 0));
-
-                    var handler = NewScreenshot;
-                    if (handler != null)
-                    {
-                        handler(this, EventArgs.Empty);
-                    }
+                    handler(this, EventArgs.Empty);
                 }
             }
         }
