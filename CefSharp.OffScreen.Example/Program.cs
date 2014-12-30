@@ -61,10 +61,7 @@ namespace CefSharp.OffScreen.Example
                 browser.FrameLoadEnd -= BrowserFrameLoadEnd;
 
                 // Wait for the screenshot to be taken.
-                var task = browser.ScreenshotAsync();
-                task.Wait();
-
-                DisplayBitmap(task);
+                browser.ScreenshotAsync().ContinueWith(DisplayBitmap);
             }
         }
 
