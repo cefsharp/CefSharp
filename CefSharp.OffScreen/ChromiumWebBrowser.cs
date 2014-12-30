@@ -357,15 +357,9 @@ namespace CefSharp.OffScreen
                     bitmap = null;
                 }
 
-                var pixels = bitmapInfo.Width * bitmapInfo.Height;
-                var numberOfBytes = pixels * bitmapInfo.BytesPerPixel;
+                var stride = bitmapInfo.Width * bitmapInfo.BytesPerPixel;
 
-                bitmap = new Bitmap(bitmapInfo.Width, bitmapInfo.Height, PixelFormat.Format32bppPArgb);
-                var data = bitmap.LockBits(new Rectangle(Point.Empty, bitmap.Size), ImageLockMode.WriteOnly, PixelFormat.Format32bppPArgb);
-
-                NativeMethodWrapper.CopyMemoryUsingHandle(data.Scan0, bitmapInfo.BackBufferHandle, numberOfBytes);
-
-                bitmap.UnlockBits(data);
+                bitmap = new Bitmap(bitmapInfo.Width, bitmapInfo.Height, stride, PixelFormat.Format32bppPArgb, bitmapInfo.BackBufferHandle);
                 
                 var handler = NewScreenshot;
                 if (handler != null)
