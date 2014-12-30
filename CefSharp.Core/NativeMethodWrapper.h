@@ -10,9 +10,10 @@ using namespace System;
 
 namespace CefSharp
 {
-	public ref class NativeMethodWrapper sealed
-	{
-	public:
-		static void CopyMemoryUsingHandle(IntPtr^ dest, IntPtr^ src, int numberOfBytes);
-	};
+    public ref class NativeMethodWrapper sealed
+    {
+    public:
+        static void CopyMemoryUsingHandle(IntPtr^ dest, IntPtr^ src, int numberOfBytes);
+        static bool IsFocused(IntPtr handle);
+    };
 }

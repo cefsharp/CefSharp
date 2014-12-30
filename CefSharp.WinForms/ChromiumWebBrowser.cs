@@ -384,9 +384,7 @@ namespace CefSharp.WinForms
                     return false;
                 }
 
-                // Ask Windows which control has the focus and then check if it's one of our children
-                var focus = User32.GetFocus();
-                return focus != IntPtr.Zero && User32.IsChild(Handle, focus);
+                return NativeMethodWrapper.IsFocused(Handle);
             }
         }
 
