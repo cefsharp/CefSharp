@@ -4,7 +4,10 @@
 
 using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
+using System.Text;
+using System.Threading.Tasks;
 using CefSharp.Example;
 
 namespace CefSharp.OffScreen.Example
@@ -12,6 +15,7 @@ namespace CefSharp.OffScreen.Example
     public class Program
     {
         private static ChromiumWebBrowser browser;
+        private static bool captureFirstRenderedImage = false;
 
         public static void Main(string[] args)
         {
@@ -29,7 +33,15 @@ namespace CefSharp.OffScreen.Example
 
             // An event that is fired when the first page is finished loading.
             // This returns to us from another thread.
-            browser.FrameLoadEnd += BrowserFrameLoadEnd;
+            if (captureFirstRenderedImage)
+            {
+                browser.ResourceHandler.RegisterHandler(testUrl, ResourceHandler.FromString("<html><body><h1>CefSharp OffScreen</h1></body></html>"));
+                browser.ScreenshotAsync().ContinueWith(DisplayBitmap);
+            }
+            else
+            {
+                browser.FrameLoadEnd += BrowserFrameLoadEnd;
+            }
 
             // We have to wait for something, otherwise the process will exit too soon.
             Console.ReadKey();
@@ -52,27 +64,34 @@ namespace CefSharp.OffScreen.Example
                 var task = browser.ScreenshotAsync();
                 task.Wait();
 
-                // Make a file to save it to (e.g. C:\Users\jan\Desktop\CefSharp screenshot.png)
-                var screenshotPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "CefSharp screenshot.png");
-
-                Console.WriteLine();
-                Console.WriteLine("Screenshot ready.  Saving to {0}", screenshotPath);
-
-                // Save the Bitmap to the path.
-                // The image type is auto-detected via the ".png" extension.
-                task.Result.Save(screenshotPath);
-
-                // We no longer need the Bitmap.
-                // Dispose it to avoid keeping the memory alive.  Especially important in 32-bit applications.
-                task.Result.Dispose();
-
-                Console.WriteLine("Screenshot saved.  Launching your default image viewer...");
-
-                // Tell Windows to launch the saved image.
-                Process.Start(screenshotPath);
-
-                Console.WriteLine("Image viewer launched.  Press any key to exit.");
+                DisplayBitmap(task);
             }
+        }
+
+        private static void DisplayBitmap(Task<Bitmap> task)
+        {
+            // Make a file to save it to (e.g. C:\Users\jan\Desktop\CefSharp screenshot.png)
+            var screenshotPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "CefSharp screenshot.png");
+
+            Console.WriteLine();
+            Console.WriteLine("Screenshot ready. Saving to {0}", screenshotPath);
+
+            var bitmap = task.Result;
+
+            // Save the Bitmap to the path.
+            // The image type is auto-detected via the ".png" extension.
+            bitmap.Save(screenshotPath);
+
+            // We no longer need the Bitmap.
+            // Dispose it to avoid keeping the memory alive.  Especially important in 32-bit applications.
+            bitmap.Dispose();
+
+            Console.WriteLine("Screenshot saved.  Launching your default image viewer...");
+
+            // Tell Windows to launch the saved image.
+            Process.Start(screenshotPath);
+
+            Console.WriteLine("Image viewer launched.  Press any key to exit.");
         }
     }
 }
