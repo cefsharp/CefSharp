@@ -6,7 +6,6 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
@@ -43,10 +42,10 @@ namespace CefSharp.OffScreen
         private System.Drawing.Size size = new System.Drawing.Size(1366, 768);
 
         /// <summary>
-        /// Create a new offscreen Chromium with the initial URL of "about:blank".
+        /// Create a new OffScreen Chromium Browser
         /// </summary>
         /// <param name="address">Initial address (url) to load</param>
-        /// <param name="browserSettings">The browser settings to use.  If null, the default settings are used.</param>
+        /// <param name="browserSettings">The browser settings to use. If null, the default settings are used.</param>
         public ChromiumWebBrowser(string address, BrowserSettings browserSettings = null)
         {
             ResourceHandler = new DefaultResourceHandler();
@@ -119,10 +118,7 @@ namespace CefSharp.OffScreen
         {
             lock (bitmapLock)
             {
-                if (bitmap == null)
-                    return null;
-                else
-                    return new Bitmap(bitmap);
+                return bitmap == null ? null : new Bitmap(bitmap);
             }
         }
 
@@ -142,43 +138,28 @@ namespace CefSharp.OffScreen
             // Try our luck and see if there is already a screenshot, to save us creating a new thread for nothing.
             var screenshot = ScreenshotOrNull();
 
-            Task<Bitmap> task;
+            var completionSource = new TaskCompletionSource<Bitmap>();
 
-            if (screenshot != null)
+            if (screenshot == null)
             {
-                var completionSource = new TaskCompletionSource<Bitmap>();
-                completionSource.SetResult(screenshot);
-                task = completionSource.Task;
-            }
-            else
-            {
-                // No existing screenshot, so wait for Chromium to render itself.
-
-                // A wait handle, so the task knows when NewScreenshot has fired.
-                var waitForBitmap = new EventWaitHandle(false, EventResetMode.AutoReset);
-
                 EventHandler newScreenshot = null; // otherwise we cannot reference ourselves in the anonymous method below
 
                 newScreenshot = (sender, e) =>
                 {
                     // Chromium has rendered.  Tell the task about it.
                     NewScreenshot -= newScreenshot;
-                    waitForBitmap.Set();
+
+                    completionSource.SetResult(ScreenshotOrNull());
                 };
 
                 NewScreenshot += newScreenshot;
-
-                task = new Task<Bitmap>(() =>
-                {
-                    // Wait in this thread for the NewScreenshot event to fire.
-                    waitForBitmap.WaitOne();
-                    return ScreenshotOrNull();
-                });
-
-                task.Start();
+            }
+            else
+            {
+                completionSource.SetResult(screenshot);
             }
 
-            return task;
+            return completionSource.Task;
         }
 
         public IJsDialogHandler JsDialogHandler { get; set; }
