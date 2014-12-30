@@ -7,11 +7,8 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using CefSharp.Internals;
+using PixelFormat = System.Drawing.Imaging.PixelFormat;
 
 namespace CefSharp.OffScreen
 {
@@ -360,41 +357,22 @@ namespace CefSharp.OffScreen
                     bitmap = null;
                 }
 
-                var stride = bitmapInfo.Width*bitmapInfo.BytesPerPixel;
+                var pixels = bitmapInfo.Width * bitmapInfo.Height;
+                var numberOfBytes = pixels * bitmapInfo.BytesPerPixel;
 
-                bitmap = BitmapSourceToBitmap2(Imaging.CreateBitmapSourceFromMemorySection(bitmapInfo.FileMappingHandle,
-                    bitmapInfo.Width, bitmapInfo.Height, PixelFormats.Bgra32, stride, 0));
+                bitmap = new Bitmap(bitmapInfo.Width, bitmapInfo.Height, PixelFormat.Format32bppPArgb);
+                var data = bitmap.LockBits(new Rectangle(Point.Empty, bitmap.Size), ImageLockMode.WriteOnly, PixelFormat.Format32bppPArgb);
 
+                NativeMethodWrapper.CopyMemoryUsingHandle(data.Scan0, bitmapInfo.BackBufferHandle, numberOfBytes);
+
+                bitmap.UnlockBits(data);
+                
                 var handler = NewScreenshot;
                 if (handler != null)
                 {
                     handler(this, EventArgs.Empty);
                 }
             }
-        }
-
-        /// <summary>
-        /// http://stackoverflow.com/a/5709472/450141
-        /// </summary>
-        /// <param name="srs">BitmapSource</param>
-        /// <returns>Bitmap</returns>
-        private static Bitmap BitmapSourceToBitmap2(BitmapSource srs)
-        {
-            var bmp = new Bitmap(
-              srs.PixelWidth,
-              srs.PixelHeight,
-              System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
-            var data = bmp.LockBits(
-              new Rectangle(System.Drawing.Point.Empty, bmp.Size),
-              ImageLockMode.WriteOnly,
-              System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
-            srs.CopyPixels(
-              Int32Rect.Empty,
-              data.Scan0,
-              data.Height * data.Stride,
-              data.Stride);
-            bmp.UnlockBits(data);
-            return bmp;
         }
 
         void IRenderWebBrowser.SetCursor(IntPtr cursor)
