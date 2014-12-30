@@ -13,7 +13,7 @@ namespace CefSharp
     public ref class NativeMethodWrapper sealed
     {
     public:
-        static void CopyMemoryUsingHandle(IntPtr^ dest, IntPtr^ src, int numberOfBytes);
+        static void CopyMemoryUsingHandle(IntPtr dest, IntPtr src, int numberOfBytes);
         static bool IsFocused(IntPtr handle);
     };
 }

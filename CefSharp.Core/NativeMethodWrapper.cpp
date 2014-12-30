@@ -11,9 +11,9 @@ using namespace System;
 
 namespace CefSharp
 {
-    void NativeMethodWrapper::CopyMemoryUsingHandle(IntPtr^ dest, IntPtr^ src, int numberOfBytes)
+    void NativeMethodWrapper::CopyMemoryUsingHandle(IntPtr dest, IntPtr src, int numberOfBytes)
     {
-        CopyMemory(dest->ToPointer(), src->ToPointer(), numberOfBytes);
+        CopyMemory(dest.ToPointer(), src.ToPointer(), numberOfBytes);
     }
 
     bool NativeMethodWrapper::IsFocused(IntPtr handle)

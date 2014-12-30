@@ -64,9 +64,9 @@ namespace CefSharp
             _javaScriptObjectRepository = gcnew JavascriptObjectRepository();
         }
 
-        void CreateOffscreenBrowser(IntPtr^ windowHandle, BrowserSettings^ browserSettings, String^ address)
+        void CreateOffscreenBrowser(IntPtr windowHandle, BrowserSettings^ browserSettings, String^ address)
         {
-            auto hwnd = static_cast<HWND>(windowHandle->ToPointer());
+            auto hwnd = static_cast<HWND>(windowHandle.ToPointer());
 
             CefWindowInfo window;
             window.SetAsWindowless(hwnd, TRUE);
@@ -600,9 +600,9 @@ namespace CefSharp
             _clientAdapter->CloseDevTools();
         }
 
-        void CreateBrowser(BrowserSettings^ browserSettings, IntPtr^ sourceHandle, String^ address)
+        void CreateBrowser(BrowserSettings^ browserSettings, IntPtr sourceHandle, String^ address)
         {
-            HWND hwnd = static_cast<HWND>(sourceHandle->ToPointer());
+            HWND hwnd = static_cast<HWND>(sourceHandle.ToPointer());
             RECT rect;
             GetClientRect(hwnd, &rect);
             CefWindowInfo window;
