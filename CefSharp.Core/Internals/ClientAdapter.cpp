@@ -462,10 +462,11 @@ namespace CefSharp
             handled = handler->OnJSBeforeUnload(_browserControl, StringUtils::ToClr(message_text), is_reload, resultString);
             if (handled)
             {
-                callback->Continue(result, StringUtils::ToNative(resultString));
+                callback->Continue(is_reload, StringUtils::ToNative(resultString));
             }
 
             return handled;
+
         }
 
         bool ClientAdapter::OnFileDialog(CefRefPtr<CefBrowser> browser, FileDialogMode mode, const CefString& title,
