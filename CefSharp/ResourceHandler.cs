@@ -119,6 +119,27 @@ namespace CefSharp
             return new ResourceHandler { Stream = GetStream(text, encoding, includePreamble) };
         }
 
+        /// <summary>
+        /// Gets the resource from a stream.
+        /// </summary>
+        /// <param name="stream">A stream of the resource.</param>
+        /// <returns></returns>
+        public static ResourceHandler FromStream(Stream stream)
+        {
+            return new ResourceHandler() { Stream = stream };
+        }
+
+        /// <summary>
+        /// Gets the resource from a stream.
+        /// </summary>
+        /// <param name="stream">A stream of the resource.</param>
+        /// <param name="mimeType">Type of MIME.</param>
+        /// <returns></returns>
+        public static ResourceHandler FromStream(Stream stream, string mimeType)
+        {
+            return new ResourceHandler(mimeType) { Stream = stream };
+        }
+
         private static MemoryStream GetStream(string text, Encoding encoding, bool includePreamble)
         {
             if (includePreamble)

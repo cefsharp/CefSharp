@@ -157,7 +157,8 @@ function Msvs
         "/t:rebuild",
         "/p:VisualStudioVersion=$VisualStudioVersion",
         "/p:Configuration=$Configuration",
-        "/p:Platform=$Arch"
+        "/p:Platform=$Arch",
+        "/verbosity:normal"
     )
 
     $StartInfo = New-Object System.Diagnostics.ProcessStartInfo
@@ -172,13 +173,22 @@ function Msvs
 
     $StartInfo.UseShellExecute = $false
     $StartInfo.CreateNoWindow = $false
+    $StartInfo.RedirectStandardError = $true
+    $StartInfo.RedirectStandardOutput = $true
 
     $Process = New-Object System.Diagnostics.Process
     $Process.StartInfo = $startInfo
-    $Process.Start() 
+    $Process.Start()
+    
+    $stdout = $Process.StandardOutput.ReadToEnd()
+    $stderr = $Process.StandardError.ReadToEnd()
+    
     $Process.WaitForExit()
 
-    if($Process.ExitCode -ne 0) {
+    if($Process.ExitCode -ne 0)
+    {
+        Write-Host "stdout: $stdout"
+        Write-Host "stderr: $stderr"
         Die "Build failed"
     }
 }

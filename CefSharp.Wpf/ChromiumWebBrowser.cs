@@ -20,6 +20,8 @@ namespace CefSharp.Wpf
 {
     public class ChromiumWebBrowser : ContentControl, IRenderWebBrowser, IWpfWebBrowser
     {
+        private static readonly PixelFormat PixelFormat = PixelFormats.Bgra32;
+        private static readonly int BytesPerPixel = PixelFormat.BitsPerPixel / 8;
         private HwndSource source;
         private HwndSourceHook sourceHook;
         private DispatcherTimer tooltipTimer;
@@ -109,11 +111,6 @@ namespace CefSharp.Wpf
 
         #endregion
 
-        int IRenderWebBrowser.BytesPerPixel
-        {
-            get { return PixelFormat.BitsPerPixel / 8; }
-        }
-
         int IRenderWebBrowser.Width
         {
             get { return (int)matrix.Transform(new Point(ActualWidth, ActualHeight)).X; }
@@ -122,11 +119,6 @@ namespace CefSharp.Wpf
         int IRenderWebBrowser.Height
         {
             get { return (int)matrix.Transform(new Point(ActualWidth, ActualHeight)).Y; }
-        }
-
-        private static PixelFormat PixelFormat
-        {
-            get { return PixelFormats.Bgra32; }
         }
 
         #region Address dependency property
@@ -331,6 +323,9 @@ namespace CefSharp.Wpf
         {
             PresentationSource.RemoveSourceChangedHandler(this, PresentationSourceChangedHandler);
 
+            BrowserSettings.Dispose();
+
+            BrowserSettings = null;
             ResourceHandler = null;
 
             Loaded -= OnLoaded;
@@ -434,6 +429,7 @@ namespace CefSharp.Wpf
             toolTip.Visibility = Visibility.Collapsed;
             toolTip.Closed += OnTooltipClosed;
 
+
             BackCommand = new DelegateCommand(Back, () => CanGoBack);
             ForwardCommand = new DelegateCommand(Forward, () => CanGoForward);
             ReloadCommand = new DelegateCommand(Reload, () => CanReload);
@@ -451,13 +447,14 @@ namespace CefSharp.Wpf
             UndoCommand = new DelegateCommand(Undo);
             RedoCommand = new DelegateCommand(Redo);
 
-            managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
+            managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, true);
 
             disposables.Add(managedCefBrowserAdapter);
             disposables.Add(new DisposableEventWrapper(this, ActualHeightProperty, OnActualSizeChanged));
             disposables.Add(new DisposableEventWrapper(this, ActualWidthProperty, OnActualSizeChanged));
 
             ResourceHandler = new DefaultResourceHandler();
+            BrowserSettings = new BrowserSettings();
 
             PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
         }
@@ -499,7 +496,7 @@ namespace CefSharp.Wpf
                 return;
             }
 
-            managedCefBrowserAdapter.CreateOffscreenBrowser(BrowserSettings ?? new BrowserSettings(), Address);
+            managedCefBrowserAdapter.CreateOffscreenBrowser(source.Handle, BrowserSettings, Address);
             browserCreated = true;
         }
 
@@ -637,10 +634,43 @@ namespace CefSharp.Wpf
             return IntPtr.Zero;
         }
 
+        public BitmapInfo CreateBitmapInfo(bool isPopup)
+        {
+            return new InteropBitmapInfo { IsPopup = isPopup, BytesPerPixel = BytesPerPixel };
+        }
+
         void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
         {
-            IRenderWebBrowser renderer = this;
-            UiThreadRunAsync(() => renderer.SetBitmap(bitmapInfo), DispatcherPriority.Render);
+            UiThreadRunAsync(delegate
+            {
+                lock (bitmapInfo.BitmapLock)
+                {
+                    var interopBitmapInfo = (InteropBitmapInfo)bitmapInfo;
+                    // Inform parents that the browser rendering is updating
+                    OnRendering(this, interopBitmapInfo);
+
+                    // Now update the WPF image
+                    var bitmap = interopBitmapInfo.InteropBitmap;
+                    if (bitmap == null)
+                    {
+                        var img = bitmapInfo.IsPopup ? popupImage : image;
+
+                        img.Source = null;
+                        GC.Collect(1);
+
+                        var stride = bitmapInfo.Width * bitmapInfo.BytesPerPixel;
+
+                        bitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(bitmapInfo.FileMappingHandle,
+                            bitmapInfo.Width, bitmapInfo.Height, PixelFormat, stride, 0);
+                        img.Source = bitmap;
+
+                        interopBitmapInfo.InteropBitmap = bitmap;
+                    }
+
+                    bitmap.Invalidate();
+                }
+            },
+            DispatcherPriority.Render);
         }
 
         void IWebBrowserInternal.SetAddress(string address)
@@ -1197,41 +1227,15 @@ namespace CefSharp.Wpf
             });
         }
 
-        void IRenderWebBrowser.ClearBitmap(BitmapInfo bitmapInfo)
-        {
-            bitmapInfo.InteropBitmap = null;
-        }
-
         /// <summary>
         /// Raises Rendering event
         /// </summary>
-        protected virtual void OnRendering(object sender, RenderingEventArgs eventArgs)
+        protected virtual void OnRendering(object sender, InteropBitmapInfo bitmapInfo)
         {
             var rendering = Rendering;
             if (rendering != null)
             {
-                rendering(this, eventArgs);
-            }
-        }
-
-        void IRenderWebBrowser.SetBitmap(BitmapInfo bitmapInfo)
-        {
-            lock (bitmapInfo.BitmapLock)
-            {
-                // Inform parents that the browser rendering is updating
-                OnRendering(this, new RenderingEventArgs(bitmapInfo));
-
-                // Now update the WPF image
-                if (bitmapInfo.IsPopup)
-                {
-                    bitmapInfo.InteropBitmap = SetBitmapHelper(bitmapInfo,
-                        (InteropBitmap)bitmapInfo.InteropBitmap, bitmap => popupImage.Source = bitmap);
-                }
-                else
-                {
-                    bitmapInfo.InteropBitmap = SetBitmapHelper(bitmapInfo,
-                        (InteropBitmap)bitmapInfo.InteropBitmap, bitmap => image.Source = bitmap);
-                }
+                rendering(sender, new RenderingEventArgs(bitmapInfo));
             }
         }
 
@@ -1241,25 +1245,6 @@ namespace CefSharp.Wpf
             var pixelPosition = matrix.Transform(deviceIndependentPosition);
 
             return pixelPosition;
-        }
-
-        private object SetBitmapHelper(BitmapInfo bitmapInfo, InteropBitmap bitmap, Action<InteropBitmap> imageSourceSetter)
-        {
-            if (bitmap == null)
-            {
-                imageSourceSetter(null);
-                GC.Collect(1);
-
-                var stride = bitmapInfo.Width * ((IRenderWebBrowser)this).BytesPerPixel;
-
-                bitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(bitmapInfo.FileMappingHandle,
-                    bitmapInfo.Width, bitmapInfo.Height, PixelFormat, stride, 0);
-                imageSourceSetter(bitmap);
-            }
-
-            bitmap.Invalidate();
-
-            return bitmap;
         }
 
         public void ViewSource()

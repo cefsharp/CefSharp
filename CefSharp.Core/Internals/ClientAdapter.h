@@ -59,6 +59,8 @@ namespace CefSharp
 
             HWND GetBrowserHwnd() { return _browserHwnd; }
             CefRefPtr<CefBrowser> GetCefBrowser() { return _cefBrowser; }
+            void ShowDevTools();
+            void CloseDevTools();
             void CloseAllPopups(bool forceClose);
 
             // CefClient

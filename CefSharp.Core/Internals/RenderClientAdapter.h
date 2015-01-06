@@ -20,20 +20,18 @@ namespace CefSharp
         private:
             gcroot<IWebBrowserInternal^> _webBrowserInternal;
             gcroot<IRenderWebBrowser^> _renderWebBrowser;
+            gcroot<BitmapInfo^> _mainBitmapInfo;
+            gcroot<BitmapInfo^> _popupBitmapInfo;
 
         public:
-            gcroot<BitmapInfo^> MainBitmapInfo;
-            gcroot<BitmapInfo^> PopupBitmapInfo;
-
             RenderClientAdapter(IWebBrowserInternal^ webBrowserInternal, Action<int>^ onAfterBrowserCreated):
                 ClientAdapter(webBrowserInternal, onAfterBrowserCreated),
                 _webBrowserInternal(webBrowserInternal)
             {
-                MainBitmapInfo = gcnew BitmapInfo();
-                PopupBitmapInfo = gcnew BitmapInfo();
-                PopupBitmapInfo->IsPopup = true;
-
                 _renderWebBrowser = dynamic_cast<IRenderWebBrowser^>(webBrowserInternal);
+
+                _mainBitmapInfo = _renderWebBrowser->CreateBitmapInfo(false);
+                _popupBitmapInfo = _renderWebBrowser->CreateBitmapInfo(true);
             }
 
             ~RenderClientAdapter()
@@ -41,23 +39,15 @@ namespace CefSharp
                 _renderWebBrowser = nullptr;
                 _webBrowserInternal = nullptr;
 
-                DisposeBitmapInfo(MainBitmapInfo);
+                DisposeBitmapInfo(_mainBitmapInfo);
 
-                delete MainBitmapInfo;
-                MainBitmapInfo = nullptr;
+                delete _mainBitmapInfo;
+                _mainBitmapInfo = nullptr;
 
-                DisposeBitmapInfo(PopupBitmapInfo);
+                DisposeBitmapInfo(_popupBitmapInfo);
 
-                delete PopupBitmapInfo;
-                PopupBitmapInfo = nullptr;
-            }
-
-            void DisposeBitmapInfo(BitmapInfo^ bitmapInfo)
-            {
-                auto backBufferHandle = (HANDLE)bitmapInfo->BackBufferHandle;
-                auto fileMappingHandle = (HANDLE)bitmapInfo->FileMappingHandle;
-
-                ReleaseBitmapHandlers(&backBufferHandle, &fileMappingHandle);
+                delete _popupBitmapInfo;
+                _popupBitmapInfo = nullptr;
             }
 
             // CefClient
@@ -98,14 +88,20 @@ namespace CefSharp
             virtual DECL void OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects,
                 const void* buffer, int width, int height) OVERRIDE
             {
-                if (type == PET_VIEW)
-                {
-                    SetBuffer(MainBitmapInfo, width, height, buffer);
-                }
-                else if (type == PET_POPUP)
-                {
-                    SetBuffer(PopupBitmapInfo, width, height, buffer);
-                }
+                auto bitmapInfo = type == PET_VIEW ? _mainBitmapInfo : _popupBitmapInfo;
+
+                lock l(bitmapInfo->BitmapLock);
+
+                auto fileMappingHandle = (HANDLE)bitmapInfo->FileMappingHandle;
+                auto backBufferHandle = (HANDLE)bitmapInfo->BackBufferHandle;
+
+                SetBufferHelper(bitmapInfo, width, height, &fileMappingHandle,
+                    &backBufferHandle, buffer);
+
+                bitmapInfo->FileMappingHandle = (IntPtr)fileMappingHandle;
+                bitmapInfo->BackBufferHandle = (IntPtr)backBufferHandle;
+
+                _renderWebBrowser->InvokeRenderAsync(bitmapInfo);
             };
 
             virtual DECL void OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor, CursorType type,
@@ -114,93 +110,24 @@ namespace CefSharp
                 _renderWebBrowser->SetCursor((IntPtr)cursor);
             };
 
-            CefRefPtr<CefBrowserHost> TryGetCefHost()
-            {
-                if (!this->GetCefBrowser().get() ||
-                    !this->GetCefBrowser()->GetHost().get())
-                {
-                    return nullptr;
-                }
-                else
-                {
-                    return this->GetCefBrowser()->GetHost();
-                }
-            };
-
-            CefRefPtr<CefFrame> TryGetCefMainFrame()
-            {
-                auto cefBrowser = this->GetCefBrowser().get();
-
-                if (!cefBrowser)
-                {
-                    return nullptr;
-                }
-
-                return cefBrowser->GetMainFrame();
-            };
-
-            void ShowDevTools()
-            {
-                auto cefHost = TryGetCefHost();
-
-                if (cefHost != nullptr)
-                {
-                    CefWindowInfo windowInfo;
-                    CefBrowserSettings settings;
-
-                    windowInfo.SetAsPopup(cefHost->GetWindowHandle(), "DevTools");
-                
-                    cefHost->ShowDevTools(windowInfo, this, settings, CefPoint());
-                }
-            }
-
-            void CloseDevTools()
-            {
-                auto cefHost = TryGetCefHost();
-
-                if (cefHost != nullptr)
-                {
-                    cefHost->CloseDevTools();
-                }
-            }
-
         private:
-
-            void SetBuffer(BitmapInfo^ bitmapInfo, int newWidth, int newHeight, const void* buffer)
-            {
-                lock l(bitmapInfo->BitmapLock);
-
-                int currentWidth = bitmapInfo->Width, currentHeight = bitmapInfo->Height;
-
-                auto fileMappingHandle = (HANDLE)bitmapInfo->FileMappingHandle;
-                auto backBufferHandle = (HANDLE)bitmapInfo->BackBufferHandle;
-
-                SetBufferHelper(bitmapInfo, currentWidth, currentHeight, newWidth, newHeight, &fileMappingHandle,
-                    &backBufferHandle, buffer);
-
-                bitmapInfo->FileMappingHandle = (IntPtr)fileMappingHandle;
-                bitmapInfo->BackBufferHandle = (IntPtr)backBufferHandle;
-
-                bitmapInfo->Width = newWidth;
-                bitmapInfo->Height = newHeight;
-
-                _renderWebBrowser->InvokeRenderAsync(bitmapInfo);
-            };
-
-            void SetBufferHelper(BitmapInfo^ bitmapInfo, int &currentWidth, int& currentHeight, int width, int height,
+            void SetBufferHelper(BitmapInfo^ bitmapInfo, int newWidth, int newHeight,
                 HANDLE* fileMappingHandle, HANDLE* backBufferHandle, const void* buffer)
             {
-                int pixels = width * height;
-                int numberOfBytes = pixels * _renderWebBrowser->BytesPerPixel;
+                int pixels = newWidth * newHeight;
+                int numberOfBytes = pixels * bitmapInfo->BytesPerPixel;
 
                 if (*backBufferHandle == NULL ||
-                    currentWidth != width ||
-                    currentHeight != height)
+                    bitmapInfo->Width != newWidth ||
+                    bitmapInfo->Height != newHeight)
                 {
-                    _renderWebBrowser->ClearBitmap(bitmapInfo);
+                    //Clear the reference to Bitmap so a new one is created by InvokeRenderAsync
+                    bitmapInfo->ClearBitmap();
 
+                    //Release the current handles (if not null)
                     ReleaseBitmapHandlers(backBufferHandle, fileMappingHandle);
 
+                    // Create new fileMappingHandle
                     *fileMappingHandle = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, numberOfBytes, NULL);
                     if (*fileMappingHandle == NULL)
                     {
@@ -216,10 +143,10 @@ namespace CefSharp
                         // TODO: method call fails.
                         return;
                     }
-
-                    currentWidth = width;
-                    currentHeight = height;
                 }
+
+                bitmapInfo->Width = newWidth;
+                bitmapInfo->Height = newHeight;
 
                 CopyMemory(*backBufferHandle, (void*)buffer, numberOfBytes);
             };
@@ -237,6 +164,14 @@ namespace CefSharp
                     CloseHandle(*fileMappingHandle);
                     *fileMappingHandle = NULL;
                 }
+            }
+
+            void DisposeBitmapInfo(BitmapInfo^ bitmapInfo)
+            {
+                auto backBufferHandle = (HANDLE)bitmapInfo->BackBufferHandle;
+                auto fileMappingHandle = (HANDLE)bitmapInfo->FileMappingHandle;
+
+                ReleaseBitmapHandlers(&backBufferHandle, &fileMappingHandle);
             }
 
             IMPLEMENT_REFCOUNTING(RenderClientAdapter)

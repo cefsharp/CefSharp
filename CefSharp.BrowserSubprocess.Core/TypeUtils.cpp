@@ -150,11 +150,6 @@ namespace CefSharp
         throw gcnew Exception(String::Format("Cannot convert '{0}' object from CLR to CEF.", type->FullName));
     }
 
-    System::String^ stdToString(const std::string& s)
-    {
-        return gcnew System::String(s.c_str());
-    }
-
     Object^ TypeUtils::ConvertFromCef(CefRefPtr<CefV8Value> obj)
     {
         if (obj->IsNull() || obj->IsUndefined())
@@ -210,18 +205,15 @@ namespace CefSharp
                 int objLength = keys.size();
                 if (objLength > 0)
                 {
-                    Dictionary<String^, Object^>^ result = gcnew Dictionary<String^, Object^>();
+                    auto result = gcnew Dictionary<String^, Object^>();
 
                     for (int i = 0; i < objLength; i++)
                     {
-                        std::string p_key = keys[i].ToString();
-                        String^ p_keyStr = stdToString(p_key);
+                        String^ p_keyStr = StringUtils::ToClr(keys[i].ToString());
 
                         if ((obj->HasValue(keys[i])) && (!p_keyStr->StartsWith("__")))
                         {
-                            CefRefPtr<CefV8Value> data;
-
-                            data = obj->GetValue(keys[i]);
+                            CefRefPtr<CefV8Value> data = obj->GetValue(keys[i]);
                             if (data != nullptr)
                             {
                                 Object^ p_data = TypeUtils::ConvertFromCef(data);

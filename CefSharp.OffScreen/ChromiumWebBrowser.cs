@@ -6,13 +6,9 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using CefSharp.Internals;
+using PixelFormat = System.Drawing.Imaging.PixelFormat;
 
 namespace CefSharp.OffScreen
 {
@@ -24,32 +20,37 @@ namespace CefSharp.OffScreen
     {
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
 
-        /// <summary>Contains the last rendering from Chromium.</summary>
+        /// <summary>
+        /// Contains the last rendering from Chromium.
+        /// </summary>
         private Bitmap bitmap;
 
-        /// <summary>Need a lock because the caller may be asking for the bitmap
-        /// while Chromium async rendering has returned on another thread.</summary>
+        /// <summary>
+        /// Need a lock because the caller may be asking for the bitmap
+        /// while Chromium async rendering has returned on another thread.
+        /// </summary>
         private readonly object bitmapLock = new object();
 
-        /// <summary>Size of the Chromium viewport.
-        /// 
+        /// <summary>
+        /// Size of the Chromium viewport.
         /// This must be set to something other than 0x0 otherwise Chromium will not render,
-        /// and the ScreenshotAsync task will deadlock.</summary>
+        /// and the ScreenshotAsync task will deadlock.
+        /// </summary>
         private System.Drawing.Size size = new System.Drawing.Size(1366, 768);
 
         /// <summary>
-        /// Create a new offscreen Chromium with the initial URL of "about:blank".
+        /// Create a new OffScreen Chromium Browser
         /// </summary>
         /// <param name="address">Initial address (url) to load</param>
-        /// <param name="browserSettings">The browser settings to use.  If null, the default settings are used.</param>
+        /// <param name="browserSettings">The browser settings to use. If null, the default settings are used.</param>
         public ChromiumWebBrowser(string address, BrowserSettings browserSettings = null)
         {
             ResourceHandler = new DefaultResourceHandler();
 
             Cef.AddDisposable(this);
 
-            managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
-            managedCefBrowserAdapter.CreateOffscreenBrowser(browserSettings ?? new BrowserSettings(), address);
+            managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, true);
+            managedCefBrowserAdapter.CreateOffscreenBrowser(IntPtr.Zero, browserSettings ?? new BrowserSettings(), address);
         }
 
         public void Dispose()
@@ -114,10 +115,7 @@ namespace CefSharp.OffScreen
         {
             lock (bitmapLock)
             {
-                if (bitmap == null)
-                    return null;
-                else
-                    return new Bitmap(bitmap);
+                return bitmap == null ? null : new Bitmap(bitmap);
             }
         }
 
@@ -137,43 +135,28 @@ namespace CefSharp.OffScreen
             // Try our luck and see if there is already a screenshot, to save us creating a new thread for nothing.
             var screenshot = ScreenshotOrNull();
 
-            Task<Bitmap> task;
+            var completionSource = new TaskCompletionSource<Bitmap>();
 
-            if (screenshot != null)
+            if (screenshot == null)
             {
-                var completionSource = new TaskCompletionSource<Bitmap>();
-                completionSource.SetResult(screenshot);
-                task = completionSource.Task;
-            }
-            else
-            {
-                // No existing screenshot, so wait for Chromium to render itself.
-
-                // A wait handle, so the task knows when NewScreenshot has fired.
-                var waitForBitmap = new EventWaitHandle(false, EventResetMode.AutoReset);
-
                 EventHandler newScreenshot = null; // otherwise we cannot reference ourselves in the anonymous method below
 
                 newScreenshot = (sender, e) =>
                 {
                     // Chromium has rendered.  Tell the task about it.
                     NewScreenshot -= newScreenshot;
-                    waitForBitmap.Set();
+
+                    completionSource.SetResult(ScreenshotOrNull());
                 };
 
                 NewScreenshot += newScreenshot;
-
-                task = new Task<Bitmap>(() =>
-                {
-                    // Wait in this thread for the NewScreenshot event to fire.
-                    waitForBitmap.WaitOne();
-                    return ScreenshotOrNull();
-                });
-
-                task.Start();
+            }
+            else
+            {
+                completionSource.SetResult(screenshot);
             }
 
-            return task;
+            return completionSource.Task;
         }
 
         public IJsDialogHandler JsDialogHandler { get; set; }
@@ -347,21 +330,6 @@ namespace CefSharp.OffScreen
         }
 
         #region IRenderWebBrowser (rendering to bitmap; derived from CefSharp.Wpf.ChromiumWebBrowser)
-        /// <summary>The bitmap buffer is 32 BPP.</summary>
-        int IRenderWebBrowser.BytesPerPixel
-        {
-            get { return 4; }
-        }
-
-        void IRenderWebBrowser.ClearBitmap(BitmapInfo bitmapInfo)
-        {
-            lock (bitmapLock) 
-            {
-                if (bitmap != null)
-                    bitmap.Dispose();
-                bitmap = null;
-            }
-        }
 
         int IRenderWebBrowser.Width
         {
@@ -373,54 +341,32 @@ namespace CefSharp.OffScreen
             get { return size.Height; }
         }
 
-        void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
+        public BitmapInfo CreateBitmapInfo(bool isPopup)
         {
-            ((IRenderWebBrowser)this).SetBitmap(bitmapInfo);
+            //The bitmap buffer is 32 BPP
+            return new GdiBitmapInfo { IsPopup = isPopup, BytesPerPixel = 4, BitmapLock = bitmapLock };
         }
 
-        void IRenderWebBrowser.SetBitmap(BitmapInfo bitmapInfo)
+        void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
         {
             lock (bitmapLock)
             {
-                ((IRenderWebBrowser)this).ClearBitmap(bitmapInfo);
-                lock (bitmapInfo.BitmapLock)
+                if (bitmap != null)
                 {
-                    var stride = bitmapInfo.Width * ((IRenderWebBrowser)this).BytesPerPixel;
+                    bitmap.Dispose();
+                    bitmap = null;
+                }
 
-                    bitmap = BitmapSourceToBitmap2(Imaging.CreateBitmapSourceFromMemorySection(bitmapInfo.FileMappingHandle,
-                        bitmapInfo.Width, bitmapInfo.Height, PixelFormats.Bgra32, stride, 0));
+                var stride = bitmapInfo.Width * bitmapInfo.BytesPerPixel;
 
-                    var handler = NewScreenshot;
-                    if (handler != null)
-                    {
-                        handler(this, EventArgs.Empty);
-                    }
+                bitmap = new Bitmap(bitmapInfo.Width, bitmapInfo.Height, stride, PixelFormat.Format32bppPArgb, bitmapInfo.BackBufferHandle);
+                
+                var handler = NewScreenshot;
+                if (handler != null)
+                {
+                    handler(this, EventArgs.Empty);
                 }
             }
-        }
-
-        /// <summary>
-        /// http://stackoverflow.com/a/5709472/450141
-        /// </summary>
-        /// <param name="srs">BitmapSource</param>
-        /// <returns>Bitmap</returns>
-        private static Bitmap BitmapSourceToBitmap2(BitmapSource srs)
-        {
-            var bmp = new Bitmap(
-              srs.PixelWidth,
-              srs.PixelHeight,
-              System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
-            var data = bmp.LockBits(
-              new Rectangle(System.Drawing.Point.Empty, bmp.Size),
-              ImageLockMode.WriteOnly,
-              System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
-            srs.CopyPixels(
-              Int32Rect.Empty,
-              data.Scan0,
-              data.Height * data.Stride,
-              data.Stride);
-            bmp.UnlockBits(data);
-            return bmp;
         }
 
         void IRenderWebBrowser.SetCursor(IntPtr cursor)
@@ -495,7 +441,7 @@ namespace CefSharp.OffScreen
 
         void IWebBrowserInternal.SetAddress(string address)
         {
-            this.Address = address;
+            Address = address;
         }
 
         void IWebBrowserInternal.SetIsLoading(bool isloading)
