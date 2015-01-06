@@ -649,11 +649,12 @@ namespace CefSharp.Wpf
                     // Inform parents that the browser rendering is updating
                     OnRendering(this, interopBitmapInfo);
 
-                    var img = bitmapInfo.IsPopup ? popupImage : image;
                     // Now update the WPF image
                     var bitmap = interopBitmapInfo.InteropBitmap;
                     if (bitmap == null)
                     {
+                        var img = bitmapInfo.IsPopup ? popupImage : image;
+
                         img.Source = null;
                         GC.Collect(1);
 
@@ -662,9 +663,6 @@ namespace CefSharp.Wpf
                         bitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(bitmapInfo.FileMappingHandle,
                             bitmapInfo.Width, bitmapInfo.Height, PixelFormat, stride, 0);
                         img.Source = bitmap;
-
-                        //TODO: Look into
-                        //bitmap.CopyPixels
 
                         interopBitmapInfo.InteropBitmap = bitmap;
                     }
