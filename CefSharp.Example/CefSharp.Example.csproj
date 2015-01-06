@@ -99,6 +99,7 @@
     </Compile>
     <Compile Include="CefSharpSchemeHandler.cs" />
     <Compile Include="CefSharpSchemeHandlerFactory.cs" />
+    <Compile Include="WebPluginInfoVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
