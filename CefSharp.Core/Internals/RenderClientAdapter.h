@@ -97,7 +97,20 @@ namespace CefSharp
             virtual DECL void OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects,
                 const void* buffer, int width, int height) OVERRIDE
             {
-                SetBuffer(type == PET_VIEW ? MainBitmapInfo : PopupBitmapInfo, width, height, buffer);
+                auto bitmapInfo = type == PET_VIEW ? MainBitmapInfo : PopupBitmapInfo;
+
+                lock l(bitmapInfo->BitmapLock);
+
+                auto fileMappingHandle = (HANDLE)bitmapInfo->FileMappingHandle;
+                auto backBufferHandle = (HANDLE)bitmapInfo->BackBufferHandle;
+
+                SetBufferHelper(bitmapInfo, width, height, &fileMappingHandle,
+                    &backBufferHandle, buffer);
+
+                bitmapInfo->FileMappingHandle = (IntPtr)fileMappingHandle;
+                bitmapInfo->BackBufferHandle = (IntPtr)backBufferHandle;
+
+                _renderWebBrowser->InvokeRenderAsync(bitmapInfo);
             };
 
             virtual DECL void OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor, CursorType type,
@@ -107,23 +120,6 @@ namespace CefSharp
             };
 
         private:
-
-            void SetBuffer(BitmapInfo^ bitmapInfo, int newWidth, int newHeight, const void* buffer)
-            {
-                lock l(bitmapInfo->BitmapLock);
-
-                auto fileMappingHandle = (HANDLE)bitmapInfo->FileMappingHandle;
-                auto backBufferHandle = (HANDLE)bitmapInfo->BackBufferHandle;
-
-                SetBufferHelper(bitmapInfo, newWidth, newHeight, &fileMappingHandle,
-                    &backBufferHandle, buffer);
-
-                bitmapInfo->FileMappingHandle = (IntPtr)fileMappingHandle;
-                bitmapInfo->BackBufferHandle = (IntPtr)backBufferHandle;
-
-                _renderWebBrowser->InvokeRenderAsync(bitmapInfo);
-            };
-
             void SetBufferHelper(BitmapInfo^ bitmapInfo, int newWidth, int newHeight,
                 HANDLE* fileMappingHandle, HANDLE* backBufferHandle, const void* buffer)
             {
