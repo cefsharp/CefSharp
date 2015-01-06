@@ -207,5 +207,14 @@ namespace CefSharp.Example
         {
             return "I am an Ignored Method";
         }
+
+        public string ComplexParamObject(object param)
+        {
+            if (param == null)
+            {
+                return "param is null";
+            }
+            return "The param type is:" + param.GetType();
+        }
     }
 }
