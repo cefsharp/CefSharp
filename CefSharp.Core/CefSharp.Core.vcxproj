@@ -234,6 +234,7 @@
     </ClCompile>
     <ClCompile Include="Internals\StringUtils.cpp" />
     <ClCompile Include="Internals\StreamAdapter.cpp" />
+    <ClCompile Include="Internals\WebPluginInfoVisitor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BrowserSettings.h" />
@@ -259,6 +260,7 @@
     <ClInclude Include="Internals\StreamAdapter.h" />
     <ClInclude Include="vcclr_local.h" />
     <ClInclude Include="Internals\CefWebPluginInfoWrapper.h" />
+    <ClInclude Include="Internals\WebPluginInfoVisitor.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CefSharp\CefSharp.csproj">

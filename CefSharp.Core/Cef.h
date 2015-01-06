@@ -7,11 +7,13 @@
 #include <msclr/lock.h>
 #include <include/cef_version.h>
 #include <include/cef_runnable.h>
+#include <include/cef_web_plugin.h>
 
 #include "Internals/CefSharpApp.h"
 #include "Internals/CookieVisitor.h"
 #include "Internals/CompletionHandler.h"
 #include "Internals/StringUtils.h"
+#include "Internals/WebPluginInfoVisitor.h"
 #include "ManagedCefBrowserAdapter.h"
 #include "CefSettings.h"
 #include "SchemeHandlerWrapper.h"
@@ -352,6 +354,80 @@ namespace CefSharp
                 CefShutdown();
                 IsInitialized = false;
             }
+        }
+
+        /// <summary>
+        /// Cause the plugin list to refresh the next time it is accessed regardless
+        /// of whether it has already been loaded. Can be called on any thread in the
+        /// browser process.
+        /// </summary>
+        static void RefreshWebPlugins()
+        {
+            CefRefreshWebPlugins();
+        }
+
+        /// <summary>
+        /// Add a plugin path (directory + file). This change may not take affect until
+        /// after CefRefreshWebPlugins() is called. Can be called on any thread in the
+        /// browser process.
+        /// </summary>
+        static void AddWebPluginPath(String^ path)
+        {
+            CefAddWebPluginPath(StringUtils::ToNative(path));
+        }
+
+        /// <summary>
+        /// Add a plugin directory. This change may not take affect until after
+        /// CefRefreshWebPlugins() is called. Can be called on any thread in the browser
+        /// process.
+        /// </summary>
+        static void AddWebPluginDirectory(String^ dir)
+        {
+            CefAddWebPluginDirectory(StringUtils::ToNative(dir));
+        }
+
+        /// <summary>
+        /// Remove a plugin path (directory + file). This change may not take affect
+        /// until after CefRefreshWebPlugins() is called. Can be called on any thread in
+        /// the browser process.
+        /// </summary>
+        static void RemoveWebPluginPath(String^ path)
+        {
+            CefRemoveWebPluginPath(StringUtils::ToNative(path));
+        }
+
+        /// <summary>
+        /// Unregister an internal plugin. This may be undone the next time
+        /// CefRefreshWebPlugins() is called. Can be called on any thread in the browser
+        /// process.
+        /// </summary>
+        static void UnregisterInternalWebPlugin(String^ path)
+        {
+            CefUnregisterInternalWebPlugin(StringUtils::ToNative(path));
+        }
+
+        /// <summary>
+        /// Force a plugin to shutdown. Can be called on any thread in the browser
+        /// process but will be executed on the IO thread.
+        /// </summary>
+        static void ForceWebPluginShutdown(String^ path)
+        {
+            CefForceWebPluginShutdown(StringUtils::ToNative(path));
+        }
+
+        /// <summary>
+        /// Register a plugin crash. Can be called on any thread in the browser process
+        /// but will be executed on the IO thread.
+        /// </summary>
+        static void RegisterWebPluginCrash(String^ path)
+        {
+            CefRegisterWebPluginCrash(StringUtils::ToNative(path));
+        }
+
+        static void VisitWebPluginInfo(IWebPluginInfoVisitor^ visitor)
+        {
+            CefRefPtr<WebPluginInfoVisitor> webPluginVisitor = new WebPluginInfoVisitor(visitor);
+            CefVisitWebPluginInfo(webPluginVisitor);
         }
     };
 }

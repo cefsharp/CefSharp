@@ -44,6 +44,9 @@ namespace CefSharp.Example
                     return;
                 }
             }
+
+            var webPluginInfoVisitor = new WebPluginInfoVisitor();
+            Cef.VisitWebPluginInfo(webPluginInfoVisitor);
         }
 
         public static void RegisterTestResources(IWebBrowser browser)
