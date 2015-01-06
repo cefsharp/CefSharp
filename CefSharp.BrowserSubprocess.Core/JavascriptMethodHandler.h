@@ -37,13 +37,21 @@ namespace CefSharp
                 parameter[i] = TypeUtils::ConvertFromCef(arguments[i]);
             }
 
-            auto response = _method->Invoke(parameter);
-
-            retval = TypeUtils::ConvertToCef(response->Result, nullptr);
-            if(!response->Success)
+            try
             {
-                exception = StringUtils::ToNative(response->Message);
+                auto response = _method->Invoke(parameter);
+
+                retval = TypeUtils::ConvertToCef(response->Result, nullptr);
+                if (!response->Success)
+                {
+                    exception = StringUtils::ToNative(response->Message);
+                }
             }
+            catch (Exception^ ex)
+            {
+                exception = StringUtils::ToNative(ex->Message);
+            }
+            
             //NOTE: Return true otherwise exception is ignored
             return true;
         }
