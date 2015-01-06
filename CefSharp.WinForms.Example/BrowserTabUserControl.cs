@@ -188,19 +188,12 @@ namespace CefSharp.WinForms.Example
             }
         }
 
-        public void CopySourceToClipBoardAsync()
+        public async void CopySourceToClipBoardAsync()
         {
-            var task = Browser.GetSourceAsync();
+            var htmlSource = await Browser.GetSourceAsync();
 
-            task.ContinueWith(t =>
-            {
-                if (!t.IsFaulted)
-                {
-                    Clipboard.SetText(t.Result);
-                    DisplayOutput("HTML Source copied to clipboard");
-                }
-            },
-            TaskScheduler.FromCurrentSynchronizationContext());
+            Clipboard.SetText(htmlSource);
+            DisplayOutput("HTML Source copied to clipboard");
         }
 
         private void ToggleBottomToolStrip()
