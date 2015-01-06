@@ -20,19 +20,18 @@ namespace CefSharp
         private:
             gcroot<IWebBrowserInternal^> _webBrowserInternal;
             gcroot<IRenderWebBrowser^> _renderWebBrowser;
+            gcroot<BitmapInfo^> _mainBitmapInfo;
+            gcroot<BitmapInfo^> _popupBitmapInfo;
 
         public:
-            gcroot<BitmapInfo^> MainBitmapInfo;
-            gcroot<BitmapInfo^> PopupBitmapInfo;
-
             RenderClientAdapter(IWebBrowserInternal^ webBrowserInternal, Action<int>^ onAfterBrowserCreated):
                 ClientAdapter(webBrowserInternal, onAfterBrowserCreated),
                 _webBrowserInternal(webBrowserInternal)
             {
                 _renderWebBrowser = dynamic_cast<IRenderWebBrowser^>(webBrowserInternal);
 
-                MainBitmapInfo = _renderWebBrowser->CreateBitmapInfo(false);
-                PopupBitmapInfo = _renderWebBrowser->CreateBitmapInfo(true);
+                _mainBitmapInfo = _renderWebBrowser->CreateBitmapInfo(false);
+                _popupBitmapInfo = _renderWebBrowser->CreateBitmapInfo(true);
             }
 
             ~RenderClientAdapter()
@@ -40,23 +39,15 @@ namespace CefSharp
                 _renderWebBrowser = nullptr;
                 _webBrowserInternal = nullptr;
 
-                DisposeBitmapInfo(MainBitmapInfo);
+                DisposeBitmapInfo(_mainBitmapInfo);
 
-                delete MainBitmapInfo;
-                MainBitmapInfo = nullptr;
+                delete _mainBitmapInfo;
+                _mainBitmapInfo = nullptr;
 
-                DisposeBitmapInfo(PopupBitmapInfo);
+                DisposeBitmapInfo(_popupBitmapInfo);
 
-                delete PopupBitmapInfo;
-                PopupBitmapInfo = nullptr;
-            }
-
-            void DisposeBitmapInfo(BitmapInfo^ bitmapInfo)
-            {
-                auto backBufferHandle = (HANDLE)bitmapInfo->BackBufferHandle;
-                auto fileMappingHandle = (HANDLE)bitmapInfo->FileMappingHandle;
-
-                ReleaseBitmapHandlers(&backBufferHandle, &fileMappingHandle);
+                delete _popupBitmapInfo;
+                _popupBitmapInfo = nullptr;
             }
 
             // CefClient
@@ -97,7 +88,7 @@ namespace CefSharp
             virtual DECL void OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects,
                 const void* buffer, int width, int height) OVERRIDE
             {
-                auto bitmapInfo = type == PET_VIEW ? MainBitmapInfo : PopupBitmapInfo;
+                auto bitmapInfo = type == PET_VIEW ? _mainBitmapInfo : _popupBitmapInfo;
 
                 lock l(bitmapInfo->BitmapLock);
 
@@ -173,6 +164,14 @@ namespace CefSharp
                     CloseHandle(*fileMappingHandle);
                     *fileMappingHandle = NULL;
                 }
+            }
+
+            void DisposeBitmapInfo(BitmapInfo^ bitmapInfo)
+            {
+                auto backBufferHandle = (HANDLE)bitmapInfo->BackBufferHandle;
+                auto fileMappingHandle = (HANDLE)bitmapInfo->FileMappingHandle;
+
+                ReleaseBitmapHandlers(&backBufferHandle, &fileMappingHandle);
             }
 
             IMPLEMENT_REFCOUNTING(RenderClientAdapter)
