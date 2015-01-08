@@ -263,7 +263,6 @@
     <ClInclude Include="Internals\StringUtils.h" />
     <ClInclude Include="Internals\StreamAdapter.h" />
     <ClInclude Include="vcclr_local.h" />
-    <ClInclude Include="Internals\CefWebPluginInfoWrapper.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CefSharp\CefSharp.csproj">

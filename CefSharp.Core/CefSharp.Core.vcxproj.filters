@@ -112,9 +112,6 @@
     <ClInclude Include="CefSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Internals\CefWebPluginInfoWrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Internals\StringVisitor.h">
       <Filter>Header Files</Filter>
     </ClInclude>

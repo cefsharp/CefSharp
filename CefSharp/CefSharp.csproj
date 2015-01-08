@@ -138,7 +138,7 @@
     <Compile Include="ILifeSpanHandler.cs" />
     <Compile Include="IMenuHandler.cs" />
     <Compile Include="Internals\IRenderWebBrowser.cs" />
-    <Compile Include="IWebPluginInfo.cs" />
+    <Compile Include="WebPluginInfo.cs" />
     <Compile Include="IRequest.cs" />
     <Compile Include="IRequestHandler.cs" />
     <Compile Include="IResponse.cs" />

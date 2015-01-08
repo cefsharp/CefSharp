@@ -57,6 +57,17 @@ namespace CefSharp
                 }
                 return Nullable<DateTime>(DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(epoch).ToLocalTime());
             }
+
+            static WebPluginInfo^ FromNative(CefRefPtr<CefWebPluginInfo> webPluginInfo)
+            {
+                auto managedWebPluginInfo = gcnew WebPluginInfo();
+                managedWebPluginInfo->Description = StringUtils::ToClr(webPluginInfo->GetDescription());
+                managedWebPluginInfo->Name = StringUtils::ToClr(webPluginInfo->GetName());
+                managedWebPluginInfo->Path = StringUtils::ToClr(webPluginInfo->GetPath());
+                managedWebPluginInfo->Version = StringUtils::ToClr(webPluginInfo->GetVersion());
+
+                return managedWebPluginInfo;
+            }
         };
     }
 }

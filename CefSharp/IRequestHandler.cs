@@ -65,7 +65,7 @@ namespace CefSharp
         /// <param name="policyUrl">policy URL</param>
         /// <param name="info">plugin information</param>
         /// <returns>Return true to block loading of the plugin.</returns>
-        bool OnBeforePluginLoad(IWebBrowser browser, string url, string policyUrl, IWebPluginInfo info);
+        bool OnBeforePluginLoad(IWebBrowser browser, string url, string policyUrl, WebPluginInfo info);
 
         /// <summary>
         /// Called when the render process terminates unexpectedly.

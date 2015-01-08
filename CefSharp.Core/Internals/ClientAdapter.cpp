@@ -5,12 +5,12 @@
 #include "Stdafx.h"
 
 #include "Internals/CefRequestWrapper.h"
-#include "Internals/CefWebPluginInfoWrapper.h"
 #include "Internals/CefContextMenuParamsWrapper.h"
 #include "Internals/CefDragDataWrapper.h"
 #include "ClientAdapter.h"
 #include "DownloadAdapter.h"
 #include "StreamAdapter.h"
+#include "Internals/TypeConversion.h"
 #include "include/wrapper/cef_stream_resource_handler.h"
 
 namespace CefSharp
@@ -272,7 +272,7 @@ namespace CefSharp
         // return value:
         //     false: Load Plugin (do not block it)
         //     true:  Ignore Plugin (Block it)
-        bool ClientAdapter::OnBeforePluginLoad( CefRefPtr< CefBrowser > browser, const CefString& url, const CefString& policy_url, CefRefPtr< CefWebPluginInfo > info )
+        bool ClientAdapter::OnBeforePluginLoad(CefRefPtr<CefBrowser> browser, const CefString& url, const CefString& policy_url, CefRefPtr<CefWebPluginInfo> info)
         {
             IRequestHandler^ handler = _browserControl->RequestHandler;
 
@@ -281,9 +281,9 @@ namespace CefSharp
                 return false;
             }
 
-            CefWebPluginInfoWrapper^ wrapper = gcnew CefWebPluginInfoWrapper(info);
+            auto pluginInfo = TypeConversion::FromNative(info);
 
-            return handler->OnBeforePluginLoad(_browserControl, StringUtils::ToClr(url), StringUtils::ToClr(policy_url), wrapper);
+            return handler->OnBeforePluginLoad(_browserControl, StringUtils::ToClr(url), StringUtils::ToClr(policy_url), pluginInfo);
         }
 
         void ClientAdapter::OnPluginCrashed(CefRefPtr<CefBrowser> browser, const CefString& plugin_path)
