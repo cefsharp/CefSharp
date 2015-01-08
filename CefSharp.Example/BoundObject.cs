@@ -216,5 +216,10 @@ namespace CefSharp.Example
             }
             return "The param type is:" + param.GetType();
         }
+
+        public SubBoundObject GetSubObject()
+        {
+            return SubObject;
+        }
     }
 }

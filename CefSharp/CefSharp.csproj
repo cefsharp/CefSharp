@@ -108,6 +108,7 @@
     <Compile Include="IStringVisitor.cs" />
     <Compile Include="IContextMenuParams.cs" />
     <Compile Include="JavascriptIgnoreAttribute.cs" />
+    <Compile Include="JavascriptKnownTypesRegistra.cs" />
     <Compile Include="JavascriptResponse.cs" />
     <Compile Include="LoadErrorEventArgs.cs" />
     <Compile Include="FrameLoadStartEventArgs.cs" />

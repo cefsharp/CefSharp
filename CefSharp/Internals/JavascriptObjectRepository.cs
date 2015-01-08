@@ -156,6 +156,11 @@ namespace CefSharp.Internals
                     continue;
                 }
 
+                if (IsComplexType(methodInfo.ReturnType))
+                {
+                    JavascriptKnownTypesRegistra.Register(methodInfo.ReturnType);
+                }
+
                 var jsMethod = CreateJavaScriptMethod(methodInfo);
                 obj.Methods.Add(jsMethod);
             }
@@ -202,10 +207,34 @@ namespace CefSharp.Internals
             jsProperty.SetValue = (o, v) => propertyInfo.SetValue(o, v, null);
             jsProperty.GetValue = (o) => propertyInfo.GetValue(o, null);
 
-            jsProperty.IsComplexType = !propertyInfo.PropertyType.IsPrimitive && propertyInfo.PropertyType != typeof(string);
+            jsProperty.IsComplexType = IsComplexType(propertyInfo.PropertyType);
             jsProperty.IsReadOnly = !propertyInfo.CanWrite;
 
             return jsProperty;
+        }
+
+        private static bool IsComplexType(Type type)
+        {
+            if (type == typeof(void))
+            {
+                return false;
+            }
+
+            var baseType = type;
+
+            var nullable = type.IsGenericType && type.GetGenericTypeDefinition() == typeof (Nullable<>);
+
+            if (nullable)
+            {
+                baseType = Nullable.GetUnderlyingType(type);
+            }
+
+            if (baseType == null || baseType.Namespace.StartsWith("System"))
+            {
+                return false;
+            }
+
+            return !baseType.IsPrimitive && baseType != typeof(string);
         }
 
         private static string LowercaseFirst(string str)
