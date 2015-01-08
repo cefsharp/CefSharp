@@ -5,7 +5,6 @@
 #pragma once
 
 #include "Stdafx.h"
-#include "MCefRefPtr.h"
 
 using namespace System;
 using namespace System::Collections::Generic;
@@ -16,16 +15,20 @@ namespace CefSharp
     {
         ref class CefWebPluginInfoWrapper : public IWebPluginInfo
         {
-            MCefRefPtr<CefWebPluginInfo> _wrappedInfo;
-
         internal:
-            CefWebPluginInfoWrapper(CefRefPtr<CefWebPluginInfo> cefInfo) : _wrappedInfo(cefInfo) {}
+            CefWebPluginInfoWrapper(CefRefPtr<CefWebPluginInfo> webPluginInfo)
+            {
+                Description = StringUtils::ToClr(webPluginInfo->GetDescription());
+                Name = StringUtils::ToClr(webPluginInfo->GetName());
+                Path = StringUtils::ToClr(webPluginInfo->GetPath());
+                Version = StringUtils::ToClr(webPluginInfo->GetVersion());
+            }
 
         public:
-            virtual property String^ Description { String^ get(); }
-            virtual property String^ Name { String^ get(); }
-            virtual property String^ Path { String^ get(); }
-            virtual property String^ Version { String^ get(); }
+            virtual property String^ Description;
+            virtual property String^ Name;
+            virtual property String^ Path;
+            virtual property String^ Version;
         };
     }
 }
