@@ -4,7 +4,6 @@
 
 using System;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Text;
 using System.Threading.Tasks;
 using CefSharp.Internals;
@@ -36,7 +35,7 @@ namespace CefSharp.OffScreen
         /// This must be set to something other than 0x0 otherwise Chromium will not render,
         /// and the ScreenshotAsync task will deadlock.
         /// </summary>
-        private System.Drawing.Size size = new System.Drawing.Size(1366, 768);
+        private Size size = new Size(1366, 768);
 
         /// <summary>
         /// Create a new OffScreen Chromium Browser
@@ -80,7 +79,7 @@ namespace CefSharp.OffScreen
         /// 
         /// This also changes the size of the next screenshot.
         /// </summary>
-        public System.Drawing.Size Size
+        public Size Size
         {
             get { return size; }
             set
