@@ -42,7 +42,7 @@ namespace CefSharp.Internals
             jsObject.Name = name;
             jsObject.JavascriptName = name;
 
-            AnalyseObjectForBinding(jsObject);
+            AnalyseObjectForBinding(jsObject, analyseMethods: true, readPropertyValue: false);
 
             RootObject.MemberObjects.Add(jsObject);
         }
@@ -74,7 +74,7 @@ namespace CefSharp.Internals
                     jsObject.Name = "FunctionResult(" + name + ")";
                     jsObject.JavascriptName = jsObject.Name;
 
-                    BuildJavascriptObjectForComplexFunctionResult(jsObject);
+                    AnalyseObjectForBinding(jsObject, analyseMethods: false, readPropertyValue: true);
 
                     result = jsObject;
                 }
@@ -148,13 +148,14 @@ namespace CefSharp.Internals
         }
 
         /// <summary>
-        /// Analyse the object to be bound and generate metadata
-        /// which will be used by the browser subprocess to interact
-        /// with Cef.
+        /// Analyse the object and generate metadata which will
+        /// be used by the browser subprocess to interact with Cef.
         /// Method is called recursively
         /// </summary>
         /// <param name="obj">Javascript object</param>
-        private void AnalyseObjectForBinding(JavascriptObject obj)
+        /// <param name="analyseMethods">Analyse methods for inclusion in metadata model</param>
+        /// <param name="readPropertyValue">When analysis is done on a property, if true then get it's value for transmission over WCF</param>
+        private void AnalyseObjectForBinding(JavascriptObject obj, bool analyseMethods, bool readPropertyValue)
         {
             if (obj.Value == null)
             {
@@ -167,21 +168,19 @@ namespace CefSharp.Internals
                 return;
             }
 
-            foreach (var methodInfo in type.GetMethods(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
+            if (analyseMethods)
             {
-                // Type objects can not be serialized.
-                if (methodInfo.ReturnType == typeof(Type) || Attribute.IsDefined(methodInfo, typeof(JavascriptIgnoreAttribute)))
+                foreach (var methodInfo in type.GetMethods(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
                 {
-                    continue;
+                    // Type objects can not be serialized.
+                    if (methodInfo.ReturnType == typeof (Type) || Attribute.IsDefined(methodInfo, typeof (JavascriptIgnoreAttribute)))
+                    {
+                        continue;
+                    }
+
+                    var jsMethod = CreateJavaScriptMethod(methodInfo);
+                    obj.Methods.Add(jsMethod);
                 }
-
-                //if (IsComplexType(methodInfo.ReturnType))
-                //{
-                //	JavascriptKnownTypesRegistra.Register(methodInfo.ReturnType);
-                //}
-
-                var jsMethod = CreateJavaScriptMethod(methodInfo);
-                obj.Methods.Add(jsMethod);
             }
 
             foreach (var propertyInfo in type.GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
@@ -200,40 +199,9 @@ namespace CefSharp.Internals
                     jsObject.Value = jsProperty.GetValue(obj.Value);
                     jsProperty.JsObject = jsObject;
 
-                    AnalyseObjectForBinding(jsProperty.JsObject);
+                    AnalyseObjectForBinding(jsProperty.JsObject, analyseMethods, readPropertyValue);
                 }
-                obj.Properties.Add(jsProperty);
-            }
-        }
-
-        private void BuildJavascriptObjectForComplexFunctionResult(JavascriptObject obj)
-        {
-            if (obj.Value == null)
-            {
-                return;
-            }
-
-            var type = obj.Value.GetType();
-
-            foreach (var propertyInfo in type.GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
-            {
-                if (propertyInfo.PropertyType == typeof(Type) || Attribute.IsDefined(propertyInfo, typeof(JavascriptIgnoreAttribute)))
-                {
-                    continue;
-                }
-
-                var jsProperty = CreateJavaScriptProperty(propertyInfo);
-                if (jsProperty.IsComplexType)
-                {
-                    var jsObject = CreateJavascriptObject();
-                    jsObject.Name = propertyInfo.Name;
-                    jsObject.JavascriptName = LowercaseFirst(propertyInfo.Name);
-                    jsObject.Value = jsProperty.GetValue(obj.Value);
-                    jsProperty.JsObject = jsObject;
-
-                    BuildJavascriptObjectForComplexFunctionResult(jsProperty.JsObject);
-                }
-                else
+                else if (readPropertyValue)
                 {
                     jsProperty.PropertyValue = jsProperty.GetValue(obj.Value);
                 }
