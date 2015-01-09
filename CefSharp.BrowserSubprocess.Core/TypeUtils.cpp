@@ -94,6 +94,31 @@ namespace CefSharp
         {
             return CefV8Value::CreateDate(TypeUtils::ConvertDateTimeToCefTime(safe_cast<DateTime>(obj)));
         }
+        if (type == JavascriptObject::typeid)
+        {
+            JavascriptObject^ javascriptObject = (JavascriptObject^)obj;
+            CefRefPtr<CefV8Value> cefObject = CefV8Value::CreateObject(NULL);
+
+            for (int i = 0; i < javascriptObject->Properties->Count; i++)
+            {
+                auto prop = javascriptObject->Properties[i];
+
+                if(prop->IsComplexType)
+                {
+                    auto v8Value = TypeUtils::ConvertToCef(prop->JsObject, nullptr);
+
+                    cefObject->SetValue(StringUtils::ToNative(prop->JavascriptName), v8Value, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
+                }
+                else
+                {
+                    auto v8Value = TypeUtils::ConvertToCef(prop->PropertyValue, nullptr);
+
+                    cefObject->SetValue(StringUtils::ToNative(prop->JavascriptName), v8Value, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
+                }
+            }
+
+            return cefObject;
+        }
         if (type->IsArray)
         {
             Array^ managedArray = (Array^)obj;

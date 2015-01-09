@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using CefSharp.Internals;
 
 namespace CefSharp
 {
@@ -12,6 +13,9 @@ namespace CefSharp
 		{
 			Register(typeof(object[]));
 			Register(typeof(Dictionary<string, object>));
+			Register(typeof(JavascriptObject));
+			Register(typeof(JavascriptProperty));
+			Register(typeof(JavascriptMethod));
 		}
 
 		public static void Register(Type type)

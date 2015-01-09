@@ -67,6 +67,18 @@ namespace CefSharp.Internals
             {
                 result = method.Function(obj.Value, parameters);
 
+                if(IsComplexType(result.GetType()))
+                {
+                    var jsObject = CreateJavascriptObject();
+                    jsObject.Value = result;
+                    jsObject.Name = "FunctionResult(" + name + ")";
+                    jsObject.JavascriptName = jsObject.Name;
+
+                    BuildJavascriptObjectForComplexFunctionResult(jsObject);
+
+                    result = jsObject;
+                }
+
                 return true;
             }
             catch (Exception ex)
@@ -156,10 +168,10 @@ namespace CefSharp.Internals
                     continue;
                 }
 
-                if (IsComplexType(methodInfo.ReturnType))
-                {
-                    JavascriptKnownTypesRegistra.Register(methodInfo.ReturnType);
-                }
+                //if (IsComplexType(methodInfo.ReturnType))
+                //{
+                //	JavascriptKnownTypesRegistra.Register(methodInfo.ReturnType);
+                //}
 
                 var jsMethod = CreateJavaScriptMethod(methodInfo);
                 obj.Methods.Add(jsMethod);
@@ -182,6 +194,41 @@ namespace CefSharp.Internals
                     jsProperty.JsObject = jsObject;
 
                     Analyse(jsProperty.JsObject);
+                }
+                obj.Properties.Add(jsProperty);
+            }
+        }
+
+        private void BuildJavascriptObjectForComplexFunctionResult(JavascriptObject obj)
+        {
+            if (obj.Value == null)
+            {
+                return;
+            }
+
+            var type = obj.Value.GetType();
+
+            foreach (var propertyInfo in type.GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
+            {
+                if (propertyInfo.PropertyType == typeof(Type) || Attribute.IsDefined(propertyInfo, typeof(JavascriptIgnoreAttribute)))
+                {
+                    continue;
+                }
+
+                var jsProperty = CreateJavaScriptProperty(propertyInfo);
+                if (jsProperty.IsComplexType)
+                {
+                    var jsObject = CreateJavascriptObject();
+                    jsObject.Name = propertyInfo.Name;
+                    jsObject.JavascriptName = LowercaseFirst(propertyInfo.Name);
+                    jsObject.Value = jsProperty.GetValue(obj.Value);
+                    jsProperty.JsObject = jsObject;
+
+                    BuildJavascriptObjectForComplexFunctionResult(jsProperty.JsObject);
+                }
+                else
+                {
+                    jsProperty.PropertyValue = jsProperty.GetValue(obj.Value);
                 }
                 obj.Properties.Add(jsProperty);
             }
