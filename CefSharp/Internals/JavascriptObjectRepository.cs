@@ -42,7 +42,7 @@ namespace CefSharp.Internals
             jsObject.Name = name;
             jsObject.JavascriptName = name;
 
-            Analyse(jsObject);
+            AnalyseObjectForBinding(jsObject);
 
             RootObject.MemberObjects.Add(jsObject);
         }
@@ -147,7 +147,14 @@ namespace CefSharp.Internals
             return false;
         }
 
-        private void Analyse(JavascriptObject obj)
+        /// <summary>
+        /// Analyse the object to be bound and generate metadata
+        /// which will be used by the browser subprocess to interact
+        /// with Cef.
+        /// Method is called recursively
+        /// </summary>
+        /// <param name="obj">Javascript object</param>
+        private void AnalyseObjectForBinding(JavascriptObject obj)
         {
             if (obj.Value == null)
             {
@@ -193,7 +200,7 @@ namespace CefSharp.Internals
                     jsObject.Value = jsProperty.GetValue(obj.Value);
                     jsProperty.JsObject = jsObject;
 
-                    Analyse(jsProperty.JsObject);
+                    AnalyseObjectForBinding(jsProperty.JsObject);
                 }
                 obj.Properties.Add(jsProperty);
             }
