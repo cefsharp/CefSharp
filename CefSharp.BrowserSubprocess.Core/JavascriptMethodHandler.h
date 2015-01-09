@@ -41,7 +41,7 @@ namespace CefSharp
             {
                 auto response = _method->Invoke(parameter);
 
-                retval = TypeUtils::ConvertToCef(response->Result, nullptr);
+                retval = ConvertToCefObject(response->Result);
                 if (!response->Success)
                 {
                     exception = StringUtils::ToNative(response->Message);
@@ -54,6 +54,44 @@ namespace CefSharp
             
             //NOTE: Return true otherwise exception is ignored
             return true;
+        }
+
+        CefRefPtr<CefV8Value> ConvertToCefObject(Object^ obj)
+        {
+            if (obj == nullptr)
+            {
+                return CefV8Value::CreateNull();
+            }
+
+            auto type = obj->GetType();
+
+            if (type == JavascriptObject::typeid)
+            {
+                JavascriptObject^ javascriptObject = (JavascriptObject^)obj;
+                CefRefPtr<CefV8Value> cefObject = CefV8Value::CreateObject(NULL);
+
+                for (int i = 0; i < javascriptObject->Properties->Count; i++)
+                {
+                    auto prop = javascriptObject->Properties[i];
+
+                    if(prop->IsComplexType)
+                    {
+                        auto v8Value = ConvertToCefObject(prop->JsObject);
+
+                        cefObject->SetValue(StringUtils::ToNative(prop->JavascriptName), v8Value, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
+                    }
+                    else
+                    {
+                        auto v8Value = TypeUtils::ConvertToCef(prop->PropertyValue, nullptr);
+
+                        cefObject->SetValue(StringUtils::ToNative(prop->JavascriptName), v8Value, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
+                    }
+                }
+
+                return cefObject;
+            }
+            
+            return TypeUtils::ConvertToCef(obj, nullptr);
         }
 
         IMPLEMENT_REFCOUNTING(JavascriptMethodHandler)
