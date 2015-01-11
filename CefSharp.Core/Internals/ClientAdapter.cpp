@@ -455,14 +455,12 @@ namespace CefSharp
                 return false;
             }
 
-            bool result;
-            bool handled = false;
+            bool allowUnload;
 
-            String^ resultString = nullptr;
-            handled = handler->OnJSBeforeUnload(_browserControl, StringUtils::ToClr(message_text), is_reload, resultString);
+            auto handled = handler->OnJSBeforeUnload(_browserControl, StringUtils::ToClr(message_text), is_reload, allowUnload);
             if (handled)
             {
-                callback->Continue(result, StringUtils::ToNative(resultString));
+                callback->Continue(allowUnload, CefString());
             }
 
             return handled;

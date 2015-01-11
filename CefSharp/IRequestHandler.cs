@@ -40,7 +40,7 @@ namespace CefSharp
         /// <param name="browser">the browser object</param>
         /// <param name="request">the request object - can be modified in this callback.</param>
         /// <param name="response">the request object - can be modified in this callback.</param>
-        /// <returns>To cancel loading of the resource return true or false o allow the resource to load normally.</returns>
+        /// <returns>To cancel loading of the resource return true or false to allow the resource to load normally.</returns>
         bool OnBeforeResourceLoad(IWebBrowser browser, IRequest request, IResponse response);
         
         /// <summary>

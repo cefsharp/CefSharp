@@ -85,6 +85,7 @@
   <ItemGroup>
     <Compile Include="BoundObject.cs" />
     <Compile Include="DragHandler.cs" />
+    <Compile Include="JsDialogHandler.cs" />
     <Compile Include="SubBoundObject.cs" />
     <Compile Include="TempFileDialogHandler.cs" />
     <Compile Include="CefExample.cs" />
