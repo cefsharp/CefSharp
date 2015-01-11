@@ -120,6 +120,8 @@ namespace CefSharp
             virtual DECL bool OnJSDialog(CefRefPtr<CefBrowser> browser, const CefString& origin_url, const CefString& accept_lang,
                 JSDialogType dialog_type, const CefString& message_text, const CefString& default_prompt_text,
                 CefRefPtr<CefJSDialogCallback> callback, bool& suppress_message) OVERRIDE;
+            virtual DECL bool OnBeforeUnloadDialog(CefRefPtr<CefBrowser> browser, const CefString& message_text, bool is_reload,
+                CefRefPtr<CefJSDialogCallback> callback) OVERRIDE;
 
             // CefDialogHandler
             virtual DECL bool OnFileDialog(CefRefPtr<CefBrowser> browser, FileDialogMode mode, const CefString& title,
