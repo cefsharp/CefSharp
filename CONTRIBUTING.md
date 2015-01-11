@@ -6,6 +6,38 @@ Thanks for your interest in contributing to the project! Please follow these sim
 - If you are unsure if something is a "bug" or a "feature", discuss it with the Google Group first. Don't cross-post: if you create an issue, and all the information is contained there, that's perfectly enough. There's no reason to also post it to the group; it just creates "line noise". The project maintainers are very busy people like you and me, and things will sometimes take a few weeks (or in worst case, more) to answer. If you are in a rush - do your very best to investigate the problem thoroughly; if possible, fix the bug yourself and submit a pull request.
 - Before creating a GitHub issue or pull request, try looking through the list & issue archives to make sure the issue at hand hasn't been raised before. [Google](http://www.google.com) can also be helpful: just typing "cefsharp appdomain" for example (when trying to see whether AppDomain support has been discussed before) will often give you helpful results.
 
+#### Guidelines For Creating An Issue
+
+So we're increasingly getting a large number of _'it doesn't work, please tell me how to fix it'_ issues that provide none of the detail required for us to actually help you! A few things to note:
+
+- We do appreciate cultural/languages differences, that being said **never** demand that someone help you, this is not a commercial application with paid support!
+- This is a volunteer project, we give of our time freely and we ask for you to do the same. Contributions can be simple like updating/adding new entries in the [FAQ](https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions), creating new pages in the [WIKI](https://github.com/cefsharp/CefSharp/wiki), updating the examples. (Anyone with a `GitHub` account can edit the `WIKI`)
+- We have **very** limited active contributors so please spend as much time looking into your own problem as possible, the more you help yourself, the quicker things will get fixed.
+- Asking the same questions over and over again is **Wasting our time**, search open/closed issues to see if your issue has already been addressed.
+- Having to constantly query users to gather information is **very frustrating**!
+- Please don't hijack issues, if your problem is distinct then please create a unique issue (after searching previous issues).
+- `CefSharp` simply takes the building blocks provided by `Cef` and attempts to provide a usable '.Net' implementation, the upstream `Cef` forum is a valuable resource, if your issues seems fairly low level, then please conduct some research before posting.
+- Ideally each issue is a useful resource for references purposes (Don't take offence if someone edits your description).
+- When including code limit to small chunks, large blocks post as gist or similar
+- Please no links to binaries, e.g. zip files, either contribute your example as a github project, a gist or another public code sharing service.
+
+#### What detail is required you ask?
+
+And the answer is **lots**. Please include all of the following:
+
+- **What is the expected output? What do you see instead?**
+- **What steps will reproduce the problem?**
+- **What version of the product are you using? On what operating system? x86 or x64?**
+    - What version are you using? Nuget? CI Nuget? build from a branch? If so which branch?
+    - Win7, Win 8, etc?
+- **Please provide any additional information below.**
+    - A stack trace if available, any Exception information.
+    - Does the cef log provide any relevant information? (By default there should be a debug.log file in your bin directory)
+- Any other background information that's relevant? Are you doing something out of the ordinary? 3rd party controls?
+
+#### Example Bug Report
+-- TODO: Insert sample bug report here.
+
 ### Coding Style
 - **Please** follow existing coding style when submitting pull requests.
 - Most importantly, **use spaces** - do not use tabs (which is the default setting for C++ projects in Visual Studio).
