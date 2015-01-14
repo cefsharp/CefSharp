@@ -119,6 +119,7 @@
     <Compile Include="IsLoadingChangedEventArgs.cs" />
     <Compile Include="IStringVisitor.cs" />
     <Compile Include="IContextMenuParams.cs" />
+    <Compile Include="ITaskScheduler.cs" />
     <Compile Include="JavascriptIgnoreAttribute.cs" />
     <Compile Include="JavascriptResponse.cs" />
     <Compile Include="LoadErrorEventArgs.cs" />
