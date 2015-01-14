@@ -12,6 +12,7 @@
 #include "Internals/RenderClientAdapter.h"
 #include "Internals/MCefRefPtr.h"
 #include "Internals/StringVisitor.h"
+#include "Internals/CefTaskScheduler.h"
 
 using namespace CefSharp::Internals;
 using namespace System::Diagnostics;
@@ -26,12 +27,8 @@ namespace CefSharp
         BrowserProcessServiceHost^ _browserProcessServiceHost;
         IWebBrowserInternal^ _webBrowserInternal;
         JavascriptObjectRepository^ _javaScriptObjectRepository;
-
-        static void SetZoomLevelInternal(CefRefPtr<CefBrowserHost> host, double zoomLevel)
-        {
-            host->SetZoomLevel(zoomLevel);
-        }
-        
+        TaskFactory^ _uiThreadTaskFactory;
+      
     protected:
         virtual void DoDispose(bool isDisposing) override
         {
@@ -49,6 +46,7 @@ namespace CefSharp
 
             _webBrowserInternal = nullptr;
             _javaScriptObjectRepository = nullptr;
+            _uiThreadTaskFactory = nullptr;
 
             DisposableResource::DoDispose(isDisposing);
         };
@@ -69,6 +67,7 @@ namespace CefSharp
 
             _webBrowserInternal = webBrowserInternal;
             _javaScriptObjectRepository = gcnew JavascriptObjectRepository();
+            _uiThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_UI));
         }
 
         void CreateOffscreenBrowser(IntPtr windowHandle, BrowserSettings^ browserSettings, String^ address)
@@ -601,17 +600,7 @@ namespace CefSharp
 
             if (browser != nullptr)
             {
-                auto cefHost = browser->GetHost();
-
-                if (CefCurrentlyOn(TID_UI))
-                {
-                    SetZoomLevelInternal(cefHost, zoomLevel);
-                }
-                else
-                {
-                    // Execute on the UI thread.
-                    CefPostTask(TID_UI, NewCefRunnableFunction(SetZoomLevelInternal, cefHost, zoomLevel));
-                }
+                browser->GetHost()->SetZoomLevel(zoomLevel);
             }
         }
 
@@ -679,6 +668,14 @@ namespace CefSharp
         void RegisterJsObject(String^ name, Object^ object)
         {
             _javaScriptObjectRepository->Register(name, object);
+        }
+
+        property TaskFactory^ UiThreadTaskFactory
+        {
+            TaskFactory^ get()
+            {
+                return _uiThreadTaskFactory;
+            }
         }
 
         void ReplaceMisspelling(String^ word)
