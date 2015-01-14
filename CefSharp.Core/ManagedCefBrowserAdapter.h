@@ -27,6 +27,11 @@ namespace CefSharp
         IWebBrowserInternal^ _webBrowserInternal;
         JavascriptObjectRepository^ _javaScriptObjectRepository;
 
+        static void SetZoomLevelInternal(CefRefPtr<CefBrowserHost> host, double zoomLevel)
+        {
+            host->SetZoomLevel(zoomLevel);
+        }
+        
     protected:
         virtual void DoDispose(bool isDisposing) override
         {
@@ -596,7 +601,17 @@ namespace CefSharp
 
             if (browser != nullptr)
             {
-                browser->GetHost()->SetZoomLevel(zoomLevel);
+                auto cefHost = browser->GetHost();
+
+                if (CefCurrentlyOn(TID_UI))
+                {
+                    SetZoomLevelInternal(cefHost, zoomLevel);
+                }
+                else
+                {
+                    // Execute on the UI thread.
+                    CefPostTask(TID_UI, NewCefRunnableFunction(SetZoomLevelInternal, cefHost, zoomLevel));
+                }
             }
         }
 
