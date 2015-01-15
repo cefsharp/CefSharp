@@ -18,7 +18,7 @@ Thanks for your interest in contributing to the project! Please follow these sim
 `CefSharp` simply takes the building blocks provided by `Cef` and attempts to provide a usable '.Net' implementation.
 The upstream [`CEF` forum](http://magpcss.org/ceforum/) is a valuable resource, if your issues seems fairly low level, then please conduct some research before posting.
 
-It maybe helpful to run the `cefclient` application and compare output with `CefSharp`. The `WinForms` and `WPF` versions use two different rending modes, `WPF` uses Offscreen Rendering (`OSR`).
+It maybe helpful to run the `cefclient` application and compare output with `CefSharp`. The `WinForms` and `WPF` versions use two different rendering modes, `WPF` uses Offscreen Rendering (`OSR`).
 
 - Download **Test App** from http://cefbuilds.com
 - To compare with WPF run `cefclient --multi-threaded-message-loop --off-screen-rendering-enabled`
