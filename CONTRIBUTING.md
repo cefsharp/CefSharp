@@ -51,10 +51,9 @@ Your bug report should **always follow this template**:
     - A stack trace if available, any Exception information.
     - Does the cef log provide any relevant information? (By default there should be a debug.log file in your bin directory)
 - Any other background information that's relevant? Are you doing something out of the ordinary? 3rd party controls?
+- **Does this problem also occur in the `Cef` TestApp from http://cefbuilds.com?**
 
 Your bug report should include **what you were doing** in the software when you encountered it, **what you were expecting** to happen and **what happened instead**.
-
-**TO VERIFY THAT YOU'VE READ THIS** you also need to add the phrase "I love cookies" somewhere in the ticket -- **Yes, I'm serious**. Very few actually read this document in it's entirety!
 
 **BE AWARE THAT BUG REPORTS MUST PROVIDE ALL OF THE INFORMATION STATED ABOVE!**
 
