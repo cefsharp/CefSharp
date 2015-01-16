@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using CefSharp.Example.Properties;
 
 namespace CefSharp.Example
@@ -42,13 +43,16 @@ namespace CefSharp.Example
             var fileName = uri.AbsolutePath;
 
             string resource;
-            if (resources.TryGetValue(fileName, out resource) &&
-                !String.IsNullOrEmpty(resource))
+            if (resources.TryGetValue(fileName, out resource) && !String.IsNullOrEmpty(resource))
             {
-                var bytes = Encoding.UTF8.GetBytes(resource);
-                response.ResponseStream = new MemoryStream(bytes);
-                response.MimeType = GetMimeType(fileName);
-                requestCompletedCallback();
+                //Execute in async fashion
+                Task.Run(() =>
+                {
+                    var bytes = Encoding.UTF8.GetBytes(resource);
+                    response.ResponseStream = new MemoryStream(bytes);
+                    response.MimeType = GetMimeType(fileName);
+                    requestCompletedCallback();
+                });
 
                 return true;
             }
