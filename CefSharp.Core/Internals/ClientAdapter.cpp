@@ -1,4 +1,4 @@
-// Copyright � 2010-2014 The CefSharp Authors. All rights reserved.
+﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -510,6 +510,26 @@ namespace CefSharp
                     callback->Continue(result, StringUtils::ToNative(resultString));
                 }
                 break;
+            }
+
+            return handled;
+        }
+
+        bool ClientAdapter::OnBeforeUnloadDialog(CefRefPtr<CefBrowser> browser, const CefString& message_text, bool is_reload, CefRefPtr<CefJSDialogCallback> callback)
+        {
+            IJsDialogHandler^ handler = _browserControl->JsDialogHandler;
+
+            if (handler == nullptr)
+            {
+                return false;
+            }
+
+            bool allowUnload;
+
+            auto handled = handler->OnJSBeforeUnload(_browserControl, StringUtils::ToClr(message_text), is_reload, allowUnload);
+            if (handled)
+            {
+                callback->Continue(allowUnload, CefString());
             }
 
             return handled;
