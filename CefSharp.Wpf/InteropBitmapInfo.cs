@@ -1,16 +1,42 @@
 ﻿using System.Windows.Interop;
-using CefSharp.Internals;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace CefSharp.Wpf
 {
-    public class InteropBitmapInfo : BitmapInfo
+    public class InteropBitmapInfo : WpfBitmapInfo
     {
-        // Cannot be InteropBitmap since we really don't want CefSharp to be dependent on WPF libraries.
-        public InteropBitmap InteropBitmap { get; set; }
+        private static readonly PixelFormat PixelFormat = PixelFormats.Bgra32;
+
+        public InteropBitmap Bitmap { get; private set; }
+
+        public InteropBitmapInfo()
+        {
+            BytesPerPixel = PixelFormat.BitsPerPixel / 8;
+        }
+
+        public override bool CreateNewBitmap
+        {
+            get { return Bitmap == null; }
+        }
 
         public override void ClearBitmap()
         {
-            InteropBitmap = null;
+            Bitmap = null;
+        }
+
+        public override void Invalidate()
+        {
+            Bitmap.Invalidate();
+        }
+
+        public override BitmapSource CreateBitmap()
+        {
+            var stride = Width * BytesPerPixel;
+
+            Bitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(FileMappingHandle, Width, Height, PixelFormat, stride, 0);
+
+            return Bitmap;
         }
     }
 }

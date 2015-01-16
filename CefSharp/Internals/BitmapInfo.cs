@@ -17,8 +17,9 @@ namespace CefSharp.Internals
 
         public IntPtr FileMappingHandle { get; set; }
 
-        public int BytesPerPixel { get; set; }
+        public int BytesPerPixel { get; protected set; }
 
+        public abstract bool CreateNewBitmap { get; }
         public abstract void ClearBitmap();
 
         protected BitmapInfo()

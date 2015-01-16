@@ -20,8 +20,6 @@ namespace CefSharp.Wpf
 {
     public class ChromiumWebBrowser : ContentControl, IRenderWebBrowser, IWpfWebBrowser
     {
-        private static readonly PixelFormat PixelFormat = PixelFormats.Bgra32;
-        private static readonly int BytesPerPixel = PixelFormat.BitsPerPixel / 8;
         private HwndSource source;
         private HwndSourceHook sourceHook;
         private DispatcherTimer tooltipTimer;
@@ -636,7 +634,7 @@ namespace CefSharp.Wpf
 
         public BitmapInfo CreateBitmapInfo(bool isPopup)
         {
-            return new InteropBitmapInfo { IsPopup = isPopup, BytesPerPixel = BytesPerPixel };
+            return new InteropBitmapInfo { IsPopup = isPopup };
         }
 
         void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
@@ -645,29 +643,22 @@ namespace CefSharp.Wpf
             {
                 lock (bitmapInfo.BitmapLock)
                 {
-                    var interopBitmapInfo = (InteropBitmapInfo)bitmapInfo;
+                    var wpfBitmapInfo = (WpfBitmapInfo)bitmapInfo;
                     // Inform parents that the browser rendering is updating
-                    OnRendering(this, interopBitmapInfo);
+                    OnRendering(this, wpfBitmapInfo);
 
                     // Now update the WPF image
-                    var bitmap = interopBitmapInfo.InteropBitmap;
-                    if (bitmap == null)
+                    if (wpfBitmapInfo.CreateNewBitmap)
                     {
                         var img = bitmapInfo.IsPopup ? popupImage : image;
 
                         img.Source = null;
                         GC.Collect(1);
 
-                        var stride = bitmapInfo.Width * bitmapInfo.BytesPerPixel;
-
-                        bitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(bitmapInfo.FileMappingHandle,
-                            bitmapInfo.Width, bitmapInfo.Height, PixelFormat, stride, 0);
-                        img.Source = bitmap;
-
-                        interopBitmapInfo.InteropBitmap = bitmap;
+                        img.Source = wpfBitmapInfo.CreateBitmap();
                     }
 
-                    bitmap.Invalidate();
+                    wpfBitmapInfo.Invalidate();
                 }
             },
             DispatcherPriority.Render);
@@ -1230,7 +1221,7 @@ namespace CefSharp.Wpf
         /// <summary>
         /// Raises Rendering event
         /// </summary>
-        protected virtual void OnRendering(object sender, InteropBitmapInfo bitmapInfo)
+        protected virtual void OnRendering(object sender, WpfBitmapInfo bitmapInfo)
         {
             var rendering = Rendering;
             if (rendering != null)
