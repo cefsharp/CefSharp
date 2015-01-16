@@ -103,6 +103,7 @@
     <Compile Include="RenderingEventArgs.cs" />
     <Compile Include="WM.cs" />
     <Compile Include="WpfBitmapInfo.cs" />
+    <Compile Include="WritableBitmapInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.vcxproj">

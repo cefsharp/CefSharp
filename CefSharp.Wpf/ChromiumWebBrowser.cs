@@ -635,6 +635,7 @@ namespace CefSharp.Wpf
         public BitmapInfo CreateBitmapInfo(bool isPopup)
         {
             return new InteropBitmapInfo { IsPopup = isPopup };
+            //return new WritableBitmapInfo { IsPopup = isPopup };
         }
 
         void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
