@@ -979,7 +979,7 @@ namespace CefSharp.Wpf
             }
         }
 
-        void IWebBrowserInternal.OnInitialized()
+        void IWebBrowserInternal.OnInitialized(IntPtr browserHandle)
         {
             UiThreadRunAsync(() => SetCurrentValue(IsBrowserInitializedProperty, true));
         }
@@ -1178,6 +1178,21 @@ namespace CefSharp.Wpf
             {
                 handler(this, new LoadErrorEventArgs(url, errorCode, errorText));
             }
+        }
+
+        void IWebBrowserInternal.OnTakeFocus(bool next)
+        {
+            
+        }
+
+        bool IWebBrowserInternal.OnSetFocus(CefFocusSource source)
+        {
+            return false;
+        }
+
+        void IWebBrowserInternal.OnGotFocus()
+        {
+            
         }
 
         public void RegisterJsObject(string name, object objectToBind)

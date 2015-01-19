@@ -95,7 +95,13 @@ namespace CefSharp
 
             if(_webBrowserInternal != nullptr)
             {
-                _webBrowserInternal->OnInitialized();
+                //TODO: OSR - Investigate calling CreateOffscreenBrowser with a Hwnd handle
+                // rather than an empty pointer to see if getting the browser handle works
+                auto browserHandle = _renderClientAdapter->GetBrowserHwnd();
+
+                auto childHandle = GetWindow(browserHandle, GW_CHILD);
+
+                _webBrowserInternal->OnInitialized(IntPtr(childHandle));
 
                 auto address = _address;
 
