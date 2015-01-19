@@ -67,7 +67,7 @@ namespace CefSharp.Internals
             {
                 result = method.Function(obj.Value, parameters);
 
-                if(IsComplexType(result.GetType()))
+                if(result != null && IsComplexType(result.GetType()))
                 {
                     var jsObject = CreateJavascriptObject();
                     jsObject.Value = result;
