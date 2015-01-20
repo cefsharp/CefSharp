@@ -27,7 +27,6 @@ namespace CefSharp.Wpf
 
         private HwndSource source;
         private HwndSourceHook sourceHook;
-        private DispatcherTimer tooltipTimer;
         private readonly ToolTip toolTip;
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
         private bool ignoreUriChange;
@@ -210,11 +209,6 @@ namespace CefSharp.Wpf
                 Drop -= OnDrop;
 
                 IsVisibleChanged -= OnIsVisibleChanged;
-
-                if (tooltipTimer != null)
-                {
-                    tooltipTimer.Tick -= OnTooltipTimerTick;
-                }
 
                 if (CleanupElement != null)
                 {
@@ -649,25 +643,28 @@ namespace CefSharp.Wpf
         }
 
         public static readonly DependencyProperty TooltipTextProperty =
-            DependencyProperty.Register("TooltipText", typeof(string), typeof(ChromiumWebBrowser), new PropertyMetadata(null, (sender, e) => ((ChromiumWebBrowser)sender).OnTooltipTextChanged()));
+            DependencyProperty.Register("TooltipText", typeof(string), typeof(ChromiumWebBrowser), new PropertyMetadata(null, OnTooltipTextChanged));
 
-        private void OnTooltipTextChanged()
+        private static void OnTooltipTextChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
-            var timer = tooltipTimer;
-            if (timer == null)
-            {
-                return;
-            }
+            var owner = (ChromiumWebBrowser)sender;
+            var newValue = (string)args.NewValue;
 
-            timer.Stop();
-
-            if (String.IsNullOrEmpty(TooltipText))
+            if (string.IsNullOrEmpty(newValue))
             {
-                this.UiThreadRunAsync(() => UpdateTooltip(null), DispatcherPriority.Render);
+                owner.UiThreadRunAsync(() => { owner.toolTip.IsOpen = false; }, DispatcherPriority.Render);
             }
             else
             {
-                timer.Start();
+                owner.DelayUiThreadRunAsync(() =>
+                {
+                    var toolTip = owner.toolTip;
+
+                    toolTip.Content = newValue;
+                    toolTip.Placement = PlacementMode.Mouse;
+                    toolTip.Visibility = Visibility.Visible;
+                    toolTip.IsOpen = true;
+                }, 500, DispatcherPriority.Render);
             }
         }
 
@@ -1054,13 +1051,6 @@ namespace CefSharp.Wpf
             return modifiers;
         }
 
-        private void OnTooltipTimerTick(object sender, EventArgs e)
-        {
-            tooltipTimer.Stop();
-
-            UpdateTooltip(TooltipText);
-        }
-
         private void OnTooltipClosed(object sender, RoutedEventArgs e)
         {
             toolTip.Visibility = Visibility.Collapsed;
@@ -1068,21 +1058,6 @@ namespace CefSharp.Wpf
             // Set Placement to something other than PlacementMode.Mouse, so that when we re-show the tooltip in
             // UpdateTooltip(), the tooltip will be repositioned to the new mouse point.
             toolTip.Placement = PlacementMode.Absolute;
-        }
-
-        private void UpdateTooltip(string text)
-        {
-            if (String.IsNullOrEmpty(text))
-            {
-                toolTip.IsOpen = false;
-            }
-            else
-            {
-                toolTip.Content = text;
-                toolTip.Placement = PlacementMode.Mouse;
-                toolTip.Visibility = Visibility.Visible;
-                toolTip.IsOpen = true;
-            }
         }
 
         private void OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
@@ -1228,19 +1203,6 @@ namespace CefSharp.Wpf
             //Added null check -> binding-triggered changes of Address will lead to a nullref after Dispose has been called.
             if (managedCefBrowserAdapter != null)
             {
-                if (tooltipTimer != null)
-                {
-                    tooltipTimer.Tick -= OnTooltipTimerTick;
-                }
-
-                // TODO: Consider making the delay here configurable.
-                tooltipTimer = new DispatcherTimer(
-                    TimeSpan.FromSeconds(0.5),
-                    DispatcherPriority.Render,
-                    OnTooltipTimerTick,
-                    Dispatcher
-                    );
-
                 managedCefBrowserAdapter.LoadUrl(url);
             }
         }
