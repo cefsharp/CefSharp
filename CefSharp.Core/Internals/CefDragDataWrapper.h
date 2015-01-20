@@ -41,6 +41,24 @@ namespace CefSharp
             virtual property bool IsFragment;
             virtual property bool IsLink;
 
+            ///
+            // Create a new CefDragData object.
+            ///
+            /*--cef()--*/
+            static CefDragDataWrapper^ Create(){
+                CefRefPtr<CefDragData> cefDragData = CefDragData::Create();
+                return gcnew CefDragDataWrapper(cefDragData);
+            }
+
+
+            virtual property CefRefPtr<CefDragData>* _internalDragData
+            {
+                CefRefPtr<CefDragData>* get() 
+                { 
+                    return new CefRefPtr<CefDragData>(_wrappedDragData.get()); 
+                }
+            }
+
             //TODO: Vector is a pointer, so can potentially be updated (items may be possibly removed)
             virtual property IList<String^>^ FileNames
             {

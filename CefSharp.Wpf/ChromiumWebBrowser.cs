@@ -7,7 +7,9 @@ using CefSharp.Internals;
 using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -422,6 +424,12 @@ namespace CefSharp.Wpf
             GotKeyboardFocus += OnGotKeyboardFocus;
             LostKeyboardFocus += OnLostKeyboardFocus;
 
+            // Drag Drop events
+            DragEnter += OnDragEnter;
+            DragOver += OnDragOver;
+            DragLeave += OnDragLeave;
+            Drop += OnDrop;
+
             IsVisibleChanged += OnIsVisibleChanged;
 
             ToolTip = toolTip = new ToolTip();
@@ -458,6 +466,151 @@ namespace CefSharp.Wpf
 
             PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
         }
+
+        void OnDrop(object sender, DragEventArgs e)
+        {
+            managedCefBrowserAdapter.OnDragTargetDragDrop(GetMouseEvent(e));
+        }
+
+        void OnDragLeave(object sender, DragEventArgs e)
+        {
+            managedCefBrowserAdapter.OnDragTargetDragLeave();
+        }
+
+        void OnDragOver(object sender, DragEventArgs e)
+        {
+            managedCefBrowserAdapter.OnDragTargetDragOver(GetMouseEvent(e), GetDragOperationsMask(e.AllowedEffects));
+        }
+
+        
+
+        void OnDragEnter(object sender, DragEventArgs e)
+        {
+            managedCefBrowserAdapter.OnDragTargetDragEnter(GetDragDataWrapper(e), GetMouseEvent(e), GetDragOperationsMask(e.AllowedEffects));
+        }
+
+        /// <summary>
+        /// Converts .NET drag drop effects to CEF Drag Operations
+        /// </summary>s
+        private CefDragOperationsMask GetDragOperationsMask(DragDropEffects dragDropEffects)
+        {
+            var operations = CefDragOperationsMask.None;
+
+            if (dragDropEffects.HasFlag(DragDropEffects.All))
+            {
+                operations |= CefDragOperationsMask.Every;
+            }
+            if (dragDropEffects.HasFlag(DragDropEffects.Copy))
+            {
+                operations |= CefDragOperationsMask.Copy;
+            }
+            if (dragDropEffects.HasFlag(DragDropEffects.Move))
+            {
+                operations |= CefDragOperationsMask.Move;
+            }
+            if (dragDropEffects.HasFlag(DragDropEffects.Link))
+            {
+                operations |= CefDragOperationsMask.Link;
+            }
+
+            return operations;
+        
+        }
+
+        private CefDragDataWrapper GetDragDataWrapper(DragEventArgs e)
+        {
+            // Convert Drag Data
+            var dragData = CefDragDataWrapper.Create();
+
+            // Files            
+            dragData.IsFile = e.Data.GetDataPresent(DataFormats.FileDrop);
+            if (dragData.IsFile)
+            {
+                // As per documentation, we only need to specify FileNames, not FileName, when dragging into the browser (http://magpcss.org/ceforum/apidocs3/projects/(default)/CefDragData.html)
+                foreach (var filePath in (string[])e.Data.GetData(DataFormats.FileDrop))
+                {
+                    var displayName = System.IO.Path.GetFileName(filePath);
+
+                    dragData.AddFile(filePath.Replace("\\", "/"), displayName);
+                }
+            }
+
+            // Link/Url
+            var link = GetLink(e.Data);
+            dragData.IsLink = !string.IsNullOrEmpty(link);
+            if (dragData.IsLink)
+            {
+                dragData.LinkUrl = link;
+            }
+
+            // Text/HTML
+            dragData.IsFragment = e.Data.GetDataPresent(DataFormats.Text);
+            if (dragData.IsFragment)
+            {
+                dragData.FragmentText = (string)e.Data.GetData(DataFormats.Text);
+                dragData.FragmentHtml = (string)e.Data.GetData(DataFormats.Html);
+            }
+
+            
+
+            
+            
+
+            return dragData;
+        }
+
+        private string GetLink(IDataObject data)
+        {
+            const string asciiUrlDataFormatName = "UniformResourceLocator";
+            const string unicodeUrlDataFormatName = "UniformResourceLocatorW";
+
+            // Try Unicode
+            if (data.GetDataPresent(unicodeUrlDataFormatName))
+            {
+                // Try to read a Unicode URL from the data
+                var unicodeUrl = ReadUrlFromDragDropData(data, unicodeUrlDataFormatName, Encoding.Unicode);
+                if (unicodeUrl != null)
+                {
+                    return unicodeUrl;
+                }
+            }
+            
+            // Try ASCII
+            if (data.GetDataPresent(asciiUrlDataFormatName)){
+                // Try to read an ASCII URL from the data
+                return ReadUrlFromDragDropData(data, asciiUrlDataFormatName, Encoding.ASCII);
+            }
+
+            // Not a valid link
+            return null;
+
+        }
+
+
+        /// <summary>Reads a URL using a particular text encoding from drag-and-drop data.</summary>
+        /// <param name="data">The drag-and-drop data.</param>
+        /// <param name="urlDataFormatName">The data format name of the URL type.</param>
+        /// <param name="urlEncoding">The text encoding of the URL type.</param>
+        /// <returns>A URL, or <see langword="null"/> if <paramref name="data"/> does not contain a URL
+        /// of the correct type.</returns>
+        private string ReadUrlFromDragDropData(IDataObject data, string urlDataFormatName, Encoding urlEncoding)
+        {
+            // Read the URL from the data
+            string url;
+            using (Stream urlStream = (Stream)data.GetData(urlDataFormatName))
+            {
+                using (TextReader reader = new StreamReader(urlStream, urlEncoding))
+                {
+                    url = reader.ReadToEnd();
+                }
+            }
+
+            // URLs in drag/drop data are often padded with null characters so remove these
+            return url.TrimEnd('\0');
+        }
+
+
+
 
         ~ChromiumWebBrowser()
         {
@@ -736,6 +889,37 @@ namespace CefSharp.Wpf
             UiThreadRunAsync(() => { popup.IsOpen = isOpen; });
         }
 
+        /// <summary>
+        /// Converts a .NET Mouse event to a CefSharp MouseEvent
+        /// </summary>
+        private MouseEvent GetMouseEvent(MouseEventArgs e)
+        {
+            var point = GetPixelPosition(e);
+            var modifiers = GetModifiers(e);
+
+            return new MouseEvent
+            {
+                X = (int)point.X,
+                Y = (int)point.Y,
+                Modifiers = modifiers
+            };
+        }
+
+        /// <summary>
+        /// Converts a .NET Drag event to a CefSharp MouseEvent
+        /// </summary>
+        private MouseEvent GetMouseEvent(DragEventArgs e)
+        {
+            var point = e.GetPosition(this);
+
+            return new MouseEvent
+            {
+                X = (int)point.X,
+                Y = (int)point.Y,
+                //Modifiers = modifiers // TODO: Add support for modifiers in drag events (might not be need as it can be accessed via the mouse events)
+            };
+        }
+
         private static CefEventFlags GetModifiers(MouseEventArgs e)
         {
             CefEventFlags modifiers = 0;
@@ -752,6 +936,7 @@ namespace CefSharp.Wpf
             {
                 modifiers |= CefEventFlags.RightMouseButton;
             }
+
 
             if (Keyboard.IsKeyDown(Key.LeftCtrl))
             {
@@ -1285,5 +1470,7 @@ namespace CefSharp.Wpf
         {
             managedCefBrowserAdapter.Invalidate(type);
         }
+
+
     }
 }
