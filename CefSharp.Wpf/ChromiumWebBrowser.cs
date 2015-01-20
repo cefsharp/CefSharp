@@ -287,7 +287,15 @@ namespace CefSharp.Wpf
 
         void IRenderWebBrowser.SetPopupSizeAndPosition(int width, int height, int x, int y)
         {
-            UiThreadRunAsync(() => SetPopupSizeAndPositionImpl(width, height, x, y));
+            UiThreadRunAsync(() =>
+            {
+                popup.Width = width;
+                popup.Height = height;
+
+                var popupOffset = new Point(x, y);
+                popup.HorizontalOffset = popupOffset.X / matrix.M11;
+                popup.VerticalOffset = popupOffset.Y / matrix.M22;
+            });
         }
 
         void IRenderWebBrowser.SetPopupIsOpen(bool isOpen)
@@ -1056,16 +1064,6 @@ namespace CefSharp.Wpf
             }
 
             return modifiers;
-        }
-
-        private void SetPopupSizeAndPositionImpl(int width, int height, int x, int y)
-        {
-            popup.Width = width;
-            popup.Height = height;
-
-            var popupOffset = new Point(x, y);
-            popup.HorizontalOffset = popupOffset.X / matrix.M11;
-            popup.VerticalOffset = popupOffset.Y / matrix.M22;
         }
 
         private void OnTooltipTimerTick(object sender, EventArgs e)
