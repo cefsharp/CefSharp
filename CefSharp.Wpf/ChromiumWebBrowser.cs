@@ -237,11 +237,6 @@ namespace CefSharp.Wpf
 
         protected virtual void OnZoomLevelChanged(double oldValue, double newValue)
         {
-            if (!Cef.IsInitialized)
-            {
-                throw new InvalidOperationException("Cef::IsInitialized is false");
-            }
-
             managedCefBrowserAdapter.SetZoomLevel(newValue);
         }
 
@@ -410,6 +405,11 @@ namespace CefSharp.Wpf
 
         public ChromiumWebBrowser()
         {
+            if (!Cef.IsInitialized && !Cef.Initialize())
+            {
+                throw new InvalidOperationException("Cef::Initialize() failed");
+            }
+
             Cef.AddDisposable(this);
             Focusable = true;
             FocusVisualStyle = null;
@@ -1006,12 +1006,6 @@ namespace CefSharp.Wpf
 
         public void Load(string url)
         {
-            if (!Cef.IsInitialized &&
-                !Cef.Initialize())
-            {
-                throw new InvalidOperationException("Cef::Initialize() failed");
-            }
-
             //Added null check -> binding-triggered changes of Address will lead to a nullref after Dispose has been called.
             if (managedCefBrowserAdapter != null)
             {
