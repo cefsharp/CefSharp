@@ -194,6 +194,11 @@ namespace CefSharp.Example
             return "lowercase";
         }
 
+        public string ReturnJsonEmployeeList()
+        {
+            return "{\"employees\":[{\"firstName\":\"John\", \"lastName\":\"Doe\"},{\"firstName\":\"Anna\", \"lastName\":\"Smith\"},{\"firstName\":\"Peter\", \"lastName\":\"Jones\"}]}";
+        }
+
         [JavascriptIgnore]
         public string IgnoredProperty { get; set; }
 
@@ -201,6 +206,20 @@ namespace CefSharp.Example
         public string IgnoredMethod()
         {
             return "I am an Ignored Method";
+        }
+
+        public string ComplexParamObject(object param)
+        {
+            if (param == null)
+            {
+                return "param is null";
+            }
+            return "The param type is:" + param.GetType();
+        }
+
+        public SubBoundObject GetSubObject()
+        {
+            return SubObject;
         }
     }
 }

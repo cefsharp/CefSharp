@@ -2,13 +2,17 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-namespace CefSharp.WinForms.Example
+using System;
+
+namespace CefSharp.Wpf.Example.Handlers
 {
-    internal class MenuHandler : IMenuHandler
+    public class MenuHandler : IMenuHandler
     {
         public bool OnBeforeContextMenu(IWebBrowser browser, IContextMenuParams parameters)
         {
-            // Return false if you want to disable the context menu.
+            Console.WriteLine("Context menu opened");
+            Console.WriteLine(parameters.MisspelledWord);
+
             return true;
         }
     }

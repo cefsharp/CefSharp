@@ -106,6 +106,7 @@
     <Compile Include="Internals\TaskExtensions.cs" />
     <Compile Include="IsLoadingChangedEventArgs.cs" />
     <Compile Include="IStringVisitor.cs" />
+    <Compile Include="IContextMenuParams.cs" />
     <Compile Include="JavascriptIgnoreAttribute.cs" />
     <Compile Include="JavascriptResponse.cs" />
     <Compile Include="LoadErrorEventArgs.cs" />
@@ -137,7 +138,7 @@
     <Compile Include="ILifeSpanHandler.cs" />
     <Compile Include="IMenuHandler.cs" />
     <Compile Include="Internals\IRenderWebBrowser.cs" />
-    <Compile Include="IWebPluginInfo.cs" />
+    <Compile Include="WebPluginInfo.cs" />
     <Compile Include="IRequest.cs" />
     <Compile Include="IRequestHandler.cs" />
     <Compile Include="IResponse.cs" />

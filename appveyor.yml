@@ -1,7 +1,7 @@
 environment:
   VisualStudioVersion: 11.0
 
-version: 37.0.0-CI{build}
+version: 39.0.0-CI{build}
   
 shallow_clone: true
 
@@ -19,7 +19,7 @@ artifacts:
 # Publish to myget.org feed
 deploy:
   provider: NuGet
-  server: https://www.myget.org/F/cefsharp/
+  server: https://www.myget.org/F/cefsharp-2171/
   api_key:
     secure: T3yoLSioRwXa7byUvu17t4I88RTQTvICh2j+KplLb1YVimd1IYy2m2akGqgOMJhY
   skip_symbols: true

@@ -61,6 +61,8 @@ namespace CefSharp
         /// the provided HTML in a <see cref="ResourceHandler"/> and loads the provided url using
         /// the <see cref="Load"/> method.
         /// Defaults to using <see cref="Encoding.UTF8"/> for character encoding 
+        /// The url must start with a valid schema, other uri's such as about:blank are invalid
+        /// A valid example looks like http://test/page
         /// </remarks>
         /// <param name="html">The HTML content.</param>
         /// <param name="url">The URL that will be treated as the address of the content.</param>
@@ -298,8 +300,21 @@ namespace CefSharp
         /// <summary>
         /// Explicitly close the developer tools window if one exists for this browser instance.
         /// </summary>
-        void CloseDevTools();
+        void CloseDevTools();   
+  
+        /// <summary>
+        /// If a misspelled word is currently selected in an editable node calling
+        /// this method will replace it with the specified word. 
+        /// </summary>
+        /// <param name="word">The new word that will replace the currently selected word.</param>
+        void ReplaceMisspelling(string word);
 
+        /// <summary>
+        /// Add the specified word to the spelling dictionary.
+        /// </summary>
+        /// <param name="word">The new word that will be added to the dictionary.</param>
+        void AddWordToDictionary(string word);
+        
         /// <summary>
         /// Send a mouse wheel event to the browser.
         /// </summary>

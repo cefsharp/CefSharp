@@ -6,7 +6,7 @@ using System;
 
 namespace CefSharp.Internals
 {
-    public class BitmapInfo
+    public abstract class BitmapInfo
     {
         public object BitmapLock;
         public IntPtr BackBufferHandle;
@@ -17,10 +17,11 @@ namespace CefSharp.Internals
 
         public IntPtr FileMappingHandle { get; set; }
 
-        // Cannot be InteropBitmap since we really don't want CefSharp to be dependent on WPF libraries.
-        public object InteropBitmap;
+        public int BytesPerPixel { get; set; }
 
-        public BitmapInfo()
+        public abstract void ClearBitmap();
+
+        protected BitmapInfo()
         {
             BitmapLock = new object();
         }

@@ -19,6 +19,8 @@ namespace CefSharp.Example
             settings.RemoteDebuggingPort = 8088;
             //settings.CefCommandLineArgs.Add("renderer-process-limit", "1");
             //settings.CefCommandLineArgs.Add("renderer-startup-dialog", "renderer-startup-dialog");
+            //settings.CefCommandLineArgs.Add("disable-gpu", "1");
+            //settings.CefCommandLineArgs.Add("disable-gpu-vsync", "1");
             settings.LogSeverity = LogSeverity.Verbose;
 
             if (DebuggingSubProcess)
@@ -35,14 +37,7 @@ namespace CefSharp.Example
 
             if (!Cef.Initialize(settings))
             {
-                if (Environment.GetCommandLineArgs().Contains("--type=renderer"))
-                {
-                    Environment.Exit(0);
-                }
-                else
-                {
-                    return;
-                }
+                throw new Exception("Unable to Initialize Cef");
             }
         }
 

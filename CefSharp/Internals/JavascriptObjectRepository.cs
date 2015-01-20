@@ -42,7 +42,7 @@ namespace CefSharp.Internals
             jsObject.Name = name;
             jsObject.JavascriptName = name;
 
-            Analyse(jsObject);
+            AnalyseObjectForBinding(jsObject, analyseMethods: true, readPropertyValue: false);
 
             RootObject.MemberObjects.Add(jsObject);
         }
@@ -66,6 +66,18 @@ namespace CefSharp.Internals
             try
             {
                 result = method.Function(obj.Value, parameters);
+
+                if(result != null && IsComplexType(result.GetType()))
+                {
+                    var jsObject = CreateJavascriptObject();
+                    jsObject.Value = result;
+                    jsObject.Name = "FunctionResult(" + name + ")";
+                    jsObject.JavascriptName = jsObject.Name;
+
+                    AnalyseObjectForBinding(jsObject, analyseMethods: false, readPropertyValue: true);
+
+                    result = jsObject;
+                }
 
                 return true;
             }
@@ -135,7 +147,15 @@ namespace CefSharp.Internals
             return false;
         }
 
-        private void Analyse(JavascriptObject obj)
+        /// <summary>
+        /// Analyse the object and generate metadata which will
+        /// be used by the browser subprocess to interact with Cef.
+        /// Method is called recursively
+        /// </summary>
+        /// <param name="obj">Javascript object</param>
+        /// <param name="analyseMethods">Analyse methods for inclusion in metadata model</param>
+        /// <param name="readPropertyValue">When analysis is done on a property, if true then get it's value for transmission over WCF</param>
+        private void AnalyseObjectForBinding(JavascriptObject obj, bool analyseMethods, bool readPropertyValue)
         {
             if (obj.Value == null)
             {
@@ -148,16 +168,19 @@ namespace CefSharp.Internals
                 return;
             }
 
-            foreach (var methodInfo in type.GetMethods(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
+            if (analyseMethods)
             {
-                // Type objects can not be serialized.
-                if (methodInfo.ReturnType == typeof(Type) || Attribute.IsDefined(methodInfo, typeof(JavascriptIgnoreAttribute)))
+                foreach (var methodInfo in type.GetMethods(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
                 {
-                    continue;
-                }
+                    // Type objects can not be serialized.
+                    if (methodInfo.ReturnType == typeof (Type) || Attribute.IsDefined(methodInfo, typeof (JavascriptIgnoreAttribute)))
+                    {
+                        continue;
+                    }
 
-                var jsMethod = CreateJavaScriptMethod(methodInfo);
-                obj.Methods.Add(jsMethod);
+                    var jsMethod = CreateJavaScriptMethod(methodInfo);
+                    obj.Methods.Add(jsMethod);
+                }
             }
 
             foreach (var propertyInfo in type.GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
@@ -176,7 +199,11 @@ namespace CefSharp.Internals
                     jsObject.Value = jsProperty.GetValue(obj.Value);
                     jsProperty.JsObject = jsObject;
 
-                    Analyse(jsProperty.JsObject);
+                    AnalyseObjectForBinding(jsProperty.JsObject, analyseMethods, readPropertyValue);
+                }
+                else if (readPropertyValue)
+                {
+                    jsProperty.PropertyValue = jsProperty.GetValue(obj.Value);
                 }
                 obj.Properties.Add(jsProperty);
             }
@@ -202,10 +229,34 @@ namespace CefSharp.Internals
             jsProperty.SetValue = (o, v) => propertyInfo.SetValue(o, v, null);
             jsProperty.GetValue = (o) => propertyInfo.GetValue(o, null);
 
-            jsProperty.IsComplexType = !propertyInfo.PropertyType.IsPrimitive && propertyInfo.PropertyType != typeof(string);
+            jsProperty.IsComplexType = IsComplexType(propertyInfo.PropertyType);
             jsProperty.IsReadOnly = !propertyInfo.CanWrite;
 
             return jsProperty;
+        }
+
+        private static bool IsComplexType(Type type)
+        {
+            if (type == typeof(void))
+            {
+                return false;
+            }
+
+            var baseType = type;
+
+            var nullable = type.IsGenericType && type.GetGenericTypeDefinition() == typeof (Nullable<>);
+
+            if (nullable)
+            {
+                baseType = Nullable.GetUnderlyingType(type);
+            }
+
+            if (baseType == null || baseType.Namespace.StartsWith("System"))
+            {
+                return false;
+            }
+
+            return !baseType.IsPrimitive && baseType != typeof(string);
         }
 
         private static string LowercaseFirst(string str)
