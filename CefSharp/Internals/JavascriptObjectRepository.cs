@@ -65,6 +65,20 @@ namespace CefSharp.Internals
 
             try
             {
+                // Do we have enough arguments? Add Type.Missing for any that we don't have incase of optional params
+                var missingParams = method.ParameterCount - parameters.Length;
+                if (missingParams > 0)
+                {
+                    var paramList = new List<object>(parameters);
+
+                    for (var i = 0; i < missingParams; i++)
+                    {
+                        paramList.Add(Type.Missing);
+                    }
+
+                    parameters = paramList.ToArray();
+                }
+
                 result = method.Function(obj.Value, parameters);
 
                 if(result != null && IsComplexType(result.GetType()))
@@ -216,6 +230,7 @@ namespace CefSharp.Internals
             jsMethod.ManagedName = methodInfo.Name;
             jsMethod.JavascriptName = LowercaseFirst(methodInfo.Name);
             jsMethod.Function = methodInfo.Invoke;
+            jsMethod.ParameterCount = methodInfo.GetParameters().Length;
 
             return jsMethod;
         }
