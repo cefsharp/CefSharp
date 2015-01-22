@@ -175,7 +175,7 @@ namespace CefSharp
             }
         }
 
-        bool SendKeyEvent(int message, int wParam, int lParam)
+        bool SendKeyEvent(int message, int wParam, LPARAM lParam)
         {
             auto browser = _clientAdapter->GetCefBrowser();
 
