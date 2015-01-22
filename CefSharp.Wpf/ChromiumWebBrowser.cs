@@ -625,7 +625,7 @@ namespace CefSharp.Wpf
                         return IntPtr.Zero;
                     }
 
-                    handled = managedCefBrowserAdapter.SendKeyEvent(message, wParam.ToInt32(), lParam.ToInt64());
+                    handled = managedCefBrowserAdapter.SendKeyEvent(message, wParam.ToInt32(), lParam);
                     
                     break;
                 }
@@ -898,7 +898,7 @@ namespace CefSharp.Wpf
                 var message = (int)(e.IsDown ? WM.KEYDOWN : WM.KEYUP);
                 var virtualKey = KeyInterop.VirtualKeyFromKey(e.Key);
 
-                e.Handled = managedCefBrowserAdapter.SendKeyEvent(message, virtualKey, (Int64)modifiers);
+                e.Handled = managedCefBrowserAdapter.SendKeyEvent(message, virtualKey, new IntPtr((int)modifiers));
             }
         }
 
