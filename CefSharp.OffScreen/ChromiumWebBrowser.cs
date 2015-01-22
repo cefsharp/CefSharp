@@ -47,6 +47,7 @@ namespace CefSharp.OffScreen
             ResourceHandler = new DefaultResourceHandler();
 
             Cef.AddDisposable(this);
+            Address = address;
 
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, true);
             managedCefBrowserAdapter.CreateOffscreenBrowser(IntPtr.Zero, browserSettings ?? new BrowserSettings(), address);
@@ -197,7 +198,7 @@ namespace CefSharp.OffScreen
             managedCefBrowserAdapter.AddWordToDictionary(word);
         }
 
-        public string Address { get; set; }
+        public string Address { get; private set; }
 
         public bool CanGoBack { get; private set; }
 
