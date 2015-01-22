@@ -143,7 +143,7 @@ namespace CefSharp
         /// <summary>Initializes CefSharp with user-provided settings.</summary>
         /// <param name="cefSettings">CefSharp configuration settings.</param>
         /// <param name="shutdownOnProcessExit">When the Current AppDomain (relative to the thread called on)
-        // Exits(ProcessExit event) then Shudown will be called.</param>
+        /// Exits(ProcessExit event) then Shudown will be called.</param>
         /// <return>true if successful; otherwise, false.</return>
         static bool Initialize(CefSettings^ cefSettings, bool shutdownOnProcessExit)
         {
