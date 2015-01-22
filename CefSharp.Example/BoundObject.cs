@@ -34,6 +34,11 @@ namespace CefSharp.Example
             return result;
         }
 
+        public string EchoParamOrDefault(string param = "This is the default value")
+        {
+            return param;
+        }
+
         public void EchoVoid()
         {
         }

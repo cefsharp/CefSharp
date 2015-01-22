@@ -61,6 +61,8 @@ namespace CefSharp
         /// the provided HTML in a <see cref="ResourceHandler"/> and loads the provided url using
         /// the <see cref="Load"/> method.
         /// Defaults to using <see cref="Encoding.UTF8"/> for character encoding 
+        /// The url must start with a valid schema, other uri's such as about:blank are invalid
+        /// A valid example looks like http://test/page
         /// </remarks>
         /// <param name="html">The HTML content.</param>
         /// <param name="url">The URL that will be treated as the address of the content.</param>

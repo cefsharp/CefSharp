@@ -137,10 +137,19 @@ namespace CefSharp
         /// <return>true if successful; otherwise, false.</return>
         static bool Initialize(CefSettings^ cefSettings)
         {
+            return Initialize(cefSettings, true);
+        }
+
+        /// <summary>Initializes CefSharp with user-provided settings.</summary>
+        /// <param name="cefSettings">CefSharp configuration settings.</param>
+        /// <param name="shutdownOnProcessExit">When the Current AppDomain (relative to the thread called on)
+        /// Exits(ProcessExit event) then Shudown will be called.</param>
+        /// <return>true if successful; otherwise, false.</return>
+        static bool Initialize(CefSettings^ cefSettings, bool shutdownOnProcessExit)
+        {
             bool success = false;
 
-            // TODO: is it really sensible to completely skip initialization if we get called multiple times, but with
-            // (potentially) different settings...? :)
+            // NOTE: Can only initialize Cef once, so subsiquent calls are ignored.
             if (!IsInitialized)
             {
                 CefMainArgs main_args;
@@ -150,7 +159,7 @@ namespace CefSharp
                 app->CompleteSchemeRegistrations();
                 _initialized = success;
 
-                if (_initialized)
+                if (_initialized && shutdownOnProcessExit)
                 {
                     AppDomain::CurrentDomain->ProcessExit += gcnew EventHandler(ParentProcessExitHandler);
                 }
