@@ -569,5 +569,31 @@ namespace CefSharp
 
             return handler->OnDragEnter(_browserControl, dragDataWrapper, (CefSharp::DragOperationsMask)mask);
         }
+
+        bool ClientAdapter::OnRequestGeolocationPermission(CefRefPtr<CefBrowser> browser, const CefString& requesting_url, int request_id, CefRefPtr<CefGeolocationCallback> callback)
+        {
+            IGeolocationHandler^ handler = _browserControl->GeolocationHandler;
+            if (handler == nullptr)
+            {
+                // Default deny, as CEF does.
+                return false;
+            }
+
+            if (handler->OnRequestGeolocationPermission(_browserControl, StringUtils::ToClr(requesting_url), request_id)) {
+                callback->Continue(true);
+                return true;
+            }
+
+            return false;
+        }
+
+        void ClientAdapter::OnCancelGeolocationPermission(CefRefPtr<CefBrowser> browser, const CefString& requesting_url, int request_id)
+        {
+            IGeolocationHandler^ handler = _browserControl->GeolocationHandler;
+            if (handler != nullptr)
+            {
+                handler->OnCancelGeolocationPermission(_browserControl, StringUtils::ToClr(requesting_url), request_id);
+            }
+        }
     }
 }

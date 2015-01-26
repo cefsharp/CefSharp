@@ -169,6 +169,7 @@ namespace CefSharp.OffScreen
         public IRequestHandler RequestHandler { get; set; }
         public IDragHandler DragHandler { get; set; }
         public IResourceHandler ResourceHandler { get; set; }
+        public IGeolocationHandler GeolocationHandler { get; set; }
 
         public event EventHandler<LoadErrorEventArgs> LoadError;
         public event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;

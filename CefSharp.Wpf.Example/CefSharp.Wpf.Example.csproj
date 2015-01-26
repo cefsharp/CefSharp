@@ -105,6 +105,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controls\NonReloadingTabControl.cs" />
+    <Compile Include="Handlers\GeolocationHandler.cs" />
     <Compile Include="Handlers\MenuHandler.cs" />
     <Compile Include="Mvvm\DelegateCommand.cs" />
     <Compile Include="Mvvm\DelegateCommandT.cs" />

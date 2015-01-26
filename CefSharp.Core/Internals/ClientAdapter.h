@@ -29,7 +29,8 @@ namespace CefSharp
             public CefKeyboardHandler,
             public CefJSDialogHandler,
             public CefDialogHandler,
-            public CefDragHandler
+            public CefDragHandler,
+            public CefGeolocationHandler
         {
         private:
             CriticalSection _syncRoot;
@@ -75,6 +76,7 @@ namespace CefSharp
             virtual CefRefPtr<CefJSDialogHandler> GetJSDialogHandler() OVERRIDE{ return this; }
             virtual CefRefPtr<CefDialogHandler> GetDialogHandler() OVERRIDE{ return this; }
             virtual CefRefPtr<CefDragHandler> GetDragHandler() OVERRIDE{ return this; }
+            virtual CefRefPtr<CefGeolocationHandler> GetGeolocationHandler() OVERRIDE{ return this; }
 
             // CefLifeSpanHandler
             virtual DECL bool OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
@@ -135,6 +137,11 @@ namespace CefSharp
 
             //CefDragHandler
             virtual DECL bool OnDragEnter(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDragData> dragData, DragOperationsMask mask) OVERRIDE;
+
+            //CefGeolocationHandler
+            virtual DECL bool OnRequestGeolocationPermission(CefRefPtr<CefBrowser> browser, const CefString& requesting_url, int request_id,
+                CefRefPtr<CefGeolocationCallback> callback) OVERRIDE;
+            virtual DECL void OnCancelGeolocationPermission(CefRefPtr<CefBrowser> browser, const CefString& requesting_url, int request_id) OVERRIDE;
 
             IMPLEMENT_REFCOUNTING(ClientAdapter);
         };

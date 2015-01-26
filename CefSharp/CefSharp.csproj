@@ -94,6 +94,7 @@
     <Compile Include="IDragData.cs" />
     <Compile Include="IFocusHandler.cs" />
     <Compile Include="IDragHandler.cs" />
+    <Compile Include="IGeolocationHandler.cs" />
     <Compile Include="IResourceHandler.cs" />
     <Compile Include="IsBrowserInitializedChangedEventArgs.cs" />
     <Compile Include="CefTerminationStatus.cs" />
