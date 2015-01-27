@@ -348,5 +348,14 @@ namespace CefSharp
                 IsInitialized = false;
             }
         }
+
+        /// <summary>
+        /// Clear all registered scheme handler factories.
+        /// </summary>
+        /// <return>Returns false on error.</return>
+        static bool ClearSchemeHandlerFactories()
+        {
+            return CefClearSchemeHandlerFactories();
+        }
     };
 }
