@@ -57,7 +57,7 @@ namespace CefSharp
                 // when the process is shutting down.
 
                 // TOOD: Consider adding error handling here. But where do we report any errors that may have occurred?
-                registrar->AddCustomScheme(StringUtils::ToNative(cefCustomScheme->SchemeName), cefCustomScheme->IsStandard, false, false);
+                registrar->AddCustomScheme(StringUtils::ToNative(cefCustomScheme->SchemeName), cefCustomScheme->IsStandard, cefCustomScheme->IsLocal, cefCustomScheme->IsDisplayIsolated);
             }
         };
 
