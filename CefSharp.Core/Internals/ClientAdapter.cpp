@@ -579,7 +579,8 @@ namespace CefSharp
                 return false;
             }
 
-            if (handler->OnRequestGeolocationPermission(_browserControl, StringUtils::ToClr(requesting_url), request_id)) {
+            if (handler->OnRequestGeolocationPermission(_browserControl, StringUtils::ToClr(requesting_url), request_id))
+            {
                 callback->Continue(true);
                 return true;
             }
