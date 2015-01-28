@@ -92,14 +92,45 @@ namespace CefSharp
 
                 lock l(bitmapInfo->BitmapLock);
 
-                auto fileMappingHandle = (HANDLE)bitmapInfo->FileMappingHandle;
                 auto backBufferHandle = (HANDLE)bitmapInfo->BackBufferHandle;
 
-                SetBufferHelper(bitmapInfo, width, height, &fileMappingHandle,
-                    &backBufferHandle, buffer);
+                if (backBufferHandle == NULL || bitmapInfo->Width != width || bitmapInfo->Height != height)
+                {
+                    int pixels = width * height;
+                    int numberOfBytes = pixels * bitmapInfo->BytesPerPixel;
+                    auto fileMappingHandle = (HANDLE)bitmapInfo->FileMappingHandle;
 
-                bitmapInfo->FileMappingHandle = (IntPtr)fileMappingHandle;
-                bitmapInfo->BackBufferHandle = (IntPtr)backBufferHandle;
+                    //Clear the reference to Bitmap so a new one is created by InvokeRenderAsync
+                    bitmapInfo->ClearBitmap();
+
+                    //Release the current handles (if not null)
+                    ReleaseBitmapHandlers(&backBufferHandle, &fileMappingHandle);
+
+                    // Create new fileMappingHandle
+                    fileMappingHandle = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, numberOfBytes, NULL);
+                    if (fileMappingHandle == NULL)
+                    {
+                        // TODO: Consider doing something more sensible here, since the browser will be very badly broken if this
+                        // TODO: method call fails.
+                        return;
+                    }
+
+                    backBufferHandle = MapViewOfFile(fileMappingHandle, FILE_MAP_ALL_ACCESS, 0, 0, numberOfBytes);
+                    if (backBufferHandle == NULL)
+                    {
+                        // TODO: Consider doing something more sensible here, since the browser will be very badly broken if this
+                        // TODO: method call fails.
+                        return;
+                    }
+
+                    bitmapInfo->FileMappingHandle = (IntPtr)fileMappingHandle;
+                    bitmapInfo->BackBufferHandle = (IntPtr)backBufferHandle;
+                    bitmapInfo->Width = width;
+                    bitmapInfo->Height = height;
+                    bitmapInfo->NumberOfBytes = numberOfBytes;
+                }               
+
+                CopyMemory(backBufferHandle, (void*)buffer, bitmapInfo->NumberOfBytes);
 
                 _renderWebBrowser->InvokeRenderAsync(bitmapInfo);
             };
@@ -111,46 +142,6 @@ namespace CefSharp
             };
 
         private:
-            void SetBufferHelper(BitmapInfo^ bitmapInfo, int newWidth, int newHeight,
-                HANDLE* fileMappingHandle, HANDLE* backBufferHandle, const void* buffer)
-            {
-                int pixels = newWidth * newHeight;
-                int numberOfBytes = pixels * bitmapInfo->BytesPerPixel;
-
-                if (*backBufferHandle == NULL ||
-                    bitmapInfo->Width != newWidth ||
-                    bitmapInfo->Height != newHeight)
-                {
-                    //Clear the reference to Bitmap so a new one is created by InvokeRenderAsync
-                    bitmapInfo->ClearBitmap();
-
-                    //Release the current handles (if not null)
-                    ReleaseBitmapHandlers(backBufferHandle, fileMappingHandle);
-
-                    // Create new fileMappingHandle
-                    *fileMappingHandle = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, numberOfBytes, NULL);
-                    if (*fileMappingHandle == NULL)
-                    {
-                        // TODO: Consider doing something more sensible here, since the browser will be very badly broken if this
-                        // TODO: method call fails.
-                        return;
-                    }
-
-                    *backBufferHandle = MapViewOfFile(*fileMappingHandle, FILE_MAP_ALL_ACCESS, 0, 0, numberOfBytes);
-                    if (*backBufferHandle == NULL)
-                    {
-                        // TODO: Consider doing something more sensible here, since the browser will be very badly broken if this
-                        // TODO: method call fails.
-                        return;
-                    }
-                }
-
-                bitmapInfo->Width = newWidth;
-                bitmapInfo->Height = newHeight;
-
-                CopyMemory(*backBufferHandle, (void*)buffer, numberOfBytes);
-            };
-
             void ReleaseBitmapHandlers(HANDLE* backBufferHandle, HANDLE* fileMappingHandle)
             {
                 if (*backBufferHandle != NULL)
