@@ -15,6 +15,11 @@ namespace CefSharp.Example
 
         public static void Init()
         {
+            // Set Google API keys, used for Geolocation requests sans GPS.  See http://www.chromium.org/developers/how-tos/api-keys
+            // Environment.SetEnvironmentVariable("GOOGLE_API_KEY", "");
+            // Environment.SetEnvironmentVariable("GOOGLE_DEFAULT_CLIENT_ID", "");
+            // Environment.SetEnvironmentVariable("GOOGLE_DEFAULT_CLIENT_SECRET", "");
+
             var settings = new CefSettings();
             settings.RemoteDebuggingPort = 8088;
             //settings.CefCommandLineArgs.Add("renderer-process-limit", "1");

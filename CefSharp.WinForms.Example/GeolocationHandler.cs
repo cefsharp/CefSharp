@@ -11,7 +11,7 @@ namespace CefSharp.WinForms.Example
     {
         public bool OnRequestGeolocationPermission(IWebBrowser browser, string requestingUrl, int requestId)
         {
-            var result = MessageBox.Show(String.Format("{0} wants to use your computer's location.  Allow?", requestingUrl), "Geolocation", MessageBoxButtons.YesNo);
+            var result = MessageBox.Show(String.Format("{0} wants to use your computer's location.  Allow?  ** You must set your Google API key in CefExample.Init() for this to work. **", requestingUrl), "Geolocation", MessageBoxButtons.YesNo);
             return result == DialogResult.Yes;
         }
 

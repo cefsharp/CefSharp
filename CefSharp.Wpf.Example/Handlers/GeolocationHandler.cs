@@ -11,7 +11,7 @@ namespace CefSharp.Wpf.Example.Handlers
     {
         public bool OnRequestGeolocationPermission(IWebBrowser browser, string requestingUrl, int requestId)
         {
-            var result = MessageBox.Show(String.Format("{0} wants to use your computer's location.  Allow?", requestingUrl), "Geolocation", MessageBoxButton.YesNo);
+            var result = MessageBox.Show(String.Format("{0} wants to use your computer's location.  Allow?  ** You must set your Google API key in CefExample.Init() for this to work. **", requestingUrl), "Geolocation", MessageBoxButton.YesNo);
             return result == MessageBoxResult.Yes;
         }
 
