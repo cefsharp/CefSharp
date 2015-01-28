@@ -48,6 +48,7 @@ namespace CefSharp.Wpf
         public IFocusHandler FocusHandler { get; set; }
         public IDragHandler DragHandler { get; set; }
         public IResourceHandler ResourceHandler { get; set; }
+        public IGeolocationHandler GeolocationHandler { get; set; }
 
         public event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
         public event EventHandler<StatusMessageEventArgs> StatusMessage;

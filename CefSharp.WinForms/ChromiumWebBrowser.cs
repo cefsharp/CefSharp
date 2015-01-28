@@ -31,6 +31,7 @@ namespace CefSharp.WinForms
         public IFocusHandler FocusHandler { get; set; }
         public IDragHandler DragHandler { get; set; }
         public IResourceHandler ResourceHandler { get; set; }
+        public IGeolocationHandler GeolocationHandler { get; set; }
 
         public bool CanGoForward { get; private set; }
         public bool CanGoBack { get; private set; }

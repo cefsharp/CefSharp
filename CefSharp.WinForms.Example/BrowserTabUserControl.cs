@@ -26,6 +26,7 @@ namespace CefSharp.WinForms.Example
             browser.MenuHandler = new MenuHandler();
             browser.RequestHandler = new RequestHandler();
             browser.JsDialogHandler = new JsDialogHandler();
+            browser.GeolocationHandler = new GeolocationHandler();
             //browser.FocusHandler = new FocusHandler(browser, urlTextBox);
             browser.NavStateChanged += OnBrowserNavStateChanged;
             browser.ConsoleMessage += OnBrowserConsoleMessage;
