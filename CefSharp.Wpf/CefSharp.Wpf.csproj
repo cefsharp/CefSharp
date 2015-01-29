@@ -93,7 +93,7 @@
   <ItemGroup>
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="DisposableEventWrapper.cs" />
-    <Compile Include="InteropBitmapInfo.cs" />
+    <Compile Include="Rendering\InteropBitmapInfo.cs" />
     <Compile Include="IWpfWebBrowser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -101,9 +101,10 @@
     <AppDesigner Include="Properties\" />
     <Compile Include="ChromiumWebBrowser.cs" />
     <Compile Include="RenderingEventArgs.cs" />
+    <Compile Include="Rendering\BitmapFactory.cs" />
     <Compile Include="WM.cs" />
-    <Compile Include="WpfBitmapInfo.cs" />
-    <Compile Include="WritableBitmapInfo.cs" />
+    <Compile Include="Rendering\WpfBitmapInfo.cs" />
+    <Compile Include="Rendering\WritableBitmapInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.vcxproj">
@@ -115,6 +116,7 @@
       <Name>CefSharp</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using CefSharp.Wpf.Rendering;
 
 namespace CefSharp.Wpf
 {
@@ -20,6 +21,5 @@ namespace CefSharp.Wpf
         /// The bitmap info being rendered.
         /// </summary>
         public WpfBitmapInfo BitmapInfo { get; private set; }
-
     }
 }

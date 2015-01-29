@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace CefSharp.Wpf
+namespace CefSharp.Wpf.Rendering
 {
     public class WritableBitmapInfo : WpfBitmapInfo
     {
@@ -32,26 +32,17 @@ namespace CefSharp.Wpf
 
         public override void Invalidate()
         {
-            //int stride = browserWidth * 4;
-            var stride = Width * BytesPerPixel;
-            var sourceBufferSize = stride * Height;
+            var stride = Width*BytesPerPixel;
+            var sourceBufferSize = stride*Height;
 
-            if (Width == 0 || Height == 0)
+            if (Width == 0 || Height == 0 || DirtyRect.Width == 0 || DirtyRect.Height == 0)
             {
                 return;
             }
 
-            foreach (var dirtyRect in DirtyRects)
-            {
-                if (dirtyRect.Width == 0 || dirtyRect.Height == 0)
-                {
-                    continue;
-                }
-
-                // Update the dirty region
-                var sourceRect = new Int32Rect(dirtyRect.X, dirtyRect.Y, dirtyRect.Width, dirtyRect.Height);
-                Bitmap.WritePixels(sourceRect, BackBufferHandle, sourceBufferSize, stride, dirtyRect.X, dirtyRect.Y);
-            }
+            // Update the dirty region
+            var sourceRect = new Int32Rect(DirtyRect.X, DirtyRect.Y, DirtyRect.Width, DirtyRect.Height);
+            Bitmap.WritePixels(sourceRect, BackBufferHandle, sourceBufferSize, stride, DirtyRect.X, DirtyRect.Y);
         }
 
         public override BitmapSource CreateBitmap()

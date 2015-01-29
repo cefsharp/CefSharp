@@ -4,6 +4,7 @@
 
 using System.Text;
 using CefSharp.Internals;
+using CefSharp.Wpf.Rendering;
 using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections.Generic;
@@ -47,6 +48,7 @@ namespace CefSharp.Wpf
         public IDragHandler DragHandler { get; set; }
         public IResourceHandler ResourceHandler { get; set; }
         public IGeolocationHandler GeolocationHandler { get; set; }
+        public IBitmapFactory BitmapFactory { get; set; }
 
         public event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
         public event EventHandler<StatusMessageEventArgs> StatusMessage;
@@ -635,8 +637,11 @@ namespace CefSharp.Wpf
 
         public BitmapInfo CreateBitmapInfo(bool isPopup)
         {
-            return new InteropBitmapInfo { IsPopup = isPopup };
-            //return new WritableBitmapInfo { IsPopup = isPopup };
+            if (BitmapFactory == null)
+            {
+                throw new Exception("BitmapFactory cannot be null");
+            }
+            return BitmapFactory.CreateBitmap(isPopup);
         }
 
         void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)

@@ -2,7 +2,7 @@
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace CefSharp.Wpf
+namespace CefSharp.Wpf.Rendering
 {
     public class InteropBitmapInfo : WpfBitmapInfo
     {

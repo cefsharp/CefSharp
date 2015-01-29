@@ -25,7 +25,7 @@ namespace CefSharp.Internals
         public abstract bool CreateNewBitmap { get; }
         public abstract void ClearBitmap();
 
-        public IList<CefDirtyRect> DirtyRects { get; set; }
+        public CefDirtyRect DirtyRect { get; set; }
 
         protected BitmapInfo()
         {

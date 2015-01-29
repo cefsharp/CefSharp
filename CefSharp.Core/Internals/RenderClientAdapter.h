@@ -94,14 +94,11 @@ namespace CefSharp
 
                 if(bitmapInfo->DirtyRectSupport)
                 {
-                    auto rects = gcnew List<CefDirtyRect>(dirtyRects.size());
+                    //NOTE: According to https://bitbucket.org/chromiumembedded/branches-2171-cef3/commits/ce984ddff3268a50cf9967487327e1257015b98c
+                    // There is only one rect now that's a union of all dirty regions. API Still passes in a vector
 
-                    for each(CefRect r in dirtyRects)
-                    {
-                        rects->Add(CefDirtyRect(r.x, r.y, r.width, r.height));
-                    }
-
-                    bitmapInfo->DirtyRects = rects;
+                    CefRect r = dirtyRects.front();
+                    bitmapInfo->DirtyRect = CefDirtyRect(r.x, r.y, r.width, r.height);
                 }
 
                 auto backBufferHandle = (HANDLE)bitmapInfo->BackBufferHandle;
