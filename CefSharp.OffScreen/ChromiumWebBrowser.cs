@@ -345,7 +345,7 @@ namespace CefSharp.OffScreen
         public BitmapInfo CreateBitmapInfo(bool isPopup)
         {
             //The bitmap buffer is 32 BPP
-            return new GdiBitmapInfo { IsPopup = isPopup, BytesPerPixel = 4, BitmapLock = bitmapLock };
+            return new GdiBitmapInfo { IsPopup = isPopup, BitmapLock = bitmapLock };
         }
 
         void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)

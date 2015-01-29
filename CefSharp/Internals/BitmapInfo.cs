@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Collections.Generic;
 
 namespace CefSharp.Internals
 {
@@ -17,10 +18,14 @@ namespace CefSharp.Internals
 
         public IntPtr FileMappingHandle { get; set; }
 
-        public int BytesPerPixel { get; set; }
+        public int BytesPerPixel { get; protected set; }
+        public bool DirtyRectSupport { get; protected set; }
         public int NumberOfBytes { get; set; }
 
+        public abstract bool CreateNewBitmap { get; }
         public abstract void ClearBitmap();
+
+        public IList<CefDirtyRect> DirtyRects { get; set; }
 
         protected BitmapInfo()
         {

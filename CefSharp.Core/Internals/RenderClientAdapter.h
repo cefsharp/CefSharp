@@ -92,6 +92,18 @@ namespace CefSharp
 
                 lock l(bitmapInfo->BitmapLock);
 
+                if(bitmapInfo->DirtyRectSupport)
+                {
+                    auto rects = gcnew List<CefDirtyRect>(dirtyRects.size());
+
+                    for each(CefRect r in dirtyRects)
+                    {
+                        rects->Add(CefDirtyRect(r.x, r.y, r.width, r.height));
+                    }
+
+                    bitmapInfo->DirtyRects = rects;
+                }
+
                 auto backBufferHandle = (HANDLE)bitmapInfo->BackBufferHandle;
 
                 if (backBufferHandle == NULL || bitmapInfo->Width != width || bitmapInfo->Height != height)

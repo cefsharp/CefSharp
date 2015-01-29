@@ -11,7 +11,7 @@ namespace CefSharp.Wpf
     /// </summary>
     public class RenderingEventArgs : EventArgs
     {
-        public RenderingEventArgs(InteropBitmapInfo bitmapInfo)
+        public RenderingEventArgs(WpfBitmapInfo bitmapInfo)
         {
             BitmapInfo = bitmapInfo;
         }
@@ -19,7 +19,7 @@ namespace CefSharp.Wpf
         /// <summary>
         /// The bitmap info being rendered.
         /// </summary>
-        public InteropBitmapInfo BitmapInfo { get; private set; }
+        public WpfBitmapInfo BitmapInfo { get; private set; }
 
     }
 }
