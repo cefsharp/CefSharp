@@ -411,6 +411,8 @@ namespace CefSharp.Wpf
                 throw new InvalidOperationException("Cef::Initialize() failed");
             }
 
+            BitmapFactory = new BitmapFactory();
+
             Cef.AddDisposable(this);
             Focusable = true;
             FocusVisualStyle = null;
