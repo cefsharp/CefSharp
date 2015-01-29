@@ -39,12 +39,12 @@ namespace CefSharp
                 _renderWebBrowser = nullptr;
                 _webBrowserInternal = nullptr;
 
-                DisposeBitmapInfo(_mainBitmapInfo);
+                ReleaseBitmapHandlers(_mainBitmapInfo);
 
                 delete _mainBitmapInfo;
                 _mainBitmapInfo = nullptr;
 
-                DisposeBitmapInfo(_popupBitmapInfo);
+                ReleaseBitmapHandlers(_popupBitmapInfo);
 
                 delete _popupBitmapInfo;
                 _popupBitmapInfo = nullptr;
@@ -116,7 +116,7 @@ namespace CefSharp
                     bitmapInfo->ClearBitmap();
 
                     //Release the current handles (if not null)
-                    ReleaseBitmapHandlers(&backBufferHandle, &fileMappingHandle);
+                    ReleaseBitmapHandlers(bitmapInfo);
 
                     // Create new fileMappingHandle
                     fileMappingHandle = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, numberOfBytes, NULL);
@@ -154,27 +154,24 @@ namespace CefSharp
             };
 
         private:
-            void ReleaseBitmapHandlers(HANDLE* backBufferHandle, HANDLE* fileMappingHandle)
-            {
-                if (*backBufferHandle != NULL)
-                {
-                    UnmapViewOfFile(*backBufferHandle);
-                    *backBufferHandle = NULL;
-                }
-
-                if (*fileMappingHandle != NULL)
-                {
-                    CloseHandle(*fileMappingHandle);
-                    *fileMappingHandle = NULL;
-                }
-            }
-
-            void DisposeBitmapInfo(BitmapInfo^ bitmapInfo)
+            void ReleaseBitmapHandlers(BitmapInfo^ bitmapInfo)
             {
                 auto backBufferHandle = (HANDLE)bitmapInfo->BackBufferHandle;
                 auto fileMappingHandle = (HANDLE)bitmapInfo->FileMappingHandle;
 
-                ReleaseBitmapHandlers(&backBufferHandle, &fileMappingHandle);
+                if (backBufferHandle != NULL)
+                {
+                    UnmapViewOfFile(backBufferHandle);
+                    backBufferHandle = NULL;
+                    bitmapInfo->BackBufferHandle = IntPtr::Zero;
+                }
+
+                if (fileMappingHandle != NULL)
+                {
+                    CloseHandle(fileMappingHandle);
+                    fileMappingHandle = NULL;
+                    bitmapInfo->FileMappingHandle = IntPtr::Zero;
+                }
             }
 
             IMPLEMENT_REFCOUNTING(RenderClientAdapter)
