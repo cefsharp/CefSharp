@@ -70,7 +70,6 @@
     <Compile Include="BrowserForm.Designer.cs">
       <DependentUpon>BrowserForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ControlExtensions.cs" />
     <Compile Include="BrowserTabUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -85,6 +84,12 @@
     </Compile>
     <Compile Include="Minimal\SimpleBrowserForm.Designer.cs">
       <DependentUpon>SimpleBrowserForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Minimal\TabulationDemoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Minimal\TabulationDemoForm.Designer.cs">
+      <DependentUpon>TabulationDemoForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs">
     </Compile>
@@ -110,6 +115,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Minimal\SimpleBrowserForm.resx">
       <DependentUpon>SimpleBrowserForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Minimal\TabulationDemoForm.resx">
+      <DependentUpon>TabulationDemoForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
