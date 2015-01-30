@@ -2,7 +2,6 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using System;
 using System.Windows.Controls;
 using System.Windows.Input;
 using CefSharp.Example;
@@ -20,6 +19,7 @@ namespace CefSharp.Wpf.Example.Views
 
             browser.MenuHandler = new Handlers.MenuHandler();
             browser.GeolocationHandler = new Handlers.GeolocationHandler();
+            browser.DownloadHandler = new DownloadHandler();
 
             CefExample.RegisterTestResources(browser);
         }

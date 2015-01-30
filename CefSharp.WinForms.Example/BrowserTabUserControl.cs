@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using CefSharp.Example;
+﻿using CefSharp.Example;
 using CefSharp.WinForms.Example.Controls;
 using System;
 using System.Windows.Forms;
@@ -27,6 +26,7 @@ namespace CefSharp.WinForms.Example
             browser.RequestHandler = new RequestHandler();
             browser.JsDialogHandler = new JsDialogHandler();
             browser.GeolocationHandler = new GeolocationHandler();
+            browser.DownloadHandler = new DownloadHandler();
             //browser.FocusHandler = new FocusHandler(browser, urlTextBox);
             browser.NavStateChanged += OnBrowserNavStateChanged;
             browser.ConsoleMessage += OnBrowserConsoleMessage;
