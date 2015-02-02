@@ -610,7 +610,6 @@ namespace CefSharp.Wpf
                 case WM.SYSKEYUP:
                 case WM.KEYDOWN:
                 case WM.KEYUP:
-                case WM.CHAR:
                 case WM.IME_CHAR:
                 {
                     if (!IsKeyboardFocused)
@@ -911,6 +910,15 @@ namespace CefSharp.Wpf
 
                 e.Handled = managedCefBrowserAdapter.SendKeyEvent(message, virtualKey, new IntPtr((int)modifiers));
             }
+        }
+
+        protected override void OnPreviewTextInput(TextCompositionEventArgs e)
+        {
+            for (int i = 0; i < e.Text.Length; i++)
+            {
+                managedCefBrowserAdapter.SendKeyEvent((int)WM.CHAR, (int)e.Text[i], (IntPtr) 0);
+            }
+            base.OnPreviewTextInput(e);
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
