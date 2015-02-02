@@ -3,16 +3,19 @@ param(
     [Parameter(Position = 0)] 
     [string] $Target = "nupkg",
     [Parameter(Position = 1)]
-    [string] $Version = "37.0.0-pre01",
+    [string] $Version = "39.0.0-pre01",
     [Parameter(Position = 2)]
-    [string] $AssemlyVersion = "37.0.0",
+    [string] $AssemblyVersion = "39.0.0",
     [Parameter(Position = 3)]
-    [string] $RedistVersion = "3.2062.1898"
+    [string] $RedistVersion = "3.2171.1972"
 )
 
 $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
 
 $CefSln = Join-Path $WorkingDir 'CefSharp3.sln'
+
+$MSBuildExe = join-path -path (Get-ItemProperty "HKLM:\software\Microsoft\MSBuild\ToolsVersions\4.0").MSBuildToolsPath -childpath "msbuild.exe"
+$MSBuildExe = $MSBuildExe -replace "Framework64", "Framework"
 
 function Write-Diagnostic 
 {
@@ -162,7 +165,7 @@ function Msvs
     )
 
     $StartInfo = New-Object System.Diagnostics.ProcessStartInfo
-    $StartInfo.FileName = "msbuild.exe"
+    $StartInfo.FileName = $MSBuildExe
     $StartInfo.Arguments = $Arguments
 
     $StartInfo.EnvironmentVariables.Clear()
@@ -280,7 +283,7 @@ function WriteAssemblyVersion
     $Regex = 'public const string AssemblyVersion = "(.*)"';
     
     $AssemblyInfo = Get-Content $Filename
-    $NewString = $AssemblyInfo -replace $Regex, "public const string AssemblyVersion = ""$AssemlyVersion"""
+    $NewString = $AssemblyInfo -replace $Regex, "public const string AssemblyVersion = ""$AssemblyVersion"""
     
     $NewString | Set-Content $Filename -Encoding UTF8
 }

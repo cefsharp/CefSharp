@@ -27,5 +27,7 @@
     <file src="..\CefSharp.OffScreen\bin\x64\Release\CefSharp.OffScreen.xml" target="lib" />
 
     <file src="CefSharp.OffScreen.props" target="build" />
+
+    <file src="Readme.txt" target="" />
   </files>
 </package>

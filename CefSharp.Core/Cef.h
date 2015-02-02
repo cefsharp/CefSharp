@@ -137,29 +137,29 @@ namespace CefSharp
         /// <return>true if successful; otherwise, false.</return>
         static bool Initialize(CefSettings^ cefSettings)
         {
+            return Initialize(cefSettings, true);
+        }
+
+        /// <summary>Initializes CefSharp with user-provided settings.</summary>
+        /// <param name="cefSettings">CefSharp configuration settings.</param>
+        /// <param name="shutdownOnProcessExit">When the Current AppDomain (relative to the thread called on)
+        /// Exits(ProcessExit event) then Shudown will be called.</param>
+        /// <return>true if successful; otherwise, false.</return>
+        static bool Initialize(CefSettings^ cefSettings, bool shutdownOnProcessExit)
+        {
             bool success = false;
 
-            // TODO: is it really sensible to completely skip initialization if we get called multiple times, but with
-            // (potentially) different settings...? :)
+            // NOTE: Can only initialize Cef once, so subsiquent calls are ignored.
             if (!IsInitialized)
             {
                 CefMainArgs main_args;
                 CefRefPtr<CefSharpApp> app(new CefSharpApp(cefSettings));
 
-                int exitCode = CefExecuteProcess(main_args, app.get(), NULL);
-
-                if (exitCode >= 0)
-                {
-                    // Something went "wrong", but it may also be caused in the case where we are the secondary process, so we
-                    // can't really throw exceptions or anything like that.
-                    return false;
-                }
-
                 success = CefInitialize(main_args, *(cefSettings->_cefSettings), app.get(), NULL);
                 app->CompleteSchemeRegistrations();
                 _initialized = success;
 
-                if (_initialized)
+                if (_initialized && shutdownOnProcessExit)
                 {
                     AppDomain::CurrentDomain->ProcessExit += gcnew EventHandler(ParentProcessExitHandler);
                 }
@@ -173,17 +173,16 @@ namespace CefSharp
         /// <return>Returns false if the CookieManager is not available; otherwise, true.</return>
         static bool VisitAllCookies(ICookieVisitor^ visitor)
         {
-            CefRefPtr<CookieVisitor> cookieVisitor = new CookieVisitor(visitor);
             CefRefPtr<CefCookieManager> manager = CefCookieManager::GetGlobalManager();
 
-            if (manager != nullptr)
-            {
-                return manager->VisitAllCookies(static_cast<CefRefPtr<CefCookieVisitor>>(cookieVisitor));
-            }
-            else
+            if (manager == nullptr)
             {
                 return false;
             }
+
+            CefRefPtr<CookieVisitor> cookieVisitor = new CookieVisitor(visitor);
+            
+            return manager->VisitAllCookies(cookieVisitor);
         }
 
         /// <summary>Visits a subset of the cookies. The results are filtered by the given url scheme, host, domain and path. 
@@ -195,18 +194,16 @@ namespace CefSharp
         /// <return>Returns false if the CookieManager is not available; otherwise, true.</return>
         static bool VisitUrlCookies(String^ url, bool includeHttpOnly, ICookieVisitor^ visitor)
         {
-            CefRefPtr<CookieVisitor> cookieVisitor = new CookieVisitor(visitor);
             CefRefPtr<CefCookieManager> manager = CefCookieManager::GetGlobalManager();
 
-            if (manager != nullptr)
-            {
-                return manager->VisitUrlCookies(StringUtils::ToNative(url), includeHttpOnly,
-                    static_cast<CefRefPtr<CefCookieVisitor>>(cookieVisitor));
-            }
-            else
+            if (manager == nullptr)
             {
                 return false;
             }
+
+            CefRefPtr<CookieVisitor> cookieVisitor = new CookieVisitor(visitor);
+
+            return manager->VisitUrlCookies(StringUtils::ToNative(url), includeHttpOnly, cookieVisitor);
         }
 
         /// <summary>Sets a CefSharp Cookie. This function expects each attribute to be well-formed. It will check for disallowed
@@ -305,14 +302,12 @@ namespace CefSharp
         {
             CefRefPtr<CefCookieManager> manager = CefCookieManager::GetGlobalManager();
 
-            if (manager != nullptr)
-            {
-                return manager->SetStoragePath(StringUtils::ToNative(path), persistSessionCookies);
-            }
-            else
+            if (manager == nullptr)
             {
                 return false;
             }
+
+            return manager->SetStoragePath(StringUtils::ToNative(path), persistSessionCookies);
         }
 
         /// <summary> Flush the backing store (if any) to disk and execute the specified |handler| on the IO thread when done. Returns </summary>
@@ -327,9 +322,9 @@ namespace CefSharp
                 return false;
             }
 
-            auto wrapper = new CompletionHandler(handler);
+            CefRefPtr<CefCompletionCallback> wrapper = new CompletionHandler(handler);
 
-            return manager->FlushStore(static_cast<CefRefPtr<CefCompletionCallback>>(wrapper));
+            return manager->FlushStore(wrapper);
         }
 
         /// <summary>Shuts down CefSharp and the underlying CEF infrastructure. This method is safe to call multiple times; it will only

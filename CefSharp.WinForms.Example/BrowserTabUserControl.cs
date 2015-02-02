@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using CefSharp.Example;
+﻿using CefSharp.Example;
 using CefSharp.WinForms.Example.Controls;
 using System;
 using System.Windows.Forms;
@@ -26,6 +25,8 @@ namespace CefSharp.WinForms.Example
             browser.MenuHandler = new MenuHandler();
             browser.RequestHandler = new RequestHandler();
             browser.JsDialogHandler = new JsDialogHandler();
+            browser.GeolocationHandler = new GeolocationHandler();
+            browser.DownloadHandler = new DownloadHandler();
             //browser.FocusHandler = new FocusHandler(browser, urlTextBox);
             browser.NavStateChanged += OnBrowserNavStateChanged;
             browser.ConsoleMessage += OnBrowserConsoleMessage;
@@ -189,19 +190,12 @@ namespace CefSharp.WinForms.Example
             }
         }
 
-        public void CopySourceToClipBoardAsync()
+        public async void CopySourceToClipBoardAsync()
         {
-            var task = Browser.GetSourceAsync();
+            var htmlSource = await Browser.GetSourceAsync();
 
-            task.ContinueWith(t =>
-            {
-                if (!t.IsFaulted)
-                {
-                    Clipboard.SetText(t.Result);
-                    DisplayOutput("HTML Source copied to clipboard");
-                }
-            },
-            TaskScheduler.FromCurrentSynchronizationContext());
+            Clipboard.SetText(htmlSource);
+            DisplayOutput("HTML Source copied to clipboard");
         }
 
         private void ToggleBottomToolStrip()

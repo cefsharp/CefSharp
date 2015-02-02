@@ -5,6 +5,7 @@
 #pragma once
 
 #include "Stdafx.h"
+#include <list>
 #include "include/cef_app.h"
 #include "include/cef_client.h"
 #include "include/cef_render_process_handler.h"
@@ -28,7 +29,8 @@ namespace CefSharp
             public CefKeyboardHandler,
             public CefJSDialogHandler,
             public CefDialogHandler,
-            public CefDragHandler
+            public CefDragHandler,
+            public CefGeolocationHandler
         {
         private:
             CriticalSection _syncRoot;
@@ -36,6 +38,7 @@ namespace CefSharp
             gcroot<Action<int>^> _onAfterBrowserCreated;
             HWND _browserHwnd;
             CefRefPtr<CefBrowser> _cefBrowser;
+            std::list<CefRefPtr<CefBrowser>> _popupBrowsers;
 
             gcroot<String^> _tooltip;
 
@@ -57,6 +60,9 @@ namespace CefSharp
 
             HWND GetBrowserHwnd() { return _browserHwnd; }
             CefRefPtr<CefBrowser> GetCefBrowser() { return _cefBrowser; }
+            void ShowDevTools();
+            void CloseDevTools();
+            void CloseAllPopups(bool forceClose);
 
             // CefClient
             virtual CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() OVERRIDE{ return this; }
@@ -70,6 +76,7 @@ namespace CefSharp
             virtual CefRefPtr<CefJSDialogHandler> GetJSDialogHandler() OVERRIDE{ return this; }
             virtual CefRefPtr<CefDialogHandler> GetDialogHandler() OVERRIDE{ return this; }
             virtual CefRefPtr<CefDragHandler> GetDragHandler() OVERRIDE{ return this; }
+            virtual CefRefPtr<CefGeolocationHandler> GetGeolocationHandler() OVERRIDE{ return this; }
 
             // CefLifeSpanHandler
             virtual DECL bool OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
@@ -130,6 +137,11 @@ namespace CefSharp
 
             //CefDragHandler
             virtual DECL bool OnDragEnter(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDragData> dragData, DragOperationsMask mask) OVERRIDE;
+
+            //CefGeolocationHandler
+            virtual DECL bool OnRequestGeolocationPermission(CefRefPtr<CefBrowser> browser, const CefString& requesting_url, int request_id,
+                CefRefPtr<CefGeolocationCallback> callback) OVERRIDE;
+            virtual DECL void OnCancelGeolocationPermission(CefRefPtr<CefBrowser> browser, const CefString& requesting_url, int request_id) OVERRIDE;
 
             IMPLEMENT_REFCOUNTING(ClientAdapter);
         };

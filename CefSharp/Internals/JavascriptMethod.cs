@@ -33,6 +33,11 @@ namespace CefSharp.Internals
         [DataMember]
         public string JavascriptName { get; set; }
 
+        /// <summary>
+        /// Number of Params this function exepects
+        /// </summary>
+        public int ParameterCount { get; set; }
+
         public override string ToString()
         {
             return ManagedName ?? base.ToString();

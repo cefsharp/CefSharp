@@ -5,16 +5,16 @@
 namespace CefSharp
 {
     /// <summary>
-    /// Wrapper for the CEF3 CefWebPluginInfo
+    /// CefWebPluginInfo
     /// </summary>
-    public interface IWebPluginInfo
+    public class WebPluginInfo
     {
-        string Name { get; }
+        public string Name { get; set; }
 
-        string Description { get; }
+        public string Description { get; set; }
 
-        string Path { get; }
+        public string Path { get; set; }
 
-        string Version { get; }
+        public string Version { get; set; }
     }
 }

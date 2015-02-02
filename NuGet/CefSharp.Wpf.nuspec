@@ -27,5 +27,7 @@
     <file src="..\CefSharp.Wpf\bin\x64\Release\CefSharp.Wpf.xml" target="lib" />
 
     <file src="CefSharp.Wpf.props" target="build" />
+
+    <file src="Readme.txt" target="" />
   </files>
 </package>

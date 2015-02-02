@@ -53,6 +53,13 @@ namespace CefSharp.Internals
         [DataMember]
         public bool IsReadOnly { get; set; }
 
+        /// <summary>
+        /// Gets or sets the property value
+        /// Only primative types can be stored in this property
+        /// </summary>
+        [DataMember]
+        public object PropertyValue { get; set; }
+
         public override string ToString()
         {
             return ManagedName ?? base.ToString();

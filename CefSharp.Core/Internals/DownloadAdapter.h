@@ -18,8 +18,6 @@ namespace CefSharp
         {
         private:
             gcroot<IDownloadHandler^> _handler;
-            DownloadItem^ DownloadAdapter::GetDownloadItem(CefRefPtr<CefDownloadItem> download_item);
-            Nullable<DateTime> ConvertCefTimeToNullableDateTime(CefTime time);
 
         public:
             DownloadAdapter(IDownloadHandler^ handler) : _handler(handler) { }

@@ -17,19 +17,24 @@ namespace CefSharp.Wpf.Example.Views
             browser.RequestHandler = new RequestHandler();
             browser.RegisterJsObject("bound", new BoundObject());
 
+            browser.MenuHandler = new Handlers.MenuHandler();
+            browser.GeolocationHandler = new Handlers.GeolocationHandler();
+            browser.DownloadHandler = new DownloadHandler();
+
             CefExample.RegisterTestResources(browser);
         }
 
         private void OnTextBoxGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            var textBox = (TextBox) sender;
+            var textBox = (TextBox)sender;
             textBox.SelectAll();
         }
 
         private void OnTextBoxGotMouseCapture(object sender, MouseEventArgs e)
         {
-            var textBox = (TextBox) sender;
+            var textBox = (TextBox)sender;
             textBox.SelectAll();
         }
+
     }
 }

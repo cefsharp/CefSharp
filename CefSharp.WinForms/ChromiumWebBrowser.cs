@@ -31,6 +31,7 @@ namespace CefSharp.WinForms
         public IFocusHandler FocusHandler { get; set; }
         public IDragHandler DragHandler { get; set; }
         public IResourceHandler ResourceHandler { get; set; }
+        public IGeolocationHandler GeolocationHandler { get; set; }
 
         public bool CanGoForward { get; private set; }
         public bool CanGoBack { get; private set; }
@@ -62,14 +63,17 @@ namespace CefSharp.WinForms
 
             FocusHandler = new DefaultFocusHandler(this);
             ResourceHandler = new DefaultResourceHandler();
+            BrowserSettings = new BrowserSettings();
 
-            managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this);
+            managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, false);
         }
 
         protected override void Dispose(bool disposing)
         {
             FocusHandler = null;
             ResourceHandler = null;
+            BrowserSettings.Dispose();
+            BrowserSettings = null;
 
             Cef.RemoveDisposable(this);
 
@@ -159,7 +163,7 @@ namespace CefSharp.WinForms
 
         protected override void OnHandleCreated(EventArgs e)
         {
-            managedCefBrowserAdapter.CreateBrowser(BrowserSettings ?? new BrowserSettings(), Handle, Address);
+            managedCefBrowserAdapter.CreateBrowser(BrowserSettings, Handle, Address);
 
             base.OnHandleCreated(e);
         }
@@ -384,9 +388,7 @@ namespace CefSharp.WinForms
                     return false;
                 }
 
-                // Ask Windows which control has the focus and then check if it's one of our children
-                var focus = User32.GetFocus();
-                return focus != IntPtr.Zero && User32.IsChild(Handle, focus);
+                return NativeMethodWrapper.IsFocused(Handle);
             }
         }
 
@@ -411,6 +413,24 @@ namespace CefSharp.WinForms
             {
                 managedCefBrowserAdapter.Resize(Width, Height);
             }
+        }
+
+        public void NotifyMoveOrResizeStarted()
+        {
+            if (IsBrowserInitialized && managedCefBrowserAdapter != null)
+            {
+                managedCefBrowserAdapter.NotifyMoveOrResizeStarted();
+            }
+        }
+
+        public void ReplaceMisspelling(string word)
+        {
+            managedCefBrowserAdapter.ReplaceMisspelling(word);
+        }
+
+        public void AddWordToDictionary(string word)
+        {
+            managedCefBrowserAdapter.AddWordToDictionary(word);
         }
     }
 }

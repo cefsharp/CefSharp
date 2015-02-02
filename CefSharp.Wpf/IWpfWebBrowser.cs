@@ -90,5 +90,11 @@ namespace CefSharp.Wpf
         /// Redo last action.
         /// </summary>
         ICommand RedoCommand { get; }
+
+        /// <summary>
+        /// Invalidate the view. The browser will call CefRenderHandler::OnPaint asynchronously.
+        /// </summary>
+        /// <param name="type">indicates which surface to re-paint either View or Popup.</param>
+        void Invalidate(PaintElementType type);
     }
 }
