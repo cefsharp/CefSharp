@@ -641,9 +641,7 @@ namespace CefSharp.Wpf
                         return IntPtr.Zero;
                     }
 
-                    const CefEventFlags modifiers = 0;
-
-                    if (managedCefBrowserAdapter.SendKeyEvent(message, wParam.ToInt32(), AddKeyboardModifiers(modifiers)))
+                    if (managedCefBrowserAdapter.SendKeyEvent(message, wParam.ToInt32(), 0))
                     {
                         handled = true;
                     }
@@ -740,7 +738,37 @@ namespace CefSharp.Wpf
                 modifiers |= CefEventFlags.RightMouseButton;
             }
 
-            return AddKeyboardModifiers(modifiers);
+            if (Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                modifiers |= CefEventFlags.ControlDown | CefEventFlags.IsLeft;
+            }
+
+            if (Keyboard.IsKeyDown(Key.RightCtrl))
+            {
+                modifiers |= CefEventFlags.ControlDown | CefEventFlags.IsRight;
+            }
+
+            if (Keyboard.IsKeyDown(Key.LeftShift))
+            {
+                modifiers |= CefEventFlags.ShiftDown | CefEventFlags.IsLeft;
+            }
+
+            if (Keyboard.IsKeyDown(Key.RightShift))
+            {
+                modifiers |= CefEventFlags.ShiftDown | CefEventFlags.IsRight;
+            }
+
+            if (Keyboard.IsKeyDown(Key.LeftAlt))
+            {
+                modifiers |= CefEventFlags.AltDown| CefEventFlags.IsLeft;
+            }
+
+            if (Keyboard.IsKeyDown(Key.RightAlt))
+            {
+                modifiers |= CefEventFlags.AltDown | CefEventFlags.IsRight;
+            }
+
+            return modifiers;
         }
 
         private static CefEventFlags GetModifiers(KeyEventArgs e)
@@ -763,41 +791,6 @@ namespace CefSharp.Wpf
             }
 
             return modifiers;
-        }
-
-        private static CefEventFlags AddKeyboardModifiers(CefEventFlags modifiers)
-        {
-          if (Keyboard.IsKeyDown(Key.LeftCtrl))
-          {
-            modifiers |= CefEventFlags.ControlDown | CefEventFlags.IsLeft;
-          }
-
-          if (Keyboard.IsKeyDown(Key.RightCtrl))
-          {
-            modifiers |= CefEventFlags.ControlDown | CefEventFlags.IsRight;
-          }
-
-          if (Keyboard.IsKeyDown(Key.LeftShift))
-          {
-            modifiers |= CefEventFlags.ShiftDown | CefEventFlags.IsLeft;
-          }
-
-          if (Keyboard.IsKeyDown(Key.RightShift))
-          {
-            modifiers |= CefEventFlags.ShiftDown | CefEventFlags.IsRight;
-          }
-
-          if (Keyboard.IsKeyDown(Key.LeftAlt))
-          {
-            modifiers |= CefEventFlags.AltDown | CefEventFlags.IsLeft;
-          }
-
-          if (Keyboard.IsKeyDown(Key.RightAlt))
-          {
-            modifiers |= CefEventFlags.AltDown | CefEventFlags.IsRight;
-          }
-
-          return modifiers;
         }
 
         private void SetPopupSizeAndPositionImpl(int width, int height, int x, int y)
