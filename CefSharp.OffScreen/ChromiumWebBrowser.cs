@@ -44,6 +44,11 @@ namespace CefSharp.OffScreen
         /// <param name="browserSettings">The browser settings to use. If null, the default settings are used.</param>
         public ChromiumWebBrowser(string address, BrowserSettings browserSettings = null)
         {
+            if (!Cef.IsInitialized && !Cef.Initialize())
+            {
+                throw new InvalidOperationException("Cef::Initialize() failed");
+            }
+
             ResourceHandler = new DefaultResourceHandler();
 
             Cef.AddDisposable(this);
