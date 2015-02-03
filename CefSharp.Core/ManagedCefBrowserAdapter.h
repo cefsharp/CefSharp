@@ -671,7 +671,7 @@ namespace CefSharp
             }
         }
 
-        CefMouseEvent GetCefMouseEvent(IMouseEvent^ mouseEvent)
+        CefMouseEvent GetCefMouseEvent(MouseEvent^ mouseEvent)
         {
             CefMouseEvent cefMouseEvent;
             cefMouseEvent.x = mouseEvent->X;
@@ -680,7 +680,7 @@ namespace CefSharp
             return cefMouseEvent;
         }
 
-        void OnDragTargetDragEnter(CefDragDataWrapper^ dragData, IMouseEvent^ mouseEvent, DragOperationsMask allowedOperations)
+        void OnDragTargetDragEnter(CefDragDataWrapper^ dragData, MouseEvent^ mouseEvent, DragOperationsMask allowedOperations)
         {
             auto browser = _clientAdapter->GetCefBrowser();
 
@@ -691,7 +691,7 @@ namespace CefSharp
             }
         }
 
-        void OnDragTargetDragOver(IMouseEvent^ mouseEvent, DragOperationsMask allowedOperations)
+        void OnDragTargetDragOver(MouseEvent^ mouseEvent, DragOperationsMask allowedOperations)
         {
             auto browser = _clientAdapter->GetCefBrowser();
 
@@ -711,7 +711,7 @@ namespace CefSharp
             }
         }
 
-        void OnDragTargetDragDrop(IMouseEvent^ mouseEvent)
+        void OnDragTargetDragDrop(MouseEvent^ mouseEvent)
         {
             auto browser = _clientAdapter->GetCefBrowser();
 
