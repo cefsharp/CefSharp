@@ -9,6 +9,7 @@
 #include "MouseButtonType.h"
 #include "PaintElementType.h"
 #include "Internals/ClientAdapter.h"
+#include "Internals/CefDragDataWrapper.h"
 #include "Internals/RenderClientAdapter.h"
 #include "Internals/MCefRefPtr.h"
 #include "Internals/StringVisitor.h"
@@ -667,6 +668,56 @@ namespace CefSharp
             {
                 CefString wordNative = StringUtils::ToNative(word);
                 browser->GetHost()->AddWordToDictionary(wordNative);
+            }
+        }
+
+        CefMouseEvent GetCefMouseEvent(MouseEvent^ mouseEvent)
+        {
+            CefMouseEvent cefMouseEvent;
+            cefMouseEvent.x = mouseEvent->X;
+            cefMouseEvent.y = mouseEvent->Y;
+            cefMouseEvent.modifiers = (uint32)mouseEvent->Modifiers;
+            return cefMouseEvent;
+        }
+
+        void OnDragTargetDragEnter(CefDragDataWrapper^ dragData, MouseEvent^ mouseEvent, DragOperationsMask allowedOperations)
+        {
+            auto browser = _clientAdapter->GetCefBrowser();
+
+            if (browser != nullptr)
+            {
+                dragData->ResetFileContents(); // Recommended by documentation to reset before calling DragEnter
+                browser->GetHost()->DragTargetDragEnter(*dragData->InternalDragData, GetCefMouseEvent(mouseEvent), (CefBrowserHost::DragOperationsMask) allowedOperations);
+            }
+        }
+
+        void OnDragTargetDragOver(MouseEvent^ mouseEvent, DragOperationsMask allowedOperations)
+        {
+            auto browser = _clientAdapter->GetCefBrowser();
+
+            if (browser != nullptr)
+            {
+                browser->GetHost()->DragTargetDragOver(GetCefMouseEvent(mouseEvent), (CefBrowserHost::DragOperationsMask) allowedOperations);
+            }
+        }
+
+        void OnDragTargetDragLeave()
+        {
+            auto browser = _clientAdapter->GetCefBrowser();
+
+            if (browser != nullptr)
+            {
+                browser->GetHost()->DragTargetDragLeave();
+            }
+        }
+
+        void OnDragTargetDragDrop(MouseEvent^ mouseEvent)
+        {
+            auto browser = _clientAdapter->GetCefBrowser();
+
+            if (browser != nullptr)
+            {
+                browser->GetHost()->DragTargetDrop(GetCefMouseEvent(mouseEvent));
             }
         }
     };
