@@ -20,13 +20,13 @@ namespace CefSharp.WinForms.Internals
 
         public virtual bool OnSetFocus(CefFocusSource source)
         {
-            //Do not let the browser take focus when a Load method has been called
+            // Do not let the browser take focus when a Load method has been called
             return source == CefFocusSource.FocusSourceNavigation;
         }
 
         public virtual void OnTakeFocus(bool next)
         {
-            //NOTE: OnTakeFocus means leaving focus / not taking focus
+            // NOTE: OnTakeFocus means leaving focus / not taking focus
             browser.InvokeOnUiThreadIfRequired(() => browser.SelectNextControl(next));
         }
     }

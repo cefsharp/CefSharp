@@ -28,7 +28,7 @@ namespace CefSharp.WinForms.Internals
 
         public static void Activate(this Control control)
         {
-            //Notify WinForms world that inner browser window got focus. This will trigger Leave event to previous focused control
+            // Notify WinForms world that inner browser window got focus. This will trigger Leave event to previous focused control
             var containerControl = control.GetContainerControl();
             if (containerControl != null)
             {
