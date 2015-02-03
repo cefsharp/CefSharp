@@ -45,13 +45,13 @@ namespace CefSharp
             // Create a new CefDragData object.
             ///
             /*--cef()--*/
-            static CefDragDataWrapper^ Create(){
+            static CefDragDataWrapper^ Create()
+            {
                 CefRefPtr<CefDragData> cefDragData = CefDragData::Create();
                 return gcnew CefDragDataWrapper(cefDragData);
             }
 
-
-            virtual property CefRefPtr<CefDragData>* _internalDragData
+            virtual property CefRefPtr<CefDragData>* InternalDragData
             {
                 CefRefPtr<CefDragData>* get() 
                 { 

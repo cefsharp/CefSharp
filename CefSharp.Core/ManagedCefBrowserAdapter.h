@@ -671,7 +671,8 @@ namespace CefSharp
             }
         }
 
-        CefMouseEvent GetCefMouseEvent(IMouseEvent^ mouseEvent){
+        CefMouseEvent GetCefMouseEvent(IMouseEvent^ mouseEvent)
+        {
             CefMouseEvent cefMouseEvent;
             cefMouseEvent.x = mouseEvent->X;
             cefMouseEvent.y = mouseEvent->Y;
@@ -679,21 +680,18 @@ namespace CefSharp
             return cefMouseEvent;
         }
 
-        void OnDragTargetDragEnter(CefDragDataWrapper^ dragData, IMouseEvent^ mouseEvent, CefDragOperationsMask allowedOperations)
+        void OnDragTargetDragEnter(CefDragDataWrapper^ dragData, IMouseEvent^ mouseEvent, DragOperationsMask allowedOperations)
         {
             auto browser = _clientAdapter->GetCefBrowser();
 
             if (browser != nullptr)
             {
                 dragData->ResetFileContents(); // Recommended by documentation to reset before calling DragEnter
-                browser->GetHost()->DragTargetDragEnter(*dragData->_internalDragData, GetCefMouseEvent(mouseEvent), (CefBrowserHost::DragOperationsMask) allowedOperations);
+                browser->GetHost()->DragTargetDragEnter(*dragData->InternalDragData, GetCefMouseEvent(mouseEvent), (CefBrowserHost::DragOperationsMask) allowedOperations);
             }
         }
 
-
-
-
-        void OnDragTargetDragOver(IMouseEvent^ mouseEvent, CefDragOperationsMask allowedOperations)
+        void OnDragTargetDragOver(IMouseEvent^ mouseEvent, DragOperationsMask allowedOperations)
         {
             auto browser = _clientAdapter->GetCefBrowser();
 
@@ -702,7 +700,6 @@ namespace CefSharp
                 browser->GetHost()->DragTargetDragOver(GetCefMouseEvent(mouseEvent), (CefBrowserHost::DragOperationsMask) allowedOperations);
             }
         }
-
 
         void OnDragTargetDragLeave()
         {
@@ -714,7 +711,6 @@ namespace CefSharp
             }
         }
 
-
         void OnDragTargetDragDrop(IMouseEvent^ mouseEvent)
         {
             auto browser = _clientAdapter->GetCefBrowser();
@@ -724,6 +720,5 @@ namespace CefSharp
                 browser->GetHost()->DragTargetDrop(GetCefMouseEvent(mouseEvent));
             }
         }
-
     };
 }

@@ -9,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -331,6 +330,12 @@ namespace CefSharp.Wpf
             GotKeyboardFocus -= OnGotKeyboardFocus;
             LostKeyboardFocus -= OnLostKeyboardFocus;
 
+            // Drag Drop events
+            DragEnter -= OnDragEnter;
+            DragOver -= OnDragOver;
+            DragLeave -= OnDragLeave;
+            Drop -= OnDrop;
+
             IsVisibleChanged -= OnIsVisibleChanged;
 
             Cef.RemoveDisposable(this);
@@ -467,25 +472,22 @@ namespace CefSharp.Wpf
 
             PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
         }
-
-        void OnDrop(object sender, DragEventArgs e)
+        private void OnDrop(object sender, DragEventArgs e)
         {
             managedCefBrowserAdapter.OnDragTargetDragDrop(GetMouseEvent(e));
         }
 
-        void OnDragLeave(object sender, DragEventArgs e)
+        private void OnDragLeave(object sender, DragEventArgs e)
         {
             managedCefBrowserAdapter.OnDragTargetDragLeave();
         }
 
-        void OnDragOver(object sender, DragEventArgs e)
+        private void OnDragOver(object sender, DragEventArgs e)
         {
             managedCefBrowserAdapter.OnDragTargetDragOver(GetMouseEvent(e), GetDragOperationsMask(e.AllowedEffects));
         }
 
-        
-
-        void OnDragEnter(object sender, DragEventArgs e)
+        private void OnDragEnter(object sender, DragEventArgs e)
         {
             managedCefBrowserAdapter.OnDragTargetDragEnter(GetDragDataWrapper(e), GetMouseEvent(e), GetDragOperationsMask(e.AllowedEffects));
         }
@@ -493,29 +495,28 @@ namespace CefSharp.Wpf
         /// <summary>
         /// Converts .NET drag drop effects to CEF Drag Operations
         /// </summary>s
-        private CefDragOperationsMask GetDragOperationsMask(DragDropEffects dragDropEffects)
+        private static DragOperationsMask GetDragOperationsMask(DragDropEffects dragDropEffects)
         {
-            var operations = CefDragOperationsMask.None;
+            var operations = DragOperationsMask.None;
 
             if (dragDropEffects.HasFlag(DragDropEffects.All))
             {
-                operations |= CefDragOperationsMask.Every;
+                operations |= DragOperationsMask.Every;
             }
             if (dragDropEffects.HasFlag(DragDropEffects.Copy))
             {
-                operations |= CefDragOperationsMask.Copy;
+                operations |= DragOperationsMask.Copy;
             }
             if (dragDropEffects.HasFlag(DragDropEffects.Move))
             {
-                operations |= CefDragOperationsMask.Move;
+                operations |= DragOperationsMask.Move;
             }
             if (dragDropEffects.HasFlag(DragDropEffects.Link))
             {
-                operations |= CefDragOperationsMask.Link;
+                operations |= DragOperationsMask.Link;
             }
 
             return operations;
-        
         }
 
         private CefDragDataWrapper GetDragDataWrapper(DragEventArgs e)
@@ -530,7 +531,7 @@ namespace CefSharp.Wpf
                 // As per documentation, we only need to specify FileNames, not FileName, when dragging into the browser (http://magpcss.org/ceforum/apidocs3/projects/(default)/CefDragData.html)
                 foreach (var filePath in (string[])e.Data.GetData(DataFormats.FileDrop))
                 {
-                    var displayName = System.IO.Path.GetFileName(filePath);
+                    var displayName = Path.GetFileName(filePath);
 
                     dragData.AddFile(filePath.Replace("\\", "/"), displayName);
                 }
@@ -551,11 +552,6 @@ namespace CefSharp.Wpf
                 dragData.FragmentText = (string)e.Data.GetData(DataFormats.Text);
                 dragData.FragmentHtml = (string)e.Data.GetData(DataFormats.Html);
             }
-
-            
-
-            
-            
 
             return dragData;
         }
@@ -891,22 +887,6 @@ namespace CefSharp.Wpf
         }
 
         /// <summary>
-        /// Converts a .NET Mouse event to a CefSharp MouseEvent
-        /// </summary>
-        private MouseEvent GetMouseEvent(MouseEventArgs e)
-        {
-            var point = GetPixelPosition(e);
-            var modifiers = GetModifiers(e);
-
-            return new MouseEvent
-            {
-                X = (int)point.X,
-                Y = (int)point.Y,
-                Modifiers = modifiers
-            };
-        }
-
-        /// <summary>
         /// Converts a .NET Drag event to a CefSharp MouseEvent
         /// </summary>
         private MouseEvent GetMouseEvent(DragEventArgs e)
@@ -937,7 +917,6 @@ namespace CefSharp.Wpf
             {
                 modifiers |= CefEventFlags.RightMouseButton;
             }
-
 
             if (Keyboard.IsKeyDown(Key.LeftCtrl))
             {
@@ -1465,7 +1444,5 @@ namespace CefSharp.Wpf
         {
             managedCefBrowserAdapter.Invalidate(type);
         }
-
-
     }
 }

@@ -89,7 +89,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CefFileDialogMode.cs" />
-    <Compile Include="CefDragOperationsMask.cs" />
     <Compile Include="DefaultResourceHandler.cs" />
     <Compile Include="IMouseEvent.cs" />
     <Compile Include="MouseEvent.cs" />
