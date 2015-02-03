@@ -397,14 +397,6 @@ namespace CefSharp.WinForms
             }
         }
 
-        /// <summary>
-        /// Set whether the browser is focused.
-        /// </summary>
-        public void SetFocus(bool isFocused)
-        {
-            managedCefBrowserAdapter.SetFocus(isFocused);
-        }
-
         protected override void OnSizeChanged(EventArgs e)
         {
             base.OnSizeChanged(e);
@@ -436,6 +428,28 @@ namespace CefSharp.WinForms
         public void AddWordToDictionary(string word)
         {
             managedCefBrowserAdapter.AddWordToDictionary(word);
+        }
+
+        protected override void OnEnter(EventArgs e)
+        {
+            SetFocus(true);
+
+            base.OnEnter(e);
+        }
+
+        protected override void OnLeave(EventArgs e)
+        {
+            SetFocus(false);
+
+            base.OnLeave(e);
+        }
+
+        /// <summary>
+        /// Set whether the browser is focused.
+        /// </summary>
+        public void SetFocus(bool isFocused)
+        {
+            managedCefBrowserAdapter.SetFocus(isFocused);
         }
     }
 }

@@ -2,31 +2,32 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using System.Windows.Forms;
-
 namespace CefSharp.WinForms.Internals
 {
-	internal class DefaultFocusHandler : IFocusHandler
-	{
-		private readonly ChromiumWebBrowser browser;
+    internal class DefaultFocusHandler : IFocusHandler
+    {
+        private readonly ChromiumWebBrowser browser;
 
-		public DefaultFocusHandler(ChromiumWebBrowser browser)
-		{
-			this.browser = browser;
-		}
+        public DefaultFocusHandler(ChromiumWebBrowser browser)
+        {
+            this.browser = browser;
+        }
 
-		public void OnGotFocus()
-		{
-		}
+        public virtual void OnGotFocus()
+        {
+            browser.InvokeOnUiThreadIfRequired(browser.Activate);
+        }
 
-		public bool OnSetFocus(CefFocusSource source)
-		{
-			return false;
-		}
+        public virtual bool OnSetFocus(CefFocusSource source)
+        {
+            // Do not let the browser take focus when a Load method has been called
+            return source == CefFocusSource.FocusSourceNavigation;
+        }
 
-		public void OnTakeFocus(bool next)
-		{
-			browser.BeginInvoke(new MethodInvoker(() => browser.SelectNextControl(browser, next, true, true, true)));
-		}
-	}
+        public virtual void OnTakeFocus(bool next)
+        {
+            // NOTE: OnTakeFocus means leaving focus / not taking focus
+            browser.InvokeOnUiThreadIfRequired(() => browser.SelectNextControl(next));
+        }
+    }
 }
