@@ -42,24 +42,6 @@ namespace CefSharp.WinForms.Example
 
             var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
             DisplayOutput(version);
-
-            Disposed += BrowserTabUserControlDisposed;
-        }
-
-        private void BrowserTabUserControlDisposed(object sender, EventArgs e)
-        {
-            var browser = (ChromiumWebBrowser)Browser;
-            Disposed -= BrowserTabUserControlDisposed;
-
-            browser.NavStateChanged -= OnBrowserNavStateChanged;
-            browser.ConsoleMessage -= OnBrowserConsoleMessage;
-            browser.TitleChanged -= OnBrowserTitleChanged;
-            browser.AddressChanged -= OnBrowserAddressChanged;
-            browser.StatusMessage -= OnBrowserStatusMessage;
-            browser.IsBrowserInitializedChanged -= OnIsBrowserInitializedChanged;
-            browser.IsLoadingChanged -= OnIsLoadingChanged;
-
-            browser.Dispose();
         }
 
         private void OnBrowserConsoleMessage(object sender, ConsoleMessageEventArgs args)

@@ -71,13 +71,15 @@ namespace CefSharp
 
     public ref class BrowserSettings
     {
+    private:
+        bool _isFinalized;
     internal:
         CefBrowserSettings* _browserSettings;
 
     public:
-        BrowserSettings() : _browserSettings(new CefBrowserSettings()) { }
-        !BrowserSettings() { delete _browserSettings; }
-        ~BrowserSettings() { delete _browserSettings; }
+        BrowserSettings() : _browserSettings(new CefBrowserSettings()), _isFinalized(false) { }
+        !BrowserSettings() { delete _browserSettings; _isFinalized = true; }
+        ~BrowserSettings() { if (!_isFinalized) this->!BrowserSettings(); }
 
         // CefBrowserSettings is private causing whole field to be private
         // exposing void* as a workaround
