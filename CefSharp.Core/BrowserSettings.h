@@ -72,12 +72,12 @@ namespace CefSharp
     public ref class BrowserSettings
     {
     private:
-        bool _isFinalized = false;
+        bool _isFinalized;
     internal:
         CefBrowserSettings* _browserSettings;
 
     public:
-        BrowserSettings() : _browserSettings(new CefBrowserSettings()) { }
+        BrowserSettings() : _browserSettings(new CefBrowserSettings()), _isFinalized(false) { }
         !BrowserSettings() { delete _browserSettings; _isFinalized = true; }
         ~BrowserSettings() { if (!_isFinalized) this->!BrowserSettings(); }
 
