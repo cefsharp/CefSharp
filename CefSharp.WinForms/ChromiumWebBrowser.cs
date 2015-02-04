@@ -75,20 +75,46 @@ namespace CefSharp.WinForms
 
         protected override void Dispose(bool disposing)
         {
+            // Don't utilize any of the handlers anymore:
+            DialogHandler = null;
+            JsDialogHandler = null;
+            KeyboardHandler = null;
+            RequestHandler = null;
+            DownloadHandler = null;
+            LifeSpanHandler = null;
+            MenuHandler = null;
+            DragHandler = null;
+            GeolocationHandler = null;
             FocusHandler = null;
             ResourceHandler = null;
-            BrowserSettings.Dispose();
-            BrowserSettings = null;
 
             Cef.RemoveDisposable(this);
 
             if (disposing)
             {
+                if (BrowserSettings != null)
+                {
+                    BrowserSettings.Dispose();
+                    BrowserSettings = null;
+                }
+
                 if (managedCefBrowserAdapter != null)
                 {
                     managedCefBrowserAdapter.Dispose();
                     managedCefBrowserAdapter = null;
                 }
+
+                // Don't maintain a reference to event listeners anylonger:
+                LoadError = null;
+                FrameLoadStart = null;
+                FrameLoadEnd = null;
+                NavStateChanged = null;
+                ConsoleMessage = null;
+                StatusMessage = null;
+                AddressChanged = null;
+                TitleChanged = null;
+                IsBrowserInitializedChanged = null;
+                IsLoadingChanged = null;
             }
             base.Dispose(disposing);
         }
