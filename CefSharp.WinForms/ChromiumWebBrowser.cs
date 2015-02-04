@@ -14,6 +14,7 @@ namespace CefSharp.WinForms
     public class ChromiumWebBrowser : Control, IWebBrowserInternal, IWinFormsWebBrowser
     {
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
+        private MovingListener movingListener;
 
         public BrowserSettings BrowserSettings { get; set; }
         public string Title { get; set; }
@@ -93,9 +94,30 @@ namespace CefSharp.WinForms
             base.Dispose(disposing);
         }
 
+        void movingListener_Moving(object sender, EventArgs e)
+        {
+            if (IsBrowserInitialized)
+            {
+                NotifyMoveOrResizeStarted();
+            }
+        }
+
         void IWebBrowserInternal.OnInitialized()
         {
             IsBrowserInitialized = true;
+
+            // By the time this callback gets called, this control
+            // is most likely hooked into a parent Form of some sort. 
+            // (Which is what MovingListener relies on.)
+            // Ensure the MovingListener contruction occurs on the WinForms UI thread:
+            if (InvokeRequired)
+            {
+                this.BeginInvoke((MethodInvoker)delegate 
+                {
+                    movingListener = new MovingListener(this.FindForm());
+                    movingListener.Moving += movingListener_Moving;
+                });
+            }
 
             ResizeBrowser();
 
