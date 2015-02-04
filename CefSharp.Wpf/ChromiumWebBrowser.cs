@@ -318,40 +318,61 @@ namespace CefSharp.Wpf
 
         protected virtual void Dispose(bool isdisposing)
         {
-            PresentationSource.RemoveSourceChangedHandler(this, PresentationSourceChangedHandler);
-
-            BrowserSettings.Dispose();
-
-            BrowserSettings = null;
-            ResourceHandler = null;
-
-            Loaded -= OnLoaded;
-
-            GotKeyboardFocus -= OnGotKeyboardFocus;
-            LostKeyboardFocus -= OnLostKeyboardFocus;
-
-            // Drag Drop events
-            DragEnter -= OnDragEnter;
-            DragOver -= OnDragOver;
-            DragLeave -= OnDragLeave;
-            Drop -= OnDrop;
-
-            IsVisibleChanged -= OnIsVisibleChanged;
-
-            Cef.RemoveDisposable(this);
-
-            foreach (var disposable in disposables)
-            {
-                disposable.Dispose();
-            }
-            disposables.Clear();
-
-            UiThreadRunAsync(() => WebBrowser = null);
-            managedCefBrowserAdapter = null;
+            // No longer reference event listeners:
             ConsoleMessage = null;
             FrameLoadStart = null;
             FrameLoadEnd = null;
             LoadError = null;
+            NavStateChanged = null;
+
+            // No longer reference handlers:
+            ResourceHandler = null;
+            DialogHandler = null;
+            JsDialogHandler = null;
+            KeyboardHandler = null;
+            RequestHandler = null;
+            DownloadHandler = null;
+            LifeSpanHandler = null;
+            MenuHandler = null;
+            FocusHandler = null;
+            DragHandler = null;
+            GeolocationHandler = null;
+            Rendering = null;
+
+            if (isdisposing)
+            {
+                if (BrowserSettings != null)
+                {
+                    BrowserSettings.Dispose();
+                    BrowserSettings = null;
+                }
+
+                PresentationSource.RemoveSourceChangedHandler(this, PresentationSourceChangedHandler);
+
+                // Release internal event listeners:
+                Loaded -= OnLoaded;
+                GotKeyboardFocus -= OnGotKeyboardFocus;
+                LostKeyboardFocus -= OnLostKeyboardFocus;
+
+                // Release internal event listeners for Drag Drop events:
+                DragEnter -= OnDragEnter;
+                DragOver -= OnDragOver;
+                DragLeave -= OnDragLeave;
+                Drop -= OnDrop;
+
+                IsVisibleChanged -= OnIsVisibleChanged;
+
+                foreach (var disposable in disposables)
+                {
+                    disposable.Dispose();
+                }
+                disposables.Clear();
+                UiThreadRunAsync(() => WebBrowser = null);
+            }
+
+            Cef.RemoveDisposable(this);
+
+            managedCefBrowserAdapter = null;
         }
 
         #endregion CleanupElement dependency property
@@ -605,9 +626,6 @@ namespace CefSharp.Wpf
             // URLs in drag/drop data are often padded with null characters so remove these
             return url.TrimEnd('\0');
         }
-
-
-
 
         ~ChromiumWebBrowser()
         {
