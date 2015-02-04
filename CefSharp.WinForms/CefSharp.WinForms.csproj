@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Internals\DefaultFocusHandler.cs" />
     <Compile Include="Internals\ControlExtensions.cs" />
+    <Compile Include="Internals\MovingListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ChromiumWebBrowser.cs">
       <SubType>Component</SubType>
