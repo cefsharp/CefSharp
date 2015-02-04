@@ -84,7 +84,7 @@ namespace CefSharp.OffScreen
             DragHandler = null;
             GeolocationHandler = null;
 
-            // Don't reference event listenets any longer:
+            // Don't reference event listeners any longer:
             LoadError = null;
             FrameLoadStart = null;
             FrameLoadEnd = null;
