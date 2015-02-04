@@ -114,7 +114,7 @@ namespace CefSharp.WinForms
             {
                 this.BeginInvoke((MethodInvoker)delegate 
                 {
-                    movingListener = new MovingListener(this.FindForm());
+                    movingListener = new MovingListener(this);
                     movingListener.Moving += movingListener_Moving;
                 });
             }
