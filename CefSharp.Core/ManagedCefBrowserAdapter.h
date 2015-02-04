@@ -35,7 +35,9 @@ namespace CefSharp
             Close(true);
 
             _clientAdapter = nullptr;
-            if (_browserProcessServiceHost != nullptr)
+
+            // Guard managed only member derefs by isDisposing:
+            if (isDisposing && _browserProcessServiceHost != nullptr)
             {
                 _browserProcessServiceHost->Close();
                 _browserProcessServiceHost = nullptr;
