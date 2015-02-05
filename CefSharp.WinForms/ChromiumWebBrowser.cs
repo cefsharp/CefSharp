@@ -94,7 +94,7 @@ namespace CefSharp.WinForms
             base.Dispose(disposing);
         }
 
-        void movingListener_Moving(object sender, EventArgs e)
+        private void MovingListenerMoving(object sender, EventArgs e)
         {
             if (IsBrowserInitialized)
             {
@@ -109,15 +109,12 @@ namespace CefSharp.WinForms
             // By the time this callback gets called, this control
             // is most likely hooked into a parent Form of some sort. 
             // (Which is what MovingListener relies on.)
-            // Ensure the MovingListener contruction occurs on the WinForms UI thread:
-            if (InvokeRequired)
+            // Ensure the MovingListener construction occurs on the WinForms UI thread:
+            this.InvokeOnUiThreadIfRequired(() =>
             {
-                this.BeginInvoke((MethodInvoker)delegate 
-                {
-                    movingListener = new MovingListener(this);
-                    movingListener.Moving += movingListener_Moving;
-                });
-            }
+                movingListener = new MovingListener(this);
+                movingListener.Moving += MovingListenerMoving;
+            });
 
             ResizeBrowser();
 

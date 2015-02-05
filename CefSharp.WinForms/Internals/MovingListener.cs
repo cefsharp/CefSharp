@@ -25,17 +25,17 @@ namespace CefSharp.WinForms.Internals
         {
             ParentControl = parent;
             // Get notified if our parent window changes:
-            ParentControl.ParentChanged += parent_ParentChanged;
+            ParentControl.ParentChanged += ParentParentChanged;
             // Find the parent form to subclass to monitor WM_MOVE/WM_MOVING
             RefindParentForm();
         }
 
         public void RefindParentForm()
         {
-            parent_ParentChanged(ParentControl, null);
+            ParentParentChanged(ParentControl, null);
         }
 
-        private void parent_ParentChanged(object sender, EventArgs e)
+        private void ParentParentChanged(object sender, EventArgs e)
         {
             Control control = (Control)sender;
             Form oldForm = ParentForm;
@@ -57,7 +57,12 @@ namespace CefSharp.WinForms.Internals
                 ParentForm = newForm;
                 if (newForm != null)
                 {
-                    OnHandleCreated(newForm, null);
+                    newForm.HandleCreated += OnHandleCreated;
+                    newForm.HandleDestroyed += OnHandleDestroyed;
+                    if (newForm.IsHandleCreated)
+                    {
+                        OnHandleCreated(newForm, null);
+                    }
                 }
             }
         }
@@ -72,13 +77,16 @@ namespace CefSharp.WinForms.Internals
         {
             ReleaseHandle();
         }
+
         protected override void WndProc(ref Message m)
         {
             bool care = false;
 
-            // Negative initial values keeps the compiler quiet:
-            int x = -1;
-            int y = -1;
+            // Negative initial values keeps the compiler quiet and to
+            // ensure we have actual window movement to notify CEF about.
+            const int invalidMoveCoordinate = -1;
+            int x = invalidMoveCoordinate;
+            int y = invalidMoveCoordinate;
 
             // Listen for operating system messages 
             switch (m.Msg)
@@ -99,8 +107,13 @@ namespace CefSharp.WinForms.Internals
             }
 
             // Only notify about movement if:
-            // * ParentForm Created
-            // * ParentControl Created
+            // * ParentControl Handle Created
+            //   NOTE: This is checked for paranoia. 
+            //         This WndProc can't be called unless ParentForm has 
+            //         its handle created, but that doesn't necessarily mean 
+            //         ParentControl has had its handle created.
+            //         WinForm controls don't usually get eagerly created Handles
+            //         in their constructors.
             // * ParentForm Actually moved
             // * Not currently moving (on the UI thread only of course)
             // * The current WindowState is Normal.
@@ -112,20 +125,18 @@ namespace CefSharp.WinForms.Internals
             // However, if you do that, the non-Visible CEF tab will still
             // have any SELECT drop downs rendering where they shouldn't.
             if (care
-                && ParentForm != null
-                && ParentForm.IsHandleCreated
                 && ParentControl.IsHandleCreated
                 && ParentForm.WindowState == FormWindowState.Normal
                 && (ParentForm.Left != x
                     || ParentForm.Top != y)
                 && !isMoving)
             {
-                // .Left & .Right are negative when the window
+                // ParentForm.Left & .Right are negative when the window
                 // is transitioning from maximized to normal.
                 // If we are transitioning, the form will also receive
                 // a WM_SIZE which can deal with the move/size combo itself.
-                if (ParentForm.Left > 0
-                    && ParentForm.Right > 0)
+                if (ParentForm.Left >= 0
+                    && ParentForm.Right >= 0)
                 {
                     OnMoving();
                     Kernel32.OutputDebugString(String.Format("Called OnMoving from control '{1:x}' to form '{0:x}'\r\n", ParentForm.Handle, ParentControl.Handle));
@@ -145,9 +156,11 @@ namespace CefSharp.WinForms.Internals
         protected virtual void OnMoving()
         {
             isMoving = true;
-            if (Moving != null)
+            var handler = Moving;
+
+            if (handler != null)
             {
-                Moving(this, null);
+                handler(this, null);
             }
             isMoving = false;
         }
