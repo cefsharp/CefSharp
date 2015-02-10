@@ -15,7 +15,7 @@ namespace CefSharp
             : _url(url), _isMainFrame(isMainFrame) {}
 
         property String^ Url { String^ get() { return _url; } }
-        property bool IsMainFrame { bool get() { return _isMainFrame; }
+        property bool IsMainFrame { bool get() { return _isMainFrame; } }
     };
 
     public delegate void LoadStartedEventHandler(Object^ sender, LoadStartedEventArgs^ url);
