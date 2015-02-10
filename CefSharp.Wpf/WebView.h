@@ -128,6 +128,7 @@ namespace CefSharp
             virtual event ConsoleMessageEventHandler^ ConsoleMessage;
             virtual event KeyEventHandler^ BrowserKey;
             virtual event LoadCompletedEventHandler^ LoadCompleted;
+            virtual event LoadStartedEventHandler^ LoadStarted;
 
             WebView()
             {
@@ -291,8 +292,8 @@ namespace CefSharp
 
             virtual void SetNavState(bool isLoading, bool canGoBack, bool canGoForward);
 
-            virtual void OnFrameLoadStart(String^ url);
-            virtual void OnFrameLoadEnd(String^ url);
+            virtual void OnFrameLoadStart(String^ url, bool isMainFrame);
+            virtual void OnFrameLoadEnd(String^ url, bool isMainFrame);
             virtual void OnTakeFocus(bool next);
             virtual void OnConsoleMessage(String^ message, String^ source, int line);
 

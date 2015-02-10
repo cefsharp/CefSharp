@@ -165,6 +165,7 @@
     <ClInclude Include="ISchemeHandler.h" />
     <ClInclude Include="IWebBrowser.h" />
     <ClInclude Include="LoadCompletedEventArgs.h" />
+    <ClInclude Include="LoadStartedEventArgs.h" />
     <ClInclude Include="MCefRefPtr.h" />
     <ClInclude Include="Internals\JavascriptBinding\PropertyAccessor.h" />
     <ClInclude Include="RenderClientAdapter.h" />

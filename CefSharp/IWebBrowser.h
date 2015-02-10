@@ -4,6 +4,7 @@
 #include "BrowserCore.h"
 #include "ConsoleMessageEventArgs.h"
 #include "LoadCompletedEventArgs.h"
+#include "LoadStartedEventArgs.h"
 
 using namespace System;
 using namespace System::ComponentModel;
@@ -65,8 +66,8 @@ namespace CefSharp
 
         void SetNavState(bool isLoading, bool canGoBack, bool canGoForward);
 
-        void OnFrameLoadStart(String^ url);
-        void OnFrameLoadEnd(String^ url);
+        void OnFrameLoadStart(String^ url, bool isMainFrame);
+        void OnFrameLoadEnd(String^ url, bool isMainFrame);
         void OnTakeFocus(bool next);
         void OnConsoleMessage(String^ message, String^ source, int line);
 

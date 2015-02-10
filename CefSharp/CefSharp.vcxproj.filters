@@ -190,5 +190,8 @@
     <ClInclude Include="ISchemeHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="LoadStartedEventArgs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
