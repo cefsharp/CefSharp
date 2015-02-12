@@ -1,1 +1,1 @@
-nuget pack CefSharp.Wpf.nuspec -Version 1.25.7 -NoPackageAnalysis
+nuget pack CefSharp.Wpf.nuspec -Version 1.25.8 -NoPackageAnalysis
