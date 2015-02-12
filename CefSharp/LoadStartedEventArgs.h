@@ -5,18 +5,18 @@ using namespace System;
 
 namespace CefSharp
 {
-    public ref class LoadCompletedEventArgs : EventArgs
+    public ref class LoadStartedEventArgs : EventArgs
     {
         String^ _url;
         bool _isMainFrame;
 
     public:
-        LoadCompletedEventArgs(String^ url, bool isMainFrame)
+        LoadStartedEventArgs(String^ url, bool isMainFrame)
             : _url(url), _isMainFrame(isMainFrame) {}
 
         property String^ Url { String^ get() { return _url; } }
         property bool IsMainFrame { bool get() { return _isMainFrame; } }
     };
 
-    public delegate void LoadCompletedEventHandler(Object^ sender, LoadCompletedEventArgs^ url);
+    public delegate void LoadStartedEventHandler(Object^ sender, LoadStartedEventArgs^ url);
 }

@@ -332,16 +332,19 @@ namespace WinForms
         ConsoleMessage(this, gcnew ConsoleMessageEventArgs(message, source, line));
     }
 
-    void WebView::OnFrameLoadStart(String^ url)
+    void WebView::OnFrameLoadStart(String^ url, bool isMainFrame)
     {
         _browserCore->OnFrameLoadStart();
+
+        LoadStartedEventArgs^ args = gcnew LoadStartedEventArgs(url, isMainFrame);
+        LoadStarted(this, args);
     }
 
-    void WebView::OnFrameLoadEnd(String^ url)
+    void WebView::OnFrameLoadEnd(String^ url, bool isMainFrame)
     {
         _browserCore->OnFrameLoadEnd();
         
-        LoadCompletedEventArgs^ args = gcnew LoadCompletedEventArgs(url);
+        LoadCompletedEventArgs^ args = gcnew LoadCompletedEventArgs(url, isMainFrame);
         LoadCompleted(this, args);
     }
 
