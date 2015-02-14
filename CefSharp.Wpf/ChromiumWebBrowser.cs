@@ -1462,5 +1462,14 @@ namespace CefSharp.Wpf
         {
             managedCefBrowserAdapter.Invalidate(type);
         }
+
+        /// <summary>
+        /// Change the zoom level to the specified value. Specify 0.0 to reset the zoom level.
+        /// </summary>
+        /// <param name="zoomLevel">zoom level</param>
+        public void SetZoomLevel(double zoomLevel)
+        {
+            managedCefBrowserAdapter.SetZoomLevel(zoomLevel);
+        }
     }
 }
