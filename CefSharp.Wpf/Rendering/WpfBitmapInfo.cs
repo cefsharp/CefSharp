@@ -7,9 +7,9 @@ using CefSharp.Internals;
 
 namespace CefSharp.Wpf.Rendering
 {
-	public abstract class WpfBitmapInfo : BitmapInfo
-	{
-		public abstract void Invalidate();
-		public abstract BitmapSource CreateBitmap();
-	}
+    public abstract class WpfBitmapInfo : BitmapInfo
+    {
+        public abstract void Invalidate();
+        public abstract BitmapSource CreateBitmap();
+    }
 }

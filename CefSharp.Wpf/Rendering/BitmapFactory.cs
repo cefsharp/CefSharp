@@ -6,12 +6,12 @@ using CefSharp.Internals;
 
 namespace CefSharp.Wpf.Rendering
 {
-	public class BitmapFactory : IBitmapFactory
-	{
-		public BitmapInfo CreateBitmap(bool isPopup)
-		{
-			//return new WritableBitmapInfo { IsPopup = isPopup };
-			return new InteropBitmapInfo { IsPopup = isPopup };
-		}
-	}
+    public class BitmapFactory : IBitmapFactory
+    {
+        public BitmapInfo CreateBitmap(bool isPopup)
+        {
+            //return new WritableBitmapInfo { IsPopup = isPopup };
+            return new InteropBitmapInfo { IsPopup = isPopup };
+        }
+    }
 }
