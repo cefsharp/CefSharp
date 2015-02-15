@@ -6,8 +6,8 @@ using CefSharp.Internals;
 
 namespace CefSharp
 {
-	public interface IBitmapFactory
-	{
-		BitmapInfo CreateBitmap(bool isPopup);
-	}
+    public interface IBitmapFactory
+    {
+        BitmapInfo CreateBitmap(bool isPopup);
+    }
 }
