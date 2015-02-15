@@ -26,6 +26,8 @@ namespace CefSharp.Example
             //settings.CefCommandLineArgs.Add("renderer-startup-dialog", "renderer-startup-dialog");
             //settings.CefCommandLineArgs.Add("disable-gpu", "1");
             //settings.CefCommandLineArgs.Add("disable-gpu-vsync", "1");
+            //settings.CefCommandLineArgs.Add("enable-media-stream", "1"); //Enable WebRTC
+            
             settings.LogSeverity = LogSeverity.Verbose;
 
             if (DebuggingSubProcess)

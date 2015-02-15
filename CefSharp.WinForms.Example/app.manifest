@@ -8,7 +8,14 @@
     xmlns:asmv3="urn:schemas-microsoft-com:asm.v3"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-  <assemblyIdentity version="37.0.0.0" name="CefSharp.WinForms.Example.app" />
+  <assemblyIdentity version="39.0.0.0" name="CefSharp.WinForms.Example.app" />
+
+  <dependency>
+    <dependentAssembly>
+      <assemblyIdentity type="Win32" name="Microsoft.Windows.Common-Controls" version="6.0.0.0" processorArchitecture="*" publicKeyToken="6595b64144ccf1df" language="*"></assemblyIdentity>
+    </dependentAssembly>
+  </dependency>
+  
   <trustInfo xmlns="urn:schemas-microsoft-com:asm.v2">
     <security>
       <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">

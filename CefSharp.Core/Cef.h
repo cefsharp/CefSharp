@@ -258,9 +258,9 @@ namespace CefSharp
         /// characters (e.g. the ';' character is disallowed within the cookie value attribute) and will return false without setting
         /// the cookie if such characters are found.</summary>
         /// <param name="url">The cookie URL</param>
+        /// <param name="domain">The cookie domain.</param>
         /// <param name="name">The cookie name.</param>
         /// <param name="value">The cookie value.</param>
-        /// <param name="domain">The cookie domain.</param>
         /// <param name="expires">The DateTime when the cookie will be treated as expired.</param>
         /// <return>false if the cookie cannot be set (e.g. if illegal charecters such as ';' are used); otherwise true.</return>
         static bool SetCookie(String^ url, String^ domain, String^ name, String^ value, DateTime expires)

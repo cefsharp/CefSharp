@@ -44,6 +44,11 @@ namespace CefSharp.OffScreen
         /// <param name="browserSettings">The browser settings to use. If null, the default settings are used.</param>
         public ChromiumWebBrowser(string address, BrowserSettings browserSettings = null)
         {
+            if (!Cef.IsInitialized && !Cef.Initialize())
+            {
+                throw new InvalidOperationException("Cef::Initialize() failed");
+            }
+
             ResourceHandler = new DefaultResourceHandler();
 
             Cef.AddDisposable(this);
@@ -53,26 +58,60 @@ namespace CefSharp.OffScreen
             managedCefBrowserAdapter.CreateOffscreenBrowser(IntPtr.Zero, browserSettings ?? new BrowserSettings(), address);
         }
 
+        ~ChromiumWebBrowser()
+        {
+            Dispose(false);
+        }
+
         public void Dispose()
         {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            // Don't reference handlers any longer:
             ResourceHandler = null;
+            JsDialogHandler = null;
+            DialogHandler = null;
+            DownloadHandler = null;
+            KeyboardHandler = null;
+            LifeSpanHandler = null;
+            MenuHandler = null;
+            FocusHandler = null;
+            RequestHandler = null;
+            DragHandler = null;
+            GeolocationHandler = null;
+
+            // Don't reference event listeners any longer:
+            LoadError = null;
+            FrameLoadStart = null;
+            FrameLoadEnd = null;
+            ConsoleMessage = null;
+            BrowserInitialized = null;
+            StatusMessage = null;
+            NavStateChanged = null;
 
             Cef.RemoveDisposable(this);
 
-            if (bitmap != null)
+            if (disposing)
             {
-                bitmap.Dispose();
-                bitmap = null;
-            }
+                if (bitmap != null)
+                {
+                    bitmap.Dispose();
+                    bitmap = null;
+                }
 
-            if (managedCefBrowserAdapter != null)
-            {
-                if (!managedCefBrowserAdapter.IsDisposed)
-                    managedCefBrowserAdapter.Dispose();
-                managedCefBrowserAdapter = null;
+                if (managedCefBrowserAdapter != null)
+                {
+                    if (!managedCefBrowserAdapter.IsDisposed)
+                    {
+                        managedCefBrowserAdapter.Dispose();
+                    }
+                    managedCefBrowserAdapter = null;
+                }
             }
-
-            GC.SuppressFinalize(this);
         }
 
         /// <summary>
