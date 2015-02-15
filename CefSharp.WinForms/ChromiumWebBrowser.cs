@@ -475,7 +475,10 @@ namespace CefSharp.WinForms
         /// </summary>
         public void SetFocus(bool isFocused)
         {
-            managedCefBrowserAdapter.SetFocus(isFocused);
+            if (IsBrowserInitialized && managedCefBrowserAdapter != null)
+            {
+                managedCefBrowserAdapter.SetFocus(isFocused);
+            }
         }
     }
 }
