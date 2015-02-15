@@ -92,6 +92,8 @@ namespace CefSharp.WinForms
 
             if (disposing)
             {
+                IsBrowserInitialized = false;
+
                 if (BrowserSettings != null)
                 {
                     BrowserSettings.Dispose();
@@ -432,7 +434,7 @@ namespace CefSharp.WinForms
 
         private void ResizeBrowser()
         {
-            if (IsBrowserInitialized && managedCefBrowserAdapter != null)
+            if (IsBrowserInitialized)
             {
                 managedCefBrowserAdapter.Resize(Width, Height);
             }
@@ -440,7 +442,7 @@ namespace CefSharp.WinForms
 
         public void NotifyMoveOrResizeStarted()
         {
-            if (IsBrowserInitialized && managedCefBrowserAdapter != null)
+            if (IsBrowserInitialized)
             {
                 managedCefBrowserAdapter.NotifyMoveOrResizeStarted();
             }
@@ -475,7 +477,7 @@ namespace CefSharp.WinForms
         /// </summary>
         public void SetFocus(bool isFocused)
         {
-            if (IsBrowserInitialized && managedCefBrowserAdapter != null)
+            if (IsBrowserInitialized)
             {
                 managedCefBrowserAdapter.SetFocus(isFocused);
             }
