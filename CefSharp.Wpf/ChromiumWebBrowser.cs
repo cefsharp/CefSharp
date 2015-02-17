@@ -464,7 +464,6 @@ namespace CefSharp.Wpf
             toolTip.Visibility = Visibility.Collapsed;
             toolTip.Closed += OnTooltipClosed;
 
-
             BackCommand = new DelegateCommand(Back, () => CanGoBack);
             ForwardCommand = new DelegateCommand(Forward, () => CanGoForward);
             ReloadCommand = new DelegateCommand(Reload, () => CanReload);
@@ -493,6 +492,7 @@ namespace CefSharp.Wpf
 
             PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
         }
+
         private void OnDrop(object sender, DragEventArgs e)
         {
             managedCefBrowserAdapter.OnDragTargetDragDrop(GetMouseEvent(e));
@@ -577,7 +577,7 @@ namespace CefSharp.Wpf
             return dragData;
         }
 
-        private string GetLink(IDataObject data)
+        private static string GetLink(IDataObject data)
         {
             const string asciiUrlDataFormatName = "UniformResourceLocator";
             const string unicodeUrlDataFormatName = "UniformResourceLocatorW";
@@ -594,16 +594,15 @@ namespace CefSharp.Wpf
             }
             
             // Try ASCII
-            if (data.GetDataPresent(asciiUrlDataFormatName)){
+            if (data.GetDataPresent(asciiUrlDataFormatName))
+            {
                 // Try to read an ASCII URL from the data
                 return ReadUrlFromDragDropData(data, asciiUrlDataFormatName, Encoding.ASCII);
             }
 
             // Not a valid link
             return null;
-
         }
-
 
         /// <summary>Reads a URL using a particular text encoding from drag-and-drop data.</summary>
         /// <param name="data">The drag-and-drop data.</param>
@@ -611,11 +610,11 @@ namespace CefSharp.Wpf
         /// <param name="urlEncoding">The text encoding of the URL type.</param>
         /// <returns>A URL, or <see langword="null"/> if <paramref name="data"/> does not contain a URL
         /// of the correct type.</returns>
-        private string ReadUrlFromDragDropData(IDataObject data, string urlDataFormatName, Encoding urlEncoding)
+        private static string ReadUrlFromDragDropData(IDataObject data, string urlDataFormatName, Encoding urlEncoding)
         {
             // Read the URL from the data
             string url;
-            using (Stream urlStream = (Stream)data.GetData(urlDataFormatName))
+            using (var urlStream = (Stream)data.GetData(urlDataFormatName))
             {
                 using (TextReader reader = new StreamReader(urlStream, urlEncoding))
                 {
@@ -1157,19 +1156,24 @@ namespace CefSharp.Wpf
             switch (e.ChangedButton)
             {
                 case MouseButton.Left:
+                {
                     mouseButtonType = MouseButtonType.Left;
                     break;
-
+                }
                 case MouseButton.Middle:
+                {
                     mouseButtonType = MouseButtonType.Middle;
                     break;
-
+                }
                 case MouseButton.Right:
+                {
                     mouseButtonType = MouseButtonType.Right;
                     break;
-
+                }
                 default:
+                {
                     return;
+                }
             }
 
             var modifiers = GetModifiers(e);
