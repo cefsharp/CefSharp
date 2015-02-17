@@ -29,22 +29,24 @@ namespace CefSharp.OffScreen.Example
             CefExample.Init();
 
             // Create the offscreen Chromium browser.
-            browser = new ChromiumWebBrowser(testUrl);
-
-            // An event that is fired when the first page is finished loading.
-            // This returns to us from another thread.
-            if (captureFirstRenderedImage)
+            using (browser = new ChromiumWebBrowser(testUrl))
             {
-                browser.ResourceHandler.RegisterHandler(testUrl, ResourceHandler.FromString("<html><body><h1>CefSharp OffScreen</h1></body></html>"));
-                browser.ScreenshotAsync().ContinueWith(DisplayBitmap);
-            }
-            else
-            {
-                browser.FrameLoadEnd += BrowserFrameLoadEnd;
-            }
 
-            // We have to wait for something, otherwise the process will exit too soon.
-            Console.ReadKey();
+                // An event that is fired when the first page is finished loading.
+                // This returns to us from another thread.
+                if (captureFirstRenderedImage)
+                {
+                    browser.ResourceHandler.RegisterHandler(testUrl, ResourceHandler.FromString("<html><body><h1>CefSharp OffScreen</h1></body></html>"));
+                    browser.ScreenshotAsync().ContinueWith(DisplayBitmap);
+                }
+                else
+                {
+                    browser.FrameLoadEnd += BrowserFrameLoadEnd;
+                }
+
+                // We have to wait for something, otherwise the process will exit too soon.
+                Console.ReadKey();
+            }
 
             // Clean up Chromium objects.  You need to call this in your application otherwise
             // you will get a crash when closing.

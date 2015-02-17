@@ -7,6 +7,7 @@ using CefSharp.Internals;
 using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -317,34 +318,61 @@ namespace CefSharp.Wpf
 
         protected virtual void Dispose(bool isdisposing)
         {
-            PresentationSource.RemoveSourceChangedHandler(this, PresentationSourceChangedHandler);
-
-            BrowserSettings.Dispose();
-
-            BrowserSettings = null;
-            ResourceHandler = null;
-
-            Loaded -= OnLoaded;
-
-            GotKeyboardFocus -= OnGotKeyboardFocus;
-            LostKeyboardFocus -= OnLostKeyboardFocus;
-
-            IsVisibleChanged -= OnIsVisibleChanged;
-
-            Cef.RemoveDisposable(this);
-
-            foreach (var disposable in disposables)
-            {
-                disposable.Dispose();
-            }
-            disposables.Clear();
-
-            UiThreadRunAsync(() => WebBrowser = null);
-            managedCefBrowserAdapter = null;
+            // No longer reference event listeners:
             ConsoleMessage = null;
             FrameLoadStart = null;
             FrameLoadEnd = null;
             LoadError = null;
+            NavStateChanged = null;
+
+            // No longer reference handlers:
+            ResourceHandler = null;
+            DialogHandler = null;
+            JsDialogHandler = null;
+            KeyboardHandler = null;
+            RequestHandler = null;
+            DownloadHandler = null;
+            LifeSpanHandler = null;
+            MenuHandler = null;
+            FocusHandler = null;
+            DragHandler = null;
+            GeolocationHandler = null;
+            Rendering = null;
+
+            if (isdisposing)
+            {
+                if (BrowserSettings != null)
+                {
+                    BrowserSettings.Dispose();
+                    BrowserSettings = null;
+                }
+
+                PresentationSource.RemoveSourceChangedHandler(this, PresentationSourceChangedHandler);
+
+                // Release internal event listeners:
+                Loaded -= OnLoaded;
+                GotKeyboardFocus -= OnGotKeyboardFocus;
+                LostKeyboardFocus -= OnLostKeyboardFocus;
+
+                // Release internal event listeners for Drag Drop events:
+                DragEnter -= OnDragEnter;
+                DragOver -= OnDragOver;
+                DragLeave -= OnDragLeave;
+                Drop -= OnDrop;
+
+                IsVisibleChanged -= OnIsVisibleChanged;
+
+                foreach (var disposable in disposables)
+                {
+                    disposable.Dispose();
+                }
+                disposables.Clear();
+                UiThreadRunAsync(() => WebBrowser = null);
+            }
+
+            Cef.RemoveDisposable(this);
+
+            managedCefBrowserAdapter = null;
         }
 
         #endregion CleanupElement dependency property
@@ -423,6 +451,12 @@ namespace CefSharp.Wpf
             GotKeyboardFocus += OnGotKeyboardFocus;
             LostKeyboardFocus += OnLostKeyboardFocus;
 
+            // Drag Drop events
+            DragEnter += OnDragEnter;
+            DragOver += OnDragOver;
+            DragLeave += OnDragLeave;
+            Drop += OnDrop;
+
             IsVisibleChanged += OnIsVisibleChanged;
 
             ToolTip = toolTip = new ToolTip();
@@ -458,6 +492,139 @@ namespace CefSharp.Wpf
             BrowserSettings = new BrowserSettings();
 
             PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
+        }
+        private void OnDrop(object sender, DragEventArgs e)
+        {
+            managedCefBrowserAdapter.OnDragTargetDragDrop(GetMouseEvent(e));
+        }
+
+        private void OnDragLeave(object sender, DragEventArgs e)
+        {
+            managedCefBrowserAdapter.OnDragTargetDragLeave();
+        }
+
+        private void OnDragOver(object sender, DragEventArgs e)
+        {
+            managedCefBrowserAdapter.OnDragTargetDragOver(GetMouseEvent(e), GetDragOperationsMask(e.AllowedEffects));
+        }
+
+        private void OnDragEnter(object sender, DragEventArgs e)
+        {
+            managedCefBrowserAdapter.OnDragTargetDragEnter(GetDragDataWrapper(e), GetMouseEvent(e), GetDragOperationsMask(e.AllowedEffects));
+        }
+
+        /// <summary>
+        /// Converts .NET drag drop effects to CEF Drag Operations
+        /// </summary>s
+        private static DragOperationsMask GetDragOperationsMask(DragDropEffects dragDropEffects)
+        {
+            var operations = DragOperationsMask.None;
+
+            if (dragDropEffects.HasFlag(DragDropEffects.All))
+            {
+                operations |= DragOperationsMask.Every;
+            }
+            if (dragDropEffects.HasFlag(DragDropEffects.Copy))
+            {
+                operations |= DragOperationsMask.Copy;
+            }
+            if (dragDropEffects.HasFlag(DragDropEffects.Move))
+            {
+                operations |= DragOperationsMask.Move;
+            }
+            if (dragDropEffects.HasFlag(DragDropEffects.Link))
+            {
+                operations |= DragOperationsMask.Link;
+            }
+
+            return operations;
+        }
+
+        private CefDragDataWrapper GetDragDataWrapper(DragEventArgs e)
+        {
+            // Convert Drag Data
+            var dragData = CefDragDataWrapper.Create();
+
+            // Files            
+            dragData.IsFile = e.Data.GetDataPresent(DataFormats.FileDrop);
+            if (dragData.IsFile)
+            {
+                // As per documentation, we only need to specify FileNames, not FileName, when dragging into the browser (http://magpcss.org/ceforum/apidocs3/projects/(default)/CefDragData.html)
+                foreach (var filePath in (string[])e.Data.GetData(DataFormats.FileDrop))
+                {
+                    var displayName = Path.GetFileName(filePath);
+
+                    dragData.AddFile(filePath.Replace("\\", "/"), displayName);
+                }
+            }
+
+            // Link/Url
+            var link = GetLink(e.Data);
+            dragData.IsLink = !string.IsNullOrEmpty(link);
+            if (dragData.IsLink)
+            {
+                dragData.LinkUrl = link;
+            }
+
+            // Text/HTML
+            dragData.IsFragment = e.Data.GetDataPresent(DataFormats.Text);
+            if (dragData.IsFragment)
+            {
+                dragData.FragmentText = (string)e.Data.GetData(DataFormats.Text);
+                dragData.FragmentHtml = (string)e.Data.GetData(DataFormats.Html);
+            }
+
+            return dragData;
+        }
+
+        private string GetLink(IDataObject data)
+        {
+            const string asciiUrlDataFormatName = "UniformResourceLocator";
+            const string unicodeUrlDataFormatName = "UniformResourceLocatorW";
+
+            // Try Unicode
+            if (data.GetDataPresent(unicodeUrlDataFormatName))
+            {
+                // Try to read a Unicode URL from the data
+                var unicodeUrl = ReadUrlFromDragDropData(data, unicodeUrlDataFormatName, Encoding.Unicode);
+                if (unicodeUrl != null)
+                {
+                    return unicodeUrl;
+                }
+            }
+            
+            // Try ASCII
+            if (data.GetDataPresent(asciiUrlDataFormatName)){
+                // Try to read an ASCII URL from the data
+                return ReadUrlFromDragDropData(data, asciiUrlDataFormatName, Encoding.ASCII);
+            }
+
+            // Not a valid link
+            return null;
+
+        }
+
+
+        /// <summary>Reads a URL using a particular text encoding from drag-and-drop data.</summary>
+        /// <param name="data">The drag-and-drop data.</param>
+        /// <param name="urlDataFormatName">The data format name of the URL type.</param>
+        /// <param name="urlEncoding">The text encoding of the URL type.</param>
+        /// <returns>A URL, or <see langword="null"/> if <paramref name="data"/> does not contain a URL
+        /// of the correct type.</returns>
+        private string ReadUrlFromDragDropData(IDataObject data, string urlDataFormatName, Encoding urlEncoding)
+        {
+            // Read the URL from the data
+            string url;
+            using (Stream urlStream = (Stream)data.GetData(urlDataFormatName))
+            {
+                using (TextReader reader = new StreamReader(urlStream, urlEncoding))
+                {
+                    url = reader.ReadToEnd();
+                }
+            }
+
+            // URLs in drag/drop data are often padded with null characters so remove these
+            return url.TrimEnd('\0');
         }
 
         ~ChromiumWebBrowser()
@@ -734,6 +901,21 @@ namespace CefSharp.Wpf
         void IRenderWebBrowser.SetPopupIsOpen(bool isOpen)
         {
             UiThreadRunAsync(() => { popup.IsOpen = isOpen; });
+        }
+
+        /// <summary>
+        /// Converts a .NET Drag event to a CefSharp MouseEvent
+        /// </summary>
+        private MouseEvent GetMouseEvent(DragEventArgs e)
+        {
+            var point = e.GetPosition(this);
+
+            return new MouseEvent
+            {
+                X = (int)point.X,
+                Y = (int)point.Y,
+                //Modifiers = modifiers // TODO: Add support for modifiers in drag events (might not be need as it can be accessed via the mouse events)
+            };
         }
 
         private static CefEventFlags GetModifiers(MouseEventArgs e)
@@ -1287,6 +1469,15 @@ namespace CefSharp.Wpf
         public void Invalidate(PaintElementType type)
         {
             managedCefBrowserAdapter.Invalidate(type);
+        }
+
+        /// <summary>
+        /// Change the zoom level to the specified value. Specify 0.0 to reset the zoom level.
+        /// </summary>
+        /// <param name="zoomLevel">zoom level</param>
+        public void SetZoomLevel(double zoomLevel)
+        {
+            managedCefBrowserAdapter.SetZoomLevel(zoomLevel);
         }
     }
 }

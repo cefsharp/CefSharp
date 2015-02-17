@@ -75,20 +75,48 @@ namespace CefSharp.WinForms
 
         protected override void Dispose(bool disposing)
         {
+            // Don't utilize any of the handlers anymore:
+            DialogHandler = null;
+            JsDialogHandler = null;
+            KeyboardHandler = null;
+            RequestHandler = null;
+            DownloadHandler = null;
+            LifeSpanHandler = null;
+            MenuHandler = null;
+            DragHandler = null;
+            GeolocationHandler = null;
             FocusHandler = null;
             ResourceHandler = null;
-            BrowserSettings.Dispose();
-            BrowserSettings = null;
 
             Cef.RemoveDisposable(this);
 
             if (disposing)
             {
+                IsBrowserInitialized = false;
+
+                if (BrowserSettings != null)
+                {
+                    BrowserSettings.Dispose();
+                    BrowserSettings = null;
+                }
+
                 if (managedCefBrowserAdapter != null)
                 {
                     managedCefBrowserAdapter.Dispose();
                     managedCefBrowserAdapter = null;
                 }
+
+                // Don't maintain a reference to event listeners anylonger:
+                LoadError = null;
+                FrameLoadStart = null;
+                FrameLoadEnd = null;
+                NavStateChanged = null;
+                ConsoleMessage = null;
+                StatusMessage = null;
+                AddressChanged = null;
+                TitleChanged = null;
+                IsBrowserInitializedChanged = null;
+                IsLoadingChanged = null;
             }
             base.Dispose(disposing);
         }
@@ -397,14 +425,6 @@ namespace CefSharp.WinForms
             }
         }
 
-        /// <summary>
-        /// Set whether the browser is focused.
-        /// </summary>
-        public void SetFocus(bool isFocused)
-        {
-            managedCefBrowserAdapter.SetFocus(isFocused);
-        }
-
         protected override void OnSizeChanged(EventArgs e)
         {
             base.OnSizeChanged(e);
@@ -414,7 +434,7 @@ namespace CefSharp.WinForms
 
         private void ResizeBrowser()
         {
-            if (IsBrowserInitialized && managedCefBrowserAdapter != null)
+            if (IsBrowserInitialized)
             {
                 managedCefBrowserAdapter.Resize(Width, Height);
             }
@@ -422,7 +442,7 @@ namespace CefSharp.WinForms
 
         public void NotifyMoveOrResizeStarted()
         {
-            if (IsBrowserInitialized && managedCefBrowserAdapter != null)
+            if (IsBrowserInitialized)
             {
                 managedCefBrowserAdapter.NotifyMoveOrResizeStarted();
             }
@@ -436,6 +456,31 @@ namespace CefSharp.WinForms
         public void AddWordToDictionary(string word)
         {
             managedCefBrowserAdapter.AddWordToDictionary(word);
+        }
+
+        protected override void OnEnter(EventArgs e)
+        {
+            SetFocus(true);
+
+            base.OnEnter(e);
+        }
+
+        protected override void OnLeave(EventArgs e)
+        {
+            SetFocus(false);
+
+            base.OnLeave(e);
+        }
+
+        /// <summary>
+        /// Set whether the browser is focused.
+        /// </summary>
+        public void SetFocus(bool isFocused)
+        {
+            if (IsBrowserInitialized)
+            {
+                managedCefBrowserAdapter.SetFocus(isFocused);
+            }
         }
     }
 }

@@ -20,7 +20,11 @@ namespace CefSharp
 
         public:
             virtual ~StreamAdapter();
-            StreamAdapter(Stream^ stream) : _stream(stream) { }
+            StreamAdapter(Stream^ stream) : _stream(stream)
+            {
+                //Reset stream position
+                stream->Position = 0;
+            }
 
             virtual size_t Read(void* ptr, size_t size, size_t n);
             virtual int Seek(int64 offset, int whence);

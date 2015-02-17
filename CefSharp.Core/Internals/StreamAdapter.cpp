@@ -11,7 +11,7 @@ namespace CefSharp
     {
         StreamAdapter::~StreamAdapter()
         {
-            _stream->Close();
+            //Remove the reference to the stream, must be kept open as it might be reused for subsiquent requests (e.g. refresh).
             _stream = nullptr;
         }
 
