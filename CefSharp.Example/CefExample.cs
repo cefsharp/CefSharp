@@ -28,6 +28,10 @@ namespace CefSharp.Example
             //settings.CefCommandLineArgs.Add("disable-gpu-vsync", "1");
             //settings.CefCommandLineArgs.Add("enable-media-stream", "1"); //Enable WebRTC
             
+            //Disables the DirectWrite font rendering system on windows.
+            //Possibly useful when experiencing blury fonts.
+            //settings.CefCommandLineArgs.Add("disable-direct-write", "1");
+            
             settings.LogSeverity = LogSeverity.Verbose;
 
             if (DebuggingSubProcess)
