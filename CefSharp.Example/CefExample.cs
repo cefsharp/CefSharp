@@ -20,6 +20,10 @@ namespace CefSharp.Example
             // Environment.SetEnvironmentVariable("GOOGLE_DEFAULT_CLIENT_ID", "");
             // Environment.SetEnvironmentVariable("GOOGLE_DEFAULT_CLIENT_SECRET", "");
 
+            //Chromium Command Line args
+            //http://peter.sh/experiments/chromium-command-line-switches/
+            //NOTE: Note all relevant in relation to `CefSharp`, use for reference purposes only.
+
             var settings = new CefSettings();
             settings.RemoteDebuggingPort = 8088;
             //settings.CefCommandLineArgs.Add("renderer-process-limit", "1");
