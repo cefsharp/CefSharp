@@ -362,6 +362,16 @@ namespace CefSharp.Wpf
 
                 IsVisibleChanged -= OnIsVisibleChanged;
 
+                if (tooltipTimer != null)
+                {
+                    tooltipTimer.Tick -= OnTooltipTimerTick;
+                }
+
+                if (CleanupElement != null)
+                {
+                    CleanupElement.Unloaded -= OnCleanupElementUnloaded;
+                }
+
                 foreach (var disposable in disposables)
                 {
                     disposable.Dispose();
@@ -371,6 +381,8 @@ namespace CefSharp.Wpf
             }
 
             Cef.RemoveDisposable(this);
+
+            RemoveSourceHook();
 
             managedCefBrowserAdapter = null;
         }
@@ -651,9 +663,17 @@ namespace CefSharp.Wpf
             {
                 if (source != null && sourceHook != null)
                 {
-                    source.RemoveHook(sourceHook);
-                    source = null;
+                    RemoveSourceHook();
                 }
+            }
+        }
+
+        private void RemoveSourceHook()
+        {
+            if (source != null && sourceHook != null)
+            {
+                source.RemoveHook(sourceHook);
+                source = null;
             }
         }
 
@@ -1192,6 +1212,11 @@ namespace CefSharp.Wpf
             //Added null check -> binding-triggered changes of Address will lead to a nullref after Dispose has been called.
             if (managedCefBrowserAdapter != null)
             {
+                if (tooltipTimer != null)
+                {
+                    tooltipTimer.Tick -= OnTooltipTimerTick;
+                }
+
                 // TODO: Consider making the delay here configurable.
                 tooltipTimer = new DispatcherTimer(
                     TimeSpan.FromSeconds(0.5),
