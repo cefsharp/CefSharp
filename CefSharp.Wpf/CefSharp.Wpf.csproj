@@ -102,6 +102,7 @@
     <Compile Include="ChromiumWebBrowser.cs" />
     <Compile Include="RenderingEventArgs.cs" />
     <Compile Include="WM.cs" />
+    <Compile Include="WpfExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.vcxproj">
