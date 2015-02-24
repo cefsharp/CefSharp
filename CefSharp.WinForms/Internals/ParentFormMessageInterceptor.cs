@@ -12,9 +12,14 @@ namespace CefSharp.WinForms.Internals
 {
     internal class ParentFormMessageInterceptor : NativeWindow, IDisposable
     {
-        public event EventHandler<EventArgs> Moving;
-
+        /// <summary>
+        /// Keep track of whether a move is in progress.
+        /// </summary>
         private bool isMoving = false;
+
+        /// <summary>
+        /// Used to determine the coordinates involved in the move
+        /// </summary>
         private Rectangle movingRectangle;
 
         private ChromiumWebBrowser Browser { get; set; }
@@ -159,12 +164,7 @@ namespace CefSharp.WinForms.Internals
         protected virtual void OnMoving()
         {
             isMoving = true;
-            var handler = Moving;
-
-            if (handler != null)
-            {
-                handler(this, null);
-            }
+            Browser.NotifyMoveOrResizeStarted();
             isMoving = false;
         }
 
