@@ -7,6 +7,7 @@
 #include <msclr/lock.h>
 #include <include/cef_version.h>
 #include <include/cef_runnable.h>
+#include <include/cef_origin_whitelist.h>
 
 #include "Internals/CefSharpApp.h"
 #include "Internals/CookieVisitor.h"
@@ -166,6 +167,49 @@ namespace CefSharp
             }
 
             return success;
+        }
+
+        ///
+        // See documentation in cef_origin_whitelist.h
+        ///
+        /*--cef(optional_param=target_domain)--*/
+        static bool AddCrossOriginWhitelistEntry(String^ source_origin,
+            String^ target_protocol,
+            String^ target_domain,
+            bool allow_target_subdomains)
+        {
+            return CefAddCrossOriginWhitelistEntry(
+                    StringUtils::ToNative(source_origin),
+                    StringUtils::ToNative(target_protocol),
+                    StringUtils::ToNative(target_domain),
+                    allow_target_subdomains);
+        }
+
+        ///
+        // Remove an entry from the cross-origin access whitelist. Returns false if
+        // |source_origin| is invalid or the whitelist cannot be accessed.
+        ///
+        /*--cef(optional_param=target_domain)--*/
+        static bool RemoveCrossOriginWhitelistEntry(String^ source_origin,
+            String^ target_protocol,
+            String^ target_domain,
+            bool allow_target_subdomains)
+        {
+            return CefRemoveCrossOriginWhitelistEntry(
+                StringUtils::ToNative(source_origin),
+                StringUtils::ToNative(target_protocol),
+                StringUtils::ToNative(target_domain),
+                allow_target_subdomains);
+        }
+
+        ///
+        // Remove all entries from the cross-origin access whitelist. Returns false if
+        // the whitelist cannot be accessed.
+        ///
+        /*--cef()--*/
+        static bool ClearCrossOriginWhitelist()
+        {
+            return CefClearCrossOriginWhitelist();
         }
 
         /// <summary>Visits all cookies using the provided Cookie Visitor. The returned cookies are sorted by longest path, then by earliest creation date.</summary>
