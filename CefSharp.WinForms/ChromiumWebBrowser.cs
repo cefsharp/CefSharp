@@ -101,6 +101,12 @@ namespace CefSharp.WinForms
                     BrowserSettings = null;
                 }
 
+                if (parentFormMessageInterceptor != null)
+                {
+                    parentFormMessageInterceptor.Dispose();
+                    parentFormMessageInterceptor = null;
+                }
+
                 if (managedCefBrowserAdapter != null)
                 {
                     managedCefBrowserAdapter.Dispose();
