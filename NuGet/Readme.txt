@@ -1,16 +1,29 @@
 CefSharp Nuget Package
 
+CefSharp is a .Net wrapping library for CEF (Chromium Embedded Framework) https://code.google.com/p/chromiumembedded/
+CEF is a C/C++ library that allows developers to embed the HTML content rendering strengths of Google's Chrome open source WebKit engine (Chromium).
+
 - Make sure you set either `x86` or x64`. (Won't work with `AnyCpu`)
 - After installing the `Nuget` package we recommend closing Visual Studio completely and then reopening (This ensures your references show up and you have full intellisense).
 - Check your output `\bin` directory to make sure the appropriate references have been copied.
 
 Basic Troubleshooting
-- Info about missing dependencies
-- 
+- Please ensure your binaries directory contains these required dependencies:
+    * libcef.dll (CEF code)
+    * icudtl.dat (Unicode Support data)
+    * CefSharp.Core.dll, CefSharp.dll, 
+      CefSharp.BrowserSubprocess.exe, CefSharp.BrowserSubProcess.Core.dll
+        - These are required CefSharp binaries that are the common core logic binaries of CefSharp.
+    * One of the following UI presentation approaches:
+        * CefSharp.WinForms.dll
+        * CefSharp.Wpf.dll
+- Additional optional CEF files are described at: https://github.com/cefsharp/cef-binary/blob/master/README.txt#L88
+  NOTE: CefSharp does not currently support CEF sandboxing so wow_helper.exe is not currently useful.
 
-For further help please read the following
+For further help please read the following content:
+- CefSharp's Wiki on github: https://github.com/cefsharp/CefSharp/wiki
 - Minimal Example Links
-- FAQ
+- FAQ: https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions
 - Troubleshooting guide
 - Google Groups
 - Regular Example Links
