@@ -2,7 +2,6 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using CefSharp.Internals;
 using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
@@ -15,7 +14,7 @@ namespace CefSharp.WinForms.Internals
         /// <summary>
         /// Keep track of whether a move is in progress.
         /// </summary>
-        private bool isMoving = false;
+        private bool isMoving;
 
         /// <summary>
         /// Used to determine the coordinates involved in the move
@@ -51,15 +50,13 @@ namespace CefSharp.WinForms.Internals
         /// <param name="e"></param>
         private void ParentParentChanged(object sender, EventArgs e)
         {
-            Control control = (Control)sender;
-            Form oldForm = ParentForm;
-            Form newForm = control.FindForm();
-            if (oldForm == null
-                || newForm == null
-                || oldForm.Handle != newForm.Handle
-                )
+            var control = (Control)sender;
+            var oldForm = ParentForm;
+            var newForm = control.FindForm();
+
+            if (oldForm == null || newForm == null || oldForm.Handle != newForm.Handle)
             {
-                if (this.Handle != IntPtr.Zero)
+                if (Handle != IntPtr.Zero)
                 {
                     ReleaseHandle();
                 }
@@ -95,18 +92,18 @@ namespace CefSharp.WinForms.Internals
 
         protected override void WndProc(ref Message m)
         {
-            bool isMovingMessage = false;
+            var isMovingMessage = false;
 
             // Negative initial values keeps the compiler quiet and to
             // ensure we have actual window movement to notify CEF about.
             const int invalidMoveCoordinate = -1;
-            int x = invalidMoveCoordinate;
-            int y = invalidMoveCoordinate;
+            var x = invalidMoveCoordinate;
+            var y = invalidMoveCoordinate;
 
             // Listen for operating system messages 
             switch (m.Msg)
             {
-            case NativeMethods.WM_MOVING:
+                case NativeMethods.WM_MOVING:
                 {
                     movingRectangle = (Rectangle)Marshal.PtrToStructure(m.LParam, typeof(Rectangle));
                     x = movingRectangle.Left;
@@ -114,7 +111,7 @@ namespace CefSharp.WinForms.Internals
                     isMovingMessage = true;
                     break;
                 }
-            case NativeMethods.WM_MOVE:
+                case NativeMethods.WM_MOVE:
                 {
                     x = (m.LParam.ToInt32() & 0xffff);
                     y = ((m.LParam.ToInt32() >> 16) & 0xffff);
@@ -144,21 +141,19 @@ namespace CefSharp.WinForms.Internals
             if (isMovingMessage
                 && Browser.IsHandleCreated
                 && ParentForm.WindowState == FormWindowState.Normal
-                && (ParentForm.Left != x
-                    || ParentForm.Top != y)
+                && (ParentForm.Left != x || ParentForm.Top != y)
                 && !isMoving)
             {
                 // ParentForm.Left & .Right are negative when the window
                 // is transitioning from maximized to normal.
                 // If we are transitioning, the form will also receive
                 // a WM_SIZE which can deal with the move/size combo itself.
-                if (ParentForm.Left >= 0
-                    && ParentForm.Right >= 0)
+                if (ParentForm.Left >= 0 && ParentForm.Right >= 0)
                 {
                     OnMoving();
                 }
             }
-            this.DefWndProc(ref m);
+            DefWndProc(ref m);
         }
 
         protected virtual void OnMoving()
@@ -190,7 +185,7 @@ namespace CefSharp.WinForms.Internals
                 // properly before arriving at the finalization thread.
                 // See: http://referencesource.microsoft.com/#System.Windows.Forms/winforms/Managed/System/WinForms/NativeWindow.cs,147
                 // for the gruesome details.
-                if (this.Handle != IntPtr.Zero)
+                if (Handle != IntPtr.Zero)
                 {
                     ReleaseHandle();
                 }
