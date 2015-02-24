@@ -34,7 +34,6 @@ namespace CefSharp.Wpf
         private Image image;
         private Image popupImage;
         private Popup popup;
-        private ScaleTransform dpiTransform;
         private readonly List<IDisposable> disposables = new List<IDisposable>();
 
         public BrowserSettings BrowserSettings { get; set; }
@@ -728,26 +727,25 @@ namespace CefSharp.Wpf
         {
             base.OnApplyTemplate();
 
-            CheckIsNonStandardDpi();
-
             // Create main window
             Content = image = CreateImage();
-            Transform(image);
 
             popup = CreatePopup();
-            Transform(popup);
         }
 
-        private static Image CreateImage()
+        private Image CreateImage()
         {
-            var temp = new Image();
+            var img = new Image();
 
-            RenderOptions.SetBitmapScalingMode(temp, BitmapScalingMode.NearestNeighbor);
+            RenderOptions.SetBitmapScalingMode(img, BitmapScalingMode.NearestNeighbor);
 
-            temp.Stretch = Stretch.None;
-            temp.HorizontalAlignment = HorizontalAlignment.Left;
-            temp.VerticalAlignment = VerticalAlignment.Top;
-            return temp;
+            img.Stretch = Stretch.None;
+            img.HorizontalAlignment = HorizontalAlignment.Left;
+            img.VerticalAlignment = VerticalAlignment.Top;
+            //Scale Image based on DPI settings
+            img.LayoutTransform = new ScaleTransform(1 / matrix.M11, 1 / matrix.M22);
+
+            return img;
         }
 
         private Popup CreatePopup()
@@ -763,22 +761,6 @@ namespace CefSharp.Wpf
             newPopup.MouseLeave += PopupMouseLeave;
 
             return newPopup;
-        }
-
-        private void Transform(FrameworkElement element)
-        {
-            if (dpiTransform != null)
-            {
-                element.LayoutTransform = dpiTransform;
-            }
-        }
-
-        private void CheckIsNonStandardDpi()
-        {
-            dpiTransform = new ScaleTransform(
-                   1 / matrix.M11,
-                   1 / matrix.M22
-               );
         }
 
         private IntPtr SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
