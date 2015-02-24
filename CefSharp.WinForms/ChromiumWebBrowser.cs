@@ -122,14 +122,6 @@ namespace CefSharp.WinForms
             base.Dispose(disposing);
         }
 
-        private void MovingListenerMoving(object sender, EventArgs e)
-        {
-            if (IsBrowserInitialized)
-            {
-                NotifyMoveOrResizeStarted();
-            }
-        }
-
         void IWebBrowserInternal.OnInitialized()
         {
             IsBrowserInitialized = true;
@@ -141,7 +133,6 @@ namespace CefSharp.WinForms
             this.InvokeOnUiThreadIfRequired(() =>
             {
                 parentFormMessageInterceptor = new ParentFormMessageInterceptor(this);
-                parentFormMessageInterceptor.Moving += MovingListenerMoving;
             });
 
             ResizeBrowser();
