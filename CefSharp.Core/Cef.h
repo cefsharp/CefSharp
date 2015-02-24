@@ -169,44 +169,89 @@ namespace CefSharp
             return success;
         }
 
+        /// <summary>Add an entry to the cross-origin whitelist.</summary>
+        /// <param name="sourceOrigin">The origin allowed to be accessed by the target protocol/domain.</param>
+        /// <param name="targetProtocol">The target protocol allowed to access the source origin.</param>
+        /// <param name="targetDomain">The optional target domain allowed to access the source origin.</param>
+        /// <param name="allowTargetSubdomains">If set to true would allow a blah.example.com if the 
+        ///     <paramref name="targetDomain/> was set to example.com
+        /// </param>
+        /// <remarks>
+        /// The same-origin policy restricts how scripts hosted from different origins
+        /// (scheme + domain + port) can communicate. By default, scripts can only access
+        /// resources with the same origin. Scripts hosted on the HTTP and HTTPS schemes
+        /// (but no other schemes) can use the "Access-Control-Allow-Origin" header to
+        /// allow cross-origin requests. For example, https://source.example.com can make
+        /// XMLHttpRequest requests on http://target.example.com if the
+        /// http://target.example.com request returns an "Access-Control-Allow-Origin:
+        /// https://source.example.com" response header.
+        //
+        /// Scripts in separate frames or iframes and hosted from the same protocol and
+        /// domain suffix can execute cross-origin JavaScript if both pages set the
+        /// document.domain value to the same domain suffix. For example,
+        /// scheme://foo.example.com and scheme://bar.example.com can communicate using
+        /// JavaScript if both domains set document.domain="example.com".
+        //
+        /// This method is used to allow access to origins that would otherwise violate
+        /// the same-origin policy. Scripts hosted underneath the fully qualified
+        /// <paramref name="sourceOrigin"/> URL (like http://www.example.com) will be allowed access to
+        /// all resources hosted on the specified <paramref name="targetProtocol"/> and <paramref name="targetDomain"/>.
+        /// If <paramref name="targetDomain"/> is non-empty and <paramref name="allowTargetSubdomains"/> if false only
+        /// exact domain matches will be allowed. If <paramref name="targetDomain"/> contains a top-
+        /// level domain component (like "example.com") and <paramref name="allowTargetSubdomains"/> is
+        /// true sub-domain matches will be allowed. If <paramref name="targetDomain"/> is empty and
+        /// <paramref name="<paramref name="allowTargetSubdomains"/>"/> if true all domains and IP addresses will be
+        /// allowed.
+        //
+        /// This method cannot be used to bypass the restrictions on local or display
+        /// isolated schemes. See the comments on <see cref="CefCustomScheme"/> for more
+        /// information.
         ///
-        // See documentation in cef_origin_whitelist.h
-        ///
-        /*--cef(optional_param=target_domain)--*/
-        static bool AddCrossOriginWhitelistEntry(String^ source_origin,
-            String^ target_protocol,
-            String^ target_domain,
-            bool allow_target_subdomains)
+        /// This function may be called on any thread. Returns false if <paramref name="sourceOrigin"/>
+        /// is invalid or the whitelist cannot be accessed.
+        /// </remarks>
+        static bool AddCrossOriginWhitelistEntry(
+            String^ sourceOrigin,
+            String^ targetProtocol,
+            String^ targetDomain,
+            bool allowTargetSubdomains)
         {
             return CefAddCrossOriginWhitelistEntry(
-                    StringUtils::ToNative(source_origin),
-                    StringUtils::ToNative(target_protocol),
-                    StringUtils::ToNative(target_domain),
-                    allow_target_subdomains);
+                    StringUtils::ToNative(sourceOrigin),
+                    StringUtils::ToNative(targetProtocol),
+                    StringUtils::ToNative(targetDomain),
+                    allowTargetSubdomains);
         }
 
-        ///
-        // Remove an entry from the cross-origin access whitelist. Returns false if
-        // |source_origin| is invalid or the whitelist cannot be accessed.
-        ///
-        /*--cef(optional_param=target_domain)--*/
-        static bool RemoveCrossOriginWhitelistEntry(String^ source_origin,
-            String^ target_protocol,
-            String^ target_domain,
-            bool allow_target_subdomains)
+        /// <summary>Remove entry from cross-origin whitelist</summary>
+        /// <param name="sourceOrigin">The origin allowed to be accessed by the target protocol/domain.</param>
+        /// <param name="targetProtocol">The target protocol allowed to access the source origin.</param>
+        /// <param name="targetDomain">The optional target domain allowed to access the source origin.</param>
+        /// <param name="allowTargetSubdomains">If set to true would allow a blah.example.com if the 
+        ///     <paramref name="targetDomain/> was set to example.com
+        /// </param>
+        /// <remarks>
+        /// Remove an entry from the cross-origin access whitelist. Returns false if
+        /// <paramref name="sourceOrigin"/> is invalid or the whitelist cannot be accessed.
+        /// </remarks>
+        static bool RemoveCrossOriginWhitelistEntry(String^ sourceOrigin,
+            String^ targetProtocol,
+            String^ targetDomain,
+            bool allowTargetSubdomains)
+
         {
             return CefRemoveCrossOriginWhitelistEntry(
-                StringUtils::ToNative(source_origin),
-                StringUtils::ToNative(target_protocol),
-                StringUtils::ToNative(target_domain),
-                allow_target_subdomains);
+                StringUtils::ToNative(sourceOrigin),
+                StringUtils::ToNative(targetProtocol),
+                StringUtils::ToNative(targetDomain),
+                allowTargetSubdomains);
         }
 
-        ///
-        // Remove all entries from the cross-origin access whitelist. Returns false if
-        // the whitelist cannot be accessed.
-        ///
-        /*--cef()--*/
+        /// <summary>Remove all entries from the cross-origin access whitelist.</summary>
+        /// <remarks>
+        /// Remove all entries from the cross-origin access whitelist. Returns false if
+        /// the whitelist cannot be accessed.
+        /// </remarks>
         static bool ClearCrossOriginWhitelist()
         {
             return CefClearCrossOriginWhitelist();
