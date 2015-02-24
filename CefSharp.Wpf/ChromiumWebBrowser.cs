@@ -662,10 +662,7 @@ namespace CefSharp.Wpf
             }
             else if (args.OldSource != null)
             {
-                if (source != null && sourceHook != null)
-                {
-                    RemoveSourceHook();
-                }
+                RemoveSourceHook();
             }
         }
 
