@@ -1,14 +1,16 @@
 CefSharp Nuget Package
 
-CefSharp is a .Net wrapping library for CEF (Chromium Embedded Framework) https://code.google.com/p/chromiumembedded/
-CEF is a C/C++ library that allows developers to embed the HTML content rendering strengths of Google's Chrome open source WebKit engine (Chromium).
+Background:
+  CefSharp is a .Net wrapping library for CEF (Chromium Embedded Framework) https://code.google.com/p/chromiumembedded/
+  CEF is a C/C++ library that allows developers to embed the HTML content rendering strengths of Google's Chrome open source WebKit engine (Chromium).
 
-- Make sure you set either `x86` or x64`. (Won't work with `AnyCpu`)
-- After installing the `Nuget` package we recommend closing Visual Studio completely and then reopening (This ensures your references show up and you have full intellisense).
-- Check your output `\bin` directory to make sure the appropriate references have been copied.
+Post Installation:
+  - Make sure you set either `x86` or x64`. (Won't work with `AnyCpu`)
+  - After installing the `Nuget` package we recommend closing Visual Studio completely and then reopening (This ensures your references show up and you have full intellisense).
+  - Check your output `\bin` directory to make sure the appropriate references have been copied.
 
-Basic Troubleshooting
-- Please ensure your binaries directory contains these required dependencies:
+Basic Troubleshooting:
+  - Please ensure your binaries directory contains these required dependencies:
     * libcef.dll (CEF code)
     * icudtl.dat (Unicode Support data)
     * CefSharp.Core.dll, CefSharp.dll, 
@@ -17,18 +19,19 @@ Basic Troubleshooting
     * One of the following UI presentation approaches:
         * CefSharp.WinForms.dll
         * CefSharp.Wpf.dll
-- Additional optional CEF files are described at: https://github.com/cefsharp/cef-binary/blob/master/README.txt#L88
-  NOTE: CefSharp does not currently support CEF sandboxing so wow_helper.exe is not currently useful.
+        * CefSharp.OffScreen.dll
+  - Additional optional CEF files are described at: https://github.com/cefsharp/cef-binary/blob/master/README.txt#L88
+    NOTE: CefSharp does not currently support CEF sandboxing so wow_helper.exe is not currently useful.
 
 For further help please read the following content:
-- CefSharp's Wiki on github: https://github.com/cefsharp/CefSharp/wiki
-- Minimal Example Links
-- FAQ: https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions
-- Troubleshooting guide
-- Google Groups
-- Regular Example Links
-- Only when you've exhausted all other options then open an issue on `GitHub`
-
+  - CefSharp GitHub https://github.com/cefsharp/CefSharp
+  - CefSharp's Wiki on github (https://github.com/cefsharp/CefSharp/wiki)
+  - Minimal Example Projects showing the browser in action (https://github.com/cefsharp/CefSharp.MinimalExample)
+  - FAQ: https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions
+  - Troubleshooting guide (https://github.com/cefsharp/CefSharp/wiki/Trouble-Shooting)
+  - Google Groups (https://groups.google.com/forum/#!forum/cefsharp)
+  - CefSharp vs Cef (https://github.com/cefsharp/CefSharp/blob/master/CONTRIBUTING.md#cefsharp-vs-cef)
+  - Only when you've exhausted all other options then open an issue on `GitHub`
 
 Please consider giving back, it's only with your help will this project to continue.
 
