@@ -159,7 +159,12 @@ namespace CefSharp.WinForms.Internals
         protected virtual void OnMoving()
         {
             isMoving = true;
-            Browser.NotifyMoveOrResizeStarted();
+
+            if (Browser.IsBrowserInitialized)
+            {
+                Browser.NotifyMoveOrResizeStarted();
+            }
+
             isMoving = false;
         }
 
