@@ -14,6 +14,7 @@ namespace CefSharp.WinForms
     public class ChromiumWebBrowser : Control, IWebBrowserInternal, IWinFormsWebBrowser
     {
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
+        private ParentFormMessageInterceptor parentFormMessageInterceptor;
 
         public BrowserSettings BrowserSettings { get; set; }
         public string Title { get; set; }
@@ -121,9 +122,27 @@ namespace CefSharp.WinForms
             base.Dispose(disposing);
         }
 
+        private void MovingListenerMoving(object sender, EventArgs e)
+        {
+            if (IsBrowserInitialized)
+            {
+                NotifyMoveOrResizeStarted();
+            }
+        }
+
         void IWebBrowserInternal.OnInitialized()
         {
             IsBrowserInitialized = true;
+
+            // By the time this callback gets called, this control
+            // is most likely hooked into a browser Form of some sort. 
+            // (Which is what ParentFormMessageInterceptor relies on.)
+            // Ensure the ParentFormMessageInterceptor construction occurs on the WinForms UI thread:
+            this.InvokeOnUiThreadIfRequired(() =>
+            {
+                parentFormMessageInterceptor = new ParentFormMessageInterceptor(this);
+                parentFormMessageInterceptor.Moving += MovingListenerMoving;
+            });
 
             ResizeBrowser();
 
