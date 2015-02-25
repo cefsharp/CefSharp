@@ -53,8 +53,8 @@ namespace CefSharp
             // CefClient
             virtual CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE{ return this; };
 
-			// CefRenderHandler
-			virtual DECL bool GetScreenInfo(CefRefPtr<CefBrowser> browser, CefScreenInfo& screen_info) OVERRIDE
+            // CefRenderHandler
+            virtual DECL bool GetScreenInfo(CefRefPtr<CefBrowser> browser, CefScreenInfo& screen_info) OVERRIDE
             {
                 if ((IRenderWebBrowser^)_renderWebBrowser == nullptr)
                 {
