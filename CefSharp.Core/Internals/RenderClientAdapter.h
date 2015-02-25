@@ -53,6 +53,25 @@ namespace CefSharp
             // CefClient
             virtual CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE{ return this; };
 
+			// CefRenderHandler
+			virtual DECL bool GetScreenInfo(CefRefPtr<CefBrowser> browser, CefScreenInfo& screen_info) OVERRIDE
+            {
+                if ((IRenderWebBrowser^)_renderWebBrowser == nullptr)
+                {
+                    return false;
+                }
+
+                auto scaleFactor = _renderWebBrowser->GetScreenInfoScaleFactor();
+
+                if (screen_info.device_scale_factor == scaleFactor)
+                {
+                    return false;
+                }
+
+                screen_info.device_scale_factor = scaleFactor;
+                return true;
+            }
+
             // CefRenderHandler
             virtual DECL bool GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) OVERRIDE
             {

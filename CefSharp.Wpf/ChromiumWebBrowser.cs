@@ -655,6 +655,7 @@ namespace CefSharp.Wpf
                 if (source != null)
                 {
                     matrix = source.CompositionTarget.TransformToDevice;
+                    _deviceScaleFactor = (float)matrix.M11;
                     sourceHook = SourceHook;
                     source.AddHook(sourceHook);
                 }
@@ -809,6 +810,12 @@ namespace CefSharp.Wpf
                 throw new Exception("BitmapFactory cannot be null");
             }
             return BitmapFactory.CreateBitmap(isPopup);
+        }
+
+        float _deviceScaleFactor = 1.0F;
+        float IRenderWebBrowser.GetScreenInfoScaleFactor()
+        {
+            return _deviceScaleFactor;
         }
 
         void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
