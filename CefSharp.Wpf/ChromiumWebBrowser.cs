@@ -30,6 +30,7 @@ namespace CefSharp.Wpf
         private bool ignoreUriChange;
         private bool browserCreated;
         private Matrix matrix;
+        private float deviceScaleFactor;
 
         private Image image;
         private Image popupImage;
@@ -494,6 +495,7 @@ namespace CefSharp.Wpf
             UndoCommand = new DelegateCommand(Undo);
             RedoCommand = new DelegateCommand(Redo);
 
+            deviceScaleFactor = 1.0F;
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, true);
 
             disposables.Add(managedCefBrowserAdapter);
@@ -655,7 +657,7 @@ namespace CefSharp.Wpf
                 if (source != null)
                 {
                     matrix = source.CompositionTarget.TransformToDevice;
-                    _deviceScaleFactor = (float)matrix.M11;
+                    deviceScaleFactor = (float)matrix.M11;
                     sourceHook = SourceHook;
                     source.AddHook(sourceHook);
                 }
@@ -812,10 +814,9 @@ namespace CefSharp.Wpf
             return BitmapFactory.CreateBitmap(isPopup);
         }
 
-        float _deviceScaleFactor = 1.0F;
         float IRenderWebBrowser.GetScreenInfoScaleFactor()
         {
-            return _deviceScaleFactor;
+            return deviceScaleFactor;
         }
 
         void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
