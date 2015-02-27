@@ -69,6 +69,7 @@ namespace CefSharp
                 }
 
                 screen_info.device_scale_factor = scaleFactor;
+
                 return true;
             }
 
@@ -80,7 +81,11 @@ namespace CefSharp
                     return false;
                 }
 
-                rect = CefRect(0, 0, _renderWebBrowser->Width, _renderWebBrowser->Height);
+                auto scaleFactor = _renderWebBrowser->GetScreenInfoScaleFactor();
+                auto scaledWidth = _renderWebBrowser->Width / scaleFactor;
+                auto scaledHeight = _renderWebBrowser->Height / scaleFactor;
+
+                rect = CefRect(0, 0, scaledWidth, scaledHeight);
                 return true;
             };
 
