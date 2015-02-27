@@ -26,6 +26,7 @@ namespace CefSharp.Example
 
             var settings = new CefSettings();
             settings.RemoteDebuggingPort = 8088;
+            //settings.UserAgent = "CefSharp Browser" + Cef.CefSharpVersion; // Example User Agent
             //settings.CefCommandLineArgs.Add("renderer-process-limit", "1");
             //settings.CefCommandLineArgs.Add("renderer-startup-dialog", "renderer-startup-dialog");
             //settings.CefCommandLineArgs.Add("disable-gpu", "1");
