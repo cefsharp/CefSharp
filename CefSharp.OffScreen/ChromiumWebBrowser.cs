@@ -45,6 +45,7 @@ namespace CefSharp.OffScreen
         public string Address { get; private set; }
         public bool CanGoBack { get; private set; }
         public bool CanGoForward { get; private set; }
+        public BrowserSettings BrowserSettings { get; private set; }
         public IJsDialogHandler JsDialogHandler { get; set; }
         public IDialogHandler DialogHandler { get; set; }
         public IDownloadHandler DownloadHandler { get; set; }
@@ -86,12 +87,13 @@ namespace CefSharp.OffScreen
             }
 
             ResourceHandler = new DefaultResourceHandler();
+            BrowserSettings = browserSettings ?? new BrowserSettings();
 
             Cef.AddDisposable(this);
             Address = address;
 
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, true);
-            managedCefBrowserAdapter.CreateOffscreenBrowser(IntPtr.Zero, browserSettings ?? new BrowserSettings(), address);
+            managedCefBrowserAdapter.CreateOffscreenBrowser(IntPtr.Zero, BrowserSettings, address);
         }
 
         ~ChromiumWebBrowser()
@@ -135,13 +137,19 @@ namespace CefSharp.OffScreen
 
             if (disposing)
             {
+                IsBrowserInitialized = false;
+
                 if (bitmap != null)
                 {
                     bitmap.Dispose();
                     bitmap = null;
                 }
 
-                IsBrowserInitialized = false;
+                if (BrowserSettings != null)
+                {
+                    BrowserSettings.Dispose();
+                    BrowserSettings = null;
+                }
 
                 if (managedCefBrowserAdapter != null)
                 {
