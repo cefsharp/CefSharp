@@ -30,6 +30,8 @@ namespace CefSharp.Wpf
         private bool ignoreUriChange;
         private bool browserCreated;
         private Matrix matrix;
+        private float deviceScaleFactor;
+        private ScaleTransform imageTransform;
 
         private Image image;
         private Image popupImage;
@@ -494,6 +496,8 @@ namespace CefSharp.Wpf
             UndoCommand = new DelegateCommand(Undo);
             RedoCommand = new DelegateCommand(Redo);
 
+            deviceScaleFactor = 1.0F;
+            imageTransform = new ScaleTransform();
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, true);
 
             disposables.Add(managedCefBrowserAdapter);
@@ -655,8 +659,13 @@ namespace CefSharp.Wpf
                 if (source != null)
                 {
                     matrix = source.CompositionTarget.TransformToDevice;
+                    deviceScaleFactor = (float)matrix.M11;
                     sourceHook = SourceHook;
                     source.AddHook(sourceHook);
+
+                    managedCefBrowserAdapter.NotifyScreenInfoChanged();
+                    imageTransform.ScaleX = 1 / matrix.M11;
+                    imageTransform.ScaleY = 1 / matrix.M22;
                 }
             }
             else if (args.OldSource != null)
@@ -743,7 +752,7 @@ namespace CefSharp.Wpf
             img.HorizontalAlignment = HorizontalAlignment.Left;
             img.VerticalAlignment = VerticalAlignment.Top;
             //Scale Image based on DPI settings
-            img.LayoutTransform = new ScaleTransform(1 / matrix.M11, 1 / matrix.M22);
+            img.LayoutTransform = imageTransform;
 
             return img;
         }
@@ -809,6 +818,11 @@ namespace CefSharp.Wpf
                 throw new Exception("BitmapFactory cannot be null");
             }
             return BitmapFactory.CreateBitmap(isPopup);
+        }
+
+        float IRenderWebBrowser.GetScreenInfoScaleFactor()
+        {
+            return deviceScaleFactor;
         }
 
         void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)

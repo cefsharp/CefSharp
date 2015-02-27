@@ -387,6 +387,11 @@ namespace CefSharp.OffScreen
             return new GdiBitmapInfo { IsPopup = isPopup, BitmapLock = bitmapLock };
         }
 
+        float IRenderWebBrowser.GetScreenInfoScaleFactor()
+        {
+            return 1F;
+        }
+
         void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
         {
             lock (bitmapLock)

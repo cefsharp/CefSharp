@@ -646,6 +646,16 @@ namespace CefSharp
             }
         }
 
+        void NotifyScreenInfoChanged()
+        {
+            auto browser = _clientAdapter->GetCefBrowser();
+
+            if (browser != nullptr)
+            {
+                browser->GetHost()->NotifyScreenInfoChanged();
+            }
+        }
+
         void RegisterJsObject(String^ name, Object^ object)
         {
             _javaScriptObjectRepository->Register(name, object);

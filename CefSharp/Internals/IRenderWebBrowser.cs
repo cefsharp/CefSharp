@@ -11,6 +11,8 @@ namespace CefSharp.Internals
         int Width { get; }
         int Height { get; }
 
+        float GetScreenInfoScaleFactor();
+
         BitmapInfo CreateBitmapInfo(bool isPopup);
         void InvokeRenderAsync(BitmapInfo bitmapInfo);
 
