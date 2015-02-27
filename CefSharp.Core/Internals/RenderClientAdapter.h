@@ -69,7 +69,6 @@ namespace CefSharp
                 }
 
                 screen_info.device_scale_factor = scaleFactor;
-
                 return true;
             }
 
