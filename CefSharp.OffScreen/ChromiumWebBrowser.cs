@@ -64,6 +64,8 @@ namespace CefSharp.OffScreen
         public event EventHandler BrowserInitialized;
         public event EventHandler<StatusMessageEventArgs> StatusMessage;
         public event EventHandler<NavStateChangedEventArgs> NavStateChanged;
+        public event EventHandler<AddressChangedEventArgs> AddressChanged;
+        public event EventHandler<IsLoadingChangedEventArgs> IsLoadingChanged;
 
         /// <summary>
         /// Fired by a separate thread when Chrome has re-rendered.
@@ -126,6 +128,8 @@ namespace CefSharp.OffScreen
             BrowserInitialized = null;
             StatusMessage = null;
             NavStateChanged = null;
+            AddressChanged = null;
+            IsLoadingChanged = null;
 
             Cef.RemoveDisposable(this);
 
@@ -486,11 +490,23 @@ namespace CefSharp.OffScreen
         void IWebBrowserInternal.SetAddress(string address)
         {
             Address = address;
+
+            var handler = AddressChanged;
+            if (handler != null)
+            {
+                handler(this, new AddressChangedEventArgs(address));
+            }
         }
 
-        void IWebBrowserInternal.SetIsLoading(bool isloading)
+        void IWebBrowserInternal.SetIsLoading(bool isLoading)
         {
-            IsLoading = isloading;
+            IsLoading = isLoading;
+
+            var handler = IsLoadingChanged;
+            if (handler != null)
+            {
+                handler(this, new IsLoadingChangedEventArgs(isLoading));
+            }
         }
 
         void IWebBrowserInternal.SetLoadingStateChange(bool canGoBack, bool canGoForward, bool isLoading)
