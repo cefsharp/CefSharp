@@ -389,7 +389,8 @@ namespace CefSharp.OffScreen
 
         float IRenderWebBrowser.GetScreenInfoScaleFactor()
         {
-            return 1F;
+            //TODO: Expose NotifyScreenInfoChanged and allow user to specify their own scale factor
+            return 1.0F;
         }
 
         void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
