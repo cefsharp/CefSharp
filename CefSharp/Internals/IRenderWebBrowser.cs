@@ -10,7 +10,7 @@ namespace CefSharp.Internals
     {
         ScreenInfo GetScreenInfo();
 
-        BitmapInfo CreateBitmapInfo(bool isPopup);
+        BitmapInfo CreateBitmapInfo(bool isPopup, float scaleFactor);
         void InvokeRenderAsync(BitmapInfo bitmapInfo);
 
         void SetCursor(IntPtr cursor);

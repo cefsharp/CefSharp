@@ -8,10 +8,12 @@ namespace CefSharp.Wpf.Rendering
 {
     public class BitmapFactory : IBitmapFactory
     {
-        public BitmapInfo CreateBitmap(bool isPopup)
+        public BitmapInfo CreateBitmap(bool isPopup, float scaleFactor)
         {
-            //return new WritableBitmapInfo { IsPopup = isPopup };
-            return new InteropBitmapInfo { IsPopup = isPopup };
+            if(scaleFactor > 1.0F)
+                return new WritableBitmapInfo(scaleFactor) { IsPopup = isPopup };
+            else
+                return new InteropBitmapInfo { IsPopup = isPopup };
         }
     }
 }

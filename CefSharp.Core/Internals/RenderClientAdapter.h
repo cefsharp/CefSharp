@@ -22,6 +22,7 @@ namespace CefSharp
             gcroot<IRenderWebBrowser^> _renderWebBrowser;
             gcroot<BitmapInfo^> _mainBitmapInfo;
             gcroot<BitmapInfo^> _popupBitmapInfo;
+            float _lastKnownScaleFactor;
 
         public:
             RenderClientAdapter(IWebBrowserInternal^ webBrowserInternal, Action<int>^ onAfterBrowserCreated):
@@ -29,9 +30,6 @@ namespace CefSharp
                 _webBrowserInternal(webBrowserInternal)
             {
                 _renderWebBrowser = dynamic_cast<IRenderWebBrowser^>(webBrowserInternal);
-
-                _mainBitmapInfo = _renderWebBrowser->CreateBitmapInfo(false);
-                _popupBitmapInfo = _renderWebBrowser->CreateBitmapInfo(true);
             }
 
             ~RenderClientAdapter()
@@ -63,16 +61,27 @@ namespace CefSharp
 
                 auto screenInfo = _renderWebBrowser->GetScreenInfo();
 
-                if (screen_info.device_scale_factor == screenInfo.ScaleFactor
-                    && screen_info.rect.height == screenInfo.Height
-                    && screen_info.rect.width == screenInfo.Width)
+                if (_lastKnownScaleFactor != screenInfo.ScaleFactor)
+                {
+                    if ((BitmapInfo^)_mainBitmapInfo == nullptr)
+                        _mainBitmapInfo = _renderWebBrowser->CreateBitmapInfo(false, screenInfo.ScaleFactor);
+
+                    if ((BitmapInfo^)_popupBitmapInfo == nullptr)
+                        _popupBitmapInfo = _renderWebBrowser->CreateBitmapInfo(true, screenInfo.ScaleFactor);
+
+                    _lastKnownScaleFactor = screenInfo.ScaleFactor;
+                }
+
+                if (screen_info.device_scale_factor != screenInfo.ScaleFactor)
+                {
+                    screen_info.device_scale_factor = screenInfo.ScaleFactor;
+                    screen_info.rect = CefRect(0, 0, screenInfo.Width, screenInfo.Height);
+                    return true;
+                }
+                else
                 {
                     return false;
                 }
-
-                screen_info.device_scale_factor = screenInfo.ScaleFactor;
-                screen_info.rect = CefRect(0, 0, screenInfo.Width, screenInfo.Height);
-                return true;
             }
 
             // CefRenderHandler
