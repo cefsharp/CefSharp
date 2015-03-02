@@ -8,6 +8,7 @@ Post Installation:
   - Make sure you set either `x86` or x64`. (Won't work with `AnyCpu`)
   - After installing the `Nuget` package we recommend closing Visual Studio completely and then reopening (This ensures your references show up and you have full intellisense).
   - Check your output `\bin` directory to make sure the appropriate references have been copied.
+  - Build fails even though packages are installed. Short term rebuild again and everything should be find. Long term we recommend reading http://www.xavierdecoster.com/migrate-away-from-msbuild-based-nuget-package-restore
 
 Basic Troubleshooting:
   - Please ensure your binaries directory contains these required dependencies:
