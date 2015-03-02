@@ -240,10 +240,8 @@ namespace CefSharp.Wpf
         {
             var screenInfo = new ScreenInfo();
 
-            var point = matrix.Transform(new Point(ActualWidth, ActualHeight));
-
-            screenInfo.Width = (int)point.X;
-            screenInfo.Height = (int)point.Y;
+            screenInfo.Width = (int)ActualWidth;
+            screenInfo.Height = (int)ActualHeight;
             screenInfo.ScaleFactor = (float)matrix.M11;
 
             return screenInfo;
@@ -1057,8 +1055,8 @@ namespace CefSharp.Wpf
             popup.Height = height;
 
             var popupOffset = new Point(x, y);
-            popup.HorizontalOffset = popupOffset.X / matrix.M11;
-            popup.VerticalOffset = popupOffset.Y / matrix.M22;
+            popup.HorizontalOffset = popupOffset.X; // / matrix.M11;
+            popup.VerticalOffset = popupOffset.Y; // / matrix.M22;
         }
 
         private void OnTooltipTimerTick(object sender, EventArgs e)
@@ -1431,9 +1429,9 @@ namespace CefSharp.Wpf
         private Point GetPixelPosition(MouseEventArgs e)
         {
             var deviceIndependentPosition = e.GetPosition(this);
-            var pixelPosition = matrix.Transform(deviceIndependentPosition);
+            //var pixelPosition = matrix.Transform(deviceIndependentPosition);
 
-            return pixelPosition;
+            return deviceIndependentPosition;
         }
 
         public void ViewSource()
