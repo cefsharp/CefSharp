@@ -23,7 +23,6 @@ namespace CefSharp.Wpf
     public class ChromiumWebBrowser : ContentControl, IRenderWebBrowser, IWpfWebBrowser
     {
         private readonly List<IDisposable> disposables = new List<IDisposable>();
-        private readonly ScaleTransform imageTransform;
 
         private HwndSource source;
         private HwndSourceHook sourceHook;
@@ -141,7 +140,6 @@ namespace CefSharp.Wpf
             UndoCommand = new DelegateCommand(Undo);
             RedoCommand = new DelegateCommand(Redo);
 
-            imageTransform = new ScaleTransform();
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, true);
 
             disposables.Add(managedCefBrowserAdapter);
@@ -152,6 +150,9 @@ namespace CefSharp.Wpf
             BrowserSettings = new BrowserSettings();
 
             PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
+
+            var presentationSource = PresentationSource.FromVisual(Application.Current.MainWindow);
+            matrix = presentationSource.CompositionTarget.TransformToDevice;
         }
 
         ~ChromiumWebBrowser()
@@ -810,13 +811,10 @@ namespace CefSharp.Wpf
 
                 if (source != null)
                 {
-                    matrix = source.CompositionTarget.TransformToDevice;
                     sourceHook = SourceHook;
                     source.AddHook(sourceHook);
 
                     managedCefBrowserAdapter.NotifyScreenInfoChanged();
-                    imageTransform.ScaleX = 1 / matrix.M11;
-                    imageTransform.ScaleY = 1 / matrix.M22;
                 }
             }
             else if (args.OldSource != null)
@@ -902,8 +900,6 @@ namespace CefSharp.Wpf
             img.Stretch = Stretch.None;
             img.HorizontalAlignment = HorizontalAlignment.Left;
             img.VerticalAlignment = VerticalAlignment.Top;
-            //Scale Image based on DPI settings
-            img.LayoutTransform = imageTransform;
 
             return img;
         }
