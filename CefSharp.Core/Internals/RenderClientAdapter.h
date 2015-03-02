@@ -18,15 +18,13 @@ namespace CefSharp
             public CefRenderHandler
         {
         private:
-            gcroot<IWebBrowserInternal^> _webBrowserInternal;
             gcroot<IRenderWebBrowser^> _renderWebBrowser;
             gcroot<BitmapInfo^> _mainBitmapInfo;
             gcroot<BitmapInfo^> _popupBitmapInfo;
 
         public:
             RenderClientAdapter(IWebBrowserInternal^ webBrowserInternal, Action<int>^ onAfterBrowserCreated):
-                ClientAdapter(webBrowserInternal, onAfterBrowserCreated),
-                _webBrowserInternal(webBrowserInternal)
+                ClientAdapter(webBrowserInternal, onAfterBrowserCreated)
             {
                 _renderWebBrowser = dynamic_cast<IRenderWebBrowser^>(webBrowserInternal);
 
@@ -37,7 +35,6 @@ namespace CefSharp
             ~RenderClientAdapter()
             {
                 _renderWebBrowser = nullptr;
-                _webBrowserInternal = nullptr;
 
                 ReleaseBitmapHandlers(_mainBitmapInfo);
 
