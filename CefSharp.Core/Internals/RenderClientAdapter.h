@@ -61,14 +61,14 @@ namespace CefSharp
                     return false;
                 }
 
-                auto scaleFactor = _renderWebBrowser->GetScreenInfoScaleFactor();
+                auto screenInfo = _renderWebBrowser->GetScreenInfo();
 
-                if (screen_info.device_scale_factor == scaleFactor)
+                if (screen_info.device_scale_factor == screenInfo.ScaleFactor)
                 {
                     return false;
                 }
 
-                screen_info.device_scale_factor = scaleFactor;
+                screen_info.device_scale_factor = screenInfo.ScaleFactor;
                 return true;
             }
 
@@ -80,11 +80,12 @@ namespace CefSharp
                     return false;
                 }
 
-                auto scaleFactor = _renderWebBrowser->GetScreenInfoScaleFactor();
-                auto scaledWidth = _renderWebBrowser->Width / scaleFactor;
-                auto scaledHeight = _renderWebBrowser->Height / scaleFactor;
+                auto screenInfo = _renderWebBrowser->GetScreenInfo();
 
+                auto scaledWidth = screenInfo.Width / screenInfo.ScaleFactor;
+                auto scaledHeight = screenInfo.Height / screenInfo.ScaleFactor;
                 rect = CefRect(0, 0, scaledWidth, scaledHeight);
+
                 return true;
             };
 

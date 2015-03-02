@@ -236,14 +236,17 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter = null;
         }
 
-        int IRenderWebBrowser.Width
+        ScreenInfo IRenderWebBrowser.GetScreenInfo()
         {
-            get { return (int)matrix.Transform(new Point(ActualWidth, ActualHeight)).X; }
-        }
+            var screenInfo = new ScreenInfo();
 
-        int IRenderWebBrowser.Height
-        {
-            get { return (int)matrix.Transform(new Point(ActualWidth, ActualHeight)).Y; }
+            var point = matrix.Transform(new Point(ActualWidth, ActualHeight));
+
+            screenInfo.Width = (int)point.X;
+            screenInfo.Height = (int)point.Y;
+            screenInfo.ScaleFactor = (float)matrix.M11;
+
+            return screenInfo;
         }
 
         BitmapInfo IRenderWebBrowser.CreateBitmapInfo(bool isPopup)
@@ -253,11 +256,6 @@ namespace CefSharp.Wpf
                 throw new Exception("BitmapFactory cannot be null");
             }
             return BitmapFactory.CreateBitmap(isPopup);
-        }
-
-        float IRenderWebBrowser.GetScreenInfoScaleFactor()
-        {
-            return (float)matrix.M11;
         }
 
         void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)

@@ -381,26 +381,22 @@ namespace CefSharp.OffScreen
 
         #region IRenderWebBrowser (rendering to bitmap; derived from CefSharp.Wpf.ChromiumWebBrowser)
 
-        int IRenderWebBrowser.Width
+        ScreenInfo IRenderWebBrowser.GetScreenInfo()
         {
-            get { return size.Width; }
-        }
+            var screenInfo = new ScreenInfo();
 
-        int IRenderWebBrowser.Height
-        {
-            get { return size.Height; }
+            screenInfo.Width = size.Width;
+            screenInfo.Height = size.Height;
+            //TODO: Expose NotifyScreenInfoChanged and allow user to specify their own scale factor
+            screenInfo.ScaleFactor = 1.0F;
+
+            return screenInfo;
         }
 
         BitmapInfo IRenderWebBrowser.CreateBitmapInfo(bool isPopup)
         {
             //The bitmap buffer is 32 BPP
             return new GdiBitmapInfo { IsPopup = isPopup, BitmapLock = bitmapLock };
-        }
-
-        float IRenderWebBrowser.GetScreenInfoScaleFactor()
-        {
-            //TODO: Expose NotifyScreenInfoChanged and allow user to specify their own scale factor
-            return 1.0F;
         }
 
         void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
