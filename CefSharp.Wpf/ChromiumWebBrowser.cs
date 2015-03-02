@@ -144,7 +144,6 @@ namespace CefSharp.Wpf
             imageTransform = new ScaleTransform();
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, true);
 
-            disposables.Add(managedCefBrowserAdapter);
             disposables.Add(new DisposableEventWrapper(this, ActualHeightProperty, OnActualSizeChanged));
             disposables.Add(new DisposableEventWrapper(this, ActualWidthProperty, OnActualSizeChanged));
 
@@ -194,6 +193,12 @@ namespace CefSharp.Wpf
                 {
                     BrowserSettings.Dispose();
                     BrowserSettings = null;
+                }
+
+                if (managedCefBrowserAdapter != null)
+                {
+                    managedCefBrowserAdapter.Dispose();
+                    managedCefBrowserAdapter = null;
                 }
 
                 PresentationSource.RemoveSourceChangedHandler(this, PresentationSourceChangedHandler);
