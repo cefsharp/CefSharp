@@ -8,6 +8,6 @@ namespace CefSharp
 {
     public interface IBitmapFactory
     {
-        BitmapInfo CreateBitmap(bool isPopup, float scaleFactor);
+        BitmapInfo CreateBitmap(bool isPopup);
     }
 }

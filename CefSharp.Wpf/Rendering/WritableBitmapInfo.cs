@@ -11,13 +11,11 @@ namespace CefSharp.Wpf.Rendering
     public class WritableBitmapInfo : WpfBitmapInfo
     {
         private static readonly PixelFormat PixelFormat = PixelFormats.Bgra32;
-        private readonly float scaleFactor;
 
         public WriteableBitmap Bitmap { get; private set; }
 
-        public WritableBitmapInfo(float scaleFactor)
+        public WritableBitmapInfo()
         {
-            this.scaleFactor = scaleFactor;
             BytesPerPixel = PixelFormat.BitsPerPixel / 8;
             DirtyRectSupport = true;
         }
@@ -49,8 +47,7 @@ namespace CefSharp.Wpf.Rendering
 
         public override BitmapSource CreateBitmap()
         {
-            var dpi = (int)(96*scaleFactor);
-            Bitmap = new WriteableBitmap(Width, Height, dpi, dpi, PixelFormat, null);
+            Bitmap = new WriteableBitmap(Width, Height, 96, 96, PixelFormat, null);
 
             return Bitmap;
         }
