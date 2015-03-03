@@ -1052,8 +1052,8 @@ namespace CefSharp.Wpf
             popup.Height = height;
 
             var popupOffset = new Point(x, y);
-            popup.HorizontalOffset = popupOffset.X; // / matrix.M11;
-            popup.VerticalOffset = popupOffset.Y; // / matrix.M22;
+            popup.HorizontalOffset = popupOffset.X;
+            popup.VerticalOffset = popupOffset.Y;
         }
 
         private void OnTooltipTimerTick(object sender, EventArgs e)
