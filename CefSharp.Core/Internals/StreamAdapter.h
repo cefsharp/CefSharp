@@ -17,6 +17,7 @@ namespace CefSharp
         {
             CriticalSection _syncRoot;
             gcroot<Stream^> _stream;
+            bool isMemoryStream = false;
 
         public:
             virtual ~StreamAdapter();
@@ -24,6 +25,7 @@ namespace CefSharp
             {
                 //Reset stream position
                 stream->Position = 0;
+                isMemoryStream = (dynamic_cast<MemoryStream^>(stream)) != nullptr;
             }
 
             virtual size_t Read(void* ptr, size_t size, size_t n);
