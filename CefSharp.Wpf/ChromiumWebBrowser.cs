@@ -149,9 +149,6 @@ namespace CefSharp.Wpf
             BrowserSettings = new BrowserSettings();
 
             PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
-
-            var presentationSource = PresentationSource.FromVisual(Application.Current.MainWindow);
-            matrix = presentationSource.CompositionTarget.TransformToDevice;
         }
 
         ~ChromiumWebBrowser()
@@ -238,8 +235,6 @@ namespace CefSharp.Wpf
             Cef.RemoveDisposable(this);
 
             RemoveSourceHook();
-
-            managedCefBrowserAdapter = null;
         }
 
         ScreenInfo IRenderWebBrowser.GetScreenInfo()
@@ -259,7 +254,7 @@ namespace CefSharp.Wpf
             {
                 throw new Exception("BitmapFactory cannot be null");
             }
-            return BitmapFactory.CreateBitmap(isPopup);
+            return BitmapFactory.CreateBitmap(isPopup, matrix);
         }
 
         void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
@@ -816,6 +811,7 @@ namespace CefSharp.Wpf
 
                 if (source != null)
                 {
+                    matrix = source.CompositionTarget.TransformToDevice;
                     sourceHook = SourceHook;
                     source.AddHook(sourceHook);
 

@@ -93,7 +93,6 @@
     <Compile Include="DefaultResourceHandler.cs" />
     <Compile Include="MouseEvent.cs" />
     <Compile Include="DragOperationsMask.cs" />
-    <Compile Include="IBitmapFactory.cs" />
     <Compile Include="IDragData.cs" />
     <Compile Include="IFocusHandler.cs" />
     <Compile Include="IDragHandler.cs" />
