@@ -225,6 +225,7 @@
     <ClCompile Include="Internals\DownloadAdapter.cpp" />
     <ClCompile Include="Internals\StringVisitor.cpp" />
     <ClCompile Include="NativeMethodWrapper.cpp" />
+    <ClCompile Include="SchemeHandlerFactoryWrapper.cpp" />
     <ClCompile Include="SchemeHandlerResponse.cpp" />
     <ClCompile Include="SchemeHandlerWrapper.cpp" />
     <ClCompile Include="Stdafx.cpp">
@@ -257,6 +258,7 @@
     <ClInclude Include="MouseButtonType.h" />
     <ClInclude Include="ManagedCefBrowserAdapter.h" />
     <ClInclude Include="CefSettings.h" />
+    <ClInclude Include="SchemeHandlerFactoryWrapper.h" />
     <ClInclude Include="SchemeHandlerResponse.h" />
     <ClInclude Include="SchemeHandlerWrapper.h" />
     <ClInclude Include="Stdafx.h" />

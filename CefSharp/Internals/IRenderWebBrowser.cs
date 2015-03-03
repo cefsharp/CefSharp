@@ -8,8 +8,7 @@ namespace CefSharp.Internals
 {
     public interface IRenderWebBrowser : IWebBrowserInternal
     {
-        int Width { get; }
-        int Height { get; }
+        ScreenInfo GetScreenInfo();
 
         BitmapInfo CreateBitmapInfo(bool isPopup);
         void InvokeRenderAsync(BitmapInfo bitmapInfo);

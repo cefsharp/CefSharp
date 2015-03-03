@@ -15,8 +15,6 @@ using namespace System;
 
 namespace CefSharp
 {
-    ref class ManagedCefBrowserAdapter;
-
     namespace Internals
     {
         private class ClientAdapter : public CefClient,

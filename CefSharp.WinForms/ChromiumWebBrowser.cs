@@ -14,7 +14,7 @@ namespace CefSharp.WinForms
     public class ChromiumWebBrowser : Control, IWebBrowserInternal, IWinFormsWebBrowser
     {
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
-        private MovingListener movingListener;
+        private ParentFormMessageInterceptor parentFormMessageInterceptor;
 
         public BrowserSettings BrowserSettings { get; set; }
         public string Title { get; set; }
@@ -93,10 +93,18 @@ namespace CefSharp.WinForms
 
             if (disposing)
             {
+                IsBrowserInitialized = false;
+
                 if (BrowserSettings != null)
                 {
                     BrowserSettings.Dispose();
                     BrowserSettings = null;
+                }
+
+                if (parentFormMessageInterceptor != null)
+                {
+                    parentFormMessageInterceptor.Dispose();
+                    parentFormMessageInterceptor = null;
                 }
 
                 if (managedCefBrowserAdapter != null)
@@ -133,13 +141,12 @@ namespace CefSharp.WinForms
             IsBrowserInitialized = true;
 
             // By the time this callback gets called, this control
-            // is most likely hooked into a parent Form of some sort. 
-            // (Which is what MovingListener relies on.)
-            // Ensure the MovingListener construction occurs on the WinForms UI thread:
+            // is most likely hooked into a browser Form of some sort. 
+            // (Which is what ParentFormMessageInterceptor relies on.)
+            // Ensure the ParentFormMessageInterceptor construction occurs on the WinForms UI thread:
             this.InvokeOnUiThreadIfRequired(() =>
             {
-                movingListener = new MovingListener(this);
-                movingListener.Moving += MovingListenerMoving;
+                parentFormMessageInterceptor = new ParentFormMessageInterceptor(this);
             });
 
             ResizeBrowser();
@@ -451,7 +458,7 @@ namespace CefSharp.WinForms
 
         private void ResizeBrowser()
         {
-            if (IsBrowserInitialized && managedCefBrowserAdapter != null)
+            if (IsBrowserInitialized)
             {
                 managedCefBrowserAdapter.Resize(Width, Height);
             }
@@ -459,7 +466,7 @@ namespace CefSharp.WinForms
 
         public void NotifyMoveOrResizeStarted()
         {
-            if (IsBrowserInitialized && managedCefBrowserAdapter != null)
+            if (IsBrowserInitialized)
             {
                 managedCefBrowserAdapter.NotifyMoveOrResizeStarted();
             }
@@ -547,7 +554,10 @@ namespace CefSharp.WinForms
         /// </summary>
         public void SetFocus(bool isFocused)
         {
-            managedCefBrowserAdapter.SetFocus(isFocused);
+            if (IsBrowserInitialized)
+            {
+                managedCefBrowserAdapter.SetFocus(isFocused);
+            }
         }
     }
 }
