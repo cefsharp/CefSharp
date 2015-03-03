@@ -103,6 +103,34 @@ namespace CefSharp.WinForms.Internals
             // Listen for operating system messages 
             switch (m.Msg)
             {
+                // WM_ACTIVATE
+                case 0x6:
+                    // Intercept activate messages for our form, in case we need to
+                    // restore focus to our CEF browser that we own.
+                    // If our control(s) don't receive a OnGetFocus() message,
+                    // then no harm, no foul.
+                    var browser = Browser;
+                    if ((int)m.WParam == 0x0) // WA_INACTIVE
+                    {
+                        // If the CEF browser no longer has focus,
+                        // we won't get a call to OnLostFocus on ChromiumWebBrowser.
+                        // However, it doesn't matter so much since the CEF
+                        // browser will receive it instead.
+                        browser.deactivating = true;
+                        DefWndProc(ref m);
+                        browser.deactivating = false;
+                        browser.isFormDeactivated = true;
+                    }
+                    else // WA_ACTIVE or WA_CLICKACTIVE
+                    {
+                        // NOTE: Transition from minimized to normal
+                        // Doesn't call OnGetFocus until AFTER OnActivated completes.
+                        browser.isFormDeactivated = false;
+                        browser.activating = true;
+                        DefWndProc(ref m);
+                        browser.activating = false;
+                    }
+                    return;
                 case NativeMethods.WM_MOVING:
                 {
                     movingRectangle = (Rectangle)Marshal.PtrToStructure(m.LParam, typeof(Rectangle));
