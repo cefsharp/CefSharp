@@ -90,7 +90,8 @@
   <ItemGroup>
     <Compile Include="CefDirtyRect.cs" />
     <Compile Include="CefFileDialogMode.cs" />
-    <Compile Include="DefaultResourceHandler.cs" />
+    <Compile Include="DefaultResourceHandlerFactory.cs" />
+    <Compile Include="IResourceHandlerFactory.cs" />
     <Compile Include="MouseEvent.cs" />
     <Compile Include="DragOperationsMask.cs" />
     <Compile Include="IBitmapFactory.cs" />
@@ -98,7 +99,6 @@
     <Compile Include="IFocusHandler.cs" />
     <Compile Include="IDragHandler.cs" />
     <Compile Include="IGeolocationHandler.cs" />
-    <Compile Include="IResourceHandler.cs" />
     <Compile Include="IsBrowserInitializedChangedEventArgs.cs" />
     <Compile Include="CefTerminationStatus.cs" />
     <Compile Include="IDialogHandler.cs" />
