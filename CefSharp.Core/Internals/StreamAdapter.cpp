@@ -81,7 +81,7 @@ namespace CefSharp
 
         bool StreamAdapter::MayBlock()
         {
-            if (isMemoryStream)
+            if (_isMemoryStream)
             {
                 return false;
             }
