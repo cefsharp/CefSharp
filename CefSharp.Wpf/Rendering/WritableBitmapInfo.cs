@@ -11,9 +11,9 @@ namespace CefSharp.Wpf.Rendering
     public class WritableBitmapInfo : WpfBitmapInfo
     {
         private static readonly PixelFormat PixelFormat = PixelFormats.Bgra32;
+        
         public double DpiX { get; private set; }
         public double DpiY { get; private set; }
-
         public WriteableBitmap Bitmap { get; private set; }
 
         public WritableBitmapInfo(double dpiX, double dpiY)
