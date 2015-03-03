@@ -11,15 +11,15 @@ namespace CefSharp.Wpf.Rendering
     public class WritableBitmapInfo : WpfBitmapInfo
     {
         private static readonly PixelFormat PixelFormat = PixelFormats.Bgra32;
-        private readonly double dpiX;
-        private readonly double dpiY;
+        public double DpiX { get; private set; }
+        public double DpiY { get; private set; }
 
         public WriteableBitmap Bitmap { get; private set; }
 
         public WritableBitmapInfo(double dpiX, double dpiY)
         {
-            this.dpiX = dpiX;
-            this.dpiY = dpiY;
+            DpiX = dpiX;
+            DpiY = dpiY;
 
             BytesPerPixel = PixelFormat.BitsPerPixel / 8;
             DirtyRectSupport = true;
@@ -37,8 +37,8 @@ namespace CefSharp.Wpf.Rendering
 
         public override void Invalidate()
         {
-            var stride = Width*BytesPerPixel;
-            var sourceBufferSize = stride*Height;
+            var stride = Width * BytesPerPixel;
+            var sourceBufferSize = stride * Height;
 
             if (Width == 0 || Height == 0 || DirtyRect.Width == 0 || DirtyRect.Height == 0)
             {
@@ -52,7 +52,7 @@ namespace CefSharp.Wpf.Rendering
 
         public override BitmapSource CreateBitmap()
         {
-            Bitmap = new WriteableBitmap(Width, Height, dpiX, dpiY, PixelFormat, null);
+            Bitmap = new WriteableBitmap(Width, Height, DpiX, DpiY, PixelFormat, null);
 
             return Bitmap;
         }
