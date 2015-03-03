@@ -333,9 +333,8 @@ namespace CefSharp
                 {
                     CefResponse::HeaderMap map = SchemeHandlerWrapper::ToHeaderMap(resourceHandler->Headers);
 
-                    //TODO: Investigate crash when using full response
-                    //return new CefStreamResourceHandler(resourceHandler->StatusCode, statusText, mimeType, map, stream);
-                    return new CefStreamResourceHandler(mimeType, stream);
+                    //NOTE: This will crash in a debug build due to a CEF bug.
+                    return new CefStreamResourceHandler(resourceHandler->StatusCode, statusText, mimeType, map, stream);
                 }
             }
 
