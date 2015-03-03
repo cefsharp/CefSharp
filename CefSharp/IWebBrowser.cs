@@ -54,11 +54,11 @@ namespace CefSharp
         void Load(string url);
 
         /// <summary>
-        /// Registers and loads a <see cref="ResourceHandlerFactory"/> that represents the HTML content.
+        /// Registers and loads a <see cref="ResourceHandler"/> that represents the HTML content.
         /// </summary>
         /// <remarks>
         /// `Cef` Native `LoadHtml` is unpredictable and only works sometimes, this method wraps
-        /// the provided HTML in a <see cref="ResourceHandlerFactory"/> and loads the provided url using
+        /// the provided HTML in a <see cref="ResourceHandler"/> and loads the provided url using
         /// the <see cref="Load"/> method.
         /// Defaults to using <see cref="Encoding.UTF8"/> for character encoding 
         /// The url must start with a valid schema, other uri's such as about:blank are invalid
@@ -69,11 +69,11 @@ namespace CefSharp
         void LoadHtml(string html, string url);
 
         /// <summary>
-        /// Registers and loads a <see cref="ResourceHandlerFactory"/> that represents the HTML content.
+        /// Registers and loads a <see cref="ResourceHandler"/> that represents the HTML content.
         /// </summary>
         /// <remarks>
         /// `Cef` Native `LoadHtml` is unpredictable and only works sometimes, this method wraps
-        /// the provided HTML in a <see cref="ResourceHandlerFactory"/> and loads the provided url using
+        /// the provided HTML in a <see cref="ResourceHandler"/> and loads the provided url using
         /// the <see cref="Load"/> method.
         /// </remarks>
         /// <param name="html">The HTML content.</param>
