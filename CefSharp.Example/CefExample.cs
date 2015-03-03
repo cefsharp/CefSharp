@@ -60,7 +60,7 @@ namespace CefSharp.Example
 
         public static void RegisterTestResources(IWebBrowser browser)
         {
-            var handler = browser.ResourceHandler;
+            var handler = browser.ResourceHandlerFactory;
             if (handler != null)
             {
                 const string responseBody = "<html><body><h1>Success</h1><p>This document is loaded from a System.IO.Stream</p></body></html>";

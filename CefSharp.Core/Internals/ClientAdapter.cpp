@@ -310,16 +310,16 @@ namespace CefSharp
         // this callback.
         CefRefPtr<CefResourceHandler> ClientAdapter::GetResourceHandler(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request)
         {
-            auto handler = _browserControl->ResourceHandler;
+            auto factory = _browserControl->ResourceHandlerFactory;
 
-            if (handler == nullptr)
+            if (factory == nullptr)
             {
                 return NULL;
             }
 
             auto requestWrapper = gcnew CefRequestWrapper(request);
 
-            auto resourceHandler = handler->GetResourceHandler(_browserControl, requestWrapper);
+            auto resourceHandler = factory->GetResourceHandler(_browserControl, requestWrapper);
 
             if(resourceHandler != nullptr)
             {

@@ -55,7 +55,7 @@ namespace CefSharp.OffScreen
         public IFocusHandler FocusHandler { get; set; }
         public IRequestHandler RequestHandler { get; set; }
         public IDragHandler DragHandler { get; set; }
-        public IResourceHandler ResourceHandler { get; set; }
+        public IResourceHandlerFactory ResourceHandlerFactory { get; set; }
         public IGeolocationHandler GeolocationHandler { get; set; }
 
         public event EventHandler<LoadErrorEventArgs> LoadError;
@@ -86,7 +86,7 @@ namespace CefSharp.OffScreen
                 throw new InvalidOperationException("Cef::Initialize() failed");
             }
 
-            ResourceHandler = new DefaultResourceHandler();
+            ResourceHandlerFactory = new DefaultResourceHandlerFactory();
             BrowserSettings = browserSettings ?? new BrowserSettings();
 
             Cef.AddDisposable(this);
@@ -110,7 +110,7 @@ namespace CefSharp.OffScreen
         protected virtual void Dispose(bool disposing)
         {
             // Don't reference handlers any longer:
-            ResourceHandler = null;
+            ResourceHandlerFactory = null;
             JsDialogHandler = null;
             DialogHandler = null;
             DownloadHandler = null;
@@ -293,13 +293,13 @@ namespace CefSharp.OffScreen
 
         public void LoadHtml(string html, string url, Encoding encoding)
         {
-            var handler = ResourceHandler;
-            if (handler == null)
+            var factory = ResourceHandlerFactory;
+            if (factory == null)
             {
-                throw new Exception("Implement IResourceHandler and assign to the ResourceHandler property to use this feature");
+                throw new Exception("Implement IResourceHandlerFactory and assign to the ResourceHandlerFactory property to use this feature");
             }
 
-            handler.RegisterHandler(url, CefSharp.ResourceHandler.FromString(html, encoding, true));
+            factory.RegisterHandler(url, CefSharp.ResourceHandler.FromString(html, encoding, true));
 
             Load(url);
         }
