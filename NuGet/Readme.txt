@@ -25,6 +25,7 @@ Basic Troubleshooting:
     NOTE: CefSharp does not currently support CEF sandboxing so wow_helper.exe is not currently useful.
 
 For further help please read the following content:
+  - CefSharp Tutorials https://github.com/cefsharp/CefSharp.Tutorial
   - CefSharp GitHub https://github.com/cefsharp/CefSharp
   - CefSharp's Wiki on github (https://github.com/cefsharp/CefSharp/wiki)
   - Minimal Example Projects showing the browser in action (https://github.com/cefsharp/CefSharp.MinimalExample)
