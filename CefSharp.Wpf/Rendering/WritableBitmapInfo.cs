@@ -2,6 +2,7 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -45,7 +46,7 @@ namespace CefSharp.Wpf.Rendering
             var stride = Width * BytesPerPixel;
             var sourceBufferSize = stride * Height;
 
-            if (Width == 0 || Height == 0 || DirtyRect.Width == 0 || DirtyRect.Height == 0)
+            if (Width == 0 || Height == 0 || DirtyRect.Width == 0 || DirtyRect.Height == 0 || BackBufferHandle == IntPtr.Zero)
             {
                 return;
             }
