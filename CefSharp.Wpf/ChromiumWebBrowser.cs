@@ -17,6 +17,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
+using System.Runtime.InteropServices;
 
 namespace CefSharp.Wpf
 {
@@ -24,6 +25,7 @@ namespace CefSharp.Wpf
     {
         private readonly List<IDisposable> disposables = new List<IDisposable>();
 
+        private Window window;
         private HwndSource source;
         private HwndSourceHook sourceHook;
         private DispatcherTimer tooltipTimer;
@@ -237,12 +239,59 @@ namespace CefSharp.Wpf
             RemoveSourceHook();
         }
 
+        ViewInfo IRenderWebBrowser.GetViewInfo()
+        {
+            if (source == null)
+                return new ViewInfo();
+
+            Point offset = new Point();
+            Point size = new Point();
+            Dispatcher.Invoke(new Action(() =>
+            {
+                offset = TranslatePoint(new Point(), window);
+                size = new Point(ActualWidth, ActualHeight);
+
+                offset = source.CompositionTarget.TransformToDevice.Transform(offset);
+                size = source.CompositionTarget.TransformToDevice.Transform(size);
+            }));
+
+            var screenLocation = new W32Point
+            {
+                X = (int)offset.X,
+                Y = (int)offset.Y
+            };
+            ClientToScreen(source.Handle, ref screenLocation);
+
+            return new ViewInfo
+            {
+                X = (int)(screenLocation.X / matrix.M11),
+                Y = (int)(screenLocation.Y / matrix.M22),
+                Height = (int)ActualHeight,
+                Width = (int)ActualWidth
+            };
+        }
+
         ScreenInfo IRenderWebBrowser.GetScreenInfo()
         {
+            IntPtr monHandle = MonitorFromWindow(source.Handle, 0x00000002);
+            if (monHandle == IntPtr.Zero)
+                return new ScreenInfo();
+
+            W32MonitorInfo monInfo = new W32MonitorInfo();
+            monInfo.Size = Marshal.SizeOf(typeof(W32MonitorInfo));
+            if (!GetMonitorInfo(monHandle, ref monInfo))
+            {
+                Marshal.ThrowExceptionForHR(Marshal.GetHRForLastWin32Error());
+            }
+
             var screenInfo = new ScreenInfo();
 
-            screenInfo.Width = (int)ActualWidth;
-            screenInfo.Height = (int)ActualHeight;
+            screenInfo.Width = (int)(monInfo.Monitor.Right / matrix.M11);
+            screenInfo.Height = (int)(monInfo.Monitor.Bottom / matrix.M22);
+
+            screenInfo.AvailableWidth = (int)(monInfo.WorkArea.Right / matrix.M11);
+            screenInfo.AvailableHeight = (int)(monInfo.WorkArea.Bottom / matrix.M22);
+
             screenInfo.ScaleFactor = (float)matrix.M11;
 
             return screenInfo;
@@ -806,8 +855,8 @@ namespace CefSharp.Wpf
             if (args.NewSource != null)
             {
                 var newSource = (HwndSource)args.NewSource;
-
                 source = newSource;
+                window = Window.GetWindow(this);
 
                 if (source != null)
                 {
@@ -1052,12 +1101,14 @@ namespace CefSharp.Wpf
 
         private void SetPopupSizeAndPositionImpl(int width, int height, int x, int y)
         {
-            popup.Width = width;
-            popup.Height = height;
+            popup.Width = width / matrix.M11;
+            popup.Height = height / matrix.M22;
 
-            var popupOffset = new Point(x, y);
-            popup.HorizontalOffset = popupOffset.X;
-            popup.VerticalOffset = popupOffset.Y;
+            //var info = (this as IRenderWebBrowser).GetViewInfo();
+            //var popupOffset = new Point(x, y);
+            popup.HorizontalOffset = x / matrix.M11;
+            popup.VerticalOffset = y / matrix.M22;
+
         }
 
         private void OnTooltipTimerTick(object sender, EventArgs e)
@@ -1473,5 +1524,51 @@ namespace CefSharp.Wpf
         {
             managedCefBrowserAdapter.SetZoomLevel(zoomLevel);
         }
+
+        #region W32 API
+
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool GetCursorPos(ref W32Point pt);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool GetMonitorInfo(IntPtr hMonitor, ref W32MonitorInfo lpmi);
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr MonitorFromPoint(W32Point pt, uint dwFlags);
+
+        [DllImport("user32.dll", ExactSpelling = true)]
+        private static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
+
+        [DllImport("user32.dll")]
+        private static extern bool ClientToScreen(IntPtr hWnd, ref W32Point lpPoint);
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct W32Point
+        {
+            public int X;
+            public int Y;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct W32MonitorInfo
+        {
+            public int Size;
+            public W32Rect Monitor;
+            public W32Rect WorkArea;
+            public uint Flags;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct W32Rect
+        {
+            public int Left;
+            public int Top;
+            public int Right;
+            public int Bottom;
+        }
+
+        #endregion
     }
 }

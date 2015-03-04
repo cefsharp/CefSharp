@@ -4,14 +4,11 @@
 
 namespace CefSharp
 {
-	public struct ScreenInfo
+	public struct ViewInfo
 	{
+        public int X { get; set; }
+        public int Y { get; set; }
 		public int Width { get; set; }
 		public int Height { get; set; }
-
-        public int AvailableWidth { get; set; }
-        public int AvailableHeight { get; set; }
-
-		public float ScaleFactor { get; set; }
 	}
 }

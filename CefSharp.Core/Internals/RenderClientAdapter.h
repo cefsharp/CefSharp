@@ -65,13 +65,16 @@ namespace CefSharp
 
                 if (screen_info.device_scale_factor == screenInfo.ScaleFactor
                     && screen_info.rect.height == screenInfo.Height
-                    && screen_info.rect.width == screenInfo.Width)
+                    && screen_info.rect.width == screenInfo.Width
+                    && screen_info.available_rect.width == screenInfo.AvailableWidth
+                    && screen_info.available_rect.height == screenInfo.AvailableHeight)
                 {
                     return false;
                 }
 
                 screen_info.device_scale_factor = screenInfo.ScaleFactor;
                 screen_info.rect = CefRect(0, 0, screenInfo.Width, screenInfo.Height);
+                screen_info.available_rect = CefRect(0, 0, screenInfo.AvailableWidth, screenInfo.AvailableHeight);
                 return true;
             }
 
@@ -83,9 +86,10 @@ namespace CefSharp
                     return false;
                 }
 
-                auto screenInfo = _renderWebBrowser->GetScreenInfo();
+                auto test = _renderWebBrowser->GetViewInfo();
+                //auto screenInfo = _renderWebBrowser->GetScreenInfo();
 
-                rect = CefRect(0, 0, screenInfo.Width, screenInfo.Height);
+                rect = CefRect(test.X, test.Y, test.Width, test.Height);
                 return true;
             };
 

@@ -121,6 +121,7 @@
     <Compile Include="ResourceHandler.cs" />
     <Compile Include="Response.cs" />
     <Compile Include="ResponseAction.cs" />
+    <Compile Include="ViewInfo.cs" />
     <Compile Include="ScreenInfo.cs" />
     <Compile Include="TransitionType.cs" />
     <Compile Include="NavStateChangedEventArgs.cs" />
