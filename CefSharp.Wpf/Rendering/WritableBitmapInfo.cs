@@ -16,6 +16,11 @@ namespace CefSharp.Wpf.Rendering
         public double DpiY { get; private set; }
         public WriteableBitmap Bitmap { get; private set; }
 
+        public WritableBitmapInfo() : this (BitmapFactory.DefaultDpi, BitmapFactory.DefaultDpi)
+        {
+
+        }
+
         public WritableBitmapInfo(double dpiX, double dpiY)
         {
             DpiX = dpiX;
