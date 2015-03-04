@@ -811,11 +811,15 @@ namespace CefSharp.Wpf
 
                 if (source != null)
                 {
+                    var notifyDpiChanged = !matrix.Equals(source.CompositionTarget.TransformToDevice);
                     matrix = source.CompositionTarget.TransformToDevice;
                     sourceHook = SourceHook;
                     source.AddHook(sourceHook);
 
-                    managedCefBrowserAdapter.NotifyScreenInfoChanged();
+                    if (notifyDpiChanged)
+                    {
+                        managedCefBrowserAdapter.NotifyScreenInfoChanged();
+                    }
                 }
             }
             else if (args.OldSource != null)
