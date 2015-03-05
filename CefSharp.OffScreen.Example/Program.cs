@@ -36,7 +36,7 @@ namespace CefSharp.OffScreen.Example
                 // This returns to us from another thread.
                 if (captureFirstRenderedImage)
                 {
-                    browser.ResourceHandler.RegisterHandler(testUrl, ResourceHandler.FromString("<html><body><h1>CefSharp OffScreen</h1></body></html>"));
+                    browser.ResourceHandlerFactory.RegisterHandler(testUrl, ResourceHandler.FromString("<html><body><h1>CefSharp OffScreen</h1></body></html>"));
                     browser.ScreenshotAsync().ContinueWith(DisplayBitmap);
                 }
                 else

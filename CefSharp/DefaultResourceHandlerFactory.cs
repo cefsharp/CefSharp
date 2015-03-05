@@ -7,11 +7,11 @@ using System.Collections.Generic;
 
 namespace CefSharp
 {
-    public class DefaultResourceHandler : IResourceHandler
+    public class DefaultResourceHandlerFactory : IResourceHandlerFactory
     {
         public Dictionary<string, ResourceHandler> Handlers { get; private set; }
 
-        public DefaultResourceHandler(IEqualityComparer<string> comparer = null)
+        public DefaultResourceHandlerFactory(IEqualityComparer<string> comparer = null)
         {
             Handlers = new Dictionary<string, ResourceHandler>(comparer ?? StringComparer.OrdinalIgnoreCase);
         }

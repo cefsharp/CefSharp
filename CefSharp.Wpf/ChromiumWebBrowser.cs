@@ -47,7 +47,7 @@ namespace CefSharp.Wpf
         public IMenuHandler MenuHandler { get; set; }
         public IFocusHandler FocusHandler { get; set; }
         public IDragHandler DragHandler { get; set; }
-        public IResourceHandler ResourceHandler { get; set; }
+        public IResourceHandlerFactory ResourceHandlerFactory { get; set; }
         public IGeolocationHandler GeolocationHandler { get; set; }
         public IBitmapFactory BitmapFactory { get; set; }
 
@@ -148,7 +148,7 @@ namespace CefSharp.Wpf
             disposables.Add(new DisposableEventWrapper(this, ActualHeightProperty, OnActualSizeChanged));
             disposables.Add(new DisposableEventWrapper(this, ActualWidthProperty, OnActualSizeChanged));
 
-            ResourceHandler = new DefaultResourceHandler();
+            ResourceHandlerFactory = new DefaultResourceHandlerFactory();
             BrowserSettings = new BrowserSettings();
 
             PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
@@ -175,7 +175,7 @@ namespace CefSharp.Wpf
             NavStateChanged = null;
 
             // No longer reference handlers:
-            ResourceHandler = null;
+            ResourceHandlerFactory = null;
             DialogHandler = null;
             JsDialogHandler = null;
             KeyboardHandler = null;
@@ -1276,10 +1276,10 @@ namespace CefSharp.Wpf
 
         public void LoadHtml(string html, string url, Encoding encoding)
         {
-            var handler = ResourceHandler;
+            var handler = ResourceHandlerFactory;
             if (handler == null)
             {
-                throw new Exception("Implement IResourceHandler and assign to the ResourceHandler property to use this feature");
+                throw new Exception("Implement IResourceHandlerFactory and assign to the ResourceHandlerFactory property to use this feature");
             }
 
             handler.RegisterHandler(url, CefSharp.ResourceHandler.FromString(html, encoding, true));

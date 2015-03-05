@@ -4,7 +4,7 @@
 
 namespace CefSharp
 {
-    public interface IResourceHandler
+    public interface IResourceHandlerFactory
     {
         void RegisterHandler(string url, ResourceHandler handler);
 
