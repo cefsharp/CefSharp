@@ -245,27 +245,29 @@ namespace CefSharp.Wpf
                 return new ViewInfo();
 
             Point offset = new Point();
-            Point size = new Point();
+            var screenLocation = new W32Point();
             Dispatcher.Invoke(new Action(() =>
             {
-                offset = TranslatePoint(new Point(), window);
-                size = new Point(ActualWidth, ActualHeight);
+                offset = TranslatePoint(new Point(), this);
+                offset.X = offset.X;
+                offset.Y = offset.Y;
+                //offset = source.CompositionTarget.TransformToDevice.Transform(offset);
+                //offset = PointToScreen(offset);
 
-                offset = source.CompositionTarget.TransformToDevice.Transform(offset);
-                size = source.CompositionTarget.TransformToDevice.Transform(size);
+                screenLocation = new W32Point
+                {
+                    X = (int)offset.X,
+                    Y = (int)offset.Y
+                };
+                ClientToScreen(source.Handle, ref screenLocation);
             }));
-
-            var screenLocation = new W32Point
-            {
-                X = (int)offset.X,
-                Y = (int)offset.Y
-            };
-            ClientToScreen(source.Handle, ref screenLocation);
 
             return new ViewInfo
             {
-                X = (int)(screenLocation.X / matrix.M11),
-                Y = (int)(screenLocation.Y / matrix.M22),
+                X = (int)(screenLocation.X / matrix.M11) - 100,
+                Y = (int)(screenLocation.Y / matrix.M22) - 100,
+                //X = (int)(offset.X),
+                //Y = (int)(offset.Y),
                 Height = (int)ActualHeight,
                 Width = (int)ActualWidth
             };
@@ -273,6 +275,9 @@ namespace CefSharp.Wpf
 
         ScreenInfo IRenderWebBrowser.GetScreenInfo()
         {
+            if (source == null)
+                return new ScreenInfo();
+
             IntPtr monHandle = MonitorFromWindow(source.Handle, 0x00000002);
             if (monHandle == IntPtr.Zero)
                 return new ScreenInfo();
@@ -286,15 +291,36 @@ namespace CefSharp.Wpf
 
             var screenInfo = new ScreenInfo();
 
+            screenInfo.X = (int)(monInfo.Monitor.Left / matrix.M11);
+            screenInfo.Y = (int)(monInfo.Monitor.Top / matrix.M22);
             screenInfo.Width = (int)(monInfo.Monitor.Right / matrix.M11);
             screenInfo.Height = (int)(monInfo.Monitor.Bottom / matrix.M22);
 
+            screenInfo.AvailableX = (int)(monInfo.WorkArea.Left / matrix.M11);
+            screenInfo.AvailableY = (int)(monInfo.WorkArea.Top / matrix.M22);
             screenInfo.AvailableWidth = (int)(monInfo.WorkArea.Right / matrix.M11);
             screenInfo.AvailableHeight = (int)(monInfo.WorkArea.Bottom / matrix.M22);
 
             screenInfo.ScaleFactor = (float)matrix.M11;
 
             return screenInfo;
+        }
+
+        void IRenderWebBrowser.GetScreenPoint(int x, int y, ref int outX, ref int outY)
+        {
+            var screen = new Point();
+            var view = new Point(x, y);
+            outX = (int)(x * matrix.M11);
+            outY = (int)(y*matrix.M22);
+            return;
+
+            Dispatcher.Invoke(new Action(() =>
+            {
+                screen = PointToScreen(view);
+            }));
+
+            outX = (int)(screen.X / matrix.M11);
+            outY = (int)(screen.Y / matrix.M22);
         }
 
         BitmapInfo IRenderWebBrowser.CreateBitmapInfo(bool isPopup)
