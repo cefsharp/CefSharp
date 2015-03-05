@@ -176,7 +176,7 @@ namespace CefSharp.WinForms
                 throw new Exception("Implement IResourceHandlerFactory and assign to the ResourceHandlerFactory property to use this feature");
             }
 
-            factory.RegisterHandler(url, CefSharp.ResourceHandler.FromString(html, encoding, true));
+            factory.RegisterHandler(url, ResourceHandler.FromString(html, encoding, true));
 
             Load(url);
         }
