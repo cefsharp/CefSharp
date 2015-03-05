@@ -23,7 +23,6 @@ namespace CefSharp.Wpf
     public class ChromiumWebBrowser : ContentControl, IRenderWebBrowser, IWpfWebBrowser
     {
         private readonly List<IDisposable> disposables = new List<IDisposable>();
-        private readonly ScaleTransform imageTransform;
 
         private HwndSource source;
         private HwndSourceHook sourceHook;
@@ -141,7 +140,6 @@ namespace CefSharp.Wpf
             UndoCommand = new DelegateCommand(Undo);
             RedoCommand = new DelegateCommand(Redo);
 
-            imageTransform = new ScaleTransform();
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, true);
 
             disposables.Add(managedCefBrowserAdapter);
@@ -152,6 +150,9 @@ namespace CefSharp.Wpf
             BrowserSettings = new BrowserSettings();
 
             PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
+
+            var presentationSource = PresentationSource.FromVisual(Application.Current.MainWindow);
+            matrix = presentationSource.CompositionTarget.TransformToDevice;
         }
 
         ~ChromiumWebBrowser()
@@ -240,10 +241,8 @@ namespace CefSharp.Wpf
         {
             var screenInfo = new ScreenInfo();
 
-            var point = matrix.Transform(new Point(ActualWidth, ActualHeight));
-
-            screenInfo.Width = (int)point.X;
-            screenInfo.Height = (int)point.Y;
+            screenInfo.Width = (int)ActualWidth;
+            screenInfo.Height = (int)ActualHeight;
             screenInfo.ScaleFactor = (float)matrix.M11;
 
             return screenInfo;
@@ -812,13 +811,10 @@ namespace CefSharp.Wpf
 
                 if (source != null)
                 {
-                    matrix = source.CompositionTarget.TransformToDevice;
                     sourceHook = SourceHook;
                     source.AddHook(sourceHook);
 
                     managedCefBrowserAdapter.NotifyScreenInfoChanged();
-                    imageTransform.ScaleX = 1 / matrix.M11;
-                    imageTransform.ScaleY = 1 / matrix.M22;
                 }
             }
             else if (args.OldSource != null)
@@ -904,8 +900,6 @@ namespace CefSharp.Wpf
             img.Stretch = Stretch.None;
             img.HorizontalAlignment = HorizontalAlignment.Left;
             img.VerticalAlignment = VerticalAlignment.Top;
-            //Scale Image based on DPI settings
-            img.LayoutTransform = imageTransform;
 
             return img;
         }
@@ -1057,8 +1051,8 @@ namespace CefSharp.Wpf
             popup.Height = height;
 
             var popupOffset = new Point(x, y);
-            popup.HorizontalOffset = popupOffset.X / matrix.M11;
-            popup.VerticalOffset = popupOffset.Y / matrix.M22;
+            popup.HorizontalOffset = popupOffset.X; // / matrix.M11;
+            popup.VerticalOffset = popupOffset.Y; // / matrix.M22;
         }
 
         private void OnTooltipTimerTick(object sender, EventArgs e)
@@ -1431,9 +1425,9 @@ namespace CefSharp.Wpf
         private Point GetPixelPosition(MouseEventArgs e)
         {
             var deviceIndependentPosition = e.GetPosition(this);
-            var pixelPosition = matrix.Transform(deviceIndependentPosition);
+            //var pixelPosition = matrix.Transform(deviceIndependentPosition);
 
-            return pixelPosition;
+            return deviceIndependentPosition;
         }
 
         public void ViewSource()
