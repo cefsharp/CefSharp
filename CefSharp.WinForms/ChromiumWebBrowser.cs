@@ -153,7 +153,14 @@ namespace CefSharp.WinForms
 
         public void Load(String url)
         {
-            managedCefBrowserAdapter.LoadUrl(url);
+            if (IsBrowserInitialized)
+            {
+                managedCefBrowserAdapter.LoadUrl(url);
+            }
+            else
+            {
+                Address = url;
+            }
         }
 
         public void LoadHtml(string html, string url)
