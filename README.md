@@ -14,6 +14,8 @@ Apart from code samples mentioned above work-in-progress documentation can be fo
 
 Binary releases contain everything needed to embed Chromium in your .Net/CLR application. For usage see [FAQ #8](https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions#CefSharp_binaries) item.
 
+Upgrading from an earlier version of CefSharp?  See the [ChangeLog](https://github.com/cefsharp/CefSharp/wiki/ChangeLog) for breaking changes and upgrade tips.
+
 **CI Builds**<br/>
 Every commit on `master` produces a `Nuget` package. Use at your own risk! [CefSharp MyGet Feed](https://www.myget.org/F/cefsharp/)
 
