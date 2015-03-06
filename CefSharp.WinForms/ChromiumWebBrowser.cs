@@ -495,12 +495,12 @@ namespace CefSharp.WinForms
         /// <summary>
         /// Set to true while handing an activating WM_ACTIVATE
         /// </summary>
-        internal bool activating = false;
+        public bool activating = false;
 
         /// <summary>
         /// Set to true while handling a deactivating via WM_ACTIVATE
         /// </summary>
-        internal bool deactivating = false;
+        public bool deactivating = false;
         
         /// <summary>
         /// Set to false during owning Form activation to 
@@ -513,9 +513,10 @@ namespace CefSharp.WinForms
             //// NOTE: Form OnActivated event happens AFTER this gets called for the alt-tab back
             //// case., but no OnEnter/or OnLeave fired.
             //// NOTE: Form activation from minimize occurs AFTER OnActivated.
-            Kernel32.OutputDebugString(String.Format("OnGotFocus for: {0}\r\n", Handle));
+            Kernel32.OutputDebugString(String.Format("OnGotFocus Browser for: {0}\r\n", Handle));
             Kernel32.OutputDebugString(String.Format("isActivating: {0}\r\n", activating));
             Kernel32.OutputDebugString(String.Format("isFormDeactivated: {0}\r\n", isFormDeactivated));
+            Kernel32.OutputDebugString(String.Format("Form.ActiveControl == this: " + this.IsActiveControl() + "\r\n"));
 
             //// If we're either processing the consequences of WM_ACTIVATE
             //// or we're receiving focus while the top level window is
@@ -536,7 +537,7 @@ namespace CefSharp.WinForms
 
         protected override void OnLostFocus(EventArgs e)
         {
-            Kernel32.OutputDebugString(String.Format("OnLostFocus for: {0}\r\n", Handle));
+            Kernel32.OutputDebugString(String.Format("OnLostFocus Browser for: {0}\r\n", Handle));
             Kernel32.OutputDebugString(String.Format("isActivating: {0}\r\n", activating));
             base.OnLostFocus(e);
         }

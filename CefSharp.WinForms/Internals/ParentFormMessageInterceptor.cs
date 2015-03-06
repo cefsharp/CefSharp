@@ -2,7 +2,9 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using CefSharp.Internals;
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -116,9 +118,14 @@ namespace CefSharp.WinForms.Internals
                         // we won't get a call to OnLostFocus on ChromiumWebBrowser.
                         // However, it doesn't matter so much since the CEF
                         // browser will receive it instead.
+
+                        // Paranoia about making sure the state is correct now.
+                        browser.activating = false;
                         browser.deactivating = true;
+                        Kernel32.OutputDebugString("Begin DeActivating WndProc\r\n");
                         DefWndProc(ref m);
                         browser.deactivating = false;
+                        Kernel32.OutputDebugString("End DeActivating WndProc\r\n");
                         browser.isFormDeactivated = true;
                     }
                     else // WA_ACTIVE or WA_CLICKACTIVE
@@ -126,9 +133,22 @@ namespace CefSharp.WinForms.Internals
                         // NOTE: Transition from minimized to normal
                         // Doesn't call OnGetFocus until AFTER OnActivated completes.
                         browser.isFormDeactivated = false;
-                        browser.activating = true;
+                        Kernel32.OutputDebugString("Begin Activating WndProc\r\n");
+                        // Only set activating if the ChromiumWebBrowser was the form's
+                        // ActiveControl before the last deactivation.
+                        browser.activating = browser.IsActiveControl();
                         DefWndProc(ref m);
-                        browser.activating = false;
+                        // During activation, WM_SETFOCUS gets sent to
+                        // to the CEF control since it's the root window
+                        // of the CEF UI thread.
+                        //
+                        // Therefore, don't set .activating to false here
+                        // instead do so in DefaultFocusHandler.OnGotFocus.
+                        // Otherwise there's a race condition between this
+                        // thread setting activating to false and
+                        // the CEF DefaultFocusHandler executing to determine
+                        // it shouldn't Activate() the control.
+                        Kernel32.OutputDebugString("End Activating WndProc\r\n");
                     }
                     return;
                 case NativeMethods.WM_MOVING:
