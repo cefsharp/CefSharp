@@ -174,7 +174,7 @@ namespace CefSharp
         /// <param name="targetProtocol">The target protocol allowed to access the source origin.</param>
         /// <param name="targetDomain">The optional target domain allowed to access the source origin.</param>
         /// <param name="allowTargetSubdomains">If set to true would allow a blah.example.com if the 
-        ///     <paramref name="targetDomain/> was set to example.com
+        ///     <paramref name="targetDomain"/> was set to example.com
         /// </param>
         /// <remarks>
         /// The same-origin policy restricts how scripts hosted from different origins
@@ -200,7 +200,7 @@ namespace CefSharp
         /// exact domain matches will be allowed. If <paramref name="targetDomain"/> contains a top-
         /// level domain component (like "example.com") and <paramref name="allowTargetSubdomains"/> is
         /// true sub-domain matches will be allowed. If <paramref name="targetDomain"/> is empty and
-        /// <paramref name="<paramref name="allowTargetSubdomains"/>"/> if true all domains and IP addresses will be
+        /// <paramref name="allowTargetSubdomains"/> if true all domains and IP addresses will be
         /// allowed.
         //
         /// This method cannot be used to bypass the restrictions on local or display
@@ -228,7 +228,7 @@ namespace CefSharp
         /// <param name="targetProtocol">The target protocol allowed to access the source origin.</param>
         /// <param name="targetDomain">The optional target domain allowed to access the source origin.</param>
         /// <param name="allowTargetSubdomains">If set to true would allow a blah.example.com if the 
-        ///     <paramref name="targetDomain/> was set to example.com
+        ///     <paramref name="targetDomain"/> was set to example.com
         /// </param>
         /// <remarks>
         /// Remove an entry from the cross-origin access whitelist. Returns false if
