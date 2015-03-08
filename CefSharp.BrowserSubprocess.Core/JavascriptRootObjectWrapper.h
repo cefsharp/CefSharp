@@ -5,6 +5,7 @@
 #pragma once
 
 #include "include/cef_v8.h"
+#include "JavascriptCallbackRegistry.h"
 #include "JavascriptObjectWrapper.h"
 
 using namespace System::Runtime::Serialization;
@@ -24,6 +25,7 @@ namespace CefSharp
 
     internal:
         MCefRefPtr<CefV8Value> V8Value;
+        JavascriptCallbackRegistry^ CallbackRegistry;
 
     public:
         JavascriptRootObjectWrapper(JavascriptRootObject^ rootObject, IBrowserProcess^ browserProcess);

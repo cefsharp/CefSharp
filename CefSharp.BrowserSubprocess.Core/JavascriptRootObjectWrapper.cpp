@@ -19,6 +19,7 @@ namespace CefSharp
     JavascriptRootObjectWrapper::~JavascriptRootObjectWrapper()
     {
         V8Value = nullptr;
+        CallbackRegistry = nullptr;
         for each (JavascriptObjectWrapper^ var in _wrappedObjects)
         {
             delete var;

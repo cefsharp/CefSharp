@@ -91,6 +91,7 @@
     <Compile Include="CefDirtyRect.cs" />
     <Compile Include="CefFileDialogMode.cs" />
     <Compile Include="DefaultResourceHandlerFactory.cs" />
+    <Compile Include="Internals\JavascriptCallbackDto.cs" />
     <Compile Include="IResourceHandlerFactory.cs" />
     <Compile Include="MouseEvent.cs" />
     <Compile Include="DragOperationsMask.cs" />

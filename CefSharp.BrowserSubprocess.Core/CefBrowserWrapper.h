@@ -26,6 +26,8 @@ namespace CefSharp
     
     private:
         MCefRefPtr<CefBrowser> _cefBrowser;
+        JavascriptCallbackRegistry^ _callbackRegistry;
+        JavascriptRootObjectWrapper^ _javascriptRootObjectWrapper;
 
     public:
         CefBrowserWrapper(CefRefPtr<CefBrowser> cefBrowser);
@@ -35,7 +37,11 @@ namespace CefSharp
         property bool IsPopup;
         property DuplexChannelFactory<IBrowserProcess^>^ ChannelFactory;
         property JavascriptRootObject^ JavascriptRootObject;
-        property JavascriptRootObjectWrapper^ JavascriptRootObjectWrapper;
+        property JavascriptRootObjectWrapper^ JavascriptRootObjectWrapper 
+        {
+            CefSharp::JavascriptRootObjectWrapper^ get();
+            void set(CefSharp::JavascriptRootObjectWrapper^ value);
+        };
         property IBrowserProcess^ BrowserProcess;
 
         JavascriptResponse^ EvaluateScriptInContext(CefRefPtr<CefV8Context> context, CefString script);

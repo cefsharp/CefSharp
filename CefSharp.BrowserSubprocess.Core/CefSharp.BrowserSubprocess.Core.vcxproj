@@ -157,6 +157,8 @@
     <ClInclude Include="CefAppWrapper.h" />
     <ClInclude Include="CefBrowserWrapper.h" />
     <ClInclude Include="CefTaskScheduler.h" />
+    <ClInclude Include="JavascriptCallbackRegistry.h" />
+    <ClInclude Include="JavascriptCallbackWrapper.h" />
     <ClInclude Include="JavascriptMethodWrapper.h" />
     <ClInclude Include="JavascriptMethodHandler.h" />
     <ClInclude Include="JavascriptObjectWrapper.h" />
@@ -174,6 +176,8 @@
     <ClCompile Include="CefAppWrapper.cpp" />
     <ClCompile Include="CefBrowserWrapper.cpp" />
     <ClCompile Include="CefTaskScheduler.cpp" />
+    <ClCompile Include="JavascriptCallbackRegistry.cpp" />
+    <ClCompile Include="JavascriptCallbackWrapper.cpp" />
     <ClCompile Include="JavascriptMethodHandler.cpp" />
     <ClCompile Include="JavascriptMethodWrapper.cpp" />
     <ClCompile Include="JavascriptObjectWrapper.cpp" />

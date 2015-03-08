@@ -5,6 +5,7 @@
 #pragma once
 
 #include "include/cef_v8.h"
+#include "JavascriptCallbackRegistry.h"
 
 using namespace CefSharp::Internals;
 
@@ -14,9 +15,10 @@ namespace CefSharp
     {
     private:
         gcroot<Func<array<Object^>^, BrowserProcessResponse^>^> _method;
+        gcroot<JavascriptCallbackRegistry^> _callbackRegistry;
 
     public:
-        JavascriptMethodHandler(Func<array<Object^>^, BrowserProcessResponse^>^ method);
+        JavascriptMethodHandler(Func<array<Object^>^, BrowserProcessResponse^>^ method, JavascriptCallbackRegistry^ callbackRegistry);
 
         ~JavascriptMethodHandler();
 

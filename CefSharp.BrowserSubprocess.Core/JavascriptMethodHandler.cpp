@@ -10,14 +10,16 @@ using namespace CefSharp::Internals;
 
 namespace CefSharp
 {
-    JavascriptMethodHandler::JavascriptMethodHandler(Func<array<Object^>^, BrowserProcessResponse^>^ method)
+    JavascriptMethodHandler::JavascriptMethodHandler(Func<array<Object^>^, BrowserProcessResponse^>^ method, JavascriptCallbackRegistry^ callbackRegistry)
     {
         _method = method;
+        _callbackRegistry = callbackRegistry;
     }
 
     JavascriptMethodHandler::~JavascriptMethodHandler()
     {
         delete _method;
+        delete _callbackRegistry;
     }
 
     bool JavascriptMethodHandler::Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception)

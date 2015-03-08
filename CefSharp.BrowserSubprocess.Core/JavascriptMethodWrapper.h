@@ -25,12 +25,12 @@ namespace CefSharp
         MCefRefPtr<CefV8Value> V8Value;
 
     public:
-        JavascriptMethodWrapper(JavascriptMethod^ javascriptMethod, int64 ownerId, IBrowserProcess^ browserProcess)
+        JavascriptMethodWrapper(JavascriptMethod^ javascriptMethod, int64 ownerId, IBrowserProcess^ browserProcess, JavascriptCallbackRegistry^ callbackRegistry)
         {
             _javascriptMethod = javascriptMethod;
             _ownerId = ownerId;
             _browserProcess = browserProcess;
-            _javascriptMethodHandler = new JavascriptMethodHandler(gcnew Func<array<Object^>^, BrowserProcessResponse^>(this, &JavascriptMethodWrapper::Execute));
+            _javascriptMethodHandler = new JavascriptMethodHandler(gcnew Func<array<Object^>^, BrowserProcessResponse^>(this, &JavascriptMethodWrapper::Execute), callbackRegistry);
         }
 
         ~JavascriptMethodWrapper()

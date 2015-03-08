@@ -14,6 +14,21 @@ namespace CefSharp
         _cefBrowser = cefBrowser;
         BrowserId = cefBrowser->GetIdentifier();
         IsPopup = cefBrowser->IsPopup();
+        _callbackRegistry = gcnew JavascriptCallbackRegistry(BrowserId);
+    }
+
+    JavascriptRootObjectWrapper^ CefBrowserWrapper::JavascriptRootObjectWrapper::get()
+    {
+        return _javascriptRootObjectWrapper;
+    }
+
+    void CefBrowserWrapper::JavascriptRootObjectWrapper::set(CefSharp::JavascriptRootObjectWrapper^ value)
+    {
+        _javascriptRootObjectWrapper = value;
+        if (_javascriptRootObjectWrapper != nullptr)
+        {
+            _javascriptRootObjectWrapper->CallbackRegistry = nullptr;
+        }
     }
 
     JavascriptResponse^ CefBrowserWrapper::EvaluateScriptInContext(CefRefPtr<CefV8Context> context, CefString script)
@@ -38,6 +53,7 @@ namespace CefSharp
     void CefBrowserWrapper::DoDispose(bool disposing)
     {
         _cefBrowser = nullptr;
+        delete _callbackRegistry;
         DisposableResource::DoDispose(disposing);
     }
 
@@ -64,5 +80,6 @@ namespace CefSharp
     CefBrowserWrapper::~CefBrowserWrapper()
     {
         _cefBrowser = nullptr;
+        delete _callbackRegistry;
     }
 }
