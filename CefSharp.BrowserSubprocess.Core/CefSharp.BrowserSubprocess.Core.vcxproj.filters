@@ -56,12 +56,6 @@
     <ClInclude Include="CefBrowserWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="JavascriptCallbackRegistry.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="JavascriptCallbackWrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -97,10 +91,10 @@
     <ClCompile Include="CefBrowserWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="JavascriptCallbackRegistry.cpp">
+    <ClCompile Include="JavascriptMethodHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="JavascriptCallbackWrapper.cpp">
+    <ClCompile Include="JavascriptRootObjectWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
