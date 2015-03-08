@@ -49,5 +49,9 @@ namespace CefSharp
         virtual void DoDispose(bool disposing) override;
 
         virtual JavascriptResponse^ DoEvaluateScript(System::Int64 frameId, String^ script);
+
+        JavascriptResponse^ DoCallback(System::Int64 callbackId, array<Object^>^ parameters);
+
+        void DestroyJavascriptCallback(Int64 id);
     };
 }

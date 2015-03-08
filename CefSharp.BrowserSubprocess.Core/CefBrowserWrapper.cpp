@@ -77,6 +77,16 @@ namespace CefSharp
         return nullptr;
     }
 
+    JavascriptResponse^ CefBrowserWrapper::DoCallback(System::Int64 callbackId, array<Object^>^ parameters)
+    {
+        return _callbackRegistry->Execute(callbackId, parameters);
+    }
+
+    void CefBrowserWrapper::DestroyJavascriptCallback(Int64 id)
+    {
+        _callbackRegistry->RemoveWrapper(id);
+    }
+
     CefBrowserWrapper::~CefBrowserWrapper()
     {
         _cefBrowser = nullptr;
