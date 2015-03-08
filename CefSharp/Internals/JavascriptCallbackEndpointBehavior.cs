@@ -16,6 +16,7 @@ namespace CefSharp.Internals
         {
             ReflectionUtils.GetMethodName<IBrowserProcess>(p => p.CallMethod(0, null, null)),
             ReflectionUtils.GetMethodName<IRenderProcess>(p => p.BeginEvaluateScriptAsync(0, 0, null, null, null, null)).Substring(5),
+            ReflectionUtils.GetMethodName<IRenderProcess>(p => p.BeginJavascriptCallbackAsync(0, 0, null, null, null, null)).Substring(5),
         };
 
         private readonly BrowserProcessServiceHost browserProcess;
