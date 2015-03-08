@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿// Copyright © 2010-2014 The CefSharp Project. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace CefSharp.Internals
 {

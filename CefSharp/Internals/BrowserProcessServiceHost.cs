@@ -17,9 +17,9 @@ namespace CefSharp.Internals
 
         public JavascriptObjectRepository JavascriptObjectRepository { get; private set; }
         private TaskCompletionSource<OperationContext> operationContextTaskCompletionSource = new TaskCompletionSource<OperationContext>();
-        
+
         public BrowserProcessServiceHost(JavascriptObjectRepository javascriptObjectRepository, int parentProcessId, int browserId)
-            : base(typeof(BrowserProcessService), new Uri[0])
+            : base(typeof (BrowserProcessService), new Uri[0])
         {
             JavascriptObjectRepository = javascriptObjectRepository;
 
@@ -30,12 +30,13 @@ namespace CefSharp.Internals
             var binding = CreateBinding();
 
             var endPoint = AddServiceEndpoint(
-                typeof(IBrowserProcess),
+                typeof (IBrowserProcess),
                 binding,
                 new Uri(serviceName)
-            );
+                );
 
             endPoint.Contract.ProtectionLevel = ProtectionLevel.None;
+            endPoint.Behaviors.Add(new JavascriptCallbackEndpointBehavior(this));
         }
 
         public void SetOperationContext(OperationContext operationContext)
@@ -44,7 +45,7 @@ namespace CefSharp.Internals
             {
                 operationContextTaskCompletionSource = new TaskCompletionSource<OperationContext>();
             }
-                
+
             operationContextTaskCompletionSource.SetResult(operationContext);
         }
 
@@ -85,7 +86,6 @@ namespace CefSharp.Internals
             }
             catch (Exception)
             {
-
             }
         }
 
