@@ -27,7 +27,7 @@ namespace CefSharp
         _javascriptRootObjectWrapper = value;
         if (_javascriptRootObjectWrapper != nullptr)
         {
-            _javascriptRootObjectWrapper->CallbackRegistry = nullptr;
+            _javascriptRootObjectWrapper->CallbackRegistry = _callbackRegistry;
         }
     }
 
@@ -40,7 +40,14 @@ namespace CefSharp
         response->Success = context->Eval(script, result, exception);
         if (response->Success)
         {
-            response->Result = TypeUtils::ConvertFromCef(result);
+            if (result->IsFunction())
+            {
+                response->Result = _callbackRegistry->CreateWrapper(context, result);
+            }
+            else 
+            {
+                response->Result = TypeUtils::ConvertFromCef(result);
+            }
         }
         else if (exception.get())
         {
