@@ -38,12 +38,7 @@ namespace CefSharp.Internals
             var dto = obj as JavascriptCallbackDto;
             if (dto != null)
             {
-                result = new JavascriptCallback
-                {
-                    BrowserId = dto.BrowserId,
-                    Id = dto.Id,
-                    BrowserProcessServiceHost = host
-                };
+                result = new JavascriptCallback(dto.Id, dto.BrowserId, host);
             }
             return result;
         }

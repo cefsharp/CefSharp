@@ -11,13 +11,22 @@ namespace CefSharp.Internals
     [DataContract]
     internal sealed class JavascriptCallback : IJavascriptCallback
     {
+        private readonly long id;
+        private readonly int browserId;
+        private readonly WeakReference _browserProcess;
         private bool disposed;
 
-        public long Id { get; set; }
+        public JavascriptCallback(long id, int browserId, BrowserProcessServiceHost browserProcess)
+        {
+            this.id = id;
+            this.browserId = browserId;
+            _browserProcess = new WeakReference(browserProcess);
+        }
 
-        public int BrowserId { get; set; }
-
-        public BrowserProcessServiceHost BrowserProcessServiceHost { get; set; }
+        private BrowserProcessServiceHost BrowserProcessServiceHost
+        {
+            get { return (BrowserProcessServiceHost)_browserProcess.Target; }
+        }
 
         public void Dispose()
         {
@@ -31,15 +40,22 @@ namespace CefSharp.Internals
             {
                 throw new ObjectDisposedException("JavascriptCallback is already disposed.");
             }
-            return BrowserProcessServiceHost.JavascriptCallback(BrowserId, Id, parms, null);
+
+            var browserProcess = BrowserProcessServiceHost;
+            if (browserProcess == null)
+            {
+                throw new ObjectDisposedException("BrowserProcessServiceHost is already disposed.");
+            }
+
+            return browserProcess.JavascriptCallback(browserId, id, parms, null);
         }
 
         private void DisposeInternal()
         {
-            if (!disposed && BrowserProcessServiceHost != null)
+            var browserProcess = BrowserProcessServiceHost;
+            if (!disposed && browserProcess != null)
             {
-                BrowserProcessServiceHost.DestroyJavascriptCallback(BrowserId, Id);
-                BrowserProcessServiceHost = null;
+                browserProcess.DestroyJavascriptCallback(browserId, id);
             }
             disposed = true;
         }
