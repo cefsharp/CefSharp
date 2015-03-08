@@ -19,6 +19,14 @@ namespace CefSharp.Example
             SubObject = new SubBoundObject();
         }
 
+        public async void TestCallback(IJavascriptCallback javascriptCallback)
+        {
+            using (javascriptCallback)
+            {
+                await javascriptCallback.ExecuteAsync("This is a callback from C#.");
+            }
+        }
+
         public int EchoMyProperty()
         {
             return MyProperty;
