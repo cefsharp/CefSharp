@@ -28,17 +28,8 @@ namespace CefSharp
         MCefRefPtr<CefBrowser> _cefBrowser;
 
     public:
-        CefBrowserWrapper(CefRefPtr<CefBrowser> cefBrowser)
-        {
-            _cefBrowser = cefBrowser;
-            BrowserId = cefBrowser->GetIdentifier();
-            IsPopup = cefBrowser->IsPopup();
-        }
-
-        ~CefBrowserWrapper()
-        {
-            _cefBrowser = nullptr;
-        }
+        CefBrowserWrapper(CefRefPtr<CefBrowser> cefBrowser);
+        ~CefBrowserWrapper();
 
         property int BrowserId;
         property bool IsPopup;
@@ -47,49 +38,10 @@ namespace CefSharp
         property JavascriptRootObjectWrapper^ JavascriptRootObjectWrapper;
         property IBrowserProcess^ BrowserProcess;
 
-        JavascriptResponse^ EvaluateScriptInContext(CefRefPtr<CefV8Context> context, CefString script)
-        {
-            CefRefPtr<CefV8Value> result;
-            CefRefPtr<CefV8Exception> exception;
-            JavascriptResponse^ response = gcnew JavascriptResponse();
+        JavascriptResponse^ EvaluateScriptInContext(CefRefPtr<CefV8Context> context, CefString script);
 
-            response->Success = context->Eval(script, result, exception);
-            if (response->Success)
-            {
-                response->Result = TypeUtils::ConvertFromCef(result);
-            }
-            else if (exception.get())
-            {
-                response->Message = StringUtils::ToClr(exception->GetMessage());
-            }
+        virtual void DoDispose(bool disposing) override;
 
-            return response;
-        }
-
-        virtual void DoDispose( bool disposing ) override
-        {
-            _cefBrowser = nullptr;
-            DisposableResource::DoDispose( disposing );
-        }
-
-        virtual JavascriptResponse^ DoEvaluateScript(System::Int64 frameId, String^ script)
-        {
-            auto frame = _cefBrowser->GetFrame(frameId);
-            CefRefPtr<CefV8Context> context = frame->GetV8Context();
-
-            if (context.get() && context->Enter())
-            {
-                try
-                {
-                    return EvaluateScriptInContext(context, StringUtils::ToNative(script));
-                }
-                finally
-                {
-                    context->Exit();
-                }
-            }
-
-            return nullptr;
-        }
+        virtual JavascriptResponse^ DoEvaluateScript(System::Int64 frameId, String^ script);
     };
 }

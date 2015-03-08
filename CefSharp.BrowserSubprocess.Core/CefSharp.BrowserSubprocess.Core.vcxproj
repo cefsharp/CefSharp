@@ -172,6 +172,7 @@
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="CefAppUnmanagedWrapper.cpp" />
     <ClCompile Include="CefAppWrapper.cpp" />
+    <ClCompile Include="CefBrowserWrapper.cpp" />
     <ClCompile Include="CefTaskScheduler.cpp" />
     <ClCompile Include="JavascriptMethodWrapper.cpp" />
     <ClCompile Include="JavascriptObjectWrapper.cpp" />
