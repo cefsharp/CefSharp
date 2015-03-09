@@ -14,7 +14,6 @@ namespace CefSharp.Wpf.Example.ViewModels
     public class BrowserTabViewModel : INotifyPropertyChanged
     {
         private string address;
-
         public string Address
         {
             get { return address; }
@@ -22,7 +21,6 @@ namespace CefSharp.Wpf.Example.ViewModels
         }
 
         private string addressEditable;
-
         public string AddressEditable
         {
             get { return addressEditable; }
@@ -30,7 +28,6 @@ namespace CefSharp.Wpf.Example.ViewModels
         }
 
         private string outputMessage;
-
         public string OutputMessage
         {
             get { return outputMessage; }
@@ -38,7 +35,6 @@ namespace CefSharp.Wpf.Example.ViewModels
         }
 
         private string statusMessage;
-
         public string StatusMessage
         {
             get { return statusMessage; }
@@ -46,7 +42,6 @@ namespace CefSharp.Wpf.Example.ViewModels
         }
 
         private string title;
-
         public string Title
         {
             get { return title; }
@@ -54,7 +49,6 @@ namespace CefSharp.Wpf.Example.ViewModels
         }
 
         private IWpfWebBrowser webBrowser;
-
         public IWpfWebBrowser WebBrowser
         {
             get { return webBrowser; }
@@ -62,7 +56,6 @@ namespace CefSharp.Wpf.Example.ViewModels
         }
 
         private object evaluateJavaScriptResult;
-
         public object EvaluateJavaScriptResult
         {
             get { return evaluateJavaScriptResult; }
@@ -70,7 +63,6 @@ namespace CefSharp.Wpf.Example.ViewModels
         }
 
         private bool showSidebar;
-
         public bool ShowSidebar
         {
             get { return showSidebar; }
@@ -169,13 +161,11 @@ namespace CefSharp.Wpf.Example.ViewModels
         {
             // Don't display an error for downloaded files where the user aborted the download.
             if (args.ErrorCode == CefErrorCode.Aborted)
-            {
                 return;
-            }
 
             var errorMessage = "<html><body><h2>Failed to load URL " + args.FailedUrl +
-                               " with error " + args.ErrorText + " (" + args.ErrorCode +
-                               ").</h2></body></html>";
+                  " with error " + args.ErrorText + " (" + args.ErrorCode +
+                  ").</h2></body></html>";
 
             webBrowser.LoadHtml(errorMessage, args.FailedUrl);
         }

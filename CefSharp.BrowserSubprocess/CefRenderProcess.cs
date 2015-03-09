@@ -8,20 +8,20 @@ using TaskExtensions = CefSharp.Internals.TaskExtensions;
 
 namespace CefSharp.BrowserSubprocess
 {
-    [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, IncludeExceptionDetailInFaults = true)]
+    [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, IncludeExceptionDetailInFaults=true)]
     public class CefRenderProcess : CefSubProcess, IRenderProcess
     {
         private int? parentBrowserId;
         private List<CefBrowserWrapper> browsers = new List<CefBrowserWrapper>();
 
-        public CefRenderProcess(IEnumerable<string> args)
+        public CefRenderProcess(IEnumerable<string> args) 
             : base(args)
         {
         }
-
+        
         protected override void DoDispose(bool isDisposing)
         {
-            foreach (var browser in browsers)
+            foreach(var browser in browsers)
             {
                 browser.Dispose();
             }
@@ -55,7 +55,7 @@ namespace CefSharp.BrowserSubprocess
                 this,
                 binding,
                 new EndpointAddress(serviceName)
-                );
+            );
 
             channelFactory.Open();
 
@@ -80,7 +80,7 @@ namespace CefSharp.BrowserSubprocess
                 browser.ChannelFactory = channelFactory;
                 browser.BrowserProcess = browserProcess;
             }
-            catch (Exception)
+            catch(Exception)
             {
             }
         }

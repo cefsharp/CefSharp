@@ -7,13 +7,13 @@ using System.ServiceModel;
 
 namespace CefSharp.Internals
 {
-    [ServiceContract(CallbackContract = typeof (IRenderProcess), SessionMode = SessionMode.Required)]
-    [ServiceKnownType(typeof (object[]))]
-    [ServiceKnownType(typeof (Dictionary<string, object>))]
-    [ServiceKnownType(typeof (JavascriptObject))]
-    [ServiceKnownType(typeof (JavascriptMethod))]
-    [ServiceKnownType(typeof (JavascriptProperty))]
-    [ServiceKnownType(typeof (JavascriptCallbackDto))]
+    [ServiceContract(CallbackContract = typeof(IRenderProcess), SessionMode = SessionMode.Required)]
+    [ServiceKnownType(typeof(object[]))]
+    [ServiceKnownType(typeof(Dictionary<string, object>))]
+    [ServiceKnownType(typeof(JavascriptObject))]
+    [ServiceKnownType(typeof(JavascriptMethod))]
+    [ServiceKnownType(typeof(JavascriptProperty))]
+    [ServiceKnownType(typeof(JavascriptCallbackDto))]
     public interface IBrowserProcess
     {
         [OperationContract]
@@ -24,7 +24,7 @@ namespace CefSharp.Internals
 
         [OperationContract]
         BrowserProcessResponse SetProperty(long objectId, string name, object value);
-
+        
         [OperationContract]
         JavascriptRootObject GetRegisteredJavascriptObjects();
 

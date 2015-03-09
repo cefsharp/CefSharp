@@ -11,7 +11,7 @@ namespace CefSharp.Internals
     [ServiceContract]
     public interface IRenderProcess
     {
-        [OperationContract(AsyncPattern = true)]
+        [OperationContract(AsyncPattern=true)]
         IAsyncResult BeginEvaluateScriptAsync(int browserId, long frameId, string script, TimeSpan? timeout, AsyncCallback callback, object state);
 
         JavascriptResponse EndEvaluateScriptAsync(IAsyncResult result);
