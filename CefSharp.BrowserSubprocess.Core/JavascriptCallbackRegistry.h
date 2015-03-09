@@ -10,14 +10,16 @@ namespace CefSharp
 {
     namespace Internals
     {
-        ref class JavascriptCallbackRegistry
+        private ref class JavascriptCallbackRegistry
         {
         private:
-            int browserId;
-            Int64 lastId;
-            Dictionary<Int64, JavascriptCallbackWrapper^>^ callbacks = gcnew Dictionary<Int64, JavascriptCallbackWrapper^>();
+            int _browserId;
+            Int64 _lastId;
+            Dictionary<Int64, JavascriptCallbackWrapper^>^ _callbacks;
         public:
-            JavascriptCallbackRegistry(int browserId) : browserId(browserId){}
+            JavascriptCallbackRegistry(int browserId) : _browserId(browserId){
+                _callbacks = gcnew Dictionary<Int64, JavascriptCallbackWrapper^>();
+            }
             JavascriptCallbackDto^ CreateWrapper(CefRefPtr<CefV8Context> context, CefRefPtr<CefV8Value> value);
             JavascriptResponse^ Execute(Int64 id, array<Object^>^ params);
             void RemoveWrapper(Int64 id);

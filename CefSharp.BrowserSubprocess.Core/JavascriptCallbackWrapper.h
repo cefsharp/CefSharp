@@ -12,7 +12,7 @@ namespace CefSharp
 {
     namespace Internals
     {
-        ref class JavascriptCallbackWrapper
+        private ref class JavascriptCallbackWrapper
         {
         private:
             MCefRefPtr<CefV8Value> value;
