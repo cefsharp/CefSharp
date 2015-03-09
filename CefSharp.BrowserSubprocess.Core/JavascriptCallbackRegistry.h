@@ -17,7 +17,8 @@ namespace CefSharp
             Int64 _lastId;
             Dictionary<Int64, JavascriptCallbackWrapper^>^ _callbacks;
         public:
-            JavascriptCallbackRegistry(int browserId) : _browserId(browserId){
+            JavascriptCallbackRegistry(int browserId) : _browserId(browserId)
+            {
                 _callbacks = gcnew Dictionary<Int64, JavascriptCallbackWrapper^>();
             }
             JavascriptCallbackDto^ CreateWrapper(CefRefPtr<CefV8Context> context, CefRefPtr<CefV8Value> value);

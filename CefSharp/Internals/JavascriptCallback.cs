@@ -9,60 +9,42 @@ using System.Threading.Tasks;
 namespace CefSharp.Internals
 {
     [DataContract]
-    internal sealed class JavascriptCallback : IJavascriptCallback
+    internal sealed class JavascriptCallback : DisposableResource, IJavascriptCallback
     {
         private readonly long id;
         private readonly int browserId;
-        private readonly WeakReference _browserProcess;
-        private bool disposed;
+        private readonly WeakReference browserProcess;
 
         public JavascriptCallback(long id, int browserId, BrowserProcessServiceHost browserProcess)
         {
             this.id = id;
             this.browserId = browserId;
-            _browserProcess = new WeakReference(browserProcess);
-        }
-
-        private BrowserProcessServiceHost BrowserProcessServiceHost
-        {
-            get { return (BrowserProcessServiceHost)_browserProcess.Target; }
-        }
-
-        public void Dispose()
-        {
-            GC.SuppressFinalize(this);
-            DisposeInternal();
+            this.browserProcess = new WeakReference(browserProcess);
         }
 
         public Task<JavascriptResponse> ExecuteAsync(params object[] parms)
         {
-            if (disposed)
+            if (IsDisposed)
             {
                 throw new ObjectDisposedException("JavascriptCallback is already disposed.");
             }
 
-            var browserProcess = BrowserProcessServiceHost;
-            if (browserProcess == null)
+            var browserProcessLocal = (BrowserProcessServiceHost)browserProcess.Target;
+            if (browserProcessLocal == null)
             {
                 throw new ObjectDisposedException("BrowserProcessServiceHost is already disposed.");
             }
 
-            return browserProcess.JavascriptCallback(browserId, id, parms, null);
+            return browserProcessLocal.JavascriptCallback(browserId, id, parms, null);
         }
 
-        private void DisposeInternal()
+        protected override void DoDispose(bool isDisposing)
         {
-            var browserProcess = BrowserProcessServiceHost;
-            if (!disposed && browserProcess != null)
+            var browserProcessLocal = (BrowserProcessServiceHost)browserProcess.Target;
+            if (!IsDisposed && browserProcessLocal != null)
             {
-                browserProcess.DestroyJavascriptCallback(browserId, id);
+                browserProcessLocal.DestroyJavascriptCallback(browserId, id);
             }
-            disposed = true;
-        }
-
-        ~JavascriptCallback()
-        {
-            DisposeInternal();
         }
     }
 }

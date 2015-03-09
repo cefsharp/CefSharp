@@ -60,7 +60,11 @@ namespace CefSharp
     void CefBrowserWrapper::DoDispose(bool disposing)
     {
         _cefBrowser = nullptr;
-        delete _callbackRegistry;
+        if (disposing)
+        {
+            delete _callbackRegistry;
+            _callbackRegistry = nullptr;
+        }
         DisposableResource::DoDispose(disposing);
     }
 
@@ -98,5 +102,6 @@ namespace CefSharp
     {
         _cefBrowser = nullptr;
         delete _callbackRegistry;
+        _callbackRegistry = nullptr;
     }
 }
