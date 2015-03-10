@@ -446,5 +446,31 @@ namespace CefSharp
         {
             return CefClearSchemeHandlerFactories();
         }
+
+        /// <summary>
+        ///	Add a plugin path (directory + file). This change may not take affect until after RefreshWebPlugins() is called.
+        ///	</summary>
+        /// <param name="path">Path (directory + file).</param>
+        static void AddWebPluginPath(String^ path)
+        {
+            CefAddWebPluginPath(StringUtils::ToNative(path));
+        }
+
+        /// <summary>
+        ///	Add a plugin directory. This change may not take affect until after CefRefreshWebPlugins() is called.
+        ///	</summary>
+        /// <param name="directory">Directory.</param>
+        static void AddWebPluginDirectory(String^ directory)
+        {
+            CefAddWebPluginDirectory(StringUtils::ToNative(directory));
+        }
+
+        /// <summary>
+        ///	Cause the plugin list to refresh the next time it is accessed regardless of whether it has already been loaded.
+        ///	</summary>
+        static void RefreshWebPlugins()
+        {
+            CefRefreshWebPlugins();
+        }
     };
 }
