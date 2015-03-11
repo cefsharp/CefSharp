@@ -23,7 +23,7 @@ namespace CefSharp.Example
         {
             using (javascriptCallback)
             {
-                await javascriptCallback.ExecuteAsync("This is a callback from C#.");
+                await javascriptCallback.ExecuteAsync("This is a callback from C# " + DateTime.Now);
             }
         }
 

@@ -38,6 +38,11 @@ namespace CefSharp.Internals
         /// </summary>
         public int ParameterCount { get; set; }
 
+        /// <summary>
+        /// Indicates if this method contains a <see cref="IJavascriptCallback"/> parameter
+        /// </summary>
+        public bool HasJavascriptCallback { get; set; }
+
         public override string ToString()
         {
             return ManagedName ?? base.ToString();
