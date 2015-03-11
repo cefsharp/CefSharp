@@ -42,7 +42,7 @@ namespace CefSharp
         {
             if (result->IsFunction())
             {
-                response->Result = _callbackRegistry->CreateWrapper(context, result);
+                response->Result = _callbackRegistry->Register(context, result);
             }
             else 
             {
@@ -95,7 +95,7 @@ namespace CefSharp
 
     void CefBrowserWrapper::DestroyJavascriptCallback(Int64 id)
     {
-        _callbackRegistry->RemoveWrapper(id);
+        _callbackRegistry->Deregister(id);
     }
 
     CefBrowserWrapper::~CefBrowserWrapper()

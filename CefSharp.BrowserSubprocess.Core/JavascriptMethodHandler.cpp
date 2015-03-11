@@ -30,7 +30,7 @@ namespace CefSharp
         {
             if (arguments[i]->IsFunction())
             {
-                parameter[i] = _callbackRegistry->CreateWrapper(CefV8Context::GetCurrentContext(), arguments[i]);
+                parameter[i] = _callbackRegistry->Register(CefV8Context::GetCurrentContext(), arguments[i]);
             }
             else
             {
