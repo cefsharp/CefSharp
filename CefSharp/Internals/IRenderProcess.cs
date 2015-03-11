@@ -9,11 +9,19 @@ using System.Threading.Tasks;
 namespace CefSharp.Internals
 {
     [ServiceContract]
-    public interface IRenderProcess 
+    public interface IRenderProcess
     {
         [OperationContract(AsyncPattern=true)]
         IAsyncResult BeginEvaluateScriptAsync(int browserId, long frameId, string script, TimeSpan? timeout, AsyncCallback callback, object state);
 
         JavascriptResponse EndEvaluateScriptAsync(IAsyncResult result);
+
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginJavascriptCallbackAsync(int browserId, long callbackId, object[] parameters, TimeSpan? timeout, AsyncCallback callback, object state);
+
+        JavascriptResponse EndJavascriptCallbackAsync(IAsyncResult result);
+
+        [OperationContract]
+        void DestroyJavascriptCallback(int browserId, long id);
     }
 }

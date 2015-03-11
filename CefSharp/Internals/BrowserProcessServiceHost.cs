@@ -17,7 +17,7 @@ namespace CefSharp.Internals
 
         public JavascriptObjectRepository JavascriptObjectRepository { get; private set; }
         private TaskCompletionSource<OperationContext> operationContextTaskCompletionSource = new TaskCompletionSource<OperationContext>();
-        
+
         public BrowserProcessServiceHost(JavascriptObjectRepository javascriptObjectRepository, int parentProcessId, int browserId)
             : base(typeof(BrowserProcessService), new Uri[0])
         {
@@ -30,12 +30,13 @@ namespace CefSharp.Internals
             var binding = CreateBinding();
 
             var endPoint = AddServiceEndpoint(
-                typeof(IBrowserProcess),
+                typeof (IBrowserProcess),
                 binding,
                 new Uri(serviceName)
             );
 
             endPoint.Contract.ProtectionLevel = ProtectionLevel.None;
+            endPoint.Behaviors.Add(new JavascriptCallbackEndpointBehavior(this));
         }
 
         public void SetOperationContext(OperationContext operationContext)
@@ -85,8 +86,30 @@ namespace CefSharp.Internals
             }
             catch (Exception)
             {
-
             }
+        }
+
+        internal Task<JavascriptResponse> JavascriptCallback(int browserId, long id, object[] parameters, TimeSpan? timeout)
+        {
+            var operationContextTask = operationContextTaskCompletionSource.Task;
+            return operationContextTask.ContinueWith(t =>
+            {
+                var context = t.Result;
+                var renderProcess = context.GetCallbackChannel<IRenderProcess>();
+                var asyncResult = renderProcess.BeginJavascriptCallbackAsync(browserId, id, parameters, timeout, null, null);
+                return Task.Factory.FromAsync<JavascriptResponse>(asyncResult, renderProcess.EndJavascriptCallbackAsync);
+            }).Unwrap();
+        }
+
+        internal void DestroyJavascriptCallback(int browserId, long id)
+        {
+            var operationContextTask = operationContextTaskCompletionSource.Task;
+            operationContextTask.ContinueWith(t =>
+            {
+                var context = t.Result;
+                var renderProcess = context.GetCallbackChannel<IRenderProcess>();
+                renderProcess.DestroyJavascriptCallback(browserId, id);
+            });
         }
 
         protected override void OnClosed()

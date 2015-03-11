@@ -4,9 +4,8 @@
 
 #pragma once
 
-#include "Stdafx.h"
 #include "include/cef_v8.h"
-
+#include "JavascriptCallbackRegistry.h"
 #include "JavascriptObjectWrapper.h"
 
 using namespace System::Runtime::Serialization;
@@ -26,36 +25,14 @@ namespace CefSharp
 
     internal:
         MCefRefPtr<CefV8Value> V8Value;
+        JavascriptCallbackRegistry^ CallbackRegistry;
 
     public:
-        JavascriptRootObjectWrapper(JavascriptRootObject^ rootObject, IBrowserProcess^ browserProcess)
-        {
-            _rootObject = rootObject;
-            _browserProcess = browserProcess;
-            _wrappedObjects = gcnew List<JavascriptObjectWrapper^>();
-        }
+        JavascriptRootObjectWrapper(JavascriptRootObject^ rootObject, IBrowserProcess^ browserProcess);
 
-        ~JavascriptRootObjectWrapper()
-        {
-            V8Value = nullptr;
-            for each (JavascriptObjectWrapper^ var in _wrappedObjects)
-            {
-                delete var;
-            }
-        }
+        ~JavascriptRootObjectWrapper();
 
-        void Bind()
-        {
-            auto memberObjects = _rootObject->MemberObjects;
-            for each (JavascriptObject^ obj in Enumerable::OfType<JavascriptObject^>(memberObjects))
-            {
-                auto wrapperObject = gcnew JavascriptObjectWrapper(obj, _browserProcess);
-                wrapperObject->V8Value = V8Value.get();
-                wrapperObject->Bind();
-
-                _wrappedObjects->Add(wrapperObject);
-            }
-        };
+        void Bind();
     };
 }
 
