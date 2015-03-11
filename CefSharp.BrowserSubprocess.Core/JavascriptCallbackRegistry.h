@@ -6,6 +6,8 @@
 
 #include "JavascriptCallbackWrapper.h"
 
+using namespace System::Collections::Concurrent;
+
 namespace CefSharp
 {
     namespace Internals
@@ -15,11 +17,11 @@ namespace CefSharp
         private:
             int _browserId;
             Int64 _lastId;
-            Dictionary<Int64, JavascriptCallbackWrapper^>^ _callbacks;
+            ConcurrentDictionary<Int64, JavascriptCallbackWrapper^>^ _callbacks;
         public:
             JavascriptCallbackRegistry(int browserId) : _browserId(browserId)
             {
-                _callbacks = gcnew Dictionary<Int64, JavascriptCallbackWrapper^>();
+                _callbacks = gcnew ConcurrentDictionary<Int64, JavascriptCallbackWrapper^>();
             }
             JavascriptCallbackDto^ CreateWrapper(CefRefPtr<CefV8Context> context, CefRefPtr<CefV8Value> value);
             JavascriptResponse^ Execute(Int64 id, array<Object^>^ params);
