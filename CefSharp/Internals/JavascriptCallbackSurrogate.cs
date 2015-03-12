@@ -23,7 +23,7 @@ namespace CefSharp.Internals
         {
             if (type == typeof (JavascriptCallbackDto))
             {
-                return typeof (JavascriptCallback);
+                return typeof (JavascriptCallbackProxy);
             }
             return type;
         }
@@ -39,7 +39,7 @@ namespace CefSharp.Internals
             var dto = obj as JavascriptCallbackDto;
             if (dto != null)
             {
-                result = new JavascriptCallback(dto.Id, dto.BrowserId, host);
+                result = new JavascriptCallbackProxy(dto.Id, dto.BrowserId, host);
             }
             return result;
         }

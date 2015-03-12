@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 namespace CefSharp.Internals
 {
     [DataContract]
-    internal sealed class JavascriptCallback : DisposableResource, IJavascriptCallback
+    internal sealed class JavascriptCallbackProxy : DisposableResource, IJavascriptCallback
     {
         private readonly long id;
         private readonly int browserId;
         private readonly WeakReference browserProcessWeakReference;
 
-        public JavascriptCallback(long id, int browserId, BrowserProcessServiceHost browserProcess)
+        public JavascriptCallbackProxy(long id, int browserId, BrowserProcessServiceHost browserProcess)
         {
             this.id = id;
             this.browserId = browserId;
@@ -27,7 +27,7 @@ namespace CefSharp.Internals
         {
             if (IsDisposed)
             {
-                throw new ObjectDisposedException("JavascriptCallback is already disposed.");
+                throw new ObjectDisposedException("JavascriptCallbackProxy is already disposed.");
             }
 
             var browserProcess = (BrowserProcessServiceHost)browserProcessWeakReference.Target;
