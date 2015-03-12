@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace CefSharp.Internals
 {
     [DataContract]
-    public class JavascriptCallbackDto
+    public class JavascriptCallback
     {
         [DataMember]
         public long Id { get; set; }

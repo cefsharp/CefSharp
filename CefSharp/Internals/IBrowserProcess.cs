@@ -13,7 +13,7 @@ namespace CefSharp.Internals
     [ServiceKnownType(typeof(JavascriptObject))]
     [ServiceKnownType(typeof(JavascriptMethod))]
     [ServiceKnownType(typeof(JavascriptProperty))]
-    [ServiceKnownType(typeof(JavascriptCallbackDto))]
+    [ServiceKnownType(typeof(JavascriptCallback))]
     public interface IBrowserProcess
     {
         [OperationContract]

@@ -21,7 +21,7 @@ namespace CefSharp.Internals
 
         public Type GetDataContractType(Type type)
         {
-            if (type == typeof (JavascriptCallbackDto))
+            if (type == typeof (JavascriptCallback))
             {
                 return typeof (JavascriptCallbackProxy);
             }
@@ -36,7 +36,7 @@ namespace CefSharp.Internals
         public object GetDeserializedObject(object obj, Type targetType)
         {
             var result = obj;
-            var dto = obj as JavascriptCallbackDto;
+            var dto = obj as JavascriptCallback;
             if (dto != null)
             {
                 result = new JavascriptCallbackProxy(dto.Id, dto.BrowserId, host);
