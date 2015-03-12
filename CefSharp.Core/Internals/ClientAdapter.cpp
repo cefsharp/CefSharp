@@ -312,7 +312,7 @@ namespace CefSharp
         {
             auto factory = _browserControl->ResourceHandlerFactory;
 
-            if (factory == nullptr)
+            if (factory == nullptr || !factory->HasHandlers)
             {
                 return NULL;
             }
