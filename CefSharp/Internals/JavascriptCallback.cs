@@ -10,15 +10,18 @@ using System.Threading.Tasks;
 namespace CefSharp.Internals
 {
     [DataContract]
-    public sealed class JavascriptCallback : DisposableResource, IJavascriptCallback
+    internal sealed class JavascriptCallback : DisposableResource, IJavascriptCallback
     {
-        [DataMember]
-        public long Id { get; set; }
+        private readonly long id;
+        private readonly int browserId;
+        private readonly WeakReference browserProcessWeakReference;
 
-        [DataMember]
-        public int BrowserId { get; set; }
-
-        public WeakReference BrowserProcess { get; set; }
+        public JavascriptCallback(long id, int browserId, BrowserProcessServiceHost browserProcess)
+        {
+            this.id = id;
+            this.browserId = browserId;
+            browserProcessWeakReference = new WeakReference(browserProcess);
+        }
 
         public Task<JavascriptResponse> ExecuteAsync(params object[] parms)
         {
@@ -27,21 +30,21 @@ namespace CefSharp.Internals
                 throw new ObjectDisposedException("JavascriptCallback is already disposed.");
             }
 
-            var browserProcess = (BrowserProcessServiceHost)BrowserProcess.Target;
+            var browserProcess = (BrowserProcessServiceHost)browserProcessWeakReference.Target;
             if (browserProcess == null)
             {
                 throw new ObjectDisposedException("BrowserProcessServiceHost is already disposed.");
             }
 
-            return browserProcess.JavascriptCallback(BrowserId, Id, parms, null);
+            return browserProcess.JavascriptCallback(browserId, id, parms, null);
         }
 
         protected override void DoDispose(bool isDisposing)
         {
-            var browserProcess = (BrowserProcessServiceHost)BrowserProcess.Target;
+            var browserProcess = (BrowserProcessServiceHost)browserProcessWeakReference.Target;
             if (!IsDisposed && browserProcess != null && browserProcess.State == CommunicationState.Opened)
             {
-                browserProcess.DestroyJavascriptCallback(BrowserId, Id);
+                browserProcess.DestroyJavascriptCallback(browserId, id);
             }
         }
     }

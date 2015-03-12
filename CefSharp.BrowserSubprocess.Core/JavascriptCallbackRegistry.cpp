@@ -11,13 +11,13 @@ namespace CefSharp
 {
     namespace Internals
     {
-        JavascriptCallback^ JavascriptCallbackRegistry::Register(CefRefPtr<CefV8Context> context, CefRefPtr<CefV8Value> value)
+        JavascriptCallbackDto^ JavascriptCallbackRegistry::Register(CefRefPtr<CefV8Context> context, CefRefPtr<CefV8Value> value)
         {
             Int64 newId = Interlocked::Increment(_lastId);
             JavascriptCallbackWrapper^ wrapper = gcnew JavascriptCallbackWrapper(value, context);
             _callbacks->TryAdd(newId, wrapper);
 
-            auto result = gcnew JavascriptCallback();
+            JavascriptCallbackDto^ result = gcnew JavascriptCallbackDto();
             result->Id = newId;
             result->BrowserId = _browserId;
             return result;

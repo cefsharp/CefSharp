@@ -16,20 +16,10 @@ namespace CefSharp.Internals
 
         private readonly Dictionary<long, JavascriptObject> objects = new Dictionary<long, JavascriptObject>();
         public JavascriptRootObject RootObject { get; private set; }
-        public WeakReference BrowserProcess { get; set; }
 
         public JavascriptObjectRepository()
         {
             RootObject = new JavascriptRootObject();
-        }
-
-        protected override void DoDispose(bool isDisposing)
-        {
-            if (isDisposing)
-            {
-                BrowserProcess = null;
-            }
-            base.DoDispose(isDisposing);
         }
 
         internal JavascriptObject CreateJavascriptObject()
@@ -87,18 +77,6 @@ namespace CefSharp.Internals
                     }
 
                     parameters = paramList.ToArray();
-                }
-
-                if (method.HasJavascriptCallback)
-                {
-                    for (var i = 0; i < parameters.Length; i++)
-                    {
-                        if (parameters[i] is JavascriptCallback)
-                        {
-                            var callback = (JavascriptCallback)parameters[i];
-                            callback.BrowserProcess = BrowserProcess;
-                        }
-                    }
                 }
 
                 result = method.Function(obj.Value, parameters);
@@ -247,15 +225,12 @@ namespace CefSharp.Internals
 
         private static JavascriptMethod CreateJavaScriptMethod(MethodInfo methodInfo)
         {
-            var parameters = methodInfo.GetParameters();
-
             var jsMethod = new JavascriptMethod();
 
             jsMethod.ManagedName = methodInfo.Name;
             jsMethod.JavascriptName = LowercaseFirst(methodInfo.Name);
             jsMethod.Function = methodInfo.Invoke;
-            jsMethod.ParameterCount = parameters.Length;
-            jsMethod.HasJavascriptCallback = parameters.Any(x => x.ParameterType == typeof(IJavascriptCallback));
+            jsMethod.ParameterCount = methodInfo.GetParameters().Length;
 
             return jsMethod;
         }

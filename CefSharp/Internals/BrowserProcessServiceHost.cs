@@ -21,7 +21,6 @@ namespace CefSharp.Internals
         public BrowserProcessServiceHost(JavascriptObjectRepository javascriptObjectRepository, int parentProcessId, int browserId)
             : base(typeof(BrowserProcessService), new Uri[0])
         {
-            javascriptObjectRepository.BrowserProcess = new WeakReference(this);
             JavascriptObjectRepository = javascriptObjectRepository;
 
             var serviceName = RenderprocessClientFactory.GetServiceName(parentProcessId, browserId);
@@ -37,6 +36,7 @@ namespace CefSharp.Internals
             );
 
             endPoint.Contract.ProtectionLevel = ProtectionLevel.None;
+            endPoint.Behaviors.Add(new JavascriptCallbackEndpointBehavior(this));
         }
 
         public void SetOperationContext(OperationContext operationContext)

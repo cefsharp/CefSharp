@@ -6,7 +6,7 @@ namespace CefSharp
 {
     [DataContract]
     [KnownType(typeof (object[]))]
-    [KnownType(typeof(JavascriptCallback))]
+    [KnownType(typeof (JavascriptCallbackDto))]
     [KnownType(typeof (Dictionary<string, object>))]
     public class JavascriptResponse
     {

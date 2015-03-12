@@ -92,7 +92,10 @@
     <Compile Include="CefFileDialogMode.cs" />
     <Compile Include="DefaultResourceHandlerFactory.cs" />
     <Compile Include="IJavascriptCallback.cs" />
-    <Compile Include="Internals\JavaScriptCallback.cs" />
+    <Compile Include="Internals\JavascriptCallback.cs" />
+    <Compile Include="Internals\JavascriptCallbackDto.cs" />
+    <Compile Include="Internals\JavascriptCallbackEndpointBehavior.cs" />
+    <Compile Include="Internals\JavascriptCallbackSurrogate.cs" />
     <Compile Include="Internals\ReflectionUtils.cs" />
     <Compile Include="IResourceHandlerFactory.cs" />
     <Compile Include="MouseEvent.cs" />
