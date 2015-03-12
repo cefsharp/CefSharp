@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace CefSharp.Example
 {
@@ -19,12 +20,19 @@ namespace CefSharp.Example
             SubObject = new SubBoundObject();
         }
 
-        public async void TestCallback(IJavascriptCallback javascriptCallback)
+        public void TestCallback(IJavascriptCallback javascriptCallback)
         {
-            using (javascriptCallback)
+            const int taskDelay = 1500;
+
+            Task.Run(async () =>
             {
-                await javascriptCallback.ExecuteAsync("This is a callback from C#.");
-            }
+                await Task.Delay(taskDelay);
+
+                using (javascriptCallback)
+                {
+                    await javascriptCallback.ExecuteAsync("This callback from C# was delayed " + taskDelay + "ms");
+                }
+            });
         }
 
         public int EchoMyProperty()

@@ -11,12 +11,15 @@
                 function callback(s)
                 {
                     var result = document.getElementById('cbresult');
-                    result.innerText = "Callback: " + s;
+                    result.innerText += "Callback: " + s + "" + Date();
                 }
 
                 function testCallback()
                 {
                     bound.testCallback(callback);
+
+                    var result = document.getElementById('cbresult');
+                    result.innerText = "The function has returned: " + Date() + "\n";
                 }
             </script>
             <button onclick="testCallback()">Test Callback</button>
