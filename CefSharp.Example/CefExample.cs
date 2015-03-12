@@ -60,11 +60,13 @@ namespace CefSharp.Example
 
         public static void RegisterTestResources(IWebBrowser browser)
         {
-            var handler = browser.ResourceHandler;
+            var handler = browser.ResourceHandlerFactory;
             if (handler != null)
             {
                 const string responseBody = "<html><body><h1>Success</h1><p>This document is loaded from a System.IO.Stream</p></body></html>";
-                handler.RegisterHandler(TestResourceUrl, ResourceHandler.FromString(responseBody));
+                var response = ResourceHandler.FromString(responseBody);
+                response.Headers.Add("HeaderTest1", "HeaderTest1Value");
+                handler.RegisterHandler(TestResourceUrl, response);
 
                 const string unicodeResponseBody = "<html><body>整体满意度</body></html>";
                 handler.RegisterHandler(TestUnicodeResourceUrl, ResourceHandler.FromString(unicodeResponseBody));

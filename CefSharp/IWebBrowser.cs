@@ -150,9 +150,9 @@ namespace CefSharp
         IFocusHandler FocusHandler { get; set; }
 
         /// <summary>
-        /// Implement <see cref="IResourceHandler"/> and control the loading of resources
+        /// Implement <see cref="IResourceHandlerFactory"/> and control the loading of resources
         /// </summary>
-        IResourceHandler ResourceHandler { get; set; }
+        IResourceHandlerFactory ResourceHandlerFactory { get; set; }
 
         /// <summary>
         /// Implement <see cref="IGeolocationHandler"/> and assign to handle requests for permission to use geolocation.

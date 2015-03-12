@@ -37,6 +37,11 @@ namespace CefSharp
         {
             System::IO::SeekOrigin seekOrigin;
 
+            if (!_stream->CanSeek)
+            {
+                return -1;
+            }
+
             switch (whence)
             {
             case SEEK_CUR:
@@ -76,6 +81,10 @@ namespace CefSharp
 
         bool StreamAdapter::MayBlock()
         {
+            if (_isMemoryStream)
+            {
+                return false;
+            }
             return true;
         }
     }

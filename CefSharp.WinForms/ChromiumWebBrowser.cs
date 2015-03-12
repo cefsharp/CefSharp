@@ -31,7 +31,7 @@ namespace CefSharp.WinForms
         public IMenuHandler MenuHandler { get; set; }
         public IFocusHandler FocusHandler { get; set; }
         public IDragHandler DragHandler { get; set; }
-        public IResourceHandler ResourceHandler { get; set; }
+        public IResourceHandlerFactory ResourceHandlerFactory { get; set; }
         public IGeolocationHandler GeolocationHandler { get; set; }
 
         public bool CanGoForward { get; private set; }
@@ -68,7 +68,7 @@ namespace CefSharp.WinForms
             Dock = DockStyle.Fill;
 
             FocusHandler = new DefaultFocusHandler(this);
-            ResourceHandler = new DefaultResourceHandler();
+            ResourceHandlerFactory = new DefaultResourceHandlerFactory();
             BrowserSettings = new BrowserSettings();
 
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, false);
@@ -87,7 +87,7 @@ namespace CefSharp.WinForms
             DragHandler = null;
             GeolocationHandler = null;
             FocusHandler = null;
-            ResourceHandler = null;
+            ResourceHandlerFactory = null;
 
             Cef.RemoveDisposable(this);
 
@@ -153,7 +153,14 @@ namespace CefSharp.WinForms
 
         public void Load(String url)
         {
-            managedCefBrowserAdapter.LoadUrl(url);
+            if (IsBrowserInitialized)
+            {
+                managedCefBrowserAdapter.LoadUrl(url);
+            }
+            else
+            {
+                Address = url;
+            }
         }
 
         public void LoadHtml(string html, string url)
@@ -163,13 +170,13 @@ namespace CefSharp.WinForms
 
         public void LoadHtml(string html, string url, Encoding encoding)
         {
-            var handler = ResourceHandler;
-            if (handler == null)
+            var factory = ResourceHandlerFactory;
+            if (factory == null)
             {
-                throw new Exception("Implement IResourceHandler and assign to the ResourceHandler property to use this feature");
+                throw new Exception("Implement IResourceHandlerFactory and assign to the ResourceHandlerFactory property to use this feature");
             }
 
-            handler.RegisterHandler(url, CefSharp.ResourceHandler.FromString(html, encoding, true));
+            factory.RegisterHandler(url, ResourceHandler.FromString(html, encoding, true));
 
             Load(url);
         }
