@@ -25,7 +25,6 @@ namespace CefSharp.Wpf
     {
         private readonly List<IDisposable> disposables = new List<IDisposable>();
 
-        private Window window;
         private HwndSource source;
         private HwndSourceHook sourceHook;
         private DispatcherTimer tooltipTimer;
@@ -882,7 +881,6 @@ namespace CefSharp.Wpf
             {
                 var newSource = (HwndSource)args.NewSource;
                 source = newSource;
-                window = Window.GetWindow(this);
 
                 if (source != null)
                 {
