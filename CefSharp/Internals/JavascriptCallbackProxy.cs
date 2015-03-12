@@ -16,11 +16,11 @@ namespace CefSharp.Internals
         private readonly int browserId;
         private readonly WeakReference browserProcessWeakReference;
 
-        public JavascriptCallbackProxy(long id, int browserId, BrowserProcessServiceHost browserProcess)
+        public JavascriptCallbackProxy(long id, int browserId, WeakReference browserProcessWeakReference)
         {
             this.id = id;
             this.browserId = browserId;
-            browserProcessWeakReference = new WeakReference(browserProcess);
+            this.browserProcessWeakReference = browserProcessWeakReference;
         }
 
         public Task<JavascriptResponse> ExecuteAsync(params object[] parms)

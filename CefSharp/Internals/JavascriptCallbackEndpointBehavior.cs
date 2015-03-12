@@ -2,6 +2,7 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel.Channels;
@@ -19,11 +20,11 @@ namespace CefSharp.Internals
             ReflectionUtils.GetMethodName<IRenderProcess>(p => p.BeginJavascriptCallbackAsync(0, 0, null, null, null, null)).Substring(5),
         };
 
-        private readonly BrowserProcessServiceHost browserProcess;
+        private readonly WeakReference browserProcessWeakReference;
 
         public JavascriptCallbackEndpointBehavior(BrowserProcessServiceHost browserProcess)
         {
-            this.browserProcess = browserProcess;
+            browserProcessWeakReference = new WeakReference(browserProcess);
         }
 
         public void Validate(ServiceEndpoint endpoint)
@@ -38,7 +39,7 @@ namespace CefSharp.Internals
         {
             foreach (var operation in endpoint.Contract.Operations.Where(o => Methods.Contains(o.Name)))
             {
-                operation.Behaviors.Find<DataContractSerializerOperationBehavior>().DataContractSurrogate = new JavascriptCallbackSurrogate(browserProcess);
+                operation.Behaviors.Find<DataContractSerializerOperationBehavior>().DataContractSurrogate = new JavascriptCallbackSurrogate(browserProcessWeakReference);
             }
         }
 
