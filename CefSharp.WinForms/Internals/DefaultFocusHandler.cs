@@ -52,35 +52,30 @@ namespace CefSharp.WinForms.Internals
             // * This method will clear the activation state (if any)
             //   on the ChromiumWebBrowser control, due to the race
             //   condition the WinForm UI thread cannot.
-            if (browser.activating)
+            if (browser.IsActivating)
             {
-                browser.activating = false;
-                Kernel32.OutputDebugString("BrowserOnGotFocus: during activate, doing nothing, WinForms .ActiveControl processing will correct if necessary.\r\n");
+                browser.IsActivating = false;
             }
             else
             {
-                Kernel32.OutputDebugString("DFH: Queuing .Activate() call\r\n");
+                // Otherwise, we're not being activated
+                // so we must activate the ChromiumWebBrowser control
+                // for WinForms focus tracking.
                 browser.InvokeOnUiThreadIfRequired(() =>
                 {
-                    Kernel32.OutputDebugString("Before browser.Activate()\r\n");
-                    Kernel32.OutputDebugString("Activate result: " + browser.Activate().ToString() + "\r\n");
-                    Kernel32.OutputDebugString("POST .Activate()\r\n");
-                    Kernel32.OutputDebugString(String.Format("CCActiveControlType: {0}\r\n", ((IContainerControl)browser.Parent).ActiveControl.GetType().FullName));
-                    Kernel32.OutputDebugString(String.Format("CCActiveControlType: {0}\r\n", ((IContainerControl)browser.FindForm()).ActiveControl.GetType().FullName));
+                    browser.Activate();
                 });
             }
         }
 
         public virtual bool OnSetFocus(CefFocusSource source)
         {
-            Kernel32.OutputDebugString(String.Format("Focus Handler:: OnSetFocus {0}\r\n", source));
             // Do not let the browser take focus when a Load method has been called
             return source == CefFocusSource.FocusSourceNavigation;
         }
 
         public virtual void OnTakeFocus(bool next)
         {
-            Kernel32.OutputDebugString(String.Format("Focus Handler:: OnTakeFocus {0}\r\n", next));
             // NOTE: OnTakeFocus means leaving focus / not taking focus
             browser.InvokeOnUiThreadIfRequired(() => browser.SelectNextControl(next));
         }

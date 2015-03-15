@@ -34,7 +34,6 @@ namespace CefSharp.WinForms.Example.Minimal
             // Uncomment this if you want the address bar to go white
             // during deactivation:
             //UpdateUrlColor(nonFocusColor);
-            Kernel32.OutputDebugString("URLLostFocus: Deactivating: " + this.chromiumWebBrowser.deactivating.ToString() + " \r\n");
         }
 
         void TxtURLGotFocus(object sender, EventArgs e)
@@ -42,7 +41,6 @@ namespace CefSharp.WinForms.Example.Minimal
             // Ensure the control turns yellow on form
             // activation (since Enter events don't fire then)
             UpdateUrlColor(focusColor);
-            Kernel32.OutputDebugString("URLGotFocus: Activating: " + this.chromiumWebBrowser.activating.ToString() + " \r\n");
         }
 
         private void UpdateUrlColor(Color color)
@@ -71,33 +69,21 @@ namespace CefSharp.WinForms.Example.Minimal
         private void TxtUrlLeave(object sender, EventArgs e)
         {
             UpdateUrlColor(nonFocusColor);
-            Kernel32.OutputDebugString("UrlLeave: Deactivating: " + this.chromiumWebBrowser.deactivating + "\r\n");
         }
 
         private void TxtUrlEnter(object sender, EventArgs e)
         {
             UpdateUrlColor(focusColor);
-            Debug.WriteLine("UrlEnter Activating: " + this.chromiumWebBrowser.activating + "\r\n");
         }
 
         protected override void OnActivated(EventArgs e)
         {
-            Kernel32.OutputDebugString(String.Format("Form OnActivated: ACType: {2}, ActiveControl.Handle: {0} BrowserControlHandle: {1}\r\n",
-                ActiveControl != null ? ((int)ActiveControl.Handle).ToString() : "null",
-                chromiumWebBrowser.Handle,
-                ActiveControl != null ? ActiveControl.GetType().FullName : "null"));
             base.OnActivated(e);
-            Kernel32.OutputDebugString("Form OnActivated End\r\n");
         }
 
         protected override void OnDeactivate(EventArgs e)
         {
-            Kernel32.OutputDebugString(String.Format("Form OnDeActivated: ACType: {2}, ActiveControl.Handle: {0} BrowserControlHandle: {1}\r\n",
-                ActiveControl != null ? ((int)ActiveControl.Handle).ToString() : "null",
-                chromiumWebBrowser.Handle,
-                ActiveControl != null ? ActiveControl.GetType().FullName : "null"));
             base.OnDeactivate(e);
-            Kernel32.OutputDebugString("Form OnDeActivated End\r\n");
         }
     }
 }

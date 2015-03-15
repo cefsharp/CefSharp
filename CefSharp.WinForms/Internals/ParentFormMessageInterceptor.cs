@@ -106,11 +106,11 @@ namespace CefSharp.WinForms.Internals
             switch (m.Msg)
             {
                 // WM_ACTIVATE
-                case 0x6:
-                    // Intercept activate messages for our form, in case we need to
-                    // restore focus to our CEF browser that we own.
-                    // If our control(s) don't receive a OnGetFocus() message,
-                    // then no harm, no foul.
+            case NativeMethods.WM_ACTIVATE:
+                {
+                    // Intercept (de)activate messages for our form so that we can
+                    // ensure that we play nicely with WinForms .ActiveControl
+                    // tracking.
                     var browser = Browser;
                     if ((int)m.WParam == 0x0) // WA_INACTIVE
                     {
@@ -119,38 +119,29 @@ namespace CefSharp.WinForms.Internals
                         // However, it doesn't matter so much since the CEF
                         // browser will receive it instead.
 
-                        // Paranoia about making sure the state is correct now.
-                        browser.activating = false;
-                        browser.deactivating = true;
-                        Kernel32.OutputDebugString("Begin DeActivating WndProc\r\n");
+                        // Paranoia about making sure the IsActivating state is correct now.
+                        browser.IsActivating = false;
                         DefWndProc(ref m);
-                        browser.deactivating = false;
-                        Kernel32.OutputDebugString("End DeActivating WndProc\r\n");
-                        browser.isFormDeactivated = true;
                     }
                     else // WA_ACTIVE or WA_CLICKACTIVE
                     {
-                        // NOTE: Transition from minimized to normal
-                        // Doesn't call OnGetFocus until AFTER OnActivated completes.
-                        browser.isFormDeactivated = false;
-                        Kernel32.OutputDebugString("Begin Activating WndProc\r\n");
-                        // Only set activating if the ChromiumWebBrowser was the form's
+                        // Only set IsActivating if the ChromiumWebBrowser was the form's
                         // ActiveControl before the last deactivation.
-                        browser.activating = browser.IsActiveControl();
+                        browser.IsActivating = browser.IsActiveControl();
                         DefWndProc(ref m);
                         // During activation, WM_SETFOCUS gets sent to
                         // to the CEF control since it's the root window
                         // of the CEF UI thread.
                         //
-                        // Therefore, don't set .activating to false here
+                        // Therefore, don't set .IsActivating to false here
                         // instead do so in DefaultFocusHandler.OnGotFocus.
                         // Otherwise there's a race condition between this
                         // thread setting activating to false and
                         // the CEF DefaultFocusHandler executing to determine
                         // it shouldn't Activate() the control.
-                        Kernel32.OutputDebugString("End Activating WndProc\r\n");
                     }
                     return;
+                }
                 case NativeMethods.WM_MOVING:
                 {
                     movingRectangle = (Rectangle)Marshal.PtrToStructure(m.LParam, typeof(Rectangle));

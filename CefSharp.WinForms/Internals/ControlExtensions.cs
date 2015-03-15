@@ -37,6 +37,12 @@ namespace CefSharp.WinForms.Internals
             return false;
         }
 
+        /// <summary>
+        /// Returns whether the supplied control is the currently
+        /// active control.
+        /// </summary>
+        /// <param name="control"></param>
+        /// <returns></returns>
         public static bool IsActiveControl(this Control control)
         {
             Control activeControl = control.FindForm().ActiveControl;

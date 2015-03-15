@@ -16,6 +16,12 @@ namespace CefSharp.WinForms
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
         private ParentFormMessageInterceptor parentFormMessageInterceptor;
 
+        /// <summary>
+        /// Set to true while handing an activating WM_ACTIVATE message.
+        /// MUST ONLY be cleared by DefaultFocusHandler.
+        /// </summary>
+        internal bool IsActivating = false;
+
         public BrowserSettings BrowserSettings { get; set; }
         public string Title { get; set; }
         public bool IsLoading { get; private set; }
@@ -484,69 +490,22 @@ namespace CefSharp.WinForms
 
         protected override void OnEnter(EventArgs e)
         {
-            // NOTE: This is trying to work around something....
-            //SetFocus(true);
-            // NOTE: .ParentContainerControl.ActiveControl.Handle = this.Handle.
-            // Determine why activation doesn't call OnEnter!
-            Kernel32.OutputDebugString(String.Format("OnEnter for: {0}\r\n", Handle));
             base.OnEnter(e);
         }
 
-        /// <summary>
-        /// Set to true while handing an activating WM_ACTIVATE
-        /// </summary>
-        public bool activating = false;
-
-        /// <summary>
-        /// Set to true while handling a deactivating via WM_ACTIVATE
-        /// </summary>
-        public bool deactivating = false;
-        
-        /// <summary>
-        /// Set to false during owning Form activation to 
-        /// indicate that all OnGotFocus events are useful.
-        /// </summary>
-        internal bool isFormDeactivated = true;
-
         protected override void OnGotFocus(EventArgs e)
         {
-            //// NOTE: Form OnActivated event happens AFTER this gets called for the alt-tab back
-            //// case., but no OnEnter/or OnLeave fired.
-            //// NOTE: Form activation from minimize occurs AFTER OnActivated.
-            Kernel32.OutputDebugString(String.Format("OnGotFocus Browser for: {0}\r\n", Handle));
-            Kernel32.OutputDebugString(String.Format("isActivating: {0}\r\n", activating));
-            Kernel32.OutputDebugString(String.Format("isFormDeactivated: {0}\r\n", isFormDeactivated));
-            Kernel32.OutputDebugString(String.Format("Form.ActiveControl == this: " + this.IsActiveControl() + "\r\n"));
-
-            //// If we're either processing the consequences of WM_ACTIVATE
-            //// or we're receiving focus while the top level window is
-            //// currently active then delegate focus to CEF.
-            //if (activating || !activating && !isFormDeactivated)
-            //{
-            //    SetFocus(true);
-            //}
-            //else
-            //{
-            //    // NOTE: When app starts, 
-            //    Kernel32.OutputDebugString("boo\r\n");
-            //    SetFocus(true);
-            //}
             SetFocus(true);
             base.OnGotFocus(e);
         }
 
         protected override void OnLostFocus(EventArgs e)
         {
-            Kernel32.OutputDebugString(String.Format("OnLostFocus Browser for: {0}\r\n", Handle));
-            Kernel32.OutputDebugString(String.Format("isActivating: {0}\r\n", activating));
             base.OnLostFocus(e);
         }
 
         protected override void OnLeave(EventArgs e)
         {
-            // NOTE: This is trying to work around something...
-            //SetFocus(false);
-            Kernel32.OutputDebugString(String.Format("OnLeave for: {0}\r\n", Handle));
             base.OnLeave(e);
         }
 
