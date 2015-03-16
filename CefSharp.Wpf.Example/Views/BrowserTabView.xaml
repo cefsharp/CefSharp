@@ -167,17 +167,14 @@
                         </VisualBrush>
                     </Rectangle.Fill>
                 </Rectangle>
-                <ListBox>
-                    <ListBoxItem Focusable="False">
+
                 <cefSharp:ChromiumWebBrowser x:Name="browser"
-                                  Height="500"
-                                  Width="700"
                                   Opacity="{Binding ElementName=opacitySlider, Path=Value}"
                                   Address="{Binding Address, Mode=TwoWay}"
                                   Title="{Binding Title, Mode=OneWayToSource}"
                                   AllowDrop="True"
                                   WebBrowser="{Binding WebBrowser, Mode=OneWayToSource}">
-                <!-- Just an example of how you may override the BrowserSettings. Disabled by default since it looks so
+                    <!-- Just an example of how you may override the BrowserSettings. Disabled by default since it looks so
                          incredibly ugly... -->
                     <!--<cefSharp:ChromiumWebBrowser.BrowserSettings>
                         <CefSharp:BrowserSettings MinimumFontSize="36" />
@@ -211,9 +208,7 @@
                             <MenuItem Header="Paste" Command="{Binding WebBrowser.PasteCommand}"/>
                         </ContextMenu>
                     </FrameworkElement.ContextMenu>
-                        </cefSharp:ChromiumWebBrowser>
-                    </ListBoxItem>
-                </ListBox>
+                </cefSharp:ChromiumWebBrowser>
             </Grid>
         </DockPanel>
     </Grid>
