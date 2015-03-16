@@ -1,8 +1,7 @@
-﻿using System.Threading.Tasks;
-using CefSharp.Example;
-using CefSharp.WinForms.Example.Controls;
+﻿using CefSharp.Example;
 using System;
 using System.Windows.Forms;
+using CefSharp.WinForms.Internals;
 
 namespace CefSharp.WinForms.Example
 {
@@ -26,6 +25,8 @@ namespace CefSharp.WinForms.Example
             browser.MenuHandler = new MenuHandler();
             browser.RequestHandler = new RequestHandler();
             browser.JsDialogHandler = new JsDialogHandler();
+            browser.GeolocationHandler = new GeolocationHandler();
+            browser.DownloadHandler = new DownloadHandler();
             //browser.FocusHandler = new FocusHandler(browser, urlTextBox);
             browser.NavStateChanged += OnBrowserNavStateChanged;
             browser.ConsoleMessage += OnBrowserConsoleMessage;
@@ -41,24 +42,6 @@ namespace CefSharp.WinForms.Example
 
             var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
             DisplayOutput(version);
-
-            Disposed += BrowserTabUserControlDisposed;
-        }
-
-        private void BrowserTabUserControlDisposed(object sender, EventArgs e)
-        {
-            var browser = (ChromiumWebBrowser)Browser;
-            Disposed -= BrowserTabUserControlDisposed;
-
-            browser.NavStateChanged -= OnBrowserNavStateChanged;
-            browser.ConsoleMessage -= OnBrowserConsoleMessage;
-            browser.TitleChanged -= OnBrowserTitleChanged;
-            browser.AddressChanged -= OnBrowserAddressChanged;
-            browser.StatusMessage -= OnBrowserStatusMessage;
-            browser.IsBrowserInitializedChanged -= OnIsBrowserInitializedChanged;
-            browser.IsLoadingChanged -= OnIsLoadingChanged;
-
-            browser.Dispose();
         }
 
         private void OnBrowserConsoleMessage(object sender, ConsoleMessageEventArgs args)

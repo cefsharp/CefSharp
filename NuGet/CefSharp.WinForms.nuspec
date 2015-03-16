@@ -27,5 +27,7 @@
     <file src="..\CefSharp.WinForms\bin\x64\Release\CefSharp.WinForms.xml" target="lib" />
 
     <file src="CefSharp.WinForms.props" target="build" />
+
+    <file src="Readme.txt" target="" />
   </files>
 </package>

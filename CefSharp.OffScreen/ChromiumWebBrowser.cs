@@ -44,34 +44,74 @@ namespace CefSharp.OffScreen
         /// <param name="browserSettings">The browser settings to use. If null, the default settings are used.</param>
         public ChromiumWebBrowser(string address, BrowserSettings browserSettings = null)
         {
+            if (!Cef.IsInitialized && !Cef.Initialize())
+            {
+                throw new InvalidOperationException("Cef::Initialize() failed");
+            }
+
             ResourceHandler = new DefaultResourceHandler();
 
             Cef.AddDisposable(this);
+            Address = address;
 
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, true);
             managedCefBrowserAdapter.CreateOffscreenBrowser(IntPtr.Zero, browserSettings ?? new BrowserSettings(), address);
         }
 
+        ~ChromiumWebBrowser()
+        {
+            Dispose(false);
+        }
+
         public void Dispose()
         {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            // Don't reference handlers any longer:
             ResourceHandler = null;
+            JsDialogHandler = null;
+            DialogHandler = null;
+            DownloadHandler = null;
+            KeyboardHandler = null;
+            LifeSpanHandler = null;
+            MenuHandler = null;
+            FocusHandler = null;
+            RequestHandler = null;
+            DragHandler = null;
+            GeolocationHandler = null;
+
+            // Don't reference event listeners any longer:
+            LoadError = null;
+            FrameLoadStart = null;
+            FrameLoadEnd = null;
+            ConsoleMessage = null;
+            BrowserInitialized = null;
+            StatusMessage = null;
+            NavStateChanged = null;
 
             Cef.RemoveDisposable(this);
 
-            if (bitmap != null)
+            if (disposing)
             {
-                bitmap.Dispose();
-                bitmap = null;
-            }
+                if (bitmap != null)
+                {
+                    bitmap.Dispose();
+                    bitmap = null;
+                }
 
-            if (managedCefBrowserAdapter != null)
-            {
-                if (!managedCefBrowserAdapter.IsDisposed)
-                    managedCefBrowserAdapter.Dispose();
-                managedCefBrowserAdapter = null;
+                if (managedCefBrowserAdapter != null)
+                {
+                    if (!managedCefBrowserAdapter.IsDisposed)
+                    {
+                        managedCefBrowserAdapter.Dispose();
+                    }
+                    managedCefBrowserAdapter = null;
+                }
             }
-
-            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -168,6 +208,7 @@ namespace CefSharp.OffScreen
         public IRequestHandler RequestHandler { get; set; }
         public IDragHandler DragHandler { get; set; }
         public IResourceHandler ResourceHandler { get; set; }
+        public IGeolocationHandler GeolocationHandler { get; set; }
 
         public event EventHandler<LoadErrorEventArgs> LoadError;
         public event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
@@ -197,7 +238,7 @@ namespace CefSharp.OffScreen
             managedCefBrowserAdapter.AddWordToDictionary(word);
         }
 
-        public string Address { get; set; }
+        public string Address { get; private set; }
 
         public bool CanGoBack { get; private set; }
 
@@ -343,7 +384,7 @@ namespace CefSharp.OffScreen
         public BitmapInfo CreateBitmapInfo(bool isPopup)
         {
             //The bitmap buffer is 32 BPP
-            return new GdiBitmapInfo { IsPopup = isPopup, BytesPerPixel = 4, BitmapLock = bitmapLock };
+            return new GdiBitmapInfo { IsPopup = isPopup, BitmapLock = bitmapLock };
         }
 
         void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)

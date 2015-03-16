@@ -15,12 +15,28 @@ namespace CefSharp.Example
 
         public static void Init()
         {
+            // Set Google API keys, used for Geolocation requests sans GPS.  See http://www.chromium.org/developers/how-tos/api-keys
+            // Environment.SetEnvironmentVariable("GOOGLE_API_KEY", "");
+            // Environment.SetEnvironmentVariable("GOOGLE_DEFAULT_CLIENT_ID", "");
+            // Environment.SetEnvironmentVariable("GOOGLE_DEFAULT_CLIENT_SECRET", "");
+
+            //Chromium Command Line args
+            //http://peter.sh/experiments/chromium-command-line-switches/
+            //NOTE: Note all relevant in relation to `CefSharp`, use for reference purposes only.
+
             var settings = new CefSettings();
             settings.RemoteDebuggingPort = 8088;
             //settings.CefCommandLineArgs.Add("renderer-process-limit", "1");
             //settings.CefCommandLineArgs.Add("renderer-startup-dialog", "renderer-startup-dialog");
             //settings.CefCommandLineArgs.Add("disable-gpu", "1");
             //settings.CefCommandLineArgs.Add("disable-gpu-vsync", "1");
+            //settings.CefCommandLineArgs.Add("enable-media-stream", "1"); //Enable WebRTC
+            //settings.CefCommandLineArgs.Add("no-proxy-server", "1"); //Don't use a proxy server, always make direct connections. Overrides any other proxy server flags that are passed.
+            
+            //Disables the DirectWrite font rendering system on windows.
+            //Possibly useful when experiencing blury fonts.
+            //settings.CefCommandLineArgs.Add("disable-direct-write", "1");
+            
             settings.LogSeverity = LogSeverity.Verbose;
 
             if (DebuggingSubProcess)

@@ -14,6 +14,7 @@ namespace CefSharp.WinForms
     public class ChromiumWebBrowser : Control, IWebBrowserInternal, IWinFormsWebBrowser
     {
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
+        private ParentFormMessageInterceptor parentFormMessageInterceptor;
 
         public BrowserSettings BrowserSettings { get; set; }
         public string Title { get; set; }
@@ -31,6 +32,7 @@ namespace CefSharp.WinForms
         public IFocusHandler FocusHandler { get; set; }
         public IDragHandler DragHandler { get; set; }
         public IResourceHandler ResourceHandler { get; set; }
+        public IGeolocationHandler GeolocationHandler { get; set; }
 
         public bool CanGoForward { get; private set; }
         public bool CanGoBack { get; private set; }
@@ -55,6 +57,11 @@ namespace CefSharp.WinForms
 
         public ChromiumWebBrowser(string address)
         {
+            if (!Cef.IsInitialized && !Cef.Initialize())
+            {
+                throw new InvalidOperationException("Cef::Initialize() failed");
+            }
+
             Cef.AddDisposable(this);
             Address = address;
 
@@ -62,12 +69,23 @@ namespace CefSharp.WinForms
 
             FocusHandler = new DefaultFocusHandler(this);
             ResourceHandler = new DefaultResourceHandler();
+            BrowserSettings = new BrowserSettings();
 
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, false);
         }
 
         protected override void Dispose(bool disposing)
         {
+            // Don't utilize any of the handlers anymore:
+            DialogHandler = null;
+            JsDialogHandler = null;
+            KeyboardHandler = null;
+            RequestHandler = null;
+            DownloadHandler = null;
+            LifeSpanHandler = null;
+            MenuHandler = null;
+            DragHandler = null;
+            GeolocationHandler = null;
             FocusHandler = null;
             ResourceHandler = null;
 
@@ -75,11 +93,37 @@ namespace CefSharp.WinForms
 
             if (disposing)
             {
+                IsBrowserInitialized = false;
+
+                if (BrowserSettings != null)
+                {
+                    BrowserSettings.Dispose();
+                    BrowserSettings = null;
+                }
+
+                if (parentFormMessageInterceptor != null)
+                {
+                    parentFormMessageInterceptor.Dispose();
+                    parentFormMessageInterceptor = null;
+                }
+
                 if (managedCefBrowserAdapter != null)
                 {
                     managedCefBrowserAdapter.Dispose();
                     managedCefBrowserAdapter = null;
                 }
+
+                // Don't maintain a reference to event listeners anylonger:
+                LoadError = null;
+                FrameLoadStart = null;
+                FrameLoadEnd = null;
+                NavStateChanged = null;
+                ConsoleMessage = null;
+                StatusMessage = null;
+                AddressChanged = null;
+                TitleChanged = null;
+                IsBrowserInitializedChanged = null;
+                IsLoadingChanged = null;
             }
             base.Dispose(disposing);
         }
@@ -87,6 +131,15 @@ namespace CefSharp.WinForms
         void IWebBrowserInternal.OnInitialized()
         {
             IsBrowserInitialized = true;
+
+            // By the time this callback gets called, this control
+            // is most likely hooked into a browser Form of some sort. 
+            // (Which is what ParentFormMessageInterceptor relies on.)
+            // Ensure the ParentFormMessageInterceptor construction occurs on the WinForms UI thread:
+            this.InvokeOnUiThreadIfRequired(() =>
+            {
+                parentFormMessageInterceptor = new ParentFormMessageInterceptor(this);
+            });
 
             ResizeBrowser();
 
@@ -159,7 +212,7 @@ namespace CefSharp.WinForms
 
         protected override void OnHandleCreated(EventArgs e)
         {
-            managedCefBrowserAdapter.CreateBrowser(BrowserSettings ?? new BrowserSettings(), Handle, Address);
+            managedCefBrowserAdapter.CreateBrowser(BrowserSettings, Handle, Address);
 
             base.OnHandleCreated(e);
         }
@@ -388,14 +441,6 @@ namespace CefSharp.WinForms
             }
         }
 
-        /// <summary>
-        /// Set whether the browser is focused.
-        /// </summary>
-        public void SetFocus(bool isFocused)
-        {
-            managedCefBrowserAdapter.SetFocus(isFocused);
-        }
-
         protected override void OnSizeChanged(EventArgs e)
         {
             base.OnSizeChanged(e);
@@ -405,7 +450,7 @@ namespace CefSharp.WinForms
 
         private void ResizeBrowser()
         {
-            if (IsBrowserInitialized && managedCefBrowserAdapter != null)
+            if (IsBrowserInitialized)
             {
                 managedCefBrowserAdapter.Resize(Width, Height);
             }
@@ -413,7 +458,7 @@ namespace CefSharp.WinForms
 
         public void NotifyMoveOrResizeStarted()
         {
-            if (IsBrowserInitialized && managedCefBrowserAdapter != null)
+            if (IsBrowserInitialized)
             {
                 managedCefBrowserAdapter.NotifyMoveOrResizeStarted();
             }
@@ -427,6 +472,31 @@ namespace CefSharp.WinForms
         public void AddWordToDictionary(string word)
         {
             managedCefBrowserAdapter.AddWordToDictionary(word);
+        }
+
+        protected override void OnEnter(EventArgs e)
+        {
+            SetFocus(true);
+
+            base.OnEnter(e);
+        }
+
+        protected override void OnLeave(EventArgs e)
+        {
+            SetFocus(false);
+
+            base.OnLeave(e);
+        }
+
+        /// <summary>
+        /// Set whether the browser is focused.
+        /// </summary>
+        public void SetFocus(bool isFocused)
+        {
+            if (IsBrowserInitialized)
+            {
+                managedCefBrowserAdapter.SetFocus(isFocused);
+            }
         }
     }
 }

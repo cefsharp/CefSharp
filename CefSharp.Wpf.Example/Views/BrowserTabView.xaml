@@ -175,6 +175,7 @@
                                   Opacity="{Binding ElementName=opacitySlider, Path=Value}"
                                   Address="{Binding Address, Mode=TwoWay}"
                                   Title="{Binding Title, Mode=OneWayToSource}"
+                                  AllowDrop="True"
                                   WebBrowser="{Binding WebBrowser, Mode=OneWayToSource}">
                 <!-- Just an example of how you may override the BrowserSettings. Disabled by default since it looks so
                          incredibly ugly... -->

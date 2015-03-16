@@ -21,7 +21,7 @@
     <OldToolsVersion>3.5</OldToolsVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>e79ac826</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>386a1560</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <PlatformTarget>x64</PlatformTarget>
@@ -70,7 +70,6 @@
     <Compile Include="BrowserForm.Designer.cs">
       <DependentUpon>BrowserForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ControlExtensions.cs" />
     <Compile Include="BrowserTabUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -78,12 +77,19 @@
       <DependentUpon>BrowserTabUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="FocusHandler.cs" />
+    <Compile Include="GeolocationHandler.cs" />
     <Compile Include="MenuHandler.cs" />
     <Compile Include="Minimal\SimpleBrowserForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Minimal\SimpleBrowserForm.Designer.cs">
       <DependentUpon>SimpleBrowserForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Minimal\TabulationDemoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Minimal\TabulationDemoForm.Designer.cs">
+      <DependentUpon>TabulationDemoForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs">
     </Compile>
@@ -109,6 +115,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Minimal\SimpleBrowserForm.resx">
       <DependentUpon>SimpleBrowserForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Minimal\TabulationDemoForm.resx">
+      <DependentUpon>TabulationDemoForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -159,9 +168,9 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\cef.redist.x64.3.2171.1972\build\cef.redist.x64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.redist.x64.3.2171.1972\build\cef.redist.x64.targets'))" />
-    <Error Condition="!Exists('..\packages\cef.redist.x86.3.2171.1972\build\cef.redist.x86.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.redist.x86.3.2171.1972\build\cef.redist.x86.targets'))" />
+    <Error Condition="!Exists('..\packages\cef.redist.x64.3.2171.1979\build\cef.redist.x64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.redist.x64.3.2171.1979\build\cef.redist.x64.targets'))" />
+    <Error Condition="!Exists('..\packages\cef.redist.x86.3.2171.1979\build\cef.redist.x86.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.redist.x86.3.2171.1979\build\cef.redist.x86.targets'))" />
   </Target>
-  <Import Project="..\packages\cef.redist.x64.3.2171.1972\build\cef.redist.x64.targets" Condition="Exists('..\packages\cef.redist.x64.3.2171.1972\build\cef.redist.x64.targets')" />
-  <Import Project="..\packages\cef.redist.x86.3.2171.1972\build\cef.redist.x86.targets" Condition="Exists('..\packages\cef.redist.x86.3.2171.1972\build\cef.redist.x86.targets')" />
+  <Import Project="..\packages\cef.redist.x64.3.2171.1979\build\cef.redist.x64.targets" Condition="Exists('..\packages\cef.redist.x64.3.2171.1979\build\cef.redist.x64.targets')" />
+  <Import Project="..\packages\cef.redist.x86.3.2171.1979\build\cef.redist.x86.targets" Condition="Exists('..\packages\cef.redist.x86.3.2171.1979\build\cef.redist.x86.targets')" />
 </Project>

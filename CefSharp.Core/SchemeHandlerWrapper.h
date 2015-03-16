@@ -49,17 +49,4 @@ namespace CefSharp
 
         IMPLEMENT_REFCOUNTING(SchemeHandlerWrapper);
     };
-
-    class SchemeHandlerFactoryWrapper : public CefSchemeHandlerFactory
-    {
-        gcroot<ISchemeHandlerFactory^> _factory;
-
-    public:
-        SchemeHandlerFactoryWrapper(ISchemeHandlerFactory^ factory)
-            : _factory(factory) {}
-
-        virtual CefRefPtr<CefResourceHandler> Create(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& scheme_name, CefRefPtr<CefRequest> request);
-
-        IMPLEMENT_REFCOUNTING(SchemeHandlerFactoryWrapper);
-    };
 }

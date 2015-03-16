@@ -142,15 +142,4 @@ namespace CefSharp
         }
         return -1;
     }
-
-    CefRefPtr<CefResourceHandler> SchemeHandlerFactoryWrapper::Create(
-        CefRefPtr<CefBrowser> browser,
-        CefRefPtr<CefFrame> frame,
-        const CefString& scheme_name,
-        CefRefPtr<CefRequest> request)
-    {
-        ISchemeHandler^ handler = _factory->Create();
-        CefRefPtr<SchemeHandlerWrapper> wrapper = new SchemeHandlerWrapper(handler);
-        return static_cast<CefRefPtr<CefResourceHandler>>(wrapper);
-    }
 }

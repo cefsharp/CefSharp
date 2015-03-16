@@ -155,6 +155,11 @@ namespace CefSharp
         IResourceHandler ResourceHandler { get; set; }
 
         /// <summary>
+        /// Implement <see cref="IGeolocationHandler"/> and assign to handle requests for permission to use geolocation.
+        /// </summary>
+        IGeolocationHandler GeolocationHandler { get; set; }
+
+        /// <summary>
         /// A flag that indicates whether the WebBrowser is initialized (true) or not (false).
         /// </summary>
         /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data

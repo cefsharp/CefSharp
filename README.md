@@ -14,11 +14,14 @@ Apart from code samples mentioned above work-in-progress documentation can be fo
 
 Binary releases contain everything needed to embed Chromium in your .Net/CLR application. For usage see [FAQ #8](https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions#CefSharp_binaries) item.
 
+**CI Builds**<br/>
+Every commit on `master` produces a `Nuget` package. Use at your own risk! [CefSharp MyGet Feed](https://www.myget.org/F/cefsharp/)
+
 **Stable**<br> 
 ![CefSharp.Wpf](http://img.shields.io/nuget/v/CefSharp.Wpf.svg?style=flat) for either  [WPF](http://www.nuget.org/packages/CefSharp.Wpf/) or 
 [WinForms](http://www.nuget.org/packages/CefSharp.WinForms/) based on Chromium 37 now **including** JS Binding.
 
-**Ultra stable/LTS** Read "He's dead Jim", based on Chromium 25. See the [CefSharp1](https://github.com/jornh/CefSharp/tree/CefSharp1#binary-release) branch README for CefSharp1 info. Please note that this version is no longer supported.
+**Ultra stable/LTS** Read "He's dead Jim", based on Chromium 25. See the [CefSharp1](https://github.com/cefsharp/CefSharp/tree/CefSharp1#binary-release) branch README for CefSharp1 info. Please note that this version is no longer supported.
 
 # Branches & Forks
 
