@@ -310,16 +310,16 @@ namespace CefSharp
         // this callback.
         CefRefPtr<CefResourceHandler> ClientAdapter::GetResourceHandler(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request)
         {
-            auto handler = _browserControl->ResourceHandler;
+            auto factory = _browserControl->ResourceHandlerFactory;
 
-            if (handler == nullptr)
+            if (factory == nullptr || !factory->HasHandlers)
             {
                 return NULL;
             }
 
             auto requestWrapper = gcnew CefRequestWrapper(request);
 
-            auto resourceHandler = handler->GetResourceHandler(_browserControl, requestWrapper);
+            auto resourceHandler = factory->GetResourceHandler(_browserControl, requestWrapper);
 
             if(resourceHandler != nullptr)
             {
@@ -333,9 +333,8 @@ namespace CefSharp
                 {
                     CefResponse::HeaderMap map = SchemeHandlerWrapper::ToHeaderMap(resourceHandler->Headers);
 
-                    //TODO: Investigate crash when using full response
-                    //return new CefStreamResourceHandler(resourceHandler->StatusCode, statusText, mimeType, map, stream);
-                    return new CefStreamResourceHandler(mimeType, stream);
+                    //NOTE: This will crash in a debug build due to a CEF bug.
+                    return new CefStreamResourceHandler(resourceHandler->StatusCode, statusText, mimeType, map, stream);
                 }
             }
 

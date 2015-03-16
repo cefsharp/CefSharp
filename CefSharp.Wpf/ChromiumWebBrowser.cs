@@ -22,6 +22,9 @@ namespace CefSharp.Wpf
 {
     public class ChromiumWebBrowser : ContentControl, IRenderWebBrowser, IWpfWebBrowser
     {
+        private readonly List<IDisposable> disposables = new List<IDisposable>();
+        private readonly ScaleTransform imageTransform;
+
         private HwndSource source;
         private HwndSourceHook sourceHook;
         private DispatcherTimer tooltipTimer;
@@ -30,11 +33,9 @@ namespace CefSharp.Wpf
         private bool ignoreUriChange;
         private bool browserCreated;
         private Matrix matrix;
-
         private Image image;
         private Image popupImage;
         private Popup popup;
-        private readonly List<IDisposable> disposables = new List<IDisposable>();
 
         public BrowserSettings BrowserSettings { get; set; }
         public IDialogHandler DialogHandler { get; set; }
@@ -46,7 +47,7 @@ namespace CefSharp.Wpf
         public IMenuHandler MenuHandler { get; set; }
         public IFocusHandler FocusHandler { get; set; }
         public IDragHandler DragHandler { get; set; }
-        public IResourceHandler ResourceHandler { get; set; }
+        public IResourceHandlerFactory ResourceHandlerFactory { get; set; }
         public IGeolocationHandler GeolocationHandler { get; set; }
         public IBitmapFactory BitmapFactory { get; set; }
 
@@ -78,6 +79,328 @@ namespace CefSharp.Wpf
         public ICommand SelectAllCommand { get; private set; }
         public ICommand UndoCommand { get; private set; }
         public ICommand RedoCommand { get; private set; }
+
+        static ChromiumWebBrowser()
+        {
+            var app = Application.Current;
+
+            if (app != null)
+            {
+                app.Exit += OnApplicationExit;
+            }
+        }
+
+        public ChromiumWebBrowser()
+        {
+            if (!Cef.IsInitialized && !Cef.Initialize())
+            {
+                throw new InvalidOperationException("Cef::Initialize() failed");
+            }
+
+            BitmapFactory = new BitmapFactory();
+
+            Cef.AddDisposable(this);
+            Focusable = true;
+            FocusVisualStyle = null;
+            IsTabStop = true;
+
+            Dispatcher.BeginInvoke((Action)(() => WebBrowser = this));
+
+            Loaded += OnLoaded;
+
+            GotKeyboardFocus += OnGotKeyboardFocus;
+            LostKeyboardFocus += OnLostKeyboardFocus;
+
+            // Drag Drop events
+            DragEnter += OnDragEnter;
+            DragOver += OnDragOver;
+            DragLeave += OnDragLeave;
+            Drop += OnDrop;
+
+            IsVisibleChanged += OnIsVisibleChanged;
+
+            ToolTip = toolTip = new ToolTip();
+            toolTip.StaysOpen = true;
+            toolTip.Visibility = Visibility.Collapsed;
+            toolTip.Closed += OnTooltipClosed;
+
+            BackCommand = new DelegateCommand(Back, () => CanGoBack);
+            ForwardCommand = new DelegateCommand(Forward, () => CanGoForward);
+            ReloadCommand = new DelegateCommand(Reload, () => CanReload);
+            PrintCommand = new DelegateCommand(Print);
+            ZoomInCommand = new DelegateCommand(ZoomIn);
+            ZoomOutCommand = new DelegateCommand(ZoomOut);
+            ZoomResetCommand = new DelegateCommand(ZoomReset);
+            ViewSourceCommand = new DelegateCommand(ViewSource);
+            CleanupCommand = new DelegateCommand(Dispose);
+            StopCommand = new DelegateCommand(Stop);
+            CutCommand = new DelegateCommand(Cut);
+            CopyCommand = new DelegateCommand(Copy);
+            PasteCommand = new DelegateCommand(Paste);
+            SelectAllCommand = new DelegateCommand(SelectAll);
+            UndoCommand = new DelegateCommand(Undo);
+            RedoCommand = new DelegateCommand(Redo);
+
+            imageTransform = new ScaleTransform();
+            managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, true);
+
+            disposables.Add(managedCefBrowserAdapter);
+            disposables.Add(new DisposableEventWrapper(this, ActualHeightProperty, OnActualSizeChanged));
+            disposables.Add(new DisposableEventWrapper(this, ActualWidthProperty, OnActualSizeChanged));
+
+            ResourceHandlerFactory = new DefaultResourceHandlerFactory();
+            BrowserSettings = new BrowserSettings();
+
+            PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
+        }
+
+        ~ChromiumWebBrowser()
+        {
+            Dispose(false);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool isdisposing)
+        {
+            // No longer reference event listeners:
+            ConsoleMessage = null;
+            FrameLoadStart = null;
+            FrameLoadEnd = null;
+            LoadError = null;
+            NavStateChanged = null;
+
+            // No longer reference handlers:
+            ResourceHandlerFactory = null;
+            DialogHandler = null;
+            JsDialogHandler = null;
+            KeyboardHandler = null;
+            RequestHandler = null;
+            DownloadHandler = null;
+            LifeSpanHandler = null;
+            MenuHandler = null;
+            FocusHandler = null;
+            DragHandler = null;
+            GeolocationHandler = null;
+            Rendering = null;
+
+            if (isdisposing)
+            {
+                if (BrowserSettings != null)
+                {
+                    BrowserSettings.Dispose();
+                    BrowserSettings = null;
+                }
+
+                PresentationSource.RemoveSourceChangedHandler(this, PresentationSourceChangedHandler);
+
+                // Release internal event listeners:
+                Loaded -= OnLoaded;
+                GotKeyboardFocus -= OnGotKeyboardFocus;
+                LostKeyboardFocus -= OnLostKeyboardFocus;
+
+                // Release internal event listeners for Drag Drop events:
+                DragEnter -= OnDragEnter;
+                DragOver -= OnDragOver;
+                DragLeave -= OnDragLeave;
+                Drop -= OnDrop;
+
+                IsVisibleChanged -= OnIsVisibleChanged;
+
+                if (tooltipTimer != null)
+                {
+                    tooltipTimer.Tick -= OnTooltipTimerTick;
+                }
+
+                if (CleanupElement != null)
+                {
+                    CleanupElement.Unloaded -= OnCleanupElementUnloaded;
+                }
+
+                foreach (var disposable in disposables)
+                {
+                    disposable.Dispose();
+                }
+                disposables.Clear();
+                UiThreadRunAsync(() => WebBrowser = null);
+            }
+
+            Cef.RemoveDisposable(this);
+
+            RemoveSourceHook();
+
+            managedCefBrowserAdapter = null;
+        }
+
+        ScreenInfo IRenderWebBrowser.GetScreenInfo()
+        {
+            var screenInfo = new ScreenInfo();
+
+            var point = matrix.Transform(new Point(ActualWidth, ActualHeight));
+
+            screenInfo.Width = (int)point.X;
+            screenInfo.Height = (int)point.Y;
+            screenInfo.ScaleFactor = (float)matrix.M11;
+
+            return screenInfo;
+        }
+
+        BitmapInfo IRenderWebBrowser.CreateBitmapInfo(bool isPopup)
+        {
+            if (BitmapFactory == null)
+            {
+                throw new Exception("BitmapFactory cannot be null");
+            }
+            return BitmapFactory.CreateBitmap(isPopup);
+        }
+
+        void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
+        {
+            UiThreadRunAsync(delegate
+            {
+                lock (bitmapInfo.BitmapLock)
+                {
+                    var wpfBitmapInfo = (WpfBitmapInfo)bitmapInfo;
+                    // Inform parents that the browser rendering is updating
+                    OnRendering(this, wpfBitmapInfo);
+
+                    // Now update the WPF image
+                    if (wpfBitmapInfo.CreateNewBitmap)
+                    {
+                        var img = bitmapInfo.IsPopup ? popupImage : image;
+
+                        img.Source = null;
+                        GC.Collect(1);
+
+                        img.Source = wpfBitmapInfo.CreateBitmap();
+                    }
+
+                    wpfBitmapInfo.Invalidate();
+                }
+            },
+            DispatcherPriority.Render);
+        }
+
+        void IRenderWebBrowser.SetPopupSizeAndPosition(int width, int height, int x, int y)
+        {
+            UiThreadRunAsync(() => SetPopupSizeAndPositionImpl(width, height, x, y));
+        }
+
+        void IRenderWebBrowser.SetPopupIsOpen(bool isOpen)
+        {
+            UiThreadRunAsync(() => { popup.IsOpen = isOpen; });
+        }
+
+        void IRenderWebBrowser.SetCursor(IntPtr handle)
+        {
+            UiThreadRunAsync(() =>
+            {
+                Cursor = CursorInteropHelper.Create(new SafeFileHandle(handle, ownsHandle: false));
+            });
+        }
+
+        void IWebBrowserInternal.SetAddress(string address)
+        {
+            UiThreadRunAsync(() =>
+            {
+                ignoreUriChange = true;
+                SetCurrentValue(AddressProperty, address);
+                ignoreUriChange = false;
+
+                // The tooltip should obviously also be reset (and hidden) when the address changes.
+                SetCurrentValue(TooltipTextProperty, null);
+            });
+        }
+
+        void IWebBrowserInternal.SetIsLoading(bool isLoading)
+        {
+            UiThreadRunAsync(() => SetCurrentValue(IsLoadingProperty, isLoading));
+        }
+
+        void IWebBrowserInternal.SetLoadingStateChange(bool canGoBack, bool canGoForward, bool isLoading)
+        {
+            UiThreadRunAsync(() =>
+            {
+                SetCurrentValue(CanGoBackProperty, canGoBack);
+                SetCurrentValue(CanGoForwardProperty, canGoForward);
+                SetCurrentValue(CanReloadProperty, !isLoading);
+
+                ((DelegateCommand)BackCommand).RaiseCanExecuteChanged();
+                ((DelegateCommand)ForwardCommand).RaiseCanExecuteChanged();
+                ((DelegateCommand)ReloadCommand).RaiseCanExecuteChanged();
+            });
+
+            var handler = NavStateChanged;
+            if (handler != null)
+            {
+                handler(this, new NavStateChangedEventArgs(canGoBack, canGoForward, isLoading));
+            }
+        }
+
+        void IWebBrowserInternal.SetTitle(string title)
+        {
+            UiThreadRunAsync(() => SetCurrentValue(TitleProperty, title));
+        }
+
+        void IWebBrowserInternal.SetTooltipText(string tooltipText)
+        {
+            UiThreadRunAsync(() => SetCurrentValue(TooltipTextProperty, tooltipText));
+        }
+
+        void IWebBrowserInternal.OnFrameLoadStart(string url, bool isMainFrame)
+        {
+            var handler = FrameLoadStart;
+            if (handler != null)
+            {
+                handler(this, new FrameLoadStartEventArgs(url, isMainFrame));
+            }
+        }
+
+        void IWebBrowserInternal.OnFrameLoadEnd(string url, bool isMainFrame, int httpStatusCode)
+        {
+            var handler = FrameLoadEnd;
+
+            if (handler != null)
+            {
+                handler(this, new FrameLoadEndEventArgs(url, isMainFrame, httpStatusCode));
+            }
+        }
+
+        void IWebBrowserInternal.OnConsoleMessage(string message, string source, int line)
+        {
+            var handler = ConsoleMessage;
+            if (handler != null)
+            {
+                handler(this, new ConsoleMessageEventArgs(message, source, line));
+            }
+        }
+
+        void IWebBrowserInternal.OnStatusMessage(string value)
+        {
+            var handler = StatusMessage;
+            if (handler != null)
+            {
+                handler(this, new StatusMessageEventArgs(value));
+            }
+        }
+
+        void IWebBrowserInternal.OnLoadError(string url, CefErrorCode errorCode, string errorText)
+        {
+            var handler = LoadError;
+            if (handler != null)
+            {
+                handler(this, new LoadErrorEventArgs(url, errorCode, errorText));
+            }
+        }
+
+        void IWebBrowserInternal.OnInitialized()
+        {
+            UiThreadRunAsync(() => SetCurrentValue(IsBrowserInitializedProperty, true));
+        }
 
         #region CanGoBack dependency property
 
@@ -111,16 +434,6 @@ namespace CefSharp.Wpf
         public static DependencyProperty CanReloadProperty = DependencyProperty.Register("CanReload", typeof (bool), typeof (ChromiumWebBrowser));
 
         #endregion
-
-        int IRenderWebBrowser.Width
-        {
-            get { return (int)matrix.Transform(new Point(ActualWidth, ActualHeight)).X; }
-        }
-
-        int IRenderWebBrowser.Height
-        {
-            get { return (int)matrix.Transform(new Point(ActualWidth, ActualHeight)).Y; }
-        }
 
         #region Address dependency property
 
@@ -309,83 +622,6 @@ namespace CefSharp.Wpf
             Dispose();
         }
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool isdisposing)
-        {
-            // No longer reference event listeners:
-            ConsoleMessage = null;
-            FrameLoadStart = null;
-            FrameLoadEnd = null;
-            LoadError = null;
-            NavStateChanged = null;
-
-            // No longer reference handlers:
-            ResourceHandler = null;
-            DialogHandler = null;
-            JsDialogHandler = null;
-            KeyboardHandler = null;
-            RequestHandler = null;
-            DownloadHandler = null;
-            LifeSpanHandler = null;
-            MenuHandler = null;
-            FocusHandler = null;
-            DragHandler = null;
-            GeolocationHandler = null;
-            Rendering = null;
-
-            if (isdisposing)
-            {
-                if (BrowserSettings != null)
-                {
-                    BrowserSettings.Dispose();
-                    BrowserSettings = null;
-                }
-
-                PresentationSource.RemoveSourceChangedHandler(this, PresentationSourceChangedHandler);
-
-                // Release internal event listeners:
-                Loaded -= OnLoaded;
-                GotKeyboardFocus -= OnGotKeyboardFocus;
-                LostKeyboardFocus -= OnLostKeyboardFocus;
-
-                // Release internal event listeners for Drag Drop events:
-                DragEnter -= OnDragEnter;
-                DragOver -= OnDragOver;
-                DragLeave -= OnDragLeave;
-                Drop -= OnDrop;
-
-                IsVisibleChanged -= OnIsVisibleChanged;
-
-                if (tooltipTimer != null)
-                {
-                    tooltipTimer.Tick -= OnTooltipTimerTick;
-                }
-
-                if (CleanupElement != null)
-                {
-                    CleanupElement.Unloaded -= OnCleanupElementUnloaded;
-                }
-
-                foreach (var disposable in disposables)
-                {
-                    disposable.Dispose();
-                }
-                disposables.Clear();
-                UiThreadRunAsync(() => WebBrowser = null);
-            }
-
-            Cef.RemoveDisposable(this);
-
-            RemoveSourceHook();
-
-            managedCefBrowserAdapter = null;
-        }
-
         #endregion CleanupElement dependency property
 
         #region TooltipText dependency property
@@ -432,79 +668,6 @@ namespace CefSharp.Wpf
             DependencyProperty.Register("WebBrowser", typeof(IWebBrowser), typeof(ChromiumWebBrowser), new UIPropertyMetadata(defaultValue: null));
 
         #endregion WebBrowser dependency property
-
-        static ChromiumWebBrowser()
-        {
-            var app = Application.Current;
-
-            if (app != null)
-            {
-                app.Exit += OnApplicationExit;
-            }
-        }
-
-        public ChromiumWebBrowser()
-        {
-            if (!Cef.IsInitialized && !Cef.Initialize())
-            {
-                throw new InvalidOperationException("Cef::Initialize() failed");
-            }
-
-            BitmapFactory = new BitmapFactory();
-
-            Cef.AddDisposable(this);
-            Focusable = true;
-            FocusVisualStyle = null;
-            IsTabStop = true;
-
-            Dispatcher.BeginInvoke((Action)(() => WebBrowser = this));
-
-            Loaded += OnLoaded;
-
-            GotKeyboardFocus += OnGotKeyboardFocus;
-            LostKeyboardFocus += OnLostKeyboardFocus;
-
-            // Drag Drop events
-            DragEnter += OnDragEnter;
-            DragOver += OnDragOver;
-            DragLeave += OnDragLeave;
-            Drop += OnDrop;
-
-            IsVisibleChanged += OnIsVisibleChanged;
-
-            ToolTip = toolTip = new ToolTip();
-            toolTip.StaysOpen = true;
-            toolTip.Visibility = Visibility.Collapsed;
-            toolTip.Closed += OnTooltipClosed;
-
-            BackCommand = new DelegateCommand(Back, () => CanGoBack);
-            ForwardCommand = new DelegateCommand(Forward, () => CanGoForward);
-            ReloadCommand = new DelegateCommand(Reload, () => CanReload);
-            PrintCommand = new DelegateCommand(Print);
-            ZoomInCommand = new DelegateCommand(ZoomIn);
-            ZoomOutCommand = new DelegateCommand(ZoomOut);
-            ZoomResetCommand = new DelegateCommand(ZoomReset);
-            ViewSourceCommand = new DelegateCommand(ViewSource);
-            CleanupCommand = new DelegateCommand(Dispose);
-            StopCommand = new DelegateCommand(Stop);
-            CutCommand = new DelegateCommand(Cut);
-            CopyCommand = new DelegateCommand(Copy);
-            PasteCommand = new DelegateCommand(Paste);
-            SelectAllCommand = new DelegateCommand(SelectAll);
-            UndoCommand = new DelegateCommand(Undo);
-            RedoCommand = new DelegateCommand(Redo);
-
-            managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, true);
-
-            disposables.Add(managedCefBrowserAdapter);
-            disposables.Add(new DisposableEventWrapper(this, ActualHeightProperty, OnActualSizeChanged));
-            disposables.Add(new DisposableEventWrapper(this, ActualWidthProperty, OnActualSizeChanged));
-
-            ResourceHandler = new DefaultResourceHandler();
-            BrowserSettings = new BrowserSettings();
-
-            PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
-        }
 
         private void OnDrop(object sender, DragEventArgs e)
         {
@@ -553,7 +716,7 @@ namespace CefSharp.Wpf
             return operations;
         }
 
-        private CefDragDataWrapper GetDragDataWrapper(DragEventArgs e)
+        private static CefDragDataWrapper GetDragDataWrapper(DragEventArgs e)
         {
             // Convert Drag Data
             var dragData = CefDragDataWrapper.Create();
@@ -639,11 +802,6 @@ namespace CefSharp.Wpf
             return url.TrimEnd('\0');
         }
 
-        ~ChromiumWebBrowser()
-        {
-            Dispose(false);
-        }
-
         private void PresentationSourceChangedHandler(object sender, SourceChangedEventArgs args)
         {
             if (args.NewSource != null)
@@ -657,6 +815,10 @@ namespace CefSharp.Wpf
                     matrix = source.CompositionTarget.TransformToDevice;
                     sourceHook = SourceHook;
                     source.AddHook(sourceHook);
+
+                    managedCefBrowserAdapter.NotifyScreenInfoChanged();
+                    imageTransform.ScaleX = 1 / matrix.M11;
+                    imageTransform.ScaleY = 1 / matrix.M22;
                 }
             }
             else if (args.OldSource != null)
@@ -743,7 +905,7 @@ namespace CefSharp.Wpf
             img.HorizontalAlignment = HorizontalAlignment.Left;
             img.VerticalAlignment = VerticalAlignment.Top;
             //Scale Image based on DPI settings
-            img.LayoutTransform = new ScaleTransform(1 / matrix.M11, 1 / matrix.M22);
+            img.LayoutTransform = imageTransform;
 
             return img;
         }
@@ -800,105 +962,6 @@ namespace CefSharp.Wpf
             }
 
             return IntPtr.Zero;
-        }
-
-        public BitmapInfo CreateBitmapInfo(bool isPopup)
-        {
-            if (BitmapFactory == null)
-            {
-                throw new Exception("BitmapFactory cannot be null");
-            }
-            return BitmapFactory.CreateBitmap(isPopup);
-        }
-
-        void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
-        {
-            UiThreadRunAsync(delegate
-            {
-                lock (bitmapInfo.BitmapLock)
-                {
-                    var wpfBitmapInfo = (WpfBitmapInfo)bitmapInfo;
-                    // Inform parents that the browser rendering is updating
-                    OnRendering(this, wpfBitmapInfo);
-
-                    // Now update the WPF image
-                    if (wpfBitmapInfo.CreateNewBitmap)
-                    {
-                        var img = bitmapInfo.IsPopup ? popupImage : image;
-
-                        img.Source = null;
-                        GC.Collect(1);
-
-                        img.Source = wpfBitmapInfo.CreateBitmap();
-                    }
-
-                    wpfBitmapInfo.Invalidate();
-                }
-            },
-            DispatcherPriority.Render);
-        }
-
-        void IWebBrowserInternal.SetAddress(string address)
-        {
-            UiThreadRunAsync(() =>
-            {
-                ignoreUriChange = true;
-                SetCurrentValue(AddressProperty, address);
-                ignoreUriChange = false;
-
-                // The tooltip should obviously also be reset (and hidden) when the address changes.
-                SetCurrentValue(TooltipTextProperty, null);
-            });
-        }
-
-        void IWebBrowserInternal.SetIsLoading(bool isLoading)
-        {
-            UiThreadRunAsync(() => SetCurrentValue(IsLoadingProperty, isLoading));
-        }
-
-        void IWebBrowserInternal.SetLoadingStateChange(bool canGoBack, bool canGoForward, bool isLoading)
-        {
-            UiThreadRunAsync(() =>
-            {
-                SetCurrentValue(CanGoBackProperty, canGoBack);
-                SetCurrentValue(CanGoForwardProperty, canGoForward);
-                SetCurrentValue(CanReloadProperty, !isLoading);
-
-                RaiseCommandsCanExecuteChanged();
-            });
-
-            var handler = NavStateChanged;
-            if (handler != null)
-            {
-                handler(this, new NavStateChangedEventArgs(canGoBack, canGoForward, isLoading));
-            }
-        }
-
-        private void RaiseCommandsCanExecuteChanged()
-        {
-            ((DelegateCommand)BackCommand).RaiseCanExecuteChanged();
-            ((DelegateCommand)ForwardCommand).RaiseCanExecuteChanged();
-            ((DelegateCommand)ReloadCommand).RaiseCanExecuteChanged();
-        }
-
-        void IWebBrowserInternal.SetTitle(string title)
-        {
-            UiThreadRunAsync(() => SetCurrentValue(TitleProperty, title));
-        }
-
-        void IWebBrowserInternal.SetTooltipText(string tooltipText)
-        {
-            UiThreadRunAsync(() => SetCurrentValue(TooltipTextProperty, tooltipText));
-        }
-
-        void IRenderWebBrowser.SetPopupSizeAndPosition(int width, int height, int x, int y)
-        {
-            UiThreadRunAsync(() => SetPopupSizeAndPositionImpl(width, height, x, y));
-        }
-
-        void IRenderWebBrowser.SetPopupIsOpen(bool isOpen)
-        {
-            UiThreadRunAsync(() => { popup.IsOpen = isOpen; });
         }
 
         /// <summary>
@@ -1184,11 +1247,6 @@ namespace CefSharp.Wpf
             }
         }
 
-        void IWebBrowserInternal.OnInitialized()
-        {
-            UiThreadRunAsync(() => SetCurrentValue(IsBrowserInitializedProperty, true));
-        }
-
         public void Load(string url)
         {
             //Added null check -> binding-triggered changes of Address will lead to a nullref after Dispose has been called.
@@ -1218,10 +1276,10 @@ namespace CefSharp.Wpf
 
         public void LoadHtml(string html, string url, Encoding encoding)
         {
-            var handler = ResourceHandler;
+            var handler = ResourceHandlerFactory;
             if (handler == null)
             {
-                throw new Exception("Implement IResourceHandler and assign to the ResourceHandler property to use this feature");
+                throw new Exception("Implement IResourceHandlerFactory and assign to the ResourceHandlerFactory property to use this feature");
             }
 
             handler.RegisterHandler(url, CefSharp.ResourceHandler.FromString(html, encoding, true));
@@ -1338,52 +1396,6 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter.CloseDevTools();
         }
 
-        void IWebBrowserInternal.OnFrameLoadStart(string url, bool isMainFrame)
-        {
-            var handler = FrameLoadStart;
-            if (handler != null)
-            {
-                handler(this, new FrameLoadStartEventArgs(url, isMainFrame));
-            }
-        }
-
-        void IWebBrowserInternal.OnFrameLoadEnd(string url, bool isMainFrame, int httpStatusCode)
-        {
-            var handler = FrameLoadEnd;
-
-            if (handler != null)
-            {
-                handler(this, new FrameLoadEndEventArgs(url, isMainFrame, httpStatusCode));
-            }
-        }
-
-        void IWebBrowserInternal.OnConsoleMessage(string message, string source, int line)
-        {
-            var handler = ConsoleMessage;
-            if (handler != null)
-            {
-                handler(this, new ConsoleMessageEventArgs(message, source, line));
-            }
-        }
-
-        void IWebBrowserInternal.OnStatusMessage(string value)
-        {
-            var handler = StatusMessage;
-            if (handler != null)
-            {
-                handler(this, new StatusMessageEventArgs(value));
-            }
-        }
-
-        void IWebBrowserInternal.OnLoadError(string url, CefErrorCode errorCode, string errorText)
-        {
-            var handler = LoadError;
-            if (handler != null)
-            {
-                handler(this, new LoadErrorEventArgs(url, errorCode, errorText));
-            }
-        }
-
         public void RegisterJsObject(string name, object objectToBind)
         {
             managedCefBrowserAdapter.RegisterJsObject(name, objectToBind);
@@ -1402,14 +1414,6 @@ namespace CefSharp.Wpf
         public Task<JavascriptResponse> EvaluateScriptAsync(string script, TimeSpan? timeout)
         {
             return managedCefBrowserAdapter.EvaluateScriptAsync(script, timeout);
-        }
-
-        void IRenderWebBrowser.SetCursor(IntPtr handle)
-        {
-            UiThreadRunAsync(() =>
-            {
-                Cursor = CursorInteropHelper.Create(new SafeFileHandle(handle, ownsHandle: false));
-            });
         }
 
         /// <summary>

@@ -7,11 +7,11 @@ using System.Collections.Generic;
 
 namespace CefSharp
 {
-    public class DefaultResourceHandler : IResourceHandler
+    public class DefaultResourceHandlerFactory : IResourceHandlerFactory
     {
         public Dictionary<string, ResourceHandler> Handlers { get; private set; }
 
-        public DefaultResourceHandler(IEqualityComparer<string> comparer = null)
+        public DefaultResourceHandlerFactory(IEqualityComparer<string> comparer = null)
         {
             Handlers = new Dictionary<string, ResourceHandler>(comparer ?? StringComparer.OrdinalIgnoreCase);
         }
@@ -24,6 +24,11 @@ namespace CefSharp
         public virtual void UnregisterHandler(string url)
         {
             Handlers.Remove(url);
+        }
+
+        public bool HasHandlers
+        { 
+            get { return Handlers.Count > 0; }
         }
 
         public virtual ResourceHandler GetResourceHandler(IWebBrowser browser, IRequest request)

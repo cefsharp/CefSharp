@@ -35,6 +35,7 @@ namespace CefSharp.WinForms.Example
             browser.StatusMessage += OnBrowserStatusMessage;
             browser.IsBrowserInitializedChanged += OnIsBrowserInitializedChanged;
             browser.IsLoadingChanged += OnIsLoadingChanged;
+            browser.LoadError += OnLoadError;
             browser.DragHandler = new DragHandler();
             browser.RegisterJsObject("bound", new BoundObject());
 
@@ -42,6 +43,11 @@ namespace CefSharp.WinForms.Example
 
             var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
             DisplayOutput(version);
+        }
+
+        private void OnLoadError(object sender, LoadErrorEventArgs args)
+        {
+            DisplayOutput("Load Error:" + args.ErrorCode + ";" + args.ErrorText);
         }
 
         private void OnBrowserConsoleMessage(object sender, ConsoleMessageEventArgs args)
