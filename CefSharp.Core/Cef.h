@@ -8,6 +8,7 @@
 #include <include/cef_version.h>
 #include <include/cef_runnable.h>
 #include <include/cef_origin_whitelist.h>
+#include <include/cef_web_plugin.h>
 
 #include "Internals/CefSharpApp.h"
 #include "Internals/CookieVisitor.h"
