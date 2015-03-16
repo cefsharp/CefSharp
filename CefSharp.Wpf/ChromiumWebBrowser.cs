@@ -1134,8 +1134,10 @@ namespace CefSharp.Wpf
             // trigger the appropriate WM_ messages handled by our SourceHook, so we have to handle these extra keys here.
             // Hooking the Tab key like this makes the tab focusing in essence work like
             // KeyboardNavigation.TabNavigation="Cycle"; you will never be able to Tab out of the web browser control.
+            // We also add the condition to allow ctrl+a to work when the web browser control is put inside listbox.
             if (e.Key == Key.Tab || e.Key == Key.Home || e.Key == Key.End  || e.Key == Key.Up
-                                 || e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.Right)
+                                 || e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.Right
+                                 || (e.Key == Key.A && Keyboard.Modifiers == ModifierKeys.Control))
             {
                 var modifiers = GetModifiers(e);
                 var message = (int)(e.IsDown ? WM.KEYDOWN : WM.KEYUP);
