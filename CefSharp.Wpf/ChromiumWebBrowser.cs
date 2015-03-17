@@ -523,7 +523,21 @@ namespace CefSharp.Wpf
         }
 
         public static readonly DependencyProperty TitleProperty =
-            DependencyProperty.Register("Title", typeof(string), typeof(ChromiumWebBrowser), new PropertyMetadata(defaultValue: null));
+            DependencyProperty.Register("Title", typeof(string), typeof(ChromiumWebBrowser), new PropertyMetadata(null, OnTitleChanged));
+
+        public event DependencyPropertyChangedEventHandler TitleChanged;
+
+        private static void OnTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var owner = (ChromiumWebBrowser)d;
+
+            var handlers = owner.TitleChanged;
+
+            if (handlers != null)
+            {
+                handlers(owner, e);
+            }
+        }
 
         #endregion Title dependency property
 
