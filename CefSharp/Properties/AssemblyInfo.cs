@@ -1,8 +1,8 @@
-﻿using System.Reflection;
+﻿using CefSharp;
+using System;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using CefSharp;
-using System;
 
 [assembly: AssemblyTitle("CefSharp")]
 [assembly: AssemblyDescription("")]
@@ -33,9 +33,9 @@ namespace CefSharp
         public const bool ComVisible = false;
         public const string AssemblyCompany = "The CefSharp Authors";
         public const string AssemblyProduct = "CefSharp";
-        public const string AssemblyVersion = "37.0.0";
-        public const string AssemblyFileVersion = "37.0.0.0";
-        public const string AssemblyCopyright = "Copyright © The CefSharp Authors 2010-2014";
+        public const string AssemblyVersion = "37.0.1";
+        public const string AssemblyFileVersion = "37.0.1.0";
+        public const string AssemblyCopyright = "Copyright © The CefSharp Authors 2010-2015";
         public const string CefSharpCoreProject = "CefSharp.Core, PublicKey=" + PublicKey;
         public const string CefSharpBrowserSubprocessProject = "CefSharp.BrowserSubprocess, PublicKey=" + PublicKey;
         public const string CefSharpBrowserSubprocessCoreProject = "CefSharp.BrowserSubprocess.Core, PublicKey=" + PublicKey;
