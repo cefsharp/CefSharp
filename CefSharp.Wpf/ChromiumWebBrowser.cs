@@ -941,7 +941,6 @@ namespace CefSharp.Wpf
                 case WM.KEYUP:
                 case WM.CHAR:
                 case WM.IME_CHAR:
-                {
                     if (!IsKeyboardFocused)
                     {
                         break;
@@ -956,9 +955,8 @@ namespace CefSharp.Wpf
                     }
 
                     handled = managedCefBrowserAdapter.SendKeyEvent(message, wParam.ToInt32(), lParam);
-                    
+
                     break;
-                }
             }
 
             return IntPtr.Zero;
@@ -1219,24 +1217,19 @@ namespace CefSharp.Wpf
             switch (e.ChangedButton)
             {
                 case MouseButton.Left:
-                {
                     mouseButtonType = MouseButtonType.Left;
                     break;
-                }
+
                 case MouseButton.Middle:
-                {
                     mouseButtonType = MouseButtonType.Middle;
                     break;
-                }
+
                 case MouseButton.Right:
-                {
                     mouseButtonType = MouseButtonType.Right;
                     break;
-                }
+
                 default:
-                {
                     return;
-                }
             }
 
             var modifiers = GetModifiers(e);
