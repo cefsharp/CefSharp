@@ -105,7 +105,6 @@ namespace CefSharp.WinForms.Internals
             // Listen for operating system messages 
             switch (m.Msg)
             {
-                // WM_ACTIVATE
             case NativeMethods.WM_ACTIVATE:
                 {
                     // Intercept (de)activate messages for our form so that we can

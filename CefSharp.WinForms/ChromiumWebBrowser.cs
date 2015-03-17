@@ -20,7 +20,7 @@ namespace CefSharp.WinForms
         /// Set to true while handing an activating WM_ACTIVATE message.
         /// MUST ONLY be cleared by DefaultFocusHandler.
         /// </summary>
-        internal bool IsActivating = false;
+        public bool IsActivating { get; set; }
 
         public BrowserSettings BrowserSettings { get; set; }
         public string Title { get; set; }
@@ -63,6 +63,8 @@ namespace CefSharp.WinForms
 
         public ChromiumWebBrowser(string address)
         {
+            IsActivating = false;
+
             if (!Cef.IsInitialized && !Cef.Initialize())
             {
                 throw new InvalidOperationException("Cef::Initialize() failed");
@@ -132,14 +134,6 @@ namespace CefSharp.WinForms
                 IsLoadingChanged = null;
             }
             base.Dispose(disposing);
-        }
-
-        private void MovingListenerMoving(object sender, EventArgs e)
-        {
-            if (IsBrowserInitialized)
-            {
-                NotifyMoveOrResizeStarted();
-            }
         }
 
         void IWebBrowserInternal.OnInitialized()
@@ -488,25 +482,10 @@ namespace CefSharp.WinForms
             managedCefBrowserAdapter.AddWordToDictionary(word);
         }
 
-        protected override void OnEnter(EventArgs e)
-        {
-            base.OnEnter(e);
-        }
-
         protected override void OnGotFocus(EventArgs e)
         {
             SetFocus(true);
             base.OnGotFocus(e);
-        }
-
-        protected override void OnLostFocus(EventArgs e)
-        {
-            base.OnLostFocus(e);
-        }
-
-        protected override void OnLeave(EventArgs e)
-        {
-            base.OnLeave(e);
         }
 
         /// <summary>
