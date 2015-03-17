@@ -26,14 +26,35 @@ namespace CefSharp.WinForms.Internals
             }
         }
 
-        public static void Activate(this Control control)
+        public static bool Activate(this Control control)
         {
             // Notify WinForms world that inner browser window got focus. This will trigger Leave event to previous focused control
             var containerControl = control.GetContainerControl();
             if (containerControl != null)
             {
-                containerControl.ActivateControl(control);
+                return containerControl.ActivateControl(control);
             }
+            return false;
+        }
+
+        /// <summary>
+        /// Returns whether the supplied control is the currently
+        /// active control.
+        /// </summary>
+        /// <param name="control"></param>
+        /// <returns></returns>
+        public static bool IsActiveControl(this Control control)
+        {
+            Control activeControl = control.FindForm().ActiveControl;
+            ContainerControl containerControl;
+            while (activeControl != null
+                    && (activeControl as ContainerControl != null)
+                   && !Object.ReferenceEquals(control, activeControl))
+            {
+                containerControl = activeControl as ContainerControl;
+                activeControl = containerControl.ActiveControl;
+            }
+            return Object.ReferenceEquals(control, activeControl);
         }
 
         public static void SelectNextControl(this Control control, bool next)

@@ -16,6 +16,12 @@ namespace CefSharp.WinForms
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
         private ParentFormMessageInterceptor parentFormMessageInterceptor;
 
+        /// <summary>
+        /// Set to true while handing an activating WM_ACTIVATE message.
+        /// MUST ONLY be cleared by DefaultFocusHandler.
+        /// </summary>
+        public bool IsActivating { get; set; }
+
         public BrowserSettings BrowserSettings { get; set; }
         public string Title { get; set; }
         public bool IsLoading { get; private set; }
@@ -57,6 +63,8 @@ namespace CefSharp.WinForms
 
         public ChromiumWebBrowser(string address)
         {
+            IsActivating = false;
+
             if (!Cef.IsInitialized && !Cef.Initialize())
             {
                 throw new InvalidOperationException("Cef::Initialize() failed");
@@ -481,22 +489,14 @@ namespace CefSharp.WinForms
             managedCefBrowserAdapter.AddWordToDictionary(word);
         }
 
-        protected override void OnEnter(EventArgs e)
+        protected override void OnGotFocus(EventArgs e)
         {
             SetFocus(true);
-
-            base.OnEnter(e);
-        }
-
-        protected override void OnLeave(EventArgs e)
-        {
-            SetFocus(false);
-
-            base.OnLeave(e);
+            base.OnGotFocus(e);
         }
 
         /// <summary>
-        /// Set whether the browser is focused.
+        /// Tell the browser to acquire/release focus.
         /// </summary>
         public void SetFocus(bool isFocused)
         {
