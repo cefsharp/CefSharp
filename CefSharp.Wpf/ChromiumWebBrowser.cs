@@ -409,7 +409,7 @@ namespace CefSharp.Wpf
             get { return (bool)GetValue(CanGoBackProperty); }
         }
 
-        public static DependencyProperty CanGoBackProperty = DependencyProperty.Register("CanGoBack", typeof (bool), typeof (ChromiumWebBrowser));
+        public static DependencyProperty CanGoBackProperty = DependencyProperty.Register("CanGoBack", typeof(bool), typeof(ChromiumWebBrowser));
 
         #endregion
 
@@ -420,7 +420,7 @@ namespace CefSharp.Wpf
             get { return (bool)GetValue(CanGoForwardProperty); }
         }
 
-        public static DependencyProperty CanGoForwardProperty = DependencyProperty.Register("CanGoForward", typeof (bool), typeof (ChromiumWebBrowser));
+        public static DependencyProperty CanGoForwardProperty = DependencyProperty.Register("CanGoForward", typeof(bool), typeof(ChromiumWebBrowser));
 
         #endregion
 
@@ -431,7 +431,7 @@ namespace CefSharp.Wpf
             get { return (bool)GetValue(CanReloadProperty); }
         }
 
-        public static DependencyProperty CanReloadProperty = DependencyProperty.Register("CanReload", typeof (bool), typeof (ChromiumWebBrowser));
+        public static DependencyProperty CanReloadProperty = DependencyProperty.Register("CanReload", typeof(bool), typeof(ChromiumWebBrowser));
 
         #endregion
 
@@ -510,7 +510,6 @@ namespace CefSharp.Wpf
 
         protected virtual void OnIsBrowserInitializedChanged(bool oldValue, bool newValue)
         {
-
         }
 
         #endregion IsInitialized dependency property
@@ -768,7 +767,7 @@ namespace CefSharp.Wpf
                     return unicodeUrl;
                 }
             }
-            
+
             // Try ASCII
             if (data.GetDataPresent(asciiUrlDataFormatName))
             {
@@ -927,7 +926,7 @@ namespace CefSharp.Wpf
 
         private IntPtr SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            if(handled)
+            if (handled)
             {
                 return IntPtr.Zero;
             }
@@ -1016,7 +1015,7 @@ namespace CefSharp.Wpf
 
             if (Keyboard.IsKeyDown(Key.LeftAlt))
             {
-                modifiers |= CefEventFlags.AltDown| CefEventFlags.IsLeft;
+                modifiers |= CefEventFlags.AltDown | CefEventFlags.IsLeft;
             }
 
             if (Keyboard.IsKeyDown(Key.RightAlt))
@@ -1133,7 +1132,7 @@ namespace CefSharp.Wpf
             // Hooking the Tab key like this makes the tab focusing in essence work like
             // KeyboardNavigation.TabNavigation="Cycle"; you will never be able to Tab out of the web browser control.
             // We also add the condition to allow ctrl+a to work when the web browser control is put inside listbox.
-            if (e.Key == Key.Tab || e.Key == Key.Home || e.Key == Key.End  || e.Key == Key.Up
+            if (e.Key == Key.Tab || e.Key == Key.Home || e.Key == Key.End || e.Key == Key.Up
                                  || e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.Right
                                  || (e.Key == Key.A && Keyboard.Modifiers == ModifierKeys.Control))
             {
