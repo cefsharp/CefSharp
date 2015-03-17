@@ -87,7 +87,7 @@ namespace CefSharp.Wpf
             get { return (bool)GetValue(CanGoBackProperty); }
         }
 
-        public static DependencyProperty CanGoBackProperty = DependencyProperty.Register("CanGoBack", typeof (bool), typeof (ChromiumWebBrowser));
+        public static DependencyProperty CanGoBackProperty = DependencyProperty.Register("CanGoBack", typeof(bool), typeof(ChromiumWebBrowser));
 
         #endregion
 
@@ -98,7 +98,7 @@ namespace CefSharp.Wpf
             get { return (bool)GetValue(CanGoForwardProperty); }
         }
 
-        public static DependencyProperty CanGoForwardProperty = DependencyProperty.Register("CanGoForward", typeof (bool), typeof (ChromiumWebBrowser));
+        public static DependencyProperty CanGoForwardProperty = DependencyProperty.Register("CanGoForward", typeof(bool), typeof(ChromiumWebBrowser));
 
         #endregion
 
@@ -109,7 +109,7 @@ namespace CefSharp.Wpf
             get { return (bool)GetValue(CanReloadProperty); }
         }
 
-        public static DependencyProperty CanReloadProperty = DependencyProperty.Register("CanReload", typeof (bool), typeof (ChromiumWebBrowser));
+        public static DependencyProperty CanReloadProperty = DependencyProperty.Register("CanReload", typeof(bool), typeof(ChromiumWebBrowser));
 
         #endregion
 
@@ -760,7 +760,7 @@ namespace CefSharp.Wpf
 
             if (Keyboard.IsKeyDown(Key.LeftAlt))
             {
-                modifiers |= CefEventFlags.AltDown| CefEventFlags.IsLeft;
+                modifiers |= CefEventFlags.AltDown | CefEventFlags.IsLeft;
             }
 
             if (Keyboard.IsKeyDown(Key.RightAlt))
