@@ -5,6 +5,8 @@
 #include "Stdafx.h"
 #include "CefRequestWrapper.h"
 
+using namespace System::Text;
+
 namespace CefSharp
 {
     namespace Internals
@@ -55,10 +57,10 @@ namespace CefSharp
                         String^ charset = this->CharSet;
                         if (charset != nullptr)
                         {
-                            System::Text::Encoding^ encoding;
+                            Encoding^ encoding;
                             try
                             {
-                                encoding = System::Text::Encoding::GetEncoding(charset);
+                                encoding = Encoding::GetEncoding(charset);
                             }
                             catch (ArgumentException^)
                             {
