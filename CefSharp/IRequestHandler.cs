@@ -16,7 +16,7 @@ namespace CefSharp
         /// <param name="request">the request object - cannot be modified in this callback</param>
         /// <param name="isRedirect">has the request been redirected</param>
         /// <returns>Return true to cancel the navigation or false to allow the navigation to proceed.</returns>
-        bool OnBeforeBrowse(IWebBrowser browser, IRequest request, bool isRedirect);
+        bool OnBeforeBrowse(IWebBrowser browser, IRequest request, bool isRedirect, bool isMainFrame);
 
         /// <summary>
         /// Called when a certificate error is thrown.
