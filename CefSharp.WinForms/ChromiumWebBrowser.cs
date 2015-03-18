@@ -63,8 +63,6 @@ namespace CefSharp.WinForms
 
         public ChromiumWebBrowser(string address)
         {
-            IsActivating = false;
-
             if (!Cef.IsInitialized && !Cef.Initialize())
             {
                 throw new InvalidOperationException("Cef::Initialize() failed");
