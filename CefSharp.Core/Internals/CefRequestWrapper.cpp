@@ -133,7 +133,7 @@ namespace CefSharp
         String^ CefRequestWrapper::CharSet::get()
         {
             // Extract the Content-Type header value.
-            NameValueCollection^ headers = this->Headers;
+            auto headers = this->Headers;
             
             String^ contentType = nullptr;
             for each(String^ key in headers)
