@@ -15,6 +15,7 @@ namespace CefSharp
         /// <param name="browser">the browser object</param>
         /// <param name="request">the request object - cannot be modified in this callback</param>
         /// <param name="isRedirect">has the request been redirected</param>
+        /// <param name="isMainFrame">whether the request comes from main frame or not</param>
         /// <returns>Return true to cancel the navigation or false to allow the navigation to proceed.</returns>
         bool OnBeforeBrowse(IWebBrowser browser, IRequest request, bool isRedirect, bool isMainFrame);
 
