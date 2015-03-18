@@ -22,7 +22,7 @@ namespace CefSharp.Example
             // TODO: Add your own code here for handling scenarios where a plugin crashed, for one reason or another.
         }
 
-        bool IRequestHandler.OnBeforeResourceLoad(IWebBrowser browser, IRequest request, IResponse response)
+        bool IRequestHandler.OnBeforeResourceLoad(IWebBrowser browser, IRequest request, IResponse response, bool isMainFrame)
         {
             return false;
         }

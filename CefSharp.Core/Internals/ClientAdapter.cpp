@@ -353,7 +353,7 @@ namespace CefSharp
             auto requestWrapper = gcnew CefRequestWrapper(request);
             auto response = gcnew Response();
 
-            bool ret = handler->OnBeforeResourceLoad(_browserControl, requestWrapper, response);
+            bool ret = handler->OnBeforeResourceLoad(_browserControl, requestWrapper, response, frame->IsMain());
 
             if (response->Action == ResponseAction::Redirect)
             {
