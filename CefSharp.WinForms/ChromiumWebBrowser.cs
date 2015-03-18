@@ -35,6 +35,17 @@ namespace CefSharp.WinForms
         public IDownloadHandler DownloadHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
         public IMenuHandler MenuHandler { get; set; }
+
+        /// <summary>
+        /// The <see cref="IFocusHandler"/> for this ChromiumWebBrowser.
+        /// </summary>
+        /// <remarks>
+        /// If you need customized focus handling behavior for WinForms, the suggested 
+        /// best practice would be to inherit from DefaultFocusHandler and try to avoid 
+        /// needing to override the logic in OnGotFocus. The implementation in 
+        /// DefaultFocusHandler relies on very detailed behavior of how WinForms and 
+        /// Windows interact during window activation.
+        /// </remarks>
         public IFocusHandler FocusHandler { get; set; }
         public IDragHandler DragHandler { get; set; }
         public IResourceHandlerFactory ResourceHandlerFactory { get; set; }
