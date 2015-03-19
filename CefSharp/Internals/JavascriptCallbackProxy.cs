@@ -9,6 +9,13 @@ using System.Threading.Tasks;
 
 namespace CefSharp.Internals
 {
+    /// <summary>
+    /// JavascriptCallbackProxy is a wrapper class around the WCF BrowserProcess.
+    /// When the render process detects a function as param or return type it will add a 
+    /// <see cref="JavascriptCallback"/> that identifies the function. On the server side
+    /// WCF Transforms <see cref="JavascriptCallback"/> into <see cref="JavascriptCallbackProxy"/>
+    /// using the <see cref="JavascriptCallbackSurrogate"/> class.
+    /// </summary>
     [DataContract]
     internal sealed class JavascriptCallbackProxy : DisposableResource, IJavascriptCallback
     {
