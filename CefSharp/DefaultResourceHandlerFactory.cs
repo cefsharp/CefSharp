@@ -26,6 +26,11 @@ namespace CefSharp
             Handlers.Remove(url);
         }
 
+        public bool HasHandlers
+        { 
+            get { return Handlers.Count > 0; }
+        }
+
         public virtual ResourceHandler GetResourceHandler(IWebBrowser browser, IRequest request)
         {
             ResourceHandler handler;

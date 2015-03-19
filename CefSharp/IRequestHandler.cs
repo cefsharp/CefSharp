@@ -15,8 +15,9 @@ namespace CefSharp
         /// <param name="browser">the browser object</param>
         /// <param name="request">the request object - cannot be modified in this callback</param>
         /// <param name="isRedirect">has the request been redirected</param>
+        /// <param name="isMainFrame">whether the request comes from main frame or not</param>
         /// <returns>Return true to cancel the navigation or false to allow the navigation to proceed.</returns>
-        bool OnBeforeBrowse(IWebBrowser browser, IRequest request, bool isRedirect);
+        bool OnBeforeBrowse(IWebBrowser browser, IRequest request, bool isRedirect, bool isMainFrame);
 
         /// <summary>
         /// Called when a certificate error is thrown.
@@ -40,8 +41,9 @@ namespace CefSharp
         /// <param name="browser">the browser object</param>
         /// <param name="request">the request object - can be modified in this callback.</param>
         /// <param name="response">the request object - can be modified in this callback.</param>
+        /// /// <param name="isMainFrame">whether the request comes from main frame or not</param>
         /// <returns>To cancel loading of the resource return true or false to allow the resource to load normally.</returns>
-        bool OnBeforeResourceLoad(IWebBrowser browser, IRequest request, IResponse response);
+        bool OnBeforeResourceLoad(IWebBrowser browser, IRequest request, IResponse response, bool isMainFrame);
         
         /// <summary>
         /// Called when the browser needs credentials from the user.

@@ -11,7 +11,12 @@ namespace CefSharp
         void UnregisterHandler(string url);
 
         /// <summary>
-        /// Called before a resource is loaded. To specify a handler for the resource return a ResourceHandler object
+        /// Are there any <see cref="ResourceHandler"/>'s registered?
+        /// </summary>
+        bool HasHandlers { get; }
+
+        /// <summary>
+        /// Called before a resource is loaded. To specify a handler for the resource return a <see cref="ResourceHandler"/> object
         /// </summary>
         /// <param name="browser">the browser object</param>
         /// <param name="request">the request object - cannot be modified in this callback</param>

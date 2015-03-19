@@ -8,6 +8,7 @@
 #include <include/cef_version.h>
 #include <include/cef_runnable.h>
 #include <include/cef_origin_whitelist.h>
+#include <include/cef_web_plugin.h>
 
 #include "Internals/CefSharpApp.h"
 #include "Internals/CookieVisitor.h"
@@ -472,5 +473,23 @@ namespace CefSharp
         {
             CefRefreshWebPlugins();
         }
+
+        /// <summary>
+        /// Remove a plugin path (directory + file). This change may not take affect until after RefreshWebPlugins() is called. 
+        /// </summary>
+        /// <param name="path">Path (directory + file).</param>
+        static void RemoveWebPluginPath(String^ path)
+        {
+            CefRemoveWebPluginPath(StringUtils::ToNative(path));
+        }
+
+        /// <summary>
+        /// Unregister an internal plugin. This may be undone the next time RefreshWebPlugins() is called. 
+        /// </summary>
+        /// <param name="path">Path (directory + file).</param>
+        static void UnregisterInternalWebPlugin(String^ path)
+        {
+            CefUnregisterInternalWebPlugin(StringUtils::ToNative(path));
+        }		
     };
 }

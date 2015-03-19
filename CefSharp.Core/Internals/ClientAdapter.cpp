@@ -247,7 +247,7 @@ namespace CefSharp
 
             CefRequestWrapper^ wrapper = gcnew CefRequestWrapper(request);
 
-            return handler->OnBeforeBrowse(_browserControl, wrapper, isRedirect);
+            return handler->OnBeforeBrowse(_browserControl, wrapper, isRedirect, frame->IsMain());
         }
 
         bool ClientAdapter::OnCertificateError(cef_errorcode_t cert_error, const CefString& request_url, CefRefPtr<CefAllowCertificateErrorCallback> callback)
@@ -312,7 +312,7 @@ namespace CefSharp
         {
             auto factory = _browserControl->ResourceHandlerFactory;
 
-            if (factory == nullptr)
+            if (factory == nullptr || !factory->HasHandlers)
             {
                 return NULL;
             }
@@ -353,7 +353,7 @@ namespace CefSharp
             auto requestWrapper = gcnew CefRequestWrapper(request);
             auto response = gcnew Response();
 
-            bool ret = handler->OnBeforeResourceLoad(_browserControl, requestWrapper, response);
+            bool ret = handler->OnBeforeResourceLoad(_browserControl, requestWrapper, response, frame->IsMain());
 
             if (response->Action == ResponseAction::Redirect)
             {
