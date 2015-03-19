@@ -6,7 +6,6 @@
 
 #include "Stdafx.h"
 #include "BrowserSettings.h"
-#include "MouseButtonType.h"
 #include "PaintElementType.h"
 #include "Internals/ClientAdapter.h"
 #include "Internals/CefDragDataWrapper.h"
@@ -325,7 +324,7 @@ namespace CefSharp
             }
         }
 
-        void OnMouseButton(int x, int y, MouseButtonType mouseButtonType, bool mouseUp, int clickCount, CefEventFlags modifiers)
+        void OnMouseButton(int x, int y, int mouseButtonType, bool mouseUp, int clickCount, CefEventFlags modifiers)
         {
             auto browser = _clientAdapter->GetCefBrowser();
 

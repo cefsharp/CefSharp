@@ -1225,24 +1225,10 @@ namespace CefSharp.Wpf
 
         private void OnMouseButton(MouseButtonEventArgs e)
         {
-            MouseButtonType mouseButtonType;
-
-            switch (e.ChangedButton)
+            // Cef currently only supports Left, Middle and Right button presses.
+            if (e.ChangedButton > MouseButton.Right)
             {
-                case MouseButton.Left:
-                    mouseButtonType = MouseButtonType.Left;
-                    break;
-
-                case MouseButton.Middle:
-                    mouseButtonType = MouseButtonType.Middle;
-                    break;
-
-                case MouseButton.Right:
-                    mouseButtonType = MouseButtonType.Right;
-                    break;
-
-                default:
-                    return;
+                return;
             }
 
             var modifiers = GetModifiers(e);
@@ -1251,7 +1237,7 @@ namespace CefSharp.Wpf
 
             if (managedCefBrowserAdapter != null)
             {
-                managedCefBrowserAdapter.OnMouseButton((int)point.X, (int)point.Y, mouseButtonType, mouseUp, e.ClickCount, modifiers);
+                managedCefBrowserAdapter.OnMouseButton((int)point.X, (int)point.Y, (int)e.ChangedButton, mouseUp, e.ClickCount, modifiers);
             }
         }
 
