@@ -109,7 +109,10 @@ namespace CefSharp
         void OnAfterBrowserCreated(int browserId)
         {
             _browserProcessServiceHost = gcnew BrowserProcessServiceHost(_javaScriptObjectRepository, Process::GetCurrentProcess()->Id, browserId);
-            _browserProcessServiceHost->Open();
+            if(_browserProcessServiceHost->State == CommunicationState::Created)
+            {
+                _browserProcessServiceHost->Open();
+            }
 
             if(_webBrowserInternal != nullptr)
             {
