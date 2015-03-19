@@ -27,7 +27,7 @@ namespace CefSharp
 
 		for each (JavascriptMethod^ method in Enumerable::OfType<JavascriptMethod^>(_object->Methods))
 		{
-			auto wrappedMethod = gcnew JavascriptMethodWrapper(method, _object->Id, _browserProcess);
+			auto wrappedMethod = gcnew JavascriptMethodWrapper(method, _object->Id, _browserProcess, CallbackRegistry);
 			wrappedMethod->V8Value = javascriptObject;
 			wrappedMethod->Bind();
 
