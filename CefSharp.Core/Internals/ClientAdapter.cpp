@@ -124,11 +124,7 @@ namespace CefSharp
 
         void ClientAdapter::OnAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& address)
         {
-            // If it's our toplevel browser frame then change the browser control's 
-            // address property.
-            if (browser->GetIdentifier() == _cefBrowser->GetIdentifier()
-                && frame->IsMain() 
-                && frame->GetParent() == nullptr)
+            if (!browser->IsPopup())
             {
                 _browserControl->SetAddress(StringUtils::ToClr(address));
             }
