@@ -124,7 +124,7 @@ namespace CefSharp
 
         void ClientAdapter::OnAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& address)
         {
-            if (frame->IsMain())
+            if (!browser->IsPopup())
             {
                 _browserControl->SetAddress(StringUtils::ToClr(address));
             }
