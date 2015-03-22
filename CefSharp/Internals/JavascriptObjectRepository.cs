@@ -187,26 +187,25 @@ namespace CefSharp.Internals
             if (dict != null)
             {
                 // in case of dictionary, add each key/value pair as read only property of obj                              
-                foreach (var key in dict.Keys)
+                foreach (DictionaryEntry dictionaryEntry in dict)
                 {
-                    var name = key.ToString();
-                    var value = dict[key];                    
+                    var propertyName = dictionaryEntry.Key.ToString();
+                    var propertyValue = dictionaryEntry.Value;                    
 
                     var jsProperty = new JavascriptProperty();
-
-                    jsProperty.ManagedName = name;
-                    jsProperty.JavascriptName = LowercaseFirst(name);
+                    jsProperty.ManagedName = propertyName;
+                    jsProperty.JavascriptName = LowercaseFirst(propertyName);
                     jsProperty.SetValue = (o, v) => { };
-                    jsProperty.GetValue = (o) => value;
+                    jsProperty.GetValue = (o) => propertyValue;
 
-                    jsProperty.IsComplexType = IsComplexType(value.GetType());
+                    jsProperty.IsComplexType = IsComplexType(propertyValue.GetType());
                     jsProperty.IsReadOnly = true;
 
                     if (jsProperty.IsComplexType)
                     {
                         var jsObject = CreateJavascriptObject();
-                        jsObject.Name = name;
-                        jsObject.JavascriptName = LowercaseFirst(name);
+                        jsObject.Name = propertyName;
+                        jsObject.JavascriptName = LowercaseFirst(propertyName);
                         jsObject.Value = jsProperty.GetValue(obj.Value);
                         jsProperty.JsObject = jsObject;
 
