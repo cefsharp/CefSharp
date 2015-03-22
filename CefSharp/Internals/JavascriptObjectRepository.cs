@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Collections;
 
 namespace CefSharp.Internals
 {
@@ -182,6 +183,30 @@ namespace CefSharp.Internals
                 return;
             }
 
+            var dict = obj.Value as IDictionary;
+            if (dict != null)
+            {
+                // in case of dictionary, add each key/value pair as read only property of obj                              
+                foreach (var key in dict.Keys)
+                {
+                    var strKey = key.ToString();
+                    var value = dict[key].ToString();
+
+                    var jsProperty = new JavascriptProperty();
+
+                    jsProperty.ManagedName = strKey;
+                    jsProperty.JavascriptName = LowercaseFirst(strKey);
+                    jsProperty.SetValue = (o, v) => { };
+                    jsProperty.GetValue = (o) => value;
+
+                    jsProperty.IsComplexType = false;
+                    jsProperty.IsReadOnly = true;
+                    obj.Properties.Add(jsProperty);
+                }
+
+                return;
+            }
+
             if (analyseMethods)
             {
                 foreach (var methodInfo in type.GetMethods(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
@@ -264,6 +289,11 @@ namespace CefSharp.Internals
             if (nullable)
             {
                 baseType = Nullable.GetUnderlyingType(type);
+            }
+
+            if (baseType != null && baseType.Name.StartsWith("System.Collections"))
+            {
+                return true;
             }
 
             if (baseType == null || baseType.Namespace.StartsWith("System"))

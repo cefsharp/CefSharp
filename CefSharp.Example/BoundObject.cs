@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace CefSharp.Example
-{
+{    
     public class BoundObject
     {
         public int MyProperty { get; set; }
@@ -10,6 +12,8 @@ namespace CefSharp.Example
         public string MyReadOnlyProperty { get; internal set; }
         public Type MyUnconvertibleProperty { get; set; }
         public SubBoundObject SubObject { get; set; }
+        // this will register a sub object (called subObjectUsingDict) - each key of the dictionary will appear as property of the object in javascript
+        public IDictionary SubObjectUsingDict { get; set; }
 
         public BoundObject()
         {
@@ -18,6 +22,11 @@ namespace CefSharp.Example
             IgnoredProperty = "I am an Ignored Property";
             MyUnconvertibleProperty = GetType();
             SubObject = new SubBoundObject();
+            SubObjectUsingDict = new Dictionary<string, string>
+            {
+                {"prop1", "value1"},
+                {"prop2", "value2"},
+            };
         }
 
         public void TestCallback(IJavascriptCallback javascriptCallback)
