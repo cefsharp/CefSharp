@@ -5,6 +5,8 @@
 #include "Stdafx.h"
 #include "CefRequestWrapper.h"
 
+using namespace System::Text;
+
 namespace CefSharp
 {
     namespace Internals
@@ -51,6 +53,26 @@ namespace CefSharp
 
                         el->GetBytes(count, bytes);
 
+                        // Attempt to honour the charset specified by the request's Content-Type header.
+                        String^ charset = this->CharSet;
+                        if (charset != nullptr)
+                        {
+                            Encoding^ encoding;
+                            try
+                            {
+                                encoding = Encoding::GetEncoding(charset);
+                            }
+                            catch (ArgumentException^)
+                            {
+                                encoding = nullptr;
+                            }
+                            if (encoding != nullptr)
+                            {
+                                return gcnew String(bytes, 0, count, encoding);
+                            }
+                        }
+
+                        // Revert to using the system's default code page.
                         return gcnew String(bytes, 0, count);
                     }
                     else if (el->GetType() == PDE_TYPE_FILE)
@@ -100,6 +122,64 @@ namespace CefSharp
         TransitionType CefRequestWrapper::TransitionType::get()
         {
             return (CefSharp::TransitionType) _wrappedRequest->GetTransitionType();
+        }
+
+        /// <summary>
+        /// Extracts the charset argument from the content-type header.
+        /// The charset is optional, so a nullptr may be returned.
+        /// For example, given a Content-Type header "application/json; charset=UTF-8",
+        /// this function will return "UTF-8".
+        /// </summary>
+        String^ CefRequestWrapper::CharSet::get()
+        {
+            // Extract the Content-Type header value.
+            auto headers = this->Headers;
+            
+            String^ contentType = nullptr;
+            for each(String^ key in headers)
+            {
+                if (key->Equals("content-type", System::StringComparison::InvariantCultureIgnoreCase))
+                {
+                    for each(String^ element in headers->GetValues(key))
+                    {
+                        contentType = element;
+                        break;
+                    }
+                    break;
+                }
+            }
+
+            if (contentType == nullptr)
+            {
+                return nullptr;
+            }
+
+            // Look for charset after the mime-type.
+            const int semiColonIndex = contentType->IndexOf(";");
+            if (semiColonIndex == -1)
+            {
+                return nullptr;
+            }
+
+            String^ charsetArgument = contentType->Substring(semiColonIndex + 1)->Trim();
+            const int equalsIndex = charsetArgument->IndexOf("=");
+            if (equalsIndex == -1)
+            {
+                return nullptr;
+            }
+
+            String^ argumentName = charsetArgument->Substring(0, equalsIndex)->Trim();
+            if (!argumentName->Equals("charset", System::StringComparison::InvariantCultureIgnoreCase))
+            {
+                return nullptr;
+            }
+
+            String^ charset = charsetArgument->Substring(equalsIndex + 1)->Trim();
+            // Remove redundant characters (e.g. "UTF-8"; -> UTF-8)
+            charset = charset->TrimStart(' ', '"');
+            charset = charset->TrimEnd(' ', '"', ';');
+
+            return charset;
         }
     }
 }

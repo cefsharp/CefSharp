@@ -7,7 +7,7 @@ using System;
 using System.Windows.Forms;
 namespace CefSharp.WinForms.Internals
 {
-    internal class DefaultFocusHandler : IFocusHandler
+    public class DefaultFocusHandler : IFocusHandler
     {
         private readonly ChromiumWebBrowser browser;
 
@@ -16,6 +16,11 @@ namespace CefSharp.WinForms.Internals
             this.browser = browser;
         }
 
+        /// <remarks>
+        /// Try to avoid needing to override this logic in a subclass. The implementation in 
+        /// DefaultFocusHandler relies on very detailed behavior of how WinForms and 
+        /// Windows interact during window activation.
+        /// </remarks>
         public virtual void OnGotFocus()
         {
             // During application activation, CEF receives a WM_SETFOCUS
