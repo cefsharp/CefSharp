@@ -2,9 +2,7 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using CefSharp.Internals;
 using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -13,18 +11,18 @@ namespace CefSharp.WinForms.Example.Minimal
     public partial class TabulationDemoForm : Form
     {
         private readonly ChromiumWebBrowser chromiumWebBrowser;
-        private Color focusColor = Color.Yellow;
-        private Color nonFocusColor = Color.White;
+        private readonly Color focusColor = Color.Yellow;
+        private readonly Color nonFocusColor = Color.White;
 
         public TabulationDemoForm()
         {
             InitializeComponent();
             chromiumWebBrowser = new ChromiumWebBrowser(txtURL.Text) { Dock = DockStyle.Fill };
             var userControl = new UserControl { Dock = DockStyle.Fill };
-            userControl.Enter += userControl_Enter;
-            userControl.Leave += userControl_Leave;
+            userControl.Enter += UserControlEnter;
+            userControl.Leave += UserControlLeave;
             userControl.Controls.Add(chromiumWebBrowser);
-            txtURL.GotFocus += TxtURLGotFocus;
+            txtURL.GotFocus += TxtUrlGotFocus;
             txtURL.LostFocus += TxtUrlLostFocus;
             grpBrowser.Controls.Add(userControl);
         }
@@ -36,7 +34,7 @@ namespace CefSharp.WinForms.Example.Minimal
             //UpdateUrlColor(nonFocusColor);
         }
 
-        void TxtURLGotFocus(object sender, EventArgs e)
+        private void TxtUrlGotFocus(object sender, EventArgs e)
         {
             // Ensure the control turns yellow on form
             // activation (since Enter events don't fire then)
@@ -51,12 +49,12 @@ namespace CefSharp.WinForms.Example.Minimal
             }
         }
 
-        void userControl_Leave(object sender, EventArgs e)
+        private void UserControlLeave(object sender, EventArgs e)
         {
             txtDummy.Text = "UserControl OnLeave";
         }
 
-        void userControl_Enter(object sender, EventArgs e)
+        private void UserControlEnter(object sender, EventArgs e)
         {
             txtDummy.Text = "UserControl OnEnter";
         }
@@ -74,16 +72,6 @@ namespace CefSharp.WinForms.Example.Minimal
         private void TxtUrlEnter(object sender, EventArgs e)
         {
             UpdateUrlColor(focusColor);
-        }
-
-        protected override void OnActivated(EventArgs e)
-        {
-            base.OnActivated(e);
-        }
-
-        protected override void OnDeactivate(EventArgs e)
-        {
-            base.OnDeactivate(e);
         }
     }
 }

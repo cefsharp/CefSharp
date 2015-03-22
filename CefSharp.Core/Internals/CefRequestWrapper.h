@@ -29,6 +29,9 @@ namespace CefSharp
                 _wrappedRequest = nullptr;
             }
 
+        protected:
+            virtual property String^ CharSet { String^ get(); }
+
         public:
             virtual property String^ Url { String^ get(); void set(String^ url); }
             virtual property String^ Method { String^ get(); }

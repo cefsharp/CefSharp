@@ -255,7 +255,6 @@
     <ClInclude Include="Internals\TypeConversion.h" />
     <ClInclude Include="NativeMethodWrapper.h" />
     <ClInclude Include="PaintElementType.h" />
-    <ClInclude Include="MouseButtonType.h" />
     <ClInclude Include="ManagedCefBrowserAdapter.h" />
     <ClInclude Include="CefSettings.h" />
     <ClInclude Include="SchemeHandlerFactoryWrapper.h" />

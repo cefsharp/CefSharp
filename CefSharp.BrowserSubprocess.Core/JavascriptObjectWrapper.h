@@ -30,7 +30,7 @@ namespace CefSharp
 
     internal:
         MCefRefPtr<CefV8Value> V8Value;
-        
+        JavascriptCallbackRegistry^ CallbackRegistry;
 
     public:
         JavascriptObjectWrapper(JavascriptObject^ object, IBrowserProcess^ browserProcess)
@@ -45,6 +45,7 @@ namespace CefSharp
         ~JavascriptObjectWrapper()
         {
             V8Value = nullptr;
+            CallbackRegistry = nullptr;
             _jsPropertyHandler->Cleanup();
             _jsPropertyHandler = nullptr;
 

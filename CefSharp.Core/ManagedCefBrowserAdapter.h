@@ -6,7 +6,6 @@
 
 #include "Stdafx.h"
 #include "BrowserSettings.h"
-#include "MouseButtonType.h"
 #include "PaintElementType.h"
 #include "Internals/ClientAdapter.h"
 #include "Internals/CefDragDataWrapper.h"
@@ -110,7 +109,10 @@ namespace CefSharp
         void OnAfterBrowserCreated(int browserId)
         {
             _browserProcessServiceHost = gcnew BrowserProcessServiceHost(_javaScriptObjectRepository, Process::GetCurrentProcess()->Id, browserId);
-            _browserProcessServiceHost->Open();
+            if(_browserProcessServiceHost->State == CommunicationState::Created)
+            {
+                _browserProcessServiceHost->Open();
+            }
 
             if(_webBrowserInternal != nullptr)
             {
@@ -325,7 +327,7 @@ namespace CefSharp
             }
         }
 
-        void OnMouseButton(int x, int y, MouseButtonType mouseButtonType, bool mouseUp, int clickCount, CefEventFlags modifiers)
+        void OnMouseButton(int x, int y, int mouseButtonType, bool mouseUp, int clickCount, CefEventFlags modifiers)
         {
             auto browser = _clientAdapter->GetCefBrowser();
 

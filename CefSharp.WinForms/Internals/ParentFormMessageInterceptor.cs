@@ -2,9 +2,7 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using CefSharp.Internals;
 using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -105,7 +103,7 @@ namespace CefSharp.WinForms.Internals
             // Listen for operating system messages 
             switch (m.Msg)
             {
-            case NativeMethods.WM_ACTIVATE:
+                case NativeMethods.WM_ACTIVATE:
                 {
                     // Intercept (de)activate messages for our form so that we can
                     // ensure that we play nicely with WinForms .ActiveControl
