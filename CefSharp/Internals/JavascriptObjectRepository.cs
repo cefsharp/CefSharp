@@ -291,7 +291,7 @@ namespace CefSharp.Internals
                 baseType = Nullable.GetUnderlyingType(type);
             }
 
-            if (baseType != null && baseType.Name.StartsWith("System.Collections"))
+            if (baseType != null && baseType.Namespace.StartsWith("System.Collections"))
             {
                 return true;
             }
