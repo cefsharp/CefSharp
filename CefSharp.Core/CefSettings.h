@@ -16,8 +16,8 @@ namespace CefSharp
     public ref class CefSettings
     {
     private:
-        List<CefCustomScheme^>^ cefCustomSchemes;
-        IDictionary<String^, String^>^ cefCommandLineArgs;
+        List<CefCustomScheme^>^ _cefCustomSchemes;
+        IDictionary<String^, String^>^ _cefCommandLineArgs;
 
     internal:
         ::CefSettings* _cefSettings;
@@ -63,8 +63,8 @@ namespace CefSharp
         {
             _cefSettings->multi_threaded_message_loop = true;
             BrowserSubprocessPath = "CefSharp.BrowserSubprocess.exe";
-            cefCustomSchemes = gcnew List<CefCustomScheme^>();
-            cefCommandLineArgs = gcnew Dictionary<String^, String^>();
+            _cefCustomSchemes = gcnew List<CefCustomScheme^>();
+            _cefCommandLineArgs = gcnew Dictionary<String^, String^>();
         }
 
         !CefSettings() { delete _cefSettings; }
@@ -72,12 +72,12 @@ namespace CefSharp
 
         virtual property IEnumerable<CefCustomScheme^>^ CefCustomSchemes
         {
-            IEnumerable<CefCustomScheme^>^ get() { return cefCustomSchemes; }
+            IEnumerable<CefCustomScheme^>^ get() { return _cefCustomSchemes; }
         }
 
         virtual property IDictionary<String^, String^>^ CefCommandLineArgs
         {
-            IDictionary<String^, String^>^ get() { return cefCommandLineArgs; }
+            IDictionary<String^, String^>^ get() { return _cefCommandLineArgs; }
         }
 
         virtual property bool MultiThreadedMessageLoop
@@ -157,7 +157,7 @@ namespace CefSharp
         /// <param name="cefCustomScheme">The CefCustomScheme which provides the details about the scheme.</param>
         void RegisterScheme(CefCustomScheme^ cefCustomScheme)
         {
-            cefCustomSchemes->Add(cefCustomScheme);
+            _cefCustomSchemes->Add(cefCustomScheme);
         }
     };
 }
