@@ -22,42 +22,6 @@ namespace CefSharp
     internal:
         ::CefSettings* _cefSettings;
 
-        cef_log_severity_t SeverityToNative(CefSharp::LogSeverity severity)
-        {
-            switch (severity)
-            {
-            case CefSharp::LogSeverity::Verbose:
-                return LOGSEVERITY_VERBOSE;
-            case CefSharp::LogSeverity::Info:
-                return LOGSEVERITY_INFO;
-            case CefSharp::LogSeverity::Warning:
-                return LOGSEVERITY_WARNING;
-            case CefSharp::LogSeverity::Error:
-                return LOGSEVERITY_ERROR;
-            case CefSharp::LogSeverity::Disable:
-            default:
-                return LOGSEVERITY_DISABLE;
-            }
-        }
-
-        CefSharp::LogSeverity SeverityToManaged(cef_log_severity_t severity)
-        {
-            switch (severity)
-            {
-            case LOGSEVERITY_VERBOSE:
-                return CefSharp::LogSeverity::Verbose;
-            case LOGSEVERITY_INFO:
-                return CefSharp::LogSeverity::Info;
-            case LOGSEVERITY_WARNING:
-                return CefSharp::LogSeverity::Warning;
-            case LOGSEVERITY_ERROR:
-                return CefSharp::LogSeverity::Error;
-            case LOGSEVERITY_DISABLE:
-            default:
-                return CefSharp::LogSeverity::Disable;
-            }
-        }
-
     public:
         CefSettings() : _cefSettings(new ::CefSettings())
         {
@@ -123,8 +87,8 @@ namespace CefSharp
 
         virtual property CefSharp::LogSeverity LogSeverity
         {
-            CefSharp::LogSeverity get() { return SeverityToManaged(_cefSettings->log_severity); }
-            void set(CefSharp::LogSeverity value) { _cefSettings->log_severity = SeverityToNative(value); }
+            CefSharp::LogSeverity get() { return (CefSharp::LogSeverity)_cefSettings->log_severity; }
+            void set(CefSharp::LogSeverity value) { _cefSettings->log_severity = (cef_log_severity_t)value; }
         }
 
         virtual property bool PackLoadingDisabled
