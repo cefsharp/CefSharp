@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Linq;
 
@@ -32,8 +32,23 @@ namespace CefSharp.Example
             //settings.CefCommandLineArgs.Add("disable-gpu", "1");
             //settings.CefCommandLineArgs.Add("disable-gpu-vsync", "1");
             //settings.CefCommandLineArgs.Add("enable-media-stream", "1"); //Enable WebRTC
-            //settings.CefCommandLineArgs.Add("no-proxy-server", "1"); //Don't use a proxy server, always make direct connections. Overrides any other proxy server flags that are passed.
-            
+            var proxy = ProxyConfig.GetProxyInformation();
+            switch (proxy.AccessType)
+            {
+                case InternetOpenType.Direct:
+                    //Don't use a proxy server, always make direct connections. Overrides any other proxy server flags that are passed.
+                    settings.CefCommandLineArgs.Add("no-proxy-server", "1");
+                    break;
+                case InternetOpenType.Proxy:
+                    settings.CefCommandLineArgs.Add("proxy-server", proxy.ProxyAddress);
+                    break;
+                case InternetOpenType.Preconfig:
+                    settings.CefCommandLineArgs.Add("proxy-auto-detect", "1");
+                    break;
+            }
+
+
+
             //Disables the DirectWrite font rendering system on windows.
             //Possibly useful when experiencing blury fonts.
             //settings.CefCommandLineArgs.Add("disable-direct-write", "1");
