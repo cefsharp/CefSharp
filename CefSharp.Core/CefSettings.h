@@ -115,6 +115,12 @@ namespace CefSharp
             void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->user_agent, value); }
         }
 
+        virtual property bool WindowlessRenderingEnabled
+        {
+            bool get() { return _cefSettings->windowless_rendering_enabled == 1; }
+            void set(bool value) { _cefSettings->windowless_rendering_enabled = value; }
+        }
+
         /// <summary>
         /// Registers a custom scheme using the provided settings.
         /// </summary>
