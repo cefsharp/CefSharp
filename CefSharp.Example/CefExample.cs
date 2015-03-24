@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq;
 
 namespace CefSharp.Example
 {
@@ -15,6 +14,11 @@ namespace CefSharp.Example
 
         public static void Init()
         {
+            if(!DependencyChecker.AreAllDependenciesPresent())
+            {
+                throw new Exception("Missing Dependencies");
+            }
+
             // Set Google API keys, used for Geolocation requests sans GPS.  See http://www.chromium.org/developers/how-tos/api-keys
             // Environment.SetEnvironmentVariable("GOOGLE_API_KEY", "");
             // Environment.SetEnvironmentVariable("GOOGLE_DEFAULT_CLIENT_ID", "");

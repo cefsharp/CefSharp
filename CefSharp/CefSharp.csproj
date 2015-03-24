@@ -91,6 +91,7 @@
     <Compile Include="CefDirtyRect.cs" />
     <Compile Include="CefFileDialogMode.cs" />
     <Compile Include="DefaultResourceHandlerFactory.cs" />
+    <Compile Include="DependencyChecker.cs" />
     <Compile Include="IJavascriptCallback.cs" />
     <Compile Include="Internals\JavascriptCallbackProxy.cs" />
     <Compile Include="Internals\JavascriptCallback.cs" />
