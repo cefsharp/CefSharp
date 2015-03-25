@@ -74,8 +74,9 @@ namespace CefSharp
         /// <param name="path">path to check for dependencies</param>
         /// <param name="localePackFile">The locale pack file e.g. locales\en-US.pak</param>
         /// <param name="resourcesDirPath"></param>
+        /// <param name="packLoadingDisabled">Is loading of pack files disabled?</param>
         /// <returns>List of missing dependencies, if all present an empty List will be returned</returns>
-        public static List<string> CheckDependencies(bool checkOptional, string path, string localePackFile, string resourcesDirPath)
+        public static List<string> CheckDependencies(bool checkOptional, string path, string localePackFile, string resourcesDirPath, bool packLoadingDisabled)
         {
             var missingDependencies = new List<string>();
 
@@ -90,14 +91,17 @@ namespace CefSharp
                 }
             }
 
-            //Loop through Cef Resources and add to list if not found
-            foreach (var cefResource in CefResources)
+            if (!packLoadingDisabled)
             {
-                var resourcePath = Path.Combine(resourcesDirPath, cefResource);
-
-                if (!File.Exists(resourcePath))
+                //Loop through Cef Resources and add to list if not found
+                foreach (var cefResource in CefResources)
                 {
-                    missingDependencies.Add(cefResource);
+                    var resourcePath = Path.Combine(resourcesDirPath, cefResource);
+
+                    if (!File.Exists(resourcePath))
+                    {
+                        missingDependencies.Add(cefResource);
+                    }
                 }
             }
 
@@ -145,8 +149,9 @@ namespace CefSharp
         /// <param name="locale">The locale, if empty then en-US will be used.</param>
         /// <param name="localesDirPath">The path to the locales directory, if empty locales\ will be used.</param>
         /// <param name="resourcesDirPath">The path to the resources directory, if empty the Executing Assembly path is used.</param>
+        /// <param name="packLoadingDisabled">Is loading of pack files disabled?</param>
         /// <exception cref="Exception">Throw when not all dependencies are present</exception>
-        public static void AssetAllDependenciesPresent(string locale, string localesDirPath, string resourcesDirPath)
+        public static void AssetAllDependenciesPresent(string locale, string localesDirPath, string resourcesDirPath, bool packLoadingDisabled)
         {
             var executingAssembly = Assembly.GetExecutingAssembly();
 
@@ -167,7 +172,7 @@ namespace CefSharp
                 resourcesDirPath = path;
             }
 
-            var missingDependencies = CheckDependencies(true, path, localesDirPath + locale + ".pak", resourcesDirPath);
+            var missingDependencies = CheckDependencies(true, path, localesDirPath + locale + ".pak", resourcesDirPath, packLoadingDisabled);
 
             if (missingDependencies.Count > 0)
             {

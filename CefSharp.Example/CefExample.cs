@@ -51,7 +51,7 @@ namespace CefSharp.Example
                 SchemeHandlerFactory = new CefSharpSchemeHandlerFactory()
             });
 
-            DependencyChecker.AssetAllDependenciesPresent(settings.Locale, settings.LocalesDirPath, settings.ResourcesDirPath);
+            DependencyChecker.AssetAllDependenciesPresent(settings.Locale, settings.LocalesDirPath, settings.ResourcesDirPath, settings.PackLoadingDisabled);
 
             if (!Cef.Initialize(settings))
             {
