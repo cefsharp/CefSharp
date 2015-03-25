@@ -47,7 +47,7 @@ namespace CefSharp
             "pdf.dll",
             //FFmpeg audio and video support
             // Note: Without this component HTML5 audio and video will not function.
-            "ffmpegsumo.dll",
+            "ffmpegsumo.dll"
         };
 
         /// <summary>
@@ -65,10 +65,11 @@ namespace CefSharp
         /// CheckDependencies iterates through the list of Cef and CefSharp dependencines
         /// relative to the path provided and returns a list of missing ones
         /// </summary>
+        /// <param name="checkOptional">check to see if optional dependencies are present</param>
         /// <param name="path">path to check for dependencies</param>
         /// <param name="localePackFile">The locale pack file e.g. locales\en-US.pak</param>
         /// <returns>List of missing dependencies, if all present an empty List will be returned</returns>
-        public static List<string> CheckDependencies(string path, string localePackFile)
+        public static List<string> CheckDependencies(bool checkOptional, string path, string localePackFile)
         {
             var missingDependencies = new List<string>();
 
@@ -83,14 +84,17 @@ namespace CefSharp
                 }
             }
 
-            //Loop through Cef Optional dependencies and add to list if not found
-            foreach (var cefDependency in CefOptionalDependencies)
+            if (checkOptional)
             {
-                var dependencyPath = Path.Combine(path, cefDependency);
-
-                if (!File.Exists(dependencyPath))
+                //Loop through Cef Optional dependencies and add to list if not found
+                foreach (var cefDependency in CefOptionalDependencies)
                 {
-                    missingDependencies.Add(cefDependency);
+                    var dependencyPath = Path.Combine(path, cefDependency);
+
+                    if (!File.Exists(dependencyPath))
+                    {
+                        missingDependencies.Add(cefDependency);
+                    }
                 }
             }
 
@@ -129,7 +133,7 @@ namespace CefSharp
 
             var path = Path.GetDirectoryName(executingAssembly.Location);
 
-            var missingDependencies = CheckDependencies(path, localePackPath);
+            var missingDependencies = CheckDependencies(true, path, localePackPath);
 
             if (missingDependencies.Count > 0)
             {
