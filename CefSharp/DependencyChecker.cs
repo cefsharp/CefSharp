@@ -11,10 +11,13 @@ using System.Text;
 namespace CefSharp
 {
     /// <summary>
-    /// TODO: Expand to support optional dependencies
+    /// DependencyChecker provides a known list of Cef/CefSharp dependencies and 
+    /// provides helper methods to check for their existance.
     /// </summary>
     public static class DependencyChecker
     {
+        public const string LocalesPackFile = @"locales\en-US.pak";
+
         /// <summary>
         /// List of Cef Dependencies
         /// </summary>
@@ -72,11 +75,11 @@ namespace CefSharp
         /// </summary>
         /// <param name="checkOptional">check to see if optional dependencies are present</param>
         /// <param name="path">path to check for dependencies</param>
-        /// <param name="localePackFile">The locale pack file e.g. locales\en-US.pak</param>
         /// <param name="resourcesDirPath"></param>
         /// <param name="packLoadingDisabled">Is loading of pack files disabled?</param>
+        /// <param name="localePackFile">The locale pack file e.g. <see cref="LocalesPackFile"/> </param>
         /// <returns>List of missing dependencies, if all present an empty List will be returned</returns>
-        public static List<string> CheckDependencies(bool checkOptional, string path, string localePackFile, string resourcesDirPath, bool packLoadingDisabled)
+        public static List<string> CheckDependencies(bool checkOptional, string path, string resourcesDirPath, bool packLoadingDisabled, string localePackFile = LocalesPackFile)
         {
             var missingDependencies = new List<string>();
 
@@ -172,7 +175,7 @@ namespace CefSharp
                 resourcesDirPath = path;
             }
 
-            var missingDependencies = CheckDependencies(true, path, localesDirPath + locale + ".pak", resourcesDirPath, packLoadingDisabled);
+            var missingDependencies = CheckDependencies(true, path, resourcesDirPath, packLoadingDisabled, localesDirPath + locale + ".pak");
 
             if (missingDependencies.Count > 0)
             {
