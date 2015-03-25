@@ -22,18 +22,32 @@ namespace CefSharp
         /// </summary>
         public static string[] CefDependencies =
         {
+            // CEF core library
             "libcef.dll",
-            "libEGL.dll",
-            "libGLESv2.dll",
-            "pdf.dll",
+            // Unicode support
             "icudtl.dat",
-            "ffmpegsumo.dll",
-            "d3dcompiler_43.dll",
-            "d3dcompiler_47.dll",
+            // Pack Files
+            // Note: Contains WebKit image and inspector resources.
             "devtools_resources.pak",
             "cef.pak",
             "cef_100_percent.pak",
             "cef_200_percent.pak"
+        };
+
+        public static string[] CefOptionalDependencies =
+        {
+            // Angle and Direct3D support
+            // Note: Without these components HTML5 accelerated content like 2D canvas, 3D CSS and WebGL will not function.
+            "libEGL.dll",
+            "libGLESv2.dll",
+            "d3dcompiler_43.dll",
+            "d3dcompiler_47.dll",
+            // PDF support
+            // Note: Without this component printing will not function.
+            "pdf.dll",
+            //FFmpeg audio and video support
+            // Note: Without this component HTML5 audio and video will not function.
+            "ffmpegsumo.dll",
         };
 
         /// <summary>
@@ -60,6 +74,17 @@ namespace CefSharp
 
             //Loop through Cef dependencies and add to list if not found
             foreach (var cefDependency in CefDependencies)
+            {
+                var dependencyPath = Path.Combine(path, cefDependency);
+
+                if (!File.Exists(dependencyPath))
+                {
+                    missingDependencies.Add(cefDependency);
+                }
+            }
+
+            //Loop through Cef Optional dependencies and add to list if not found
+            foreach (var cefDependency in CefOptionalDependencies)
             {
                 var dependencyPath = Path.Combine(path, cefDependency);
 
