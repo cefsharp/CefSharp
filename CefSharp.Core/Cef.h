@@ -157,7 +157,7 @@ namespace CefSharp
             {
                 if(performDependencyCheck)
                 {
-                    DependencyChecker::AssetAllDependenciesPresent(cefSettings->Locale, cefSettings->LocalesDirPath, cefSettings->ResourcesDirPath, cefSettings->PackLoadingDisabled);
+                    DependencyChecker::AssertAllDependenciesPresent(cefSettings->Locale, cefSettings->LocalesDirPath, cefSettings->ResourcesDirPath, cefSettings->PackLoadingDisabled);
                 }
 
                 CefMainArgs main_args;
