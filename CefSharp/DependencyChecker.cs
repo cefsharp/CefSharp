@@ -46,14 +46,15 @@ namespace CefSharp
         /// <summary>
         /// Check Dependencies relative to the executing assembly
         /// </summary>
+        /// <param name="localePackFile">The local pack file, if empty then locales\en-US.pak will be used</param>
         /// <returns>List of missing dependencies, if all present an empty List will be returned</returns>
-        public static List<string> CheckDependencies()
+        public static List<string> CheckDependencies(string localePackFile = @"locales\en-US.pak")
         {
             var executingAssembly = Assembly.GetExecutingAssembly();
 
             var path = Path.GetDirectoryName(executingAssembly.Location);
 
-            return CheckDependencies(path);
+            return CheckDependencies(path, localePackFile);
         }
 
         /// <summary>
@@ -61,9 +62,9 @@ namespace CefSharp
         /// relative to the path provided and returns a list of missing ones
         /// </summary>
         /// <param name="path">path to check for dependencies</param>
-        /// <param name="localePackFile">The local pack file</param>
+        /// <param name="localePackFile">The local pack file e.g. en-US</param>
         /// <returns>List of missing dependencies, if all present an empty List will be returned</returns>
-        public static List<string> CheckDependencies(string path, string localePackFile = @"locales\en-US.pak")
+        public static List<string> CheckDependencies(string path, string localePackFile)
         {
             var missingDependencies = new List<string>();
 
