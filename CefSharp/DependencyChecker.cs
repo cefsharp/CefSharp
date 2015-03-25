@@ -2,9 +2,11 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Text;
 
 namespace CefSharp
 {
@@ -44,20 +46,6 @@ namespace CefSharp
             "CefSharp.BrowserSubprocess.Core.dll",
             "CefSharp.BrowserSubprocess.exe"
         };
-
-        /// <summary>
-        /// Check Dependencies relative to the executing assembly
-        /// </summary>
-        /// <param name="localePackFile">The locale pack file, if empty then locales\en-US.pak will be used</param>
-        /// <returns>List of missing dependencies, if all present an empty List will be returned</returns>
-        public static List<string> CheckDependencies(string localePackFile = LocalPackPath)
-        {
-            var executingAssembly = Assembly.GetExecutingAssembly();
-
-            var path = Path.GetDirectoryName(executingAssembly.Location);
-
-            return CheckDependencies(path, localePackFile);
-        }
 
         /// <summary>
         /// CheckDependencies iterates through the list of Cef and CefSharp dependencines
@@ -105,15 +93,33 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Shortcut method that calls <see cref="CheckDependencies(string)"/>
+        /// Checks if all Cef and CefSharp dependencies were found relative to the Executing Assembly.
+        /// Shortcut method that calls <see cref="CheckDependencies"/>, throws an Exception if not files are missing.
         /// </summary>
         /// <param name="localePackPath">The locale pack file, if empty then locales\en-US.pak will be used</param>
-        /// <returns>Returns true of missing dependency count is 0</returns>
-        public static bool AreAllDependenciesPresent(string localePackPath = LocalPackPath)
+        /// <exception cref="Exception">Throw when not all dependencies are present</exception>
+        public static void AssetAllDependenciesPresent(string localePackPath = LocalPackPath)
         {
-            var missingDependencies = CheckDependencies(localePackPath);
+            var executingAssembly = Assembly.GetExecutingAssembly();
 
-            return missingDependencies.Count == 0;
+            var path = Path.GetDirectoryName(executingAssembly.Location);
+
+            var missingDependencies = CheckDependencies(path, localePackPath);
+
+            if (missingDependencies.Count > 0)
+            {
+                var builder = new StringBuilder();
+                builder.AppendLine("Unable to locate required Cef/CefSharp dependencies:");
+
+                foreach (var missingDependency in missingDependencies)
+                {
+                    builder.AppendLine("Missing:" + missingDependency);
+                }
+
+                builder.AppendLine("Executing Assembly Path:" + path);
+
+                throw new Exception(builder.ToString());
+            }
         }
     }
 }

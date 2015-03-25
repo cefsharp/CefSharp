@@ -57,10 +57,7 @@ namespace CefSharp.Example
 
             localPackPath += locale + ".pak";
 
-            if (!DependencyChecker.AreAllDependenciesPresent(localPackPath))
-            {
-                throw new Exception("Missing Dependencies");
-            }
+            DependencyChecker.AssetAllDependenciesPresent(localPackPath);
 
             if (!Cef.Initialize(settings))
             {
