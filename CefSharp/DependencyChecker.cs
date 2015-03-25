@@ -13,6 +13,8 @@ namespace CefSharp
     /// </summary>
     public static class DependencyChecker
     {
+        private const string LocalPackPath = @"locales\en-US.pak";
+
         /// <summary>
         /// List of Cef Dependencies - currently contains all possabilties
         /// </summary>
@@ -46,9 +48,9 @@ namespace CefSharp
         /// <summary>
         /// Check Dependencies relative to the executing assembly
         /// </summary>
-        /// <param name="localePackFile">The local pack file, if empty then locales\en-US.pak will be used</param>
+        /// <param name="localePackFile">The locale pack file, if empty then locales\en-US.pak will be used</param>
         /// <returns>List of missing dependencies, if all present an empty List will be returned</returns>
-        public static List<string> CheckDependencies(string localePackFile = @"locales\en-US.pak")
+        public static List<string> CheckDependencies(string localePackFile = LocalPackPath)
         {
             var executingAssembly = Assembly.GetExecutingAssembly();
 
@@ -62,7 +64,7 @@ namespace CefSharp
         /// relative to the path provided and returns a list of missing ones
         /// </summary>
         /// <param name="path">path to check for dependencies</param>
-        /// <param name="localePackFile">The local pack file e.g. en-US</param>
+        /// <param name="localePackFile">The locale pack file e.g. locales\en-US.pak</param>
         /// <returns>List of missing dependencies, if all present an empty List will be returned</returns>
         public static List<string> CheckDependencies(string path, string localePackFile)
         {
@@ -105,10 +107,11 @@ namespace CefSharp
         /// <summary>
         /// Shortcut method that calls <see cref="CheckDependencies(string)"/>
         /// </summary>
+        /// <param name="localePackPath">The locale pack file, if empty then locales\en-US.pak will be used</param>
         /// <returns>Returns true of missing dependency count is 0</returns>
-        public static bool AreAllDependenciesPresent()
+        public static bool AreAllDependenciesPresent(string localePackPath = LocalPackPath)
         {
-            var missingDependencies = CheckDependencies();
+            var missingDependencies = CheckDependencies(localePackPath);
 
             return missingDependencies.Count == 0;
         }

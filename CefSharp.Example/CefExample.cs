@@ -14,11 +14,6 @@ namespace CefSharp.Example
 
         public static void Init()
         {
-            if(!DependencyChecker.AreAllDependenciesPresent())
-            {
-                throw new Exception("Missing Dependencies");
-            }
-
             // Set Google API keys, used for Geolocation requests sans GPS.  See http://www.chromium.org/developers/how-tos/api-keys
             // Environment.SetEnvironmentVariable("GOOGLE_API_KEY", "");
             // Environment.SetEnvironmentVariable("GOOGLE_DEFAULT_CLIENT_ID", "");
@@ -55,6 +50,17 @@ namespace CefSharp.Example
                 SchemeName = CefSharpSchemeHandlerFactory.SchemeName,
                 SchemeHandlerFactory = new CefSharpSchemeHandlerFactory()
             });
+
+            var locale = string.IsNullOrEmpty(settings.Locale) ? "en-US" : settings.Locale;
+
+            var localPackPath = string.IsNullOrEmpty(settings.LocalesDirPath) ? @"locales\" : settings.LocalesDirPath;
+
+            localPackPath += locale + ".pak";
+
+            if (!DependencyChecker.AreAllDependenciesPresent(localPackPath))
+            {
+                throw new Exception("Missing Dependencies");
+            }
 
             if (!Cef.Initialize(settings))
             {
