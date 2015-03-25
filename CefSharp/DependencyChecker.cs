@@ -158,7 +158,7 @@ namespace CefSharp
         /// <param name="resourcesDirPath">The path to the resources directory, if empty the Executing Assembly path is used.</param>
         /// <param name="packLoadingDisabled">Is loading of pack files disabled?</param>
         /// <exception cref="Exception">Throw when not all dependencies are present</exception>
-        public static void AssetAllDependenciesPresent(string locale, string localesDirPath, string resourcesDirPath, bool packLoadingDisabled)
+        public static void AssertAllDependenciesPresent(string locale, string localesDirPath, string resourcesDirPath, bool packLoadingDisabled)
         {
             var executingAssembly = Assembly.GetExecutingAssembly();
 
