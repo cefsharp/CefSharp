@@ -15,17 +15,22 @@ namespace CefSharp
     /// </summary>
     public static class DependencyChecker
     {
-        private const string LocalPackPath = @"locales\en-US.pak";
-
         /// <summary>
-        /// List of Cef Dependencies - currently contains all possabilties
+        /// List of Cef Dependencies
         /// </summary>
         public static string[] CefDependencies =
         {
             // CEF core library
             "libcef.dll",
             // Unicode support
-            "icudtl.dat",
+            "icudtl.dat"
+        };
+
+        /// <summary>
+        /// List of Cef Resources (pack files)
+        /// </summary>
+        public static string[] CefResources =
+        {
             // Pack Files
             // Note: Contains WebKit image and inspector resources.
             "devtools_resources.pak",
@@ -68,8 +73,9 @@ namespace CefSharp
         /// <param name="checkOptional">check to see if optional dependencies are present</param>
         /// <param name="path">path to check for dependencies</param>
         /// <param name="localePackFile">The locale pack file e.g. locales\en-US.pak</param>
+        /// <param name="resourcesDirPath"></param>
         /// <returns>List of missing dependencies, if all present an empty List will be returned</returns>
-        public static List<string> CheckDependencies(bool checkOptional, string path, string localePackFile)
+        public static List<string> CheckDependencies(bool checkOptional, string path, string localePackFile, string resourcesDirPath)
         {
             var missingDependencies = new List<string>();
 
@@ -81,6 +87,17 @@ namespace CefSharp
                 if (!File.Exists(dependencyPath))
                 {
                     missingDependencies.Add(cefDependency);
+                }
+            }
+
+            //Loop through Cef Resources and add to list if not found
+            foreach (var cefResource in CefResources)
+            {
+                var resourcePath = Path.Combine(resourcesDirPath, cefResource);
+
+                if (!File.Exists(resourcePath))
+                {
+                    missingDependencies.Add(cefResource);
                 }
             }
 
@@ -125,15 +142,32 @@ namespace CefSharp
         /// Checks if all Cef and CefSharp dependencies were found relative to the Executing Assembly.
         /// Shortcut method that calls <see cref="CheckDependencies"/>, throws an Exception if not files are missing.
         /// </summary>
-        /// <param name="localePackPath">The locale pack file, if empty then locales\en-US.pak will be used</param>
+        /// <param name="locale">The locale, if empty then en-US will be used.</param>
+        /// <param name="localesDirPath">The path to the locales directory, if empty locales\ will be used.</param>
+        /// <param name="resourcesDirPath">The path to the resources directory, if empty the Executing Assembly path is used.</param>
         /// <exception cref="Exception">Throw when not all dependencies are present</exception>
-        public static void AssetAllDependenciesPresent(string localePackPath = LocalPackPath)
+        public static void AssetAllDependenciesPresent(string locale, string localesDirPath, string resourcesDirPath)
         {
             var executingAssembly = Assembly.GetExecutingAssembly();
 
             var path = Path.GetDirectoryName(executingAssembly.Location);
 
-            var missingDependencies = CheckDependencies(true, path, localePackPath);
+            if(string.IsNullOrEmpty(locale))
+            {
+                locale = "en-US";
+            }
+
+            if (string.IsNullOrEmpty(localesDirPath))
+            {
+                localesDirPath = @"locales\";
+            }
+
+            if (string.IsNullOrEmpty(resourcesDirPath))
+            {
+                resourcesDirPath = path;
+            }
+
+            var missingDependencies = CheckDependencies(true, path, localesDirPath + locale + ".pak", resourcesDirPath);
 
             if (missingDependencies.Count > 0)
             {

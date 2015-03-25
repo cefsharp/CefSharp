@@ -51,13 +51,7 @@ namespace CefSharp.Example
                 SchemeHandlerFactory = new CefSharpSchemeHandlerFactory()
             });
 
-            var locale = string.IsNullOrEmpty(settings.Locale) ? "en-US" : settings.Locale;
-
-            var localPackPath = string.IsNullOrEmpty(settings.LocalesDirPath) ? @"locales\" : settings.LocalesDirPath;
-
-            localPackPath += locale + ".pak";
-
-            DependencyChecker.AssetAllDependenciesPresent(localPackPath);
+            DependencyChecker.AssetAllDependenciesPresent(settings.Locale, settings.LocalesDirPath, settings.ResourcesDirPath);
 
             if (!Cef.Initialize(settings))
             {
