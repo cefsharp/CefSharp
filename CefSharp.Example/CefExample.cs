@@ -21,7 +21,7 @@ namespace CefSharp.Example
 
             //Chromium Command Line args
             //http://peter.sh/experiments/chromium-command-line-switches/
-            //NOTE: Note all relevant in relation to `CefSharp`, use for reference purposes only.
+            //NOTE: Not all relevant in relation to `CefSharp`, use for reference purposes only.
 
             var settings = new CefSettings();
             settings.RemoteDebuggingPort = 8088;
