@@ -90,7 +90,9 @@ namespace CefSharp
                 }
             }
 
-            var localePath = Path.Combine(path, localePackFile);
+            //If path path is not rooted (doesn't start with a drive letter + folder)
+            //then make it relative to the executing assembly.
+            var localePath = Path.IsPathRooted(localePackFile) ? localePackFile : Path.Combine(path, localePackFile);
 
             if (!File.Exists(localePath))
             {
@@ -101,7 +103,7 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Shortcut method that calls <see cref="CheckDependencies()"/>
+        /// Shortcut method that calls <see cref="CheckDependencies(string)"/>
         /// </summary>
         /// <returns>Returns true of missing dependency count is 0</returns>
         public static bool AreAllDependenciesPresent()
