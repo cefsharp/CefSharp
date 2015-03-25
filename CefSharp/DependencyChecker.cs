@@ -17,6 +17,11 @@ namespace CefSharp
     public static class DependencyChecker
     {
         public const string LocalesPackFile = @"locales\en-US.pak";
+        
+        /// <summary>
+        /// IsWindowsXp - Special case for legacy XP support
+        /// </summary>
+        public static bool IsWindowsXp { get; set; }
 
         /// <summary>
         /// List of Cef Dependencies
@@ -48,8 +53,7 @@ namespace CefSharp
             // Note: Without these components HTML5 accelerated content like 2D canvas, 3D CSS and WebGL will not function.
             "libEGL.dll",
             "libGLESv2.dll",
-            "d3dcompiler_43.dll",
-            "d3dcompiler_47.dll",
+            (IsWindowsXp ? "d3dcompiler_43.dll" : "d3dcompiler_47.dll"),
             // PDF support
             // Note: Without this component printing will not function.
             "pdf.dll",
@@ -167,7 +171,7 @@ namespace CefSharp
 
             if (string.IsNullOrEmpty(localesDirPath))
             {
-                localesDirPath = @"locales\";
+                localesDirPath = @"locales";
             }
 
             if (string.IsNullOrEmpty(resourcesDirPath))
@@ -175,7 +179,7 @@ namespace CefSharp
                 resourcesDirPath = path;
             }
 
-            var missingDependencies = CheckDependencies(true, packLoadingDisabled, path, resourcesDirPath, localesDirPath + locale + ".pak");
+            var missingDependencies = CheckDependencies(true, packLoadingDisabled, path, resourcesDirPath, Path.Combine(localesDirPath, locale + ".pak"));
 
             if (missingDependencies.Count > 0)
             {

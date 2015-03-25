@@ -51,6 +51,9 @@ namespace CefSharp.Example
                 SchemeHandlerFactory = new CefSharpSchemeHandlerFactory()
             });
 
+            //For special case when Checking Windows Xp Dependencies
+            //DependencyChecker.IsWindowsXp = true;
+
             DependencyChecker.AssetAllDependenciesPresent(settings.Locale, settings.LocalesDirPath, settings.ResourcesDirPath, settings.PackLoadingDisabled);
 
             if (!Cef.Initialize(settings))
