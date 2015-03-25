@@ -74,12 +74,12 @@ namespace CefSharp
         /// relative to the path provided and returns a list of missing ones
         /// </summary>
         /// <param name="checkOptional">check to see if optional dependencies are present</param>
+        /// <param name="packLoadingDisabled">Is loading of pack files disabled?</param>
         /// <param name="path">path to check for dependencies</param>
         /// <param name="resourcesDirPath"></param>
-        /// <param name="packLoadingDisabled">Is loading of pack files disabled?</param>
         /// <param name="localePackFile">The locale pack file e.g. <see cref="LocalesPackFile"/> </param>
         /// <returns>List of missing dependencies, if all present an empty List will be returned</returns>
-        public static List<string> CheckDependencies(bool checkOptional, string path, string resourcesDirPath, bool packLoadingDisabled, string localePackFile = LocalesPackFile)
+        public static List<string> CheckDependencies(bool checkOptional, bool packLoadingDisabled, string path, string resourcesDirPath, string localePackFile = LocalesPackFile)
         {
             var missingDependencies = new List<string>();
 
@@ -175,7 +175,7 @@ namespace CefSharp
                 resourcesDirPath = path;
             }
 
-            var missingDependencies = CheckDependencies(true, path, resourcesDirPath, packLoadingDisabled, localesDirPath + locale + ".pak");
+            var missingDependencies = CheckDependencies(true, packLoadingDisabled, path, resourcesDirPath, localesDirPath + locale + ".pak");
 
             if (missingDependencies.Count > 0)
             {
