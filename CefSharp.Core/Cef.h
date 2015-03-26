@@ -490,6 +490,15 @@ namespace CefSharp
         static void UnregisterInternalWebPlugin(String^ path)
         {
             CefUnregisterInternalWebPlugin(StringUtils::ToNative(path));
-        }		
+        }	
+
+        /// <summary>
+        /// Force a plugin to shutdown. 
+        /// </summary>
+        /// <param name="path">Path (directory + file).</param>
+        static void ForceWebPluginShutdown(String^ path)
+        {
+            CefForceWebPluginShutdown(StringUtils::ToNative(path));
+        }
     };
 }
