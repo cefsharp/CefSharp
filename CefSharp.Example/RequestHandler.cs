@@ -22,8 +22,14 @@ namespace CefSharp.Example
             // TODO: Add your own code here for handling scenarios where a plugin crashed, for one reason or another.
         }
 
-        bool IRequestHandler.OnBeforeResourceLoad(IWebBrowser browser, IRequest request, IResponse response, bool isMainFrame)
+        bool IRequestHandler.OnBeforeResourceLoad(IWebBrowser browser, IRequest request, bool isMainFrame)
         {
+            //Note to Redirect simply set the request Url
+            //if (request.Url.StartsWith("https://www.google.com", StringComparison.OrdinalIgnoreCase))
+            //{
+            //    request.Url = "https://github.com/";
+            //}
+
             return false;
         }
 
