@@ -318,7 +318,7 @@ namespace CefSharp.Wpf
 
         void IWebBrowserInternal.SetIsLoading(bool isLoading)
         {
-            UiThreadRunAsync(() => SetCurrentValue(IsLoadingProperty, isLoading));
+            
         }
 
         void IWebBrowserInternal.SetLoadingStateChange(bool canGoBack, bool canGoForward, bool isLoading)
@@ -328,6 +328,7 @@ namespace CefSharp.Wpf
                 SetCurrentValue(CanGoBackProperty, canGoBack);
                 SetCurrentValue(CanGoForwardProperty, canGoForward);
                 SetCurrentValue(CanReloadProperty, !isLoading);
+                SetCurrentValue(IsLoadingProperty, isLoading);
 
                 ((DelegateCommand)BackCommand).RaiseCanExecuteChanged();
                 ((DelegateCommand)ForwardCommand).RaiseCanExecuteChanged();
