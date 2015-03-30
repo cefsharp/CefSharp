@@ -929,7 +929,7 @@ namespace CefSharp.Wpf
             {
                 Child = popupImage = CreateImage(),
                 PlacementTarget = this,
-                Placement = PlacementMode.Relative,
+                Placement = PlacementMode.Absolute,
             };
 
             newPopup.MouseEnter += PopupMouseEnter;
@@ -1068,8 +1068,11 @@ namespace CefSharp.Wpf
             popup.Height = height;
 
             var popupOffset = new Point(x, y);
-            popup.HorizontalOffset = popupOffset.X / matrix.M11;
-            popup.VerticalOffset = popupOffset.Y / matrix.M22;
+            var locationFromScreen = this.PointToScreen(popupOffset);
+            var targetPoint =
+                PresentationSource.FromVisual(this).CompositionTarget.TransformFromDevice.Transform(locationFromScreen);
+            popup.HorizontalOffset = targetPoint.X;
+            popup.VerticalOffset = targetPoint.Y;
         }
 
         private void OnTooltipTimerTick(object sender, EventArgs e)
