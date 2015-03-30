@@ -1067,12 +1067,10 @@ namespace CefSharp.Wpf
             popup.Width = width;
             popup.Height = height;
 
-            var popupOffset = new Point(x, y);
-            var locationFromScreen = this.PointToScreen(popupOffset);
-            var targetPoint =
-                PresentationSource.FromVisual(this).CompositionTarget.TransformFromDevice.Transform(locationFromScreen);
-            popup.HorizontalOffset = targetPoint.X;
-            popup.VerticalOffset = targetPoint.Y;
+            var popupOffset = new Point(x / matrix.M11, y / matrix.M22);
+            var locationFromScreen = PointToScreen(popupOffset);
+            popup.HorizontalOffset = locationFromScreen.X / matrix.M11;
+            popup.VerticalOffset = locationFromScreen.Y / matrix.M22;
         }
 
         private void OnTooltipTimerTick(object sender, EventArgs e)
