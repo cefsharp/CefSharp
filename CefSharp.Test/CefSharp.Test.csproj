@@ -138,7 +138,6 @@
   -->
   <Import Project="$(SolutionDir)\CefSharp.props" />
   <Import Project="$(SolutionDir)\CefSharp.Native.props" />
-  <Import Project="..\packages\cef.redist.x64.3.2272.2035\build\cef.redist.x64.targets" Condition="Exists('..\packages\cef.redist.x64.3.2272.2035\build\cef.redist.x64.targets')" />
-  <Import Project="..\packages\cef.redist.x86.3.2272.2035\build\cef.redist.x86.targets" Condition="Exists('..\packages\cef.redist.x86.3.2272.2035\build\cef.redist.x86.targets')" />
+  <Import Project="..\packages\cef.redist.x64.3.2272.25\build\cef.redist.x64.targets" Condition="Exists('..\packages\cef.redist.x64.3.2272.25\build\cef.redist.x64.targets')" />
+  <Import Project="..\packages\cef.redist.x86.3.2272.25\build\cef.redist.x86.targets" Condition="Exists('..\packages\cef.redist.x86.3.2272.25\build\cef.redist.x86.targets')" />
 </Project>
-
