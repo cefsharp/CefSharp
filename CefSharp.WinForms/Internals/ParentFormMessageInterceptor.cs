@@ -6,6 +6,7 @@ using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using CefSharp.Internals;
 
 namespace CefSharp.WinForms.Internals
 {
@@ -149,8 +150,14 @@ namespace CefSharp.WinForms.Internals
                 }
                 case NativeMethods.WM_MOVE:
                 {
-                    x = (m.LParam.ToInt32() & 0xffff);
-                    y = ((m.LParam.ToInt32() >> 16) & 0xffff);
+                    // Convert IntPtr into 32bit int safely without 
+                    // exceptions:
+                    int dwLParam = m.LParam.CastToInt32();
+
+                    // Extract coordinates from lo/hi word:
+                    x = dwLParam & 0xffff;
+                    y = (dwLParam >> 16) & 0xffff;
+
                     isMovingMessage = true;
                     break;
                 }
