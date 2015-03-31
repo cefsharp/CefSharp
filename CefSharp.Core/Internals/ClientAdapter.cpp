@@ -66,7 +66,7 @@ namespace CefSharp
                 return false;
             }
 
-            return handler->OnBeforePopup(_browserControl, StringUtils::ToClr(target_url),
+            return handler->OnBeforePopup(_browserControl, StringUtils::ToClr(frame->GetURL()), StringUtils::ToClr(target_url),
                 windowInfo.x, windowInfo.y, windowInfo.width, windowInfo.height);
         }
 
@@ -351,20 +351,8 @@ namespace CefSharp
             }
 
             auto requestWrapper = gcnew CefRequestWrapper(request);
-            auto response = gcnew Response();
 
-            bool ret = handler->OnBeforeResourceLoad(_browserControl, requestWrapper, response, frame->IsMain());
-
-            if (response->Action == ResponseAction::Redirect)
-            {
-                request->SetURL(StringUtils::ToNative(response->RedirectUrl));
-            }
-            else if (response->Action == ResponseAction::Cancel)
-            {
-                return true;
-            }
-
-            return ret;
+            return handler->OnBeforeResourceLoad(_browserControl, requestWrapper, frame->IsMain());
         }
 
         CefRefPtr<CefDownloadHandler> ClientAdapter::GetDownloadHandler()
