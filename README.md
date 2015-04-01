@@ -8,7 +8,7 @@ This project is [BSD](http://www.opensource.org/licenses/bsd-license.php "BSD Li
 
 # Documentation, Contact etc.
 
-Apart from code samples mentioned above work-in-progress documentation can be found [in the wiki](https://github.com/cefsharp/CefSharp/wiki). If something is missing/incomplete, please don't hesitate to ask on [StackOverflow](http://stackoverflow.com/questions/tagged/cefsharp) or in the [CefSharp Google Group](https://groups.google.com/forum/#!forum/cefsharp). You might also find help by searching the archive to that same Google Group for previous questions.
+Apart from code samples mentioned above work-in-progress documentation can be found [in the wiki](https://github.com/cefsharp/CefSharp/wiki). If something is missing/incomplete, please don't hesitate to ask on the [CefSharp Google Group](https://groups.google.com/forum/#!forum/cefsharp). You might also find help by searching the archive to that same Google Group for previous questions.
 
 # NuGet Packages
 
