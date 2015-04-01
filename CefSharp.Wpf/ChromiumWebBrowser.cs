@@ -1064,8 +1064,8 @@ namespace CefSharp.Wpf
 
         private void SetPopupSizeAndPositionImpl(int width, int height, int x, int y)
         {
-            popup.Width = width;
-            popup.Height = height;
+            popup.Width = width / matrix.M11;
+            popup.Height = height / matrix.M22;
 
             var popupOffset = new Point(x / matrix.M11, y / matrix.M22);
             var locationFromScreen = PointToScreen(popupOffset);
