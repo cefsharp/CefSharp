@@ -198,9 +198,13 @@ namespace CefSharp.WinForms
             Load(url);
         }
 
-        public void RegisterJsObject(string name, object objectToBind)
+        public void RegisterJsObject(string name, object objectToBind) 
         {
-            managedCefBrowserAdapter.RegisterJsObject(name, objectToBind);
+            RegisterJsObject(name, objectToBind, true);
+        }
+        public void RegisterJsObject(string name, object objectToBind, bool lowerCaseJavascriptNames)
+        {
+            managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, lowerCaseJavascriptNames);
         }
 
         public void ExecuteScriptAsync(string script)
