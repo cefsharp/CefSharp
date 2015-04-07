@@ -210,7 +210,7 @@ namespace CefSharp.Internals
                 {
                     var jsObject = CreateJavascriptObject();
                     jsObject.Name = propertyInfo.Name;
-                    jsObject.JavascriptName = LowercaseFirst(propertyInfo.Name, lowerCaseJavascriptNames);
+                    jsObject.JavascriptName = GetJavascriptName(propertyInfo.Name, lowerCaseJavascriptNames);
                     jsObject.Value = jsProperty.GetValue(obj.Value);
                     jsProperty.JsObject = jsObject;
 
@@ -229,7 +229,7 @@ namespace CefSharp.Internals
             var jsMethod = new JavascriptMethod();
 
             jsMethod.ManagedName = methodInfo.Name;
-            jsMethod.JavascriptName = LowercaseFirst(methodInfo.Name, lowerCaseJavascriptNames);
+            jsMethod.JavascriptName = GetJavascriptName(methodInfo.Name, lowerCaseJavascriptNames);
             jsMethod.Function = methodInfo.Invoke;
             jsMethod.ParameterCount = methodInfo.GetParameters().Length;
 
@@ -241,7 +241,7 @@ namespace CefSharp.Internals
             var jsProperty = new JavascriptProperty();
 
             jsProperty.ManagedName = propertyInfo.Name;
-            jsProperty.JavascriptName = LowercaseFirst(propertyInfo.Name, lowerCaseJavascriptNames);
+            jsProperty.JavascriptName = GetJavascriptName(propertyInfo.Name, lowerCaseJavascriptNames);
             jsProperty.SetValue = (o, v) => propertyInfo.SetValue(o, v, null);
             jsProperty.GetValue = (o) => propertyInfo.GetValue(o, null);
 
@@ -275,7 +275,7 @@ namespace CefSharp.Internals
             return !baseType.IsPrimitive && baseType != typeof(string);
         }
 
-        private static string LowercaseFirst(string str, bool lowerCaseJavascriptNames)
+        private static string GetJavascriptName(string str, bool lowerCaseJavascriptNames)
         {
             if (!lowerCaseJavascriptNames)
             {
