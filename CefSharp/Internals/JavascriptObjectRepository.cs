@@ -210,14 +210,7 @@ namespace CefSharp.Internals
                 {
                     var jsObject = CreateJavascriptObject();
                     jsObject.Name = propertyInfo.Name;
-
-                    // depending on lowerCaseJavascriptNames JS Properties will be lowercase or unaltered 
-                    // defaults to LowercaseFirst, in order to not change existing behaviour
-                    if (lowerCaseJavascriptNames)
-                        jsObject.JavascriptName = LowercaseFirst(propertyInfo.Name);
-                    else
-                        jsObject.JavascriptName = propertyInfo.Name;
-
+                    jsObject.JavascriptName = LowercaseFirst(propertyInfo.Name, lowerCaseJavascriptNames);
                     jsObject.Value = jsProperty.GetValue(obj.Value);
                     jsProperty.JsObject = jsObject;
 
@@ -236,12 +229,7 @@ namespace CefSharp.Internals
             var jsMethod = new JavascriptMethod();
 
             jsMethod.ManagedName = methodInfo.Name;
-
-            if (lowerCaseJavascriptNames)
-                jsMethod.JavascriptName = LowercaseFirst(methodInfo.Name);
-            else
-                jsMethod.JavascriptName = methodInfo.Name;
-
+            jsMethod.JavascriptName = LowercaseFirst(methodInfo.Name, lowerCaseJavascriptNames);
             jsMethod.Function = methodInfo.Invoke;
             jsMethod.ParameterCount = methodInfo.GetParameters().Length;
 
@@ -253,12 +241,7 @@ namespace CefSharp.Internals
             var jsProperty = new JavascriptProperty();
 
             jsProperty.ManagedName = propertyInfo.Name;
-
-            if (lowerCaseJavascriptNames)
-                jsProperty.JavascriptName = LowercaseFirst(propertyInfo.Name);
-            else
-                jsProperty.JavascriptName = propertyInfo.Name;
-
+            jsProperty.JavascriptName = LowercaseFirst(propertyInfo.Name, lowerCaseJavascriptNames);
             jsProperty.SetValue = (o, v) => propertyInfo.SetValue(o, v, null);
             jsProperty.GetValue = (o) => propertyInfo.GetValue(o, null);
 
@@ -292,8 +275,13 @@ namespace CefSharp.Internals
             return !baseType.IsPrimitive && baseType != typeof(string);
         }
 
-        private static string LowercaseFirst(string str)
+        private static string LowercaseFirst(string str, bool lowerCaseJavascriptNames)
         {
+            if (!lowerCaseJavascriptNames)
+            {
+                return str;
+            }
+
             if (string.IsNullOrEmpty(str))
             {
                 return string.Empty;
