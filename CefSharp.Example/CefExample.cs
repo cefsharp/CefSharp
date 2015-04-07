@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq;
 
 namespace CefSharp.Example
 {
@@ -22,7 +21,7 @@ namespace CefSharp.Example
 
             //Chromium Command Line args
             //http://peter.sh/experiments/chromium-command-line-switches/
-            //NOTE: Note all relevant in relation to `CefSharp`, use for reference purposes only.
+            //NOTE: Not all relevant in relation to `CefSharp`, use for reference purposes only.
 
             var settings = new CefSettings();
             settings.RemoteDebuggingPort = 8088;
@@ -52,7 +51,11 @@ namespace CefSharp.Example
                 SchemeHandlerFactory = new CefSharpSchemeHandlerFactory()
             });
 
-            if (!Cef.Initialize(settings))
+            //Cef will check if all dependencies are present
+            //For special case when Checking Windows Xp Dependencies
+            //DependencyChecker.IsWindowsXp = true;
+
+            if (!Cef.Initialize(settings, shutdownOnProcessExit: true, performDependencyCheck: true))
             {
                 throw new Exception("Unable to Initialize Cef");
             }

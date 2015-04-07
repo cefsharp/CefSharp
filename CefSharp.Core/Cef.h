@@ -139,21 +139,27 @@ namespace CefSharp
         /// <return>true if successful; otherwise, false.</return>
         static bool Initialize(CefSettings^ cefSettings)
         {
-            return Initialize(cefSettings, true);
+            return Initialize(cefSettings, true, false);
         }
 
         /// <summary>Initializes CefSharp with user-provided settings.</summary>
         /// <param name="cefSettings">CefSharp configuration settings.</param>
         /// <param name="shutdownOnProcessExit">When the Current AppDomain (relative to the thread called on)
         /// Exits(ProcessExit event) then Shudown will be called.</param>
+        /// <param name="performDependencyCheck">Check that all relevant dependencies avaliable, throws exception if any are missing</param>
         /// <return>true if successful; otherwise, false.</return>
-        static bool Initialize(CefSettings^ cefSettings, bool shutdownOnProcessExit)
+        static bool Initialize(CefSettings^ cefSettings, bool shutdownOnProcessExit, bool performDependencyCheck)
         {
             bool success = false;
 
             // NOTE: Can only initialize Cef once, so subsiquent calls are ignored.
             if (!IsInitialized)
             {
+                if(performDependencyCheck)
+                {
+                    DependencyChecker::AssertAllDependenciesPresent(cefSettings->Locale, cefSettings->LocalesDirPath, cefSettings->ResourcesDirPath, cefSettings->PackLoadingDisabled);
+                }
+
                 CefMainArgs main_args;
                 CefRefPtr<CefSharpApp> app(new CefSharpApp(cefSettings));
 

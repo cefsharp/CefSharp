@@ -79,6 +79,12 @@ namespace CefSharp
             void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->locales_dir_path, value); }
         }
 
+        virtual property String^ ResourcesDirPath
+        {
+            String^ get() { return StringUtils::ToClr(_cefSettings->resources_dir_path); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->resources_dir_path, value); }
+        }		
+
         virtual property String^ LogFile
         {
             String^ get() { return StringUtils::ToClr(_cefSettings->log_file); }
