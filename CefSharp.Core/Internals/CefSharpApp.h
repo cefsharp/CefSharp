@@ -11,19 +11,36 @@
 
 namespace CefSharp
 {
-    class CefSharpApp : public CefApp
+    private class CefSharpApp : public CefApp,
+        public CefBrowserProcessHandler
     {
         gcroot<CefSettings^> _cefSettings;
+        gcroot<Action^> _onContextInitialized;
 
     public:
-        CefSharpApp(CefSettings^ cefSettings) :
-            _cefSettings(cefSettings)
+        CefSharpApp(CefSettings^ cefSettings, Action^ onContextInitialized) :
+            _cefSettings(cefSettings),
+            _onContextInitialized(onContextInitialized)
         {
         }
 
         ~CefSharpApp()
         {
             _cefSettings = nullptr;
+            _onContextInitialized = nullptr;
+        }
+
+        virtual CefRefPtr<CefBrowserProcessHandler> GetBrowserProcessHandler() OVERRIDE
+        {
+            return this;
+        }
+
+        virtual void OnContextInitialized() OVERRIDE
+        {
+            if (static_cast<Action^>(_onContextInitialized) != nullptr)
+            {
+                _onContextInitialized->Invoke();
+            }
         }
         
         virtual void OnBeforeCommandLineProcessing(const CefString& process_type, CefRefPtr<CefCommandLine> command_line) OVERRIDE
