@@ -35,7 +35,6 @@ namespace CefSharp.Internals
             return result;
         }
 
-        public void Register(string name, object value) {  Register(name, value, true); }
         public void Register(string name, object value, bool lowerCaseJavascriptNames)
         {
             var jsObject = CreateJavascriptObject();
@@ -89,7 +88,7 @@ namespace CefSharp.Internals
                     jsObject.Name = "FunctionResult(" + name + ")";
                     jsObject.JavascriptName = jsObject.Name;
 
-                    AnalyseObjectForBinding(jsObject, analyseMethods: false, readPropertyValue: true);
+                    AnalyseObjectForBinding(jsObject, analyseMethods: false, readPropertyValue: true, lowerCaseJavascriptNames:true);
 
                     result = jsObject;
                 }
@@ -171,10 +170,6 @@ namespace CefSharp.Internals
         /// <param name="analyseMethods">Analyse methods for inclusion in metadata model</param>
         /// <param name="readPropertyValue">When analysis is done on a property, if true then get it's value for transmission over WCF</param>
         /// <param name="lowerCaseJavascriptNames">decide wether your JS mathods and properties are automatically lowercased or not</param>
-        private void AnalyseObjectForBinding(JavascriptObject obj, bool analyseMethods, bool readPropertyValue) 
-        {
-            AnalyseObjectForBinding(obj, analyseMethods, readPropertyValue, true);
-        }
         private void AnalyseObjectForBinding(JavascriptObject obj, bool analyseMethods, bool readPropertyValue, bool lowerCaseJavascriptNames)
         {
             if (obj.Value == null)
@@ -226,7 +221,7 @@ namespace CefSharp.Internals
                     jsObject.Value = jsProperty.GetValue(obj.Value);
                     jsProperty.JsObject = jsObject;
 
-                    AnalyseObjectForBinding(jsProperty.JsObject, analyseMethods, readPropertyValue);
+                    AnalyseObjectForBinding(jsProperty.JsObject, analyseMethods, readPropertyValue, lowerCaseJavascriptNames);
                 }
                 else if (readPropertyValue)
                 {
@@ -236,10 +231,6 @@ namespace CefSharp.Internals
             }
         }
 
-        private static JavascriptMethod CreateJavaScriptMethod(MethodInfo methodInfo) 
-        {
-            return CreateJavaScriptMethod(methodInfo, true); 
-        }
         private static JavascriptMethod CreateJavaScriptMethod(MethodInfo methodInfo, bool lowerCaseJavascriptNames)
         {
             var jsMethod = new JavascriptMethod();
@@ -257,10 +248,6 @@ namespace CefSharp.Internals
             return jsMethod;
         }
 
-        private static JavascriptProperty CreateJavaScriptProperty(PropertyInfo propertyInfo)
-        {
-            return CreateJavaScriptProperty(propertyInfo, true);
-        }
         private static JavascriptProperty CreateJavaScriptProperty(PropertyInfo propertyInfo, bool lowerCaseJavascriptNames)
         {
             var jsProperty = new JavascriptProperty();
