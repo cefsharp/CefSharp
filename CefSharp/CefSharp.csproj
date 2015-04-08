@@ -127,6 +127,7 @@
     <Compile Include="Internals\BrowserProcessServiceHost.cs" />
     <Compile Include="Internals\WCFExtensions.cs" />
     <Compile Include="KeyType.cs" />
+    <Compile Include="Plugin.cs" />
     <Compile Include="ResourceHandler.cs" />
     <Compile Include="ResponseAction.cs" />
     <Compile Include="ScreenInfo.cs" />

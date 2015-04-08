@@ -14,6 +14,7 @@
 #include "Internals/CookieVisitor.h"
 #include "Internals/CompletionHandler.h"
 #include "Internals/StringUtils.h"
+#include "Internals/PluginVisitor.h"
 #include "ManagedCefBrowserAdapter.h"
 #include "CefSettings.h"
 #include "SchemeHandlerWrapper.h"
@@ -452,6 +453,17 @@ namespace CefSharp
         static bool ClearSchemeHandlerFactories()
         {
             return CefClearSchemeHandlerFactories();
+        }
+
+        /// <summary>Visits all plugins using the provided Plugin Visitor.</summary>
+        /// <param name="visitor">A user-provided Plugin Visitor implementation.</param>
+        static Task<List<Plugin>^>^ GetPlugins()
+        {
+            CefRefPtr<PluginVisitor> visitor = new PluginVisitor();
+            
+            CefVisitWebPluginInfo(visitor);
+
+            return visitor->GetTask();
         }
 
         /// <summary>
