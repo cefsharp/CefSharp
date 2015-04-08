@@ -27,6 +27,7 @@ namespace CefSharp
 
         ~PluginVisitor()
         {
+            _list = nullptr;
             _taskCompletionSource = nullptr;
         }
 
