@@ -130,7 +130,7 @@
     <Compile Include="ResponseAction.cs" />
     <Compile Include="ScreenInfo.cs" />
     <Compile Include="TransitionType.cs" />
-    <Compile Include="NavStateChangedEventArgs.cs" />
+    <Compile Include="LoadingStateChangedEventArgs.cs" />
     <Compile Include="ICompletionHandler.cs" />
     <Compile Include="CefFocusSource.cs" />
     <Compile Include="Internals\BitmapInfo.cs" />

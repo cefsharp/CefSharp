@@ -134,7 +134,7 @@ namespace CefSharp.WinForms
                 LoadError = null;
                 FrameLoadStart = null;
                 FrameLoadEnd = null;
-                NavStateChanged = null;
+                LoadingStateChanged = null;
                 ConsoleMessage = null;
                 StatusMessage = null;
                 AddressChanged = null;
@@ -225,7 +225,7 @@ namespace CefSharp.WinForms
         public event EventHandler<LoadErrorEventArgs> LoadError;
         public event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
         public event EventHandler<FrameLoadEndEventArgs> FrameLoadEnd;
-        public event EventHandler<NavStateChangedEventArgs> NavStateChanged;
+        public event EventHandler<LoadingStateChangedEventArgs> LoadingStateChanged;
         public event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
         public event EventHandler<StatusMessageEventArgs> StatusMessage;
         public event EventHandler<AddressChangedEventArgs> AddressChanged;
@@ -257,10 +257,10 @@ namespace CefSharp.WinForms
             CanReload = !isLoading;
             IsLoading = isLoading;
 
-            var handler = NavStateChanged;
+            var handler = LoadingStateChanged;
             if (handler != null)
             {
-                handler(this, new NavStateChangedEventArgs(canGoBack, canGoForward, isLoading));
+                handler(this, new LoadingStateChangedEventArgs(canGoBack, canGoForward, isLoading));
             }
         }
 

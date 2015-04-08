@@ -64,7 +64,7 @@ namespace CefSharp.OffScreen
         public event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
         public event EventHandler BrowserInitialized;
         public event EventHandler<StatusMessageEventArgs> StatusMessage;
-        public event EventHandler<NavStateChangedEventArgs> NavStateChanged;
+        public event EventHandler<LoadingStateChangedEventArgs> LoadingStateChanged;
         public event EventHandler<AddressChangedEventArgs> AddressChanged;
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace CefSharp.OffScreen
             ConsoleMessage = null;
             BrowserInitialized = null;
             StatusMessage = null;
-            NavStateChanged = null;
+            LoadingStateChanged = null;
             AddressChanged = null;
 
             Cef.RemoveDisposable(this);
@@ -507,10 +507,10 @@ namespace CefSharp.OffScreen
             CanReload = !isLoading;
             IsLoading = isLoading;
 
-            var handler = NavStateChanged;
+            var handler = LoadingStateChanged;
             if (handler != null)
             {
-                handler(this, new NavStateChangedEventArgs(canGoBack, canGoForward, isLoading));
+                handler(this, new LoadingStateChangedEventArgs(canGoBack, canGoForward, isLoading));
             }
         }
 

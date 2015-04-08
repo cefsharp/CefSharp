@@ -28,7 +28,7 @@ namespace CefSharp.WinForms.Example
             browser.GeolocationHandler = new GeolocationHandler();
             browser.DownloadHandler = new DownloadHandler();
             //browser.FocusHandler = new FocusHandler(browser, urlTextBox);
-            browser.NavStateChanged += OnBrowserNavStateChanged;
+            browser.LoadingStateChanged += OnBrowserLoadingStateChanged;
             browser.ConsoleMessage += OnBrowserConsoleMessage;
             browser.TitleChanged += OnBrowserTitleChanged;
             browser.AddressChanged += OnBrowserAddressChanged;
@@ -59,7 +59,7 @@ namespace CefSharp.WinForms.Example
             this.InvokeOnUiThreadIfRequired(() => statusLabel.Text = args.Value);
         }
 
-        private void OnBrowserNavStateChanged(object sender, NavStateChangedEventArgs args)
+        private void OnBrowserLoadingStateChanged(object sender, LoadingStateChangedEventArgs args)
         {
             SetCanGoBack(args.CanGoBack);
             SetCanGoForward(args.CanGoForward);
