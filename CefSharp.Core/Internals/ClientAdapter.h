@@ -31,7 +31,6 @@ namespace CefSharp
             public CefGeolocationHandler
         {
         private:
-            CriticalSection _syncRoot;
             gcroot<IWebBrowserInternal^> _browserControl;
             gcroot<Action<int>^> _onAfterBrowserCreated;
             HWND _browserHwnd;

@@ -208,8 +208,6 @@ namespace CefSharp
                 return;
             }
 
-            AutoLock lock_scope(_syncRoot);
-
             _browserControl->OnFrameLoadStart(StringUtils::ToClr(frame->GetURL()), frame->IsMain());
         }
 
@@ -219,8 +217,6 @@ namespace CefSharp
             {
                 return;
             }
-
-            AutoLock lock_scope(_syncRoot);
 
             _browserControl->OnFrameLoadEnd(StringUtils::ToClr(frame->GetURL()), frame->IsMain(), httpStatusCode);
         }
