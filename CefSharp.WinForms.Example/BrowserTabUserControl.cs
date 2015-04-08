@@ -34,7 +34,6 @@ namespace CefSharp.WinForms.Example
             browser.AddressChanged += OnBrowserAddressChanged;
             browser.StatusMessage += OnBrowserStatusMessage;
             browser.IsBrowserInitializedChanged += OnIsBrowserInitializedChanged;
-            browser.IsLoadingChanged += OnIsLoadingChanged;
             browser.LoadError += OnLoadError;
             browser.DragHandler = new DragHandler();
             browser.RegisterJsObject("bound", new BoundObject());
@@ -101,11 +100,6 @@ namespace CefSharp.WinForms.Example
         }
 
         private void OnIsBrowserInitializedChanged(object sender, IsBrowserInitializedChangedEventArgs args)
-        {
-            
-        }
-
-        private void OnIsLoadingChanged(object sender, IsLoadingChangedEventArgs args)
         {
             
         }
