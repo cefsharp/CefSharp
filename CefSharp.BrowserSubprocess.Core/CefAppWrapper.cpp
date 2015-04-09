@@ -7,7 +7,7 @@
 
 #include "CefAppWrapper.h"
 #include "CefBrowserWrapper.h"
-#include "CefTaskScheduler.h"
+#include ".\..\CefSharp.Core\Internals\CefTaskScheduler.h"
 
 using namespace System;
 using namespace System::Diagnostics;

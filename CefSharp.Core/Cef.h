@@ -109,7 +109,7 @@ namespace CefSharp
         {
             String^ get()
             {
-                return String::Format("r{0}", CEF_REVISION);
+                return String::Format("r{0}", CEF_VERSION);
             }
         }
 
