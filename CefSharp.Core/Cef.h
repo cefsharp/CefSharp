@@ -455,8 +455,12 @@ namespace CefSharp
             return CefClearSchemeHandlerFactories();
         }
 
-        /// <summary>Visits all plugins using the provided Plugin Visitor.</summary>
-        /// <param name="visitor">A user-provided Plugin Visitor implementation.</param>
+        /// <summary>
+        /// Async returns a list containing Plugin Information
+        /// (Wrapper around CefVisitWebPluginInfo)
+        /// WARNING In the very unlikely event of no plugins being found the Task may never complete
+        /// </summary>
+        /// <return>Returns List of <see cref="Plugin"/> structs.</return>
         static Task<List<Plugin>^>^ GetPlugins()
         {
             CefRefPtr<PluginVisitor> visitor = new PluginVisitor();
