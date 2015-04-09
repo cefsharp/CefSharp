@@ -183,7 +183,7 @@ namespace CefSharp
             }
         }
 
-        bool SendKeyEvent(int message, int wParam, IntPtr lParamIntPtr)
+        bool SendKeyEvent(int message, int wParam, int lParam)
         {
             auto browser = _clientAdapter->GetCefBrowser();
 
@@ -191,8 +191,6 @@ namespace CefSharp
             {
                 return false;
             }
-
-            LPARAM lParam = IntPtr::Size == 8 ? lParamIntPtr.ToInt64() : lParamIntPtr.ToInt32();
 
             CefKeyEvent keyEvent;
             keyEvent.windows_key_code = wParam;
