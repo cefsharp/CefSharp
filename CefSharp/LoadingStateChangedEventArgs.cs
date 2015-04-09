@@ -7,16 +7,16 @@ using System;
 namespace CefSharp
 {
     /// <summary>
-    /// Event arguments to the NavStateChanged event handler set up in IWebBrowser.
+    /// Event arguments to the LoadingStateChanged event handler set up in IWebBrowser.
     /// </summary>
-    public class NavStateChangedEventArgs : EventArgs
+    public class LoadingStateChangedEventArgs : EventArgs
     {
         public bool CanGoForward { get; private set; }
         public bool CanGoBack { get; private set; }
         public bool CanReload { get; private set; }
         public bool IsLoading { get; private set; }
 
-        public NavStateChangedEventArgs(bool canGoBack, bool canGoForward, bool isLoading)
+        public LoadingStateChangedEventArgs(bool canGoBack, bool canGoForward, bool isLoading)
         {
             CanGoBack = canGoBack;
             CanGoForward = canGoForward;

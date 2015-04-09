@@ -205,13 +205,6 @@ namespace CefSharp
                 return;
             }
 
-            AutoLock lock_scope(_syncRoot);
-
-            if (frame->IsMain())
-            {
-                _browserControl->SetIsLoading(true);
-            }
-
             _browserControl->OnFrameLoadStart(StringUtils::ToClr(frame->GetURL()), frame->IsMain());
         }
 
@@ -220,13 +213,6 @@ namespace CefSharp
             if (browser->IsPopup())
             {
                 return;
-            }
-
-            AutoLock lock_scope(_syncRoot);
-
-            if (frame->IsMain())
-            {
-                _browserControl->SetIsLoading(false);
             }
 
             _browserControl->OnFrameLoadEnd(StringUtils::ToClr(frame->GetURL()), frame->IsMain(), httpStatusCode);

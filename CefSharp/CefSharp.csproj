@@ -116,7 +116,6 @@
     <Compile Include="Internals\BrowserProcessResponse.cs" />
     <Compile Include="Internals\JavascriptRootObject.cs" />
     <Compile Include="Internals\TaskExtensions.cs" />
-    <Compile Include="IsLoadingChangedEventArgs.cs" />
     <Compile Include="IStringVisitor.cs" />
     <Compile Include="IContextMenuParams.cs" />
     <Compile Include="JavascriptIgnoreAttribute.cs" />
@@ -132,7 +131,7 @@
     <Compile Include="ResponseAction.cs" />
     <Compile Include="ScreenInfo.cs" />
     <Compile Include="TransitionType.cs" />
-    <Compile Include="NavStateChangedEventArgs.cs" />
+    <Compile Include="LoadingStateChangedEventArgs.cs" />
     <Compile Include="ICompletionHandler.cs" />
     <Compile Include="CefFocusSource.cs" />
     <Compile Include="Internals\BitmapInfo.cs" />
