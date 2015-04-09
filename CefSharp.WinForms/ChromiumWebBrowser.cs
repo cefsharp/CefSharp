@@ -232,6 +232,7 @@ namespace CefSharp.WinForms
         public event EventHandler<AddressChangedEventArgs> AddressChanged;
         public event EventHandler<TitleChangedEventArgs> TitleChanged;
         public event EventHandler<IsBrowserInitializedChangedEventArgs> IsBrowserInitializedChanged;
+        [Obsolete("IsLoadingChanged is unreliable and will be removed. Use NavStateChanged instead.")]
         public event EventHandler<IsLoadingChangedEventArgs> IsLoadingChanged;
 
         protected override void OnHandleCreated(EventArgs e)
