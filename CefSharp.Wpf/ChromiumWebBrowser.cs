@@ -1476,5 +1476,17 @@ namespace CefSharp.Wpf
         {
             managedCefBrowserAdapter.SetZoomLevel(zoomLevel);
         }
+
+        /// <summary>
+        /// Sends a Key Event directly to the underlying Browser (CEF).
+        /// </summary>
+        /// <param name="message">The message</param>
+        /// <param name="wParam">The wParam</param>
+        /// <param name="lParam">The lParam</param>
+        /// <returns>bool</returns>
+        public bool SendKeyEvent(int message, int wParam, int lParam)
+        {
+            return managedCefBrowserAdapter.SendKeyEvent(message, wParam, lParam);
+        }
     }
 }
