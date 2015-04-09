@@ -49,6 +49,7 @@ namespace CefSharp
             StatusCode = 200;
             StatusText = "OK";
             MimeType = "text/html";
+            Headers = new NameValueCollection();
         }
 
         /// <summary>
@@ -60,6 +61,7 @@ namespace CefSharp
             StatusCode = 200;
             StatusText = "OK";
             MimeType = mimeType;
+            Headers = new NameValueCollection();
         }
 
         /// <summary>
@@ -594,6 +596,7 @@ namespace CefSharp
             {".sv4cpio", "application/x-sv4cpio"},
             {".sv4crc", "application/x-sv4crc"},
             {".svc", "application/xml"},
+            {".svg", "image/svg+xml"},
             {".swf", "application/x-shockwave-flash"},
             {".t", "application/x-troff"},
             {".tar", "application/x-tar"},

@@ -2,14 +2,13 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
+using System.Threading.Tasks;
+
 namespace CefSharp
 {
-    public interface IResponse
+    public interface IJavascriptCallback : IDisposable
     {
-        /// cancel the request, return nothing
-        void Cancel();
-
-        /// respond with redirection to the provided URL
-        void Redirect(string url);
+        Task<JavascriptResponse> ExecuteAsync(params object[] parms);
     }
 }

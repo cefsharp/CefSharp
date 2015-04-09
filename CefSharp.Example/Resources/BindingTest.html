@@ -5,21 +5,43 @@
     </head>
     <body>
         <p>
-        Result of calling bound.repeat("hi ", 5) =
-        <script type="text/javascript">
-            var result = bound.repeat("hi ", 5);
-            document.write('"' + result + '"');
-            if(result == "hi hi hi hi hi ")
-            {
-                document.write(" SUCCESS");
-            }
-            else
-            {
-                document.write(" FAIL!");
-            }
-        </script>
+            Javscript Callback Test
+            <br />
+            <script type="text/javascript">
+                function callback(s)
+                {
+                    var result = document.getElementById('cbresult');
+                    result.innerText += "Callback: " + s + "" + Date();
+                }
+
+                function testCallback()
+                {
+                    bound.testCallback(callback);
+
+                    var result = document.getElementById('cbresult');
+                    result.innerText = "The function has returned: " + Date() + "\n";
+                }
+            </script>
+            <button onclick="testCallback()">Test Callback</button>
+            <br />
+            <span id="cbresult"></span>
         </p>
-        
+
+        <p>
+            Result of calling bound.repeat("hi ", 5) =
+            <script type="text/javascript">
+                var result = bound.repeat("hi ", 5);
+                document.write('"' + result + '"');
+                if (result == "hi hi hi hi hi ")
+                {
+                    document.write(" SUCCESS");
+                } else
+                {
+                    document.write(" FAIL!");
+                }
+            </script>
+        </p>
+
         <p>
             Function delegate to c# method
             <br />
@@ -32,7 +54,7 @@
                 document.write("echoMyProperty result: " + myFunction(bound.echoMyProperty));
             </script>
         </p>
-        
+
         <p>
             Function returning complex type
             <br />
@@ -46,14 +68,15 @@
             <br />
             <script type="text/javascript">
                 var stressTestCallCount = 1000;
-                for (var i = 1; i <= stressTestCallCount; i++) {
+                for (var i = 1; i <= stressTestCallCount; i++)
+                {
                     bound.repeat("hi ", 5);
                 }
 
                 document.write("Stress Test done with : " + stressTestCallCount + " call to bound.repeat(\"hi \", 5)");
             </script>
         </p>
-        
+
         <p>
             JSON Serializer Test
             <br />
@@ -70,9 +93,6 @@
                 }
             </script>
         </p>
-        
-        
-
 
         Methods on bound object 'bound':<br />
         <ul>

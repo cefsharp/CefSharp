@@ -14,6 +14,13 @@ namespace CefSharp.WinForms
     public class ChromiumWebBrowser : Control, IWebBrowserInternal, IWinFormsWebBrowser
     {
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
+        private ParentFormMessageInterceptor parentFormMessageInterceptor;
+
+        /// <summary>
+        /// Set to true while handing an activating WM_ACTIVATE message.
+        /// MUST ONLY be cleared by DefaultFocusHandler.
+        /// </summary>
+        public bool IsActivating { get; set; }
 
         public BrowserSettings BrowserSettings { get; set; }
         public string Title { get; set; }
@@ -28,9 +35,20 @@ namespace CefSharp.WinForms
         public IDownloadHandler DownloadHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
         public IMenuHandler MenuHandler { get; set; }
+
+        /// <summary>
+        /// The <see cref="IFocusHandler"/> for this ChromiumWebBrowser.
+        /// </summary>
+        /// <remarks>
+        /// If you need customized focus handling behavior for WinForms, the suggested 
+        /// best practice would be to inherit from DefaultFocusHandler and try to avoid 
+        /// needing to override the logic in OnGotFocus. The implementation in 
+        /// DefaultFocusHandler relies on very detailed behavior of how WinForms and 
+        /// Windows interact during window activation.
+        /// </remarks>
         public IFocusHandler FocusHandler { get; set; }
         public IDragHandler DragHandler { get; set; }
-        public IResourceHandler ResourceHandler { get; set; }
+        public IResourceHandlerFactory ResourceHandlerFactory { get; set; }
         public IGeolocationHandler GeolocationHandler { get; set; }
 
         public bool CanGoForward { get; private set; }
@@ -67,7 +85,7 @@ namespace CefSharp.WinForms
             Dock = DockStyle.Fill;
 
             FocusHandler = new DefaultFocusHandler(this);
-            ResourceHandler = new DefaultResourceHandler();
+            ResourceHandlerFactory = new DefaultResourceHandlerFactory();
             BrowserSettings = new BrowserSettings();
 
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, false);
@@ -86,7 +104,7 @@ namespace CefSharp.WinForms
             DragHandler = null;
             GeolocationHandler = null;
             FocusHandler = null;
-            ResourceHandler = null;
+            ResourceHandlerFactory = null;
 
             Cef.RemoveDisposable(this);
 
@@ -98,6 +116,12 @@ namespace CefSharp.WinForms
                 {
                     BrowserSettings.Dispose();
                     BrowserSettings = null;
+                }
+
+                if (parentFormMessageInterceptor != null)
+                {
+                    parentFormMessageInterceptor.Dispose();
+                    parentFormMessageInterceptor = null;
                 }
 
                 if (managedCefBrowserAdapter != null)
@@ -125,6 +149,15 @@ namespace CefSharp.WinForms
         {
             IsBrowserInitialized = true;
 
+            // By the time this callback gets called, this control
+            // is most likely hooked into a browser Form of some sort. 
+            // (Which is what ParentFormMessageInterceptor relies on.)
+            // Ensure the ParentFormMessageInterceptor construction occurs on the WinForms UI thread:
+            this.InvokeOnUiThreadIfRequired(() =>
+            {
+                parentFormMessageInterceptor = new ParentFormMessageInterceptor(this);
+            });
+
             ResizeBrowser();
 
             var handler = IsBrowserInitializedChanged;
@@ -137,7 +170,14 @@ namespace CefSharp.WinForms
 
         public void Load(String url)
         {
-            managedCefBrowserAdapter.LoadUrl(url);
+            if (IsBrowserInitialized)
+            {
+                managedCefBrowserAdapter.LoadUrl(url);
+            }
+            else
+            {
+                Address = url;
+            }
         }
 
         public void LoadHtml(string html, string url)
@@ -147,13 +187,13 @@ namespace CefSharp.WinForms
 
         public void LoadHtml(string html, string url, Encoding encoding)
         {
-            var handler = ResourceHandler;
-            if (handler == null)
+            var factory = ResourceHandlerFactory;
+            if (factory == null)
             {
-                throw new Exception("Implement IResourceHandler and assign to the ResourceHandler property to use this feature");
+                throw new Exception("Implement IResourceHandlerFactory and assign to the ResourceHandlerFactory property to use this feature");
             }
 
-            handler.RegisterHandler(url, CefSharp.ResourceHandler.FromString(html, encoding, true));
+            factory.RegisterHandler(url, ResourceHandler.FromString(html, encoding, true));
 
             Load(url);
         }
@@ -458,22 +498,14 @@ namespace CefSharp.WinForms
             managedCefBrowserAdapter.AddWordToDictionary(word);
         }
 
-        protected override void OnEnter(EventArgs e)
+        protected override void OnGotFocus(EventArgs e)
         {
             SetFocus(true);
-
-            base.OnEnter(e);
-        }
-
-        protected override void OnLeave(EventArgs e)
-        {
-            SetFocus(false);
-
-            base.OnLeave(e);
+            base.OnGotFocus(e);
         }
 
         /// <summary>
-        /// Set whether the browser is focused.
+        /// Tell the browser to acquire/release focus.
         /// </summary>
         public void SetFocus(bool isFocused)
         {

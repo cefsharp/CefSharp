@@ -66,7 +66,7 @@ namespace CefSharp
                 return false;
             }
 
-            return handler->OnBeforePopup(_browserControl, StringUtils::ToClr(target_url),
+            return handler->OnBeforePopup(_browserControl, StringUtils::ToClr(frame->GetURL()), StringUtils::ToClr(target_url),
                 windowInfo.x, windowInfo.y, windowInfo.width, windowInfo.height);
         }
 
@@ -124,7 +124,7 @@ namespace CefSharp
 
         void ClientAdapter::OnAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& address)
         {
-            if (frame->IsMain())
+            if (!browser->IsPopup())
             {
                 _browserControl->SetAddress(StringUtils::ToClr(address));
             }
@@ -247,7 +247,7 @@ namespace CefSharp
 
             CefRequestWrapper^ wrapper = gcnew CefRequestWrapper(request);
 
-            return handler->OnBeforeBrowse(_browserControl, wrapper, isRedirect);
+            return handler->OnBeforeBrowse(_browserControl, wrapper, isRedirect, frame->IsMain());
         }
 
         bool ClientAdapter::OnCertificateError(cef_errorcode_t cert_error, const CefString& request_url, CefRefPtr<CefAllowCertificateErrorCallback> callback)
@@ -310,16 +310,16 @@ namespace CefSharp
         // this callback.
         CefRefPtr<CefResourceHandler> ClientAdapter::GetResourceHandler(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request)
         {
-            auto handler = _browserControl->ResourceHandler;
+            auto factory = _browserControl->ResourceHandlerFactory;
 
-            if (handler == nullptr)
+            if (factory == nullptr || !factory->HasHandlers)
             {
                 return NULL;
             }
 
             auto requestWrapper = gcnew CefRequestWrapper(request);
 
-            auto resourceHandler = handler->GetResourceHandler(_browserControl, requestWrapper);
+            auto resourceHandler = factory->GetResourceHandler(_browserControl, requestWrapper);
 
             if(resourceHandler != nullptr)
             {
@@ -333,9 +333,8 @@ namespace CefSharp
                 {
                     CefResponse::HeaderMap map = SchemeHandlerWrapper::ToHeaderMap(resourceHandler->Headers);
 
-                    //TODO: Investigate crash when using full response
-                    //return new CefStreamResourceHandler(resourceHandler->StatusCode, statusText, mimeType, map, stream);
-                    return new CefStreamResourceHandler(mimeType, stream);
+                    //NOTE: This will crash in a debug build due to a CEF bug.
+                    return new CefStreamResourceHandler(resourceHandler->StatusCode, statusText, mimeType, map, stream);
                 }
             }
 
@@ -352,20 +351,8 @@ namespace CefSharp
             }
 
             auto requestWrapper = gcnew CefRequestWrapper(request);
-            auto response = gcnew Response();
 
-            bool ret = handler->OnBeforeResourceLoad(_browserControl, requestWrapper, response);
-
-            if (response->Action == ResponseAction::Redirect)
-            {
-                request->SetURL(StringUtils::ToNative(response->RedirectUrl));
-            }
-            else if (response->Action == ResponseAction::Cancel)
-            {
-                return true;
-            }
-
-            return ret;
+            return handler->OnBeforeResourceLoad(_browserControl, requestWrapper, frame->IsMain());
         }
 
         CefRefPtr<CefDownloadHandler> ClientAdapter::GetDownloadHandler()

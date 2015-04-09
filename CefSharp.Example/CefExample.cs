@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq;
 
 namespace CefSharp.Example
 {
@@ -20,13 +19,23 @@ namespace CefSharp.Example
             // Environment.SetEnvironmentVariable("GOOGLE_DEFAULT_CLIENT_ID", "");
             // Environment.SetEnvironmentVariable("GOOGLE_DEFAULT_CLIENT_SECRET", "");
 
+            //Chromium Command Line args
+            //http://peter.sh/experiments/chromium-command-line-switches/
+            //NOTE: Not all relevant in relation to `CefSharp`, use for reference purposes only.
+
             var settings = new CefSettings();
             settings.RemoteDebuggingPort = 8088;
+            //settings.UserAgent = "CefSharp Browser" + Cef.CefSharpVersion; // Example User Agent
             //settings.CefCommandLineArgs.Add("renderer-process-limit", "1");
             //settings.CefCommandLineArgs.Add("renderer-startup-dialog", "renderer-startup-dialog");
             //settings.CefCommandLineArgs.Add("disable-gpu", "1");
             //settings.CefCommandLineArgs.Add("disable-gpu-vsync", "1");
             //settings.CefCommandLineArgs.Add("enable-media-stream", "1"); //Enable WebRTC
+            //settings.CefCommandLineArgs.Add("no-proxy-server", "1"); //Don't use a proxy server, always make direct connections. Overrides any other proxy server flags that are passed.
+            
+            //Disables the DirectWrite font rendering system on windows.
+            //Possibly useful when experiencing blury fonts.
+            //settings.CefCommandLineArgs.Add("disable-direct-write", "1");
             
             settings.LogSeverity = LogSeverity.Verbose;
 
@@ -42,7 +51,11 @@ namespace CefSharp.Example
                 SchemeHandlerFactory = new CefSharpSchemeHandlerFactory()
             });
 
-            if (!Cef.Initialize(settings))
+            //Cef will check if all dependencies are present
+            //For special case when Checking Windows Xp Dependencies
+            //DependencyChecker.IsWindowsXp = true;
+
+            if (!Cef.Initialize(settings, shutdownOnProcessExit: true, performDependencyCheck: true))
             {
                 throw new Exception("Unable to Initialize Cef");
             }
@@ -50,11 +63,13 @@ namespace CefSharp.Example
 
         public static void RegisterTestResources(IWebBrowser browser)
         {
-            var handler = browser.ResourceHandler;
+            var handler = browser.ResourceHandlerFactory;
             if (handler != null)
             {
                 const string responseBody = "<html><body><h1>Success</h1><p>This document is loaded from a System.IO.Stream</p></body></html>";
-                handler.RegisterHandler(TestResourceUrl, ResourceHandler.FromString(responseBody));
+                var response = ResourceHandler.FromString(responseBody);
+                response.Headers.Add("HeaderTest1", "HeaderTest1Value");
+                handler.RegisterHandler(TestResourceUrl, response);
 
                 const string unicodeResponseBody = "<html><body>整体满意度</body></html>";
                 handler.RegisterHandler(TestUnicodeResourceUrl, ResourceHandler.FromString(unicodeResponseBody));

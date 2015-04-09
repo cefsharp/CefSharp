@@ -37,25 +37,63 @@ namespace CefSharp.OffScreen
         /// </summary>
         private Size size = new Size(1366, 768);
 
+        public bool IsBrowserInitialized { get; private set; }
+        public bool IsLoading { get; set; }
+        public string Title { get; set; }
+        public string TooltipText { get; set; }
+        public bool CanReload { get; private set; }
+        public string Address { get; private set; }
+        public bool CanGoBack { get; private set; }
+        public bool CanGoForward { get; private set; }
+        public BrowserSettings BrowserSettings { get; private set; }
+        public IJsDialogHandler JsDialogHandler { get; set; }
+        public IDialogHandler DialogHandler { get; set; }
+        public IDownloadHandler DownloadHandler { get; set; }
+        public IKeyboardHandler KeyboardHandler { get; set; }
+        public ILifeSpanHandler LifeSpanHandler { get; set; }
+        public IMenuHandler MenuHandler { get; set; }
+        public IFocusHandler FocusHandler { get; set; }
+        public IRequestHandler RequestHandler { get; set; }
+        public IDragHandler DragHandler { get; set; }
+        public IResourceHandlerFactory ResourceHandlerFactory { get; set; }
+        public IGeolocationHandler GeolocationHandler { get; set; }
+
+        public event EventHandler<LoadErrorEventArgs> LoadError;
+        public event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
+        public event EventHandler<FrameLoadEndEventArgs> FrameLoadEnd;
+        public event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
+        public event EventHandler BrowserInitialized;
+        public event EventHandler<StatusMessageEventArgs> StatusMessage;
+        public event EventHandler<NavStateChangedEventArgs> NavStateChanged;
+        public event EventHandler<AddressChangedEventArgs> AddressChanged;
+        public event EventHandler<IsLoadingChangedEventArgs> IsLoadingChanged;
+
+        /// <summary>
+        /// Fired by a separate thread when Chrome has re-rendered.
+        /// This means that a Bitmap will be returned by ScreenshotOrNull().
+        /// </summary>
+        public event EventHandler NewScreenshot;
+
         /// <summary>
         /// Create a new OffScreen Chromium Browser
         /// </summary>
         /// <param name="address">Initial address (url) to load</param>
         /// <param name="browserSettings">The browser settings to use. If null, the default settings are used.</param>
-        public ChromiumWebBrowser(string address, BrowserSettings browserSettings = null)
+        public ChromiumWebBrowser(string address = "", BrowserSettings browserSettings = null)
         {
             if (!Cef.IsInitialized && !Cef.Initialize())
             {
                 throw new InvalidOperationException("Cef::Initialize() failed");
             }
 
-            ResourceHandler = new DefaultResourceHandler();
+            ResourceHandlerFactory = new DefaultResourceHandlerFactory();
+            BrowserSettings = browserSettings ?? new BrowserSettings();
 
             Cef.AddDisposable(this);
             Address = address;
 
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, true);
-            managedCefBrowserAdapter.CreateOffscreenBrowser(IntPtr.Zero, browserSettings ?? new BrowserSettings(), address);
+            managedCefBrowserAdapter.CreateOffscreenBrowser(IntPtr.Zero, BrowserSettings, address);
         }
 
         ~ChromiumWebBrowser()
@@ -72,7 +110,7 @@ namespace CefSharp.OffScreen
         protected virtual void Dispose(bool disposing)
         {
             // Don't reference handlers any longer:
-            ResourceHandler = null;
+            ResourceHandlerFactory = null;
             JsDialogHandler = null;
             DialogHandler = null;
             DownloadHandler = null;
@@ -92,15 +130,25 @@ namespace CefSharp.OffScreen
             BrowserInitialized = null;
             StatusMessage = null;
             NavStateChanged = null;
+            AddressChanged = null;
+            IsLoadingChanged = null;
 
             Cef.RemoveDisposable(this);
 
             if (disposing)
             {
+                IsBrowserInitialized = false;
+
                 if (bitmap != null)
                 {
                     bitmap.Dispose();
                     bitmap = null;
+                }
+
+                if (BrowserSettings != null)
+                {
+                    BrowserSettings.Dispose();
+                    BrowserSettings = null;
                 }
 
                 if (managedCefBrowserAdapter != null)
@@ -131,12 +179,6 @@ namespace CefSharp.OffScreen
                 }
             }
         }
-
-        /// <summary>
-        /// Fired by a separate thread when Chrome has re-rendered.
-        /// This means that a Bitmap will be returned by ScreenshotOrNull().
-        /// </summary>
-        public event EventHandler NewScreenshot;
 
         /// <summary>
         /// Immediately returns a copy of the last rendering from Chrome,
@@ -198,34 +240,14 @@ namespace CefSharp.OffScreen
             return completionSource.Task;
         }
 
-        public IJsDialogHandler JsDialogHandler { get; set; }
-        public IDialogHandler DialogHandler { get; set; }
-        public IDownloadHandler DownloadHandler { get; set; }
-        public IKeyboardHandler KeyboardHandler { get; set; }
-        public ILifeSpanHandler LifeSpanHandler { get; set; }
-        public IMenuHandler MenuHandler { get; set; }
-        public IFocusHandler FocusHandler { get; set; }
-        public IRequestHandler RequestHandler { get; set; }
-        public IDragHandler DragHandler { get; set; }
-        public IResourceHandler ResourceHandler { get; set; }
-        public IGeolocationHandler GeolocationHandler { get; set; }
-
-        public event EventHandler<LoadErrorEventArgs> LoadError;
-        public event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
-        public event EventHandler<FrameLoadEndEventArgs> FrameLoadEnd;
-        public event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
-        public event EventHandler BrowserInitialized;
-        public event EventHandler<StatusMessageEventArgs> StatusMessage;
-        public event EventHandler<NavStateChangedEventArgs> NavStateChanged;
-
         public void ShowDevTools()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("Not implemented in OffScreen ChromiumWebBrowser");
         }
 
         public void CloseDevTools()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("Not implemented in OffScreen ChromiumWebBrowser");
         }
 
         public void ReplaceMisspelling(string word)
@@ -237,12 +259,6 @@ namespace CefSharp.OffScreen
         {
             managedCefBrowserAdapter.AddWordToDictionary(word);
         }
-
-        public string Address { get; private set; }
-
-        public bool CanGoBack { get; private set; }
-
-        public bool CanGoForward { get; private set; }
 
         public Task<JavascriptResponse> EvaluateScriptAsync(string script, TimeSpan? timeout = null)
         {
@@ -264,10 +280,6 @@ namespace CefSharp.OffScreen
             managedCefBrowserAdapter.StopFinding(clearSelection);
         }
 
-        public bool IsBrowserInitialized { get; private set; }
-
-        public bool IsLoading { get; set; }
-
         public void Load(string url)
         {
             Address = url;
@@ -281,13 +293,13 @@ namespace CefSharp.OffScreen
 
         public void LoadHtml(string html, string url, Encoding encoding)
         {
-            var handler = ResourceHandler;
-            if (handler == null)
+            var factory = ResourceHandlerFactory;
+            if (factory == null)
             {
-                throw new Exception("Implement IResourceHandler and assign to the ResourceHandler property to use this feature");
+                throw new Exception("Implement IResourceHandlerFactory and assign to the ResourceHandlerFactory property to use this feature");
             }
 
-            handler.RegisterHandler(url, CefSharp.ResourceHandler.FromString(html, encoding, true));
+            factory.RegisterHandler(url, CefSharp.ResourceHandler.FromString(html, encoding, true));
 
             Load(url);
         }
@@ -301,12 +313,6 @@ namespace CefSharp.OffScreen
         {
             managedCefBrowserAdapter.Stop();
         }
-
-        public string Title { get; set; }
-
-        public string TooltipText { get; set; }
-
-        public bool CanReload { get; private set; }
 
         public Task<string> GetSourceAsync()
         {
@@ -322,6 +328,10 @@ namespace CefSharp.OffScreen
             return taskStringVisitor.Task;
         }
 
+        /// <summary>
+        /// Has Focus - Always False
+        /// </summary>
+        /// <returns>returns false</returns>
         bool IWebBrowser.Focus()
         {
             // no control to focus for offscreen browser
@@ -371,20 +381,22 @@ namespace CefSharp.OffScreen
 
         #region IRenderWebBrowser (rendering to bitmap; derived from CefSharp.Wpf.ChromiumWebBrowser)
 
-        int IRenderWebBrowser.Width
+        ScreenInfo IRenderWebBrowser.GetScreenInfo()
         {
-            get { return size.Width; }
+            var screenInfo = new ScreenInfo();
+
+            screenInfo.Width = size.Width;
+            screenInfo.Height = size.Height;
+            //TODO: Expose NotifyScreenInfoChanged and allow user to specify their own scale factor
+            screenInfo.ScaleFactor = 1.0F;
+
+            return screenInfo;
         }
 
-        int IRenderWebBrowser.Height
-        {
-            get { return size.Height; }
-        }
-
-        public BitmapInfo CreateBitmapInfo(bool isPopup)
+        BitmapInfo IRenderWebBrowser.CreateBitmapInfo(bool isPopup)
         {
             //The bitmap buffer is 32 BPP
-            return new GdiBitmapInfo { IsPopup = isPopup, BytesPerPixel = 4, BitmapLock = bitmapLock };
+            return new GdiBitmapInfo { IsPopup = isPopup, BitmapLock = bitmapLock };
         }
 
         void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
@@ -482,11 +494,23 @@ namespace CefSharp.OffScreen
         void IWebBrowserInternal.SetAddress(string address)
         {
             Address = address;
+
+            var handler = AddressChanged;
+            if (handler != null)
+            {
+                handler(this, new AddressChangedEventArgs(address));
+            }
         }
 
-        void IWebBrowserInternal.SetIsLoading(bool isloading)
+        void IWebBrowserInternal.SetIsLoading(bool isLoading)
         {
-            IsLoading = isloading;
+            IsLoading = isLoading;
+
+            var handler = IsLoadingChanged;
+            if (handler != null)
+            {
+                handler(this, new IsLoadingChangedEventArgs(isLoading));
+            }
         }
 
         void IWebBrowserInternal.SetLoadingStateChange(bool canGoBack, bool canGoForward, bool isLoading)

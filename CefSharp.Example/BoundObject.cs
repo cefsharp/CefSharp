@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace CefSharp.Example
 {
@@ -17,6 +18,21 @@ namespace CefSharp.Example
             IgnoredProperty = "I am an Ignored Property";
             MyUnconvertibleProperty = GetType();
             SubObject = new SubBoundObject();
+        }
+
+        public void TestCallback(IJavascriptCallback javascriptCallback)
+        {
+            const int taskDelay = 1500;
+
+            Task.Run(async () =>
+            {
+                await Task.Delay(taskDelay);
+
+                using (javascriptCallback)
+                {
+                    await javascriptCallback.ExecuteAsync("This callback from C# was delayed " + taskDelay + "ms");
+                }
+            });
         }
 
         public int EchoMyProperty()

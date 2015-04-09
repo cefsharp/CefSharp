@@ -8,7 +8,17 @@ namespace CefSharp.OffScreen
 {
     public class GdiBitmapInfo : BitmapInfo
     {
-        public bool IsCleared { get; set; }
+        public bool IsCleared { get; private set; }
+
+        public GdiBitmapInfo()
+        {
+            BytesPerPixel = 4;
+        }
+
+        public override bool CreateNewBitmap
+        {
+            get { return IsCleared; }
+        }
 
         public override void ClearBitmap()
         {
