@@ -27,7 +27,6 @@ namespace CefSharp.Wpf
 
         private HwndSource source;
         private HwndSourceHook sourceHook;
-        private DispatcherTimer tooltipTimer;
         private readonly ToolTip toolTip;
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
         private bool ignoreUriChange;
@@ -211,11 +210,6 @@ namespace CefSharp.Wpf
 
                 IsVisibleChanged -= OnIsVisibleChanged;
 
-                if (tooltipTimer != null)
-                {
-                    tooltipTimer.Tick -= OnTooltipTimerTick;
-                }
-
                 if (CleanupElement != null)
                 {
                     CleanupElement.Unloaded -= OnCleanupElementUnloaded;
@@ -226,7 +220,7 @@ namespace CefSharp.Wpf
                     disposable.Dispose();
                 }
                 disposables.Clear();
-                UiThreadRunAsync(() => WebBrowser = null);
+                this.UiThreadRunAsync(() => WebBrowser = null);
             }
 
             Cef.RemoveDisposable(this);
@@ -260,7 +254,7 @@ namespace CefSharp.Wpf
 
         void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
         {
-            UiThreadRunAsync(delegate
+            this.UiThreadRunAsync(delegate
             {
                 lock (bitmapInfo.BitmapLock)
                 {
@@ -287,17 +281,25 @@ namespace CefSharp.Wpf
 
         void IRenderWebBrowser.SetPopupSizeAndPosition(int width, int height, int x, int y)
         {
-            UiThreadRunAsync(() => SetPopupSizeAndPositionImpl(width, height, x, y));
+            this.UiThreadRunAsync(() =>
+            {
+                popup.Width = width;
+                popup.Height = height;
+
+                var popupOffset = new Point(x, y);
+                popup.HorizontalOffset = popupOffset.X / matrix.M11;
+                popup.VerticalOffset = popupOffset.Y / matrix.M22;
+            });
         }
 
         void IRenderWebBrowser.SetPopupIsOpen(bool isOpen)
         {
-            UiThreadRunAsync(() => { popup.IsOpen = isOpen; });
+            this.UiThreadRunAsync(() => { popup.IsOpen = isOpen; });
         }
 
         void IRenderWebBrowser.SetCursor(IntPtr handle)
         {
-            UiThreadRunAsync(() =>
+            this.UiThreadRunAsync(() =>
             {
                 Cursor = CursorInteropHelper.Create(new SafeFileHandle(handle, ownsHandle: false));
             });
@@ -305,7 +307,7 @@ namespace CefSharp.Wpf
 
         void IWebBrowserInternal.SetAddress(string address)
         {
-            UiThreadRunAsync(() =>
+            this.UiThreadRunAsync(() =>
             {
                 ignoreUriChange = true;
                 SetCurrentValue(AddressProperty, address);
@@ -318,7 +320,7 @@ namespace CefSharp.Wpf
 
         void IWebBrowserInternal.SetLoadingStateChange(bool canGoBack, bool canGoForward, bool isLoading)
         {
-            UiThreadRunAsync(() =>
+            this.UiThreadRunAsync(() =>
             {
                 SetCurrentValue(CanGoBackProperty, canGoBack);
                 SetCurrentValue(CanGoForwardProperty, canGoForward);
@@ -339,12 +341,12 @@ namespace CefSharp.Wpf
 
         void IWebBrowserInternal.SetTitle(string title)
         {
-            UiThreadRunAsync(() => SetCurrentValue(TitleProperty, title));
+            this.UiThreadRunAsync(() => SetCurrentValue(TitleProperty, title));
         }
 
         void IWebBrowserInternal.SetTooltipText(string tooltipText)
         {
-            UiThreadRunAsync(() => SetCurrentValue(TooltipTextProperty, tooltipText));
+            this.UiThreadRunAsync(() => SetCurrentValue(TooltipTextProperty, tooltipText));
         }
 
         void IWebBrowserInternal.OnFrameLoadStart(string url, bool isMainFrame)
@@ -395,7 +397,7 @@ namespace CefSharp.Wpf
 
         void IWebBrowserInternal.OnInitialized()
         {
-            UiThreadRunAsync(() => SetCurrentValue(IsBrowserInitializedProperty, true));
+            this.UiThreadRunAsync(() => SetCurrentValue(IsBrowserInitializedProperty, true));
         }
 
         #region CanGoBack dependency property
@@ -641,25 +643,28 @@ namespace CefSharp.Wpf
         }
 
         public static readonly DependencyProperty TooltipTextProperty =
-            DependencyProperty.Register("TooltipText", typeof(string), typeof(ChromiumWebBrowser), new PropertyMetadata(null, (sender, e) => ((ChromiumWebBrowser)sender).OnTooltipTextChanged()));
+            DependencyProperty.Register("TooltipText", typeof(string), typeof(ChromiumWebBrowser), new PropertyMetadata(null, OnTooltipTextChanged));
 
-        private void OnTooltipTextChanged()
+        private static void OnTooltipTextChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
-            var timer = tooltipTimer;
-            if (timer == null)
-            {
-                return;
-            }
+            var owner = (ChromiumWebBrowser)sender;
+            var newValue = (string)args.NewValue;
 
-            timer.Stop();
-
-            if (String.IsNullOrEmpty(TooltipText))
+            if (string.IsNullOrEmpty(newValue))
             {
-                UiThreadRunAsync(() => UpdateTooltip(null), DispatcherPriority.Render);
+                owner.UiThreadRunAsync(() => { owner.toolTip.IsOpen = false; }, DispatcherPriority.Render);
             }
             else
             {
-                timer.Start();
+                owner.DelayUiThreadRunAsync(() =>
+                {
+                    var toolTip = owner.toolTip;
+
+                    toolTip.Content = newValue;
+                    toolTip.Placement = PlacementMode.Mouse;
+                    toolTip.Visibility = Visibility.Visible;
+                    toolTip.IsOpen = true;
+                }, 500, DispatcherPriority.Render);
             }
         }
 
@@ -856,18 +861,6 @@ namespace CefSharp.Wpf
             browserCreated = true;
         }
 
-        private void UiThreadRunAsync(Action action, DispatcherPriority priority = DispatcherPriority.DataBind)
-        {
-            if (Dispatcher.CheckAccess())
-            {
-                action();
-            }
-            else if (!Dispatcher.HasShutdownStarted)
-            {
-                Dispatcher.BeginInvoke(action, priority);
-            }
-        }
-
         private void OnActualSizeChanged(object sender, EventArgs e)
         {
             // Initialize RenderClientAdapter when WPF has calculated the actual size of current content.
@@ -1058,23 +1051,6 @@ namespace CefSharp.Wpf
             return modifiers;
         }
 
-        private void SetPopupSizeAndPositionImpl(int width, int height, int x, int y)
-        {
-            popup.Width = width;
-            popup.Height = height;
-
-            var popupOffset = new Point(x, y);
-            popup.HorizontalOffset = popupOffset.X / matrix.M11;
-            popup.VerticalOffset = popupOffset.Y / matrix.M22;
-        }
-
-        private void OnTooltipTimerTick(object sender, EventArgs e)
-        {
-            tooltipTimer.Stop();
-
-            UpdateTooltip(TooltipText);
-        }
-
         private void OnTooltipClosed(object sender, RoutedEventArgs e)
         {
             toolTip.Visibility = Visibility.Collapsed;
@@ -1082,21 +1058,6 @@ namespace CefSharp.Wpf
             // Set Placement to something other than PlacementMode.Mouse, so that when we re-show the tooltip in
             // UpdateTooltip(), the tooltip will be repositioned to the new mouse point.
             toolTip.Placement = PlacementMode.Absolute;
-        }
-
-        private void UpdateTooltip(string text)
-        {
-            if (String.IsNullOrEmpty(text))
-            {
-                toolTip.IsOpen = false;
-            }
-            else
-            {
-                toolTip.Content = text;
-                toolTip.Placement = PlacementMode.Mouse;
-                toolTip.Visibility = Visibility.Visible;
-                toolTip.IsOpen = true;
-            }
         }
 
         private void OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
@@ -1242,19 +1203,6 @@ namespace CefSharp.Wpf
             //Added null check -> binding-triggered changes of Address will lead to a nullref after Dispose has been called.
             if (managedCefBrowserAdapter != null)
             {
-                if (tooltipTimer != null)
-                {
-                    tooltipTimer.Tick -= OnTooltipTimerTick;
-                }
-
-                // TODO: Consider making the delay here configurable.
-                tooltipTimer = new DispatcherTimer(
-                    TimeSpan.FromSeconds(0.5),
-                    DispatcherPriority.Render,
-                    OnTooltipTimerTick,
-                    Dispatcher
-                    );
-
                 managedCefBrowserAdapter.LoadUrl(url);
             }
         }
@@ -1354,7 +1302,7 @@ namespace CefSharp.Wpf
 
         private void ZoomIn()
         {
-            UiThreadRunAsync(() =>
+            this.UiThreadRunAsync(() =>
             {
                 ZoomLevel = ZoomLevel + ZoomLevelIncrement;
             });
@@ -1362,7 +1310,7 @@ namespace CefSharp.Wpf
 
         private void ZoomOut()
         {
-            UiThreadRunAsync(() =>
+            this.UiThreadRunAsync(() =>
             {
                 ZoomLevel = ZoomLevel - ZoomLevelIncrement;
             });
@@ -1370,7 +1318,7 @@ namespace CefSharp.Wpf
 
         private void ZoomReset()
         {
-            UiThreadRunAsync(() =>
+            this.UiThreadRunAsync(() =>
             {
                 ZoomLevel = 0;
             });

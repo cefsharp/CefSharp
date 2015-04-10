@@ -105,6 +105,7 @@
     <Compile Include="WM.cs" />
     <Compile Include="Rendering\WpfBitmapInfo.cs" />
     <Compile Include="Rendering\WritableBitmapInfo.cs" />
+    <Compile Include="WpfExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.vcxproj">
