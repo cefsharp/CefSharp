@@ -86,7 +86,8 @@ namespace CefSharp
         /// </summary>
         /// <param name="name">The name of the object. (e.g. "foo", if you want the object to be accessible as window.foo).</param>
         /// <param name="objectToBind">The object to be made accessible to Javascript.</param>
-        void RegisterJsObject(string name, object objectToBind);
+        /// <param name="lowerCaseJavascriptNames">lower-case the names of properties/methods, defaults to true</param>
+        void RegisterJsObject(string name, object objectToBind, bool lowerCaseJavascriptNames = true);
 
         /// <summary>
         /// Execute some Javascript code in the context of this WebBrowser. As the method name implies, the script will be

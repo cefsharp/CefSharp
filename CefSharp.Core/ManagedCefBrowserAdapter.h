@@ -659,9 +659,9 @@ namespace CefSharp
             }
         }
 
-        void RegisterJsObject(String^ name, Object^ object)
+        void RegisterJsObject(String^ name, Object^ object, bool lowerCaseJavascriptNames)
         {
-            _javaScriptObjectRepository->Register(name, object);
+            _javaScriptObjectRepository->Register(name, object, lowerCaseJavascriptNames);
         }
 
         void ReplaceMisspelling(String^ word)
