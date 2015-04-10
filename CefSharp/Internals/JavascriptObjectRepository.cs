@@ -35,14 +35,14 @@ namespace CefSharp.Internals
             return result;
         }
 
-        public void Register(string name, object value)
+        public void Register(string name, object value, bool lowerCaseJavascriptNames)
         {
             var jsObject = CreateJavascriptObject();
             jsObject.Value = value;
             jsObject.Name = name;
             jsObject.JavascriptName = name;
 
-            AnalyseObjectForBinding(jsObject, analyseMethods: true, readPropertyValue: false);
+            AnalyseObjectForBinding(jsObject, analyseMethods: true, readPropertyValue: false, lowerCaseJavascriptNames: lowerCaseJavascriptNames);
 
             RootObject.MemberObjects.Add(jsObject);
         }
@@ -88,7 +88,7 @@ namespace CefSharp.Internals
                     jsObject.Name = "FunctionResult(" + name + ")";
                     jsObject.JavascriptName = jsObject.Name;
 
-                    AnalyseObjectForBinding(jsObject, analyseMethods: false, readPropertyValue: true);
+                    AnalyseObjectForBinding(jsObject, analyseMethods: false, readPropertyValue: true, lowerCaseJavascriptNames:true);
 
                     result = jsObject;
                 }
@@ -169,7 +169,8 @@ namespace CefSharp.Internals
         /// <param name="obj">Javascript object</param>
         /// <param name="analyseMethods">Analyse methods for inclusion in metadata model</param>
         /// <param name="readPropertyValue">When analysis is done on a property, if true then get it's value for transmission over WCF</param>
-        private void AnalyseObjectForBinding(JavascriptObject obj, bool analyseMethods, bool readPropertyValue)
+        /// <param name="lowerCaseJavascriptNames">decide wether your JS mathods and properties are automatically lowercased or not</param>
+        private void AnalyseObjectForBinding(JavascriptObject obj, bool analyseMethods, bool readPropertyValue, bool lowerCaseJavascriptNames)
         {
             if (obj.Value == null)
             {
@@ -192,7 +193,7 @@ namespace CefSharp.Internals
                         continue;
                     }
 
-                    var jsMethod = CreateJavaScriptMethod(methodInfo);
+                    var jsMethod = CreateJavaScriptMethod(methodInfo, lowerCaseJavascriptNames);
                     obj.Methods.Add(jsMethod);
                 }
             }
@@ -204,16 +205,16 @@ namespace CefSharp.Internals
                     continue;
                 }
 
-                var jsProperty = CreateJavaScriptProperty(propertyInfo);
+                var jsProperty = CreateJavaScriptProperty(propertyInfo, lowerCaseJavascriptNames);
                 if (jsProperty.IsComplexType)
                 {
                     var jsObject = CreateJavascriptObject();
                     jsObject.Name = propertyInfo.Name;
-                    jsObject.JavascriptName = LowercaseFirst(propertyInfo.Name);
+                    jsObject.JavascriptName = GetJavascriptName(propertyInfo.Name, lowerCaseJavascriptNames);
                     jsObject.Value = jsProperty.GetValue(obj.Value);
                     jsProperty.JsObject = jsObject;
 
-                    AnalyseObjectForBinding(jsProperty.JsObject, analyseMethods, readPropertyValue);
+                    AnalyseObjectForBinding(jsProperty.JsObject, analyseMethods, readPropertyValue, lowerCaseJavascriptNames);
                 }
                 else if (readPropertyValue)
                 {
@@ -223,24 +224,24 @@ namespace CefSharp.Internals
             }
         }
 
-        private static JavascriptMethod CreateJavaScriptMethod(MethodInfo methodInfo)
+        private static JavascriptMethod CreateJavaScriptMethod(MethodInfo methodInfo, bool lowerCaseJavascriptNames)
         {
             var jsMethod = new JavascriptMethod();
 
             jsMethod.ManagedName = methodInfo.Name;
-            jsMethod.JavascriptName = LowercaseFirst(methodInfo.Name);
+            jsMethod.JavascriptName = GetJavascriptName(methodInfo.Name, lowerCaseJavascriptNames);
             jsMethod.Function = methodInfo.Invoke;
             jsMethod.ParameterCount = methodInfo.GetParameters().Length;
 
             return jsMethod;
         }
 
-        private static JavascriptProperty CreateJavaScriptProperty(PropertyInfo propertyInfo)
+        private static JavascriptProperty CreateJavaScriptProperty(PropertyInfo propertyInfo, bool lowerCaseJavascriptNames)
         {
             var jsProperty = new JavascriptProperty();
 
             jsProperty.ManagedName = propertyInfo.Name;
-            jsProperty.JavascriptName = LowercaseFirst(propertyInfo.Name);
+            jsProperty.JavascriptName = GetJavascriptName(propertyInfo.Name, lowerCaseJavascriptNames);
             jsProperty.SetValue = (o, v) => propertyInfo.SetValue(o, v, null);
             jsProperty.GetValue = (o) => propertyInfo.GetValue(o, null);
 
@@ -274,8 +275,13 @@ namespace CefSharp.Internals
             return !baseType.IsPrimitive && baseType != typeof(string);
         }
 
-        private static string LowercaseFirst(string str)
+        private static string GetJavascriptName(string str, bool lowerCaseJavascriptNames)
         {
+            if (!lowerCaseJavascriptNames)
+            {
+                return str;
+            }
+
             if (string.IsNullOrEmpty(str))
             {
                 return string.Empty;

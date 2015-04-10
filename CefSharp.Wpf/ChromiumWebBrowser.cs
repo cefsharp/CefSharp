@@ -925,7 +925,7 @@ namespace CefSharp.Wpf
             {
                 Child = popupImage = CreateImage(),
                 PlacementTarget = this,
-                Placement = PlacementMode.Relative,
+                Placement = PlacementMode.Absolute,
             };
 
             newPopup.MouseEnter += PopupMouseEnter;
@@ -963,7 +963,7 @@ namespace CefSharp.Wpf
                         return IntPtr.Zero;
                     }
 
-                    handled = managedCefBrowserAdapter.SendKeyEvent(message, wParam.ToInt32(), lParam);
+                    handled = managedCefBrowserAdapter.SendKeyEvent(message, wParam.CastToInt32(), lParam.CastToInt32());
 
                     break;
             }
@@ -1060,12 +1060,13 @@ namespace CefSharp.Wpf
 
         private void SetPopupSizeAndPositionImpl(int width, int height, int x, int y)
         {
-            popup.Width = width;
-            popup.Height = height;
+            popup.Width = width / matrix.M11;
+            popup.Height = height / matrix.M22;
 
-            var popupOffset = new Point(x, y);
-            popup.HorizontalOffset = popupOffset.X / matrix.M11;
-            popup.VerticalOffset = popupOffset.Y / matrix.M22;
+            var popupOffset = new Point(x / matrix.M11, y / matrix.M22);
+            var locationFromScreen = PointToScreen(popupOffset);
+            popup.HorizontalOffset = locationFromScreen.X / matrix.M11;
+            popup.VerticalOffset = locationFromScreen.Y / matrix.M22;
         }
 
         private void OnTooltipTimerTick(object sender, EventArgs e)
@@ -1150,7 +1151,7 @@ namespace CefSharp.Wpf
                 var message = (int)(e.IsDown ? WM.KEYDOWN : WM.KEYUP);
                 var virtualKey = KeyInterop.VirtualKeyFromKey(e.Key);
 
-                e.Handled = managedCefBrowserAdapter.SendKeyEvent(message, virtualKey, new IntPtr((int)modifiers));
+                e.Handled = managedCefBrowserAdapter.SendKeyEvent(message, virtualKey, (int)modifiers);
             }
         }
 
@@ -1386,9 +1387,9 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter.CloseDevTools();
         }
 
-        public void RegisterJsObject(string name, object objectToBind)
+        public void RegisterJsObject(string name, object objectToBind, bool lowerCaseJavascriptNames = true)
         {
-            managedCefBrowserAdapter.RegisterJsObject(name, objectToBind);
+            managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, lowerCaseJavascriptNames);
         }
 
         public void ExecuteScriptAsync(string script)
@@ -1471,6 +1472,18 @@ namespace CefSharp.Wpf
         public void SetZoomLevel(double zoomLevel)
         {
             managedCefBrowserAdapter.SetZoomLevel(zoomLevel);
+        }
+
+        /// <summary>
+        /// Sends a Key Event directly to the underlying Browser (CEF).
+        /// </summary>
+        /// <param name="message">The message</param>
+        /// <param name="wParam">The wParam</param>
+        /// <param name="lParam">The lParam</param>
+        /// <returns>bool</returns>
+        public bool SendKeyEvent(int message, int wParam, int lParam)
+        {
+            return managedCefBrowserAdapter.SendKeyEvent(message, wParam, lParam);
         }
     }
 }

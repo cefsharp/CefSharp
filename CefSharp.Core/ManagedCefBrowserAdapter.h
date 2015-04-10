@@ -183,7 +183,7 @@ namespace CefSharp
             }
         }
 
-        bool SendKeyEvent(int message, int wParam, IntPtr lParamIntPtr)
+        bool SendKeyEvent(int message, int wParam, int lParam)
         {
             auto browser = _clientAdapter->GetCefBrowser();
 
@@ -191,8 +191,6 @@ namespace CefSharp
             {
                 return false;
             }
-
-            LPARAM lParam = IntPtr::Size == 8 ? lParamIntPtr.ToInt64() : lParamIntPtr.ToInt32();
 
             CefKeyEvent keyEvent;
             keyEvent.windows_key_code = wParam;
@@ -661,9 +659,9 @@ namespace CefSharp
             }
         }
 
-        void RegisterJsObject(String^ name, Object^ object)
+        void RegisterJsObject(String^ name, Object^ object, bool lowerCaseJavascriptNames)
         {
-            _javaScriptObjectRepository->Register(name, object);
+            _javaScriptObjectRepository->Register(name, object, lowerCaseJavascriptNames);
         }
 
         void ReplaceMisspelling(String^ word)

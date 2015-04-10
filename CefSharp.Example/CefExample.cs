@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Reflection;
 using System.Text;
 
 namespace CefSharp.Example
@@ -51,6 +52,11 @@ namespace CefSharp.Example
                 SchemeName = CefSharpSchemeHandlerFactory.SchemeName,
                 SchemeHandlerFactory = new CefSharpSchemeHandlerFactory()
             });
+
+            Cef.OnContextInitialized = delegate
+            {
+                Cef.SetCookiePath("cookies", true);
+            };
 
             //Cef will check if all dependencies are present
             //For special case when Checking Windows Xp Dependencies
