@@ -62,6 +62,11 @@ namespace CefSharp
         }
 
     public:
+        /// <summary>
+        /// Called on the browser process UI thread immediately after the CEF context has been initialized. 
+        /// </summary>
+        static property Action^ OnContextInitialized;
+
         static void AddDisposable(IDisposable^ item)
         {
             msclr::lock l(_sync);
@@ -161,7 +166,7 @@ namespace CefSharp
                 }
 
                 CefMainArgs main_args;
-                CefRefPtr<CefSharpApp> app(new CefSharpApp(cefSettings));
+                CefRefPtr<CefSharpApp> app(new CefSharpApp(cefSettings, OnContextInitialized));
 
                 success = CefInitialize(main_args, *(cefSettings->_cefSettings), app.get(), NULL);
                 app->CompleteSchemeRegistrations();
@@ -430,13 +435,14 @@ namespace CefSharp
         {
             if (IsInitialized)
             { 
+                OnContextInitialized = nullptr;
+                
+                msclr::lock l(_sync);
+                for each(IDisposable^ diposable in Enumerable::ToList(_disposables))
                 {
-                    msclr::lock l(_sync);
-                    for each(IDisposable^ diposable in Enumerable::ToList(_disposables))
-                    {
-                        delete diposable;
-                    }
+                    delete diposable;
                 }
+                
                 GC::Collect();
                 GC::WaitForPendingFinalizers();
 
