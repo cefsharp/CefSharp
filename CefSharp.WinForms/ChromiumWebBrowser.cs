@@ -134,13 +134,12 @@ namespace CefSharp.WinForms
                 LoadError = null;
                 FrameLoadStart = null;
                 FrameLoadEnd = null;
-                NavStateChanged = null;
+                LoadingStateChanged = null;
                 ConsoleMessage = null;
                 StatusMessage = null;
                 AddressChanged = null;
                 TitleChanged = null;
                 IsBrowserInitializedChanged = null;
-                IsLoadingChanged = null;
             }
             base.Dispose(disposing);
         }
@@ -226,14 +225,12 @@ namespace CefSharp.WinForms
         public event EventHandler<LoadErrorEventArgs> LoadError;
         public event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
         public event EventHandler<FrameLoadEndEventArgs> FrameLoadEnd;
-        public event EventHandler<NavStateChangedEventArgs> NavStateChanged;
+        public event EventHandler<LoadingStateChangedEventArgs> LoadingStateChanged;
         public event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
         public event EventHandler<StatusMessageEventArgs> StatusMessage;
         public event EventHandler<AddressChangedEventArgs> AddressChanged;
         public event EventHandler<TitleChangedEventArgs> TitleChanged;
         public event EventHandler<IsBrowserInitializedChangedEventArgs> IsBrowserInitializedChanged;
-        [Obsolete("IsLoadingChanged is unreliable and will be removed. Use NavStateChanged instead.")]
-        public event EventHandler<IsLoadingChangedEventArgs> IsLoadingChanged;
 
         protected override void OnHandleCreated(EventArgs e)
         {
@@ -253,27 +250,17 @@ namespace CefSharp.WinForms
             }
         }
 
-        void IWebBrowserInternal.SetIsLoading(bool isLoading)
-        {
-            IsLoading = isLoading;
-
-            var handler = IsLoadingChanged;
-            if (handler != null)
-            {
-                handler(this, new IsLoadingChangedEventArgs(isLoading));
-            }
-        }
-
         void IWebBrowserInternal.SetLoadingStateChange(bool canGoBack, bool canGoForward, bool isLoading)
         {
             CanGoBack = canGoBack;
             CanGoForward = canGoForward;
             CanReload = !isLoading;
+            IsLoading = isLoading;
 
-            var handler = NavStateChanged;
+            var handler = LoadingStateChanged;
             if (handler != null)
             {
-                handler(this, new NavStateChangedEventArgs(canGoBack, canGoForward, isLoading));
+                handler(this, new LoadingStateChangedEventArgs(canGoBack, canGoForward, isLoading));
             }
         }
 

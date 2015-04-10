@@ -26,11 +26,15 @@ namespace CefSharp
         /// <param name="mode">represents the type of dialog to display</param>
         /// <param name="title">the title to be used for the dialog. It may be empty to show the default title ("Open" or "Save" 
         /// depending on the mode).</param>
-        /// <param name="defaultFileName">the default file name to select in the dialog.</param>
-        /// <param name="acceptTypes">a list of valid lower-cased MIME types or file extensions specified in an input element and 
-        /// is used to restrict selectable files to such types.</param>
+        /// <param name="defaultFilePath">is the path with optional directory and/or file name component that
+        /// should be initially selected in the dialog.</param>
+        /// <param name="acceptFilters">are used to restrict the selectable file types and may any combination of
+        /// (a) valid lower-cased MIME types (e.g. "text/*" or "image/*"),
+        /// (b) individual file extensions (e.g. ".txt" or ".png"),
+        /// (c) combined description and file extension delimited using "|" and ";" (e.g. "Image Types|.png;.gif;.jpg").</param>
+        /// <param name="selectedAcceptFilter">is the 0-based index of the filter that should be selected by default.</param>
         /// <param name="result">the filename(s) the dialog returns</param>
         /// <returns>To display a custom dialog return true. To display the default dialog return false.</returns>
-        bool OnFileDialog(IWebBrowser browser, CefFileDialogMode mode, string title, string defaultFileName, List<string> acceptTypes, out List<string> result);
+        bool OnFileDialog(IWebBrowser browser, CefFileDialogMode mode, string title, string defaultFilePath, List<string> acceptFilters, out int selectedAcceptFilter, out List<string> result);
     }
 }

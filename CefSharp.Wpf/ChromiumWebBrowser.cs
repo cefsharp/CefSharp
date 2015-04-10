@@ -17,13 +17,13 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
+using System.Runtime.InteropServices;
 
 namespace CefSharp.Wpf
 {
     public class ChromiumWebBrowser : ContentControl, IRenderWebBrowser, IWpfWebBrowser
     {
         private readonly List<IDisposable> disposables = new List<IDisposable>();
-        private readonly ScaleTransform imageTransform;
 
         private HwndSource source;
         private HwndSourceHook sourceHook;
@@ -56,7 +56,7 @@ namespace CefSharp.Wpf
         public event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
         public event EventHandler<FrameLoadEndEventArgs> FrameLoadEnd;
         public event EventHandler<LoadErrorEventArgs> LoadError;
-        public event EventHandler<NavStateChangedEventArgs> NavStateChanged;
+        public event EventHandler<LoadingStateChangedEventArgs> LoadingStateChanged;
 
         /// <summary>
         /// Raised before each render cycle, and allows you to adjust the bitmap before it's rendered/applied
@@ -141,10 +141,8 @@ namespace CefSharp.Wpf
             UndoCommand = new DelegateCommand(Undo);
             RedoCommand = new DelegateCommand(Redo);
 
-            imageTransform = new ScaleTransform();
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, true);
 
-            disposables.Add(managedCefBrowserAdapter);
             disposables.Add(new DisposableEventWrapper(this, ActualHeightProperty, OnActualSizeChanged));
             disposables.Add(new DisposableEventWrapper(this, ActualWidthProperty, OnActualSizeChanged));
 
@@ -172,7 +170,7 @@ namespace CefSharp.Wpf
             FrameLoadStart = null;
             FrameLoadEnd = null;
             LoadError = null;
-            NavStateChanged = null;
+            LoadingStateChanged = null;
 
             // No longer reference handlers:
             ResourceHandlerFactory = null;
@@ -194,6 +192,12 @@ namespace CefSharp.Wpf
                 {
                     BrowserSettings.Dispose();
                     BrowserSettings = null;
+                }
+
+                if (managedCefBrowserAdapter != null)
+                {
+                    managedCefBrowserAdapter.Dispose();
+                    managedCefBrowserAdapter = null;
                 }
 
                 PresentationSource.RemoveSourceChangedHandler(this, PresentationSourceChangedHandler);
@@ -232,21 +236,90 @@ namespace CefSharp.Wpf
             Cef.RemoveDisposable(this);
 
             RemoveSourceHook();
+        }
 
-            managedCefBrowserAdapter = null;
+        ViewInfo IRenderWebBrowser.GetViewInfo()
+        {
+            if (source == null)
+                return new ViewInfo();
+
+            Point offset = new Point();
+            var screenLocation = new W32Point();
+            Dispatcher.Invoke(new Action(() =>
+            {
+                offset = TranslatePoint(new Point(), this);
+                offset.X = offset.X;
+                offset.Y = offset.Y;
+                //offset = source.CompositionTarget.TransformToDevice.Transform(offset);
+                //offset = PointToScreen(offset);
+
+                screenLocation = new W32Point
+                {
+                    X = (int)offset.X,
+                    Y = (int)offset.Y
+                };
+                ClientToScreen(source.Handle, ref screenLocation);
+            }));
+
+            return new ViewInfo
+            {
+                X = (int)(screenLocation.X / matrix.M11) - 100,
+                Y = (int)(screenLocation.Y / matrix.M22) - 100,
+                //X = (int)(offset.X),
+                //Y = (int)(offset.Y),
+                Height = (int)ActualHeight,
+                Width = (int)ActualWidth
+            };
         }
 
         ScreenInfo IRenderWebBrowser.GetScreenInfo()
         {
+            if (source == null)
+                return new ScreenInfo();
+
+            IntPtr monHandle = MonitorFromWindow(source.Handle, 0x00000002);
+            if (monHandle == IntPtr.Zero)
+                return new ScreenInfo();
+
+            W32MonitorInfo monInfo = new W32MonitorInfo();
+            monInfo.Size = Marshal.SizeOf(typeof(W32MonitorInfo));
+            if (!GetMonitorInfo(monHandle, ref monInfo))
+            {
+                Marshal.ThrowExceptionForHR(Marshal.GetHRForLastWin32Error());
+            }
+
             var screenInfo = new ScreenInfo();
 
-            var point = matrix.Transform(new Point(ActualWidth, ActualHeight));
+            screenInfo.X = (int)(monInfo.Monitor.Left / matrix.M11);
+            screenInfo.Y = (int)(monInfo.Monitor.Top / matrix.M22);
+            screenInfo.Width = (int)(monInfo.Monitor.Right / matrix.M11);
+            screenInfo.Height = (int)(monInfo.Monitor.Bottom / matrix.M22);
 
-            screenInfo.Width = (int)point.X;
-            screenInfo.Height = (int)point.Y;
+            screenInfo.AvailableX = (int)(monInfo.WorkArea.Left / matrix.M11);
+            screenInfo.AvailableY = (int)(monInfo.WorkArea.Top / matrix.M22);
+            screenInfo.AvailableWidth = (int)(monInfo.WorkArea.Right / matrix.M11);
+            screenInfo.AvailableHeight = (int)(monInfo.WorkArea.Bottom / matrix.M22);
+
             screenInfo.ScaleFactor = (float)matrix.M11;
 
             return screenInfo;
+        }
+
+        void IRenderWebBrowser.GetScreenPoint(int x, int y, ref int outX, ref int outY)
+        {
+            var screen = new Point();
+            var view = new Point(x, y);
+            outX = (int)(x * matrix.M11);
+            outY = (int)(y*matrix.M22);
+            return;
+
+            Dispatcher.Invoke(new Action(() =>
+            {
+                screen = PointToScreen(view);
+            }));
+
+            outX = (int)(screen.X / matrix.M11);
+            outY = (int)(screen.Y / matrix.M22);
         }
 
         BitmapInfo IRenderWebBrowser.CreateBitmapInfo(bool isPopup)
@@ -255,7 +328,7 @@ namespace CefSharp.Wpf
             {
                 throw new Exception("BitmapFactory cannot be null");
             }
-            return BitmapFactory.CreateBitmap(isPopup);
+            return BitmapFactory.CreateBitmap(isPopup, matrix);
         }
 
         void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
@@ -316,11 +389,6 @@ namespace CefSharp.Wpf
             });
         }
 
-        void IWebBrowserInternal.SetIsLoading(bool isLoading)
-        {
-            
-        }
-
         void IWebBrowserInternal.SetLoadingStateChange(bool canGoBack, bool canGoForward, bool isLoading)
         {
             UiThreadRunAsync(() =>
@@ -335,10 +403,10 @@ namespace CefSharp.Wpf
                 ((DelegateCommand)ReloadCommand).RaiseCanExecuteChanged();
             });
 
-            var handler = NavStateChanged;
+            var handler = LoadingStateChanged;
             if (handler != null)
             {
-                handler(this, new NavStateChangedEventArgs(canGoBack, canGoForward, isLoading));
+                handler(this, new LoadingStateChangedEventArgs(canGoBack, canGoForward, isLoading));
             }
         }
 
@@ -821,18 +889,19 @@ namespace CefSharp.Wpf
             if (args.NewSource != null)
             {
                 var newSource = (HwndSource)args.NewSource;
-
                 source = newSource;
 
                 if (source != null)
                 {
+                    var notifyDpiChanged = !matrix.Equals(source.CompositionTarget.TransformToDevice);
                     matrix = source.CompositionTarget.TransformToDevice;
                     sourceHook = SourceHook;
                     source.AddHook(sourceHook);
 
-                    managedCefBrowserAdapter.NotifyScreenInfoChanged();
-                    imageTransform.ScaleX = 1 / matrix.M11;
-                    imageTransform.ScaleY = 1 / matrix.M22;
+                    if (notifyDpiChanged)
+                    {
+                        managedCefBrowserAdapter.NotifyScreenInfoChanged();
+                    }
                 }
             }
             else if (args.OldSource != null)
@@ -918,8 +987,6 @@ namespace CefSharp.Wpf
             img.Stretch = Stretch.None;
             img.HorizontalAlignment = HorizontalAlignment.Left;
             img.VerticalAlignment = VerticalAlignment.Top;
-            //Scale Image based on DPI settings
-            img.LayoutTransform = imageTransform;
 
             return img;
         }
@@ -1162,7 +1229,7 @@ namespace CefSharp.Wpf
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
-            var point = GetPixelPosition(e);
+            var point = e.GetPosition(this);
             var modifiers = GetModifiers(e);
 
             if (managedCefBrowserAdapter != null)
@@ -1173,7 +1240,7 @@ namespace CefSharp.Wpf
 
         protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
-            var point = GetPixelPosition(e);
+            var point = e.GetPosition(this);
 
             if (managedCefBrowserAdapter != null)
             {
@@ -1235,7 +1302,7 @@ namespace CefSharp.Wpf
 
             var modifiers = GetModifiers(e);
             var mouseUp = (e.ButtonState == MouseButtonState.Released);
-            var point = GetPixelPosition(e);
+            var point = e.GetPosition(this);
 
             if (managedCefBrowserAdapter != null)
             {
@@ -1278,7 +1345,7 @@ namespace CefSharp.Wpf
                 throw new Exception("Implement IResourceHandlerFactory and assign to the ResourceHandlerFactory property to use this feature");
             }
 
-            handler.RegisterHandler(url, CefSharp.ResourceHandler.FromString(html, encoding, true));
+            handler.RegisterHandler(url, ResourceHandler.FromString(html, encoding, true));
 
             Load(url);
         }
@@ -1424,14 +1491,6 @@ namespace CefSharp.Wpf
             }
         }
 
-        private Point GetPixelPosition(MouseEventArgs e)
-        {
-            var deviceIndependentPosition = e.GetPosition(this);
-            var pixelPosition = matrix.Transform(deviceIndependentPosition);
-
-            return pixelPosition;
-        }
-
         public void ViewSource()
         {
             managedCefBrowserAdapter.ViewSource();
@@ -1490,5 +1549,51 @@ namespace CefSharp.Wpf
         {
             return managedCefBrowserAdapter.SendKeyEvent(message, wParam, lParam);
         }
+
+        #region W32 API
+
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool GetCursorPos(ref W32Point pt);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool GetMonitorInfo(IntPtr hMonitor, ref W32MonitorInfo lpmi);
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr MonitorFromPoint(W32Point pt, uint dwFlags);
+
+        [DllImport("user32.dll", ExactSpelling = true)]
+        private static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
+
+        [DllImport("user32.dll")]
+        private static extern bool ClientToScreen(IntPtr hWnd, ref W32Point lpPoint);
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct W32Point
+        {
+            public int X;
+            public int Y;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct W32MonitorInfo
+        {
+            public int Size;
+            public W32Rect Monitor;
+            public W32Rect WorkArea;
+            public uint Flags;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct W32Rect
+        {
+            public int Left;
+            public int Top;
+            public int Right;
+            public int Bottom;
+        }
+
+        #endregion
     }
 }

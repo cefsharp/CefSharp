@@ -169,6 +169,7 @@
                 </Rectangle>
 
                 <cefSharp:ChromiumWebBrowser x:Name="browser"
+                                             MouseDoubleClick="browser_MouseDoubleClick"
                                   Opacity="{Binding ElementName=opacitySlider, Path=Value}"
                                   Address="{Binding Address, Mode=TwoWay}"
                                   Title="{Binding Title, Mode=OneWayToSource}"

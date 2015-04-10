@@ -14,6 +14,7 @@
 #include "Internals/CookieVisitor.h"
 #include "Internals/CompletionHandler.h"
 #include "Internals/StringUtils.h"
+#include "Internals/PluginVisitor.h"
 #include "ManagedCefBrowserAdapter.h"
 #include "CefSettings.h"
 #include "SchemeHandlerWrapper.h"
@@ -114,7 +115,7 @@ namespace CefSharp
         {
             String^ get()
             {
-                return String::Format("r{0}", CEF_REVISION);
+                return String::Format("r{0}", CEF_VERSION);
             }
         }
 
@@ -458,6 +459,21 @@ namespace CefSharp
         static bool ClearSchemeHandlerFactories()
         {
             return CefClearSchemeHandlerFactories();
+        }
+
+        /// <summary>
+        /// Async returns a list containing Plugin Information
+        /// (Wrapper around CefVisitWebPluginInfo)
+        /// WARNING In the very unlikely event of no plugins being found the Task may never complete
+        /// </summary>
+        /// <return>Returns List of <see cref="Plugin"/> structs.</return>
+        static Task<List<Plugin>^>^ GetPlugins()
+        {
+            CefRefPtr<PluginVisitor> visitor = new PluginVisitor();
+            
+            CefVisitWebPluginInfo(visitor);
+
+            return visitor->GetTask();
         }
 
         /// <summary>

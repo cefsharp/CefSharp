@@ -18,26 +18,20 @@ namespace CefSharp
             public CefRenderHandler
         {
         private:
-            gcroot<IWebBrowserInternal^> _webBrowserInternal;
             gcroot<IRenderWebBrowser^> _renderWebBrowser;
             gcroot<BitmapInfo^> _mainBitmapInfo;
             gcroot<BitmapInfo^> _popupBitmapInfo;
 
         public:
             RenderClientAdapter(IWebBrowserInternal^ webBrowserInternal, Action<int>^ onAfterBrowserCreated):
-                ClientAdapter(webBrowserInternal, onAfterBrowserCreated),
-                _webBrowserInternal(webBrowserInternal)
+                ClientAdapter(webBrowserInternal, onAfterBrowserCreated)
             {
                 _renderWebBrowser = dynamic_cast<IRenderWebBrowser^>(webBrowserInternal);
-
-                _mainBitmapInfo = _renderWebBrowser->CreateBitmapInfo(false);
-                _popupBitmapInfo = _renderWebBrowser->CreateBitmapInfo(true);
             }
 
             ~RenderClientAdapter()
             {
                 _renderWebBrowser = nullptr;
-                _webBrowserInternal = nullptr;
 
                 ReleaseBitmapHandlers(_mainBitmapInfo);
 
@@ -50,14 +44,18 @@ namespace CefSharp
                 _popupBitmapInfo = nullptr;
             }
 
+            void CreateBitmapInfo()
+            {
+                _mainBitmapInfo = _renderWebBrowser->CreateBitmapInfo(false);
+                _popupBitmapInfo = _renderWebBrowser->CreateBitmapInfo(true);
+            }
+
             // CefClient
             virtual CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE{ return this; };
 
             // CefRenderHandler
             virtual DECL bool GetScreenInfo(CefRefPtr<CefBrowser> browser, CefScreenInfo& screen_info) OVERRIDE
             {
-                return false;
-
                 if ((IRenderWebBrowser^)_renderWebBrowser == nullptr)
                 {
                     return false;
@@ -65,12 +63,32 @@ namespace CefSharp
 
                 auto screenInfo = _renderWebBrowser->GetScreenInfo();
 
-                if (screen_info.device_scale_factor == screenInfo.ScaleFactor)
+                /*if (screen_info.device_scale_factor == screenInfo.ScaleFactor)
+                {
+                    return false;
+                }*/
+
+                screen_info.device_scale_factor = screenInfo.ScaleFactor;
+                screen_info.rect = CefRect(screenInfo.X, screenInfo.Y, screenInfo.Width, screenInfo.Height);
+                screen_info.available_rect = CefRect(screenInfo.AvailableX, screenInfo.AvailableY, screenInfo.AvailableWidth, screenInfo.AvailableHeight);
+                return true;
+            }
+
+
+                ///
+                // Called to retrieve the root window rectangle in screen coordinates. Return
+                // true if the rectangle was provided.
+                ///
+                /*--cef()--*/
+            virtual DECL bool GetRootScreenRect(CefRefPtr<CefBrowser> browser, CefRect& rect) OVERRIDE
+            {
+                if ((IRenderWebBrowser^)_renderWebBrowser == nullptr)
                 {
                     return false;
                 }
 
-                screen_info.device_scale_factor = screenInfo.ScaleFactor;
+                auto test = _renderWebBrowser->GetScreenInfo();
+                rect = CefRect(test.AvailableX, test.AvailableY, test.AvailableWidth, test.AvailableHeight);
                 return true;
             }
 
@@ -82,15 +100,28 @@ namespace CefSharp
                     return false;
                 }
 
-                auto screenInfo = _renderWebBrowser->GetScreenInfo();
+                auto test = _renderWebBrowser->GetViewInfo();
+                //auto screenInfo = _renderWebBrowser->GetScreenInfo();
 
-                //auto scaledWidth = screenInfo.Width / screenInfo.ScaleFactor;
-                //auto scaledHeight = screenInfo.Height / screenInfo.ScaleFactor;
-                //rect = CefRect(0, 0, scaledWidth, scaledHeight);
-
-                rect = CefRect(0, 0, screenInfo.Width, screenInfo.Height);
+                rect = CefRect(test.X, test.Y, test.Width, test.Height);
                 return true;
             };
+
+            ///
+            // Called to retrieve the translation from view coordinates to actual screen
+            // coordinates. Return true if the screen coordinates were provided.
+            ///
+            /*--cef()--*/
+            virtual DECL virtual bool GetScreenPoint(CefRefPtr<CefBrowser> browser,int viewX,int viewY,int& screenX,int& screenY)  OVERRIDE
+            {
+                if ((IRenderWebBrowser^)_renderWebBrowser == nullptr)
+                {
+                    return false;
+                }
+
+                _renderWebBrowser->GetScreenPoint(viewX, viewY, screenX, screenY);
+                return true;
+            }
 
             ///
             // Called when the browser wants to show or hide the popup widget. The popup

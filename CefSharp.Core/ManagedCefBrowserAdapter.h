@@ -12,6 +12,7 @@
 #include "Internals/RenderClientAdapter.h"
 #include "Internals/MCefRefPtr.h"
 #include "Internals/StringVisitor.h"
+#include "Internals/CefTaskScheduler.h"
 
 using namespace CefSharp::Internals;
 using namespace System::Diagnostics;
@@ -26,7 +27,7 @@ namespace CefSharp
         BrowserProcessServiceHost^ _browserProcessServiceHost;
         IWebBrowserInternal^ _webBrowserInternal;
         JavascriptObjectRepository^ _javaScriptObjectRepository;
-
+      
     protected:
         virtual void DoDispose(bool isDisposing) override
         {
@@ -68,6 +69,10 @@ namespace CefSharp
 
         void CreateOffscreenBrowser(IntPtr windowHandle, BrowserSettings^ browserSettings, String^ address)
         {
+            //Create the required BitmapInfo classes before the offscreen browser is initialized
+            auto renderClientAdapter = dynamic_cast<RenderClientAdapter*>(_clientAdapter.get());
+            renderClientAdapter->CreateBitmapInfo();
+
             auto hwnd = static_cast<HWND>(windowHandle.ToPointer());
 
             CefWindowInfo window;
@@ -610,7 +615,7 @@ namespace CefSharp
 
         void CreateBrowser(BrowserSettings^ browserSettings, IntPtr sourceHandle, String^ address)
         {
-            HWND hwnd = static_cast<HWND>(sourceHandle.ToPointer());
+            auto hwnd = static_cast<HWND>(sourceHandle.ToPointer());
             RECT rect;
             GetClientRect(hwnd, &rect);
             CefWindowInfo window;

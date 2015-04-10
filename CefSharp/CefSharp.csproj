@@ -102,7 +102,6 @@
     <Compile Include="IResourceHandlerFactory.cs" />
     <Compile Include="MouseEvent.cs" />
     <Compile Include="DragOperationsMask.cs" />
-    <Compile Include="IBitmapFactory.cs" />
     <Compile Include="IDragData.cs" />
     <Compile Include="IFocusHandler.cs" />
     <Compile Include="IDragHandler.cs" />
@@ -116,9 +115,9 @@
     <Compile Include="Internals\BrowserProcessResponse.cs" />
     <Compile Include="Internals\JavascriptRootObject.cs" />
     <Compile Include="Internals\TaskExtensions.cs" />
-    <Compile Include="IsLoadingChangedEventArgs.cs" />
     <Compile Include="IStringVisitor.cs" />
     <Compile Include="IContextMenuParams.cs" />
+    <Compile Include="ITaskScheduler.cs" />
     <Compile Include="JavascriptIgnoreAttribute.cs" />
     <Compile Include="JavascriptResponse.cs" />
     <Compile Include="LoadErrorEventArgs.cs" />
@@ -127,11 +126,13 @@
     <Compile Include="Internals\BrowserProcessServiceHost.cs" />
     <Compile Include="Internals\WCFExtensions.cs" />
     <Compile Include="KeyType.cs" />
+    <Compile Include="Plugin.cs" />
     <Compile Include="ResourceHandler.cs" />
     <Compile Include="ResponseAction.cs" />
+    <Compile Include="ViewInfo.cs" />
     <Compile Include="ScreenInfo.cs" />
     <Compile Include="TransitionType.cs" />
-    <Compile Include="NavStateChangedEventArgs.cs" />
+    <Compile Include="LoadingStateChangedEventArgs.cs" />
     <Compile Include="ICompletionHandler.cs" />
     <Compile Include="CefFocusSource.cs" />
     <Compile Include="Internals\BitmapInfo.cs" />

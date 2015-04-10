@@ -64,10 +64,8 @@ namespace CefSharp.OffScreen
         public event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
         public event EventHandler BrowserInitialized;
         public event EventHandler<StatusMessageEventArgs> StatusMessage;
-        public event EventHandler<NavStateChangedEventArgs> NavStateChanged;
+        public event EventHandler<LoadingStateChangedEventArgs> LoadingStateChanged;
         public event EventHandler<AddressChangedEventArgs> AddressChanged;
-        [Obsolete("IsLoadingChanged is unreliable and will be removed. Use NavStateChanged instead.")]
-        public event EventHandler<IsLoadingChangedEventArgs> IsLoadingChanged;
 
         /// <summary>
         /// Fired by a separate thread when Chrome has re-rendered.
@@ -130,9 +128,8 @@ namespace CefSharp.OffScreen
             ConsoleMessage = null;
             BrowserInitialized = null;
             StatusMessage = null;
-            NavStateChanged = null;
+            LoadingStateChanged = null;
             AddressChanged = null;
-            IsLoadingChanged = null;
 
             Cef.RemoveDisposable(this);
 
@@ -394,6 +391,21 @@ namespace CefSharp.OffScreen
             return screenInfo;
         }
 
+        ViewInfo IRenderWebBrowser.GetViewInfo()
+        {
+            return new ViewInfo
+            {
+                Width = size.Width,
+                Height = size.Height
+            };
+        }
+
+        void IRenderWebBrowser.GetScreenPoint(int x, int y, ref int outX, ref int outY)
+        {
+            outX = x;
+            outY = y;
+        }
+
         BitmapInfo IRenderWebBrowser.CreateBitmapInfo(bool isPopup)
         {
             //The bitmap buffer is 32 BPP
@@ -503,27 +515,17 @@ namespace CefSharp.OffScreen
             }
         }
 
-        void IWebBrowserInternal.SetIsLoading(bool isLoading)
-        {
-            IsLoading = isLoading;
-
-            var handler = IsLoadingChanged;
-            if (handler != null)
-            {
-                handler(this, new IsLoadingChangedEventArgs(isLoading));
-            }
-        }
-
         void IWebBrowserInternal.SetLoadingStateChange(bool canGoBack, bool canGoForward, bool isLoading)
         {
             CanGoBack = canGoBack;
             CanGoForward = canGoForward;
             CanReload = !isLoading;
+            IsLoading = isLoading;
 
-            var handler = NavStateChanged;
+            var handler = LoadingStateChanged;
             if (handler != null)
             {
-                handler(this, new NavStateChangedEventArgs(canGoBack, canGoForward, isLoading));
+                handler(this, new LoadingStateChangedEventArgs(canGoBack, canGoForward, isLoading));
             }
         }
 
