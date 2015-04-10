@@ -66,6 +66,7 @@ namespace CefSharp.OffScreen
         public event EventHandler<StatusMessageEventArgs> StatusMessage;
         public event EventHandler<NavStateChangedEventArgs> NavStateChanged;
         public event EventHandler<AddressChangedEventArgs> AddressChanged;
+        [Obsolete("IsLoadingChanged is unreliable and will be removed. Use NavStateChanged instead.")]
         public event EventHandler<IsLoadingChangedEventArgs> IsLoadingChanged;
 
         /// <summary>
