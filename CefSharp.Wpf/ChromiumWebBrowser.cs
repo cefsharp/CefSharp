@@ -952,6 +952,7 @@ namespace CefSharp.Wpf
                 case WM.SYSKEYUP:
                 case WM.KEYDOWN:
                 case WM.KEYUP:
+                case WM.CHAR:
                 case WM.IME_CHAR:
                     if (!IsKeyboardFocused)
                     {
@@ -1155,15 +1156,6 @@ namespace CefSharp.Wpf
 
                 e.Handled = managedCefBrowserAdapter.SendKeyEvent(message, virtualKey, new IntPtr((int)modifiers));
             }
-        }
-
-        protected override void OnPreviewTextInput(TextCompositionEventArgs e)
-        {
-            for (int i = 0; i < e.Text.Length; i++)
-            {
-                managedCefBrowserAdapter.SendKeyEvent((int)WM.CHAR, (int)e.Text[i], (IntPtr) 0);
-            }
-            base.OnPreviewTextInput(e);
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
@@ -1483,6 +1475,18 @@ namespace CefSharp.Wpf
         public void SetZoomLevel(double zoomLevel)
         {
             managedCefBrowserAdapter.SetZoomLevel(zoomLevel);
+        }
+
+        /// <summary>
+        /// Sends a Key Event directly to the underlying Browser (CEF).
+        /// </summary>
+        /// <param name="message">The message</param>
+        /// <param name="wParam">The wParam</param>
+        /// <param name="lParam">The lParam</param>
+        /// <returns>bool</returns>
+        public bool SendKeyEvent(int message, int wParam, int lParam)
+        {
+          return managedCefBrowserAdapter.SendKeyEvent(message, wParam, new IntPtr(lParam));
         }
     }
 }
