@@ -12,6 +12,7 @@
 #include "Internals/RenderClientAdapter.h"
 #include "Internals/MCefRefPtr.h"
 #include "Internals/StringVisitor.h"
+#include "Internals/CefTaskScheduler.h"
 
 using namespace CefSharp::Internals;
 using namespace System::Diagnostics;
@@ -26,7 +27,8 @@ namespace CefSharp
         BrowserProcessServiceHost^ _browserProcessServiceHost;
         IWebBrowserInternal^ _webBrowserInternal;
         JavascriptObjectRepository^ _javaScriptObjectRepository;
-
+        TaskFactory^ _uiThreadTaskFactory;
+      
     protected:
         virtual void DoDispose(bool isDisposing) override
         {
@@ -44,6 +46,7 @@ namespace CefSharp
 
             _webBrowserInternal = nullptr;
             _javaScriptObjectRepository = nullptr;
+            _uiThreadTaskFactory = nullptr;
 
             DisposableResource::DoDispose(isDisposing);
         };
@@ -64,6 +67,7 @@ namespace CefSharp
 
             _webBrowserInternal = webBrowserInternal;
             _javaScriptObjectRepository = gcnew JavascriptObjectRepository();
+            _uiThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_UI));
         }
 
         void CreateOffscreenBrowser(IntPtr windowHandle, BrowserSettings^ browserSettings, String^ address)
@@ -662,6 +666,14 @@ namespace CefSharp
         void RegisterJsObject(String^ name, Object^ object, bool lowerCaseJavascriptNames)
         {
             _javaScriptObjectRepository->Register(name, object, lowerCaseJavascriptNames);
+        }
+
+        property TaskFactory^ UiThreadTaskFactory
+        {
+            TaskFactory^ get()
+            {
+                return _uiThreadTaskFactory;
+            }
         }
 
         void ReplaceMisspelling(String^ word)

@@ -560,7 +560,10 @@ namespace CefSharp.Wpf
 
         protected virtual void OnZoomLevelChanged(double oldValue, double newValue)
         {
-            managedCefBrowserAdapter.SetZoomLevel(newValue);
+            var factory = managedCefBrowserAdapter.UiThreadTaskFactory;
+
+            //Excite on UI Thread
+            factory.StartNew(() => managedCefBrowserAdapter.SetZoomLevel(newValue), TaskCreationOptions.AttachedToParent);
         }
 
         #endregion ZoomLevel dependency property
