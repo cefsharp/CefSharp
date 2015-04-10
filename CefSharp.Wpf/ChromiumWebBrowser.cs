@@ -2,13 +2,13 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using System.Text;
 using CefSharp.Internals;
 using CefSharp.Wpf.Rendering;
 using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -56,7 +56,7 @@ namespace CefSharp.Wpf
         public event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
         public event EventHandler<FrameLoadEndEventArgs> FrameLoadEnd;
         public event EventHandler<LoadErrorEventArgs> LoadError;
-        public event EventHandler<NavStateChangedEventArgs> NavStateChanged;
+        public event EventHandler<LoadingStateChangedEventArgs> LoadingStateChanged;
 
         /// <summary>
         /// Raised before each render cycle, and allows you to adjust the bitmap before it's rendered/applied
@@ -170,7 +170,7 @@ namespace CefSharp.Wpf
             FrameLoadStart = null;
             FrameLoadEnd = null;
             LoadError = null;
-            NavStateChanged = null;
+            LoadingStateChanged = null;
 
             // No longer reference handlers:
             ResourceHandlerFactory = null;
@@ -389,11 +389,6 @@ namespace CefSharp.Wpf
             });
         }
 
-        void IWebBrowserInternal.SetIsLoading(bool isLoading)
-        {
-            UiThreadRunAsync(() => SetCurrentValue(IsLoadingProperty, isLoading));
-        }
-
         void IWebBrowserInternal.SetLoadingStateChange(bool canGoBack, bool canGoForward, bool isLoading)
         {
             UiThreadRunAsync(() =>
@@ -401,16 +396,17 @@ namespace CefSharp.Wpf
                 SetCurrentValue(CanGoBackProperty, canGoBack);
                 SetCurrentValue(CanGoForwardProperty, canGoForward);
                 SetCurrentValue(CanReloadProperty, !isLoading);
+                SetCurrentValue(IsLoadingProperty, isLoading);
 
                 ((DelegateCommand)BackCommand).RaiseCanExecuteChanged();
                 ((DelegateCommand)ForwardCommand).RaiseCanExecuteChanged();
                 ((DelegateCommand)ReloadCommand).RaiseCanExecuteChanged();
             });
 
-            var handler = NavStateChanged;
+            var handler = LoadingStateChanged;
             if (handler != null)
             {
-                handler(this, new NavStateChangedEventArgs(canGoBack, canGoForward, isLoading));
+                handler(this, new LoadingStateChangedEventArgs(canGoBack, canGoForward, isLoading));
             }
         }
 
@@ -482,7 +478,7 @@ namespace CefSharp.Wpf
             get { return (bool)GetValue(CanGoBackProperty); }
         }
 
-        public static DependencyProperty CanGoBackProperty = DependencyProperty.Register("CanGoBack", typeof (bool), typeof (ChromiumWebBrowser));
+        public static DependencyProperty CanGoBackProperty = DependencyProperty.Register("CanGoBack", typeof(bool), typeof(ChromiumWebBrowser));
 
         #endregion
 
@@ -493,7 +489,7 @@ namespace CefSharp.Wpf
             get { return (bool)GetValue(CanGoForwardProperty); }
         }
 
-        public static DependencyProperty CanGoForwardProperty = DependencyProperty.Register("CanGoForward", typeof (bool), typeof (ChromiumWebBrowser));
+        public static DependencyProperty CanGoForwardProperty = DependencyProperty.Register("CanGoForward", typeof(bool), typeof(ChromiumWebBrowser));
 
         #endregion
 
@@ -504,7 +500,7 @@ namespace CefSharp.Wpf
             get { return (bool)GetValue(CanReloadProperty); }
         }
 
-        public static DependencyProperty CanReloadProperty = DependencyProperty.Register("CanReload", typeof (bool), typeof (ChromiumWebBrowser));
+        public static DependencyProperty CanReloadProperty = DependencyProperty.Register("CanReload", typeof(bool), typeof(ChromiumWebBrowser));
 
         #endregion
 
@@ -583,7 +579,6 @@ namespace CefSharp.Wpf
 
         protected virtual void OnIsBrowserInitializedChanged(bool oldValue, bool newValue)
         {
-
         }
 
         #endregion IsInitialized dependency property
@@ -597,7 +592,21 @@ namespace CefSharp.Wpf
         }
 
         public static readonly DependencyProperty TitleProperty =
-            DependencyProperty.Register("Title", typeof(string), typeof(ChromiumWebBrowser), new PropertyMetadata(defaultValue: null));
+            DependencyProperty.Register("Title", typeof(string), typeof(ChromiumWebBrowser), new PropertyMetadata(null, OnTitleChanged));
+
+        public event DependencyPropertyChangedEventHandler TitleChanged;
+
+        private static void OnTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var owner = (ChromiumWebBrowser)d;
+
+            var handlers = owner.TitleChanged;
+
+            if (handlers != null)
+            {
+                handlers(owner, e);
+            }
+        }
 
         #endregion Title dependency property
 
@@ -841,7 +850,7 @@ namespace CefSharp.Wpf
                     return unicodeUrl;
                 }
             }
-            
+
             // Try ASCII
             if (data.GetDataPresent(asciiUrlDataFormatName))
             {
@@ -988,7 +997,7 @@ namespace CefSharp.Wpf
             {
                 Child = popupImage = CreateImage(),
                 PlacementTarget = this,
-                Placement = PlacementMode.Relative,
+                Placement = PlacementMode.Absolute,
             };
 
             newPopup.MouseEnter += PopupMouseEnter;
@@ -999,7 +1008,7 @@ namespace CefSharp.Wpf
 
         private IntPtr SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            if(handled)
+            if (handled)
             {
                 return IntPtr.Zero;
             }
@@ -1013,7 +1022,6 @@ namespace CefSharp.Wpf
                 case WM.KEYUP:
                 case WM.CHAR:
                 case WM.IME_CHAR:
-                {
                     if (!IsKeyboardFocused)
                     {
                         break;
@@ -1027,10 +1035,9 @@ namespace CefSharp.Wpf
                         return IntPtr.Zero;
                     }
 
-                    handled = managedCefBrowserAdapter.SendKeyEvent(message, wParam.ToInt32(), lParam);
-                    
+                    handled = managedCefBrowserAdapter.SendKeyEvent(message, wParam.CastToInt32(), lParam.CastToInt32());
+
                     break;
-                }
             }
 
             return IntPtr.Zero;
@@ -1090,7 +1097,7 @@ namespace CefSharp.Wpf
 
             if (Keyboard.IsKeyDown(Key.LeftAlt))
             {
-                modifiers |= CefEventFlags.AltDown| CefEventFlags.IsLeft;
+                modifiers |= CefEventFlags.AltDown | CefEventFlags.IsLeft;
             }
 
             if (Keyboard.IsKeyDown(Key.RightAlt))
@@ -1128,11 +1135,10 @@ namespace CefSharp.Wpf
             popup.Width = width / matrix.M11;
             popup.Height = height / matrix.M22;
 
-            //var info = (this as IRenderWebBrowser).GetViewInfo();
-            //var popupOffset = new Point(x, y);
-            popup.HorizontalOffset = x / matrix.M11;
-            popup.VerticalOffset = y / matrix.M22;
-
+            var popupOffset = new Point(x / matrix.M11, y / matrix.M22);
+            var locationFromScreen = PointToScreen(popupOffset);
+            popup.HorizontalOffset = locationFromScreen.X / matrix.M11;
+            popup.VerticalOffset = locationFromScreen.Y / matrix.M22;
         }
 
         private void OnTooltipTimerTick(object sender, EventArgs e)
@@ -1208,14 +1214,16 @@ namespace CefSharp.Wpf
             // trigger the appropriate WM_ messages handled by our SourceHook, so we have to handle these extra keys here.
             // Hooking the Tab key like this makes the tab focusing in essence work like
             // KeyboardNavigation.TabNavigation="Cycle"; you will never be able to Tab out of the web browser control.
-            if (e.Key == Key.Tab || e.Key == Key.Home || e.Key == Key.End  || e.Key == Key.Up
-                                 || e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.Right)
+            // We also add the condition to allow ctrl+a to work when the web browser control is put inside listbox.
+            if (e.Key == Key.Tab || e.Key == Key.Home || e.Key == Key.End || e.Key == Key.Up
+                                 || e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.Right
+                                 || (e.Key == Key.A && Keyboard.Modifiers == ModifierKeys.Control))
             {
                 var modifiers = GetModifiers(e);
                 var message = (int)(e.IsDown ? WM.KEYDOWN : WM.KEYUP);
                 var virtualKey = KeyInterop.VirtualKeyFromKey(e.Key);
 
-                e.Handled = managedCefBrowserAdapter.SendKeyEvent(message, virtualKey, new IntPtr((int)modifiers));
+                e.Handled = managedCefBrowserAdapter.SendKeyEvent(message, virtualKey, (int)modifiers);
             }
         }
 
@@ -1286,29 +1294,10 @@ namespace CefSharp.Wpf
 
         private void OnMouseButton(MouseButtonEventArgs e)
         {
-            MouseButtonType mouseButtonType;
-
-            switch (e.ChangedButton)
+            // Cef currently only supports Left, Middle and Right button presses.
+            if (e.ChangedButton > MouseButton.Right)
             {
-                case MouseButton.Left:
-                {
-                    mouseButtonType = MouseButtonType.Left;
-                    break;
-                }
-                case MouseButton.Middle:
-                {
-                    mouseButtonType = MouseButtonType.Middle;
-                    break;
-                }
-                case MouseButton.Right:
-                {
-                    mouseButtonType = MouseButtonType.Right;
-                    break;
-                }
-                default:
-                {
-                    return;
-                }
+                return;
             }
 
             var modifiers = GetModifiers(e);
@@ -1317,7 +1306,7 @@ namespace CefSharp.Wpf
 
             if (managedCefBrowserAdapter != null)
             {
-                managedCefBrowserAdapter.OnMouseButton((int)point.X, (int)point.Y, mouseButtonType, mouseUp, e.ClickCount, modifiers);
+                managedCefBrowserAdapter.OnMouseButton((int)point.X, (int)point.Y, (int)e.ChangedButton, mouseUp, e.ClickCount, modifiers);
             }
         }
 
@@ -1356,7 +1345,7 @@ namespace CefSharp.Wpf
                 throw new Exception("Implement IResourceHandlerFactory and assign to the ResourceHandlerFactory property to use this feature");
             }
 
-            handler.RegisterHandler(url, CefSharp.ResourceHandler.FromString(html, encoding, true));
+            handler.RegisterHandler(url, ResourceHandler.FromString(html, encoding, true));
 
             Load(url);
         }
@@ -1470,9 +1459,9 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter.CloseDevTools();
         }
 
-        public void RegisterJsObject(string name, object objectToBind)
+        public void RegisterJsObject(string name, object objectToBind, bool lowerCaseJavascriptNames = true)
         {
-            managedCefBrowserAdapter.RegisterJsObject(name, objectToBind);
+            managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, lowerCaseJavascriptNames);
         }
 
         public void ExecuteScriptAsync(string script)
@@ -1547,6 +1536,18 @@ namespace CefSharp.Wpf
         public void SetZoomLevel(double zoomLevel)
         {
             managedCefBrowserAdapter.SetZoomLevel(zoomLevel);
+        }
+
+        /// <summary>
+        /// Sends a Key Event directly to the underlying Browser (CEF).
+        /// </summary>
+        /// <param name="message">The message</param>
+        /// <param name="wParam">The wParam</param>
+        /// <param name="lParam">The lParam</param>
+        /// <returns>bool</returns>
+        public bool SendKeyEvent(int message, int wParam, int lParam)
+        {
+            return managedCefBrowserAdapter.SendKeyEvent(message, wParam, lParam);
         }
 
         #region W32 API

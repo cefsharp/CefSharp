@@ -4,12 +4,11 @@
 
 namespace CefSharp
 {
-    public interface IResponse
+    public struct Plugin
     {
-        /// cancel the request, return nothing
-        void Cancel();
-
-        /// respond with redirection to the provided URL
-        void Redirect(string url);
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Path { get; set; }
+        public string Version { get; set; }
     }
 }

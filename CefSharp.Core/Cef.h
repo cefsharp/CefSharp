@@ -8,11 +8,13 @@
 #include <include/cef_version.h>
 #include <include/cef_runnable.h>
 #include <include/cef_origin_whitelist.h>
+#include <include/cef_web_plugin.h>
 
 #include "Internals/CefSharpApp.h"
 #include "Internals/CookieVisitor.h"
 #include "Internals/CompletionHandler.h"
 #include "Internals/StringUtils.h"
+#include "Internals/PluginVisitor.h"
 #include "ManagedCefBrowserAdapter.h"
 #include "CefSettings.h"
 #include "SchemeHandlerWrapper.h"
@@ -61,6 +63,11 @@ namespace CefSharp
         }
 
     public:
+        /// <summary>
+        /// Called on the browser process UI thread immediately after the CEF context has been initialized. 
+        /// </summary>
+        static property Action^ OnContextInitialized;
+
         static void AddDisposable(IDisposable^ item)
         {
             msclr::lock l(_sync);
@@ -108,7 +115,7 @@ namespace CefSharp
         {
             String^ get()
             {
-                return String::Format("r{0}", CEF_REVISION);
+                return String::Format("r{0}", CEF_VERSION);
             }
         }
 
@@ -138,23 +145,29 @@ namespace CefSharp
         /// <return>true if successful; otherwise, false.</return>
         static bool Initialize(CefSettings^ cefSettings)
         {
-            return Initialize(cefSettings, true);
+            return Initialize(cefSettings, true, false);
         }
 
         /// <summary>Initializes CefSharp with user-provided settings.</summary>
         /// <param name="cefSettings">CefSharp configuration settings.</param>
         /// <param name="shutdownOnProcessExit">When the Current AppDomain (relative to the thread called on)
         /// Exits(ProcessExit event) then Shudown will be called.</param>
+        /// <param name="performDependencyCheck">Check that all relevant dependencies avaliable, throws exception if any are missing</param>
         /// <return>true if successful; otherwise, false.</return>
-        static bool Initialize(CefSettings^ cefSettings, bool shutdownOnProcessExit)
+        static bool Initialize(CefSettings^ cefSettings, bool shutdownOnProcessExit, bool performDependencyCheck)
         {
             bool success = false;
 
             // NOTE: Can only initialize Cef once, so subsiquent calls are ignored.
             if (!IsInitialized)
             {
+                if(performDependencyCheck)
+                {
+                    DependencyChecker::AssertAllDependenciesPresent(cefSettings->Locale, cefSettings->LocalesDirPath, cefSettings->ResourcesDirPath, cefSettings->PackLoadingDisabled);
+                }
+
                 CefMainArgs main_args;
-                CefRefPtr<CefSharpApp> app(new CefSharpApp(cefSettings));
+                CefRefPtr<CefSharpApp> app(new CefSharpApp(cefSettings, OnContextInitialized));
 
                 success = CefInitialize(main_args, *(cefSettings->_cefSettings), app.get(), NULL);
                 app->CompleteSchemeRegistrations();
@@ -423,13 +436,14 @@ namespace CefSharp
         {
             if (IsInitialized)
             { 
+                OnContextInitialized = nullptr;
+                
+                msclr::lock l(_sync);
+                for each(IDisposable^ diposable in Enumerable::ToList(_disposables))
                 {
-                    msclr::lock l(_sync);
-                    for each(IDisposable^ diposable in Enumerable::ToList(_disposables))
-                    {
-                        delete diposable;
-                    }
+                    delete diposable;
                 }
+                
                 GC::Collect();
                 GC::WaitForPendingFinalizers();
 
@@ -445,6 +459,21 @@ namespace CefSharp
         static bool ClearSchemeHandlerFactories()
         {
             return CefClearSchemeHandlerFactories();
+        }
+
+        /// <summary>
+        /// Async returns a list containing Plugin Information
+        /// (Wrapper around CefVisitWebPluginInfo)
+        /// WARNING In the very unlikely event of no plugins being found the Task may never complete
+        /// </summary>
+        /// <return>Returns List of <see cref="Plugin"/> structs.</return>
+        static Task<List<Plugin>^>^ GetPlugins()
+        {
+            CefRefPtr<PluginVisitor> visitor = new PluginVisitor();
+            
+            CefVisitWebPluginInfo(visitor);
+
+            return visitor->GetTask();
         }
 
         /// <summary>
@@ -489,6 +518,15 @@ namespace CefSharp
         static void UnregisterInternalWebPlugin(String^ path)
         {
             CefUnregisterInternalWebPlugin(StringUtils::ToNative(path));
-        }		
+        }	
+
+        /// <summary>
+        /// Force a plugin to shutdown. 
+        /// </summary>
+        /// <param name="path">Path (directory + file).</param>
+        static void ForceWebPluginShutdown(String^ path)
+        {
+            CefForceWebPluginShutdown(StringUtils::ToNative(path));
+        }
     };
 }

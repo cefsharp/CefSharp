@@ -16,6 +16,12 @@ namespace CefSharp.WinForms
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
         private ParentFormMessageInterceptor parentFormMessageInterceptor;
 
+        /// <summary>
+        /// Set to true while handing an activating WM_ACTIVATE message.
+        /// MUST ONLY be cleared by DefaultFocusHandler.
+        /// </summary>
+        public bool IsActivating { get; set; }
+
         public BrowserSettings BrowserSettings { get; set; }
         public string Title { get; set; }
         public bool IsLoading { get; private set; }
@@ -29,6 +35,17 @@ namespace CefSharp.WinForms
         public IDownloadHandler DownloadHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
         public IMenuHandler MenuHandler { get; set; }
+
+        /// <summary>
+        /// The <see cref="IFocusHandler"/> for this ChromiumWebBrowser.
+        /// </summary>
+        /// <remarks>
+        /// If you need customized focus handling behavior for WinForms, the suggested 
+        /// best practice would be to inherit from DefaultFocusHandler and try to avoid 
+        /// needing to override the logic in OnGotFocus. The implementation in 
+        /// DefaultFocusHandler relies on very detailed behavior of how WinForms and 
+        /// Windows interact during window activation.
+        /// </remarks>
         public IFocusHandler FocusHandler { get; set; }
         public IDragHandler DragHandler { get; set; }
         public IResourceHandlerFactory ResourceHandlerFactory { get; set; }
@@ -117,13 +134,12 @@ namespace CefSharp.WinForms
                 LoadError = null;
                 FrameLoadStart = null;
                 FrameLoadEnd = null;
-                NavStateChanged = null;
+                LoadingStateChanged = null;
                 ConsoleMessage = null;
                 StatusMessage = null;
                 AddressChanged = null;
                 TitleChanged = null;
                 IsBrowserInitializedChanged = null;
-                IsLoadingChanged = null;
             }
             base.Dispose(disposing);
         }
@@ -181,9 +197,9 @@ namespace CefSharp.WinForms
             Load(url);
         }
 
-        public void RegisterJsObject(string name, object objectToBind)
+        public void RegisterJsObject(string name, object objectToBind, bool lowerCaseJavascriptNames = true)
         {
-            managedCefBrowserAdapter.RegisterJsObject(name, objectToBind);
+            managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, lowerCaseJavascriptNames);
         }
 
         public void ExecuteScriptAsync(string script)
@@ -209,13 +225,12 @@ namespace CefSharp.WinForms
         public event EventHandler<LoadErrorEventArgs> LoadError;
         public event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
         public event EventHandler<FrameLoadEndEventArgs> FrameLoadEnd;
-        public event EventHandler<NavStateChangedEventArgs> NavStateChanged;
+        public event EventHandler<LoadingStateChangedEventArgs> LoadingStateChanged;
         public event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
         public event EventHandler<StatusMessageEventArgs> StatusMessage;
         public event EventHandler<AddressChangedEventArgs> AddressChanged;
         public event EventHandler<TitleChangedEventArgs> TitleChanged;
         public event EventHandler<IsBrowserInitializedChangedEventArgs> IsBrowserInitializedChanged;
-        public event EventHandler<IsLoadingChangedEventArgs> IsLoadingChanged;
 
         protected override void OnHandleCreated(EventArgs e)
         {
@@ -235,27 +250,17 @@ namespace CefSharp.WinForms
             }
         }
 
-        void IWebBrowserInternal.SetIsLoading(bool isLoading)
-        {
-            IsLoading = isLoading;
-
-            var handler = IsLoadingChanged;
-            if (handler != null)
-            {
-                handler(this, new IsLoadingChangedEventArgs(isLoading));
-            }
-        }
-
         void IWebBrowserInternal.SetLoadingStateChange(bool canGoBack, bool canGoForward, bool isLoading)
         {
             CanGoBack = canGoBack;
             CanGoForward = canGoForward;
             CanReload = !isLoading;
+            IsLoading = isLoading;
 
-            var handler = NavStateChanged;
+            var handler = LoadingStateChanged;
             if (handler != null)
             {
-                handler(this, new NavStateChangedEventArgs(canGoBack, canGoForward, isLoading));
+                handler(this, new LoadingStateChangedEventArgs(canGoBack, canGoForward, isLoading));
             }
         }
 
@@ -481,22 +486,14 @@ namespace CefSharp.WinForms
             managedCefBrowserAdapter.AddWordToDictionary(word);
         }
 
-        protected override void OnEnter(EventArgs e)
+        protected override void OnGotFocus(EventArgs e)
         {
             SetFocus(true);
-
-            base.OnEnter(e);
-        }
-
-        protected override void OnLeave(EventArgs e)
-        {
-            SetFocus(false);
-
-            base.OnLeave(e);
+            base.OnGotFocus(e);
         }
 
         /// <summary>
-        /// Set whether the browser is focused.
+        /// Tell the browser to acquire/release focus.
         /// </summary>
         public void SetFocus(bool isFocused)
         {

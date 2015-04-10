@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq;
+using System.Reflection;
+using System.Text;
 
 namespace CefSharp.Example
 {
@@ -22,7 +23,7 @@ namespace CefSharp.Example
 
             //Chromium Command Line args
             //http://peter.sh/experiments/chromium-command-line-switches/
-            //NOTE: Note all relevant in relation to `CefSharp`, use for reference purposes only.
+            //NOTE: Not all relevant in relation to `CefSharp`, use for reference purposes only.
 
             var settings = new CefSettings();
             settings.RemoteDebuggingPort = 8088;
@@ -52,13 +53,22 @@ namespace CefSharp.Example
                 SchemeHandlerFactory = new CefSharpSchemeHandlerFactory()
             });
 
-            if (!Cef.Initialize(settings))
+            Cef.OnContextInitialized = delegate
+            {
+                Cef.SetCookiePath("cookies", true);
+            };
+
+            //Cef will check if all dependencies are present
+            //For special case when Checking Windows Xp Dependencies
+            //DependencyChecker.IsWindowsXp = true;
+
+            if (!Cef.Initialize(settings, shutdownOnProcessExit: true, performDependencyCheck: true))
             {
                 throw new Exception("Unable to Initialize Cef");
             }
         }
 
-        public static void RegisterTestResources(IWebBrowser browser)
+        public static async void RegisterTestResources(IWebBrowser browser)
         {
             var handler = browser.ResourceHandlerFactory;
             if (handler != null)
@@ -70,6 +80,31 @@ namespace CefSharp.Example
 
                 const string unicodeResponseBody = "<html><body>整体满意度</body></html>";
                 handler.RegisterHandler(TestUnicodeResourceUrl, ResourceHandler.FromString(unicodeResponseBody));
+
+                var plugins = await Cef.GetPlugins();
+
+                var pluginBody = new StringBuilder();
+                pluginBody.Append("<html><body><h1>Plugins</h1><table>");
+                pluginBody.Append("<tr>");
+                pluginBody.Append("<th>Name</th>");
+                pluginBody.Append("<th>Description</th>");
+                pluginBody.Append("<th>Version</th>");
+                pluginBody.Append("<th>Path</th>");
+                pluginBody.Append("</tr>");
+
+                foreach(var plugin in plugins)
+                {
+                    pluginBody.Append("<tr>");
+                    pluginBody.Append("<td>" + plugin.Name + "</td>");
+                    pluginBody.Append("<td>" + plugin.Description + "</td>");
+                    pluginBody.Append("<td>" + plugin.Version + "</td>");
+                    pluginBody.Append("<td>" + plugin.Path + "</td>");
+                    pluginBody.Append("</tr>");
+                }
+                pluginBody.Append("</table></body></html>");
+
+
+                handler.RegisterHandler("custom://cefsharp/plugins", ResourceHandler.FromString(pluginBody.ToString()));
             }
         }
     }

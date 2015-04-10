@@ -20,6 +20,15 @@ namespace CefSharp.Wpf.Example.Views
             browser.MenuHandler = new Handlers.MenuHandler();
             browser.GeolocationHandler = new Handlers.GeolocationHandler();
             browser.DownloadHandler = new DownloadHandler();
+            browser.PreviewTextInput += (o, e) =>
+            {
+                foreach (var character in e.Text)
+                {
+                    browser.SendKeyEvent((int)WM.CHAR, character, 0);
+                }
+
+                e.Handled = true;
+            };
 
             CefExample.RegisterTestResources(browser);
         }

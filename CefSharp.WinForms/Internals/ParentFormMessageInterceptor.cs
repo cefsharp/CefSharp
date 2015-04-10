@@ -6,6 +6,7 @@ using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using CefSharp.Internals;
 
 namespace CefSharp.WinForms.Internals
 {
@@ -103,6 +104,42 @@ namespace CefSharp.WinForms.Internals
             // Listen for operating system messages 
             switch (m.Msg)
             {
+                case NativeMethods.WM_ACTIVATE:
+                {
+                    // Intercept (de)activate messages for our form so that we can
+                    // ensure that we play nicely with WinForms .ActiveControl
+                    // tracking.
+                    var browser = Browser;
+                    if ((int)m.WParam == 0x0) // WA_INACTIVE
+                    {
+                        // If the CEF browser no longer has focus,
+                        // we won't get a call to OnLostFocus on ChromiumWebBrowser.
+                        // However, it doesn't matter so much since the CEF
+                        // browser will receive it instead.
+
+                        // Paranoia about making sure the IsActivating state is correct now.
+                        browser.IsActivating = false;
+                        DefWndProc(ref m);
+                    }
+                    else // WA_ACTIVE or WA_CLICKACTIVE
+                    {
+                        // Only set IsActivating if the ChromiumWebBrowser was the form's
+                        // ActiveControl before the last deactivation.
+                        browser.IsActivating = browser.IsActiveControl();
+                        DefWndProc(ref m);
+                        // During activation, WM_SETFOCUS gets sent to
+                        // to the CEF control since it's the root window
+                        // of the CEF UI thread.
+                        //
+                        // Therefore, don't set .IsActivating to false here
+                        // instead do so in DefaultFocusHandler.OnGotFocus.
+                        // Otherwise there's a race condition between this
+                        // thread setting activating to false and
+                        // the CEF DefaultFocusHandler executing to determine
+                        // it shouldn't Activate() the control.
+                    }
+                    return;
+                }
                 case NativeMethods.WM_MOVING:
                 {
                     movingRectangle = (Rectangle)Marshal.PtrToStructure(m.LParam, typeof(Rectangle));
@@ -113,8 +150,14 @@ namespace CefSharp.WinForms.Internals
                 }
                 case NativeMethods.WM_MOVE:
                 {
-                    x = (m.LParam.ToInt32() & 0xffff);
-                    y = ((m.LParam.ToInt32() >> 16) & 0xffff);
+                    // Convert IntPtr into 32bit int safely without 
+                    // exceptions:
+                    int dwLParam = m.LParam.CastToInt32();
+
+                    // Extract coordinates from lo/hi word:
+                    x = dwLParam & 0xffff;
+                    y = (dwLParam >> 16) & 0xffff;
+
                     isMovingMessage = true;
                     break;
                 }

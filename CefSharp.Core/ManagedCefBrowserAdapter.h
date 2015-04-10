@@ -6,13 +6,13 @@
 
 #include "Stdafx.h"
 #include "BrowserSettings.h"
-#include "MouseButtonType.h"
 #include "PaintElementType.h"
 #include "Internals/ClientAdapter.h"
 #include "Internals/CefDragDataWrapper.h"
 #include "Internals/RenderClientAdapter.h"
 #include "Internals/MCefRefPtr.h"
 #include "Internals/StringVisitor.h"
+#include "Internals/CefTaskScheduler.h"
 
 using namespace CefSharp::Internals;
 using namespace System::Diagnostics;
@@ -27,7 +27,7 @@ namespace CefSharp
         BrowserProcessServiceHost^ _browserProcessServiceHost;
         IWebBrowserInternal^ _webBrowserInternal;
         JavascriptObjectRepository^ _javaScriptObjectRepository;
-
+      
     protected:
         virtual void DoDispose(bool isDisposing) override
         {
@@ -114,7 +114,13 @@ namespace CefSharp
         void OnAfterBrowserCreated(int browserId)
         {
             _browserProcessServiceHost = gcnew BrowserProcessServiceHost(_javaScriptObjectRepository, Process::GetCurrentProcess()->Id, browserId);
-            _browserProcessServiceHost->Open();
+            //NOTE: Attempt to solve timing issue where browser is opened and rapidly disposed. In some cases a call to Open throws
+            // an exception about the process already being closed. Two relevant issues are #862 and #804.
+            // Considering adding an IsDisposed check and also may have to revert to a try catch block
+            if(_browserProcessServiceHost->State == CommunicationState::Created)
+            {
+                _browserProcessServiceHost->Open();
+            }
 
             if(_webBrowserInternal != nullptr)
             {
@@ -182,7 +188,7 @@ namespace CefSharp
             }
         }
 
-        bool SendKeyEvent(int message, int wParam, IntPtr lParamIntPtr)
+        bool SendKeyEvent(int message, int wParam, int lParam)
         {
             auto browser = _clientAdapter->GetCefBrowser();
 
@@ -190,8 +196,6 @@ namespace CefSharp
             {
                 return false;
             }
-
-            LPARAM lParam = IntPtr::Size == 8 ? lParamIntPtr.ToInt64() : lParamIntPtr.ToInt32();
 
             CefKeyEvent keyEvent;
             keyEvent.windows_key_code = wParam;
@@ -329,7 +333,7 @@ namespace CefSharp
             }
         }
 
-        void OnMouseButton(int x, int y, MouseButtonType mouseButtonType, bool mouseUp, int clickCount, CefEventFlags modifiers)
+        void OnMouseButton(int x, int y, int mouseButtonType, bool mouseUp, int clickCount, CefEventFlags modifiers)
         {
             auto browser = _clientAdapter->GetCefBrowser();
 
@@ -660,9 +664,9 @@ namespace CefSharp
             }
         }
 
-        void RegisterJsObject(String^ name, Object^ object)
+        void RegisterJsObject(String^ name, Object^ object, bool lowerCaseJavascriptNames)
         {
-            _javaScriptObjectRepository->Register(name, object);
+            _javaScriptObjectRepository->Register(name, object, lowerCaseJavascriptNames);
         }
 
         void ReplaceMisspelling(String^ word)

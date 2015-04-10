@@ -9,5 +9,6 @@ namespace CefSharp.WinForms.Internals
     {
         public const int WM_MOVE = 0x3;
         public const int WM_MOVING = 0x216;
+        public const int WM_ACTIVATE = 0x6;
     }
 }

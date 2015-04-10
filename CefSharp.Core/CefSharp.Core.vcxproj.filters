@@ -94,9 +94,6 @@
     <ClInclude Include="BrowserSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MouseButtonType.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PaintElementType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -130,6 +127,9 @@
     <ClInclude Include="Internals\CefDragDataWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Internals\CefTaskScheduler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="NativeMethodWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -137,6 +137,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SchemeHandlerFactoryWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\PluginVisitor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

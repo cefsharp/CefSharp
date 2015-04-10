@@ -64,9 +64,8 @@ namespace CefSharp.OffScreen
         public event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
         public event EventHandler BrowserInitialized;
         public event EventHandler<StatusMessageEventArgs> StatusMessage;
-        public event EventHandler<NavStateChangedEventArgs> NavStateChanged;
+        public event EventHandler<LoadingStateChangedEventArgs> LoadingStateChanged;
         public event EventHandler<AddressChangedEventArgs> AddressChanged;
-        public event EventHandler<IsLoadingChangedEventArgs> IsLoadingChanged;
 
         /// <summary>
         /// Fired by a separate thread when Chrome has re-rendered.
@@ -129,9 +128,8 @@ namespace CefSharp.OffScreen
             ConsoleMessage = null;
             BrowserInitialized = null;
             StatusMessage = null;
-            NavStateChanged = null;
+            LoadingStateChanged = null;
             AddressChanged = null;
-            IsLoadingChanged = null;
 
             Cef.RemoveDisposable(this);
 
@@ -304,9 +302,9 @@ namespace CefSharp.OffScreen
             Load(url);
         }
 
-        public void RegisterJsObject(string name, object objectToBind)
+        public void RegisterJsObject(string name, object objectToBind, bool lowerCaseJavascriptNames = true)
         {
-            managedCefBrowserAdapter.RegisterJsObject(name, objectToBind);
+            managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, lowerCaseJavascriptNames);
         }
 
         public void Stop()
@@ -517,27 +515,17 @@ namespace CefSharp.OffScreen
             }
         }
 
-        void IWebBrowserInternal.SetIsLoading(bool isLoading)
-        {
-            IsLoading = isLoading;
-
-            var handler = IsLoadingChanged;
-            if (handler != null)
-            {
-                handler(this, new IsLoadingChangedEventArgs(isLoading));
-            }
-        }
-
         void IWebBrowserInternal.SetLoadingStateChange(bool canGoBack, bool canGoForward, bool isLoading)
         {
             CanGoBack = canGoBack;
             CanGoForward = canGoForward;
             CanReload = !isLoading;
+            IsLoading = isLoading;
 
-            var handler = NavStateChanged;
+            var handler = LoadingStateChanged;
             if (handler != null)
             {
-                handler(this, new NavStateChangedEventArgs(canGoBack, canGoForward, isLoading));
+                handler(this, new LoadingStateChangedEventArgs(canGoBack, canGoForward, isLoading));
             }
         }
 

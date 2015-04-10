@@ -66,7 +66,7 @@ namespace CefSharp
                 return false;
             }
 
-            return handler->OnBeforePopup(_browserControl, StringUtils::ToClr(target_url),
+            return handler->OnBeforePopup(_browserControl, StringUtils::ToClr(frame->GetURL()), StringUtils::ToClr(target_url),
                 windowInfo.x, windowInfo.y, windowInfo.width, windowInfo.height);
         }
 
@@ -124,7 +124,7 @@ namespace CefSharp
 
         void ClientAdapter::OnAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& address)
         {
-            if (frame->IsMain())
+            if (!browser->IsPopup())
             {
                 _browserControl->SetAddress(StringUtils::ToClr(address));
             }
@@ -205,13 +205,6 @@ namespace CefSharp
                 return;
             }
 
-            AutoLock lock_scope(_syncRoot);
-
-            if (frame->IsMain())
-            {
-                _browserControl->SetIsLoading(true);
-            }
-
             _browserControl->OnFrameLoadStart(StringUtils::ToClr(frame->GetURL()), frame->IsMain());
         }
 
@@ -220,13 +213,6 @@ namespace CefSharp
             if (browser->IsPopup())
             {
                 return;
-            }
-
-            AutoLock lock_scope(_syncRoot);
-
-            if (frame->IsMain())
-            {
-                _browserControl->SetIsLoading(false);
             }
 
             _browserControl->OnFrameLoadEnd(StringUtils::ToClr(frame->GetURL()), frame->IsMain(), httpStatusCode);
@@ -247,10 +233,10 @@ namespace CefSharp
 
             CefRequestWrapper^ wrapper = gcnew CefRequestWrapper(request);
 
-            return handler->OnBeforeBrowse(_browserControl, wrapper, isRedirect);
+            return handler->OnBeforeBrowse(_browserControl, wrapper, isRedirect, frame->IsMain());
         }
 
-        bool ClientAdapter::OnCertificateError(cef_errorcode_t cert_error, const CefString& request_url, CefRefPtr<CefAllowCertificateErrorCallback> callback)
+        bool ClientAdapter::OnCertificateError(CefRefPtr<CefBrowser> browser, cef_errorcode_t cert_error, const CefString& request_url, CefRefPtr<CefSSLInfo> ssl_info, CefRefPtr<CefAllowCertificateErrorCallback> callback)
         {
             IRequestHandler^ handler = _browserControl->RequestHandler;
             if (handler == nullptr)
@@ -351,20 +337,8 @@ namespace CefSharp
             }
 
             auto requestWrapper = gcnew CefRequestWrapper(request);
-            auto response = gcnew Response();
 
-            bool ret = handler->OnBeforeResourceLoad(_browserControl, requestWrapper, response);
-
-            if (response->Action == ResponseAction::Redirect)
-            {
-                request->SetURL(StringUtils::ToNative(response->RedirectUrl));
-            }
-            else if (response->Action == ResponseAction::Cancel)
-            {
-                return true;
-            }
-
-            return ret;
+            return handler->OnBeforeResourceLoad(_browserControl, requestWrapper, frame->IsMain());
         }
 
         CefRefPtr<CefDownloadHandler> ClientAdapter::GetDownloadHandler()
@@ -535,8 +509,8 @@ namespace CefSharp
         }
 
         bool ClientAdapter::OnFileDialog(CefRefPtr<CefBrowser> browser, FileDialogMode mode, const CefString& title,
-            const CefString& default_file_name, const std::vector<CefString>& accept_types,
-            CefRefPtr<CefFileDialogCallback> callback)
+                const CefString& default_file_path, const std::vector<CefString>& accept_filters, int selected_accept_filter,
+                CefRefPtr<CefFileDialogCallback> callback)
         {
             IDialogHandler^ handler = _browserControl->DialogHandler;
 
@@ -545,14 +519,16 @@ namespace CefSharp
                 return false;
             }
 
-            bool handled;
+            List<System::String ^>^ filePaths = nullptr;
 
-            List<System::String ^>^ resultString = nullptr;
+            if(handler->OnFileDialog(_browserControl, (CefFileDialogMode)mode, StringUtils::ToClr(title), StringUtils::ToClr(default_file_path), StringUtils::ToClr(accept_filters), selected_accept_filter, filePaths))
+            {
+                callback->Continue(selected_accept_filter, StringUtils::ToNative(filePaths));
 
-            handled = handler->OnFileDialog(_browserControl, (CefFileDialogMode)mode, StringUtils::ToClr(title), StringUtils::ToClr(default_file_name), StringUtils::ToClr(accept_types), resultString);
-            callback->Continue(StringUtils::ToNative(resultString));
+                return true;
+            }
 
-            return handled;
+            return false;
         }
 
         bool ClientAdapter::OnDragEnter(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDragData> dragData, DragOperationsMask mask)
