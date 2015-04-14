@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Reflection;
+using CefSharp.Example.Proxy;
 using System.Text;
 
 namespace CefSharp.Example
@@ -38,6 +39,27 @@ namespace CefSharp.Example
             //Disables the DirectWrite font rendering system on windows.
             //Possibly useful when experiencing blury fonts.
             //settings.CefCommandLineArgs.Add("disable-direct-write", "1");
+
+            var proxy = ProxyConfig.GetProxyInformation();
+            switch (proxy.AccessType)
+            {
+                case InternetOpenType.Direct:
+                {
+                    //Don't use a proxy server, always make direct connections.
+                    settings.CefCommandLineArgs.Add("no-proxy-server", "1");
+                    break;
+                }
+                case InternetOpenType.Proxy:
+                {
+                    settings.CefCommandLineArgs.Add("proxy-server", proxy.ProxyAddress);
+                    break;
+                }
+                case InternetOpenType.PreConfig:
+                {
+                    settings.CefCommandLineArgs.Add("proxy-auto-detect", "1");
+                    break;
+                }
+            }
             
             settings.LogSeverity = LogSeverity.Verbose;
 
