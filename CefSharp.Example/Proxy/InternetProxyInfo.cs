@@ -4,10 +4,10 @@
 
 namespace CefSharp.Example.Proxy
 {
-	public struct InternetProxyInfo
-	{
-		public InternetOpenType AccessType;
-		public string ProxyAddress;
-		public string ProxyBypass;
-	}
+    public struct InternetProxyInfo
+    {
+        public InternetOpenType AccessType;
+        public string ProxyAddress;
+        public string ProxyBypass;
+    }
 }
