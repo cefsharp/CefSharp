@@ -6,30 +6,13 @@
 #include "Internals/CefRequestWrapper.h"
 #include "ResourceHandlerWrapper.h"
 #include "SchemeHandlerResponse.h"
+#include "Internals/TypeConversion.h"
 
 using namespace System::Runtime::InteropServices;
 using namespace System::IO;
 
 namespace CefSharp
 {
-    CefResponse::HeaderMap ResourceHandlerWrapper::ToHeaderMap(NameValueCollection^ headers)
-    {
-        CefResponse::HeaderMap result;
-
-        if (headers == nullptr)
-        {
-            return result;
-        }
-
-        for each (String^ key in headers)
-        {
-            String^ value = headers[key];
-            result.insert(std::pair<CefString, CefString>(StringUtils::ToNative(key), StringUtils::ToNative(value)));
-        }
-
-        return result;
-    }
-
     bool ResourceHandlerWrapper::ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefCallback> callback)
     {
         _callback = callback;
@@ -58,7 +41,7 @@ namespace CefSharp
         _contentLength = response->ContentLength;
         _closeStream = response->CloseStream;
 
-        _headers = ToHeaderMap(response->ResponseHeaders);
+        _headers = TypeConversion::ToNative(response->ResponseHeaders);
 
         // If CEF has cancelled the initial request, throw away a response that comes afterwards.
         if (_callback != nullptr)
