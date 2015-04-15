@@ -14,7 +14,7 @@ using namespace System::Collections::Specialized;
 
 namespace CefSharp
 {
-	class SchemeHandlerFactoryWrapper : public CefSchemeHandlerFactory
+	private class SchemeHandlerFactoryWrapper : public CefSchemeHandlerFactory
 	{
 		gcroot<ISchemeHandlerFactory^> _factory;
 
