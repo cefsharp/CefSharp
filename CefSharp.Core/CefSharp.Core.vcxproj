@@ -225,7 +225,6 @@
     <ClCompile Include="Internals\DownloadAdapter.cpp" />
     <ClCompile Include="Internals\StringVisitor.cpp" />
     <ClCompile Include="NativeMethodWrapper.cpp" />
-    <ClCompile Include="SchemeHandlerFactoryWrapper.cpp" />
     <ClCompile Include="SchemeHandlerResponse.cpp" />
     <ClCompile Include="ResourceHandlerWrapper.cpp" />
     <ClCompile Include="Stdafx.cpp">

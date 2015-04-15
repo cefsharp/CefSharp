@@ -50,9 +50,6 @@
     <ClCompile Include="NativeMethodWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SchemeHandlerFactoryWrapper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ResourceHandlerWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

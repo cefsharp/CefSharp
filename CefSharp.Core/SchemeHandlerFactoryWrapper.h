@@ -22,7 +22,12 @@ namespace CefSharp
 		SchemeHandlerFactoryWrapper(ISchemeHandlerFactory^ factory)
 			: _factory(factory) {}
 
-		virtual CefRefPtr<CefResourceHandler> Create(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& scheme_name, CefRefPtr<CefRequest> request);
+		virtual CefRefPtr<CefResourceHandler> SchemeHandlerFactoryWrapper::Create(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& scheme_name, CefRefPtr<CefRequest> request) OVERRIDE
+		{
+			ISchemeHandler^ handler = _factory->Create();
+			CefRefPtr<ResourceHandlerWrapper> wrapper = new ResourceHandlerWrapper(handler);
+			return static_cast<CefRefPtr<CefResourceHandler>>(wrapper);
+		}
 
 		IMPLEMENT_REFCOUNTING(SchemeHandlerFactoryWrapper);
 	};
