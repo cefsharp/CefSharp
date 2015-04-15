@@ -22,6 +22,11 @@ namespace CefSharp
 		SchemeHandlerFactoryWrapper(ISchemeHandlerFactory^ factory)
 			: _factory(factory) {}
 
+		~SchemeHandlerFactoryWrapper()
+		{
+			_factory = nullptr;
+		}
+
 		virtual CefRefPtr<CefResourceHandler> SchemeHandlerFactoryWrapper::Create(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& scheme_name, CefRefPtr<CefRequest> request) OVERRIDE
 		{
 			ISchemeHandler^ handler = _factory->Create();
