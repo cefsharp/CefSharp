@@ -160,9 +160,9 @@ namespace CefSharp
             // NOTE: Can only initialize Cef once, so subsiquent calls are ignored.
             if (!IsInitialized)
             {
-                if(performDependencyCheck)
+                if (performDependencyCheck)
                 {
-                    DependencyChecker::AssertAllDependenciesPresent(cefSettings->Locale, cefSettings->LocalesDirPath, cefSettings->ResourcesDirPath, cefSettings->PackLoadingDisabled);
+                    DependencyChecker::AssertAllDependenciesPresent(cefSettings);
                 }
 
                 CefMainArgs main_args;
