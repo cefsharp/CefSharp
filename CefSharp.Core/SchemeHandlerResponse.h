@@ -60,7 +60,7 @@ namespace CefSharp
             _schemeHandlerWrapper = schemeHandlerWrapper;
         }
 
-        void ReleaseSchemeHandlerWrapper()
+        ~SchemeHandlerResponse()
         {
             _schemeHandlerWrapper = nullptr;
         }
