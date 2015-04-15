@@ -319,7 +319,6 @@ namespace CefSharp
                 {
                     CefResponse::HeaderMap map = TypeConversion::ToNative(resourceHandler->Headers);
 
-                    //NOTE: This will crash in a debug build due to a CEF bug.
                     return new CefStreamResourceHandler(resourceHandler->StatusCode, statusText, mimeType, map, stream);
                 }
             }
