@@ -5,7 +5,7 @@
 #pragma once
 
 #include "Stdafx.h"
-#include "SchemeHandlerWrapper.h"
+#include "ResourceHandlerWrapper.h"
 #include "Internals/MCefRefPtr.h"
 
 using namespace System;
@@ -19,7 +19,7 @@ namespace CefSharp
     public ref class SchemeHandlerResponse : ISchemeHandlerResponse
     {
     internal:
-        MCefRefPtr<SchemeHandlerWrapper> _schemeHandlerWrapper;
+        MCefRefPtr<ResourceHandlerWrapper> _schemeHandlerWrapper;
         void OnRequestCompleted();
 
     public:
@@ -55,7 +55,7 @@ namespace CefSharp
         /// </summary>
         virtual property bool CloseStream;
 
-        SchemeHandlerResponse(SchemeHandlerWrapper* schemeHandlerWrapper)
+        SchemeHandlerResponse(ResourceHandlerWrapper* schemeHandlerWrapper)
         {
             ContentLength = -1;
             _schemeHandlerWrapper = schemeHandlerWrapper;

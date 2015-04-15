@@ -32,9 +32,6 @@
     <ClCompile Include="Internals\StreamAdapter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SchemeHandlerWrapper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SchemeHandlerResponse.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -54,6 +51,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SchemeHandlerFactoryWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceHandlerWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -100,9 +100,6 @@
     <ClInclude Include="Internals\RenderClientAdapter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SchemeHandlerWrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SchemeHandlerResponse.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -134,6 +131,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SchemeHandlerFactoryWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceHandlerWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

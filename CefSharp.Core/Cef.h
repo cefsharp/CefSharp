@@ -16,7 +16,7 @@
 #include "Internals/StringUtils.h"
 #include "ManagedCefBrowserAdapter.h"
 #include "CefSettings.h"
-#include "SchemeHandlerWrapper.h"
+#include "ResourceHandlerWrapper.h"
 
 using namespace System::Collections::Generic; 
 using namespace System::Linq;

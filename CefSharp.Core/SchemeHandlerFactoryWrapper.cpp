@@ -17,7 +17,7 @@ namespace CefSharp
 		CefRefPtr<CefRequest> request)
 	{
 		ISchemeHandler^ handler = _factory->Create();
-		CefRefPtr<SchemeHandlerWrapper> wrapper = new SchemeHandlerWrapper(handler);
+		CefRefPtr<ResourceHandlerWrapper> wrapper = new ResourceHandlerWrapper(handler);
 		return static_cast<CefRefPtr<CefResourceHandler>>(wrapper);
 	}
 }
