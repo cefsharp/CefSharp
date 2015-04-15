@@ -141,8 +141,7 @@
                         <pre data-shbrush="csharp">
                                 internal class CefSharpSchemeHandler : ISchemeHandler
                                 {
-                                    public bool ProcessRequestAsync(IRequest request, SchemeHandlerResponse response,
-                                                                    OnRequestCompletedHandler requestCompletedCallback)
+                                    public bool ProcessRequestAsync(IRequest request, SchemeHandlerResponse response)
                                     {
                                         // TODO: Add your custom scheme code here, so that "bytes" is a byte[] with the
                                         // TODO: response data for the given request. Examine the "request" object for info
@@ -151,7 +150,7 @@
                                         response.MimeType = GetMimeType(fileName);
                                         
                                         // This signals to CefSharp that your scheme handler is ready with the processing.
-                                        requestCompletedCallback();
+                                        response.ProcessRequestCallback();
                                         
                                         // You can also return "false" here if the requested URI is invalid for your scheme
                                         // handler.

@@ -41,5 +41,10 @@ namespace CefSharp
         /// is false in order to preserve the old CefSharp behavior of not closing the stream.
         /// </summary>
         bool CloseStream { get; set; }
+
+        /// <summary>
+        /// Execute this method when processing is complete. Can be called on any thread.
+        /// </summary>
+        void ProcessRequestCallback();
     }
 }

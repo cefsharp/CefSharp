@@ -39,10 +39,9 @@ namespace CefSharp
         AutoLock lock_scope(_syncRoot);
 
         auto schemeResponse = gcnew SchemeHandlerResponse(this);
-        auto onRequestCompleted = gcnew OnRequestCompletedHandler(schemeResponse, &SchemeHandlerResponse::OnRequestCompleted);
 
         auto requestWrapper = gcnew CefRequestWrapper(request);
-        if (_handler->ProcessRequestAsync(requestWrapper, schemeResponse, onRequestCompleted))
+        if (_handler->ProcessRequestAsync(requestWrapper, schemeResponse))
         {
             handled = true;
         }

@@ -20,7 +20,6 @@ namespace CefSharp
     {
     internal:
         MCefRefPtr<ResourceHandlerWrapper> _schemeHandlerWrapper;
-        void OnRequestCompleted();
 
     public:
         /// <summary>
@@ -64,6 +63,11 @@ namespace CefSharp
         void ReleaseSchemeHandlerWrapper()
         {
             _schemeHandlerWrapper = nullptr;
+        }
+
+        virtual void ProcessRequestCallback()
+        {
+            _schemeHandlerWrapper->ProcessRequestCallback(this);
         }
     };
 };
