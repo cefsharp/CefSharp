@@ -36,7 +36,7 @@ namespace CefSharp.Example
             };
         }
 
-        public bool ProcessRequestAsync(IRequest request, ISchemeHandlerResponse response, OnRequestCompletedHandler requestCompletedCallback)
+        public bool ProcessRequestAsync(IRequest request, ISchemeHandlerResponse response)
         {
             // The 'host' portion is entirely ignored by this scheme handler.
             var uri = new Uri(request.Url);
@@ -49,8 +49,7 @@ namespace CefSharp.Example
                 response.ResponseStream = new MemoryStream(bytes);
                 response.MimeType = GetMimeType(fileName);
 
-                //Execute in async fashion
-                requestCompletedCallback.BeginInvoke(requestCompletedCallback.EndInvoke, null);
+                response.ProcessRequestCallback();
 
                 return true;
             }
