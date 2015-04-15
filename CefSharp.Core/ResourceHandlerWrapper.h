@@ -45,8 +45,6 @@ namespace CefSharp
         virtual bool ReadResponse(void* data_out, int bytes_to_read, int& bytes_read, CefRefPtr<CefCallback> callback);
         virtual void Cancel();
 
-        static CefResponse::HeaderMap ToHeaderMap(NameValueCollection^ headers);
-
         IMPLEMENT_REFCOUNTING(ResourceHandlerWrapper);
     };
 }
