@@ -69,22 +69,36 @@ namespace CefSharp
         {
             "CefSharp.Core.dll",
             "CefSharp.dll",
-            "CefSharp.BrowserSubprocess.Core.dll",
-            "CefSharp.BrowserSubprocess.exe"
+            "CefSharp.BrowserSubprocess.Core.dll"
         };
 
         /// <summary>
         /// CheckDependencies iterates through the list of Cef and CefSharp dependencines
         /// relative to the path provided and returns a list of missing ones
         /// </summary>
+        /// <remarks>
+        /// The following <see cref="CefSettings"/> parameters will take on default values if not specified:
+        /// <list>
+        /// <item><description>Locale - if empty then en-US will be used.</description></item>
+        /// <item><description>LocalesDirPath - if empty locales\ will be used.</description></item>
+        /// <item><description>ResourcesDirPath - if empty the Executing Assembly path is used.</description></item>
+        /// </list>
+        /// </remarks>
         /// <param name="checkOptional">check to see if optional dependencies are present</param>
-        /// <param name="packLoadingDisabled">Is loading of pack files disabled?</param>
         /// <param name="path">path to check for dependencies</param>
-        /// <param name="resourcesDirPath"></param>
-        /// <param name="localePackFile">The locale pack file e.g. <see cref="LocalesPackFile"/> </param>
+        /// <param name="cefSettings">The settings object specifying dependencies</param>
         /// <returns>List of missing dependencies, if all present an empty List will be returned</returns>
-        public static List<string> CheckDependencies(bool checkOptional, bool packLoadingDisabled, string path, string resourcesDirPath, string localePackFile = LocalesPackFile)
+        public static List<string> CheckDependencies(bool checkOptional, string path, CefSettings cefSettings)
         {
+            if (path == null)
+            {
+                throw new ArgumentNullException("path");
+            }
+            if (cefSettings == null)
+            {
+                throw new ArgumentNullException("cefSettings");
+            }
+
             var missingDependencies = new List<string>();
 
             //Loop through Cef dependencies and add to list if not found
@@ -98,12 +112,14 @@ namespace CefSharp
                 }
             }
 
-            if (!packLoadingDisabled)
+            if (!cefSettings.PackLoadingDisabled)
             {
+                var resourceDirPath = string.IsNullOrEmpty(cefSettings.ResourcesDirPath) ? path : cefSettings.ResourcesDirPath;
+
                 //Loop through Cef Resources and add to list if not found
                 foreach (var cefResource in CefResources)
                 {
-                    var resourcePath = Path.Combine(resourcesDirPath, cefResource);
+                    var resourcePath = Path.Combine(resourceDirPath, cefResource);
 
                     if (!File.Exists(resourcePath))
                     {
@@ -137,8 +153,19 @@ namespace CefSharp
                 }
             }
 
+            var browserSubprocessPath = string.IsNullOrEmpty(cefSettings.BrowserSubprocessPath)
+                ? Path.Combine(path, "CefSharp.BrowserSubprocess.exe")
+                : cefSettings.BrowserSubprocessPath;
+            if (!File.Exists(browserSubprocessPath))
+            {
+                missingDependencies.Add(browserSubprocessPath);
+            }
+
             //If path path is not rooted (doesn't start with a drive letter + folder)
             //then make it relative to the executing assembly.
+            var locale = string.IsNullOrEmpty(cefSettings.Locale) ? "en-US" : cefSettings.Locale;
+            var localesDirPath = string.IsNullOrEmpty(cefSettings.LocalesDirPath) ? "locales" : cefSettings.LocalesDirPath;
+            var localePackFile = Path.Combine(localesDirPath, locale + ".pak");
             var localePath = Path.IsPathRooted(localePackFile) ? localePackFile : Path.Combine(path, localePackFile);
 
             if (!File.Exists(localePath))
@@ -153,33 +180,19 @@ namespace CefSharp
         /// Checks if all Cef and CefSharp dependencies were found relative to the Executing Assembly.
         /// Shortcut method that calls <see cref="CheckDependencies"/>, throws an Exception if not files are missing.
         /// </summary>
-        /// <param name="locale">The locale, if empty then en-US will be used.</param>
-        /// <param name="localesDirPath">The path to the locales directory, if empty locales\ will be used.</param>
-        /// <param name="resourcesDirPath">The path to the resources directory, if empty the Executing Assembly path is used.</param>
-        /// <param name="packLoadingDisabled">Is loading of pack files disabled?</param>
+        /// <param name="cefSettings">The settings object specifying dependencies.</param>
         /// <exception cref="Exception">Throw when not all dependencies are present</exception>
-        public static void AssertAllDependenciesPresent(string locale, string localesDirPath, string resourcesDirPath, bool packLoadingDisabled)
+        public static void AssertAllDependenciesPresent(CefSettings cefSettings)
         {
-            var executingAssembly = Assembly.GetExecutingAssembly();
+            if (cefSettings == null)
+            {
+                throw new ArgumentNullException("cefSettings");
+            }
 
+            var executingAssembly = Assembly.GetExecutingAssembly();
             var path = Path.GetDirectoryName(executingAssembly.Location);
 
-            if(string.IsNullOrEmpty(locale))
-            {
-                locale = "en-US";
-            }
-
-            if (string.IsNullOrEmpty(localesDirPath))
-            {
-                localesDirPath = @"locales";
-            }
-
-            if (string.IsNullOrEmpty(resourcesDirPath))
-            {
-                resourcesDirPath = path;
-            }
-
-            var missingDependencies = CheckDependencies(true, packLoadingDisabled, path, resourcesDirPath, Path.Combine(localesDirPath, locale + ".pak"));
+            var missingDependencies = CheckDependencies(true, path, cefSettings);
 
             if (missingDependencies.Count > 0)
             {
