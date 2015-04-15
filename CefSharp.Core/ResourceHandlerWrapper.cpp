@@ -4,7 +4,7 @@
 
 #include "Stdafx.h"
 #include "Internals/CefRequestWrapper.h"
-#include "SchemeHandlerWrapper.h"
+#include "ResourceHandlerWrapper.h"
 #include "SchemeHandlerResponse.h"
 
 using namespace System::Runtime::InteropServices;
@@ -12,7 +12,7 @@ using namespace System::IO;
 
 namespace CefSharp
 {
-    CefResponse::HeaderMap SchemeHandlerWrapper::ToHeaderMap(NameValueCollection^ headers)
+    CefResponse::HeaderMap ResourceHandlerWrapper::ToHeaderMap(NameValueCollection^ headers)
     {
         CefResponse::HeaderMap result;
 
@@ -30,7 +30,7 @@ namespace CefSharp
         return result;
     }
 
-    bool SchemeHandlerWrapper::ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefCallback> callback)
+    bool ResourceHandlerWrapper::ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefCallback> callback)
     {
         _callback = callback;
 
@@ -50,7 +50,7 @@ namespace CefSharp
         return handled;
     }
 
-    void SchemeHandlerWrapper::ProcessRequestCallback(SchemeHandlerResponse^ response)
+    void ResourceHandlerWrapper::ProcessRequestCallback(SchemeHandlerResponse^ response)
     {
         _mime_type = StringUtils::ToNative(response->MimeType);
         _stream = response->ResponseStream;
@@ -72,7 +72,7 @@ namespace CefSharp
         response->ReleaseSchemeHandlerWrapper();
     }
 
-    void SchemeHandlerWrapper::GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl)
+    void ResourceHandlerWrapper::GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl)
     {
         response->SetMimeType(_mime_type);
         response->SetStatus(_statusCode > 0 ? _statusCode : 200);
@@ -88,7 +88,7 @@ namespace CefSharp
         redirectUrl = _redirectUrl;
     }
 
-    bool SchemeHandlerWrapper::ReadResponse(void* data_out, int bytes_to_read, int& bytes_read, CefRefPtr<CefCallback> callback)
+    bool ResourceHandlerWrapper::ReadResponse(void* data_out, int bytes_to_read, int& bytes_read, CefRefPtr<CefCallback> callback)
     {
         bool has_data = false;
 
@@ -116,7 +116,7 @@ namespace CefSharp
         return has_data;
     }
 
-    void SchemeHandlerWrapper::Cancel()
+    void ResourceHandlerWrapper::Cancel()
     {
         if (static_cast<Stream^>(_stream) != nullptr && _closeStream)
         {
@@ -126,7 +126,7 @@ namespace CefSharp
         _callback = NULL;
     }
 
-    int SchemeHandlerWrapper::SizeFromStream()
+    int ResourceHandlerWrapper::SizeFromStream()
     {
         if (static_cast<Stream^>(_stream) == nullptr)
         {

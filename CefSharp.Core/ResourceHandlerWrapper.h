@@ -16,7 +16,7 @@ namespace CefSharp
 {
     ref class SchemeHandlerResponse;
 
-    public class SchemeHandlerWrapper : public CefResourceHandler
+    public class ResourceHandlerWrapper : public CefResourceHandler
     {
         CriticalSection _syncRoot;
         gcroot<ISchemeHandler^> _handler;
@@ -31,7 +31,7 @@ namespace CefSharp
         int SizeFromStream();
     public:
 
-        SchemeHandlerWrapper(ISchemeHandler^ handler) : _handler(handler)
+        ResourceHandlerWrapper(ISchemeHandler^ handler) : _handler(handler)
         {
             if (static_cast<ISchemeHandler^>(_handler) == nullptr)
             {
@@ -47,6 +47,6 @@ namespace CefSharp
 
         static CefResponse::HeaderMap ToHeaderMap(NameValueCollection^ headers);
 
-        IMPLEMENT_REFCOUNTING(SchemeHandlerWrapper);
+        IMPLEMENT_REFCOUNTING(ResourceHandlerWrapper);
     };
 }
