@@ -32,7 +32,7 @@ namespace CefSharp
         return handled;
     }
 
-    void ResourceHandlerWrapper::ProcessRequestCallback(SchemeHandlerResponse^ response)
+    void ResourceHandlerWrapper::ProcessRequestCallback(ISchemeHandlerResponse^ response)
     {
         _mime_type = StringUtils::ToNative(response->MimeType);
         _stream = response->ResponseStream;
@@ -117,9 +117,9 @@ namespace CefSharp
 
         if (_stream->CanSeek)
         {
-            _stream->Seek(0, SeekOrigin::End);
+            _stream->Seek(0, System::IO::SeekOrigin::End);
             int length = static_cast<int>(_stream->Position);
-            _stream->Seek(0, SeekOrigin::Begin);
+            _stream->Seek(0, System::IO::SeekOrigin::Begin);
             return length;
         }
         return -1;
