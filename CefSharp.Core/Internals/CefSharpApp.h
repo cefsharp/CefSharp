@@ -78,18 +78,6 @@ namespace CefSharp
             }
         };
 
-        void CompleteSchemeRegistrations()
-        {
-            // TOOD: Consider adding error handling here. But where do we report any errors that may have occurred?
-            for each (CefCustomScheme^ cefCustomScheme in _cefSettings->CefCustomSchemes)
-            {
-                auto domainName = cefCustomScheme->DomainName ? cefCustomScheme->DomainName : String::Empty;
-
-                CefRefPtr<CefSchemeHandlerFactory> wrapper = new SchemeHandlerFactoryWrapper(cefCustomScheme->SchemeHandlerFactory);
-                CefRegisterSchemeHandlerFactory(StringUtils::ToNative(cefCustomScheme->SchemeName), StringUtils::ToNative(domainName), wrapper);
-            }
-        };
-
         IMPLEMENT_REFCOUNTING(CefSharpApp)
     };
 }
