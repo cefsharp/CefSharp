@@ -37,6 +37,13 @@ namespace CefSharp
             }
         }
 
+        ~ResourceHandlerWrapper()
+        {
+            _handler = nullptr;
+            _stream = nullptr;
+            _callback = NULL;
+        }
+
         virtual bool ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefCallback> callback);
         virtual void ProcessRequestCallback(ISchemeHandlerResponse^ handlerResponse);
         virtual void GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl);
