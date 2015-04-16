@@ -17,7 +17,7 @@ namespace CefSharp
     public class ResourceHandlerWrapper : public CefResourceHandler
     {
         CriticalSection _syncRoot;
-        gcroot<ISchemeHandler^> _handler;
+        gcroot<IResourceHandler^> _handler;
         gcroot<Stream^> _stream;
         CefRefPtr<CefCallback> _callback;
         CefString _mime_type;
@@ -29,9 +29,9 @@ namespace CefSharp
         int SizeFromStream();
     public:
 
-        ResourceHandlerWrapper(ISchemeHandler^ handler) : _handler(handler)
+        ResourceHandlerWrapper(IResourceHandler^ handler) : _handler(handler)
         {
-            if (static_cast<ISchemeHandler^>(_handler) == nullptr)
+            if (static_cast<IResourceHandler^>(_handler) == nullptr)
             {
                 throw gcnew ArgumentException("handler must not be null");
             }
