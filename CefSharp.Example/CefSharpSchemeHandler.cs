@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 using CefSharp.Example.Properties;
 
 namespace CefSharp.Example

@@ -4,16 +4,8 @@
 
 namespace CefSharp
 {
-    public interface ISchemeHandler
+    public interface ISchemeHandler : IResourceHandler
     {
-        /// <summary>
-        /// Processes a custom scheme-based request asynchronously.
-        /// The implementing method should call <see cref="IResourceHandlerResponse.ProcessRequestCallback"/> when complete.
-        /// </summary>
-        /// <param name="request">The request object.</param>
-        /// <param name="response">The <see cref="IResourceHandlerResponse"/> object in which the handler is supposed to place the response
-        /// information.</param>
-        /// <returns>true if the request is handled, false otherwise.</returns>
-        bool ProcessRequestAsync(IRequest request, IResourceHandlerResponse response);
+        
     }
 }
