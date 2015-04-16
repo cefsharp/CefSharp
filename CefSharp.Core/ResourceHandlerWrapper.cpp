@@ -25,7 +25,7 @@ namespace CefSharp
         return _handler->ProcessRequestAsync(requestWrapper, schemeResponse);
     }
 
-    void ResourceHandlerWrapper::ProcessRequestCallback(ISchemeHandlerResponse^ response)
+    void ResourceHandlerWrapper::ProcessRequestCallback(IResourceHandlerResponse^ response)
     {
         _mime_type = StringUtils::ToNative(response->MimeType);
         _stream = response->ResponseStream;

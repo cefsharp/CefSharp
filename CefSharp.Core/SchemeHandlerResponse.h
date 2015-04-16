@@ -16,10 +16,10 @@ namespace CefSharp
 {
     class SchemeHandlerWrapper;
 
-    public ref class SchemeHandlerResponse : ISchemeHandlerResponse
+    public ref class SchemeHandlerResponse : IResourceHandlerResponse
     {
     internal:
-        MCefRefPtr<ResourceHandlerWrapper> _schemeHandlerWrapper;
+        MCefRefPtr<ResourceHandlerWrapper> _resourceHandlerWrapper;
 
     public:
         /// <summary>
@@ -54,20 +54,20 @@ namespace CefSharp
         /// </summary>
         virtual property bool CloseStream;
 
-        SchemeHandlerResponse(ResourceHandlerWrapper* schemeHandlerWrapper)
+        SchemeHandlerResponse(ResourceHandlerWrapper* resourceHandlerWrapper)
         {
             ContentLength = -1;
-            _schemeHandlerWrapper = schemeHandlerWrapper;
+            _resourceHandlerWrapper = resourceHandlerWrapper;
         }
 
         ~SchemeHandlerResponse()
         {
-            _schemeHandlerWrapper = nullptr;
+            _resourceHandlerWrapper = nullptr;
         }
 
         virtual void ProcessRequestCallback()
         {
-            _schemeHandlerWrapper->ProcessRequestCallback(this);
+            _resourceHandlerWrapper->ProcessRequestCallback(this);
         }
     };
 };
