@@ -7,11 +7,11 @@ namespace CefSharp
     public interface ISchemeHandler
     {
         /// <summary>
-        /// Processes a custom scheme-based request asynchronously. The implementing method should call the callback whenever the
-        /// request is completed.
+        /// Processes a custom scheme-based request asynchronously.
+        /// The implementing method should call <see cref="ISchemeHandlerResponse.ProcessRequestCallback"/> when complete.
         /// </summary>
         /// <param name="request">The request object.</param>
-        /// <param name="response">The SchemeHandlerResponse object in which the handler is supposed to place the response
+        /// <param name="response">The <see cref="ISchemeHandlerResponse"/> object in which the handler is supposed to place the response
         /// information.</param>
         /// <returns>true if the request is handled, false otherwise.</returns>
         bool ProcessRequestAsync(IRequest request, ISchemeHandlerResponse response);
