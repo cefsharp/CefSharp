@@ -70,12 +70,11 @@ namespace CefSharp
         else
         {
             array<Byte>^ buffer = gcnew array<Byte>(bytes_to_read);
-            int ret = _stream->Read(buffer, 0, bytes_to_read);
+            bytes_read = _stream->Read(buffer, 0, bytes_to_read);
             pin_ptr<Byte> src = &buffer[0];
-            memcpy(data_out, static_cast<void*>(src), ret);
-            bytes_read = ret;
+            memcpy(data_out, static_cast<void*>(src), bytes_read);
             // must return false when the response is complete
-            hasData = ret > 0;
+            hasData = bytes_read > 0;
             if (!hasData && _closeStream)
             {
                 _stream->Close();
