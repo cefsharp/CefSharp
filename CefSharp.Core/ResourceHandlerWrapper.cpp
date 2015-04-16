@@ -52,20 +52,14 @@ namespace CefSharp
         response->SetMimeType(_mime_type);
         response->SetStatus(_statusCode > 0 ? _statusCode : 200);
         response->SetHeaderMap(_headers);
-        if (_contentLength >= 0)
-        {
-            response_length = _contentLength;
-        }
-        else
-        {
-            response_length = SizeFromStream();
-        }
+        response_length = _contentLength >= 0 ? _contentLength : SizeFromStream();
+        
         redirectUrl = _redirectUrl;
     }
 
     bool ResourceHandlerWrapper::ReadResponse(void* data_out, int bytes_to_read, int& bytes_read, CefRefPtr<CefCallback> callback)
     {
-        bool has_data = false;
+        bool hasData = false;
 
         AutoLock lock_scope(_syncRoot);
 
@@ -81,14 +75,14 @@ namespace CefSharp
             memcpy(data_out, static_cast<void*>(src), ret);
             bytes_read = ret;
             // must return false when the response is complete
-            has_data = ret > 0;
-            if (!has_data && _closeStream)
+            hasData = ret > 0;
+            if (!hasData && _closeStream)
             {
                 _stream->Close();
             }
         }
 
-        return has_data;
+        return hasData;
     }
 
     void ResourceHandlerWrapper::Cancel()
