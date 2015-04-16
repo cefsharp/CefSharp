@@ -14,8 +14,6 @@ using namespace System::Collections::Specialized;
 
 namespace CefSharp
 {
-    ref class SchemeHandlerResponse;
-
     public class ResourceHandlerWrapper : public CefResourceHandler
     {
         CriticalSection _syncRoot;
@@ -40,7 +38,7 @@ namespace CefSharp
         }
 
         virtual bool ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefCallback> callback);
-        virtual void ProcessRequestCallback(SchemeHandlerResponse^ handlerResponse);
+        virtual void ProcessRequestCallback(ISchemeHandlerResponse^ handlerResponse);
         virtual void GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl);
         virtual bool ReadResponse(void* data_out, int bytes_to_read, int& bytes_read, CefRefPtr<CefCallback> callback);
         virtual void Cancel();
