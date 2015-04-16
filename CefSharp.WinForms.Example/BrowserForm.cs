@@ -12,8 +12,8 @@ namespace CefSharp.WinForms.Example
     {
         private const string DefaultUrlForAddedTabs = "https://www.google.com";
 
-        // Default to WPF default increment:
-        private double zoomIncrement = 0.10;
+        // Default to a small increment:
+        private const double zoomIncrement = 0.10;
 
         public BrowserForm()
         {
@@ -234,7 +234,7 @@ namespace CefSharp.WinForms.Example
             }
         }
 
-        private void zoomInToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ZoomInToolStripMenuItemClick(object sender, EventArgs e)
         {
             var control = GetCurrentTabControl();
             if (control != null)
@@ -247,7 +247,7 @@ namespace CefSharp.WinForms.Example
             }
         }
 
-        private void zoomOutToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ZoomOutToolStripMenuItemClick(object sender, EventArgs e)
         {
             var control = GetCurrentTabControl();
             if (control != null)
@@ -256,7 +256,7 @@ namespace CefSharp.WinForms.Example
             }
         }
 
-        private void currentZoomLevelToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CurrentZoomLevelToolStripMenuItemClick(object sender, EventArgs e)
         {
             var control = GetCurrentTabControl();
             if (control != null)
