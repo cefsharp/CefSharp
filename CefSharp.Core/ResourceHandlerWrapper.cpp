@@ -17,19 +17,12 @@ namespace CefSharp
     {
         _callback = callback;
 
-        bool handled = false;
-
         AutoLock lock_scope(_syncRoot);
 
         auto schemeResponse = gcnew SchemeHandlerResponse(this);
-
         auto requestWrapper = gcnew CefRequestWrapper(request);
-        if (_handler->ProcessRequestAsync(requestWrapper, schemeResponse))
-        {
-            handled = true;
-        }
 
-        return handled;
+        return _handler->ProcessRequestAsync(requestWrapper, schemeResponse);
     }
 
     void ResourceHandlerWrapper::ProcessRequestCallback(ISchemeHandlerResponse^ response)
