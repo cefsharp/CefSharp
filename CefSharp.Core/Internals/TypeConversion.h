@@ -19,6 +19,25 @@ namespace CefSharp
         private ref class TypeConversion abstract sealed
         {
         public:
+            //Convert from NameValueCollection to HeaderMap
+            static CefResponse::HeaderMap ToNative(NameValueCollection^ headers)
+            {
+                CefResponse::HeaderMap result;
+
+                if (headers == nullptr)
+                {
+                    return result;
+                }
+
+                for each (String^ key in headers)
+                {
+                    String^ value = headers[key];
+                    result.insert(std::pair<CefString, CefString>(StringUtils::ToNative(key), StringUtils::ToNative(value)));
+                }
+
+                return result;
+            }
+
             //ConvertFrom CefDownload to DownloadItem
             static DownloadItem^ FromNative(CefRefPtr<CefDownloadItem> downloadItem)
             {

@@ -2,72 +2,55 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-#pragma once
-
-#include "Stdafx.h"
-#include "ResourceHandlerWrapper.h"
-#include "Internals/MCefRefPtr.h"
-
-using namespace System;
-using namespace System::Collections::Specialized;
-using namespace System::IO;
+using System.Collections.Specialized;
+using System.IO;
 
 namespace CefSharp
 {
-    class SchemeHandlerWrapper;
-
-    public ref class SchemeHandlerResponse : IResourceHandlerResponse
+    public interface IResourceHandlerResponse
     {
-    internal:
-        MCefRefPtr<ResourceHandlerWrapper> _resourceHandlerWrapper;
-
-    public:
         /// <summary>
         /// A Stream with the response data. If the request didn't return any response, leave this property as null.
         /// </summary>
-        virtual property Stream^ ResponseStream;
+        Stream ResponseStream { get; set; }
 
-        virtual property String^ MimeType;
-        virtual property NameValueCollection^ ResponseHeaders;
+        /// <summary>
+        /// MimeType
+        /// </summary>
+        string MimeType { get; set; }
+
+        /// <summary>
+        /// Response Headers
+        /// </summary>
+        NameValueCollection ResponseHeaders { get; set; }
 
         /// <summary>
         /// The status code of the response. Unless set, the default value used is 200
         /// (corresponding to HTTP status OK).
         /// </summary>
-        virtual property int StatusCode;
+        int StatusCode { get; set; }
 
         /// <summary>
         /// The length of the response contents. Defaults to -1, which means unknown length
         /// and causes CefSharp to read the response stream in pieces. Thus, setting a length
         /// is optional but allows for more optimal response reading.
         /// </summary>
-        virtual property int ContentLength;
+        int ContentLength { get; set; }
 
         /// <summary>
         /// URL to redirect to (leave empty to not redirect).
         /// </summary>
-        virtual property String^ RedirectUrl;
+        string RedirectUrl { get; set; }
 
         /// <summary>
         /// Set to true to close the response stream once it has been read. The default value
         /// is false in order to preserve the old CefSharp behavior of not closing the stream.
         /// </summary>
-        virtual property bool CloseStream;
+        bool CloseStream { get; set; }
 
-        SchemeHandlerResponse(ResourceHandlerWrapper* resourceHandlerWrapper)
-        {
-            ContentLength = -1;
-            _resourceHandlerWrapper = resourceHandlerWrapper;
-        }
-
-        ~SchemeHandlerResponse()
-        {
-            _resourceHandlerWrapper = nullptr;
-        }
-
-        virtual void ProcessRequestCallback()
-        {
-            _resourceHandlerWrapper->ProcessRequestCallback(this);
-        }
-    };
-};
+        /// <summary>
+        /// Execute this method when processing is complete. Can be called on any thread.
+        /// </summary>
+        void ProcessRequestCallback();
+    }
+}

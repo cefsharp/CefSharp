@@ -99,7 +99,9 @@
     <Compile Include="Internals\JavascriptCallbackEndpointBehavior.cs" />
     <Compile Include="Internals\JavascriptCallbackSurrogate.cs" />
     <Compile Include="Internals\ReflectionUtils.cs" />
+    <Compile Include="IResourceHandler.cs" />
     <Compile Include="IResourceHandlerFactory.cs" />
+    <Compile Include="IResourceHandlerResponse.cs" />
     <Compile Include="MouseEvent.cs" />
     <Compile Include="DragOperationsMask.cs" />
     <Compile Include="IBitmapFactory.cs" />

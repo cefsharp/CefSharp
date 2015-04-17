@@ -16,7 +16,8 @@
 #include "Internals/StringUtils.h"
 #include "ManagedCefBrowserAdapter.h"
 #include "CefSettings.h"
-#include "SchemeHandlerWrapper.h"
+#include "ResourceHandlerWrapper.h"
+#include "SchemeHandlerFactoryWrapper.h"
 
 using namespace System::Collections::Generic; 
 using namespace System::Linq;
@@ -169,7 +170,16 @@ namespace CefSharp
                 CefRefPtr<CefSharpApp> app(new CefSharpApp(cefSettings, OnContextInitialized));
 
                 success = CefInitialize(main_args, *(cefSettings->_cefSettings), app.get(), NULL);
-                app->CompleteSchemeRegistrations();
+
+                //Register SchemeHandlerFactories - must be called after CefInitialize
+                for each (CefCustomScheme^ cefCustomScheme in cefSettings->CefCustomSchemes)
+                {
+                    auto domainName = cefCustomScheme->DomainName ? cefCustomScheme->DomainName : String::Empty;
+
+                    CefRefPtr<CefSchemeHandlerFactory> wrapper = new SchemeHandlerFactoryWrapper(cefCustomScheme->SchemeHandlerFactory);
+                    CefRegisterSchemeHandlerFactory(StringUtils::ToNative(cefCustomScheme->SchemeName), StringUtils::ToNative(domainName), wrapper);
+                }
+
                 _initialized = success;
 
                 if (_initialized && shutdownOnProcessExit)

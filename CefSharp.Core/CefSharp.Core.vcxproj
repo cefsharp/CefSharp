@@ -225,9 +225,7 @@
     <ClCompile Include="Internals\DownloadAdapter.cpp" />
     <ClCompile Include="Internals\StringVisitor.cpp" />
     <ClCompile Include="NativeMethodWrapper.cpp" />
-    <ClCompile Include="SchemeHandlerFactoryWrapper.cpp" />
-    <ClCompile Include="SchemeHandlerResponse.cpp" />
-    <ClCompile Include="SchemeHandlerWrapper.cpp" />
+    <ClCompile Include="ResourceHandlerWrapper.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -259,7 +257,7 @@
     <ClInclude Include="CefSettings.h" />
     <ClInclude Include="SchemeHandlerFactoryWrapper.h" />
     <ClInclude Include="SchemeHandlerResponse.h" />
-    <ClInclude Include="SchemeHandlerWrapper.h" />
+    <ClInclude Include="ResourceHandlerWrapper.h" />
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="Internals\StringUtils.h" />
     <ClInclude Include="Internals\StreamAdapter.h" />

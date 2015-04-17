@@ -14,7 +14,7 @@ using namespace System::Collections::Specialized;
 
 namespace CefSharp
 {
-	class SchemeHandlerFactoryWrapper : public CefSchemeHandlerFactory
+	private class SchemeHandlerFactoryWrapper : public CefSchemeHandlerFactory
 	{
 		gcroot<ISchemeHandlerFactory^> _factory;
 
@@ -22,7 +22,17 @@ namespace CefSharp
 		SchemeHandlerFactoryWrapper(ISchemeHandlerFactory^ factory)
 			: _factory(factory) {}
 
-		virtual CefRefPtr<CefResourceHandler> Create(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& scheme_name, CefRefPtr<CefRequest> request);
+		~SchemeHandlerFactoryWrapper()
+		{
+			_factory = nullptr;
+		}
+
+		virtual CefRefPtr<CefResourceHandler> SchemeHandlerFactoryWrapper::Create(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& scheme_name, CefRefPtr<CefRequest> request) OVERRIDE
+		{
+			auto handler = _factory->Create();
+			CefRefPtr<ResourceHandlerWrapper> wrapper = new ResourceHandlerWrapper(handler);
+			return static_cast<CefRefPtr<CefResourceHandler>>(wrapper);
+		}
 
 		IMPLEMENT_REFCOUNTING(SchemeHandlerFactoryWrapper);
 	};
