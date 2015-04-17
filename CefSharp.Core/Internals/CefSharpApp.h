@@ -6,8 +6,6 @@
 
 #include "include/cef_app.h"
 #include "CefSettings.h"
-#include "ResourceHandlerWrapper.h"
-#include "SchemeHandlerFactoryWrapper.h"
 
 namespace CefSharp
 {
