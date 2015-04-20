@@ -13,7 +13,7 @@ namespace CefSharp.Internals
 {
     public class BrowserProcessServiceHost : ServiceHost
     {
-        private const long SixteenMegaBytesInBytes = 16*1024*1024;
+        private const long OneHundredAndTwentyEightMegaBytesInBytes = 128*1024*1024;
 
         public JavascriptObjectRepository JavascriptObjectRepository { get; private set; }
         private TaskCompletionSource<OperationContext> operationContextTaskCompletionSource = new TaskCompletionSource<OperationContext>();
@@ -122,7 +122,7 @@ namespace CefSharp.Internals
         public static CustomBinding CreateBinding()
         {
             var binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
-            binding.MaxReceivedMessageSize = SixteenMegaBytesInBytes;
+            binding.MaxReceivedMessageSize = OneHundredAndTwentyEightMegaBytesInBytes;
             binding.ReceiveTimeout = TimeSpan.MaxValue;
             binding.SendTimeout = TimeSpan.MaxValue;
             binding.OpenTimeout = TimeSpan.MaxValue;
