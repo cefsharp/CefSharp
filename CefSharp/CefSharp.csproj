@@ -102,7 +102,6 @@
     <Compile Include="IResourceHandlerFactory.cs" />
     <Compile Include="MouseEvent.cs" />
     <Compile Include="DragOperationsMask.cs" />
-    <Compile Include="IBitmapFactory.cs" />
     <Compile Include="IDragData.cs" />
     <Compile Include="IFocusHandler.cs" />
     <Compile Include="IDragHandler.cs" />
@@ -130,6 +129,7 @@
     <Compile Include="Plugin.cs" />
     <Compile Include="ResourceHandler.cs" />
     <Compile Include="ResponseAction.cs" />
+    <Compile Include="ViewInfo.cs" />
     <Compile Include="ScreenInfo.cs" />
     <Compile Include="TransitionType.cs" />
     <Compile Include="LoadingStateChangedEventArgs.cs" />

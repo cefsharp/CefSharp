@@ -45,5 +45,10 @@ namespace CefSharp.Wpf.Example.Views
             textBox.SelectAll();
         }
 
+        private void browser_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            browser.ShowDevTools();
+        }
+
     }
 }

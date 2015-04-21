@@ -2,12 +2,13 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using CefSharp.Internals;
-
 namespace CefSharp
 {
-    public interface IBitmapFactory
+    public struct ViewInfo
     {
-        BitmapInfo CreateBitmap(bool isPopup);
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
     }
 }

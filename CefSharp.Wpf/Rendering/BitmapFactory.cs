@@ -2,15 +2,25 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System.Windows.Media;
 using CefSharp.Internals;
 
 namespace CefSharp.Wpf.Rendering
 {
     public class BitmapFactory : IBitmapFactory
     {
-        public BitmapInfo CreateBitmap(bool isPopup)
+        public const int DefaultDpi = 96;
+
+        public BitmapInfo CreateBitmap(bool isPopup, Matrix matrix)
         {
-            //return new WritableBitmapInfo { IsPopup = isPopup };
+            if (matrix.M11 > 1.0 || matrix.M22 > 1.0)
+            {
+                return new WritableBitmapInfo(DefaultDpi * matrix.M11, DefaultDpi * matrix.M22)
+                {
+                    IsPopup = isPopup
+                };
+            }
+
             return new InteropBitmapInfo { IsPopup = isPopup };
         }
     }

@@ -391,6 +391,21 @@ namespace CefSharp.OffScreen
             return screenInfo;
         }
 
+        ViewInfo IRenderWebBrowser.GetViewInfo()
+        {
+            return new ViewInfo
+            {
+                Width = size.Width,
+                Height = size.Height
+            };
+        }
+
+        void IRenderWebBrowser.GetScreenPoint(int x, int y, ref int outX, ref int outY)
+        {
+            outX = x;
+            outY = y;
+        }
+
         BitmapInfo IRenderWebBrowser.CreateBitmapInfo(bool isPopup)
         {
             //The bitmap buffer is 32 BPP
