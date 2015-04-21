@@ -68,9 +68,19 @@ namespace CefSharp
         public static string[] CefSharpDependencies =
         {
             "CefSharp.Core.dll",
-            "CefSharp.dll",
+            "CefSharp.dll"
+        };
+
+        /// <summary>
+        /// List of CefSharp.BrowserSubprocess.exe dependencies.
+        /// </summary>
+        public static string[] BrowserSubprocessDependencies =
+        {
             "CefSharp.BrowserSubprocess.Core.dll",
-            "CefSharp.BrowserSubprocess.exe"
+            "CefSharp.Core.dll",
+            "CefSharp.dll",
+            "icudtl.dat",
+            "libcef.dll"
         };
 
         /// <summary>
@@ -81,69 +91,71 @@ namespace CefSharp
         /// <param name="packLoadingDisabled">Is loading of pack files disabled?</param>
         /// <param name="path">path to check for dependencies</param>
         /// <param name="resourcesDirPath"></param>
+        /// <param name="browserSubProcessPath">The path to a separate executable that will be launched for sub-processes.</param>
         /// <param name="localePackFile">The locale pack file e.g. <see cref="LocalesPackFile"/> </param>
         /// <returns>List of missing dependencies, if all present an empty List will be returned</returns>
-        public static List<string> CheckDependencies(bool checkOptional, bool packLoadingDisabled, string path, string resourcesDirPath, string localePackFile = LocalesPackFile)
+        public static List<string> CheckDependencies(bool checkOptional, bool packLoadingDisabled, string path, string resourcesDirPath, string browserSubProcessPath, string localePackFile = LocalesPackFile)
         {
             var missingDependencies = new List<string>();
 
-            //Loop through Cef dependencies and add to list if not found
-            foreach (var cefDependency in CefDependencies)
-            {
-                var dependencyPath = Path.Combine(path, cefDependency);
-
-                if (!File.Exists(dependencyPath))
-                {
-                    missingDependencies.Add(cefDependency);
-                }
-            }
+            missingDependencies.AddRange(CheckDependencyList(path, CefDependencies));
 
             if (!packLoadingDisabled)
             {
-                //Loop through Cef Resources and add to list if not found
-                foreach (var cefResource in CefResources)
-                {
-                    var resourcePath = Path.Combine(resourcesDirPath, cefResource);
-
-                    if (!File.Exists(resourcePath))
-                    {
-                        missingDependencies.Add(cefResource);
-                    }
-                }
+                missingDependencies.AddRange(CheckDependencyList(resourcesDirPath, CefResources));
             }
 
             if (checkOptional)
             {
-                //Loop through Cef Optional dependencies and add to list if not found
-                foreach (var cefDependency in CefOptionalDependencies)
-                {
-                    var dependencyPath = Path.Combine(path, cefDependency);
-
-                    if (!File.Exists(dependencyPath))
-                    {
-                        missingDependencies.Add(cefDependency);
-                    }
-                }
+                missingDependencies.AddRange(CheckDependencyList(path, CefOptionalDependencies));
             }
 
-            // Loop through CefSharp dependencies and add to list if not found
-            foreach (var cefSharpDependency in CefSharpDependencies)
+            missingDependencies.AddRange(CheckDependencyList(path, CefSharpDependencies));
+
+            if (!File.Exists(browserSubProcessPath))
             {
-                var dependencyPath = Path.Combine(path, cefSharpDependency);
-
-                if (!File.Exists(dependencyPath))
-                {
-                    missingDependencies.Add(cefSharpDependency);
-                }
+                missingDependencies.Add(browserSubProcessPath);
             }
 
-            //If path path is not rooted (doesn't start with a drive letter + folder)
-            //then make it relative to the executing assembly.
+            var browserSubprocessDir = Path.GetDirectoryName(browserSubProcessPath);
+            if (browserSubprocessDir == null)
+            {
+                missingDependencies.AddRange(BrowserSubprocessDependencies);
+            }
+            else
+            {
+                missingDependencies.AddRange(CheckDependencyList(browserSubprocessDir, BrowserSubprocessDependencies));
+            }
+
+            // If path is not rooted (doesn't start with a drive letter + folder)
+            // then make it relative to the executing assembly.
             var localePath = Path.IsPathRooted(localePackFile) ? localePackFile : Path.Combine(path, localePackFile);
 
             if (!File.Exists(localePath))
             {
                 missingDependencies.Add(localePackFile);
+            }
+
+            return missingDependencies;
+        }
+
+        /// <summary>
+        /// Loop through dependencies and add to the returned missing dependency list if not found.
+        /// </summary>
+        /// <param name="dir">The directory of the dependencies, or the current directory if null.</param>
+        /// <param name="files">The dependencies to check.</param>
+        /// <returns></returns>
+        private static List<string> CheckDependencyList(string dir, IEnumerable<string> files)
+        {
+            var missingDependencies = new List<string>();
+
+            foreach (var file in files)
+            {
+                var filePath = dir != null ? Path.Combine(dir, file) : file;
+                if (!File.Exists(filePath))
+                {
+                    missingDependencies.Add(filePath);
+                }
             }
 
             return missingDependencies;
@@ -157,8 +169,9 @@ namespace CefSharp
         /// <param name="localesDirPath">The path to the locales directory, if empty locales\ will be used.</param>
         /// <param name="resourcesDirPath">The path to the resources directory, if empty the Executing Assembly path is used.</param>
         /// <param name="packLoadingDisabled">Is loading of pack files disabled?</param>
+        /// <param name="browserSubProcessPath">The path to a separate executable that will be launched for sub-processes.</param>
         /// <exception cref="Exception">Throw when not all dependencies are present</exception>
-        public static void AssertAllDependenciesPresent(string locale, string localesDirPath, string resourcesDirPath, bool packLoadingDisabled)
+        public static void AssertAllDependenciesPresent(string locale, string localesDirPath, string resourcesDirPath, bool packLoadingDisabled, string browserSubProcessPath)
         {
             var executingAssembly = Assembly.GetExecutingAssembly();
 
@@ -179,7 +192,7 @@ namespace CefSharp
                 resourcesDirPath = path;
             }
 
-            var missingDependencies = CheckDependencies(true, packLoadingDisabled, path, resourcesDirPath, Path.Combine(localesDirPath, locale + ".pak"));
+            var missingDependencies = CheckDependencies(true, packLoadingDisabled, path, resourcesDirPath, browserSubProcessPath, Path.Combine(localesDirPath, locale + ".pak"));
 
             if (missingDependencies.Count > 0)
             {

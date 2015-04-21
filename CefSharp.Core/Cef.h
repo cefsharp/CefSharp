@@ -160,9 +160,14 @@ namespace CefSharp
             // NOTE: Can only initialize Cef once, so subsiquent calls are ignored.
             if (!IsInitialized)
             {
+                if (cefSettings->BrowserSubprocessPath == nullptr)
+                {
+                    throw gcnew Exception("CefSettings BrowserSubprocessPath cannot be null.");
+                }
+
                 if(performDependencyCheck)
                 {
-                    DependencyChecker::AssertAllDependenciesPresent(cefSettings->Locale, cefSettings->LocalesDirPath, cefSettings->ResourcesDirPath, cefSettings->PackLoadingDisabled);
+                    DependencyChecker::AssertAllDependenciesPresent(cefSettings->Locale, cefSettings->LocalesDirPath, cefSettings->ResourcesDirPath, cefSettings->PackLoadingDisabled, cefSettings->BrowserSubprocessPath);
                 }
 
                 CefMainArgs main_args;
