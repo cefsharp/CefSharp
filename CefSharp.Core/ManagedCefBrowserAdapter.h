@@ -1,10 +1,13 @@
-// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+// Copyright © 2010-2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 #pragma once
 
 #include "Stdafx.h"
+
+#include <include/cef_runnable.h>
+
 #include "BrowserSettings.h"
 #include "PaintElementType.h"
 #include "Internals/ClientAdapter.h"
@@ -17,6 +20,7 @@
 using namespace CefSharp::Internals;
 using namespace System::Diagnostics;
 using namespace System::ServiceModel;
+using namespace System::Threading;
 using namespace System::Threading::Tasks;
 
 namespace CefSharp
@@ -577,13 +581,37 @@ namespace CefSharp
             return _browserProcessServiceHost->EvaluateScriptAsync(browser->GetIdentifier(), frame->GetIdentifier(), script, timeout);
         }
 
+    private:
+        static void _GetZoomLevel(const CefRefPtr<CefBrowserHost> host, HANDLE event, double *zoomLevel)
+        {
+            *zoomLevel = host->GetZoomLevel();
+            SetEvent(event);
+        }
+
+    public:
         double GetZoomLevel()
         {
             auto browser = _clientAdapter->GetCefBrowser();
 
             if (browser != nullptr)
             {
-                return browser->GetHost()->GetZoomLevel();
+                auto host = browser->GetHost();
+                if (CefCurrentlyOn(TID_UI))
+                {
+                    return host->GetZoomLevel();
+                }
+                else
+                {
+                    // TODO: Add an async version of GetZoomLevel at some point.
+                    // NOTE: Use of ManualResetEvent is required here in order
+                    // for simple marshaling of some kind of synchronization primitive
+                    // to the callback.
+                    ManualResetEvent^ event = gcnew ManualResetEvent(false);
+                    double zoomLevel;
+                    CefPostTask(TID_UI, NewCefRunnableFunction(_GetZoomLevel, host, (HANDLE)event->Handle.ToPointer(), &zoomLevel));
+                    event->WaitOne();
+                    return zoomLevel;
+                }
             }
 
             return 0;

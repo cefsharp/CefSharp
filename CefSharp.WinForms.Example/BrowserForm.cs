@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+﻿// Copyright © 2010-2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -11,6 +11,9 @@ namespace CefSharp.WinForms.Example
     public partial class BrowserForm : Form
     {
         private const string DefaultUrlForAddedTabs = "https://www.google.com";
+
+        // Default to a small increment:
+        private const double zoomIncrement = 0.10;
 
         public BrowserForm()
         {
@@ -228,6 +231,37 @@ namespace CefSharp.WinForms.Example
             if (control != null)
             {
                 control.Browser.CloseDevTools();
+            }
+        }
+
+        private void ZoomInToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                // NOTE: Because GetZoomLevel is async, non example apps
+                // should consider caching ZoomLevel (although, sadly CEF
+                // doesn't expose a 'OnZoomLevelChanged' callback)
+                // I'm not particularly sure, that such a thing is needed.
+                control.Browser.ZoomLevel += zoomIncrement;
+            }
+        }
+
+        private void ZoomOutToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                control.Browser.ZoomLevel -= zoomIncrement;
+            }
+        }
+
+        private void CurrentZoomLevelToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                MessageBox.Show("Current ZoomLevel: " + control.Browser.ZoomLevel);
             }
         }
     }
