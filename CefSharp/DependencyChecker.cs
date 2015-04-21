@@ -151,7 +151,7 @@ namespace CefSharp
 
             foreach (var file in files)
             {
-                var filePath = dir != null ? Path.Combine(dir, file) : file;
+                var filePath = string.IsNullOrEmpty(dir) ? file : Path.Combine(dir, file);
                 if (!File.Exists(filePath))
                 {
                     missingDependencies.Add(filePath);
