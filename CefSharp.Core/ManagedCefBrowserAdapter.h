@@ -581,7 +581,7 @@ namespace CefSharp
         }
 
     private:
-        static void _GetZoomLevel(const CefRefPtr<CefBrowserHost> const host, HANDLE event, double *zoomLevel)
+        static void _GetZoomLevel(const CefRefPtr<CefBrowserHost> host, HANDLE event, double *zoomLevel)
         {
             *zoomLevel = host->GetZoomLevel();
             SetEvent(event);
