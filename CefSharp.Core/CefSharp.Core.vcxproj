@@ -224,6 +224,7 @@
     <ClCompile Include="Internals\CefRequestWrapper.cpp" />
     <ClCompile Include="Internals\DownloadAdapter.cpp" />
     <ClCompile Include="Internals\StringVisitor.cpp" />
+    <ClCompile Include="ManagedCefBrowserAdapter.cpp" />
     <ClCompile Include="NativeMethodWrapper.cpp" />
     <ClCompile Include="SchemeHandlerFactoryWrapper.cpp" />
     <ClCompile Include="SchemeHandlerResponse.cpp" />

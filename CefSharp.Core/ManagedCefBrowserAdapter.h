@@ -15,7 +15,6 @@
 #include "Internals/RenderClientAdapter.h"
 #include "Internals/MCefRefPtr.h"
 #include "Internals/StringVisitor.h"
-#include "Internals/CefTaskScheduler.h"
 
 using namespace CefSharp::Internals;
 using namespace System::Diagnostics;
@@ -581,41 +580,9 @@ namespace CefSharp
             return _browserProcessServiceHost->EvaluateScriptAsync(browser->GetIdentifier(), frame->GetIdentifier(), script, timeout);
         }
 
-    private:
-        static void _GetZoomLevel(const CefRefPtr<CefBrowserHost> host, HANDLE event, double *zoomLevel)
-        {
-            *zoomLevel = host->GetZoomLevel();
-            SetEvent(event);
-        }
-
     public:
-        double GetZoomLevel()
-        {
-            auto browser = _clientAdapter->GetCefBrowser();
-
-            if (browser != nullptr)
-            {
-                auto host = browser->GetHost();
-                if (CefCurrentlyOn(TID_UI))
-                {
-                    return host->GetZoomLevel();
-                }
-                else
-                {
-                    // TODO: Add an async version of GetZoomLevel at some point.
-                    // NOTE: Use of ManualResetEvent is required here in order
-                    // for simple marshaling of some kind of synchronization primitive
-                    // to the callback.
-                    ManualResetEvent^ event = gcnew ManualResetEvent(false);
-                    double zoomLevel;
-                    CefPostTask(TID_UI, NewCefRunnableFunction(_GetZoomLevel, host, (HANDLE)event->Handle.ToPointer(), &zoomLevel));
-                    event->WaitOne();
-                    return zoomLevel;
-                }
-            }
-
-            return 0;
-        }
+        double GetZoomLevel();
+        Task<double>^ GetZoomLevelAsync();
 
         void SetZoomLevel(double zoomLevel)
         {

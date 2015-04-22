@@ -6,6 +6,7 @@
 
 #include "Stdafx.h"
 #include <include/cef_runnable.h>
+#include <include/cef_task.h>
 
 using namespace System;
 using namespace System::Threading::Tasks;
@@ -42,7 +43,11 @@ namespace CefSharp
                 }
                 catch (Exception^)
                 {
-
+                    // This should never ever happen.
+                    // If this occurs then someone has broken a .Net ThreadScheduler/Task invariant
+                    // i.e. trying to run a task on the wrong scheduler, or some
+                    // weird exception during task completion. 
+                    // TODO: We need to forward this exception somewhere...
                 }
             };
 
@@ -74,6 +79,15 @@ namespace CefSharp
         protected:
             virtual bool TryExecuteTaskInline(Task^ task, bool taskWasPreviouslyQueued) override
             {
+                // You might think this method might not get called,
+                // but a .ContinueWith(..., TaskContinuationOpation.ExecuteSyncronously)
+                // will probably end up calling this method,
+                // so assume the callers know what they're doing and execute the task
+                // inline on this thread (if the current thread is correct for this scheduler)
+                if (CefCurrentlyOn(_thread))
+                {
+                    return TryExecuteTask(task);
+                }
                 return false;
             };
 
