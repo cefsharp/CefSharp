@@ -19,6 +19,7 @@
 #include "CefSettings.h"
 #include "ResourceHandlerWrapper.h"
 #include "SchemeHandlerFactoryWrapper.h"
+#include "Internals/CefTaskScheduler.h"
 
 using namespace System::Collections::Generic; 
 using namespace System::Linq;
@@ -68,6 +69,10 @@ namespace CefSharp
         /// Called on the browser process UI thread immediately after the CEF context has been initialized. 
         /// </summary>
         static property Action^ OnContextInitialized;
+
+        static property TaskFactory^ UIThreadTaskFactory;
+        static property TaskFactory^ IOThreadTaskFactory;
+        static property TaskFactory^ FileThreadTaskFactory;
 
         static void AddDisposable(IDisposable^ item)
         {
@@ -162,25 +167,25 @@ namespace CefSharp
             // NOTE: Can only initialize Cef once, so subsiquent calls are ignored.
             if (!IsInitialized)
             {
+                if (cefSettings->BrowserSubprocessPath == nullptr)
+                {
+                    throw gcnew Exception("CefSettings BrowserSubprocessPath cannot be null.");
+                }
+
                 if(performDependencyCheck)
                 {
-                    DependencyChecker::AssertAllDependenciesPresent(cefSettings->Locale, cefSettings->LocalesDirPath, cefSettings->ResourcesDirPath, cefSettings->PackLoadingDisabled);
+                    DependencyChecker::AssertAllDependenciesPresent(cefSettings->Locale, cefSettings->LocalesDirPath, cefSettings->ResourcesDirPath, cefSettings->PackLoadingDisabled, cefSettings->BrowserSubprocessPath);
                 }
+
+                UIThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_UI));
+                IOThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_IO));
+                FileThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_FILE));
 
                 CefMainArgs main_args;
                 CefRefPtr<CefSharpApp> app(new CefSharpApp(cefSettings, OnContextInitialized));
 
                 success = CefInitialize(main_args, *(cefSettings->_cefSettings), app.get(), NULL);
-
-                //Register SchemeHandlerFactories - must be called after CefInitialize
-                for each (CefCustomScheme^ cefCustomScheme in cefSettings->CefCustomSchemes)
-                {
-                    auto domainName = cefCustomScheme->DomainName ? cefCustomScheme->DomainName : String::Empty;
-
-                    CefRefPtr<CefSchemeHandlerFactory> wrapper = new SchemeHandlerFactoryWrapper(cefCustomScheme->SchemeHandlerFactory);
-                    CefRegisterSchemeHandlerFactory(StringUtils::ToNative(cefCustomScheme->SchemeName), StringUtils::ToNative(domainName), wrapper);
-                }
-
+                app->CompleteSchemeRegistrations();
                 _initialized = success;
 
                 if (_initialized && shutdownOnProcessExit)
@@ -449,6 +454,11 @@ namespace CefSharp
                 OnContextInitialized = nullptr;
                 
                 msclr::lock l(_sync);
+
+                UIThreadTaskFactory = nullptr;
+                IOThreadTaskFactory = nullptr;
+                FileThreadTaskFactory = nullptr;
+
                 for each(IDisposable^ diposable in Enumerable::ToList(_disposables))
                 {
                     delete diposable;

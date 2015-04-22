@@ -302,9 +302,9 @@ namespace CefSharp.OffScreen
             Load(url);
         }
 
-        public void RegisterJsObject(string name, object objectToBind, bool lowerCaseJavascriptNames = true)
+        public void RegisterJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true)
         {
-            managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, lowerCaseJavascriptNames);
+            managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, camelCaseJavascriptNames);
         }
 
         public void Stop()
@@ -368,7 +368,7 @@ namespace CefSharp.OffScreen
 
         public double ZoomLevel
         {
-            get { return managedCefBrowserAdapter.GetZoomLevel(); }
+            get { return managedCefBrowserAdapter.GetZoomLevelAsync().Result; }
             set { managedCefBrowserAdapter.SetZoomLevel(value); }
         }
 
