@@ -65,5 +65,10 @@ namespace CefSharp.Example
                 newUrl = "https://github.com";
             }
         }
+
+        public bool OnProtocolExecution(IWebBrowser browser, string url)
+        {
+            return url.StartsWith("mailto");
+        }
     }
 }

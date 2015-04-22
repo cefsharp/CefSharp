@@ -317,7 +317,16 @@ namespace CefSharp
 
                 //TODO: Determine if there is a better way to pass the reference in rather than reassigning the string
                 newUrl = StringUtils::ToNative(managedNewUrl);
-            }			
+            }	
+        }
+
+        void ClientAdapter::OnProtocolExecution(CefRefPtr<CefBrowser> browser, const CefString& url, bool& allowOSExecution)
+        {
+            IRequestHandler^ handler = _browserControl->RequestHandler;
+            if (handler != nullptr)
+            {
+                allowOSExecution = handler->OnProtocolExecution(_browserControl, StringUtils::ToClr(url));
+            }
         }
 
         // Called on the IO thread before a resource is loaded. To allow the resource

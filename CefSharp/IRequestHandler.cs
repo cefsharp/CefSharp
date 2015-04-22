@@ -94,5 +94,14 @@ namespace CefSharp
         /// <param name="oldUrl">the old URL</param>
         /// <param name="newUrl">the new URL and can be changed if desired</param>
         void OnResourceRedirect(IWebBrowser browser, bool isMainFrame, string oldUrl, ref string newUrl);
+
+        /// <summary>
+        /// Called on the UI thread to handle requests for URLs with an unknown protocol component. 
+        /// SECURITY WARNING: YOU SHOULD USE THIS METHOD TO ENFORCE RESTRICTIONS BASED ON SCHEME, HOST OR OTHER URL ANALYSIS BEFORE ALLOWING OS EXECUTION.
+        /// </summary>
+        /// <param name="browser">the browser object</param>
+        /// <param name="url">the request url</param>
+        /// <returns>return to true to attempt execution via the registered OS protocol handler, if any. Otherwise return false.</returns>
+        bool OnProtocolExecution(IWebBrowser browser, string url);
     }
 }
