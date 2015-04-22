@@ -1,0 +1,50 @@
+// Copyright © 2010-2015 The CefSharp Authors. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
+#pragma once
+
+#include "Stdafx.h"
+
+namespace CefSharp
+{
+    private ref class SetCookieInvoker
+    {
+        String^ _url;
+        String^ _name;
+        String^ _value;
+        String^ _domain;
+        String^ _path;
+        bool _secure;
+        bool _httponly;
+        bool _hasExpires;
+        DateTime _expires;
+
+    public:
+        SetCookieInvoker(String^ url, String^ name, String^ value, String^ domain, String^ path, bool secure, bool httponly, bool hasExpires, DateTime expires) :
+            _url(url), _name(name), _value(value), _domain(domain), _path(path), _secure(secure), _httponly(httponly), _hasExpires(hasExpires), _expires(expires)
+        {
+        }
+
+        bool SetCookie()
+        {
+            CefCookie cookie;
+            StringUtils::AssignNativeFromClr(cookie.name, _name);
+            StringUtils::AssignNativeFromClr(cookie.value, _value);
+            StringUtils::AssignNativeFromClr(cookie.domain, _domain);
+            StringUtils::AssignNativeFromClr(cookie.path, _path);
+            cookie.secure = _secure;
+            cookie.httponly = _httponly;
+            cookie.has_expires = _hasExpires;
+            cookie.expires.year = _expires.Year;
+            cookie.expires.month = _expires.Month;
+            cookie.expires.day_of_month = _expires.Day;
+            cookie.expires.hour = _expires.Hour;
+            cookie.expires.minute = _expires.Minute;
+            cookie.expires.second = _expires.Second;
+            cookie.expires.millisecond = _expires.Millisecond;
+
+            return CefCookieManager::GetGlobalManager()->SetCookie(StringUtils::ToNative(_url), cookie);
+        }
+    };
+}

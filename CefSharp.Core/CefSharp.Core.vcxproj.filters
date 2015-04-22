@@ -145,6 +145,9 @@
     <ClInclude Include="Internals\PluginVisitor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SetCookieInvoker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Internals\CefTaskWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
