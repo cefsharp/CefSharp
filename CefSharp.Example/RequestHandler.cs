@@ -52,5 +52,10 @@ namespace CefSharp.Example
         {
             // TODO: Add your own code here for handling scenarios where the Render Process terminated for one reason or another.
         }
+
+        public bool OnQuotaRequest(IWebBrowser browser, string originUrl, long newSize)
+        {
+            return false;
+        }
     }
 }

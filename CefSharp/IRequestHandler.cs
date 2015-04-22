@@ -2,6 +2,8 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
+
 namespace CefSharp
 {
     public interface IRequestHandler
@@ -74,5 +76,14 @@ namespace CefSharp
         /// <param name="browser">the browser object</param>
         /// <param name="status">indicates how the process terminated.</param>
         void OnRenderProcessTerminated(IWebBrowser browser, CefTerminationStatus status);
+
+        /// <summary>
+        /// Called when JavaScript requests a specific storage quota size via the webkitStorageInfo.requestQuota function.
+        /// </summary>
+        /// <param name="browser">the browser object</param>
+        /// <param name="originUrl">the origin of the page making the request</param>
+        /// <param name="newSize">is the requested quota size in bytes</param>
+        /// <returns>Return true grant the request. Return false to deny the request.</returns>
+        bool OnQuotaRequest(IWebBrowser browser, string originUrl, Int64 newSize);
     }
 }

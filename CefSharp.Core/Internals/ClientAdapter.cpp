@@ -253,6 +253,23 @@ namespace CefSharp
             return false;
         }
 
+        bool ClientAdapter::OnQuotaRequest(CefRefPtr<CefBrowser> browser, const CefString& originUrl, int64 newSize, CefRefPtr<CefQuotaCallback> callback)
+        {
+            IRequestHandler^ handler = _browserControl->RequestHandler;
+            if (handler == nullptr)
+            {
+                return false;
+            }
+
+            if (handler->OnQuotaRequest(_browserControl, StringUtils::ToClr(originUrl), newSize))
+            {
+                callback->Continue(true);
+                return true;
+            }
+
+            return false;
+        }
+
         // CEF3 API: public virtual bool OnBeforePluginLoad( CefRefPtr< CefBrowser > browser, const CefString& url, const CefString& policy_url, CefRefPtr< CefWebPluginInfo > info );
         // ---
         // return value:
