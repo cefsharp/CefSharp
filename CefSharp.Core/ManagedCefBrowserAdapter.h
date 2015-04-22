@@ -30,6 +30,18 @@ namespace CefSharp
         BrowserProcessServiceHost^ _browserProcessServiceHost;
         IWebBrowserInternal^ _webBrowserInternal;
         JavascriptObjectRepository^ _javaScriptObjectRepository;
+
+        // Private keyboard functions:
+    private:
+        bool IsKeyDown(WPARAM wparam)
+        {
+            return (GetKeyState(wparam) & 0x8000) != 0;
+        }
+
+        int GetCefKeyboardModifiers(WPARAM wparam, LPARAM lparam);
+        void OnAfterBrowserCreated(int browserId);
+        double GetZoomLevelOnUI();
+        CefMouseEvent GetCefMouseEvent(MouseEvent^ mouseEvent);
       
     protected:
         virtual void DoDispose(bool isDisposing) override
@@ -72,60 +84,29 @@ namespace CefSharp
 
         void CreateOffscreenBrowser(IntPtr windowHandle, BrowserSettings^ browserSettings, String^ address);
         void CreateBrowser(BrowserSettings^ browserSettings, IntPtr sourceHandle, String^ address);
-
         void Close(bool forceClose);
         void CloseAllPopups(bool forceClose);
-
-        void OnAfterBrowserCreated(int browserId);
-
         void LoadUrl(String^ address);
         void LoadHtml(String^ html, String^ url);
-
         void WasResized();
         void WasHidden(bool hidden);
-
         void Invalidate(PaintElementType type);
-
-        // Private keyboard functions:
-    private:
-        bool isKeyDown(WPARAM wparam)
-        {
-            return (GetKeyState(wparam) & 0x8000) != 0;
-        }
-
-        int GetCefKeyboardModifiers(WPARAM wparam, LPARAM lparam);
-
-    public:
         void SendFocusEvent(bool isFocused);
         void SetFocus(bool isFocused);
         bool SendKeyEvent(int message, int wParam, int lParam);
-
         void OnMouseMove(int x, int y, bool mouseLeave, CefEventFlags modifiers);
         void OnMouseButton(int x, int y, int mouseButtonType, bool mouseUp, int clickCount, CefEventFlags modifiers);
         void OnMouseWheel(int x, int y, int deltaX, int deltaY);
-
         void Stop();
-
         void GoBack();
         void GoForward();
-
         void Print();
-
         void Find(int identifier, String^ searchText, bool forward, bool matchCase, bool findNext);
         void StopFinding(bool clearSelection);
-
-        void Reload()
-        {
-            Reload(false);
-        }
-
         void Reload(bool ignoreCache);
-
         void ViewSource();
-
         void GetSource(IStringVisitor^ visitor);
         void GetText(IStringVisitor^ visitor);
-
         void Cut();
         void Copy();
         void Paste();
@@ -133,32 +114,18 @@ namespace CefSharp
         void SelectAll();
         void Undo();
         void Redo();
-
         void ExecuteScriptAsync(String^ script);
         Task<JavascriptResponse^>^ EvaluateScriptAsync(String^ script, Nullable<TimeSpan> timeout);
-
-    private:
-        double GetZoomLevelOnUI();
-
-    public:
         Task<double>^ GetZoomLevelAsync();
-
         void SetZoomLevel(double zoomLevel);
-
         void ShowDevTools();
         void CloseDevTools();
-
         void Resize(int width, int height);
         void NotifyMoveOrResizeStarted();
         void NotifyScreenInfoChanged();
-
         void RegisterJsObject(String^ name, Object^ object, bool lowerCaseJavascriptNames);
-
         void ReplaceMisspelling(String^ word);
         void AddWordToDictionary(String^ word);
-
-        CefMouseEvent GetCefMouseEvent(MouseEvent^ mouseEvent);
-
         void OnDragTargetDragEnter(CefDragDataWrapper^ dragData, MouseEvent^ mouseEvent, DragOperationsMask allowedOperations);
         void OnDragTargetDragOver(MouseEvent^ mouseEvent, DragOperationsMask allowedOperations);
         void OnDragTargetDragLeave();
