@@ -16,49 +16,49 @@ namespace CefSharp
     {
         // BROWSER PROCESS THREADS -- Only available in the browser process.
 
-        ///
-        // The main thread in the browser. This will be the same as the main
-        // application thread if CefInitialize() is called with a
-        // CefSettings.multi_threaded_message_loop value of false.
-        ///
+        /// <summary>
+        /// The CEF UI thread in the browser. In CefSharp this is ALWAYS
+        /// separate from the application's main thread (and thus the main 
+        /// WinForm UI thread).
+        /// </summary>
         TID_UI,
 
-        ///
-        // Used to interact with the database.
-        ///
+        /// <summary>
+        /// Used to interact with the database.
+        /// </summary>
         TID_DB,
 
-        ///
-        // Used to interact with the file system.
-        ///
+        /// <summary>
+        /// Used to interact with the file system.
+        /// </summary>
         TID_FILE,
 
-        ///
-        // Used for file system operations that block user interactions.
-        // Responsiveness of this thread affects users.
-        ///
+        /// <summary>
+        /// Used for file system operations that block user interactions.
+        /// Responsiveness of this thread affects users.
+        /// </summary>
         TID_FILE_USER_BLOCKING,
 
-        ///
-        // Used to launch and terminate browser processes.
-        ///
+        /// <summary>
+        /// Used to launch and terminate browser processes.
+        /// </summary>
         TID_PROCESS_LAUNCHER,
 
-        ///
-        // Used to handle slow HTTP cache operations.
-        ///
+        /// <summary>
+        /// Used to handle slow HTTP cache operations.
+        /// </summary>
         TID_CACHE,
 
-        ///
-        // Used to process IPC and network messages.
-        ///
+        /// <summary>
+        /// Used to process IPC and network messages.
+        /// </summary>
         TID_IO,
 
         // RENDER PROCESS THREADS -- Only available in the render process.
 
-        ///
-        // The main thread in the renderer. Used for all WebKit and V8 interaction.
-        ///
+        /// <summary>
+        /// The main thread in the renderer. Used for all WebKit and V8 interaction.
+        /// </summary>
         TID_RENDERER,
     }
 }
