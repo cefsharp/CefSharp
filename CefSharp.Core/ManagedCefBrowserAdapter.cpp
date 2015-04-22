@@ -162,11 +162,11 @@ bool ManagedCefBrowserAdapter::SendKeyEvent(int message, int wParam, int lParam)
 int ManagedCefBrowserAdapter::GetCefKeyboardModifiers(WPARAM wparam, LPARAM lparam)
 {
     int modifiers = 0;
-    if (isKeyDown(VK_SHIFT))
+    if (IsKeyDown(VK_SHIFT))
         modifiers |= EVENTFLAG_SHIFT_DOWN;
-    if (isKeyDown(VK_CONTROL))
+    if (IsKeyDown(VK_CONTROL))
         modifiers |= EVENTFLAG_CONTROL_DOWN;
-    if (isKeyDown(VK_MENU))
+    if (IsKeyDown(VK_MENU))
         modifiers |= EVENTFLAG_ALT_DOWN;
 
     // Low bit set from GetKeyState indicates "toggled".
@@ -214,21 +214,21 @@ int ManagedCefBrowserAdapter::GetCefKeyboardModifiers(WPARAM wparam, LPARAM lpar
         modifiers |= EVENTFLAG_IS_KEY_PAD;
         break;
     case VK_SHIFT:
-        if (isKeyDown(VK_LSHIFT))
+        if (IsKeyDown(VK_LSHIFT))
             modifiers |= EVENTFLAG_IS_LEFT;
-        else if (isKeyDown(VK_RSHIFT))
+        else if (IsKeyDown(VK_RSHIFT))
             modifiers |= EVENTFLAG_IS_RIGHT;
         break;
     case VK_CONTROL:
-        if (isKeyDown(VK_LCONTROL))
+        if (IsKeyDown(VK_LCONTROL))
             modifiers |= EVENTFLAG_IS_LEFT;
-        else if (isKeyDown(VK_RCONTROL))
+        else if (IsKeyDown(VK_RCONTROL))
             modifiers |= EVENTFLAG_IS_RIGHT;
         break;
     case VK_MENU:
-        if (isKeyDown(VK_LMENU))
+        if (IsKeyDown(VK_LMENU))
             modifiers |= EVENTFLAG_IS_LEFT;
-        else if (isKeyDown(VK_RMENU))
+        else if (IsKeyDown(VK_RMENU))
             modifiers |= EVENTFLAG_IS_RIGHT;
         break;
     case VK_LWIN:
