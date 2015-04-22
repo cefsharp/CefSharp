@@ -31,18 +31,22 @@ namespace CefSharp
         IWebBrowserInternal^ _webBrowserInternal;
         JavascriptObjectRepository^ _javaScriptObjectRepository;
 
-        // Private keyboard functions:
     private:
+        // Private keyboard functions:
         bool IsKeyDown(WPARAM wparam)
         {
             return (GetKeyState(wparam) & 0x8000) != 0;
         }
 
         int GetCefKeyboardModifiers(WPARAM wparam, LPARAM lparam);
+
+        // Misc. private functions:
         void OnAfterBrowserCreated(int browserId);
-        double GetZoomLevelOnUI();
         CefMouseEvent GetCefMouseEvent(MouseEvent^ mouseEvent);
-      
+
+        // Private methods for async tasks:
+        double GetZoomLevelOnUI();
+
     protected:
         virtual void DoDispose(bool isDisposing) override
         {
