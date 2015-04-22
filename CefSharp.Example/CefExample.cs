@@ -84,7 +84,7 @@ namespace CefSharp.Example
             //For special case when Checking Windows Xp Dependencies
             //DependencyChecker.IsWindowsXp = true;
 
-            if (!Cef.Initialize(settings, shutdownOnProcessExit: true, performDependencyCheck: true))
+            if (!Cef.Initialize(settings, shutdownOnProcessExit: true, performDependencyCheck: !DebuggingSubProcess))
             {
                 throw new Exception("Unable to Initialize Cef");
             }
