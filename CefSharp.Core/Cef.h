@@ -18,6 +18,7 @@
 #include "ManagedCefBrowserAdapter.h"
 #include "CefSettings.h"
 #include "SchemeHandlerWrapper.h"
+#include "Internals/CefTaskScheduler.h"
 
 using namespace System::Collections::Generic; 
 using namespace System::Linq;
@@ -67,6 +68,10 @@ namespace CefSharp
         /// Called on the browser process UI thread immediately after the CEF context has been initialized. 
         /// </summary>
         static property Action^ OnContextInitialized;
+
+        static property TaskFactory^ UIThreadTaskFactory;
+        static property TaskFactory^ IOThreadTaskFactory;
+        static property TaskFactory^ FileThreadTaskFactory;
 
         static void AddDisposable(IDisposable^ item)
         {
@@ -165,6 +170,10 @@ namespace CefSharp
                 {
                     DependencyChecker::AssertAllDependenciesPresent(cefSettings->Locale, cefSettings->LocalesDirPath, cefSettings->ResourcesDirPath, cefSettings->PackLoadingDisabled);
                 }
+
+                UIThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_UI));
+                IOThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_IO));
+                FileThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_FILE));
 
                 CefMainArgs main_args;
                 CefRefPtr<CefSharpApp> app(new CefSharpApp(cefSettings, OnContextInitialized));
@@ -439,6 +448,11 @@ namespace CefSharp
                 OnContextInitialized = nullptr;
                 
                 msclr::lock l(_sync);
+
+                UIThreadTaskFactory = nullptr;
+                IOThreadTaskFactory = nullptr;
+                FileThreadTaskFactory = nullptr;
+
                 for each(IDisposable^ diposable in Enumerable::ToList(_disposables))
                 {
                     delete diposable;
