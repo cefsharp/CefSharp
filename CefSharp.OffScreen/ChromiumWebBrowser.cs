@@ -368,7 +368,7 @@ namespace CefSharp.OffScreen
 
         public double ZoomLevel
         {
-            get { return managedCefBrowserAdapter.GetZoomLevel(); }
+            get { return managedCefBrowserAdapter.GetZoomLevelAsync().Result; }
             set { managedCefBrowserAdapter.SetZoomLevel(value); }
         }
 

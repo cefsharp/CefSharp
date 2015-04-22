@@ -580,8 +580,10 @@ namespace CefSharp
             return _browserProcessServiceHost->EvaluateScriptAsync(browser->GetIdentifier(), frame->GetIdentifier(), script, timeout);
         }
 
-    public:
+    private:
         double GetZoomLevel();
+
+    public:
         Task<double>^ GetZoomLevelAsync();
 
         void SetZoomLevel(double zoomLevel)

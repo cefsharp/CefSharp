@@ -57,9 +57,9 @@ namespace CefSharp
         public ref class CefTaskScheduler : TaskScheduler, ITaskScheduler
         {
         public:
-            cef_thread_id_t _thread;
+            CefThreadId _thread;
 
-            CefTaskScheduler(cef_thread_id_t thread) :
+            CefTaskScheduler(CefThreadId thread) :
                 _thread(thread)
             {
             };
@@ -75,6 +75,24 @@ namespace CefSharp
             {
                 TryExecuteTask(task);
             };
+
+            static bool CurrentlyOnThread(CefThreadId threadId)
+            {
+                return CefCurrentlyOn(threadId);
+            }
+
+            static void EnsureOn(CefThreadId threadId, String^ context)
+            {
+                if (!CefCurrentlyOn(threadId))
+                {
+                    throw gcnew InvalidOperationException(String::Format("Executed '{0}' on incorrect thread. This method expects to run on the CEF {1} thread!", context, ((CefThreadIds)threadId).ToString()));
+                }
+            }
+
+            static void EnsureOn(CefThreadIds threadId, String^ context)
+            {
+                EnsureOn((CefThreadId)threadId, context);
+            }
 
         protected:
             virtual bool TryExecuteTaskInline(Task^ task, bool taskWasPreviouslyQueued) override

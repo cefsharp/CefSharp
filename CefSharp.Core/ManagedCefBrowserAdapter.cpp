@@ -1,32 +1,31 @@
+// Copyright © 2010-2015 The CefSharp Project. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
 #include "Stdafx.h"
 #include "Cef.h"
 
 double ManagedCefBrowserAdapter::GetZoomLevel()
 {
+    CefTaskScheduler::EnsureOn(TID_UI, "ManagedCefBrowserAdapter::GetZoomLevel");
+
     auto browser = _clientAdapter->GetCefBrowser();
 
     if (browser != nullptr)
     {
         auto host = browser->GetHost();
-        if (CefCurrentlyOn(TID_UI))
-        {
-            return host->GetZoomLevel();
-        }
-        else
-        {
-            // TODO: Add an async version of GetZoomLevel at some point.
-            // NOTE: Use of ManualResetEvent is required here in order
-            // for simple marshaling of some kind of synchronization primitive
-            // to the callback.
-            Task<double>^ task = Cef::UIThreadTaskFactory->StartNew(gcnew Func<double>(this, &ManagedCefBrowserAdapter::GetZoomLevel));
-            task->Wait();
-            return task->Result;
-        }
+        return host->GetZoomLevel();
     }
     return 0.0;
 }
 
 Task<double>^ ManagedCefBrowserAdapter::GetZoomLevelAsync()
 {
+    if (CefCurrentlyOn(TID_UI))
+    {
+        TaskCompletionSource<double>^ taskSource = gcnew TaskCompletionSource<double>();
+        taskSource->SetResult(GetZoomLevel());
+        return taskSource->Task;
+    }
     return Cef::UIThreadTaskFactory->StartNew(gcnew Func<double>(this, &ManagedCefBrowserAdapter::GetZoomLevel));
 }
