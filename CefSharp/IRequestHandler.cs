@@ -85,5 +85,14 @@ namespace CefSharp
         /// <param name="newSize">is the requested quota size in bytes</param>
         /// <returns>Return true grant the request. Return false to deny the request.</returns>
         bool OnQuotaRequest(IWebBrowser browser, string originUrl, Int64 newSize);
+
+        /// <summary>
+        /// Called on the IO thread when a resource load is redirected. The |old_url| parameter will contain . . 
+        /// </summary>
+        /// <param name="browser">the browser object</param>
+        /// <param name="isMainFrame">whether the request comes from main frame or not</param>
+        /// <param name="oldUrl">the old URL</param>
+        /// <param name="newUrl">the new URL and can be changed if desired</param>
+        void OnResourceRedirect(IWebBrowser browser, bool isMainFrame, string oldUrl, ref string newUrl);
     }
 }

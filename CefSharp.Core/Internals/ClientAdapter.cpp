@@ -307,6 +307,19 @@ namespace CefSharp
             }			
         }
 
+        void ClientAdapter::OnResourceRedirect(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& oldUrl, CefString& newUrl)
+        {
+            IRequestHandler^ handler = _browserControl->RequestHandler;
+            if (handler != nullptr)
+            {
+                auto managedNewUrl = StringUtils::ToClr(newUrl);
+                handler->OnResourceRedirect(_browserControl, frame->IsMain(), StringUtils::ToClr(oldUrl), managedNewUrl);
+
+                //TODO: Determine if there is a better way to pass the reference in rather than reassigning the string
+                newUrl = StringUtils::ToNative(managedNewUrl);
+            }			
+        }
+
         // Called on the IO thread before a resource is loaded. To allow the resource
         // to load normally return NULL. To specify a handler for the resource return
         // a CefResourceHandler object. The |request| object should not be modified in

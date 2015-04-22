@@ -57,5 +57,13 @@ namespace CefSharp.Example
         {
             return false;
         }
+
+        public void OnResourceRedirect(IWebBrowser browser, bool isMainFrame, string oldUrl, ref string newUrl)
+        {
+            if (string.Equals(oldUrl, "https://www.google.com/", StringComparison.OrdinalIgnoreCase) && !newUrl.Contains("github"))
+            {
+                newUrl = "https://github.com";
+            }
+        }
     }
 }
