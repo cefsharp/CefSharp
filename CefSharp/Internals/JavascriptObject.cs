@@ -2,6 +2,7 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
@@ -10,6 +11,8 @@ namespace CefSharp.Internals
     [DataContract]
     public class JavascriptObject //: DynamicObject maybe later
     {
+        private bool bound = false;
+
         /// <summary>
         /// Identifies the <see cref="JavascriptObject" /> for BrowserProcess to RenderProcess communication
         /// </summary>
@@ -23,6 +26,11 @@ namespace CefSharp.Internals
         public string JavascriptName { get; set; }
 
         /// <summary>
+        /// Indicate if JavascriptName is camel case or not
+        /// </summary>
+        internal bool CamelCaseJavascriptNames { get; set; }
+
+        /// <summary>
         /// Gets the methods of the <see cref="JavascriptObject" />.
         /// </summary>
         [DataMember]
@@ -33,6 +41,23 @@ namespace CefSharp.Internals
         /// </summary>
         [DataMember]
         public List<JavascriptProperty> Properties { get; private set; }
+
+        /// <summary>
+        /// Gets or sets a delegate which is called when binding occured.  
+        /// </summary>
+        internal Action LateBinding { private get; set; }
+
+        /// <summary>
+        /// Calls <see cref="LateBinding" /> if not already bound.
+        /// </summary>
+        /// <returns>this, so that calls can be chained.</returns>
+        internal JavascriptObject Bind()
+        {
+            if (!bound && LateBinding != null)
+                LateBinding();
+            bound = true;
+            return this;
+        }
 
         /// <summary>
         /// Gets or sets the value.

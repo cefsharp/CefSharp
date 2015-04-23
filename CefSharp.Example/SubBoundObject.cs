@@ -2,6 +2,8 @@
 {
 	public class SubBoundObject
 	{
+        public BoundObject Parent { get; set; }
+
 		public string SimpleProperty { get; set; }
 
 		public SubBoundObject()

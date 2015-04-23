@@ -7,6 +7,7 @@
 #include "Stdafx.h"
 #include ".\..\CefSharp.Core\Internals\StringUtils.h"
 #include "TypeUtils.h"
+#include "JavascriptObjectWrapper.h"
 
 using namespace CefSharp::Internals;
 using namespace System;
@@ -28,6 +29,11 @@ namespace CefSharp
         if (type == nullptr)
         {
             type = obj->GetType();
+        }
+
+        if (type == JavascriptObjectWrapper::typeid) {
+            auto j = safe_cast<JavascriptObjectWrapper^>(obj);
+            return j->V8Value.get();
         }
 
         Type^ underlyingType = Nullable::GetUnderlyingType(type);

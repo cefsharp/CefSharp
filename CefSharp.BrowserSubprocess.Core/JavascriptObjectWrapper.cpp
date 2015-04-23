@@ -12,7 +12,7 @@ using namespace CefSharp::Internals;
 
 namespace CefSharp
 {
-	void JavascriptObjectWrapper::Bind()
+    void JavascriptObjectWrapper::Bind()
 	{
 		//Create property handler for get and set of Properties of this object
 		_jsPropertyHandler = new JavascriptPropertyHandler(
@@ -21,10 +21,12 @@ namespace CefSharp
 			);
 
 		//V8Value that represents this javascript object - only one per complex type
-		auto javascriptObject = V8Value->CreateObject(_jsPropertyHandler.get());
+        auto javascriptObject = V8Value.get() ? V8Value->CreateObject(_jsPropertyHandler.get()) : CefV8Value::CreateObject(_jsPropertyHandler.get());
 		auto objectName = StringUtils::ToNative(_object->JavascriptName);
-		V8Value->SetValue(objectName, javascriptObject, V8_PROPERTY_ATTRIBUTE_NONE);
-
+        if (V8Value.get() && !V8Value->HasValue(objectName))
+            V8Value->SetValue(objectName, javascriptObject, V8_PROPERTY_ATTRIBUTE_NONE);
+        else
+            V8Value = javascriptObject;
 		for each (JavascriptMethod^ method in Enumerable::OfType<JavascriptMethod^>(_object->Methods))
 		{
 			auto wrappedMethod = gcnew JavascriptMethodWrapper(method, _object->Id, _browserProcess, CallbackRegistry);
@@ -40,13 +42,34 @@ namespace CefSharp
 			wrappedproperty->V8Value = javascriptObject;
 			wrappedproperty->Bind();
 
-			_wrappedProperties->Add(wrappedproperty);
+            _wrappedProperties->Add(prop->JavascriptName, wrappedproperty);
 		}
 	}
 
 	BrowserProcessResponse^ JavascriptObjectWrapper::GetProperty(String^ memberName)
 	{
-		return _browserProcess->GetProperty(_object->Id, memberName);
+		auto resp = _browserProcess->GetProperty(_object->Id, memberName);
+        if (resp->Result->GetType() == JavascriptObject::typeid) {
+            auto obj = safe_cast<JavascriptObject^>(resp->Result);
+            JavascriptPropertyWrapper^ p;
+            bool exits = false;
+            if (_wrappedProperties->TryGetValue(memberName, p)) {
+                if (p->_javascriptObjectWrapper != nullptr) {
+                    auto w = safe_cast<JavascriptObjectWrapper^>(p->_javascriptObjectWrapper);
+                    exits = obj->Id == w->_object->Id;
+                }
+            }
+            if (!exits) {
+                auto j = gcnew JavascriptObjectWrapper(obj, _browserProcess);
+                j->V8Value = p->V8Value.get();
+                j->Bind();
+                if (p->_javascriptObjectWrapper != nullptr)
+                    delete p->_javascriptObjectWrapper;
+                p->_javascriptObjectWrapper = j;
+            }
+            resp->Result = p->_javascriptObjectWrapper;
+        }
+        return resp;
 	};
 
 	BrowserProcessResponse^ JavascriptObjectWrapper::SetProperty(String^ memberName, Object^ value)

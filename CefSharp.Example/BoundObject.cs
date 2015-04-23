@@ -11,13 +11,55 @@ namespace CefSharp.Example
         public Type MyUnconvertibleProperty { get; set; }
         public SubBoundObject SubObject { get; set; }
 
+        public uint[] MyUintArray
+        {
+            get
+            {
+                return new uint[] { 4, 5, 6, 7, 8 };
+            }
+            set
+            {
+            }
+        }
+
+        public int[] MyIntArray
+        {
+            get
+            {
+                return new int[] { 1, 2, 3, 4, 5, 6, 7, 8 };
+            }
+            set
+            {
+            }
+        }
+
+        public Array MyArray
+        {
+            get {
+                return new short[] { 1, 2, 3 };
+            }
+            set
+            {
+            }
+        }
+
+        public byte[] MyBytes
+        {
+            get
+            {
+                return new byte[] { 3, 4, 5 };
+            }
+            set
+            {
+            }
+        }
         public BoundObject()
         {
             MyProperty = 42;
             MyReadOnlyProperty = "I'm immutable!";
             IgnoredProperty = "I am an Ignored Property";
             MyUnconvertibleProperty = GetType();
-            SubObject = new SubBoundObject();
+            SubObject = new SubBoundObject() { Parent = this };
         }
 
         public void TestCallback(IJavascriptCallback javascriptCallback)

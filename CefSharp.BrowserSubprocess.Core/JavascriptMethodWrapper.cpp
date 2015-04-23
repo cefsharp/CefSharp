@@ -6,6 +6,7 @@
 #include "Stdafx.h"
 
 #include "JavascriptMethodWrapper.h"
+#include "JavascriptObjectWrapper.h"
 
 using namespace System;
 
@@ -21,6 +22,13 @@ namespace CefSharp
 
     BrowserProcessResponse^ JavascriptMethodWrapper::Execute(array<Object^>^ parameters)
     {
-        return _browserProcess->CallMethod(_ownerId, _javascriptMethod->JavascriptName, parameters);
+        auto resp = _browserProcess->CallMethod(_ownerId, _javascriptMethod->JavascriptName, parameters);
+        if (resp->Result->GetType() == JavascriptObject::typeid) {
+            auto obj = safe_cast<JavascriptObject^>(resp->Result);
+            auto j = gcnew JavascriptObjectWrapper(obj, _browserProcess);
+            j->Bind();
+            resp->Result = j;
+        }
+        return resp;
     }
 }
