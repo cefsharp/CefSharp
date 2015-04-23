@@ -406,7 +406,7 @@ void ManagedCefBrowserAdapter::Cut()
 
     if (browser != nullptr)
     {
-        browser->GetMainFrame()->Cut();
+        browser->GetFocusedFrame()->Cut();
     }
 }
 
@@ -416,7 +416,7 @@ void ManagedCefBrowserAdapter::Copy()
 
     if (browser != nullptr)
     {
-        browser->GetMainFrame()->Copy();
+        browser->GetFocusedFrame()->Copy();
     }
 }
 
@@ -426,7 +426,7 @@ void ManagedCefBrowserAdapter::Paste()
 
     if (browser != nullptr)
     {
-        browser->GetMainFrame()->Paste();
+        browser->GetFocusedFrame()->Paste();
     }
 }
 
@@ -436,7 +436,7 @@ void ManagedCefBrowserAdapter::Delete()
 
     if (browser != nullptr)
     {
-        browser->GetMainFrame()->Delete();
+        browser->GetFocusedFrame()->Delete();
     }
 }
 
@@ -446,7 +446,7 @@ void ManagedCefBrowserAdapter::SelectAll()
 
     if (browser != nullptr)
     {
-        browser->GetMainFrame()->SelectAll();
+        browser->GetFocusedFrame()->SelectAll();
     }
 }
 
@@ -456,7 +456,7 @@ void ManagedCefBrowserAdapter::Undo()
 
     if (browser != nullptr)
     {
-        browser->GetMainFrame()->Undo();
+        browser->GetFocusedFrame()->Undo();
     }
 }
 
@@ -466,7 +466,7 @@ void ManagedCefBrowserAdapter::Redo()
 
     if (browser != nullptr)
     {
-        browser->GetMainFrame()->Redo();
+        browser->GetFocusedFrame()->Redo();
     }
 }
 
