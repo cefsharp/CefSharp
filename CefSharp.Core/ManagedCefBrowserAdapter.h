@@ -481,7 +481,7 @@ namespace CefSharp
 
             if (browser != nullptr)
             {
-                browser->GetMainFrame()->Cut();
+                browser->GetFocusedFrame()->Cut();
             }
         }
 
@@ -491,7 +491,7 @@ namespace CefSharp
 
             if (browser != nullptr)
             {
-                browser->GetMainFrame()->Copy();
+                browser->GetFocusedFrame()->Copy();
             }
         }
 
@@ -501,7 +501,7 @@ namespace CefSharp
 
             if (browser != nullptr)
             {
-                browser->GetMainFrame()->Paste();
+                browser->GetFocusedFrame()->Paste();
             }
         }
 
@@ -511,7 +511,7 @@ namespace CefSharp
 
             if (browser != nullptr)
             {
-                browser->GetMainFrame()->Delete();
+                browser->GetFocusedFrame()->Delete();
             }
         }
 
@@ -521,7 +521,7 @@ namespace CefSharp
 
             if (browser != nullptr)
             {
-                browser->GetMainFrame()->SelectAll();
+                browser->GetFocusedFrame()->SelectAll();
             }
         }
 
@@ -531,7 +531,7 @@ namespace CefSharp
 
             if (browser != nullptr)
             {
-                browser->GetMainFrame()->Undo();
+                browser->GetFocusedFrame()->Undo();
             }
         }
 
@@ -541,7 +541,7 @@ namespace CefSharp
 
             if (browser != nullptr)
             {
-                browser->GetMainFrame()->Redo();
+                browser->GetFocusedFrame()->Redo();
             }
         }
 
@@ -575,7 +575,7 @@ namespace CefSharp
             if (frame == nullptr)
             {
                 return nullptr;
-            }            
+            }
 
             return _browserProcessServiceHost->EvaluateScriptAsync(browser->GetIdentifier(), frame->GetIdentifier(), script, timeout);
         }
