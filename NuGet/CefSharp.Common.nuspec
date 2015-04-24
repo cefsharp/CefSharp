@@ -17,6 +17,9 @@
     </dependencies>
   </metadata>
   <files>
+    <!-- Cannot put these inside lib\net40 etc, since there are both x86 and x64 versions which we must distinguish between. We
+         solve this using a .props file instead. -->
+
     <!-- Common CefSharp stuff (shared between both WPF and WinForms) -->
     <file src="..\Win32\Release\CefSharp.Core.dll" target="CefSharp\x86"/>
     <file src="..\x64\Release\CefSharp.Core.dll" target="CefSharp\x64"/>
