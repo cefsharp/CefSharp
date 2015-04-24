@@ -2,13 +2,17 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System.Drawing;
+using System.Drawing.Imaging;
 using CefSharp.Internals;
 
 namespace CefSharp.OffScreen
 {
     public class GdiBitmapInfo : BitmapInfo
     {
-        public bool IsCleared { get; private set; }
+        private Bitmap bitmap;
+
+        private bool createNewBitmap;
 
         public GdiBitmapInfo()
         {
@@ -17,12 +21,23 @@ namespace CefSharp.OffScreen
 
         public override bool CreateNewBitmap
         {
-            get { return IsCleared; }
+            get { return createNewBitmap; }
         }
 
         public override void ClearBitmap()
         {
-            IsCleared = true;
+            createNewBitmap = true;
+        }
+
+        public Bitmap CreateBitmap()
+        {
+            var stride = Width * BytesPerPixel;
+
+            bitmap = new Bitmap(Width, Height, stride, PixelFormat.Format32bppPArgb, BackBufferHandle);
+
+            createNewBitmap = false;
+
+            return bitmap;
         }
     }
 }
