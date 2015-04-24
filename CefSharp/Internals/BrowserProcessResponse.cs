@@ -2,11 +2,25 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace CefSharp.Internals
 {
 	[DataContract]
+    [KnownType(typeof(bool[]))]
+    [KnownType(typeof(byte[]))]
+    [KnownType(typeof(short[]))]
+    [KnownType(typeof(int[]))]
+    [KnownType(typeof(long[]))]
+    [KnownType(typeof(ushort[]))]
+    [KnownType(typeof(uint[]))]
+    [KnownType(typeof(ulong[]))]
+    [KnownType(typeof(float[]))]
+    [KnownType(typeof(double[]))]
+    [KnownType(typeof(string[]))]
 	public class BrowserProcessResponse
 	{
 		[DataMember]
