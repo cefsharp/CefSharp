@@ -5,10 +5,7 @@
 #pragma once
 
 #include "Stdafx.h"
-
-#include <include/cef_runnable.h>
-#include <include/cef_task.h>
-
+#include "include/cef_task.h"
 #include "CefTaskWrapper.h"
 
 using namespace System;
@@ -33,9 +30,9 @@ namespace CefSharp
 
             virtual void QueueTask(Task^ task) override
             {
-                auto taskwrapper = CefRefPtr<CefTaskWrapper>(new CefTaskWrapper(task, this));
+                CefRefPtr<CefTask> taskWrapper = new CefTaskWrapper(task, this);
 
-                CefPostTask(_thread, NewCefRunnableMethod(taskwrapper.get(), &CefTaskWrapper::Execute));
+                CefPostTask(_thread, taskWrapper);
             };
 
             virtual void ExecuteTask(Task^ task)
