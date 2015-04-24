@@ -11,6 +11,17 @@ namespace CefSharp.Example
         public Type MyUnconvertibleProperty { get; set; }
         public SubBoundObject SubObject { get; set; }
 
+        public SubBoundObject[] MyObjects
+        {
+            get
+            {
+                return new SubBoundObject[] {
+                    new SubBoundObject() {SimpleProperty="Hello"}, new SubBoundObject() {SimpleProperty="CefSharp"}
+                };
+            }
+            set { }
+        }
+
         public uint[] MyUintArray
         {
             get

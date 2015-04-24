@@ -121,7 +121,8 @@ namespace CefSharp.Internals
 
             if (property.JsObject != null)
             {
-                result = property.JsObject.Bind();
+                obj = property.JsObject.Bind();
+                result = obj.IsArray && !obj.IsNull ? obj.Value : obj;
                 return true;
             }
 
@@ -214,8 +215,26 @@ namespace CefSharp.Internals
                     jsObject.JavascriptName = GetJavascriptName(propertyInfo.Name, camelCaseJavascriptNames);
                     jsObject.LateBinding = () =>
                     {
-                        jsObject.Value = jsProperty.GetValue(obj.Value);
-                        AnalyseObjectForBinding(jsObject, camelCaseJavascriptNames);
+                        if (!propertyInfo.PropertyType.IsArray)
+                        {
+                            jsObject.Value = jsProperty.GetValue(obj.Value);
+                            AnalyseObjectForBinding(jsObject, camelCaseJavascriptNames);
+                        }
+                        else
+                        {
+                            Array array = jsProperty.GetValue(obj.Value) as Array;
+                            var jsArray = new JavascriptObject[array.Length];
+                            for (int i = 0; i < array.Length; i++)
+                            {
+                                var j = CreateJavascriptObject(camelCaseJavascriptNames);
+                                j.Name = j.JavascriptName = i.ToString();
+                                j.Value = array.GetValue(i);
+                                AnalyseObjectForBinding(j, camelCaseJavascriptNames);
+                                jsArray[i] = j;
+                            }
+                            jsObject.IsArray = true;
+                            jsObject.Value = jsArray;
+                        }
                     };
                     jsProperty.JsObject = jsObject;
                 }
