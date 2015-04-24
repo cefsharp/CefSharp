@@ -167,9 +167,9 @@ namespace CefSharp
                 FileThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_FILE));
 
                 CefMainArgs main_args;
-                CefRefPtr<CefSharpApp> app(new CefSharpApp(cefSettings, OnContextInitialized));
+                CefRefPtr<CefSharpApp> app = new CefSharpApp(cefSettings, OnContextInitialized);
 
-                success = CefInitialize(main_args, *(cefSettings->_cefSettings), app.get(), NULL);
+                success = CefInitialize(main_args, *(cefSettings->_cefSettings), app, NULL);
                 app->CompleteSchemeRegistrations();
                 _initialized = success;
 
