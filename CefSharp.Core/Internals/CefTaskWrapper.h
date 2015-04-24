@@ -20,10 +20,10 @@ namespace CefSharp
     {
         private class CefTaskWrapper
         {
-        public:
+        private:
             gcroot<Task^> _task;
             gcroot<ITaskScheduler^> _scheduler;
-
+        public:
             CefTaskWrapper(Task^ task, ITaskScheduler^ scheduler) :
                 _task(task),
                 _scheduler(scheduler)
