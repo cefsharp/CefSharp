@@ -14,6 +14,7 @@ What's New:
   See https://github.com/cefsharp/CefSharp/wiki/ChangeLog
 
 Basic Troubleshooting:
+  - Minimum of .Net 4.0 Client Profile
   - Make sure `VC++ 2012 Redist Update 4` is installed (either `x86` or `x64` depending on your application)
   - Please ensure your binaries directory contains these required dependencies:
     * libcef.dll (CEF code)
