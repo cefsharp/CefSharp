@@ -12,6 +12,7 @@ namespace CefSharp.Internals
     public class JavascriptObject //: DynamicObject maybe later
     {
         private bool bound = false;
+        private object value = null;
 
         /// <summary>
         /// Identifies the <see cref="JavascriptObject" /> for BrowserProcess to RenderProcess communication
@@ -43,7 +44,15 @@ namespace CefSharp.Internals
         public List<JavascriptProperty> Properties { get; private set; }
 
         /// <summary>
-        /// Gets or sets a delegate which is called when binding occured.  
+        /// Indicate if the <see cref="JavascriptObject" /> is null, so that on browser side we don't need to create an cef object.
+        /// </summary>
+        [DataMember]
+        public bool IsNull { get; private set; }
+
+        internal bool IsArray { get; set; }
+
+        /// <summary>
+        /// Gets or sets a delegate which is called when binding occurred.  
         /// </summary>
         internal Action LateBinding { private get; set; }
 
@@ -62,7 +71,15 @@ namespace CefSharp.Internals
         /// <summary>
         /// Gets or sets the value.
         /// </summary>
-        public object Value { get; set; }
+        public object Value
+        {
+            get { return value; }
+            set
+            {
+                this.value = value;
+                IsNull = value == null;
+            }
+        }
 
         public JavascriptObject()
         {
