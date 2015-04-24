@@ -315,7 +315,6 @@ namespace CefSharp
                 auto managedNewUrl = StringUtils::ToClr(newUrl);
                 handler->OnResourceRedirect(_browserControl, frame->IsMain(), StringUtils::ToClr(oldUrl), managedNewUrl);
 
-                //TODO: Determine if there is a better way to pass the reference in rather than reassigning the string
                 newUrl = StringUtils::ToNative(managedNewUrl);
             }	
         }

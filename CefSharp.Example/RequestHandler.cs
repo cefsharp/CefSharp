@@ -60,10 +60,11 @@ namespace CefSharp.Example
 
         public void OnResourceRedirect(IWebBrowser browser, bool isMainFrame, string oldUrl, ref string newUrl)
         {
-            if (string.Equals(oldUrl, "https://www.google.com/", StringComparison.OrdinalIgnoreCase) && !newUrl.Contains("github"))
-            {
-                newUrl = "https://github.com";
-            }
+            //Example of how to redirect - need to check `newUrl` in the second pass
+            //if (string.Equals(oldUrl, "https://www.google.com/", StringComparison.OrdinalIgnoreCase) && !newUrl.Contains("github"))
+            //{
+            //	newUrl = "https://github.com";
+            //}
         }
 
         public bool OnProtocolExecution(IWebBrowser browser, string url)
