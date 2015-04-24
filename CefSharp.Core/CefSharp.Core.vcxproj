@@ -245,6 +245,7 @@
     <ClInclude Include="Internals\CefContextMenuParamsWrapper.h" />
     <ClInclude Include="Internals\CefDragDataWrapper.h" />
     <ClInclude Include="Internals\CefTaskScheduler.h" />
+    <ClInclude Include="Internals\CefTaskWrapper.h" />
     <ClInclude Include="Internals\CompletionHandler.h" />
     <ClInclude Include="Internals\DownloadAdapter.h" />
     <ClInclude Include="Internals\ClientAdapter.h" />

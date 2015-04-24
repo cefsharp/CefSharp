@@ -53,6 +53,9 @@
     <ClInclude Include="..\CefSharp.Core\Internals\CefTaskScheduler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\CefSharp.Core\Internals\CefTaskWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="CefBrowserWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
