@@ -62,7 +62,7 @@ namespace CefSharp
                     // AppDomain::UnhandledException event handler will get called 
                     // with the exception.
                     ThreadPool::UnsafeQueueUserWorkItem(
-                        gcnew WaitCallback(&CefTaskWrapper::ReportUnhanledException),
+                        gcnew WaitCallback(&CefTaskWrapper::ReportUnhandledException),
                         static_cast<Object^>(e));
                 }
             };
