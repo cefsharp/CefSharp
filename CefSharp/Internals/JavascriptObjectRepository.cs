@@ -22,7 +22,7 @@ namespace CefSharp.Internals
             RootObject = new JavascriptRootObject();
         }
 
-        internal JavascriptObject CreateJavascriptObject(bool camelCaseJavascriptNames)
+        private JavascriptObject CreateJavascriptObject(bool camelCaseJavascriptNames)
         {
             long id;
             lock (Lock)
