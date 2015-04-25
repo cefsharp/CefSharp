@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+﻿// Copyright © 2010-2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -255,6 +255,23 @@ namespace CefSharp
             return false;
         }
 
+        bool ClientAdapter::OnQuotaRequest(CefRefPtr<CefBrowser> browser, const CefString& originUrl, int64 newSize, CefRefPtr<CefQuotaCallback> callback)
+        {
+            IRequestHandler^ handler = _browserControl->RequestHandler;
+            if (handler == nullptr)
+            {
+                return false;
+            }
+
+            if (handler->OnQuotaRequest(_browserControl, StringUtils::ToClr(originUrl), newSize))
+            {
+                callback->Continue(true);
+                return true;
+            }
+
+            return false;
+        }
+
         // CEF3 API: public virtual bool OnBeforePluginLoad( CefRefPtr< CefBrowser > browser, const CefString& url, const CefString& policy_url, CefRefPtr< CefWebPluginInfo > info );
         // ---
         // return value:
@@ -290,6 +307,27 @@ namespace CefSharp
             {
                 handler->OnRenderProcessTerminated(_browserControl, (CefTerminationStatus)status);
             }			
+        }
+
+        void ClientAdapter::OnResourceRedirect(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& oldUrl, CefString& newUrl)
+        {
+            IRequestHandler^ handler = _browserControl->RequestHandler;
+            if (handler != nullptr)
+            {
+                auto managedNewUrl = StringUtils::ToClr(newUrl);
+                handler->OnResourceRedirect(_browserControl, frame->IsMain(), StringUtils::ToClr(oldUrl), managedNewUrl);
+
+                newUrl = StringUtils::ToNative(managedNewUrl);
+            }	
+        }
+
+        void ClientAdapter::OnProtocolExecution(CefRefPtr<CefBrowser> browser, const CefString& url, bool& allowOSExecution)
+        {
+            IRequestHandler^ handler = _browserControl->RequestHandler;
+            if (handler != nullptr)
+            {
+                allowOSExecution = handler->OnProtocolExecution(_browserControl, StringUtils::ToClr(url));
+            }
         }
 
         // Called on the IO thread before a resource is loaded. To allow the resource

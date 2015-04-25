@@ -1,6 +1,8 @@
-﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+﻿// Copyright © 2010-2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
+using System;
 
 namespace CefSharp
 {
@@ -74,5 +76,32 @@ namespace CefSharp
         /// <param name="browser">the browser object</param>
         /// <param name="status">indicates how the process terminated.</param>
         void OnRenderProcessTerminated(IWebBrowser browser, CefTerminationStatus status);
+
+        /// <summary>
+        /// Called when JavaScript requests a specific storage quota size via the webkitStorageInfo.requestQuota function.
+        /// </summary>
+        /// <param name="browser">the browser object</param>
+        /// <param name="originUrl">the origin of the page making the request</param>
+        /// <param name="newSize">is the requested quota size in bytes</param>
+        /// <returns>Return true grant the request. Return false to deny the request.</returns>
+        bool OnQuotaRequest(IWebBrowser browser, string originUrl, Int64 newSize);
+
+        /// <summary>
+        /// Called on the IO thread when a resource load is redirected. The |old_url| parameter will contain . . 
+        /// </summary>
+        /// <param name="browser">the browser object</param>
+        /// <param name="isMainFrame">whether the request comes from main frame or not</param>
+        /// <param name="oldUrl">the old URL</param>
+        /// <param name="newUrl">the new URL and can be changed if desired</param>
+        void OnResourceRedirect(IWebBrowser browser, bool isMainFrame, string oldUrl, ref string newUrl);
+
+        /// <summary>
+        /// Called on the UI thread to handle requests for URLs with an unknown protocol component. 
+        /// SECURITY WARNING: YOU SHOULD USE THIS METHOD TO ENFORCE RESTRICTIONS BASED ON SCHEME, HOST OR OTHER URL ANALYSIS BEFORE ALLOWING OS EXECUTION.
+        /// </summary>
+        /// <param name="browser">the browser object</param>
+        /// <param name="url">the request url</param>
+        /// <returns>return to true to attempt execution via the registered OS protocol handler, if any. Otherwise return false.</returns>
+        bool OnProtocolExecution(IWebBrowser browser, string url);
     }
 }

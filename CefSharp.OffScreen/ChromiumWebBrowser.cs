@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+﻿// Copyright © 2010-2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -7,7 +7,6 @@ using System.Drawing;
 using System.Text;
 using System.Threading.Tasks;
 using CefSharp.Internals;
-using PixelFormat = System.Drawing.Imaging.PixelFormat;
 
 namespace CefSharp.OffScreen
 {
@@ -297,7 +296,7 @@ namespace CefSharp.OffScreen
                 throw new Exception("Implement IResourceHandlerFactory and assign to the ResourceHandlerFactory property to use this feature");
             }
 
-            factory.RegisterHandler(url, CefSharp.ResourceHandler.FromString(html, encoding, true));
+            factory.RegisterHandler(url, ResourceHandler.FromString(html, encoding, true));
 
             Load(url);
         }
@@ -397,9 +396,15 @@ namespace CefSharp.OffScreen
             return new GdiBitmapInfo { IsPopup = isPopup, BitmapLock = bitmapLock };
         }
 
+        /// <summary>
+        /// Invoked from CefRenderHandler.OnPaint
+        /// Locking provided by OnPaint as this method is called in it's lock scope
+        /// </summary>
+        /// <param name="bitmapInfo">information about the bitmap to be rendered</param>
         void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
         {
-            lock (bitmapLock)
+            var gdiBitmapInfo = (GdiBitmapInfo)bitmapInfo;
+            if (bitmapInfo.CreateNewBitmap)
             {
                 if (bitmap != null)
                 {
@@ -407,15 +412,13 @@ namespace CefSharp.OffScreen
                     bitmap = null;
                 }
 
-                var stride = bitmapInfo.Width * bitmapInfo.BytesPerPixel;
+                bitmap = gdiBitmapInfo.CreateBitmap();
+            }
 
-                bitmap = new Bitmap(bitmapInfo.Width, bitmapInfo.Height, stride, PixelFormat.Format32bppPArgb, bitmapInfo.BackBufferHandle);
-                
-                var handler = NewScreenshot;
-                if (handler != null)
-                {
-                    handler(this, EventArgs.Empty);
-                }
+            var handler = NewScreenshot;
+            if (handler != null)
+            {
+                handler(this, EventArgs.Empty);
             }
         }
 

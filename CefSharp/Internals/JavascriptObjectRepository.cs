@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+﻿// Copyright © 2010-2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -22,14 +22,14 @@ namespace CefSharp.Internals
             RootObject = new JavascriptRootObject();
         }
 
-        internal JavascriptObject CreateJavascriptObject()
+        private JavascriptObject CreateJavascriptObject(bool camelCaseJavascriptNames)
         {
             long id;
             lock (Lock)
             {
                 id = lastId++;
             }
-            var result = new JavascriptObject { Id = id };
+            var result = new JavascriptObject { Id = id, CamelCaseJavascriptNames = camelCaseJavascriptNames };
             objects[id] = result;
 
             return result;
@@ -37,7 +37,7 @@ namespace CefSharp.Internals
 
         public void Register(string name, object value, bool camelCaseJavascriptNames)
         {
-            var jsObject = CreateJavascriptObject();
+            var jsObject = CreateJavascriptObject(camelCaseJavascriptNames);
             jsObject.Value = value;
             jsObject.Name = name;
             jsObject.JavascriptName = name;
@@ -83,12 +83,12 @@ namespace CefSharp.Internals
 
                 if(result != null && IsComplexType(result.GetType()))
                 {
-                    var jsObject = CreateJavascriptObject();
+                    var jsObject = CreateJavascriptObject(obj.CamelCaseJavascriptNames);
                     jsObject.Value = result;
                     jsObject.Name = "FunctionResult(" + name + ")";
                     jsObject.JavascriptName = jsObject.Name;
 
-                    AnalyseObjectForBinding(jsObject, analyseMethods: false, readPropertyValue: true, camelCaseJavascriptNames:true);
+                    AnalyseObjectForBinding(jsObject, analyseMethods: false, readPropertyValue: true, camelCaseJavascriptNames: obj.CamelCaseJavascriptNames);
 
                     result = jsObject;
                 }
@@ -208,7 +208,7 @@ namespace CefSharp.Internals
                 var jsProperty = CreateJavaScriptProperty(propertyInfo, camelCaseJavascriptNames);
                 if (jsProperty.IsComplexType)
                 {
-                    var jsObject = CreateJavascriptObject();
+                    var jsObject = CreateJavascriptObject(camelCaseJavascriptNames);
                     jsObject.Name = propertyInfo.Name;
                     jsObject.JavascriptName = GetJavascriptName(propertyInfo.Name, camelCaseJavascriptNames);
                     jsObject.Value = jsProperty.GetValue(obj.Value);

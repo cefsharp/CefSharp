@@ -52,5 +52,24 @@ namespace CefSharp.Example
         {
             // TODO: Add your own code here for handling scenarios where the Render Process terminated for one reason or another.
         }
+
+        public bool OnQuotaRequest(IWebBrowser browser, string originUrl, long newSize)
+        {
+            return false;
+        }
+
+        public void OnResourceRedirect(IWebBrowser browser, bool isMainFrame, string oldUrl, ref string newUrl)
+        {
+            //Example of how to redirect - need to check `newUrl` in the second pass
+            //if (string.Equals(oldUrl, "https://www.google.com/", StringComparison.OrdinalIgnoreCase) && !newUrl.Contains("github"))
+            //{
+            //	newUrl = "https://github.com";
+            //}
+        }
+
+        public bool OnProtocolExecution(IWebBrowser browser, string url)
+        {
+            return url.StartsWith("mailto");
+        }
     }
 }
