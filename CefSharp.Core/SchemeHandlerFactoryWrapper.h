@@ -14,16 +14,16 @@ using namespace System::Collections::Specialized;
 
 namespace CefSharp
 {
-	class SchemeHandlerFactoryWrapper : public CefSchemeHandlerFactory
-	{
-		gcroot<ISchemeHandlerFactory^> _factory;
+    class SchemeHandlerFactoryWrapper : public CefSchemeHandlerFactory
+    {
+        gcroot<ISchemeHandlerFactory^> _factory;
 
-	public:
-		SchemeHandlerFactoryWrapper(ISchemeHandlerFactory^ factory)
-			: _factory(factory) {}
+    public:
+        SchemeHandlerFactoryWrapper(ISchemeHandlerFactory^ factory)
+            : _factory(factory) {}
 
-		virtual CefRefPtr<CefResourceHandler> Create(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& scheme_name, CefRefPtr<CefRequest> request);
+        virtual CefRefPtr<CefResourceHandler> Create(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& scheme_name, CefRefPtr<CefRequest> request);
 
-		IMPLEMENT_REFCOUNTING(SchemeHandlerFactoryWrapper);
-	};
+        IMPLEMENT_REFCOUNTING(SchemeHandlerFactoryWrapper);
+    };
 }
