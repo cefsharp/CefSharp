@@ -8,7 +8,7 @@
 
 namespace CefSharp
 {
-    private ref class SetCookieInvoker
+    private ref class CookieAsyncWrapper
     {
         String^ _url;
         String^ _name;
@@ -22,13 +22,13 @@ namespace CefSharp
 
     public:
         //Used for SetCookies
-        SetCookieInvoker(String^ url, String^ name, String^ value, String^ domain, String^ path, bool secure, bool httponly, bool hasExpires, DateTime expires) :
+        CookieAsyncWrapper(String^ url, String^ name, String^ value, String^ domain, String^ path, bool secure, bool httponly, bool hasExpires, DateTime expires) :
             _url(url), _name(name), _value(value), _domain(domain), _path(path), _secure(secure), _httponly(httponly), _hasExpires(hasExpires), _expires(expires)
         {
         }
 
         //Used for DeleteCookies
-        SetCookieInvoker(String^ url, String^ name) : _url(url), _name(name)
+        CookieAsyncWrapper(String^ url, String^ name) : _url(url), _name(name)
         {
         }
 

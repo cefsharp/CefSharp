@@ -19,7 +19,7 @@
 #include "CefSettings.h"
 #include "SchemeHandlerWrapper.h"
 #include "Internals/CefTaskScheduler.h"
-#include "SetCookieInvoker.h"
+#include "CookieAsyncWrapper.h"
 
 using namespace System::Collections::Generic; 
 using namespace System::Linq;
@@ -323,14 +323,14 @@ namespace CefSharp
         /// <return>false if the cookie cannot be set (e.g. if illegal charecters such as ';' are used); otherwise true.</return>
         static bool SetCookie(String^ url, String^ name, String^ value, String^ domain, String^ path, bool secure, bool httponly, bool has_expires, DateTime expires)
         {
-            auto cookieInvoker = gcnew SetCookieInvoker(url, name, value, domain, path, secure, httponly, has_expires, expires);
+            auto cookieInvoker = gcnew CookieAsyncWrapper(url, name, value, domain, path, secure, httponly, has_expires, expires);
 
             if (CefCurrentlyOn(TID_IO))
             {
                 return cookieInvoker->SetCookie();
             }
 
-            auto task = Cef::IOThreadTaskFactory->StartNew(gcnew Func<bool>(cookieInvoker, &SetCookieInvoker::SetCookie));
+            auto task = Cef::IOThreadTaskFactory->StartNew(gcnew Func<bool>(cookieInvoker, &CookieAsyncWrapper::SetCookie));
 
             task->Wait();
 
@@ -357,14 +357,14 @@ namespace CefSharp
         /// <return>false if a non-empty invalid URL is specified, or if cookies cannot be accessed; otherwise, true.</return>
         static bool DeleteCookies(String^ url, String^ name)
         {
-            auto cookieInvoker = gcnew SetCookieInvoker(url, name);
+            auto cookieInvoker = gcnew CookieAsyncWrapper(url, name);
 
             if (CefCurrentlyOn(TID_IO))
             {
                 return cookieInvoker->DeleteCookies();
             }
 
-            auto task = Cef::IOThreadTaskFactory->StartNew(gcnew Func<bool>(cookieInvoker, &SetCookieInvoker::DeleteCookies));
+            auto task = Cef::IOThreadTaskFactory->StartNew(gcnew Func<bool>(cookieInvoker, &CookieAsyncWrapper::DeleteCookies));
 
             task->Wait();
 

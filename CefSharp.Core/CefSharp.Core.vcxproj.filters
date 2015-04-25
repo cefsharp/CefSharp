@@ -145,10 +145,10 @@
     <ClInclude Include="Internals\PluginVisitor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SetCookieInvoker.h">
+    <ClInclude Include="Internals\CefTaskWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Internals\CefTaskWrapper.h">
+    <ClInclude Include="CookieAsyncWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Internals\ReportUnhandledExceptions.h">
