@@ -23,7 +23,7 @@ namespace CefSharp
         private:
             // Throw the exception, this method executes on the thread pool
             // in order to report a .net exception from a CEF thread.
-            static void ReportUnhanledException(Object ^state)
+            static void ReportUnhandledException(Object ^state)
             {
                 Exception ^e = dynamic_cast<Exception^>(state);
                 throw gcnew InvalidOperationException(gcnew String(L"CefTaskWrapper caught an unexpected exception. This should never happen, please contact CefSharp for assistance."), e);
