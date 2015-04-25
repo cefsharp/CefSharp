@@ -14,25 +14,21 @@ namespace CefSharp.Example
         public uint[] MyUintArray
         {
             get { return new uint[] { 7, 8 }; }
-            set { }
         }
 
         public int[] MyIntArray
         {
-            get { return new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }; }
-            set { }
+            get { return new [] { 1, 2, 3, 4, 5, 6, 7, 8 }; }
         }
 
         public Array MyArray
         {
             get { return new short[] { 1, 2, 3 }; }
-            set { }
         }
 
         public byte[] MyBytes
         {
             get { return new byte[] { 3, 4, 5 }; }
-            set { }
         }
 
         public BoundObject()
