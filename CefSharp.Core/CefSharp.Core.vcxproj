@@ -255,6 +255,7 @@
     <ClInclude Include="Internals\MCefRefPtr.h" />
     <ClInclude Include="Internals\PluginVisitor.h" />
     <ClInclude Include="Internals\RenderClientAdapter.h" />
+    <ClInclude Include="Internals\ReportUnhandledExceptions.h" />
     <ClInclude Include="Internals\StringVisitor.h" />
     <ClInclude Include="Internals\TypeConversion.h" />
     <ClInclude Include="NativeMethodWrapper.h" />
