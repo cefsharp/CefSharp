@@ -265,6 +265,7 @@
     <ClInclude Include="SchemeHandlerFactoryWrapper.h" />
     <ClInclude Include="SchemeHandlerResponse.h" />
     <ClInclude Include="SchemeHandlerWrapper.h" />
+    <ClInclude Include="CookieAsyncWrapper.h" />
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="Internals\StringUtils.h" />
     <ClInclude Include="Internals\StreamAdapter.h" />

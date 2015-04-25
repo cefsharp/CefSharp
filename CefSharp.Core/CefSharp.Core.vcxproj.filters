@@ -148,6 +148,9 @@
     <ClInclude Include="Internals\CefTaskWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CookieAsyncWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Internals\ReportUnhandledExceptions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
