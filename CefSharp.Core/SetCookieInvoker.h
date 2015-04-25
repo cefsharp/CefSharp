@@ -21,8 +21,14 @@ namespace CefSharp
         DateTime _expires;
 
     public:
+        //Used for SetCookies
         SetCookieInvoker(String^ url, String^ name, String^ value, String^ domain, String^ path, bool secure, bool httponly, bool hasExpires, DateTime expires) :
             _url(url), _name(name), _value(value), _domain(domain), _path(path), _secure(secure), _httponly(httponly), _hasExpires(hasExpires), _expires(expires)
+        {
+        }
+
+        //Used for DeleteCookies
+        SetCookieInvoker(String^ url, String^ name) : _url(url), _name(name)
         {
         }
 
@@ -45,6 +51,11 @@ namespace CefSharp
             cookie.expires.millisecond = _expires.Millisecond;
 
             return CefCookieManager::GetGlobalManager()->SetCookie(StringUtils::ToNative(_url), cookie);
+        }
+
+        bool DeleteCookies()
+        {
+            return CefCookieManager::GetGlobalManager()->DeleteCookies(StringUtils::ToNative(_url), StringUtils::ToNative(_name));
         }
     };
 }

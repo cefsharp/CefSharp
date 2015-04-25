@@ -30,24 +30,15 @@ namespace CefSharp
     public ref class Cef sealed
     {
     private:
-        static HANDLE _event;
         static Object^ _sync;
-        static bool _result;
 
         static bool _initialized = false;
         static HashSet<IDisposable^>^ _disposables;
 
         static Cef()
         {
-            _event = CreateEvent(NULL, FALSE, FALSE, NULL);
             _sync = gcnew Object();
             _disposables = gcnew HashSet<IDisposable^>();
-        }
-
-        static void IOT_DeleteCookies(const CefString& url, const CefString& name)
-        {
-            _result = CefCookieManager::GetGlobalManager()->DeleteCookies(url, name);
-            SetEvent(_event);
         }
 
         static void ParentProcessExitHandler(Object^ sender, EventArgs^ e)
@@ -366,21 +357,18 @@ namespace CefSharp
         /// <return>false if a non-empty invalid URL is specified, or if cookies cannot be accessed; otherwise, true.</return>
         static bool DeleteCookies(String^ url, String^ name)
         {
-            msclr::lock l(_sync);
-            _result = false;
+            auto cookieInvoker = gcnew SetCookieInvoker(url, name);
 
             if (CefCurrentlyOn(TID_IO))
             {
-                IOT_DeleteCookies(StringUtils::ToNative(url), StringUtils::ToNative(name));
-            }
-            else
-            {
-                CefPostTask(TID_IO, NewCefRunnableFunction(IOT_DeleteCookies,
-                    StringUtils::ToNative(url), StringUtils::ToNative(name)));
+                return cookieInvoker->DeleteCookies();
             }
 
-            WaitForSingleObject(_event, INFINITE);
-            return _result;
+            auto task = Cef::IOThreadTaskFactory->StartNew(gcnew Func<bool>(cookieInvoker, &SetCookieInvoker::DeleteCookies));
+
+            task->Wait();
+
+            return task->Result;
         }
 
         /// <summary> Sets the directory path that will be used for storing cookie data. If <paramref name="path"/> is empty data will be stored in 
