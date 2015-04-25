@@ -25,8 +25,8 @@ namespace CefSharp
             // in order to report a .net exception from a CEF thread.
             static void ReportUnhanledException(Object ^state)
             {
-                String ^msg = dynamic_cast<String^>(state);
-                throw gcnew InvalidOperationException(msg);
+                Exception ^e = dynamic_cast<Exception^>(state);
+                throw gcnew InvalidOperationException(gcnew String(L"CefTaskWrapper caught an unexpected exception. This should never happen, please contact CefSharp for assistance."), e);
             }
 
         public:
@@ -63,7 +63,7 @@ namespace CefSharp
                     // with the exception.
                     ThreadPool::UnsafeQueueUserWorkItem(
                         gcnew WaitCallback(&CefTaskWrapper::ReportUnhanledException),
-                        static_cast<Object^>(msg));
+                        static_cast<Object^>(e));
                 }
             };
 
