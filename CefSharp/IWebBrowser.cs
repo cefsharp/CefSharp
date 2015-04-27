@@ -219,9 +219,21 @@ namespace CefSharp
         /// The zoom level at which the browser control is currently displaying. Can be set to 0 to clear the zoom level (resets to
         /// default zoom level).
         /// </summary>
-        /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
-        /// binding.</remarks>
-        double ZoomLevel { get; set; }
+        /// <remarks>
+        /// In the WPF control, this is implemented as a Dependency Property 'ZoomLevel' and fully supports data
+        /// binding.
+        /// </remarks>
+        Task<double> GetZoomLevelAsync();
+
+        /// <summary>
+        /// The zoom level at which the browser control is currently displaying. Can be set to 0 to clear the zoom level (resets to
+        /// default zoom level).
+        /// </summary>
+        /// <remarks>
+        /// In the WPF control, this zooming is implemented as a Dependency Property 'ZoomLevel' and fully supports data
+        /// binding.
+        /// </remarks>
+        void SetZoomLevel(double level);
 
         /// <summary>
         /// Search for text within the current page.
