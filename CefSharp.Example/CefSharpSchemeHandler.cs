@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using CefSharp.Example.Properties;
 
 namespace CefSharp.Example
@@ -44,11 +45,14 @@ namespace CefSharp.Example
             string resource;
             if (resources.TryGetValue(fileName, out resource) && !String.IsNullOrEmpty(resource))
             {
-                var bytes = Encoding.UTF8.GetBytes(resource);
-                response.ResponseStream = new MemoryStream(bytes);
-                response.MimeType = GetMimeType(fileName);
+                Task.Run(() =>
+                {
+                    var bytes = Encoding.UTF8.GetBytes(resource);
+                    response.ResponseStream = new MemoryStream(bytes);
+                    response.MimeType = GetMimeType(fileName);
 
-                response.ProcessRequestCallback();
+                    response.ProcessRequestCallback();
+                });
 
                 return true;
             }
