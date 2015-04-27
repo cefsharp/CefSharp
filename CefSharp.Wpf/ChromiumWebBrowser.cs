@@ -513,7 +513,7 @@ namespace CefSharp.Wpf
                         {
                             UiThreadRunAsync(() =>
                             {
-                                SetValue(ZoomLevelProperty, previous.Result);
+                                SetCurrentValue(ZoomLevelProperty, previous.Result);
                             });
                         }
                         else
