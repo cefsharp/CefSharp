@@ -5,6 +5,7 @@
 using System;
 using System.Windows.Forms;
 using CefSharp.Example;
+using System.Threading.Tasks;
 
 namespace CefSharp.WinForms.Example
 {
@@ -239,11 +240,19 @@ namespace CefSharp.WinForms.Example
             var control = GetCurrentTabControl();
             if (control != null)
             {
-                // NOTE: Because GetZoomLevel is async, non example apps
-                // should consider caching ZoomLevel (although, sadly CEF
-                // doesn't expose a 'OnZoomLevelChanged' callback)
-                // I'm not particularly sure, that such a thing is needed.
-                control.Browser.ZoomLevel += zoomIncrement;
+                control.Browser.GetZoomLevelAsync()
+                    .ContinueWith(new Action<Task<double>>((Task<double> previous) =>
+                        {
+                            if (previous.IsCompleted)
+                            {
+                                var currentLevel = previous.Result;
+                                control.Browser.SetZoomLevel(currentLevel + zoomIncrement);
+                            }
+                            else
+                            {
+                                throw new InvalidOperationException("Unexpected failure of calling CEF->GetZoomLevelAsync", previous.Exception);
+                            }
+                        }), TaskContinuationOptions.ExecuteSynchronously);
             }
         }
 
@@ -252,7 +261,19 @@ namespace CefSharp.WinForms.Example
             var control = GetCurrentTabControl();
             if (control != null)
             {
-                control.Browser.ZoomLevel -= zoomIncrement;
+                control.Browser.GetZoomLevelAsync()
+                    .ContinueWith(new Action<Task<double>>((Task<double> previous) =>
+                    {
+                        if (previous.IsCompleted)
+                        {
+                            var currentLevel = previous.Result;
+                            control.Browser.SetZoomLevel(currentLevel - zoomIncrement);
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException("Unexpected failure of calling CEF->GetZoomLevelAsync", previous.Exception);
+                        }
+                    }), TaskContinuationOptions.ExecuteSynchronously);
             }
         }
 
@@ -261,7 +282,19 @@ namespace CefSharp.WinForms.Example
             var control = GetCurrentTabControl();
             if (control != null)
             {
-                MessageBox.Show("Current ZoomLevel: " + control.Browser.ZoomLevel);
+                control.Browser.GetZoomLevelAsync()
+                    .ContinueWith(new Action<Task<double>>((Task<double> previous) =>
+                    {
+                        if (previous.IsCompleted)
+                        {
+                            var currentLevel = previous.Result;
+                            MessageBox.Show("Current ZoomLevel: " + currentLevel.ToString());
+                        }
+                        else
+                        {
+                            MessageBox.Show("Unexpected failure of calling CEF->GetZoomLevelAsync: " + previous.Exception.ToString());
+                        }
+                    }), TaskContinuationOptions.HideScheduler);
             }
         }
     }

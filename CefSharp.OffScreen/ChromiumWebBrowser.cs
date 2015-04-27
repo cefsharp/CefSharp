@@ -365,12 +365,17 @@ namespace CefSharp.OffScreen
             managedCefBrowserAdapter.GoForward();
         }
 
-        public double ZoomLevel
+        /// <inheritdoc/>
+        public Task<double> GetZoomLevelAsync()
         {
-            get { return managedCefBrowserAdapter.GetZoomLevelAsync().Result; }
-            set { managedCefBrowserAdapter.SetZoomLevel(value); }
+            return managedCefBrowserAdapter.GetZoomLevelAsync();
         }
 
+        /// <inheritdoc/>
+        public void SetZoomLevel(double level)
+        {
+            managedCefBrowserAdapter.SetZoomLevel(level);
+        }
         public void SendMouseWheelEvent(int x, int y, int deltaX, int deltaY)
         {
             managedCefBrowserAdapter.OnMouseWheel(x, y, deltaX, deltaY);
