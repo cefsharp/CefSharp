@@ -20,6 +20,7 @@
 #include "ResourceHandlerWrapper.h"
 #include "SchemeHandlerFactoryWrapper.h"
 #include "Internals/CefTaskScheduler.h"
+#include "CookieAsyncWrapper.h"
 
 using namespace System::Collections::Generic; 
 using namespace System::Linq;
@@ -30,30 +31,15 @@ namespace CefSharp
     public ref class Cef sealed
     {
     private:
-        static HANDLE _event;
         static Object^ _sync;
-        static bool _result;
 
         static bool _initialized = false;
         static HashSet<IDisposable^>^ _disposables;
 
         static Cef()
         {
-            _event = CreateEvent(NULL, FALSE, FALSE, NULL);
             _sync = gcnew Object();
             _disposables = gcnew HashSet<IDisposable^>();
-        }
-
-        static void IOT_SetCookie(const CefString& url, const CefCookie& cookie)
-        {
-            _result = CefCookieManager::GetGlobalManager()->SetCookie(url, cookie);
-            SetEvent(_event);
-        }
-
-        static void IOT_DeleteCookies(const CefString& url, const CefString& name)
-        {
-            _result = CefCookieManager::GetGlobalManager()->DeleteCookies(url, name);
-            SetEvent(_event);
         }
 
         static void ParentProcessExitHandler(Object^ sender, EventArgs^ e)
@@ -347,38 +333,19 @@ namespace CefSharp
         /// <return>false if the cookie cannot be set (e.g. if illegal charecters such as ';' are used); otherwise true.</return>
         static bool SetCookie(String^ url, String^ name, String^ value, String^ domain, String^ path, bool secure, bool httponly, bool has_expires, DateTime expires)
         {
-            msclr::lock l(_sync);
-            _result = false;
-
-            CefCookie cookie;
-            StringUtils::AssignNativeFromClr(cookie.name, name);
-            StringUtils::AssignNativeFromClr(cookie.value, value);
-            StringUtils::AssignNativeFromClr(cookie.domain, domain);
-            StringUtils::AssignNativeFromClr(cookie.path, path);
-            cookie.secure = secure;
-            cookie.httponly = httponly;
-            cookie.has_expires = has_expires;
-            cookie.expires.year = expires.Year;
-            cookie.expires.month = expires.Month;
-            cookie.expires.day_of_month = expires.Day;
-            cookie.expires.hour = expires.Hour;
-            cookie.expires.minute = expires.Minute;
-            cookie.expires.second = expires.Second;
-            cookie.expires.millisecond = expires.Millisecond;
+            auto cookieInvoker = gcnew CookieAsyncWrapper(url, name, value, domain, path, secure, httponly, has_expires, expires);
 
             if (CefCurrentlyOn(TID_IO))
             {
-                IOT_SetCookie(StringUtils::ToNative(url), cookie);
-            }
-            else
-            {
-                CefPostTask(TID_IO, NewCefRunnableFunction(IOT_SetCookie,
-                    StringUtils::ToNative(url), cookie));
+                return cookieInvoker->SetCookie();
             }
 
-            WaitForSingleObject(_event, INFINITE);
-            return _result;
-        }
+            auto task = Cef::IOThreadTaskFactory->StartNew(gcnew Func<bool>(cookieInvoker, &CookieAsyncWrapper::SetCookie));
+
+            task->Wait();
+
+            return task->Result;
+        }        
 
         /// <summary>Sets a cookie using mostly default parameters. This function expects each attribute to be well-formed. It will check for disallowed
         /// characters (e.g. the ';' character is disallowed within the cookie value attribute) and will return false without setting
@@ -400,21 +367,18 @@ namespace CefSharp
         /// <return>false if a non-empty invalid URL is specified, or if cookies cannot be accessed; otherwise, true.</return>
         static bool DeleteCookies(String^ url, String^ name)
         {
-            msclr::lock l(_sync);
-            _result = false;
+            auto cookieInvoker = gcnew CookieAsyncWrapper(url, name);
 
             if (CefCurrentlyOn(TID_IO))
             {
-                IOT_DeleteCookies(StringUtils::ToNative(url), StringUtils::ToNative(name));
-            }
-            else
-            {
-                CefPostTask(TID_IO, NewCefRunnableFunction(IOT_DeleteCookies,
-                    StringUtils::ToNative(url), StringUtils::ToNative(name)));
+                return cookieInvoker->DeleteCookies();
             }
 
-            WaitForSingleObject(_event, INFINITE);
-            return _result;
+            auto task = Cef::IOThreadTaskFactory->StartNew(gcnew Func<bool>(cookieInvoker, &CookieAsyncWrapper::DeleteCookies));
+
+            task->Wait();
+
+            return task->Result;
         }
 
         /// <summary> Sets the directory path that will be used for storing cookie data. If <paramref name="path"/> is empty data will be stored in 
