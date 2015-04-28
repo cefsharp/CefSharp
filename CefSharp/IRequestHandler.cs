@@ -40,9 +40,14 @@ namespace CefSharp
         /// </summary>
         /// <param name="browser">the browser object</param>
         /// <param name="request">the request object - can be modified in this callback.</param>
-        /// /// <param name="isMainFrame">whether the request comes from main frame or not</param>
-        /// <returns>To cancel loading of the resource return true or false to allow the resource to load normally.</returns>
-        bool OnBeforeResourceLoad(IWebBrowser browser, IRequest request, bool isMainFrame);
+        /// <param name="isMainFrame">whether the request comes from main frame or not</param>
+        /// <remarks>
+        /// The async features of this method are not currently exposed
+        /// as such returning <see cref="CefReturnValue.ContinueAsync"/> should be avoided.
+        /// </remarks>
+        /// <returns>To cancel loading of the resource return <see cref="CefReturnValue.Cancel"/>
+        /// or <see cref="CefReturnValue.Continue"/> to allow the resource to load normally.</returns>
+        CefReturnValue OnBeforeResourceLoad(IWebBrowser browser, IRequest request, bool isMainFrame);
         
         /// <summary>
         /// Called when the browser needs credentials from the user.
