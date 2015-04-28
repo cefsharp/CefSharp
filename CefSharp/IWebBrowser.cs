@@ -216,23 +216,19 @@ namespace CefSharp
         string TooltipText { get; }
 
         /// <summary>
-        /// The zoom level at which the browser control is currently displaying. Can be set to 0 to clear the zoom level (resets to
-        /// default zoom level).
+        /// Asynchronously gets the current Zoom Level.
         /// </summary>
-        /// <remarks>
-        /// In the WPF control, this is implemented as a Dependency Property 'ZoomLevel' and fully supports data
-        /// binding.
-        /// </remarks>
         Task<double> GetZoomLevelAsync();
 
         /// <summary>
-        /// The zoom level at which the browser control is currently displaying. Can be set to 0 to clear the zoom level (resets to
-        /// default zoom level).
+        /// Change the ZoomLevel to the specified value. Can be set to 0.0 to clear the zoom level.
         /// </summary>
         /// <remarks>
-        /// In the WPF control, this zooming is implemented as a Dependency Property 'ZoomLevel' and fully supports data
-        /// binding.
+        /// If called on the CEF UI thread the change will be applied immediately.
+        /// Otherwise, the change will be applied asynchronously on the CEF UI thread.
+        /// The CEF UI thread is different to the WPF/WinForms UI Thread
         /// </remarks>
+        /// <param name="level">zoom level</param>
         void SetZoomLevel(double level);
 
         /// <summary>
