@@ -7,6 +7,7 @@ using System.Runtime.Serialization;
 namespace CefSharp.Internals
 {
     [DataContract]
+    [KnownType(typeof(JavascriptObject))]
     [KnownType(typeof(bool[]))]
     [KnownType(typeof(byte[]))]
     [KnownType(typeof(short[]))]
@@ -18,14 +19,15 @@ namespace CefSharp.Internals
     [KnownType(typeof(float[]))]
     [KnownType(typeof(double[]))]
     [KnownType(typeof(string[]))]
+    [KnownType(typeof(JavascriptObject[]))]
     public class BrowserProcessResponse
     {
         [DataMember]
         public string Message { get; set; }
-        
+
         [DataMember]
         public bool Success { get; set; }
-        
+
         [DataMember]
         public object Result { get; set; }
     }

@@ -42,7 +42,7 @@ namespace CefSharp.Internals
             jsObject.Name = name;
             jsObject.JavascriptName = name;
 
-            AnalyseObjectForBinding(jsObject, analyseMethods: true, readPropertyValue: false, camelCaseJavascriptNames: camelCaseJavascriptNames);
+            AnalyseObjectForBinding(jsObject, camelCaseJavascriptNames);
 
             RootObject.MemberObjects.Add(jsObject);
         }
@@ -88,7 +88,7 @@ namespace CefSharp.Internals
                     jsObject.Name = "FunctionResult(" + name + ")";
                     jsObject.JavascriptName = jsObject.Name;
 
-                    AnalyseObjectForBinding(jsObject, analyseMethods: false, readPropertyValue: true, camelCaseJavascriptNames: obj.CamelCaseJavascriptNames);
+                    AnalyseObjectForBinding(jsObject, obj.CamelCaseJavascriptNames);
 
                     result = jsObject;
                 }
@@ -117,6 +117,13 @@ namespace CefSharp.Internals
             if (property == null)
             {
                 throw new InvalidOperationException(string.Format("Property {0} not found on Object of Type {1}", name, obj.Value.GetType()));
+            }
+
+            if (property.JsObject != null)
+            {
+                obj = property.JsObject.Bind();
+                result = !obj.IsNull && obj.Value.GetType().IsArray ? obj.Value : obj;
+                return true;
             }
 
             try
@@ -164,13 +171,11 @@ namespace CefSharp.Internals
         /// <summary>
         /// Analyse the object and generate metadata which will
         /// be used by the browser subprocess to interact with Cef.
-        /// Method is called recursively
+        /// Method is NOT called recursively and use late binding instead
         /// </summary>
         /// <param name="obj">Javascript object</param>
-        /// <param name="analyseMethods">Analyse methods for inclusion in metadata model</param>
-        /// <param name="readPropertyValue">When analysis is done on a property, if true then get it's value for transmission over WCF</param>
         /// <param name="camelCaseJavascriptNames">camel case the javascript names of properties/methods</param>
-        private void AnalyseObjectForBinding(JavascriptObject obj, bool analyseMethods, bool readPropertyValue, bool camelCaseJavascriptNames)
+        private void AnalyseObjectForBinding(JavascriptObject obj, bool camelCaseJavascriptNames)
         {
             if (obj.Value == null)
             {
@@ -183,19 +188,16 @@ namespace CefSharp.Internals
                 return;
             }
 
-            if (analyseMethods)
+            foreach (var methodInfo in type.GetMethods(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
             {
-                foreach (var methodInfo in type.GetMethods(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
+                // Type objects can not be serialized.
+                if (methodInfo.ReturnType == typeof(Type) || Attribute.IsDefined(methodInfo, typeof(JavascriptIgnoreAttribute)))
                 {
-                    // Type objects can not be serialized.
-                    if (methodInfo.ReturnType == typeof (Type) || Attribute.IsDefined(methodInfo, typeof (JavascriptIgnoreAttribute)))
-                    {
-                        continue;
-                    }
-
-                    var jsMethod = CreateJavaScriptMethod(methodInfo, camelCaseJavascriptNames);
-                    obj.Methods.Add(jsMethod);
+                    continue;
                 }
+
+                var jsMethod = CreateJavaScriptMethod(methodInfo, camelCaseJavascriptNames);
+                obj.Methods.Add(jsMethod);
             }
 
             foreach (var propertyInfo in type.GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
@@ -211,15 +213,31 @@ namespace CefSharp.Internals
                     var jsObject = CreateJavascriptObject(camelCaseJavascriptNames);
                     jsObject.Name = propertyInfo.Name;
                     jsObject.JavascriptName = GetJavascriptName(propertyInfo.Name, camelCaseJavascriptNames);
-                    jsObject.Value = jsProperty.GetValue(obj.Value);
+                    jsObject.LateBinding = () =>
+                    {
+                        if (!propertyInfo.PropertyType.IsArray)
+                        {
+                            jsObject.Value = jsProperty.GetValue(obj.Value);
+                            AnalyseObjectForBinding(jsObject, camelCaseJavascriptNames);
+                        }
+                        else
+                        {
+                            Array array = jsProperty.GetValue(obj.Value) as Array;
+                            var jsArray = new JavascriptObject[array.Length];
+                            for (int i = 0; i < array.Length; i++)
+                            {
+                                var jsElem = CreateJavascriptObject(camelCaseJavascriptNames);
+                                jsElem.Name = jsElem.JavascriptName = i.ToString();
+                                jsElem.Value = array.GetValue(i);
+                                AnalyseObjectForBinding(jsElem, camelCaseJavascriptNames);
+                                jsArray[i] = jsElem;
+                            }
+                            jsObject.Value = jsArray;
+                        }
+                    };
                     jsProperty.JsObject = jsObject;
+                }
 
-                    AnalyseObjectForBinding(jsProperty.JsObject, analyseMethods, readPropertyValue, camelCaseJavascriptNames);
-                }
-                else if (readPropertyValue)
-                {
-                    jsProperty.PropertyValue = jsProperty.GetValue(obj.Value);
-                }
                 obj.Properties.Add(jsProperty);
             }
         }

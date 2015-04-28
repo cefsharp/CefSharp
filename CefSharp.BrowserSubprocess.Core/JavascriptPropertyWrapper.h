@@ -17,9 +17,9 @@ namespace CefSharp
         JavascriptProperty^ _javascriptProperty;
         int64 _ownerId;
         IBrowserProcess^ _browserProcess;
+    internal:
         //TODO: Strongly type this variable - currently trying to include JavascriptObjectWrapper.h creates a circular reference, so won't compile
         Object^ _javascriptObjectWrapper;
-    internal:
         MCefRefPtr<CefV8Value> V8Value;
 
     public:
