@@ -677,3 +677,59 @@ void ManagedCefBrowserAdapter::OnDragTargetDragDrop(MouseEvent^ mouseEvent)
         browser->GetHost()->DragTargetDrop(GetCefMouseEvent(mouseEvent));
     }
 }
+
+///
+// Returns the number of frames that currently exist.
+///
+/*--cef()--*/
+int ManagedCefBrowserAdapter::GetFrameCount()
+{
+    auto browser = _clientAdapter->GetCefBrowser();
+
+    if (browser != nullptr)
+    {
+        return browser->GetFrameCount();
+    }
+    return 0;
+}
+
+///
+// Returns the identifiers of all existing frames.
+///
+/*--cef(count_func=identifiers:GetFrameCount)--*/
+List<System::Int64>^ ManagedCefBrowserAdapter::GetFrameIdentifiers()
+{
+    auto browser = _clientAdapter->GetCefBrowser();
+
+    if (browser != nullptr)
+    {
+        std::vector<System::Int64> identifiers;
+        browser->GetFrameIdentifiers(identifiers);
+        List<System::Int64>^ results = gcnew List<System::Int64>(identifiers.size());
+        for (int i = 0; i < identifiers.size(); i++)
+        {
+            results->Add(identifiers[i]);
+        }
+        return results;
+    }
+    return nullptr;
+}
+
+///
+// Returns the names of all existing frames.
+///
+/*--cef()--*/
+List<String^>^ ManagedCefBrowserAdapter::GetFrameNames()
+{
+    std::vector<CefString> names;
+
+    auto browser = _clientAdapter->GetCefBrowser();
+
+    if (browser != nullptr)
+    {
+        browser->GetFrameNames(names);
+        return StringUtils::ToClr(names);
+    }
+    return nullptr;
+}
+
