@@ -15,8 +15,10 @@ namespace CefSharp.Example
         {
             get
             {
-                return new SubBoundObject[] {
-                    new SubBoundObject() {SimpleProperty="Hello"}, new SubBoundObject() {SimpleProperty="CefSharp"}
+                return new[]
+                {
+                    new SubBoundObject { SimpleProperty = "Hello" },
+                    new SubBoundObject { SimpleProperty = "CefSharp" }
                 };
             }
         }
