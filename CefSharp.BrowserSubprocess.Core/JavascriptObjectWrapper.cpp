@@ -104,14 +104,16 @@ namespace CefSharp
             for (int i = 0; i < array->Length; i++)
             {
                 JavascriptObject^ jsObj = safe_cast<JavascriptObject^>(array->GetValue(i));
-                if (jsObj != nullptr)
+                if (jsObj == nullptr)
+                {
+                    cefArray->SetValue(i, CefV8Value::CreateNull());
+                }
+                else
                 {
                     auto objWrapper = gcnew JavascriptObjectWrapper(jsObj, _browserProcess);
                     objWrapper->Bind();
                     cefArray->SetValue(i, objWrapper->V8Value.get());
                 }
-                else
-                    cefArray->SetValue(i, CefV8Value::CreateNull());
             }
 
             JavascriptPropertyWrapper^ propWrapper;
