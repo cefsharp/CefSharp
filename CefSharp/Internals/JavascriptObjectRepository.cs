@@ -38,7 +38,7 @@ namespace CefSharp.Internals
         public void Register(string name, object value, bool camelCaseJavascriptNames)
         {
             var jsObject = CreateJavascriptObject(camelCaseJavascriptNames);
-            jsObject.Value = value;
+            jsObject.SetValue(value);
             jsObject.Name = name;
             jsObject.JavascriptName = name;
 
@@ -84,7 +84,7 @@ namespace CefSharp.Internals
                 if(result != null && IsComplexType(result.GetType()))
                 {
                     var jsObject = CreateJavascriptObject(obj.CamelCaseJavascriptNames);
-                    jsObject.Value = result;
+                    jsObject.SetValue(result);
                     jsObject.Name = "FunctionResult(" + name + ")";
                     jsObject.JavascriptName = jsObject.Name;
 
@@ -125,7 +125,7 @@ namespace CefSharp.Internals
                 if (property.JsObject != null)
                 {
                     var childObject = property.JsObject.Bind();
-                    result = !childObject.IsNull && childObject.Value.GetType().IsArray ? childObject.Value : childObject;
+                    result = childObject.IsArray ? childObject.Value : childObject;
                     return true;
                 }
 
@@ -225,16 +225,16 @@ namespace CefSharp.Internals
                                 {
                                     var jsElem = CreateJavascriptObject(camelCaseJavascriptNames);
                                     jsElem.Name = jsElem.JavascriptName = i.ToString();
-                                    jsElem.Value = array.GetValue(i);
+                                    jsElem.SetValue(array.GetValue(i));
                                     AnalyseObjectForBinding(jsElem, camelCaseJavascriptNames);
                                     jsArray[i] = jsElem;
                                 }
-                                jsObject.Value = jsArray;
+                                jsObject.SetValue(jsArray);
                             }
                         }
                         else
                         {
-                            jsObject.Value = jsProperty.GetValue(obj.Value);
+                            jsObject.SetValue(jsProperty.GetValue(obj.Value));
                             AnalyseObjectForBinding(jsObject, camelCaseJavascriptNames);   
                         }
                     };

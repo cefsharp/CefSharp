@@ -11,8 +11,7 @@ namespace CefSharp.Internals
     [DataContract]
     public class JavascriptObject //: DynamicObject maybe later
     {
-        private bool bound = false;
-        private object realObject = null;
+        private bool bound;
 
         /// <summary>
         /// Identifies the <see cref="JavascriptObject" /> for BrowserProcess to RenderProcess communication
@@ -50,6 +49,12 @@ namespace CefSharp.Internals
         public bool IsNull { get; private set; }
 
         /// <summary>
+        /// Indicates if this <see cref="JavascriptObject"/> represents an Array
+        /// </summary>
+        [DataMember]
+        public bool IsArray { get; private set; }
+
+        /// <summary>
         /// Gets or sets a delegate which is called when binding occurred.  
         /// </summary>
         internal Action LateBinding { private get; set; }
@@ -72,14 +77,13 @@ namespace CefSharp.Internals
         /// <summary>
         /// Gets or sets the value.
         /// </summary>
-        public object Value
+        public object Value { get; private set; }
+
+        public void SetValue(object value)
         {
-            get { return realObject; }
-            set
-            {
-                realObject = value;
-                IsNull = value == null;
-            }
+            Value = value;
+            IsArray = value != null && value.GetType().IsArray;
+            IsNull = value == null;
         }
 
         public JavascriptObject()
