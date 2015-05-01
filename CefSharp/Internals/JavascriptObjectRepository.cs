@@ -171,7 +171,6 @@ namespace CefSharp.Internals
         /// <summary>
         /// Analyse the object and generate metadata which will
         /// be used by the browser subprocess to interact with Cef.
-        /// Method is NOT called recursively and use late binding instead
         /// </summary>
         /// <param name="obj">Javascript object</param>
         /// <param name="camelCaseJavascriptNames">camel case the javascript names of properties/methods</param>
