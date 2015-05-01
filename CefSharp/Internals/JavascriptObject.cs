@@ -61,8 +61,11 @@ namespace CefSharp.Internals
         internal JavascriptObject Bind()
         {
             if (!bound && LateBinding != null)
+            {
                 LateBinding();
-            bound = true;
+                bound = true;
+            }
+            
             return this;
         }
 
