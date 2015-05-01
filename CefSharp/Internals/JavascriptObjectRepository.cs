@@ -119,10 +119,11 @@ namespace CefSharp.Internals
                 throw new InvalidOperationException(string.Format("Property {0} not found on Object of Type {1}", name, obj.Value.GetType()));
             }
 
+            //If the property is of a complex type then perform late binding and return the JavascriptObject
             if (property.JsObject != null)
             {
-                obj = property.JsObject.Bind();
-                result = !obj.IsNull && obj.Value.GetType().IsArray ? obj.Value : obj;
+                var childObject = property.JsObject.Bind();
+                result = !childObject.IsNull && childObject.Value.GetType().IsArray ? childObject.Value : childObject;
                 return true;
             }
 
