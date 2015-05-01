@@ -217,17 +217,20 @@ namespace CefSharp.Internals
                     {
                         if (propertyInfo.PropertyType.IsArray)
                         {
-                            Array array = jsProperty.GetValue(obj.Value) as Array;
-                            var jsArray = new JavascriptObject[array.Length];
-                            for (int i = 0; i < array.Length; i++)
+                            var array = jsProperty.GetValue(obj.Value) as Array;
+                            if (array != null)
                             {
-                                var jsElem = CreateJavascriptObject(camelCaseJavascriptNames);
-                                jsElem.Name = jsElem.JavascriptName = i.ToString();
-                                jsElem.Value = array.GetValue(i);
-                                AnalyseObjectForBinding(jsElem, camelCaseJavascriptNames);
-                                jsArray[i] = jsElem;
+                                var jsArray = new JavascriptObject[array.Length];
+                                for (var i = 0; i < array.Length; i++)
+                                {
+                                    var jsElem = CreateJavascriptObject(camelCaseJavascriptNames);
+                                    jsElem.Name = jsElem.JavascriptName = i.ToString();
+                                    jsElem.Value = array.GetValue(i);
+                                    AnalyseObjectForBinding(jsElem, camelCaseJavascriptNames);
+                                    jsArray[i] = jsElem;
+                                }
+                                jsObject.Value = jsArray;
                             }
-                            jsObject.Value = jsArray;
                         }
                         else
                         {
