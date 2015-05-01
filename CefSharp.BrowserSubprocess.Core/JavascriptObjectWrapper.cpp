@@ -89,10 +89,7 @@ namespace CefSharp
                 auto jsObjectWrapper = gcnew JavascriptObjectWrapper(obj, _browserProcess);
                 jsObjectWrapper->V8Value = propWrapper->V8Value.get();
                 jsObjectWrapper->Bind();
-                if (propWrapper->_javascriptObjectWrapper != nullptr)
-                {
-                    delete propWrapper->_javascriptObjectWrapper;
-                }
+                delete propWrapper->_javascriptObjectWrapper;
                 propWrapper->_javascriptObjectWrapper = jsObjectWrapper;
             }
             response->Result = propWrapper->_javascriptObjectWrapper;
@@ -119,10 +116,7 @@ namespace CefSharp
             JavascriptPropertyWrapper^ propWrapper;
             if (_wrappedProperties->TryGetValue(memberName, propWrapper))
             {
-                if (propWrapper->_javascriptObjectWrapper != nullptr)
-                {
-                    delete propWrapper->_javascriptObjectWrapper;
-                }
+                delete propWrapper->_javascriptObjectWrapper;
             }
             auto jsObjectWrapper = gcnew JavascriptObjectWrapper(nullptr, _browserProcess);
             jsObjectWrapper->V8Value = cefArray;
