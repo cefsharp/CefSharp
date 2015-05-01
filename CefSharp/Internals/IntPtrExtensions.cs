@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿// Copyright © 2010-2015 The CefSharp Authors. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
+using System;
 
 namespace CefSharp.Internals
 {
-    public static class IntPtrExtensions
+    internal static class IntPtrExtensions
     {
         /// <summary>
         /// Do an unchecked conversion from IntPtr to int
