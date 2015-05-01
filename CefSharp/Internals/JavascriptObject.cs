@@ -2,6 +2,7 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
@@ -10,6 +11,9 @@ namespace CefSharp.Internals
     [DataContract]
     public class JavascriptObject //: DynamicObject maybe later
     {
+        private bool bound = false;
+        private object realObject = null;
+
         /// <summary>
         /// Identifies the <see cref="JavascriptObject" /> for BrowserProcess to RenderProcess communication
         /// </summary>
@@ -40,9 +44,40 @@ namespace CefSharp.Internals
         public List<JavascriptProperty> Properties { get; private set; }
 
         /// <summary>
+        /// Indicate if the <see cref="JavascriptObject" /> is null, so that on browser side we don't need to create an cef object.
+        /// </summary>
+        [DataMember]
+        public bool IsNull { get; private set; }
+
+        /// <summary>
+        /// Gets or sets a delegate which is called when binding occurred.  
+        /// </summary>
+        internal Action LateBinding { private get; set; }
+
+        /// <summary>
+        /// Calls <see cref="LateBinding" /> if not already bound.
+        /// </summary>
+        /// <returns>this, so that calls can be chained.</returns>
+        internal JavascriptObject Bind()
+        {
+            if (!bound && LateBinding != null)
+                LateBinding();
+            bound = true;
+            return this;
+        }
+
+        /// <summary>
         /// Gets or sets the value.
         /// </summary>
-        public object Value { get; set; }
+        public object Value
+        {
+            get { return realObject; }
+            set
+            {
+                realObject = value;
+                IsNull = value == null;
+            }
+        }
 
         public JavascriptObject()
         {

@@ -7,6 +7,7 @@
 #include "Stdafx.h"
 #include ".\..\CefSharp.Core\Internals\StringUtils.h"
 #include "TypeUtils.h"
+#include "JavascriptObjectWrapper.h"
 
 using namespace CefSharp::Internals;
 using namespace System;
@@ -93,6 +94,11 @@ namespace CefSharp
         if (type == DateTime::typeid)
         {
             return CefV8Value::CreateDate(TypeUtils::ConvertDateTimeToCefTime(safe_cast<DateTime>(obj)));
+        }
+        if (type == JavascriptObjectWrapper::typeid) 
+        {
+            auto jsWrapper = safe_cast<JavascriptObjectWrapper^>(obj);
+            return jsWrapper->V8Value.get();
         }
         if (type->IsArray)
         {
