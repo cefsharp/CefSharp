@@ -3,70 +3,71 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using CefSharp.Example;
-using CefSharp.Wpf.Example.Mvvm;
 using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
+using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 
 namespace CefSharp.Wpf.Example.ViewModels
 {
-    public class BrowserTabViewModel : INotifyPropertyChanged
+    public class BrowserTabViewModel : ViewModelBase
     {
         private string address;
         public string Address
         {
             get { return address; }
-            set { PropertyChanged.ChangeAndNotify(ref address, value, () => Address); }
+            set { Set(ref address, value); }
         }
 
         private string addressEditable;
         public string AddressEditable
         {
             get { return addressEditable; }
-            set { PropertyChanged.ChangeAndNotify(ref addressEditable, value, () => AddressEditable); }
+            set { Set(ref addressEditable, value); }
         }
 
         private string outputMessage;
         public string OutputMessage
         {
             get { return outputMessage; }
-            set { PropertyChanged.ChangeAndNotify(ref outputMessage, value, () => OutputMessage); }
+            set { Set(ref outputMessage, value); }
         }
 
         private string statusMessage;
         public string StatusMessage
         {
             get { return statusMessage; }
-            set { PropertyChanged.ChangeAndNotify(ref statusMessage, value, () => StatusMessage); }
+            set { Set(ref statusMessage, value); }
         }
 
         private string title;
         public string Title
         {
             get { return title; }
-            set { PropertyChanged.ChangeAndNotify(ref title, value, () => Title); }
+            set { Set(ref title, value); }
         }
 
         private IWpfWebBrowser webBrowser;
         public IWpfWebBrowser WebBrowser
         {
             get { return webBrowser; }
-            set { PropertyChanged.ChangeAndNotify(ref webBrowser, value, () => WebBrowser); }
+            set { Set(ref webBrowser, value); }
         }
 
         private object evaluateJavaScriptResult;
         public object EvaluateJavaScriptResult
         {
             get { return evaluateJavaScriptResult; }
-            set { PropertyChanged.ChangeAndNotify(ref evaluateJavaScriptResult, value, () => EvaluateJavaScriptResult); }
+            set { Set(ref evaluateJavaScriptResult, value); }
         }
 
         private bool showSidebar;
         public bool ShowSidebar
         {
             get { return showSidebar; }
-            set { PropertyChanged.ChangeAndNotify(ref showSidebar, value, () => ShowSidebar); }
+            set { Set(ref showSidebar, value); }
         }
 
         public ICommand GoCommand { get; set; }
@@ -74,17 +75,15 @@ namespace CefSharp.Wpf.Example.ViewModels
         public ICommand ExecuteJavaScriptCommand { get; set; }
         public ICommand EvaluateJavaScriptCommand { get; set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public BrowserTabViewModel(string address)
         {
             Address = address;
             AddressEditable = Address;
 
-            GoCommand = new DelegateCommand(Go, () => !String.IsNullOrWhiteSpace(Address));
-            HomeCommand = new DelegateCommand(() => AddressEditable = Address = CefExample.DefaultUrl);
-            ExecuteJavaScriptCommand = new DelegateCommand<string>(ExecuteJavaScript, s => !String.IsNullOrWhiteSpace(s));
-            EvaluateJavaScriptCommand = new DelegateCommand<string>(EvaluateJavaScript, s => !String.IsNullOrWhiteSpace(s));
+            GoCommand = new RelayCommand(Go, () => !String.IsNullOrWhiteSpace(Address));
+            HomeCommand = new RelayCommand(() => AddressEditable = Address = CefExample.DefaultUrl);
+            ExecuteJavaScriptCommand = new RelayCommand<string>(ExecuteJavaScript, s => !String.IsNullOrWhiteSpace(s));
+            EvaluateJavaScriptCommand = new RelayCommand<string>(EvaluateJavaScript, s => !String.IsNullOrWhiteSpace(s));
 
             PropertyChanged += OnPropertyChanged;
 
