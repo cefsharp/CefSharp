@@ -8,7 +8,6 @@
 
 #include <include\cef_frame.h>
 #include "Internals\CefRequestWrapper.h"
-#include "Internals\IBrowserAdapterNative.h"
 
 using namespace CefSharp::Internals;
 
@@ -185,7 +184,7 @@ namespace CefSharp
 
         virtual Task<JavascriptResponse^>^ EvaluateScriptAsync(String^ script, Nullable<TimeSpan> timeout)
         {
-            return dynamic_cast<IBrowserAdapterNative^>(_browserAdapter)->EvaluateScriptAsync(_frame.get(), script, timeout);
+            return dynamic_cast<IBrowserAdapter^>(_browserAdapter)->EvaluateScriptAsync(_frame->GetBrowser()->GetIdentifier(), _frame->GetIdentifier(), script, timeout);
         }
 
         ///

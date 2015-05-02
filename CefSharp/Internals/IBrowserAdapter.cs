@@ -17,5 +17,6 @@ namespace CefSharp.Internals
     public interface IBrowserAdapter
     {
         Task<JavascriptResponse> EvaluateScriptAsync(string script, TimeSpan? timeout);
+        Task<JavascriptResponse> EvaluateScriptAsync(int browserId, Int64 frameId, string script, TimeSpan? timeout);
     }
 }

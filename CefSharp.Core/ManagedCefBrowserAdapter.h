@@ -25,7 +25,7 @@ using namespace System::Threading::Tasks;
 
 namespace CefSharp
 {
-    public ref class ManagedCefBrowserAdapter : public DisposableResource, IBrowserAdapterNative
+    public ref class ManagedCefBrowserAdapter : public DisposableResource, IBrowserAdapter
     {
         MCefRefPtr<ClientAdapter> _clientAdapter;
         BrowserProcessServiceHost^ _browserProcessServiceHost;
@@ -120,7 +120,7 @@ namespace CefSharp
         void Undo();
         void Redo();
         void ExecuteScriptAsync(String^ script);
-        virtual Task<JavascriptResponse^>^ EvaluateScriptAsync(const CefRefPtr<CefFrame>& frame, String^ script, Nullable<TimeSpan> timeout);
+        virtual Task<JavascriptResponse^>^ EvaluateScriptAsync(int browserId, Int64 frameId, String^ script, Nullable<TimeSpan> timeout);
         virtual Task<JavascriptResponse^>^ EvaluateScriptAsync(String^ script, Nullable<TimeSpan> timeout);
         Task<double>^ GetZoomLevelAsync();
         void SetZoomLevel(double zoomLevel);
