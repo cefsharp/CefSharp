@@ -24,7 +24,8 @@ Every commit on `master` produces a `Nuget` package. Use at your own risk! [CefS
 
 **Stable**<br> 
 ![CefSharp.Wpf](http://img.shields.io/nuget/v/CefSharp.Wpf.svg?style=flat) for either  [WPF](http://www.nuget.org/packages/CefSharp.Wpf/) or 
-[WinForms](http://www.nuget.org/packages/CefSharp.WinForms/) now **including** JS Binding.
+[WinForms](http://www.nuget.org/packages/CefSharp.WinForms/) or 
+[OffScreen](http://www.nuget.org/packages/CefSharp.OffScreen/) now **including** JS Binding.
 
 **Ultra stable/LTS** Read "He's dead Jim", based on Chromium 25. See the [CefSharp1](https://github.com/cefsharp/CefSharp/tree/CefSharp1#binary-release) branch README for CefSharp1 info. Please note that this version is no longer supported.
 
@@ -38,4 +39,4 @@ Every commit on `master` produces a `Nuget` package. Use at your own risk! [CefS
 
 # Links
 
-- [CefGlue](https://bitbucket.org/fddima/cefglue/wiki/Home): An alternative .NET CEF wrapper built using P/Invoke.
+- [CefGlue](https://bitbucket.org/xilium/xilium.cefglue/): An alternative .NET CEF wrapper built using P/Invoke.

@@ -26,6 +26,7 @@ namespace CefSharp
         CefSettings() : _cefSettings(new ::CefSettings())
         {
             _cefSettings->multi_threaded_message_loop = true;
+            _cefSettings->no_sandbox = true;
             BrowserSubprocessPath = "CefSharp.BrowserSubprocess.exe";
             _cefCustomSchemes = gcnew List<CefCustomScheme^>();
             _cefCommandLineArgs = gcnew Dictionary<String^, String^>();
