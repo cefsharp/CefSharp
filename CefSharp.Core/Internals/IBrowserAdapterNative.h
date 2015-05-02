@@ -10,6 +10,8 @@ namespace CefSharp
 {
     namespace Internals
     {
+        // Have the C++/CLI portion of the interface here, since we
+        // can't express the frame parameter type from C#.
         public interface struct IBrowserAdapterNative : IBrowserAdapter
         {
             virtual Task<JavascriptResponse^>^ EvaluateScriptAsync(const CefRefPtr<CefFrame>& frame, String^ script, Nullable<TimeSpan> timeout);
