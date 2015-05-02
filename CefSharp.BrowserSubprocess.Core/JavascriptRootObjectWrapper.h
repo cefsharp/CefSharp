@@ -16,6 +16,10 @@ using namespace CefSharp::Internals;
 
 namespace CefSharp
 {
+    // This wraps the transmitted registered objects
+    // by binding the meta-data to V8 JavaScript objects
+    // and installing callbacks for changes to those
+    // objects.
     public ref class JavascriptRootObjectWrapper
     {
     private:
@@ -24,7 +28,12 @@ namespace CefSharp
         IBrowserProcess^ _browserProcess;
 
     internal:
+        // TODO: Is this member variable necessary?
+        // We only use it to call a static method on CefV8Value atm.
         MCefRefPtr<CefV8Value> V8Value;
+
+        // The entire set of possible JavaScript functions to
+        // call directly into.
         JavascriptCallbackRegistry^ CallbackRegistry;
 
     public:

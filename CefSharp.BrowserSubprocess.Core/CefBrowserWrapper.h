@@ -20,7 +20,8 @@ using namespace System::Threading::Tasks;
 
 namespace CefSharp
 {
-    // "Master class" for wrapping everything that the CefSubprocess needs.
+    // "Master class" for wrapping everything that the Cef Subprocess needs 
+    // for ONE CefBrowser.
     public ref class CefBrowserWrapper : DisposableResource
     {
     
@@ -35,13 +36,20 @@ namespace CefSharp
 
         property int BrowserId;
         property bool IsPopup;
+
+        // This allows us to create the WCF proxies back to our parent process.
         property DuplexChannelFactory<IBrowserProcess^>^ ChannelFactory;
+
+        // The serialized registered object data waiting to be used.
         property JavascriptRootObject^ JavascriptRootObject;
+
         property JavascriptRootObjectWrapper^ JavascriptRootObjectWrapper 
         {
             CefSharp::JavascriptRootObjectWrapper^ get();
             void set(CefSharp::JavascriptRootObjectWrapper^ value);
         };
+
+        // The WCF proxy to the parent process.
         property IBrowserProcess^ BrowserProcess;
 
         JavascriptResponse^ EvaluateScriptInContext(CefRefPtr<CefV8Context> context, CefString script);

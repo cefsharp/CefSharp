@@ -9,12 +9,35 @@ using System.Reflection;
 
 namespace CefSharp.Internals
 {
+    /// <summary>
+    /// This class manages the registration of objects in the browser
+    /// process to be exposed to JavaScript in the renderer process.
+    /// Registration performs method, parameter, property type analysis
+    /// of the registered objects into meta-data tied to reflection data 
+    /// for later use.
+    /// 
+    /// This class also is the adaptation layer between the BrowserProcessService
+    /// and the registered objects. This means when the renderer wants to call an 
+    /// exposed method, get a property of an object, or
+    /// set a property of an object in the browser process, that this
+    /// class does deals with the previously created meta-data and invokes the correct
+    /// behavior via reflection APIs.
+    /// 
+    /// All of the registered objects are tracked via meta-data for the objects 
+    /// expressed starting with the JavaScriptObject type.
+    /// </summary>
     public class JavascriptObjectRepository : DisposableResource
     {
         private static long lastId;
         private static readonly object Lock = new object();
 
+        // A hash from assigned object ids to the objects,
+        // this is done to speed up finding the object in O(1) time
+        // instead of traversing the JavaScriptRootObject tree.
         private readonly Dictionary<long, JavascriptObject> objects = new Dictionary<long, JavascriptObject>();
+
+        // This is the root of the objects that get serialized to the child
+        // process.
         public JavascriptRootObject RootObject { get; private set; }
 
         public JavascriptObjectRepository()
