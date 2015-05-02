@@ -352,22 +352,22 @@ namespace CefSharp.Wpf
             UiThreadRunAsync(() => SetCurrentValue(TooltipTextProperty, tooltipText));
         }
 
-        void IWebBrowserInternal.OnFrameLoadStart(string url, bool isMainFrame)
+        void IWebBrowserInternal.OnFrameLoadStart(IFrame frame)
         {
             var handler = FrameLoadStart;
             if (handler != null)
             {
-                handler(this, new FrameLoadStartEventArgs(url, isMainFrame));
+                handler(this, new FrameLoadStartEventArgs(frame));
             }
         }
 
-        void IWebBrowserInternal.OnFrameLoadEnd(string url, bool isMainFrame, int httpStatusCode)
+        void IWebBrowserInternal.OnFrameLoadEnd(IFrame frame, int httpStatusCode)
         {
             var handler = FrameLoadEnd;
 
             if (handler != null)
             {
-                handler(this, new FrameLoadEndEventArgs(url, isMainFrame, httpStatusCode));
+                handler(this, new FrameLoadEndEventArgs(frame, httpStatusCode));
             }
         }
 
@@ -389,12 +389,12 @@ namespace CefSharp.Wpf
             }
         }
 
-        void IWebBrowserInternal.OnLoadError(string url, CefErrorCode errorCode, string errorText)
+        void IWebBrowserInternal.OnLoadError(IFrame frame, CefErrorCode errorCode, string errorText)
         {
             var handler = LoadError;
             if (handler != null)
             {
-                handler(this, new LoadErrorEventArgs(url, errorCode, errorText));
+                handler(this, new LoadErrorEventArgs(frame, errorCode, errorText));
             }
         }
 

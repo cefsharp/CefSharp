@@ -33,7 +33,7 @@ namespace CefSharp.Example
             return CefReturnValue.Continue;
         }
 
-        bool IRequestHandler.GetAuthCredentials(IWebBrowser browser, bool isProxy, string host, int port, string realm, string scheme, ref string username, ref string password)
+        bool IRequestHandler.GetAuthCredentials(IWebBrowser browser, IFrame frame, bool isProxy, string host, int port, string realm, string scheme, ref string username, ref string password)
         {
             return false;
         }
@@ -58,10 +58,10 @@ namespace CefSharp.Example
             return false;
         }
 
-        public void OnResourceRedirect(IWebBrowser browser, bool isMainFrame, string oldUrl, ref string newUrl)
+        public void OnResourceRedirect(IWebBrowser browser, IFrame frame, ref string newUrl)
         {
             //Example of how to redirect - need to check `newUrl` in the second pass
-            //if (string.Equals(oldUrl, "https://www.google.com/", StringComparison.OrdinalIgnoreCase) && !newUrl.Contains("github"))
+            //if (string.Equals(frame.GetUrl(), "https://www.google.com/", StringComparison.OrdinalIgnoreCase) && !newUrl.Contains("github"))
             //{
             //	newUrl = "https://github.com";
             //}

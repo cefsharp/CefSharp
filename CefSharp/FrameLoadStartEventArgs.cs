@@ -11,12 +11,18 @@ namespace CefSharp
     /// </summary>
     public class FrameLoadStartEventArgs : EventArgs
     {
-        public FrameLoadStartEventArgs(string url, bool isMainFrame)
+        public FrameLoadStartEventArgs(IFrame frame)
         {
-            Url = url;
-            IsMainFrame = isMainFrame;
+            Frame = frame;
+            Url = frame.GetUrl();
+            IsMainFrame = frame.IsMain();
         }
 
+        /// <summary>
+        /// The frame that just started loading.
+        /// </summary>
+        public IFrame Frame { get; private set; }
+        
         /// <summary>
         /// The URL that was loaded.
         /// </summary>

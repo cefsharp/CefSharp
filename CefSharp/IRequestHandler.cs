@@ -55,6 +55,7 @@ namespace CefSharp
         /// Called when the browser needs credentials from the user.
         /// </summary>
         /// <param name="browser">the browser object</param>
+        /// <param name="frame">The frame object that needs credentials (This will contain the URL that is being requested.)</param>
         /// <param name="isProxy">indicates whether the host is a proxy server</param>
         /// <param name="host">hostname</param>
         /// <param name="port">port number</param>
@@ -63,7 +64,7 @@ namespace CefSharp
         /// <param name="username">requested username</param>
         /// <param name="password">requested password</param>
         /// <returns>Return true to continue the request and call CefAuthCallback::Continue() when the authentication information is available. Return false to cancel the request. </returns>
-        bool GetAuthCredentials(IWebBrowser browser, bool isProxy, string host, int port, string realm, string scheme, ref string username, ref string password);
+        bool GetAuthCredentials(IWebBrowser browser, IFrame frame, bool isProxy, string host, int port, string realm, string scheme, ref string username, ref string password);
 
         /// <summary>
         /// Called on the browser process IO thread before a plugin is loaded.
@@ -95,10 +96,9 @@ namespace CefSharp
         /// Called on the IO thread when a resource load is redirected. The |old_url| parameter will contain . . 
         /// </summary>
         /// <param name="browser">the browser object</param>
-        /// <param name="isMainFrame">whether the request comes from main frame or not</param>
-        /// <param name="oldUrl">the old URL</param>
+        /// <param name="frame">The frame that is being redirected.</param>
         /// <param name="newUrl">the new URL and can be changed if desired</param>
-        void OnResourceRedirect(IWebBrowser browser, bool isMainFrame, string oldUrl, ref string newUrl);
+        void OnResourceRedirect(IWebBrowser browser, IFrame frame, ref string newUrl);
 
         /// <summary>
         /// Called on the UI thread to handle requests for URLs with an unknown protocol component. 
