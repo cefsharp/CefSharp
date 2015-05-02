@@ -90,6 +90,7 @@
   <ItemGroup>
     <Compile Include="CefDirtyRect.cs" />
     <Compile Include="CefFileDialogMode.cs" />
+    <Compile Include="CefReturnValue.cs" />
     <Compile Include="CefThreadIds.cs" />
     <Compile Include="DefaultResourceHandlerFactory.cs" />
     <Compile Include="DependencyChecker.cs" />

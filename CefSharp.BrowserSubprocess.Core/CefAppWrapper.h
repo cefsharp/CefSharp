@@ -15,6 +15,7 @@ using namespace System::Collections::Generic;
 
 namespace CefSharp
 {
+    // Wrap CefAppUnmangedWrapper in a nice managed wrapper
     public ref class CefAppWrapper abstract : public DisposableResource
     {
     private:

@@ -5,6 +5,7 @@
 #pragma once
 
 #include "Stdafx.h"
+#include "include/cef_task.h"
 
 #include "ReportUnhandledExceptions.h"
 
@@ -18,12 +19,12 @@ namespace CefSharp
 {
     namespace Internals
     {
-        private class CefTaskWrapper
+        public class CefTaskWrapper : public CefTask
         {
-        public:
+        private:
             gcroot<Task^> _task;
             gcroot<ITaskScheduler^> _scheduler;
-
+        public:
             CefTaskWrapper(Task^ task, ITaskScheduler^ scheduler) :
                 _task(task),
                 _scheduler(scheduler)
@@ -35,7 +36,7 @@ namespace CefSharp
                 delete _task;
             }
 
-            void Execute()
+            virtual void Execute() OVERRIDE
             {
                 try
                 {

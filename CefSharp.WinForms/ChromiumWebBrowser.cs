@@ -56,11 +56,18 @@ namespace CefSharp.WinForms
         public bool CanReload { get; private set; }
         public bool IsBrowserInitialized { get; private set; }
 
-        public double ZoomLevel
+
+        /// <inheritdoc/>
+        public Task<double> GetZoomLevelAsync()
         {
-            get { return managedCefBrowserAdapter.GetZoomLevelAsync().Result; }
-            set { managedCefBrowserAdapter.SetZoomLevel(value); }
-         }
+            return managedCefBrowserAdapter.GetZoomLevelAsync();
+        }
+
+        /// <inheritdoc/>
+        public void SetZoomLevel(double level)
+        {
+            managedCefBrowserAdapter.SetZoomLevel(level);
+        }
 
         static ChromiumWebBrowser()
         {

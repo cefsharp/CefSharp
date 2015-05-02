@@ -14,6 +14,7 @@
 #include "StreamAdapter.h"
 #include "Internals/TypeConversion.h"
 #include "include/wrapper/cef_stream_resource_handler.h"
+#include "include/internal/cef_types.h"
 
 namespace CefSharp
 {
@@ -238,7 +239,7 @@ namespace CefSharp
             return handler->OnBeforeBrowse(_browserControl, wrapper, isRedirect, frame->IsMain());
         }
 
-        bool ClientAdapter::OnCertificateError(CefRefPtr<CefBrowser> browser, cef_errorcode_t cert_error, const CefString& request_url, CefRefPtr<CefSSLInfo> ssl_info, CefRefPtr<CefAllowCertificateErrorCallback> callback)
+        bool ClientAdapter::OnCertificateError(CefRefPtr<CefBrowser> browser, cef_errorcode_t cert_error, const CefString& request_url, CefRefPtr<CefSSLInfo> ssl_info, CefRefPtr<CefRequestCallback> callback)
         {
             IRequestHandler^ handler = _browserControl->RequestHandler;
             if (handler == nullptr)
@@ -255,7 +256,7 @@ namespace CefSharp
             return false;
         }
 
-        bool ClientAdapter::OnQuotaRequest(CefRefPtr<CefBrowser> browser, const CefString& originUrl, int64 newSize, CefRefPtr<CefQuotaCallback> callback)
+        bool ClientAdapter::OnQuotaRequest(CefRefPtr<CefBrowser> browser, const CefString& originUrl, int64 newSize, CefRefPtr<CefRequestCallback> callback)
         {
             IRequestHandler^ handler = _browserControl->RequestHandler;
             if (handler == nullptr)
@@ -366,18 +367,18 @@ namespace CefSharp
             return NULL;
         }
 
-        bool ClientAdapter::OnBeforeResourceLoad(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request)
+        cef_return_value_t ClientAdapter::OnBeforeResourceLoad(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefRequestCallback> callback)
         {
             IRequestHandler^ handler = _browserControl->RequestHandler;
 
             if (handler == nullptr)
             {
-                return false;
+                return cef_return_value_t::RV_CONTINUE;
             }
 
             auto requestWrapper = gcnew CefRequestWrapper(request);
 
-            return handler->OnBeforeResourceLoad(_browserControl, requestWrapper, frame->IsMain());
+            return (cef_return_value_t)handler->OnBeforeResourceLoad(_browserControl, requestWrapper, frame->IsMain());
         }
 
         CefRefPtr<CefDownloadHandler> ClientAdapter::GetDownloadHandler()

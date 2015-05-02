@@ -506,6 +506,21 @@ namespace CefSharp.Wpf
 
         protected virtual void OnIsBrowserInitializedChanged(bool oldValue, bool newValue)
         {
+            managedCefBrowserAdapter.GetZoomLevelAsync()
+                .ContinueWith(new Action<Task<double>>((Task<double> previous) =>
+                    {
+                        if (previous.IsCompleted)
+                        {
+                            UiThreadRunAsync(() =>
+                            {
+                                SetCurrentValue(ZoomLevelProperty, previous.Result);
+                            });
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException("Unexpected failure of calling CEF->GetZoomLevelAsync", previous.Exception);
+                        }
+                    }), TaskContinuationOptions.ExecuteSynchronously);
         }
 
         #endregion IsInitialized dependency property
@@ -852,7 +867,7 @@ namespace CefSharp.Wpf
                 return;
             }
 
-            managedCefBrowserAdapter.CreateOffscreenBrowser(source.Handle, BrowserSettings, Address);
+            managedCefBrowserAdapter.CreateOffscreenBrowser(source == null ? IntPtr.Zero : source.Handle, BrowserSettings, Address);
             browserCreated = true;
         }
 
@@ -1463,6 +1478,12 @@ namespace CefSharp.Wpf
         public void Invalidate(PaintElementType type)
         {
             managedCefBrowserAdapter.Invalidate(type);
+        }
+
+        /// <inheritdoc/>
+        public Task<double> GetZoomLevelAsync()
+        {
+            return managedCefBrowserAdapter.GetZoomLevelAsync();
         }
 
         /// <summary>

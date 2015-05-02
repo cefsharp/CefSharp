@@ -5,10 +5,14 @@
     <VisualStudioProductVersion>2010</VisualStudioProductVersion>
     <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='11.0'">2012</VisualStudioProductVersion>
     <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='12.0'">2013</VisualStudioProductVersion>
+    <!-- For Visual Studio 2015, use VS 2013 binaries -->
+    <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='14.0'">2013</VisualStudioProductVersion>
 
     <PlatformToolset>v100</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)'=='11.0'">v110</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)'=='12.0'">v120</PlatformToolset>
+    <!-- For Visual Studio 2015, use VS 2013 tool set for now -->
+    <PlatformToolset Condition="'$(VisualStudioVersion)'=='14.0'">v120</PlatformToolset>
   </PropertyGroup>
 
 </Project>

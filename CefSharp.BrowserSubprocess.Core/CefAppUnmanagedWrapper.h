@@ -15,6 +15,7 @@ using namespace System::Collections::Generic;
 
 namespace CefSharp
 {
+    // This class is the native subprocess level CEF object wrapper.
     private class CefAppUnmanagedWrapper : CefApp, CefRenderProcessHandler
     {
     private:
