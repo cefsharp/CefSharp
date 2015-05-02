@@ -17,9 +17,9 @@ namespace CefSharp
         /// <param name="browser">the browser object</param>
         /// <param name="request">the request object - cannot be modified in this callback</param>
         /// <param name="isRedirect">has the request been redirected</param>
-        /// <param name="isMainFrame">whether the request comes from main frame or not</param>
+        /// <param name="frame">The frame the request is coming from</param>
         /// <returns>Return true to cancel the navigation or false to allow the navigation to proceed.</returns>
-        bool OnBeforeBrowse(IWebBrowser browser, IRequest request, bool isRedirect, bool isMainFrame);
+        bool OnBeforeBrowse(IWebBrowser browser, IRequest request, bool isRedirect, IFrame frame);
 
         /// <summary>
         /// Called when a certificate error is thrown.
@@ -42,14 +42,14 @@ namespace CefSharp
         /// </summary>
         /// <param name="browser">the browser object</param>
         /// <param name="request">the request object - can be modified in this callback.</param>
-        /// <param name="isMainFrame">whether the request comes from main frame or not</param>
+        /// <param name="frame">The frame object</param>
         /// <remarks>
         /// The async features of this method are not currently exposed
         /// as such returning <see cref="CefReturnValue.ContinueAsync"/> should be avoided.
         /// </remarks>
         /// <returns>To cancel loading of the resource return <see cref="CefReturnValue.Cancel"/>
         /// or <see cref="CefReturnValue.Continue"/> to allow the resource to load normally.</returns>
-        CefReturnValue OnBeforeResourceLoad(IWebBrowser browser, IRequest request, bool isMainFrame);
+        CefReturnValue OnBeforeResourceLoad(IWebBrowser browser, IRequest request, IFrame frame);
         
         /// <summary>
         /// Called when the browser needs credentials from the user.

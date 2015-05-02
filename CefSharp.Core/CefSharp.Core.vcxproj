@@ -117,6 +117,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <PrecompiledHeaderFile>Stdafx.h</PrecompiledHeaderFile>
+      <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
@@ -171,6 +172,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
+      <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
       <AdditionalDependencies>opengl32.lib;glu32.lib;libcef.lib;libcef_dll_wrapper.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -244,6 +246,7 @@
     <ClInclude Include="Internals\AutoLock.h" />
     <ClInclude Include="Internals\CefContextMenuParamsWrapper.h" />
     <ClInclude Include="Internals\CefDragDataWrapper.h" />
+    <ClInclude Include="Internals\CefFrameWrapper.h" />
     <ClInclude Include="Internals\CefTaskScheduler.h" />
     <ClInclude Include="Internals\CefTaskWrapper.h" />
     <ClInclude Include="Internals\CompletionHandler.h" />
@@ -252,6 +255,7 @@
     <ClInclude Include="Internals\CookieVisitor.h" />
     <ClInclude Include="Internals\CefSharpApp.h" />
     <ClInclude Include="Internals\CefRequestWrapper.h" />
+    <ClInclude Include="Internals\IBrowserAdapterNative.h" />
     <ClInclude Include="Internals\MCefRefPtr.h" />
     <ClInclude Include="Internals\PluginVisitor.h" />
     <ClInclude Include="Internals\RenderClientAdapter.h" />

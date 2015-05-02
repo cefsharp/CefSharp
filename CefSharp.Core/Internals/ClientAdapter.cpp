@@ -234,7 +234,7 @@ namespace CefSharp
 
             CefRequestWrapper^ wrapper = gcnew CefRequestWrapper(request);
 
-            return handler->OnBeforeBrowse(_browserControl, wrapper, isRedirect, frame->IsMain());
+            return handler->OnBeforeBrowse(_browserControl, wrapper, isRedirect, gcnew CefFrameWrapper(frame, _browserControl->BrowserAdapter));
         }
 
         bool ClientAdapter::OnCertificateError(CefRefPtr<CefBrowser> browser, cef_errorcode_t cert_error, const CefString& request_url, CefRefPtr<CefSSLInfo> ssl_info, CefRefPtr<CefRequestCallback> callback)
@@ -377,7 +377,7 @@ namespace CefSharp
 
             auto requestWrapper = gcnew CefRequestWrapper(request);
 
-            return (cef_return_value_t)handler->OnBeforeResourceLoad(_browserControl, requestWrapper, frame->IsMain());
+            return (cef_return_value_t)handler->OnBeforeResourceLoad(_browserControl, requestWrapper, gcnew CefFrameWrapper(frame, _browserControl->BrowserAdapter));
         }
 
         CefRefPtr<CefDownloadHandler> ClientAdapter::GetDownloadHandler()

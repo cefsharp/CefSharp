@@ -154,6 +154,12 @@
     <ClInclude Include="Internals\ReportUnhandledExceptions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Internals\IBrowserAdapterNative.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\CefFrameWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

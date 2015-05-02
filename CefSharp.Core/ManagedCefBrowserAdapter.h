@@ -15,6 +15,7 @@
 #include "Internals/RenderClientAdapter.h"
 #include "Internals/MCefRefPtr.h"
 #include "Internals/StringVisitor.h"
+#include "Internals/CefFrameWrapper.h"
 
 using namespace CefSharp::Internals;
 using namespace System::Diagnostics;
@@ -24,7 +25,7 @@ using namespace System::Threading::Tasks;
 
 namespace CefSharp
 {
-    public ref class ManagedCefBrowserAdapter : public DisposableResource
+    public ref class ManagedCefBrowserAdapter : public DisposableResource, IBrowserAdapterNative
     {
         MCefRefPtr<ClientAdapter> _clientAdapter;
         BrowserProcessServiceHost^ _browserProcessServiceHost;
@@ -119,7 +120,8 @@ namespace CefSharp
         void Undo();
         void Redo();
         void ExecuteScriptAsync(String^ script);
-        Task<JavascriptResponse^>^ EvaluateScriptAsync(String^ script, Nullable<TimeSpan> timeout);
+        virtual Task<JavascriptResponse^>^ EvaluateScriptAsync(const CefRefPtr<CefFrame>& frame, String^ script, Nullable<TimeSpan> timeout);
+        virtual Task<JavascriptResponse^>^ EvaluateScriptAsync(String^ script, Nullable<TimeSpan> timeout);
         Task<double>^ GetZoomLevelAsync();
         void SetZoomLevel(double zoomLevel);
         void ShowDevTools();

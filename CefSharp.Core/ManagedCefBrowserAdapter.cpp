@@ -480,6 +480,24 @@ void ManagedCefBrowserAdapter::ExecuteScriptAsync(String^ script)
     }
 }
 
+Task<JavascriptResponse^>^ ManagedCefBrowserAdapter::EvaluateScriptAsync(const CefRefPtr<CefFrame>& frame, String^ script, Nullable<TimeSpan> timeout)
+{
+    if (timeout.HasValue && timeout.Value.TotalMilliseconds > UInt32::MaxValue)
+    {
+        throw gcnew ArgumentOutOfRangeException("timeout", "Timeout greater than Maximum allowable value of " + UInt32::MaxValue);
+    }
+
+    auto browser = frame->GetBrowser();
+
+    if (_browserProcessServiceHost == nullptr 
+        || browser == nullptr)
+    {
+        return nullptr;
+    }
+
+    return _browserProcessServiceHost->EvaluateScriptAsync(browser->GetIdentifier(), frame->GetIdentifier(), script, timeout);
+}
+
 Task<JavascriptResponse^>^ ManagedCefBrowserAdapter::EvaluateScriptAsync(String^ script, Nullable<TimeSpan> timeout)
 {
     if (timeout.HasValue && timeout.Value.TotalMilliseconds > UInt32::MaxValue)
@@ -489,8 +507,7 @@ Task<JavascriptResponse^>^ ManagedCefBrowserAdapter::EvaluateScriptAsync(String^
 
     auto browser = _clientAdapter->GetCefBrowser();
 
-
-    if (_browserProcessServiceHost == nullptr && browser == nullptr)
+    if (_browserProcessServiceHost == nullptr || browser == nullptr)
     {
         return nullptr;
     }
@@ -706,7 +723,7 @@ List<System::Int64>^ ManagedCefBrowserAdapter::GetFrameIdentifiers()
         std::vector<System::Int64> identifiers;
         browser->GetFrameIdentifiers(identifiers);
         List<System::Int64>^ results = gcnew List<System::Int64>(identifiers.size());
-        for (int i = 0; i < identifiers.size(); i++)
+        for (UINT i = 0; i < identifiers.size(); i++)
         {
             results->Add(identifiers[i]);
         }
@@ -733,3 +750,57 @@ List<String^>^ ManagedCefBrowserAdapter::GetFrameNames()
     return nullptr;
 }
 
+///
+// Returns the main (top-level) frame for the browser window.
+///
+CefFrameWrapper^ ManagedCefBrowserAdapter::GetMainFrame()
+{
+    auto result = _clientAdapter->GetCefBrowser()->GetMainFrame();
+    if (result != nullptr)
+    {
+        return gcnew CefFrameWrapper(result, this);
+    }
+    return nullptr;
+}
+
+///
+// Returns the focused frame for the browser window.
+///
+/*--cef()--*/
+CefFrameWrapper^ ManagedCefBrowserAdapter::GetFocusedFrame()
+{
+    auto result = _clientAdapter->GetCefBrowser()->GetFocusedFrame();
+    if (result != nullptr)
+    {
+        return gcnew CefFrameWrapper(result, this);
+    }
+    return nullptr;
+}
+
+///
+// Returns the frame with the specified identifier, or NULL if not found.
+///
+/*--cef(capi_name=get_frame_byident)--*/
+CefFrameWrapper^ ManagedCefBrowserAdapter::GetFrame(System::Int64 identifier)
+{
+    auto result = _clientAdapter->GetCefBrowser()->GetFrame(identifier);
+    if (result != nullptr)
+    {
+        return gcnew CefFrameWrapper(result, this);
+    }
+    return nullptr;
+}
+
+///
+// Returns the frame with the specified name, or NULL if not found.
+///
+/*--cef(optional_param=name)--*/
+CefFrameWrapper^ ManagedCefBrowserAdapter::GetFrame(String^ name)
+{
+    auto result = _clientAdapter->GetCefBrowser()->GetFrame(StringUtils::ToNative(name));
+    if (result != nullptr)
+    {
+        return gcnew CefFrameWrapper(result, this);
+    }
+    return nullptr;
+}
