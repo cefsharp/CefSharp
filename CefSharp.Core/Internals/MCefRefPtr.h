@@ -8,6 +8,9 @@ namespace CefSharp
 {
     namespace Internals
     {
+        // This class appears to be required in order
+        // to continue reference counting in managed classes
+        // that the compiler won't let contain CefRefPtr<...>
         template <typename T>
         ref class MCefRefPtr sealed
         {

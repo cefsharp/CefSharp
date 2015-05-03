@@ -67,7 +67,7 @@ namespace CefSharp
                 return false;
             }
 
-            return handler->OnBeforePopup(_browserControl, StringUtils::ToClr(frame->GetURL()), StringUtils::ToClr(target_url),
+            return handler->OnBeforePopup(_browserControl, gcnew CefFrameWrapper(frame, _browserControl->BrowserAdapter), StringUtils::ToClr(target_url),
                 windowInfo.x, windowInfo.y, windowInfo.width, windowInfo.height);
         }
 
@@ -133,7 +133,7 @@ namespace CefSharp
 
         void ClientAdapter::OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString& title)
         {
-            if(browser->IsPopup())
+            if (browser->IsPopup())
             {
                 // Set the popup window title
                 auto hwnd = browser->GetHost()->GetWindowHandle();
@@ -182,6 +182,7 @@ namespace CefSharp
                 return false;
             }
 
+            // TODO: This seems wrong, browser might be a popup browser.
             // TODO: windows_key_code could possibly be the wrong choice here (the OnKeyEvent signature has changed since CEF1). The
             // other option would be native_key_code.
             return handler->OnKeyEvent(_browserControl, (KeyType)event.type, event.windows_key_code, (CefEventFlags)event.modifiers, event.is_system_key == 1);
@@ -196,6 +197,7 @@ namespace CefSharp
                 return false;
             }
 
+            // TODO: This seems wrong, browser might be a popup browser.
             return handler->OnPreKeyEvent(_browserControl, (KeyType)event.type, event.windows_key_code, event.native_key_code, (CefEventFlags)event.modifiers, event.is_system_key == 1, *is_keyboard_shortcut);
         }
 
@@ -206,7 +208,7 @@ namespace CefSharp
                 return;
             }
 
-            _browserControl->OnFrameLoadStart(StringUtils::ToClr(frame->GetURL()), frame->IsMain());
+            _browserControl->OnFrameLoadStart(gcnew CefFrameWrapper(frame, _browserControl->BrowserAdapter));
         }
 
         void ClientAdapter::OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode)
@@ -216,12 +218,12 @@ namespace CefSharp
                 return;
             }
 
-            _browserControl->OnFrameLoadEnd(StringUtils::ToClr(frame->GetURL()), frame->IsMain(), httpStatusCode);
+            _browserControl->OnFrameLoadEnd(gcnew CefFrameWrapper(frame, _browserControl->BrowserAdapter), httpStatusCode);
         }
 
         void ClientAdapter::OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, ErrorCode errorCode, const CefString& errorText, const CefString& failedUrl)
         {
-            _browserControl->OnLoadError(StringUtils::ToClr(failedUrl), (CefErrorCode)errorCode, StringUtils::ToClr(errorText));
+            _browserControl->OnLoadError(gcnew CefFrameWrapper(frame, _browserControl->BrowserAdapter), (CefErrorCode)errorCode, StringUtils::ToClr(errorText));
         }
 
         bool ClientAdapter::OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool isRedirect)
@@ -234,7 +236,7 @@ namespace CefSharp
 
             CefRequestWrapper^ wrapper = gcnew CefRequestWrapper(request);
 
-            return handler->OnBeforeBrowse(_browserControl, wrapper, isRedirect, frame->IsMain());
+            return handler->OnBeforeBrowse(_browserControl, wrapper, isRedirect, gcnew CefFrameWrapper(frame, _browserControl->BrowserAdapter));
         }
 
         bool ClientAdapter::OnCertificateError(CefRefPtr<CefBrowser> browser, cef_errorcode_t cert_error, const CefString& request_url, CefRefPtr<CefSSLInfo> ssl_info, CefRefPtr<CefRequestCallback> callback)
@@ -314,7 +316,7 @@ namespace CefSharp
             if (handler != nullptr)
             {
                 auto managedNewUrl = StringUtils::ToClr(newUrl);
-                handler->OnResourceRedirect(_browserControl, frame->IsMain(), StringUtils::ToClr(oldUrl), managedNewUrl);
+                handler->OnResourceRedirect(_browserControl, gcnew CefFrameWrapper(frame, _browserControl->BrowserAdapter), managedNewUrl);
 
                 newUrl = StringUtils::ToNative(managedNewUrl);
             }	
@@ -346,7 +348,7 @@ namespace CefSharp
 
             auto resourceHandler = factory->GetResourceHandler(_browserControl, requestWrapper);
 
-            if(resourceHandler != nullptr)
+            if (resourceHandler != nullptr)
             {
                 auto mimeType = StringUtils::ToNative(resourceHandler->MimeType);
                 auto statusText = StringUtils::ToNative(resourceHandler->StatusText);
@@ -377,7 +379,7 @@ namespace CefSharp
 
             auto requestWrapper = gcnew CefRequestWrapper(request);
 
-            return (cef_return_value_t)handler->OnBeforeResourceLoad(_browserControl, requestWrapper, frame->IsMain());
+            return (cef_return_value_t)handler->OnBeforeResourceLoad(_browserControl, requestWrapper, gcnew CefFrameWrapper(frame, _browserControl->BrowserAdapter));
         }
 
         CefRefPtr<CefDownloadHandler> ClientAdapter::GetDownloadHandler()
@@ -402,7 +404,7 @@ namespace CefSharp
 
             String^ usernameString = nullptr;
             String^ passwordString = nullptr;
-            bool handled = handler->GetAuthCredentials(_browserControl, isProxy, StringUtils::ToClr(host), port, StringUtils::ToClr(realm), StringUtils::ToClr(scheme), usernameString, passwordString);
+            bool handled = handler->GetAuthCredentials(_browserControl, gcnew CefFrameWrapper(frame, _browserControl->BrowserAdapter), isProxy, StringUtils::ToClr(host), port, StringUtils::ToClr(realm), StringUtils::ToClr(scheme), usernameString, passwordString);
 
             if (handled)
             {
@@ -441,7 +443,7 @@ namespace CefSharp
             // Context menu params
             CefContextMenuParamsWrapper^ contextMenuParamsWrapper = gcnew CefContextMenuParamsWrapper(params);
 
-            auto result = handler->OnBeforeContextMenu(_browserControl, contextMenuParamsWrapper);
+            auto result = handler->OnBeforeContextMenu(_browserControl, gcnew CefFrameWrapper(frame, _browserControl->BrowserAdapter), contextMenuParamsWrapper);
             if (!result)
             {
                 model->Clear();

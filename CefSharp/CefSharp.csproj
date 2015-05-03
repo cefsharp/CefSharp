@@ -94,7 +94,11 @@
     <Compile Include="CefThreadIds.cs" />
     <Compile Include="DefaultResourceHandlerFactory.cs" />
     <Compile Include="DependencyChecker.cs" />
+    <Compile Include="IFrame.cs" />
     <Compile Include="IJavascriptCallback.cs" />
+    <Compile Include="Internals\IBrowserAdapter.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Internals\IntPtrExtensions.cs" />
     <Compile Include="Internals\JavascriptCallbackProxy.cs" />
     <Compile Include="Internals\JavascriptCallback.cs" />

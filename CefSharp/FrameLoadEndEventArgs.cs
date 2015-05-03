@@ -11,22 +11,22 @@ namespace CefSharp
     /// </summary>
     public class FrameLoadEndEventArgs : EventArgs
     {
-        public FrameLoadEndEventArgs(string url, bool isMainFrame, int httpStatusCode)
+        public FrameLoadEndEventArgs(IFrame frame, int httpStatusCode)
         {
-            Url = url;
-            IsMainFrame = isMainFrame;
+            Frame = frame;
+            Url = frame.GetUrl();
             HttpStatusCode = httpStatusCode;
         }
 
         /// <summary>
+        /// The frame that finished loading.
+        /// </summary>
+        public IFrame Frame { get; private set; }
+        
+        /// <summary>
         /// The URL that was loaded.
         /// </summary>
         public string Url { get; private set; }
-
-        /// <summary>
-        /// Is this the Main Frame
-        /// </summary>
-        public bool IsMainFrame { get; private set; }
 
         /// <summary>
         /// Http Status Code
