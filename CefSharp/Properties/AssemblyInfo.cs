@@ -23,6 +23,7 @@ using System;
 [assembly: InternalsVisibleTo(AssemblyInfo.CefSharpBrowserSubprocessCoreProject)]
 [assembly: InternalsVisibleTo(AssemblyInfo.CefSharpWpfProject)]
 [assembly: InternalsVisibleTo(AssemblyInfo.CefSharpWinFormsProject)]
+[assembly: InternalsVisibleTo(AssemblyInfo.CefSharpOffScreenProject)]
 [assembly: InternalsVisibleTo(AssemblyInfo.CefSharpTestProject)]
 
 namespace CefSharp
@@ -41,6 +42,7 @@ namespace CefSharp
         public const string CefSharpBrowserSubprocessCoreProject = "CefSharp.BrowserSubprocess.Core, PublicKey=" + PublicKey;
         public const string CefSharpWpfProject = "CefSharp.Wpf, PublicKey=" + PublicKey;
         public const string CefSharpWinFormsProject = "CefSharp.WinForms, PublicKey=" + PublicKey;
+        public const string CefSharpOffScreenProject = "CefSharp.OffScreen, PublicKey=" + PublicKey;
         public const string CefSharpTestProject = "CefSharp.Test, PublicKey=" + PublicKey;
 
         // Use "%ProgramFiles%\Microsoft SDKs\Windows\v7.0A\bin\sn.exe" -Tp <assemblyname> to get PublicKey
