@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Reflection;
-using CefSharp.Example.Proxy;
 using System.Text;
 using CefSharp.Example.Proxy;
 
