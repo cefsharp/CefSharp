@@ -135,7 +135,9 @@ namespace CefSharp
             // reporting.
             ///
             /*--cef(optional_param=script_url)--*/
-            virtual void ExecuteJavaScriptAsync(String ^code, String^ scriptUrl, int startLine);
+            virtual void ExecuteJavaScriptAsync(String^ code, String^ scriptUrl, int startLine);
+
+            virtual void ExecuteJavaScriptAsync(String^ code);
 
             virtual Task<JavascriptResponse^>^ EvaluateScriptAsync(String^ script, Nullable<TimeSpan> timeout);
 

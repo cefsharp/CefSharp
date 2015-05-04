@@ -150,11 +150,15 @@ void CefFrameWrapper::LoadHtml(String^ html, String^ url)
 // reporting.
 ///
 /*--cef(optional_param=script_url)--*/
-void CefFrameWrapper::ExecuteJavaScriptAsync(String ^code, String^ scriptUrl, int startLine)
+void CefFrameWrapper::ExecuteJavaScriptAsync(String^ code, String^ scriptUrl, int startLine)
 {
     _frame->ExecuteJavaScript(StringUtils::ToNative(code), StringUtils::ToNative(scriptUrl), startLine);
 }
 
+void CefFrameWrapper::ExecuteJavaScriptAsync(String^ code)
+{
+    _frame->ExecuteJavaScript(StringUtils::ToNative(code), "about:blank", 0);
+}
 
 Task<JavascriptResponse^>^ CefFrameWrapper::EvaluateScriptAsync(String^ script, Nullable<TimeSpan> timeout)
 {

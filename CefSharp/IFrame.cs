@@ -110,7 +110,9 @@ namespace CefSharp
         // reporting.
         ///
         /*--cef(optional_param=script_url)--*/
-        void ExecuteJavaScriptAsync(String code, string scriptUrl, int startLine);
+        void ExecuteJavaScriptAsync(string code, string scriptUrl, int startLine);
+
+        void ExecuteJavaScriptAsync(string code);
 
         Task<JavascriptResponse> EvaluateScriptAsync(string script, TimeSpan? timeout);
 
