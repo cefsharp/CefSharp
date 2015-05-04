@@ -15,7 +15,7 @@ namespace CefSharp
     /// </summary>
     public interface IFrame
     {
-        bool IsValid();
+        bool IsValid { get; }
 
         ///
         // Execute undo in this frame.
@@ -120,13 +120,14 @@ namespace CefSharp
         // Returns true if this is the main (top-level) frame.
         ///
         /*--cef()--*/
-        bool IsMain();
+        bool IsMain { get;  }
 
         ///
         // Returns true if this is the focused frame.
         ///
         /*--cef()--*/
-        bool IsFocused();
+        bool IsFocused { get; }
+
 
         ///
         // Returns the name for this frame. If the frame has an assigned name (for
@@ -136,31 +137,31 @@ namespace CefSharp
         // value.
         ///
         /*--cef()--*/
-        string GetName();
+        string Name { get; }
 
         ///
         // Returns the globally unique identifier for this frame.
         ///
         /*--cef()--*/
-        Int64 GetIdentifier();
+        Int64 Identifier { get;  }
 
         ///
         // Returns the parent of this frame or NULL if this is the main (top-level)
         // frame.
         ///
         /*--cef()--*/
-        IFrame GetParent();
+        IFrame Parent { get; }
 
         ///
         // Returns the URL currently loaded in this frame.
         ///
         /*--cef()--*/
-        string GetUrl();
+        string Url { get; }
 
         ///
         // Returns the browser that this frame belongs to.
         ///
         /*--cef()--*/
-        //IBrowser GetBrowser();
+        IBrowser Browser { get; }
     }
 }

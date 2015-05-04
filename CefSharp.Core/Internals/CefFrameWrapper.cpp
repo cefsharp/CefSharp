@@ -11,7 +11,7 @@
 // True if this object is currently attached to a valid frame.
 ///
 /*--cef()--*/
-bool CefFrameWrapper::IsValid()
+bool CefFrameWrapper::IsValid::get()
 {
     return _frame->IsValid();
 }
@@ -171,7 +171,7 @@ Task<JavascriptResponse^>^ CefFrameWrapper::EvaluateScriptAsync(String^ script, 
 // Returns true if this is the main (top-level) frame.
 ///
 /*--cef()--*/
-bool CefFrameWrapper::IsMain()
+bool CefFrameWrapper::IsMain::get()
 {
     return _frame->IsMain();
 }
@@ -180,7 +180,7 @@ bool CefFrameWrapper::IsMain()
 // Returns true if this is the focused frame.
 ///
 /*--cef()--*/
-bool CefFrameWrapper::IsFocused()
+bool CefFrameWrapper::IsFocused::get()
 {
     return _frame->IsFocused();
 }
@@ -193,7 +193,7 @@ bool CefFrameWrapper::IsFocused()
 // value.
 ///
 /*--cef()--*/
-String^ CefFrameWrapper::GetName()
+String^ CefFrameWrapper::Name::get()
 {
     return StringUtils::ToClr(_frame->GetName());
 }
@@ -202,7 +202,7 @@ String^ CefFrameWrapper::GetName()
 // Returns the globally unique identifier for this frame.
 ///
 /*--cef()--*/
-Int64 CefFrameWrapper::GetIdentifier()
+Int64 CefFrameWrapper::Identifier::get()
 {
     return _frame->GetIdentifier();
 }
@@ -212,7 +212,7 @@ Int64 CefFrameWrapper::GetIdentifier()
 // frame.
 ///
 /*--cef()--*/
-IFrame^ CefFrameWrapper::GetParent()
+IFrame^ CefFrameWrapper::Parent::get()
 {
     auto parent = _frame->GetParent();
     if (parent != nullptr)
@@ -226,7 +226,7 @@ IFrame^ CefFrameWrapper::GetParent()
 // Returns the URL currently loaded in this frame.
 ///
 /*--cef()--*/
-String^ CefFrameWrapper::GetUrl()
+String^ CefFrameWrapper::Url::get()
 {
     return StringUtils::ToClr(_frame->GetURL());
 }
@@ -235,7 +235,7 @@ String^ CefFrameWrapper::GetUrl()
 // Returns the browser that this frame belongs to.
 ///
 /*--cef()--*/
-IBrowser^ CefFrameWrapper::GetBrowser()
+IBrowser^ CefFrameWrapper::Browser::get()
 {
     return dynamic_cast<IBrowser^>(gcnew CefSharpBrowserWrapper(_frame->GetBrowser(), _browserAdapter));
 }

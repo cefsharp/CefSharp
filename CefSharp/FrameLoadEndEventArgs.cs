@@ -14,7 +14,7 @@ namespace CefSharp
         public FrameLoadEndEventArgs(IFrame frame, int httpStatusCode)
         {
             Frame = frame;
-            Url = frame.GetUrl();
+            Url = frame.Url;
             HttpStatusCode = httpStatusCode;
         }
 

@@ -14,7 +14,7 @@ namespace CefSharp
         public LoadErrorEventArgs(IFrame frame, CefErrorCode errorCode, string errorText)
         {
             Frame = frame;
-            FailedUrl = frame.GetUrl();
+            FailedUrl = frame.Url;
             ErrorCode = errorCode;
             ErrorText = errorText;
         }

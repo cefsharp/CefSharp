@@ -37,7 +37,10 @@ namespace CefSharp
             // True if this object is currently attached to a valid frame.
             ///
             /*--cef()--*/
-            virtual bool IsValid();
+            virtual property bool IsValid
+            {
+                bool get();
+            }
 
             ///
             // Execute undo in this frame.
@@ -145,13 +148,19 @@ namespace CefSharp
             // Returns true if this is the main (top-level) frame.
             ///
             /*--cef()--*/
-            virtual bool IsMain();
+            virtual property bool IsMain
+            {
+                bool get();
+            }
 
             ///
             // Returns true if this is the focused frame.
             ///
             /*--cef()--*/
-            virtual bool IsFocused();
+            virtual property bool IsFocused
+            {
+                bool get();
+            }
 
             ///
             // Returns the name for this frame. If the frame has an assigned name (for
@@ -161,34 +170,48 @@ namespace CefSharp
             // value.
             ///
             /*--cef()--*/
-            virtual String^ GetName();
+            virtual property String^ Name
+            {
+                String^ get();
+            }
 
             ///
             // Returns the globally unique identifier for this frame.
             ///
             /*--cef()--*/
-            virtual System::Int64 GetIdentifier();
+            virtual property Int64 Identifier
+            {
+                Int64 get();
+            }
 
             ///
             // Returns the parent of this frame or NULL if this is the main (top-level)
             // frame.
             ///
             /*--cef()--*/
-            virtual IFrame^ GetParent() = IFrame::GetParent;
+            virtual property IFrame^ Parent
+            {
+                IFrame^ get();
+            }
+            // = IFrame::GetParent;
 
             ///
             // Returns the URL currently loaded in this frame.
             ///
             /*--cef()--*/
-            virtual String^ GetUrl();
+            virtual property String^ Url
+            {
+                String^ get();
+            }
 
-            // NOTE: Don't expose this yet, because it 
-            // would be a HUGE breaking change.
             ///
             // Returns the browser that this frame belongs to.
             ///
             /*--cef()--*/
-            virtual IBrowser^ GetBrowser();
+            virtual property IBrowser^ Browser
+            {
+                IBrowser^ get();
+            }
 
             ///
             // Get the V8 context associated with the frame. This method can only be

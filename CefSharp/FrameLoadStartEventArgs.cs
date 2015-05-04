@@ -14,8 +14,8 @@ namespace CefSharp
         public FrameLoadStartEventArgs(IFrame frame)
         {
             Frame = frame;
-            Url = frame.GetUrl();
-            IsMainFrame = frame.IsMain();
+            Url = frame.Url;
+            IsMainFrame = frame.IsMain;
         }
 
         /// <summary>
