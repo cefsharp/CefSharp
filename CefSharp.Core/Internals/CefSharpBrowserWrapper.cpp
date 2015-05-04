@@ -21,7 +21,7 @@ CefRefPtr<CefBrowserHost> CefSharpBrowserWrapper::GetHost()
 // Returns true if the browser can navigate backwards.
 ///
 /*--cef()--*/
-bool CefSharpBrowserWrapper::CanGoBack()
+bool CefSharpBrowserWrapper::CanGoBack::get()
 {
     return _browser->CanGoBack();
 }
@@ -39,7 +39,7 @@ void CefSharpBrowserWrapper::GoBack()
 // Returns true if the browser can navigate forwards.
 ///
 /*--cef()--*/
-bool CefSharpBrowserWrapper::CanGoForward()
+bool CefSharpBrowserWrapper::CanGoForward::get()
 {
     return _browser->CanGoForward();
 }
@@ -57,7 +57,7 @@ void CefSharpBrowserWrapper::GoForward()
 // Returns true if the browser is currently loading.
 ///
 /*--cef()--*/
-bool CefSharpBrowserWrapper::IsLoading()
+bool CefSharpBrowserWrapper::IsLoading::get()
 {
     return _browser->IsLoading();
 }
@@ -94,7 +94,7 @@ void CefSharpBrowserWrapper::StopLoad()
 // Returns the globally unique identifier for this browser.
 ///
 /*--cef()--*/
-int CefSharpBrowserWrapper::GetIdentifier()
+int CefSharpBrowserWrapper::Identifier::get()
 {
     return _browser->GetIdentifier();
 }
@@ -113,7 +113,7 @@ bool CefSharpBrowserWrapper::IsSame(IBrowser^ that)
 // Returns true if the window is a popup window.
 ///
 /*--cef()--*/
-bool CefSharpBrowserWrapper::IsPopup()
+bool CefSharpBrowserWrapper::IsPopup::get()
 {
     return _browser->IsPopup();
 }
@@ -122,12 +122,12 @@ bool CefSharpBrowserWrapper::IsPopup()
 // Returns true if a document has been loaded in the browser.
 ///
 /*--cef()--*/
-bool CefSharpBrowserWrapper::HasDocument()
+bool CefSharpBrowserWrapper::HasDocument::get()
 {
     return _browser->HasDocument();
 }
 
-IFrame^ CefSharpBrowserWrapper::GetMainFrame()
+IFrame^ CefSharpBrowserWrapper::MainFrame::get()
 {
     auto frame = _browser->GetMainFrame();
     return gcnew CefFrameWrapper(frame, _browserAdapter);
@@ -137,7 +137,7 @@ IFrame^ CefSharpBrowserWrapper::GetMainFrame()
 // Returns the focused frame for the browser window.
 ///
 /*--cef()--*/
-IFrame^ CefSharpBrowserWrapper::GetFocusedFrame()
+IFrame^ CefSharpBrowserWrapper::FocusedFrame::get()
 {
     return gcnew CefFrameWrapper(_browser->GetFocusedFrame(), _browserAdapter);
 }

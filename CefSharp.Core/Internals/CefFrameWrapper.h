@@ -193,7 +193,6 @@ namespace CefSharp
             {
                 IFrame^ get();
             }
-            // = IFrame::GetParent;
 
             ///
             // Returns the URL currently loaded in this frame.

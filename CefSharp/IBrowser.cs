@@ -21,7 +21,7 @@ namespace CefSharp
         // Returns true if the browser can navigate backwards.
         ///
         /*--cef()--*/
-        bool CanGoBack();
+        bool CanGoBack { get; }
 
         ///
         // Navigate backwards.
@@ -33,7 +33,7 @@ namespace CefSharp
         // Returns true if the browser can navigate forwards.
         ///
         /*--cef()--*/
-        bool CanGoForward();
+        bool CanGoForward { get; }
 
         ///
         // Navigate forwards.
@@ -45,7 +45,7 @@ namespace CefSharp
         // Returns true if the browser is currently loading.
         ///
         /*--cef()--*/
-        bool IsLoading();
+        bool IsLoading { get; }
 
         ///
         // Reload the current page.
@@ -69,7 +69,7 @@ namespace CefSharp
         // Returns the globally unique identifier for this browser.
         ///
         /*--cef()--*/
-        int GetIdentifier();
+        int Identifier { get; }
 
         ///
         // Returns true if this object is pointing to the same handle as |that|
@@ -82,25 +82,25 @@ namespace CefSharp
         // Returns true if the window is a popup window.
         ///
         /*--cef()--*/
-        bool IsPopup();
+        bool IsPopup { get; }
 
         ///
         // Returns true if a document has been loaded in the browser.
         ///
         /*--cef()--*/
-        bool HasDocument();
+        bool HasDocument { get; }
 
         ///
         // Returns the main (top-level) frame for the browser window.
         ///
         /*--cef()--*/
-        IFrame GetMainFrame();
+        IFrame MainFrame { get; }
 
         ///
         // Returns the focused frame for the browser window.
         ///
         /*--cef()--*/
-        IFrame GetFocusedFrame();
+        IFrame FocusedFrame { get; }
 
         ///
         // Returns the frame with the specified identifier, or NULL if not found.

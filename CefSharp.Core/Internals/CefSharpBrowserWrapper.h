@@ -37,7 +37,10 @@ namespace CefSharp
             // Returns true if the browser can navigate backwards.
             ///
             /*--cef()--*/
-            virtual bool CanGoBack();
+            virtual property bool CanGoBack
+            {
+                bool get();
+            }
 
             ///
             // Navigate backwards.
@@ -49,7 +52,10 @@ namespace CefSharp
             // Returns true if the browser can navigate forwards.
             ///
             /*--cef()--*/
-            virtual bool CanGoForward();
+            virtual property bool CanGoForward
+            {
+                bool get();
+            }
 
             ///
             // Navigate forwards.
@@ -61,7 +67,10 @@ namespace CefSharp
             // Returns true if the browser is currently loading.
             ///
             /*--cef()--*/
-            virtual bool IsLoading();
+            virtual property bool IsLoading
+            {
+                bool get();
+            }
 
             ///
             // Reload the current page.
@@ -85,7 +94,10 @@ namespace CefSharp
             // Returns the globally unique identifier for this browser.
             ///
             /*--cef()--*/
-            virtual int GetIdentifier();
+            virtual property int Identifier
+            {
+                int get();
+            }
 
             ///
             // Returns true if this object is pointing to the same handle as |that|
@@ -98,25 +110,37 @@ namespace CefSharp
             // Returns true if the window is a popup window.
             ///
             /*--cef()--*/
-            virtual bool IsPopup();
+            virtual property bool IsPopup
+            {
+                bool get();
+            }
 
             ///
             // Returns true if a document has been loaded in the browser.
             ///
             /*--cef()--*/
-            virtual bool HasDocument();
+            virtual property bool HasDocument
+            {
+                bool get();
+            }
 
             ///
             // Returns the main (top-level) frame for the browser window.
             ///
             /*--cef()--*/
-            virtual IFrame^ GetMainFrame();
+            virtual property IFrame^ MainFrame
+            {
+                IFrame^ get();
+            }
 
             ///
             // Returns the focused frame for the browser window.
             ///
             /*--cef()--*/
-            virtual IFrame^ GetFocusedFrame();
+            virtual property IFrame^ FocusedFrame
+            {
+                IFrame^ get();
+            }
 
             ///
             // Returns the frame with the specified identifier, or NULL if not found.
