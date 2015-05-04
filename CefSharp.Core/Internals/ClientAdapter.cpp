@@ -68,7 +68,7 @@ namespace CefSharp
             }
 
             return handler->OnBeforePopup(_browserControl, gcnew CefFrameWrapper(frame, _browserControl->BrowserAdapter), StringUtils::ToClr(target_url),
-                windowInfo.x, windowInfo.y, windowInfo.width, windowInfo.height);
+                windowInfo.x, windowInfo.y, windowInfo.width, windowInfo.height, *no_javascript_access);
         }
 
         void ClientAdapter::OnAfterCreated(CefRefPtr<CefBrowser> browser)
