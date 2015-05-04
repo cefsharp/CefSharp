@@ -72,14 +72,14 @@ namespace CefSharp
         // visitor.
         ///
         /*--cef()--*/
-        void GetSource(IStringVisitor visitor);
+        Task<string> GetSourceAsync();
 
         ///
         // Retrieve this frame's display text as a string sent to the specified
         // visitor.
         ///
         /*--cef()--*/
-        void GetText(IStringVisitor visitor);
+        Task<string> GetTextAsync();
 
         // TODO: Expose a public constructor to CefRequestWrapper maybe?
         ///

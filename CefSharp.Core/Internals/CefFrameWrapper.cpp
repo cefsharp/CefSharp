@@ -95,10 +95,11 @@ void CefFrameWrapper::ViewSource()
 // visitor.
 ///
 /*--cef()--*/
-void CefFrameWrapper::GetSource(IStringVisitor^ visitor)
+Task<String^>^ CefFrameWrapper::GetSourceAsync()
 {
-    auto stringVisitor = new StringVisitor(visitor);
-    _frame->GetSource(stringVisitor);
+    auto taskStringVisitor = gcnew TaskStringVisitor();
+    _frame->GetSource(new StringVisitor(taskStringVisitor));
+    return taskStringVisitor->Task;
 }
 
 ///
@@ -106,10 +107,11 @@ void CefFrameWrapper::GetSource(IStringVisitor^ visitor)
 // visitor.
 ///
 /*--cef()--*/
-void CefFrameWrapper::GetText(IStringVisitor^ visitor)
+Task<String^>^ CefFrameWrapper::GetTextAsync()
 {
-    auto stringVisitor = new StringVisitor(visitor);
-    _frame->GetText(stringVisitor);
+    auto taskStringVisitor = gcnew TaskStringVisitor();
+    _frame->GetText(new StringVisitor(taskStringVisitor));
+    return taskStringVisitor->Task;
 }
 
 // TODO: Do we need this?

@@ -94,14 +94,14 @@ namespace CefSharp
             // visitor.
             ///
             /*--cef()--*/
-            virtual void GetSource(IStringVisitor^ visitor);
+            virtual Task<String^>^ GetSourceAsync();
 
             ///
             // Retrieve this frame's display text as a string sent to the specified
             // visitor.
             ///
             /*--cef()--*/
-            virtual void GetText(IStringVisitor^ visitor);
+            virtual Task<String^>^ GetTextAsync();
 
             // TODO: Do we need this?
             ///
