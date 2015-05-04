@@ -14,12 +14,10 @@ using namespace System::Collections::Specialized;
 
 namespace CefSharp
 {
-    ref class SchemeHandlerResponse;
-
-    public class SchemeHandlerWrapper : public CefResourceHandler
+    public class ResourceHandlerWrapper : public CefResourceHandler
     {
         CriticalSection _syncRoot;
-        gcroot<ISchemeHandler^> _handler;
+        gcroot<IResourceHandler^> _handler;
         gcroot<Stream^> _stream;
         CefRefPtr<CefCallback> _callback;
         CefString _mime_type;
@@ -31,22 +29,27 @@ namespace CefSharp
         int SizeFromStream();
     public:
 
-        SchemeHandlerWrapper(ISchemeHandler^ handler) : _handler(handler)
+        ResourceHandlerWrapper(IResourceHandler^ handler) : _handler(handler)
         {
-            if (static_cast<ISchemeHandler^>(_handler) == nullptr)
+            if (static_cast<IResourceHandler^>(_handler) == nullptr)
             {
                 throw gcnew ArgumentException("handler must not be null");
             }
         }
 
+        ~ResourceHandlerWrapper()
+        {
+            _handler = nullptr;
+            _stream = nullptr;
+            _callback = NULL;
+        }
+
         virtual bool ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefCallback> callback);
-        virtual void ProcessRequestCallback(SchemeHandlerResponse^ handlerResponse);
+        virtual void ProcessRequestCallback(IResourceHandlerResponse^ handlerResponse);
         virtual void GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl);
         virtual bool ReadResponse(void* data_out, int bytes_to_read, int& bytes_read, CefRefPtr<CefCallback> callback);
         virtual void Cancel();
 
-        static CefResponse::HeaderMap ToHeaderMap(NameValueCollection^ headers);
-
-        IMPLEMENT_REFCOUNTING(SchemeHandlerWrapper);
+        IMPLEMENT_REFCOUNTING(ResourceHandlerWrapper);
     };
 }
