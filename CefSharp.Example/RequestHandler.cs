@@ -7,7 +7,7 @@ namespace CefSharp.Example
         public static readonly string VersionNumberString = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}",
             Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
 
-        bool IRequestHandler.OnBeforeBrowse(IWebBrowser browser, IRequest request, bool isRedirect, bool isMainFrame)
+        bool IRequestHandler.OnBeforeBrowse(IWebBrowser browser, IRequest request, bool isRedirect, IFrame frame)
         {
             return false;
         }
@@ -22,7 +22,7 @@ namespace CefSharp.Example
             // TODO: Add your own code here for handling scenarios where a plugin crashed, for one reason or another.
         }
 
-        CefReturnValue IRequestHandler.OnBeforeResourceLoad(IWebBrowser browser, IRequest request, bool isMainFrame)
+        CefReturnValue IRequestHandler.OnBeforeResourceLoad(IWebBrowser browser, IRequest request, IFrame frame)
         {
             //Note to Redirect simply set the request Url
             //if (request.Url.StartsWith("https://www.google.com", StringComparison.OrdinalIgnoreCase))
@@ -33,7 +33,7 @@ namespace CefSharp.Example
             return CefReturnValue.Continue;
         }
 
-        bool IRequestHandler.GetAuthCredentials(IWebBrowser browser, bool isProxy, string host, int port, string realm, string scheme, ref string username, ref string password)
+        bool IRequestHandler.GetAuthCredentials(IWebBrowser browser, IFrame frame, bool isProxy, string host, int port, string realm, string scheme, ref string username, ref string password)
         {
             return false;
         }
@@ -58,10 +58,10 @@ namespace CefSharp.Example
             return false;
         }
 
-        public void OnResourceRedirect(IWebBrowser browser, bool isMainFrame, string oldUrl, ref string newUrl)
+        public void OnResourceRedirect(IWebBrowser browser, IFrame frame, ref string newUrl)
         {
             //Example of how to redirect - need to check `newUrl` in the second pass
-            //if (string.Equals(oldUrl, "https://www.google.com/", StringComparison.OrdinalIgnoreCase) && !newUrl.Contains("github"))
+            //if (string.Equals(frame.GetUrl(), "https://www.google.com/", StringComparison.OrdinalIgnoreCase) && !newUrl.Contains("github"))
             //{
             //	newUrl = "https://github.com";
             //}

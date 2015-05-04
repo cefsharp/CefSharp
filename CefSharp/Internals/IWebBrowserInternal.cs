@@ -4,8 +4,18 @@
 
 namespace CefSharp.Internals
 {
+    /// <summary>
+    /// Interface implemented by UI control that contains
+    /// a ManagedCefBrowserAdapter instance.
+    /// </summary>
     public interface IWebBrowserInternal : IWebBrowser
     {
+        /// <summary>
+        /// Interface used to break reference cycles in CefSharp.Core C++ code.
+        /// This will ALWAYS be a ManagedCefBrowserAdapter instance.
+        /// </summary>
+        IBrowserAdapter BrowserAdapter { get; }
+
         void OnInitialized();
 
         void SetAddress(string address);
@@ -13,10 +23,10 @@ namespace CefSharp.Internals
         void SetTitle(string title);
         void SetTooltipText(string tooltipText);
 
-        void OnFrameLoadStart(string url, bool isMainFrame);
-        void OnFrameLoadEnd(string url, bool isMainFrame, int httpStatusCode);
+        void OnFrameLoadStart(IFrame frame);
+        void OnFrameLoadEnd(IFrame frame, int httpStatusCode);
         void OnConsoleMessage(string message, string source, int line);
         void OnStatusMessage(string value);
-        void OnLoadError(string url, CefErrorCode errorCode, string errorText);
+        void OnLoadError(IFrame frame, CefErrorCode errorCode, string errorText);
     }
 }
