@@ -42,9 +42,10 @@ namespace CefSharp.Wpf.Rendering
         {
             var stride = Width * BytesPerPixel;
 
+            // Unable to create bitmap without valid File Handle (Most likely control is being disposed)
             if (FileMappingHandle == IntPtr.Zero)
             {
-                ClearBitmap();
+                return null;
             }
             else
             {
