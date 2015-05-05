@@ -16,6 +16,7 @@ namespace CefSharp
         /// <param name="y"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
+        /// <param name="newBrowser"></param>
         /// <returns></returns>
         /// <remarks>
         /// CEF documentation:
@@ -32,7 +33,7 @@ namespace CefSharp
         /// the new browser window should be scriptable and in the same process as the
         /// source browser.
         /// </remarks>
-        bool OnBeforePopup(IWebBrowser browser, IFrame frame, string targetUrl, ref int x, ref int y, ref int width, ref int height);
+        bool OnBeforePopup(IWebBrowser browser, IFrame frame, string targetUrl, ref int x, ref int y, ref int width, ref int height, ref IWebBrowser newBrowser);
 
         /// <summary>
         /// Called before a CefBrowser window (either the main browser for IWebBrowser, 

@@ -45,12 +45,14 @@ namespace CefSharp.Wpf.Example
                 if (originalSource is MainWindow)
                 {
                     browserViewModel = BrowserTabs[TabControl.SelectedIndex];
+                    browserViewModel.RequestPopup -= vm_RequestPopup;
                     BrowserTabs.RemoveAt(TabControl.SelectedIndex);
                 }
                 else
                 {
                     //Remove the matching DataContext from the BrowserTabs collection
                     browserViewModel = (BrowserTabViewModel)originalSource.DataContext;
+                    browserViewModel.RequestPopup -= vm_RequestPopup;
                     BrowserTabs.Remove(browserViewModel);
                 }
 
@@ -72,7 +74,22 @@ namespace CefSharp.Wpf.Example
 
         private void CreateNewTab(string url = DefaultUrlForAddedTabs, bool showSideBar = false)
         {
-            BrowserTabs.Add(new BrowserTabViewModel(url) { ShowSidebar = showSideBar });
+            BrowserTabViewModel vm = new BrowserTabViewModel(url)
+            {
+                ShowSidebar = showSideBar
+            };
+            vm.RequestPopup += vm_RequestPopup;
+            BrowserTabs.Add(vm);
+        }
+
+        void vm_RequestPopup(object sender, CefSharp.Wpf.Example.ViewModels.BrowserTabViewModel.RequestPopupEventArgs e)
+        {
+
+            BrowserTabViewModel vm = new BrowserTabViewModel(e.Url);
+            vm.RequestPopup += vm_RequestPopup;
+            BrowserTabs.Add(vm);
+            e.NewVm = vm;
+            TabControl.SelectedIndex = TabControl.Items.Count - 1;
         }
     }
 }

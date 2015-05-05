@@ -5,6 +5,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using CefSharp.Example;
+using CefSharp.Wpf.Example.ViewModels;
 
 namespace CefSharp.Wpf.Example.Views
 {
@@ -20,6 +21,7 @@ namespace CefSharp.Wpf.Example.Views
             browser.MenuHandler = new Handlers.MenuHandler();
             browser.GeolocationHandler = new Handlers.GeolocationHandler();
             browser.DownloadHandler = new DownloadHandler();
+            browser.LifeSpanHandler = new LifespanHandler(this);
             browser.PreviewTextInput += (o, e) =>
             {
                 foreach (var character in e.Text)

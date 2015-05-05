@@ -61,14 +61,36 @@ namespace CefSharp
             CefRefPtr<CefClient>& client, CefBrowserSettings& settings, bool* no_javascript_access)
         {
             ILifeSpanHandler^ handler = _browserControl->LifeSpanHandler;
+			IWebBrowser^ newBrowser = nullptr;
 
             if (handler == nullptr)
             {
                 return false;
             }
 
-            return handler->OnBeforePopup(_browserControl, gcnew CefFrameWrapper(frame, _browserControl->BrowserAdapter), StringUtils::ToClr(target_url),
-                windowInfo.x, windowInfo.y, windowInfo.width, windowInfo.height);
+            bool returnVal = handler->OnBeforePopup(_browserControl, gcnew CefFrameWrapper(frame, _browserControl->BrowserAdapter), StringUtils::ToClr(target_url),
+                windowInfo.x, windowInfo.y, windowInfo.width, windowInfo.height, newBrowser);
+
+			IWebBrowserInternal^ newBrowserInternal = dynamic_cast<IWebBrowserInternal^>(newBrowser);
+
+			if (newBrowserInternal != nullptr)
+			{
+
+				IRenderWebBrowser^ renderBrowser = dynamic_cast<IRenderWebBrowser^>(newBrowser);
+				if (renderBrowser != nullptr)
+				{
+					windowInfo.SetAsWindowless(NULL, TRUE);
+				}
+
+				ManagedCefBrowserAdapter^ browserAdapter = dynamic_cast<ManagedCefBrowserAdapter^>(newBrowserInternal->BrowserAdapter);
+				if (browserAdapter != nullptr)
+				{			
+					client = browserAdapter->CreateOffscreenBrowser(windowInfo, settings, StringUtils::ToClr(target_url)).get();
+				}
+
+			}
+
+			return returnVal;
         }
 
         void ClientAdapter::OnAfterCreated(CefRefPtr<CefBrowser> browser)
