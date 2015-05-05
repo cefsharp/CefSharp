@@ -32,12 +32,6 @@
     <ClCompile Include="Internals\StreamAdapter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SchemeHandlerWrapper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SchemeHandlerResponse.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Internals\StringVisitor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -53,7 +47,7 @@
     <ClCompile Include="NativeMethodWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SchemeHandlerFactoryWrapper.cpp">
+    <ClCompile Include="ResourceHandlerWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ManagedCefBrowserAdapter.cpp">
@@ -109,9 +103,6 @@
     <ClInclude Include="Internals\RenderClientAdapter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SchemeHandlerWrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SchemeHandlerResponse.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -146,6 +137,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SchemeHandlerFactoryWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceHandlerWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Internals\PluginVisitor.h">

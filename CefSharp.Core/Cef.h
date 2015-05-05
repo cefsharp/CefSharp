@@ -17,7 +17,8 @@
 #include "Internals/PluginVisitor.h"
 #include "ManagedCefBrowserAdapter.h"
 #include "CefSettings.h"
-#include "SchemeHandlerWrapper.h"
+#include "ResourceHandlerWrapper.h"
+#include "SchemeHandlerFactoryWrapper.h"
 #include "Internals/CefTaskScheduler.h"
 #include "CookieAsyncWrapper.h"
 
@@ -167,10 +168,19 @@ namespace CefSharp
                 FileThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_FILE));
 
                 CefMainArgs main_args;
-                CefRefPtr<CefSharpApp> app = new CefSharpApp(cefSettings, OnContextInitialized);
+                CefRefPtr<CefSharpApp> app(new CefSharpApp(cefSettings, OnContextInitialized));
 
-                success = CefInitialize(main_args, *(cefSettings->_cefSettings), app, NULL);
-                app->CompleteSchemeRegistrations();
+                success = CefInitialize(main_args, *(cefSettings->_cefSettings), app.get(), NULL);
+
+                //Register SchemeHandlerFactories - must be called after CefInitialize
+                for each (CefCustomScheme^ cefCustomScheme in cefSettings->CefCustomSchemes)
+                {
+                    auto domainName = cefCustomScheme->DomainName ? cefCustomScheme->DomainName : String::Empty;
+
+                    CefRefPtr<CefSchemeHandlerFactory> wrapper = new SchemeHandlerFactoryWrapper(cefCustomScheme->SchemeHandlerFactory);
+                    CefRegisterSchemeHandlerFactory(StringUtils::ToNative(cefCustomScheme->SchemeName), StringUtils::ToNative(domainName), wrapper);
+                }
+
                 _initialized = success;
 
                 if (_initialized && shutdownOnProcessExit)

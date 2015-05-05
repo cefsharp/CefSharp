@@ -128,6 +128,12 @@ namespace CefSharp
             void set(bool value) { _cefSettings->windowless_rendering_enabled = value; }
         }
 
+        virtual property bool PersistSessionCookies
+        {
+            bool get() { return _cefSettings->persist_session_cookies == 1; }
+            void set(bool value) { _cefSettings->persist_session_cookies = value; }
+        }
+
         /// <summary>
         /// Registers a custom scheme using the provided settings.
         /// </summary>
