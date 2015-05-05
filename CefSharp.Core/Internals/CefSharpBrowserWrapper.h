@@ -25,6 +25,13 @@ namespace CefSharp
             {
             }
 
+            ~CefSharpBrowserWrapper() 
+            {
+                _browser.Dispose();
+                _browser = nullptr;
+                _browserAdapter = nullptr;
+            }
+
         public:
             ///
             // Returns the browser host object. This method can only be called in the
