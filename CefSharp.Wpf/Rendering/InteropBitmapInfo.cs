@@ -2,6 +2,7 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -31,14 +32,24 @@ namespace CefSharp.Wpf.Rendering
 
         public override void Invalidate()
         {
-            Bitmap.Invalidate();
+            if (Bitmap != null)
+            {
+                Bitmap.Invalidate();
+            }
         }
 
         public override BitmapSource CreateBitmap()
         {
             var stride = Width * BytesPerPixel;
 
-            Bitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(FileMappingHandle, Width, Height, PixelFormat, stride, 0);
+            if (FileMappingHandle != IntPtr.Zero)
+            {
+                Bitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(FileMappingHandle, Width, Height, PixelFormat, stride, 0);
+            }
+            else
+            {
+                ClearBitmap();
+            }
 
             return Bitmap;
         }
