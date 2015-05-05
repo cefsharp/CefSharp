@@ -42,13 +42,13 @@ namespace CefSharp.Wpf.Rendering
         {
             var stride = Width * BytesPerPixel;
 
-            if (FileMappingHandle != IntPtr.Zero)
+            if (FileMappingHandle == IntPtr.Zero)
             {
-                Bitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(FileMappingHandle, Width, Height, PixelFormat, stride, 0);
+                ClearBitmap();
             }
             else
             {
-                ClearBitmap();
+                Bitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(FileMappingHandle, Width, Height, PixelFormat, stride, 0);
             }
 
             return Bitmap;
