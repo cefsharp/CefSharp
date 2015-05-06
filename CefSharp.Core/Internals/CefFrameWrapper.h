@@ -34,8 +34,6 @@ namespace CefSharp
 
             ~CefFrameWrapper()
             {
-                _frame.Dispose();
-                _frame = nullptr;
                 _browserAdapter = nullptr;
             }
 

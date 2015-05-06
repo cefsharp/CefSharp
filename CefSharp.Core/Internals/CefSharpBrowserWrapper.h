@@ -27,8 +27,6 @@ namespace CefSharp
 
             ~CefSharpBrowserWrapper() 
             {
-                _browser.Dispose();
-                _browser = nullptr;
                 _browserAdapter = nullptr;
             }
 
