@@ -40,17 +40,15 @@ namespace CefSharp.Wpf.Rendering
 
         public override BitmapSource CreateBitmap()
         {
-            var stride = Width * BytesPerPixel;
-
             // Unable to create bitmap without valid File Handle (Most likely control is being disposed)
             if (FileMappingHandle == IntPtr.Zero)
             {
                 return null;
             }
-            else
-            {
-                Bitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(FileMappingHandle, Width, Height, PixelFormat, stride, 0);
-            }
+
+            var stride = Width * BytesPerPixel;
+
+            Bitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(FileMappingHandle, Width, Height, PixelFormat, stride, 0);
 
             return Bitmap;
         }
