@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Input;
 using CefSharp.Example;
 using CefSharp.Wpf.Example.ViewModels;
+using System.Collections.Generic;
 
 namespace CefSharp.Wpf.Example
 {
@@ -16,6 +17,8 @@ namespace CefSharp.Wpf.Example
         private const string DefaultUrlForAddedTabs = "http://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_win_close";
 
         public ObservableCollection<BrowserTabViewModel> BrowserTabs { get; set; }
+
+        WebBrowserFactory _browserFactory;
 
         public MainWindow()
         {
@@ -31,6 +34,8 @@ namespace CefSharp.Wpf.Example
 
             var bitness = Environment.Is64BitProcess ? "x64" : "x86";
             Title += " - " + bitness;
+
+            _browserFactory = new WebBrowserFactory(this, new LifespanHandler(this));
         }
 
         private void CloseTab(object sender, ExecutedRoutedEventArgs e)
@@ -45,18 +50,19 @@ namespace CefSharp.Wpf.Example
                 if (originalSource is MainWindow)
                 {
                     browserViewModel = BrowserTabs[TabControl.SelectedIndex];
-                    browserViewModel.RequestPopup -= vm_RequestPopup;
                     BrowserTabs.RemoveAt(TabControl.SelectedIndex);
                 }
                 else
                 {
                     //Remove the matching DataContext from the BrowserTabs collection
                     browserViewModel = (BrowserTabViewModel)originalSource.DataContext;
-                    browserViewModel.RequestPopup -= vm_RequestPopup;
                     BrowserTabs.Remove(browserViewModel);
                 }
 
-                browserViewModel.WebBrowser.Dispose();
+                if (browserViewModel.WebBrowser != null)
+                {
+                    browserViewModel.WebBrowser.Dispose();
+                }
             }
         }
 
@@ -76,20 +82,19 @@ namespace CefSharp.Wpf.Example
         {
             BrowserTabViewModel vm = new BrowserTabViewModel(url)
             {
-                ShowSidebar = showSideBar
+                ShowSidebar = showSideBar,               
             };
-            vm.RequestPopup += vm_RequestPopup;
             BrowserTabs.Add(vm);
+
+            vm.WebBrowser = _browserFactory.CreateWebBrowser(url);            
+            
         }
 
-        void vm_RequestPopup(object sender, CefSharp.Wpf.Example.ViewModels.BrowserTabViewModel.RequestPopupEventArgs e)
+        internal WebBrowserFactory BrowserFactory
         {
-
-            BrowserTabViewModel vm = new BrowserTabViewModel(e.Url);
-            vm.RequestPopup += vm_RequestPopup;
-            BrowserTabs.Add(vm);
-            e.NewVm = vm;
-            TabControl.SelectedIndex = TabControl.Items.Count - 1;
+            get { return _browserFactory; }
         }
+
+
     }
 }

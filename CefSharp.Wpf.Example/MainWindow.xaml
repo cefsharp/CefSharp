@@ -2,8 +2,20 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="clr-namespace:CefSharp.Wpf.Example.Controls"
+        xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf" xmlns:local="clr-namespace:CefSharp.Wpf.Example.ViewModels"
         Title="CefSharp.Wpf.Example"
         WindowState="Maximized">
+    
+    <Window.Resources>
+        <DataTemplate x:Key="WebBrowserTemplate">
+            <cefSharp:ChromiumWebBrowser                                   
+                                  Address="{Binding Address, Mode=TwoWay}"
+                                  Title="{Binding Title, Mode=OneWayToSource}"
+                                  AllowDrop="True"
+                                 />
+        </DataTemplate>
+    </Window.Resources>
+    
     <Window.InputBindings>
         <KeyBinding Key="T" Modifiers="Control" Command="New"/>
         <KeyBinding Key="W" Modifiers="Control" Command="Close"/>

@@ -15,19 +15,6 @@ namespace CefSharp.Wpf.Example.ViewModels
     public class BrowserTabViewModel : ViewModelBase
     {
 
-        public class RequestPopupEventArgs : EventArgs
-        {
-            public RequestPopupEventArgs(string url)
-            {
-                Url = url;
-            }
-
-            public BrowserTabViewModel NewVm { get; set; }
-            public string Url { get; private set; }
-        }
-
-        public event EventHandler<RequestPopupEventArgs> RequestPopup;
-
         private string address;
         public string Address
         {
@@ -191,17 +178,6 @@ namespace CefSharp.Wpf.Example.ViewModels
             Keyboard.ClearFocus();
         }
 
-        public BrowserTabViewModel RaisePopupRequest(string url)
-        {
-            if (RequestPopup != null)
-            {
-                RequestPopupEventArgs args = new RequestPopupEventArgs(url);
-                RequestPopup(this, args);
 
-                return args.NewVm;
-            }
-
-            return null;
-        }
     }
 }

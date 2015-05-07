@@ -12,74 +12,75 @@ namespace CefSharp.Wpf.Example
 {
     public class LifespanHandler : ILifeSpanHandler
     {
-        DependencyObject _tabView;
-        Window _w;
 
-        public LifespanHandler(DependencyObject tabView)
+        MainWindow _owner;
+
+        public LifespanHandler(MainWindow owner)
         {
-            _tabView = tabView;
+            _owner = owner;
         }
 
-        public void OnAfterCreated(IWebBrowser browser)
-        {
-            _tabView.Dispatcher.Invoke(() =>
-            {
-                ChromiumWebBrowser wb = browser as ChromiumWebBrowser;
-                if (wb != null && wb.Parent == null)
-                {
-                    _w = new Window();
-                    _w.Content = wb;
-                    _w.Show();
-                }
-            });
-        }
+        // The list of browsers created via popup
+        List<IWebBrowser> _popupBrowsersPending = new List<IWebBrowser>();
+        List<IWebBrowser> _popupBrowsersCreated = new List<IWebBrowser>();
+
 
         public bool OnBeforePopup(IWebBrowser browser, IFrame frame, string targetUrl, ref int x, ref int y, ref int width, ref int height, ref IWebBrowser newBrowser)
         {
-            BrowserTabViewModel newVm = null;
-            IWebBrowser wb = null;
+            ChromiumWebBrowser newChromiumBrowser = null;
 
-            _tabView.Dispatcher.Invoke(() =>
+            _owner.Dispatcher.Invoke(() => 
                 {
-                    
-                    wb = new ChromiumWebBrowser()
-                    {
-                        Address = targetUrl
-                    };
-                    wb.LifeSpanHandler = new LifespanHandler(_tabView);
+                    newChromiumBrowser = _owner.BrowserFactory.CreateWebBrowser(targetUrl);
                 });
 
-                    /*
-                    BrowserTabViewModel vm = _tabView.DataContext as BrowserTabViewModel;
-                    if (vm != null)
-                    {
-                        newVm = vm.RaisePopupRequest(targetUrl);
-                    }
-                }, System.Windows.Threading.DispatcherPriority.ContextIdle);
-
-
-            if (newVm != null)
-            {
-                _tabView.Dispatcher.Invoke(() => wb = newVm.WebBrowser);
-            }
-                    */
-
-
-            if (wb != null)
-                newBrowser = wb;
+            _popupBrowsersPending.Add(newChromiumBrowser);
+            
+            newBrowser = newChromiumBrowser;
             return false;
+        }
 
+
+        public void OnAfterCreated(IWebBrowser browser)
+        {
+            if (_popupBrowsersPending.Contains(browser))
+            {
+                _popupBrowsersPending.Remove(browser);
+
+                _owner.Dispatcher.Invoke(() =>
+                {
+                    BrowserTabViewModel vm = new BrowserTabViewModel(browser.Address)
+                    {
+                        ShowSidebar = false,
+                    };
+
+                    vm.WebBrowser = browser as ChromiumWebBrowser;
+                    _owner.BrowserTabs.Add(vm);
+                    _owner.TabControl.SelectedIndex = _owner.BrowserTabs.Count - 1;
+                });
+
+                _popupBrowsersCreated.Add(browser);
+
+            }
+  
         }
 
         public void OnBeforeClose(IWebBrowser browser)
         {
-            if (_w != null)
+            if (_popupBrowsersCreated.Contains(browser))
             {
-                _w.Dispatcher.Invoke(() =>
-                    {
-                        (_w.Content as ChromiumWebBrowser).Dispose();
-                        _w.Close();
-                    });
+                _owner.Dispatcher.Invoke(() =>
+                {
+                    BrowserTabViewModel toClose =
+                        _owner.BrowserTabs
+                            .Where(vm => object.ReferenceEquals(vm.WebBrowser, browser))
+                            .FirstOrDefault();
+                    if (toClose != null)
+                        _owner.BrowserTabs.Remove(toClose);
+                    browser.Dispose();
+                });
+
+                _popupBrowsersCreated.Remove(browser);
             }
         }
     }

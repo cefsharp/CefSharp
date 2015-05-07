@@ -459,11 +459,12 @@ namespace CefSharp.Wpf
 
         protected virtual void OnAddressChanged(string oldValue, string newValue)
         {
-            if (ignoreUriChange)
+            if (ignoreUriChange || newValue == null)
             {
                 return;
             }
 
+            //CreateOffscreenBrowserWhenActualSizeChanged();
             Load(newValue);
         }
 
