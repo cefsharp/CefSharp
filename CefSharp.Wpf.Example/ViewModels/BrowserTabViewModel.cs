@@ -14,6 +14,7 @@ namespace CefSharp.Wpf.Example.ViewModels
 {
     public class BrowserTabViewModel : ViewModelBase
     {
+
         private string address;
         public string Address
         {
@@ -176,5 +177,7 @@ namespace CefSharp.Wpf.Example.ViewModels
             // Part of the Focus hack further described in the OnPropertyChanged() method...
             Keyboard.ClearFocus();
         }
+
+
     }
 }

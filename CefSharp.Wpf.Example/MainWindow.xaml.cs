@@ -8,14 +8,17 @@ using System.Windows;
 using System.Windows.Input;
 using CefSharp.Example;
 using CefSharp.Wpf.Example.ViewModels;
+using System.Collections.Generic;
 
 namespace CefSharp.Wpf.Example
 {
     public partial class MainWindow : Window
     {
-        private const string DefaultUrlForAddedTabs = "https://www.google.com";
+        private const string DefaultUrlForAddedTabs = "http://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_win_close";
 
         public ObservableCollection<BrowserTabViewModel> BrowserTabs { get; set; }
+
+        WebBrowserFactory _browserFactory;
 
         public MainWindow()
         {
@@ -31,6 +34,8 @@ namespace CefSharp.Wpf.Example
 
             var bitness = Environment.Is64BitProcess ? "x64" : "x86";
             Title += " - " + bitness;
+
+            _browserFactory = new WebBrowserFactory(this, new LifespanHandler(this));
         }
 
         private void CloseTab(object sender, ExecutedRoutedEventArgs e)
@@ -54,7 +59,10 @@ namespace CefSharp.Wpf.Example
                     BrowserTabs.Remove(browserViewModel);
                 }
 
-                browserViewModel.WebBrowser.Dispose();
+                if (browserViewModel.WebBrowser != null)
+                {
+                    browserViewModel.WebBrowser.Dispose();
+                }
             }
         }
 
@@ -72,7 +80,21 @@ namespace CefSharp.Wpf.Example
 
         private void CreateNewTab(string url = DefaultUrlForAddedTabs, bool showSideBar = false)
         {
-            BrowserTabs.Add(new BrowserTabViewModel(url) { ShowSidebar = showSideBar });
+            BrowserTabViewModel vm = new BrowserTabViewModel(url)
+            {
+                ShowSidebar = showSideBar,               
+            };
+            BrowserTabs.Add(vm);
+
+            vm.WebBrowser = _browserFactory.CreateWebBrowser(url);            
+            
         }
+
+        internal WebBrowserFactory BrowserFactory
+        {
+            get { return _browserFactory; }
+        }
+
+
     }
 }

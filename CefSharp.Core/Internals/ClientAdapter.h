@@ -62,6 +62,8 @@ namespace CefSharp
             void CloseDevTools();
             void CloseAllPopups(bool forceClose);
 
+			virtual bool IsOffscreen() { return false; }
+
             // CefClient
             virtual CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() OVERRIDE{ return this; }
             virtual CefRefPtr<CefLoadHandler> GetLoadHandler() OVERRIDE{ return this; }
@@ -144,6 +146,7 @@ namespace CefSharp
             virtual DECL bool OnRequestGeolocationPermission(CefRefPtr<CefBrowser> browser, const CefString& requesting_url, int request_id,
                 CefRefPtr<CefGeolocationCallback> callback) OVERRIDE;
             virtual DECL void OnCancelGeolocationPermission(CefRefPtr<CefBrowser> browser, const CefString& requesting_url, int request_id) OVERRIDE;
+
 
             IMPLEMENT_REFCOUNTING(ClientAdapter);
         };

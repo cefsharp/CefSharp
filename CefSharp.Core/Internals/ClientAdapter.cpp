@@ -72,19 +72,42 @@ namespace CefSharp
             CefRefPtr<CefClient>& client, CefBrowserSettings& settings, bool* no_javascript_access)
         {
             ILifeSpanHandler^ handler = _browserControl->LifeSpanHandler;
+			IWebBrowser^ newBrowser = nullptr;
 
             if (handler == nullptr)
             {
                 return false;
             }
 
-            return handler->OnBeforePopup(_browserControl, gcnew CefFrameWrapper(frame, _browserControl->BrowserAdapter), StringUtils::ToClr(target_url),
-                windowInfo.x, windowInfo.y, windowInfo.width, windowInfo.height, *no_javascript_access);
+            bool returnVal = handler->OnBeforePopup(_browserControl, gcnew CefFrameWrapper(frame, _browserControl->BrowserAdapter), StringUtils::ToClr(target_url),
+				windowInfo.x, windowInfo.y, windowInfo.width, windowInfo.height, *no_javascript_access, newBrowser);
+
+			IWebBrowserInternal^ newBrowserInternal = dynamic_cast<IWebBrowserInternal^>(newBrowser);
+
+			if (newBrowserInternal != nullptr)
+			{
+
+				IRenderWebBrowser^ renderBrowser = dynamic_cast<IRenderWebBrowser^>(newBrowser);
+				if (renderBrowser != nullptr)
+				{
+					windowInfo.SetAsWindowless(windowInfo.parent_window, TRUE);
+				}
+
+				ManagedCefBrowserAdapter^ browserAdapter = dynamic_cast<ManagedCefBrowserAdapter^>(newBrowserInternal->BrowserAdapter);
+				if (browserAdapter != nullptr)
+				{			
+					client = browserAdapter->GetClientAdapter().get();
+				}
+
+			}
+
+			return returnVal;
+
         }
 
         void ClientAdapter::OnAfterCreated(CefRefPtr<CefBrowser> browser)
-        {
-            if (browser->IsPopup())
+        {			
+            if (browser->IsPopup() && !IsOffscreen())
             {
                 // Add to the list of popup browsers.
                 _popupBrowsers.push_back(browser);
@@ -100,11 +123,21 @@ namespace CefSharp
                     _onAfterBrowserCreated->Invoke(browserId);
                 }
             }
+
+			ILifeSpanHandler^ handler = _browserControl->LifeSpanHandler;
+
+			if (handler == nullptr)
+			{
+				return;
+			}
+
+
+			handler->OnAfterCreated(_browserControl);
         }
 
         void ClientAdapter::OnBeforeClose(CefRefPtr<CefBrowser> browser)
         {
-            if (browser->IsPopup())
+			if (browser->IsPopup() && !IsOffscreen())
             {
                 // Remove from the browser popup list.
                 auto it = _popupBrowsers.begin();
@@ -117,7 +150,7 @@ namespace CefSharp
                     }
                 }
             }
-            else if (_browserHwnd == browser->GetHost()->GetWindowHandle())
+            else if (_browserHwnd == browser->GetHost()->GetWindowHandle() || IsOffscreen())
             {
                 ILifeSpanHandler^ handler = _browserControl->LifeSpanHandler;
                 if (handler != nullptr)
@@ -136,7 +169,7 @@ namespace CefSharp
 
         void ClientAdapter::OnAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& address)
         {
-            if (!browser->IsPopup())
+			if (!browser->IsPopup() || IsOffscreen())
             {
                 _browserControl->SetAddress(StringUtils::ToClr(address));
             }
@@ -144,7 +177,7 @@ namespace CefSharp
 
         void ClientAdapter::OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString& title)
         {
-            if (browser->IsPopup())
+            if (browser->IsPopup() && !IsOffscreen())
             {
                 // Set the popup window title
                 auto hwnd = browser->GetHost()->GetWindowHandle();
@@ -224,7 +257,7 @@ namespace CefSharp
 
         void ClientAdapter::OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame)
         {
-            if (browser->IsPopup())
+            if (browser->IsPopup() && !IsOffscreen())
             {
                 return;
             }
@@ -234,7 +267,7 @@ namespace CefSharp
 
         void ClientAdapter::OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode)
         {
-            if (browser->IsPopup())
+            if (browser->IsPopup() && !IsOffscreen())
             {
                 return;
             }
