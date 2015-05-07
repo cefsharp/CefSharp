@@ -16,6 +16,7 @@
 #include "Internals/MCefRefPtr.h"
 #include "Internals/StringVisitor.h"
 #include "Internals/CefFrameWrapper.h"
+#include "Internals/CefSharpBrowserWrapper.h"
 
 using namespace CefSharp::Internals;
 using namespace System::Diagnostics;

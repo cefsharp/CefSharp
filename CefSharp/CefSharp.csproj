@@ -95,6 +95,7 @@
     <Compile Include="CefThreadIds.cs" />
     <Compile Include="DefaultResourceHandlerFactory.cs" />
     <Compile Include="DependencyChecker.cs" />
+    <Compile Include="IBrowser.cs" />
     <Compile Include="IFrame.cs" />
     <Compile Include="IJavascriptCallback.cs" />
     <Compile Include="IJsDialogCallback.cs" />
