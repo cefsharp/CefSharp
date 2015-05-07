@@ -93,6 +93,7 @@
     <Compile Include="CefJsDialogType.cs" />
     <Compile Include="CefReturnValue.cs" />
     <Compile Include="CefThreadIds.cs" />
+    <Compile Include="Cookie.cs" />
     <Compile Include="DefaultResourceHandlerFactory.cs" />
     <Compile Include="DependencyChecker.cs" />
     <Compile Include="IBrowser.cs" />
