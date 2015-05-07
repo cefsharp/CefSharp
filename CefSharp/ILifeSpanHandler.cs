@@ -17,10 +17,9 @@ namespace CefSharp
         /// <param name="width">width</param>
         /// <param name="height">height</param>
         /// <param name="noJavascriptAccess">value indicates whether the new browser window should be scriptable
-        /// <param name="newBrowser">A newly created browser that will host the popup</param>
         /// and in the same process as the source browser.</param>
+        /// <param name="newBrowser">A newly created browser that will host the popup</param>
         /// <returns>To cancel creation of the popup window return true otherwise return false.</returns>
-
         /// <remarks>
         /// CEF documentation:
         /// 

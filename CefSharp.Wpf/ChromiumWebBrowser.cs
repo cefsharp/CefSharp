@@ -464,7 +464,6 @@ namespace CefSharp.Wpf
                 return;
             }
 
-            //CreateOffscreenBrowserWhenActualSizeChanged();
             Load(newValue);
         }
 

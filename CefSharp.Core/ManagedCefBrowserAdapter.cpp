@@ -20,7 +20,6 @@ void ManagedCefBrowserAdapter::CreateOffscreenBrowser(IntPtr windowHandle, Brows
     }
 }
 
-
 void ManagedCefBrowserAdapter::Close(bool forceClose)
 {
     auto browser = _clientAdapter->GetCefBrowser();
@@ -818,8 +817,7 @@ CefFrameWrapper^ ManagedCefBrowserAdapter::GetFrame(String^ name)
     return nullptr;
 }
 
-
 MCefRefPtr<ClientAdapter> ManagedCefBrowserAdapter::GetClientAdapter()
 {
-	return _clientAdapter;
+    return _clientAdapter;
 }

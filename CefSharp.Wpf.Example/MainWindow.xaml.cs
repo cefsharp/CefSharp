@@ -82,11 +82,10 @@ namespace CefSharp.Wpf.Example
         {
             BrowserTabViewModel vm = new BrowserTabViewModel(url)
             {
-                ShowSidebar = showSideBar,               
+                ShowSidebar = showSideBar,   
+                WebBrowser = _browserFactory.CreateWebBrowser(url)
             };
             BrowserTabs.Add(vm);
-
-            vm.WebBrowser = _browserFactory.CreateWebBrowser(url);            
             
         }
 

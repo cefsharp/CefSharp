@@ -70,12 +70,10 @@ namespace CefSharp
             DisposableResource::DoDispose(isDisposing);
         };
 
-	internal:
-		MCefRefPtr<ClientAdapter> GetClientAdapter();
+    internal:
+        MCefRefPtr<ClientAdapter> GetClientAdapter();
 
     public:
-
-
         ManagedCefBrowserAdapter(IWebBrowserInternal^ webBrowserInternal, bool offScreenRendering)
         {
             if (offScreenRendering)
@@ -142,7 +140,6 @@ namespace CefSharp
         void OnDragTargetDragOver(MouseEvent^ mouseEvent, DragOperationsMask allowedOperations);
         void OnDragTargetDragLeave();
         void OnDragTargetDragDrop(MouseEvent^ mouseEvent);
-
 
         ///
         // Returns the main (top-level) frame for the browser window.

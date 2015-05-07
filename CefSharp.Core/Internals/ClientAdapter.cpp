@@ -72,7 +72,7 @@ namespace CefSharp
             CefRefPtr<CefClient>& client, CefBrowserSettings& settings, bool* no_javascript_access)
         {
             ILifeSpanHandler^ handler = _browserControl->LifeSpanHandler;
-			IWebBrowser^ newBrowser = nullptr;
+            IWebBrowser^ newBrowser = nullptr;
 
             if (handler == nullptr)
             {
@@ -80,33 +80,33 @@ namespace CefSharp
             }
 
             bool returnVal = handler->OnBeforePopup(_browserControl, gcnew CefFrameWrapper(frame, _browserControl->BrowserAdapter), StringUtils::ToClr(target_url),
-				windowInfo.x, windowInfo.y, windowInfo.width, windowInfo.height, *no_javascript_access, newBrowser);
+                windowInfo.x, windowInfo.y, windowInfo.width, windowInfo.height, *no_javascript_access, newBrowser);
 
-			IWebBrowserInternal^ newBrowserInternal = dynamic_cast<IWebBrowserInternal^>(newBrowser);
+            IWebBrowserInternal^ newBrowserInternal = dynamic_cast<IWebBrowserInternal^>(newBrowser);
 
-			if (newBrowserInternal != nullptr)
-			{
+            if (newBrowserInternal != nullptr)
+            {
 
-				IRenderWebBrowser^ renderBrowser = dynamic_cast<IRenderWebBrowser^>(newBrowser);
-				if (renderBrowser != nullptr)
-				{
-					windowInfo.SetAsWindowless(windowInfo.parent_window, TRUE);
-				}
+                IRenderWebBrowser^ renderBrowser = dynamic_cast<IRenderWebBrowser^>(newBrowser);
+                if (renderBrowser != nullptr)
+                {
+                    windowInfo.SetAsWindowless(windowInfo.parent_window, TRUE);
+                }
 
-				ManagedCefBrowserAdapter^ browserAdapter = dynamic_cast<ManagedCefBrowserAdapter^>(newBrowserInternal->BrowserAdapter);
-				if (browserAdapter != nullptr)
-				{			
-					client = browserAdapter->GetClientAdapter().get();
-				}
+                ManagedCefBrowserAdapter^ browserAdapter = dynamic_cast<ManagedCefBrowserAdapter^>(newBrowserInternal->BrowserAdapter);
+                if (browserAdapter != nullptr)
+                {			
+                    client = browserAdapter->GetClientAdapter().get();
+                }
 
-			}
+            }
 
-			return returnVal;
+            return returnVal;
 
         }
 
         void ClientAdapter::OnAfterCreated(CefRefPtr<CefBrowser> browser)
-        {			
+        {
             if (browser->IsPopup() && !IsOffscreen())
             {
                 // Add to the list of popup browsers.
@@ -124,20 +124,20 @@ namespace CefSharp
                 }
             }
 
-			ILifeSpanHandler^ handler = _browserControl->LifeSpanHandler;
+            ILifeSpanHandler^ handler = _browserControl->LifeSpanHandler;
 
-			if (handler == nullptr)
-			{
-				return;
-			}
+            if (handler == nullptr)
+            {
+                return;
+            }
 
 
-			handler->OnAfterCreated(_browserControl);
+            handler->OnAfterCreated(_browserControl);
         }
 
         void ClientAdapter::OnBeforeClose(CefRefPtr<CefBrowser> browser)
         {
-			if (browser->IsPopup() && !IsOffscreen())
+            if (browser->IsPopup() && !IsOffscreen())
             {
                 // Remove from the browser popup list.
                 auto it = _popupBrowsers.begin();
@@ -169,7 +169,7 @@ namespace CefSharp
 
         void ClientAdapter::OnAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& address)
         {
-			if (!browser->IsPopup() || IsOffscreen())
+            if (!browser->IsPopup() || IsOffscreen())
             {
                 _browserControl->SetAddress(StringUtils::ToClr(address));
             }

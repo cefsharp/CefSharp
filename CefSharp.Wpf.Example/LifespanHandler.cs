@@ -13,11 +13,11 @@ namespace CefSharp.Wpf.Example
     public class LifespanHandler : ILifeSpanHandler
     {
 
-        MainWindow _owner;
+        MainWindow m_owner;
 
         public LifespanHandler(MainWindow owner)
         {
-            _owner = owner;
+            m_owner = owner;
         }
 
         // The list of browsers created via popup
@@ -28,9 +28,9 @@ namespace CefSharp.Wpf.Example
         {
             ChromiumWebBrowser newChromiumBrowser = null;
 
-            _owner.Dispatcher.Invoke(() => 
+            m_owner.Dispatcher.Invoke(() => 
                 {
-                    newChromiumBrowser = _owner.BrowserFactory.CreateWebBrowser(targetUrl);
+                    newChromiumBrowser = m_owner.BrowserFactory.CreateWebBrowser(targetUrl);
                 });
 
             _popupBrowsersPending.Add(newChromiumBrowser);
@@ -46,16 +46,16 @@ namespace CefSharp.Wpf.Example
             {
                 _popupBrowsersPending.Remove(browser);
 
-                _owner.Dispatcher.Invoke(() =>
+                m_owner.Dispatcher.Invoke(() =>
                 {
                     BrowserTabViewModel vm = new BrowserTabViewModel(browser.Address)
                     {
                         ShowSidebar = false,
+                        WebBrowser = browser as ChromiumWebBrowser
                     };
 
-                    vm.WebBrowser = browser as ChromiumWebBrowser;
-                    _owner.BrowserTabs.Add(vm);
-                    _owner.TabControl.SelectedIndex = _owner.BrowserTabs.Count - 1;
+                    m_owner.BrowserTabs.Add(vm);
+                    m_owner.TabControl.SelectedIndex = m_owner.BrowserTabs.Count - 1;
                 });
 
                 _popupBrowsersCreated.Add(browser);
@@ -68,14 +68,14 @@ namespace CefSharp.Wpf.Example
         {
             if (_popupBrowsersCreated.Contains(browser))
             {
-                _owner.Dispatcher.Invoke(() =>
+                m_owner.Dispatcher.Invoke(() =>
                 {
                     BrowserTabViewModel toClose =
-                        _owner.BrowserTabs
+                        m_owner.BrowserTabs
                             .Where(vm => object.ReferenceEquals(vm.WebBrowser, browser))
                             .FirstOrDefault();
                     if (toClose != null)
-                        _owner.BrowserTabs.Remove(toClose);
+                        m_owner.BrowserTabs.Remove(toClose);
                     browser.Dispose();
                 });
 
