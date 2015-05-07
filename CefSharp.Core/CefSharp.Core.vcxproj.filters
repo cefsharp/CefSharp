@@ -157,10 +157,16 @@
     <ClInclude Include="Internals\CefFrameWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Internals\RequestCallback.h">
+    <ClInclude Include="Internals\JsDialogCallback.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Internals\CefSharpBrowserWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\RequestCallback.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Internals\CefFrameWrapper.h">
       <Filter>Header Files</Filter>

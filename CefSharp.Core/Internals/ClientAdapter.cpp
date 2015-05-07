@@ -10,6 +10,7 @@
 #include "ClientAdapter.h"
 #include "DownloadAdapter.h"
 #include "StreamAdapter.h"
+#include "JsDialogCallback.h"
 #include "RequestCallback.h"
 #include "Internals/TypeConversion.h"
 #include "include/wrapper/cef_stream_resource_handler.h"
@@ -505,42 +506,17 @@ namespace CefSharp
             JSDialogType dialog_type, const CefString& message_text, const CefString& default_prompt_text,
             CefRefPtr<CefJSDialogCallback> callback, bool& suppress_message)
         {
-            IJsDialogHandler^ handler = _browserControl->JsDialogHandler;
+            auto handler = _browserControl->JsDialogHandler;
 
             if (handler == nullptr)
             {
                 return false;
             }
 
-            bool result;
-            bool handled = false;
+            auto dialogCallback = gcnew JsDialogCallback(callback);
 
-            switch (dialog_type)
-            {
-            case JSDIALOGTYPE_ALERT:
-                handled = handler->OnJSAlert(_browserControl, StringUtils::ToClr(origin_url), StringUtils::ToClr(message_text));
-                break;
-
-            case JSDIALOGTYPE_CONFIRM:
-                handled = handler->OnJSConfirm(_browserControl, StringUtils::ToClr(origin_url), StringUtils::ToClr(message_text), result);
-                if(handled)
-                {
-                    callback->Continue(result, CefString());
-                }
-                break;
-
-            case JSDIALOGTYPE_PROMPT:
-                String^ resultString = nullptr;
-                handled = handler->OnJSPrompt(_browserControl, StringUtils::ToClr(origin_url), StringUtils::ToClr(message_text),
-                    StringUtils::ToClr(default_prompt_text), result, resultString);
-                if(handled)
-                {
-                    callback->Continue(result, StringUtils::ToNative(resultString));
-                }
-                break;
-            }
-
-            return handled;
+            return handler->OnJSDialog(_browserControl, StringUtils::ToClr(origin_url), StringUtils::ToClr(accept_lang), (CefJsDialogType)dialog_type, 
+                                        StringUtils::ToClr(message_text), StringUtils::ToClr(default_prompt_text), dialogCallback, suppress_message);
         }
 
         bool ClientAdapter::OnBeforeUnloadDialog(CefRefPtr<CefBrowser> browser, const CefString& message_text, bool is_reload, CefRefPtr<CefJSDialogCallback> callback)

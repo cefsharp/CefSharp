@@ -256,6 +256,7 @@
     <ClInclude Include="Internals\CookieVisitor.h" />
     <ClInclude Include="Internals\CefSharpApp.h" />
     <ClInclude Include="Internals\CefRequestWrapper.h" />
+    <ClInclude Include="Internals\JsDialogCallback.h" />
     <ClInclude Include="Internals\MCefRefPtr.h" />
     <ClInclude Include="Internals\PluginVisitor.h" />
     <ClInclude Include="Internals\RenderClientAdapter.h" />
