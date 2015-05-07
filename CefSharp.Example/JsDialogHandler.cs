@@ -2,23 +2,8 @@
 {
     public class JsDialogHandler : IJsDialogHandler
     {
-        public bool OnJSAlert(IWebBrowser browser, string url, string message)
+        public bool OnJSDialog(IWebBrowser browser, string originUrl, string acceptLang, CefJsDialogType dialogType, string messageText, string defaultPromptText, IJsDialogCallback callback, ref bool suppressMessage)
         {
-            return false;
-        }
-
-        public bool OnJSConfirm(IWebBrowser browser, string url, string message, out bool retval)
-        {
-            retval = false;
-
-            return false;
-        }
-
-        public bool OnJSPrompt(IWebBrowser browser, string url, string message, string defaultValue, out bool retval, out string result)
-        {
-            retval = false;
-            result = null;
-
             return false;
         }
 

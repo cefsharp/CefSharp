@@ -90,12 +90,14 @@
   <ItemGroup>
     <Compile Include="CefDirtyRect.cs" />
     <Compile Include="CefFileDialogMode.cs" />
+    <Compile Include="CefJsDialogType.cs" />
     <Compile Include="CefReturnValue.cs" />
     <Compile Include="CefThreadIds.cs" />
     <Compile Include="DefaultResourceHandlerFactory.cs" />
     <Compile Include="DependencyChecker.cs" />
     <Compile Include="IFrame.cs" />
     <Compile Include="IJavascriptCallback.cs" />
+    <Compile Include="IJsDialogCallback.cs" />
     <Compile Include="Internals\IBrowserAdapter.cs">
       <SubType>Code</SubType>
     </Compile>
