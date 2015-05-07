@@ -145,6 +145,16 @@ namespace CefSharp
             }
         }
 
+        void ClientAdapter::OnFaviconURLChange(CefRefPtr<CefBrowser> browser, const std::vector<CefString>& iconUrls)
+        {
+            auto handler = _browserControl->RequestHandler;
+
+            if(handler != nullptr)
+            {
+                handler->OnFaviconUrlChange(_browserControl, StringUtils::ToClr(iconUrls));
+            }
+        }
+
         bool ClientAdapter::OnTooltip(CefRefPtr<CefBrowser> browser, CefString& text)
         {
             String^ tooltip = StringUtils::ToClr(text);

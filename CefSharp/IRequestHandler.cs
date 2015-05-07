@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Collections.Generic;
 
 namespace CefSharp
 {
@@ -108,5 +109,12 @@ namespace CefSharp
         /// <param name="url">the request url</param>
         /// <returns>return to true to attempt execution via the registered OS protocol handler, if any. Otherwise return false.</returns>
         bool OnProtocolExecution(IWebBrowser browser, string url);
+
+        /// <summary>
+        /// Called when the page icon changes.
+        /// </summary>
+        /// <param name="browser">the browser object</param>
+        /// <param name="urls">list of urls where the favicons can be downloaded</param>
+        void OnFaviconUrlChange(IWebBrowser browser, IList<string> urls);
     }
 }
