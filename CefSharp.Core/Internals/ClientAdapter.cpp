@@ -11,6 +11,7 @@
 #include "DownloadAdapter.h"
 #include "StreamAdapter.h"
 #include "JsDialogCallback.h"
+#include "RequestCallback.h"
 #include "Internals/TypeConversion.h"
 #include "include/wrapper/cef_stream_resource_handler.h"
 #include "include/internal/cef_types.h"
@@ -155,6 +156,16 @@ namespace CefSharp
             }
         }
 
+        void ClientAdapter::OnFaviconURLChange(CefRefPtr<CefBrowser> browser, const std::vector<CefString>& iconUrls)
+        {
+            auto handler = _browserControl->RequestHandler;
+
+            if(handler != nullptr)
+            {
+                handler->OnFaviconUrlChange(_browserControl, StringUtils::ToClr(iconUrls));
+            }
+        }
+
         bool ClientAdapter::OnTooltip(CefRefPtr<CefBrowser> browser, CefString& text)
         {
             String^ tooltip = StringUtils::ToClr(text);
@@ -257,30 +268,24 @@ namespace CefSharp
                 return false;
             }
 
-            if (handler->OnCertificateError(_browserControl, (CefErrorCode)cert_error, StringUtils::ToClr(request_url)))
-            {
-                callback->Continue(true);
-                return true;
-            }
+            // If callback is empty the error cannot be recovered from and the request will be canceled automatically.
+            // Still notify the user of the certificate error just don't provide a callback.
+            auto requestCallback = callback == NULL ? nullptr : gcnew RequestCallback(callback);
 
-            return false;
+            return handler->OnCertificateError(_browserControl, (CefErrorCode)cert_error, StringUtils::ToClr(request_url), requestCallback);
         }
 
         bool ClientAdapter::OnQuotaRequest(CefRefPtr<CefBrowser> browser, const CefString& originUrl, int64 newSize, CefRefPtr<CefRequestCallback> callback)
         {
-            IRequestHandler^ handler = _browserControl->RequestHandler;
+            auto handler = _browserControl->RequestHandler;
             if (handler == nullptr)
             {
                 return false;
             }
+            
+            auto requestCallback = gcnew RequestCallback(callback);
 
-            if (handler->OnQuotaRequest(_browserControl, StringUtils::ToClr(originUrl), newSize))
-            {
-                callback->Continue(true);
-                return true;
-            }
-
-            return false;
+            return handler->OnQuotaRequest(_browserControl, StringUtils::ToClr(originUrl), newSize, requestCallback);
         }
 
         // CEF3 API: public virtual bool OnBeforePluginLoad( CefRefPtr< CefBrowser > browser, const CefString& url, const CefString& policy_url, CefRefPtr< CefWebPluginInfo > info );
@@ -387,8 +392,9 @@ namespace CefSharp
             }
 
             auto requestWrapper = gcnew CefRequestWrapper(request);
+            auto requestCallback = gcnew RequestCallback(callback);
 
-            return (cef_return_value_t)handler->OnBeforeResourceLoad(_browserControl, requestWrapper, gcnew CefFrameWrapper(frame, _browserControl->BrowserAdapter));
+            return (cef_return_value_t)handler->OnBeforeResourceLoad(_browserControl, requestWrapper, gcnew CefFrameWrapper(frame, _browserControl->BrowserAdapter), requestCallback);
         }
 
         CefRefPtr<CefDownloadHandler> ClientAdapter::GetDownloadHandler()
