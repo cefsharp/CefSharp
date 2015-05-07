@@ -24,8 +24,7 @@ namespace CefSharp.Wpf.Example
         List<IWebBrowser> _popupBrowsersPending = new List<IWebBrowser>();
         List<IWebBrowser> _popupBrowsersCreated = new List<IWebBrowser>();
 
-
-        public bool OnBeforePopup(IWebBrowser browser, IFrame frame, string targetUrl, ref int x, ref int y, ref int width, ref int height, ref IWebBrowser newBrowser)
+        public bool OnBeforePopup(IWebBrowser browser, IFrame frame, string targetUrl, ref int x, ref int y, ref int width, ref int height, ref bool noJavascriptAccess, ref IWebBrowser newBrowser)
         {
             ChromiumWebBrowser newChromiumBrowser = null;
 
