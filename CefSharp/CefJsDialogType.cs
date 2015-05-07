@@ -4,10 +4,10 @@
 
 namespace CefSharp
 {
-	public enum CefJsDialogType
-	{
-		Alert = 0,
-		Confirm,
-		Prompt
-	}
+    public enum CefJsDialogType
+    {
+        Alert = 0,
+        Confirm,
+        Prompt
+    }
 }
