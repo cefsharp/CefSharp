@@ -220,6 +220,8 @@
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="Internals\CefContextMenuParamsWrapper.cpp" />
+    <ClCompile Include="Internals\CefFrameWrapper.cpp" />
+    <ClCompile Include="Internals\CefSharpBrowserWrapper.cpp" />
     <ClCompile Include="Internals\ClientAdapter.cpp" />
     <ClCompile Include="Internals\CompletionHandler.cpp" />
     <ClCompile Include="Internals\CookieVisitor.cpp" />
@@ -245,6 +247,7 @@
     <ClInclude Include="Internals\CefContextMenuParamsWrapper.h" />
     <ClInclude Include="Internals\CefDragDataWrapper.h" />
     <ClInclude Include="Internals\CefFrameWrapper.h" />
+    <ClInclude Include="Internals\CefSharpBrowserWrapper.h" />
     <ClInclude Include="Internals\CefTaskScheduler.h" />
     <ClInclude Include="Internals\CefTaskWrapper.h" />
     <ClInclude Include="Internals\CompletionHandler.h" />
