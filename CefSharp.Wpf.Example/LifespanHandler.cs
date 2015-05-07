@@ -6,16 +6,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace CefSharp.Wpf.Example
 {
     public class LifespanHandler : ILifeSpanHandler
     {
-        BrowserTabView _tabView;
+        DependencyObject _tabView;
+        Window _w;
 
-        public LifespanHandler(BrowserTabView tabView)
+        public LifespanHandler(DependencyObject tabView)
         {
             _tabView = tabView;
+        }
+
+        public void OnAfterCreated(IWebBrowser browser)
+        {
+            _tabView.Dispatcher.Invoke(() =>
+            {
+                ChromiumWebBrowser wb = browser as ChromiumWebBrowser;
+                if (wb != null && wb.Parent == null)
+                {
+                    _w = new Window();
+                    _w.Content = wb;
+                    _w.Show();
+                }
+            });
         }
 
         public bool OnBeforePopup(IWebBrowser browser, IFrame frame, string targetUrl, ref int x, ref int y, ref int width, ref int height, ref IWebBrowser newBrowser)
@@ -25,14 +41,12 @@ namespace CefSharp.Wpf.Example
 
             _tabView.Dispatcher.Invoke(() =>
                 {
-                    Window w = new Window();
+                    
                     wb = new ChromiumWebBrowser()
                     {
                         Address = targetUrl
                     };
-                    w.Content = wb;
-                    w.Show();
-
+                    wb.LifeSpanHandler = new LifespanHandler(_tabView);
                 });
 
                     /*
@@ -54,10 +68,19 @@ namespace CefSharp.Wpf.Example
             if (wb != null)
                 newBrowser = wb;
             return false;
+
         }
 
         public void OnBeforeClose(IWebBrowser browser)
         {
+            if (_w != null)
+            {
+                _w.Dispatcher.Invoke(() =>
+                    {
+                        (_w.Content as ChromiumWebBrowser).Dispose();
+                        _w.Close();
+                    });
+            }
         }
     }
 }

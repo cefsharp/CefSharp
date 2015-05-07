@@ -71,9 +71,10 @@ namespace CefSharp
 
 	internal:
 		MCefRefPtr<ClientAdapter> GetClientAdapter();
-		MCefRefPtr<ClientAdapter> CreateOffscreenBrowser(CefWindowInfo& windowInfo, CefBrowserSettings& browserSettings, String^ address);
 
     public:
+
+
         ManagedCefBrowserAdapter(IWebBrowserInternal^ webBrowserInternal, bool offScreenRendering)
         {
             if (offScreenRendering)

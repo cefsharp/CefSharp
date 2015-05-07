@@ -36,6 +36,12 @@ namespace CefSharp
         bool OnBeforePopup(IWebBrowser browser, IFrame frame, string targetUrl, ref int x, ref int y, ref int width, ref int height, ref IWebBrowser newBrowser);
 
         /// <summary>
+        /// Called after a new browser is created.
+        /// </summary>
+        /// <param name="browser"></param>
+        void OnAfterCreated(IWebBrowser browser);
+
+        /// <summary>
         /// Called before a CefBrowser window (either the main browser for IWebBrowser, 
         /// or one of its children)
         /// </summary>
