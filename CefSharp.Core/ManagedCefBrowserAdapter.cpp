@@ -706,15 +706,15 @@ int ManagedCefBrowserAdapter::GetFrameCount()
 // Returns the identifiers of all existing frames.
 ///
 /*--cef(count_func=identifiers:GetFrameCount)--*/
-List<System::Int64>^ ManagedCefBrowserAdapter::GetFrameIdentifiers()
+List<Int64>^ ManagedCefBrowserAdapter::GetFrameIdentifiers()
 {
     auto browser = _clientAdapter->GetCefBrowser();
 
     if (browser != nullptr)
     {
-        std::vector<System::Int64> identifiers;
+        std::vector<Int64> identifiers;
         browser->GetFrameIdentifiers(identifiers);
-        List<System::Int64>^ results = gcnew List<System::Int64>(identifiers.size());
+        List<Int64>^ results = gcnew List<Int64>(identifiers.size());
         for (UINT i = 0; i < identifiers.size(); i++)
         {
             results->Add(identifiers[i]);

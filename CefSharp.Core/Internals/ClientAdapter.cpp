@@ -18,6 +18,15 @@ namespace CefSharp
 {
     namespace Internals
     {
+        void ClientAdapter::GetCefPopupBrowsers(std::vector<CefRefPtr<CefBrowser>>& popupBrowsers)
+        {
+            for (UINT i = 0; i < _popupBrowsers.size(); i++)
+            {
+                auto browser = _popupBrowsers[i];
+                popupBrowsers.push_back(browser);
+            }
+        }
+
         void ClientAdapter::ShowDevTools()
         {
             auto browser = GetCefBrowser();

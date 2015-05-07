@@ -35,7 +35,7 @@ namespace CefSharp
             gcroot<Action<int>^> _onAfterBrowserCreated;
             HWND _browserHwnd;
             CefRefPtr<CefBrowser> _cefBrowser;
-            std::list<CefRefPtr<CefBrowser>> _popupBrowsers;
+            std::vector<CefRefPtr<CefBrowser>> _popupBrowsers;
 
             gcroot<String^> _tooltip;
 
@@ -46,7 +46,7 @@ namespace CefSharp
             {
             }
 
-            ~ClientAdapter() 
+            ~ClientAdapter()
             {
                 _browserControl = nullptr;
                 _onAfterBrowserCreated = nullptr;
@@ -57,6 +57,7 @@ namespace CefSharp
 
             HWND GetBrowserHwnd() { return _browserHwnd; }
             CefRefPtr<CefBrowser> GetCefBrowser() { return _cefBrowser; }
+            void GetCefPopupBrowsers(std::vector<CefRefPtr<CefBrowser>>& popupBrowsers);
             void ShowDevTools();
             void CloseDevTools();
             void CloseAllPopups(bool forceClose);
