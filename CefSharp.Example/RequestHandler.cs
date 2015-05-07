@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace CefSharp.Example
 {
@@ -70,6 +71,11 @@ namespace CefSharp.Example
         public bool OnProtocolExecution(IWebBrowser browser, string url)
         {
             return url.StartsWith("mailto");
+        }
+
+        public void OnFaviconUrlChange(IWebBrowser browser, IList<string> urls)
+        {
+            var url = urls[0];
         }
     }
 }
