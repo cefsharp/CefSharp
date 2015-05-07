@@ -4,17 +4,17 @@
 
 namespace CefSharp
 {
-	public interface IRequestCallback
-	{
-		/// <summary>
-		/// Continue the url request. 
-		/// </summary>
-		/// <param name="allow">If is true the request will be continued, otherwise, the request will be canceled.</param>
-		void Continue(bool allow);
-		
-		/// <summary>
-		/// Cancel the url request.
-		/// </summary>
-		void Cancel();
-	}
+    public interface IRequestCallback
+    {
+        /// <summary>
+        /// Continue the url request. 
+        /// </summary>
+        /// <param name="allow">If is true the request will be continued, otherwise, the request will be canceled.</param>
+        void Continue(bool allow);
+        
+        /// <summary>
+        /// Cancel the url request.
+        /// </summary>
+        void Cancel();
+    }
 }
