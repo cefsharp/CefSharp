@@ -151,6 +151,9 @@
     <ClInclude Include="Internals\CefFrameWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Internals\RequestCallback.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

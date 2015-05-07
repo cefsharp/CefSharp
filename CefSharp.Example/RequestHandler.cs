@@ -12,8 +12,12 @@ namespace CefSharp.Example
             return false;
         }
 
-        bool IRequestHandler.OnCertificateError(IWebBrowser browser, CefErrorCode errorCode, string requestUrl)
+        bool IRequestHandler.OnCertificateError(IWebBrowser browser, CefErrorCode errorCode, string requestUrl, IRequestCallback callback)
         {
+            //To allow certificate
+            //callback.Continue(true);
+            //return true;
+
             return false;
         }
 
@@ -22,13 +26,17 @@ namespace CefSharp.Example
             // TODO: Add your own code here for handling scenarios where a plugin crashed, for one reason or another.
         }
 
-        CefReturnValue IRequestHandler.OnBeforeResourceLoad(IWebBrowser browser, IRequest request, IFrame frame)
+        CefReturnValue IRequestHandler.OnBeforeResourceLoad(IWebBrowser browser, IRequest request, IFrame frame, IRequestCallback callback)
         {
             //Note to Redirect simply set the request Url
             //if (request.Url.StartsWith("https://www.google.com", StringComparison.OrdinalIgnoreCase))
             //{
             //    request.Url = "https://github.com/";
             //}
+
+            //Callback in async fashion
+            //callback.Continue(true);
+            //return CefReturnValue.ContinueAsync;
 
             return CefReturnValue.Continue;
         }
@@ -53,8 +61,12 @@ namespace CefSharp.Example
             // TODO: Add your own code here for handling scenarios where the Render Process terminated for one reason or another.
         }
 
-        public bool OnQuotaRequest(IWebBrowser browser, string originUrl, long newSize)
+        public bool OnQuotaRequest(IWebBrowser browser, string originUrl, long newSize, IRequestCallback callback)
         {
+            //Accept Request to raise Quota
+            //callback.Continue(true);
+            //return true;
+
             return false;
         }
 
