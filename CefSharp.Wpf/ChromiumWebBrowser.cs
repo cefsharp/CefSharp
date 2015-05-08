@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -904,7 +905,10 @@ namespace CefSharp.Wpf
             base.OnApplyTemplate();
 
             // Create main window
-            Content = image = CreateImage();
+            Border outerBorder = new Border() { Child = image = CreateImage() };
+            Binding b = new Binding("Background") { Source = this };
+            outerBorder.SetBinding(Border.BackgroundProperty, b);
+            Content = outerBorder;
 
             popup = CreatePopup();
         }
