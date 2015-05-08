@@ -905,10 +905,10 @@ namespace CefSharp.Wpf
             base.OnApplyTemplate();
 
             // Create main window
-            Border outerBorder = new Border() { Child = image = CreateImage() };
-            Binding b = new Binding("Background") { Source = this };
-            outerBorder.SetBinding(Border.BackgroundProperty, b);
-            Content = outerBorder;
+            Border border = new Border() { Child = image = CreateImage() };
+            Binding binding = new Binding("Background") { Source = this };
+            border.SetBinding(Border.BackgroundProperty, binding);
+            Content = border;
 
             popup = CreatePopup();
         }
