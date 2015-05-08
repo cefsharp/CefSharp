@@ -12,6 +12,7 @@ namespace CefSharp
         /// <param name="browser">The IWebBrowser control this request is for.</param>
         /// <param name="frame">The HTML frame that launched this popup.</param>
         /// <param name="targetUrl">The URL of the popup content. (This may be empty/null)</param>
+        /// <param name="windowTitle">The initial title of the new popup.</param>
         /// <param name="x">x coord</param>
         /// <param name="y">y coord</param>
         /// <param name="width">width</param>
@@ -35,7 +36,7 @@ namespace CefSharp
         /// the new browser window should be scriptable and in the same process as the
         /// source browser.
         /// </remarks>
-        bool OnBeforePopup(IWebBrowser browser, IFrame frame, string targetUrl, ref int x, ref int y, ref int width, ref int height, ref bool noJavascriptAccess, ref IWebBrowser newBrowser);
+        bool OnBeforePopup(IWebBrowser browser, IFrame frame, string targetUrl, string windowTitle, ref int x, ref int y, ref int width, ref int height, ref bool noJavascriptAccess, ref IWebBrowser newBrowser);
 
         /// <summary>
         /// Called after a new browser is created.

@@ -168,15 +168,12 @@
                     </Rectangle.Fill>
                 </Rectangle>
 
-                    <ContentControl Content="{Binding WebBrowser}"
-                                Opacity="{Binding ElementName=opacitySlider, Path=Value}" >
-                    <!--
                 <cefSharp:ChromiumWebBrowser x:Name="browser"
                                   Opacity="{Binding ElementName=opacitySlider, Path=Value}"
                                   Address="{Binding Address, Mode=TwoWay}"
                                   Title="{Binding Title, Mode=OneWayToSource}"
                                   AllowDrop="True"
-                                  WebBrowser="{Binding WebBrowser, Mode=OneWayToSource}">-->
+                                  WebBrowser="{Binding WebBrowser, Mode=OneWayToSource}">
                     <!-- Just an example of how you may override the BrowserSettings. Disabled by default since it looks so
                          incredibly ugly... -->
                     <!--<cefSharp:ChromiumWebBrowser.BrowserSettings>
@@ -211,7 +208,7 @@
                             <MenuItem Header="Paste" Command="{Binding WebBrowser.PasteCommand}"/>
                         </ContextMenu>
                     </FrameworkElement.ContextMenu>
-                </ContentControl>
+                </cefSharp:ChromiumWebBrowser>
             </Grid>
         </DockPanel>
     </Grid>

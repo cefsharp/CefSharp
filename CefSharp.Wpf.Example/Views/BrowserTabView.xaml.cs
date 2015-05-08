@@ -5,7 +5,8 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using CefSharp.Example;
-using CefSharp.Wpf.Example.ViewModels;
+using CefSharp.Wpf.Example.Handlers;
+using System.Windows;
 
 namespace CefSharp.Wpf.Example.Views
 {
@@ -14,6 +15,30 @@ namespace CefSharp.Wpf.Example.Views
         public BrowserTabView()
         {
             InitializeComponent();
+
+            browser.RequestHandler = new RequestHandler();
+            browser.RegisterJsObject("bound", new BoundObject());
+
+            browser.Loaded += browser_Loaded;
+            browser.MenuHandler = new Handlers.MenuHandler();
+            browser.GeolocationHandler = new Handlers.GeolocationHandler();
+            browser.DownloadHandler = new DownloadHandler();
+            browser.PreviewTextInput += (o, e) =>
+            {
+                foreach (var character in e.Text)
+                {
+                    browser.SendKeyEvent((int)WM.CHAR, character, 0);
+                }
+
+                e.Handled = true;
+            };
+
+            CefExample.RegisterTestResources(browser);
+        }
+
+        void browser_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            browser.LifeSpanHandler = new LifespanHandler(Window.GetWindow(this));
         }
 
         private void OnTextBoxGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)

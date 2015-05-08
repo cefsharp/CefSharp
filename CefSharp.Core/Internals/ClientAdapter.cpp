@@ -79,26 +79,30 @@ namespace CefSharp
                 return false;
             }
 
-            bool returnVal = handler->OnBeforePopup(_browserControl, gcnew CefFrameWrapper(frame, _browserControl->BrowserAdapter), StringUtils::ToClr(target_url),
+            bool returnVal = handler->OnBeforePopup(_browserControl, gcnew CefFrameWrapper(frame, _browserControl->BrowserAdapter), 
+                StringUtils::ToClr(target_url), StringUtils::ToClr(target_frame_name),
                 windowInfo.x, windowInfo.y, windowInfo.width, windowInfo.height, *no_javascript_access, newBrowser);
 
-            IWebBrowserInternal^ newBrowserInternal = dynamic_cast<IWebBrowserInternal^>(newBrowser);
-
-            if (newBrowserInternal != nullptr)
+            if (returnVal)
             {
+                IWebBrowserInternal^ newBrowserInternal = dynamic_cast<IWebBrowserInternal^>(newBrowser);
 
-                IRenderWebBrowser^ renderBrowser = dynamic_cast<IRenderWebBrowser^>(newBrowser);
-                if (renderBrowser != nullptr)
+                if (newBrowserInternal != nullptr)
                 {
-                    windowInfo.SetAsWindowless(windowInfo.parent_window, TRUE);
-                }
 
-                ManagedCefBrowserAdapter^ browserAdapter = dynamic_cast<ManagedCefBrowserAdapter^>(newBrowserInternal->BrowserAdapter);
-                if (browserAdapter != nullptr)
-                {			
-                    client = browserAdapter->GetClientAdapter().get();
-                }
+                    IRenderWebBrowser^ renderBrowser = dynamic_cast<IRenderWebBrowser^>(newBrowser);
+                    if (renderBrowser != nullptr)
+                    {
+                        windowInfo.SetAsWindowless(windowInfo.parent_window, TRUE);
+                    }
 
+                    ManagedCefBrowserAdapter^ browserAdapter = dynamic_cast<ManagedCefBrowserAdapter^>(newBrowserInternal->BrowserAdapter);
+                    if (browserAdapter != nullptr)
+                    {
+                        client = browserAdapter->GetClientAdapter().get();
+                    }
+
+                }
             }
 
             return returnVal;
