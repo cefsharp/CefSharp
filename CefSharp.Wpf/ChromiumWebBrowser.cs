@@ -13,7 +13,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -51,6 +50,7 @@ namespace CefSharp.Wpf
         public IResourceHandlerFactory ResourceHandlerFactory { get; set; }
         public IGeolocationHandler GeolocationHandler { get; set; }
         public IBitmapFactory BitmapFactory { get; set; }
+        public bool TransparentBackground { get; set; }
 
         public event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
         public event EventHandler<StatusMessageEventArgs> StatusMessage;
@@ -151,6 +151,7 @@ namespace CefSharp.Wpf
 
             ResourceHandlerFactory = new DefaultResourceHandlerFactory();
             BrowserSettings = new BrowserSettings();
+            TransparentBackground = true;
 
             PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
         }
@@ -858,7 +859,7 @@ namespace CefSharp.Wpf
                 return;
             }
 
-            managedCefBrowserAdapter.CreateOffscreenBrowser(source == null ? IntPtr.Zero : source.Handle, BrowserSettings, Address);
+            managedCefBrowserAdapter.CreateOffscreenBrowser(source == null ? IntPtr.Zero : source.Handle, BrowserSettings, Address, TransparentBackground);
             browserCreated = true;
         }
 
@@ -905,10 +906,7 @@ namespace CefSharp.Wpf
             base.OnApplyTemplate();
 
             // Create main window
-            Border border = new Border() { Child = image = CreateImage() };
-            Binding binding = new Binding("Background") { Source = this };
-            border.SetBinding(Border.BackgroundProperty, binding);
-            Content = border;
+            Content = image = CreateImage();
 
             popup = CreatePopup();
         }
