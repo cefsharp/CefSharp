@@ -79,10 +79,6 @@ namespace CefSharp.Example
                 Cef.SetCookiePath("cookies", true);
             };
 
-            //Cef will check if all dependencies are present
-            //For special case when Checking Windows Xp Dependencies
-            //DependencyChecker.IsWindowsXp = true;
-
             if (!Cef.Initialize(settings, shutdownOnProcessExit: true, performDependencyCheck: !DebuggingSubProcess))
             {
                 throw new Exception("Unable to Initialize Cef");
