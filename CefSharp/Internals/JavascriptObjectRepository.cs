@@ -83,7 +83,7 @@ namespace CefSharp.Internals
 
                 result = method.Function(obj.Value, DefaultBindingFlags, JavascriptTypeBinder.Singleton, parameters, CultureInfo.CurrentCulture);
 
-                if(result != null && IsComplexType(result.GetType()))
+                if (result != null && IsComplexType(result.GetType()))
                 {
                     var jsObject = CreateJavascriptObject(obj.CamelCaseJavascriptNames);
                     jsObject.SetValue(result);
@@ -124,15 +124,7 @@ namespace CefSharp.Internals
             try
             {
                 //If the property is of a complex type then perform late binding and return the JavascriptObject
-            if (property.JsObject != null)
-            {
-                    var childObject = property.JsObject.Bind();
-                    result = childObject.IsArray ? childObject.Value : childObject;
-                return true;
-            }
-
-                result = property.GetValue(obj.Value);
-
+                result = property.JsObject == null ? property.GetValue(obj.Value) : property.JsObject.Bind();
                 return true;
             }
             catch (Exception ex)
@@ -217,38 +209,41 @@ namespace CefSharp.Internals
                     jsObject.JavascriptName = GetJavascriptName(propertyInfo.Name, camelCaseJavascriptNames);
                     jsObject.LateBinding = () =>
                     {
+                        var newValue = jsProperty.GetValue(obj.Value);
+                        if (newValue == jsObject.Value)
+                        {
+                            return;
+                        }
+
                         if (propertyInfo.PropertyType.IsArray)
                         {
-                            var array = jsProperty.GetValue(obj.Value) as Array;
-                            if (array != null)
-                        {
-                            Array array = jsProperty.GetValue(obj.Value) as Array;
-                            var jsArray = new JavascriptObject[array.Length];
-                                for (var i = 0; i < array.Length; i++)
+                            var array = newValue as Array;
+                            if (array == null)
                             {
-                                var jsElem = CreateJavascriptObject(camelCaseJavascriptNames);
-                                jsElem.Name = jsElem.JavascriptName = i.ToString();
-                                    jsElem.SetValue(array.GetValue(i));
-                                AnalyseObjectForBinding(jsElem, camelCaseJavascriptNames);
-                                jsArray[i] = jsElem;
+                                jsObject.SetValue(null);
                             }
+                            else
+                            {
+                                var jsArray = new JavascriptObject[array.Length];
+                                for (var i = 0; i < array.Length; i++)
+                                {
+                                    var jsElem = CreateJavascriptObject(camelCaseJavascriptNames);
+                                    jsElem.Name = jsElem.JavascriptName = i.ToString();
+                                    jsElem.SetValue(array.GetValue(i));
+                                    AnalyseObjectForBinding(jsElem, camelCaseJavascriptNames);
+                                    jsArray[i] = jsElem;
+                                }
                                 jsObject.SetValue(jsArray);
                             }
                         }
                         else
                         {
-                            jsObject.SetValue(jsProperty.GetValue(obj.Value));
-                            AnalyseObjectForBinding(jsObject, camelCaseJavascriptNames);   
-                        }
-                            else
-                            {
-                                jsObject.Value = null;
-                            }
+                            jsObject.SetValue(newValue);
+                            AnalyseObjectForBinding(jsObject, camelCaseJavascriptNames);
                         }
                     };
                     jsProperty.JsObject = jsObject;
                 }
-
                 obj.Properties.Add(jsProperty);
             }
         }
@@ -271,7 +266,7 @@ namespace CefSharp.Internals
 
             jsProperty.ManagedName = propertyInfo.Name;
             jsProperty.JavascriptName = GetJavascriptName(propertyInfo.Name, camelCaseJavascriptNames);
-            jsProperty.SetValue = (o, v) => propertyInfo.SetValue(o, v, DefaultBindingFlags, JavascriptTypeBinder.Singleton,  null, CultureInfo.CurrentCulture);
+            jsProperty.SetValue = (o, v) => propertyInfo.SetValue(o, v, DefaultBindingFlags, JavascriptTypeBinder.Singleton, null, CultureInfo.CurrentCulture);
             jsProperty.GetValue = (o) => propertyInfo.GetValue(o, null);
 
             jsProperty.IsComplexType = IsComplexType(propertyInfo.PropertyType);
@@ -289,7 +284,7 @@ namespace CefSharp.Internals
 
             var baseType = type;
 
-            var nullable = type.IsGenericType && type.GetGenericTypeDefinition() == typeof (Nullable<>);
+            var nullable = type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
 
             if (nullable)
             {

@@ -270,5 +270,20 @@ namespace CefSharp.Example
         {
             return SubObject;
         }
+
+        public class NestedSubClass : BoundObject
+        {
+            public string[] MyStrings { get; set; }
+
+            public NestedSubClass()
+            {
+                MyStrings = new string[] { "subclass string 1", "subclass string 2" };
+            }
+        }
+
+        public void ToggleSubObjectParent()
+        {
+            SubObject.Parent = SubObject.Parent != null ? null : new NestedSubClass();
+        }
     }
 }

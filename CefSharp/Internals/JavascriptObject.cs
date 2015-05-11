@@ -11,7 +11,10 @@ namespace CefSharp.Internals
     [DataContract]
     public class JavascriptObject //: DynamicObject maybe later
     {
-        private bool bound;
+        /// <summary>
+        /// Indicates if this <see cref="JavascriptObject"/> represents an Array
+        /// </summary>
+        private bool _isArray;
 
         /// <summary>
         /// Identifies the <see cref="JavascriptObject" /> for BrowserProcess to RenderProcess communication
@@ -49,29 +52,22 @@ namespace CefSharp.Internals
         public bool IsNull { get; private set; }
 
         /// <summary>
-        /// Indicates if this <see cref="JavascriptObject"/> represents an Array
-        /// </summary>
-        [DataMember]
-        public bool IsArray { get; private set; }
-
-        /// <summary>
         /// Gets or sets a delegate which is called when binding occurred.  
         /// </summary>
         internal Action LateBinding { private get; set; }
 
         /// <summary>
-        /// Calls <see cref="LateBinding" /> if not already bound.
+        /// Calls <see cref="LateBinding" />.
         /// </summary>
-        /// <returns>this, so that calls can be chained.</returns>
-        internal JavascriptObject Bind()
+        /// <returns>Value if it's an array, else this.</returns>
+        internal Object Bind()
         {
-            if (!bound && LateBinding != null)
+            if (LateBinding != null)
             {
                 LateBinding();
-                bound = true;
             }
             
-            return this;
+            return _isArray ? Value : this;
         }
 
         /// <summary>
@@ -81,15 +77,23 @@ namespace CefSharp.Internals
 
         public void SetValue(object value)
         {
+            if (Value == value)
+            {
+                return;
+            }
             Value = value;
-            IsArray = value != null && value.GetType().IsArray;
+            _isArray = value != null && value.GetType().IsArray;
             IsNull = value == null;
+            // need to clear methods and properties when new value is set
+            Methods.Clear();
+            Properties.Clear();
         }
 
         public JavascriptObject()
         {
             Methods = new List<JavascriptMethod>();
             Properties = new List<JavascriptProperty>();
+            IsNull = true; // Value starts as null
         }
 
         public override string ToString()

@@ -156,5 +156,27 @@
                 }
             </script>
         </ul>
+
+        bound subobject's parent before and after calling bound.toggleSubObjectParent(): <br/>
+        <ul>
+            <script type="text/javascript">
+                var so = bound.subObject;
+                for (var i = 0; i < 3; i++)
+                {
+                    if (so.parent == null)
+                        document.write("<li>subObject parent is null.");
+                    else if (so.parent["myStrings"]) {
+                        document.write("<li>subObject parent has myStrings property: <br/>");
+                        for (var j in so.parent.myStrings)
+                            document.write(so.parent.myStrings[j] + "<br/>");
+                    }
+                    else
+                        document.write("<li>subObject parent doesn't have myStrings property.");
+                    document.write("</li>");
+                    document.write("<li><font color='blue'>Calling bound.toggleSubObjectParent()</font></li>");
+                    bound.toggleSubObjectParent();
+                }
+            </script>
+        </ul>
     </body>
 </html>
