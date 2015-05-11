@@ -6,9 +6,11 @@
 
 #include "Stdafx.h"
 #include "MCefRefPtr.h"
+#include "include/cef_drag_data.h"
 
 using namespace std;
 using namespace System;
+using namespace System::IO;
 using namespace CefSharp;
 
 namespace CefSharp

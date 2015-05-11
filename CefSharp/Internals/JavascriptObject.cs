@@ -8,6 +8,12 @@ using System.Runtime.Serialization;
 
 namespace CefSharp.Internals
 {
+    /// <summary>
+    /// This maps the registered objects in the browser process
+    /// to the reflection data necessary to update the objects,
+    /// and mapping information to how the object/method/proprerty
+    /// will be exposed to JavaScript.
+    /// </summary>
     [DataContract]
     public class JavascriptObject //: DynamicObject maybe later
     {

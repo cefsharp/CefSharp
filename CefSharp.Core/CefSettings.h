@@ -26,6 +26,7 @@ namespace CefSharp
         CefSettings() : _cefSettings(new ::CefSettings())
         {
             _cefSettings->multi_threaded_message_loop = true;
+            _cefSettings->no_sandbox = true;
             BrowserSubprocessPath = "CefSharp.BrowserSubprocess.exe";
             _cefCustomSchemes = gcnew List<CefCustomScheme^>();
             _cefCommandLineArgs = gcnew Dictionary<String^, String^>();
@@ -125,6 +126,12 @@ namespace CefSharp
         {
             bool get() { return _cefSettings->windowless_rendering_enabled == 1; }
             void set(bool value) { _cefSettings->windowless_rendering_enabled = value; }
+        }
+
+        virtual property bool PersistSessionCookies
+        {
+            bool get() { return _cefSettings->persist_session_cookies == 1; }
+            void set(bool value) { _cefSettings->persist_session_cookies = value; }
         }
 
         /// <summary>

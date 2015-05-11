@@ -8,7 +8,7 @@ namespace CefSharp.Wpf.Example.Handlers
 {
     public class MenuHandler : IMenuHandler
     {
-        public bool OnBeforeContextMenu(IWebBrowser browser, IContextMenuParams parameters)
+        public bool OnBeforeContextMenu(IWebBrowser browser, IFrame frame, IContextMenuParams parameters)
         {
             Console.WriteLine("Context menu opened");
             Console.WriteLine(parameters.MisspelledWord);
