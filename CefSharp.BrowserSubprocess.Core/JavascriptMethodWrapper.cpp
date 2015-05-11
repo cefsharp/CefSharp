@@ -23,7 +23,7 @@ namespace CefSharp
     BrowserProcessResponse^ JavascriptMethodWrapper::Execute(array<Object^>^ parameters)
     {
         auto response = _browserProcess->CallMethod(_ownerId, _javascriptMethod->JavascriptName, parameters);
-        if (response->Result->GetType() == JavascriptObject::typeid) 
+        if (response->Success && response->Result != nullptr && response->Result->GetType() == JavascriptObject::typeid)
         {
             auto obj = safe_cast<JavascriptObject^>(response->Result);
             auto jsWrapper = gcnew JavascriptObjectWrapper(obj, _browserProcess);
