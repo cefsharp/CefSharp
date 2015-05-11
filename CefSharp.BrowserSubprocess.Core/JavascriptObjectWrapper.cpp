@@ -71,62 +71,58 @@ namespace CefSharp
         auto response = _browserProcess->GetProperty(_object->Id, memberName);
         if (response->Success && response->Result != nullptr)
         {
-            auto type = response->Result->GetType();
-            if (type == JavascriptObject::typeid)
+        auto type = response->Result->GetType();
+        if (type == JavascriptObject::typeid)
+        {
+            auto obj = safe_cast<JavascriptObject^>(response->Result);
+            JavascriptPropertyWrapper^ propWrapper;
+            bool same = false;
+            if (_wrappedProperties->TryGetValue(memberName, propWrapper))
             {
-                auto obj = safe_cast<JavascriptObject^>(response->Result);
-                JavascriptPropertyWrapper^ propWrapper;
-                bool same = false;
-                if (_wrappedProperties->TryGetValue(memberName, propWrapper))
+                if (propWrapper->JavascriptObjectWrapper != nullptr)
                 {
-                    if (propWrapper->_javascriptObjectWrapper != nullptr)
-                    {
-                        auto objWrapper = safe_cast<JavascriptObjectWrapper^>(propWrapper->_javascriptObjectWrapper);
-                        same = obj->Id == objWrapper->_object->Id;
-                    }
+                    auto objWrapper = safe_cast<JavascriptObjectWrapper^>(propWrapper->JavascriptObjectWrapper);
+                    same = obj->Id == objWrapper->_object->Id;
                 }
-                if (!same)
-                {
-                    auto jsObjectWrapper = gcnew JavascriptObjectWrapper(obj, _browserProcess);
-                    jsObjectWrapper->V8Value = propWrapper->V8Value.get();
-                    jsObjectWrapper->Bind();
-                    if (propWrapper->_javascriptObjectWrapper != nullptr)
-                    {
-                        delete propWrapper->_javascriptObjectWrapper;
-                    }
-                    propWrapper->_javascriptObjectWrapper = jsObjectWrapper;
-                }
-                response->Result = propWrapper->_javascriptObjectWrapper;
             }
-            else if (type->IsArray && type->GetElementType() == JavascriptObject::typeid)
+            if (!same)
             {
-                auto array = safe_cast<Array^>(response->Result);
-                CefRefPtr<CefV8Value> cefArray = CefV8Value::CreateArray(array->Length);
-                for (int i = 0; i < array->Length; i++)
-                {
-                    JavascriptObject^ jsObj = safe_cast<JavascriptObject^>(array->GetValue(i));
-                    if (jsObj != nullptr)
-                    {
-                        auto objWrapper = gcnew JavascriptObjectWrapper(jsObj, _browserProcess);
-                        objWrapper->Bind();
-                        cefArray->SetValue(i, objWrapper->V8Value.get());
-                    }
-                    else
-                        cefArray->SetValue(i, CefV8Value::CreateNull());
+                auto jsObjectWrapper = gcnew JavascriptObjectWrapper(obj, _browserProcess);
+                jsObjectWrapper->V8Value = propWrapper->V8Value.get();
+                jsObjectWrapper->Bind();
+                delete propWrapper->JavascriptObjectWrapper;
+                propWrapper->JavascriptObjectWrapper = jsObjectWrapper;
                 }
+            response->Result = propWrapper->JavascriptObjectWrapper;
+            }
+        else if (type->IsArray && type->GetElementType() == JavascriptObject::typeid)
+        {
+            auto array = safe_cast<Array^>(response->Result);
+            CefRefPtr<CefV8Value> cefArray = CefV8Value::CreateArray(array->Length);
+            for (int i = 0; i < array->Length; i++)
+            {
+                JavascriptObject^ jsObj = safe_cast<JavascriptObject^>(array->GetValue(i));
+                if (jsObj == nullptr)
+                {
+                    cefArray->SetValue(i, CefV8Value::CreateNull());
+                }
+                else
+                {
+                    auto objWrapper = gcnew JavascriptObjectWrapper(jsObj, _browserProcess);
+                    objWrapper->Bind();
+                    cefArray->SetValue(i, objWrapper->V8Value.get());
+                }
+            }
 
-                JavascriptPropertyWrapper^ propWrapper;
-                if (_wrappedProperties->TryGetValue(memberName, propWrapper))
-                {
-                    if (propWrapper->_javascriptObjectWrapper != nullptr)
-                    {
-                        delete propWrapper->_javascriptObjectWrapper;
-                    }
-                }
-                auto jsObjectWrapper = gcnew JavascriptObjectWrapper(nullptr, _browserProcess);
-                jsObjectWrapper->V8Value = cefArray;
-                response->Result = propWrapper->_javascriptObjectWrapper = jsObjectWrapper;
+            JavascriptPropertyWrapper^ propWrapper;
+            if (_wrappedProperties->TryGetValue(memberName, propWrapper))
+            {
+                delete propWrapper->JavascriptObjectWrapper;
             }
+            auto jsObjectWrapper = gcnew JavascriptObjectWrapper(nullptr, _browserProcess);
+            jsObjectWrapper->V8Value = cefArray;
+            response->Result = propWrapper->JavascriptObjectWrapper = jsObjectWrapper;
+        }
         }
         return response;
     };

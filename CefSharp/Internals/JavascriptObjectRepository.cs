@@ -40,7 +40,7 @@ namespace CefSharp.Internals
         public void Register(string name, object value, bool camelCaseJavascriptNames)
         {
             var jsObject = CreateJavascriptObject(camelCaseJavascriptNames);
-            jsObject.Value = value;
+            jsObject.SetValue(value);
             jsObject.Name = name;
             jsObject.JavascriptName = name;
 
@@ -86,7 +86,7 @@ namespace CefSharp.Internals
                 if(result != null && IsComplexType(result.GetType()))
                 {
                     var jsObject = CreateJavascriptObject(obj.CamelCaseJavascriptNames);
-                    jsObject.Value = result;
+                    jsObject.SetValue(result);
                     jsObject.Name = "FunctionResult(" + name + ")";
                     jsObject.JavascriptName = jsObject.Name;
 
@@ -121,15 +121,16 @@ namespace CefSharp.Internals
                 throw new InvalidOperationException(string.Format("Property {0} not found on Object of Type {1}", name, obj.Value.GetType()));
             }
 
+            try
+            {
+                //If the property is of a complex type then perform late binding and return the JavascriptObject
             if (property.JsObject != null)
             {
-                obj = property.JsObject.Bind();
-                result = !obj.IsNull && obj.Value.GetType().IsArray ? obj.Value : obj;
+                    var childObject = property.JsObject.Bind();
+                    result = childObject.IsArray ? childObject.Value : childObject;
                 return true;
             }
 
-            try
-            {
                 result = property.GetValue(obj.Value);
 
                 return true;
@@ -173,7 +174,6 @@ namespace CefSharp.Internals
         /// <summary>
         /// Analyse the object and generate metadata which will
         /// be used by the browser subprocess to interact with Cef.
-        /// Method is NOT called recursively and use late binding instead
         /// </summary>
         /// <param name="obj">Javascript object</param>
         /// <param name="camelCaseJavascriptNames">camel case the javascript names of properties/methods</param>
@@ -217,27 +217,29 @@ namespace CefSharp.Internals
                     jsObject.JavascriptName = GetJavascriptName(propertyInfo.Name, camelCaseJavascriptNames);
                     jsObject.LateBinding = () =>
                     {
-                        if (!propertyInfo.PropertyType.IsArray)
+                        if (propertyInfo.PropertyType.IsArray)
                         {
-                            jsObject.Value = jsProperty.GetValue(obj.Value);
-                            AnalyseObjectForBinding(jsObject, camelCaseJavascriptNames);
+                            var array = jsProperty.GetValue(obj.Value) as Array;
+                            if (array != null)
+                        {
+                            Array array = jsProperty.GetValue(obj.Value) as Array;
+                            var jsArray = new JavascriptObject[array.Length];
+                                for (var i = 0; i < array.Length; i++)
+                            {
+                                var jsElem = CreateJavascriptObject(camelCaseJavascriptNames);
+                                jsElem.Name = jsElem.JavascriptName = i.ToString();
+                                    jsElem.SetValue(array.GetValue(i));
+                                AnalyseObjectForBinding(jsElem, camelCaseJavascriptNames);
+                                jsArray[i] = jsElem;
+                            }
+                                jsObject.SetValue(jsArray);
+                            }
                         }
                         else
                         {
-                            Array array = jsProperty.GetValue(obj.Value) as Array;
-                            if (array != null)
-                            {
-                                var jsArray = new JavascriptObject[array.Length];
-                                for (int i = 0; i < array.Length; i++)
-                                {
-                                    var jsElem = CreateJavascriptObject(camelCaseJavascriptNames);
-                                    jsElem.Name = jsElem.JavascriptName = i.ToString();
-                                    jsElem.Value = array.GetValue(i);
-                                    AnalyseObjectForBinding(jsElem, camelCaseJavascriptNames);
-                                    jsArray[i] = jsElem;
-                                }
-                                jsObject.Value = jsArray;
-                            }
+                            jsObject.SetValue(jsProperty.GetValue(obj.Value));
+                            AnalyseObjectForBinding(jsObject, camelCaseJavascriptNames);   
+                        }
                             else
                             {
                                 jsObject.Value = null;
