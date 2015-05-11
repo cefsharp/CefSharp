@@ -176,6 +176,8 @@ namespace CefSharp
 
         if (obj->IsArray())
         {
+            auto array = gcnew List<Object^>();
+
             int arrLength = obj->GetArrayLength();
 
             if (arrLength > 0)
@@ -183,7 +185,6 @@ namespace CefSharp
                 std::vector<CefString> keys;
                 if (obj->GetKeys(keys))
                 {
-                    auto array = gcnew List<Object^>();
 
                     for (int i = 0; i < arrLength; i++)
                     {
@@ -195,12 +196,10 @@ namespace CefSharp
                             array->Add(p_data);
                         }
                     }
-
-                    return array->ToArray();
                 }
             }
 
-            return nullptr;
+            return array->ToArray();
         }
 
         if (obj->IsObject())

@@ -21,15 +21,9 @@ namespace CefSharp.Example
             }
         }
 
-        public uint[] MyUintArray
-        {
-            get { return new uint[] { 7, 8 }; }
-        }
+        public uint[] MyUintArray { get; set; }
 
-        public int[] MyIntArray
-        {
-            get { return new [] { 1, 2, 3, 4, 5, 6, 7, 8 }; }
-        }
+        public int[] MyIntArray { get; set; }
 
         public Array MyArray
         {
@@ -48,6 +42,8 @@ namespace CefSharp.Example
             IgnoredProperty = "I am an Ignored Property";
             MyUnconvertibleProperty = GetType();
             SubObject = new SubBoundObject() { Parent = this };
+            MyUintArray = new uint[] { 7, 8 };
+            MyIntArray = new[] { 1, 2, 3, 4, 5, 6, 7, 8 };
         }
 
         public void TestCallback(IJavascriptCallback javascriptCallback)

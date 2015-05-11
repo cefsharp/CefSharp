@@ -3,6 +3,8 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Globalization;
+using System.Reflection;
 using System.Runtime.Serialization;
 
 namespace CefSharp.Internals
@@ -13,7 +15,7 @@ namespace CefSharp.Internals
         /// <summary>
         /// Gets or sets a delegate which is used to invoke the method if the member is a method. 
         /// </summary>
-        public Func<object, object[], object> Function { get; set; }
+        public Func<object, BindingFlags, Binder, object[], CultureInfo, object> Function { get; set; }
 
         /// <summary>
         /// Identifies the <see cref="JavascriptMethod" /> for BrowserProcess to RenderProcess communication

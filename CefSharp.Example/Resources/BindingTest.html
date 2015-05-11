@@ -124,5 +124,37 @@
                 }
             </script>
         </ul>
+
+        Calling echo methods on bound object 'bound' with -1 and 1.5 to test int and double conversion:<br />
+        <ul>
+            <script type="text/javascript">
+                for (var name in bound)
+                {
+                    if (name.indexOf("echo") != 0 || bound[name].constructor.name != 'Function') continue;
+                    if (name == "echoMyProperty" || name == "echoVoid") continue;
+                    document.write("<li>Calling " + name + "(-1) returns: ");
+                    try 
+                    {
+                        document.write(bound[name](-1));
+                    }
+                    catch (e) 
+                    {
+                        document.write("<font color='red'>" + e.message + "</font>");
+                    }
+                    document.write("</li>");
+
+                    document.write("<li>Calling " + name + "(1.5) returns: ");
+                    try
+                    {
+                        document.write(bound[name](1.5));
+                    }
+                    catch (e)
+                    {
+                        document.write("<font color='red'>" + e.message + "</font>");
+                    }
+                    document.write("</li>");
+                }
+            </script>
+        </ul>
     </body>
 </html>

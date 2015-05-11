@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
@@ -13,6 +14,7 @@ namespace CefSharp.Internals
     {
         private static long lastId;
         private static readonly object Lock = new object();
+        private static readonly BindingFlags DefaultBindingFlags = BindingFlags.Instance | BindingFlags.Public;
 
         private readonly Dictionary<long, JavascriptObject> objects = new Dictionary<long, JavascriptObject>();
         public JavascriptRootObject RootObject { get; private set; }
@@ -79,7 +81,7 @@ namespace CefSharp.Internals
                     parameters = paramList.ToArray();
                 }
 
-                result = method.Function(obj.Value, parameters);
+                result = method.Function(obj.Value, DefaultBindingFlags, JavascriptTypeBinder.Singleton, parameters, CultureInfo.CurrentCulture);
 
                 if(result != null && IsComplexType(result.GetType()))
                 {
@@ -188,7 +190,7 @@ namespace CefSharp.Internals
                 return;
             }
 
-            foreach (var methodInfo in type.GetMethods(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
+            foreach (var methodInfo in type.GetMethods(DefaultBindingFlags).Where(p => !p.IsSpecialName))
             {
                 // Type objects can not be serialized.
                 if (methodInfo.ReturnType == typeof(Type) || Attribute.IsDefined(methodInfo, typeof(JavascriptIgnoreAttribute)))
@@ -200,7 +202,7 @@ namespace CefSharp.Internals
                 obj.Methods.Add(jsMethod);
             }
 
-            foreach (var propertyInfo in type.GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
+            foreach (var propertyInfo in type.GetProperties(DefaultBindingFlags).Where(p => !p.IsSpecialName))
             {
                 if (propertyInfo.PropertyType == typeof(Type) || Attribute.IsDefined(propertyInfo, typeof(JavascriptIgnoreAttribute)))
                 {
@@ -223,16 +225,23 @@ namespace CefSharp.Internals
                         else
                         {
                             Array array = jsProperty.GetValue(obj.Value) as Array;
-                            var jsArray = new JavascriptObject[array.Length];
-                            for (int i = 0; i < array.Length; i++)
+                            if (array != null)
                             {
-                                var jsElem = CreateJavascriptObject(camelCaseJavascriptNames);
-                                jsElem.Name = jsElem.JavascriptName = i.ToString();
-                                jsElem.Value = array.GetValue(i);
-                                AnalyseObjectForBinding(jsElem, camelCaseJavascriptNames);
-                                jsArray[i] = jsElem;
+                                var jsArray = new JavascriptObject[array.Length];
+                                for (int i = 0; i < array.Length; i++)
+                                {
+                                    var jsElem = CreateJavascriptObject(camelCaseJavascriptNames);
+                                    jsElem.Name = jsElem.JavascriptName = i.ToString();
+                                    jsElem.Value = array.GetValue(i);
+                                    AnalyseObjectForBinding(jsElem, camelCaseJavascriptNames);
+                                    jsArray[i] = jsElem;
+                                }
+                                jsObject.Value = jsArray;
                             }
-                            jsObject.Value = jsArray;
+                            else
+                            {
+                                jsObject.Value = null;
+                            }
                         }
                     };
                     jsProperty.JsObject = jsObject;
@@ -260,7 +269,7 @@ namespace CefSharp.Internals
 
             jsProperty.ManagedName = propertyInfo.Name;
             jsProperty.JavascriptName = GetJavascriptName(propertyInfo.Name, camelCaseJavascriptNames);
-            jsProperty.SetValue = (o, v) => propertyInfo.SetValue(o, v, null);
+            jsProperty.SetValue = (o, v) => propertyInfo.SetValue(o, v, DefaultBindingFlags, JavascriptTypeBinder.Singleton,  null, CultureInfo.CurrentCulture);
             jsProperty.GetValue = (o) => propertyInfo.GetValue(o, null);
 
             jsProperty.IsComplexType = IsComplexType(propertyInfo.PropertyType);
