@@ -50,7 +50,6 @@ namespace CefSharp.Wpf
         public IResourceHandlerFactory ResourceHandlerFactory { get; set; }
         public IGeolocationHandler GeolocationHandler { get; set; }
         public IBitmapFactory BitmapFactory { get; set; }
-        public bool TransparentBackground { get; set; }
 
         public event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
         public event EventHandler<StatusMessageEventArgs> StatusMessage;
@@ -151,7 +150,6 @@ namespace CefSharp.Wpf
 
             ResourceHandlerFactory = new DefaultResourceHandlerFactory();
             BrowserSettings = new BrowserSettings();
-            TransparentBackground = true;
 
             PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
         }
@@ -859,7 +857,7 @@ namespace CefSharp.Wpf
                 return;
             }
 
-            managedCefBrowserAdapter.CreateOffscreenBrowser(source == null ? IntPtr.Zero : source.Handle, BrowserSettings, Address, TransparentBackground);
+            managedCefBrowserAdapter.CreateOffscreenBrowser(source == null ? IntPtr.Zero : source.Handle, BrowserSettings, Address);
             browserCreated = true;
         }
 

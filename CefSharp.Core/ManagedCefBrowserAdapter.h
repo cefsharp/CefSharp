@@ -72,14 +72,10 @@ namespace CefSharp
 
         void CreateOffscreenBrowser(IntPtr windowHandle, BrowserSettings^ browserSettings, String^ address)
         {
-            CreateOffscreenBrowser(windowHandle, browserSettings, address, FALSE);
-        }
-
-        void CreateOffscreenBrowser(IntPtr windowHandle, BrowserSettings^ browserSettings, String^ address, bool transparent)
-        {
             auto hwnd = static_cast<HWND>(windowHandle.ToPointer());
 
             CefWindowInfo window;
+            bool transparent = !(browserSettings->OffscreenTransparentBackground->HasValue) || browserSettings->OffscreenTransparentBackground->Value;
             window.SetAsWindowless(hwnd, transparent);
             CefString addressNative = StringUtils::ToNative(address);
 
