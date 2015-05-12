@@ -73,6 +73,8 @@ namespace CefSharp
     {
     private:
         bool _isFinalized;
+        Nullable<bool>^ _offscreenTransparentBackground;
+
     internal:
         CefBrowserSettings* _browserSettings;
 
@@ -272,6 +274,12 @@ namespace CefSharp
         {
             Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->webgl); }
             void set(Nullable<bool>^ value) { _browserSettings->webgl = CefStateFromDisabledSetting(value); }
+        }
+
+        property Nullable<bool>^ OffscreenTransparentBackground
+        {
+            Nullable<bool>^ get() { return _offscreenTransparentBackground; }
+            void set(Nullable<bool>^ value) { _offscreenTransparentBackground = value; }
         }
 
     };

@@ -75,7 +75,8 @@ namespace CefSharp
             auto hwnd = static_cast<HWND>(windowHandle.ToPointer());
 
             CefWindowInfo window;
-            window.SetAsWindowless(hwnd, TRUE);
+            bool transparent = !(browserSettings->OffscreenTransparentBackground->HasValue) || browserSettings->OffscreenTransparentBackground->Value;
+            window.SetAsWindowless(hwnd, transparent);
             CefString addressNative = StringUtils::ToNative(address);
 
             if (!CefBrowserHost::CreateBrowser(window, _clientAdapter.get(), addressNative,
