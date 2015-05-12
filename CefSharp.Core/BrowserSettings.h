@@ -82,13 +82,6 @@ namespace CefSharp
         !BrowserSettings() { delete _browserSettings; _isFinalized = true; }
         ~BrowserSettings() { if (!_isFinalized) this->!BrowserSettings(); }
 
-        // CefBrowserSettings is private causing whole field to be private
-        // exposing void* as a workaround
-        property void* _internalBrowserSettings
-        {
-            void* get() { return _browserSettings; }
-        }
-
         property String^ StandardFontFamily
         {
             String^ get() { return StringUtils::ToClr(_browserSettings->standard_font_family); }

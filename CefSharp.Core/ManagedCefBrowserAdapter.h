@@ -80,7 +80,7 @@ namespace CefSharp
             CefString addressNative = StringUtils::ToNative(address);
 
             if (!CefBrowserHost::CreateBrowser(window, _clientAdapter.get(), addressNative,
-                *(CefBrowserSettings*) browserSettings->_internalBrowserSettings, NULL))
+                *browserSettings->_browserSettings, NULL))
             {
                 throw gcnew InvalidOperationException( "Failed to create offscreen browser. Call Cef.Initialize() first." );
             }
@@ -647,7 +647,7 @@ namespace CefSharp
             CefString addressNative = StringUtils::ToNative(address);
 
             CefBrowserHost::CreateBrowser(window, _clientAdapter.get(), addressNative,
-                *(CefBrowserSettings*)browserSettings->_internalBrowserSettings, NULL);
+                *browserSettings->_browserSettings, NULL);
         }
 
         void Resize(int width, int height)
