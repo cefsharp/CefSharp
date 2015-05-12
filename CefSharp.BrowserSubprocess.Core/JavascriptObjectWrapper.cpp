@@ -69,7 +69,7 @@ namespace CefSharp
         }
     }
 
-    Object^ JavascriptObjectWrapper::_wrapObject(JavascriptObject^ obj, String^ memberName)
+    Object^ JavascriptObjectWrapper::WrapObject(JavascriptObject^ obj, String^ memberName)
     {
         JavascriptPropertyWrapper^ propWrapper;
         bool same = false;
@@ -91,7 +91,7 @@ namespace CefSharp
         return propWrapper->JavascriptObjectWrapper;
     }
 
-    Object^ JavascriptObjectWrapper::_wrapArray(Array^ array, String^ memberName)
+    Object^ JavascriptObjectWrapper::WrapArray(Array^ array, String^ memberName)
     {
         CefRefPtr<CefV8Value> cefArray = CefV8Value::CreateArray(array->Length);
         for (int i = 0; i < array->Length; i++)
@@ -128,11 +128,11 @@ namespace CefSharp
             auto type = response->Result->GetType();
             if (type == JavascriptObject::typeid)
             {
-                response->Result = _wrapObject(safe_cast<JavascriptObject^>(response->Result), memberName);
+                response->Result = WrapObject(safe_cast<JavascriptObject^>(response->Result), memberName);
             }
             else if (type->IsArray && type->GetElementType() == JavascriptObject::typeid)
             {
-                response->Result = _wrapArray(safe_cast<Array^>(response->Result), memberName);
+                response->Result = WrapArray(safe_cast<Array^>(response->Result), memberName);
             }
         }
         return response;

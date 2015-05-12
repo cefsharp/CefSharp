@@ -27,8 +27,8 @@ namespace CefSharp
         Dictionary<String^, JavascriptPropertyWrapper^>^ _wrappedProperties;
         IBrowserProcess^ _browserProcess;
         MCefRefPtr<JavascriptPropertyHandler> _jsPropertyHandler;
-        Object^ _wrapObject(JavascriptObject^, String^);
-        Object^ _wrapArray(Array^, String^);
+        Object^ WrapObject(JavascriptObject^, String^);
+        Object^ WrapArray(Array^, String^);
 
     internal:
         MCefRefPtr<CefV8Value> V8Value;
