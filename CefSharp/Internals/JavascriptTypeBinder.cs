@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -243,16 +244,30 @@ namespace CefSharp.Internals
             }
 
             var originalType = value.GetType();
-            if (originalType.IsArray && type.IsArray)
+            if (originalType.IsArray)
             {
-                var toElemType = type.GetElementType();
                 var from = value as Array;
-                var to = Array.CreateInstance(toElemType, from.Length);
-                for (int i = 0; i < from.Length; i++)
+                if (type.IsArray)
                 {
-                    to.SetValue(ChangeType(from.GetValue(i), toElemType, culture), i);
+                    var toElemType = type.GetElementType();
+                    var array = Array.CreateInstance(toElemType, from.Length);
+                    for (int i = 0; i < from.Length; i++)
+                    {
+                        array.SetValue(ChangeType(from.GetValue(i), toElemType, culture), i);
+                    }
+                    return array;
                 }
-                return to;
+                else if (type.IsGenericType && type.GetInterface(typeof(IList).Name) != null)
+                {
+                    var list = Activator.CreateInstance(type) as IList;
+                    var toElemType = type.GetGenericArguments()[0];
+                    for (int i = 0; i < from.Length; i++)
+                    {
+                        list.Add(ChangeType(from.GetValue(i), toElemType, culture));
+                    }
+                    return list;
+                }
+                return Convert.ChangeType(value, type);
             }
             else
             {

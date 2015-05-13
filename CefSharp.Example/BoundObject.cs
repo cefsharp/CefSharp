@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace CefSharp.Example
@@ -37,6 +38,8 @@ namespace CefSharp.Example
             get { return new byte[] { 3, 4, 5 }; }
         }
 
+        public List<uint> MyUintList { get; set; }
+
         public BoundObject()
         {
             MyProperty = 42;
@@ -46,6 +49,7 @@ namespace CefSharp.Example
             SubObject = new SubBoundObject() { Parent = this };
             MyUintArray = new uint[] { 7, 8 };
             MyIntArray = new[] { 1, 2, 3, 4, 5, 6, 7, 8 };
+            MyUintList = new List<uint>(MyUintArray);
         }
 
         public void TestCallback(IJavascriptCallback javascriptCallback)
@@ -269,6 +273,16 @@ namespace CefSharp.Example
         public SubBoundObject GetSubObject()
         {
             return SubObject;
+        }
+
+        public SubBoundObject[] GetMySubObjects()
+        {
+            return MyObjects;
+        }
+
+        public List<SubBoundObject> GetMySubObjectList()
+        {
+            return new List<SubBoundObject>(MyObjects);
         }
 
         public class NestedSubClass : BoundObject

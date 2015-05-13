@@ -3,10 +3,12 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
 
 namespace CefSharp.Internals
 {
@@ -106,16 +108,21 @@ namespace CefSharp.Internals
 
                 result = method.Function(obj.Value, DefaultBindingFlags, JavascriptTypeBinder.Singleton, parameters, CultureInfo.CurrentCulture);
 
-                if (result != null && IsComplexType(result.GetType()))
+                if (result != null)
                 {
-                    var jsObject = CreateJavascriptObject(obj.CamelCaseJavascriptNames);
-                    jsObject.SetValue(result);
-                    jsObject.Name = "FunctionResult(" + name + ")";
-                    jsObject.JavascriptName = jsObject.Name;
-
-                    AnalyseObjectForBinding(jsObject, obj.CamelCaseJavascriptNames);
-
-                    result = jsObject;
+                    var type = result.GetType();
+                    if (IsComplexType(type))
+                    {
+                        var jsObject = CreateJavascriptObject(obj.CamelCaseJavascriptNames);
+                        jsObject.Name = "FunctionResult(" + name + ")";
+                        jsObject.JavascriptName = jsObject.Name;
+                        SetJavascriptObjectValue(jsObject, result, result.GetType(), obj.CamelCaseJavascriptNames);
+                        result = jsObject.Bind();
+                    }
+                    else
+                    {
+                        result = ConvertIfGenericList(result, type, obj.CamelCaseJavascriptNames);
+                    }
                 }
 
                 return true;
@@ -237,38 +244,77 @@ namespace CefSharp.Internals
                         {
                             return;
                         }
-
-                        if (propertyInfo.PropertyType.IsArray)
-                        {
-                            var array = newValue as Array;
-                            if (array == null)
-                            {
-                                jsObject.SetValue(null);
-                            }
-                            else
-                            {
-                                var jsArray = new JavascriptObject[array.Length];
-                                for (var i = 0; i < array.Length; i++)
-                                {
-                                    var jsElem = CreateJavascriptObject(camelCaseJavascriptNames);
-                                    jsElem.Name = jsElem.JavascriptName = i.ToString();
-                                    jsElem.SetValue(array.GetValue(i));
-                                    AnalyseObjectForBinding(jsElem, camelCaseJavascriptNames);
-                                    jsArray[i] = jsElem;
-                                }
-                                jsObject.SetValue(jsArray);
-                            }
-                        }
-                        else
-                        {
-                            jsObject.SetValue(newValue);
-                            AnalyseObjectForBinding(jsObject, camelCaseJavascriptNames);
-                        }
+                        SetJavascriptObjectValue(jsObject, newValue, propertyInfo.PropertyType, camelCaseJavascriptNames);
                     };
                     jsProperty.JsObject = jsObject;
                 }
                 obj.Properties.Add(jsProperty);
             }
+        }
+
+        private void SetJavascriptObjectValue(JavascriptObject jsObject, object value, Type type, bool camelCaseJavascriptNames)
+        {
+            if (type.IsGenericType)
+            {
+                IList list = value as IList;
+                if (list != null)
+                {
+                    var elemType = type.GetGenericArguments()[0];
+                    if (IsComplexType(elemType))
+                    {
+                        var jsArray = new JavascriptObject[list.Count];
+                        for (var i = 0; i < list.Count; i++)
+                        {
+                            jsArray[i] = CreateJavascriptObject(i.ToString(), list[i], camelCaseJavascriptNames);
+                        }
+                        jsObject.SetValue(jsArray);
+                    }
+                    else
+                    {
+                        var array = Array.CreateInstance(elemType, list.Count);
+                        for (int i = 0; i < list.Count; i++)
+                        {
+                            array.SetValue(list[i], i);
+                        }
+                        jsObject.SetValue(array);
+                    }
+                }
+                else
+                {
+                    throw new SerializationException(jsObject.JavascriptName);
+                }
+            }
+            else if (type.IsArray)
+            {
+                var array = value as Array;
+                if (array == null)
+                {
+                    jsObject.SetValue(null);
+                }
+                else
+                {
+                    var jsArray = new JavascriptObject[array.Length];
+                    for (var i = 0; i < array.Length; i++)
+                    {
+                        jsArray[i] = CreateJavascriptObject(i.ToString(), array.GetValue(i), camelCaseJavascriptNames);
+                    }
+                    jsObject.SetValue(jsArray);
+                }
+            }
+            else
+            {
+                jsObject.SetValue(value);
+                AnalyseObjectForBinding(jsObject, camelCaseJavascriptNames);
+            }
+        }
+        
+        private JavascriptObject CreateJavascriptObject(string name, object value, bool camelCaseJavascriptNames)
+        {
+            var jsObject = CreateJavascriptObject(camelCaseJavascriptNames);
+            jsObject.Name = jsObject.JavascriptName = name;
+            jsObject.SetValue(value);
+            AnalyseObjectForBinding(jsObject, camelCaseJavascriptNames);
+            return jsObject;
         }
 
         private static JavascriptMethod CreateJavaScriptMethod(MethodInfo methodInfo, bool camelCaseJavascriptNames)
@@ -283,15 +329,48 @@ namespace CefSharp.Internals
             return jsMethod;
         }
 
-        private static JavascriptProperty CreateJavaScriptProperty(PropertyInfo propertyInfo, bool camelCaseJavascriptNames)
+        private object ConvertIfGenericList(object value, Type type, bool camelCaseJavascriptNames)
+        {
+            if (!type.IsGenericType) return value;
+
+            IList list = value as IList;
+            if (list != null)
+            {
+                var elemType = type.GetGenericArguments()[0];
+                if (IsComplexType(elemType))
+                {
+                    var jsArray = new JavascriptObject[list.Count];
+                    for (var i = 0; i < list.Count; i++)
+                    {
+                        jsArray[i] = CreateJavascriptObject(i.ToString(), list[i], camelCaseJavascriptNames);
+                    }
+                    return jsArray;
+                }
+                else
+                {
+                    var array = Array.CreateInstance(elemType, list.Count);
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        array.SetValue(list[i], i);
+                    }
+                    return array;
+                }
+            }
+            else
+            {
+                throw new SerializationException("Unable to serialize generic type " + type.ToString());
+            }
+        }
+
+        private JavascriptProperty CreateJavaScriptProperty(PropertyInfo propertyInfo, bool camelCaseJavascriptNames)
         {
             var jsProperty = new JavascriptProperty();
 
             jsProperty.ManagedName = propertyInfo.Name;
             jsProperty.JavascriptName = GetJavascriptName(propertyInfo.Name, camelCaseJavascriptNames);
             jsProperty.SetValue = (o, v) => propertyInfo.SetValue(o, v, DefaultBindingFlags, JavascriptTypeBinder.Singleton, null, CultureInfo.CurrentCulture);
-            jsProperty.GetValue = (o) => propertyInfo.GetValue(o, null);
-
+            jsProperty.GetValue = (o) => ConvertIfGenericList(propertyInfo.GetValue(o, null), propertyInfo.PropertyType, camelCaseJavascriptNames);
+ 
             jsProperty.IsComplexType = IsComplexType(propertyInfo.PropertyType);
             jsProperty.IsReadOnly = !propertyInfo.CanWrite;
 
