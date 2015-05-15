@@ -35,7 +35,7 @@ namespace CefSharp.BrowserSubprocess
         public static CefSubProcess Create(IEnumerable<string> args)
         {
             const string typePrefix = "--type=";
-            var typeArgument = args.SingleOrDefault(arg => arg.StartsWith(typePrefix));
+            var typeArgument = args.SingleOrDefault(arg => arg.StartsWith(typePrefix)) ?? "";
 
             var type = typeArgument.Substring(typePrefix.Length);
 
