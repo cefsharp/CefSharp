@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -87,7 +88,8 @@ namespace CefSharp
         /// <param name="name">The name of the object. (e.g. "foo", if you want the object to be accessible as window.foo).</param>
         /// <param name="objectToBind">The object to be made accessible to Javascript.</param>
         /// <param name="camelCaseJavascriptNames">camel case the javascript names of properties/methods, defaults to true</param>
-        void RegisterJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true);
+        /// <param name="predicate">allow developer to register a predicate to further filter out members from the object</param>
+        void RegisterJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true, Func<MemberInfo, bool> predicate = null);
 
         /// <summary>
         /// Execute some Javascript code in the context of this WebBrowser. As the method name implies, the script will be

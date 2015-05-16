@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Runtime.Serialization;
 
 namespace CefSharp.Internals
@@ -38,6 +39,11 @@ namespace CefSharp.Internals
         /// Indicate if JavascriptName is camel case or not
         /// </summary>
         public bool CamelCaseJavascriptNames { get; set; }
+
+        /// <summary>
+        /// Developer defined predicate when registering an object to filter out members from the object
+        /// </summary>
+        public Func<MemberInfo, bool> Predicate { get; set; }
 
         /// <summary>
         /// Gets the methods of the <see cref="JavascriptObject" />.
