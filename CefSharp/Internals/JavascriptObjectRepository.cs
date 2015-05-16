@@ -353,7 +353,7 @@ namespace CefSharp.Internals
             if (!type.IsGenericType) return value;
 
             IList list = value as IList;
-            if (list != null)
+            if (list == null)
             {
                 throw new SerializationException("Unable to serialize generic type " + type.ToString());
             }
