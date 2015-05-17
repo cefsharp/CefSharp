@@ -18,17 +18,27 @@ namespace CefSharp
         private:
             MCefRefPtr<CefBrowser> _browser;
             IBrowserAdapter^ _browserAdapter;
+            bool _disposed;
 
         internal:
             CefSharpBrowserWrapper::CefSharpBrowserWrapper(CefRefPtr<CefBrowser> &browser, IBrowserAdapter^ browserAdapter)
-                : _browser(browser), _browserAdapter(browserAdapter)
+                : _browser(browser), _browserAdapter(browserAdapter), _disposed(false)
             {
             }
 
             ~CefSharpBrowserWrapper() 
             {
                 _browserAdapter = nullptr;
+                _disposed = true;
             }
+
+            virtual property MCefRefPtr<CefBrowser> Browser
+            {
+                MCefRefPtr<CefBrowser> get();
+            }
+
+        private:
+            void ThrowIfDisposed();
 
         public:
             ///

@@ -25,17 +25,22 @@ namespace CefSharp
         private:
             MCefRefPtr<CefFrame> _frame;
             IBrowserAdapter^ _browserAdapter;
+            bool _disposed;
 
         internal:
             CefFrameWrapper::CefFrameWrapper(CefRefPtr<CefFrame> &frame, IBrowserAdapter^ browserAdapter)
-                : _frame(frame), _browserAdapter(browserAdapter)
+                : _frame(frame), _browserAdapter(browserAdapter), _disposed(false)
             {
             }
 
             ~CefFrameWrapper()
             {
                 _browserAdapter = nullptr;
+                _disposed = true;
             }
+
+        private:
+            void ThrowIfDisposed();
 
         public:
             ///

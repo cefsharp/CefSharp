@@ -14,6 +14,7 @@
 /*--cef()--*/
 CefRefPtr<CefBrowserHost> CefSharpBrowserWrapper::GetHost()
 {
+    ThrowIfDisposed();
     return _browser->GetHost();
 }
 
@@ -23,6 +24,7 @@ CefRefPtr<CefBrowserHost> CefSharpBrowserWrapper::GetHost()
 /*--cef()--*/
 bool CefSharpBrowserWrapper::CanGoBack::get()
 {
+    ThrowIfDisposed();
     return _browser->CanGoBack();
 }
 
@@ -32,6 +34,7 @@ bool CefSharpBrowserWrapper::CanGoBack::get()
 /*--cef()--*/
 void CefSharpBrowserWrapper::GoBack()
 {
+    ThrowIfDisposed();
     _browser->GoBack();
 }
 
@@ -41,6 +44,7 @@ void CefSharpBrowserWrapper::GoBack()
 /*--cef()--*/
 bool CefSharpBrowserWrapper::CanGoForward::get()
 {
+    ThrowIfDisposed();
     return _browser->CanGoForward();
 }
 
@@ -50,6 +54,7 @@ bool CefSharpBrowserWrapper::CanGoForward::get()
 /*--cef()--*/
 void CefSharpBrowserWrapper::GoForward()
 {
+    ThrowIfDisposed();
     _browser->GoForward();
 }
 
@@ -59,6 +64,7 @@ void CefSharpBrowserWrapper::GoForward()
 /*--cef()--*/
 bool CefSharpBrowserWrapper::IsLoading::get()
 {
+    ThrowIfDisposed();
     return _browser->IsLoading();
 }
 
@@ -68,6 +74,7 @@ bool CefSharpBrowserWrapper::IsLoading::get()
 /*--cef()--*/
 void CefSharpBrowserWrapper::Reload()
 {
+    ThrowIfDisposed();
     _browser->Reload();
 }
 
@@ -77,6 +84,7 @@ void CefSharpBrowserWrapper::Reload()
 /*--cef()--*/
 void CefSharpBrowserWrapper::ReloadIgnoreCache()
 {
+    ThrowIfDisposed();
     _browser->ReloadIgnoreCache();
 }
 
@@ -87,6 +95,7 @@ void CefSharpBrowserWrapper::ReloadIgnoreCache()
 /*--cef()--*/
 void CefSharpBrowserWrapper::StopLoad()
 {
+    ThrowIfDisposed();
     _browser->StopLoad();
 }
 
@@ -96,6 +105,7 @@ void CefSharpBrowserWrapper::StopLoad()
 /*--cef()--*/
 int CefSharpBrowserWrapper::Identifier::get()
 {
+    ThrowIfDisposed();
     return _browser->GetIdentifier();
 }
 
@@ -106,6 +116,7 @@ int CefSharpBrowserWrapper::Identifier::get()
 /*--cef()--*/
 bool CefSharpBrowserWrapper::IsSame(IBrowser^ that)
 {
+    ThrowIfDisposed();
     return _browser->IsSame(dynamic_cast<CefSharpBrowserWrapper^>(that)->_browser.get());
 }
 
@@ -115,6 +126,7 @@ bool CefSharpBrowserWrapper::IsSame(IBrowser^ that)
 /*--cef()--*/
 bool CefSharpBrowserWrapper::IsPopup::get()
 {
+    ThrowIfDisposed();
     return _browser->IsPopup();
 }
 
@@ -124,11 +136,13 @@ bool CefSharpBrowserWrapper::IsPopup::get()
 /*--cef()--*/
 bool CefSharpBrowserWrapper::HasDocument::get()
 {
+    ThrowIfDisposed();
     return _browser->HasDocument();
 }
 
 IFrame^ CefSharpBrowserWrapper::MainFrame::get()
 {
+    ThrowIfDisposed();
     auto frame = _browser->GetMainFrame();
     return gcnew CefFrameWrapper(frame, _browserAdapter);
 }
@@ -139,6 +153,7 @@ IFrame^ CefSharpBrowserWrapper::MainFrame::get()
 /*--cef()--*/
 IFrame^ CefSharpBrowserWrapper::FocusedFrame::get()
 {
+    ThrowIfDisposed();
     return gcnew CefFrameWrapper(_browser->GetFocusedFrame(), _browserAdapter);
 }
 
@@ -148,6 +163,7 @@ IFrame^ CefSharpBrowserWrapper::FocusedFrame::get()
 /*--cef(capi_name=get_frame_byident)--*/
 IFrame^ CefSharpBrowserWrapper::GetFrame(Int64 identifier)
 {
+    ThrowIfDisposed();
     return gcnew CefFrameWrapper(_browser->GetFrame(identifier), _browserAdapter);
 }
 
@@ -157,6 +173,7 @@ IFrame^ CefSharpBrowserWrapper::GetFrame(Int64 identifier)
 /*--cef(optional_param=name)--*/
 IFrame^ CefSharpBrowserWrapper::GetFrame(String^ name)
 {
+    ThrowIfDisposed();
     return gcnew CefFrameWrapper(_browser->GetFrame(StringUtils::ToNative(name)), _browserAdapter);
 }
 
@@ -166,6 +183,7 @@ IFrame^ CefSharpBrowserWrapper::GetFrame(String^ name)
 /*--cef()--*/
 int CefSharpBrowserWrapper::GetFrameCount()
 {
+    ThrowIfDisposed();
     return _browser->GetFrameCount();
 }
 
@@ -175,6 +193,8 @@ int CefSharpBrowserWrapper::GetFrameCount()
 /*--cef(count_func=identifiers:GetFrameCount)--*/
 List<Int64>^ CefSharpBrowserWrapper::GetFrameIdentifiers()
 {
+    ThrowIfDisposed();
+
     std::vector<Int64> identifiers;
     _browser->GetFrameIdentifiers(identifiers);
     List<Int64>^ results = gcnew List<Int64>(identifiers.size());
@@ -191,6 +211,8 @@ List<Int64>^ CefSharpBrowserWrapper::GetFrameIdentifiers()
 /*--cef()--*/
 List<String^>^ CefSharpBrowserWrapper::GetFrameNames()
 {
+    ThrowIfDisposed();
+
     std::vector<CefString> names;
 
     _browser->GetFrameNames(names);
@@ -204,6 +226,19 @@ List<String^>^ CefSharpBrowserWrapper::GetFrameNames()
 /*--cef()--*/
 bool CefSharpBrowserWrapper::SendProcessMessage(CefProcessId targetProcess, CefRefPtr<CefProcessMessage> message)
 {
+    ThrowIfDisposed();
     return _browser->SendProcessMessage(targetProcess, message);
 }
 
+void CefSharpBrowserWrapper::ThrowIfDisposed()
+{
+    if (_disposed)
+    {
+        throw gcnew ObjectDisposedException(gcnew String(L"CefSharp disposes IBrowser instances after the OnBeforeClose handler has been called!"));
+    }
+}
+
+MCefRefPtr<CefBrowser> CefSharpBrowserWrapper::Browser::get()
+{
+    return _browser;
+}

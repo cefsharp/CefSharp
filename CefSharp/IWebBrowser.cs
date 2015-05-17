@@ -114,7 +114,12 @@ namespace CefSharp
         /// Implement <see cref="IRequestHandler"/> and assign to handle events related to browser requests.
         /// </summary>
         IRequestHandler RequestHandler { get; set; }
-        
+
+        /// <summary>
+        /// Implement <see cref="IPopupHandler"/> and assign to handle events related to popup window events.
+        /// </summary>
+        IPopupHandler PopupHandler { get; set; }
+
         /// <summary>
         /// Implement <see cref="ILifeSpanHandler"/> and assign to handle events related to popups.
         /// </summary>
