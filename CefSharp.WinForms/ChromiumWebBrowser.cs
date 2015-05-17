@@ -34,6 +34,7 @@ namespace CefSharp.WinForms
         public IRequestHandler RequestHandler { get; set; }
         public IDownloadHandler DownloadHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
+        public IPopupHandler PopupHandler { get; set; }
         public IMenuHandler MenuHandler { get; set; }
 
         /// <summary>

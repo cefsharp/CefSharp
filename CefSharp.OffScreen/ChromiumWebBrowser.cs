@@ -50,6 +50,7 @@ namespace CefSharp.OffScreen
         public IDownloadHandler DownloadHandler { get; set; }
         public IKeyboardHandler KeyboardHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
+        public IPopupHandler PopupHandler { get; set; }
         public IMenuHandler MenuHandler { get; set; }
         public IFocusHandler FocusHandler { get; set; }
         public IRequestHandler RequestHandler { get; set; }
