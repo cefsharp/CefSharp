@@ -21,7 +21,7 @@ namespace CefSharp.Internals
         /// <summary>
         /// Indicates if this <see cref="JavascriptObject"/> represents an Array
         /// </summary>
-        private bool _isArray;
+        private bool isArray;
 
         /// <summary>
         /// Identifies the <see cref="JavascriptObject" /> for BrowserProcess to RenderProcess communication
@@ -79,7 +79,7 @@ namespace CefSharp.Internals
                 LateBinding();
             }
             
-            return _isArray ? Value : this;
+            return isArray ? Value : this;
         }
 
         /// <summary>
@@ -87,6 +87,10 @@ namespace CefSharp.Internals
         /// </summary>
         public object Value { get; private set; }
 
+        /// <summary>
+        ///  Sets the value.
+        /// </summary>
+        /// <param name="value"></param>
         public void SetValue(object value)
         {
             if (Value == value)
@@ -94,7 +98,7 @@ namespace CefSharp.Internals
                 return;
             }
             Value = value;
-            _isArray = value != null && value.GetType().IsArray;
+            isArray = value != null && value.GetType().IsArray;
             IsNull = value == null;
             // need to clear methods and properties when new value is set
             Methods.Clear();
