@@ -20,7 +20,7 @@ namespace CefSharp
     public:
         JavascriptMethodHandler(Func<array<Object^>^, BrowserProcessResponse^>^ method, JavascriptCallbackRegistry^ callbackRegistry);
 
-        ~JavascriptMethodHandler();
+        virtual ~JavascriptMethodHandler();
 
         virtual bool Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception);
 
