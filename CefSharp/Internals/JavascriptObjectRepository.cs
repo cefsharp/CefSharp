@@ -40,8 +40,13 @@ namespace CefSharp.Internals
         // this is done to speed up finding the object in O(1) time
         // instead of traversing the JavaScriptRootObject tree.
         private readonly Dictionary<long, JavascriptObject> objects = new Dictionary<long, JavascriptObject>();
-        // objects are never removed so we need to try to avoid duplicates, other wise 1000 calls to bound.getSubObject() will create 1000 entries in objects.
-        private readonly Dictionary<object, JavascriptObject> reverseLookup = new Dictionary<object, JavascriptObject>();
+        /// <summary>
+        /// <see cref="JavascriptObject"/> are never removed from the <see cref="objects"/> so we need a way to limit inserting the same JavascriptObject into it,
+        ///  other wise 1000 calls to bound.getSubObject() will create 1000 entries in <see cref="objects"/>. <see cref="cache"/> is used when an object value is known, in 
+        /// <see cref="TryCallMethod" /> and when creating list or array. We could've searched <see cref="objects"/> for the object, but it may be too slow when <see cref="objects"/> 
+        /// has many entries.
+        /// </summary>
+        private readonly Dictionary<object, JavascriptObject> cache = new Dictionary<object, JavascriptObject>();
 
         // This is the root of the objects that get serialized to the child
         // process.
@@ -87,7 +92,7 @@ namespace CefSharp.Internals
                 return false;
             }
 
-            var overloads = obj.Methods.Where(p => p.JavascriptName == name);
+            var overloads = obj.Methods.Where(p => p.JavascriptName == name).ToList();
             if (overloads.Count() == 0)
             {
                 throw new InvalidOperationException(string.Format("Method {0} not found on Object of Type {1}", name, obj.Value.GetType()));
@@ -122,18 +127,19 @@ namespace CefSharp.Internals
                     var type = result.GetType();
                     if (IsComplexType(type))
                     {
-                        if (reverseLookup.ContainsKey(result))
+                        lock(cache)
                         {
-                            result = reverseLookup[result].Bind();
+                            if (cache.ContainsKey(result) && result == cache[result].Value)
+                            {
+                                result = cache[result].Bind();
+                                return true;
+                            }
                         }
-                        else
-                        {
-                            var jsObject = CreateJavascriptObject(obj.CamelCaseJavascriptNames, obj.Predicate);
-                            jsObject.Name = "FunctionResult(" + name + ")";
-                            jsObject.JavascriptName = jsObject.Name;
-                            SetJavascriptObjectValue(jsObject, result, result.GetType(), obj.CamelCaseJavascriptNames, obj.Predicate);
-                            result = jsObject.Bind();
-                        }
+                        var jsObject = CreateJavascriptObject(obj.CamelCaseJavascriptNames, obj.Predicate);
+                        jsObject.Name = "FunctionResult(" + name + ")";
+                        jsObject.JavascriptName = jsObject.Name;
+                        SetJavascriptObjectValue(jsObject, result, result.GetType(), obj.CamelCaseJavascriptNames, obj.Predicate);
+                        result = jsObject.Bind();
                     }
                     else
                     {
@@ -323,12 +329,22 @@ namespace CefSharp.Internals
             }
             if (value != null)
             {
-                reverseLookup[value] = jsObject;
+                lock(cache)
+                {
+                    cache[value] = jsObject;
+                }
             }
         }
-        
+
         private JavascriptObject CreateJavascriptObject(string name, object value, bool camelCaseJavascriptNames, Func<MemberInfo, bool> predicate)
         {
+            lock(cache)
+            {
+                if (cache.ContainsKey(value) && value == cache[value].Value)
+                {
+                    return cache[value];
+                }
+            }
             var jsObject = CreateJavascriptObject(camelCaseJavascriptNames, predicate);
             jsObject.Name = jsObject.JavascriptName = name;
             jsObject.SetValue(value);
