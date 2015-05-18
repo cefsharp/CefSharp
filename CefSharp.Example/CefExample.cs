@@ -28,6 +28,9 @@ namespace CefSharp.Example
 
             var settings = new CefSettings();
             settings.RemoteDebuggingPort = 8088;
+            //The location where cache data will be stored on disk. If empty an in-memory cache will be used for some features and a temporary disk cache for others.
+            //HTML5 databases such as localStorage will only persist across sessions if a cache path is specified. 
+            settings.CachePath = "cache";
             //settings.UserAgent = "CefSharp Browser" + Cef.CefSharpVersion; // Example User Agent
             //settings.CefCommandLineArgs.Add("renderer-process-limit", "1");
             //settings.CefCommandLineArgs.Add("renderer-startup-dialog", "renderer-startup-dialog");
@@ -35,6 +38,8 @@ namespace CefSharp.Example
             //settings.CefCommandLineArgs.Add("disable-gpu-vsync", "1");
             //settings.CefCommandLineArgs.Add("enable-media-stream", "1"); //Enable WebRTC
             //settings.CefCommandLineArgs.Add("no-proxy-server", "1"); //Don't use a proxy server, always make direct connections. Overrides any other proxy server flags that are passed.
+            //settings.CefCommandLineArgs.Add("debug-plugin-loading", "1"); //Dumps extra logging about plugin loading to the log file.
+            //settings.CefCommandLineArgs.Add("disable-plugins-discovery", "1"); //Disable discovering third-party plugins. Effectively loading only ones shipped with the browser plus third-party ones as specified by --extra-plugin-dir and --load-plugin switches
             
             //Disables the DirectWrite font rendering system on windows.
             //Possibly useful when experiencing blury fonts.
@@ -79,10 +84,6 @@ namespace CefSharp.Example
             {
                 Cef.SetCookiePath("cookies", true);
             };
-
-            //Cef will check if all dependencies are present
-            //For special case when Checking Windows Xp Dependencies
-            //DependencyChecker.IsWindowsXp = true;
 
             if (!Cef.Initialize(settings, shutdownOnProcessExit: true, performDependencyCheck: !DebuggingSubProcess))
             {
