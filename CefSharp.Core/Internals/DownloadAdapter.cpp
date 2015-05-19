@@ -38,7 +38,6 @@ namespace CefSharp
         void DownloadAdapter::OnDownloadUpdated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDownloadItem> download_item,
             CefRefPtr<CefDownloadItemCallback> callback) 
         {
-
             if (!download_item->IsInProgress() && browser->IsPopup() && !browser->HasDocument())
             {
                 browser->GetHost()->CloseBrowser(false);
