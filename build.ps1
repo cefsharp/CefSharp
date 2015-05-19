@@ -1,7 +1,7 @@
 param(
-    [ValidateSet("vs2013", "vs2012", "nupkg", "nupkg-only")]
+    [ValidateSet("vs2013", "vs2012", "nupkg-only")]
     [Parameter(Position = 0)] 
-    [string] $Target = "nupkg",
+    [string] $Target = "vs2012",
     [Parameter(Position = 1)]
     [string] $Version = "41.0.0-pre01",
     [Parameter(Position = 2)]
@@ -295,13 +295,8 @@ NugetPackageRestore
 
 WriteAssemblyVersion
 
-switch -Exact ($Target) {
-    "nupkg"
-    {
-        #VSX v120
-        VSX v110
-        Nupkg
-    }
+switch -Exact ($Target)
+{
     "nupkg-only"
     {
         Nupkg
@@ -309,9 +304,11 @@ switch -Exact ($Target) {
     "vs2013"
     {
         VSX v120
+        Nupkg
     }
     "vs2012"
     {
         VSX v110
+        Nupkg
     }
 }
