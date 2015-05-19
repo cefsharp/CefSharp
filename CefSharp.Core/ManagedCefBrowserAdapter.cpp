@@ -817,3 +817,8 @@ CefFrameWrapper^ ManagedCefBrowserAdapter::GetFrame(String^ name)
     }
     return nullptr;
 }
+
+MCefRefPtr<ClientAdapter> ManagedCefBrowserAdapter::GetClientAdapter()
+{
+    return _clientAdapter;
+}

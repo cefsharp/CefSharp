@@ -62,6 +62,8 @@ namespace CefSharp
             void CloseDevTools();
             void CloseAllPopups(bool forceClose);
 
+            virtual bool IsOffscreen() { return false; }
+
             // CefClient
             virtual CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() OVERRIDE{ return this; }
             virtual CefRefPtr<CefLoadHandler> GetLoadHandler() OVERRIDE{ return this; }

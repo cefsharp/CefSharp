@@ -70,6 +70,9 @@ namespace CefSharp
             DisposableResource::DoDispose(isDisposing);
         };
 
+    internal:
+        MCefRefPtr<ClientAdapter> GetClientAdapter();
+
     public:
         ManagedCefBrowserAdapter(IWebBrowserInternal^ webBrowserInternal, bool offScreenRendering)
         {
