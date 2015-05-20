@@ -57,7 +57,7 @@ namespace CefSharp.OffScreen.Example
             var tcs = new TaskCompletionSource<bool>();
 
             EventHandler<LoadingStateChangedEventArgs> handler = null;
-            handler += (sender, args) =>
+            handler = (sender, args) =>
             {
                 //Wait for while page to finish loading not just the first frame
                 if (!args.IsLoading)
