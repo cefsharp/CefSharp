@@ -2,6 +2,7 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using CefSharp.Internals;
@@ -31,6 +32,11 @@ namespace CefSharp.OffScreen
 
         public Bitmap CreateBitmap()
         {
+            if(BackBufferHandle == IntPtr.Zero)
+            {
+                return null;
+            }
+
             var stride = Width * BytesPerPixel;
 
             bitmap = new Bitmap(Width, Height, stride, PixelFormat.Format32bppPArgb, BackBufferHandle);
