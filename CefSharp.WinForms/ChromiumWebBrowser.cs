@@ -67,19 +67,6 @@ namespace CefSharp.WinForms
         public bool CanReload { get; private set; }
         public bool IsBrowserInitialized { get; private set; }
 
-
-        /// <inheritdoc/>
-        public Task<double> GetZoomLevelAsync()
-        {
-            return managedCefBrowserAdapter.GetZoomLevelAsync();
-        }
-
-        /// <inheritdoc/>
-        public void SetZoomLevel(double level)
-        {
-            managedCefBrowserAdapter.SetZoomLevel(level);
-        }
-
         static ChromiumWebBrowser()
         {
             Application.ApplicationExit += OnApplicationExit;
@@ -152,27 +139,16 @@ namespace CefSharp.WinForms
             base.Dispose(disposing);
         }
 
-        void IWebBrowserInternal.OnInitialized()
+        /// <inheritdoc/>
+        public Task<double> GetZoomLevelAsync()
         {
-            IsBrowserInitialized = true;
+            return managedCefBrowserAdapter.GetZoomLevelAsync();
+        }
 
-            // By the time this callback gets called, this control
-            // is most likely hooked into a browser Form of some sort. 
-            // (Which is what ParentFormMessageInterceptor relies on.)
-            // Ensure the ParentFormMessageInterceptor construction occurs on the WinForms UI thread:
-            this.InvokeOnUiThreadIfRequired(() =>
-            {
-                parentFormMessageInterceptor = new ParentFormMessageInterceptor(this);
-            });
-
-            ResizeBrowser();
-
-            var handler = IsBrowserInitializedChanged;
-
-            if (handler != null)
-            {
-                handler(this, new IsBrowserInitializedChangedEventArgs(IsBrowserInitialized));
-            }
+        /// <inheritdoc/>
+        public void SetZoomLevel(double level)
+        {
+            managedCefBrowserAdapter.SetZoomLevel(level);
         }
 
         public void Load(String url)
@@ -235,6 +211,29 @@ namespace CefSharp.WinForms
             managedCefBrowserAdapter.CreateBrowser(BrowserSettings, Handle, Address);
 
             base.OnHandleCreated(e);
+        }
+
+        void IWebBrowserInternal.OnInitialized()
+        {
+            IsBrowserInitialized = true;
+
+            // By the time this callback gets called, this control
+            // is most likely hooked into a browser Form of some sort. 
+            // (Which is what ParentFormMessageInterceptor relies on.)
+            // Ensure the ParentFormMessageInterceptor construction occurs on the WinForms UI thread:
+            this.InvokeOnUiThreadIfRequired(() =>
+            {
+                parentFormMessageInterceptor = new ParentFormMessageInterceptor(this);
+            });
+
+            ResizeBrowser();
+
+            var handler = IsBrowserInitializedChanged;
+
+            if (handler != null)
+            {
+                handler(this, new IsBrowserInitializedChangedEventArgs(IsBrowserInitialized));
+            }
         }
 
         void IWebBrowserInternal.SetAddress(string address)
