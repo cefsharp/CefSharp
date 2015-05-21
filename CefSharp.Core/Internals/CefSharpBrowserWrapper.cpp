@@ -236,6 +236,12 @@ bool CefSharpBrowserWrapper::SendProcessMessage(CefProcessId targetProcess, CefR
     return _browser->SendProcessMessage(targetProcess, message);
 }
 
+void CefSharpBrowserWrapper::StartDownload(String^ url)
+{
+    ThrowIfDisposed();
+    _browser->GetHost()->StartDownload(StringUtils::ToNative(url));
+}
+
 void CefSharpBrowserWrapper::ThrowIfDisposed()
 {
     if (_disposed)

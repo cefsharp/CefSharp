@@ -154,5 +154,10 @@ namespace CefSharp
         //virtual bool SendProcessMessage(CefProcessId target_process,
         //                                CefRefPtr<CefProcessMessage> message) =0;
 
+        /// <summary>
+        /// Download the file at url specified
+        /// </summary>
+        /// <param name="url">url to download</param>
+        void StartDownload(string url);
     }
 }
