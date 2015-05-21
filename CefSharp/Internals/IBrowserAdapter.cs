@@ -15,5 +15,6 @@ namespace CefSharp.Internals
     {
         Task<JavascriptResponse> EvaluateScriptAsync(string script, TimeSpan? timeout);
         Task<JavascriptResponse> EvaluateScriptAsync(int browserId, Int64 frameId, string script, TimeSpan? timeout);
+        void OnAfterBrowserCreated(int browserId);
     }
 }

@@ -237,11 +237,6 @@ namespace CefSharp.WinForms
             base.OnHandleCreated(e);
         }
 
-        IBrowserAdapter IWebBrowserInternal.BrowserAdapter
-        {
-            get { return managedCefBrowserAdapter; }
-        }
-
         void IWebBrowserInternal.SetAddress(string address)
         {
             Address = address;

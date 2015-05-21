@@ -10,12 +10,6 @@ namespace CefSharp.Internals
     /// </summary>
     public interface IWebBrowserInternal : IWebBrowser
     {
-        /// <summary>
-        /// Interface used to break reference cycles in CefSharp.Core C++ code.
-        /// This will ALWAYS be a ManagedCefBrowserAdapter instance.
-        /// </summary>
-        IBrowserAdapter BrowserAdapter { get; }
-
         void OnInitialized();
 
         void SetAddress(string address);

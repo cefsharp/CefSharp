@@ -294,11 +294,6 @@ namespace CefSharp.Wpf
             });
         }
 
-        IBrowserAdapter IWebBrowserInternal.BrowserAdapter
-        {
-            get { return managedCefBrowserAdapter; }
-        }
-
         void IWebBrowserInternal.SetAddress(string address)
         {
             UiThreadRunAsync(() =>

@@ -74,7 +74,7 @@ namespace CefSharp
                 browserWrapper = gcnew CefSharpBrowserWrapper(browser, _browserAdapter);
             }
             auto result = handler->OnBeforePopup(_browserControl, browserWrapper,
-                gcnew CefFrameWrapper(frame, _browserControl->BrowserAdapter), StringUtils::ToClr(target_url),
+                gcnew CefFrameWrapper(frame, _browserAdapter), StringUtils::ToClr(target_url),
                 windowInfo.x, windowInfo.y, windowInfo.width, windowInfo.height, *no_javascript_access);
             return result;
         }
@@ -98,9 +98,9 @@ namespace CefSharp
                 _cefBrowser = browser;
                 auto browserId = browser->GetIdentifier();
                 
-                if (static_cast<Action<int>^>(_onAfterBrowserCreated) != nullptr)
+                if (static_cast<IBrowserAdapter^>(_browserAdapter) != nullptr)
                 {
-                    _onAfterBrowserCreated->Invoke(browserId);
+                    _browserAdapter->OnAfterBrowserCreated(browserId);
                 }
             }
         }
@@ -295,7 +295,7 @@ namespace CefSharp
             }
             else
             {
-                _browserControl->OnFrameLoadStart(gcnew CefFrameWrapper(frame, _browserControl->BrowserAdapter));
+                _browserControl->OnFrameLoadStart(gcnew CefFrameWrapper(frame, _browserAdapter));
             }
         }
 
@@ -318,7 +318,7 @@ namespace CefSharp
             }
             else
             {
-                _browserControl->OnFrameLoadEnd(gcnew CefFrameWrapper(frame, _browserControl->BrowserAdapter), httpStatusCode);
+                _browserControl->OnFrameLoadEnd(gcnew CefFrameWrapper(frame, _browserAdapter), httpStatusCode);
             }
         }
 
@@ -356,7 +356,7 @@ namespace CefSharp
 
             CefRequestWrapper^ wrapper = gcnew CefRequestWrapper(request);
 
-            return handler->OnBeforeBrowse(_browserControl, wrapper, isRedirect, gcnew CefFrameWrapper(frame, _browserControl->BrowserAdapter));
+            return handler->OnBeforeBrowse(_browserControl, wrapper, isRedirect, gcnew CefFrameWrapper(frame, _browserAdapter));
         }
 
         bool ClientAdapter::OnCertificateError(CefRefPtr<CefBrowser> browser, cef_errorcode_t cert_error, const CefString& request_url, CefRefPtr<CefSSLInfo> ssl_info, CefRefPtr<CefRequestCallback> callback)
@@ -430,7 +430,7 @@ namespace CefSharp
             if (handler != nullptr)
             {
                 auto managedNewUrl = StringUtils::ToClr(newUrl);
-                handler->OnResourceRedirect(_browserControl, gcnew CefFrameWrapper(frame, _browserControl->BrowserAdapter), managedNewUrl);
+                handler->OnResourceRedirect(_browserControl, gcnew CefFrameWrapper(frame, _browserAdapter), managedNewUrl);
 
                 newUrl = StringUtils::ToNative(managedNewUrl);
             }	
@@ -493,7 +493,7 @@ namespace CefSharp
             auto requestWrapper = gcnew CefRequestWrapper(request);
             auto requestCallback = gcnew RequestCallback(callback);
 
-            return (cef_return_value_t)handler->OnBeforeResourceLoad(_browserControl, requestWrapper, gcnew CefFrameWrapper(frame, _browserControl->BrowserAdapter), requestCallback);
+            return (cef_return_value_t)handler->OnBeforeResourceLoad(_browserControl, requestWrapper, gcnew CefFrameWrapper(frame, _browserAdapter), requestCallback);
         }
 
         CefRefPtr<CefDownloadHandler> ClientAdapter::GetDownloadHandler()
@@ -518,7 +518,7 @@ namespace CefSharp
 
             String^ usernameString = nullptr;
             String^ passwordString = nullptr;
-            bool handled = handler->GetAuthCredentials(_browserControl, gcnew CefFrameWrapper(frame, _browserControl->BrowserAdapter), isProxy, StringUtils::ToClr(host), port, StringUtils::ToClr(realm), StringUtils::ToClr(scheme), usernameString, passwordString);
+            bool handled = handler->GetAuthCredentials(_browserControl, gcnew CefFrameWrapper(frame, _browserAdapter), isProxy, StringUtils::ToClr(host), port, StringUtils::ToClr(realm), StringUtils::ToClr(scheme), usernameString, passwordString);
 
             if (handled)
             {
@@ -557,7 +557,7 @@ namespace CefSharp
             // Context menu params
             CefContextMenuParamsWrapper^ contextMenuParamsWrapper = gcnew CefContextMenuParamsWrapper(params);
 
-            auto result = handler->OnBeforeContextMenu(_browserControl, gcnew CefFrameWrapper(frame, _browserControl->BrowserAdapter), contextMenuParamsWrapper);
+            auto result = handler->OnBeforeContextMenu(_browserControl, gcnew CefFrameWrapper(frame, _browserAdapter), contextMenuParamsWrapper);
             if (!result)
             {
                 model->Clear();

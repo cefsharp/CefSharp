@@ -40,10 +40,8 @@ namespace CefSharp
             return (GetKeyState(wparam) & 0x8000) != 0;
         }
 
-        int GetCefKeyboardModifiers(WPARAM wparam, LPARAM lparam);
-
         // Misc. private functions:
-        void OnAfterBrowserCreated(int browserId);
+        int GetCefKeyboardModifiers(WPARAM wparam, LPARAM lparam);
         CefMouseEvent GetCefMouseEvent(MouseEvent^ mouseEvent);
 
         // Private methods for async tasks:
@@ -75,19 +73,18 @@ namespace CefSharp
         {
             if (offScreenRendering)
             {
-                _clientAdapter = new RenderClientAdapter(webBrowserInternal,
-                    gcnew Action<int>(this, &ManagedCefBrowserAdapter::OnAfterBrowserCreated), this);
+                _clientAdapter = new RenderClientAdapter(webBrowserInternal, this);
             }
             else
             {
-                _clientAdapter = new ClientAdapter(webBrowserInternal,
-                    gcnew Action<int>(this, &ManagedCefBrowserAdapter::OnAfterBrowserCreated), this);
+                _clientAdapter = new ClientAdapter(webBrowserInternal, this);
             }
 
             _webBrowserInternal = webBrowserInternal;
             _javaScriptObjectRepository = gcnew JavascriptObjectRepository();
         }
 
+        virtual void OnAfterBrowserCreated(int browserId);
         void CreateOffscreenBrowser(IntPtr windowHandle, BrowserSettings^ browserSettings, String^ address);
         void CreateBrowser(BrowserSettings^ browserSettings, IntPtr sourceHandle, String^ address);
         void Close(bool forceClose);

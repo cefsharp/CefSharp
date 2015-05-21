@@ -32,7 +32,6 @@ namespace CefSharp
         {
         private:
             gcroot<IWebBrowserInternal^> _browserControl;
-            gcroot<Action<int>^> _onAfterBrowserCreated;
             HWND _browserHwnd;
             CefRefPtr<CefBrowser> _cefBrowser;
             gcroot<Dictionary<int, IBrowser^>^> _popupBrowsers;
@@ -40,9 +39,8 @@ namespace CefSharp
             gcroot<IBrowserAdapter^> _browserAdapter;
 
         public:
-            ClientAdapter(IWebBrowserInternal^ browserControl, Action<int>^ onAfterBrowserCreated, IBrowserAdapter^ browserAdapter) :
+            ClientAdapter(IWebBrowserInternal^ browserControl, IBrowserAdapter^ browserAdapter) :
                 _browserControl(browserControl), 
-                _onAfterBrowserCreated(onAfterBrowserCreated),
                 _popupBrowsers(gcnew Dictionary<int, IBrowser^>()),
                 _browserAdapter(browserAdapter)
             {
@@ -51,7 +49,6 @@ namespace CefSharp
             ~ClientAdapter()
             {
                 _browserControl = nullptr;
-                _onAfterBrowserCreated = nullptr;
                 _browserHwnd = nullptr;
                 _cefBrowser = NULL;
                 _tooltip = nullptr;
