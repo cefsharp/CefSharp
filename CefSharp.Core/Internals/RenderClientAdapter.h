@@ -24,8 +24,8 @@ namespace CefSharp
             gcroot<BitmapInfo^> _popupBitmapInfo;
 
         public:
-            RenderClientAdapter(IWebBrowserInternal^ webBrowserInternal, Action<int>^ onAfterBrowserCreated):
-                ClientAdapter(webBrowserInternal, onAfterBrowserCreated),
+            RenderClientAdapter(IWebBrowserInternal^ webBrowserInternal, Action<int>^ onAfterBrowserCreated, IBrowserAdapter^ browserAdapter):
+                ClientAdapter(webBrowserInternal, onAfterBrowserCreated, browserAdapter),
                 _webBrowserInternal(webBrowserInternal)
             {
                 _renderWebBrowser = dynamic_cast<IRenderWebBrowser^>(webBrowserInternal);
@@ -51,7 +51,7 @@ namespace CefSharp
             }
 
             // CefClient
-            virtual CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE{ return this; };
+            virtual DECL CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE{ return this; };
 
             // CefRenderHandler
             virtual DECL bool GetScreenInfo(CefRefPtr<CefBrowser> browser, CefScreenInfo& screen_info) OVERRIDE

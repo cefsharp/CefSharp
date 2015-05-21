@@ -50,6 +50,7 @@ namespace CefSharp.OffScreen
         public IDownloadHandler DownloadHandler { get; set; }
         public IKeyboardHandler KeyboardHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
+        public IPopupHandler PopupHandler { get; set; }
         public IMenuHandler MenuHandler { get; set; }
         public IFocusHandler FocusHandler { get; set; }
         public IRequestHandler RequestHandler { get; set; }
@@ -485,12 +486,12 @@ namespace CefSharp.OffScreen
             }
         }
 
-        void IWebBrowserInternal.OnLoadError(IFrame frame, CefErrorCode errorCode, string errorText)
+        void IWebBrowserInternal.OnLoadError(IFrame frame, CefErrorCode errorCode, string errorText, string failedUrl)
         {
             var handler = LoadError;
             if (handler != null)
             {
-                handler(this, new LoadErrorEventArgs(frame, errorCode, errorText));
+                handler(this, new LoadErrorEventArgs(frame, errorCode, errorText, failedUrl));
             }
         }
 

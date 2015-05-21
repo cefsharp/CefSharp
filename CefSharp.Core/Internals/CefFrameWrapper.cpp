@@ -13,6 +13,7 @@
 /*--cef()--*/
 bool CefFrameWrapper::IsValid::get()
 {
+    ThrowIfDisposed();
     return _frame->IsValid();
 }
 
@@ -22,6 +23,7 @@ bool CefFrameWrapper::IsValid::get()
 /*--cef()--*/
 void CefFrameWrapper::Undo()
 {
+    ThrowIfDisposed();
     _frame->Undo();
 }
 
@@ -31,6 +33,7 @@ void CefFrameWrapper::Undo()
 /*--cef()--*/
 void CefFrameWrapper::Redo()
 {
+    ThrowIfDisposed();
     _frame->Redo();
 }
 
@@ -40,6 +43,7 @@ void CefFrameWrapper::Redo()
 /*--cef()--*/
 void CefFrameWrapper::Cut()
 {
+    ThrowIfDisposed();
     _frame->Cut();
 }
 
@@ -49,6 +53,7 @@ void CefFrameWrapper::Cut()
 /*--cef()--*/
 void CefFrameWrapper::Copy()
 {
+    ThrowIfDisposed();
     _frame->Copy();
 }
 
@@ -58,6 +63,7 @@ void CefFrameWrapper::Copy()
 /*--cef()--*/
 void CefFrameWrapper::Paste()
 {
+    ThrowIfDisposed();
     _frame->Paste();
 }
 
@@ -67,6 +73,7 @@ void CefFrameWrapper::Paste()
 /*--cef(capi_name=del)--*/
 void CefFrameWrapper::Delete()
 {
+    ThrowIfDisposed();
     _frame->Delete();
 }
 
@@ -76,6 +83,7 @@ void CefFrameWrapper::Delete()
 /*--cef()--*/
 void CefFrameWrapper::SelectAll()
 {
+    ThrowIfDisposed();
     _frame->SelectAll();
 }
 
@@ -87,6 +95,7 @@ void CefFrameWrapper::SelectAll()
 /*--cef()--*/
 void CefFrameWrapper::ViewSource()
 {
+    ThrowIfDisposed();
     _frame->ViewSource();
 }
 
@@ -97,6 +106,7 @@ void CefFrameWrapper::ViewSource()
 /*--cef()--*/
 Task<String^>^ CefFrameWrapper::GetSourceAsync()
 {
+    ThrowIfDisposed();
     auto taskStringVisitor = gcnew TaskStringVisitor();
     _frame->GetSource(new StringVisitor(taskStringVisitor));
     return taskStringVisitor->Task;
@@ -109,6 +119,7 @@ Task<String^>^ CefFrameWrapper::GetSourceAsync()
 /*--cef()--*/
 Task<String^>^ CefFrameWrapper::GetTextAsync()
 {
+    ThrowIfDisposed();
     auto taskStringVisitor = gcnew TaskStringVisitor();
     _frame->GetText(new StringVisitor(taskStringVisitor));
     return taskStringVisitor->Task;
@@ -121,6 +132,7 @@ Task<String^>^ CefFrameWrapper::GetTextAsync()
 /*--cef()--*/
 //virtual void LoadRequest(CefRequestWrapper^ request)
 //{
+//    ThrowIfDisposed();
 //    _frame->LoadRequest(request->GetCefRequest().get());
 //}
 
@@ -130,6 +142,7 @@ Task<String^>^ CefFrameWrapper::GetTextAsync()
 /*--cef()--*/
 void CefFrameWrapper::LoadUrl(String^ url)
 {
+    ThrowIfDisposed();
     _frame->LoadURL(StringUtils::ToNative(url));
 }
 
@@ -141,6 +154,7 @@ void CefFrameWrapper::LoadUrl(String^ url)
 /*--cef()--*/
 void CefFrameWrapper::LoadHtml(String^ html, String^ url)
 {
+    ThrowIfDisposed();
     _frame->LoadString(StringUtils::ToNative(html), StringUtils::ToNative(url));
 }
 
@@ -154,16 +168,23 @@ void CefFrameWrapper::LoadHtml(String^ html, String^ url)
 /*--cef(optional_param=script_url)--*/
 void CefFrameWrapper::ExecuteJavaScriptAsync(String^ code, String^ scriptUrl, int startLine)
 {
+    ThrowIfDisposed();
     _frame->ExecuteJavaScript(StringUtils::ToNative(code), StringUtils::ToNative(scriptUrl), startLine);
 }
 
 void CefFrameWrapper::ExecuteJavaScriptAsync(String^ code)
 {
+    ThrowIfDisposed();
     _frame->ExecuteJavaScript(StringUtils::ToNative(code), "about:blank", 0);
 }
 
 Task<JavascriptResponse^>^ CefFrameWrapper::EvaluateScriptAsync(String^ script, Nullable<TimeSpan> timeout)
 {
+    ThrowIfDisposed();
+    if (_browserAdapter == nullptr)
+    {
+        throw gcnew InvalidOperationException(gcnew String(L"IBrowserAdapter is NULL, EvaluateScriptAsync MUST NOT be called from the render process!"));
+    }
     return _browserAdapter->EvaluateScriptAsync(_frame->GetBrowser()->GetIdentifier(), _frame->GetIdentifier(), script, timeout);
 }
 
@@ -173,6 +194,7 @@ Task<JavascriptResponse^>^ CefFrameWrapper::EvaluateScriptAsync(String^ script, 
 /*--cef()--*/
 bool CefFrameWrapper::IsMain::get()
 {
+    ThrowIfDisposed();
     return _frame->IsMain();
 }
 
@@ -182,6 +204,7 @@ bool CefFrameWrapper::IsMain::get()
 /*--cef()--*/
 bool CefFrameWrapper::IsFocused::get()
 {
+    ThrowIfDisposed();
     return _frame->IsFocused();
 }
 
@@ -195,6 +218,7 @@ bool CefFrameWrapper::IsFocused::get()
 /*--cef()--*/
 String^ CefFrameWrapper::Name::get()
 {
+    ThrowIfDisposed();
     return StringUtils::ToClr(_frame->GetName());
 }
 
@@ -204,6 +228,7 @@ String^ CefFrameWrapper::Name::get()
 /*--cef()--*/
 Int64 CefFrameWrapper::Identifier::get()
 {
+    ThrowIfDisposed();
     return _frame->GetIdentifier();
 }
 
@@ -214,6 +239,7 @@ Int64 CefFrameWrapper::Identifier::get()
 /*--cef()--*/
 IFrame^ CefFrameWrapper::Parent::get()
 {
+    ThrowIfDisposed();
     auto parent = _frame->GetParent();
     if (parent != nullptr)
     {
@@ -228,6 +254,7 @@ IFrame^ CefFrameWrapper::Parent::get()
 /*--cef()--*/
 String^ CefFrameWrapper::Url::get()
 {
+    ThrowIfDisposed();
     return StringUtils::ToClr(_frame->GetURL());
 }
 
@@ -237,5 +264,14 @@ String^ CefFrameWrapper::Url::get()
 /*--cef()--*/
 IBrowser^ CefFrameWrapper::Browser::get()
 {
+    ThrowIfDisposed();
     return dynamic_cast<IBrowser^>(gcnew CefSharpBrowserWrapper(_frame->GetBrowser(), _browserAdapter));
+}
+
+void CefFrameWrapper::ThrowIfDisposed()
+{
+    if (_disposed)
+    {
+        throw gcnew ObjectDisposedException(gcnew String(L"This CefSharp IFrame instance has been disposed!"));
+    }
 }
