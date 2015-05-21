@@ -52,6 +52,16 @@ namespace CefSharp.WinForms
         public IResourceHandlerFactory ResourceHandlerFactory { get; set; }
         public IGeolocationHandler GeolocationHandler { get; set; }
 
+        public event EventHandler<LoadErrorEventArgs> LoadError;
+        public event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
+        public event EventHandler<FrameLoadEndEventArgs> FrameLoadEnd;
+        public event EventHandler<LoadingStateChangedEventArgs> LoadingStateChanged;
+        public event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
+        public event EventHandler<StatusMessageEventArgs> StatusMessage;
+        public event EventHandler<AddressChangedEventArgs> AddressChanged;
+        public event EventHandler<TitleChangedEventArgs> TitleChanged;
+        public event EventHandler<IsBrowserInitializedChangedEventArgs> IsBrowserInitializedChanged;
+
         public bool CanGoForward { get; private set; }
         public bool CanGoBack { get; private set; }
         public bool CanReload { get; private set; }
@@ -219,16 +229,6 @@ namespace CefSharp.WinForms
         {
             managedCefBrowserAdapter.OnMouseWheel(x, y, deltaX, deltaY);
         }
-
-        public event EventHandler<LoadErrorEventArgs> LoadError;
-        public event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
-        public event EventHandler<FrameLoadEndEventArgs> FrameLoadEnd;
-        public event EventHandler<LoadingStateChangedEventArgs> LoadingStateChanged;
-        public event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
-        public event EventHandler<StatusMessageEventArgs> StatusMessage;
-        public event EventHandler<AddressChangedEventArgs> AddressChanged;
-        public event EventHandler<TitleChangedEventArgs> TitleChanged;
-        public event EventHandler<IsBrowserInitializedChangedEventArgs> IsBrowserInitializedChanged;
 
         protected override void OnHandleCreated(EventArgs e)
         {
