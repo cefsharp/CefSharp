@@ -373,36 +373,43 @@ namespace CefSharp.WinForms
             managedCefBrowserAdapter.Reload(ignoreCache);
         }
 
+        [Obsolete]
         public void Undo()
         {
             managedCefBrowserAdapter.Undo();
         }
 
+        [Obsolete]
         public void Redo()
         {
             managedCefBrowserAdapter.Redo();
         }
 
+        [Obsolete]
         public void Cut()
         {
             managedCefBrowserAdapter.Cut();
         }
 
+        [Obsolete]
         public void Copy()
         {
             managedCefBrowserAdapter.Copy();
         }
 
+        [Obsolete]
         public void Paste()
         {
             managedCefBrowserAdapter.Paste();
         }
 
+        [Obsolete]
         public void Delete()
         {
             managedCefBrowserAdapter.Delete();
         }
 
+        [Obsolete]
         public void SelectAll()
         {
             managedCefBrowserAdapter.SelectAll();
