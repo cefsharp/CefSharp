@@ -242,6 +242,12 @@ void CefSharpBrowserWrapper::StartDownload(String^ url)
     _browser->GetHost()->StartDownload(StringUtils::ToNative(url));
 }
 
+void CefSharpBrowserWrapper::Print()
+{
+    ThrowIfDisposed();
+    _browser->GetHost()->Print();
+}
+
 void CefSharpBrowserWrapper::ThrowIfDisposed()
 {
     if (_disposed)

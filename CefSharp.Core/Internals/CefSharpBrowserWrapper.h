@@ -197,6 +197,8 @@ namespace CefSharp
             virtual bool SendProcessMessage(CefProcessId targetProcess, CefRefPtr<CefProcessMessage> message);
 
             virtual void StartDownload(String^ url);
+
+            virtual void Print();
         };
     }
 }

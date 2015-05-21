@@ -159,5 +159,7 @@ namespace CefSharp
         /// </summary>
         /// <param name="url">url to download</param>
         void StartDownload(string url);
+
+        void Print();
     }
 }
