@@ -129,5 +129,15 @@ namespace CefSharp
                 frame.ExecuteJavaScriptAsync(script);
             }
         }
+
+        public static void LoadString(this IWebBrowser browser, string html, string url)
+        {
+            var frame = browser.GetMainFrame();
+
+            if (frame != null)
+            {
+                frame.LoadHtml(html, url);
+            }
+        }
     }
 }

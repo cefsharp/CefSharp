@@ -63,16 +63,6 @@ void ManagedCefBrowserAdapter::OnAfterBrowserCreated(int browserId)
     }
 }
 
-void ManagedCefBrowserAdapter::LoadHtml(String^ html, String^ url)
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        browser->GetMainFrame()->LoadString(StringUtils::ToNative(html), StringUtils::ToNative(url));
-    }
-}
-
 void ManagedCefBrowserAdapter::WasResized()
 {
     auto browser = _clientAdapter->GetCefBrowser();

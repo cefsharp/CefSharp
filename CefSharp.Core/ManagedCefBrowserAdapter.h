@@ -90,7 +90,6 @@ namespace CefSharp
         void Close(bool forceClose);
         void CloseAllPopups(bool forceClose);
         void LoadUrl(String^ address);
-        void LoadHtml(String^ html, String^ url);
         void WasResized();
         void WasHidden(bool hidden);
         void Invalidate(PaintElementType type);
