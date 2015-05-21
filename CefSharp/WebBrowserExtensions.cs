@@ -2,25 +2,18 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using CefSharp.Internals;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace CefSharp
 {
-    internal static class WebBrowserExtensions
+    public static class WebBrowserExtensions
     {
-        internal static void SetHandlersToNull(this IWebBrowserInternal browser)
-        {
-            browser.ResourceHandlerFactory = null;
-            browser.JsDialogHandler = null;
-            browser.DialogHandler = null;
-            browser.DownloadHandler = null;
-            browser.KeyboardHandler = null;
-            browser.LifeSpanHandler = null;
-            browser.MenuHandler = null;
-            browser.FocusHandler = null;
-            browser.RequestHandler = null;
-            browser.DragHandler = null;
-            browser.GeolocationHandler = null;
-        }
+        //public static void Cut(this IWebBrowser browser)
+        //{
+        //    browser.get
+        //}
     }
 }
