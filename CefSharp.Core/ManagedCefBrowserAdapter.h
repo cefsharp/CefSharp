@@ -138,25 +138,25 @@ namespace CefSharp
         ///
         // Returns the main (top-level) frame for the browser window.
         ///
-        CefFrameWrapper^ GetMainFrame();
+        IFrame^ GetMainFrame();
 
         ///
         // Returns the focused frame for the browser window.
         ///
         /*--cef()--*/
-        CefFrameWrapper^ GetFocusedFrame();
+        IFrame^ GetFocusedFrame();
 
         ///
         // Returns the frame with the specified identifier, or NULL if not found.
         ///
         /*--cef(capi_name=get_frame_byident)--*/
-        CefFrameWrapper^ GetFrame(System::Int64 identifier);
+        IFrame^ GetFrame(System::Int64 identifier);
 
         ///
         // Returns the frame with the specified name, or NULL if not found.
         ///
         /*--cef(optional_param=name)--*/
-        CefFrameWrapper^ GetFrame(String^ name);
+        IFrame^ GetFrame(String^ name);
 
         ///
         // Returns the number of frames that currently exist.

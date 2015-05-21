@@ -746,7 +746,7 @@ List<String^>^ ManagedCefBrowserAdapter::GetFrameNames()
 ///
 // Returns the main (top-level) frame for the browser window.
 ///
-CefFrameWrapper^ ManagedCefBrowserAdapter::GetMainFrame()
+IFrame^ ManagedCefBrowserAdapter::GetMainFrame()
 {
     auto browser = _clientAdapter->GetCefBrowser();
     if (browser == nullptr)
@@ -765,7 +765,7 @@ CefFrameWrapper^ ManagedCefBrowserAdapter::GetMainFrame()
 // Returns the focused frame for the browser window.
 ///
 /*--cef()--*/
-CefFrameWrapper^ ManagedCefBrowserAdapter::GetFocusedFrame()
+IFrame^ ManagedCefBrowserAdapter::GetFocusedFrame()
 {
     auto browser = _clientAdapter->GetCefBrowser();
     if (browser == nullptr)
@@ -784,7 +784,7 @@ CefFrameWrapper^ ManagedCefBrowserAdapter::GetFocusedFrame()
 // Returns the frame with the specified identifier, or NULL if not found.
 ///
 /*--cef(capi_name=get_frame_byident)--*/
-CefFrameWrapper^ ManagedCefBrowserAdapter::GetFrame(System::Int64 identifier)
+IFrame^ ManagedCefBrowserAdapter::GetFrame(System::Int64 identifier)
 {
     auto browser = _clientAdapter->GetCefBrowser();
     if (browser == nullptr)
@@ -803,7 +803,7 @@ CefFrameWrapper^ ManagedCefBrowserAdapter::GetFrame(System::Int64 identifier)
 // Returns the frame with the specified name, or NULL if not found.
 ///
 /*--cef(optional_param=name)--*/
-CefFrameWrapper^ ManagedCefBrowserAdapter::GetFrame(String^ name)
+IFrame^ ManagedCefBrowserAdapter::GetFrame(String^ name)
 {
     auto browser = _clientAdapter->GetCefBrowser();
     if (browser == nullptr)
