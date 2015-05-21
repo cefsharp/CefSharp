@@ -109,17 +109,7 @@ namespace CefSharp.OffScreen
         protected virtual void Dispose(bool disposing)
         {
             // Don't reference handlers any longer:
-            ResourceHandlerFactory = null;
-            JsDialogHandler = null;
-            DialogHandler = null;
-            DownloadHandler = null;
-            KeyboardHandler = null;
-            LifeSpanHandler = null;
-            MenuHandler = null;
-            FocusHandler = null;
-            RequestHandler = null;
-            DragHandler = null;
-            GeolocationHandler = null;
+            this.SetHandlersToNull();
 
             // Don't reference event listeners any longer:
             LoadError = null;

@@ -165,6 +165,7 @@
     <Compile Include="ILifeSpanHandler.cs" />
     <Compile Include="IMenuHandler.cs" />
     <Compile Include="Internals\IRenderWebBrowser.cs" />
+    <Compile Include="WebBrowserExtensions.cs" />
     <Compile Include="WebPluginInfo.cs" />
     <Compile Include="IRequest.cs" />
     <Compile Include="IRequestHandler.cs" />

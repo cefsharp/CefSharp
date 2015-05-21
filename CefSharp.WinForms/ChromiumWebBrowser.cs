@@ -102,17 +102,7 @@ namespace CefSharp.WinForms
         protected override void Dispose(bool disposing)
         {
             // Don't utilize any of the handlers anymore:
-            DialogHandler = null;
-            JsDialogHandler = null;
-            KeyboardHandler = null;
-            RequestHandler = null;
-            DownloadHandler = null;
-            LifeSpanHandler = null;
-            MenuHandler = null;
-            DragHandler = null;
-            GeolocationHandler = null;
-            FocusHandler = null;
-            ResourceHandlerFactory = null;
+            this.SetHandlersToNull();
 
             Cef.RemoveDisposable(this);
 

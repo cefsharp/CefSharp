@@ -174,20 +174,10 @@ namespace CefSharp.Wpf
             FrameLoadEnd = null;
             LoadError = null;
             LoadingStateChanged = null;
+            Rendering = null;
 
             // No longer reference handlers:
-            ResourceHandlerFactory = null;
-            DialogHandler = null;
-            JsDialogHandler = null;
-            KeyboardHandler = null;
-            RequestHandler = null;
-            DownloadHandler = null;
-            LifeSpanHandler = null;
-            MenuHandler = null;
-            FocusHandler = null;
-            DragHandler = null;
-            GeolocationHandler = null;
-            Rendering = null;
+            this.SetHandlersToNull();
 
             if (isdisposing)
             {
