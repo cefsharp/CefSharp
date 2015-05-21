@@ -107,10 +107,6 @@ namespace CefSharp
         void Find(int identifier, String^ searchText, bool forward, bool matchCase, bool findNext);
         void StopFinding(bool clearSelection);
         void Reload(bool ignoreCache);
-        void ViewSource();
-        void GetSource(IStringVisitor^ visitor);
-        void GetText(IStringVisitor^ visitor);
-        void ExecuteScriptAsync(String^ script);
         virtual Task<JavascriptResponse^>^ EvaluateScriptAsync(int browserId, Int64 frameId, String^ script, Nullable<TimeSpan> timeout);
         virtual Task<JavascriptResponse^>^ EvaluateScriptAsync(String^ script, Nullable<TimeSpan> timeout);
         Task<double>^ GetZoomLevelAsync();

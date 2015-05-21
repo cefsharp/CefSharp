@@ -369,48 +369,6 @@ void ManagedCefBrowserAdapter::Reload(bool ignoreCache)
     }
 }
 
-void ManagedCefBrowserAdapter::ViewSource()
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        browser->GetMainFrame()->ViewSource();
-    }
-}
-
-void ManagedCefBrowserAdapter::GetSource(IStringVisitor^ visitor)
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        auto stringVisitor = new StringVisitor(visitor);
-        browser->GetMainFrame()->GetSource(stringVisitor);
-    }
-}
-
-void ManagedCefBrowserAdapter::GetText(IStringVisitor^ visitor)
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        auto stringVisitor = new StringVisitor(visitor);
-        browser->GetMainFrame()->GetText(stringVisitor);
-    }
-}
-
-void ManagedCefBrowserAdapter::ExecuteScriptAsync(String^ script)
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        browser->GetMainFrame()->ExecuteJavaScript(StringUtils::ToNative(script), "about:blank", 0);
-    }
-}
-
 Task<JavascriptResponse^>^ ManagedCefBrowserAdapter::EvaluateScriptAsync(int browserId, Int64 frameId, String^ script, Nullable<TimeSpan> timeout)
 {
     if (timeout.HasValue && timeout.Value.TotalMilliseconds > UInt32::MaxValue)

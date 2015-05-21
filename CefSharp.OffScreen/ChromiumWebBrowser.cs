@@ -253,11 +253,6 @@ namespace CefSharp.OffScreen
             return managedCefBrowserAdapter.EvaluateScriptAsync(script, timeout);
         }
 
-        public void ExecuteScriptAsync(string script)
-        {
-            managedCefBrowserAdapter.ExecuteScriptAsync(script);
-        }
-
         public void Find(int identifier, string searchText, bool forward, bool matchCase, bool findNext)
         {
             managedCefBrowserAdapter.Find(identifier, searchText, forward, matchCase, findNext);
@@ -302,20 +297,6 @@ namespace CefSharp.OffScreen
             managedCefBrowserAdapter.Stop();
         }
 
-        public Task<string> GetSourceAsync()
-        {
-            var taskStringVisitor = new TaskStringVisitor();
-            managedCefBrowserAdapter.GetSource(taskStringVisitor);
-            return taskStringVisitor.Task;
-        }
-
-        public Task<string> GetTextAsync()
-        {
-            var taskStringVisitor = new TaskStringVisitor();
-            managedCefBrowserAdapter.GetText(taskStringVisitor);
-            return taskStringVisitor.Task;
-        }
-
         /// <summary>
         /// Has Focus - Always False
         /// </summary>
@@ -334,11 +315,6 @@ namespace CefSharp.OffScreen
         public void Reload(bool ignoreCache)
         {
             managedCefBrowserAdapter.Reload(ignoreCache);
-        }
-
-        public void ViewSource()
-        {
-            managedCefBrowserAdapter.ViewSource();
         }
 
         public void Print()

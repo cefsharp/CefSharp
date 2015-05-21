@@ -12,12 +12,5 @@ namespace CefSharp
     {
         event EventHandler<TitleChangedEventArgs> TitleChanged;
         event EventHandler<AddressChangedEventArgs> AddressChanged;
-        void Undo();
-        void Redo();
-        void Cut();
-        void Copy();
-        void Paste();
-        void Delete();
-        void SelectAll();
     }
 }

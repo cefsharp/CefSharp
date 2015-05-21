@@ -186,11 +186,6 @@ namespace CefSharp.WinForms
             managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, camelCaseJavascriptNames);
         }
 
-        public void ExecuteScriptAsync(string script)
-        {
-            managedCefBrowserAdapter.ExecuteScriptAsync(script);
-        }
-
         public Task<JavascriptResponse> EvaluateScriptAsync(string script)
         {
             return EvaluateScriptAsync(script, timeout: null);
@@ -370,25 +365,6 @@ namespace CefSharp.WinForms
         public void Print()
         {
             managedCefBrowserAdapter.Print();
-        }
-
-        public void ViewSource()
-        {
-            managedCefBrowserAdapter.ViewSource();
-        }
-
-        public Task<string> GetSourceAsync()
-        {
-            var taskStringVisitor = new TaskStringVisitor();
-            managedCefBrowserAdapter.GetSource(taskStringVisitor);
-            return taskStringVisitor.Task;
-        }
-
-        public Task<string> GetTextAsync()
-        {
-            var taskStringVisitor = new TaskStringVisitor();
-            managedCefBrowserAdapter.GetText(taskStringVisitor);
-            return taskStringVisitor.Task;
         }
 
         /// <summary>

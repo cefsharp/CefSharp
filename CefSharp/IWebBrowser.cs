@@ -90,13 +90,6 @@ namespace CefSharp
         void RegisterJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true);
 
         /// <summary>
-        /// Execute some Javascript code in the context of this WebBrowser. As the method name implies, the script will be
-        /// executed asynchronously, and the method therefore returns before the script has actually been executed.
-        /// </summary>
-        /// <param name="script">The Javascript code that should be executed.</param>
-        void ExecuteScriptAsync(string script);
-
-        /// <summary>
         /// Execute some Javascript code in the context of this WebBrowser, and return the result of the evaluation
         /// in an Async fashion
         /// </summary>
@@ -267,24 +260,6 @@ namespace CefSharp
         /// Stops loading the current page.
         /// </summary>
         void Stop();
-
-        /// <summary>
-        /// Retrieve the main frame's HTML source using a <see cref="Task{String}"/>.
-        /// </summary>
-        /// <returns><see cref="Task{String}"/> that when executed returns the frame source as a string</returns>
-        Task<string> GetSourceAsync();
-
-        /// <summary>
-        /// Retrieve the main frame's display text using a <see cref="Task{String}"/>.
-        /// </summary>
-        /// <returns><see cref="Task{String}"/> that when executed returns the frame display text as a string.</returns>
-        Task<string> GetTextAsync();
-
-        /// <summary>
-        /// Opens up a new program window (using the default text editor) where the source code of the currently displayed web
-        /// page is shown.
-        /// </summary>
-        void ViewSource();
 
         /// <summary>
         /// Attempts to give focus to the IWpfWebBrowser control.
