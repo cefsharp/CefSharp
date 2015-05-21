@@ -24,9 +24,11 @@ namespace CefSharp
     private:
         JavascriptObject^ _object;
         List<JavascriptMethodWrapper^>^ _wrappedMethods;
-        List<JavascriptPropertyWrapper^>^ _wrappedProperties;
+        Dictionary<String^, JavascriptPropertyWrapper^>^ _wrappedProperties;
         IBrowserProcess^ _browserProcess;
         MCefRefPtr<JavascriptPropertyHandler> _jsPropertyHandler;
+        Object^ WrapObject(JavascriptObject^, String^);
+        Object^ WrapArray(Array^, String^);
 
     internal:
         MCefRefPtr<CefV8Value> V8Value;
@@ -39,7 +41,7 @@ namespace CefSharp
             _browserProcess = browserProcess;
 
             _wrappedMethods = gcnew List<JavascriptMethodWrapper^>();
-            _wrappedProperties = gcnew List<JavascriptPropertyWrapper^>();
+            _wrappedProperties = gcnew Dictionary<String^, JavascriptPropertyWrapper^>();
         }
 
         ~JavascriptObjectWrapper()
@@ -53,7 +55,7 @@ namespace CefSharp
             {
                 delete var;
             }
-            for each (JavascriptPropertyWrapper^ var in _wrappedProperties)
+            for each (JavascriptPropertyWrapper^ var in _wrappedProperties->Values)
             {
                 delete var;
             }

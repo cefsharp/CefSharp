@@ -108,6 +108,7 @@
     <Compile Include="Internals\JavascriptCallback.cs" />
     <Compile Include="Internals\JavascriptCallbackEndpointBehavior.cs" />
     <Compile Include="Internals\JavascriptCallbackSurrogate.cs" />
+    <Compile Include="Internals\JavascriptTypeBinder.cs" />
     <Compile Include="Internals\ReflectionUtils.cs" />
     <Compile Include="IPopupHandler.cs" />
     <Compile Include="IRequestCallback.cs" />

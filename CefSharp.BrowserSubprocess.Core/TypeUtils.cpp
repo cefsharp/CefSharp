@@ -7,6 +7,7 @@
 #include "Stdafx.h"
 #include ".\..\CefSharp.Core\Internals\StringUtils.h"
 #include "TypeUtils.h"
+#include "JavascriptObjectWrapper.h"
 
 using namespace CefSharp::Internals;
 using namespace System;
@@ -94,6 +95,11 @@ namespace CefSharp
         {
             return CefV8Value::CreateDate(TypeUtils::ConvertDateTimeToCefTime(safe_cast<DateTime>(obj)));
         }
+        if (type == JavascriptObjectWrapper::typeid) 
+        {
+            auto jsWrapper = safe_cast<JavascriptObjectWrapper^>(obj);
+            return jsWrapper->V8Value.get();
+        }
         if (type->IsArray)
         {
             Array^ managedArray = (Array^)obj;
@@ -170,6 +176,8 @@ namespace CefSharp
 
         if (obj->IsArray())
         {
+            auto array = gcnew List<Object^>();
+
             int arrLength = obj->GetArrayLength();
 
             if (arrLength > 0)
@@ -177,7 +185,6 @@ namespace CefSharp
                 std::vector<CefString> keys;
                 if (obj->GetKeys(keys))
                 {
-                    auto array = gcnew List<Object^>();
 
                     for (int i = 0; i < arrLength; i++)
                     {
@@ -189,12 +196,10 @@ namespace CefSharp
                             array->Add(p_data);
                         }
                     }
-
-                    return array->ToArray();
                 }
             }
 
-            return nullptr;
+            return array->ToArray();
         }
 
         if (obj->IsObject())

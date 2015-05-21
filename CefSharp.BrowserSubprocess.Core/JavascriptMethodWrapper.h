@@ -20,6 +20,8 @@ namespace CefSharp
         JavascriptMethod^ _javascriptMethod;
         int64 _ownerId;
         IBrowserProcess^ _browserProcess;
+        Object^ WrapObject(JavascriptObject^);
+        Object^ WrapArray(Array^);
 
     internal:
         MCefRefPtr<CefV8Value> V8Value;

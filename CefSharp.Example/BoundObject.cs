@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace CefSharp.Example
@@ -11,15 +12,21 @@ namespace CefSharp.Example
         public Type MyUnconvertibleProperty { get; set; }
         public SubBoundObject SubObject { get; set; }
 
-        public uint[] MyUintArray
+        public SubBoundObject[] MyObjects
         {
-            get { return new uint[] { 7, 8 }; }
+            get
+            {
+                return new[]
+                {
+                    new SubBoundObject { SimpleProperty = "Hello" },
+                    new SubBoundObject { SimpleProperty = "CefSharp" }
+                };
+            }
         }
 
-        public int[] MyIntArray
-        {
-            get { return new [] { 1, 2, 3, 4, 5, 6, 7, 8 }; }
-        }
+        public uint[] MyUintArray { get; set; }
+
+        public int[] MyIntArray { get; set; }
 
         public Array MyArray
         {
@@ -31,13 +38,18 @@ namespace CefSharp.Example
             get { return new byte[] { 3, 4, 5 }; }
         }
 
+        public List<uint> MyUintList { get; set; }
+
         public BoundObject()
         {
             MyProperty = 42;
             MyReadOnlyProperty = "I'm immutable!";
             IgnoredProperty = "I am an Ignored Property";
             MyUnconvertibleProperty = GetType();
-            SubObject = new SubBoundObject();
+            SubObject = new SubBoundObject() { Parent = this };
+            MyUintArray = new uint[] { 7, 8 };
+            MyIntArray = new[] { 1, 2, 3, 4, 5, 6, 7, 8 };
+            MyUintList = new List<uint>(MyUintArray);
         }
 
         public void TestCallback(IJavascriptCallback javascriptCallback)
@@ -261,6 +273,31 @@ namespace CefSharp.Example
         public SubBoundObject GetSubObject()
         {
             return SubObject;
+        }
+
+        public SubBoundObject[] GetMySubObjects()
+        {
+            return MyObjects;
+        }
+
+        public List<SubBoundObject> GetMySubObjectList()
+        {
+            return new List<SubBoundObject>(MyObjects);
+        }
+
+        public class NestedSubClass : BoundObject
+        {
+            public string[] MyStrings { get; set; }
+
+            public NestedSubClass()
+            {
+                MyStrings = new string[] { "subclass string 1", "subclass string 2" };
+            }
+        }
+
+        public void ToggleSubObjectParent()
+        {
+            SubObject.Parent = SubObject.Parent != null ? null : new NestedSubClass();
         }
     }
 }

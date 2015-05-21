@@ -4,6 +4,7 @@
 
 using System;
 using System.Drawing;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using CefSharp.Internals;
@@ -302,9 +303,9 @@ namespace CefSharp.OffScreen
             Load(url);
         }
 
-        public void RegisterJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true)
+        public void RegisterJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true, Func<MemberInfo, bool> predicate = null)
         {
-            managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, camelCaseJavascriptNames);
+            managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, camelCaseJavascriptNames, predicate);
         }
 
         public void Stop()

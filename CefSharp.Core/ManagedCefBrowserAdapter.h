@@ -23,6 +23,7 @@ using namespace System::Diagnostics;
 using namespace System::ServiceModel;
 using namespace System::Threading;
 using namespace System::Threading::Tasks;
+using namespace System::Reflection;
 
 namespace CefSharp
 {
@@ -130,7 +131,7 @@ namespace CefSharp
         void Resize(int width, int height);
         void NotifyMoveOrResizeStarted();
         void NotifyScreenInfoChanged();
-        void RegisterJsObject(String^ name, Object^ object, bool lowerCaseJavascriptNames);
+        void RegisterJsObject(String^ name, Object^ object, bool lowerCaseJavascriptNames, Func<MemberInfo^, bool>^ predicate);
         void ReplaceMisspelling(String^ word);
         void AddWordToDictionary(String^ word);
         void OnDragTargetDragEnter(CefDragDataWrapper^ dragData, MouseEvent^ mouseEvent, DragOperationsMask allowedOperations);

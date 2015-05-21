@@ -117,10 +117,78 @@
                     {
                         for (var sub in bound[name])
                         {
-                            var type = bound[name][sub].constructor.name === 'Function' ? "Function" : "Property";
+                            if (bound[name][sub])
+                            {
+                                var type = bound[name][sub].constructor.name == 'Function' ? "Function" : "Property";
                             document.write("<li>" + name + "." + sub + "(" + type + ")" + "</li>");
                         }
+                            else
+                            {
+                                document.write("<li>" + name + "." + sub + " is null</li>");
+                            }
+                        }
                     }
+                }
+            </script>
+        </ul>
+
+        Calling echo methods on bound object 'bound' with -1 and 1.5 to test int and double conversion:<br />
+        <ul>
+            <script type="text/javascript">
+                for (var name in bound)
+                {
+                    if (name.indexOf("echo") != 0 || bound[name].constructor.name != 'Function') continue;
+                    if (name == "echoMyProperty" || name == "echoVoid") continue;
+                    document.write("<li>Calling " + name + "(-1) returns: ");
+                    try 
+                    {
+                        document.write(bound[name](-1));
+                    }
+                    catch (e) 
+                    {
+                        document.write("<font color='red'>" + e.message + "</font>");
+                    }
+                    document.write("</li>");
+
+                    document.write("<li>Calling " + name + "(1.5) returns: ");
+                    try
+                    {
+                        document.write(bound[name](1.5));
+                    }
+                    catch (e)
+                    {
+                        document.write("<font color='red'>" + e.message + "</font>");
+                    }
+                    document.write("</li>");
+                }
+            </script>
+        </ul>
+
+        bound subobject's parent before and after calling bound.toggleSubObjectParent(): <br/>
+        <ul>
+            <script type="text/javascript">
+                var so = bound.subObject;
+                for (var i = 0; i < 3; i++)
+                {
+                    if (so.parent == null)
+                    {
+                        document.write("<li>subObject parent is null.");
+                    }
+                    else if (so.parent["myStrings"])
+                    {
+                        document.write("<li>subObject parent has myStrings property: <br/>");
+                        for (var j in so.parent.myStrings)
+                        {
+                            document.write(so.parent.myStrings[j] + "<br/>");
+                    }
+                }
+                    else
+                    {
+                        document.write("<li>subObject parent doesn't have myStrings property.");
+                    }
+                    document.write("</li>");
+                    document.write("<li><font color='blue'>Calling bound.toggleSubObjectParent()</font></li>");
+                    bound.toggleSubObjectParent();
                 }
             </script>
         </ul>

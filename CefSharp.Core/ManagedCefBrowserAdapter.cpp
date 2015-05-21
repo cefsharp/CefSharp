@@ -611,9 +611,9 @@ void ManagedCefBrowserAdapter::NotifyScreenInfoChanged()
     }
 }
 
-void ManagedCefBrowserAdapter::RegisterJsObject(String^ name, Object^ object, bool lowerCaseJavascriptNames)
+void ManagedCefBrowserAdapter::RegisterJsObject(String^ name, Object^ object, bool lowerCaseJavascriptNames, Func<MemberInfo^, bool>^ predicate)
 {
-    _javaScriptObjectRepository->Register(name, object, lowerCaseJavascriptNames);
+    _javaScriptObjectRepository->Register(name, object, lowerCaseJavascriptNames, predicate);
 }
 
 void ManagedCefBrowserAdapter::ReplaceMisspelling(String^ word)

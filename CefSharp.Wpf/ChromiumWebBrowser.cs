@@ -17,6 +17,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
+using System.Reflection;
 
 namespace CefSharp.Wpf
 {
@@ -1408,9 +1409,9 @@ namespace CefSharp.Wpf
             managedCefBrowserAdapter.CloseDevTools();
         }
 
-        public void RegisterJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true)
+        public void RegisterJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true, Func<MemberInfo, bool> predicate = null)
         {
-            managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, camelCaseJavascriptNames);
+            managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, camelCaseJavascriptNames, predicate);
         }
 
         public void ExecuteScriptAsync(string script)
