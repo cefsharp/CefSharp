@@ -120,7 +120,8 @@ namespace CefSharp.Internals
                 }
                 else
                 {
-                    result = obj.Value.GetType().InvokeMember(method.ManagedName, DefaultBindingFlags | BindingFlags.InvokeMethod, JavascriptTypeBinder.Singleton, obj.Value, parameters);
+                    result = obj.Value.GetType().InvokeMember(method.ManagedName, DefaultBindingFlags | BindingFlags.InvokeMethod | BindingFlags.OptionalParamBinding,
+                        JavascriptTypeBinder.Singleton, obj.Value, parameters, CultureInfo.CurrentCulture);
                 }
                 if (result != null)
                 {
