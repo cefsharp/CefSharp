@@ -6,21 +6,21 @@ using CefSharp.Internals;
 
 namespace CefSharp
 {
-	internal static class WebBrowserExtensions
-	{
-		internal static void SetHandlersToNull(this IWebBrowserInternal browser)
-		{
-			browser.ResourceHandlerFactory = null;
-			browser.JsDialogHandler = null;
-			browser.DialogHandler = null;
-			browser.DownloadHandler = null;
-			browser.KeyboardHandler = null;
-			browser.LifeSpanHandler = null;
-			browser.MenuHandler = null;
-			browser.FocusHandler = null;
-			browser.RequestHandler = null;
-			browser.DragHandler = null;
-			browser.GeolocationHandler = null;
-		}
-	}
+    internal static class WebBrowserExtensions
+    {
+        internal static void SetHandlersToNull(this IWebBrowserInternal browser)
+        {
+            browser.ResourceHandlerFactory = null;
+            browser.JsDialogHandler = null;
+            browser.DialogHandler = null;
+            browser.DownloadHandler = null;
+            browser.KeyboardHandler = null;
+            browser.LifeSpanHandler = null;
+            browser.MenuHandler = null;
+            browser.FocusHandler = null;
+            browser.RequestHandler = null;
+            browser.DragHandler = null;
+            browser.GeolocationHandler = null;
+        }
+    }
 }
