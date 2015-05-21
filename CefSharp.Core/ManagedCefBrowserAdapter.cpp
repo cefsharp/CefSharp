@@ -711,18 +711,19 @@ List<Int64>^ ManagedCefBrowserAdapter::GetFrameIdentifiers()
 {
     auto browser = _clientAdapter->GetCefBrowser();
 
-    if (browser != nullptr)
+    if (browser == nullptr)
     {
-        std::vector<Int64> identifiers;
-        browser->GetFrameIdentifiers(identifiers);
-        List<Int64>^ results = gcnew List<Int64>(identifiers.size());
-        for (UINT i = 0; i < identifiers.size(); i++)
-        {
-            results->Add(identifiers[i]);
-        }
-        return results;
+        return nullptr;
     }
-    return nullptr;
+
+    std::vector<Int64> identifiers;
+    browser->GetFrameIdentifiers(identifiers);
+    List<Int64>^ results = gcnew List<Int64>(identifiers.size());
+    for (UINT i = 0; i < identifiers.size(); i++)
+    {
+        results->Add(identifiers[i]);
+    }
+    return results;
 }
 
 ///
@@ -731,16 +732,16 @@ List<Int64>^ ManagedCefBrowserAdapter::GetFrameIdentifiers()
 /*--cef()--*/
 List<String^>^ ManagedCefBrowserAdapter::GetFrameNames()
 {
-    std::vector<CefString> names;
-
     auto browser = _clientAdapter->GetCefBrowser();
 
-    if (browser != nullptr)
+    if (browser == nullptr)
     {
-        browser->GetFrameNames(names);
-        return StringUtils::ToClr(names);
+        return nullptr;
     }
-    return nullptr;
+    
+    std::vector<CefString> names;
+    browser->GetFrameNames(names);
+    return StringUtils::ToClr(names);
 }
 
 ///
@@ -783,11 +784,12 @@ IFrame^ ManagedCefBrowserAdapter::GetFrame(System::Int64 identifier)
         return nullptr;
     }
     auto result = browser->GetFrame(identifier);
-    if (result != nullptr)
+    if (result == nullptr)
     {
-        return gcnew CefFrameWrapper(result, this);
+        return nullptr;
     }
-    return nullptr;
+    
+    return gcnew CefFrameWrapper(result, this);
 }
 
 ///
@@ -802,9 +804,10 @@ IFrame^ ManagedCefBrowserAdapter::GetFrame(String^ name)
         return nullptr;
     }
     auto result = browser->GetFrame(StringUtils::ToNative(name));
-    if (result != nullptr)
+    if (result == nullptr)
     {
-        return gcnew CefFrameWrapper(result, this);
+        return nullptr;
     }
-    return nullptr;
+    
+    return gcnew CefFrameWrapper(result, this);
 }
