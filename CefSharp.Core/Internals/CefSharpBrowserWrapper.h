@@ -87,6 +87,8 @@ namespace CefSharp
                 bool get();
             }
 
+            virtual void CloseBrowser(bool forceClose);
+
             ///
             // Reload the current page.
             ///

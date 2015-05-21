@@ -49,6 +49,18 @@ namespace CefSharp
         /*--cef()--*/
         bool IsLoading { get; }
 
+        /// <summary>
+        /// Request that the browser close. The JavaScript 'onbeforeunload' event will
+        /// be fired. If |forceClose| is false the event handler, if any, will be
+        /// allowed to prompt the user and the user can optionally cancel the close.
+        /// If |force_close| is true the prompt will not be displayed and the close
+        /// will proceed. Results in a call to CefLifeSpanHandler::DoClose() if the
+        /// event handler allows the close or if |force_close| is true. See
+        /// CefLifeSpanHandler::DoClose() documentation for additional usage
+        /// information.
+        /// </summary>
+        void CloseBrowser(bool forceClose);
+
         ///
         // Reload the current page.
         ///

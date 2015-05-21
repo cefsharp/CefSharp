@@ -68,6 +68,12 @@ bool CefSharpBrowserWrapper::IsLoading::get()
     return _browser->IsLoading();
 }
 
+void CefSharpBrowserWrapper::CloseBrowser(bool forceClose)
+{
+    ThrowIfDisposed();
+    _browser->GetHost()->CloseBrowser(forceClose);
+}
+
 ///
 // Reload the current page.
 ///
