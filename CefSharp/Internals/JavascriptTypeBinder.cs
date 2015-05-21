@@ -230,7 +230,7 @@ namespace CefSharp.Internals
                         }
                     }
                     // Determine whether the types specified by the user can be converted to the parameter type. 
-                    if (ChangeType(args[j], parameters[j].ParameterType, culture) != null)
+                    if ((args[j] == null && !parameters[j].ParameterType.IsValueType) || ChangeType(args[j], parameters[j].ParameterType, culture) != null)
                     {
                         count += 1;
                     }
@@ -279,7 +279,6 @@ namespace CefSharp.Internals
                     }
                     return list;
                 }
-                return Convert.ChangeType(value, type);
             }
             else
             {
@@ -287,10 +286,14 @@ namespace CefSharp.Internals
                 {
                     return explicitConversions[originalType][type].Convert(value);
                 }
-                else
-                {
-                    return Convert.ChangeType(value, type);
-                }
+            }
+            try
+            {
+                return Convert.ChangeType(value, type);
+            }
+            catch (Exception)
+            {
+                return Type.GetTypeCode(originalType) == Type.GetTypeCode(type) ? value : null;
             }
         }
 
@@ -320,8 +323,8 @@ namespace CefSharp.Internals
                 for (int j = 0; j < types.Length; j++)
                 {
                     // Determine whether the types specified by the user can be converted to parameter type. 
-                    if (CanConvertFrom(types[j], parameters[j].ParameterType))
-                    {
+                    if (CanConvertFrom(types[j], parameters[j].ParameterType) || Type.GetTypeCode(types[j]) == Type.GetTypeCode(parameters[j].ParameterType))
+                    { 
                         count += 1;
                     }
                     else
