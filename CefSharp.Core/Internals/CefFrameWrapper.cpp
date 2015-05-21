@@ -172,12 +172,6 @@ void CefFrameWrapper::ExecuteJavaScriptAsync(String^ code, String^ scriptUrl, in
     _frame->ExecuteJavaScript(StringUtils::ToNative(code), StringUtils::ToNative(scriptUrl), startLine);
 }
 
-void CefFrameWrapper::ExecuteJavaScriptAsync(String^ code)
-{
-    ThrowIfDisposed();
-    _frame->ExecuteJavaScript(StringUtils::ToNative(code), "about:blank", 0);
-}
-
 Task<JavascriptResponse^>^ CefFrameWrapper::EvaluateScriptAsync(String^ script, Nullable<TimeSpan> timeout)
 {
     ThrowIfDisposed();
