@@ -117,8 +117,15 @@
                     {
                         for (var sub in bound[name])
                         {
-                            var type = bound[name][sub].constructor.name == 'Function' ? "Function" : "Property";
-                            document.write("<li>" + name + "." + sub + "(" + type + ")" + "</li>");
+                            if (bound[name][sub])
+                            {
+                                var type = bound[name][sub].constructor.name == 'Function' ? "Function" : "Property";
+                                document.write("<li>" + name + "." + sub + "(" + type + ")" + "</li>");
+                            }
+                            else
+                            {
+                                document.write("<li>" + name + "." + sub + " is null</li>");
+                            }
                         }
                     }
                 }
@@ -164,14 +171,21 @@
                 for (var i = 0; i < 3; i++)
                 {
                     if (so.parent == null)
+                    {
                         document.write("<li>subObject parent is null.");
-                    else if (so.parent["myStrings"]) {
+                    }
+                    else if (so.parent["myStrings"])
+                    {
                         document.write("<li>subObject parent has myStrings property: <br/>");
                         for (var j in so.parent.myStrings)
+                        {
                             document.write(so.parent.myStrings[j] + "<br/>");
+                        }
                     }
                     else
+                    {
                         document.write("<li>subObject parent doesn't have myStrings property.");
+                    }
                     document.write("</li>");
                     document.write("<li><font color='blue'>Calling bound.toggleSubObjectParent()</font></li>");
                     bound.toggleSubObjectParent();
