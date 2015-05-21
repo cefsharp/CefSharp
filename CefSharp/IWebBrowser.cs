@@ -342,5 +342,17 @@ namespace CefSharp
         /// <param name="deltaX">Movement delta for X direction.</param>
         /// <param name="deltaY">movement delta for Y direction.</param>
         void SendMouseWheelEvent(int x, int y, int deltaX, int deltaY);
+
+        /// <summary>
+        /// Returns the main (top-level) frame for the browser window.
+        /// </summary>
+        /// <returns>Frame</returns>
+        IFrame GetMainFrame();
+
+        /// <summary>
+        /// Returns the focused frame for the browser window.
+        /// </summary>
+        /// <returns>Frame</returns>
+        IFrame GetFocusedFrame();
     }
 }

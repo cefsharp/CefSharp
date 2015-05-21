@@ -507,5 +507,15 @@ namespace CefSharp.WinForms
                 managedCefBrowserAdapter.SetFocus(isFocused);
             }
         }
+
+        public IFrame GetMainFrame()
+        {
+            return IsBrowserInitialized ? managedCefBrowserAdapter.GetMainFrame() : null;
+        }
+
+        public IFrame GetFocusedFrame()
+        {
+            return IsBrowserInitialized ? managedCefBrowserAdapter.GetFocusedFrame() : null;
+        }
     }
 }
