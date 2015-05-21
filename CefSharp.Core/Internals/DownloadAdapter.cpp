@@ -27,7 +27,7 @@ namespace CefSharp
             auto downloadItem = TypeConversion::FromNative(download_item);
             downloadItem->SuggestedFileName = StringUtils::ToClr(suggested_name);
 
-            if (_handler->OnBeforeDownload(downloadItem, download_path, show_dialog))
+            if (_handler->OnBeforeDownload(gcnew CefSharpBrowserWrapper(browser, nullptr), downloadItem, download_path, show_dialog))
             {
                 callback->Continue(StringUtils::ToNative(download_path), show_dialog);
             }
@@ -36,7 +36,7 @@ namespace CefSharp
         void DownloadAdapter::OnDownloadUpdated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDownloadItem> download_item,
             CefRefPtr<CefDownloadItemCallback> callback) 
         {
-            if (_handler->OnDownloadUpdated(TypeConversion::FromNative(download_item)))
+            if (_handler->OnDownloadUpdated(gcnew CefSharpBrowserWrapper(browser, nullptr), TypeConversion::FromNative(download_item)))
             {
                 callback->Cancel();
             }
