@@ -135,12 +135,12 @@ namespace CefSharp.Wpf
             ViewSourceCommand = new DelegateCommand(ViewSource);
             CleanupCommand = new DelegateCommand(Dispose);
             StopCommand = new DelegateCommand(Stop);
-            CutCommand = new DelegateCommand(Cut);
-            CopyCommand = new DelegateCommand(Copy);
-            PasteCommand = new DelegateCommand(Paste);
-            SelectAllCommand = new DelegateCommand(SelectAll);
-            UndoCommand = new DelegateCommand(Undo);
-            RedoCommand = new DelegateCommand(Redo);
+            CutCommand = new DelegateCommand(this.Cut);
+            CopyCommand = new DelegateCommand(this.Copy);
+            PasteCommand = new DelegateCommand(this.Paste);
+            SelectAllCommand = new DelegateCommand(this.SelectAll);
+            UndoCommand = new DelegateCommand(this.Undo);
+            RedoCommand = new DelegateCommand(this.Redo);
 
             imageTransform = new ScaleTransform();
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, true);
@@ -1281,40 +1281,7 @@ namespace CefSharp.Wpf
             Load(url);
         }
 
-        public void Undo()
-        {
-            managedCefBrowserAdapter.Undo();
-        }
-
-        public void Redo()
-        {
-            managedCefBrowserAdapter.Redo();
-        }
-
-        public void Cut()
-        {
-            managedCefBrowserAdapter.Cut();
-        }
-
-        public void Copy()
-        {
-            managedCefBrowserAdapter.Copy();
-        }
-
-        public void Paste()
-        {
-            managedCefBrowserAdapter.Paste();
-        }
-
-        public void Delete()
-        {
-            managedCefBrowserAdapter.Delete();
-        }
-
-        public void SelectAll()
-        {
-            managedCefBrowserAdapter.SelectAll();
-        }
+        
 
         public void Stop()
         {

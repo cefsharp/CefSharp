@@ -110,13 +110,6 @@ namespace CefSharp
         void ViewSource();
         void GetSource(IStringVisitor^ visitor);
         void GetText(IStringVisitor^ visitor);
-        void Cut();
-        void Copy();
-        void Paste();
-        void Delete();
-        void SelectAll();
-        void Undo();
-        void Redo();
         void ExecuteScriptAsync(String^ script);
         virtual Task<JavascriptResponse^>^ EvaluateScriptAsync(int browserId, Int64 frameId, String^ script, Nullable<TimeSpan> timeout);
         virtual Task<JavascriptResponse^>^ EvaluateScriptAsync(String^ script, Nullable<TimeSpan> timeout);
