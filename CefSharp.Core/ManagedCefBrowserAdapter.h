@@ -77,12 +77,12 @@ namespace CefSharp
             if (offScreenRendering)
             {
                 _clientAdapter = new RenderClientAdapter(webBrowserInternal,
-                    gcnew Action<int>(this, &ManagedCefBrowserAdapter::OnAfterBrowserCreated));
+                    gcnew Action<int>(this, &ManagedCefBrowserAdapter::OnAfterBrowserCreated), this);
             }
             else
             {
                 _clientAdapter = new ClientAdapter(webBrowserInternal,
-                    gcnew Action<int>(this, &ManagedCefBrowserAdapter::OnAfterBrowserCreated));
+                    gcnew Action<int>(this, &ManagedCefBrowserAdapter::OnAfterBrowserCreated), this);
             }
 
             _webBrowserInternal = webBrowserInternal;

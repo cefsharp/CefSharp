@@ -35,14 +35,16 @@ namespace CefSharp
             gcroot<Action<int>^> _onAfterBrowserCreated;
             HWND _browserHwnd;
             CefRefPtr<CefBrowser> _cefBrowser;
-            std::vector<CefRefPtr<CefBrowser>> _popupBrowsers;
-
+            gcroot<Dictionary<int, IBrowser^>^> _popupBrowsers;
             gcroot<String^> _tooltip;
+            gcroot<IBrowserAdapter^> _browserAdapter;
 
         public:
-            ClientAdapter(IWebBrowserInternal^ browserControl, Action<int>^ onAfterBrowserCreated) :
+            ClientAdapter(IWebBrowserInternal^ browserControl, Action<int>^ onAfterBrowserCreated, IBrowserAdapter^ browserAdapter) :
                 _browserControl(browserControl), 
-                _onAfterBrowserCreated(onAfterBrowserCreated)
+                _onAfterBrowserCreated(onAfterBrowserCreated),
+                _popupBrowsers(gcnew Dictionary<int, IBrowser^>()),
+                _browserAdapter(browserAdapter)
             {
             }
 
@@ -53,11 +55,16 @@ namespace CefSharp
                 _browserHwnd = nullptr;
                 _cefBrowser = NULL;
                 _tooltip = nullptr;
+                _browserAdapter = nullptr;
+                if (_popupBrowsers->Count > 0)
+                {
+                    throw gcnew InvalidOperationException("~ClientAdapter called before ClientAdapter::CloseAllPopups!");
+                }
+                _popupBrowsers = nullptr;
             }
 
             HWND GetBrowserHwnd() { return _browserHwnd; }
             CefRefPtr<CefBrowser> GetCefBrowser() { return _cefBrowser; }
-            void GetCefPopupBrowsers(std::vector<CefRefPtr<CefBrowser>>& popupBrowsers);
             void ShowDevTools();
             void CloseDevTools();
             void CloseAllPopups(bool forceClose);

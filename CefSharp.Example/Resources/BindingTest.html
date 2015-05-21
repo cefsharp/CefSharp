@@ -32,7 +32,7 @@
             <script type="text/javascript">
                 var result = bound.repeat("hi ", 5);
                 document.write('"' + result + '"');
-                if (result == "hi hi hi hi hi ")
+                if (result === "hi hi hi hi hi ")
                 {
                     document.write(" SUCCESS");
                 } else
@@ -86,7 +86,7 @@
 
                 document.write("Employee Count : " + jsonObj.employees.length + "<br/>");
 
-                for (var i = 0; i <= jsonObj.employees.length; i++)
+                for (var i = 0; i < jsonObj.employees.length; i++)
                 {
                     var employee = jsonObj.employees[i];
                     document.write("Employee : " + employee.firstName + " " + employee.lastName + "<br/>");
@@ -110,7 +110,7 @@
             <script type="text/javascript">
                 for (var name in bound)
                 {
-                    if (bound[name].constructor.name == 'Function') continue;
+                    if (bound[name].constructor.name === 'Function') continue;
 
                     document.write("<li>" + name + "</li>");
                     if (typeof bound[name] == "object" && bound[name] !== null)
@@ -120,8 +120,8 @@
                             if (bound[name][sub])
                             {
                                 var type = bound[name][sub].constructor.name == 'Function' ? "Function" : "Property";
-                                document.write("<li>" + name + "." + sub + "(" + type + ")" + "</li>");
-                            }
+                            document.write("<li>" + name + "." + sub + "(" + type + ")" + "</li>");
+                        }
                             else
                             {
                                 document.write("<li>" + name + "." + sub + " is null</li>");
@@ -180,8 +180,8 @@
                         for (var j in so.parent.myStrings)
                         {
                             document.write(so.parent.myStrings[j] + "<br/>");
-                        }
                     }
+                }
                     else
                     {
                         document.write("<li>subObject parent doesn't have myStrings property.");
