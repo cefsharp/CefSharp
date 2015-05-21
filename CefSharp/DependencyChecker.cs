@@ -21,7 +21,14 @@ namespace CefSharp
         /// <summary>
         /// IsWindowsXp - Special case for legacy XP support
         /// </summary>
-        public static bool IsWindowsXp { get; set; }
+        public static bool IsWindowsXp
+        {
+            get
+            {
+                var osVersion = Environment.OSVersion;
+                return osVersion.Platform == PlatformID.Win32NT && osVersion.Version.Major < 6;
+            }
+        }
 
         /// <summary>
         /// List of Cef Dependencies

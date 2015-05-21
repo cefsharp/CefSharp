@@ -75,6 +75,7 @@ namespace CefSharp
     {
     private:
         bool _isFinalized;
+
     internal:
         CefBrowserSettings* _browserSettings;
 
@@ -82,13 +83,6 @@ namespace CefSharp
         BrowserSettings() : _browserSettings(new CefBrowserSettings()), _isFinalized(false) { }
         !BrowserSettings() { delete _browserSettings; _isFinalized = true; }
         ~BrowserSettings() { if (!_isFinalized) this->!BrowserSettings(); }
-
-        // CefBrowserSettings is private causing whole field to be private
-        // exposing void* as a workaround
-        property void* _internalBrowserSettings
-        {
-            void* get() { return _browserSettings; }
-        }
 
         property String^ StandardFontFamily
         {
@@ -276,5 +270,6 @@ namespace CefSharp
             void set(Nullable<bool>^ value) { _browserSettings->webgl = CefStateFromDisabledSetting(value); }
         }
 
+        property Nullable<bool>^ OffScreenTransparentBackground;
     };
 }
