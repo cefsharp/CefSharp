@@ -753,12 +753,7 @@ IFrame^ ManagedCefBrowserAdapter::GetMainFrame()
     {
         return nullptr;
     }
-    auto result = browser->GetMainFrame();
-    if (result != nullptr)
-    {
-        return gcnew CefFrameWrapper(result, this);
-    }
-    return nullptr;
+    return gcnew CefFrameWrapper(browser->GetMainFrame(), this);
 }
 
 ///
@@ -772,12 +767,8 @@ IFrame^ ManagedCefBrowserAdapter::GetFocusedFrame()
     {
         return nullptr;
     }
-    auto result = browser->GetFocusedFrame();
-    if (result != nullptr)
-    {
-        return gcnew CefFrameWrapper(result, this);
-    }
-    return nullptr;
+
+    return gcnew CefFrameWrapper(browser->GetFocusedFrame(), this);
 }
 
 ///
