@@ -11,12 +11,12 @@ namespace CefSharp
     /// </summary>
     public class LoadErrorEventArgs : EventArgs
     {
-        public LoadErrorEventArgs(IFrame frame, CefErrorCode errorCode, string errorText)
+        public LoadErrorEventArgs(IFrame frame, CefErrorCode errorCode, string errorText, string failedUrl)
         {
             Frame = frame;
-            FailedUrl = frame.Url;
             ErrorCode = errorCode;
             ErrorText = errorText;
+            FailedUrl = failedUrl;
         }
 
         /// <summary>

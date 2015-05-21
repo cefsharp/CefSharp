@@ -29,5 +29,17 @@ namespace CefSharp
         void OnLoadingStateChange(IWebBrowser browserControl, IBrowser browser, bool isLoading, bool canGoBack, bool canGoForward);
 
         void OnStatusMessage(IWebBrowser browserControl, IBrowser browser, string message);
+
+        void OnFrameLoadStart(IWebBrowser browserControl, IBrowser browser, FrameLoadStartEventArgs frameLoadStartArgs);
+
+        void OnFrameLoadEnd(IWebBrowser browserControl, IBrowser browser, FrameLoadEndEventArgs frameLoadEndArgs);
+
+        /// <summary>
+        /// Called when the resource load for a navigation fails or is canceled.
+        /// |errorCode| is the error code number, |errorText| is the error text and
+        /// |failedUrl| is the URL that failed to load. See net\base\net_error_list.h
+        /// for complete descriptions of the error codes.
+        /// </summary>
+        void OnLoadError(IWebBrowser browserControl, IBrowser browser, LoadErrorEventArgs loadErrorArgs);
     }
 }

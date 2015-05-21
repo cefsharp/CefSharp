@@ -486,12 +486,12 @@ namespace CefSharp.OffScreen
             }
         }
 
-        void IWebBrowserInternal.OnLoadError(IFrame frame, CefErrorCode errorCode, string errorText)
+        void IWebBrowserInternal.OnLoadError(IFrame frame, CefErrorCode errorCode, string errorText, string failedUrl)
         {
             var handler = LoadError;
             if (handler != null)
             {
-                handler(this, new LoadErrorEventArgs(frame, errorCode, errorText));
+                handler(this, new LoadErrorEventArgs(frame, errorCode, errorText, failedUrl));
             }
         }
 
