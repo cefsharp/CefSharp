@@ -502,21 +502,18 @@ namespace CefSharp.Wpf
 
         protected virtual void OnIsBrowserInitializedChanged(bool oldValue, bool newValue)
         {
-            managedCefBrowserAdapter.GetZoomLevelAsync()
-                .ContinueWith(new Action<Task<double>>((Task<double> previous) =>
-                    {
-                        if (previous.IsCompleted)
-                        {
-                            UiThreadRunAsync(() =>
-                            {
-                                SetCurrentValue(ZoomLevelProperty, previous.Result);
-                            });
-                        }
-                        else
-                        {
-                            throw new InvalidOperationException("Unexpected failure of calling CEF->GetZoomLevelAsync", previous.Exception);
-                        }
-                    }), TaskContinuationOptions.ExecuteSynchronously);
+            var task = managedCefBrowserAdapter.GetZoomLevelAsync();
+            task.ContinueWith(previous =>
+            {
+                if (previous.IsCompleted)
+                {
+                    UiThreadRunAsync(() => SetCurrentValue(ZoomLevelProperty, previous.Result));
+                }
+                else
+                {
+                    throw new InvalidOperationException("Unexpected failure of calling CEF->GetZoomLevelAsync", previous.Exception);
+                }
+            }, TaskContinuationOptions.ExecuteSynchronously);
         }
 
         #endregion IsInitialized dependency property
