@@ -4,7 +4,7 @@
 
 using System;
 
-namespace CefSharp
+namespace CefSharp.WinForms
 {
     // Should rightfully live in the CefSharp.WinForms project, but the problem is that it's being used from CefSharp.Core
     // so the dependency would go the wrong way... Has to be here for the time being.
