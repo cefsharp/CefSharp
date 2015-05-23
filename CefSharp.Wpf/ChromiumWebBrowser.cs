@@ -293,9 +293,9 @@ namespace CefSharp.Wpf
         void IRenderWebBrowser.SetPopupIsOpen(bool isOpen)
         {
             UiThreadRunAsync(() => { popup.IsOpen = isOpen; });
-        }
-
-        void IRenderWebBrowser.SetCursor(IntPtr handle)
+        }  
+        
+        void IRenderWebBrowser.SetCursor(IntPtr handle, CefCursorType type)
         {
             UiThreadRunAsync(() =>
             {

@@ -93,6 +93,7 @@
     <Compile Include="DefaultResourceHandlerFactory.cs" />
     <Compile Include="DependencyChecker.cs" />
     <Compile Include="IJavascriptCallback.cs" />
+    <Compile Include="CEFCursorType.cs" />
     <Compile Include="Internals\IntPtrExtensions.cs" />
     <Compile Include="Internals\JavascriptCallbackProxy.cs" />
     <Compile Include="Internals\JavascriptCallback.cs" />
