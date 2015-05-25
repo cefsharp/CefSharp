@@ -422,7 +422,7 @@ namespace CefSharp.OffScreen
             }
         }
 
-        void IRenderWebBrowser.SetCursor(IntPtr cursor)
+        void IRenderWebBrowser.SetCursor(IntPtr handle, CefCursorType type)
         {
         }
 
