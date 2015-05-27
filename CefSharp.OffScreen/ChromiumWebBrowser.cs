@@ -269,24 +269,6 @@ namespace CefSharp.OffScreen
             managedCefBrowserAdapter.LoadUrl(Address);
         }
 
-        public void LoadHtml(string html, string url)
-        {
-            LoadHtml(html, url, Encoding.UTF8);
-        }
-
-        public void LoadHtml(string html, string url, Encoding encoding)
-        {
-            var factory = ResourceHandlerFactory;
-            if (factory == null)
-            {
-                throw new Exception("Implement IResourceHandlerFactory and assign to the ResourceHandlerFactory property to use this feature");
-            }
-
-            factory.RegisterHandler(url, ResourceHandler.FromString(html, encoding, true));
-
-            Load(url);
-        }
-
         public void RegisterJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true)
         {
             managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, camelCaseJavascriptNames);

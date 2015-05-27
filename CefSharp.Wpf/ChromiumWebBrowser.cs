@@ -1263,26 +1263,6 @@ namespace CefSharp.Wpf
             }
         }
 
-        public void LoadHtml(string html, string url)
-        {
-            LoadHtml(html, url, Encoding.UTF8);
-        }
-
-        public void LoadHtml(string html, string url, Encoding encoding)
-        {
-            var handler = ResourceHandlerFactory;
-            if (handler == null)
-            {
-                throw new Exception("Implement IResourceHandlerFactory and assign to the ResourceHandlerFactory property to use this feature");
-            }
-
-            handler.RegisterHandler(url, ResourceHandler.FromString(html, encoding, true));
-
-            Load(url);
-        }
-
-        
-
         public void Stop()
         {
             managedCefBrowserAdapter.Stop();

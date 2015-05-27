@@ -2,6 +2,8 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace CefSharp
@@ -138,6 +140,50 @@ namespace CefSharp
             {
                 frame.LoadHtml(html, url);
             }
+        }
+
+        /// <summary>
+        /// Registers and loads a <see cref="ResourceHandler"/> that represents the HTML content.
+        /// </summary>
+        /// <remarks>
+        /// `Cef` Native `LoadHtml` is unpredictable and only works sometimes, this method wraps
+        /// the provided HTML in a <see cref="ResourceHandler"/> and loads the provided url using
+        /// the <see cref="IWebBrowser.Load"/> method.
+        /// Defaults to using <see cref="Encoding.UTF8"/> for character encoding 
+        /// The url must start with a valid schema, other uri's such as about:blank are invalid
+        /// A valid example looks like http://test/page
+        /// </remarks>
+        /// <param name="browser">The instance this method extends</param>
+        /// <param name="html">The HTML content.</param>
+        /// <param name="url">The URL that will be treated as the address of the content.</param>
+        public static void LoadHtml(this IWebBrowser browser, string html, string url)
+        {
+            browser.LoadHtml(html, url, Encoding.UTF8);
+        }
+
+        /// <summary>
+        /// Registers and loads a <see cref="ResourceHandler"/> that represents the HTML content.
+        /// </summary>
+        /// <remarks>
+        /// `Cef` Native `LoadHtml` is unpredictable and only works sometimes, this method wraps
+        /// the provided HTML in a <see cref="ResourceHandler"/> and loads the provided url using
+        /// the <see cref="IWebBrowser.Load"/> method.
+        /// </remarks>
+        /// <param name="browser">The instance this method extends</param>
+        /// <param name="html">The HTML content.</param>
+        /// <param name="url">The URL that will be treated as the address of the content.</param>
+        /// <param name="encoding">Character Encoding</param>
+        public static void LoadHtml(this IWebBrowser browser, string html, string url, Encoding encoding)
+        {
+            var handler = browser.ResourceHandlerFactory;
+            if (handler == null)
+            {
+                throw new Exception("Implement IResourceHandlerFactory and assign to the ResourceHandlerFactory property to use this feature");
+            }
+
+            handler.RegisterHandler(url, ResourceHandler.FromString(html, encoding, true));
+
+            browser.Load(url);
         }
     }
 }

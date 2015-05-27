@@ -54,34 +54,6 @@ namespace CefSharp
         void Load(string url);
 
         /// <summary>
-        /// Registers and loads a <see cref="ResourceHandler"/> that represents the HTML content.
-        /// </summary>
-        /// <remarks>
-        /// `Cef` Native `LoadHtml` is unpredictable and only works sometimes, this method wraps
-        /// the provided HTML in a <see cref="ResourceHandler"/> and loads the provided url using
-        /// the <see cref="Load"/> method.
-        /// Defaults to using <see cref="Encoding.UTF8"/> for character encoding 
-        /// The url must start with a valid schema, other uri's such as about:blank are invalid
-        /// A valid example looks like http://test/page
-        /// </remarks>
-        /// <param name="html">The HTML content.</param>
-        /// <param name="url">The URL that will be treated as the address of the content.</param>
-        void LoadHtml(string html, string url);
-
-        /// <summary>
-        /// Registers and loads a <see cref="ResourceHandler"/> that represents the HTML content.
-        /// </summary>
-        /// <remarks>
-        /// `Cef` Native `LoadHtml` is unpredictable and only works sometimes, this method wraps
-        /// the provided HTML in a <see cref="ResourceHandler"/> and loads the provided url using
-        /// the <see cref="Load"/> method.
-        /// </remarks>
-        /// <param name="html">The HTML content.</param>
-        /// <param name="url">The URL that will be treated as the address of the content.</param>
-        /// <param name="encoding">Character Encoding</param>
-        void LoadHtml(string html, string url, Encoding encoding);
-
-        /// <summary>
         /// Registers a Javascript object in this specific browser instance.
         /// </summary>
         /// <param name="name">The name of the object. (e.g. "foo", if you want the object to be accessible as window.foo).</param>
