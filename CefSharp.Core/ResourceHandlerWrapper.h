@@ -25,9 +25,9 @@ namespace CefSharp
         int _statusCode;
         CefString _redirectUrl;
         CefString _statusText;
-        int _contentLength;
+        int64 _contentLength;
         bool _closeStream;
-        int SizeFromStream();
+        int64 SizeFromStream();
     public:
 
         ResourceHandlerWrapper(IResourceHandler^ handler) : _handler(handler)

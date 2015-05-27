@@ -54,6 +54,7 @@ namespace CefSharp
         response->SetStatus(_statusCode > 0 ? _statusCode : 200);
         response->SetStatusText(_statusText);
         response->SetHeaderMap(_headers);
+        // ContentLength defaults to -1 so SizeFromStream is called
         response_length = _contentLength >= 0 ? _contentLength : SizeFromStream();
         
         redirectUrl = _redirectUrl;
@@ -96,7 +97,7 @@ namespace CefSharp
         _callback = NULL;
     }
 
-    int ResourceHandlerWrapper::SizeFromStream()
+    int64 ResourceHandlerWrapper::SizeFromStream()
     {
         if (static_cast<Stream^>(_stream) == nullptr)
         {
@@ -106,7 +107,7 @@ namespace CefSharp
         if (_stream->CanSeek)
         {
             _stream->Seek(0, System::IO::SeekOrigin::End);
-            int length = static_cast<int>(_stream->Position);
+            int64 length = static_cast<int>(_stream->Position);
             _stream->Seek(0, System::IO::SeekOrigin::Begin);
             return length;
         }

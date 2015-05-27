@@ -44,7 +44,7 @@ namespace CefSharp
         /// and causes CefSharp to read the response stream in pieces. Thus, setting a length
         /// is optional but allows for more optimal response reading.
         /// </summary>
-        virtual property int ContentLength;
+        virtual property Int64 ContentLength;
 
         /// <summary>
         /// URL to redirect to (leave empty to not redirect).

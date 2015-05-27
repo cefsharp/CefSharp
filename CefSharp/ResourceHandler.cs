@@ -774,6 +774,12 @@ namespace CefSharp
                 response.StatusText = StatusText;
                 response.ResponseHeaders = Headers;
 
+                var memoryStream = Stream as MemoryStream;
+                if (memoryStream != null)
+                {
+                    response.ContentLength = memoryStream.Length;
+                }
+
                 response.ProcessRequestCallback();
             });
 
