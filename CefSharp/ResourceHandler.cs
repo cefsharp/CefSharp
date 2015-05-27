@@ -17,25 +17,29 @@ namespace CefSharp
     public class ResourceHandler : IResourceHandler
     {
         /// <summary>
-        /// Gets or sets the type of MIME.
+        /// Gets or sets the Mime Type.
         /// </summary>
-        /// <value>The type of MIME.</value>
+        /// <value>The Mime Type.</value>
         public string MimeType { get; private set; }
+
         /// <summary>
         /// Gets or sets the resource stream.
         /// </summary>
         /// <value>The stream.</value>
         public Stream Stream { get; private set; }
+
         /// <summary>
         /// Gets or sets the http status code.
         /// </summary>
         /// <value>The http status code.</value>
         public int StatusCode { get; private set; }
+
         /// <summary>
         /// Gets or sets the status text.
         /// </summary>
         /// <value>The status text.</value>
         public string StatusText { get; private set; }
+
         /// <summary>
         /// Gets or sets the headers.
         /// </summary>
@@ -760,7 +764,7 @@ namespace CefSharp
             return Mappings.TryGetValue(extension, out mime) ? mime : "application/octet-stream";
         }
 
-        public bool ProcessRequestAsync(IRequest request, IResourceHandlerResponse response)
+        bool IResourceHandler.ProcessRequestAsync(IRequest request, IResourceHandlerResponse response)
         {
             Task.Factory.StartNew(() =>
             {
