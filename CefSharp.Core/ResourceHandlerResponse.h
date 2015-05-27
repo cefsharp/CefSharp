@@ -14,9 +14,7 @@ using namespace System::IO;
 
 namespace CefSharp
 {
-    class SchemeHandlerWrapper;
-
-    public ref class SchemeHandlerResponse : IResourceHandlerResponse
+    public ref class ResourceHandlerResponse : IResourceHandlerResponse
     {
     internal:
         MCefRefPtr<ResourceHandlerWrapper> _resourceHandlerWrapper;
@@ -59,13 +57,13 @@ namespace CefSharp
         /// </summary>
         virtual property bool CloseStream;
 
-        SchemeHandlerResponse(ResourceHandlerWrapper* resourceHandlerWrapper)
+        ResourceHandlerResponse(ResourceHandlerWrapper* resourceHandlerWrapper)
         {
             ContentLength = -1;
             _resourceHandlerWrapper = resourceHandlerWrapper;
         }
 
-        ~SchemeHandlerResponse()
+        ~ResourceHandlerResponse()
         {
             _resourceHandlerWrapper = nullptr;
         }

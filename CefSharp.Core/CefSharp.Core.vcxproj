@@ -269,7 +269,7 @@
     <ClInclude Include="ManagedCefBrowserAdapter.h" />
     <ClInclude Include="CefSettings.h" />
     <ClInclude Include="SchemeHandlerFactoryWrapper.h" />
-    <ClInclude Include="SchemeHandlerResponse.h" />
+    <ClInclude Include="ResourceHandlerResponse.h" />
     <ClInclude Include="ResourceHandlerWrapper.h" />
     <ClInclude Include="CookieAsyncWrapper.h" />
     <ClInclude Include="Stdafx.h" />

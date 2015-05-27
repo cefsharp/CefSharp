@@ -5,7 +5,7 @@
 #include "Stdafx.h"
 #include "Internals/CefRequestWrapper.h"
 #include "ResourceHandlerWrapper.h"
-#include "SchemeHandlerResponse.h"
+#include "ResourceHandlerResponse.h"
 #include "Internals/TypeConversion.h"
 
 using namespace System::Runtime::InteropServices;
@@ -19,7 +19,7 @@ namespace CefSharp
 
         AutoLock lock_scope(_syncRoot);
 
-        auto schemeResponse = gcnew SchemeHandlerResponse(this);
+        auto schemeResponse = gcnew ResourceHandlerResponse(this);
         auto requestWrapper = gcnew CefRequestWrapper(request);
 
         return _handler->ProcessRequestAsync(requestWrapper, schemeResponse);
