@@ -138,7 +138,7 @@ namespace CefSharp
             // link clicks and web security restrictions may not behave as expected.
             ///
             /*--cef()--*/
-            virtual void LoadHtml(String^ html, String^ url);
+            virtual void LoadStringForUrl(String^ html, String^ url);
 
             ///
             // Execute a string of JavaScript code in this frame. The |script_url|

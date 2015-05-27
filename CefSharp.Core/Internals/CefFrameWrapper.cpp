@@ -152,7 +152,7 @@ void CefFrameWrapper::LoadUrl(String^ url)
 // link clicks and web security restrictions may not behave as expected.
 ///
 /*--cef()--*/
-void CefFrameWrapper::LoadHtml(String^ html, String^ url)
+void CefFrameWrapper::LoadStringForUrl(String^ html, String^ url)
 {
     ThrowIfDisposed();
     _frame->LoadString(StringUtils::ToNative(html), StringUtils::ToNative(url));

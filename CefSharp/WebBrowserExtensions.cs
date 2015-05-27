@@ -138,7 +138,7 @@ namespace CefSharp
 
             if (frame != null)
             {
-                frame.LoadHtml(html, url);
+                frame.LoadStringForUrl(html, url);
             }
         }
 
