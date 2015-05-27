@@ -181,7 +181,9 @@ namespace CefSharp
                 throw new Exception("Implement IResourceHandlerFactory and assign to the ResourceHandlerFactory property to use this feature");
             }
 
-            handler.RegisterHandler(url, ResourceHandler.FromString(html, encoding, true));
+            var resourceHandler = handler as DefaultResourceHandlerFactory;
+
+            resourceHandler.RegisterHandler(url, ResourceHandler.FromString(html, encoding, true));
 
             browser.Load(url);
         }

@@ -6,10 +6,6 @@ namespace CefSharp
 {
     public interface IResourceHandlerFactory
     {
-        void RegisterHandler(string url, ResourceHandler handler);
-
-        void UnregisterHandler(string url);
-
         /// <summary>
         /// Are there any <see cref="ResourceHandler"/>'s registered?
         /// </summary>
