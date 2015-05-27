@@ -24,6 +24,7 @@ namespace CefSharp
         CefResponse::HeaderMap _headers;
         int _statusCode;
         CefString _redirectUrl;
+        CefString _statusText;
         int _contentLength;
         bool _closeStream;
         int SizeFromStream();

@@ -7,13 +7,14 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace CefSharp
 {
     /// <summary>
     /// Class ResourceHandler.
     /// </summary>
-    public class ResourceHandler
+    public class ResourceHandler : IResourceHandler
     {
         /// <summary>
         /// Gets or sets the type of MIME.
@@ -128,7 +129,7 @@ namespace CefSharp
         /// <returns></returns>
         public static ResourceHandler FromStream(Stream stream)
         {
-            return new ResourceHandler() { Stream = stream };
+            return new ResourceHandler { Stream = stream };
         }
 
         /// <summary>
@@ -757,6 +758,22 @@ namespace CefSharp
             }
             string mime;
             return Mappings.TryGetValue(extension, out mime) ? mime : "application/octet-stream";
+        }
+
+        public bool ProcessRequestAsync(IRequest request, IResourceHandlerResponse response)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                response.ResponseStream = Stream;
+                response.MimeType = MimeType;
+                response.StatusCode = StatusCode;
+                response.StatusText = StatusText;
+                response.ResponseHeaders = Headers;
+
+                response.ProcessRequestCallback();
+            });
+
+            return true;
         }
     }
 }

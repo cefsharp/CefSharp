@@ -9,14 +9,14 @@ namespace CefSharp
 {
     public class DefaultResourceHandlerFactory : IResourceHandlerFactory
     {
-        public Dictionary<string, ResourceHandler> Handlers { get; private set; }
+        public Dictionary<string, IResourceHandler> Handlers { get; private set; }
 
         public DefaultResourceHandlerFactory(IEqualityComparer<string> comparer = null)
         {
-            Handlers = new Dictionary<string, ResourceHandler>(comparer ?? StringComparer.OrdinalIgnoreCase);
+            Handlers = new Dictionary<string, IResourceHandler>(comparer ?? StringComparer.OrdinalIgnoreCase);
         }
 
-        public virtual void RegisterHandler(string url, ResourceHandler handler)
+        public virtual void RegisterHandler(string url, IResourceHandler handler)
         {
             Handlers[url] = handler;
         }
@@ -31,9 +31,9 @@ namespace CefSharp
             get { return Handlers.Count > 0; }
         }
 
-        public virtual ResourceHandler GetResourceHandler(IWebBrowser browser, IRequest request)
+        public virtual IResourceHandler GetResourceHandler(IWebBrowser browser, IRequest request)
         {
-            ResourceHandler handler;
+            IResourceHandler handler;
 
             return Handlers.TryGetValue(request.Url, out handler) ? handler : null;
         }

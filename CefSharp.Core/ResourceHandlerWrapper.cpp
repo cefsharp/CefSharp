@@ -30,6 +30,7 @@ namespace CefSharp
         _mime_type = StringUtils::ToNative(response->MimeType);
         _stream = response->ResponseStream;
         _statusCode = response->StatusCode;
+        _statusText = StringUtils::ToNative(response->StatusText);
         _redirectUrl = StringUtils::ToNative(response->RedirectUrl);
         _contentLength = response->ContentLength;
         _closeStream = response->CloseStream;
@@ -51,6 +52,7 @@ namespace CefSharp
     {
         response->SetMimeType(_mime_type);
         response->SetStatus(_statusCode > 0 ? _statusCode : 200);
+        response->SetStatusText(_statusText);
         response->SetHeaderMap(_headers);
         response_length = _contentLength >= 0 ? _contentLength : SizeFromStream();
         

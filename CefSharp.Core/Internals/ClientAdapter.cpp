@@ -464,18 +464,7 @@ namespace CefSharp
 
             if (resourceHandler != nullptr)
             {
-                auto mimeType = StringUtils::ToNative(resourceHandler->MimeType);
-                auto statusText = StringUtils::ToNative(resourceHandler->StatusText);
-
-                CefRefPtr<StreamAdapter> streamAdapter = new StreamAdapter(resourceHandler->Stream);
-
-                CefRefPtr<CefStreamReader> stream = CefStreamReader::CreateForHandler(static_cast<CefRefPtr<CefReadHandler>>(streamAdapter));
-                if (stream.get())
-                {
-                    CefResponse::HeaderMap map = TypeConversion::ToNative(resourceHandler->Headers);
-
-                    return new CefStreamResourceHandler(resourceHandler->StatusCode, statusText, mimeType, map, stream);
-                }
+                return new ResourceHandlerWrapper(resourceHandler);
             }
 
             return NULL;
