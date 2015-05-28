@@ -17,6 +17,8 @@ namespace CefSharp
             ThrowExceptionIfFrameNull(frame);
             
             frame.Undo();
+
+            frame.Dispose();
         }
 
         public static void Redo(this IWebBrowser browser)
@@ -26,6 +28,8 @@ namespace CefSharp
             ThrowExceptionIfFrameNull(frame);
 
             frame.Redo();
+
+            frame.Dispose();
         }
 
         public static void Cut(this IWebBrowser browser)
@@ -35,6 +39,8 @@ namespace CefSharp
             ThrowExceptionIfFrameNull(frame);
 
             frame.Cut();
+
+            frame.Dispose();
         }
 
         public static void Copy(this IWebBrowser browser)
@@ -44,6 +50,8 @@ namespace CefSharp
             ThrowExceptionIfFrameNull(frame);
 
             frame.Copy();
+
+            frame.Dispose();
         }
 
         public static void Paste(this IWebBrowser browser)
@@ -53,6 +61,8 @@ namespace CefSharp
             ThrowExceptionIfFrameNull(frame);
 
             frame.Paste();
+
+            frame.Dispose();
         }
 
         public static void Delete(this IWebBrowser browser)
@@ -62,6 +72,8 @@ namespace CefSharp
             ThrowExceptionIfFrameNull(frame);
             
             frame.Delete();
+
+            frame.Dispose();
         }
 
         public static void SelectAll(this IWebBrowser browser)
@@ -71,6 +83,8 @@ namespace CefSharp
             ThrowExceptionIfFrameNull(frame);
 
             frame.SelectAll();
+
+            frame.Dispose();
         }
 
         /// <summary>
@@ -84,6 +98,8 @@ namespace CefSharp
             ThrowExceptionIfFrameNull(frame);
 
             frame.ViewSource();
+
+            frame.Dispose();
         }
 
         /// <summary>
@@ -125,6 +141,8 @@ namespace CefSharp
             ThrowExceptionIfFrameNull(frame);
 
             frame.ExecuteJavaScriptAsync(script);
+
+            frame.Dispose();
         }
 
         public static void LoadString(this IWebBrowser browser, string html, string url)
@@ -134,6 +152,8 @@ namespace CefSharp
             ThrowExceptionIfFrameNull(frame);
             
             frame.LoadStringForUrl(html, url);
+
+            frame.Dispose();
         }
 
         /// <summary>
