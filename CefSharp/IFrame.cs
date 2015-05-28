@@ -10,7 +10,7 @@ namespace CefSharp
     /// <summary>
     /// This interface represents a CefFrame object (i.e. a HTML frame)
     /// </summary>
-    public interface IFrame
+    public interface IFrame : IDisposable
     {
         bool IsValid { get; }
 

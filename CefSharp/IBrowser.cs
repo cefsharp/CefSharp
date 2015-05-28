@@ -10,7 +10,7 @@ namespace CefSharp
     /// <summary>
     /// CefSharp interface for CefBrowser.
     /// </summary>
-    public interface IBrowser
+    public interface IBrowser : IDisposable
     {
         ///
         // Returns the browser host object. This method can only be called in the
