@@ -187,6 +187,65 @@ namespace CefSharp
             browser.Load(url);
         }
 
+        /// <summary>
+        /// Stops loading the current page.
+        /// </summary>
+        public static void Stop(this IWebBrowser browser)
+        {
+            var internalBrowser = browser.GetBrowser();
+
+            internalBrowser.StopLoad();
+        }
+
+        /// <summary>
+        /// Navigates back, must check <see cref="IWebBrowser.CanGoBack"/> before calling this method.
+        /// </summary>
+        public static void Back(this IWebBrowser browser)
+        {
+            var internalBrowser = browser.GetBrowser();
+
+            internalBrowser.GoBack();
+        }
+
+        /// <summary>
+        /// Navigates forward, must check <see cref="IWebBrowser.CanGoForward"/> before calling this method.
+        /// </summary>
+        public static void Forward(this IWebBrowser browser)
+        {
+            var internalBrowser = browser.GetBrowser();
+
+            internalBrowser.GoForward();
+        }
+
+        /// <summary>
+        /// Reloads the page being displayed. This method will use data from the browser's cache, if available.
+        /// </summary>
+        public static void Reload(this IWebBrowser browser)
+        {
+            browser.Reload(false);
+        }
+
+        /// <summary>
+        /// Reloads the page being displayed, optionally ignoring the cache (which means the whole page including all .css, .js
+        /// etc. resources will be re-fetched).
+        /// </summary>
+        /// <param name="browser"></param>
+        /// <param name="ignoreCache"><c>true</c> A reload is performed ignoring browser cache; <c>false</c> A reload is
+        /// performed using files from the browser cache, if available.</param>
+        public static void Reload(this IWebBrowser browser, bool ignoreCache)
+        {
+            var internalBrowser = browser.GetBrowser();
+
+            if(ignoreCache)
+            {
+                internalBrowser.ReloadIgnoreCache();
+            }
+            else
+            {
+                internalBrowser.Reload();
+            }
+        }
+
         private static void ThrowExceptionIfFrameNull(IFrame frame)
         {
             if (frame == null)

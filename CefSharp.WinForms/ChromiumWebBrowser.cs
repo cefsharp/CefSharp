@@ -319,31 +319,6 @@ namespace CefSharp.WinForms
             managedCefBrowserAdapter.CloseDevTools();
         }
 
-        public void Stop()
-        {
-            managedCefBrowserAdapter.Stop();
-        }
-
-        public void Back()
-        {
-            managedCefBrowserAdapter.GoBack();
-        }
-
-        public void Forward()
-        {
-            managedCefBrowserAdapter.GoForward();
-        }
-
-        public void Reload()
-        {
-            Reload(false);
-        }
-
-        public void Reload(bool ignoreCache)
-        {
-            managedCefBrowserAdapter.Reload(ignoreCache);
-        }
-
         public void Print()
         {
             managedCefBrowserAdapter.Print();

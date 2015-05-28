@@ -99,13 +99,9 @@ namespace CefSharp
         void OnMouseMove(int x, int y, bool mouseLeave, CefEventFlags modifiers);
         void OnMouseButton(int x, int y, int mouseButtonType, bool mouseUp, int clickCount, CefEventFlags modifiers);
         void OnMouseWheel(int x, int y, int deltaX, int deltaY);
-        void Stop();
-        void GoBack();
-        void GoForward();
         void Print();
         void Find(int identifier, String^ searchText, bool forward, bool matchCase, bool findNext);
         void StopFinding(bool clearSelection);
-        void Reload(bool ignoreCache);
         virtual Task<JavascriptResponse^>^ EvaluateScriptAsync(int browserId, Int64 frameId, String^ script, Nullable<TimeSpan> timeout);
         virtual Task<JavascriptResponse^>^ EvaluateScriptAsync(String^ script, Nullable<TimeSpan> timeout);
         Task<double>^ GetZoomLevelAsync();

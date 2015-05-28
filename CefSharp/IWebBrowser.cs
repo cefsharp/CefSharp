@@ -219,39 +219,11 @@ namespace CefSharp
         void StopFinding(bool clearSelection);
 
         /// <summary>
-        /// Navigates back, must check <see cref="CanGoBack"/> before calling this method.
-        /// </summary>
-        void Back();
-
-        /// <summary>
-        /// Navigates forward, must check <see cref="CanGoForward"/> before calling this method.
-        /// </summary>
-        void Forward();
-
-        /// <summary>
-        /// Stops loading the current page.
-        /// </summary>
-        void Stop();
-
-        /// <summary>
         /// Attempts to give focus to the IWpfWebBrowser control.
         /// </summary>
         /// <returns><c>true</c> if keyboard focus and logical focus were set to this element; <c>false</c> if only logical focus
         /// was set to this element, or if the call to this method did not force the focus to change.</returns>
         bool Focus();
-
-        /// <summary>
-        /// Reloads the page being displayed. This method will use data from the browser's cache, if available.
-        /// </summary>
-        void Reload();
-
-        /// <summary>
-        /// Reloads the page being displayed, optionally ignoring the cache (which means the whole page including all .css, .js
-        /// etc. resources will be re-fetched).
-        /// </summary>
-        /// <param name="ignoreCache"><c>true</c> A reload is performed ignoring browser cache; <c>false</c> A reload is
-        /// performed using files from the browser cache, if available.</param>
-        void Reload(bool ignoreCache);
 
         /// <summary>
         /// Opens a Print Dialog which if used (can be user cancelled) will print the browser contents.

@@ -125,16 +125,16 @@ namespace CefSharp.Wpf
             toolTip.Visibility = Visibility.Collapsed;
             toolTip.Closed += OnTooltipClosed;
 
-            BackCommand = new DelegateCommand(Back, () => CanGoBack);
-            ForwardCommand = new DelegateCommand(Forward, () => CanGoForward);
-            ReloadCommand = new DelegateCommand(Reload, () => CanReload);
+            BackCommand = new DelegateCommand(this.Back, () => CanGoBack);
+            ForwardCommand = new DelegateCommand(this.Forward, () => CanGoForward);
+            ReloadCommand = new DelegateCommand(this.Reload, () => CanReload);
             PrintCommand = new DelegateCommand(Print);
             ZoomInCommand = new DelegateCommand(ZoomIn);
             ZoomOutCommand = new DelegateCommand(ZoomOut);
             ZoomResetCommand = new DelegateCommand(ZoomReset);
             ViewSourceCommand = new DelegateCommand(this.ViewSource);
             CleanupCommand = new DelegateCommand(Dispose);
-            StopCommand = new DelegateCommand(Stop);
+            StopCommand = new DelegateCommand(this.Stop);
             CutCommand = new DelegateCommand(this.Cut);
             CopyCommand = new DelegateCommand(this.Copy);
             PasteCommand = new DelegateCommand(this.Paste);
@@ -1261,31 +1261,6 @@ namespace CefSharp.Wpf
 
                 managedCefBrowserAdapter.LoadUrl(url);
             }
-        }
-
-        public void Stop()
-        {
-            managedCefBrowserAdapter.Stop();
-        }
-
-        public void Back()
-        {
-            managedCefBrowserAdapter.GoBack();
-        }
-
-        public void Forward()
-        {
-            managedCefBrowserAdapter.GoForward();
-        }
-
-        public void Reload()
-        {
-            Reload(false);
-        }
-
-        public void Reload(bool ignoreCache)
-        {
-            managedCefBrowserAdapter.Reload(ignoreCache);
         }
 
         public void Print()

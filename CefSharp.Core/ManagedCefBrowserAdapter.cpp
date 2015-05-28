@@ -282,36 +282,6 @@ void ManagedCefBrowserAdapter::OnMouseWheel(int x, int y, int deltaX, int deltaY
     }
 }
 
-void ManagedCefBrowserAdapter::Stop()
-{
-    auto cefBrowser = _clientAdapter->GetCefBrowser();
-
-    if (cefBrowser != nullptr)
-    {
-        cefBrowser->StopLoad();
-    }
-}
-
-void ManagedCefBrowserAdapter::GoBack()
-{
-    auto cefBrowser = _clientAdapter->GetCefBrowser();
-
-    if (cefBrowser != nullptr)
-    {
-        cefBrowser->GoBack();
-    }
-}
-
-void ManagedCefBrowserAdapter::GoForward()
-{
-    auto cefBrowser = _clientAdapter->GetCefBrowser();
-
-    if (cefBrowser != nullptr)
-    {
-        cefBrowser->GoForward();
-    }
-}
-
 void ManagedCefBrowserAdapter::Print()
 {
     auto browser = _clientAdapter->GetCefBrowser();
@@ -339,23 +309,6 @@ void ManagedCefBrowserAdapter::StopFinding(bool clearSelection)
     if (browser != nullptr)
     {
         browser->GetHost()->StopFinding(clearSelection);
-    }
-}
-
-void ManagedCefBrowserAdapter::Reload(bool ignoreCache)
-{
-    auto cefBrowser = _clientAdapter->GetCefBrowser();
-
-    if (cefBrowser != nullptr)
-    {
-        if (ignoreCache)
-        {
-            cefBrowser->ReloadIgnoreCache();
-        }
-        else
-        {
-            cefBrowser->Reload();
-        }
     }
 }
 

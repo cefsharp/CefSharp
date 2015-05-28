@@ -274,11 +274,6 @@ namespace CefSharp.OffScreen
             managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, camelCaseJavascriptNames);
         }
 
-        public void Stop()
-        {
-            managedCefBrowserAdapter.Stop();
-        }
-
         /// <summary>
         /// Has Focus - Always False
         /// </summary>
@@ -289,31 +284,12 @@ namespace CefSharp.OffScreen
             return false;
         }
 
-        public void Reload()
-        {
-            Reload(false);
-        }
-
-        public void Reload(bool ignoreCache)
-        {
-            managedCefBrowserAdapter.Reload(ignoreCache);
-        }
 
         public void Print()
         {
             managedCefBrowserAdapter.Print();
         }
-
-        public void Back()
-        {
-            managedCefBrowserAdapter.GoBack();
-        }
-
-        public void Forward()
-        {
-            managedCefBrowserAdapter.GoForward();
-        }
-
+        
         /// <inheritdoc/>
         public Task<double> GetZoomLevelAsync()
         {
