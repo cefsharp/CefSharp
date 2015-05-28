@@ -172,7 +172,6 @@
     <Compile Include="IRequestHandler.cs" />
     <Compile Include="ISchemeHandler.cs" />
     <Compile Include="ISchemeHandlerFactory.cs" />
-    <Compile Include="ISchemeHandlerResponse.cs" />
     <Compile Include="Internals\IRenderProcess.cs" />
     <Compile Include="IWebBrowser.cs" />
     <Compile Include="Internals\IWebBrowserInternal.cs" />
