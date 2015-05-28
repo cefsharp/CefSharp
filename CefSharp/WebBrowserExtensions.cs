@@ -217,8 +217,6 @@ namespace CefSharp
             ThrowExceptionIfBrowserNull(cefBrowser);
 
             cefBrowser.StopLoad();
-
-            cefBrowser.Dispose();
         }
 
         /// <summary>
@@ -231,8 +229,6 @@ namespace CefSharp
             ThrowExceptionIfBrowserNull(cefBrowser);
 
             cefBrowser.GoBack();
-
-            cefBrowser.Dispose();
         }
 
         /// <summary>
@@ -245,8 +241,6 @@ namespace CefSharp
             ThrowExceptionIfBrowserNull(cefBrowser);
 
             cefBrowser.GoForward();
-
-            cefBrowser.Dispose();
         }
 
         /// <summary>
@@ -271,8 +265,6 @@ namespace CefSharp
             ThrowExceptionIfBrowserNull(cefBrowser);
 
             cefBrowser.Reload(ignoreCache);
-
-            cefBrowser.Dispose();
         }
 
         private static void ThrowExceptionIfFrameNull(IFrame frame)
