@@ -14,70 +14,63 @@ namespace CefSharp
         {
             var frame = browser.GetFocusedFrame();
 
-            if(frame != null)
-            {
-                frame.Undo();
-            }
+            ThrowExceptionIfFrameNull(frame);
+            
+            frame.Undo();
         }
 
         public static void Redo(this IWebBrowser browser)
         {
             var frame = browser.GetFocusedFrame();
 
-            if (frame != null)
-            {
-                frame.Redo();
-            }
+            ThrowExceptionIfFrameNull(frame);
+
+            frame.Redo();
         }
 
         public static void Cut(this IWebBrowser browser)
         {
             var frame = browser.GetFocusedFrame();
 
-            if (frame != null)
-            {
-                frame.Cut();
-            }
+            ThrowExceptionIfFrameNull(frame);
+
+            frame.Cut();
         }
 
         public static void Copy(this IWebBrowser browser)
         {
             var frame = browser.GetFocusedFrame();
 
-            if (frame != null)
-            {
-                frame.Copy();
-            }
+            ThrowExceptionIfFrameNull(frame);
+
+            frame.Copy();
         }
 
         public static void Paste(this IWebBrowser browser)
         {
             var frame = browser.GetFocusedFrame();
 
-            if (frame != null)
-            {
-                frame.Paste();
-            }
+            ThrowExceptionIfFrameNull(frame);
+
+            frame.Paste();
         }
 
         public static void Delete(this IWebBrowser browser)
         {
             var frame = browser.GetFocusedFrame();
 
-            if (frame != null)
-            {
-                frame.Delete();
-            }
+            ThrowExceptionIfFrameNull(frame);
+            
+            frame.Delete();
         }
 
         public static void SelectAll(this IWebBrowser browser)
         {
             var frame = browser.GetFocusedFrame();
 
-            if (frame != null)
-            {
-                frame.SelectAll();
-            }
+            ThrowExceptionIfFrameNull(frame);
+
+            frame.SelectAll();
         }
 
         /// <summary>
@@ -88,10 +81,9 @@ namespace CefSharp
         {
             var frame = browser.GetMainFrame();
 
-            if (frame != null)
-            {
-                frame.ViewSource();
-            }
+            ThrowExceptionIfFrameNull(frame);
+
+            frame.ViewSource();
         }
 
         /// <summary>
@@ -102,7 +94,9 @@ namespace CefSharp
         {
             var frame = browser.GetMainFrame();
 
-            return frame == null ? null : frame.GetSourceAsync();
+            ThrowExceptionIfFrameNull(frame);
+
+            return frame.GetSourceAsync();
         }
 
         /// <summary>
@@ -113,7 +107,9 @@ namespace CefSharp
         {
             var frame = browser.GetMainFrame();
 
-            return frame == null ? null : frame.GetTextAsync();
+            ThrowExceptionIfFrameNull(frame);
+
+            return frame.GetTextAsync();
         }
 
         /// <summary>
@@ -126,20 +122,18 @@ namespace CefSharp
         {
             var frame = browser.GetMainFrame();
 
-            if(frame != null)
-            {
-                frame.ExecuteJavaScriptAsync(script);
-            }
+            ThrowExceptionIfFrameNull(frame);
+
+            frame.ExecuteJavaScriptAsync(script);
         }
 
         public static void LoadString(this IWebBrowser browser, string html, string url)
         {
             var frame = browser.GetMainFrame();
 
-            if (frame != null)
-            {
-                frame.LoadStringForUrl(html, url);
-            }
+            ThrowExceptionIfFrameNull(frame);
+            
+            frame.LoadStringForUrl(html, url);
         }
 
         /// <summary>
@@ -186,6 +180,14 @@ namespace CefSharp
             resourceHandler.RegisterHandler(url, ResourceHandler.FromString(html, encoding, true));
 
             browser.Load(url);
+        }
+
+        private static void ThrowExceptionIfFrameNull(IFrame frame)
+        {
+            if (frame == null)
+            {
+                throw new Exception("IFrame instance is null. Browser has likely not finished initializing or is in the process of disposing.");
+            }
         }
     }
 }
