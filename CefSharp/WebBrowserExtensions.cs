@@ -177,6 +177,11 @@ namespace CefSharp
 
             var resourceHandler = handler as DefaultResourceHandlerFactory;
 
+            if(resourceHandler == null)
+            {
+                throw new Exception("LoadHtml can only be used with the default IResourceHandlerFactory(DefaultResourceHandlerFactory) implementation");
+            }
+
             resourceHandler.RegisterHandler(url, ResourceHandler.FromString(html, encoding, true));
 
             browser.Load(url);
