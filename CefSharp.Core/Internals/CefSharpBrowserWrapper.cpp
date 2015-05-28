@@ -78,22 +78,19 @@ void CefSharpBrowserWrapper::CloseBrowser(bool forceClose)
 // Reload the current page.
 ///
 /*--cef()--*/
-void CefSharpBrowserWrapper::Reload()
+void CefSharpBrowserWrapper::Reload(bool ignoreCache)
 {
     ThrowIfDisposed();
-    _browser->Reload();
-}
 
-///
-// Reload the current page ignoring any cached data.
-///
-/*--cef()--*/
-void CefSharpBrowserWrapper::ReloadIgnoreCache()
-{
-    ThrowIfDisposed();
-    _browser->ReloadIgnoreCache();
+    if (ignoreCache)
+    {
+        _browser->ReloadIgnoreCache();
+    }
+    else
+    {
+        _browser->Reload();
+    }
 }
-
 
 ///
 // Stop loading the page.

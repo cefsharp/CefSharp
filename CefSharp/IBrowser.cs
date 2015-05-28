@@ -65,13 +65,7 @@ namespace CefSharp
         // Reload the current page.
         ///
         /*--cef()--*/
-        void Reload();
-
-        ///
-        // Reload the current page ignoring any cached data.
-        ///
-        /*--cef()--*/
-        void ReloadIgnoreCache();
+        void Reload(bool ignoreCache = false);
 
         ///
         // Stop loading the page.

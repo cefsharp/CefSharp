@@ -236,14 +236,7 @@ namespace CefSharp
         {
             var internalBrowser = browser.GetBrowser();
 
-            if(ignoreCache)
-            {
-                internalBrowser.ReloadIgnoreCache();
-            }
-            else
-            {
-                internalBrowser.Reload();
-            }
+            internalBrowser.Reload(ignoreCache);
         }
 
         private static void ThrowExceptionIfFrameNull(IFrame frame)
