@@ -194,7 +194,11 @@ namespace CefSharp
         {
             var cefBrowser = browser.GetBrowser();
 
+            ThrowExceptionIfBrowserNull(cefBrowser);
+
             cefBrowser.StopLoad();
+
+            cefBrowser.Dispose();
         }
 
         /// <summary>
@@ -204,7 +208,11 @@ namespace CefSharp
         {
             var cefBrowser = browser.GetBrowser();
 
+            ThrowExceptionIfBrowserNull(cefBrowser);
+
             cefBrowser.GoBack();
+
+            cefBrowser.Dispose();
         }
 
         /// <summary>
@@ -214,7 +222,11 @@ namespace CefSharp
         {
             var cefBrowser = browser.GetBrowser();
 
+            ThrowExceptionIfBrowserNull(cefBrowser);
+
             cefBrowser.GoForward();
+
+            cefBrowser.Dispose();
         }
 
         /// <summary>
@@ -236,7 +248,11 @@ namespace CefSharp
         {
             var cefBrowser = browser.GetBrowser();
 
+            ThrowExceptionIfBrowserNull(cefBrowser);
+
             cefBrowser.Reload(ignoreCache);
+
+            cefBrowser.Dispose();
         }
 
         private static void ThrowExceptionIfFrameNull(IFrame frame)
@@ -244,6 +260,14 @@ namespace CefSharp
             if (frame == null)
             {
                 throw new Exception("IFrame instance is null. Browser has likely not finished initializing or is in the process of disposing.");
+            }
+        }
+
+        private static void ThrowExceptionIfBrowserNull(IBrowser browser)
+        {
+            if (browser == null)
+            {
+                throw new Exception("IBrowser instance is null. Browser has likely not finished initializing or is in the process of disposing.");
             }
         }
     }
