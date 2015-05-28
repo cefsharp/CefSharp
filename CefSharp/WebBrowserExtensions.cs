@@ -192,9 +192,9 @@ namespace CefSharp
         /// </summary>
         public static void Stop(this IWebBrowser browser)
         {
-            var internalBrowser = browser.GetBrowser();
+            var cefBrowser = browser.GetBrowser();
 
-            internalBrowser.StopLoad();
+            cefBrowser.StopLoad();
         }
 
         /// <summary>
@@ -202,9 +202,9 @@ namespace CefSharp
         /// </summary>
         public static void Back(this IWebBrowser browser)
         {
-            var internalBrowser = browser.GetBrowser();
+            var cefBrowser = browser.GetBrowser();
 
-            internalBrowser.GoBack();
+            cefBrowser.GoBack();
         }
 
         /// <summary>
@@ -212,9 +212,9 @@ namespace CefSharp
         /// </summary>
         public static void Forward(this IWebBrowser browser)
         {
-            var internalBrowser = browser.GetBrowser();
+            var cefBrowser = browser.GetBrowser();
 
-            internalBrowser.GoForward();
+            cefBrowser.GoForward();
         }
 
         /// <summary>
@@ -234,9 +234,9 @@ namespace CefSharp
         /// performed using files from the browser cache, if available.</param>
         public static void Reload(this IWebBrowser browser, bool ignoreCache)
         {
-            var internalBrowser = browser.GetBrowser();
+            var cefBrowser = browser.GetBrowser();
 
-            internalBrowser.Reload(ignoreCache);
+            cefBrowser.Reload(ignoreCache);
         }
 
         private static void ThrowExceptionIfFrameNull(IFrame frame)
