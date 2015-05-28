@@ -32,6 +32,7 @@ namespace CefSharp
         BrowserProcessServiceHost^ _browserProcessServiceHost;
         IWebBrowserInternal^ _webBrowserInternal;
         JavascriptObjectRepository^ _javaScriptObjectRepository;
+        IBrowser^ _browserWrapper;
 
     private:
         // Private keyboard functions:
@@ -64,6 +65,9 @@ namespace CefSharp
 
             _webBrowserInternal = nullptr;
             _javaScriptObjectRepository = nullptr;
+
+            delete _browserWrapper;
+            _browserWrapper = nullptr;
 
             DisposableResource::DoDispose(isDisposing);
         };

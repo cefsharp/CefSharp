@@ -56,6 +56,12 @@ void ManagedCefBrowserAdapter::OnAfterBrowserCreated(int browserId)
     {
         _browserProcessServiceHost->Open();
     }
+    
+    auto browser = _clientAdapter->GetCefBrowser();
+    if (browser != nullptr)
+    {
+        _browserWrapper = gcnew CefSharpBrowserWrapper(browser, this);
+    }	
 
     if (_webBrowserInternal != nullptr)
     {
@@ -649,10 +655,5 @@ IFrame^ ManagedCefBrowserAdapter::GetFrame(String^ name)
 /// <returns>Gets the current instance or null</returns>
 IBrowser^ ManagedCefBrowserAdapter::GetBrowser()
 {
-    auto browser = _clientAdapter->GetCefBrowser();
-    if (browser == nullptr)
-    {
-        return nullptr;
-    }
-    return gcnew CefSharpBrowserWrapper(browser, this);
+    return _browserWrapper;
 }
