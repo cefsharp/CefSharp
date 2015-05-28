@@ -60,6 +60,9 @@ namespace CefSharp
         ResourceHandlerResponse(ResourceHandlerWrapper* resourceHandlerWrapper)
         {
             ContentLength = -1;
+
+            StatusCode = 200;
+            StatusText = "OK";
             _resourceHandlerWrapper = resourceHandlerWrapper;
         }
 

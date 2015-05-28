@@ -51,7 +51,7 @@ namespace CefSharp
     void ResourceHandlerWrapper::GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl)
     {
         response->SetMimeType(_mime_type);
-        response->SetStatus(_statusCode > 0 ? _statusCode : 200);
+        response->SetStatus(_statusCode);
         response->SetStatusText(_statusText);
         response->SetHeaderMap(_headers);
         // ContentLength defaults to -1 so SizeFromStream is called
