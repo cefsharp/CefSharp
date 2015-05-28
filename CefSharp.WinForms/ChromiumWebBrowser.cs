@@ -432,5 +432,10 @@ namespace CefSharp.WinForms
         {
             return IsBrowserInitialized ? managedCefBrowserAdapter.GetFocusedFrame() : null;
         }
+
+        public IBrowser GetBrowser()
+        {
+            return IsBrowserInitialized ? managedCefBrowserAdapter.GetBrowser() : null;
+        }
     }
 }

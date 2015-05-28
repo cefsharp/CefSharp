@@ -689,3 +689,17 @@ IFrame^ ManagedCefBrowserAdapter::GetFrame(String^ name)
     
     return gcnew CefFrameWrapper(result, this);
 }
+
+/// <summary>
+/// Gets the CefBrowserWrapper instance
+/// </summary>
+/// <returns>Gets the current instance or null</returns>
+IBrowser^ ManagedCefBrowserAdapter::GetBrowser()
+{
+    auto browser = _clientAdapter->GetCefBrowser();
+    if (browser == nullptr)
+    {
+        return nullptr;
+    }
+    return gcnew CefSharpBrowserWrapper(browser, this);
+}

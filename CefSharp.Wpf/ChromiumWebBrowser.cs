@@ -1427,5 +1427,10 @@ namespace CefSharp.Wpf
         {
             return managedCefBrowserAdapter == null ? null : managedCefBrowserAdapter.GetFocusedFrame();
         }
+
+        public IBrowser GetBrowser()
+        {
+            return managedCefBrowserAdapter == null ? null : managedCefBrowserAdapter.GetBrowser();
+        }
     }
 }

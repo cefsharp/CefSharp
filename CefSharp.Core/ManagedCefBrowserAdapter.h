@@ -163,5 +163,11 @@ namespace CefSharp
         ///
         /*--cef()--*/
         List<String^>^ GetFrameNames();
+
+        /// <summary>
+        /// Gets the CefBrowserWrapper instance
+        /// </summary>
+        /// <returns>Gets the current instance or null</returns>
+        IBrowser^ GetBrowser();
     };
 }

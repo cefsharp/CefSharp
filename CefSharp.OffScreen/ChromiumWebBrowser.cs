@@ -340,6 +340,11 @@ namespace CefSharp.OffScreen
             return IsBrowserInitialized ? managedCefBrowserAdapter.GetFocusedFrame() : null;
         }
 
+        public IBrowser GetBrowser()
+        {
+            return IsBrowserInitialized ? managedCefBrowserAdapter.GetBrowser() : null;
+        }
+
         #region IRenderWebBrowser (rendering to bitmap; derived from CefSharp.Wpf.ChromiumWebBrowser)
 
         ScreenInfo IRenderWebBrowser.GetScreenInfo()

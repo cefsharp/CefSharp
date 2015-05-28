@@ -301,5 +301,11 @@ namespace CefSharp
         /// </summary>
         /// <returns>Frame</returns>
         IFrame GetFocusedFrame();
+
+        /// <summary>
+        /// Returns the current CEF Browser Instance
+        /// </summary>
+        /// <returns>browser instance or null</returns>
+        IBrowser GetBrowser();
     }
 }
