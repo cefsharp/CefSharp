@@ -62,6 +62,10 @@ namespace CefSharp
             void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->cache_path, value); }
         }
 
+        /// <summary>
+        /// Set to true in order to completely ignore SSL certificate errors.
+        /// This is NOT recommended.
+        /// </summary>
         virtual property bool IgnoreCertificateErrors
         {
             bool get() { return _cefSettings->ignore_certificate_errors == 1; }

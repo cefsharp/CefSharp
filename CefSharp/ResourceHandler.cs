@@ -766,7 +766,7 @@ namespace CefSharp
 
         bool IResourceHandler.ProcessRequestAsync(IRequest request, IResourceHandlerResponse response)
         {
-            Task.Factory.StartNew(() =>
+            var doTheWork = new Action(() =>
             {
                 response.ResponseStream = Stream;
                 response.MimeType = MimeType;
@@ -782,6 +782,17 @@ namespace CefSharp
 
                 response.ProcessRequestCallback();
             });
+
+            // If we have a MemoryStream (which is likely to be very common), 
+            // don't create a task for it.
+            if (Stream is MemoryStream)
+            {
+                doTheWork();
+            }
+            else
+            {
+                Task.Factory.StartNew(doTheWork);
+            }
 
             return true;
         }
