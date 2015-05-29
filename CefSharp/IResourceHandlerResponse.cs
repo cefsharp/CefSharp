@@ -30,12 +30,14 @@ namespace CefSharp
         /// </summary>
         int StatusCode { get; set; }
 
+        string StatusText { get; set; }
+
         /// <summary>
         /// The length of the response contents. Defaults to -1, which means unknown length
         /// and causes CefSharp to read the response stream in pieces. Thus, setting a length
         /// is optional but allows for more optimal response reading.
         /// </summary>
-        int ContentLength { get; set; }
+        long ContentLength { get; set; }
 
         /// <summary>
         /// URL to redirect to (leave empty to not redirect).

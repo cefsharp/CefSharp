@@ -24,9 +24,10 @@ namespace CefSharp
         CefResponse::HeaderMap _headers;
         int _statusCode;
         CefString _redirectUrl;
-        int _contentLength;
+        CefString _statusText;
+        int64 _contentLength;
         bool _closeStream;
-        int SizeFromStream();
+        int64 SizeFromStream();
     public:
 
         ResourceHandlerWrapper(IResourceHandler^ handler) : _handler(handler)

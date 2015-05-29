@@ -3,9 +3,6 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CefSharp
@@ -13,7 +10,7 @@ namespace CefSharp
     /// <summary>
     /// This interface represents a CefFrame object (i.e. a HTML frame)
     /// </summary>
-    public interface IFrame
+    public interface IFrame : IDisposable
     {
         bool IsValid { get; }
 
@@ -100,7 +97,7 @@ namespace CefSharp
         // link clicks and web security restrictions may not behave as expected.
         ///
         /*--cef()--*/
-        void LoadHtml(String html, String url);
+        void LoadStringForUrl(String html, String url);
 
         ///
         // Execute a string of JavaScript code in this frame. The |script_url|
@@ -110,9 +107,7 @@ namespace CefSharp
         // reporting.
         ///
         /*--cef(optional_param=script_url)--*/
-        void ExecuteJavaScriptAsync(string code, string scriptUrl, int startLine);
-
-        void ExecuteJavaScriptAsync(string code);
+        void ExecuteJavaScriptAsync(string code, string scriptUrl = "about:blank", int startLine = 0);
 
         Task<JavascriptResponse> EvaluateScriptAsync(string script, TimeSpan? timeout);
 

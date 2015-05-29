@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Reflection;
 using System.Text;
 using CefSharp.Example.Proxy;
 
@@ -93,7 +92,7 @@ namespace CefSharp.Example
 
         public static async void RegisterTestResources(IWebBrowser browser)
         {
-            var handler = browser.ResourceHandlerFactory;
+            var handler = browser.ResourceHandlerFactory as DefaultResourceHandlerFactory;
             if (handler != null)
             {
                 const string responseBody = "<html><body><h1>Success</h1><p>This document is loaded from a System.IO.Stream</p></body></html>";

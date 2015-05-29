@@ -59,6 +59,9 @@
     <ClCompile Include="Internals\CefFrameWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Internals\CefBrowserHostWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vcclr_local.h">
@@ -101,9 +104,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Internals\RenderClientAdapter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SchemeHandlerResponse.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ManagedCefBrowserAdapter.h">
@@ -158,6 +158,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Internals\JsDialogCallback.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceHandlerResponse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\CefBrowserHostWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

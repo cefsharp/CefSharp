@@ -56,20 +56,16 @@ void ManagedCefBrowserAdapter::OnAfterBrowserCreated(int browserId)
     {
         _browserProcessServiceHost->Open();
     }
+    
+    auto browser = _clientAdapter->GetCefBrowser();
+    if (browser != nullptr)
+    {
+        _browserWrapper = gcnew CefSharpBrowserWrapper(browser, this);
+    }	
 
     if (_webBrowserInternal != nullptr)
     {
         _webBrowserInternal->OnInitialized();
-    }
-}
-
-void ManagedCefBrowserAdapter::LoadHtml(String^ html, String^ url)
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        browser->GetMainFrame()->LoadString(StringUtils::ToNative(html), StringUtils::ToNative(url));
     }
 }
 
@@ -292,195 +288,6 @@ void ManagedCefBrowserAdapter::OnMouseWheel(int x, int y, int deltaX, int deltaY
     }
 }
 
-void ManagedCefBrowserAdapter::Stop()
-{
-    auto cefBrowser = _clientAdapter->GetCefBrowser();
-
-    if (cefBrowser != nullptr)
-    {
-        cefBrowser->StopLoad();
-    }
-}
-
-void ManagedCefBrowserAdapter::GoBack()
-{
-    auto cefBrowser = _clientAdapter->GetCefBrowser();
-
-    if (cefBrowser != nullptr)
-    {
-        cefBrowser->GoBack();
-    }
-}
-
-void ManagedCefBrowserAdapter::GoForward()
-{
-    auto cefBrowser = _clientAdapter->GetCefBrowser();
-
-    if (cefBrowser != nullptr)
-    {
-        cefBrowser->GoForward();
-    }
-}
-
-void ManagedCefBrowserAdapter::Print()
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        browser->GetHost()->Print();
-    }
-}
-
-void ManagedCefBrowserAdapter::Find(int identifier, String^ searchText, bool forward, bool matchCase, bool findNext)
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        browser->GetHost()->Find(identifier, StringUtils::ToNative(searchText), forward, matchCase, findNext);
-    }
-}
-
-void ManagedCefBrowserAdapter::StopFinding(bool clearSelection)
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        browser->GetHost()->StopFinding(clearSelection);
-    }
-}
-
-void ManagedCefBrowserAdapter::Reload(bool ignoreCache)
-{
-    auto cefBrowser = _clientAdapter->GetCefBrowser();
-
-    if (cefBrowser != nullptr)
-    {
-        if (ignoreCache)
-        {
-            cefBrowser->ReloadIgnoreCache();
-        }
-        else
-        {
-            cefBrowser->Reload();
-        }
-    }
-}
-
-void ManagedCefBrowserAdapter::ViewSource()
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        browser->GetMainFrame()->ViewSource();
-    }
-}
-
-void ManagedCefBrowserAdapter::GetSource(IStringVisitor^ visitor)
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        auto stringVisitor = new StringVisitor(visitor);
-        browser->GetMainFrame()->GetSource(stringVisitor);
-    }
-}
-
-void ManagedCefBrowserAdapter::GetText(IStringVisitor^ visitor)
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        auto stringVisitor = new StringVisitor(visitor);
-        browser->GetMainFrame()->GetText(stringVisitor);
-    }
-}
-
-void ManagedCefBrowserAdapter::Cut()
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        browser->GetFocusedFrame()->Cut();
-    }
-}
-
-void ManagedCefBrowserAdapter::Copy()
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        browser->GetFocusedFrame()->Copy();
-    }
-}
-
-void ManagedCefBrowserAdapter::Paste()
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        browser->GetFocusedFrame()->Paste();
-    }
-}
-
-void ManagedCefBrowserAdapter::Delete()
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        browser->GetFocusedFrame()->Delete();
-    }
-}
-
-void ManagedCefBrowserAdapter::SelectAll()
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        browser->GetFocusedFrame()->SelectAll();
-    }
-}
-
-void ManagedCefBrowserAdapter::Undo()
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        browser->GetFocusedFrame()->Undo();
-    }
-}
-
-void ManagedCefBrowserAdapter::Redo()
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        browser->GetFocusedFrame()->Redo();
-    }
-}
-
-void ManagedCefBrowserAdapter::ExecuteScriptAsync(String^ script)
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        browser->GetMainFrame()->ExecuteJavaScript(StringUtils::ToNative(script), "about:blank", 0);
-    }
-}
-
 Task<JavascriptResponse^>^ ManagedCefBrowserAdapter::EvaluateScriptAsync(int browserId, Int64 frameId, String^ script, Nullable<TimeSpan> timeout)
 {
     if (timeout.HasValue && timeout.Value.TotalMilliseconds > UInt32::MaxValue)
@@ -513,51 +320,6 @@ Task<JavascriptResponse^>^ ManagedCefBrowserAdapter::EvaluateScriptAsync(String^
     }
 
     return _browserProcessServiceHost->EvaluateScriptAsync(browser->GetIdentifier(), frame->GetIdentifier(), script, timeout);
-}
-
-double ManagedCefBrowserAdapter::GetZoomLevelOnUI()
-{
-    CefTaskScheduler::EnsureOn(TID_UI, "ManagedCefBrowserAdapter::GetZoomLevel");
-
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        auto host = browser->GetHost();
-        return host->GetZoomLevel();
-    }
-    return 0.0;
-}
-
-Task<double>^ ManagedCefBrowserAdapter::GetZoomLevelAsync()
-{
-    if (CefCurrentlyOn(TID_UI))
-    {
-        TaskCompletionSource<double>^ taskSource = gcnew TaskCompletionSource<double>();
-        taskSource->SetResult(GetZoomLevelOnUI());
-        return taskSource->Task;
-    }
-    return Cef::UIThreadTaskFactory->StartNew(gcnew Func<double>(this, &ManagedCefBrowserAdapter::GetZoomLevelOnUI));
-}
-
-void ManagedCefBrowserAdapter::SetZoomLevel(double zoomLevel)
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        browser->GetHost()->SetZoomLevel(zoomLevel);
-    }
-}
-
-void ManagedCefBrowserAdapter::ShowDevTools()
-{
-    _clientAdapter->ShowDevTools();
-}
-
-void ManagedCefBrowserAdapter::CloseDevTools()
-{
-    _clientAdapter->CloseDevTools();
 }
 
 void ManagedCefBrowserAdapter::CreateBrowser(BrowserSettings^ browserSettings, IntPtr sourceHandle, String^ address)
@@ -614,28 +376,6 @@ void ManagedCefBrowserAdapter::NotifyScreenInfoChanged()
 void ManagedCefBrowserAdapter::RegisterJsObject(String^ name, Object^ object, bool lowerCaseJavascriptNames)
 {
     _javaScriptObjectRepository->Register(name, object, lowerCaseJavascriptNames);
-}
-
-void ManagedCefBrowserAdapter::ReplaceMisspelling(String^ word)
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        CefString wordNative = StringUtils::ToNative(word);
-        browser->GetHost()->ReplaceMisspelling(wordNative);
-    }
-}
-
-void ManagedCefBrowserAdapter::AddWordToDictionary(String^ word)
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        CefString wordNative = StringUtils::ToNative(word);
-        browser->GetHost()->AddWordToDictionary(wordNative);
-    }
 }
 
 CefMouseEvent ManagedCefBrowserAdapter::GetCefMouseEvent(MouseEvent^ mouseEvent)
@@ -711,18 +451,19 @@ List<Int64>^ ManagedCefBrowserAdapter::GetFrameIdentifiers()
 {
     auto browser = _clientAdapter->GetCefBrowser();
 
-    if (browser != nullptr)
+    if (browser == nullptr)
     {
-        std::vector<Int64> identifiers;
-        browser->GetFrameIdentifiers(identifiers);
-        List<Int64>^ results = gcnew List<Int64>(identifiers.size());
-        for (UINT i = 0; i < identifiers.size(); i++)
-        {
-            results->Add(identifiers[i]);
-        }
-        return results;
+        return nullptr;
     }
-    return nullptr;
+
+    std::vector<Int64> identifiers;
+    browser->GetFrameIdentifiers(identifiers);
+    List<Int64>^ results = gcnew List<Int64>(identifiers.size());
+    for (UINT i = 0; i < identifiers.size(); i++)
+    {
+        results->Add(identifiers[i]);
+    }
+    return results;
 }
 
 ///
@@ -731,60 +472,51 @@ List<Int64>^ ManagedCefBrowserAdapter::GetFrameIdentifiers()
 /*--cef()--*/
 List<String^>^ ManagedCefBrowserAdapter::GetFrameNames()
 {
-    std::vector<CefString> names;
-
     auto browser = _clientAdapter->GetCefBrowser();
 
-    if (browser != nullptr)
+    if (browser == nullptr)
     {
-        browser->GetFrameNames(names);
-        return StringUtils::ToClr(names);
+        return nullptr;
     }
-    return nullptr;
+    
+    std::vector<CefString> names;
+    browser->GetFrameNames(names);
+    return StringUtils::ToClr(names);
 }
 
 ///
 // Returns the main (top-level) frame for the browser window.
 ///
-CefFrameWrapper^ ManagedCefBrowserAdapter::GetMainFrame()
+IFrame^ ManagedCefBrowserAdapter::GetMainFrame()
 {
     auto browser = _clientAdapter->GetCefBrowser();
     if (browser == nullptr)
     {
         return nullptr;
     }
-    auto result = browser->GetMainFrame();
-    if (result != nullptr)
-    {
-        return gcnew CefFrameWrapper(result, this);
-    }
-    return nullptr;
+    return gcnew CefFrameWrapper(browser->GetMainFrame(), this);
 }
 
 ///
 // Returns the focused frame for the browser window.
 ///
 /*--cef()--*/
-CefFrameWrapper^ ManagedCefBrowserAdapter::GetFocusedFrame()
+IFrame^ ManagedCefBrowserAdapter::GetFocusedFrame()
 {
     auto browser = _clientAdapter->GetCefBrowser();
     if (browser == nullptr)
     {
         return nullptr;
     }
-    auto result = browser->GetFocusedFrame();
-    if (result != nullptr)
-    {
-        return gcnew CefFrameWrapper(result, this);
-    }
-    return nullptr;
+
+    return gcnew CefFrameWrapper(browser->GetFocusedFrame(), this);
 }
 
 ///
 // Returns the frame with the specified identifier, or NULL if not found.
 ///
 /*--cef(capi_name=get_frame_byident)--*/
-CefFrameWrapper^ ManagedCefBrowserAdapter::GetFrame(System::Int64 identifier)
+IFrame^ ManagedCefBrowserAdapter::GetFrame(System::Int64 identifier)
 {
     auto browser = _clientAdapter->GetCefBrowser();
     if (browser == nullptr)
@@ -792,18 +524,19 @@ CefFrameWrapper^ ManagedCefBrowserAdapter::GetFrame(System::Int64 identifier)
         return nullptr;
     }
     auto result = browser->GetFrame(identifier);
-    if (result != nullptr)
+    if (result == nullptr)
     {
-        return gcnew CefFrameWrapper(result, this);
+        return nullptr;
     }
-    return nullptr;
+    
+    return gcnew CefFrameWrapper(result, this);
 }
 
 ///
 // Returns the frame with the specified name, or NULL if not found.
 ///
 /*--cef(optional_param=name)--*/
-CefFrameWrapper^ ManagedCefBrowserAdapter::GetFrame(String^ name)
+IFrame^ ManagedCefBrowserAdapter::GetFrame(String^ name)
 {
     auto browser = _clientAdapter->GetCefBrowser();
     if (browser == nullptr)
@@ -811,9 +544,19 @@ CefFrameWrapper^ ManagedCefBrowserAdapter::GetFrame(String^ name)
         return nullptr;
     }
     auto result = browser->GetFrame(StringUtils::ToNative(name));
-    if (result != nullptr)
+    if (result == nullptr)
     {
-        return gcnew CefFrameWrapper(result, this);
+        return nullptr;
     }
-    return nullptr;
+    
+    return gcnew CefFrameWrapper(result, this);
+}
+
+/// <summary>
+/// Gets the CefBrowserWrapper instance
+/// </summary>
+/// <returns>Gets the current instance or null</returns>
+IBrowser^ ManagedCefBrowserAdapter::GetBrowser()
+{
+    return _browserWrapper;
 }

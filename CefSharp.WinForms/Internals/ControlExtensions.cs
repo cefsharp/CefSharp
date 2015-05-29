@@ -46,12 +46,11 @@ namespace CefSharp.WinForms.Internals
         public static bool IsActiveControl(this Control control)
         {
             Control activeControl = control.FindForm().ActiveControl;
-            ContainerControl containerControl;
             while (activeControl != null
-                    && (activeControl as ContainerControl != null)
+                   && (activeControl is ContainerControl)
                    && !Object.ReferenceEquals(control, activeControl))
             {
-                containerControl = activeControl as ContainerControl;
+                var containerControl = activeControl as ContainerControl;
                 activeControl = containerControl.ActiveControl;
             }
             return Object.ReferenceEquals(control, activeControl);

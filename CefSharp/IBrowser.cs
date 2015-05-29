@@ -1,21 +1,23 @@
-﻿using System;
+﻿// Copyright © 2010-2015 The CefSharp Authors. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace CefSharp
 {
     /// <summary>
     /// CefSharp interface for CefBrowser.
     /// </summary>
-    public interface IBrowser
+    public interface IBrowser : IDisposable
     {
         ///
         // Returns the browser host object. This method can only be called in the
         // browser process.
         ///
         /*--cef()--*/
-        //virtual CefRefPtr<CefBrowserHost> GetHost() =0;
+        IBrowserHost GetHost();
 
         ///
         // Returns true if the browser can navigate backwards.
@@ -47,17 +49,23 @@ namespace CefSharp
         /*--cef()--*/
         bool IsLoading { get; }
 
+        /// <summary>
+        /// Request that the browser close. The JavaScript 'onbeforeunload' event will
+        /// be fired. If |forceClose| is false the event handler, if any, will be
+        /// allowed to prompt the user and the user can optionally cancel the close.
+        /// If |force_close| is true the prompt will not be displayed and the close
+        /// will proceed. Results in a call to CefLifeSpanHandler::DoClose() if the
+        /// event handler allows the close or if |force_close| is true. See
+        /// CefLifeSpanHandler::DoClose() documentation for additional usage
+        /// information.
+        /// </summary>
+        void CloseBrowser(bool forceClose);
+
         ///
         // Reload the current page.
         ///
         /*--cef()--*/
-        void Reload();
-
-        ///
-        // Reload the current page ignoring any cached data.
-        ///
-        /*--cef()--*/
-        void ReloadIgnoreCache();
+        void Reload(bool ignoreCache = false);
 
         ///
         // Stop loading the page.
@@ -135,10 +143,9 @@ namespace CefSharp
         //
         // Send a message to the specified |target_process|. Returns true if the
         // message was sent successfully.
-        ///
+        //
         /*--cef()--*/
         //virtual bool SendProcessMessage(CefProcessId target_process,
         //                                CefRefPtr<CefProcessMessage> message) =0;
-
     }
 }

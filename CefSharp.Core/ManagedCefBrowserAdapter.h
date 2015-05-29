@@ -32,6 +32,7 @@ namespace CefSharp
         BrowserProcessServiceHost^ _browserProcessServiceHost;
         IWebBrowserInternal^ _webBrowserInternal;
         JavascriptObjectRepository^ _javaScriptObjectRepository;
+        IBrowser^ _browserWrapper;
 
     private:
         // Private keyboard functions:
@@ -40,14 +41,9 @@ namespace CefSharp
             return (GetKeyState(wparam) & 0x8000) != 0;
         }
 
-        int GetCefKeyboardModifiers(WPARAM wparam, LPARAM lparam);
-
         // Misc. private functions:
-        void OnAfterBrowserCreated(int browserId);
+        int GetCefKeyboardModifiers(WPARAM wparam, LPARAM lparam);
         CefMouseEvent GetCefMouseEvent(MouseEvent^ mouseEvent);
-
-        // Private methods for async tasks:
-        double GetZoomLevelOnUI();
 
     protected:
         virtual void DoDispose(bool isDisposing) override
@@ -67,6 +63,9 @@ namespace CefSharp
             _webBrowserInternal = nullptr;
             _javaScriptObjectRepository = nullptr;
 
+            delete _browserWrapper;
+            _browserWrapper = nullptr;
+
             DisposableResource::DoDispose(isDisposing);
         };
 
@@ -75,25 +74,23 @@ namespace CefSharp
         {
             if (offScreenRendering)
             {
-                _clientAdapter = new RenderClientAdapter(webBrowserInternal,
-                    gcnew Action<int>(this, &ManagedCefBrowserAdapter::OnAfterBrowserCreated), this);
+                _clientAdapter = new RenderClientAdapter(webBrowserInternal, this);
             }
             else
             {
-                _clientAdapter = new ClientAdapter(webBrowserInternal,
-                    gcnew Action<int>(this, &ManagedCefBrowserAdapter::OnAfterBrowserCreated), this);
+                _clientAdapter = new ClientAdapter(webBrowserInternal, this);
             }
 
             _webBrowserInternal = webBrowserInternal;
             _javaScriptObjectRepository = gcnew JavascriptObjectRepository();
         }
 
+        virtual void OnAfterBrowserCreated(int browserId);
         void CreateOffscreenBrowser(IntPtr windowHandle, BrowserSettings^ browserSettings, String^ address);
         void CreateBrowser(BrowserSettings^ browserSettings, IntPtr sourceHandle, String^ address);
         void Close(bool forceClose);
         void CloseAllPopups(bool forceClose);
         void LoadUrl(String^ address);
-        void LoadHtml(String^ html, String^ url);
         void WasResized();
         void WasHidden(bool hidden);
         void Invalidate(PaintElementType type);
@@ -103,36 +100,12 @@ namespace CefSharp
         void OnMouseMove(int x, int y, bool mouseLeave, CefEventFlags modifiers);
         void OnMouseButton(int x, int y, int mouseButtonType, bool mouseUp, int clickCount, CefEventFlags modifiers);
         void OnMouseWheel(int x, int y, int deltaX, int deltaY);
-        void Stop();
-        void GoBack();
-        void GoForward();
-        void Print();
-        void Find(int identifier, String^ searchText, bool forward, bool matchCase, bool findNext);
-        void StopFinding(bool clearSelection);
-        void Reload(bool ignoreCache);
-        void ViewSource();
-        void GetSource(IStringVisitor^ visitor);
-        void GetText(IStringVisitor^ visitor);
-        void Cut();
-        void Copy();
-        void Paste();
-        void Delete();
-        void SelectAll();
-        void Undo();
-        void Redo();
-        void ExecuteScriptAsync(String^ script);
         virtual Task<JavascriptResponse^>^ EvaluateScriptAsync(int browserId, Int64 frameId, String^ script, Nullable<TimeSpan> timeout);
         virtual Task<JavascriptResponse^>^ EvaluateScriptAsync(String^ script, Nullable<TimeSpan> timeout);
-        Task<double>^ GetZoomLevelAsync();
-        void SetZoomLevel(double zoomLevel);
-        void ShowDevTools();
-        void CloseDevTools();
         void Resize(int width, int height);
         void NotifyMoveOrResizeStarted();
         void NotifyScreenInfoChanged();
         void RegisterJsObject(String^ name, Object^ object, bool lowerCaseJavascriptNames);
-        void ReplaceMisspelling(String^ word);
-        void AddWordToDictionary(String^ word);
         void OnDragTargetDragEnter(CefDragDataWrapper^ dragData, MouseEvent^ mouseEvent, DragOperationsMask allowedOperations);
         void OnDragTargetDragOver(MouseEvent^ mouseEvent, DragOperationsMask allowedOperations);
         void OnDragTargetDragLeave();
@@ -141,25 +114,25 @@ namespace CefSharp
         ///
         // Returns the main (top-level) frame for the browser window.
         ///
-        CefFrameWrapper^ GetMainFrame();
+        IFrame^ GetMainFrame();
 
         ///
         // Returns the focused frame for the browser window.
         ///
         /*--cef()--*/
-        CefFrameWrapper^ GetFocusedFrame();
+        IFrame^ GetFocusedFrame();
 
         ///
         // Returns the frame with the specified identifier, or NULL if not found.
         ///
         /*--cef(capi_name=get_frame_byident)--*/
-        CefFrameWrapper^ GetFrame(System::Int64 identifier);
+        IFrame^ GetFrame(System::Int64 identifier);
 
         ///
         // Returns the frame with the specified name, or NULL if not found.
         ///
         /*--cef(optional_param=name)--*/
-        CefFrameWrapper^ GetFrame(String^ name);
+        IFrame^ GetFrame(String^ name);
 
         ///
         // Returns the number of frames that currently exist.
@@ -178,5 +151,11 @@ namespace CefSharp
         ///
         /*--cef()--*/
         List<String^>^ GetFrameNames();
+
+        /// <summary>
+        /// Gets the CefBrowserWrapper instance
+        /// </summary>
+        /// <returns>Gets the current instance or null</returns>
+        IBrowser^ GetBrowser();
     };
 }
