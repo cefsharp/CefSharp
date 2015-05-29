@@ -939,7 +939,7 @@ namespace CefSharp.Wpf
             return newPopup;
         }
 
-        private IntPtr SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
+        protected virtual IntPtr SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             if (handled)
             {
