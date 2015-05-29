@@ -14,7 +14,7 @@ namespace CefSharp.WinForms.Example
         private const string DefaultUrlForAddedTabs = "https://www.google.com";
 
         // Default to a small increment:
-        private const double zoomIncrement = 0.10;
+        private const double ZoomIncrement = 0.10;
 
         public BrowserForm()
         {
@@ -240,19 +240,20 @@ namespace CefSharp.WinForms.Example
             var control = GetCurrentTabControl();
             if (control != null)
             {
-                control.Browser.GetZoomLevelAsync()
-                    .ContinueWith(new Action<Task<double>>((Task<double> previous) =>
-                        {
-                            if (previous.IsCompleted)
-                            {
-                                var currentLevel = previous.Result;
-                                control.Browser.SetZoomLevel(currentLevel + zoomIncrement);
-                            }
-                            else
-                            {
-                                throw new InvalidOperationException("Unexpected failure of calling CEF->GetZoomLevelAsync", previous.Exception);
-                            }
-                        }), TaskContinuationOptions.ExecuteSynchronously);
+                var task = control.Browser.GetZoomLevelAsync();
+
+                task.ContinueWith(previous =>
+                {
+                    if (previous.IsCompleted)
+                    {
+                        var currentLevel = previous.Result;
+                        control.Browser.SetZoomLevel(currentLevel + ZoomIncrement);
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException("Unexpected failure of calling CEF->GetZoomLevelAsync", previous.Exception);
+                    }
+                }, TaskContinuationOptions.ExecuteSynchronously);
             }
         }
 
@@ -261,19 +262,19 @@ namespace CefSharp.WinForms.Example
             var control = GetCurrentTabControl();
             if (control != null)
             {
-                control.Browser.GetZoomLevelAsync()
-                    .ContinueWith(new Action<Task<double>>((Task<double> previous) =>
+                var task = control.Browser.GetZoomLevelAsync();
+                task.ContinueWith(previous =>
+                {
+                    if (previous.IsCompleted)
                     {
-                        if (previous.IsCompleted)
-                        {
-                            var currentLevel = previous.Result;
-                            control.Browser.SetZoomLevel(currentLevel - zoomIncrement);
-                        }
-                        else
-                        {
-                            throw new InvalidOperationException("Unexpected failure of calling CEF->GetZoomLevelAsync", previous.Exception);
-                        }
-                    }), TaskContinuationOptions.ExecuteSynchronously);
+                        var currentLevel = previous.Result;
+                        control.Browser.SetZoomLevel(currentLevel - ZoomIncrement);
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException("Unexpected failure of calling CEF->GetZoomLevelAsync", previous.Exception);
+                    }
+                }, TaskContinuationOptions.ExecuteSynchronously);
             }
         }
 
@@ -282,19 +283,19 @@ namespace CefSharp.WinForms.Example
             var control = GetCurrentTabControl();
             if (control != null)
             {
-                control.Browser.GetZoomLevelAsync()
-                    .ContinueWith(new Action<Task<double>>((Task<double> previous) =>
+                var task = control.Browser.GetZoomLevelAsync();
+                task.ContinueWith(previous =>
+                {
+                    if (previous.IsCompleted)
                     {
-                        if (previous.IsCompleted)
-                        {
-                            var currentLevel = previous.Result;
-                            MessageBox.Show("Current ZoomLevel: " + currentLevel.ToString());
-                        }
-                        else
-                        {
-                            MessageBox.Show("Unexpected failure of calling CEF->GetZoomLevelAsync: " + previous.Exception.ToString());
-                        }
-                    }), TaskContinuationOptions.HideScheduler);
+                        var currentLevel = previous.Result;
+                        MessageBox.Show("Current ZoomLevel: " + currentLevel.ToString());
+                    }
+                    else
+                    {
+                        MessageBox.Show("Unexpected failure of calling CEF->GetZoomLevelAsync: " + previous.Exception.ToString());
+                    }
+                }, TaskContinuationOptions.HideScheduler);
             }
         }
     }

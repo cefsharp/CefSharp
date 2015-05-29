@@ -14,9 +14,7 @@ using namespace System::IO;
 
 namespace CefSharp
 {
-    class SchemeHandlerWrapper;
-
-    public ref class SchemeHandlerResponse : IResourceHandlerResponse
+    public ref class ResourceHandlerResponse : IResourceHandlerResponse
     {
     internal:
         MCefRefPtr<ResourceHandlerWrapper> _resourceHandlerWrapper;
@@ -37,11 +35,16 @@ namespace CefSharp
         virtual property int StatusCode;
 
         /// <summary>
+        /// Set the response status text.
+        /// </summary>
+        virtual property String^ StatusText;
+
+        /// <summary>
         /// The length of the response contents. Defaults to -1, which means unknown length
         /// and causes CefSharp to read the response stream in pieces. Thus, setting a length
         /// is optional but allows for more optimal response reading.
         /// </summary>
-        virtual property int ContentLength;
+        virtual property Int64 ContentLength;
 
         /// <summary>
         /// URL to redirect to (leave empty to not redirect).
@@ -54,13 +57,16 @@ namespace CefSharp
         /// </summary>
         virtual property bool CloseStream;
 
-        SchemeHandlerResponse(ResourceHandlerWrapper* resourceHandlerWrapper)
+        ResourceHandlerResponse(ResourceHandlerWrapper* resourceHandlerWrapper)
         {
             ContentLength = -1;
+
+            StatusCode = 200;
+            StatusText = "OK";
             _resourceHandlerWrapper = resourceHandlerWrapper;
         }
 
-        ~SchemeHandlerResponse()
+        ~ResourceHandlerResponse()
         {
             _resourceHandlerWrapper = nullptr;
         }

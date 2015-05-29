@@ -5,7 +5,7 @@
 #include "Stdafx.h"
 #include "Internals/CefRequestWrapper.h"
 #include "ResourceHandlerWrapper.h"
-#include "SchemeHandlerResponse.h"
+#include "ResourceHandlerResponse.h"
 #include "Internals/TypeConversion.h"
 
 using namespace System::Runtime::InteropServices;
@@ -19,7 +19,7 @@ namespace CefSharp
 
         AutoLock lock_scope(_syncRoot);
 
-        auto schemeResponse = gcnew SchemeHandlerResponse(this);
+        auto schemeResponse = gcnew ResourceHandlerResponse(this);
         auto requestWrapper = gcnew CefRequestWrapper(request);
 
         return _handler->ProcessRequestAsync(requestWrapper, schemeResponse);
@@ -30,6 +30,7 @@ namespace CefSharp
         _mime_type = StringUtils::ToNative(response->MimeType);
         _stream = response->ResponseStream;
         _statusCode = response->StatusCode;
+        _statusText = StringUtils::ToNative(response->StatusText);
         _redirectUrl = StringUtils::ToNative(response->RedirectUrl);
         _contentLength = response->ContentLength;
         _closeStream = response->CloseStream;
@@ -50,8 +51,10 @@ namespace CefSharp
     void ResourceHandlerWrapper::GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl)
     {
         response->SetMimeType(_mime_type);
-        response->SetStatus(_statusCode > 0 ? _statusCode : 200);
+        response->SetStatus(_statusCode);
+        response->SetStatusText(_statusText);
         response->SetHeaderMap(_headers);
+        // ContentLength defaults to -1 so SizeFromStream is called
         response_length = _contentLength >= 0 ? _contentLength : SizeFromStream();
         
         redirectUrl = _redirectUrl;
@@ -94,7 +97,7 @@ namespace CefSharp
         _callback = NULL;
     }
 
-    int ResourceHandlerWrapper::SizeFromStream()
+    int64 ResourceHandlerWrapper::SizeFromStream()
     {
         if (static_cast<Stream^>(_stream) == nullptr)
         {
@@ -104,7 +107,7 @@ namespace CefSharp
         if (_stream->CanSeek)
         {
             _stream->Seek(0, System::IO::SeekOrigin::End);
-            int length = static_cast<int>(_stream->Position);
+            int64 length = static_cast<int>(_stream->Position);
             _stream->Seek(0, System::IO::SeekOrigin::Begin);
             return length;
         }

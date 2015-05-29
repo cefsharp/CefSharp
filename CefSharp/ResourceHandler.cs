@@ -7,34 +7,39 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace CefSharp
 {
     /// <summary>
     /// Class ResourceHandler.
     /// </summary>
-    public class ResourceHandler
+    public class ResourceHandler : IResourceHandler
     {
         /// <summary>
-        /// Gets or sets the type of MIME.
+        /// Gets or sets the Mime Type.
         /// </summary>
-        /// <value>The type of MIME.</value>
+        /// <value>The Mime Type.</value>
         public string MimeType { get; private set; }
+
         /// <summary>
         /// Gets or sets the resource stream.
         /// </summary>
         /// <value>The stream.</value>
         public Stream Stream { get; private set; }
+
         /// <summary>
         /// Gets or sets the http status code.
         /// </summary>
         /// <value>The http status code.</value>
         public int StatusCode { get; private set; }
+
         /// <summary>
         /// Gets or sets the status text.
         /// </summary>
         /// <value>The status text.</value>
         public string StatusText { get; private set; }
+
         /// <summary>
         /// Gets or sets the headers.
         /// </summary>
@@ -128,7 +133,7 @@ namespace CefSharp
         /// <returns></returns>
         public static ResourceHandler FromStream(Stream stream)
         {
-            return new ResourceHandler() { Stream = stream };
+            return new ResourceHandler { Stream = stream };
         }
 
         /// <summary>
@@ -757,6 +762,39 @@ namespace CefSharp
             }
             string mime;
             return Mappings.TryGetValue(extension, out mime) ? mime : "application/octet-stream";
+        }
+
+        bool IResourceHandler.ProcessRequestAsync(IRequest request, IResourceHandlerResponse response)
+        {
+            var doTheWork = new Action(() =>
+            {
+                response.ResponseStream = Stream;
+                response.MimeType = MimeType;
+                response.StatusCode = StatusCode;
+                response.StatusText = StatusText;
+                response.ResponseHeaders = Headers;
+
+                var memoryStream = Stream as MemoryStream;
+                if (memoryStream != null)
+                {
+                    response.ContentLength = memoryStream.Length;
+                }
+
+                response.ProcessRequestCallback();
+            });
+
+            // If we have a MemoryStream (which is likely to be very common), 
+            // don't create a task for it.
+            if (Stream is MemoryStream)
+            {
+                doTheWork();
+            }
+            else
+            {
+                Task.Factory.StartNew(doTheWork);
+            }
+
+            return true;
         }
     }
 }

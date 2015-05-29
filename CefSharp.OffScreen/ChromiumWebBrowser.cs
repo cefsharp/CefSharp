@@ -109,17 +109,7 @@ namespace CefSharp.OffScreen
         protected virtual void Dispose(bool disposing)
         {
             // Don't reference handlers any longer:
-            ResourceHandlerFactory = null;
-            JsDialogHandler = null;
-            DialogHandler = null;
-            DownloadHandler = null;
-            KeyboardHandler = null;
-            LifeSpanHandler = null;
-            MenuHandler = null;
-            FocusHandler = null;
-            RequestHandler = null;
-            DragHandler = null;
-            GeolocationHandler = null;
+            this.SetHandlersToNull();
 
             // Don't reference event listeners any longer:
             LoadError = null;
@@ -238,44 +228,9 @@ namespace CefSharp.OffScreen
             return completionSource.Task;
         }
 
-        public void ShowDevTools()
-        {
-            throw new NotImplementedException("Not implemented in OffScreen ChromiumWebBrowser");
-        }
-
-        public void CloseDevTools()
-        {
-            throw new NotImplementedException("Not implemented in OffScreen ChromiumWebBrowser");
-        }
-
-        public void ReplaceMisspelling(string word)
-        {
-            managedCefBrowserAdapter.ReplaceMisspelling(word);
-        }
-
-        public void AddWordToDictionary(string word)
-        {
-            managedCefBrowserAdapter.AddWordToDictionary(word);
-        }
-
         public Task<JavascriptResponse> EvaluateScriptAsync(string script, TimeSpan? timeout = null)
         {
             return managedCefBrowserAdapter.EvaluateScriptAsync(script, timeout);
-        }
-
-        public void ExecuteScriptAsync(string script)
-        {
-            managedCefBrowserAdapter.ExecuteScriptAsync(script);
-        }
-
-        public void Find(int identifier, string searchText, bool forward, bool matchCase, bool findNext)
-        {
-            managedCefBrowserAdapter.Find(identifier, searchText, forward, matchCase, findNext);
-        }
-
-        public void StopFinding(bool clearSelection)
-        {
-            managedCefBrowserAdapter.StopFinding(clearSelection);
         }
 
         public void Load(string url)
@@ -284,46 +239,9 @@ namespace CefSharp.OffScreen
             managedCefBrowserAdapter.LoadUrl(Address);
         }
 
-        public void LoadHtml(string html, string url)
-        {
-            LoadHtml(html, url, Encoding.UTF8);
-        }
-
-        public void LoadHtml(string html, string url, Encoding encoding)
-        {
-            var factory = ResourceHandlerFactory;
-            if (factory == null)
-            {
-                throw new Exception("Implement IResourceHandlerFactory and assign to the ResourceHandlerFactory property to use this feature");
-            }
-
-            factory.RegisterHandler(url, ResourceHandler.FromString(html, encoding, true));
-
-            Load(url);
-        }
-
         public void RegisterJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true)
         {
             managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, camelCaseJavascriptNames);
-        }
-
-        public void Stop()
-        {
-            managedCefBrowserAdapter.Stop();
-        }
-
-        public Task<string> GetSourceAsync()
-        {
-            var taskStringVisitor = new TaskStringVisitor();
-            managedCefBrowserAdapter.GetSource(taskStringVisitor);
-            return taskStringVisitor.Task;
-        }
-
-        public Task<string> GetTextAsync()
-        {
-            var taskStringVisitor = new TaskStringVisitor();
-            managedCefBrowserAdapter.GetText(taskStringVisitor);
-            return taskStringVisitor.Task;
         }
 
         /// <summary>
@@ -336,50 +254,24 @@ namespace CefSharp.OffScreen
             return false;
         }
 
-        public void Reload()
-        {
-            Reload(false);
-        }
-
-        public void Reload(bool ignoreCache)
-        {
-            managedCefBrowserAdapter.Reload(ignoreCache);
-        }
-
-        public void ViewSource()
-        {
-            managedCefBrowserAdapter.ViewSource();
-        }
-
-        public void Print()
-        {
-            managedCefBrowserAdapter.Print();
-        }
-
-        public void Back()
-        {
-            managedCefBrowserAdapter.GoBack();
-        }
-
-        public void Forward()
-        {
-            managedCefBrowserAdapter.GoForward();
-        }
-
-        /// <inheritdoc/>
-        public Task<double> GetZoomLevelAsync()
-        {
-            return managedCefBrowserAdapter.GetZoomLevelAsync();
-        }
-
-        /// <inheritdoc/>
-        public void SetZoomLevel(double level)
-        {
-            managedCefBrowserAdapter.SetZoomLevel(level);
-        }
         public void SendMouseWheelEvent(int x, int y, int deltaX, int deltaY)
         {
             managedCefBrowserAdapter.OnMouseWheel(x, y, deltaX, deltaY);
+        }
+
+        public IFrame GetMainFrame()
+        {
+            return IsBrowserInitialized ? managedCefBrowserAdapter.GetMainFrame() : null;
+        }
+
+        public IFrame GetFocusedFrame()
+        {
+            return IsBrowserInitialized ? managedCefBrowserAdapter.GetFocusedFrame() : null;
+        }
+
+        public IBrowser GetBrowser()
+        {
+            return IsBrowserInitialized ? managedCefBrowserAdapter.GetBrowser() : null;
         }
 
         #region IRenderWebBrowser (rendering to bitmap; derived from CefSharp.Wpf.ChromiumWebBrowser)
@@ -442,11 +334,6 @@ namespace CefSharp.OffScreen
         #endregion
 
         #region IWebBrowserInternal (notifications from CEF to C#; derived from CefSharp.Wpf.ChromiumWebBrowser)
-
-        IBrowserAdapter IWebBrowserInternal.BrowserAdapter
-        {
-            get { return managedCefBrowserAdapter; }
-        }
 
         void IWebBrowserInternal.OnConsoleMessage(string message, string source, int line)
         {

@@ -6,10 +6,6 @@ namespace CefSharp
 {
     public interface IResourceHandlerFactory
     {
-        void RegisterHandler(string url, ResourceHandler handler);
-
-        void UnregisterHandler(string url);
-
         /// <summary>
         /// Are there any <see cref="ResourceHandler"/>'s registered?
         /// </summary>
@@ -21,6 +17,6 @@ namespace CefSharp
         /// <param name="browser">the browser object</param>
         /// <param name="request">the request object - cannot be modified in this callback</param>
         /// <returns>To allow the resource to load normally return NULL otherwise return an instance of ResourceHandler with a valid stream</returns>
-        ResourceHandler GetResourceHandler(IWebBrowser browser, IRequest request);
+        IResourceHandler GetResourceHandler(IWebBrowser browser, IRequest request);
     }
 }

@@ -18,6 +18,7 @@ namespace CefSharp
         private:
             MCefRefPtr<CefBrowser> _browser;
             IBrowserAdapter^ _browserAdapter;
+            IBrowserHost^ _browserHost;
             bool _disposed;
 
         internal:
@@ -28,7 +29,10 @@ namespace CefSharp
 
             ~CefSharpBrowserWrapper() 
             {
+                delete _browserHost;
+
                 _browserAdapter = nullptr;
+                _browserHost = nullptr;
                 _disposed = true;
             }
 
@@ -46,7 +50,7 @@ namespace CefSharp
             // browser process.
             ///
             /*--cef()--*/
-            virtual CefRefPtr<CefBrowserHost> GetHost();
+            virtual IBrowserHost^ GetHost();
 
             ///
             // Returns true if the browser can navigate backwards.
@@ -87,17 +91,13 @@ namespace CefSharp
                 bool get();
             }
 
+            virtual void CloseBrowser(bool forceClose);
+
             ///
             // Reload the current page.
             ///
             /*--cef()--*/
-            virtual void Reload();
-
-            ///
-            // Reload the current page ignoring any cached data.
-            ///
-            /*--cef()--*/
-            virtual void ReloadIgnoreCache();
+            virtual void Reload(bool ignoreCache);
 
             ///
             // Stop loading the page.

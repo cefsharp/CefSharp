@@ -152,7 +152,7 @@ void CefFrameWrapper::LoadUrl(String^ url)
 // link clicks and web security restrictions may not behave as expected.
 ///
 /*--cef()--*/
-void CefFrameWrapper::LoadHtml(String^ html, String^ url)
+void CefFrameWrapper::LoadStringForUrl(String^ html, String^ url)
 {
     ThrowIfDisposed();
     _frame->LoadString(StringUtils::ToNative(html), StringUtils::ToNative(url));
@@ -170,12 +170,6 @@ void CefFrameWrapper::ExecuteJavaScriptAsync(String^ code, String^ scriptUrl, in
 {
     ThrowIfDisposed();
     _frame->ExecuteJavaScript(StringUtils::ToNative(code), StringUtils::ToNative(scriptUrl), startLine);
-}
-
-void CefFrameWrapper::ExecuteJavaScriptAsync(String^ code)
-{
-    ThrowIfDisposed();
-    _frame->ExecuteJavaScript(StringUtils::ToNative(code), "about:blank", 0);
 }
 
 Task<JavascriptResponse^>^ CefFrameWrapper::EvaluateScriptAsync(String^ script, Nullable<TimeSpan> timeout)

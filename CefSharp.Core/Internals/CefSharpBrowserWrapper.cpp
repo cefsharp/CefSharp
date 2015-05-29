@@ -6,16 +6,23 @@
 
 #include "Internals/CefFrameWrapper.h"
 #include "Internals/CefSharpBrowserWrapper.h"
+#include "CefBrowserHostWrapper.h"
 
 ///
 // Returns the browser host object. This method can only be called in the
 // browser process.
 ///
 /*--cef()--*/
-CefRefPtr<CefBrowserHost> CefSharpBrowserWrapper::GetHost()
+IBrowserHost^ CefSharpBrowserWrapper::GetHost()
 {
     ThrowIfDisposed();
-    return _browser->GetHost();
+
+    if(_browserHost == nullptr)
+    {
+        _browserHost = gcnew CefBrowserHostWrapper(_browser->GetHost());
+    }
+
+    return _browserHost;
 }
 
 ///
@@ -68,26 +75,29 @@ bool CefSharpBrowserWrapper::IsLoading::get()
     return _browser->IsLoading();
 }
 
+void CefSharpBrowserWrapper::CloseBrowser(bool forceClose)
+{
+    ThrowIfDisposed();
+    _browser->GetHost()->CloseBrowser(forceClose);
+}
+
 ///
 // Reload the current page.
 ///
 /*--cef()--*/
-void CefSharpBrowserWrapper::Reload()
+void CefSharpBrowserWrapper::Reload(bool ignoreCache)
 {
     ThrowIfDisposed();
-    _browser->Reload();
-}
 
-///
-// Reload the current page ignoring any cached data.
-///
-/*--cef()--*/
-void CefSharpBrowserWrapper::ReloadIgnoreCache()
-{
-    ThrowIfDisposed();
-    _browser->ReloadIgnoreCache();
+    if (ignoreCache)
+    {
+        _browser->ReloadIgnoreCache();
+    }
+    else
+    {
+        _browser->Reload();
+    }
 }
-
 
 ///
 // Stop loading the page.

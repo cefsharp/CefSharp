@@ -97,6 +97,7 @@
     <Compile Include="DefaultResourceHandlerFactory.cs" />
     <Compile Include="DependencyChecker.cs" />
     <Compile Include="IBrowser.cs" />
+    <Compile Include="IBrowserHost.cs" />
     <Compile Include="IFrame.cs" />
     <Compile Include="IJavascriptCallback.cs" />
     <Compile Include="IJsDialogCallback.cs" />
@@ -165,17 +166,17 @@
     <Compile Include="ILifeSpanHandler.cs" />
     <Compile Include="IMenuHandler.cs" />
     <Compile Include="Internals\IRenderWebBrowser.cs" />
+    <Compile Include="InternalWebBrowserExtensions.cs" />
+    <Compile Include="WebBrowserExtensions.cs" />
     <Compile Include="WebPluginInfo.cs" />
     <Compile Include="IRequest.cs" />
     <Compile Include="IRequestHandler.cs" />
     <Compile Include="ISchemeHandler.cs" />
     <Compile Include="ISchemeHandlerFactory.cs" />
-    <Compile Include="ISchemeHandlerResponse.cs" />
     <Compile Include="Internals\IRenderProcess.cs" />
     <Compile Include="IWebBrowser.cs" />
     <Compile Include="Internals\IWebBrowserInternal.cs" />
     <Compile Include="Internals\Kernel32.cs" />
-    <Compile Include="IWinFormsWebBrowser.cs" />
     <Compile Include="FrameLoadEndEventArgs.cs" />
     <Compile Include="LogSeverity.cs" />
     <Compile Include="DisposableResource.cs" />
