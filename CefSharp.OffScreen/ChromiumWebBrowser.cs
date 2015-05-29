@@ -228,39 +228,9 @@ namespace CefSharp.OffScreen
             return completionSource.Task;
         }
 
-        public void ShowDevTools()
-        {
-            throw new NotImplementedException("Not implemented in OffScreen ChromiumWebBrowser");
-        }
-
-        public void CloseDevTools()
-        {
-            throw new NotImplementedException("Not implemented in OffScreen ChromiumWebBrowser");
-        }
-
-        public void ReplaceMisspelling(string word)
-        {
-            managedCefBrowserAdapter.ReplaceMisspelling(word);
-        }
-
-        public void AddWordToDictionary(string word)
-        {
-            managedCefBrowserAdapter.AddWordToDictionary(word);
-        }
-
         public Task<JavascriptResponse> EvaluateScriptAsync(string script, TimeSpan? timeout = null)
         {
             return managedCefBrowserAdapter.EvaluateScriptAsync(script, timeout);
-        }
-
-        public void Find(int identifier, string searchText, bool forward, bool matchCase, bool findNext)
-        {
-            managedCefBrowserAdapter.Find(identifier, searchText, forward, matchCase, findNext);
-        }
-
-        public void StopFinding(bool clearSelection)
-        {
-            managedCefBrowserAdapter.StopFinding(clearSelection);
         }
 
         public void Load(string url)
@@ -284,23 +254,6 @@ namespace CefSharp.OffScreen
             return false;
         }
 
-
-        public void Print()
-        {
-            managedCefBrowserAdapter.Print();
-        }
-        
-        /// <inheritdoc/>
-        public Task<double> GetZoomLevelAsync()
-        {
-            return managedCefBrowserAdapter.GetZoomLevelAsync();
-        }
-
-        /// <inheritdoc/>
-        public void SetZoomLevel(double level)
-        {
-            managedCefBrowserAdapter.SetZoomLevel(level);
-        }
         public void SendMouseWheelEvent(int x, int y, int deltaX, int deltaY)
         {
             managedCefBrowserAdapter.OnMouseWheel(x, y, deltaX, deltaY);

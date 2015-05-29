@@ -15,9 +15,20 @@ void CefBrowserHostWrapper::Print()
     _browserHost->Print();
 }
 
-double CefBrowserHostWrapper::GetZoomLevelAsync()
+void CefBrowserHostWrapper::SetZoomLevel(double zoomLevel)
 {
-    return 0;
+    _browserHost->SetZoomLevel(zoomLevel);
+}
+
+Task<double>^ CefBrowserHostWrapper::GetZoomLevelAsync()
+{
+    if (CefCurrentlyOn(TID_UI))
+    {
+        TaskCompletionSource<double>^ taskSource = gcnew TaskCompletionSource<double>();
+        taskSource->SetResult(GetZoomLevelOnUI());
+        return taskSource->Task;
+    }
+    return Cef::UIThreadTaskFactory->StartNew(gcnew Func<double>(this, &CefBrowserHostWrapper::GetZoomLevelOnUI));
 }
 
 IntPtr CefBrowserHostWrapper::GetWindowHandle()
@@ -32,10 +43,17 @@ void CefBrowserHostWrapper::CloseBrowser(bool forceClose)
         
 void CefBrowserHostWrapper::ShowDevTools()
 {
+    CefWindowInfo windowInfo;
+    CefBrowserSettings settings;
+
+    windowInfo.SetAsPopup(_browserHost->GetWindowHandle(), "DevTools");
+
+    _browserHost->ShowDevTools(windowInfo, _browserHost->GetClient(), settings, CefPoint());
 }
 
 void CefBrowserHostWrapper::CloseDevTools()
 {
+    _browserHost->CloseDevTools();
 }
 
 void CefBrowserHostWrapper::AddWordToDictionary(String^ word)
@@ -50,8 +68,23 @@ void CefBrowserHostWrapper::ReplaceMisspelling(String^ word)
 
 void CefBrowserHostWrapper::Find(int identifier, String^ searchText, bool forward, bool matchCase, bool findNext)
 {
+    _browserHost->Find(identifier, StringUtils::ToNative(searchText), forward, matchCase, findNext);
 }
 
 void CefBrowserHostWrapper::StopFinding(bool clearSelection)
 {
+    _browserHost->StopFinding(clearSelection);
+}
+
+double CefBrowserHostWrapper::GetZoomLevelOnUI()
+{
+    CefTaskScheduler::EnsureOn(TID_UI, "CefBrowserHostWrapper::GetZoomLevel");
+
+    //Don't throw exception if no browser host here as it's not easy to handle
+    if(_browserHost.get())
+    {
+        return _browserHost->GetZoomLevel();
+    }
+
+    return 0.0;	
 }

@@ -3,7 +3,6 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CefSharp.Internals;
@@ -137,18 +136,6 @@ namespace CefSharp.WinForms
                 IsBrowserInitializedChanged = null;
             }
             base.Dispose(disposing);
-        }
-
-        /// <inheritdoc/>
-        public Task<double> GetZoomLevelAsync()
-        {
-            return managedCefBrowserAdapter.GetZoomLevelAsync();
-        }
-
-        /// <inheritdoc/>
-        public void SetZoomLevel(double level)
-        {
-            managedCefBrowserAdapter.SetZoomLevel(level);
         }
 
         public void Load(String url)
@@ -299,31 +286,6 @@ namespace CefSharp.WinForms
             }
         }
 
-        public void Find(int identifier, string searchText, bool forward, bool matchCase, bool findNext)
-        {
-            managedCefBrowserAdapter.Find(identifier, searchText, forward, matchCase, findNext);
-        }
-
-        public void StopFinding(bool clearSelection)
-        {
-            managedCefBrowserAdapter.StopFinding(clearSelection);
-        }
-
-        public void ShowDevTools()
-        {
-            managedCefBrowserAdapter.ShowDevTools();
-        }
-
-        public void CloseDevTools()
-        {
-            managedCefBrowserAdapter.CloseDevTools();
-        }
-
-        public void Print()
-        {
-            managedCefBrowserAdapter.Print();
-        }
-
         /// <summary>
         /// Manually implement Focused because cef does not implement it.
         /// </summary>
@@ -369,16 +331,6 @@ namespace CefSharp.WinForms
             {
                 managedCefBrowserAdapter.NotifyMoveOrResizeStarted();
             }
-        }
-
-        public void ReplaceMisspelling(string word)
-        {
-            managedCefBrowserAdapter.ReplaceMisspelling(word);
-        }
-
-        public void AddWordToDictionary(string word)
-        {
-            managedCefBrowserAdapter.AddWordToDictionary(word);
         }
 
         protected override void OnGotFocus(EventArgs e)

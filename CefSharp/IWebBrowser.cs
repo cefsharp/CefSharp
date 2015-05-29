@@ -3,7 +3,6 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CefSharp
@@ -186,72 +185,11 @@ namespace CefSharp
         string TooltipText { get; }
 
         /// <summary>
-        /// Asynchronously gets the current Zoom Level.
-        /// </summary>
-        Task<double> GetZoomLevelAsync();
-
-        /// <summary>
-        /// Change the ZoomLevel to the specified value. Can be set to 0.0 to clear the zoom level.
-        /// </summary>
-        /// <remarks>
-        /// If called on the CEF UI thread the change will be applied immediately.
-        /// Otherwise, the change will be applied asynchronously on the CEF UI thread.
-        /// The CEF UI thread is different to the WPF/WinForms UI Thread
-        /// </remarks>
-        /// <param name="level">zoom level</param>
-        void SetZoomLevel(double level);
-
-        /// <summary>
-        /// Search for text within the current page.
-        /// </summary>
-        /// <param name="identifier">Can be used in can conjunction with searchText to have multiple
-        /// searches running simultaneously.</param>
-        /// <param name="searchText">search text</param>
-        /// <param name="forward">indicates whether to search forward or backward within the page.</param>
-        /// <param name="matchCase">indicates whether the search should be case-sensitive. </param>
-        /// <param name="findNext">indicates whether this is the first request or a follow-up.</param>
-        void Find(int identifier, string searchText, bool forward, bool matchCase, bool findNext);
-
-        /// <summary>
-        /// Cancel all searches that are currently going on.
-        /// </summary>
-        /// <param name="clearSelection">clear the current search selection</param>
-        void StopFinding(bool clearSelection);
-
-        /// <summary>
         /// Attempts to give focus to the IWpfWebBrowser control.
         /// </summary>
         /// <returns><c>true</c> if keyboard focus and logical focus were set to this element; <c>false</c> if only logical focus
         /// was set to this element, or if the call to this method did not force the focus to change.</returns>
         bool Focus();
-
-        /// <summary>
-        /// Opens a Print Dialog which if used (can be user cancelled) will print the browser contents.
-        /// </summary>
-        void Print();
-
-        /// <summary>
-        /// Open developer tools in its own window. 
-        /// </summary>
-        void ShowDevTools();
-
-        /// <summary>
-        /// Explicitly close the developer tools window if one exists for this browser instance.
-        /// </summary>
-        void CloseDevTools();   
-  
-        /// <summary>
-        /// If a misspelled word is currently selected in an editable node calling
-        /// this method will replace it with the specified word. 
-        /// </summary>
-        /// <param name="word">The new word that will replace the currently selected word.</param>
-        void ReplaceMisspelling(string word);
-
-        /// <summary>
-        /// Add the specified word to the spelling dictionary.
-        /// </summary>
-        /// <param name="word">The new word that will be added to the dictionary.</param>
-        void AddWordToDictionary(string word);
         
         /// <summary>
         /// Send a mouse wheel event to the browser.

@@ -12,7 +12,11 @@ namespace CefSharp
     {
         public ref class CefBrowserHostWrapper : IBrowserHost
         {
+        private:
             MCefRefPtr<CefBrowserHost> _browserHost;
+            
+            double GetZoomLevelOnUI();
+
         internal:
             CefBrowserHostWrapper(CefRefPtr<CefBrowserHost> &browserHost) : _browserHost(browserHost)
             {
@@ -26,7 +30,8 @@ namespace CefSharp
         public:
             virtual void StartDownload(String^ url);
             virtual void Print();
-            virtual double GetZoomLevelAsync();
+            virtual void SetZoomLevel(double zoomLevel);
+            virtual Task<double>^ GetZoomLevelAsync();
             virtual IntPtr GetWindowHandle();
             virtual void CloseBrowser(bool forceClose);
         

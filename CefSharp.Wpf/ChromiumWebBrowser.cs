@@ -128,7 +128,7 @@ namespace CefSharp.Wpf
             BackCommand = new DelegateCommand(this.Back, () => CanGoBack);
             ForwardCommand = new DelegateCommand(this.Forward, () => CanGoForward);
             ReloadCommand = new DelegateCommand(this.Reload, () => CanReload);
-            PrintCommand = new DelegateCommand(Print);
+            PrintCommand = new DelegateCommand(this.Print);
             ZoomInCommand = new DelegateCommand(ZoomIn);
             ZoomOutCommand = new DelegateCommand(ZoomOut);
             ZoomResetCommand = new DelegateCommand(ZoomReset);
@@ -497,7 +497,7 @@ namespace CefSharp.Wpf
 
         protected virtual void OnIsBrowserInitializedChanged(bool oldValue, bool newValue)
         {
-            var task = managedCefBrowserAdapter.GetZoomLevelAsync();
+            var task = this.GetZoomLevelAsync();
             task.ContinueWith(previous =>
             {
                 if (previous.IsCompleted)
@@ -563,7 +563,7 @@ namespace CefSharp.Wpf
 
         protected virtual void OnZoomLevelChanged(double oldValue, double newValue)
         {
-            managedCefBrowserAdapter.SetZoomLevel(newValue);
+            this.SetZoomLevel(newValue);
         }
 
         #endregion ZoomLevel dependency property
@@ -1263,21 +1263,6 @@ namespace CefSharp.Wpf
             }
         }
 
-        public void Print()
-        {
-            managedCefBrowserAdapter.Print();
-        }
-
-        public void Find(int identifier, string searchText, bool forward, bool matchCase, bool findNext)
-        {
-            managedCefBrowserAdapter.Find(identifier, searchText, forward, matchCase, findNext);
-        }
-
-        public void StopFinding(bool clearSelection)
-        {
-            managedCefBrowserAdapter.StopFinding(clearSelection);
-        }
-
         private void ZoomIn()
         {
             UiThreadRunAsync(() =>
@@ -1300,16 +1285,6 @@ namespace CefSharp.Wpf
             {
                 ZoomLevel = 0;
             });
-        }
-
-        public void ShowDevTools()
-        {
-            managedCefBrowserAdapter.ShowDevTools();
-        }
-
-        public void CloseDevTools()
-        {
-            managedCefBrowserAdapter.CloseDevTools();
         }
 
         public void RegisterJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true)
@@ -1347,16 +1322,6 @@ namespace CefSharp.Wpf
             return pixelPosition;
         }
 
-        public void ReplaceMisspelling(string word)
-        {
-            managedCefBrowserAdapter.ReplaceMisspelling(word);
-        }
-
-        public void AddWordToDictionary(string word)
-        {
-            managedCefBrowserAdapter.AddWordToDictionary(word);
-        }
-
         /// <summary>
         /// Invalidate the view. The browser will call CefRenderHandler::OnPaint asynchronously.
         /// </summary>
@@ -1364,21 +1329,6 @@ namespace CefSharp.Wpf
         public void Invalidate(PaintElementType type)
         {
             managedCefBrowserAdapter.Invalidate(type);
-        }
-
-        /// <inheritdoc/>
-        public Task<double> GetZoomLevelAsync()
-        {
-            return managedCefBrowserAdapter.GetZoomLevelAsync();
-        }
-
-        /// <summary>
-        /// Change the zoom level to the specified value. Specify 0.0 to reset the zoom level.
-        /// </summary>
-        /// <param name="zoomLevel">zoom level</param>
-        public void SetZoomLevel(double zoomLevel)
-        {
-            managedCefBrowserAdapter.SetZoomLevel(zoomLevel);
         }
 
         /// <summary>

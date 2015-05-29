@@ -288,36 +288,6 @@ void ManagedCefBrowserAdapter::OnMouseWheel(int x, int y, int deltaX, int deltaY
     }
 }
 
-void ManagedCefBrowserAdapter::Print()
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        browser->GetHost()->Print();
-    }
-}
-
-void ManagedCefBrowserAdapter::Find(int identifier, String^ searchText, bool forward, bool matchCase, bool findNext)
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        browser->GetHost()->Find(identifier, StringUtils::ToNative(searchText), forward, matchCase, findNext);
-    }
-}
-
-void ManagedCefBrowserAdapter::StopFinding(bool clearSelection)
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        browser->GetHost()->StopFinding(clearSelection);
-    }
-}
-
 Task<JavascriptResponse^>^ ManagedCefBrowserAdapter::EvaluateScriptAsync(int browserId, Int64 frameId, String^ script, Nullable<TimeSpan> timeout)
 {
     if (timeout.HasValue && timeout.Value.TotalMilliseconds > UInt32::MaxValue)
@@ -350,51 +320,6 @@ Task<JavascriptResponse^>^ ManagedCefBrowserAdapter::EvaluateScriptAsync(String^
     }
 
     return _browserProcessServiceHost->EvaluateScriptAsync(browser->GetIdentifier(), frame->GetIdentifier(), script, timeout);
-}
-
-double ManagedCefBrowserAdapter::GetZoomLevelOnUI()
-{
-    CefTaskScheduler::EnsureOn(TID_UI, "ManagedCefBrowserAdapter::GetZoomLevel");
-
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        auto host = browser->GetHost();
-        return host->GetZoomLevel();
-    }
-    return 0.0;
-}
-
-Task<double>^ ManagedCefBrowserAdapter::GetZoomLevelAsync()
-{
-    if (CefCurrentlyOn(TID_UI))
-    {
-        TaskCompletionSource<double>^ taskSource = gcnew TaskCompletionSource<double>();
-        taskSource->SetResult(GetZoomLevelOnUI());
-        return taskSource->Task;
-    }
-    return Cef::UIThreadTaskFactory->StartNew(gcnew Func<double>(this, &ManagedCefBrowserAdapter::GetZoomLevelOnUI));
-}
-
-void ManagedCefBrowserAdapter::SetZoomLevel(double zoomLevel)
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        browser->GetHost()->SetZoomLevel(zoomLevel);
-    }
-}
-
-void ManagedCefBrowserAdapter::ShowDevTools()
-{
-    _clientAdapter->ShowDevTools();
-}
-
-void ManagedCefBrowserAdapter::CloseDevTools()
-{
-    _clientAdapter->CloseDevTools();
 }
 
 void ManagedCefBrowserAdapter::CreateBrowser(BrowserSettings^ browserSettings, IntPtr sourceHandle, String^ address)
@@ -451,28 +376,6 @@ void ManagedCefBrowserAdapter::NotifyScreenInfoChanged()
 void ManagedCefBrowserAdapter::RegisterJsObject(String^ name, Object^ object, bool lowerCaseJavascriptNames)
 {
     _javaScriptObjectRepository->Register(name, object, lowerCaseJavascriptNames);
-}
-
-void ManagedCefBrowserAdapter::ReplaceMisspelling(String^ word)
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        CefString wordNative = StringUtils::ToNative(word);
-        browser->GetHost()->ReplaceMisspelling(wordNative);
-    }
-}
-
-void ManagedCefBrowserAdapter::AddWordToDictionary(String^ word)
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        CefString wordNative = StringUtils::ToNative(word);
-        browser->GetHost()->AddWordToDictionary(wordNative);
-    }
 }
 
 CefMouseEvent ManagedCefBrowserAdapter::GetCefMouseEvent(MouseEvent^ mouseEvent)

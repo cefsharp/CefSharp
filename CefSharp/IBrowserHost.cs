@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Threading.Tasks;
 
 namespace CefSharp
 {
@@ -10,7 +11,8 @@ namespace CefSharp
 	{
 		void StartDownload(string url);
 		void Print();
-		double GetZoomLevelAsync();
+		void SetZoomLevel(double zoomLevel);
+		Task<double> GetZoomLevelAsync();
 		IntPtr GetWindowHandle();
 		void CloseBrowser(bool forceClose);
 		

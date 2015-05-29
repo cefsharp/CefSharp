@@ -45,9 +45,6 @@ namespace CefSharp
         int GetCefKeyboardModifiers(WPARAM wparam, LPARAM lparam);
         CefMouseEvent GetCefMouseEvent(MouseEvent^ mouseEvent);
 
-        // Private methods for async tasks:
-        double GetZoomLevelOnUI();
-
     protected:
         virtual void DoDispose(bool isDisposing) override
         {
@@ -103,21 +100,12 @@ namespace CefSharp
         void OnMouseMove(int x, int y, bool mouseLeave, CefEventFlags modifiers);
         void OnMouseButton(int x, int y, int mouseButtonType, bool mouseUp, int clickCount, CefEventFlags modifiers);
         void OnMouseWheel(int x, int y, int deltaX, int deltaY);
-        void Print();
-        void Find(int identifier, String^ searchText, bool forward, bool matchCase, bool findNext);
-        void StopFinding(bool clearSelection);
         virtual Task<JavascriptResponse^>^ EvaluateScriptAsync(int browserId, Int64 frameId, String^ script, Nullable<TimeSpan> timeout);
         virtual Task<JavascriptResponse^>^ EvaluateScriptAsync(String^ script, Nullable<TimeSpan> timeout);
-        Task<double>^ GetZoomLevelAsync();
-        void SetZoomLevel(double zoomLevel);
-        void ShowDevTools();
-        void CloseDevTools();
         void Resize(int width, int height);
         void NotifyMoveOrResizeStarted();
         void NotifyScreenInfoChanged();
         void RegisterJsObject(String^ name, Object^ object, bool lowerCaseJavascriptNames);
-        void ReplaceMisspelling(String^ word);
-        void AddWordToDictionary(String^ word);
         void OnDragTargetDragEnter(CefDragDataWrapper^ dragData, MouseEvent^ mouseEvent, DragOperationsMask allowedOperations);
         void OnDragTargetDragOver(MouseEvent^ mouseEvent, DragOperationsMask allowedOperations);
         void OnDragTargetDragLeave();
