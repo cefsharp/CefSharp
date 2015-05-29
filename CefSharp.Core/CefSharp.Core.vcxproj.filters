@@ -59,7 +59,7 @@
     <ClCompile Include="Internals\CefFrameWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CefBrowserHostWrapper.cpp">
+    <ClCompile Include="Internals\CefBrowserHostWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -163,7 +163,7 @@
     <ClInclude Include="ResourceHandlerResponse.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CefBrowserHostWrapper.h">
+    <ClInclude Include="Internals\CefBrowserHostWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
