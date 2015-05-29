@@ -103,6 +103,7 @@
     <Compile Include="Internals\IBrowserAdapter.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CefCursorType.cs" />
     <Compile Include="Internals\IntPtrExtensions.cs" />
     <Compile Include="Internals\JavascriptCallbackProxy.cs" />
     <Compile Include="Internals\JavascriptCallback.cs" />

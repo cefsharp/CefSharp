@@ -296,7 +296,7 @@ namespace CefSharp.Wpf
             UiThreadRunAsync(() => { popup.IsOpen = isOpen; });
         }
 
-        void IRenderWebBrowser.SetCursor(IntPtr handle)
+        void IRenderWebBrowser.SetCursor(IntPtr handle, CefCursorType type)
         {
             UiThreadRunAsync(() =>
             {
