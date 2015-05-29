@@ -46,7 +46,7 @@ namespace CefSharp
             // browser process.
             ///
             /*--cef()--*/
-            virtual CefRefPtr<CefBrowserHost> GetHost();
+            virtual IBrowserHost^ GetHost();
 
             ///
             // Returns true if the browser can navigate backwards.
@@ -189,10 +189,6 @@ namespace CefSharp
             ///
             /*--cef()--*/
             virtual bool SendProcessMessage(CefProcessId targetProcess, CefRefPtr<CefProcessMessage> message);
-
-            virtual void StartDownload(String^ url);
-
-            virtual void Print();
         };
     }
 }

@@ -6,16 +6,18 @@
 
 #include "Internals/CefFrameWrapper.h"
 #include "Internals/CefSharpBrowserWrapper.h"
+#include "CefBrowserHostWrapper.h"
 
 ///
 // Returns the browser host object. This method can only be called in the
 // browser process.
 ///
 /*--cef()--*/
-CefRefPtr<CefBrowserHost> CefSharpBrowserWrapper::GetHost()
+IBrowserHost^ CefSharpBrowserWrapper::GetHost()
 {
     ThrowIfDisposed();
-    return _browser->GetHost();
+
+    return gcnew CefBrowserHostWrapper(_browser->GetHost());
 }
 
 ///
@@ -231,18 +233,6 @@ bool CefSharpBrowserWrapper::SendProcessMessage(CefProcessId targetProcess, CefR
 {
     ThrowIfDisposed();
     return _browser->SendProcessMessage(targetProcess, message);
-}
-
-void CefSharpBrowserWrapper::StartDownload(String^ url)
-{
-    ThrowIfDisposed();
-    _browser->GetHost()->StartDownload(StringUtils::ToNative(url));
-}
-
-void CefSharpBrowserWrapper::Print()
-{
-    ThrowIfDisposed();
-    _browser->GetHost()->Print();
 }
 
 void CefSharpBrowserWrapper::ThrowIfDisposed()
