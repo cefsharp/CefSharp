@@ -10,6 +10,10 @@ namespace CefSharp
 {
     public static class WebBrowserExtensions
     {
+        /// <summary>
+        /// Execute Undo on the focused frame
+        /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         public static void Undo(this IWebBrowser browser)
         {
             var frame = browser.GetFocusedFrame();
@@ -21,6 +25,10 @@ namespace CefSharp
             frame.Dispose();
         }
 
+        /// <summary>
+        /// Execute Redo on the focused frame
+        /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         public static void Redo(this IWebBrowser browser)
         {
             var frame = browser.GetFocusedFrame();
@@ -32,6 +40,10 @@ namespace CefSharp
             frame.Dispose();
         }
 
+        /// <summary>
+        /// Execute Cut on the focused frame
+        /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         public static void Cut(this IWebBrowser browser)
         {
             var frame = browser.GetFocusedFrame();
@@ -43,6 +55,10 @@ namespace CefSharp
             frame.Dispose();
         }
 
+        /// <summary>
+        /// Execute Copy on the focused frame
+        /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         public static void Copy(this IWebBrowser browser)
         {
             var frame = browser.GetFocusedFrame();
@@ -54,6 +70,10 @@ namespace CefSharp
             frame.Dispose();
         }
 
+        /// <summary>
+        /// Execute Paste on the focused frame
+        /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         public static void Paste(this IWebBrowser browser)
         {
             var frame = browser.GetFocusedFrame();
@@ -65,6 +85,10 @@ namespace CefSharp
             frame.Dispose();
         }
 
+        /// <summary>
+        /// Execute Delete on the focused frame
+        /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         public static void Delete(this IWebBrowser browser)
         {
             var frame = browser.GetFocusedFrame();
@@ -76,6 +100,10 @@ namespace CefSharp
             frame.Dispose();
         }
 
+        /// <summary>
+        /// Execute SelectAll on the focused frame
+        /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         public static void SelectAll(this IWebBrowser browser)
         {
             var frame = browser.GetFocusedFrame();
@@ -91,6 +119,7 @@ namespace CefSharp
         /// Opens up a new program window (using the default text editor) where the source code of the currently displayed web
         /// page is shown.
         /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         public static void ViewSource(this IWebBrowser browser)
         {
             var frame = browser.GetMainFrame();
@@ -105,6 +134,7 @@ namespace CefSharp
         /// <summary>
         /// Retrieve the main frame's HTML source using a <see cref="Task{String}"/>.
         /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         /// <returns><see cref="Task{String}"/> that when executed returns the frame source as a string</returns>
         public static Task<string> GetSourceAsync(this IWebBrowser browser)
         {
@@ -118,6 +148,7 @@ namespace CefSharp
         /// <summary>
         /// Retrieve the main frame's display text using a <see cref="Task{String}"/>.
         /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         /// <returns><see cref="Task{String}"/> that when executed returns the frame display text as a string.</returns>
         public static Task<string> GetTextAsync(this IWebBrowser browser)
         {
@@ -132,7 +163,7 @@ namespace CefSharp
         /// Execute some Javascript code in the context of this WebBrowser. As the method name implies, the script will be
         /// executed asynchronously, and the method therefore returns before the script has actually been executed.
         /// </summary>
-        /// <param name="browser">the browser</param>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         /// <param name="script">The Javascript code that should be executed.</param>
         public static void ExecuteScriptAsync(this IWebBrowser browser, string script)
         {
@@ -145,6 +176,12 @@ namespace CefSharp
             frame.Dispose();
         }
 
+        /// <summary>
+        /// Load the string contents with the specified dummy url. Web security restrictions may not behave as expected. 
+        /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
+        /// <param name="html">html string to load</param>
+        /// <param name="url">the url should have a standard scheme (for example, http scheme) or behaviors like link clicks</param>
         public static void LoadString(this IWebBrowser browser, string html, string url)
         {
             var frame = browser.GetMainFrame();
@@ -167,7 +204,7 @@ namespace CefSharp
         /// The url must start with a valid schema, other uri's such as about:blank are invalid
         /// A valid example looks like http://test/page
         /// </remarks>
-        /// <param name="browser">The instance this method extends</param>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         /// <param name="html">The HTML content.</param>
         /// <param name="url">The URL that will be treated as the address of the content.</param>
         public static void LoadHtml(this IWebBrowser browser, string html, string url)
@@ -183,7 +220,7 @@ namespace CefSharp
         /// the provided HTML in a <see cref="ResourceHandler"/> and loads the provided url using
         /// the <see cref="IWebBrowser.Load"/> method.
         /// </remarks>
-        /// <param name="browser">The instance this method extends</param>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         /// <param name="html">The HTML content.</param>
         /// <param name="url">The URL that will be treated as the address of the content.</param>
         /// <param name="encoding">Character Encoding</param>
@@ -291,6 +328,7 @@ namespace CefSharp
         /// Otherwise, the change will be applied asynchronously on the CEF UI thread.
         /// The CEF UI thread is different to the WPF/WinForms UI Thread
         /// </remarks>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         /// <param name="zoomLevel">zoom level</param>
         public static void SetZoomLevel(this IWebBrowser browser, double zoomLevel)
         {
@@ -308,6 +346,7 @@ namespace CefSharp
         /// <summary>
         /// Search for text within the current page.
         /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         /// <param name="identifier">Can be used in can conjunction with searchText to have multiple
         /// searches running simultaneously.</param>
         /// <param name="searchText">search text</param>
@@ -330,6 +369,7 @@ namespace CefSharp
         /// <summary>
         /// Cancel all searches that are currently going on.
         /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         /// <param name="clearSelection">clear the current search selection</param>
         public static void StopFinding(this IWebBrowser browser, bool clearSelection)
         {
@@ -347,6 +387,7 @@ namespace CefSharp
         /// <summary>
         /// Opens a Print Dialog which if used (can be user cancelled) will print the browser contents.
         /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         public static void Print(this IWebBrowser browser)
         {
             var cefBrowser = browser.GetBrowser();
@@ -363,6 +404,7 @@ namespace CefSharp
         /// <summary>
         /// Open developer tools in its own window. 
         /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         public static void ShowDevTools(this IWebBrowser browser)
         {
             var cefBrowser = browser.GetBrowser();
@@ -379,6 +421,7 @@ namespace CefSharp
         /// <summary>
         /// Explicitly close the developer tools window if one exists for this browser instance.
         /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         public static void CloseDevTools(this IWebBrowser browser)
         {
             var cefBrowser = browser.GetBrowser();
@@ -396,6 +439,7 @@ namespace CefSharp
         /// If a misspelled word is currently selected in an editable node calling
         /// this method will replace it with the specified word. 
         /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         /// <param name="word">The new word that will replace the currently selected word.</param>
         public static void ReplaceMisspelling(this IWebBrowser browser, string word)
         {
@@ -413,6 +457,7 @@ namespace CefSharp
         /// <summary>
         /// Add the specified word to the spelling dictionary.
         /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         /// <param name="word">The new word that will be added to the dictionary.</param>
         public static void AddWordToDictionary(this IWebBrowser browser, string word)
         {
