@@ -17,7 +17,12 @@ IBrowserHost^ CefSharpBrowserWrapper::GetHost()
 {
     ThrowIfDisposed();
 
-    return gcnew CefBrowserHostWrapper(_browser->GetHost());
+    if(_browserHost == nullptr)
+    {
+        _browserHost = gcnew CefBrowserHostWrapper(_browser->GetHost());
+    }
+
+    return _browserHost;
 }
 
 ///

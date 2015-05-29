@@ -18,6 +18,7 @@ namespace CefSharp
         private:
             MCefRefPtr<CefBrowser> _browser;
             IBrowserAdapter^ _browserAdapter;
+            IBrowserHost^ _browserHost;
             bool _disposed;
 
         internal:
@@ -28,7 +29,10 @@ namespace CefSharp
 
             ~CefSharpBrowserWrapper() 
             {
+                delete _browserHost;
+
                 _browserAdapter = nullptr;
+                _browserHost = nullptr;
                 _disposed = true;
             }
 

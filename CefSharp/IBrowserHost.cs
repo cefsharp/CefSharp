@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CefSharp
 {
-    public interface IBrowserHost
+    public interface IBrowserHost : IDisposable
     {
         void StartDownload(string url);
         void Print();
