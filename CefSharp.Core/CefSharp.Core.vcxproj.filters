@@ -163,6 +163,9 @@
     <ClInclude Include="Internals\CefDownloadItemCallbackWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Internals\CefBeforeDownloadCallbackWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Internals\CefSharpBrowserWrapper.h">

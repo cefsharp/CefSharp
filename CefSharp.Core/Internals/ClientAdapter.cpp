@@ -16,6 +16,7 @@
 #include "include/internal/cef_types.h"
 #include "Internals/CefSharpBrowserWrapper.h"
 #include "Internals/CefDownloadItemCallbackWrapper.h"
+#include "Internals/CefBeforeDownloadCallbackWrapper.h"
 
 namespace CefSharp
 {
@@ -654,15 +655,12 @@ namespace CefSharp
             
             if(handler != nullptr)
             {
-                String^ downloadPath;
-                bool showDialog;
                 auto downloadItem = TypeConversion::FromNative(download_item);
                 downloadItem->SuggestedFileName = StringUtils::ToClr(suggested_name);
 
-                if (handler->OnBeforeDownload(gcnew CefSharpBrowserWrapper(browser, _browserAdapter), downloadItem, downloadPath, showDialog))
-                {
-                    callback->Continue(StringUtils::ToNative(downloadPath), showDialog);
-                }
+                auto callbackWrapper = gcnew CefBeforeDownloadCallbackWrapper(callback);
+
+                handler->OnBeforeDownload(gcnew CefSharpBrowserWrapper(browser, _browserAdapter), downloadItem, callbackWrapper);
             }
         };
 
