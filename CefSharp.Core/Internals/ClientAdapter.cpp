@@ -579,15 +579,9 @@ namespace CefSharp
                 return false;
             }
 
-            bool allowUnload;
+            auto dialogCallback = gcnew JsDialogCallback(callback);
 
-            auto handled = handler->OnJSBeforeUnload(_browserControl, StringUtils::ToClr(message_text), is_reload, allowUnload);
-            if (handled)
-            {
-                callback->Continue(allowUnload, CefString());
-            }
-
-            return handled;
+            return handler->OnJSBeforeUnload(_browserControl, StringUtils::ToClr(message_text), is_reload, dialogCallback);
         }
 
         bool ClientAdapter::OnFileDialog(CefRefPtr<CefBrowser> browser, FileDialogMode mode, const CefString& title,

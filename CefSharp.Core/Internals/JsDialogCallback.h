@@ -31,6 +31,11 @@ namespace CefSharp
             {
                 _callback->Continue(success, StringUtils::ToNative(userInput));
             }
+
+            virtual void Continue(bool success)
+            {
+                _callback->Continue(success, CefString());
+            }
         };
     }
 }

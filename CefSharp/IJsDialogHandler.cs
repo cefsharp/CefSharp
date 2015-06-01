@@ -28,8 +28,8 @@ namespace CefSharp
         /// <param name="browser">the browser object</param>
         /// <param name="message">message (optional)</param>
         /// <param name="isReload">indicates a page reload</param>
-        /// <param name="allowUnload">True to allow unload, otherwise False</param>
+        /// <param name="callback">Callback can be executed inline or in an async fashion</param>
         /// <returns>Return false to use the default dialog implementation otherwise return true to handle</returns>
-        bool OnJSBeforeUnload(IWebBrowser browser, string message, bool isReload, out bool allowUnload);
+        bool OnJSBeforeUnload(IWebBrowser browser, string message, bool isReload, IJsDialogCallback callback);
     }
 }
