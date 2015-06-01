@@ -243,6 +243,7 @@
   <ItemGroup>
     <ClInclude Include="BrowserSettings.h" />
     <ClInclude Include="Cef.h" />
+    <ClInclude Include="CefDownloadItemCallbackWrapper.h" />
     <ClInclude Include="Internals\AutoLock.h" />
     <ClInclude Include="Internals\CefBrowserHostWrapper.h" />
     <ClInclude Include="Internals\CefContextMenuParamsWrapper.h" />

@@ -10,9 +10,9 @@
             return true;
         }
 
-        public bool OnDownloadUpdated(IBrowser browser, DownloadItem downloadItem)
+        public void OnDownloadUpdated(IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback)
         {
-            return false;
+            
         }
     }
 }

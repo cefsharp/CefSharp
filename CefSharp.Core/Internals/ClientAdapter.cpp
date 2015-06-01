@@ -15,6 +15,7 @@
 #include "include/wrapper/cef_stream_resource_handler.h"
 #include "include/internal/cef_types.h"
 #include "Internals/CefSharpBrowserWrapper.h"
+#include "CefDownloadItemCallbackWrapper.h"
 
 namespace CefSharp
 {
@@ -679,10 +680,7 @@ namespace CefSharp
 
             if(handler != nullptr)
             {
-                if (handler->OnDownloadUpdated(gcnew CefSharpBrowserWrapper(browser, _browserAdapter), TypeConversion::FromNative(download_item)))
-                {
-                    callback->Cancel();
-                }
+                handler->OnDownloadUpdated(gcnew CefSharpBrowserWrapper(browser, _browserAdapter), TypeConversion::FromNative(download_item), gcnew CefDownloadItemCallbackWrapper(callback));
             }
         }
     }
