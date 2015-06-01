@@ -15,7 +15,7 @@
 #include "include/wrapper/cef_stream_resource_handler.h"
 #include "include/internal/cef_types.h"
 #include "Internals/CefSharpBrowserWrapper.h"
-#include "CefDownloadItemCallbackWrapper.h"
+#include "Internals/CefDownloadItemCallbackWrapper.h"
 
 namespace CefSharp
 {

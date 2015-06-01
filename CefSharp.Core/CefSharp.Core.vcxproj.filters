@@ -160,7 +160,7 @@
     <ClInclude Include="Internals\CefBrowserHostWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CefDownloadItemCallbackWrapper.h">
+    <ClInclude Include="Internals\CefDownloadItemCallbackWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
