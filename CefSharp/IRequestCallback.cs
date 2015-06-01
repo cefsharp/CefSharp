@@ -6,7 +6,7 @@ using System;
 
 namespace CefSharp
 {
-	public interface IRequestCallback : IDisposable
+    public interface IRequestCallback : IDisposable
     {
         /// <summary>
         /// Continue the url request. 

@@ -17,6 +17,7 @@ namespace CefSharp.Example
         {
             //To allow certificate
             //callback.Continue(true);
+            //callback.Dispose();
             //return true;
 
             return false;
@@ -37,6 +38,7 @@ namespace CefSharp.Example
 
             //Callback in async fashion
             //callback.Continue(true);
+            //callback.Dispose();
             //return CefReturnValue.ContinueAsync;
 
             return CefReturnValue.Continue;
@@ -68,6 +70,7 @@ namespace CefSharp.Example
         {
             //Accept Request to raise Quota
             //callback.Continue(true);
+            //callback.Dispose();
             //return true;
 
             return false;
