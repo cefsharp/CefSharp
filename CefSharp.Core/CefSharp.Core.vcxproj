@@ -227,7 +227,6 @@
     <ClCompile Include="Internals\CompletionHandler.cpp" />
     <ClCompile Include="Internals\CookieVisitor.cpp" />
     <ClCompile Include="Internals\CefRequestWrapper.cpp" />
-    <ClCompile Include="Internals\DownloadAdapter.cpp" />
     <ClCompile Include="Internals\StringVisitor.cpp" />
     <ClCompile Include="ManagedCefBrowserAdapter.cpp" />
     <ClCompile Include="NativeMethodWrapper.cpp" />
@@ -253,7 +252,6 @@
     <ClInclude Include="Internals\CefTaskScheduler.h" />
     <ClInclude Include="Internals\CefTaskWrapper.h" />
     <ClInclude Include="Internals\CompletionHandler.h" />
-    <ClInclude Include="Internals\DownloadAdapter.h" />
     <ClInclude Include="Internals\ClientAdapter.h" />
     <ClInclude Include="Internals\CookieVisitor.h" />
     <ClInclude Include="Internals\CefSharpApp.h" />

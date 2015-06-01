@@ -8,7 +8,6 @@
 #include "Internals/CefContextMenuParamsWrapper.h"
 #include "Internals/CefDragDataWrapper.h"
 #include "ClientAdapter.h"
-#include "DownloadAdapter.h"
 #include "StreamAdapter.h"
 #include "JsDialogCallback.h"
 #include "RequestCallback.h"
@@ -460,17 +459,6 @@ namespace CefSharp
             return (cef_return_value_t)handler->OnBeforeResourceLoad(_browserControl, requestWrapper, gcnew CefFrameWrapper(frame, _browserAdapter), requestCallback);
         }
 
-        CefRefPtr<CefDownloadHandler> ClientAdapter::GetDownloadHandler()
-        {
-            IDownloadHandler^ downloadHandler = _browserControl->DownloadHandler;
-            if (downloadHandler == nullptr)
-            {
-                return nullptr;
-            }
-
-            return new DownloadAdapter(downloadHandler);
-        }
-
         bool ClientAdapter::GetAuthCredentials(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, bool isProxy,
             const CefString& host, int port, const CefString& realm, const CefString& scheme, CefRefPtr<CefAuthCallback> callback)
         {
@@ -662,6 +650,39 @@ namespace CefSharp
             if (handler != nullptr)
             {
                 handler->OnCancelGeolocationPermission(_browserControl, StringUtils::ToClr(requesting_url), request_id);
+            }
+        }
+
+        void ClientAdapter::OnBeforeDownload(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDownloadItem> download_item,
+            const CefString& suggested_name, CefRefPtr<CefBeforeDownloadCallback> callback)
+        {
+            auto handler = _browserControl->DownloadHandler;
+            
+            if(handler != nullptr)
+            {
+                String^ downloadPath;
+                bool showDialog;
+                auto downloadItem = TypeConversion::FromNative(download_item);
+                downloadItem->SuggestedFileName = StringUtils::ToClr(suggested_name);
+
+                if (handler->OnBeforeDownload(gcnew CefSharpBrowserWrapper(browser, _browserAdapter), downloadItem, downloadPath, showDialog))
+                {
+                    callback->Continue(StringUtils::ToNative(downloadPath), showDialog);
+                }
+            }
+        };
+
+        void ClientAdapter::OnDownloadUpdated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDownloadItem> download_item,
+            CefRefPtr<CefDownloadItemCallback> callback)
+        {
+            auto handler = _browserControl->DownloadHandler;
+
+            if(handler != nullptr)
+            {
+                if (handler->OnDownloadUpdated(gcnew CefSharpBrowserWrapper(browser, _browserAdapter), TypeConversion::FromNative(download_item)))
+                {
+                    callback->Cancel();
+                }
             }
         }
     }
