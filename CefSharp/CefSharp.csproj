@@ -101,6 +101,7 @@
     <Compile Include="IBrowserHost.cs" />
     <Compile Include="IDownloadItemCallback.cs" />
     <Compile Include="IFrame.cs" />
+    <Compile Include="IGeolocationCallback.cs" />
     <Compile Include="IJavascriptCallback.cs" />
     <Compile Include="IJsDialogCallback.cs" />
     <Compile Include="Internals\IBrowserAdapter.cs">

@@ -17,6 +17,7 @@
 #include "Internals/CefSharpBrowserWrapper.h"
 #include "Internals/CefDownloadItemCallbackWrapper.h"
 #include "Internals/CefBeforeDownloadCallbackWrapper.h"
+#include "Internals/CefGeolocationCallbackWrapper.h"
 
 namespace CefSharp
 {
@@ -630,13 +631,9 @@ namespace CefSharp
                 return false;
             }
 
-            if (handler->OnRequestGeolocationPermission(_browserControl, StringUtils::ToClr(requesting_url), request_id))
-            {
-                callback->Continue(true);
-                return true;
-            }
+            auto callbackWrapper = gcnew CefGeolocationCallbackWrapper(callback);
 
-            return false;
+            return handler->OnRequestGeolocationPermission(_browserControl, StringUtils::ToClr(requesting_url), request_id, callbackWrapper);
         }
 
         void ClientAdapter::OnCancelGeolocationPermission(CefRefPtr<CefBrowser> browser, const CefString& requesting_url, int request_id)
