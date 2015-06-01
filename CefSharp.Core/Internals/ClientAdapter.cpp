@@ -18,6 +18,7 @@
 #include "Internals/CefDownloadItemCallbackWrapper.h"
 #include "Internals/CefBeforeDownloadCallbackWrapper.h"
 #include "Internals/CefGeolocationCallbackWrapper.h"
+#include "Internals/CefFileDialogCallbackWrapper.h"
 
 namespace CefSharp
 {
@@ -597,15 +598,9 @@ namespace CefSharp
                 return false;
             }
 
-            List<System::String ^>^ filePaths = nullptr;
+            auto callbackWrapper = gcnew CefFileDialogCallbackWrapper(callback);
 
-            if(handler->OnFileDialog(_browserControl, (CefFileDialogMode)mode, StringUtils::ToClr(title), StringUtils::ToClr(default_file_path), StringUtils::ToClr(accept_filters), selected_accept_filter, filePaths))
-            {
-                callback->Continue(selected_accept_filter, StringUtils::ToNative(filePaths));
-                return true;
-            }
-
-            return false;
+            return handler->OnFileDialog(_browserControl, (CefFileDialogMode)mode, StringUtils::ToClr(title), StringUtils::ToClr(default_file_path), StringUtils::ToClr(accept_filters), selected_accept_filter, callbackWrapper);
         }
 
         bool ClientAdapter::OnDragEnter(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDragData> dragData, DragOperationsMask mask)
