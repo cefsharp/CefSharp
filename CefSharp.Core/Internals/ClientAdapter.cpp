@@ -27,8 +27,7 @@ namespace CefSharp
             {
                 for each (IBrowser^ browser in _popupBrowsers->Values)
                 {
-                    
-                    (dynamic_cast<CefSharpBrowserWrapper^>(browser))->GetHost()->CloseBrowser(forceClose);
+                    browser->GetHost()->CloseBrowser(forceClose);
                 }
             }
         }
