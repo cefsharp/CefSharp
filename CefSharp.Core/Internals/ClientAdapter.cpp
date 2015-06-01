@@ -19,6 +19,7 @@
 #include "Internals/CefBeforeDownloadCallbackWrapper.h"
 #include "Internals/CefGeolocationCallbackWrapper.h"
 #include "Internals/CefFileDialogCallbackWrapper.h"
+#include "Internals/CefAuthCallbackWrapper.h"
 
 namespace CefSharp
 {
@@ -471,35 +472,9 @@ namespace CefSharp
                 return false;
             }
 
-            String^ usernameString = nullptr;
-            String^ passwordString = nullptr;
-            bool handled = handler->GetAuthCredentials(_browserControl, gcnew CefFrameWrapper(frame, _browserAdapter), isProxy, StringUtils::ToClr(host), port, StringUtils::ToClr(realm), StringUtils::ToClr(scheme), usernameString, passwordString);
+            auto callbackWrapper = gcnew CefAuthCallbackWrapper(callback);
 
-            if (handled)
-            {
-                CefString username;
-                CefString password;
-
-                if (usernameString != nullptr)
-                {
-                    username = StringUtils::ToNative(usernameString);
-                }
-
-                if (passwordString != nullptr)
-                {
-                    password = StringUtils::ToNative(passwordString);
-                }
-
-                callback->Continue(username, password);
-            }
-            else
-            {
-                // TOOD: Should we call Cancel() here or not? At first glance, I believe we should since there will otherwise be no
-                // way to cancel the auth request from an IRequestHandler.
-                callback->Cancel();
-            }
-
-            return handled;
+            return handler->GetAuthCredentials(_browserControl, gcnew CefFrameWrapper(frame, _browserAdapter), isProxy, StringUtils::ToClr(host), port, StringUtils::ToClr(realm), StringUtils::ToClr(scheme), callbackWrapper);
         }
 
         void ClientAdapter::OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,

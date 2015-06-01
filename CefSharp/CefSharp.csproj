@@ -94,6 +94,7 @@
     <Compile Include="CefReturnValue.cs" />
     <Compile Include="CefThreadIds.cs" />
     <Compile Include="Cookie.cs" />
+    <Compile Include="IAuthCallback.cs" />
     <Compile Include="IBeforeDownloadCallback.cs" />
     <Compile Include="DefaultResourceHandlerFactory.cs" />
     <Compile Include="DependencyChecker.cs" />
