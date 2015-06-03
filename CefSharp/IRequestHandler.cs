@@ -51,6 +51,7 @@ namespace CefSharp
         /// Called before a resource request is loaded. For async processing return <see cref="CefReturnValue.ContinueAsync"/> 
         /// and execute <see cref="IRequestCallback.Continue"/> or <see cref="IRequestCallback.Cancel"/>
         /// </summary>
+        /// <param name="browserControl">The browser control</param>
         /// <param name="browser">the browser object</param>
         /// <param name="request">the request object - can be modified in this callback.</param>
         /// <param name="frame">The frame object</param>
@@ -58,7 +59,7 @@ namespace CefSharp
         /// <returns>To cancel loading of the resource return <see cref="CefReturnValue.Cancel"/>
         /// or <see cref="CefReturnValue.Continue"/> to allow the resource to load normally. For async
         /// return <see cref="CefReturnValue.ContinueAsync"/></returns>
-        CefReturnValue OnBeforeResourceLoad(IWebBrowser browser, IRequest request, IFrame frame, IRequestCallback callback);
+        CefReturnValue OnBeforeResourceLoad(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IRequestCallback callback);
         
         /// <summary>
         /// Called when the browser needs credentials from the user.

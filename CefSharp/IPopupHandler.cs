@@ -62,6 +62,29 @@ namespace CefSharp
         /// <returns>Return true to cancel the navigation or false to allow the navigation to proceed.</returns>
         bool OnBeforeBrowse(IWebBrowser browserControl, IBrowser browser, IRequest request, bool isRedirect, IFrame frame);
 
+        /// <summary>
+        /// Called on the IO thread when a resource load is redirected. The |old_url| parameter will contain . . 
+        /// </summary>
+        /// <param name="browserControl">The browser control</param>
+        /// <param name="browser">the browser object</param>
+        /// <param name="frame">The frame that is being redirected.</param>
+        /// <param name="newUrl">the new URL and can be changed if desired</param>
+        void OnResourceRedirect(IWebBrowser browserControl, IBrowser browser, IFrame frame, ref string newUrl);
+
+        /// <summary>
+        /// Called before a resource request is loaded. For async processing return <see cref="CefReturnValue.ContinueAsync"/> 
+        /// and execute <see cref="IRequestCallback.Continue"/> or <see cref="IRequestCallback.Cancel"/>
+        /// </summary>
+        /// <param name="browserControl">The browser control</param>
+        /// <param name="browser">the browser object</param>
+        /// <param name="request">the request object - can be modified in this callback.</param>
+        /// <param name="frame">The frame object</param>
+        /// <param name="callback">Callback interface used for asynchronous continuation of url requests.</param>
+        /// <returns>To cancel loading of the resource return <see cref="CefReturnValue.Cancel"/>
+        /// or <see cref="CefReturnValue.Continue"/> to allow the resource to load normally. For async
+        /// return <see cref="CefReturnValue.ContinueAsync"/></returns>
+        CefReturnValue OnBeforeResourceLoad(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IRequestCallback callback);
+
         #endregion
     }
 }

@@ -27,7 +27,7 @@ namespace CefSharp.Example
             // TODO: Add your own code here for handling scenarios where a plugin crashed, for one reason or another.
         }
 
-        CefReturnValue IRequestHandler.OnBeforeResourceLoad(IWebBrowser browser, IRequest request, IFrame frame, IRequestCallback callback)
+        CefReturnValue IRequestHandler.OnBeforeResourceLoad(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IRequestCallback callback)
         {
             //Note to Redirect simply set the request Url
             //if (request.Url.StartsWith("https://www.google.com", StringComparison.OrdinalIgnoreCase))
