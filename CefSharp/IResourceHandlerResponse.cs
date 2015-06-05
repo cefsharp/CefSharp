@@ -53,7 +53,11 @@ namespace CefSharp
         /// <summary>
         /// Execute this method when processing is complete. Can be called on any thread.
         /// </summary>
-        /// <param name="cancel">True to cancel the request or False to continue.</param>
-        void ProcessRequestCallback(bool cancel);
+        void Continue();
+
+        /// <summary>
+        /// Execute this method to cancel processing. Can be called on any thread.
+        /// </summary>
+        void Cancel();
     }
 }
