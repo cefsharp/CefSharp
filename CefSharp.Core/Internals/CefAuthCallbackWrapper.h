@@ -29,11 +29,15 @@ namespace CefSharp
         virtual void Cancel()
         {
             _callback->Cancel();
+
+            _callback = NULL;
         }
 
         virtual void Continue(String^ username, String^ password)
         {
             _callback->Continue(StringUtils::ToNative(username), StringUtils::ToNative(password));
+
+            _callback = NULL;
         }
     };
 }

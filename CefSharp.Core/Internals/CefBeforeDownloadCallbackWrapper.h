@@ -29,6 +29,8 @@ namespace CefSharp
         virtual void Continue(String^ downloadPath, bool showDialog)
         {
             _callback->Continue(StringUtils::ToNative(downloadPath), showDialog);
+
+            _callback = NULL;
         }
     };
 }

@@ -30,11 +30,15 @@ namespace CefSharp
             virtual void Continue(bool allow)
             {
                 _callback->Continue(allow);
+
+                _callback = NULL;
             }
 
             virtual void Cancel()
             {
                 _callback->Cancel();
+
+                _callback = NULL;
             }
         };
     }

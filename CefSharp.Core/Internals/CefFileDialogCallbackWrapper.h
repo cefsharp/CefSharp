@@ -29,11 +29,15 @@ namespace CefSharp
         virtual void Continue(int selectedAcceptFilter, List<String^>^ filePaths)
         {
             _callback->Continue(selectedAcceptFilter, StringUtils::ToNative(filePaths));
+
+            _callback = NULL;
         }
         
         virtual void Cancel()
         {
             _callback->Cancel();
+
+            _callback = NULL;
         }
     };
 }
