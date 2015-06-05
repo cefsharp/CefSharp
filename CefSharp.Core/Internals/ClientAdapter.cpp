@@ -2,23 +2,22 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-#include "Stdafx.h"
-
-#include "Internals/CefRequestWrapper.h"
-#include "Internals/CefContextMenuParamsWrapper.h"
-#include "Internals/CefDragDataWrapper.h"
-#include "ClientAdapter.h"
-#include "CefJSDialogCallbackWrapper.h"
-#include "CefRequestCallbackWrapper.h"
-#include "Internals/TypeConversion.h"
 #include "include/wrapper/cef_stream_resource_handler.h"
-#include "include/internal/cef_types.h"
-#include "Internals/CefSharpBrowserWrapper.h"
+
+#include "Stdafx.h"
+#include "ClientAdapter.h"
+#include "CefRequestWrapper.h"
+#include "CefContextMenuParamsWrapper.h"
+#include "CefDragDataWrapper.h"
+#include "TypeConversion.h"
+#include "CefSharpBrowserWrapper.h"
 #include "CefDownloadItemCallbackWrapper.h"
 #include "CefBeforeDownloadCallbackWrapper.h"
 #include "CefGeolocationCallbackWrapper.h"
 #include "CefFileDialogCallbackWrapper.h"
 #include "CefAuthCallbackWrapper.h"
+#include "CefJSDialogCallbackWrapper.h"
+#include "CefRequestCallbackWrapper.h"
 
 namespace CefSharp
 {
