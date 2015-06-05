@@ -17,6 +17,7 @@ namespace CefSharp.Example
         {
             //To allow certificate
             //callback.Continue(true);
+            //callback.Dispose();
             //return true;
 
             return false;
@@ -37,12 +38,13 @@ namespace CefSharp.Example
 
             //Callback in async fashion
             //callback.Continue(true);
+            //callback.Dispose();
             //return CefReturnValue.ContinueAsync;
 
             return CefReturnValue.Continue;
         }
 
-        bool IRequestHandler.GetAuthCredentials(IWebBrowser browser, IFrame frame, bool isProxy, string host, int port, string realm, string scheme, ref string username, ref string password)
+        bool IRequestHandler.GetAuthCredentials(IWebBrowser browser, IFrame frame, bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback)
         {
             return false;
         }
@@ -68,6 +70,7 @@ namespace CefSharp.Example
         {
             //Accept Request to raise Quota
             //callback.Continue(true);
+            //callback.Dispose();
             //return true;
 
             return false;

@@ -33,8 +33,8 @@ namespace CefSharp
         /// (b) individual file extensions (e.g. ".txt" or ".png"),
         /// (c) combined description and file extension delimited using "|" and ";" (e.g. "Image Types|.png;.gif;.jpg").</param>
         /// <param name="selectedAcceptFilter">is the 0-based index of the filter that should be selected by default.</param>
-        /// <param name="result">the filename(s) the dialog returns</param>
+        /// <param name="callback">Callback interface for asynchronous continuation of file dialog requests.</param>
         /// <returns>To display a custom dialog return true. To display the default dialog return false.</returns>
-        bool OnFileDialog(IWebBrowser browser, CefFileDialogMode mode, string title, string defaultFilePath, List<string> acceptFilters, out int selectedAcceptFilter, out List<string> result);
+        bool OnFileDialog(IWebBrowser browser, CefFileDialogMode mode, string title, string defaultFilePath, List<string> acceptFilters, int selectedAcceptFilter, IFileDialogCallback callback);
     }
 }

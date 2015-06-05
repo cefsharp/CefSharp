@@ -27,9 +27,14 @@ namespace CefSharp
             _factory = nullptr;
         }
 
-        virtual CefRefPtr<CefResourceHandler> Create(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& scheme_name, CefRefPtr<CefRequest> request) OVERRIDE
+        virtual CefRefPtr<CefResourceHandler> Create(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& schemeName, CefRefPtr<CefRequest> request) OVERRIDE
         {
-            auto handler = _factory->Create();
+            CefSharpBrowserWrapper browserWrapper(browser, nullptr);
+            CefFrameWrapper frameWrapper(frame, nullptr);
+            CefRequestWrapper requestWrapper(request);
+
+            auto handler = _factory->Create(%browserWrapper, %frameWrapper, StringUtils::ToClr(schemeName), %requestWrapper);
+
             CefRefPtr<ResourceHandlerWrapper> wrapper = new ResourceHandlerWrapper(handler);
             return static_cast<CefRefPtr<CefResourceHandler>>(wrapper);
         }

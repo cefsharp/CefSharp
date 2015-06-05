@@ -7,10 +7,10 @@
             return false;
         }
 
-        public bool OnJSBeforeUnload(IWebBrowser browser, string message, bool isReload, out bool allowUnload)
+        public bool OnJSBeforeUnload(IWebBrowser browser, string message, bool isReload, IJsDialogCallback callback)
         {
-            //NOTE: Setting allowUnload to false will cancel the unload request
-            allowUnload = false;
+            //NOTE: No need to execute the callback if you return false
+            // callback.Continue(true);
 
             //NOTE: Returning false will trigger the default behaviour, you need to return true to handle yourself.
             return false;

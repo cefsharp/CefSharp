@@ -57,7 +57,7 @@ namespace CefSharp
         /// or <see cref="CefReturnValue.Continue"/> to allow the resource to load normally. For async
         /// return <see cref="CefReturnValue.ContinueAsync"/></returns>
         CefReturnValue OnBeforeResourceLoad(IWebBrowser browser, IRequest request, IFrame frame, IRequestCallback callback);
-        
+
         /// <summary>
         /// Called when the browser needs credentials from the user.
         /// </summary>
@@ -68,10 +68,9 @@ namespace CefSharp
         /// <param name="port">port number</param>
         /// <param name="realm">realm</param>
         /// <param name="scheme">scheme</param>
-        /// <param name="username">requested username</param>
-        /// <param name="password">requested password</param>
+        /// <param name="callback">Callback interface used for asynchronous continuation of authentication requests.</param>
         /// <returns>Return true to continue the request and call CefAuthCallback::Continue() when the authentication information is available. Return false to cancel the request. </returns>
-        bool GetAuthCredentials(IWebBrowser browser, IFrame frame, bool isProxy, string host, int port, string realm, string scheme, ref string username, ref string password);
+        bool GetAuthCredentials(IWebBrowser browser, IFrame frame, bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback);
 
         /// <summary>
         /// Called on the browser process IO thread before a plugin is loaded.

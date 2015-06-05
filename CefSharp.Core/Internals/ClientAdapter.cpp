@@ -2,20 +2,22 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-#include "Stdafx.h"
-
-#include "Internals/CefRequestWrapper.h"
-#include "Internals/CefContextMenuParamsWrapper.h"
-#include "Internals/CefDragDataWrapper.h"
-#include "ClientAdapter.h"
-#include "DownloadAdapter.h"
-#include "StreamAdapter.h"
-#include "JsDialogCallback.h"
-#include "RequestCallback.h"
-#include "Internals/TypeConversion.h"
 #include "include/wrapper/cef_stream_resource_handler.h"
-#include "include/internal/cef_types.h"
-#include "Internals/CefSharpBrowserWrapper.h"
+
+#include "Stdafx.h"
+#include "ClientAdapter.h"
+#include "CefRequestWrapper.h"
+#include "CefContextMenuParamsWrapper.h"
+#include "CefDragDataWrapper.h"
+#include "TypeConversion.h"
+#include "CefSharpBrowserWrapper.h"
+#include "CefDownloadItemCallbackWrapper.h"
+#include "CefBeforeDownloadCallbackWrapper.h"
+#include "CefGeolocationCallbackWrapper.h"
+#include "CefFileDialogCallbackWrapper.h"
+#include "CefAuthCallbackWrapper.h"
+#include "CefJSDialogCallbackWrapper.h"
+#include "CefRequestCallbackWrapper.h"
 
 namespace CefSharp
 {
@@ -27,8 +29,7 @@ namespace CefSharp
             {
                 for each (IBrowser^ browser in _popupBrowsers->Values)
                 {
-                    
-                    (dynamic_cast<CefSharpBrowserWrapper^>(browser))->GetHost()->CloseBrowser(forceClose);
+                    browser->GetHost()->CloseBrowser(forceClose);
                 }
             }
         }
@@ -344,7 +345,7 @@ namespace CefSharp
 
             // If callback is empty the error cannot be recovered from and the request will be canceled automatically.
             // Still notify the user of the certificate error just don't provide a callback.
-            auto requestCallback = callback == NULL ? nullptr : gcnew RequestCallback(callback);
+            auto requestCallback = callback == NULL ? nullptr : gcnew CefRequestCallbackWrapper(callback);
 
             return handler->OnCertificateError(_browserControl, (CefErrorCode)cert_error, StringUtils::ToClr(request_url), requestCallback);
         }
@@ -357,7 +358,7 @@ namespace CefSharp
                 return false;
             }
             
-            auto requestCallback = gcnew RequestCallback(callback);
+            auto requestCallback = gcnew CefRequestCallbackWrapper(callback);
 
             return handler->OnQuotaRequest(_browserControl, StringUtils::ToClr(originUrl), newSize, requestCallback);
         }
@@ -455,20 +456,9 @@ namespace CefSharp
             }
 
             auto requestWrapper = gcnew CefRequestWrapper(request);
-            auto requestCallback = gcnew RequestCallback(callback);
+            auto requestCallback = gcnew CefRequestCallbackWrapper(callback);
 
             return (cef_return_value_t)handler->OnBeforeResourceLoad(_browserControl, requestWrapper, gcnew CefFrameWrapper(frame, _browserAdapter), requestCallback);
-        }
-
-        CefRefPtr<CefDownloadHandler> ClientAdapter::GetDownloadHandler()
-        {
-            IDownloadHandler^ downloadHandler = _browserControl->DownloadHandler;
-            if (downloadHandler == nullptr)
-            {
-                return nullptr;
-            }
-
-            return new DownloadAdapter(downloadHandler);
         }
 
         bool ClientAdapter::GetAuthCredentials(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, bool isProxy,
@@ -480,35 +470,9 @@ namespace CefSharp
                 return false;
             }
 
-            String^ usernameString = nullptr;
-            String^ passwordString = nullptr;
-            bool handled = handler->GetAuthCredentials(_browserControl, gcnew CefFrameWrapper(frame, _browserAdapter), isProxy, StringUtils::ToClr(host), port, StringUtils::ToClr(realm), StringUtils::ToClr(scheme), usernameString, passwordString);
+            auto callbackWrapper = gcnew CefAuthCallbackWrapper(callback);
 
-            if (handled)
-            {
-                CefString username;
-                CefString password;
-
-                if (usernameString != nullptr)
-                {
-                    username = StringUtils::ToNative(usernameString);
-                }
-
-                if (passwordString != nullptr)
-                {
-                    password = StringUtils::ToNative(passwordString);
-                }
-
-                callback->Continue(username, password);
-            }
-            else
-            {
-                // TOOD: Should we call Cancel() here or not? At first glance, I believe we should since there will otherwise be no
-                // way to cancel the auth request from an IRequestHandler.
-                callback->Cancel();
-            }
-
-            return handled;
+            return handler->GetAuthCredentials(_browserControl, gcnew CefFrameWrapper(frame, _browserAdapter), isProxy, StringUtils::ToClr(host), port, StringUtils::ToClr(realm), StringUtils::ToClr(scheme), callbackWrapper);
         }
 
         void ClientAdapter::OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
@@ -576,10 +540,10 @@ namespace CefSharp
                 return false;
             }
 
-            auto dialogCallback = gcnew JsDialogCallback(callback);
+            auto callbackWrapper = gcnew CefJSDialogCallbackWrapper(callback);
 
             return handler->OnJSDialog(_browserControl, StringUtils::ToClr(origin_url), StringUtils::ToClr(accept_lang), (CefJsDialogType)dialog_type, 
-                                        StringUtils::ToClr(message_text), StringUtils::ToClr(default_prompt_text), dialogCallback, suppress_message);
+                                        StringUtils::ToClr(message_text), StringUtils::ToClr(default_prompt_text), callbackWrapper, suppress_message);
         }
 
         bool ClientAdapter::OnBeforeUnloadDialog(CefRefPtr<CefBrowser> browser, const CefString& message_text, bool is_reload, CefRefPtr<CefJSDialogCallback> callback)
@@ -591,15 +555,9 @@ namespace CefSharp
                 return false;
             }
 
-            bool allowUnload;
+            auto callbackWrapper = gcnew CefJSDialogCallbackWrapper(callback);
 
-            auto handled = handler->OnJSBeforeUnload(_browserControl, StringUtils::ToClr(message_text), is_reload, allowUnload);
-            if (handled)
-            {
-                callback->Continue(allowUnload, CefString());
-            }
-
-            return handled;
+            return handler->OnJSBeforeUnload(_browserControl, StringUtils::ToClr(message_text), is_reload, callbackWrapper);
         }
 
         bool ClientAdapter::OnFileDialog(CefRefPtr<CefBrowser> browser, FileDialogMode mode, const CefString& title,
@@ -613,15 +571,9 @@ namespace CefSharp
                 return false;
             }
 
-            List<System::String ^>^ filePaths = nullptr;
+            auto callbackWrapper = gcnew CefFileDialogCallbackWrapper(callback);
 
-            if(handler->OnFileDialog(_browserControl, (CefFileDialogMode)mode, StringUtils::ToClr(title), StringUtils::ToClr(default_file_path), StringUtils::ToClr(accept_filters), selected_accept_filter, filePaths))
-            {
-                callback->Continue(selected_accept_filter, StringUtils::ToNative(filePaths));
-                return true;
-            }
-
-            return false;
+            return handler->OnFileDialog(_browserControl, (CefFileDialogMode)mode, StringUtils::ToClr(title), StringUtils::ToClr(default_file_path), StringUtils::ToClr(accept_filters), selected_accept_filter, callbackWrapper);
         }
 
         bool ClientAdapter::OnDragEnter(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDragData> dragData, DragOperationsMask mask)
@@ -647,13 +599,9 @@ namespace CefSharp
                 return false;
             }
 
-            if (handler->OnRequestGeolocationPermission(_browserControl, StringUtils::ToClr(requesting_url), request_id))
-            {
-                callback->Continue(true);
-                return true;
-            }
+            auto callbackWrapper = gcnew CefGeolocationCallbackWrapper(callback);
 
-            return false;
+            return handler->OnRequestGeolocationPermission(_browserControl, StringUtils::ToClr(requesting_url), request_id, callbackWrapper);
         }
 
         void ClientAdapter::OnCancelGeolocationPermission(CefRefPtr<CefBrowser> browser, const CefString& requesting_url, int request_id)
@@ -662,6 +610,33 @@ namespace CefSharp
             if (handler != nullptr)
             {
                 handler->OnCancelGeolocationPermission(_browserControl, StringUtils::ToClr(requesting_url), request_id);
+            }
+        }
+
+        void ClientAdapter::OnBeforeDownload(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDownloadItem> download_item,
+            const CefString& suggested_name, CefRefPtr<CefBeforeDownloadCallback> callback)
+        {
+            auto handler = _browserControl->DownloadHandler;
+            
+            if(handler != nullptr)
+            {
+                auto downloadItem = TypeConversion::FromNative(download_item);
+                downloadItem->SuggestedFileName = StringUtils::ToClr(suggested_name);
+
+                auto callbackWrapper = gcnew CefBeforeDownloadCallbackWrapper(callback);
+
+                handler->OnBeforeDownload(gcnew CefSharpBrowserWrapper(browser, _browserAdapter), downloadItem, callbackWrapper);
+            }
+        };
+
+        void ClientAdapter::OnDownloadUpdated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDownloadItem> download_item,
+            CefRefPtr<CefDownloadItemCallback> callback)
+        {
+            auto handler = _browserControl->DownloadHandler;
+
+            if(handler != nullptr)
+            {
+                handler->OnDownloadUpdated(gcnew CefSharpBrowserWrapper(browser, _browserAdapter), TypeConversion::FromNative(download_item), gcnew CefDownloadItemCallbackWrapper(callback));
             }
         }
     }

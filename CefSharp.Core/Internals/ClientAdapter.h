@@ -28,7 +28,8 @@ namespace CefSharp
             public CefJSDialogHandler,
             public CefDialogHandler,
             public CefDragHandler,
-            public CefGeolocationHandler
+            public CefGeolocationHandler,
+            public CefDownloadHandler
         {
         private:
             gcroot<IWebBrowserInternal^> _browserControl;
@@ -65,18 +66,18 @@ namespace CefSharp
             void CloseAllPopups(bool forceClose);
 
             // CefClient
-            virtual CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() OVERRIDE{ return this; }
-            virtual CefRefPtr<CefLoadHandler> GetLoadHandler() OVERRIDE{ return this; }
-            virtual CefRefPtr<CefRequestHandler> GetRequestHandler() OVERRIDE{ return this; }
-            virtual CefRefPtr<CefDisplayHandler> GetDisplayHandler() OVERRIDE{ return this; }
-            virtual CefRefPtr<CefDownloadHandler> GetDownloadHandler() OVERRIDE;
-            virtual CefRefPtr<CefContextMenuHandler> GetContextMenuHandler() OVERRIDE{ return this; }
-            virtual CefRefPtr<CefFocusHandler> GetFocusHandler() OVERRIDE{ return this; }
-            virtual CefRefPtr<CefKeyboardHandler> GetKeyboardHandler() OVERRIDE{ return this; }
-            virtual CefRefPtr<CefJSDialogHandler> GetJSDialogHandler() OVERRIDE{ return this; }
-            virtual CefRefPtr<CefDialogHandler> GetDialogHandler() OVERRIDE{ return this; }
-            virtual CefRefPtr<CefDragHandler> GetDragHandler() OVERRIDE{ return this; }
-            virtual CefRefPtr<CefGeolocationHandler> GetGeolocationHandler() OVERRIDE{ return this; }
+            virtual CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() OVERRIDE { return this; }
+            virtual CefRefPtr<CefLoadHandler> GetLoadHandler() OVERRIDE { return this; }
+            virtual CefRefPtr<CefRequestHandler> GetRequestHandler() OVERRIDE { return this; }
+            virtual CefRefPtr<CefDisplayHandler> GetDisplayHandler() OVERRIDE { return this; }
+            virtual CefRefPtr<CefDownloadHandler> GetDownloadHandler() OVERRIDE { return this; }
+            virtual CefRefPtr<CefContextMenuHandler> GetContextMenuHandler() OVERRIDE { return this; }
+            virtual CefRefPtr<CefFocusHandler> GetFocusHandler() OVERRIDE { return this; }
+            virtual CefRefPtr<CefKeyboardHandler> GetKeyboardHandler() OVERRIDE { return this; }
+            virtual CefRefPtr<CefJSDialogHandler> GetJSDialogHandler() OVERRIDE { return this; }
+            virtual CefRefPtr<CefDialogHandler> GetDialogHandler() OVERRIDE { return this; }
+            virtual CefRefPtr<CefDragHandler> GetDragHandler() OVERRIDE { return this; }
+            virtual CefRefPtr<CefGeolocationHandler> GetGeolocationHandler() OVERRIDE { return this; }
 
             // CefLifeSpanHandler
             virtual DECL bool OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
@@ -146,6 +147,12 @@ namespace CefSharp
             virtual DECL bool OnRequestGeolocationPermission(CefRefPtr<CefBrowser> browser, const CefString& requesting_url, int request_id,
                 CefRefPtr<CefGeolocationCallback> callback) OVERRIDE;
             virtual DECL void OnCancelGeolocationPermission(CefRefPtr<CefBrowser> browser, const CefString& requesting_url, int request_id) OVERRIDE;
+
+            //CefDownloadHandler
+            virtual void OnBeforeDownload(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDownloadItem> download_item,
+                const CefString& suggested_name, CefRefPtr<CefBeforeDownloadCallback> callback) OVERRIDE;
+            virtual void OnDownloadUpdated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDownloadItem> download_item,
+                CefRefPtr<CefDownloadItemCallback> callback) OVERRIDE;
 
             IMPLEMENT_REFCOUNTING(ClientAdapter);
         };
