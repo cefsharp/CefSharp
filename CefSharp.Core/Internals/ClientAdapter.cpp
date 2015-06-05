@@ -8,18 +8,17 @@
 #include "Internals/CefContextMenuParamsWrapper.h"
 #include "Internals/CefDragDataWrapper.h"
 #include "ClientAdapter.h"
-#include "StreamAdapter.h"
-#include "JsDialogCallback.h"
-#include "RequestCallback.h"
+#include "CefJSDialogCallbackWrapper.h"
+#include "CefRequestCallbackWrapper.h"
 #include "Internals/TypeConversion.h"
 #include "include/wrapper/cef_stream_resource_handler.h"
 #include "include/internal/cef_types.h"
 #include "Internals/CefSharpBrowserWrapper.h"
-#include "Internals/CefDownloadItemCallbackWrapper.h"
-#include "Internals/CefBeforeDownloadCallbackWrapper.h"
-#include "Internals/CefGeolocationCallbackWrapper.h"
-#include "Internals/CefFileDialogCallbackWrapper.h"
-#include "Internals/CefAuthCallbackWrapper.h"
+#include "CefDownloadItemCallbackWrapper.h"
+#include "CefBeforeDownloadCallbackWrapper.h"
+#include "CefGeolocationCallbackWrapper.h"
+#include "CefFileDialogCallbackWrapper.h"
+#include "CefAuthCallbackWrapper.h"
 
 namespace CefSharp
 {
@@ -347,7 +346,7 @@ namespace CefSharp
 
             // If callback is empty the error cannot be recovered from and the request will be canceled automatically.
             // Still notify the user of the certificate error just don't provide a callback.
-            auto requestCallback = callback == NULL ? nullptr : gcnew RequestCallback(callback);
+            auto requestCallback = callback == NULL ? nullptr : gcnew CefRequestCallbackWrapper(callback);
 
             return handler->OnCertificateError(_browserControl, (CefErrorCode)cert_error, StringUtils::ToClr(request_url), requestCallback);
         }
@@ -360,7 +359,7 @@ namespace CefSharp
                 return false;
             }
             
-            auto requestCallback = gcnew RequestCallback(callback);
+            auto requestCallback = gcnew CefRequestCallbackWrapper(callback);
 
             return handler->OnQuotaRequest(_browserControl, StringUtils::ToClr(originUrl), newSize, requestCallback);
         }
@@ -458,7 +457,7 @@ namespace CefSharp
             }
 
             auto requestWrapper = gcnew CefRequestWrapper(request);
-            auto requestCallback = gcnew RequestCallback(callback);
+            auto requestCallback = gcnew CefRequestCallbackWrapper(callback);
 
             return (cef_return_value_t)handler->OnBeforeResourceLoad(_browserControl, requestWrapper, gcnew CefFrameWrapper(frame, _browserAdapter), requestCallback);
         }
@@ -542,10 +541,10 @@ namespace CefSharp
                 return false;
             }
 
-            auto dialogCallback = gcnew JsDialogCallback(callback);
+            auto callbackWrapper = gcnew CefJSDialogCallbackWrapper(callback);
 
             return handler->OnJSDialog(_browserControl, StringUtils::ToClr(origin_url), StringUtils::ToClr(accept_lang), (CefJsDialogType)dialog_type, 
-                                        StringUtils::ToClr(message_text), StringUtils::ToClr(default_prompt_text), dialogCallback, suppress_message);
+                                        StringUtils::ToClr(message_text), StringUtils::ToClr(default_prompt_text), callbackWrapper, suppress_message);
         }
 
         bool ClientAdapter::OnBeforeUnloadDialog(CefRefPtr<CefBrowser> browser, const CefString& message_text, bool is_reload, CefRefPtr<CefJSDialogCallback> callback)
@@ -557,9 +556,9 @@ namespace CefSharp
                 return false;
             }
 
-            auto dialogCallback = gcnew JsDialogCallback(callback);
+            auto callbackWrapper = gcnew CefJSDialogCallbackWrapper(callback);
 
-            return handler->OnJSBeforeUnload(_browserControl, StringUtils::ToClr(message_text), is_reload, dialogCallback);
+            return handler->OnJSBeforeUnload(_browserControl, StringUtils::ToClr(message_text), is_reload, callbackWrapper);
         }
 
         bool ClientAdapter::OnFileDialog(CefRefPtr<CefBrowser> browser, FileDialogMode mode, const CefString& title,
