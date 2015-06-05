@@ -6,6 +6,6 @@ namespace CefSharp
 {
     public interface ISchemeHandlerFactory
     {
-        ISchemeHandler Create();
+        ISchemeHandler Create(IBrowser browser, IFrame frame, string schemeName, IRequest request);
     }
 }

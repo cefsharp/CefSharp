@@ -4,7 +4,7 @@ namespace CefSharp.Example
     {
         public const string SchemeName = "custom";
 
-        public ISchemeHandler Create()
+        public ISchemeHandler Create(IBrowser browser, IFrame frame, string schemeName, IRequest request)
         {
             return new CefSharpSchemeHandler();
         }
