@@ -29,16 +29,22 @@ namespace CefSharp
         virtual void Cancel()
         {
             _callback->Cancel();
+
+            _callback = NULL;
         }
 
         virtual void Pause()
         {
             _callback->Pause();
+
+            _callback = NULL;
         }
 
         virtual void Resume()
         {
             _callback->Resume();
+
+            _callback = NULL;
         }
     };
 }
