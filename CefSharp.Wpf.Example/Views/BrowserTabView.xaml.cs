@@ -20,14 +20,40 @@ namespace CefSharp.Wpf.Example.Views
             browser.MenuHandler = new Handlers.MenuHandler();
             browser.GeolocationHandler = new Handlers.GeolocationHandler();
             browser.DownloadHandler = new DownloadHandler();
-            browser.PreviewTextInput += (o, e) =>
+            browser.PreviewTextInput += (sender, args) =>
             {
-                foreach (var character in e.Text)
+                foreach (var character in args.Text)
                 {
                     browser.SendKeyEvent((int)WM.CHAR, character, 0);
                 }
 
-                e.Handled = true;
+                args.Handled = true;
+            };
+
+            browser.LoadError += (sender, args) =>
+            {
+                // Don't display an error for downloaded files.
+                if (args.ErrorCode == CefErrorCode.Aborted)
+                {
+                    return;
+                }
+
+                // Don't display an error for external protocols that we allow the OS to
+                // handle. See OnProtocolExecution().
+                //if (args.ErrorCode == CefErrorCode.UnknownUrlScheme)
+                //{
+                //	var url = args.Frame.Url;
+                //	if (url.StartsWith("spotify:"))
+                //	{
+                //		return;
+                //	}
+                //}
+
+                // Display a load error message.
+                var errorBody = string.Format("<html><body bgcolor=\"white\"><h2>Failed to load URL {0} with error {1} ({2}).</h2></body></html>",
+                                              args.FailedUrl, args.ErrorText, args.ErrorCode);
+
+                args.Frame.LoadStringForUrl(errorBody, args.FailedUrl);
             };
 
             CefExample.RegisterTestResources(browser);
