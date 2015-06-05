@@ -71,9 +71,9 @@ namespace CefSharp
             _resourceHandlerWrapper = nullptr;
         }
 
-        virtual void ProcessRequestCallback()
+        virtual void ProcessRequestCallback(bool cancel)
         {
-            _resourceHandlerWrapper->ProcessRequestCallback(this);
+            _resourceHandlerWrapper->ProcessRequestCallback(this, cancel);
         }
     };
 };

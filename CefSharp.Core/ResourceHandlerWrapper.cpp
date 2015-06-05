@@ -25,7 +25,7 @@ namespace CefSharp
         return _handler->ProcessRequestAsync(requestWrapper, schemeResponse);
     }
 
-    void ResourceHandlerWrapper::ProcessRequestCallback(IResourceHandlerResponse^ response)
+    void ResourceHandlerWrapper::ProcessRequestCallback(IResourceHandlerResponse^ response, bool cancel)
     {
         _mime_type = StringUtils::ToNative(response->MimeType);
         _stream = response->ResponseStream;
@@ -40,7 +40,14 @@ namespace CefSharp
         // If CEF has cancelled the initial request, throw away a response that comes afterwards.
         if (_callback != nullptr)
         {
-            _callback->Continue();
+            if(cancel)
+            {
+                _callback->Cancel();
+            }
+            else
+            {
+                _callback->Continue();
+            }
         }
 
         // Must be done AFTER CEF has been allowed to consume the headers etc. After this call is made, the SchemeHandlerWrapper

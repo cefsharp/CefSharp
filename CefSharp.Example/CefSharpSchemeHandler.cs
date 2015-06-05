@@ -51,7 +51,7 @@ namespace CefSharp.Example
                     response.ResponseStream = new MemoryStream(bytes);
                     response.MimeType = GetMimeType(fileName);
 
-                    response.ProcessRequestCallback();
+                    response.ProcessRequestCallback(false);
                 });
 
                 return true;
