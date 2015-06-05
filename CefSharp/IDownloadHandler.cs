@@ -12,7 +12,6 @@ namespace CefSharp
         /// <param name="browser">The browser instance</param>
         /// <param name="downloadItem">Represents the file being downloaded.</param>
         /// <param name="callback">Callback interface used to asynchronously continue a download.</param>
-        /// <returns>Return True to continue the download otherwise return False to cancel the download</returns>
         void OnBeforeDownload(IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback);
 
         /// <summary>
@@ -21,7 +20,6 @@ namespace CefSharp
         /// <param name="browser">The browser instance</param>
         /// <param name="downloadItem">Represents the file being downloaded.</param>
         /// <param name="callback">The callback used to Cancel/Pause/Resume the process</param>
-        /// <returns>Return True to cancel, otherwise False to allow the download to continue.</returns>
         void OnDownloadUpdated(IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback);
     }
 }
