@@ -325,9 +325,8 @@ namespace CefSharp
                     IBrowser^ entry;
                     if (_popupBrowsers->TryGetValue(browserId, entry))
                     {
-                        auto frameWrapper = gcnew CefFrameWrapper(frame, _browserAdapter);
-                        popupHandler->OnFrameLoadStart(_browserControl, entry, gcnew FrameLoadStartEventArgs(frameWrapper));
-                        delete frameWrapper;
+                        CefFrameWrapper frameWrapper(frame, _browserAdapter);
+                        popupHandler->OnFrameLoadStart(_browserControl, gcnew FrameLoadStartEventArgs(entry, %frameWrapper));
                     }
                     else
                     {
@@ -337,7 +336,9 @@ namespace CefSharp
             }
             else
             {
-                _browserControl->OnFrameLoadStart(gcnew CefFrameWrapper(frame, _browserAdapter));
+                CefSharpBrowserWrapper browserWrapper(browser, _browserAdapter);
+                CefFrameWrapper frameWrapper(frame, _browserAdapter);
+                _browserControl->OnFrameLoadStart(gcnew FrameLoadStartEventArgs(%browserWrapper, %frameWrapper));
             }
         }
 
@@ -353,7 +354,7 @@ namespace CefSharp
                     if (_popupBrowsers->TryGetValue(browserId, entry))
                     {
                         CefFrameWrapper frameWrapper(frame, _browserAdapter);
-                        popupHandler->OnFrameLoadEnd(_browserControl, entry, gcnew FrameLoadEndEventArgs(%frameWrapper, httpStatusCode));
+                        popupHandler->OnFrameLoadEnd(_browserControl, gcnew FrameLoadEndEventArgs(entry, %frameWrapper, httpStatusCode));
                     }
                     else
                     {
@@ -364,7 +365,8 @@ namespace CefSharp
             else
             {
                 CefFrameWrapper frameWrapper(frame, _browserAdapter);
-                _browserControl->OnFrameLoadEnd(%frameWrapper, httpStatusCode);
+                CefSharpBrowserWrapper browserWrapper(browser, _browserAdapter);
+                _browserControl->OnFrameLoadEnd(gcnew FrameLoadEndEventArgs(%browserWrapper, %frameWrapper, httpStatusCode));
             }
         }
 

@@ -27,9 +27,9 @@ namespace CefSharp
 
         void OnStatusMessage(IWebBrowser browserControl, IBrowser browser, string message);
 
-        void OnFrameLoadStart(IWebBrowser browserControl, IBrowser browser, FrameLoadStartEventArgs frameLoadStartArgs);
+        void OnFrameLoadStart(IWebBrowser browserControl, FrameLoadStartEventArgs frameLoadStartArgs);
 
-        void OnFrameLoadEnd(IWebBrowser browserControl, IBrowser browser, FrameLoadEndEventArgs frameLoadEndArgs);
+        void OnFrameLoadEnd(IWebBrowser browserControl, FrameLoadEndEventArgs frameLoadEndArgs);
 
         /// <summary>
         /// Called when the resource load for a navigation fails or is canceled.
