@@ -9,18 +9,20 @@ namespace CefSharp
         /// <summary>
         /// Called when a page requests permission to access geolocation information.
         /// </summary>
+        /// <param name="browserControl">the browser control</param>
         /// <param name="browser">the browser object</param>
         /// <param name="requestingUrl">the URL requesting permission</param>
         /// <param name="requestId">the unique ID for the permission request</param>
         /// <returns>true to allow the request and false to deny</returns>
-        bool OnRequestGeolocationPermission(IWebBrowser browser, string requestingUrl, int requestId);
+        bool OnRequestGeolocationPermission(IWebBrowser browserControl, IBrowser browser, string requestingUrl, int requestId);
 
         /// <summary>
         /// Called when a geolocation access request is canceled.
         /// </summary>
+        /// <param name="browserControl">the browser control</param>
         /// <param name="browser">the browser object</param>
         /// <param name="requestingUrl">the URL that originally requested permission</param>
         /// <param name="requestId">the unique ID for the permission request, as seen in <see cref="OnRequestGeolocationPermission"/></param>
-        void OnCancelGeolocationPermission(IWebBrowser browser, string requestingUrl, int requestId);
+        void OnCancelGeolocationPermission(IWebBrowser browserControl, IBrowser browser, string requestingUrl, int requestId);
     }
 }

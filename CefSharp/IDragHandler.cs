@@ -6,6 +6,6 @@ namespace CefSharp
     {
         public interface IDragHandler
         {
-            bool OnDragEnter(IWebBrowser browser, IDragData dragData, DragOperationsMask mask);
+            bool OnDragEnter(IWebBrowser browserControl, IBrowser browser, IDragData dragData, DragOperationsMask mask);
         }
     }

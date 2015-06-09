@@ -38,6 +38,11 @@ namespace CefSharp
             gcroot<String^> _tooltip;
             gcroot<IBrowserAdapter^> _browserAdapter;
 
+            void ThrowUnknownPopupBrowser(String^ context)
+            {
+                throw gcnew ApplicationException(String::Format("{0} couldn't find IBrowser entry! Please contact CefSharp development.", context));
+            }
+
         public:
             ClientAdapter(IWebBrowserInternal^ browserControl, IBrowserAdapter^ browserAdapter) :
                 _browserControl(browserControl), 
@@ -65,18 +70,18 @@ namespace CefSharp
             void CloseAllPopups(bool forceClose);
 
             // CefClient
-            virtual CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() OVERRIDE{ return this; }
-            virtual CefRefPtr<CefLoadHandler> GetLoadHandler() OVERRIDE{ return this; }
-            virtual CefRefPtr<CefRequestHandler> GetRequestHandler() OVERRIDE{ return this; }
-            virtual CefRefPtr<CefDisplayHandler> GetDisplayHandler() OVERRIDE{ return this; }
-            virtual CefRefPtr<CefDownloadHandler> GetDownloadHandler() OVERRIDE;
-            virtual CefRefPtr<CefContextMenuHandler> GetContextMenuHandler() OVERRIDE{ return this; }
-            virtual CefRefPtr<CefFocusHandler> GetFocusHandler() OVERRIDE{ return this; }
-            virtual CefRefPtr<CefKeyboardHandler> GetKeyboardHandler() OVERRIDE{ return this; }
-            virtual CefRefPtr<CefJSDialogHandler> GetJSDialogHandler() OVERRIDE{ return this; }
-            virtual CefRefPtr<CefDialogHandler> GetDialogHandler() OVERRIDE{ return this; }
-            virtual CefRefPtr<CefDragHandler> GetDragHandler() OVERRIDE{ return this; }
-            virtual CefRefPtr<CefGeolocationHandler> GetGeolocationHandler() OVERRIDE{ return this; }
+            virtual DECL CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() OVERRIDE{ return this; }
+            virtual DECL CefRefPtr<CefLoadHandler> GetLoadHandler() OVERRIDE{ return this; }
+            virtual DECL CefRefPtr<CefRequestHandler> GetRequestHandler() OVERRIDE{ return this; }
+            virtual DECL CefRefPtr<CefDisplayHandler> GetDisplayHandler() OVERRIDE{ return this; }
+            virtual DECL CefRefPtr<CefDownloadHandler> GetDownloadHandler() OVERRIDE;
+            virtual DECL CefRefPtr<CefContextMenuHandler> GetContextMenuHandler() OVERRIDE{ return this; }
+            virtual DECL CefRefPtr<CefFocusHandler> GetFocusHandler() OVERRIDE{ return this; }
+            virtual DECL CefRefPtr<CefKeyboardHandler> GetKeyboardHandler() OVERRIDE{ return this; }
+            virtual DECL CefRefPtr<CefJSDialogHandler> GetJSDialogHandler() OVERRIDE{ return this; }
+            virtual DECL CefRefPtr<CefDialogHandler> GetDialogHandler() OVERRIDE{ return this; }
+            virtual DECL CefRefPtr<CefDragHandler> GetDragHandler() OVERRIDE{ return this; }
+            virtual DECL CefRefPtr<CefGeolocationHandler> GetGeolocationHandler() OVERRIDE{ return this; }
 
             // CefLifeSpanHandler
             virtual DECL bool OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
