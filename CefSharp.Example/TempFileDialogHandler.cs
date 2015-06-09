@@ -9,9 +9,8 @@ namespace CefSharp.Example
 {
     public class TempFileDialogHandler : IDialogHandler
     {
-        public bool OnFileDialog(IWebBrowser browser, CefFileDialogMode mode, string title, string defaultFilePath, List<string> acceptFilters, out int selectedAcceptFilter, out List<string> result)
+        public bool OnFileDialog(IWebBrowser browser, CefFileDialogMode mode, string title, string defaultFilePath, List<string> acceptFilters, ref int selectedAcceptFilter, out List<string> result)
         {
-            selectedAcceptFilter = 0;
             result = new List<string> { Path.GetRandomFileName() };
             return true;
         }
