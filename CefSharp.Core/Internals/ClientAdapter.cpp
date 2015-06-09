@@ -38,6 +38,7 @@ namespace CefSharp
             CefRefPtr<CefClient>& client, CefBrowserSettings& settings, bool* no_javascript_access)
         {
             ILifeSpanHandler^ handler = _browserControl->LifeSpanHandler;
+            bool createdWrapper = false;
 
             if (handler == nullptr)
             {
@@ -47,10 +48,16 @@ namespace CefSharp
             if (!_popupBrowsers->TryGetValue(browser->GetIdentifier(), browserWrapper))
             {
                 browserWrapper = gcnew CefSharpBrowserWrapper(browser, _browserAdapter);
+                createdWrapper = true;
             }
+            CefFrameWrapper frameWrapper(frame, _browserAdapter);
             auto result = handler->OnBeforePopup(_browserControl, browserWrapper,
-                gcnew CefFrameWrapper(frame, _browserAdapter), StringUtils::ToClr(target_url),
+                %frameWrapper, StringUtils::ToClr(target_url),
                 windowInfo.x, windowInfo.y, windowInfo.width, windowInfo.height, *no_javascript_access);
+            if (createdWrapper)
+            {
+                delete browserWrapper;
+            }
             return result;
         }
 
@@ -98,6 +105,10 @@ namespace CefSharp
                     // Dispose the CefSharpBrowserWrapper
                     delete entry;
                 }
+                else
+                {
+                    ThrowUnknownPopupBrowser(gcnew String(L"ClientAdapter::OnBeforeClose"));
+                }
             }
             else if (_browserHwnd == browser->GetHost()->GetWindowHandle())
             {
@@ -123,6 +134,10 @@ namespace CefSharp
                     if (_popupBrowsers->TryGetValue(browserId, entry))
                     {
                         handler->OnLoadingStateChange(_browserControl, entry, isLoading, canGoBack, canGoForward);
+                    }
+                    else
+                    {
+                        ThrowUnknownPopupBrowser(gcnew String(L"ClientAdapter::OnLoadingStateChange"));
                     }
                 }
             }
@@ -167,6 +182,10 @@ namespace CefSharp
                     {
                         popupHandler->OnFaviconUrlChange(_browserControl, entry, StringUtils::ToClr(iconUrls));
                     }
+                    else
+                    {
+                        ThrowUnknownPopupBrowser(gcnew String(L"ClientAdapter::OnFaviconUrlChange"));
+                    }
                 }
             }
             else
@@ -183,6 +202,7 @@ namespace CefSharp
         {
             String^ tooltip = StringUtils::ToClr(text);
 
+            // TODO: Deal with popuup browsers properly...
             if (tooltip != _tooltip)
             {
                 _tooltip = tooltip;
@@ -215,6 +235,10 @@ namespace CefSharp
                     {
                         popupHandler->OnStatusMessage(_browserControl, entry, valueStr);
                     }
+                    else
+                    {
+                        ThrowUnknownPopupBrowser(gcnew String(L"ClientAdapter::OnStatusMessage"));
+                    }
                 }
             }
             else
@@ -225,30 +249,69 @@ namespace CefSharp
 
         bool ClientAdapter::OnKeyEvent(CefRefPtr<CefBrowser> browser, const CefKeyEvent& event, CefEventHandle os_event)
         {
-            IKeyboardHandler^ handler = _browserControl->KeyboardHandler;
-
-            if (handler == nullptr)
-            {
-                return false;
-            }
-
-            // TODO: This seems wrong, browser might be a popup browser.
             // TODO: windows_key_code could possibly be the wrong choice here (the OnKeyEvent signature has changed since CEF1). The
             // other option would be native_key_code.
-            return handler->OnKeyEvent(_browserControl, (KeyType)event.type, event.windows_key_code, (CefEventFlags)event.modifiers, event.is_system_key == 1);
+            if (browser->IsPopup())
+            {
+                auto popupHandler = _browserControl->PopupHandler;
+                if (popupHandler != nullptr)
+                {
+                    auto browserId = browser->GetIdentifier();
+                    IBrowser^ entry;
+                    if (_popupBrowsers->TryGetValue(browserId, entry))
+                    {
+                        return popupHandler->OnKeyEvent(_browserControl, entry, (KeyType)event.type, event.windows_key_code, (CefEventFlags)event.modifiers, event.is_system_key == 1);
+                    }
+                    else
+                    {
+                        ThrowUnknownPopupBrowser(gcnew String(L"ClientAdapter::OnKeyEvent"));
+                    }
+                }
+            }
+            else
+            {
+                IKeyboardHandler^ handler = _browserControl->KeyboardHandler;
+
+                if (handler == nullptr)
+                {
+                    return false;
+                }
+                return handler->OnKeyEvent(_browserControl, (KeyType)event.type, event.windows_key_code, (CefEventFlags)event.modifiers, event.is_system_key == 1);
+            }
+            return false;
         }
 
         bool ClientAdapter::OnPreKeyEvent(CefRefPtr<CefBrowser> browser, const CefKeyEvent& event, CefEventHandle os_event, bool* is_keyboard_shortcut)
         {
-            IKeyboardHandler^ handler = _browserControl->KeyboardHandler;
-
-            if (handler == nullptr)
+            if (browser->IsPopup())
             {
-                return false;
+                auto popupHandler = _browserControl->PopupHandler;
+                if (popupHandler != nullptr)
+                {
+                    auto browserId = browser->GetIdentifier();
+                    IBrowser^ entry;
+                    if (_popupBrowsers->TryGetValue(browserId, entry))
+                    {
+                        popupHandler->OnPreKeyEvent(_browserControl, entry, (KeyType)event.type, event.windows_key_code, event.native_key_code, (CefEventFlags)event.modifiers, event.is_system_key == 1, *is_keyboard_shortcut);
+                    }
+                    else
+                    {
+                        ThrowUnknownPopupBrowser(gcnew String(L"ClientAdapter::OnPreKeyEvent"));
+                    }
+                }
             }
+            else
+            {
+                IKeyboardHandler^ handler = _browserControl->KeyboardHandler;
 
-            // TODO: This seems wrong, browser might be a popup browser.
-            return handler->OnPreKeyEvent(_browserControl, (KeyType)event.type, event.windows_key_code, event.native_key_code, (CefEventFlags)event.modifiers, event.is_system_key == 1, *is_keyboard_shortcut);
+                if (handler == nullptr)
+                {
+                    return false;
+                }
+
+                return handler->OnPreKeyEvent(_browserControl, (KeyType)event.type, event.windows_key_code, event.native_key_code, (CefEventFlags)event.modifiers, event.is_system_key == 1, *is_keyboard_shortcut);
+            }
+            return false;
         }
 
         void ClientAdapter::OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame)
@@ -262,15 +325,20 @@ namespace CefSharp
                     IBrowser^ entry;
                     if (_popupBrowsers->TryGetValue(browserId, entry))
                     {
-                        auto popupHandler = _browserControl->PopupHandler;
-                        auto frameWrapper = gcnew CefFrameWrapper(frame, _browserAdapter);
-                        popupHandler->OnFrameLoadStart(_browserControl, entry, gcnew FrameLoadStartEventArgs(frameWrapper));
+                        CefFrameWrapper frameWrapper(frame, _browserAdapter);
+                        popupHandler->OnFrameLoadStart(_browserControl, gcnew FrameLoadStartEventArgs(entry, %frameWrapper));
+                    }
+                    else
+                    {
+                        ThrowUnknownPopupBrowser(gcnew String(L"ClientAdapter::OnLoadStart"));
                     }
                 }
             }
             else
             {
-                _browserControl->OnFrameLoadStart(gcnew CefFrameWrapper(frame, _browserAdapter));
+                CefSharpBrowserWrapper browserWrapper(browser, _browserAdapter);
+                CefFrameWrapper frameWrapper(frame, _browserAdapter);
+                _browserControl->OnFrameLoadStart(gcnew FrameLoadStartEventArgs(%browserWrapper, %frameWrapper));
             }
         }
 
@@ -285,15 +353,20 @@ namespace CefSharp
                     IBrowser^ entry;
                     if (_popupBrowsers->TryGetValue(browserId, entry))
                     {
-                        auto popupHandler = _browserControl->PopupHandler;
-                        auto frameWrapper = gcnew CefFrameWrapper(frame, _browserAdapter);
-                        popupHandler->OnFrameLoadEnd(_browserControl, entry, gcnew FrameLoadEndEventArgs(frameWrapper, httpStatusCode));
+                        CefFrameWrapper frameWrapper(frame, _browserAdapter);
+                        popupHandler->OnFrameLoadEnd(_browserControl, gcnew FrameLoadEndEventArgs(entry, %frameWrapper, httpStatusCode));
+                    }
+                    else
+                    {
+                        ThrowUnknownPopupBrowser(gcnew String(L"ClientAdapter::OnLoadEnd"));
                     }
                 }
             }
             else
             {
-                _browserControl->OnFrameLoadEnd(gcnew CefFrameWrapper(frame, _browserAdapter), httpStatusCode);
+                CefFrameWrapper frameWrapper(frame, _browserAdapter);
+                CefSharpBrowserWrapper browserWrapper(browser, _browserAdapter);
+                _browserControl->OnFrameLoadEnd(gcnew FrameLoadEndEventArgs(%browserWrapper, %frameWrapper, httpStatusCode));
             }
         }
 
@@ -308,30 +381,61 @@ namespace CefSharp
                     IBrowser^ entry;
                     if (_popupBrowsers->TryGetValue(browserId, entry))
                     {
-                        auto popupHandler = _browserControl->PopupHandler;
-                        auto frameWrapper = gcnew CefFrameWrapper(frame, _browserAdapter);
-                        popupHandler->OnLoadError(_browserControl, entry, 
-                            gcnew LoadErrorEventArgs(frameWrapper, static_cast<CefErrorCode>(errorCode), StringUtils::ToClr(errorText), StringUtils::ToClr(failedUrl)));
+                        CefFrameWrapper frameWrapper(frame, _browserAdapter);
+                        popupHandler->OnLoadError(_browserControl, entry,
+                            gcnew LoadErrorEventArgs(%frameWrapper, static_cast<CefErrorCode>(errorCode), StringUtils::ToClr(errorText), StringUtils::ToClr(failedUrl)));
+                    }
+                    else
+                    {
+                        ThrowUnknownPopupBrowser(gcnew String(L"ClientAdapter::OnLoadError"));
                     }
                 }
             }
             else
             {
-                _browserControl->OnLoadError(gcnew CefFrameWrapper(frame, _browserAdapter), (CefErrorCode)errorCode, StringUtils::ToClr(errorText), StringUtils::ToClr(failedUrl));
+                CefFrameWrapper frameWrapper(frame, _browserAdapter);
+                _browserControl->OnLoadError(%frameWrapper, (CefErrorCode)errorCode, StringUtils::ToClr(errorText), StringUtils::ToClr(failedUrl));
             }
         }
 
         bool ClientAdapter::OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool isRedirect)
         {
-            IRequestHandler^ handler = _browserControl->RequestHandler;
-            if (handler == nullptr)
+            bool result;
+
+            if (browser->IsPopup())
             {
-                return false;
+                auto popupHandler = _browserControl->PopupHandler;
+                if (popupHandler != nullptr)
+                {
+                    auto browserId = browser->GetIdentifier();
+                    IBrowser^ entry;
+                    if (_popupBrowsers->TryGetValue(browserId, entry))
+                    {
+                        CefFrameWrapper frameWrapper(frame, _browserAdapter);
+                        CefRequestWrapper wrapper(request);
+                        result = popupHandler->OnBeforeBrowse(_browserControl, entry, %wrapper, isRedirect, %frameWrapper);
+                        return result;
+                    }
+                    else
+                    {
+                        ThrowUnknownPopupBrowser(gcnew String(L"ClientAdapter::OnBeforeBrowser"));
+                    }
+                }
             }
+            else
+            {
+                IRequestHandler^ handler = _browserControl->RequestHandler;
+                if (handler == nullptr)
+                {
+                    return false;
+                }
 
-            CefRequestWrapper^ wrapper = gcnew CefRequestWrapper(request);
-
-            return handler->OnBeforeBrowse(_browserControl, wrapper, isRedirect, gcnew CefFrameWrapper(frame, _browserAdapter));
+                CefRequestWrapper wrapper(request);
+                CefFrameWrapper frameWrapper(frame, _browserAdapter);
+                result = handler->OnBeforeBrowse(_browserControl, %wrapper, isRedirect, %frameWrapper);
+                return result;
+            }
+            return false;
         }
 
         bool ClientAdapter::OnCertificateError(CefRefPtr<CefBrowser> browser, cef_errorcode_t cert_error, const CefString& request_url, CefRefPtr<CefSSLInfo> ssl_info, CefRefPtr<CefRequestCallback> callback)
@@ -346,7 +450,21 @@ namespace CefSharp
             // Still notify the user of the certificate error just don't provide a callback.
             auto requestCallback = callback == NULL ? nullptr : gcnew RequestCallback(callback);
 
-            return handler->OnCertificateError(_browserControl, (CefErrorCode)cert_error, StringUtils::ToClr(request_url), requestCallback);
+            auto browserId = browser->GetIdentifier();
+            IBrowser^ entry;
+            if (!_popupBrowsers->TryGetValue(browserId, entry))
+            {
+                if (browser->IsPopup())
+                {
+                    ThrowUnknownPopupBrowser(gcnew String(L"ClientAdapter::OnCertificateError"));
+                }
+                CefSharpBrowserWrapper browser(_cefBrowser, _browserAdapter);
+                return handler->OnCertificateError(_browserControl, %browser, (CefErrorCode)cert_error, StringUtils::ToClr(request_url), requestCallback);
+            }
+            else
+            {
+                return handler->OnCertificateError(_browserControl, entry, (CefErrorCode)cert_error, StringUtils::ToClr(request_url), requestCallback);
+            }
         }
 
         bool ClientAdapter::OnQuotaRequest(CefRefPtr<CefBrowser> browser, const CefString& originUrl, int64 newSize, CefRefPtr<CefRequestCallback> callback)
@@ -359,7 +477,21 @@ namespace CefSharp
             
             auto requestCallback = gcnew RequestCallback(callback);
 
-            return handler->OnQuotaRequest(_browserControl, StringUtils::ToClr(originUrl), newSize, requestCallback);
+            auto browserId = browser->GetIdentifier();
+            IBrowser^ entry;
+            if (!_popupBrowsers->TryGetValue(browserId, entry))
+            {
+                if (browser->IsPopup())
+                {
+                    ThrowUnknownPopupBrowser(gcnew String(L"ClientAdapter::OnQuotaRequest"));
+                }
+                CefSharpBrowserWrapper wrapper(_cefBrowser, _browserAdapter);
+                return handler->OnQuotaRequest(_browserControl, %wrapper, StringUtils::ToClr(originUrl), newSize, requestCallback);
+            }
+            else
+            {
+                return handler->OnQuotaRequest(_browserControl, entry, StringUtils::ToClr(originUrl), newSize, requestCallback);
+            }
         }
 
         // CEF3 API: public virtual bool OnBeforePluginLoad( CefRefPtr< CefBrowser > browser, const CefString& url, const CefString& policy_url, CefRefPtr< CefWebPluginInfo > info );
@@ -378,7 +510,19 @@ namespace CefSharp
 
             auto pluginInfo = TypeConversion::FromNative(info);
 
-            return handler->OnBeforePluginLoad(_browserControl, StringUtils::ToClr(url), StringUtils::ToClr(policy_url), pluginInfo);
+            auto browserId = browser->GetIdentifier();
+            IBrowser^ entry;
+            if (!_popupBrowsers->TryGetValue(browserId, entry))
+            {
+                if (browser->IsPopup())
+                {
+                    ThrowUnknownPopupBrowser(gcnew String(L"ClientAdapter::OnBeforePluginLoad"));
+                }
+                CefSharpBrowserWrapper wrapper(_cefBrowser, _browserAdapter);
+                auto result = handler->OnBeforePluginLoad(_browserControl, %wrapper, StringUtils::ToClr(url), StringUtils::ToClr(policy_url), pluginInfo);
+                return result;
+            }
+            return handler->OnBeforePluginLoad(_browserControl, entry, StringUtils::ToClr(url), StringUtils::ToClr(policy_url), pluginInfo);
         }
 
         void ClientAdapter::OnPluginCrashed(CefRefPtr<CefBrowser> browser, const CefString& plugin_path)
@@ -386,7 +530,21 @@ namespace CefSharp
             IRequestHandler^ handler = _browserControl->RequestHandler;
             if (handler != nullptr)
             {
-                handler->OnPluginCrashed(_browserControl, StringUtils::ToClr(plugin_path));
+                auto browserId = browser->GetIdentifier();
+                IBrowser^ entry;
+                if (!_popupBrowsers->TryGetValue(browserId, entry))
+                {
+                    if (browser->IsPopup())
+                    {
+                        ThrowUnknownPopupBrowser(gcnew String(L"ClientAdapter::OnPluginCrashed"));
+                    }
+                    CefSharpBrowserWrapper wrapper(_cefBrowser, _browserAdapter);
+                    handler->OnPluginCrashed(_browserControl, %wrapper, StringUtils::ToClr(plugin_path));
+                }
+                else
+                {
+                    handler->OnPluginCrashed(_browserControl, entry, StringUtils::ToClr(plugin_path));
+                }
             }			
         }
 
@@ -395,20 +553,60 @@ namespace CefSharp
             IRequestHandler^ handler = _browserControl->RequestHandler;
             if (handler != nullptr)
             {
-                handler->OnRenderProcessTerminated(_browserControl, (CefTerminationStatus)status);
+                auto browserId = browser->GetIdentifier();
+                IBrowser^ entry;
+                if (!_popupBrowsers->TryGetValue(browserId, entry))
+                {
+                    if (browser->IsPopup())
+                    {
+                        ThrowUnknownPopupBrowser(gcnew String(L"ClientAdapter::OnRenderProcessTerminated"));
+                    }
+                    CefSharpBrowserWrapper wrapper(_cefBrowser, _browserAdapter);
+                    handler->OnRenderProcessTerminated(_browserControl, %wrapper, (CefTerminationStatus)status);
+                }
+                else
+                {
+                    handler->OnRenderProcessTerminated(_browserControl, entry, (CefTerminationStatus)status);
+                }
             }			
         }
 
         void ClientAdapter::OnResourceRedirect(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& oldUrl, CefString& newUrl)
         {
-            IRequestHandler^ handler = _browserControl->RequestHandler;
-            if (handler != nullptr)
+            if (browser->IsPopup())
             {
-                auto managedNewUrl = StringUtils::ToClr(newUrl);
-                handler->OnResourceRedirect(_browserControl, gcnew CefFrameWrapper(frame, _browserAdapter), managedNewUrl);
+                auto popupHandler = _browserControl->PopupHandler;
+                if (popupHandler != nullptr)
+                {
+                    auto managedNewUrl = StringUtils::ToClr(newUrl);
+                    auto browserId = browser->GetIdentifier();
+                    IBrowser^ entry;
+                    if (_popupBrowsers->TryGetValue(browserId, entry))
+                    {
+                        CefFrameWrapper frameWrapper(frame, _browserAdapter);
+                        popupHandler->OnResourceRedirect(_browserControl, entry, %frameWrapper, managedNewUrl);
 
-                newUrl = StringUtils::ToNative(managedNewUrl);
-            }	
+                        newUrl = StringUtils::ToNative(managedNewUrl);
+                    }
+                    else
+                    {
+                        ThrowUnknownPopupBrowser(gcnew String(L"ClientAdapter::OnResourceRedirect"));
+                    }
+                }
+            }
+            else
+            {
+                IRequestHandler^ handler = _browserControl->RequestHandler;
+                if (handler != nullptr)
+                {
+                    auto managedNewUrl = StringUtils::ToClr(newUrl);
+                    CefFrameWrapper frameWrapper(frame, _browserAdapter);
+
+                    handler->OnResourceRedirect(_browserControl, %frameWrapper, managedNewUrl);
+
+                    newUrl = StringUtils::ToNative(managedNewUrl);
+                }
+            }
         }
 
         void ClientAdapter::OnProtocolExecution(CefRefPtr<CefBrowser> browser, const CefString& url, bool& allowOSExecution)
@@ -416,7 +614,21 @@ namespace CefSharp
             IRequestHandler^ handler = _browserControl->RequestHandler;
             if (handler != nullptr)
             {
-                allowOSExecution = handler->OnProtocolExecution(_browserControl, StringUtils::ToClr(url));
+                auto browserId = browser->GetIdentifier();
+                IBrowser^ entry;
+                if (!_popupBrowsers->TryGetValue(browserId, entry))
+                {
+                    if (browser->IsPopup())
+                    {
+                        ThrowUnknownPopupBrowser(gcnew String(L"ClientAdapter::OnProtocolExecution"));
+                    }
+                    CefSharpBrowserWrapper wrapper(_cefBrowser, _browserAdapter);
+                    allowOSExecution = handler->OnProtocolExecution(_browserControl, %wrapper, StringUtils::ToClr(url));
+                }
+                else
+                {
+                    allowOSExecution = handler->OnProtocolExecution(_browserControl, entry, StringUtils::ToClr(url));
+                }
             }
         }
 
@@ -434,14 +646,29 @@ namespace CefSharp
             }
 
             auto requestWrapper = gcnew CefRequestWrapper(request);
+            CefFrameWrapper frameWrapper(frame, _browserAdapter);
+            IResourceHandler^ resourceHandler;
 
-            auto resourceHandler = factory->GetResourceHandler(_browserControl, requestWrapper);
+            auto browserId = browser->GetIdentifier();
+            IBrowser^ entry;
+            if (!_popupBrowsers->TryGetValue(browserId, entry))
+            {
+                if (browser->IsPopup())
+                {
+                    ThrowUnknownPopupBrowser(gcnew String(L"ClientAdapter::GetResourceHandler"));
+                }
+                CefSharpBrowserWrapper wrapper(_cefBrowser, _browserAdapter);
+                resourceHandler = factory->GetResourceHandler(_browserControl, %wrapper, %frameWrapper, requestWrapper);
+            }
+            else
+            {
+                resourceHandler = factory->GetResourceHandler(_browserControl, entry, %frameWrapper, requestWrapper);
+            }
 
             if (resourceHandler != nullptr)
             {
                 return new ResourceHandlerWrapper(resourceHandler);
             }
-
             return NULL;
         }
 
@@ -454,10 +681,37 @@ namespace CefSharp
                 return cef_return_value_t::RV_CONTINUE;
             }
 
-            auto requestWrapper = gcnew CefRequestWrapper(request);
-            auto requestCallback = gcnew RequestCallback(callback);
+            if (browser->IsPopup())
+            {
+                auto popupHandler = _browserControl->PopupHandler;
+                if (popupHandler != nullptr)
+                {
+                    auto requestWrapper = gcnew CefRequestWrapper(request);
+                    auto requestCallback = gcnew RequestCallback(callback);
 
-            return (cef_return_value_t)handler->OnBeforeResourceLoad(_browserControl, requestWrapper, gcnew CefFrameWrapper(frame, _browserAdapter), requestCallback);
+                    auto browserId = browser->GetIdentifier();
+                    IBrowser^ entry;
+                    if (_popupBrowsers->TryGetValue(browserId, entry))
+                    {
+                        CefFrameWrapper frameWrapper(frame, _browserAdapter);
+                        return (cef_return_value_t)popupHandler->OnBeforeResourceLoad(_browserControl, entry, %frameWrapper, requestWrapper, requestCallback);
+                    }
+                    else
+                    {
+                        ThrowUnknownPopupBrowser(gcnew String(L"ClientAdapter::OnBeforeResourceLoad"));
+                    }
+                }
+            }
+            else
+            {
+                auto requestWrapper = gcnew CefRequestWrapper(request);
+                auto requestCallback = gcnew RequestCallback(callback);
+                CefFrameWrapper frameWrapper(frame, _browserAdapter);
+                CefSharpBrowserWrapper browserWrapper(browser, _browserAdapter);
+
+                return (cef_return_value_t)handler->OnBeforeResourceLoad(_browserControl, %browserWrapper, %frameWrapper, requestWrapper, requestCallback);
+            }
+            return cef_return_value_t::RV_CONTINUE;
         }
 
         CefRefPtr<CefDownloadHandler> ClientAdapter::GetDownloadHandler()
@@ -482,7 +736,14 @@ namespace CefSharp
 
             String^ usernameString = nullptr;
             String^ passwordString = nullptr;
-            bool handled = handler->GetAuthCredentials(_browserControl, gcnew CefFrameWrapper(frame, _browserAdapter), isProxy, StringUtils::ToClr(host), port, StringUtils::ToClr(realm), StringUtils::ToClr(scheme), usernameString, passwordString);
+
+            CefSharpBrowserWrapper browserWrapper(_cefBrowser, _browserAdapter);
+            CefFrameWrapper frameWrapper(frame, _browserAdapter);
+
+            bool handled = handler->GetAuthCredentials(
+                _browserControl, %browserWrapper, %frameWrapper, isProxy, 
+                StringUtils::ToClr(host), port, StringUtils::ToClr(realm), 
+                StringUtils::ToClr(scheme), usernameString, passwordString);
 
             if (handled)
             {
@@ -520,8 +781,8 @@ namespace CefSharp
 
             // Context menu params
             CefContextMenuParamsWrapper^ contextMenuParamsWrapper = gcnew CefContextMenuParamsWrapper(params);
-
-            auto result = handler->OnBeforeContextMenu(_browserControl, gcnew CefFrameWrapper(frame, _browserAdapter), contextMenuParamsWrapper);
+            CefFrameWrapper frameWrapper(frame, _browserAdapter);
+            auto result = handler->OnBeforeContextMenu(_browserControl, %frameWrapper, contextMenuParamsWrapper);
             if (!result)
             {
                 model->Clear();
@@ -537,7 +798,12 @@ namespace CefSharp
                 return;
             }
 
-            handler->OnGotFocus();
+            // NOTE: a popup handler for OnGotFocus doesn't make sense yet because
+            // non-offscreen windows don't wrap popup browser's yet.
+            if (!browser->IsPopup())
+            {
+                handler->OnGotFocus();
+            }
         }
 
         bool ClientAdapter::OnSetFocus(CefRefPtr<CefBrowser> browser, FocusSource source)
@@ -550,7 +816,14 @@ namespace CefSharp
                 return false;
             }
 
-            return handler->OnSetFocus((CefFocusSource)source);
+            // NOTE: a popup handler for OnGotFocus doesn't make sense yet because
+            // non-offscreen windows don't wrap popup browser's yet.
+            if (!browser->IsPopup())
+            {
+                return handler->OnSetFocus((CefFocusSource)source);
+            }
+            // Allow the focus to be set by default.
+            return false;
         }
 
         void ClientAdapter::OnTakeFocus(CefRefPtr<CefBrowser> browser, bool next)
@@ -562,7 +835,12 @@ namespace CefSharp
                 return;
             }
 
-            handler->OnTakeFocus(next);
+            // NOTE: a popup handler for OnGotFocus doesn't make sense yet because
+            // non-offscreen windows don't wrap popup browser's yet.
+            if (!browser->IsPopup())
+            {
+                handler->OnTakeFocus(next);
+            }
         }
 
         bool ClientAdapter::OnJSDialog(CefRefPtr<CefBrowser> browser, const CefString& origin_url, const CefString& accept_lang,
@@ -577,9 +855,12 @@ namespace CefSharp
             }
 
             auto dialogCallback = gcnew JsDialogCallback(callback);
+            CefSharpBrowserWrapper iBrowser(browser, _browserAdapter);
+            bool result = handler->OnJSDialog(_browserControl, %iBrowser,
+                                       StringUtils::ToClr(origin_url), StringUtils::ToClr(accept_lang), (CefJsDialogType)dialog_type, 
+                                       StringUtils::ToClr(message_text), StringUtils::ToClr(default_prompt_text), dialogCallback, suppress_message);
 
-            return handler->OnJSDialog(_browserControl, StringUtils::ToClr(origin_url), StringUtils::ToClr(accept_lang), (CefJsDialogType)dialog_type, 
-                                        StringUtils::ToClr(message_text), StringUtils::ToClr(default_prompt_text), dialogCallback, suppress_message);
+            return result;
         }
 
         bool ClientAdapter::OnBeforeUnloadDialog(CefRefPtr<CefBrowser> browser, const CefString& message_text, bool is_reload, CefRefPtr<CefJSDialogCallback> callback)
@@ -592,8 +873,8 @@ namespace CefSharp
             }
 
             bool allowUnload;
-
-            auto handled = handler->OnJSBeforeUnload(_browserControl, StringUtils::ToClr(message_text), is_reload, allowUnload);
+            CefSharpBrowserWrapper browserWrapper(browser, _browserAdapter);
+            auto handled = handler->OnJSBeforeUnload(_browserControl, %browserWrapper, StringUtils::ToClr(message_text), is_reload, allowUnload);
             if (handled)
             {
                 callback->Continue(allowUnload, CefString());
@@ -614,8 +895,8 @@ namespace CefSharp
             }
 
             List<System::String ^>^ filePaths = nullptr;
-
-            if(handler->OnFileDialog(_browserControl, (CefFileDialogMode)mode, StringUtils::ToClr(title), StringUtils::ToClr(default_file_path), StringUtils::ToClr(accept_filters), selected_accept_filter, filePaths))
+            CefSharpBrowserWrapper browserWrapper(browser, _browserAdapter);
+            if (handler->OnFileDialog(_browserControl, %browserWrapper, (CefFileDialogMode)mode, StringUtils::ToClr(title), StringUtils::ToClr(default_file_path), StringUtils::ToClr(accept_filters), selected_accept_filter, filePaths))
             {
                 callback->Continue(selected_accept_filter, StringUtils::ToNative(filePaths));
                 return true;
@@ -634,8 +915,9 @@ namespace CefSharp
             }
 
             auto dragDataWrapper = gcnew CefDragDataWrapper(dragData);
+            CefSharpBrowserWrapper browserWrapper(browser, _browserAdapter);
 
-            return handler->OnDragEnter(_browserControl, dragDataWrapper, (CefSharp::DragOperationsMask)mask);
+            return handler->OnDragEnter(_browserControl, %browserWrapper, dragDataWrapper, (CefSharp::DragOperationsMask)mask);
         }
 
         bool ClientAdapter::OnRequestGeolocationPermission(CefRefPtr<CefBrowser> browser, const CefString& requesting_url, int request_id, CefRefPtr<CefGeolocationCallback> callback)
@@ -647,7 +929,8 @@ namespace CefSharp
                 return false;
             }
 
-            if (handler->OnRequestGeolocationPermission(_browserControl, StringUtils::ToClr(requesting_url), request_id))
+            CefSharpBrowserWrapper browserWrapper(browser, _browserAdapter);
+            if (handler->OnRequestGeolocationPermission(_browserControl, %browserWrapper, StringUtils::ToClr(requesting_url), request_id))
             {
                 callback->Continue(true);
                 return true;
@@ -661,7 +944,8 @@ namespace CefSharp
             IGeolocationHandler^ handler = _browserControl->GeolocationHandler;
             if (handler != nullptr)
             {
-                handler->OnCancelGeolocationPermission(_browserControl, StringUtils::ToClr(requesting_url), request_id);
+                CefSharpBrowserWrapper browserWrapper(browser, _browserAdapter);
+                handler->OnCancelGeolocationPermission(_browserControl, %browserWrapper, StringUtils::ToClr(requesting_url), request_id);
             }
         }
     }

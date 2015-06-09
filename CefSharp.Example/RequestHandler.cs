@@ -13,7 +13,7 @@ namespace CefSharp.Example
             return false;
         }
 
-        bool IRequestHandler.OnCertificateError(IWebBrowser browser, CefErrorCode errorCode, string requestUrl, IRequestCallback callback)
+        bool IRequestHandler.OnCertificateError(IWebBrowser browserControl, IBrowser browser, CefErrorCode errorCode, string requestUrl, IRequestCallback callback)
         {
             //To allow certificate
             //callback.Continue(true);
@@ -22,12 +22,12 @@ namespace CefSharp.Example
             return false;
         }
 
-        void IRequestHandler.OnPluginCrashed(IWebBrowser browser, string pluginPath)
+        void IRequestHandler.OnPluginCrashed(IWebBrowser browserControl, IBrowser browser, string pluginPath)
         {
             // TODO: Add your own code here for handling scenarios where a plugin crashed, for one reason or another.
         }
 
-        CefReturnValue IRequestHandler.OnBeforeResourceLoad(IWebBrowser browser, IRequest request, IFrame frame, IRequestCallback callback)
+        CefReturnValue IRequestHandler.OnBeforeResourceLoad(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IRequestCallback callback)
         {
             //Note to Redirect simply set the request Url
             //if (request.Url.StartsWith("https://www.google.com", StringComparison.OrdinalIgnoreCase))
@@ -42,12 +42,12 @@ namespace CefSharp.Example
             return CefReturnValue.Continue;
         }
 
-        bool IRequestHandler.GetAuthCredentials(IWebBrowser browser, IFrame frame, bool isProxy, string host, int port, string realm, string scheme, ref string username, ref string password)
+        bool IRequestHandler.GetAuthCredentials(IWebBrowser browserControl, IBrowser browser, IFrame frame, bool isProxy, string host, int port, string realm, string scheme, ref string username, ref string password)
         {
             return false;
         }
 
-        bool IRequestHandler.OnBeforePluginLoad(IWebBrowser browser, string url, string policyUrl, WebPluginInfo info)
+        bool IRequestHandler.OnBeforePluginLoad(IWebBrowser browserControl, IBrowser browser, string url, string policyUrl, WebPluginInfo info)
         {
             bool blockPluginLoad = false;
 
@@ -59,12 +59,12 @@ namespace CefSharp.Example
             return blockPluginLoad;
         }
 
-        void IRequestHandler.OnRenderProcessTerminated(IWebBrowser browser, CefTerminationStatus status)
+        void IRequestHandler.OnRenderProcessTerminated(IWebBrowser browserControl, IBrowser browser, CefTerminationStatus status)
         {
             // TODO: Add your own code here for handling scenarios where the Render Process terminated for one reason or another.
         }
 
-        public bool OnQuotaRequest(IWebBrowser browser, string originUrl, long newSize, IRequestCallback callback)
+        public bool OnQuotaRequest(IWebBrowser browserControl, IBrowser browser, string originUrl, long newSize, IRequestCallback callback)
         {
             //Accept Request to raise Quota
             //callback.Continue(true);
@@ -82,7 +82,7 @@ namespace CefSharp.Example
             //}
         }
 
-        public bool OnProtocolExecution(IWebBrowser browser, string url)
+        public bool OnProtocolExecution(IWebBrowser browserControl, IBrowser browser, string url)
         {
             return url.StartsWith("mailto");
         }
