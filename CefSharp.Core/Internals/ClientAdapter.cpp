@@ -195,8 +195,14 @@ namespace CefSharp
             {
                 return false;
             }
+            System::Boolean isKeyboardShortcut(*is_keyboard_shortcut);
+            auto result = handler->OnPreKeyEvent(
+                _browserControl, (KeyType)event.type, event.windows_key_code, 
+                event.native_key_code, (CefEventFlags)event.modifiers, event.is_system_key == 1, 
+                isKeyboardShortcut);
 
-            return handler->OnPreKeyEvent(_browserControl, (KeyType)event.type, event.windows_key_code, event.native_key_code, (CefEventFlags)event.modifiers, event.is_system_key == 1, *is_keyboard_shortcut);
+            *is_keyboard_shortcut = isKeyboardShortcut;
+            return result;
         }
 
         void ClientAdapter::OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame)
@@ -247,7 +253,6 @@ namespace CefSharp
             }
 
             CefRequestWrapper^ wrapper = gcnew CefRequestWrapper(request);
-
             return handler->OnBeforeBrowse(_browserControl, wrapper, isRedirect, frame->IsMain());
         }
 

@@ -87,12 +87,14 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoundObject.cs" />
     <Compile Include="DragHandler.cs" />
     <Compile Include="JsDialogHandler.cs" />
+    <Compile Include="KeyboardHandler.cs" />
     <Compile Include="Proxy\InternetOpenType.cs" />
     <Compile Include="Proxy\InternetProxyInfo.cs" />
     <Compile Include="Proxy\ProxyConfig.cs" />
