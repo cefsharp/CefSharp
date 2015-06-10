@@ -195,14 +195,10 @@ namespace CefSharp
             {
                 return false;
             }
-            System::Boolean isKeyboardShortcut(*is_keyboard_shortcut);
-            auto result = handler->OnPreKeyEvent(
+            return handler->OnPreKeyEvent(
                 _browserControl, (KeyType)event.type, event.windows_key_code, 
                 event.native_key_code, (CefEventFlags)event.modifiers, event.is_system_key == 1, 
-                isKeyboardShortcut);
-
-            *is_keyboard_shortcut = isKeyboardShortcut;
-            return result;
+                *is_keyboard_shortcut);
         }
 
         void ClientAdapter::OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame)
