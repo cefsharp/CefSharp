@@ -35,6 +35,6 @@ namespace CefSharp
         /// <param name="selectedAcceptFilter">is the 0-based index of the filter that should be selected by default.</param>
         /// <param name="result">the filename(s) the dialog returns</param>
         /// <returns>To display a custom dialog return true. To display the default dialog return false.</returns>
-        bool OnFileDialog(IWebBrowser browser, CefFileDialogMode mode, string title, string defaultFilePath, List<string> acceptFilters, out int selectedAcceptFilter, out List<string> result);
+        bool OnFileDialog(IWebBrowser browser, CefFileDialogMode mode, string title, string defaultFilePath, List<string> acceptFilters, ref int selectedAcceptFilter, out List<string> result);
     }
 }

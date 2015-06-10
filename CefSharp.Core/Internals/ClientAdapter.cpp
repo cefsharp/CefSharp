@@ -233,9 +233,10 @@ namespace CefSharp
             }
 
             // TODO: This seems wrong, browser might be a popup browser.
-            // TODO: windows_key_code could possibly be the wrong choice here (the OnKeyEvent signature has changed since CEF1). The
-            // other option would be native_key_code.
-            return handler->OnKeyEvent(_browserControl, (KeyType)event.type, event.windows_key_code, (CefEventFlags)event.modifiers, event.is_system_key == 1);
+            // TODO: Should we be passing native_key_code here as well? Probably.
+            return handler->OnKeyEvent(
+                _browserControl, (KeyType)event.type, event.windows_key_code, 
+                (CefEventFlags)event.modifiers, event.is_system_key == 1);
         }
 
         bool ClientAdapter::OnPreKeyEvent(CefRefPtr<CefBrowser> browser, const CefKeyEvent& event, CefEventHandle os_event, bool* is_keyboard_shortcut)
@@ -246,9 +247,11 @@ namespace CefSharp
             {
                 return false;
             }
-
             // TODO: This seems wrong, browser might be a popup browser.
-            return handler->OnPreKeyEvent(_browserControl, (KeyType)event.type, event.windows_key_code, event.native_key_code, (CefEventFlags)event.modifiers, event.is_system_key == 1, *is_keyboard_shortcut);
+            return handler->OnPreKeyEvent(
+                _browserControl, (KeyType)event.type, event.windows_key_code, 
+                event.native_key_code, (CefEventFlags)event.modifiers, event.is_system_key == 1, 
+                *is_keyboard_shortcut);
         }
 
         void ClientAdapter::OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame)
