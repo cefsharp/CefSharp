@@ -75,7 +75,8 @@ namespace CefSharp.Example
             // So, we have to make some calls that Application.Run usually ends up handling for us:
             PreProcessControlState state = PreProcessControlState.MessageNotNeeded;
             // We can't use BeginInvoke here, because we need the results for the return value
-            // and isKeyboardShortcut.
+            // and isKeyboardShortcut. In theory this shouldn't deadlock, because
+            // atm this is the only synchronous operation between the two threads.
             control.Invoke(new Action(() =>
             {
                 Message msg = new Message() { HWnd = control.Handle, Msg = msgType, WParam = new IntPtr(windowsKeyCode), LParam = new IntPtr(nativeKeyCode) };
