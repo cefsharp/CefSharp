@@ -78,7 +78,7 @@ namespace CefSharp
             if (propWrapper->JavascriptObjectWrapper != nullptr)
             {
                 auto objWrapper = safe_cast<JavascriptObjectWrapper^>(propWrapper->JavascriptObjectWrapper);
-                same = obj->Id == objWrapper->_object->Id && obj->IsNull == objWrapper->_object->IsNull; // object id won't change if it's simply set to null
+                same = obj->Id == objWrapper->_object->Id && obj->IsNull == objWrapper->_object->IsNull; // object id weren't changed if it's simply set to null
             }
         }
         if (!same)
@@ -122,24 +122,44 @@ namespace CefSharp
 
     BrowserProcessResponse^ JavascriptObjectWrapper::GetProperty(String^ memberName)
     {
-        auto response = _browserProcess->GetProperty(_object->Id, memberName);
-        if (response->Success && response->Result != nullptr)
+        try
         {
-            auto type = response->Result->GetType();
-            if (type == JavascriptObject::typeid)
+            auto response = _browserProcess->GetProperty(_object->Id, memberName);
+            if (response->Success && response->Result != nullptr)
             {
-                response->Result = WrapObject(safe_cast<JavascriptObject^>(response->Result), memberName);
+                auto type = response->Result->GetType();
+                if (type == JavascriptObject::typeid)
+                {
+                    response->Result = WrapObject(safe_cast<JavascriptObject^>(response->Result), memberName);
+                }
+                else if (type->IsArray && type->GetElementType() == JavascriptObject::typeid)
+                {
+                    response->Result = WrapArray(safe_cast<Array^>(response->Result), memberName);
+                }
             }
-            else if (type->IsArray && type->GetElementType() == JavascriptObject::typeid)
-            {
-                response->Result = WrapArray(safe_cast<Array^>(response->Result), memberName);
-            }
+            return response;
         }
-        return response;
+        catch (const std::exception& e)
+        {
+            auto response = gcnew BrowserProcessResponse;
+            response->Success = false;
+            response->Message = String::Format("Get property {0} failed. {1}", memberName, gcnew String(e.what()));
+            return response;
+        }
     };
 
     BrowserProcessResponse^ JavascriptObjectWrapper::SetProperty(String^ memberName, Object^ value)
     {
-        return _browserProcess->SetProperty(_object->Id, memberName, value);
+        try
+        {
+            return _browserProcess->SetProperty(_object->Id, memberName, value);
+        }
+        catch (const std::exception& e)
+        {
+            auto response = gcnew BrowserProcessResponse;
+            response->Success = false;
+            response->Message = String::Format("Set property {0}  to {1} failed. {2}", memberName, value, gcnew String(e.what()));
+            return response;
+        }
     };
 }
