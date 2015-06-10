@@ -78,6 +78,7 @@
     </Compile>
     <Compile Include="FocusHandler.cs" />
     <Compile Include="GeolocationHandler.cs" />
+    <Compile Include="KeyboardHandler.cs" />
     <Compile Include="MenuHandler.cs" />
     <Compile Include="Minimal\SimpleBrowserForm.cs">
       <SubType>Form</SubType>
