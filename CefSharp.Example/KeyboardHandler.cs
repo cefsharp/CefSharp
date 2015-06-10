@@ -71,10 +71,17 @@ namespace CefSharp.Example
                 Trace.Assert(false);
                 break;
             }
+            // We have to adapt from CEF's UI thread message loop to our fronting WinForm control here.
+            // So, we have to make some calls that Application.Run usually ends up handling for us:
             PreProcessControlState state = PreProcessControlState.MessageNotNeeded;
+            // We can't use BeginInvoke here, because we need the results for the return value
+            // and isKeyboardShortcut.
             control.Invoke(new Action(() =>
             {
                 Message msg = new Message() { HWnd = control.Handle, Msg = msgType, WParam = new IntPtr(windowsKeyCode), LParam = new IntPtr(nativeKeyCode) };
+
+                // First comes Application.AddMessageFilter related processing:
+                // 99.9% of the time in WinForms this doesn't do anything interesting.
                 bool processed = Application.FilterMessage(ref msg);
                 if (processed)
                 {
@@ -82,6 +89,9 @@ namespace CefSharp.Example
                 }
                 else
                 {
+                    // Next we see if our control (or one of its parents)
+                    // wants first crack at the message via several possible Control methods.
+                    // This includes things like Mnemonics/Accelerators/Menu Shortcuts/etc...
                     state = control.PreProcessControlMessage(ref msg);
                 }
             }));
@@ -92,6 +102,7 @@ namespace CefSharp.Example
             }
             else if (state == PreProcessControlState.MessageProcessed)
             {
+                // Most of the interesting cases get processed by PreProcessControlMessage.
                 result = true;
             }
             Debug.WriteLine(String.Format("OnPreKeyEvent: KeyType: {0} 0x{1:X} Modifiers: {2}", type, windowsKeyCode, modifiers));
@@ -104,6 +115,7 @@ namespace CefSharp.Example
         {
             bool result = false;
             Debug.WriteLine(String.Format("OnKeyEvent: KeyType: {0} 0x{1:X} Modifiers: {2}", type, windowsKeyCode, modifiers));
+            // TODO: Handle MessageNeeded cases here somehow.
             return result;
         }
     }
