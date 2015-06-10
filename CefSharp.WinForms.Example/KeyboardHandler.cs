@@ -112,7 +112,7 @@ namespace CefSharp.Example
         }
 
         /// <inheritdoc/>>
-        public bool OnKeyEvent(IWebBrowser browserControl, KeyType type, int windowsKeyCode, CefEventFlags modifiers, bool isSystemKey)
+        public bool OnKeyEvent(IWebBrowser browserControl, KeyType type, int windowsKeyCode, int nativeKeyCode, CefEventFlags modifiers, bool isSystemKey)
         {
             bool result = false;
             Debug.WriteLine(String.Format("OnKeyEvent: KeyType: {0} 0x{1:X} Modifiers: {2}", type, windowsKeyCode, modifiers));

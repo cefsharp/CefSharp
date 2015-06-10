@@ -233,9 +233,9 @@ namespace CefSharp
             }
 
             // TODO: This seems wrong, browser might be a popup browser.
-            // TODO: Should we be passing native_key_code here as well? Probably.
             return handler->OnKeyEvent(
                 _browserControl, (KeyType)event.type, event.windows_key_code, 
+                event.native_key_code,
                 (CefEventFlags)event.modifiers, event.is_system_key == 1);
         }
 

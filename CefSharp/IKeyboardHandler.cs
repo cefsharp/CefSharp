@@ -21,7 +21,7 @@ namespace CefSharp
         /// Windows) and sometimes it's determined using a mapping function. See
         /// WebCore/platform/chromium/KeyboardCodes.h for the list of values.
         /// </param>
-        /// <param name="nativeKeyCode">The native key code. On Windows this is the same value as <paramref name="windowsKeyCode"/>.</param>
+        /// <param name="nativeKeyCode">The native key code. On Windows this appears to be in the format of WM_KEYDOWN/WM_KEYUP/etc... lParam data.</param>
         /// <param name="modifiers">What other modifier keys are currently down: Shift/Control/Alt/OS X Command/etc...</param>
         /// <param name="isSystemKey">
         /// Indicates whether the event is considered a "system key" event (see
@@ -43,12 +43,13 @@ namespace CefSharp
         /// Windows) and sometimes it's determined using a mapping function. See
         /// WebCore/platform/chromium/KeyboardCodes.h for the list of values.
         /// </param>
+        /// <param name="nativeKeyCode">The native key code. On Windows this appears to be in the format of WM_KEYDOWN/WM_KEYUP/etc... lParam data.</param>
         /// <param name="modifiers">What other modifier keys are currently down: Shift/Control/Alt/OS X Command/etc...</param>
         /// <param name="isSystemKey">
         /// Indicates whether the event is considered a "system key" event (see
         /// http://msdn.microsoft.com/en-us/library/ms646286(VS.85).aspx for details).
         /// </param>
         /// <returns>Return true if the keyboard event was handled or false otherwise.</returns>
-        bool OnKeyEvent(IWebBrowser browserControl, KeyType type, int windowsKeyCode, CefEventFlags modifiers, bool isSystemKey);
+        bool OnKeyEvent(IWebBrowser browserControl, KeyType type, int windowsKeyCode, int nativeKeyCode, CefEventFlags modifiers, bool isSystemKey);
     }
 }
