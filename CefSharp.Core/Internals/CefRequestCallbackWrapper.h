@@ -5,7 +5,6 @@
 #pragma once
 
 #include "Stdafx.h"
-#include "MCefRefPtr.h"
 
 using namespace CefSharp;
 
@@ -13,15 +12,15 @@ namespace CefSharp
 {
     namespace Internals
     {
-        public ref class RequestCallback : public IRequestCallback
+        public ref class CefRequestCallbackWrapper : public IRequestCallback
         {
             MCefRefPtr<CefRequestCallback> _callback;
         internal:
-            RequestCallback(CefRefPtr<CefRequestCallback> callback) : _callback(callback)
+            CefRequestCallbackWrapper(CefRefPtr<CefRequestCallback> callback) : _callback(callback)
             {
             }
 
-            ~RequestCallback()
+            ~CefRequestCallbackWrapper()
             {
                 _callback = NULL;
             }
@@ -30,11 +29,15 @@ namespace CefSharp
             virtual void Continue(bool allow)
             {
                 _callback->Continue(allow);
+
+                _callback = NULL;
             }
 
             virtual void Cancel()
             {
                 _callback->Cancel();
+
+                _callback = NULL;
             }
         };
     }

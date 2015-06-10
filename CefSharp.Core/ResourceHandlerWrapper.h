@@ -46,7 +46,7 @@ namespace CefSharp
         }
 
         virtual bool ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefCallback> callback);
-        virtual void ProcessRequestCallback(IResourceHandlerResponse^ handlerResponse);
+        virtual void ProcessRequestCallback(IResourceHandlerResponse^ handlerResponse, bool cancel);
         virtual void GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl);
         virtual bool ReadResponse(void* data_out, int bytes_to_read, int& bytes_read, CefRefPtr<CefCallback> callback);
         virtual void Cancel();

@@ -13,15 +13,15 @@ namespace CefSharp
 {
     namespace Internals
     {
-        public ref class JsDialogCallback : public IJsDialogCallback
+        public ref class CefJSDialogCallbackWrapper : public IJsDialogCallback
         {
             MCefRefPtr<CefJSDialogCallback> _callback;
         internal:
-            JsDialogCallback(CefRefPtr<CefJSDialogCallback> callback) : _callback(callback)
+            CefJSDialogCallbackWrapper(CefRefPtr<CefJSDialogCallback> callback) : _callback(callback)
             {
             }
 
-            ~JsDialogCallback()
+            ~CefJSDialogCallbackWrapper()
             {
                 _callback = NULL;
             }
@@ -30,6 +30,15 @@ namespace CefSharp
             virtual void Continue(bool success, String^ userInput)
             {
                 _callback->Continue(success, StringUtils::ToNative(userInput));
+
+                _callback = NULL;
+            }
+
+            virtual void Continue(bool success)
+            {
+                _callback->Continue(success, CefString());
+
+                _callback = NULL;
             }
         };
     }

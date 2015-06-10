@@ -780,7 +780,7 @@ namespace CefSharp
                     response.ContentLength = memoryStream.Length;
                 }
 
-                response.ProcessRequestCallback();
+                response.Continue();
             });
 
             // If we have a MemoryStream (which is likely to be very common), 
