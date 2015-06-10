@@ -31,7 +31,7 @@ namespace CefSharp
             get { return Handlers.Count > 0; }
         }
 
-        public virtual IResourceHandler GetResourceHandler(IWebBrowser browser, IRequest request)
+        public virtual IResourceHandler GetResourceHandler(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request)
         {
             IResourceHandler handler;
 

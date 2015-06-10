@@ -344,21 +344,21 @@ namespace CefSharp.OffScreen
             }
         }
 
-        void IWebBrowserInternal.OnFrameLoadStart(IFrame frame)
+        void IWebBrowserInternal.OnFrameLoadStart(FrameLoadStartEventArgs args)
         {
             var handler = FrameLoadStart;
             if (handler != null)
             {
-                handler(this, new FrameLoadStartEventArgs(frame));
+                handler(this, args);
             }
         }
 
-        void IWebBrowserInternal.OnFrameLoadEnd(IFrame frame, int httpStatusCode)
+        void IWebBrowserInternal.OnFrameLoadEnd(FrameLoadEndEventArgs args)
         {
             var handler = FrameLoadEnd;
             if (handler != null)
             {
-                handler(this, new FrameLoadEndEventArgs(frame, httpStatusCode));
+                handler(this, args);
             }
         }
 

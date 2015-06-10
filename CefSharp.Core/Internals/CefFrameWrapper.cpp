@@ -234,10 +234,24 @@ Int64 CefFrameWrapper::Identifier::get()
 IFrame^ CefFrameWrapper::Parent::get()
 {
     ThrowIfDisposed();
-    auto parent = _frame->GetParent();
-    if (parent != nullptr)
+    if (_parentFrame != nullptr)
     {
-        return gcnew CefFrameWrapper(parent, _browserAdapter);
+        // Be paranoid about creating the cached IBrowser.
+        lock sync(_syncRoot);
+
+        auto parent = _frame->GetParent();
+        if (parent != nullptr && _parentFrame != nullptr)
+        {
+            _parentFrame = gcnew CefFrameWrapper(parent, _browserAdapter);
+        }
+        else if (parent == nullptr)
+        {
+            return nullptr;
+        }
+    }
+    else
+    {
+        return _parentFrame;
     }
     return nullptr;
 }
@@ -259,7 +273,21 @@ String^ CefFrameWrapper::Url::get()
 IBrowser^ CefFrameWrapper::Browser::get()
 {
     ThrowIfDisposed();
-    return dynamic_cast<IBrowser^>(gcnew CefSharpBrowserWrapper(_frame->GetBrowser(), _browserAdapter));
+    if (_owningBrowser != nullptr)
+    {
+        return _owningBrowser;
+    }
+
+    // Be paranoid about creating the cached IBrowser.
+    lock sync(_syncRoot);
+
+    if (_owningBrowser != nullptr)
+    {
+        return _owningBrowser;
+    }
+
+    _owningBrowser = gcnew CefSharpBrowserWrapper(_frame->GetBrowser(), _browserAdapter);
+    return _owningBrowser;
 }
 
 void CefFrameWrapper::ThrowIfDisposed()

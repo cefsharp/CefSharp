@@ -17,8 +17,8 @@ namespace CefSharp.Internals
         void SetTitle(string title);
         void SetTooltipText(string tooltipText);
 
-        void OnFrameLoadStart(IFrame frame);
-        void OnFrameLoadEnd(IFrame frame, int httpStatusCode);
+        void OnFrameLoadStart(FrameLoadStartEventArgs args);
+        void OnFrameLoadEnd(FrameLoadEndEventArgs args);
         void OnConsoleMessage(string message, string source, int line);
         void OnStatusMessage(string value);
         void OnLoadError(IFrame frame, CefErrorCode errorCode, string errorText, string failedUrl);

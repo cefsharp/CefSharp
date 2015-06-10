@@ -11,13 +11,15 @@ namespace CefSharp
     /// </summary>
     public class FrameLoadStartEventArgs : EventArgs
     {
-        public FrameLoadStartEventArgs(IFrame frame)
+        public FrameLoadStartEventArgs(IBrowser browser, IFrame frame)
         {
+            Browser = browser;
             Frame = frame;
             Url = frame.Url;
             IsMainFrame = frame.IsMain;
         }
 
+        public IBrowser Browser { get; private set;}
         /// <summary>
         /// The frame that just started loading.
         /// </summary>

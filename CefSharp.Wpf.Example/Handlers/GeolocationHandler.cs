@@ -9,7 +9,7 @@ namespace CefSharp.Wpf.Example.Handlers
 {
     internal class GeolocationHandler : IGeolocationHandler
     {
-        public bool OnRequestGeolocationPermission(IWebBrowser browser, string requestingUrl, int requestId, IGeolocationCallback callback)
+        public bool OnRequestGeolocationPermission(IWebBrowser browserControl, IBrowser browser, string requestingUrl, int requestId, IGeolocationCallback callback)
         {
             var result = MessageBox.Show(String.Format("{0} wants to use your computer's location.  Allow?  ** You must set your Google API key in CefExample.Init() for this to work. **", requestingUrl), "Geolocation", MessageBoxButton.YesNo);
 
@@ -19,7 +19,7 @@ namespace CefSharp.Wpf.Example.Handlers
             return result == MessageBoxResult.Yes;
         }
 
-        public void OnCancelGeolocationPermission(IWebBrowser browser, string requestingUrl, int requestId)
+        public void OnCancelGeolocationPermission(IWebBrowser browserControl, IBrowser browser, string requestingUrl, int requestId)
         {
         }
     }

@@ -11,12 +11,18 @@ namespace CefSharp
     /// </summary>
     public class FrameLoadEndEventArgs : EventArgs
     {
-        public FrameLoadEndEventArgs(IFrame frame, int httpStatusCode)
+        public FrameLoadEndEventArgs(IBrowser browser, IFrame frame, int httpStatusCode)
         {
+            Browser = browser;
             Frame = frame;
             Url = frame.Url;
             HttpStatusCode = httpStatusCode;
         }
+
+        /// <summary>
+        /// The browser that contains the frame that finished loading.
+        /// </summary>
+        public IBrowser Browser { get; private set; }
 
         /// <summary>
         /// The frame that finished loading.
