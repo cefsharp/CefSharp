@@ -437,9 +437,11 @@ namespace CefSharp
                     return false;
                 }
 
-                CefRequestWrapper wrapper(request);
+                CefSharpBrowserWrapper browserWrapper(_cefBrowser, _browserAdapter);
                 CefFrameWrapper frameWrapper(frame, _browserAdapter);
-                return handler->OnBeforeBrowse(_browserControl, %wrapper, isRedirect, %frameWrapper);
+                CefRequestWrapper requestWrapper(request);
+                
+                return handler->OnBeforeBrowse(_browserControl, %browserWrapper, %frameWrapper, %requestWrapper, isRedirect);
             }
             return false;
         }

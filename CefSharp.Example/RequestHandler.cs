@@ -8,7 +8,7 @@ namespace CefSharp.Example
         public static readonly string VersionNumberString = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}",
             Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
 
-        bool IRequestHandler.OnBeforeBrowse(IWebBrowser browser, IRequest request, bool isRedirect, IFrame frame)
+        bool IRequestHandler.OnBeforeBrowse(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, bool isRedirect)
         {
             return false;
         }
