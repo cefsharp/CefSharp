@@ -21,21 +21,6 @@ void ManagedCefBrowserAdapter::CreateOffscreenBrowser(IntPtr windowHandle, Brows
     }
 }
 
-void ManagedCefBrowserAdapter::Close(bool forceClose)
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        browser->GetHost()->CloseBrowser(forceClose);
-    }
-}
-
-void ManagedCefBrowserAdapter::CloseAllPopups(bool forceClose)
-{
-    _clientAdapter->CloseAllPopups(forceClose);
-}
-
 void ManagedCefBrowserAdapter::LoadUrl(String^ address)
 {
     auto browser = _clientAdapter->GetCefBrowser();
