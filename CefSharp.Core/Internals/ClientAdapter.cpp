@@ -800,10 +800,10 @@ namespace CefSharp
                 return false;
             }
 
-            auto dragDataWrapper = gcnew CefDragDataWrapper(dragData);
+            CefDragDataWrapper dragDataWrapper(dragData);
             CefSharpBrowserWrapper browserWrapper(browser, _browserAdapter);
 
-            return handler->OnDragEnter(_browserControl, %browserWrapper, dragDataWrapper, (CefSharp::DragOperationsMask)mask);
+            return handler->OnDragEnter(_browserControl, %browserWrapper, %dragDataWrapper, (CefSharp::DragOperationsMask)mask);
         }
 
         bool ClientAdapter::OnRequestGeolocationPermission(CefRefPtr<CefBrowser> browser, const CefString& requesting_url, int request_id, CefRefPtr<CefGeolocationCallback> callback)
