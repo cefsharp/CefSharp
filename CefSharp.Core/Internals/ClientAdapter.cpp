@@ -81,11 +81,10 @@ namespace CefSharp
             {
                 _browserHwnd = browser->GetHost()->GetWindowHandle();
                 _cefBrowser = browser;
-                auto browserId = browser->GetIdentifier();
                 
                 if (static_cast<IBrowserAdapter^>(_browserAdapter) != nullptr)
                 {
-                    _browserAdapter->OnAfterBrowserCreated(browserId);
+                    _browserAdapter->OnAfterBrowserCreated(browser->GetIdentifier());
                 }
             }
         }
@@ -96,17 +95,17 @@ namespace CefSharp
             {
                 // Remove from the browser popup list.
                 auto browserId = browser->GetIdentifier();
-                IBrowser^ entry;
-                if (_popupBrowsers->TryGetValue(browserId, entry))
+                IBrowser^ browserWrapper;
+                if (_popupBrowsers->TryGetValue(browserId, browserWrapper))
                 {
                     auto handler = _browserControl->PopupHandler;
                     if (handler != nullptr)
                     {
-                        handler->OnBeforeClose(_browserControl, entry);
+                        handler->OnBeforeClose(_browserControl, browserWrapper);
                     }
                     _popupBrowsers->Remove(browserId);
                     // Dispose the CefSharpBrowserWrapper
-                    delete entry;
+                    delete browserWrapper;
                 }
                 else
                 {
@@ -118,7 +117,9 @@ namespace CefSharp
                 auto handler = _browserControl->LifeSpanHandler;
                 if (handler != nullptr)
                 {
-                    handler->OnBeforeClose(_browserControl);
+                    CefSharpBrowserWrapper browserWrapper(browser, _browserAdapter);
+
+                    handler->OnBeforeClose(_browserControl, %browserWrapper);
                 }
 
                 _cefBrowser = NULL;
@@ -281,6 +282,7 @@ namespace CefSharp
                 {
                     return false;
                 }
+
                 return handler->OnKeyEvent(
                 _browserControl, (KeyType)event.type, event.windows_key_code, 
                 event.native_key_code,
