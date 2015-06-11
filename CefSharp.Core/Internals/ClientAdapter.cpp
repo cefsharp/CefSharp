@@ -672,14 +672,13 @@ namespace CefSharp
         void ClientAdapter::OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
             CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model)
         {
-
             auto handler = _browserControl->MenuHandler;
             if (handler == nullptr) return;
 
             // Context menu params
-            CefContextMenuParamsWrapper^ contextMenuParamsWrapper = gcnew CefContextMenuParamsWrapper(params);
+            CefContextMenuParamsWrapper contextMenuParamsWrapper(params);
             CefFrameWrapper frameWrapper(frame, _browserAdapter);
-            auto result = handler->OnBeforeContextMenu(_browserControl, %frameWrapper, contextMenuParamsWrapper);
+            auto result = handler->OnBeforeContextMenu(_browserControl, %frameWrapper, %contextMenuParamsWrapper);
             if (!result)
             {
                 model->Clear();
