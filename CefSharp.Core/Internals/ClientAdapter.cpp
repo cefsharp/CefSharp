@@ -250,7 +250,7 @@ namespace CefSharp
                 {
                     IBrowser^ browserWrapper = GetPopupBrowserWrapper(browser->GetIdentifier());
 
-                    return popupHandler->OnKeyEvent(_browserControl, browserWrapper, (KeyType)event.type, event.windows_key_code, (CefEventFlags)event.modifiers, event.is_system_key == 1);
+                    return popupHandler->OnKeyEvent(_browserControl, browserWrapper, (KeyType)event.type, event.windows_key_code, event.native_key_code, (CefEventFlags)event.modifiers, event.is_system_key == 1);
                 }
             }
             else
@@ -262,8 +262,10 @@ namespace CefSharp
                     return false;
                 }
 
+                CefSharpBrowserWrapper browserWrapper(browser, _browserAdapter);
+
                 return handler->OnKeyEvent(
-                    _browserControl, (KeyType)event.type, event.windows_key_code, 
+                    _browserControl, %browserWrapper, (KeyType)event.type, event.windows_key_code, 
                     event.native_key_code,
                     (CefEventFlags)event.modifiers, event.is_system_key == 1);
             }
@@ -291,8 +293,10 @@ namespace CefSharp
                     return false;
                 }
 
+                CefSharpBrowserWrapper browserWrapper(browser, _browserAdapter);
+
                 return handler->OnPreKeyEvent(
-                    _browserControl, (KeyType)event.type, event.windows_key_code,
+                    _browserControl, %browserWrapper, (KeyType)event.type, event.windows_key_code,
                     event.native_key_code, (CefEventFlags)event.modifiers, event.is_system_key == 1,
                     *is_keyboard_shortcut);
             }
