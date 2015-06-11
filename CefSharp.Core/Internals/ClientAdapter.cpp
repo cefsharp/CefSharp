@@ -23,18 +23,23 @@ namespace CefSharp
 {
     namespace Internals
     {
-        IBrowser^ ClientAdapter::GetPopupBrowserWrapper(int browserId)
+        IBrowser^ ClientAdapter::GetBrowserWrapper(int browserId, bool isPopup)
         {
-            IBrowser^ browserWrapper;
-            if (_popupBrowsers->TryGetValue(browserId, browserWrapper))
+            if(isPopup)
             {
-                return browserWrapper;
+                IBrowser^ browserWrapper;
+                if (_popupBrowsers->TryGetValue(browserId, browserWrapper))
+                {
+                    return browserWrapper;
+                }
+
+                auto stackFrame = gcnew StackFrame(1);
+                auto callingMethodName = stackFrame->GetMethod()->Name;
+
+                ThrowUnknownPopupBrowser(gcnew String(L"ClientAdapter::" + callingMethodName));
             }
 
-            auto stackFrame = gcnew StackFrame(1);
-            auto callingMethodName = stackFrame->GetMethod()->Name;
-
-            ThrowUnknownPopupBrowser(gcnew String(L"ClientAdapter::" + callingMethodName));
+            return _browserAdapter->GetBrowser();
         }
 
         void ClientAdapter::CloseAllPopups(bool forceClose)
@@ -108,7 +113,7 @@ namespace CefSharp
             if (browser->IsPopup())
             {
                 // Remove from the browser popup list.
-                IBrowser^ browserWrapper = GetPopupBrowserWrapper(browser->GetIdentifier());
+                IBrowser^ browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), true);
 
                 auto handler = _browserControl->PopupHandler;
                 if (handler != nullptr)
@@ -140,7 +145,7 @@ namespace CefSharp
                 auto handler = _browserControl->PopupHandler;
                 if (handler != nullptr)
                 {
-                    IBrowser^ browserWrapper = GetPopupBrowserWrapper(browser->GetIdentifier());
+                    IBrowser^ browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), true);
 
                     handler->OnLoadingStateChange(_browserControl, browserWrapper, isLoading, canGoBack, canGoForward);
                 }
@@ -180,7 +185,7 @@ namespace CefSharp
                 auto popupHandler = _browserControl->PopupHandler;
                 if (popupHandler != nullptr)
                 {
-                    IBrowser^ browserWrapper = GetPopupBrowserWrapper(browser->GetIdentifier());
+                    IBrowser^ browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), true);
 
                     popupHandler->OnFaviconUrlChange(_browserControl, browserWrapper, StringUtils::ToClr(iconUrls));
                 }
@@ -228,7 +233,7 @@ namespace CefSharp
                 auto popupHandler = _browserControl->PopupHandler;
                 if (popupHandler != nullptr)
                 {
-                    IBrowser^ browserWrapper = GetPopupBrowserWrapper(browser->GetIdentifier());
+                    IBrowser^ browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), true);
 
                     popupHandler->OnStatusMessage(_browserControl, browserWrapper, statusMessage);
                 }
@@ -246,7 +251,7 @@ namespace CefSharp
                 auto popupHandler = _browserControl->PopupHandler;
                 if (popupHandler != nullptr)
                 {
-                    IBrowser^ browserWrapper = GetPopupBrowserWrapper(browser->GetIdentifier());
+                    IBrowser^ browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), true);
 
                     return popupHandler->OnKeyEvent(_browserControl, browserWrapper, (KeyType)event.type, event.windows_key_code, event.native_key_code, (CefEventFlags)event.modifiers, event.is_system_key == 1);
                 }
@@ -277,7 +282,7 @@ namespace CefSharp
                 auto popupHandler = _browserControl->PopupHandler;
                 if (popupHandler != nullptr)
                 {
-                    IBrowser^ browserWrapper = GetPopupBrowserWrapper(browser->GetIdentifier());
+                    IBrowser^ browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), true);
 
                     popupHandler->OnPreKeyEvent(_browserControl, browserWrapper, (KeyType)event.type, event.windows_key_code, event.native_key_code, (CefEventFlags)event.modifiers, event.is_system_key == 1, *is_keyboard_shortcut);
                 }
@@ -308,7 +313,7 @@ namespace CefSharp
                 auto popupHandler = _browserControl->PopupHandler;
                 if (popupHandler != nullptr)
                 {
-                    IBrowser^ browserWrapper = GetPopupBrowserWrapper(browser->GetIdentifier());
+                    IBrowser^ browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), true);
                     CefFrameWrapper frameWrapper(frame, _browserAdapter);
                     popupHandler->OnFrameLoadStart(_browserControl, gcnew FrameLoadStartEventArgs(browserWrapper, %frameWrapper));
                 }
@@ -328,7 +333,7 @@ namespace CefSharp
                 auto popupHandler = _browserControl->PopupHandler;
                 if (popupHandler != nullptr)
                 {
-                    IBrowser^ browserWrapper = GetPopupBrowserWrapper(browser->GetIdentifier());
+                    IBrowser^ browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), true);
 
                     CefFrameWrapper frameWrapper(frame, _browserAdapter);
                     popupHandler->OnFrameLoadEnd(_browserControl, gcnew FrameLoadEndEventArgs(browserWrapper, %frameWrapper, httpStatusCode));
@@ -349,7 +354,7 @@ namespace CefSharp
                 auto popupHandler = _browserControl->PopupHandler;
                 if (popupHandler != nullptr)
                 {
-                    IBrowser^ browserWrapper = GetPopupBrowserWrapper(browser->GetIdentifier());
+                    IBrowser^ browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), true);
                     CefFrameWrapper frameWrapper(frame, _browserAdapter);
                     popupHandler->OnLoadError(_browserControl, browserWrapper,
                         gcnew LoadErrorEventArgs(%frameWrapper, static_cast<CefErrorCode>(errorCode), StringUtils::ToClr(errorText), StringUtils::ToClr(failedUrl)));
@@ -372,7 +377,7 @@ namespace CefSharp
                     return false;
                 }
 
-                IBrowser^ browserWrapper = GetPopupBrowserWrapper(browser->GetIdentifier());
+                IBrowser^ browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), true);
 
                 CefFrameWrapper frameWrapper(frame, _browserAdapter);
                 CefRequestWrapper requestWrapper(request);
@@ -408,18 +413,7 @@ namespace CefSharp
             // Still notify the user of the certificate error just don't provide a callback.
             auto requestCallback = callback == NULL ? nullptr : gcnew CefRequestCallbackWrapper(callback);
 
-            IBrowser^ browserWrapper;
-
-            if (browser->IsPopup())
-            {
-                browserWrapper = GetPopupBrowserWrapper(browser->GetIdentifier());
-            }
-            else
-            {
-                //TODO: Cache and reuse wrapper - currently the cached instance is in ManagedCefBrowserAdapter
-                // Needs to move into here
-                browserWrapper = gcnew CefSharpBrowserWrapper(browser, _browserAdapter);
-            }
+            IBrowser^ browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
 
             return handler->OnCertificateError(_browserControl, browserWrapper, (CefErrorCode)cert_error, StringUtils::ToClr(request_url), requestCallback);
         }
@@ -434,18 +428,7 @@ namespace CefSharp
             
             auto requestCallback = gcnew CefRequestCallbackWrapper(callback);
 
-            IBrowser^ browserWrapper;
-
-            if (browser->IsPopup())
-            {
-                browserWrapper = GetPopupBrowserWrapper(browser->GetIdentifier());
-            }
-            else
-            {
-                //TODO: Cache and reuse wrapper - currently the cached instance is in ManagedCefBrowserAdapter
-                // Needs to move into here
-                browserWrapper = gcnew CefSharpBrowserWrapper(browser, _browserAdapter);
-            }
+            IBrowser^ browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
 
             return handler->OnQuotaRequest(_browserControl, browserWrapper, StringUtils::ToClr(originUrl), newSize, requestCallback);
         }
@@ -466,18 +449,7 @@ namespace CefSharp
 
             auto pluginInfo = TypeConversion::FromNative(info);
 
-            IBrowser^ browserWrapper;
-
-            if (browser->IsPopup())
-            {
-                browserWrapper = GetPopupBrowserWrapper(browser->GetIdentifier());
-            }
-            else
-            {
-                //TODO: Cache and reuse wrapper - currently the cached instance is in ManagedCefBrowserAdapter
-                // Needs to move into here
-                browserWrapper = gcnew CefSharpBrowserWrapper(browser, _browserAdapter);
-            }
+            IBrowser^ browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
 
             return handler->OnBeforePluginLoad(_browserControl, browserWrapper, StringUtils::ToClr(url), StringUtils::ToClr(policy_url), pluginInfo);
         }
@@ -488,18 +460,7 @@ namespace CefSharp
 
             if (handler != nullptr)
             {
-                IBrowser^ browserWrapper;
-
-                if (browser->IsPopup())
-                {
-                    browserWrapper = GetPopupBrowserWrapper(browser->GetIdentifier());
-                }
-                else
-                {
-                    //TODO: Cache and reuse wrapper - currently the cached instance is in ManagedCefBrowserAdapter
-                    // Needs to move into here
-                    browserWrapper = gcnew CefSharpBrowserWrapper(browser, _browserAdapter);
-                }
+                IBrowser^ browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
 
                 handler->OnPluginCrashed(_browserControl, browserWrapper, StringUtils::ToClr(plugin_path));
             }			
@@ -511,18 +472,7 @@ namespace CefSharp
 
             if (handler != nullptr)
             {
-                IBrowser^ browserWrapper;
-
-                if (browser->IsPopup())
-                {
-                    browserWrapper = GetPopupBrowserWrapper(browser->GetIdentifier());
-                }
-                else
-                {
-                    //TODO: Cache and reuse wrapper - currently the cached instance is in ManagedCefBrowserAdapter
-                    // Needs to move into here
-                    browserWrapper = gcnew CefSharpBrowserWrapper(browser, _browserAdapter);
-                }
+                IBrowser^ browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
 
                 handler->OnRenderProcessTerminated(_browserControl, browserWrapper, (CefTerminationStatus)status);
             }			
@@ -536,7 +486,7 @@ namespace CefSharp
                 if (popupHandler != nullptr)
                 {
                     auto managedNewUrl = StringUtils::ToClr(newUrl);
-                    IBrowser^ browserWrapper = GetPopupBrowserWrapper(browser->GetIdentifier());;
+                    IBrowser^ browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), true);;
                     CefFrameWrapper frameWrapper(frame, _browserAdapter);
 
                     popupHandler->OnResourceRedirect(_browserControl, browserWrapper, %frameWrapper, managedNewUrl);
@@ -565,18 +515,7 @@ namespace CefSharp
 
             if (handler != nullptr)
             {
-                IBrowser^ browserWrapper;
-
-                if (browser->IsPopup())
-                {
-                    browserWrapper = GetPopupBrowserWrapper(browser->GetIdentifier());
-                }
-                else
-                {
-                    //TODO: Cache and reuse wrapper - currently the cached instance is in ManagedCefBrowserAdapter
-                    // Needs to move into here
-                    browserWrapper = gcnew CefSharpBrowserWrapper(browser, _browserAdapter);
-                }
+                IBrowser^ browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
 
                 allowOSExecution = handler->OnProtocolExecution(_browserControl, browserWrapper, StringUtils::ToClr(url));
             }
@@ -599,18 +538,7 @@ namespace CefSharp
             CefFrameWrapper frameWrapper(frame, _browserAdapter);
             IResourceHandler^ resourceHandler;
 
-            IBrowser^ browserWrapper;
-
-            if (browser->IsPopup())
-            {
-                browserWrapper = GetPopupBrowserWrapper(browser->GetIdentifier());
-            }
-            else
-            {
-                //TODO: Cache and reuse wrapper - currently the cached instance is in ManagedCefBrowserAdapter
-                // Needs to move into here
-                browserWrapper = gcnew CefSharpBrowserWrapper(browser, _browserAdapter);
-            }
+            IBrowser^ browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
 
             resourceHandler = factory->GetResourceHandler(_browserControl, browserWrapper, %frameWrapper, requestWrapper);
 
@@ -634,7 +562,7 @@ namespace CefSharp
                     auto requestWrapper = gcnew CefRequestWrapper(request);
                     auto requestCallback = gcnew CefRequestCallbackWrapper(callback);
 
-                    IBrowser^ browserWrapper = GetPopupBrowserWrapper(browser->GetIdentifier());
+                    IBrowser^ browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), true);
 
                     CefFrameWrapper frameWrapper(frame, _browserAdapter);
                     return (cef_return_value_t)popupHandler->OnBeforeResourceLoad(_browserControl, browserWrapper, %frameWrapper, requestWrapper, requestCallback);

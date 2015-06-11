@@ -157,6 +157,6 @@ namespace CefSharp
         /// Gets the CefBrowserWrapper instance
         /// </summary>
         /// <returns>Gets the current instance or null</returns>
-        IBrowser^ GetBrowser();
+        virtual IBrowser^ GetBrowser();
     };
 }
