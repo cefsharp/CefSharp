@@ -241,8 +241,6 @@ namespace CefSharp
 
         bool ClientAdapter::OnKeyEvent(CefRefPtr<CefBrowser> browser, const CefKeyEvent& event, CefEventHandle os_event)
         {
-            // TODO: windows_key_code could possibly be the wrong choice here (the OnKeyEvent signature has changed since CEF1). The
-            // other option would be native_key_code.
             if (browser->IsPopup())
             {
                 auto popupHandler = _browserControl->PopupHandler;
