@@ -48,10 +48,13 @@ namespace CefSharp
     protected:
         virtual void DoDispose(bool isDisposing) override
         {
-            CloseAllPopups(true);
-            Close(true);
-
-            _clientAdapter = nullptr;
+            //Close browser and popups before attempting to close the WCF host
+            if(_clientAdapter.get())
+            {
+                _clientAdapter->CloseAllPopups(true);
+                _clientAdapter = nullptr;
+                _browserWrapper->CloseBrowser(true);
+            }
 
             // Guard managed only member derefs by isDisposing:
             if (isDisposing && _browserProcessServiceHost != nullptr)
@@ -88,8 +91,6 @@ namespace CefSharp
         virtual void OnAfterBrowserCreated(int browserId);
         void CreateOffscreenBrowser(IntPtr windowHandle, BrowserSettings^ browserSettings, String^ address);
         void CreateBrowser(BrowserSettings^ browserSettings, IntPtr sourceHandle, String^ address);
-        void Close(bool forceClose);
-        void CloseAllPopups(bool forceClose);
         void LoadUrl(String^ address);
         void WasResized();
         void WasHidden(bool hidden);
@@ -156,6 +157,6 @@ namespace CefSharp
         /// Gets the CefBrowserWrapper instance
         /// </summary>
         /// <returns>Gets the current instance or null</returns>
-        IBrowser^ GetBrowser();
+        virtual IBrowser^ GetBrowser();
     };
 }

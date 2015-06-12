@@ -5,7 +5,7 @@ namespace CefSharp
     /// <summary>
     /// Handler methods that get called AFTER the Popup is created.
     /// </summary>
-    public interface IPopupHandler
+    public interface IPopupHandler : IKeyboardHandler
     {
         /// <summary>
         /// Called before the passed popup window (browser) is closed.
@@ -38,15 +38,6 @@ namespace CefSharp
         /// for complete descriptions of the error codes.
         /// </summary>
         void OnLoadError(IWebBrowser browserControl, IBrowser browser, LoadErrorEventArgs loadErrorArgs);
-
-        #region KeyBoardHandler methods
-
-        bool OnKeyEvent(IWebBrowser browserControl, IBrowser browser, KeyType type, int code, CefEventFlags modifiers, bool isSystemKey);
-
-        bool OnPreKeyEvent(IWebBrowser browserControl, IBrowser browser, KeyType type, int windowsKeyCode, int nativeKeyCode, CefEventFlags modifiers, bool isSystemKey, ref bool isKeyboardShortcut);
-        #endregion
-
-        #region RequestHandler methods
 
         /// <summary>
         /// Called before browser navigation.
@@ -84,7 +75,5 @@ namespace CefSharp
         /// or <see cref="CefReturnValue.Continue"/> to allow the resource to load normally. For async
         /// return <see cref="CefReturnValue.ContinueAsync"/></returns>
         CefReturnValue OnBeforeResourceLoad(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IRequestCallback callback);
-
-        #endregion
     }
 }

@@ -15,12 +15,13 @@ namespace CefSharp
         /// will be called. If the navigation is canceled <see cref="IWebBrowser.LoadError"/> will be called with an ErrorCode
         /// value of <see cref="CefErrorCode.Aborted"/>. 
         /// </summary>
+        /// <param name="browserControl">the browser control</param>
         /// <param name="browser">the browser object</param>
+        /// <param name="frame">The frame the request is coming from</param>
         /// <param name="request">the request object - cannot be modified in this callback</param>
         /// <param name="isRedirect">has the request been redirected</param>
-        /// <param name="frame">The frame the request is coming from</param>
         /// <returns>Return true to cancel the navigation or false to allow the navigation to proceed.</returns>
-        bool OnBeforeBrowse(IWebBrowser browser, IRequest request, bool isRedirect, IFrame frame);
+        bool OnBeforeBrowse(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, bool isRedirect);
 
         /// <summary>
         /// Called to handle requests for URLs with an invalid SSL certificate.
