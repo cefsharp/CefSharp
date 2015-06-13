@@ -39,13 +39,16 @@ void ManagedCefBrowserAdapter::LoadUrl(String^ address)
 
 void ManagedCefBrowserAdapter::OnAfterBrowserCreated(int browserId)
 {
-    _browserProcessServiceHost = gcnew BrowserProcessServiceHost(_javaScriptObjectRepository, Process::GetCurrentProcess()->Id, browserId);
-    //NOTE: Attempt to solve timing issue where browser is opened and rapidly disposed. In some cases a call to Open throws
-    // an exception about the process already being closed. Two relevant issues are #862 and #804.
-    // Considering adding an IsDisposed check and also may have to revert to a try catch block
-    if (_browserProcessServiceHost->State == CommunicationState::Created)
+    if (Cef::WcfEnabled)
     {
-        _browserProcessServiceHost->Open();
+        _browserProcessServiceHost = gcnew BrowserProcessServiceHost(_javaScriptObjectRepository, Process::GetCurrentProcess()->Id, browserId);
+        //NOTE: Attempt to solve timing issue where browser is opened and rapidly disposed. In some cases a call to Open throws
+        // an exception about the process already being closed. Two relevant issues are #862 and #804.
+        // Considering adding an IsDisposed check and also may have to revert to a try catch block
+        if (_browserProcessServiceHost->State == CommunicationState::Created)
+        {
+            _browserProcessServiceHost->Open();
+        }
     }
     
     auto browser = _clientAdapter->GetCefBrowser();
@@ -366,6 +369,11 @@ void ManagedCefBrowserAdapter::NotifyScreenInfoChanged()
 
 void ManagedCefBrowserAdapter::RegisterJsObject(String^ name, Object^ object, bool lowerCaseJavascriptNames)
 {
+    if (!Cef::WcfEnabled)
+    {
+        throw gcnew InvalidOperationException("To enable synchronous JS bindings set WcfEnabled true in CefSettings during initialization.");
+    }
+
     _javaScriptObjectRepository->Register(name, object, lowerCaseJavascriptNames);
 }
 

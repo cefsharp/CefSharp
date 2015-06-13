@@ -30,10 +30,13 @@ namespace CefSharp
             BrowserSubprocessPath = "CefSharp.BrowserSubprocess.exe";
             _cefCustomSchemes = gcnew List<CefCustomScheme^>();
             _cefCommandLineArgs = gcnew Dictionary<String^, String^>();
+            WcfEnabled = true;
         }
 
         !CefSettings() { delete _cefSettings; }
         ~CefSettings() { delete _cefSettings; }
+
+        virtual property bool WcfEnabled;
 
         virtual property IEnumerable<CefCustomScheme^>^ CefCustomSchemes
         {
