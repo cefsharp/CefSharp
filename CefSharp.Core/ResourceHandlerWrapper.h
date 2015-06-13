@@ -53,7 +53,8 @@ namespace CefSharp
             _handler = nullptr;
             _stream = nullptr;
             _callback = NULL;
-            delete _requestWrapper;
+            _requestWrapper->Dispose();
+            _requestWrapper = nullptr;
         }
 
         virtual bool ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefCallback> callback);
