@@ -56,15 +56,12 @@ namespace CefSharp
 
             ~ClientAdapter()
             {
+                CloseAllPopups(true);
                 _browserControl = nullptr;
                 _browserHwnd = nullptr;
                 _cefBrowser = NULL;
                 _tooltip = nullptr;
                 _browserAdapter = nullptr;
-                if (_popupBrowsers->Count > 0)
-                {
-                    throw gcnew InvalidOperationException("~ClientAdapter called before ClientAdapter::CloseAllPopups!");
-                }
                 _popupBrowsers = nullptr;
             }
 

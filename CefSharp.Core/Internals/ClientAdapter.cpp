@@ -2,9 +2,9 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-#include "include/wrapper/cef_stream_resource_handler.h"
-
 #include "Stdafx.h"
+
+#include "include/wrapper/cef_stream_resource_handler.h"
 #include "ClientAdapter.h"
 #include "CefRequestWrapper.h"
 #include "CefContextMenuParamsWrapper.h"
@@ -133,7 +133,6 @@ namespace CefSharp
 
                     handler->OnBeforeClose(_browserControl, %browserWrapper);
                 }
-
                 _cefBrowser = NULL;
             }
         }
@@ -773,8 +772,9 @@ namespace CefSharp
                 downloadItem->SuggestedFileName = StringUtils::ToClr(suggested_name);
 
                 auto callbackWrapper = gcnew CefBeforeDownloadCallbackWrapper(callback);
+                CefSharpBrowserWrapper browserWrapper(browser, _browserAdapter);
 
-                handler->OnBeforeDownload(gcnew CefSharpBrowserWrapper(browser, _browserAdapter), downloadItem, callbackWrapper);
+                handler->OnBeforeDownload(%browserWrapper, downloadItem, callbackWrapper);
             }
         };
 
@@ -786,8 +786,9 @@ namespace CefSharp
             if(handler != nullptr)
             {
                 auto callbackWrapper = gcnew CefDownloadItemCallbackWrapper(callback);
+                CefSharpBrowserWrapper browserWrapper(browser, _browserAdapter);
 
-                handler->OnDownloadUpdated(gcnew CefSharpBrowserWrapper(browser, _browserAdapter), TypeConversion::FromNative(download_item), callbackWrapper);
+                handler->OnDownloadUpdated(%browserWrapper, TypeConversion::FromNative(download_item), callbackWrapper);
             }
         }
     }

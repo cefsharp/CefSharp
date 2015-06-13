@@ -37,8 +37,15 @@ namespace CefSharp
             {
             }
 
+            !CefFrameWrapper()
+            {
+                _frame = NULL;
+            }
+
             ~CefFrameWrapper()
             {
+                this->!CefFrameWrapper();
+
                 _browserAdapter = nullptr;
                 delete _parentFrame;
                 delete _owningBrowser;

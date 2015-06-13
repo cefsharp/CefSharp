@@ -10,10 +10,15 @@ namespace CefSharp
 {
     namespace Internals
     {
-        JavascriptCallbackWrapper::~JavascriptCallbackWrapper()
+        JavascriptCallbackWrapper::!JavascriptCallbackWrapper()
         {
             value = nullptr;
             context = nullptr;
+        }
+
+        JavascriptCallbackWrapper::~JavascriptCallbackWrapper()
+        {
+            this->!JavascriptCallbackWrapper();
         }
 
         JavascriptResponse^ JavascriptCallbackWrapper::Execute(array<Object^>^ parms)

@@ -21,16 +21,20 @@ namespace CefSharp
             
         }
 
-        ~CefGeolocationCallbackWrapper()
+        !CefGeolocationCallbackWrapper()
         {
             _callback = NULL;
+        }
+
+        ~CefGeolocationCallbackWrapper()
+        {
+            this->!CefGeolocationCallbackWrapper();
         }
 
         virtual void Continue(bool allow)
         {
             _callback->Continue(allow);
-
-            _callback = NULL;
+            delete this;
         }
     };
 }

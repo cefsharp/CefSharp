@@ -42,12 +42,16 @@ namespace CefSharp
             _wrappedProperties = gcnew List<JavascriptPropertyWrapper^>();
         }
 
-        ~JavascriptObjectWrapper()
+        !JavascriptObjectWrapper()
         {
             V8Value = nullptr;
-            CallbackRegistry = nullptr;
-            _jsPropertyHandler->Cleanup();
             _jsPropertyHandler = nullptr;
+        }
+
+        ~JavascriptObjectWrapper()
+        {
+            this->!JavascriptObjectWrapper();
+            CallbackRegistry = nullptr;
 
             for each (JavascriptMethodWrapper^ var in _wrappedMethods)
             {

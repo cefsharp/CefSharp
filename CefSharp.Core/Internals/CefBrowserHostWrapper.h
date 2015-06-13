@@ -22,9 +22,14 @@ namespace CefSharp
             {
             }
             
-            ~CefBrowserHostWrapper()
+            !CefBrowserHostWrapper()
             {
                 _browserHost = NULL;
+            }
+
+            ~CefBrowserHostWrapper()
+            {
+                this->!CefBrowserHostWrapper();
             }
 
         public:

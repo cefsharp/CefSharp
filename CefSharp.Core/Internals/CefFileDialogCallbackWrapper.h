@@ -21,23 +21,28 @@ namespace CefSharp
             
         }
 
-        ~CefFileDialogCallbackWrapper()
+        !CefFileDialogCallbackWrapper()
         {
             _callback = NULL;
+        }
+
+        ~CefFileDialogCallbackWrapper()
+        {
+            this->!CefFileDialogCallbackWrapper();
         }
 
         virtual void Continue(int selectedAcceptFilter, List<String^>^ filePaths)
         {
             _callback->Continue(selectedAcceptFilter, StringUtils::ToNative(filePaths));
 
-            _callback = NULL;
+            delete this;
         }
         
         virtual void Cancel()
         {
             _callback->Cancel();
 
-            _callback = NULL;
+            delete this;
         }
     };
 }

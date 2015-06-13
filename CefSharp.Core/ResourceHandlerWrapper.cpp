@@ -20,9 +20,18 @@ namespace CefSharp
         AutoLock lock_scope(_syncRoot);
 
         auto schemeResponse = gcnew ResourceHandlerResponse(this);
-        auto requestWrapper = gcnew CefRequestWrapper(request);
 
-        return _handler->ProcessRequestAsync(requestWrapper, schemeResponse);
+        // If _requestWrapper came from ISchemeHandlerFactory,
+        // the request parameter can be ignored since it is the same request.
+        // If ignoring the request parameter isn't good enough then we 
+        // should retain references to _requestWrapper and a CefRequestWrapper^
+        // of the request parameter until CefRequestWrapper is disposed.
+        if (static_cast<CefRequestWrapper^>(_requestWrapper) == nullptr)
+        {
+            _requestWrapper = gcnew CefRequestWrapper(request);
+        }
+
+        return _handler->ProcessRequestAsync(_requestWrapper, schemeResponse);
     }
 
     void ResourceHandlerWrapper::ProcessRequestCallback(IResourceHandlerResponse^ response, bool cancel)
@@ -37,7 +46,7 @@ namespace CefSharp
 
         _headers = TypeConversion::ToNative(response->ResponseHeaders);
 
-        // If CEF has cancelled the initial request, throw away a response that comes afterwards.
+        // If CEF has canceled the initial request, throw away a response that comes afterwards.
         if (_callback != nullptr)
         {
             if(cancel)
