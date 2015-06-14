@@ -289,7 +289,7 @@ Task<JavascriptResponse^>^ ManagedCefBrowserAdapter::EvaluateScriptAsync(int bro
         throw gcnew ArgumentOutOfRangeException("timeout", "Timeout greater than Maximum allowable value of " + UInt32::MaxValue);
     }
 
-    return _browserProcessServiceHost->EvaluateScriptAsync(browserId, frameId, script, timeout);
+    return _clientAdapter->EvaluateScriptAsync(browserId, frameId, script, timeout);
 }
 
 Task<JavascriptResponse^>^ ManagedCefBrowserAdapter::EvaluateScriptAsync(String^ script, Nullable<TimeSpan> timeout)
@@ -313,7 +313,7 @@ Task<JavascriptResponse^>^ ManagedCefBrowserAdapter::EvaluateScriptAsync(String^
         return nullptr;
     }
 
-    return _browserProcessServiceHost->EvaluateScriptAsync(browser->GetIdentifier(), frame->GetIdentifier(), script, timeout);
+    return _clientAdapter->EvaluateScriptAsync(browser->GetIdentifier(), frame->GetIdentifier(), script, timeout);
 }
 
 void ManagedCefBrowserAdapter::CreateBrowser(BrowserSettings^ browserSettings, IntPtr sourceHandle, String^ address)

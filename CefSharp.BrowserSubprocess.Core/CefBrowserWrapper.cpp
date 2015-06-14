@@ -31,50 +31,15 @@ namespace CefSharp
         }
     }
 
-    JavascriptResponse^ CefBrowserWrapper::EvaluateScriptInContext(CefRefPtr<CefV8Context> context, CefString script)
+    void CefBrowserWrapper::DoDispose(bool disposing)
     {
-        CefRefPtr<CefV8Value> result;
-        CefRefPtr<CefV8Exception> exception;
-        JavascriptResponse^ response = gcnew JavascriptResponse();
-
-        response->Success = context->Eval(script, result, exception);
-        if (response->Success)
+        _cefBrowser = nullptr;
+        if (disposing)
         {
-            if (result->IsFunction())
-            {
-                response->Result = _callbackRegistry->Register(context, result);
-            }
-            else 
-            {
-                response->Result = TypeUtils::ConvertFromCef(result);
-            }
+            delete _callbackRegistry;
+            _callbackRegistry = nullptr;
         }
-        else if (exception.get())
-        {
-            response->Message = StringUtils::ToClr(exception->GetMessage());
-        }
-
-        return response;
-    }
-
-    JavascriptResponse^ CefBrowserWrapper::DoEvaluateScript(System::Int64 frameId, String^ script)
-    {
-        auto frame = _cefBrowser->GetFrame(frameId);
-        CefRefPtr<CefV8Context> context = frame->GetV8Context();
-
-        if (context.get() && context->Enter())
-        {
-            try
-            {
-                return EvaluateScriptInContext(context, StringUtils::ToNative(script));
-            }
-            finally
-            {
-                context->Exit();
-            }
-        }
-
-        return nullptr;
+        DisposableResource::DoDispose(disposing);
     }
 
     JavascriptResponse^ CefBrowserWrapper::DoCallback(System::Int64 callbackId, array<Object^>^ parameters)

@@ -65,6 +65,12 @@
     <ClCompile Include="Internals\Serialization\ObjectsSerialization.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Internals\Serialization\V8Deserialization.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Internals\Messaging\EvaluateScriptDoneDelegate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vcclr_local.h">
@@ -195,6 +201,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Internals\Serialization\ObjectsSerialization.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\Serialization\V8Deserialization.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\Messaging\EvaluateScriptDoneDelegate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -30,6 +30,15 @@ namespace CefSharp
         JavascriptCallbackRegistry^ _callbackRegistry;
         JavascriptRootObjectWrapper^ _javascriptRootObjectWrapper;
 
+    internal:
+        property JavascriptCallbackRegistry^ CallbackRegistry
+        {
+            CefSharp::Internals::JavascriptCallbackRegistry^ get()
+            {
+                return _callbackRegistry;
+            }
+        }
+
     public:
         CefBrowserWrapper(CefRefPtr<CefBrowser> cefBrowser);
         !CefBrowserWrapper();
@@ -53,9 +62,7 @@ namespace CefSharp
         // The WCF proxy to the parent process.
         property IBrowserProcess^ BrowserProcess;
 
-        JavascriptResponse^ EvaluateScriptInContext(CefRefPtr<CefV8Context> context, CefString script);
-
-        virtual JavascriptResponse^ DoEvaluateScript(System::Int64 frameId, String^ script);
+        virtual void DoDispose(bool disposing) override;
 
         JavascriptResponse^ DoCallback(System::Int64 callbackId, array<Object^>^ parameters);
 

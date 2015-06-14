@@ -25,6 +25,8 @@ namespace CefSharp
 {
     namespace Internals
     {
+        using namespace Messaging;
+
         IBrowser^ ClientAdapter::GetBrowserWrapper(int browserId, bool isPopup)
         {
             if(isPopup)
@@ -816,5 +818,33 @@ namespace CefSharp
 
             browser->SendProcessMessage(CefProcessId::PID_RENDERER, message);
         }
+
+        bool ClientAdapter::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
+        {
+            bool handled = false;
+
+            ProcessMessageDelegateSet::iterator it = _processMessageDelegates.begin();
+            for (; it != _processMessageDelegates.end() && !handled; ++it) {
+                handled = (*it)->OnProcessMessageReceived(browser, source_process, message);
+            }
+
+            return handled;
+        }
+
+        Task<JavascriptResponse^>^ ClientAdapter::EvaluateScriptAsync(int browserId, int frameId, String^ script, Nullable<TimeSpan> timeout)
+        {
+            Task<JavascriptResponse^>^ result = nullptr;
+            if (_cefBrowser.get())
+            {
+                result = _evalScriptDoneDelegate->EvaluateScriptAsync(_cefBrowser, browserId, frameId, script, timeout);
+            }
+            return result;
+        }
+
+        void ClientAdapter::AddProcessMessageDelegate(CefRefPtr<ProcessMessageDelegate> processMessageDelegate)
+        {
+            _processMessageDelegates.insert(processMessageDelegate);
+        }
+
     }
 }

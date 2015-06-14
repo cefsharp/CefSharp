@@ -30,10 +30,17 @@ namespace CefSharp
 
         //Multiple CefBrowserWrappers created when opening popups
         _browserWrappers->Add(browser->GetIdentifier(), wrapper);
+        _browsers.insert(std::make_pair(browser->GetIdentifier(), browser));
     }
 
     void CefAppUnmanagedWrapper::OnBrowserDestroyed(CefRefPtr<CefBrowser> browser)
     {
+        auto browserId = browser->GetIdentifier();
+        if (_browsers.count(browserId) == 1)
+        {
+            _browsers.erase(browserId);
+        }
+
         auto wrapper = FindBrowserWrapper(browser, false);
 
         if (wrapper != nullptr)
@@ -100,5 +107,15 @@ namespace CefSharp
     void CefAppUnmanagedWrapper::AddProcessMessageDelegate(CefRefPtr<ProcessMessageDelegate> processMessageDelegate)
     {
         _processMessageDelegates.insert(processMessageDelegate);
+    }
+
+    CefRefPtr<CefBrowser> CefAppUnmanagedWrapper::FindBrowser(int browserId)
+    {
+        CefRefPtr<CefBrowser> result;
+        if (_browsers.count(browserId) == 1)
+        {
+            result = _browsers[browserId];
+        }
+        return result;
     }
 }

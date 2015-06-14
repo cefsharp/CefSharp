@@ -219,6 +219,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="Internals\Messaging\EvaluateScriptDoneDelegate.cpp" />
     <ClCompile Include="Internals\CefBrowserHostWrapper.cpp" />
     <ClCompile Include="Internals\CefContextMenuParamsWrapper.cpp" />
     <ClCompile Include="Internals\CefFrameWrapper.cpp" />
@@ -229,6 +230,7 @@
     <ClCompile Include="Internals\CefRequestWrapper.cpp" />
     <ClCompile Include="Internals\Serialization\ObjectsSerialization.cpp" />
     <ClCompile Include="Internals\Serialization\Primitives.cpp" />
+    <ClCompile Include="Internals\Serialization\V8Deserialization.cpp" />
     <ClCompile Include="Internals\StringVisitor.cpp" />
     <ClCompile Include="ManagedCefBrowserAdapter.cpp" />
     <ClCompile Include="NativeMethodWrapper.cpp" />
@@ -245,6 +247,7 @@
   <ItemGroup>
     <ClInclude Include="BrowserSettings.h" />
     <ClInclude Include="Cef.h" />
+    <ClInclude Include="Internals\Messaging\EvaluateScriptDoneDelegate.h" />
     <ClInclude Include="Internals\AutoLock.h" />
     <ClInclude Include="Internals\CefAuthCallbackWrapper.h" />
     <ClInclude Include="Internals\CefBeforeDownloadCallbackWrapper.h" />
@@ -273,6 +276,7 @@
     <ClInclude Include="Internals\RenderClientAdapter.h" />
     <ClInclude Include="Internals\ReportUnhandledExceptions.h" />
     <ClInclude Include="Internals\CefRequestCallbackWrapper.h" />
+    <ClInclude Include="Internals\Serialization\V8Deserialization.h" />
     <ClInclude Include="Internals\Serialization\ObjectsSerialization.h" />
     <ClInclude Include="Internals\Serialization\Primitives.h" />
     <ClInclude Include="Internals\StringVisitor.h" />

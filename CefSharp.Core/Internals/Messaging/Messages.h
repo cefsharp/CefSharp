@@ -9,6 +9,8 @@ namespace CefSharp
         namespace Messaging
         {
             const CefString kJsRootObject = "JavascriptRootObject";
+            const CefString kEvaluateJavascript = "EvaluateJavascript";
+            const CefString kEvaluateJavascriptDone = "EvaluateJavascriptDone";
         }
     }
 }

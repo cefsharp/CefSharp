@@ -19,6 +19,13 @@ namespace CefSharp
             CefTime GetCefTime(CefRefPtr<TList> list, TIndex index);
             template<typename TList, typename TIndex>
             bool IsCefTime(CefRefPtr<TList> list, TIndex index);
+
+            template<typename TList, typename TIndex>
+            void SetJsCallback(JavascriptCallback^ value, CefRefPtr<TList> list, TIndex index);
+            template<typename TList, typename TIndex>
+            JavascriptCallback^ GetJsCallback(CefRefPtr<TList> list, TIndex index);
+            template<typename TList, typename TIndex>
+            bool IsJsCallback(CefRefPtr<TList> list, TIndex index);
         }
     }
 }

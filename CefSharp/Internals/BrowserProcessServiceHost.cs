@@ -49,20 +49,6 @@ namespace CefSharp.Internals
             operationContextTaskCompletionSource.SetResult(operationContext);
         }
 
-        public Task<JavascriptResponse> EvaluateScriptAsync(int browserId, long frameId, string script, TimeSpan? timeout)
-        {
-            var operationContextTask = operationContextTaskCompletionSource.Task;
-            // Use TaskScheduler.Default to ensure that the work occurs
-            // on a background thread.
-            return operationContextTask.ContinueWith(t =>
-            {
-                var context = t.Result;
-                var renderProcess = context.GetCallbackChannel<IRenderProcess>();
-                var asyncResult = renderProcess.BeginEvaluateScriptAsync(browserId, frameId, script, timeout, null, null);
-                return Task.Factory.FromAsync<JavascriptResponse>(asyncResult, renderProcess.EndEvaluateScriptAsync);
-            }, TaskScheduler.Default).Unwrap();
-        }
-
         protected override void OnClose(TimeSpan timeout)
         {
             var task = operationContextTaskCompletionSource.Task;

@@ -10,6 +10,8 @@
 #include "include/cef_client.h"
 #include "include/cef_render_process_handler.h"
 #include "include/internal/cef_types.h"
+#include "Messaging/ProcessMessageDelegate.h"
+#include "Messaging/EvaluateScriptDoneDelegate.h"
 
 using namespace System;
 
@@ -39,6 +41,10 @@ namespace CefSharp
             gcroot<String^> _tooltip;
             gcroot<IBrowserAdapter^> _browserAdapter;
 
+            gcroot<Messaging::PendingTaskRepository<JavascriptResponse^>^> _pendingTaskRepository;
+            CefRefPtr<Messaging::EvaluateScriptDoneDelegate> _evalScriptDoneDelegate;
+            Messaging::ProcessMessageDelegateSet _processMessageDelegates;
+
             void ThrowUnknownPopupBrowser(String^ context)
             {
                 throw gcnew ApplicationException(String::Format("{0} couldn't find IBrowser entry! Please contact CefSharp development.", context));
@@ -51,8 +57,11 @@ namespace CefSharp
             ClientAdapter(IWebBrowserInternal^ browserControl, IBrowserAdapter^ browserAdapter) :
                 _browserControl(browserControl), 
                 _popupBrowsers(gcnew Dictionary<int, IBrowser^>()),
+                _pendingTaskRepository(gcnew Messaging::PendingTaskRepository<JavascriptResponse^>()),
                 _browserAdapter(browserAdapter)
             {
+                _evalScriptDoneDelegate = new Messaging::EvaluateScriptDoneDelegate(_pendingTaskRepository);
+                AddProcessMessageDelegate(_evalScriptDoneDelegate);
             }
 
             ~ClientAdapter()
@@ -83,6 +92,7 @@ namespace CefSharp
             virtual DECL CefRefPtr<CefDialogHandler> GetDialogHandler() OVERRIDE { return this; }
             virtual DECL CefRefPtr<CefDragHandler> GetDragHandler() OVERRIDE { return this; }
             virtual DECL CefRefPtr<CefGeolocationHandler> GetGeolocationHandler() OVERRIDE { return this; }
+            virtual DECL bool OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcessId source_process, CefRefPtr<CefProcessMessage> message) OVERRIDE;
 
             // CefLifeSpanHandler
             virtual DECL bool OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
@@ -158,6 +168,10 @@ namespace CefSharp
                 const CefString& suggested_name, CefRefPtr<CefBeforeDownloadCallback> callback) OVERRIDE;
             virtual void OnDownloadUpdated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDownloadItem> download_item,
                 CefRefPtr<CefDownloadItemCallback> callback) OVERRIDE;
+
+            Task<JavascriptResponse^>^ EvaluateScriptAsync(int browserId, int frameId, String^ script, Nullable<TimeSpan> timeout);
+
+            void AddProcessMessageDelegate(CefRefPtr<Internals::Messaging::ProcessMessageDelegate> processMessageDelegate);
 
             IMPLEMENT_REFCOUNTING(ClientAdapter);
         };
