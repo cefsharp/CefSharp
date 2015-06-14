@@ -18,6 +18,8 @@
 #include "CefAuthCallbackWrapper.h"
 #include "CefJSDialogCallbackWrapper.h"
 #include "CefRequestCallbackWrapper.h"
+#include "Messaging/Messages.h"
+#include "Serialization/ObjectsSerialization.h"
 
 namespace CefSharp
 {
@@ -81,6 +83,7 @@ namespace CefSharp
 
         void ClientAdapter::OnAfterCreated(CefRefPtr<CefBrowser> browser)
         {
+            auto browserAdapter = static_cast<IBrowserAdapter^>(_browserAdapter);
             if (browser->IsPopup())
             {
                 auto browserWrapper = gcnew CefSharpBrowserWrapper(browser, _browserAdapter);
@@ -97,10 +100,16 @@ namespace CefSharp
                 _browserHwnd = browser->GetHost()->GetWindowHandle();
                 _cefBrowser = browser;
                 
-                if (static_cast<IBrowserAdapter^>(_browserAdapter) != nullptr)
+                if (browserAdapter != nullptr)
                 {
-                    _browserAdapter->OnAfterBrowserCreated(browser->GetIdentifier());
+                    browserAdapter->OnAfterBrowserCreated(browser->GetIdentifier());
                 }
+            }
+
+            if (browserAdapter != nullptr)
+            {
+                auto rootObject = browserAdapter->GetObjectRepository()->RootObject;
+                SendJavascriptRootObject(browser, rootObject);
             }
         }
 
@@ -797,6 +806,15 @@ namespace CefSharp
 
                 handler->OnDownloadUpdated(browserWrapper, TypeConversion::FromNative(download_item), callbackWrapper);
             }
+        }
+
+        void ClientAdapter::SendJavascriptRootObject(CefRefPtr<CefBrowser> browser, JavascriptRootObject^ rootObject)
+        {
+            auto message = CefProcessMessage::Create(Messaging::kJsRootObject);
+            auto argumentList = message->GetArgumentList();
+            Serialization::SerializeJsRootObject(rootObject, argumentList);
+
+            browser->SendProcessMessage(CefProcessId::PID_RENDERER, message);
         }
     }
 }

@@ -46,6 +46,7 @@ namespace CefSharp
 
             IBrowser^ GetBrowserWrapper(int browserId, bool isPopup);
 
+            void SendJavascriptRootObject(CefRefPtr<CefBrowser> browser, JavascriptRootObject^ rootObject);
         public:
             ClientAdapter(IWebBrowserInternal^ browserControl, IBrowserAdapter^ browserAdapter) :
                 _browserControl(browserControl), 

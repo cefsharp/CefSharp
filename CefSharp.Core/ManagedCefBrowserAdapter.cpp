@@ -559,3 +559,8 @@ IBrowser^ ManagedCefBrowserAdapter::GetBrowser()
 {
     return _browserWrapper;
 }
+
+JavascriptObjectRepository^ ManagedCefBrowserAdapter::GetObjectRepository()
+{
+    return _javaScriptObjectRepository;
+}

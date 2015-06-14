@@ -227,6 +227,8 @@
     <ClCompile Include="Internals\CompletionHandler.cpp" />
     <ClCompile Include="Internals\CookieVisitor.cpp" />
     <ClCompile Include="Internals\CefRequestWrapper.cpp" />
+    <ClCompile Include="Internals\Serialization\ObjectsSerialization.cpp" />
+    <ClCompile Include="Internals\Serialization\Primitives.cpp" />
     <ClCompile Include="Internals\StringVisitor.cpp" />
     <ClCompile Include="ManagedCefBrowserAdapter.cpp" />
     <ClCompile Include="NativeMethodWrapper.cpp" />
@@ -265,10 +267,14 @@
     <ClInclude Include="Internals\CefRequestWrapper.h" />
     <ClInclude Include="Internals\CefJSDialogCallbackWrapper.h" />
     <ClInclude Include="Internals\MCefRefPtr.h" />
+    <ClInclude Include="Internals\Messaging\Messages.h" />
+    <ClInclude Include="Internals\Messaging\ProcessMessageDelegate.h" />
     <ClInclude Include="Internals\PluginVisitor.h" />
     <ClInclude Include="Internals\RenderClientAdapter.h" />
     <ClInclude Include="Internals\ReportUnhandledExceptions.h" />
     <ClInclude Include="Internals\CefRequestCallbackWrapper.h" />
+    <ClInclude Include="Internals\Serialization\ObjectsSerialization.h" />
+    <ClInclude Include="Internals\Serialization\Primitives.h" />
     <ClInclude Include="Internals\StringVisitor.h" />
     <ClInclude Include="Internals\TypeConversion.h" />
     <ClInclude Include="NativeMethodWrapper.h" />

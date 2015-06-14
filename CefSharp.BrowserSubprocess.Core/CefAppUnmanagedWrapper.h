@@ -10,6 +10,8 @@
 #include "include/cef_base.h"
 
 #include "CefBrowserWrapper.h"
+#include "Internals/Messaging/ProcessMessageDelegate.h"
+#include "Messaging/JsRootObjectDelegate.h"
 
 using namespace System::Collections::Generic;
 
@@ -19,9 +21,13 @@ namespace CefSharp
     private class CefAppUnmanagedWrapper : CefApp, CefRenderProcessHandler
     {
     private:
+        friend Internals::Messaging::JsRootObjectDelegate;
+
         gcroot<Action<CefBrowserWrapper^>^> _onBrowserCreated;
         gcroot<Action<CefBrowserWrapper^>^> _onBrowserDestroyed;
         gcroot<Dictionary<int, CefBrowserWrapper^>^> _browserWrappers;
+        Internals::Messaging::ProcessMessageDelegateSet _processMessageDelegates;
+
         CefBrowserWrapper^ FindBrowserWrapper(CefRefPtr<CefBrowser> browser, bool mustExist);
     public:
         
@@ -30,6 +36,8 @@ namespace CefSharp
             _onBrowserCreated = onBrowserCreated;
             _onBrowserDestroyed = onBrowserDestoryed;
             _browserWrappers = gcnew Dictionary<int, CefBrowserWrapper^>();
+
+            AddProcessMessageDelegate(new Internals::Messaging::JsRootObjectDelegate(this));
         }
 
         ~CefAppUnmanagedWrapper()
@@ -44,6 +52,9 @@ namespace CefSharp
         virtual DECL void OnBrowserDestroyed(CefRefPtr<CefBrowser> browser) OVERRIDE;
         virtual DECL void OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context) OVERRIDE;
         virtual DECL void OnContextReleased(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context) OVERRIDE;
+        virtual DECL bool OnProcessMessageReceived(CefRefPtr< CefBrowser > browser, CefProcessId source_process, CefRefPtr< CefProcessMessage > message) OVERRIDE;
+
+        void AddProcessMessageDelegate(CefRefPtr<Internals::Messaging::ProcessMessageDelegate> processMessageDelegate);
 
         IMPLEMENT_REFCOUNTING(CefAppUnmanagedWrapper);
     };

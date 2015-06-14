@@ -17,5 +17,6 @@ namespace CefSharp.Internals
         Task<JavascriptResponse> EvaluateScriptAsync(int browserId, Int64 frameId, string script, TimeSpan? timeout);
         void OnAfterBrowserCreated(int browserId);
         IBrowser GetBrowser();
+        JavascriptObjectRepository GetObjectRepository();
     }
 }

@@ -68,6 +68,21 @@
     <ClInclude Include="..\CefSharp.Core\Internals\ReportUnhandledExceptions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Serialization\ObjectsDeserialization.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CefSharp.Core\Internals\Messaging\Messages.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CefSharp.Core\Internals\Messaging\ProcessMessageDelegate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Messaging\JsRootObjectDelegate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CefSharp.Core\Internals\Serialization\Primitives.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -110,6 +125,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="JavascriptCallbackWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Messaging\JsRootObjectDelegate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Serialization\ObjectsDeserialization.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CefSharp.Core\Internals\Serialization\Primitives.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

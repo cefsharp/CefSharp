@@ -89,7 +89,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>$(SolutionDir)packages\$(CefSdkVer)\CEF;%(AdditionalIncludeDirectories);$(ProjectDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)CefSharp.Core;$(SolutionDir)packages\$(CefSdkVer)\CEF;%(AdditionalIncludeDirectories);$(ProjectDir)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -154,7 +154,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\CefSharp.Core\Internals\MCefRefPtr.h" />
+    <ClInclude Include="..\CefSharp.Core\Internals\Messaging\Messages.h" />
+    <ClInclude Include="..\CefSharp.Core\Internals\Messaging\ProcessMessageDelegate.h" />
     <ClInclude Include="..\CefSharp.Core\Internals\ReportUnhandledExceptions.h" />
+    <ClInclude Include="..\CefSharp.Core\Internals\Serialization\Primitives.h" />
     <ClInclude Include="..\CefSharp.Core\Internals\StringUtils.h" />
     <ClInclude Include="CefAppUnmanagedWrapper.h" />
     <ClInclude Include="CefAppWrapper.h" />
@@ -169,11 +172,14 @@
     <ClInclude Include="JavascriptPropertyWrapper.h" />
     <ClInclude Include="JavascriptPropertyHandler.h" />
     <ClInclude Include="JavascriptRootObjectWrapper.h" />
+    <ClInclude Include="Messaging\JsRootObjectDelegate.h" />
+    <ClInclude Include="Serialization\ObjectsDeserialization.h" />
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="TypeUtils.h" />
     <ClInclude Include="vcclr_local.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\CefSharp.Core\Internals\Serialization\Primitives.cpp" />
     <ClCompile Include="..\CefSharp.Core\Internals\StringUtils.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="CefAppUnmanagedWrapper.cpp" />
@@ -186,6 +192,8 @@
     <ClCompile Include="JavascriptObjectWrapper.cpp" />
     <ClCompile Include="JavascriptPropertyWrapper.cpp" />
     <ClCompile Include="JavascriptRootObjectWrapper.cpp" />
+    <ClCompile Include="Messaging\JsRootObjectDelegate.cpp" />
+    <ClCompile Include="Serialization\ObjectsDeserialization.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

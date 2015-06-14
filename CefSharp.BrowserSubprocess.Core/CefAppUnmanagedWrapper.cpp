@@ -15,6 +15,8 @@ using namespace System::Collections::Generic;
 
 namespace CefSharp
 {
+    using namespace Internals::Messaging;
+
     CefRefPtr<CefRenderProcessHandler> CefAppUnmanagedWrapper::GetRenderProcessHandler()
     {
         return this;
@@ -82,4 +84,21 @@ namespace CefSharp
 
         return wrapper;
     };
+
+    bool CefAppUnmanagedWrapper::OnProcessMessageReceived(CefRefPtr< CefBrowser > browser, CefProcessId source_process, CefRefPtr< CefProcessMessage > message)
+    {
+        bool handled = false;
+
+        ProcessMessageDelegateSet::iterator it = _processMessageDelegates.begin();
+        for (; it != _processMessageDelegates.end() && !handled; ++it) {
+            handled = (*it)->OnProcessMessageReceived(browser, source_process, message);
+        }
+
+        return handled;
+    }
+
+    void CefAppUnmanagedWrapper::AddProcessMessageDelegate(CefRefPtr<ProcessMessageDelegate> processMessageDelegate)
+    {
+        _processMessageDelegates.insert(processMessageDelegate);
+    }
 }
