@@ -31,11 +31,13 @@ namespace CefSharp
         {
             CefSharpBrowserWrapper browserWrapper(browser, nullptr);
             CefFrameWrapper frameWrapper(frame, nullptr);
-            CefRequestWrapper requestWrapper(request);
+            // RequestWrapper lasts until the ResourceHandlerWrapper
+            // is disposed.
+            CefRequestWrapper^ requestWrapper = gcnew CefRequestWrapper(request);
 
-            auto handler = _factory->Create(%browserWrapper, %frameWrapper, StringUtils::ToClr(schemeName), %requestWrapper);
+            auto handler = _factory->Create(%browserWrapper, %frameWrapper, StringUtils::ToClr(schemeName), requestWrapper);
 
-            CefRefPtr<ResourceHandlerWrapper> wrapper = new ResourceHandlerWrapper(handler);
+            CefRefPtr<ResourceHandlerWrapper> wrapper = new ResourceHandlerWrapper(handler, requestWrapper);
             return static_cast<CefRefPtr<CefResourceHandler>>(wrapper);
         }
 

@@ -21,6 +21,17 @@ namespace CefSharp
         internal:
             CefContextMenuParamsWrapper(CefRefPtr<CefContextMenuParams> cefParams) : _wrappedInfo(cefParams) {}
 
+            !CefContextMenuParamsWrapper()
+            {
+                _wrappedInfo = NULL;
+            }
+
+            ~CefContextMenuParamsWrapper()
+
+            {
+                this->!CefContextMenuParamsWrapper();
+            }
+
         public:
             virtual property int YCoord { int get(); }
             virtual property int XCoord { int get(); }

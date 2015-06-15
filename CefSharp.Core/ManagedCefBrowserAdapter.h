@@ -26,13 +26,14 @@ using namespace System::Threading::Tasks;
 
 namespace CefSharp
 {
-    public ref class ManagedCefBrowserAdapter : public DisposableResource, IBrowserAdapter
+    public ref class ManagedCefBrowserAdapter : public IBrowserAdapter
     {
         MCefRefPtr<ClientAdapter> _clientAdapter;
         BrowserProcessServiceHost^ _browserProcessServiceHost;
         IWebBrowserInternal^ _webBrowserInternal;
         JavascriptObjectRepository^ _javaScriptObjectRepository;
         IBrowser^ _browserWrapper;
+        bool _isDisposed;
 
     private:
         // Private keyboard functions:
@@ -45,35 +46,9 @@ namespace CefSharp
         int GetCefKeyboardModifiers(WPARAM wparam, LPARAM lparam);
         CefMouseEvent GetCefMouseEvent(MouseEvent^ mouseEvent);
 
-    protected:
-        virtual void DoDispose(bool isDisposing) override
-        {
-            //Close browser and popups before attempting to close the WCF host
-            if(_clientAdapter.get())
-            {
-                _clientAdapter->CloseAllPopups(true);
-                _clientAdapter = nullptr;
-                _browserWrapper->CloseBrowser(true);
-            }
-
-            // Guard managed only member derefs by isDisposing:
-            if (isDisposing && _browserProcessServiceHost != nullptr)
-            {
-                _browserProcessServiceHost->Close();
-                _browserProcessServiceHost = nullptr;
-            }
-
-            _webBrowserInternal = nullptr;
-            _javaScriptObjectRepository = nullptr;
-
-            delete _browserWrapper;
-            _browserWrapper = nullptr;
-
-            DisposableResource::DoDispose(isDisposing);
-        };
-
     public:
         ManagedCefBrowserAdapter(IWebBrowserInternal^ webBrowserInternal, bool offScreenRendering)
+            : _isDisposed(false)
         {
             if (offScreenRendering)
             {
@@ -86,6 +61,34 @@ namespace CefSharp
 
             _webBrowserInternal = webBrowserInternal;
             _javaScriptObjectRepository = gcnew JavascriptObjectRepository();
+        }
+
+        !ManagedCefBrowserAdapter()
+        {
+            _clientAdapter = nullptr;
+        }
+
+        ~ManagedCefBrowserAdapter()
+        {
+            // Release the MCefRefPtr<ClientAdapter> reference
+            // before calling _browserWrapper->CloseBrowser(true)
+            this->!ManagedCefBrowserAdapter();
+            _browserWrapper->CloseBrowser(true);
+
+            delete _browserWrapper;
+            _browserWrapper = nullptr;
+
+            _browserProcessServiceHost->Close();
+            _browserProcessServiceHost = nullptr;
+
+            _webBrowserInternal = nullptr;
+            _javaScriptObjectRepository = nullptr;
+            _isDisposed = true;
+        }
+
+        virtual property bool IsDisposed
+        {
+            bool get();
         }
 
         virtual void OnAfterBrowserCreated(int browserId);

@@ -5,6 +5,7 @@
 #pragma once
 
 #include "Stdafx.h"
+
 #include "MCefRefPtr.h"
 #include "include/cef_drag_data.h"
 
@@ -19,7 +20,9 @@ namespace CefSharp
     {
         public ref class CefDragDataWrapper : public IDragData
         {
+        private:
             MCefRefPtr<CefDragData> _wrappedDragData;
+
         internal:
             CefDragDataWrapper(CefRefPtr<CefDragData> dragData) :
                 _wrappedDragData(dragData)
@@ -31,9 +34,14 @@ namespace CefSharp
                 IsLink = dragData->IsLink();
             }
 
-            ~CefDragDataWrapper()
+            !CefDragDataWrapper()
             {
                 _wrappedDragData = nullptr;
+            }
+
+            ~CefDragDataWrapper()
+            {
+                this->!CefDragDataWrapper();
             }
 
         public:

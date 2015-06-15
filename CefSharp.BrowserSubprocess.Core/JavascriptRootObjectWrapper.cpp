@@ -16,9 +16,14 @@ namespace CefSharp
         _wrappedObjects = gcnew List<JavascriptObjectWrapper^>();
     }
 
-    JavascriptRootObjectWrapper::~JavascriptRootObjectWrapper()
+    JavascriptRootObjectWrapper::!JavascriptRootObjectWrapper()
     {
         V8Value = nullptr;
+    }
+
+    JavascriptRootObjectWrapper::~JavascriptRootObjectWrapper()
+    {
+        this->!JavascriptRootObjectWrapper();
         CallbackRegistry = nullptr;
         for each (JavascriptObjectWrapper^ var in _wrappedObjects)
         {

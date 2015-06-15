@@ -30,15 +30,20 @@ namespace CefSharp
             _browserProcess = browserProcess;
         }
 
-        ~JavascriptPropertyWrapper()
+        !JavascriptPropertyWrapper()
         {
             V8Value = nullptr;
+        }
 
+        ~JavascriptPropertyWrapper()
+        {
+            this->!JavascriptPropertyWrapper();
             if (_javascriptObjectWrapper != nullptr)
             {
                 delete _javascriptObjectWrapper;
                 _javascriptObjectWrapper = nullptr;
             }
+            _javascriptProperty = nullptr;
         }
 
         void Bind();

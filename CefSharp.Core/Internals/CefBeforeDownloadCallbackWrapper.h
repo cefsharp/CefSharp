@@ -21,16 +21,21 @@ namespace CefSharp
             
         }
 
-        ~CefBeforeDownloadCallbackWrapper()
+        !CefBeforeDownloadCallbackWrapper()
         {
             _callback = NULL;
+        }
+
+        ~CefBeforeDownloadCallbackWrapper()
+        {
+            this->!CefBeforeDownloadCallbackWrapper();
         }
 
         virtual void Continue(String^ downloadPath, bool showDialog)
         {
             _callback->Continue(StringUtils::ToNative(downloadPath), showDialog);
 
-            _callback = NULL;
+            delete this;
         }
     };
 }

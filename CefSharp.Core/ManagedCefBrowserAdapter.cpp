@@ -5,6 +5,12 @@
 #include "Stdafx.h"
 #include "Cef.h"
 
+bool ManagedCefBrowserAdapter::IsDisposed::get()
+{
+    return _isDisposed;
+}
+
+
 void ManagedCefBrowserAdapter::CreateOffscreenBrowser(IntPtr windowHandle, BrowserSettings^ browserSettings, String^ address)
 {
     auto hwnd = static_cast<HWND>(windowHandle.ToPointer());

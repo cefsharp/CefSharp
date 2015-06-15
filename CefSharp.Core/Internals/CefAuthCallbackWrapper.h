@@ -21,23 +21,28 @@ namespace CefSharp
             
         }
 
-        ~CefAuthCallbackWrapper()
+        !CefAuthCallbackWrapper()
         {
             _callback = NULL;
+        }
+
+        ~CefAuthCallbackWrapper()
+        {
+            this->!CefAuthCallbackWrapper();
         }
 
         virtual void Cancel()
         {
             _callback->Cancel();
 
-            _callback = NULL;
+            delete this;
         }
 
         virtual void Continue(String^ username, String^ password)
         {
             _callback->Continue(StringUtils::ToNative(username), StringUtils::ToNative(password));
 
-            _callback = NULL;
+            delete this;
         }
     };
 }

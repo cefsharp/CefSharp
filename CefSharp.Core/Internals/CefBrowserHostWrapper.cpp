@@ -40,7 +40,7 @@ void CefBrowserHostWrapper::CloseBrowser(bool forceClose)
 {
     _browserHost->CloseBrowser(forceClose);
 }
-        
+
 void CefBrowserHostWrapper::ShowDevTools()
 {
     CefWindowInfo windowInfo;

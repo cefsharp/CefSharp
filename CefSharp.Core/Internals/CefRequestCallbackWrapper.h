@@ -14,30 +14,46 @@ namespace CefSharp
     {
         public ref class CefRequestCallbackWrapper : public IRequestCallback
         {
+        private:
             MCefRefPtr<CefRequestCallback> _callback;
+            CefRequestWrapper^ _requestWrapper;
+
         internal:
-            CefRequestCallbackWrapper(CefRefPtr<CefRequestCallback> callback) : _callback(callback)
+            CefRequestCallbackWrapper(CefRefPtr<CefRequestCallback> callback)
+                : CefRequestCallbackWrapper(callback, nullptr)
             {
+            }
+
+            CefRequestCallbackWrapper(CefRefPtr<CefRequestCallback> callback, CefRequestWrapper^ requestWrapper)
+                : _callback(callback), _requestWrapper(requestWrapper)
+            {
+            }
+
+            !CefRequestCallbackWrapper()
+            {
+                _callback = NULL;
             }
 
             ~CefRequestCallbackWrapper()
             {
-                _callback = NULL;
+                this->!CefRequestCallbackWrapper();
+                if (_requestWrapper != nullptr)
+                {
+                    delete _requestWrapper;
+                }
             }
 
         public:
             virtual void Continue(bool allow)
             {
                 _callback->Continue(allow);
-
-                _callback = NULL;
+                delete this;
             }
 
             virtual void Cancel()
             {
                 _callback->Cancel();
-
-                _callback = NULL;
+                delete this;
             }
         };
     }

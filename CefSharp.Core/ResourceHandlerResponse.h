@@ -66,9 +66,14 @@ namespace CefSharp
             _resourceHandlerWrapper = resourceHandlerWrapper;
         }
 
-        ~ResourceHandlerResponse()
+        !ResourceHandlerResponse()
         {
             _resourceHandlerWrapper = nullptr;
+        }
+
+        ~ResourceHandlerResponse()
+        {
+            this->!ResourceHandlerResponse();
         }
 
         virtual void Continue()

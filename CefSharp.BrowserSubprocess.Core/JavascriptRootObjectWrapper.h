@@ -39,6 +39,7 @@ namespace CefSharp
     public:
         JavascriptRootObjectWrapper(JavascriptRootObject^ rootObject, IBrowserProcess^ browserProcess);
 
+        !JavascriptRootObjectWrapper();
         ~JavascriptRootObjectWrapper();
 
         void Bind();

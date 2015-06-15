@@ -73,7 +73,6 @@ namespace CefSharp.WinForms.Example
 
         private void ExitApplication()
         {
-            Cef.Shutdown();
             Close();
         }
 
@@ -136,6 +135,8 @@ namespace CefSharp.WinForms.Example
             }
 
             browserTabControl.Controls.Remove(tabPage);
+
+            tabPage.Dispose();
 
             browserTabControl.SelectedIndex = currentIndex - 1;
 

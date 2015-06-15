@@ -98,10 +98,18 @@ namespace CefSharp
         _callbackRegistry->Deregister(id);
     }
 
-    CefBrowserWrapper::~CefBrowserWrapper()
+    CefBrowserWrapper::!CefBrowserWrapper()
     {
         _cefBrowser = nullptr;
-        delete _callbackRegistry;
-        _callbackRegistry = nullptr;
+    }
+
+    CefBrowserWrapper::~CefBrowserWrapper()
+    {
+        this->!CefBrowserWrapper();
+        if (_callbackRegistry != nullptr)
+        {
+            delete _callbackRegistry;
+            _callbackRegistry = nullptr;
+        }
     }
 }

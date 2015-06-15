@@ -23,10 +23,11 @@ namespace CefSharp
             {
                 _callbacks = gcnew ConcurrentDictionary<Int64, JavascriptCallbackWrapper^>();
             }
+            ~JavascriptCallbackRegistry();
+
             JavascriptCallback^ Register(CefRefPtr<CefV8Context> context, CefRefPtr<CefV8Value> value);
             JavascriptResponse^ Execute(Int64 id, array<Object^>^ params);
             void Deregister(Int64 id);
-            ~JavascriptCallbackRegistry();
         };
     }
 }

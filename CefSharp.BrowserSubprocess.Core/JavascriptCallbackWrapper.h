@@ -19,11 +19,15 @@ namespace CefSharp
             MCefRefPtr<CefV8Context> context;
         public:
             JavascriptCallbackWrapper(CefRefPtr<CefV8Value> value, CefRefPtr<CefV8Context> context)
-                : value(value), context(context) {}
+                : value(value), context(context) 
+            {
+            }
+
+            !JavascriptCallbackWrapper();
+            ~JavascriptCallbackWrapper();
 
             JavascriptResponse^ Execute(array<Object^>^ parms);
 
-            ~JavascriptCallbackWrapper();
         };
     }
 }

@@ -21,23 +21,28 @@ namespace CefSharp
             
         }
 
-        ~CefDownloadItemCallbackWrapper()
+        !CefDownloadItemCallbackWrapper()
         {
             _callback = NULL;
+        }
+
+        ~CefDownloadItemCallbackWrapper()
+        {
+            this->!CefDownloadItemCallbackWrapper();
         }
 
         virtual void Cancel()
         {
             _callback->Cancel();
 
-            _callback = NULL;
+            delete this;
         }
 
         virtual void Pause()
         {
             _callback->Pause();
 
-            _callback = NULL;
+            delete this;
         }
 
         virtual void Resume()
