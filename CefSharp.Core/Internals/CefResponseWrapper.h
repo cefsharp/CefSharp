@@ -1,0 +1,104 @@
+﻿// Copyright © 2010-2015 The CefSharp Authors. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
+#pragma once
+
+#include "Stdafx.h"
+
+#include "Internals/TypeConversion.h"
+
+using namespace System;
+using namespace System::Collections::Specialized;
+using namespace CefSharp;
+
+namespace CefSharp
+{
+    namespace Internals
+    {
+        public ref class CefResponseWrapper : public IResponse
+        {
+            MCefRefPtr<CefResponse> _response;
+        internal:
+            CefResponseWrapper(CefRefPtr<CefResponse> response) :
+                _response(response)
+            {
+                StatusCode = 200;
+                StatusText = "OK";
+                MimeType = "text/html";
+            }
+
+            !CefResponseWrapper()
+            {
+                _response = nullptr;
+            }
+
+            ~CefResponseWrapper()
+            {
+                this->!CefResponseWrapper();
+            }
+
+        public:
+            virtual property int StatusCode
+            {
+                int get()
+                {
+                    return _response->GetStatus();
+                }
+                void set(int val)
+                {
+                    _response->SetStatus(val);
+                }
+            }
+
+            virtual property String^ StatusText
+            {
+                String^ get()
+                {
+                    return StringUtils::ToClr(_response->GetStatusText());
+                }
+                void set(String^ val)
+                {
+                    _response->SetStatusText(StringUtils::ToNative(val));
+                }
+            }
+
+            virtual property String^ MimeType
+            {
+                String^ get()
+                {
+                    return StringUtils::ToClr(_response->GetMimeType());
+                }
+                void set(String^ val)
+                {
+                    _response->SetMimeType(StringUtils::ToNative(val));
+                }
+            }
+
+            virtual property NameValueCollection^ ResponseHeaders
+            {
+                NameValueCollection^ get()
+                {
+                    //TODO: Extract this code out as it's duplicated in CefRequestWrapper
+                    CefRequest::HeaderMap hm;
+                    _response->GetHeaderMap(hm);
+
+                    NameValueCollection^ headers = gcnew NameValueCollection();
+
+                    for (CefRequest::HeaderMap::iterator it = hm.begin(); it != hm.end(); ++it)
+                    {
+                        String^ name = StringUtils::ToClr(it->first);
+                        String^ value = StringUtils::ToClr(it->second);
+                        headers->Add(name, value);
+                    }
+
+                    return headers;
+                }
+                void set(NameValueCollection^ headers)
+                {
+                    _response->SetHeaderMap(TypeConversion::ToNative(headers));
+                }
+            }
+        };
+    }
+}

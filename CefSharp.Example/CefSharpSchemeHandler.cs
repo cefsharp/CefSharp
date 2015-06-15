@@ -70,6 +70,8 @@ namespace CefSharp.Example
             responseLength = stream.Length;
             redirectUrl = null;
 
+            response.StatusCode = 300;
+            response.StatusText = "OK";
             response.MimeType = mimeType;
 
             return stream;

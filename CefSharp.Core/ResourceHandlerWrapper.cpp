@@ -4,6 +4,7 @@
 
 #include "Stdafx.h"
 #include "Internals/CefRequestWrapper.h"
+#include "Internals/CefResponseWrapper.h"
 #include "Internals/CefCallbackWrapper.h"
 #include "ResourceHandlerWrapper.h"
 #include "Internals/TypeConversion.h"
@@ -26,30 +27,12 @@ namespace CefSharp
     void ResourceHandlerWrapper::GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl)
     {
         String^ newRedistUrl;
-        _stream = _handler->GetResponseHeaders(nullptr, response_length, newRedistUrl);
+
+        CefResponseWrapper responseWrapper(response);
+
+        _stream = _handler->GetResponseHeaders(%responseWrapper, response_length, newRedistUrl);
 
         redirectUrl = StringUtils::ToNative(newRedistUrl);
-        //response->SetMimeType(_mime_type);
-        //response->SetStatus(_statusCode);
-        //response->SetStatusText(_statusText);
-        //response->SetHeaderMap(_headers);
-        //// ContentLength defaults to -1 so SizeFromStream is called
-        //response_length = _contentLength >= 0 ? _contentLength : SizeFromStream();
-        //
-        //redirectUrl = _redirectUrl;
-
-        /*
-        
-        _mime_type = StringUtils::ToNative(response->MimeType);
-                _stream = response->ResponseStream;
-                _statusCode = response->StatusCode;
-                _statusText = StringUtils::ToNative(response->StatusText);
-                _redirectUrl = StringUtils::ToNative(response->RedirectUrl);
-                _contentLength = response->ContentLength;
-                _closeStream = response->CloseStream;
-
-                _headers = TypeConversion::ToNative(response->ResponseHeaders);
-                */
     }
 
     bool ResourceHandlerWrapper::ReadResponse(void* data_out, int bytes_to_read, int& bytes_read, CefRefPtr<CefCallback> callback)
@@ -71,7 +54,7 @@ namespace CefSharp
             // must return false when the response is complete
             hasData = bytes_read > 0;
             //TODO: Fix this
-			/*if (!hasData && _closeStream)
+            /*if (!hasData && _closeStream)
             {
                 _stream->Close();
             }*/
@@ -82,14 +65,14 @@ namespace CefSharp
 
     void ResourceHandlerWrapper::Cancel()
     {
-		//TODO: Fix this
-		/*if (static_cast<Stream^>(_stream) != nullptr && _closeStream)
+        //TODO: Fix this
+        /*if (static_cast<Stream^>(_stream) != nullptr && _closeStream)
         {
             _stream->Close();
         }*/
         _stream = nullptr;
 
-		delete this;
+        delete this;
     }
 
     int64 ResourceHandlerWrapper::SizeFromStream()
