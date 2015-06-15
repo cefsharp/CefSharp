@@ -17,7 +17,7 @@ namespace CefSharp
     public class ResourceHandlerWrapper : public CefResourceHandler
     {
     private:
-        gcroot<CefRequestWrapper^> _requestWrapper;
+        gcroot<IRequest^> _request;
         gcroot<IResourceHandler^> _handler;
         gcroot<Stream^> _stream;
 
@@ -33,7 +33,6 @@ namespace CefSharp
         int64 SizeFromStream();
 
     public:
-
         ResourceHandlerWrapper(IResourceHandler^ handler) 
             : ResourceHandlerWrapper(handler, nullptr)
         {
@@ -43,8 +42,8 @@ namespace CefSharp
             }
         }
 
-        ResourceHandlerWrapper(IResourceHandler^ handler, CefRequestWrapper^ requestWrapper)
-            : _handler(handler), _requestWrapper(requestWrapper)
+        ResourceHandlerWrapper(IResourceHandler^ handler, IRequest^ request)
+            : _handler(handler), _request(request)
         {
         }
 
@@ -53,7 +52,7 @@ namespace CefSharp
             _handler = nullptr;
             _stream = nullptr;
             _callback = NULL;
-            delete _requestWrapper;
+            delete _request;
         }
 
         virtual bool ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefCallback> callback);

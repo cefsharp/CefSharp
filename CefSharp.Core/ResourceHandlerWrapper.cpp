@@ -21,17 +21,17 @@ namespace CefSharp
 
         auto schemeResponse = gcnew ResourceHandlerResponse(this);
 
-        // If _requestWrapper came from ISchemeHandlerFactory,
+        // If _request came from ISchemeHandlerFactory,
         // the request parameter can be ignored since it is the same request.
         // If ignoring the request parameter isn't good enough then we 
         // should retain references to _requestWrapper and a CefRequestWrapper^
         // of the request parameter until CefRequestWrapper is disposed.
-        if (static_cast<CefRequestWrapper^>(_requestWrapper) == nullptr)
+        if (static_cast<IRequest^>(_request) == nullptr)
         {
-            _requestWrapper = gcnew CefRequestWrapper(request);
+            _request = gcnew CefRequestWrapper(request);
         }
 
-        return _handler->ProcessRequestAsync(_requestWrapper, schemeResponse);
+        return _handler->ProcessRequestAsync(_request, schemeResponse);
     }
 
     void ResourceHandlerWrapper::ProcessRequestCallback(IResourceHandlerResponse^ response, bool cancel)
