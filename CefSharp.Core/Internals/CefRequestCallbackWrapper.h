@@ -19,12 +19,12 @@ namespace CefSharp
             CefRequestWrapper^ _requestWrapper;
 
         internal:
-            CefRequestCallbackWrapper(CefRefPtr<CefRequestCallback> callback)
+            CefRequestCallbackWrapper(CefRefPtr<CefRequestCallback> &callback)
                 : CefRequestCallbackWrapper(callback, nullptr)
             {
             }
 
-            CefRequestCallbackWrapper(CefRefPtr<CefRequestCallback> callback, CefRequestWrapper^ requestWrapper)
+            CefRequestCallbackWrapper(CefRefPtr<CefRequestCallback> &callback, CefRequestWrapper^ requestWrapper)
                 : _callback(callback), _requestWrapper(requestWrapper)
             {
             }

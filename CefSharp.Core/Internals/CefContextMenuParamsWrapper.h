@@ -19,7 +19,7 @@ namespace CefSharp
             MCefRefPtr<CefContextMenuParams> _wrappedInfo;
 
         internal:
-            CefContextMenuParamsWrapper(CefRefPtr<CefContextMenuParams> cefParams) : _wrappedInfo(cefParams) {}
+            CefContextMenuParamsWrapper(CefRefPtr<CefContextMenuParams> &cefParams) : _wrappedInfo(cefParams) {}
 
             !CefContextMenuParamsWrapper()
             {

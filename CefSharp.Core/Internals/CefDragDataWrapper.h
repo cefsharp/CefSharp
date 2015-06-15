@@ -24,7 +24,7 @@ namespace CefSharp
             MCefRefPtr<CefDragData> _wrappedDragData;
 
         internal:
-            CefDragDataWrapper(CefRefPtr<CefDragData> dragData) :
+            CefDragDataWrapper(CefRefPtr<CefDragData> &dragData) :
                 _wrappedDragData(dragData)
             {
                 IsReadOnly = dragData->IsReadOnly();

@@ -20,7 +20,7 @@ namespace CefSharp
         {
             MCefRefPtr<CefResponse> _response;
         internal:
-            CefResponseWrapper(CefRefPtr<CefResponse> response) :
+            CefResponseWrapper(CefRefPtr<CefResponse> &response) :
                 _response(response)
             {
                 StatusCode = 200;

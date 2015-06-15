@@ -18,7 +18,7 @@ namespace CefSharp
         {
             MCefRefPtr<CefRequest> _wrappedRequest;
         internal:
-            CefRequestWrapper(CefRefPtr<CefRequest> cefRequest) : 
+            CefRequestWrapper(CefRefPtr<CefRequest> &cefRequest) : 
                 _wrappedRequest(cefRequest) 
             {
             }
