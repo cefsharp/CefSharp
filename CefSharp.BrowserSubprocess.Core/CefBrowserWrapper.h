@@ -27,18 +27,14 @@ namespace CefSharp
     
     private:
         MCefRefPtr<CefBrowser> _cefBrowser;
-        JavascriptCallbackRegistry^ _callbackRegistry;
+        MCefRefPtr<JavascriptCallbackRegistry> _callbackRegistry;
         JavascriptRootObjectWrapper^ _javascriptRootObjectWrapper;
 
     internal:
-        property JavascriptCallbackRegistry^ CallbackRegistry
+        CefRefPtr<JavascriptCallbackRegistry> GetCallbackRegistry()
         {
-            CefSharp::Internals::JavascriptCallbackRegistry^ get()
-            {
-                return _callbackRegistry;
-            }
+            return _callbackRegistry.get();
         }
-
     public:
         CefBrowserWrapper(CefRefPtr<CefBrowser> cefBrowser);
         !CefBrowserWrapper();
@@ -64,8 +60,8 @@ namespace CefSharp
 
         virtual void DoDispose(bool disposing) override;
 
-        JavascriptResponse^ DoCallback(System::Int64 callbackId, array<Object^>^ parameters);
+        //JavascriptResponse^ DoCallback(System::Int64 callbackId, array<Object^>^ parameters);
 
-        void DestroyJavascriptCallback(Int64 id);
+        //void DestroyJavascriptCallback(Int64 id);
     };
 }

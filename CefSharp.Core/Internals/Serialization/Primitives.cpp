@@ -22,10 +22,10 @@ namespace CefSharp
                 auto result = list->GetType(index) == VTYPE_BINARY;
                 if (result)
                 {
-                    PrimitiveType type;
+					unsigned char typeChar;
                     auto binaryValue = list->GetBinary(index);
-                    binaryValue->GetData(&type, sizeof(PrimitiveType), 0);
-                    result = type == type;
+					binaryValue->GetData(&typeChar, sizeof(PrimitiveType), 0);
+					result = typeChar == static_cast<unsigned char>(type);
                 }
                 return result;
             }

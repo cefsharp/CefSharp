@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ProcessMessageDelegate.h"
+#include "TaskDoneDelegate.h"
 
 namespace CefSharp
 {
@@ -8,22 +8,14 @@ namespace CefSharp
     {
         namespace Messaging
         {
-            class EvaluateScriptDoneDelegate : public ProcessMessageDelegate
+            class EvaluateScriptDoneDelegate : public TaskDoneDelegate
             {
-            private:
-                DISALLOW_IMPLICIT_CONSTRUCTORS(EvaluateScriptDoneDelegate);
-
-                gcroot<PendingTaskRepository<JavascriptResponse^>^> _pendingTasks;
-
-                void FinishTask(int64 callbackId, bool success, CefRefPtr<CefListValue> message);
-
-                JavascriptResponse^ CreateResponse(bool success, CefRefPtr<CefListValue> message);
+            protected:
+                virtual bool CanHandle(CefRefPtr<CefProcessMessage> message) override;
             public:
-                EvaluateScriptDoneDelegate(PendingTaskRepository<JavascriptResponse^>^ pendingTasks);
+				EvaluateScriptDoneDelegate(Dictionary<int, PendingTaskRepository<JavascriptResponse^>^>^ pendingTasks, Dictionary<int, IJavascriptCallbackFactory^>^ callbackFactory);
 
-                Task<JavascriptResponse^>^ EvaluateScriptAsync(CefRefPtr<CefBrowser> cefBrowser, int browserId, int frameId, String^ script, Nullable<TimeSpan> timeout);
-
-                virtual bool OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcessId source_process, CefRefPtr<CefProcessMessage> message) override;
+                Task<JavascriptResponse^>^ EvaluateScriptAsync(CefRefPtr<CefBrowser> cefBrowser, int frameId, String^ script, Nullable<TimeSpan> timeout);
             };
         }
     }

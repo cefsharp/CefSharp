@@ -26,9 +26,8 @@ namespace CefSharp
 
         JavascriptCallback^ JavascriptCallbackRegistry::Register(CefRefPtr<CefV8Context> context, CefRefPtr<CefV8Value> value)
         {
-            Int64 newId = Interlocked::Increment(_lastId);
-            JavascriptCallbackWrapper^ wrapper = gcnew JavascriptCallbackWrapper(value, context);
-            _callbacks->TryAdd(newId, wrapper);
+            auto newId = Interlocked::Increment(_lastId);
+            _callbacks.emplace(newId, new JavascriptCallbackHolder(context, value));
 
             auto result = gcnew JavascriptCallback();
             result->Id = newId;
@@ -36,26 +35,23 @@ namespace CefSharp
             return result;
         }
 
-        JavascriptResponse^ JavascriptCallbackRegistry::Execute(Int64 id, array<Object^>^ params)
+        bool JavascriptCallbackRegistry::Execute(int64 id, const CefV8ValueList& arguments, CefRefPtr<CefV8Value> &result, CefRefPtr<CefV8Exception> &exception)
         {
-            JavascriptCallbackWrapper^ callback;
-
-            if (_callbacks->TryGetValue(id, callback))
+            auto success = false;
+            if (_callbacks.count(id) == 1)
             {
-                return callback->Execute(params);
+                auto callback = _callbacks[id];
+                success = callback->Execute(arguments, result, exception);
             }
-
-            return nullptr;
+            return success;
         }
 
-        void JavascriptCallbackRegistry::Deregister(Int64 id)
+        void JavascriptCallbackRegistry::Deregister(int64 id)
         {
-            JavascriptCallbackWrapper^ callback;
-            if(_callbacks->TryRemove(id, callback))
+            if (_callbacks.count(id) == 1)
             {
-                delete callback;
+                _callbacks.erase(id);
             }
         }
-
     }
 }

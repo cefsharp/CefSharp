@@ -34,7 +34,7 @@ namespace CefSharp
 
         // The entire set of possible JavaScript functions to
         // call directly into.
-        JavascriptCallbackRegistry^ CallbackRegistry;
+        MCefRefPtr<JavascriptCallbackRegistry> CallbackRegistry;
 
     public:
         JavascriptRootObjectWrapper(JavascriptRootObject^ rootObject, IBrowserProcess^ browserProcess);

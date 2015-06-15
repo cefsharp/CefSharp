@@ -10,7 +10,7 @@ using namespace CefSharp::Internals;
 
 namespace CefSharp
 {
-    JavascriptMethodHandler::JavascriptMethodHandler(Func<array<Object^>^, BrowserProcessResponse^>^ method, JavascriptCallbackRegistry^ callbackRegistry)
+    JavascriptMethodHandler::JavascriptMethodHandler(Func<array<Object^>^, BrowserProcessResponse^>^ method, CefRefPtr<JavascriptCallbackRegistry> callbackRegistry)
     {
         _method = method;
         _callbackRegistry = callbackRegistry;

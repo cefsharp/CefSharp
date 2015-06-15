@@ -12,11 +12,11 @@ namespace CefSharp.Internals
 {
     internal sealed class JavascriptCallbackSurrogate : IDataContractSurrogate
     {
-        private readonly WeakReference browserProcessWeakReference;
+        private readonly IJavascriptCallbackFactory callbackFactory;
 
-        public JavascriptCallbackSurrogate(WeakReference browserProcessWeakReference)
+        public JavascriptCallbackSurrogate(IJavascriptCallbackFactory callbackFactory)
         {
-            this.browserProcessWeakReference = browserProcessWeakReference;
+            this.callbackFactory = callbackFactory;
         }
 
         public Type GetDataContractType(Type type)
@@ -39,7 +39,7 @@ namespace CefSharp.Internals
             var dto = obj as JavascriptCallback;
             if (dto != null)
             {
-                result = new JavascriptCallbackProxy(dto.Id, dto.BrowserId, browserProcessWeakReference);
+                result = callbackFactory.Create(dto);
             }
             return result;
         }

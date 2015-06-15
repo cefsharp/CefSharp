@@ -104,6 +104,8 @@ namespace CefSharp
                 
                 if (browserAdapter != nullptr)
                 {
+					_javascriptCallbackFactories->Add(browser->GetIdentifier(), _browserAdapter->JavascriptCallbackFactory);
+                    _pendingTaskRepositories->Add(browser->GetIdentifier(), _browserAdapter->PendingTaskRepository);
                     browserAdapter->OnAfterBrowserCreated(browser->GetIdentifier());
                 }
             }
@@ -133,6 +135,8 @@ namespace CefSharp
             }
             else if (_browserHwnd == browser->GetHost()->GetWindowHandle())
             {
+                _pendingTaskRepositories->Remove(browser->GetIdentifier());
+				_javascriptCallbackFactories->Remove(browser->GetIdentifier());
                 auto handler = _browserControl->LifeSpanHandler;
                 if (handler != nullptr)
                 {
@@ -836,7 +840,7 @@ namespace CefSharp
             Task<JavascriptResponse^>^ result = nullptr;
             if (_cefBrowser.get())
             {
-                result = _evalScriptDoneDelegate->EvaluateScriptAsync(_cefBrowser, browserId, frameId, script, timeout);
+                result = _evalScriptDoneDelegate->EvaluateScriptAsync(_cefBrowser, frameId, script, timeout);
             }
             return result;
         }

@@ -17,6 +17,7 @@
 #include "Internals/StringVisitor.h"
 #include "Internals/CefFrameWrapper.h"
 #include "Internals/CefSharpBrowserWrapper.h"
+#include "Internals/JavascriptCallbackImplFactory.h"
 
 using namespace CefSharp::Internals;
 using namespace System::Diagnostics;
@@ -32,8 +33,10 @@ namespace CefSharp
         BrowserProcessServiceHost^ _browserProcessServiceHost;
         IWebBrowserInternal^ _webBrowserInternal;
         JavascriptObjectRepository^ _javaScriptObjectRepository;
+        JavascriptCallbackImplFactory^ _javascriptCallbackFactory;
         IBrowser^ _browserWrapper;
         bool _isDisposed;
+        Messaging::PendingTaskRepository<JavascriptResponse^>^ _pendingTaskRepository;
 
     private:
         // Private keyboard functions:
@@ -46,10 +49,46 @@ namespace CefSharp
         int GetCefKeyboardModifiers(WPARAM wparam, LPARAM lparam);
         CefMouseEvent GetCefMouseEvent(MouseEvent^ mouseEvent);
 
+    protected:
+        virtual void DoDispose(bool isDisposing) override
+        {
+            //get rid of pending tasks
+            _pendingTaskRepository->Close();
+            //after this it won't accept any more task creation
+            //cancel all pending stuff
+            _pendingTaskRepository->Clear();
+            _pendingTaskRepository = nullptr;
+
+            //Close browser and popups before attempting to close the WCF host
+            if(_clientAdapter.get())
+            {
+                _clientAdapter->CloseAllPopups(true);
+                _clientAdapter = nullptr;
+                _browserWrapper->CloseBrowser(true);
+            }
+
+            // Guard managed only member derefs by isDisposing:
+            if (isDisposing && _browserProcessServiceHost != nullptr)
+            {
+                _browserProcessServiceHost->Close();
+                _browserProcessServiceHost = nullptr;
+            }
+
+            _webBrowserInternal = nullptr;
+            _javaScriptObjectRepository = nullptr;
+
+            delete _browserWrapper;
+            _browserWrapper = nullptr;
+
+            DisposableResource::DoDispose(isDisposing);
+        };
+
     public:
         ManagedCefBrowserAdapter(IWebBrowserInternal^ webBrowserInternal, bool offScreenRendering)
             : _isDisposed(false)
         {
+            _pendingTaskRepository = gcnew Messaging::PendingTaskRepository<JavascriptResponse^>();
+			_javascriptCallbackFactory = gcnew JavascriptCallbackImplFactory(_pendingTaskRepository);
             if (offScreenRendering)
             {
                 _clientAdapter = new RenderClientAdapter(webBrowserInternal, this);
@@ -161,6 +200,22 @@ namespace CefSharp
         /// </summary>
         /// <returns>Gets the current instance or null</returns>
         virtual IBrowser^ GetBrowser();
+
+        virtual property IJavascriptCallbackFactory^ JavascriptCallbackFactory
+        {
+            CefSharp::Internals::IJavascriptCallbackFactory^ get()
+            {
+                return _javascriptCallbackFactory;
+            }
+        }
+
+        virtual property Messaging::PendingTaskRepository<JavascriptResponse^>^ PendingTaskRepository
+        {
+            CefSharp::Internals::Messaging::PendingTaskRepository<JavascriptResponse^>^ get()
+            {
+                return _pendingTaskRepository;
+            }
+        }
 
         virtual JavascriptObjectRepository^ GetObjectRepository();
     };

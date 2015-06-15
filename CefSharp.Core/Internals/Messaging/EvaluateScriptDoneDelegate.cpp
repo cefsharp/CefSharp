@@ -1,7 +1,7 @@
 #include "Stdafx.h"
 #include "Messages.h"
 #include "../Serialization/Primitives.h"
-#include "../Serialization/V8Deserialization.h"
+#include "../Serialization/V8Serialization.h"
 #include "EvaluateScriptDoneDelegate.h"
 
 namespace CefSharp
@@ -12,73 +12,46 @@ namespace CefSharp
 
         namespace Messaging
         {
-            EvaluateScriptDoneDelegate::EvaluateScriptDoneDelegate(PendingTaskRepository<JavascriptResponse^>^ pendingTasks)
-                :_pendingTasks(pendingTasks)
+			EvaluateScriptDoneDelegate::EvaluateScriptDoneDelegate(Dictionary<int, PendingTaskRepository<JavascriptResponse^>^>^ pendingTasks,
+				Dictionary<int, IJavascriptCallbackFactory^>^ callbackFactory)
+				:TaskDoneDelegate(pendingTasks, callbackFactory)
             {
 
             }
 
-            Task<JavascriptResponse^>^ EvaluateScriptDoneDelegate::EvaluateScriptAsync(CefRefPtr<CefBrowser> cefBrowser, int browserId, int frameId, String^ script, Nullable<TimeSpan> timeout)
+            bool EvaluateScriptDoneDelegate::CanHandle(CefRefPtr<CefProcessMessage> message)
             {
-                TaskCompletionSource<JavascriptResponse^>^ completionSource = nullptr;
-                auto callbackId = timeout.HasValue ? _pendingTasks->CreatePendingTaskWithTimeout(completionSource, timeout.Value) : 
-                    _pendingTasks->CreatePendingTask(completionSource);
-
-                auto message = CefProcessMessage::Create(kEvaluateJavascript);
-                auto argList = message->GetArgumentList();
-                argList->SetInt(0, browserId);
-                argList->SetInt(1, frameId);
-                SetInt64(callbackId, argList, 2);
-                argList->SetString(3, StringUtils::ToNative(script));
-                
-                cefBrowser->SendProcessMessage(CefProcessId::PID_RENDERER, message);
-
-                return completionSource->Task;
-            }
-
-            bool EvaluateScriptDoneDelegate::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
-            {
-                auto handled = false;
                 auto name = message->GetName();
-                if (name == kEvaluateJavascriptDone)
+                return name == kEvaluateJavascriptDone;
+            }
+
+            Task<JavascriptResponse^>^ EvaluateScriptDoneDelegate::EvaluateScriptAsync(CefRefPtr<CefBrowser> cefBrowser, int frameId, String^ script, Nullable<TimeSpan> timeout)
+            {
+                PendingTaskRepository<JavascriptResponse^>^ pendingTasks = nullptr;
+                TaskCompletionSource<JavascriptResponse^>^ completionSource = nullptr;
+                auto browserId = cefBrowser->GetIdentifier();
+
+                if (_pendingTasks->TryGetValue(browserId, pendingTasks))
                 {
+                    auto callbackId = timeout.HasValue ? pendingTasks->CreatePendingTaskWithTimeout(completionSource, timeout.Value) :
+                        pendingTasks->CreatePendingTask(completionSource);
+
+                    auto message = CefProcessMessage::Create(kEvaluateJavascript);
                     auto argList = message->GetArgumentList();
-                    auto success = argList->GetBool(0);
-                    auto callbackId = GetInt64(argList, 1);
+                    argList->SetInt(0, browserId);
+                    argList->SetInt(1, frameId);
+                    SetInt64(callbackId, argList, 2);
+                    argList->SetString(3, StringUtils::ToNative(script));
 
-                    FinishTask(callbackId, success, argList);
+                    cefBrowser->SendProcessMessage(CefProcessId::PID_RENDERER, message);
 
-                    handled = true;
-                }
-
-                return handled;
-            }
-
-            void EvaluateScriptDoneDelegate::FinishTask(int64 callbackId, bool success, CefRefPtr<CefListValue> message)
-            {
-                auto pendingTask = _pendingTasks->RemovePendingTask(callbackId);
-                if (pendingTask != nullptr)
-                {
-                    pendingTask->SetResult(CreateResponse(success, message));
-                }
-            }
-
-            JavascriptResponse^ EvaluateScriptDoneDelegate::CreateResponse(bool success, CefRefPtr<CefListValue> message)
-            {
-                auto result = gcnew JavascriptResponse();
-                result->Success = success;
-
-                if (success)
-                {
-                    result->Result = DeserializeV8Object(message, 2);
+                    return completionSource->Task;
                 }
                 else
                 {
-                    result->Message = StringUtils::ToClr(message->GetString(2));
+                    throw gcnew InvalidOperationException("");
                 }
-
-                return result;
-            }
+            }         
         }
     }
 }

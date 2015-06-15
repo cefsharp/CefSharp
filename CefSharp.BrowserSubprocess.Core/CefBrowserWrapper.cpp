@@ -14,7 +14,7 @@ namespace CefSharp
         _cefBrowser = cefBrowser;
         BrowserId = cefBrowser->GetIdentifier();
         IsPopup = cefBrowser->IsPopup();
-        _callbackRegistry = gcnew JavascriptCallbackRegistry(BrowserId);
+        _callbackRegistry = new JavascriptCallbackRegistry(BrowserId);
     }
 
     JavascriptRootObjectWrapper^ CefBrowserWrapper::JavascriptRootObjectWrapper::get()
@@ -27,22 +27,17 @@ namespace CefSharp
         _javascriptRootObjectWrapper = value;
         if (_javascriptRootObjectWrapper != nullptr)
         {
-            _javascriptRootObjectWrapper->CallbackRegistry = _callbackRegistry;
+            _javascriptRootObjectWrapper->CallbackRegistry = _callbackRegistry.get();
         }
     }
 
     void CefBrowserWrapper::DoDispose(bool disposing)
     {
         _cefBrowser = nullptr;
-        if (disposing)
-        {
-            delete _callbackRegistry;
-            _callbackRegistry = nullptr;
-        }
         DisposableResource::DoDispose(disposing);
     }
 
-    JavascriptResponse^ CefBrowserWrapper::DoCallback(System::Int64 callbackId, array<Object^>^ parameters)
+   /* JavascriptResponse^ CefBrowserWrapper::DoCallback(System::Int64 callbackId, array<Object^>^ parameters)
     {
         return _callbackRegistry->Execute(callbackId, parameters);
     }
@@ -50,20 +45,12 @@ namespace CefSharp
     void CefBrowserWrapper::DestroyJavascriptCallback(Int64 id)
     {
         _callbackRegistry->Deregister(id);
-    }
+    }*/
 
     CefBrowserWrapper::!CefBrowserWrapper()
     {
         _cefBrowser = nullptr;
-    }
-
-    CefBrowserWrapper::~CefBrowserWrapper()
-    {
-        this->!CefBrowserWrapper();
-        if (_callbackRegistry != nullptr)
-        {
-            delete _callbackRegistry;
-            _callbackRegistry = nullptr;
-        }
+       /* delete _callbackRegistry;
+        _callbackRegistry = nullptr;*/
     }
 }

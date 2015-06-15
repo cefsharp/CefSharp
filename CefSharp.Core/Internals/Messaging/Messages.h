@@ -11,6 +11,9 @@ namespace CefSharp
             const CefString kJsRootObject = "JavascriptRootObject";
             const CefString kEvaluateJavascript = "EvaluateJavascript";
             const CefString kEvaluateJavascriptDone = "EvaluateJavascriptDone";
+            const CefString kJavascriptCallback = "JavascriptCallback";
+            const CefString kJavascriptCallbackDestroy = "JavascriptCallbackDestroy";
+            const CefString kJavascriptCallbackDone = "JavascriptCallbackDone";
         }
     }
 }

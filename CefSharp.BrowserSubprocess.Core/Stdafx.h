@@ -10,6 +10,8 @@
   #define DECL __declspec(dllimport)
 #endif
 
+#include <Windows.h>
+
 #include <vector>
 
 #include <include/cef_base.h>

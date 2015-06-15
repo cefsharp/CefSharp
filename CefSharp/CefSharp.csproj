@@ -112,7 +112,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CefCursorType.cs" />
+    <Compile Include="Internals\IJavascriptCallbackFactory.cs" />
     <Compile Include="Internals\IntPtrExtensions.cs" />
+    <Compile Include="Internals\IRenderProcess.cs" />
     <Compile Include="Internals\JavascriptCallbackProxy.cs" />
     <Compile Include="Internals\JavascriptCallback.cs" />
     <Compile Include="Internals\JavascriptCallbackEndpointBehavior.cs" />
@@ -182,7 +184,6 @@
     <Compile Include="IRequestHandler.cs" />
     <Compile Include="ISchemeHandler.cs" />
     <Compile Include="ISchemeHandlerFactory.cs" />
-    <Compile Include="Internals\IRenderProcess.cs" />
     <Compile Include="IWebBrowser.cs" />
     <Compile Include="Internals\IWebBrowserInternal.cs" />
     <Compile Include="Internals\Kernel32.cs" />

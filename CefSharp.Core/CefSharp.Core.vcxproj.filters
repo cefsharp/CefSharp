@@ -65,10 +65,22 @@
     <ClCompile Include="Internals\Serialization\ObjectsSerialization.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Internals\Serialization\V8Deserialization.cpp">
+    <ClCompile Include="Internals\Messaging\EvaluateScriptDoneDelegate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Internals\Messaging\EvaluateScriptDoneDelegate.cpp">
+    <ClCompile Include="Internals\Serialization\V8Serialization.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Internals\JavascriptCallbackImpl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Internals\JavascriptCallbackImplFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Internals\Messaging\JavascriptCallbackDoneDelegate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Internals\Messaging\TaskDoneDelegate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -203,10 +215,22 @@
     <ClInclude Include="Internals\Serialization\ObjectsSerialization.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Internals\Serialization\V8Deserialization.h">
+    <ClInclude Include="Internals\Messaging\EvaluateScriptDoneDelegate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Internals\Messaging\EvaluateScriptDoneDelegate.h">
+    <ClInclude Include="Internals\Serialization\V8Serialization.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\JavascriptCallbackImpl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\JavascriptCallbackImplFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\Messaging\JavascriptCallbackDoneDelegate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\Messaging\TaskDoneDelegate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

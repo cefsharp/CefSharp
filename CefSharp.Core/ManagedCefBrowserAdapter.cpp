@@ -39,9 +39,17 @@ void ManagedCefBrowserAdapter::LoadUrl(String^ address)
 
 void ManagedCefBrowserAdapter::OnAfterBrowserCreated(int browserId)
 {
+    auto browser = _clientAdapter->GetCefBrowser();
+    if (browser != nullptr)
+    {
+        auto browserWrapper = gcnew CefSharpBrowserWrapper(browser, this);
+        _browserWrapper = browserWrapper;
+        _javascriptCallbackFactory->BrowserWrapper = browserWrapper;
+    }
+
     if (Cef::WcfEnabled)
     {
-        _browserProcessServiceHost = gcnew BrowserProcessServiceHost(_javaScriptObjectRepository, Process::GetCurrentProcess()->Id, browserId);
+        _browserProcessServiceHost = gcnew BrowserProcessServiceHost(_javaScriptObjectRepository, Process::GetCurrentProcess()->Id, this);
         //NOTE: Attempt to solve timing issue where browser is opened and rapidly disposed. In some cases a call to Open throws
         // an exception about the process already being closed. Two relevant issues are #862 and #804.
         // Considering adding an IsDisposed check and also may have to revert to a try catch block
@@ -49,12 +57,6 @@ void ManagedCefBrowserAdapter::OnAfterBrowserCreated(int browserId)
         {
             _browserProcessServiceHost->Open();
         }
-    }
-    
-    auto browser = _clientAdapter->GetCefBrowser();
-    if (browser != nullptr)
-    {
-        _browserWrapper = gcnew CefSharpBrowserWrapper(browser, this);
     }
 
     if (_webBrowserInternal != nullptr)

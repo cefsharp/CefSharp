@@ -230,8 +230,11 @@
     <ClCompile Include="Internals\CefRequestWrapper.cpp" />
     <ClCompile Include="Internals\Serialization\ObjectsSerialization.cpp" />
     <ClCompile Include="Internals\Serialization\Primitives.cpp" />
-    <ClCompile Include="Internals\Serialization\V8Deserialization.cpp" />
+    <ClCompile Include="Internals\Serialization\V8Serialization.cpp" />
     <ClCompile Include="Internals\StringVisitor.cpp" />
+    <ClCompile Include="Internals\JavascriptCallbackImpl.cpp" />
+    <ClCompile Include="Internals\JavascriptCallbackImplFactory.cpp" />
+    <ClCompile Include="Internals\Messaging\JavascriptCallbackDoneDelegate.cpp" />
     <ClCompile Include="ManagedCefBrowserAdapter.cpp" />
     <ClCompile Include="NativeMethodWrapper.cpp" />
     <ClCompile Include="ResourceHandlerWrapper.cpp" />
@@ -243,6 +246,7 @@
     </ClCompile>
     <ClCompile Include="Internals\StringUtils.cpp" />
     <ClCompile Include="Internals\StreamAdapter.cpp" />
+    <ClCompile Include="Internals\Messaging\TaskDoneDelegate.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BrowserSettings.h" />
@@ -276,11 +280,14 @@
     <ClInclude Include="Internals\RenderClientAdapter.h" />
     <ClInclude Include="Internals\ReportUnhandledExceptions.h" />
     <ClInclude Include="Internals\CefRequestCallbackWrapper.h" />
-    <ClInclude Include="Internals\Serialization\V8Deserialization.h" />
+    <ClInclude Include="Internals\Serialization\V8Serialization.h" />
     <ClInclude Include="Internals\Serialization\ObjectsSerialization.h" />
     <ClInclude Include="Internals\Serialization\Primitives.h" />
     <ClInclude Include="Internals\StringVisitor.h" />
     <ClInclude Include="Internals\TypeConversion.h" />
+    <ClInclude Include="Internals\JavascriptCallbackImpl.h" />
+    <ClInclude Include="Internals\JavascriptCallbackImplFactory.h" />
+    <ClInclude Include="Internals\Messaging\JavascriptCallbackDoneDelegate.h" />
     <ClInclude Include="NativeMethodWrapper.h" />
     <ClInclude Include="PaintElementType.h" />
     <ClInclude Include="ManagedCefBrowserAdapter.h" />
@@ -291,6 +298,7 @@
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="Internals\StringUtils.h" />
     <ClInclude Include="Internals\StreamAdapter.h" />
+    <ClInclude Include="Internals\Messaging\TaskDoneDelegate.h" />
     <ClInclude Include="vcclr_local.h" />
   </ItemGroup>
   <ItemGroup>

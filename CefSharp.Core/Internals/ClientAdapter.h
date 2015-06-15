@@ -12,6 +12,7 @@
 #include "include/internal/cef_types.h"
 #include "Messaging/ProcessMessageDelegate.h"
 #include "Messaging/EvaluateScriptDoneDelegate.h"
+#include "Messaging/JavascriptCallbackDoneDelegate.h"
 
 using namespace System;
 
@@ -40,8 +41,9 @@ namespace CefSharp
             gcroot<Dictionary<int, IBrowser^>^> _popupBrowsers;
             gcroot<String^> _tooltip;
             gcroot<IBrowserAdapter^> _browserAdapter;
+            gcroot<Dictionary<int, Messaging::PendingTaskRepository<JavascriptResponse^>^>^> _pendingTaskRepositories;
+			gcroot<Dictionary<int, IJavascriptCallbackFactory^>^> _javascriptCallbackFactories;
 
-            gcroot<Messaging::PendingTaskRepository<JavascriptResponse^>^> _pendingTaskRepository;
             CefRefPtr<Messaging::EvaluateScriptDoneDelegate> _evalScriptDoneDelegate;
             Messaging::ProcessMessageDelegateSet _processMessageDelegates;
 
@@ -57,11 +59,13 @@ namespace CefSharp
             ClientAdapter(IWebBrowserInternal^ browserControl, IBrowserAdapter^ browserAdapter) :
                 _browserControl(browserControl), 
                 _popupBrowsers(gcnew Dictionary<int, IBrowser^>()),
-                _pendingTaskRepository(gcnew Messaging::PendingTaskRepository<JavascriptResponse^>()),
                 _browserAdapter(browserAdapter)
             {
-                _evalScriptDoneDelegate = new Messaging::EvaluateScriptDoneDelegate(_pendingTaskRepository);
+				_javascriptCallbackFactories = gcnew Dictionary<int, IJavascriptCallbackFactory^>();
+                _pendingTaskRepositories = gcnew Dictionary<int, Messaging::PendingTaskRepository<JavascriptResponse^>^>();
+				_evalScriptDoneDelegate = new Messaging::EvaluateScriptDoneDelegate(_pendingTaskRepositories, _javascriptCallbackFactories);
                 AddProcessMessageDelegate(_evalScriptDoneDelegate);
+				AddProcessMessageDelegate(new Messaging::JavascriptCallbackDoneDelegate(_pendingTaskRepositories, _javascriptCallbackFactories));
             }
 
             ~ClientAdapter()

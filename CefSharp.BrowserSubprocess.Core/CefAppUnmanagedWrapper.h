@@ -14,6 +14,7 @@
 #include "Internals/Messaging/ProcessMessageDelegate.h"
 #include "Messaging/JsRootObjectDelegate.h"
 #include "Messaging/EvaluateScriptDelegate.h"
+#include "Messaging/JavascriptCallbackDelegate.h"
 
 using namespace System::Collections::Generic;
 
@@ -25,6 +26,7 @@ namespace CefSharp
     private:
         friend Internals::Messaging::JsRootObjectDelegate;
         friend Internals::Messaging::EvaluateScriptDelegate;
+        friend Internals::Messaging::JavascriptCallbackDelegate;
 
         gcroot<Action<CefBrowserWrapper^>^> _onBrowserCreated;
         gcroot<Action<CefBrowserWrapper^>^> _onBrowserDestroyed;
@@ -45,6 +47,7 @@ namespace CefSharp
 
             AddProcessMessageDelegate(new Internals::Messaging::JsRootObjectDelegate(this));
             AddProcessMessageDelegate(new Internals::Messaging::EvaluateScriptDelegate(this));
+            AddProcessMessageDelegate(new Internals::Messaging::JavascriptCallbackDelegate(this));
         }
 
         ~CefAppUnmanagedWrapper()

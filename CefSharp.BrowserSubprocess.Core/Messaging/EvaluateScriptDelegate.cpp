@@ -51,7 +51,7 @@ namespace CefSharp
                 auto frame = browser.get() ? browser->GetFrame(frameId) : nullptr;
                 if (browser.get() && frame.get())
                 {
-                    result = EvaluateScriptInFrame(frame, callbackId, script, browserWrapper->CallbackRegistry);
+                    result = EvaluateScriptInFrame(frame, callbackId, script, browserWrapper->GetCallbackRegistry());
                 }
                 else
                 {
@@ -60,7 +60,7 @@ namespace CefSharp
                 return result;
             }
 
-            CefRefPtr<CefProcessMessage> EvaluateScriptDelegate::EvaluateScriptInFrame(CefRefPtr<CefFrame> frame, int64 callbackId, CefString script, JavascriptCallbackRegistry^ callbackRegistry)
+            CefRefPtr<CefProcessMessage> EvaluateScriptDelegate::EvaluateScriptInFrame(CefRefPtr<CefFrame> frame, int64 callbackId, CefString script, CefRefPtr<JavascriptCallbackRegistry> callbackRegistry)
             {
                 CefRefPtr<CefProcessMessage> result;
                 auto context = frame->GetV8Context();
@@ -80,7 +80,7 @@ namespace CefSharp
                 return result;
             }
 
-            CefRefPtr<CefProcessMessage> EvaluateScriptDelegate::EvaluateScriptInContext(CefRefPtr<CefV8Context> context, int64 callbackId, CefString script, JavascriptCallbackRegistry^ callbackRegistry)
+            CefRefPtr<CefProcessMessage> EvaluateScriptDelegate::EvaluateScriptInContext(CefRefPtr<CefV8Context> context, int64 callbackId, CefString script, CefRefPtr<JavascriptCallbackRegistry> callbackRegistry)
             {
                 CefRefPtr<CefV8Value> result;
                 CefRefPtr<CefV8Exception> exception;

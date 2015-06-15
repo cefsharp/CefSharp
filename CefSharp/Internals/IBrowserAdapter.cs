@@ -4,6 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
+using CefSharp.Internals.Messaging;
 
 namespace CefSharp.Internals
 {
@@ -13,6 +14,8 @@ namespace CefSharp.Internals
     /// </summary>
     public interface IBrowserAdapter
     {
+        IJavascriptCallbackFactory JavascriptCallbackFactory { get; }
+        PendingTaskRepository<JavascriptResponse> PendingTaskRepository { get; }
         Task<JavascriptResponse> EvaluateScriptAsync(string script, TimeSpan? timeout);
         Task<JavascriptResponse> EvaluateScriptAsync(int browserId, Int64 frameId, string script, TimeSpan? timeout);
         void OnAfterBrowserCreated(int browserId);

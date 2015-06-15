@@ -43,7 +43,8 @@ namespace CefSharp.Internals
                 throw new ObjectDisposedException("BrowserProcessServiceHost is already disposed.");
             }
 
-            return browserProcess.JavascriptCallback(browserId, id, parms, null);
+           // return browserProcess.JavascriptCallback(browserId, id, parms, null);
+            throw new InvalidOperationException("");
         }
 
         protected override void DoDispose(bool isDisposing)
@@ -51,7 +52,7 @@ namespace CefSharp.Internals
             var browserProcess = (BrowserProcessServiceHost)browserProcessWeakReference.Target;
             if (!IsDisposed && browserProcess != null && browserProcess.State == CommunicationState.Opened)
             {
-                browserProcess.DestroyJavascriptCallback(browserId, id);
+             //   browserProcess.DestroyJavascriptCallback(browserId, id);
             }
         }
     }
