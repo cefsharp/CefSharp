@@ -13,12 +13,15 @@ namespace CefSharp
     {
         JavascriptCallbackRegistry::~JavascriptCallbackRegistry()
         {
-            for each (JavascriptCallbackWrapper^ callback in _callbacks->Values)
+            if (_callbacks != nullptr)
             {
-                delete callback;
+                for each (JavascriptCallbackWrapper^ callback in _callbacks->Values)
+                {
+                    delete callback;
+                }
+                _callbacks->Clear();
+                _callbacks = nullptr;
             }
-            _callbacks->Clear();
-            _callbacks = nullptr;
         }
 
         JavascriptCallback^ JavascriptCallbackRegistry::Register(CefRefPtr<CefV8Context> context, CefRefPtr<CefV8Value> value)
