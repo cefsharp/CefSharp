@@ -57,17 +57,6 @@ namespace CefSharp
         return response;
     }
 
-    void CefBrowserWrapper::DoDispose(bool disposing)
-    {
-        _cefBrowser = nullptr;
-        if (disposing)
-        {
-            delete _callbackRegistry;
-            _callbackRegistry = nullptr;
-        }
-        DisposableResource::DoDispose(disposing);
-    }
-
     JavascriptResponse^ CefBrowserWrapper::DoEvaluateScript(System::Int64 frameId, String^ script)
     {
         auto frame = _cefBrowser->GetFrame(frameId);
