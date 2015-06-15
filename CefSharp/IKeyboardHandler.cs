@@ -7,11 +7,9 @@ namespace CefSharp
     public interface IKeyboardHandler
     {
         /// <summary>
-        /// Called before a keyboard event is sent to the renderer. |event| contains
-        /// information about the keyboard event. |os_event| is the operating system
-        /// event message, if any. Return true if the event was handled or false
-        /// otherwise. If the event will be handled in OnKeyEvent() as a keyboard
-        /// shortcut set |isKeyboardShortcut| to true and return false.
+        /// Called before a keyboard event is sent to the renderer.
+        /// If the event will be handled in OnKeyEvent() as a keyboard
+        /// shortcut set <paramref name="isKeyboardShortcut"/> to true and return false.
         /// </summary>
         /// <param name="browserControl">the browser control</param>
         /// <param name="type">Whether this was a key up/down/raw/etc...</param>
@@ -33,7 +31,7 @@ namespace CefSharp
 
         /// <summary>
         /// Called after the renderer and JavaScript in the page has had a chance to
-        /// handle the event. Return true if the keyboard event was handled or false otherwise.
+        /// handle the event.
         /// </summary>
         /// <param name="browserControl">the browser control</param>
         /// <param name="type">Whether this was a key up/down/raw/etc...</param>
