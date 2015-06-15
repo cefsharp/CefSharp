@@ -36,16 +36,6 @@ namespace CefSharp
 
     void ResourceHandlerWrapper::ProcessRequestCallback(IResourceHandlerResponse^ response, bool cancel)
     {
-        _mime_type = StringUtils::ToNative(response->MimeType);
-        _stream = response->ResponseStream;
-        _statusCode = response->StatusCode;
-        _statusText = StringUtils::ToNative(response->StatusText);
-        _redirectUrl = StringUtils::ToNative(response->RedirectUrl);
-        _contentLength = response->ContentLength;
-        _closeStream = response->CloseStream;
-
-        _headers = TypeConversion::ToNative(response->ResponseHeaders);
-
         // If CEF has canceled the initial request, throw away a response that comes afterwards.
         if (_callback != nullptr)
         {
@@ -55,6 +45,16 @@ namespace CefSharp
             }
             else
             {
+                _mime_type = StringUtils::ToNative(response->MimeType);
+                _stream = response->ResponseStream;
+                _statusCode = response->StatusCode;
+                _statusText = StringUtils::ToNative(response->StatusText);
+                _redirectUrl = StringUtils::ToNative(response->RedirectUrl);
+                _contentLength = response->ContentLength;
+                _closeStream = response->CloseStream;
+
+                _headers = TypeConversion::ToNative(response->ResponseHeaders);
+
                 _callback->Continue();
             }
         }
