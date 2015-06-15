@@ -4,8 +4,8 @@
 
 #include "Stdafx.h"
 #include "Internals/CefRequestWrapper.h"
+#include "Internals/CefCallbackWrapper.h"
 #include "ResourceHandlerWrapper.h"
-#include "ResourceHandlerResponse.h"
 #include "Internals/TypeConversion.h"
 
 using namespace System::Runtime::InteropServices;
@@ -15,28 +15,32 @@ namespace CefSharp
 {
     bool ResourceHandlerWrapper::ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefCallback> callback)
     {
-        _callback = callback;
+        _callbackWrapper = gcnew CefCallbackWrapper(callback);
         _request = gcnew CefRequestWrapper(request);
 
         AutoLock lock_scope(_syncRoot);
 
-        auto resourceHandlerResponse = gcnew ResourceHandlerResponse(this);
-
-        return _handler->ProcessRequestAsync(_request, resourceHandlerResponse);
+        return _handler->ProcessRequestAsync(_request, _callbackWrapper);
     }
 
-    void ResourceHandlerWrapper::ProcessRequestCallback(IResourceHandlerResponse^ response, bool cancel)
+    void ResourceHandlerWrapper::GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl)
     {
-        // If CEF has canceled the initial request, throw away a response that comes afterwards.
-        if (_callback != nullptr)
-        {
-            if(cancel)
-            {
-                _callback->Cancel();
-            }
-            else
-            {
-                _mime_type = StringUtils::ToNative(response->MimeType);
+        String^ newRedistUrl;
+        _stream = _handler->GetResponseHeaders(nullptr, response_length, newRedistUrl);
+
+        redirectUrl = StringUtils::ToNative(newRedistUrl);
+        //response->SetMimeType(_mime_type);
+        //response->SetStatus(_statusCode);
+        //response->SetStatusText(_statusText);
+        //response->SetHeaderMap(_headers);
+        //// ContentLength defaults to -1 so SizeFromStream is called
+        //response_length = _contentLength >= 0 ? _contentLength : SizeFromStream();
+        //
+        //redirectUrl = _redirectUrl;
+
+        /*
+        
+        _mime_type = StringUtils::ToNative(response->MimeType);
                 _stream = response->ResponseStream;
                 _statusCode = response->StatusCode;
                 _statusText = StringUtils::ToNative(response->StatusText);
@@ -45,26 +49,7 @@ namespace CefSharp
                 _closeStream = response->CloseStream;
 
                 _headers = TypeConversion::ToNative(response->ResponseHeaders);
-
-                _callback->Continue();
-            }
-        }
-
-        // Must be done AFTER CEF has been allowed to consume the headers etc. After this call is made, the SchemeHandlerWrapper
-        // instance has likely been deallocated.
-        delete response;
-    }
-
-    void ResourceHandlerWrapper::GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl)
-    {
-        response->SetMimeType(_mime_type);
-        response->SetStatus(_statusCode);
-        response->SetStatusText(_statusText);
-        response->SetHeaderMap(_headers);
-        // ContentLength defaults to -1 so SizeFromStream is called
-        response_length = _contentLength >= 0 ? _contentLength : SizeFromStream();
-        
-        redirectUrl = _redirectUrl;
+                */
     }
 
     bool ResourceHandlerWrapper::ReadResponse(void* data_out, int bytes_to_read, int& bytes_read, CefRefPtr<CefCallback> callback)
@@ -85,10 +70,11 @@ namespace CefSharp
             memcpy(data_out, static_cast<void*>(src), bytes_read);
             // must return false when the response is complete
             hasData = bytes_read > 0;
-            if (!hasData && _closeStream)
+            //TODO: Fix this
+			/*if (!hasData && _closeStream)
             {
                 _stream->Close();
-            }
+            }*/
         }
 
         return hasData;
@@ -96,12 +82,14 @@ namespace CefSharp
 
     void ResourceHandlerWrapper::Cancel()
     {
-        if (static_cast<Stream^>(_stream) != nullptr && _closeStream)
+		//TODO: Fix this
+		/*if (static_cast<Stream^>(_stream) != nullptr && _closeStream)
         {
             _stream->Close();
-        }
+        }*/
         _stream = nullptr;
-        _callback = NULL;
+
+		delete this;
     }
 
     int64 ResourceHandlerWrapper::SizeFromStream()

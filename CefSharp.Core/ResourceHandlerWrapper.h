@@ -20,16 +20,9 @@ namespace CefSharp
         gcroot<IRequest^> _request;
         gcroot<IResourceHandler^> _handler;
         gcroot<Stream^> _stream;
+        gcroot<ICallback^> _callbackWrapper;
 
         CriticalSection _syncRoot;
-        CefRefPtr<CefCallback> _callback;
-        CefString _mime_type;
-        CefResponse::HeaderMap _headers;
-        int _statusCode;
-        CefString _redirectUrl;
-        CefString _statusText;
-        int64 _contentLength;
-        bool _closeStream;
         int64 SizeFromStream();
 
     public:
@@ -46,12 +39,11 @@ namespace CefSharp
         {
             _handler = nullptr;
             _stream = nullptr;
-            _callback = NULL;
+            delete _callbackWrapper;
             delete _request;
         }
 
         virtual bool ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefCallback> callback);
-        virtual void ProcessRequestCallback(IResourceHandlerResponse^ handlerResponse, bool cancel);
         virtual void GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl);
         virtual bool ReadResponse(void* data_out, int bytes_to_read, int& bytes_read, CefRefPtr<CefCallback> callback);
         virtual void Cancel();

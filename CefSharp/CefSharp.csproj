@@ -100,6 +100,7 @@
     <Compile Include="DependencyChecker.cs" />
     <Compile Include="IBrowser.cs" />
     <Compile Include="IBrowserHost.cs" />
+    <Compile Include="ICallback.cs" />
     <Compile Include="IDownloadItemCallback.cs" />
     <Compile Include="IFileDialogCallback.cs" />
     <Compile Include="IFrame.cs" />
@@ -120,7 +121,7 @@
     <Compile Include="IRequestCallback.cs" />
     <Compile Include="IResourceHandler.cs" />
     <Compile Include="IResourceHandlerFactory.cs" />
-    <Compile Include="IResourceHandlerResponse.cs" />
+    <Compile Include="IResponse.cs" />
     <Compile Include="MouseEvent.cs" />
     <Compile Include="DragOperationsMask.cs" />
     <Compile Include="IBitmapFactory.cs" />
