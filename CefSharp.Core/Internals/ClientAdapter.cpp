@@ -533,13 +533,11 @@ namespace CefSharp
                 return NULL;
             }
 
-            auto requestWrapper = gcnew CefRequestWrapper(request);
-            CefFrameWrapper frameWrapper(frame, _browserAdapter);
-            IResourceHandler^ resourceHandler;
-
             IBrowser^ browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+            CefFrameWrapper frameWrapper(frame, _browserAdapter);
+            CefRequestWrapper requestWrapper(request);
 
-            resourceHandler = factory->GetResourceHandler(_browserControl, browserWrapper, %frameWrapper, requestWrapper);
+            auto resourceHandler = factory->GetResourceHandler(_browserControl, browserWrapper, %frameWrapper, %requestWrapper);
 
             return resourceHandler == nullptr ? NULL : new ResourceHandlerWrapper(resourceHandler);
         }

@@ -16,22 +16,13 @@ namespace CefSharp
     bool ResourceHandlerWrapper::ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefCallback> callback)
     {
         _callback = callback;
+        _request = gcnew CefRequestWrapper(request);
 
         AutoLock lock_scope(_syncRoot);
 
-        auto schemeResponse = gcnew ResourceHandlerResponse(this);
+        auto resourceHandlerResponse = gcnew ResourceHandlerResponse(this);
 
-        // If _request came from ISchemeHandlerFactory,
-        // the request parameter can be ignored since it is the same request.
-        // If ignoring the request parameter isn't good enough then we 
-        // should retain references to _requestWrapper and a CefRequestWrapper^
-        // of the request parameter until CefRequestWrapper is disposed.
-        if (static_cast<IRequest^>(_request) == nullptr)
-        {
-            _request = gcnew CefRequestWrapper(request);
-        }
-
-        return _handler->ProcessRequestAsync(_request, schemeResponse);
+        return _handler->ProcessRequestAsync(_request, resourceHandlerResponse);
     }
 
     void ResourceHandlerWrapper::ProcessRequestCallback(IResourceHandlerResponse^ response, bool cancel)

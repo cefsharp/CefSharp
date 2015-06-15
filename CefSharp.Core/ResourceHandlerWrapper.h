@@ -33,18 +33,13 @@ namespace CefSharp
         int64 SizeFromStream();
 
     public:
-        ResourceHandlerWrapper(IResourceHandler^ handler) 
-            : ResourceHandlerWrapper(handler, nullptr)
+        ResourceHandlerWrapper(IResourceHandler^ handler)
+            : _handler(handler)
         {
             if (static_cast<IResourceHandler^>(_handler) == nullptr)
             {
                 throw gcnew ArgumentException("handler must not be null");
             }
-        }
-
-        ResourceHandlerWrapper(IResourceHandler^ handler, IRequest^ request)
-            : _handler(handler), _request(request)
-        {
         }
 
         ~ResourceHandlerWrapper()
