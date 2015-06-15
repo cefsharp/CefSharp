@@ -65,7 +65,7 @@ namespace CefSharp.Example
             return false;
         }
 
-        public Stream GetResponseHeaders(IResponse response, out long responseLength, out string redirectUrl)
+        public Stream GetResponse(IResponse response, out long responseLength, out string redirectUrl)
         {
             responseLength = stream.Length;
             redirectUrl = null;

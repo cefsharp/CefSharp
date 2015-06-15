@@ -17,6 +17,6 @@ namespace CefSharp
         /// <returns>true if the request is handled, false otherwise.</returns>
         bool ProcessRequestAsync(IRequest request, ICallback callback);
 
-        Stream GetResponseHeaders(IResponse response, out long responseLength, out string redirectUrl);
+        Stream GetResponse(IResponse response, out long responseLength, out string redirectUrl);
     }
 }

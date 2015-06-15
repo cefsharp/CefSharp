@@ -770,7 +770,7 @@ namespace CefSharp
             return true;
         }
 
-        public Stream GetResponseHeaders(IResponse response, out long responseLength, out string redirectUrl)
+        Stream IResourceHandler.GetResponse(IResponse response, out long responseLength, out string redirectUrl)
         {
             redirectUrl = null;
             responseLength = -1;

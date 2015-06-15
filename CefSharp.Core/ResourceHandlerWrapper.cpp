@@ -30,7 +30,7 @@ namespace CefSharp
 
         CefResponseWrapper responseWrapper(response);
 
-        _stream = _handler->GetResponseHeaders(%responseWrapper, response_length, newRedistUrl);
+        _stream = _handler->GetResponse(%responseWrapper, response_length, newRedistUrl);
 
         redirectUrl = StringUtils::ToNative(newRedistUrl);
     }
