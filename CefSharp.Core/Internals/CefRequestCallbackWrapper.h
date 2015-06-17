@@ -21,7 +21,7 @@ namespace CefSharp
 
         internal:
             CefRequestCallbackWrapper(CefRefPtr<CefRequestCallback> callback)
-                : CefRequestCallbackWrapper(callback, nullptr, nullptr)
+                : _callback(callback)
             {
             }
 

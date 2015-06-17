@@ -35,7 +35,7 @@ namespace CefSharp
     public:
 
         ResourceHandlerWrapper(IResourceHandler^ handler) 
-            : ResourceHandlerWrapper(handler, nullptr)
+            : _handler(handler)
         {
             if (static_cast<IResourceHandler^>(_handler) == nullptr)
             {
