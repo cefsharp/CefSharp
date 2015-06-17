@@ -53,7 +53,7 @@ namespace CefSharp
             _handler = nullptr;
             _stream = nullptr;
             _callback = NULL;
-            _requestWrapper->Dispose();
+            delete _requestWrapper;
             _requestWrapper = nullptr;
         }
 

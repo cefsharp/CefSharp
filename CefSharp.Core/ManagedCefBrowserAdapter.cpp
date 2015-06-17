@@ -52,7 +52,7 @@ void ManagedCefBrowserAdapter::OnAfterBrowserCreated(int browserId)
     if (browser != nullptr)
     {
         _browserWrapper = gcnew CefSharpBrowserWrapper(browser, this);
-    }	
+    }
 
     if (_webBrowserInternal != nullptr)
     {
