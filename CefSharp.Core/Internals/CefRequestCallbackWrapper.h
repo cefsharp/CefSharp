@@ -16,6 +16,7 @@ namespace CefSharp
         {
         private:
             MCefRefPtr<CefRequestCallback> _callback;
+            IFrame^ _frame;
             IRequest^ _request;
 
         internal:
@@ -24,8 +25,11 @@ namespace CefSharp
             {
             }
 
-            CefRequestCallbackWrapper(CefRefPtr<CefRequestCallback> &callback, IRequest^ request)
-                : _callback(callback), _request(request)
+            CefRequestCallbackWrapper(
+                CefRefPtr<CefRequestCallback> &callback,
+                IFrame^ frame,
+                IRequest^ request)
+                : _callback(callback), _frame(frame), _request(request)
             {
             }
 
@@ -40,7 +44,10 @@ namespace CefSharp
                 if (_request != nullptr)
                 {
                     delete _request;
+                    _request = nullptr;
                 }
+                delete _frame;
+                _frame = nullptr;
             }
 
         public:

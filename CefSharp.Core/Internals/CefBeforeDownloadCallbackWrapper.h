@@ -16,7 +16,8 @@ namespace CefSharp
         MCefRefPtr<CefBeforeDownloadCallback> _callback;
 
     public:
-        CefBeforeDownloadCallbackWrapper(CefRefPtr<CefBeforeDownloadCallback> &callback) : _callback(callback)
+        CefBeforeDownloadCallbackWrapper(CefRefPtr<CefBeforeDownloadCallback> &callback)
+            : _callback(callback)
         {
             
         }

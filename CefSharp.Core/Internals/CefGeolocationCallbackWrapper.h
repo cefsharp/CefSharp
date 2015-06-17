@@ -16,9 +16,9 @@ namespace CefSharp
         MCefRefPtr<CefGeolocationCallback> _callback;
 
     public:
-        CefGeolocationCallbackWrapper(CefRefPtr<CefGeolocationCallback> &callback) : _callback(callback)
+        CefGeolocationCallbackWrapper(CefRefPtr<CefGeolocationCallback> &callback)
+            : _callback(callback)
         {
-            
         }
 
         !CefGeolocationCallbackWrapper()
