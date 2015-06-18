@@ -9,11 +9,14 @@ namespace CefSharp.Example
 {
     internal class CefSharpSchemeHandler : ISchemeHandler
     {
-        private readonly IDictionary<string, string> resources;
+        private static readonly IDictionary<string, string> ResourceDictionary;
 
-        public CefSharpSchemeHandler()
+        private string mimeType;
+        private MemoryStream stream;
+        
+        static CefSharpSchemeHandler()
         {
-            resources = new Dictionary<string, string>
+            ResourceDictionary = new Dictionary<string, string>
             {
                 { "/home", Resources.home_html },
 
@@ -36,22 +39,24 @@ namespace CefSharp.Example
             };
         }
 
-        public bool ProcessRequestAsync(IRequest request, IResourceHandlerResponse response)
+        public bool ProcessRequestAsync(IRequest request, ICallback callback)
         {
             // The 'host' portion is entirely ignored by this scheme handler.
             var uri = new Uri(request.Url);
             var fileName = uri.AbsolutePath;
 
             string resource;
-            if (resources.TryGetValue(fileName, out resource) && !String.IsNullOrEmpty(resource))
+            if (ResourceDictionary.TryGetValue(fileName, out resource) && !string.IsNullOrEmpty(resource))
             {
                 Task.Run(() =>
                 {
                     var bytes = Encoding.UTF8.GetBytes(resource);
-                    response.ResponseStream = new MemoryStream(bytes);
-                    response.MimeType = GetMimeType(fileName);
+                    stream = new MemoryStream(bytes);
 
-                    response.Continue();
+                    var fileExtension = Path.GetExtension(fileName);
+                    mimeType = ResourceHandler.GetMimeType(fileExtension);
+
+                    callback.Continue();
                 });
 
                 return true;
@@ -60,12 +65,16 @@ namespace CefSharp.Example
             return false;
         }
 
-        private string GetMimeType(string fileName)
+        public Stream GetResponse(IResponse response, out long responseLength, out string redirectUrl)
         {
-            if (fileName.EndsWith(".css")) return "text/css";
-            if (fileName.EndsWith(".js")) return "text/javascript";
-            
-            return "text/html";
+            responseLength = stream.Length;
+            redirectUrl = null;
+
+            response.StatusCode = 300;
+            response.StatusText = "OK";
+            response.MimeType = mimeType;
+
+            return stream;
         }
     }
 }

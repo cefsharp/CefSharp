@@ -151,9 +151,6 @@
     <ClInclude Include="Internals\CefFrameWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceHandlerResponse.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Internals\CefBrowserHostWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -176,6 +173,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Internals\CefJSDialogCallbackWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\CefCallbackWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\CefResponseWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

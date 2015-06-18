@@ -16,13 +16,12 @@ namespace CefSharp
         /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         public static void Undo(this IWebBrowser browser)
         {
-            var frame = browser.GetFocusedFrame();
+            using (var frame = browser.GetFocusedFrame())
+            { 
+                ThrowExceptionIfFrameNull(frame);
 
-            ThrowExceptionIfFrameNull(frame);
-            
-            frame.Undo();
-
-            frame.Dispose();
+                frame.Undo();
+            }
         }
 
         /// <summary>
@@ -31,13 +30,12 @@ namespace CefSharp
         /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         public static void Redo(this IWebBrowser browser)
         {
-            var frame = browser.GetFocusedFrame();
+            using (var frame = browser.GetFocusedFrame())
+            {
+                ThrowExceptionIfFrameNull(frame);
 
-            ThrowExceptionIfFrameNull(frame);
-
-            frame.Redo();
-
-            frame.Dispose();
+                frame.Redo();
+            }
         }
 
         /// <summary>
@@ -46,13 +44,12 @@ namespace CefSharp
         /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         public static void Cut(this IWebBrowser browser)
         {
-            var frame = browser.GetFocusedFrame();
+            using (var frame = browser.GetFocusedFrame())
+            {
+                ThrowExceptionIfFrameNull(frame);
 
-            ThrowExceptionIfFrameNull(frame);
-
-            frame.Cut();
-
-            frame.Dispose();
+                frame.Cut();
+            }
         }
 
         /// <summary>
@@ -61,13 +58,12 @@ namespace CefSharp
         /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         public static void Copy(this IWebBrowser browser)
         {
-            var frame = browser.GetFocusedFrame();
+            using (var frame = browser.GetFocusedFrame())
+            {
+                ThrowExceptionIfFrameNull(frame);
 
-            ThrowExceptionIfFrameNull(frame);
-
-            frame.Copy();
-
-            frame.Dispose();
+                frame.Copy();
+            }
         }
 
         /// <summary>
@@ -76,13 +72,12 @@ namespace CefSharp
         /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         public static void Paste(this IWebBrowser browser)
         {
-            var frame = browser.GetFocusedFrame();
+            using (var frame = browser.GetFocusedFrame())
+            {
+                ThrowExceptionIfFrameNull(frame);
 
-            ThrowExceptionIfFrameNull(frame);
-
-            frame.Paste();
-
-            frame.Dispose();
+                frame.Paste();
+            }
         }
 
         /// <summary>
@@ -91,13 +86,12 @@ namespace CefSharp
         /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         public static void Delete(this IWebBrowser browser)
         {
-            var frame = browser.GetFocusedFrame();
+            using (var frame = browser.GetFocusedFrame())
+            {
+                ThrowExceptionIfFrameNull(frame);
 
-            ThrowExceptionIfFrameNull(frame);
-            
-            frame.Delete();
-
-            frame.Dispose();
+                frame.Delete();
+            }
         }
 
         /// <summary>
@@ -106,13 +100,12 @@ namespace CefSharp
         /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         public static void SelectAll(this IWebBrowser browser)
         {
-            var frame = browser.GetFocusedFrame();
+            using (var frame = browser.GetFocusedFrame())
+            {
+                ThrowExceptionIfFrameNull(frame);
 
-            ThrowExceptionIfFrameNull(frame);
-
-            frame.SelectAll();
-
-            frame.Dispose();
+                frame.SelectAll();
+            }
         }
 
         /// <summary>
@@ -122,13 +115,12 @@ namespace CefSharp
         /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         public static void ViewSource(this IWebBrowser browser)
         {
-            var frame = browser.GetMainFrame();
+            using (var frame = browser.GetMainFrame())
+            {
+                ThrowExceptionIfFrameNull(frame);
 
-            ThrowExceptionIfFrameNull(frame);
-
-            frame.ViewSource();
-
-            frame.Dispose();
+                frame.ViewSource();
+            }
         }
 
         /// <summary>
@@ -138,11 +130,12 @@ namespace CefSharp
         /// <returns><see cref="Task{String}"/> that when executed returns the frame source as a string</returns>
         public static Task<string> GetSourceAsync(this IWebBrowser browser)
         {
-            var frame = browser.GetMainFrame();
+            using (var frame = browser.GetMainFrame())
+            {
+                ThrowExceptionIfFrameNull(frame);
 
-            ThrowExceptionIfFrameNull(frame);
-
-            return frame.GetSourceAsync();
+                return frame.GetSourceAsync();
+            }
         }
 
         /// <summary>
@@ -152,11 +145,12 @@ namespace CefSharp
         /// <returns><see cref="Task{String}"/> that when executed returns the frame display text as a string.</returns>
         public static Task<string> GetTextAsync(this IWebBrowser browser)
         {
-            var frame = browser.GetMainFrame();
+            using (var frame = browser.GetMainFrame())
+            {
+                ThrowExceptionIfFrameNull(frame);
 
-            ThrowExceptionIfFrameNull(frame);
-
-            return frame.GetTextAsync();
+                return frame.GetTextAsync();
+            }
         }
 
         /// <summary>
@@ -167,13 +161,12 @@ namespace CefSharp
         /// <param name="script">The Javascript code that should be executed.</param>
         public static void ExecuteScriptAsync(this IWebBrowser browser, string script)
         {
-            var frame = browser.GetMainFrame();
+            using (var frame = browser.GetMainFrame())
+            {
+                ThrowExceptionIfFrameNull(frame);
 
-            ThrowExceptionIfFrameNull(frame);
-
-            frame.ExecuteJavaScriptAsync(script);
-
-            frame.Dispose();
+                frame.ExecuteJavaScriptAsync(script);
+            }
         }
 
         /// <summary>
@@ -184,13 +177,12 @@ namespace CefSharp
         /// <param name="url">the url should have a standard scheme (for example, http scheme) or behaviors like link clicks</param>
         public static void LoadString(this IWebBrowser browser, string html, string url)
         {
-            var frame = browser.GetMainFrame();
+            using (var frame = browser.GetMainFrame())
+            {
+                ThrowExceptionIfFrameNull(frame);
 
-            ThrowExceptionIfFrameNull(frame);
-            
-            frame.LoadStringForUrl(html, url);
-
-            frame.Dispose();
+                frame.LoadStringForUrl(html, url);
+            }
         }
 
         /// <summary>

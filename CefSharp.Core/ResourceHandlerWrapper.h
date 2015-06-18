@@ -17,22 +17,27 @@ namespace CefSharp
     public class ResourceHandlerWrapper : public CefResourceHandler
     {
     private:
-        gcroot<CefRequestWrapper^> _requestWrapper;
+        gcroot<IRequest^> _request;
         gcroot<IResourceHandler^> _handler;
         gcroot<Stream^> _stream;
+        gcroot<ICallback^> _callbackWrapper;
+        gcroot<IBrowser^> _browser;
+        gcroot<IFrame^> _frame;
 
         CriticalSection _syncRoot;
-        CefRefPtr<CefCallback> _callback;
-        CefString _mime_type;
-        CefResponse::HeaderMap _headers;
-        int _statusCode;
-        CefString _redirectUrl;
-        CefString _statusText;
-        int64 _contentLength;
-        bool _closeStream;
         int64 SizeFromStream();
 
     public:
+
+        /// <summary>
+        /// Constructor that accepts IBrowser, IFrame, IRequest in order to be the CefSharp
+        /// lifetime management container  (i.e. calling .Dispose at the correct time) on 
+        /// managed objects that contain MCefRefPtrs.
+        /// </summary>
+        ResourceHandlerWrapper(IResourceHandler^ handler, IBrowser ^browser, IFrame^ frame, IRequest^ request)
+            : _handler(handler), _browser(browser), _frame(frame), _request(request)
+        {
+        }
 
         ResourceHandlerWrapper(IResourceHandler^ handler) 
             : _handler(handler)
@@ -43,22 +48,17 @@ namespace CefSharp
             }
         }
 
-        ResourceHandlerWrapper(IResourceHandler^ handler, CefRequestWrapper^ requestWrapper)
-            : _handler(handler), _requestWrapper(requestWrapper)
-        {
-        }
-
         ~ResourceHandlerWrapper()
         {
             _handler = nullptr;
             _stream = nullptr;
-            _callback = NULL;
-            delete _requestWrapper;
-            _requestWrapper = nullptr;
+            delete _callbackWrapper;
+            delete _request;
+            delete _browser;
+            delete _frame;
         }
 
         virtual bool ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefCallback> callback);
-        virtual void ProcessRequestCallback(IResourceHandlerResponse^ handlerResponse, bool cancel);
         virtual void GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl);
         virtual bool ReadResponse(void* data_out, int bytes_to_read, int& bytes_read, CefRefPtr<CefCallback> callback);
         virtual void Cancel();

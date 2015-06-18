@@ -2,6 +2,8 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System.IO;
+
 namespace CefSharp
 {
     //TODO: Eval naming for this interface, not happy with this name
@@ -9,12 +11,12 @@ namespace CefSharp
     {
         /// <summary>
         /// Processes request asynchronously.
-        /// The implementing method should call <see cref="IResourceHandlerResponse.ProcessRequestCallback"/> when complete.
         /// </summary>
         /// <param name="request">The request object.</param>
-        /// <param name="response">The <see cref="IResourceHandlerResponse"/> object in which the handler is supposed to place the response
-        /// information.</param>
+        /// <param name="callback">The callback used to Continue or Cancel the request (async).</param>
         /// <returns>true if the request is handled, false otherwise.</returns>
-        bool ProcessRequestAsync(IRequest request, IResourceHandlerResponse response);
+        bool ProcessRequestAsync(IRequest request, ICallback callback);
+
+        Stream GetResponse(IResponse response, out long responseLength, out string redirectUrl);
     }
 }

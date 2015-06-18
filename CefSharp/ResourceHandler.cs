@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CefSharp
 {
@@ -764,37 +763,30 @@ namespace CefSharp
             return Mappings.TryGetValue(extension, out mime) ? mime : "application/octet-stream";
         }
 
-        bool IResourceHandler.ProcessRequestAsync(IRequest request, IResourceHandlerResponse response)
+        bool IResourceHandler.ProcessRequestAsync(IRequest request, ICallback callback)
         {
-            var doTheWork = new Action(() =>
-            {
-                response.ResponseStream = Stream;
-                response.MimeType = MimeType;
-                response.StatusCode = StatusCode;
-                response.StatusText = StatusText;
-                response.ResponseHeaders = Headers;
-
-                var memoryStream = Stream as MemoryStream;
-                if (memoryStream != null)
-                {
-                    response.ContentLength = memoryStream.Length;
-                }
-
-                response.Continue();
-            });
-
-            // If we have a MemoryStream (which is likely to be very common), 
-            // don't create a task for it.
-            if (Stream is MemoryStream)
-            {
-                doTheWork();
-            }
-            else
-            {
-                Task.Factory.StartNew(doTheWork);
-            }
+            callback.Continue();
 
             return true;
+        }
+
+        Stream IResourceHandler.GetResponse(IResponse response, out long responseLength, out string redirectUrl)
+        {
+            redirectUrl = null;
+            responseLength = -1;
+
+            response.MimeType = MimeType;
+            response.StatusCode = StatusCode;
+            response.StatusText = StatusText;
+            response.ResponseHeaders = Headers;
+
+            var memoryStream = Stream as MemoryStream;
+            if (memoryStream != null)
+            {
+                responseLength = memoryStream.Length;
+            }
+
+            return Stream;
         }
     }
 }

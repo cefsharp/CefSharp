@@ -22,7 +22,7 @@ namespace CefSharp
 {
     // "Master class" for wrapping everything that the Cef Subprocess needs 
     // for ONE CefBrowser.
-    public ref class CefBrowserWrapper : DisposableResource
+    public ref class CefBrowserWrapper
     {
     
     private:
@@ -54,8 +54,6 @@ namespace CefSharp
         property IBrowserProcess^ BrowserProcess;
 
         JavascriptResponse^ EvaluateScriptInContext(CefRefPtr<CefV8Context> context, CefString script);
-
-        virtual void DoDispose(bool disposing) override;
 
         virtual JavascriptResponse^ DoEvaluateScript(System::Int64 frameId, String^ script);
 

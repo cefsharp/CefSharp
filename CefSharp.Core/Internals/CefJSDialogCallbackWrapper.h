@@ -17,7 +17,7 @@ namespace CefSharp
             MCefRefPtr<CefJSDialogCallback> _callback;
 
         internal:
-            CefJSDialogCallbackWrapper(CefRefPtr<CefJSDialogCallback> callback)
+            CefJSDialogCallbackWrapper(CefRefPtr<CefJSDialogCallback> &callback)
                 : _callback(callback)
             {
             }
