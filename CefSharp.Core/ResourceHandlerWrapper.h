@@ -21,11 +21,23 @@ namespace CefSharp
         gcroot<IResourceHandler^> _handler;
         gcroot<Stream^> _stream;
         gcroot<ICallback^> _callbackWrapper;
+        gcroot<IBrowser^> _browser;
+        gcroot<IFrame^> _frame;
 
         CriticalSection _syncRoot;
         int64 SizeFromStream();
 
     public:
+
+        /// <summary>
+        /// Constructor that accepts IBrowser, IFrame, IRequest in order to be the CefSharp
+        /// lifetime management container  (i.e. calling .Dispose at the correct time) on 
+        /// managed objects that contain MCefRefPtrs.
+        /// </summary>
+        ResourceHandlerWrapper(IResourceHandler^ handler, IBrowser ^browser, IFrame^ frame, IRequest^ request)
+            : _handler(handler), _browser(browser), _frame(frame), _request(request)
+        {
+        }
 
         ResourceHandlerWrapper(IResourceHandler^ handler) 
             : _handler(handler)
@@ -42,6 +54,8 @@ namespace CefSharp
             _stream = nullptr;
             delete _callbackWrapper;
             delete _request;
+            delete _browser;
+            delete _frame;
         }
 
         virtual bool ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefCallback> callback);

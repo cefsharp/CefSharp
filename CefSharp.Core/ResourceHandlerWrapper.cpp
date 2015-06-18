@@ -17,6 +17,13 @@ namespace CefSharp
     bool ResourceHandlerWrapper::ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefCallback> callback)
     {
         _callbackWrapper = gcnew CefCallbackWrapper(callback);
+
+        // If we already have a non-null _request
+        // dispose it via delete before using the parameter for the rest
+        // of this object's lifetime. This ought to be sensible to do
+        // because the contained data ought to be nearly identical.
+        delete _request;
+
         _request = gcnew CefRequestWrapper(request);
 
         AutoLock lock_scope(_syncRoot);

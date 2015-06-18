@@ -29,18 +29,26 @@ namespace CefSharp
 
         virtual CefRefPtr<CefResourceHandler> Create(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& schemeName, CefRefPtr<CefRequest> request) OVERRIDE
         {
-            CefSharpBrowserWrapper browserWrapper(browser, nullptr);
-            CefFrameWrapper frameWrapper(frame, nullptr);
-            CefRequestWrapper requestWrapper(request);
+            // NOTE: NOT supplying a browser adapter here means they currently
+            // can't issue a JavaScript ExecuteScriptAsync call from any IFrame generated via browserWrapper
+            // and IFrame itself.
+            auto browserWrapper = gcnew CefSharpBrowserWrapper(browser, nullptr);
+            auto frameWrapper = gcnew CefFrameWrapper(frame, nullptr);
+            auto requestWrapper = gcnew CefRequestWrapper(request);
 
-            auto handler = _factory->Create(%browserWrapper, %frameWrapper, StringUtils::ToClr(schemeName), %requestWrapper);
+            auto handler = _factory->Create(browserWrapper, frameWrapper, StringUtils::ToClr(schemeName), requestWrapper);
 
             if (handler == nullptr)
             {
+                // Clean up our disposables if our factory doesn't want
+                // this request.
+                delete browserWrapper;
+                delete frameWrapper;
+                delete requestWrapper;
                 return NULL;
             }
 
-            return new ResourceHandlerWrapper(handler);
+            return new ResourceHandlerWrapper(handler, browserWrapper, frameWrapper, requestWrapper);
         }
 
         IMPLEMENT_REFCOUNTING(SchemeHandlerFactoryWrapper);
