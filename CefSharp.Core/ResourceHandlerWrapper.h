@@ -26,7 +26,8 @@ namespace CefSharp
         int64 SizeFromStream();
 
     public:
-        ResourceHandlerWrapper(IResourceHandler^ handler)
+
+        ResourceHandlerWrapper(IResourceHandler^ handler) 
             : _handler(handler)
         {
             if (static_cast<IResourceHandler^>(_handler) == nullptr)
