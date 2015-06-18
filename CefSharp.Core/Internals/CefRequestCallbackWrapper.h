@@ -41,8 +41,8 @@ namespace CefSharp
             ~CefRequestCallbackWrapper()
             {
                 this->!CefRequestCallbackWrapper();
-                delete _requestWrapper;
-                _requestWrapper = nullptr;
+                delete _request;
+                _request = nullptr;
                 delete _frame;
                 _frame = nullptr;
             }
