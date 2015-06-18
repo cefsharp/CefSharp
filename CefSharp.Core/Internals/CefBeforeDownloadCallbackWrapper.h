@@ -16,21 +16,27 @@ namespace CefSharp
         MCefRefPtr<CefBeforeDownloadCallback> _callback;
 
     public:
-        CefBeforeDownloadCallbackWrapper(CefRefPtr<CefBeforeDownloadCallback> &callback) : _callback(callback)
+        CefBeforeDownloadCallbackWrapper(CefRefPtr<CefBeforeDownloadCallback> &callback)
+            : _callback(callback)
         {
             
         }
 
-        ~CefBeforeDownloadCallbackWrapper()
+        !CefBeforeDownloadCallbackWrapper()
         {
             _callback = NULL;
+        }
+
+        ~CefBeforeDownloadCallbackWrapper()
+        {
+            this->!CefBeforeDownloadCallbackWrapper();
         }
 
         virtual void Continue(String^ downloadPath, bool showDialog)
         {
             _callback->Continue(StringUtils::ToNative(downloadPath), showDialog);
 
-            _callback = NULL;
+            delete this;
         }
     };
 }

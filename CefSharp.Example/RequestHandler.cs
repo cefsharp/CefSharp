@@ -15,12 +15,18 @@ namespace CefSharp.Example
 
         bool IRequestHandler.OnCertificateError(IWebBrowser browserControl, IBrowser browser, CefErrorCode errorCode, string requestUrl, IRequestCallback callback)
         {
-            //To allow certificate
-            //callback.Continue(true);
-            //callback.Dispose();
-            //return true;
+            try
+            {
+                //To allow certificate
+                //callback.Continue(true);
+                //return true;
 
-            return false;
+                return false;
+            }
+            finally
+            {
+                callback.Dispose();
+            }
         }
 
         void IRequestHandler.OnPluginCrashed(IWebBrowser browserControl, IBrowser browser, string pluginPath)
@@ -30,17 +36,23 @@ namespace CefSharp.Example
 
         CefReturnValue IRequestHandler.OnBeforeResourceLoad(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IRequestCallback callback)
         {
-            //Note to Redirect simply set the request Url
-            //if (request.Url.StartsWith("https://www.google.com", StringComparison.OrdinalIgnoreCase))
-            //{
-            //    request.Url = "https://github.com/";
-            //}
+            try
+            {
+                //Note to Redirect simply set the request Url
+                //if (request.Url.StartsWith("https://www.google.com", StringComparison.OrdinalIgnoreCase))
+                //{
+                //    request.Url = "https://github.com/";
+                //}
 
-            //Callback in async fashion
-            //callback.Continue(true);
-            //callback.Dispose();
-            //return CefReturnValue.ContinueAsync;
+                //Callback in async fashion
+                //callback.Continue(true);
+                //return CefReturnValue.ContinueAsync;
 
+            }
+            finally
+            {
+                callback.Dispose();
+            }
             return CefReturnValue.Continue;
         }
 
@@ -68,12 +80,18 @@ namespace CefSharp.Example
 
         public bool OnQuotaRequest(IWebBrowser browserControl, IBrowser browser, string originUrl, long newSize, IRequestCallback callback)
         {
-            //Accept Request to raise Quota
-            //callback.Continue(true);
-            //callback.Dispose();
-            //return true;
+            try
+            {
+                //Accept Request to raise Quota
+                //callback.Continue(true);
+                //return true;
 
-            return false;
+                return false;
+            }
+            finally
+            {
+                callback.Dispose();
+            }
         }
 
         public void OnResourceRedirect(IWebBrowser browser, IFrame frame, ref string newUrl)

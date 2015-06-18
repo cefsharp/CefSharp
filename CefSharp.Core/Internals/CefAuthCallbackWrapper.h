@@ -14,30 +14,39 @@ namespace CefSharp
     {
     private:
         MCefRefPtr<CefAuthCallback> _callback;
+        IFrame^ _frame;
 
     public:
-        CefAuthCallbackWrapper(CefRefPtr<CefAuthCallback> &callback) : _callback(callback)
+        CefAuthCallbackWrapper(CefRefPtr<CefAuthCallback> &callback, IFrame^ frame)
+            : _callback(callback), _frame(frame)
         {
             
         }
 
-        ~CefAuthCallbackWrapper()
+        !CefAuthCallbackWrapper()
         {
             _callback = NULL;
+        }
+
+        ~CefAuthCallbackWrapper()
+        {
+            this->!CefAuthCallbackWrapper();
+            delete _frame;
+            _frame = nullptr;
         }
 
         virtual void Cancel()
         {
             _callback->Cancel();
 
-            _callback = NULL;
+            delete this;
         }
 
         virtual void Continue(String^ username, String^ password)
         {
             _callback->Continue(StringUtils::ToNative(username), StringUtils::ToNative(password));
 
-            _callback = NULL;
+            delete this;
         }
     };
 }

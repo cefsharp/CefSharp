@@ -32,6 +32,7 @@ namespace CefSharp
 
     public:
         CefBrowserWrapper(CefRefPtr<CefBrowser> cefBrowser);
+        !CefBrowserWrapper();
         ~CefBrowserWrapper();
 
         property int BrowserId;

@@ -20,6 +20,11 @@ namespace CefSharp
             _handler = handler;
         }
 
+        ~CompletionHandler()
+        {
+            _handler = nullptr;
+        }
+
         virtual void OnComplete() OVERRIDE;
 
         IMPLEMENT_REFCOUNTING(CompletionHandler);

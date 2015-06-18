@@ -27,11 +27,17 @@ namespace CefSharp
             {
             }
 
+            !CefSharpBrowserWrapper()
+            {
+                // Release the reference.
+                _browser = nullptr;
+            }
+
             ~CefSharpBrowserWrapper() 
             {
-                delete _browserHost;
-
+                this->!CefSharpBrowserWrapper();
                 _browserAdapter = nullptr;
+                delete _browserHost;
                 _browserHost = nullptr;
                 _disposed = true;
             }

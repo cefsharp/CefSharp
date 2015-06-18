@@ -16,28 +16,33 @@ namespace CefSharp
         MCefRefPtr<CefDownloadItemCallback> _callback;
 
     public:
-        CefDownloadItemCallbackWrapper(CefRefPtr<CefDownloadItemCallback> &callback) : _callback(callback)
+        CefDownloadItemCallbackWrapper(CefRefPtr<CefDownloadItemCallback> &callback) 
+            : _callback(callback)
         {
-            
+        }
+
+        !CefDownloadItemCallbackWrapper()
+        {
+            _callback = NULL;
         }
 
         ~CefDownloadItemCallbackWrapper()
         {
-            _callback = NULL;
+            this->!CefDownloadItemCallbackWrapper();
         }
 
         virtual void Cancel()
         {
             _callback->Cancel();
 
-            _callback = NULL;
+            delete this;
         }
 
         virtual void Pause()
         {
             _callback->Pause();
 
-            _callback = NULL;
+            delete this;
         }
 
         virtual void Resume()

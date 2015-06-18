@@ -5,7 +5,6 @@
 #pragma once
 
 #include "Stdafx.h"
-#include "MCefRefPtr.h"
 
 using namespace System;
 using namespace System::Collections::Specialized;
@@ -24,9 +23,14 @@ namespace CefSharp
             {
             }
 
-            ~CefRequestWrapper()
+            !CefRequestWrapper()
             {
                 _wrappedRequest = nullptr;
+            }
+
+            ~CefRequestWrapper()
+            {
+                this->!CefRequestWrapper();
             }
 
         protected:

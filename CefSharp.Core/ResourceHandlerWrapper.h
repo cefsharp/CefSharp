@@ -16,9 +16,12 @@ namespace CefSharp
 {
     public class ResourceHandlerWrapper : public CefResourceHandler
     {
-        CriticalSection _syncRoot;
+    private:
+        gcroot<CefRequestWrapper^> _requestWrapper;
         gcroot<IResourceHandler^> _handler;
         gcroot<Stream^> _stream;
+
+        CriticalSection _syncRoot;
         CefRefPtr<CefCallback> _callback;
         CefString _mime_type;
         CefResponse::HeaderMap _headers;
@@ -28,9 +31,11 @@ namespace CefSharp
         int64 _contentLength;
         bool _closeStream;
         int64 SizeFromStream();
+
     public:
 
-        ResourceHandlerWrapper(IResourceHandler^ handler) : _handler(handler)
+        ResourceHandlerWrapper(IResourceHandler^ handler) 
+            : _handler(handler)
         {
             if (static_cast<IResourceHandler^>(_handler) == nullptr)
             {
@@ -38,11 +43,18 @@ namespace CefSharp
             }
         }
 
+        ResourceHandlerWrapper(IResourceHandler^ handler, CefRequestWrapper^ requestWrapper)
+            : _handler(handler), _requestWrapper(requestWrapper)
+        {
+        }
+
         ~ResourceHandlerWrapper()
         {
             _handler = nullptr;
             _stream = nullptr;
             _callback = NULL;
+            delete _requestWrapper;
+            _requestWrapper = nullptr;
         }
 
         virtual bool ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefCallback> callback);

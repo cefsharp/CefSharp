@@ -33,9 +33,17 @@ namespace CefSharp
 
         public virtual IResourceHandler GetResourceHandler(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request)
         {
-            IResourceHandler handler;
+            try
+            {
+                IResourceHandler handler = null;
 
-            return Handlers.TryGetValue(request.Url, out handler) ? handler : null;
+                Handlers.TryGetValue(request.Url, out handler);
+                return handler;
+            }
+            finally
+            {
+                request.Dispose();
+            }
         }
     }
 }

@@ -5,7 +5,6 @@
 #pragma once
 
 #include "Stdafx.h"
-#include "MCefRefPtr.h"
 
 using namespace CefSharp;
 
@@ -16,29 +15,34 @@ namespace CefSharp
         public ref class CefJSDialogCallbackWrapper : public IJsDialogCallback
         {
             MCefRefPtr<CefJSDialogCallback> _callback;
+
         internal:
-            CefJSDialogCallbackWrapper(CefRefPtr<CefJSDialogCallback> callback) : _callback(callback)
+            CefJSDialogCallbackWrapper(CefRefPtr<CefJSDialogCallback> callback)
+                : _callback(callback)
             {
+            }
+
+            !CefJSDialogCallbackWrapper()
+            {
+                _callback = NULL;
             }
 
             ~CefJSDialogCallbackWrapper()
             {
-                _callback = NULL;
+                this->!CefJSDialogCallbackWrapper();
             }
 
         public:
             virtual void Continue(bool success, String^ userInput)
             {
                 _callback->Continue(success, StringUtils::ToNative(userInput));
-
-                _callback = NULL;
+                delete this;
             }
 
             virtual void Continue(bool success)
             {
                 _callback->Continue(success, CefString());
-
-                _callback = NULL;
+                delete this;
             }
         };
     }

@@ -44,19 +44,28 @@ namespace CefSharp
                 }
             }
 
-            ~MCefRefPtr()
-            {
-                if (_ptr)
-                {
-                    _ptr->Release();
-                }
-            }
-
             !MCefRefPtr()
             {
                 if (_ptr)
                 {
                     _ptr->Release();
+                    // Be paranoid about preventing a double release
+                    // from this managed instance.
+                    _ptr = nullptr;
+                }
+            }
+
+            ~MCefRefPtr()
+            {
+                // Normally, we would invoke the finalizer method here
+                // via !classname, however... the overloaded -> operator
+                // prevents that from being feasible.
+                if (_ptr)
+                {
+                    _ptr->Release();
+                    // Be paranoid about preventing a double release
+                    // from this managed instance.
+                    _ptr = nullptr;
                 }
             }
 
