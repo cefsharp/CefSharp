@@ -8,7 +8,7 @@ using TaskExtensions = CefSharp.Internals.TaskExtensions;
 
 namespace CefSharp.BrowserSubprocess
 {
-    public class CefWcfRenderProcess : CefRenderProcess, IRenderProcess
+    public class CefWcfRenderProcess : CefRenderProcess
     {
         public CefWcfRenderProcess(IEnumerable<string> args) 
             : base(args)
@@ -30,11 +30,7 @@ namespace CefSharp.BrowserSubprocess
 
             var binding = BrowserProcessServiceHost.CreateBinding();
 
-            var channelFactory = new DuplexChannelFactory<IBrowserProcess>(
-                this,
-                binding,
-                new EndpointAddress(serviceName)
-            );
+            var channelFactory = new ChannelFactory<IBrowserProcess>(binding, new EndpointAddress(serviceName));
 
             channelFactory.Open();
 
@@ -78,11 +74,6 @@ namespace CefSharp.BrowserSubprocess
             browser.ChannelFactory = null;
             browser.BrowserProcess = null;
             browser.JavascriptRootObject = null;
-        }
-
-        public void Done()
-        {
-            throw new NotImplementedException();
         }
     }
 }

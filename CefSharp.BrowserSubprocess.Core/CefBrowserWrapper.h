@@ -44,7 +44,7 @@ namespace CefSharp
         property bool IsPopup;
 
         // This allows us to create the WCF proxies back to our parent process.
-        property DuplexChannelFactory<IBrowserProcess^>^ ChannelFactory;
+        property ChannelFactory<IBrowserProcess^>^ ChannelFactory;
 
         // The serialized registered object data waiting to be used.
         property JavascriptRootObject^ JavascriptRootObject;
