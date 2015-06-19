@@ -21,10 +21,6 @@ namespace CefSharp.Internals
 
         public Type GetDataContractType(Type type)
         {
-            if (type == typeof (JavascriptCallback))
-            {
-                return typeof (JavascriptCallbackProxy);
-            }
             return type;
         }
 
