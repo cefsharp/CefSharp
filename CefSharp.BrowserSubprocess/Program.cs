@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
 using CefSharp.Internals;
 
 namespace CefSharp.BrowserSubprocess
@@ -20,11 +19,6 @@ namespace CefSharp.BrowserSubprocess
 
             using (var subprocess = Create(args))
             {
-                //if (subprocess is CefRenderProcess)
-                //{
-                //    MessageBox.Show("Please attach debugger now", null, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                //}
-                
                 result = subprocess.Run();
             }
 
