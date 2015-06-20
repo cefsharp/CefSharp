@@ -57,11 +57,5 @@ namespace CefSharp
 
         // The WCF proxy to the parent process.
         property IBrowserProcess^ BrowserProcess;
-
-        virtual void DoDispose(bool disposing) override;
-
-        //JavascriptResponse^ DoCallback(System::Int64 callbackId, array<Object^>^ parameters);
-
-        //void DestroyJavascriptCallback(Int64 id);
     };
 }

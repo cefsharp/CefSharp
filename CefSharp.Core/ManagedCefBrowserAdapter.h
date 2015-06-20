@@ -49,40 +49,6 @@ namespace CefSharp
         int GetCefKeyboardModifiers(WPARAM wparam, LPARAM lparam);
         CefMouseEvent GetCefMouseEvent(MouseEvent^ mouseEvent);
 
-    protected:
-        virtual void DoDispose(bool isDisposing) override
-        {
-            //get rid of pending tasks
-            _pendingTaskRepository->Close();
-            //after this it won't accept any more task creation
-            //cancel all pending stuff
-            _pendingTaskRepository->Clear();
-            _pendingTaskRepository = nullptr;
-
-            //Close browser and popups before attempting to close the WCF host
-            if(_clientAdapter.get())
-            {
-                _clientAdapter->CloseAllPopups(true);
-                _clientAdapter = nullptr;
-                _browserWrapper->CloseBrowser(true);
-            }
-
-            // Guard managed only member derefs by isDisposing:
-            if (isDisposing && _browserProcessServiceHost != nullptr)
-            {
-                _browserProcessServiceHost->Close();
-                _browserProcessServiceHost = nullptr;
-            }
-
-            _webBrowserInternal = nullptr;
-            _javaScriptObjectRepository = nullptr;
-
-            delete _browserWrapper;
-            _browserWrapper = nullptr;
-
-            DisposableResource::DoDispose(isDisposing);
-        };
-
     public:
         ManagedCefBrowserAdapter(IWebBrowserInternal^ webBrowserInternal, bool offScreenRendering)
             : _isDisposed(false)
@@ -109,6 +75,13 @@ namespace CefSharp
 
         ~ManagedCefBrowserAdapter()
         {
+			//get rid of pending tasks
+			_pendingTaskRepository->Close();
+			//after this it won't accept any more task creation
+			//cancel all pending stuff
+			_pendingTaskRepository->Clear();
+			_pendingTaskRepository = nullptr;
+
             // Release the MCefRefPtr<ClientAdapter> reference
             // before calling _browserWrapper->CloseBrowser(true)
             this->!ManagedCefBrowserAdapter();

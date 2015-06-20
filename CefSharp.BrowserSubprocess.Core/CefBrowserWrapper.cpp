@@ -31,26 +31,13 @@ namespace CefSharp
         }
     }
 
-    void CefBrowserWrapper::DoDispose(bool disposing)
-    {
-        _cefBrowser = nullptr;
-        DisposableResource::DoDispose(disposing);
-    }
-
-   /* JavascriptResponse^ CefBrowserWrapper::DoCallback(System::Int64 callbackId, array<Object^>^ parameters)
-    {
-        return _callbackRegistry->Execute(callbackId, parameters);
-    }
-
-    void CefBrowserWrapper::DestroyJavascriptCallback(Int64 id)
-    {
-        _callbackRegistry->Deregister(id);
-    }*/
-
-    CefBrowserWrapper::!CefBrowserWrapper()
-    {
-        _cefBrowser = nullptr;
-       /* delete _callbackRegistry;
-        _callbackRegistry = nullptr;*/
-    }
+	CefBrowserWrapper::!CefBrowserWrapper()
+	{
+		_cefBrowser = nullptr;
+	}
+	
+	CefBrowserWrapper::~CefBrowserWrapper()
+	{
+		this->!CefBrowserWrapper();
+	}
 }

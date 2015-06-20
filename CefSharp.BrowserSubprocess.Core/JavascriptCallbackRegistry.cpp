@@ -11,19 +11,6 @@ namespace CefSharp
 {
     namespace Internals
     {
-        JavascriptCallbackRegistry::~JavascriptCallbackRegistry()
-        {
-            if (_callbacks != nullptr)
-            {
-                for each (JavascriptCallbackWrapper^ callback in _callbacks->Values)
-                {
-                    delete callback;
-                }
-                _callbacks->Clear();
-                _callbacks = nullptr;
-            }
-        }
-
         JavascriptCallback^ JavascriptCallbackRegistry::Register(CefRefPtr<CefV8Context> context, CefRefPtr<CefV8Value> value)
         {
             auto newId = Interlocked::Increment(_lastId);
