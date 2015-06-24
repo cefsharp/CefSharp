@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using CefSharp.Example.Properties;
@@ -18,7 +19,7 @@ namespace CefSharp.Example
         {
             ResourceDictionary = new Dictionary<string, string>
             {
-                { "/home", Resources.home_html },
+                { "/home.html", Resources.home_html },
 
                 { "/assets/css/shCore.css", Resources.assets_css_shCore_css },
                 { "/assets/css/shCoreDefault.css", Resources.assets_css_shCoreDefault_css },
@@ -70,7 +71,7 @@ namespace CefSharp.Example
             responseLength = stream.Length;
             redirectUrl = null;
 
-            response.StatusCode = 300;
+            response.StatusCode = (int)HttpStatusCode.OK;
             response.StatusText = "OK";
             response.MimeType = mimeType;
 

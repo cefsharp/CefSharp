@@ -7,7 +7,8 @@ namespace CefSharp.Example
 {
     public static class CefExample
     {
-        public const string DefaultUrl = "custom://cefsharp/BindingTest.html";
+        public const string DefaultUrl = "custom://cefsharp/home.html";
+        public const string BindingTestUrl = "custom://cefsharp/BindingTest.html";
         public const string TestResourceUrl = "http://test/resource/load";
         public const string TestUnicodeResourceUrl = "http://test/resource/loadUnicode";
 
@@ -32,7 +33,7 @@ namespace CefSharp.Example
             settings.CachePath = "cache";
             //settings.UserAgent = "CefSharp Browser" + Cef.CefSharpVersion; // Example User Agent
             //settings.CefCommandLineArgs.Add("renderer-process-limit", "1");
-            //settings.CefCommandLineArgs.Add("renderer-startup-dialog", "renderer-startup-dialog");
+            //settings.CefCommandLineArgs.Add("renderer-startup-dialog", "1");
             //settings.CefCommandLineArgs.Add("disable-gpu", "1");
             //settings.CefCommandLineArgs.Add("disable-gpu-vsync", "1");
             //settings.CefCommandLineArgs.Add("enable-media-stream", "1"); //Enable WebRTC
