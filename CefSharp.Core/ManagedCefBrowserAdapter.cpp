@@ -289,6 +289,11 @@ Task<JavascriptResponse^>^ ManagedCefBrowserAdapter::EvaluateScriptAsync(int bro
         throw gcnew ArgumentOutOfRangeException("timeout", "Timeout greater than Maximum allowable value of " + UInt32::MaxValue);
     }
 
+	if (!Cef::WcfEnabled)
+	{
+		throw gcnew InvalidOperationException("To wait for javascript code set WcfEnabled true in CefSettings during initialization.");
+	}
+
     return _browserProcessServiceHost->EvaluateScriptAsync(browserId, frameId, script, timeout);
 }
 
@@ -298,6 +303,11 @@ Task<JavascriptResponse^>^ ManagedCefBrowserAdapter::EvaluateScriptAsync(String^
     {
         throw gcnew ArgumentOutOfRangeException("timeout", "Timeout greater than Maximum allowable value of " + UInt32::MaxValue);
     }
+
+	if (!Cef::WcfEnabled)
+	{
+		throw gcnew InvalidOperationException("To wait for javascript code set WcfEnabled true in CefSettings during initialization.");
+	}
 
     auto browser = _clientAdapter->GetCefBrowser();
 

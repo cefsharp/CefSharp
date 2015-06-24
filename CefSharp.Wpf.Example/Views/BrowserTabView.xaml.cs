@@ -15,7 +15,10 @@ namespace CefSharp.Wpf.Example.Views
             InitializeComponent();
 
             browser.RequestHandler = new RequestHandler();
-            browser.RegisterJsObject("bound", new BoundObject());
+            if (Cef.WcfEnabled)
+            {
+                browser.RegisterJsObject("bound", new BoundObject());
+            }
 
             browser.MenuHandler = new Handlers.MenuHandler();
             browser.GeolocationHandler = new Handlers.GeolocationHandler();

@@ -91,7 +91,6 @@
     <Compile Include="CefGpuProcess.cs" />
     <Compile Include="CefRenderProcess.cs" />
     <Compile Include="CefSubProcess.cs" />
-    <Compile Include="CefWcfRenderProcess.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
