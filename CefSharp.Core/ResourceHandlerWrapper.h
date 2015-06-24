@@ -39,15 +39,6 @@ namespace CefSharp
         {
         }
 
-        ResourceHandlerWrapper(IResourceHandler^ handler) 
-            : _handler(handler)
-        {
-            if (static_cast<IResourceHandler^>(_handler) == nullptr)
-            {
-                throw gcnew ArgumentException("handler must not be null");
-            }
-        }
-
         ~ResourceHandlerWrapper()
         {
             _handler = nullptr;
