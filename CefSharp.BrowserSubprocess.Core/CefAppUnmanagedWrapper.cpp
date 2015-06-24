@@ -15,6 +15,8 @@ using namespace System::Collections::Generic;
 
 namespace CefSharp
 {
+    using namespace Internals::Messaging;
+
     CefRefPtr<CefRenderProcessHandler> CefAppUnmanagedWrapper::GetRenderProcessHandler()
     {
         return this;
@@ -28,10 +30,17 @@ namespace CefSharp
 
         //Multiple CefBrowserWrappers created when opening popups
         _browserWrappers->Add(browser->GetIdentifier(), wrapper);
+        _browsers.insert(std::make_pair(browser->GetIdentifier(), browser));
     }
 
     void CefAppUnmanagedWrapper::OnBrowserDestroyed(CefRefPtr<CefBrowser> browser)
     {
+        auto browserId = browser->GetIdentifier();
+        if (_browsers.count(browserId) == 1)
+        {
+            _browsers.erase(browserId);
+        }
+
         auto wrapper = FindBrowserWrapper(browser, false);
 
         if (wrapper != nullptr)
@@ -82,4 +91,31 @@ namespace CefSharp
 
         return wrapper;
     };
+
+    bool CefAppUnmanagedWrapper::OnProcessMessageReceived(CefRefPtr< CefBrowser > browser, CefProcessId source_process, CefRefPtr< CefProcessMessage > message)
+    {
+        bool handled = false;
+
+        ProcessMessageDelegateSet::iterator it = _processMessageDelegates.begin();
+        for (; it != _processMessageDelegates.end() && !handled; ++it) {
+            handled = (*it)->OnProcessMessageReceived(browser, source_process, message);
+        }
+
+        return handled;
+    }
+
+    void CefAppUnmanagedWrapper::AddProcessMessageDelegate(CefRefPtr<ProcessMessageDelegate> processMessageDelegate)
+    {
+        _processMessageDelegates.insert(processMessageDelegate);
+    }
+
+    CefRefPtr<CefBrowser> CefAppUnmanagedWrapper::FindBrowser(int browserId)
+    {
+        CefRefPtr<CefBrowser> result;
+        if (_browsers.count(browserId) == 1)
+        {
+            result = _browsers[browserId];
+        }
+        return result;
+    }
 }

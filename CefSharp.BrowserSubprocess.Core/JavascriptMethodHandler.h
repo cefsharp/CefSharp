@@ -4,9 +4,11 @@
 
 #pragma once
 
+#include <vcclr.h>
 #include "include/cef_v8.h"
 #include "JavascriptCallbackRegistry.h"
 
+using namespace System;
 using namespace CefSharp::Internals;
 
 namespace CefSharp
@@ -15,10 +17,10 @@ namespace CefSharp
     {
     private:
         gcroot<Func<array<Object^>^, BrowserProcessResponse^>^> _method;
-        gcroot<JavascriptCallbackRegistry^> _callbackRegistry;
+        CefRefPtr<JavascriptCallbackRegistry> _callbackRegistry;
 
     public:
-        JavascriptMethodHandler(Func<array<Object^>^, BrowserProcessResponse^>^ method, JavascriptCallbackRegistry^ callbackRegistry);
+        JavascriptMethodHandler(Func<array<Object^>^, BrowserProcessResponse^>^ method, CefRefPtr<JavascriptCallbackRegistry> callbackRegistry);
 
         ~JavascriptMethodHandler();
 

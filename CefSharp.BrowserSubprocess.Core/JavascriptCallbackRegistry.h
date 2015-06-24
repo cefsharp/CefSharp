@@ -5,6 +5,7 @@
 #pragma once
 
 #include "JavascriptCallbackWrapper.h"
+#include "JavascriptCallbackHolder.h"
 
 using namespace System::Collections::Concurrent;
 
@@ -12,22 +13,23 @@ namespace CefSharp
 {
     namespace Internals
     {
-        private ref class JavascriptCallbackRegistry
+        class JavascriptCallbackRegistry : public virtual CefBase
         {
         private:
             int _browserId;
-            Int64 _lastId;
-            ConcurrentDictionary<Int64, JavascriptCallbackWrapper^>^ _callbacks;
+            int64 _lastId;
+            std::map<int64, CefRefPtr<JavascriptCallbackHolder>> _callbacks;
         public:
-            JavascriptCallbackRegistry(int browserId) : _browserId(browserId)
+            JavascriptCallbackRegistry(int browserId) : _browserId(browserId), _lastId(0L)
             {
-                _callbacks = gcnew ConcurrentDictionary<Int64, JavascriptCallbackWrapper^>();
+                
             }
-            ~JavascriptCallbackRegistry();
 
             JavascriptCallback^ Register(CefRefPtr<CefV8Context> context, CefRefPtr<CefV8Value> value);
-            JavascriptResponse^ Execute(Int64 id, array<Object^>^ params);
-            void Deregister(Int64 id);
+            bool Execute(int64 id, const CefV8ValueList& arguments, CefRefPtr<CefV8Value> &result, CefRefPtr<CefV8Exception> &exception);
+            void Deregister(int64 id);
+
+            IMPLEMENT_REFCOUNTING(JavascriptCallbackRegistry);
         };
     }
 }

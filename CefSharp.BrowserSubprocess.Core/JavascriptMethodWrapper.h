@@ -25,7 +25,7 @@ namespace CefSharp
         MCefRefPtr<CefV8Value> V8Value;
 
     public:
-        JavascriptMethodWrapper(JavascriptMethod^ javascriptMethod, int64 ownerId, IBrowserProcess^ browserProcess, JavascriptCallbackRegistry^ callbackRegistry)
+        JavascriptMethodWrapper(JavascriptMethod^ javascriptMethod, int64 ownerId, IBrowserProcess^ browserProcess, CefRefPtr<JavascriptCallbackRegistry> callbackRegistry)
         {
             _javascriptMethod = javascriptMethod;
             _ownerId = ownerId;

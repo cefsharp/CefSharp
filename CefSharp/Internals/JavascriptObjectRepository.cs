@@ -28,7 +28,7 @@ namespace CefSharp.Internals
     /// </summary>
     public class JavascriptObjectRepository : DisposableResource
     {
-        private static long lastId;
+        private static long lastId = 1;
         private static readonly object Lock = new object();
 
         // A hash from assigned object ids to the objects,

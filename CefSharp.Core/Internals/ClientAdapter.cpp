@@ -18,11 +18,15 @@
 #include "CefAuthCallbackWrapper.h"
 #include "CefJSDialogCallbackWrapper.h"
 #include "CefRequestCallbackWrapper.h"
+#include "Messaging/Messages.h"
+#include "Serialization/ObjectsSerialization.h"
 
 namespace CefSharp
 {
     namespace Internals
     {
+        using namespace Messaging;
+
         IBrowser^ ClientAdapter::GetBrowserWrapper(int browserId, bool isPopup)
         {
             if(isPopup)
@@ -81,6 +85,7 @@ namespace CefSharp
 
         void ClientAdapter::OnAfterCreated(CefRefPtr<CefBrowser> browser)
         {
+            auto browserAdapter = static_cast<IBrowserAdapter^>(_browserAdapter);
             if (browser->IsPopup())
             {
                 auto browserWrapper = gcnew CefSharpBrowserWrapper(browser, _browserAdapter);
@@ -97,10 +102,18 @@ namespace CefSharp
                 _browserHwnd = browser->GetHost()->GetWindowHandle();
                 _cefBrowser = browser;
                 
-                if (static_cast<IBrowserAdapter^>(_browserAdapter) != nullptr)
+                if (browserAdapter != nullptr)
                 {
-                    _browserAdapter->OnAfterBrowserCreated(browser->GetIdentifier());
+					_javascriptCallbackFactories->Add(browser->GetIdentifier(), _browserAdapter->JavascriptCallbackFactory);
+                    _pendingTaskRepositories->Add(browser->GetIdentifier(), _browserAdapter->PendingTaskRepository);
+                    browserAdapter->OnAfterBrowserCreated(browser->GetIdentifier());
                 }
+            }
+
+            if (browserAdapter != nullptr)
+            {
+                auto rootObject = browserAdapter->GetObjectRepository()->RootObject;
+                SendJavascriptRootObject(browser, rootObject);
             }
         }
 
@@ -122,6 +135,8 @@ namespace CefSharp
             }
             else if (_browserHwnd == browser->GetHost()->GetWindowHandle())
             {
+                _pendingTaskRepositories->Remove(browser->GetIdentifier());
+				_javascriptCallbackFactories->Remove(browser->GetIdentifier());
                 auto handler = _browserControl->LifeSpanHandler;
                 if (handler != nullptr)
                 {
@@ -798,5 +813,42 @@ namespace CefSharp
                 handler->OnDownloadUpdated(browserWrapper, TypeConversion::FromNative(download_item), callbackWrapper);
             }
         }
+
+        void ClientAdapter::SendJavascriptRootObject(CefRefPtr<CefBrowser> browser, JavascriptRootObject^ rootObject)
+        {
+            auto message = CefProcessMessage::Create(Messaging::kJsRootObject);
+            auto argumentList = message->GetArgumentList();
+            Serialization::SerializeJsRootObject(rootObject, argumentList);
+
+            browser->SendProcessMessage(CefProcessId::PID_RENDERER, message);
+        }
+
+        bool ClientAdapter::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
+        {
+            bool handled = false;
+
+            ProcessMessageDelegateSet::iterator it = _processMessageDelegates.begin();
+            for (; it != _processMessageDelegates.end() && !handled; ++it) {
+                handled = (*it)->OnProcessMessageReceived(browser, source_process, message);
+            }
+
+            return handled;
+        }
+
+        Task<JavascriptResponse^>^ ClientAdapter::EvaluateScriptAsync(int browserId, int frameId, String^ script, Nullable<TimeSpan> timeout)
+        {
+            Task<JavascriptResponse^>^ result = nullptr;
+            if (_cefBrowser.get())
+            {
+                result = _evalScriptDoneDelegate->EvaluateScriptAsync(_cefBrowser, frameId, script, timeout);
+            }
+            return result;
+        }
+
+        void ClientAdapter::AddProcessMessageDelegate(CefRefPtr<ProcessMessageDelegate> processMessageDelegate)
+        {
+            _processMessageDelegates.insert(processMessageDelegate);
+        }
+
     }
 }

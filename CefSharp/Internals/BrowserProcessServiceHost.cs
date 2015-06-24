@@ -18,12 +18,13 @@ namespace CefSharp.Internals
         public JavascriptObjectRepository JavascriptObjectRepository { get; private set; }
         private TaskCompletionSource<OperationContext> operationContextTaskCompletionSource = new TaskCompletionSource<OperationContext>();
 
-        public BrowserProcessServiceHost(JavascriptObjectRepository javascriptObjectRepository, int parentProcessId, int browserId)
+        public BrowserProcessServiceHost(JavascriptObjectRepository javascriptObjectRepository, int parentProcessId, IBrowserAdapter browserAdapter)
             : base(typeof(BrowserProcessService), new Uri[0])
         {
+            var browser = browserAdapter.GetBrowser();
             JavascriptObjectRepository = javascriptObjectRepository;
 
-            var serviceName = RenderprocessClientFactory.GetServiceName(parentProcessId, browserId);
+            var serviceName = RenderprocessClientFactory.GetServiceName(parentProcessId, browser.Identifier);
 
             Description.ApplyServiceBehavior(() => new ServiceDebugBehavior(), p => p.IncludeExceptionDetailInFaults = true);
 
@@ -36,7 +37,7 @@ namespace CefSharp.Internals
             );
 
             endPoint.Contract.ProtectionLevel = ProtectionLevel.None;
-            endPoint.Behaviors.Add(new JavascriptCallbackEndpointBehavior(this));
+            endPoint.Behaviors.Add(new JavascriptCallbackEndpointBehavior(browserAdapter.JavascriptCallbackFactory));
         }
 
         public void SetOperationContext(OperationContext operationContext)
@@ -47,20 +48,6 @@ namespace CefSharp.Internals
             }
                 
             operationContextTaskCompletionSource.SetResult(operationContext);
-        }
-
-        public Task<JavascriptResponse> EvaluateScriptAsync(int browserId, long frameId, string script, TimeSpan? timeout)
-        {
-            var operationContextTask = operationContextTaskCompletionSource.Task;
-            // Use TaskScheduler.Default to ensure that the work occurs
-            // on a background thread.
-            return operationContextTask.ContinueWith(t =>
-            {
-                var context = t.Result;
-                var renderProcess = context.GetCallbackChannel<IRenderProcess>();
-                var asyncResult = renderProcess.BeginEvaluateScriptAsync(browserId, frameId, script, timeout, null, null);
-                return Task.Factory.FromAsync<JavascriptResponse>(asyncResult, renderProcess.EndEvaluateScriptAsync);
-            }, TaskScheduler.Default).Unwrap();
         }
 
         protected override void OnClose(TimeSpan timeout)
@@ -89,29 +76,6 @@ namespace CefSharp.Internals
             catch (Exception)
             {
             }
-        }
-
-        internal Task<JavascriptResponse> JavascriptCallback(int browserId, long id, object[] parameters, TimeSpan? timeout)
-        {
-            var operationContextTask = operationContextTaskCompletionSource.Task;
-            return operationContextTask.ContinueWith(t =>
-            {
-                var context = t.Result;
-                var renderProcess = context.GetCallbackChannel<IRenderProcess>();
-                var asyncResult = renderProcess.BeginJavascriptCallbackAsync(browserId, id, parameters, timeout, null, null);
-                return Task.Factory.FromAsync<JavascriptResponse>(asyncResult, renderProcess.EndJavascriptCallbackAsync);
-            }).Unwrap();
-        }
-
-        internal void DestroyJavascriptCallback(int browserId, long id)
-        {
-            var operationContextTask = operationContextTaskCompletionSource.Task;
-            operationContextTask.ContinueWith(t =>
-            {
-                var context = t.Result;
-                var renderProcess = context.GetCallbackChannel<IRenderProcess>();
-                renderProcess.DestroyJavascriptCallback(browserId, id);
-            });
         }
 
         protected override void OnClosed()

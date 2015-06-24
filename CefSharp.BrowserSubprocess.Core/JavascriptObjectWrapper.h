@@ -30,7 +30,7 @@ namespace CefSharp
 
     internal:
         MCefRefPtr<CefV8Value> V8Value;
-        JavascriptCallbackRegistry^ CallbackRegistry;
+        MCefRefPtr<JavascriptCallbackRegistry> CallbackRegistry;
 
     public:
         JavascriptObjectWrapper(JavascriptObject^ object, IBrowserProcess^ browserProcess)

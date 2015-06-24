@@ -27,9 +27,14 @@ namespace CefSharp
     
     private:
         MCefRefPtr<CefBrowser> _cefBrowser;
-        JavascriptCallbackRegistry^ _callbackRegistry;
+        MCefRefPtr<JavascriptCallbackRegistry> _callbackRegistry;
         JavascriptRootObjectWrapper^ _javascriptRootObjectWrapper;
 
+    internal:
+        CefRefPtr<JavascriptCallbackRegistry> GetCallbackRegistry()
+        {
+            return _callbackRegistry.get();
+        }
     public:
         CefBrowserWrapper(CefRefPtr<CefBrowser> cefBrowser);
         !CefBrowserWrapper();
@@ -39,7 +44,7 @@ namespace CefSharp
         property bool IsPopup;
 
         // This allows us to create the WCF proxies back to our parent process.
-        property DuplexChannelFactory<IBrowserProcess^>^ ChannelFactory;
+        property ChannelFactory<IBrowserProcess^>^ ChannelFactory;
 
         // The serialized registered object data waiting to be used.
         property JavascriptRootObject^ JavascriptRootObject;
@@ -52,13 +57,5 @@ namespace CefSharp
 
         // The WCF proxy to the parent process.
         property IBrowserProcess^ BrowserProcess;
-
-        JavascriptResponse^ EvaluateScriptInContext(CefRefPtr<CefV8Context> context, CefString script);
-
-        virtual JavascriptResponse^ DoEvaluateScript(System::Int64 frameId, String^ script);
-
-        JavascriptResponse^ DoCallback(System::Int64 callbackId, array<Object^>^ parameters);
-
-        void DestroyJavascriptCallback(Int64 id);
     };
 }
