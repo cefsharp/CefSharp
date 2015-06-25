@@ -36,6 +36,11 @@ namespace CefSharp
         !CefSettings() { delete _cefSettings; }
         ~CefSettings() { delete _cefSettings; }
 
+        /// <summary>
+        /// WCF is used by JavascriptBinding and EvaluateScriptAsync. 
+        /// Disabling effectively disables both of these features.
+        /// Defaults to true
+        /// </summary>
         virtual property bool WcfEnabled;
 
         virtual property IEnumerable<CefCustomScheme^>^ CefCustomSchemes
