@@ -28,6 +28,8 @@ namespace CefSharp.Example
 
             var settings = new CefSettings();
             settings.RemoteDebuggingPort = 8088;
+            //This will disable wcf which also means turning off js bindings and script eval
+            //settings.WcfEnabled = false;
             //The location where cache data will be stored on disk. If empty an in-memory cache will be used for some features and a temporary disk cache for others.
             //HTML5 databases such as localStorage will only persist across sessions if a cache path is specified. 
             settings.CachePath = "cache";

@@ -11,12 +11,14 @@ namespace CefSharp.BrowserSubprocess
     [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, IncludeExceptionDetailInFaults=true)]
     public class CefRenderProcess : CefSubProcess, IRenderProcess
     {
+        private bool wcfEnabled;
         private int? parentBrowserId;
         private List<CefBrowserWrapper> browsers = new List<CefBrowserWrapper>();
 
         public CefRenderProcess(IEnumerable<string> args) 
             : base(args)
         {
+            wcfEnabled = args.Any(a => a.StartsWith(CefSharpArguments.WcfEnabledArgument));
         }
         
         protected override void DoDispose(bool isDisposing)
@@ -41,6 +43,11 @@ namespace CefSharp.BrowserSubprocess
             }
 
             if (ParentProcessId == null || parentBrowserId == null)
+            {
+                return;
+            }
+
+            if (!wcfEnabled)
             {
                 return;
             }
@@ -88,6 +95,11 @@ namespace CefSharp.BrowserSubprocess
         public override void OnBrowserDestroyed(CefBrowserWrapper browser)
         {
             browsers.Remove(browser);
+
+            if (!wcfEnabled)
+            {
+                return;
+            }
 
             var channelFactory = browser.ChannelFactory;
 

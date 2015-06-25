@@ -107,6 +107,7 @@
     <Compile Include="IGeolocationCallback.cs" />
     <Compile Include="IJavascriptCallback.cs" />
     <Compile Include="IJsDialogCallback.cs" />
+    <Compile Include="Internals\CefSharpArguments.cs" />
     <Compile Include="Internals\IBrowserAdapter.cs">
       <SubType>Code</SubType>
     </Compile>

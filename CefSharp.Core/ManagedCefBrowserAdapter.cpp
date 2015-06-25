@@ -39,13 +39,16 @@ void ManagedCefBrowserAdapter::LoadUrl(String^ address)
 
 void ManagedCefBrowserAdapter::OnAfterBrowserCreated(int browserId)
 {
-    _browserProcessServiceHost = gcnew BrowserProcessServiceHost(_javaScriptObjectRepository, Process::GetCurrentProcess()->Id, browserId);
-    //NOTE: Attempt to solve timing issue where browser is opened and rapidly disposed. In some cases a call to Open throws
-    // an exception about the process already being closed. Two relevant issues are #862 and #804.
-    // Considering adding an IsDisposed check and also may have to revert to a try catch block
-    if (_browserProcessServiceHost->State == CommunicationState::Created)
+    if (Cef::WcfEnabled)
     {
-        _browserProcessServiceHost->Open();
+        _browserProcessServiceHost = gcnew BrowserProcessServiceHost(_javaScriptObjectRepository, Process::GetCurrentProcess()->Id, browserId);
+        //NOTE: Attempt to solve timing issue where browser is opened and rapidly disposed. In some cases a call to Open throws
+        // an exception about the process already being closed. Two relevant issues are #862 and #804.
+        // Considering adding an IsDisposed check and also may have to revert to a try catch block
+        if (_browserProcessServiceHost->State == CommunicationState::Created)
+        {
+            _browserProcessServiceHost->Open();
+        }
     }
     
     auto browser = _clientAdapter->GetCefBrowser();
@@ -286,6 +289,11 @@ Task<JavascriptResponse^>^ ManagedCefBrowserAdapter::EvaluateScriptAsync(int bro
         throw gcnew ArgumentOutOfRangeException("timeout", "Timeout greater than Maximum allowable value of " + UInt32::MaxValue);
     }
 
+	if (!Cef::WcfEnabled)
+	{
+		throw gcnew InvalidOperationException("To wait for javascript code set WcfEnabled true in CefSettings during initialization.");
+	}
+
     return _browserProcessServiceHost->EvaluateScriptAsync(browserId, frameId, script, timeout);
 }
 
@@ -295,6 +303,11 @@ Task<JavascriptResponse^>^ ManagedCefBrowserAdapter::EvaluateScriptAsync(String^
     {
         throw gcnew ArgumentOutOfRangeException("timeout", "Timeout greater than Maximum allowable value of " + UInt32::MaxValue);
     }
+
+	if (!Cef::WcfEnabled)
+	{
+		throw gcnew InvalidOperationException("To wait for javascript code set WcfEnabled true in CefSettings during initialization.");
+	}
 
     auto browser = _clientAdapter->GetCefBrowser();
 
@@ -366,6 +379,11 @@ void ManagedCefBrowserAdapter::NotifyScreenInfoChanged()
 
 void ManagedCefBrowserAdapter::RegisterJsObject(String^ name, Object^ object, bool lowerCaseJavascriptNames)
 {
+    if (!Cef::WcfEnabled)
+    {
+        throw gcnew InvalidOperationException("To enable synchronous JS bindings set WcfEnabled true in CefSettings during initialization.");
+    }
+
     _javaScriptObjectRepository->Register(name, object, lowerCaseJavascriptNames);
 }
 
