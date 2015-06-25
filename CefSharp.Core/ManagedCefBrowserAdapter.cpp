@@ -39,7 +39,9 @@ void ManagedCefBrowserAdapter::LoadUrl(String^ address)
 
 void ManagedCefBrowserAdapter::OnAfterBrowserCreated(int browserId)
 {
-    if (Cef::WcfEnabled)
+    _wcfEnabled = Cef::WcfEnabled;
+
+    if (_wcfEnabled)
     {
         _browserProcessServiceHost = gcnew BrowserProcessServiceHost(_javaScriptObjectRepository, Process::GetCurrentProcess()->Id, browserId);
         //NOTE: Attempt to solve timing issue where browser is opened and rapidly disposed. In some cases a call to Open throws
@@ -289,7 +291,7 @@ Task<JavascriptResponse^>^ ManagedCefBrowserAdapter::EvaluateScriptAsync(int bro
         throw gcnew ArgumentOutOfRangeException("timeout", "Timeout greater than Maximum allowable value of " + UInt32::MaxValue);
     }
 
-    if (!Cef::WcfEnabled)
+    if (!_wcfEnabled)
     {
         throw gcnew InvalidOperationException("To wait for javascript code set WcfEnabled true in CefSettings during initialization.");
     }
@@ -304,7 +306,7 @@ Task<JavascriptResponse^>^ ManagedCefBrowserAdapter::EvaluateScriptAsync(String^
         throw gcnew ArgumentOutOfRangeException("timeout", "Timeout greater than Maximum allowable value of " + UInt32::MaxValue);
     }
 
-    if (!Cef::WcfEnabled)
+    if (!_wcfEnabled)
     {
         throw gcnew InvalidOperationException("To wait for javascript code set WcfEnabled true in CefSettings during initialization.");
     }
@@ -379,7 +381,7 @@ void ManagedCefBrowserAdapter::NotifyScreenInfoChanged()
 
 void ManagedCefBrowserAdapter::RegisterJsObject(String^ name, Object^ object, bool lowerCaseJavascriptNames)
 {
-    if (!Cef::WcfEnabled)
+    if (!_wcfEnabled)
     {
         throw gcnew InvalidOperationException("To enable synchronous JS bindings set WcfEnabled true in CefSettings during initialization.");
     }

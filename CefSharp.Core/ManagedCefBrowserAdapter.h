@@ -34,6 +34,7 @@ namespace CefSharp
         JavascriptObjectRepository^ _javaScriptObjectRepository;
         IBrowser^ _browserWrapper;
         bool _isDisposed;
+        bool _wcfEnabled;
 
     private:
         // Private keyboard functions:
@@ -78,8 +79,11 @@ namespace CefSharp
             delete _browserWrapper;
             _browserWrapper = nullptr;
 
-            _browserProcessServiceHost->Close();
-            _browserProcessServiceHost = nullptr;
+            if (_wcfEnabled)
+            {
+                _browserProcessServiceHost->Close();
+                _browserProcessServiceHost = nullptr;
+            }
 
             _webBrowserInternal = nullptr;
             _javaScriptObjectRepository = nullptr;
