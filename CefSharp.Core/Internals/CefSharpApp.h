@@ -7,6 +7,8 @@
 #include "include/cef_app.h"
 #include "CefSettings.h"
 
+using namespace CefSharp::Internals;
+
 namespace CefSharp
 {
     private class CefSharpApp : public CefApp,
@@ -45,7 +47,7 @@ namespace CefSharp
         {
             if (_cefSettings->WcfEnabled)
             {
-                command_line->AppendArgument(StringUtils::ToNative(Internals::CefSharpArguments::WcfEnabledArgument));
+                command_line->AppendArgument(StringUtils::ToNative(CefSharpArguments::WcfEnabledArgument));
             }
         }
         
