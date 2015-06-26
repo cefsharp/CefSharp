@@ -11,71 +11,8 @@ using namespace CefSharp::Internals;
 
 namespace CefSharp
 {
-    Nullable<bool> CefStateToDisabledSetting(cef_state_t state)
-    {
-        if (state == STATE_ENABLED)
-        {
-            return Nullable<bool>(false);
-        }
-        else if (state == STATE_DISABLED)
-        {
-            return Nullable<bool>(true);
-        }
-        return Nullable<bool>();
-    }
-
-    cef_state_t CefStateFromDisabledSetting(Nullable<bool>^ value)
-    {
-        if (value == nullptr)
-        {
-            return STATE_DEFAULT;
-        }
-        else if (value->Value)
-        {
-            return STATE_DISABLED;
-        }
-        else // !value->Value
-        {
-            return STATE_ENABLED;
-        }
-        return STATE_DEFAULT;
-    }
-
-    Nullable<bool> CefStateToEnabledSetting(cef_state_t state)
-    {
-        if (state == STATE_ENABLED)
-        {
-            return Nullable<bool>(true);
-        }
-        else if (state == STATE_DISABLED)
-        {
-            return Nullable<bool>(false);
-        }
-        return Nullable<bool>();
-    }
-
-    cef_state_t CefStateFromEnabledSetting(Nullable<bool>^ value)
-    {
-        if (value == nullptr)
-        {
-            return STATE_DEFAULT;
-        }
-        else if (value->Value)
-        {
-            return STATE_ENABLED;
-        }
-        else // !value->Value
-        {
-            return STATE_DISABLED;
-        }
-        return STATE_DEFAULT;
-    }
-
     public ref class BrowserSettings
     {
-    private:
-        bool _isFinalized;
-
     internal:
         CefBrowserSettings* _browserSettings;
 
@@ -279,5 +216,66 @@ namespace CefSharp
         }
 
         property Nullable<bool>^ OffScreenTransparentBackground;
+    
+    private:
+        Nullable<bool> CefStateToDisabledSetting(cef_state_t state)
+        {
+            if (state == STATE_ENABLED)
+            {
+                return Nullable<bool>(false);
+            }
+            else if (state == STATE_DISABLED)
+            {
+                return Nullable<bool>(true);
+            }
+            return Nullable<bool>();
+        }
+
+        cef_state_t CefStateFromDisabledSetting(Nullable<bool>^ value)
+        {
+            if (value == nullptr)
+            {
+                return STATE_DEFAULT;
+            }
+            else if (value->Value)
+            {
+                return STATE_DISABLED;
+            }
+            else // !value->Value
+            {
+                return STATE_ENABLED;
+            }
+            return STATE_DEFAULT;
+        }
+
+        Nullable<bool> CefStateToEnabledSetting(cef_state_t state)
+        {
+            if (state == STATE_ENABLED)
+            {
+                return Nullable<bool>(true);
+            }
+            else if (state == STATE_DISABLED)
+            {
+                return Nullable<bool>(false);
+            }
+            return Nullable<bool>();
+        }
+
+        cef_state_t CefStateFromEnabledSetting(Nullable<bool>^ value)
+        {
+            if (value == nullptr)
+            {
+                return STATE_DEFAULT;
+            }
+            else if (value->Value)
+            {
+                return STATE_ENABLED;
+            }
+            else // !value->Value
+            {
+                return STATE_DISABLED;
+            }
+            return STATE_DEFAULT;
+        }
     };
 }
