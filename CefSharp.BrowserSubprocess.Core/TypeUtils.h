@@ -35,13 +35,13 @@ namespace CefSharp
         /// </summary>
         /// <param name="obj">The CefTime value that should be converted.</param>
         /// <returns>A corresponding .NET DateTime.</returns>
-        static DateTime TypeUtils::ConvertCefTimeToDateTime(CefTime time);
+        static DateTime ConvertCefTimeToDateTime(CefTime time);
                 
         /// <summary>
         /// Converts a a (managed) .NET DateTime to Chromium V8 CefTime (Date).
         /// </summary>
         /// <param name="obj">The DateTime value that should be converted.</param>
         /// <returns>A corresponding CefTime (epoch).</returns>
-        static CefTime TypeUtils::ConvertDateTimeToCefTime(DateTime dateTime);
+        static CefTime ConvertDateTimeToCefTime(DateTime dateTime);
     };
 }
