@@ -97,7 +97,6 @@ namespace CefSharp
         virtual void OnAfterBrowserCreated(int browserId);
         void CreateOffscreenBrowser(IntPtr windowHandle, BrowserSettings^ browserSettings, String^ address);
         void CreateBrowser(BrowserSettings^ browserSettings, IntPtr sourceHandle, String^ address);
-        void LoadUrl(String^ address);
         void WasResized();
         void WasHidden(bool hidden);
         void Invalidate(PaintElementType type);

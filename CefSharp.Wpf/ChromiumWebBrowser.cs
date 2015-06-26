@@ -1259,7 +1259,7 @@ namespace CefSharp.Wpf
                     Dispatcher
                     );
 
-                managedCefBrowserAdapter.LoadUrl(url);
+                GetMainFrame().LoadUrl(url);
             }
         }
 

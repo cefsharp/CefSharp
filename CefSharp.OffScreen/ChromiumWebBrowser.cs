@@ -4,7 +4,6 @@
 
 using System;
 using System.Drawing;
-using System.Text;
 using System.Threading.Tasks;
 using CefSharp.Internals;
 
@@ -231,7 +230,14 @@ namespace CefSharp.OffScreen
         public void Load(string url)
         {
             Address = url;
-            managedCefBrowserAdapter.LoadUrl(Address);
+
+            var frame = GetMainFrame();
+            if (frame == null)
+            {
+                throw new Exception("IFrame instance is null. Browser has likely not finished initializing or is in the process of disposing.");
+            }
+
+            frame.LoadUrl(url);
         }
 
         public void RegisterJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true)

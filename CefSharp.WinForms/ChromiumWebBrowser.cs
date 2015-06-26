@@ -142,7 +142,7 @@ namespace CefSharp.WinForms
         {
             if (IsBrowserInitialized)
             {
-                managedCefBrowserAdapter.LoadUrl(url);
+                GetMainFrame().LoadUrl(url);
             }
             else
             {

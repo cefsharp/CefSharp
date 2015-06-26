@@ -27,16 +27,6 @@ void ManagedCefBrowserAdapter::CreateOffscreenBrowser(IntPtr windowHandle, Brows
     }
 }
 
-void ManagedCefBrowserAdapter::LoadUrl(String^ address)
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        browser->GetMainFrame()->LoadURL(StringUtils::ToNative(address));
-    }
-}
-
 void ManagedCefBrowserAdapter::OnAfterBrowserCreated(int browserId)
 {
     if (CefSharpSettings::WcfEnabled)
