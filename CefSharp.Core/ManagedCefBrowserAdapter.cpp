@@ -39,9 +39,7 @@ void ManagedCefBrowserAdapter::LoadUrl(String^ address)
 
 void ManagedCefBrowserAdapter::OnAfterBrowserCreated(int browserId)
 {
-    _wcfEnabled = Cef::WcfEnabled;
-
-    if (_wcfEnabled)
+    if (CefSharpSettings::WcfEnabled)
     {
         _browserProcessServiceHost = gcnew BrowserProcessServiceHost(_javaScriptObjectRepository, Process::GetCurrentProcess()->Id, browserId);
         //NOTE: Attempt to solve timing issue where browser is opened and rapidly disposed. In some cases a call to Open throws
@@ -284,40 +282,6 @@ void ManagedCefBrowserAdapter::OnMouseWheel(int x, int y, int deltaX, int deltaY
     }
 }
 
-Task<JavascriptResponse^>^ ManagedCefBrowserAdapter::EvaluateScriptAsync(int browserId, Int64 frameId, String^ script, Nullable<TimeSpan> timeout)
-{
-    if (timeout.HasValue && timeout.Value.TotalMilliseconds > UInt32::MaxValue)
-    {
-        throw gcnew ArgumentOutOfRangeException("timeout", "Timeout greater than Maximum allowable value of " + UInt32::MaxValue);
-    }
-
-    return _clientAdapter->EvaluateScriptAsync(browserId, frameId, script, timeout);
-}
-
-Task<JavascriptResponse^>^ ManagedCefBrowserAdapter::EvaluateScriptAsync(String^ script, Nullable<TimeSpan> timeout)
-{
-    if (timeout.HasValue && timeout.Value.TotalMilliseconds > UInt32::MaxValue)
-    {
-        throw gcnew ArgumentOutOfRangeException("timeout", "Timeout greater than Maximum allowable value of " + UInt32::MaxValue);
-    }
-
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser == nullptr)
-    {
-        return nullptr;
-    }
-
-    auto frame = browser->GetMainFrame();
-
-    if (frame == nullptr)
-    {
-        return nullptr;
-    }
-
-    return _clientAdapter->EvaluateScriptAsync(browser->GetIdentifier(), frame->GetIdentifier(), script, timeout);
-}
-
 void ManagedCefBrowserAdapter::CreateBrowser(BrowserSettings^ browserSettings, IntPtr sourceHandle, String^ address)
 {
     HWND hwnd = static_cast<HWND>(sourceHandle.ToPointer());
@@ -371,7 +335,7 @@ void ManagedCefBrowserAdapter::NotifyScreenInfoChanged()
 
 void ManagedCefBrowserAdapter::RegisterJsObject(String^ name, Object^ object, bool lowerCaseJavascriptNames)
 {
-    if (!_wcfEnabled)
+    if (!CefSharpSettings::WcfEnabled)
     {
         throw gcnew InvalidOperationException("To enable synchronous JS bindings set WcfEnabled true in CefSettings during initialization.");
     }

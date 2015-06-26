@@ -45,7 +45,7 @@ namespace CefSharp
 
         virtual void OnBeforeChildProcessLaunch(CefRefPtr<CefCommandLine> command_line) OVERRIDE
         {
-            if (_cefSettings->WcfEnabled)
+            if (CefSharpSettings::WcfEnabled)
             {
                 command_line->AppendArgument(StringUtils::ToNative(CefSharpArguments::WcfEnabledArgument));
             }

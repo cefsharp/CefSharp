@@ -228,11 +228,6 @@ namespace CefSharp.OffScreen
             return completionSource.Task;
         }
 
-        public Task<JavascriptResponse> EvaluateScriptAsync(string script, TimeSpan? timeout = null)
-        {
-            return managedCefBrowserAdapter.EvaluateScriptAsync(script, timeout);
-        }
-
         public void Load(string url)
         {
             Address = url;

@@ -34,7 +34,6 @@ namespace CefSharp
         JavascriptObjectRepository^ _javaScriptObjectRepository;
         IBrowser^ _browserWrapper;
         bool _isDisposed;
-        bool _wcfEnabled;
 
     private:
         // Private keyboard functions:
@@ -79,7 +78,7 @@ namespace CefSharp
             delete _browserWrapper;
             _browserWrapper = nullptr;
 
-            if (_wcfEnabled)
+            if (CefSharpSettings::WcfEnabled)
             {
                 _browserProcessServiceHost->Close();
                 _browserProcessServiceHost = nullptr;
@@ -108,8 +107,6 @@ namespace CefSharp
         void OnMouseMove(int x, int y, bool mouseLeave, CefEventFlags modifiers);
         void OnMouseButton(int x, int y, int mouseButtonType, bool mouseUp, int clickCount, CefEventFlags modifiers);
         void OnMouseWheel(int x, int y, int deltaX, int deltaY);
-        virtual Task<JavascriptResponse^>^ EvaluateScriptAsync(int browserId, Int64 frameId, String^ script, Nullable<TimeSpan> timeout);
-        virtual Task<JavascriptResponse^>^ EvaluateScriptAsync(String^ script, Nullable<TimeSpan> timeout);
         void Resize(int width, int height);
         void NotifyMoveOrResizeStarted();
         void NotifyScreenInfoChanged();

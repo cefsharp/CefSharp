@@ -538,6 +538,26 @@ namespace CefSharp
             cefBrowser.AddWordToDictionary(word);
         }
 
+        public static Task<JavascriptResponse> EvaluateScriptAsync(this IWebBrowser browser, string script, TimeSpan? timeout = null)
+        {
+            if (timeout.HasValue && timeout.Value.TotalMilliseconds > UInt32.MaxValue)
+            {
+                throw new ArgumentOutOfRangeException("timeout", "Timeout greater than Maximum allowable value of " + UInt32.MaxValue);
+            }
+
+            if (!CefSharpSettings.WcfEnabled)
+            {
+                throw new InvalidOperationException("To wait for javascript code set WcfEnabled true in CefSettings during initialization.");
+            }
+
+            using (var frame = browser.GetMainFrame())
+            {
+                ThrowExceptionIfFrameNull(frame);
+
+                return frame.EvaluateScriptAsync(script, timeout);
+            }
+        }
+
         private static void ThrowExceptionIfFrameNull(IFrame frame)
         {
             if (frame == null)

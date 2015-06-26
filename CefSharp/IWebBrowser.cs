@@ -3,7 +3,6 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using System.Threading.Tasks;
 
 namespace CefSharp
 {
@@ -59,15 +58,6 @@ namespace CefSharp
         /// <param name="objectToBind">The object to be made accessible to Javascript.</param>
         /// <param name="camelCaseJavascriptNames">camel case the javascript names of properties/methods, defaults to true</param>
         void RegisterJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true);
-
-        /// <summary>
-        /// Execute some Javascript code in the context of this WebBrowser, and return the result of the evaluation
-        /// in an Async fashion
-        /// </summary>
-        /// <param name="script">The Javascript code that should be executed.</param>
-        /// <param name="timeout">The timeout after which the Javascript code execution should be aborted.</param>
-        /// <returns>A Task that can be awaited to perform the script execution</returns>
-        Task<JavascriptResponse> EvaluateScriptAsync(string script, TimeSpan? timeout = null);
 
         /// <summary>
         /// Implement <see cref="IDialogHandler"/> and assign to handle dialog events.
