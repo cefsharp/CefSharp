@@ -32,8 +32,15 @@ namespace CefSharp
             _cefCommandLineArgs = gcnew Dictionary<String^, String^>();
         }
 
-        !CefSettings() { delete _cefSettings; }
-        ~CefSettings() { delete _cefSettings; }
+        !CefSettings()
+        {
+            delete _cefSettings;
+        }
+
+        ~CefSettings()
+        {
+            this->!CefSettings();
+        }
 
         virtual property IEnumerable<CefCustomScheme^>^ CefCustomSchemes
         {

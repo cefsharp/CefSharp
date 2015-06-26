@@ -80,9 +80,17 @@ namespace CefSharp
         CefBrowserSettings* _browserSettings;
 
     public:
-        BrowserSettings() : _browserSettings(new CefBrowserSettings()), _isFinalized(false) { }
-        !BrowserSettings() { delete _browserSettings; _isFinalized = true; }
-        ~BrowserSettings() { if (!_isFinalized) this->!BrowserSettings(); }
+        BrowserSettings() : _browserSettings(new CefBrowserSettings()) { }
+
+        !BrowserSettings()
+        {
+            delete _browserSettings;
+        }
+
+        ~BrowserSettings()
+        {
+            this->!BrowserSettings();
+        }
 
         property String^ StandardFontFamily
         {
