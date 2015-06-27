@@ -798,5 +798,23 @@ namespace CefSharp
                 handler->OnDownloadUpdated(browserWrapper, TypeConversion::FromNative(download_item), callbackWrapper);
             }
         }
+
+
+        bool ClientAdapter::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
+        {
+            bool handled = false;
+
+            for (ProcessMessageDelegateSet::iterator it = _processMessageDelegates.begin(); it != _processMessageDelegates.end() && !handled; it++)
+            {
+                handled = (*it)->OnProcessMessageReceived(browser, source_process, message);
+            }
+
+            return handled;
+        }
+
+        void ClientAdapter::AddProcessMessageDelegate(CefRefPtr<Internals::Messaging::ProcessMessageDelegate> processMessageDelegate)
+        {
+            _processMessageDelegates.insert(processMessageDelegate);
+        }
     }
 }

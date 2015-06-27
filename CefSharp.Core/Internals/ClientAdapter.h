@@ -10,6 +10,7 @@
 #include "include/cef_client.h"
 #include "include/cef_render_process_handler.h"
 #include "include/internal/cef_types.h"
+#include "Internals/Messaging/ProcessMessageDelegate.h"
 
 using namespace System;
 
@@ -17,6 +18,8 @@ namespace CefSharp
 {
     namespace Internals
     {
+        using namespace Messaging;
+
         private class ClientAdapter : public CefClient,
             public CefLifeSpanHandler,
             public CefLoadHandler,
@@ -35,6 +38,7 @@ namespace CefSharp
             gcroot<IWebBrowserInternal^> _browserControl;
             HWND _browserHwnd;
             CefRefPtr<CefBrowser> _cefBrowser;
+            ProcessMessageDelegateSet _processMessageDelegates;
             gcroot<Dictionary<int, IBrowser^>^> _popupBrowsers;
             gcroot<String^> _tooltip;
             gcroot<IBrowserAdapter^> _browserAdapter;
@@ -82,6 +86,8 @@ namespace CefSharp
             virtual DECL CefRefPtr<CefDialogHandler> GetDialogHandler() OVERRIDE { return this; }
             virtual DECL CefRefPtr<CefDragHandler> GetDragHandler() OVERRIDE { return this; }
             virtual DECL CefRefPtr<CefGeolocationHandler> GetGeolocationHandler() OVERRIDE { return this; }
+            virtual DECL bool OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcessId source_process, CefRefPtr<CefProcessMessage> message) OVERRIDE;
+
 
             // CefLifeSpanHandler
             virtual DECL bool OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
@@ -157,6 +163,9 @@ namespace CefSharp
                 const CefString& suggested_name, CefRefPtr<CefBeforeDownloadCallback> callback) OVERRIDE;
             virtual void OnDownloadUpdated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDownloadItem> download_item,
                 CefRefPtr<CefDownloadItemCallback> callback) OVERRIDE;
+
+            void AddProcessMessageDelegate(CefRefPtr<Internals::Messaging::ProcessMessageDelegate> processMessageDelegate);
+
 
             IMPLEMENT_REFCOUNTING(ClientAdapter);
         };

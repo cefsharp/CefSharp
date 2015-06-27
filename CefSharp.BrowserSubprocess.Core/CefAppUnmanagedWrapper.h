@@ -10,15 +10,20 @@
 #include "include/cef_base.h"
 
 #include "CefBrowserWrapper.h"
+#include "../CefSharp.Core/Internals/Messaging/ProcessMessageDelegate.h"
 
 using namespace System::Collections::Generic;
 
 namespace CefSharp
 {
+    using namespace Internals::Messaging;
+
     // This class is the native subprocess level CEF object wrapper.
     private class CefAppUnmanagedWrapper : CefApp, CefRenderProcessHandler
     {
     private:
+        ProcessMessageDelegateSet _processMessageDelegates;
+
         gcroot<Action<CefBrowserWrapper^>^> _onBrowserCreated;
         gcroot<Action<CefBrowserWrapper^>^> _onBrowserDestroyed;
         gcroot<Dictionary<int, CefBrowserWrapper^>^> _browserWrappers;
@@ -44,6 +49,9 @@ namespace CefSharp
         virtual DECL void OnBrowserDestroyed(CefRefPtr<CefBrowser> browser) OVERRIDE;
         virtual DECL void OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context) OVERRIDE;
         virtual DECL void OnContextReleased(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context) OVERRIDE;
+        virtual DECL bool OnProcessMessageReceived(CefRefPtr< CefBrowser > browser, CefProcessId source_process, CefRefPtr< CefProcessMessage > message) OVERRIDE;
+
+        void AddProcessMessageDelegate(CefRefPtr<ProcessMessageDelegate> processMessageDelegate);
 
         IMPLEMENT_REFCOUNTING(CefAppUnmanagedWrapper);
     };

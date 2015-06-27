@@ -267,6 +267,7 @@
     <ClInclude Include="Internals\CefRequestWrapper.h" />
     <ClInclude Include="Internals\CefJSDialogCallbackWrapper.h" />
     <ClInclude Include="Internals\MCefRefPtr.h" />
+    <ClInclude Include="Internals\Messaging\Messages.h" />
     <ClInclude Include="Internals\PluginVisitor.h" />
     <ClInclude Include="Internals\RenderClientAdapter.h" />
     <ClInclude Include="Internals\ReportUnhandledExceptions.h" />
@@ -279,6 +280,7 @@
     <ClInclude Include="ManagedCefBrowserAdapter.h" />
     <ClInclude Include="CefSettings.h" />
     <ClInclude Include="Internals\Serialization\Primitives.h" />
+    <ClInclude Include="Internals\Messaging\ProcessMessageDelegate.h" />
     <ClInclude Include="SchemeHandlerFactoryWrapper.h" />
     <ClInclude Include="ResourceHandlerWrapper.h" />
     <ClInclude Include="CookieAsyncWrapper.h" />
