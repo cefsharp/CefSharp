@@ -31,52 +31,6 @@ namespace CefSharp
         }
     }
 
-    JavascriptResponse^ CefBrowserWrapper::EvaluateScriptInContext(CefRefPtr<CefV8Context> context, CefString script)
-    {
-        CefRefPtr<CefV8Value> result;
-        CefRefPtr<CefV8Exception> exception;
-        JavascriptResponse^ response = gcnew JavascriptResponse();
-
-        response->Success = context->Eval(script, result, exception);
-        if (response->Success)
-        {
-            if (result->IsFunction())
-            {
-                response->Result = _callbackRegistry->Register(context, result);
-            }
-            else 
-            {
-                response->Result = TypeUtils::ConvertFromCef(result);
-            }
-        }
-        else if (exception.get())
-        {
-            response->Message = StringUtils::ToClr(exception->GetMessage());
-        }
-
-        return response;
-    }
-
-    JavascriptResponse^ CefBrowserWrapper::DoEvaluateScript(System::Int64 frameId, String^ script)
-    {
-        auto frame = _cefBrowser->GetFrame(frameId);
-        CefRefPtr<CefV8Context> context = frame->GetV8Context();
-
-        if (context.get() && context->Enter())
-        {
-            try
-            {
-                return EvaluateScriptInContext(context, StringUtils::ToNative(script));
-            }
-            finally
-            {
-                context->Exit();
-            }
-        }
-
-        return nullptr;
-    }
-
     JavascriptResponse^ CefBrowserWrapper::DoCallback(System::Int64 callbackId, array<Object^>^ parameters)
     {
         return _callbackRegistry->Execute(callbackId, parameters);

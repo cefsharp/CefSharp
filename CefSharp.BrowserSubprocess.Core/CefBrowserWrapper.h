@@ -62,10 +62,6 @@ namespace CefSharp
         // The WCF proxy to the parent process.
         property IBrowserProcess^ BrowserProcess;
 
-        JavascriptResponse^ EvaluateScriptInContext(CefRefPtr<CefV8Context> context, CefString script);
-
-        virtual JavascriptResponse^ DoEvaluateScript(System::Int64 frameId, String^ script);
-
         JavascriptResponse^ DoCallback(System::Int64 callbackId, array<Object^>^ parameters);
 
         void DestroyJavascriptCallback(Int64 id);
