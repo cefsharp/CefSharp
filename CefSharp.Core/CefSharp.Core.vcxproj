@@ -230,6 +230,8 @@
     <ClCompile Include="Internals\StringVisitor.cpp" />
     <ClCompile Include="ManagedCefBrowserAdapter.cpp" />
     <ClCompile Include="NativeMethodWrapper.cpp" />
+    <ClCompile Include="Internals\Serialization\V8Serialization.cpp" />
+    <ClCompile Include="Internals\Serialization\Primitives.cpp" />
     <ClCompile Include="ResourceHandlerWrapper.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -272,9 +274,11 @@
     <ClInclude Include="Internals\StringVisitor.h" />
     <ClInclude Include="Internals\TypeConversion.h" />
     <ClInclude Include="NativeMethodWrapper.h" />
+    <ClInclude Include="Internals\Serialization\V8Serialization.h" />
     <ClInclude Include="PaintElementType.h" />
     <ClInclude Include="ManagedCefBrowserAdapter.h" />
     <ClInclude Include="CefSettings.h" />
+    <ClInclude Include="Internals\Serialization\Primitives.h" />
     <ClInclude Include="SchemeHandlerFactoryWrapper.h" />
     <ClInclude Include="ResourceHandlerWrapper.h" />
     <ClInclude Include="CookieAsyncWrapper.h" />

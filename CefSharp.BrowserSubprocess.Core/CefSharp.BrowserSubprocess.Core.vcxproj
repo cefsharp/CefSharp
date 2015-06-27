@@ -155,6 +155,7 @@
   <ItemGroup>
     <ClInclude Include="..\CefSharp.Core\Internals\MCefRefPtr.h" />
     <ClInclude Include="..\CefSharp.Core\Internals\ReportUnhandledExceptions.h" />
+    <ClInclude Include="..\CefSharp.Core\Internals\Serialization\Primitives.h" />
     <ClInclude Include="..\CefSharp.Core\Internals\StringUtils.h" />
     <ClInclude Include="CefAppUnmanagedWrapper.h" />
     <ClInclude Include="CefAppWrapper.h" />
@@ -171,9 +172,11 @@
     <ClInclude Include="JavascriptRootObjectWrapper.h" />
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="TypeUtils.h" />
+    <ClInclude Include="Serialization\V8Serialization.h" />
     <ClInclude Include="vcclr_local.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\CefSharp.Core\Internals\Serialization\Primitives.cpp" />
     <ClCompile Include="..\CefSharp.Core\Internals\StringUtils.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="CefAppUnmanagedWrapper.cpp" />
@@ -193,6 +196,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="TypeUtils.cpp" />
+    <ClCompile Include="Serialization\V8Serialization.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CefSharp\CefSharp.csproj">
