@@ -39,6 +39,8 @@ void ManagedCefBrowserAdapter::LoadUrl(String^ address)
 
 void ManagedCefBrowserAdapter::OnAfterBrowserCreated(int browserId)
 {
+    _wcfEnabled = Cef::WcfEnabled;
+
     if (_wcfEnabled)
     {
         _browserProcessServiceHost = gcnew BrowserProcessServiceHost(_javaScriptObjectRepository, Process::GetCurrentProcess()->Id, browserId);
@@ -558,4 +560,14 @@ IFrame^ ManagedCefBrowserAdapter::GetFrame(String^ name)
 IBrowser^ ManagedCefBrowserAdapter::GetBrowser()
 {
     return _browserWrapper;
+}
+
+IJavascriptCallbackFactory^ ManagedCefBrowserAdapter::JavascriptCallbackFactory::get()
+{
+    IJavascriptCallbackFactory^ result = nullptr;
+    if (_browserProcessServiceHost != nullptr)
+    {
+        result = _browserProcessServiceHost->JavascriptCallbackFactory;
+    }
+    return result;
 }

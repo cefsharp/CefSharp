@@ -16,8 +16,8 @@ namespace CefSharp
 
         namespace Messaging
         {
-            EvaluateScriptDoneDelegate::EvaluateScriptDoneDelegate(PendingTaskRepository<JavascriptResponse^>^ pendingTasks)
-                :_pendingTasks(pendingTasks)
+            EvaluateScriptDoneDelegate::EvaluateScriptDoneDelegate(PendingTaskRepository<JavascriptResponse^>^ pendingTasks, Dictionary<int, IJavascriptCallbackFactory^>^ callbackFactories)
+                :_pendingTasks(pendingTasks), _callbackFactories(callbackFactories)
             {
 
             }
@@ -51,7 +51,10 @@ namespace CefSharp
                     auto success = argList->GetBool(0);
                     auto callbackId = GetInt64(argList, 1);
 
-                    FinishTask(callbackId, success, argList);
+                    IJavascriptCallbackFactory^ callbackFactory;
+                    _callbackFactories->TryGetValue(browser->GetIdentifier(), callbackFactory);
+
+                    FinishTask(callbackId, success, argList, callbackFactory);
 
                     handled = true;
                 }
@@ -59,24 +62,23 @@ namespace CefSharp
                 return handled;
             }
 
-            void EvaluateScriptDoneDelegate::FinishTask(int64 callbackId, bool success, CefRefPtr<CefListValue> message)
+            void EvaluateScriptDoneDelegate::FinishTask(int64 callbackId, bool success, CefRefPtr<CefListValue> message, IJavascriptCallbackFactory^ callbackFactory)
             {
                 auto pendingTask = _pendingTasks->RemovePendingTask(callbackId);
                 if (pendingTask != nullptr)
                 {
-                    pendingTask->SetResult(CreateResponse(success, message));
+                    pendingTask->SetResult(CreateResponse(success, message, callbackFactory));
                 }
             }
 
-            JavascriptResponse^ EvaluateScriptDoneDelegate::CreateResponse(bool success, CefRefPtr<CefListValue> message)
+            JavascriptResponse^ EvaluateScriptDoneDelegate::CreateResponse(bool success, CefRefPtr<CefListValue> message, IJavascriptCallbackFactory^ callbackFactory)
             {
                 auto result = gcnew JavascriptResponse();
                 result->Success = success;
 
                 if (success)
                 {
-                    //pass null as IJavascriptCallbackFactory for now
-                    result->Result = DeserializeV8Object(message, 2, nullptr);
+                    result->Result = DeserializeV8Object(message, 2, callbackFactory);
                 }
                 else
                 {

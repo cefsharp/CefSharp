@@ -48,7 +48,8 @@ namespace CefSharp
             gcroot<IBrowserAdapter^> _browserAdapter;
             //contains in-progress eval script tasks
             gcroot<PendingTaskRepository<JavascriptResponse^>^> _pendingTaskRepository;
-
+            //contains js callback factories for each browser
+            gcroot<Dictionary<int, IJavascriptCallbackFactory^>^> _javascriptCallbackFactories;
 
             void ThrowUnknownPopupBrowser(String^ context)
             {
@@ -62,16 +63,21 @@ namespace CefSharp
                 _browserControl(browserControl), 
                 _popupBrowsers(gcnew Dictionary<int, IBrowser^>()),
                 _pendingTaskRepository(gcnew PendingTaskRepository<JavascriptResponse^>()),
+                _javascriptCallbackFactories(gcnew Dictionary<int, IJavascriptCallbackFactory^>()),
                 _browserAdapter(browserAdapter)
             {
                 //create eval script message handler
-                _evalScriptDoneDelegate = new EvaluateScriptDoneDelegate(_pendingTaskRepository);
+                _evalScriptDoneDelegate = new EvaluateScriptDoneDelegate(_pendingTaskRepository, _javascriptCallbackFactories);
                 AddProcessMessageDelegate(_evalScriptDoneDelegate);
             }
 
             ~ClientAdapter()
             {
                 CloseAllPopups(true);
+
+                //this will dispose the repository and cancel all pending tasks
+                delete _pendingTaskRepository;
+
                 _browserControl = nullptr;
                 _browserHwnd = nullptr;
                 _cefBrowser = NULL;

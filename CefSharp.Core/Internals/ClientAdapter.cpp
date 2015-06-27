@@ -100,6 +100,9 @@ namespace CefSharp
                 if (static_cast<IBrowserAdapter^>(_browserAdapter) != nullptr)
                 {
                     _browserAdapter->OnAfterBrowserCreated(browser->GetIdentifier());
+                    //save callback factory for this browser
+                    //it's only going to be present after browseradapter is initialized
+                    _javascriptCallbackFactories->Add(browser->GetIdentifier(), _browserAdapter->JavascriptCallbackFactory);
                 }
             }
         }

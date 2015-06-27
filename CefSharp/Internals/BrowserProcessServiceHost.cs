@@ -15,6 +15,7 @@ namespace CefSharp.Internals
     {
         private const long OneHundredAndTwentyEightMegaBytesInBytes = 128*1024*1024;
 
+        public IJavascriptCallbackFactory JavascriptCallbackFactory { get; private set; }
         public JavascriptObjectRepository JavascriptObjectRepository { get; private set; }
         private TaskCompletionSource<OperationContext> operationContextTaskCompletionSource = new TaskCompletionSource<OperationContext>();
 
@@ -22,6 +23,7 @@ namespace CefSharp.Internals
             : base(typeof(BrowserProcessService), new Uri[0])
         {
             JavascriptObjectRepository = javascriptObjectRepository;
+            JavascriptCallbackFactory = new JavascriptCallbackFactory(new WeakReference(this));
 
             var serviceName = RenderprocessClientFactory.GetServiceName(parentProcessId, browserId);
 
