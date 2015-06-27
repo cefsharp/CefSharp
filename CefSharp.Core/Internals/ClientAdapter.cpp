@@ -812,6 +812,16 @@ namespace CefSharp
             return handled;
         }
 
+        Task<JavascriptResponse^>^ ClientAdapter::EvaluateScriptAsync(int browserId, int frameId, String^ script, Nullable<TimeSpan> timeout)
+        {
+            Task<JavascriptResponse^>^ result = nullptr;
+            if (_cefBrowser.get())
+            {
+                result = _evalScriptDoneDelegate->EvaluateScriptAsync(_cefBrowser, browserId, frameId, script, timeout);
+            }
+            return result;
+        }
+
         void ClientAdapter::AddProcessMessageDelegate(CefRefPtr<Internals::Messaging::ProcessMessageDelegate> processMessageDelegate)
         {
             _processMessageDelegates.insert(processMessageDelegate);

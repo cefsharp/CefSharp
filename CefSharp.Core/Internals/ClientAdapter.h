@@ -11,6 +11,7 @@
 #include "include/cef_render_process_handler.h"
 #include "include/internal/cef_types.h"
 #include "Internals/Messaging/ProcessMessageDelegate.h"
+#include "Internals/Messaging/EvaluateScriptDoneDelegate.h"
 
 using namespace System;
 
@@ -38,10 +39,16 @@ namespace CefSharp
             gcroot<IWebBrowserInternal^> _browserControl;
             HWND _browserHwnd;
             CefRefPtr<CefBrowser> _cefBrowser;
+            //eval script handler
+            CefRefPtr<EvaluateScriptDoneDelegate> _evalScriptDoneDelegate;
+
             ProcessMessageDelegateSet _processMessageDelegates;
             gcroot<Dictionary<int, IBrowser^>^> _popupBrowsers;
             gcroot<String^> _tooltip;
             gcroot<IBrowserAdapter^> _browserAdapter;
+            //contains in-progress eval script tasks
+            gcroot<PendingTaskRepository<JavascriptResponse^>^> _pendingTaskRepository;
+
 
             void ThrowUnknownPopupBrowser(String^ context)
             {
@@ -54,8 +61,12 @@ namespace CefSharp
             ClientAdapter(IWebBrowserInternal^ browserControl, IBrowserAdapter^ browserAdapter) :
                 _browserControl(browserControl), 
                 _popupBrowsers(gcnew Dictionary<int, IBrowser^>()),
+                _pendingTaskRepository(gcnew PendingTaskRepository<JavascriptResponse^>()),
                 _browserAdapter(browserAdapter)
             {
+                //create eval script message handler
+                _evalScriptDoneDelegate = new EvaluateScriptDoneDelegate(_pendingTaskRepository);
+                AddProcessMessageDelegate(_evalScriptDoneDelegate);
             }
 
             ~ClientAdapter()
@@ -164,8 +175,10 @@ namespace CefSharp
             virtual void OnDownloadUpdated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDownloadItem> download_item,
                 CefRefPtr<CefDownloadItemCallback> callback) OVERRIDE;
 
-            void AddProcessMessageDelegate(CefRefPtr<Internals::Messaging::ProcessMessageDelegate> processMessageDelegate);
+            //sends out an eval script request to the render process
+            Task<JavascriptResponse^>^ EvaluateScriptAsync(int browserId, int frameId, String^ script, Nullable<TimeSpan> timeout);
 
+            void AddProcessMessageDelegate(CefRefPtr<Internals::Messaging::ProcessMessageDelegate> processMessageDelegate);
 
             IMPLEMENT_REFCOUNTING(ClientAdapter);
         };

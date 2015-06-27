@@ -39,8 +39,6 @@ void ManagedCefBrowserAdapter::LoadUrl(String^ address)
 
 void ManagedCefBrowserAdapter::OnAfterBrowserCreated(int browserId)
 {
-    _wcfEnabled = Cef::WcfEnabled;
-
     if (_wcfEnabled)
     {
         _browserProcessServiceHost = gcnew BrowserProcessServiceHost(_javaScriptObjectRepository, Process::GetCurrentProcess()->Id, browserId);
@@ -291,12 +289,7 @@ Task<JavascriptResponse^>^ ManagedCefBrowserAdapter::EvaluateScriptAsync(int bro
         throw gcnew ArgumentOutOfRangeException("timeout", "Timeout greater than Maximum allowable value of " + UInt32::MaxValue);
     }
 
-    if (!_wcfEnabled)
-    {
-        throw gcnew InvalidOperationException("To wait for javascript code set WcfEnabled true in CefSettings during initialization.");
-    }
-
-    return _browserProcessServiceHost->EvaluateScriptAsync(browserId, frameId, script, timeout);
+    return _clientAdapter->EvaluateScriptAsync(browserId, frameId, script, timeout);
 }
 
 Task<JavascriptResponse^>^ ManagedCefBrowserAdapter::EvaluateScriptAsync(String^ script, Nullable<TimeSpan> timeout)
@@ -306,14 +299,9 @@ Task<JavascriptResponse^>^ ManagedCefBrowserAdapter::EvaluateScriptAsync(String^
         throw gcnew ArgumentOutOfRangeException("timeout", "Timeout greater than Maximum allowable value of " + UInt32::MaxValue);
     }
 
-    if (!_wcfEnabled)
-    {
-        throw gcnew InvalidOperationException("To wait for javascript code set WcfEnabled true in CefSettings during initialization.");
-    }
-
     auto browser = _clientAdapter->GetCefBrowser();
 
-    if (_browserProcessServiceHost == nullptr || browser == nullptr)
+    if (browser == nullptr)
     {
         return nullptr;
     }
@@ -325,7 +313,7 @@ Task<JavascriptResponse^>^ ManagedCefBrowserAdapter::EvaluateScriptAsync(String^
         return nullptr;
     }
 
-    return _browserProcessServiceHost->EvaluateScriptAsync(browser->GetIdentifier(), frame->GetIdentifier(), script, timeout);
+    return _clientAdapter->EvaluateScriptAsync(browser->GetIdentifier(), frame->GetIdentifier(), script, timeout);
 }
 
 void ManagedCefBrowserAdapter::CreateBrowser(BrowserSettings^ browserSettings, IntPtr sourceHandle, String^ address)
