@@ -32,7 +32,10 @@ namespace CefSharp
 
     internal:
         //used by EvaluateScriptDelegate
-        CefRefPtr<CefBrowser> GetWrapped();
+        property CefRefPtr<CefBrowser> Browser
+        {
+            CefRefPtr<CefBrowser> get();
+        }
 
         property JavascriptCallbackRegistry^ CallbackRegistry
         {

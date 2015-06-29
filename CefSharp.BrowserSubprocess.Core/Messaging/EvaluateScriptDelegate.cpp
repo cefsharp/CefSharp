@@ -37,7 +37,7 @@ namespace CefSharp
                     auto script = argList->GetString(3);
 
                     auto browserWrapper = _appUnmanagedWrapper->FindBrowserWrapper(browserId, true);
-                    auto browser = browserWrapper->GetWrapped();
+                    auto browser = browserWrapper->Browser;
                     auto frame = browser->GetFrame(frameId);
                     if (browser.get() && frame.get())
                     {
