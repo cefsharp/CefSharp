@@ -148,45 +148,45 @@ namespace CefSharp
         /// <return>true if successful; otherwise, false.</return>
         static bool Initialize(CefSettings^ cefSettings, bool shutdownOnProcessExit, bool performDependencyCheck)
         {
-            bool success = false;
-
-            // NOTE: Can only initialize Cef once, so subsiquent calls are ignored.
-            if (!IsInitialized)
+            if (IsInitialized)
             {
-                if (cefSettings->BrowserSubprocessPath == nullptr)
-                {
-                    throw gcnew Exception("CefSettings BrowserSubprocessPath cannot be null.");
-                }
+                // NOTE: Can only initialize Cef once, to make this explicitly clear throw exception on subsiquent attempts
+                throw gcnew Exception("Cef can only be initialized once. Use Cef.IsInitialized to guard against this exception.");
+            }
+            
+            if (cefSettings->BrowserSubprocessPath == nullptr)
+            {
+                throw gcnew Exception("CefSettings BrowserSubprocessPath cannot be null.");
+            }
 
-                if(performDependencyCheck)
-                {
-                    DependencyChecker::AssertAllDependenciesPresent(cefSettings->Locale, cefSettings->LocalesDirPath, cefSettings->ResourcesDirPath, cefSettings->PackLoadingDisabled, cefSettings->BrowserSubprocessPath);
-                }
+            if(performDependencyCheck)
+            {
+                DependencyChecker::AssertAllDependenciesPresent(cefSettings->Locale, cefSettings->LocalesDirPath, cefSettings->ResourcesDirPath, cefSettings->PackLoadingDisabled, cefSettings->BrowserSubprocessPath);
+            }
 
-                UIThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_UI));
-                IOThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_IO));
-                FileThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_FILE));
+            UIThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_UI));
+            IOThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_IO));
+            FileThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_FILE));
 
-                CefMainArgs main_args;
-                CefRefPtr<CefSharpApp> app(new CefSharpApp(cefSettings, OnContextInitialized));
+            CefMainArgs main_args;
+            CefRefPtr<CefSharpApp> app(new CefSharpApp(cefSettings, OnContextInitialized));
 
-                success = CefInitialize(main_args, *(cefSettings->_cefSettings), app.get(), NULL);
+            auto success = CefInitialize(main_args, *(cefSettings->_cefSettings), app.get(), NULL);
 
-                //Register SchemeHandlerFactories - must be called after CefInitialize
-                for each (CefCustomScheme^ cefCustomScheme in cefSettings->CefCustomSchemes)
-                {
-                    auto domainName = cefCustomScheme->DomainName ? cefCustomScheme->DomainName : String::Empty;
+            //Register SchemeHandlerFactories - must be called after CefInitialize
+            for each (CefCustomScheme^ cefCustomScheme in cefSettings->CefCustomSchemes)
+            {
+                auto domainName = cefCustomScheme->DomainName ? cefCustomScheme->DomainName : String::Empty;
 
-                    CefRefPtr<CefSchemeHandlerFactory> wrapper = new SchemeHandlerFactoryWrapper(cefCustomScheme->SchemeHandlerFactory);
-                    CefRegisterSchemeHandlerFactory(StringUtils::ToNative(cefCustomScheme->SchemeName), StringUtils::ToNative(domainName), wrapper);
-                }
+                CefRefPtr<CefSchemeHandlerFactory> wrapper = new SchemeHandlerFactoryWrapper(cefCustomScheme->SchemeHandlerFactory);
+                CefRegisterSchemeHandlerFactory(StringUtils::ToNative(cefCustomScheme->SchemeName), StringUtils::ToNative(domainName), wrapper);
+            }
 
-                _initialized = success;
+            _initialized = success;
 
-                if (_initialized && shutdownOnProcessExit)
-                {
-                    AppDomain::CurrentDomain->ProcessExit += gcnew EventHandler(ParentProcessExitHandler);
-                }
+            if (_initialized && shutdownOnProcessExit)
+            {
+                AppDomain::CurrentDomain->ProcessExit += gcnew EventHandler(ParentProcessExitHandler);
             }
 
             return success;
