@@ -27,7 +27,7 @@ namespace CefSharp
                 //create a new taskcompletionsource
                 auto idAndComplectionSource = _pendingTasks->CreatePendingTask(timeout);
 
-                auto message = CefProcessMessage::Create(kEvaluateJavascript);
+                auto message = CefProcessMessage::Create(kEvaluateJavascriptRequest);
                 auto argList = message->GetArgumentList();
                 argList->SetInt(0, browserId);
                 argList->SetInt(1, frameId);
@@ -43,7 +43,7 @@ namespace CefSharp
             {
                 auto handled = false;
                 auto name = message->GetName();
-                if (name == kEvaluateJavascriptDone)
+                if (name == kEvaluateJavascriptResponse)
                 {
                     auto argList = message->GetArgumentList();
                     auto success = argList->GetBool(0);

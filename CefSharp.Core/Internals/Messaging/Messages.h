@@ -15,9 +15,9 @@ namespace CefSharp
             //contains process message names for all handled messages
 
             //Message containing a script to be evaluated
-            const CefString kEvaluateJavascript = "EvaluateJavascript";
+            const CefString kEvaluateJavascriptRequest = "EvaluateJavascriptRequest";
             //Message containing the result for a given evaluation
-            const CefString kEvaluateJavascriptDone = "EvaluateJavascriptDone";
+            const CefString kEvaluateJavascriptResponse = "EvaluateJavascriptDoneResponse";
         }
     }
 }

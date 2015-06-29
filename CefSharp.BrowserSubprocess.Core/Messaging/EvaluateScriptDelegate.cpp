@@ -28,7 +28,7 @@ namespace CefSharp
             {
                 auto handled = false;
                 auto name = message->GetName();
-                if (name == kEvaluateJavascript)
+                if (name == kEvaluateJavascriptRequest)
                 {
                     auto argList = message->GetArgumentList();
                     auto browserId = argList->GetInt(0);
@@ -90,7 +90,7 @@ namespace CefSharp
                 CefRefPtr<CefV8Value> result;
                 CefRefPtr<CefV8Exception> exception;
                 auto success = context->Eval(script, result, exception);
-                auto response = CefProcessMessage::Create(kEvaluateJavascriptDone);
+                auto response = CefProcessMessage::Create(kEvaluateJavascriptResponse);
                 auto argList = response->GetArgumentList();
 
                 argList->SetBool(0, success);
