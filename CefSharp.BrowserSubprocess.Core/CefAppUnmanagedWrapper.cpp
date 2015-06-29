@@ -82,13 +82,13 @@ namespace CefSharp
         return wrapper;
     }
 
-    bool CefAppUnmanagedWrapper::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
+    bool CefAppUnmanagedWrapper::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcessId sourceProcessId, CefRefPtr<CefProcessMessage> message)
     {
         bool handled = false;
 
         for (ProcessMessageDelegateSet::iterator it = _processMessageDelegates.begin(); it != _processMessageDelegates.end() && !handled; it++) 
         {
-            handled = (*it)->OnProcessMessageReceived(browser, source_process, message);
+            handled = (*it)->OnProcessMessageReceived(browser, sourceProcessId, message);
         }
 
         return handled;
