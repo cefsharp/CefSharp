@@ -41,7 +41,7 @@ namespace CefSharp
             _browserWrappers = gcnew Dictionary<int, CefBrowserWrapper^>();
 
             //Register evaluate script request handler
-            AddProcessMessageDelegate(new EvaluateScriptDelegate(this));
+            _processMessageDelegates.insert(new EvaluateScriptDelegate(this));
         }
 
         ~CefAppUnmanagedWrapper()
@@ -57,8 +57,6 @@ namespace CefSharp
         virtual DECL void OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context) OVERRIDE;
         virtual DECL void OnContextReleased(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context) OVERRIDE;
         virtual DECL bool OnProcessMessageReceived(CefRefPtr< CefBrowser > browser, CefProcessId source_process, CefRefPtr< CefProcessMessage > message) OVERRIDE;
-
-        void AddProcessMessageDelegate(CefRefPtr<ProcessMessageDelegate> processMessageDelegate);
 
         IMPLEMENT_REFCOUNTING(CefAppUnmanagedWrapper);
     };

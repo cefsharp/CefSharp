@@ -93,9 +93,4 @@ namespace CefSharp
 
         return handled;
     };
-
-    void CefAppUnmanagedWrapper::AddProcessMessageDelegate(CefRefPtr<ProcessMessageDelegate> processMessageDelegate)
-    {
-        _processMessageDelegates.insert(processMessageDelegate);
-    };
 }
