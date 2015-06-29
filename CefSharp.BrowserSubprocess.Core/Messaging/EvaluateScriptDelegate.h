@@ -23,7 +23,7 @@ namespace CefSharp
                 CefRefPtr<CefAppUnmanagedWrapper> _appUnmanagedWrapper;
             public:
                 EvaluateScriptDelegate(CefRefPtr<CefAppUnmanagedWrapper> appUnmanagedWrapper);
-                virtual bool OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcessId source_process, CefRefPtr<CefProcessMessage> message) override;
+                virtual bool OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcessId sourceProcessId, CefRefPtr<CefProcessMessage> message) override;
             };
         }
     }
