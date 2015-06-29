@@ -24,21 +24,19 @@ namespace CefSharp
 
             Task<JavascriptResponse^>^ EvaluateScriptDoneDelegate::EvaluateScriptAsync(CefRefPtr<CefBrowser> cefBrowser, int browserId, int frameId, String^ script, Nullable<TimeSpan> timeout)
             {
-                TaskCompletionSource<JavascriptResponse^>^ completionSource = nullptr;
-                //create a new taskcompletionsource based on wether we do or do not have a timeout
-                auto callbackId = timeout.HasValue ? _pendingTasks->CreatePendingTaskWithTimeout(completionSource, timeout.Value) :
-                    _pendingTasks->CreatePendingTask(completionSource);
+                //create a new taskcompletionsource
+                auto idAndComplectionSource = _pendingTasks->CreatePendingTask(timeout);
 
                 auto message = CefProcessMessage::Create(kEvaluateJavascript);
                 auto argList = message->GetArgumentList();
                 argList->SetInt(0, browserId);
                 argList->SetInt(1, frameId);
-                SetInt64(callbackId, argList, 2);
+                SetInt64(idAndComplectionSource.Key, argList, 2);
                 argList->SetString(3, StringUtils::ToNative(script));
 
                 cefBrowser->SendProcessMessage(CefProcessId::PID_RENDERER, message);
 
-                return completionSource->Task;
+                return idAndComplectionSource.Value->Task;
             }
 
             bool EvaluateScriptDoneDelegate::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
