@@ -68,7 +68,8 @@ namespace CefSharp
             {
                 //create eval script message handler
                 _evalScriptDoneDelegate = new EvaluateScriptDoneDelegate(_pendingTaskRepository, _javascriptCallbackFactories);
-                AddProcessMessageDelegate(_evalScriptDoneDelegate);
+
+                _processMessageDelegates.insert(_evalScriptDoneDelegate);
             }
 
             ~ClientAdapter()
@@ -183,8 +184,6 @@ namespace CefSharp
 
             //sends out an eval script request to the render process
             Task<JavascriptResponse^>^ EvaluateScriptAsync(int browserId, int frameId, String^ script, Nullable<TimeSpan> timeout);
-
-            void AddProcessMessageDelegate(CefRefPtr<Internals::Messaging::ProcessMessageDelegate> processMessageDelegate);
 
             IMPLEMENT_REFCOUNTING(ClientAdapter);
         };

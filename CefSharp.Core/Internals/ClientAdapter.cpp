@@ -824,10 +824,5 @@ namespace CefSharp
             }
             return result;
         }
-
-        void ClientAdapter::AddProcessMessageDelegate(CefRefPtr<Internals::Messaging::ProcessMessageDelegate> processMessageDelegate)
-        {
-            _processMessageDelegates.insert(processMessageDelegate);
-        }
     }
 }
