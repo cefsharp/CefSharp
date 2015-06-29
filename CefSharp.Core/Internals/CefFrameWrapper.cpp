@@ -175,11 +175,12 @@ void CefFrameWrapper::ExecuteJavaScriptAsync(String^ code, String^ scriptUrl, in
 Task<JavascriptResponse^>^ CefFrameWrapper::EvaluateScriptAsync(String^ script, Nullable<TimeSpan> timeout)
 {
     ThrowIfDisposed();
-    if (_browserAdapter == nullptr)
-    {
-        throw gcnew InvalidOperationException(gcnew String(L"IBrowserAdapter is NULL, EvaluateScriptAsync MUST NOT be called from the render process!"));
-    }
-    return _browserAdapter->EvaluateScriptAsync(_frame->GetBrowser()->GetIdentifier(), _frame->GetIdentifier(), script, timeout);
+
+    auto host = _frame->GetBrowser()->GetHost();
+
+    auto client = static_cast<ClientAdapter*>(host->GetClient().get());
+
+    return client->EvaluateScriptAsync(_frame->GetBrowser()->GetIdentifier(), _frame->GetIdentifier(), script, timeout);
 }
 
 ///
@@ -242,7 +243,7 @@ IFrame^ CefFrameWrapper::Parent::get()
         auto parent = _frame->GetParent();
         if (parent != nullptr && _parentFrame != nullptr)
         {
-            _parentFrame = gcnew CefFrameWrapper(parent, _browserAdapter);
+            _parentFrame = gcnew CefFrameWrapper(parent);
         }
         else if (parent == nullptr)
         {
@@ -286,7 +287,7 @@ IBrowser^ CefFrameWrapper::Browser::get()
         return _owningBrowser;
     }
 
-    _owningBrowser = gcnew CefSharpBrowserWrapper(_frame->GetBrowser(), _browserAdapter);
+    _owningBrowser = gcnew CefSharpBrowserWrapper(_frame->GetBrowser());
     return _owningBrowser;
 }
 

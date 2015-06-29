@@ -54,7 +54,7 @@ void ManagedCefBrowserAdapter::OnAfterBrowserCreated(int browserId)
     auto browser = _clientAdapter->GetCefBrowser();
     if (browser != nullptr)
     {
-        _browserWrapper = gcnew CefSharpBrowserWrapper(browser, this);
+        _browserWrapper = gcnew CefSharpBrowserWrapper(browser);
     }
 
     if (_webBrowserInternal != nullptr)
@@ -459,7 +459,7 @@ IFrame^ ManagedCefBrowserAdapter::GetMainFrame()
     {
         return nullptr;
     }
-    return gcnew CefFrameWrapper(browser->GetMainFrame(), this);
+    return gcnew CefFrameWrapper(browser->GetMainFrame());
 }
 
 ///
@@ -474,7 +474,7 @@ IFrame^ ManagedCefBrowserAdapter::GetFocusedFrame()
         return nullptr;
     }
 
-    return gcnew CefFrameWrapper(browser->GetFocusedFrame(), this);
+    return gcnew CefFrameWrapper(browser->GetFocusedFrame());
 }
 
 ///
@@ -494,7 +494,7 @@ IFrame^ ManagedCefBrowserAdapter::GetFrame(System::Int64 identifier)
         return nullptr;
     }
     
-    return gcnew CefFrameWrapper(result, this);
+    return gcnew CefFrameWrapper(result);
 }
 
 ///
@@ -514,7 +514,7 @@ IFrame^ ManagedCefBrowserAdapter::GetFrame(String^ name)
         return nullptr;
     }
     
-    return gcnew CefFrameWrapper(result, this);
+    return gcnew CefFrameWrapper(result);
 }
 
 /// <summary>
