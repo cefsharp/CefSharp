@@ -155,16 +155,6 @@ namespace CefSharp.WinForms
             managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, camelCaseJavascriptNames);
         }
 
-        public Task<JavascriptResponse> EvaluateScriptAsync(string script)
-        {
-            return EvaluateScriptAsync(script, timeout: null);
-        }
-
-        public Task<JavascriptResponse> EvaluateScriptAsync(string script, TimeSpan? timeout)
-        {
-            return managedCefBrowserAdapter.EvaluateScriptAsync(script, timeout);
-        }
-
         public void SendMouseWheelEvent(int x, int y, int deltaX, int deltaY)
         {
             managedCefBrowserAdapter.OnMouseWheel(x, y, deltaX, deltaY);

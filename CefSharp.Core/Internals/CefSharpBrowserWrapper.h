@@ -17,13 +17,12 @@ namespace CefSharp
         {
         private:
             MCefRefPtr<CefBrowser> _browser;
-            IBrowserAdapter^ _browserAdapter;
             IBrowserHost^ _browserHost;
             bool _disposed;
 
         internal:
-            CefSharpBrowserWrapper::CefSharpBrowserWrapper(CefRefPtr<CefBrowser> &browser, IBrowserAdapter^ browserAdapter)
-                : _browser(browser), _browserAdapter(browserAdapter), _disposed(false)
+            CefSharpBrowserWrapper::CefSharpBrowserWrapper(CefRefPtr<CefBrowser> &browser)
+                : _browser(browser), _disposed(false)
             {
             }
 
@@ -36,7 +35,6 @@ namespace CefSharp
             ~CefSharpBrowserWrapper() 
             {
                 this->!CefSharpBrowserWrapper();
-                _browserAdapter = nullptr;
                 delete _browserHost;
                 _browserHost = nullptr;
                 _disposed = true;

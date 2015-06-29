@@ -4,10 +4,11 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CefSharp.Internals.Messaging
+namespace CefSharp.Internals
 {
     /// <summary>
     /// Class to store TaskCompletionSources indexed by a unique id.
@@ -18,40 +19,32 @@ namespace CefSharp.Internals.Messaging
         private readonly ConcurrentDictionary<long, TaskCompletionSource<TResult>> pendingTasks =
             new ConcurrentDictionary<long, TaskCompletionSource<TResult>>();
         //should only be accessed by Interlocked.Increment
-        private long lastId = 0;
-
-        /// <summary>
-        /// Creates a new pending task.
-        /// </summary>
-        /// <param name="completionSource">The newly created <see cref="TaskCompletionSource{TResult}"/></param>
-        /// <returns>The unique id of the newly created pending task.</returns>
-        public long CreatePendingTask(out TaskCompletionSource<TResult> completionSource)
-        {
-            completionSource = new TaskCompletionSource<TResult>();
-            return SaveCompletionSource(completionSource);
-        }
+        private long lastId;
 
         /// <summary>
         /// Creates a new pending task with a timeout.
         /// </summary>
         /// <param name="timeout">The maximum running time of the task.</param>
-        /// <param name="completionSource">The newly created <see cref="TaskCompletionSource{TResult}"/></param>
-        /// <returns>The unique id of the newly created pending task.</returns>
-        public long CreatePendingTaskWithTimeout(out TaskCompletionSource<TResult> completionSource, TimeSpan timeout)
+        /// <returns>The unique id of the newly created pending task and the newly created <see cref="TaskCompletionSource{TResult}"/>.</returns>
+        public KeyValuePair<long, TaskCompletionSource<TResult>> CreatePendingTask(TimeSpan? timeout = null)
         {
             var taskCompletionSource = new TaskCompletionSource<TResult>();
-            completionSource = taskCompletionSource;
 
-            var id = SaveCompletionSource(completionSource);
-            Timer timer = null;
-            timer = new Timer(state =>
+            var id = Interlocked.Increment(ref lastId);
+            pendingTasks.TryAdd(id, taskCompletionSource);
+
+            if (timeout.HasValue)
             {
-                timer.Dispose();
-                RemovePendingTask(id);
-                taskCompletionSource.TrySetCanceled();
-            }, null, timeout, TimeSpan.FromMilliseconds(-1));
+                Timer timer = null;
+                timer = new Timer(state =>
+                {
+                    timer.Dispose();
+                    RemovePendingTask(id);
+                    taskCompletionSource.TrySetCanceled();
+                }, null, timeout.Value, TimeSpan.FromMilliseconds(-1));
+            }
 
-            return id;
+            return new KeyValuePair<long, TaskCompletionSource<TResult>>(id, taskCompletionSource);
         }
 
         /// <summary>
@@ -66,13 +59,6 @@ namespace CefSharp.Internals.Messaging
             TaskCompletionSource<TResult> result;
             pendingTasks.TryRemove(id, out result);
             return result;
-        }
-
-        private long SaveCompletionSource(TaskCompletionSource<TResult> completionSource)
-        {
-            var id = Interlocked.Increment(ref lastId);
-            pendingTasks.TryAdd(id, completionSource);
-            return id;
         }
     }
 }

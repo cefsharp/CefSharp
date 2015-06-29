@@ -65,9 +65,6 @@
     <ClCompile Include="Internals\Serialization\Primitives.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Internals\Messaging\EvaluateScriptDoneDelegate.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vcclr_local.h">
@@ -196,13 +193,7 @@
     <ClInclude Include="Internals\Serialization\Primitives.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Internals\Messaging\ProcessMessageDelegate.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Internals\Messaging\Messages.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Internals\Messaging\EvaluateScriptDoneDelegate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

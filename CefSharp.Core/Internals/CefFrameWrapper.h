@@ -24,15 +24,14 @@ namespace CefSharp
         {
         private:
             MCefRefPtr<CefFrame> _frame;
-            IBrowserAdapter^ _browserAdapter;
             IFrame^ _parentFrame;
             IBrowser^ _owningBrowser;
             Object^ _syncRoot;
             bool _disposed;
 
         internal:
-            CefFrameWrapper::CefFrameWrapper(CefRefPtr<CefFrame> &frame, IBrowserAdapter^ browserAdapter)
-                : _frame(frame), _browserAdapter(browserAdapter), _disposed(false), 
+            CefFrameWrapper::CefFrameWrapper(CefRefPtr<CefFrame> &frame)
+                : _frame(frame), _disposed(false), 
                 _parentFrame(nullptr), _owningBrowser(nullptr), _syncRoot(gcnew Object())
             {
             }
@@ -46,7 +45,6 @@ namespace CefSharp
             {
                 this->!CefFrameWrapper();
 
-                _browserAdapter = nullptr;
                 delete _parentFrame;
                 delete _owningBrowser;
                 _parentFrame = nullptr;

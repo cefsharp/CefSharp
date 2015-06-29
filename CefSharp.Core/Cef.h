@@ -33,7 +33,6 @@ namespace CefSharp
     private:
         static Object^ _sync;
 
-        static bool _wcfEnabled = false;
         static bool _initialized = false;
         static HashSet<IDisposable^>^ _disposables;
 
@@ -73,14 +72,6 @@ namespace CefSharp
             msclr::lock l(_sync);
 
             _disposables->Remove(item);
-        }
-
-        static property bool WcfEnabled
-        {
-            bool get()
-            {
-                return _wcfEnabled;
-            }
         }
 
         /// <summary>Gets a value that indicates whether CefSharp is initialized.</summary>
@@ -191,10 +182,6 @@ namespace CefSharp
                 }
 
                 _initialized = success;
-                if (success)
-                {
-                    _wcfEnabled = cefSettings->WcfEnabled;
-                }
 
                 if (_initialized && shutdownOnProcessExit)
                 {

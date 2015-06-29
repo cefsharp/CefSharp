@@ -8,10 +8,15 @@
 #include "CefBrowserWrapper.h"
 #include "CefAppUnmanagedWrapper.h"
 #include "JavascriptRootObjectWrapper.h"
+#include "Serialization\V8Serialization.h"
+#include "..\CefSharp.Core\Internals\Messaging\Messages.h"
+#include "..\CefSharp.Core\Internals\Serialization\Primitives.h"
 
 using namespace System;
 using namespace System::Diagnostics;
 using namespace System::Collections::Generic;
+using namespace CefSharp::Internals::Messaging;
+using namespace CefSharp::Internals::Serialization;
 
 namespace CefSharp
 {
@@ -32,7 +37,7 @@ namespace CefSharp
 
     void CefAppUnmanagedWrapper::OnBrowserDestroyed(CefRefPtr<CefBrowser> browser)
     {
-        auto wrapper = FindBrowserWrapper(browser, false);
+        auto wrapper = FindBrowserWrapper(browser->GetIdentifier(), false);
 
         if (wrapper != nullptr)
         {
@@ -44,7 +49,7 @@ namespace CefSharp
 
     void CefAppUnmanagedWrapper::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
     {
-        auto wrapper = FindBrowserWrapper(browser, true);
+        auto wrapper = FindBrowserWrapper(browser->GetIdentifier(), true);
 
         if (wrapper->JavascriptRootObject != nullptr)
         {
@@ -59,19 +64,13 @@ namespace CefSharp
 
     void CefAppUnmanagedWrapper::OnContextReleased(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
     { 
-        auto wrapper = FindBrowserWrapper(browser, true);
+        auto wrapper = FindBrowserWrapper(browser->GetIdentifier(), true);
 
         if (wrapper->JavascriptRootObjectWrapper != nullptr)
         {
             delete wrapper->JavascriptRootObjectWrapper;
             wrapper->JavascriptRootObjectWrapper = nullptr;
         }
-    };
-
-    CefBrowserWrapper^ CefAppUnmanagedWrapper::FindBrowserWrapper(CefRefPtr<CefBrowser> browser, bool mustExist)
-    {
-        auto browserId = browser->GetIdentifier();
-        return FindBrowserWrapper(browserId, mustExist);
     };
 
     CefBrowserWrapper^ CefAppUnmanagedWrapper::FindBrowserWrapper(int browserId, bool mustExist)
@@ -88,20 +87,69 @@ namespace CefSharp
         return wrapper;
     }
 
-    bool CefAppUnmanagedWrapper::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
+    bool CefAppUnmanagedWrapper::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcessId sourceProcessId, CefRefPtr<CefProcessMessage> message)
     {
-        bool handled = false;
-
-        for (ProcessMessageDelegateSet::iterator it = _processMessageDelegates.begin(); it != _processMessageDelegates.end() && !handled; it++) 
+        auto handled = false;
+        auto name = message->GetName();
+        if (name == kEvaluateJavascriptRequest)
         {
-            handled = (*it)->OnProcessMessageReceived(browser, source_process, message);
+            auto argList = message->GetArgumentList();
+            auto browserId = argList->GetInt(0);
+            auto frameId = GetInt64(argList, 1);
+            auto callbackId = GetInt64(argList, 2);
+            auto script = argList->GetString(3);
+
+            if(browser->GetIdentifier() != browserId)
+            {
+                throw gcnew InvalidOperationException(String::Format("Request BrowserId : {0} does not match browser Id : {1}", browserId, browser->GetIdentifier()));
+            }
+
+            auto browserWrapper = FindBrowserWrapper(browserId, true);
+            auto frame = browser->GetFrame(frameId);
+            if (frame.get())
+            {
+                auto context = frame->GetV8Context();
+
+                if (context.get() && context->Enter())
+                {
+                    try
+                    {
+                        CefRefPtr<CefV8Value> result;
+                        CefRefPtr<CefV8Exception> exception;
+                        auto success = context->Eval(script, result, exception);
+                        auto response = CefProcessMessage::Create(kEvaluateJavascriptResponse);
+                        auto argList = response->GetArgumentList();
+
+                        argList->SetBool(0, success);
+                        SetInt64(callbackId, argList, 1);
+                        if (success)
+                        {
+                            SerializeV8Object(result, argList, 2, browserWrapper->CallbackRegistry);
+                        }
+                        else
+                        {
+                            argList->SetString(2, exception->GetMessage());
+                        }
+
+                        if (response.get())
+                        {
+                            browser->SendProcessMessage(sourceProcessId, response);
+                        }
+                    }
+                    finally
+                    {
+                        context->Exit();
+                    }
+                }
+            }
+            else
+            {
+                //TODO handle error
+            }
+
+            handled = true;
         }
 
         return handled;
-    };
-
-    void CefAppUnmanagedWrapper::AddProcessMessageDelegate(CefRefPtr<ProcessMessageDelegate> processMessageDelegate)
-    {
-        _processMessageDelegates.insert(processMessageDelegate);
     };
 }
