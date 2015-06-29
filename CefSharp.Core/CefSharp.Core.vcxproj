@@ -219,7 +219,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
-    <ClCompile Include="Internals\Messaging\EvaluateScriptDoneDelegate.cpp" />
     <ClCompile Include="Internals\CefBrowserHostWrapper.cpp" />
     <ClCompile Include="Internals\CefContextMenuParamsWrapper.cpp" />
     <ClCompile Include="Internals\CefFrameWrapper.cpp" />
@@ -246,7 +245,6 @@
   <ItemGroup>
     <ClInclude Include="BrowserSettings.h" />
     <ClInclude Include="Cef.h" />
-    <ClInclude Include="Internals\Messaging\EvaluateScriptDoneDelegate.h" />
     <ClInclude Include="Internals\AutoLock.h" />
     <ClInclude Include="Internals\CefAuthCallbackWrapper.h" />
     <ClInclude Include="Internals\CefBeforeDownloadCallbackWrapper.h" />
@@ -282,7 +280,6 @@
     <ClInclude Include="ManagedCefBrowserAdapter.h" />
     <ClInclude Include="CefSettings.h" />
     <ClInclude Include="Internals\Serialization\Primitives.h" />
-    <ClInclude Include="Internals\Messaging\ProcessMessageDelegate.h" />
     <ClInclude Include="SchemeHandlerFactoryWrapper.h" />
     <ClInclude Include="ResourceHandlerWrapper.h" />
     <ClInclude Include="CookieAsyncWrapper.h" />

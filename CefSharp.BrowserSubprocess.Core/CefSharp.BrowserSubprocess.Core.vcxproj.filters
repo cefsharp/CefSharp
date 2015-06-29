@@ -74,9 +74,6 @@
     <ClInclude Include="Serialization\V8Serialization.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Messaging\EvaluateScriptDelegate.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -125,9 +122,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Serialization\V8Serialization.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Messaging\EvaluateScriptDelegate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

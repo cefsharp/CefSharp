@@ -10,8 +10,6 @@
 #include "include/cef_client.h"
 #include "include/cef_render_process_handler.h"
 #include "include/internal/cef_types.h"
-#include "Internals/Messaging/ProcessMessageDelegate.h"
-#include "Internals/Messaging/EvaluateScriptDoneDelegate.h"
 
 using namespace System;
 
@@ -19,8 +17,6 @@ namespace CefSharp
 {
     namespace Internals
     {
-        using namespace Messaging;
-
         private class ClientAdapter : public CefClient,
             public CefLifeSpanHandler,
             public CefLoadHandler,
@@ -39,10 +35,7 @@ namespace CefSharp
             gcroot<IWebBrowserInternal^> _browserControl;
             HWND _browserHwnd;
             CefRefPtr<CefBrowser> _cefBrowser;
-            //eval script handler
-            CefRefPtr<EvaluateScriptDoneDelegate> _evalScriptDoneDelegate;
 
-            ProcessMessageDelegateSet _processMessageDelegates;
             gcroot<Dictionary<int, IBrowser^>^> _popupBrowsers;
             gcroot<String^> _tooltip;
             gcroot<IBrowserAdapter^> _browserAdapter;
@@ -66,10 +59,7 @@ namespace CefSharp
                 _javascriptCallbackFactories(gcnew Dictionary<int, IJavascriptCallbackFactory^>()),
                 _browserAdapter(browserAdapter)
             {
-                //create eval script message handler
-                _evalScriptDoneDelegate = new EvaluateScriptDoneDelegate(_pendingTaskRepository, _javascriptCallbackFactories);
-
-                _processMessageDelegates.insert(_evalScriptDoneDelegate);
+                
             }
 
             ~ClientAdapter()

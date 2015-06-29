@@ -10,11 +10,8 @@
 #include "include/cef_base.h"
 
 #include "CefBrowserWrapper.h"
-#include "Messaging/EvaluateScriptDelegate.h"
-#include "../CefSharp.Core/Internals/Messaging/ProcessMessageDelegate.h"
 
 using namespace System::Collections::Generic;
-using namespace CefSharp::Internals::Messaging;
 
 namespace CefSharp
 {
@@ -22,7 +19,6 @@ namespace CefSharp
     private class CefAppUnmanagedWrapper : CefApp, CefRenderProcessHandler
     {
     private:
-        ProcessMessageDelegateSet _processMessageDelegates;
 
         gcroot<Action<CefBrowserWrapper^>^> _onBrowserCreated;
         gcroot<Action<CefBrowserWrapper^>^> _onBrowserDestroyed;
@@ -34,9 +30,6 @@ namespace CefSharp
             _onBrowserCreated = onBrowserCreated;
             _onBrowserDestroyed = onBrowserDestoryed;
             _browserWrappers = gcnew Dictionary<int, CefBrowserWrapper^>();
-
-            //Register evaluate script request handler
-            _processMessageDelegates.insert(new EvaluateScriptDelegate(this));
         }
 
         ~CefAppUnmanagedWrapper()

@@ -18,6 +18,12 @@
 #include "CefAuthCallbackWrapper.h"
 #include "CefJSDialogCallbackWrapper.h"
 #include "CefRequestCallbackWrapper.h"
+#include "Serialization\Primitives.h"
+#include "Serialization\V8Serialization.h"
+#include "Messaging\Messages.h"
+
+using namespace CefSharp::Internals::Messaging;
+using namespace CefSharp::Internals::Serialization;
 
 namespace CefSharp
 {
@@ -805,11 +811,36 @@ namespace CefSharp
 
         bool ClientAdapter::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
         {
-            bool handled = false;
-
-            for (ProcessMessageDelegateSet::iterator it = _processMessageDelegates.begin(); it != _processMessageDelegates.end() && !handled; it++)
+            auto handled = false;
+            auto name = message->GetName();
+            if (name == kEvaluateJavascriptResponse)
             {
-                handled = (*it)->OnProcessMessageReceived(browser, source_process, message);
+                auto argList = message->GetArgumentList();
+                auto success = argList->GetBool(0);
+                auto callbackId = GetInt64(argList, 1);
+
+                IJavascriptCallbackFactory^ callbackFactory;
+                _javascriptCallbackFactories->TryGetValue(browser->GetIdentifier(), callbackFactory);
+
+                auto pendingTask = _pendingTaskRepository->RemovePendingTask(callbackId);
+                if (pendingTask != nullptr)
+                {
+                    auto response = gcnew JavascriptResponse();
+                    response->Success = success;
+
+                    if (success)
+                    {
+                        response->Result = DeserializeV8Object(argList, 2, callbackFactory);
+                    }
+                    else
+                    {
+                        response->Message = StringUtils::ToClr(argList->GetString(2));
+                    }
+
+                    pendingTask->SetResult(response);
+                }
+
+                handled = true;
             }
 
             return handled;
@@ -817,12 +848,19 @@ namespace CefSharp
 
         Task<JavascriptResponse^>^ ClientAdapter::EvaluateScriptAsync(int browserId, int64 frameId, String^ script, Nullable<TimeSpan> timeout)
         {
-            Task<JavascriptResponse^>^ result = nullptr;
-            if (_cefBrowser.get())
-            {
-                result = _evalScriptDoneDelegate->EvaluateScriptAsync(_cefBrowser, browserId, frameId, script, timeout);
-            }
-            return result;
+            //create a new taskcompletionsource
+            auto idAndComplectionSource = _pendingTaskRepository->CreatePendingTask(timeout);
+
+            auto message = CefProcessMessage::Create(kEvaluateJavascriptRequest);
+            auto argList = message->GetArgumentList();
+            argList->SetInt(0, browserId);
+            SetInt64(frameId, argList, 1);
+            SetInt64(idAndComplectionSource.Key, argList, 2);
+            argList->SetString(3, StringUtils::ToNative(script));
+
+            _cefBrowser->SendProcessMessage(CefProcessId::PID_RENDERER, message);
+
+            return idAndComplectionSource.Value->Task;
         }
     }
 }

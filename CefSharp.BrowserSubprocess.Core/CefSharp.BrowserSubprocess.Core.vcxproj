@@ -162,7 +162,6 @@
     <ClInclude Include="CefBrowserWrapper.h" />
     <ClInclude Include="..\CefSharp.Core\Internals\CefTaskScheduler.h" />
     <ClInclude Include="..\CefSharp.Core\Internals\CefTaskWrapper.h" />
-    <ClInclude Include="Messaging\EvaluateScriptDelegate.h" />
     <ClInclude Include="JavascriptCallbackRegistry.h" />
     <ClInclude Include="JavascriptCallbackWrapper.h" />
     <ClInclude Include="JavascriptMethodWrapper.h" />
@@ -183,7 +182,6 @@
     <ClCompile Include="CefAppUnmanagedWrapper.cpp" />
     <ClCompile Include="CefAppWrapper.cpp" />
     <ClCompile Include="CefBrowserWrapper.cpp" />
-    <ClCompile Include="Messaging\EvaluateScriptDelegate.cpp" />
     <ClCompile Include="JavascriptCallbackRegistry.cpp" />
     <ClCompile Include="JavascriptCallbackWrapper.cpp" />
     <ClCompile Include="JavascriptMethodHandler.cpp" />
