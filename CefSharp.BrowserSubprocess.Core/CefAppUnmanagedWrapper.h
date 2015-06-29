@@ -14,24 +14,19 @@
 #include "../CefSharp.Core/Internals/Messaging/ProcessMessageDelegate.h"
 
 using namespace System::Collections::Generic;
+using namespace CefSharp::Internals::Messaging;
 
 namespace CefSharp
 {
-    using namespace Internals::Messaging;
-
     // This class is the native subprocess level CEF object wrapper.
     private class CefAppUnmanagedWrapper : CefApp, CefRenderProcessHandler
     {
     private:
-        friend EvaluateScriptDelegate;
-
         ProcessMessageDelegateSet _processMessageDelegates;
 
         gcroot<Action<CefBrowserWrapper^>^> _onBrowserCreated;
         gcroot<Action<CefBrowserWrapper^>^> _onBrowserDestroyed;
         gcroot<Dictionary<int, CefBrowserWrapper^>^> _browserWrappers;
-
-        CefBrowserWrapper^ FindBrowserWrapper(int browserId, bool mustExist);
     public:
         
         CefAppUnmanagedWrapper(Action<CefBrowserWrapper^>^ onBrowserCreated, Action<CefBrowserWrapper^>^ onBrowserDestoryed)
@@ -50,6 +45,8 @@ namespace CefSharp
             delete _onBrowserCreated;
             delete _onBrowserDestroyed;
         }
+
+        CefBrowserWrapper^ FindBrowserWrapper(int browserId, bool mustExist);
 
         virtual DECL CefRefPtr<CefRenderProcessHandler> GetRenderProcessHandler() OVERRIDE;
         virtual DECL void OnBrowserCreated(CefRefPtr<CefBrowser> browser) OVERRIDE;
