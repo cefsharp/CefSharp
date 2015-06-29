@@ -32,7 +32,7 @@ namespace CefSharp
                 {
                     auto argList = message->GetArgumentList();
                     auto browserId = argList->GetInt(0);
-                    auto frameId = argList->GetInt(1);
+                    auto frameId = GetInt64(argList, 1);
                     auto callbackId = GetInt64(argList, 2);
                     auto script = argList->GetString(3);
 

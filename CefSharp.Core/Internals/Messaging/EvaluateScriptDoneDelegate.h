@@ -22,7 +22,7 @@ namespace CefSharp
                 gcroot<PendingTaskRepository<JavascriptResponse^>^> _pendingTasks;
             public:
                 EvaluateScriptDoneDelegate(PendingTaskRepository<JavascriptResponse^>^ pendingTasks, Dictionary<int, IJavascriptCallbackFactory^>^ callbackFactories);
-                Task<JavascriptResponse^>^ EvaluateScriptAsync(CefRefPtr<CefBrowser> cefBrowser, int browserId, int frameId, String^ script, Nullable<TimeSpan> timeout);
+                Task<JavascriptResponse^>^ EvaluateScriptAsync(CefRefPtr<CefBrowser> cefBrowser, int browserId, int64 frameId, String^ script, Nullable<TimeSpan> timeout);
                 virtual bool OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcessId source_process, CefRefPtr<CefProcessMessage> message) override;
             };
         }

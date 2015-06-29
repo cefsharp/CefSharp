@@ -815,7 +815,7 @@ namespace CefSharp
             return handled;
         }
 
-        Task<JavascriptResponse^>^ ClientAdapter::EvaluateScriptAsync(int browserId, int frameId, String^ script, Nullable<TimeSpan> timeout)
+        Task<JavascriptResponse^>^ ClientAdapter::EvaluateScriptAsync(int browserId, int64 frameId, String^ script, Nullable<TimeSpan> timeout)
         {
             Task<JavascriptResponse^>^ result = nullptr;
             if (_cefBrowser.get())
