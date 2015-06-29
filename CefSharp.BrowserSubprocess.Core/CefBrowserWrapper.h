@@ -31,12 +31,6 @@ namespace CefSharp
         JavascriptRootObjectWrapper^ _javascriptRootObjectWrapper;
 
     internal:
-        //used by EvaluateScriptDelegate
-        property CefRefPtr<CefBrowser> Browser
-        {
-            CefRefPtr<CefBrowser> get();
-        }
-
         property JavascriptCallbackRegistry^ CallbackRegistry
         {
             CefSharp::Internals::JavascriptCallbackRegistry^ get();

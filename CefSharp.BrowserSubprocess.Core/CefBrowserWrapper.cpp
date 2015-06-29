@@ -41,11 +41,6 @@ namespace CefSharp
         _callbackRegistry->Deregister(id);
     }
 
-    CefRefPtr<CefBrowser> CefBrowserWrapper::Browser::get()
-    {
-        return _cefBrowser.get();
-    }
-
     JavascriptCallbackRegistry^ CefBrowserWrapper::CallbackRegistry::get()
     {
         return _callbackRegistry;

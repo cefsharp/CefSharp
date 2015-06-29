@@ -101,7 +101,7 @@ namespace CefSharp
 
             if(browser->GetIdentifier() != browserId)
             {
-                //TODO: Re-add lookup
+                throw gcnew InvalidOperationException(String::Format("Request BrowserId : {0} does not match browser Id : {1}", browserId, browser->GetIdentifier()));
             }
 
             auto browserWrapper = FindBrowserWrapper(browserId, true);
