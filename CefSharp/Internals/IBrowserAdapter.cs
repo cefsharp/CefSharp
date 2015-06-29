@@ -2,9 +2,6 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using System;
-using System.Threading.Tasks;
-
 namespace CefSharp.Internals
 {
     /// <summary>
@@ -13,8 +10,7 @@ namespace CefSharp.Internals
     /// </summary>
     public interface IBrowserAdapter
     {
-        Task<JavascriptResponse> EvaluateScriptAsync(string script, TimeSpan? timeout);
-        Task<JavascriptResponse> EvaluateScriptAsync(int browserId, Int64 frameId, string script, TimeSpan? timeout);
+        IJavascriptCallbackFactory JavascriptCallbackFactory { get; }
         void OnAfterBrowserCreated(int browserId);
         IBrowser GetBrowser();
     }

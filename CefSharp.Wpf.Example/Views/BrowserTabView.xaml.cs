@@ -15,7 +15,7 @@ namespace CefSharp.Wpf.Example.Views
             InitializeComponent();
 
             browser.RequestHandler = new RequestHandler();
-            if (Cef.WcfEnabled)
+            if (CefSharpSettings.WcfEnabled)
             {
                 browser.RegisterJsObject("bound", new BoundObject());
             }

@@ -39,9 +39,7 @@ void ManagedCefBrowserAdapter::LoadUrl(String^ address)
 
 void ManagedCefBrowserAdapter::OnAfterBrowserCreated(int browserId)
 {
-    _wcfEnabled = Cef::WcfEnabled;
-
-    if (_wcfEnabled)
+    if (CefSharpSettings::WcfEnabled)
     {
         _browserProcessServiceHost = gcnew BrowserProcessServiceHost(_javaScriptObjectRepository, Process::GetCurrentProcess()->Id, browserId);
         //NOTE: Attempt to solve timing issue where browser is opened and rapidly disposed. In some cases a call to Open throws
@@ -56,7 +54,7 @@ void ManagedCefBrowserAdapter::OnAfterBrowserCreated(int browserId)
     auto browser = _clientAdapter->GetCefBrowser();
     if (browser != nullptr)
     {
-        _browserWrapper = gcnew CefSharpBrowserWrapper(browser, this);
+        _browserWrapper = gcnew CefSharpBrowserWrapper(browser);
     }
 
     if (_webBrowserInternal != nullptr)
@@ -284,50 +282,6 @@ void ManagedCefBrowserAdapter::OnMouseWheel(int x, int y, int deltaX, int deltaY
     }
 }
 
-Task<JavascriptResponse^>^ ManagedCefBrowserAdapter::EvaluateScriptAsync(int browserId, Int64 frameId, String^ script, Nullable<TimeSpan> timeout)
-{
-    if (timeout.HasValue && timeout.Value.TotalMilliseconds > UInt32::MaxValue)
-    {
-        throw gcnew ArgumentOutOfRangeException("timeout", "Timeout greater than Maximum allowable value of " + UInt32::MaxValue);
-    }
-
-    if (!_wcfEnabled)
-    {
-        throw gcnew InvalidOperationException("To wait for javascript code set WcfEnabled true in CefSettings during initialization.");
-    }
-
-    return _browserProcessServiceHost->EvaluateScriptAsync(browserId, frameId, script, timeout);
-}
-
-Task<JavascriptResponse^>^ ManagedCefBrowserAdapter::EvaluateScriptAsync(String^ script, Nullable<TimeSpan> timeout)
-{
-    if (timeout.HasValue && timeout.Value.TotalMilliseconds > UInt32::MaxValue)
-    {
-        throw gcnew ArgumentOutOfRangeException("timeout", "Timeout greater than Maximum allowable value of " + UInt32::MaxValue);
-    }
-
-    if (!_wcfEnabled)
-    {
-        throw gcnew InvalidOperationException("To wait for javascript code set WcfEnabled true in CefSettings during initialization.");
-    }
-
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (_browserProcessServiceHost == nullptr || browser == nullptr)
-    {
-        return nullptr;
-    }
-
-    auto frame = browser->GetMainFrame();
-
-    if (frame == nullptr)
-    {
-        return nullptr;
-    }
-
-    return _browserProcessServiceHost->EvaluateScriptAsync(browser->GetIdentifier(), frame->GetIdentifier(), script, timeout);
-}
-
 void ManagedCefBrowserAdapter::CreateBrowser(BrowserSettings^ browserSettings, IntPtr sourceHandle, String^ address)
 {
     HWND hwnd = static_cast<HWND>(sourceHandle.ToPointer());
@@ -381,7 +335,7 @@ void ManagedCefBrowserAdapter::NotifyScreenInfoChanged()
 
 void ManagedCefBrowserAdapter::RegisterJsObject(String^ name, Object^ object, bool lowerCaseJavascriptNames)
 {
-    if (!_wcfEnabled)
+    if (!CefSharpSettings::WcfEnabled)
     {
         throw gcnew InvalidOperationException("To enable synchronous JS bindings set WcfEnabled true in CefSettings during initialization.");
     }
@@ -505,7 +459,7 @@ IFrame^ ManagedCefBrowserAdapter::GetMainFrame()
     {
         return nullptr;
     }
-    return gcnew CefFrameWrapper(browser->GetMainFrame(), this);
+    return gcnew CefFrameWrapper(browser->GetMainFrame());
 }
 
 ///
@@ -520,7 +474,7 @@ IFrame^ ManagedCefBrowserAdapter::GetFocusedFrame()
         return nullptr;
     }
 
-    return gcnew CefFrameWrapper(browser->GetFocusedFrame(), this);
+    return gcnew CefFrameWrapper(browser->GetFocusedFrame());
 }
 
 ///
@@ -540,7 +494,7 @@ IFrame^ ManagedCefBrowserAdapter::GetFrame(System::Int64 identifier)
         return nullptr;
     }
     
-    return gcnew CefFrameWrapper(result, this);
+    return gcnew CefFrameWrapper(result);
 }
 
 ///
@@ -560,7 +514,7 @@ IFrame^ ManagedCefBrowserAdapter::GetFrame(String^ name)
         return nullptr;
     }
     
-    return gcnew CefFrameWrapper(result, this);
+    return gcnew CefFrameWrapper(result);
 }
 
 /// <summary>
@@ -570,4 +524,14 @@ IFrame^ ManagedCefBrowserAdapter::GetFrame(String^ name)
 IBrowser^ ManagedCefBrowserAdapter::GetBrowser()
 {
     return _browserWrapper;
+}
+
+IJavascriptCallbackFactory^ ManagedCefBrowserAdapter::JavascriptCallbackFactory::get()
+{
+    IJavascriptCallbackFactory^ result = nullptr;
+    if (_browserProcessServiceHost != nullptr)
+    {
+        result = _browserProcessServiceHost->JavascriptCallbackFactory;
+    }
+    return result;
 }

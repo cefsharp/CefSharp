@@ -15,6 +15,7 @@ namespace CefSharp.Internals
     {
         private const long OneHundredAndTwentyEightMegaBytesInBytes = 128*1024*1024;
 
+        public IJavascriptCallbackFactory JavascriptCallbackFactory { get; private set; }
         public JavascriptObjectRepository JavascriptObjectRepository { get; private set; }
         private TaskCompletionSource<OperationContext> operationContextTaskCompletionSource = new TaskCompletionSource<OperationContext>();
 
@@ -22,6 +23,7 @@ namespace CefSharp.Internals
             : base(typeof(BrowserProcessService), new Uri[0])
         {
             JavascriptObjectRepository = javascriptObjectRepository;
+            JavascriptCallbackFactory = new JavascriptCallbackFactory(new WeakReference(this));
 
             var serviceName = RenderprocessClientFactory.GetServiceName(parentProcessId, browserId);
 
@@ -47,20 +49,6 @@ namespace CefSharp.Internals
             }
                 
             operationContextTaskCompletionSource.SetResult(operationContext);
-        }
-
-        public Task<JavascriptResponse> EvaluateScriptAsync(int browserId, long frameId, string script, TimeSpan? timeout)
-        {
-            var operationContextTask = operationContextTaskCompletionSource.Task;
-            // Use TaskScheduler.Default to ensure that the work occurs
-            // on a background thread.
-            return operationContextTask.ContinueWith(t =>
-            {
-                var context = t.Result;
-                var renderProcess = context.GetCallbackChannel<IRenderProcess>();
-                var asyncResult = renderProcess.BeginEvaluateScriptAsync(browserId, frameId, script, timeout, null, null);
-                return Task.Factory.FromAsync<JavascriptResponse>(asyncResult, renderProcess.EndEvaluateScriptAsync);
-            }, TaskScheduler.Default).Unwrap();
         }
 
         protected override void OnClose(TimeSpan timeout)
