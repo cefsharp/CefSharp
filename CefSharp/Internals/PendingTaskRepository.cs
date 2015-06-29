@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CefSharp.Internals.Messaging
+namespace CefSharp.Internals
 {
     /// <summary>
     /// Class to store TaskCompletionSources indexed by a unique id.
