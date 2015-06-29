@@ -7,13 +7,13 @@
 #include "../Serialization/Primitives.h"
 #include "../Serialization/V8Serialization.h"
 #include "EvaluateScriptDoneDelegate.h"
+
+using namespace CefSharp::Internals::Serialization;
     
 namespace CefSharp
 {
     namespace Internals
     {
-        using namespace Serialization;
-
         namespace Messaging
         {
             EvaluateScriptDoneDelegate::EvaluateScriptDoneDelegate(PendingTaskRepository<JavascriptResponse^>^ pendingTasks, Dictionary<int, IJavascriptCallbackFactory^>^ callbackFactories)
