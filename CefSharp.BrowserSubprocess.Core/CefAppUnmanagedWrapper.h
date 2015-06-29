@@ -32,7 +32,6 @@ namespace CefSharp
         gcroot<Dictionary<int, CefBrowserWrapper^>^> _browserWrappers;
 
         CefBrowserWrapper^ FindBrowserWrapper(int browserId, bool mustExist);
-        CefBrowserWrapper^ FindBrowserWrapper(CefRefPtr<CefBrowser> browser, bool mustExist);
     public:
         
         CefAppUnmanagedWrapper(Action<CefBrowserWrapper^>^ onBrowserCreated, Action<CefBrowserWrapper^>^ onBrowserDestoryed)

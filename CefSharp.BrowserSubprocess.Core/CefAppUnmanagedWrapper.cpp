@@ -32,7 +32,7 @@ namespace CefSharp
 
     void CefAppUnmanagedWrapper::OnBrowserDestroyed(CefRefPtr<CefBrowser> browser)
     {
-        auto wrapper = FindBrowserWrapper(browser, false);
+        auto wrapper = FindBrowserWrapper(browser->GetIdentifier(), false);
 
         if (wrapper != nullptr)
         {
@@ -44,7 +44,7 @@ namespace CefSharp
 
     void CefAppUnmanagedWrapper::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
     {
-        auto wrapper = FindBrowserWrapper(browser, true);
+        auto wrapper = FindBrowserWrapper(browser->GetIdentifier(), true);
 
         if (wrapper->JavascriptRootObject != nullptr)
         {
@@ -59,19 +59,13 @@ namespace CefSharp
 
     void CefAppUnmanagedWrapper::OnContextReleased(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
     { 
-        auto wrapper = FindBrowserWrapper(browser, true);
+        auto wrapper = FindBrowserWrapper(browser->GetIdentifier(), true);
 
         if (wrapper->JavascriptRootObjectWrapper != nullptr)
         {
             delete wrapper->JavascriptRootObjectWrapper;
             wrapper->JavascriptRootObjectWrapper = nullptr;
         }
-    };
-
-    CefBrowserWrapper^ CefAppUnmanagedWrapper::FindBrowserWrapper(CefRefPtr<CefBrowser> browser, bool mustExist)
-    {
-        auto browserId = browser->GetIdentifier();
-        return FindBrowserWrapper(browserId, mustExist);
     };
 
     CefBrowserWrapper^ CefAppUnmanagedWrapper::FindBrowserWrapper(int browserId, bool mustExist)
