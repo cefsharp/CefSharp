@@ -52,38 +52,28 @@ namespace CefSharp
                     IJavascriptCallbackFactory^ callbackFactory;
                     _callbackFactories->TryGetValue(browser->GetIdentifier(), callbackFactory);
 
-                    FinishTask(callbackId, success, argList, callbackFactory);
+                    auto pendingTask = _pendingTasks->RemovePendingTask(callbackId);
+                    if (pendingTask != nullptr)
+                    {
+                        auto response = gcnew JavascriptResponse();
+                        response->Success = success;
+
+                        if (success)
+                        {
+                            response->Result = DeserializeV8Object(argList, 2, callbackFactory);
+                        }
+                        else
+                        {
+                            response->Message = StringUtils::ToClr(argList->GetString(2));
+                        }
+
+                        pendingTask->SetResult(response);
+                    }
 
                     handled = true;
                 }
 
                 return handled;
-            }
-
-            void EvaluateScriptDoneDelegate::FinishTask(int64 callbackId, bool success, CefRefPtr<CefListValue> message, IJavascriptCallbackFactory^ callbackFactory)
-            {
-                auto pendingTask = _pendingTasks->RemovePendingTask(callbackId);
-                if (pendingTask != nullptr)
-                {
-                    pendingTask->SetResult(CreateResponse(success, message, callbackFactory));
-                }
-            }
-
-            JavascriptResponse^ EvaluateScriptDoneDelegate::CreateResponse(bool success, CefRefPtr<CefListValue> message, IJavascriptCallbackFactory^ callbackFactory)
-            {
-                auto result = gcnew JavascriptResponse();
-                result->Success = success;
-
-                if (success)
-                {
-                    result->Result = DeserializeV8Object(message, 2, callbackFactory);
-                }
-                else
-                {
-                    result->Message = StringUtils::ToClr(message->GetString(2));
-                }
-
-                return result;
             }
         }
     }
