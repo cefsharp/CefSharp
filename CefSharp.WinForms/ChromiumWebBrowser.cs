@@ -157,6 +157,8 @@ namespace CefSharp.WinForms
 
         public void SendMouseWheelEvent(int x, int y, int deltaX, int deltaY)
         {
+            this.ThrowExceptionIfBrowserNotInitialized();
+
             managedCefBrowserAdapter.OnMouseWheel(x, y, deltaX, deltaY);
         }
 
@@ -317,10 +319,9 @@ namespace CefSharp.WinForms
 
         public void NotifyMoveOrResizeStarted()
         {
-            if (IsBrowserInitialized)
-            {
-                managedCefBrowserAdapter.NotifyMoveOrResizeStarted();
-            }
+            this.ThrowExceptionIfBrowserNotInitialized();
+
+            managedCefBrowserAdapter.NotifyMoveOrResizeStarted();
         }
 
         protected override void OnGotFocus(EventArgs e)
@@ -334,25 +335,26 @@ namespace CefSharp.WinForms
         /// </summary>
         public void SetFocus(bool isFocused)
         {
-            if (IsBrowserInitialized)
-            {
-                managedCefBrowserAdapter.SetFocus(isFocused);
-            }
+            this.ThrowExceptionIfBrowserNotInitialized();
+
+            managedCefBrowserAdapter.SetFocus(isFocused);
         }
 
         public IFrame GetMainFrame()
         {
-            return IsBrowserInitialized ? managedCefBrowserAdapter.GetMainFrame() : null;
+            this.ThrowExceptionIfBrowserNotInitialized();
+
+            return managedCefBrowserAdapter.GetMainFrame();
         }
 
         public IFrame GetFocusedFrame()
         {
-            return IsBrowserInitialized ? managedCefBrowserAdapter.GetFocusedFrame() : null;
+            return managedCefBrowserAdapter.GetFocusedFrame();
         }
 
         public IBrowser GetBrowser()
         {
-            return IsBrowserInitialized ? managedCefBrowserAdapter.GetBrowser() : null;
+            return managedCefBrowserAdapter.GetBrowser();
         }
     }
 }
