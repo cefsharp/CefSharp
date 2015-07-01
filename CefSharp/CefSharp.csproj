@@ -127,6 +127,7 @@
     <Compile Include="IResourceHandler.cs" />
     <Compile Include="IResourceHandlerFactory.cs" />
     <Compile Include="IResponse.cs" />
+    <Compile Include="IWindowInfo.cs" />
     <Compile Include="MouseEvent.cs" />
     <Compile Include="DragOperationsMask.cs" />
     <Compile Include="IBitmapFactory.cs" />
