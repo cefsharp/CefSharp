@@ -231,13 +231,7 @@ namespace CefSharp.OffScreen
         {
             Address = url;
 
-            var frame = GetMainFrame();
-            if (frame == null)
-            {
-                throw new Exception("IFrame instance is null. Browser has likely not finished initializing or is in the process of disposing.");
-            }
-
-            frame.LoadUrl(url);
+            this.GetMainFrame().LoadUrl(url);
         }
 
         public void RegisterJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true)
@@ -253,20 +247,6 @@ namespace CefSharp.OffScreen
         {
             // no control to focus for offscreen browser
             return false;
-        }
-
-        public IFrame GetMainFrame()
-        {
-            this.ThrowExceptionIfBrowserNotInitialized();
-
-            return managedCefBrowserAdapter.GetMainFrame();
-        }
-
-        public IFrame GetFocusedFrame()
-        {
-            this.ThrowExceptionIfBrowserNotInitialized();
-
-            return managedCefBrowserAdapter.GetFocusedFrame();
         }
 
         public IBrowser GetBrowser()

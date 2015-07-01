@@ -182,18 +182,6 @@ namespace CefSharp
         bool Focus();
 
         /// <summary>
-        /// Returns the main (top-level) frame for the browser window.
-        /// </summary>
-        /// <returns>Frame</returns>
-        IFrame GetMainFrame();
-
-        /// <summary>
-        /// Returns the focused frame for the browser window.
-        /// </summary>
-        /// <returns>Frame</returns>
-        IFrame GetFocusedFrame();
-
-        /// <summary>
         /// Returns the current CEF Browser Instance
         /// </summary>
         /// <returns>browser instance or null</returns>

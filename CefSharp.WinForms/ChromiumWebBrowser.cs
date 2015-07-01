@@ -142,7 +142,7 @@ namespace CefSharp.WinForms
         {
             if (IsBrowserInitialized)
             {
-                GetMainFrame().LoadUrl(url);
+                this.GetMainFrame().LoadUrl(url);
             }
             else
             {
@@ -331,18 +331,6 @@ namespace CefSharp.WinForms
             this.ThrowExceptionIfBrowserNotInitialized();
 
             managedCefBrowserAdapter.SetFocus(isFocused);
-        }
-
-        public IFrame GetMainFrame()
-        {
-            this.ThrowExceptionIfBrowserNotInitialized();
-
-            return managedCefBrowserAdapter.GetMainFrame();
-        }
-
-        public IFrame GetFocusedFrame()
-        {
-            return managedCefBrowserAdapter.GetFocusedFrame();
         }
 
         public IBrowser GetBrowser()

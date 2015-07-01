@@ -11,6 +11,32 @@ namespace CefSharp
     public static class WebBrowserExtensions
     {
         /// <summary>
+        /// Returns the main (top-level) frame for the browser window.
+        /// </summary>
+        /// <returns>Frame</returns>
+        public static IFrame GetMainFrame(this IWebBrowser webBrowser)
+        {
+            var browser = webBrowser.GetBrowser();
+
+            ThrowExceptionIfBrowserNull(browser);
+
+            return browser.MainFrame;
+        }
+
+        /// <summary>
+        /// Returns the focused frame for the browser window.
+        /// </summary>
+        /// <returns>Frame</returns>
+        public static IFrame GetFocusedFrame(this IWebBrowser webBrowser)
+        {
+            var browser = webBrowser.GetBrowser();
+
+            ThrowExceptionIfBrowserNull(browser);
+
+            return browser.FocusedFrame;
+        }
+
+        /// <summary>
         /// Execute Undo on the focused frame
         /// </summary>
         /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>

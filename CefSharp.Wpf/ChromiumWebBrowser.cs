@@ -1256,7 +1256,7 @@ namespace CefSharp.Wpf
                     Dispatcher
                     );
 
-                GetMainFrame().LoadUrl(url);
+                this.GetMainFrame().LoadUrl(url);
             }
         }
 
@@ -1328,16 +1328,6 @@ namespace CefSharp.Wpf
         public bool SendKeyEvent(int message, int wParam, int lParam)
         {
             return managedCefBrowserAdapter.SendKeyEvent(message, wParam, lParam);
-        }
-
-        public IFrame GetMainFrame()
-        {
-            return managedCefBrowserAdapter == null ? null : managedCefBrowserAdapter.GetMainFrame();
-        }
-
-        public IFrame GetFocusedFrame()
-        {
-            return managedCefBrowserAdapter == null ? null : managedCefBrowserAdapter.GetFocusedFrame();
         }
 
         public IBrowser GetBrowser()

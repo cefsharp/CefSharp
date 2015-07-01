@@ -114,47 +114,6 @@ namespace CefSharp
         void OnDragTargetDragLeave();
         void OnDragTargetDragDrop(MouseEvent^ mouseEvent);
 
-        ///
-        // Returns the main (top-level) frame for the browser window.
-        ///
-        IFrame^ GetMainFrame();
-
-        ///
-        // Returns the focused frame for the browser window.
-        ///
-        /*--cef()--*/
-        IFrame^ GetFocusedFrame();
-
-        ///
-        // Returns the frame with the specified identifier, or NULL if not found.
-        ///
-        /*--cef(capi_name=get_frame_byident)--*/
-        IFrame^ GetFrame(System::Int64 identifier);
-
-        ///
-        // Returns the frame with the specified name, or NULL if not found.
-        ///
-        /*--cef(optional_param=name)--*/
-        IFrame^ GetFrame(String^ name);
-
-        ///
-        // Returns the number of frames that currently exist.
-        ///
-        /*--cef()--*/
-        int GetFrameCount();
-
-        ///
-        // Returns the identifiers of all existing frames.
-        ///
-        /*--cef(count_func=identifiers:GetFrameCount)--*/
-        List<System::Int64>^ GetFrameIdentifiers();
-
-        ///
-        // Returns the names of all existing frames.
-        ///
-        /*--cef()--*/
-        List<String^>^ GetFrameNames();
-
         /// <summary>
         /// Gets the CefBrowserWrapper instance
         /// </summary>
