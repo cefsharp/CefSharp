@@ -24,5 +24,14 @@ namespace CefSharp
 
         void Find(int identifier, string searchText, bool forward, bool matchCase, bool findNext);
         void StopFinding(bool clearSelection);
+
+        /// <summary>
+        /// Send a mouse wheel event to the browser.
+        /// </summary>
+        /// <param name="x">X-Axis coordinate relative to the upper-left corner of the view.</param>
+        /// <param name="y">Y-Axis coordinate relative to the upper-left corner of the view.</param>
+        /// <param name="deltaX">Movement delta for X direction.</param>
+        /// <param name="deltaY">movement delta for Y direction.</param>
+        void SendMouseWheelEvent(int x, int y, int deltaX, int deltaY);
     }
 }

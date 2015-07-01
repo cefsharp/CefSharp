@@ -538,6 +538,22 @@ namespace CefSharp
             cefBrowser.AddWordToDictionary(word);
         }
 
+        public static void SendMouseWheelEvent(this IWebBrowser browser, int x, int y, int deltaX, int deltaY)
+        {
+            var cefBrowser = browser.GetBrowser();
+            ThrowExceptionIfBrowserNull(cefBrowser);
+
+            cefBrowser.SendMouseWheelEvent(x, y, deltaX, deltaY);
+        }
+
+        public static void SendMouseWheelEvent(this IBrowser browser, int x, int y, int deltaX, int deltaY)
+        {
+            var host = browser.GetHost();
+            ThrowExceptionIfBrowserHostNull(host);
+
+            host.SendMouseWheelEvent(x, y, deltaX, deltaY);
+        }
+
         public static Task<JavascriptResponse> EvaluateScriptAsync(this IWebBrowser browser, string script, TimeSpan? timeout = null)
         {
             if (timeout.HasValue && timeout.Value.TotalMilliseconds > UInt32.MaxValue)

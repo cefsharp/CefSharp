@@ -1173,20 +1173,17 @@ namespace CefSharp.Wpf
         {
             var point = GetPixelPosition(e);
 
-            if (managedCefBrowserAdapter != null)
+            var browser = GetBrowser();
+
+            if (browser != null)
             {
-                managedCefBrowserAdapter.OnMouseWheel(
+                browser.SendMouseWheelEvent(
                     (int)point.X,
                     (int)point.Y,
                     deltaX: 0,
                     deltaY: e.Delta
                     );
             }
-        }
-
-        public void SendMouseWheelEvent(int x, int y, int deltaX, int deltaY)
-        {
-            managedCefBrowserAdapter.OnMouseWheel(x, y, deltaX, deltaY);
         }
 
         protected void PopupMouseEnter(object sender, MouseEventArgs e)

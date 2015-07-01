@@ -88,3 +88,15 @@ double CefBrowserHostWrapper::GetZoomLevelOnUI()
 
     return 0.0;	
 }
+
+void CefBrowserHostWrapper::SendMouseWheelEvent(int x, int y, int deltaX, int deltaY)
+{
+    if (_browserHost.get())
+    {
+        CefMouseEvent mouseEvent;
+        mouseEvent.x = x;
+        mouseEvent.y = y;
+
+        _browserHost->SendMouseWheelEvent(mouseEvent, deltaX, deltaY);
+    }
+}

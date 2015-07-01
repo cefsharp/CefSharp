@@ -255,13 +255,6 @@ namespace CefSharp.OffScreen
             return false;
         }
 
-        public void SendMouseWheelEvent(int x, int y, int deltaX, int deltaY)
-        {
-            this.ThrowExceptionIfBrowserNotInitialized();
-
-            managedCefBrowserAdapter.OnMouseWheel(x, y, deltaX, deltaY);
-        }
-
         public IFrame GetMainFrame()
         {
             this.ThrowExceptionIfBrowserNotInitialized();

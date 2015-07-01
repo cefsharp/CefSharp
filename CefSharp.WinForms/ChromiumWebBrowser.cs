@@ -155,13 +155,6 @@ namespace CefSharp.WinForms
             managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, camelCaseJavascriptNames);
         }
 
-        public void SendMouseWheelEvent(int x, int y, int deltaX, int deltaY)
-        {
-            this.ThrowExceptionIfBrowserNotInitialized();
-
-            managedCefBrowserAdapter.OnMouseWheel(x, y, deltaX, deltaY);
-        }
-
         protected override void OnHandleCreated(EventArgs e)
         {
             managedCefBrowserAdapter.CreateBrowser(BrowserSettings, Handle, Address);

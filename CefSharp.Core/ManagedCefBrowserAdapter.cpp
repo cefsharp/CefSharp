@@ -258,20 +258,6 @@ void ManagedCefBrowserAdapter::OnMouseButton(int x, int y, int mouseButtonType, 
     }
 }
 
-void ManagedCefBrowserAdapter::OnMouseWheel(int x, int y, int deltaX, int deltaY)
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        CefMouseEvent mouseEvent;
-        mouseEvent.x = x;
-        mouseEvent.y = y;
-
-        browser->GetHost()->SendMouseWheelEvent(mouseEvent, deltaX, deltaY);
-    }
-}
-
 void ManagedCefBrowserAdapter::CreateBrowser(BrowserSettings^ browserSettings, IntPtr sourceHandle, String^ address)
 {
     HWND hwnd = static_cast<HWND>(sourceHandle.ToPointer());
