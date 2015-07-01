@@ -335,6 +335,8 @@ namespace CefSharp.WinForms
 
         public IBrowser GetBrowser()
         {
+            this.ThrowExceptionIfBrowserNotInitialized();
+
             return managedCefBrowserAdapter.GetBrowser();
         }
     }
