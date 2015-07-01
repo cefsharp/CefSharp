@@ -553,6 +553,15 @@ namespace CefSharp
             }
         }
 
+        public static void ThrowExceptionIfBrowserNotInitialized(this IWebBrowser browser)
+        {
+            if (!browser.IsBrowserInitialized)
+            {
+                throw new Exception("Browser Is Not yet initialized. Use the IsBrowserInitializedChanged event and check" +
+                                    "the IsBrowserInitialized property to determine when the browser has been intialized.");
+            }
+        }
+
         private static void ThrowExceptionIfFrameNull(IFrame frame)
         {
             if (frame == null)
