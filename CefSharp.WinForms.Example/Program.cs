@@ -9,11 +9,19 @@ using CefSharp.WinForms.Example.Minimal;
 
 namespace CefSharp.WinForms.Example
 {
-    class Program
+    public class Program
     {
         [STAThread]
-        static void Main()
+        public static void Main()
         {
+#if DEBUG
+            if (!System.Diagnostics.Debugger.IsAttached)
+            {
+                MessageBox.Show("When running this Example outside of Visual Studio" +
+                                "please make sure you compile in `Release` mode.", "Warning");
+            }
+#endif
+
             CefExample.Init();
 
             var browser = new BrowserForm();
