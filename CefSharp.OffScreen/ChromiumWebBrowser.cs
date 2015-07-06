@@ -236,6 +236,11 @@ namespace CefSharp.OffScreen
 
         public void RegisterJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true)
         {
+            if (IsBrowserInitialized)
+            {
+                throw new Exception("Browser is already initialized. RegisterJsObject must be" +
+                                    "called before the underlying CEF browser is created.");
+            }
             managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, camelCaseJavascriptNames);
         }
 
