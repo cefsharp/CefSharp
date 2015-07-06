@@ -11,6 +11,13 @@ namespace CefSharp.Wpf.Example
     {
         private App()
         {
+#if DEBUG
+            if (!System.Diagnostics.Debugger.IsAttached)
+            {
+                MessageBox.Show("When running this Example outside of Visual Studio" +
+                                "please make sure you compile in `Release` mode.", "Warning");
+            }
+#endif
             CefExample.Init();
         }
     }
