@@ -1217,6 +1217,8 @@ namespace CefSharp.Wpf
             if (managedCefBrowserAdapter != null)
             {
                 managedCefBrowserAdapter.OnMouseMove(-1, -1, true, modifiers);
+
+                ((IWebBrowserInternal)this).SetTooltipText(null);
             }
         }
 

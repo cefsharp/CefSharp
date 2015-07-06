@@ -225,11 +225,6 @@ void ManagedCefBrowserAdapter::OnMouseMove(int x, int y, bool mouseLeave, CefEve
         mouseEvent.modifiers = (uint32)modifiers;
 
         browser->GetHost()->SendMouseMoveEvent(mouseEvent, mouseLeave);
-
-        if (mouseLeave == true)
-        {
-            _webBrowserInternal->SetTooltipText(nullptr);
-        }
     }
 }
 
