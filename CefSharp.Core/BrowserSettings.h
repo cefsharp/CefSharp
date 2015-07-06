@@ -11,6 +11,12 @@ using namespace CefSharp::Internals;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Browser initialization settings. Specify NULL or 0 to get the recommended
+    /// default values. The consequences of using custom values may not be well
+    /// tested. Many of these and other settings can also configured using command-
+    /// line switches.
+    /// </summary>
     public ref class BrowserSettings
     {
     internal:
@@ -87,133 +93,240 @@ namespace CefSharp
         {
             int get() { return _browserSettings->minimum_logical_font_size; }
             void set(int value) { _browserSettings->minimum_logical_font_size = value; }
-        }
+        }        
 
-        property CefState RemoteFonts
-        {
-            CefState get() { return (CefState)_browserSettings->remote_fonts; }
-            void set(CefState value) { _browserSettings->remote_fonts = (cef_state_t)value; }
-        }
-
+        /// <summary>
+        /// Default encoding for Web content. If empty "ISO-8859-1" will be used. Also
+        /// configurable using the "default-encoding" command-line switch.
+        /// </summary>
         property String^ DefaultEncoding
         {
             String^ get() { return StringUtils::ToClr(_browserSettings->default_encoding); }
             void set(String^ value) { StringUtils::AssignNativeFromClr(_browserSettings->default_encoding, value); }
         }
 
+        /// <summary>
+        /// Controls the loading of fonts from remote sources. Also configurable using
+        /// the "disable-remote-fonts" command-line switch.
+        /// </summary>
+        property CefState RemoteFonts
+        {
+            CefState get() { return (CefState)_browserSettings->remote_fonts; }
+            void set(CefState value) { _browserSettings->remote_fonts = (cef_state_t)value; }
+        }
+
+        /// <summary>
+        /// Controls whether JavaScript can be executed. Also configurable using the
+        /// "disable-javascript" command-line switch.
+        /// </summary>
         property CefState Javascript
         {
             CefState get() { return (CefState)_browserSettings->javascript; }
             void set(CefState value) { _browserSettings->javascript = (cef_state_t)value; }
         }
 
+        /// <summary>
+        /// Controls whether JavaScript can be used for opening windows. Also
+        /// configurable using the "disable-javascript-open-windows" command-line
+        /// switch.
+        /// </summary>
         property CefState JavascriptOpenWindows
         {
             CefState get() { return (CefState)_browserSettings->javascript_open_windows; }
             void set(CefState value) { _browserSettings->javascript_open_windows = (cef_state_t)value; }
         }
 
+        /// <summary>
+        /// Controls whether JavaScript can be used to close windows that were not
+        /// opened via JavaScript. JavaScript can still be used to close windows that
+        /// were opened via JavaScript. Also configurable using the
+        /// "disable-javascript-close-windows" command-line switch.
+        /// </summary>
         property CefState JavascriptCloseWindows
         {
             CefState get() { return (CefState)_browserSettings->javascript_close_windows; }
             void set(CefState value) { _browserSettings->javascript_close_windows = (cef_state_t)value; }
         }
 
+        /// <summary>
+        /// Controls whether JavaScript can access the clipboard. Also configurable
+        /// using the "disable-javascript-access-clipboard" command-line switch.
+        /// </summary>
         property CefState JavascriptAccessClipboard
         {
             CefState get() { return (CefState)_browserSettings->javascript_access_clipboard; }
             void set(CefState value) { _browserSettings->javascript_access_clipboard = (cef_state_t)value; }
         }
 
+        /// <summary>
+        /// Controls whether DOM pasting is supported in the editor via
+        /// execCommand("paste"). The |javascript_access_clipboard| setting must also
+        /// be enabled. Also configurable using the "disable-javascript-dom-paste"
+        /// command-line switch.
+        /// </summary>
         property CefState JavascriptDomPaste
         {
             CefState get() { return (CefState)_browserSettings->javascript_dom_paste; }
             void set(CefState value) { _browserSettings->javascript_dom_paste = (cef_state_t)value; }
         }
 
+        /// <summary>
+        /// Controls whether the caret position will be drawn. Also configurable using
+        /// the "enable-caret-browsing" command-line switch.
+        /// </summary>
         property CefState CaretBrowsing
         {
             CefState get() { return (CefState)_browserSettings->caret_browsing; }
             void set(CefState value) { _browserSettings->caret_browsing = (cef_state_t)value; }
         }
 
+        /// <summary>
+        /// Controls whether the Java plugin will be loaded. Also configurable using
+        /// the "disable-java" command-line switch.
+        /// </summary>
         property CefState Java
         {
             CefState get() { return (CefState)_browserSettings->java; }
             void set(CefState value) { _browserSettings->java = (cef_state_t)value; }
         } 
 
+        /// <summary>
+        /// Controls whether any plugins will be loaded. Also configurable using the
+        /// "disable-plugins" command-line switch.
+        /// </summary>
         property CefState Plugins
         {
             CefState get() { return (CefState)_browserSettings->plugins; }
             void set(CefState value) { _browserSettings->plugins = (cef_state_t)value; }
         }
 
+        /// <summary>
+        /// Controls whether file URLs will have access to all URLs. Also configurable
+        /// using the "allow-universal-access-from-files" command-line switch.
+        /// </summary>
         property CefState UniversalAccessFromFileUrls
         {
             CefState get() { return (CefState)_browserSettings->universal_access_from_file_urls; }
             void set(CefState value) { _browserSettings->universal_access_from_file_urls = (cef_state_t)value; }
         }
 
+        /// <summary>
+        /// Controls whether file URLs will have access to other file URLs. Also
+        /// configurable using the "allow-access-from-files" command-line switch.
+        /// </summary>
         property CefState FileAccessFromFileUrls
         {
             CefState get() { return (CefState)_browserSettings->file_access_from_file_urls; }
             void set(CefState value) { _browserSettings->file_access_from_file_urls = (cef_state_t)value; }
         }
 
+        /// <summary>
+        /// Controls whether web security restrictions (same-origin policy) will be
+        /// enforced. Disabling this setting is not recommend as it will allow risky
+        /// security behavior such as cross-site scripting (XSS). Also configurable
+        /// using the "disable-web-security" command-line switch.
+        /// </summary>
         property CefState WebSecurity
         {
             CefState get() { return (CefState)_browserSettings->web_security; }
             void set(CefState value) { _browserSettings->web_security = (cef_state_t)value; }
         }
 
+        /// <summary>
+        /// Controls whether image URLs will be loaded from the network. A cached image
+        /// will still be rendered if requested. Also configurable using the
+        /// "disable-image-loading" command-line switch.
+        /// </summary>
         property CefState ImageLoading
         {
             CefState get() { return (CefState)_browserSettings->image_loading; }
             void set(CefState value) { _browserSettings->image_loading = (cef_state_t)value; }
         }
 
+        /// <summary>
+        /// Controls whether standalone images will be shrunk to fit the page. Also
+        /// configurable using the "image-shrink-standalone-to-fit" command-line
+        /// switch.
+        /// </summary>
         property CefState ImageShrinkStandaloneToFit
         {
             CefState get() { return (CefState)_browserSettings->image_shrink_standalone_to_fit; }
             void set(CefState value) { _browserSettings->image_shrink_standalone_to_fit = (cef_state_t)value; }
         }
 
+        /// <summary>
+        /// Controls whether text areas can be resized. Also configurable using the
+        /// "disable-text-area-resize" command-line switch.
+        /// </summary>
         property CefState TextAreaResize
         {
             CefState get() { return (CefState)_browserSettings->text_area_resize; }
             void set(CefState value) { _browserSettings->text_area_resize = (cef_state_t)value; }
         }
 
+        /// <summary>
+        /// Controls whether the tab key can advance focus to links. Also configurable
+        /// using the "disable-tab-to-links" command-line switch.
+        /// </summary>
         property CefState TabToLinks
         {
             CefState get() { return (CefState)_browserSettings->tab_to_links; }
             void set(CefState value) { _browserSettings->tab_to_links = (cef_state_t)value; }
         }
 
+        /// <summary>
+        /// Controls whether local storage can be used. Also configurable using the
+        /// "disable-local-storage" command-line switch.
+        /// </summary>
         property CefState LocalStorage
         {
             CefState get() { return (CefState)_browserSettings->local_storage; }
             void set(CefState value) { _browserSettings->local_storage = (cef_state_t)value; }
         }
 
+        /// <summary>
+        /// Controls whether databases can be used. Also configurable using the
+        /// "disable-databases" command-line switch.
+        /// </summary>
         property CefState Databases
         {
             CefState get() { return (CefState)_browserSettings->databases; }
             void set(CefState value) { _browserSettings->databases = (cef_state_t)value; }
         }
 
+        /// <summary>
+        /// Controls whether the application cache can be used. Also configurable using
+        /// the "disable-application-cache" command-line switch.
+        /// </summary>
         property CefState ApplicationCache
         {
             CefState get() { return (CefState)_browserSettings->application_cache; }
             void set(CefState value) { _browserSettings->application_cache = (cef_state_t)value; }
         }
 
+        /// <summary>
+        /// Controls whether WebGL can be used. Note that WebGL requires hardware
+        /// support and may not work on all systems even when enabled. Also
+        /// configurable using the "disable-webgl" command-line switch.
+        /// </summary>
         property CefState WebGl
         {
             CefState get() { return (CefState)_browserSettings->webgl; }
             void set(CefState value) { _browserSettings->webgl = (cef_state_t)value; }
         }
+        
+        /// <summary>
+        /// Opaque background color used for the browser before a document is loaded
+        /// and when no document color is specified. By default the background color
+        /// will be the same as CefSettings.background_color. Only the RGB compontents
+        /// of the specified value will be used. The alpha component must greater than
+        /// 0 to enable use of the background color but will be otherwise ignored.
+        /// </summary>
+        property uint32 BackgroundColor
+        {
+            uint32 get() { return _browserSettings->background_color; }
+            void set(uint32 value) { _browserSettings->background_color = value; }
+        }		
 
         property Nullable<bool> OffScreenTransparentBackground;
     };
