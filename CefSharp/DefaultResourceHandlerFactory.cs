@@ -3,27 +3,34 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 
 namespace CefSharp
 {
     public class DefaultResourceHandlerFactory : IResourceHandlerFactory
     {
-        public Dictionary<string, IResourceHandler> Handlers { get; private set; }
+        public ConcurrentDictionary<string, IResourceHandler> Handlers { get; private set; }
 
         public DefaultResourceHandlerFactory(IEqualityComparer<string> comparer = null)
         {
-            Handlers = new Dictionary<string, IResourceHandler>(comparer ?? StringComparer.OrdinalIgnoreCase);
+            Handlers = new ConcurrentDictionary<string, IResourceHandler>(comparer ?? StringComparer.OrdinalIgnoreCase);
         }
 
-        public virtual void RegisterHandler(string url, IResourceHandler handler)
+        public virtual bool RegisterHandler(string url, IResourceHandler handler)
         {
-            Handlers[url] = handler;
+            Uri uri;
+            if (Uri.TryCreate(url, UriKind.Absolute, out uri) || Uri.TryCreate("http://" + url, UriKind.Absolute, out uri))
+            {
+                Handlers.AddOrUpdate(uri.ToString(), handler, (k, v) => handler);
+                return true;
+            }
+                return false;
         }
 
-        public virtual void UnregisterHandler(string url)
+        public virtual bool UnregisterHandler(string url)
         {
-            Handlers.Remove(url);
+            IResourceHandler handler;
+            return Handlers.TryRemove(url, out handler);
         }
 
         public bool HasHandlers
