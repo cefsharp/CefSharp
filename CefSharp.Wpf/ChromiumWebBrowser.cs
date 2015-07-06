@@ -1251,7 +1251,8 @@ namespace CefSharp.Wpf
         {
             // Added null check -> binding-triggered changes of Address will lead to a nullref after Dispose has been called
             // or before OnApplyTemplate has been called
-            if (managedCefBrowserAdapter != null && GetMainFrame() != null)
+            IFrame mainFrame = GetMainFrame();
+            if (mainFrame != null)
             {
                 if (tooltipTimer != null)
                 {
@@ -1266,7 +1267,7 @@ namespace CefSharp.Wpf
                     Dispatcher
                     );
 
-                GetMainFrame().LoadUrl(url);
+                mainFrame.LoadUrl(url);
             }
         }
 
