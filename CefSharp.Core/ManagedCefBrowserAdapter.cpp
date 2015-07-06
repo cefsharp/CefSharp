@@ -212,22 +212,6 @@ int ManagedCefBrowserAdapter::GetCefKeyboardModifiers(WPARAM wparam, LPARAM lpar
     return modifiers;
 }
 
-void ManagedCefBrowserAdapter::OnMouseMove(int x, int y, bool mouseLeave, CefEventFlags modifiers)
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        CefMouseEvent mouseEvent;
-        mouseEvent.x = x;
-        mouseEvent.y = y;
-
-        mouseEvent.modifiers = (uint32)modifiers;
-
-        browser->GetHost()->SendMouseMoveEvent(mouseEvent, mouseLeave);
-    }
-}
-
 void ManagedCefBrowserAdapter::CreateBrowser(BrowserSettings^ browserSettings, IntPtr sourceHandle, String^ address)
 {
     HWND hwnd = static_cast<HWND>(sourceHandle.ToPointer());

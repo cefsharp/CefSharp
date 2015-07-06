@@ -42,14 +42,23 @@ namespace CefSharp
         void Invalidate(PaintElementType type);
 
         /// <summary>
-        /// Send a mouse click event to the browser. The |x| and |y| coordinates are relative to the upper-left corner of the view. 
+        /// Send a mouse click event to the browser.
         /// </summary>
-        /// <param name="x">x</param>
-        /// <param name="y">y</param>
+        /// <param name="x">x coordinate - relative to upper-left corner of view</param>
+        /// <param name="y">y coordinate - relative to upper-left corner of view</param>
         /// <param name="mouseButtonType">Mouse ButtonType</param>
         /// <param name="mouseUp">mouse up</param>
         /// <param name="clickCount">click count</param>
         /// <param name="modifiers">click modifiers e.g. Ctrl</param>
         void SendMouseClickEvent(int x, int y, MouseButtonType mouseButtonType, bool mouseUp, int clickCount, CefEventFlags modifiers);
+
+        /// <summary>
+        /// Send a mouse move event to the browser
+        /// </summary>
+        /// <param name="x">x coordinate - relative to upper-left corner of view</param>
+        /// <param name="y">y coordinate - relative to upper-left corner of view</param>
+        /// <param name="mouseLeave">mouse leave</param>
+        /// <param name="modifiers">click modifiers .e.g Ctrl</param>
+        void SendMouseMoveEvent(int x, int y, bool mouseLeave, CefEventFlags modifiers);
     }
 }

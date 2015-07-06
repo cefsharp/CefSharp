@@ -1160,12 +1160,14 @@ namespace CefSharp.Wpf
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
-            var point = GetPixelPosition(e);
-            var modifiers = GetModifiers(e);
+            var browser = GetBrowser();
 
-            if (managedCefBrowserAdapter != null)
+            if (browser != null)
             {
-                managedCefBrowserAdapter.OnMouseMove((int)point.X, (int)point.Y, false, modifiers);
+                var point = GetPixelPosition(e);
+                var modifiers = GetModifiers(e);
+
+                browser.GetHost().SendMouseMoveEvent((int)point.X, (int)point.Y, false, modifiers);
             }
         }
 
@@ -1212,11 +1214,13 @@ namespace CefSharp.Wpf
 
         protected override void OnMouseLeave(MouseEventArgs e)
         {
-            var modifiers = GetModifiers(e);
+            var browser = GetBrowser();
 
-            if (managedCefBrowserAdapter != null)
+            if (browser != null)
             {
-                managedCefBrowserAdapter.OnMouseMove(-1, -1, true, modifiers);
+                var modifiers = GetModifiers(e);
+
+                browser.GetHost().SendMouseMoveEvent(-1, -1, true, modifiers);
 
                 ((IWebBrowserInternal)this).SetTooltipText(null);
             }

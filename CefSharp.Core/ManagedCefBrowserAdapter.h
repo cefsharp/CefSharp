@@ -101,7 +101,6 @@ namespace CefSharp
         void SendFocusEvent(bool isFocused);
         void SetFocus(bool isFocused);
         bool SendKeyEvent(int message, int wParam, int lParam);
-        void OnMouseMove(int x, int y, bool mouseLeave, CefEventFlags modifiers);
         void Resize(int width, int height);
         void NotifyMoveOrResizeStarted();
         void NotifyScreenInfoChanged();

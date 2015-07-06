@@ -54,6 +54,8 @@ namespace CefSharp
             virtual void Invalidate(PaintElementType type);
 
             virtual void SendMouseClickEvent(int x, int y, MouseButtonType mouseButtonType, bool mouseUp, int clickCount, CefEventFlags modifiers);
+
+            virtual void SendMouseMoveEvent(int x, int y, bool mouseLeave, CefEventFlags modifiers);
         };
     }
 }

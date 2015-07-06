@@ -115,3 +115,14 @@ void CefBrowserHostWrapper::SendMouseClickEvent(int x, int y, MouseButtonType mo
 
     _browserHost->SendMouseClickEvent(mouseEvent, (CefBrowserHost::MouseButtonType) mouseButtonType, mouseUp, clickCount);
 }
+
+void CefBrowserHostWrapper::SendMouseMoveEvent(int x, int y, bool mouseLeave, CefEventFlags modifiers)
+{
+    CefMouseEvent mouseEvent;
+    mouseEvent.x = x;
+    mouseEvent.y = y;
+
+    mouseEvent.modifiers = (uint32)modifiers;
+
+    _browserHost->SendMouseMoveEvent(mouseEvent, mouseLeave);
+}
