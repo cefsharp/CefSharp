@@ -1,10 +1,8 @@
-﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+﻿// Copyright © 2010-2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CefSharp
 {
@@ -41,11 +39,11 @@ namespace CefSharp
         event EventHandler<LoadErrorEventArgs> LoadError;
 
         /// <summary>
-        /// Event handler that will get called when the Navigation state has changed (Maps to OnLoadingStateChange in Cef).
+        /// Event handler that will get called when the Loading state has changed.
         /// This event will be fired twice. Once when loading is initiated either programmatically or
         /// by user action, and once when loading is terminated due to completion, cancellation of failure. 
         /// </summary>
-        event EventHandler<NavStateChangedEventArgs> NavStateChanged;
+        event EventHandler<LoadingStateChangedEventArgs> LoadingStateChanged;
 
         /// <summary>
         /// Loads the specified URL.
@@ -54,55 +52,12 @@ namespace CefSharp
         void Load(string url);
 
         /// <summary>
-        /// Registers and loads a <see cref="ResourceHandler"/> that represents the HTML content.
-        /// </summary>
-        /// <remarks>
-        /// `Cef` Native `LoadHtml` is unpredictable and only works sometimes, this method wraps
-        /// the provided HTML in a <see cref="ResourceHandler"/> and loads the provided url using
-        /// the <see cref="Load"/> method.
-        /// Defaults to using <see cref="Encoding.UTF8"/> for character encoding 
-        /// The url must start with a valid schema, other uri's such as about:blank are invalid
-        /// A valid example looks like http://test/page
-        /// </remarks>
-        /// <param name="html">The HTML content.</param>
-        /// <param name="url">The URL that will be treated as the address of the content.</param>
-        void LoadHtml(string html, string url);
-
-        /// <summary>
-        /// Registers and loads a <see cref="ResourceHandler"/> that represents the HTML content.
-        /// </summary>
-        /// <remarks>
-        /// `Cef` Native `LoadHtml` is unpredictable and only works sometimes, this method wraps
-        /// the provided HTML in a <see cref="ResourceHandler"/> and loads the provided url using
-        /// the <see cref="Load"/> method.
-        /// </remarks>
-        /// <param name="html">The HTML content.</param>
-        /// <param name="url">The URL that will be treated as the address of the content.</param>
-        /// <param name="encoding">Character Encoding</param>
-        void LoadHtml(string html, string url, Encoding encoding);
-
-        /// <summary>
         /// Registers a Javascript object in this specific browser instance.
         /// </summary>
         /// <param name="name">The name of the object. (e.g. "foo", if you want the object to be accessible as window.foo).</param>
         /// <param name="objectToBind">The object to be made accessible to Javascript.</param>
-        void RegisterJsObject(string name, object objectToBind);
-
-        /// <summary>
-        /// Execute some Javascript code in the context of this WebBrowser. As the method name implies, the script will be
-        /// executed asynchronously, and the method therefore returns before the script has actually been executed.
-        /// </summary>
-        /// <param name="script">The Javascript code that should be executed.</param>
-        void ExecuteScriptAsync(string script);
-
-        /// <summary>
-        /// Execute some Javascript code in the context of this WebBrowser, and return the result of the evaluation
-        /// in an Async fashion
-        /// </summary>
-        /// <param name="script">The Javascript code that should be executed.</param>
-        /// <param name="timeout">The timeout after which the Javascript code execution should be aborted.</param>
-        /// /// <returns>A Task that can be awaited to perform the script execution</returns>
-        Task<JavascriptResponse> EvaluateScriptAsync(string script, TimeSpan? timeout = null);
+        /// <param name="camelCaseJavascriptNames">camel case the javascript names of properties/methods, defaults to true</param>
+        void RegisterJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true);
 
         /// <summary>
         /// Implement <see cref="IDialogHandler"/> and assign to handle dialog events.
@@ -113,7 +68,12 @@ namespace CefSharp
         /// Implement <see cref="IRequestHandler"/> and assign to handle events related to browser requests.
         /// </summary>
         IRequestHandler RequestHandler { get; set; }
-        
+
+        /// <summary>
+        /// Implement <see cref="IPopupHandler"/> and assign to handle events related to popup window events.
+        /// </summary>
+        IPopupHandler PopupHandler { get; set; }
+
         /// <summary>
         /// Implement <see cref="ILifeSpanHandler"/> and assign to handle events related to popups.
         /// </summary>
@@ -215,110 +175,11 @@ namespace CefSharp
         string TooltipText { get; }
 
         /// <summary>
-        /// The zoom level at which the browser control is currently displaying. Can be set to 0 to clear the zoom level (resets to
-        /// default zoom level).
-        /// </summary>
-        /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
-        /// binding.</remarks>
-        double ZoomLevel { get; set; }
-
-        /// <summary>
-        /// Search for text within the current page.
-        /// </summary>
-        /// <param name="identifier">Can be used in can conjunction with searchText to have multiple
-        /// searches running simultaneously.</param>
-        /// <param name="searchText">search text</param>
-        /// <param name="forward">indicates whether to search forward or backward within the page.</param>
-        /// <param name="matchCase">indicates whether the search should be case-sensitive. </param>
-        /// <param name="findNext">indicates whether this is the first request or a follow-up.</param>
-        void Find(int identifier, string searchText, bool forward, bool matchCase, bool findNext);
-
-        /// <summary>
-        /// Cancel all searches that are currently going on.
-        /// </summary>
-        /// <param name="clearSelection">clear the current search selection</param>
-        void StopFinding(bool clearSelection);
-
-        /// <summary>
-        /// Navigates back, must check <see cref="CanGoBack"/> before calling this method.
-        /// </summary>
-        void Back();
-
-        /// <summary>
-        /// Navigates forward, must check <see cref="CanGoForward"/> before calling this method.
-        /// </summary>
-        void Forward();
-
-        /// <summary>
-        /// Stops loading the current page.
-        /// </summary>
-        void Stop();
-
-        /// <summary>
-        /// Retrieve the main frame's HTML source using a <see cref="Task{String}"/>.
-        /// </summary>
-        /// <returns><see cref="Task{String}"/> that when executed returns the frame source as a string</returns>
-        Task<string> GetSourceAsync();
-
-        /// <summary>
-        /// Retrieve the main frame's display text using a <see cref="Task{String}"/>.
-        /// </summary>
-        /// <returns><see cref="Task{String}"/> that when executed returns the frame display text as a string.</returns>
-        Task<string> GetTextAsync();
-
-        /// <summary>
-        /// Opens up a new program window (using the default text editor) where the source code of the currently displayed web
-        /// page is shown.
-        /// </summary>
-        void ViewSource();
-
-        /// <summary>
         /// Attempts to give focus to the IWpfWebBrowser control.
         /// </summary>
         /// <returns><c>true</c> if keyboard focus and logical focus were set to this element; <c>false</c> if only logical focus
         /// was set to this element, or if the call to this method did not force the focus to change.</returns>
         bool Focus();
-
-        /// <summary>
-        /// Reloads the page being displayed. This method will use data from the browser's cache, if available.
-        /// </summary>
-        void Reload();
-
-        /// <summary>
-        /// Reloads the page being displayed, optionally ignoring the cache (which means the whole page including all .css, .js
-        /// etc. resources will be re-fetched).
-        /// </summary>
-        /// <param name="ignoreCache"><c>true</c> A reload is performed ignoring browser cache; <c>false</c> A reload is
-        /// performed using files from the browser cache, if available.</param>
-        void Reload(bool ignoreCache);
-
-        /// <summary>
-        /// Opens a Print Dialog which if used (can be user cancelled) will print the browser contents.
-        /// </summary>
-        void Print();
-
-        /// <summary>
-        /// Open developer tools in its own window. 
-        /// </summary>
-        void ShowDevTools();
-
-        /// <summary>
-        /// Explicitly close the developer tools window if one exists for this browser instance.
-        /// </summary>
-        void CloseDevTools();   
-  
-        /// <summary>
-        /// If a misspelled word is currently selected in an editable node calling
-        /// this method will replace it with the specified word. 
-        /// </summary>
-        /// <param name="word">The new word that will replace the currently selected word.</param>
-        void ReplaceMisspelling(string word);
-
-        /// <summary>
-        /// Add the specified word to the spelling dictionary.
-        /// </summary>
-        /// <param name="word">The new word that will be added to the dictionary.</param>
-        void AddWordToDictionary(string word);
         
         /// <summary>
         /// Send a mouse wheel event to the browser.
@@ -328,5 +189,23 @@ namespace CefSharp
         /// <param name="deltaX">Movement delta for X direction.</param>
         /// <param name="deltaY">movement delta for Y direction.</param>
         void SendMouseWheelEvent(int x, int y, int deltaX, int deltaY);
+
+        /// <summary>
+        /// Returns the main (top-level) frame for the browser window.
+        /// </summary>
+        /// <returns>Frame</returns>
+        IFrame GetMainFrame();
+
+        /// <summary>
+        /// Returns the focused frame for the browser window.
+        /// </summary>
+        /// <returns>Frame</returns>
+        IFrame GetFocusedFrame();
+
+        /// <summary>
+        /// Returns the current CEF Browser Instance
+        /// </summary>
+        /// <returns>browser instance or null</returns>
+        IBrowser GetBrowser();
     }
 }

@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+﻿// Copyright © 2010-2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -9,17 +9,17 @@ namespace CefSharp
         /// <summary>
         /// Called before a download begins.
         /// </summary>
+        /// <param name="browser">The browser instance</param>
         /// <param name="downloadItem">Represents the file being downloaded.</param>
-        /// <param name="downloadPath">Path where the file will be saved if <see cref="showDialog"/> is False.</param>
-        /// <param name="showDialog">Display a dialog allowing the user to specify a custom path and filename.</param>
-        /// <returns>Return True to continue the download otherwise return False to cancel the download</returns>
-        bool OnBeforeDownload(DownloadItem downloadItem, out string downloadPath, out bool showDialog);
+        /// <param name="callback">Callback interface used to asynchronously continue a download.</param>
+        void OnBeforeDownload(IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback);
 
         /// <summary>
         /// Called when a download's status or progress information has been updated. This may be called multiple times before and after <see cref="OnBeforeDownload"/>.
         /// </summary>
+        /// <param name="browser">The browser instance</param>
         /// <param name="downloadItem">Represents the file being downloaded.</param>
-        /// <returns>Return True to cancel, otherwise False to allow the download to continue.</returns>
-        bool OnDownloadUpdated(DownloadItem downloadItem);
+        /// <param name="callback">The callback used to Cancel/Pause/Resume the process</param>
+        void OnDownloadUpdated(IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback);
     }
 }

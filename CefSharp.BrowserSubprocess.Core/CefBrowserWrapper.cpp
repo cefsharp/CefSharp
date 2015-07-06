@@ -1,4 +1,4 @@
-// Copyright © 2010-2014 The CefSharp Project. All rights reserved.
+// Copyright © 2010-2015 The CefSharp Project. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 #pragma once
@@ -31,63 +31,6 @@ namespace CefSharp
         }
     }
 
-    JavascriptResponse^ CefBrowserWrapper::EvaluateScriptInContext(CefRefPtr<CefV8Context> context, CefString script)
-    {
-        CefRefPtr<CefV8Value> result;
-        CefRefPtr<CefV8Exception> exception;
-        JavascriptResponse^ response = gcnew JavascriptResponse();
-
-        response->Success = context->Eval(script, result, exception);
-        if (response->Success)
-        {
-            if (result->IsFunction())
-            {
-                response->Result = _callbackRegistry->Register(context, result);
-            }
-            else 
-            {
-                response->Result = TypeUtils::ConvertFromCef(result);
-            }
-        }
-        else if (exception.get())
-        {
-            response->Message = StringUtils::ToClr(exception->GetMessage());
-        }
-
-        return response;
-    }
-
-    void CefBrowserWrapper::DoDispose(bool disposing)
-    {
-        _cefBrowser = nullptr;
-        if (disposing)
-        {
-            delete _callbackRegistry;
-            _callbackRegistry = nullptr;
-        }
-        DisposableResource::DoDispose(disposing);
-    }
-
-    JavascriptResponse^ CefBrowserWrapper::DoEvaluateScript(System::Int64 frameId, String^ script)
-    {
-        auto frame = _cefBrowser->GetFrame(frameId);
-        CefRefPtr<CefV8Context> context = frame->GetV8Context();
-
-        if (context.get() && context->Enter())
-        {
-            try
-            {
-                return EvaluateScriptInContext(context, StringUtils::ToNative(script));
-            }
-            finally
-            {
-                context->Exit();
-            }
-        }
-
-        return nullptr;
-    }
-
     JavascriptResponse^ CefBrowserWrapper::DoCallback(System::Int64 callbackId, array<Object^>^ parameters)
     {
         return _callbackRegistry->Execute(callbackId, parameters);
@@ -98,10 +41,23 @@ namespace CefSharp
         _callbackRegistry->Deregister(id);
     }
 
-    CefBrowserWrapper::~CefBrowserWrapper()
+    JavascriptCallbackRegistry^ CefBrowserWrapper::CallbackRegistry::get()
+    {
+        return _callbackRegistry;
+    }
+
+    CefBrowserWrapper::!CefBrowserWrapper()
     {
         _cefBrowser = nullptr;
-        delete _callbackRegistry;
-        _callbackRegistry = nullptr;
+    }
+
+    CefBrowserWrapper::~CefBrowserWrapper()
+    {
+        this->!CefBrowserWrapper();
+        if (_callbackRegistry != nullptr)
+        {
+            delete _callbackRegistry;
+            _callbackRegistry = nullptr;
+        }
     }
 }

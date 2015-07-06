@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+﻿// Copyright © 2010-2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -102,5 +102,16 @@ namespace CefSharp.Wpf
         /// Gets the <see cref="Dispatcher"/> associated with this instance.
         /// </summary>
         Dispatcher Dispatcher { get; }
+
+        /// <summary>
+        /// The zoom level at which the browser control is currently displaying.
+        /// Can be set to 0 to clear the zoom level (resets to default zoom level).
+        /// </summary>
+        double ZoomLevel { get; set; }
+
+        /// <summary>
+        /// The increment at which the <see cref="ZoomLevel"/> property will be incremented/decremented.
+        /// </summary>
+        double ZoomLevelIncrement { get; set; }
     }
 }

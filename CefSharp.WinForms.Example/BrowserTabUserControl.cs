@@ -27,14 +27,14 @@ namespace CefSharp.WinForms.Example
             browser.JsDialogHandler = new JsDialogHandler();
             browser.GeolocationHandler = new GeolocationHandler();
             browser.DownloadHandler = new DownloadHandler();
+            browser.KeyboardHandler = new KeyboardHandler();
             //browser.FocusHandler = new FocusHandler(browser, urlTextBox);
-            browser.NavStateChanged += OnBrowserNavStateChanged;
+            browser.LoadingStateChanged += OnBrowserLoadingStateChanged;
             browser.ConsoleMessage += OnBrowserConsoleMessage;
             browser.TitleChanged += OnBrowserTitleChanged;
             browser.AddressChanged += OnBrowserAddressChanged;
             browser.StatusMessage += OnBrowserStatusMessage;
             browser.IsBrowserInitializedChanged += OnIsBrowserInitializedChanged;
-            browser.IsLoadingChanged += OnIsLoadingChanged;
             browser.LoadError += OnLoadError;
             browser.DragHandler = new DragHandler();
             browser.RegisterJsObject("bound", new BoundObject());
@@ -60,7 +60,7 @@ namespace CefSharp.WinForms.Example
             this.InvokeOnUiThreadIfRequired(() => statusLabel.Text = args.Value);
         }
 
-        private void OnBrowserNavStateChanged(object sender, NavStateChangedEventArgs args)
+        private void OnBrowserLoadingStateChanged(object sender, LoadingStateChangedEventArgs args)
         {
             SetCanGoBack(args.CanGoBack);
             SetCanGoForward(args.CanGoForward);
@@ -101,11 +101,6 @@ namespace CefSharp.WinForms.Example
         }
 
         private void OnIsBrowserInitializedChanged(object sender, IsBrowserInitializedChangedEventArgs args)
-        {
-            
-        }
-
-        private void OnIsLoadingChanged(object sender, IsLoadingChangedEventArgs args)
         {
             
         }

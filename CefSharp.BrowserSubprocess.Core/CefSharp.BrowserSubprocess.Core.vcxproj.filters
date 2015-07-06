@@ -50,7 +50,10 @@
     <ClInclude Include="CefAppUnmanagedWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CefTaskScheduler.h">
+    <ClInclude Include="..\CefSharp.Core\Internals\CefTaskScheduler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CefSharp.Core\Internals\CefTaskWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CefBrowserWrapper.h">
@@ -60,6 +63,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="JavascriptCallbackWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CefSharp.Core\Internals\ReportUnhandledExceptions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CefSharp.Core\Internals\Serialization\Primitives.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Serialization\V8Serialization.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -91,9 +103,6 @@
     <ClCompile Include="CefAppUnmanagedWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CefTaskScheduler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CefBrowserWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -107,6 +116,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="JavascriptCallbackWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CefSharp.Core\Internals\Serialization\Primitives.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Serialization\V8Serialization.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

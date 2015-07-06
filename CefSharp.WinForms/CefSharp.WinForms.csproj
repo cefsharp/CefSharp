@@ -56,6 +56,7 @@
     <Compile Include="Internals\ControlExtensions.cs" />
     <Compile Include="Internals\ParentFormMessageInterceptor.cs" />
     <Compile Include="Internals\NativeMethods.cs" />
+    <Compile Include="IWinFormsWebBrowser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ChromiumWebBrowser.cs">
       <SubType>Component</SubType>

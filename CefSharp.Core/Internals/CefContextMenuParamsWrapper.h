@@ -1,4 +1,4 @@
-// Copyright © 2010-2014 The CefSharp Project. All rights reserved.
+// Copyright © 2010-2015 The CefSharp Project. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -14,12 +14,23 @@ namespace CefSharp
 {
     namespace Internals
     {
-        ref class CefContextMenuParamsWrapper : public IContextMenuParams
+        public ref class CefContextMenuParamsWrapper : public IContextMenuParams
         {
             MCefRefPtr<CefContextMenuParams> _wrappedInfo;
 
         internal:
-            CefContextMenuParamsWrapper(CefRefPtr<CefContextMenuParams> cefParams) : _wrappedInfo(cefParams) {}
+            CefContextMenuParamsWrapper(CefRefPtr<CefContextMenuParams> &cefParams) : _wrappedInfo(cefParams) {}
+
+            !CefContextMenuParamsWrapper()
+            {
+                _wrappedInfo = NULL;
+            }
+
+            ~CefContextMenuParamsWrapper()
+
+            {
+                this->!CefContextMenuParamsWrapper();
+            }
 
         public:
             virtual property int YCoord { int get(); }

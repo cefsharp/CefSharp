@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2014 The CefSharp Project. All rights reserved.
+﻿// Copyright © 2010-2015 The CefSharp Project. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -42,12 +42,16 @@ namespace CefSharp
             _wrappedProperties = gcnew List<JavascriptPropertyWrapper^>();
         }
 
-        ~JavascriptObjectWrapper()
+        !JavascriptObjectWrapper()
         {
             V8Value = nullptr;
-            CallbackRegistry = nullptr;
-            _jsPropertyHandler->Cleanup();
             _jsPropertyHandler = nullptr;
+        }
+
+        ~JavascriptObjectWrapper()
+        {
+            this->!JavascriptObjectWrapper();
+            CallbackRegistry = nullptr;
 
             for each (JavascriptMethodWrapper^ var in _wrappedMethods)
             {

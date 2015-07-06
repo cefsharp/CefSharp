@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+﻿// Copyright © 2010-2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -13,8 +13,9 @@ namespace CefSharp.Internals
 {
     public class BrowserProcessServiceHost : ServiceHost
     {
-        private const long SixteenMegaBytesInBytes = 16*1024*1024;
+        private const long OneHundredAndTwentyEightMegaBytesInBytes = 128*1024*1024;
 
+        public IJavascriptCallbackFactory JavascriptCallbackFactory { get; private set; }
         public JavascriptObjectRepository JavascriptObjectRepository { get; private set; }
         private TaskCompletionSource<OperationContext> operationContextTaskCompletionSource = new TaskCompletionSource<OperationContext>();
 
@@ -22,6 +23,7 @@ namespace CefSharp.Internals
             : base(typeof(BrowserProcessService), new Uri[0])
         {
             JavascriptObjectRepository = javascriptObjectRepository;
+            JavascriptCallbackFactory = new JavascriptCallbackFactory(new WeakReference(this));
 
             var serviceName = RenderprocessClientFactory.GetServiceName(parentProcessId, browserId);
 
@@ -47,18 +49,6 @@ namespace CefSharp.Internals
             }
                 
             operationContextTaskCompletionSource.SetResult(operationContext);
-        }
-
-        public Task<JavascriptResponse> EvaluateScriptAsync(int browserId, long frameId, string script, TimeSpan? timeout)
-        {
-            var operationContextTask = operationContextTaskCompletionSource.Task;
-            return operationContextTask.ContinueWith(t =>
-            {
-                var context = t.Result;
-                var renderProcess = context.GetCallbackChannel<IRenderProcess>();
-                var asyncResult = renderProcess.BeginEvaluateScriptAsync(browserId, frameId, script, timeout, null, null);
-                return Task.Factory.FromAsync<JavascriptResponse>(asyncResult, renderProcess.EndEvaluateScriptAsync);
-            }).Unwrap();
         }
 
         protected override void OnClose(TimeSpan timeout)
@@ -122,7 +112,7 @@ namespace CefSharp.Internals
         public static CustomBinding CreateBinding()
         {
             var binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
-            binding.MaxReceivedMessageSize = SixteenMegaBytesInBytes;
+            binding.MaxReceivedMessageSize = OneHundredAndTwentyEightMegaBytesInBytes;
             binding.ReceiveTimeout = TimeSpan.MaxValue;
             binding.SendTimeout = TimeSpan.MaxValue;
             binding.OpenTimeout = TimeSpan.MaxValue;

@@ -2,30 +2,15 @@
 {
     public class JsDialogHandler : IJsDialogHandler
     {
-        public bool OnJSAlert(IWebBrowser browser, string url, string message)
+        public bool OnJSDialog(IWebBrowser browserControl, IBrowser browser, string originUrl, string acceptLang, CefJsDialogType dialogType, string messageText, string defaultPromptText, IJsDialogCallback callback, ref bool suppressMessage)
         {
             return false;
         }
 
-        public bool OnJSConfirm(IWebBrowser browser, string url, string message, out bool retval)
+        public bool OnJSBeforeUnload(IWebBrowser browserControl, IBrowser browser, string message, bool isReload, IJsDialogCallback callback)
         {
-            retval = false;
-
-            return false;
-        }
-
-        public bool OnJSPrompt(IWebBrowser browser, string url, string message, string defaultValue, out bool retval, out string result)
-        {
-            retval = false;
-            result = null;
-
-            return false;
-        }
-
-        public bool OnJSBeforeUnload(IWebBrowser browser, string message, bool isReload, out bool allowUnload)
-        {
-            //NOTE: Setting allowUnload to false will cancel the unload request
-            allowUnload = false;
+            //NOTE: No need to execute the callback if you return false
+            // callback.Continue(true);
 
             //NOTE: Returning false will trigger the default behaviour, you need to return true to handle yourself.
             return false;

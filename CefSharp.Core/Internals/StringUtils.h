@@ -1,9 +1,10 @@
-﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+﻿// Copyright © 2010-2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-#include "Stdafx.h"
 #pragma once
+
+#include "Stdafx.h"
 
 using namespace System;
 using namespace System::Collections::Generic;

@@ -48,7 +48,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{A23AA466
 		NuGet\CefSharp.WinForms.props = NuGet\CefSharp.WinForms.props
 		NuGet\CefSharp.Wpf.nuspec = NuGet\CefSharp.Wpf.nuspec
 		NuGet\CefSharp.Wpf.props = NuGet\CefSharp.Wpf.props
-		NuGet\pack.bat = NuGet\pack.bat
 		NuGet\Readme.txt = NuGet\Readme.txt
 	EndProjectSection
 EndProject

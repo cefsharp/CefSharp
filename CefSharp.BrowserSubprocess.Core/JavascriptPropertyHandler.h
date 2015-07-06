@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2014 The CefSharp Project. All rights reserved.
+﻿// Copyright © 2010-2015 The CefSharp Project. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -31,11 +31,6 @@ namespace CefSharp
             delete _setter;
         }
 
-        void Cleanup()
-        {
-            delete _getter;
-            delete _setter;
-        }
 
         virtual bool Get(const CefString& name, const CefRefPtr<CefV8Value> object, CefRefPtr<CefV8Value>& retval,
             CefString& exception) override

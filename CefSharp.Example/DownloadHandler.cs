@@ -2,17 +2,15 @@
 {
     public class DownloadHandler : IDownloadHandler
     {
-        public bool OnBeforeDownload(DownloadItem downloadItem, out string downloadPath, out bool showDialog)
+        public void OnBeforeDownload(IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
         {
-            downloadPath = downloadItem.SuggestedFileName;
-            showDialog = true;
-
-            return true;
+            callback.Continue(downloadItem.SuggestedFileName, showDialog: true);
+            callback.Dispose();
         }
 
-        public bool OnDownloadUpdated(DownloadItem downloadItem)
+        public void OnDownloadUpdated(IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback)
         {
-            return false;
+            
         }
     }
 }

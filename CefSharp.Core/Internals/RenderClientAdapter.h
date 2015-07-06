@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+﻿// Copyright © 2010-2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -24,8 +24,8 @@ namespace CefSharp
             gcroot<BitmapInfo^> _popupBitmapInfo;
 
         public:
-            RenderClientAdapter(IWebBrowserInternal^ webBrowserInternal, Action<int>^ onAfterBrowserCreated):
-                ClientAdapter(webBrowserInternal, onAfterBrowserCreated),
+            RenderClientAdapter(IWebBrowserInternal^ webBrowserInternal, IBrowserAdapter^ browserAdapter):
+                ClientAdapter(webBrowserInternal, browserAdapter),
                 _webBrowserInternal(webBrowserInternal)
             {
                 _renderWebBrowser = dynamic_cast<IRenderWebBrowser^>(webBrowserInternal);
@@ -51,7 +51,7 @@ namespace CefSharp
             }
 
             // CefClient
-            virtual CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE{ return this; };
+            virtual DECL CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE{ return this; };
 
             // CefRenderHandler
             virtual DECL bool GetScreenInfo(CefRefPtr<CefBrowser> browser, CefScreenInfo& screen_info) OVERRIDE
@@ -107,7 +107,7 @@ namespace CefSharp
             // contains the new location and size.
             ///
             /*--cef()--*/
-            virtual void OnPopupSize(CefRefPtr<CefBrowser> browser, const CefRect& rect) OVERRIDE
+            virtual DECL void OnPopupSize(CefRefPtr<CefBrowser> browser, const CefRect& rect) OVERRIDE
             {
                 _renderWebBrowser->SetPopupSizeAndPosition(rect.width, rect.height, rect.x, rect.y);
             };
@@ -174,7 +174,7 @@ namespace CefSharp
             virtual DECL void OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor, CursorType type,
                 const CefCursorInfo& custom_cursor_info) OVERRIDE
             {
-                _renderWebBrowser->SetCursor((IntPtr)cursor);
+                _renderWebBrowser->SetCursor((IntPtr)cursor, (CefSharp::CefCursorType)type);
             };
 
         private:

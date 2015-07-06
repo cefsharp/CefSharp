@@ -121,13 +121,16 @@ namespace CefSharp.Wpf.Example.Controls
             if (cp != null)
                 return cp;
 
-            cp = new ContentPresenter();
-            cp.Content = (item is TabItem) ? (item as TabItem).Content : item;
-            cp.ContentTemplate = this.SelectedContentTemplate;
-            cp.ContentTemplateSelector = this.SelectedContentTemplateSelector;
-            cp.ContentStringFormat = this.SelectedContentStringFormat;
-            cp.Visibility = Visibility.Collapsed;
-            cp.Tag = (item is TabItem) ? item : (this.ItemContainerGenerator.ContainerFromItem(item));
+            var tabItem = item as TabItem;
+            cp = new ContentPresenter
+            {
+                Content = (tabItem != null) ? tabItem.Content : item,
+                ContentTemplate = this.SelectedContentTemplate,
+                ContentTemplateSelector = this.SelectedContentTemplateSelector,
+                ContentStringFormat = this.SelectedContentStringFormat,
+                Visibility = Visibility.Collapsed,
+                Tag = tabItem ?? (this.ItemContainerGenerator.ContainerFromItem(item))
+            };
             itemsHolderPanel.Children.Add(cp);
             return cp;
         }

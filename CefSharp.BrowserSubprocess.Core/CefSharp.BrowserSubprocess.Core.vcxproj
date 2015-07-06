@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\cef.sdk.3.2171.1979\build\cef.sdk.props" Condition="Exists('..\packages\cef.sdk.3.2171.1979\build\cef.sdk.props')" />
+  <Import Project="..\packages\cef.sdk.3.2272.32\build\cef.sdk.props" Condition="Exists('..\packages\cef.sdk.3.2272.32\build\cef.sdk.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -93,6 +93,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
+      <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -122,6 +123,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)packages\$(CefSdkVer)\CEF;%(AdditionalIncludeDirectories);$(ProjectDir)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
+      <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -152,11 +154,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\CefSharp.Core\Internals\MCefRefPtr.h" />
+    <ClInclude Include="..\CefSharp.Core\Internals\ReportUnhandledExceptions.h" />
+    <ClInclude Include="..\CefSharp.Core\Internals\Serialization\Primitives.h" />
     <ClInclude Include="..\CefSharp.Core\Internals\StringUtils.h" />
     <ClInclude Include="CefAppUnmanagedWrapper.h" />
     <ClInclude Include="CefAppWrapper.h" />
     <ClInclude Include="CefBrowserWrapper.h" />
-    <ClInclude Include="CefTaskScheduler.h" />
+    <ClInclude Include="..\CefSharp.Core\Internals\CefTaskScheduler.h" />
+    <ClInclude Include="..\CefSharp.Core\Internals\CefTaskWrapper.h" />
     <ClInclude Include="JavascriptCallbackRegistry.h" />
     <ClInclude Include="JavascriptCallbackWrapper.h" />
     <ClInclude Include="JavascriptMethodWrapper.h" />
@@ -167,15 +172,16 @@
     <ClInclude Include="JavascriptRootObjectWrapper.h" />
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="TypeUtils.h" />
+    <ClInclude Include="Serialization\V8Serialization.h" />
     <ClInclude Include="vcclr_local.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\CefSharp.Core\Internals\Serialization\Primitives.cpp" />
     <ClCompile Include="..\CefSharp.Core\Internals\StringUtils.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="CefAppUnmanagedWrapper.cpp" />
     <ClCompile Include="CefAppWrapper.cpp" />
     <ClCompile Include="CefBrowserWrapper.cpp" />
-    <ClCompile Include="CefTaskScheduler.cpp" />
     <ClCompile Include="JavascriptCallbackRegistry.cpp" />
     <ClCompile Include="JavascriptCallbackWrapper.cpp" />
     <ClCompile Include="JavascriptMethodHandler.cpp" />
@@ -190,6 +196,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="TypeUtils.cpp" />
+    <ClCompile Include="Serialization\V8Serialization.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CefSharp\CefSharp.csproj">

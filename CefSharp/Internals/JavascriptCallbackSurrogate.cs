@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2014 The CefSharp Project. All rights reserved.
+﻿// Copyright © 2010-2015 The CefSharp Project. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -10,13 +10,11 @@ using System.Runtime.Serialization;
 
 namespace CefSharp.Internals
 {
-    internal sealed class JavascriptCallbackSurrogate : IDataContractSurrogate
+    internal sealed class JavascriptCallbackSurrogate : JavascriptCallbackFactory, IDataContractSurrogate
     {
-        private readonly WeakReference browserProcessWeakReference;
-
         public JavascriptCallbackSurrogate(WeakReference browserProcessWeakReference)
+            :base(browserProcessWeakReference)
         {
-            this.browserProcessWeakReference = browserProcessWeakReference;
         }
 
         public Type GetDataContractType(Type type)
@@ -39,7 +37,7 @@ namespace CefSharp.Internals
             var dto = obj as JavascriptCallback;
             if (dto != null)
             {
-                result = new JavascriptCallbackProxy(dto.Id, dto.BrowserId, browserProcessWeakReference);
+                result = Create(dto);
             }
             return result;
         }

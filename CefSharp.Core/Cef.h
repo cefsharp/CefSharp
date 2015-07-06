@@ -1,4 +1,4 @@
-// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+// Copyright © 2010-2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -14,9 +14,13 @@
 #include "Internals/CookieVisitor.h"
 #include "Internals/CompletionHandler.h"
 #include "Internals/StringUtils.h"
+#include "Internals/PluginVisitor.h"
 #include "ManagedCefBrowserAdapter.h"
 #include "CefSettings.h"
-#include "SchemeHandlerWrapper.h"
+#include "ResourceHandlerWrapper.h"
+#include "SchemeHandlerFactoryWrapper.h"
+#include "Internals/CefTaskScheduler.h"
+#include "CookieAsyncWrapper.h"
 
 using namespace System::Collections::Generic; 
 using namespace System::Linq;
@@ -27,30 +31,15 @@ namespace CefSharp
     public ref class Cef sealed
     {
     private:
-        static HANDLE _event;
         static Object^ _sync;
-        static bool _result;
 
         static bool _initialized = false;
         static HashSet<IDisposable^>^ _disposables;
 
         static Cef()
         {
-            _event = CreateEvent(NULL, FALSE, FALSE, NULL);
             _sync = gcnew Object();
             _disposables = gcnew HashSet<IDisposable^>();
-        }
-
-        static void IOT_SetCookie(const CefString& url, const CefCookie& cookie)
-        {
-            _result = CefCookieManager::GetGlobalManager()->SetCookie(url, cookie);
-            SetEvent(_event);
-        }
-
-        static void IOT_DeleteCookies(const CefString& url, const CefString& name)
-        {
-            _result = CefCookieManager::GetGlobalManager()->DeleteCookies(url, name);
-            SetEvent(_event);
         }
 
         static void ParentProcessExitHandler(Object^ sender, EventArgs^ e)
@@ -62,6 +51,15 @@ namespace CefSharp
         }
 
     public:
+        /// <summary>
+        /// Called on the browser process UI thread immediately after the CEF context has been initialized. 
+        /// </summary>
+        static property Action^ OnContextInitialized;
+
+        static property TaskFactory^ UIThreadTaskFactory;
+        static property TaskFactory^ IOThreadTaskFactory;
+        static property TaskFactory^ FileThreadTaskFactory;
+
         static void AddDisposable(IDisposable^ item)
         {
             msclr::lock l(_sync);
@@ -109,7 +107,7 @@ namespace CefSharp
         {
             String^ get()
             {
-                return String::Format("r{0}", CEF_REVISION);
+                return String::Format("r{0}", CEF_VERSION);
             }
         }
 
@@ -139,32 +137,56 @@ namespace CefSharp
         /// <return>true if successful; otherwise, false.</return>
         static bool Initialize(CefSettings^ cefSettings)
         {
-            return Initialize(cefSettings, true);
+            return Initialize(cefSettings, true, false);
         }
 
         /// <summary>Initializes CefSharp with user-provided settings.</summary>
         /// <param name="cefSettings">CefSharp configuration settings.</param>
         /// <param name="shutdownOnProcessExit">When the Current AppDomain (relative to the thread called on)
         /// Exits(ProcessExit event) then Shudown will be called.</param>
+        /// <param name="performDependencyCheck">Check that all relevant dependencies avaliable, throws exception if any are missing</param>
         /// <return>true if successful; otherwise, false.</return>
-        static bool Initialize(CefSettings^ cefSettings, bool shutdownOnProcessExit)
+        static bool Initialize(CefSettings^ cefSettings, bool shutdownOnProcessExit, bool performDependencyCheck)
         {
-            bool success = false;
-
-            // NOTE: Can only initialize Cef once, so subsiquent calls are ignored.
-            if (!IsInitialized)
+            if (IsInitialized)
             {
-                CefMainArgs main_args;
-                CefRefPtr<CefSharpApp> app(new CefSharpApp(cefSettings));
+                // NOTE: Can only initialize Cef once, to make this explicitly clear throw exception on subsiquent attempts
+                throw gcnew Exception("Cef can only be initialized once. Use Cef.IsInitialized to guard against this exception.");
+            }
+            
+            if (cefSettings->BrowserSubprocessPath == nullptr)
+            {
+                throw gcnew Exception("CefSettings BrowserSubprocessPath cannot be null.");
+            }
 
-                success = CefInitialize(main_args, *(cefSettings->_cefSettings), app.get(), NULL);
-                app->CompleteSchemeRegistrations();
-                _initialized = success;
+            if(performDependencyCheck)
+            {
+                DependencyChecker::AssertAllDependenciesPresent(cefSettings->Locale, cefSettings->LocalesDirPath, cefSettings->ResourcesDirPath, cefSettings->PackLoadingDisabled, cefSettings->BrowserSubprocessPath);
+            }
 
-                if (_initialized && shutdownOnProcessExit)
-                {
-                    AppDomain::CurrentDomain->ProcessExit += gcnew EventHandler(ParentProcessExitHandler);
-                }
+            UIThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_UI));
+            IOThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_IO));
+            FileThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_FILE));
+
+            CefMainArgs main_args;
+            CefRefPtr<CefSharpApp> app(new CefSharpApp(cefSettings, OnContextInitialized));
+
+            auto success = CefInitialize(main_args, *(cefSettings->_cefSettings), app.get(), NULL);
+
+            //Register SchemeHandlerFactories - must be called after CefInitialize
+            for each (CefCustomScheme^ cefCustomScheme in cefSettings->CefCustomSchemes)
+            {
+                auto domainName = cefCustomScheme->DomainName ? cefCustomScheme->DomainName : String::Empty;
+
+                CefRefPtr<CefSchemeHandlerFactory> wrapper = new SchemeHandlerFactoryWrapper(cefCustomScheme->SchemeHandlerFactory);
+                CefRegisterSchemeHandlerFactory(StringUtils::ToNative(cefCustomScheme->SchemeName), StringUtils::ToNative(domainName), wrapper);
+            }
+
+            _initialized = success;
+
+            if (_initialized && shutdownOnProcessExit)
+            {
+                AppDomain::CurrentDomain->ProcessExit += gcnew EventHandler(ParentProcessExitHandler);
             }
 
             return success;
@@ -311,38 +333,19 @@ namespace CefSharp
         /// <return>false if the cookie cannot be set (e.g. if illegal charecters such as ';' are used); otherwise true.</return>
         static bool SetCookie(String^ url, String^ name, String^ value, String^ domain, String^ path, bool secure, bool httponly, bool has_expires, DateTime expires)
         {
-            msclr::lock l(_sync);
-            _result = false;
-
-            CefCookie cookie;
-            StringUtils::AssignNativeFromClr(cookie.name, name);
-            StringUtils::AssignNativeFromClr(cookie.value, value);
-            StringUtils::AssignNativeFromClr(cookie.domain, domain);
-            StringUtils::AssignNativeFromClr(cookie.path, path);
-            cookie.secure = secure;
-            cookie.httponly = httponly;
-            cookie.has_expires = has_expires;
-            cookie.expires.year = expires.Year;
-            cookie.expires.month = expires.Month;
-            cookie.expires.day_of_month = expires.Day;
-            cookie.expires.hour = expires.Hour;
-            cookie.expires.minute = expires.Minute;
-            cookie.expires.second = expires.Second;
-            cookie.expires.millisecond = expires.Millisecond;
+            auto cookieInvoker = gcnew CookieAsyncWrapper(url, name, value, domain, path, secure, httponly, has_expires, expires);
 
             if (CefCurrentlyOn(TID_IO))
             {
-                IOT_SetCookie(StringUtils::ToNative(url), cookie);
-            }
-            else
-            {
-                CefPostTask(TID_IO, NewCefRunnableFunction(IOT_SetCookie,
-                    StringUtils::ToNative(url), cookie));
+                return cookieInvoker->SetCookie();
             }
 
-            WaitForSingleObject(_event, INFINITE);
-            return _result;
-        }
+            auto task = Cef::IOThreadTaskFactory->StartNew(gcnew Func<bool>(cookieInvoker, &CookieAsyncWrapper::SetCookie));
+
+            task->Wait();
+
+            return task->Result;
+        }        
 
         /// <summary>Sets a cookie using mostly default parameters. This function expects each attribute to be well-formed. It will check for disallowed
         /// characters (e.g. the ';' character is disallowed within the cookie value attribute) and will return false without setting
@@ -364,21 +367,18 @@ namespace CefSharp
         /// <return>false if a non-empty invalid URL is specified, or if cookies cannot be accessed; otherwise, true.</return>
         static bool DeleteCookies(String^ url, String^ name)
         {
-            msclr::lock l(_sync);
-            _result = false;
+            auto cookieInvoker = gcnew CookieAsyncWrapper(url, name);
 
             if (CefCurrentlyOn(TID_IO))
             {
-                IOT_DeleteCookies(StringUtils::ToNative(url), StringUtils::ToNative(name));
-            }
-            else
-            {
-                CefPostTask(TID_IO, NewCefRunnableFunction(IOT_DeleteCookies,
-                    StringUtils::ToNative(url), StringUtils::ToNative(name)));
+                return cookieInvoker->DeleteCookies();
             }
 
-            WaitForSingleObject(_event, INFINITE);
-            return _result;
+            auto task = Cef::IOThreadTaskFactory->StartNew(gcnew Func<bool>(cookieInvoker, &CookieAsyncWrapper::DeleteCookies));
+
+            task->Wait();
+
+            return task->Result;
         }
 
         /// <summary> Sets the directory path that will be used for storing cookie data. If <paramref name="path"/> is empty data will be stored in 
@@ -424,13 +424,19 @@ namespace CefSharp
         {
             if (IsInitialized)
             { 
+                OnContextInitialized = nullptr;
+                
+                msclr::lock l(_sync);
+
+                UIThreadTaskFactory = nullptr;
+                IOThreadTaskFactory = nullptr;
+                FileThreadTaskFactory = nullptr;
+
+                for each(IDisposable^ diposable in Enumerable::ToList(_disposables))
                 {
-                    msclr::lock l(_sync);
-                    for each(IDisposable^ diposable in Enumerable::ToList(_disposables))
-                    {
-                        delete diposable;
-                    }
+                    delete diposable;
                 }
+                
                 GC::Collect();
                 GC::WaitForPendingFinalizers();
 
@@ -446,6 +452,21 @@ namespace CefSharp
         static bool ClearSchemeHandlerFactories()
         {
             return CefClearSchemeHandlerFactories();
+        }
+
+        /// <summary>
+        /// Async returns a list containing Plugin Information
+        /// (Wrapper around CefVisitWebPluginInfo)
+        /// WARNING In the very unlikely event of no plugins being found the Task may never complete
+        /// </summary>
+        /// <return>Returns List of <see cref="Plugin"/> structs.</return>
+        static Task<List<Plugin>^>^ GetPlugins()
+        {
+            CefRefPtr<PluginVisitor> visitor = new PluginVisitor();
+            
+            CefVisitWebPluginInfo(visitor);
+
+            return visitor->GetTask();
         }
 
         /// <summary>
@@ -490,6 +511,15 @@ namespace CefSharp
         static void UnregisterInternalWebPlugin(String^ path)
         {
             CefUnregisterInternalWebPlugin(StringUtils::ToNative(path));
-        }		
+        }	
+
+        /// <summary>
+        /// Force a plugin to shutdown. 
+        /// </summary>
+        /// <param name="path">Path (directory + file).</param>
+        static void ForceWebPluginShutdown(String^ path)
+        {
+            CefForceWebPluginShutdown(StringUtils::ToNative(path));
+        }
     };
 }

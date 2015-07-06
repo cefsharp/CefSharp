@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+﻿// Copyright © 2010-2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -44,6 +44,7 @@ namespace CefSharp.Wpf
         public IRequestHandler RequestHandler { get; set; }
         public IDownloadHandler DownloadHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
+        public IPopupHandler PopupHandler { get; set; }
         public IMenuHandler MenuHandler { get; set; }
         public IFocusHandler FocusHandler { get; set; }
         public IDragHandler DragHandler { get; set; }
@@ -56,7 +57,7 @@ namespace CefSharp.Wpf
         public event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
         public event EventHandler<FrameLoadEndEventArgs> FrameLoadEnd;
         public event EventHandler<LoadErrorEventArgs> LoadError;
-        public event EventHandler<NavStateChangedEventArgs> NavStateChanged;
+        public event EventHandler<LoadingStateChangedEventArgs> LoadingStateChanged;
 
         /// <summary>
         /// Raised before each render cycle, and allows you to adjust the bitmap before it's rendered/applied
@@ -124,22 +125,22 @@ namespace CefSharp.Wpf
             toolTip.Visibility = Visibility.Collapsed;
             toolTip.Closed += OnTooltipClosed;
 
-            BackCommand = new DelegateCommand(Back, () => CanGoBack);
-            ForwardCommand = new DelegateCommand(Forward, () => CanGoForward);
-            ReloadCommand = new DelegateCommand(Reload, () => CanReload);
-            PrintCommand = new DelegateCommand(Print);
+            BackCommand = new DelegateCommand(this.Back, () => CanGoBack);
+            ForwardCommand = new DelegateCommand(this.Forward, () => CanGoForward);
+            ReloadCommand = new DelegateCommand(this.Reload, () => CanReload);
+            PrintCommand = new DelegateCommand(this.Print);
             ZoomInCommand = new DelegateCommand(ZoomIn);
             ZoomOutCommand = new DelegateCommand(ZoomOut);
             ZoomResetCommand = new DelegateCommand(ZoomReset);
-            ViewSourceCommand = new DelegateCommand(ViewSource);
+            ViewSourceCommand = new DelegateCommand(this.ViewSource);
             CleanupCommand = new DelegateCommand(Dispose);
-            StopCommand = new DelegateCommand(Stop);
-            CutCommand = new DelegateCommand(Cut);
-            CopyCommand = new DelegateCommand(Copy);
-            PasteCommand = new DelegateCommand(Paste);
-            SelectAllCommand = new DelegateCommand(SelectAll);
-            UndoCommand = new DelegateCommand(Undo);
-            RedoCommand = new DelegateCommand(Redo);
+            StopCommand = new DelegateCommand(this.Stop);
+            CutCommand = new DelegateCommand(this.Cut);
+            CopyCommand = new DelegateCommand(this.Copy);
+            PasteCommand = new DelegateCommand(this.Paste);
+            SelectAllCommand = new DelegateCommand(this.SelectAll);
+            UndoCommand = new DelegateCommand(this.Undo);
+            RedoCommand = new DelegateCommand(this.Redo);
 
             imageTransform = new ScaleTransform();
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, true);
@@ -172,21 +173,11 @@ namespace CefSharp.Wpf
             FrameLoadStart = null;
             FrameLoadEnd = null;
             LoadError = null;
-            NavStateChanged = null;
+            LoadingStateChanged = null;
+            Rendering = null;
 
             // No longer reference handlers:
-            ResourceHandlerFactory = null;
-            DialogHandler = null;
-            JsDialogHandler = null;
-            KeyboardHandler = null;
-            RequestHandler = null;
-            DownloadHandler = null;
-            LifeSpanHandler = null;
-            MenuHandler = null;
-            FocusHandler = null;
-            DragHandler = null;
-            GeolocationHandler = null;
-            Rendering = null;
+            this.SetHandlersToNull();
 
             if (isdisposing)
             {
@@ -295,7 +286,7 @@ namespace CefSharp.Wpf
             UiThreadRunAsync(() => { popup.IsOpen = isOpen; });
         }
 
-        void IRenderWebBrowser.SetCursor(IntPtr handle)
+        void IRenderWebBrowser.SetCursor(IntPtr handle, CefCursorType type)
         {
             UiThreadRunAsync(() =>
             {
@@ -316,11 +307,6 @@ namespace CefSharp.Wpf
             });
         }
 
-        void IWebBrowserInternal.SetIsLoading(bool isLoading)
-        {
-            UiThreadRunAsync(() => SetCurrentValue(IsLoadingProperty, isLoading));
-        }
-
         void IWebBrowserInternal.SetLoadingStateChange(bool canGoBack, bool canGoForward, bool isLoading)
         {
             UiThreadRunAsync(() =>
@@ -328,16 +314,17 @@ namespace CefSharp.Wpf
                 SetCurrentValue(CanGoBackProperty, canGoBack);
                 SetCurrentValue(CanGoForwardProperty, canGoForward);
                 SetCurrentValue(CanReloadProperty, !isLoading);
+                SetCurrentValue(IsLoadingProperty, isLoading);
 
                 ((DelegateCommand)BackCommand).RaiseCanExecuteChanged();
                 ((DelegateCommand)ForwardCommand).RaiseCanExecuteChanged();
                 ((DelegateCommand)ReloadCommand).RaiseCanExecuteChanged();
             });
 
-            var handler = NavStateChanged;
+            var handler = LoadingStateChanged;
             if (handler != null)
             {
-                handler(this, new NavStateChangedEventArgs(canGoBack, canGoForward, isLoading));
+                handler(this, new LoadingStateChangedEventArgs(canGoBack, canGoForward, isLoading));
             }
         }
 
@@ -351,22 +338,22 @@ namespace CefSharp.Wpf
             UiThreadRunAsync(() => SetCurrentValue(TooltipTextProperty, tooltipText));
         }
 
-        void IWebBrowserInternal.OnFrameLoadStart(string url, bool isMainFrame)
+        void IWebBrowserInternal.OnFrameLoadStart(FrameLoadStartEventArgs args)
         {
             var handler = FrameLoadStart;
             if (handler != null)
             {
-                handler(this, new FrameLoadStartEventArgs(url, isMainFrame));
+                handler(this, args);
             }
         }
 
-        void IWebBrowserInternal.OnFrameLoadEnd(string url, bool isMainFrame, int httpStatusCode)
+        void IWebBrowserInternal.OnFrameLoadEnd(FrameLoadEndEventArgs args)
         {
             var handler = FrameLoadEnd;
 
             if (handler != null)
             {
-                handler(this, new FrameLoadEndEventArgs(url, isMainFrame, httpStatusCode));
+                handler(this, args);
             }
         }
 
@@ -388,12 +375,12 @@ namespace CefSharp.Wpf
             }
         }
 
-        void IWebBrowserInternal.OnLoadError(string url, CefErrorCode errorCode, string errorText)
+        void IWebBrowserInternal.OnLoadError(IFrame frame, CefErrorCode errorCode, string errorText, string failedUrl)
         {
             var handler = LoadError;
             if (handler != null)
             {
-                handler(this, new LoadErrorEventArgs(url, errorCode, errorText));
+                handler(this, new LoadErrorEventArgs(frame, errorCode, errorText, failedUrl));
             }
         }
 
@@ -510,6 +497,18 @@ namespace CefSharp.Wpf
 
         protected virtual void OnIsBrowserInitializedChanged(bool oldValue, bool newValue)
         {
+            var task = this.GetZoomLevelAsync();
+            task.ContinueWith(previous =>
+            {
+                if (previous.IsCompleted)
+                {
+                    UiThreadRunAsync(() => SetCurrentValue(ZoomLevelProperty, previous.Result));
+                }
+                else
+                {
+                    throw new InvalidOperationException("Unexpected failure of calling CEF->GetZoomLevelAsync", previous.Exception);
+                }
+            }, TaskContinuationOptions.ExecuteSynchronously);
         }
 
         #endregion IsInitialized dependency property
@@ -564,7 +563,7 @@ namespace CefSharp.Wpf
 
         protected virtual void OnZoomLevelChanged(double oldValue, double newValue)
         {
-            managedCefBrowserAdapter.SetZoomLevel(newValue);
+            this.SetZoomLevel(newValue);
         }
 
         #endregion ZoomLevel dependency property
@@ -856,7 +855,7 @@ namespace CefSharp.Wpf
                 return;
             }
 
-            managedCefBrowserAdapter.CreateOffscreenBrowser(source.Handle, BrowserSettings, Address);
+            managedCefBrowserAdapter.CreateOffscreenBrowser(source == null ? IntPtr.Zero : source.Handle, BrowserSettings, Address);
             browserCreated = true;
         }
 
@@ -929,7 +928,7 @@ namespace CefSharp.Wpf
             {
                 Child = popupImage = CreateImage(),
                 PlacementTarget = this,
-                Placement = PlacementMode.Relative,
+                Placement = PlacementMode.Absolute,
             };
 
             newPopup.MouseEnter += PopupMouseEnter;
@@ -938,7 +937,7 @@ namespace CefSharp.Wpf
             return newPopup;
         }
 
-        private IntPtr SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
+        protected virtual IntPtr SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             if (handled)
             {
@@ -967,7 +966,7 @@ namespace CefSharp.Wpf
                         return IntPtr.Zero;
                     }
 
-                    handled = managedCefBrowserAdapter.SendKeyEvent(message, wParam.ToInt32(), lParam);
+                    handled = managedCefBrowserAdapter.SendKeyEvent(message, wParam.CastToInt32(), lParam.CastToInt32());
 
                     break;
             }
@@ -1064,12 +1063,13 @@ namespace CefSharp.Wpf
 
         private void SetPopupSizeAndPositionImpl(int width, int height, int x, int y)
         {
-            popup.Width = width;
-            popup.Height = height;
+            popup.Width = width / matrix.M11;
+            popup.Height = height / matrix.M22;
 
-            var popupOffset = new Point(x, y);
-            popup.HorizontalOffset = popupOffset.X / matrix.M11;
-            popup.VerticalOffset = popupOffset.Y / matrix.M22;
+            var popupOffset = new Point(x / matrix.M11, y / matrix.M22);
+            var locationFromScreen = PointToScreen(popupOffset);
+            popup.HorizontalOffset = locationFromScreen.X / matrix.M11;
+            popup.VerticalOffset = locationFromScreen.Y / matrix.M22;
         }
 
         private void OnTooltipTimerTick(object sender, EventArgs e)
@@ -1154,7 +1154,7 @@ namespace CefSharp.Wpf
                 var message = (int)(e.IsDown ? WM.KEYDOWN : WM.KEYUP);
                 var virtualKey = KeyInterop.VirtualKeyFromKey(e.Key);
 
-                e.Handled = managedCefBrowserAdapter.SendKeyEvent(message, virtualKey, new IntPtr((int)modifiers));
+                e.Handled = managedCefBrowserAdapter.SendKeyEvent(message, virtualKey, (int)modifiers);
             }
         }
 
@@ -1259,101 +1259,8 @@ namespace CefSharp.Wpf
                     Dispatcher
                     );
 
-                managedCefBrowserAdapter.LoadUrl(url);
+                GetMainFrame().LoadUrl(url);
             }
-        }
-
-        public void LoadHtml(string html, string url)
-        {
-            LoadHtml(html, url, Encoding.UTF8);
-        }
-
-        public void LoadHtml(string html, string url, Encoding encoding)
-        {
-            var handler = ResourceHandlerFactory;
-            if (handler == null)
-            {
-                throw new Exception("Implement IResourceHandlerFactory and assign to the ResourceHandlerFactory property to use this feature");
-            }
-
-            handler.RegisterHandler(url, CefSharp.ResourceHandler.FromString(html, encoding, true));
-
-            Load(url);
-        }
-
-        public void Undo()
-        {
-            managedCefBrowserAdapter.Undo();
-        }
-
-        public void Redo()
-        {
-            managedCefBrowserAdapter.Redo();
-        }
-
-        public void Cut()
-        {
-            managedCefBrowserAdapter.Cut();
-        }
-
-        public void Copy()
-        {
-            managedCefBrowserAdapter.Copy();
-        }
-
-        public void Paste()
-        {
-            managedCefBrowserAdapter.Paste();
-        }
-
-        public void Delete()
-        {
-            managedCefBrowserAdapter.Delete();
-        }
-
-        public void SelectAll()
-        {
-            managedCefBrowserAdapter.SelectAll();
-        }
-
-        public void Stop()
-        {
-            managedCefBrowserAdapter.Stop();
-        }
-
-        public void Back()
-        {
-            managedCefBrowserAdapter.GoBack();
-        }
-
-        public void Forward()
-        {
-            managedCefBrowserAdapter.GoForward();
-        }
-
-        public void Reload()
-        {
-            Reload(false);
-        }
-
-        public void Reload(bool ignoreCache)
-        {
-            managedCefBrowserAdapter.Reload(ignoreCache);
-        }
-
-        public void Print()
-        {
-            managedCefBrowserAdapter.Print();
-        }
-
-        public void Find(int identifier, string searchText, bool forward, bool matchCase, bool findNext)
-        {
-            managedCefBrowserAdapter.Find(identifier, searchText, forward, matchCase, findNext);
-        }
-
-        public void StopFinding(bool clearSelection)
-        {
-            managedCefBrowserAdapter.StopFinding(clearSelection);
         }
 
         private void ZoomIn()
@@ -1380,34 +1287,9 @@ namespace CefSharp.Wpf
             });
         }
 
-        public void ShowDevTools()
+        public void RegisterJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true)
         {
-            managedCefBrowserAdapter.ShowDevTools();
-        }
-
-        public void CloseDevTools()
-        {
-            managedCefBrowserAdapter.CloseDevTools();
-        }
-
-        public void RegisterJsObject(string name, object objectToBind)
-        {
-            managedCefBrowserAdapter.RegisterJsObject(name, objectToBind);
-        }
-
-        public void ExecuteScriptAsync(string script)
-        {
-            managedCefBrowserAdapter.ExecuteScriptAsync(script);
-        }
-
-        public Task<JavascriptResponse> EvaluateScriptAsync(string script)
-        {
-            return EvaluateScriptAsync(script, timeout: null);
-        }
-
-        public Task<JavascriptResponse> EvaluateScriptAsync(string script, TimeSpan? timeout)
-        {
-            return managedCefBrowserAdapter.EvaluateScriptAsync(script, timeout);
+            managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, camelCaseJavascriptNames);
         }
 
         /// <summary>
@@ -1430,35 +1312,6 @@ namespace CefSharp.Wpf
             return pixelPosition;
         }
 
-        public void ViewSource()
-        {
-            managedCefBrowserAdapter.ViewSource();
-        }
-
-        public Task<string> GetSourceAsync()
-        {
-            var taskStringVisitor = new TaskStringVisitor();
-            managedCefBrowserAdapter.GetSource(taskStringVisitor);
-            return taskStringVisitor.Task;
-        }
-
-        public Task<string> GetTextAsync()
-        {
-            var taskStringVisitor = new TaskStringVisitor();
-            managedCefBrowserAdapter.GetText(taskStringVisitor);
-            return taskStringVisitor.Task;
-        }
-
-        public void ReplaceMisspelling(string word)
-        {
-            managedCefBrowserAdapter.ReplaceMisspelling(word);
-        }
-
-        public void AddWordToDictionary(string word)
-        {
-            managedCefBrowserAdapter.AddWordToDictionary(word);
-        }
-
         /// <summary>
         /// Invalidate the view. The browser will call CefRenderHandler::OnPaint asynchronously.
         /// </summary>
@@ -1469,12 +1322,30 @@ namespace CefSharp.Wpf
         }
 
         /// <summary>
-        /// Change the zoom level to the specified value. Specify 0.0 to reset the zoom level.
+        /// Sends a Key Event directly to the underlying Browser (CEF).
         /// </summary>
-        /// <param name="zoomLevel">zoom level</param>
-        public void SetZoomLevel(double zoomLevel)
+        /// <param name="message">The message</param>
+        /// <param name="wParam">The wParam</param>
+        /// <param name="lParam">The lParam</param>
+        /// <returns>bool</returns>
+        public bool SendKeyEvent(int message, int wParam, int lParam)
         {
-            managedCefBrowserAdapter.SetZoomLevel(zoomLevel);
+            return managedCefBrowserAdapter.SendKeyEvent(message, wParam, lParam);
+        }
+
+        public IFrame GetMainFrame()
+        {
+            return managedCefBrowserAdapter == null ? null : managedCefBrowserAdapter.GetMainFrame();
+        }
+
+        public IFrame GetFocusedFrame()
+        {
+            return managedCefBrowserAdapter == null ? null : managedCefBrowserAdapter.GetFocusedFrame();
+        }
+
+        public IBrowser GetBrowser()
+        {
+            return managedCefBrowserAdapter == null ? null : managedCefBrowserAdapter.GetBrowser();
         }
     }
 }

@@ -93,12 +93,14 @@
     <Compile Include="BoundObject.cs" />
     <Compile Include="DragHandler.cs" />
     <Compile Include="JsDialogHandler.cs" />
+    <Compile Include="Proxy\InternetOpenType.cs" />
+    <Compile Include="Proxy\InternetProxyInfo.cs" />
+    <Compile Include="Proxy\ProxyConfig.cs" />
     <Compile Include="SubBoundObject.cs" />
     <Compile Include="TempFileDialogHandler.cs" />
     <Compile Include="CefExample.cs" />
     <Compile Include="DownloadHandler.cs" />
     <Compile Include="RequestHandler.cs" />
-    <Compile Include="ExtensionMethods\PropertyChangedExtensionMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

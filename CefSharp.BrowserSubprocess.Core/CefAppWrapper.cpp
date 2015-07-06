@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2014 The CefSharp Project. All rights reserved.
+﻿// Copyright © 2010-2015 The CefSharp Project. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 #pragma once
@@ -7,7 +7,7 @@
 
 #include "CefAppWrapper.h"
 #include "CefBrowserWrapper.h"
-#include "CefTaskScheduler.h"
+#include ".\..\CefSharp.Core\Internals\CefTaskScheduler.h"
 
 using namespace System;
 using namespace System::Diagnostics;

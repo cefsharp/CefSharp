@@ -1,4 +1,4 @@
-// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+// Copyright © 2010-2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -6,24 +6,49 @@
 
 #include "include/cef_app.h"
 #include "CefSettings.h"
-#include "SchemeHandlerWrapper.h"
-#include "SchemeHandlerFactoryWrapper.h"
+
+using namespace CefSharp::Internals;
 
 namespace CefSharp
 {
-    class CefSharpApp : public CefApp
+    private class CefSharpApp : public CefApp,
+        public CefBrowserProcessHandler
     {
         gcroot<CefSettings^> _cefSettings;
+        gcroot<Action^> _onContextInitialized;
 
     public:
-        CefSharpApp(CefSettings^ cefSettings) :
-            _cefSettings(cefSettings)
+        CefSharpApp(CefSettings^ cefSettings, Action^ onContextInitialized) :
+            _cefSettings(cefSettings),
+            _onContextInitialized(onContextInitialized)
         {
         }
 
         ~CefSharpApp()
         {
             _cefSettings = nullptr;
+            _onContextInitialized = nullptr;
+        }
+
+        virtual CefRefPtr<CefBrowserProcessHandler> GetBrowserProcessHandler() OVERRIDE
+        {
+            return this;
+        }
+
+        virtual void OnContextInitialized() OVERRIDE
+        {
+            if (static_cast<Action^>(_onContextInitialized) != nullptr)
+            {
+                _onContextInitialized->Invoke();
+            }
+        }
+
+        virtual void OnBeforeChildProcessLaunch(CefRefPtr<CefCommandLine> command_line) OVERRIDE
+        {
+            if (CefSharpSettings::WcfEnabled)
+            {
+                command_line->AppendArgument(StringUtils::ToNative(CefSharpArguments::WcfEnabledArgument));
+            }
         }
         
         virtual void OnBeforeCommandLineProcessing(const CefString& process_type, CefRefPtr<CefCommandLine> command_line) OVERRIDE
@@ -58,18 +83,6 @@ namespace CefSharp
 
                 // TOOD: Consider adding error handling here. But where do we report any errors that may have occurred?
                 registrar->AddCustomScheme(StringUtils::ToNative(cefCustomScheme->SchemeName), cefCustomScheme->IsStandard, cefCustomScheme->IsLocal, cefCustomScheme->IsDisplayIsolated);
-            }
-        };
-
-        void CompleteSchemeRegistrations()
-        {
-            // TOOD: Consider adding error handling here. But where do we report any errors that may have occurred?
-            for each (CefCustomScheme^ cefCustomScheme in _cefSettings->CefCustomSchemes)
-            {
-                auto domainName = cefCustomScheme->DomainName ? cefCustomScheme->DomainName : String::Empty;
-
-                CefRefPtr<CefSchemeHandlerFactory> wrapper = new SchemeHandlerFactoryWrapper(cefCustomScheme->SchemeHandlerFactory);
-                CefRegisterSchemeHandlerFactory(StringUtils::ToNative(cefCustomScheme->SchemeName), StringUtils::ToNative(domainName), wrapper);
             }
         };
 

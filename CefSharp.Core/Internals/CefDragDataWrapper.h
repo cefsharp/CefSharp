@@ -1,14 +1,17 @@
-// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+// Copyright © 2010-2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 #pragma once
 
 #include "Stdafx.h"
+
 #include "MCefRefPtr.h"
+#include "include/cef_drag_data.h"
 
 using namespace std;
 using namespace System;
+using namespace System::IO;
 using namespace CefSharp;
 
 namespace CefSharp
@@ -17,9 +20,11 @@ namespace CefSharp
     {
         public ref class CefDragDataWrapper : public IDragData
         {
+        private:
             MCefRefPtr<CefDragData> _wrappedDragData;
+
         internal:
-            CefDragDataWrapper(CefRefPtr<CefDragData> dragData) :
+            CefDragDataWrapper(CefRefPtr<CefDragData> &dragData) :
                 _wrappedDragData(dragData)
             {
                 IsReadOnly = dragData->IsReadOnly();
@@ -29,9 +34,14 @@ namespace CefSharp
                 IsLink = dragData->IsLink();
             }
 
-            ~CefDragDataWrapper()
+            !CefDragDataWrapper()
             {
                 _wrappedDragData = nullptr;
+            }
+
+            ~CefDragDataWrapper()
+            {
+                this->!CefDragDataWrapper();
             }
 
         public:

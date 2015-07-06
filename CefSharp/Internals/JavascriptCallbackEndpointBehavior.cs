@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2014 The CefSharp Project. All rights reserved.
+﻿// Copyright © 2010-2015 The CefSharp Project. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -16,7 +16,6 @@ namespace CefSharp.Internals
         private static readonly List<string> Methods = new List<string>
         {
             ReflectionUtils.GetMethodName<IBrowserProcess>(p => p.CallMethod(0, null, null)),
-            ReflectionUtils.GetMethodName<IRenderProcess>(p => p.BeginEvaluateScriptAsync(0, 0, null, null, null, null)).Substring(5),
             ReflectionUtils.GetMethodName<IRenderProcess>(p => p.BeginJavascriptCallbackAsync(0, 0, null, null, null, null)).Substring(5),
         };
 

@@ -1,4 +1,4 @@
-// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+// Copyright © 2010-2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -23,10 +23,11 @@ namespace CefSharp
             {
                 _callbacks = gcnew ConcurrentDictionary<Int64, JavascriptCallbackWrapper^>();
             }
+            ~JavascriptCallbackRegistry();
+
             JavascriptCallback^ Register(CefRefPtr<CefV8Context> context, CefRefPtr<CefV8Value> value);
             JavascriptResponse^ Execute(Int64 id, array<Object^>^ params);
             void Deregister(Int64 id);
-            ~JavascriptCallbackRegistry();
         };
     }
 }

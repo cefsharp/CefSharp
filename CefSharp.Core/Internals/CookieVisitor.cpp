@@ -1,17 +1,15 @@
-// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+// Copyright © 2010-2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 #include "Stdafx.h"
 #include "CookieVisitor.h"
 
-using namespace System::Net;
-
 namespace CefSharp
 {
     bool CookieVisitor::Visit(const CefCookie& cefCookie, int count, int total, bool& deleteCookie)
     {
-        Cookie^ cookie = gcnew Cookie();
+        auto cookie = gcnew Cookie();
         String^ cookieName = StringUtils::ToClr(cefCookie.name);
 
         if (!String::IsNullOrEmpty(cookieName))
@@ -35,6 +33,27 @@ namespace CefSharp
                     cefCookie.expires.millisecond
                 );
             }
+
+            //TODO: There is a method in TypeUtils that's in BrowserSubProcess that convers CefTime, need to make it accessible.
+            cookie->Creation = DateTime(
+                cefCookie.creation.year,
+                cefCookie.creation.month,
+                cefCookie.creation.day_of_month,
+                cefCookie.creation.hour,
+                cefCookie.creation.minute,
+                cefCookie.creation.second,
+                cefCookie.creation.millisecond
+                );
+
+            cookie->LastAccess = DateTime(
+                cefCookie.last_access.year,
+                cefCookie.last_access.month,
+                cefCookie.last_access.day_of_month,
+                cefCookie.last_access.hour,
+                cefCookie.last_access.minute,
+                cefCookie.last_access.second,
+                cefCookie.last_access.millisecond
+                );
         }
 
         return _visitor->Visit(cookie, count, total, deleteCookie);

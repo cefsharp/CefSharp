@@ -1,4 +1,4 @@
-// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+// Copyright © 2010-2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -13,28 +13,32 @@ namespace CefSharp
     /// <summary>
     /// Class ResourceHandler.
     /// </summary>
-    public class ResourceHandler
+    public class ResourceHandler : IResourceHandler
     {
         /// <summary>
-        /// Gets or sets the type of MIME.
+        /// Gets or sets the Mime Type.
         /// </summary>
-        /// <value>The type of MIME.</value>
+        /// <value>The Mime Type.</value>
         public string MimeType { get; private set; }
+
         /// <summary>
         /// Gets or sets the resource stream.
         /// </summary>
         /// <value>The stream.</value>
         public Stream Stream { get; private set; }
+
         /// <summary>
         /// Gets or sets the http status code.
         /// </summary>
         /// <value>The http status code.</value>
         public int StatusCode { get; private set; }
+
         /// <summary>
         /// Gets or sets the status text.
         /// </summary>
         /// <value>The status text.</value>
         public string StatusText { get; private set; }
+
         /// <summary>
         /// Gets or sets the headers.
         /// </summary>
@@ -128,7 +132,7 @@ namespace CefSharp
         /// <returns></returns>
         public static ResourceHandler FromStream(Stream stream)
         {
-            return new ResourceHandler() { Stream = stream };
+            return new ResourceHandler { Stream = stream };
         }
 
         /// <summary>
@@ -757,6 +761,32 @@ namespace CefSharp
             }
             string mime;
             return Mappings.TryGetValue(extension, out mime) ? mime : "application/octet-stream";
+        }
+
+        bool IResourceHandler.ProcessRequestAsync(IRequest request, ICallback callback)
+        {
+            callback.Continue();
+
+            return true;
+        }
+
+        Stream IResourceHandler.GetResponse(IResponse response, out long responseLength, out string redirectUrl)
+        {
+            redirectUrl = null;
+            responseLength = -1;
+
+            response.MimeType = MimeType;
+            response.StatusCode = StatusCode;
+            response.StatusText = StatusText;
+            response.ResponseHeaders = Headers;
+
+            var memoryStream = Stream as MemoryStream;
+            if (memoryStream != null)
+            {
+                responseLength = memoryStream.Length;
+            }
+
+            return Stream;
         }
     }
 }

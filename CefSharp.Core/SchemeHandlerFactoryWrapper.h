@@ -1,4 +1,4 @@
-// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+// Copyright © 2010-2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -14,16 +14,43 @@ using namespace System::Collections::Specialized;
 
 namespace CefSharp
 {
-	class SchemeHandlerFactoryWrapper : public CefSchemeHandlerFactory
-	{
-		gcroot<ISchemeHandlerFactory^> _factory;
+    private class SchemeHandlerFactoryWrapper : public CefSchemeHandlerFactory
+    {
+        gcroot<ISchemeHandlerFactory^> _factory;
 
-	public:
-		SchemeHandlerFactoryWrapper(ISchemeHandlerFactory^ factory)
-			: _factory(factory) {}
+    public:
+        SchemeHandlerFactoryWrapper(ISchemeHandlerFactory^ factory)
+            : _factory(factory) {}
 
-		virtual CefRefPtr<CefResourceHandler> Create(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& scheme_name, CefRefPtr<CefRequest> request);
+        ~SchemeHandlerFactoryWrapper()
+        {
+            _factory = nullptr;
+        }
 
-		IMPLEMENT_REFCOUNTING(SchemeHandlerFactoryWrapper);
-	};
+        virtual CefRefPtr<CefResourceHandler> Create(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& schemeName, CefRefPtr<CefRequest> request) OVERRIDE
+        {
+            // NOTE: NOT supplying a browser adapter here means they currently
+            // can't issue a JavaScript ExecuteScriptAsync call from any IFrame generated via browserWrapper
+            // and IFrame itself.
+            auto browserWrapper = gcnew CefSharpBrowserWrapper(browser);
+            auto frameWrapper = gcnew CefFrameWrapper(frame);
+            auto requestWrapper = gcnew CefRequestWrapper(request);
+
+            auto handler = _factory->Create(browserWrapper, frameWrapper, StringUtils::ToClr(schemeName), requestWrapper);
+
+            if (handler == nullptr)
+            {
+                // Clean up our disposables if our factory doesn't want
+                // this request.
+                delete browserWrapper;
+                delete frameWrapper;
+                delete requestWrapper;
+                return NULL;
+            }
+
+            return new ResourceHandlerWrapper(handler, browserWrapper, frameWrapper, requestWrapper);
+        }
+
+        IMPLEMENT_REFCOUNTING(SchemeHandlerFactoryWrapper);
+    };
 }

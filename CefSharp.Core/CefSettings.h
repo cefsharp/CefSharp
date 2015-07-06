@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+﻿// Copyright © 2010-2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -16,68 +16,40 @@ namespace CefSharp
     public ref class CefSettings
     {
     private:
-        List<CefCustomScheme^>^ cefCustomSchemes;
-        IDictionary<String^, String^>^ cefCommandLineArgs;
+        List<CefCustomScheme^>^ _cefCustomSchemes;
+        IDictionary<String^, String^>^ _cefCommandLineArgs;
 
     internal:
         ::CefSettings* _cefSettings;
-
-        cef_log_severity_t SeverityToNative(CefSharp::LogSeverity severity)
-        {
-            switch (severity)
-            {
-            case CefSharp::LogSeverity::Verbose:
-                return LOGSEVERITY_VERBOSE;
-            case CefSharp::LogSeverity::Info:
-                return LOGSEVERITY_INFO;
-            case CefSharp::LogSeverity::Warning:
-                return LOGSEVERITY_WARNING;
-            case CefSharp::LogSeverity::Error:
-                return LOGSEVERITY_ERROR;
-            case CefSharp::LogSeverity::Disable:
-            default:
-                return LOGSEVERITY_DISABLE;
-            }
-        }
-
-        CefSharp::LogSeverity SeverityToManaged(cef_log_severity_t severity)
-        {
-            switch (severity)
-            {
-            case LOGSEVERITY_VERBOSE:
-                return CefSharp::LogSeverity::Verbose;
-            case LOGSEVERITY_INFO:
-                return CefSharp::LogSeverity::Info;
-            case LOGSEVERITY_WARNING:
-                return CefSharp::LogSeverity::Warning;
-            case LOGSEVERITY_ERROR:
-                return CefSharp::LogSeverity::Error;
-            case LOGSEVERITY_DISABLE:
-            default:
-                return CefSharp::LogSeverity::Disable;
-            }
-        }
 
     public:
         CefSettings() : _cefSettings(new ::CefSettings())
         {
             _cefSettings->multi_threaded_message_loop = true;
+            _cefSettings->no_sandbox = true;
             BrowserSubprocessPath = "CefSharp.BrowserSubprocess.exe";
-            cefCustomSchemes = gcnew List<CefCustomScheme^>();
-            cefCommandLineArgs = gcnew Dictionary<String^, String^>();
+            _cefCustomSchemes = gcnew List<CefCustomScheme^>();
+            _cefCommandLineArgs = gcnew Dictionary<String^, String^>();
         }
 
-        !CefSettings() { delete _cefSettings; }
-        ~CefSettings() { delete _cefSettings; }
+        !CefSettings()
+        {
+            delete _cefSettings;
+        }
+
+        ~CefSettings()
+        {
+            this->!CefSettings();
+        }
 
         virtual property IEnumerable<CefCustomScheme^>^ CefCustomSchemes
         {
-            IEnumerable<CefCustomScheme^>^ get() { return cefCustomSchemes; }
+            IEnumerable<CefCustomScheme^>^ get() { return _cefCustomSchemes; }
         }
 
         virtual property IDictionary<String^, String^>^ CefCommandLineArgs
         {
-            IDictionary<String^, String^>^ get() { return cefCommandLineArgs; }
+            IDictionary<String^, String^>^ get() { return _cefCommandLineArgs; }
         }
 
         virtual property bool MultiThreadedMessageLoop
@@ -97,6 +69,10 @@ namespace CefSharp
             void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->cache_path, value); }
         }
 
+        /// <summary>
+        /// Set to true in order to completely ignore SSL certificate errors.
+        /// This is NOT recommended.
+        /// </summary>
         virtual property bool IgnoreCertificateErrors
         {
             bool get() { return _cefSettings->ignore_certificate_errors == 1; }
@@ -115,6 +91,12 @@ namespace CefSharp
             void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->locales_dir_path, value); }
         }
 
+        virtual property String^ ResourcesDirPath
+        {
+            String^ get() { return StringUtils::ToClr(_cefSettings->resources_dir_path); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->resources_dir_path, value); }
+        }		
+
         virtual property String^ LogFile
         {
             String^ get() { return StringUtils::ToClr(_cefSettings->log_file); }
@@ -123,8 +105,8 @@ namespace CefSharp
 
         virtual property CefSharp::LogSeverity LogSeverity
         {
-            CefSharp::LogSeverity get() { return SeverityToManaged(_cefSettings->log_severity); }
-            void set(CefSharp::LogSeverity value) { _cefSettings->log_severity = SeverityToNative(value); }
+            CefSharp::LogSeverity get() { return (CefSharp::LogSeverity)_cefSettings->log_severity; }
+            void set(CefSharp::LogSeverity value) { _cefSettings->log_severity = (cef_log_severity_t)value; }
         }
 
         virtual property bool PackLoadingDisabled
@@ -151,13 +133,25 @@ namespace CefSharp
             void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->user_agent, value); }
         }
 
+        virtual property bool WindowlessRenderingEnabled
+        {
+            bool get() { return _cefSettings->windowless_rendering_enabled == 1; }
+            void set(bool value) { _cefSettings->windowless_rendering_enabled = value; }
+        }
+
+        virtual property bool PersistSessionCookies
+        {
+            bool get() { return _cefSettings->persist_session_cookies == 1; }
+            void set(bool value) { _cefSettings->persist_session_cookies = value; }
+        }
+
         /// <summary>
         /// Registers a custom scheme using the provided settings.
         /// </summary>
         /// <param name="cefCustomScheme">The CefCustomScheme which provides the details about the scheme.</param>
         void RegisterScheme(CefCustomScheme^ cefCustomScheme)
         {
-            cefCustomSchemes->Add(cefCustomScheme);
+            _cefCustomSchemes->Add(cefCustomScheme);
         }
     };
 }

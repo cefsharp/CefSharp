@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+﻿// Copyright © 2010-2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -11,6 +11,13 @@ namespace CefSharp.Wpf.Example
     {
         private App()
         {
+#if DEBUG
+            if (!System.Diagnostics.Debugger.IsAttached)
+            {
+                MessageBox.Show("When running this Example outside of Visual Studio" +
+                                "please make sure you compile in `Release` mode.", "Warning");
+            }
+#endif
             CefExample.Init();
         }
     }

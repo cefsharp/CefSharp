@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+﻿// Copyright © 2010-2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -8,7 +8,7 @@ namespace CefSharp.Wpf.Example.Handlers
 {
     public class MenuHandler : IMenuHandler
     {
-        public bool OnBeforeContextMenu(IWebBrowser browser, IContextMenuParams parameters)
+        public bool OnBeforeContextMenu(IWebBrowser browser, IFrame frame, IContextMenuParams parameters)
         {
             Console.WriteLine("Context menu opened");
             Console.WriteLine(parameters.MisspelledWord);

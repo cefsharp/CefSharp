@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+﻿// Copyright © 2010-2015 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -9,14 +9,14 @@ namespace CefSharp
 {
     public class DefaultResourceHandlerFactory : IResourceHandlerFactory
     {
-        public Dictionary<string, ResourceHandler> Handlers { get; private set; }
+        public Dictionary<string, IResourceHandler> Handlers { get; private set; }
 
         public DefaultResourceHandlerFactory(IEqualityComparer<string> comparer = null)
         {
-            Handlers = new Dictionary<string, ResourceHandler>(comparer ?? StringComparer.OrdinalIgnoreCase);
+            Handlers = new Dictionary<string, IResourceHandler>(comparer ?? StringComparer.OrdinalIgnoreCase);
         }
 
-        public virtual void RegisterHandler(string url, ResourceHandler handler)
+        public virtual void RegisterHandler(string url, IResourceHandler handler)
         {
             Handlers[url] = handler;
         }
@@ -31,11 +31,19 @@ namespace CefSharp
             get { return Handlers.Count > 0; }
         }
 
-        public virtual ResourceHandler GetResourceHandler(IWebBrowser browser, IRequest request)
+        public virtual IResourceHandler GetResourceHandler(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request)
         {
-            ResourceHandler handler;
+            try
+            {
+                IResourceHandler handler = null;
 
-            return Handlers.TryGetValue(request.Url, out handler) ? handler : null;
+                Handlers.TryGetValue(request.Url, out handler);
+                return handler;
+            }
+            finally
+            {
+                request.Dispose();
+            }
         }
     }
 }
