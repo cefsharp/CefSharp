@@ -73,16 +73,6 @@ void ManagedCefBrowserAdapter::WasHidden(bool hidden)
     }
 }
 
-void ManagedCefBrowserAdapter::Invalidate(PaintElementType type)
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        browser->GetHost()->Invalidate((CefBrowserHost::PaintElementType)type);
-    }
-}
-
 void ManagedCefBrowserAdapter::SendFocusEvent(bool isFocused)
 {
     auto browser = _clientAdapter->GetCefBrowser();

@@ -155,6 +155,7 @@
     <Compile Include="Internals\BrowserProcessServiceHost.cs" />
     <Compile Include="Internals\WCFExtensions.cs" />
     <Compile Include="KeyType.cs" />
+    <Compile Include="PaintElementType.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="ResourceHandler.cs" />
     <Compile Include="ResponseAction.cs" />

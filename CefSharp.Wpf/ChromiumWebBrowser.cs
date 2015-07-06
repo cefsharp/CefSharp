@@ -1315,15 +1315,6 @@ namespace CefSharp.Wpf
         }
 
         /// <summary>
-        /// Invalidate the view. The browser will call CefRenderHandler::OnPaint asynchronously.
-        /// </summary>
-        /// <param name="type">indicates which surface to re-paint either View or Popup.</param>
-        public void Invalidate(PaintElementType type)
-        {
-            managedCefBrowserAdapter.Invalidate(type);
-        }
-
-        /// <summary>
         /// Sends a Key Event directly to the underlying Browser (CEF).
         /// </summary>
         /// <param name="message">The message</param>

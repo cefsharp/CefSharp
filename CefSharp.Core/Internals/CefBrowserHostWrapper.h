@@ -50,6 +50,8 @@ namespace CefSharp
             virtual void StopFinding(bool clearSelection);
 
             virtual void SendMouseWheelEvent(int x, int y, int deltaX, int deltaY);
+
+            virtual void Invalidate(PaintElementType type);
         };
     }
 }

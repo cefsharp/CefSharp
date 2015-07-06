@@ -33,5 +33,12 @@ namespace CefSharp
         /// <param name="deltaX">Movement delta for X direction.</param>
         /// <param name="deltaY">movement delta for Y direction.</param>
         void SendMouseWheelEvent(int x, int y, int deltaX, int deltaY);
+
+        /// <summary>
+        /// Invalidate the view. The browser will call CefRenderHandler::OnPaint asynchronously.
+        /// This method is only used when window rendering is disabled (OSR). 
+        /// </summary>
+        /// <param name="type">indicates which surface to re-paint either View or Popup.</param>
+        void Invalidate(PaintElementType type);
     }
 }

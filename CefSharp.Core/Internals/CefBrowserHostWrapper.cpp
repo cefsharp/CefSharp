@@ -100,3 +100,8 @@ void CefBrowserHostWrapper::SendMouseWheelEvent(int x, int y, int deltaX, int de
         _browserHost->SendMouseWheelEvent(mouseEvent, deltaX, deltaY);
     }
 }
+
+void CefBrowserHostWrapper::Invalidate(PaintElementType type)
+{
+    _browserHost->Invalidate((CefBrowserHost::PaintElementType)type);
+}

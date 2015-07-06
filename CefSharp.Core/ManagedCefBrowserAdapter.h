@@ -9,7 +9,6 @@
 #include <include/cef_runnable.h>
 
 #include "BrowserSettings.h"
-#include "PaintElementType.h"
 #include "Internals/ClientAdapter.h"
 #include "Internals/CefDragDataWrapper.h"
 #include "Internals/RenderClientAdapter.h"
@@ -99,7 +98,6 @@ namespace CefSharp
         void CreateBrowser(BrowserSettings^ browserSettings, IntPtr sourceHandle, String^ address);
         void WasResized();
         void WasHidden(bool hidden);
-        void Invalidate(PaintElementType type);
         void SendFocusEvent(bool isFocused);
         void SetFocus(bool isFocused);
         bool SendKeyEvent(int message, int wParam, int lParam);
