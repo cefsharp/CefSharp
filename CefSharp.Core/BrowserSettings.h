@@ -107,19 +107,19 @@ namespace CefSharp
             void set(CefState value) { _browserSettings->javascript = (cef_state_t)value; }
         }
 
-        property CefState JavaScriptOpenWindows
+        property CefState JavascriptOpenWindows
         {
             CefState get() { return (CefState)_browserSettings->javascript_open_windows; }
             void set(CefState value) { _browserSettings->javascript_open_windows = (cef_state_t)value; }
         }
 
-        property CefState JavaScriptCloseWindows
+        property CefState JavascriptCloseWindows
         {
             CefState get() { return (CefState)_browserSettings->javascript_close_windows; }
             void set(CefState value) { _browserSettings->javascript_close_windows = (cef_state_t)value; }
         }
 
-        property CefState JavaScriptAccessClipboard
+        property CefState JavascriptAccessClipboard
         {
             CefState get() { return (CefState)_browserSettings->javascript_access_clipboard; }
             void set(CefState value) { _browserSettings->javascript_access_clipboard = (cef_state_t)value; }
@@ -209,7 +209,7 @@ namespace CefSharp
             void set(CefState value) { _browserSettings->application_cache = (cef_state_t)value; }
         }
 
-        property CefState WebGlD
+        property CefState WebGl
         {
             CefState get() { return (CefState)_browserSettings->webgl; }
             void set(CefState value) { _browserSettings->webgl = (cef_state_t)value; }
