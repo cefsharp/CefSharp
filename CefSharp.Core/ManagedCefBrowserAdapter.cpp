@@ -49,7 +49,7 @@ void ManagedCefBrowserAdapter::OnAfterBrowserCreated(int browserId)
 
     if (_webBrowserInternal != nullptr)
     {
-        _webBrowserInternal->OnInitialized();
+        _webBrowserInternal->OnAfterBrowserCreated();
     }
 }
 

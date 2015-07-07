@@ -166,7 +166,7 @@ namespace CefSharp.WinForms
             base.OnHandleCreated(e);
         }
 
-        void IWebBrowserInternal.OnInitialized()
+		void IWebBrowserInternal.OnAfterBrowserCreated()
         {
             IsBrowserInitialized = true;
 

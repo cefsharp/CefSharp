@@ -385,7 +385,7 @@ namespace CefSharp.Wpf
             }
         }
 
-        void IWebBrowserInternal.OnInitialized()
+        void IWebBrowserInternal.OnAfterBrowserCreated()
         {
             browserInitialized = true;
 
