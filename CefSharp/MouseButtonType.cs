@@ -4,10 +4,10 @@
 
 namespace CefSharp
 {
-	public enum MouseButtonType
-	{
-		Left = 0,
-		Middle,
-		Right
-	}
+    public enum MouseButtonType
+    {
+        Left = 0,
+        Middle,
+        Right
+    }
 }
