@@ -9,7 +9,6 @@
 #include <include/cef_runnable.h>
 
 #include "BrowserSettings.h"
-#include "PaintElementType.h"
 #include "Internals/ClientAdapter.h"
 #include "Internals/CefDragDataWrapper.h"
 #include "Internals/RenderClientAdapter.h"
@@ -99,13 +98,9 @@ namespace CefSharp
         void CreateBrowser(BrowserSettings^ browserSettings, IntPtr sourceHandle, String^ address);
         void WasResized();
         void WasHidden(bool hidden);
-        void Invalidate(PaintElementType type);
         void SendFocusEvent(bool isFocused);
         void SetFocus(bool isFocused);
         bool SendKeyEvent(int message, int wParam, int lParam);
-        void OnMouseMove(int x, int y, bool mouseLeave, CefEventFlags modifiers);
-        void OnMouseButton(int x, int y, int mouseButtonType, bool mouseUp, int clickCount, CefEventFlags modifiers);
-        void OnMouseWheel(int x, int y, int deltaX, int deltaY);
         void Resize(int width, int height);
         void NotifyMoveOrResizeStarted();
         void NotifyScreenInfoChanged();
@@ -114,47 +109,6 @@ namespace CefSharp
         void OnDragTargetDragOver(MouseEvent^ mouseEvent, DragOperationsMask allowedOperations);
         void OnDragTargetDragLeave();
         void OnDragTargetDragDrop(MouseEvent^ mouseEvent);
-
-        ///
-        // Returns the main (top-level) frame for the browser window.
-        ///
-        IFrame^ GetMainFrame();
-
-        ///
-        // Returns the focused frame for the browser window.
-        ///
-        /*--cef()--*/
-        IFrame^ GetFocusedFrame();
-
-        ///
-        // Returns the frame with the specified identifier, or NULL if not found.
-        ///
-        /*--cef(capi_name=get_frame_byident)--*/
-        IFrame^ GetFrame(System::Int64 identifier);
-
-        ///
-        // Returns the frame with the specified name, or NULL if not found.
-        ///
-        /*--cef(optional_param=name)--*/
-        IFrame^ GetFrame(String^ name);
-
-        ///
-        // Returns the number of frames that currently exist.
-        ///
-        /*--cef()--*/
-        int GetFrameCount();
-
-        ///
-        // Returns the identifiers of all existing frames.
-        ///
-        /*--cef(count_func=identifiers:GetFrameCount)--*/
-        List<System::Int64>^ GetFrameIdentifiers();
-
-        ///
-        // Returns the names of all existing frames.
-        ///
-        /*--cef()--*/
-        List<String^>^ GetFrameNames();
 
         /// <summary>
         /// Gets the CefBrowserWrapper instance

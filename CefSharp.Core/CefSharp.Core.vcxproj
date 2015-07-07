@@ -277,7 +277,6 @@
     <ClInclude Include="Internals\TypeConversion.h" />
     <ClInclude Include="NativeMethodWrapper.h" />
     <ClInclude Include="Internals\Serialization\V8Serialization.h" />
-    <ClInclude Include="PaintElementType.h" />
     <ClInclude Include="ManagedCefBrowserAdapter.h" />
     <ClInclude Include="CefSettings.h" />
     <ClInclude Include="Internals\Serialization\Primitives.h" />

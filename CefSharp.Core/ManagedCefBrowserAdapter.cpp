@@ -73,16 +73,6 @@ void ManagedCefBrowserAdapter::WasHidden(bool hidden)
     }
 }
 
-void ManagedCefBrowserAdapter::Invalidate(PaintElementType type)
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        browser->GetHost()->Invalidate((CefBrowserHost::PaintElementType)type);
-    }
-}
-
 void ManagedCefBrowserAdapter::SendFocusEvent(bool isFocused)
 {
     auto browser = _clientAdapter->GetCefBrowser();
@@ -222,56 +212,6 @@ int ManagedCefBrowserAdapter::GetCefKeyboardModifiers(WPARAM wparam, LPARAM lpar
     return modifiers;
 }
 
-void ManagedCefBrowserAdapter::OnMouseMove(int x, int y, bool mouseLeave, CefEventFlags modifiers)
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        CefMouseEvent mouseEvent;
-        mouseEvent.x = x;
-        mouseEvent.y = y;
-
-        mouseEvent.modifiers = (uint32)modifiers;
-
-        browser->GetHost()->SendMouseMoveEvent(mouseEvent, mouseLeave);
-
-        if (mouseLeave == true)
-        {
-            _webBrowserInternal->SetTooltipText(nullptr);
-        }
-    }
-}
-
-void ManagedCefBrowserAdapter::OnMouseButton(int x, int y, int mouseButtonType, bool mouseUp, int clickCount, CefEventFlags modifiers)
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        CefMouseEvent mouseEvent;
-        mouseEvent.x = x;
-        mouseEvent.y = y;
-        mouseEvent.modifiers = (uint32)modifiers;
-
-        browser->GetHost()->SendMouseClickEvent(mouseEvent, (CefBrowserHost::MouseButtonType) mouseButtonType, mouseUp, clickCount);
-    }
-}
-
-void ManagedCefBrowserAdapter::OnMouseWheel(int x, int y, int deltaX, int deltaY)
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        CefMouseEvent mouseEvent;
-        mouseEvent.x = x;
-        mouseEvent.y = y;
-
-        browser->GetHost()->SendMouseWheelEvent(mouseEvent, deltaX, deltaY);
-    }
-}
-
 void ManagedCefBrowserAdapter::CreateBrowser(BrowserSettings^ browserSettings, IntPtr sourceHandle, String^ address)
 {
     HWND hwnd = static_cast<HWND>(sourceHandle.ToPointer());
@@ -381,130 +321,6 @@ void ManagedCefBrowserAdapter::OnDragTargetDragDrop(MouseEvent^ mouseEvent)
     {
         browser->GetHost()->DragTargetDrop(GetCefMouseEvent(mouseEvent));
     }
-}
-
-///
-// Returns the number of frames that currently exist.
-///
-/*--cef()--*/
-int ManagedCefBrowserAdapter::GetFrameCount()
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        return browser->GetFrameCount();
-    }
-    return 0;
-}
-
-///
-// Returns the identifiers of all existing frames.
-///
-/*--cef(count_func=identifiers:GetFrameCount)--*/
-List<Int64>^ ManagedCefBrowserAdapter::GetFrameIdentifiers()
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser == nullptr)
-    {
-        return nullptr;
-    }
-
-    std::vector<Int64> identifiers;
-    browser->GetFrameIdentifiers(identifiers);
-    List<Int64>^ results = gcnew List<Int64>(identifiers.size());
-    for (UINT i = 0; i < identifiers.size(); i++)
-    {
-        results->Add(identifiers[i]);
-    }
-    return results;
-}
-
-///
-// Returns the names of all existing frames.
-///
-/*--cef()--*/
-List<String^>^ ManagedCefBrowserAdapter::GetFrameNames()
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser == nullptr)
-    {
-        return nullptr;
-    }
-    
-    std::vector<CefString> names;
-    browser->GetFrameNames(names);
-    return StringUtils::ToClr(names);
-}
-
-///
-// Returns the main (top-level) frame for the browser window.
-///
-IFrame^ ManagedCefBrowserAdapter::GetMainFrame()
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-    if (browser == nullptr)
-    {
-        return nullptr;
-    }
-    return gcnew CefFrameWrapper(browser->GetMainFrame());
-}
-
-///
-// Returns the focused frame for the browser window.
-///
-/*--cef()--*/
-IFrame^ ManagedCefBrowserAdapter::GetFocusedFrame()
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-    if (browser == nullptr)
-    {
-        return nullptr;
-    }
-
-    return gcnew CefFrameWrapper(browser->GetFocusedFrame());
-}
-
-///
-// Returns the frame with the specified identifier, or NULL if not found.
-///
-/*--cef(capi_name=get_frame_byident)--*/
-IFrame^ ManagedCefBrowserAdapter::GetFrame(System::Int64 identifier)
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-    if (browser == nullptr)
-    {
-        return nullptr;
-    }
-    auto result = browser->GetFrame(identifier);
-    if (result == nullptr)
-    {
-        return nullptr;
-    }
-    
-    return gcnew CefFrameWrapper(result);
-}
-
-///
-// Returns the frame with the specified name, or NULL if not found.
-///
-/*--cef(optional_param=name)--*/
-IFrame^ ManagedCefBrowserAdapter::GetFrame(String^ name)
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-    if (browser == nullptr)
-    {
-        return nullptr;
-    }
-    auto result = browser->GetFrame(StringUtils::ToNative(name));
-    if (result == nullptr)
-    {
-        return nullptr;
-    }
-    
-    return gcnew CefFrameWrapper(result);
 }
 
 /// <summary>

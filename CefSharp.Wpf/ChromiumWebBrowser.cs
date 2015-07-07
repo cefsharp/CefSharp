@@ -1160,12 +1160,14 @@ namespace CefSharp.Wpf
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
-            var point = GetPixelPosition(e);
-            var modifiers = GetModifiers(e);
+            var browser = GetBrowser();
 
-            if (managedCefBrowserAdapter != null)
+            if (browser != null)
             {
-                managedCefBrowserAdapter.OnMouseMove((int)point.X, (int)point.Y, false, modifiers);
+                var point = GetPixelPosition(e);
+                var modifiers = GetModifiers(e);
+
+                browser.GetHost().SendMouseMoveEvent((int)point.X, (int)point.Y, false, modifiers);
             }
         }
 
@@ -1173,20 +1175,17 @@ namespace CefSharp.Wpf
         {
             var point = GetPixelPosition(e);
 
-            if (managedCefBrowserAdapter != null)
+            var browser = GetBrowser();
+
+            if (browser != null)
             {
-                managedCefBrowserAdapter.OnMouseWheel(
+                browser.SendMouseWheelEvent(
                     (int)point.X,
                     (int)point.Y,
                     deltaX: 0,
                     deltaY: e.Delta
                     );
             }
-        }
-
-        public void SendMouseWheelEvent(int x, int y, int deltaX, int deltaY)
-        {
-            managedCefBrowserAdapter.OnMouseWheel(x, y, deltaX, deltaY);
         }
 
         protected void PopupMouseEnter(object sender, MouseEventArgs e)
@@ -1215,11 +1214,15 @@ namespace CefSharp.Wpf
 
         protected override void OnMouseLeave(MouseEventArgs e)
         {
-            var modifiers = GetModifiers(e);
+            var browser = GetBrowser();
 
-            if (managedCefBrowserAdapter != null)
+            if (browser != null)
             {
-                managedCefBrowserAdapter.OnMouseMove(-1, -1, true, modifiers);
+                var modifiers = GetModifiers(e);
+
+                browser.GetHost().SendMouseMoveEvent(-1, -1, true, modifiers);
+
+                ((IWebBrowserInternal)this).SetTooltipText(null);
             }
         }
 
@@ -1235,9 +1238,11 @@ namespace CefSharp.Wpf
             var mouseUp = (e.ButtonState == MouseButtonState.Released);
             var point = GetPixelPosition(e);
 
-            if (managedCefBrowserAdapter != null)
+            var browser = GetBrowser();
+
+            if (browser != null)
             {
-                managedCefBrowserAdapter.OnMouseButton((int)point.X, (int)point.Y, (int)e.ChangedButton, mouseUp, e.ClickCount, modifiers);
+                browser.GetHost().SendMouseClickEvent((int)point.X, (int)point.Y, (MouseButtonType)e.ChangedButton, mouseUp, e.ClickCount, modifiers);
             }
         }
 
@@ -1259,7 +1264,7 @@ namespace CefSharp.Wpf
                     Dispatcher
                     );
 
-                GetMainFrame().LoadUrl(url);
+                this.GetMainFrame().LoadUrl(url);
             }
         }
 
@@ -1289,6 +1294,11 @@ namespace CefSharp.Wpf
 
         public void RegisterJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true)
         {
+            if (IsBrowserInitialized)
+            {
+                throw new Exception("Browser is already initialized. RegisterJsObject must be" +
+                                    "called before the underlying CEF browser is created.");
+            }
             managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, camelCaseJavascriptNames);
         }
 
@@ -1313,15 +1323,6 @@ namespace CefSharp.Wpf
         }
 
         /// <summary>
-        /// Invalidate the view. The browser will call CefRenderHandler::OnPaint asynchronously.
-        /// </summary>
-        /// <param name="type">indicates which surface to re-paint either View or Popup.</param>
-        public void Invalidate(PaintElementType type)
-        {
-            managedCefBrowserAdapter.Invalidate(type);
-        }
-
-        /// <summary>
         /// Sends a Key Event directly to the underlying Browser (CEF).
         /// </summary>
         /// <param name="message">The message</param>
@@ -1331,16 +1332,6 @@ namespace CefSharp.Wpf
         public bool SendKeyEvent(int message, int wParam, int lParam)
         {
             return managedCefBrowserAdapter.SendKeyEvent(message, wParam, lParam);
-        }
-
-        public IFrame GetMainFrame()
-        {
-            return managedCefBrowserAdapter == null ? null : managedCefBrowserAdapter.GetMainFrame();
-        }
-
-        public IFrame GetFocusedFrame()
-        {
-            return managedCefBrowserAdapter == null ? null : managedCefBrowserAdapter.GetFocusedFrame();
         }
 
         public IBrowser GetBrowser()

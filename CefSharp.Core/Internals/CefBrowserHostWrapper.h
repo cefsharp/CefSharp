@@ -48,6 +48,14 @@ namespace CefSharp
 
             virtual void Find(int identifier, String^ searchText, bool forward, bool matchCase, bool findNext);
             virtual void StopFinding(bool clearSelection);
+
+            virtual void SendMouseWheelEvent(int x, int y, int deltaX, int deltaY);
+
+            virtual void Invalidate(PaintElementType type);
+
+            virtual void SendMouseClickEvent(int x, int y, MouseButtonType mouseButtonType, bool mouseUp, int clickCount, CefEventFlags modifiers);
+
+            virtual void SendMouseMoveEvent(int x, int y, bool mouseLeave, CefEventFlags modifiers);
         };
     }
 }

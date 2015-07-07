@@ -91,6 +91,7 @@
     <Compile Include="CefDirtyRect.cs" />
     <Compile Include="CefFileDialogMode.cs" />
     <Compile Include="CefJsDialogType.cs" />
+    <Compile Include="MouseButtonType.cs" />
     <Compile Include="CefReturnValue.cs" />
     <Compile Include="CefSharpSettings.cs" />
     <Compile Include="CefThreadIds.cs" />
@@ -155,6 +156,7 @@
     <Compile Include="Internals\BrowserProcessServiceHost.cs" />
     <Compile Include="Internals\WCFExtensions.cs" />
     <Compile Include="KeyType.cs" />
+    <Compile Include="PaintElementType.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="ResourceHandler.cs" />
     <Compile Include="ResponseAction.cs" />

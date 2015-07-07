@@ -180,27 +180,6 @@ namespace CefSharp
         /// <returns><c>true</c> if keyboard focus and logical focus were set to this element; <c>false</c> if only logical focus
         /// was set to this element, or if the call to this method did not force the focus to change.</returns>
         bool Focus();
-        
-        /// <summary>
-        /// Send a mouse wheel event to the browser.
-        /// </summary>
-        /// <param name="x">X-Axis coordinate relative to the upper-left corner of the view.</param>
-        /// <param name="y">Y-Axis coordinate relative to the upper-left corner of the view.</param>
-        /// <param name="deltaX">Movement delta for X direction.</param>
-        /// <param name="deltaY">movement delta for Y direction.</param>
-        void SendMouseWheelEvent(int x, int y, int deltaX, int deltaY);
-
-        /// <summary>
-        /// Returns the main (top-level) frame for the browser window.
-        /// </summary>
-        /// <returns>Frame</returns>
-        IFrame GetMainFrame();
-
-        /// <summary>
-        /// Returns the focused frame for the browser window.
-        /// </summary>
-        /// <returns>Frame</returns>
-        IFrame GetFocusedFrame();
 
         /// <summary>
         /// Returns the current CEF Browser Instance

@@ -88,3 +88,41 @@ double CefBrowserHostWrapper::GetZoomLevelOnUI()
 
     return 0.0;	
 }
+
+void CefBrowserHostWrapper::SendMouseWheelEvent(int x, int y, int deltaX, int deltaY)
+{
+    if (_browserHost.get())
+    {
+        CefMouseEvent mouseEvent;
+        mouseEvent.x = x;
+        mouseEvent.y = y;
+
+        _browserHost->SendMouseWheelEvent(mouseEvent, deltaX, deltaY);
+    }
+}
+
+void CefBrowserHostWrapper::Invalidate(PaintElementType type)
+{
+    _browserHost->Invalidate((CefBrowserHost::PaintElementType)type);
+}
+
+void CefBrowserHostWrapper::SendMouseClickEvent(int x, int y, MouseButtonType mouseButtonType, bool mouseUp, int clickCount, CefEventFlags modifiers)
+{
+    CefMouseEvent mouseEvent;
+    mouseEvent.x = x;
+    mouseEvent.y = y;
+    mouseEvent.modifiers = (uint32)modifiers;
+
+    _browserHost->SendMouseClickEvent(mouseEvent, (CefBrowserHost::MouseButtonType) mouseButtonType, mouseUp, clickCount);
+}
+
+void CefBrowserHostWrapper::SendMouseMoveEvent(int x, int y, bool mouseLeave, CefEventFlags modifiers)
+{
+    CefMouseEvent mouseEvent;
+    mouseEvent.x = x;
+    mouseEvent.y = y;
+
+    mouseEvent.modifiers = (uint32)modifiers;
+
+    _browserHost->SendMouseMoveEvent(mouseEvent, mouseLeave);
+}

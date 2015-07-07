@@ -231,17 +231,16 @@ namespace CefSharp.OffScreen
         {
             Address = url;
 
-            var frame = GetMainFrame();
-            if (frame == null)
-            {
-                throw new Exception("IFrame instance is null. Browser has likely not finished initializing or is in the process of disposing.");
-            }
-
-            frame.LoadUrl(url);
+            this.GetMainFrame().LoadUrl(url);
         }
 
         public void RegisterJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true)
         {
+            if (IsBrowserInitialized)
+            {
+                throw new Exception("Browser is already initialized. RegisterJsObject must be" +
+                                    "called before the underlying CEF browser is created.");
+            }
             managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, camelCaseJavascriptNames);
         }
 
@@ -255,27 +254,12 @@ namespace CefSharp.OffScreen
             return false;
         }
 
-        public void SendMouseWheelEvent(int x, int y, int deltaX, int deltaY)
-        {
-            managedCefBrowserAdapter.OnMouseWheel(x, y, deltaX, deltaY);
-        }
-
-        public IFrame GetMainFrame()
-        {
-            return IsBrowserInitialized ? managedCefBrowserAdapter.GetMainFrame() : null;
-        }
-
-        public IFrame GetFocusedFrame()
-        {
-            return IsBrowserInitialized ? managedCefBrowserAdapter.GetFocusedFrame() : null;
-        }
-
         public IBrowser GetBrowser()
         {
-            return IsBrowserInitialized ? managedCefBrowserAdapter.GetBrowser() : null;
-        }
+            this.ThrowExceptionIfBrowserNotInitialized();
 
-        #region IRenderWebBrowser (rendering to bitmap; derived from CefSharp.Wpf.ChromiumWebBrowser)
+            return managedCefBrowserAdapter.GetBrowser();
+        }
 
         ScreenInfo IRenderWebBrowser.GetScreenInfo()
         {
@@ -332,9 +316,6 @@ namespace CefSharp.OffScreen
         void IRenderWebBrowser.SetPopupSizeAndPosition(int width, int height, int x, int y)
         {
         }
-        #endregion
-
-        #region IWebBrowserInternal (notifications from CEF to C#; derived from CefSharp.Wpf.ChromiumWebBrowser)
 
         void IWebBrowserInternal.OnConsoleMessage(string message, string source, int line)
         {
@@ -426,6 +407,5 @@ namespace CefSharp.OffScreen
         {
             TooltipText = tooltipText;
         }
-        #endregion
     }
 }
