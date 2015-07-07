@@ -16,6 +16,7 @@
 #include "Internals/StringVisitor.h"
 #include "Internals/CefFrameWrapper.h"
 #include "Internals/CefSharpBrowserWrapper.h"
+#include "Internals/JavascriptCallbackImplFactory.h"
 
 using namespace CefSharp::Internals;
 using namespace System::Diagnostics;
@@ -31,6 +32,7 @@ namespace CefSharp
         BrowserProcessServiceHost^ _browserProcessServiceHost;
         IWebBrowserInternal^ _webBrowserInternal;
         JavascriptObjectRepository^ _javaScriptObjectRepository;
+        JavascriptCallbackImplFactory^ _javascriptCallbackFactory;
         IBrowser^ _browserWrapper;
         bool _isDisposed;
 
@@ -60,6 +62,7 @@ namespace CefSharp
 
             _webBrowserInternal = webBrowserInternal;
             _javaScriptObjectRepository = gcnew JavascriptObjectRepository();
+            _javascriptCallbackFactory = gcnew JavascriptCallbackImplFactory(_clientAdapter->GetPendingTaskRepository());
         }
 
         !ManagedCefBrowserAdapter()

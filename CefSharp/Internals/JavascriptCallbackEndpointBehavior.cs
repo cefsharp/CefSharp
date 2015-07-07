@@ -19,11 +19,12 @@ namespace CefSharp.Internals
             ReflectionUtils.GetMethodName<IRenderProcess>(p => p.BeginJavascriptCallbackAsync(0, 0, null, null, null, null)).Substring(5),
         };
 
-        private readonly WeakReference browserProcessWeakReference;
+        private readonly IJavascriptCallbackFactory callbackFactory;
 
-        public JavascriptCallbackEndpointBehavior(BrowserProcessServiceHost browserProcess)
+
+        public JavascriptCallbackEndpointBehavior(IJavascriptCallbackFactory callbackFactory)
         {
-            browserProcessWeakReference = new WeakReference(browserProcess);
+            this.callbackFactory = callbackFactory;
         }
 
         public void Validate(ServiceEndpoint endpoint)
@@ -38,7 +39,7 @@ namespace CefSharp.Internals
         {
             foreach (var operation in endpoint.Contract.Operations.Where(o => Methods.Contains(o.Name)))
             {
-                operation.Behaviors.Find<DataContractSerializerOperationBehavior>().DataContractSurrogate = new JavascriptCallbackSurrogate(browserProcessWeakReference);
+                operation.Behaviors.Find<DataContractSerializerOperationBehavior>().DataContractSurrogate = new JavascriptCallbackSurrogate(callbackFactory);
             }
         }
 

@@ -15,17 +15,16 @@ namespace CefSharp.Internals
     {
         private const long OneHundredAndTwentyEightMegaBytesInBytes = 128*1024*1024;
 
-        public IJavascriptCallbackFactory JavascriptCallbackFactory { get; private set; }
         public JavascriptObjectRepository JavascriptObjectRepository { get; private set; }
         private TaskCompletionSource<OperationContext> operationContextTaskCompletionSource = new TaskCompletionSource<OperationContext>();
 
-        public BrowserProcessServiceHost(JavascriptObjectRepository javascriptObjectRepository, int parentProcessId, int browserId)
+        public BrowserProcessServiceHost(JavascriptObjectRepository javascriptObjectRepository, int parentProcessId, IBrowserAdapter browserAdapter)
             : base(typeof(BrowserProcessService), new Uri[0])
         {
             JavascriptObjectRepository = javascriptObjectRepository;
-            JavascriptCallbackFactory = new JavascriptCallbackFactory(new WeakReference(this));
 
-            var serviceName = RenderprocessClientFactory.GetServiceName(parentProcessId, browserId);
+            var browser = browserAdapter.GetBrowser();
+            var serviceName = RenderprocessClientFactory.GetServiceName(parentProcessId, browser.Identifier);
 
             Description.ApplyServiceBehavior(() => new ServiceDebugBehavior(), p => p.IncludeExceptionDetailInFaults = true);
 
@@ -38,7 +37,7 @@ namespace CefSharp.Internals
             );
 
             endPoint.Contract.ProtectionLevel = ProtectionLevel.None;
-            endPoint.Behaviors.Add(new JavascriptCallbackEndpointBehavior(this));
+            endPoint.Behaviors.Add(new JavascriptCallbackEndpointBehavior(browserAdapter.JavascriptCallbackFactory));
         }
 
         public void SetOperationContext(OperationContext operationContext)

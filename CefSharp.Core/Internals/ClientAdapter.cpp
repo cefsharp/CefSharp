@@ -836,7 +836,7 @@ namespace CefSharp
                     {
                         response->Result = DeserializeV8Object(argList, 2, callbackFactory);
                     }
-                    else
+                     else
                     {
                         response->Message = StringUtils::ToClr(argList->GetString(2));
                     }
@@ -865,6 +865,11 @@ namespace CefSharp
             _cefBrowser->SendProcessMessage(CefProcessId::PID_RENDERER, message);
 
             return idAndComplectionSource.Value->Task;
+        }
+
+        PendingTaskRepository<JavascriptResponse^>^ ClientAdapter::GetPendingTaskRepository()
+        {
+            return _pendingTaskRepository;
         }
     }
 }
