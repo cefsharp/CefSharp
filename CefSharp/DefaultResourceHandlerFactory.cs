@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 namespace CefSharp
 {
@@ -19,12 +20,12 @@ namespace CefSharp
         public virtual bool RegisterHandler(string url, IResourceHandler handler)
         {
             Uri uri;
-            if (Uri.TryCreate(url, UriKind.Absolute, out uri) || Uri.TryCreate("http://" + url, UriKind.Absolute, out uri))
+            if (Uri.TryCreate(url, UriKind.Absolute, out uri))
             {
                 Handlers.AddOrUpdate(uri.ToString(), handler, (k, v) => handler);
                 return true;
             }
-                return false;
+            return false;
         }
 
         public virtual bool UnregisterHandler(string url)
@@ -42,9 +43,9 @@ namespace CefSharp
         {
             try
             {
-                IResourceHandler handler = null;
-
+                IResourceHandler handler;
                 Handlers.TryGetValue(request.Url, out handler);
+
                 return handler;
             }
             finally
