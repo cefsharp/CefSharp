@@ -13,6 +13,7 @@ namespace CefSharp
         /// <param name="browser">The browser instance that launched this popup.</param>
         /// <param name="frame">The HTML frame that launched this popup.</param>
         /// <param name="targetUrl">The URL of the popup content. (This may be empty/null)</param>
+        /// <param name="targetFrameName">The name of the popup. (This may be empty/null)</param>
         /// <param name="windowInfo">window information</param>
         /// <param name="noJavascriptAccess">value indicates whether the new browser window should be scriptable
         /// and in the same process as the source browser.</param>
@@ -32,7 +33,7 @@ namespace CefSharp
         /// the new browser window should be scriptable and in the same process as the
         /// source browser.
         /// </remarks>
-        bool OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, IWindowInfo windowInfo, ref bool noJavascriptAccess);
+        bool OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName, IWindowInfo windowInfo, ref bool noJavascriptAccess);
 
         /// <summary>
         /// Called before a CefBrowser window (either the main browser for <see cref="IWebBrowser"/>, 

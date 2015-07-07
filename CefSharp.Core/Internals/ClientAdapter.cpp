@@ -84,6 +84,7 @@ namespace CefSharp
             auto result = handler->OnBeforePopup(
                 _browserControl, browserWrapper,
                 %frameWrapper, StringUtils::ToClr(target_url),
+                StringUtils::ToClr(target_frame_name),
                 %windowInfoWrapper, *no_javascript_access);
             return result;
         }
