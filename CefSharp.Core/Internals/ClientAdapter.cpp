@@ -107,7 +107,7 @@ namespace CefSharp
                 _browserHwnd = browser->GetHost()->GetWindowHandle();
                 _cefBrowser = browser;
                 
-                if (static_cast<IBrowserAdapter^>(_browserAdapter) != nullptr)
+                if (!Object::ReferenceEquals(_browserAdapter, nullptr))
                 {
                     _browserAdapter->OnAfterBrowserCreated(browser->GetIdentifier());
                     //save callback factory for this browser
@@ -368,7 +368,7 @@ namespace CefSharp
                     IBrowser^ browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), true);
                     CefFrameWrapper frameWrapper(frame);
                     popupHandler->OnLoadError(_browserControl, browserWrapper,
-                        gcnew LoadErrorEventArgs(%frameWrapper, static_cast<CefErrorCode>(errorCode), StringUtils::ToClr(errorText), StringUtils::ToClr(failedUrl)));
+                        gcnew LoadErrorEventArgs(%frameWrapper, (CefErrorCode)errorCode, StringUtils::ToClr(errorText), StringUtils::ToClr(failedUrl)));
                 }
             }
             else

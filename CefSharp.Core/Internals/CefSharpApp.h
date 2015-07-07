@@ -37,7 +37,7 @@ namespace CefSharp
 
         virtual void OnContextInitialized() OVERRIDE
         {
-            if (static_cast<Action^>(_onContextInitialized) != nullptr)
+            if (!Object::ReferenceEquals(_onContextInitialized, nullptr))
             {
                 _onContextInitialized->Invoke();
             }
