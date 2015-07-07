@@ -905,6 +905,12 @@ namespace CefSharp.Wpf
             Content = image = CreateImage();
 
             popup = CreatePopup();
+
+            // If Address was previously set, only now can we actually do the load
+            if (!string.IsNullOrEmpty(Address))
+            {
+                Load(Address);
+            }
         }
 
         private Image CreateImage()
@@ -1248,8 +1254,10 @@ namespace CefSharp.Wpf
 
         public void Load(string url)
         {
-            //Added null check -> binding-triggered changes of Address will lead to a nullref after Dispose has been called.
-            if (managedCefBrowserAdapter != null)
+            // Added null check -> binding-triggered changes of Address will lead to a nullref after Dispose has been called
+            // or before OnApplyTemplate has been called
+            var browser = GetBrowser();
+            if (browser != null)
             {
                 if (tooltipTimer != null)
                 {
@@ -1264,7 +1272,7 @@ namespace CefSharp.Wpf
                     Dispatcher
                     );
 
-                this.GetMainFrame().LoadUrl(url);
+                browser.MainFrame.LoadUrl(url);
             }
         }
 
