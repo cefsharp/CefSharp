@@ -24,7 +24,7 @@ namespace CefSharp
         Task<JavascriptResponse^>^ JavascriptCallbackImpl::ExecuteAsync(array<Object^>^ parameters)
         {
             auto browser = GetBrowser();
-            if (browser.get())
+            if (browser != nullptr)
             {
                 auto doneCallback = _pendingTasks->CreatePendingTask(Nullable<TimeSpan>());
                 auto callbackMessage = CreateCallMessage(doneCallback.Key, parameters);
@@ -43,7 +43,7 @@ namespace CefSharp
             auto result = CefProcessMessage::Create(kJavascriptCallbackRequest);
             auto browser = GetBrowser();
             auto argList = result->GetArgumentList();
-            argList->SetInt(0, browser->GetIdentifier());
+            argList->SetInt(0, browser->Identifier);
             SetInt64(_callback->Id, argList, 1);
             SetInt64(doneCallbackId, argList, 2);
             auto paramList = CefListValue::Create();
@@ -64,13 +64,12 @@ namespace CefSharp
             return result;
         }
 
-        CefRefPtr<CefBrowser> JavascriptCallbackImpl::GetBrowser()
+        CefSharpBrowserWrapper^ JavascriptCallbackImpl::GetBrowser()
         {
-            CefRefPtr<CefBrowser> result;
+            CefSharpBrowserWrapper^ result = nullptr;
             if (_browserWrapper->IsAlive)
             {
-                auto wrapper = static_cast<CefSharpBrowserWrapper^>(_browserWrapper->Target);
-                result = wrapper == nullptr ? nullptr : wrapper->Browser.get();
+                result = static_cast<CefSharpBrowserWrapper^>(_browserWrapper->Target);
             }
             return result;
         }
@@ -86,7 +85,7 @@ namespace CefSharp
         JavascriptCallbackImpl::!JavascriptCallbackImpl()
         {
             auto browser = GetBrowser();
-            if (browser.get())
+            if (browser != nullptr)
             {
                 browser->SendProcessMessage(CefProcessId::PID_RENDERER, CreateDestroyMessage());
             }

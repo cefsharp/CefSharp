@@ -26,12 +26,12 @@ namespace CefSharp
 
             CefRefPtr<CefProcessMessage> CreateCallMessage(int64 doneCallbackId, array<Object^>^ parameters);
             CefRefPtr<CefProcessMessage> CreateDestroyMessage();
-            CefRefPtr<CefBrowser> GetBrowser();
+            CefSharpBrowserWrapper^ GetBrowser();
             void DisposedGuard();
         public:
             JavascriptCallbackImpl(JavascriptCallback^ callback, PendingTaskRepository<JavascriptResponse^>^ pendingTasks, WeakReference^ browser);
 
-            virtual Task<JavascriptResponse^>^ ExecuteAsync(array<Object^>^ parameters) override;
+            virtual Task<JavascriptResponse^>^ ExecuteAsync(array<Object^>^ parameters);
 
             ~JavascriptCallbackImpl() { this->!JavascriptCallbackImpl(); }
             !JavascriptCallbackImpl();
