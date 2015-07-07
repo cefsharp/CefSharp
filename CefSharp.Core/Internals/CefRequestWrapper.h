@@ -36,13 +36,9 @@ namespace CefSharp
                 delete _postData;
             }
 
-        protected:
-            virtual property String^ CharSet { String^ get(); }
-
         public:
             virtual property String^ Url { String^ get(); void set(String^ url); }
             virtual property String^ Method { String^ get(); }
-            virtual property String^ Body { String^ get(); }
             virtual property NameValueCollection^ Headers { NameValueCollection^ get(); void set(NameValueCollection^ url); }
             virtual property TransitionType TransitionType { CefSharp::TransitionType get(); }
             virtual property IPostData^ PostData { IPostData^ get(); }
