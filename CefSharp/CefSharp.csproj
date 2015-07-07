@@ -94,6 +94,7 @@
     <Compile Include="MouseButtonType.cs" />
     <Compile Include="CefReturnValue.cs" />
     <Compile Include="CefSharpSettings.cs" />
+    <Compile Include="CefState.cs" />
     <Compile Include="CefThreadIds.cs" />
     <Compile Include="Cookie.cs" />
     <Compile Include="IAuthCallback.cs" />
