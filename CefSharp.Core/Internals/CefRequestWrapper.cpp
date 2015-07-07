@@ -4,6 +4,7 @@
 
 #include "Stdafx.h"
 #include "CefRequestWrapper.h"
+#include "CefPostDataWrapper.h"
 
 using namespace System::Text;
 
@@ -180,6 +181,15 @@ namespace CefSharp
             charset = charset->TrimEnd(' ', '"', ';');
 
             return charset;
+        }
+
+        IPostData^ CefRequestWrapper::PostData::get()
+        {
+            if (_postData == nullptr)
+            {
+                _postData = gcnew CefPostDataWrapper(_wrappedRequest->GetPostData());
+            }
+            return _postData;
         }
     }
 }

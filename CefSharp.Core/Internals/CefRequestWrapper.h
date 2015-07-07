@@ -17,6 +17,7 @@ namespace CefSharp
         public ref class CefRequestWrapper : public IRequest
         {
             MCefRefPtr<CefRequest> _wrappedRequest;
+            IPostData^ _postData;
         internal:
             CefRequestWrapper(CefRefPtr<CefRequest> &cefRequest) : 
                 _wrappedRequest(cefRequest) 
@@ -31,6 +32,8 @@ namespace CefSharp
             ~CefRequestWrapper()
             {
                 this->!CefRequestWrapper();
+
+                delete _postData;
             }
 
         protected:
@@ -42,6 +45,7 @@ namespace CefSharp
             virtual property String^ Body { String^ get(); }
             virtual property NameValueCollection^ Headers { NameValueCollection^ get(); void set(NameValueCollection^ url); }
             virtual property TransitionType TransitionType { CefSharp::TransitionType get(); }
+            virtual property IPostData^ PostData { IPostData^ get(); }
         };
     }
 }

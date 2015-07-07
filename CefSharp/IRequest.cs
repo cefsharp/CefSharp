@@ -13,6 +13,7 @@ namespace CefSharp
         string Method { get; }
         string Body { get; }
         NameValueCollection Headers { get; set; }
+        IPostData PostData { get; }
         
         /// <summary>
         /// Get the transition type for this request.

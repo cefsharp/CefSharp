@@ -91,6 +91,8 @@
     <Compile Include="CefDirtyRect.cs" />
     <Compile Include="CefFileDialogMode.cs" />
     <Compile Include="CefJsDialogType.cs" />
+    <Compile Include="IPostData.cs" />
+    <Compile Include="IPostDataElement.cs" />
     <Compile Include="MouseButtonType.cs" />
     <Compile Include="CefReturnValue.cs" />
     <Compile Include="CefSharpSettings.cs" />
