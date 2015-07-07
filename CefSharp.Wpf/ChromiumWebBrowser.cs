@@ -32,6 +32,7 @@ namespace CefSharp.Wpf
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
         private bool ignoreUriChange;
         private bool browserCreated;
+        private volatile bool browserInitialized;
         private Matrix matrix;
         private Image image;
         private Image popupImage;
@@ -386,7 +387,18 @@ namespace CefSharp.Wpf
 
         void IWebBrowserInternal.OnInitialized()
         {
-            UiThreadRunAsync(() => SetCurrentValue(IsBrowserInitializedProperty, true));
+            browserInitialized = true;
+
+            UiThreadRunAsync(() =>
+            {
+                SetCurrentValue(IsBrowserInitializedProperty, true);
+
+                // If Address was previously set, only now can we actually do the load
+                if (!string.IsNullOrEmpty(Address))
+                {
+                    Load(Address);
+                }
+            });
         }
 
         #region CanGoBack dependency property
@@ -445,7 +457,7 @@ namespace CefSharp.Wpf
 
         protected virtual void OnAddressChanged(string oldValue, string newValue)
         {
-            if (ignoreUriChange || newValue == null)
+            if (ignoreUriChange || newValue == null || !browserInitialized)
             {
                 return;
             }
@@ -905,12 +917,6 @@ namespace CefSharp.Wpf
             Content = image = CreateImage();
 
             popup = CreatePopup();
-
-            // If Address was previously set, only now can we actually do the load
-            if (!string.IsNullOrEmpty(Address))
-            {
-                Load(Address);
-            }
         }
 
         private Image CreateImage()
@@ -1302,7 +1308,7 @@ namespace CefSharp.Wpf
 
         public void RegisterJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true)
         {
-            if (IsBrowserInitialized)
+            if (browserInitialized)
             {
                 throw new Exception("Browser is already initialized. RegisterJsObject must be" +
                                     "called before the underlying CEF browser is created.");
