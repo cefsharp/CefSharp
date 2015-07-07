@@ -11,7 +11,7 @@ namespace CefSharp
         string File { get; set; }
         bool IsReadOnly { get; }
         void SetToEmpty();
-        int Type { get; }
+        PostDataElementType Type { get; }
 
         byte[] Bytes { get; set; }
     }

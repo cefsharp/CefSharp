@@ -62,11 +62,11 @@ namespace CefSharp
                 _postDataElement->SetToEmpty();
             }
 
-            virtual property int Type
+            virtual property PostDataElementType Type
             {
-                int get()
+                PostDataElementType get()
                 {
-                    return _postDataElement->GetType();
+                    return (PostDataElementType)_postDataElement->GetType();
                 }
             }
 

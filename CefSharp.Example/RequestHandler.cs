@@ -49,7 +49,7 @@ namespace CefSharp.Example
 
                         foreach (var element in elements)
                         {
-                            if (element.Type == 1)
+                            if (element.Type == PostDataElementType.Bytes)
                             {
                                 var body = element.GetBody(charSet);
                             }
