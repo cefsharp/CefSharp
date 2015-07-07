@@ -7,9 +7,11 @@
 #include "Stdafx.h"
 
 #include "Internals/TypeConversion.h"
+#include "CefPostDataElementWrapper.h"
 
 using namespace System;
-using namespace System::Collections::Specialized;
+using namespace System::Collections::Generic;
+using namespace System::Collections::ObjectModel;
 using namespace CefSharp;
 
 namespace CefSharp
@@ -49,7 +51,25 @@ namespace CefSharp
             {
                 IList<IPostDataElement^>^ get()
                 {
-                    return nullptr;
+                    auto elements = gcnew List<IPostDataElement^>();
+
+                    auto elementCount = _postData->GetElementCount();
+                    if (elementCount == 0)
+                    {
+                        return gcnew ReadOnlyCollection<IPostDataElement^>(elements);
+                    }
+                    CefPostData::ElementVector ev;
+
+                    _postData->GetElements(ev);
+
+                    for (CefPostData::ElementVector::iterator it = ev.begin(); it != ev.end(); ++it)
+                    {
+                        CefPostDataElement *el = it->get();
+
+                        elements->Add(gcnew CefPostDataElementWrapper(el));
+                    }
+
+                    return gcnew ReadOnlyCollection<IPostDataElement^>(elements);;
                 }
             }
 
