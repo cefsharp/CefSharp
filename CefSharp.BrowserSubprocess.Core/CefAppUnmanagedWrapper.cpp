@@ -155,6 +155,7 @@ namespace CefSharp
 
                     result = value->ExecuteFunction(nullptr, params);
                     success = result.get() != nullptr;
+                    response = CefProcessMessage::Create(kJavascriptCallbackResponse);
                     //we need to do this here to be able to store the v8context
                     if (success)
                     {
@@ -166,8 +167,6 @@ namespace CefSharp
                         exception = value->GetException();
                     }
                 }
-
-                response = CefProcessMessage::Create(kJavascriptCallbackResponse);
             }
 
             if (response.get())

@@ -163,7 +163,7 @@ namespace CefSharp
                     throw gcnew NotSupportedException("Complex types cannot be serialized to Cef lists");
                 }
 
-                seen->Pop(obj);
+                seen->Pop();
             }
 
             DateTime ConvertCefTimeToDateTime(CefTime time)
@@ -185,6 +185,8 @@ namespace CefSharp
 
             template Object^ DeserializeV8Object(CefRefPtr<CefListValue> list, int index, IJavascriptCallbackFactory^ javascriptCallbackFactory);
             template Object^ DeserializeV8Object(CefRefPtr<CefDictionaryValue> list, CefString index, IJavascriptCallbackFactory^ javascriptCallbackFactory);
+            template void SerializeV8Object(Object^ obj, CefRefPtr<CefListValue> list, int index);
+            template void SerializeV8Object(Object^ obj, CefRefPtr<CefDictionaryValue> list, CefString index);
         }
     }
 }

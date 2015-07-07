@@ -19,6 +19,7 @@ namespace CefSharp
     private class CefAppUnmanagedWrapper : CefApp, CefRenderProcessHandler
     {
     private:
+        //Simple v8context enter/exit to avoid code duplication
         struct V8ContextScope
         {
             V8ContextScope(CefRefPtr<CefV8Context> context)
