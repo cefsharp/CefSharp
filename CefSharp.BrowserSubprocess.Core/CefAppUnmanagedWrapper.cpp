@@ -91,61 +91,103 @@ namespace CefSharp
     {
         auto handled = false;
         auto name = message->GetName();
-        if (name == kEvaluateJavascriptRequest)
+        auto argList = message->GetArgumentList();
+
+        auto browserId = argList->GetInt(0);
+        if (browser->GetIdentifier() != browserId)
         {
-            auto argList = message->GetArgumentList();
-            auto browserId = argList->GetInt(0);
-            auto frameId = GetInt64(argList, 1);
-            auto callbackId = GetInt64(argList, 2);
-            auto script = argList->GetString(3);
+            throw gcnew InvalidOperationException(String::Format("Request BrowserId : {0} does not match browser Id : {1}", browserId, browser->GetIdentifier()));
+        }
+        auto browserWrapper = FindBrowserWrapper(browserId, true);
 
-            if(browser->GetIdentifier() != browserId)
+        if (name == kEvaluateJavascriptRequest || name == kJavascriptCallbackRequest)
+        {
+            CefRefPtr<CefV8Value> result;
+            CefRefPtr<CefV8Exception> exception;
+            CefRefPtr<CefProcessMessage> response;
+            bool success;
+            int64 callbackId;
+
+            if (name == kEvaluateJavascriptRequest)
             {
-                throw gcnew InvalidOperationException(String::Format("Request BrowserId : {0} does not match browser Id : {1}", browserId, browser->GetIdentifier()));
-            }
+                auto frameId = GetInt64(argList, 1);
+                callbackId = GetInt64(argList, 2);
+                auto script = argList->GetString(3);
 
-            auto browserWrapper = FindBrowserWrapper(browserId, true);
-            auto frame = browser->GetFrame(frameId);
-            if (frame.get())
-            {
-                auto context = frame->GetV8Context();
-
-                if (context.get() && context->Enter())
+                auto frame = browser->GetFrame(frameId);
+                if (frame.get())
                 {
-                    try
+                    auto context = frame->GetV8Context();
+                    V8ContextScope scope(context);
+
+                    success = context->Eval(script, result, exception);
+                    response = CefProcessMessage::Create(kEvaluateJavascriptResponse);
+                    //we need to do this here to be able to store the v8context
+                    if (success)
                     {
-                        CefRefPtr<CefV8Value> result;
-                        CefRefPtr<CefV8Exception> exception;
-                        auto success = context->Eval(script, result, exception);
-                        auto response = CefProcessMessage::Create(kEvaluateJavascriptResponse);
                         auto argList = response->GetArgumentList();
-
-                        argList->SetBool(0, success);
-                        SetInt64(callbackId, argList, 1);
-                        if (success)
-                        {
-                            SerializeV8Object(result, argList, 2, browserWrapper->CallbackRegistry);
-                        }
-                        else
-                        {
-                            argList->SetString(2, exception->GetMessage());
-                        }
-
-                        if (response.get())
-                        {
-                            browser->SendProcessMessage(sourceProcessId, response);
-                        }
+                        SerializeV8Object(result, argList, 2, browserWrapper->CallbackRegistry);
                     }
-                    finally
-                    {
-                        context->Exit();
-                    }
+                }
+                else
+                {
+                    //TODO handle error
                 }
             }
             else
             {
-                //TODO handle error
+                auto jsCallbackId = GetInt64(argList, 1);
+                callbackId = GetInt64(argList, 2);
+                auto parameterList = argList->GetList(3);
+                CefV8ValueList params;
+                for (CefV8ValueList::size_type i = 0; i < parameterList->GetSize(); i++)
+                {
+                    params.push_back(DeserializeV8Object(parameterList, static_cast<int>(i)));
+                }
+
+                auto callbackRegistry = browserWrapper->CallbackRegistry;
+                auto callbackWrapper = callbackRegistry->FindWrapper(jsCallbackId);
+                auto context = callbackWrapper->GetContext();
+                auto value = callbackWrapper->GetValue();
+
+                {
+                    V8ContextScope scope(context);
+
+                    result = value->ExecuteFunction(nullptr, params);
+                    success = result.get() != nullptr;
+                    //we need to do this here to be able to store the v8context
+                    if (success)
+                    {
+                        auto argList = response->GetArgumentList();
+                        SerializeV8Object(result, argList, 2, browserWrapper->CallbackRegistry);
+                    }
+                    else
+                    {
+                        exception = value->GetException();
+                    }
+                }
+
+                response = CefProcessMessage::Create(kJavascriptCallbackResponse);
             }
+
+            if (response.get())
+            {
+                auto argList = response->GetArgumentList();
+                argList->SetBool(0, success);
+                SetInt64(callbackId, argList, 1);
+                if (!success)
+                {
+                    argList->SetString(2, exception->GetMessage());
+                }
+                browser->SendProcessMessage(sourceProcessId, response);
+            }
+
+            handled = true;
+        }
+        else if (name == kJavascriptCallbackDestroyRequest)
+        {
+            auto jsCallbackId = GetInt64(argList, 1);
+            browserWrapper->CallbackRegistry->Deregister(jsCallbackId);
 
             handled = true;
         }

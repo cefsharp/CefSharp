@@ -817,7 +817,7 @@ namespace CefSharp
         {
             auto handled = false;
             auto name = message->GetName();
-            if (name == kEvaluateJavascriptResponse)
+            if (name == kEvaluateJavascriptResponse || name == kJavascriptCallbackResponse)
             {
                 auto argList = message->GetArgumentList();
                 auto success = argList->GetBool(0);

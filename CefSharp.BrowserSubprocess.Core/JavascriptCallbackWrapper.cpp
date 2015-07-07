@@ -5,11 +5,14 @@
 #include "stdafx.h"
 #include "TypeUtils.h"
 #include "JavascriptCallbackWrapper.h"
+#include "Serialization/V8Serialization.h"
 
 namespace CefSharp
 {
     namespace Internals
     {
+        using namespace Serialization;
+
         JavascriptCallbackWrapper::!JavascriptCallbackWrapper()
         {
             value = nullptr;
@@ -57,6 +60,16 @@ namespace CefSharp
                 }
             }
             return response;
+        }
+
+        CefRefPtr<CefV8Value> JavascriptCallbackWrapper::GetValue()
+        {
+            return value.get();
+        }
+
+        CefRefPtr<CefV8Context> JavascriptCallbackWrapper::GetContext()
+        {
+            return context.get();
         }
     }
 }

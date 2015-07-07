@@ -48,6 +48,13 @@ namespace CefSharp
             return nullptr;
         }
 
+        JavascriptCallbackWrapper^ JavascriptCallbackRegistry::FindWrapper(int64 id)
+        {
+            JavascriptCallbackWrapper^ callback;
+            _callbacks->TryGetValue(id, callback);
+            return callback;
+        }
+
         void JavascriptCallbackRegistry::Deregister(Int64 id)
         {
             JavascriptCallbackWrapper^ callback;

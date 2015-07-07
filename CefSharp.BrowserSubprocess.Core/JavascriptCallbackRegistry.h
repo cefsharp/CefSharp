@@ -18,6 +18,10 @@ namespace CefSharp
             int _browserId;
             Int64 _lastId;
             ConcurrentDictionary<Int64, JavascriptCallbackWrapper^>^ _callbacks;
+
+        internal:
+            JavascriptCallbackWrapper^ FindWrapper(int64 id);
+
         public:
             JavascriptCallbackRegistry(int browserId) : _browserId(browserId)
             {
@@ -27,6 +31,7 @@ namespace CefSharp
 
             JavascriptCallback^ Register(CefRefPtr<CefV8Context> context, CefRefPtr<CefV8Value> value);
             JavascriptResponse^ Execute(Int64 id, array<Object^>^ params);
+
             void Deregister(Int64 id);
         };
     }

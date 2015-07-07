@@ -17,6 +17,11 @@ namespace CefSharp
         private:
             MCefRefPtr<CefV8Value> value;
             MCefRefPtr<CefV8Context> context;
+
+        internal:
+            CefRefPtr<CefV8Value> GetValue();
+            CefRefPtr<CefV8Context> GetContext();
+
         public:
             JavascriptCallbackWrapper(CefRefPtr<CefV8Value> value, CefRefPtr<CefV8Context> context)
                 : value(value), context(context) 
@@ -27,7 +32,6 @@ namespace CefSharp
             ~JavascriptCallbackWrapper();
 
             JavascriptResponse^ Execute(array<Object^>^ parms);
-
         };
     }
 }
