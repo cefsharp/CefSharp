@@ -16,7 +16,6 @@ namespace CefSharp.Internals
         private static readonly List<string> Methods = new List<string>
         {
             ReflectionUtils.GetMethodName<IBrowserProcess>(p => p.CallMethod(0, null, null)),
-            ReflectionUtils.GetMethodName<IRenderProcess>(p => p.BeginJavascriptCallbackAsync(0, 0, null, null, null, null)).Substring(5),
         };
 
         private readonly IJavascriptCallbackFactory callbackFactory;

@@ -23,7 +23,7 @@ namespace CefSharp.Internals
         {
             if (type == typeof (JavascriptCallback))
             {
-                return typeof (JavascriptCallbackProxy);
+                return typeof (IJavascriptCallback);
             }
             return type;
         }

@@ -31,16 +31,6 @@ namespace CefSharp
         }
     }
 
-    JavascriptResponse^ CefBrowserWrapper::DoCallback(System::Int64 callbackId, array<Object^>^ parameters)
-    {
-        return _callbackRegistry->Execute(callbackId, parameters);
-    }
-
-    void CefBrowserWrapper::DestroyJavascriptCallback(Int64 id)
-    {
-        _callbackRegistry->Deregister(id);
-    }
-
     JavascriptCallbackRegistry^ CefBrowserWrapper::CallbackRegistry::get()
     {
         return _callbackRegistry;

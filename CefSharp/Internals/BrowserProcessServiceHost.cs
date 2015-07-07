@@ -78,29 +78,6 @@ namespace CefSharp.Internals
             }
         }
 
-        internal Task<JavascriptResponse> JavascriptCallback(int browserId, long id, object[] parameters, TimeSpan? timeout)
-        {
-            var operationContextTask = operationContextTaskCompletionSource.Task;
-            return operationContextTask.ContinueWith(t =>
-            {
-                var context = t.Result;
-                var renderProcess = context.GetCallbackChannel<IRenderProcess>();
-                var asyncResult = renderProcess.BeginJavascriptCallbackAsync(browserId, id, parameters, timeout, null, null);
-                return Task.Factory.FromAsync<JavascriptResponse>(asyncResult, renderProcess.EndJavascriptCallbackAsync);
-            }).Unwrap();
-        }
-
-        internal void DestroyJavascriptCallback(int browserId, long id)
-        {
-            var operationContextTask = operationContextTaskCompletionSource.Task;
-            operationContextTask.ContinueWith(t =>
-            {
-                var context = t.Result;
-                var renderProcess = context.GetCallbackChannel<IRenderProcess>();
-                renderProcess.DestroyJavascriptCallback(browserId, id);
-            });
-        }
-
         protected override void OnClosed()
         {
             base.OnClosed();
