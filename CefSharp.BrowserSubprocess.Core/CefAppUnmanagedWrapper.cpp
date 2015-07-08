@@ -118,15 +118,23 @@ namespace CefSharp
                 if (frame.get())
                 {
                     auto context = frame->GetV8Context();
-                    V8ContextScope scope(context);
-
-                    success = context->Eval(script, result, exception);
-                    response = CefProcessMessage::Create(kEvaluateJavascriptResponse);
-                    //we need to do this here to be able to store the v8context
-                    if (success)
+                    try
                     {
-                        auto argList = response->GetArgumentList();
-                        SerializeV8Object(result, argList, 2, browserWrapper->CallbackRegistry);
+                        if (context.get() && context->Enter())
+                        {
+                            success = context->Eval(script, result, exception);
+                            response = CefProcessMessage::Create(kEvaluateJavascriptResponse);
+                            //we need to do this here to be able to store the v8context
+                            if (success)
+                            {
+                                auto argList = response->GetArgumentList();
+                                SerializeV8Object(result, argList, 2, browserWrapper->CallbackRegistry);
+                            }
+                        }
+                    }
+                    finally
+                    {
+                        context->Exit();
                     }
                 }
                 else
@@ -150,22 +158,28 @@ namespace CefSharp
                 auto context = callbackWrapper->GetContext();
                 auto value = callbackWrapper->GetValue();
 
+                try
                 {
-                    V8ContextScope scope(context);
-
-                    result = value->ExecuteFunction(nullptr, params);
-                    success = result.get() != nullptr;
-                    response = CefProcessMessage::Create(kJavascriptCallbackResponse);
-                    //we need to do this here to be able to store the v8context
-                    if (success)
+                    if (context.get() && context->Enter())
                     {
-                        auto argList = response->GetArgumentList();
-                        SerializeV8Object(result, argList, 2, browserWrapper->CallbackRegistry);
+                        result = value->ExecuteFunction(nullptr, params);
+                        success = result.get() != nullptr;
+                        response = CefProcessMessage::Create(kJavascriptCallbackResponse);
+                        //we need to do this here to be able to store the v8context
+                        if (success)
+                        {
+                            auto argList = response->GetArgumentList();
+                            SerializeV8Object(result, argList, 2, browserWrapper->CallbackRegistry);
+                        }
+                        else
+                        {
+                            exception = value->GetException();
+                        }
                     }
-                    else
-                    {
-                        exception = value->GetException();
-                    }
+                }
+                finally
+                {
+                    context->Exit();
                 }
             }
 

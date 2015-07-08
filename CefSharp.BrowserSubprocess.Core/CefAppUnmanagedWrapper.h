@@ -19,29 +19,6 @@ namespace CefSharp
     private class CefAppUnmanagedWrapper : CefApp, CefRenderProcessHandler
     {
     private:
-        //Simple v8context enter/exit to avoid code duplication
-        struct V8ContextScope
-        {
-            V8ContextScope(CefRefPtr<CefV8Context> context)
-                :context(context)
-            {
-                if (context.get())
-                {
-                    context->Enter();
-                }
-            }
-
-            ~V8ContextScope()
-            {
-                if (context.get())
-                {
-                    context->Exit();
-                }
-            }
-        private:
-            CefRefPtr<CefV8Context> context;
-        };
-
         gcroot<Action<CefBrowserWrapper^>^> _onBrowserCreated;
         gcroot<Action<CefBrowserWrapper^>^> _onBrowserDestroyed;
         gcroot<Dictionary<int, CefBrowserWrapper^>^> _browserWrappers;
