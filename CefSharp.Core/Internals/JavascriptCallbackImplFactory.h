@@ -10,19 +10,20 @@ namespace CefSharp
 {
     namespace Internals
     {
-        ref class CefSharpBrowserWrapper;
-
         private ref class JavascriptCallbackImplFactory : public IJavascriptCallbackFactory
         {
         private:
             WeakReference^ _browserWrapper;
             PendingTaskRepository<JavascriptResponse^>^ _pendingTasks;
         public:
-            JavascriptCallbackImplFactory(PendingTaskRepository<JavascriptResponse^>^ pendingTasks);
-
-            property CefSharpBrowserWrapper^ BrowserWrapper
+            JavascriptCallbackImplFactory(PendingTaskRepository<JavascriptResponse^>^ pendingTasks)
+                :_pendingTasks(pendingTasks)
             {
-                void set(CefSharpBrowserWrapper^ browserWrapper);
+            }
+
+            property WeakReference^ BrowserWrapper
+            {
+                void set(WeakReference^ browserWrapper);
             };
 
             virtual IJavascriptCallback^ Create(JavascriptCallback^ callback);

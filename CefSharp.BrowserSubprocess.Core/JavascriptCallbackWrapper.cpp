@@ -7,12 +7,12 @@
 #include "JavascriptCallbackWrapper.h"
 #include "Serialization/V8Serialization.h"
 
+using namespace CefSharp::Internals::Serialization;
+
 namespace CefSharp
 {
     namespace Internals
     {
-        using namespace Serialization;
-
         JavascriptCallbackWrapper::!JavascriptCallbackWrapper()
         {
             value = nullptr;

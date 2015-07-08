@@ -29,12 +29,25 @@ namespace CefSharp
             CefSharpBrowserWrapper^ GetBrowser();
             void DisposedGuard();
         public:
-            JavascriptCallbackImpl(JavascriptCallback^ callback, PendingTaskRepository<JavascriptResponse^>^ pendingTasks, WeakReference^ browser);
+            JavascriptCallbackImpl(JavascriptCallback^ callback, PendingTaskRepository<JavascriptResponse^>^ pendingTasks, WeakReference^ browserWrapper)
+                :_callback(callback), _pendingTasks(pendingTasks)
+            {
+                _browserWrapper = browserWrapper;
+            }
 
             virtual Task<JavascriptResponse^>^ ExecuteAsync(array<Object^>^ parameters);
 
             ~JavascriptCallbackImpl() { this->!JavascriptCallbackImpl(); }
-            !JavascriptCallbackImpl();
+
+            !JavascriptCallbackImpl()
+            {
+                auto browser = GetBrowser();
+                if (browser != nullptr)
+                {
+                    browser->SendProcessMessage(CefProcessId::PID_RENDERER, CreateDestroyMessage());
+                }
+                _disposed = true;
+            }
         };
     }
 }

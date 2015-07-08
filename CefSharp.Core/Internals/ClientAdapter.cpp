@@ -836,7 +836,7 @@ namespace CefSharp
                     {
                         response->Result = DeserializeV8Object(argList, 2, callbackFactory);
                     }
-                     else
+                    else
                     {
                         response->Message = StringUtils::ToClr(argList->GetString(2));
                     }

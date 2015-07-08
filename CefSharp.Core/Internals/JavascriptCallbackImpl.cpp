@@ -8,19 +8,13 @@
 #include "Serialization/Primitives.h"
 #include "Serialization/V8Serialization.h"
 
+using namespace CefSharp::Internals::Messaging;
+using namespace CefSharp::Internals::Serialization;
+
 namespace CefSharp
 {
     namespace Internals
     {
-        using namespace Messaging;
-        using namespace Serialization;
-
-        JavascriptCallbackImpl::JavascriptCallbackImpl(JavascriptCallback^ callback, PendingTaskRepository<JavascriptResponse^>^ pendingTasks, WeakReference^ browserWrapper)
-            :_callback(callback), _pendingTasks(pendingTasks)
-        {
-            _browserWrapper = browserWrapper;
-        }
-
         Task<JavascriptResponse^>^ JavascriptCallbackImpl::ExecuteAsync(array<Object^>^ parameters)
         {
             auto browser = GetBrowser();
@@ -80,16 +74,6 @@ namespace CefSharp
             {
                 throw gcnew ObjectDisposedException("JavascriptCallbackImpl");
             }
-        }
-
-        JavascriptCallbackImpl::!JavascriptCallbackImpl()
-        {
-            auto browser = GetBrowser();
-            if (browser != nullptr)
-            {
-                browser->SendProcessMessage(CefProcessId::PID_RENDERER, CreateDestroyMessage());
-            }
-            _disposed = true;
         }
     }
 }

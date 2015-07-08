@@ -36,7 +36,7 @@ void ManagedCefBrowserAdapter::OnAfterBrowserCreated(int browserId)
         //the js callback factory needs the browser instance to pass it to the js callback implementations for messaging purposes
         auto cefSharpBrowserWrapper = gcnew CefSharpBrowserWrapper(browser);
         _browserWrapper = cefSharpBrowserWrapper;
-        _javascriptCallbackFactory->BrowserWrapper = cefSharpBrowserWrapper;
+        _javascriptCallbackFactory->BrowserWrapper = gcnew WeakReference(cefSharpBrowserWrapper);
     }
 
     if (CefSharpSettings::WcfEnabled)
