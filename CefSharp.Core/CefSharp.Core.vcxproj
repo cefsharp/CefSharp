@@ -227,8 +227,8 @@
     <ClCompile Include="Internals\CompletionHandler.cpp" />
     <ClCompile Include="Internals\CookieVisitor.cpp" />
     <ClCompile Include="Internals\CefRequestWrapper.cpp" />
-    <ClCompile Include="Internals\JavascriptCallbackImpl.cpp" />
-    <ClCompile Include="Internals\JavascriptCallbackImplFactory.cpp" />
+    <ClCompile Include="Internals\JavascriptCallbackProxy.cpp" />
+    <ClCompile Include="Internals\JavascriptCallbackFactory.cpp" />
     <ClCompile Include="Internals\StringVisitor.cpp" />
     <ClCompile Include="ManagedCefBrowserAdapter.cpp" />
     <ClCompile Include="NativeMethodWrapper.cpp" />
@@ -269,8 +269,8 @@
     <ClInclude Include="Internals\CefSharpApp.h" />
     <ClInclude Include="Internals\CefRequestWrapper.h" />
     <ClInclude Include="Internals\CefJSDialogCallbackWrapper.h" />
-    <ClInclude Include="Internals\JavascriptCallbackImpl.h" />
-    <ClInclude Include="Internals\JavascriptCallbackImplFactory.h" />
+    <ClInclude Include="Internals\JavascriptCallbackProxy.h" />
+    <ClInclude Include="Internals\JavascriptCallbackFactory.h" />
     <ClInclude Include="Internals\MCefRefPtr.h" />
     <ClInclude Include="Internals\Messaging\Messages.h" />
     <ClInclude Include="Internals\PluginVisitor.h" />

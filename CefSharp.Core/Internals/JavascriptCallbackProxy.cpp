@@ -3,7 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 #include "Stdafx.h"
-#include "JavascriptCallbackImpl.h"
+#include "JavascriptCallbackProxy.h"
 #include "Messaging/Messages.h"
 #include "Serialization/Primitives.h"
 #include "Serialization/V8Serialization.h"
@@ -15,8 +15,10 @@ namespace CefSharp
 {
     namespace Internals
     {
-        Task<JavascriptResponse^>^ JavascriptCallbackImpl::ExecuteAsync(array<Object^>^ parameters)
+        Task<JavascriptResponse^>^ JavascriptCallbackProxy::ExecuteAsync(array<Object^>^ parameters)
         {
+            DisposedGuard();
+
             auto browser = GetBrowser();
             if (browser != nullptr)
             {
@@ -32,7 +34,7 @@ namespace CefSharp
             }
         }
 
-        CefRefPtr<CefProcessMessage> JavascriptCallbackImpl::CreateCallMessage(int64 doneCallbackId, array<Object^>^ parameters)
+        CefRefPtr<CefProcessMessage> JavascriptCallbackProxy::CreateCallMessage(int64 doneCallbackId, array<Object^>^ parameters)
         {
             auto result = CefProcessMessage::Create(kJavascriptCallbackRequest);
             auto browser = GetBrowser();
@@ -50,7 +52,7 @@ namespace CefSharp
             return result;
         }
 
-        CefRefPtr<CefProcessMessage> JavascriptCallbackImpl::CreateDestroyMessage()
+        CefRefPtr<CefProcessMessage> JavascriptCallbackProxy::CreateDestroyMessage()
         {
             auto result = CefProcessMessage::Create(kJavascriptCallbackDestroyRequest);
             auto argList = result->GetArgumentList();
@@ -58,7 +60,7 @@ namespace CefSharp
             return result;
         }
 
-        CefSharpBrowserWrapper^ JavascriptCallbackImpl::GetBrowser()
+        CefSharpBrowserWrapper^ JavascriptCallbackProxy::GetBrowser()
         {
             CefSharpBrowserWrapper^ result = nullptr;
             if (_browserWrapper->IsAlive)
@@ -68,11 +70,11 @@ namespace CefSharp
             return result;
         }
 
-        void JavascriptCallbackImpl::DisposedGuard()
+        void JavascriptCallbackProxy::DisposedGuard()
         {
             if (_disposed)
             {
-                throw gcnew ObjectDisposedException("JavascriptCallbackImpl");
+                throw gcnew ObjectDisposedException("JavascriptCallbackProxy");
             }
         }
     }

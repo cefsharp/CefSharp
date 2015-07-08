@@ -65,10 +65,10 @@
     <ClCompile Include="Internals\Serialization\Primitives.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Internals\JavascriptCallbackImpl.cpp">
+    <ClCompile Include="Internals\JavascriptCallbackProxy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Internals\JavascriptCallbackImplFactory.cpp">
+    <ClCompile Include="Internals\JavascriptCallbackFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -200,12 +200,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Internals\CefWindowInfoWrapper.h">
-	  <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Internals\JavascriptCallbackImpl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Internals\JavascriptCallbackImplFactory.h">
+    <ClInclude Include="Internals\JavascriptCallbackProxy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\JavascriptCallbackFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

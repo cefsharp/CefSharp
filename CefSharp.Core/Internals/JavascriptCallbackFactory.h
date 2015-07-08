@@ -10,13 +10,13 @@ namespace CefSharp
 {
     namespace Internals
     {
-        private ref class JavascriptCallbackImplFactory : public IJavascriptCallbackFactory
+        private ref class JavascriptCallbackFactory : public IJavascriptCallbackFactory
         {
         private:
             WeakReference^ _browserWrapper;
             PendingTaskRepository<JavascriptResponse^>^ _pendingTasks;
         public:
-            JavascriptCallbackImplFactory(PendingTaskRepository<JavascriptResponse^>^ pendingTasks)
+            JavascriptCallbackFactory(PendingTaskRepository<JavascriptResponse^>^ pendingTasks)
                 :_pendingTasks(pendingTasks)
             {
             }

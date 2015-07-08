@@ -4,21 +4,21 @@
 
 #include "Stdafx.h"
 #include "CefSharpBrowserWrapper.h"
-#include "JavascriptCallbackImpl.h"
-#include "JavascriptCallbackImplFactory.h"
+#include "JavascriptCallbackProxy.h"
+#include "JavascriptCallbackFactory.h"
 
 namespace CefSharp
 {
     namespace Internals
     {
-        void JavascriptCallbackImplFactory::BrowserWrapper::set(WeakReference^ browserWrapper)
+        void JavascriptCallbackFactory::BrowserWrapper::set(WeakReference^ browserWrapper)
         {
             _browserWrapper = browserWrapper;
         }
 
-        IJavascriptCallback^ JavascriptCallbackImplFactory::Create(JavascriptCallback^ callback)
+        IJavascriptCallback^ JavascriptCallbackFactory::Create(JavascriptCallback^ callback)
         {
-            return gcnew JavascriptCallbackImpl(callback, _pendingTasks, _browserWrapper);
+            return gcnew JavascriptCallbackProxy(callback, _pendingTasks, _browserWrapper);
         }
     }
 }

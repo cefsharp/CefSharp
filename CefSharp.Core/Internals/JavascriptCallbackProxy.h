@@ -16,7 +16,7 @@ namespace CefSharp
 {
     namespace Internals
     {
-        private ref class JavascriptCallbackImpl : public IJavascriptCallback
+        private ref class JavascriptCallbackProxy : public IJavascriptCallback
         {
         private:
             WeakReference^ _browserWrapper;
@@ -29,7 +29,7 @@ namespace CefSharp
             CefSharpBrowserWrapper^ GetBrowser();
             void DisposedGuard();
         public:
-            JavascriptCallbackImpl(JavascriptCallback^ callback, PendingTaskRepository<JavascriptResponse^>^ pendingTasks, WeakReference^ browserWrapper)
+            JavascriptCallbackProxy(JavascriptCallback^ callback, PendingTaskRepository<JavascriptResponse^>^ pendingTasks, WeakReference^ browserWrapper)
                 :_callback(callback), _pendingTasks(pendingTasks)
             {
                 _browserWrapper = browserWrapper;
@@ -37,9 +37,9 @@ namespace CefSharp
 
             virtual Task<JavascriptResponse^>^ ExecuteAsync(array<Object^>^ parameters);
 
-            ~JavascriptCallbackImpl() { this->!JavascriptCallbackImpl(); }
+            ~JavascriptCallbackProxy() { this->!JavascriptCallbackProxy(); }
 
-            !JavascriptCallbackImpl()
+            !JavascriptCallbackProxy()
             {
                 auto browser = GetBrowser();
                 if (browser != nullptr)
