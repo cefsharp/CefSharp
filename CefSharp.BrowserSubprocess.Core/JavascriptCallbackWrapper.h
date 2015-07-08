@@ -30,8 +30,6 @@ namespace CefSharp
 
             !JavascriptCallbackWrapper();
             ~JavascriptCallbackWrapper();
-
-            JavascriptResponse^ Execute(array<Object^>^ parms);
         };
     }
 }

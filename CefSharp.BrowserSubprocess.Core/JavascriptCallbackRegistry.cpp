@@ -36,18 +36,6 @@ namespace CefSharp
             return result;
         }
 
-        JavascriptResponse^ JavascriptCallbackRegistry::Execute(Int64 id, array<Object^>^ params)
-        {
-            JavascriptCallbackWrapper^ callback;
-
-            if (_callbacks->TryGetValue(id, callback))
-            {
-                return callback->Execute(params);
-            }
-
-            return nullptr;
-        }
-
         JavascriptCallbackWrapper^ JavascriptCallbackRegistry::FindWrapper(int64 id)
         {
             JavascriptCallbackWrapper^ callback;

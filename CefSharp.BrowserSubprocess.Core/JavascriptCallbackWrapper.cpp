@@ -24,44 +24,6 @@ namespace CefSharp
             this->!JavascriptCallbackWrapper();
         }
 
-        JavascriptResponse^ JavascriptCallbackWrapper::Execute(array<Object^>^ parms)
-        {
-            JavascriptResponse^ response = nullptr;
-            if (context->Enter())
-            {
-                response = gcnew JavascriptResponse();
-                try
-                {
-                    CefV8ValueList args;
-                    for each (auto parm in parms)
-                    {
-                        auto cefParm = TypeUtils::ConvertToCef(parm, nullptr);
-                        args.push_back(cefParm);
-                    }
-
-                    auto retval = value->ExecuteFunctionWithContext(context.get(), nullptr, args);
-                    response->Success = retval != nullptr;
-                    if (response->Success)
-                    {
-                        response->Result = TypeUtils::ConvertFromCef(retval);
-                    }
-                    else
-                    {
-                        auto exception = value->GetException();
-                        if (exception.get())
-                        {
-                            response->Message = StringUtils::ToClr(exception->GetMessage());
-                        }
-                    }
-                }
-                finally
-                {
-                    context->Exit();
-                }
-            }
-            return response;
-        }
-
         CefRefPtr<CefV8Value> JavascriptCallbackWrapper::GetValue()
         {
             return value.get();
