@@ -4,6 +4,7 @@
 
 #include "Stdafx.h"
 #include "CefBrowserHostWrapper.h"
+#include "CefWindowInfoWrapper.h"
 
 void CefBrowserHostWrapper::StartDownload(String^ url)
 {
@@ -63,6 +64,14 @@ void CefBrowserHostWrapper::ShowDevTools()
     windowInfo.SetAsPopup(_browserHost->GetWindowHandle(), "DevTools");
 
     _browserHost->ShowDevTools(windowInfo, _browserHost->GetClient(), settings, CefPoint());
+}
+
+void CefBrowserHostWrapper::ShowDevTools(IWindowInfo^ windowInfo, int x, int y)
+{
+    CefBrowserSettings settings;
+    auto cefWindowInfoWrapper = static_cast<CefWindowInfoWrapper^>(windowInfo);
+
+    _browserHost->ShowDevTools(*cefWindowInfoWrapper->GetWindowInfo(), _browserHost->GetClient(), settings, CefPoint(x, y));
 }
 
 void CefBrowserHostWrapper::CloseDevTools()

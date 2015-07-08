@@ -20,6 +20,10 @@ namespace CefSharp
             CefWindowInfo* _windowInfo;
 
         public:
+            CefWindowInfoWrapper() : _windowInfo(new CefWindowInfo())
+            {
+            }
+
             CefWindowInfoWrapper(CefWindowInfo* windowInfo) : _windowInfo(windowInfo)
             {
             
@@ -161,6 +165,11 @@ namespace CefSharp
             virtual void SetAsWindowless(IntPtr parentHandle, bool transparent)
             {
                 _windowInfo->SetAsWindowless((HWND)parentHandle.ToPointer(), transparent);
+            }
+
+            CefWindowInfo* GetWindowInfo()
+            {
+                return _windowInfo;
             }
         };
     }

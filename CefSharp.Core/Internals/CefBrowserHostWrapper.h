@@ -46,6 +46,7 @@ namespace CefSharp
             virtual IntPtr GetWindowHandle();
             virtual void CloseBrowser(bool forceClose);
         
+            virtual void ShowDevTools(IWindowInfo^ windowInfo, int x, int y);
             virtual void ShowDevTools();
             virtual void CloseDevTools();
 
