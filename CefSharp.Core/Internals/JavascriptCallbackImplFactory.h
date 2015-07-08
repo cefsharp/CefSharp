@@ -12,7 +12,7 @@ namespace CefSharp
     {
         ref class CefSharpBrowserWrapper;
 
-        ref class JavascriptCallbackImplFactory : public IJavascriptCallbackFactory
+        private ref class JavascriptCallbackImplFactory : public IJavascriptCallbackFactory
         {
         private:
             WeakReference^ _browserWrapper;

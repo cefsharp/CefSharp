@@ -16,7 +16,7 @@ namespace CefSharp
 {
     namespace Internals
     {
-        ref class JavascriptCallbackImpl : public IJavascriptCallback
+        private ref class JavascriptCallbackImpl : public IJavascriptCallback
         {
         private:
             WeakReference^ _browserWrapper;
