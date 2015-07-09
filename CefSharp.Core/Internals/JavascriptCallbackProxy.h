@@ -37,7 +37,10 @@ namespace CefSharp
 
             virtual Task<JavascriptResponse^>^ ExecuteAsync(array<Object^>^ parameters);
 
-            ~JavascriptCallbackProxy() { this->!JavascriptCallbackProxy(); }
+            ~JavascriptCallbackProxy()
+            {
+                this->!JavascriptCallbackProxy();
+            }
 
             !JavascriptCallbackProxy()
             {
