@@ -13,17 +13,6 @@ namespace CefSharp
 {
     namespace Internals
     {
-        JavascriptCallbackWrapper::!JavascriptCallbackWrapper()
-        {
-            _value = nullptr;
-            _context = nullptr;
-        }
-
-        JavascriptCallbackWrapper::~JavascriptCallbackWrapper()
-        {
-            this->!JavascriptCallbackWrapper();
-        }
-
         CefRefPtr<CefV8Value> JavascriptCallbackWrapper::GetValue()
         {
             return _value.get();

@@ -9,28 +9,6 @@
 
 namespace CefSharp
 {
-    JavascriptRootObjectWrapper::JavascriptRootObjectWrapper(JavascriptRootObject^ rootObject, IBrowserProcess^ browserProcess)
-    {
-        _rootObject = rootObject;
-        _browserProcess = browserProcess;
-        _wrappedObjects = gcnew List<JavascriptObjectWrapper^>();
-    }
-
-    JavascriptRootObjectWrapper::!JavascriptRootObjectWrapper()
-    {
-        V8Value = nullptr;
-    }
-
-    JavascriptRootObjectWrapper::~JavascriptRootObjectWrapper()
-    {
-        this->!JavascriptRootObjectWrapper();
-        CallbackRegistry = nullptr;
-        for each (JavascriptObjectWrapper^ var in _wrappedObjects)
-        {
-            delete var;
-        }
-    }
-
     void JavascriptRootObjectWrapper::Bind()
     {
         auto memberObjects = _rootObject->MemberObjects;

@@ -37,10 +37,27 @@ namespace CefSharp
         JavascriptCallbackRegistry^ CallbackRegistry;
 
     public:
-        JavascriptRootObjectWrapper(JavascriptRootObject^ rootObject, IBrowserProcess^ browserProcess);
+        JavascriptRootObjectWrapper(JavascriptRootObject^ rootObject, IBrowserProcess^ browserProcess)
+        {
+            _rootObject = rootObject;
+            _browserProcess = browserProcess;
+            _wrappedObjects = gcnew List<JavascriptObjectWrapper^>();
+        }
 
-        !JavascriptRootObjectWrapper();
-        ~JavascriptRootObjectWrapper();
+        !JavascriptRootObjectWrapper()
+        {
+            V8Value = nullptr;
+        }
+
+        ~JavascriptRootObjectWrapper()
+        {
+            this->!JavascriptRootObjectWrapper();
+            CallbackRegistry = nullptr;
+            for each (JavascriptObjectWrapper^ var in _wrappedObjects)
+            {
+                delete var;
+            }
+        }
 
         void Bind();
     };

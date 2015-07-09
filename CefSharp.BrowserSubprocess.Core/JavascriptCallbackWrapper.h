@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include<include\cef_v8.h>
+#include "include\cef_v8.h"
 
 using namespace CefSharp::Internals;
 
@@ -28,8 +28,16 @@ namespace CefSharp
             {
             }
 
-            !JavascriptCallbackWrapper();
-            ~JavascriptCallbackWrapper();
+            !JavascriptCallbackWrapper()
+            {
+                _value = nullptr;
+                _context = nullptr;
+            }
+
+            ~JavascriptCallbackWrapper()
+            {
+                this->!JavascriptCallbackWrapper();
+            }
         };
     }
 }
