@@ -37,18 +37,16 @@ namespace CefSharp
         CefRefPtr<CefProcessMessage> JavascriptCallbackProxy::CreateCallMessage(int64 doneCallbackId, array<Object^>^ parameters)
         {
             auto result = CefProcessMessage::Create(kJavascriptCallbackRequest);
-            auto browser = GetBrowser();
             auto argList = result->GetArgumentList();
-            argList->SetInt(0, browser->Identifier);
-            SetInt64(_callback->Id, argList, 1);
-            SetInt64(doneCallbackId, argList, 2);
+            SetInt64(_callback->Id, argList, 0);
+            SetInt64(doneCallbackId, argList, 1);
             auto paramList = CefListValue::Create();
             for (int i = 0; i < parameters->Length; i++)
             {
                 auto param = parameters[i];
                 SerializeV8Object(param, paramList, i);
             }
-            argList->SetList(3, paramList);
+            argList->SetList(2, paramList);
             return result;
         }
 

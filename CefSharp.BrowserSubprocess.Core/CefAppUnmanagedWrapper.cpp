@@ -93,26 +93,60 @@ namespace CefSharp
         auto name = message->GetName();
         auto argList = message->GetArgumentList();
 
-        auto browserId = argList->GetInt(0);
-        if (browser->GetIdentifier() != browserId)
-        {
-            throw gcnew InvalidOperationException(String::Format("Request BrowserId : {0} does not match browser Id : {1}", browserId, browser->GetIdentifier()));
-        }
-        auto browserWrapper = FindBrowserWrapper(browserId, true);
+        auto browserId = browser->GetIdentifier();
+        auto browserWrapper = FindBrowserWrapper(browserId, false);
 
+        //Error handling for missing/closed browser
+        if (browserWrapper == nullptr)
+        {
+            if (name == kJavascriptCallbackDestroyRequest)
+            {
+                //If we can't find the browser wrapper then we'll just ignore this
+                return true;
+            }
+
+            CefString responseName;
+            if (name == kEvaluateJavascriptRequest)
+            {
+                responseName = kEvaluateJavascriptResponse;
+            }
+            else if (name == kJavascriptCallbackRequest)
+            {
+                responseName = kJavascriptCallbackResponse;
+            }
+            else
+            {
+                throw gcnew Exception("Unsupported message type");
+            }
+
+            auto callbackId = GetInt64(argList, 1);
+            auto response = CefProcessMessage::Create(responseName);
+            auto responseArgList = response->GetArgumentList();
+            auto errorMessage = String::Format("Request BrowserId : {0} not found it's likely the browser is already closed", browser->GetIdentifier());
+
+            //success: false
+            responseArgList->SetBool(0, false);
+            SetInt64(callbackId, responseArgList, 1);
+            responseArgList->SetString(2, StringUtils::ToNative(errorMessage));
+            browser->SendProcessMessage(sourceProcessId, response);
+
+            return true;
+        }
+    
+        //these messages are roughly handled the same way
         if (name == kEvaluateJavascriptRequest || name == kJavascriptCallbackRequest)
         {
+            bool success;
             CefRefPtr<CefV8Value> result;
             CefRefPtr<CefV8Exception> exception;
             CefRefPtr<CefProcessMessage> response;
-            bool success;
-            int64 callbackId;
+            //both messages have the callbackid stored at index 1
+            int64 callbackId = GetInt64(argList, 1);
 
             if (name == kEvaluateJavascriptRequest)
             {
-                auto frameId = GetInt64(argList, 1);
-                callbackId = GetInt64(argList, 2);
-                auto script = argList->GetString(3);
+                auto frameId = GetInt64(argList, 0);
+                auto script = argList->GetString(2);
 
                 auto frame = browser->GetFrame(frameId);
                 if (frame.get())
@@ -144,9 +178,8 @@ namespace CefSharp
             }
             else
             {
-                auto jsCallbackId = GetInt64(argList, 1);
-                callbackId = GetInt64(argList, 2);
-                auto parameterList = argList->GetList(3);
+                auto jsCallbackId = GetInt64(argList, 0);
+                auto parameterList = argList->GetList(2);
                 CefV8ValueList params;
                 for (CefV8ValueList::size_type i = 0; i < parameterList->GetSize(); i++)
                 {
@@ -168,8 +201,8 @@ namespace CefSharp
                         //we need to do this here to be able to store the v8context
                         if (success)
                         {
-                            auto argList = response->GetArgumentList();
-                            SerializeV8Object(result, argList, 2, browserWrapper->CallbackRegistry);
+                            auto responseArgList = response->GetArgumentList();
+                            SerializeV8Object(result, responseArgList, 2, browserWrapper->CallbackRegistry);
                         }
                         else
                         {
@@ -185,12 +218,12 @@ namespace CefSharp
 
             if (response.get())
             {
-                auto argList = response->GetArgumentList();
-                argList->SetBool(0, success);
-                SetInt64(callbackId, argList, 1);
+                auto responseArgList = response->GetArgumentList();
+                responseArgList->SetBool(0, success);
+                SetInt64(callbackId, responseArgList, 1);
                 if (!success)
                 {
-                    argList->SetString(2, exception->GetMessage());
+                    responseArgList->SetString(2, exception->GetMessage());
                 }
                 browser->SendProcessMessage(sourceProcessId, response);
             }
