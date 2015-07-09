@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using CefSharp.Example;
+using CefSharp.Wpf.Example.Controls;
 using CefSharp.Wpf.Example.ViewModels;
 
 namespace CefSharp.Wpf.Example
@@ -26,6 +27,9 @@ namespace CefSharp.Wpf.Example
 
             CommandBindings.Add(new CommandBinding(ApplicationCommands.New, OpenNewTab));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, CloseTab));
+
+            CommandBindings.Add(new CommandBinding(CefSharpCommands.Exit, Exit));
+            CommandBindings.Add(new CommandBinding(CefSharpCommands.OpenTabBindingTest, OpenTabBindingTest));
 
             Loaded += MainWindowLoaded;
 
@@ -73,6 +77,18 @@ namespace CefSharp.Wpf.Example
         private void CreateNewTab(string url = DefaultUrlForAddedTabs, bool showSideBar = false)
         {
             BrowserTabs.Add(new BrowserTabViewModel(url) { ShowSidebar = showSideBar });
+        }
+
+        private void OpenTabBindingTest(object sender, ExecutedRoutedEventArgs e)
+        {
+            CreateNewTab(CefExample.BindingTestUrl, true);
+
+            TabControl.SelectedIndex = TabControl.Items.Count - 1;
+        }
+
+        private void Exit(object sender, ExecutedRoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

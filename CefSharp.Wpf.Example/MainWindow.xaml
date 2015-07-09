@@ -8,7 +8,17 @@
         <KeyBinding Key="T" Modifiers="Control" Command="New"/>
         <KeyBinding Key="W" Modifiers="Control" Command="Close"/>
     </Window.InputBindings>
-    <Grid>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_New Tab" Command="New"/>
+                <MenuItem Header="_Close Tab" Command="Close"/>
+                <MenuItem Header="_Exit" Command="controls:CefSharpCommands.Exit"/>
+            </MenuItem>
+            <MenuItem Header="_Tests">
+                <MenuItem Header="_Binding Test" Command="controls:CefSharpCommands.OpenTabBindingTest"/>
+            </MenuItem>
+        </Menu>
         <controls:NonReloadingTabControl x:Name="TabControl"
                                Margin="0,5,0,0"
                                ItemsSource="{Binding BrowserTabs, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -37,5 +47,5 @@
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </controls:NonReloadingTabControl>
-    </Grid>
+    </DockPanel>
 </Window>
