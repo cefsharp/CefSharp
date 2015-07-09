@@ -94,9 +94,20 @@ namespace CefSharp
         auto argList = message->GetArgumentList();
 
         auto browserId = argList->GetInt(0);
+        auto callbackId = GetInt64(argList, 2);
+
+        //NOTE: This shouldn't happen as the IPC handling should always pass the message to the correct browser
         if (browser->GetIdentifier() != browserId)
         {
-            throw gcnew InvalidOperationException(String::Format("Request BrowserId : {0} does not match browser Id : {1}", browserId, browser->GetIdentifier()));
+            auto responseName = name == kEvaluateJavascriptRequest ? kEvaluateJavascriptResponse : kJavascriptCallbackResponse;
+            auto response = CefProcessMessage::Create(responseName);
+            auto argList = response->GetArgumentList();
+            argList->SetBool(0, false); // Success = false
+            SetInt64(callbackId, argList, 1);
+            argList->SetString(2, StringUtils::ToNative(String::Format("Request BrowserId : {0} does not match browser Id : {1}", browserId, browser->GetIdentifier())));
+            browser->SendProcessMessage(sourceProcessId, response);
+
+            return true;
         }
         auto browserWrapper = FindBrowserWrapper(browserId, true);
 
@@ -106,12 +117,10 @@ namespace CefSharp
             CefString errorMessage;
             CefRefPtr<CefProcessMessage> response;
             bool success;
-            int64 callbackId;
 
             if (name == kEvaluateJavascriptRequest)
             {
                 auto frameId = GetInt64(argList, 1);
-                callbackId = GetInt64(argList, 2);
                 auto script = argList->GetString(3);
 
                 response = CefProcessMessage::Create(kEvaluateJavascriptResponse);
@@ -156,7 +165,6 @@ namespace CefSharp
             else
             {
                 auto jsCallbackId = GetInt64(argList, 1);
-                callbackId = GetInt64(argList, 2);
                 auto parameterList = argList->GetList(3);
                 CefV8ValueList params;
                 for (CefV8ValueList::size_type i = 0; i < parameterList->GetSize(); i++)
