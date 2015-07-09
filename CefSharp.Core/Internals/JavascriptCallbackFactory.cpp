@@ -11,14 +11,9 @@ namespace CefSharp
 {
     namespace Internals
     {
-        void JavascriptCallbackFactory::BrowserWrapper::set(WeakReference^ browserWrapper)
-        {
-            _browserWrapper = browserWrapper;
-        }
-
         IJavascriptCallback^ JavascriptCallbackFactory::Create(JavascriptCallback^ callback)
         {
-            return gcnew JavascriptCallbackProxy(callback, _pendingTasks, _browserWrapper);
+            return gcnew JavascriptCallbackProxy(callback, _pendingTasks, BrowserWrapper);
         }
     }
 }

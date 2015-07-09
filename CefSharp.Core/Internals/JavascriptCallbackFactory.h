@@ -13,7 +13,6 @@ namespace CefSharp
         private ref class JavascriptCallbackFactory : public IJavascriptCallbackFactory
         {
         private:
-            WeakReference^ _browserWrapper;
             PendingTaskRepository<JavascriptResponse^>^ _pendingTasks;
         public:
             JavascriptCallbackFactory(PendingTaskRepository<JavascriptResponse^>^ pendingTasks)
@@ -21,10 +20,7 @@ namespace CefSharp
             {
             }
 
-            property WeakReference^ BrowserWrapper
-            {
-                void set(WeakReference^ browserWrapper);
-            };
+            property WeakReference^ BrowserWrapper;
 
             virtual IJavascriptCallback^ Create(JavascriptCallback^ callback);
         };
