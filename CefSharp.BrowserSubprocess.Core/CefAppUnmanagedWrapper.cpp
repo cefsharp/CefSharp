@@ -103,7 +103,7 @@ namespace CefSharp
         if (name == kEvaluateJavascriptRequest || name == kJavascriptCallbackRequest)
         {
             CefRefPtr<CefV8Value> result;
-            CefRefPtr<CefV8Exception> exception;
+            CefString errorMessage;
             CefRefPtr<CefProcessMessage> response;
             bool success;
             int64 callbackId;
@@ -114,32 +114,43 @@ namespace CefSharp
                 callbackId = GetInt64(argList, 2);
                 auto script = argList->GetString(3);
 
+                response = CefProcessMessage::Create(kEvaluateJavascriptResponse);
+
                 auto frame = browser->GetFrame(frameId);
                 if (frame.get())
                 {
                     auto context = frame->GetV8Context();
-                    try
+                    if (context.get() && context->Enter())
                     {
-                        if (context.get() && context->Enter())
+                        try
                         {
+                            CefRefPtr<CefV8Exception> exception;
                             success = context->Eval(script, result, exception);
-                            response = CefProcessMessage::Create(kEvaluateJavascriptResponse);
+                            
                             //we need to do this here to be able to store the v8context
                             if (success)
                             {
                                 auto argList = response->GetArgumentList();
                                 SerializeV8Object(result, argList, 2, browserWrapper->CallbackRegistry);
                             }
+                            else
+                            {
+                                errorMessage = exception->GetMessage();
+                            }
+                        }
+                        finally
+                        {
+                            context->Exit();
                         }
                     }
-                    finally
+                    else
                     {
-                        context->Exit();
+                        errorMessage = "Unable to Enter Context";
                     }
                 }
                 else
                 {
-                    //TODO handle error
+                    errorMessage = "Unable to Get Frame matching Id";
                 }
             }
             else
@@ -153,33 +164,43 @@ namespace CefSharp
                     params.push_back(DeserializeV8Object(parameterList, static_cast<int>(i)));
                 }
 
+                response = CefProcessMessage::Create(kJavascriptCallbackResponse);
+
                 auto callbackRegistry = browserWrapper->CallbackRegistry;
                 auto callbackWrapper = callbackRegistry->FindWrapper(jsCallbackId);
                 auto context = callbackWrapper->GetContext();
                 auto value = callbackWrapper->GetValue();
 
-                try
+                if (context.get() && context->Enter())
                 {
-                    if (context.get() && context->Enter())
+                    try
                     {
                         result = value->ExecuteFunction(nullptr, params);
                         success = result.get() != nullptr;
-                        response = CefProcessMessage::Create(kJavascriptCallbackResponse);
+                        
                         //we need to do this here to be able to store the v8context
                         if (success)
                         {
                             auto argList = response->GetArgumentList();
-                            SerializeV8Object(result, argList, 2, browserWrapper->CallbackRegistry);
+                            SerializeV8Object(result, argList, 2, callbackRegistry);
                         }
                         else
                         {
-                            exception = value->GetException();
+                            auto exception = value->GetException();
+                            if(exception.get())
+                            {
+                                errorMessage = exception->GetMessage();
+                            }
                         }
                     }
+                    finally
+                    {
+                        context->Exit();
+                    }
                 }
-                finally
+                else
                 {
-                    context->Exit();
+                    errorMessage = "Unable to Enter Context";
                 }
             }
 
@@ -190,7 +211,7 @@ namespace CefSharp
                 SetInt64(callbackId, argList, 1);
                 if (!success)
                 {
-                    argList->SetString(2, exception->GetMessage());
+                    argList->SetString(2, errorMessage);
                 }
                 browser->SendProcessMessage(sourceProcessId, response);
             }
