@@ -92,24 +92,43 @@ namespace CefSharp
         auto handled = false;
         auto name = message->GetName();
         auto argList = message->GetArgumentList();
+        auto callbackId = GetInt64(argList, 1);
 
-        auto browserId = argList->GetInt(0);
-        auto callbackId = GetInt64(argList, 2);
+        auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier(), false);
 
-        //NOTE: This shouldn't happen as the IPC handling should always pass the message to the correct browser
-        if (browser->GetIdentifier() != browserId)
+        //NOTE: If the browser wrapper is null then it's likely the browser has been closed so we'll return an error message
+        if (browserWrapper == nullptr)
         {
-            auto responseName = name == kEvaluateJavascriptRequest ? kEvaluateJavascriptResponse : kJavascriptCallbackResponse;
+            if(name == kJavascriptCallbackDestroyRequest)
+            {
+                //If we can't find the browser wrapper then we'll just ignore this
+                return true;
+            }
+
+            CefString responseName;
+            if(name == kEvaluateJavascriptRequest)
+            {
+                responseName = kEvaluateJavascriptResponse;
+            }
+            else if(name == kJavascriptCallbackRequest)
+            {
+                responseName = kJavascriptCallbackResponse;
+            }
+            else
+            {
+                throw gcnew Exception("Unsupported message type");
+            }            
+
             auto response = CefProcessMessage::Create(responseName);
             auto argList = response->GetArgumentList();
+            auto errorMessage = String::Format("Request BrowserId : {0} not found it's likely the browser is already closed", browser->GetIdentifier());
             argList->SetBool(0, false); // Success = false
             SetInt64(callbackId, argList, 1);
-            argList->SetString(2, StringUtils::ToNative(String::Format("Request BrowserId : {0} does not match browser Id : {1}", browserId, browser->GetIdentifier())));
+            argList->SetString(2, StringUtils::ToNative(errorMessage));
             browser->SendProcessMessage(sourceProcessId, response);
 
             return true;
         }
-        auto browserWrapper = FindBrowserWrapper(browserId, true);
 
         if (name == kEvaluateJavascriptRequest || name == kJavascriptCallbackRequest)
         {
@@ -120,8 +139,8 @@ namespace CefSharp
 
             if (name == kEvaluateJavascriptRequest)
             {
-                auto frameId = GetInt64(argList, 1);
-                auto script = argList->GetString(3);
+                auto frameId = GetInt64(argList, 0);
+                auto script = argList->GetString(2);
 
                 response = CefProcessMessage::Create(kEvaluateJavascriptResponse);
 
@@ -164,8 +183,8 @@ namespace CefSharp
             }
             else
             {
-                auto jsCallbackId = GetInt64(argList, 1);
-                auto parameterList = argList->GetList(3);
+                auto jsCallbackId = GetInt64(argList, 0);
+                auto parameterList = argList->GetList(2);
                 CefV8ValueList params;
                 for (CefV8ValueList::size_type i = 0; i < parameterList->GetSize(); i++)
                 {

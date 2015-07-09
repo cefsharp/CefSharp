@@ -174,7 +174,7 @@ namespace CefSharp
                 CefRefPtr<CefDownloadItemCallback> callback) OVERRIDE;
 
             //sends out an eval script request to the render process
-            Task<JavascriptResponse^>^ EvaluateScriptAsync(int browserId, int64 frameId, String^ script, Nullable<TimeSpan> timeout);
+            Task<JavascriptResponse^>^ EvaluateScriptAsync(int browserId, bool isBrowserPopup, int64 frameId, String^ script, Nullable<TimeSpan> timeout);
 
             IMPLEMENT_REFCOUNTING(ClientAdapter);
         };
