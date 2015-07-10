@@ -817,7 +817,7 @@ namespace CefSharp
         {
             auto handled = false;
             auto name = message->GetName();
-            if (name == kEvaluateJavascriptResponse)
+            if (name == kEvaluateJavascriptResponse || name == kJavascriptCallbackResponse)
             {
                 auto argList = message->GetArgumentList();
                 auto success = argList->GetBool(0);
@@ -850,21 +850,27 @@ namespace CefSharp
             return handled;
         }
 
-        Task<JavascriptResponse^>^ ClientAdapter::EvaluateScriptAsync(int browserId, int64 frameId, String^ script, Nullable<TimeSpan> timeout)
+        Task<JavascriptResponse^>^ ClientAdapter::EvaluateScriptAsync(int browserId, bool isBrowserPopup, int64 frameId, String^ script, Nullable<TimeSpan> timeout)
         {
             //create a new taskcompletionsource
             auto idAndComplectionSource = _pendingTaskRepository->CreatePendingTask(timeout);
 
             auto message = CefProcessMessage::Create(kEvaluateJavascriptRequest);
             auto argList = message->GetArgumentList();
-            argList->SetInt(0, browserId);
-            SetInt64(frameId, argList, 1);
-            SetInt64(idAndComplectionSource.Key, argList, 2);
-            argList->SetString(3, StringUtils::ToNative(script));
+            SetInt64(frameId, argList, 0);
+            SetInt64(idAndComplectionSource.Key, argList, 1);
+            argList->SetString(2, StringUtils::ToNative(script));
 
-            _cefBrowser->SendProcessMessage(CefProcessId::PID_RENDERER, message);
+            auto browserWrapper = static_cast<CefSharpBrowserWrapper^>(GetBrowserWrapper(browserId, isBrowserPopup));
+
+            browserWrapper->SendProcessMessage(CefProcessId::PID_RENDERER, message);
 
             return idAndComplectionSource.Value->Task;
+        }
+
+        PendingTaskRepository<JavascriptResponse^>^ ClientAdapter::GetPendingTaskRepository()
+        {
+            return _pendingTaskRepository;
         }
     }
 }

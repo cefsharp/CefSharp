@@ -9,14 +9,6 @@
 
 namespace CefSharp
 {
-    CefBrowserWrapper::CefBrowserWrapper(CefRefPtr<CefBrowser> cefBrowser)
-    {
-        _cefBrowser = cefBrowser;
-        BrowserId = cefBrowser->GetIdentifier();
-        IsPopup = cefBrowser->IsPopup();
-        _callbackRegistry = gcnew JavascriptCallbackRegistry(BrowserId);
-    }
-
     JavascriptRootObjectWrapper^ CefBrowserWrapper::JavascriptRootObjectWrapper::get()
     {
         return _javascriptRootObjectWrapper;
@@ -31,33 +23,8 @@ namespace CefSharp
         }
     }
 
-    JavascriptResponse^ CefBrowserWrapper::DoCallback(System::Int64 callbackId, array<Object^>^ parameters)
-    {
-        return _callbackRegistry->Execute(callbackId, parameters);
-    }
-
-    void CefBrowserWrapper::DestroyJavascriptCallback(Int64 id)
-    {
-        _callbackRegistry->Deregister(id);
-    }
-
     JavascriptCallbackRegistry^ CefBrowserWrapper::CallbackRegistry::get()
     {
         return _callbackRegistry;
-    }
-
-    CefBrowserWrapper::!CefBrowserWrapper()
-    {
-        _cefBrowser = nullptr;
-    }
-
-    CefBrowserWrapper::~CefBrowserWrapper()
-    {
-        this->!CefBrowserWrapper();
-        if (_callbackRegistry != nullptr)
-        {
-            delete _callbackRegistry;
-            _callbackRegistry = nullptr;
-        }
     }
 }

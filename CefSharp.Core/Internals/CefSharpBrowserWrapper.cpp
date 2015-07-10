@@ -252,3 +252,8 @@ MCefRefPtr<CefBrowser> CefSharpBrowserWrapper::Browser::get()
 {
     return _browser;
 }
+
+bool CefSharpBrowserWrapper::IsDisposed::get()
+{
+    return _disposed;
+}

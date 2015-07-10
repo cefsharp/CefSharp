@@ -10,6 +10,7 @@
 
 #include "CefBrowserWrapper.h"
 #include "CefAppUnmanagedWrapper.h"
+#include ".\..\CefSharp.Core\Internals\CefTaskScheduler.h"
 
 using namespace System::Collections::Generic;
 
@@ -22,8 +23,25 @@ namespace CefSharp
         MCefRefPtr<CefAppUnmanagedWrapper> _cefApp;
         
     public:        
-        CefAppWrapper();
-        ~CefAppWrapper();
+        CefAppWrapper()
+        {
+            auto onBrowserCreated = gcnew Action<CefBrowserWrapper^>(this, &CefAppWrapper::OnBrowserCreated);
+            auto onBrowserDestroyed = gcnew Action<CefBrowserWrapper^>(this, &CefAppWrapper::OnBrowserDestroyed);
+            _cefApp = new CefAppUnmanagedWrapper(onBrowserCreated, onBrowserDestroyed);
+
+            RenderThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_RENDERER));
+        };
+
+        !CefAppWrapper()
+        {
+            _cefApp = nullptr;
+        }
+
+        ~CefAppWrapper()
+        {
+            this->!CefAppWrapper();
+            RenderThreadTaskFactory = nullptr;
+        }
 
         int Run();
 

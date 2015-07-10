@@ -7,7 +7,7 @@ using System.ServiceModel;
 
 namespace CefSharp.Internals
 {
-    [ServiceContract(CallbackContract = typeof(IRenderProcess), SessionMode = SessionMode.Required)]
+    [ServiceContract(SessionMode = SessionMode.Required)]
     [ServiceKnownType(typeof(object[]))]
     [ServiceKnownType(typeof(Dictionary<string, object>))]
     [ServiceKnownType(typeof(JavascriptObject))]

@@ -176,11 +176,12 @@ Task<JavascriptResponse^>^ CefFrameWrapper::EvaluateScriptAsync(String^ script, 
 {
     ThrowIfDisposed();
 
-    auto host = _frame->GetBrowser()->GetHost();
+    auto browser = _frame->GetBrowser();
+    auto host = browser->GetHost();
 
     auto client = static_cast<ClientAdapter*>(host->GetClient().get());
 
-    return client->EvaluateScriptAsync(_frame->GetBrowser()->GetIdentifier(), _frame->GetIdentifier(), script, timeout);
+    return client->EvaluateScriptAsync(browser->GetIdentifier(), browser->IsPopup(), _frame->GetIdentifier(), script, timeout);
 }
 
 ///

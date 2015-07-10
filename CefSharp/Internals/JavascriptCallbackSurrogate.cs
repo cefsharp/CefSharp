@@ -10,18 +10,20 @@ using System.Runtime.Serialization;
 
 namespace CefSharp.Internals
 {
-    internal sealed class JavascriptCallbackSurrogate : JavascriptCallbackFactory, IDataContractSurrogate
+    internal sealed class JavascriptCallbackSurrogate : IDataContractSurrogate
     {
-        public JavascriptCallbackSurrogate(WeakReference browserProcessWeakReference)
-            :base(browserProcessWeakReference)
-        {
-        }
+        private readonly IJavascriptCallbackFactory callbackFactory;
+ 
+        public JavascriptCallbackSurrogate(IJavascriptCallbackFactory callbackFactory)
+         {
+            this.callbackFactory = callbackFactory;
+         }
 
         public Type GetDataContractType(Type type)
         {
             if (type == typeof (JavascriptCallback))
             {
-                return typeof (JavascriptCallbackProxy);
+                return typeof (IJavascriptCallback);
             }
             return type;
         }
@@ -37,7 +39,7 @@ namespace CefSharp.Internals
             var dto = obj as JavascriptCallback;
             if (dto != null)
             {
-                result = Create(dto);
+                result = callbackFactory.Create(dto);
             }
             return result;
         }

@@ -18,6 +18,12 @@ namespace CefSharp
             const CefString kEvaluateJavascriptRequest = "EvaluateJavascriptRequest";
             //Message containing the result for a given evaluation
             const CefString kEvaluateJavascriptResponse = "EvaluateJavascriptDoneResponse";
+            //Message to invoke a stored js function
+            const CefString kJavascriptCallbackRequest = "JavascriptCallbackRequest";
+            //Message to dereference a stored js function
+            const CefString kJavascriptCallbackDestroyRequest = "JavascriptCallbackDestroyRequest";
+            //Message containing the result of a given js function call
+            const CefString kJavascriptCallbackResponse = "JavascriptCallbackDoneResponse";
         }
     }
 }

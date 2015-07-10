@@ -13,7 +13,7 @@ using TaskExtensions = CefSharp.Internals.TaskExtensions;
 namespace CefSharp.BrowserSubprocess
 {
     [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, IncludeExceptionDetailInFaults=true)]
-    public class CefRenderProcess : CefSubProcess, IRenderProcess
+    public class CefRenderProcess : CefSubProcess
     {
         private int? parentBrowserId;
         private List<CefBrowserWrapper> browsers = new List<CefBrowserWrapper>();
@@ -56,8 +56,7 @@ namespace CefSharp.BrowserSubprocess
 
             var binding = BrowserProcessServiceHost.CreateBinding();
 
-            var channelFactory = new DuplexChannelFactory<IBrowserProcess>(
-                this,
+            var channelFactory = new ChannelFactory<IBrowserProcess>(
                 binding,
                 new EndpointAddress(serviceName)
             );
@@ -111,81 +110,6 @@ namespace CefSharp.BrowserSubprocess
             browser.ChannelFactory = null;
             browser.BrowserProcess = null;
             browser.JavascriptRootObject = null;
-        }
-
-        public IAsyncResult BeginJavascriptCallbackAsync(int browserId, long callbackId, object[] parameters, TimeSpan? timeout, AsyncCallback callback, object state)
-        {
-            var tcs = new TaskCompletionSource<JavascriptResponse>(state);
-            var task = JavascriptCallbackAsync(browserId, callbackId, parameters, timeout);
-            task.ContinueWith(t =>
-            {
-                if (t.IsFaulted)
-                {
-                    tcs.TrySetException(t.Exception.InnerExceptions);
-                }
-                else if (t.IsCanceled)
-                {
-                    tcs.TrySetCanceled();
-                }
-                else
-                {
-                    tcs.TrySetResult(t.Result);
-                }
-
-                if (callback != null)
-                {
-                    callback(tcs.Task);
-                }
-            });
-            return tcs.Task;
-        }
-
-        public JavascriptResponse EndJavascriptCallbackAsync(IAsyncResult result)
-        {
-            return ((Task<JavascriptResponse>)result).Result;
-        }
-
-        public void DestroyJavascriptCallback(int browserId, long id)
-        {
-            var browser = browsers.FirstOrDefault(x => x.BrowserId == browserId);
-            if (browser != null)
-            {
-                browser.DestroyJavascriptCallback(id);
-            }
-        }
-
-        private Task<JavascriptResponse> JavascriptCallbackAsync(int browserId, long callbackId, object[] parameters, TimeSpan? timeout)
-        {
-            var factory = RenderThreadTaskFactory;
-            var browser = browsers.FirstOrDefault(x => x.BrowserId == browserId);
-            if (browser == null)
-            {
-                return TaskExtensions.FromResult(new JavascriptResponse
-                {
-                    Success = false,
-                    Message = string.Format("Browser with Id {0} not found in Render Sub Process.", browserId)
-                });
-            }
-
-            var task = factory.StartNew(() =>
-            {
-                try
-                {
-                    var response = browser.DoCallback(callbackId, parameters);
-
-                    return response;
-                }
-                catch (Exception ex)
-                {
-                    return new JavascriptResponse
-                    {
-                        Success = false,
-                        Message = ex.ToString()
-                    };
-                }
-            }, TaskCreationOptions.AttachedToParent);
-
-            return timeout.HasValue ? task.WithTimeout(timeout.Value) : task;
         }
     }
 }

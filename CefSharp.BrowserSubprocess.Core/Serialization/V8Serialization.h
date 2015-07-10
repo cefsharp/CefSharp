@@ -14,12 +14,16 @@ namespace CefSharp
 
         namespace Serialization
         {
-            //Functions to sserialize data to be sent to the browser process.
+            //Functions to serialize/deserialize data sent to/received from the browser process.
 
             //Serializes a V8 structure into a given index of a CefListValue or CefDictionaryValue
             //JavascriptCallbackRegistry should be passed to save V8Values with function types
             template<typename TList, typename TIndex>
             void SerializeV8Object(CefRefPtr<CefV8Value> value, CefRefPtr<TList> list, TIndex index, JavascriptCallbackRegistry^ callbackRegistry);
+
+            //Deserializes data from a given index of a CefListValue or a CefDictionaryValue
+            template<typename TList, typename TIndex>
+            CefRefPtr<CefV8Value> DeserializeV8Object(CefRefPtr<TList> list, TIndex index);
         }
     }
 }
