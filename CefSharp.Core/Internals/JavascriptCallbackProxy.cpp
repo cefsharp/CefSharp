@@ -35,7 +35,6 @@ namespace CefSharp
         CefRefPtr<CefProcessMessage> JavascriptCallbackProxy::CreateCallMessage(int64 doneCallbackId, array<Object^>^ parameters)
         {
             auto result = CefProcessMessage::Create(kJavascriptCallbackRequest);
-            auto browser = GetBrowser();
             auto argList = result->GetArgumentList();
             SetInt64(_callback->Id, argList, 0);
             SetInt64(doneCallbackId, argList, 1);

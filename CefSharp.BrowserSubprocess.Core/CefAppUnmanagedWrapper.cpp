@@ -92,93 +92,88 @@ namespace CefSharp
         auto handled = false;
         auto name = message->GetName();
         auto argList = message->GetArgumentList();
-        auto callbackId = GetInt64(argList, 1);
 
-        auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier(), false);
+        auto browserId = browser->GetIdentifier();
+        auto browserWrapper = FindBrowserWrapper(browserId, false);
 
-        //NOTE: If the browser wrapper is null then it's likely the browser has been closed so we'll return an error message
+        //Error handling for missing/closed browser
         if (browserWrapper == nullptr)
         {
-            if(name == kJavascriptCallbackDestroyRequest)
+            if (name == kJavascriptCallbackDestroyRequest)
             {
                 //If we can't find the browser wrapper then we'll just ignore this
                 return true;
             }
 
             CefString responseName;
-            if(name == kEvaluateJavascriptRequest)
+            if (name == kEvaluateJavascriptRequest)
             {
                 responseName = kEvaluateJavascriptResponse;
             }
-            else if(name == kJavascriptCallbackRequest)
+            else if (name == kJavascriptCallbackRequest)
             {
                 responseName = kJavascriptCallbackResponse;
             }
             else
             {
                 throw gcnew Exception("Unsupported message type");
-            }            
+            }
 
+            auto callbackId = GetInt64(argList, 1);
             auto response = CefProcessMessage::Create(responseName);
-            auto argList = response->GetArgumentList();
+            auto responseArgList = response->GetArgumentList();
             auto errorMessage = String::Format("Request BrowserId : {0} not found it's likely the browser is already closed", browser->GetIdentifier());
-            argList->SetBool(0, false); // Success = false
-            SetInt64(callbackId, argList, 1);
-            argList->SetString(2, StringUtils::ToNative(errorMessage));
+
+            //success: false
+            responseArgList->SetBool(0, false);
+            SetInt64(callbackId, responseArgList, 1);
+            responseArgList->SetString(2, StringUtils::ToNative(errorMessage));
             browser->SendProcessMessage(sourceProcessId, response);
 
             return true;
         }
-
+    
+        //these messages are roughly handled the same way
         if (name == kEvaluateJavascriptRequest || name == kJavascriptCallbackRequest)
         {
-            CefRefPtr<CefV8Value> result;
-            CefString errorMessage;
-            CefRefPtr<CefProcessMessage> response;
             bool success;
+            CefRefPtr<CefV8Value> result;
+            CefRefPtr<CefV8Exception> exception;
+            CefRefPtr<CefProcessMessage> response;
+            //both messages have the callbackid stored at index 1
+            int64 callbackId = GetInt64(argList, 1);
 
             if (name == kEvaluateJavascriptRequest)
             {
                 auto frameId = GetInt64(argList, 0);
                 auto script = argList->GetString(2);
 
-                response = CefProcessMessage::Create(kEvaluateJavascriptResponse);
-
                 auto frame = browser->GetFrame(frameId);
                 if (frame.get())
                 {
                     auto context = frame->GetV8Context();
-                    if (context.get() && context->Enter())
+                    try
                     {
-                        try
+                        if (context.get() && context->Enter())
                         {
-                            CefRefPtr<CefV8Exception> exception;
                             success = context->Eval(script, result, exception);
-                            
+                            response = CefProcessMessage::Create(kEvaluateJavascriptResponse);
                             //we need to do this here to be able to store the v8context
                             if (success)
                             {
                                 auto argList = response->GetArgumentList();
                                 SerializeV8Object(result, argList, 2, browserWrapper->CallbackRegistry);
                             }
-                            else
-                            {
-                                errorMessage = exception->GetMessage();
-                            }
-                        }
-                        finally
-                        {
-                            context->Exit();
                         }
                     }
-                    else
+                    finally
                     {
-                        errorMessage = "Unable to Enter Context";
+                        context->Exit();
                     }
                 }
                 else
                 {
-                    errorMessage = "Unable to Get Frame matching Id";
+                    //TODO handle error
                 }
             }
             else
@@ -191,54 +186,44 @@ namespace CefSharp
                     params.push_back(DeserializeV8Object(parameterList, static_cast<int>(i)));
                 }
 
-                response = CefProcessMessage::Create(kJavascriptCallbackResponse);
-
                 auto callbackRegistry = browserWrapper->CallbackRegistry;
                 auto callbackWrapper = callbackRegistry->FindWrapper(jsCallbackId);
                 auto context = callbackWrapper->GetContext();
                 auto value = callbackWrapper->GetValue();
 
-                if (context.get() && context->Enter())
+                try
                 {
-                    try
+                    if (context.get() && context->Enter())
                     {
                         result = value->ExecuteFunction(nullptr, params);
                         success = result.get() != nullptr;
-                        
+                        response = CefProcessMessage::Create(kJavascriptCallbackResponse);
                         //we need to do this here to be able to store the v8context
                         if (success)
                         {
-                            auto argList = response->GetArgumentList();
-                            SerializeV8Object(result, argList, 2, callbackRegistry);
+                            auto responseArgList = response->GetArgumentList();
+                            SerializeV8Object(result, responseArgList, 2, browserWrapper->CallbackRegistry);
                         }
                         else
                         {
-                            auto exception = value->GetException();
-                            if(exception.get())
-                            {
-                                errorMessage = exception->GetMessage();
-                            }
+                            exception = value->GetException();
                         }
                     }
-                    finally
-                    {
-                        context->Exit();
-                    }
                 }
-                else
+                finally
                 {
-                    errorMessage = "Unable to Enter Context";
+                    context->Exit();
                 }
             }
 
             if (response.get())
             {
-                auto argList = response->GetArgumentList();
-                argList->SetBool(0, success);
-                SetInt64(callbackId, argList, 1);
+                auto responseArgList = response->GetArgumentList();
+                responseArgList->SetBool(0, success);
+                SetInt64(callbackId, responseArgList, 1);
                 if (!success)
                 {
-                    argList->SetString(2, errorMessage);
+                    responseArgList->SetString(2, exception->GetMessage());
                 }
                 browser->SendProcessMessage(sourceProcessId, response);
             }

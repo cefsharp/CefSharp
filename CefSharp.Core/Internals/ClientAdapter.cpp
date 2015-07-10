@@ -863,7 +863,7 @@ namespace CefSharp
 
             auto browserWrapper = static_cast<CefSharpBrowserWrapper^>(GetBrowserWrapper(browserId, isBrowserPopup));
 
-            browserWrapper->Browser->SendProcessMessage(CefProcessId::PID_RENDERER, message);
+            browserWrapper->SendProcessMessage(CefProcessId::PID_RENDERER, message);
 
             return idAndComplectionSource.Value->Task;
         }
