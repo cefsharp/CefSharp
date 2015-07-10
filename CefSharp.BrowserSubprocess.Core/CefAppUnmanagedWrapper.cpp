@@ -152,9 +152,10 @@ namespace CefSharp
                 if (frame.get())
                 {
                     auto context = frame->GetV8Context();
-                    try
+                    
+                    if (context.get() && context->Enter())
                     {
-                        if (context.get() && context->Enter())
+                        try
                         {
                             success = context->Eval(script, result, exception);
                             response = CefProcessMessage::Create(kEvaluateJavascriptResponse);
@@ -165,10 +166,14 @@ namespace CefSharp
                                 SerializeV8Object(result, argList, 2, browserWrapper->CallbackRegistry);
                             }
                         }
+                        finally
+                        {
+                            context->Exit();
+                        }
                     }
-                    finally
+                    else
                     {
-                        context->Exit();
+                        //TODO handle error
                     }
                 }
                 else
@@ -190,10 +195,10 @@ namespace CefSharp
                 auto callbackWrapper = callbackRegistry->FindWrapper(jsCallbackId);
                 auto context = callbackWrapper->GetContext();
                 auto value = callbackWrapper->GetValue();
-
-                try
+                
+                if (context.get() && context->Enter())
                 {
-                    if (context.get() && context->Enter())
+                    try
                     {
                         result = value->ExecuteFunction(nullptr, params);
                         success = result.get() != nullptr;
@@ -209,11 +214,16 @@ namespace CefSharp
                             exception = value->GetException();
                         }
                     }
+                    finally
+                    {
+                        context->Exit();
+                    }
                 }
-                finally
+                else
                 {
-                    context->Exit();
+                    //TODO handle error					
                 }
+                
             }
 
             if (response.get())
