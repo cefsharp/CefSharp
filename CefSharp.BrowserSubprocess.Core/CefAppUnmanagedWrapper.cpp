@@ -93,15 +93,15 @@ namespace CefSharp
         auto name = message->GetName();
         auto argList = message->GetArgumentList();
 
-        auto browserId = browser->GetIdentifier();
-        auto browserWrapper = FindBrowserWrapper(browserId, false);
+        auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier(), false);
 
         //Error handling for missing/closed browser
         if (browserWrapper == nullptr)
         {
             if (name == kJavascriptCallbackDestroyRequest)
             {
-                //If we can't find the browser wrapper then we'll just ignore this
+                //If we can't find the browser wrapper then we'll just
+                //ignore this as it's likely already been disposed of
                 return true;
             }
 
