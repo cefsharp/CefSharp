@@ -148,6 +148,8 @@ namespace CefSharp
                 auto frameId = GetInt64(argList, 0);
                 auto script = argList->GetString(2);
 
+                response = CefProcessMessage::Create(kEvaluateJavascriptResponse);
+
                 auto frame = browser->GetFrame(frameId);
                 if (frame.get())
                 {
@@ -159,12 +161,12 @@ namespace CefSharp
                         {
                             CefRefPtr<CefV8Exception> exception;
                             success = context->Eval(script, result, exception);
-                            response = CefProcessMessage::Create(kEvaluateJavascriptResponse);
+                            
                             //we need to do this here to be able to store the v8context
                             if (success)
                             {
-                                auto argList = response->GetArgumentList();
-                                SerializeV8Object(result, argList, 2, browserWrapper->CallbackRegistry);
+                                auto responseArgList = response->GetArgumentList();
+                                SerializeV8Object(result, responseArgList, 2, browserWrapper->CallbackRegistry);
                             }
                             else
                             {
@@ -196,6 +198,8 @@ namespace CefSharp
                     params.push_back(DeserializeV8Object(parameterList, static_cast<int>(i)));
                 }
 
+                response = CefProcessMessage::Create(kJavascriptCallbackResponse);
+
                 auto callbackRegistry = browserWrapper->CallbackRegistry;
                 auto callbackWrapper = callbackRegistry->FindWrapper(jsCallbackId);
                 auto context = callbackWrapper->GetContext();
@@ -207,7 +211,7 @@ namespace CefSharp
                     {
                         result = value->ExecuteFunction(nullptr, params);
                         success = result.get() != nullptr;
-                        response = CefProcessMessage::Create(kJavascriptCallbackResponse);
+                        
                         //we need to do this here to be able to store the v8context
                         if (success)
                         {
