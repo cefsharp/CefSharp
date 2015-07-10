@@ -50,6 +50,7 @@ namespace CefSharp
         ~JavascriptRootObjectWrapper()
         {
             this->!JavascriptRootObjectWrapper();
+            delete CallbackRegistry;
             CallbackRegistry = nullptr;
             for each (JavascriptObjectWrapper^ var in _wrappedObjects)
             {
