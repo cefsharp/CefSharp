@@ -5,6 +5,9 @@
 #include "stdafx.h"
 #include "TypeUtils.h"
 #include "JavascriptCallbackWrapper.h"
+#include "Serialization/V8Serialization.h"
+
+using namespace CefSharp::Internals::Serialization;
 
 namespace CefSharp
 {
@@ -21,42 +24,14 @@ namespace CefSharp
             this->!JavascriptCallbackWrapper();
         }
 
-        JavascriptResponse^ JavascriptCallbackWrapper::Execute(array<Object^>^ parms)
+        CefRefPtr<CefV8Value> JavascriptCallbackWrapper::GetValue()
         {
-            JavascriptResponse^ response = nullptr;
-            if (context->Enter())
-            {
-                response = gcnew JavascriptResponse();
-                try
-                {
-                    CefV8ValueList args;
-                    for each (auto parm in parms)
-                    {
-                        auto cefParm = TypeUtils::ConvertToCef(parm, nullptr);
-                        args.push_back(cefParm);
-                    }
+            return value.get();
+        }
 
-                    auto retval = value->ExecuteFunctionWithContext(context.get(), nullptr, args);
-                    response->Success = retval != nullptr;
-                    if (response->Success)
-                    {
-                        response->Result = TypeUtils::ConvertFromCef(retval);
-                    }
-                    else
-                    {
-                        auto exception = value->GetException();
-                        if (exception.get())
-                        {
-                            response->Message = StringUtils::ToClr(exception->GetMessage());
-                        }
-                    }
-                }
-                finally
-                {
-                    context->Exit();
-                }
-            }
-            return response;
+        CefRefPtr<CefV8Context> JavascriptCallbackWrapper::GetContext()
+        {
+            return context.get();
         }
     }
 }
