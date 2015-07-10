@@ -7,9 +7,9 @@ using System.Windows.Input;
 
 namespace CefSharp.Wpf.Example.Controls
 {
-	public static class CefSharpCommands
-	{
-		public static RoutedUICommand Exit = new RoutedUICommand("Exit", "Exit", typeof(CefSharpCommands));
-		public static RoutedUICommand OpenTabBindingTest = new RoutedUICommand("OpenTabBindingTest", "OpenTabBindingTest", typeof(CefSharpCommands));
-	}
+    public static class CefSharpCommands
+    {
+        public static RoutedUICommand Exit = new RoutedUICommand("Exit", "Exit", typeof(CefSharpCommands));
+        public static RoutedUICommand OpenTabBindingTest = new RoutedUICommand("OpenTabBindingTest", "OpenTabBindingTest", typeof(CefSharpCommands));
+    }
 }
