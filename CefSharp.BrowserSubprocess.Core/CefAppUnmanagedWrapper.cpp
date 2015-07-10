@@ -256,7 +256,7 @@ namespace CefSharp
         }
         else if (name == kJavascriptCallbackDestroyRequest)
         {
-            auto jsCallbackId = GetInt64(argList, 1);
+            auto jsCallbackId = GetInt64(argList, 0);
             browserWrapper->CallbackRegistry->Deregister(jsCallbackId);
 
             handled = true;
