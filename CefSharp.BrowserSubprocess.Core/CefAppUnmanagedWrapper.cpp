@@ -138,7 +138,7 @@ namespace CefSharp
         {
             bool success;
             CefRefPtr<CefV8Value> result;
-            CefRefPtr<CefV8Exception> exception;
+            CefString errorMessage;
             CefRefPtr<CefProcessMessage> response;
             //both messages have the callbackid stored at index 1
             int64 callbackId = GetInt64(argList, 1);
@@ -157,6 +157,7 @@ namespace CefSharp
                     {
                         try
                         {
+                            CefRefPtr<CefV8Exception> exception;
                             success = context->Eval(script, result, exception);
                             response = CefProcessMessage::Create(kEvaluateJavascriptResponse);
                             //we need to do this here to be able to store the v8context
@@ -164,6 +165,10 @@ namespace CefSharp
                             {
                                 auto argList = response->GetArgumentList();
                                 SerializeV8Object(result, argList, 2, browserWrapper->CallbackRegistry);
+                            }
+                            else
+                            {
+                                errorMessage = exception->GetMessage();
                             }
                         }
                         finally
@@ -173,12 +178,12 @@ namespace CefSharp
                     }
                     else
                     {
-                        //TODO handle error
+                        errorMessage = "Unable to Enter Context";
                     }
                 }
                 else
                 {
-                    //TODO handle error
+                    errorMessage = "Unable to Get Frame matching Id";
                 }
             }
             else
@@ -211,7 +216,11 @@ namespace CefSharp
                         }
                         else
                         {
-                            exception = value->GetException();
+                            auto exception = value->GetException();
+                            if(exception.get())
+                            {
+                                errorMessage = exception->GetMessage();
+                            }
                         }
                     }
                     finally
@@ -221,9 +230,8 @@ namespace CefSharp
                 }
                 else
                 {
-                    //TODO handle error					
-                }
-                
+                    errorMessage = "Unable to Enter Context";			
+                }                
             }
 
             if (response.get())
@@ -233,7 +241,7 @@ namespace CefSharp
                 SetInt64(callbackId, responseArgList, 1);
                 if (!success)
                 {
-                    responseArgList->SetString(2, exception->GetMessage());
+                    responseArgList->SetString(2, errorMessage);
                 }
                 browser->SendProcessMessage(sourceProcessId, response);
             }
