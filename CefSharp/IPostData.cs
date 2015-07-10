@@ -9,10 +9,10 @@ namespace CefSharp
 {
     public interface IPostData : IDisposable
     {
-        bool AddElement(IPostDataElement element);
+        //bool AddElement(IPostDataElement element);
         IList<IPostDataElement> Elements { get; }
         bool IsReadOnly { get; }
-        bool RemoveElement(IPostDataElement element);
+        //bool RemoveElement(IPostDataElement element);
         void RemoveElements();
     }
 }
