@@ -20,18 +20,16 @@ namespace CefSharp
             DisposedGuard();
 
             auto browser = GetBrowser();
-            if (browser != nullptr)
-            {
-                auto doneCallback = _pendingTasks->CreatePendingTask(Nullable<TimeSpan>());
-                auto callbackMessage = CreateCallMessage(doneCallback.Key, parameters);
-                browser->SendProcessMessage(CefProcessId::PID_RENDERER, callbackMessage);
-
-                return doneCallback.Value->Task;
-            }
-            else
+            if (browser == nullptr)
             {
                 throw gcnew InvalidOperationException("Browser instance is null.");
             }
+
+            auto doneCallback = _pendingTasks->CreatePendingTask(Nullable<TimeSpan>());
+            auto callbackMessage = CreateCallMessage(doneCallback.Key, parameters);
+            browser->SendProcessMessage(CefProcessId::PID_RENDERER, callbackMessage);
+
+            return doneCallback.Value->Task;
         }
 
         CefRefPtr<CefProcessMessage> JavascriptCallbackProxy::CreateCallMessage(int64 doneCallbackId, array<Object^>^ parameters)

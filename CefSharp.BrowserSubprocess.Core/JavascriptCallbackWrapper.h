@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include<include\cef_v8.h>
+#include "include\cef_v8.h"
 
 using namespace CefSharp::Internals;
 
@@ -15,8 +15,8 @@ namespace CefSharp
         private ref class JavascriptCallbackWrapper
         {
         private:
-            MCefRefPtr<CefV8Value> value;
-            MCefRefPtr<CefV8Context> context;
+            MCefRefPtr<CefV8Value> _value;
+            MCefRefPtr<CefV8Context> _context;
 
         internal:
             CefRefPtr<CefV8Value> GetValue();
@@ -24,12 +24,20 @@ namespace CefSharp
 
         public:
             JavascriptCallbackWrapper(CefRefPtr<CefV8Value> value, CefRefPtr<CefV8Context> context)
-                : value(value), context(context) 
+                : _value(value), _context(context) 
             {
             }
 
-            !JavascriptCallbackWrapper();
-            ~JavascriptCallbackWrapper();
+            !JavascriptCallbackWrapper()
+            {
+                _value = nullptr;
+                _context = nullptr;
+            }
+
+            ~JavascriptCallbackWrapper()
+            {
+                this->!JavascriptCallbackWrapper();
+            }
         };
     }
 }

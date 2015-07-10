@@ -37,12 +37,15 @@ namespace CefSharp
 
             virtual Task<JavascriptResponse^>^ ExecuteAsync(array<Object^>^ parameters);
 
-            ~JavascriptCallbackProxy() { this->!JavascriptCallbackProxy(); }
+            ~JavascriptCallbackProxy()
+            {
+                this->!JavascriptCallbackProxy();
+            }
 
             !JavascriptCallbackProxy()
             {
                 auto browser = GetBrowser();
-                if (browser != nullptr)
+                if (browser != nullptr && !browser->IsDisposed)
                 {
                     browser->SendProcessMessage(CefProcessId::PID_RENDERER, CreateDestroyMessage());
                 }

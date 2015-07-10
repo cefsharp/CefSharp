@@ -24,7 +24,6 @@ namespace CefSharp
     // for ONE CefBrowser.
     public ref class CefBrowserWrapper
     {
-    
     private:
         MCefRefPtr<CefBrowser> _cefBrowser;
         JavascriptCallbackRegistry^ _callbackRegistry;
@@ -37,9 +36,28 @@ namespace CefSharp
         }
 
     public:
-        CefBrowserWrapper(CefRefPtr<CefBrowser> cefBrowser);
-        !CefBrowserWrapper();
-        ~CefBrowserWrapper();
+        CefBrowserWrapper(CefRefPtr<CefBrowser> cefBrowser)
+        {
+            _cefBrowser = cefBrowser;
+            BrowserId = cefBrowser->GetIdentifier();
+            IsPopup = cefBrowser->IsPopup();
+            _callbackRegistry = gcnew JavascriptCallbackRegistry(BrowserId);
+        }
+        
+        !CefBrowserWrapper()
+        {
+            _cefBrowser = nullptr;
+        }
+
+        ~CefBrowserWrapper()
+        {
+            this->!CefBrowserWrapper();
+            if (_callbackRegistry != nullptr)
+            {
+                delete _callbackRegistry;
+                _callbackRegistry = nullptr;
+            }
+        }
 
         property int BrowserId;
         property bool IsPopup;
