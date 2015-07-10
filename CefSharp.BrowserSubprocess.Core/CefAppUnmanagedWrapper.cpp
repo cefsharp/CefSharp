@@ -116,6 +116,8 @@ namespace CefSharp
             }
             else
             {
+                //TODO: Should be throw an exception here? It's likely that only a CefSharp developer would see this
+                // when they added a new message and havn't yet implemented the render process functionality.
                 throw gcnew Exception("Unsupported message type");
             }
 
