@@ -170,6 +170,7 @@
     <ClInclude Include="JavascriptPropertyWrapper.h" />
     <ClInclude Include="JavascriptPropertyHandler.h" />
     <ClInclude Include="JavascriptRootObjectWrapper.h" />
+    <ClInclude Include="Serialization\ObjectsSerialization.h" />
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="TypeUtils.h" />
     <ClInclude Include="Serialization\V8Serialization.h" />
@@ -189,6 +190,7 @@
     <ClCompile Include="JavascriptObjectWrapper.cpp" />
     <ClCompile Include="JavascriptPropertyWrapper.cpp" />
     <ClCompile Include="JavascriptRootObjectWrapper.cpp" />
+    <ClCompile Include="Serialization\ObjectsSerialization.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
