@@ -21,6 +21,7 @@
 #include "CefWindowInfoWrapper.h"
 #include "Serialization\Primitives.h"
 #include "Serialization\V8Serialization.h"
+#include "Serialization\ObjectsSerialization.h"
 #include "Messaging\Messages.h"
 
 using namespace CefSharp::Internals::Messaging;
@@ -114,6 +115,12 @@ namespace CefSharp
                     //save callback factory for this browser
                     //it's only going to be present after browseradapter is initialized
                     _javascriptCallbackFactories->Add(browser->GetIdentifier(), _browserAdapter->JavascriptCallbackFactory);
+
+                    //transmit async bound objects
+                    auto jsRootObjectMessage = CefProcessMessage::Create(kJavascriptRootObjectRequest);
+                    auto argList = jsRootObjectMessage->GetArgumentList();
+                    SerializeJsObject(_browserAdapter->JavascriptObjectRepository->AsyncRootObject, argList, 0);
+                    browser->SendProcessMessage(CefProcessId::PID_RENDERER, jsRootObjectMessage);
                 }
             }
         }

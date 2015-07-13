@@ -9,6 +9,7 @@
 #include "CefAppUnmanagedWrapper.h"
 #include "JavascriptRootObjectWrapper.h"
 #include "Serialization\V8Serialization.h"
+#include "Serialization\ObjectsSerialization.h"
 #include "..\CefSharp.Core\Internals\Messaging\Messages.h"
 #include "..\CefSharp.Core\Internals\Serialization\Primitives.h"
 
@@ -98,7 +99,7 @@ namespace CefSharp
         //Error handling for missing/closed browser
         if (browserWrapper == nullptr)
         {
-            if (name == kJavascriptCallbackDestroyRequest)
+            if (name == kJavascriptCallbackDestroyRequest || name == kJavascriptRootObjectRequest)
             {
                 //If we can't find the browser wrapper then we'll just
                 //ignore this as it's likely already been disposed of
@@ -259,6 +260,11 @@ namespace CefSharp
             auto jsCallbackId = GetInt64(argList, 0);
             browserWrapper->CallbackRegistry->Deregister(jsCallbackId);
 
+            handled = true;
+        }
+        else if (name == kJavascriptRootObjectRequest)
+        {
+            browserWrapper->JavascriptAsyncRootObject = DeserializeJsObject(argList, 0);
             handled = true;
         }
 

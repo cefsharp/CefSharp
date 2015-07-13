@@ -61,7 +61,7 @@ namespace CefSharp
             }
 
             _webBrowserInternal = webBrowserInternal;
-            _javaScriptObjectRepository = gcnew JavascriptObjectRepository();
+            _javaScriptObjectRepository = gcnew CefSharp::Internals::JavascriptObjectRepository();
             _javascriptCallbackFactory = gcnew CefSharp::Internals::JavascriptCallbackFactory(_clientAdapter->GetPendingTaskRepository());
         }
 
@@ -126,6 +126,11 @@ namespace CefSharp
         virtual property IJavascriptCallbackFactory^ JavascriptCallbackFactory
         {
             CefSharp::Internals::IJavascriptCallbackFactory^ get();
+        }
+
+        virtual property JavascriptObjectRepository^ JavascriptObjectRepository
+        {
+            CefSharp::Internals::JavascriptObjectRepository^ get();
         }
     };
 }

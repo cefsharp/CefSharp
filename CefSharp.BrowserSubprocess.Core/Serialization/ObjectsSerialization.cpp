@@ -26,14 +26,15 @@ namespace CefSharp
 
                     auto methodList = objList->GetList(3);
                     auto methodCount = methodList->GetInt(0);
+                    auto k = 1;
                     for (auto j = 0; j < methodCount; j++)
                     {
                         auto jsMethod = gcnew JavascriptMethod();
 
-                        jsMethod->Id = GetInt64(methodList, j);
-                        jsMethod->ManagedName = StringUtils::ToClr(methodList->GetString(j + 1));
-                        jsMethod->JavascriptName = StringUtils::ToClr(methodList->GetString(j + 2));
-                        jsMethod->ParameterCount = methodList->GetInt(j + 3);
+                        jsMethod->Id = GetInt64(methodList, k++);
+                        jsMethod->ManagedName = StringUtils::ToClr(methodList->GetString(k++));
+                        jsMethod->JavascriptName = StringUtils::ToClr(methodList->GetString(k++));
+                        jsMethod->ParameterCount = methodList->GetInt(k++);
 
                         jsObject->Methods->Add(jsMethod);
                     }
