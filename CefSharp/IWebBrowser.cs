@@ -59,6 +59,8 @@ namespace CefSharp
         /// <param name="camelCaseJavascriptNames">camel case the javascript names of properties/methods, defaults to true</param>
         void RegisterJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true);
 
+        void RegisterAsyncJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true);
+
         /// <summary>
         /// Implement <see cref="IDialogHandler"/> and assign to handle dialog events.
         /// </summary>

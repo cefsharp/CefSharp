@@ -277,6 +277,11 @@ void ManagedCefBrowserAdapter::RegisterJsObject(String^ name, Object^ object, bo
     _javaScriptObjectRepository->Register(name, object, lowerCaseJavascriptNames);
 }
 
+void ManagedCefBrowserAdapter::RegisterAsyncJsObject(String^ name, Object^ object, bool lowerCaseJavascriptNames)
+{
+    _javaScriptObjectRepository->RegisterAsync(name, object, lowerCaseJavascriptNames);
+}
+
 CefMouseEvent ManagedCefBrowserAdapter::GetCefMouseEvent(MouseEvent^ mouseEvent)
 {
     CefMouseEvent cefMouseEvent;

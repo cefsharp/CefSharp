@@ -111,6 +111,7 @@ namespace CefSharp
         void NotifyMoveOrResizeStarted();
         void NotifyScreenInfoChanged();
         void RegisterJsObject(String^ name, Object^ object, bool lowerCaseJavascriptNames);
+        void RegisterAsyncJsObject(String^ name, Object^ object, bool lowerCaseJavascriptNames);
         void OnDragTargetDragEnter(CefDragDataWrapper^ dragData, MouseEvent^ mouseEvent, DragOperationsMask allowedOperations);
         void OnDragTargetDragOver(MouseEvent^ mouseEvent, DragOperationsMask allowedOperations);
         void OnDragTargetDragLeave();

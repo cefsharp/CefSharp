@@ -24,6 +24,7 @@ namespace CefSharp
             const CefString kJavascriptCallbackDestroyRequest = "JavascriptCallbackDestroyRequest";
             //Message containing the result of a given js function call
             const CefString kJavascriptCallbackResponse = "JavascriptCallbackDoneResponse";
+            const CefString kJavascriptRootObjectRequest = "JavascriptRootObjectRequest";
         }
     }
 }

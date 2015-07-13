@@ -39,10 +39,14 @@ namespace CefSharp.Internals
         // This is the root of the objects that get serialized to the child
         // process.
         public JavascriptRootObject RootObject { get; private set; }
+        // This is the root of the objects that get serialized to the child
+        // process with cef ipc serialization (wcf not required).
+        public JavascriptRootObject AsyncRootObject { get; private set; }
 
         public JavascriptObjectRepository()
         {
             RootObject = new JavascriptRootObject();
+            AsyncRootObject = new JavascriptRootObject();
         }
 
         private JavascriptObject CreateJavascriptObject(bool camelCaseJavascriptNames)
@@ -58,16 +62,26 @@ namespace CefSharp.Internals
             return result;
         }
 
+        public void RegisterAsync(string name, object value, bool camelCaseJavascriptNames)
+        {
+            AsyncRootObject.MemberObjects.Add(CreateInternal(name, value, camelCaseJavascriptNames, analyseProperties: false));
+        }
+
         public void Register(string name, object value, bool camelCaseJavascriptNames)
+        {
+            RootObject.MemberObjects.Add(CreateInternal(name, value, camelCaseJavascriptNames, analyseProperties: true));
+        }
+
+        private JavascriptObject CreateInternal(string name, object value, bool camelCaseJavascriptNames, bool analyseProperties)
         {
             var jsObject = CreateJavascriptObject(camelCaseJavascriptNames);
             jsObject.Value = value;
             jsObject.Name = name;
             jsObject.JavascriptName = name;
 
-            AnalyseObjectForBinding(jsObject, analyseMethods: true, readPropertyValue: false, camelCaseJavascriptNames: camelCaseJavascriptNames);
+            AnalyseObjectForBinding(jsObject, analyseMethods: true, analyseProperties: analyseProperties, readPropertyValue: false, camelCaseJavascriptNames: camelCaseJavascriptNames);
 
-            RootObject.MemberObjects.Add(jsObject);
+            return jsObject;
         }
 
         public bool TryCallMethod(long objectId, string name, object[] parameters, out object result, out string exception)
@@ -111,7 +125,7 @@ namespace CefSharp.Internals
                     jsObject.Name = "FunctionResult(" + name + ")";
                     jsObject.JavascriptName = jsObject.Name;
 
-                    AnalyseObjectForBinding(jsObject, analyseMethods: false, readPropertyValue: true, camelCaseJavascriptNames: obj.CamelCaseJavascriptNames);
+                    AnalyseObjectForBinding(jsObject, analyseMethods: false, analyseProperties:true, readPropertyValue: true, camelCaseJavascriptNames: obj.CamelCaseJavascriptNames);
 
                     result = jsObject;
                 }
@@ -193,7 +207,7 @@ namespace CefSharp.Internals
         /// <param name="analyseMethods">Analyse methods for inclusion in metadata model</param>
         /// <param name="readPropertyValue">When analysis is done on a property, if true then get it's value for transmission over WCF</param>
         /// <param name="camelCaseJavascriptNames">camel case the javascript names of properties/methods</param>
-        private void AnalyseObjectForBinding(JavascriptObject obj, bool analyseMethods, bool readPropertyValue, bool camelCaseJavascriptNames)
+        private void AnalyseObjectForBinding(JavascriptObject obj, bool analyseMethods, bool readPropertyValue, bool camelCaseJavascriptNames, bool analyseProperties)
         {
             if (obj.Value == null)
             {
@@ -221,29 +235,32 @@ namespace CefSharp.Internals
                 }
             }
 
-            foreach (var propertyInfo in type.GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
+            if (analyseProperties)
             {
-                if (propertyInfo.PropertyType == typeof(Type) || Attribute.IsDefined(propertyInfo, typeof(JavascriptIgnoreAttribute)))
+                foreach (var propertyInfo in type.GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
                 {
-                    continue;
-                }
+                    if (propertyInfo.PropertyType == typeof (Type) || Attribute.IsDefined(propertyInfo, typeof (JavascriptIgnoreAttribute)))
+                    {
+                        continue;
+                    }
 
-                var jsProperty = CreateJavaScriptProperty(propertyInfo, camelCaseJavascriptNames);
-                if (jsProperty.IsComplexType)
-                {
-                    var jsObject = CreateJavascriptObject(camelCaseJavascriptNames);
-                    jsObject.Name = propertyInfo.Name;
-                    jsObject.JavascriptName = GetJavascriptName(propertyInfo.Name, camelCaseJavascriptNames);
-                    jsObject.Value = jsProperty.GetValue(obj.Value);
-                    jsProperty.JsObject = jsObject;
+                    var jsProperty = CreateJavaScriptProperty(propertyInfo, camelCaseJavascriptNames);
+                    if (jsProperty.IsComplexType)
+                    {
+                        var jsObject = CreateJavascriptObject(camelCaseJavascriptNames);
+                        jsObject.Name = propertyInfo.Name;
+                        jsObject.JavascriptName = GetJavascriptName(propertyInfo.Name, camelCaseJavascriptNames);
+                        jsObject.Value = jsProperty.GetValue(obj.Value);
+                        jsProperty.JsObject = jsObject;
 
-                    AnalyseObjectForBinding(jsProperty.JsObject, analyseMethods, readPropertyValue, camelCaseJavascriptNames);
+                        AnalyseObjectForBinding(jsProperty.JsObject, analyseMethods, readPropertyValue, camelCaseJavascriptNames, true);
+                    }
+                    else if (readPropertyValue)
+                    {
+                        jsProperty.PropertyValue = jsProperty.GetValue(obj.Value);
+                    }
+                    obj.Properties.Add(jsProperty);
                 }
-                else if (readPropertyValue)
-                {
-                    jsProperty.PropertyValue = jsProperty.GetValue(obj.Value);
-                }
-                obj.Properties.Add(jsProperty);
             }
         }
 
