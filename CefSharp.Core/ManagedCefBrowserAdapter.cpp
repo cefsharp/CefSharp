@@ -351,3 +351,7 @@ JavascriptObjectRepository^ ManagedCefBrowserAdapter::JavascriptObjectRepository
     return _javaScriptObjectRepository;
 }
 
+MethodRunnerQueue^ ManagedCefBrowserAdapter::MethodRunnerQueue::get()
+{
+    return _methodRunnerQueue;
+}

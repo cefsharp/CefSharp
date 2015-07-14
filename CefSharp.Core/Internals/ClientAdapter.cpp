@@ -861,15 +861,13 @@ namespace CefSharp
                     auto objectId = GetInt64(argList, 0);
                     auto methodName = StringUtils::ToClr(argList->GetString(1));
                     auto arguments = argList->GetList(2);
-                    auto paramList = gcnew List<Object^>();
+                    auto methodInvocation = gcnew MethodInvocation(objectId, methodName);
                     for (auto i = 0; i < arguments->GetSize(); i++)
                     {
-                        paramList->Add(DeserializeV8Object(arguments, i, callbackFactory));
+                        methodInvocation->Parameters->Add(DeserializeV8Object(arguments, i, callbackFactory));
                     }
-
-                    Object^ result;
-                    String^ exception;
-                    _browserAdapter->JavascriptObjectRepository->TryCallMethod(objectId, methodName, paramList->ToArray(), result, exception);
+                    
+                    _browserAdapter->MethodRunnerQueue->Enqueue(methodInvocation);
                 }
 
 

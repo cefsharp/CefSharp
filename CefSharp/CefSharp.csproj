@@ -93,6 +93,8 @@
     <Compile Include="CefJsDialogType.cs" />
     <Compile Include="IPostData.cs" />
     <Compile Include="IPostDataElement.cs" />
+    <Compile Include="Internals\MethodInvocation.cs" />
+    <Compile Include="Internals\MethodRunnerQueue.cs" />
     <Compile Include="MouseButtonType.cs" />
     <Compile Include="CefReturnValue.cs" />
     <Compile Include="CefSharpSettings.cs" />

@@ -33,6 +33,7 @@ namespace CefSharp
         IWebBrowserInternal^ _webBrowserInternal;
         JavascriptObjectRepository^ _javaScriptObjectRepository;
         JavascriptCallbackFactory^ _javascriptCallbackFactory;
+        MethodRunnerQueue^ _methodRunnerQueue;
         IBrowser^ _browserWrapper;
         bool _isDisposed;
 
@@ -63,6 +64,8 @@ namespace CefSharp
             _webBrowserInternal = webBrowserInternal;
             _javaScriptObjectRepository = gcnew CefSharp::Internals::JavascriptObjectRepository();
             _javascriptCallbackFactory = gcnew CefSharp::Internals::JavascriptCallbackFactory(_clientAdapter->GetPendingTaskRepository());
+            _methodRunnerQueue = gcnew CefSharp::Internals::MethodRunnerQueue(_javaScriptObjectRepository);
+            _methodRunnerQueue->Start();
         }
 
         !ManagedCefBrowserAdapter()
@@ -81,6 +84,12 @@ namespace CefSharp
 
                 delete _browserWrapper;
                 _browserWrapper = nullptr;
+            }
+
+            if (_methodRunnerQueue != nullptr)
+            {
+                _methodRunnerQueue->Stop();
+                _methodRunnerQueue = nullptr;
             }
 
             if (CefSharpSettings::WcfEnabled && _browserProcessServiceHost != nullptr)
@@ -131,6 +140,11 @@ namespace CefSharp
         virtual property JavascriptObjectRepository^ JavascriptObjectRepository
         {
             CefSharp::Internals::JavascriptObjectRepository^ get();
+        }
+
+        virtual property MethodRunnerQueue^ MethodRunnerQueue
+        {
+            CefSharp::Internals::MethodRunnerQueue^ get();
         }
     };
 }
