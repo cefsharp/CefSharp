@@ -29,8 +29,9 @@ namespace CefSharp
                 }
 
                 SetInt64(_objectId, argList, 0);
-                argList->SetString(1, StringUtils::ToNative(_method->JavascriptName));
-                argList->SetList(2, params);
+                SetInt64(0, argList, 1);
+                argList->SetString(2, StringUtils::ToNative(_method->JavascriptName));
+                argList->SetList(3, params);
 
                 _browser->SendProcessMessage(CefProcessId::PID_BROWSER, request);
                 return true;

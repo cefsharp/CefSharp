@@ -859,9 +859,10 @@ namespace CefSharp
                 if (!browser->IsPopup())
                 {
                     auto objectId = GetInt64(argList, 0);
-                    auto methodName = StringUtils::ToClr(argList->GetString(1));
-                    auto arguments = argList->GetList(2);
-                    auto methodInvocation = gcnew MethodInvocation(objectId, methodName);
+                    auto callbackId = GetInt64(argList, 1);
+                    auto methodName = StringUtils::ToClr(argList->GetString(2));
+                    auto arguments = argList->GetList(3);
+                    auto methodInvocation = gcnew MethodInvocation(objectId, methodName, (callbackId > 0 ? Nullable<int64>(callbackId) : Nullable<int64>()));
                     for (auto i = 0; i < arguments->GetSize(); i++)
                     {
                         methodInvocation->Parameters->Add(DeserializeV8Object(arguments, i, callbackFactory));
@@ -898,6 +899,26 @@ namespace CefSharp
         PendingTaskRepository<JavascriptResponse^>^ ClientAdapter::GetPendingTaskRepository()
         {
             return _pendingTaskRepository;
+        }
+
+        void ClientAdapter::MethodInvocationComplete(MethodInvocationResult^ result)
+        {
+            if (result->CallbackId.HasValue)
+            {
+                auto message = CefProcessMessage::Create(kJavascriptMethodCallResponse);
+                auto argList = message->GetArgumentList();
+                SetInt64(result->CallbackId.Value, argList, 0);
+                argList->SetBool(1, result->Success);
+                if (result->Success)
+                {
+                    SerializeV8Object(result->Result, argList, 2);
+                }
+                else
+                {
+                    argList->SetString(2, StringUtils::ToNative(result->Message));
+                }
+                _cefBrowser->SendProcessMessage(CefProcessId::PID_RENDERER, message);
+            }
         }
     }
 }

@@ -4,6 +4,9 @@
 
 #include "Stdafx.h"
 #include "Cef.h"
+#include "Internals/Messaging/Messages.h"
+
+using namespace CefSharp::Internals::Messaging;
 
 bool ManagedCefBrowserAdapter::IsDisposed::get()
 {
@@ -354,4 +357,13 @@ JavascriptObjectRepository^ ManagedCefBrowserAdapter::JavascriptObjectRepository
 MethodRunnerQueue^ ManagedCefBrowserAdapter::MethodRunnerQueue::get()
 {
     return _methodRunnerQueue;
+}
+
+void ManagedCefBrowserAdapter::MethodInvocationComplete(Object^ sender, MethodInvocationCompleteArgs^ e)
+{
+    auto result = e->Result;
+    if (result->CallbackId.HasValue)
+    {
+        _clientAdapter->MethodInvocationComplete(result);
+    }
 }

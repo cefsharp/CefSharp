@@ -10,6 +10,8 @@ namespace CefSharp.Internals
     {
         private readonly List<object> parameters = new List<object>();
 
+        public long? CallbackId { get; private set; }
+
         public long ObjectId { get; private set; }
 
         public string MethodName { get; private set; }
@@ -20,7 +22,13 @@ namespace CefSharp.Internals
         }
 
         public MethodInvocation(long objectId, string methodName)
+            :this(objectId, methodName, null)
         {
+        }
+
+        public MethodInvocation(long objectId, string methodName, long? callbackId)
+        {
+            CallbackId = callbackId;
             ObjectId = objectId;
             MethodName = methodName;
         }

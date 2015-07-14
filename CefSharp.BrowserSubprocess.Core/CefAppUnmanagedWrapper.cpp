@@ -106,7 +106,7 @@ namespace CefSharp
         //Error handling for missing/closed browser
         if (browserWrapper == nullptr)
         {
-            if (name == kJavascriptCallbackDestroyRequest || name == kJavascriptRootObjectRequest)
+            if (name == kJavascriptCallbackDestroyRequest || name == kJavascriptRootObjectRequest || name == kJavascriptMethodCallResponse)
             {
                 //If we can't find the browser wrapper then we'll just
                 //ignore this as it's likely already been disposed of
