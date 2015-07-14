@@ -22,8 +22,8 @@ namespace CefSharp
                 JavascriptMethod^ _method;
 
             public:
-                JavascriptAsyncMethodWrapper(CefBrowserWrapper^ browser, JavascriptMethod^ method, int64 ownerId, JavascriptCallbackRegistry^ callbackRegistry)
-                    :_method(method), _javascriptMethodHandler(new JavascriptAsyncMethodHandler(method, ownerId, browser, callbackRegistry))
+                JavascriptAsyncMethodWrapper(JavascriptMethod^ method, int64 ownerId, JavascriptCallbackRegistry^ callbackRegistry, CefRefPtr<CefV8Value> promiseCreator, Func<JavascriptAsyncMethodCallback^, int64>^ methodCallbackSave)
+                    :_method(method), _javascriptMethodHandler(new JavascriptAsyncMethodHandler(ownerId, callbackRegistry, promiseCreator, methodCallbackSave))
                 {
 
                 }

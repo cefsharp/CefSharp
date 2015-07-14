@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "JavascriptAsyncMethodCallback.h"
 #include "JavascriptCallbackRegistry.h"
 #include "JavascriptAsyncObjectWrapper.h"
 
@@ -21,7 +22,6 @@ namespace CefSharp
             {
             private:
                 initonly List<JavascriptAsyncObjectWrapper^>^ _wrappedObjects;
-                CefBrowserWrapper^ _browser;
                 JavascriptRootObject^ _rootObject;
 
             internal:
@@ -30,10 +30,11 @@ namespace CefSharp
                 // The entire set of possible JavaScript functions to
                 // call directly into.
                 JavascriptCallbackRegistry^ CallbackRegistry;
+                Func<JavascriptAsyncMethodCallback^, int64>^ MethodCallbackSave;
 
             public:
-                JavascriptAsyncRootObjectWrapper(CefBrowserWrapper^ browser, JavascriptRootObject^ rootObject)
-                    :_rootObject(rootObject), _browser(browser), _wrappedObjects(gcnew List<JavascriptAsyncObjectWrapper^>())
+                JavascriptAsyncRootObjectWrapper(JavascriptRootObject^ rootObject)
+                    :_rootObject(rootObject), _wrappedObjects(gcnew List<JavascriptAsyncObjectWrapper^>())
                 {
 
                 }

@@ -12,6 +12,7 @@
 #include "Stdafx.h"
 #include "JavascriptRootObjectWrapper.h"
 #include "Async/JavascriptAsyncRootObjectWrapper.h"
+#include "Async/JavascriptAsyncMethodCallback.h"
 
 using namespace CefSharp::Internals;
 using namespace CefSharp::Internals::Async;
@@ -28,9 +29,13 @@ namespace CefSharp
     {
     private:
         MCefRefPtr<CefBrowser> _cefBrowser;
+        Dictionary<int64, JavascriptAsyncMethodCallback^>^ _methodCallbacks;
+        int64 _lastCallback;
         JavascriptCallbackRegistry^ _callbackRegistry;
         JavascriptRootObjectWrapper^ _javascriptRootObjectWrapper;
         JavascriptAsyncRootObjectWrapper^ _javascriptAsyncRootObjectWrapper;
+
+        int64 SaveMethodCallback(JavascriptAsyncMethodCallback^ callback);
 
     internal:
         property JavascriptCallbackRegistry^ CallbackRegistry
@@ -47,6 +52,7 @@ namespace CefSharp
             BrowserId = cefBrowser->GetIdentifier();
             IsPopup = cefBrowser->IsPopup();
             _callbackRegistry = gcnew JavascriptCallbackRegistry(BrowserId);
+            _methodCallbacks = gcnew Dictionary<int64, JavascriptAsyncMethodCallback^>();
         }
         
         !CefBrowserWrapper()
@@ -90,5 +96,7 @@ namespace CefSharp
 
         // The WCF proxy to the parent process.
         property IBrowserProcess^ BrowserProcess;
+
+        bool TryGetAndRemoveMethodCallback(int64 id, JavascriptAsyncMethodCallback^% callback);
     };
 }

@@ -63,7 +63,7 @@ namespace CefSharp
 
         if (wrapper->JavascriptAsyncRootObject != nullptr)
         {
-            wrapper->JavascriptAsyncRootObjectWrapper = gcnew JavascriptAsyncRootObjectWrapper(wrapper, wrapper->JavascriptAsyncRootObject);
+            wrapper->JavascriptAsyncRootObjectWrapper = gcnew JavascriptAsyncRootObjectWrapper(wrapper->JavascriptAsyncRootObject);
 
             wrapper->JavascriptAsyncRootObjectWrapper->V8Value = window;
             wrapper->JavascriptAsyncRootObjectWrapper->Bind();
@@ -274,7 +274,33 @@ namespace CefSharp
             browserWrapper->JavascriptAsyncRootObject = DeserializeJsObject(argList, 0);
             handled = true;
         }
+        else if (name == kJavascriptMethodCallResponse)
+        {
+            auto callbackId = GetInt64(argList, 0);
+            JavascriptAsyncMethodCallback^ callback;
+            if (browserWrapper->TryGetAndRemoveMethodCallback(callbackId, callback))
+            {
+                auto success = argList->GetBool(1);
+                if (success)
+                {
+                    callback->Success(DeserializeV8Object(argList, 2));
+                }
+                else
+                {
+                    callback->Fail(argList->GetString(2));
+                }
+                //dispose
+                delete callback;
+            }
+            handled = true;
+        }
 
         return handled;
     };
+
+    DECL void CefAppUnmanagedWrapper::OnWebKitInitialized()
+    {
+        //we need to do this because the builtin Promise object is not accesible
+        CefRegisterExtension("promisecreator", "function cefsharp_CreatePromise() {var object = {};var promise = new Promise(function(resolve, reject) {object.resolve = resolve;object.reject = reject;});return{ p: promise, res : object.resolve,  rej: object.reject};}", nullptr);
+    }
 }

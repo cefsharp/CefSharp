@@ -89,6 +89,9 @@
     <ClInclude Include="Async\JavascriptAsyncRootObjectWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Async\JavascriptAsyncMethodCallback.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -152,6 +155,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Async\JavascriptAsyncRootObjectWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Async\JavascriptAsyncMethodCallback.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

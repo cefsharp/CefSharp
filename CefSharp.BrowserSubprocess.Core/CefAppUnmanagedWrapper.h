@@ -10,6 +10,7 @@
 #include "include/cef_base.h"
 
 #include "CefBrowserWrapper.h"
+#include "Async/JavascriptAsyncMethodCallback.h"
 
 using namespace System::Collections::Generic;
 
@@ -45,6 +46,7 @@ namespace CefSharp
         virtual DECL void OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context) OVERRIDE;
         virtual DECL void OnContextReleased(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context) OVERRIDE;
         virtual DECL bool OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcessId sourceProcessId, CefRefPtr<CefProcessMessage> message) OVERRIDE;
+        virtual DECL void OnWebKitInitialized() OVERRIDE;
 
         IMPLEMENT_REFCOUNTING(CefAppUnmanagedWrapper);
     };

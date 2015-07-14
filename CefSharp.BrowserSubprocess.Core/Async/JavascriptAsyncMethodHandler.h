@@ -6,6 +6,7 @@
 
 #include "include/cef_v8.h"
 #include "JavascriptCallbackRegistry.h"
+#include "JavascriptAsyncMethodCallback.h"
 
 namespace CefSharp
 {
@@ -19,13 +20,13 @@ namespace CefSharp
             {
             private:
                 gcroot<JavascriptCallbackRegistry^> _callbackRegistry;
-                gcroot<CefBrowserWrapper^> _browser;
-                gcroot<JavascriptMethod^> _method;
+                gcroot<Func<JavascriptAsyncMethodCallback^, int64>^> _methodCallbackSave;
+                CefRefPtr<CefV8Value> _promiseCreator;
                 int64 _objectId;
 
             public:
-                JavascriptAsyncMethodHandler(JavascriptMethod^ method, int64 objectId, CefBrowserWrapper^ browser, JavascriptCallbackRegistry^ callbackRegistry)
-                    :_callbackRegistry(callbackRegistry), _browser(browser), _method(method), _objectId(objectId)
+                JavascriptAsyncMethodHandler(int64 objectId, JavascriptCallbackRegistry^ callbackRegistry, CefRefPtr<CefV8Value> promiseCreator, Func<JavascriptAsyncMethodCallback^, int64>^ methodCallbackSave)
+                    :_callbackRegistry(callbackRegistry), _objectId(objectId), _promiseCreator(promiseCreator), _methodCallbackSave(methodCallbackSave)
                 {
 
                 }

@@ -34,6 +34,7 @@ namespace CefSharp
         if (_javascriptAsyncRootObjectWrapper != nullptr)
         {
             _javascriptAsyncRootObjectWrapper->CallbackRegistry = _callbackRegistry;
+            _javascriptAsyncRootObjectWrapper->MethodCallbackSave = gcnew Func<JavascriptAsyncMethodCallback^, int64>(this, &CefBrowserWrapper::SaveMethodCallback);
         }
     }
 
@@ -48,5 +49,22 @@ namespace CefSharp
         {
             _cefBrowser->SendProcessMessage(target_process, message);
         }
+    }
+
+    int64 CefBrowserWrapper::SaveMethodCallback(JavascriptAsyncMethodCallback^ callback)
+    {
+        auto callbackId = Interlocked::Increment(_lastCallback);
+        _methodCallbacks->Add(callbackId, callback);
+        return callbackId;
+    }
+
+    bool CefBrowserWrapper::TryGetAndRemoveMethodCallback(int64 id, JavascriptAsyncMethodCallback^% callback)
+    {
+        bool result = false;
+        if (result = _methodCallbacks->TryGetValue(id, callback))
+        {
+            _methodCallbacks->Remove(id);
+        }
+        return result;
     }
 }

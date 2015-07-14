@@ -11,11 +11,14 @@ namespace CefSharp
         {
             void JavascriptAsyncRootObjectWrapper::Bind()
             {
+                auto promiseCreator = V8Value->GetValue("cefsharp_CreatePromise");
                 auto memberObjects = _rootObject->MemberObjects;
                 for each (JavascriptObject^ obj in Enumerable::OfType<JavascriptObject^>(memberObjects))
                 {
-                    auto wrapperObject = gcnew JavascriptAsyncObjectWrapper(_browser, obj);
+                    auto wrapperObject = gcnew JavascriptAsyncObjectWrapper(obj);
                     wrapperObject->CallbackRegistry = CallbackRegistry;
+                    wrapperObject->MethodCallbackSave = MethodCallbackSave;
+                    wrapperObject->PromiseCreator = promiseCreator;
                     wrapperObject->Bind(V8Value.get());
 
                     _wrappedObjects->Add(wrapperObject);

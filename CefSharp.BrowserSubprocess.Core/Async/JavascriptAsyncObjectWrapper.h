@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "JavascriptAsyncMethodCallback.h"
 #include "JavascriptCallbackRegistry.h"
 #include "JavascriptAsyncMethodWrapper.h"
 
@@ -17,21 +18,28 @@ namespace CefSharp
             {
             private:
                 initonly List<JavascriptAsyncMethodWrapper^>^ _wrappedMethods;
-                CefBrowserWrapper^ _browser;
                 JavascriptObject^ _object;
 
             internal:
+                Func<JavascriptAsyncMethodCallback^, int64>^ MethodCallbackSave;
                 JavascriptCallbackRegistry^ CallbackRegistry;
+                MCefRefPtr<CefV8Value> PromiseCreator;
 
             public:
-                JavascriptAsyncObjectWrapper(CefBrowserWrapper^ browser, JavascriptObject^ object)
-                    :_object(object), _browser(browser), _wrappedMethods(gcnew List<JavascriptAsyncMethodWrapper^>())
+                JavascriptAsyncObjectWrapper(JavascriptObject^ object)
+                    :_object(object), _wrappedMethods(gcnew List<JavascriptAsyncMethodWrapper^>())
                 {
 
                 }
 
+                !JavascriptAsyncObjectWrapper()
+                {
+                    PromiseCreator = nullptr;
+                }
+
                 ~JavascriptAsyncObjectWrapper()
                 {
+                    this->!JavascriptAsyncObjectWrapper();
                     CallbackRegistry = nullptr;
 
                     for each (JavascriptAsyncMethodWrapper^ var in _wrappedMethods)

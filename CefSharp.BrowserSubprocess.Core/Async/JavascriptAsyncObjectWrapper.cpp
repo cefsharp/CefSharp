@@ -24,7 +24,7 @@ namespace CefSharp
 
                 for each (JavascriptMethod^ method in Enumerable::OfType<JavascriptMethod^>(_object->Methods))
                 {
-                    auto wrappedMethod = gcnew JavascriptAsyncMethodWrapper(_browser, method, _object->Id, CallbackRegistry);
+                    auto wrappedMethod = gcnew JavascriptAsyncMethodWrapper(method, _object->Id, CallbackRegistry, PromiseCreator.get(), MethodCallbackSave);
                     wrappedMethod->Bind(javascriptObject);
 
                     _wrappedMethods->Add(wrappedMethod);
