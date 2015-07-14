@@ -25,6 +25,7 @@ namespace CefSharp
             //Message containing the result of a given js function call
             const CefString kJavascriptCallbackResponse = "JavascriptCallbackDoneResponse";
             const CefString kJavascriptRootObjectRequest = "JavascriptRootObjectRequest";
+            const CefString kJavascriptMethodCallRequest = "JavascriptMethodCallRequest";
         }
     }
 }

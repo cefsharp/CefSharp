@@ -11,8 +11,10 @@
 #include "TypeUtils.h"
 #include "Stdafx.h"
 #include "JavascriptRootObjectWrapper.h"
+#include "Async/JavascriptAsyncRootObjectWrapper.h"
 
 using namespace CefSharp::Internals;
+using namespace CefSharp::Internals::Async;
 using namespace System;
 using namespace System::ServiceModel;
 using namespace System::Threading;
@@ -28,12 +30,15 @@ namespace CefSharp
         MCefRefPtr<CefBrowser> _cefBrowser;
         JavascriptCallbackRegistry^ _callbackRegistry;
         JavascriptRootObjectWrapper^ _javascriptRootObjectWrapper;
+        JavascriptAsyncRootObjectWrapper^ _javascriptAsyncRootObjectWrapper;
 
     internal:
         property JavascriptCallbackRegistry^ CallbackRegistry
         {
             CefSharp::Internals::JavascriptCallbackRegistry^ get();
         }
+
+        void SendProcessMessage(CefProcessId target_process, CefRefPtr<CefProcessMessage> message);
 
     public:
         CefBrowserWrapper(CefRefPtr<CefBrowser> cefBrowser)
@@ -75,6 +80,12 @@ namespace CefSharp
         {
             CefSharp::JavascriptRootObjectWrapper^ get();
             void set(CefSharp::JavascriptRootObjectWrapper^ value);
+        };
+
+        property JavascriptAsyncRootObjectWrapper^ JavascriptAsyncRootObjectWrapper
+        {
+            CefSharp::Internals::Async::JavascriptAsyncRootObjectWrapper^ get();
+            void set(CefSharp::Internals::Async::JavascriptAsyncRootObjectWrapper^ value);
         };
 
         // The WCF proxy to the parent process.

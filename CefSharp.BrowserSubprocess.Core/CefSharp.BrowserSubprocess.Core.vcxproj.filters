@@ -77,6 +77,18 @@
     <ClInclude Include="Serialization\ObjectsSerialization.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Async\JavascriptAsyncObjectWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Async\JavascriptAsyncMethodWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Async\JavascriptAsyncMethodHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Async\JavascriptAsyncRootObjectWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -128,6 +140,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Serialization\ObjectsSerialization.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Async\JavascriptAsyncObjectWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Async\JavascriptAsyncMethodWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Async\JavascriptAsyncMethodHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Async\JavascriptAsyncRootObjectWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

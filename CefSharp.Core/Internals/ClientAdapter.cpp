@@ -825,14 +825,14 @@ namespace CefSharp
         {
             auto handled = false;
             auto name = message->GetName();
+            auto argList = message->GetArgumentList();
+            IJavascriptCallbackFactory^ callbackFactory;
+            _javascriptCallbackFactories->TryGetValue(browser->GetIdentifier(), callbackFactory);
+
             if (name == kEvaluateJavascriptResponse || name == kJavascriptCallbackResponse)
             {
-                auto argList = message->GetArgumentList();
                 auto success = argList->GetBool(0);
                 auto callbackId = GetInt64(argList, 1);
-
-                IJavascriptCallbackFactory^ callbackFactory;
-                _javascriptCallbackFactories->TryGetValue(browser->GetIdentifier(), callbackFactory);
 
                 auto pendingTask = _pendingTaskRepository->RemovePendingTask(callbackId);
                 if (pendingTask != nullptr)
@@ -851,6 +851,27 @@ namespace CefSharp
 
                     pendingTask->SetResult(response);
                 }
+
+                handled = true;
+            }
+            else if (name == kJavascriptMethodCallRequest)
+            {
+                if (!browser->IsPopup())
+                {
+                    auto objectId = GetInt64(argList, 0);
+                    auto methodName = StringUtils::ToClr(argList->GetString(1));
+                    auto arguments = argList->GetList(2);
+                    auto paramList = gcnew List<Object^>();
+                    for (auto i = 0; i < arguments->GetSize(); i++)
+                    {
+                        paramList->Add(DeserializeV8Object(arguments, i, callbackFactory));
+                    }
+
+                    Object^ result;
+                    String^ exception;
+                    _browserAdapter->JavascriptObjectRepository->TryCallMethod(objectId, methodName, paramList->ToArray(), result, exception);
+                }
+
 
                 handled = true;
             }

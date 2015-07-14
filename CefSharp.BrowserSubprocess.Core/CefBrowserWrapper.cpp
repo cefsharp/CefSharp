@@ -23,8 +23,30 @@ namespace CefSharp
         }
     }
 
+    JavascriptAsyncRootObjectWrapper^ CefBrowserWrapper::JavascriptAsyncRootObjectWrapper::get()
+    {
+        return _javascriptAsyncRootObjectWrapper;
+    }
+
+    void CefBrowserWrapper::JavascriptAsyncRootObjectWrapper::set(CefSharp::Internals::Async::JavascriptAsyncRootObjectWrapper^ value)
+    {
+        _javascriptAsyncRootObjectWrapper = value;
+        if (_javascriptAsyncRootObjectWrapper != nullptr)
+        {
+            _javascriptAsyncRootObjectWrapper->CallbackRegistry = _callbackRegistry;
+        }
+    }
+
     JavascriptCallbackRegistry^ CefBrowserWrapper::CallbackRegistry::get()
     {
         return _callbackRegistry;
+    }
+
+    void CefBrowserWrapper::SendProcessMessage(CefProcessId target_process, CefRefPtr<CefProcessMessage> message)
+    {
+        if (_cefBrowser.get())
+        {
+            _cefBrowser->SendProcessMessage(target_process, message);
+        }
     }
 }
