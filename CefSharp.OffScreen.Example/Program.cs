@@ -16,6 +16,7 @@ namespace CefSharp.OffScreen.Example
     {
         private static ChromiumWebBrowser browser;
         private static bool captureFirstRenderedImage = false;
+        private static ChromiumWebBrowser browser2;
 
         public static void Main(string[] args)
         {
@@ -28,21 +29,86 @@ namespace CefSharp.OffScreen.Example
             // You need to replace this with your own call to Cef.Initialize();
             CefExample.Init();
 
-            // Create the offscreen Chromium browser.
-            using (browser = new ChromiumWebBrowser(testUrl))
+            var cachepath1 = Path.Combine(Path.Combine(Path.GetTempPath(), "Reporting"), Guid.NewGuid().ToString("n"));
+            var cachepath2 = Path.Combine(Path.Combine(Path.GetTempPath(), "Reporting"), Guid.NewGuid().ToString("n"));
+
+            Directory.CreateDirectory(cachepath1);
+            Directory.CreateDirectory(cachepath2);
+
+            var cookieManager = new CookieManager(cachepath1, false);
+
+            var requestContext = new RequestContext(cookieManager);
+
+            var settings = new BrowserSettings()
             {
+                RequestContext = requestContext
+            };
+
+            var cookieManager2 = new CookieManager(cachepath2, false);
+
+            var requestContext2 = new RequestContext(cookieManager2);
+
+            var settings2 = new BrowserSettings()
+            {
+                RequestContext = requestContext2
+            };
+
+            // Create the offscreen Chromium browser.
+            //using (browser = new ChromiumWebBrowser(testUrl, new BrowserSettings() /*{ ContextRequest = new ContextRequest( new CookieManager( Path.GetTempPath(), false ) )  }*/))
+            using (browser = new ChromiumWebBrowser(null, settings ))
+            using (browser2 = new ChromiumWebBrowser(null, settings2))
+            {
+                browser.BrowserInitialized += (sender, argsi) =>
+                {
+                    //browser.ZoomLevel = 0;
+                    browser.Load(testUrl);
+                };
+
+                browser2.BrowserInitialized += (sender, argsi) =>
+                {
+                    //browser2.ZoomLevel = 3;
+                    browser2.Load(testUrl);
+                };
+
 
                 // An event that is fired when the first page is finished loading.
                 // This returns to us from another thread.
                 if (captureFirstRenderedImage)
                 {
                     browser.ResourceHandlerFactory.RegisterHandler(testUrl, ResourceHandler.FromString("<html><body><h1>CefSharp OffScreen</h1></body></html>"));
-                    browser.ScreenshotAsync().ContinueWith(DisplayBitmap);
+                    browser.ScreenshotAsync().ContinueWith(t => DisplayBitmap(t, "CefSharp screenshot Zoomlevel 0.png"));
                 }
                 else
                 {
                     browser.FrameLoadEnd += BrowserFrameLoadEnd;
+                    browser.FrameLoadStart += (s, argsi) =>
+                    {
+                        if (argsi.IsMainFrame)
+                            browser.ZoomLevel = 0;
+                    };
                 }
+
+                //browser.ZoomLevel = 0;
+
+                if (captureFirstRenderedImage)
+                {
+                    browser2.ResourceHandlerFactory.RegisterHandler(testUrl, ResourceHandler.FromString("<html><body><h1>CefSharp OffScreen</h1></body></html>"));
+                    browser2.ScreenshotAsync().ContinueWith(t => DisplayBitmap(t, "CefSharp screenshot Zoomlevel 3.png"));
+                }
+                else
+                {
+                    browser2.FrameLoadEnd += BrowserFrameLoadEnd;
+                    browser2.FrameLoadStart += (s, argsi)=>
+                    {
+                        if (argsi.IsMainFrame)
+                            browser2.ZoomLevel = 3;
+                    };
+                }
+
+                //browser2.ZoomLevel = 3;
+
+                //browser.Load(testUrl);
+                //browser2.Load(testUrl);
 
                 // We have to wait for something, otherwise the process will exit too soon.
                 Console.ReadKey();
@@ -59,18 +125,23 @@ namespace CefSharp.OffScreen.Example
             // (rather than an iframe within the main frame).
             if (e.IsMainFrame)
             {
+                var b = (ChromiumWebBrowser)sender;
+
                 // Remove the load event handler, because we only want one snapshot of the initial page.
-                browser.FrameLoadEnd -= BrowserFrameLoadEnd;
+               // b.FrameLoadEnd -= BrowserFrameLoadEnd;
 
                 // Wait for the screenshot to be taken.
-                browser.ScreenshotAsync().ContinueWith(DisplayBitmap);
+                if (b == browser)
+                    b.ScreenshotAsync().ContinueWith(t => DisplayBitmap(t, "CefSharp screenshot Zoomlevel 0.png"));
+                else
+                    b.ScreenshotAsync().ContinueWith(t => DisplayBitmap(t, "CefSharp screenshot Zoomlevel 3.png"));
             }
         }
 
-        private static void DisplayBitmap(Task<Bitmap> task)
+        private static void DisplayBitmap(Task<Bitmap> task, string name)
         {
             // Make a file to save it to (e.g. C:\Users\jan\Desktop\CefSharp screenshot.png)
-            var screenshotPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "CefSharp screenshot.png");
+            var screenshotPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), name);
 
             Console.WriteLine();
             Console.WriteLine("Screenshot ready. Saving to {0}", screenshotPath);
