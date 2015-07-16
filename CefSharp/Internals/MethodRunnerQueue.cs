@@ -9,8 +9,10 @@ namespace CefSharp.Internals
     {
         private readonly JavascriptObjectRepository repository;
         private readonly AutoResetEvent stopped = new AutoResetEvent(false);
-        private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         private readonly BlockingCollection<Task<MethodInvocationResult>> queue = new BlockingCollection<Task<MethodInvocationResult>>();
+        private readonly object lockObject = new object();
+        private volatile CancellationTokenSource cancellationTokenSource;
+        private volatile bool running;
 
         public event EventHandler<MethodInvocationCompleteArgs> MethodInvocationComplete;
 
@@ -21,7 +23,51 @@ namespace CefSharp.Internals
 
         public void Start()
         {
-            Task.Factory.StartNew(() =>
+            if (running)
+                return;
+
+            lock (lockObject)
+            {
+                if (!running)
+                {
+                    cancellationTokenSource = new CancellationTokenSource();
+                    Task.Factory.StartNew(ConsumeTasks, TaskCreationOptions.LongRunning);
+                    running = true;
+                }
+            }
+        }
+
+        public void Stop()
+        {
+            if (!running)
+                return;
+
+            lock (lockObject)
+            {
+                if (running)
+                {
+                    cancellationTokenSource.Cancel();
+                    stopped.WaitOne();
+                    //clear the queue
+                    while (queue.Count > 0)
+                    {
+                        queue.Take();
+                    }
+                    cancellationTokenSource = null;
+                    running = false;
+                }
+            }
+        }
+
+        public void Enqueue(MethodInvocation methodInvocation)
+        {
+            var task = new Task<MethodInvocationResult>(() => ExecuteMethodInvocation(methodInvocation));
+            queue.Add(task);
+        }
+
+        private void ConsumeTasks()
+        {
+            try
             {
                 while (!cancellationTokenSource.IsCancellationRequested)
                 {
@@ -29,32 +75,34 @@ namespace CefSharp.Internals
                     task.RunSynchronously(TaskScheduler.Current);
                     OnMethodInvocationComplete(task.Result);
                 }
-                stopped.Set();
-            }, TaskCreationOptions.LongRunning);
-        }
-
-        public void Stop()
-        {
-            cancellationTokenSource.Cancel();
-            stopped.WaitOne();
-        }
-
-        public void Enqueue(MethodInvocation methodInvocation)
-        {
-            var task = new Task<MethodInvocationResult>(() =>
+            }
+            finally
             {
-                object result;
-                string exception;
-                var success = repository.TryCallMethod(methodInvocation.ObjectId, methodInvocation.MethodName, methodInvocation.Parameters.ToArray(), out result, out exception);
-                return new MethodInvocationResult
-                {
-                    CallbackId = methodInvocation.CallbackId,
-                    Message = exception,
-                    Result = result,
-                    Success = success
-                };
-            });
-            queue.Add(task);
+                stopped.Set();
+            }
+        }
+
+        private MethodInvocationResult ExecuteMethodInvocation(MethodInvocation methodInvocation)
+        {
+            object result = null;
+            string exception;
+            var success = false;
+            //make sure we don't throw exceptions in the executor task
+            try
+            {
+                success = repository.TryCallMethod(methodInvocation.ObjectId, methodInvocation.MethodName, methodInvocation.Parameters.ToArray(), out result, out exception);
+            }
+            catch (Exception e)
+            {
+                exception = e.Message;
+            }
+            return new MethodInvocationResult
+            {
+                CallbackId = methodInvocation.CallbackId,
+                Message = exception,
+                Result = result,
+                Success = success
+            };
         }
 
         private void OnMethodInvocationComplete(MethodInvocationResult e)
