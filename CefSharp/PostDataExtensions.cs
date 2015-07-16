@@ -9,6 +9,12 @@ namespace CefSharp
 {
     public static class PostDataExtensions
     {
+        /// <summary>
+        /// A convenience extension method that extracts the Character set from
+        /// the content-type header. Can be used in conjuncation with <see cref="GetBody"/>
+        /// </summary>
+        /// <param name="request">the request</param>
+        /// <returns>character set e.g. UTF-8</returns>
         public static string GetCharSet(this IRequest request)
         {
             //Extract the Content-Type header value.
@@ -61,6 +67,14 @@ namespace CefSharp
             return charset;
         }
 
+        /// <summary>
+        /// Converts the <see cref="IPostDataElement.Bytes"/> property into a string
+        /// using the specified charset (Encoding) or if unable to parse then uses
+        /// the <see cref="Encoding.Default"/>
+        /// </summary>
+        /// <param name="postDataElement">post data</param>
+        /// <param name="charSet">character set</param>
+        /// <returns>encoded string</returns>
         public static string GetBody(this IPostDataElement postDataElement, string charSet)
         {
             var bytes = postDataElement.Bytes;
