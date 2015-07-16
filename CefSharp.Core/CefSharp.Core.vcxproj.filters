@@ -202,6 +202,12 @@
     <ClInclude Include="Internals\CefWindowInfoWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Internals\CefPostDataWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\CefPostDataElementWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Internals\JavascriptCallbackProxy.h">
       <Filter>Header Files</Filter>
     </ClInclude>

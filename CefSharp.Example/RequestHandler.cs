@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CefSharp.Example
 {
@@ -36,8 +37,26 @@ namespace CefSharp.Example
 
         CefReturnValue IRequestHandler.OnBeforeResourceLoad(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IRequestCallback callback)
         {
-            try
+            using (callback)
             {
+                if (request.Method == "POST")
+                {
+                    using (var postData = request.PostData)
+                    {
+                        var elements = postData.Elements;
+
+                        var charSet = request.GetCharSet();
+
+                        foreach (var element in elements)
+                        {
+                            if (element.Type == PostDataElementType.Bytes)
+                            {
+                                var body = element.GetBody(charSet);
+                            }
+                        }
+                    }
+                }
+
                 //Note to Redirect simply set the request Url
                 //if (request.Url.StartsWith("https://www.google.com", StringComparison.OrdinalIgnoreCase))
                 //{
@@ -47,12 +66,8 @@ namespace CefSharp.Example
                 //Callback in async fashion
                 //callback.Continue(true);
                 //return CefReturnValue.ContinueAsync;
-
             }
-            finally
-            {
-                callback.Dispose();
-            }
+            
             return CefReturnValue.Continue;
         }
 
