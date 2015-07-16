@@ -214,6 +214,9 @@
     <ClInclude Include="Internals\JavascriptCallbackFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RequestContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Internals\CefSharpBrowserWrapper.h">

@@ -6,6 +6,7 @@
 
 #include "Stdafx.h"
 #include "Internals/StringUtils.h"
+#include "RequestContext.h"
 
 using namespace CefSharp::Internals;
 
@@ -28,6 +29,7 @@ namespace CefSharp
         !BrowserSettings()
         {
             delete _browserSettings;
+            delete RequestContext;
         }
 
         ~BrowserSettings()
@@ -329,5 +331,7 @@ namespace CefSharp
         }		
 
         property Nullable<bool> OffScreenTransparentBackground;
+
+        property RequestContext^  RequestContext;
     };
 }
