@@ -270,7 +270,7 @@ namespace CefSharp
         }
 
         property Nullable<bool>^ OffScreenTransparentBackground;
-
-		property RequestContext^  RequestContext;
+        
+        property RequestContext^  RequestContext;
     };
 }

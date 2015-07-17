@@ -54,19 +54,17 @@ namespace CefSharp.OffScreen.Example
             };
 
             // Create the offscreen Chromium browser.
-            //using (browser = new ChromiumWebBrowser(testUrl, new BrowserSettings() /*{ ContextRequest = new ContextRequest( new CookieManager( Path.GetTempPath(), false ) )  }*/))
+            //using (browser = new ChromiumWebBrowser(testUrl, new BrowserSettings() }*/))
             using (browser = new ChromiumWebBrowser(null, settings ))
             using (browser2 = new ChromiumWebBrowser(null, settings2))
             {
                 browser.BrowserInitialized += (sender, argsi) =>
                 {
-                    //browser.ZoomLevel = 0;
                     browser.Load(testUrl);
                 };
 
                 browser2.BrowserInitialized += (sender, argsi) =>
                 {
-                    //browser2.ZoomLevel = 3;
                     browser2.Load(testUrl);
                 };
 
@@ -88,8 +86,6 @@ namespace CefSharp.OffScreen.Example
                     };
                 }
 
-                //browser.ZoomLevel = 0;
-
                 if (captureFirstRenderedImage)
                 {
                     browser2.ResourceHandlerFactory.RegisterHandler(testUrl, ResourceHandler.FromString("<html><body><h1>CefSharp OffScreen</h1></body></html>"));
@@ -104,11 +100,6 @@ namespace CefSharp.OffScreen.Example
                             browser2.ZoomLevel = 3;
                     };
                 }
-
-                //browser2.ZoomLevel = 3;
-
-                //browser.Load(testUrl);
-                //browser2.Load(testUrl);
 
                 // We have to wait for something, otherwise the process will exit too soon.
                 Console.ReadKey();
@@ -132,9 +123,13 @@ namespace CefSharp.OffScreen.Example
 
                 // Wait for the screenshot to be taken.
                 if (b == browser)
+                {
                     b.ScreenshotAsync().ContinueWith(t => DisplayBitmap(t, "CefSharp screenshot Zoomlevel 0.png"));
+                }
                 else
+                {
                     b.ScreenshotAsync().ContinueWith(t => DisplayBitmap(t, "CefSharp screenshot Zoomlevel 3.png"));
+                }
             }
         }
 
