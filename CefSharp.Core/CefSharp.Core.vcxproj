@@ -243,6 +243,7 @@
     <ClInclude Include="CookieManager.h">
       <FileType>CppHeader</FileType>
     </ClInclude>
+    <ClInclude Include="RequestContextHandler.h" />
     <ClInclude Include="Internals\AutoLock.h" />
     <ClInclude Include="Internals\CefContextMenuParamsWrapper.h" />
     <ClInclude Include="Internals\CefDragDataWrapper.h" />

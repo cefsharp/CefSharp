@@ -10,32 +10,35 @@ using namespace CefSharp::Internals;
 
 namespace CefSharp
 {
-	public ref class RequestContext
-	{
-	private:
-		bool _isFinalized;
-		CookieManager^ _cookieManager;
+    public ref class RequestContext
+    {
+    private:
+        bool _isFinalized;
+        CookieManager^ _cookieManager;
+        MCefRefPtr<CefRequestContext> _requestContext;
 
-	internal:
-		CefRefPtr<CefRequestContext>* _requestContext;
-
-	public:
-		RequestContext(CookieManager^ cookieManager) : 
-            _cookieManager(cookieManager), 
-            _requestContext(&CefRequestContext::CreateContext(
-                cookieManager->GetHandler())), 
+    public:
+        RequestContext(CookieManager^ cookieManager) :
+            _cookieManager(cookieManager),
+            _requestContext(CefRequestContext::CreateContext(
+                cookieManager->GetHandler())),
             _isFinalized(false) { }
-		
-        !RequestContext() 
-        { 
-            delete _requestContext; 
-            _cookieManager = nullptr; 
-            _isFinalized = true; 
+
+        !RequestContext()
+        {
+            _requestContext = NULL;
+            _cookieManager = nullptr;
+            _isFinalized = true;
         }
 
-        ~RequestContext() 
-        { 
-            if (!_isFinalized) this->!RequestContext(); 
+        ~RequestContext()
+        {
+            if (!_isFinalized) this->!RequestContext();
         }
-	};
+
+        operator CefRefPtr<CefRequestContext>()
+        {
+            return *new CefRefPtr<CefRequestContext>(_requestContext.get());
+        }
+    };
 }

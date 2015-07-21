@@ -55,7 +55,7 @@ namespace CefSharp.OffScreen.Example
 
             // Create the offscreen Chromium browser.
             //using (browser = new ChromiumWebBrowser(testUrl, new BrowserSettings() }*/))
-            using (browser = new ChromiumWebBrowser(null, settings ))
+            using (browser = new ChromiumWebBrowser(null, settings))
             using (browser2 = new ChromiumWebBrowser(null, settings2))
             {
                 browser.BrowserInitialized += (sender, argsi) =>
@@ -82,7 +82,9 @@ namespace CefSharp.OffScreen.Example
                     browser.FrameLoadStart += (s, argsi) =>
                     {
                         if (argsi.IsMainFrame)
+                        {
                             browser.ZoomLevel = 0;
+                        }
                     };
                 }
 
@@ -94,10 +96,12 @@ namespace CefSharp.OffScreen.Example
                 else
                 {
                     browser2.FrameLoadEnd += BrowserFrameLoadEnd;
-                    browser2.FrameLoadStart += (s, argsi)=>
+                    browser2.FrameLoadStart += (s, argsi) =>
                     {
                         if (argsi.IsMainFrame)
+                        {
                             browser2.ZoomLevel = 3;
+                        }
                     };
                 }
 
@@ -119,7 +123,7 @@ namespace CefSharp.OffScreen.Example
                 var b = (ChromiumWebBrowser)sender;
 
                 // Remove the load event handler, because we only want one snapshot of the initial page.
-               // b.FrameLoadEnd -= BrowserFrameLoadEnd;
+                // b.FrameLoadEnd -= BrowserFrameLoadEnd;
 
                 // Wait for the screenshot to be taken.
                 if (b == browser)

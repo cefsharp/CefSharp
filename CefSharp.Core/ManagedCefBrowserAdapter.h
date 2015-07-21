@@ -80,7 +80,7 @@ namespace CefSharp
             CefString addressNative = StringUtils::ToNative(address);
 
             if (!CefBrowserHost::CreateBrowser(window, _clientAdapter.get(), addressNative,				
-                *browserSettings->_browserSettings, *browserSettings->RequestContext->_requestContext))
+                *browserSettings->_browserSettings, browserSettings->RequestContext))
             {
                 throw gcnew InvalidOperationException( "Failed to create offscreen browser. Call Cef.Initialize() first." );
             }

@@ -6,59 +6,40 @@
 #include "Stdafx.h"
 #include "Internals/StringUtils.h"
 #include <include/cef_request_context_handler.h>
+#include "RequestContextHandler.h"
+#include "Internals/MCefRefPtr.h"
 
 using namespace CefSharp::Internals;
 
 namespace CefSharp
-{		
-	class RequestContextHandler : CefRequestContextHandler
-	{
-	private:
-		CefRefPtr<CefCookieManager> _cookieManager;
+{
+    public ref class CookieManager
+    {
+    private:
+        MCefRefPtr<CefRequestContextHandler> _handler;
 
-	public:
-		RequestContextHandler(CefRefPtr<CefCookieManager> cookieManager) : _cookieManager(cookieManager) {}
-		~RequestContextHandler(){};
-		CefRefPtr<CefCookieManager> GetCookieManager() OVERRIDE{
-			return _cookieManager;
-		}
-
-	private:
-		// Include the default reference counting implementation.
-		IMPLEMENT_REFCOUNTING(RequestContextHandler);
-	};
-
-	public ref class CookieManager
-	{
-	private:
-		bool _isFinalized;
-		CefRefPtr<CefRequestContextHandler>* _handler;
-
-	internal:
-		CefRefPtr<CefRequestContextHandler> GetHandler()
-		{ 
-			return *_handler;
-		}
-
-	public:
-		CookieManager(String^ cookiePath, bool persistSessionCookies) : 
-            _handler(new CefRefPtr<CefRequestContextHandler>(
-                (CefRequestContextHandler*)new RequestContextHandler(
-                    CefCookieManager::CreateManager(StringUtils::ToNative(cookiePath), 
-                    persistSessionCookies)))), 
-            _isFinalized(false) { }
-
-		!CookieManager() 
-        { 
-            delete _handler; 
-            _isFinalized = true; 
+    internal:
+        CefRefPtr<CefRequestContextHandler> GetHandler()
+        {
+            return *new CefRefPtr<CefRequestContextHandler>(_handler.get());
         }
 
-		~CookieManager() 
-        { 
-            if (!_isFinalized) 
-                this->!CookieManager(); 
-        }	
-	
-	};
+    public:
+        CookieManager(String^ cookiePath, bool persistSessionCookies) :
+            _handler((CefRequestContextHandler*)new RequestContextHandler(
+                    CefCookieManager::CreateManager(
+                        StringUtils::ToNative(cookiePath),
+                        persistSessionCookies))) { }
+
+        !CookieManager()
+        {
+            this->_handler = NULL;
+        }
+
+        ~CookieManager()
+        {
+            this->!CookieManager();
+        }
+
+    };
 }
