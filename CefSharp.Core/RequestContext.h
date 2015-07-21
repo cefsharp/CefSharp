@@ -2,43 +2,42 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-#include "Stdafx.h"
-#include "Internals/StringUtils.h"
-#include "CookieManager.h"
+#pragma once
 
-using namespace CefSharp::Internals;
+#include "Stdafx.h"
+#include "Internals\MCefRefPtr.h"
+#include "RequestContextHandler.h"
+#include "include\cef_request_context.h"
+
+using namespace CefSharp;
 
 namespace CefSharp
 {
     public ref class RequestContext
     {
-    private:
-        bool _isFinalized;
-        CookieManager^ _cookieManager;
         MCefRefPtr<CefRequestContext> _requestContext;
 
     public:
-        RequestContext(CookieManager^ cookieManager) :
-            _cookieManager(cookieManager),
-            _requestContext(CefRequestContext::CreateContext(
-                cookieManager->GetHandler())),
-            _isFinalized(false) { }
+        RequestContext(String^ cookiePath, bool persistSessionCookies)
+        {
+            auto cookieManager = CefCookieManager::CreateManager(StringUtils::ToNative(cookiePath), persistSessionCookies);
+            CefRefPtr<CefRequestContextHandler> requestContextHandler = new RequestContextHandler(cookieManager);
+            _requestContext = CefRequestContext::CreateContext(requestContextHandler);
+        }
 
         !RequestContext()
         {
             _requestContext = NULL;
-            _cookieManager = nullptr;
-            _isFinalized = true;
         }
 
         ~RequestContext()
         {
-            if (!_isFinalized) this->!RequestContext();
+            this->!RequestContext();
         }
 
         operator CefRefPtr<CefRequestContext>()
         {
-            return *new CefRefPtr<CefRequestContext>(_requestContext.get());
+            return _requestContext.get();
         }
     };
 }
