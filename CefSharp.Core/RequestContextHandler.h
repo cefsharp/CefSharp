@@ -3,28 +3,34 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-#include "Stdafx.h"
-#include "Internals/StringUtils.h"
-#include <include/cef_request_context_handler.h>
+#pragma once
 
-using namespace CefSharp::Internals;
+#include "Stdafx.h"
+#include "include\cef_request_context_handler.h"
+#include "include\cef_cookie.h"
 
 namespace CefSharp
 {
-    private class RequestContextHandler : CefRequestContextHandler
+    private class RequestContextHandler : public CefRequestContextHandler
     {
     private:
         CefRefPtr<CefCookieManager> _cookieManager;
 
     public:
-        RequestContextHandler(CefRefPtr<CefCookieManager> cookieManager) : _cookieManager(cookieManager) {}
-        ~RequestContextHandler(){};
-        CefRefPtr<CefCookieManager> GetCookieManager() OVERRIDE{
+        RequestContextHandler(CefRefPtr<CefCookieManager> cookieManager) : _cookieManager(cookieManager)
+        {
+        }
+        
+        ~RequestContextHandler()
+        {
+            _cookieManager = NULL;
+        };
+
+        CefRefPtr<CefCookieManager> GetCookieManager() OVERRIDE
+        {
             return _cookieManager;
         }
 
-    private:
-        // Include the default reference counting implementation.
         IMPLEMENT_REFCOUNTING(RequestContextHandler);
     };
 }

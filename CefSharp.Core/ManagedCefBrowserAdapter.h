@@ -647,7 +647,7 @@ namespace CefSharp
             CefString addressNative = StringUtils::ToNative(address);
 
             CefBrowserHost::CreateBrowser(window, _clientAdapter.get(), addressNative,
-                *browserSettings->_browserSettings, NULL);
+                *browserSettings->_browserSettings, browserSettings->RequestContext);
         }
 
         void Resize(int width, int height)
