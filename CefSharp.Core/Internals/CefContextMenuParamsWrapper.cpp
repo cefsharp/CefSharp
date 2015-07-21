@@ -71,11 +71,6 @@ namespace CefSharp
             return StringUtils::ToClr(_wrappedInfo->GetMisspelledWord());
         }
 
-        int CefContextMenuParamsWrapper::MisspellingHash::get()
-        {
-            return _wrappedInfo->GetMisspellingHash();
-        }
-
         //// TODO: Implement:
         ////virtual bool GetDictionarySuggestions(std::vector<CefString>& suggestions) OVERRIDE;
 
