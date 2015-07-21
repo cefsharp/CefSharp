@@ -4,6 +4,7 @@
 
 #include "Stdafx.h"
 #include "Internals/StringUtils.h"
+#include "RequestContext.h"
 
 using namespace CefSharp::Internals;
 
@@ -71,16 +72,24 @@ namespace CefSharp
 
     public ref class BrowserSettings
     {
-    private:
-        bool _isFinalized;
-
     internal:
         CefBrowserSettings* _browserSettings;
 
     public:
-        BrowserSettings() : _browserSettings(new CefBrowserSettings()), _isFinalized(false) { }
-        !BrowserSettings() { delete _browserSettings; _isFinalized = true; }
-        ~BrowserSettings() { if (!_isFinalized) this->!BrowserSettings(); }
+        BrowserSettings() : _browserSettings(new CefBrowserSettings())
+        {
+        }
+
+        !BrowserSettings()
+        {
+            delete _browserSettings;
+            delete RequestContext;
+        }
+        
+        ~BrowserSettings()
+        {
+            this->!BrowserSettings();
+        }
 
         property String^ StandardFontFamily
         {
@@ -269,5 +278,7 @@ namespace CefSharp
         }
 
         property Nullable<bool>^ OffScreenTransparentBackground;
+        
+        property RequestContext^  RequestContext;
     };
 }

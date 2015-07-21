@@ -136,6 +136,12 @@
     <ClInclude Include="SchemeHandlerFactoryWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RequestContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RequestContextHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
