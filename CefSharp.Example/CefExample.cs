@@ -70,11 +70,10 @@ namespace CefSharp.Example
             
             settings.LogSeverity = LogSeverity.Verbose;
 
-            //if (DebuggingSubProcess)
-            //{
-            //    var architecture = Environment.Is64BitProcess ? "x64" : "x86";
-            //    settings.BrowserSubprocessPath = "..\\..\\..\\..\\CefSharp.BrowserSubprocess\\bin\\" + architecture + "\\Debug\\CefSharp.BrowserSubprocess.exe";
-            //}
+            if (DebuggingSubProcess) {
+                var architecture = Environment.Is64BitProcess ? "x64" : "x86";
+                settings.BrowserSubprocessPath = "..\\..\\..\\..\\CefSharp.BrowserSubprocess\\bin\\" + architecture + "\\Debug\\CefSharp.BrowserSubprocess.exe";
+            }
 
             settings.RegisterScheme(new CefCustomScheme
             {
@@ -87,7 +86,7 @@ namespace CefSharp.Example
                 Cef.SetCookiePath("cookies", true);
             };
 
-            if (!Cef.Initialize(settings, shutdownOnProcessExit: true, performDependencyCheck: true))
+            if (!Cef.Initialize(settings, shutdownOnProcessExit: true, performDependencyCheck: !DebuggingSubProcess))
             {
                 throw new Exception("Unable to Initialize Cef");
             }
