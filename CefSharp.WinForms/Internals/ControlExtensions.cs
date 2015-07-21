@@ -45,7 +45,13 @@ namespace CefSharp.WinForms.Internals
         /// <returns></returns>
         public static bool IsActiveControl(this Control control)
         {
-            Control activeControl = control.FindForm().ActiveControl;
+            Form form = control.FindForm();
+            if (form == null)
+            {
+                return false;
+            }
+
+            Control activeControl = form.ActiveControl;
             ContainerControl containerControl;
             while (activeControl != null
                     && (activeControl as ContainerControl != null)
