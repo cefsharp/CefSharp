@@ -52,7 +52,6 @@ namespace CefSharp
 
             virtual property String^ SelectionText { String^ get(); }
             virtual property String^ MisspelledWord { String^ get(); }
-            virtual property int MisspellingHash { int get(); }
 
             virtual property List<String^>^ DictionarySuggestions { List<String^>^ get(); }
             

@@ -36,7 +36,6 @@ namespace CefSharp
 
         string SelectionText { get; }
         string MisspelledWord { get; }
-        int MisspellingHash { get; }
     
         List<string> DictionarySuggestions { get; }  
 

@@ -38,7 +38,12 @@ namespace CefSharp
             // CEF core library
             "libcef.dll",
             // Unicode support
-            "icudtl.dat"
+            "icudtl.dat",
+            // V8 native mapping files, see
+            // https://groups.google.com/a/chromium.org/forum/#!topic/chromium-packagers/75J9Y1vIc_E
+            // http://www.magpcss.org/ceforum/viewtopic.php?f=6&t=12580
+            "natives_blob.bin",
+            "snapshot_blob.bin"
         };
 
         /// <summary>
@@ -63,7 +68,8 @@ namespace CefSharp
             (IsWindowsXp ? "d3dcompiler_43.dll" : "d3dcompiler_47.dll"),
             // PDF support
             // Note: Without this component printing will not function.
-            "pdf.dll",
+            // Removed from CEF 3.2357, see https://bitbucket.org/chromiumembedded/cef/issue/1565
+            //"pdf.dll",
             //FFmpeg audio and video support
             // Note: Without this component HTML5 audio and video will not function.
             "ffmpegsumo.dll"

@@ -285,7 +285,7 @@ namespace CefSharp
         /// <return>Returns false if the CookieManager is not available; otherwise, true.</return>
         static bool VisitAllCookies(ICookieVisitor^ visitor)
         {
-            CefRefPtr<CefCookieManager> manager = CefCookieManager::GetGlobalManager();
+            CefRefPtr<CefCookieManager> manager = CefCookieManager::GetGlobalManager(NULL);
 
             if (manager == nullptr)
             {
@@ -306,7 +306,7 @@ namespace CefSharp
         /// <return>Returns false if the CookieManager is not available; otherwise, true.</return>
         static bool VisitUrlCookies(String^ url, bool includeHttpOnly, ICookieVisitor^ visitor)
         {
-            CefRefPtr<CefCookieManager> manager = CefCookieManager::GetGlobalManager();
+            CefRefPtr<CefCookieManager> manager = CefCookieManager::GetGlobalManager(NULL);
 
             if (manager == nullptr)
             {
@@ -390,14 +390,14 @@ namespace CefSharp
         /// <return> false if a non-empty invalid URL is specified, or if the CookieManager is not available; otherwise, true.</return>
         static bool SetCookiePath(String^ path, bool persistSessionCookies)
         {
-            CefRefPtr<CefCookieManager> manager = CefCookieManager::GetGlobalManager();
+            CefRefPtr<CefCookieManager> manager = CefCookieManager::GetGlobalManager(NULL);
 
             if (manager == nullptr)
             {
                 return false;
             }
 
-            return manager->SetStoragePath(StringUtils::ToNative(path), persistSessionCookies);
+            return manager->SetStoragePath(StringUtils::ToNative(path), persistSessionCookies, NULL);
         }
 
         /// <summary> Flush the backing store (if any) to disk and execute the specified |handler| on the IO thread when done. Returns </summary>
@@ -405,7 +405,7 @@ namespace CefSharp
         /// <return>Returns false if cookies cannot be accessed.</return>
         static bool FlushStore(ICompletionHandler^ handler)
         {
-            CefRefPtr<CefCookieManager> manager = CefCookieManager::GetGlobalManager();
+            CefRefPtr<CefCookieManager> manager = CefCookieManager::GetGlobalManager(NULL);
 
             if (manager == nullptr)
             {

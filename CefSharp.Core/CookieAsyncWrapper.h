@@ -50,12 +50,12 @@ namespace CefSharp
             cookie.expires.second = _expires.Second;
             cookie.expires.millisecond = _expires.Millisecond;
 
-            return CefCookieManager::GetGlobalManager()->SetCookie(StringUtils::ToNative(_url), cookie);
+            return CefCookieManager::GetGlobalManager(NULL)->SetCookie(StringUtils::ToNative(_url), cookie, NULL);
         }
 
         bool DeleteCookies()
         {
-            return CefCookieManager::GetGlobalManager()->DeleteCookies(StringUtils::ToNative(_url), StringUtils::ToNative(_name));
+            return CefCookieManager::GetGlobalManager(NULL)->DeleteCookies(StringUtils::ToNative(_url), StringUtils::ToNative(_name), NULL);
         }
     };
 }

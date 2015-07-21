@@ -79,7 +79,9 @@ namespace CefSharp
         }*/
         _stream = nullptr;
 
-        delete this;
+        // Do not dispose here; since CEF 2537 the ResourceHandlerWrapper pointer is
+        // referenced after Cancel and disposal would cause an access violation.
+        //delete this;
     }
 
     int64 ResourceHandlerWrapper::SizeFromStream()
