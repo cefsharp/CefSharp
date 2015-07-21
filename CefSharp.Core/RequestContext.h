@@ -21,7 +21,7 @@ namespace CefSharp
         {
             CefRequestContextSettings settings;
             settings.persist_session_cookies = persistSessionCookies;
-            //settings.cache_path = cef_string_t(StringUtils::ToNative(cachePath));
+            StringUtils::AssignNativeFromClr(settings.cache_path, cachePath);
             _requestContext = CefRequestContext::CreateContext(settings, NULL);
         }
 
