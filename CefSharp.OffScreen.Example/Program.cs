@@ -24,8 +24,8 @@ namespace CefSharp.OffScreen.Example
             // You need to replace this with your own call to Cef.Initialize();
             CefExample.Init();
 
-            MainAsync("cookies1", 1.0);
-            MainAsync("cookies2", 3.0);
+            MainAsync("cachePath1", 1.0);
+            MainAsync("cachePath2", 3.0);
 
             // We have to wait for something, otherwise the process will exit too soon.
             Console.ReadKey();
@@ -35,11 +35,11 @@ namespace CefSharp.OffScreen.Example
             Cef.Shutdown();
         }
 
-        private static async void MainAsync(string cookiePath, double zoomLevel)
+        private static async void MainAsync(string cachePath, double zoomLevel)
         {
             var settings = new BrowserSettings
             {
-                RequestContext = new RequestContext(cookiePath, false)
+                RequestContext = new RequestContext(cachePath, false)
             };
 
             // Create the offscreen Chromium browser.
