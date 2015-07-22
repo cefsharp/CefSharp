@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Text;
+using System.Threading.Tasks;
 using CefSharp.Example.Proxy;
 
 namespace CefSharp.Example
@@ -107,30 +108,37 @@ namespace CefSharp.Example
                 const string unicodeResponseBody = "<html><body>整体满意度</body></html>";
                 handler.RegisterHandler(TestUnicodeResourceUrl, ResourceHandler.FromString(unicodeResponseBody));
 
-                var plugins = await Cef.GetPlugins();
-
-                var pluginBody = new StringBuilder();
-                pluginBody.Append("<html><body><h1>Plugins</h1><table>");
-                pluginBody.Append("<tr>");
-                pluginBody.Append("<th>Name</th>");
-                pluginBody.Append("<th>Description</th>");
-                pluginBody.Append("<th>Version</th>");
-                pluginBody.Append("<th>Path</th>");
-                pluginBody.Append("</tr>");
-
-                foreach(var plugin in plugins)
+                try
                 {
+                    var plugins = await Cef.GetPlugins();
+
+                    var pluginBody = new StringBuilder();
+                    pluginBody.Append("<html><body><h1>Plugins</h1><table>");
                     pluginBody.Append("<tr>");
-                    pluginBody.Append("<td>" + plugin.Name + "</td>");
-                    pluginBody.Append("<td>" + plugin.Description + "</td>");
-                    pluginBody.Append("<td>" + plugin.Version + "</td>");
-                    pluginBody.Append("<td>" + plugin.Path + "</td>");
+                    pluginBody.Append("<th>Name</th>");
+                    pluginBody.Append("<th>Description</th>");
+                    pluginBody.Append("<th>Version</th>");
+                    pluginBody.Append("<th>Path</th>");
                     pluginBody.Append("</tr>");
+
+                    foreach (var plugin in plugins)
+                    {
+                        pluginBody.Append("<tr>");
+                        pluginBody.Append("<td>" + plugin.Name + "</td>");
+                        pluginBody.Append("<td>" + plugin.Description + "</td>");
+                        pluginBody.Append("<td>" + plugin.Version + "</td>");
+                        pluginBody.Append("<td>" + plugin.Path + "</td>");
+                        pluginBody.Append("</tr>");
+                    }
+                    pluginBody.Append("</table></body></html>");
+
+
+                    handler.RegisterHandler("custom://cefsharp/plugins", ResourceHandler.FromString(pluginBody.ToString()));
                 }
-                pluginBody.Append("</table></body></html>");
-
-
-                handler.RegisterHandler("custom://cefsharp/plugins", ResourceHandler.FromString(pluginBody.ToString()));
+                catch(TaskCanceledException ex)
+                {
+                    //Task was cancelled, likely there were no Plugins found.
+                }
             }
         }
     }

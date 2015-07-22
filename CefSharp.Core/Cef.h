@@ -457,7 +457,11 @@ namespace CefSharp
         /// <summary>
         /// Async returns a list containing Plugin Information
         /// (Wrapper around CefVisitWebPluginInfo)
-        /// WARNING In the very unlikely event of no plugins being found the Task may never complete
+        /// The Task will be cancelled and a TaskCanceledException throw
+        /// if the Task does not complete within 2000ms
+        /// Documentation for CefWebPluginInfoVisitor.Visit states
+        /// `This method may never be called if no plugins are found.`
+        /// hence the Task cancelled timeout
         /// </summary>
         /// <return>Returns List of <see cref="Plugin"/> structs.</return>
         static Task<List<Plugin>^>^ GetPlugins()

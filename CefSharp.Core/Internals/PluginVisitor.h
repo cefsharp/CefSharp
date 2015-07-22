@@ -4,11 +4,11 @@
 
 #pragma once
 
-using namespace System::Threading::Tasks;
-using namespace CefSharp;
-
 #include "Stdafx.h"
 #include "include/cef_web_plugin.h"
+
+using namespace CefSharp;
+using namespace System::Threading::Tasks;
 
 namespace CefSharp
 {
@@ -23,6 +23,9 @@ namespace CefSharp
         {
             _list = gcnew List<Plugin>();
             _taskCompletionSource = gcnew TaskCompletionSource<List<Plugin>^>();
+
+            //NOTE: Use fully qualified name as TaskExtensions is ambiguious
+            CefSharp::Internals::TaskExtensions::WithTimeout<List<Plugin>^>(_taskCompletionSource, TimeSpan::FromMilliseconds(2000));
         }
 
         ~PluginVisitor()

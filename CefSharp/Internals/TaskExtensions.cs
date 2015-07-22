@@ -13,7 +13,7 @@ namespace CefSharp.Internals
     /// https://github.com/ChadBurggraf/parallel-extensions-extras/blob/master/Extensions/TaskExtrasExtensions.cs
     /// https://github.com/ChadBurggraf/parallel-extensions-extras/blob/ec803e58eee28c698e44f55f49c5ad6671b1aa58/Extensions/TaskCompletionSourceExtensions.cs
     /// </summary>
-    internal static class TaskExtensions
+    public static class TaskExtensions
     {
         /// <summary>Creates a new Task that mirrors the supplied task but that will be canceled after the specified timeout.</summary>
         /// <typeparam name="TResult">Specifies the type of data contained in the task.</typeparam>
@@ -62,6 +62,21 @@ namespace CefSharp.Internals
             var tcs = new TaskCompletionSource<T>();
             tcs.SetResult(value);
             return tcs.Task;
+        }
+
+        public static TaskCompletionSource<TResult> WithTimeout<TResult>(this TaskCompletionSource<TResult> taskCompletionSource, TimeSpan timeout)
+        {
+            Timer timer = null;
+            timer = new Timer(state =>
+            {
+                timer.Dispose();
+                if (taskCompletionSource.Task.Status != TaskStatus.RanToCompletion)
+                {
+                    taskCompletionSource.TrySetCanceled();
+                }
+            }, null, timeout, TimeSpan.FromMilliseconds(-1));
+
+            return taskCompletionSource;
         }
     }
 }
