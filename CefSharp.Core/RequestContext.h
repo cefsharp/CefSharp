@@ -44,6 +44,10 @@ namespace CefSharp
 
         operator CefRefPtr<CefRequestContext>()
         {
+            if(this == nullptr)
+            {
+                return NULL;
+            }
             return _requestContext.get();
         }
     };
