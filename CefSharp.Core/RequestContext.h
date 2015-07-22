@@ -6,6 +6,7 @@
 
 #include "Stdafx.h"
 #include "Internals\MCefRefPtr.h"
+#include "RequestContextSettings.h"
 #include "include\cef_request_context.h"
 
 using namespace CefSharp;
@@ -14,14 +15,17 @@ namespace CefSharp
 {
     public ref class RequestContext
     {
+    private:
         MCefRefPtr<CefRequestContext> _requestContext;
-
     public:
-        RequestContext(String^ cachePath, bool persistSessionCookies)
+        RequestContext()
         {
             CefRequestContextSettings settings;
-            settings.persist_session_cookies = persistSessionCookies;
-            StringUtils::AssignNativeFromClr(settings.cache_path, cachePath);
+            _requestContext = CefRequestContext::CreateContext(settings, NULL);
+        }
+
+        RequestContext(RequestContextSettings^ settings)
+        {
             _requestContext = CefRequestContext::CreateContext(settings, NULL);
         }
 
