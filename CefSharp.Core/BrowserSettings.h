@@ -327,7 +327,21 @@ namespace CefSharp
         {
             uint32 get() { return _browserSettings->background_color; }
             void set(uint32 value) { _browserSettings->background_color = value; }
-        }		
+        }
+
+        /// <summary>
+        /// Comma delimited ordered list of language codes without any whitespace that
+        /// will be used in the "Accept-Language" HTTP header. May be overridden on a
+        /// per-browser basis using the CefBrowserSettings.AcceptLanguageList value.
+        /// If both values are empty then "en-US,en" will be used. Can be overridden
+        /// for individual RequestContext instances via the
+        /// RequestContextSettings.AcceptLanguageList value.
+        /// </summary>
+        virtual property String^ AcceptLanguageList
+        {
+            String^ get() { return StringUtils::ToClr(_browserSettings->accept_language_list); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_browserSettings->accept_language_list, value); }
+        }
 
         property Nullable<bool> OffScreenTransparentBackground;
     };

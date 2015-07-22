@@ -146,6 +146,18 @@ namespace CefSharp
         }
 
         /// <summary>
+        /// Comma delimited ordered list of language codes without any whitespace that
+        /// will be used in the "Accept-Language" HTTP header. May be set globally
+        /// using the CefSettings.AcceptLanguageList value. If both values are
+        /// empty then "en-US,en" will be used.
+        /// </summary>
+        virtual property String^ AcceptLanguageList
+        {
+            String^ get() { return StringUtils::ToClr(_cefSettings->accept_language_list); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->accept_language_list, value); }
+        }
+
+        /// <summary>
         /// Registers a custom scheme using the provided settings.
         /// </summary>
         /// <param name="cefCustomScheme">The CefCustomScheme which provides the details about the scheme.</param>
