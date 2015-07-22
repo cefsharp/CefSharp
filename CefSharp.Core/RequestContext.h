@@ -17,6 +17,7 @@ namespace CefSharp
     {
     private:
         MCefRefPtr<CefRequestContext> _requestContext;
+        RequestContextSettings^ _settings;
     public:
         RequestContext()
         {
@@ -24,7 +25,7 @@ namespace CefSharp
             _requestContext = CefRequestContext::CreateContext(settings, NULL);
         }
 
-        RequestContext(RequestContextSettings^ settings)
+        RequestContext(RequestContextSettings^ settings) : _settings(settings)
         {
             _requestContext = CefRequestContext::CreateContext(settings, NULL);
         }
@@ -37,6 +38,8 @@ namespace CefSharp
         ~RequestContext()
         {
             this->!RequestContext();
+
+            delete _settings;
         }
 
         operator CefRefPtr<CefRequestContext>()
