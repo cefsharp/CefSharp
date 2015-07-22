@@ -204,7 +204,9 @@ namespace CefSharp
                 auto handler = _browserControl->RequestHandler;
                 if (handler != nullptr)
                 {
-                    handler->OnFaviconUrlChange(_browserControl, StringUtils::ToClr(iconUrls));
+                    IBrowser^ browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), true);
+
+                    handler->OnFaviconUrlChange(_browserControl, browserWrapper, StringUtils::ToClr(iconUrls));
                 }
             }
         }
@@ -513,10 +515,11 @@ namespace CefSharp
                 if (handler != nullptr)
                 {
                     auto managedNewUrl = StringUtils::ToClr(newUrl);
+                    IBrowser^ browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), true);;
                     CefFrameWrapper frameWrapper(frame);
                     CefRequestWrapper requestWrapper(request);
 
-                    handler->OnResourceRedirect(_browserControl, %frameWrapper, %requestWrapper, managedNewUrl);
+                    handler->OnResourceRedirect(_browserControl, browserWrapper, %frameWrapper, %requestWrapper, managedNewUrl);
 
                     newUrl = StringUtils::ToNative(managedNewUrl);
                 }

@@ -15,7 +15,7 @@ namespace CefSharp
         /// will be called. If the navigation is canceled <see cref="IWebBrowser.LoadError"/> will be called with an ErrorCode
         /// value of <see cref="CefErrorCode.Aborted"/>. 
         /// </summary>
-        /// <param name="browserControl">the browser control</param>
+        /// <param name="browserControl">the ChromiumWebBrowser control</param>
         /// <param name="browser">the browser object</param>
         /// <param name="frame">The frame the request is coming from</param>
         /// <param name="request">the request object - cannot be modified in this callback</param>
@@ -30,7 +30,7 @@ namespace CefSharp
         /// If <see cref="CefSettings.IgnoreCertificateErrors"/> is set all invalid certificates
         /// will be accepted without calling this method.
         /// </summary>
-        /// <param name="browserControl">the browser control</param>
+        /// <param name="browserControl">the ChromiumWebBrowser control</param>
         /// <param name="browser">the browser object</param>
         /// <param name="errorCode">the error code for this invalid certificate</param>
         /// <param name="requestUrl">the url of the request for the invalid certificate</param>
@@ -43,7 +43,7 @@ namespace CefSharp
         /// <summary>
         /// Called when a plugin has crashed
         /// </summary>
-        /// <param name="browserControl">the browser control</param>
+        /// <param name="browserControl">the ChromiumWebBrowser control</param>
         /// <param name="browser">the browser object</param>
         /// <param name="pluginPath">path of the plugin that crashed</param>
         void OnPluginCrashed(IWebBrowser browserControl, IBrowser browser, string pluginPath);
@@ -52,7 +52,7 @@ namespace CefSharp
         /// Called before a resource request is loaded. For async processing return <see cref="CefReturnValue.ContinueAsync"/> 
         /// and execute <see cref="IRequestCallback.Continue"/> or <see cref="IRequestCallback.Cancel"/>
         /// </summary>
-        /// <param name="browserControl">The browser control</param>
+        /// <param name="browserControl">The ChromiumWebBrowser control</param>
         /// <param name="browser">the browser object</param>
         /// <param name="request">the request object - can be modified in this callback.</param>
         /// <param name="frame">The frame object</param>
@@ -65,7 +65,7 @@ namespace CefSharp
         /// <summary>
         /// Called when the browser needs credentials from the user.
         /// </summary>
-        /// <param name="browserControl">The browser control</param>
+        /// <param name="browserControl">The ChromiumWebBrowser control</param>
         /// <param name="browser">the browser object</param>
         /// <param name="frame">The frame object that needs credentials (This will contain the URL that is being requested.)</param>
         /// <param name="isProxy">indicates whether the host is a proxy server</param>
@@ -80,7 +80,7 @@ namespace CefSharp
         /// <summary>
         /// Called on the browser process IO thread before a plugin is loaded.
         /// </summary>
-        /// <param name="browserControl">The browser control</param>
+        /// <param name="browserControl">The ChromiumWebBrowser control</param>
         /// <param name="browser">the browser object</param>
         /// <param name="url">URL</param>
         /// <param name="policyUrl">policy URL</param>
@@ -91,7 +91,7 @@ namespace CefSharp
         /// <summary>
         /// Called when the render process terminates unexpectedly.
         /// </summary>
-        /// <param name="browserControl">The browser control</param>
+        /// <param name="browserControl">The ChromiumWebBrowser control</param>
         /// <param name="browser">the browser object</param>
         /// <param name="status">indicates how the process terminated.</param>
         void OnRenderProcessTerminated(IWebBrowser browserControl, IBrowser browser, CefTerminationStatus status);
@@ -101,7 +101,7 @@ namespace CefSharp
         /// For async processing return true and execute <see cref="IRequestCallback.Continue"/> at a later time to 
         /// grant or deny the request or <see cref="IRequestCallback.Cancel"/> to cancel.
         /// </summary>
-        /// <param name="browserControl">The browser control</param>
+        /// <param name="browserControl">The ChromiumWebBrowser control</param>
         /// <param name="browser">the browser object</param>
         /// <param name="originUrl">the origin of the page making the request</param>
         /// <param name="newSize">is the requested quota size in bytes</param>
@@ -115,17 +115,18 @@ namespace CefSharp
         /// Called on the IO thread when a resource load is redirected. The <see cref="IRequest.Url"/>
         /// parameter will contain the old URL and other request-related information.
         /// </summary>
+        /// <param name="browserControl">The ChromiumWebBrowser control</param>
         /// <param name="browser">the browser object</param>
         /// <param name="frame">The frame that is being redirected.</param>
         /// <param name="request">the request object - cannot be modified in this callback</param>
         /// <param name="newUrl">the new URL and can be changed if desired</param>
-        void OnResourceRedirect(IWebBrowser browser, IFrame frame, IRequest request, ref string newUrl);
+        void OnResourceRedirect(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, ref string newUrl);
 
         /// <summary>
         /// Called on the UI thread to handle requests for URLs with an unknown protocol component. 
         /// SECURITY WARNING: YOU SHOULD USE THIS METHOD TO ENFORCE RESTRICTIONS BASED ON SCHEME, HOST OR OTHER URL ANALYSIS BEFORE ALLOWING OS EXECUTION.
         /// </summary>
-        /// <param name="browserControl">The browser control</param>
+        /// <param name="browserControl">The ChromiumWebBrowser control</param>
         /// <param name="browser">the browser object</param>
         /// <param name="url">the request url</param>
         /// <returns>return to true to attempt execution via the registered OS protocol handler, if any. Otherwise return false.</returns>
@@ -134,8 +135,9 @@ namespace CefSharp
         /// <summary>
         /// Called when the page icon changes.
         /// </summary>
+        /// <param name="browserControl">The ChromiumWebBrowser control</param>
         /// <param name="browser">the browser object</param>
         /// <param name="urls">list of urls where the favicons can be downloaded</param>
-        void OnFaviconUrlChange(IWebBrowser browser, IList<string> urls);
+        void OnFaviconUrlChange(IWebBrowser browserControl, IBrowser browser, IList<string> urls);
     }
 }
