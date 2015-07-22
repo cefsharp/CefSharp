@@ -100,8 +100,8 @@ namespace CefSharp
         }
 
         virtual void OnAfterBrowserCreated(int browserId);
-        void CreateOffscreenBrowser(IntPtr windowHandle, BrowserSettings^ browserSettings, String^ address);
-        void CreateBrowser(BrowserSettings^ browserSettings, IntPtr sourceHandle, String^ address);
+        void CreateOffscreenBrowser(IntPtr windowHandle, BrowserSettings^ browserSettings, RequestContext^ requestContext, String^ address);
+        void CreateBrowser(BrowserSettings^ browserSettings, RequestContext^ requestContext, IntPtr sourceHandle, String^ address);
         void WasResized();
         void WasHidden(bool hidden);
         void SendFocusEvent(bool isFocused);

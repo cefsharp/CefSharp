@@ -6,6 +6,7 @@
 
 #include "Stdafx.h"
 #include "Internals/StringUtils.h"
+#include "RequestContext.h"
 
 using namespace CefSharp::Internals;
 

@@ -24,7 +24,11 @@ namespace CefSharp.OffScreen.Example
             // You need to replace this with your own call to Cef.Initialize();
             CefExample.Init();
 
-            MainAsync();
+            MainAsync("cachePath1", 1.0);
+            //Demo showing Zoom Level of 3.0
+            //Using seperate request contexts allows the urls from the same domain to have independent zoom levels
+            //otherwise they would be the same - default behaviour of Chromium
+            //MainAsync("cachePath2", 3.0);
 
             // We have to wait for something, otherwise the process will exit too soon.
             Console.ReadKey();
@@ -34,12 +38,27 @@ namespace CefSharp.OffScreen.Example
             Cef.Shutdown();
         }
 
-        private static async void MainAsync()
+        private static async void MainAsync(string cachePath, double zoomLevel)
         {
+            var browserSettings = new BrowserSettings();
+            var requestContextSettings = new RequestContextSettings { CachePath = cachePath };
 
-            // Create the offscreen Chromium browser.
-            using (var browser = new ChromiumWebBrowser(TestUrl))
+            // RequestContext can be shared between browser instances and allows for custom settings
+            // e.g. CachePath
+            using(var requestContext = new RequestContext(requestContextSettings))
+            using (var browser = new ChromiumWebBrowser(TestUrl, browserSettings, requestContext))
             {
+                if (zoomLevel > 1)
+                {
+                    browser.FrameLoadStart += (s, argsi) =>
+                    {
+                        var b = (ChromiumWebBrowser)s;
+                        if (argsi.IsMainFrame)
+                        {
+                            b.SetZoomLevel(zoomLevel);
+                        }
+                    };
+                }
                 await LoadPageAsync(browser);
 
                 // Wait for the screenshot to be taken.
