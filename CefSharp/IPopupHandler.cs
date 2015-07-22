@@ -54,13 +54,15 @@ namespace CefSharp
         bool OnBeforeBrowse(IWebBrowser browserControl, IBrowser browser, IRequest request, bool isRedirect, IFrame frame);
 
         /// <summary>
-        /// Called on the IO thread when a resource load is redirected. The |old_url| parameter will contain . . 
+        /// Called on the IO thread when a resource load is redirected. The <see cref="IRequest.Url"/>
+        /// parameter will contain the old URL and other request-related information.
         /// </summary>
         /// <param name="browserControl">The browser control</param>
         /// <param name="browser">the browser object</param>
         /// <param name="frame">The frame that is being redirected.</param>
+        /// <param name="request">the request object - cannot be modified in this callback</param>
         /// <param name="newUrl">the new URL and can be changed if desired</param>
-        void OnResourceRedirect(IWebBrowser browserControl, IBrowser browser, IFrame frame, ref string newUrl);
+        void OnResourceRedirect(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, ref string newUrl);
 
         /// <summary>
         /// Called before a resource request is loaded. For async processing return <see cref="CefReturnValue.ContinueAsync"/> 

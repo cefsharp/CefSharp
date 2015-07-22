@@ -109,7 +109,7 @@ namespace CefSharp.Example
             }
         }
 
-        public void OnResourceRedirect(IWebBrowser browser, IFrame frame, ref string newUrl)
+        public void OnResourceRedirect(IWebBrowser browser, IFrame frame, IRequest request,  ref string newUrl)
         {
             //Example of how to redirect - need to check `newUrl` in the second pass
             //if (string.Equals(frame.GetUrl(), "https://www.google.com/", StringComparison.OrdinalIgnoreCase) && !newUrl.Contains("github"))

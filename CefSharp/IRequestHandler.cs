@@ -112,12 +112,14 @@ namespace CefSharp
         bool OnQuotaRequest(IWebBrowser browserControl, IBrowser browser, string originUrl, Int64 newSize, IRequestCallback callback);
 
         /// <summary>
-        /// Called on the IO thread when a resource load is redirected. The |old_url| parameter will contain . . 
+        /// Called on the IO thread when a resource load is redirected. The <see cref="IRequest.Url"/>
+        /// parameter will contain the old URL and other request-related information.
         /// </summary>
         /// <param name="browser">the browser object</param>
         /// <param name="frame">The frame that is being redirected.</param>
+        /// <param name="request">the request object - cannot be modified in this callback</param>
         /// <param name="newUrl">the new URL and can be changed if desired</param>
-        void OnResourceRedirect(IWebBrowser browser, IFrame frame, ref string newUrl);
+        void OnResourceRedirect(IWebBrowser browser, IFrame frame, IRequest request, ref string newUrl);
 
         /// <summary>
         /// Called on the UI thread to handle requests for URLs with an unknown protocol component. 

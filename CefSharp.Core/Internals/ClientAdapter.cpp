@@ -500,8 +500,9 @@ namespace CefSharp
                     auto managedNewUrl = StringUtils::ToClr(newUrl);
                     IBrowser^ browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), true);;
                     CefFrameWrapper frameWrapper(frame);
+                    CefRequestWrapper requestWrapper(request);
 
-                    popupHandler->OnResourceRedirect(_browserControl, browserWrapper, %frameWrapper, managedNewUrl);
+                    popupHandler->OnResourceRedirect(_browserControl, browserWrapper, %frameWrapper, %requestWrapper, managedNewUrl);
 
                     newUrl = StringUtils::ToNative(managedNewUrl);
                 }
@@ -513,8 +514,9 @@ namespace CefSharp
                 {
                     auto managedNewUrl = StringUtils::ToClr(newUrl);
                     CefFrameWrapper frameWrapper(frame);
+                    CefRequestWrapper requestWrapper(request);
 
-                    handler->OnResourceRedirect(_browserControl, %frameWrapper, managedNewUrl);
+                    handler->OnResourceRedirect(_browserControl, %frameWrapper, %requestWrapper, managedNewUrl);
 
                     newUrl = StringUtils::ToNative(managedNewUrl);
                 }
