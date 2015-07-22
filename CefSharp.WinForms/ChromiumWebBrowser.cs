@@ -21,6 +21,7 @@ namespace CefSharp.WinForms
         public bool IsActivating { get; set; }
 
         public BrowserSettings BrowserSettings { get; set; }
+        public RequestContext RequestContext { get; set; }
         public string Title { get; set; }
         public bool IsLoading { get; private set; }
         public string TooltipText { get; private set; }
@@ -161,12 +162,12 @@ namespace CefSharp.WinForms
 
         protected override void OnHandleCreated(EventArgs e)
         {
-            managedCefBrowserAdapter.CreateBrowser(BrowserSettings, Handle, Address);
+            managedCefBrowserAdapter.CreateBrowser(BrowserSettings, RequestContext, Handle, Address);
 
             base.OnHandleCreated(e);
         }
 
-		void IWebBrowserInternal.OnAfterBrowserCreated()
+        void IWebBrowserInternal.OnAfterBrowserCreated()
         {
             IsBrowserInitialized = true;
 

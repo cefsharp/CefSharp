@@ -37,13 +37,11 @@ namespace CefSharp.OffScreen.Example
 
         private static async void MainAsync(string cachePath, double zoomLevel)
         {
-            var settings = new BrowserSettings
-            {
-                RequestContext = new RequestContext(cachePath, false)
-            };
-
+            var browserSettings = new BrowserSettings();
+            
             // Create the offscreen Chromium browser.
-            using (var browser = new ChromiumWebBrowser(TestUrl, settings))
+            using(var requestContext = new RequestContext(cachePath, false))
+            using (var browser = new ChromiumWebBrowser(TestUrl, browserSettings, requestContext))
             {
                 browser.FrameLoadStart += (s, argsi) =>
                 {

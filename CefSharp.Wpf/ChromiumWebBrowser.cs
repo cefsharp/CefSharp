@@ -39,6 +39,7 @@ namespace CefSharp.Wpf
         private Popup popup;
 
         public BrowserSettings BrowserSettings { get; set; }
+        public RequestContext RequestContext { get; set; }
         public IDialogHandler DialogHandler { get; set; }
         public IJsDialogHandler JsDialogHandler { get; set; }
         public IKeyboardHandler KeyboardHandler { get; set; }
@@ -867,7 +868,7 @@ namespace CefSharp.Wpf
                 return;
             }
 
-            managedCefBrowserAdapter.CreateOffscreenBrowser(source == null ? IntPtr.Zero : source.Handle, BrowserSettings, Address);
+            managedCefBrowserAdapter.CreateOffscreenBrowser(source == null ? IntPtr.Zero : source.Handle, BrowserSettings, RequestContext, Address);
             browserCreated = true;
         }
 

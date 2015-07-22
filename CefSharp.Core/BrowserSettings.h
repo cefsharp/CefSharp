@@ -29,7 +29,6 @@ namespace CefSharp
         !BrowserSettings()
         {
             delete _browserSettings;
-            delete RequestContext;
         }
 
         ~BrowserSettings()
@@ -331,7 +330,5 @@ namespace CefSharp
         }		
 
         property Nullable<bool> OffScreenTransparentBackground;
-
-        property RequestContext^  RequestContext;
     };
 }

@@ -11,7 +11,7 @@ bool ManagedCefBrowserAdapter::IsDisposed::get()
 }
 
 
-void ManagedCefBrowserAdapter::CreateOffscreenBrowser(IntPtr windowHandle, BrowserSettings^ browserSettings, String^ address)
+void ManagedCefBrowserAdapter::CreateOffscreenBrowser(IntPtr windowHandle, BrowserSettings^ browserSettings, RequestContext^ requestContext, String^ address)
 {
     auto hwnd = static_cast<HWND>(windowHandle.ToPointer());
 
@@ -21,7 +21,7 @@ void ManagedCefBrowserAdapter::CreateOffscreenBrowser(IntPtr windowHandle, Brows
     CefString addressNative = StringUtils::ToNative(address);
 
     if (!CefBrowserHost::CreateBrowser(window, _clientAdapter.get(), addressNative,
-        *browserSettings->_browserSettings, browserSettings->RequestContext))
+        *browserSettings->_browserSettings, requestContext))
     {
         throw gcnew InvalidOperationException("Failed to create offscreen browser. Call Cef.Initialize() first.");
     }
@@ -216,7 +216,7 @@ int ManagedCefBrowserAdapter::GetCefKeyboardModifiers(WPARAM wparam, LPARAM lpar
     return modifiers;
 }
 
-void ManagedCefBrowserAdapter::CreateBrowser(BrowserSettings^ browserSettings, IntPtr sourceHandle, String^ address)
+void ManagedCefBrowserAdapter::CreateBrowser(BrowserSettings^ browserSettings, RequestContext^ requestContext, IntPtr sourceHandle, String^ address)
 {
     HWND hwnd = static_cast<HWND>(sourceHandle.ToPointer());
     RECT rect;
@@ -226,7 +226,7 @@ void ManagedCefBrowserAdapter::CreateBrowser(BrowserSettings^ browserSettings, I
     CefString addressNative = StringUtils::ToNative(address);
 
     CefBrowserHost::CreateBrowser(window, _clientAdapter.get(), addressNative,
-        *browserSettings->_browserSettings, browserSettings->RequestContext);
+        *browserSettings->_browserSettings, requestContext);
 }
 
 void ManagedCefBrowserAdapter::Resize(int width, int height)

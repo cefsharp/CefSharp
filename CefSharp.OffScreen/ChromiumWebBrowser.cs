@@ -44,6 +44,7 @@ namespace CefSharp.OffScreen
         public bool CanGoBack { get; private set; }
         public bool CanGoForward { get; private set; }
         public BrowserSettings BrowserSettings { get; private set; }
+        public RequestContext RequestContext { get; private set; }
         public IJsDialogHandler JsDialogHandler { get; set; }
         public IDialogHandler DialogHandler { get; set; }
         public IDownloadHandler DownloadHandler { get; set; }
@@ -77,7 +78,7 @@ namespace CefSharp.OffScreen
         /// </summary>
         /// <param name="address">Initial address (url) to load</param>
         /// <param name="browserSettings">The browser settings to use. If null, the default settings are used.</param>
-        public ChromiumWebBrowser(string address = "", BrowserSettings browserSettings = null)
+        public ChromiumWebBrowser(string address = "", BrowserSettings browserSettings = null, RequestContext requestcontext = null)
         {
             if (!Cef.IsInitialized && !Cef.Initialize())
             {
@@ -86,12 +87,13 @@ namespace CefSharp.OffScreen
 
             ResourceHandlerFactory = new DefaultResourceHandlerFactory();
             BrowserSettings = browserSettings ?? new BrowserSettings();
+            RequestContext = requestcontext;
 
             Cef.AddDisposable(this);
             Address = address;
 
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, true);
-            managedCefBrowserAdapter.CreateOffscreenBrowser(IntPtr.Zero, BrowserSettings, address);
+            managedCefBrowserAdapter.CreateOffscreenBrowser(IntPtr.Zero, BrowserSettings, RequestContext, address);
         }
 
         ~ChromiumWebBrowser()
