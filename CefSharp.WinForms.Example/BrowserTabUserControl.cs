@@ -8,6 +8,7 @@ namespace CefSharp.WinForms.Example
     public partial class BrowserTabUserControl : UserControl
     {
         public IWinFormsWebBrowser Browser { get; private set; }
+        private ChromeWidgetMessageInterceptor messageInterceptor;
 
         public BrowserTabUserControl(string url)
         {
@@ -102,7 +103,17 @@ namespace CefSharp.WinForms.Example
 
         private void OnIsBrowserInitializedChanged(object sender, IsBrowserInitializedChangedEventArgs args)
         {
-            
+            if (args.IsBrowserInitialized)
+            {
+                // Listen to when the browser is activated via a mouse message
+                // and close the ToolStrip.
+                ChromeWidgetMessageInterceptor.SetupLoop((ChromiumWebBrowser)Browser, (interceptor) =>
+                {
+                    // Hold a reference to the interceptor so it does not get
+                    // disposed until this tab is disposed.
+                    messageInterceptor = interceptor;
+                });
+            }
         }
 
         public void ExecuteScript(string script)
