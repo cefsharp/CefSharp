@@ -10,11 +10,13 @@ namespace CefSharp.Example
     {
         public const string DefaultUrl = "custom://cefsharp/home.html";
         public const string BindingTestUrl = "custom://cefsharp/BindingTest.html";
+        public const string PluginsTestUrl = "custom://cefsharp/plugins.html";
         public const string TestResourceUrl = "http://test/resource/load";
         public const string TestUnicodeResourceUrl = "http://test/resource/loadUnicode";
 
         // Use when debugging the actual SubProcess, to make breakpoints etc. inside that project work.
         private static readonly bool DebuggingSubProcess = Debugger.IsAttached;
+        private static string PluginInformation = "";
 
         public static void Init()
         {
@@ -43,7 +45,8 @@ namespace CefSharp.Example
             //settings.CefCommandLineArgs.Add("no-proxy-server", "1"); //Don't use a proxy server, always make direct connections. Overrides any other proxy server flags that are passed.
             //settings.CefCommandLineArgs.Add("debug-plugin-loading", "1"); //Dumps extra logging about plugin loading to the log file.
             //settings.CefCommandLineArgs.Add("disable-plugins-discovery", "1"); //Disable discovering third-party plugins. Effectively loading only ones shipped with the browser plus third-party ones as specified by --extra-plugin-dir and --load-plugin switches
-            settings.CefCommandLineArgs.Add("enable-npapi", "1"); //Enable NPAPI plugs which were disabled by default in Chromium 43 (NPAPI will be removed completely in Chromium 45)
+            //settings.CefCommandLineArgs.Add("enable-npapi", "1"); //Enable NPAPI plugs which were disabled by default in Chromium 43 (NPAPI will be removed completely in Chromium 45)
+            //settings.CefCommandLineArgs.Add("enable-system-flash", "1"); //Automatically discovered and load a system-wide installation of Pepper Flash.
             
             //Disables the DirectWrite font rendering system on windows.
             //Possibly useful when experiencing blury fonts.
@@ -108,10 +111,8 @@ namespace CefSharp.Example
                 const string unicodeResponseBody = "<html><body>整体满意度</body></html>";
                 handler.RegisterHandler(TestUnicodeResourceUrl, ResourceHandler.FromString(unicodeResponseBody));
 
-                try
+                if (string.IsNullOrEmpty(PluginInformation))
                 {
-                    var plugins = await Cef.GetPlugins();
-
                     var pluginBody = new StringBuilder();
                     pluginBody.Append("<html><body><h1>Plugins</h1><table>");
                     pluginBody.Append("<tr>");
@@ -120,25 +121,37 @@ namespace CefSharp.Example
                     pluginBody.Append("<th>Version</th>");
                     pluginBody.Append("<th>Path</th>");
                     pluginBody.Append("</tr>");
+                
+                    try
+                    {
+                        var plugins = await Cef.GetPlugins();
 
-                    foreach (var plugin in plugins)
+                        foreach (var plugin in plugins)
+                        {
+                            pluginBody.Append("<tr>");
+                            pluginBody.Append("<td>" + plugin.Name + "</td>");
+                            pluginBody.Append("<td>" + plugin.Description + "</td>");
+                            pluginBody.Append("<td>" + plugin.Version + "</td>");
+                            pluginBody.Append("<td>" + plugin.Path + "</td>");
+                            pluginBody.Append("</tr>");
+                        }
+                    }
+                    catch (TaskCanceledException ex)
                     {
                         pluginBody.Append("<tr>");
-                        pluginBody.Append("<td>" + plugin.Name + "</td>");
-                        pluginBody.Append("<td>" + plugin.Description + "</td>");
-                        pluginBody.Append("<td>" + plugin.Version + "</td>");
-                        pluginBody.Append("<td>" + plugin.Path + "</td>");
+                        pluginBody.Append("<td colspan='4'>Cef.GetPlugins Timed out - likely no plugins were loaded on your system</td>");
+                        pluginBody.Append("</tr>");
+                        pluginBody.Append("<tr>");
+                        pluginBody.Append("<td colspan='4'>You may find that NPAPI/PPAPI need to be enabled</td>");
                         pluginBody.Append("</tr>");
                     }
+
                     pluginBody.Append("</table></body></html>");
 
+                    PluginInformation = pluginBody.ToString();
+                }
 
-                    handler.RegisterHandler("custom://cefsharp/plugins", ResourceHandler.FromString(pluginBody.ToString()));
-                }
-                catch(TaskCanceledException ex)
-                {
-                    //Task was cancelled, likely there were no Plugins found.
-                }
+                handler.RegisterHandler(PluginsTestUrl, ResourceHandler.FromString(PluginInformation));
             }
         }
     }

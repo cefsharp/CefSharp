@@ -17,6 +17,7 @@
             </MenuItem>
             <MenuItem Header="_Tests">
                 <MenuItem Header="_Binding Test" Command="controls:CefSharpCommands.OpenTabBindingTest"/>
+                <MenuItem Header="_List Plugins" Command="controls:CefSharpCommands.OpenTabPlugins"/>
             </MenuItem>
         </Menu>
         <controls:NonReloadingTabControl x:Name="TabControl"

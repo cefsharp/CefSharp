@@ -30,6 +30,7 @@ namespace CefSharp.Wpf.Example
 
             CommandBindings.Add(new CommandBinding(CefSharpCommands.Exit, Exit));
             CommandBindings.Add(new CommandBinding(CefSharpCommands.OpenTabBindingTest, OpenTabBindingTest));
+            CommandBindings.Add(new CommandBinding(CefSharpCommands.OpenTabPlugins, OpenTabPlugins));            
 
             Loaded += MainWindowLoaded;
 
@@ -82,6 +83,13 @@ namespace CefSharp.Wpf.Example
         private void OpenTabBindingTest(object sender, ExecutedRoutedEventArgs e)
         {
             CreateNewTab(CefExample.BindingTestUrl, true);
+
+            TabControl.SelectedIndex = TabControl.Items.Count - 1;
+        }
+
+        private void OpenTabPlugins(object sender, ExecutedRoutedEventArgs e)
+        {
+            CreateNewTab(CefExample.PluginsTestUrl, true);
 
             TabControl.SelectedIndex = TabControl.Items.Count - 1;
         }
