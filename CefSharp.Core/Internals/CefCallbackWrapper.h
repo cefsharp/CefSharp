@@ -33,6 +33,11 @@ namespace CefSharp
 
         virtual void Cancel()
         {
+            if (this == nullptr)
+            {
+                return;
+            }
+
             _callback->Cancel();
 
             delete this;
@@ -40,6 +45,11 @@ namespace CefSharp
 
         virtual void Continue()
         {
+            if (this == nullptr)
+            {
+                return;
+            }
+
             _callback->Continue();
 
             delete this;
