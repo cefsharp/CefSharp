@@ -33,26 +33,22 @@ namespace CefSharp
 
         virtual void Cancel()
         {
-            if (_callback.get() == nullptr)
+            if (_callback.get())
             {
-                return;
+                _callback->Cancel();
+
+                delete this;
             }
-
-            _callback->Cancel();
-
-            delete this;
         }
 
         virtual void Continue()
         {
-            if (_callback.get() == nullptr)
+            if (_callback.get())
             {
-                return;
+                _callback->Continue();
+
+                delete this;
             }
-
-            _callback->Continue();
-
-            delete this;
         }
     };
 }
