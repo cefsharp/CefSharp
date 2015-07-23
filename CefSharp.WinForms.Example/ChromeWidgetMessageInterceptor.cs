@@ -23,10 +23,13 @@ namespace CefSharp.WinForms.Example
     /// </summary>
     class ChromeWidgetMessageInterceptor : NativeWindow
     {
+        private readonly ChromiumWebBrowser browser;
+
         private ChromeWidgetMessageInterceptor(ChromiumWebBrowser browser, IntPtr chromeWidgetHostHandle)
         {
             AssignHandle(chromeWidgetHostHandle);
 
+            this.browser = browser;
             browser.HandleDestroyed += BrowserHandleDestroyed;
         }
 
@@ -73,6 +76,8 @@ namespace CefSharp.WinForms.Example
         private void BrowserHandleDestroyed(object sender, EventArgs e)
         {
             ReleaseHandle();
+
+            browser.HandleDestroyed -= BrowserHandleDestroyed;
         }
 
         const int WM_MOUSEACTIVATE = 0x0021;
