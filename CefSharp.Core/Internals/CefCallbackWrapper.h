@@ -33,16 +33,22 @@ namespace CefSharp
 
         virtual void Cancel()
         {
-            _callback->Cancel();
+            if (_callback.get())
+            {
+                _callback->Cancel();
 
-            delete this;
+                delete this;
+            }
         }
 
         virtual void Continue()
         {
-            _callback->Continue();
+            if (_callback.get())
+            {
+                _callback->Continue();
 
-            delete this;
+                delete this;
+            }
         }
     };
 }
