@@ -11,34 +11,68 @@ using System.Windows.Forms;
 
 namespace CefSharp.WinForms.Example
 {
+    /// <summary>
+    /// Intercepts Windows messages sent to the ChromiumWebBrowser control's widget sub-window.
+    /// 
+    /// It is necessary to listen to the widget sub-window because it receives all Windows messages
+    /// and forwards them to CEF, rather than the ChromiumWebBrowser.Handle.
+    /// 
+    /// When the widget receives a WM_MOUSEACTIVATE message, this sends a WM_NCLBUTTONDOWN message
+    /// to the parent form.  This is in turn processed by any active ToolStrip or ContextMenuStrip
+    /// on the form, which will close itself.
+    /// </summary>
     class ChromeWidgetMessageInterceptor : NativeWindow
     {
-        private ChromeWidgetMessageInterceptor(IntPtr chromeWidgetHostHandle)
+        private ChromeWidgetMessageInterceptor(ChromiumWebBrowser browser, IntPtr chromeWidgetHostHandle)
         {
             AssignHandle(chromeWidgetHostHandle);
+
+            browser.HandleDestroyed += BrowserHandleDestroyed;
         }
 
+        /// <summary>
+        /// Asynchronously wait for the Chromium widget window to be created for the given ChromiumWebBrowser,
+        /// and fire the onCreated action on the WinForms UI thread when it exists.
+        /// </summary>
+        /// <param name="browser">The browser to intercept Windows messages for.</param>
+        /// <param name="onCreated">This callback is fired when Chromium's widget window is created.  You should
+        /// keep a reference to the supplied ChromeWidgetMessageInterceptor to ensure it is not garbage collected
+        /// until your Form is disposed.</param>
         internal static void SetupLoop(ChromiumWebBrowser browser, Action<ChromeWidgetMessageInterceptor> onCreated)
         {
-            Task.Factory.StartNew(() => {
-                try {
+            Task.Factory.StartNew(() =>
+            {
+                try
+                {
                     bool foundWidget = false;
-                    while (!foundWidget) {
-                        browser.Invoke((Action)(() => {
+                    while (!foundWidget)
+                    {
+                        browser.Invoke((Action)(() =>
+                        {
                             IntPtr chromeWidgetHostHandle;
-                            if (ChromeWidgetHandleFinder.TryFindHandle(browser, out chromeWidgetHostHandle)) {
+                            if (ChromeWidgetHandleFinder.TryFindHandle(browser, out chromeWidgetHostHandle))
+                            {
                                 foundWidget = true;
-                                onCreated(new ChromeWidgetMessageInterceptor(chromeWidgetHostHandle));
-                            } else {
+                                onCreated(new ChromeWidgetMessageInterceptor(browser, chromeWidgetHostHandle));
+                            }
+                            else
+                            {
                                 // Chrome hasn't yet set up its message-loop window.
                                 Thread.Sleep(10);
                             }
                         }));
                     }
-                } catch {
+                }
+                catch
+                {
                     // Errors are likely to occur if browser is disposed, and no good way to check from another thread
                 }
             });
+        }
+
+        private void BrowserHandleDestroyed(object sender, EventArgs e)
+        {
+            ReleaseHandle();
         }
 
         const int WM_MOUSEACTIVATE = 0x0021;
