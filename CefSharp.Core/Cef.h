@@ -124,6 +124,18 @@ namespace CefSharp
             }
         }
 
+        /// <summary>
+        /// Gets a value that indicates the Git Hash for CEF version currently being used.
+        /// </summary>
+        /// <value>The Git Commit Hash</value>
+        static property String^ CefCommitHash
+        {
+            String^ get()
+            {
+                return CEF_COMMIT_HASH;
+            }
+        }
+
         /// <summary>Initializes CefSharp with the default settings.</summary>
         /// <return>true if successful; otherwise, false.</return>
         static bool Initialize()
