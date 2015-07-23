@@ -33,7 +33,7 @@ namespace CefSharp
 
         virtual void Cancel()
         {
-            if (this == nullptr)
+            if (_callback.get() == nullptr)
             {
                 return;
             }
@@ -45,7 +45,7 @@ namespace CefSharp
 
         virtual void Continue()
         {
-            if (this == nullptr)
+            if (_callback.get() == nullptr)
             {
                 return;
             }
