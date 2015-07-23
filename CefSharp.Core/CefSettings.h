@@ -30,6 +30,9 @@ namespace CefSharp
             BrowserSubprocessPath = "CefSharp.BrowserSubprocess.exe";
             _cefCustomSchemes = gcnew List<CefCustomScheme^>();
             _cefCommandLineArgs = gcnew Dictionary<String^, String^>();
+
+            //Automatically discovered and load a system-wide installation of Pepper Flash.
+            _cefCommandLineArgs->Add("enable-system-flash", "1");
         }
 
         !CefSettings()
