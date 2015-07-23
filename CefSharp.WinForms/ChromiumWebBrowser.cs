@@ -324,7 +324,11 @@ namespace CefSharp.WinForms
 
         protected override void OnGotFocus(EventArgs e)
         {
-            SetFocus(true);
+            if (IsBrowserInitialized)
+            {
+                SetFocus(true);
+            }
+
             base.OnGotFocus(e);
         }
 
