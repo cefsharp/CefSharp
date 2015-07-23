@@ -77,6 +77,7 @@
     <Compile Include="BrowserTabUserControl.Designer.cs">
       <DependentUpon>BrowserTabUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="ChromeWidgetMessageInterceptor.cs" />
     <Compile Include="GeolocationHandler.cs" />
     <Compile Include="KeyboardHandler.cs" />
     <Compile Include="MenuHandler.cs" />
