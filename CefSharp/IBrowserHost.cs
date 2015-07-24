@@ -26,6 +26,18 @@ namespace CefSharp
         void StopFinding(bool clearSelection);
 
         /// <summary>
+        /// Set whether the browser is focused. (Used for Normal Rendering e.g. WinForms)
+        /// </summary>
+        /// <param name="focus">set focus</param>
+        void SetFocus(bool focus);
+
+        /// <summary>
+        /// Send a focus event to the browser. . (Used for OSR Rendering e.g. WPF or OffScreen)
+        /// </summary>
+        /// <param name="setFocus">set focus</param>
+        void SendFocusEvent(bool setFocus);
+
+        /// <summary>
         /// Send a mouse wheel event to the browser.
         /// </summary>
         /// <param name="x">X-Axis coordinate relative to the upper-left corner of the view.</param>

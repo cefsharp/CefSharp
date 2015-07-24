@@ -14,11 +14,12 @@ namespace CefSharp
         {
         private:
             MCefRefPtr<CefBrowserHost> _browserHost;
+            bool _disposed;
             
             double GetZoomLevelOnUI();
 
         internal:
-            CefBrowserHostWrapper(CefRefPtr<CefBrowserHost> &browserHost) : _browserHost(browserHost)
+            CefBrowserHostWrapper(CefRefPtr<CefBrowserHost> &browserHost) : _browserHost(browserHost), _disposed(false)
             {
             }
             
@@ -30,7 +31,12 @@ namespace CefSharp
             ~CefBrowserHostWrapper()
             {
                 this->!CefBrowserHostWrapper();
+
+                _disposed = true;
             }
+
+        private:
+            void ThrowIfDisposed();
 
         public:
             virtual void StartDownload(String^ url);
@@ -48,6 +54,9 @@ namespace CefSharp
 
             virtual void Find(int identifier, String^ searchText, bool forward, bool matchCase, bool findNext);
             virtual void StopFinding(bool clearSelection);
+
+            virtual void SetFocus(bool focus);
+            virtual void SendFocusEvent(bool setFocus);
 
             virtual void SendMouseWheelEvent(int x, int y, int deltaX, int deltaY);
 
