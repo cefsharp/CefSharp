@@ -114,6 +114,18 @@ void CefBrowserHostWrapper::SendFocusEvent(bool setFocus)
     _browserHost->SendFocusEvent(setFocus);
 }
 
+void CefBrowserHostWrapper::SendKeyEvent(KeyEvent keyEvent)
+{
+    CefKeyEvent nativeKeyEvent;
+    nativeKeyEvent.focus_on_editable_field = keyEvent.FocusOnEditableField == 1;
+    nativeKeyEvent.is_system_key = keyEvent.IsSystemKey == 1;
+    nativeKeyEvent.modifiers = (uint32)keyEvent.Modifiers;
+    nativeKeyEvent.native_key_code = keyEvent.NativeKeyCode;
+    nativeKeyEvent.windows_key_code = keyEvent.WindowsKeyCode;
+        
+    _browserHost->SendKeyEvent(nativeKeyEvent);
+}
+
 double CefBrowserHostWrapper::GetZoomLevelOnUI()
 {
     ThrowIfDisposed();
@@ -129,7 +141,7 @@ double CefBrowserHostWrapper::GetZoomLevelOnUI()
     return 0.0;	
 }
 
-void CefBrowserHostWrapper::SendMouseWheelEvent(int x, int y, int deltaX, int deltaY)
+void CefBrowserHostWrapper::SendMouseWheelEvent(int x, int y, int deltaX, int deltaY, CefEventFlags modifiers)
 {
     ThrowIfDisposed();
 
@@ -138,6 +150,7 @@ void CefBrowserHostWrapper::SendMouseWheelEvent(int x, int y, int deltaX, int de
         CefMouseEvent mouseEvent;
         mouseEvent.x = x;
         mouseEvent.y = y;
+        mouseEvent.modifiers = (uint32)modifiers;
 
         _browserHost->SendMouseWheelEvent(mouseEvent, deltaX, deltaY);
     }

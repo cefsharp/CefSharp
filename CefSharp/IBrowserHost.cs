@@ -38,13 +38,20 @@ namespace CefSharp
         void SendFocusEvent(bool setFocus);
 
         /// <summary>
+        ///  Send a key event to the browser.
+        /// </summary>
+        /// <param name="keyEvent">represents keyboard event</param>
+        void SendKeyEvent(KeyEvent keyEvent);
+
+        /// <summary>
         /// Send a mouse wheel event to the browser.
         /// </summary>
         /// <param name="x">X-Axis coordinate relative to the upper-left corner of the view.</param>
         /// <param name="y">Y-Axis coordinate relative to the upper-left corner of the view.</param>
         /// <param name="deltaX">Movement delta for X direction.</param>
         /// <param name="deltaY">movement delta for Y direction.</param>
-        void SendMouseWheelEvent(int x, int y, int deltaX, int deltaY);
+        /// /// <param name="modifiers">click modifiers e.g. Ctrl</param>
+        void SendMouseWheelEvent(int x, int y, int deltaX, int deltaY, CefEventFlags modifiers);
 
         /// <summary>
         /// Invalidate the view. The browser will call CefRenderHandler::OnPaint asynchronously.

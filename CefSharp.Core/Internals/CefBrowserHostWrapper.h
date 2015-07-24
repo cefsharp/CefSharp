@@ -57,8 +57,9 @@ namespace CefSharp
 
             virtual void SetFocus(bool focus);
             virtual void SendFocusEvent(bool setFocus);
+            virtual void SendKeyEvent(KeyEvent keyEvent);
 
-            virtual void SendMouseWheelEvent(int x, int y, int deltaX, int deltaY);
+            virtual void SendMouseWheelEvent(int x, int y, int deltaX, int deltaY, CefEventFlags modifiers);
 
             virtual void Invalidate(PaintElementType type);
 

@@ -1196,8 +1196,8 @@ namespace CefSharp.Wpf
                     (int)point.X,
                     (int)point.Y,
                     deltaX: 0,
-                    deltaY: e.Delta
-                    );
+                    deltaY: e.Delta,
+                    modifiers: CefEventFlags.None);
             }
         }
 
