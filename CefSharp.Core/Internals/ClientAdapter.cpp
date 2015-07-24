@@ -212,7 +212,7 @@ namespace CefSharp
 
                 if (handler != nullptr)
                 {
-                    auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), true);
+                    auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), false);
 
                     handler->OnFaviconUrlChange(_browserControl, browserWrapper, StringUtils::ToClr(iconUrls));
                 }
