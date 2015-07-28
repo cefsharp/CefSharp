@@ -144,17 +144,16 @@ namespace CefSharp
                     //it's only going to be present after browseradapter is initialized
                     _javascriptCallbackFactories->Add(browser->GetIdentifier(), _browserAdapter->JavascriptCallbackFactory);
                 }
+
+                auto handler = _browserControl->LifeSpanHandler;
+
+                if (handler != nullptr)
+                {
+                    auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), false);
+
+                    handler->OnAfterCreated(_browserControl, browserWrapper);
+                }
             }
-
-            ILifeSpanHandler^ handler = _browserControl->LifeSpanHandler;
-
-            if (handler == nullptr)
-            {
-                return;
-            }
-
-
-            handler->OnAfterCreated(_browserControl);
         }
 
         void ClientAdapter::OnBeforeClose(CefRefPtr<CefBrowser> browser)

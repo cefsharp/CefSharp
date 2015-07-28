@@ -43,8 +43,9 @@ namespace CefSharp
         /// <summary>
         /// Called after a new browser is created.
         /// </summary>
-        /// <param name="browser"></param>
-        void OnAfterCreated(IWebBrowser browser);
+        /// <param name="browserControl">The <see cref="IWebBrowser"/> control that is realted to the window is closing.</param>
+        /// <param name="browser">The browser instance</param>
+        void OnAfterCreated(IWebBrowser browserControl, IBrowser browser);
 
         /// <summary>
         /// Called before a CefBrowser window (either the main browser for <see cref="IWebBrowser"/>, 

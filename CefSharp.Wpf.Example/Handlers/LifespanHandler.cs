@@ -56,7 +56,7 @@ namespace CefSharp.Wpf.Example.Handlers
             return false;
         }
 
-        void ILifeSpanHandler.OnAfterCreated(IWebBrowser browserControl)
+        void ILifeSpanHandler.OnAfterCreated(IWebBrowser browserControl, IBrowser browser)
         {
             var chromiumWebBrowser = (ChromiumWebBrowser)browserControl;
 
