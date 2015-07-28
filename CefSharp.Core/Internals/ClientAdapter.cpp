@@ -70,12 +70,14 @@ namespace CefSharp
             CefRefPtr<CefClient>& client, CefBrowserSettings& settings, bool* no_javascript_access)
         {
             auto handler = _browserControl->LifeSpanHandler;
+            
 
             if (handler == nullptr)
             {
                 return false;
             }
-            
+
+            IWebBrowser^ newBrowser = nullptr;
             bool createdWrapper = false;
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
 
@@ -88,13 +90,36 @@ namespace CefSharp
                 StringUtils::ToClr(target_frame_name),
                 (CefSharp::WindowOpenDisposition)target_disposition,
                 user_gesture,
-                %windowInfoWrapper, *no_javascript_access);
+                %windowInfoWrapper, *no_javascript_access, newBrowser);
+
+            if (newBrowser != nullptr)
+            {
+                auto newBrowserInternal = dynamic_cast<IWebBrowserInternal^>(newBrowser);
+
+                if (newBrowserInternal != nullptr)
+                {
+                    newBrowserInternal->HasParent = true;
+
+                    auto renderBrowser = dynamic_cast<IRenderWebBrowser^>(newBrowser);
+                    if (renderBrowser != nullptr)
+                    {
+                        windowInfo.SetAsWindowless(windowInfo.parent_window, TRUE);
+                    }
+
+                    auto browserAdapter = dynamic_cast<ManagedCefBrowserAdapter^>(newBrowserInternal->BrowserAdapter);
+                    if (browserAdapter != nullptr)
+                    {
+                        client = browserAdapter->GetClientAdapter().get();
+                    }
+                }
+            }
+
             return result;
         }
 
         void ClientAdapter::OnAfterCreated(CefRefPtr<CefBrowser> browser)
         {
-            if (browser->IsPopup())
+            if (browser->IsPopup() && !_browserControl->HasParent)
             {
                 auto browserWrapper = gcnew CefSharpBrowserWrapper(browser);
                 // Add to the list of popup browsers.
@@ -120,11 +145,21 @@ namespace CefSharp
                     _javascriptCallbackFactories->Add(browser->GetIdentifier(), _browserAdapter->JavascriptCallbackFactory);
                 }
             }
+
+            ILifeSpanHandler^ handler = _browserControl->LifeSpanHandler;
+
+            if (handler == nullptr)
+            {
+                return;
+            }
+
+
+            handler->OnAfterCreated(_browserControl);
         }
 
         void ClientAdapter::OnBeforeClose(CefRefPtr<CefBrowser> browser)
         {
-            if (browser->IsPopup())
+            if (browser->IsPopup() && !_browserControl->HasParent)
             {
                 // Remove from the browser popup list.
                 auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), true);
@@ -140,7 +175,9 @@ namespace CefSharp
                 // Dispose the CefSharpBrowserWrapper
                 delete browserWrapper;
             }
-            else if (_browserHwnd == browser->GetHost()->GetWindowHandle())
+            //TODO: When creating a new ChromiumWebBrowser and passing in a newBrowser to OnBeforePopup
+            //the handles don't match up (at least in WPF), need to investigate further.
+            else if (_browserHwnd == browser->GetHost()->GetWindowHandle() || _browserControl->HasParent)
             {
                 auto handler = _browserControl->LifeSpanHandler;
 

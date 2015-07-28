@@ -21,6 +21,7 @@ namespace CefSharp
         /// <param name="windowInfo">window information</param>
         /// <param name="noJavascriptAccess">value indicates whether the new browser window should be scriptable
         /// and in the same process as the source browser.</param>
+        /// <param name="newBrowser">A newly created browser that will host the popup</param>
         /// <returns>To cancel creation of the popup window return true otherwise return false.</returns>
         /// <remarks>
         /// CEF documentation:
@@ -37,7 +38,13 @@ namespace CefSharp
         /// the new browser window should be scriptable and in the same process as the
         /// source browser.
         /// </remarks>
-        bool OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName, WindowOpenDisposition targetDisposition, bool userGesture, IWindowInfo windowInfo, ref bool noJavascriptAccess);
+        bool OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName, WindowOpenDisposition targetDisposition, bool userGesture, IWindowInfo windowInfo, ref bool noJavascriptAccess, out IWebBrowser newBrowser);
+
+        /// <summary>
+        /// Called after a new browser is created.
+        /// </summary>
+        /// <param name="browser"></param>
+        void OnAfterCreated(IWebBrowser browser);
 
         /// <summary>
         /// Called before a CefBrowser window (either the main browser for <see cref="IWebBrowser"/>, 
