@@ -14,7 +14,7 @@ namespace CefSharp.Wpf.Example
 {
     public partial class MainWindow : Window
     {
-        private const string DefaultUrlForAddedTabs = "http://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_win_close";
+        private const string DefaultUrlForAddedTabs = "https://www.google.com";
 
         public ObservableCollection<BrowserTabViewModel> BrowserTabs { get; set; }
 
@@ -30,7 +30,8 @@ namespace CefSharp.Wpf.Example
 
             CommandBindings.Add(new CommandBinding(CefSharpCommands.Exit, Exit));
             CommandBindings.Add(new CommandBinding(CefSharpCommands.OpenTabBindingTest, OpenTabBindingTest));
-            CommandBindings.Add(new CommandBinding(CefSharpCommands.OpenTabPlugins, OpenTabPlugins));            
+            CommandBindings.Add(new CommandBinding(CefSharpCommands.OpenTabPlugins, OpenTabPlugins));
+            CommandBindings.Add(new CommandBinding(CefSharpCommands.OpenPopupTest, OpenPopupTest));
 
             Loaded += MainWindowLoaded;
 
@@ -90,6 +91,13 @@ namespace CefSharp.Wpf.Example
         private void OpenTabPlugins(object sender, ExecutedRoutedEventArgs e)
         {
             CreateNewTab(CefExample.PluginsTestUrl, true);
+
+            TabControl.SelectedIndex = TabControl.Items.Count - 1;
+        }
+
+        private void OpenPopupTest(object sender, ExecutedRoutedEventArgs e)
+        {
+            CreateNewTab(CefExample.PopupParentUrl, true);
 
             TabControl.SelectedIndex = TabControl.Items.Count - 1;
         }

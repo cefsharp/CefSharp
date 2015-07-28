@@ -13,7 +13,8 @@ namespace CefSharp.Example
         public const string PluginsTestUrl = "custom://cefsharp/plugins.html";
         public const string TestResourceUrl = "http://test/resource/load";
         public const string TestUnicodeResourceUrl = "http://test/resource/loadUnicode";
-
+        public const string PopupParentUrl = "http://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_win_close";
+        
         // Use when debugging the actual SubProcess, to make breakpoints etc. inside that project work.
         private static readonly bool DebuggingSubProcess = Debugger.IsAttached;
         private static string PluginInformation = "";
