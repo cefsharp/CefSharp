@@ -53,12 +53,8 @@ namespace CefSharp
 
         if (wrapper->JavascriptRootObject != nullptr)
         {
-            auto window = context->GetGlobal();
-
-            wrapper->JavascriptRootObjectWrapper = gcnew JavascriptRootObjectWrapper(wrapper->JavascriptRootObject, wrapper->BrowserProcess);
-
-            wrapper->JavascriptRootObjectWrapper->V8Value = window;
-            wrapper->JavascriptRootObjectWrapper->Bind();
+            wrapper->JavascriptRootObjectWrapper = gcnew JavascriptRootObjectWrapper(browser->GetIdentifier(), wrapper->JavascriptRootObject, wrapper->BrowserProcess);
+            wrapper->JavascriptRootObjectWrapper->Bind(context->GetGlobal());
         }
     };
 
@@ -94,6 +90,7 @@ namespace CefSharp
         auto argList = message->GetArgumentList();
 
         auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier(), false);
+        auto callbackRegistry = browserWrapper->JavascriptRootObjectWrapper->CallbackRegistry;
 
         //Error handling for missing/closed browser
         if (browserWrapper == nullptr)
@@ -168,7 +165,7 @@ namespace CefSharp
                             if (success)
                             {
                                 auto responseArgList = response->GetArgumentList();
-                                SerializeV8Object(result, responseArgList, 2, browserWrapper->CallbackRegistry);
+                                SerializeV8Object(result, responseArgList, 2, browserWrapper->JavascriptRootObjectWrapper->CallbackRegistry);
                             }
                             else
                             {
@@ -202,7 +199,6 @@ namespace CefSharp
 
                 response = CefProcessMessage::Create(kJavascriptCallbackResponse);
 
-                auto callbackRegistry = browserWrapper->CallbackRegistry;
                 auto callbackWrapper = callbackRegistry->FindWrapper(jsCallbackId);
                 auto context = callbackWrapper->GetContext();
                 auto value = callbackWrapper->GetValue();
@@ -218,7 +214,7 @@ namespace CefSharp
                         if (success)
                         {
                             auto responseArgList = response->GetArgumentList();
-                            SerializeV8Object(result, responseArgList, 2, browserWrapper->CallbackRegistry);
+                            SerializeV8Object(result, responseArgList, 2, callbackRegistry);
                         }
                         else
                         {
@@ -257,7 +253,7 @@ namespace CefSharp
         else if (name == kJavascriptCallbackDestroyRequest)
         {
             auto jsCallbackId = GetInt64(argList, 0);
-            browserWrapper->CallbackRegistry->Deregister(jsCallbackId);
+            callbackRegistry->Deregister(jsCallbackId);
 
             handled = true;
         }

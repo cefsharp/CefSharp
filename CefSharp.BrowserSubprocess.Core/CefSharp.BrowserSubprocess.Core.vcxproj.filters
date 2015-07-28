@@ -103,9 +103,6 @@
     <ClCompile Include="CefAppUnmanagedWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CefBrowserWrapper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="JavascriptMethodHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
