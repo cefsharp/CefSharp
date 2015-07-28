@@ -32,6 +32,11 @@ namespace CefSharp
     {
         IBrowser^ ClientAdapter::GetBrowserWrapper(int browserId, bool isPopup)
         {
+            if (_browserControl->HasParent)
+            {
+                return _browserAdapter->GetBrowser();
+            }
+
             if(isPopup)
             {
                 IBrowser^ browserWrapper;
