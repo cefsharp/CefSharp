@@ -50,8 +50,6 @@ namespace CefSharp
                 _popupBitmapInfo = nullptr;
             }
 
-            virtual bool IsOffscreen() OVERRIDE { return true; }
-
             // CefClient
             virtual DECL CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE{ return this; };
 
