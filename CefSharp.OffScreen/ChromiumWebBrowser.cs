@@ -382,6 +382,11 @@ namespace CefSharp.OffScreen
             }
         }
 
+        IBrowserAdapter IWebBrowserInternal.BrowserAdapter
+        {
+            get { return managedCefBrowserAdapter;}
+        }
+
         void IWebBrowserInternal.OnStatusMessage(string value)
         {
             var handler = StatusMessage;

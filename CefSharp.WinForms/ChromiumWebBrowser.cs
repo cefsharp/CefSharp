@@ -286,6 +286,11 @@ namespace CefSharp.WinForms
             }
         }
 
+        IBrowserAdapter IWebBrowserInternal.BrowserAdapter
+        {
+            get { return managedCefBrowserAdapter; }
+        }
+
         /// <summary>
         /// Manually implement Focused because cef does not implement it.
         /// </summary>
