@@ -109,7 +109,7 @@ namespace CefSharp.Example
             }
         }
 
-        public void OnResourceRedirect(IWebBrowser browser, IFrame frame, ref string newUrl)
+        public void OnResourceRedirect(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, ref string newUrl)
         {
             //Example of how to redirect - need to check `newUrl` in the second pass
             //if (string.Equals(frame.GetUrl(), "https://www.google.com/", StringComparison.OrdinalIgnoreCase) && !newUrl.Contains("github"))
@@ -123,7 +123,7 @@ namespace CefSharp.Example
             return url.StartsWith("mailto");
         }
 
-        public void OnFaviconUrlChange(IWebBrowser browser, IList<string> urls)
+        public void OnFaviconUrlChange(IWebBrowser browserControl, IBrowser browser, IList<string> urls)
         {
             var url = urls[0];
         }

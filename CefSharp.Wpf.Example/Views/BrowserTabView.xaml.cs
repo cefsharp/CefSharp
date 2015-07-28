@@ -25,9 +25,13 @@ namespace CefSharp.Wpf.Example.Views
             browser.DownloadHandler = new DownloadHandler();
             browser.PreviewTextInput += (sender, args) =>
             {
+                var host = browser.GetBrowser().GetHost();
+                var keyEvent = new KeyEvent();
+
                 foreach (var character in args.Text)
                 {
-                    browser.SendKeyEvent((int)WM.CHAR, character, 0);
+                    keyEvent.WindowsKeyCode = character;
+                    host.SendKeyEvent(keyEvent);
                 }
 
                 args.Handled = true;
