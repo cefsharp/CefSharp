@@ -1,4 +1,8 @@
-﻿using System.Windows;
+﻿// Copyright © 2010-2015 The CefSharp Authors. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
+using System.Windows;
 
 namespace CefSharp.Wpf.Example.Handlers
 {
@@ -44,7 +48,7 @@ namespace CefSharp.Wpf.Example.Handlers
                     }
                 };
 
-                chromiumBrowser.LifeSpanHandler = new LifespanHandler();
+                chromiumBrowser.LifeSpanHandler = this;
             });
 
             newBrowser = chromiumBrowser;
@@ -52,34 +56,32 @@ namespace CefSharp.Wpf.Example.Handlers
             return false;
         }
 
-        void ILifeSpanHandler.OnAfterCreated(IWebBrowser browser)
+        void ILifeSpanHandler.OnAfterCreated(IWebBrowser browserControl)
         {
-            var chromiumWebBrowser = (ChromiumWebBrowser)browser;
+            var chromiumWebBrowser = (ChromiumWebBrowser)browserControl;
 
             chromiumWebBrowser.Dispatcher.Invoke(() =>
             {
                 var owner = Window.GetWindow(chromiumWebBrowser);
 
-                if (owner != null && owner.Content == browser && !(owner is MainWindow))
+                if (owner != null && owner.Content == browserControl)
                 {
                     owner.Show();
                 }
             });
         }
 
-        void ILifeSpanHandler.OnBeforeClose(IWebBrowser browser)
+        void ILifeSpanHandler.OnBeforeClose(IWebBrowser browserControl)
         {
-            var chromiumWebBrowser = (ChromiumWebBrowser)browser;
+            var chromiumWebBrowser = (ChromiumWebBrowser)browserControl;
 
             chromiumWebBrowser.Dispatcher.Invoke(() =>
             {
                 var owner = Window.GetWindow(chromiumWebBrowser);
-                if (owner != null && owner.Content == browser)
+
+                if (owner != null && owner.Content == browserControl)
                 {
-                    if (!(owner is MainWindow))
-                    {
-                        owner.Close();
-                    }                        
+                    owner.Close();
                 }
             });
         }
