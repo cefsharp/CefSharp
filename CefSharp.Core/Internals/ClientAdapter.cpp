@@ -38,6 +38,7 @@ namespace CefSharp
             CefRefPtr<CefClient>& client, CefBrowserSettings& settings, bool* no_javascript_access)
         {
             ILifeSpanHandler^ handler = _browserControl->LifeSpanHandler;
+            IWebBrowser^ newBrowser = nullptr;
 
             if (handler == nullptr)
             {
@@ -50,13 +51,35 @@ namespace CefSharp
             }
             auto result = handler->OnBeforePopup(_browserControl, browserWrapper,
                 gcnew CefFrameWrapper(frame, _browserAdapter), StringUtils::ToClr(target_url),
-                windowInfo.x, windowInfo.y, windowInfo.width, windowInfo.height, *no_javascript_access);
+                StringUtils::ToClr(target_frame_name),
+                windowInfo.x, windowInfo.y, windowInfo.width, windowInfo.height, *no_javascript_access, newBrowser);
+
+            if (newBrowser != nullptr)
+            {
+                IWebBrowserInternal^ newBrowserInternal = dynamic_cast<IWebBrowserInternal^>(newBrowser);
+
+                if (newBrowserInternal != nullptr)
+                {
+                    IRenderWebBrowser^ renderBrowser = dynamic_cast<IRenderWebBrowser^>(newBrowser);
+                    if (renderBrowser != nullptr)
+                    {
+                        windowInfo.SetAsWindowless(windowInfo.parent_window, TRUE);
+                    }
+
+                    ManagedCefBrowserAdapter^ browserAdapter = dynamic_cast<ManagedCefBrowserAdapter^>(newBrowserInternal->BrowserAdapter);
+                    if (browserAdapter != nullptr)
+                    {
+                        client = browserAdapter->GetClientAdapter().get();
+                    }
+                }
+            }
+
             return result;
         }
 
         void ClientAdapter::OnAfterCreated(CefRefPtr<CefBrowser> browser)
         {
-            if (browser->IsPopup())
+            if (browser->IsPopup() && !IsOffscreen())
             {
                 auto browserWrapper = gcnew CefSharpBrowserWrapper(browser, _browserAdapter);
                 // Add to the list of popup browsers.
@@ -78,11 +101,21 @@ namespace CefSharp
                     _browserAdapter->OnAfterBrowserCreated(browserId);
                 }
             }
+
+            ILifeSpanHandler^ handler = _browserControl->LifeSpanHandler;
+
+            if (handler == nullptr)
+            {
+                return;
+            }
+
+
+            handler->OnAfterCreated(_browserControl);
         }
 
         void ClientAdapter::OnBeforeClose(CefRefPtr<CefBrowser> browser)
         {
-            if (browser->IsPopup())
+            if (browser->IsPopup() && !IsOffscreen())
             {
                 // Remove from the browser popup list.
                 auto browserId = browser->GetIdentifier();
@@ -99,7 +132,7 @@ namespace CefSharp
                     delete entry;
                 }
             }
-            else if (_browserHwnd == browser->GetHost()->GetWindowHandle())
+            else if (_browserHwnd == browser->GetHost()->GetWindowHandle() || IsOffscreen())
             {
                 ILifeSpanHandler^ handler = _browserControl->LifeSpanHandler;
                 if (handler != nullptr)
@@ -134,7 +167,7 @@ namespace CefSharp
 
         void ClientAdapter::OnAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& address)
         {
-            if (!browser->IsPopup())
+            if (!browser->IsPopup() || IsOffscreen())
             {
                 _browserControl->SetAddress(StringUtils::ToClr(address));
             }
@@ -142,7 +175,7 @@ namespace CefSharp
 
         void ClientAdapter::OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString& title)
         {
-            if (browser->IsPopup())
+            if (browser->IsPopup() && !IsOffscreen())
             {
                 // Set the popup window title
                 auto hwnd = browser->GetHost()->GetWindowHandle();
@@ -253,7 +286,7 @@ namespace CefSharp
 
         void ClientAdapter::OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame)
         {
-            if (browser->IsPopup())
+            if (browser->IsPopup() && !IsOffscreen())
             {
                 auto popupHandler = _browserControl->PopupHandler;
                 if (popupHandler != nullptr)
@@ -276,7 +309,7 @@ namespace CefSharp
 
         void ClientAdapter::OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode)
         {
-            if (browser->IsPopup())
+            if (browser->IsPopup() && !IsOffscreen())
             {
                 auto popupHandler = _browserControl->PopupHandler;
                 if (popupHandler != nullptr)

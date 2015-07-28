@@ -384,6 +384,11 @@ namespace CefSharp.Wpf
             }
         }
 
+        IBrowserAdapter IWebBrowserInternal.BrowserAdapter
+        {
+            get { return managedCefBrowserAdapter; }
+        }
+
         void IWebBrowserInternal.OnInitialized()
         {
             UiThreadRunAsync(() => SetCurrentValue(IsBrowserInitializedProperty, true));
@@ -445,7 +450,7 @@ namespace CefSharp.Wpf
 
         protected virtual void OnAddressChanged(string oldValue, string newValue)
         {
-            if (ignoreUriChange)
+            if (ignoreUriChange || newValue == null)
             {
                 return;
             }

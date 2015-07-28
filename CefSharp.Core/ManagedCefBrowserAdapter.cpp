@@ -560,3 +560,8 @@ IBrowser^ ManagedCefBrowserAdapter::GetBrowser()
 {
     return _browserWrapper;
 }
+
+MCefRefPtr<ClientAdapter> ManagedCefBrowserAdapter::GetClientAdapter()
+{
+    return _clientAdapter;
+}
