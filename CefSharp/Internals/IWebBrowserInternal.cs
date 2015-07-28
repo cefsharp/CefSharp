@@ -24,5 +24,6 @@ namespace CefSharp.Internals
         void OnLoadError(IFrame frame, CefErrorCode errorCode, string errorText, string failedUrl);
 
         IBrowserAdapter BrowserAdapter { get; }
+        bool HasParent { get; set; }
     }
 }

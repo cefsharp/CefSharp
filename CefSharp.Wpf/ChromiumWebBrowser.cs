@@ -389,6 +389,8 @@ namespace CefSharp.Wpf
             get { return managedCefBrowserAdapter; }
         }
 
+        bool IWebBrowserInternal.HasParent { get; set; }
+
         void IWebBrowserInternal.OnInitialized()
         {
             UiThreadRunAsync(() => SetCurrentValue(IsBrowserInitializedProperty, true));

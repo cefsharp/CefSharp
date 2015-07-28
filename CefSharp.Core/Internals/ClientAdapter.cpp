@@ -56,17 +56,19 @@ namespace CefSharp
 
             if (newBrowser != nullptr)
             {
-                IWebBrowserInternal^ newBrowserInternal = dynamic_cast<IWebBrowserInternal^>(newBrowser);
+                auto newBrowserInternal = dynamic_cast<IWebBrowserInternal^>(newBrowser);
 
                 if (newBrowserInternal != nullptr)
                 {
-                    IRenderWebBrowser^ renderBrowser = dynamic_cast<IRenderWebBrowser^>(newBrowser);
+                    newBrowserInternal->HasParent = true;
+
+                    auto renderBrowser = dynamic_cast<IRenderWebBrowser^>(newBrowser);
                     if (renderBrowser != nullptr)
                     {
                         windowInfo.SetAsWindowless(windowInfo.parent_window, TRUE);
                     }
 
-                    ManagedCefBrowserAdapter^ browserAdapter = dynamic_cast<ManagedCefBrowserAdapter^>(newBrowserInternal->BrowserAdapter);
+                    auto browserAdapter = dynamic_cast<ManagedCefBrowserAdapter^>(newBrowserInternal->BrowserAdapter);
                     if (browserAdapter != nullptr)
                     {
                         client = browserAdapter->GetClientAdapter().get();
@@ -79,7 +81,7 @@ namespace CefSharp
 
         void ClientAdapter::OnAfterCreated(CefRefPtr<CefBrowser> browser)
         {
-            if (browser->IsPopup())
+            if (browser->IsPopup() && !_browserControl->HasParent)
             {
                 auto browserWrapper = gcnew CefSharpBrowserWrapper(browser, _browserAdapter);
                 // Add to the list of popup browsers.
@@ -115,7 +117,7 @@ namespace CefSharp
 
         void ClientAdapter::OnBeforeClose(CefRefPtr<CefBrowser> browser)
         {
-            if (browser->IsPopup())
+            if (browser->IsPopup() && !_browserControl->HasParent)
             {
                 // Remove from the browser popup list.
                 auto browserId = browser->GetIdentifier();

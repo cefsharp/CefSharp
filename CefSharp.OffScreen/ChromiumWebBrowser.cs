@@ -4,7 +4,6 @@
 
 using System;
 using System.Drawing;
-using System.Text;
 using System.Threading.Tasks;
 using CefSharp.Internals;
 
@@ -386,6 +385,8 @@ namespace CefSharp.OffScreen
         {
             get { return managedCefBrowserAdapter;}
         }
+
+        bool IWebBrowserInternal.HasParent { get; set; }
 
         void IWebBrowserInternal.OnStatusMessage(string value)
         {
