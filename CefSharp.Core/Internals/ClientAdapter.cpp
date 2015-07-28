@@ -86,6 +86,8 @@ namespace CefSharp
                 _browserControl, browserWrapper,
                 %frameWrapper, StringUtils::ToClr(target_url),
                 StringUtils::ToClr(target_frame_name),
+                (CefSharp::WindowOpenDisposition)target_disposition,
+                user_gesture,
                 %windowInfoWrapper, *no_javascript_access);
             return result;
         }
