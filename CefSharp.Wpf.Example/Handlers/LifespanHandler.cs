@@ -4,7 +4,7 @@ namespace CefSharp.Wpf.Example.Handlers
 {
     public class LifespanHandler : ILifeSpanHandler
     {
-        public bool OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, string windowTitle, ref int x, ref int y, ref int width, ref int height, ref bool noJavascriptAccess, out IWebBrowser newBrowser)
+        bool ILifeSpanHandler.OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, string windowTitle, ref int x, ref int y, ref int width, ref int height, ref bool noJavascriptAccess, out IWebBrowser newBrowser)
         {
             var chromiumWebBrowser = (ChromiumWebBrowser)browserControl;
 
@@ -52,7 +52,7 @@ namespace CefSharp.Wpf.Example.Handlers
             return false;
         }
 
-        public void OnAfterCreated(IWebBrowser browser)
+        void ILifeSpanHandler.OnAfterCreated(IWebBrowser browser)
         {
             var chromiumWebBrowser = (ChromiumWebBrowser)browser;
 
@@ -67,7 +67,7 @@ namespace CefSharp.Wpf.Example.Handlers
             });
         }
 
-        public void OnBeforeClose(IWebBrowser browser)
+        void ILifeSpanHandler.OnBeforeClose(IWebBrowser browser)
         {
             var chromiumWebBrowser = (ChromiumWebBrowser)browser;
 
