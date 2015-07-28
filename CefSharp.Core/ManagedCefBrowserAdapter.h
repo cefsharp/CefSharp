@@ -47,6 +47,9 @@ namespace CefSharp
         int GetCefKeyboardModifiers(WPARAM wparam, LPARAM lparam);
         CefMouseEvent GetCefMouseEvent(MouseEvent^ mouseEvent);
 
+    internal:
+        MCefRefPtr<ClientAdapter> GetClientAdapter();
+
     public:
         ManagedCefBrowserAdapter(IWebBrowserInternal^ webBrowserInternal, bool offScreenRendering)
             : _isDisposed(false)

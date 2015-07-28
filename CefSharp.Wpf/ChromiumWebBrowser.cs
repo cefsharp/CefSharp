@@ -385,6 +385,13 @@ namespace CefSharp.Wpf
             }
         }
 
+        IBrowserAdapter IWebBrowserInternal.BrowserAdapter
+        {
+            get { return managedCefBrowserAdapter; }
+        }
+
+        bool IWebBrowserInternal.HasParent { get; set; }
+
         void IWebBrowserInternal.OnAfterBrowserCreated()
         {
             browserInitialized = true;

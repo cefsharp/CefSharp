@@ -340,3 +340,8 @@ IJavascriptCallbackFactory^ ManagedCefBrowserAdapter::JavascriptCallbackFactory:
 {
     return _javascriptCallbackFactory;
 }
+
+MCefRefPtr<ClientAdapter> ManagedCefBrowserAdapter::GetClientAdapter()
+{
+    return _clientAdapter;
+}

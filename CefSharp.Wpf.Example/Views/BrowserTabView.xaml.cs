@@ -5,6 +5,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using CefSharp.Example;
+using CefSharp.Wpf.Example.Handlers;
 
 namespace CefSharp.Wpf.Example.Views
 {
@@ -20,8 +21,9 @@ namespace CefSharp.Wpf.Example.Views
                 browser.RegisterJsObject("bound", new BoundObject());
             }
 
-            browser.MenuHandler = new Handlers.MenuHandler();
-            browser.GeolocationHandler = new Handlers.GeolocationHandler();
+            browser.LifeSpanHandler = new LifespanHandler();
+            browser.MenuHandler = new MenuHandler();
+            browser.GeolocationHandler = new GeolocationHandler();
             browser.DownloadHandler = new DownloadHandler();
             browser.PreviewTextInput += (sender, args) =>
             {
