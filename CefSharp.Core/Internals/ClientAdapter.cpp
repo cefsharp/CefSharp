@@ -134,7 +134,9 @@ namespace CefSharp
                     delete entry;
                 }
             }
-            else if (_browserHwnd == browser->GetHost()->GetWindowHandle())
+            //TODO: When creating a new ChromiumWebBrowser and passing in a newBrowser to OnBeforePopup
+            //the handles don't match up (at least in WPF), need to investigate further.
+            else if (_browserHwnd == browser->GetHost()->GetWindowHandle() || _browserControl->HasParent)
             {
                 ILifeSpanHandler^ handler = _browserControl->LifeSpanHandler;
                 if (handler != nullptr)
