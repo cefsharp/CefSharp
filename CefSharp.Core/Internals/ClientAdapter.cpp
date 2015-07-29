@@ -607,9 +607,9 @@ namespace CefSharp
             auto frameWrapper = gcnew CefFrameWrapper(frame);
             auto requestWrapper = gcnew CefRequestWrapper(request);
 
-            auto resourceHandler = factory->GetResourceHandler(_browserControl, browserWrapper, frameWrapper, requestWrapper);
+            auto handler = factory->GetResourceHandler(_browserControl, browserWrapper, frameWrapper, requestWrapper);
 
-            if (resourceHandler == nullptr)
+            if (handler == nullptr)
             {
                 // Clean up our disposables if our factory doesn't want
                 // this request.
@@ -618,19 +618,19 @@ namespace CefSharp
                 return NULL;
             }
 
-            if (resourceHandler->GetType() == ResourceHandler::typeid)
+            if (handler->GetType() == ResourceHandler::typeid)
             {
-                auto handler = static_cast<ResourceHandler^>(resourceHandler);
-                if (handler->Type == ResourceHandlerType::File)
+                auto resourceHandler = static_cast<ResourceHandler^>(handler);
+                if (resourceHandler->Type == ResourceHandlerType::File)
                 {
-                    return new CefStreamResourceHandler(StringUtils::ToNative(handler->MimeType), CefStreamReader::CreateForFile(StringUtils::ToNative(handler->FilePath)));
+                    return new CefStreamResourceHandler(StringUtils::ToNative(resourceHandler->MimeType), CefStreamReader::CreateForFile(StringUtils::ToNative(resourceHandler->FilePath)));
                 }
             }
 
             // No need to pass browserWrapper for disposable lifetime management here
             // because GetBrowserWrapper returned IBrowser^s are already properly
             // managed.
-            return new ResourceHandlerWrapper(resourceHandler, nullptr, frameWrapper, requestWrapper);
+            return new ResourceHandlerWrapper(handler, nullptr, frameWrapper, requestWrapper);
         }
 
         cef_return_value_t ClientAdapter::OnBeforeResourceLoad(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefRequestCallback> callback)
