@@ -88,5 +88,14 @@ namespace CefSharp
 
             return _cookieManager->VisitUrlCookies(StringUtils::ToNative(url), includeHttpOnly, cookieVisitor);
         }
+
+        bool CookieManager::FlushStore(ICompletionHandler^ handler)
+        {
+            ThrowIfDisposed();
+
+            CefRefPtr<CefCompletionCallback> wrapper = new CompletionHandler(handler);
+
+            return _cookieManager->FlushStore(wrapper);
+        }
     }
 }

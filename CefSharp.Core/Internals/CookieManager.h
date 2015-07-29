@@ -1,5 +1,8 @@
 #pragma once
 
+#include "MCefRefPtr.h"
+#include "include/cef_cookie.h"
+
 namespace CefSharp
 {
     namespace Internals
@@ -19,7 +22,7 @@ namespace CefSharp
 
             !CookieManager()
             {
-                _cookieManager = nullptr;
+                this->_cookieManager = nullptr;
             }
 
             ~CookieManager()
@@ -33,6 +36,7 @@ namespace CefSharp
             virtual void SetSupportedSchemes(... array<String^>^ schemes);
             virtual bool VisitAllCookies(ICookieVisitor^ visitor);
             virtual bool VisitUrlCookies(String^ url, bool includeHttpOnly, ICookieVisitor^ visitor);
+            virtual bool FlushStore(ICompletionHandler^ handler);
         };
     }
 }
