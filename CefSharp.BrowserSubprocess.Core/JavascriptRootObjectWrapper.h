@@ -26,39 +26,30 @@ namespace CefSharp
         JavascriptRootObject^ _rootObject;
         List<JavascriptObjectWrapper^>^ _wrappedObjects;
         IBrowserProcess^ _browserProcess;
-
-    internal:
-        MCefRefPtr<CefV8Value> V8Value;
-
         // The entire set of possible JavaScript functions to
         // call directly into.
-        JavascriptCallbackRegistry^ CallbackRegistry;
+        JavascriptCallbackRegistry^ _callbackRegistry;
 
     public:
-        JavascriptRootObjectWrapper(JavascriptRootObject^ rootObject, IBrowserProcess^ browserProcess)
+		JavascriptRootObjectWrapper(int browserId, JavascriptRootObject^ rootObject, IBrowserProcess^ browserProcess, JavascriptCallbackRegistry^ callbackRegistry)
         {
             _rootObject = rootObject;
             _browserProcess = browserProcess;
             _wrappedObjects = gcnew List<JavascriptObjectWrapper^>();
+			_callbackRegistry = callbackRegistry;
         }
 
-        !JavascriptRootObjectWrapper()
-        {
-            V8Value = nullptr;
-        }
+		~JavascriptRootObjectWrapper()
+		{
+			//not disposing it here
+			_callbackRegistry = nullptr;
+			for each (JavascriptObjectWrapper^ var in _wrappedObjects)
+			{
+				delete var;
+			}
+		}
 
-        ~JavascriptRootObjectWrapper()
-        {
-            this->!JavascriptRootObjectWrapper();
-            delete CallbackRegistry;
-            CallbackRegistry = nullptr;
-            for each (JavascriptObjectWrapper^ var in _wrappedObjects)
-            {
-                delete var;
-            }
-        }
-
-        void Bind();
+        void Bind(const CefRefPtr<CefV8Value>& v8Value);
     };
 }
 

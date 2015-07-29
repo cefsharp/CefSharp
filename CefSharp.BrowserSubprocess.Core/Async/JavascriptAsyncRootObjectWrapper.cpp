@@ -9,17 +9,14 @@ namespace CefSharp
     {
         namespace Async
         {
-            void JavascriptAsyncRootObjectWrapper::Bind()
+			void JavascriptAsyncRootObjectWrapper::Bind(const CefRefPtr<CefV8Value>& v8Value)
             {
-                auto promiseCreator = V8Value->GetValue("cefsharp_CreatePromise");
+				auto promiseCreator = v8Value->GetValue("cefsharp_CreatePromise");
                 auto memberObjects = _rootObject->MemberObjects;
                 for each (JavascriptObject^ obj in Enumerable::OfType<JavascriptObject^>(memberObjects))
                 {
-                    auto wrapperObject = gcnew JavascriptAsyncObjectWrapper(obj);
-                    wrapperObject->CallbackRegistry = CallbackRegistry;
-                    wrapperObject->MethodCallbackSave = MethodCallbackSave;
-                    wrapperObject->PromiseCreator = promiseCreator;
-                    wrapperObject->Bind(V8Value.get());
+                    auto wrapperObject = gcnew JavascriptAsyncObjectWrapper(obj, _callbackRegistry, _methodCallbackSave);
+					wrapperObject->Bind(v8Value, promiseCreator);
 
                     _wrappedObjects->Add(wrapperObject);
                 }

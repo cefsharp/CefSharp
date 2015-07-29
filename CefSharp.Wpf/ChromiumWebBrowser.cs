@@ -3,12 +3,11 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using CefSharp.Internals;
+using CefSharp.Wpf.Internals;
 using CefSharp.Wpf.Rendering;
 using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -386,6 +385,13 @@ namespace CefSharp.Wpf
             }
         }
 
+        IBrowserAdapter IWebBrowserInternal.BrowserAdapter
+        {
+            get { return managedCefBrowserAdapter; }
+        }
+
+        bool IWebBrowserInternal.HasParent { get; set; }
+
         void IWebBrowserInternal.OnAfterBrowserCreated()
         {
             browserInitialized = true;
@@ -711,7 +717,7 @@ namespace CefSharp.Wpf
 
         private void OnDragEnter(object sender, DragEventArgs e)
         {
-            managedCefBrowserAdapter.OnDragTargetDragEnter(GetDragDataWrapper(e), GetMouseEvent(e), GetDragOperationsMask(e.AllowedEffects));
+            managedCefBrowserAdapter.OnDragTargetDragEnter(e.GetDragDataWrapper(), GetMouseEvent(e), GetDragOperationsMask(e.AllowedEffects));
         }
 
         /// <summary>
@@ -741,91 +747,11 @@ namespace CefSharp.Wpf
             return operations;
         }
 
-        private static CefDragDataWrapper GetDragDataWrapper(DragEventArgs e)
-        {
-            // Convert Drag Data
-            var dragData = CefDragDataWrapper.Create();
+        
 
-            // Files            
-            dragData.IsFile = e.Data.GetDataPresent(DataFormats.FileDrop);
-            if (dragData.IsFile)
-            {
-                // As per documentation, we only need to specify FileNames, not FileName, when dragging into the browser (http://magpcss.org/ceforum/apidocs3/projects/(default)/CefDragData.html)
-                foreach (var filePath in (string[])e.Data.GetData(DataFormats.FileDrop))
-                {
-                    var displayName = Path.GetFileName(filePath);
+        
 
-                    dragData.AddFile(filePath.Replace("\\", "/"), displayName);
-                }
-            }
-
-            // Link/Url
-            var link = GetLink(e.Data);
-            dragData.IsLink = !string.IsNullOrEmpty(link);
-            if (dragData.IsLink)
-            {
-                dragData.LinkUrl = link;
-            }
-
-            // Text/HTML
-            dragData.IsFragment = e.Data.GetDataPresent(DataFormats.Text);
-            if (dragData.IsFragment)
-            {
-                dragData.FragmentText = (string)e.Data.GetData(DataFormats.Text);
-                dragData.FragmentHtml = (string)e.Data.GetData(DataFormats.Html);
-            }
-
-            return dragData;
-        }
-
-        private static string GetLink(IDataObject data)
-        {
-            const string asciiUrlDataFormatName = "UniformResourceLocator";
-            const string unicodeUrlDataFormatName = "UniformResourceLocatorW";
-
-            // Try Unicode
-            if (data.GetDataPresent(unicodeUrlDataFormatName))
-            {
-                // Try to read a Unicode URL from the data
-                var unicodeUrl = ReadUrlFromDragDropData(data, unicodeUrlDataFormatName, Encoding.Unicode);
-                if (unicodeUrl != null)
-                {
-                    return unicodeUrl;
-                }
-            }
-
-            // Try ASCII
-            if (data.GetDataPresent(asciiUrlDataFormatName))
-            {
-                // Try to read an ASCII URL from the data
-                return ReadUrlFromDragDropData(data, asciiUrlDataFormatName, Encoding.ASCII);
-            }
-
-            // Not a valid link
-            return null;
-        }
-
-        /// <summary>Reads a URL using a particular text encoding from drag-and-drop data.</summary>
-        /// <param name="data">The drag-and-drop data.</param>
-        /// <param name="urlDataFormatName">The data format name of the URL type.</param>
-        /// <param name="urlEncoding">The text encoding of the URL type.</param>
-        /// <returns>A URL, or <see langword="null"/> if <paramref name="data"/> does not contain a URL
-        /// of the correct type.</returns>
-        private static string ReadUrlFromDragDropData(IDataObject data, string urlDataFormatName, Encoding urlEncoding)
-        {
-            // Read the URL from the data
-            string url;
-            using (var urlStream = (Stream)data.GetData(urlDataFormatName))
-            {
-                using (TextReader reader = new StreamReader(urlStream, urlEncoding))
-                {
-                    url = reader.ReadToEnd();
-                }
-            }
-
-            // URLs in drag/drop data are often padded with null characters so remove these
-            return url.TrimEnd('\0');
-        }
+        
 
         private void PresentationSourceChangedHandler(object sender, SourceChangedEventArgs args)
         {
@@ -1002,78 +928,6 @@ namespace CefSharp.Wpf
             };
         }
 
-        private static CefEventFlags GetModifiers(MouseEventArgs e)
-        {
-            CefEventFlags modifiers = 0;
-
-            if (e.LeftButton == MouseButtonState.Pressed)
-            {
-                modifiers |= CefEventFlags.LeftMouseButton;
-            }
-            if (e.MiddleButton == MouseButtonState.Pressed)
-            {
-                modifiers |= CefEventFlags.MiddleMouseButton;
-            }
-            if (e.RightButton == MouseButtonState.Pressed)
-            {
-                modifiers |= CefEventFlags.RightMouseButton;
-            }
-
-            if (Keyboard.IsKeyDown(Key.LeftCtrl))
-            {
-                modifiers |= CefEventFlags.ControlDown | CefEventFlags.IsLeft;
-            }
-
-            if (Keyboard.IsKeyDown(Key.RightCtrl))
-            {
-                modifiers |= CefEventFlags.ControlDown | CefEventFlags.IsRight;
-            }
-
-            if (Keyboard.IsKeyDown(Key.LeftShift))
-            {
-                modifiers |= CefEventFlags.ShiftDown | CefEventFlags.IsLeft;
-            }
-
-            if (Keyboard.IsKeyDown(Key.RightShift))
-            {
-                modifiers |= CefEventFlags.ShiftDown | CefEventFlags.IsRight;
-            }
-
-            if (Keyboard.IsKeyDown(Key.LeftAlt))
-            {
-                modifiers |= CefEventFlags.AltDown | CefEventFlags.IsLeft;
-            }
-
-            if (Keyboard.IsKeyDown(Key.RightAlt))
-            {
-                modifiers |= CefEventFlags.AltDown | CefEventFlags.IsRight;
-            }
-
-            return modifiers;
-        }
-
-        private static CefEventFlags GetModifiers(KeyEventArgs e)
-        {
-            CefEventFlags modifiers = 0;
-
-            if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Shift))
-            {
-                modifiers |= CefEventFlags.ShiftDown;
-            }
-
-            if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Alt))
-            {
-                modifiers |= CefEventFlags.AltDown;
-            }
-
-            if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Control))
-            {
-                modifiers |= CefEventFlags.ControlDown;
-            }
-
-            return modifiers;
-        }
-
         private void SetPopupSizeAndPositionImpl(int width, int height, int x, int y)
         {
             popup.Width = width / matrix.M11;
@@ -1163,7 +1017,7 @@ namespace CefSharp.Wpf
                                  || e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.Right
                                  || (e.Key == Key.A && Keyboard.Modifiers == ModifierKeys.Control))
             {
-                var modifiers = GetModifiers(e);
+                var modifiers = e.GetModifiers();
                 var message = (int)(e.IsDown ? WM.KEYDOWN : WM.KEYUP);
                 var virtualKey = KeyInterop.VirtualKeyFromKey(e.Key);
 
@@ -1178,7 +1032,7 @@ namespace CefSharp.Wpf
             if (browser != null)
             {
                 var point = GetPixelPosition(e);
-                var modifiers = GetModifiers(e);
+                var modifiers = e.GetModifiers();
 
                 browser.GetHost().SendMouseMoveEvent((int)point.X, (int)point.Y, false, modifiers);
             }
@@ -1196,8 +1050,8 @@ namespace CefSharp.Wpf
                     (int)point.X,
                     (int)point.Y,
                     deltaX: 0,
-                    deltaY: e.Delta
-                    );
+                    deltaY: e.Delta,
+                    modifiers: CefEventFlags.None);
             }
         }
 
@@ -1231,7 +1085,7 @@ namespace CefSharp.Wpf
 
             if (browser != null)
             {
-                var modifiers = GetModifiers(e);
+                var modifiers = e.GetModifiers();
 
                 browser.GetHost().SendMouseMoveEvent(-1, -1, true, modifiers);
 
@@ -1247,7 +1101,7 @@ namespace CefSharp.Wpf
                 return;
             }
 
-            var modifiers = GetModifiers(e);
+            var modifiers = e.GetModifiers();
             var mouseUp = (e.ButtonState == MouseButtonState.Released);
             var point = GetPixelPosition(e);
 
@@ -1345,18 +1199,6 @@ namespace CefSharp.Wpf
             var pixelPosition = matrix.Transform(deviceIndependentPosition);
 
             return pixelPosition;
-        }
-
-        /// <summary>
-        /// Sends a Key Event directly to the underlying Browser (CEF).
-        /// </summary>
-        /// <param name="message">The message</param>
-        /// <param name="wParam">The wParam</param>
-        /// <param name="lParam">The lParam</param>
-        /// <returns>bool</returns>
-        public bool SendKeyEvent(int message, int wParam, int lParam)
-        {
-            return managedCefBrowserAdapter.SendKeyEvent(message, wParam, lParam);
         }
 
         public IBrowser GetBrowser()

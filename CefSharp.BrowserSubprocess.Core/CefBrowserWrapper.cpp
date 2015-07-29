@@ -9,35 +9,6 @@
 
 namespace CefSharp
 {
-    JavascriptRootObjectWrapper^ CefBrowserWrapper::JavascriptRootObjectWrapper::get()
-    {
-        return _javascriptRootObjectWrapper;
-    }
-
-    void CefBrowserWrapper::JavascriptRootObjectWrapper::set(CefSharp::JavascriptRootObjectWrapper^ value)
-    {
-        _javascriptRootObjectWrapper = value;
-        if (_javascriptRootObjectWrapper != nullptr)
-        {
-            _javascriptRootObjectWrapper->CallbackRegistry = _callbackRegistry;
-        }
-    }
-
-    JavascriptAsyncRootObjectWrapper^ CefBrowserWrapper::JavascriptAsyncRootObjectWrapper::get()
-    {
-        return _javascriptAsyncRootObjectWrapper;
-    }
-
-    void CefBrowserWrapper::JavascriptAsyncRootObjectWrapper::set(CefSharp::Internals::Async::JavascriptAsyncRootObjectWrapper^ value)
-    {
-        _javascriptAsyncRootObjectWrapper = value;
-        if (_javascriptAsyncRootObjectWrapper != nullptr)
-        {
-            _javascriptAsyncRootObjectWrapper->CallbackRegistry = _callbackRegistry;
-            _javascriptAsyncRootObjectWrapper->MethodCallbackSave = gcnew Func<JavascriptAsyncMethodCallback^, int64>(this, &CefBrowserWrapper::SaveMethodCallback);
-        }
-    }
-
     JavascriptCallbackRegistry^ CefBrowserWrapper::CallbackRegistry::get()
     {
         return _callbackRegistry;

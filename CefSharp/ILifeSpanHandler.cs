@@ -14,9 +14,14 @@ namespace CefSharp
         /// <param name="frame">The HTML frame that launched this popup.</param>
         /// <param name="targetUrl">The URL of the popup content. (This may be empty/null)</param>
         /// <param name="targetFrameName">The name of the popup. (This may be empty/null)</param>
+        /// <param name="targetDisposition">The value indicates where the user intended to
+        /// open the popup (e.g. current tab, new tab, etc)</param>
+        /// <param name="userGesture">The value will be true if the popup was opened via explicit user gesture
+        /// (e.g. clicking a link) or false if the popup opened automatically (e.g. via the DomContentLoaded event).</param>
         /// <param name="windowInfo">window information</param>
         /// <param name="noJavascriptAccess">value indicates whether the new browser window should be scriptable
         /// and in the same process as the source browser.</param>
+        /// <param name="newBrowser">A newly created browser that will host the popup</param>
         /// <returns>To cancel creation of the popup window return true otherwise return false.</returns>
         /// <remarks>
         /// CEF documentation:
@@ -33,7 +38,14 @@ namespace CefSharp
         /// the new browser window should be scriptable and in the same process as the
         /// source browser.
         /// </remarks>
-        bool OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName, IWindowInfo windowInfo, ref bool noJavascriptAccess);
+        bool OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName, WindowOpenDisposition targetDisposition, bool userGesture, IWindowInfo windowInfo, ref bool noJavascriptAccess, out IWebBrowser newBrowser);
+
+        /// <summary>
+        /// Called after a new browser is created.
+        /// </summary>
+        /// <param name="browserControl">The <see cref="IWebBrowser"/> control that is realted to the window is closing.</param>
+        /// <param name="browser">The browser instance</param>
+        void OnAfterCreated(IWebBrowser browserControl, IBrowser browser);
 
         /// <summary>
         /// Called before a CefBrowser window (either the main browser for <see cref="IWebBrowser"/>, 

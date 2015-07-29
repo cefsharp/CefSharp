@@ -56,18 +56,14 @@ namespace CefSharp
 
         if (wrapper->JavascriptRootObject != nullptr)
         {
-            wrapper->JavascriptRootObjectWrapper = gcnew JavascriptRootObjectWrapper(wrapper->JavascriptRootObject, wrapper->BrowserProcess);
-
-            wrapper->JavascriptRootObjectWrapper->V8Value = window;
-            wrapper->JavascriptRootObjectWrapper->Bind();
+            wrapper->JavascriptRootObjectWrapper = gcnew JavascriptRootObjectWrapper(browser->GetIdentifier(), wrapper->JavascriptRootObject, wrapper->BrowserProcess, wrapper->CallbackRegistry);
+			wrapper->JavascriptRootObjectWrapper->Bind(window);
         }
 
         if (wrapper->JavascriptAsyncRootObject != nullptr)
         {
-            wrapper->JavascriptAsyncRootObjectWrapper = gcnew JavascriptAsyncRootObjectWrapper(wrapper->JavascriptAsyncRootObject);
-
-            wrapper->JavascriptAsyncRootObjectWrapper->V8Value = window;
-            wrapper->JavascriptAsyncRootObjectWrapper->Bind();
+			wrapper->JavascriptAsyncRootObjectWrapper = gcnew JavascriptAsyncRootObjectWrapper(wrapper->JavascriptAsyncRootObject, wrapper->CallbackRegistry, gcnew Func<JavascriptAsyncMethodCallback^, int64>(wrapper, &CefBrowserWrapper::SaveMethodCallback));
+			wrapper->JavascriptAsyncRootObjectWrapper->Bind(window);
         }
     };
 
@@ -80,6 +76,12 @@ namespace CefSharp
             delete wrapper->JavascriptRootObjectWrapper;
             wrapper->JavascriptRootObjectWrapper = nullptr;
         }
+
+		if (wrapper->JavascriptAsyncRootObjectWrapper != nullptr)
+		{
+			delete wrapper->JavascriptAsyncRootObjectWrapper;
+			wrapper->JavascriptAsyncRootObjectWrapper = nullptr;
+		}
     };
 
     CefBrowserWrapper^ CefAppUnmanagedWrapper::FindBrowserWrapper(int browserId, bool mustExist)
@@ -103,6 +105,7 @@ namespace CefSharp
         auto argList = message->GetArgumentList();
 
         auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier(), false);
+        auto callbackRegistry = browserWrapper->CallbackRegistry;
 
         //Error handling for missing/closed browser
         if (browserWrapper == nullptr)
@@ -213,7 +216,6 @@ namespace CefSharp
 
                 response = CefProcessMessage::Create(kJavascriptCallbackResponse);
 
-                auto callbackRegistry = browserWrapper->CallbackRegistry;
                 auto callbackWrapper = callbackRegistry->FindWrapper(jsCallbackId);
                 auto context = callbackWrapper->GetContext();
                 auto value = callbackWrapper->GetValue();
@@ -229,7 +231,7 @@ namespace CefSharp
                         if (success)
                         {
                             auto responseArgList = response->GetArgumentList();
-                            SerializeV8Object(result, responseArgList, 2, browserWrapper->CallbackRegistry);
+                            SerializeV8Object(result, responseArgList, 2, callbackRegistry);
                         }
                         else
                         {
@@ -268,7 +270,7 @@ namespace CefSharp
         else if (name == kJavascriptCallbackDestroyRequest)
         {
             auto jsCallbackId = GetInt64(argList, 0);
-            browserWrapper->CallbackRegistry->Deregister(jsCallbackId);
+            callbackRegistry->Deregister(jsCallbackId);
 
             handled = true;
         }

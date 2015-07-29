@@ -20,39 +20,30 @@ namespace CefSharp
             {
             private:
                 initonly List<JavascriptAsyncObjectWrapper^>^ _wrappedObjects;
+				// The entire set of possible JavaScript functions to
+				// call directly into.
+				JavascriptCallbackRegistry^ _callbackRegistry;
+				Func<JavascriptAsyncMethodCallback^, int64>^ _methodCallbackSave;
                 JavascriptRootObject^ _rootObject;
 
-            internal:
-                MCefRefPtr<CefV8Value> V8Value;
-
-                // The entire set of possible JavaScript functions to
-                // call directly into.
-                JavascriptCallbackRegistry^ CallbackRegistry;
-                Func<JavascriptAsyncMethodCallback^, int64>^ MethodCallbackSave;
-
             public:
-                JavascriptAsyncRootObjectWrapper(JavascriptRootObject^ rootObject)
-                    :_rootObject(rootObject), _wrappedObjects(gcnew List<JavascriptAsyncObjectWrapper^>())
+				JavascriptAsyncRootObjectWrapper(JavascriptRootObject^ rootObject, JavascriptCallbackRegistry^ callbackRegistry, Func<JavascriptAsyncMethodCallback^, int64>^ saveMethod)
+					:_rootObject(rootObject), _wrappedObjects(gcnew List<JavascriptAsyncObjectWrapper^>()), _callbackRegistry(callbackRegistry), _methodCallbackSave(saveMethod)
                 {
 
-                }
-
-                !JavascriptAsyncRootObjectWrapper()
-                {
-                    V8Value = nullptr;
                 }
 
                 ~JavascriptAsyncRootObjectWrapper()
                 {
-                    this->!JavascriptAsyncRootObjectWrapper();
-                    CallbackRegistry = nullptr;
+					_methodCallbackSave = nullptr;
+                    _callbackRegistry = nullptr;
                     for each (JavascriptAsyncObjectWrapper^ var in _wrappedObjects)
                     {
                         delete var;
                     }
                 }
 
-                void Bind();
+				void Bind(const CefRefPtr<CefV8Value>& v8Value);
             };
         }
     }

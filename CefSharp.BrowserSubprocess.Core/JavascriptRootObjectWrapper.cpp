@@ -9,15 +9,13 @@
 
 namespace CefSharp
 {
-    void JavascriptRootObjectWrapper::Bind()
+    void JavascriptRootObjectWrapper::Bind(const CefRefPtr<CefV8Value>& v8Value)
     {
         auto memberObjects = _rootObject->MemberObjects;
         for each (JavascriptObject^ obj in Enumerable::OfType<JavascriptObject^>(memberObjects))
         {
             auto wrapperObject = gcnew JavascriptObjectWrapper(obj, _browserProcess);
-            wrapperObject->CallbackRegistry = CallbackRegistry;
-            wrapperObject->V8Value = V8Value.get();
-            wrapperObject->Bind();
+            wrapperObject->Bind(v8Value, _callbackRegistry);
 
             _wrappedObjects->Add(wrapperObject);
         }

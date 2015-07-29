@@ -11,12 +11,12 @@ using namespace System;
 
 namespace CefSharp
 {
-    void JavascriptMethodWrapper::Bind()
+    void JavascriptMethodWrapper::Bind(const CefRefPtr<CefV8Value>& v8Value)
     {
         auto methodName = StringUtils::ToNative(_javascriptMethod->JavascriptName);
         auto v8Function = CefV8Value::CreateFunction(methodName, _javascriptMethodHandler.get());
 
-        V8Value->SetValue(methodName, v8Function, V8_PROPERTY_ATTRIBUTE_NONE);
+        v8Value->SetValue(methodName, v8Function, V8_PROPERTY_ATTRIBUTE_NONE);
     };
 
     BrowserProcessResponse^ JavascriptMethodWrapper::Execute(array<Object^>^ parameters)
