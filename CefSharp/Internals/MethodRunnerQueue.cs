@@ -72,7 +72,7 @@ namespace CefSharp.Internals
                 while (!cancellationTokenSource.IsCancellationRequested)
                 {
                     var task = queue.Take(cancellationTokenSource.Token);
-                    task.RunSynchronously(TaskScheduler.Current);
+                    task.RunSynchronously();
                     OnMethodInvocationComplete(task.Result);
                 }
             }
