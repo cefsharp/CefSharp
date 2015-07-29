@@ -31,7 +31,7 @@ namespace CefSharp
                 auto callback = gcnew JavascriptAsyncMethodCallback(context, resolve, reject);
                 auto callbackId = _methodCallbackSave->Invoke(callback);
 
-                auto request = CefProcessMessage::Create(kJavascriptMethodCallRequest);
+                auto request = CefProcessMessage::Create(kJavascriptAsyncMethodCallRequest);
                 auto argList = request->GetArgumentList();
                 auto params = CefListValue::Create();
                 for (auto i = 0; i < arguments.size(); i++)
