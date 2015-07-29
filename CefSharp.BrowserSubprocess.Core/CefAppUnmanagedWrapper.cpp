@@ -10,6 +10,7 @@
 #include "JavascriptRootObjectWrapper.h"
 #include "Serialization\V8Serialization.h"
 #include "Serialization\ObjectsSerialization.h"
+#include "Async/JavascriptAsyncMethodCallback.h"
 #include "..\CefSharp.Core\Internals\Messaging\Messages.h"
 #include "..\CefSharp.Core\Internals\Serialization\Primitives.h"
 
@@ -106,7 +107,9 @@ namespace CefSharp
         //Error handling for missing/closed browser
         if (browserWrapper == nullptr)
         {
-            if (name == kJavascriptCallbackDestroyRequest || name == kJavascriptRootObjectRequest || name == kJavascriptAsyncMethodCallResponse)
+            if (name == kJavascriptCallbackDestroyRequest || 
+                name == kJavascriptRootObjectRequest || 
+                name == kJavascriptAsyncMethodCallResponse)
             {
                 //If we can't find the browser wrapper then we'll just
                 //ignore this as it's likely already been disposed of
@@ -298,9 +301,9 @@ namespace CefSharp
         return handled;
     };
 
-    DECL void CefAppUnmanagedWrapper::OnWebKitInitialized()
+    void CefAppUnmanagedWrapper::OnWebKitInitialized()
     {
         //we need to do this because the builtin Promise object is not accesible
-        CefRegisterExtension("promisecreator", "function cefsharp_CreatePromise() {var object = {};var promise = new Promise(function(resolve, reject) {object.resolve = resolve;object.reject = reject;});return{ p: promise, res : object.resolve,  rej: object.reject};}", nullptr);
+        CefRegisterExtension("cefsharp/promisecreator", kPromiseCreatorScript, nullptr);
     }
 }
