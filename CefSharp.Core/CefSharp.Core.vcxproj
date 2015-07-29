@@ -225,6 +225,7 @@
     <ClCompile Include="Internals\CefSharpBrowserWrapper.cpp" />
     <ClCompile Include="Internals\ClientAdapter.cpp" />
     <ClCompile Include="Internals\CompletionHandler.cpp" />
+    <ClCompile Include="Internals\CookieManager.cpp" />
     <ClCompile Include="Internals\CookieVisitor.cpp" />
     <ClCompile Include="Internals\CefRequestWrapper.cpp" />
     <ClCompile Include="Internals\JavascriptCallbackProxy.cpp" />
@@ -267,6 +268,7 @@
     <ClInclude Include="Internals\CefWindowInfoWrapper.h" />
     <ClInclude Include="Internals\CompletionHandler.h" />
     <ClInclude Include="Internals\ClientAdapter.h" />
+    <ClInclude Include="Internals\CookieManager.h" />
     <ClInclude Include="Internals\CookieVisitor.h" />
     <ClInclude Include="Internals\CefSharpApp.h" />
     <ClInclude Include="Internals\CefRequestWrapper.h" />

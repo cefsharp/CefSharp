@@ -10,6 +10,7 @@ namespace CefSharp
 {
     private ref class CookieAsyncWrapper
     {
+        MCefRefPtr<CefCookieManager> _cookieManager;
         String^ _url;
         String^ _name;
         String^ _value;
@@ -22,13 +23,14 @@ namespace CefSharp
 
     public:
         //Used for SetCookies
-        CookieAsyncWrapper(String^ url, String^ name, String^ value, String^ domain, String^ path, bool secure, bool httponly, bool hasExpires, DateTime expires) :
-            _url(url), _name(name), _value(value), _domain(domain), _path(path), _secure(secure), _httponly(httponly), _hasExpires(hasExpires), _expires(expires)
+        CookieAsyncWrapper(const CefRefPtr<CefCookieManager> &cookieManager, String^ url, String^ name, String^ value, String^ domain, String^ path, bool secure, bool httponly, bool hasExpires, DateTime expires) :
+            _url(url), _name(name), _value(value), _domain(domain), _path(path), _secure(secure), _httponly(httponly), _hasExpires(hasExpires), _expires(expires), _cookieManager(cookieManager.get())
         {
         }
 
         //Used for DeleteCookies
-        CookieAsyncWrapper(String^ url, String^ name) : _url(url), _name(name)
+        CookieAsyncWrapper(const CefRefPtr<CefCookieManager> &cookieManager, String^ url, String^ name) : 
+            _url(url), _name(name), _cookieManager(cookieManager.get())
         {
         }
 
@@ -50,12 +52,22 @@ namespace CefSharp
             cookie.expires.second = _expires.Second;
             cookie.expires.millisecond = _expires.Millisecond;
 
-            return CefCookieManager::GetGlobalManager(NULL)->SetCookie(StringUtils::ToNative(_url), cookie, NULL);
+            return _cookieManager->SetCookie(StringUtils::ToNative(_url), cookie, NULL);
         }
 
         bool DeleteCookies()
         {
-            return CefCookieManager::GetGlobalManager(NULL)->DeleteCookies(StringUtils::ToNative(_url), StringUtils::ToNative(_name), NULL);
+            return _cookieManager->DeleteCookies(StringUtils::ToNative(_url), StringUtils::ToNative(_name), NULL);
+        }
+
+        !CookieAsyncWrapper()
+        {
+            _cookieManager = nullptr;
+        }
+
+        ~CookieAsyncWrapper()
+        {
+            this->!CookieAsyncWrapper();
         }
     };
 }

@@ -345,7 +345,7 @@ namespace CefSharp
         /// <return>false if the cookie cannot be set (e.g. if illegal charecters such as ';' are used); otherwise true.</return>
         static bool SetCookie(String^ url, String^ name, String^ value, String^ domain, String^ path, bool secure, bool httponly, bool has_expires, DateTime expires)
         {
-            auto cookieInvoker = gcnew CookieAsyncWrapper(url, name, value, domain, path, secure, httponly, has_expires, expires);
+            auto cookieInvoker = gcnew CookieAsyncWrapper(CefCookieManager::GetGlobalManager(NULL), url, name, value, domain, path, secure, httponly, has_expires, expires);
 
             if (CefCurrentlyOn(TID_IO))
             {
@@ -355,6 +355,7 @@ namespace CefSharp
             auto task = Cef::IOThreadTaskFactory->StartNew(gcnew Func<bool>(cookieInvoker, &CookieAsyncWrapper::SetCookie));
 
             task->Wait();
+            delete cookieInvoker;
 
             return task->Result;
         }        
@@ -379,7 +380,7 @@ namespace CefSharp
         /// <return>false if a non-empty invalid URL is specified, or if cookies cannot be accessed; otherwise, true.</return>
         static bool DeleteCookies(String^ url, String^ name)
         {
-            auto cookieInvoker = gcnew CookieAsyncWrapper(url, name);
+            auto cookieInvoker = gcnew CookieAsyncWrapper(CefCookieManager::GetGlobalManager(NULL), url, name);
 
             if (CefCurrentlyOn(TID_IO))
             {
@@ -389,6 +390,7 @@ namespace CefSharp
             auto task = Cef::IOThreadTaskFactory->StartNew(gcnew Func<bool>(cookieInvoker, &CookieAsyncWrapper::DeleteCookies));
 
             task->Wait();
+            delete cookieInvoker;
 
             return task->Result;
         }

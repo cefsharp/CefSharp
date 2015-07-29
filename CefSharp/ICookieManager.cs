@@ -17,12 +17,9 @@ namespace CefSharp
         /// characters (e.g. the ';' character is disallowed within the cookie value attribute) and will return false without setting
         /// the cookie if such characters are found.</summary>
         /// <param name="url">The cookie URL</param>
-        /// <param name="domain">The cookie domain.</param>
-        /// <param name="name">The cookie name.</param>
-        /// <param name="value">The cookie value.</param>
-        /// <param name="expires">The DateTime when the cookie will be treated as expired.</param>
+        /// <param name="cookie">The cookie</param>
         /// <return>false if the cookie cannot be set (e.g. if illegal charecters such as ';' are used); otherwise true.</return>
-        bool SetCookie(string url, string domain, string name, string value, DateTime expires);
+        bool SetCookie(string url, Cookie cookie);
 
         /// <summary> Sets the directory path that will be used for storing cookie data. If <paramref name="path"/> is empty data will be stored in 
         /// memory only. Otherwise, data will be stored at the specified path. To persist session cookies (cookies without an expiry 
