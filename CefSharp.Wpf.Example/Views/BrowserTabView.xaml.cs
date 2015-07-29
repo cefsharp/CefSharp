@@ -19,7 +19,7 @@ namespace CefSharp.Wpf.Example.Views
             {
                 browser.RegisterJsObject("bound", new BoundObject());
             }
-            browser.RegisterAsyncJsObject("boundAsync", new BoundObject());
+            browser.RegisterAsyncJsObject("boundAsync", new AsyncBoundObject());
 
             browser.MenuHandler = new Handlers.MenuHandler();
             browser.GeolocationHandler = new Handlers.GeolocationHandler();
