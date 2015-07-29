@@ -43,14 +43,6 @@ namespace CefSharp
         return _callbackRegistry;
     }
 
-    void CefBrowserWrapper::SendProcessMessage(CefProcessId target_process, CefRefPtr<CefProcessMessage> message)
-    {
-        if (_cefBrowser.get())
-        {
-            _cefBrowser->SendProcessMessage(target_process, message);
-        }
-    }
-
     int64 CefBrowserWrapper::SaveMethodCallback(JavascriptAsyncMethodCallback^ callback)
     {
         auto callbackId = Interlocked::Increment(_lastCallback);

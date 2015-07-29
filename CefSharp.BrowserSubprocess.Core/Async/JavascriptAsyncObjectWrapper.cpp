@@ -18,7 +18,7 @@ namespace CefSharp
             void JavascriptAsyncObjectWrapper::Bind(const CefRefPtr<CefV8Value> &value)
             {
                 //V8Value that represents this javascript object - only one per complex type, no accessor
-                auto javascriptObject = value->CreateObject(nullptr);
+                auto javascriptObject = CefV8Value::CreateObject(nullptr);
                 auto objectName = StringUtils::ToNative(_object->JavascriptName);
                 value->SetValue(objectName, javascriptObject, V8_PROPERTY_ATTRIBUTE_NONE);
 
