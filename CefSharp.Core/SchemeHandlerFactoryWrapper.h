@@ -48,6 +48,15 @@ namespace CefSharp
                 return NULL;
             }
 
+            if (handler->GetType() == ResourceHandler::typeid)
+            {
+                auto resourceHandler = static_cast<ResourceHandler^>(handler);
+                if (resourceHandler->Type == ResourceHandlerType::File)
+                {
+                    return new CefStreamResourceHandler(StringUtils::ToNative(resourceHandler->MimeType), CefStreamReader::CreateForFile(StringUtils::ToNative(resourceHandler->FilePath)));
+                }
+            }
+
             return new ResourceHandlerWrapper(handler, browserWrapper, frameWrapper, requestWrapper);
         }
 

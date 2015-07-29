@@ -5,13 +5,13 @@
 namespace CefSharp
 {
     /// <summary>
-    /// Class that creates ISchemeHandler instances for handling scheme requests.
+    /// Class that creates <see cref="IResourceHandler"/> instances for handling scheme requests.
     /// The methods of this class will always be called on the CEF IO thread.
     /// </summary>
     public interface ISchemeHandlerFactory
     {
         /// <summary>
-        /// Return a new ISchemeHandler instance to handle the request or an empty
+        /// Return a new <see cref="IResourceHandler"/> instance to handle the request or an empty
         /// reference to allow default handling of the request.
         /// </summary>
         /// <param name="browser">the browser window that originated the
@@ -26,6 +26,6 @@ namespace CefSharp
         /// Return a new ISchemeHandler instance to handle the request or an empty
         /// reference to allow default handling of the request
         /// </returns>
-        ISchemeHandler Create(IBrowser browser, IFrame frame, string schemeName, IRequest request);
+        IResourceHandler Create(IBrowser browser, IFrame frame, string schemeName, IRequest request);
     }
 }

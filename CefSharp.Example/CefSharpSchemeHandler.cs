@@ -8,7 +8,7 @@ using CefSharp.Example.Properties;
 
 namespace CefSharp.Example
 {
-    internal class CefSharpSchemeHandler : ISchemeHandler
+    internal class CefSharpSchemeHandler : IResourceHandler
     {
         private static readonly IDictionary<string, string> ResourceDictionary;
 
