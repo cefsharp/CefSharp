@@ -58,7 +58,7 @@ namespace CefSharp
         /// <summary>
         /// Initializes a new instance of the <see cref="ResourceHandler"/> class.
         /// </summary>
-        private ResourceHandler()
+        public ResourceHandler()
         {
             StatusCode = 200;
             StatusText = "OK";
