@@ -854,7 +854,7 @@ namespace CefSharp
 
                 handled = true;
             }
-            else if (name == kJavascriptMethodCallRequest)
+            else if (name == kJavascriptAsyncMethodCallRequest)
             {
                 if (!browser->IsPopup())
                 {
@@ -905,7 +905,7 @@ namespace CefSharp
         {
             if (result->CallbackId.HasValue)
             {
-                auto message = CefProcessMessage::Create(kJavascriptMethodCallResponse);
+                auto message = CefProcessMessage::Create(kJavascriptAsyncMethodCallResponse);
                 auto argList = message->GetArgumentList();
                 SetInt64(result->CallbackId.Value, argList, 0);
                 argList->SetBool(1, result->Success);

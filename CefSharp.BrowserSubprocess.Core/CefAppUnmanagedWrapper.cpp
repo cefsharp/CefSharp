@@ -106,7 +106,7 @@ namespace CefSharp
         //Error handling for missing/closed browser
         if (browserWrapper == nullptr)
         {
-            if (name == kJavascriptCallbackDestroyRequest || name == kJavascriptRootObjectRequest || name == kJavascriptMethodCallResponse)
+            if (name == kJavascriptCallbackDestroyRequest || name == kJavascriptRootObjectRequest || name == kJavascriptAsyncMethodCallResponse)
             {
                 //If we can't find the browser wrapper then we'll just
                 //ignore this as it's likely already been disposed of
@@ -274,7 +274,7 @@ namespace CefSharp
             browserWrapper->JavascriptAsyncRootObject = DeserializeJsObject(argList, 0);
             handled = true;
         }
-        else if (name == kJavascriptMethodCallResponse)
+        else if (name == kJavascriptAsyncMethodCallResponse)
         {
             auto callbackId = GetInt64(argList, 0);
             JavascriptAsyncMethodCallback^ callback;
