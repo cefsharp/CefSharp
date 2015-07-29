@@ -618,6 +618,15 @@ namespace CefSharp
                 return NULL;
             }
 
+            if (resourceHandler->GetType() == ResourceHandler::typeid)
+            {
+                auto handler = static_cast<ResourceHandler^>(resourceHandler);
+                if (handler->Type == ResourceHandlerType::File)
+                {
+                    return new CefStreamResourceHandler(StringUtils::ToNative(handler->MimeType), CefStreamReader::CreateForFile(StringUtils::ToNative(handler->FilePath)));
+                }
+            }
+
             // No need to pass browserWrapper for disposable lifetime management here
             // because GetBrowserWrapper returned IBrowser^s are already properly
             // managed.
