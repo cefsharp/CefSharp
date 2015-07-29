@@ -4,13 +4,11 @@
 
 #pragma once
 
-
 #include "Stdafx.h"
 #include "include/cef_app.h"
 #include "include/cef_base.h"
 
 #include "CefBrowserWrapper.h"
-#include "Async/JavascriptAsyncMethodCallback.h"
 
 using namespace System::Collections::Generic;
 
@@ -20,6 +18,15 @@ namespace CefSharp
     private class CefAppUnmanagedWrapper : CefApp, CefRenderProcessHandler
     {
     private:
+        const CefString kPromiseCreatorScript = ""
+            "function cefsharp_CreatePromise() {"
+            "   var object = {};"
+            "   var promise = new Promise(function(resolve, reject) {"
+            "       object.resolve = resolve;object.reject = reject;"
+            "   });"
+            "   return{ p: promise, res : object.resolve,  rej: object.reject};"
+            "}";
+
         gcroot<Action<CefBrowserWrapper^>^> _onBrowserCreated;
         gcroot<Action<CefBrowserWrapper^>^> _onBrowserDestroyed;
         gcroot<Dictionary<int, CefBrowserWrapper^>^> _browserWrappers;
