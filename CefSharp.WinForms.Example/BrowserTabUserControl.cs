@@ -38,7 +38,11 @@ namespace CefSharp.WinForms.Example
             browser.IsBrowserInitializedChanged += OnIsBrowserInitializedChanged;
             browser.LoadError += OnLoadError;
             browser.DragHandler = new DragHandler();
-            browser.RegisterJsObject("bound", new BoundObject());
+            if (CefSharpSettings.WcfEnabled)
+            {
+                browser.RegisterJsObject("bound", new BoundObject());
+            }
+            browser.RegisterAsyncJsObject("boundAsync", new AsyncBoundObject());
 
             CefExample.RegisterTestResources(browser);
 

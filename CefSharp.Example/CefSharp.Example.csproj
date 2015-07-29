@@ -90,6 +90,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AsyncBoundObject.cs" />
     <Compile Include="BoundObject.cs" />
     <Compile Include="DragHandler.cs" />
     <Compile Include="JsDialogHandler.cs" />
