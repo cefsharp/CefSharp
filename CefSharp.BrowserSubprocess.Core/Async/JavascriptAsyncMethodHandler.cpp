@@ -7,7 +7,6 @@
 #include "../CefSharp.Core/Internals/Messaging/Messages.h"
 #include "../CefSharp.Core/Internals/Serialization/Primitives.h"
 #include "Serialization/V8Serialization.h"
-#include "CefBrowserWrapper.h"
 
 using namespace CefSharp::Internals::Messaging;
 using namespace CefSharp::Internals::Serialization;
@@ -45,6 +44,7 @@ namespace CefSharp
                 argList->SetList(3, params);
 
                 browser->SendProcessMessage(CefProcessId::PID_BROWSER, request);
+
                 return true;
             }
         }

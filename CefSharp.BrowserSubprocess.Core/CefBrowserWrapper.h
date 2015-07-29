@@ -43,8 +43,6 @@ namespace CefSharp
             CefSharp::Internals::JavascriptCallbackRegistry^ get();
         }
 
-        void SendProcessMessage(CefProcessId target_process, CefRefPtr<CefProcessMessage> message);
-
     public:
         CefBrowserWrapper(CefRefPtr<CefBrowser> cefBrowser)
         {
