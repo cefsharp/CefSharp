@@ -7,6 +7,7 @@
 #include "Stdafx.h"
 #include "include/cef_scheme.h"
 #include "Internals/AutoLock.h"
+#include "include/wrapper/cef_stream_resource_handler.h"
 
 using namespace System;
 using namespace System::IO;
