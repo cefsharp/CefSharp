@@ -24,7 +24,7 @@ namespace CefSharp
         /// Gets or sets the Mime Type.
         /// </summary>
         /// <value>The Mime Type.</value>
-        public string MimeType { get; private set; }
+        public string MimeType { get; set; }
 
         /// <summary>
         /// Gets or sets the resource stream.
