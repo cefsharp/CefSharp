@@ -12,8 +12,6 @@ using namespace System::Collections::Generic;
 
 namespace CefSharp
 {
-    ref class CefBrowserWrapper;
-
     namespace Internals
     {
         namespace Async

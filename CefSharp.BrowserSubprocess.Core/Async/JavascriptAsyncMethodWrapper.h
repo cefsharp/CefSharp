@@ -9,8 +9,6 @@
 
 namespace CefSharp
 {
-    ref class CefBrowserWrapper;
-
     namespace Internals
     {
         namespace Async
