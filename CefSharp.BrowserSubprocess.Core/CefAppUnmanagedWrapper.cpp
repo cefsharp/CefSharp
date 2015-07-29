@@ -22,6 +22,15 @@ using namespace CefSharp::Internals::Serialization;
 
 namespace CefSharp
 {
+	const CefString CefAppUnmanagedWrapper::kPromiseCreatorScript = ""
+		"function cefsharp_CreatePromise() {"
+		"   var object = {};"
+		"   var promise = new Promise(function(resolve, reject) {"
+		"       object.resolve = resolve;object.reject = reject;"
+		"   });"
+		"   return{ p: promise, res : object.resolve,  rej: object.reject};"
+		"}";
+
     CefRefPtr<CefRenderProcessHandler> CefAppUnmanagedWrapper::GetRenderProcessHandler()
     {
         return this;

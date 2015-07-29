@@ -18,14 +18,7 @@ namespace CefSharp
     private class CefAppUnmanagedWrapper : CefApp, CefRenderProcessHandler
     {
     private:
-        const CefString kPromiseCreatorScript = ""
-            "function cefsharp_CreatePromise() {"
-            "   var object = {};"
-            "   var promise = new Promise(function(resolve, reject) {"
-            "       object.resolve = resolve;object.reject = reject;"
-            "   });"
-            "   return{ p: promise, res : object.resolve,  rej: object.reject};"
-            "}";
+		static const CefString kPromiseCreatorScript;
 
         gcroot<Action<CefBrowserWrapper^>^> _onBrowserCreated;
         gcroot<Action<CefBrowserWrapper^>^> _onBrowserDestroyed;
