@@ -117,7 +117,7 @@ namespace CefSharp
                     _javascriptCallbackFactories->Add(browser->GetIdentifier(), _browserAdapter->JavascriptCallbackFactory);
 
                     //transmit async bound objects
-                    auto jsRootObjectMessage = CefProcessMessage::Create(kJavascriptRootObjectRequest);
+                    auto jsRootObjectMessage = CefProcessMessage::Create(kJavascriptAsyncRootObjectRequest);
                     auto argList = jsRootObjectMessage->GetArgumentList();
                     SerializeJsObject(_browserAdapter->JavascriptObjectRepository->AsyncRootObject, argList, 0);
                     browser->SendProcessMessage(CefProcessId::PID_RENDERER, jsRootObjectMessage);

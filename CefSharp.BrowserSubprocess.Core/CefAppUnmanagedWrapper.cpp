@@ -108,7 +108,7 @@ namespace CefSharp
         if (browserWrapper == nullptr)
         {
             if (name == kJavascriptCallbackDestroyRequest || 
-                name == kJavascriptRootObjectRequest || 
+                name == kJavascriptAsyncRootObjectRequest || 
                 name == kJavascriptAsyncMethodCallResponse)
             {
                 //If we can't find the browser wrapper then we'll just
@@ -272,7 +272,7 @@ namespace CefSharp
 
             handled = true;
         }
-        else if (name == kJavascriptRootObjectRequest)
+        else if (name == kJavascriptAsyncRootObjectRequest)
         {
             browserWrapper->JavascriptAsyncRootObject = DeserializeJsObject(argList, 0);
             handled = true;
