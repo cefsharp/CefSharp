@@ -2,6 +2,8 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System.Threading.Tasks;
+
 namespace CefSharp
 {
     /// <summary>
@@ -9,19 +11,19 @@ namespace CefSharp
     /// </summary>
     public interface ICookieManager
     {
-        /// <summary>Deletes all cookies that matches all the provided parameters. If both <paramref name="url"/> and <paramref name="name"/> are empty, all cookies will be deleted.</summary>
+        /// <summary>Deletes all cookies that matches all the provided parameters asynchronously. If both <paramref name="url"/> and <paramref name="name"/> are empty, all cookies will be deleted.</summary>
         /// <param name="url">The cookie URL. If an empty string is provided, any URL will be matched.</param>
         /// <param name="name">The name of the cookie. If an empty string is provided, any URL will be matched.</param>
-        /// <return>false if a non-empty invalid URL is specified, or if cookies cannot be accessed; otherwise, true.</return>
-        bool DeleteCookies(string url, string name);
+        /// <return>A task that represents the delete operation. The value of the TResult parameter contains false if a non-empty invalid URL is specified, or if cookies cannot be accessed; otherwise, true.</return>
+        Task<bool> DeleteCookiesAsync(string url, string name);
 
-        /// <summary>Sets a cookie using mostly default parameters. This function expects each attribute to be well-formed. It will check for disallowed
+        /// <summary>Sets a cookie given a valid URL and explicit user-provided cookie attributes. This function expects each attribute to be well-formed. It will check for disallowed
         /// characters (e.g. the ';' character is disallowed within the cookie value attribute) and will return false without setting
         /// the cookie if such characters are found.</summary>
         /// <param name="url">The cookie URL</param>
         /// <param name="cookie">The cookie</param>
-        /// <return>false if the cookie cannot be set (e.g. if illegal charecters such as ';' are used); otherwise true.</return>
-        bool SetCookie(string url, Cookie cookie);
+        /// <return>A task that represents the cookie set operation. The value of the TResult parameter contains false if the cookie cannot be set (e.g. if illegal charecters such as ';' are used); otherwise true.</return>
+        Task<bool> SetCookieAsync(string url, Cookie cookie);
 
         /// <summary> Sets the directory path that will be used for storing cookie data. If <paramref name="path"/> is empty data will be stored in 
         /// memory only. Otherwise, data will be stored at the specified path. To persist session cookies (cookies without an expiry 

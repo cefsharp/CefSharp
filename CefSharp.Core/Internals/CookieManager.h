@@ -7,6 +7,8 @@
 #include "MCefRefPtr.h"
 #include "include/cef_cookie.h"
 
+using namespace System::Threading::Tasks;
+
 namespace CefSharp
 {
     namespace Internals
@@ -34,8 +36,8 @@ namespace CefSharp
                 this->!CookieManager();
             }
 
-            virtual bool DeleteCookies(String^ url, String^ name);
-            virtual bool SetCookie(String^ url, Cookie^ cookie);
+            virtual Task<bool>^ DeleteCookiesAsync(String^ url, String^ name);
+            virtual Task<bool>^ SetCookieAsync(String^ url, Cookie^ cookie);
             virtual bool SetStoragePath(String^ path, bool persistSessionSookies);
             virtual void SetSupportedSchemes(... array<String^>^ schemes);
             virtual bool VisitAllCookies(ICookieVisitor^ visitor);
