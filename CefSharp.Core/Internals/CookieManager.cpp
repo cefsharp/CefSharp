@@ -66,13 +66,7 @@ namespace CefSharp
         {
             ThrowIfDisposed();
 
-            vector<CefString> schemeVector;
-            for each(String^ scheme in schemes)
-            {
-                schemeVector.push_back(StringUtils::ToNative(scheme));
-            }
-
-            _cookieManager->SetSupportedSchemes(schemeVector, NULL);
+            _cookieManager->SetSupportedSchemes(StringUtils::ToNative(schemes), NULL);
         }
 
         bool CookieManager::VisitAllCookies(ICookieVisitor^ visitor)

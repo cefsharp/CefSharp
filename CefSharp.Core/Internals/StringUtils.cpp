@@ -50,7 +50,7 @@ namespace CefSharp
         }
 
         [DebuggerStepThrough]
-        std::vector<CefString> StringUtils::ToNative(List<String^>^ str)
+        std::vector<CefString> StringUtils::ToNative(IEnumerable<String^>^ str)
         {
             if (str == nullptr)
             {
