@@ -26,67 +26,67 @@ namespace CefSharp
     {
     private:
         initonly List<JavascriptObjectWrapper^>^ _wrappedObjects;
-		initonly List<JavascriptAsyncObjectWrapper^>^ _wrappedAsyncObjects;
-		initonly Dictionary<int64, JavascriptAsyncMethodCallback^>^ _methodCallbacks;
-        JavascriptCallbackRegistry^ _callbackRegistry;
-		int64 _lastCallback;
+        initonly List<JavascriptAsyncObjectWrapper^>^ _wrappedAsyncObjects;
+        initonly Dictionary<int64, JavascriptAsyncMethodCallback^>^ _methodCallbacks;
+        int64 _lastCallback;
         JavascriptRootObject^ _rootObject;
-		JavascriptRootObject^ _asyncRootObject;
+        JavascriptRootObject^ _asyncRootObject;
         IBrowserProcess^ _browserProcess;
+        JavascriptCallbackRegistry^ _callbackRegistry;
 
-		int64 SaveMethodCallback(JavascriptAsyncMethodCallback^ callback);
+        int64 SaveMethodCallback(JavascriptAsyncMethodCallback^ callback);
 
-	internal:
-		property JavascriptCallbackRegistry^ CallbackRegistry
-		{
-			CefSharp::Internals::JavascriptCallbackRegistry^ get()
-			{
-				return _callbackRegistry;
-			}
-		}
-
-    public:
-		JavascriptRootObjectWrapper(int browserId, JavascriptRootObject^ rootObject, JavascriptRootObject^ asyncRootObject, IBrowserProcess^ browserProcess)
+    internal:
+        property JavascriptCallbackRegistry^ CallbackRegistry
         {
-            _rootObject = rootObject;
-			_asyncRootObject = asyncRootObject;
-            _browserProcess = browserProcess;
-            _wrappedObjects = gcnew List<JavascriptObjectWrapper^>();
-			_wrappedAsyncObjects = gcnew List<JavascriptAsyncObjectWrapper^>();
-    		_callbackRegistry = gcnew JavascriptCallbackRegistry(browserId);
-			_methodCallbacks = gcnew Dictionary<int64, JavascriptAsyncMethodCallback^>();
+            CefSharp::Internals::JavascriptCallbackRegistry^ get()
+            {
+                return _callbackRegistry;
+            }
         }
 
-    	~JavascriptRootObjectWrapper()
-    	{
-			if (_callbackRegistry != nullptr)
-			{
-				delete _callbackRegistry;
-				_callbackRegistry = nullptr;
-			}
+    public:
+        JavascriptRootObjectWrapper(int browserId, JavascriptRootObject^ rootObject, JavascriptRootObject^ asyncRootObject, IBrowserProcess^ browserProcess)
+        {
+            _rootObject = rootObject;
+            _asyncRootObject = asyncRootObject;
+            _browserProcess = browserProcess;
+            _wrappedObjects = gcnew List<JavascriptObjectWrapper^>();
+            _wrappedAsyncObjects = gcnew List<JavascriptAsyncObjectWrapper^>();
+            _callbackRegistry = gcnew JavascriptCallbackRegistry(browserId);
+            _methodCallbacks = gcnew Dictionary<int64, JavascriptAsyncMethodCallback^>();
+        }
 
-    		for each (JavascriptObjectWrapper^ var in _wrappedObjects)
-    		{
-    			delete var;
-    		}
-			_wrappedObjects->Clear();
+        ~JavascriptRootObjectWrapper()
+        {
+            if (_callbackRegistry != nullptr)
+            {
+                delete _callbackRegistry;
+                _callbackRegistry = nullptr;
+            }
 
-			for each (JavascriptAsyncObjectWrapper^ var in _wrappedAsyncObjects)
-			{
-				delete var;
-			}
-			_wrappedAsyncObjects->Clear();
+            for each (JavascriptObjectWrapper^ var in _wrappedObjects)
+            {
+                delete var;
+            }
+            _wrappedObjects->Clear();
 
-			for each(JavascriptAsyncMethodCallback^ var in _methodCallbacks->Values)
-			{
-				delete var;
-			}
-			_methodCallbacks->Clear();
-    	}
+            for each (JavascriptAsyncObjectWrapper^ var in _wrappedAsyncObjects)
+            {
+                delete var;
+            }
+            _wrappedAsyncObjects->Clear();
 
-		bool TryGetAndRemoveMethodCallback(int64 id, JavascriptAsyncMethodCallback^% callback);
+            for each(JavascriptAsyncMethodCallback^ var in _methodCallbacks->Values)
+            {
+                delete var;
+            }
+            _methodCallbacks->Clear();
+        }
 
-		void Bind(const CefRefPtr<CefV8Value>& v8Value);
+        bool TryGetAndRemoveMethodCallback(int64 id, JavascriptAsyncMethodCallback^% callback);
+
+        void Bind(const CefRefPtr<CefV8Value>& v8Value);
     };
 }
 

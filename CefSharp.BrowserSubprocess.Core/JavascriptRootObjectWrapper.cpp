@@ -12,7 +12,7 @@ using namespace System::Threading;
 
 namespace CefSharp
 {
-	void JavascriptRootObjectWrapper::Bind(const CefRefPtr<CefV8Value>& v8Value)
+    void JavascriptRootObjectWrapper::Bind(const CefRefPtr<CefV8Value>& v8Value)
     {
 		if (_rootObject != nullptr)
 		{
@@ -43,20 +43,20 @@ namespace CefSharp
 		}
     }
 
-	int64 JavascriptRootObjectWrapper::SaveMethodCallback(JavascriptAsyncMethodCallback^ callback)
-	{
-		auto callbackId = Interlocked::Increment(_lastCallback);
-		_methodCallbacks->Add(callbackId, callback);
-		return callbackId;
-	}
+    int64 JavascriptRootObjectWrapper::SaveMethodCallback(JavascriptAsyncMethodCallback^ callback)
+    {
+        auto callbackId = Interlocked::Increment(_lastCallback);
+        _methodCallbacks->Add(callbackId, callback);
+        return callbackId;
+    }
 
-	bool JavascriptRootObjectWrapper::TryGetAndRemoveMethodCallback(int64 id, JavascriptAsyncMethodCallback^% callback)
-	{
-		bool result = false;
-		if (result = _methodCallbacks->TryGetValue(id, callback))
-		{
-			_methodCallbacks->Remove(id);
-		}
-		return result;
-	}
+    bool JavascriptRootObjectWrapper::TryGetAndRemoveMethodCallback(int64 id, JavascriptAsyncMethodCallback^% callback)
+    {
+        bool result = false;
+        if (result = _methodCallbacks->TryGetValue(id, callback))
+        {
+            _methodCallbacks->Remove(id);
+        }
+        return result;
+    }
 }

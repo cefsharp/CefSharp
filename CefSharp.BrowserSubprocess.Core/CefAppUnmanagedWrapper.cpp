@@ -22,15 +22,15 @@ using namespace CefSharp::Internals::Serialization;
 
 namespace CefSharp
 {
-	const CefString CefAppUnmanagedWrapper::kPromiseCreatorFunction = "cefsharp_CreatePromise";
+    const CefString CefAppUnmanagedWrapper::kPromiseCreatorFunction = "cefsharp_CreatePromise";
     const CefString CefAppUnmanagedWrapper::kPromiseCreatorScript = ""
-    	"function cefsharp_CreatePromise() {"
-    	"   var object = {};"
-    	"   var promise = new Promise(function(resolve, reject) {"
-    	"       object.resolve = resolve;object.reject = reject;"
-    	"   });"
-    	"   return{ p: promise, res : object.resolve,  rej: object.reject};"
-    	"}";
+        "function cefsharp_CreatePromise() {"
+        "   var object = {};"
+        "   var promise = new Promise(function(resolve, reject) {"
+        "       object.resolve = resolve;object.reject = reject;"
+        "   });"
+        "   return{ p: promise, res : object.resolve,  rej: object.reject};"
+        "}";
 
     CefRefPtr<CefRenderProcessHandler> CefAppUnmanagedWrapper::GetRenderProcessHandler()
     {
@@ -67,12 +67,12 @@ namespace CefSharp
         if (wrapper->JavascriptRootObject != nullptr || wrapper->JavascriptAsyncRootObject != nullptr)
         {
             wrapper->JavascriptRootObjectWrapper = gcnew JavascriptRootObjectWrapper(browser->GetIdentifier(), wrapper->JavascriptRootObject, wrapper->JavascriptAsyncRootObject, wrapper->BrowserProcess);
-    		wrapper->JavascriptRootObjectWrapper->Bind(window);
+            wrapper->JavascriptRootObjectWrapper->Bind(window);
         }
     };
 
     void CefAppUnmanagedWrapper::OnContextReleased(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
-    { 
+    {
         auto wrapper = FindBrowserWrapper(browser->GetIdentifier(), true);
 
         if (wrapper->JavascriptRootObjectWrapper != nullptr)
@@ -107,8 +107,8 @@ namespace CefSharp
         //Error handling for missing/closed browser
         if (browserWrapper == nullptr)
         {
-            if (name == kJavascriptCallbackDestroyRequest || 
-                name == kJavascriptAsyncRootObjectRequest || 
+            if (name == kJavascriptCallbackDestroyRequest ||
+                name == kJavascriptAsyncRootObjectRequest ||
                 name == kJavascriptAsyncMethodCallResponse)
             {
                 //If we can't find the browser wrapper then we'll just
@@ -145,9 +145,9 @@ namespace CefSharp
 
             return true;
         }
-    
-		auto rootObjectWrapper = browserWrapper->JavascriptRootObjectWrapper;
-		auto callbackRegistry = rootObjectWrapper != nullptr ? rootObjectWrapper->CallbackRegistry : nullptr;
+
+        auto rootObjectWrapper = browserWrapper->JavascriptRootObjectWrapper;
+        auto callbackRegistry = rootObjectWrapper != nullptr ? rootObjectWrapper->CallbackRegistry : nullptr;
         //these messages are roughly handled the same way
         if (name == kEvaluateJavascriptRequest || name == kJavascriptCallbackRequest)
         {
@@ -169,14 +169,14 @@ namespace CefSharp
                 if (frame.get())
                 {
                     auto context = frame->GetV8Context();
-                    
+
                     if (context.get() && context->Enter())
                     {
                         try
                         {
                             CefRefPtr<CefV8Exception> exception;
                             success = context->Eval(script, result, exception);
-                            
+
                             //we need to do this here to be able to store the v8context
                             if (success)
                             {
@@ -218,14 +218,14 @@ namespace CefSharp
                 auto callbackWrapper = callbackRegistry->FindWrapper(jsCallbackId);
                 auto context = callbackWrapper->GetContext();
                 auto value = callbackWrapper->GetValue();
-                
+
                 if (context.get() && context->Enter())
                 {
                     try
                     {
                         result = value->ExecuteFunction(nullptr, params);
                         success = result.get() != nullptr;
-                        
+
                         //we need to do this here to be able to store the v8context
                         if (success)
                         {
@@ -235,7 +235,7 @@ namespace CefSharp
                         else
                         {
                             auto exception = value->GetException();
-                            if(exception.get())
+                            if (exception.get())
                             {
                                 errorMessage = exception->GetMessage();
                             }
@@ -248,8 +248,8 @@ namespace CefSharp
                 }
                 else
                 {
-                    errorMessage = "Unable to Enter Context";			
-                }                
+                    errorMessage = "Unable to Enter Context";
+                }
             }
 
             if (response.get())
@@ -282,7 +282,7 @@ namespace CefSharp
         {
             auto callbackId = GetInt64(argList, 0);
             JavascriptAsyncMethodCallback^ callback;
-			if (rootObjectWrapper->TryGetAndRemoveMethodCallback(callbackId, callback))
+            if (rootObjectWrapper->TryGetAndRemoveMethodCallback(callbackId, callback))
             {
                 auto success = argList->GetBool(1);
                 if (success)
