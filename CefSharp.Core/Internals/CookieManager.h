@@ -19,6 +19,8 @@ namespace CefSharp
             MCefRefPtr<CefCookieManager> _cookieManager;
 
             void ThrowIfDisposed();
+
+            bool DisposeAsyncWrapper(Task<bool>^ task);
         public:
             CookieManager(const CefRefPtr<CefCookieManager> &cookieManager)
                 :_cookieManager(cookieManager.get())

@@ -17,24 +17,36 @@ namespace CefSharp
             }
         }
 
+        bool CookieManager::DisposeAsyncWrapper(Task<bool>^ task)
+        {
+            auto asyncWrapper = dynamic_cast<CookieAsyncWrapper^>(task->AsyncState);
+            if (asyncWrapper != nullptr)
+            {
+                delete asyncWrapper;
+            }
+
+            return task->Result;
+        }
+
         Task<bool>^ CookieManager::DeleteCookiesAsync(String^ url, String^ name)
         {
             ThrowIfDisposed();
 
             auto cookieInvoker = gcnew CookieAsyncWrapper(_cookieManager.get(), url, name);
 
+            Task<bool>^ task;
             if (CefCurrentlyOn(TID_IO))
             {
-                auto source = gcnew TaskCompletionSource<bool>();
-                source->TrySetResult(cookieInvoker->DeleteCookies());
-                return source->Task;
+                auto source = gcnew TaskCompletionSource<bool>(cookieInvoker);
+                source->TrySetResult(cookieInvoker->DeleteCookies(nullptr));
+                task = source->Task;
+            }
+            else
+            {
+                task = Cef::IOThreadTaskFactory->StartNew(gcnew Func<Object^, bool>(cookieInvoker, &CookieAsyncWrapper::DeleteCookies), cookieInvoker);
             }
 
-            auto task = Cef::IOThreadTaskFactory->StartNew(gcnew Func<bool>(cookieInvoker, &CookieAsyncWrapper::DeleteCookies));
-
-            delete cookieInvoker;
-
-            return task;
+            return task->ContinueWith(gcnew Func<Task<bool>^, bool>(this, &CookieManager::DisposeAsyncWrapper), TaskScheduler::Default);
         }
 
         Task<bool>^ CookieManager::SetCookieAsync(String^ url, Cookie^ cookie)
@@ -43,18 +55,19 @@ namespace CefSharp
 
             auto cookieInvoker = gcnew CookieAsyncWrapper(_cookieManager.get(), url, cookie->Name, cookie->Value, cookie->Domain, cookie->Path, cookie->Secure, cookie->HttpOnly, cookie->Expires.HasValue, cookie->Expires.HasValue ? cookie->Expires.Value : DateTime());
 
+            Task<bool>^ task;
             if (CefCurrentlyOn(TID_IO))
             {
-                auto source = gcnew TaskCompletionSource<bool>();
-                source->TrySetResult(cookieInvoker->SetCookie());
-                return source->Task;
+                auto source = gcnew TaskCompletionSource<bool>(cookieInvoker);
+                source->TrySetResult(cookieInvoker->SetCookie(nullptr));
+                task = source->Task;
+            }
+            else
+            {
+                task = Cef::IOThreadTaskFactory->StartNew(gcnew Func<Object^, bool>(cookieInvoker, &CookieAsyncWrapper::SetCookie), cookieInvoker);
             }
 
-            auto task = Cef::IOThreadTaskFactory->StartNew(gcnew Func<bool>(cookieInvoker, &CookieAsyncWrapper::SetCookie));
-
-            delete cookieInvoker;
-
-            return task;
+            return task->ContinueWith(gcnew Func<Task<bool>^, bool>(this, &CookieManager::DisposeAsyncWrapper), TaskScheduler::Default);
         }
 
         bool CookieManager::SetStoragePath(String^ path, bool persistSessionCookies)

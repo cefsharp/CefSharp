@@ -34,7 +34,7 @@ namespace CefSharp
         {
         }
 
-        bool SetCookie()
+        bool SetCookie(Object^ state)
         {
             CefCookie cookie;
             StringUtils::AssignNativeFromClr(cookie.name, _name);
@@ -55,7 +55,7 @@ namespace CefSharp
             return _cookieManager->SetCookie(StringUtils::ToNative(_url), cookie, NULL);
         }
 
-        bool DeleteCookies()
+        bool DeleteCookies(Object^ state)
         {
             return _cookieManager->DeleteCookies(StringUtils::ToNative(_url), StringUtils::ToNative(_name), NULL);
         }
