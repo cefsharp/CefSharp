@@ -164,8 +164,6 @@
     <ClInclude Include="CefAppUnmanagedWrapper.h" />
     <ClInclude Include="CefAppWrapper.h" />
     <ClInclude Include="CefBrowserWrapper.h" />
-    <ClInclude Include="..\CefSharp.Core\Internals\CefTaskScheduler.h" />
-    <ClInclude Include="..\CefSharp.Core\Internals\CefTaskWrapper.h" />
     <ClInclude Include="JavascriptCallbackRegistry.h" />
     <ClInclude Include="JavascriptCallbackWrapper.h" />
     <ClInclude Include="JavascriptMethodWrapper.h" />

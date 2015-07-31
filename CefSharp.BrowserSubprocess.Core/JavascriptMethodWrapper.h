@@ -21,9 +21,6 @@ namespace CefSharp
         int64 _ownerId;
         IBrowserProcess^ _browserProcess;
 
-    internal:
-        MCefRefPtr<CefV8Value> V8Value;
-
     public:
         JavascriptMethodWrapper(JavascriptMethod^ javascriptMethod, int64 ownerId, IBrowserProcess^ browserProcess, JavascriptCallbackRegistry^ callbackRegistry)
         {
@@ -35,7 +32,6 @@ namespace CefSharp
 
         !JavascriptMethodWrapper()
         {
-            V8Value = nullptr;
             _javascriptMethodHandler = nullptr;
         }
 
@@ -47,7 +43,7 @@ namespace CefSharp
             _browserProcess = nullptr;
         }
 
-        void Bind();
+        void Bind(const CefRefPtr<CefV8Value>& v8Value);
         BrowserProcessResponse^ Execute(array<Object^>^ parameters);
     };
 }

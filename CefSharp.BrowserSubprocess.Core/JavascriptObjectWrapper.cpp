@@ -12,7 +12,7 @@ using namespace CefSharp::Internals;
 
 namespace CefSharp
 {
-    void JavascriptObjectWrapper::Bind()
+    void JavascriptObjectWrapper::Bind(const CefRefPtr<CefV8Value>& v8Value, JavascriptCallbackRegistry^ callbackRegistry)
     {
         //Create property handler for get and set of Properties of this object
         _jsPropertyHandler = new JavascriptPropertyHandler(
@@ -21,15 +21,14 @@ namespace CefSharp
             );
 
         //V8Value that represents this javascript object - only one per complex type
-        auto javascriptObject = V8Value->CreateObject(_jsPropertyHandler.get());
+        auto javascriptObject = CefV8Value::CreateObject(_jsPropertyHandler.get());
         auto objectName = StringUtils::ToNative(_object->JavascriptName);
-        V8Value->SetValue(objectName, javascriptObject, V8_PROPERTY_ATTRIBUTE_NONE);
+        v8Value->SetValue(objectName, javascriptObject, V8_PROPERTY_ATTRIBUTE_NONE);
 
         for each (JavascriptMethod^ method in Enumerable::OfType<JavascriptMethod^>(_object->Methods))
         {
-            auto wrappedMethod = gcnew JavascriptMethodWrapper(method, _object->Id, _browserProcess, CallbackRegistry);
-            wrappedMethod->V8Value = javascriptObject;
-            wrappedMethod->Bind();
+            auto wrappedMethod = gcnew JavascriptMethodWrapper(method, _object->Id, _browserProcess, callbackRegistry);
+            wrappedMethod->Bind(javascriptObject);
 
             _wrappedMethods->Add(wrappedMethod);
         }
@@ -37,8 +36,7 @@ namespace CefSharp
         for each (JavascriptProperty^ prop in Enumerable::OfType<JavascriptProperty^>(_object->Properties))
         {
             auto wrappedproperty = gcnew JavascriptPropertyWrapper(prop, _object->Id, _browserProcess);
-            wrappedproperty->V8Value = javascriptObject;
-            wrappedproperty->Bind();
+            wrappedproperty->Bind(javascriptObject, callbackRegistry);
 
             _wrappedProperties->Add(wrappedproperty);
         }

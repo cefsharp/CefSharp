@@ -123,7 +123,7 @@ namespace CefSharp
             {
                 bool get()
                 {
-                    return _windowInfo->transparent_painting_enabled;
+                    return _windowInfo->transparent_painting_enabled == 1;
                 }
                 void set(bool transparentPaintingEnabled)
                 {
@@ -135,7 +135,7 @@ namespace CefSharp
             {
                 bool get()
                 {
-                    return _windowInfo->windowless_rendering_enabled;
+                    return _windowInfo->windowless_rendering_enabled == 1;
                 }
                 void set(bool windowlessRenderingEnabled)
                 {

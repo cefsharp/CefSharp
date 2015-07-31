@@ -32,6 +32,8 @@ namespace CefSharp
         JavascriptRootObject^ _rootObject;
         JavascriptRootObject^ _asyncRootObject;
         IBrowserProcess^ _browserProcess;
+        // The entire set of possible JavaScript functions to
+        // call directly into.
         JavascriptCallbackRegistry^ _callbackRegistry;
 
         int64 SaveMethodCallback(JavascriptAsyncMethodCallback^ callback);
@@ -39,10 +41,7 @@ namespace CefSharp
     internal:
         property JavascriptCallbackRegistry^ CallbackRegistry
         {
-            CefSharp::Internals::JavascriptCallbackRegistry^ get()
-            {
-                return _callbackRegistry;
-            }
+            CefSharp::Internals::JavascriptCallbackRegistry^ get();
         }
 
     public:
@@ -66,9 +65,9 @@ namespace CefSharp
             }
 
             for each (JavascriptObjectWrapper^ var in _wrappedObjects)
-            {
+        {
                 delete var;
-            }
+        }
             _wrappedObjects->Clear();
 
             for each (JavascriptAsyncObjectWrapper^ var in _wrappedAsyncObjects)

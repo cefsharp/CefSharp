@@ -28,10 +28,6 @@ namespace CefSharp
         IBrowserProcess^ _browserProcess;
         MCefRefPtr<JavascriptPropertyHandler> _jsPropertyHandler;
 
-    internal:
-        MCefRefPtr<CefV8Value> V8Value;
-        JavascriptCallbackRegistry^ CallbackRegistry;
-
     public:
         JavascriptObjectWrapper(JavascriptObject^ object, IBrowserProcess^ browserProcess)
         {
@@ -44,14 +40,12 @@ namespace CefSharp
 
         !JavascriptObjectWrapper()
         {
-            V8Value = nullptr;
             _jsPropertyHandler = nullptr;
         }
 
         ~JavascriptObjectWrapper()
         {
             this->!JavascriptObjectWrapper();
-            CallbackRegistry = nullptr;
 
             for each (JavascriptMethodWrapper^ var in _wrappedMethods)
             {
@@ -63,7 +57,7 @@ namespace CefSharp
             }
         }
 
-        void Bind();
+        void Bind(const CefRefPtr<CefV8Value>& v8Value, JavascriptCallbackRegistry^ callbackRegistry);
         BrowserProcessResponse^ GetProperty(String^ memberName);
         BrowserProcessResponse^ SetProperty(String^ memberName, Object^ value);
     };

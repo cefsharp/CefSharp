@@ -37,7 +37,7 @@ namespace CefSharp
 
         property bool PersistSessionCookies
         {
-            bool get() { return _settings->persist_session_cookies; }
+            bool get() { return _settings->persist_session_cookies == 1; }
             void set(bool value) { _settings->persist_session_cookies = value; }
         }
 
@@ -55,7 +55,7 @@ namespace CefSharp
 
         property bool IgnoreCertificateErrors
         {
-            bool get() { return _settings->ignore_certificate_errors; }
+            bool get() { return _settings->ignore_certificate_errors == 1; }
             void set(bool value) { _settings->ignore_certificate_errors = value; }
         }
 

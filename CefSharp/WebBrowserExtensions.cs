@@ -564,20 +564,20 @@ namespace CefSharp
             cefBrowser.AddWordToDictionary(word);
         }
 
-        public static void SendMouseWheelEvent(this IWebBrowser browser, int x, int y, int deltaX, int deltaY)
+        public static void SendMouseWheelEvent(this IWebBrowser browser, int x, int y, int deltaX, int deltaY, CefEventFlags modifiers)
         {
             var cefBrowser = browser.GetBrowser();
             ThrowExceptionIfBrowserNull(cefBrowser);
 
-            cefBrowser.SendMouseWheelEvent(x, y, deltaX, deltaY);
+            cefBrowser.SendMouseWheelEvent(x, y, deltaX, deltaY, modifiers);
         }
 
-        public static void SendMouseWheelEvent(this IBrowser browser, int x, int y, int deltaX, int deltaY)
+        public static void SendMouseWheelEvent(this IBrowser browser, int x, int y, int deltaX, int deltaY, CefEventFlags modifiers)
         {
             var host = browser.GetHost();
             ThrowExceptionIfBrowserHostNull(host);
 
-            host.SendMouseWheelEvent(x, y, deltaX, deltaY);
+            host.SendMouseWheelEvent(x, y, deltaX, deltaY, modifiers);
         }
 
         public static Task<JavascriptResponse> EvaluateScriptAsync(this IWebBrowser browser, string script, TimeSpan? timeout = null)

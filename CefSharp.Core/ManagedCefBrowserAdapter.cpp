@@ -367,3 +367,8 @@ void ManagedCefBrowserAdapter::MethodInvocationComplete(Object^ sender, MethodIn
         _clientAdapter->MethodInvocationComplete(result);
     }
 }
+
+MCefRefPtr<ClientAdapter> ManagedCefBrowserAdapter::GetClientAdapter()
+{
+    return _clientAdapter;
+}

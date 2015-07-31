@@ -62,17 +62,16 @@ namespace CefSharp
     void CefAppUnmanagedWrapper::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
     {
         auto wrapper = FindBrowserWrapper(browser->GetIdentifier(), true);
-        auto window = context->GetGlobal();
 
         if (wrapper->JavascriptRootObject != nullptr || wrapper->JavascriptAsyncRootObject != nullptr)
         {
             wrapper->JavascriptRootObjectWrapper = gcnew JavascriptRootObjectWrapper(browser->GetIdentifier(), wrapper->JavascriptRootObject, wrapper->JavascriptAsyncRootObject, wrapper->BrowserProcess);
-            wrapper->JavascriptRootObjectWrapper->Bind(window);
+            wrapper->JavascriptRootObjectWrapper->Bind(context->GetGlobal());
         }
     };
 
     void CefAppUnmanagedWrapper::OnContextReleased(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
-    {
+    { 
         auto wrapper = FindBrowserWrapper(browser->GetIdentifier(), true);
 
         if (wrapper->JavascriptRootObjectWrapper != nullptr)
@@ -103,7 +102,6 @@ namespace CefSharp
         auto argList = message->GetArgumentList();
 
         auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier(), false);
-
         //Error handling for missing/closed browser
         if (browserWrapper == nullptr)
         {
@@ -145,7 +143,7 @@ namespace CefSharp
 
             return true;
         }
-
+    
         auto rootObjectWrapper = browserWrapper->JavascriptRootObjectWrapper;
         auto callbackRegistry = rootObjectWrapper != nullptr ? rootObjectWrapper->CallbackRegistry : nullptr;
         //these messages are roughly handled the same way
@@ -169,14 +167,14 @@ namespace CefSharp
                 if (frame.get())
                 {
                     auto context = frame->GetV8Context();
-
+                    
                     if (context.get() && context->Enter())
                     {
                         try
                         {
                             CefRefPtr<CefV8Exception> exception;
                             success = context->Eval(script, result, exception);
-
+                            
                             //we need to do this here to be able to store the v8context
                             if (success)
                             {
@@ -218,14 +216,14 @@ namespace CefSharp
                 auto callbackWrapper = callbackRegistry->FindWrapper(jsCallbackId);
                 auto context = callbackWrapper->GetContext();
                 auto value = callbackWrapper->GetValue();
-
+                
                 if (context.get() && context->Enter())
                 {
                     try
                     {
                         result = value->ExecuteFunction(nullptr, params);
                         success = result.get() != nullptr;
-
+                        
                         //we need to do this here to be able to store the v8context
                         if (success)
                         {
@@ -248,8 +246,8 @@ namespace CefSharp
                 }
                 else
                 {
-                    errorMessage = "Unable to Enter Context";
-                }
+                    errorMessage = "Unable to Enter Context";			
+                }                
             }
 
             if (response.get())

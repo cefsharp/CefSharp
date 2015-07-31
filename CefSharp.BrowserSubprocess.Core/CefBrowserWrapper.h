@@ -49,6 +49,7 @@ namespace CefSharp
             if (JavascriptRootObjectWrapper != nullptr)
             {
                 delete JavascriptRootObjectWrapper;
+
                 JavascriptRootObjectWrapper = nullptr;
             }
         }

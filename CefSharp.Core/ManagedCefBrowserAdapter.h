@@ -49,6 +49,10 @@ namespace CefSharp
         CefMouseEvent GetCefMouseEvent(MouseEvent^ mouseEvent);
 
         void MethodInvocationComplete(Object^ sender, MethodInvocationCompleteArgs^ e);
+
+    internal:
+        MCefRefPtr<ClientAdapter> GetClientAdapter();
+
     public:
         ManagedCefBrowserAdapter(IWebBrowserInternal^ webBrowserInternal, bool offScreenRendering)
             : _isDisposed(false)

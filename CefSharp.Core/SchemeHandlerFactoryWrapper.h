@@ -29,9 +29,6 @@ namespace CefSharp
 
         virtual CefRefPtr<CefResourceHandler> Create(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& schemeName, CefRefPtr<CefRequest> request) OVERRIDE
         {
-            // NOTE: NOT supplying a browser adapter here means they currently
-            // can't issue a JavaScript ExecuteScriptAsync call from any IFrame generated via browserWrapper
-            // and IFrame itself.
             auto browserWrapper = gcnew CefSharpBrowserWrapper(browser);
             auto frameWrapper = gcnew CefFrameWrapper(frame);
             auto requestWrapper = gcnew CefRequestWrapper(request);

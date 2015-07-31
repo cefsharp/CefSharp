@@ -20,9 +20,9 @@ namespace CefSharp
         /// Like Open, but allows picking multiple files to open.
         /// </summary>
         OpenMultiple,
-        ///
-        // Like Open, but selects a folder to open.
-        ///
+        /// <summary>
+        /// Like Open, but selects a folder to open.
+        /// </summary>
         OpenFolder,
         /// <summary>
         /// Allows picking a nonexistent file, and prompts to overwrite if the file already exists.

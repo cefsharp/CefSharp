@@ -12,41 +12,35 @@ namespace CefSharp
     /// </summary>
     public interface IBrowser : IDisposable
     {
-        ///
-        // Returns the browser host object. This method can only be called in the
-        // browser process.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Returns the browser host object. This method can only be called in the browser process.
+        /// </summary>
+        /// <returns></returns>
         IBrowserHost GetHost();
 
-        ///
-        // Returns true if the browser can navigate backwards.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Returns true if the browser can navigate backwards.
+        /// </summary>
         bool CanGoBack { get; }
 
-        ///
-        // Navigate backwards.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Navigate backwards.
+        /// </summary>
         void GoBack();
 
-        ///
-        // Returns true if the browser can navigate forwards.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Returns true if the browser can navigate forwards.
+        /// </summary>
         bool CanGoForward { get; }
 
-        ///
-        // Navigate forwards.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Navigate forwards.
+        /// </summary>
         void GoForward();
 
-        ///
-        // Returns true if the browser is currently loading.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Returns true if the browser is currently loading.
+        /// </summary>
         bool IsLoading { get; }
 
         /// <summary>
@@ -61,83 +55,79 @@ namespace CefSharp
         /// </summary>
         void CloseBrowser(bool forceClose);
 
-        ///
-        // Reload the current page.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Reload the current page.
+        /// </summary>
+        /// <param name="ignoreCache"></param>
         void Reload(bool ignoreCache = false);
 
-        ///
-        // Stop loading the page.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Stop loading the page.
+        /// </summary>
         void StopLoad();
 
-        ///
-        // Returns the globally unique identifier for this browser.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Returns the globally unique identifier for this browser.
+        /// </summary>
         int Identifier { get; }
 
-        ///
-        // Returns true if this object is pointing to the same handle as |that|
-        // object.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Returns true if this object is pointing to the same handle as that object.
+        /// </summary>
+        /// <param name="that">compare browser instances</param>
+        /// <returns>returns true if the same instance</returns>
         bool IsSame(IBrowser that);
 
-        ///
-        // Returns true if the window is a popup window.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Returns true if the window is a popup window.
+        /// </summary>
         bool IsPopup { get; }
 
-        ///
-        // Returns true if a document has been loaded in the browser.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Returns true if a document has been loaded in the browser.
+        /// </summary>
         bool HasDocument { get; }
 
-        ///
-        // Returns the main (top-level) frame for the browser window.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Returns the main (top-level) frame for the browser window.
+        /// </summary>
         IFrame MainFrame { get; }
 
-        ///
-        // Returns the focused frame for the browser window.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Returns the focused frame for the browser window.
+        /// </summary>
         IFrame FocusedFrame { get; }
 
-        ///
-        // Returns the frame with the specified identifier, or NULL if not found.
-        ///
-        /*--cef(capi_name=get_frame_byident)--*/
+        /// <summary>
+        /// Returns the frame with the specified identifier, or NULL if not found.
+        /// </summary>
+        /// <param name="identifier">identifier</param>
+        /// <returns>frame or null</returns>
         IFrame GetFrame(Int64 identifier);
 
-        ///
-        // Returns the frame with the specified name, or NULL if not found.
-        ///
-        /*--cef(optional_param=name)--*/
+        /// <summary>
+        /// Returns the frame with the specified name, or NULL if not found.
+        /// </summary>
+        /// <param name="name">name of frame</param>
+        /// <returns>frame or null</returns>
         IFrame GetFrame(string name);
 
-        ///
-        // Returns the number of frames that currently exist.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Returns the number of frames that currently exist.
+        /// </summary>
+        /// <returns></returns>
         int GetFrameCount();
 
-        ///
-        // Returns the identifiers of all existing frames.
-        ///
-        /*--cef(count_func=identifiers:GetFrameCount)--*/
+        /// <summary>
+        /// Returns the identifiers of all existing frames.
+        /// </summary>
+        /// <returns>list of frame identifiers</returns>
         List<Int64> GetFrameIdentifiers();
 
-        ///
-        // Returns the names of all existing frames.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Returns the names of all existing frames.
+        /// </summary>
+        /// <returns>frame names</returns>
         List<string> GetFrameNames();
 
         //

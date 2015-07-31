@@ -78,6 +78,7 @@ namespace CefSharp.OffScreen
         /// </summary>
         /// <param name="address">Initial address (url) to load</param>
         /// <param name="browserSettings">The browser settings to use. If null, the default settings are used.</param>
+        /// <param name="requestcontext">See <see cref="RequestContext"/> for more details. Defaults to null</param>
         public ChromiumWebBrowser(string address = "", BrowserSettings browserSettings = null, RequestContext requestcontext = null)
         {
             if (!Cef.IsInitialized && !Cef.Initialize())
@@ -375,6 +376,13 @@ namespace CefSharp.OffScreen
                 handler(this, new LoadErrorEventArgs(frame, errorCode, errorText, failedUrl));
             }
         }
+
+        IBrowserAdapter IWebBrowserInternal.BrowserAdapter
+        {
+            get { return managedCefBrowserAdapter;}
+        }
+
+        bool IWebBrowserInternal.HasParent { get; set; }
 
         void IWebBrowserInternal.OnStatusMessage(string value)
         {
