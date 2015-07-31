@@ -11,7 +11,6 @@
 #include "TypeUtils.h"
 #include "Stdafx.h"
 #include "JavascriptRootObjectWrapper.h"
-#include "Async/JavascriptAsyncRootObjectWrapper.h"
 #include "Async/JavascriptAsyncMethodCallback.h"
 
 using namespace CefSharp::Internals;
@@ -29,19 +28,6 @@ namespace CefSharp
     {
     private:
         MCefRefPtr<CefBrowser> _cefBrowser;
-        Dictionary<int64, JavascriptAsyncMethodCallback^>^ _methodCallbacks;
-        int64 _lastCallback;
-        JavascriptCallbackRegistry^ _callbackRegistry;
-        JavascriptRootObjectWrapper^ _javascriptRootObjectWrapper;
-        JavascriptAsyncRootObjectWrapper^ _javascriptAsyncRootObjectWrapper;
-
-        int64 SaveMethodCallback(JavascriptAsyncMethodCallback^ callback);
-
-    internal:
-        property JavascriptCallbackRegistry^ CallbackRegistry
-        {
-            CefSharp::Internals::JavascriptCallbackRegistry^ get();
-        }
 
     public:
         CefBrowserWrapper(CefRefPtr<CefBrowser> cefBrowser)
@@ -49,8 +35,6 @@ namespace CefSharp
             _cefBrowser = cefBrowser;
             BrowserId = cefBrowser->GetIdentifier();
             IsPopup = cefBrowser->IsPopup();
-            _callbackRegistry = gcnew JavascriptCallbackRegistry(BrowserId);
-            _methodCallbacks = gcnew Dictionary<int64, JavascriptAsyncMethodCallback^>();
         }
         
         !CefBrowserWrapper()
@@ -61,10 +45,11 @@ namespace CefSharp
         ~CefBrowserWrapper()
         {
             this->!CefBrowserWrapper();
-            if (_callbackRegistry != nullptr)
+
+            if (JavascriptRootObjectWrapper != nullptr)
             {
-                delete _callbackRegistry;
-                _callbackRegistry = nullptr;
+                delete JavascriptRootObjectWrapper;
+                JavascriptRootObjectWrapper = nullptr;
             }
         }
 
@@ -80,21 +65,9 @@ namespace CefSharp
         // The serialized registered object data waiting to be used.
         property JavascriptRootObject^ JavascriptRootObject;
 
-        property JavascriptRootObjectWrapper^ JavascriptRootObjectWrapper 
-        {
-            CefSharp::JavascriptRootObjectWrapper^ get();
-            void set(CefSharp::JavascriptRootObjectWrapper^ value);
-        };
-
-        property JavascriptAsyncRootObjectWrapper^ JavascriptAsyncRootObjectWrapper
-        {
-            CefSharp::Internals::Async::JavascriptAsyncRootObjectWrapper^ get();
-            void set(CefSharp::Internals::Async::JavascriptAsyncRootObjectWrapper^ value);
-        };
+        property JavascriptRootObjectWrapper^ JavascriptRootObjectWrapper;
 
         // The WCF proxy to the parent process.
         property IBrowserProcess^ BrowserProcess;
-
-        bool TryGetAndRemoveMethodCallback(int64 id, JavascriptAsyncMethodCallback^% callback);
     };
 }

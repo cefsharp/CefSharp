@@ -18,37 +18,28 @@ namespace CefSharp
             {
             private:
                 initonly List<JavascriptAsyncMethodWrapper^>^ _wrappedMethods;
+                Func<JavascriptAsyncMethodCallback^, int64>^ _methodCallbackSave;
+                JavascriptCallbackRegistry^ _callbackRegistry;
                 JavascriptObject^ _object;
 
-            internal:
-                Func<JavascriptAsyncMethodCallback^, int64>^ MethodCallbackSave;
-                JavascriptCallbackRegistry^ CallbackRegistry;
-                MCefRefPtr<CefV8Value> PromiseCreator;
-
             public:
-                JavascriptAsyncObjectWrapper(JavascriptObject^ object)
-                    :_object(object), _wrappedMethods(gcnew List<JavascriptAsyncMethodWrapper^>())
+                JavascriptAsyncObjectWrapper(JavascriptObject^ object, JavascriptCallbackRegistry^ callbackRegistry, Func<JavascriptAsyncMethodCallback^, int64>^ saveMethod)
+                    :_object(object), _wrappedMethods(gcnew List<JavascriptAsyncMethodWrapper^>()), _methodCallbackSave(saveMethod), _callbackRegistry(callbackRegistry)
                 {
 
-                }
-
-                !JavascriptAsyncObjectWrapper()
-                {
-                    PromiseCreator = nullptr;
                 }
 
                 ~JavascriptAsyncObjectWrapper()
                 {
-                    this->!JavascriptAsyncObjectWrapper();
-                    CallbackRegistry = nullptr;
-
+                    _callbackRegistry = nullptr;
+                    _methodCallbackSave = nullptr;
                     for each (JavascriptAsyncMethodWrapper^ var in _wrappedMethods)
                     {
                         delete var;
                     }
                 }
 
-                void Bind(const CefRefPtr<CefV8Value> &value);
+                void Bind(const CefRefPtr<CefV8Value> &value, const CefRefPtr<CefV8Value> &promiseCreator);
             };
         }
     }

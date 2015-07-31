@@ -22,14 +22,15 @@ using namespace CefSharp::Internals::Serialization;
 
 namespace CefSharp
 {
-	const CefString CefAppUnmanagedWrapper::kPromiseCreatorScript = ""
-		"function cefsharp_CreatePromise() {"
-		"   var object = {};"
-		"   var promise = new Promise(function(resolve, reject) {"
-		"       object.resolve = resolve;object.reject = reject;"
-		"   });"
-		"   return{ p: promise, res : object.resolve,  rej: object.reject};"
-		"}";
+	const CefString CefAppUnmanagedWrapper::kPromiseCreatorFunction = "cefsharp_CreatePromise";
+    const CefString CefAppUnmanagedWrapper::kPromiseCreatorScript = ""
+    	"function cefsharp_CreatePromise() {"
+    	"   var object = {};"
+    	"   var promise = new Promise(function(resolve, reject) {"
+    	"       object.resolve = resolve;object.reject = reject;"
+    	"   });"
+    	"   return{ p: promise, res : object.resolve,  rej: object.reject};"
+    	"}";
 
     CefRefPtr<CefRenderProcessHandler> CefAppUnmanagedWrapper::GetRenderProcessHandler()
     {
@@ -63,20 +64,10 @@ namespace CefSharp
         auto wrapper = FindBrowserWrapper(browser->GetIdentifier(), true);
         auto window = context->GetGlobal();
 
-        if (wrapper->JavascriptRootObject != nullptr)
+        if (wrapper->JavascriptRootObject != nullptr || wrapper->JavascriptAsyncRootObject != nullptr)
         {
-            wrapper->JavascriptRootObjectWrapper = gcnew JavascriptRootObjectWrapper(wrapper->JavascriptRootObject, wrapper->BrowserProcess);
-
-            wrapper->JavascriptRootObjectWrapper->V8Value = window;
-            wrapper->JavascriptRootObjectWrapper->Bind();
-        }
-
-        if (wrapper->JavascriptAsyncRootObject != nullptr)
-        {
-            wrapper->JavascriptAsyncRootObjectWrapper = gcnew JavascriptAsyncRootObjectWrapper(wrapper->JavascriptAsyncRootObject);
-
-            wrapper->JavascriptAsyncRootObjectWrapper->V8Value = window;
-            wrapper->JavascriptAsyncRootObjectWrapper->Bind();
+            wrapper->JavascriptRootObjectWrapper = gcnew JavascriptRootObjectWrapper(browser->GetIdentifier(), wrapper->JavascriptRootObject, wrapper->JavascriptAsyncRootObject, wrapper->BrowserProcess);
+    		wrapper->JavascriptRootObjectWrapper->Bind(window);
         }
     };
 
@@ -155,6 +146,8 @@ namespace CefSharp
             return true;
         }
     
+		auto rootObjectWrapper = browserWrapper->JavascriptRootObjectWrapper;
+		auto callbackRegistry = rootObjectWrapper != nullptr ? rootObjectWrapper->CallbackRegistry : nullptr;
         //these messages are roughly handled the same way
         if (name == kEvaluateJavascriptRequest || name == kJavascriptCallbackRequest)
         {
@@ -188,7 +181,7 @@ namespace CefSharp
                             if (success)
                             {
                                 auto responseArgList = response->GetArgumentList();
-                                SerializeV8Object(result, responseArgList, 2, browserWrapper->CallbackRegistry);
+                                SerializeV8Object(result, responseArgList, 2, callbackRegistry);
                             }
                             else
                             {
@@ -222,7 +215,6 @@ namespace CefSharp
 
                 response = CefProcessMessage::Create(kJavascriptCallbackResponse);
 
-                auto callbackRegistry = browserWrapper->CallbackRegistry;
                 auto callbackWrapper = callbackRegistry->FindWrapper(jsCallbackId);
                 auto context = callbackWrapper->GetContext();
                 auto value = callbackWrapper->GetValue();
@@ -238,7 +230,7 @@ namespace CefSharp
                         if (success)
                         {
                             auto responseArgList = response->GetArgumentList();
-                            SerializeV8Object(result, responseArgList, 2, browserWrapper->CallbackRegistry);
+                            SerializeV8Object(result, responseArgList, 2, callbackRegistry);
                         }
                         else
                         {
@@ -277,7 +269,7 @@ namespace CefSharp
         else if (name == kJavascriptCallbackDestroyRequest)
         {
             auto jsCallbackId = GetInt64(argList, 0);
-            browserWrapper->CallbackRegistry->Deregister(jsCallbackId);
+            callbackRegistry->Deregister(jsCallbackId);
 
             handled = true;
         }
@@ -286,11 +278,11 @@ namespace CefSharp
             browserWrapper->JavascriptAsyncRootObject = DeserializeJsObject(argList, 0);
             handled = true;
         }
-        else if (name == kJavascriptAsyncMethodCallResponse)
+        else if (name == kJavascriptAsyncMethodCallResponse && rootObjectWrapper != nullptr)
         {
             auto callbackId = GetInt64(argList, 0);
             JavascriptAsyncMethodCallback^ callback;
-            if (browserWrapper->TryGetAndRemoveMethodCallback(callbackId, callback))
+			if (rootObjectWrapper->TryGetAndRemoveMethodCallback(callbackId, callback))
             {
                 auto success = argList->GetBool(1);
                 if (success)
