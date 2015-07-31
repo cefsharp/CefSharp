@@ -45,16 +45,15 @@ namespace CefSharp
         /// </summary>
         //char16 character { get; set; }
 
-        ///
+        //
         // Same as |character| but unmodified by any concurrently-held modifiers
         // (except shift). This is useful for working out shortcut keys.
-        ///
+        //
         //char16 unmodified_character { get; set; }
 
-        ///
-        // True if the focus is currently on an editable field on the page. This is
-        // useful for determining if standard key events should be intercepted.
-        ///
+        /// <summary>
+        /// True if the focus is currently on an editable field on the page. This is useful for determining if standard key events should be intercepted.
+        /// </summary>
         public bool FocusOnEditableField { get; set; }
     }
 }

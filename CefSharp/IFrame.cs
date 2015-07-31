@@ -72,9 +72,9 @@ namespace CefSharp
         Task<string> GetTextAsync();
 
         // TODO: Expose a public constructor to CefRequestWrapper maybe?
-        ///
+        //
         // Load the request represented by the |request| object.
-        ///
+        //
         /*--cef()--*/
         //virtual void LoadRequest(CefRequestWrapper^ request) = 0;
 
