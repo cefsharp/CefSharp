@@ -12,70 +12,63 @@ namespace CefSharp
     /// </summary>
     public interface IFrame : IDisposable
     {
+        /// <summary>
+        /// True if this object is currently attached to a valid frame.
+        /// </summary>
         bool IsValid { get; }
 
-        ///
-        // Execute undo in this frame.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Execute undo in this frame.
+        /// </summary>
         void Undo();
 
-        ///
-        // Execute redo in this frame.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Execute redo in this frame.
+        /// </summary>
         void Redo();
 
-        ///
-        // Execute cut in this frame.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Execute cut in this frame.
+        /// </summary>
         void Cut();
 
-        ///
-        // Execute copy in this frame.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Execute copy in this frame.
+        /// </summary>
         void Copy();
 
-        ///
-        // Execute paste in this frame.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Execute paste in this frame.
+        /// </summary>
         void Paste();
 
-        ///
-        // Execute delete in this frame.
-        ///
-        /*--cef(capi_name=del)--*/
+        /// <summary>
+        /// Execute delete in this frame.
+        /// </summary>
         void Delete();
 
-        ///
-        // Execute select all in this frame.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Execute select all in this frame.
+        /// </summary>
         void SelectAll();
 
-        ///
-        // Save this frame's HTML source to a temporary file and open it in the
-        // default text viewing application. This method can only be called from the
-        // browser process.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Save this frame's HTML source to a temporary file and open it in the
+        /// default text viewing application. This method can only be called from the
+        /// browser process.
+        /// </summary>
         void ViewSource();
 
-        ///
-        // Retrieve this frame's HTML source as a string sent to the specified
-        // visitor.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Retrieve this frame's HTML source as a string sent to the specified visitor.
+        /// </summary>
+        /// <returns></returns>
         Task<string> GetSourceAsync();
 
-        ///
-        // Retrieve this frame's display text as a string sent to the specified
-        // visitor.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Retrieve this frame's display text as a string sent to the specified visitor.
+        /// </summary>
+        /// <returns></returns>
         Task<string> GetTextAsync();
 
         // TODO: Expose a public constructor to CefRequestWrapper maybe?
@@ -85,78 +78,75 @@ namespace CefSharp
         /*--cef()--*/
         //virtual void LoadRequest(CefRequestWrapper^ request) = 0;
 
-        ///
-        // Load the specified |url|.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Load the specified url.
+        /// </summary>
+        /// <param name="url">url to be loaded in the frame</param>
         void LoadUrl(String url);
 
-        ///
-        // Load the contents of |html| with the specified dummy |url|. |url|
-        // should have a standard scheme (for example, http scheme) or behaviors like
-        // link clicks and web security restrictions may not behave as expected.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Load the contents of html with the specified dummy url.
+        /// </summary>
+        /// <param name="html">html to be loaded</param>
+        /// <param name="url"> should have a standard scheme (for example, http scheme) or behaviors like 
+        /// link clicks and web security restrictions may not behave as expected.</param>
         void LoadStringForUrl(String html, String url);
 
-        ///
-        // Execute a string of JavaScript code in this frame. The |script_url|
-        // parameter is the URL where the script in question can be found, if any.
-        // The renderer may request this URL to show the developer the source of the
-        // error.  The |start_line| parameter is the base line number to use for error
-        // reporting.
-        ///
-        /*--cef(optional_param=script_url)--*/
+        /// <summary>
+        /// Execute a string of JavaScript code in this frame.
+        /// </summary>
+        /// <param name="code">Javascript to execute</param>
+        /// <param name="scriptUrl">is the URL where the script in question can be found, if any.
+        /// The renderer may request this URL to show the developer the source of the error.</param>
+        /// <param name="startLine">is the base line number to use for error reporting.</param>
         void ExecuteJavaScriptAsync(string code, string scriptUrl = "about:blank", int startLine = 0);
 
+        /// <summary>
+        /// Execute some Javascript code in the context of this WebBrowser, and return the result of the evaluation
+        /// in an Async fashion
+        /// </summary>
+        /// <param name="script">The Javascript code that should be executed.</param>
+        /// <param name="timeout">The timeout after which the Javascript code execution should be aborted.</param>
+        /// <returns>A Task that can be awaited to perform the script execution</returns>
         Task<JavascriptResponse> EvaluateScriptAsync(string script, TimeSpan? timeout);
 
-        ///
-        // Returns true if this is the main (top-level) frame.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Returns true if this is the main (top-level) frame.
+        /// </summary>
         bool IsMain { get;  }
 
-        ///
-        // Returns true if this is the focused frame.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Returns true if this is the focused frame.
+        /// </summary>
         bool IsFocused { get; }
 
-
-        ///
-        // Returns the name for this frame. If the frame has an assigned name (for
-        // example, set via the iframe "name" attribute) then that value will be
-        // returned. Otherwise a unique name will be constructed based on the frame
-        // parent hierarchy. The main (top-level) frame will always have an empty name
-        // value.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Returns the name for this frame. If the frame has an assigned name (for
+        /// example, set via the iframe "name" attribute) then that value will be
+        /// returned. Otherwise a unique name will be constructed based on the frame
+        /// parent hierarchy. The main (top-level) frame will always have an empty name
+        /// value.
+        /// </summary>
         string Name { get; }
 
-        ///
-        // Returns the globally unique identifier for this frame.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Returns the globally unique identifier for this frame.
+        /// </summary>
         Int64 Identifier { get;  }
 
-        ///
-        // Returns the parent of this frame or NULL if this is the main (top-level)
-        // frame.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Returns the parent of this frame or NULL if this is the main (top-level) frame.
+        /// </summary>
         IFrame Parent { get; }
 
-        ///
-        // Returns the URL currently loaded in this frame.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Returns the URL currently loaded in this frame.
+        /// </summary>
         string Url { get; }
 
-        ///
-        // Returns the browser that this frame belongs to.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Returns the browser that this frame belongs to.
+        /// </summary>
         IBrowser Browser { get; }
     }
 }
