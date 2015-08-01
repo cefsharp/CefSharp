@@ -17,6 +17,7 @@ namespace CefSharp
     {
     private:
         List<CefCustomScheme^>^ _cefCustomSchemes;
+        List<CefExtension^>^ _cefExtensions;
         IDictionary<String^, String^>^ _cefCommandLineArgs;
 
     internal:
@@ -29,6 +30,7 @@ namespace CefSharp
             _cefSettings->no_sandbox = true;
             BrowserSubprocessPath = "CefSharp.BrowserSubprocess.exe";
             _cefCustomSchemes = gcnew List<CefCustomScheme^>();
+            _cefExtensions = gcnew List<CefExtension^>();
             _cefCommandLineArgs = gcnew Dictionary<String^, String^>();
 
             //Automatically discovered and load a system-wide installation of Pepper Flash.
@@ -48,6 +50,11 @@ namespace CefSharp
         virtual property IEnumerable<CefCustomScheme^>^ CefCustomSchemes
         {
             IEnumerable<CefCustomScheme^>^ get() { return _cefCustomSchemes; }
+        }
+
+        virtual property IEnumerable<CefExtension^>^ Extensions
+        {
+            IEnumerable<CefExtension^>^ get() { return _cefExtensions; }
         }
 
         virtual property IDictionary<String^, String^>^ CefCommandLineArgs
@@ -98,7 +105,7 @@ namespace CefSharp
         {
             String^ get() { return StringUtils::ToClr(_cefSettings->resources_dir_path); }
             void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->resources_dir_path, value); }
-        }		
+        }
 
         virtual property String^ LogFile
         {
@@ -167,6 +174,19 @@ namespace CefSharp
         void RegisterScheme(CefCustomScheme^ cefCustomScheme)
         {
             _cefCustomSchemes->Add(cefCustomScheme);
+        }
+
+        /// <summary>
+        /// Registers an extension with the provided settings.
+        /// </summary>
+        /// <param name="extenson">The CefExtension that contains the extension code.</param>
+        void RegisterExtension(CefExtension^ extension)
+        {
+            if (_cefExtensions->Contains(extension))
+            {
+                throw gcnew ArgumentException("An extension with the same name is already registered.", "extension");
+            }
+            _cefExtensions->Add(extension);
         }
     };
 }
