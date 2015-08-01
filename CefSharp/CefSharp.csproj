@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CefDirtyRect.cs" />
+    <Compile Include="CefExtension.cs" />
     <Compile Include="CefFileDialogMode.cs" />
     <Compile Include="CefJsDialogType.cs" />
     <Compile Include="KeyEvent.cs" />
