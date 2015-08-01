@@ -59,7 +59,7 @@ namespace CefSharp
     };
 
     void CefAppUnmanagedWrapper::OnContextReleased(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
-    {
+    { 
         auto wrapper = FindBrowserWrapper(browser->GetIdentifier(), true);
 
         if (wrapper->JavascriptRootObjectWrapper != nullptr)
@@ -131,7 +131,7 @@ namespace CefSharp
 
             return true;
         }
-
+    
         //these messages are roughly handled the same way
         if (name == kEvaluateJavascriptRequest || name == kJavascriptCallbackRequest)
         {
@@ -153,14 +153,14 @@ namespace CefSharp
                 if (frame.get())
                 {
                     auto context = frame->GetV8Context();
-
+                    
                     if (context.get() && context->Enter())
                     {
                         try
                         {
                             CefRefPtr<CefV8Exception> exception;
                             success = context->Eval(script, result, exception);
-
+                            
                             //we need to do this here to be able to store the v8context
                             if (success)
                             {
@@ -202,14 +202,14 @@ namespace CefSharp
                 auto callbackWrapper = callbackRegistry->FindWrapper(jsCallbackId);
                 auto context = callbackWrapper->GetContext();
                 auto value = callbackWrapper->GetValue();
-
+                
                 if (context.get() && context->Enter())
                 {
                     try
                     {
                         result = value->ExecuteFunction(nullptr, params);
                         success = result.get() != nullptr;
-
+                        
                         //we need to do this here to be able to store the v8context
                         if (success)
                         {
@@ -219,7 +219,7 @@ namespace CefSharp
                         else
                         {
                             auto exception = value->GetException();
-                            if (exception.get())
+                            if(exception.get())
                             {
                                 errorMessage = exception->GetMessage();
                             }
@@ -232,8 +232,8 @@ namespace CefSharp
                 }
                 else
                 {
-                    errorMessage = "Unable to Enter Context";
-                }
+                    errorMessage = "Unable to Enter Context";			
+                }                
             }
 
             if (response.get())
