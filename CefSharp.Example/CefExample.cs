@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
+using CefSharp.Example.Properties;
 using CefSharp.Example.Proxy;
 
 namespace CefSharp.Example
@@ -89,6 +90,11 @@ namespace CefSharp.Example
             {
                 SchemeName = CefSharpSchemeHandlerFactory.SchemeName,
                 SchemeHandlerFactory = new CefSharpSchemeHandlerFactory()
+            });
+
+            settings.RegisterExtension(new CefExtension("cefsharp/example")
+            {
+                JavascriptCode = Resources.extension
             });
 
             Cef.OnContextInitialized = delegate
