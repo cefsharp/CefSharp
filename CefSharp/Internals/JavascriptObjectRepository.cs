@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Collections;
 
 namespace CefSharp.Internals
 {
@@ -206,6 +207,45 @@ namespace CefSharp.Internals
                 return;
             }
 
+            var dict = obj.Value as IDictionary;
+            if (dict != null)
+            {
+                // in case of dictionary, add each key/value pair as read only property of obj                              
+                foreach (DictionaryEntry dictionaryEntry in dict)
+                {
+                    var propertyName = dictionaryEntry.Key.ToString();
+                    var propertyValue = dictionaryEntry.Value;                    
+
+                    var jsProperty = new JavascriptProperty();
+                    jsProperty.ManagedName = propertyName;
+                    jsProperty.JavascriptName = LowercaseFirst(propertyName);
+                    jsProperty.SetValue = (o, v) => { };
+                    jsProperty.GetValue = (o) => propertyValue;
+
+                    jsProperty.IsComplexType = IsComplexType(propertyValue.GetType());
+                    jsProperty.IsReadOnly = true;
+
+                    if (jsProperty.IsComplexType)
+                    {
+                        var jsObject = CreateJavascriptObject();
+                        jsObject.Name = propertyName;
+                        jsObject.JavascriptName = LowercaseFirst(propertyName);
+                        jsObject.Value = jsProperty.GetValue(obj.Value);
+                        jsProperty.JsObject = jsObject;
+
+                        AnalyseObjectForBinding(jsProperty.JsObject, analyseMethods, readPropertyValue);
+                    }
+                    else
+                    {
+                        jsProperty.PropertyValue = jsProperty.GetValue(obj.Value);
+                    }
+
+                    obj.Properties.Add(jsProperty);
+                }
+
+                return;
+            }
+
             if (analyseMethods)
             {
                 foreach (var methodInfo in type.GetMethods(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
@@ -288,6 +328,11 @@ namespace CefSharp.Internals
             if (nullable)
             {
                 baseType = Nullable.GetUnderlyingType(type);
+            }
+
+            if (baseType != null && baseType.Namespace.StartsWith("System.Collections"))
+            {
+                return true;
             }
 
             if (baseType == null || baseType.Namespace.StartsWith("System"))
