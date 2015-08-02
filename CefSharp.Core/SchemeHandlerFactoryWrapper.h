@@ -7,6 +7,7 @@
 #include "Stdafx.h"
 #include "include/cef_scheme.h"
 #include "Internals/AutoLock.h"
+#include "include/wrapper/cef_stream_resource_handler.h"
 
 using namespace System;
 using namespace System::IO;
@@ -43,6 +44,15 @@ namespace CefSharp
                 delete frameWrapper;
                 delete requestWrapper;
                 return NULL;
+            }
+
+            if (handler->GetType() == ResourceHandler::typeid)
+            {
+                auto resourceHandler = static_cast<ResourceHandler^>(handler);
+                if (resourceHandler->Type == ResourceHandlerType::File)
+                {
+                    return new CefStreamResourceHandler(StringUtils::ToNative(resourceHandler->MimeType), CefStreamReader::CreateForFile(StringUtils::ToNative(resourceHandler->FilePath)));
+                }
             }
 
             return new ResourceHandlerWrapper(handler, browserWrapper, frameWrapper, requestWrapper);
