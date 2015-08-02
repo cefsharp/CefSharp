@@ -17,22 +17,29 @@ namespace CefSharp
         public string Name { get; private set; }
 
         /// <summary>
-        /// Gets or sets the javascript extension code
+        /// Gets the javascript extension code
         /// </summary>
-        public string JavascriptCode { get; set; }
+        public string JavascriptCode { get; private set; }
 
         /// <summary>
         /// Creates a new CwefExtension instance with a given name.
         /// </summary>
         /// <param name="name">Name of the CefExtension</param>
-        public CefExtension(string name)
+        /// <param name="javascriptCode">The javascript extension code.</param>
+        public CefExtension(string name, string javascriptCode)
         {
             if (string.IsNullOrEmpty(name))
             {
                 throw new ArgumentNullException("name");
             }
 
+            if (string.IsNullOrEmpty(javascriptCode))
+            {
+                throw new ArgumentNullException("javascriptCode");
+            }
+
             Name = name;
+            JavascriptCode = javascriptCode;
         }
 
         public override bool Equals(object obj)

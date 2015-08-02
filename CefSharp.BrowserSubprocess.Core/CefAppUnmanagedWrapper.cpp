@@ -268,8 +268,7 @@ namespace CefSharp
         for (size_t i = 0; i < extensionList->GetSize(); i++)
         {
             auto extension = extensionList->GetList(i);
-            auto ext = gcnew CefExtension(StringUtils::ToClr(extension->GetString(0)));
-            ext->JavascriptCode = StringUtils::ToClr(extension->GetString(1));
+            auto ext = gcnew CefExtension(StringUtils::ToClr(extension->GetString(0)), StringUtils::ToClr(extension->GetString(1)));
 
             _extensions->Add(ext);
         }

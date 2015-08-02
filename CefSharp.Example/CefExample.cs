@@ -92,10 +92,7 @@ namespace CefSharp.Example
                 SchemeHandlerFactory = new CefSharpSchemeHandlerFactory()
             });
 
-            settings.RegisterExtension(new CefExtension("cefsharp/example")
-            {
-                JavascriptCode = Resources.extension
-            });
+            settings.RegisterExtension(new CefExtension("cefsharp/example", Resources.extension));
 
             Cef.OnContextInitialized = delegate
             {
