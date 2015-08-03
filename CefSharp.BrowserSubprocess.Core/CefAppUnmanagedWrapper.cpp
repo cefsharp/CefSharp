@@ -300,9 +300,28 @@ namespace CefSharp
         return handled;
     };
 
+    void CefAppUnmanagedWrapper::OnRenderThreadCreated(CefRefPtr<CefListValue> extra_info)
+    {
+        auto extensionList = extra_info->GetList(0);
+
+        for (size_t i = 0; i < extensionList->GetSize(); i++)
+        {
+            auto extension = extensionList->GetList(i);
+            auto ext = gcnew CefExtension(StringUtils::ToClr(extension->GetString(0)), StringUtils::ToClr(extension->GetString(1)));
+
+            _extensions->Add(ext);
+        }
+    }
+
     void CefAppUnmanagedWrapper::OnWebKitInitialized()
     {
         //we need to do this because the builtin Promise object is not accesible
-        CefRegisterExtension("cefsharp/promisecreator", kPromiseCreatorScript, nullptr);
+        CefRegisterExtension("cefsharp/promisecreator", kPromiseCreatorScript, NULL);
+
+        for each(CefExtension^ extension in _extensions->AsReadOnly())
+        {
+            //only support extensions without handlers now
+            CefRegisterExtension(StringUtils::ToNative(extension->Name), StringUtils::ToNative(extension->JavascriptCode), NULL);
+        }
     }
 }

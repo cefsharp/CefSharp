@@ -86,6 +86,22 @@ namespace CefSharp
             }
         };
 
+		virtual void OnRenderProcessThreadCreated(CefRefPtr<CefListValue> extra_info)
+		{
+			auto extensionList = CefListValue::Create();
+
+			auto i = 0;
+			for each(CefExtension^ cefExtension in _cefSettings->Extensions)
+			{
+				auto ext = CefListValue::Create();
+				ext->SetString(0, StringUtils::ToNative(cefExtension->Name));
+				ext->SetString(1, StringUtils::ToNative(cefExtension->JavascriptCode));
+				extensionList->SetList(i++, ext);
+			}
+
+			extra_info->SetList(0, extensionList);
+		}
+
         IMPLEMENT_REFCOUNTING(CefSharpApp)
     };
 }
