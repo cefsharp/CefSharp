@@ -18,7 +18,7 @@ namespace CefSharp
         bool WindowlessRenderingEnabled { get; set; }
         IntPtr WindowHandle { get; set; }
 
-        void SetAsChild(IntPtr parentHandle, int x, int y);
+        void SetAsChild(IntPtr parentHandle, int left, int top, int right, int bottom);
         void SetAsPopup(IntPtr parentHandle, string windowName);
         void SetAsWindowless(IntPtr parentHandle, bool transparent);
     }

@@ -143,11 +143,13 @@ namespace CefSharp
                 }
             }
 
-            virtual void SetAsChild(IntPtr parentHandle, int x, int y)
+            virtual void SetAsChild(IntPtr parentHandle, int left, int top, int right, int bottom)
             {
                 RECT rect;
-                rect.left = x;
-                rect.top = y;
+                rect.left = left;
+                rect.top = top;
+                rect.right = right;
+                rect.bottom = bottom;
                 _windowInfo->SetAsChild((HWND)parentHandle.ToPointer(), rect);
             }
 
