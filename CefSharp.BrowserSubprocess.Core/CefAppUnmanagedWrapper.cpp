@@ -300,9 +300,9 @@ namespace CefSharp
         return handled;
     };
 
-    void CefAppUnmanagedWrapper::OnRenderThreadCreated(CefRefPtr<CefListValue> extra_info)
+    void CefAppUnmanagedWrapper::OnRenderThreadCreated(CefRefPtr<CefListValue> extraInfo)
     {
-        auto extensionList = extra_info->GetList(0);
+        auto extensionList = extraInfo->GetList(0);
 
         for (size_t i = 0; i < extensionList->GetSize(); i++)
         {

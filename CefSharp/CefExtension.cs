@@ -44,7 +44,10 @@ namespace CefSharp
 
         public override bool Equals(object obj)
         {
-            if (obj == null || GetType() != obj.GetType()) return false;
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
             var ext = (CefExtension)obj;
             return Name.Equals(ext.Name);
         }

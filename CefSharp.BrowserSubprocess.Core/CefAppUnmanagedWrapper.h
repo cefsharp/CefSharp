@@ -33,7 +33,7 @@ namespace CefSharp
             _onBrowserCreated = onBrowserCreated;
             _onBrowserDestroyed = onBrowserDestoryed;
             _browserWrappers = gcnew Dictionary<int, CefBrowserWrapper^>();
-			_extensions = gcnew List<CefExtension^>();
+            _extensions = gcnew List<CefExtension^>();
         }
 
         ~CefAppUnmanagedWrapper()
@@ -41,7 +41,7 @@ namespace CefSharp
             delete _browserWrappers;
             delete _onBrowserCreated;
             delete _onBrowserDestroyed;
-			delete _extensions;
+            delete _extensions;
         }
 
         CefBrowserWrapper^ FindBrowserWrapper(int browserId, bool mustExist);
@@ -52,8 +52,8 @@ namespace CefSharp
         virtual DECL void OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context) OVERRIDE;
         virtual DECL void OnContextReleased(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context) OVERRIDE;
         virtual DECL bool OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcessId sourceProcessId, CefRefPtr<CefProcessMessage> message) OVERRIDE;
-		virtual DECL void OnRenderThreadCreated(CefRefPtr<CefListValue> extra_info) OVERRIDE;
-		virtual DECL void OnWebKitInitialized() OVERRIDE;
+        virtual DECL void OnRenderThreadCreated(CefRefPtr<CefListValue> extraInfo) OVERRIDE;
+        virtual DECL void OnWebKitInitialized() OVERRIDE;
 
         IMPLEMENT_REFCOUNTING(CefAppUnmanagedWrapper);
     };
