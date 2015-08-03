@@ -50,7 +50,7 @@ namespace CefSharp
             /// </summary>
             /// <param name="str">The List of strings that should be converted.</param>
             /// <returns>An unmanaged representation of the provided List of strings, or an empty List if the input is a nullptr.</returns>
-            static std::vector<CefString> ToNative(List<String^>^ str);
+            static std::vector<CefString> ToNative(IEnumerable<String^>^ str);
 
             /// <summary>
             /// Assigns the provided cef_string_t object from the given .NET string.
