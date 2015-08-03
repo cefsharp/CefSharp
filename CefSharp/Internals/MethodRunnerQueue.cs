@@ -28,7 +28,9 @@ namespace CefSharp.Internals
         public void Start()
         {
             if (running)
+            {
                 return;
+            }
 
             lock (lockObject)
             {
@@ -44,7 +46,9 @@ namespace CefSharp.Internals
         public void Stop()
         {
             if (!running)
+            {
                 return;
+            }
 
             lock (lockObject)
             {
@@ -80,6 +84,10 @@ namespace CefSharp.Internals
                     OnMethodInvocationComplete(task.Result);
                 }
             }
+            catch (OperationCanceledException)
+            {
+                // Note: Task has been cancelled
+            }
             finally
             {
                 stopped.Set();
@@ -91,6 +99,7 @@ namespace CefSharp.Internals
             object result = null;
             string exception;
             var success = false;
+
             //make sure we don't throw exceptions in the executor task
             try
             {
@@ -100,6 +109,7 @@ namespace CefSharp.Internals
             {
                 exception = e.Message;
             }
+
             return new MethodInvocationResult
             {
                 CallbackId = methodInvocation.CallbackId,
