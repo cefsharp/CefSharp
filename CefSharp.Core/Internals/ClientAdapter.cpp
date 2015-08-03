@@ -107,7 +107,14 @@ namespace CefSharp
                     newBrowserInternal->HasParent = true;
 
                     auto renderBrowser = dynamic_cast<IRenderWebBrowser^>(newBrowser);
-                    if (renderBrowser != nullptr)
+                    if (renderBrowser == nullptr)
+                    {
+                        HWND hwnd = (HWND)newBrowserInternal->ControlHandle.ToPointer();
+                        RECT rect;
+                        GetClientRect(hwnd, &rect);
+                        windowInfo.SetAsChild(hwnd, rect);
+                    }
+                    else
                     {
                         windowInfo.SetAsWindowless(windowInfo.parent_window, TRUE);
                     }
