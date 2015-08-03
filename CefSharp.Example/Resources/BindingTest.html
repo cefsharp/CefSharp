@@ -30,7 +30,7 @@
             
                 function asyncError()
                 {
-                    var call = "Async call: " + Date();
+                    var call = "Async call (Throw Exception): " + Date();
                     boundAsync.error().catch(function (e)
                     {
                         var end = "Error: " + e + "(" + Date() + ")";
@@ -40,7 +40,7 @@
             
                 function asyncDivOk()
                 {
-                    var call = "Async call: " + Date();
+                    var call = "Async call (Divide 16 / 2): " + Date();
                     boundAsync.div(16, 2).then(function (res)
                     {
                         var end = "Result: " + res + "(" + Date() + ")";
@@ -50,7 +50,7 @@
             
                 function asyncDivFail()
                 {
-                    var call = "Async call: " + Date();
+                    var call = "Async call (Divide 16 /0): " + Date();
                     boundAsync.div(16, 0).then(function (res)
                     {
                         var end = "Result: " + res + "(" + Date() + ")";
@@ -65,7 +65,7 @@
             
                 function asyncHello()
                 {
-                    var call = "Async call: " + Date();
+                    var call = "Async call (Hello): " + Date();
                     boundAsync.hello('CefSharp').then(function (res)
                     {
                         var end = "Result: " + res + "(" + Date() + ")";
@@ -75,7 +75,7 @@
             
                 function asyncDoSomething()
                 {
-                    var call = "Async call: " + Date();
+                    var call = "Async call (Long Running Task): " + Date();
                     boundAsync.doSomething().then(function (res)
                     {
                         var end = "Result: " + res + "(" + Date() + ")";
