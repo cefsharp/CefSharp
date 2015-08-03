@@ -392,6 +392,11 @@ namespace CefSharp.Wpf
 
         bool IWebBrowserInternal.HasParent { get; set; }
 
+        IntPtr IWebBrowserInternal.ControlHandle
+        {
+            get { return source == null ? IntPtr.Zero : source.Handle; }
+        }
+
         void IWebBrowserInternal.OnAfterBrowserCreated()
         {
             browserInitialized = true;
@@ -746,12 +751,6 @@ namespace CefSharp.Wpf
 
             return operations;
         }
-
-        
-
-        
-
-        
 
         private void PresentationSourceChangedHandler(object sender, SourceChangedEventArgs args)
         {

@@ -383,6 +383,11 @@ namespace CefSharp.OffScreen
         }
 
         bool IWebBrowserInternal.HasParent { get; set; }
+        
+        IntPtr IWebBrowserInternal.ControlHandle
+        {
+            get { return IntPtr.Zero; }
+        }
 
         void IWebBrowserInternal.OnStatusMessage(string value)
         {
