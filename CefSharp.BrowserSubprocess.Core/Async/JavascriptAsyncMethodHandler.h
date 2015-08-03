@@ -14,7 +14,7 @@ namespace CefSharp
     {
         namespace Async
         {
-            class JavascriptAsyncMethodHandler : public virtual CefV8Handler
+            private class JavascriptAsyncMethodHandler : public virtual CefV8Handler
             {
             private:
                 gcroot<JavascriptCallbackRegistry^> _callbackRegistry;

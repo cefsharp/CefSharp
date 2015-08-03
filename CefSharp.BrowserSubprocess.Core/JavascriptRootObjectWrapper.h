@@ -65,9 +65,9 @@ namespace CefSharp
             }
 
             for each (JavascriptObjectWrapper^ var in _wrappedObjects)
-        {
+            {
                 delete var;
-        }
+            }
             _wrappedObjects->Clear();
 
             for each (JavascriptAsyncObjectWrapper^ var in _wrappedAsyncObjects)
