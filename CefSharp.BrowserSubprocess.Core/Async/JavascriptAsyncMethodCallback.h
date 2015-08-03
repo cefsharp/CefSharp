@@ -38,9 +38,9 @@ namespace CefSharp
                     this->!JavascriptAsyncMethodCallback();
                 }
 
-                void Success(CefRefPtr<CefV8Value> result);
+                void Success(const CefRefPtr<CefV8Value>& result);
 
-                void Fail(CefString exception);
+                void Fail(const CefString& exception);
             };
         }
     }

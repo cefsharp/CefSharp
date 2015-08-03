@@ -11,7 +11,7 @@ namespace CefSharp
     {
         namespace Async
         {
-            void JavascriptAsyncMethodCallback::Success(CefRefPtr<CefV8Value> result)
+            void JavascriptAsyncMethodCallback::Success(const CefRefPtr<CefV8Value>& result)
             {
                 if (_resolve.get() && _context.get() && _context->Enter())
                 {
@@ -28,7 +28,7 @@ namespace CefSharp
                 }
             }
 
-            void JavascriptAsyncMethodCallback::Fail(CefString exception)
+            void JavascriptAsyncMethodCallback::Fail(const CefString& exception)
             {
                 if (_reject.get() && _context.get() && _context->Enter())
                 {
