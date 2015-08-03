@@ -24,6 +24,12 @@ namespace CefSharp
             const CefString kJavascriptCallbackDestroyRequest = "JavascriptCallbackDestroyRequest";
             //Message containing the result of a given js function call
             const CefString kJavascriptCallbackResponse = "JavascriptCallbackDoneResponse";
+            //Message containing a js root object for async bindings
+            const CefString kJavascriptAsyncRootObjectRequest = "JavascriptRootObjectRequest";
+            //Message from the render process to request a method invocation on a bound object
+            const CefString kJavascriptAsyncMethodCallRequest = "JavascriptAsyncMethodCallRequest";
+            //Message from the browser process containing the result of a bound method invocation
+            const CefString kJavascriptAsyncMethodCallResponse = "JavascriptAsyncMethodCallResponse";
         }
     }
 }

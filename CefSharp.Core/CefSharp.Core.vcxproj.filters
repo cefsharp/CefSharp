@@ -74,6 +74,9 @@
     <ClCompile Include="Internals\CookieManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Internals\Serialization\ObjectsSerialization.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vcclr_local.h">
@@ -221,6 +224,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RequestContextSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\Serialization\ObjectsSerialization.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Internals\CookieManager.h">

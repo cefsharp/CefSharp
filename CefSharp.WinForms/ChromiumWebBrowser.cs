@@ -160,6 +160,16 @@ namespace CefSharp.WinForms
             managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, camelCaseJavascriptNames);
         }
 
+        public void RegisterAsyncJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true)
+        {
+            if (IsBrowserInitialized)
+            {
+                throw new Exception("Browser is already initialized. RegisterJsObject must be" +
+                                    "called before the underlying CEF browser is created.");
+            }
+            managedCefBrowserAdapter.RegisterAsyncJsObject(name, objectToBind, camelCaseJavascriptNames);
+        }
+
         protected override void OnHandleCreated(EventArgs e)
         {
             managedCefBrowserAdapter.CreateBrowser(BrowserSettings, RequestContext, Handle, Address);

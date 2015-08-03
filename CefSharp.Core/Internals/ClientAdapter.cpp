@@ -21,6 +21,7 @@
 #include "CefWindowInfoWrapper.h"
 #include "Serialization\Primitives.h"
 #include "Serialization\V8Serialization.h"
+#include "Serialization\ObjectsSerialization.h"
 #include "Messaging\Messages.h"
 
 using namespace CefSharp::Internals::Messaging;
@@ -148,6 +149,12 @@ namespace CefSharp
                     //save callback factory for this browser
                     //it's only going to be present after browseradapter is initialized
                     _javascriptCallbackFactories->Add(browser->GetIdentifier(), _browserAdapter->JavascriptCallbackFactory);
+
+                    //transmit async bound objects
+                    auto jsRootObjectMessage = CefProcessMessage::Create(kJavascriptAsyncRootObjectRequest);
+                    auto argList = jsRootObjectMessage->GetArgumentList();
+                    SerializeJsObject(_browserAdapter->JavascriptObjectRepository->AsyncRootObject, argList, 0);
+                    browser->SendProcessMessage(CefProcessId::PID_RENDERER, jsRootObjectMessage);
                 }
 
                 auto handler = _browserControl->LifeSpanHandler;
@@ -887,14 +894,14 @@ namespace CefSharp
         {
             auto handled = false;
             auto name = message->GetName();
+            auto argList = message->GetArgumentList();
+            IJavascriptCallbackFactory^ callbackFactory;
+            _javascriptCallbackFactories->TryGetValue(browser->GetIdentifier(), callbackFactory);
+
             if (name == kEvaluateJavascriptResponse || name == kJavascriptCallbackResponse)
             {
-                auto argList = message->GetArgumentList();
                 auto success = argList->GetBool(0);
                 auto callbackId = GetInt64(argList, 1);
-
-                IJavascriptCallbackFactory^ callbackFactory;
-                _javascriptCallbackFactories->TryGetValue(browser->GetIdentifier(), callbackFactory);
 
                 auto pendingTask = _pendingTaskRepository->RemovePendingTask(callbackId);
                 if (pendingTask != nullptr)
@@ -913,6 +920,26 @@ namespace CefSharp
 
                     pendingTask->SetResult(response);
                 }
+
+                handled = true;
+            }
+            else if (name == kJavascriptAsyncMethodCallRequest)
+            {
+                if (!browser->IsPopup())
+                {
+                    auto objectId = GetInt64(argList, 0);
+                    auto callbackId = GetInt64(argList, 1);
+                    auto methodName = StringUtils::ToClr(argList->GetString(2));
+                    auto arguments = argList->GetList(3);
+                    auto methodInvocation = gcnew MethodInvocation(objectId, methodName, (callbackId > 0 ? Nullable<int64>(callbackId) : Nullable<int64>()));
+                    for (auto i = 0; i < arguments->GetSize(); i++)
+                    {
+                        methodInvocation->Parameters->Add(DeserializeV8Object(arguments, i, callbackFactory));
+                    }
+                    
+                    _browserAdapter->MethodRunnerQueue->Enqueue(methodInvocation);
+                }
+
 
                 handled = true;
             }
@@ -941,6 +968,26 @@ namespace CefSharp
         PendingTaskRepository<JavascriptResponse^>^ ClientAdapter::GetPendingTaskRepository()
         {
             return _pendingTaskRepository;
+        }
+
+        void ClientAdapter::MethodInvocationComplete(MethodInvocationResult^ result)
+        {
+            if (result->CallbackId.HasValue)
+            {
+                auto message = CefProcessMessage::Create(kJavascriptAsyncMethodCallResponse);
+                auto argList = message->GetArgumentList();
+                SetInt64(result->CallbackId.Value, argList, 0);
+                argList->SetBool(1, result->Success);
+                if (result->Success)
+                {
+                    SerializeV8Object(result->Result, argList, 2);
+                }
+                else
+                {
+                    argList->SetString(2, StringUtils::ToNative(result->Message));
+                }
+                _cefBrowser->SendProcessMessage(CefProcessId::PID_RENDERER, message);
+            }
         }
     }
 }

@@ -33,6 +33,7 @@ namespace CefSharp
         IWebBrowserInternal^ _webBrowserInternal;
         JavascriptObjectRepository^ _javaScriptObjectRepository;
         JavascriptCallbackFactory^ _javascriptCallbackFactory;
+        MethodRunnerQueue^ _methodRunnerQueue;
         IBrowser^ _browserWrapper;
         bool _isDisposed;
 
@@ -46,6 +47,8 @@ namespace CefSharp
         // Misc. private functions:
         int GetCefKeyboardModifiers(WPARAM wparam, LPARAM lparam);
         CefMouseEvent GetCefMouseEvent(MouseEvent^ mouseEvent);
+
+        void MethodInvocationComplete(Object^ sender, MethodInvocationCompleteArgs^ e);
 
     internal:
         MCefRefPtr<ClientAdapter> GetClientAdapter();
@@ -64,8 +67,11 @@ namespace CefSharp
             }
 
             _webBrowserInternal = webBrowserInternal;
-            _javaScriptObjectRepository = gcnew JavascriptObjectRepository();
+            _javaScriptObjectRepository = gcnew CefSharp::Internals::JavascriptObjectRepository();
             _javascriptCallbackFactory = gcnew CefSharp::Internals::JavascriptCallbackFactory(_clientAdapter->GetPendingTaskRepository());
+            _methodRunnerQueue = gcnew CefSharp::Internals::MethodRunnerQueue(_javaScriptObjectRepository);
+            _methodRunnerQueue->MethodInvocationComplete += gcnew EventHandler<MethodInvocationCompleteArgs^>(this, &ManagedCefBrowserAdapter::MethodInvocationComplete);
+            _methodRunnerQueue->Start();
         }
 
         !ManagedCefBrowserAdapter()
@@ -84,6 +90,13 @@ namespace CefSharp
 
                 delete _browserWrapper;
                 _browserWrapper = nullptr;
+            }
+
+            if (_methodRunnerQueue != nullptr)
+            {
+                _methodRunnerQueue->MethodInvocationComplete -= gcnew EventHandler<MethodInvocationCompleteArgs^>(this, &ManagedCefBrowserAdapter::MethodInvocationComplete);
+                _methodRunnerQueue->Stop();
+                _methodRunnerQueue = nullptr;
             }
 
             if (CefSharpSettings::WcfEnabled && _browserProcessServiceHost != nullptr)
@@ -114,6 +127,7 @@ namespace CefSharp
         void NotifyMoveOrResizeStarted();
         void NotifyScreenInfoChanged();
         void RegisterJsObject(String^ name, Object^ object, bool lowerCaseJavascriptNames);
+        void RegisterAsyncJsObject(String^ name, Object^ object, bool lowerCaseJavascriptNames);
         void OnDragTargetDragEnter(CefDragDataWrapper^ dragData, MouseEvent^ mouseEvent, DragOperationsMask allowedOperations);
         void OnDragTargetDragOver(MouseEvent^ mouseEvent, DragOperationsMask allowedOperations);
         void OnDragTargetDragLeave();
@@ -128,6 +142,16 @@ namespace CefSharp
         virtual property IJavascriptCallbackFactory^ JavascriptCallbackFactory
         {
             CefSharp::Internals::IJavascriptCallbackFactory^ get();
+        }
+
+        virtual property JavascriptObjectRepository^ JavascriptObjectRepository
+        {
+            CefSharp::Internals::JavascriptObjectRepository^ get();
+        }
+
+        virtual property MethodRunnerQueue^ MethodRunnerQueue
+        {
+            CefSharp::Internals::MethodRunnerQueue^ get();
         }
     };
 }

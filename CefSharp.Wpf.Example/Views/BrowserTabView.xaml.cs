@@ -20,6 +20,7 @@ namespace CefSharp.Wpf.Example.Views
             {
                 browser.RegisterJsObject("bound", new BoundObject());
             }
+            browser.RegisterAsyncJsObject("boundAsync", new AsyncBoundObject());
 
             browser.LifeSpanHandler = new LifespanHandler();
             browser.MenuHandler = new MenuHandler();

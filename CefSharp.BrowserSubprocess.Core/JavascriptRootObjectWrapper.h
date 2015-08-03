@@ -7,12 +7,14 @@
 #include "include/cef_v8.h"
 #include "JavascriptCallbackRegistry.h"
 #include "JavascriptObjectWrapper.h"
+#include "Async/JavascriptAsyncObjectWrapper.h"
 
 using namespace System::Runtime::Serialization;
 using namespace System::Linq;
 using namespace System::Collections::Generic;
 
 using namespace CefSharp::Internals;
+using namespace CefSharp::Internals::Async;
 
 namespace CefSharp
 {
@@ -23,12 +25,18 @@ namespace CefSharp
     public ref class JavascriptRootObjectWrapper
     {
     private:
+        initonly List<JavascriptObjectWrapper^>^ _wrappedObjects;
+        initonly List<JavascriptAsyncObjectWrapper^>^ _wrappedAsyncObjects;
+        initonly Dictionary<int64, JavascriptAsyncMethodCallback^>^ _methodCallbacks;
+        int64 _lastCallback;
         JavascriptRootObject^ _rootObject;
-        List<JavascriptObjectWrapper^>^ _wrappedObjects;
+        JavascriptRootObject^ _asyncRootObject;
         IBrowserProcess^ _browserProcess;
         // The entire set of possible JavaScript functions to
         // call directly into.
         JavascriptCallbackRegistry^ _callbackRegistry;
+
+        int64 SaveMethodCallback(JavascriptAsyncMethodCallback^ callback);
 
     internal:
         property JavascriptCallbackRegistry^ CallbackRegistry
@@ -37,12 +45,15 @@ namespace CefSharp
         }
 
     public:
-        JavascriptRootObjectWrapper(int browserId, JavascriptRootObject^ rootObject, IBrowserProcess^ browserProcess)
+        JavascriptRootObjectWrapper(int browserId, JavascriptRootObject^ rootObject, JavascriptRootObject^ asyncRootObject, IBrowserProcess^ browserProcess)
         {
             _rootObject = rootObject;
+            _asyncRootObject = asyncRootObject;
             _browserProcess = browserProcess;
             _wrappedObjects = gcnew List<JavascriptObjectWrapper^>();
+            _wrappedAsyncObjects = gcnew List<JavascriptAsyncObjectWrapper^>();
             _callbackRegistry = gcnew JavascriptCallbackRegistry(browserId);
+            _methodCallbacks = gcnew Dictionary<int64, JavascriptAsyncMethodCallback^>();
         }
 
         ~JavascriptRootObjectWrapper()
@@ -54,10 +65,25 @@ namespace CefSharp
             }
 
             for each (JavascriptObjectWrapper^ var in _wrappedObjects)
+        {
+                delete var;
+        }
+            _wrappedObjects->Clear();
+
+            for each (JavascriptAsyncObjectWrapper^ var in _wrappedAsyncObjects)
             {
                 delete var;
             }
+            _wrappedAsyncObjects->Clear();
+
+            for each(JavascriptAsyncMethodCallback^ var in _methodCallbacks->Values)
+            {
+                delete var;
+            }
+            _methodCallbacks->Clear();
         }
+
+        bool TryGetAndRemoveMethodCallback(int64 id, JavascriptAsyncMethodCallback^% callback);
 
         void Bind(const CefRefPtr<CefV8Value>& v8Value);
     };

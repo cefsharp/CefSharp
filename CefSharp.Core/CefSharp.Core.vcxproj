@@ -235,6 +235,7 @@
     <ClCompile Include="NativeMethodWrapper.cpp" />
     <ClCompile Include="Internals\Serialization\V8Serialization.cpp" />
     <ClCompile Include="Internals\Serialization\Primitives.cpp" />
+    <ClCompile Include="Internals\Serialization\ObjectsSerialization.cpp" />
     <ClCompile Include="ResourceHandlerWrapper.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -290,6 +291,7 @@
     <ClInclude Include="Internals\Serialization\Primitives.h" />
     <ClInclude Include="RequestContext.h" />
     <ClInclude Include="RequestContextSettings.h" />
+    <ClInclude Include="Internals\Serialization\ObjectsSerialization.h" />
     <ClInclude Include="SchemeHandlerFactoryWrapper.h" />
     <ClInclude Include="ResourceHandlerWrapper.h" />
     <ClInclude Include="CookieAsyncWrapper.h" />

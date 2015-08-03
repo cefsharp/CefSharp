@@ -9,6 +9,8 @@
 #include "CefAppUnmanagedWrapper.h"
 #include "JavascriptRootObjectWrapper.h"
 #include "Serialization\V8Serialization.h"
+#include "Serialization\ObjectsSerialization.h"
+#include "Async/JavascriptAsyncMethodCallback.h"
 #include "..\CefSharp.Core\Internals\Messaging\Messages.h"
 #include "..\CefSharp.Core\Internals\Serialization\Primitives.h"
 
@@ -20,6 +22,16 @@ using namespace CefSharp::Internals::Serialization;
 
 namespace CefSharp
 {
+    const CefString CefAppUnmanagedWrapper::kPromiseCreatorFunction = "cefsharp_CreatePromise";
+    const CefString CefAppUnmanagedWrapper::kPromiseCreatorScript = ""
+        "function cefsharp_CreatePromise() {"
+        "   var object = {};"
+        "   var promise = new Promise(function(resolve, reject) {"
+        "       object.resolve = resolve;object.reject = reject;"
+        "   });"
+        "   return{ p: promise, res : object.resolve,  rej: object.reject};"
+        "}";
+
     CefRefPtr<CefRenderProcessHandler> CefAppUnmanagedWrapper::GetRenderProcessHandler()
     {
         return this;
@@ -51,9 +63,9 @@ namespace CefSharp
     {
         auto wrapper = FindBrowserWrapper(browser->GetIdentifier(), true);
 
-        if (wrapper->JavascriptRootObject != nullptr)
+        if (wrapper->JavascriptRootObject != nullptr || wrapper->JavascriptAsyncRootObject != nullptr)
         {
-            wrapper->JavascriptRootObjectWrapper = gcnew JavascriptRootObjectWrapper(browser->GetIdentifier(), wrapper->JavascriptRootObject, wrapper->BrowserProcess);
+            wrapper->JavascriptRootObjectWrapper = gcnew JavascriptRootObjectWrapper(browser->GetIdentifier(), wrapper->JavascriptRootObject, wrapper->JavascriptAsyncRootObject, wrapper->BrowserProcess);
             wrapper->JavascriptRootObjectWrapper->Bind(context->GetGlobal());
         }
     };
@@ -90,12 +102,12 @@ namespace CefSharp
         auto argList = message->GetArgumentList();
 
         auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier(), false);
-        auto callbackRegistry = browserWrapper->JavascriptRootObjectWrapper->CallbackRegistry;
-
         //Error handling for missing/closed browser
         if (browserWrapper == nullptr)
         {
-            if (name == kJavascriptCallbackDestroyRequest)
+            if (name == kJavascriptCallbackDestroyRequest ||
+                name == kJavascriptAsyncRootObjectRequest ||
+                name == kJavascriptAsyncMethodCallResponse)
             {
                 //If we can't find the browser wrapper then we'll just
                 //ignore this as it's likely already been disposed of
@@ -132,6 +144,8 @@ namespace CefSharp
             return true;
         }
     
+        auto rootObjectWrapper = browserWrapper->JavascriptRootObjectWrapper;
+        auto callbackRegistry = rootObjectWrapper != nullptr ? rootObjectWrapper->CallbackRegistry : nullptr;
         //these messages are roughly handled the same way
         if (name == kEvaluateJavascriptRequest || name == kJavascriptCallbackRequest)
         {
@@ -165,7 +179,7 @@ namespace CefSharp
                             if (success)
                             {
                                 auto responseArgList = response->GetArgumentList();
-                                SerializeV8Object(result, responseArgList, 2, browserWrapper->JavascriptRootObjectWrapper->CallbackRegistry);
+                                SerializeV8Object(result, responseArgList, 2, callbackRegistry);
                             }
                             else
                             {
@@ -219,7 +233,7 @@ namespace CefSharp
                         else
                         {
                             auto exception = value->GetException();
-                            if(exception.get())
+                            if (exception.get())
                             {
                                 errorMessage = exception->GetMessage();
                             }
@@ -257,7 +271,38 @@ namespace CefSharp
 
             handled = true;
         }
+        else if (name == kJavascriptAsyncRootObjectRequest)
+        {
+            browserWrapper->JavascriptAsyncRootObject = DeserializeJsObject(argList, 0);
+            handled = true;
+        }
+        else if (name == kJavascriptAsyncMethodCallResponse && rootObjectWrapper != nullptr)
+        {
+            auto callbackId = GetInt64(argList, 0);
+            JavascriptAsyncMethodCallback^ callback;
+            if (rootObjectWrapper->TryGetAndRemoveMethodCallback(callbackId, callback))
+            {
+                auto success = argList->GetBool(1);
+                if (success)
+                {
+                    callback->Success(DeserializeV8Object(argList, 2));
+                }
+                else
+                {
+                    callback->Fail(argList->GetString(2));
+                }
+                //dispose
+                delete callback;
+            }
+            handled = true;
+        }
 
         return handled;
     };
+
+    void CefAppUnmanagedWrapper::OnWebKitInitialized()
+    {
+        //we need to do this because the builtin Promise object is not accesible
+        CefRegisterExtension("cefsharp/promisecreator", kPromiseCreatorScript, nullptr);
+    }
 }

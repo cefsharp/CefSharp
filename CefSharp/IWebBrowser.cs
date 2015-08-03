@@ -60,6 +60,19 @@ namespace CefSharp
         void RegisterJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true);
 
         /// <summary>
+        /// <para>Asynchronously registers a Javascript object in this specific browser instance.</para>
+        /// <para>Only methods of the object will be availabe.</para>
+        /// </summary>
+        /// <param name="name">The name of the object. (e.g. "foo", if you want the object to be accessible as window.foo).</param>
+        /// <param name="objectToBind">The object to be made accessible to Javascript.</param>
+        /// <param name="camelCaseJavascriptNames">camel case the javascript names of methods, defaults to true</param>
+        /// <remarks>
+        /// The registered methods can only be called in an async way, they will all return immeditaly and the resulting
+        /// object will be a standard javascript Promise object which is usable to wait for completion or failure.
+        /// </remarks>
+        void RegisterAsyncJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true);
+
+        /// <summary>
         /// Implement <see cref="IDialogHandler"/> and assign to handle dialog events.
         /// </summary>
         IDialogHandler DialogHandler { get; set; }

@@ -157,6 +157,10 @@
     <ClInclude Include="..\CefSharp.Core\Internals\ReportUnhandledExceptions.h" />
     <ClInclude Include="..\CefSharp.Core\Internals\Serialization\Primitives.h" />
     <ClInclude Include="..\CefSharp.Core\Internals\StringUtils.h" />
+    <ClInclude Include="Async\JavascriptAsyncMethodCallback.h" />
+    <ClInclude Include="Async\JavascriptAsyncMethodHandler.h" />
+    <ClInclude Include="Async\JavascriptAsyncMethodWrapper.h" />
+    <ClInclude Include="Async\JavascriptAsyncObjectWrapper.h" />
     <ClInclude Include="CefAppUnmanagedWrapper.h" />
     <ClInclude Include="CefAppWrapper.h" />
     <ClInclude Include="CefBrowserWrapper.h" />
@@ -168,6 +172,7 @@
     <ClInclude Include="JavascriptPropertyWrapper.h" />
     <ClInclude Include="JavascriptPropertyHandler.h" />
     <ClInclude Include="JavascriptRootObjectWrapper.h" />
+    <ClInclude Include="Serialization\ObjectsSerialization.h" />
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="TypeUtils.h" />
     <ClInclude Include="Serialization\V8Serialization.h" />
@@ -177,6 +182,10 @@
     <ClCompile Include="..\CefSharp.Core\Internals\Serialization\Primitives.cpp" />
     <ClCompile Include="..\CefSharp.Core\Internals\StringUtils.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="Async\JavascriptAsyncMethodCallback.cpp" />
+    <ClCompile Include="Async\JavascriptAsyncMethodHandler.cpp" />
+    <ClCompile Include="Async\JavascriptAsyncMethodWrapper.cpp" />
+    <ClCompile Include="Async\JavascriptAsyncObjectWrapper.cpp" />
     <ClCompile Include="CefAppUnmanagedWrapper.cpp" />
     <ClCompile Include="CefAppWrapper.cpp" />
     <ClCompile Include="JavascriptCallbackRegistry.cpp" />
@@ -186,6 +195,7 @@
     <ClCompile Include="JavascriptObjectWrapper.cpp" />
     <ClCompile Include="JavascriptPropertyWrapper.cpp" />
     <ClCompile Include="JavascriptRootObjectWrapper.cpp" />
+    <ClCompile Include="Serialization\ObjectsSerialization.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

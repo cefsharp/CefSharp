@@ -81,6 +81,7 @@ namespace CefSharp
             CefRefPtr<CefBrowser> GetCefBrowser() { return _cefBrowser; }
             PendingTaskRepository<JavascriptResponse^>^ GetPendingTaskRepository();
             void CloseAllPopups(bool forceClose);
+            void MethodInvocationComplete(MethodInvocationResult^ result);
 
             // CefClient
             virtual DECL CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() OVERRIDE { return this; }

@@ -4,7 +4,6 @@
 
 #pragma once
 
-
 #include "Stdafx.h"
 #include "include/cef_app.h"
 #include "include/cef_base.h"
@@ -19,10 +18,14 @@ namespace CefSharp
     private class CefAppUnmanagedWrapper : CefApp, CefRenderProcessHandler
     {
     private:
+        static const CefString kPromiseCreatorScript;
+
         gcroot<Action<CefBrowserWrapper^>^> _onBrowserCreated;
         gcroot<Action<CefBrowserWrapper^>^> _onBrowserDestroyed;
         gcroot<Dictionary<int, CefBrowserWrapper^>^> _browserWrappers;
     public:
+        static const CefString kPromiseCreatorFunction;
+
         CefAppUnmanagedWrapper(Action<CefBrowserWrapper^>^ onBrowserCreated, Action<CefBrowserWrapper^>^ onBrowserDestoryed)
         {
             _onBrowserCreated = onBrowserCreated;
@@ -45,6 +48,7 @@ namespace CefSharp
         virtual DECL void OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context) OVERRIDE;
         virtual DECL void OnContextReleased(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context) OVERRIDE;
         virtual DECL bool OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcessId sourceProcessId, CefRefPtr<CefProcessMessage> message) OVERRIDE;
+        virtual DECL void OnWebKitInitialized() OVERRIDE;
 
         IMPLEMENT_REFCOUNTING(CefAppUnmanagedWrapper);
     };

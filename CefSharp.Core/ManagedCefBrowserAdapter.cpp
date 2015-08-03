@@ -4,6 +4,9 @@
 
 #include "Stdafx.h"
 #include "Cef.h"
+#include "Internals/Messaging/Messages.h"
+
+using namespace CefSharp::Internals::Messaging;
 
 bool ManagedCefBrowserAdapter::IsDisposed::get()
 {
@@ -277,6 +280,11 @@ void ManagedCefBrowserAdapter::RegisterJsObject(String^ name, Object^ object, bo
     _javaScriptObjectRepository->Register(name, object, lowerCaseJavascriptNames);
 }
 
+void ManagedCefBrowserAdapter::RegisterAsyncJsObject(String^ name, Object^ object, bool lowerCaseJavascriptNames)
+{
+    _javaScriptObjectRepository->RegisterAsync(name, object, lowerCaseJavascriptNames);
+}
+
 CefMouseEvent ManagedCefBrowserAdapter::GetCefMouseEvent(MouseEvent^ mouseEvent)
 {
     CefMouseEvent cefMouseEvent;
@@ -339,6 +347,25 @@ IBrowser^ ManagedCefBrowserAdapter::GetBrowser()
 IJavascriptCallbackFactory^ ManagedCefBrowserAdapter::JavascriptCallbackFactory::get()
 {
     return _javascriptCallbackFactory;
+}
+
+JavascriptObjectRepository^ ManagedCefBrowserAdapter::JavascriptObjectRepository::get()
+{
+    return _javaScriptObjectRepository;
+}
+
+MethodRunnerQueue^ ManagedCefBrowserAdapter::MethodRunnerQueue::get()
+{
+    return _methodRunnerQueue;
+}
+
+void ManagedCefBrowserAdapter::MethodInvocationComplete(Object^ sender, MethodInvocationCompleteArgs^ e)
+{
+    auto result = e->Result;
+    if (result->CallbackId.HasValue)
+    {
+        _clientAdapter->MethodInvocationComplete(result);
+    }
 }
 
 MCefRefPtr<ClientAdapter> ManagedCefBrowserAdapter::GetClientAdapter()

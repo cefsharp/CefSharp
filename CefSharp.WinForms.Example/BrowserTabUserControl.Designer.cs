@@ -101,7 +101,7 @@
             // 
             this.statusLabel.AutoSize = true;
             this.statusLabel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.statusLabel.Location = new System.Drawing.Point(0, 439);
+            this.statusLabel.Location = new System.Drawing.Point(0, 464);
             this.statusLabel.Name = "statusLabel";
             this.statusLabel.Size = new System.Drawing.Size(0, 13);
             this.statusLabel.TabIndex = 1;
@@ -110,7 +110,7 @@
             // 
             this.outputLabel.AutoSize = true;
             this.outputLabel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.outputLabel.Location = new System.Drawing.Point(0, 452);
+            this.outputLabel.Location = new System.Drawing.Point(0, 477);
             this.outputLabel.Name = "outputLabel";
             this.outputLabel.Size = new System.Drawing.Size(0, 13);
             this.outputLabel.TabIndex = 0;
@@ -172,7 +172,7 @@
             this.browserPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.browserPanel.Location = new System.Drawing.Point(0, 25);
             this.browserPanel.Name = "browserPanel";
-            this.browserPanel.Size = new System.Drawing.Size(730, 414);
+            this.browserPanel.Size = new System.Drawing.Size(730, 439);
             this.browserPanel.TabIndex = 2;
             // 
             // BrowserTabUserControl
