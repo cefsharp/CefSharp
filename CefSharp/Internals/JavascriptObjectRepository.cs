@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 
 namespace CefSharp.Internals
 {
@@ -29,7 +30,6 @@ namespace CefSharp.Internals
     public class JavascriptObjectRepository : DisposableResource
     {
         private static long lastId;
-        private static readonly object Lock = new object();
 
         // A hash from assigned object ids to the objects,
         // this is done to speed up finding the object in O(1) time
@@ -51,11 +51,8 @@ namespace CefSharp.Internals
 
         private JavascriptObject CreateJavascriptObject(bool camelCaseJavascriptNames)
         {
-            long id;
-            lock (Lock)
-            {
-                id = lastId++;
-            }
+            var id = Interlocked.Increment(ref lastId);
+
             var result = new JavascriptObject { Id = id, CamelCaseJavascriptNames = camelCaseJavascriptNames };
             objects[id] = result;
 
@@ -207,6 +204,7 @@ namespace CefSharp.Internals
         /// <param name="analyseMethods">Analyse methods for inclusion in metadata model</param>
         /// <param name="readPropertyValue">When analysis is done on a property, if true then get it's value for transmission over WCF</param>
         /// <param name="camelCaseJavascriptNames">camel case the javascript names of properties/methods</param>
+        /// <param name="analyseProperties">Analyse properties for binding</param>
         private void AnalyseObjectForBinding(JavascriptObject obj, bool analyseMethods, bool readPropertyValue, bool camelCaseJavascriptNames, bool analyseProperties)
         {
             if (obj.Value == null)
