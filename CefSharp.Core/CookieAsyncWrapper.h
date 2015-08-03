@@ -34,7 +34,7 @@ namespace CefSharp
         {
         }
 
-        bool SetCookie(Object^ state)
+        bool SetCookie()
         {
             CefCookie cookie;
             StringUtils::AssignNativeFromClr(cookie.name, _name);
@@ -52,12 +52,20 @@ namespace CefSharp
             cookie.expires.second = _expires.Second;
             cookie.expires.millisecond = _expires.Millisecond;
 
-            return _cookieManager->SetCookie(StringUtils::ToNative(_url), cookie, NULL);
+            auto result = _cookieManager->SetCookie(StringUtils::ToNative(_url), cookie, NULL);
+
+            delete this;
+
+            return result;
         }
 
-        bool DeleteCookies(Object^ state)
+        bool DeleteCookies()
         {
-            return _cookieManager->DeleteCookies(StringUtils::ToNative(_url), StringUtils::ToNative(_name), NULL);
+            auto result = _cookieManager->DeleteCookies(StringUtils::ToNative(_url), StringUtils::ToNative(_name), NULL);
+
+            delete this;
+
+            return result;
         }
 
         !CookieAsyncWrapper()
