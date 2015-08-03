@@ -78,9 +78,10 @@
       <DependentUpon>BrowserTabUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="ChromeWidgetMessageInterceptor.cs" />
-    <Compile Include="GeolocationHandler.cs" />
-    <Compile Include="KeyboardHandler.cs" />
-    <Compile Include="MenuHandler.cs" />
+    <Compile Include="Handlers\GeolocationHandler.cs" />
+    <Compile Include="Handlers\KeyboardHandler.cs" />
+    <Compile Include="Handlers\LifeSpanHandler.cs" />
+    <Compile Include="Handlers\MenuHandler.cs" />
     <Compile Include="Minimal\SimpleBrowserForm.cs">
       <SubType>Form</SubType>
     </Compile>

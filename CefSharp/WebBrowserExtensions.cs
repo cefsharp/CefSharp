@@ -5,6 +5,7 @@
 using System;
 using System.Text;
 using System.Threading.Tasks;
+using CefSharp.Internals;
 
 namespace CefSharp
 {
@@ -593,6 +594,13 @@ namespace CefSharp
 
                 return frame.EvaluateScriptAsync(script, timeout);
             }
+        }
+
+        public static void SetAsPopup(this IWebBrowser browser)
+        {
+            var internalBrowser = (IWebBrowserInternal)browser;
+
+            internalBrowser.HasParent = true;
         }
 
         public static void ThrowExceptionIfBrowserNotInitialized(this IWebBrowser browser)

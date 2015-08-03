@@ -5,7 +5,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace CefSharp.WinForms.Example
+namespace CefSharp.WinForms.Example.Handlers
 {
     internal class GeolocationHandler : IGeolocationHandler
     {

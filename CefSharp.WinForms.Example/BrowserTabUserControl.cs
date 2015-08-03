@@ -2,6 +2,7 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using CefSharp.WinForms.Example.Handlers;
 using CefSharp.WinForms.Internals;
 
 namespace CefSharp.WinForms.Example
@@ -29,7 +30,7 @@ namespace CefSharp.WinForms.Example
             browser.GeolocationHandler = new GeolocationHandler();
             browser.DownloadHandler = new DownloadHandler();
             browser.KeyboardHandler = new KeyboardHandler();
-            //browser.FocusHandler = new FocusHandler(browser, urlTextBox);
+            //browser.LifeSpanHandler = new LifeSpanHandler();
             browser.LoadingStateChanged += OnBrowserLoadingStateChanged;
             browser.ConsoleMessage += OnBrowserConsoleMessage;
             browser.TitleChanged += OnBrowserTitleChanged;

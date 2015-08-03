@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Windows.Forms;
 
-namespace CefSharp.WinForms.Example
+namespace CefSharp.WinForms.Example.Handlers
 {
     public class KeyboardHandler : IKeyboardHandler
     {
