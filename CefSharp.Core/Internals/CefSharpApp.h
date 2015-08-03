@@ -100,6 +100,21 @@ namespace CefSharp
             }
 
             extraInfo->SetList(0, extensionList);
+
+            auto schemeList = CefListValue::Create();
+
+            i = 0;
+            for each(CefCustomScheme^ scheme in _cefSettings->CefCustomSchemes)
+            {
+                auto item = CefListValue::Create();
+                item->SetString(0, StringUtils::ToNative(scheme->SchemeName));
+                item->SetBool(1, scheme->IsStandard);
+                item->SetBool(2, scheme->IsLocal);
+                item->SetBool(3, scheme->IsDisplayIsolated);
+                schemeList->SetList(i++, item);
+            }
+
+            extraInfo->SetList(1, schemeList);
         }
 
         IMPLEMENT_REFCOUNTING(CefSharpApp)

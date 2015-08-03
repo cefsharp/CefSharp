@@ -24,6 +24,7 @@ namespace CefSharp
         gcroot<Action<CefBrowserWrapper^>^> _onBrowserDestroyed;
         gcroot<Dictionary<int, CefBrowserWrapper^>^> _browserWrappers;
         gcroot<List<CefExtension^>^> _extensions;
+        gcroot<List<CefCustomScheme^>^> _schemes;
 
     public:
         static const CefString kPromiseCreatorFunction;
@@ -34,6 +35,7 @@ namespace CefSharp
             _onBrowserDestroyed = onBrowserDestoryed;
             _browserWrappers = gcnew Dictionary<int, CefBrowserWrapper^>();
             _extensions = gcnew List<CefExtension^>();
+            _schemes = gcnew List<CefCustomScheme^>();
         }
 
         ~CefAppUnmanagedWrapper()
@@ -42,6 +44,7 @@ namespace CefSharp
             delete _onBrowserCreated;
             delete _onBrowserDestroyed;
             delete _extensions;
+            delete _schemes;
         }
 
         CefBrowserWrapper^ FindBrowserWrapper(int browserId, bool mustExist);
@@ -54,6 +57,7 @@ namespace CefSharp
         virtual DECL bool OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcessId sourceProcessId, CefRefPtr<CefProcessMessage> message) OVERRIDE;
         virtual DECL void OnRenderThreadCreated(CefRefPtr<CefListValue> extraInfo) OVERRIDE;
         virtual DECL void OnWebKitInitialized() OVERRIDE;
+        virtual DECL void OnRegisterCustomSchemes(CefRefPtr<CefSchemeRegistrar> registrar) OVERRIDE;
 
         IMPLEMENT_REFCOUNTING(CefAppUnmanagedWrapper);
     };

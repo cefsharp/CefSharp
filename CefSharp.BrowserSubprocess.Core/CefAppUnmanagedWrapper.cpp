@@ -311,6 +311,20 @@ namespace CefSharp
 
             _extensions->Add(ext);
         }
+
+        auto schemeList = extraInfo->GetList(1);
+
+        for (size_t i = 0; i < schemeList->GetSize(); i++)
+        {
+            auto item = schemeList->GetList(i);
+            auto scheme = gcnew CefCustomScheme();
+            scheme->SchemeName = StringUtils::ToClr(item->GetString(0));
+            scheme->IsStandard = item->GetBool(1);
+            scheme->IsLocal = item->GetBool(2);
+            scheme->IsDisplayIsolated = item->GetBool(3);
+
+            _schemes->Add(scheme);
+        }
     }
 
     void CefAppUnmanagedWrapper::OnWebKitInitialized()
@@ -322,6 +336,14 @@ namespace CefSharp
         {
             //only support extensions without handlers now
             CefRegisterExtension(StringUtils::ToNative(extension->Name), StringUtils::ToNative(extension->JavascriptCode), NULL);
+        }
+    }
+
+    void CefAppUnmanagedWrapper::OnRegisterCustomSchemes(CefRefPtr<CefSchemeRegistrar> registrar)
+    {
+        for each (CefCustomScheme^ scheme in _schemes->AsReadOnly())
+        {
+            registrar->AddCustomScheme(StringUtils::ToNative(scheme->SchemeName), scheme->IsStandard, scheme->IsLocal, scheme->IsDisplayIsolated);
         }
     }
 }
