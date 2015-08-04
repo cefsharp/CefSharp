@@ -788,13 +788,16 @@ namespace CefSharp.Wpf
 
         private void CreateOffscreenBrowserWhenActualSizeChanged()
         {
-            var webBrowserInternal = this as IWebBrowserInternal;
-            if (browserCreated || System.ComponentModel.DesignerProperties.GetIsInDesignMode(this) || webBrowserInternal.HasParent)
+            if (browserCreated || System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
             {
                 return;
             }
 
-            managedCefBrowserAdapter.CreateOffscreenBrowser(source == null ? IntPtr.Zero : source.Handle, BrowserSettings, RequestContext, Address);
+            var webBrowserInternal = this as IWebBrowserInternal;
+            if (!webBrowserInternal.HasParent)
+            {
+                managedCefBrowserAdapter.CreateOffscreenBrowser(source == null ? IntPtr.Zero : source.Handle, BrowserSettings, RequestContext, Address);
+            }
             browserCreated = true;
         }
 
