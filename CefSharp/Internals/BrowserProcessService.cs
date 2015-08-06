@@ -47,11 +47,6 @@ namespace CefSharp.Internals
             return new BrowserProcessResponse { Success = success, Result = null, Message = exception };
         }
 
-        public JavascriptRootObject GetRegisteredJavascriptObjects()
-        {
-            return javascriptObjectRepository.RootObject;
-        }
-
         public void Connect()
         {
             var context = OperationContext.Current;
