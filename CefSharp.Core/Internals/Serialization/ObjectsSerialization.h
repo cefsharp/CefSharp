@@ -4,13 +4,23 @@
 
 #pragma once
 
+#include "include/cef_values.h"
+
 namespace CefSharp
 {
     namespace Internals
     {
         namespace Serialization
         {
-            void SerializeJsObject(JavascriptRootObject^ object, CefRefPtr<CefListValue> &list, int index);
+            //separate file because it's needed in the subprocess too at the moment
+
+            //Deserializes data into Object from a given index of a CefListValue or CefDictionaryValue
+            //IJavascriptCallbackFactory implementation should be passed to allow creation of valid javascript callbacks
+            template<typename TList, typename TIndex>
+            Object^ DeserializeObject(CefRefPtr<TList> list, TIndex index, IJavascriptCallbackFactory^ javascriptCallbackFactory);
+
+            //Converts CefTime to DateTime
+            DateTime ConvertCefTimeToDateTime(CefTime time);
         }
     }
 }

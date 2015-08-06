@@ -9,7 +9,7 @@
 #include "CefAppUnmanagedWrapper.h"
 #include "JavascriptRootObjectWrapper.h"
 #include "Serialization\V8Serialization.h"
-#include "Serialization\ObjectsSerialization.h"
+#include "Serialization\JsObjectsSerialization.h"
 #include "Async/JavascriptAsyncMethodCallback.h"
 #include "..\CefSharp.Core\Internals\Messaging\Messages.h"
 #include "..\CefSharp.Core\Internals\Serialization\Primitives.h"
@@ -106,7 +106,7 @@ namespace CefSharp
         if (browserWrapper == nullptr)
         {
             if (name == kJavascriptCallbackDestroyRequest ||
-                name == kJavascriptAsyncRootObjectRequest ||
+                name == kJavascriptRootObjectRequest ||
                 name == kJavascriptAsyncMethodCallResponse)
             {
                 //If we can't find the browser wrapper then we'll just
@@ -271,9 +271,10 @@ namespace CefSharp
 
             handled = true;
         }
-        else if (name == kJavascriptAsyncRootObjectRequest)
+        else if (name == kJavascriptRootObjectRequest)
         {
-            browserWrapper->JavascriptAsyncRootObject = DeserializeJsObject(argList, 0);
+            browserWrapper->JavascriptAsyncRootObject = DeserializeJsRootObject(argList, 0);
+            browserWrapper->JavascriptRootObject = DeserializeJsRootObject(argList, 1);
             handled = true;
         }
         else if (name == kJavascriptAsyncMethodCallResponse && rootObjectWrapper != nullptr)

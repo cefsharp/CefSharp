@@ -155,6 +155,7 @@
   <ItemGroup>
     <ClInclude Include="..\CefSharp.Core\Internals\MCefRefPtr.h" />
     <ClInclude Include="..\CefSharp.Core\Internals\ReportUnhandledExceptions.h" />
+    <ClInclude Include="..\CefSharp.Core\Internals\Serialization\ObjectsSerialization.h" />
     <ClInclude Include="..\CefSharp.Core\Internals\Serialization\Primitives.h" />
     <ClInclude Include="..\CefSharp.Core\Internals\StringUtils.h" />
     <ClInclude Include="Async\JavascriptAsyncMethodCallback.h" />
@@ -172,13 +173,14 @@
     <ClInclude Include="JavascriptPropertyWrapper.h" />
     <ClInclude Include="JavascriptPropertyHandler.h" />
     <ClInclude Include="JavascriptRootObjectWrapper.h" />
-    <ClInclude Include="Serialization\ObjectsSerialization.h" />
+    <ClInclude Include="Serialization\JsObjectsSerialization.h" />
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="TypeUtils.h" />
     <ClInclude Include="Serialization\V8Serialization.h" />
     <ClInclude Include="vcclr_local.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\CefSharp.Core\Internals\Serialization\ObjectsSerialization.cpp" />
     <ClCompile Include="..\CefSharp.Core\Internals\Serialization\Primitives.cpp" />
     <ClCompile Include="..\CefSharp.Core\Internals\StringUtils.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
@@ -195,7 +197,7 @@
     <ClCompile Include="JavascriptObjectWrapper.cpp" />
     <ClCompile Include="JavascriptPropertyWrapper.cpp" />
     <ClCompile Include="JavascriptRootObjectWrapper.cpp" />
-    <ClCompile Include="Serialization\ObjectsSerialization.cpp" />
+    <ClCompile Include="Serialization\JsObjectsSerialization.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
