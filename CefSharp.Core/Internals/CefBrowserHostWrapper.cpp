@@ -120,6 +120,7 @@ void CefBrowserHostWrapper::SendKeyEvent(KeyEvent keyEvent)
     nativeKeyEvent.focus_on_editable_field = keyEvent.FocusOnEditableField == 1;
     nativeKeyEvent.is_system_key = keyEvent.IsSystemKey == 1;
     nativeKeyEvent.modifiers = (uint32)keyEvent.Modifiers;
+    nativeKeyEvent.type = (cef_key_event_type_t)keyEvent.Type;
     nativeKeyEvent.native_key_code = keyEvent.NativeKeyCode;
     nativeKeyEvent.windows_key_code = keyEvent.WindowsKeyCode;
         
