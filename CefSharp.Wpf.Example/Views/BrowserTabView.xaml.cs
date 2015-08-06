@@ -26,19 +26,19 @@ namespace CefSharp.Wpf.Example.Views
             browser.MenuHandler = new MenuHandler();
             browser.GeolocationHandler = new GeolocationHandler();
             browser.DownloadHandler = new DownloadHandler();
-            browser.PreviewTextInput += (sender, args) =>
-            {
-                var host = browser.GetBrowser().GetHost();
-                var keyEvent = new KeyEvent();
+            //browser.PreviewTextInput += (sender, args) =>
+            //{
+            //    var host = browser.GetBrowser().GetHost();
+            //    var keyEvent = new KeyEvent();
 
-                foreach (var character in args.Text)
-                {
-                    keyEvent.WindowsKeyCode = character;
-                    host.SendKeyEvent(keyEvent);
-                }
+            //    foreach (var character in args.Text)
+            //    {
+            //        keyEvent.WindowsKeyCode = character;
+            //        host.SendKeyEvent(keyEvent);
+            //    }
 
-                args.Handled = true;
-            };
+            //    args.Handled = true;
+            //};
 
             browser.LoadError += (sender, args) =>
             {
