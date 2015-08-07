@@ -36,15 +36,25 @@ namespace CefSharp
                     list->SetNull(index);
                 }
                 else if (obj->IsBool())
+                {
                     list->SetBool(index, obj->GetBoolValue());
+                }
                 else if (obj->IsInt())
+                {
                     list->SetInt(index, obj->GetIntValue());
+                }
                 else if (obj->IsDouble())
+                {
                     list->SetDouble(index, obj->GetDoubleValue());
+                }
                 else if (obj->IsString())
+                {
                     list->SetString(index, obj->GetStringValue());
+                }
                 else if (obj->IsDate())
+                {
                     SetCefTime(obj->GetDateValue(), list, index);
+                }
                 else if (obj->IsArray())
                 {
                     int arrLength = obj->GetArrayLength();
@@ -115,15 +125,25 @@ namespace CefSharp
                 auto result = CefV8Value::CreateNull();
 
                 if (type == VTYPE_BOOL)
+                {
                     result = CefV8Value::CreateBool(list->GetBool(index));
+                }
                 else if (type == VTYPE_INT)
+                {
                     result = CefV8Value::CreateInt(list->GetInt(index));
+                }
                 else if (type == VTYPE_DOUBLE)
+                {
                     result = CefV8Value::CreateDouble(list->GetDouble(index));
+                }
                 else if (type == VTYPE_STRING)
+                {
                     result = CefV8Value::CreateString(list->GetString(index));
+                }
                 else if (IsCefTime(list, index))
+                {
                     result = CefV8Value::CreateDate(GetCefTime(list, index));
+                }
                 else if (type == VTYPE_LIST)
                 {
                     auto subList = list->GetList(index);

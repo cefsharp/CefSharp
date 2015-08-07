@@ -40,35 +40,65 @@ namespace CefSharp
                 if (underlyingType != nullptr) type = underlyingType;
 
                 if (type == Boolean::typeid)
+                {
                     list->SetBool(index, safe_cast<bool>(obj));
+                }
                 else if (type == Int32::typeid)
+                {
                     list->SetInt(index, safe_cast<int>(obj));
+                }
                 else if (type == String::typeid)
+                {
                     list->SetString(index, StringUtils::ToNative(safe_cast<String^>(obj)));
+                }
                 else if (type == Double::typeid)
+                {
                     list->SetDouble(index, safe_cast<double>(obj));
+                }
                 else if (type == Decimal::typeid)
+                {
                     list->SetDouble(index, Convert::ToDouble(obj));
+                }
                 else if (type == SByte::typeid)
+                {
                     list->SetInt(index, Convert::ToInt32(obj));
+                }
                 else if (type == Int16::typeid)
+                {
                     list->SetInt(index, Convert::ToInt32(obj));
+                }
                 else if (type == Int64::typeid)
+                {
                     list->SetDouble(index, Convert::ToDouble(obj));
+                }
                 else if (type == Byte::typeid)
+                {
                     list->SetInt(index, Convert::ToInt32(obj));
+                }
                 else if (type == UInt16::typeid)
+                {
                     list->SetInt(index, Convert::ToInt32(obj));
+                }
                 else if (type == UInt32::typeid)
+                {
                     list->SetDouble(index, Convert::ToDouble(obj));
+                }
                 else if (type == UInt64::typeid)
+                {
                     list->SetDouble(index, Convert::ToDouble(obj));
+                }
                 else if (type == Single::typeid)
+                {
                     list->SetDouble(index, Convert::ToDouble(obj));
+                }
                 else if (type == Char::typeid)
+                {
                     list->SetInt(index, Convert::ToInt32(obj));
+                }
                 else if (type == DateTime::typeid)
+                {
                     SetCefTime(ConvertDateTimeToCefTime(safe_cast<DateTime>(obj)), list, index);
+                }
                 else if (type->IsArray)
                 {
                     auto subList = CefListValue::Create();
