@@ -10,7 +10,7 @@ namespace CefSharp
     {
         namespace Serialization
         {
-            void SerializeJsObject(JavascriptRootObject^ object, CefRefPtr<CefListValue> &list, int index);
+            void SerializeJsObject(JavascriptRootObject^ object, const CefRefPtr<CefListValue> &list, int index);
         }
     }
 }

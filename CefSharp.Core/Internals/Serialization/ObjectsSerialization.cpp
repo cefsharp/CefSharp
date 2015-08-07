@@ -15,7 +15,7 @@ namespace CefSharp
         namespace Serialization
         {
             template<typename TList, typename TIndex>
-            Object^ DeserializeObject(CefRefPtr<TList> list, TIndex index, IJavascriptCallbackFactory^ javascriptCallbackFactory)
+            Object^ DeserializeObject(const CefRefPtr<TList>& list, TIndex index, IJavascriptCallbackFactory^ javascriptCallbackFactory)
             {
                 Object^ result = nullptr;
                 auto type = list->GetType(index);
@@ -88,8 +88,8 @@ namespace CefSharp
                 return DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(epoch).ToLocalTime();
             }
 
-            template Object^ DeserializeObject(CefRefPtr<CefListValue> list, int index, IJavascriptCallbackFactory^ javascriptCallbackFactory);
-            template Object^ DeserializeObject(CefRefPtr<CefDictionaryValue> list, CefString index, IJavascriptCallbackFactory^ javascriptCallbackFactory);
+            template Object^ DeserializeObject(const CefRefPtr<CefListValue>& list, int index, IJavascriptCallbackFactory^ javascriptCallbackFactory);
+            template Object^ DeserializeObject(const CefRefPtr<CefDictionaryValue>& list, CefString index, IJavascriptCallbackFactory^ javascriptCallbackFactory);
         }
     }
 }

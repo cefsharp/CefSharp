@@ -17,7 +17,7 @@ namespace CefSharp
             //Deserializes data into Object from a given index of a CefListValue or CefDictionaryValue
             //IJavascriptCallbackFactory implementation should be passed to allow creation of valid javascript callbacks
             template<typename TList, typename TIndex>
-            Object^ DeserializeObject(CefRefPtr<TList> list, TIndex index, IJavascriptCallbackFactory^ javascriptCallbackFactory);
+            Object^ DeserializeObject(const CefRefPtr<TList>& list, TIndex index, IJavascriptCallbackFactory^ javascriptCallbackFactory);
 
             //Converts CefTime to DateTime
             DateTime ConvertCefTimeToDateTime(CefTime time);
