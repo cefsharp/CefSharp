@@ -179,7 +179,7 @@ namespace CefSharp
         /// <summary>
         /// Registers an extension with the provided settings.
         /// </summary>
-        /// <param name="extenson">The CefExtension that contains the extension code.</param>
+        /// <param name="extension">The CefExtension that contains the extension code.</param>
         void RegisterExtension(CefExtension^ extension)
         {
             if (_cefExtensions->Contains(extension))
