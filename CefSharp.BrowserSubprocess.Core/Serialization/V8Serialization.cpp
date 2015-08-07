@@ -20,7 +20,7 @@ namespace CefSharp
             typedef deque<CefRefPtr<CefV8Value>> value_deque;
 
             template<typename TList, typename TIndex>
-            void SerializeV8Object(const CefRefPtr<CefV8Value> &obj, CefRefPtr<TList> list, TIndex index, JavascriptCallbackRegistry^ callbackRegistry, value_deque &seen)
+            void SerializeV8Object(const CefRefPtr<CefV8Value> &obj, const CefRefPtr<TList>& list, const TIndex& index, JavascriptCallbackRegistry^ callbackRegistry, value_deque &seen)
             {
                 for (value_deque::const_iterator it = seen.begin(); it != seen.end(); ++it)
                 {
@@ -105,7 +105,7 @@ namespace CefSharp
             }
 
             template<typename TList, typename TIndex>
-            void SerializeV8Object(const CefRefPtr<CefV8Value> &obj, CefRefPtr<TList> list, TIndex index, JavascriptCallbackRegistry^ callbackRegistry)
+            void SerializeV8Object(const CefRefPtr<CefV8Value> &obj, const CefRefPtr<TList>& list, const TIndex& index, JavascriptCallbackRegistry^ callbackRegistry)
             {
                 try
                 {
@@ -119,7 +119,7 @@ namespace CefSharp
             }
 
             template<typename TList, typename TIndex>
-            CefRefPtr<CefV8Value> DeserializeV8Object(CefRefPtr<TList> list, TIndex index)
+            CefRefPtr<CefV8Value> DeserializeV8Object(const CefRefPtr<TList>& list, const TIndex& index)
             {
                 auto type = list->GetType(index);
                 auto result = CefV8Value::CreateNull();
@@ -170,12 +170,12 @@ namespace CefSharp
                 return result;
             }
 
-            template void SerializeV8Object(const CefRefPtr<CefV8Value> &value, CefRefPtr<CefListValue> list, int index, JavascriptCallbackRegistry^ callbackRegistry);
-            template void SerializeV8Object(const CefRefPtr<CefV8Value> &value, CefRefPtr<CefDictionaryValue> list, CefString index, JavascriptCallbackRegistry^ callbackRegistry);
-            template void SerializeV8Object(const CefRefPtr<CefV8Value> &value, CefRefPtr<CefListValue> list, int index, JavascriptCallbackRegistry^ callbackRegistry, value_deque &visited);
-            template void SerializeV8Object(const CefRefPtr<CefV8Value> &value, CefRefPtr<CefDictionaryValue> list, CefString index, JavascriptCallbackRegistry^ callbackRegistry, value_deque &visited);
-            template CefRefPtr<CefV8Value> DeserializeV8Object(CefRefPtr<CefListValue> list, int index);
-            template CefRefPtr<CefV8Value> DeserializeV8Object(CefRefPtr<CefDictionaryValue> list, CefString index);
+            template void SerializeV8Object(const CefRefPtr<CefV8Value> &value, const CefRefPtr<CefListValue>& list, const int& index, JavascriptCallbackRegistry^ callbackRegistry);
+            template void SerializeV8Object(const CefRefPtr<CefV8Value> &value, const CefRefPtr<CefDictionaryValue>& list, const CefString& index, JavascriptCallbackRegistry^ callbackRegistry);
+            template void SerializeV8Object(const CefRefPtr<CefV8Value> &value, const CefRefPtr<CefListValue>& list, const int& index, JavascriptCallbackRegistry^ callbackRegistry, value_deque &visited);
+            template void SerializeV8Object(const CefRefPtr<CefV8Value> &value, const CefRefPtr<CefDictionaryValue>& list, const CefString& index, JavascriptCallbackRegistry^ callbackRegistry, value_deque &visited);
+            template CefRefPtr<CefV8Value> DeserializeV8Object(const CefRefPtr<CefListValue>& list, const int& index);
+            template CefRefPtr<CefV8Value> DeserializeV8Object(const CefRefPtr<CefDictionaryValue>& list, const CefString& index);
         }
     }
 }

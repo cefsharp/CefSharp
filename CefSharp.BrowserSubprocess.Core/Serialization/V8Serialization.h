@@ -19,11 +19,11 @@ namespace CefSharp
             //Serializes a V8 structure into a given index of a CefListValue or CefDictionaryValue
             //JavascriptCallbackRegistry should be passed to save V8Values with function types
             template<typename TList, typename TIndex>
-            void SerializeV8Object(const CefRefPtr<CefV8Value> &value, CefRefPtr<TList> list, TIndex index, JavascriptCallbackRegistry^ callbackRegistry);
+            void SerializeV8Object(const CefRefPtr<CefV8Value> &value, const CefRefPtr<TList>& list, const TIndex& index, JavascriptCallbackRegistry^ callbackRegistry);
 
             //Deserializes data from a given index of a CefListValue or a CefDictionaryValue
             template<typename TList, typename TIndex>
-            CefRefPtr<CefV8Value> DeserializeV8Object(CefRefPtr<TList> list, TIndex index);
+            CefRefPtr<CefV8Value> DeserializeV8Object(const CefRefPtr<TList>& list, const TIndex& index);
         }
     }
 }

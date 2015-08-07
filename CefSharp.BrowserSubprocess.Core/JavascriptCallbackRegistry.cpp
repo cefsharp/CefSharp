@@ -11,7 +11,7 @@ namespace CefSharp
 {
     namespace Internals
     {
-        JavascriptCallback^ JavascriptCallbackRegistry::Register(CefRefPtr<CefV8Context> context, CefRefPtr<CefV8Value> value)
+        JavascriptCallback^ JavascriptCallbackRegistry::Register(const CefRefPtr<CefV8Context>& context, const CefRefPtr<CefV8Value>& value)
         {
             Int64 newId = Interlocked::Increment(_lastId);
             JavascriptCallbackWrapper^ wrapper = gcnew JavascriptCallbackWrapper(value, context);

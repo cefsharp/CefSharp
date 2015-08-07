@@ -41,7 +41,7 @@ namespace CefSharp
                 }
             }
 
-            JavascriptCallback^ Register(CefRefPtr<CefV8Context> context, CefRefPtr<CefV8Value> value);
+            JavascriptCallback^ Register(const CefRefPtr<CefV8Context>& context, const CefRefPtr<CefV8Value>& value);
 
             void Deregister(Int64 id);
         };
