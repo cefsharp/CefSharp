@@ -12,7 +12,7 @@ using namespace CefSharp::Internals;
 
 namespace CefSharp
 {
-    public ref class JavascriptPropertyWrapper
+    private ref class JavascriptPropertyWrapper
     {
     private:
         JavascriptProperty^ _javascriptProperty;

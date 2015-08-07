@@ -22,7 +22,7 @@ namespace CefSharp
     // by binding the meta-data to V8 JavaScript objects
     // and installing callbacks for changes to those
     // objects.
-    public ref class JavascriptRootObjectWrapper
+    private ref class JavascriptRootObjectWrapper
     {
     private:
         initonly List<JavascriptObjectWrapper^>^ _wrappedObjects;
