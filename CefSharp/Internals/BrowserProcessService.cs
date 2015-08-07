@@ -46,11 +46,5 @@ namespace CefSharp.Internals
 
             return new BrowserProcessResponse { Success = success, Result = null, Message = exception };
         }
-
-        public void Connect()
-        {
-            var context = OperationContext.Current;
-            host.SetOperationContext(context);
-        }
     }
 }

@@ -66,10 +66,6 @@ namespace CefSharp.BrowserSubprocess
             try
             {
                 clientChannel.Open();
-                if (!browser.IsPopup)
-                {
-                    browserProcess.Connect();
-                }
 
                 browser.ChannelFactory = channelFactory;
                 browser.BrowserProcess = browserProcess;

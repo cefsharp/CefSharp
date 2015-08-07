@@ -24,8 +24,5 @@ namespace CefSharp.Internals
 
         [OperationContract]
         BrowserProcessResponse SetProperty(long objectId, string name, object value);
-
-        [OperationContract]
-        void Connect();
     }
 }

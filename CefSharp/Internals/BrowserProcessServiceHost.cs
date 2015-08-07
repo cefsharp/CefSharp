@@ -7,7 +7,6 @@ using System.Net.Security;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
-using System.Threading.Tasks;
 
 namespace CefSharp.Internals
 {
@@ -16,7 +15,6 @@ namespace CefSharp.Internals
         private const long OneHundredAndTwentyEightMegaBytesInBytes = 128*1024*1024;
 
         public JavascriptObjectRepository JavascriptObjectRepository { get; private set; }
-        private TaskCompletionSource<OperationContext> operationContextTaskCompletionSource = new TaskCompletionSource<OperationContext>();
 
         public BrowserProcessServiceHost(JavascriptObjectRepository javascriptObjectRepository, int parentProcessId, IBrowserAdapter browserAdapter)
             : base(typeof(BrowserProcessService), new Uri[0])
@@ -40,49 +38,10 @@ namespace CefSharp.Internals
             endPoint.Behaviors.Add(new JavascriptCallbackEndpointBehavior(browserAdapter.JavascriptCallbackFactory));
         }
 
-        public void SetOperationContext(OperationContext operationContext)
-        {
-            if (operationContextTaskCompletionSource.Task.Status == TaskStatus.RanToCompletion)
-            {
-                operationContextTaskCompletionSource = new TaskCompletionSource<OperationContext>();
-            }
-                
-            operationContextTaskCompletionSource.SetResult(operationContext);
-        }
-
-        protected override void OnClose(TimeSpan timeout)
-        {
-            var task = operationContextTaskCompletionSource.Task;
-
-            CloseChannel(task);
-
-            base.OnClose(timeout);
-        }
-
-        private void CloseChannel(Task<OperationContext> task)
-        {
-            try
-            {
-                if (task.IsCompleted)
-                {
-                    var context = task.Result;
-
-                    if (context.Channel != null && context.Channel.State == CommunicationState.Opened)
-                    {
-                        context.Channel.Close();
-                    }
-                }
-            }
-            catch (Exception)
-            {
-            }
-        }
-
         protected override void OnClosed()
         {
             base.OnClosed();
             JavascriptObjectRepository = null;
-            operationContextTaskCompletionSource = null;
         }
 
         public static CustomBinding CreateBinding()
