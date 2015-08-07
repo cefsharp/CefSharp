@@ -28,6 +28,9 @@ namespace CefSharp
     {
     private:
         MCefRefPtr<CefBrowser> _cefBrowser;
+    
+    internal:
+        property JavascriptRootObjectWrapper^ JavascriptRootObjectWrapper;
 
     public:
         CefBrowserWrapper(CefRefPtr<CefBrowser> cefBrowser)
@@ -65,8 +68,6 @@ namespace CefSharp
 
         // The serialized registered object data waiting to be used.
         property JavascriptRootObject^ JavascriptRootObject;
-
-        property JavascriptRootObjectWrapper^ JavascriptRootObjectWrapper;
 
         // The WCF proxy to the parent process.
         property IBrowserProcess^ BrowserProcess;
