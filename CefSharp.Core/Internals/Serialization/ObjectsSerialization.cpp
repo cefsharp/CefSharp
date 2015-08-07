@@ -3,8 +3,10 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 #include "Stdafx.h"
-#include "Primitives.h"
 #include "ObjectsSerialization.h"
+#include "Primitives.h"
+
+using namespace System::Collections::Generic;
 
 namespace CefSharp
 {
@@ -12,33 +14,82 @@ namespace CefSharp
     {
         namespace Serialization
         {
-            void SerializeJsObject(JavascriptRootObject^ object, CefRefPtr<CefListValue> &list, int index)
+            template<typename TList, typename TIndex>
+            Object^ DeserializeObject(CefRefPtr<TList> list, TIndex index, IJavascriptCallbackFactory^ javascriptCallbackFactory)
             {
-                auto subList = CefListValue::Create();
-                auto i = 0;
-                for each (JavascriptObject^ jsObject in object->MemberObjects)
+                Object^ result = nullptr;
+                auto type = list->GetType(index);
+
+                if (type == VTYPE_BOOL)
                 {
-                    auto objList = CefListValue::Create();
-                    SetInt64(jsObject->Id, objList, 0);
-                    objList->SetString(1, StringUtils::ToNative(jsObject->Name));
-                    objList->SetString(2, StringUtils::ToNative(jsObject->JavascriptName));
-
-                    auto methodList = CefListValue::Create();
-                    auto j = 0;
-                    methodList->SetInt(j++, jsObject->Methods->Count);
-                    for each (JavascriptMethod^ jsMethod in jsObject->Methods)
-                    {
-                        SetInt64(jsMethod->Id, methodList, j++);
-                        methodList->SetString(j++, StringUtils::ToNative(jsMethod->ManagedName));
-                        methodList->SetString(j++, StringUtils::ToNative(jsMethod->JavascriptName));
-                        methodList->SetInt(j++, jsMethod->ParameterCount);
-                    }
-                    objList->SetList(3, methodList);
-
-                    subList->SetList(i++, objList);
+                    result = list->GetBool(index);
                 }
-                list->SetList(index, subList);
+                else if (type == VTYPE_INT)
+                {
+                    result = list->GetInt(index);
+                }
+                else if (IsInt64(list, index))
+                {
+                    result = GetInt64(list, index);
+                }
+                else if (IsCefTime(list, index))
+                {
+                    auto cefTime = GetCefTime(list, index);
+                    result = ConvertCefTimeToDateTime(cefTime);
+                }
+                else if (IsJsCallback(list, index) && javascriptCallbackFactory != nullptr)
+                {
+                    auto jsCallbackDto = GetJsCallback(list, index);
+                    result = javascriptCallbackFactory->Create(jsCallbackDto);
+                }
+                else if (type == VTYPE_DOUBLE)
+                {
+                    result = list->GetDouble(index);
+                }
+                else if (type == VTYPE_STRING)
+                {
+                    result = StringUtils::ToClr(list->GetString(index));
+                }
+                else if (type == VTYPE_LIST)
+                {
+                    auto subList = list->GetList(index);
+                    auto array = gcnew List<Object^>(subList->GetSize());
+                    for (auto i = 0; i < subList->GetSize(); i++)
+                    {
+                        array->Add(DeserializeObject(subList, i, javascriptCallbackFactory));
+                    }
+                    result = array;
+                }
+                else if (type == VTYPE_DICTIONARY)
+                {
+                    auto dict = gcnew Dictionary<String^, Object^>();
+                    auto subDict = list->GetDictionary(index);
+                    std::vector<CefString> keys;
+                    subDict->GetKeys(keys);
+
+                    for (auto i = 0; i < keys.size(); i++)
+                    {
+                        dict->Add(StringUtils::ToClr(keys[i]), DeserializeObject(subDict, keys[i], javascriptCallbackFactory));
+                    }
+
+                    result = dict;
+                }
+
+                return result;
             }
+
+            DateTime ConvertCefTimeToDateTime(CefTime time)
+            {
+                auto epoch = time.GetDoubleT();
+                if (epoch == 0)
+                {
+                    return DateTime::MinValue;
+                }
+                return DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(epoch).ToLocalTime();
+            }
+
+            template Object^ DeserializeObject(CefRefPtr<CefListValue> list, int index, IJavascriptCallbackFactory^ javascriptCallbackFactory);
+            template Object^ DeserializeObject(CefRefPtr<CefDictionaryValue> list, CefString index, IJavascriptCallbackFactory^ javascriptCallbackFactory);
         }
     }
 }

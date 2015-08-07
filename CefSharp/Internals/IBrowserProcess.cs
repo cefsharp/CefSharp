@@ -24,9 +24,6 @@ namespace CefSharp.Internals
 
         [OperationContract]
         BrowserProcessResponse SetProperty(long objectId, string name, object value);
-        
-        [OperationContract]
-        JavascriptRootObject GetRegisteredJavascriptObjects();
 
         [OperationContract]
         void Connect();

@@ -68,9 +68,6 @@
     <ClInclude Include="Serialization\V8Serialization.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Serialization\ObjectsSerialization.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Async\JavascriptAsyncObjectWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -81,6 +78,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Async\JavascriptAsyncMethodCallback.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CefSharp.Core\Internals\Serialization\ObjectsSerialization.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Serialization\JsObjectsSerialization.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -130,9 +133,6 @@
     <ClCompile Include="Serialization\V8Serialization.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Serialization\ObjectsSerialization.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Async\JavascriptAsyncObjectWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -143,6 +143,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Async\JavascriptAsyncMethodCallback.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CefSharp.Core\Internals\Serialization\ObjectsSerialization.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Serialization\JsObjectsSerialization.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

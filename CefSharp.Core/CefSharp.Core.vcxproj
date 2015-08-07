@@ -230,12 +230,13 @@
     <ClCompile Include="Internals\CefRequestWrapper.cpp" />
     <ClCompile Include="Internals\JavascriptCallbackProxy.cpp" />
     <ClCompile Include="Internals\JavascriptCallbackFactory.cpp" />
+    <ClCompile Include="Internals\Serialization\ObjectsSerialization.cpp" />
     <ClCompile Include="Internals\StringVisitor.cpp" />
     <ClCompile Include="ManagedCefBrowserAdapter.cpp" />
     <ClCompile Include="NativeMethodWrapper.cpp" />
     <ClCompile Include="Internals\Serialization\V8Serialization.cpp" />
     <ClCompile Include="Internals\Serialization\Primitives.cpp" />
-    <ClCompile Include="Internals\Serialization\ObjectsSerialization.cpp" />
+    <ClCompile Include="Internals\Serialization\JsObjectsSerialization.cpp" />
     <ClCompile Include="ResourceHandlerWrapper.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -282,6 +283,7 @@
     <ClInclude Include="Internals\RenderClientAdapter.h" />
     <ClInclude Include="Internals\ReportUnhandledExceptions.h" />
     <ClInclude Include="Internals\CefRequestCallbackWrapper.h" />
+    <ClInclude Include="Internals\Serialization\ObjectsSerialization.h" />
     <ClInclude Include="Internals\StringVisitor.h" />
     <ClInclude Include="Internals\TypeConversion.h" />
     <ClInclude Include="NativeMethodWrapper.h" />
@@ -291,7 +293,7 @@
     <ClInclude Include="Internals\Serialization\Primitives.h" />
     <ClInclude Include="RequestContext.h" />
     <ClInclude Include="RequestContextSettings.h" />
-    <ClInclude Include="Internals\Serialization\ObjectsSerialization.h" />
+    <ClInclude Include="Internals\Serialization\JsObjectsSerialization.h" />
     <ClInclude Include="SchemeHandlerFactoryWrapper.h" />
     <ClInclude Include="ResourceHandlerWrapper.h" />
     <ClInclude Include="CookieAsyncWrapper.h" />

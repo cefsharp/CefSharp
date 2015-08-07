@@ -21,6 +21,7 @@
 #include "CefWindowInfoWrapper.h"
 #include "Serialization\Primitives.h"
 #include "Serialization\V8Serialization.h"
+#include "Serialization\JsObjectsSerialization.h"
 #include "Serialization\ObjectsSerialization.h"
 #include "Messaging\Messages.h"
 
@@ -158,9 +159,10 @@ namespace CefSharp
                     _javascriptCallbackFactories->Add(browser->GetIdentifier(), _browserAdapter->JavascriptCallbackFactory);
 
                     //transmit async bound objects
-                    auto jsRootObjectMessage = CefProcessMessage::Create(kJavascriptAsyncRootObjectRequest);
+                    auto jsRootObjectMessage = CefProcessMessage::Create(kJavascriptRootObjectRequest);
                     auto argList = jsRootObjectMessage->GetArgumentList();
                     SerializeJsObject(_browserAdapter->JavascriptObjectRepository->AsyncRootObject, argList, 0);
+                    SerializeJsObject(_browserAdapter->JavascriptObjectRepository->RootObject, argList, 1);
                     browser->SendProcessMessage(CefProcessId::PID_RENDERER, jsRootObjectMessage);
                 }
 
@@ -918,7 +920,7 @@ namespace CefSharp
 
                     if (success)
                     {
-                        response->Result = DeserializeV8Object(argList, 2, callbackFactory);
+                        response->Result = DeserializeObject(argList, 2, callbackFactory);
                     }
                     else
                     {
@@ -941,7 +943,7 @@ namespace CefSharp
                     auto methodInvocation = gcnew MethodInvocation(objectId, methodName, (callbackId > 0 ? Nullable<int64>(callbackId) : Nullable<int64>()));
                     for (auto i = 0; i < arguments->GetSize(); i++)
                     {
-                        methodInvocation->Parameters->Add(DeserializeV8Object(arguments, i, callbackFactory));
+                        methodInvocation->Parameters->Add(DeserializeObject(arguments, i, callbackFactory));
                     }
                     
                     _browserAdapter->MethodRunnerQueue->Enqueue(methodInvocation);

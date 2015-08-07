@@ -74,13 +74,6 @@ namespace CefSharp.BrowserSubprocess
                     browserProcess.Connect();
                 }
 
-                var javascriptObject = browserProcess.GetRegisteredJavascriptObjects();
-
-                if (javascriptObject.MemberObjects.Count > 0)
-                {
-                    browser.JavascriptRootObject = javascriptObject;
-                }
-
                 browser.ChannelFactory = channelFactory;
                 browser.BrowserProcess = browserProcess;
             }

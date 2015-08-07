@@ -4,15 +4,13 @@
 
 #pragma once
 
-#include "include/cef_values.h"
-
 namespace CefSharp
 {
     namespace Internals
     {
         namespace Serialization
         {
-            JavascriptRootObject^ DeserializeJsObject(const CefRefPtr<CefListValue>& list, int index);
+            void SerializeJsObject(JavascriptRootObject^ object, CefRefPtr<CefListValue> &list, int index);
         }
     }
 }
