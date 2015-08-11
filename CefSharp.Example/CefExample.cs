@@ -45,8 +45,6 @@ namespace CefSharp.Example
             //settings.UserAgent = "CefSharp Browser" + Cef.CefSharpVersion; // Example User Agent
             //settings.CefCommandLineArgs.Add("renderer-process-limit", "1");
             //settings.CefCommandLineArgs.Add("renderer-startup-dialog", "1");
-            //settings.CefCommandLineArgs.Add("disable-gpu", "1");
-            //settings.CefCommandLineArgs.Add("disable-gpu-vsync", "1");
             //settings.CefCommandLineArgs.Add("enable-media-stream", "1"); //Enable WebRTC
             //settings.CefCommandLineArgs.Add("no-proxy-server", "1"); //Don't use a proxy server, always make direct connections. Overrides any other proxy server flags that are passed.
             //settings.CefCommandLineArgs.Add("debug-plugin-loading", "1"); //Dumps extra logging about plugin loading to the log file.
@@ -56,6 +54,15 @@ namespace CefSharp.Example
 
             //settings.CefCommandLineArgs.Add("ppapi-flash-path", @"C:\WINDOWS\SysWOW64\Macromed\Flash\pepflashplayer32_18_0_0_209.dll"); //Load a specific pepper flash version (Step 1 of 2)
             //settings.CefCommandLineArgs.Add("ppapi-flash-version", "18.0.0.209"); //Load a specific pepper flash version (Step 2 of 2)
+
+            //NOTE: For OSR best performance you should run with GPU disabled:
+            // `--disable-gpu --disable-gpu-compositing --enable-begin-frame-scheduling`
+            // (you'll loose WebGL support but gain increased FPS and reduced CPU usage).
+            // http://magpcss.org/ceforum/viewtopic.php?f=6&t=13271#p27075
+            //settings.CefCommandLineArgs.Add("disable-gpu", "1");
+            //settings.CefCommandLineArgs.Add("disable-gpu-compositing", "1");
+            //settings.CefCommandLineArgs.Add("enable-begin-frame-scheduling", "1");
+            //settings.CefCommandLineArgs.Add("disable-gpu-vsync", "1");
             
             //Disables the DirectWrite font rendering system on windows.
             //Possibly useful when experiencing blury fonts.
