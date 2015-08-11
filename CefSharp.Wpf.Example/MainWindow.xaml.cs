@@ -101,7 +101,16 @@ namespace CefSharp.Wpf.Example
                     url = CefExample.PopupParentUrl;
                     break;
                 }
-                    
+                case "FishGl":
+                {
+                    url = "http://www.fishgl.com/";
+                    break;
+                } 
+                case "MsTestDrive":
+                {
+                    url = "http://dev.modern.ie/testdrive/";
+                    break;
+                }
             }
 
             if (string.IsNullOrEmpty(url))
