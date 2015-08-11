@@ -10,8 +10,6 @@ namespace CefSharp.Wpf.Example.Controls
     public static class CefSharpCommands
     {
         public static RoutedUICommand Exit = new RoutedUICommand("Exit", "Exit", typeof(CefSharpCommands));
-        public static RoutedUICommand OpenTabBindingTest = new RoutedUICommand("OpenTabBindingTest", "OpenTabBindingTest", typeof(CefSharpCommands));
-        public static RoutedUICommand OpenTabPlugins = new RoutedUICommand("OpenTabPlugins", "OpenTabPlugins", typeof(CefSharpCommands));
-        public static RoutedUICommand OpenPopupTest = new RoutedUICommand("OpenPopupTest", "OpenPopupTest", typeof(CefSharpCommands));
+        public static RoutedUICommand OpenTabCommand = new RoutedUICommand("OpenTabCommand", "OpenTabCommand", typeof(CefSharpCommands));
     }
 }

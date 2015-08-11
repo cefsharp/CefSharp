@@ -29,9 +29,7 @@ namespace CefSharp.Wpf.Example
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, CloseTab));
 
             CommandBindings.Add(new CommandBinding(CefSharpCommands.Exit, Exit));
-            CommandBindings.Add(new CommandBinding(CefSharpCommands.OpenTabBindingTest, OpenTabBindingTest));
-            CommandBindings.Add(new CommandBinding(CefSharpCommands.OpenTabPlugins, OpenTabPlugins));
-            CommandBindings.Add(new CommandBinding(CefSharpCommands.OpenPopupTest, OpenPopupTest));
+            CommandBindings.Add(new CommandBinding(CefSharpCommands.OpenTabCommand, OpenTabCommandBinding));
 
             Loaded += MainWindowLoaded;
 
@@ -81,23 +79,37 @@ namespace CefSharp.Wpf.Example
             BrowserTabs.Add(new BrowserTabViewModel(url) { ShowSidebar = showSideBar });
         }
 
-        private void OpenTabBindingTest(object sender, ExecutedRoutedEventArgs e)
+        private void OpenTabCommandBinding(object sender, ExecutedRoutedEventArgs e)
         {
-            CreateNewTab(CefExample.BindingTestUrl, true);
+            var param = e.Parameter.ToString();
+            string url = "";
 
-            TabControl.SelectedIndex = TabControl.Items.Count - 1;
-        }
+            switch(param)
+            {
+                case "BindingTest":
+                {
+                    url = CefExample.BindingTestUrl;
+                    break;
+                }
+                case "ListPlugins":
+                {
+                    url = CefExample.PluginsTestUrl;
+                    break;
+                }
+                case "PopupTest":
+                {
+                    url = CefExample.PopupParentUrl;
+                    break;
+                }
+                    
+            }
 
-        private void OpenTabPlugins(object sender, ExecutedRoutedEventArgs e)
-        {
-            CreateNewTab(CefExample.PluginsTestUrl, true);
+            if (string.IsNullOrEmpty(url))
+            {
+                throw new Exception("Please provide a valid command parameter for binding");
+            }
 
-            TabControl.SelectedIndex = TabControl.Items.Count - 1;
-        }
-
-        private void OpenPopupTest(object sender, ExecutedRoutedEventArgs e)
-        {
-            CreateNewTab(CefExample.PopupParentUrl, true);
+            CreateNewTab(url, true);
 
             TabControl.SelectedIndex = TabControl.Items.Count - 1;
         }
