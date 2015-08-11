@@ -21,7 +21,7 @@ namespace CefSharp.Example
             return false;
         }
 
-        bool IRequestHandler.OnCertificateError(IWebBrowser browserControl, IBrowser browser, CefErrorCode errorCode, string requestUrl, IRequestCallback callback)
+        bool IRequestHandler.OnCertificateError(IWebBrowser browserControl, IBrowser browser, CefErrorCode errorCode, string requestUrl, ISslInfo sslInfo, IRequestCallback callback)
         {
             try
             {

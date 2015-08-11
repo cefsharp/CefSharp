@@ -56,11 +56,12 @@ namespace CefSharp
         /// <param name="browser">the browser object</param>
         /// <param name="errorCode">the error code for this invalid certificate</param>
         /// <param name="requestUrl">the url of the request for the invalid certificate</param>
+        /// <param name="sslInfo">ssl certificate information</param>
         /// <param name="callback">Callback interface used for asynchronous continuation of url requests.
         /// If empty the error cannot be recovered from and the request will be canceled automatically.</param>
         /// <returns>Return false to cancel the request immediately. Return true and use <see cref="IRequestCallback"/> to
         /// execute in an async fashion.</returns>
-        bool OnCertificateError(IWebBrowser browserControl, IBrowser browser, CefErrorCode errorCode, string requestUrl, IRequestCallback callback);
+        bool OnCertificateError(IWebBrowser browserControl, IBrowser browser, CefErrorCode errorCode, string requestUrl, ISslInfo sslInfo, IRequestCallback callback);
 
         /// <summary>
         /// Called when a plugin has crashed

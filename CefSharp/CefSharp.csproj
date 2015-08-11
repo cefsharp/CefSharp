@@ -95,6 +95,7 @@
     <Compile Include="ICookieManager.cs" />
     <Compile Include="ILoadHandler.cs" />
     <Compile Include="IMenuModel.cs" />
+    <Compile Include="ISslInfo.cs" />
     <Compile Include="KeyEvent.cs" />
     <Compile Include="KeyEventType.cs" />
     <Compile Include="IPostData.cs" />

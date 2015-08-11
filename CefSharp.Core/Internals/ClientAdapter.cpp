@@ -452,7 +452,7 @@ namespace CefSharp
             auto requestCallback = callback == NULL ? nullptr : gcnew CefRequestCallbackWrapper(callback);
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
 
-            return handler->OnCertificateError(_browserControl, browserWrapper, (CefErrorCode)cert_error, StringUtils::ToClr(request_url), requestCallback);
+            return handler->OnCertificateError(_browserControl, browserWrapper, (CefErrorCode)cert_error, StringUtils::ToClr(request_url), nullptr, requestCallback);
         }
 
         bool ClientAdapter::OnQuotaRequest(CefRefPtr<CefBrowser> browser, const CefString& originUrl, int64 newSize, CefRefPtr<CefRequestCallback> callback)
