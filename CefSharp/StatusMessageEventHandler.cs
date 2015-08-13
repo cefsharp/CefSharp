@@ -11,10 +11,16 @@ namespace CefSharp
     /// </summary>
     public class StatusMessageEventArgs : EventArgs
     {
-        public StatusMessageEventArgs(string value)
+        public StatusMessageEventArgs(IBrowser browser, string value)
         {
+            Browser = browser;
             Value = value;
         }
+
+        /// <summary>
+        /// The browser object
+        /// </summary>
+        public IBrowser Browser { get; private set; }
 
         /// <summary>
         /// The value of the status message.

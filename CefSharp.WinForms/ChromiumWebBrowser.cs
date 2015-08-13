@@ -206,39 +206,39 @@ namespace CefSharp.WinForms
             }
         }
 
-        void IWebBrowserInternal.SetAddress(string address)
+        void IWebBrowserInternal.SetAddress(AddressChangedEventArgs args)
         {
-            Address = address;
+            Address = args.Address;
 
             var handler = AddressChanged;
             if (handler != null)
             {
-                handler(this, new AddressChangedEventArgs(address));
+                handler(this, args);
             }
         }
 
-        void IWebBrowserInternal.SetLoadingStateChange(bool canGoBack, bool canGoForward, bool isLoading)
+        void IWebBrowserInternal.SetLoadingStateChange(LoadingStateChangedEventArgs args)
         {
-            CanGoBack = canGoBack;
-            CanGoForward = canGoForward;
-            CanReload = !isLoading;
-            IsLoading = isLoading;
+            CanGoBack = args.CanGoBack;
+            CanGoForward = args.CanGoForward;
+            CanReload = !args.IsLoading;
+            IsLoading = args.IsLoading;
 
             var handler = LoadingStateChanged;
             if (handler != null)
             {
-                handler(this, new LoadingStateChangedEventArgs(canGoBack, canGoForward, isLoading));
+                handler(this, args);
             }
         }
 
-        void IWebBrowserInternal.SetTitle(string title)
+        void IWebBrowserInternal.SetTitle(TitleChangedEventArgs args)
         {
-            Title = title;
+            Title = args.Title;
 
             var handler = TitleChanged;
             if (handler != null)
             {
-                handler(this, new TitleChangedEventArgs(title));
+                handler(this, args);
             }
         }
 
@@ -265,30 +265,30 @@ namespace CefSharp.WinForms
             }
         }
 
-        void IWebBrowserInternal.OnConsoleMessage(string message, string source, int line)
+        void IWebBrowserInternal.OnConsoleMessage(ConsoleMessageEventArgs args)
         {
             var handler = ConsoleMessage;
             if (handler != null)
             {
-                handler(this, new ConsoleMessageEventArgs(message, source, line));
+                handler(this, args);
             }
         }
 
-        void IWebBrowserInternal.OnStatusMessage(string value)
+        void IWebBrowserInternal.OnStatusMessage(StatusMessageEventArgs args)
         {
             var handler = StatusMessage;
             if (handler != null)
             {
-                handler(this, new StatusMessageEventArgs(value));
+                handler(this, args);
             }
         }
 
-        void IWebBrowserInternal.OnLoadError(IFrame frame, CefErrorCode errorCode, string errorText, string failedUrl)
+        void IWebBrowserInternal.OnLoadError(LoadErrorEventArgs args)
         {
             var handler = LoadError;
             if (handler != null)
             {
-                handler(this, new LoadErrorEventArgs(frame, errorCode, errorText, failedUrl));
+                handler(this, args);
             }
         }
 

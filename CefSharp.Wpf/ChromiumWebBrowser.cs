@@ -295,12 +295,12 @@ namespace CefSharp.Wpf
             });
         }
 
-        void IWebBrowserInternal.SetAddress(string address)
+        void IWebBrowserInternal.SetAddress(AddressChangedEventArgs args)
         {
             UiThreadRunAsync(() =>
             {
                 ignoreUriChange = true;
-                SetCurrentValue(AddressProperty, address);
+                SetCurrentValue(AddressProperty, args.Address);
                 ignoreUriChange = false;
 
                 // The tooltip should obviously also be reset (and hidden) when the address changes.
@@ -308,14 +308,14 @@ namespace CefSharp.Wpf
             });
         }
 
-        void IWebBrowserInternal.SetLoadingStateChange(bool canGoBack, bool canGoForward, bool isLoading)
+        void IWebBrowserInternal.SetLoadingStateChange(LoadingStateChangedEventArgs args)
         {
             UiThreadRunAsync(() =>
             {
-                SetCurrentValue(CanGoBackProperty, canGoBack);
-                SetCurrentValue(CanGoForwardProperty, canGoForward);
-                SetCurrentValue(CanReloadProperty, !isLoading);
-                SetCurrentValue(IsLoadingProperty, isLoading);
+                SetCurrentValue(CanGoBackProperty, args.CanGoBack);
+                SetCurrentValue(CanGoForwardProperty, args.CanGoForward);
+                SetCurrentValue(CanReloadProperty, !args.IsLoading);
+                SetCurrentValue(IsLoadingProperty, args.IsLoading);
 
                 ((DelegateCommand)BackCommand).RaiseCanExecuteChanged();
                 ((DelegateCommand)ForwardCommand).RaiseCanExecuteChanged();
@@ -325,13 +325,13 @@ namespace CefSharp.Wpf
             var handler = LoadingStateChanged;
             if (handler != null)
             {
-                handler(this, new LoadingStateChangedEventArgs(canGoBack, canGoForward, isLoading));
+                handler(this, args);
             }
         }
 
-        void IWebBrowserInternal.SetTitle(string title)
+        void IWebBrowserInternal.SetTitle(TitleChangedEventArgs args)
         {
-            UiThreadRunAsync(() => SetCurrentValue(TitleProperty, title));
+            UiThreadRunAsync(() => SetCurrentValue(TitleProperty, args.Title));
         }
 
         void IWebBrowserInternal.SetTooltipText(string tooltipText)
@@ -358,30 +358,30 @@ namespace CefSharp.Wpf
             }
         }
 
-        void IWebBrowserInternal.OnConsoleMessage(string message, string source, int line)
+        void IWebBrowserInternal.OnConsoleMessage(ConsoleMessageEventArgs args)
         {
             var handler = ConsoleMessage;
             if (handler != null)
             {
-                handler(this, new ConsoleMessageEventArgs(message, source, line));
+                handler(this, args);
             }
         }
 
-        void IWebBrowserInternal.OnStatusMessage(string value)
+        void IWebBrowserInternal.OnStatusMessage(StatusMessageEventArgs args)
         {
             var handler = StatusMessage;
             if (handler != null)
             {
-                handler(this, new StatusMessageEventArgs(value));
+                handler(this, args);
             }
         }
 
-        void IWebBrowserInternal.OnLoadError(IFrame frame, CefErrorCode errorCode, string errorText, string failedUrl)
+        void IWebBrowserInternal.OnLoadError(LoadErrorEventArgs args)
         {
             var handler = LoadError;
             if (handler != null)
             {
-                handler(this, new LoadErrorEventArgs(frame, errorCode, errorText, failedUrl));
+                handler(this, args);
             }
         }
 

@@ -15,9 +15,11 @@ namespace CefSharp
         public bool CanGoBack { get; private set; }
         public bool CanReload { get; private set; }
         public bool IsLoading { get; private set; }
+        public IBrowser Browser { get; private set; }
 
-        public LoadingStateChangedEventArgs(bool canGoBack, bool canGoForward, bool isLoading)
+        public LoadingStateChangedEventArgs(IBrowser browser, bool canGoBack, bool canGoForward, bool isLoading)
         {
+            Browser = browser;
             CanGoBack = canGoBack;
             CanGoForward = canGoForward;
             IsLoading = isLoading;

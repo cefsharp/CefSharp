@@ -66,6 +66,7 @@ namespace CefSharp.OffScreen
         public event EventHandler<StatusMessageEventArgs> StatusMessage;
         public event EventHandler<LoadingStateChangedEventArgs> LoadingStateChanged;
         public event EventHandler<AddressChangedEventArgs> AddressChanged;
+        public event EventHandler<TitleChangedEventArgs> TitleChanged;
 
         /// <summary>
         /// Fired by a separate thread when Chrome has re-rendered.
@@ -330,12 +331,12 @@ namespace CefSharp.OffScreen
         {
         }
 
-        void IWebBrowserInternal.OnConsoleMessage(string message, string source, int line)
+        void IWebBrowserInternal.OnConsoleMessage(ConsoleMessageEventArgs args)
         {
             var handler = ConsoleMessage;
             if (handler != null)
             {
-                handler(this, new ConsoleMessageEventArgs(message, source, line));
+                handler(this, args);
             }
         }
 
@@ -368,12 +369,12 @@ namespace CefSharp.OffScreen
             }
         }
 
-        void IWebBrowserInternal.OnLoadError(IFrame frame, CefErrorCode errorCode, string errorText, string failedUrl)
+        void IWebBrowserInternal.OnLoadError(LoadErrorEventArgs args)
         {
             var handler = LoadError;
             if (handler != null)
             {
-                handler(this, new LoadErrorEventArgs(frame, errorCode, errorText, failedUrl));
+                handler(this, args);
             }
         }
 
@@ -389,43 +390,47 @@ namespace CefSharp.OffScreen
             get { return IntPtr.Zero; }
         }
 
-        void IWebBrowserInternal.OnStatusMessage(string value)
+        void IWebBrowserInternal.OnStatusMessage(StatusMessageEventArgs args)
         {
             var handler = StatusMessage;
             if (handler != null)
             {
-                handler(this, new StatusMessageEventArgs(value));
+                handler(this, args);
             }
         }
 
-        void IWebBrowserInternal.SetAddress(string address)
+        void IWebBrowserInternal.SetAddress(AddressChangedEventArgs args)
         {
-            Address = address;
+            Address = args.Address;
 
             var handler = AddressChanged;
             if (handler != null)
             {
-                handler(this, new AddressChangedEventArgs(address));
+                handler(this, args);
             }
         }
 
-        void IWebBrowserInternal.SetLoadingStateChange(bool canGoBack, bool canGoForward, bool isLoading)
+        void IWebBrowserInternal.SetLoadingStateChange(LoadingStateChangedEventArgs args)
         {
-            CanGoBack = canGoBack;
-            CanGoForward = canGoForward;
-            CanReload = !isLoading;
-            IsLoading = isLoading;
+            CanGoBack = args.CanGoBack;
+            CanGoForward = args.CanGoForward;
+            CanReload = !args.IsLoading;
+            IsLoading = args.IsLoading;
 
             var handler = LoadingStateChanged;
             if (handler != null)
             {
-                handler(this, new LoadingStateChangedEventArgs(canGoBack, canGoForward, isLoading));
+                handler(this, args);
             }
         }
 
-        void IWebBrowserInternal.SetTitle(string title)
+        void IWebBrowserInternal.SetTitle(TitleChangedEventArgs args)
         {
-            Title = title;
+            var handler = TitleChanged;
+            if (handler != null)
+            {
+                handler(this, args);
+            }
         }
 
         void IWebBrowserInternal.SetTooltipText(string tooltipText)
