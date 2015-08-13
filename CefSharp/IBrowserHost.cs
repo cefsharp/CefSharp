@@ -16,8 +16,7 @@ namespace CefSharp
         IntPtr GetWindowHandle();
         void CloseBrowser(bool forceClose);
 
-        void ShowDevTools(IWindowInfo windowInfo, int x, int y);
-        void ShowDevTools();
+        void ShowDevTools(IWindowInfo windowInfo = null, int inspectElementAtX = 0, int inspectElementAtY = 0);
         void CloseDevTools();
 
         void AddWordToDictionary(string word);

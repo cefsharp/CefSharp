@@ -47,7 +47,6 @@ namespace CefSharp
             virtual void CloseBrowser(bool forceClose);
         
             virtual void ShowDevTools(IWindowInfo^ windowInfo, int x, int y);
-            virtual void ShowDevTools();
             virtual void CloseDevTools();
 
             virtual void AddWordToDictionary(String^ word);
