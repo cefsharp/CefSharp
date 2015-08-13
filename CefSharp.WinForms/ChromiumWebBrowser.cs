@@ -23,7 +23,6 @@ namespace CefSharp.WinForms
 
         public BrowserSettings BrowserSettings { get; set; }
         public RequestContext RequestContext { get; set; }
-        public string Title { get; set; }
         public bool IsLoading { get; private set; }
         public string TooltipText { get; private set; }
         public string Address { get; private set; }
@@ -233,8 +232,6 @@ namespace CefSharp.WinForms
 
         void IWebBrowserInternal.SetTitle(TitleChangedEventArgs args)
         {
-            Title = args.Title;
-
             var handler = TitleChanged;
             if (handler != null)
             {

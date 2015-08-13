@@ -37,7 +37,6 @@ namespace CefSharp.OffScreen
 
         public bool IsBrowserInitialized { get; private set; }
         public bool IsLoading { get; set; }
-        public string Title { get; set; }
         public string TooltipText { get; set; }
         public bool CanReload { get; private set; }
         public string Address { get; private set; }

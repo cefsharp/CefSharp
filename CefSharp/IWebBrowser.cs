@@ -176,13 +176,6 @@ namespace CefSharp
         string Address { get; }
 
         /// <summary>
-        /// The title of the web page being currently displayed.
-        /// </summary>
-        /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
-        /// binding.</remarks>
-        string Title { get; }
-
-        /// <summary>
         /// The text that will be displayed as a ToolTip
         /// </summary>
         string TooltipText { get; }
