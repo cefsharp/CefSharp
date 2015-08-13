@@ -33,6 +33,7 @@ namespace CefSharp
         /// <summary>
         /// Is this the Main Frame
         /// </summary>
+        [Obsolete("Use Frame.IsMain instead")]
         public bool IsMainFrame { get; private set; }
     }
 }
