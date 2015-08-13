@@ -128,7 +128,7 @@ namespace CefSharp.Wpf
 
             BackCommand = new DelegateCommand(this.Back, () => CanGoBack);
             ForwardCommand = new DelegateCommand(this.Forward, () => CanGoForward);
-            ReloadCommand = new DelegateCommand(this.Reload, () => CanReload);
+            ReloadCommand = new DelegateCommand(this.Reload, () => !IsLoading);
             PrintCommand = new DelegateCommand(this.Print);
             ZoomInCommand = new DelegateCommand(ZoomIn);
             ZoomOutCommand = new DelegateCommand(ZoomOut);
@@ -437,6 +437,7 @@ namespace CefSharp.Wpf
 
         #region CanReload dependency property
 
+        [Obsolete("Use IsLoading instead (inverse of this property)")]
         public bool CanReload
         {
             get { return (bool)GetValue(CanReloadProperty); }

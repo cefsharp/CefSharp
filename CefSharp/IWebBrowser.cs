@@ -165,6 +165,7 @@ namespace CefSharp
         /// </summary>
         /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
         /// binding.</remarks>
+        [Obsolete("Use IsLoading instead (inverse of this property)")]
         bool CanReload { get; }
 
         /// <summary>
