@@ -18,7 +18,7 @@
 #include "CefAuthCallbackWrapper.h"
 #include "CefJSDialogCallbackWrapper.h"
 #include "CefRequestCallbackWrapper.h"
-#include "CefWindowInfoWrapper.h"
+#include "WindowInfo.h"
 #include "Serialization\Primitives.h"
 #include "Serialization\V8Serialization.h"
 #include "Serialization\JsObjectsSerialization.h"
@@ -89,7 +89,7 @@ namespace CefSharp
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
 
             CefFrameWrapper frameWrapper(frame);
-            CefWindowInfoWrapper windowInfoWrapper(&windowInfo);
+            WindowInfo windowInfoWrapper(&windowInfo);
 
             auto result = handler->OnBeforePopup(
                 _browserControl, browserWrapper,

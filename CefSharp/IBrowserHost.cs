@@ -15,8 +15,8 @@ namespace CefSharp
         Task<double> GetZoomLevelAsync();
         IntPtr GetWindowHandle();
         void CloseBrowser(bool forceClose);
-        
-        void ShowDevTools();
+
+        void ShowDevTools(IWindowInfo windowInfo = null, int inspectElementAtX = 0, int inspectElementAtY = 0);
         void CloseDevTools();
 
         void AddWordToDictionary(string word);
