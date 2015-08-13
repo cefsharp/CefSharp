@@ -208,9 +208,6 @@
     <ClInclude Include="Internals\Messaging\Messages.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Internals\CefWindowInfoWrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Internals\CefPostDataWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -236,6 +233,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Internals\Serialization\ObjectsSerialization.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

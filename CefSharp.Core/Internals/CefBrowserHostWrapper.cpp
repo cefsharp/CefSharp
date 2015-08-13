@@ -4,7 +4,7 @@
 
 #include "Stdafx.h"
 #include "CefBrowserHostWrapper.h"
-#include "CefWindowInfoWrapper.h"
+#include "WindowInfo.h"
 
 void CefBrowserHostWrapper::StartDownload(String^ url)
 {
@@ -67,7 +67,7 @@ void CefBrowserHostWrapper::ShowDevTools(IWindowInfo^ windowInfo, int inspectEle
     }
     else
     {
-        auto cefWindowInfoWrapper = static_cast<CefWindowInfoWrapper^>(windowInfo);
+        auto cefWindowInfoWrapper = static_cast<WindowInfo^>(windowInfo);
 
         nativeWindowInfo = *cefWindowInfoWrapper->GetWindowInfo();
     }
