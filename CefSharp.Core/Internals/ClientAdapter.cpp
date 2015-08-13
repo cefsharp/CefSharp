@@ -234,7 +234,7 @@ namespace CefSharp
         void ClientAdapter::OnAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& address)
         {
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
-            auto args = gcnew AddressChangedEventArgs(StringUtils::ToClr(address));
+            auto args = gcnew AddressChangedEventArgs(browserWrapper, StringUtils::ToClr(address));
 
             if (browser->IsPopup())
             {
