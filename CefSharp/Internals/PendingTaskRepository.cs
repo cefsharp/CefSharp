@@ -35,13 +35,7 @@ namespace CefSharp.Internals
 
             if (timeout.HasValue)
             {
-                Timer timer = null;
-                timer = new Timer(state =>
-                {
-                    timer.Dispose();
-                    RemovePendingTask(id);
-                    taskCompletionSource.TrySetCanceled();
-                }, null, timeout.Value, TimeSpan.FromMilliseconds(-1));
+                taskCompletionSource = taskCompletionSource.WithTimeout(timeout.Value, () => RemovePendingTask(id));
             }
 
             return new KeyValuePair<long, TaskCompletionSource<TResult>>(id, taskCompletionSource);
