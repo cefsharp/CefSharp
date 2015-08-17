@@ -78,44 +78,5 @@ namespace CefSharp
         /// <param name="browserControl">The <see cref="IWebBrowser"/> control this popup is related to.</param>
         /// <param name="loadErrorArgs">args</param>
         void OnLoadError(IWebBrowser browserControl, LoadErrorEventArgs loadErrorArgs);
-
-        /// <summary>
-        /// Called before browser navigation.
-        /// If the navigation is allowed <see cref="IWebBrowser.FrameLoadStart"/> and <see cref="IWebBrowser.FrameLoadEnd"/>
-        /// will be called. If the navigation is canceled <see cref="IWebBrowser.LoadError"/> will be called with an ErrorCode
-        /// value of <see cref="CefErrorCode.Aborted"/>. 
-        /// </summary>
-        /// <param name="browserControl">The <see cref="IWebBrowser"/> control this popup is related to.</param>
-        /// <param name="browser">the browser object</param>
-        /// <param name="request">the request object - cannot be modified in this callback</param>
-        /// <param name="frame">The frame the request is coming from</param>
-        /// <param name="isRedirect">has the request been redirected</param>
-        /// <returns>Return true to cancel the navigation or false to allow the navigation to proceed.</returns>
-        bool OnBeforeBrowse(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, bool isRedirect);
-
-        /// <summary>
-        /// Called on the IO thread when a resource load is redirected. The <see cref="IRequest.Url"/>
-        /// parameter will contain the old URL and other request-related information.
-        /// </summary>
-        /// <param name="browserControl">The <see cref="IWebBrowser"/> control this popup is related to.</param>
-        /// <param name="browser">the browser object</param>
-        /// <param name="frame">The frame that is being redirected.</param>
-        /// <param name="request">the request object - cannot be modified in this callback</param>
-        /// <param name="newUrl">the new URL and can be changed if desired</param>
-        void OnResourceRedirect(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, ref string newUrl);
-
-        /// <summary>
-        /// Called before a resource request is loaded. For async processing return <see cref="CefReturnValue.ContinueAsync"/> 
-        /// and execute <see cref="IRequestCallback.Continue"/> or <see cref="IRequestCallback.Cancel"/>
-        /// </summary>
-        /// <param name="browserControl">The <see cref="IWebBrowser"/> control this popup is related to.</param>
-        /// <param name="browser">the browser object</param>
-        /// <param name="request">the request object - can be modified in this callback.</param>
-        /// <param name="frame">The frame object</param>
-        /// <param name="callback">Callback interface used for asynchronous continuation of url requests.</param>
-        /// <returns>To cancel loading of the resource return <see cref="CefReturnValue.Cancel"/>
-        /// or <see cref="CefReturnValue.Continue"/> to allow the resource to load normally. For async
-        /// return <see cref="CefReturnValue.ContinueAsync"/></returns>
-        CefReturnValue OnBeforeResourceLoad(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IRequestCallback callback);
     }
 }

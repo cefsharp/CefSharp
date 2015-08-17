@@ -425,31 +425,15 @@ namespace CefSharp
 
         bool ClientAdapter::OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, bool isRedirect)
         {
-            if (browser->IsPopup())
+            auto handler = _browserControl->RequestHandler;
+
+            if (handler != nullptr)
             {
-                auto popupHandler = _browserControl->PopupHandler;
+                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+                CefFrameWrapper frameWrapper(frame);
+                CefRequestWrapper requestWrapper(request);
 
-                if (popupHandler != nullptr)
-                {
-                    auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), true);
-                    CefFrameWrapper frameWrapper(frame);
-                    CefRequestWrapper requestWrapper(request);
-
-                    return popupHandler->OnBeforeBrowse(_browserControl, browserWrapper, %frameWrapper, %requestWrapper, isRedirect);
-                }
-            }
-            else
-            {
-                auto handler = _browserControl->RequestHandler;
-
-                if (handler != nullptr)
-                {
-                    auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), false);
-                    CefFrameWrapper frameWrapper(frame);
-                    CefRequestWrapper requestWrapper(request);
-
-                    return handler->OnBeforeBrowse(_browserControl, browserWrapper, %frameWrapper, %requestWrapper, isRedirect);
-                }
+                return handler->OnBeforeBrowse(_browserControl, browserWrapper, %frameWrapper, %requestWrapper, isRedirect);
             }
 
             return false;
@@ -533,37 +517,18 @@ namespace CefSharp
 
         void ClientAdapter::OnResourceRedirect(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefString& newUrl)
         {
-            if (browser->IsPopup())
+            auto handler = _browserControl->RequestHandler;
+
+            if (handler != nullptr)
             {
-                auto popupHandler = _browserControl->PopupHandler;
+                auto managedNewUrl = StringUtils::ToClr(newUrl);
+                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());;
+                CefFrameWrapper frameWrapper(frame);
+                CefRequestWrapper requestWrapper(request);
 
-                if (popupHandler != nullptr)
-                {
-                    auto managedNewUrl = StringUtils::ToClr(newUrl);
-                    auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), true);;
-                    CefFrameWrapper frameWrapper(frame);
-                    CefRequestWrapper requestWrapper(request);
+                handler->OnResourceRedirect(_browserControl, browserWrapper, %frameWrapper, %requestWrapper, managedNewUrl);
 
-                    popupHandler->OnResourceRedirect(_browserControl, browserWrapper, %frameWrapper, %requestWrapper, managedNewUrl);
-
-                    newUrl = StringUtils::ToNative(managedNewUrl);
-                }
-            }
-            else
-            {
-                auto handler = _browserControl->RequestHandler;
-
-                if (handler != nullptr)
-                {
-                    auto managedNewUrl = StringUtils::ToClr(newUrl);
-                    auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), false);;
-                    CefFrameWrapper frameWrapper(frame);
-                    CefRequestWrapper requestWrapper(request);
-
-                    handler->OnResourceRedirect(_browserControl, browserWrapper, %frameWrapper, %requestWrapper, managedNewUrl);
-
-                    newUrl = StringUtils::ToNative(managedNewUrl);
-                }
+                newUrl = StringUtils::ToNative(managedNewUrl);
             }
         }
 
@@ -624,34 +589,18 @@ namespace CefSharp
 
         cef_return_value_t ClientAdapter::OnBeforeResourceLoad(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefRequestCallback> callback)
         {
-            if (browser->IsPopup())
+            auto handler = _browserControl->RequestHandler;
+
+            if (handler != nullptr)
             {
-                auto popupHandler = _browserControl->PopupHandler;
+                auto frameWrapper = gcnew CefFrameWrapper(frame);
+                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+                auto requestWrapper = gcnew CefRequestWrapper(request);
+                auto requestCallback = gcnew CefRequestCallbackWrapper(callback, frameWrapper, requestWrapper);
 
-                if (popupHandler != nullptr)
-                {
-                    auto frameWrapper = gcnew CefFrameWrapper(frame);
-                    auto requestWrapper = gcnew CefRequestWrapper(request);
-                    auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), true);
-                    auto requestCallback = gcnew CefRequestCallbackWrapper(callback, frameWrapper, requestWrapper);
-
-                    return (cef_return_value_t)popupHandler->OnBeforeResourceLoad(_browserControl, browserWrapper, frameWrapper, requestWrapper, requestCallback);
-                }
+                return (cef_return_value_t)handler->OnBeforeResourceLoad(_browserControl, browserWrapper, frameWrapper, requestWrapper, requestCallback);
             }
-            else
-            {
-                auto handler = _browserControl->RequestHandler;
 
-                if (handler != nullptr)
-                {
-                    auto frameWrapper = gcnew CefFrameWrapper(frame);
-                    auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), false);
-                    auto requestWrapper = gcnew CefRequestWrapper(request);
-                    auto requestCallback = gcnew CefRequestCallbackWrapper(callback, frameWrapper, requestWrapper);
-
-                    return (cef_return_value_t)handler->OnBeforeResourceLoad(_browserControl, browserWrapper, frameWrapper, requestWrapper, requestCallback);
-                }
-            }
             return cef_return_value_t::RV_CONTINUE;
         }
 
