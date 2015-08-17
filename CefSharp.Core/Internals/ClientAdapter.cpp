@@ -143,7 +143,8 @@ namespace CefSharp
 
                 if (handler != nullptr)
                 {
-                    handler->OnAfterCreated(_browserControl, browserWrapper);
+                    throw gcnew NotImplementedException();
+                    //handler->OnAfterCreated(_browserControl, browserWrapper);
                 }
             }
             else
@@ -188,7 +189,8 @@ namespace CefSharp
 
                 if (handler != nullptr)
                 {
-                    handler->OnBeforeClose(_browserControl, browserWrapper);
+                    //handler->OnBeforeClose(_browserControl, browserWrapper);
+                    throw gcnew NotImplementedException();
                 }
 
                 _popupBrowsers->Remove(browser->GetIdentifier());
