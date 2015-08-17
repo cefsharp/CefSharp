@@ -303,12 +303,12 @@ namespace CefSharp
             }
 
             auto handler = _browserControl->DisplayHandler;
-            if (handler != nullptr)
+            if (handler == nullptr)
             {
-                return handler->OnConsoleMessage(_browserControl, args);
+                return false;
             }
 
-            return true;
+            return handler->OnConsoleMessage(_browserControl, args);
         }
 
         void ClientAdapter::OnStatusMessage(CefRefPtr<CefBrowser> browser, const CefString& value)
