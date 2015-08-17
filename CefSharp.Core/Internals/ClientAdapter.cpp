@@ -274,6 +274,7 @@ namespace CefSharp
             bool hasChanged = tooltip != _tooltip;
 
             //NOTE: Only called if tooltip changed otherwise called many times
+            // also only appears to be called with OSR rendering at the moment
             if(hasChanged)
             {
                 if (!browser->IsPopup())
@@ -289,7 +290,6 @@ namespace CefSharp
                 }
             }
 
-            //TODO: Should this be true for WinForms?
             return true;
         }
 
