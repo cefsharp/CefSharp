@@ -332,32 +332,34 @@ namespace CefSharp
         {
             auto handler = _browserControl->KeyboardHandler;
 
-            if (handler != nullptr)
+            if (handler == nullptr)
             {
-                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
-
-                return handler->OnKeyEvent(
-                    _browserControl, browserWrapper, (KeyType)event.type, event.windows_key_code, 
-                    event.native_key_code,
-                    (CefEventFlags)event.modifiers, event.is_system_key == 1);
+                return false;
             }
-            return false;
+            
+            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+
+            return handler->OnKeyEvent(
+                _browserControl, browserWrapper, (KeyType)event.type, event.windows_key_code, 
+                event.native_key_code,
+                (CefEventFlags)event.modifiers, event.is_system_key == 1);            
         }
 
         bool ClientAdapter::OnPreKeyEvent(CefRefPtr<CefBrowser> browser, const CefKeyEvent& event, CefEventHandle os_event, bool* is_keyboard_shortcut)
         {
             auto handler = _browserControl->KeyboardHandler;
 
-            if (handler != nullptr)
+            if (handler == nullptr)
             {
-                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+                return false;
+            }            
 
-                return handler->OnPreKeyEvent(
-                    _browserControl, browserWrapper, (KeyType)event.type, event.windows_key_code,
-                    event.native_key_code, (CefEventFlags)event.modifiers, event.is_system_key == 1,
-                    *is_keyboard_shortcut);
-            }
-            return false;
+            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+
+            return handler->OnPreKeyEvent(
+                _browserControl, browserWrapper, (KeyType)event.type, event.windows_key_code,
+                event.native_key_code, (CefEventFlags)event.modifiers, event.is_system_key == 1,
+                *is_keyboard_shortcut);
         }
 
         void ClientAdapter::OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame)
@@ -419,16 +421,16 @@ namespace CefSharp
         {
             auto handler = _browserControl->RequestHandler;
 
-            if (handler != nullptr)
+            if (handler == nullptr)
             {
-                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
-                CefFrameWrapper frameWrapper(frame);
-                CefRequestWrapper requestWrapper(request);
+                return false;
+            }           
 
-                return handler->OnBeforeBrowse(_browserControl, browserWrapper, %frameWrapper, %requestWrapper, isRedirect);
-            }
+            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+            CefFrameWrapper frameWrapper(frame);
+            CefRequestWrapper requestWrapper(request);
 
-            return false;
+            return handler->OnBeforeBrowse(_browserControl, browserWrapper, %frameWrapper, %requestWrapper, isRedirect);
         }
 
         bool ClientAdapter::OnCertificateError(CefRefPtr<CefBrowser> browser, cef_errorcode_t cert_error, const CefString& request_url, CefRefPtr<CefSSLInfo> ssl_info, CefRefPtr<CefRequestCallback> callback)
@@ -583,17 +585,17 @@ namespace CefSharp
         {
             auto handler = _browserControl->RequestHandler;
 
-            if (handler != nullptr)
+            if (handler == nullptr)
             {
-                auto frameWrapper = gcnew CefFrameWrapper(frame);
-                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
-                auto requestWrapper = gcnew CefRequestWrapper(request);
-                auto requestCallback = gcnew CefRequestCallbackWrapper(callback, frameWrapper, requestWrapper);
+                return cef_return_value_t::RV_CONTINUE;
+            }            
 
-                return (cef_return_value_t)handler->OnBeforeResourceLoad(_browserControl, browserWrapper, frameWrapper, requestWrapper, requestCallback);
-            }
+            auto frameWrapper = gcnew CefFrameWrapper(frame);
+            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+            auto requestWrapper = gcnew CefRequestWrapper(request);
+            auto requestCallback = gcnew CefRequestCallbackWrapper(callback, frameWrapper, requestWrapper);
 
-            return cef_return_value_t::RV_CONTINUE;
+            return (cef_return_value_t)handler->OnBeforeResourceLoad(_browserControl, browserWrapper, frameWrapper, requestWrapper, requestCallback);
         }
 
         bool ClientAdapter::GetAuthCredentials(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, bool isProxy,
