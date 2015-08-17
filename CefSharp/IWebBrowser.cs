@@ -83,9 +83,9 @@ namespace CefSharp
         IRequestHandler RequestHandler { get; set; }
 
         /// <summary>
-        /// Implement <see cref="IPopupHandler"/> and assign to handle events related to popup window events.
+        /// Implement <see cref="IDisplayHandler"/> and assign to handle events related to browser display state.
         /// </summary>
-        IPopupHandler PopupHandler { get; set; }
+        IDisplayHandler DisplayHandler { get; set; }
 
         /// <summary>
         /// Implement <see cref="ILifeSpanHandler"/> and assign to handle events related to popups.

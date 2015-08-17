@@ -139,7 +139,7 @@ namespace CefSharp
                 // Add to the list of popup browsers.
                 _popupBrowsers->Add(browser->GetIdentifier(), browserWrapper);
 
-                auto handler = _browserControl->PopupHandler;
+                auto handler = _browserControl->DisplayHandler;
 
                 if (handler != nullptr)
                 {
@@ -185,7 +185,7 @@ namespace CefSharp
                 // Remove from the browser popup list.
                 auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), true);
 
-                auto handler = _browserControl->PopupHandler;
+                auto handler = _browserControl->DisplayHandler;
 
                 if (handler != nullptr)
                 {
@@ -220,7 +220,7 @@ namespace CefSharp
 
             if (browser->IsPopup())
             {
-                auto handler = _browserControl->PopupHandler;
+                auto handler = _browserControl->DisplayHandler;
 
                 if (handler != nullptr)
                 {
@@ -240,7 +240,7 @@ namespace CefSharp
 
             if (browser->IsPopup())
             {
-                auto handler = _browserControl->PopupHandler;
+                auto handler = _browserControl->DisplayHandler;
 
                 if (handler != nullptr)
                 {
@@ -314,7 +314,7 @@ namespace CefSharp
 
             if (browser->IsPopup())
             {
-                auto popupHandler = _browserControl->PopupHandler;
+                auto popupHandler = _browserControl->DisplayHandler;
                 if (popupHandler != nullptr)
                 {
                     popupHandler->OnStatusMessage(_browserControl, args);
@@ -362,7 +362,7 @@ namespace CefSharp
         {
             if (browser->IsPopup())
             {
-                auto popupHandler = _browserControl->PopupHandler;
+                auto popupHandler = _browserControl->DisplayHandler;
                 if (popupHandler != nullptr)
                 {
                     auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), true);
@@ -382,7 +382,7 @@ namespace CefSharp
         {
             if (browser->IsPopup())
             {
-                auto popupHandler = _browserControl->PopupHandler;
+                auto popupHandler = _browserControl->DisplayHandler;
 
                 if (popupHandler != nullptr)
                 {
@@ -404,7 +404,7 @@ namespace CefSharp
         {
             if (browser->IsPopup())
             {
-                auto popupHandler = _browserControl->PopupHandler;
+                auto popupHandler = _browserControl->DisplayHandler;
 
                 if (popupHandler != nullptr)
                 {

@@ -5,9 +5,9 @@
 namespace CefSharp
 {
     /// <summary>
-    /// Handler methods that get called AFTER the Popup is created.
+    /// Handle events related to browser display state.
     /// </summary>
-    public interface IPopupHandler
+    public interface IDisplayHandler
     {
         /// <summary>
         /// Called when a frame's address has changed. 

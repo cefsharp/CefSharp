@@ -132,7 +132,7 @@
     <Compile Include="Internals\JavascriptCallbackSurrogate.cs" />
     <Compile Include="Internals\PendingTaskRepository.cs" />
     <Compile Include="Internals\ReflectionUtils.cs" />
-    <Compile Include="IPopupHandler.cs" />
+    <Compile Include="IDisplayHandler.cs" />
     <Compile Include="IRequestCallback.cs" />
     <Compile Include="IResourceHandler.cs" />
     <Compile Include="IResourceHandlerFactory.cs" />
