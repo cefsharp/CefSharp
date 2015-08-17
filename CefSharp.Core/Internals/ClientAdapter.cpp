@@ -177,11 +177,6 @@ namespace CefSharp
 
         void ClientAdapter::OnBeforeClose(CefRefPtr<CefBrowser> browser)
         {
-            if(_javascriptCallbackFactories->ContainsKey(browser->GetIdentifier()))
-            {
-                _javascriptCallbackFactories->Remove(browser->GetIdentifier());
-            }
-
             if (browser->IsPopup() && !_browserControl->HasParent)
             {
                 // Remove from the browser popup list.
@@ -511,10 +506,6 @@ namespace CefSharp
         {
             if (!Object::ReferenceEquals(_browserAdapter, nullptr))
             {
-                //save callback factory for this browser
-                //it's only going to be present after browseradapter is initialized
-                _javascriptCallbackFactories->Add(browser->GetIdentifier(), _browserAdapter->JavascriptCallbackFactory);
-
                 auto objectRepository = _browserAdapter->JavascriptObjectRepository;
                 //transmit async bound objects
                 auto jsRootObjectMessage = CefProcessMessage::Create(kJavascriptRootObjectRequest);
@@ -906,8 +897,7 @@ namespace CefSharp
             auto handled = false;
             auto name = message->GetName();
             auto argList = message->GetArgumentList();
-            IJavascriptCallbackFactory^ callbackFactory;
-            _javascriptCallbackFactories->TryGetValue(browser->GetIdentifier(), callbackFactory);
+            IJavascriptCallbackFactory^ callbackFactory = _browserAdapter->JavascriptCallbackFactory;
 
             if (name == kEvaluateJavascriptResponse || name == kJavascriptCallbackResponse)
             {
