@@ -10,18 +10,18 @@ namespace CefSharp
     public interface IPopupHandler
     {
         /// <summary>
-        /// Called before the passed popup window (browser) is closed.
-        /// </summary>
-        /// <param name="browserControl">The <see cref="IWebBrowser"/> control this popup is related to.</param>
-        /// <param name="browser">The popup window instance that is closing.</param>
-        void OnBeforeClose(IWebBrowser browserControl, IBrowser browser);
-
-        /// <summary>
         /// Called after the paased popup window (browser) is created.
         /// </summary>
         /// <param name="browserControl">The <see cref="IWebBrowser"/> control this popup is related to.</param>
         /// <param name="browser">The popup window instance that was just created.</param>
         void OnAfterCreated(IWebBrowser browserControl, IBrowser browser);
+
+        /// <summary>
+        /// Called before the passed popup window (browser) is closed.
+        /// </summary>
+        /// <param name="browserControl">The <see cref="IWebBrowser"/> control this popup is related to.</param>
+        /// <param name="browser">The popup window instance that is closing.</param>
+        void OnBeforeClose(IWebBrowser browserControl, IBrowser browser);
 
         /// <summary>
         /// Called when a frame's address has changed. 
