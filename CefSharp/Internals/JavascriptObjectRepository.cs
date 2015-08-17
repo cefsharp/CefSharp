@@ -49,6 +49,11 @@ namespace CefSharp.Internals
             AsyncRootObject = new JavascriptRootObject();
         }
 
+        public bool HasBoundObjects
+        {
+            get { return RootObject.MemberObjects.Count > 0 || AsyncRootObject.MemberObjects.Count > 0; }
+        }
+
         private JavascriptObject CreateJavascriptObject(bool camelCaseJavascriptNames)
         {
             var id = Interlocked.Increment(ref lastId);

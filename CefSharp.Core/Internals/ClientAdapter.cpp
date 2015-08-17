@@ -507,12 +507,16 @@ namespace CefSharp
             if (!Object::ReferenceEquals(_browserAdapter, nullptr))
             {
                 auto objectRepository = _browserAdapter->JavascriptObjectRepository;
-                //transmit async bound objects
-                auto jsRootObjectMessage = CefProcessMessage::Create(kJavascriptRootObjectRequest);
-                auto argList = jsRootObjectMessage->GetArgumentList();
-                SerializeJsObject(objectRepository->AsyncRootObject, argList, 0);
-                SerializeJsObject(objectRepository->RootObject, argList, 1);
-                browser->SendProcessMessage(CefProcessId::PID_RENDERER, jsRootObjectMessage);
+
+                if (objectRepository->HasBoundObjects)
+                {
+                    //transmit async bound objects
+                    auto jsRootObjectMessage = CefProcessMessage::Create(kJavascriptRootObjectRequest);
+                    auto argList = jsRootObjectMessage->GetArgumentList();
+                    SerializeJsObject(objectRepository->AsyncRootObject, argList, 0);
+                    SerializeJsObject(objectRepository->RootObject, argList, 1);
+                    browser->SendProcessMessage(CefProcessId::PID_RENDERER, jsRootObjectMessage);
+                }
             }
 
             auto handler = _browserControl->RequestHandler;
