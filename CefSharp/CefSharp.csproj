@@ -193,7 +193,7 @@
     <Compile Include="IJsDialogHandler.cs" />
     <Compile Include="IKeyboardHandler.cs" />
     <Compile Include="ILifeSpanHandler.cs" />
-    <Compile Include="IMenuHandler.cs" />
+    <Compile Include="IContextMenuHandler.cs" />
     <Compile Include="Internals\IRenderWebBrowser.cs" />
     <Compile Include="InternalWebBrowserExtensions.cs" />
     <Compile Include="WebBrowserExtensions.cs" />

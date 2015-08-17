@@ -118,9 +118,9 @@ namespace CefSharp
         IDownloadHandler DownloadHandler { get; set; }
 
         /// <summary>
-        /// Implement <see cref="IMenuHandler"/> and assign to handle events related to the browser context menu
+        /// Implement <see cref="IContextMenuHandler"/> and assign to handle events related to the browser context menu
         /// </summary>
-        IMenuHandler MenuHandler { get; set; }
+        IContextMenuHandler MenuHandler { get; set; }
 
         /// <summary>
         /// Implement <see cref="IFocusHandler"/> and assign to handle events related to the browser component's focus

@@ -4,7 +4,7 @@
 
 namespace CefSharp
 {
-    public interface IMenuHandler
+    public interface IContextMenuHandler
     {
         /// <summary>
         /// Called before a context menu is displayed. |params| provides information
