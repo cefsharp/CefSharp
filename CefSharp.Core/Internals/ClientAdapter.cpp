@@ -512,6 +512,18 @@ namespace CefSharp
             }
         }
 
+        void ClientAdapter::OnRenderViewReady(CefRefPtr<CefBrowser> browser)
+        {
+            auto handler = _browserControl->RequestHandler;
+
+            if (handler != nullptr)
+            {
+                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+
+                handler->OnRenderViewReady(_browserControl, browserWrapper);
+            }
+        }
+
         void ClientAdapter::OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser, TerminationStatus status)
         {
             auto handler = _browserControl->RequestHandler;
