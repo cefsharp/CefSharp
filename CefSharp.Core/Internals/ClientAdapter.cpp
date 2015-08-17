@@ -171,6 +171,20 @@ namespace CefSharp
             }
         }
 
+        bool ClientAdapter::DoClose(CefRefPtr<CefBrowser> browser)
+        {
+            auto handler = _browserControl->LifeSpanHandler;
+
+            if (handler != nullptr)
+            {
+                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+
+                return handler->DoClose(_browserControl, browserWrapper);
+            }
+
+            return false;
+        }
+
         void ClientAdapter::OnBeforeClose(CefRefPtr<CefBrowser> browser)
         {
             if (browser->IsPopup() && !_browserControl->HasParent)

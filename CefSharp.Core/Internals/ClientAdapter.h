@@ -106,6 +106,7 @@ namespace CefSharp
                 const CefPopupFeatures& popupFeatures,
                 CefWindowInfo& windowInfo, CefRefPtr<CefClient>& client, CefBrowserSettings& settings, bool* no_javascript_access) OVERRIDE;
             virtual DECL void OnAfterCreated(CefRefPtr<CefBrowser> browser) OVERRIDE;
+            virtual DECL bool DoClose(CefRefPtr<CefBrowser> browser) OVERRIDE;
             virtual DECL void OnBeforeClose(CefRefPtr<CefBrowser> browser) OVERRIDE;
 
             // CefLoadHandler
