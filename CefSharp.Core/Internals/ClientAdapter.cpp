@@ -148,16 +148,6 @@ namespace CefSharp
                 if (!Object::ReferenceEquals(_browserAdapter, nullptr))
                 {
                     _browserAdapter->OnAfterBrowserCreated(browser->GetIdentifier());
-                    //save callback factory for this browser
-                    //it's only going to be present after browseradapter is initialized
-                    _javascriptCallbackFactories->Add(browser->GetIdentifier(), _browserAdapter->JavascriptCallbackFactory);
-
-                    //transmit async bound objects
-                    auto jsRootObjectMessage = CefProcessMessage::Create(kJavascriptRootObjectRequest);
-                    auto argList = jsRootObjectMessage->GetArgumentList();
-                    SerializeJsObject(_browserAdapter->JavascriptObjectRepository->AsyncRootObject, argList, 0);
-                    SerializeJsObject(_browserAdapter->JavascriptObjectRepository->RootObject, argList, 1);
-                    browser->SendProcessMessage(CefProcessId::PID_RENDERER, jsRootObjectMessage);
                 }
             }
 
@@ -187,6 +177,11 @@ namespace CefSharp
 
         void ClientAdapter::OnBeforeClose(CefRefPtr<CefBrowser> browser)
         {
+            if(_javascriptCallbackFactories->ContainsKey(browser->GetIdentifier()))
+            {
+                _javascriptCallbackFactories->Remove(browser->GetIdentifier());
+            }
+
             if (browser->IsPopup() && !_browserControl->HasParent)
             {
                 // Remove from the browser popup list.
@@ -514,6 +509,21 @@ namespace CefSharp
 
         void ClientAdapter::OnRenderViewReady(CefRefPtr<CefBrowser> browser)
         {
+            if (!Object::ReferenceEquals(_browserAdapter, nullptr))
+            {
+                //save callback factory for this browser
+                //it's only going to be present after browseradapter is initialized
+                _javascriptCallbackFactories->Add(browser->GetIdentifier(), _browserAdapter->JavascriptCallbackFactory);
+
+                auto objectRepository = _browserAdapter->JavascriptObjectRepository;
+                //transmit async bound objects
+                auto jsRootObjectMessage = CefProcessMessage::Create(kJavascriptRootObjectRequest);
+                auto argList = jsRootObjectMessage->GetArgumentList();
+                SerializeJsObject(objectRepository->AsyncRootObject, argList, 0);
+                SerializeJsObject(objectRepository->RootObject, argList, 1);
+                browser->SendProcessMessage(CefProcessId::PID_RENDERER, jsRootObjectMessage);
+            }
+
             auto handler = _browserControl->RequestHandler;
 
             if (handler != nullptr)

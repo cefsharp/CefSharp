@@ -42,6 +42,7 @@ namespace CefSharp
             //contains in-progress eval script tasks
             gcroot<PendingTaskRepository<JavascriptResponse^>^> _pendingTaskRepository;
             //contains js callback factories for each browser
+            //TODO: This this required now?
             gcroot<Dictionary<int, IJavascriptCallbackFactory^>^> _javascriptCallbackFactories;
 
             void ThrowUnknownPopupBrowser(String^ context)
