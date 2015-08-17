@@ -22,14 +22,6 @@ namespace CefSharp
         void OnAfterCreated(IWebBrowser browserControl, IBrowser browser);
 
         /// <summary>
-        /// Called when the page icon changes.
-        /// </summary>
-        /// <param name="browserControl">The <see cref="IWebBrowser"/> control this popup is related to.</param>
-        /// <param name="browser">The browser object</param>
-        /// <param name="iconUrls">List of Favicon urls</param>
-        void OnFaviconUrlChange(IWebBrowser browserControl, IBrowser browser, List<string> iconUrls);
-
-        /// <summary>
         /// Called when a frame's address has changed. 
         /// </summary>
         /// <param name="browserControl">The <see cref="IWebBrowser"/> control this popup is related to.</param>

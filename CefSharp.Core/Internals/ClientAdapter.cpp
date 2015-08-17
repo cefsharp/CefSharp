@@ -270,27 +270,13 @@ namespace CefSharp
 
         void ClientAdapter::OnFaviconURLChange(CefRefPtr<CefBrowser> browser, const std::vector<CefString>& iconUrls)
         {
-            if (browser->IsPopup())
+            auto handler = _browserControl->RequestHandler;
+
+            if (handler != nullptr)
             {
-                auto popupHandler = _browserControl->PopupHandler;
+                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
 
-                if (popupHandler != nullptr)
-                {
-                    auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), true);
-
-                    popupHandler->OnFaviconUrlChange(_browserControl, browserWrapper, StringUtils::ToClr(iconUrls));
-                }
-            }
-            else
-            {
-                auto handler = _browserControl->RequestHandler;
-
-                if (handler != nullptr)
-                {
-                    auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), false);
-
-                    handler->OnFaviconUrlChange(_browserControl, browserWrapper, StringUtils::ToClr(iconUrls));
-                }
+                handler->OnFaviconUrlChange(_browserControl, browserWrapper, StringUtils::ToClr(iconUrls));
             }
         }
 
@@ -329,8 +315,6 @@ namespace CefSharp
                 auto popupHandler = _browserControl->PopupHandler;
                 if (popupHandler != nullptr)
                 {
-                    
-
                     popupHandler->OnStatusMessage(_browserControl, args);
                 }
             }
