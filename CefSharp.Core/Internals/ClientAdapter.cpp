@@ -632,7 +632,36 @@ namespace CefSharp
                 CefMenuModelWrapper menuModelWrapper(model);
                 
                 handler->OnBeforeContextMenu(_browserControl, browserWrapper, %frameWrapper, %contextMenuParamsWrapper, %menuModelWrapper);
-            }            
+            }           
+        }
+
+        bool ClientAdapter::OnContextMenuCommand(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
+                CefRefPtr<CefContextMenuParams> params, int commandId, EventFlags eventFlags)
+        {
+            auto handler = _browserControl->MenuHandler;
+            
+            if (handler != nullptr)
+            {
+                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+                CefFrameWrapper frameWrapper(frame);
+                CefContextMenuParamsWrapper contextMenuParamsWrapper(params);
+                
+                return handler->OnContextMenuCommand(_browserControl, browserWrapper, %frameWrapper, %contextMenuParamsWrapper,
+                    commandId, (CefEventFlags)eventFlags);
+            }
+        }
+        
+        void ClientAdapter::OnContextMenuDismissed(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame)
+        {
+            auto handler = _browserControl->MenuHandler;
+            
+            if (handler != nullptr)
+            {
+                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+                CefFrameWrapper frameWrapper(frame);
+                
+                handler->OnContextMenuDismissed(_browserControl, browserWrapper, %frameWrapper);
+            }
         }
 
         void ClientAdapter::OnGotFocus(CefRefPtr<CefBrowser> browser)

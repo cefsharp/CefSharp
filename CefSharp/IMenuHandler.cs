@@ -10,8 +10,7 @@ namespace CefSharp
         /// Called before a context menu is displayed. |params| provides information
         /// about the context menu state. |model| initially contains the default
         /// context menu. The |model| can be cleared to show no context menu or
-        /// modified to show a custom menu. Do not keep references to |params| or
-        /// |model| outside of this callback.
+        /// modified to show a custom menu.
         /// </summary>
         /// <param name="browserControl">the ChromiumWebBrowser control</param>
         /// <param name="browser">the browser object</param>
@@ -28,8 +27,7 @@ namespace CefSharp
         /// cef_menu_id_t for the command ids that have default implementations. All
         /// user-defined command ids should be between MENU_ID_USER_FIRST and
         /// MENU_ID_USER_LAST. |params| will have the same values as what was passed to
-        /// OnBeforeContextMenu(). Do not keep a reference to |params| outside of this
-        /// callback.
+        /// OnBeforeContextMenu().
         /// </summary>
         /// <param name="browserControl">the ChromiumWebBrowser control</param>
         /// <param name="browser">the browser object</param>
