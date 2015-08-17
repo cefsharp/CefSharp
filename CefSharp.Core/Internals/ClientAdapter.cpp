@@ -342,63 +342,32 @@ namespace CefSharp
 
         bool ClientAdapter::OnKeyEvent(CefRefPtr<CefBrowser> browser, const CefKeyEvent& event, CefEventHandle os_event)
         {
-            if (browser->IsPopup())
+            auto handler = _browserControl->KeyboardHandler;
+
+            if (handler != nullptr)
             {
-                auto popupHandler = _browserControl->PopupHandler;
+                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
 
-                if (popupHandler != nullptr)
-                {
-                    auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), true);
-
-                    return popupHandler->OnKeyEvent(
-                        _browserControl, browserWrapper, (KeyType)event.type, 
-                        event.windows_key_code, event.native_key_code, 
-                        (CefEventFlags)event.modifiers, event.is_system_key == 1);
-                }
-            }
-            else
-            {
-                auto handler = _browserControl->KeyboardHandler;
-
-                if (handler != nullptr)
-                {
-                    auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), false);
-
-                    return handler->OnKeyEvent(
-                        _browserControl, browserWrapper, (KeyType)event.type, event.windows_key_code, 
-                        event.native_key_code,
-                        (CefEventFlags)event.modifiers, event.is_system_key == 1);
-                }                
+                return handler->OnKeyEvent(
+                    _browserControl, browserWrapper, (KeyType)event.type, event.windows_key_code, 
+                    event.native_key_code,
+                    (CefEventFlags)event.modifiers, event.is_system_key == 1);
             }
             return false;
         }
 
         bool ClientAdapter::OnPreKeyEvent(CefRefPtr<CefBrowser> browser, const CefKeyEvent& event, CefEventHandle os_event, bool* is_keyboard_shortcut)
         {
-            if (browser->IsPopup())
+            auto handler = _browserControl->KeyboardHandler;
+
+            if (handler != nullptr)
             {
-                auto popupHandler = _browserControl->PopupHandler;
+                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
 
-                if (popupHandler != nullptr)
-                {
-                    auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), true);
-
-                    popupHandler->OnPreKeyEvent(_browserControl, browserWrapper, (KeyType)event.type, event.windows_key_code, event.native_key_code, (CefEventFlags)event.modifiers, event.is_system_key == 1, *is_keyboard_shortcut);
-                }
-            }
-            else
-            {
-                auto handler = _browserControl->KeyboardHandler;
-
-                if (handler != nullptr)
-                {
-                    auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), false);
-
-                    return handler->OnPreKeyEvent(
-                        _browserControl, browserWrapper, (KeyType)event.type, event.windows_key_code,
-                        event.native_key_code, (CefEventFlags)event.modifiers, event.is_system_key == 1,
-                        *is_keyboard_shortcut);
-                }
+                return handler->OnPreKeyEvent(
+                    _browserControl, browserWrapper, (KeyType)event.type, event.windows_key_code,
+                    event.native_key_code, (CefEventFlags)event.modifiers, event.is_system_key == 1,
+                    *is_keyboard_shortcut);
             }
             return false;
         }

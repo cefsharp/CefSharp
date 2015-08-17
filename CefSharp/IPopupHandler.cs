@@ -5,7 +5,7 @@ namespace CefSharp
     /// <summary>
     /// Handler methods that get called AFTER the Popup is created.
     /// </summary>
-    public interface IPopupHandler : IKeyboardHandler
+    public interface IPopupHandler
     {
         /// <summary>
         /// Called before the passed popup window (browser) is closed.
