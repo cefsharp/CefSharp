@@ -44,6 +44,7 @@ namespace CefSharp.Wpf
         public IKeyboardHandler KeyboardHandler { get; set; }
         public IRequestHandler RequestHandler { get; set; }
         public IDownloadHandler DownloadHandler { get; set; }
+        public ILoadHandler LoadHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
         public IDisplayHandler DisplayHandler { get; set; }
         public IMenuHandler MenuHandler { get; set; }

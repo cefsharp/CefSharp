@@ -88,6 +88,11 @@ namespace CefSharp
         IDisplayHandler DisplayHandler { get; set; }
 
         /// <summary>
+        /// Implement <see cref="ILoadHandler"/> and assign to handle events related to browser load status.
+        /// </summary>
+        ILoadHandler LoadHandler { get; set; }
+
+        /// <summary>
         /// Implement <see cref="ILifeSpanHandler"/> and assign to handle events related to popups.
         /// </summary>
         ILifeSpanHandler LifeSpanHandler { get; set; }
