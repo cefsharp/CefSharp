@@ -138,14 +138,6 @@ namespace CefSharp
                 auto browserWrapper = gcnew CefSharpBrowserWrapper(browser);
                 // Add to the list of popup browsers.
                 _popupBrowsers->Add(browser->GetIdentifier(), browserWrapper);
-
-                auto handler = _browserControl->DisplayHandler;
-
-                if (handler != nullptr)
-                {
-                    throw gcnew NotImplementedException();
-                    //handler->OnAfterCreated(_browserControl, browserWrapper);
-                }
             }
             else
             {
@@ -166,15 +158,15 @@ namespace CefSharp
                     SerializeJsObject(_browserAdapter->JavascriptObjectRepository->RootObject, argList, 1);
                     browser->SendProcessMessage(CefProcessId::PID_RENDERER, jsRootObjectMessage);
                 }
+            }
 
-                auto handler = _browserControl->LifeSpanHandler;
+            auto handler = _browserControl->LifeSpanHandler;
 
-                if (handler != nullptr)
-                {
-                    auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), false);
+            if (handler != nullptr)
+            {
+                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
 
-                    handler->OnAfterCreated(_browserControl, browserWrapper);
-                }
+                handler->OnAfterCreated(_browserControl, browserWrapper);
             }
         }
 
@@ -184,15 +176,6 @@ namespace CefSharp
             {
                 // Remove from the browser popup list.
                 auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), true);
-
-                auto handler = _browserControl->DisplayHandler;
-
-                if (handler != nullptr)
-                {
-                    //handler->OnBeforeClose(_browserControl, browserWrapper);
-                    throw gcnew NotImplementedException();
-                }
-
                 _popupBrowsers->Remove(browser->GetIdentifier());
                 // Dispose the CefSharpBrowserWrapper
                 delete browserWrapper;
@@ -201,15 +184,16 @@ namespace CefSharp
             //the handles don't match up (at least in WPF), need to investigate further.
             else if (_browserHwnd == browser->GetHost()->GetWindowHandle() || _browserControl->HasParent)
             {
-                auto handler = _browserControl->LifeSpanHandler;
-
-                if (handler != nullptr)
-                {
-                    auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), false);
-
-                    handler->OnBeforeClose(_browserControl, browserWrapper);
-                }
                 _cefBrowser = NULL;
+            }
+
+            auto handler = _browserControl->LifeSpanHandler;
+
+            if (handler != nullptr)
+            {
+                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+
+                handler->OnBeforeClose(_browserControl, browserWrapper);
             }
         }
 
