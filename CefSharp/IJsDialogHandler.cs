@@ -33,5 +33,21 @@ namespace CefSharp
         /// <param name="callback">Callback can be executed inline or in an async fashion</param>
         /// <returns>Return false to use the default dialog implementation otherwise return true to handle</returns>
         bool OnJSBeforeUnload(IWebBrowser browserControl, IBrowser browser, string message, bool isReload, IJsDialogCallback callback);
+
+        /// <summary>
+        /// Called to cancel any pending dialogs and reset any saved dialog state. Will
+        /// be called due to events like page navigation irregardless of whether any
+        /// dialogs are currently pending.
+        /// </summary>
+        /// <param name="browserControl">the browser control</param>
+        /// <param name="browser">the browser object</param>
+        void OnResetDialogState(IWebBrowser browserControl, IBrowser browser);
+
+        /// <summary>
+        /// Called when the default implementation dialog is closed.
+        /// </summary>
+        /// <param name="browserControl">the browser control</param>
+        /// <param name="browser">the browser object</param>
+        void OnDialogClosed(IWebBrowser browserControl, IBrowser browser);
     }
 }
