@@ -3,8 +3,6 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace CefSharp.Example
 {
@@ -18,7 +16,12 @@ namespace CefSharp.Example
             return false;
         }
 
-        bool IRequestHandler.OnCertificateError(IWebBrowser browserControl, IBrowser browser, CefErrorCode errorCode, string requestUrl, IRequestCallback callback)
+        bool IRequestHandler.OnOpenUrlFromTab(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, WindowOpenDisposition targetDisposition, bool userGesture)
+        {
+            return false;
+        }
+
+        bool IRequestHandler.OnCertificateError(IWebBrowser browserControl, IBrowser browser, CefErrorCode errorCode, string requestUrl, ISslInfo sslInfo, IRequestCallback callback)
         {
             try
             {
@@ -97,7 +100,7 @@ namespace CefSharp.Example
             // TODO: Add your own code here for handling scenarios where the Render Process terminated for one reason or another.
         }
 
-        public bool OnQuotaRequest(IWebBrowser browserControl, IBrowser browser, string originUrl, long newSize, IRequestCallback callback)
+        bool IRequestHandler.OnQuotaRequest(IWebBrowser browserControl, IBrowser browser, string originUrl, long newSize, IRequestCallback callback)
         {
             try
             {
@@ -113,7 +116,7 @@ namespace CefSharp.Example
             }
         }
 
-        public void OnResourceRedirect(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, ref string newUrl)
+        void IRequestHandler.OnResourceRedirect(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, ref string newUrl)
         {
             //Example of how to redirect - need to check `newUrl` in the second pass
             //if (string.Equals(frame.GetUrl(), "https://www.google.com/", StringComparison.OrdinalIgnoreCase) && !newUrl.Contains("github"))
@@ -122,14 +125,14 @@ namespace CefSharp.Example
             //}
         }
 
-        public bool OnProtocolExecution(IWebBrowser browserControl, IBrowser browser, string url)
+        bool IRequestHandler.OnProtocolExecution(IWebBrowser browserControl, IBrowser browser, string url)
         {
             return url.StartsWith("mailto");
         }
 
-        public void OnFaviconUrlChange(IWebBrowser browserControl, IBrowser browser, IList<string> urls)
+        void IRequestHandler.OnRenderViewReady(IWebBrowser browserControl, IBrowser browser)
         {
-            var url = urls[0];
+            
         }
     }
 }

@@ -107,5 +107,11 @@ namespace CefSharp.Wpf
         /// The increment at which the <see cref="ZoomLevel"/> property will be incremented/decremented.
         /// </summary>
         double ZoomLevelIncrement { get; set; }
+
+        /// <summary>
+        /// The title of the web page being currently displayed.
+        /// </summary>
+        /// <remarks>This property is implemented as a Dependency Property and fully supports data binding.</remarks>
+        string Title { get; }
     }
 }

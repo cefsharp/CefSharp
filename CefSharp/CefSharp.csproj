@@ -93,6 +93,9 @@
     <Compile Include="CefFileDialogMode.cs" />
     <Compile Include="CefJsDialogType.cs" />
     <Compile Include="ICookieManager.cs" />
+    <Compile Include="ILoadHandler.cs" />
+    <Compile Include="IMenuModel.cs" />
+    <Compile Include="ISslInfo.cs" />
     <Compile Include="KeyEvent.cs" />
     <Compile Include="KeyEventType.cs" />
     <Compile Include="IPostData.cs" />
@@ -132,7 +135,7 @@
     <Compile Include="Internals\JavascriptCallbackSurrogate.cs" />
     <Compile Include="Internals\PendingTaskRepository.cs" />
     <Compile Include="Internals\ReflectionUtils.cs" />
-    <Compile Include="IPopupHandler.cs" />
+    <Compile Include="IDisplayHandler.cs" />
     <Compile Include="IRequestCallback.cs" />
     <Compile Include="IResourceHandler.cs" />
     <Compile Include="IResourceHandlerFactory.cs" />
@@ -191,7 +194,7 @@
     <Compile Include="IJsDialogHandler.cs" />
     <Compile Include="IKeyboardHandler.cs" />
     <Compile Include="ILifeSpanHandler.cs" />
-    <Compile Include="IMenuHandler.cs" />
+    <Compile Include="IContextMenuHandler.cs" />
     <Compile Include="Internals\IRenderWebBrowser.cs" />
     <Compile Include="InternalWebBrowserExtensions.cs" />
     <Compile Include="WebBrowserExtensions.cs" />

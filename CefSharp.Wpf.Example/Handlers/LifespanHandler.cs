@@ -71,7 +71,12 @@ namespace CefSharp.Wpf.Example.Handlers
             });
         }
 
-        public void OnBeforeClose(IWebBrowser browserControl, IBrowser browser)
+        bool ILifeSpanHandler.DoClose(IWebBrowser browserControl, IBrowser browser)
+        {
+            return false;
+        }
+
+        void ILifeSpanHandler.OnBeforeClose(IWebBrowser browserControl, IBrowser browser)
         {
             var chromiumWebBrowser = (ChromiumWebBrowser)browserControl;
 

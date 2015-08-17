@@ -42,7 +42,6 @@ namespace CefSharp
             //contains in-progress eval script tasks
             gcroot<PendingTaskRepository<JavascriptResponse^>^> _pendingTaskRepository;
             //contains js callback factories for each browser
-            gcroot<Dictionary<int, IJavascriptCallbackFactory^>^> _javascriptCallbackFactories;
 
             void ThrowUnknownPopupBrowser(String^ context)
             {
@@ -56,7 +55,6 @@ namespace CefSharp
                 _browserControl(browserControl), 
                 _popupBrowsers(gcnew Dictionary<int, IBrowser^>()),
                 _pendingTaskRepository(gcnew PendingTaskRepository<JavascriptResponse^>()),
-                _javascriptCallbackFactories(gcnew Dictionary<int, IJavascriptCallbackFactory^>()),
                 _browserAdapter(browserAdapter)
             {
                 
@@ -106,6 +104,7 @@ namespace CefSharp
                 const CefPopupFeatures& popupFeatures,
                 CefWindowInfo& windowInfo, CefRefPtr<CefClient>& client, CefBrowserSettings& settings, bool* no_javascript_access) OVERRIDE;
             virtual DECL void OnAfterCreated(CefRefPtr<CefBrowser> browser) OVERRIDE;
+            virtual DECL bool DoClose(CefRefPtr<CefBrowser> browser) OVERRIDE;
             virtual DECL void OnBeforeClose(CefRefPtr<CefBrowser> browser) OVERRIDE;
 
             // CefLoadHandler
@@ -123,9 +122,9 @@ namespace CefSharp
             virtual DECL bool OnQuotaRequest(CefRefPtr<CefBrowser> browser, const CefString& originUrl, int64 newSize, CefRefPtr<CefRequestCallback> callback) OVERRIDE;
             virtual DECL void OnResourceRedirect(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefString& newUrl) OVERRIDE;
             virtual DECL void OnProtocolExecution(CefRefPtr<CefBrowser> browser, const CefString& url, bool& allowOSExecution) OVERRIDE;
-
             virtual DECL bool OnBeforePluginLoad( CefRefPtr< CefBrowser > browser, const CefString& url, const CefString& policy_url, CefRefPtr< CefWebPluginInfo > info ) OVERRIDE;
             virtual DECL void OnPluginCrashed(CefRefPtr<CefBrowser> browser, const CefString& plugin_path) OVERRIDE;
+            virtual DECL void OnRenderViewReady(CefRefPtr<CefBrowser> browser) OVERRIDE;
             virtual DECL void OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser, TerminationStatus status) OVERRIDE;
 
             // CefDisplayHandler
@@ -140,6 +139,9 @@ namespace CefSharp
             // CefContextMenuHandler
             virtual DECL void OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
                 CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model) OVERRIDE;
+            virtual DECL bool OnContextMenuCommand(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
+                CefRefPtr<CefContextMenuParams> params, int commandId, EventFlags eventFlags) OVERRIDE;
+            virtual DECL void OnContextMenuDismissed(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame) OVERRIDE;
 
             // CefFocusHandler
             virtual DECL void OnGotFocus(CefRefPtr<CefBrowser> browser) OVERRIDE;
@@ -156,6 +158,8 @@ namespace CefSharp
                 CefRefPtr<CefJSDialogCallback> callback, bool& suppress_message) OVERRIDE;
             virtual DECL bool OnBeforeUnloadDialog(CefRefPtr<CefBrowser> browser, const CefString& message_text, bool is_reload,
                 CefRefPtr<CefJSDialogCallback> callback) OVERRIDE;
+            virtual DECL void OnResetDialogState(CefRefPtr<CefBrowser> browser) OVERRIDE;
+            virtual DECL void OnDialogClosed(CefRefPtr<CefBrowser> browser) OVERRIDE;
 
             // CefDialogHandler
             virtual DECL bool OnFileDialog(CefRefPtr<CefBrowser> browser, FileDialogMode mode, const CefString& title,

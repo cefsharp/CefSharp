@@ -261,10 +261,12 @@
     <ClInclude Include="Internals\CefFileDialogCallbackWrapper.h" />
     <ClInclude Include="Internals\CefFrameWrapper.h" />
     <ClInclude Include="Internals\CefGeolocationCallbackWrapper.h" />
+    <ClInclude Include="Internals\CefMenuModelWrapper.h" />
     <ClInclude Include="Internals\CefPostDataElementWrapper.h" />
     <ClInclude Include="Internals\CefPostDataWrapper.h" />
     <ClInclude Include="Internals\CefResponseWrapper.h" />
     <ClInclude Include="Internals\CefSharpBrowserWrapper.h" />
+    <ClInclude Include="Internals\CefSslInfoWrapper.h" />
     <ClInclude Include="Internals\CefTaskScheduler.h" />
     <ClInclude Include="Internals\CefTaskWrapper.h" />
     <ClInclude Include="WindowInfo.h" />

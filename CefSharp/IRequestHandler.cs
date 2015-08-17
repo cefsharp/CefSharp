@@ -3,7 +3,6 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using System.Collections.Generic;
 
 namespace CefSharp
 {
@@ -24,6 +23,29 @@ namespace CefSharp
         bool OnBeforeBrowse(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, bool isRedirect);
 
         /// <summary>
+        /// Called on the UI thread before OnBeforeBrowse in certain limited cases
+        /// where navigating a new or different browser might be desirable. This
+        /// includes user-initiated navigation that might open in a special way (e.g.
+        /// links clicked via middle-click or ctrl + left-click) and certain types of
+        /// cross-origin navigation initiated from the renderer process (e.g.
+        /// navigating the top-level frame to/from a file URL).
+        /// </summary>
+        /// <param name="browserControl">the ChromiumWebBrowser control</param>
+        /// <param name="browser">the browser object</param>
+        /// <param name="frame">The frame object</param>
+        /// <param name="targetUrl">target url</param>
+        /// <param name="targetDisposition">The value indicates where the user intended to navigate the browser based
+        /// on standard Chromium behaviors (e.g. current tab, new tab, etc). </param>
+        /// <param name="userGesture">The value will be true if the browser navigated via explicit user gesture
+        /// (e.g. clicking a link) or false if it navigated automatically (e.g. via the DomContentLoaded event).</param>
+        /// <returns>Return true to cancel the navigation or false to allow the navigation
+        /// to proceed in the source browser's top-level frame.</returns>
+        bool OnOpenUrlFromTab(IWebBrowser browserControl, IBrowser browser, IFrame frame,
+                              string targetUrl,
+                              WindowOpenDisposition targetDisposition,
+                              bool userGesture);
+
+        /// <summary>
         /// Called to handle requests for URLs with an invalid SSL certificate.
         /// Return true and call <see cref="IRequestCallback.Continue"/> either
         /// in this method or at a later time to continue or cancel the request.  
@@ -34,11 +56,12 @@ namespace CefSharp
         /// <param name="browser">the browser object</param>
         /// <param name="errorCode">the error code for this invalid certificate</param>
         /// <param name="requestUrl">the url of the request for the invalid certificate</param>
+        /// <param name="sslInfo">ssl certificate information</param>
         /// <param name="callback">Callback interface used for asynchronous continuation of url requests.
         /// If empty the error cannot be recovered from and the request will be canceled automatically.</param>
         /// <returns>Return false to cancel the request immediately. Return true and use <see cref="IRequestCallback"/> to
         /// execute in an async fashion.</returns>
-        bool OnCertificateError(IWebBrowser browserControl, IBrowser browser, CefErrorCode errorCode, string requestUrl, IRequestCallback callback);
+        bool OnCertificateError(IWebBrowser browserControl, IBrowser browser, CefErrorCode errorCode, string requestUrl, ISslInfo sslInfo, IRequestCallback callback);
 
         /// <summary>
         /// Called when a plugin has crashed
@@ -54,8 +77,8 @@ namespace CefSharp
         /// </summary>
         /// <param name="browserControl">The ChromiumWebBrowser control</param>
         /// <param name="browser">the browser object</param>
-        /// <param name="request">the request object - can be modified in this callback.</param>
         /// <param name="frame">The frame object</param>
+        /// <param name="request">the request object - can be modified in this callback.</param>
         /// <param name="callback">Callback interface used for asynchronous continuation of url requests.</param>
         /// <returns>To cancel loading of the resource return <see cref="CefReturnValue.Cancel"/>
         /// or <see cref="CefReturnValue.Continue"/> to allow the resource to load normally. For async
@@ -133,11 +156,12 @@ namespace CefSharp
         bool OnProtocolExecution(IWebBrowser browserControl, IBrowser browser, string url);
 
         /// <summary>
-        /// Called when the page icon changes.
+        /// Called on the browser process UI thread when the render view associated
+        /// with |browser| is ready to receive/handle IPC messages in the render
+        /// process.
         /// </summary>
         /// <param name="browserControl">The ChromiumWebBrowser control</param>
         /// <param name="browser">the browser object</param>
-        /// <param name="urls">list of urls where the favicons can be downloaded</param>
-        void OnFaviconUrlChange(IWebBrowser browserControl, IBrowser browser, IList<string> urls);
+        void OnRenderViewReady(IWebBrowser browserControl, IBrowser browser);
     }
 }

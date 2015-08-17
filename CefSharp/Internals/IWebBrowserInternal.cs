@@ -14,16 +14,16 @@ namespace CefSharp.Internals
     {
         void OnAfterBrowserCreated();
 
-        void SetAddress(string address);
-        void SetLoadingStateChange(bool canGoBack, bool canGoForward, bool isLoading);
-        void SetTitle(string title);
+        void SetAddress(AddressChangedEventArgs args);
+        void SetLoadingStateChange(LoadingStateChangedEventArgs args);
+        void SetTitle(TitleChangedEventArgs args);
         void SetTooltipText(string tooltipText);
 
         void OnFrameLoadStart(FrameLoadStartEventArgs args);
         void OnFrameLoadEnd(FrameLoadEndEventArgs args);
-        void OnConsoleMessage(string message, string source, int line);
-        void OnStatusMessage(string value);
-        void OnLoadError(IFrame frame, CefErrorCode errorCode, string errorText, string failedUrl);
+        void OnConsoleMessage(ConsoleMessageEventArgs args);
+        void OnStatusMessage(StatusMessageEventArgs args);
+        void OnLoadError(LoadErrorEventArgs args);
 
         IBrowserAdapter BrowserAdapter { get; }
         bool HasParent { get; set; }

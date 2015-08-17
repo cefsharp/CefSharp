@@ -11,10 +11,12 @@ namespace CefSharp
     /// </summary>
     public class AddressChangedEventArgs : EventArgs
     {
+        public IBrowser Browser { get; set; }
         public string Address { get; private set; }
 
-        public AddressChangedEventArgs(string address)
+        public AddressChangedEventArgs(IBrowser browser, string address)
         {
+            Browser = browser;
             Address = address;
         }
     }

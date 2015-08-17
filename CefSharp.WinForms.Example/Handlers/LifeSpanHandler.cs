@@ -56,6 +56,11 @@ namespace CefSharp.WinForms.Example.Handlers
 			
 		}
 
+		bool ILifeSpanHandler.DoClose(IWebBrowser browserControl, IBrowser browser)
+		{
+			return false;
+		}
+
 		public void OnBeforeClose(IWebBrowser browserControl, IBrowser browser)
 		{
 			

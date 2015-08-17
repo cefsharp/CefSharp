@@ -83,9 +83,14 @@ namespace CefSharp
         IRequestHandler RequestHandler { get; set; }
 
         /// <summary>
-        /// Implement <see cref="IPopupHandler"/> and assign to handle events related to popup window events.
+        /// Implement <see cref="IDisplayHandler"/> and assign to handle events related to browser display state.
         /// </summary>
-        IPopupHandler PopupHandler { get; set; }
+        IDisplayHandler DisplayHandler { get; set; }
+
+        /// <summary>
+        /// Implement <see cref="ILoadHandler"/> and assign to handle events related to browser load status.
+        /// </summary>
+        ILoadHandler LoadHandler { get; set; }
 
         /// <summary>
         /// Implement <see cref="ILifeSpanHandler"/> and assign to handle events related to popups.
@@ -113,9 +118,9 @@ namespace CefSharp
         IDownloadHandler DownloadHandler { get; set; }
 
         /// <summary>
-        /// Implement <see cref="IMenuHandler"/> and assign to handle events related to the browser context menu
+        /// Implement <see cref="IContextMenuHandler"/> and assign to handle events related to the browser context menu
         /// </summary>
-        IMenuHandler MenuHandler { get; set; }
+        IContextMenuHandler MenuHandler { get; set; }
 
         /// <summary>
         /// Implement <see cref="IFocusHandler"/> and assign to handle events related to the browser component's focus
@@ -165,6 +170,7 @@ namespace CefSharp
         /// </summary>
         /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
         /// binding.</remarks>
+        [Obsolete("Use IsLoading instead (inverse of this property)")]
         bool CanReload { get; }
 
         /// <summary>
@@ -174,13 +180,6 @@ namespace CefSharp
         /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
         /// binding.</remarks>
         string Address { get; }
-
-        /// <summary>
-        /// The title of the web page being currently displayed.
-        /// </summary>
-        /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
-        /// binding.</remarks>
-        string Title { get; }
 
         /// <summary>
         /// The text that will be displayed as a ToolTip

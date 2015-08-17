@@ -137,7 +137,10 @@ namespace CefSharp
             }
         }
 
-        /// <summary>Initializes CefSharp with the default settings.</summary>
+        /// <summary>
+        /// Initializes CefSharp with the default settings.
+        /// This function should be called on the main application thread to initialize the CEF browser process.
+        /// </summary>
         /// <return>true if successful; otherwise, false.</return>
         static bool Initialize()
         {
@@ -145,7 +148,10 @@ namespace CefSharp
             return Initialize(cefSettings);
         }
 
-        /// <summary>Initializes CefSharp with user-provided settings.</summary>
+        /// <summary>
+        /// Initializes CefSharp with user-provided settings.
+        /// This function should be called on the main application thread to initialize the CEF browser process.
+        /// </summary>
         /// <param name="cefSettings">CefSharp configuration settings.</param>
         /// <return>true if successful; otherwise, false.</return>
         static bool Initialize(CefSettings^ cefSettings)
@@ -153,7 +159,10 @@ namespace CefSharp
             return Initialize(cefSettings, true, false);
         }
 
-        /// <summary>Initializes CefSharp with user-provided settings.</summary>
+        /// <summary>
+        /// Initializes CefSharp with user-provided settings.
+        /// This function should be called on the main application thread to initialize the CEF browser process.
+        /// </summary>
         /// <param name="cefSettings">CefSharp configuration settings.</param>
         /// <param name="shutdownOnProcessExit">When the Current AppDomain (relative to the thread called on)
         /// Exits(ProcessExit event) then Shudown will be called.</param>
@@ -302,8 +311,10 @@ namespace CefSharp
             return gcnew CookieManager(cookieManager);
         }
 
-        /// <summary>Shuts down CefSharp and the underlying CEF infrastructure. This method is safe to call multiple times; it will only
+        /// <summary>
+        /// Shuts down CefSharp and the underlying CEF infrastructure. This method is safe to call multiple times; it will only
         /// shut down CEF on the first call (all subsequent calls will be ignored).
+        /// This function should be called on the main application thread to shut down the CEF browser process before the application exits. 
         /// </summary>
         static void Shutdown()
         {

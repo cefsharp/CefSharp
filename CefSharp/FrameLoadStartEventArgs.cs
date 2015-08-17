@@ -19,7 +19,11 @@ namespace CefSharp
             IsMainFrame = frame.IsMain;
         }
 
+        /// <summary>
+        /// The browser object
+        /// </summary>
         public IBrowser Browser { get; private set;}
+
         /// <summary>
         /// The frame that just started loading.
         /// </summary>

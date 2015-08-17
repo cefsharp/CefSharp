@@ -37,8 +37,8 @@ namespace CefSharp.OffScreen
 
         public bool IsBrowserInitialized { get; private set; }
         public bool IsLoading { get; set; }
-        public string Title { get; set; }
         public string TooltipText { get; set; }
+        [Obsolete("Use IsLoading instead (inverse of this property)")]
         public bool CanReload { get; private set; }
         public string Address { get; private set; }
         public bool CanGoBack { get; private set; }
@@ -49,9 +49,10 @@ namespace CefSharp.OffScreen
         public IDialogHandler DialogHandler { get; set; }
         public IDownloadHandler DownloadHandler { get; set; }
         public IKeyboardHandler KeyboardHandler { get; set; }
+        public ILoadHandler LoadHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
-        public IPopupHandler PopupHandler { get; set; }
-        public IMenuHandler MenuHandler { get; set; }
+        public IDisplayHandler DisplayHandler { get; set; }
+        public IContextMenuHandler MenuHandler { get; set; }
         public IFocusHandler FocusHandler { get; set; }
         public IRequestHandler RequestHandler { get; set; }
         public IDragHandler DragHandler { get; set; }
@@ -66,6 +67,7 @@ namespace CefSharp.OffScreen
         public event EventHandler<StatusMessageEventArgs> StatusMessage;
         public event EventHandler<LoadingStateChangedEventArgs> LoadingStateChanged;
         public event EventHandler<AddressChangedEventArgs> AddressChanged;
+        public event EventHandler<TitleChangedEventArgs> TitleChanged;
 
         /// <summary>
         /// Fired by a separate thread when Chrome has re-rendered.
@@ -330,12 +332,12 @@ namespace CefSharp.OffScreen
         {
         }
 
-        void IWebBrowserInternal.OnConsoleMessage(string message, string source, int line)
+        void IWebBrowserInternal.OnConsoleMessage(ConsoleMessageEventArgs args)
         {
             var handler = ConsoleMessage;
             if (handler != null)
             {
-                handler(this, new ConsoleMessageEventArgs(message, source, line));
+                handler(this, args);
             }
         }
 
@@ -368,12 +370,12 @@ namespace CefSharp.OffScreen
             }
         }
 
-        void IWebBrowserInternal.OnLoadError(IFrame frame, CefErrorCode errorCode, string errorText, string failedUrl)
+        void IWebBrowserInternal.OnLoadError(LoadErrorEventArgs args)
         {
             var handler = LoadError;
             if (handler != null)
             {
-                handler(this, new LoadErrorEventArgs(frame, errorCode, errorText, failedUrl));
+                handler(this, args);
             }
         }
 
@@ -389,43 +391,47 @@ namespace CefSharp.OffScreen
             get { return IntPtr.Zero; }
         }
 
-        void IWebBrowserInternal.OnStatusMessage(string value)
+        void IWebBrowserInternal.OnStatusMessage(StatusMessageEventArgs args)
         {
             var handler = StatusMessage;
             if (handler != null)
             {
-                handler(this, new StatusMessageEventArgs(value));
+                handler(this, args);
             }
         }
 
-        void IWebBrowserInternal.SetAddress(string address)
+        void IWebBrowserInternal.SetAddress(AddressChangedEventArgs args)
         {
-            Address = address;
+            Address = args.Address;
 
             var handler = AddressChanged;
             if (handler != null)
             {
-                handler(this, new AddressChangedEventArgs(address));
+                handler(this, args);
             }
         }
 
-        void IWebBrowserInternal.SetLoadingStateChange(bool canGoBack, bool canGoForward, bool isLoading)
+        void IWebBrowserInternal.SetLoadingStateChange(LoadingStateChangedEventArgs args)
         {
-            CanGoBack = canGoBack;
-            CanGoForward = canGoForward;
-            CanReload = !isLoading;
-            IsLoading = isLoading;
+            CanGoBack = args.CanGoBack;
+            CanGoForward = args.CanGoForward;
+            CanReload = !args.IsLoading;
+            IsLoading = args.IsLoading;
 
             var handler = LoadingStateChanged;
             if (handler != null)
             {
-                handler(this, new LoadingStateChangedEventArgs(canGoBack, canGoForward, isLoading));
+                handler(this, args);
             }
         }
 
-        void IWebBrowserInternal.SetTitle(string title)
+        void IWebBrowserInternal.SetTitle(TitleChangedEventArgs args)
         {
-            Title = title;
+            var handler = TitleChanged;
+            if (handler != null)
+            {
+                handler(this, args);
+            }
         }
 
         void IWebBrowserInternal.SetTooltipText(string tooltipText)

@@ -19,5 +19,15 @@ namespace CefSharp.Example
             //NOTE: Returning false will trigger the default behaviour, you need to return true to handle yourself.
             return false;
         }
+
+        public void OnResetDialogState(IWebBrowser browserControl, IBrowser browser)
+        {
+            
+        }
+
+        public void OnDialogClosed(IWebBrowser browserControl, IBrowser browser)
+        {
+            
+        }
     }
 }

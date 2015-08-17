@@ -44,9 +44,10 @@ namespace CefSharp.Wpf
         public IKeyboardHandler KeyboardHandler { get; set; }
         public IRequestHandler RequestHandler { get; set; }
         public IDownloadHandler DownloadHandler { get; set; }
+        public ILoadHandler LoadHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
-        public IPopupHandler PopupHandler { get; set; }
-        public IMenuHandler MenuHandler { get; set; }
+        public IDisplayHandler DisplayHandler { get; set; }
+        public IContextMenuHandler MenuHandler { get; set; }
         public IFocusHandler FocusHandler { get; set; }
         public IDragHandler DragHandler { get; set; }
         public IResourceHandlerFactory ResourceHandlerFactory { get; set; }
@@ -128,7 +129,7 @@ namespace CefSharp.Wpf
 
             BackCommand = new DelegateCommand(this.Back, () => CanGoBack);
             ForwardCommand = new DelegateCommand(this.Forward, () => CanGoForward);
-            ReloadCommand = new DelegateCommand(this.Reload, () => CanReload);
+            ReloadCommand = new DelegateCommand(this.Reload, () => !IsLoading);
             PrintCommand = new DelegateCommand(this.Print);
             ZoomInCommand = new DelegateCommand(ZoomIn);
             ZoomOutCommand = new DelegateCommand(ZoomOut);
@@ -295,12 +296,12 @@ namespace CefSharp.Wpf
             });
         }
 
-        void IWebBrowserInternal.SetAddress(string address)
+        void IWebBrowserInternal.SetAddress(AddressChangedEventArgs args)
         {
             UiThreadRunAsync(() =>
             {
                 ignoreUriChange = true;
-                SetCurrentValue(AddressProperty, address);
+                SetCurrentValue(AddressProperty, args.Address);
                 ignoreUriChange = false;
 
                 // The tooltip should obviously also be reset (and hidden) when the address changes.
@@ -308,14 +309,14 @@ namespace CefSharp.Wpf
             });
         }
 
-        void IWebBrowserInternal.SetLoadingStateChange(bool canGoBack, bool canGoForward, bool isLoading)
+        void IWebBrowserInternal.SetLoadingStateChange(LoadingStateChangedEventArgs args)
         {
             UiThreadRunAsync(() =>
             {
-                SetCurrentValue(CanGoBackProperty, canGoBack);
-                SetCurrentValue(CanGoForwardProperty, canGoForward);
-                SetCurrentValue(CanReloadProperty, !isLoading);
-                SetCurrentValue(IsLoadingProperty, isLoading);
+                SetCurrentValue(CanGoBackProperty, args.CanGoBack);
+                SetCurrentValue(CanGoForwardProperty, args.CanGoForward);
+                SetCurrentValue(CanReloadProperty, !args.IsLoading);
+                SetCurrentValue(IsLoadingProperty, args.IsLoading);
 
                 ((DelegateCommand)BackCommand).RaiseCanExecuteChanged();
                 ((DelegateCommand)ForwardCommand).RaiseCanExecuteChanged();
@@ -325,13 +326,13 @@ namespace CefSharp.Wpf
             var handler = LoadingStateChanged;
             if (handler != null)
             {
-                handler(this, new LoadingStateChangedEventArgs(canGoBack, canGoForward, isLoading));
+                handler(this, args);
             }
         }
 
-        void IWebBrowserInternal.SetTitle(string title)
+        void IWebBrowserInternal.SetTitle(TitleChangedEventArgs args)
         {
-            UiThreadRunAsync(() => SetCurrentValue(TitleProperty, title));
+            UiThreadRunAsync(() => SetCurrentValue(TitleProperty, args.Title));
         }
 
         void IWebBrowserInternal.SetTooltipText(string tooltipText)
@@ -358,30 +359,30 @@ namespace CefSharp.Wpf
             }
         }
 
-        void IWebBrowserInternal.OnConsoleMessage(string message, string source, int line)
+        void IWebBrowserInternal.OnConsoleMessage(ConsoleMessageEventArgs args)
         {
             var handler = ConsoleMessage;
             if (handler != null)
             {
-                handler(this, new ConsoleMessageEventArgs(message, source, line));
+                handler(this, args);
             }
         }
 
-        void IWebBrowserInternal.OnStatusMessage(string value)
+        void IWebBrowserInternal.OnStatusMessage(StatusMessageEventArgs args)
         {
             var handler = StatusMessage;
             if (handler != null)
             {
-                handler(this, new StatusMessageEventArgs(value));
+                handler(this, args);
             }
         }
 
-        void IWebBrowserInternal.OnLoadError(IFrame frame, CefErrorCode errorCode, string errorText, string failedUrl)
+        void IWebBrowserInternal.OnLoadError(LoadErrorEventArgs args)
         {
             var handler = LoadError;
             if (handler != null)
             {
-                handler(this, new LoadErrorEventArgs(frame, errorCode, errorText, failedUrl));
+                handler(this, args);
             }
         }
 
@@ -437,6 +438,7 @@ namespace CefSharp.Wpf
 
         #region CanReload dependency property
 
+        [Obsolete("Use IsLoading instead (inverse of this property)")]
         public bool CanReload
         {
             get { return (bool)GetValue(CanReloadProperty); }
