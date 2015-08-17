@@ -6,6 +6,48 @@ namespace CefSharp
 {
     public interface IMenuHandler
     {
-        bool OnBeforeContextMenu(IWebBrowser browser, IFrame frame, IContextMenuParams parameters);
+        /// <summary>
+        /// Called before a context menu is displayed. |params| provides information
+        /// about the context menu state. |model| initially contains the default
+        /// context menu. The |model| can be cleared to show no context menu or
+        /// modified to show a custom menu. Do not keep references to |params| or
+        /// |model| outside of this callback.
+        /// </summary>
+        /// <param name="browserControl">the ChromiumWebBrowser control</param>
+        /// <param name="browser">the browser object</param>
+        /// <param name="frame">The frame the request is coming from</param>
+        /// <param name="parameters"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        void OnBeforeContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters,
+                                IMenuModel model);
+
+        /// <summary>
+        /// Called to execute a command selected from the context menu. Return true if
+        /// the command was handled or false for the default implementation. See
+        /// cef_menu_id_t for the command ids that have default implementations. All
+        /// user-defined command ids should be between MENU_ID_USER_FIRST and
+        /// MENU_ID_USER_LAST. |params| will have the same values as what was passed to
+        /// OnBeforeContextMenu(). Do not keep a reference to |params| outside of this
+        /// callback.
+        /// </summary>
+        /// <param name="browserControl">the ChromiumWebBrowser control</param>
+        /// <param name="browser">the browser object</param>
+        /// <param name="frame">The frame the request is coming from</param>
+        /// <param name="parameters"></param>
+        /// <param name="commandId"></param>
+        /// <param name="eventFlags"></param>
+        /// <returns></returns>
+        bool OnContextMenuCommand(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters,
+                                  int commandId, CefEventFlags eventFlags);
+
+        /// <summary>
+        /// Called when the context menu is dismissed irregardless of whether the menu
+        /// was empty or a command was selected.
+        /// </summary>
+        /// <param name="browserControl">the ChromiumWebBrowser control</param>
+        /// <param name="browser">the browser object</param>
+        /// <param name="frame">The frame the request is coming from</param>
+        void OnContextMenuDismissed(IWebBrowser browserControl, IBrowser browser, IFrame frame);
     }
 }

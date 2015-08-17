@@ -6,10 +6,20 @@ namespace CefSharp.WinForms.Example.Handlers
 {
     internal class MenuHandler : IMenuHandler
     {
-        public bool OnBeforeContextMenu(IWebBrowser browser, IFrame frame, IContextMenuParams parameters)
+        void IMenuHandler.OnBeforeContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model)
         {
-            // Return false if you want to disable the context menu.
-            return true;
+            //To disable the menu then call clear
+            // model.Clear();
+        }
+
+        bool IMenuHandler.OnContextMenuCommand(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, int commandId, CefEventFlags eventFlags)
+        {
+            return false;
+        }
+
+        void IMenuHandler.OnContextMenuDismissed(IWebBrowser browserControl, IBrowser browser, IFrame frame)
+        {
+            
         }
     }
 }

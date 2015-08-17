@@ -8,6 +8,7 @@
 #include "ClientAdapter.h"
 #include "CefRequestWrapper.h"
 #include "CefContextMenuParamsWrapper.h"
+#include "CefMenuModelWrapper.h"
 #include "CefDragDataWrapper.h"
 #include "TypeConversion.h"
 #include "CefSharpBrowserWrapper.h"
@@ -623,19 +624,15 @@ namespace CefSharp
         {
             auto handler = _browserControl->MenuHandler;
             
-            if (handler == nullptr)
+            if (handler != nullptr)
             {
-                return;
-            }
-
-            CefFrameWrapper frameWrapper(frame);
-            CefContextMenuParamsWrapper contextMenuParamsWrapper(params);
-            
-            auto result = handler->OnBeforeContextMenu(_browserControl, %frameWrapper, %contextMenuParamsWrapper);
-            if (!result)
-            {
-                model->Clear();
-            }
+                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+                CefFrameWrapper frameWrapper(frame);
+                CefContextMenuParamsWrapper contextMenuParamsWrapper(params);
+                CefMenuModelWrapper menuModelWrapper(model);
+                
+                handler->OnBeforeContextMenu(_browserControl, browserWrapper, %frameWrapper, %contextMenuParamsWrapper, %menuModelWrapper);
+            }            
         }
 
         void ClientAdapter::OnGotFocus(CefRefPtr<CefBrowser> browser)

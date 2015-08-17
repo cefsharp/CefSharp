@@ -8,12 +8,23 @@ namespace CefSharp.Wpf.Example.Handlers
 {
     public class MenuHandler : IMenuHandler
     {
-        public bool OnBeforeContextMenu(IWebBrowser browser, IFrame frame, IContextMenuParams parameters)
+        void IMenuHandler.OnBeforeContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model)
         {
             Console.WriteLine("Context menu opened");
             Console.WriteLine(parameters.MisspelledWord);
 
-            return true;
+            //To disable context mode then clear
+            // model.Clear();
+        }
+
+        bool IMenuHandler.OnContextMenuCommand(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, int commandId, CefEventFlags eventFlags)
+        {
+            return false;
+        }
+
+        void IMenuHandler.OnContextMenuDismissed(IWebBrowser browserControl, IBrowser browser, IFrame frame)
+        {
+            
         }
     }
 }
