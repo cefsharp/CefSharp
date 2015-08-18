@@ -86,7 +86,7 @@ namespace CefSharp
             }
         };
 
-        virtual void OnRenderProcessThreadCreated(CefRefPtr<CefListValue> extraInfo)
+        virtual void OnRenderProcessThreadCreated(CefRefPtr<CefListValue> extraInfo) OVERRIDE
         {
             auto extensionList = CefListValue::Create();
 

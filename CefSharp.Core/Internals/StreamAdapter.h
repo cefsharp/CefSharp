@@ -29,11 +29,11 @@ namespace CefSharp
                 _isMemoryStream = (dynamic_cast<MemoryStream^>(stream)) != nullptr;
             }
 
-            virtual size_t Read(void* ptr, size_t size, size_t n);
-            virtual int Seek(int64 offset, int whence);
-            virtual int64 Tell();
-            virtual int Eof();
-            virtual bool MayBlock();
+            virtual size_t Read(void* ptr, size_t size, size_t n) OVERRIDE;
+            virtual int Seek(int64 offset, int whence) OVERRIDE;
+            virtual int64 Tell() OVERRIDE;
+            virtual int Eof() OVERRIDE;
+            virtual bool MayBlock() OVERRIDE;
 
             IMPLEMENT_REFCOUNTING(StreamAdapter);
         };
