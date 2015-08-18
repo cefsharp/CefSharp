@@ -56,8 +56,6 @@ namespace CefSharp
             // CefRenderHandler
             virtual DECL bool GetScreenInfo(CefRefPtr<CefBrowser> browser, CefScreenInfo& screen_info) OVERRIDE
             {
-                return false;
-
                 if ((IRenderWebBrowser^)_renderWebBrowser == nullptr)
                 {
                     return false;
