@@ -33,13 +33,13 @@ namespace CefSharp
 
     void ResourceHandlerWrapper::GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl)
     {
-        String^ newRedistUrl;
+        String^ newRedirectUrl;
 
         CefResponseWrapper responseWrapper(response);
 
-        _stream = _handler->GetResponse(%responseWrapper, response_length, newRedistUrl);
+        _stream = _handler->GetResponse(%responseWrapper, response_length, newRedirectUrl);
 
-        redirectUrl = StringUtils::ToNative(newRedistUrl);
+        redirectUrl = StringUtils::ToNative(newRedirectUrl);
     }
 
     bool ResourceHandlerWrapper::ReadResponse(void* data_out, int bytes_to_read, int& bytes_read, CefRefPtr<CefCallback> callback)
