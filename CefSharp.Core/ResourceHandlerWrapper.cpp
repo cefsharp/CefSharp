@@ -70,6 +70,18 @@ namespace CefSharp
         return hasData;
     }
 
+    bool ResourceHandlerWrapper::CanGetCookie(const CefCookie& cookie)
+    {
+        //Default value is true
+        return true;
+    }
+
+    bool ResourceHandlerWrapper::CanSetCookie(const CefCookie& cookie)
+    {
+        //Default value is true
+        return true;
+    }
+
     void ResourceHandlerWrapper::Cancel()
     {
         //TODO: Fix this
