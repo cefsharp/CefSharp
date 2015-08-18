@@ -769,7 +769,9 @@ namespace CefSharp.Wpf
                     source.AddHook(sourceHook);
 
                     if (notifyDpiChanged)
+                    {
                         managedCefBrowserAdapter.NotifyScreenInfoChanged();
+                    }
                 }
             }
             else if (args.OldSource != null)
@@ -859,7 +861,6 @@ namespace CefSharp.Wpf
             img.Stretch = Stretch.None;
             img.HorizontalAlignment = HorizontalAlignment.Left;
             img.VerticalAlignment = VerticalAlignment.Top;
-            //Scale Image based on DPI settings
 
             return img;
         }

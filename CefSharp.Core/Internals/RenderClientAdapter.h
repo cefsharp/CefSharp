@@ -29,9 +29,6 @@ namespace CefSharp
                 _webBrowserInternal(webBrowserInternal)
             {
                 _renderWebBrowser = dynamic_cast<IRenderWebBrowser^>(webBrowserInternal);
-
-                _mainBitmapInfo = _renderWebBrowser->CreateBitmapInfo(false);
-                _popupBitmapInfo = _renderWebBrowser->CreateBitmapInfo(true);
             }
 
             ~RenderClientAdapter()
@@ -49,6 +46,12 @@ namespace CefSharp
                 delete _popupBitmapInfo;
                 _popupBitmapInfo = nullptr;
             }
+
+			void CreateBitmapInfo()  
+			{  
+                _mainBitmapInfo = _renderWebBrowser->CreateBitmapInfo(false);  
+                _popupBitmapInfo = _renderWebBrowser->CreateBitmapInfo(true);  
+			}
 
             // CefClient
             virtual DECL CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE{ return this; };
