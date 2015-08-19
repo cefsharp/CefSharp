@@ -133,6 +133,9 @@ namespace CefSharp
         void OnDragTargetDragLeave();
         void OnDragTargetDragDrop(MouseEvent^ mouseEvent);
 
+        void OnDragSourceEndedAt(int x, int y, DragOperationsMask op);
+        void OnDragSourceSystemDragEnded();
+
         /// <summary>
         /// Gets the CefBrowserWrapper instance
         /// </summary>

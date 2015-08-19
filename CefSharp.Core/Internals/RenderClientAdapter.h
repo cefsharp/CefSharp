@@ -177,6 +177,13 @@ namespace CefSharp
                 _renderWebBrowser->SetCursor((IntPtr)cursor, (CefSharp::CefCursorType)type);
             };
 
+            virtual DECL bool StartDragging(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDragData> drag_data,
+                CefRenderHandler::DragOperationsMask allowed_ops, int x, int y)
+            {
+                CefDragDataWrapper dragDataWrapper(drag_data);
+                return _renderWebBrowser->StartDragging(%dragDataWrapper, (CefSharp::DragOperationsMask)allowed_ops, x, y);
+            }
+
         private:
             void ReleaseBitmapHandlers(BitmapInfo^ bitmapInfo)
             {

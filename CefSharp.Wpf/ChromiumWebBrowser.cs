@@ -251,6 +251,21 @@ namespace CefSharp.Wpf
             return BitmapFactory.CreateBitmap(isPopup);
         }
 
+        bool IRenderWebBrowser.StartDragging(IDragData dragData, DragOperationsMask mask, int x, int y)
+        {
+            var dragDataCopy = CefDragDataWrapper.Create();
+            dragDataCopy.FragmentText = dragData.FragmentText;
+            dragDataCopy.FragmentHtml = dragData.FragmentHtml;
+
+            UiThreadRunAsync(delegate
+            {
+                var results = DragDrop.DoDragDrop(this, dragDataCopy.FragmentHtml, GetDragEffects(mask));
+                managedCefBrowserAdapter.OnDragSourceEndedAt(0, 0, GetDragOperationsMask((DragDropEffects)results));
+                managedCefBrowserAdapter.OnDragSourceSystemDragEnded();
+            });
+            return true;
+        }
+
         void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
         {
             UiThreadRunAsync(delegate
@@ -752,6 +767,27 @@ namespace CefSharp.Wpf
             }
 
             return operations;
+        }
+
+        private DragDropEffects GetDragEffects(DragOperationsMask mask)
+        {
+            if ((mask & DragOperationsMask.Every) == DragOperationsMask.Every)
+            {
+                return DragDropEffects.All;
+            }
+            if ((mask & DragOperationsMask.Copy) == DragOperationsMask.Copy)
+            {
+                return DragDropEffects.Copy;
+            }
+            if ((mask & DragOperationsMask.Move) == DragOperationsMask.Move)
+            {
+                return DragDropEffects.Move;
+            }
+            if ((mask & DragOperationsMask.Link) == DragOperationsMask.Link)
+            {
+                return DragDropEffects.Link;
+            }
+            return DragDropEffects.None;
         }
 
         private void PresentationSourceChangedHandler(object sender, SourceChangedEventArgs args)
