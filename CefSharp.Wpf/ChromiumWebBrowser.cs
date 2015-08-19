@@ -259,7 +259,7 @@ namespace CefSharp.Wpf
 
             UiThreadRunAsync(delegate
             {
-                var results = DragDrop.DoDragDrop(this, dragDataCopy.FragmentHtml, GetDragEffects(mask));
+                var results = DragDrop.DoDragDrop(this, dragDataCopy.FragmentText, GetDragEffects(mask));
                 managedCefBrowserAdapter.OnDragSourceEndedAt(0, 0, GetDragOperationsMask((DragDropEffects)results));
                 managedCefBrowserAdapter.OnDragSourceSystemDragEnded();
             });
