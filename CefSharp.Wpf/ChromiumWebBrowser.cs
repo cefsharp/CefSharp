@@ -231,10 +231,8 @@ namespace CefSharp.Wpf
         {
             var screenInfo = new ScreenInfo();
 
-            var point = matrix.Transform(new Point(ActualWidth, ActualHeight));
-
-            screenInfo.Width = (int)point.X;
-            screenInfo.Height = (int)point.Y;
+            screenInfo.Width = (int)ActualWidth;
+            screenInfo.Height = (int)ActualHeight;
             screenInfo.ScaleFactor = (float)matrix.M11;
 
             return screenInfo;
@@ -934,10 +932,10 @@ namespace CefSharp.Wpf
 
         private void SetPopupSizeAndPositionImpl(int width, int height, int x, int y)
         {
-            popup.Width = width / matrix.M11;
-            popup.Height = height / matrix.M22;
+            popup.Width = width ;
+            popup.Height = height;
 
-            var popupOffset = new Point(x / matrix.M11, y / matrix.M22);
+            var popupOffset = new Point(x, y);
             var locationFromScreen = PointToScreen(popupOffset);
             popup.HorizontalOffset = locationFromScreen.X / matrix.M11;
             popup.VerticalOffset = locationFromScreen.Y / matrix.M22;
@@ -1200,9 +1198,8 @@ namespace CefSharp.Wpf
         private Point GetPixelPosition(MouseEventArgs e)
         {
             var deviceIndependentPosition = e.GetPosition(this);
-            var pixelPosition = matrix.Transform(deviceIndependentPosition);
 
-            return pixelPosition;
+            return deviceIndependentPosition;
         }
 
         public IBrowser GetBrowser()
