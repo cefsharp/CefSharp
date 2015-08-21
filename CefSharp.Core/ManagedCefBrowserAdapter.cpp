@@ -16,9 +16,9 @@ bool ManagedCefBrowserAdapter::IsDisposed::get()
 
 void ManagedCefBrowserAdapter::CreateOffscreenBrowser(IntPtr windowHandle, BrowserSettings^ browserSettings, RequestContext^ requestContext, String^ address)
 {
-	//Create the required BitmapInfo classes before the offscreen browser is initialized  
-	auto renderClientAdapter = dynamic_cast<RenderClientAdapter*>(_clientAdapter.get());  
-	renderClientAdapter->CreateBitmapInfo();
+    //Create the required BitmapInfo classes before the offscreen browser is initialized  
+    auto renderClientAdapter = dynamic_cast<RenderClientAdapter*>(_clientAdapter.get());  
+    renderClientAdapter->CreateBitmapInfo();
 
     auto hwnd = static_cast<HWND>(windowHandle.ToPointer());
 

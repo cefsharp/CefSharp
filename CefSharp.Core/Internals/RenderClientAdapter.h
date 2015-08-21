@@ -47,11 +47,11 @@ namespace CefSharp
                 _popupBitmapInfo = nullptr;
             }
 
-			void CreateBitmapInfo()  
-			{  
+            void CreateBitmapInfo()  
+            {  
                 _mainBitmapInfo = _renderWebBrowser->CreateBitmapInfo(false);  
                 _popupBitmapInfo = _renderWebBrowser->CreateBitmapInfo(true);  
-			}
+            }
 
             // CefClient
             virtual DECL CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE{ return this; };
