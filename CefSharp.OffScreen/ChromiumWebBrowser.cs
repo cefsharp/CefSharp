@@ -324,6 +324,11 @@ namespace CefSharp.OffScreen
         {
         }
 
+        bool IRenderWebBrowser.StartDragging(IDragData dragData, DragOperationsMask mask, int x, int y)
+        {
+            return false;
+        }
+
         void IRenderWebBrowser.SetPopupIsOpen(bool show)
         {
         }

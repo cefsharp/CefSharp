@@ -8,6 +8,7 @@ using CefSharp.Wpf.Rendering;
 using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,6 +16,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
 namespace CefSharp.Wpf
@@ -249,6 +251,34 @@ namespace CefSharp.Wpf
                 throw new Exception("BitmapFactory cannot be null");
             }
             return BitmapFactory.CreateBitmap(isPopup);
+        }
+
+        bool IRenderWebBrowser.StartDragging(IDragData dragData, DragOperationsMask mask, int x, int y)
+        {
+            var dataObject = new DataObject();
+
+            dataObject.SetText(dragData.FragmentText, TextDataFormat.Text);
+            dataObject.SetText(dragData.FragmentText, TextDataFormat.UnicodeText);
+            dataObject.SetText(dragData.FragmentHtml, TextDataFormat.Html);
+
+            // TODO: The following code block *should* handle images, but GetFileContents is
+            // not yet implemented.
+            //if (dragData.IsFile)
+            //{
+            //    var bmi = new BitmapImage();
+            //    bmi.BeginInit();
+            //    bmi.StreamSource = dragData.GetFileContents();
+            //    bmi.EndInit();
+            //    dataObject.SetImage(bmi);
+            //}
+
+            UiThreadRunAsync(delegate
+            {
+                var results = DragDrop.DoDragDrop(this, dataObject, GetDragEffects(mask));
+                managedCefBrowserAdapter.OnDragSourceEndedAt(0, 0, GetDragOperationsMask(results));
+                managedCefBrowserAdapter.OnDragSourceSystemDragEnded();
+            });
+            return true;
         }
 
         void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
@@ -752,6 +782,27 @@ namespace CefSharp.Wpf
             }
 
             return operations;
+        }
+
+        private DragDropEffects GetDragEffects(DragOperationsMask mask)
+        {
+            if ((mask & DragOperationsMask.Every) == DragOperationsMask.Every)
+            {
+                return DragDropEffects.All;
+            }
+            if ((mask & DragOperationsMask.Copy) == DragOperationsMask.Copy)
+            {
+                return DragDropEffects.Copy;
+            }
+            if ((mask & DragOperationsMask.Move) == DragOperationsMask.Move)
+            {
+                return DragDropEffects.Move;
+            }
+            if ((mask & DragOperationsMask.Link) == DragOperationsMask.Link)
+            {
+                return DragDropEffects.Link;
+            }
+            return DragDropEffects.None;
         }
 
         private void PresentationSourceChangedHandler(object sender, SourceChangedEventArgs args)

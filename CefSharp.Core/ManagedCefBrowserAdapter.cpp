@@ -335,6 +335,26 @@ void ManagedCefBrowserAdapter::OnDragTargetDragDrop(MouseEvent^ mouseEvent)
     }
 }
 
+void ManagedCefBrowserAdapter::OnDragSourceEndedAt(int x, int y, DragOperationsMask op)
+{
+    auto browser = _clientAdapter->GetCefBrowser();
+
+    if (browser != nullptr)
+    {
+        browser->GetHost()->DragSourceEndedAt(x, y, (CefBrowserHost::DragOperationsMask)op);
+    }
+}
+
+void ManagedCefBrowserAdapter::OnDragSourceSystemDragEnded()
+{
+    auto browser = _clientAdapter->GetCefBrowser();
+
+    if (browser != nullptr)
+    {
+        browser->GetHost()->DragSourceSystemDragEnded();
+    }
+}
+
 /// <summary>
 /// Gets the CefBrowserWrapper instance
 /// </summary>

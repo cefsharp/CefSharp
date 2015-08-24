@@ -15,6 +15,8 @@ namespace CefSharp.Internals
 
         void SetCursor(IntPtr cursor, CefCursorType type);
 
+        bool StartDragging(IDragData dragData, DragOperationsMask mask, int x, int y);
+
         void SetPopupIsOpen(bool show);
         void SetPopupSizeAndPosition(int width, int height, int x, int y);
     };
