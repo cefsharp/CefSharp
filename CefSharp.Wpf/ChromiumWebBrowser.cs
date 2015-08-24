@@ -8,7 +8,6 @@ using CefSharp.Wpf.Rendering;
 using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,7 +15,6 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
 namespace CefSharp.Wpf
@@ -278,6 +276,7 @@ namespace CefSharp.Wpf
                 managedCefBrowserAdapter.OnDragSourceEndedAt(0, 0, GetDragOperationsMask(results));
                 managedCefBrowserAdapter.OnDragSourceSystemDragEnded();
             });
+
             return true;
         }
 
@@ -784,7 +783,7 @@ namespace CefSharp.Wpf
             return operations;
         }
 
-        private DragDropEffects GetDragEffects(DragOperationsMask mask)
+        private static DragDropEffects GetDragEffects(DragOperationsMask mask)
         {
             if ((mask & DragOperationsMask.Every) == DragOperationsMask.Every)
             {
