@@ -7,5 +7,10 @@ namespace CefSharp
 	public interface IMenuModel
 	{
 		bool Clear();
-	}
+        int GetCount();
+        string GetLabelAt(int index);
+        int GetCommandIdAt(int index);
+        bool Remove(int index);
+        bool AddItem(int command_id, string label);
+    }
 }

@@ -35,5 +35,29 @@ namespace CefSharp
         {
             return _menu->Clear();
         }
+
+		virtual int GetCount() {
+			return _menu->GetCount();
+		}
+
+		virtual String^ GetLabelAt(int index) {
+			return StringUtils::ToClr(_menu->GetLabelAt(index));
+		}
+
+		virtual int GetCommandIdAt(int index) {
+			return _menu->GetCommandIdAt(index);
+		}
+
+		virtual bool Remove(int index) {
+			return _menu->Remove(index);
+		}
+
+		virtual bool AddSeparator() {
+			return _menu->AddSeparator();
+		}
+
+		virtual bool AddItem(int command_id, String^ label) {
+			return _menu->AddItem(command_id, StringUtils::ToNative(label));
+		}
     };
 }
