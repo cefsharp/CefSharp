@@ -4,6 +4,7 @@
 
 namespace CefSharp.WinForms.Example.Handlers
 {
+    // TO DO: Create enum for Command Id values
     internal class MenuHandler : IContextMenuHandler
     {
         void IContextMenuHandler.OnBeforeContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model)
@@ -11,23 +12,25 @@ namespace CefSharp.WinForms.Example.Handlers
             //To disable the menu then call clear
             // model.Clear();
 
-            bool removed = model.Remove(132); // Remove "View Source" option
-            if (removed)
-            {
-                model.AddItem(20222, "Reload"); // 20222 - our custom command id
-            }
+            //Removing existing menu item
+            //bool removed = model.Remove(132); // Remove "View Source" option
+
+            //adding new menu item
+            model.AddItem(102, "Reload");
         }
 
         bool IContextMenuHandler.OnContextMenuCommand(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, int commandId, CefEventFlags eventFlags)
         {
-            if (commandId == 20222)
-                browser.Reload(true);
+            if (commandId == 102)
+            {
+                browser.Reload();
+            }
             return false;
         }
 
         void IContextMenuHandler.OnContextMenuDismissed(IWebBrowser browserControl, IBrowser browser, IFrame frame)
         {
-            return;
+
         }
     }
 }
