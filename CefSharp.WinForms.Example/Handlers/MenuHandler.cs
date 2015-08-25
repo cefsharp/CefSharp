@@ -4,7 +4,6 @@
 
 namespace CefSharp.WinForms.Example.Handlers
 {
-    // TO DO: Create enum for Command Id values
     internal class MenuHandler : IContextMenuHandler
     {
         void IContextMenuHandler.OnBeforeContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model)
