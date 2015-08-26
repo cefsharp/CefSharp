@@ -5,8 +5,13 @@
 #pragma once
 
 #include "Stdafx.h"
-#include "include/cef_scheme.h"
-#include "include/wrapper/cef_stream_resource_handler.h"
+#include "include\cef_scheme.h"
+#include "include\wrapper\cef_stream_resource_handler.h"
+
+#include "Internals\CefSharpBrowserWrapper.h"
+#include "Internals\CefFrameWrapper.h"
+#include "Internals\CefRequestWrapper.h"
+#include "ResourceHandlerWrapper.h"
 
 using namespace System;
 using namespace System::IO;

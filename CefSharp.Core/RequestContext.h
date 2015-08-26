@@ -5,9 +5,9 @@
 #pragma once
 
 #include "Stdafx.h"
-#include "Internals\MCefRefPtr.h"
-#include "RequestContextSettings.h"
 #include "include\cef_request_context.h"
+#include "RequestContextSettings.h"
+#include "SchemeHandlerFactoryWrapper.h"
 
 using namespace CefSharp;
 
@@ -53,6 +53,17 @@ namespace CefSharp
             this->!RequestContext();
 
             delete _settings;
+        }
+
+        bool RegisterSchemeHandlerFactory(String^ schemeName, String^ domainName, ISchemeHandlerFactory^ factory)
+        {
+            auto wrapper = new SchemeHandlerFactoryWrapper(factory);
+            return _requestContext->RegisterSchemeHandlerFactory(StringUtils::ToNative(schemeName), StringUtils::ToNative(domainName), wrapper);
+        }
+
+        bool ClearSchemeHandlerFactories()
+        {
+            return _requestContext->ClearSchemeHandlerFactories();
         }
 
         operator CefRefPtr<CefRequestContext>()
