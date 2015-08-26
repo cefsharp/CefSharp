@@ -19,10 +19,8 @@ namespace CefSharp.Wpf.Rendering
                     IsPopup = isPopup
                 };
             }
-            else
-            {
-                return new InteropBitmapInfo { IsPopup = isPopup };
-            }
+
+            return new InteropBitmapInfo { IsPopup = isPopup };
         }
     }
 }

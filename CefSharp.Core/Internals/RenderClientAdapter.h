@@ -187,25 +187,25 @@ namespace CefSharp
         private:
             void ReleaseBitmapHandlers(BitmapInfo^ bitmapInfo)
             {
-				if(bitmapInfo)
-				{
-					auto backBufferHandle = (HANDLE)bitmapInfo->BackBufferHandle;
-					auto fileMappingHandle = (HANDLE)bitmapInfo->FileMappingHandle;
+                if(bitmapInfo)
+                {
+                    auto backBufferHandle = (HANDLE)bitmapInfo->BackBufferHandle;
+                    auto fileMappingHandle = (HANDLE)bitmapInfo->FileMappingHandle;
 
-					if (backBufferHandle != NULL)
-					{
-						UnmapViewOfFile(backBufferHandle);
-						backBufferHandle = NULL;
-						bitmapInfo->BackBufferHandle = IntPtr::Zero;
-					}
+                    if (backBufferHandle != NULL)
+                    {
+                        UnmapViewOfFile(backBufferHandle);
+                        backBufferHandle = NULL;
+                        bitmapInfo->BackBufferHandle = IntPtr::Zero;
+                    }
 
-					if (fileMappingHandle != NULL)
-					{
-						CloseHandle(fileMappingHandle);
-						fileMappingHandle = NULL;
-						bitmapInfo->FileMappingHandle = IntPtr::Zero;
-					}
-				}
+                    if (fileMappingHandle != NULL)
+                    {
+                        CloseHandle(fileMappingHandle);
+                        fileMappingHandle = NULL;
+                        bitmapInfo->FileMappingHandle = IntPtr::Zero;
+                    }
+                }
             }
 
             IMPLEMENT_REFCOUNTING(RenderClientAdapter)

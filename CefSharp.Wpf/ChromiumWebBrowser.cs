@@ -1083,7 +1083,7 @@ namespace CefSharp.Wpf
 
             if (browser != null)
             {
-                var point = GetPixelPosition(e);
+                var point = e.GetPosition(this);
                 var modifiers = e.GetModifiers();
 
                 browser.GetHost().SendMouseMoveEvent((int)point.X, (int)point.Y, false, modifiers);
@@ -1092,7 +1092,7 @@ namespace CefSharp.Wpf
 
         protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
-            var point = GetPixelPosition(e);
+            var point = e.GetPosition(this);
 
             var browser = GetBrowser();
 
@@ -1155,7 +1155,7 @@ namespace CefSharp.Wpf
 
             var modifiers = e.GetModifiers();
             var mouseUp = (e.ButtonState == MouseButtonState.Released);
-            var point = GetPixelPosition(e);
+            var point = e.GetPosition(this);
 
             var browser = GetBrowser();
 
@@ -1243,13 +1243,6 @@ namespace CefSharp.Wpf
             {
                 rendering(sender, new RenderingEventArgs(bitmapInfo));
             }
-        }
-
-        private Point GetPixelPosition(MouseEventArgs e)
-        {
-            var deviceIndependentPosition = e.GetPosition(this);
-
-            return deviceIndependentPosition;
         }
 
         public IBrowser GetBrowser()
