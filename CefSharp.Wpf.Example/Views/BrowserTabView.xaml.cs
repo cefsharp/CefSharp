@@ -26,20 +26,24 @@ namespace CefSharp.Wpf.Example.Views
             browser.MenuHandler = new MenuHandler();
             browser.GeolocationHandler = new GeolocationHandler();
             browser.DownloadHandler = new DownloadHandler();
-            browser.PreviewTextInput += (sender, args) =>
-            {
-                var host = browser.GetBrowser().GetHost();
-                var keyEvent = new KeyEvent();
+            
+            //NOTE:This code is a workaround for https://github.com/cefsharp/CefSharp/issues/583
+            // The `upstream` issue has been flagged as resolved, so hopefully this can be removed
+            // in the future.
+            //browser.PreviewTextInput += (sender, args) =>
+            //{
+            //    var host = browser.GetBrowser().GetHost();
+            //    var keyEvent = new KeyEvent();
 
-                foreach (var character in args.Text)
-                {
-                    keyEvent.WindowsKeyCode = character;
-                    keyEvent.Type = KeyEventType.Char;
-                    host.SendKeyEvent(keyEvent);
-                }
+            //    foreach (var character in args.Text)
+            //    {
+            //        keyEvent.WindowsKeyCode = character;
+            //        keyEvent.Type = KeyEventType.Char;
+            //        host.SendKeyEvent(keyEvent);
+            //    }
 
-                args.Handled = true;
-            };
+            //    args.Handled = true;
+            //};
 
             browser.LoadError += (sender, args) =>
             {
