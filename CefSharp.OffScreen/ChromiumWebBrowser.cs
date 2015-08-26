@@ -278,14 +278,24 @@ namespace CefSharp.OffScreen
 
         ScreenInfo IRenderWebBrowser.GetScreenInfo()
         {
-            var screenInfo = new ScreenInfo();
-
-            screenInfo.Width = size.Width;
-            screenInfo.Height = size.Height;
             //TODO: Expose NotifyScreenInfoChanged and allow user to specify their own scale factor
-            screenInfo.ScaleFactor = 1.0F;
+            var screenInfo = new ScreenInfo
+            {
+                ScaleFactor = 1.0F
+            };
 
             return screenInfo;
+        }
+
+        ViewRect IRenderWebBrowser.GetViewRect()
+        {
+            var viewRect = new ViewRect
+            {
+                Width = size.Width,
+                Height = size.Height
+            };
+
+            return viewRect;
         }
 
         BitmapInfo IRenderWebBrowser.CreateBitmapInfo(bool isPopup)

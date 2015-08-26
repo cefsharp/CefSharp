@@ -229,13 +229,23 @@ namespace CefSharp.Wpf
 
         ScreenInfo IRenderWebBrowser.GetScreenInfo()
         {
-            var screenInfo = new ScreenInfo();
-
-            screenInfo.Width = (int)ActualWidth;
-            screenInfo.Height = (int)ActualHeight;
-            screenInfo.ScaleFactor = (float)matrix.M11;
+            var screenInfo = new ScreenInfo
+            {
+                ScaleFactor = (float)matrix.M11
+            };
 
             return screenInfo;
+        }
+
+        ViewRect IRenderWebBrowser.GetViewRect()
+        {
+            var viewRect = new ViewRect
+            {
+                Width = (int)ActualWidth,
+                Height = (int)ActualHeight
+            };
+
+            return viewRect;
         }
 
         BitmapInfo IRenderWebBrowser.CreateBitmapInfo(bool isPopup)

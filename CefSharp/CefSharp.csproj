@@ -95,6 +95,7 @@
     <Compile Include="ICookieManager.cs" />
     <Compile Include="ILoadHandler.cs" />
     <Compile Include="IMenuModel.cs" />
+    <Compile Include="Internals\ViewRect.cs" />
     <Compile Include="ISslInfo.cs" />
     <Compile Include="KeyEvent.cs" />
     <Compile Include="KeyEventType.cs" />
@@ -175,7 +176,7 @@
     <Compile Include="ResourceHandler.cs" />
     <Compile Include="ResourceHandlerType.cs" />
     <Compile Include="ResponseAction.cs" />
-    <Compile Include="ScreenInfo.cs" />
+    <Compile Include="Internals\ScreenInfo.cs" />
     <Compile Include="TransitionType.cs" />
     <Compile Include="LoadingStateChangedEventArgs.cs" />
     <Compile Include="ICompletionHandler.cs" />
