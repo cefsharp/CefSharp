@@ -29,9 +29,6 @@ namespace CefSharp
                 _webBrowserInternal(webBrowserInternal)
             {
                 _renderWebBrowser = dynamic_cast<IRenderWebBrowser^>(webBrowserInternal);
-
-                _mainBitmapInfo = _renderWebBrowser->CreateBitmapInfo(false);
-                _popupBitmapInfo = _renderWebBrowser->CreateBitmapInfo(true);
             }
 
             ~RenderClientAdapter()
@@ -50,14 +47,18 @@ namespace CefSharp
                 _popupBitmapInfo = nullptr;
             }
 
+            void CreateBitmapInfo()  
+            {  
+                _mainBitmapInfo = _renderWebBrowser->CreateBitmapInfo(false);  
+                _popupBitmapInfo = _renderWebBrowser->CreateBitmapInfo(true);  
+            }
+
             // CefClient
             virtual DECL CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE{ return this; };
 
             // CefRenderHandler
             virtual DECL bool GetScreenInfo(CefRefPtr<CefBrowser> browser, CefScreenInfo& screen_info) OVERRIDE
             {
-                return false;
-
                 if ((IRenderWebBrowser^)_renderWebBrowser == nullptr)
                 {
                     return false;
@@ -84,11 +85,10 @@ namespace CefSharp
 
                 auto screenInfo = _renderWebBrowser->GetScreenInfo();
 
-                //auto scaledWidth = screenInfo.Width / screenInfo.ScaleFactor;
-                //auto scaledHeight = screenInfo.Height / screenInfo.ScaleFactor;
-                //rect = CefRect(0, 0, scaledWidth, scaledHeight);
+                auto scaledWidth = screenInfo.Width;
+                auto scaledHeight = screenInfo.Height;
+                rect = CefRect(0, 0, scaledWidth, scaledHeight);
 
-                rect = CefRect(0, 0, screenInfo.Width, screenInfo.Height);
                 return true;
             };
 
@@ -187,22 +187,25 @@ namespace CefSharp
         private:
             void ReleaseBitmapHandlers(BitmapInfo^ bitmapInfo)
             {
-                auto backBufferHandle = (HANDLE)bitmapInfo->BackBufferHandle;
-                auto fileMappingHandle = (HANDLE)bitmapInfo->FileMappingHandle;
+				if(bitmapInfo)
+				{
+					auto backBufferHandle = (HANDLE)bitmapInfo->BackBufferHandle;
+					auto fileMappingHandle = (HANDLE)bitmapInfo->FileMappingHandle;
 
-                if (backBufferHandle != NULL)
-                {
-                    UnmapViewOfFile(backBufferHandle);
-                    backBufferHandle = NULL;
-                    bitmapInfo->BackBufferHandle = IntPtr::Zero;
-                }
+					if (backBufferHandle != NULL)
+					{
+						UnmapViewOfFile(backBufferHandle);
+						backBufferHandle = NULL;
+						bitmapInfo->BackBufferHandle = IntPtr::Zero;
+					}
 
-                if (fileMappingHandle != NULL)
-                {
-                    CloseHandle(fileMappingHandle);
-                    fileMappingHandle = NULL;
-                    bitmapInfo->FileMappingHandle = IntPtr::Zero;
-                }
+					if (fileMappingHandle != NULL)
+					{
+						CloseHandle(fileMappingHandle);
+						fileMappingHandle = NULL;
+						bitmapInfo->FileMappingHandle = IntPtr::Zero;
+					}
+				}
             }
 
             IMPLEMENT_REFCOUNTING(RenderClientAdapter)

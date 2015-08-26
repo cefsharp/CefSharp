@@ -22,7 +22,6 @@ namespace CefSharp.Wpf
     public class ChromiumWebBrowser : ContentControl, IRenderWebBrowser, IWpfWebBrowser
     {
         private readonly List<IDisposable> disposables = new List<IDisposable>();
-        private readonly ScaleTransform imageTransform;
 
         private HwndSource source;
         private HwndSourceHook sourceHook;
@@ -144,7 +143,6 @@ namespace CefSharp.Wpf
             UndoCommand = new DelegateCommand(this.Undo);
             RedoCommand = new DelegateCommand(this.Redo);
 
-            imageTransform = new ScaleTransform();
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, true);
 
             disposables.Add(managedCefBrowserAdapter);
@@ -233,10 +231,8 @@ namespace CefSharp.Wpf
         {
             var screenInfo = new ScreenInfo();
 
-            var point = matrix.Transform(new Point(ActualWidth, ActualHeight));
-
-            screenInfo.Width = (int)point.X;
-            screenInfo.Height = (int)point.Y;
+            screenInfo.Width = (int)ActualWidth;
+            screenInfo.Height = (int)ActualHeight;
             screenInfo.ScaleFactor = (float)matrix.M11;
 
             return screenInfo;
@@ -248,7 +244,7 @@ namespace CefSharp.Wpf
             {
                 throw new Exception("BitmapFactory cannot be null");
             }
-            return BitmapFactory.CreateBitmap(isPopup);
+            return BitmapFactory.CreateBitmap(isPopup, matrix.M11);
         }
 
         bool IRenderWebBrowser.StartDragging(IDragData dragData, DragOperationsMask mask, int x, int y)
@@ -814,13 +810,16 @@ namespace CefSharp.Wpf
 
                 if (source != null)
                 {
+                    var notifyDpiChanged = !matrix.Equals(source.CompositionTarget.TransformToDevice);
+
                     matrix = source.CompositionTarget.TransformToDevice;
                     sourceHook = SourceHook;
                     source.AddHook(sourceHook);
 
-                    managedCefBrowserAdapter.NotifyScreenInfoChanged();
-                    imageTransform.ScaleX = 1 / matrix.M11;
-                    imageTransform.ScaleY = 1 / matrix.M22;
+                    if (notifyDpiChanged)
+                    {
+                        managedCefBrowserAdapter.NotifyScreenInfoChanged();
+                    }
                 }
             }
             else if (args.OldSource != null)
@@ -910,8 +909,6 @@ namespace CefSharp.Wpf
             img.Stretch = Stretch.None;
             img.HorizontalAlignment = HorizontalAlignment.Left;
             img.VerticalAlignment = VerticalAlignment.Top;
-            //Scale Image based on DPI settings
-            img.LayoutTransform = imageTransform;
 
             return img;
         }
@@ -985,10 +982,10 @@ namespace CefSharp.Wpf
 
         private void SetPopupSizeAndPositionImpl(int width, int height, int x, int y)
         {
-            popup.Width = width / matrix.M11;
-            popup.Height = height / matrix.M22;
+            popup.Width = width ;
+            popup.Height = height;
 
-            var popupOffset = new Point(x / matrix.M11, y / matrix.M22);
+            var popupOffset = new Point(x, y);
             var locationFromScreen = PointToScreen(popupOffset);
             popup.HorizontalOffset = locationFromScreen.X / matrix.M11;
             popup.VerticalOffset = locationFromScreen.Y / matrix.M22;
@@ -1251,9 +1248,8 @@ namespace CefSharp.Wpf
         private Point GetPixelPosition(MouseEventArgs e)
         {
             var deviceIndependentPosition = e.GetPosition(this);
-            var pixelPosition = matrix.Transform(deviceIndependentPosition);
 
-            return pixelPosition;
+            return deviceIndependentPosition;
         }
 
         public IBrowser GetBrowser()
