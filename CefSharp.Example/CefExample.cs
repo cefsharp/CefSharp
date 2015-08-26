@@ -17,6 +17,7 @@ namespace CefSharp.Example
         public const string BindingTestUrl = "custom://cefsharp/BindingTest.html";
         public const string PluginsTestUrl = "custom://cefsharp/plugins.html";
         public const string TestResourceUrl = "http://test/resource/load";
+        public const string RenderProcessCrashedUrl = "http://processcrashed";
         public const string TestUnicodeResourceUrl = "http://test/resource/loadUnicode";
         public const string PopupParentUrl = "http://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_win_close";
         
@@ -121,6 +122,9 @@ namespace CefSharp.Example
             var handler = browser.ResourceHandlerFactory as DefaultResourceHandlerFactory;
             if (handler != null)
             {
+                const string renderProcessCrashedBody = "<html><body><h1>Render Process Crashed</h1><p>Your seeing this message as the render process has crashed</p></body></html>";
+                handler.RegisterHandler(RenderProcessCrashedUrl, ResourceHandler.FromString(renderProcessCrashedBody));
+
                 const string responseBody = "<html><body><h1>Success</h1><p>This document is loaded from a System.IO.Stream</p></body></html>";
                 var response = ResourceHandler.FromString(responseBody);
                 response.Headers.Add("HeaderTest1", "HeaderTest1Value");
