@@ -21,6 +21,7 @@
                 <MenuItem Header="_Popup Test" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="PopupTest"/>
                 <MenuItem Header="_Fish Gl" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="FishGl"/>
                 <MenuItem Header="_Microsoft Test Drive" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="MsTestDrive"/>
+                <MenuItem Header="_Drag Demo" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="DragDemo"/>
             </MenuItem>
         </Menu>
         <controls:NonReloadingTabControl x:Name="TabControl"

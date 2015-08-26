@@ -44,7 +44,7 @@ namespace CefSharp.Wpf.Example
                 //Obtain the original source element for this event
                 var originalSource = (FrameworkElement)e.OriginalSource;
 
-                BrowserTabViewModel browserViewModel = null;
+                BrowserTabViewModel browserViewModel;
 
                 if (originalSource is MainWindow)
                 {
@@ -84,7 +84,7 @@ namespace CefSharp.Wpf.Example
             var param = e.Parameter.ToString();
             string url = "";
 
-            switch(param)
+            switch (param)
             {
                 case "BindingTest":
                 {
@@ -105,10 +105,15 @@ namespace CefSharp.Wpf.Example
                 {
                     url = "http://www.fishgl.com/";
                     break;
-                } 
+                }
                 case "MsTestDrive":
                 {
                     url = "http://dev.modern.ie/testdrive/";
+                    break;
+                }
+                case "DragDemo":
+                {
+                    url = "http://html5demos.com/drag";
                     break;
                 }
             }
