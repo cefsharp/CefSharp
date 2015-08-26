@@ -84,10 +84,8 @@ namespace CefSharp
                 }
 
                 auto screenInfo = _renderWebBrowser->GetScreenInfo();
-
-                auto scaledWidth = screenInfo.Width;
-                auto scaledHeight = screenInfo.Height;
-                rect = CefRect(0, 0, scaledWidth, scaledHeight);
+;
+                rect = CefRect(0, 0, screenInfo.Width, screenInfo.Height);
 
                 return true;
             };
