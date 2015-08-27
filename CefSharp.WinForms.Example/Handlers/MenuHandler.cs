@@ -12,15 +12,15 @@ namespace CefSharp.WinForms.Example.Handlers
             // model.Clear();
 
             //Removing existing menu item
-            //bool removed = model.Remove(132); // Remove "View Source" option
+            bool removed = model.Remove((int)CefMenuCommand.ViewSource); // Remove "View Source" option
 
             //adding new menu item
-            model.AddItem(102, "Reload");
+            model.AddItem((int)CefMenuCommand.Reload, "Reload");
         }
 
         bool IContextMenuHandler.OnContextMenuCommand(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, int commandId, CefEventFlags eventFlags)
         {
-            if (commandId == 102)
+            if (commandId == (int)CefMenuCommand.Reload)
             {
                 browser.Reload();
             }
