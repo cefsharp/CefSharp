@@ -125,6 +125,12 @@ namespace CefSharp
                     if (browserAdapter != nullptr)
                     {
                         client = browserAdapter->GetClientAdapter().get();
+
+                        auto renderClientAdapter = dynamic_cast<RenderClientAdapter*>(client.get());
+                        if (renderClientAdapter != nullptr)
+                        {
+                            renderClientAdapter->CreateBitmapInfo();
+                        }
                     }
                 }
             }
