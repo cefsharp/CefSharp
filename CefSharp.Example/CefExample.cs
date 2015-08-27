@@ -69,6 +69,10 @@ namespace CefSharp.Example
             //Possibly useful when experiencing blury fonts.
             //settings.CefCommandLineArgs.Add("disable-direct-write", "1");
 
+            // Set command line arguments to enable best performance when off screen rendering
+            //https://bitbucket.org/chromiumembedded/cef/commits/e3c1d8632eb43c1c2793d71639f3f5695696a5e8
+            //settings.SetOffScreenRenderingBestPerformanceArgs();
+
             var proxy = ProxyConfig.GetProxyInformation();
             switch (proxy.AccessType)
             {

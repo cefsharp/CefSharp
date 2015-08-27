@@ -47,7 +47,7 @@ namespace CefSharp
             this->!CefSettings();
         }
 
-        virtual property IEnumerable<CefCustomScheme^>^ CefCustomSchemes
+        property IEnumerable<CefCustomScheme^>^ CefCustomSchemes
         {
             IEnumerable<CefCustomScheme^>^ get() { return _cefCustomSchemes; }
         }
@@ -62,18 +62,18 @@ namespace CefSharp
             IDictionary<String^, String^>^ get() { return _cefCommandLineArgs; }
         }
 
-        virtual property bool MultiThreadedMessageLoop
+        property bool MultiThreadedMessageLoop
         {
             bool get() { return _cefSettings->multi_threaded_message_loop == 1; }
         }
 
-        virtual property String^ BrowserSubprocessPath
+        property String^ BrowserSubprocessPath
         {
             String^ get() { return StringUtils::ToClr(_cefSettings->browser_subprocess_path); }
             void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->browser_subprocess_path, value); }
         }
 
-        virtual property String^ CachePath
+        property String^ CachePath
         {
             String^ get() { return StringUtils::ToClr(_cefSettings->cache_path); }
             void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->cache_path, value); }
@@ -83,73 +83,73 @@ namespace CefSharp
         /// Set to true in order to completely ignore SSL certificate errors.
         /// This is NOT recommended.
         /// </summary>
-        virtual property bool IgnoreCertificateErrors
+        property bool IgnoreCertificateErrors
         {
             bool get() { return _cefSettings->ignore_certificate_errors == 1; }
             void set(bool value) { _cefSettings->ignore_certificate_errors = value; }
         }
 
-        virtual property String^ Locale
+        property String^ Locale
         {
             String^ get() { return StringUtils::ToClr(_cefSettings->locale); }
             void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->locale, value); }
         }
 
-        virtual property String^ LocalesDirPath
+        property String^ LocalesDirPath
         {
             String^ get() { return StringUtils::ToClr(_cefSettings->locales_dir_path); }
             void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->locales_dir_path, value); }
         }
 
-        virtual property String^ ResourcesDirPath
+        property String^ ResourcesDirPath
         {
             String^ get() { return StringUtils::ToClr(_cefSettings->resources_dir_path); }
             void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->resources_dir_path, value); }
         }		
 
-        virtual property String^ LogFile
+        property String^ LogFile
         {
             String^ get() { return StringUtils::ToClr(_cefSettings->log_file); }
             void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->log_file, value); }
         }
 
-        virtual property CefSharp::LogSeverity LogSeverity
+        property CefSharp::LogSeverity LogSeverity
         {
             CefSharp::LogSeverity get() { return (CefSharp::LogSeverity)_cefSettings->log_severity; }
             void set(CefSharp::LogSeverity value) { _cefSettings->log_severity = (cef_log_severity_t)value; }
         }
 
-        virtual property bool PackLoadingDisabled
+        property bool PackLoadingDisabled
         {
             bool get() { return _cefSettings->pack_loading_disabled == 1; }
             void set(bool value) { _cefSettings->pack_loading_disabled = value; }
         }
 
-        virtual property String^ ProductVersion
+        property String^ ProductVersion
         {
             String^ get() { return StringUtils::ToClr(_cefSettings->product_version); }
             void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->product_version, value); }
         }
 
-        virtual property int RemoteDebuggingPort
+        property int RemoteDebuggingPort
         {
             int get() { return _cefSettings->remote_debugging_port; }
             void set(int value) { _cefSettings->remote_debugging_port = value; }
         }
 
-        virtual property String^ UserAgent
+        property String^ UserAgent
         {
             String^ get() { return StringUtils::ToClr(_cefSettings->user_agent); }
             void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->user_agent, value); }
         }
 
-        virtual property bool WindowlessRenderingEnabled
+        property bool WindowlessRenderingEnabled
         {
             bool get() { return _cefSettings->windowless_rendering_enabled == 1; }
             void set(bool value) { _cefSettings->windowless_rendering_enabled = value; }
         }
 
-        virtual property bool PersistSessionCookies
+        property bool PersistSessionCookies
         {
             bool get() { return _cefSettings->persist_session_cookies == 1; }
             void set(bool value) { _cefSettings->persist_session_cookies = value; }
@@ -161,7 +161,7 @@ namespace CefSharp
         /// using the CefSettings.AcceptLanguageList value. If both values are
         /// empty then "en-US,en" will be used.
         /// </summary>
-        virtual property String^ AcceptLanguageList
+        property String^ AcceptLanguageList
         {
             String^ get() { return StringUtils::ToClr(_cefSettings->accept_language_list); }
             void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->accept_language_list, value); }
@@ -187,6 +187,35 @@ namespace CefSharp
                 throw gcnew ArgumentException("An extension with the same name is already registered.", "extension");
             }
             _cefExtensions->Add(extension);
+        }
+
+        /// <summary>
+        /// Set command line arguments for best OSR (Offscreen and WPF) Rendering performance
+        /// This will disable WebGL, look at the source to determine which flags best suite
+        /// your requirements.
+        /// </summary>
+        void SetOffScreenRenderingBestPerformanceArgs()
+        {
+            // If the PDF extension is enabled then cc Surfaces must be disabled for
+            // PDFs to render correctly.
+            // See https://bitbucket.org/chromiumembedded/cef/issues/1689 for details.
+            _cefCommandLineArgs->Add("disable-surfaces", "1");
+
+            // Use software rendering and compositing (disable GPU) for increased FPS
+            // and decreased CPU usage. This will also disable WebGL so remove these
+            // switches if you need that capability.
+            // See https://bitbucket.org/chromiumembedded/cef/issues/1257 for details.
+            _cefCommandLineArgs->Add("disable-gpu", "1");
+            _cefCommandLineArgs->Add("disable-gpu-compositing", "1");
+
+            // Synchronize the frame rate between all processes. This results in
+            // decreased CPU usage by avoiding the generation of extra frames that
+            // would otherwise be discarded. The frame rate can be set at browser
+            // creation time via CefBrowserSettings.windowless_frame_rate or changed
+            // dynamically using CefBrowserHost::SetWindowlessFrameRate. In cefclient
+            // it can be set via the command-line using `--off-screen-frame-rate=XX`.
+            // See https://bitbucket.org/chromiumembedded/cef/issues/1368 for details.
+            _cefCommandLineArgs->Add("enable-begin-frame-scheduling", "1");
         }
     };
 }
