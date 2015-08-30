@@ -79,7 +79,6 @@ namespace CefSharp
         {
             auto handler = _browserControl->LifeSpanHandler;
             
-
             if (handler == nullptr)
             {
                 return false;
@@ -183,7 +182,17 @@ namespace CefSharp
 
         void ClientAdapter::OnBeforeClose(CefRefPtr<CefBrowser> browser)
         {
-            if (browser->IsPopup() && !_browserControl->HasParent)
+            auto isPopup = browser->IsPopup() && !_browserControl->HasParent;
+            auto handler = _browserControl->LifeSpanHandler;
+
+            if (handler != nullptr)
+            {
+                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), isPopup);
+
+                handler->OnBeforeClose(_browserControl, browserWrapper);
+            }
+
+            if (isPopup)
             {
                 // Remove from the browser popup list.
                 auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), true);
@@ -196,15 +205,6 @@ namespace CefSharp
             else if (_browserHwnd == browser->GetHost()->GetWindowHandle() || _browserControl->HasParent)
             {
                 _cefBrowser = NULL;
-            }
-
-            auto handler = _browserControl->LifeSpanHandler;
-
-            if (handler != nullptr)
-            {
-                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
-
-                handler->OnBeforeClose(_browserControl, browserWrapper);
             }
         }
 
