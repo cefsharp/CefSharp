@@ -70,10 +70,12 @@ namespace CefSharp.Wpf.Example.ViewModels
             set { Set(ref showSidebar, value); }
         }
 
-        public ICommand GoCommand { get; set; }
-        public ICommand HomeCommand { get; set; }
-        public ICommand ExecuteJavaScriptCommand { get; set; }
-        public ICommand EvaluateJavaScriptCommand { get; set; }
+        public ICommand GoCommand { get; private set; }
+        public ICommand HomeCommand { get; private set; }
+        public ICommand ExecuteJavaScriptCommand { get; private set; }
+        public ICommand EvaluateJavaScriptCommand { get; private set; }
+        public ICommand ShowDevToolsCommand { get; private set; }
+        public ICommand CloseDevToolsCommand { get; private set; }
 
         public BrowserTabViewModel(string address)
         {
@@ -84,10 +86,12 @@ namespace CefSharp.Wpf.Example.ViewModels
             HomeCommand = new RelayCommand(() => AddressEditable = Address = CefExample.DefaultUrl);
             ExecuteJavaScriptCommand = new RelayCommand<string>(ExecuteJavaScript, s => !String.IsNullOrWhiteSpace(s));
             EvaluateJavaScriptCommand = new RelayCommand<string>(EvaluateJavaScript, s => !String.IsNullOrWhiteSpace(s));
+            ShowDevToolsCommand = new RelayCommand(() => webBrowser.ShowDevTools());
+            CloseDevToolsCommand = new RelayCommand(() => webBrowser.CloseDevTools());
 
             PropertyChanged += OnPropertyChanged;
 
-            var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
+            var version = string.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
             OutputMessage = version;
         }
 

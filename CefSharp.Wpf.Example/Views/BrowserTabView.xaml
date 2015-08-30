@@ -201,6 +201,11 @@
                             <MenuItem Header="Zoom Reset"
                                       Command="{Binding WebBrowser.ZoomResetCommand}" />
                             <Separator />
+                            <MenuItem Header="Show DevTools"
+                                      Command="{Binding ShowDevToolsCommand}" />
+                            <MenuItem Header="Close DevTools"
+                                      Command="{Binding CloseDevToolsCommand}" />
+                            <Separator />
                             <MenuItem Header="View Source"
                                       Command="{Binding WebBrowser.ViewSourceCommand}" />
                             <MenuItem Header="Cut" Command="{Binding WebBrowser.CutCommand}"/>
