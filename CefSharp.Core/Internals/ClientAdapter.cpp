@@ -139,7 +139,9 @@ namespace CefSharp
 
         void ClientAdapter::OnAfterCreated(CefRefPtr<CefBrowser> browser)
         {
-            if (browser->IsPopup() && !_browserControl->HasParent)
+            auto isPopup = browser->IsPopup() && !_browserControl->HasParent;
+
+            if (isPopup)
             {
                 auto browserWrapper = gcnew CefSharpBrowserWrapper(browser);
                 // Add to the list of popup browsers.
@@ -160,7 +162,7 @@ namespace CefSharp
 
             if (handler != nullptr)
             {
-                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), isPopup);
 
                 handler->OnAfterCreated(_browserControl, browserWrapper);
             }
