@@ -700,7 +700,7 @@ namespace CefSharp
                 CefContextMenuParamsWrapper contextMenuParamsWrapper(params);
                 
                 return handler->OnContextMenuCommand(_browserControl, browserWrapper, %frameWrapper, %contextMenuParamsWrapper,
-                    commandId, (CefEventFlags)eventFlags);
+                    (CefMenuCommand)commandId, (CefEventFlags)eventFlags);
             }
         }
         

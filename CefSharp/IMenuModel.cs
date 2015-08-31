@@ -44,7 +44,7 @@ namespace CefSharp
         /// <param name="commandId"></param>
         /// <param name="label"></param>
         /// <returns></returns>
-        bool AddItem(int commandId, string label);
+        bool AddItem(CefMenuCommand commandId, string label);
 
         /// <summary>
         /// Add a separator to the menu. Returns true on success.

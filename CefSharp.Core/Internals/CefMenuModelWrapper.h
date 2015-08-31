@@ -44,11 +44,6 @@ namespace CefSharp
             return _menu->Clear();
         }
 
-        virtual int GetCount() 
-        {
-            return _menu->GetCount();
-        }
-
         virtual String^ GetLabelAt(int index)
         {
             return StringUtils::ToClr(_menu->GetLabelAt(index));
@@ -69,9 +64,9 @@ namespace CefSharp
             return _menu->AddSeparator();
         }
 
-        virtual bool AddItem(int commandId, String^ label) 
+        virtual bool AddItem(CefMenuCommand commandId, String^ label) 
         {
-            return _menu->AddItem(commandId, StringUtils::ToNative(label));
+            return _menu->AddItem((int)commandId, StringUtils::ToNative(label));
         }
     };
 }

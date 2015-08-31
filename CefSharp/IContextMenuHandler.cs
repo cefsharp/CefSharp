@@ -37,7 +37,7 @@ namespace CefSharp
         /// <param name="eventFlags"></param>
         /// <returns></returns>
         bool OnContextMenuCommand(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters,
-                                  int commandId, CefEventFlags eventFlags);
+                                  CefMenuCommand commandId, CefEventFlags eventFlags);
 
         /// <summary>
         /// Called when the context menu is dismissed irregardless of whether the menu

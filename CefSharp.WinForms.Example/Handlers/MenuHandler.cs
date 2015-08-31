@@ -6,23 +6,31 @@ namespace CefSharp.WinForms.Example.Handlers
 {
     internal class MenuHandler : IContextMenuHandler
     {
+        private const int ShowDevTools = 26501;
+        private const int CloseDevTools = 26502;
+
         void IContextMenuHandler.OnBeforeContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model)
         {
             //To disable the menu then call clear
             // model.Clear();
 
             //Removing existing menu item
-            bool removed = model.Remove((int)CefMenuCommand.ViewSource); // Remove "View Source" option
+            //bool removed = model.Remove(CefMenuCommand.ViewSource); // Remove "View Source" option
 
-            //adding new menu item
-            model.AddItem((int)CefMenuCommand.Reload, "Reload");
+            //Add new custom menu items
+            model.AddItem((CefMenuCommand)ShowDevTools, "Show DevTools");
+            model.AddItem((CefMenuCommand)CloseDevTools, "Close DevTools");
         }
 
-        bool IContextMenuHandler.OnContextMenuCommand(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, int commandId, CefEventFlags eventFlags)
+        bool IContextMenuHandler.OnContextMenuCommand(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, CefMenuCommand commandId, CefEventFlags eventFlags)
         {
-            if (commandId == (int)CefMenuCommand.Reload)
+            if ((int)commandId == ShowDevTools)
             {
-                browser.Reload();
+                browser.ShowDevTools();
+            }
+            if ((int)commandId == CloseDevTools)
+            {
+                browser.CloseDevTools();
             }
             return false;
         }
