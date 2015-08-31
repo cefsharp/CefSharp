@@ -3,11 +3,11 @@ param(
     [Parameter(Position = 0)] 
     [string] $Target = "vs2012",
     [Parameter(Position = 1)]
-    [string] $Version = "43.0.0",
+    [string] $Version = "45.0.0",
     [Parameter(Position = 2)]
-    [string] $AssemblyVersion = "43.0.0",
+    [string] $AssemblyVersion = "45.0.0",
     [Parameter(Position = 3)]
-    [string] $RedistVersion = "3.2357.1287"
+    [string] $RedistVersion = "3.2454.1317"
 )
 
 $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
