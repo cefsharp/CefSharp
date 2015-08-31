@@ -10,9 +10,26 @@ namespace CefSharp
     public interface IPostData : IDisposable
     {
         //bool AddElement(IPostDataElement element);
+
+        /// <summary>
+        /// Retrieve the post data elements.
+        /// </summary>
         IList<IPostDataElement> Elements { get; }
+        
+        /// <summary>
+        /// Returns true if this object is read-only.
+        /// </summary>
         bool IsReadOnly { get; }
         //bool RemoveElement(IPostDataElement element);
+        
+        /// <summary>
+        /// Remove all existing post data elements.
+        /// </summary>
         void RemoveElements();
+
+        /// <summary>
+        /// Gets a value indicating whether the object has been disposed of.
+        /// </summary>
+        bool IsDisposed { get; }
     }
 }

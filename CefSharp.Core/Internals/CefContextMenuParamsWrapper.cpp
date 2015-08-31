@@ -71,9 +71,6 @@ namespace CefSharp
             return StringUtils::ToClr(_wrappedInfo->GetMisspelledWord());
         }
 
-        //// TODO: Implement:
-        ////virtual bool GetDictionarySuggestions(std::vector<CefString>& suggestions) OVERRIDE;
-
         List<String^>^ CefContextMenuParamsWrapper::DictionarySuggestions::get()
         {
             std::vector<CefString>& dictionarySuggestions = std::vector<CefString>();
@@ -94,5 +91,10 @@ namespace CefSharp
 
         //// TODO: Implement:
         ////virtual EditStateFlags GetEditStateFlags() OVERRIDE;
+
+        bool CefContextMenuParamsWrapper::IsDisposed::get()
+        {
+            return _disposed;
+        }
     }
 }

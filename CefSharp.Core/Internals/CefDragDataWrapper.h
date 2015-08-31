@@ -22,10 +22,12 @@ namespace CefSharp
         {
         private:
             MCefRefPtr<CefDragData> _wrappedDragData;
+            bool _disposed;
 
         internal:
             CefDragDataWrapper(CefRefPtr<CefDragData> &dragData) :
-                _wrappedDragData(dragData)
+                _wrappedDragData(dragData),
+                _disposed(false)
             {
                 IsReadOnly = dragData->IsReadOnly();
                 FileName = StringUtils::ToClr(dragData->GetFileName());
@@ -42,6 +44,8 @@ namespace CefSharp
             ~CefDragDataWrapper()
             {
                 this->!CefDragDataWrapper();
+
+                _disposed = true;
             }
 
         public:
@@ -167,6 +171,14 @@ namespace CefSharp
             {
                 //_wrappedDragData->GetFileContents()
                 throw gcnew NotImplementedException("Need to implement a Wrapper around CefStreamWriter before this method can be implemented.");
+            }
+
+            virtual property bool IsDisposed
+            {
+                bool get()
+                {
+                    return _disposed;
+                }
             }
         };
     }

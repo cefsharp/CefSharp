@@ -17,9 +17,14 @@ namespace CefSharp
         public ref class CefContextMenuParamsWrapper : public IContextMenuParams
         {
             MCefRefPtr<CefContextMenuParams> _wrappedInfo;
+            bool _disposed;
 
         internal:
-            CefContextMenuParamsWrapper(CefRefPtr<CefContextMenuParams> &cefParams) : _wrappedInfo(cefParams) {}
+            CefContextMenuParamsWrapper(CefRefPtr<CefContextMenuParams> &cefParams) :
+                _wrappedInfo(cefParams),
+                _disposed(false)
+            {
+            }
 
             !CefContextMenuParamsWrapper()
             {
@@ -27,9 +32,10 @@ namespace CefSharp
             }
 
             ~CefContextMenuParamsWrapper()
-
             {
                 this->!CefContextMenuParamsWrapper();
+
+                _disposed = true;
             }
 
         public:
@@ -54,15 +60,17 @@ namespace CefSharp
             virtual property String^ MisspelledWord { String^ get(); }
 
             virtual property List<String^>^ DictionarySuggestions { List<String^>^ get(); }
-            
-            // TODO: Implement:
-            //virtual bool GetDictionarySuggestions(std::vector<CefString>& suggestions) OVERRIDE;
 
             virtual property bool IsEditable { bool get(); }
             virtual property bool IsSpellCheckEnabled { bool get(); }
           
             // TODO: Implement:
             //virtual EditStateFlags GetEditStateFlags() OVERRIDE;
+
+            virtual property bool IsDisposed
+            {
+                bool get();
+            }
         };
     }
 }

@@ -14,9 +14,12 @@ namespace CefSharp
     {
     private:
         MCefRefPtr<CefMenuModel> _menu;
+        bool _disposed;
 
     public:
-        CefMenuModelWrapper(CefRefPtr<CefMenuModel> &menu) : _menu(menu)
+        CefMenuModelWrapper(CefRefPtr<CefMenuModel> &menu) :
+            _menu(menu),
+            _disposed(false)
         {
             
         }
@@ -29,6 +32,8 @@ namespace CefSharp
         ~CefMenuModelWrapper()
         {
             this->!CefMenuModelWrapper();
+
+            _disposed = true;
         }
 
         virtual property int Count
@@ -67,6 +72,14 @@ namespace CefSharp
         virtual bool AddItem(CefMenuCommand commandId, String^ label) 
         {
             return _menu->AddItem((int)commandId, StringUtils::ToNative(label));
+        }
+
+        virtual property bool IsDisposed
+        {
+            bool get()
+            {
+                return _disposed;
+            }
         }
     };
 }
