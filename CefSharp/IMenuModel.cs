@@ -7,7 +7,7 @@ namespace CefSharp
     public interface IMenuModel
     {
         /// <summary>
-        /// Get count of menu items.
+        /// Returns the number of items in this menu.
         /// </summary>
         int Count { get; }
 
@@ -18,38 +18,39 @@ namespace CefSharp
         bool Clear();
 
         /// <summary>
-        /// 
+        /// Returns the label at the specified index or empty if not found due to
+        /// invalid range or the index being a separator.
         /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
+        /// <param name="index">specified index</param>
+        /// <returns>Label or empty if not found due to invalid range or the index being a separator.</returns>
         string GetLabelAt(int index);
 
         /// <summary>
-        /// 
+        /// Returns the command id at the specified index or -1 if not found due to invalid range or the index being a separator.
         /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
-        int GetCommandIdAt(int index);
+        /// <param name="index">the index</param>
+        /// <returns>Command or -1 if not found due to invalid range or the index being a separator.</returns>
+        CefMenuCommand GetCommandIdAt(int index);
 
         /// <summary>
-        /// 
+        /// Removes the item with the specified commandId.
         /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
-        bool Remove(int index);
+        /// <param name="commandId">the command Id</param>
+        /// <returns> Returns true on success</returns>
+        bool Remove(CefMenuCommand commandId);
 
         /// <summary>
-        /// Add an item to the menu. Returns true on success.
+        /// Add an item to the menu. 
         /// </summary>
         /// <param name="commandId"></param>
         /// <param name="label"></param>
-        /// <returns></returns>
+        /// <returns>Returns true on success.</returns>
         bool AddItem(CefMenuCommand commandId, string label);
 
         /// <summary>
-        /// Add a separator to the menu. Returns true on success.
+        /// Add a separator to the menu. 
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Returns true on success.</returns>
         bool AddSeparator();
     }
 }

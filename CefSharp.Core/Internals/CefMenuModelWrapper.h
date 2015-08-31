@@ -49,14 +49,14 @@ namespace CefSharp
             return StringUtils::ToClr(_menu->GetLabelAt(index));
         }
 
-        virtual int GetCommandIdAt(int index) 
+        virtual CefMenuCommand GetCommandIdAt(int index) 
         {
-            return _menu->GetCommandIdAt(index);
+            return (CefMenuCommand)_menu->GetCommandIdAt(index);
         }
 
-        virtual bool Remove(int index)
+        virtual bool Remove(CefMenuCommand commandId)
         {
-            return _menu->Remove(index);
+            return _menu->Remove((int)commandId);
         }
 
         virtual bool AddSeparator()

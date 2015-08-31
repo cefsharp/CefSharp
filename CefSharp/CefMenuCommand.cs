@@ -6,6 +6,7 @@ namespace CefSharp
 {
     public enum CefMenuCommand
     {
+        NotFound = -1,
         // Navigation.
         Back = 100,
         Forward = 101,
