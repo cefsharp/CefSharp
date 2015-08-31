@@ -18,5 +18,10 @@ namespace CefSharp
         /// Cancel the url request.
         /// </summary>
         void Cancel();
+
+        /// <summary>
+        /// Gets a value indicating whether the callback has been disposed of.
+        /// </summary>
+        bool IsDisposed { get; }
     }
 }

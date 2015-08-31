@@ -79,5 +79,10 @@ namespace CefSharp
         /// <param name="mouseLeave">mouse leave</param>
         /// <param name="modifiers">click modifiers .e.g Ctrl</param>
         void SendMouseMoveEvent(int x, int y, bool mouseLeave, CefEventFlags modifiers);
+
+        /// <summary>
+        /// Gets a value indicating whether the browserHost has been disposed of.
+        /// </summary>
+        bool IsDisposed { get; }
     }
 }

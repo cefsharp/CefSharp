@@ -292,6 +292,11 @@ IBrowser^ CefFrameWrapper::Browser::get()
     return _owningBrowser;
 }
 
+bool CefFrameWrapper::IsDisposed::get()
+{
+    return _disposed;
+}
+
 void CefFrameWrapper::ThrowIfDisposed()
 {
     if (_disposed)

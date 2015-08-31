@@ -25,5 +25,10 @@ namespace CefSharp
         /// Call to resume the download.
         /// </summary>
         void Resume();
+
+        /// <summary>
+        /// Gets a value indicating whether the callback has been disposed of.
+        /// </summary>
+        bool IsDisposed { get; }
     }
 }

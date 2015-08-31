@@ -14,10 +14,11 @@ namespace CefSharp
     {
     private:
         MCefRefPtr<CefBeforeDownloadCallback> _callback;
+        bool _disposed;
 
     public:
         CefBeforeDownloadCallbackWrapper(CefRefPtr<CefBeforeDownloadCallback> &callback)
-            : _callback(callback)
+            : _callback(callback), _disposed(false)
         {
             
         }
@@ -30,6 +31,8 @@ namespace CefSharp
         ~CefBeforeDownloadCallbackWrapper()
         {
             this->!CefBeforeDownloadCallbackWrapper();
+
+            _disposed = true;
         }
 
         virtual void Continue(String^ downloadPath, bool showDialog)
@@ -37,6 +40,14 @@ namespace CefSharp
             _callback->Continue(StringUtils::ToNative(downloadPath), showDialog);
 
             delete this;
+        }
+
+        virtual property bool IsDisposed
+        {
+            bool get()
+            {
+                return _disposed;
+            }
         }
     };
 }

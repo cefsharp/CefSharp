@@ -247,6 +247,11 @@ namespace CefSharp
             // NOTE: Don't include VisitDOM on purpose
             // due to the depreciated nature of accessing the DOM via CEF.
             //virtual void VisitDOM(CefRefPtr<CefDOMVisitor> visitor)
+
+            virtual property bool IsDisposed
+            {
+                bool get();
+            }
         };
     }
 }

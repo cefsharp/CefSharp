@@ -130,6 +130,11 @@ namespace CefSharp
         /// <returns>frame names</returns>
         List<string> GetFrameNames();
 
+        /// <summary>
+        /// Gets a value indicating whether the browser has been disposed of.
+        /// </summary>
+        bool IsDisposed { get; }
+
         //
         // Send a message to the specified |target_process|. Returns true if the
         // message was sent successfully.

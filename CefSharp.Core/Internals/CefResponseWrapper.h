@@ -19,6 +19,7 @@ namespace CefSharp
         public ref class CefResponseWrapper : public IResponse
         {
             MCefRefPtr<CefResponse> _response;
+            bool _disposed;
         internal:
             CefResponseWrapper(CefRefPtr<CefResponse> &response) :
                 _response(response)
@@ -26,6 +27,7 @@ namespace CefSharp
                 StatusCode = 200;
                 StatusText = "OK";
                 MimeType = "text/html";
+                _disposed = false;
             }
 
             !CefResponseWrapper()
@@ -36,6 +38,8 @@ namespace CefSharp
             ~CefResponseWrapper()
             {
                 this->!CefResponseWrapper();
+
+                _disposed = true;
             }
 
         public:
@@ -97,6 +101,14 @@ namespace CefSharp
                 void set(NameValueCollection^ headers)
                 {
                     _response->SetHeaderMap(TypeConversion::ToNative(headers));
+                }
+            }
+
+            virtual property bool IsDisposed
+            {
+                bool get()
+                {
+                    return _disposed;
                 }
             }
         };

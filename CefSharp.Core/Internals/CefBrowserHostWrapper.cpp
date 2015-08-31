@@ -199,6 +199,11 @@ void CefBrowserHostWrapper::SendMouseMoveEvent(int x, int y, bool mouseLeave, Ce
     _browserHost->SendMouseMoveEvent(mouseEvent, mouseLeave);
 }
 
+bool CefBrowserHostWrapper::IsDisposed::get()
+{
+    return _disposed;
+}
+
 void CefBrowserHostWrapper::ThrowIfDisposed()
 {
     if (_disposed)

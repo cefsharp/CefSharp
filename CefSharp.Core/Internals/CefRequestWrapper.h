@@ -18,9 +18,11 @@ namespace CefSharp
         {
             MCefRefPtr<CefRequest> _wrappedRequest;
             IPostData^ _postData;
+            bool _disposed;
         internal:
             CefRequestWrapper(CefRefPtr<CefRequest> &cefRequest) : 
-                _wrappedRequest(cefRequest) 
+                _wrappedRequest(cefRequest),
+                _disposed(false)
             {
             }
 
@@ -34,6 +36,8 @@ namespace CefSharp
                 this->!CefRequestWrapper();
 
                 delete _postData;
+
+                _disposed = true;
             }
 
         public:
@@ -42,6 +46,7 @@ namespace CefSharp
             virtual property NameValueCollection^ Headers { NameValueCollection^ get(); void set(NameValueCollection^ url); }
             virtual property TransitionType TransitionType { CefSharp::TransitionType get(); }
             virtual property IPostData^ PostData { IPostData^ get(); }
+            virtual property bool IsDisposed { bool get(); }
         };
     }
 }

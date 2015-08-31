@@ -15,10 +15,11 @@ namespace CefSharp
         public ref class CefJSDialogCallbackWrapper : public IJsDialogCallback
         {
             MCefRefPtr<CefJSDialogCallback> _callback;
+            bool _disposed;
 
         internal:
             CefJSDialogCallbackWrapper(CefRefPtr<CefJSDialogCallback> &callback)
-                : _callback(callback)
+                : _callback(callback), _disposed(false)
             {
             }
 
@@ -30,6 +31,8 @@ namespace CefSharp
             ~CefJSDialogCallbackWrapper()
             {
                 this->!CefJSDialogCallbackWrapper();
+
+                _disposed = true;
             }
 
         public:
@@ -43,6 +46,14 @@ namespace CefSharp
             {
                 _callback->Continue(success, CefString());
                 delete this;
+            }
+
+            virtual property bool IsDisposed
+            {
+                bool get()
+                {
+                    return _disposed;
+                }
             }
         };
     }

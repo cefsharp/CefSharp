@@ -14,10 +14,11 @@ namespace CefSharp
     {
     private:
         MCefRefPtr<CefDownloadItemCallback> _callback;
+        bool _disposed;
 
     public:
         CefDownloadItemCallbackWrapper(CefRefPtr<CefDownloadItemCallback> &callback) 
-            : _callback(callback)
+            : _callback(callback), _disposed(false)
         {
         }
 
@@ -29,6 +30,8 @@ namespace CefSharp
         ~CefDownloadItemCallbackWrapper()
         {
             this->!CefDownloadItemCallbackWrapper();
+
+            _disposed = true;
         }
 
         virtual void Cancel()
@@ -50,6 +53,14 @@ namespace CefSharp
             _callback->Resume();
 
             _callback = NULL;
+        }
+
+        virtual property bool IsDisposed
+        {
+            bool get()
+            {
+                return _disposed;
+            }
         }
     };
 }

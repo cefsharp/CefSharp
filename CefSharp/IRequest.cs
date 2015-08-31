@@ -19,5 +19,10 @@ namespace CefSharp
         /// Applies to requests that represent a main frame or sub-frame navigation.
         /// </summary>
         TransitionType TransitionType { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the request has been disposed of.
+        /// </summary>
+        bool IsDisposed { get; }
     }
 }

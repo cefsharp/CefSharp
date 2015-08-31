@@ -25,5 +25,10 @@ namespace CefSharp
         /// Cancel the file selection.
         /// </summary>
         void Cancel();
+
+        /// <summary>
+        /// Gets a value indicating whether the callback has been disposed of.
+        /// </summary>
+        bool IsDisposed { get; }
     }
 }

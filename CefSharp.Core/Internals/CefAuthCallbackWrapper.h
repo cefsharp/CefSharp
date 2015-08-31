@@ -15,10 +15,11 @@ namespace CefSharp
     private:
         MCefRefPtr<CefAuthCallback> _callback;
         IFrame^ _frame;
+        bool _disposed;
 
     public:
         CefAuthCallbackWrapper(CefRefPtr<CefAuthCallback> &callback, IFrame^ frame)
-            : _callback(callback), _frame(frame)
+            : _callback(callback), _frame(frame), _disposed(false)
         {
             
         }
@@ -33,6 +34,8 @@ namespace CefSharp
             this->!CefAuthCallbackWrapper();
             delete _frame;
             _frame = nullptr;
+
+            _disposed = true;
         }
 
         virtual void Cancel()
@@ -47,6 +50,14 @@ namespace CefSharp
             _callback->Continue(StringUtils::ToNative(username), StringUtils::ToNative(password));
 
             delete this;
+        }
+
+        virtual property bool IsDisposed
+        {
+            bool get()
+            {
+                return _disposed;
+            }
         }
     };
 }

@@ -14,9 +14,13 @@ namespace CefSharp
     {
     private:
         MCefRefPtr<CefFileDialogCallback> _callback;
+        bool _disposed;
 
     public:
-        CefFileDialogCallbackWrapper(CefRefPtr<CefFileDialogCallback> &callback) : _callback(callback)
+        CefFileDialogCallbackWrapper(CefRefPtr<CefFileDialogCallback> &callback) :
+            _callback(callback),
+            _disposed(false)
+
         {
             
         }
@@ -29,6 +33,8 @@ namespace CefSharp
         ~CefFileDialogCallbackWrapper()
         {
             this->!CefFileDialogCallbackWrapper();
+
+            _disposed = true;
         }
 
         virtual void Continue(int selectedAcceptFilter, List<String^>^ filePaths)
@@ -43,6 +49,14 @@ namespace CefSharp
             _callback->Cancel();
 
             delete this;
+        }
+
+        virtual property bool IsDisposed
+        {
+            bool get()
+            {
+                return _disposed;
+            }
         }
     };
 }

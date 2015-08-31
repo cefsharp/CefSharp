@@ -148,5 +148,10 @@ namespace CefSharp
         /// Returns the browser that this frame belongs to.
         /// </summary>
         IBrowser Browser { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the frame has been disposed of.
+        /// </summary>
+        bool IsDisposed { get; }
     }
 }

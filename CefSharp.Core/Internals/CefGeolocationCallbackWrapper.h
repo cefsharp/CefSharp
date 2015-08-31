@@ -14,10 +14,11 @@ namespace CefSharp
     {
     private:
         MCefRefPtr<CefGeolocationCallback> _callback;
+        bool _disposed;
 
     public:
         CefGeolocationCallbackWrapper(CefRefPtr<CefGeolocationCallback> &callback)
-            : _callback(callback)
+            : _callback(callback), _disposed(false)
         {
         }
 
@@ -29,12 +30,23 @@ namespace CefSharp
         ~CefGeolocationCallbackWrapper()
         {
             this->!CefGeolocationCallbackWrapper();
+
+            _disposed = true;
         }
 
         virtual void Continue(bool allow)
         {
             _callback->Continue(allow);
+
             delete this;
+        }
+
+        virtual property bool IsDisposed
+        {
+            bool get()
+            {
+                return _disposed;
+            }
         }
     };
 }

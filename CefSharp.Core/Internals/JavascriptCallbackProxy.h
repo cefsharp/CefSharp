@@ -35,8 +35,6 @@ namespace CefSharp
                 _browserWrapper = browserWrapper;
             }
 
-            virtual Task<JavascriptResponse^>^ ExecuteAsync(array<Object^>^ parameters);
-
             ~JavascriptCallbackProxy()
             {
                 this->!JavascriptCallbackProxy();
@@ -50,6 +48,13 @@ namespace CefSharp
                     browser->SendProcessMessage(CefProcessId::PID_RENDERER, CreateDestroyMessage());
                 }
                 _disposed = true;
+            }
+
+            virtual Task<JavascriptResponse^>^ ExecuteAsync(array<Object^>^ parameters);
+
+            virtual property bool IsDisposed
+            {
+                bool get();
             }
         };
     }

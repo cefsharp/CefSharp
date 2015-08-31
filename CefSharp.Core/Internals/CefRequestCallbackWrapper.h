@@ -18,10 +18,11 @@ namespace CefSharp
             MCefRefPtr<CefRequestCallback> _callback;
             IFrame^ _frame;
             IRequest^ _request;
+            bool _disposed;
 
         internal:
             CefRequestCallbackWrapper(CefRefPtr<CefRequestCallback> &callback)
-                : _callback(callback)
+                : _callback(callback), _disposed(false)
             {
             }
 
@@ -45,6 +46,8 @@ namespace CefSharp
                 _request = nullptr;
                 delete _frame;
                 _frame = nullptr;
+
+                _disposed = false;
             }
 
         public:
@@ -58,6 +61,14 @@ namespace CefSharp
             {
                 _callback->Cancel();
                 delete this;
+            }
+
+            virtual property bool IsDisposed
+            {
+                bool get()
+                {
+                    return _disposed;
+                }
             }
         };
     }

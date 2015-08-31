@@ -16,5 +16,10 @@ namespace CefSharp
         /// </summary>
         /// <param name="allow">true to allow</param>
         void Continue(bool allow);
+
+        /// <summary>
+        /// Gets a value indicating whether the callback has been disposed of.
+        /// </summary>
+        bool IsDisposed { get; }
     }
 }

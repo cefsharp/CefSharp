@@ -66,6 +66,11 @@ namespace CefSharp
             return result;
         }
 
+        bool JavascriptCallbackProxy::IsDisposed::get()
+        {
+            return _disposed;
+        }
+
         void JavascriptCallbackProxy::DisposedGuard()
         {
             if (_disposed)

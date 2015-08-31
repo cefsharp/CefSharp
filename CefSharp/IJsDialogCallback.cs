@@ -20,5 +20,10 @@ namespace CefSharp
         /// </summary>
         /// <param name="success">Set to true if the OK button was pressed.</param>
         void Continue(bool success);
+
+        /// <summary>
+        /// Gets a value indicating whether the callback has been disposed of.
+        /// </summary>
+        bool IsDisposed { get; }
     }
 }
