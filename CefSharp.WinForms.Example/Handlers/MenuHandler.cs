@@ -10,16 +10,26 @@ namespace CefSharp.WinForms.Example.Handlers
         {
             //To disable the menu then call clear
             // model.Clear();
+
+            //Removing existing menu item
+            bool removed = model.Remove((int)CefMenuCommand.ViewSource); // Remove "View Source" option
+
+            //adding new menu item
+            model.AddItem((int)CefMenuCommand.Reload, "Reload");
         }
 
         bool IContextMenuHandler.OnContextMenuCommand(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, int commandId, CefEventFlags eventFlags)
         {
+            if (commandId == (int)CefMenuCommand.Reload)
+            {
+                browser.Reload();
+            }
             return false;
         }
 
         void IContextMenuHandler.OnContextMenuDismissed(IWebBrowser browserControl, IBrowser browser, IFrame frame)
         {
-            
+
         }
     }
 }

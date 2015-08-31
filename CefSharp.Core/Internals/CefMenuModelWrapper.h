@@ -31,9 +31,47 @@ namespace CefSharp
             this->!CefMenuModelWrapper();
         }
 
+        virtual property int Count
+        {
+            int get()
+            {
+                return _menu->GetCount();
+            }
+        }
+
         virtual bool Clear()
         {
             return _menu->Clear();
+        }
+
+        virtual int GetCount() 
+        {
+            return _menu->GetCount();
+        }
+
+        virtual String^ GetLabelAt(int index)
+        {
+            return StringUtils::ToClr(_menu->GetLabelAt(index));
+        }
+
+        virtual int GetCommandIdAt(int index) 
+        {
+            return _menu->GetCommandIdAt(index);
+        }
+
+        virtual bool Remove(int index)
+        {
+            return _menu->Remove(index);
+        }
+
+        virtual bool AddSeparator()
+        {
+            return _menu->AddSeparator();
+        }
+
+        virtual bool AddItem(int commandId, String^ label) 
+        {
+            return _menu->AddItem(commandId, StringUtils::ToNative(label));
         }
     };
 }
