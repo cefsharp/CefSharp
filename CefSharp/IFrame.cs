@@ -82,7 +82,7 @@ namespace CefSharp
         /// Load the specified url.
         /// </summary>
         /// <param name="url">url to be loaded in the frame</param>
-        void LoadUrl(String url);
+        void LoadUrl(string url);
 
         /// <summary>
         /// Load the contents of html with the specified dummy url.
@@ -90,7 +90,7 @@ namespace CefSharp
         /// <param name="html">html to be loaded</param>
         /// <param name="url"> should have a standard scheme (for example, http scheme) or behaviors like 
         /// link clicks and web security restrictions may not behave as expected.</param>
-        void LoadStringForUrl(String html, String url);
+        void LoadStringForUrl(string html, string url);
 
         /// <summary>
         /// Execute a string of JavaScript code in this frame.
@@ -108,7 +108,7 @@ namespace CefSharp
         /// <param name="script">The Javascript code that should be executed.</param>
         /// <param name="timeout">The timeout after which the Javascript code execution should be aborted.</param>
         /// <returns>A Task that can be awaited to perform the script execution</returns>
-        Task<JavascriptResponse> EvaluateScriptAsync(string script, TimeSpan? timeout);
+        Task<JavascriptResponse> EvaluateScriptAsync(string script, TimeSpan? timeout = null);
 
         /// <summary>
         /// Returns true if this is the main (top-level) frame.
