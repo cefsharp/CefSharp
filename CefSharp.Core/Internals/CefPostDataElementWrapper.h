@@ -72,7 +72,7 @@ namespace CefSharp
 
             virtual property cli::array<Byte>^ Bytes
             {
-				cli::array<Byte>^ get()
+                cli::array<Byte>^ get()
                 {
                     auto byteCount = _postDataElement->GetBytesCount();
                     if (byteCount == 0)

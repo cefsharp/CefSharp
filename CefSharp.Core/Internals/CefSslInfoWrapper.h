@@ -85,7 +85,7 @@ namespace CefSharp
                 /// </summary>
                 virtual property cli::array<Byte>^ SerialNumber
                 {
-					cli::array<Byte>^ get()
+                    cli::array<Byte>^ get()
                     {
                         auto serialNumber = _sslInfo->GetSerialNumber();
                         auto byteCount = serialNumber->GetSize();
@@ -132,7 +132,7 @@ namespace CefSharp
                 /// </summary>
                 virtual property cli::array<Byte>^ DerEncoded
                 {
-					cli::array<Byte>^ get()
+                    cli::array<Byte>^ get()
                     {
                         auto serialNumber = _sslInfo->GetDEREncoded();
                         auto byteCount = serialNumber->GetSize();
@@ -155,7 +155,7 @@ namespace CefSharp
                 /// </summary>
                 virtual property cli::array<Byte>^ PemEncoded
                 {
-					cli::array<Byte>^ get()
+                    cli::array<Byte>^ get()
                     {
                         auto serialNumber = _sslInfo->GetPEMEncoded();
                         auto byteCount = serialNumber->GetSize();
