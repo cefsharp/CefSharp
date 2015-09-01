@@ -6,7 +6,6 @@
 
 #include "Stdafx.h"
 #include "include/cef_scheme.h"
-#include "Internals/AutoLock.h"
 
 using namespace System;
 using namespace System::IO;
@@ -24,7 +23,6 @@ namespace CefSharp
         gcroot<IBrowser^> _browser;
         gcroot<IFrame^> _frame;
 
-        CriticalSection _syncRoot;
         int64 SizeFromStream();
 
     public:

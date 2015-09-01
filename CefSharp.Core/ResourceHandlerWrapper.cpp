@@ -26,8 +26,6 @@ namespace CefSharp
 
         _request = gcnew CefRequestWrapper(request);
 
-        AutoLock lock_scope(_syncRoot);
-
         return _handler->ProcessRequestAsync(_request, _callbackWrapper);
     }
 
@@ -45,8 +43,6 @@ namespace CefSharp
     bool ResourceHandlerWrapper::ReadResponse(void* data_out, int bytes_to_read, int& bytes_read, CefRefPtr<CefCallback> callback)
     {
         bool hasData = false;
-
-        AutoLock lock_scope(_syncRoot);
 
         if (static_cast<Stream^>(_stream) == nullptr)
         {

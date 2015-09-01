@@ -5,7 +5,6 @@
 #pragma once
 
 #include "Stdafx.h"
-#include "AutoLock.h"
 
 using namespace System;
 using namespace System::IO;
@@ -16,7 +15,6 @@ namespace CefSharp
     {
         private class StreamAdapter : public CefReadHandler
         {
-            CriticalSection _syncRoot;
             gcroot<Stream^> _stream;
             bool _isMemoryStream;
 
