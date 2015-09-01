@@ -23,18 +23,18 @@ namespace CefSharp.Example
 
         bool IRequestHandler.OnCertificateError(IWebBrowser browserControl, IBrowser browser, CefErrorCode errorCode, string requestUrl, ISslInfo sslInfo, IRequestCallback callback)
         {
-            try
+            //NOTE: When executing the callback in an async fashion need to check to see if it's disposed
+            if (!callback.IsDisposed)
             {
-                //To allow certificate
-                //callback.Continue(true);
-                //return true;
+                using (callback)
+                {
+                    //To allow certificate
+                    //callback.Continue(true);
+                    //return true;
+                }
+            }
 
-                return false;
-            }
-            finally
-            {
-                callback.Dispose();
-            }
+            return false;
         }
 
         void IRequestHandler.OnPluginCrashed(IWebBrowser browserControl, IBrowser browser, string pluginPath)
@@ -44,37 +44,41 @@ namespace CefSharp.Example
 
         CefReturnValue IRequestHandler.OnBeforeResourceLoad(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IRequestCallback callback)
         {
-            using (callback)
+            //NOTE: When executing the callback in an async fashion need to check to see if it's disposed
+            if (!callback.IsDisposed)
             {
-                if (request.Method == "POST")
+                using (callback)
                 {
-                    using (var postData = request.PostData)
+                    if (request.Method == "POST")
                     {
-                        var elements = postData.Elements;
-
-                        var charSet = request.GetCharSet();
-
-                        foreach (var element in elements)
+                        using (var postData = request.PostData)
                         {
-                            if (element.Type == PostDataElementType.Bytes)
+                            var elements = postData.Elements;
+
+                            var charSet = request.GetCharSet();
+
+                            foreach (var element in elements)
                             {
-                                var body = element.GetBody(charSet);
+                                if (element.Type == PostDataElementType.Bytes)
+                                {
+                                    var body = element.GetBody(charSet);
+                                }
                             }
                         }
                     }
+
+                    //Note to Redirect simply set the request Url
+                    //if (request.Url.StartsWith("https://www.google.com", StringComparison.OrdinalIgnoreCase))
+                    //{
+                    //    request.Url = "https://github.com/";
+                    //}
+
+                    //Callback in async fashion
+                    //callback.Continue(true);
+                    //return CefReturnValue.ContinueAsync;
                 }
-
-                //Note to Redirect simply set the request Url
-                //if (request.Url.StartsWith("https://www.google.com", StringComparison.OrdinalIgnoreCase))
-                //{
-                //    request.Url = "https://github.com/";
-                //}
-
-                //Callback in async fashion
-                //callback.Continue(true);
-                //return CefReturnValue.ContinueAsync;
             }
-            
+
             return CefReturnValue.Continue;
         }
 
@@ -103,18 +107,18 @@ namespace CefSharp.Example
 
         bool IRequestHandler.OnQuotaRequest(IWebBrowser browserControl, IBrowser browser, string originUrl, long newSize, IRequestCallback callback)
         {
-            try
+            //NOTE: When executing the callback in an async fashion need to check to see if it's disposed
+            if (!callback.IsDisposed)
             {
-                //Accept Request to raise Quota
-                //callback.Continue(true);
-                //return true;
+                using (callback)
+                {
+                    //Accept Request to raise Quota
+                    //callback.Continue(true);
+                    //return true;
+                }
+            }
 
-                return false;
-            }
-            finally
-            {
-                callback.Dispose();
-            }
+            return false;
         }
 
         void IRequestHandler.OnResourceRedirect(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, ref string newUrl)
