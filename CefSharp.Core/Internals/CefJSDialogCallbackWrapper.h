@@ -5,6 +5,7 @@
 #pragma once
 
 #include "Stdafx.h"
+#include "CefWrapper.h"
 
 using namespace CefSharp;
 
@@ -12,14 +13,13 @@ namespace CefSharp
 {
     namespace Internals
     {
-        public ref class CefJSDialogCallbackWrapper : public IJsDialogCallback
+        public ref class CefJSDialogCallbackWrapper : public IJsDialogCallback, public CefWrapper
         {
             MCefRefPtr<CefJSDialogCallback> _callback;
-            bool _disposed;
 
         internal:
             CefJSDialogCallbackWrapper(CefRefPtr<CefJSDialogCallback> &callback)
-                : _callback(callback), _disposed(false)
+                : _callback(callback)
             {
             }
 
@@ -38,22 +38,20 @@ namespace CefSharp
         public:
             virtual void Continue(bool success, String^ userInput)
             {
+                ThrowIfDisposed();
+
                 _callback->Continue(success, StringUtils::ToNative(userInput));
+
                 delete this;
             }
 
             virtual void Continue(bool success)
             {
-                _callback->Continue(success, CefString());
-                delete this;
-            }
+                ThrowIfDisposed();
 
-            virtual property bool IsDisposed
-            {
-                bool get()
-                {
-                    return _disposed;
-                }
+                _callback->Continue(success, CefString());
+
+                delete this;
             }
         };
     }

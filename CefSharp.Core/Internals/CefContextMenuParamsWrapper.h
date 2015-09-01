@@ -5,7 +5,8 @@
 #pragma once
 
 #include "Stdafx.h"
-#include "MCefRefPtr.h"
+#include "CefWrapper.h"
+
 
 using namespace System;
 using namespace System::Collections::Generic;
@@ -14,15 +15,13 @@ namespace CefSharp
 {
     namespace Internals
     {
-        public ref class CefContextMenuParamsWrapper : public IContextMenuParams
+        public ref class CefContextMenuParamsWrapper : public IContextMenuParams, public CefWrapper
         {
             MCefRefPtr<CefContextMenuParams> _wrappedInfo;
-            bool _disposed;
 
         internal:
             CefContextMenuParamsWrapper(CefRefPtr<CefContextMenuParams> &cefParams) :
-                _wrappedInfo(cefParams),
-                _disposed(false)
+                _wrappedInfo(cefParams)
             {
             }
 
@@ -66,11 +65,6 @@ namespace CefSharp
           
             // TODO: Implement:
             //virtual EditStateFlags GetEditStateFlags() OVERRIDE;
-
-            virtual property bool IsDisposed
-            {
-                bool get();
-            }
         };
     }
 }

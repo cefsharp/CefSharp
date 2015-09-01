@@ -6,166 +6,172 @@
 
 #include "Stdafx.h"
 #include "TypeConversion.h"
+#include "CefWrapper.h"
 
 #include "include\cef_ssl_info.h"
 
 namespace CefSharp
 {
-    public ref class CefSslInfoWrapper : ISslInfo
+    namespace Internals
     {
-    private:
-        MCefRefPtr<CefSSLInfo> _sslInfo;
-
-    public:
-        CefSslInfoWrapper(CefRefPtr<CefSSLInfo> &sslInfo)
-            : _sslInfo(sslInfo)
+        public ref class CefSslInfoWrapper : public ISslInfo, public CefWrapper
         {
-            
-        }
-
-        !CefSslInfoWrapper()
-        {
-            _sslInfo = NULL;
-        }
-
-        ~CefSslInfoWrapper()
-        {
-            this->!CefSslInfoWrapper();
-        }
+        private:
+            MCefRefPtr<CefSSLInfo> _sslInfo;
 
         public:
-            /*virtual property SslCertPrincipal^ Subject
+            CefSslInfoWrapper(CefRefPtr<CefSSLInfo> &sslInfo)
+                : _sslInfo(sslInfo)
             {
-                SslCertPrincipal^ get()
-                {
-                    auto certPrincipal = gcnew SslCertPrincipal();
-
-                    auto _sslInfo->GetSubject();
-
-                    auto elementCount = _postData->GetElementCount();
-                    if (elementCount == 0)
-                    {
-                        return gcnew ReadOnlyCollection<IPostDataElement^>(elements);
-                    }
-                    CefPostData::ElementVector ev;
-
-                    _postData->GetElements(ev);
-
-                    for (CefPostData::ElementVector::iterator it = ev.begin(); it != ev.end(); ++it)
-                    {
-                        CefPostDataElement *el = it->get();
-
-                        elements->Add(gcnew CefPostDataElementWrapper(el));
-                    }
-
-                    return gcnew ReadOnlyCollection<IPostDataElement^>(elements);;
-                }
-            }*/
-
-            /// <summary>
-            /// Returns the subject of the X.509 certificate. For HTTPS server
-            /// certificates this represents the web server.  The common name of the
-            /// subject should match the host name of the web server.
-            /// </summary>
-            /*SslCertPrincipal Subject { get; }*/
-
-            /// <summary>
-            /// Returns the issuer of the X.509 certificate.
-            /// </summary>
-            /*SslCertPrincipal Issuer { get; }*/
-
-            /// <summary>
-            /// Returns the DER encoded serial number for the X.509 certificate. The value
-            /// possibly includes a leading 00 byte.
-            /// </summary>
-            virtual property array<Byte>^ SerialNumber
-            {
-                array<Byte>^ get()
-                {
-                    auto serialNumber = _sslInfo->GetSerialNumber();
-                    auto byteCount = serialNumber->GetSize();
-                    if (byteCount == 0)
-                    {
-                        return nullptr;
-                    }
-
-                    auto bytes = gcnew array<Byte>(byteCount);
-                    pin_ptr<Byte> src = &bytes[0]; // pin pointer to first element in arr
-
-                    serialNumber->GetData(static_cast<void*>(src), byteCount, 0);
-
-                    return bytes;
-                }
+            
             }
+
+            !CefSslInfoWrapper()
+            {
+                _sslInfo = NULL;
+            }
+
+            ~CefSslInfoWrapper()
+            {
+                this->!CefSslInfoWrapper();
+
+                _disposed = true;
+            }
+
+            public:
+                /*virtual property SslCertPrincipal^ Subject
+                {
+                    SslCertPrincipal^ get()
+                    {
+                        auto certPrincipal = gcnew SslCertPrincipal();
+
+                        auto _sslInfo->GetSubject();
+
+                        auto elementCount = _postData->GetElementCount();
+                        if (elementCount == 0)
+                        {
+                            return gcnew ReadOnlyCollection<IPostDataElement^>(elements);
+                        }
+                        CefPostData::ElementVector ev;
+
+                        _postData->GetElements(ev);
+
+                        for (CefPostData::ElementVector::iterator it = ev.begin(); it != ev.end(); ++it)
+                        {
+                            CefPostDataElement *el = it->get();
+
+                            elements->Add(gcnew CefPostDataElementWrapper(el));
+                        }
+
+                        return gcnew ReadOnlyCollection<IPostDataElement^>(elements);;
+                    }
+                }*/
+
+                /// <summary>
+                /// Returns the subject of the X.509 certificate. For HTTPS server
+                /// certificates this represents the web server.  The common name of the
+                /// subject should match the host name of the web server.
+                /// </summary>
+                /*SslCertPrincipal Subject { get; }*/
+
+                /// <summary>
+                /// Returns the issuer of the X.509 certificate.
+                /// </summary>
+                /*SslCertPrincipal Issuer { get; }*/
+
+                /// <summary>
+                /// Returns the DER encoded serial number for the X.509 certificate. The value
+                /// possibly includes a leading 00 byte.
+                /// </summary>
+                virtual property array<Byte>^ SerialNumber
+                {
+                    array<Byte>^ get()
+                    {
+                        auto serialNumber = _sslInfo->GetSerialNumber();
+                        auto byteCount = serialNumber->GetSize();
+                        if (byteCount == 0)
+                        {
+                            return nullptr;
+                        }
+
+                        auto bytes = gcnew array<Byte>(byteCount);
+                        pin_ptr<Byte> src = &bytes[0]; // pin pointer to first element in arr
+
+                        serialNumber->GetData(static_cast<void*>(src), byteCount, 0);
+
+                        return bytes;
+                    }
+                }
   
-            /// <summary>
-            /// Returns the date before which the X.509 certificate is invalid.
-            /// will return null if no date was specified.
-            /// </summary>
-            virtual property Nullable<DateTime> ValidStart
-            {
-                Nullable<DateTime> get()
+                /// <summary>
+                /// Returns the date before which the X.509 certificate is invalid.
+                /// will return null if no date was specified.
+                /// </summary>
+                virtual property Nullable<DateTime> ValidStart
                 {
-                    return TypeConversion::FromNative(_sslInfo->GetValidStart());
-                }
-            }
-
-            /// <summary>
-            /// Returns the date after which the X.509 certificate is invalid.
-            /// will return null if no date was specified.
-            /// </summary>
-            virtual property Nullable<DateTime> ValidExpiry
-            {
-                Nullable<DateTime> get()
-                {
-                    return TypeConversion::FromNative(_sslInfo->GetValidExpiry());
-                }
-            }
-
-            /// <summary>
-            /// Returns the DER encoded data for the X.509 certificate.
-            /// </summary>
-            virtual property array<Byte>^ DerEncoded
-            {
-                array<Byte>^ get()
-                {
-                    auto serialNumber = _sslInfo->GetDEREncoded();
-                    auto byteCount = serialNumber->GetSize();
-                    if (byteCount == 0)
+                    Nullable<DateTime> get()
                     {
-                        return nullptr;
+                        return TypeConversion::FromNative(_sslInfo->GetValidStart());
                     }
-
-                    auto bytes = gcnew array<Byte>(byteCount);
-                    pin_ptr<Byte> src = &bytes[0]; // pin pointer to first element in arr
-
-                    serialNumber->GetData(static_cast<void*>(src), byteCount, 0);
-
-                    return bytes;
                 }
-            }
 
-            /// <summary>
-            /// Returns the PEM encoded data for the X.509 certificate.
-            /// </summary>
-            virtual property array<Byte>^ PemEncoded
-            {
-                array<Byte>^ get()
+                /// <summary>
+                /// Returns the date after which the X.509 certificate is invalid.
+                /// will return null if no date was specified.
+                /// </summary>
+                virtual property Nullable<DateTime> ValidExpiry
                 {
-                    auto serialNumber = _sslInfo->GetPEMEncoded();
-                    auto byteCount = serialNumber->GetSize();
-                    if (byteCount == 0)
+                    Nullable<DateTime> get()
                     {
-                        return nullptr;
+                        return TypeConversion::FromNative(_sslInfo->GetValidExpiry());
                     }
-
-                    auto bytes = gcnew array<Byte>(byteCount);
-                    pin_ptr<Byte> src = &bytes[0]; // pin pointer to first element in arr
-
-                    serialNumber->GetData(static_cast<void*>(src), byteCount, 0);
-
-                    return bytes;
                 }
-            }
-    };
+
+                /// <summary>
+                /// Returns the DER encoded data for the X.509 certificate.
+                /// </summary>
+                virtual property array<Byte>^ DerEncoded
+                {
+                    array<Byte>^ get()
+                    {
+                        auto serialNumber = _sslInfo->GetDEREncoded();
+                        auto byteCount = serialNumber->GetSize();
+                        if (byteCount == 0)
+                        {
+                            return nullptr;
+                        }
+
+                        auto bytes = gcnew array<Byte>(byteCount);
+                        pin_ptr<Byte> src = &bytes[0]; // pin pointer to first element in arr
+
+                        serialNumber->GetData(static_cast<void*>(src), byteCount, 0);
+
+                        return bytes;
+                    }
+                }
+
+                /// <summary>
+                /// Returns the PEM encoded data for the X.509 certificate.
+                /// </summary>
+                virtual property array<Byte>^ PemEncoded
+                {
+                    array<Byte>^ get()
+                    {
+                        auto serialNumber = _sslInfo->GetPEMEncoded();
+                        auto byteCount = serialNumber->GetSize();
+                        if (byteCount == 0)
+                        {
+                            return nullptr;
+                        }
+
+                        auto bytes = gcnew array<Byte>(byteCount);
+                        pin_ptr<Byte> src = &bytes[0]; // pin pointer to first element in arr
+
+                        serialNumber->GetData(static_cast<void*>(src), byteCount, 0);
+
+                        return bytes;
+                    }
+                }
+        };
+    }
 }

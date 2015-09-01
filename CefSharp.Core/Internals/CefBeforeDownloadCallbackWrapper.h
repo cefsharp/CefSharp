@@ -7,48 +7,45 @@
 #include "Stdafx.h"
 
 #include "include\cef_download_handler.h"
+#include "CefWrapper.h"
 
 namespace CefSharp
 {
-    public ref class CefBeforeDownloadCallbackWrapper : IBeforeDownloadCallback
+    namespace Internals
     {
-    private:
-        MCefRefPtr<CefBeforeDownloadCallback> _callback;
-        bool _disposed;
-
-    public:
-        CefBeforeDownloadCallbackWrapper(CefRefPtr<CefBeforeDownloadCallback> &callback)
-            : _callback(callback), _disposed(false)
+        public ref class CefBeforeDownloadCallbackWrapper : public IBeforeDownloadCallback, public CefWrapper
         {
-            
-        }
+        private:
+            MCefRefPtr<CefBeforeDownloadCallback> _callback;
 
-        !CefBeforeDownloadCallbackWrapper()
-        {
-            _callback = NULL;
-        }
-
-        ~CefBeforeDownloadCallbackWrapper()
-        {
-            this->!CefBeforeDownloadCallbackWrapper();
-
-            _disposed = true;
-        }
-
-        virtual void Continue(String^ downloadPath, bool showDialog)
-        {
-            _callback->Continue(StringUtils::ToNative(downloadPath), showDialog);
-
-            delete this;
-        }
-
-        virtual property bool IsDisposed
-        {
-            bool get()
+        public:
+            CefBeforeDownloadCallbackWrapper(CefRefPtr<CefBeforeDownloadCallback> &callback)
+                : _callback(callback)
             {
-                return _disposed;
+            
             }
-        }
-    };
+
+            !CefBeforeDownloadCallbackWrapper()
+            {
+                _callback = NULL;
+            }
+
+            ~CefBeforeDownloadCallbackWrapper()
+            {
+                this->!CefBeforeDownloadCallbackWrapper();
+
+                _disposed = true;
+            }
+
+            virtual void Continue(String^ downloadPath, bool showDialog)
+            {
+                ThrowIfDisposed();
+
+                _callback->Continue(StringUtils::ToNative(downloadPath), showDialog);
+
+                delete this;
+            }
+        };
+    }
 }
 

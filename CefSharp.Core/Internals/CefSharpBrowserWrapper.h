@@ -8,21 +8,21 @@
 
 #include <include/cef_browser.h>
 #include "StringUtils.h"
+#include "CefWrapper.h"
 
 namespace CefSharp
 {
     namespace Internals
     {
-        public ref class CefSharpBrowserWrapper : IBrowser
+        public ref class CefSharpBrowserWrapper : public IBrowser, public CefWrapper
         {
         private:
             MCefRefPtr<CefBrowser> _browser;
             IBrowserHost^ _browserHost;
-            bool _disposed;
 
         internal:
             CefSharpBrowserWrapper::CefSharpBrowserWrapper(CefRefPtr<CefBrowser> &browser)
-                : _browser(browser), _disposed(false)
+                : _browser(browser)
             {
             }
 
@@ -44,9 +44,6 @@ namespace CefSharp
             {
                 MCefRefPtr<CefBrowser> get();
             }
-
-        private:
-            void ThrowIfDisposed();
 
         public:
             ///
@@ -197,11 +194,6 @@ namespace CefSharp
             ///
             /*--cef()--*/
             virtual bool SendProcessMessage(CefProcessId targetProcess, CefRefPtr<CefProcessMessage> message);
-
-            virtual property bool IsDisposed
-            {
-                bool get();
-            }
         };
     }
 }

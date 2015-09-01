@@ -80,10 +80,5 @@ namespace CefSharp
             }
             return _postData;
         }
-
-        bool CefRequestWrapper::IsDisposed::get()
-        {
-            return _disposed;
-        }
     }
 }

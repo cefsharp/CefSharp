@@ -6,8 +6,9 @@
 
 #include "Stdafx.h"
 
-#include "MCefRefPtr.h"
 #include "include/cef_drag_data.h"
+
+#include "CefWrapper.h"
 
 using namespace std;
 using namespace System;
@@ -18,16 +19,14 @@ namespace CefSharp
 {
     namespace Internals
     {
-        public ref class CefDragDataWrapper : public IDragData
+        public ref class CefDragDataWrapper : public IDragData, public CefWrapper
         {
         private:
             MCefRefPtr<CefDragData> _wrappedDragData;
-            bool _disposed;
 
         internal:
             CefDragDataWrapper(CefRefPtr<CefDragData> &dragData) :
-                _wrappedDragData(dragData),
-                _disposed(false)
+                _wrappedDragData(dragData)
             {
                 IsReadOnly = dragData->IsReadOnly();
                 FileName = StringUtils::ToClr(dragData->GetFileName());
@@ -171,14 +170,6 @@ namespace CefSharp
             {
                 //_wrappedDragData->GetFileContents()
                 throw gcnew NotImplementedException("Need to implement a Wrapper around CefStreamWriter before this method can be implemented.");
-            }
-
-            virtual property bool IsDisposed
-            {
-                bool get()
-                {
-                    return _disposed;
-                }
             }
         };
     }

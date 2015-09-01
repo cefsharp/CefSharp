@@ -8,60 +8,62 @@
 
 #include "include\cef_download_handler.h"
 
+#include "CefWrapper.h"
+
 namespace CefSharp
 {
-    public ref class CefDownloadItemCallbackWrapper : IDownloadItemCallback
+    namespace Internals
     {
-    private:
-        MCefRefPtr<CefDownloadItemCallback> _callback;
-        bool _disposed;
-
-    public:
-        CefDownloadItemCallbackWrapper(CefRefPtr<CefDownloadItemCallback> &callback) 
-            : _callback(callback), _disposed(false)
+        public ref class CefDownloadItemCallbackWrapper : public IDownloadItemCallback, public CefWrapper
         {
-        }
+        private:
+            MCefRefPtr<CefDownloadItemCallback> _callback;
 
-        !CefDownloadItemCallbackWrapper()
-        {
-            _callback = NULL;
-        }
-
-        ~CefDownloadItemCallbackWrapper()
-        {
-            this->!CefDownloadItemCallbackWrapper();
-
-            _disposed = true;
-        }
-
-        virtual void Cancel()
-        {
-            _callback->Cancel();
-
-            delete this;
-        }
-
-        virtual void Pause()
-        {
-            _callback->Pause();
-
-            delete this;
-        }
-
-        virtual void Resume()
-        {
-            _callback->Resume();
-
-            _callback = NULL;
-        }
-
-        virtual property bool IsDisposed
-        {
-            bool get()
+        public:
+            CefDownloadItemCallbackWrapper(CefRefPtr<CefDownloadItemCallback> &callback) 
+                : _callback(callback)
             {
-                return _disposed;
             }
-        }
-    };
+
+            !CefDownloadItemCallbackWrapper()
+            {
+                _callback = NULL;
+            }
+
+            ~CefDownloadItemCallbackWrapper()
+            {
+                this->!CefDownloadItemCallbackWrapper();
+
+                _disposed = true;
+            }
+
+            virtual void Cancel()
+            {
+                ThrowIfDisposed();
+
+                _callback->Cancel();
+
+                delete this;
+            }
+
+            virtual void Pause()
+            {
+                ThrowIfDisposed();
+
+                _callback->Pause();
+
+                delete this;
+            }
+
+            virtual void Resume()
+            {
+                ThrowIfDisposed();
+
+                _callback->Resume();
+
+                _callback = NULL;
+            }
+        };
+    }
 }
 

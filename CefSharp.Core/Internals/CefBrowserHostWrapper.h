@@ -4,22 +4,23 @@
 
 #pragma once
 
+#include "CefWrapper.h"
+
 using namespace System;
 
 namespace CefSharp
 {
     namespace Internals
     {
-        public ref class CefBrowserHostWrapper : IBrowserHost
+        public ref class CefBrowserHostWrapper : public IBrowserHost, public CefWrapper
         {
         private:
             MCefRefPtr<CefBrowserHost> _browserHost;
-            bool _disposed;
             
             double GetZoomLevelOnUI();
 
         internal:
-            CefBrowserHostWrapper(CefRefPtr<CefBrowserHost> &browserHost) : _browserHost(browserHost), _disposed(false)
+            CefBrowserHostWrapper(CefRefPtr<CefBrowserHost> &browserHost) : _browserHost(browserHost)
             {
             }
             
@@ -34,9 +35,6 @@ namespace CefSharp
 
                 _disposed = true;
             }
-
-        private:
-            void ThrowIfDisposed();
 
         public:
             virtual void StartDownload(String^ url);
@@ -66,11 +64,6 @@ namespace CefSharp
             virtual void SendMouseClickEvent(int x, int y, MouseButtonType mouseButtonType, bool mouseUp, int clickCount, CefEventFlags modifiers);
 
             virtual void SendMouseMoveEvent(int x, int y, bool mouseLeave, CefEventFlags modifiers);
-
-            virtual property bool IsDisposed
-            {
-                bool get();
-            }
         };
     }
 }

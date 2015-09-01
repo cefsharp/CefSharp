@@ -6,7 +6,8 @@
 
 #include "Stdafx.h"
 
-#include "Internals/TypeConversion.h"
+#include "TypeConversion.h"
+#include "CefWrapper.h"
 
 using namespace System;
 using namespace System::Collections::Specialized;
@@ -16,10 +17,9 @@ namespace CefSharp
 {
     namespace Internals
     {
-        public ref class CefResponseWrapper : public IResponse
+        public ref class CefResponseWrapper : public IResponse, public CefWrapper
         {
             MCefRefPtr<CefResponse> _response;
-            bool _disposed;
         internal:
             CefResponseWrapper(CefRefPtr<CefResponse> &response) :
                 _response(response)
@@ -27,7 +27,6 @@ namespace CefSharp
                 StatusCode = 200;
                 StatusText = "OK";
                 MimeType = "text/html";
-                _disposed = false;
             }
 
             !CefResponseWrapper()
@@ -101,14 +100,6 @@ namespace CefSharp
                 void set(NameValueCollection^ headers)
                 {
                     _response->SetHeaderMap(TypeConversion::ToNative(headers));
-                }
-            }
-
-            virtual property bool IsDisposed
-            {
-                bool get()
-                {
-                    return _disposed;
                 }
             }
         };

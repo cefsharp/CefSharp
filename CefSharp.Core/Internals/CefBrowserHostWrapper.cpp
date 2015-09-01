@@ -198,16 +198,3 @@ void CefBrowserHostWrapper::SendMouseMoveEvent(int x, int y, bool mouseLeave, Ce
 
     _browserHost->SendMouseMoveEvent(mouseEvent, mouseLeave);
 }
-
-bool CefBrowserHostWrapper::IsDisposed::get()
-{
-    return _disposed;
-}
-
-void CefBrowserHostWrapper::ThrowIfDisposed()
-{
-    if (_disposed)
-    {
-        throw gcnew ObjectDisposedException(gcnew String(L"This CefSharp IBrowserHost instance has been disposed!"));
-    }
-}

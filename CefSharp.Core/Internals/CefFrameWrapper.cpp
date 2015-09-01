@@ -291,16 +291,3 @@ IBrowser^ CefFrameWrapper::Browser::get()
     _owningBrowser = gcnew CefSharpBrowserWrapper(_frame->GetBrowser());
     return _owningBrowser;
 }
-
-bool CefFrameWrapper::IsDisposed::get()
-{
-    return _disposed;
-}
-
-void CefFrameWrapper::ThrowIfDisposed()
-{
-    if (_disposed)
-    {
-        throw gcnew ObjectDisposedException(gcnew String(L"This CefSharp IFrame instance has been disposed!"));
-    }
-}

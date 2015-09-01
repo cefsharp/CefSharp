@@ -91,10 +91,5 @@ namespace CefSharp
 
         //// TODO: Implement:
         ////virtual EditStateFlags GetEditStateFlags() OVERRIDE;
-
-        bool CefContextMenuParamsWrapper::IsDisposed::get()
-        {
-            return _disposed;
-        }
     }
 }

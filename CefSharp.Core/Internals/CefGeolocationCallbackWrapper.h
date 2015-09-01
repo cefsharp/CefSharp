@@ -8,46 +8,44 @@
 
 #include "include\cef_geolocation_handler.h"
 
+#include "CefWrapper.h"
+
 namespace CefSharp
 {
-    public ref class CefGeolocationCallbackWrapper : IGeolocationCallback
+    namespace Internals
     {
-    private:
-        MCefRefPtr<CefGeolocationCallback> _callback;
-        bool _disposed;
-
-    public:
-        CefGeolocationCallbackWrapper(CefRefPtr<CefGeolocationCallback> &callback)
-            : _callback(callback), _disposed(false)
+        public ref class CefGeolocationCallbackWrapper : public IGeolocationCallback, public CefWrapper
         {
-        }
+        private:
+            MCefRefPtr<CefGeolocationCallback> _callback;
 
-        !CefGeolocationCallbackWrapper()
-        {
-            _callback = NULL;
-        }
-
-        ~CefGeolocationCallbackWrapper()
-        {
-            this->!CefGeolocationCallbackWrapper();
-
-            _disposed = true;
-        }
-
-        virtual void Continue(bool allow)
-        {
-            _callback->Continue(allow);
-
-            delete this;
-        }
-
-        virtual property bool IsDisposed
-        {
-            bool get()
+        public:
+            CefGeolocationCallbackWrapper(CefRefPtr<CefGeolocationCallback> &callback)
+                : _callback(callback)
             {
-                return _disposed;
             }
-        }
-    };
+
+            !CefGeolocationCallbackWrapper()
+            {
+                _callback = NULL;
+            }
+
+            ~CefGeolocationCallbackWrapper()
+            {
+                this->!CefGeolocationCallbackWrapper();
+
+                _disposed = true;
+            }
+
+            virtual void Continue(bool allow)
+            {
+                ThrowIfDisposed();
+
+                _callback->Continue(allow);
+
+                delete this;
+            }
+        };
+    }
 }
 

@@ -5,6 +5,7 @@
 #pragma once
 
 #include "Stdafx.h"
+#include "CefWrapper.h"
 
 using namespace CefSharp;
 
@@ -12,17 +13,16 @@ namespace CefSharp
 {
     namespace Internals
     {
-        public ref class CefRequestCallbackWrapper : public IRequestCallback
+        public ref class CefRequestCallbackWrapper : public IRequestCallback, public CefWrapper
         {
         private:
             MCefRefPtr<CefRequestCallback> _callback;
             IFrame^ _frame;
             IRequest^ _request;
-            bool _disposed;
 
         internal:
             CefRequestCallbackWrapper(CefRefPtr<CefRequestCallback> &callback)
-                : _callback(callback), _disposed(false)
+                : _callback(callback)
             {
             }
 
@@ -47,28 +47,26 @@ namespace CefSharp
                 delete _frame;
                 _frame = nullptr;
 
-                _disposed = false;
+                _disposed = true;
             }
 
         public:
             virtual void Continue(bool allow)
             {
+                ThrowIfDisposed();
+
                 _callback->Continue(allow);
+
                 delete this;
             }
 
             virtual void Cancel()
             {
-                _callback->Cancel();
-                delete this;
-            }
+                ThrowIfDisposed();
 
-            virtual property bool IsDisposed
-            {
-                bool get()
-                {
-                    return _disposed;
-                }
+                _callback->Cancel();
+
+                delete this;
             }
         };
     }

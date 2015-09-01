@@ -8,78 +8,73 @@
 
 #include "include\cef_menu_model.h"
 
+#include "CefWrapper.h"
+
 namespace CefSharp
 {
-    public ref class CefMenuModelWrapper : public IMenuModel
+    namespace Internals
     {
-    private:
-        MCefRefPtr<CefMenuModel> _menu;
-        bool _disposed;
-
-    public:
-        CefMenuModelWrapper(CefRefPtr<CefMenuModel> &menu) :
-            _menu(menu),
-            _disposed(false)
+        public ref class CefMenuModelWrapper : public IMenuModel, public CefWrapper
         {
+        private:
+            MCefRefPtr<CefMenuModel> _menu;
+
+        public:
+            CefMenuModelWrapper(CefRefPtr<CefMenuModel> &menu) :
+                _menu(menu)
+            {
             
-        }
-
-        !CefMenuModelWrapper()
-        {
-            _menu = NULL;
-        }
-
-        ~CefMenuModelWrapper()
-        {
-            this->!CefMenuModelWrapper();
-
-            _disposed = true;
-        }
-
-        virtual property int Count
-        {
-            int get()
-            {
-                return _menu->GetCount();
             }
-        }
 
-        virtual bool Clear()
-        {
-            return _menu->Clear();
-        }
-
-        virtual String^ GetLabelAt(int index)
-        {
-            return StringUtils::ToClr(_menu->GetLabelAt(index));
-        }
-
-        virtual CefMenuCommand GetCommandIdAt(int index) 
-        {
-            return (CefMenuCommand)_menu->GetCommandIdAt(index);
-        }
-
-        virtual bool Remove(CefMenuCommand commandId)
-        {
-            return _menu->Remove((int)commandId);
-        }
-
-        virtual bool AddSeparator()
-        {
-            return _menu->AddSeparator();
-        }
-
-        virtual bool AddItem(CefMenuCommand commandId, String^ label) 
-        {
-            return _menu->AddItem((int)commandId, StringUtils::ToNative(label));
-        }
-
-        virtual property bool IsDisposed
-        {
-            bool get()
+            !CefMenuModelWrapper()
             {
-                return _disposed;
+                _menu = NULL;
             }
-        }
-    };
+
+            ~CefMenuModelWrapper()
+            {
+                this->!CefMenuModelWrapper();
+
+                _disposed = true;
+            }
+
+            virtual property int Count
+            {
+                int get()
+                {
+                    return _menu->GetCount();
+                }
+            }
+
+            virtual bool Clear()
+            {
+                return _menu->Clear();
+            }
+
+            virtual String^ GetLabelAt(int index)
+            {
+                return StringUtils::ToClr(_menu->GetLabelAt(index));
+            }
+
+            virtual CefMenuCommand GetCommandIdAt(int index) 
+            {
+                return (CefMenuCommand)_menu->GetCommandIdAt(index);
+            }
+
+            virtual bool Remove(CefMenuCommand commandId)
+            {
+                return _menu->Remove((int)commandId);
+            }
+
+            virtual bool AddSeparator()
+            {
+                return _menu->AddSeparator();
+            }
+
+            virtual bool AddItem(CefMenuCommand commandId, String^ label) 
+            {
+                return _menu->AddItem((int)commandId, StringUtils::ToNative(label));
+            }
+        };
+    }
 }

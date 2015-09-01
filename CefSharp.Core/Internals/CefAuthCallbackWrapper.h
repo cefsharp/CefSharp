@@ -7,57 +7,56 @@
 #include "Stdafx.h"
 
 #include "include\cef_auth_callback.h"
+#include "CefWrapper.h"
 
 namespace CefSharp
 {
-    public ref class CefAuthCallbackWrapper : IAuthCallback
+    namespace Internals
     {
-    private:
-        MCefRefPtr<CefAuthCallback> _callback;
-        IFrame^ _frame;
-        bool _disposed;
-
-    public:
-        CefAuthCallbackWrapper(CefRefPtr<CefAuthCallback> &callback, IFrame^ frame)
-            : _callback(callback), _frame(frame), _disposed(false)
+        public ref class CefAuthCallbackWrapper : public IAuthCallback, public CefWrapper
         {
-            
-        }
+        private:
+            MCefRefPtr<CefAuthCallback> _callback;
+            IFrame^ _frame;
 
-        !CefAuthCallbackWrapper()
-        {
-            _callback = NULL;
-        }
-
-        ~CefAuthCallbackWrapper()
-        {
-            this->!CefAuthCallbackWrapper();
-            delete _frame;
-            _frame = nullptr;
-
-            _disposed = true;
-        }
-
-        virtual void Cancel()
-        {
-            _callback->Cancel();
-
-            delete this;
-        }
-
-        virtual void Continue(String^ username, String^ password)
-        {
-            _callback->Continue(StringUtils::ToNative(username), StringUtils::ToNative(password));
-
-            delete this;
-        }
-
-        virtual property bool IsDisposed
-        {
-            bool get()
+        public:
+            CefAuthCallbackWrapper(CefRefPtr<CefAuthCallback> &callback, IFrame^ frame)
+                : _callback(callback), _frame(frame)
             {
-                return _disposed;
+            
             }
-        }
-    };
+
+            !CefAuthCallbackWrapper()
+            {
+                _callback = NULL;
+            }
+
+            ~CefAuthCallbackWrapper()
+            {
+                this->!CefAuthCallbackWrapper();
+                delete _frame;
+                _frame = nullptr;
+
+                _disposed = true;
+            }
+
+            virtual void Cancel()
+            {
+                ThrowIfDisposed();
+
+                _callback->Cancel();
+
+                delete this;
+            }
+
+            virtual void Continue(String^ username, String^ password)
+            {
+                ThrowIfDisposed();
+
+                _callback->Continue(StringUtils::ToNative(username), StringUtils::ToNative(password));
+
+                delete this;
+            }
+        };
+    }
 }

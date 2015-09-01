@@ -240,20 +240,7 @@ bool CefSharpBrowserWrapper::SendProcessMessage(CefProcessId targetProcess, CefR
     return _browser->SendProcessMessage(targetProcess, message);
 }
 
-void CefSharpBrowserWrapper::ThrowIfDisposed()
-{
-    if (_disposed)
-    {
-        throw gcnew ObjectDisposedException(gcnew String(L"CefSharp disposes IBrowser instances after the OnBeforeClose handler has been called!"));
-    }
-}
-
 MCefRefPtr<CefBrowser> CefSharpBrowserWrapper::Browser::get()
 {
     return _browser;
-}
-
-bool CefSharpBrowserWrapper::IsDisposed::get()
-{
-    return _disposed;
 }

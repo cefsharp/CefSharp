@@ -7,7 +7,8 @@
 #include "Stdafx.h"
 
 #include <include\cef_frame.h>
-#include "Internals\CefRequestWrapper.h"
+#include "CefRequestWrapper.h"
+#include "CefWrapper.h"
 
 namespace CefSharp
 {
@@ -20,19 +21,18 @@ namespace CefSharp
         // methods of this class may only be called on the main thread.
         ///
         /*--cef(source=library)--*/
-        public ref class CefFrameWrapper : IFrame
+        public ref class CefFrameWrapper : public IFrame, public CefWrapper
         {
         private:
             MCefRefPtr<CefFrame> _frame;
             IFrame^ _parentFrame;
             IBrowser^ _owningBrowser;
             Object^ _syncRoot;
-            bool _disposed;
 
         internal:
             CefFrameWrapper::CefFrameWrapper(CefRefPtr<CefFrame> &frame)
-                : _frame(frame), _disposed(false), 
-                _parentFrame(nullptr), _owningBrowser(nullptr), _syncRoot(gcnew Object())
+                : _frame(frame), _parentFrame(nullptr),
+                _owningBrowser(nullptr), _syncRoot(gcnew Object())
             {
             }
 
@@ -52,9 +52,6 @@ namespace CefSharp
                 _syncRoot = nullptr;
                 _disposed = true;
             }
-
-        private:
-            void ThrowIfDisposed();
 
         public:
             ///
@@ -242,15 +239,6 @@ namespace CefSharp
             virtual CefRefPtr<CefV8Context> GetV8Context()
             {
                 return _frame->GetV8Context();
-            }
-
-            // NOTE: Don't include VisitDOM on purpose
-            // due to the depreciated nature of accessing the DOM via CEF.
-            //virtual void VisitDOM(CefRefPtr<CefDOMVisitor> visitor)
-
-            virtual property bool IsDisposed
-            {
-                bool get();
             }
         };
     }

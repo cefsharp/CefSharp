@@ -6,6 +6,8 @@
 
 #include "Stdafx.h"
 
+#include "CefWrapper.h"
+
 using namespace System;
 using namespace System::Collections::Specialized;
 using namespace CefSharp;
@@ -14,15 +16,13 @@ namespace CefSharp
 {
     namespace Internals
     {
-        public ref class CefRequestWrapper : public IRequest
+        public ref class CefRequestWrapper : public IRequest, public CefWrapper
         {
             MCefRefPtr<CefRequest> _wrappedRequest;
             IPostData^ _postData;
-            bool _disposed;
         internal:
             CefRequestWrapper(CefRefPtr<CefRequest> &cefRequest) : 
-                _wrappedRequest(cefRequest),
-                _disposed(false)
+                _wrappedRequest(cefRequest)
             {
             }
 
@@ -46,7 +46,6 @@ namespace CefSharp
             virtual property NameValueCollection^ Headers { NameValueCollection^ get(); void set(NameValueCollection^ url); }
             virtual property TransitionType TransitionType { CefSharp::TransitionType get(); }
             virtual property IPostData^ PostData { IPostData^ get(); }
-            virtual property bool IsDisposed { bool get(); }
         };
     }
 }
