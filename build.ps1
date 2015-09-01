@@ -135,7 +135,7 @@ function Msvs
             $MSBuildExe = join-path -path (Get-ItemProperty "HKLM:\software\Microsoft\MSBuild\ToolsVersions\14.0").MSBuildToolsPath -childpath "msbuild.exe"
             $MSBuildExe = $MSBuildExe -replace "Framework64", "Framework"
             $VisualStudioVersion = '14.0'
-            $VXXCommonTools = Join-Path $env:VS110COMNTOOLS '..\..\vc'
+            $VXXCommonTools = Join-Path $env:VS140COMNTOOLS '..\..\vc'
         }
     }
 
