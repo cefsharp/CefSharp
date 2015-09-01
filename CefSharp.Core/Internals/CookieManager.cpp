@@ -56,7 +56,7 @@ namespace CefSharp
             return _cookieManager->SetStoragePath(StringUtils::ToNative(path), persistSessionCookies, NULL);
         }
 
-        void CookieManager::SetSupportedSchemes(... array<String^>^ schemes)
+        void CookieManager::SetSupportedSchemes(... cli::array<String^>^ schemes)
         {
             ThrowIfDisposed();
 
