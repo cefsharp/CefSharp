@@ -21,10 +21,9 @@ namespace CefSharp
             {
                 if (_disposed)
                 {
-                    auto stackFrame = gcnew StackFrame(1);
-                    auto callingMethodName = stackFrame->GetMethod()->Name;
+                    auto type = GetType();
 
-                    throw gcnew ObjectDisposedException(gcnew String(L"This instance has been disposed! Method:" + callingMethodName));
+                    throw gcnew ObjectDisposedException(gcnew String(L"This instance of " + type->GetInterfaces()[0]->FullName + " been disposed!"));
                 }
             }
         
