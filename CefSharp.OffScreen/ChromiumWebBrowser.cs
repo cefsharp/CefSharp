@@ -38,8 +38,6 @@ namespace CefSharp.OffScreen
         public bool IsBrowserInitialized { get; private set; }
         public bool IsLoading { get; set; }
         public string TooltipText { get; set; }
-        [Obsolete("Use IsLoading instead (inverse of this property)")]
-        public bool CanReload { get; private set; }
         public string Address { get; private set; }
         public bool CanGoBack { get; private set; }
         public bool CanGoForward { get; private set; }
@@ -430,7 +428,6 @@ namespace CefSharp.OffScreen
         {
             CanGoBack = args.CanGoBack;
             CanGoForward = args.CanGoForward;
-            CanReload = !args.IsLoading;
             IsLoading = args.IsLoading;
 
             var handler = LoadingStateChanged;

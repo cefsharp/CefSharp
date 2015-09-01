@@ -64,8 +64,6 @@ namespace CefSharp.WinForms
 
         public bool CanGoForward { get; private set; }
         public bool CanGoBack { get; private set; }
-        [Obsolete("Use IsLoading instead (inverse of this property)")]
-        public bool CanReload { get; private set; }
         public bool IsBrowserInitialized { get; private set; }
 
         static ChromiumWebBrowser()
@@ -222,7 +220,6 @@ namespace CefSharp.WinForms
         {
             CanGoBack = args.CanGoBack;
             CanGoForward = args.CanGoForward;
-            CanReload = !args.IsLoading;
             IsLoading = args.IsLoading;
 
             var handler = LoadingStateChanged;

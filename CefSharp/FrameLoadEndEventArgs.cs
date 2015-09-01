@@ -17,8 +17,6 @@ namespace CefSharp
             Frame = frame;
             Url = frame.Url;
             HttpStatusCode = httpStatusCode;
-
-            IsMainFrame = frame.IsMain;
         }
 
         /// <summary>
@@ -40,11 +38,5 @@ namespace CefSharp
         /// Http Status Code
         /// </summary>
         public int HttpStatusCode { get; set; }
-
-        /// <summary>
-        /// Is this the Main Frame
-        /// </summary>
-        [Obsolete("Use Frame.IsMain instead")]
-        public bool IsMainFrame { get; private set; }
     }
 }
