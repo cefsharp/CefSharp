@@ -31,11 +31,6 @@ namespace CefSharp
             {
             };
 
-            ~CefTaskWrapper()
-            {
-                delete _task;
-            }
-
             virtual void Execute() OVERRIDE
             {
                 try
