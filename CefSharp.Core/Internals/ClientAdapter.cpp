@@ -281,6 +281,18 @@ namespace CefSharp
             }
         }
 
+        void ClientAdapter::OnFullscreenModeChange(CefRefPtr<CefBrowser> browser, bool fullscreen)
+        {
+            auto handler = _browserControl->DisplayHandler;
+
+            if (handler != nullptr)
+            {
+                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+
+                handler->OnFullscreenModeChange(_browserControl, browserWrapper, fullscreen);
+            }
+        }
+
         bool ClientAdapter::OnTooltip(CefRefPtr<CefBrowser> browser, CefString& text)
         {
             auto tooltip = StringUtils::ToClr(text);
@@ -963,7 +975,7 @@ namespace CefSharp
                     auto methodName = StringUtils::ToClr(argList->GetString(2));
                     auto arguments = argList->GetList(3);
                     auto methodInvocation = gcnew MethodInvocation(objectId, methodName, (callbackId > 0 ? Nullable<int64>(callbackId) : Nullable<int64>()));
-                    for (auto i = 0; i < arguments->GetSize(); i++)
+                    for (auto i = 0; i < static_cast<int>(arguments->GetSize()); i++)
                     {
                         methodInvocation->Parameters->Add(DeserializeObject(arguments, i, callbackFactory));
                     }

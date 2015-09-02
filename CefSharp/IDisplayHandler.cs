@@ -34,6 +34,16 @@ namespace CefSharp
         void OnFaviconUrlChange(IWebBrowser browserControl, IBrowser browser, IList<string> urls);
 
         /// <summary>
+        /// Called when web content in the page has toggled fullscreen mode. The client is
+        /// responsible for resizing the browser if desired.
+        /// </summary>
+        /// <param name="browserControl">The ChromiumWebBrowser control</param>
+        /// <param name="browser">the browser object</param>
+        /// <param name="fullscreen">If true the content will automatically be sized to fill the browser content area.
+        /// If false the content will automatically return to its original size and position.</param>
+        void OnFullscreenModeChange(IWebBrowser browserControl, IBrowser browser, bool fullscreen);
+
+        /// <summary>
         /// Called when the browser is about to display a tooltip. |text| contains the
         /// text that will be displayed in the tooltip. To handle the display of the
         /// tooltip yourself return true. Otherwise, you can optionally modify |text|
