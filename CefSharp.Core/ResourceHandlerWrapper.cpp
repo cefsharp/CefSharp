@@ -50,7 +50,7 @@ namespace CefSharp
         }
         else
         {
-            array<Byte>^ buffer = gcnew array<Byte>(bytes_to_read);
+            auto buffer = gcnew cli::array<Byte>(bytes_to_read);
             bytes_read = _stream->Read(buffer, 0, bytes_to_read);
             pin_ptr<Byte> src = &buffer[0];
             memcpy(data_out, static_cast<void*>(src), bytes_read);

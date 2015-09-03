@@ -2,17 +2,11 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
-    <VisualStudioProductVersion>2010</VisualStudioProductVersion>
-    <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='11.0'">2012</VisualStudioProductVersion>
-    <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='12.0'">2013</VisualStudioProductVersion>
-    <!-- For Visual Studio 2015, use VS 2013 binaries -->
-    <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='14.0'">2013</VisualStudioProductVersion>
+    <VisualStudioProductVersion>2013</VisualStudioProductVersion>
+    <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='14.0'">2015</VisualStudioProductVersion>
 
-    <PlatformToolset>v100</PlatformToolset>
-    <PlatformToolset Condition="'$(VisualStudioVersion)'=='11.0'">v110</PlatformToolset>
-    <PlatformToolset Condition="'$(VisualStudioVersion)'=='12.0'">v120</PlatformToolset>
-    <!-- For Visual Studio 2015, use VS 2013 tool set for now -->
-    <PlatformToolset Condition="'$(VisualStudioVersion)'=='14.0'">v120</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)'=='14.0'">v140</PlatformToolset>
   </PropertyGroup>
 
 </Project>

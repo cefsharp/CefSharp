@@ -53,7 +53,7 @@ namespace CefSharp.OffScreen.Example
                     browser.FrameLoadStart += (s, argsi) =>
                     {
                         var b = (ChromiumWebBrowser)s;
-                        if (argsi.IsMainFrame)
+                        if (argsi.Frame.IsMain)
                         {
                             b.SetZoomLevel(zoomLevel);
                         }

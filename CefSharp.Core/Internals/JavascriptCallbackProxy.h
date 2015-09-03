@@ -24,7 +24,7 @@ namespace CefSharp
             PendingTaskRepository<JavascriptResponse^>^ _pendingTasks;
             bool _disposed;
 
-            CefRefPtr<CefProcessMessage> CreateCallMessage(int64 doneCallbackId, array<Object^>^ parameters);
+            CefRefPtr<CefProcessMessage> CreateCallMessage(int64 doneCallbackId, cli::array<Object^>^ parameters);
             CefRefPtr<CefProcessMessage> CreateDestroyMessage();
             CefSharpBrowserWrapper^ GetBrowser();
             void DisposedGuard();
@@ -50,7 +50,7 @@ namespace CefSharp
                 _disposed = true;
             }
 
-            virtual Task<JavascriptResponse^>^ ExecuteAsync(array<Object^>^ parameters);
+            virtual Task<JavascriptResponse^>^ ExecuteAsync(cli::array<Object^>^ parameters);
 
             virtual property bool IsDisposed
             {

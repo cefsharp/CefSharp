@@ -704,6 +704,8 @@ namespace CefSharp
                 return handler->OnContextMenuCommand(_browserControl, browserWrapper, %frameWrapper, %contextMenuParamsWrapper,
                     (CefMenuCommand)commandId, (CefEventFlags)eventFlags);
             }
+
+            return false;
         }
         
         void ClientAdapter::OnContextMenuDismissed(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame)

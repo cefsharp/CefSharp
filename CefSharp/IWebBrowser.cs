@@ -166,14 +166,6 @@ namespace CefSharp
         bool CanGoForward { get; }
 
         /// <summary>
-        /// A flag that indicates whether the state of the control currently supports the Reload action (true) or not (false).
-        /// </summary>
-        /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
-        /// binding.</remarks>
-        [Obsolete("Use IsLoading instead (inverse of this property)")]
-        bool CanReload { get; }
-
-        /// <summary>
         /// The address (URL) which the browser control is currently displaying.
         /// Will automatically be updated as the user navigates to another page (e.g. by clicking on a link).
         /// </summary>

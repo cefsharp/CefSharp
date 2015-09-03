@@ -350,7 +350,6 @@ namespace CefSharp.Wpf
             {
                 SetCurrentValue(CanGoBackProperty, args.CanGoBack);
                 SetCurrentValue(CanGoForwardProperty, args.CanGoForward);
-                SetCurrentValue(CanReloadProperty, !args.IsLoading);
                 SetCurrentValue(IsLoadingProperty, args.IsLoading);
 
                 ((DelegateCommand)BackCommand).RaiseCanExecuteChanged();
@@ -468,18 +467,6 @@ namespace CefSharp.Wpf
         }
 
         public static DependencyProperty CanGoForwardProperty = DependencyProperty.Register("CanGoForward", typeof(bool), typeof(ChromiumWebBrowser));
-
-        #endregion
-
-        #region CanReload dependency property
-
-        [Obsolete("Use IsLoading instead (inverse of this property)")]
-        public bool CanReload
-        {
-            get { return (bool)GetValue(CanReloadProperty); }
-        }
-
-        public static DependencyProperty CanReloadProperty = DependencyProperty.Register("CanReload", typeof(bool), typeof(ChromiumWebBrowser));
 
         #endregion
 

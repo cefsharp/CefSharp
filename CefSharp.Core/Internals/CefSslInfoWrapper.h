@@ -83,9 +83,9 @@ namespace CefSharp
                 /// Returns the DER encoded serial number for the X.509 certificate. The value
                 /// possibly includes a leading 00 byte.
                 /// </summary>
-                virtual property array<Byte>^ SerialNumber
+                virtual property cli::array<Byte>^ SerialNumber
                 {
-                    array<Byte>^ get()
+                    cli::array<Byte>^ get()
                     {
                         auto serialNumber = _sslInfo->GetSerialNumber();
                         auto byteCount = serialNumber->GetSize();
@@ -94,7 +94,7 @@ namespace CefSharp
                             return nullptr;
                         }
 
-                        auto bytes = gcnew array<Byte>(byteCount);
+                        auto bytes = gcnew cli::array<Byte>(byteCount);
                         pin_ptr<Byte> src = &bytes[0]; // pin pointer to first element in arr
 
                         serialNumber->GetData(static_cast<void*>(src), byteCount, 0);
@@ -130,9 +130,9 @@ namespace CefSharp
                 /// <summary>
                 /// Returns the DER encoded data for the X.509 certificate.
                 /// </summary>
-                virtual property array<Byte>^ DerEncoded
+                virtual property cli::array<Byte>^ DerEncoded
                 {
-                    array<Byte>^ get()
+                    cli::array<Byte>^ get()
                     {
                         auto serialNumber = _sslInfo->GetDEREncoded();
                         auto byteCount = serialNumber->GetSize();
@@ -141,7 +141,7 @@ namespace CefSharp
                             return nullptr;
                         }
 
-                        auto bytes = gcnew array<Byte>(byteCount);
+                        auto bytes = gcnew cli::array<Byte>(byteCount);
                         pin_ptr<Byte> src = &bytes[0]; // pin pointer to first element in arr
 
                         serialNumber->GetData(static_cast<void*>(src), byteCount, 0);
@@ -153,9 +153,9 @@ namespace CefSharp
                 /// <summary>
                 /// Returns the PEM encoded data for the X.509 certificate.
                 /// </summary>
-                virtual property array<Byte>^ PemEncoded
+                virtual property cli::array<Byte>^ PemEncoded
                 {
-                    array<Byte>^ get()
+                    cli::array<Byte>^ get()
                     {
                         auto serialNumber = _sslInfo->GetPEMEncoded();
                         auto byteCount = serialNumber->GetSize();
@@ -164,7 +164,7 @@ namespace CefSharp
                             return nullptr;
                         }
 
-                        auto bytes = gcnew array<Byte>(byteCount);
+                        auto bytes = gcnew cli::array<Byte>(byteCount);
                         pin_ptr<Byte> src = &bytes[0]; // pin pointer to first element in arr
 
                         serialNumber->GetData(static_cast<void*>(src), byteCount, 0);

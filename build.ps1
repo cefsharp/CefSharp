@@ -1,13 +1,13 @@
 param(
-    [ValidateSet("vs2013", "vs2012", "nupkg-only")]
+    [ValidateSet("vs2013", "vs2015", "nupkg-only")]
     [Parameter(Position = 0)] 
     [string] $Target = "vs2012",
     [Parameter(Position = 1)]
-    [string] $Version = "43.0.0",
+    [string] $Version = "45.0.0",
     [Parameter(Position = 2)]
-    [string] $AssemblyVersion = "43.0.0",
+    [string] $AssemblyVersion = "45.0.0",
     [Parameter(Position = 3)]
-    [string] $RedistVersion = "3.2357.1287"
+    [string] $RedistVersion = "3.2454.1317"
 )
 
 $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
@@ -106,7 +106,7 @@ function TernaryReturn
 function Msvs 
 {
     param(
-        [ValidateSet('v110', 'v120')]
+        [ValidateSet('v120', 'v140')]
         [Parameter(Position = 0, ValueFromPipeline = $true)]
         [string] $Toolchain, 
 
@@ -125,17 +125,17 @@ function Msvs
     $VXXCommonTools = $null
 
     switch -Exact ($Toolchain) {
-        'v110' {
-            $MSBuildExe = join-path -path (Get-ItemProperty "HKLM:\software\Microsoft\MSBuild\ToolsVersions\4.0").MSBuildToolsPath -childpath "msbuild.exe"
-            $MSBuildExe = $MSBuildExe -replace "Framework64", "Framework"
-            $VisualStudioVersion = '11.0'
-            $VXXCommonTools = Join-Path $env:VS110COMNTOOLS '..\..\vc'
-        }
         'v120' {
             $MSBuildExe = join-path -path (Get-ItemProperty "HKLM:\software\Microsoft\MSBuild\ToolsVersions\12.0").MSBuildToolsPath -childpath "msbuild.exe"
             $MSBuildExe = $MSBuildExe -replace "Framework64", "Framework"
             $VisualStudioVersion = '12.0'
             $VXXCommonTools = Join-Path $env:VS120COMNTOOLS '..\..\vc'
+        }
+        'v140' {
+            $MSBuildExe = join-path -path (Get-ItemProperty "HKLM:\software\Microsoft\MSBuild\ToolsVersions\14.0").MSBuildToolsPath -childpath "msbuild.exe"
+            $MSBuildExe = $MSBuildExe -replace "Framework64", "Framework"
+            $VisualStudioVersion = '14.0'
+            $VXXCommonTools = Join-Path $env:VS140COMNTOOLS '..\..\vc'
         }
     }
 
@@ -200,7 +200,7 @@ function Msvs
 function VSX 
 {
     param(
-        [ValidateSet('v110', 'v120')]
+        [ValidateSet('v120', 'v140')]
         [Parameter(Position = 0, ValueFromPipeline = $true)]
         [string] $Toolchain
     )
@@ -210,7 +210,7 @@ function VSX
         Return
     }
 
-    if($Toolchain -eq 'v110' -and $env:VS110COMNTOOLS -eq $null) {
+    if($Toolchain -eq 'v140' -and $env:VS140COMNTOOLS -eq $null) {
         Warn "Toolchain $Toolchain is not installed on your development machine, skipping build."
         Return
     }
@@ -306,9 +306,9 @@ switch -Exact ($Target)
         VSX v120
         Nupkg
     }
-    "vs2012"
+    "vs2015"
     {
-        VSX v110
+        VSX v140
         Nupkg
     }
 }

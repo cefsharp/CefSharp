@@ -15,7 +15,7 @@ namespace CefSharp
 {
     namespace Internals
     {
-        Task<JavascriptResponse^>^ JavascriptCallbackProxy::ExecuteAsync(array<Object^>^ parameters)
+        Task<JavascriptResponse^>^ JavascriptCallbackProxy::ExecuteAsync(cli::array<Object^>^ parameters)
         {
             DisposedGuard();
 
@@ -32,7 +32,7 @@ namespace CefSharp
             return doneCallback.Value->Task;
         }
 
-        CefRefPtr<CefProcessMessage> JavascriptCallbackProxy::CreateCallMessage(int64 doneCallbackId, array<Object^>^ parameters)
+        CefRefPtr<CefProcessMessage> JavascriptCallbackProxy::CreateCallMessage(int64 doneCallbackId, cli::array<Object^>^ parameters)
         {
             auto result = CefProcessMessage::Create(kJavascriptCallbackRequest);
             auto argList = result->GetArgumentList();
