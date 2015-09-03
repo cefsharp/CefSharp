@@ -25,7 +25,7 @@ namespace CefSharp.Example
         private static readonly bool DebuggingSubProcess = Debugger.IsAttached;
         private static string PluginInformation = "";
 
-        public static void Init()
+        public static void Init(bool osr)
         {
             // Set Google API keys, used for Geolocation requests sans GPS.  See http://www.chromium.org/developers/how-tos/api-keys
             // Environment.SetEnvironmentVariable("GOOGLE_API_KEY", "");
@@ -50,7 +50,6 @@ namespace CefSharp.Example
             //settings.CefCommandLineArgs.Add("no-proxy-server", "1"); //Don't use a proxy server, always make direct connections. Overrides any other proxy server flags that are passed.
             //settings.CefCommandLineArgs.Add("debug-plugin-loading", "1"); //Dumps extra logging about plugin loading to the log file.
             //settings.CefCommandLineArgs.Add("disable-plugins-discovery", "1"); //Disable discovering third-party plugins. Effectively loading only ones shipped with the browser plus third-party ones as specified by --extra-plugin-dir and --load-plugin switches
-            //settings.CefCommandLineArgs.Add("enable-npapi", "1"); //Enable NPAPI plugs which were disabled by default in Chromium 43 (NPAPI will be removed completely in Chromium 45)
             //settings.CefCommandLineArgs.Add("enable-system-flash", "1"); //Automatically discovered and load a system-wide installation of Pepper Flash.
 
             //settings.CefCommandLineArgs.Add("ppapi-flash-path", @"C:\WINDOWS\SysWOW64\Macromed\Flash\pepflashplayer32_18_0_0_209.dll"); //Load a specific pepper flash version (Step 1 of 2)
@@ -72,6 +71,16 @@ namespace CefSharp.Example
             // Set command line arguments to enable best performance when off screen rendering
             //https://bitbucket.org/chromiumembedded/cef/commits/e3c1d8632eb43c1c2793d71639f3f5695696a5e8
             //settings.SetOffScreenRenderingBestPerformanceArgs();
+
+            // Off Screen rendering (WPF/Offscreen)
+            if(osr)
+            {
+                settings.WindowlessRenderingEnabled = true;
+                // Disable Surfaces so internal PDF viewer works for OSR
+                // https://bitbucket.org/chromiumembedded/cef/issues/1689
+                settings.CefCommandLineArgs.Add("disable-surfaces", "1");
+                settings.CefCommandLineArgs.Add("enable-begin-frame-scheduling", "1");
+            }
 
             var proxy = ProxyConfig.GetProxyInformation();
             switch (proxy.AccessType)

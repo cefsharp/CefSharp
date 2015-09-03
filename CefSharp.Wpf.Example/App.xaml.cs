@@ -18,7 +18,7 @@ namespace CefSharp.Wpf.Example
                                 "please make sure you compile in `Release` mode.", "Warning");
             }
 #endif
-            CefExample.Init();
+            CefExample.Init(true);
         }
     }
 }

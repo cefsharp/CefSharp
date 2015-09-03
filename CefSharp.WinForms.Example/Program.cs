@@ -22,7 +22,7 @@ namespace CefSharp.WinForms.Example
             }
 #endif
 
-            CefExample.Init();
+            CefExample.Init(false);
 
             var browser = new BrowserForm();
             //var browser = new SimpleBrowserForm();
