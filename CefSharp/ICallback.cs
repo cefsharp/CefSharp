@@ -10,9 +10,10 @@ namespace CefSharp
     /// Generic callback interface used for asynchronous continuation.
     /// </summary>
     /// <remarks>
-    /// All callback objects self-dispose on <see cref="Continue"/> or <see cref="Cancel"/>.
-    /// You should not dispose of these objects in your own code because they
-    /// manage native CEF resources and may need to be disposed on specific threads.
+    /// All callback objects are self-disposing.  You must not dispose of
+    /// these objects in your own code.
+    /// Some callbacks self-dispose after <see cref="Continue"/> or <see cref="Cancel"/> are called,
+    /// and others are disposed asynchronously on a separate thread.
     /// </remarks>
     public interface ICallback : IDisposable
     {
