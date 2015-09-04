@@ -33,9 +33,20 @@ Every commit on `master` produces a `Nuget` package. Use at your own risk! [CefS
 
 ![](http://img.shields.io/appveyor/ci/cefsharp/cefsharp.svg)
 
-* Development is done in the `master` branch, which *used to be called* `CefSharp3` during the development cycle. New features are preferably added in feature branches, if the changes are more than trivial.
+* Development is done in the `master` branch. New features are preferably added in feature branches, if the changes are more than trivial.
+* When a new release is imminent a `version` branch is created. We try to avoid making public facing `API` changes in release branches (Adding new features is fine, just not breaking changes).
 * Ultra-stable/LTS sources are in `CefSharp1`.
 * [The CefSharp GitHub project page](https://github.com/cefsharp/CefSharp) is the recommended starting place. This is the "official" CefSharp fork, as maintained by the CefSharp community. You can also view [the entire network of public forks/branches](https://github.com/cefsharp/CefSharp/network).
+
+### Version Branches
+
+| Branch | CEF Version | VC++ Version |
+|--------|-------------|--------------|
+| [master](https://github.com/cefsharp/CefSharp/) | 2454 | 2013 |
+| [cefsharp/43](https://github.com/cefsharp/CefSharp/tree/cefsharp/43) | 2357 | 2012 |
+| [cefsharp/41](https://github.com/cefsharp/CefSharp/tree/cefsharp/41) | 2272 | 2012 |
+| [cefsharp/39](https://github.com/cefsharp/CefSharp/tree/cefsharp/39) | 2171 | 2012 |
+| [cefsharp/37](https://github.com/cefsharp/CefSharp/tree/cefsharp/37) | 2062 | 2012 |
 
 # Links
 
