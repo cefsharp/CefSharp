@@ -134,6 +134,11 @@ namespace CefSharp.Internals
 
                 return true;
             }
+            catch(TargetInvocationException e)
+            {
+                var baseException = e.GetBaseException();
+                exception = baseException.Message;
+            }
             catch (Exception ex)
             {
                 exception = ex.Message;
