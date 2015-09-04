@@ -42,8 +42,6 @@ namespace CefSharp
                 ThrowIfDisposed();
 
                 _callback->Cancel();
-
-                delete this;
             }
 
             virtual void Continue()
@@ -52,7 +50,10 @@ namespace CefSharp
 
                 _callback->Continue();
 
-                delete this;
+                // Do not self-dispose here or in Cancel because ResourceHandlerWrapper
+                // already has a reference to this callback and will take care
+                // of its disposal.  See GitHub issue #1143 for a repro of an
+                // AccessViolationException caused by self-disposal.
             }
         };
     }
