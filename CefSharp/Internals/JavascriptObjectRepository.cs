@@ -29,7 +29,6 @@ namespace CefSharp.Internals
     /// </summary>
     public class JavascriptObjectRepository : DisposableResource
     {
-        private const int INNER_EXCEPTION_LOG_COUNT = 5;
         private static long lastId;
 
         // A hash from assigned object ids to the objects,
@@ -53,20 +52,6 @@ namespace CefSharp.Internals
         public bool HasBoundObjects
         {
             get { return RootObject.MemberObjects.Count > 0 || AsyncRootObject.MemberObjects.Count > 0; }
-        }
-
-        private String CreateExceptionString(Exception ex, int limit = INNER_EXCEPTION_LOG_COUNT)
-        {
-            var innerException = ex.InnerException;
-            if (innerException != null && limit > 0)
-            {
-                limit = limit - 1;
-                return ex.Message + ":\n" + ex.StackTrace + "\ncaused by:\n" + CreateExceptionString(innerException, limit);
-            }
-            else
-            {
-                return ex.Message + ":\n" + ex.StackTrace;
-            }
         }
 
         private JavascriptObject CreateJavascriptObject(bool camelCaseJavascriptNames)
@@ -158,11 +143,11 @@ namespace CefSharp.Internals
             catch(TargetInvocationException e)
             {
                 var baseException = e.GetBaseException();
-                exception = CreateExceptionString(baseException);
+                exception = baseException.CreateDetailedExceptionString();
             }
             catch (Exception ex)
             {
-                exception = CreateExceptionString(ex);
+                exception = ex.CreateDetailedExceptionString();
             }
 
             return false;
@@ -192,7 +177,7 @@ namespace CefSharp.Internals
             }
             catch (Exception ex)
             {
-                exception = CreateExceptionString(ex);
+                exception = ex.CreateDetailedExceptionString();
             }
 
             return false;
@@ -220,7 +205,7 @@ namespace CefSharp.Internals
             }
             catch (Exception ex)
             {
-                exception = CreateExceptionString(ex);
+                exception = ex.CreateDetailedExceptionString();
             }
 
             return false;
