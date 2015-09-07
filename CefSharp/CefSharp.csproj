@@ -96,6 +96,7 @@
     <Compile Include="ICookieManager.cs" />
     <Compile Include="ILoadHandler.cs" />
     <Compile Include="IMenuModel.cs" />
+    <Compile Include="Internals\ExceptionExtension.cs" />
     <Compile Include="Internals\ViewRect.cs" />
     <Compile Include="ISslInfo.cs" />
     <Compile Include="KeyEvent.cs" />
