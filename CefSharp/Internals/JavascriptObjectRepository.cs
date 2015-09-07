@@ -122,7 +122,8 @@ namespace CefSharp.Internals
                 {
                     result = method.Function(obj.Value, parameters);
                 }
-                catch (Exception e) {
+                catch (Exception e)
+                {
                     throw new InvalidOperationException("Could not execute method: " + name + "(" + String.Join(", ", parameters) + ")" + " - Missing Parameters: " + missingParams, e);
                 }
 
@@ -143,11 +144,11 @@ namespace CefSharp.Internals
             catch(TargetInvocationException e)
             {
                 var baseException = e.GetBaseException();
-                exception = baseException.CreateDetailedExceptionString();
+                exception = baseException.ToDetailedString();
             }
             catch (Exception ex)
             {
-                exception = ex.CreateDetailedExceptionString();
+                exception = ex.ToDetailedString();
             }
 
             return false;
@@ -177,7 +178,7 @@ namespace CefSharp.Internals
             }
             catch (Exception ex)
             {
-                exception = ex.CreateDetailedExceptionString();
+                exception = ex.ToDetailedString();
             }
 
             return false;
@@ -205,7 +206,7 @@ namespace CefSharp.Internals
             }
             catch (Exception ex)
             {
-                exception = ex.CreateDetailedExceptionString();
+                exception = ex.ToDetailedString();
             }
 
             return false;

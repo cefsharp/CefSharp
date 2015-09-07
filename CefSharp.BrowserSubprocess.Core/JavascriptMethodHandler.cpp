@@ -38,7 +38,7 @@ namespace CefSharp
         }
         catch (Exception^ ex)
         {
-            exception = StringUtils::ToNative(ExceptionExtension::CreateDetailedExceptionString(ex, ExceptionExtension::INNER_EXCEPTION_LOG_COUNT));
+            exception = StringUtils::ToNative(ExceptionExtension::ToDetailedString(ex, ExceptionExtension::InnerExceptionLogCount));
         }
 
         //NOTE: Return true otherwise exception is ignored
