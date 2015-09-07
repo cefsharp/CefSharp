@@ -15,6 +15,11 @@ namespace CefSharp
     {
         private class StringUtils
         {
+        private:
+            /// <summary>
+            /// The default log count for inner exceptions.
+            /// </summary>
+            static const int INNER_EXCEPTION_LOG_COUNT = 5;
         public:
             /// <summary>
             /// Converts an unmanaged string to a (managed) .NET string.
@@ -58,6 +63,13 @@ namespace CefSharp
             /// <param name="cefStr">The cef_string_t that should be updated.</param>
             /// <param name="str">The .NET string whose value should be used to update cefStr.</param>
             static void AssignNativeFromClr(cef_string_t& cefStr, String^ str);
+
+            /// <summary>
+            /// Creates a detailed expection string from a provided exception.
+            /// </summary>
+            /// <param name="ex">The exception which will be used as base for the message</param>
+            /// <param name="limit">The optional limit for logging inner exceptions.</param>
+            static String^ CreateExceptionString(Exception^ ex, int limit = INNER_EXCEPTION_LOG_COUNT);
         };
     }
 }

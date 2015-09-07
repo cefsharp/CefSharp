@@ -38,7 +38,7 @@ namespace CefSharp
         }
         catch (Exception^ ex)
         {
-            exception = StringUtils::ToNative(ex->Message);
+            exception = StringUtils::ToNative(StringUtils::CreateExceptionString(ex));
         }
 
         //NOTE: Return true otherwise exception is ignored

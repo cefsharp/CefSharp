@@ -78,5 +78,20 @@ namespace CefSharp
                 cef_string_copy(pStr, str->Length, &cefStr);
             }
         }
+
+        [DebuggerStepThrough]
+        String^ StringUtils::CreateExceptionString(Exception^ ex, int limit)
+        {
+            Exception^ innerException = ex->InnerException;
+            if (innerException != nullptr && limit > 0)
+            {
+	            limit = limit - 1;
+	            return ((ex->Message + ":\n" + ex->StackTrace) + "\ncaused by:\n" + CreateExceptionString(innerException, limit));
+            }
+            else
+            {
+	            return (ex->Message + ":\n" + ex->StackTrace);
+            }
+        }
     }
 }
