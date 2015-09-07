@@ -29,6 +29,7 @@ namespace CefSharp.Internals
     /// </summary>
     public class JavascriptObjectRepository : DisposableResource
     {
+        private const int INNER_EXCEPTION_LOG_COUNT = 5;
         private static long lastId;
 
         // A hash from assigned object ids to the objects,
@@ -52,6 +53,20 @@ namespace CefSharp.Internals
         public bool HasBoundObjects
         {
             get { return RootObject.MemberObjects.Count > 0 || AsyncRootObject.MemberObjects.Count > 0; }
+        }
+
+        private String CreateExceptionString(Exception ex, int limit = INNER_EXCEPTION_LOG_COUNT)
+        {
+            var innerException = ex.InnerException;
+            if (innerException != null && limit > 0)
+            {
+                limit = limit - 1;
+                return ex.Message + ":\n" + ex.StackTrace + "\ncaused by:\n" + CreateExceptionString(innerException, limit);
+            }
+            else
+            {
+                return ex.Message + ":\n" + ex.StackTrace;
+            }
         }
 
         private JavascriptObject CreateJavascriptObject(bool camelCaseJavascriptNames)
@@ -118,7 +133,13 @@ namespace CefSharp.Internals
                     parameters = paramList.ToArray();
                 }
 
-                result = method.Function(obj.Value, parameters);
+                try
+                {
+                    result = method.Function(obj.Value, parameters);
+                }
+                catch (Exception e) {
+                    throw new InvalidOperationException("Could not execute method: " + name + "(" + String.Join(", ", parameters) + ")" + " - Missing Parameters: " + missingParams, e);
+                }
 
                 if(result != null && IsComplexType(result.GetType()))
                 {
@@ -137,11 +158,11 @@ namespace CefSharp.Internals
             catch(TargetInvocationException e)
             {
                 var baseException = e.GetBaseException();
-                exception = baseException.Message;
+                exception = CreateExceptionString(baseException);
             }
             catch (Exception ex)
             {
-                exception = ex.Message;
+                exception = CreateExceptionString(ex);
             }
 
             return false;
@@ -171,7 +192,7 @@ namespace CefSharp.Internals
             }
             catch (Exception ex)
             {
-                exception = ex.Message;
+                exception = CreateExceptionString(ex);
             }
 
             return false;
@@ -199,7 +220,7 @@ namespace CefSharp.Internals
             }
             catch (Exception ex)
             {
-                exception = ex.Message;
+                exception = CreateExceptionString(ex);
             }
 
             return false;
