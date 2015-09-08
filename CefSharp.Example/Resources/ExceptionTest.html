@@ -1,0 +1,41 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+    <head>
+        <title>Exception Test</title>
+    </head>
+    <body>
+        <p>
+            Exception string for nested exceptions:
+            <script type="text/javascript">
+                try {
+                    bound.exceptionTestObject.triggerNestedExceptions();
+                    document.write("Fatal: No Exception.");
+                } catch (e) {
+                    document.write(e.message + "<br>" + e.stack);
+                }
+            </script>
+        </p>
+        <p>
+            Exception string for wrong parameter type:
+            <script type="text/javascript">
+                try {
+                    bound.exceptionTestObject.triggerParameterException(Math.PI);
+                    document.write("Fatal: No Exception.");
+                } catch (e) {
+                    document.write(e.message + "<br>" + e.stack);
+                }
+            </script>
+        </p>
+        <p>
+            Exception string for missing parameter:
+            <script type="text/javascript">
+                try {
+                    bound.exceptionTestObject.triggerParameterException();
+                    document.write("Fatal: No Exception.");
+                } catch (e) {
+                    document.write(e.message + "<br>" + e.stack);
+                }
+            </script>
+        </p>
+    </body>
+</html>

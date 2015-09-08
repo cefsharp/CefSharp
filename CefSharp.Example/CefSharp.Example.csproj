@@ -93,6 +93,7 @@
     <Compile Include="AsyncBoundObject.cs" />
     <Compile Include="BoundObject.cs" />
     <Compile Include="DragHandler.cs" />
+    <Compile Include="ExceptionTestBoundObject.cs" />
     <Compile Include="JsDialogHandler.cs" />
     <Compile Include="Proxy\InternetOpenType.cs" />
     <Compile Include="Proxy\InternetProxyInfo.cs" />
@@ -126,6 +127,7 @@
     <Content Include="Resources\assets\js\jquery.js" />
     <Content Include="Resources\assets\js\shBrushCSharp.js" />
     <Content Include="Resources\assets\js\shCore.js" />
+    <Content Include="Resources\ExceptionTest.html" />
     <Content Include="Resources\BindingTest.html" />
     <Content Include="Resources\bootstrap\bootstrap-theme.min.css" />
     <Content Include="Resources\bootstrap\bootstrap.min.css" />
