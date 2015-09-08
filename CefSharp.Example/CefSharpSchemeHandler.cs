@@ -67,6 +67,10 @@ namespace CefSharp.Example
 
                 return true;
             }
+            else
+            {
+                callback.Dispose();
+            }
 
             return false;
         }
