@@ -3,7 +3,8 @@
     <head>
         <title>Exception Test</title>
         <script type="text/javascript">
-            function logException(e) {
+            function logException(e)
+            {
                 document.write(e.message.replace(/\n/g, '<br />') + "<br />Stack:<br />" + e.stack.replace(/\n/g, '<br />'));
             }
         </script>
@@ -12,10 +13,13 @@
         <p>
             Exception string for nested exceptions:<br />
             <script type="text/javascript">
-                try {
+                try
+                {
                     bound.exceptionTestObject.triggerNestedExceptions();
                     document.write("Fatal: No Exception.");
-                } catch (e) {
+                }
+                catch (e)
+                {
                     logException(e);
                 }
             </script>
@@ -23,10 +27,13 @@
         <p>
             Exception string for wrong parameter type:<br />
             <script type="text/javascript">
-                try {
+                try
+                {
                     bound.exceptionTestObject.triggerParameterException(Math.PI);
                     document.write("Fatal: No Exception.");
-                } catch (e) {
+                }
+                catch (e)
+                {
                     logException(e);
                 }
             </script>
@@ -34,10 +41,13 @@
         <p>
             Exception string for missing parameter:<br />
             <script type="text/javascript">
-                try {
+                try
+                {
                     bound.exceptionTestObject.triggerParameterException();
                     document.write("Fatal: No Exception.");
-                } catch (e) {
+                }
+                catch (e)
+                {
                     logException(e);
                 }
             </script>
