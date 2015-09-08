@@ -35,6 +35,9 @@ namespace CefSharp
 
             //Automatically discovered and load a system-wide installation of Pepper Flash.
             _cefCommandLineArgs->Add("enable-system-flash", "1");
+
+            //Temp workaround for https://github.com/cefsharp/CefSharp/issues/1203
+            _cefCommandLineArgs->Add("process-per-tab", "1");
         }
 
         !CefSettings()
