@@ -26,12 +26,9 @@ namespace CefSharp.Example
             //NOTE: When executing the callback in an async fashion need to check to see if it's disposed
             if (!callback.IsDisposed)
             {
-                using (callback)
-                {
-                    //To allow certificate
-                    //callback.Continue(true);
-                    //return true;
-                }
+                //To allow certificate
+                //callback.Continue(true);
+                //return true;
             }
 
             return false;
@@ -47,36 +44,33 @@ namespace CefSharp.Example
             //NOTE: When executing the callback in an async fashion need to check to see if it's disposed
             if (!callback.IsDisposed)
             {
-                using (callback)
+                if (request.Method == "POST")
                 {
-                    if (request.Method == "POST")
+                    using (var postData = request.PostData)
                     {
-                        using (var postData = request.PostData)
+                        var elements = postData.Elements;
+
+                        var charSet = request.GetCharSet();
+
+                        foreach (var element in elements)
                         {
-                            var elements = postData.Elements;
-
-                            var charSet = request.GetCharSet();
-
-                            foreach (var element in elements)
+                            if (element.Type == PostDataElementType.Bytes)
                             {
-                                if (element.Type == PostDataElementType.Bytes)
-                                {
-                                    var body = element.GetBody(charSet);
-                                }
+                                var body = element.GetBody(charSet);
                             }
                         }
                     }
-
-                    //Note to Redirect simply set the request Url
-                    //if (request.Url.StartsWith("https://www.google.com", StringComparison.OrdinalIgnoreCase))
-                    //{
-                    //    request.Url = "https://github.com/";
-                    //}
-
-                    //Callback in async fashion
-                    //callback.Continue(true);
-                    //return CefReturnValue.ContinueAsync;
                 }
+
+                //Note to Redirect simply set the request Url
+                //if (request.Url.StartsWith("https://www.google.com", StringComparison.OrdinalIgnoreCase))
+                //{
+                //    request.Url = "https://github.com/";
+                //}
+
+                //Callback in async fashion
+                //callback.Continue(true);
+                //return CefReturnValue.ContinueAsync;
             }
 
             return CefReturnValue.Continue;
@@ -110,12 +104,9 @@ namespace CefSharp.Example
             //NOTE: When executing the callback in an async fashion need to check to see if it's disposed
             if (!callback.IsDisposed)
             {
-                using (callback)
-                {
-                    //Accept Request to raise Quota
-                    //callback.Continue(true);
-                    //return true;
-                }
+                //Accept Request to raise Quota
+                //callback.Continue(true);
+                //return true;
             }
 
             return false;

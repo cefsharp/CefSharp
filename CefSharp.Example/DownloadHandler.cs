@@ -11,7 +11,6 @@ namespace CefSharp.Example
             if (!callback.IsDisposed)
             {
                 callback.Continue(downloadItem.SuggestedFileName, showDialog: true);
-                callback.Dispose();
             }
         }
 
