@@ -3,10 +3,6 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Diagnostics;
 
 namespace CefSharp.Example
@@ -14,7 +10,7 @@ namespace CefSharp.Example
     public class ExceptionTestBoundObject
     {
         [DebuggerStepThrough]
-        private double DivisionByZero(int zero)
+        private static double DivisionByZero(int zero)
         {
             return 10 / zero;
         }
@@ -32,7 +28,8 @@ namespace CefSharp.Example
                 {
                     throw new InvalidOperationException("Nested Exception Invalid", innerException);
                 }
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 throw new OperationCanceledException("Nested Exception Canceled", e);
             }
