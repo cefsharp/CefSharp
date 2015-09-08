@@ -19,7 +19,6 @@ namespace CefSharp
         gcroot<IRequest^> _request;
         gcroot<IResourceHandler^> _handler;
         gcroot<Stream^> _stream;
-        gcroot<ICallback^> _callbackWrapper;
         gcroot<IBrowser^> _browser;
         gcroot<IFrame^> _frame;
 
@@ -41,7 +40,6 @@ namespace CefSharp
         {
             _handler = nullptr;
             _stream = nullptr;
-            delete _callbackWrapper;
             delete _request;
             delete _browser;
             delete _frame;
