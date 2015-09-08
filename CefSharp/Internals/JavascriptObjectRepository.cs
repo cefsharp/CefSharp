@@ -118,7 +118,14 @@ namespace CefSharp.Internals
                     parameters = paramList.ToArray();
                 }
 
-                result = method.Function(obj.Value, parameters);
+                try
+                {
+                    result = method.Function(obj.Value, parameters);
+                }
+                catch (Exception e)
+                {
+                    throw new InvalidOperationException("Could not execute method: " + name + "(" + String.Join(", ", parameters) + ")" + " - Missing Parameters: " + missingParams, e);
+                }
 
                 if(result != null && IsComplexType(result.GetType()))
                 {
@@ -134,9 +141,14 @@ namespace CefSharp.Internals
 
                 return true;
             }
+            catch(TargetInvocationException e)
+            {
+                var baseException = e.GetBaseException();
+                exception = baseException.ToString();
+            }
             catch (Exception ex)
             {
-                exception = ex.Message;
+                exception = ex.ToString();
             }
 
             return false;
@@ -166,7 +178,7 @@ namespace CefSharp.Internals
             }
             catch (Exception ex)
             {
-                exception = ex.Message;
+                exception = ex.ToString();
             }
 
             return false;
@@ -194,7 +206,7 @@ namespace CefSharp.Internals
             }
             catch (Exception ex)
             {
-                exception = ex.Message;
+                exception = ex.ToString();
             }
 
             return false;
