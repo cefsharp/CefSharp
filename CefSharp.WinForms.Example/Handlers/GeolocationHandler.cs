@@ -11,12 +11,21 @@ namespace CefSharp.WinForms.Example.Handlers
     {
         public bool OnRequestGeolocationPermission(IWebBrowser browserControl, IBrowser browser, string requestingUrl, int requestId, IGeolocationCallback callback)
         {
-            var result = MessageBox.Show(String.Format("{0} wants to use your computer's location.  Allow?  ** You must set your Google API key in CefExample.Init() for this to work. **", requestingUrl), "Geolocation", MessageBoxButtons.YesNo);
-            
-            callback.Continue(result == DialogResult.Yes);
-            callback.Dispose();
+            //The callback has been disposed, so we are unable to continue
+            if(callback.IsDisposed)
+            {
+                return false;
+            }
 
-            return result == DialogResult.Yes;
+            using (callback)
+            {
+                var result = MessageBox.Show(String.Format("{0} wants to use your computer's location.  Allow?  ** You must set your Google API key in CefExample.Init() for this to work. **", requestingUrl), "Geolocation", MessageBoxButtons.YesNo);
+
+                callback.Continue(result == DialogResult.Yes);
+                callback.Dispose();
+
+                return result == DialogResult.Yes;
+            }
         }
 
         public void OnCancelGeolocationPermission(IWebBrowser browserControl, IBrowser browser, string requestingUrl, int requestId)

@@ -16,7 +16,7 @@ namespace CefSharp
 {
     bool ResourceHandlerWrapper::ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefCallback> callback)
     {
-        _callbackWrapper = gcnew CefCallbackWrapper(callback);
+        auto callbackWrapper = gcnew CefCallbackWrapper(callback);
 
         // If we already have a non-null _request
         // dispose it via delete before using the parameter for the rest
@@ -26,7 +26,7 @@ namespace CefSharp
 
         _request = gcnew CefRequestWrapper(request);
 
-        return _handler->ProcessRequestAsync(_request, _callbackWrapper);
+        return _handler->ProcessRequestAsync(_request, callbackWrapper);
     }
 
     void ResourceHandlerWrapper::GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl)
