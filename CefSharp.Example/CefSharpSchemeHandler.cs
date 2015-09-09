@@ -56,13 +56,16 @@ namespace CefSharp.Example
             {
                 Task.Run(() =>
                 {
-                    var bytes = Encoding.UTF8.GetBytes(resource);
-                    stream = new MemoryStream(bytes);
+                    using (callback)
+                    { 
+                        var bytes = Encoding.UTF8.GetBytes(resource);
+                        stream = new MemoryStream(bytes);
 
-                    var fileExtension = Path.GetExtension(fileName);
-                    mimeType = ResourceHandler.GetMimeType(fileExtension);
+                        var fileExtension = Path.GetExtension(fileName);
+                        mimeType = ResourceHandler.GetMimeType(fileExtension);
 
-                    callback.Continue();
+                        callback.Continue();
+                    }
                 });
 
                 return true;
