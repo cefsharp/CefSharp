@@ -112,7 +112,9 @@ namespace CefSharp.Example
 
             Cef.OnContextInitialized = delegate
             {
-                Cef.GetGlobalCookieManager().SetStoragePath("cookies", true);
+                var cookieManager = Cef.GetGlobalCookieManager();
+                cookieManager.SetStoragePath("cookies", true);
+                cookieManager.SetSupportedSchemes("custom");
             };
 
             if (!Cef.Initialize(settings, shutdownOnProcessExit: true, performDependencyCheck: !DebuggingSubProcess))
