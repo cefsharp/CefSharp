@@ -81,6 +81,16 @@ namespace CefSharp
         void SendMouseMoveEvent(int x, int y, bool mouseLeave, CefEventFlags modifiers);
 
         /// <summary>
+        /// Gets/sets the maximum rate in frames per second (fps) that CefRenderHandler::
+        /// OnPaint will be called for a windowless browser. The actual fps may be
+        /// lower if the browser cannot generate frames at the requested rate. The
+        /// minimum value is 1 and the maximum value is 60 (default 30). This method
+        /// can only be called on the UI thread. Can also be set at browser creation
+        /// via BrowserSettings.WindowlessFrameRate.
+        /// </summary>
+        int WindowlessFrameRate { get; set;}
+
+        /// <summary>
         /// Gets a value indicating whether the browserHost has been disposed of.
         /// </summary>
         bool IsDisposed { get; }

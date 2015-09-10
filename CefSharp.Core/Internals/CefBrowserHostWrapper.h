@@ -64,6 +64,12 @@ namespace CefSharp
             virtual void SendMouseClickEvent(int x, int y, MouseButtonType mouseButtonType, bool mouseUp, int clickCount, CefEventFlags modifiers);
 
             virtual void SendMouseMoveEvent(int x, int y, bool mouseLeave, CefEventFlags modifiers);
+
+            virtual property int WindowlessFrameRate
+            {
+                int get();
+                void set(int val);
+            }
         };
     }
 }
