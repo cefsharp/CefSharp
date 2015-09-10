@@ -198,13 +198,3 @@ void CefBrowserHostWrapper::SendMouseMoveEvent(int x, int y, bool mouseLeave, Ce
 
     _browserHost->SendMouseMoveEvent(mouseEvent, mouseLeave);
 }
-
-int CefBrowserHostWrapper::WindowlessFrameRate::get()
-{
-    return _browserHost->GetWindowlessFrameRate();
-}
-
-void CefBrowserHostWrapper::WindowlessFrameRate::set(int val)
-{
-    _browserHost->SetWindowlessFrameRate(val);
-}
