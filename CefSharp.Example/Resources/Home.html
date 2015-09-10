@@ -57,6 +57,13 @@
                     <ul class="nav bs-sidenav">
                         <li><a href="#introduction">Introduction</a></li>
                         <li>
+                            <a href="#the-basics">The Basics</a>
+                            <ul class="nav">
+                                <li><a href="#features-custom-schemes">Stuff #1</a></li>
+                                <li><a href="#features-javascript-integration">Stuff #2</a></li>
+                            </ul>
+                        </li>
+                        <li>
                             <a href="#features">Features</a>
                             <ul class="nav">
                                 <li><a href="#features-custom-schemes">Custom Schemes</a></li>
@@ -70,7 +77,7 @@
             <div class="col-md-9" role="main">
                 <div class="bs-docs-section">
                     <div class="page-header">
-                        <h1 id="introduction">Introduction to CefSharp</h1>
+                        <h2 id="introduction">Introduction to CefSharp</h2>
                     </div>
                     <p class="lead">
                         Welcome to CefSharp! We are excited about you being here.
@@ -94,20 +101,105 @@
                                     Built on top of <a href="https://bitbucket.org/chromiumembedded/cef">CEF</a>,
                                 </strong> the Chromium Embedded Framework by Marshall A. Greenblatt.
                             </li>
+                            <li>
+                                <strong>CefSharp</strong> does little more than package CEF in a nice convenient .Net Wrapper.
+                            </li>
                         </ul>
                     </p>
                 </div>
                 <div class="bs-docs-section">
                     <div class="page-header">
-                        <h1 id="features">Features</h1>
+                        <h2 id="the-basics">The Basics</h2>
+                    </div>
+                    <p class="lead">
+                        When getting started with CefSharp it's important to understand a few basics.
+                    </p>
+                    <h3>Initialize/Shutdown Cef</h3>
+                    <p>
+                        It's important to note that it's nessicary to Initialize the underlying CEF library. This can be achieved in one of two ways, explicitly and implicitly.
+                        When you create a new instance of ChromiumWebBrowser it will check if CEF has been initialized and if not, initialize it for you with the defaults.
+                        For those wishing to specify some custom settings then you can explicitly initialize CEF yourself like below
+
+                        <pre data-shbrush="csharp">
+                        public static void Init()
+                        {
+                            var settings = new CefSettings();
+                                        
+                            // Increase the log severity so CEF outputs detailed information, useful for debugging
+                            settings.LogSeverity = LogSeverity.Verbose;
+                                        
+                            Cef.Initialize(settings);
+                        }
+                        </pre>
+                        
+                        CEF also requires that you call Shutdown when your finished with it. If you don't call Shutdown explicitly then it will be called for you on exit.
+                        You can call Shutdown explicitly which will be required in some instances.
+
+                        <pre data-shbrush="csharp">
+                        private static void OnApplicationExit(object sender, EventArgs e)
+                        {
+                            Cef.Shutdown();
+                        }
+                        </pre>
+                        
+                        It's important to note CEF that Initialize/Shutdown <strong>MUST</strong> be called on your main applicaiton thread (Typically the UI thead). If you call them on different
+                        threads, your application will hang.
+                    </p>
+
+                    <h3>Settings and Command Line Arguments</h3>
+                    <p>
+                        There are many settings and command line arguments that can influence the way CEF behaves. Here are some examples
+
+                        <pre data-shbrush="csharp">
+                        public static void Init()
+                        {
+                            // Specify Global Settings and Command Line Arguments
+                            var settings = new CefSettings();
+                                        
+                            // By default CEF uses an in memory cache, to save cached data e.g. passwords you need to specify a cache path
+                            // NOTE: The executing user must have sufficent privileges to write to this folder.
+                            settings.CachePath = "cache";
+
+                            // There are many command line arguments that can either be turned on or off
+                            
+                            // Enable WebRTC                            
+                            settings.CefCommandLineArgs.Add("enable-media-stream", "1");
+
+                            // Don't use a proxy server, always make direct connections. Overrides any other proxy server flags that are passed.
+                            // Slightly improves Cef initialize time as it won't attempt to resolve a proxy
+                            settings.CefCommandLineArgs.Add("no-proxy-server", "1"); 
+
+                                        
+                            Cef.Initialize(settings);
+                        }
+                        </pre>
+
+                        There are some settings which can be applied to a specific ChromiumWebBrowser instance. Note BrowserSettings are set slightly different in WPF than WinForms
+                        see the example projects for more information.
+
+                        <pre data-shbrush="csharp">
+                        var browser = new ChromiumWebBrowser(url)
+                        {
+                            BrowserSettings =
+                            {
+                                DefaultEncoding = "UTF-8",
+                                WebGl = CefState.Disabled
+                            }
+                        };
+                        </pre>
+                    </p>
+                </div>
+                <div class="bs-docs-section">
+                    <div class="page-header">
+                        <h2 id="features">Features</h2>
                     </div>
                     <h3>State-of-the-art HTML5 and Javascript support</h3>
                     <p>
                         Perhaps very obvious, but still worth mentioning. Since CefSharp is based on
                         <a href="https://bitbucket.org/chromiumembedded/cef">CEF</a>, which is in turn based on
-                        <a href="http://www.chromium.org/Home">Chromium</a> (version 33 for the time being), CefSharp provides
+                        <a href="http://www.chromium.org/Home">Chromium</a> (version 43 for the time being), CefSharp provides
                         one of the best HTML5 rendering experiences available - 
-                        <a href="http://html5test.com/compare/browser/chrome-25/mybrowser/chrome-33/chrome-35/ie-11.html">
+                        <a href="http://html5test.com/compare/browser/mybrowser/chrome-41/chrome-43/ie-11.html">
                             470+ points out of 555
                         </a> on <a href="http://www.html5test.com">html5test.com</a>. Note: 
                         <a href="http://en.wiktionary.org/wiki/your_mileage_may_vary" title="Your mileage may vary">YMMV</a>
@@ -115,7 +207,7 @@
                     </p>
                     <h3>Support for both x86 and x64</h3>
                     <p>
-                        Chromium 33 supports both x86 and x64, and so do we as of CefSharp 33.0.0 For the time being, it does not
+                        Chromium 43 supports both x86 and x64, and so do we as of CefSharp 43.0.0 For the time being, it does not
                         "auto-detect" the platform being used (since this is quite complex), so you have to choose either one for
                         your project. This practically means that you will have to compile &amp; package separate
                         binaries/installers of your app for x86 and x64 respectively if you want/need to support both of them.
@@ -127,11 +219,14 @@
                         <pre data-shbrush="csharp">
                         internal class CefSharpSchemeHandlerFactory : ISchemeHandlerFactory
                         {
-                            // This is the name of your custom scheme.
                             public const string SchemeName = "custom";
-                            
-                            public ISchemeHandler Create()
+                            public IResourceHandler Create(IBrowser browser, IFrame frame, string schemeName, IRequest request)
                             {
+                                if (schemeName == SchemeName && request.Url.EndsWith("CefSharp.Core.xml", System.StringComparison.OrdinalIgnoreCase))
+                                {
+                                    //Display the debug.log file in the browser
+                                    return ResourceHandler.FromFileName("CefSharp.Core.xml", ".xml");
+                                }
                                 return new CefSharpSchemeHandler();
                             }
                         }
@@ -139,41 +234,70 @@
                         ...and the actual scheme handler class like this:
 
                         <pre data-shbrush="csharp">
-                                internal class CefSharpSchemeHandler : ISchemeHandler
+                        internal class CefSharpSchemeHandler : IResourceHandler
+                        {
+                            private string mimeType;
+                            private MemoryStream stream;
+
+                            public bool ProcessRequestAsync(IRequest request, ICallback callback)
+                            {
+                                // NOTE: We suggest you structure your code in an async fashion
+                                // First examine the "request" object for info about the URI being requested and so forth.
+                                // If the Url is valid then spawn a task
+
+                                Task.Run(() =>
                                 {
-                                    public bool ProcessRequestAsync(IRequest request, SchemeHandlerResponse response)
-                                    {
-                                        // TODO: Add your custom scheme code here, so that "bytes" is a byte[] with the
-                                        // TODO: response data for the given request. Examine the "request" object for info
-                                        // TODO: about the URI being requested and so forth.
-                                        response.ResponseStream = new MemoryStream(bytes);
-                                        response.MimeType = GetMimeType(fileName);
+                                    // In this task you can perform your time consuming operations, e.g query a database
+                                    // NOTE: We suggest that you wrap callbacks in a using statemnt so that they're disposed
+                                    // even if there is an exception as they wrap an unmanaged response which will cause memory
+                                    // leaks if not freed
+                                    using (callback)
+                                    { 
+                                        // Read the data in, set the mime type
+                                        var bytes = Encoding.UTF8.GetBytes(resource);
+                                        stream = new MemoryStream(bytes);
+                                        var fileExtension = Path.GetExtension(fileName);
+                                        mimeType = ResourceHandler.GetMimeType(fileExtension);
                                         
-                                        // This signals to CefSharp that your scheme handler is ready with the processing.
-                                        response.ProcessRequestCallback();
-                                        
-                                        // You can also return "false" here if the requested URI is invalid for your scheme
-                                        // handler.
-                                        return true;
+                                        // When your finished processing execute the callback.
+                                        // Most callbacks have multiple methods, so checkout their interface for details
+                                        callback.Continue();
                                     }
-                                }
+                                });
+
+                                // Return true to indicate that you've handled the request, you can return false which will cancel the request
+                                return true;
+                            }
+
+                            public Stream GetResponse(IResponse response, out long responseLength, out string redirectUrl)
+                            {
+                                // NOTE: GetResponse will be executed after you have called Continue()
+                                // You simple need to populate the relevant details, note you can also redirec to another url if required
+                                responseLength = stream.Length;
+                                redirectUrl = null;
+                                response.StatusCode = (int)HttpStatusCode.OK;
+                                response.StatusText = "OK";
+                                response.MimeType = mimeType;
+                                return stream;
+                            }
+                        }
                         </pre>
                         Finally, you have to register this scheme handler using some code like this:
 
                         <pre data-shbrush="csharp">
-                                    public static void Init()
-                                    {
-                                        // Pseudo code; you probably need more in your CefSettings also.
-                                        var settings = new CefSettings();
+                        public static void Init()
+                        {
+                            // Pseudo code; you probably need more in your CefSettings also.
+                            var settings = new CefSettings();
                                         
-                                        settings.RegisterScheme(new CefCustomScheme
-                                        {
-                                            SchemeName = CefSharpSchemeHandlerFactory.SchemeName,
-                                            SchemeHandlerFactory = new CefSharpSchemeHandlerFactory()
-                                        });
+                            settings.RegisterScheme(new CefCustomScheme
+                            {
+                                SchemeName = CefSharpSchemeHandlerFactory.SchemeName,
+                                SchemeHandlerFactory = new CefSharpSchemeHandlerFactory()
+                            });
                                         
-                                        Cef.Initialize(settings);
-                                    }
+                            Cef.Initialize(settings);
+                        }
                         </pre>
                         It's important that the scheme registration takes place before the <code>Cef.Initialize()</code> gets
                         called. (This is different to how things was being done in CefSharp version 1.)
@@ -230,9 +354,9 @@
                 </div>
                 <div class="bs-docs-section">
                     <div class="page-header">
-                        <h1 id="useful-links">
+                        <h2 id="useful-links">
                             Useful Links
-                        </h1>
+                        </h2>
                     </div>
                     <p>
                         Here are a few pointers that might help you further explore the wonderful world of CefSharp:
