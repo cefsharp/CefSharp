@@ -217,5 +217,14 @@ namespace CefSharp
             // See https://bitbucket.org/chromiumembedded/cef/issues/1368 for details.
             _cefCommandLineArgs->Add("enable-begin-frame-scheduling", "1");
         }
+
+        /// <summary>
+        /// Disable Surfaces so internal PDF viewer works for OSR
+        /// https://bitbucket.org/chromiumembedded/cef/issues/1689
+        /// </summary>
+        void EnableInternalPdfViewerOffScreen()
+        {
+            _cefCommandLineArgs->Add("disable-surfaces", "1");
+        }
     };
 }
