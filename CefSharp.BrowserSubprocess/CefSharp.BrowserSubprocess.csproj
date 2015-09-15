@@ -88,7 +88,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CefGpuProcess.cs" />
     <Compile Include="CefRenderProcess.cs" />
     <Compile Include="CefSubProcess.cs" />
     <Compile Include="Program.cs" />
