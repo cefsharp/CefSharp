@@ -26,7 +26,7 @@ namespace CefSharp.BrowserSubprocess
             return result;
         }
 
-        public static CefSubProcess Create(IEnumerable<string> args)
+        private static CefSubProcess Create(IEnumerable<string> args)
         {
             const string typePrefix = "--type=";
             var typeArgument = args.SingleOrDefault(arg => arg.StartsWith(typePrefix));
@@ -41,9 +41,6 @@ namespace CefSharp.BrowserSubprocess
                     return wcfEnabled ? new CefRenderProcess(args) : new CefSubProcess(args);
                 }
                 case "gpu-process":
-                {
-                    return new CefGpuProcess(args);
-                }
                 default:
                 {
                     return new CefSubProcess(args);

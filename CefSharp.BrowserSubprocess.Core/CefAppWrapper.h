@@ -22,11 +22,13 @@ namespace CefSharp
         MCefRefPtr<CefAppUnmanagedWrapper> _cefApp;
         
     public:        
-        CefAppWrapper()
+        CefAppWrapper(IEnumerable<String^>^ args)
         {
             auto onBrowserCreated = gcnew Action<CefBrowserWrapper^>(this, &CefAppWrapper::OnBrowserCreated);
             auto onBrowserDestroyed = gcnew Action<CefBrowserWrapper^>(this, &CefAppWrapper::OnBrowserDestroyed);
-            _cefApp = new CefAppUnmanagedWrapper(onBrowserCreated, onBrowserDestroyed);
+            auto schemes = CefCustomScheme::ParseCommandLineArguments(args);
+
+            _cefApp = new CefAppUnmanagedWrapper(schemes, onBrowserCreated, onBrowserDestroyed);
         };
 
         !CefAppWrapper()

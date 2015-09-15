@@ -2,6 +2,10 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System.Collections.Generic;
+using System.Linq;
+using CefSharp.Internals;
+
 namespace CefSharp
 {
     public class CefCustomScheme
@@ -72,6 +76,36 @@ namespace CefSharp
             IsStandard = true;
             IsLocal = false;
             IsDisplayIsolated = false;
+        }
+
+        /// <summary>
+        /// Method used internally
+        /// </summary>
+        /// <param name="args">command line arguments</param>
+        /// <returns>list of scheme objects</returns>
+        public static List<CefCustomScheme> ParseCommandLineArguments(IEnumerable<string> args)
+        {
+            var schemes = args.FirstOrDefault(a => a.StartsWith(CefSharpArguments.CustomSchemeArgument));
+            var customSchemes = new List<CefCustomScheme>();
+
+            if (!string.IsNullOrEmpty(schemes))
+            {
+                //Remove the "--custom-scheme=" part of the argument
+                schemes.Substring(CefSharpArguments.CustomSchemeArgument.Length + 1).Split(';').ToList().ForEach(x =>
+                {
+                    var tokens = x.Split('|');
+                    var customScheme = new CefCustomScheme
+                    {
+                        SchemeName = tokens[0],
+                        IsStandard = tokens[1] == "T",
+                        IsLocal = tokens[2] == "T",
+                        IsDisplayIsolated = tokens[3] == "T"
+                    };
+                    customSchemes.Add(customScheme);
+                });
+            }
+
+            return customSchemes;
         }
     }
 }
