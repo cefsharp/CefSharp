@@ -59,18 +59,19 @@ namespace CefSharp.Example
             // `--disable-gpu --disable-gpu-compositing --enable-begin-frame-scheduling`
             // (you'll loose WebGL support but gain increased FPS and reduced CPU usage).
             // http://magpcss.org/ceforum/viewtopic.php?f=6&t=13271#p27075
+            //https://bitbucket.org/chromiumembedded/cef/commits/e3c1d8632eb43c1c2793d71639f3f5695696a5e8
+
+            //NOTE: The following function will set all three params
+            //settings.SetOffScreenRenderingBestPerformanceArgs();
             //settings.CefCommandLineArgs.Add("disable-gpu", "1");
             //settings.CefCommandLineArgs.Add("disable-gpu-compositing", "1");
             //settings.CefCommandLineArgs.Add("enable-begin-frame-scheduling", "1");
-            //settings.CefCommandLineArgs.Add("disable-gpu-vsync", "1");
-            
+
+            //settings.CefCommandLineArgs.Add("disable-gpu-vsync", "1"); //Disable Vsync
+
             //Disables the DirectWrite font rendering system on windows.
             //Possibly useful when experiencing blury fonts.
             //settings.CefCommandLineArgs.Add("disable-direct-write", "1");
-
-            // Set command line arguments to enable best performance when off screen rendering
-            //https://bitbucket.org/chromiumembedded/cef/commits/e3c1d8632eb43c1c2793d71639f3f5695696a5e8
-            //settings.SetOffScreenRenderingBestPerformanceArgs();
 
             // Off Screen rendering (WPF/Offscreen)
             if(osr)
