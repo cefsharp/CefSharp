@@ -67,12 +67,12 @@ namespace CefSharp.OffScreen.Example
                 await browser.EvaluateScriptAsync("document.getElementById('lst-ib').value = 'CefSharp Was Here!'");
 
                 // Wait for the screenshot to be taken.
-                await browser.ScreenshotAsync(true).ContinueWith(DisplayBitmap);
+                await browser.ScreenshotAsync().ContinueWith(DisplayBitmap);
 
                 await LoadPageAsync(browser, "http://github.com");
 
                 // Wait for the screenshot to be taken.
-                await browser.ScreenshotAsync().ContinueWith(DisplayBitmap);
+                await browser.ScreenshotAsync(true).ContinueWith(DisplayBitmap);
             }
         }
 
