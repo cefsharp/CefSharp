@@ -66,13 +66,24 @@ namespace CefSharp.OffScreen.Example
                 // For Google.com pre-pupulate the search text box
                 await browser.EvaluateScriptAsync("document.getElementById('lst-ib').value = 'CefSharp Was Here!'");
 
-                // Wait for the screenshot to be taken.
+                // Wait for the screenshot to be taken,
+                // if one exists ignore it, wait for a new one to make sure we have the most up to date
                 await browser.ScreenshotAsync(true).ContinueWith(DisplayBitmap);
 
                 await LoadPageAsync(browser, "http://github.com");
 
+                
+                //Gets a wrapper around the underlying CefBrowser instance
+                var cefBrowser = browser.GetBrowser();
+                // Gets a warpper around the CefBrowserHost instance
+                // You can perform a lot of low level browser operations using this interface
+                var cefHost = cefBrowser.GetHost();
+
+                //You can call Invalidate to redraw/refresh the image
+                cefHost.Invalidate(PaintElementType.View);
+
                 // Wait for the screenshot to be taken.
-                await browser.ScreenshotAsync().ContinueWith(DisplayBitmap);
+                await browser.ScreenshotAsync(true).ContinueWith(DisplayBitmap);
             }
         }
 
