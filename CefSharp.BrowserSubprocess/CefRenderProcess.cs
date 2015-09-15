@@ -20,7 +20,7 @@ namespace CefSharp.BrowserSubprocess
         private int? parentProcessId;
         private List<CefBrowserWrapper> browsers = new List<CefBrowserWrapper>();
 
-        public CefRenderProcess(IEnumerable<string> args) 
+        public CefRenderProcess(IEnumerable<string> args) : base(args)
         {
             parentProcessId = LocateParentProcessId(args);
         }
