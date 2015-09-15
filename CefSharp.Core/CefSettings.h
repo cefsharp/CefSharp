@@ -16,12 +16,12 @@ namespace CefSharp
     public ref class CefSettings
     {
     private:
-        List<CefCustomScheme^>^ _cefCustomSchemes;
         List<CefExtension^>^ _cefExtensions;
         IDictionary<String^, String^>^ _cefCommandLineArgs;
 
     internal:
         ::CefSettings* _cefSettings;
+        List<CefCustomScheme^>^ _cefCustomSchemes;
 
     public:
         CefSettings() : _cefSettings(new ::CefSettings())
