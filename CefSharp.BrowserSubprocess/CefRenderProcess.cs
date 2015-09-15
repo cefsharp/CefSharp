@@ -3,14 +3,13 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using CefSharp.Internals;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
+using CefSharp.Internals;
 
 namespace CefSharp.BrowserSubprocess
 {
-    [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, IncludeExceptionDetailInFaults=true)]
     public class CefRenderProcess : CefSubProcess
     {
         private int? parentBrowserId;
