@@ -22,7 +22,7 @@ namespace CefSharp.Wpf.Example.Views
             }
             browser.RegisterAsyncJsObject("boundAsync", new AsyncBoundObject());
 
-            browser.LifeSpanHandler = new LifespanHandler();
+            //browser.LifeSpanHandler = new LifespanHandler();
             browser.MenuHandler = new MenuHandler();
             browser.GeolocationHandler = new GeolocationHandler();
             browser.DownloadHandler = new DownloadHandler();
