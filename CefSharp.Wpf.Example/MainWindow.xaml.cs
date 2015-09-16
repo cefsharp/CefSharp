@@ -116,6 +116,16 @@ namespace CefSharp.Wpf.Example
                     url = "http://html5demos.com/drag";
                     break;
                 }
+                case "PopupTestCustomScheme":
+                {
+                    url = CefExample.PopupTestUrl;
+                    break;
+                }
+                case "BasicSchemeTest":
+                {
+                    url = CefExample.BasicSchemeTestUrl;
+                    break;
+                }
             }
 
             if (string.IsNullOrEmpty(url))

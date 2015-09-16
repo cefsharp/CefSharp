@@ -29,13 +29,13 @@ namespace CefSharp
     public:
         static const CefString kPromiseCreatorFunction;
 
-        CefAppUnmanagedWrapper(Action<CefBrowserWrapper^>^ onBrowserCreated, Action<CefBrowserWrapper^>^ onBrowserDestoryed)
+        CefAppUnmanagedWrapper(List<CefCustomScheme^>^ schemes, Action<CefBrowserWrapper^>^ onBrowserCreated, Action<CefBrowserWrapper^>^ onBrowserDestoryed)
         {
             _onBrowserCreated = onBrowserCreated;
             _onBrowserDestroyed = onBrowserDestoryed;
             _browserWrappers = gcnew Dictionary<int, CefBrowserWrapper^>();
             _extensions = gcnew List<CefExtension^>();
-            _schemes = gcnew List<CefCustomScheme^>();
+            _schemes = schemes;
         }
 
         ~CefAppUnmanagedWrapper()

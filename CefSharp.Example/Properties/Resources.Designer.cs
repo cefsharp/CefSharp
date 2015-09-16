@@ -310,6 +310,29 @@ namespace CefSharp.Example.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
+        ///&lt;html&gt;
+        ///    &lt;head&gt;
+        ///        &lt;title&gt;Exception Test&lt;/title&gt;
+        ///        &lt;script type=&quot;text/javascript&quot;&gt;
+        ///            function logException(e)
+        ///            {
+        ///                document.write(e.message.replace(/\n/g, &apos;&lt;br /&gt;&apos;) + &quot;&lt;br /&gt;Stack:&lt;br /&gt;&quot; + e.stack.replace(/\n/g, &apos;&lt;br /&gt;&apos;));
+        ///            }
+        ///        &lt;/script&gt;
+        ///    &lt;/head&gt;
+        ///    &lt;body&gt;
+        ///        &lt;p&gt;
+        ///            Exception string for nested exceptions:&lt;br /&gt;
+        ///            &lt;script type=&quot;text/javasc [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ExceptionTest {
+            get {
+                return ResourceManager.GetString("ExceptionTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to var cefsharp;
         ///if (!cefsharp)
         ///    cefsharp = {};
@@ -373,14 +396,14 @@ namespace CefSharp.Example.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
         ///&lt;html&gt;
-        ///	&lt;head&gt;
-        ///		&lt;title&gt;Popup Test&lt;/title&gt;
-        ///	&lt;/head&gt;
-        ///	&lt;body&gt;
-        ///        &lt;a href=&quot;https://github.com/perlun/CefSharp&quot; target=&quot;_blank&quot;&gt;target=_blank&lt;/a&gt;
+        ///    &lt;head&gt;
+        ///        &lt;title&gt;Popup Test&lt;/title&gt;
+        ///    &lt;/head&gt;
+        ///    &lt;body&gt;
+        ///        &lt;a href=&quot;https://github.com/CefSharp/CefSharp&quot; target=&quot;_blank&quot;&gt;target=_blank&lt;/a&gt;
         ///        &lt;br /&gt;
-        ///        &lt;a href=&quot;#&quot; onclick=&quot;window.open(&apos;https://github.com/perlun/CefSharp&apos;)&quot;&gt;window.open()&lt;/a&gt;
-        ///	&lt;/body&gt;
+        ///        &lt;a href=&quot;#&quot; onclick=&quot;window.open(&apos;https://github.com/CefSharp/CefSharp&apos;)&quot;&gt;window.open()&lt;/a&gt;
+        ///    &lt;/body&gt;
         ///&lt;/html&gt;
         ///.
         /// </summary>
@@ -393,14 +416,19 @@ namespace CefSharp.Example.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
         ///&lt;html&gt;
-        ///	&lt;head&gt;
-        ///		&lt;title&gt;Scheme Handler Test&lt;/title&gt;
-        ///	&lt;/head&gt;
-        ///	&lt;body&gt;
-        ///	&lt;h1&gt;Success&lt;/h1&gt;
-        ///	&lt;p&gt;Scheme Handler Functioned Correctly&lt;/p&gt;
-        ///	&lt;/body&gt;
-        ///&lt;/html&gt;.
+        ///    &lt;head&gt;
+        ///        &lt;title&gt;Scheme Handler Test&lt;/title&gt;
+        ///    &lt;/head&gt;
+        ///    &lt;body&gt;
+        ///        &lt;h1&gt;Success&lt;/h1&gt;
+        ///        &lt;p&gt;Scheme Handler Functioned Correctly&lt;/p&gt;
+        ///
+        ///        &lt;form action=&quot;custom://cefsharp/PostDataTest.html&quot; method=&quot;post&quot; target=&quot;_blank&quot;&gt;
+        ///            User:&lt;input type=&quot;text&quot; name=&quot;user&quot; value=&quot;lion&quot; /&gt;
+        ///            &lt;br&gt;
+        ///            Pass:&lt;input type=&quot;text&quot; name=&quot;pass&quot; value=&quot;123&quot; /&gt;
+        ///            &lt;br&gt;
+        ///            &lt;input type [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string SchemeTest {
             get {

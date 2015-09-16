@@ -16,12 +16,12 @@ namespace CefSharp
     public ref class CefSettings
     {
     private:
-        List<CefCustomScheme^>^ _cefCustomSchemes;
         List<CefExtension^>^ _cefExtensions;
         IDictionary<String^, String^>^ _cefCommandLineArgs;
 
     internal:
         ::CefSettings* _cefSettings;
+        List<CefCustomScheme^>^ _cefCustomSchemes;
 
     public:
         CefSettings() : _cefSettings(new ::CefSettings())
@@ -216,6 +216,15 @@ namespace CefSharp
             // it can be set via the command-line using `--off-screen-frame-rate=XX`.
             // See https://bitbucket.org/chromiumembedded/cef/issues/1368 for details.
             _cefCommandLineArgs->Add("enable-begin-frame-scheduling", "1");
+        }
+
+        /// <summary>
+        /// Disable Surfaces so internal PDF viewer works for OSR
+        /// https://bitbucket.org/chromiumembedded/cef/issues/1689
+        /// </summary>
+        void EnableInternalPdfViewerOffScreen()
+        {
+            _cefCommandLineArgs->Add("disable-surfaces", "1");
         }
     };
 }

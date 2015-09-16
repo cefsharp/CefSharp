@@ -80,15 +80,10 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CefGpuProcess.cs" />
     <Compile Include="CefRenderProcess.cs" />
     <Compile Include="CefSubProcess.cs" />
     <Compile Include="Program.cs" />
@@ -102,10 +97,6 @@
     <ProjectReference Include="..\CefSharp.BrowserSubprocess.Core\CefSharp.BrowserSubprocess.Core.vcxproj">
       <Project>{6c4bb501-2f8e-48ac-9ab5-8cfb2d74185c}</Project>
       <Name>CefSharp.BrowserSubprocess.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.vcxproj">
-      <Project>{7b495581-2271-4f41-9476-acb86e8c864f}</Project>
-      <Name>CefSharp.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\CefSharp\CefSharp.csproj">
       <Project>{a55848cc-10e7-40cb-addb-04740b16dd43}</Project>

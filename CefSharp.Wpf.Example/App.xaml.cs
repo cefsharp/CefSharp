@@ -9,16 +9,19 @@ namespace CefSharp.Wpf.Example
 {
     public partial class App : Application
     {
-        private App()
+        protected override void OnStartup(StartupEventArgs e)
         {
 #if DEBUG
             if (!System.Diagnostics.Debugger.IsAttached)
             {
-                MessageBox.Show("When running this Example outside of Visual Studio" +
+                MessageBox.Show("When running this Example outside of Visual Studio " +
                                 "please make sure you compile in `Release` mode.", "Warning");
             }
 #endif
+
             CefExample.Init(true);
+
+            base.OnStartup(e);
         }
     }
 }

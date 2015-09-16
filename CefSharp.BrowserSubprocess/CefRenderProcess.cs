@@ -3,22 +3,45 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using CefSharp.Internals;
 using System.Collections.Generic;
+using System.Linq;
 using System.ServiceModel;
+using CefSharp.Internals;
 
 namespace CefSharp.BrowserSubprocess
 {
-    [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, IncludeExceptionDetailInFaults=true)]
     public class CefRenderProcess : CefSubProcess
     {
         private int? parentBrowserId;
+        
+        /// <summary>
+        /// The PID for the parent (browser) process
+        /// </summary>
+        private int? parentProcessId;
         private List<CefBrowserWrapper> browsers = new List<CefBrowserWrapper>();
 
-        public CefRenderProcess(IEnumerable<string> args) 
-            : base(args)
+        public CefRenderProcess(IEnumerable<string> args) : base(args)
         {
-            
+            parentProcessId = LocateParentProcessId(args);
+        }
+
+        private static int? LocateParentProcessId(IEnumerable<string> args)
+        {
+            // Format being parsed:
+            // --channel=3828.2.1260352072\1102986608
+            // We only really care about the PID (3828) part.
+            const string channelPrefix = "--channel=";
+            var channelArgument = args.SingleOrDefault(arg => arg.StartsWith(channelPrefix));
+            if (channelArgument == null)
+            {
+                return null;
+            }
+
+            var parentProcessId = channelArgument
+                .Substring(channelPrefix.Length)
+                .Split('.')
+                .First();
+            return int.Parse(parentProcessId);
         }
         
         protected override void DoDispose(bool isDisposing)
@@ -42,14 +65,14 @@ namespace CefSharp.BrowserSubprocess
                 parentBrowserId = browser.BrowserId;
             }
 
-            if (ParentProcessId == null || parentBrowserId == null)
+            if (parentProcessId == null || parentBrowserId == null)
             {
                 return;
             }
 
             var browserId = browser.IsPopup ? parentBrowserId.Value : browser.BrowserId;
 
-            var serviceName = RenderprocessClientFactory.GetServiceName(ParentProcessId.Value, browserId);
+            var serviceName = RenderprocessClientFactory.GetServiceName(parentProcessId.Value, browserId);
 
             var binding = BrowserProcessServiceHost.CreateBinding();
 

@@ -343,6 +343,19 @@ namespace CefSharp
             void set(String^ value) { StringUtils::AssignNativeFromClr(_browserSettings->accept_language_list, value); }
         }
 
+        /// <summary>
+        /// The maximum rate in frames per second (fps) that CefRenderHandler::OnPaint
+        /// will be called for a windowless browser. The actual fps may be lower if
+        /// the browser cannot generate frames at the requested rate. The minimum
+        /// value is 1 and the maximum value is 60 (default 30). This value can also be
+        /// changed dynamically via IBrowserHost.SetWindowlessFrameRate.
+        /// </summary>
+        virtual property int WindowlessFrameRate
+        {
+            int get() { return _browserSettings->windowless_frame_rate; }
+            void set(int value) { _browserSettings->windowless_frame_rate = value; }
+        }		
+
         property Nullable<bool> OffScreenTransparentBackground;
     };
 }

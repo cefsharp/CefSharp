@@ -11,12 +11,14 @@ namespace CefSharp.Wpf.Example.Handlers
     {
         public bool OnRequestGeolocationPermission(IWebBrowser browserControl, IBrowser browser, string requestingUrl, int requestId, IGeolocationCallback callback)
         {
-            var result = MessageBox.Show(String.Format("{0} wants to use your computer's location.  Allow?  ** You must set your Google API key in CefExample.Init() for this to work. **", requestingUrl), "Geolocation", MessageBoxButton.YesNo);
+            using (callback)
+            {
+                var result = MessageBox.Show(String.Format("{0} wants to use your computer's location.  Allow?  ** You must set your Google API key in CefExample.Init() for this to work. **", requestingUrl), "Geolocation", MessageBoxButton.YesNo);
 
-            callback.Continue(result == MessageBoxResult.Yes);
-            callback.Dispose();
+                callback.Continue(result == MessageBoxResult.Yes);
 
-            return result == MessageBoxResult.Yes;
+                return result == MessageBoxResult.Yes;
+            }
         }
 
         public void OnCancelGeolocationPermission(IWebBrowser browserControl, IBrowser browser, string requestingUrl, int requestId)

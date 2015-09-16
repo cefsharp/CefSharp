@@ -201,14 +201,15 @@ namespace CefSharp.OffScreen
         /// 
         /// The bitmap size is determined by the Size property set earlier.
         /// </summary>
-        public Task<Bitmap> ScreenshotAsync()
+        /// <param name="ignoreExistingScreenshot">Ignore existing bitmap (if any) and return the next avaliable bitmap</param>
+        public Task<Bitmap> ScreenshotAsync(bool ignoreExistingScreenshot = false)
         {
             // Try our luck and see if there is already a screenshot, to save us creating a new thread for nothing.
             var screenshot = ScreenshotOrNull();
 
             var completionSource = new TaskCompletionSource<Bitmap>();
 
-            if (screenshot == null)
+            if (screenshot == null || ignoreExistingScreenshot)
             {
                 EventHandler newScreenshot = null; // otherwise we cannot reference ourselves in the anonymous method below
 

@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -38,6 +39,7 @@ namespace CefSharp.Example
                 { "/bootstrap/bootstrap.min.js", Resources.bootstrap_min_js },
 
                 { "/BindingTest.html", Resources.BindingTest },
+                { "/ExceptionTest.html", Resources.ExceptionTest },
                 { "/PopupTest.html", Resources.PopupTest },
                 { "/SchemeTest.html", Resources.SchemeTest },
                 { "/TooltipTest.html", Resources.TooltipTest },
@@ -51,21 +53,38 @@ namespace CefSharp.Example
             var uri = new Uri(request.Url);
             var fileName = uri.AbsolutePath;
 
+            if(string.Equals(fileName, "/PostDataTest.html", StringComparison.OrdinalIgnoreCase))
+            {
+                var postDataElement = request.PostData.Elements.FirstOrDefault();
+                var resourceHandler = ResourceHandler.FromString("Post Data: " + (postDataElement == null ? "null" : postDataElement.GetBody()));
+                stream = (MemoryStream)resourceHandler.Stream;
+                mimeType = "text/html";
+                callback.Continue();
+                return true;
+            }
+
             string resource;
             if (ResourceDictionary.TryGetValue(fileName, out resource) && !string.IsNullOrEmpty(resource))
             {
                 Task.Run(() =>
                 {
-                    var bytes = Encoding.UTF8.GetBytes(resource);
-                    stream = new MemoryStream(bytes);
+                    using (callback)
+                    { 
+                        var bytes = Encoding.UTF8.GetBytes(resource);
+                        stream = new MemoryStream(bytes);
 
-                    var fileExtension = Path.GetExtension(fileName);
-                    mimeType = ResourceHandler.GetMimeType(fileExtension);
+                        var fileExtension = Path.GetExtension(fileName);
+                        mimeType = ResourceHandler.GetMimeType(fileExtension);
 
-                    callback.Continue();
+                        callback.Continue();
+                    }
                 });
 
                 return true;
+            }
+            else
+            {
+                callback.Dispose();
             }
 
             return false;

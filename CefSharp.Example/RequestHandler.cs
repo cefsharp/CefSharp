@@ -23,6 +23,11 @@ namespace CefSharp.Example
 
         bool IRequestHandler.OnCertificateError(IWebBrowser browserControl, IBrowser browser, CefErrorCode errorCode, string requestUrl, ISslInfo sslInfo, IRequestCallback callback)
         {
+            //NOTE: If you do not wish to implement this method returning false is the default behaviour
+            // We also suggest you explicitly Dispose of the callback as it wraps an unmanaged resource.
+            //callback.Dispose();
+            //return false;
+
             //NOTE: When executing the callback in an async fashion need to check to see if it's disposed
             if (!callback.IsDisposed)
             {
@@ -44,6 +49,11 @@ namespace CefSharp.Example
 
         CefReturnValue IRequestHandler.OnBeforeResourceLoad(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IRequestCallback callback)
         {
+            //NOTE: If you do not wish to implement this method returning false is the default behaviour
+            // We also suggest you explicitly Dispose of the callback as it wraps an unmanaged resource.
+            //callback.Dispose();
+            //return false;
+
             //NOTE: When executing the callback in an async fashion need to check to see if it's disposed
             if (!callback.IsDisposed)
             {
@@ -84,6 +94,10 @@ namespace CefSharp.Example
 
         bool IRequestHandler.GetAuthCredentials(IWebBrowser browserControl, IBrowser browser, IFrame frame, bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback)
         {
+            //NOTE: If you do not wish to implement this method returning false is the default behaviour
+            // We also suggest you explicitly Dispose of the callback as it wraps an unmanaged resource.
+
+            callback.Dispose();
             return false;
         }
 
@@ -107,6 +121,11 @@ namespace CefSharp.Example
 
         bool IRequestHandler.OnQuotaRequest(IWebBrowser browserControl, IBrowser browser, string originUrl, long newSize, IRequestCallback callback)
         {
+            //NOTE: If you do not wish to implement this method returning false is the default behaviour
+            // We also suggest you explicitly Dispose of the callback as it wraps an unmanaged resource.
+            //callback.Dispose();
+            //return false;
+
             //NOTE: When executing the callback in an async fashion need to check to see if it's disposed
             if (!callback.IsDisposed)
             {

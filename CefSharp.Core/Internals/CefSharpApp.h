@@ -43,34 +43,53 @@ namespace CefSharp
             }
         }
 
-        virtual void OnBeforeChildProcessLaunch(CefRefPtr<CefCommandLine> command_line) OVERRIDE
+        virtual void OnBeforeChildProcessLaunch(CefRefPtr<CefCommandLine> commandLine) OVERRIDE
         {
             if (CefSharpSettings::WcfEnabled)
             {
-                command_line->AppendArgument(StringUtils::ToNative(CefSharpArguments::WcfEnabledArgument));
+                commandLine->AppendArgument(StringUtils::ToNative(CefSharpArguments::WcfEnabledArgument));
+            }
+
+            if (_cefSettings->_cefCustomSchemes->Count > 0)
+            {
+                String^ argument = "=";
+
+                for each(CefCustomScheme^ scheme in _cefSettings->CefCustomSchemes)
+                {
+                    argument += scheme->SchemeName + "|";
+                    argument += (scheme->IsStandard ? "T" : "F") + "|";
+                    argument += (scheme->IsLocal ? "T" : "F") + "|";
+                    argument += (scheme->IsDisplayIsolated ? "T" : "F") + ";";
+                }
+
+                argument = argument->TrimEnd(';');
+
+                commandLine->AppendArgument(StringUtils::ToNative(CefSharpArguments::CustomSchemeArgument + argument));
             }
         }
         
         virtual void OnBeforeCommandLineProcessing(const CefString& process_type, CefRefPtr<CefCommandLine> command_line) OVERRIDE
         {
-            if(_cefSettings->CefCommandLineArgs->Count == 0)
-                return;
-
-            auto commandLine = command_line.get();
-
-            // Not clear what should happen if we 
-            // * already have some command line flags given (is this possible? Perhaps from globalCommandLine)
-            // * have no flags given (-> call SetProgramm() with first argument?)
-
-            for each(KeyValuePair<String^, String^>^ kvp in _cefSettings->CefCommandLineArgs)
+            if(_cefSettings->CefCommandLineArgs->Count > 0)
             {
-                CefString name = StringUtils::ToNative(kvp->Key);
-                CefString value = StringUtils::ToNative(kvp->Value);
+                auto commandLine = command_line.get();
 
-                // Right now the command line args handed to the application (global command line) have higher
-                // precedence than command line args provided by the app
-                if(!commandLine->HasSwitch(name))
-                    commandLine->AppendSwitchWithValue(name, value);
+                // Not clear what should happen if we 
+                // * already have some command line flags given (is this possible? Perhaps from globalCommandLine)
+                // * have no flags given (-> call SetProgramm() with first argument?)
+
+                for each(KeyValuePair<String^, String^>^ kvp in _cefSettings->CefCommandLineArgs)
+                {
+                    CefString name = StringUtils::ToNative(kvp->Key);
+                    CefString value = StringUtils::ToNative(kvp->Value);
+
+                    // Right now the command line args handed to the application (global command line) have higher
+                    // precedence than command line args provided by the app
+                    if(!commandLine->HasSwitch(name))
+                    {
+                        commandLine->AppendSwitchWithValue(name, value);
+                    }
+                }
             }
         }
 
@@ -78,9 +97,6 @@ namespace CefSharp
         {
             for each (CefCustomScheme^ cefCustomScheme in _cefSettings->CefCustomSchemes)
             {
-                // TODO: Causes an "assertion failed" error here: DCHECK_EQ(CefCallbackCToCpp::DebugObjCt, 0)
-                // when the process is shutting down.
-
                 // TOOD: Consider adding error handling here. But where do we report any errors that may have occurred?
                 registrar->AddCustomScheme(StringUtils::ToNative(cefCustomScheme->SchemeName), cefCustomScheme->IsStandard, cefCustomScheme->IsLocal, cefCustomScheme->IsDisplayIsolated);
             }
@@ -100,21 +116,6 @@ namespace CefSharp
             }
 
             extraInfo->SetList(0, extensionList);
-
-            auto schemeList = CefListValue::Create();
-
-            i = 0;
-            for each(CefCustomScheme^ scheme in _cefSettings->CefCustomSchemes)
-            {
-                auto item = CefListValue::Create();
-                item->SetString(0, StringUtils::ToNative(scheme->SchemeName));
-                item->SetBool(1, scheme->IsStandard);
-                item->SetBool(2, scheme->IsLocal);
-                item->SetBool(3, scheme->IsDisplayIsolated);
-                schemeList->SetList(i++, item);
-            }
-
-            extraInfo->SetList(1, schemeList);
         }
 
         IMPLEMENT_REFCOUNTING(CefSharpApp)
