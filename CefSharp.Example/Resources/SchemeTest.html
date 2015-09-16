@@ -1,10 +1,18 @@
 ﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
-	<head>
-		<title>Scheme Handler Test</title>
-	</head>
-	<body>
-	<h1>Success</h1>
-	<p>Scheme Handler Functioned Correctly</p>
-	</body>
+    <head>
+        <title>Scheme Handler Test</title>
+    </head>
+    <body>
+        <h1>Success</h1>
+        <p>Scheme Handler Functioned Correctly</p>
+
+        <form action="custom://cefsharp/PostDataTest.html" method="post" target="_blank">
+            User:<input type="text" name="user" value="lion" />
+            <br>
+            Pass:<input type="text" name="pass" value="123" />
+            <br>
+            <input type="submit" value="Test POST Data" />
+        </form>
+    </body>
 </html>

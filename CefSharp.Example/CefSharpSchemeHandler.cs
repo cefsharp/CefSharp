@@ -51,6 +51,15 @@ namespace CefSharp.Example
             var uri = new Uri(request.Url);
             var fileName = uri.AbsolutePath;
 
+            if(string.Equals(fileName, "/PostDataTest.html", StringComparison.OrdinalIgnoreCase))
+            {
+                var resourceHandler = ResourceHandler.FromString("Post Data: " + request.PostData.Elements[0].GetBody());
+                stream = (MemoryStream)resourceHandler.Stream;
+                mimeType = "text/html";
+                callback.Continue();
+                return true;
+            }
+
             string resource;
             if (ResourceDictionary.TryGetValue(fileName, out resource) && !string.IsNullOrEmpty(resource))
             {

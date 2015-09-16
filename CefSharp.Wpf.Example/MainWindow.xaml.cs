@@ -121,6 +121,11 @@ namespace CefSharp.Wpf.Example
                     url = CefExample.PopupTestUrl;
                     break;
                 }
+                case "BasicSchemeTest":
+                {
+                    url = CefExample.BasicSchemeTestUrl;
+                    break;
+                }
             }
 
             if (string.IsNullOrEmpty(url))

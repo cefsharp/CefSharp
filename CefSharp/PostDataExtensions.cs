@@ -75,7 +75,7 @@ namespace CefSharp
         /// <param name="postDataElement">post data</param>
         /// <param name="charSet">character set</param>
         /// <returns>encoded string</returns>
-        public static string GetBody(this IPostDataElement postDataElement, string charSet)
+        public static string GetBody(this IPostDataElement postDataElement, string charSet = null)
         {
             var bytes = postDataElement.Bytes;
             if(bytes.Length == 0)
