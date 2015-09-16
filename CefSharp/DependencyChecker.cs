@@ -55,6 +55,7 @@ namespace CefSharp
             // Note: Contains WebKit image and inspector resources.
             "devtools_resources.pak",
             "cef.pak",
+            "cef_extensions.pak",
             "cef_100_percent.pak",
             "cef_200_percent.pak"
         };
@@ -65,14 +66,7 @@ namespace CefSharp
             // Note: Without these components HTML5 accelerated content like 2D canvas, 3D CSS and WebGL will not function.
             "libEGL.dll",
             "libGLESv2.dll",
-            (IsWindowsXp ? "d3dcompiler_43.dll" : "d3dcompiler_47.dll"),
-            // PDF support
-            // Note: Without this component printing will not function.
-            // Removed from CEF 3.2357, see https://bitbucket.org/chromiumembedded/cef/issue/1565
-            //"pdf.dll",
-            //FFmpeg audio and video support
-            // Note: Without this component HTML5 audio and video will not function.
-            "ffmpegsumo.dll"
+            (IsWindowsXp ? "d3dcompiler_43.dll" : "d3dcompiler_47.dll")
         };
 
         /// <summary>
