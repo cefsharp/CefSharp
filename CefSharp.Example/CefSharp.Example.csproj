@@ -132,6 +132,7 @@
     <Content Include="Resources\bootstrap\bootstrap.min.js" />
     <Content Include="Resources\extension.js" />
     <Content Include="Resources\home.html" />
+    <Content Include="Resources\FramedWebGLTest.html" />
     <Content Include="Resources\PopupTest.html" />
     <Content Include="Resources\SchemeTest.html" />
     <Content Include="Resources\TooltipTest.html" />
