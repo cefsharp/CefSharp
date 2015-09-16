@@ -58,7 +58,7 @@ namespace CefSharp
                 {
                     auto elements = gcnew List<IPostDataElement^>();
 
-                    auto elementCount = _postData->GetElementCount();
+                    auto elementCount = _postData.get() ? _postData->GetElementCount() : 0;
                     if (elementCount == 0)
                     {
                         return gcnew ReadOnlyCollection<IPostDataElement^>(elements);

@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -53,7 +54,8 @@ namespace CefSharp.Example
 
             if(string.Equals(fileName, "/PostDataTest.html", StringComparison.OrdinalIgnoreCase))
             {
-                var resourceHandler = ResourceHandler.FromString("Post Data: " + request.PostData.Elements[0].GetBody());
+                var postDataElement = request.PostData.Elements.FirstOrDefault();
+                var resourceHandler = ResourceHandler.FromString("Post Data: " + (postDataElement == null ? "null" : postDataElement.GetBody()));
                 stream = (MemoryStream)resourceHandler.Stream;
                 mimeType = "text/html";
                 callback.Continue();
