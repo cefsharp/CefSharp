@@ -4,8 +4,14 @@
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Generic callback interface used for asynchronous completion. 
+    /// </summary>
     public interface ICompletionCallback
     {
+        /// <summary>
+        /// Method that will be called once the task is complete. 
+        /// </summary>
         void OnComplete();
     }
 }
