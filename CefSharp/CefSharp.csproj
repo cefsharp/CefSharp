@@ -180,7 +180,7 @@
     <Compile Include="Internals\ScreenInfo.cs" />
     <Compile Include="TransitionType.cs" />
     <Compile Include="LoadingStateChangedEventArgs.cs" />
-    <Compile Include="ICompletionHandler.cs" />
+    <Compile Include="ICompletionCallback.cs" />
     <Compile Include="CefFocusSource.cs" />
     <Compile Include="Internals\BitmapInfo.cs" />
     <Compile Include="Internals\IBrowserProcess.cs" />

@@ -42,7 +42,7 @@ namespace CefSharp
             virtual void SetSupportedSchemes(... array<String^>^ schemes);
             virtual bool VisitAllCookies(ICookieVisitor^ visitor);
             virtual bool VisitUrlCookies(String^ url, bool includeHttpOnly, ICookieVisitor^ visitor);
-            virtual bool FlushStore(ICompletionHandler^ handler);
+            virtual bool FlushStore(ICompletionCallback^ handler);
         };
     }
 }

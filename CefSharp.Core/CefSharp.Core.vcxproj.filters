@@ -35,9 +35,6 @@
     <ClCompile Include="Internals\StringVisitor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Internals\CompletionHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Internals\CefContextMenuParamsWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -125,9 +122,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Internals\StringVisitor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Internals\CompletionHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Internals\CefContextMenuParamsWrapper.h">
@@ -242,6 +236,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Internals\CefWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Internals\CefCompletionCallbackAdapter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

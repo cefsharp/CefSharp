@@ -4,7 +4,7 @@
 
 namespace CefSharp
 {
-    public interface ICompletionHandler
+    public interface ICompletionCallback
     {
         void OnComplete();
     }

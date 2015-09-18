@@ -55,8 +55,8 @@ namespace CefSharp
         bool VisitUrlCookies(string url, bool includeHttpOnly, ICookieVisitor visitor);
 
         /// <summary> Flush the backing store (if any) to disk and execute the specified |handler| on the IO thread when done. Returns </summary>
-        /// <param name="handler">A user-provided ICompletionHandler implementation.</param>
+        /// <param name="handler">A user-provided ICompletionCallback implementation.</param>
         /// <return>Returns false if cookies cannot be accessed.</return>
-        bool FlushStore(ICompletionHandler handler);
+        bool FlushStore(ICompletionCallback handler);
     }
 }
