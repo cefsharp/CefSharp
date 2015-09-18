@@ -1,4 +1,8 @@
-﻿using CefSharp.Example;
+﻿// Copyright © 2010-2015 The CefSharp Authors. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
+using CefSharp.Example;
 using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -11,7 +15,7 @@ namespace CefSharp.WinForms.Example
     {
         public IWinFormsWebBrowser Browser { get; private set; }
 
-        public BrowserTabUserControl(string url)
+        public BrowserTabUserControl(Action<string, int?> openNewTab, string url)
         {
             InitializeComponent();
 
@@ -25,7 +29,7 @@ namespace CefSharp.WinForms.Example
             Browser = browser;
 
             browser.MenuHandler = new MenuHandler();
-            browser.RequestHandler = new RequestHandler();
+            browser.RequestHandler = new WinFormsRequestHandler(openNewTab);
             browser.JsDialogHandler = new JsDialogHandler();
             browser.GeolocationHandler = new GeolocationHandler();
             browser.DownloadHandler = new DownloadHandler();

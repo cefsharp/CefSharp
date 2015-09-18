@@ -35,7 +35,7 @@ namespace CefSharp.WinForms.Example
         {
             browserTabControl.SuspendLayout();
 
-            var browser = new BrowserTabUserControl(url)
+            var browser = new BrowserTabUserControl(AddTab, url)
             {
                 Dock = DockStyle.Fill,
             };
