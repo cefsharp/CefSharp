@@ -4,6 +4,10 @@
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Implement this interface to handle events related to geolocation permission requests.
+    /// The methods of this class will be called on the browser process UI thread. 
+    /// </summary>
     public interface IGeolocationHandler
     {
         /// <summary>

@@ -9,9 +9,26 @@ namespace CefSharp
 {
     public interface IRequest : IDisposable
     {
+        /// <summary>
+        /// Request Url
+        /// </summary>
         string Url { get; set; }
+
+        /// <summary>
+        /// Request Method GET/POST etc
+        /// </summary>
         string Method { get; }
+
+        /// <summary>
+        /// Header Collection
+        /// NOTE: This collection is a copy of the underlying type, to make changes, take a reference to the collection,
+        /// make your changes, then reassign the collection. At some point this will be replaced with a proper wrapper.
+        /// </summary>
         NameValueCollection Headers { get; set; }
+
+        /// <summary>
+        /// Post data
+        /// </summary>
         IPostData PostData { get; }
         
         /// <summary>
