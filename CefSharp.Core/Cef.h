@@ -13,7 +13,7 @@
 #include "Internals/CefSharpApp.h"
 #include "Internals/CookieVisitor.h"
 #include "Internals/CookieManager.h"
-#include "Internals/CompletionHandler.h"
+#include "Internals/CefCompletionCallbackAdapter.h"
 #include "Internals/StringUtils.h"
 #include "Internals/PluginVisitor.h"
 #include "ManagedCefBrowserAdapter.h"
