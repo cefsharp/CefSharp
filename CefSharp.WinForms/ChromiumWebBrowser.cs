@@ -159,6 +159,10 @@ namespace CefSharp.WinForms
                 throw new Exception("Browser is already initialized. RegisterJsObject must be" +
                                     "called before the underlying CEF browser is created.");
             }
+
+            //Enable WCF if not already enabled
+            CefSharpSettings.WcfEnabled = true;
+
             managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, camelCaseJavascriptNames);
         }
 
