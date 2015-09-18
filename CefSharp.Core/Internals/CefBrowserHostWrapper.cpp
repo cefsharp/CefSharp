@@ -20,6 +20,11 @@ void CefBrowserHostWrapper::Print()
     _browserHost->Print();
 }
 
+void CefBrowserHostWrapper::PrintToPDF(String^ path, CefSharpPdfPrintSettings^ settings, IPrintToPdfCallback^ callback)
+{
+    throw gcnew NotImplementedException("PrintToPDF is not implemented.");
+}
+
 void CefBrowserHostWrapper::SetZoomLevel(double zoomLevel)
 {
     ThrowIfDisposed();
