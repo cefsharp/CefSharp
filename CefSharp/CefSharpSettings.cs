@@ -6,13 +6,8 @@ namespace CefSharp
 {
     public static class CefSharpSettings
     {
-        static CefSharpSettings()
-        {
-            WcfEnabled = true;
-        }
-
         /// <summary>
-        /// WCF is used by JavascriptBinding and EvaluateScriptAsync. 
+        /// WCF is used by JavascriptBinding
         /// Disabling effectively disables both of these features.
         /// Defaults to true
         /// </summary>
