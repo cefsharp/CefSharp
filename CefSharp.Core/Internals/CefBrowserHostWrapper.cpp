@@ -21,7 +21,7 @@ void CefBrowserHostWrapper::Print()
     _browserHost->Print();
 }
 
-void CefBrowserHostWrapper::PrintToPDF(String^ path, CefSharpPdfPrintSettings^ settings, IPrintToPdfCallback^ callback)
+Task^ CefBrowserHostWrapper::PrintToPdfAsync(String^ path, CefSharpPdfPrintSettings^ settings)
 {
     CefPdfPrintSettings nativeSettings;
     StringUtils::AssignNativeFromClr(nativeSettings.header_footer_title, settings->HeaderFooterUrl);
@@ -38,7 +38,9 @@ void CefBrowserHostWrapper::PrintToPDF(String^ path, CefSharpPdfPrintSettings^ s
     nativeSettings.page_width = settings->PageWidth;
     nativeSettings.margin_type = static_cast<cef_pdf_print_margin_type_t>(settings->MarginType);
 
-    _browserHost->PrintToPDF(StringUtils::ToNative(path), nativeSettings, new CefPdfPrintCallbackWrapper(callback));
+    auto printToPdfTask = gcnew TaskPrintToPdf();
+    _browserHost->PrintToPDF(StringUtils::ToNative(path), nativeSettings, new CefPdfPrintCallbackWrapper(printToPdfTask));
+    return printToPdfTask->Task;
 }
 
 void CefBrowserHostWrapper::SetZoomLevel(double zoomLevel)

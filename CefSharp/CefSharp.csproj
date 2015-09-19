@@ -181,6 +181,7 @@
     <Compile Include="ResourceHandlerType.cs" />
     <Compile Include="ResponseAction.cs" />
     <Compile Include="Internals\ScreenInfo.cs" />
+    <Compile Include="TaskPrintToPdf.cs" />
     <Compile Include="TransitionType.cs" />
     <Compile Include="LoadingStateChangedEventArgs.cs" />
     <Compile Include="ICompletionCallback.cs" />

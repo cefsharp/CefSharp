@@ -12,13 +12,13 @@ namespace CefSharp
         void StartDownload(string url);
         void Print();
         /// <summary>
-        /// Prints the current browser contents to the PDF file and executes a callback
-        /// on completion. The caller is responsible for deleting the file when done.
+        /// Asynchronously prints the current browser contents to the PDF file specified.
+        /// The caller is responsible for deleting the file when done.
         /// </summary>
         /// <param name="path">PDF file location.</param>
         /// <param name="settings">Settings.</param>
-        /// <param name="callback">The callback executed on completion.</param>
-        void PrintToPDF(string path, CefSharpPdfPrintSettings settings, IPrintToPdfCallback callback);
+        /// <returns>A task that represents the asynchronous print operation. </returns>
+        Task PrintToPdfAsync(string path, CefSharpPdfPrintSettings settings);
         void SetZoomLevel(double zoomLevel);
         Task<double> GetZoomLevelAsync();
         IntPtr GetWindowHandle();

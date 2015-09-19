@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using CefSharp.Example;
@@ -15,14 +16,6 @@ namespace CefSharp.Wpf.Example
 {
     public partial class MainWindow : Window
     {
-        private sealed class PdfCallback : IPrintToPdfCallback
-        {
-            public void OnPdfPrintFinished(string path, bool ok)
-            {
-                MessageBox.Show(ok ? "PDF was saved to " + path : "PDF save failed.");
-            }
-        }
-
         private const string DefaultUrlForAddedTabs = "https://www.google.com";
 
         public ObservableCollection<BrowserTabViewModel> BrowserTabs { get; set; }
@@ -114,7 +107,7 @@ namespace CefSharp.Wpf.Example
 
                 if (dialog.ShowDialog() == true)
                 {
-                    browserViewModel.WebBrowser.GetBrowser().GetHost().PrintToPDF(dialog.FileName, new CefSharpPdfPrintSettings()
+                    var printToPdf = browserViewModel.WebBrowser.PrintToPdfAsync(dialog.FileName, new CefSharpPdfPrintSettings()
                     {
                         HeaderFooterEnabled = true,
                         MarginType = CefPdfPrintMarginType.Custom,
@@ -122,7 +115,9 @@ namespace CefSharp.Wpf.Example
                         MarginTop = 0,
                         MarginLeft = 20,
                         MarginRight = 10,
-                    }, new PdfCallback());
+                    });
+                    printToPdf.ContinueWith(_ => MessageBox.Show("PDF was saved to " + dialog.FileName), TaskContinuationOptions.OnlyOnRanToCompletion);
+                    printToPdf.ContinueWith(t => MessageBox.Show(t.Exception.Message), TaskContinuationOptions.OnlyOnFaulted);
                 }
             }
         }

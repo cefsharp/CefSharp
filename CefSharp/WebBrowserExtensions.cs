@@ -454,19 +454,19 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Prints the current browser contents to the PDF file and executes a callback
-        /// on completion. The caller is responsible for deleting the file when done.
+        /// Asynchronously prints the current browser contents to the PDF file specified.
+        /// The caller is responsible for deleting the file when done.
         /// </summary>
         /// <param name="cefBrowser">The <see cref="IBrowser"/> object this method extends.</param>
         /// <param name="path">PDF file location.</param>
         /// <param name="settings">Settings.</param>
-        /// <param name="callback">The callback executed on completion.</param>
-        public static void PrintToPdf(this IBrowser cefBrowser, string path, CefSharpPdfPrintSettings settings, IPrintToPdfCallback callback)
+        /// <returns>A task that represents the asynchronous print operation. </returns>
+        public static Task PrintToPdfAsync(this IBrowser cefBrowser, string path, CefSharpPdfPrintSettings settings)
         {
             var host = cefBrowser.GetHost();
             ThrowExceptionIfBrowserHostNull(host);
 
-            host.PrintToPDF(path, settings, callback);
+            return host.PrintToPdfAsync(path, settings);
         }
 
         /// <summary>
@@ -482,19 +482,19 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Prints the current browser contents to the PDF file and executes a callback
-        /// on completion. The caller is responsible for deleting the file when done.
+        /// Asynchronously prints the current browser contents to the PDF file specified.
+        /// The caller is responsible for deleting the file when done.
         /// </summary>
         /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         /// <param name="path">PDF file location.</param>
         /// <param name="settings">Settings.</param>
-        /// <param name="callback">The callback executed on completion.</param>
-        public static void PrintToPdf(this IWebBrowser browser, string path, CefSharpPdfPrintSettings settings, IPrintToPdfCallback callback)
+        /// <returns>A task that represents the asynchronous print operation. </returns>
+        public static Task PrintToPdfAsync(this IWebBrowser browser, string path, CefSharpPdfPrintSettings settings)
         {
             var cefBrowser = browser.GetBrowser();
             ThrowExceptionIfBrowserNull(cefBrowser);
 
-            cefBrowser.PrintToPdf(path, settings, callback);
+            return cefBrowser.PrintToPdfAsync(path, settings);
         }
 
         /// <summary>
