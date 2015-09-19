@@ -24,8 +24,8 @@ void CefBrowserHostWrapper::Print()
 void CefBrowserHostWrapper::PrintToPDF(String^ path, CefSharpPdfPrintSettings^ settings, IPrintToPdfCallback^ callback)
 {
     CefPdfPrintSettings nativeSettings;
-    CefString(&nativeSettings.header_footer_title).FromString(StringUtils::ToNative(settings->HeaderFooterTitle));
-    CefString(&nativeSettings.header_footer_url).FromString(StringUtils::ToNative(settings->HeaderFooterUrl));
+    StringUtils::AssignNativeFromClr(nativeSettings.header_footer_title, settings->HeaderFooterUrl);
+    StringUtils::AssignNativeFromClr(nativeSettings.header_footer_url, settings->HeaderFooterTitle);
     nativeSettings.backgrounds_enabled = settings->BackgroundsEnabled ? 1 : 0;
     nativeSettings.header_footer_enabled = settings->HeaderFooterEnabled ? 1 : 0;
     nativeSettings.landscape = settings->Landscape ? 1 : 0;
@@ -36,21 +36,7 @@ void CefBrowserHostWrapper::PrintToPDF(String^ path, CefSharpPdfPrintSettings^ s
     nativeSettings.margin_right = settings->MarginRight;
     nativeSettings.page_height = settings->PageHeight;
     nativeSettings.page_width = settings->PageWidth;
-    switch (settings->MarginType)
-    {
-    case CefPdfPrintMarginType::Default:
-        nativeSettings.margin_type = PDF_PRINT_MARGIN_DEFAULT;
-        break;
-    case CefPdfPrintMarginType::Minimum:
-        nativeSettings.margin_type = PDF_PRINT_MARGIN_MINIMUM;
-        break;
-    case CefPdfPrintMarginType::None:
-        nativeSettings.margin_type = PDF_PRINT_MARGIN_NONE;
-        break;
-    case CefPdfPrintMarginType::Custom:
-        nativeSettings.margin_type = PDF_PRINT_MARGIN_CUSTOM;
-        break;
-    }
+    nativeSettings.margin_type = static_cast<cef_pdf_print_margin_type_t>(settings->MarginType);
 
     _browserHost->PrintToPDF(StringUtils::ToNative(path), nativeSettings, new CefPdfPrintCallbackWrapper(callback));
 }
