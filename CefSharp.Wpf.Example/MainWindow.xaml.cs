@@ -9,11 +9,20 @@ using System.Windows.Input;
 using CefSharp.Example;
 using CefSharp.Wpf.Example.Controls;
 using CefSharp.Wpf.Example.ViewModels;
+using Microsoft.Win32;
 
 namespace CefSharp.Wpf.Example
 {
     public partial class MainWindow : Window
     {
+        private sealed class PdfCallback : IPrintToPdfCallback
+        {
+            public void OnPdfPrintFinished(string path, bool ok)
+            {
+                MessageBox.Show(ok ? "PDF was saved to " + path : "PDF save failed.");
+            }
+        }
+
         private const string DefaultUrlForAddedTabs = "https://www.google.com";
 
         public ObservableCollection<BrowserTabViewModel> BrowserTabs { get; set; }
@@ -30,6 +39,7 @@ namespace CefSharp.Wpf.Example
 
             CommandBindings.Add(new CommandBinding(CefSharpCommands.Exit, Exit));
             CommandBindings.Add(new CommandBinding(CefSharpCommands.OpenTabCommand, OpenTabCommandBinding));
+            CommandBindings.Add(new CommandBinding(CefSharpCommands.PrintTabToPdfCommand, PrintToPdfCommandBinding));
 
             Loaded += MainWindowLoaded;
 
@@ -77,6 +87,44 @@ namespace CefSharp.Wpf.Example
         private void CreateNewTab(string url = DefaultUrlForAddedTabs, bool showSideBar = false)
         {
             BrowserTabs.Add(new BrowserTabViewModel(url) { ShowSidebar = showSideBar });
+        }
+
+        private void PrintToPdfCommandBinding(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (BrowserTabs.Count > 0)
+            {
+                var originalSource = (FrameworkElement)e.OriginalSource;
+
+                BrowserTabViewModel browserViewModel;
+
+                if (originalSource is MainWindow)
+                {
+                    browserViewModel = BrowserTabs[TabControl.SelectedIndex];
+                }
+                else
+                {
+                    browserViewModel = (BrowserTabViewModel)originalSource.DataContext;
+                }
+
+                var dialog = new SaveFileDialog
+                {
+                    DefaultExt = ".pdf",
+                    Filter = "Pdf documents (.pdf)|*.pdf"
+                };
+
+                if (dialog.ShowDialog() == true)
+                {
+                    browserViewModel.WebBrowser.GetBrowser().GetHost().PrintToPDF(dialog.FileName, new CefSharpPdfPrintSettings()
+                    {
+                        HeaderFooterEnabled = true,
+                        MarginType = CefPdfPrintMarginType.Custom,
+                        MarginBottom = 10,
+                        MarginTop = 0,
+                        MarginLeft = 20,
+                        MarginRight = 10,
+                    }, new PdfCallback());
+                }
+            }
         }
 
         private void OpenTabCommandBinding(object sender, ExecutedRoutedEventArgs e)
