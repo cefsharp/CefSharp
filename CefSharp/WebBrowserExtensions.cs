@@ -454,6 +454,22 @@ namespace CefSharp
         }
 
         /// <summary>
+        /// Prints the current browser contents to the PDF file and executes a callback
+        /// on completion. The caller is responsible for deleting the file when done.
+        /// </summary>
+        /// <param name="cefBrowser">The <see cref="IBrowser"/> object this method extends.</param>
+        /// <param name="path">PDF file location.</param>
+        /// <param name="settings">Settings.</param>
+        /// <param name="callback">The callback executed on completion.</param>
+        public static void PrintToPdf(this IBrowser cefBrowser, string path, CefSharpPdfPrintSettings settings, IPrintToPdfCallback callback)
+        {
+            var host = cefBrowser.GetHost();
+            ThrowExceptionIfBrowserHostNull(host);
+
+            host.PrintToPDF(path, settings, callback);
+        }
+
+        /// <summary>
         /// Opens a Print Dialog which if used (can be user cancelled) will print the browser contents.
         /// </summary>
         /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
@@ -463,6 +479,22 @@ namespace CefSharp
             ThrowExceptionIfBrowserNull(cefBrowser);
 
             cefBrowser.Print();
+        }
+
+        /// <summary>
+        /// Prints the current browser contents to the PDF file and executes a callback
+        /// on completion. The caller is responsible for deleting the file when done.
+        /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
+        /// <param name="path">PDF file location.</param>
+        /// <param name="settings">Settings.</param>
+        /// <param name="callback">The callback executed on completion.</param>
+        public static void PrintToPdf(this IWebBrowser browser, string path, CefSharpPdfPrintSettings settings, IPrintToPdfCallback callback)
+        {
+            var cefBrowser = browser.GetBrowser();
+            ThrowExceptionIfBrowserNull(cefBrowser);
+
+            cefBrowser.PrintToPdf(path, settings, callback);
         }
 
         /// <summary>
