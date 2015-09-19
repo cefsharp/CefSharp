@@ -4,6 +4,7 @@
 
 #include "Stdafx.h"
 #include "CefBrowserHostWrapper.h"
+#include "CefPdfPrintCallbackWrapper.h"
 #include "WindowInfo.h"
 
 void CefBrowserHostWrapper::StartDownload(String^ url)
@@ -22,7 +23,36 @@ void CefBrowserHostWrapper::Print()
 
 void CefBrowserHostWrapper::PrintToPDF(String^ path, CefSharpPdfPrintSettings^ settings, IPrintToPdfCallback^ callback)
 {
-    throw gcnew NotImplementedException("PrintToPDF is not implemented.");
+    CefPdfPrintSettings nativeSettings;
+    CefString(&nativeSettings.header_footer_title).FromString(StringUtils::ToNative(settings->HeaderFooterTitle));
+    CefString(&nativeSettings.header_footer_url).FromString(StringUtils::ToNative(settings->HeaderFooterUrl));
+    nativeSettings.backgrounds_enabled = settings->BackgroundsEnabled ? 1 : 0;
+    nativeSettings.header_footer_enabled = settings->HeaderFooterEnabled ? 1 : 0;
+    nativeSettings.landscape = settings->Landscape ? 1 : 0;
+    nativeSettings.selection_only = settings->SelectionOnly ? 1 : 0;
+    nativeSettings.margin_bottom = settings->MarginBottom;
+    nativeSettings.margin_top = settings->MarginTop;
+    nativeSettings.margin_left= settings->MarginLeft;
+    nativeSettings.margin_right = settings->MarginRight;
+    nativeSettings.page_height = settings->PageHeight;
+    nativeSettings.page_width = settings->PageWidth;
+    switch (settings->MarginType)
+    {
+    case CefPdfPrintMarginType::Default:
+        nativeSettings.margin_type = PDF_PRINT_MARGIN_DEFAULT;
+        break;
+    case CefPdfPrintMarginType::Minimum:
+        nativeSettings.margin_type = PDF_PRINT_MARGIN_MINIMUM;
+        break;
+    case CefPdfPrintMarginType::None:
+        nativeSettings.margin_type = PDF_PRINT_MARGIN_NONE;
+        break;
+    case CefPdfPrintMarginType::Custom:
+        nativeSettings.margin_type = PDF_PRINT_MARGIN_CUSTOM;
+        break;
+    }
+
+    _browserHost->PrintToPDF(StringUtils::ToNative(path), nativeSettings, new CefPdfPrintCallbackWrapper(callback));
 }
 
 void CefBrowserHostWrapper::SetZoomLevel(double zoomLevel)
