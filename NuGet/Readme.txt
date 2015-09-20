@@ -4,6 +4,9 @@ Background:
   CefSharp is a .Net wrapping library for CEF (Chromium Embedded Framework) https://bitbucket.org/chromiumembedded/cef
   CEF is a C/C++ library that allows developers to embed the HTML content rendering strengths of Google's Chrome open source WebKit engine (Chromium).
 
+Upgrading:
+  For help with upgrading to `43.0.x` from a previous version please see https://github.com/cefsharp/CefSharp/wiki/CefSharp-43
+
 Post Installation:
   - Make sure you set either `x86` or x64`. (Won't work with `AnyCpu`)
   - After installing the `Nuget` package we recommend closing Visual Studio completely and then reopening (This ensures your references show up and you have full intellisense).
