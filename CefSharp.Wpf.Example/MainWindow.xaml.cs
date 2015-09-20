@@ -4,11 +4,13 @@
 
 using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using CefSharp.Example;
 using CefSharp.Wpf.Example.Controls;
 using CefSharp.Wpf.Example.ViewModels;
+using Microsoft.Win32;
 
 namespace CefSharp.Wpf.Example
 {
@@ -30,6 +32,7 @@ namespace CefSharp.Wpf.Example
 
             CommandBindings.Add(new CommandBinding(CefSharpCommands.Exit, Exit));
             CommandBindings.Add(new CommandBinding(CefSharpCommands.OpenTabCommand, OpenTabCommandBinding));
+            CommandBindings.Add(new CommandBinding(CefSharpCommands.PrintTabToPdfCommand, PrintToPdfCommandBinding));
 
             Loaded += MainWindowLoaded;
 
@@ -77,6 +80,55 @@ namespace CefSharp.Wpf.Example
         private void CreateNewTab(string url = DefaultUrlForAddedTabs, bool showSideBar = false)
         {
             BrowserTabs.Add(new BrowserTabViewModel(url) { ShowSidebar = showSideBar });
+        }
+
+        private void PrintToPdfCommandBinding(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (BrowserTabs.Count > 0)
+            {
+                var originalSource = (FrameworkElement)e.OriginalSource;
+
+                BrowserTabViewModel browserViewModel;
+
+                if (originalSource is MainWindow)
+                {
+                    browserViewModel = BrowserTabs[TabControl.SelectedIndex];
+                }
+                else
+                {
+                    browserViewModel = (BrowserTabViewModel)originalSource.DataContext;
+                }
+
+                var dialog = new SaveFileDialog
+                {
+                    DefaultExt = ".pdf",
+                    Filter = "Pdf documents (.pdf)|*.pdf"
+                };
+
+                if (dialog.ShowDialog() == true)
+                {
+                    var printToPdf = browserViewModel.WebBrowser.PrintToPdfAsync(dialog.FileName, new CefSharpPdfPrintSettings()
+                    {
+                        HeaderFooterEnabled = true,
+                        MarginType = CefPdfPrintMarginType.Custom,
+                        MarginBottom = 10,
+                        MarginTop = 0,
+                        MarginLeft = 20,
+                        MarginRight = 10,
+                    });
+                    printToPdf.ContinueWith(t =>
+                    {
+                        if (t.Result)
+                        {
+                            MessageBox.Show("PDF was saved to " + dialog.FileName);
+                        }
+                        else
+                        {
+                            MessageBox.Show("PrintToPdf failed.");
+                        }
+                    });
+                }
+            }
         }
 
         private void OpenTabCommandBinding(object sender, ExecutedRoutedEventArgs e)
