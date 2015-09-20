@@ -421,5 +421,15 @@ namespace CefSharp
         {
             CefForceWebPluginShutdown(StringUtils::ToNative(path));
         }
+
+        /// <summary>
+        /// Call during process startup to enable High-DPI support on Windows 7 or newer.
+        /// Older versions of Windows should be left DPI-unaware because they do not
+        /// support DirectWrite and GDI fonts are kerned very badly.
+        /// </summary>
+        static void EnableHighDPISupport()
+        {
+            CefEnableHighDPISupport();
+        }
     };
 }
