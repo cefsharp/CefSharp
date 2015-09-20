@@ -458,10 +458,11 @@ namespace CefSharp
         /// The caller is responsible for deleting the file when done.
         /// </summary>
         /// <param name="cefBrowser">The <see cref="IBrowser"/> object this method extends.</param>
-        /// <param name="path">PDF file location.</param>
-        /// <param name="settings">Settings.</param>
-        /// <returns>A task that represents the asynchronous print operation. </returns>
-        public static Task PrintToPdfAsync(this IBrowser cefBrowser, string path, CefSharpPdfPrintSettings settings)
+        /// <param name="path">Output file location.</param>
+        /// <param name="settings">Print Settings.</param>
+        /// <returns>A task that represents the asynchronous print operation.
+        /// The result is true on success or false on failure to generate the Pdf.</returns>
+        public static Task<bool> PrintToPdfAsync(this IBrowser cefBrowser, string path, PdfPrintSettings settings = null)
         {
             var host = cefBrowser.GetHost();
             ThrowExceptionIfBrowserHostNull(host);
@@ -486,10 +487,11 @@ namespace CefSharp
         /// The caller is responsible for deleting the file when done.
         /// </summary>
         /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
-        /// <param name="path">PDF file location.</param>
-        /// <param name="settings">Settings.</param>
-        /// <returns>A task that represents the asynchronous print operation. </returns>
-        public static Task PrintToPdfAsync(this IWebBrowser browser, string path, CefSharpPdfPrintSettings settings)
+        /// <param name="path">Output file location.</param>
+        /// <param name="settings">Print Settings.</param>
+        /// <returns>A task that represents the asynchronous print operation.
+        /// The result is true on success or false on failure to generate the Pdf.</returns>
+        public static Task<bool> PrintToPdfAsync(this IWebBrowser browser, string path, PdfPrintSettings settings = null)
         {
             var cefBrowser = browser.GetBrowser();
             ThrowExceptionIfBrowserNull(cefBrowser);

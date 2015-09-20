@@ -2,7 +2,6 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using System;
 using System.Threading.Tasks;
 
 namespace CefSharp
@@ -11,21 +10,14 @@ namespace CefSharp
     {
         private readonly TaskCompletionSource<bool> taskCompletionSource = new TaskCompletionSource<bool>();
 
-        public Task Task
+        public Task<bool> Task
         {
             get { return taskCompletionSource.Task; }    
         }
 
         public void OnPdfPrintFinished(string path, bool ok)
         {
-            if (ok)
-            {
-                taskCompletionSource.TrySetResult(true);
-            }
-            else
-            {
-                taskCompletionSource.TrySetException(new Exception("PrintToPDF failed."));
-            }
+            taskCompletionSource.TrySetResult(ok);
         }
     }
 }

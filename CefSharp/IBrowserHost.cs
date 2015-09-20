@@ -11,14 +11,17 @@ namespace CefSharp
     {
         void StartDownload(string url);
         void Print();
+
         /// <summary>
-        /// Asynchronously prints the current browser contents to the PDF file specified.
+        /// Asynchronously prints the current browser contents to the Pdf file specified.
         /// The caller is responsible for deleting the file when done.
         /// </summary>
-        /// <param name="path">PDF file location.</param>
-        /// <param name="settings">Settings.</param>
-        /// <returns>A task that represents the asynchronous print operation. </returns>
-        Task PrintToPdfAsync(string path, CefSharpPdfPrintSettings settings);
+        /// <param name="path">Output file location.</param>
+        /// <param name="settings">Print Settings.</param>
+        /// <returns>A task that represents the asynchronous print operation.
+        /// The result is true on success or false on failure to generate the Pdf.</returns>
+        Task<bool> PrintToPdfAsync(string path, PdfPrintSettings settings = null);
+
         void SetZoomLevel(double zoomLevel);
         Task<double> GetZoomLevelAsync();
         IntPtr GetWindowHandle();

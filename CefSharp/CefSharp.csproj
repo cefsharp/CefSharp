@@ -94,7 +94,7 @@
     <Compile Include="CefJsDialogType.cs" />
     <Compile Include="CefMenuCommand.cs" />
     <Compile Include="CefPdfPrintMarginType.cs" />
-    <Compile Include="CefSharpPdfPrintSettings.cs" />
+    <Compile Include="PdfPrintSettings.cs" />
     <Compile Include="ICookieManager.cs" />
     <Compile Include="ILoadHandler.cs" />
     <Compile Include="IMenuModel.cs" />

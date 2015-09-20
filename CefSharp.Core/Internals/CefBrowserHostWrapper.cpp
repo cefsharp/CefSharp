@@ -21,22 +21,25 @@ void CefBrowserHostWrapper::Print()
     _browserHost->Print();
 }
 
-Task^ CefBrowserHostWrapper::PrintToPdfAsync(String^ path, CefSharpPdfPrintSettings^ settings)
+Task<bool>^ CefBrowserHostWrapper::PrintToPdfAsync(String^ path, PdfPrintSettings^ settings)
 {
     CefPdfPrintSettings nativeSettings;
-    StringUtils::AssignNativeFromClr(nativeSettings.header_footer_title, settings->HeaderFooterUrl);
-    StringUtils::AssignNativeFromClr(nativeSettings.header_footer_url, settings->HeaderFooterTitle);
-    nativeSettings.backgrounds_enabled = settings->BackgroundsEnabled ? 1 : 0;
-    nativeSettings.header_footer_enabled = settings->HeaderFooterEnabled ? 1 : 0;
-    nativeSettings.landscape = settings->Landscape ? 1 : 0;
-    nativeSettings.selection_only = settings->SelectionOnly ? 1 : 0;
-    nativeSettings.margin_bottom = settings->MarginBottom;
-    nativeSettings.margin_top = settings->MarginTop;
-    nativeSettings.margin_left= settings->MarginLeft;
-    nativeSettings.margin_right = settings->MarginRight;
-    nativeSettings.page_height = settings->PageHeight;
-    nativeSettings.page_width = settings->PageWidth;
-    nativeSettings.margin_type = static_cast<cef_pdf_print_margin_type_t>(settings->MarginType);
+    if (settings != nullptr)
+    {
+        StringUtils::AssignNativeFromClr(nativeSettings.header_footer_title, settings->HeaderFooterTitle);
+        StringUtils::AssignNativeFromClr(nativeSettings.header_footer_url, settings->HeaderFooterUrl);
+        nativeSettings.backgrounds_enabled = settings->BackgroundsEnabled ? 1 : 0;
+        nativeSettings.header_footer_enabled = settings->HeaderFooterEnabled ? 1 : 0;
+        nativeSettings.landscape = settings->Landscape ? 1 : 0;
+        nativeSettings.selection_only = settings->SelectionOnly ? 1 : 0;
+        nativeSettings.margin_bottom = settings->MarginBottom;
+        nativeSettings.margin_top = settings->MarginTop;
+        nativeSettings.margin_left = settings->MarginLeft;
+        nativeSettings.margin_right = settings->MarginRight;
+        nativeSettings.page_height = settings->PageHeight;
+        nativeSettings.page_width = settings->PageWidth;
+        nativeSettings.margin_type = static_cast<cef_pdf_print_margin_type_t>(settings->MarginType);
+    }
 
     auto printToPdfTask = gcnew TaskPrintToPdf();
     _browserHost->PrintToPDF(StringUtils::ToNative(path), nativeSettings, new CefPdfPrintCallbackWrapper(printToPdfTask));

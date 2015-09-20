@@ -82,7 +82,7 @@ namespace CefSharp.Wpf.Example
             BrowserTabs.Add(new BrowserTabViewModel(url) { ShowSidebar = showSideBar });
         }
 
-        private void PrintToPdfCommandBinding(object sender, ExecutedRoutedEventArgs e)
+        private async void PrintToPdfCommandBinding(object sender, ExecutedRoutedEventArgs e)
         {
             if (BrowserTabs.Count > 0)
             {
@@ -107,17 +107,24 @@ namespace CefSharp.Wpf.Example
 
                 if (dialog.ShowDialog() == true)
                 {
-                    var printToPdf = browserViewModel.WebBrowser.PrintToPdfAsync(dialog.FileName, new CefSharpPdfPrintSettings()
+                    var success = await browserViewModel.WebBrowser.PrintToPdfAsync(dialog.FileName, new PdfPrintSettings
                     {
-                        HeaderFooterEnabled = true,
                         MarginType = CefPdfPrintMarginType.Custom,
                         MarginBottom = 10,
                         MarginTop = 0,
                         MarginLeft = 20,
                         MarginRight = 10,
                     });
-                    printToPdf.ContinueWith(_ => MessageBox.Show("PDF was saved to " + dialog.FileName), TaskContinuationOptions.OnlyOnRanToCompletion);
-                    printToPdf.ContinueWith(t => MessageBox.Show(t.Exception.Message), TaskContinuationOptions.OnlyOnFaulted);
+
+                    if(success)
+                    {
+                        MessageBox.Show("Pdf was saved to " + dialog.FileName);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Unable to save Pdf, check you have write permissions to " + dialog.FileName);
+                    }
+                    
                 }
             }
         }
