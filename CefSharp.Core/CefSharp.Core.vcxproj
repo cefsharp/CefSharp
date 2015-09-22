@@ -248,6 +248,7 @@
   <ItemGroup>
     <ClInclude Include="BrowserSettings.h" />
     <ClInclude Include="Cef.h" />
+    <ClInclude Include="Internals\CefGetGeolocationCallbackWrapper.h" />
     <ClInclude Include="Internals\CefAuthCallbackWrapper.h" />
     <ClInclude Include="Internals\CefBeforeDownloadCallbackWrapper.h" />
     <ClInclude Include="Internals\CefBrowserHostWrapper.h" />
@@ -259,6 +260,7 @@
     <ClInclude Include="Internals\CefFrameWrapper.h" />
     <ClInclude Include="Internals\CefGeolocationCallbackWrapper.h" />
     <ClInclude Include="Internals\CefMenuModelWrapper.h" />
+    <ClInclude Include="Internals\CefPdfPrintCallbackWrapper.h" />
     <ClInclude Include="Internals\CefPostDataElementWrapper.h" />
     <ClInclude Include="Internals\CefPostDataWrapper.h" />
     <ClInclude Include="Internals\CefResponseWrapper.h" />

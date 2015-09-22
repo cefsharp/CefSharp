@@ -22,6 +22,7 @@
 #include "SchemeHandlerFactoryWrapper.h"
 #include "Internals/CefTaskScheduler.h"
 #include "CookieAsyncWrapper.h"
+#include "Internals/CefGetGeolocationCallbackWrapper.h"
 
 using namespace System::Collections::Generic; 
 using namespace System::Linq;
@@ -430,6 +431,21 @@ namespace CefSharp
         static void EnableHighDPISupport()
         {
             CefEnableHighDPISupport();
+        }
+
+        /// <summary>
+        /// Request a one-time geolocation update.
+        /// This function bypasses any user permission checks so should only be
+        /// used by code that is allowed to access location information. 
+        /// </summary>
+        /// <return>Returns 'best available' location info or, if the location update failed, with error info.</return>
+        static Task<Geoposition^>^ GetGeolocationAsync()
+        {
+            auto callback = new CefGetGeolocationCallbackWrapper();
+            
+            CefGetGeolocation(callback);
+
+            return callback->GetTask();
         }
     };
 }
