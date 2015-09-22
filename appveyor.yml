@@ -1,5 +1,5 @@
 environment:
-  VisualStudioVersion: 11.0
+  VisualStudioVersion: 12.0
 
 version: 45.0.0-CI{build}
   
