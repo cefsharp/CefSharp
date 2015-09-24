@@ -21,11 +21,6 @@ namespace CefSharp.Internals
             get { return parameters; }
         }
 
-        public MethodInvocation(long objectId, string methodName)
-            :this(objectId, methodName, null)
-        {
-        }
-
         public MethodInvocation(long objectId, string methodName, long? callbackId)
         {
             CallbackId = callbackId;
