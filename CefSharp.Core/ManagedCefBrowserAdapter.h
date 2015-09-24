@@ -142,6 +142,8 @@ namespace CefSharp
         /// <returns>Gets the current instance or null</returns>
         virtual IBrowser^ GetBrowser();
 
+        virtual IBrowser^ GetBrowser(int browserId);
+
         virtual property IJavascriptCallbackFactory^ JavascriptCallbackFactory
         {
             CefSharp::Internals::IJavascriptCallbackFactory^ get();

@@ -19,17 +19,17 @@ namespace CefSharp
         {
             DisposedGuard();
 
-            //TODO: When callback executed in the context of a popup then need to obtain a reference to the correct browser
-            // getting a reference to the main browser like this will execute the result in the incorrect context
             auto browser = GetBrowser();
             if (browser == nullptr)
             {
                 throw gcnew InvalidOperationException("Browser instance is null.");
             }
 
+            auto browserWrapper = static_cast<CefSharpBrowserWrapper^>(browser);
+
             auto doneCallback = _pendingTasks->CreatePendingTask(Nullable<TimeSpan>());
             auto callbackMessage = CreateCallMessage(doneCallback.Key, parameters);
-            browser->SendProcessMessage(CefProcessId::PID_RENDERER, callbackMessage);
+            browserWrapper->SendProcessMessage(CefProcessId::PID_RENDERER, callbackMessage);
 
             return doneCallback.Value->Task;
         }
@@ -58,12 +58,13 @@ namespace CefSharp
             return result;
         }
 
-        CefSharpBrowserWrapper^ JavascriptCallbackProxy::GetBrowser()
+        IBrowser^ JavascriptCallbackProxy::GetBrowser()
         {
-            CefSharpBrowserWrapper^ result = nullptr;
-            if (_browserWrapper->IsAlive)
+            IBrowser^ result = nullptr;
+            if (_browserAdapter->IsAlive)
             {
-                result = static_cast<CefSharpBrowserWrapper^>(_browserWrapper->Target);
+                auto browserAdapter = static_cast<ManagedCefBrowserAdapter^>(_browserAdapter->Target);
+                result = browserAdapter->GetBrowser(_callback->BrowserId);
             }
             return result;
         }

@@ -48,7 +48,6 @@ namespace CefSharp
                 throw gcnew ApplicationException(String::Format("{0} couldn't find IBrowser entry! Please contact CefSharp development.", context));
             }
 
-            CefRefPtr<CefBrowser> GetBrowserWrapper(int browserId);
             IBrowser^ GetBrowserWrapper(int browserId, bool isPopup);
 
         public:
@@ -81,6 +80,7 @@ namespace CefSharp
             PendingTaskRepository<JavascriptResponse^>^ GetPendingTaskRepository();
             void CloseAllPopups(bool forceClose);
             void MethodInvocationComplete(MethodInvocationResult^ result);
+            IBrowser^ GetBrowserWrapper(int browserId);
 
             // CefClient
             virtual DECL CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() OVERRIDE { return this; }
