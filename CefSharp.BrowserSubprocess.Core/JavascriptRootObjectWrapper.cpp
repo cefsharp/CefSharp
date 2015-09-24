@@ -19,8 +19,8 @@ namespace CefSharp
             auto memberObjects = _rootObject->MemberObjects;
             for each (JavascriptObject^ obj in Enumerable::OfType<JavascriptObject^>(memberObjects))
             {
-                auto wrapperObject = gcnew JavascriptObjectWrapper(obj, _browserProcess);
-                wrapperObject->Bind(v8Value, _callbackRegistry);
+                auto wrapperObject = gcnew JavascriptObjectWrapper(_browserProcess);
+                wrapperObject->Bind(obj, v8Value, _callbackRegistry);
 
                 _wrappedObjects->Add(wrapperObject);
             }
@@ -33,8 +33,8 @@ namespace CefSharp
             auto promiseCreator = v8Value->GetValue(CefAppUnmanagedWrapper::kPromiseCreatorFunction);
             for each (JavascriptObject^ obj in Enumerable::OfType<JavascriptObject^>(memberObjects))
             {
-                auto wrapperObject = gcnew JavascriptAsyncObjectWrapper(obj, _callbackRegistry, saveMethod);
-                wrapperObject->Bind(v8Value, promiseCreator);
+                auto wrapperObject = gcnew JavascriptAsyncObjectWrapper(_callbackRegistry, saveMethod);
+                wrapperObject->Bind(obj, v8Value, promiseCreator);
 
                 _wrappedAsyncObjects->Add(wrapperObject);
             }
