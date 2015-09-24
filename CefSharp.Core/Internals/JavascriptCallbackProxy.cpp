@@ -19,6 +19,8 @@ namespace CefSharp
         {
             DisposedGuard();
 
+            //TODO: When callback executed in the context of a popup then need to obtain a reference to the correct browser
+            // getting a reference to the main browser like this will execute the result in the incorrect context
             auto browser = GetBrowser();
             if (browser == nullptr)
             {
