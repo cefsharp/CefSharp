@@ -17,14 +17,13 @@ namespace CefSharp
     {
     private:
         MCefRefPtr<JavascriptMethodHandler> _javascriptMethodHandler;
-        JavascriptMethod^ _javascriptMethod;
         int64 _ownerId;
+        String^ _javascriptMethodName;
         IBrowserProcess^ _browserProcess;
 
     public:
-        JavascriptMethodWrapper(JavascriptMethod^ javascriptMethod, int64 ownerId, IBrowserProcess^ browserProcess, JavascriptCallbackRegistry^ callbackRegistry)
+        JavascriptMethodWrapper(int64 ownerId, IBrowserProcess^ browserProcess, JavascriptCallbackRegistry^ callbackRegistry)
         {
-            _javascriptMethod = javascriptMethod;
             _ownerId = ownerId;
             _browserProcess = browserProcess;
             _javascriptMethodHandler = new JavascriptMethodHandler(gcnew Func<array<Object^>^, BrowserProcessResponse^>(this, &JavascriptMethodWrapper::Execute), callbackRegistry);
@@ -39,11 +38,10 @@ namespace CefSharp
         {
             this->!JavascriptMethodWrapper();
 
-            _javascriptMethod = nullptr;
             _browserProcess = nullptr;
         }
 
-        void Bind(const CefRefPtr<CefV8Value>& v8Value);
+        void Bind(JavascriptMethod^ javascriptMethod, const CefRefPtr<CefV8Value>& v8Value);
         BrowserProcessResponse^ Execute(array<Object^>^ parameters);
     };
 }

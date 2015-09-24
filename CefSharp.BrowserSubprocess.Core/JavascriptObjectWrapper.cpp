@@ -29,16 +29,16 @@ namespace CefSharp
 
         for each (JavascriptMethod^ method in Enumerable::OfType<JavascriptMethod^>(object->Methods))
         {
-            auto wrappedMethod = gcnew JavascriptMethodWrapper(method, object->Id, _browserProcess, callbackRegistry);
-            wrappedMethod->Bind(javascriptObject);
+            auto wrappedMethod = gcnew JavascriptMethodWrapper(object->Id, _browserProcess, callbackRegistry);
+            wrappedMethod->Bind(method, javascriptObject);
 
             _wrappedMethods->Add(wrappedMethod);
         }
 
         for each (JavascriptProperty^ prop in Enumerable::OfType<JavascriptProperty^>(object->Properties))
         {
-            auto wrappedproperty = gcnew JavascriptPropertyWrapper(prop, object->Id, _browserProcess);
-            wrappedproperty->Bind(javascriptObject, callbackRegistry);
+            auto wrappedproperty = gcnew JavascriptPropertyWrapper(object->Id, _browserProcess);
+            wrappedproperty->Bind(prop, javascriptObject, callbackRegistry);
 
             _wrappedProperties->Add(wrappedproperty);
         }
