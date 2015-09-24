@@ -63,10 +63,10 @@ namespace CefSharp
     {
         auto wrapper = FindBrowserWrapper(browser->GetIdentifier(), true);
 
-        if (wrapper->JavascriptRootObject != nullptr || wrapper->JavascriptAsyncRootObject != nullptr)
+        if (!Object::ReferenceEquals(_javascriptRootObject, nullptr) || !Object::ReferenceEquals(_javascriptAsyncRootObject, nullptr))
         {
-            wrapper->JavascriptRootObjectWrapper = gcnew JavascriptRootObjectWrapper(browser->GetIdentifier(), wrapper->JavascriptRootObject, wrapper->JavascriptAsyncRootObject, wrapper->BrowserProcess);
-            wrapper->JavascriptRootObjectWrapper->Bind(context->GetGlobal());
+            wrapper->JavascriptRootObjectWrapper = gcnew JavascriptRootObjectWrapper(browser->GetIdentifier(), wrapper->BrowserProcess);
+            wrapper->JavascriptRootObjectWrapper->Bind(_javascriptRootObject, _javascriptAsyncRootObject, context->GetGlobal());
         }
     };
 
@@ -273,8 +273,8 @@ namespace CefSharp
         }
         else if (name == kJavascriptRootObjectRequest)
         {
-            browserWrapper->JavascriptAsyncRootObject = DeserializeJsRootObject(argList, 0);
-            browserWrapper->JavascriptRootObject = DeserializeJsRootObject(argList, 1);
+            _javascriptAsyncRootObject = DeserializeJsRootObject(argList, 0);
+            _javascriptRootObject = DeserializeJsRootObject(argList, 1);
             handled = true;
         }
         else if (name == kJavascriptAsyncMethodCallResponse && rootObjectWrapper != nullptr)
