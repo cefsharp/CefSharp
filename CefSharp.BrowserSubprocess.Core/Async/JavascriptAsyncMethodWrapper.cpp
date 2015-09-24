@@ -12,9 +12,9 @@ namespace CefSharp
     {
         namespace Async
         {
-            void JavascriptAsyncMethodWrapper::Bind(const CefRefPtr<CefV8Value>& value)
+            void JavascriptAsyncMethodWrapper::Bind(JavascriptMethod^ method, const CefRefPtr<CefV8Value>& value)
             {
-                auto methodName = StringUtils::ToNative(_method->JavascriptName);
+                auto methodName = StringUtils::ToNative(method->JavascriptName);
                 auto v8Function = CefV8Value::CreateFunction(methodName, _javascriptMethodHandler.get());
 
                 value->SetValue(methodName, v8Function, V8_PROPERTY_ATTRIBUTE_NONE);

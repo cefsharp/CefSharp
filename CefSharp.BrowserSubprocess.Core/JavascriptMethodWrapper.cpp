@@ -11,9 +11,10 @@ using namespace System;
 
 namespace CefSharp
 {
-    void JavascriptMethodWrapper::Bind(const CefRefPtr<CefV8Value>& v8Value)
+    void JavascriptMethodWrapper::Bind(JavascriptMethod^ javascriptMethod, const CefRefPtr<CefV8Value>& v8Value)
     {
-        auto methodName = StringUtils::ToNative(_javascriptMethod->JavascriptName);
+        _javascriptMethodName = javascriptMethod->JavascriptName;
+        auto methodName = StringUtils::ToNative(javascriptMethod->JavascriptName);
         auto v8Function = CefV8Value::CreateFunction(methodName, _javascriptMethodHandler.get());
 
         v8Value->SetValue(methodName, v8Function, V8_PROPERTY_ATTRIBUTE_NONE);
@@ -21,6 +22,6 @@ namespace CefSharp
 
     BrowserProcessResponse^ JavascriptMethodWrapper::Execute(array<Object^>^ parameters)
     {
-        return _browserProcess->CallMethod(_ownerId, _javascriptMethod->JavascriptName, parameters);
+        return _browserProcess->CallMethod(_ownerId, _javascriptMethodName, parameters);
     }
 }
