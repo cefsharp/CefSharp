@@ -540,7 +540,7 @@ namespace CefSharp
 
         void ClientAdapter::OnRenderViewReady(CefRefPtr<CefBrowser> browser)
         {
-            if (!Object::ReferenceEquals(_browserAdapter, nullptr))
+            if (!Object::ReferenceEquals(_browserAdapter, nullptr) && !browser->IsPopup())
             {
                 auto objectRepository = _browserAdapter->JavascriptObjectRepository;
 
@@ -968,21 +968,17 @@ namespace CefSharp
             }
             else if (name == kJavascriptAsyncMethodCallRequest)
             {
-                if (!browser->IsPopup())
+                auto objectId = GetInt64(argList, 0);
+                auto callbackId = GetInt64(argList, 1);
+                auto methodName = StringUtils::ToClr(argList->GetString(2));
+                auto arguments = argList->GetList(3);
+                auto methodInvocation = gcnew MethodInvocation(objectId, methodName, (callbackId > 0 ? Nullable<int64>(callbackId) : Nullable<int64>()));
+                for (auto i = 0; i < static_cast<int>(arguments->GetSize()); i++)
                 {
-                    auto objectId = GetInt64(argList, 0);
-                    auto callbackId = GetInt64(argList, 1);
-                    auto methodName = StringUtils::ToClr(argList->GetString(2));
-                    auto arguments = argList->GetList(3);
-                    auto methodInvocation = gcnew MethodInvocation(objectId, methodName, (callbackId > 0 ? Nullable<int64>(callbackId) : Nullable<int64>()));
-                    for (auto i = 0; i < static_cast<int>(arguments->GetSize()); i++)
-                    {
-                        methodInvocation->Parameters->Add(DeserializeObject(arguments, i, callbackFactory));
-                    }
-                    
-                    _browserAdapter->MethodRunnerQueue->Enqueue(methodInvocation);
+                    methodInvocation->Parameters->Add(DeserializeObject(arguments, i, callbackFactory));
                 }
 
+                _browserAdapter->MethodRunnerQueue->Enqueue(methodInvocation);
 
                 handled = true;
             }
