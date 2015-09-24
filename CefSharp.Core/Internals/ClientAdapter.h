@@ -48,6 +48,7 @@ namespace CefSharp
                 throw gcnew ApplicationException(String::Format("{0} couldn't find IBrowser entry! Please contact CefSharp development.", context));
             }
 
+            CefRefPtr<CefBrowser> GetBrowserWrapper(int browserId);
             IBrowser^ GetBrowserWrapper(int browserId, bool isPopup);
 
         public:
