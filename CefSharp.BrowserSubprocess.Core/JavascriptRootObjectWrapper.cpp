@@ -12,11 +12,11 @@ using namespace System::Threading;
 
 namespace CefSharp
 {
-    void JavascriptRootObjectWrapper::Bind(const CefRefPtr<CefV8Value>& v8Value)
+    void JavascriptRootObjectWrapper::Bind(JavascriptRootObject^ rootObject, JavascriptRootObject^ asyncRootObject, const CefRefPtr<CefV8Value>& v8Value)
     {
-        if (_rootObject != nullptr)
+        if (rootObject != nullptr)
         {
-            auto memberObjects = _rootObject->MemberObjects;
+            auto memberObjects = rootObject->MemberObjects;
             for each (JavascriptObject^ obj in Enumerable::OfType<JavascriptObject^>(memberObjects))
             {
                 auto wrapperObject = gcnew JavascriptObjectWrapper(_browserProcess);
@@ -26,9 +26,9 @@ namespace CefSharp
             }
         }
 
-        if (_asyncRootObject != nullptr)
+        if (asyncRootObject != nullptr)
         {
-            auto memberObjects = _asyncRootObject->MemberObjects;
+            auto memberObjects = asyncRootObject->MemberObjects;
             auto saveMethod = gcnew Func<JavascriptAsyncMethodCallback^, int64>(this, &JavascriptRootObjectWrapper::SaveMethodCallback);
             auto promiseCreator = v8Value->GetValue(CefAppUnmanagedWrapper::kPromiseCreatorFunction);
             for each (JavascriptObject^ obj in Enumerable::OfType<JavascriptObject^>(memberObjects))
