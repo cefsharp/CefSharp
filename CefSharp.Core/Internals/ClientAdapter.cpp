@@ -33,22 +33,20 @@ namespace CefSharp
 {
     namespace Internals
     {
-        CefRefPtr<CefBrowser> ClientAdapter::GetBrowserWrapper(int browserId)
+        IBrowser^ ClientAdapter::GetBrowserWrapper(int browserId)
         {
             if (_cefBrowser->GetIdentifier() == browserId)
             {
-                return _cefBrowser;
+                return _browserAdapter->GetBrowser();
             }
 
             IBrowser^ browserWrapper;
             if (_popupBrowsers->TryGetValue(browserId, browserWrapper))
             {
-                auto wrapper = static_cast<CefSharpBrowserWrapper^>(browserWrapper);
-
-                return wrapper->Browser.get();
+                return browserWrapper;
             }
 
-            return NULL;
+            return nullptr;
         }
 
         IBrowser^ ClientAdapter::GetBrowserWrapper(int browserId, bool isPopup)
@@ -1034,9 +1032,11 @@ namespace CefSharp
 
                 auto browser = GetBrowserWrapper(result->BrowserId);
 
-                if (browser.get())
+                if (browser != nullptr)
                 {
-                    browser->SendProcessMessage(CefProcessId::PID_RENDERER, message);
+                    auto wrapper = static_cast<CefSharpBrowserWrapper^>(browser);
+
+                    wrapper->Browser->SendProcessMessage(CefProcessId::PID_RENDERER, message);
                 }
             }
         }
