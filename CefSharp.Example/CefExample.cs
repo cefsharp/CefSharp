@@ -121,7 +121,7 @@ namespace CefSharp.Example
             {
                 var cookieManager = Cef.GetGlobalCookieManager();
                 cookieManager.SetStoragePath("cookies", true);
-                cookieManager.SetSupportedSchemes("custom", "chrome-devtools");
+                cookieManager.SetSupportedSchemes("custom", "chrome-devtools", "http", "https");
             };
 
             if (!Cef.Initialize(settings, shutdownOnProcessExit: true, performDependencyCheck: !DebuggingSubProcess))
