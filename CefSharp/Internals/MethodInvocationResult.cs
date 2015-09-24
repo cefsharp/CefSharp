@@ -6,6 +6,8 @@ namespace CefSharp.Internals
 {
     public sealed class MethodInvocationResult
     {
+        public int BrowserId { get; set; }
+
         public long? CallbackId { get; set; }
 
         public string Message { get; set; }
