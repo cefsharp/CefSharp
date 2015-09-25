@@ -68,15 +68,18 @@ namespace CefSharp.Example
                     {
                         using (var postData = request.PostData)
                         {
-                            var elements = postData.Elements;
+                            if(postData != null)
+                            { 
+                                var elements = postData.Elements;
 
-                            var charSet = request.GetCharSet();
+                                var charSet = request.GetCharSet();
 
-                            foreach (var element in elements)
-                            {
-                                if (element.Type == PostDataElementType.Bytes)
+                                foreach (var element in elements)
                                 {
-                                    var body = element.GetBody(charSet);
+                                    if (element.Type == PostDataElementType.Bytes)
+                                    {
+                                        var body = element.GetBody(charSet);
+                                    }
                                 }
                             }
                         }
