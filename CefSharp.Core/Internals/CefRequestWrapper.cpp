@@ -76,7 +76,11 @@ namespace CefSharp
         {
             if (_postData == nullptr)
             {
-                _postData = gcnew CefPostDataWrapper(_wrappedRequest->GetPostData());
+                auto postData = _wrappedRequest->GetPostData();
+                if (postData.get())
+                {
+                    _postData = gcnew CefPostDataWrapper(postData);
+                }
             }
             return _postData;
         }
