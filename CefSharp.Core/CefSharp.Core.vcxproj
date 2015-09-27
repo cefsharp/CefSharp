@@ -248,6 +248,7 @@
   <ItemGroup>
     <ClInclude Include="BrowserSettings.h" />
     <ClInclude Include="Cef.h" />
+    <ClInclude Include="Internals\CefGetGeolocationCallbackWrapper.h" />
     <ClInclude Include="Internals\CefAuthCallbackWrapper.h" />
     <ClInclude Include="Internals\CefBeforeDownloadCallbackWrapper.h" />
     <ClInclude Include="Internals\CefBrowserHostWrapper.h" />
