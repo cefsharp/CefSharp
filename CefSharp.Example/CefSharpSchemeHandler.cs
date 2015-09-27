@@ -63,6 +63,28 @@ namespace CefSharp.Example
                 return true;
             }
 
+            if (string.Equals(fileName, "/PostDataAjaxTest.html", StringComparison.OrdinalIgnoreCase))
+            {
+                var postData = request.PostData;
+                if(postData == null)
+                {
+                    var resourceHandler = ResourceHandler.FromString("Post Data: null");
+                    stream = (MemoryStream)resourceHandler.Stream;
+                    mimeType = "text/html";
+                    callback.Continue();
+                }
+                else
+                { 
+                    var postDataElement = postData.Elements.FirstOrDefault();
+                    var resourceHandler = ResourceHandler.FromString("Post Data: " + (postDataElement == null ? "null" : postDataElement.GetBody()));
+                    stream = (MemoryStream)resourceHandler.Stream;
+                    mimeType = "text/html";
+                    callback.Continue();
+                }
+
+                return true;
+            }
+
             string resource;
             if (ResourceDictionary.TryGetValue(fileName, out resource) && !string.IsNullOrEmpty(resource))
             {

@@ -1,18 +1,62 @@
 ﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
-    <head>
-        <title>Scheme Handler Test</title>
-    </head>
-    <body>
-        <h1>Success</h1>
-        <p>Scheme Handler Functioned Correctly</p>
+<head>
+    <title>Scheme Handler Test</title>
 
-        <form action="custom://cefsharp/PostDataTest.html" method="post" target="_blank">
-            User:<input type="text" name="user" value="lion" />
-            <br>
-            Pass:<input type="text" name="pass" value="123" />
-            <br>
-            <input type="submit" value="Test POST Data" />
-        </form>
-    </body>
+    <script type="text/javascript">
+        var htmlNode;
+        var newLine = "\n";
+        var showError = function (text)
+        {
+            if (!htmlNode)
+            {
+                htmlNode = document.createElement("div");
+                htmlNode.id = "debugWindow";
+                document.body.appendChild(htmlNode);
+            }
+
+            htmlNode.innerHTML += "<p>" + text + "</p>";
+        };
+
+        var doRequest = function (data, contentType)
+        {
+            var x = new XMLHttpRequest();
+            x.open("POST", "custom://cefsharp/PostDataAjaxTest.html");
+            x.setRequestHeader("Accept", "application/json, text/javascript");
+            x.setRequestHeader("Content-Type", "application/json");
+
+            x.onreadystatechange = function (event)
+            {
+                if (x.readyState !== 4)
+                {
+                    return;
+                }
+
+                showError(event.responseText);
+            };
+
+            x.onerror = function (e)
+            {
+                showError(e);
+            };
+
+            x.send(data);
+        };
+    </script>
+</head>
+<body>
+    <h1>Success</h1>
+    <p>Scheme Handler Functioned Correctly</p>
+
+    <form action="custom://cefsharp/PostDataTest.html" method="post" target="_blank">
+        User:<input type="text" name="user" value="lion" />
+        <br>
+        Pass:<input type="text" name="pass" value="123" />
+        <br>
+        <input type="submit" value="Test POST Data" />
+    </form>
+
+    <h1>Custom Post using Ajax</h1>
+    <button onclick="doRequest('name=test&value=anotherValue'); return false;">Submit via ajax</button>
+</body>
 </html>
