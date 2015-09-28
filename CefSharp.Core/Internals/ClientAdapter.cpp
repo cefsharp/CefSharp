@@ -7,6 +7,7 @@
 #include "include/wrapper/cef_stream_resource_handler.h"
 #include "ClientAdapter.h"
 #include "CefRequestWrapper.h"
+#include "CefResponseWrapper.h"
 #include "CefContextMenuParamsWrapper.h"
 #include "CefMenuModelWrapper.h"
 #include "CefDragDataWrapper.h"
@@ -592,6 +593,23 @@ namespace CefSharp
 
                 newUrl = StringUtils::ToNative(managedNewUrl);
             }
+        }
+
+        bool ClientAdapter::OnResourceResponse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefResponse> response)
+        {
+            auto handler = _browserControl->RequestHandler;
+
+            if (handler == nullptr)
+            {
+                return false;
+            }
+                
+            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());;
+            CefFrameWrapper frameWrapper(frame);
+            CefRequestWrapper requestWrapper(request);
+            CefResponseWrapper responseWrapper(response);
+
+            return handler->OnResourceResponse(_browserControl, browserWrapper, %frameWrapper, %requestWrapper, %responseWrapper);
         }
 
         void ClientAdapter::OnProtocolExecution(CefRefPtr<CefBrowser> browser, const CefString& url, bool& allowOSExecution)
