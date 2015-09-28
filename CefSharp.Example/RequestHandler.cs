@@ -54,6 +54,20 @@ namespace CefSharp.Example
 
         CefReturnValue IRequestHandler.OnBeforeResourceLoad(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IRequestCallback callback)
         {
+            //Example of how to set Referer
+            // Same should work when setting any header
+
+            // For this example only set Referer when using our custom scheme
+            var url = new Uri(request.Url);
+            if (url.Scheme == CefSharpSchemeHandlerFactory.SchemeName)
+            {
+                var headers = request.Headers;
+
+                headers["Referer"] = "http://google.com";
+
+                request.Headers = headers;
+            }
+
             //NOTE: If you do not wish to implement this method returning false is the default behaviour
             // We also suggest you explicitly Dispose of the callback as it wraps an unmanaged resource.
             //callback.Dispose();
