@@ -25,9 +25,11 @@ namespace CefSharp
                 throw gcnew InvalidOperationException("Browser instance is null.");
             }
 
+            auto browserWrapper = static_cast<CefSharpBrowserWrapper^>(browser);
+
             auto doneCallback = _pendingTasks->CreatePendingTask(Nullable<TimeSpan>());
             auto callbackMessage = CreateCallMessage(doneCallback.Key, parameters);
-            browser->SendProcessMessage(CefProcessId::PID_RENDERER, callbackMessage);
+            browserWrapper->SendProcessMessage(CefProcessId::PID_RENDERER, callbackMessage);
 
             return doneCallback.Value->Task;
         }
@@ -56,12 +58,13 @@ namespace CefSharp
             return result;
         }
 
-        CefSharpBrowserWrapper^ JavascriptCallbackProxy::GetBrowser()
+        IBrowser^ JavascriptCallbackProxy::GetBrowser()
         {
-            CefSharpBrowserWrapper^ result = nullptr;
-            if (_browserWrapper->IsAlive)
+            IBrowser^ result = nullptr;
+            if (_browserAdapter->IsAlive)
             {
-                result = static_cast<CefSharpBrowserWrapper^>(_browserWrapper->Target);
+                auto browserAdapter = static_cast<ManagedCefBrowserAdapter^>(_browserAdapter->Target);
+                result = browserAdapter->GetBrowser(_callback->BrowserId);
             }
             return result;
         }

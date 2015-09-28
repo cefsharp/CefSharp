@@ -34,6 +34,22 @@ namespace CefSharp
 {
     namespace Internals
     {
+        IBrowser^ ClientAdapter::GetBrowserWrapper(int browserId)
+        {
+            if (_cefBrowser->GetIdentifier() == browserId)
+            {
+                return _browserAdapter->GetBrowser();
+            }
+
+            IBrowser^ browserWrapper;
+            if (_popupBrowsers->TryGetValue(browserId, browserWrapper))
+            {
+                return browserWrapper;
+            }
+
+            return nullptr;
+        }
+
         IBrowser^ ClientAdapter::GetBrowserWrapper(int browserId, bool isPopup)
         {
             if (_browserControl->HasParent)
@@ -541,7 +557,7 @@ namespace CefSharp
 
         void ClientAdapter::OnRenderViewReady(CefRefPtr<CefBrowser> browser)
         {
-            if (!Object::ReferenceEquals(_browserAdapter, nullptr))
+            if (!Object::ReferenceEquals(_browserAdapter, nullptr) && !browser->IsPopup())
             {
                 auto objectRepository = _browserAdapter->JavascriptObjectRepository;
 
@@ -986,21 +1002,17 @@ namespace CefSharp
             }
             else if (name == kJavascriptAsyncMethodCallRequest)
             {
-                if (!browser->IsPopup())
+                auto objectId = GetInt64(argList, 0);
+                auto callbackId = GetInt64(argList, 1);
+                auto methodName = StringUtils::ToClr(argList->GetString(2));
+                auto arguments = argList->GetList(3);
+                auto methodInvocation = gcnew MethodInvocation(browser->GetIdentifier(), objectId, methodName, (callbackId > 0 ? Nullable<int64>(callbackId) : Nullable<int64>()));
+                for (auto i = 0; i < static_cast<int>(arguments->GetSize()); i++)
                 {
-                    auto objectId = GetInt64(argList, 0);
-                    auto callbackId = GetInt64(argList, 1);
-                    auto methodName = StringUtils::ToClr(argList->GetString(2));
-                    auto arguments = argList->GetList(3);
-                    auto methodInvocation = gcnew MethodInvocation(objectId, methodName, (callbackId > 0 ? Nullable<int64>(callbackId) : Nullable<int64>()));
-                    for (auto i = 0; i < static_cast<int>(arguments->GetSize()); i++)
-                    {
-                        methodInvocation->Parameters->Add(DeserializeObject(arguments, i, callbackFactory));
-                    }
-                    
-                    _browserAdapter->MethodRunnerQueue->Enqueue(methodInvocation);
+                    methodInvocation->Parameters->Add(DeserializeObject(arguments, i, callbackFactory));
                 }
 
+                _browserAdapter->MethodRunnerQueue->Enqueue(methodInvocation);
 
                 handled = true;
             }
@@ -1047,7 +1059,15 @@ namespace CefSharp
                 {
                     argList->SetString(2, StringUtils::ToNative(result->Message));
                 }
-                _cefBrowser->SendProcessMessage(CefProcessId::PID_RENDERER, message);
+
+                auto browser = GetBrowserWrapper(result->BrowserId);
+
+                if (browser != nullptr)
+                {
+                    auto wrapper = static_cast<CefSharpBrowserWrapper^>(browser);
+
+                    wrapper->Browser->SendProcessMessage(CefProcessId::PID_RENDERER, message);
+                }
             }
         }
     }

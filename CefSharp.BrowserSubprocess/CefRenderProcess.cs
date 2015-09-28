@@ -118,7 +118,6 @@ namespace CefSharp.BrowserSubprocess
 
             browser.ChannelFactory = null;
             browser.BrowserProcess = null;
-            browser.JavascriptRootObject = null;
         }
     }
 }

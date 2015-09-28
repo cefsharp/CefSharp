@@ -19,8 +19,15 @@ namespace CefSharp
             MCefRefPtr<CefV8Context> _context;
 
         internal:
-            CefRefPtr<CefV8Value> GetValue();
-            CefRefPtr<CefV8Context> GetContext();
+            CefRefPtr<CefV8Value> GetValue()
+            {
+                return _value.get();
+            }
+
+            CefRefPtr<CefV8Context> GetContext()
+            {
+                return _context.get();
+            }
 
         public:
             JavascriptCallbackWrapper(CefRefPtr<CefV8Value> value, CefRefPtr<CefV8Context> context)

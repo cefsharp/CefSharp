@@ -63,12 +63,6 @@ namespace CefSharp
         // This allows us to create the WCF proxies back to our parent process.
         property ChannelFactory<IBrowserProcess^>^ ChannelFactory;
 
-        // The serialized registered object data waiting to be used (only contains methods and bound async).
-        property JavascriptRootObject^ JavascriptAsyncRootObject;
-
-        // The serialized registered object data waiting to be used.
-        property JavascriptRootObject^ JavascriptRootObject;
-
         // The WCF proxy to the parent process.
         property IBrowserProcess^ BrowserProcess;
     };

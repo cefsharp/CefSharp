@@ -15,17 +15,17 @@ namespace CefSharp
     {
         namespace Async
         {
-            void JavascriptAsyncObjectWrapper::Bind(const CefRefPtr<CefV8Value> &value, const CefRefPtr<CefV8Value> &promiseCreator)
+            void JavascriptAsyncObjectWrapper::Bind(JavascriptObject^ object, const CefRefPtr<CefV8Value> &value, const CefRefPtr<CefV8Value> &promiseCreator)
             {
                 //V8Value that represents this javascript object - only one per complex type, no accessor
                 auto javascriptObject = CefV8Value::CreateObject(nullptr);
-                auto objectName = StringUtils::ToNative(_object->JavascriptName);
+                auto objectName = StringUtils::ToNative(object->JavascriptName);
                 value->SetValue(objectName, javascriptObject, V8_PROPERTY_ATTRIBUTE_NONE);
 
-                for each (JavascriptMethod^ method in Enumerable::OfType<JavascriptMethod^>(_object->Methods))
+                for each (JavascriptMethod^ method in Enumerable::OfType<JavascriptMethod^>(object->Methods))
                 {
-                    auto wrappedMethod = gcnew JavascriptAsyncMethodWrapper(method, _object->Id, _callbackRegistry, promiseCreator, _methodCallbackSave);
-                    wrappedMethod->Bind(javascriptObject);
+                    auto wrappedMethod = gcnew JavascriptAsyncMethodWrapper(object->Id, _callbackRegistry, promiseCreator, _methodCallbackSave);
+                    wrappedMethod->Bind(method, javascriptObject);
 
                     _wrappedMethods->Add(wrappedMethod);
                 }

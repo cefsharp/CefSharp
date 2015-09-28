@@ -124,9 +124,6 @@
     <ClCompile Include="JavascriptCallbackRegistry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="JavascriptCallbackWrapper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\CefSharp.Core\Internals\Serialization\Primitives.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

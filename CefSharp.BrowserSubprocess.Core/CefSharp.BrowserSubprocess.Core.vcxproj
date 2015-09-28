@@ -190,7 +190,6 @@
     <ClCompile Include="CefAppUnmanagedWrapper.cpp" />
     <ClCompile Include="CefAppWrapper.cpp" />
     <ClCompile Include="JavascriptCallbackRegistry.cpp" />
-    <ClCompile Include="JavascriptCallbackWrapper.cpp" />
     <ClCompile Include="JavascriptMethodHandler.cpp" />
     <ClCompile Include="JavascriptMethodWrapper.cpp" />
     <ClCompile Include="JavascriptObjectWrapper.cpp" />

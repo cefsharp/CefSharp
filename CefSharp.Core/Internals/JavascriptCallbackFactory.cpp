@@ -13,7 +13,7 @@ namespace CefSharp
     {
         IJavascriptCallback^ JavascriptCallbackFactory::Create(JavascriptCallback^ callback)
         {
-            return gcnew JavascriptCallbackProxy(callback, _pendingTasks, BrowserWrapper);
+            return gcnew JavascriptCallbackProxy(callback, _pendingTasks, BrowserAdapter);
         }
     }
 }

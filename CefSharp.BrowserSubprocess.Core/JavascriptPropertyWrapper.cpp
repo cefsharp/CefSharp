@@ -12,21 +12,21 @@ using namespace System;
 
 namespace CefSharp
 {
-    void JavascriptPropertyWrapper::Bind(const CefRefPtr<CefV8Value>& v8Value, JavascriptCallbackRegistry^ callbackRegistry)
+    void JavascriptPropertyWrapper::Bind(JavascriptProperty^ javascriptProperty, const CefRefPtr<CefV8Value>& v8Value, JavascriptCallbackRegistry^ callbackRegistry)
     {
-        auto propertyName = StringUtils::ToNative(_javascriptProperty->JavascriptName);
-        auto clrPropertyName = _javascriptProperty->JavascriptName;
+        auto propertyName = StringUtils::ToNative(javascriptProperty->JavascriptName);
+        auto clrPropertyName = javascriptProperty->JavascriptName;
 
-        if (_javascriptProperty->IsComplexType)
+        if (javascriptProperty->IsComplexType)
         {
-            auto javascriptObjectWrapper = gcnew JavascriptObjectWrapper(_javascriptProperty->JsObject, _browserProcess);
-            javascriptObjectWrapper->Bind(v8Value, callbackRegistry);
+            auto javascriptObjectWrapper = gcnew JavascriptObjectWrapper(_browserProcess);
+            javascriptObjectWrapper->Bind(javascriptProperty->JsObject, v8Value, callbackRegistry);
 
             _javascriptObjectWrapper = javascriptObjectWrapper;
         }
         else
         {
-            auto propertyAttribute = _javascriptProperty->IsReadOnly ? V8_PROPERTY_ATTRIBUTE_READONLY : V8_PROPERTY_ATTRIBUTE_NONE;
+            auto propertyAttribute = javascriptProperty->IsReadOnly ? V8_PROPERTY_ATTRIBUTE_READONLY : V8_PROPERTY_ATTRIBUTE_NONE;
 
             v8Value->SetValue(propertyName, V8_ACCESS_CONTROL_DEFAULT, propertyAttribute);
         }

@@ -20,7 +20,7 @@ namespace CefSharp
             {
             }
 
-            property WeakReference^ BrowserWrapper;
+            property WeakReference^ BrowserAdapter;
 
             virtual IJavascriptCallback^ Create(JavascriptCallback^ callback);
         };
