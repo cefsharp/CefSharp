@@ -180,5 +180,14 @@ namespace CefSharp.Example
         {
             
         }
+
+        bool IRequestHandler.OnResourceResponse(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IResponse response)
+        {
+            //NOTE: You cannot modify the response, only the request
+            // You can now access the headers
+            //var headers = response.ResponseHeaders;
+
+            return false;
+        }
     }
 }
