@@ -131,53 +131,8 @@ namespace CefSharp.Wpf.Example
 
         private void OpenTabCommandBinding(object sender, ExecutedRoutedEventArgs e)
         {
-            var param = e.Parameter.ToString();
-            string url = "";
-
-            switch (param)
-            {
-                case "BindingTest":
-                {
-                    url = CefExample.BindingTestUrl;
-                    break;
-                }
-                case "ListPlugins":
-                {
-                    url = CefExample.PluginsTestUrl;
-                    break;
-                }
-                case "PopupTest":
-                {
-                    url = CefExample.PopupParentUrl;
-                    break;
-                }
-                case "FishGl":
-                {
-                    url = "http://www.fishgl.com/";
-                    break;
-                }
-                case "MsTestDrive":
-                {
-                    url = "http://dev.modern.ie/testdrive/";
-                    break;
-                }
-                case "DragDemo":
-                {
-                    url = "http://html5demos.com/drag";
-                    break;
-                }
-                case "PopupTestCustomScheme":
-                {
-                    url = CefExample.PopupTestUrl;
-                    break;
-                }
-                case "BasicSchemeTest":
-                {
-                    url = CefExample.BasicSchemeTestUrl;
-                    break;
-                }
-            }
-
+            var url = e.Parameter.ToString();
+            
             if (string.IsNullOrEmpty(url))
             {
                 throw new Exception("Please provide a valid command parameter for binding");
