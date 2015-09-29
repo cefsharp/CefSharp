@@ -7,7 +7,6 @@
 #include "Stdafx.h"
 
 #include <include/cef_browser.h>
-#include "StringUtils.h"
 #include "CefWrapper.h"
 
 namespace CefSharp

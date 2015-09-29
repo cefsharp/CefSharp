@@ -11,10 +11,14 @@
 #endif
 
 #include <vector>
+#include <list>
 
 #include <include/cef_base.h>
 
-#include "Cef.h"
-#include "Internals/MCefRefPtr.h"
-#include "Internals/StringUtils.h"
+#include "Internals\MCefRefPtr.h"
+#include "Internals\StringUtils.h"
 #include "vcclr_local.h"
+
+using namespace CefSharp;
+using namespace CefSharp::Internals;
+using namespace System;

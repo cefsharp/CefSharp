@@ -7,8 +7,6 @@
 #include "include/cef_v8.h"
 #include "JavascriptCallbackRegistry.h"
 
-using namespace CefSharp::Internals;
-
 namespace CefSharp
 {
     private class JavascriptMethodHandler : public CefV8Handler

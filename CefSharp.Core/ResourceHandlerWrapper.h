@@ -7,7 +7,6 @@
 #include "Stdafx.h"
 #include "include/cef_scheme.h"
 
-using namespace System;
 using namespace System::IO;
 using namespace System::Collections::Specialized;
 

@@ -4,9 +4,9 @@
 
 #include "Stdafx.h"
 
-#include "Internals/CefFrameWrapper.h"
-#include "Internals/CefSharpBrowserWrapper.h"
-#include "CefBrowserHostWrapper.h"
+#include "Internals\CefFrameWrapper.h"
+#include "Internals\CefSharpBrowserWrapper.h"
+#include "Internals\CefBrowserHostWrapper.h"
 
 ///
 // Returns the browser host object. This method can only be called in the

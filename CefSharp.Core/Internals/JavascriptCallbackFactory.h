@@ -4,8 +4,6 @@
 
 #pragma once
 
-using namespace System;
-
 namespace CefSharp
 {
     namespace Internals

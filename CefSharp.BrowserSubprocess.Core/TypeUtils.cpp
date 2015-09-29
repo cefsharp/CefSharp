@@ -8,8 +8,6 @@
 #include ".\..\CefSharp.Core\Internals\StringUtils.h"
 #include "TypeUtils.h"
 
-using namespace CefSharp::Internals;
-using namespace System;
 using namespace System::Collections::Generic;
 
 namespace CefSharp

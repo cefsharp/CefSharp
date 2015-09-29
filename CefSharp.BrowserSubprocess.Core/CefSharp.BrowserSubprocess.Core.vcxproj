@@ -181,7 +181,6 @@
   <ItemGroup>
     <ClCompile Include="..\CefSharp.Core\Internals\Serialization\ObjectsSerialization.cpp" />
     <ClCompile Include="..\CefSharp.Core\Internals\Serialization\Primitives.cpp" />
-    <ClCompile Include="..\CefSharp.Core\Internals\StringUtils.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="Async\JavascriptAsyncMethodCallback.cpp" />
     <ClCompile Include="Async\JavascriptAsyncMethodHandler.cpp" />

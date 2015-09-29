@@ -13,9 +13,7 @@
 #include "JavascriptRootObjectWrapper.h"
 #include "Async/JavascriptAsyncMethodCallback.h"
 
-using namespace CefSharp::Internals;
 using namespace CefSharp::Internals::Async;
-using namespace System;
 using namespace System::ServiceModel;
 using namespace System::Threading;
 using namespace System::Threading::Tasks;

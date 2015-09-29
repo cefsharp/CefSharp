@@ -9,9 +9,7 @@
 #include "TypeConversion.h"
 #include "CefWrapper.h"
 
-using namespace System;
 using namespace System::Collections::Specialized;
-using namespace CefSharp;
 
 namespace CefSharp
 {

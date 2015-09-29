@@ -9,11 +9,8 @@
 
 #include "ReportUnhandledExceptions.h"
 
-using namespace System;
 using namespace System::Threading::Tasks;
 using namespace System::Runtime::InteropServices;
-
-using namespace CefSharp;
 
 namespace CefSharp
 {

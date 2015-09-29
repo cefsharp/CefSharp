@@ -5,6 +5,11 @@
 #include "Stdafx.h"
 #include "CookieManager.h"
 
+#include "CookieAsyncWrapper.h"
+#include "CookieVisitor.h"
+#include "Internals\CefCompletionCallbackAdapter.h"
+#include "Cef.h"
+
 namespace CefSharp
 {
     namespace Internals

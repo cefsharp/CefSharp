@@ -8,8 +8,6 @@
 
 #include "include\internal\cef_win.h"
 
-using namespace CefSharp;
-
 namespace CefSharp
 {
     public ref class WindowInfo : public IWindowInfo

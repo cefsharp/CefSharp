@@ -4,8 +4,11 @@
 
 #include "Stdafx.h"
 
-#include "include/wrapper/cef_stream_resource_handler.h"
+#include "include\cef_client.h"
+#include "include\wrapper\cef_stream_resource_handler.h"
+
 #include "ClientAdapter.h"
+#include "ManagedCefBrowserAdapter.h"
 #include "CefRequestWrapper.h"
 #include "CefResponseWrapper.h"
 #include "CefContextMenuParamsWrapper.h"
