@@ -4,7 +4,8 @@
 
 #pragma once
 
-#include "MCefRefPtr.h"
+#include "Stdafx.h"
+
 #include "include/cef_cookie.h"
 
 using namespace System::Threading::Tasks;

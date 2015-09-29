@@ -7,8 +7,6 @@
 
 #include "JavascriptMethodWrapper.h"
 
-using namespace System;
-
 namespace CefSharp
 {
     void JavascriptMethodWrapper::Bind(JavascriptMethod^ javascriptMethod, const CefRefPtr<CefV8Value>& v8Value)

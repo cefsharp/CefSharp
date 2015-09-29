@@ -14,7 +14,6 @@
 #include "..\CefSharp.Core\Internals\Messaging\Messages.h"
 #include "..\CefSharp.Core\Internals\Serialization\Primitives.h"
 
-using namespace System;
 using namespace System::Diagnostics;
 using namespace System::Collections::Generic;
 using namespace CefSharp::Internals::Messaging;

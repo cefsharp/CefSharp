@@ -17,9 +17,6 @@
     <ClCompile Include="Stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Internals\StringUtils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Internals\CefRequestWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

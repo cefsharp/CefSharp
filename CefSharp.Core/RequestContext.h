@@ -9,8 +9,6 @@
 #include "RequestContextSettings.h"
 #include "SchemeHandlerFactoryWrapper.h"
 
-using namespace CefSharp;
-
 namespace CefSharp
 {
     /// <summary>

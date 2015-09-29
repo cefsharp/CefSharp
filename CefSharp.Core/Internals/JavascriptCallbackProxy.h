@@ -4,13 +4,13 @@
 
 #pragma once
 
-#include "include/cef_base.h"
+#include "Stdafx.h"
+
 #include "include/cef_app.h"
 
 #include "..\ManagedCefBrowserAdapter.h"
-#include "CefSharpBrowserWrapper.h"
+#include "Internals\CefSharpBrowserWrapper.h"
 
-using namespace System;
 using namespace System::Threading::Tasks;
 
 namespace CefSharp

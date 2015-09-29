@@ -8,7 +8,6 @@
 
 #include "include\cef_geolocation.h"
 
-using namespace CefSharp;
 using namespace System::Threading::Tasks;
 
 namespace CefSharp

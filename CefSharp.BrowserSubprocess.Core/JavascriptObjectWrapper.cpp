@@ -7,9 +7,6 @@
 
 #include "JavascriptObjectWrapper.h"
 
-using namespace System;
-using namespace CefSharp::Internals;
-
 namespace CefSharp
 {
     void JavascriptObjectWrapper::Bind(JavascriptObject^ object, const CefRefPtr<CefV8Value>& v8Value, JavascriptCallbackRegistry^ callbackRegistry)

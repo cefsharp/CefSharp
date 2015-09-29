@@ -3,9 +3,12 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 #include "Stdafx.h"
+#include <msclr/lock.h>
 
-#include "Internals/CefSharpBrowserWrapper.h"
-#include "Internals/CefFrameWrapper.h"
+#include "Internals\CefSharpBrowserWrapper.h"
+#include "Internals\CefFrameWrapper.h"
+#include "Internals\StringVisitor.h"
+#include "Internals\ClientAdapter.h"
 
 ///
 // True if this object is currently attached to a valid frame.
@@ -239,7 +242,7 @@ IFrame^ CefFrameWrapper::Parent::get()
     if (_parentFrame != nullptr)
     {
         // Be paranoid about creating the cached IBrowser.
-        lock sync(_syncRoot);
+        msclr::lock sync(_syncRoot);
 
         auto parent = _frame->GetParent();
         if (parent != nullptr && _parentFrame != nullptr)
@@ -281,7 +284,7 @@ IBrowser^ CefFrameWrapper::Browser::get()
     }
 
     // Be paranoid about creating the cached IBrowser.
-    lock sync(_syncRoot);
+    msclr::lock sync(_syncRoot);
 
     if (_owningBrowser != nullptr)
     {

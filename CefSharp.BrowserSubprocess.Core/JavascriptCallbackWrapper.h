@@ -6,8 +6,6 @@
 
 #include "include\cef_v8.h"
 
-using namespace CefSharp::Internals;
-
 namespace CefSharp
 {
     namespace Internals

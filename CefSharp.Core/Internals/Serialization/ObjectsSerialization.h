@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "Stdafx.h"
+
 #include "include/cef_values.h"
 
 namespace CefSharp

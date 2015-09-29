@@ -2,6 +2,8 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+#pragma once
+
 #include "Stdafx.h"
 #include "include/cef_browser.h"
 
@@ -9,7 +11,7 @@ namespace CefSharp
 {
     namespace Internals
     {
-        class CefPdfPrintCallbackWrapper : public virtual CefPdfPrintCallback
+        public class CefPdfPrintCallbackWrapper : public virtual CefPdfPrintCallback
         {
         private:
             gcroot<IPrintToPdfCallback^> _callback;

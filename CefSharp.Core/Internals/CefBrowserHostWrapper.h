@@ -4,9 +4,11 @@
 
 #pragma once
 
+#include "Stdafx.h"
+
 #include "CefWrapper.h"
 
-using namespace System;
+using namespace System::Threading::Tasks;
 
 namespace CefSharp
 {

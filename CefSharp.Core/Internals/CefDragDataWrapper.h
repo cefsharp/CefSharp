@@ -11,9 +11,7 @@
 #include "CefWrapper.h"
 
 using namespace std;
-using namespace System;
 using namespace System::IO;
-using namespace CefSharp;
 
 namespace CefSharp
 {

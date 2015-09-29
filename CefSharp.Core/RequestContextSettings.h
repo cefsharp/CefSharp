@@ -5,10 +5,7 @@
 #pragma once
 
 #include "Stdafx.h"
-#include "Internals/StringUtils.h"
 #include "include\cef_request_context.h"
-
-using namespace CefSharp::Internals;
 
 namespace CefSharp
 {
