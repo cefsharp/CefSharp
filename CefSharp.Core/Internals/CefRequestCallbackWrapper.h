@@ -7,8 +7,6 @@
 #include "Stdafx.h"
 #include "CefWrapper.h"
 
-using namespace CefSharp;
-
 namespace CefSharp
 {
     namespace Internals

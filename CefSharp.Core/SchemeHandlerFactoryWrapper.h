@@ -13,7 +13,6 @@
 #include "Internals\CefRequestWrapper.h"
 #include "ResourceHandlerWrapper.h"
 
-using namespace System;
 using namespace System::IO;
 using namespace System::Collections::Specialized;
 

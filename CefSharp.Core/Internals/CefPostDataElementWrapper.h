@@ -6,11 +6,11 @@
 
 #include "Stdafx.h"
 
+#include "include\cef_request.h"
+
 #include "Internals/TypeConversion.h"
 
-using namespace System;
 using namespace System::Collections::Specialized;
-using namespace CefSharp;
 
 namespace CefSharp
 {

@@ -4,12 +4,12 @@
 
 #pragma once
 
-#include "include/internal/cef_ptr.h"
-#include "include/cef_download_item.h"
-#include "Internals/StringUtils.h"
+#include "Stdafx.h"
 
-using namespace System;
-using namespace CefSharp;
+#include "include/internal/cef_ptr.h"
+#include "include\cef_download_item.h"
+#include "include\cef_response.h"
+#include "include\cef_web_plugin.h"
 
 namespace CefSharp
 {

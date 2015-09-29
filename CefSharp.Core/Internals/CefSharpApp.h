@@ -4,10 +4,10 @@
 
 #pragma once
 
+#include "Stdafx.h"
+
 #include "include/cef_app.h"
 #include "CefSettings.h"
-
-using namespace CefSharp::Internals;
 
 namespace CefSharp
 {

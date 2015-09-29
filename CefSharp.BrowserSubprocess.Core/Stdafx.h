@@ -19,3 +19,5 @@
 #include "vcclr_local.h"
 
 using namespace System;
+using namespace CefSharp;
+using namespace CefSharp::Internals;

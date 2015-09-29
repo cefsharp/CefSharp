@@ -6,9 +6,11 @@
 
 #include "Stdafx.h"
 
-#include <include\cef_frame.h>
-#include "CefRequestWrapper.h"
+#include "include\cef_frame.h""
+#include "include\cef_v8.h"
 #include "CefWrapper.h"
+
+using namespace System::Threading::Tasks;
 
 namespace CefSharp
 {

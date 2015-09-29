@@ -7,7 +7,6 @@
 
 #include "CefAppWrapper.h"
 
-using namespace System;
 using namespace System::Diagnostics;
 using namespace System::Collections::Generic;
 

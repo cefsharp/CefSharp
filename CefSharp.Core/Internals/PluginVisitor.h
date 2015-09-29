@@ -7,7 +7,6 @@
 #include "Stdafx.h"
 #include "include/cef_web_plugin.h"
 
-using namespace CefSharp;
 using namespace System::Threading::Tasks;
 
 namespace CefSharp

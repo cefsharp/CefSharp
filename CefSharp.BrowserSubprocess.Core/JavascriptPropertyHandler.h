@@ -9,8 +9,6 @@
 #include "include/cef_v8.h"
 #include "TypeUtils.h"
 
-using namespace CefSharp::Internals;
-
 namespace CefSharp
 {
     private class JavascriptPropertyHandler : public CefV8Accessor

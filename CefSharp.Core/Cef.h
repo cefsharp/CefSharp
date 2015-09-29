@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "Stdafx.h"
+
 #include <msclr/lock.h>
 #include <include/cef_version.h>
 #include <include/cef_runnable.h>
@@ -11,17 +13,11 @@
 #include <include/cef_web_plugin.h>
 
 #include "Internals/CefSharpApp.h"
-#include "Internals/CookieVisitor.h"
 #include "Internals/CookieManager.h"
-#include "Internals/CefCompletionCallbackAdapter.h"
-#include "Internals/StringUtils.h"
 #include "Internals/PluginVisitor.h"
-#include "ManagedCefBrowserAdapter.h"
 #include "CefSettings.h"
-#include "ResourceHandlerWrapper.h"
 #include "SchemeHandlerFactoryWrapper.h"
 #include "Internals/CefTaskScheduler.h"
-#include "CookieAsyncWrapper.h"
 
 using namespace System::Collections::Generic; 
 using namespace System::Linq;

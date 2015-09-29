@@ -7,8 +7,8 @@
 #include "Stdafx.h"
 #include "CefWrapper.h"
 
+#include "include\cef_context_menu_handler.h"
 
-using namespace System;
 using namespace System::Collections::Generic;
 
 namespace CefSharp

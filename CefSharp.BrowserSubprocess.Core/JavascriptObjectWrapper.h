@@ -15,8 +15,6 @@ using namespace System::Runtime::Serialization;
 using namespace System::Linq;
 using namespace System::Collections::Generic;
 
-using namespace CefSharp::Internals;
-
 namespace CefSharp
 {
     private ref class JavascriptObjectWrapper

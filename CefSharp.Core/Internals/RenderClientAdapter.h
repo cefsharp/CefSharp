@@ -5,10 +5,11 @@
 #pragma once
 
 #include "Stdafx.h"
+#include <msclr/lock.h>
+
 #include "ClientAdapter.h"
 
 using namespace msclr;
-using namespace System;
 
 namespace CefSharp
 {

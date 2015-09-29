@@ -13,7 +13,6 @@ using namespace System::Runtime::Serialization;
 using namespace System::Linq;
 using namespace System::Collections::Generic;
 
-using namespace CefSharp::Internals;
 using namespace CefSharp::Internals::Async;
 
 namespace CefSharp

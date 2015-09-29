@@ -3,8 +3,12 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 #include "Stdafx.h"
+#include "include\cef_client.h"
+
 #include "CefBrowserHostWrapper.h"
 #include "WindowInfo.h"
+#include "CefTaskScheduler.h"
+#include "Cef.h"
 
 void CefBrowserHostWrapper::StartDownload(String^ url)
 {

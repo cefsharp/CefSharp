@@ -8,11 +8,8 @@
 #include "include/cef_task.h"
 #include "CefTaskWrapper.h"
 
-using namespace System;
 using namespace System::Threading::Tasks;
 using namespace System::Runtime::InteropServices;
-
-using namespace CefSharp;
 
 namespace CefSharp
 {

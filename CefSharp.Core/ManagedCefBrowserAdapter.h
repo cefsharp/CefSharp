@@ -6,19 +6,14 @@
 
 #include "Stdafx.h"
 
-#include <include/cef_runnable.h>
+#include "include\cef_client.h"
 
 #include "BrowserSettings.h"
 #include "Internals/ClientAdapter.h"
 #include "Internals/CefDragDataWrapper.h"
 #include "Internals/RenderClientAdapter.h"
-#include "Internals/MCefRefPtr.h"
-#include "Internals/StringVisitor.h"
-#include "Internals/CefFrameWrapper.h"
-#include "Internals/CefSharpBrowserWrapper.h"
 #include "Internals/JavascriptCallbackFactory.h"
 
-using namespace CefSharp::Internals;
 using namespace System::Diagnostics;
 using namespace System::ServiceModel;
 using namespace System::Threading;

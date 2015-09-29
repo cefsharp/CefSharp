@@ -6,13 +6,13 @@
 
 #include "Stdafx.h"
 
+#include "include\cef_request.h"
+
 #include "Internals/TypeConversion.h"
 #include "CefPostDataElementWrapper.h"
 
-using namespace System;
 using namespace System::Collections::Generic;
 using namespace System::Collections::ObjectModel;
-using namespace CefSharp;
 
 namespace CefSharp
 {

@@ -5,11 +5,8 @@
 #pragma once
 
 #include "Stdafx.h"
-#include "Internals/StringUtils.h"
 
-using namespace System;
 using namespace System::Collections::Generic;
-using namespace CefSharp::Internals;
 
 namespace CefSharp
 {

@@ -8,6 +8,8 @@
 
 #include <include/base/cef_logging.h>
 
+using namespace System::Threading;
+
 namespace CefSharp
 {
     namespace Internals

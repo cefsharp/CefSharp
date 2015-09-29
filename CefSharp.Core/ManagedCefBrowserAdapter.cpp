@@ -3,8 +3,11 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 #include "Stdafx.h"
-#include "Cef.h"
+
+#include "ManagedCefBrowserAdapter.h"
 #include "Internals/Messaging/Messages.h"
+#include "Internals/CefFrameWrapper.h"
+#include "Internals/CefSharpBrowserWrapper.h"
 
 using namespace CefSharp::Internals::Messaging;
 
@@ -12,7 +15,6 @@ bool ManagedCefBrowserAdapter::IsDisposed::get()
 {
     return _isDisposed;
 }
-
 
 void ManagedCefBrowserAdapter::CreateOffscreenBrowser(IntPtr windowHandle, BrowserSettings^ browserSettings, RequestContext^ requestContext, String^ address)
 {

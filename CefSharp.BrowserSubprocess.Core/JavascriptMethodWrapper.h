@@ -8,7 +8,6 @@
 
 #include "JavascriptMethodHandler.h"
 
-using namespace CefSharp::Internals;
 using namespace System::Runtime::Serialization;
 
 namespace CefSharp

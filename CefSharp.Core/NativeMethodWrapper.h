@@ -6,8 +6,6 @@
 
 #include "Stdafx.h"
 
-using namespace System;
-
 namespace CefSharp
 {
     public ref class NativeMethodWrapper sealed
