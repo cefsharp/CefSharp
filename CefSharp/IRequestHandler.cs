@@ -101,17 +101,6 @@ namespace CefSharp
         bool GetAuthCredentials(IWebBrowser browserControl, IBrowser browser, IFrame frame, bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback);
 
         /// <summary>
-        /// Called on the browser process IO thread before a plugin is loaded.
-        /// </summary>
-        /// <param name="browserControl">The ChromiumWebBrowser control</param>
-        /// <param name="browser">the browser object</param>
-        /// <param name="url">URL</param>
-        /// <param name="policyUrl">policy URL</param>
-        /// <param name="info">plugin information</param>
-        /// <returns>Return true to block loading of the plugin.</returns>
-        bool OnBeforePluginLoad(IWebBrowser browserControl, IBrowser browser, string url, string policyUrl, WebPluginInfo info);
-
-        /// <summary>
         /// Called when the render process terminates unexpectedly.
         /// </summary>
         /// <param name="browserControl">The ChromiumWebBrowser control</param>

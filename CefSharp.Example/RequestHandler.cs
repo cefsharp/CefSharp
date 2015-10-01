@@ -123,18 +123,6 @@ namespace CefSharp.Example
             return false;
         }
 
-        bool IRequestHandler.OnBeforePluginLoad(IWebBrowser browserControl, IBrowser browser, string url, string policyUrl, WebPluginInfo info)
-        {
-            bool blockPluginLoad = false;
-
-            // Enable next line to demo: Block any plugin with "flash" in its name
-            // try it out with e.g. http://www.youtube.com/watch?v=0uBOtQOO70Y
-            //blockPluginLoad = info.Name.ToLower().Contains("flash");
-
-            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-            return blockPluginLoad;
-        }
-
         void IRequestHandler.OnRenderProcessTerminated(IWebBrowser browserControl, IBrowser browser, CefTerminationStatus status)
         {
             // TODO: Add your own code here for handling scenarios where the Render Process terminated for one reason or another.

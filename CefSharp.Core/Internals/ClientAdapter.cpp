@@ -526,26 +526,6 @@ namespace CefSharp
             return handler->OnQuotaRequest(_browserControl, browserWrapper, StringUtils::ToClr(originUrl), newSize, requestCallback);
         }
 
-        // CEF3 API: public virtual bool OnBeforePluginLoad( CefRefPtr< CefBrowser > browser, const CefString& url, const CefString& policy_url, CefRefPtr< CefWebPluginInfo > info );
-        // ---
-        // return value:
-        //     false: Load Plugin (do not block it)
-        //     true:  Ignore Plugin (Block it)
-        bool ClientAdapter::OnBeforePluginLoad(CefRefPtr<CefBrowser> browser, const CefString& url, const CefString& policy_url, CefRefPtr<CefWebPluginInfo> info)
-        {
-            auto handler = _browserControl->RequestHandler;
-
-            if (handler == nullptr)
-            {
-                return false;
-            }
-
-            auto pluginInfo = TypeConversion::FromNative(info);
-            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
-
-            return handler->OnBeforePluginLoad(_browserControl, browserWrapper, StringUtils::ToClr(url), StringUtils::ToClr(policy_url), pluginInfo);
-        }
-
         void ClientAdapter::OnPluginCrashed(CefRefPtr<CefBrowser> browser, const CefString& plugin_path)
         {
             auto handler = _browserControl->RequestHandler;
