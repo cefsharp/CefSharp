@@ -70,7 +70,10 @@ namespace CefSharp.WinForms
 
         static ChromiumWebBrowser()
         {
-            Application.ApplicationExit += OnApplicationExit;
+            if (CefSharpSettings.ShutdownOnExit)
+            {
+                Application.ApplicationExit += OnApplicationExit;
+            }
         }
 
         private static void OnApplicationExit(object sender, EventArgs e)
