@@ -96,7 +96,14 @@ namespace CefSharp
 
             if (CefSharpSettings::WcfEnabled && _browserProcessServiceHost != nullptr)
             {
-                _browserProcessServiceHost->Close();
+                if (CefSharpSettings::WcfTimeout > TimeSpan::Zero)
+                {
+                    _browserProcessServiceHost->Close(CefSharpSettings::WcfTimeout);
+                }
+                else
+                {
+                    _browserProcessServiceHost->Abort();
+                }
                 _browserProcessServiceHost = nullptr;
             }
 
