@@ -84,11 +84,14 @@ namespace CefSharp.Wpf
 
         static ChromiumWebBrowser()
         {
-            var app = Application.Current;
-
-            if (app != null)
+            if (CefSharpSettings.ShutdownOnExit)
             {
-                app.Exit += OnApplicationExit;
+                var app = Application.Current;
+
+                if (app != null)
+                {
+                    app.Exit += OnApplicationExit;
+                }
             }
         }
 
