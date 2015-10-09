@@ -21,11 +21,11 @@ namespace CefSharp
         IBrowserProcess^ _browserProcess;
 
     public:
-        JavascriptMethodWrapper(int64 ownerId, IBrowserProcess^ browserProcess, JavascriptCallbackRegistry^ callbackRegistry)
+        JavascriptMethodWrapper(int64 ownerId, IBrowserProcess^ browserProcess, JavascriptCallbackRegistry^ callbackRegistryReference)
         {
             _ownerId = ownerId;
             _browserProcess = browserProcess;
-            _javascriptMethodHandler = new JavascriptMethodHandler(gcnew Func<array<Object^>^, BrowserProcessResponse^>(this, &JavascriptMethodWrapper::Execute), callbackRegistry);
+            _javascriptMethodHandler = new JavascriptMethodHandler(gcnew Func<array<Object^>^, BrowserProcessResponse^>(this, &JavascriptMethodWrapper::Execute), callbackRegistryReference);
         }
 
         !JavascriptMethodWrapper()

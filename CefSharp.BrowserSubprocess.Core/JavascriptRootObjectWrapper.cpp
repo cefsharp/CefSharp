@@ -7,20 +7,22 @@
 #include "Stdafx.h"
 #include "JavascriptRootObjectWrapper.h"
 #include "CefAppUnmanagedWrapper.h"
+#include "CefBrowserWrapper.h"
 
 using namespace System::Threading;
 
 namespace CefSharp
 {
-    void JavascriptRootObjectWrapper::Bind(JavascriptRootObject^ rootObject, JavascriptRootObject^ asyncRootObject, const CefRefPtr<CefV8Value>& v8Value)
+    void JavascriptRootObjectWrapper::Bind(CefBrowserWrapper^ browserWrapper, JavascriptRootObject^ rootObject, JavascriptRootObject^ asyncRootObject, const CefRefPtr<CefV8Value>& v8Value)
     {
+        auto callbackRegistry = browserWrapper->CallbackRegistry;
         if (rootObject != nullptr)
         {
             auto memberObjects = rootObject->MemberObjects;
             for each (JavascriptObject^ obj in Enumerable::OfType<JavascriptObject^>(memberObjects))
             {
                 auto wrapperObject = gcnew JavascriptObjectWrapper(_browserProcess);
-                wrapperObject->Bind(obj, v8Value, _callbackRegistry);
+                wrapperObject->Bind(obj, v8Value, callbackRegistry);
 
                 _wrappedObjects->Add(wrapperObject);
             }
@@ -29,38 +31,16 @@ namespace CefSharp
         if (asyncRootObject != nullptr)
         {
             auto memberObjects = asyncRootObject->MemberObjects;
-            auto saveMethod = gcnew Func<JavascriptAsyncMethodCallback^, int64>(this, &JavascriptRootObjectWrapper::SaveMethodCallback);
+            auto methodCallbackRegistry = browserWrapper->MethodCallbackRegistry;
+            auto saveMethod = gcnew Func<JavascriptAsyncMethodCallback^, int64>(methodCallbackRegistry, &CefSharp::Internals::ConcurrentObjectRegistry<JavascriptAsyncMethodCallback^>::RegisterObject);
             auto promiseCreator = v8Value->GetValue(CefAppUnmanagedWrapper::kPromiseCreatorFunction);
             for each (JavascriptObject^ obj in Enumerable::OfType<JavascriptObject^>(memberObjects))
             {
-                auto wrapperObject = gcnew JavascriptAsyncObjectWrapper(_callbackRegistry, saveMethod);
+                auto wrapperObject = gcnew JavascriptAsyncObjectWrapper(callbackRegistry, saveMethod);
                 wrapperObject->Bind(obj, v8Value, promiseCreator);
 
                 _wrappedAsyncObjects->Add(wrapperObject);
             }
         }
-    }
-
-    JavascriptCallbackRegistry^ JavascriptRootObjectWrapper::CallbackRegistry::get()
-    {
-        return _callbackRegistry;
-    }
-
-
-    int64 JavascriptRootObjectWrapper::SaveMethodCallback(JavascriptAsyncMethodCallback^ callback)
-    {
-        auto callbackId = Interlocked::Increment(_lastCallback);
-        _methodCallbacks->Add(callbackId, callback);
-        return callbackId;
-    }
-
-    bool JavascriptRootObjectWrapper::TryGetAndRemoveMethodCallback(int64 id, JavascriptAsyncMethodCallback^% callback)
-    {
-        bool result = false;
-        if (result = _methodCallbacks->TryGetValue(id, callback))
-        {
-            _methodCallbacks->Remove(id);
-        }
-        return result;
     }
 }

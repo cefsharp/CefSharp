@@ -39,20 +39,20 @@ namespace CefSharp
     // CefRenderProcessHandler
     void CefAppUnmanagedWrapper::OnBrowserCreated(CefRefPtr<CefBrowser> browser)
     {
+        LOG(INFO) << "OnBrowserCreated:" << browser->GetIdentifier();
         auto wrapper = gcnew CefBrowserWrapper(browser);
         _onBrowserCreated->Invoke(wrapper);
 
         //Multiple CefBrowserWrappers created when opening popups
-        _browserWrappers->Add(browser->GetIdentifier(), wrapper);
+        _browserWrappers->TryAdd(browser->GetIdentifier(), wrapper);
     }
 
     void CefAppUnmanagedWrapper::OnBrowserDestroyed(CefRefPtr<CefBrowser> browser)
     {
-        auto wrapper = FindBrowserWrapper(browser->GetIdentifier(), false);
-
-        if (wrapper != nullptr)
+        LOG(INFO) << "OnBrowserDestroyed:" << browser->GetIdentifier();
+        CefBrowserWrapper^ wrapper;
+        if (_browserWrappers->TryRemove(browser->GetIdentifier(), wrapper) && wrapper != nullptr)
         {
-            _browserWrappers->Remove(wrapper->BrowserId);
             _onBrowserDestroyed->Invoke(wrapper);
             delete wrapper;
         }
@@ -60,33 +60,44 @@ namespace CefSharp
 
     void CefAppUnmanagedWrapper::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
     {
-        auto wrapper = FindBrowserWrapper(browser->GetIdentifier(), true);
-
+        LOG(INFO) << "OnContextCreated:" << browser->GetIdentifier();
+        auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier(), true);
         if (!Object::ReferenceEquals(_javascriptRootObject, nullptr) || !Object::ReferenceEquals(_javascriptAsyncRootObject, nullptr))
         {
-            wrapper->JavascriptRootObjectWrapper = gcnew JavascriptRootObjectWrapper(browser->GetIdentifier(), wrapper->BrowserProcess);
-            wrapper->JavascriptRootObjectWrapper->Bind(_javascriptRootObject, _javascriptAsyncRootObject, context->GetGlobal());
+            auto rootObjectWrapperDictionary = browserWrapper->JavascriptRootObjectWrappers;
+            auto frameID = frame->GetIdentifier();
+            JavascriptRootObjectWrapper^ wrapper;
+            if (!rootObjectWrapperDictionary->TryGetValue(frameID, wrapper) || wrapper == nullptr)
+            {
+                wrapper = gcnew JavascriptRootObjectWrapper(browser->GetIdentifier(), browserWrapper->BrowserProcess);
+                rootObjectWrapperDictionary[frameID] = wrapper;
+            }
+            else {
+                LOG(WARNING) << "A context has been created for the same browser / frame without context released called previously";
+            }
+            LOG(INFO) << "Bound Root Object Wrapper:" << browser->GetIdentifier() << ":" << frame->GetIdentifier();
+            wrapper->Bind(browserWrapper, _javascriptRootObject, _javascriptAsyncRootObject, context->GetGlobal());
         }
     };
 
     void CefAppUnmanagedWrapper::OnContextReleased(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
     { 
-        auto wrapper = FindBrowserWrapper(browser->GetIdentifier(), true);
-
-        if (wrapper->JavascriptRootObjectWrapper != nullptr)
+        LOG(INFO) << "OnContextReleased:" << browser->GetIdentifier();
+        auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier(), true);
+        auto frameID = frame->GetIdentifier();
+        auto rootObjectWrapperDictionary = browserWrapper->JavascriptRootObjectWrappers;
+        JavascriptRootObjectWrapper^ wrapper;
+        if (rootObjectWrapperDictionary->TryRemove(frameID, wrapper) && wrapper != nullptr)
         {
-            delete wrapper->JavascriptRootObjectWrapper;
-            wrapper->JavascriptRootObjectWrapper = nullptr;
+            delete wrapper;
         }
     };
 
     CefBrowserWrapper^ CefAppUnmanagedWrapper::FindBrowserWrapper(int browserId, bool mustExist)
     {
-        CefBrowserWrapper^ wrapper = nullptr;
-
-        _browserWrappers->TryGetValue(browserId, wrapper);
-
-        if (mustExist && wrapper == nullptr)
+        CefBrowserWrapper^ wrapper;
+        bool invalid = !_browserWrappers->TryGetValue(browserId, wrapper) || wrapper == nullptr;
+        if (mustExist && invalid)
         {
             throw gcnew InvalidOperationException(String::Format("Failed to identify BrowserWrapper in OnContextCreated. : {0}", browserId));
         }
@@ -142,9 +153,8 @@ namespace CefSharp
 
             return true;
         }
-    
-        auto rootObjectWrapper = browserWrapper->JavascriptRootObjectWrapper;
-        auto callbackRegistry = rootObjectWrapper != nullptr ? rootObjectWrapper->CallbackRegistry : nullptr;
+
+        auto callbackRegistry = browserWrapper->CallbackRegistry;
         //these messages are roughly handled the same way
         if (name == kEvaluateJavascriptRequest || name == kJavascriptCallbackRequest)
         {
@@ -276,11 +286,11 @@ namespace CefSharp
             _javascriptRootObject = DeserializeJsRootObject(argList, 1);
             handled = true;
         }
-        else if (name == kJavascriptAsyncMethodCallResponse && rootObjectWrapper != nullptr)
+        else if (name == kJavascriptAsyncMethodCallResponse)
         {
             auto callbackId = GetInt64(argList, 0);
             JavascriptAsyncMethodCallback^ callback;
-            if (rootObjectWrapper->TryGetAndRemoveMethodCallback(callbackId, callback))
+            if (browserWrapper->MethodCallbackRegistry->TryRemoveObject(callbackId, callback))
             {
                 auto success = argList->GetBool(1);
                 if (success)
