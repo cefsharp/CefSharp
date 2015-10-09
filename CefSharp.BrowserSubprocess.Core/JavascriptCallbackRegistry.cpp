@@ -32,7 +32,7 @@ namespace CefSharp
         void JavascriptCallbackRegistry::Deregister(Int64 id)
         {
             JavascriptCallbackWrapper^ callback;
-            if(_callbacks->TryGetObject(id, callback))
+            if(_callbacks->TryRemoveObject(id, callback))
             {
                 delete callback;
             }
