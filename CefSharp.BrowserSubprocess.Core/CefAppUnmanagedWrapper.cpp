@@ -72,7 +72,8 @@ namespace CefSharp
                 wrapper = gcnew JavascriptRootObjectWrapper(browser->GetIdentifier(), browserWrapper->BrowserProcess);
                 rootObjectWrapperDictionary[frameID] = wrapper;
             }
-            else {
+            else
+            {
                 LOG(WARNING) << "A context has been created for the same browser / frame without context released called previously";
             }
             LOG(INFO) << "Bound Root Object Wrapper:" << browser->GetIdentifier() << ":" << frame->GetIdentifier();
