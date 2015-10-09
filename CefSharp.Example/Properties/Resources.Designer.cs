@@ -386,6 +386,38 @@ namespace CefSharp.Example.Properties {
         ///        &lt;a href=&quot;#&quot; onclick=&quot;window.open(&apos;https://github.com/perlun/CefSharp&apos;)&quot;&gt;window.open()&lt;/a&gt;
         ///	&lt;/body&gt;
         ///&lt;/html&gt;
+        ///	&lt;head&gt;
+        ///		&lt;title&gt;Multi Binding Test&lt;/title&gt;
+        ///	&lt;/head&gt;
+        ///	&lt;body&gt;
+        ///        &lt;table style=&quot;width:100%; height:100%&quot;&gt;
+        ///            &lt;tr height=&quot;50%&quot;&gt;
+        ///                &lt;td width=&quot;50%&quot;&gt;
+        ///                    &lt;iframe src=&quot;custom://cefsharp/BindingTest.html&quot; style=&quot;width:100%; height:100%&quot;&gt;&lt;/iframe&gt;
+        ///                &lt;/td&gt;
+        ///                &lt;td width=&quot;50%&quot;&gt;
+        ///                    &lt;iframe src=&quot;custom://cefsharp/BindingTest.html&quot; style=&quot;width:100%; heig [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string MultiBindingTest {
+            get {
+                return ResourceManager.GetString("MultiBindingTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
+        ///&lt;html&gt;
+        ///    &lt;head&gt;
+        ///        &lt;title&gt;Popup Test&lt;/title&gt;
+        ///    &lt;/head&gt;
+        ///    &lt;body&gt;
+        ///        &lt;a href=&quot;https://github.com/CefSharp/CefSharp&quot; target=&quot;_blank&quot;&gt;target=_blank&lt;/a&gt;
+        ///        &lt;br /&gt;
+        ///        &lt;a href=&quot;#&quot; onclick=&quot;window.open(&apos;https://github.com/CefSharp/CefSharp&apos;)&quot;&gt;window.open()&lt;/a&gt;
+        ///        &lt;br /&gt;
+        ///        &lt;a href=&quot;#&quot; onclick=&quot;window.open(&apos;custom://cefsharp/BindingTest.html&apos;)&quot;&gt;BindingTest.html&lt;/a&gt;
+        ///    &lt;/body&gt;
+        ///&lt;/html&gt;
         ///.
         /// </summary>
         internal static string PopupTest {
@@ -405,6 +437,24 @@ namespace CefSharp.Example.Properties {
         ///	&lt;p&gt;Scheme Handler Functioned Correctly&lt;/p&gt;
         ///	&lt;/body&gt;
         ///&lt;/html&gt;.
+        /// </summary>
+        internal static string SchemeTest {
+        ///&lt;head&gt;
+        ///    &lt;title&gt;Scheme Handler Test&lt;/title&gt;
+        ///
+        ///    &lt;script type=&quot;text/javascript&quot;&gt;
+        ///        var htmlNode;
+        ///        var newLine = &quot;\n&quot;;
+        ///        var showError = function (text)
+        ///        {
+        ///            if (!htmlNode)
+        ///            {
+        ///                htmlNode = document.createElement(&quot;div&quot;);
+        ///                htmlNode.id = &quot;debugWindow&quot;;
+        ///                document.body.appendChild(htmlNode);
+        ///            }
+        ///
+        ///            htmlNode.innerHTML [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string SchemeTest {
             get {
