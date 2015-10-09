@@ -65,12 +65,12 @@ namespace CefSharp
         if (!Object::ReferenceEquals(_javascriptRootObject, nullptr) || !Object::ReferenceEquals(_javascriptAsyncRootObject, nullptr))
         {
             auto rootObjectWrapperDictionary = browserWrapper->JavascriptRootObjectWrappers;
-            auto frameID = frame->GetIdentifier();
+            auto frameId = frame->GetIdentifier();
             JavascriptRootObjectWrapper^ wrapper;
-            if (!rootObjectWrapperDictionary->TryGetValue(frameID, wrapper) || wrapper == nullptr)
+            if (!rootObjectWrapperDictionary->TryGetValue(frameId, wrapper) || wrapper == nullptr)
             {
                 wrapper = gcnew JavascriptRootObjectWrapper(browser->GetIdentifier(), browserWrapper->BrowserProcess);
-                rootObjectWrapperDictionary[frameID] = wrapper;
+                rootObjectWrapperDictionary[frameId] = wrapper;
             }
             else
             {
