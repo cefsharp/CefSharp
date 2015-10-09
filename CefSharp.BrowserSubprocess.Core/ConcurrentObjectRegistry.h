@@ -16,14 +16,11 @@ namespace CefSharp
         public ref class ConcurrentObjectRegistry
         {
         private:
-            bool _deleteEntriesOnDestroy;
             Int64 _lastId;
             ConcurrentDictionary<Int64, T>^ _entries;
 
         public:
-            ConcurrentObjectRegistry(bool deleteEntriesOnDestroy) :
-                _deleteEntriesOnDestroy(deleteEntriesOnDestroy),
-                _entries(gcnew ConcurrentDictionary<Int64, T>())
+            ConcurrentObjectRegistry() : _entries(gcnew ConcurrentDictionary<Int64, T>())
             {
             }
 
@@ -31,12 +28,9 @@ namespace CefSharp
             {
                 if (_entries != nullptr)
                 {
-                    if (_deleteEntriesOnDestroy)
+                    for each (T entry in _entries->Values)
                     {
-                        for each (T entry in _entries->Values)
-                        {
-                            delete entry;
-                        }
+                        delete entry;
                     }
                     _entries->Clear();
                     delete _entries;

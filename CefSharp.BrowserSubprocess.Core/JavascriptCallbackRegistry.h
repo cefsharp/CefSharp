@@ -25,7 +25,7 @@ namespace CefSharp
         public:
             JavascriptCallbackRegistry(int browserId) : _browserId(browserId)
             {
-                _callbacks = gcnew ConcurrentObjectRegistry<JavascriptCallbackWrapper^>(true);
+                _callbacks = gcnew ConcurrentObjectRegistry<JavascriptCallbackWrapper^>();
             }
 
             ~JavascriptCallbackRegistry()

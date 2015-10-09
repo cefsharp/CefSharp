@@ -54,7 +54,7 @@ namespace CefSharp
     public:
         CefBrowserWrapper(CefRefPtr<CefBrowser> cefBrowser)
         {
-            _methodCallbacks = gcnew ConcurrentObjectRegistry<JavascriptAsyncMethodCallback^>(true);
+            _methodCallbacks = gcnew ConcurrentObjectRegistry<JavascriptAsyncMethodCallback^>();
             JavascriptRootObjectWrappers = gcnew ConcurrentDictionary<int64, JavascriptRootObjectWrapper^>();
             _cefBrowser = cefBrowser;
             BrowserId = cefBrowser->GetIdentifier();
