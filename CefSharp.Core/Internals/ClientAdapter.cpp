@@ -985,11 +985,12 @@ namespace CefSharp
             }
             else if (name == kJavascriptAsyncMethodCallRequest)
             {
-                auto objectId = GetInt64(argList, 0);
-                auto callbackId = GetInt64(argList, 1);
-                auto methodName = StringUtils::ToClr(argList->GetString(2));
-                auto arguments = argList->GetList(3);
-                auto methodInvocation = gcnew MethodInvocation(browser->GetIdentifier(), objectId, methodName, (callbackId > 0 ? Nullable<int64>(callbackId) : Nullable<int64>()));
+                auto frameId = GetInt64(argList, 0);
+                auto objectId = GetInt64(argList, 1);
+                auto callbackId = GetInt64(argList, 2);
+                auto methodName = StringUtils::ToClr(argList->GetString(3));
+                auto arguments = argList->GetList(4);
+                auto methodInvocation = gcnew MethodInvocation(browser->GetIdentifier(), frameId, objectId, methodName, (callbackId > 0 ? Nullable<int64>(callbackId) : Nullable<int64>()));
                 for (auto i = 0; i < static_cast<int>(arguments->GetSize()); i++)
                 {
                     methodInvocation->Parameters->Add(DeserializeObject(arguments, i, callbackFactory));
@@ -1032,15 +1033,16 @@ namespace CefSharp
             {
                 auto message = CefProcessMessage::Create(kJavascriptAsyncMethodCallResponse);
                 auto argList = message->GetArgumentList();
-                SetInt64(result->CallbackId.Value, argList, 0);
-                argList->SetBool(1, result->Success);
+                SetInt64(result->FrameId, argList, 0);
+                SetInt64(result->CallbackId.Value, argList, 1);
+                argList->SetBool(2, result->Success);
                 if (result->Success)
                 {
-                    SerializeV8Object(result->Result, argList, 2);
+                    SerializeV8Object(result->Result, argList, 3);
                 }
                 else
                 {
-                    argList->SetString(2, StringUtils::ToNative(result->Message));
+                    argList->SetString(3, StringUtils::ToNative(result->Message));
                 }
 
                 auto browser = GetBrowserWrapper(result->BrowserId);

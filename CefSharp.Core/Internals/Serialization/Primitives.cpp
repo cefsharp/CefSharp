@@ -97,11 +97,13 @@ namespace CefSharp
             {
                 auto id = value->Id;
                 auto browserId = value->BrowserId;
+                auto frameId = value->FrameId;
 
-                unsigned char mem[1 + sizeof(int) + sizeof(int64)];
+                unsigned char mem[1 + sizeof(int) + sizeof(int64) + sizeof(int64)];
                 mem[0] = static_cast<unsigned char>(PrimitiveType::JSCALLBACK);
                 memcpy(reinterpret_cast<void*>(mem + 1), &browserId, sizeof(int));
                 memcpy(reinterpret_cast<void*>(mem + 1 + sizeof(int)), &id, sizeof(int64));
+                memcpy(reinterpret_cast<void*>(mem + 1 + sizeof(int) + sizeof(int64)), &frameId, sizeof(int64));
 
                 auto binaryValue = CefBinaryValue::Create(mem, sizeof(mem));
                 list->SetBinary(index, binaryValue);
@@ -113,13 +115,16 @@ namespace CefSharp
                 auto result = gcnew JavascriptCallback();
                 int64 id;
                 int browserId;
+                int64 frameId;
 
                 auto binaryValue = list->GetBinary(index);
                 binaryValue->GetData(&browserId, sizeof(int), 1);
                 binaryValue->GetData(&id, sizeof(int64), 1 + sizeof(int));
+                binaryValue->GetData(&frameId, sizeof(int64), 1 + sizeof(int) + sizeof(int64));
 
                 result->Id = id;
                 result->BrowserId = browserId;
+                result->FrameId = frameId;
 
                 return result;
             }

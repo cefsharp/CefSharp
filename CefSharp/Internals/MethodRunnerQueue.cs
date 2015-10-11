@@ -114,6 +114,7 @@ namespace CefSharp.Internals
             {
                 BrowserId = methodInvocation.BrowserId,
                 CallbackId = methodInvocation.CallbackId,
+                FrameId = methodInvocation.FrameId,
                 Message = exception,
                 Result = result,
                 Success = success
