@@ -42,5 +42,19 @@ namespace CefSharp
         /// <param name="browser">the browser object</param>
         /// <param name="frame">The frame the request is coming from</param>
         void OnContextMenuDismissed(IWebBrowser browserControl, IBrowser browser, IFrame frame);
+
+        /// <summary>
+        /// Called to allow custom display of the context menu.
+        /// For custom display return true and execute callback either synchronously or asynchronously with the selected command Id.
+        /// For default display return false. Do not keep references to parameters or model outside of this callback. 
+        /// </summary>
+        /// <param name="browserControl">the ChromiumWebBrowser control</param>
+        /// <param name="browser">the browser object</param>
+        /// <param name="frame">The frame the request is coming from</param>
+        /// <param name="parameters">provides information about the context menu state</param>
+        /// <param name="model">contains the context menu model resulting from OnBeforeContextMenu</param>
+        /// <param name="callback"></param>
+        /// <returns>For custom display return true and execute callback either synchronously or asynchronously with the selected command ID.</returns>
+        bool RunContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model, IRunContextMenuCallback callback);
     }
 }

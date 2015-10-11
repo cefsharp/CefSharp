@@ -97,6 +97,7 @@
     <Compile Include="CefPdfPrintMarginType.cs" />
     <Compile Include="DraggableRegion.cs" />
     <Compile Include="Geoposition.cs" />
+    <Compile Include="IRunContextMenuCallback.cs" />
     <Compile Include="PdfPrintSettings.cs" />
     <Compile Include="ICookieManager.cs" />
     <Compile Include="ILoadHandler.cs" />

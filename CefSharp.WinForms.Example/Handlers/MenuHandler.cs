@@ -39,5 +39,10 @@ namespace CefSharp.WinForms.Example.Handlers
         {
 
         }
+
+        bool IContextMenuHandler.RunContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model, IRunContextMenuCallback callback)
+        {
+            return false;
+        }
     }
 }
