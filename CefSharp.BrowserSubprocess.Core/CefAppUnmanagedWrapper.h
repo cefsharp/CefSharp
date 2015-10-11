@@ -22,7 +22,7 @@ namespace CefSharp
 
         gcroot<Action<CefBrowserWrapper^>^> _onBrowserCreated;
         gcroot<Action<CefBrowserWrapper^>^> _onBrowserDestroyed;
-        gcroot<Dictionary<int, CefBrowserWrapper^>^> _browserWrappers;
+        gcroot<ConcurrentDictionary<int, CefBrowserWrapper^>^> _browserWrappers;
         gcroot<List<CefExtension^>^> _extensions;
         gcroot<List<CefCustomScheme^>^> _schemes;
 
@@ -39,7 +39,7 @@ namespace CefSharp
         {
             _onBrowserCreated = onBrowserCreated;
             _onBrowserDestroyed = onBrowserDestoryed;
-            _browserWrappers = gcnew Dictionary<int, CefBrowserWrapper^>();
+            _browserWrappers = gcnew ConcurrentDictionary<int, CefBrowserWrapper^>();
             _extensions = gcnew List<CefExtension^>();
             _schemes = schemes;
         }
