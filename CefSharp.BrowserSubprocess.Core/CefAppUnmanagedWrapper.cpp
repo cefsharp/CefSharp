@@ -58,23 +58,37 @@ namespace CefSharp
 
     void CefAppUnmanagedWrapper::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
     {
-        auto wrapper = FindBrowserWrapper(browser->GetIdentifier(), true);
+        auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier(), true);
 
         if (!Object::ReferenceEquals(_javascriptRootObject, nullptr) || !Object::ReferenceEquals(_javascriptAsyncRootObject, nullptr))
         {
-            wrapper->JavascriptRootObjectWrapper = gcnew JavascriptRootObjectWrapper(browser->GetIdentifier(), wrapper->BrowserProcess);
-            wrapper->JavascriptRootObjectWrapper->Bind(_javascriptRootObject, _javascriptAsyncRootObject, context->GetGlobal());
+            auto rootObjectWrappers = browserWrapper->JavascriptRootObjectWrappers;
+            auto frameId = frame->GetIdentifier();
+
+            if (rootObjectWrappers->ContainsKey(frameId))
+            {
+                LOG(WARNING) << "A context has been created for the same browser / frame without context released called previously";
+            }
+            else
+            {
+                auto rootObject = gcnew JavascriptRootObjectWrapper(browser->GetIdentifier(), browserWrapper->BrowserProcess);
+                rootObject->Bind(_javascriptRootObject, _javascriptAsyncRootObject, context->GetGlobal());
+
+                rootObjectWrappers->TryAdd(frameId, rootObject);
+            }
         }
     };
 
     void CefAppUnmanagedWrapper::OnContextReleased(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
     { 
-        auto wrapper = FindBrowserWrapper(browser->GetIdentifier(), true);
+        auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier(), true);
 
-        if (wrapper->JavascriptRootObjectWrapper != nullptr)
+        auto rootObjectWrappers = browserWrapper->JavascriptRootObjectWrappers;
+        
+        JavascriptRootObjectWrapper^ wrapper;
+        if (rootObjectWrappers->TryRemove(frame->GetIdentifier(), wrapper))
         {
-            delete wrapper->JavascriptRootObjectWrapper;
-            wrapper->JavascriptRootObjectWrapper = nullptr;
+            delete wrapper;
         }
     };
 
@@ -141,8 +155,6 @@ namespace CefSharp
             return true;
         }
     
-        auto rootObjectWrapper = browserWrapper->JavascriptRootObjectWrapper;
-        auto callbackRegistry = rootObjectWrapper != nullptr ? rootObjectWrapper->CallbackRegistry : nullptr;
         //these messages are roughly handled the same way
         if (name == kEvaluateJavascriptRequest || name == kJavascriptCallbackRequest)
         {
@@ -150,12 +162,16 @@ namespace CefSharp
             CefRefPtr<CefV8Value> result;
             CefString errorMessage;
             CefRefPtr<CefProcessMessage> response;
-            //both messages have the callbackid stored at index 1
+            //both messages have the frameId stored at 0 and callbackId stored at index 1
+            auto frameId = GetInt64(argList, 0);
             int64 callbackId = GetInt64(argList, 1);
+
+            JavascriptRootObjectWrapper^ rootObjectWrapper;
+            auto rootObjectWrappers = browserWrapper->JavascriptRootObjectWrappers->TryGetValue(frameId, rootObjectWrapper);
+            auto callbackRegistry = rootObjectWrapper == nullptr ? nullptr : rootObjectWrapper->CallbackRegistry;
 
             if (name == kEvaluateJavascriptRequest)
             {
-                auto frameId = GetInt64(argList, 0);
                 auto script = argList->GetString(2);
 
                 response = CefProcessMessage::Create(kEvaluateJavascriptResponse);
@@ -200,8 +216,8 @@ namespace CefSharp
             }
             else
             {
-                auto jsCallbackId = GetInt64(argList, 0);
-                auto parameterList = argList->GetList(2);
+                auto jsCallbackId = GetInt64(argList, 2);
+                auto parameterList = argList->GetList(3);
                 CefV8ValueList params;
                 for (CefV8ValueList::size_type i = 0; i < parameterList->GetSize(); i++)
                 {
@@ -264,7 +280,11 @@ namespace CefSharp
         else if (name == kJavascriptCallbackDestroyRequest)
         {
             auto jsCallbackId = GetInt64(argList, 0);
-            callbackRegistry->Deregister(jsCallbackId);
+            auto frameId = GetInt64(argList, 1);
+            JavascriptRootObjectWrapper^ rootObjectWrapper;
+            auto rootObjectWrappers = browserWrapper->JavascriptRootObjectWrappers->TryGetValue(frameId, rootObjectWrapper);
+
+            rootObjectWrapper->CallbackRegistry->Deregister(jsCallbackId);
 
             handled = true;
         }
@@ -274,23 +294,31 @@ namespace CefSharp
             _javascriptRootObject = DeserializeJsRootObject(argList, 1);
             handled = true;
         }
-        else if (name == kJavascriptAsyncMethodCallResponse && rootObjectWrapper != nullptr)
+        else if (name == kJavascriptAsyncMethodCallResponse)
         {
-            auto callbackId = GetInt64(argList, 0);
-            JavascriptAsyncMethodCallback^ callback;
-            if (rootObjectWrapper->TryGetAndRemoveMethodCallback(callbackId, callback))
+            auto frameId = GetInt64(argList, 0);
+            auto callbackId = GetInt64(argList, 1);
+            
+            JavascriptRootObjectWrapper^ rootObjectWrapper;
+            auto rootObjectWrappers = browserWrapper->JavascriptRootObjectWrappers->TryGetValue(frameId, rootObjectWrapper);
+
+            if (rootObjectWrapper != nullptr)
             {
-                auto success = argList->GetBool(1);
-                if (success)
+                JavascriptAsyncMethodCallback^ callback;
+                if (rootObjectWrapper->TryGetAndRemoveMethodCallback(callbackId, callback))
                 {
-                    callback->Success(DeserializeV8Object(argList, 2));
+                    auto success = argList->GetBool(2);
+                    if (success)
+                    {
+                        callback->Success(DeserializeV8Object(argList, 3));
+                    }
+                    else
+                    {
+                        callback->Fail(argList->GetString(3));
+                    }
+                    //dispose
+                    delete callback;
                 }
-                else
-                {
-                    callback->Fail(argList->GetString(2));
-                }
-                //dispose
-                delete callback;
             }
             handled = true;
         }

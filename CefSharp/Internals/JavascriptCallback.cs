@@ -14,5 +14,8 @@ namespace CefSharp.Internals
 
         [DataMember]
         public int BrowserId { get; set; }
+
+        [DataMember]
+        public long FrameId { get; set; }
     }
 }

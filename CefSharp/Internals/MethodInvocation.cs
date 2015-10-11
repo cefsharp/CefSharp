@@ -12,6 +12,8 @@ namespace CefSharp.Internals
 
         public int BrowserId { get; private set; }
 
+        public long FrameId { get; private set; }
+
         public long? CallbackId { get; private set; }
 
         public long ObjectId { get; private set; }
@@ -23,9 +25,10 @@ namespace CefSharp.Internals
             get { return parameters; }
         }
 
-        public MethodInvocation(int browserId, long objectId, string methodName, long? callbackId)
+        public MethodInvocation(int browserId, long frameId, long objectId, string methodName, long? callbackId)
         {
             BrowserId = browserId;
+            FrameId = frameId;
             CallbackId = callbackId;
             ObjectId = objectId;
             MethodName = methodName;
