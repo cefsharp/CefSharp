@@ -893,6 +893,19 @@ namespace CefSharp
             return handler->OnDragEnter(_browserControl, browserWrapper, %dragDataWrapper, (CefSharp::DragOperationsMask)mask);
         }
 
+        void ClientAdapter::OnDraggableRegionsChanged(CefRefPtr<CefBrowser> browser, const std::vector<CefDraggableRegion>& regions)
+        {
+            auto handler = _browserControl->DragHandler;
+
+            if (handler != nullptr)
+            {
+                auto regionsList = TypeConversion::FromNative(regions);
+                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+
+                return handler->OnDraggableRegionsChanged(_browserControl, browserWrapper, regionsList);
+            }
+        }
+
         bool ClientAdapter::OnRequestGeolocationPermission(CefRefPtr<CefBrowser> browser, const CefString& requesting_url, int request_id, CefRefPtr<CefGeolocationCallback> callback)
         {
             auto handler = _browserControl->GeolocationHandler;

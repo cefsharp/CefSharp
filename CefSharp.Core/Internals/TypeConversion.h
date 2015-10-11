@@ -11,6 +11,8 @@
 #include "include\cef_response.h"
 #include "include\cef_web_plugin.h"
 
+using namespace System::Collections::Generic;
+
 namespace CefSharp
 {
     namespace Internals
@@ -86,6 +88,23 @@ namespace CefSharp
                 managedWebPluginInfo->Version = StringUtils::ToClr(webPluginInfo->GetVersion());
 
                 return managedWebPluginInfo;
+            }
+
+            static IList<DraggableRegion>^ FromNative(const std::vector<CefDraggableRegion>& regions)
+            {
+                if (regions.size() == 0)
+                {
+                    return nullptr;
+                }
+
+                auto list = gcnew List<DraggableRegion>();
+
+                for each (CefDraggableRegion region in regions)
+                {
+                    list->Add(DraggableRegion(region.bounds.width, region.bounds.height, region.bounds.x, region.bounds.y, region.draggable == 1));
+                }
+                
+                return list;
             }
         };
     }
