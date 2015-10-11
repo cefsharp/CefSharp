@@ -241,6 +241,9 @@
     <ClInclude Include="Internals\CefPdfPrintCallbackWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Internals\CefRunContextMenuCallbackWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Internals\CefSharpBrowserWrapper.h">

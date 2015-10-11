@@ -263,6 +263,7 @@
     <ClInclude Include="Internals\CefPostDataElementWrapper.h" />
     <ClInclude Include="Internals\CefPostDataWrapper.h" />
     <ClInclude Include="Internals\CefResponseWrapper.h" />
+    <ClInclude Include="Internals\CefRunContextMenuCallbackWrapper.h" />
     <ClInclude Include="Internals\CefSharpBrowserWrapper.h" />
     <ClInclude Include="Internals\CefSslInfoWrapper.h" />
     <ClInclude Include="Internals\CefTaskScheduler.h" />

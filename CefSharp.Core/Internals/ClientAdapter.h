@@ -146,6 +146,7 @@ namespace CefSharp
             virtual DECL bool OnContextMenuCommand(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
                 CefRefPtr<CefContextMenuParams> params, int commandId, EventFlags eventFlags) OVERRIDE;
             virtual DECL void OnContextMenuDismissed(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame) OVERRIDE;
+            virtual DECL bool RunContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model, CefRefPtr<CefRunContextMenuCallback> callback) OVERRIDE;
 
             // CefFocusHandler
             virtual DECL void OnGotFocus(CefRefPtr<CefBrowser> browser) OVERRIDE;

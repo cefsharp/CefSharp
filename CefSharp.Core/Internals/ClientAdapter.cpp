@@ -23,6 +23,7 @@
 #include "CefAuthCallbackWrapper.h"
 #include "CefJSDialogCallbackWrapper.h"
 #include "CefRequestCallbackWrapper.h"
+#include "CefRunContextMenuCallbackWrapper.h"
 #include "WindowInfo.h"
 #include "Serialization\Primitives.h"
 #include "Serialization\V8Serialization.h"
@@ -748,6 +749,25 @@ namespace CefSharp
                 
                 handler->OnContextMenuDismissed(_browserControl, browserWrapper, %frameWrapper);
             }
+        }
+
+        bool ClientAdapter::RunContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model, CefRefPtr<CefRunContextMenuCallback> callback)
+        {
+            auto handler = _browserControl->MenuHandler;
+
+            if (handler == nullptr)
+            {
+                return false;
+            }
+
+            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+            CefFrameWrapper frameWrapper(frame);
+            CefContextMenuParamsWrapper contextMenuParamsWrapper(params);
+            CefMenuModelWrapper menuModelWrapper(model);
+
+            auto callbackWrapper = gcnew CefRunContextMenuCallbackWrapper(callback);
+
+            return handler->RunContextMenu(_browserControl, browserWrapper, %frameWrapper, %contextMenuParamsWrapper, %menuModelWrapper, callbackWrapper);
         }
 
         void ClientAdapter::OnGotFocus(CefRefPtr<CefBrowser> browser)
