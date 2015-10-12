@@ -23,6 +23,9 @@ namespace CefSharp.Wpf.Example.Views
             browser.MenuHandler = new MenuHandler();
             browser.GeolocationHandler = new GeolocationHandler();
             browser.DownloadHandler = new DownloadHandler();
+            browser.RequestContext = new RequestContext(new PluginHandler());
+            
+            browser.RequestContext.RegisterSchemeHandlerFactory(CefSharpSchemeHandlerFactory.SchemeName, null, new CefSharpSchemeHandlerFactory());
             
             browser.LoadError += (sender, args) =>
             {
