@@ -38,10 +38,11 @@ namespace CefSharp
                     SerializeV8Object(arguments[i], params, i, _callbackRegistry);
                 }
 
-                SetInt64(_objectId, argList, 0);
-                SetInt64(callbackId, argList, 1);
-                argList->SetString(2, name);
-                argList->SetList(3, params);
+                SetInt64(context->GetFrame()->GetIdentifier(), argList, 0);
+                SetInt64(_objectId, argList, 1);
+                SetInt64(callbackId, argList, 2);
+                argList->SetString(3, name);
+                argList->SetList(4, params);
 
                 browser->SendProcessMessage(CefProcessId::PID_BROWSER, request);
 

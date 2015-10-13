@@ -20,6 +20,7 @@ namespace CefSharp
             auto result = gcnew JavascriptCallback();
             result->Id = newId;
             result->BrowserId = _browserId;
+            result->FrameId = context->GetFrame()->GetIdentifier();
             return result;
         }
 

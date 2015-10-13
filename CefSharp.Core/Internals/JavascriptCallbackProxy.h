@@ -25,7 +25,6 @@ namespace CefSharp
             PendingTaskRepository<JavascriptResponse^>^ _pendingTasks;
             bool _disposed;
 
-            CefRefPtr<CefProcessMessage> CreateCallMessage(int64 doneCallbackId, cli::array<Object^>^ parameters);
             CefRefPtr<CefProcessMessage> CreateDestroyMessage();
             IBrowser^ GetBrowser();
             void DisposedGuard();

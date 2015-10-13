@@ -28,26 +28,23 @@ namespace CefSharp
             auto browserWrapper = static_cast<CefSharpBrowserWrapper^>(browser);
 
             auto doneCallback = _pendingTasks->CreatePendingTask(Nullable<TimeSpan>());
-            auto callbackMessage = CreateCallMessage(doneCallback.Key, parameters);
-            browserWrapper->SendProcessMessage(CefProcessId::PID_RENDERER, callbackMessage);
 
-            return doneCallback.Value->Task;
-        }
-
-        CefRefPtr<CefProcessMessage> JavascriptCallbackProxy::CreateCallMessage(int64 doneCallbackId, cli::array<Object^>^ parameters)
-        {
-            auto result = CefProcessMessage::Create(kJavascriptCallbackRequest);
-            auto argList = result->GetArgumentList();
-            SetInt64(_callback->Id, argList, 0);
-            SetInt64(doneCallbackId, argList, 1);
+            auto callbackMessage = CefProcessMessage::Create(kJavascriptCallbackRequest);
+            auto argList = callbackMessage->GetArgumentList();
+            SetInt64(_callback->FrameId, argList, 0);
+            SetInt64(doneCallback.Key, argList, 1);
+            SetInt64(_callback->Id, argList, 2);
             auto paramList = CefListValue::Create();
             for (int i = 0; i < parameters->Length; i++)
             {
                 auto param = parameters[i];
                 SerializeV8Object(param, paramList, i);
             }
-            argList->SetList(2, paramList);
-            return result;
+            argList->SetList(3, paramList);
+
+            browserWrapper->SendProcessMessage(CefProcessId::PID_RENDERER, callbackMessage);
+
+            return doneCallback.Value->Task;
         }
 
         CefRefPtr<CefProcessMessage> JavascriptCallbackProxy::CreateDestroyMessage()
@@ -55,6 +52,7 @@ namespace CefSharp
             auto result = CefProcessMessage::Create(kJavascriptCallbackDestroyRequest);
             auto argList = result->GetArgumentList();
             SetInt64(_callback->Id, argList, 0);
+            SetInt64(_callback->FrameId, argList, 1);
             return result;
         }
 
