@@ -10,6 +10,8 @@
 
 #include "CefWrapper.h"
 
+#include "CefWriteHandlerWrapper.h"
+
 using namespace std;
 using namespace System;
 using namespace System::IO;
@@ -168,8 +170,13 @@ namespace CefSharp
 
             virtual Stream^ GetFileContents()
             {
-                //_wrappedDragData->GetFileContents()
-                throw gcnew NotImplementedException("Need to implement a Wrapper around CefStreamWriter before this method can be implemented.");
+                MemoryStream^ ms = gcnew MemoryStream();
+                CefWriteHandlerWrapper* w = new CefWriteHandlerWrapper(ms);
+
+                CefRefPtr<CefStreamWriter> writer = CefStreamWriter::CreateForHandler(w);
+                _wrappedDragData->GetFileContents(writer);
+
+                return ms;
             }
         };
     }
