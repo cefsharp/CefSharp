@@ -12,6 +12,7 @@
 #include "Stdafx.h"
 #include "JavascriptRootObjectWrapper.h"
 #include "Async/JavascriptAsyncMethodCallback.h"
+#include "ConcurrentObjectRegistry.h"
 
 using namespace CefSharp::Internals::Async;
 using namespace System::ServiceModel;
@@ -26,15 +27,38 @@ namespace CefSharp
     {
     private:
         MCefRefPtr<CefBrowser> _cefBrowser;
+        // The entire set of possible JavaScript functions to
+        // call directly into.
+        JavascriptCallbackRegistry^ _callbackRegistry;
+        ConcurrentObjectRegistry<JavascriptAsyncMethodCallback^>^ _methodCallbacks;
     
     internal:
-        property JavascriptRootObjectWrapper^ JavascriptRootObjectWrapper;
+        property ConcurrentDictionary<int64, JavascriptRootObjectWrapper^>^ JavascriptRootObjectWrappers;
+        
+        property JavascriptCallbackRegistry^ CallbackRegistry
+        {
+            CefSharp::Internals::JavascriptCallbackRegistry^ get()
+            {
+                return _callbackRegistry;
+            }
+        }
+
+        property ConcurrentObjectRegistry<JavascriptAsyncMethodCallback^>^ MethodCallbackRegistry
+        {
+            CefSharp::Internals::ConcurrentObjectRegistry<JavascriptAsyncMethodCallback^>^ get()
+            {
+                return _methodCallbacks;
+            }
+        }
 
     public:
         CefBrowserWrapper(CefRefPtr<CefBrowser> cefBrowser)
         {
+            _methodCallbacks = gcnew ConcurrentObjectRegistry<JavascriptAsyncMethodCallback^>();
+            JavascriptRootObjectWrappers = gcnew ConcurrentDictionary<int64, JavascriptRootObjectWrapper^>();
             _cefBrowser = cefBrowser;
             BrowserId = cefBrowser->GetIdentifier();
+            _callbackRegistry = gcnew JavascriptCallbackRegistry(BrowserId);
             IsPopup = cefBrowser->IsPopup();
         }
         
@@ -46,12 +70,26 @@ namespace CefSharp
         ~CefBrowserWrapper()
         {
             this->!CefBrowserWrapper();
-
-            if (JavascriptRootObjectWrapper != nullptr)
+            if (JavascriptRootObjectWrappers != nullptr)
             {
-                delete JavascriptRootObjectWrapper;
+                for each(auto entry in JavascriptRootObjectWrappers)
+                {
+                    delete entry.Value;
+                }
+                delete JavascriptRootObjectWrappers;
 
-                JavascriptRootObjectWrapper = nullptr;
+                JavascriptRootObjectWrappers = nullptr;
+            }
+            if (_callbackRegistry != nullptr)
+            {
+                delete _callbackRegistry;
+                _callbackRegistry = nullptr;
+            }
+
+            if (_methodCallbacks != nullptr)
+            {
+                delete _methodCallbacks;
+                _methodCallbacks = nullptr;
             }
         }
 

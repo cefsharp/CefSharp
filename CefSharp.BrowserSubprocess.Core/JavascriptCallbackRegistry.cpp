@@ -1,4 +1,4 @@
-// Copyright � 2010-2015 The CefSharp Authors. All rights reserved.
+﻿// Copyright © 2010-2015 The CefSharp Project. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -13,9 +13,8 @@ namespace CefSharp
     {
         JavascriptCallback^ JavascriptCallbackRegistry::Register(const CefRefPtr<CefV8Context>& context, const CefRefPtr<CefV8Value>& value)
         {
-            Int64 newId = Interlocked::Increment(_lastId);
             JavascriptCallbackWrapper^ wrapper = gcnew JavascriptCallbackWrapper(value, context);
-            _callbacks->TryAdd(newId, wrapper);
+            Int64 newId = _callbacks->RegisterObject(wrapper);
 
             auto result = gcnew JavascriptCallback();
             result->Id = newId;
@@ -26,14 +25,14 @@ namespace CefSharp
         JavascriptCallbackWrapper^ JavascriptCallbackRegistry::FindWrapper(int64 id)
         {
             JavascriptCallbackWrapper^ callback;
-            _callbacks->TryGetValue(id, callback);
+            _callbacks->TryGetObject(id, callback);
             return callback;
         }
 
         void JavascriptCallbackRegistry::Deregister(Int64 id)
         {
             JavascriptCallbackWrapper^ callback;
-            if(_callbacks->TryRemove(id, callback))
+            if(_callbacks->TryRemoveObject(id, callback))
             {
                 delete callback;
             }

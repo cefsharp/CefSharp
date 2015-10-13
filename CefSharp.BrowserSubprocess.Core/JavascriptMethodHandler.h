@@ -13,19 +13,20 @@ namespace CefSharp
     {
     private:
         gcroot<Func<array<Object^>^, BrowserProcessResponse^>^> _method;
-        gcroot<JavascriptCallbackRegistry^> _callbackRegistry;
+        gcroot<JavascriptCallbackRegistry^> _callbackRegistryReference;
 
     public:
-        JavascriptMethodHandler(Func<array<Object^>^, BrowserProcessResponse^>^ method, JavascriptCallbackRegistry^ callbackRegistry)
+        JavascriptMethodHandler(Func<array<Object^>^, BrowserProcessResponse^>^ method, JavascriptCallbackRegistry^ callbackRegistryReference)
         {
             _method = method;
-            _callbackRegistry = callbackRegistry;
+            _callbackRegistryReference = callbackRegistryReference;
         }
 
         ~JavascriptMethodHandler()
         {
             delete _method;
-            delete _callbackRegistry;
+            _callbackRegistryReference = nullptr;
+            _method = nullptr;
         }
 
         virtual bool Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception) OVERRIDE;
