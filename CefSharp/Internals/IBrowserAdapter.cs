@@ -16,5 +16,6 @@ namespace CefSharp.Internals
         void OnAfterBrowserCreated(int browserId);
         IBrowser GetBrowser();
         IBrowser GetBrowser(int browserId);
+        bool IsDisposed { get; }
     }
 }

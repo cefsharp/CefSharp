@@ -541,7 +541,7 @@ namespace CefSharp
 
         void ClientAdapter::OnRenderViewReady(CefRefPtr<CefBrowser> browser)
         {
-            if (!Object::ReferenceEquals(_browserAdapter, nullptr) && !browser->IsPopup())
+            if (!Object::ReferenceEquals(_browserAdapter, nullptr) && !_browserAdapter->IsDisposed && !browser->IsPopup())
             {
                 auto objectRepository = _browserAdapter->JavascriptObjectRepository;
 
@@ -1016,7 +1016,7 @@ namespace CefSharp
 
                 handled = true;
             }
-            else if (name == kJavascriptAsyncMethodCallRequest)
+            else if (name == kJavascriptAsyncMethodCallRequest && !_browserAdapter->IsDisposed)
             {
                 auto frameId = GetInt64(argList, 0);
                 auto objectId = GetInt64(argList, 1);
