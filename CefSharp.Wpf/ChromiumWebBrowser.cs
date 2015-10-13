@@ -15,6 +15,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
 namespace CefSharp.Wpf
@@ -265,16 +266,15 @@ namespace CefSharp.Wpf
             dataObject.SetText(dragData.FragmentText, TextDataFormat.UnicodeText);
             dataObject.SetText(dragData.FragmentHtml, TextDataFormat.Html);
 
-            // TODO: The following code block *should* handle images, but GetFileContents is
-            // not yet implemented.
-            //if (dragData.IsFile)
-            //{
-            //    var bmi = new BitmapImage();
-            //    bmi.BeginInit();
-            //    bmi.StreamSource = dragData.GetFileContents();
-            //    bmi.EndInit();
-            //    dataObject.SetImage(bmi);
-            //}
+            if (dragData.IsFile)
+            {
+                var bmi = new BitmapImage();
+                bmi.BeginInit();
+                bmi.StreamSource = dragData.GetFileContents();
+                bmi.EndInit();
+                bmi.Freeze();
+                dataObject.SetImage(bmi);
+            }
 
             UiThreadRunAsync(delegate
             {

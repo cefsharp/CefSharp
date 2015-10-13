@@ -77,6 +77,9 @@
     <ClCompile Include="Internals\Serialization\ObjectsSerialization.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CefWriteHandlerWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vcclr_local.h">
@@ -239,6 +242,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Internals\CefCompletionCallbackAdapter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CefWriteHandlerWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
