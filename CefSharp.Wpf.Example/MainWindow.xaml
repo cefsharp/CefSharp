@@ -25,6 +25,7 @@
                 <MenuItem Header="_Fish Gl" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="http://www.fishgl.com/"/>
                 <MenuItem Header="_Microsoft Test Drive" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="http://dev.modern.ie/testdrive/"/>
                 <MenuItem Header="_Drag Demo" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="http://html5demos.com/drag"/>
+                <MenuItem Header="_Adobe Flash Demo" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="http://www.adobe.com/software/flash/about/"/>
                 <MenuItem Header="Print Current tab to PDF" Command="controls:CefSharpCommands.PrintTabToPdfCommand" />
             </MenuItem>
         </Menu>

@@ -95,7 +95,10 @@
     <Compile Include="CefJsDialogType.cs" />
     <Compile Include="CefMenuCommand.cs" />
     <Compile Include="CefPdfPrintMarginType.cs" />
+    <Compile Include="DraggableRegion.cs" />
     <Compile Include="Geoposition.cs" />
+    <Compile Include="IPluginHandler.cs" />
+    <Compile Include="IRunContextMenuCallback.cs" />
     <Compile Include="PdfPrintSettings.cs" />
     <Compile Include="ICookieManager.cs" />
     <Compile Include="ILoadHandler.cs" />
@@ -177,12 +180,14 @@
     <Compile Include="KeyType.cs" />
     <Compile Include="PaintElementType.cs" />
     <Compile Include="Plugin.cs" />
+    <Compile Include="PluginPolicy.cs" />
     <Compile Include="PostDataElementType.cs" />
     <Compile Include="PostDataExtensions.cs" />
     <Compile Include="ResourceHandler.cs" />
     <Compile Include="ResourceHandlerType.cs" />
     <Compile Include="ResponseAction.cs" />
     <Compile Include="Internals\ScreenInfo.cs" />
+    <Compile Include="TaskCompletionHandler.cs" />
     <Compile Include="TaskPrintToPdf.cs" />
     <Compile Include="TransitionType.cs" />
     <Compile Include="LoadingStateChangedEventArgs.cs" />

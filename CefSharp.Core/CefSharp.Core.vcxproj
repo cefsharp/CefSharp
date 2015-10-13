@@ -263,11 +263,13 @@
     <ClInclude Include="Internals\CefPostDataElementWrapper.h" />
     <ClInclude Include="Internals\CefPostDataWrapper.h" />
     <ClInclude Include="Internals\CefResponseWrapper.h" />
+    <ClInclude Include="Internals\CefRunContextMenuCallbackWrapper.h" />
     <ClInclude Include="Internals\CefSharpBrowserWrapper.h" />
     <ClInclude Include="Internals\CefSslInfoWrapper.h" />
     <ClInclude Include="Internals\CefTaskScheduler.h" />
     <ClInclude Include="Internals\CefTaskWrapper.h" />
     <ClInclude Include="Internals\CefWrapper.h" />
+    <ClInclude Include="RequestContextHandler.h" />
     <ClInclude Include="WindowInfo.h" />
     <ClInclude Include="Internals\CefCompletionCallbackAdapter.h" />
     <ClInclude Include="Internals\ClientAdapter.h" />

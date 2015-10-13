@@ -23,6 +23,7 @@
 #include "CefAuthCallbackWrapper.h"
 #include "CefJSDialogCallbackWrapper.h"
 #include "CefRequestCallbackWrapper.h"
+#include "CefRunContextMenuCallbackWrapper.h"
 #include "WindowInfo.h"
 #include "Serialization\Primitives.h"
 #include "Serialization\V8Serialization.h"
@@ -750,6 +751,25 @@ namespace CefSharp
             }
         }
 
+        bool ClientAdapter::RunContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model, CefRefPtr<CefRunContextMenuCallback> callback)
+        {
+            auto handler = _browserControl->MenuHandler;
+
+            if (handler == nullptr)
+            {
+                return false;
+            }
+
+            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+            CefFrameWrapper frameWrapper(frame);
+            CefContextMenuParamsWrapper contextMenuParamsWrapper(params);
+            CefMenuModelWrapper menuModelWrapper(model);
+
+            auto callbackWrapper = gcnew CefRunContextMenuCallbackWrapper(callback);
+
+            return handler->RunContextMenu(_browserControl, browserWrapper, %frameWrapper, %contextMenuParamsWrapper, %menuModelWrapper, callbackWrapper);
+        }
+
         void ClientAdapter::OnGotFocus(CefRefPtr<CefBrowser> browser)
         {
             auto handler = _browserControl->FocusHandler;
@@ -891,6 +911,19 @@ namespace CefSharp
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
 
             return handler->OnDragEnter(_browserControl, browserWrapper, %dragDataWrapper, (CefSharp::DragOperationsMask)mask);
+        }
+
+        void ClientAdapter::OnDraggableRegionsChanged(CefRefPtr<CefBrowser> browser, const std::vector<CefDraggableRegion>& regions)
+        {
+            auto handler = _browserControl->DragHandler;
+
+            if (handler != nullptr)
+            {
+                auto regionsList = TypeConversion::FromNative(regions);
+                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+
+                return handler->OnDraggableRegionsChanged(_browserControl, browserWrapper, regionsList);
+            }
         }
 
         bool ClientAdapter::OnRequestGeolocationPermission(CefRefPtr<CefBrowser> browser, const CefString& requesting_url, int request_id, CefRefPtr<CefGeolocationCallback> callback)

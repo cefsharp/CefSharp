@@ -8,6 +8,7 @@
 #include "include\cef_request_context.h"
 #include "RequestContextSettings.h"
 #include "SchemeHandlerFactoryWrapper.h"
+#include "RequestContextHandler.h"
 
 namespace CefSharp
 {
@@ -39,6 +40,17 @@ namespace CefSharp
         RequestContext(RequestContextSettings^ settings) : _settings(settings)
         {
             _requestContext = CefRequestContext::CreateContext(settings, NULL);
+        }
+
+        RequestContext(IPluginHandler^ pluginHandler)
+        {
+            CefRequestContextSettings settings;
+            _requestContext = CefRequestContext::CreateContext(settings, new RequestContextHandler(pluginHandler));
+        }
+
+        RequestContext(RequestContextSettings^ settings, IPluginHandler^ pluginHandler) : _settings(settings)
+        {
+            _requestContext = CefRequestContext::CreateContext(settings, new RequestContextHandler(pluginHandler));
         }
 
         !RequestContext()
