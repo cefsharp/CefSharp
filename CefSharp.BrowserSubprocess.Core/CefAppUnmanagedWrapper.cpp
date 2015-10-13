@@ -167,10 +167,13 @@ namespace CefSharp
             int64 callbackId = GetInt64(argList, 1);
 
             JavascriptRootObjectWrapper^ rootObjectWrapper;
-            auto rootObjectWrappers = browserWrapper->JavascriptRootObjectWrappers->TryGetValue(frameId, rootObjectWrapper);
+            browserWrapper->JavascriptRootObjectWrappers->TryGetValue(frameId, rootObjectWrapper);
             auto callbackRegistry = rootObjectWrapper == nullptr ? nullptr : rootObjectWrapper->CallbackRegistry;
-
-            if (name == kEvaluateJavascriptRequest)
+            if (callbackRegistry == nullptr)
+            {
+                success = false;
+                errorMessage = StringUtils::ToNative("Frame " + frameId + " is not valid anymore.");
+            } else if (name == kEvaluateJavascriptRequest)
             {
                 auto script = argList->GetString(2);
 
@@ -282,9 +285,11 @@ namespace CefSharp
             auto jsCallbackId = GetInt64(argList, 0);
             auto frameId = GetInt64(argList, 1);
             JavascriptRootObjectWrapper^ rootObjectWrapper;
-            auto rootObjectWrappers = browserWrapper->JavascriptRootObjectWrappers->TryGetValue(frameId, rootObjectWrapper);
-
-            rootObjectWrapper->CallbackRegistry->Deregister(jsCallbackId);
+            browserWrapper->JavascriptRootObjectWrappers->TryGetValue(frameId, rootObjectWrapper);
+            if (rootObjectWrapper != nullptr && rootObjectWrapper->CallbackRegistry != nullptr)
+            {
+                rootObjectWrapper->CallbackRegistry->Deregister(jsCallbackId);
+            }
 
             handled = true;
         }
@@ -300,7 +305,7 @@ namespace CefSharp
             auto callbackId = GetInt64(argList, 1);
             
             JavascriptRootObjectWrapper^ rootObjectWrapper;
-            auto rootObjectWrappers = browserWrapper->JavascriptRootObjectWrappers->TryGetValue(frameId, rootObjectWrapper);
+            browserWrapper->JavascriptRootObjectWrappers->TryGetValue(frameId, rootObjectWrapper);
 
             if (rootObjectWrapper != nullptr)
             {
