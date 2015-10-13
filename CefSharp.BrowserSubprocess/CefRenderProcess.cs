@@ -18,7 +18,6 @@ namespace CefSharp.BrowserSubprocess
         /// The PID for the parent (browser) process
         /// </summary>
         private int? parentProcessId;
-        private List<CefBrowserWrapper> browsers = new List<CefBrowserWrapper>();
 
         public CefRenderProcess(IEnumerable<string> args) : base(args)
         {
@@ -43,23 +42,9 @@ namespace CefSharp.BrowserSubprocess
                 .First();
             return int.Parse(parentProcessId);
         }
-        
-        protected override void DoDispose(bool isDisposing)
-        {
-            foreach(var browser in browsers)
-            {
-                browser.Dispose();
-            }
-
-            browsers = null;
-
-            base.DoDispose(isDisposing);
-        }
 
         public override void OnBrowserCreated(CefBrowserWrapper browser)
         {
-            browsers.Add(browser);
-
             if (parentBrowserId == null)
             {
                 parentBrowserId = browser.BrowserId;
@@ -100,8 +85,6 @@ namespace CefSharp.BrowserSubprocess
 
         public override void OnBrowserDestroyed(CefBrowserWrapper browser)
         {
-            browsers.Remove(browser);
-
             var channelFactory = browser.ChannelFactory;
 
             if (channelFactory.State == CommunicationState.Opened)

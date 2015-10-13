@@ -46,7 +46,15 @@ namespace CefSharp
 
         ~CefAppUnmanagedWrapper()
         {
-            delete _browserWrappers;
+            if (!Object::ReferenceEquals(_browserWrappers, nullptr))
+            {
+                for each(auto browser in Enumerable::OfType<CefBrowserWrapper^>(_browserWrappers))
+                {
+                    delete browser;
+                }
+
+                _browserWrappers = nullptr;
+            }
             delete _onBrowserCreated;
             delete _onBrowserDestroyed;
             delete _extensions;
