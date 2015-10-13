@@ -33,6 +33,8 @@ namespace CefSharp
 
                 ~JavascriptAsyncMethodHandler()
                 {
+                    // The callback registry is a shared instance among all method handlers (async & sync).
+                    // It's lifecycle is managed in the JavascriptRootObjectWrapper.
                     _callbackRegistry = nullptr;
                     _methodCallbackSave = nullptr;
                     _promiseCreator = NULL;
