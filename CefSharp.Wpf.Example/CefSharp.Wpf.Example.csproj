@@ -127,6 +127,10 @@
     <Compile Include="Handlers\GeolocationHandler.cs" />
     <Compile Include="Handlers\MenuHandler.cs" />
     <Compile Include="Handlers\LifespanHandler.cs" />
+    <Compile Include="Handlers\PluginHandler.cs" />
+    <Compile Include="SpawnBrowsersWindow.xaml.cs">
+      <DependentUpon>SpawnBrowsersWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\BrowserTabView.xaml.cs">
       <DependentUpon>BrowserTabView.xaml</DependentUpon>
     </Compile>
@@ -143,6 +147,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="SpawnBrowsersWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\BrowserTabView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

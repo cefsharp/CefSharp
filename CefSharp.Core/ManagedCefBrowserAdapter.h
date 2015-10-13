@@ -76,9 +76,11 @@ namespace CefSharp
 
         ~ManagedCefBrowserAdapter()
         {
+            _isDisposed = true;
             // Release the MCefRefPtr<ClientAdapter> reference
             // before calling _browserWrapper->CloseBrowser(true)
             this->!ManagedCefBrowserAdapter();
+
             if (_browserWrapper != nullptr)
             {
                 _browserWrapper->CloseBrowser(true);
@@ -109,7 +111,6 @@ namespace CefSharp
 
             _webBrowserInternal = nullptr;
             _javaScriptObjectRepository = nullptr;
-            _isDisposed = true;
         }
 
         virtual property bool IsDisposed
