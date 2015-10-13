@@ -172,8 +172,9 @@ namespace CefSharp
             if (callbackRegistry == nullptr)
             {
                 success = false;
-                errorMessage = StringUtils::ToNative("Frame " + frameId + " is not valid anymore.");
-            } else if (name == kEvaluateJavascriptRequest)
+                errorMessage = StringUtils::ToNative("Frame " + frameId + " is no longer available, most likely the Frame has been Disposed.");
+            }
+            else if (name == kEvaluateJavascriptRequest)
             {
                 auto script = argList->GetString(2);
 
