@@ -60,22 +60,22 @@ namespace CefSharp
     {
         auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier(), true);
 
-        if (!Object::ReferenceEquals(_javascriptRootObject, nullptr) || !Object::ReferenceEquals(_javascriptAsyncRootObject, nullptr))
+        auto rootObjectWrappers = browserWrapper->JavascriptRootObjectWrappers;
+        auto frameId = frame->GetIdentifier();
+
+        if (rootObjectWrappers->ContainsKey(frameId))
         {
-            auto rootObjectWrappers = browserWrapper->JavascriptRootObjectWrappers;
-            auto frameId = frame->GetIdentifier();
-
-            if (rootObjectWrappers->ContainsKey(frameId))
+            LOG(WARNING) << "A context has been created for the same browser / frame without context released called previously";
+        }
+        else
+        {
+            auto rootObject = gcnew JavascriptRootObjectWrapper(browser->GetIdentifier(), browserWrapper->BrowserProcess);
+            if (!Object::ReferenceEquals(_javascriptRootObject, nullptr) || !Object::ReferenceEquals(_javascriptAsyncRootObject, nullptr))
             {
-                LOG(WARNING) << "A context has been created for the same browser / frame without context released called previously";
-            }
-            else
-            {
-                auto rootObject = gcnew JavascriptRootObjectWrapper(browser->GetIdentifier(), browserWrapper->BrowserProcess);
                 rootObject->Bind(_javascriptRootObject, _javascriptAsyncRootObject, context->GetGlobal());
-
-                rootObjectWrappers->TryAdd(frameId, rootObject);
             }
+
+            rootObjectWrappers->TryAdd(frameId, rootObject);
         }
     };
 
