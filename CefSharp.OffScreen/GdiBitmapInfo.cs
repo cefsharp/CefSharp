@@ -30,7 +30,7 @@ namespace CefSharp.OffScreen
             createNewBitmap = true;
         }
 
-        public Bitmap CreateBitmap()
+        public virtual Bitmap CreateBitmap()
         {
             if(BackBufferHandle == IntPtr.Zero)
             {

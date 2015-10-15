@@ -26,7 +26,7 @@ namespace CefSharp.OffScreen
         /// Need a lock because the caller may be asking for the bitmap
         /// while Chromium async rendering has returned on another thread.
         /// </summary>
-        private readonly object bitmapLock = new object();
+        public readonly object BitmapLock = new object();
 
         /// <summary>
         /// Size of the Chromium viewport.
@@ -56,6 +56,7 @@ namespace CefSharp.OffScreen
         public IDragHandler DragHandler { get; set; }
         public IResourceHandlerFactory ResourceHandlerFactory { get; set; }
         public IGeolocationHandler GeolocationHandler { get; set; }
+        public IBitmapFactory BitmapFactory { get; set; }
 
         public event EventHandler<LoadErrorEventArgs> LoadError;
         public event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
@@ -85,6 +86,8 @@ namespace CefSharp.OffScreen
             {
                 throw new InvalidOperationException("Cef::Initialize() failed");
             }
+
+            BitmapFactory = new BitmapFactory(BitmapLock);
 
             ResourceHandlerFactory = new DefaultResourceHandlerFactory();
             BrowserSettings = browserSettings ?? new BrowserSettings();
@@ -184,7 +187,7 @@ namespace CefSharp.OffScreen
         /// </summary>
         public Bitmap ScreenshotOrNull()
         {
-            lock (bitmapLock)
+            lock (BitmapLock)
             {
                 return bitmap == null ? null : new Bitmap(bitmap);
             }
@@ -303,8 +306,11 @@ namespace CefSharp.OffScreen
 
         BitmapInfo IRenderWebBrowser.CreateBitmapInfo(bool isPopup)
         {
-            //The bitmap buffer is 32 BPP
-            return new GdiBitmapInfo { IsPopup = isPopup, BitmapLock = bitmapLock };
+            if (BitmapFactory == null)
+            {
+                throw new Exception("BitmapFactory cannot be null");
+            }
+            return BitmapFactory.CreateBitmap(isPopup, 1.0F);
         }
 
         /// <summary>
@@ -313,6 +319,11 @@ namespace CefSharp.OffScreen
         /// </summary>
         /// <param name="bitmapInfo">information about the bitmap to be rendered</param>
         void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
+        {
+            InvokeRenderAsync(bitmapInfo);
+        }
+
+        public virtual void InvokeRenderAsync(BitmapInfo bitmapInfo)
         {
             var gdiBitmapInfo = (GdiBitmapInfo)bitmapInfo;
             if (bitmapInfo.CreateNewBitmap)
