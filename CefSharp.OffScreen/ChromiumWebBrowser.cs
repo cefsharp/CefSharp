@@ -35,6 +35,11 @@ namespace CefSharp.OffScreen
         /// </summary>
         private Size size = new Size(1366, 768);
 
+        /// <summary>
+        /// Flag to guard the creation of the underlying offscreen browser - only one instance can be created
+        /// </summary>
+        private bool browserCreated;
+
         public bool IsBrowserInitialized { get; private set; }
         public bool IsLoading { get; set; }
         public string TooltipText { get; set; }
@@ -80,7 +85,9 @@ namespace CefSharp.OffScreen
         /// <param name="address">Initial address (url) to load</param>
         /// <param name="browserSettings">The browser settings to use. If null, the default settings are used.</param>
         /// <param name="requestcontext">See <see cref="RequestContext"/> for more details. Defaults to null</param>
-        public ChromiumWebBrowser(string address = "", BrowserSettings browserSettings = null, RequestContext requestcontext = null)
+        /// <param name="automaticallyCreateBrowser">automatically create the underlying Browser</param>
+        public ChromiumWebBrowser(string address = "", BrowserSettings browserSettings = null,
+            RequestContext requestcontext = null, bool automaticallyCreateBrowser = true)
         {
             if (!Cef.IsInitialized && !Cef.Initialize())
             {
@@ -97,7 +104,12 @@ namespace CefSharp.OffScreen
             Address = address;
 
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, true);
-            managedCefBrowserAdapter.CreateOffscreenBrowser(IntPtr.Zero, BrowserSettings, RequestContext, address);
+
+            if(automaticallyCreateBrowser)
+            {
+                CreateBrowser(IntPtr.Zero, address, browserSettings, requestcontext);
+            }
+            
         }
 
         ~ChromiumWebBrowser()
@@ -153,6 +165,25 @@ namespace CefSharp.OffScreen
                     managedCefBrowserAdapter = null;
                 }
             }
+        }
+
+        /// <summary>
+        /// Create the underlying browser
+        /// </summary>
+        /// <param name="windowHandle">Window handle if any, IntPtr.Zero is the default</param>
+        /// <param name="address">Initial address (url) to load</param>
+        /// <param name="browserSettings">The browser settings to use. If null, the default settings are used.</param>
+        /// <param name="requestcontext">See <see cref="RequestContext"/> for more details. Defaults to null</param>
+        public void CreateBrowser(IntPtr windowHandle, string address = "", BrowserSettings browserSettings = null, RequestContext requestcontext = null)
+        {
+            if (browserCreated)
+            {
+                throw new Exception("An instance of the underlying offscreen browser has already been created, this method can only be called once.");
+            }
+
+            browserCreated = true;
+
+            managedCefBrowserAdapter.CreateOffscreenBrowser(windowHandle, browserSettings, requestcontext, address);
         }
 
         /// <summary>
