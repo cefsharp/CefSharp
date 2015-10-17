@@ -23,6 +23,8 @@ namespace CefSharp
         /// time. Sub-frames may start or continue loading after the main frame load has ended. This method may not be called for a
         /// particular frame if the load request for that frame fails. For notification of overall browser load status use
         /// OnLoadingStateChange instead.
+        /// This event will be called on the CEF UI thread.
+        /// Blocking this thread will likely cause your UI to become unresponsive and/or hang.
         /// </summary>
         event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
 
@@ -30,11 +32,15 @@ namespace CefSharp
         /// Event handler that will get called when the browser is done loading a frame. Multiple frames may be loading at the same
         /// time. Sub-frames may start or continue loading after the main frame load has ended. This method will always be called
         /// for all frames irrespective of whether the request completes successfully.
+        /// This event will be called on the CEF UI thread.
+        /// Blocking this thread will likely cause your UI to become unresponsive and/or hang.
         /// </summary>
         event EventHandler<FrameLoadEndEventArgs> FrameLoadEnd;
 
         /// <summary>
         /// Event handler that will get called when the resource load for a navigation fails or is canceled.
+        /// This event will be called on the CEF UI thread.
+        /// Blocking this thread will likely cause your UI to become unresponsive and/or hang.
         /// </summary>
         event EventHandler<LoadErrorEventArgs> LoadError;
 
@@ -42,6 +48,8 @@ namespace CefSharp
         /// Event handler that will get called when the Loading state has changed.
         /// This event will be fired twice. Once when loading is initiated either programmatically or
         /// by user action, and once when loading is terminated due to completion, cancellation of failure. 
+        /// This event will be called on the CEF UI thread.
+        /// Blocking this thread will likely cause your UI to become unresponsive and/or hang.
         /// </summary>
         event EventHandler<LoadingStateChangedEventArgs> LoadingStateChanged;
 
