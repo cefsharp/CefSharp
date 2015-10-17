@@ -51,7 +51,7 @@ namespace CefSharp
 
             if (JavascriptRootObjectWrappers != nullptr)
             {
-                for each(auto entry in JavascriptRootObjectWrappers)
+                for each(KeyValuePair<int64, JavascriptRootObjectWrapper^> entry in JavascriptRootObjectWrappers)
                 {
                     delete entry.Value;
                 }
