@@ -48,7 +48,7 @@ namespace CefSharp
         {
             if (!Object::ReferenceEquals(_browserWrappers, nullptr))
             {
-                for each(auto browser in Enumerable::OfType<CefBrowserWrapper^>(_browserWrappers))
+                for each(CefBrowserWrapper^ browser in Enumerable::OfType<CefBrowserWrapper^>(_browserWrappers))
                 {
                     delete browser;
                 }
