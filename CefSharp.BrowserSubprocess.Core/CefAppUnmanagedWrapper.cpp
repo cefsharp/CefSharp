@@ -158,10 +158,10 @@ namespace CefSharp
         //these messages are roughly handled the same way
         if (name == kEvaluateJavascriptRequest || name == kJavascriptCallbackRequest)
         {
-            bool success;
+            bool success = false;
             CefRefPtr<CefV8Value> result;
             CefString errorMessage;
-            CefRefPtr<CefProcessMessage> response;
+            CefRefPtr<CefProcessMessage> response = CefProcessMessage::Create(kEvaluateJavascriptResponse);
             //both messages have the frameId stored at 0 and callbackId stored at index 1
             auto frameId = GetInt64(argList, 0);
             int64 callbackId = GetInt64(argList, 1);
@@ -171,14 +171,11 @@ namespace CefSharp
             auto callbackRegistry = rootObjectWrapper == nullptr ? nullptr : rootObjectWrapper->CallbackRegistry;
             if (callbackRegistry == nullptr)
             {
-                success = false;
                 errorMessage = StringUtils::ToNative("Frame " + frameId + " is no longer available, most likely the Frame has been Disposed.");
             }
             else if (name == kEvaluateJavascriptRequest)
             {
                 auto script = argList->GetString(2);
-
-                response = CefProcessMessage::Create(kEvaluateJavascriptResponse);
 
                 auto frame = browser->GetFrame(frameId);
                 if (frame.get())
@@ -228,47 +225,50 @@ namespace CefSharp
                     params.push_back(DeserializeV8Object(parameterList, static_cast<int>(i)));
                 }
 
-                response = CefProcessMessage::Create(kJavascriptCallbackResponse);
-
                 auto callbackWrapper = callbackRegistry->FindWrapper(jsCallbackId);
-                auto context = callbackWrapper->GetContext();
-                auto value = callbackWrapper->GetValue();
-                
-                if (context.get() && context->Enter())
+                if (callbackWrapper == nullptr)
                 {
-                    try
-                    {
-                        result = value->ExecuteFunction(nullptr, params);
-                        success = result.get() != nullptr;
-                        
-                        //we need to do this here to be able to store the v8context
-                        if (success)
-                        {
-                            auto responseArgList = response->GetArgumentList();
-                            SerializeV8Object(result, responseArgList, 2, callbackRegistry);
-                        }
-                        else
-                        {
-                            auto exception = value->GetException();
-                            if (exception.get())
-                            {
-                                errorMessage = exception->GetMessage();
-                            }
-                        }
-                    }
-                    finally
-                    {
-                        context->Exit();
-                    }
+                    errorMessage = "Unable to find callbackWrapper";
                 }
                 else
                 {
-                    errorMessage = "Unable to Enter Context";			
-                }                
-            }
+                    auto context = callbackWrapper->GetContext();
+                    auto value = callbackWrapper->GetValue();
+                
+                    if (context.get() && context->Enter())
+                    {
+                        try
+                        {
+                            result = value->ExecuteFunction(nullptr, params);
+                            success = result.get() != nullptr;
+                        
+                            //we need to do this here to be able to store the v8context
+                            if (success)
+                            {
+                                auto responseArgList = response->GetArgumentList();
+                                SerializeV8Object(result, responseArgList, 2, callbackRegistry);
+                            }
+                            else
+                            {
+                                auto exception = value->GetException();
+                                if (exception.get())
+                                {
+                                    errorMessage = exception->GetMessage();
+                                }
+                            }
+                        }
+                        finally
+                        {
+                            context->Exit();
+                        }
+                    }
+                    else
+                    {
+                            errorMessage = "Unable to Enter Context";
+                        }
+                    }
+                }
 
-            if (response.get())
-            {
                 auto responseArgList = response->GetArgumentList();
                 responseArgList->SetBool(0, success);
                 SetInt64(callbackId, responseArgList, 1);
@@ -277,7 +277,6 @@ namespace CefSharp
                     responseArgList->SetString(2, errorMessage);
                 }
                 browser->SendProcessMessage(sourceProcessId, response);
-            }
 
             handled = true;
         }
