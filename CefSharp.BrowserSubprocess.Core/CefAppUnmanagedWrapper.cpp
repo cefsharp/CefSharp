@@ -226,48 +226,48 @@ namespace CefSharp
                 }
 
                 auto callbackWrapper = callbackRegistry->FindWrapper(jsCallbackId);
-				if (callbackWrapper == nullptr)
-				{
-					errorMessage = "Unable to find callbackWrapper";
-				}
-				else
-				{
-					auto context = callbackWrapper->GetContext();
-					auto value = callbackWrapper->GetValue();
+                if (callbackWrapper == nullptr)
+                {
+                    errorMessage = "Unable to find callbackWrapper";
+                }
+                else
+                {
+                    auto context = callbackWrapper->GetContext();
+                    auto value = callbackWrapper->GetValue();
                 
-					if (context.get() && context->Enter())
-					{
-						try
-						{
-							result = value->ExecuteFunction(nullptr, params);
-							success = result.get() != nullptr;
+                    if (context.get() && context->Enter())
+                    {
+                        try
+                        {
+                            result = value->ExecuteFunction(nullptr, params);
+                            success = result.get() != nullptr;
                         
-							//we need to do this here to be able to store the v8context
-							if (success)
-							{
-								auto responseArgList = response->GetArgumentList();
-								SerializeV8Object(result, responseArgList, 2, callbackRegistry);
-							}
-							else
-							{
-								auto exception = value->GetException();
-								if (exception.get())
-								{
-									errorMessage = exception->GetMessage();
-								}
-							}
-						}
-						finally
-						{
-							context->Exit();
-						}
-					}
-					else
-					{
-							errorMessage = "Unable to Enter Context";
-						}
-					}
-				}
+                            //we need to do this here to be able to store the v8context
+                            if (success)
+                            {
+                                auto responseArgList = response->GetArgumentList();
+                                SerializeV8Object(result, responseArgList, 2, callbackRegistry);
+                            }
+                            else
+                            {
+                                auto exception = value->GetException();
+                                if (exception.get())
+                                {
+                                    errorMessage = exception->GetMessage();
+                                }
+                            }
+                        }
+                        finally
+                        {
+                            context->Exit();
+                        }
+                    }
+                    else
+                    {
+                            errorMessage = "Unable to Enter Context";
+                        }
+                    }
+                }
 
                 auto responseArgList = response->GetArgumentList();
                 responseArgList->SetBool(0, success);
