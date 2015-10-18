@@ -113,6 +113,32 @@
         </p>
 
         <p>
+            Disposed Javscript Callback Test (navigates to www.google.com before callback fires)
+            <br />
+            <script type="text/javascript">
+                function disposedCallback(s) {
+                    // This callback should be disposed and should not be called
+                    window.alert("This callback should not have been called");
+
+                    var result = document.getElementById('disposedcbresult');
+                    result.innerText += "Callback: " + s + "" + Date();
+                }
+
+                function testDisposedCallback() {
+                    bound.testCallback(callback);
+
+                    var result = document.getElementById('disposedcbresult');
+                    result.innerText = "The function has returned: " + Date() + "\n";
+
+                    window.location.assign("http://www.google.com");
+                }
+            </script>
+            <button onclick="testDisposedCallback()">Test Disposed Callback</button>
+            <br />
+            <span id="disposedcbresult"></span>
+        </p>
+
+        <p>
             Result of calling bound.repeat("hi ", 5) =
             <script type="text/javascript">
                 var result = bound.repeat("hi ", 5);
