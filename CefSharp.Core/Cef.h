@@ -211,6 +211,17 @@ namespace CefSharp
             return success;
         }
 
+        /// <summary>Perform a single iteration of CEF message loop processing. This function is
+        /// used to integrate the CEF message loop into an existing application message
+        /// loop. Care must be taken to balance performance against excessive CPU usage.
+        /// This function should only be called on the main application thread and only
+        /// if CefInitialize() is called with a CefSettings.multi_threaded_message_loop
+        /// value of false. This function will not block.</summary>
+        static void DoMessageLoopWork()
+        {
+            CefDoMessageLoopWork();
+        }
+
         /// <summary>Add an entry to the cross-origin whitelist.</summary>
         /// <param name="sourceOrigin">The origin allowed to be accessed by the target protocol/domain.</param>
         /// <param name="targetProtocol">The target protocol allowed to access the source origin.</param>
