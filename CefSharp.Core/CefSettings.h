@@ -65,6 +65,7 @@ namespace CefSharp
         property bool MultiThreadedMessageLoop
         {
             bool get() { return _cefSettings->multi_threaded_message_loop == 1; }
+            void set(bool value) { _cefSettings->multi_threaded_message_loop = value; }
         }
 
         property String^ BrowserSubprocessPath
