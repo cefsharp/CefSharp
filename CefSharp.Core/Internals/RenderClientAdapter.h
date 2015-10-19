@@ -167,7 +167,11 @@ namespace CefSharp
                     bitmapInfo->NumberOfBytes = numberOfBytes;
                 }               
 
-                CopyMemory(backBufferHandle, (void*)buffer, bitmapInfo->NumberOfBytes);
+                if (!bitmapInfo->DirtyRectSupport || ((bitmapInfo->DirtyRect.Width != 0) && (bitmapInfo->DirtyRect.Height != 0)))
+                {
+                    // If pixels have changed, copy them over.
+                    CopyMemory(backBufferHandle, (void*)buffer, bitmapInfo->NumberOfBytes);
+                }
 
                 _renderWebBrowser->InvokeRenderAsync(bitmapInfo);
             };
