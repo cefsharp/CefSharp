@@ -161,7 +161,17 @@ namespace CefSharp
             bool success = false;
             CefRefPtr<CefV8Value> result;
             CefString errorMessage;
-            CefRefPtr<CefProcessMessage> response = CefProcessMessage::Create(kEvaluateJavascriptResponse);
+            CefRefPtr<CefProcessMessage> response;
+
+            if (name == kEvaluateJavascriptRequest)
+            {
+                response = CefProcessMessage::Create(kEvaluateJavascriptResponse);
+            }
+            else
+            {
+                response = CefProcessMessage::Create(kJavascriptCallbackResponse);
+            }
+
             //both messages have the frameId stored at 0 and callbackId stored at index 1
             auto frameId = GetInt64(argList, 0);
             int64 callbackId = GetInt64(argList, 1);
