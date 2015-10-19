@@ -212,7 +212,7 @@ namespace CefSharp
                 }
                 else
                 {
-                    errorMessage = "Unable to Get Frame matching Id";
+                    errorMessage = StringUtils::ToNative("Frame " + frameId + " is no longer available, most likely the Frame has been Disposed or Removed.");
                 }
             }
             else
@@ -264,19 +264,19 @@ namespace CefSharp
                     }
                     else
                     {
-                            errorMessage = "Unable to Enter Context";
-                        }
+                        errorMessage = "Unable to Enter Context";
                     }
                 }
+            }
 
-                auto responseArgList = response->GetArgumentList();
-                responseArgList->SetBool(0, success);
-                SetInt64(callbackId, responseArgList, 1);
-                if (!success)
-                {
-                    responseArgList->SetString(2, errorMessage);
-                }
-                browser->SendProcessMessage(sourceProcessId, response);
+            auto responseArgList = response->GetArgumentList();
+            responseArgList->SetBool(0, success);
+            SetInt64(callbackId, responseArgList, 1);
+            if (!success)
+            {
+                responseArgList->SetString(2, errorMessage);
+            }
+            browser->SendProcessMessage(sourceProcessId, response);
 
             handled = true;
         }
