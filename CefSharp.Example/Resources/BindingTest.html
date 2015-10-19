@@ -116,7 +116,8 @@
             Disposed Javscript Callback Test (navigates to www.google.com before callback fires)
             <br />
             <script type="text/javascript">
-                function disposedCallback(s) {
+                function disposedCallback(s)
+                {
                     // This callback should be disposed and should not be called
                     window.alert("This callback should not have been called");
 
@@ -124,7 +125,8 @@
                     result.innerText += "Callback: " + s + "" + Date();
                 }
 
-                function testDisposedCallback() {
+                function testDisposedCallback()
+                {
                     bound.testCallback(callback);
 
                     var result = document.getElementById('disposedcbresult');
