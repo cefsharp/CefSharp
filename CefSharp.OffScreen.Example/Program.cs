@@ -22,7 +22,7 @@ namespace CefSharp.OffScreen.Example
             Console.WriteLine();
 
             // You need to replace this with your own call to Cef.Initialize();
-            CefExample.Init(true);
+            CefExample.Init(true, multiThreadedMessageLoop:true);
 
             MainAsync("cachePath1", 1.0);
             //Demo showing Zoom Level of 3.0

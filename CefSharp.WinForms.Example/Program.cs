@@ -22,7 +22,20 @@ namespace CefSharp.WinForms.Example
             }
 #endif
 
-            CefExample.Init(false);
+            const bool multiThreadedMessageLoop = true;
+            CefExample.Init(false, multiThreadedMessageLoop: multiThreadedMessageLoop);
+
+            if(multiThreadedMessageLoop == false)
+            {
+                //http://magpcss.org/ceforum/apidocs3/projects/%28default%29/%28_globals%29.html#CefDoMessageLoopWork%28%29
+                //Perform a single iteration of CEF message loop processing.
+                //This function is used to integrate the CEF message loop into an existing application message loop.
+                //Care must be taken to balance performance against excessive CPU usage.
+                //This function should only be called on the main application thread and only if CefInitialize() is called with a CefSettings.multi_threaded_message_loop value of false.
+                //This function will not block. 
+
+                Application.Idle += (s, e) => Cef.DoMessageLoopWork();
+            }
 
             var browser = new BrowserForm();
             //var browser = new SimpleBrowserForm();

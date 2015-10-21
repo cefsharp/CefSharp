@@ -27,7 +27,7 @@ namespace CefSharp.Example
         private static readonly bool DebuggingSubProcess = Debugger.IsAttached;
         private static string PluginInformation = "";
 
-        public static void Init(bool osr)
+        public static void Init(bool osr, bool multiThreadedMessageLoop)
         {
             // Set Google API keys, used for Geolocation requests sans GPS.  See http://www.chromium.org/developers/how-tos/api-keys
             // Environment.SetEnvironmentVariable("GOOGLE_API_KEY", "");
@@ -72,6 +72,8 @@ namespace CefSharp.Example
             //Disables the DirectWrite font rendering system on windows.
             //Possibly useful when experiencing blury fonts.
             //settings.CefCommandLineArgs.Add("disable-direct-write", "1");
+
+            settings.MultiThreadedMessageLoop = multiThreadedMessageLoop;
 
             // Off Screen rendering (WPF/Offscreen)
             if(osr)

@@ -19,7 +19,7 @@ namespace CefSharp.Wpf.Example
             }
 #endif
 
-            CefExample.Init(true);
+            CefExample.Init(true, multiThreadedMessageLoop: true);
 
             base.OnStartup(e);
         }
