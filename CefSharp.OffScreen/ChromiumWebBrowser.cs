@@ -107,7 +107,7 @@ namespace CefSharp.OffScreen
 
             if(automaticallyCreateBrowser)
             {
-                CreateBrowser(IntPtr.Zero, address, browserSettings, requestcontext);
+                CreateBrowser(IntPtr.Zero, address, BrowserSettings, requestcontext);
             }
             
         }
