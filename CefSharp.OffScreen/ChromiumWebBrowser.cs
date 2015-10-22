@@ -109,7 +109,7 @@ namespace CefSharp.OffScreen
 
             if(automaticallyCreateBrowser)
             {
-                CreateBrowser(IntPtr.Zero, address, browserSettings, requestcontext);
+                CreateBrowser(IntPtr.Zero);
             }
             
         }
@@ -170,13 +170,11 @@ namespace CefSharp.OffScreen
         }
 
         /// <summary>
-        /// Create the underlying browser
+        /// Create the underlying browser. The instance address, browser settings and request context will be used.
         /// </summary>
         /// <param name="windowHandle">Window handle if any, IntPtr.Zero is the default</param>
-        /// <param name="address">Initial address (url) to load</param>
-        /// <param name="browserSettings">The browser settings to use. If null, the default settings are used.</param>
-        /// <param name="requestcontext">See <see cref="RequestContext"/> for more details. Defaults to null</param>
-        public void CreateBrowser(IntPtr windowHandle, string address = "", BrowserSettings browserSettings = null, RequestContext requestcontext = null)
+        
+        public void CreateBrowser(IntPtr windowHandle)
         {
             if (browserCreated)
             {
@@ -185,7 +183,7 @@ namespace CefSharp.OffScreen
 
             browserCreated = true;
 
-            managedCefBrowserAdapter.CreateOffscreenBrowser(windowHandle, browserSettings, requestcontext, address);
+            managedCefBrowserAdapter.CreateOffscreenBrowser(windowHandle, BrowserSettings, RequestContext, Address);
         }
 
         /// <summary>
