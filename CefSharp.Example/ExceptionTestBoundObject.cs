@@ -40,5 +40,30 @@ namespace CefSharp.Example
         {
             return parameter;
         }
+
+        public void TestCallbackException(IJavascriptCallback errorCallback, IJavascriptCallback errorCallbackResult)
+        {
+            const int taskDelay = 500;
+
+            Task.Run(async () =>
+            {
+                await Task.Delay(taskDelay);
+
+                using (errorCallback)
+                {
+                    JavascriptResponse result = await errorCallback.ExecuteAsync("This callback from C# was delayed " + taskDelay + "ms");
+                    string resultMessage;
+                    if (result.Success)
+                    {
+                        resultMessage = "Fatal: No Exception thrown in error callback";
+                    }
+                    else
+                    {
+                        resultMessage = "Exception Thrown: " + result.Message;
+                    }
+                    await errorCallbackResult.ExecuteAsync(resultMessage);
+                }
+            });
+        }
     }
 }
