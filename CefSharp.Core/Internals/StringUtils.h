@@ -5,6 +5,7 @@
 #pragma once
 
 #include <vector>
+#include <sstream>
 #include "vcclr_local.h"
 #include "include\cef_v8.h"
 
