@@ -24,11 +24,12 @@ namespace CefSharp
     const CefString CefAppUnmanagedWrapper::kPromiseCreatorFunction = "cefsharp_CreatePromise";
     const CefString CefAppUnmanagedWrapper::kPromiseCreatorScript = ""
         "function cefsharp_CreatePromise() {"
-        "   var object = {};"
+        "   var result = {};"
         "   var promise = new Promise(function(resolve, reject) {"
-        "       object.resolve = resolve;object.reject = reject;"
+        "       result.res = resolve; result.rej = reject;"
         "   });"
-        "   return{ p: promise, res : object.resolve,  rej: object.reject};"
+        "   result.p = promise;"
+        "   return result;"
         "}";
 
     CefRefPtr<CefRenderProcessHandler> CefAppUnmanagedWrapper::GetRenderProcessHandler()
