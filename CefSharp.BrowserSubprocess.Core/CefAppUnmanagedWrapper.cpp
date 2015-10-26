@@ -208,7 +208,7 @@ namespace CefSharp
                             }
                             else
                             {
-                                errorMessage = exception->GetMessage();
+                                errorMessage = StringUtils::CreateExceptionString(exception);
                             }
                         }
                         finally
@@ -262,10 +262,7 @@ namespace CefSharp
                             else
                             {
                                 auto exception = value->GetException();
-                                if (exception.get())
-                                {
-                                    errorMessage = exception->GetMessage();
-                                }
+                                errorMessage = StringUtils::CreateExceptionString(exception);
                             }
                         }
                         finally

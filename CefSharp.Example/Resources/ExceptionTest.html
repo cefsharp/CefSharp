@@ -52,5 +52,23 @@
                 }
             </script>
         </p>
+        <p>
+            Exception string for error callback:<br />
+            <script type="text/javascript">
+                function errorCallback(s)
+                {
+                    throw "Callback Error (" + s + ")";
+                }
+                function errorCallbackResultLogger(s)
+                {
+                    var logArea = document.getElementById('errorCallbackResult');
+                    logArea.innerText = s;
+                }
+                bound.exceptionTestObject.testCallbackException(errorCallback, errorCallbackResultLogger);
+            </script>
+            <p>Received Exception:</p>
+            <p id="errorCallbackResult"></p>
+        </p>
+
     </body>
 </html>
