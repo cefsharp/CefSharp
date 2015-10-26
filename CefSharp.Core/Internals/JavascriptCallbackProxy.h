@@ -57,6 +57,11 @@ namespace CefSharp
             {
                 bool get();
             }
+
+            virtual property bool CanExecute
+            {
+                bool get();
+            }
         };
     }
 }
