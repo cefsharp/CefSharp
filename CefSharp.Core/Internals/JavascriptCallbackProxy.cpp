@@ -22,7 +22,7 @@ namespace CefSharp
             auto browser = GetBrowser();
             if (browser == nullptr)
             {
-                throw gcnew InvalidOperationException("Browser instance is null.");
+                throw gcnew InvalidOperationException("Browser instance is null. Check CanExecute before calling this method.");
             }
 
             auto browserWrapper = static_cast<CefSharpBrowserWrapper^>(browser);
@@ -62,7 +62,10 @@ namespace CefSharp
             if (_browserAdapter->IsAlive)
             {
                 auto browserAdapter = static_cast<ManagedCefBrowserAdapter^>(_browserAdapter->Target);
-                result = browserAdapter->GetBrowser(_callback->BrowserId);
+                if (!browserAdapter->IsDisposed)
+                {
+                    result = browserAdapter->GetBrowser(_callback->BrowserId);
+                }
             }
             return result;
         }
@@ -70,6 +73,18 @@ namespace CefSharp
         bool JavascriptCallbackProxy::IsDisposed::get()
         {
             return _disposed;
+        }
+
+        bool JavascriptCallbackProxy::CanExecute::get()
+        {
+            if (_disposed)
+            {
+                return false;
+            }
+            
+            auto browser = GetBrowser();
+
+            return browser != nullptr;
         }
 
         void JavascriptCallbackProxy::DisposedGuard()

@@ -40,15 +40,18 @@ namespace CefSharp
     {
         IBrowser^ ClientAdapter::GetBrowserWrapper(int browserId)
         {
-            if (_cefBrowser->GetIdentifier() == browserId)
+            if (_cefBrowser.get())
             {
-                return _browserAdapter->GetBrowser();
-            }
+                if (_cefBrowser->GetIdentifier() == browserId)
+                {
+                    return _browserAdapter->GetBrowser();
+                }
 
-            IBrowser^ browserWrapper;
-            if (_popupBrowsers->TryGetValue(browserId, browserWrapper))
-            {
-                return browserWrapper;
+                IBrowser^ browserWrapper;
+                if (_popupBrowsers->TryGetValue(browserId, browserWrapper))
+                {
+                    return browserWrapper;
+                }
             }
 
             return nullptr;
