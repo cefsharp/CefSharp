@@ -133,10 +133,8 @@ namespace CefSharp
                         exception->GetScriptResourceName().c_str() << L":" << exception->GetLineNumber() << L":" << exception->GetStartColumn();
                     return CefString(logMessageBuilder.str());
                 }
-                else
-                {
-                    return "Exception occured but the Cef V8 exception is null";
-                }
+                
+                return "Exception occured but the Cef V8 exception is null";
             }
         };
     }
