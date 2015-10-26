@@ -4,6 +4,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace CefSharp.Example
 {
@@ -51,7 +52,7 @@ namespace CefSharp.Example
 
                 using (errorCallback)
                 {
-                    JavascriptResponse result = await errorCallback.ExecuteAsync("This callback from C# was delayed " + taskDelay + "ms");
+                    var result = await errorCallback.ExecuteAsync("This callback from C# was delayed " + taskDelay + "ms");
                     string resultMessage;
                     if (result.Success)
                     {
