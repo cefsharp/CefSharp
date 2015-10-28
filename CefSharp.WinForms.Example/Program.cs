@@ -21,6 +21,7 @@ namespace CefSharp.WinForms.Example
                                 "please make sure you compile in `Release` mode.", "Warning");
             }
 #endif
+            //坑爹呢 .NET4.5编译的项目啊  让XP怎么办呢？
 
             const bool multiThreadedMessageLoop = true;
             CefExample.Init(false, multiThreadedMessageLoop: multiThreadedMessageLoop);
