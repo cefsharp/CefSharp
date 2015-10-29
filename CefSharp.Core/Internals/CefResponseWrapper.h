@@ -22,9 +22,7 @@ namespace CefSharp
             CefResponseWrapper(CefRefPtr<CefResponse> &response) :
                 _response(response)
             {
-                StatusCode = 200;
-                StatusText = "OK";
-                MimeType = "text/html";
+                
             }
 
             !CefResponseWrapper()
