@@ -12,6 +12,7 @@ Post Installation:
   
 What's New:
   See https://github.com/cefsharp/CefSharp/wiki/ChangeLog
+  IMPORTANT NOTE - VC++ 2013 Redist is now required.
 
 Basic Troubleshooting:
   - Minimum of .Net 4.0 Client Profile
@@ -26,7 +27,7 @@ Basic Troubleshooting:
         * CefSharp.WinForms.dll
         * CefSharp.Wpf.dll
         * CefSharp.OffScreen.dll
-  - Additional optional CEF files are described at: https://github.com/cefsharp/cef-binary/blob/master/README.txt#L88
+  - Additional optional CEF files are described at: https://github.com/cefsharp/cef-binary/blob/master/README.txt#L82
     NOTE: CefSharp does not currently support CEF sandboxing so wow_helper.exe is not currently useful.
 
 For further help please read the following content:
