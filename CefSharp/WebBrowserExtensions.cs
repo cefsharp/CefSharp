@@ -196,34 +196,39 @@ namespace CefSharp
             var stringBuilder = new StringBuilder();
             stringBuilder.Append(methodName);
             stringBuilder.Append("(");
-            for (int i = 0; i < args.Length; i++)
-            {
-                var obj = args[i];
-                if(obj == null)
+
+            if(args.Length > 0)
+            { 
+                for (int i = 0; i < args.Length; i++)
                 {
-                    stringBuilder.Append("null");
-                }
-                else
-                {
-                    var encapsulateInSingleQuotes = !numberTypes.Contains(obj.GetType());
-                    if(encapsulateInSingleQuotes)
+                    var obj = args[i];
+                    if(obj == null)
                     {
-                        stringBuilder.Append("'");
+                        stringBuilder.Append("null");
+                    }
+                    else
+                    {
+                        var encapsulateInSingleQuotes = !numberTypes.Contains(obj.GetType());
+                        if(encapsulateInSingleQuotes)
+                        {
+                            stringBuilder.Append("'");
+                        }
+
+                        stringBuilder.Append(args[i].ToString());
+
+                        if (encapsulateInSingleQuotes)
+                        {
+                            stringBuilder.Append("'");
+                        }
                     }
 
-                    stringBuilder.Append(args[i].ToString());
-
-                    if (encapsulateInSingleQuotes)
-                    {
-                        stringBuilder.Append("'");
-                    }
+                    stringBuilder.Append(", ");
                 }
-
-                stringBuilder.Append(", ");
-            }
             
-            //Remove the trailing comma
-            stringBuilder.Remove(stringBuilder.Length - 2, 2);
+                //Remove the trailing comma
+                stringBuilder.Remove(stringBuilder.Length - 2, 2);
+            }
+
             stringBuilder.Append(");");
 
             var script = stringBuilder.ToString();
