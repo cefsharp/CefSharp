@@ -179,16 +179,6 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Controls whether the Java plugin will be loaded. Also configurable using
-        /// the "disable-java" command-line switch.
-        /// </summary>
-        property CefState Java
-        {
-            CefState get() { return (CefState)_browserSettings->java; }
-            void set(CefState value) { _browserSettings->java = (cef_state_t)value; }
-        } 
-
-        /// <summary>
         /// Controls whether any plugins will be loaded. Also configurable using the
         /// "disable-plugins" command-line switch.
         /// </summary>
