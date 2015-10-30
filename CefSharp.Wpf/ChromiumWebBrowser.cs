@@ -925,7 +925,8 @@ namespace CefSharp.Wpf
         {
             var img = new Image();
 
-            RenderOptions.SetBitmapScalingMode(img, BitmapScalingMode.NearestNeighbor);
+            BitmapScalingMode oBitmapScalingModeThis = RenderOptions.GetBitmapScalingMode( this );
+            RenderOptions.SetBitmapScalingMode(img, ( oBitmapScalingModeThis != BitmapScalingMode.Unspecified ) ? oBitmapScalingModeThis : BitmapScalingMode.NearestNeighbor);
 
             img.Stretch = Stretch.None;
             img.HorizontalAlignment = HorizontalAlignment.Left;
