@@ -14,7 +14,7 @@ namespace CefSharp
         /// <summary>
         /// Remove all menu items. Can be used to disable the context menu. Returns true on success.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Returns true on success</returns>
         bool Clear();
 
         /// <summary>
@@ -36,14 +36,14 @@ namespace CefSharp
         /// Removes the item with the specified commandId.
         /// </summary>
         /// <param name="commandId">the command Id</param>
-        /// <returns> Returns true on success</returns>
+        /// <returns>Returns true on success</returns>
         bool Remove(CefMenuCommand commandId);
 
         /// <summary>
         /// Add an item to the menu. 
         /// </summary>
-        /// <param name="commandId"></param>
-        /// <param name="label"></param>
+        /// <param name="commandId">the command Id</param>
+        /// <param name="label">the label of the item</param>
         /// <returns>Returns true on success.</returns>
         bool AddItem(CefMenuCommand commandId, string label);
 

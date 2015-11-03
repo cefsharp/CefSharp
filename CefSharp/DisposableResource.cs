@@ -48,7 +48,7 @@ namespace CefSharp
         /// If this Object is disposed the Method will throw a <see cref="ObjectDisposedException"/>.
         /// Use this method to guard methods that are not allowed to be called after dispose was called
         /// </summary>
-        /// <exception cref="System.ObjectDisposedException"></exception>
+        /// <exception cref="System.ObjectDisposedException">Thrown when this resource is disposed.</exception>
         protected virtual void DisposeGuard()
         {
             if (IsDisposed)

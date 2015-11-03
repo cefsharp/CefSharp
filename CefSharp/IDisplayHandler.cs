@@ -52,7 +52,7 @@ namespace CefSharp
         /// drawing tooltips and the return value is ignored.
         /// </summary>
         /// <param name="browserControl">The ChromiumWebBrowser control</param>
-        /// <param name="text"></param>
+        /// <param name="text">the text that will be displayed in the tooltip</param>
         bool OnTooltipChanged(IWebBrowser browserControl, string text);
 
         /// <summary>

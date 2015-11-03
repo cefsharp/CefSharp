@@ -62,13 +62,17 @@ namespace CefSharp
         /// <summary>
         /// Retrieve this frame's HTML source as a string sent to the specified visitor.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        /// a <see cref="Task{String}"/> that when executed returns this frame's HTML source as a string.
+        /// </returns>
         Task<string> GetSourceAsync();
 
         /// <summary>
         /// Retrieve this frame's display text as a string sent to the specified visitor.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        /// a <see cref="Task{String}"/> that when executed returns the frame's display text as a string.
+        /// </returns>
         Task<string> GetTextAsync();
 
         // TODO: Expose a public constructor to CefRequestWrapper maybe?
