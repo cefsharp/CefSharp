@@ -124,7 +124,7 @@ namespace CefSharp
         /// </summary>
         /// <param name="stream">A stream of the resource.</param>
         /// <param name="mimeType">Type of MIME.</param>
-        /// <returns></returns>
+        /// <returns>ResourceHandler.</returns>
         public static ResourceHandler FromStream(Stream stream, string mimeType = DefaultMimeType)
         {
             return new ResourceHandler(mimeType, ResourceHandlerType.Stream) { Stream = stream };

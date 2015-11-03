@@ -48,7 +48,7 @@ namespace CefSharp.WinForms.Internals
         /// Adjust the form to listen to if the ChromiumWebBrowserControl's parent changes.
         /// </summary>
         /// <param name="sender">The ChromiumWebBrowser whose parent has changed.</param>
-        /// <param name="e"></param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void ParentParentChanged(object sender, EventArgs e)
         {
             var control = (Control)sender;

@@ -97,7 +97,7 @@ namespace CefSharp
         /// <param name="checkOptional">check to see if optional dependencies are present</param>
         /// <param name="packLoadingDisabled">Is loading of pack files disabled?</param>
         /// <param name="path">path to check for dependencies</param>
-        /// <param name="resourcesDirPath"></param>
+        /// <param name="resourcesDirPath">The path to the resources directory, if empty the Executing Assembly path is used.</param>
         /// <param name="browserSubProcessPath">The path to a separate executable that will be launched for sub-processes.</param>
         /// <param name="localePackFile">The locale pack file e.g. <see cref="LocalesPackFile"/> </param>
         /// <returns>List of missing dependencies, if all present an empty List will be returned</returns>
@@ -151,7 +151,7 @@ namespace CefSharp
         /// </summary>
         /// <param name="dir">The directory of the dependencies, or the current directory if null.</param>
         /// <param name="files">The dependencies to check.</param>
-        /// <returns></returns>
+        /// <returns>List of missing dependencies, if all present an empty List will be returned</returns>
         private static List<string> CheckDependencyList(string dir, IEnumerable<string> files)
         {
             var missingDependencies = new List<string>();
