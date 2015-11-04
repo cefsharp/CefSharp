@@ -367,7 +367,7 @@ namespace CefSharp
         /// Reloads the page being displayed, optionally ignoring the cache (which means the whole page including all .css, .js
         /// etc. resources will be re-fetched).
         /// </summary>
-        /// <param name="browser"></param>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         /// <param name="ignoreCache"><c>true</c> A reload is performed ignoring browser cache; <c>false</c> A reload is
         /// performed using files from the browser cache, if available.</param>
         public static void Reload(this IWebBrowser browser, bool ignoreCache)

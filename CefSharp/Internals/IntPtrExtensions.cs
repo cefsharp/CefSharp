@@ -12,8 +12,8 @@ namespace CefSharp.Internals
         /// Do an unchecked conversion from IntPtr to int
         /// so overflow exceptions don't get thrown.
         /// </summary>
-        /// <param name="intPtr"></param>
-        /// <returns></returns>
+        /// <param name="intPtr">the IntPtr to cast</param>
+        /// <returns>a 32-bit signed integer</returns>
         public static int CastToInt32(this IntPtr intPtr)
         {
             return unchecked((int)intPtr.ToInt64());

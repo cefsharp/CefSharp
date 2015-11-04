@@ -85,10 +85,10 @@ namespace CefSharp
         void ResetFileContents();
 
         /// <summary>
-        /// Gets the Contents of the File as a <see cref="Stream"/>
+        /// Gets the contents of the File as a <see cref="Stream"/>
         /// For a suggested filename check the <see cref="FileName"/> property
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the contents of the file</returns>
         Stream GetFileContents();
 
         /// <summary>

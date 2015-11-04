@@ -53,7 +53,7 @@ namespace CefSharp
         /// <param name="frame">The frame the request is coming from</param>
         /// <param name="parameters">provides information about the context menu state</param>
         /// <param name="model">contains the context menu model resulting from OnBeforeContextMenu</param>
-        /// <param name="callback"></param>
+        /// <param name="callback">the callback to execute for custom display</param>
         /// <returns>For custom display return true and execute callback either synchronously or asynchronously with the selected command ID.</returns>
         bool RunContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model, IRunContextMenuCallback callback);
     }
