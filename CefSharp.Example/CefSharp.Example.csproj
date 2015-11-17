@@ -92,6 +92,7 @@
   <ItemGroup>
     <Compile Include="AsyncBoundObject.cs" />
     <Compile Include="BoundObject.cs" />
+    <Compile Include="CallbackResponseStruct.cs" />
     <Compile Include="DragHandler.cs" />
     <Compile Include="ExceptionTestBoundObject.cs" />
     <Compile Include="JsDialogHandler.cs" />
