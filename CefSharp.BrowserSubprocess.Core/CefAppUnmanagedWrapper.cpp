@@ -251,12 +251,6 @@ namespace CefSharp
                 else
                 {
                     auto jsCallbackId = GetInt64(argList, 2);
-                    auto parameterList = argList->GetList(3);
-                    CefV8ValueList params;
-                    for (CefV8ValueList::size_type i = 0; i < parameterList->GetSize(); i++)
-                    {
-                        params.push_back(DeserializeV8Object(parameterList, static_cast<int>(i)));
-                    }
 
                     auto callbackWrapper = callbackRegistry->FindWrapper(jsCallbackId);
                     if (callbackWrapper == nullptr)
@@ -272,6 +266,16 @@ namespace CefSharp
                         {
                             try
                             {
+                                auto parameterList = argList->GetList(3);
+                                CefV8ValueList params;
+                                
+                                //Needs to be called within the context as for Dictionary (mapped to struct)
+                                //a V8Object will be created
+                                for (CefV8ValueList::size_type i = 0; i < parameterList->GetSize(); i++)
+                                {
+                                    params.push_back(DeserializeV8Object(parameterList, static_cast<int>(i)));
+                                }
+
                                 result = value->ExecuteFunction(nullptr, params);
                                 success = result.get() != nullptr;
                         
