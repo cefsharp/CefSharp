@@ -126,6 +126,7 @@ namespace CefSharp
                         auto fieldVal = fields[i]->GetValue(obj);
                         SerializeV8SimpleObject(fieldVal, subDict, strFieldName, seen);
                     }
+                    list->SetDictionary(index, subDict);
                 } 
                 else
                 {
