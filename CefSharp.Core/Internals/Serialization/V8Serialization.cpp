@@ -18,14 +18,14 @@ namespace CefSharp
         namespace Serialization
         {
             template<typename TList, typename TIndex>
-            void SerializeV8Object(Object^ obj, const CefRefPtr<TList>& list, const TIndex& index)
+            void SerializeV8Object(const CefRefPtr<TList>& list, const TIndex& index, Object^ obj)
             {
                 auto seen = gcnew Stack<Object^>();
-                SerializeV8SimpleObject(obj, list, index, seen);
+                SerializeV8SimpleObject(list, index, obj, seen);
             }
 
             template<typename TList, typename TIndex>
-            void SerializeV8SimpleObject(Object^ obj, const CefRefPtr<TList>& list, const TIndex& index, Stack<Object^>^ seen)
+            void SerializeV8SimpleObject(const CefRefPtr<TList>& list, const TIndex& index, Object^ obj, Stack<Object^>^ seen)
             {
                 list->SetNull(index);
 
@@ -107,7 +107,7 @@ namespace CefSharp
                     {
                         Object^ arrObj;
                         arrObj = managedArray->GetValue(i);
-                        SerializeV8SimpleObject(arrObj, subList, i, seen);
+                        SerializeV8SimpleObject(subList, i, arrObj, seen);
                     }
                     list->SetList(index, subList);
                 }
@@ -121,7 +121,7 @@ namespace CefSharp
                         auto fieldName = fields[i]->Name;
                         auto strFieldName = StringUtils::ToNative(safe_cast<String^>(fieldName));
                         auto fieldVal = fields[i]->GetValue(obj);
-                        SerializeV8SimpleObject(fieldVal, subDict, strFieldName, seen);
+                        SerializeV8SimpleObject(subDict, strFieldName, fieldVal, seen);
                     }
                     list->SetDictionary(index, subDict);
                 } 
@@ -140,8 +140,8 @@ namespace CefSharp
                 return CefTime(timeSpan.TotalSeconds);
             }
 
-            template void SerializeV8Object(Object^ obj, const CefRefPtr<CefListValue>& list, const int& index);
-            template void SerializeV8Object(Object^ obj, const CefRefPtr<CefDictionaryValue>& list, const CefString& index);
+            template void SerializeV8Object(const CefRefPtr<CefListValue>& list, const int& index, Object^ obj);
+            template void SerializeV8Object(const CefRefPtr<CefDictionaryValue>& list, const CefString& index, Object^ obj);
         }
     }
 }
