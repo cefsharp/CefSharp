@@ -118,10 +118,9 @@ namespace CefSharp
 
                     for (int i = 0; i < fields->Length; i++)
                     {
-                        auto fieldName = fields[i]->Name;
-                        auto strFieldName = StringUtils::ToNative(safe_cast<String^>(fieldName));
-                        auto fieldVal = fields[i]->GetValue(obj);
-                        SerializeV8SimpleObject(subDict, strFieldName, fieldVal, seen);
+                        auto fieldName = StringUtils::ToNative(fields[i]->Name);
+                        auto fieldValue = fields[i]->GetValue(obj);
+                        SerializeV8SimpleObject(subDict, fieldName, fieldValue, seen);
                     }
                     list->SetDictionary(index, subDict);
                 } 
