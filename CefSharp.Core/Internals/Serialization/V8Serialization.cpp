@@ -18,17 +18,14 @@ namespace CefSharp
         namespace Serialization
         {
             template<typename TList, typename TIndex>
-            void SerializeV8SimpleObject(Object^ obj, CefRefPtr<TList> list, TIndex index, Stack<Object^>^ seen);
-
-            template<typename TList, typename TIndex>
-            void SerializeV8Object(Object^ obj, CefRefPtr<TList> list, TIndex index)
+            void SerializeV8Object(Object^ obj, const CefRefPtr<TList>& list, const TIndex& index)
             {
                 auto seen = gcnew Stack<Object^>();
                 SerializeV8SimpleObject(obj, list, index, seen);
             }
 
             template<typename TList, typename TIndex>
-            void SerializeV8SimpleObject(Object^ obj, CefRefPtr<TList> list, TIndex index, Stack<Object^>^ seen)
+            void SerializeV8SimpleObject(Object^ obj, const CefRefPtr<TList>& list, const TIndex& index, Stack<Object^>^ seen)
             {
                 list->SetNull(index);
 
@@ -143,8 +140,8 @@ namespace CefSharp
                 return CefTime(timeSpan.TotalSeconds);
             }
 
-            template void SerializeV8Object(Object^ obj, CefRefPtr<CefListValue> list, int index);
-            template void SerializeV8Object(Object^ obj, CefRefPtr<CefDictionaryValue> list, CefString index);
+            template void SerializeV8Object(Object^ obj, const CefRefPtr<CefListValue>& list, const int& index);
+            template void SerializeV8Object(Object^ obj, const CefRefPtr<CefDictionaryValue>& list, const CefString& index);
         }
     }
 }
