@@ -122,52 +122,61 @@ namespace CefSharp
             CefRefPtr<CefV8Value> DeserializeV8Object(const CefRefPtr<TList>& list, const TIndex& index)
             {
                 auto type = list->GetType(index);
-                auto result = CefV8Value::CreateNull();
 
                 if (type == VTYPE_BOOL)
                 {
-                    result = CefV8Value::CreateBool(list->GetBool(index));
+                    return CefV8Value::CreateBool(list->GetBool(index));
                 }
-                else if (type == VTYPE_INT)
+
+                if (type == VTYPE_INT)
                 {
-                    result = CefV8Value::CreateInt(list->GetInt(index));
+                    return CefV8Value::CreateInt(list->GetInt(index));
                 }
-                else if (type == VTYPE_DOUBLE)
+
+                if (type == VTYPE_DOUBLE)
                 {
-                    result = CefV8Value::CreateDouble(list->GetDouble(index));
+                    return CefV8Value::CreateDouble(list->GetDouble(index));
                 }
-                else if (type == VTYPE_STRING)
+
+                if (type == VTYPE_STRING)
                 {
-                    result = CefV8Value::CreateString(list->GetString(index));
+                    return CefV8Value::CreateString(list->GetString(index));
                 }
-                else if (IsCefTime(list, index))
+
+                if (IsCefTime(list, index))
                 {
-                    result = CefV8Value::CreateDate(GetCefTime(list, index));
+                    return CefV8Value::CreateDate(GetCefTime(list, index));
                 }
-                else if (type == VTYPE_LIST)
+
+                if (type == VTYPE_LIST)
                 {
                     auto subList = list->GetList(index);
                     auto size = subList->GetSize();
-                    result = CefV8Value::CreateArray(size);
+                    auto result = CefV8Value::CreateArray(size);
                     for (auto i = 0; i < size; i++)
                     {
                         result->SetValue(i, DeserializeV8Object(subList, i));
                     }
+
+                    return result;
                 }
-                else if (type == VTYPE_DICTIONARY)
+
+                if (type == VTYPE_DICTIONARY)
                 {
                     auto subDict = list->GetDictionary(index);
                     auto size = subDict->GetSize();
                     std::vector<CefString> keys;
                     subDict->GetKeys(keys);
-                    result = CefV8Value::CreateArray(size);
+                    auto result = CefV8Value::CreateObject(nullptr);
                     for (auto i = 0; i < size; i++)
                     {
                         result->SetValue(keys[i], DeserializeV8Object(subDict, keys[i]), V8_PROPERTY_ATTRIBUTE_NONE);
                     }
+
+                    return result;
                 }
 
-                return result;
+                return CefV8Value::CreateNull();
             }
 
             template void SerializeV8Object(const CefRefPtr<CefV8Value> &value, const CefRefPtr<CefListValue>& list, const int& index, JavascriptCallbackRegistry^ callbackRegistry);

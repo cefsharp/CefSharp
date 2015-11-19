@@ -38,7 +38,7 @@ namespace CefSharp
             for (int i = 0; i < parameters->Length; i++)
             {
                 auto param = parameters[i];
-                SerializeV8Object(param, paramList, i);
+                SerializeV8Object(paramList, i, param);
             }
             argList->SetList(3, paramList);
 

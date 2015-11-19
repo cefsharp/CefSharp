@@ -56,7 +56,9 @@ namespace CefSharp.Example
 
                 using (javascriptCallback)
                 {
-                    await javascriptCallback.ExecuteAsync("This callback from C# was delayed " + taskDelay + "ms");
+                    //NOTE: Classes are not supported, simple structs are
+                    var response = new CallbackResponseStruct("This callback from C# was delayed " + taskDelay + "ms");
+                    await javascriptCallback.ExecuteAsync(response);
                 }
             });
         }
