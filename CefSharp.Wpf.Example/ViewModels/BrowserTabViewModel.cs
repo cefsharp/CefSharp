@@ -180,5 +180,16 @@ namespace CefSharp.Wpf.Example.ViewModels
             // Part of the Focus hack further described in the OnPropertyChanged() method...
             Keyboard.ClearFocus();
         }
+
+        private void LoadCustomRequest()
+        {
+            var frame = WebBrowser.GetMainFrame();
+
+            var request = frame.CreateRequest();
+            request.Method = "POST";
+            request.Url = "http://www.google.com.au";
+
+            //browser.CreateRequest();
+        }
     }
 }
