@@ -189,7 +189,7 @@ namespace CefSharp.Wpf.Example.ViewModels
             request.Method = "POST";
             request.Url = "http://www.google.com.au";
 
-            //browser.CreateRequest();
+            frame.LoadRequest(request);
         }
     }
 }
