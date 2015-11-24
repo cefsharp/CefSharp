@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.Test", "CefSharp.Test\CefSharp.Test.csproj", "{7A4D5447-183B-4A11-8E63-9848991B46FF}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.Example", "CefSharp.Example\CefSharp.Example.csproj", "{A4394E7B-1155-43A6-989E-8AB72DDDC9E4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.Wpf.Example", "CefSharp.Wpf.Example\CefSharp.Wpf.Example.csproj", "{4828DAEC-EF99-4553-B674-4374F77C6D66}"
@@ -82,14 +80,6 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7A4D5447-183B-4A11-8E63-9848991B46FF}.Debug|Win32.ActiveCfg = Debug|x86
-		{7A4D5447-183B-4A11-8E63-9848991B46FF}.Debug|Win32.Build.0 = Debug|x86
-		{7A4D5447-183B-4A11-8E63-9848991B46FF}.Debug|x64.ActiveCfg = Debug|x64
-		{7A4D5447-183B-4A11-8E63-9848991B46FF}.Debug|x64.Build.0 = Debug|x64
-		{7A4D5447-183B-4A11-8E63-9848991B46FF}.Release|Win32.ActiveCfg = Release|x86
-		{7A4D5447-183B-4A11-8E63-9848991B46FF}.Release|Win32.Build.0 = Release|x86
-		{7A4D5447-183B-4A11-8E63-9848991B46FF}.Release|x64.ActiveCfg = Release|x64
-		{7A4D5447-183B-4A11-8E63-9848991B46FF}.Release|x64.Build.0 = Release|x64
 		{A4394E7B-1155-43A6-989E-8AB72DDDC9E4}.Debug|Win32.ActiveCfg = Debug|x86
 		{A4394E7B-1155-43A6-989E-8AB72DDDC9E4}.Debug|Win32.Build.0 = Debug|x86
 		{A4394E7B-1155-43A6-989E-8AB72DDDC9E4}.Debug|x64.ActiveCfg = Debug|x64
