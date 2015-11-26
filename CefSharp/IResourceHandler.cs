@@ -25,13 +25,13 @@ namespace CefSharp
         bool ProcessRequestAsync(IRequest request, ICallback callback);
 
         /// <summary>
-        /// Populate the response stream, response lenght. When this method is called
+        /// Populate the response stream, response length. When this method is called
         /// the response should be fully populated with data
         /// It is possible to redirect to another url at this point in time
         /// </summary>
         /// <param name="response">The response object used to set Headers, StatusCode, etc</param>
-        /// <param name="responseLength">lenght of the response</param>
-        /// <param name="redirectUrl">If set the request will be redirct to specified Url</param>
+        /// <param name="responseLength">length of the response</param>
+        /// <param name="redirectUrl">If set the request will be redirect to specified Url</param>
         /// <returns>The response stream</returns>
         Stream GetResponse(IResponse response, out long responseLength, out string redirectUrl);
     }
