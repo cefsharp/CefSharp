@@ -37,7 +37,7 @@ namespace CefSharp
             ~CefPostDataWrapper()
             {
                 this->!CefPostDataWrapper();
-				delete _elements;
+		delete _elements;
                 _disposed = true;
             }
 
