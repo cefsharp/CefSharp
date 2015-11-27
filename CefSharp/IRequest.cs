@@ -17,7 +17,7 @@ namespace CefSharp
         /// <summary>
         /// Request Method GET/POST etc
         /// </summary>
-        string Method { get; }
+        string Method { get; set; }
 
         /// <summary>
         /// Header Collection
@@ -29,7 +29,7 @@ namespace CefSharp
         /// <summary>
         /// Post data
         /// </summary>
-        IPostData PostData { get; }
+        IPostData PostData { get; set; }
         
         /// <summary>
         /// Get the transition type for this request.
@@ -41,5 +41,7 @@ namespace CefSharp
         /// Gets a value indicating whether the request has been disposed of.
         /// </summary>
         bool IsDisposed { get; }
+
+        IPostData CreatePostData();
     }
 }

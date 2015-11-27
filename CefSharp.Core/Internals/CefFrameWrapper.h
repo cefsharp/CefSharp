@@ -1,4 +1,4 @@
-// Copyright © 2010-2015 The CefSharp Project. All rights reserved.
+// Copyright Â© 2010-2015 The CefSharp Project. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -129,15 +129,11 @@ namespace CefSharp
             /*--cef()--*/
             virtual Task<String^>^ GetTextAsync();
 
-            // TODO: Do we need this?
             ///
             // Load the request represented by the |request| object.
             ///
             /*--cef()--*/
-            //virtual void LoadRequest(CefRequestWrapper^ request)
-            //{
-            //    _frame->LoadRequest(request->GetCefRequest().get());
-            //}
+	    virtual void LoadRequest(IRequest^ request);
 
             ///
             // Load the specified |url|.
@@ -242,6 +238,8 @@ namespace CefSharp
             {
                 return _frame->GetV8Context();
             }
+
+	    virtual IRequest^ CreateRequest();
         };
     }
 }

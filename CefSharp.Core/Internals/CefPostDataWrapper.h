@@ -8,7 +8,7 @@
 
 #include "include\cef_request.h"
 
-#include "Internals/TypeConversion.h"
+#include "CefWrapper.h"
 #include "CefPostDataElementWrapper.h"
 
 using namespace System::Collections::Generic;
@@ -18,17 +18,15 @@ namespace CefSharp
 {
     namespace Internals
     {
-        public ref class CefPostDataWrapper : public IPostData
+	public ref class CefPostDataWrapper : public IPostData, public CefWrapper
         {
             MCefRefPtr<CefPostData> _postData;
-            bool _disposed;
-
+            List<CefPostDataElementWrapper^>^ _elements;
         internal:
             CefPostDataWrapper(CefRefPtr<CefPostData> &postData) :
-                _postData(postData),
-                _disposed(false)
+                _postData(postData)
             {
-                
+		_elements = gcnew List < CefPostDataElementWrapper^ > ;
             }
 
             !CefPostDataWrapper()
@@ -39,67 +37,16 @@ namespace CefSharp
             ~CefPostDataWrapper()
             {
                 this->!CefPostDataWrapper();
-
+		delete _elements;
                 _disposed = true;
             }
 
         public:
-            virtual property bool IsReadOnly
-            {
-                bool get()
-                {
-                    return _postData->IsReadOnly();
-                }
-            }
-
-            virtual property IList<IPostDataElement^>^ Elements
-            {
-                IList<IPostDataElement^>^ get()
-                {
-                    auto elements = gcnew List<IPostDataElement^>();
-
-                    auto elementCount = _postData->GetElementCount();
-                    if (elementCount == 0)
-                    {
-                        return gcnew ReadOnlyCollection<IPostDataElement^>(elements);
-                    }
-                    CefPostData::ElementVector ev;
-
-                    _postData->GetElements(ev);
-
-                    for (CefPostData::ElementVector::iterator it = ev.begin(); it != ev.end(); ++it)
-                    {
-                        CefPostDataElement *el = it->get();
-
-                        elements->Add(gcnew CefPostDataElementWrapper(el));
-                    }
-
-                    return gcnew ReadOnlyCollection<IPostDataElement^>(elements);;
-                }
-            }
-
-            virtual bool AddElement(IPostDataElement^ element)
-            {
-                return false;
-            }
-
-            virtual bool RemoveElement(IPostDataElement^ element)
-            {
-                return false;
-            }
-
-            virtual void RemoveElements()
-            {
-                _postData->RemoveElements();
-            }
-
-            virtual property bool IsDisposed
-            {
-                bool get()
-                {
-                    return _disposed;
-                }
-            }
+	   virtual property bool IsReadOnly { bool get(); }
+	   virtual property IList<IPostDataElement^>^ Elements { IList<IPostDataElement^>^ get(); }
+           virtual bool AddElement(String^ key, String^ value);
+	   //virtual bool AddElement(String^ fileName);
+           virtual void RemoveElements();            
         };
     }
 }

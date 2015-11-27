@@ -41,10 +41,21 @@ namespace CefSharp
 
         public:
             virtual property String^ Url { String^ get(); void set(String^ url); }
-            virtual property String^ Method { String^ get(); }
+	    virtual property String^ Method { String^ get(); void set(String^ method); }
             virtual property NameValueCollection^ Headers { NameValueCollection^ get(); void set(NameValueCollection^ url); }
             virtual property TransitionType TransitionType { CefSharp::TransitionType get(); }
-            virtual property IPostData^ PostData { IPostData^ get(); }
+	    virtual property IPostData^ PostData { IPostData^ get(); void set(IPostData^ postData); }
+
+            operator CefRefPtr<CefRequest>()
+	    {
+	        if (this == nullptr)
+		{
+		   return NULL;
+		}
+		return _wrappedRequest.get();
+	    }
+
+	    virtual IPostData^ CreatePostData();
         };
     }
 }
