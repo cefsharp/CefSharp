@@ -11,6 +11,8 @@
 #include "include\cef_response.h"
 #include "include\cef_web_plugin.h"
 
+#include "Serialization\ObjectsSerialization.h"
+
 using namespace System::Collections::Generic;
 
 namespace CefSharp
@@ -179,6 +181,29 @@ namespace CefSharp
                 }
                 
                 return nullptr;
+            }
+
+            static IDictionary<String^, Object^>^ FromNative(const CefRefPtr<CefDictionaryValue>& dictionary)
+            {
+                if (!dictionary.get() || dictionary->GetSize() == 0)
+                {
+                    return nullptr;
+                }
+
+                auto dict = gcnew Dictionary<String^, Object^>();
+
+                CefDictionaryValue::KeyList keys;
+                dictionary->GetKeys(keys);
+
+                for (auto i = 0; i < keys.size(); i++)
+                {
+                    auto key = StringUtils::ToClr(keys[i]);
+                    auto value = CefSharp::Internals::Serialization::DeserializeObject(dictionary, keys[i], nullptr);
+
+                    dict->Add(key, value);
+                }
+
+                return dict;
             }
         };
     }

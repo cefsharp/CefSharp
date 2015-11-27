@@ -63,6 +63,8 @@ namespace CefSharp.OffScreen.Example
                 }
                 await LoadPageAsync(browser);
 
+                var preferences = requestContext.GetAllPreferences(true);
+
                 // For Google.com pre-pupulate the search text box
                 await browser.EvaluateScriptAsync("document.getElementById('lst-ib').value = 'CefSharp Was Here!'");
 

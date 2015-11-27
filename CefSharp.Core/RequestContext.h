@@ -134,7 +134,9 @@ namespace CefSharp
         /*--cef()--*/
         IDictionary<String^, Object^>^ GetAllPreferences(bool includeDefaults)
         {
-            return nullptr;
+            auto preferences = _requestContext->GetAllPreferences(includeDefaults);
+
+            return TypeConversion::FromNative(preferences);
         }
 
         ///
