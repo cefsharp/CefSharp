@@ -135,9 +135,9 @@ Task<String^>^ CefFrameWrapper::GetTextAsync()
 /*--cef()--*/
 void CefFrameWrapper::LoadRequest(IRequest^ request)
 {
-	ThrowIfDisposed();
-	auto requestWrapper = (CefRequestWrapper^)request;
-	_frame->LoadRequest(requestWrapper);
+    ThrowIfDisposed();
+    auto requestWrapper = (CefRequestWrapper^)request;
+    _frame->LoadRequest(requestWrapper);
 }
 
 ///
