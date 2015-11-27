@@ -26,7 +26,7 @@ namespace CefSharp
             CefPostDataWrapper(CefRefPtr<CefPostData> &postData) :
                 _postData(postData)
             {
-				_elements = gcnew List < CefPostDataElementWrapper^ > ;
+		_elements = gcnew List < CefPostDataElementWrapper^ > ;
             }
 
             !CefPostDataWrapper()
@@ -42,11 +42,11 @@ namespace CefSharp
             }
 
         public:
-			virtual property bool IsReadOnly { bool get(); }
-			virtual property IList<IPostDataElement^>^ Elements { IList<IPostDataElement^>^ get(); }
-			virtual bool AddElement(String^ key, String^ value);
-			//virtual bool AddElement(String^ fileName);
-			virtual void RemoveElements();            
+		virtual property bool IsReadOnly { bool get(); }
+		virtual property IList<IPostDataElement^>^ Elements { IList<IPostDataElement^>^ get(); }
+		virtual bool AddElement(String^ key, String^ value);
+		//virtual bool AddElement(String^ fileName);
+		virtual void RemoveElements();            
         };
     }
 }
