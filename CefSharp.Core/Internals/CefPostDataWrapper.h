@@ -18,10 +18,10 @@ namespace CefSharp
 {
     namespace Internals
     {
-		public ref class CefPostDataWrapper : public IPostData, public CefWrapper
+	public ref class CefPostDataWrapper : public IPostData, public CefWrapper
         {
             MCefRefPtr<CefPostData> _postData;
-			List<CefPostDataElementWrapper^>^ _elements;
+            List<CefPostDataElementWrapper^>^ _elements;
         internal:
             CefPostDataWrapper(CefRefPtr<CefPostData> &postData) :
                 _postData(postData)
@@ -42,11 +42,11 @@ namespace CefSharp
             }
 
         public:
-		virtual property bool IsReadOnly { bool get(); }
-		virtual property IList<IPostDataElement^>^ Elements { IList<IPostDataElement^>^ get(); }
-		virtual bool AddElement(String^ key, String^ value);
-		//virtual bool AddElement(String^ fileName);
-		virtual void RemoveElements();            
+	   virtual property bool IsReadOnly { bool get(); }
+	   virtual property IList<IPostDataElement^>^ Elements { IList<IPostDataElement^>^ get(); }
+           virtual bool AddElement(String^ key, String^ value);
+	   //virtual bool AddElement(String^ fileName);
+           virtual void RemoveElements();            
         };
     }
 }
