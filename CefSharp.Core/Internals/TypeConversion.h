@@ -12,6 +12,7 @@
 #include "include\cef_web_plugin.h"
 
 #include "Serialization\ObjectsSerialization.h"
+//#include "Serialization\V8Serialization.h"
 
 using namespace System::Collections::Generic;
 
@@ -147,6 +148,16 @@ namespace CefSharp
                 {
                     cefValue->SetDouble(Convert::ToDouble(value));
                 }
+                else if (type == Dictionary<String^, Object^>::typeid)
+                {
+                    auto dictionary = safe_cast<Dictionary<String^, Object^>^>(value);
+                    auto cefDictionary = CefDictionaryValue::Create();
+
+                    for each (KeyValuePair<String^, Object^>^ entry in dictionary)
+                    {
+                        //CefSharp::Internals::Serialization::SerializeV8Object(cefDictionary, entry->Key, entry->Value);
+                    }
+                }
             
                 return cefValue;
             }
@@ -178,6 +189,11 @@ namespace CefSharp
                 if (type == CefValueType::VTYPE_STRING)
                 {
                     return StringUtils::ToClr(value->GetString());
+                }
+
+                if (type == CefValueType::VTYPE_DICTIONARY)
+                {
+                    return FromNative(value->GetDictionary());
                 }
                 
                 return nullptr;
