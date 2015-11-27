@@ -71,6 +71,12 @@
     <ClCompile Include="Internals\Serialization\ObjectsSerialization.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+     <ClCompile Include="Internals\CefPostDataWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Internals\CefPostDataElementWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vcclr_local.h">
