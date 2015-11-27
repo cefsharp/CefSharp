@@ -36,11 +36,11 @@ namespace CefSharp
             }
 
         public:			
-			virtual property bool IsReadOnly { bool get(); }
-			virtual property String^ File { String^ get(); void set(String^ file); }
-			virtual property PostDataElementType Type { PostDataElementType get(); }
-			virtual property array<Byte>^ Bytes { array<Byte>^ get(); void set(array<Byte>^ val); }
-			virtual void SetToEmpty();            		
+		virtual property bool IsReadOnly { bool get(); }
+		virtual property String^ File { String^ get(); void set(String^ file); }
+		virtual property PostDataElementType Type { PostDataElementType get(); }
+		virtual property array<Byte>^ Bytes { array<Byte>^ get(); void set(array<Byte>^ val); }
+		virtual void SetToEmpty();            		
         };
     }
 }
