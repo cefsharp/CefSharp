@@ -1,4 +1,4 @@
-// Copyright © 2010-2015 The CefSharp Project. All rights reserved.
+// Copyright Â© 2010-2015 The CefSharp Project. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -129,6 +129,10 @@ Task<String^>^ CefFrameWrapper::GetTextAsync()
     return taskStringVisitor->Task;
 }
 
+///
+// Load the request represented by the |request| object.
+///
+/*--cef()--*/
 void CefFrameWrapper::LoadRequest(IRequest^ request)
 {
 	ThrowIfDisposed();
@@ -294,5 +298,5 @@ IBrowser^ CefFrameWrapper::Browser::get()
 
 IRequest^ CefFrameWrapper::CreateRequest()
 {
-	return gcnew CefRequestWrapper(CefRequest::Create());
+    return gcnew CefRequestWrapper(CefRequest::Create());
 }
