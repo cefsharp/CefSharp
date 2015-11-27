@@ -106,6 +106,80 @@ namespace CefSharp
                 
                 return list;
             }
+
+            static CefRefPtr<CefValue> ToNative(Object^ value)
+            {
+                auto cefValue = CefValue::Create();
+
+                if (value == nullptr)
+                {
+                    cefValue->SetNull();
+
+                    return cefValue;
+                }
+
+                auto type = value->GetType();
+                Type^ underlyingType = Nullable::GetUnderlyingType(type);
+                if (underlyingType != nullptr)
+                {
+                    type = underlyingType;
+                }
+
+                if (type == Boolean::typeid)
+                {
+                    cefValue->SetBool(safe_cast<bool>(value));
+                }
+                else if (type == Int32::typeid)
+                {
+                    cefValue->SetInt(safe_cast<int>(value));
+                }
+                else if (type == String::typeid)
+                {
+                    cefValue->SetString(StringUtils::ToNative(safe_cast<String^>(value)));
+                }
+                else if (type == Double::typeid)
+                {
+                    cefValue->SetDouble(safe_cast<double>(value));
+                }
+                else if (type == Decimal::typeid)
+                {
+                    cefValue->SetDouble(Convert::ToDouble(value));
+                }
+            
+                return cefValue;
+            }
+
+            static Object^ FromNative(const CefRefPtr<CefValue>& value)
+            {
+                if (!value.get())
+                {
+                    return nullptr;
+                }
+
+                auto type = value->GetType();
+
+                if (type == CefValueType::VTYPE_BOOL)
+                {
+                    return value->GetBool();
+                }
+
+                if (type == CefValueType::VTYPE_DOUBLE)
+                {
+                    return value->GetDouble();
+                }
+
+                if (type == CefValueType::VTYPE_INT)
+                {
+                    return value->GetInt();
+                }
+
+                if (type == CefValueType::VTYPE_STRING)
+                {
+                    return StringUtils::ToClr(value->GetString());
+                }
+                
+                return nullptr;
+            }
         };
     }
 }
