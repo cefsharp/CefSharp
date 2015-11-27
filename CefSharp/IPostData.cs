@@ -9,7 +9,15 @@ namespace CefSharp
 {
     public interface IPostData : IDisposable
     {
-        //bool AddElement(IPostDataElement element);
+        /// <summary>
+        /// Adds the post data (key value pair) element. <param name="key"> should not be empty or null, value can be empty.
+        /// </summary>
+        bool AddElement(string key, string value);
+
+        /// <summary>
+        /// Adds the post data (full file path) element. <param name="fileName"> should not be empty or null, value can be empty.
+        /// </summary>
+        //bool AddElement(string fileName);
 
         /// <summary>
         /// Retrieve the post data elements.

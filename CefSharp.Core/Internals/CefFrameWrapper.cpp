@@ -6,6 +6,7 @@
 #include <msclr/lock.h>
 
 #include "Internals\CefSharpBrowserWrapper.h"
+#include "Internals\CefRequestWrapper.h"
 #include "Internals\CefFrameWrapper.h"
 #include "Internals\StringVisitor.h"
 #include "Internals\ClientAdapter.h"
@@ -128,16 +129,12 @@ Task<String^>^ CefFrameWrapper::GetTextAsync()
     return taskStringVisitor->Task;
 }
 
-// TODO: Do we need this?
-///
-// Load the request represented by the |request| object.
-///
-/*--cef()--*/
-//virtual void LoadRequest(CefRequestWrapper^ request)
-//{
-//    ThrowIfDisposed();
-//    _frame->LoadRequest(request->GetCefRequest().get());
-//}
+void CefFrameWrapper::LoadRequest(IRequest^ request)
+{
+	ThrowIfDisposed();
+	auto requestWrapper = (CefRequestWrapper^)request;
+	_frame->LoadRequest(requestWrapper);
+}
 
 ///
 // Load the specified |url|.
@@ -293,4 +290,9 @@ IBrowser^ CefFrameWrapper::Browser::get()
 
     _owningBrowser = gcnew CefSharpBrowserWrapper(_frame->GetBrowser());
     return _owningBrowser;
+}
+
+IRequest^ CefFrameWrapper::CreateRequest()
+{
+	return gcnew CefRequestWrapper(CefRequest::Create());
 }

@@ -8,8 +8,6 @@
 
 #include "include\cef_request.h"
 
-#include "Internals/TypeConversion.h"
-
 using namespace System::Collections::Specialized;
 
 namespace CefSharp
@@ -18,7 +16,8 @@ namespace CefSharp
     {
         public ref class CefPostDataElementWrapper : public IPostDataElement
         {
-            MCefRefPtr<CefPostDataElement> _postDataElement;
+            MCefRefPtr<CefPostDataElement> _postDataElement;		
+			
         internal:
             CefPostDataElementWrapper(CefRefPtr<CefPostDataElement> postDataElement) :
                 _postDataElement(postDataElement)
@@ -33,66 +32,15 @@ namespace CefSharp
 
             ~CefPostDataElementWrapper()
             {
-                this->!CefPostDataElementWrapper();
+                this->!CefPostDataElementWrapper();				
             }
 
-        public:
-            virtual property bool IsReadOnly
-            {
-                bool get()
-                {
-                    return _postDataElement->IsReadOnly();
-                }
-            }
-
-            virtual property String^ File
-            {
-                String^ get()
-                {
-                    return StringUtils::ToClr(_postDataElement->GetFile());
-                }
-                void set(String^ val)
-                {
-                    _postDataElement->SetToFile(StringUtils::ToNative(val));
-                }
-            }
-
-            virtual void SetToEmpty()
-            {
-                _postDataElement->SetToEmpty();
-            }
-
-            virtual property PostDataElementType Type
-            {
-                PostDataElementType get()
-                {
-                    return (PostDataElementType)_postDataElement->GetType();
-                }
-            }
-
-            virtual property array<Byte>^ Bytes
-            {
-                array<Byte>^ get()
-                {
-                    auto byteCount = _postDataElement->GetBytesCount();
-                    if (byteCount == 0)
-                    {
-                        return nullptr;
-                    }
-
-                    auto bytes = gcnew array<Byte>(byteCount);
-                    pin_ptr<Byte> src = &bytes[0]; // pin pointer to first element in arr
-
-                    _postDataElement->GetBytes(byteCount, static_cast<void*>(src));
-
-                    return bytes;
-                }
-                void set(array<Byte>^ val)
-                {
-                    pin_ptr<Byte> src = &val[0];
-                    _postDataElement->SetToBytes(val->Length, static_cast<void*>(src));
-                }
-            }
+        public:			
+			virtual property bool IsReadOnly { bool get(); }
+			virtual property String^ File { String^ get(); void set(String^ file); }
+			virtual property PostDataElementType Type { PostDataElementType get(); }
+			virtual property array<Byte>^ Bytes { array<Byte>^ get(); void set(array<Byte>^ val); }
+			virtual void SetToEmpty();            		
         };
     }
 }
