@@ -9,7 +9,19 @@ namespace CefSharp
 {
     public interface IPostData : IDisposable
     {
-        //bool AddElement(IPostDataElement element);
+        /// <summary>
+        /// Add the specified <see cref="IPostDataElement"/>.
+        /// </summary>
+        /// <param name="element">element to be added.</param>
+        /// <returns> Returns true if the add succeeds.</returns>
+        bool AddElement(IPostDataElement element);
+
+        /// <summary>
+        /// Remove  the specified <see cref="IPostDataElement"/>.
+        /// </summary>
+        /// <param name="element">element to be removed.</param>
+        /// <returns> Returns true if the add succeeds.</returns>
+        bool RemoveElement(IPostDataElement element);
 
         /// <summary>
         /// Retrieve the post data elements.
@@ -20,7 +32,6 @@ namespace CefSharp
         /// Returns true if this object is read-only.
         /// </summary>
         bool IsReadOnly { get; }
-        //bool RemoveElement(IPostDataElement element);
         
         /// <summary>
         /// Remove all existing post data elements.
