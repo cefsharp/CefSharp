@@ -45,6 +45,8 @@ namespace CefSharp
             {
                 bool get()
                 {
+                    ThrowIfDisposed();
+
                     return _postData->IsReadOnly();
                 }
             }
@@ -53,6 +55,8 @@ namespace CefSharp
             {
                 IList<IPostDataElement^>^ get()
                 {
+                    ThrowIfDisposed();
+
                     auto elements = gcnew List<IPostDataElement^>();
 
                     auto elementCount = _postData.get() ? _postData->GetElementCount() : 0;
@@ -77,16 +81,22 @@ namespace CefSharp
 
             virtual bool AddElement(IPostDataElement^ element)
             {
+                ThrowIfDisposed();
+
                 return false;
             }
 
             virtual bool RemoveElement(IPostDataElement^ element)
             {
+                ThrowIfDisposed();
+
                 return false;
             }
 
             virtual void RemoveElements()
             {
+                ThrowIfDisposed();
+
                 _postData->RemoveElements();
             }
         };
