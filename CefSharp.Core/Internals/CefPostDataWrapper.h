@@ -100,9 +100,13 @@ namespace CefSharp
 
                 ThrowIfReadOnly();
 
-                if (_postDataElements == nullptr)
+                //Access the Elements collection to initialize the underlying _postDataElements collection
+                auto elements = Elements;
+
+                //If the element has already been added then don't add it again
+                if (elements->Contains(element))
                 {
-                    _postDataElements = gcnew List<IPostDataElement^>();
+                    return false;
                 }
 
                 _postDataElements->Add(element);
@@ -118,10 +122,15 @@ namespace CefSharp
 
                 ThrowIfReadOnly();
 
-                if (_postDataElements != nullptr)
+                //Access the Elements collection to initialize the underlying _postDataElements collection
+                auto elements = Elements;
+
+                if (!elements->Contains(element))
                 {
-                    _postDataElements->Remove(element);
-                }                
+                    return false;
+                }
+
+                _postDataElements->Remove(element);
 
                 auto elementWrapper = (CefPostDataElementWrapper^)element;
 
