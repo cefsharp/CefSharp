@@ -185,9 +185,11 @@ namespace CefSharp.Wpf.Example.ViewModels
         {
             var frame = WebBrowser.GetMainFrame();
 
-            var request = frame.CreateRequest();
+            //Create a new request knowing we'd like to use PostData
+            var request = frame.CreateRequest(initializePostData:true);
             request.Method = "POST";
-            request.Url = "http://www.google.com.au";
+            request.Url = "custom://cefsharp/PostDataTest.html";
+            request.PostData.AddData("test=123&data=456");
 
             frame.LoadRequest(request);
         }
