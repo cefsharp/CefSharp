@@ -8,8 +8,9 @@
 
 #include "include\cef_request.h"
 
-#include "Internals/TypeConversion.h"
+#include "Internals\TypeConversion.h"
 #include "CefPostDataElementWrapper.h"
+#include "CefWrapper.h"
 
 using namespace System::Collections::Generic;
 using namespace System::Collections::ObjectModel;
@@ -18,15 +19,13 @@ namespace CefSharp
 {
     namespace Internals
     {
-        public ref class CefPostDataWrapper : public IPostData
+        public ref class CefPostDataWrapper : public IPostData, public CefWrapper
         {
             MCefRefPtr<CefPostData> _postData;
-            bool _disposed;
 
         internal:
             CefPostDataWrapper(CefRefPtr<CefPostData> &postData) :
-                _postData(postData),
-                _disposed(false)
+                _postData(postData)
             {
                 
             }
@@ -39,8 +38,6 @@ namespace CefSharp
             ~CefPostDataWrapper()
             {
                 this->!CefPostDataWrapper();
-
-                _disposed = true;
             }
 
         public:
@@ -91,14 +88,6 @@ namespace CefSharp
             virtual void RemoveElements()
             {
                 _postData->RemoveElements();
-            }
-
-            virtual property bool IsDisposed
-            {
-                bool get()
-                {
-                    return _disposed;
-                }
             }
         };
     }
