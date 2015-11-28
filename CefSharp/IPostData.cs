@@ -31,5 +31,11 @@ namespace CefSharp
         /// Gets a value indicating whether the object has been disposed of.
         /// </summary>
         bool IsDisposed { get; }
+
+        /// <summary>
+        /// Create a new <see cref="IPostDataElement"/> instance
+        /// </summary>
+        /// <returns></returns>
+        IPostDataElement CreatePostDataElement();
     }
 }
