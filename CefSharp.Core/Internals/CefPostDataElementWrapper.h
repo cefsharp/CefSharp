@@ -109,6 +109,15 @@ namespace CefSharp
                     _postDataElement->SetToBytes(val->Length, static_cast<void*>(src));
                 }
             }
+
+            operator CefRefPtr<CefPostDataElement>()
+            {
+                if (this == nullptr)
+                {
+                    return NULL;
+                }
+                return _postDataElement.get();
+            }
         };
     }
 }
