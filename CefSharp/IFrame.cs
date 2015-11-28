@@ -160,7 +160,8 @@ namespace CefSharp
         /// <summary>
         /// Create a custom request for use with <see cref="LoadRequest"/>
         /// </summary>
-        /// <returns></returns>
-        IRequest CreateRequest();
+        /// <param name="initializePostData">Initialize the PostData object when creating this request</param>
+        /// <returns>A new instance of the request</returns>
+        IRequest CreateRequest(bool initializePostData = true);
     }
 }

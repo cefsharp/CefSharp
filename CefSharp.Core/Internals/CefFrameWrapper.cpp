@@ -297,7 +297,14 @@ IBrowser^ CefFrameWrapper::Browser::get()
     return _owningBrowser;
 }
 
-IRequest^ CefFrameWrapper::CreateRequest()
+IRequest^ CefFrameWrapper::CreateRequest(bool initializePostData)
 {
-    return gcnew CefRequestWrapper(CefRequest::Create());
+    auto request = CefRequest::Create();
+
+    if (initializePostData)
+    {
+        request->SetPostData(CefPostData::Create());
+    }
+
+    return gcnew CefRequestWrapper(request);
 }

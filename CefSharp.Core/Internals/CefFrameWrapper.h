@@ -239,7 +239,7 @@ namespace CefSharp
                 return _frame->GetV8Context();
             }
 
-            virtual IRequest^ CreateRequest();
+            virtual IRequest^ CreateRequest(bool initializePostData);
         };
     }
 }
