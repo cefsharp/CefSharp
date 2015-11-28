@@ -181,7 +181,7 @@ namespace CefSharp.Wpf.Example.ViewModels
             Keyboard.ClearFocus();
         }
 
-        private void LoadCustomRequest()
+        public void LoadCustomRequestExample()
         {
             var frame = WebBrowser.GetMainFrame();
 
