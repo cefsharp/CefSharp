@@ -177,5 +177,12 @@ namespace CefSharp.Example
 
             return false;
         }
+
+        public void OnContextCreated(IWebBrowser browserControl, IBrowser browser, IFrame frame)
+        {
+            const string script = "document.addEventListener('DOMContentLoaded', function(){ alert('DomLoaded'); });";
+
+            //frame.ExecuteJavaScriptAsync(script);
+        }
     }
 }

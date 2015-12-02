@@ -59,6 +59,18 @@ namespace CefSharp
 
     void CefAppUnmanagedWrapper::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
     {
+        //Send a message to the browser processing signaling that OnContextCreated has been called
+        //only param is the FrameId. Currently an IPC message is only sent for the main frame - will see
+        //how viable this solution is and if it's worth expanding to sub/child frames.
+        if (frame->IsMain())
+        {
+            auto contextCreatedMessage = CefProcessMessage::Create(kOnContextCreatedRequest);
+
+            SetInt64(frame->GetIdentifier(), contextCreatedMessage->GetArgumentList(), 0);
+
+            browser->SendProcessMessage(CefProcessId::PID_BROWSER, contextCreatedMessage);
+        }
+
         auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier(), true);
 
         auto rootObjectWrappers = browserWrapper->JavascriptRootObjectWrappers;

@@ -994,7 +994,26 @@ namespace CefSharp
             auto argList = message->GetArgumentList();
             IJavascriptCallbackFactory^ callbackFactory = _browserAdapter->JavascriptCallbackFactory;
 
-            if (name == kEvaluateJavascriptResponse || name == kJavascriptCallbackResponse)
+            if (name == kOnContextCreatedRequest)
+            {
+                auto handler = _browserControl->RequestHandler;
+
+                if (handler != nullptr)
+                {
+                    auto frameId = GetInt64(argList, 0);
+
+                    auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+                    auto frame = browserWrapper->GetFrame(frameId);
+
+                    handler->OnContextCreated(_browserControl, browserWrapper, frame);
+
+                    //Dispose of the frame
+                    delete frame;
+                }
+
+                handled = true;
+            }
+            else if (name == kEvaluateJavascriptResponse || name == kJavascriptCallbackResponse)
             {
                 auto success = argList->GetBool(0);
                 auto callbackId = GetInt64(argList, 1);
