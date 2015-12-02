@@ -66,7 +66,7 @@ namespace CefSharp
         {
             auto contextCreatedMessage = CefProcessMessage::Create(kOnContextCreatedRequest);
 
-            SetInt64(frame->GetIdentifier(), contextCreatedMessage->GetArgumentList(), 0);
+            SetInt64(contextCreatedMessage->GetArgumentList(), 0, frame->GetIdentifier());
 
             browser->SendProcessMessage(CefProcessId::PID_BROWSER, contextCreatedMessage);
         }
@@ -165,7 +165,7 @@ namespace CefSharp
 
             //success: false
             responseArgList->SetBool(0, false);
-            SetInt64(callbackId, responseArgList, 1);
+            SetInt64(responseArgList, 1, callbackId);
             responseArgList->SetString(2, StringUtils::ToNative(errorMessage));
             browser->SendProcessMessage(sourceProcessId, response);
 
@@ -318,7 +318,7 @@ namespace CefSharp
 
             auto responseArgList = response->GetArgumentList();
             responseArgList->SetBool(0, success);
-            SetInt64(callbackId, responseArgList, 1);
+            SetInt64(responseArgList, 1, callbackId);
             if (!success)
             {
                 responseArgList->SetString(2, errorMessage);

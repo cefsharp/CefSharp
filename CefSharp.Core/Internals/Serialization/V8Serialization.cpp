@@ -97,7 +97,7 @@ namespace CefSharp
                 }
                 else if (type == DateTime::typeid)
                 {
-                    SetCefTime(ConvertDateTimeToCefTime(safe_cast<DateTime>(obj)), list, index);
+                    SetCefTime(list, index, ConvertDateTimeToCefTime(safe_cast<DateTime>(obj)));
                 }
                 else if (type->IsArray)
                 {

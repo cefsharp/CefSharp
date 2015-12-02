@@ -13,21 +13,21 @@ namespace CefSharp
             //Functions to serialize/deserialize specific types into CefBinaryValue
 
             template<typename TList, typename TIndex>
-            void SetInt64(const int64 &value, const CefRefPtr<TList>& list, TIndex index);
+            void SetInt64(const CefRefPtr<TList>& list, TIndex index, const int64 &value);
             template<typename TList, typename TIndex>
             int64 GetInt64(const CefRefPtr<TList>& list, TIndex index);
             template<typename TList, typename TIndex>
             bool IsInt64(const CefRefPtr<TList>& list, TIndex index);
 
             template<typename TList, typename TIndex>
-            void SetCefTime(const CefTime &value, const CefRefPtr<TList>& list, TIndex index);
+            void SetCefTime(const CefRefPtr<TList>& list, TIndex index, const CefTime &value);
             template<typename TList, typename TIndex>
             CefTime GetCefTime(const CefRefPtr<TList>& list, TIndex index);
             template<typename TList, typename TIndex>
             bool IsCefTime(const CefRefPtr<TList>& list, TIndex index);
             
             template<typename TList, typename TIndex>
-            void SetJsCallback(JavascriptCallback^ value, const CefRefPtr<TList>& list, TIndex index);
+            void SetJsCallback(const CefRefPtr<TList>& list, TIndex index, JavascriptCallback^ value);
             template<typename TList, typename TIndex>
             JavascriptCallback^ GetJsCallback(const CefRefPtr<TList>& list, TIndex index);
             template<typename TList, typename TIndex>
