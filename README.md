@@ -10,6 +10,8 @@ This project is [BSD](http://www.opensource.org/licenses/bsd-license.php "BSD Li
 
 Apart from code samples mentioned above work-in-progress documentation can be found [in the wiki](https://github.com/cefsharp/CefSharp/wiki). If something is missing/incomplete, please don't hesitate to ask on the [CefSharp Google Group](https://groups.google.com/forum/#!forum/cefsharp). You might also find help by searching the archive to that same Google Group for previous questions. Before opening an issue or submitting a `PR` please read [Contributing.md](https://github.com/cefsharp/CefSharp/blob/master/CONTRIBUTING.md)
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cefsharp/CefSharp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
 # NuGet Packages
 
 Binary releases contain everything needed to embed Chromium in your .Net/CLR application. For usage see [FAQ #8](https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions#CefSharp_binaries) item.
