@@ -999,6 +999,10 @@ namespace CefSharp
 				auto v = GetInt64(argList, 0);
 				auto message = System::String::Format("{0} - {1}", gcnew String(kOnFocusedNodeChanged.c_str()), v);
 				System::Console::WriteLine(message);
+
+				auto handler = _browserControl->RequestHandler;
+				if (handler != nullptr)
+					handler->OnFocusedNodeChanged(_browserControl, GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup()));
 			}
 			else if (name == kEvaluateJavascriptResponse || name == kJavascriptCallbackResponse)
 			{

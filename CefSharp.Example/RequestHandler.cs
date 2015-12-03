@@ -177,5 +177,10 @@ namespace CefSharp.Example
 
             return false;
         }
+
+		void IRequestHandler.OnFocusedNodeChanged (IWebBrowser browserControl, IBrowser browser)
+		{
+			Console.WriteLine ("OnFocusedNodeChanged");
+		}
     }
 }
