@@ -146,21 +146,21 @@
     <value>..\Resources\assets\css\docs.css;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="assets_css_shCore_css" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\assets\css\shcore.css;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\assets\css\shCore.css;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="assets_js_application_js" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\assets\js\application.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="assets_js_jquery_js" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\assets\js\jquery.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>..\Resources\assets\js\jquery.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="assets_js_shBrushCSharp_js" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\assets\js\shbrushcsharp.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\assets\js\shBrushCSharp.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="assets_js_shCore_js" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\assets\js\shcore.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\assets\js\shCore.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="assets_css_shCoreDefault_css" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\assets\css\shcoredefault.css;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\assets\css\shCoreDefault.css;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
 </root>
