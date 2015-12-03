@@ -994,31 +994,37 @@ namespace CefSharp
             auto argList = message->GetArgumentList();
             IJavascriptCallbackFactory^ callbackFactory = _browserAdapter->JavascriptCallbackFactory;
 
-            if (name == kEvaluateJavascriptResponse || name == kJavascriptCallbackResponse)
-            {
-                auto success = argList->GetBool(0);
-                auto callbackId = GetInt64(argList, 1);
+			if (name == kOnFocusedNodeChanged)
+			{
+				auto v = GetInt64(argList, 0);
+				auto message = System::String::Format("{0} - {1}", gcnew String(kOnFocusedNodeChanged.c_str()), v);
+				System::Console::WriteLine(message);
+			}
+			else if (name == kEvaluateJavascriptResponse || name == kJavascriptCallbackResponse)
+			{
+				auto success = argList->GetBool(0);
+				auto callbackId = GetInt64(argList, 1);
 
-                auto pendingTask = _pendingTaskRepository->RemovePendingTask(callbackId);
-                if (pendingTask != nullptr)
-                {
-                    auto response = gcnew JavascriptResponse();
-                    response->Success = success;
+				auto pendingTask = _pendingTaskRepository->RemovePendingTask(callbackId);
+				if (pendingTask != nullptr)
+				{
+					auto response = gcnew JavascriptResponse();
+					response->Success = success;
 
-                    if (success)
-                    {
-                        response->Result = DeserializeObject(argList, 2, callbackFactory);
-                    }
-                    else
-                    {
-                        response->Message = StringUtils::ToClr(argList->GetString(2));
-                    }
+					if (success)
+					{
+						response->Result = DeserializeObject(argList, 2, callbackFactory);
+					}
+					else
+					{
+						response->Message = StringUtils::ToClr(argList->GetString(2));
+					}
 
-                    pendingTask->SetResult(response);
-                }
+					pendingTask->SetResult(response);
+				}
 
-                handled = true;
-            }
+				handled = true;
+			}
             else if (name == kJavascriptAsyncMethodCallRequest && !_browserAdapter->IsDisposed)
             {
                 auto frameId = GetInt64(argList, 0);

@@ -97,6 +97,16 @@ namespace CefSharp
         }
     };
 
+	void CefAppUnmanagedWrapper::OnFocusedNodeChanged(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefDOMNode> node)
+	{
+		auto focusedNodeChangedMessage = CefProcessMessage::Create(kOnFocusedNodeChanged);
+		auto list = focusedNodeChangedMessage->GetArgumentList();
+
+		SetInt64(123, focusedNodeChangedMessage->GetArgumentList(), 0);
+
+		browser->SendProcessMessage(CefProcessId::PID_BROWSER, focusedNodeChangedMessage);
+	}
+
     CefBrowserWrapper^ CefAppUnmanagedWrapper::FindBrowserWrapper(int browserId, bool mustExist)
     {
         CefBrowserWrapper^ wrapper = nullptr;
@@ -142,7 +152,7 @@ namespace CefSharp
             else
             {
                 //TODO: Should be throw an exception here? It's likely that only a CefSharp developer would see this
-                // when they added a new message and havn't yet implemented the render process functionality.
+                // when they added a new message and haven't yet implemented the render process functionality.
                 throw gcnew Exception("Unsupported message type");
             }
 

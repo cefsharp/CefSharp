@@ -30,6 +30,8 @@ namespace CefSharp
             const CefString kJavascriptAsyncMethodCallRequest = "JavascriptAsyncMethodCallRequest";
             //Message from the browser process containing the result of a bound method invocation
             const CefString kJavascriptAsyncMethodCallResponse = "JavascriptAsyncMethodCallResponse";
+			// Message from the render process that an element (or nothing) has gotten focus.
+			const CefString kOnFocusedNodeChanged = "OnFocusedNodeChanged";
         }
     }
 }
