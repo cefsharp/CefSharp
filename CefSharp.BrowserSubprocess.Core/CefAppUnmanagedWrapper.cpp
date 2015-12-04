@@ -102,7 +102,33 @@ namespace CefSharp
 		auto focusedNodeChangedMessage = CefProcessMessage::Create(kOnFocusedNodeChanged);
 		auto list = focusedNodeChangedMessage->GetArgumentList();
 
-		SetInt64(123, focusedNodeChangedMessage->GetArgumentList(), 0);
+		// Neded in the browser process to get the frame.
+		list->SetString(0, frame->GetName());
+
+		// The node will be empty if an element loses focus but another one
+        // doesn't gain focus. Only transfer information if the node is an
+        // element (it might be text).
+		if (node != nullptr && node->IsElement())
+		{
+			// True when a node exists, false if it doesn't.
+			list->SetBool(1, true);
+
+			// Store the tag name.
+			list->SetString(2, node->GetElementTagName());
+
+			// Transfer the attributes in a Dictionary.
+			auto attributes = CefDictionaryValue::Create();
+			CefDOMNode::AttributeMap attributeMap;
+			node->GetElementAttributes(attributeMap);
+			for (auto iter : attributeMap)
+				attributes->SetString(iter.first, iter.second);
+
+			list->SetDictionary(3, attributes);
+		}
+		else
+		{
+			list->SetBool(1, false);
+		}
 
 		browser->SendProcessMessage(CefProcessId::PID_BROWSER, focusedNodeChangedMessage);
 	}

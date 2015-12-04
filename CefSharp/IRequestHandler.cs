@@ -175,6 +175,8 @@ namespace CefSharp
 		/// </summary>
 		/// <param name="browserControl">The ChromiumWebBrowser control</param>
 		/// <param name="browser">the browser object</param>
-		void OnFocusedNodeChanged (IWebBrowser browserControl, IBrowser browser);
+		/// <param name="frame">The frame object</param>
+		/// <param name="node">An object with information about the node that has focus.</param>
+		void OnFocusedNodeChanged (IWebBrowser browserControl, IBrowser browser, IFrame frame, IDomNode node);
 	}
 }
