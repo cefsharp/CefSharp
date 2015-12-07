@@ -107,7 +107,7 @@ namespace CefSharp
 
         // The node will be empty if an element loses focus but another one
         // doesn't gain focus. Only transfer information if the node is an
-        // element (it might be text).
+        // element.
         if (node != nullptr && node->IsElement())
         {
             // True when a node exists, false if it doesn't.
