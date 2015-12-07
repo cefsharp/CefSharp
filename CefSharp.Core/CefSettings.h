@@ -19,6 +19,7 @@ namespace CefSharp
     internal:
         ::CefSettings* _cefSettings;
         List<CefCustomScheme^>^ _cefCustomSchemes;
+        List<String^>^ _optionalMessages;
 
     public:
         CefSettings() : _cefSettings(new ::CefSettings())
@@ -35,6 +36,8 @@ namespace CefSharp
 
             //Temp workaround for https://github.com/cefsharp/CefSharp/issues/1203
             _cefCommandLineArgs->Add("process-per-tab", "1");
+
+            _optionalMessages = gcnew List<String^>();
         }
 
         !CefSettings()
@@ -204,6 +207,17 @@ namespace CefSharp
         {
             String^ get() { return StringUtils::ToClr(_cefSettings->accept_language_list); }
             void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->accept_language_list, value); }
+        }
+
+        /// <summary>
+        /// A comma delimited list of IPC message names that can optionally be
+        /// sent from a subprocess to the browser process. See
+        /// CefSharp\CefSharp.Core\Internals\Messaging\Messages.h for all
+        /// message names.
+        /// </summary>
+        property List<String^>^ OptionalMessages
+        {
+            List<String^>^ get() { return _optionalMessages; }
         }
 
         /// <summary>

@@ -12,6 +12,7 @@
 #include "CefAppUnmanagedWrapper.h"
 
 using namespace System::Collections::Generic;
+using namespace CefSharp::Internals;
 
 namespace CefSharp
 {
@@ -20,6 +21,8 @@ namespace CefSharp
     {
     private:
         MCefRefPtr<CefAppUnmanagedWrapper> _cefApp;
+
+        static List<String^>^ ParseOptionalMessagesArgument(IEnumerable<String^>^ args);
         
     public:        
         CefAppWrapper(IEnumerable<String^>^ args)
@@ -27,8 +30,9 @@ namespace CefSharp
             auto onBrowserCreated = gcnew Action<CefBrowserWrapper^>(this, &CefAppWrapper::OnBrowserCreated);
             auto onBrowserDestroyed = gcnew Action<CefBrowserWrapper^>(this, &CefAppWrapper::OnBrowserDestroyed);
             auto schemes = CefCustomScheme::ParseCommandLineArguments(args);
+            auto optionalMessages = ParseOptionalMessagesArgument(args);
 
-            _cefApp = new CefAppUnmanagedWrapper(schemes, onBrowserCreated, onBrowserDestroyed);
+            _cefApp = new CefAppUnmanagedWrapper(schemes, optionalMessages, onBrowserCreated, onBrowserDestroyed);
         };
 
         !CefAppWrapper()
