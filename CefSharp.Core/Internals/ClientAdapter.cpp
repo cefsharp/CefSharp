@@ -1014,11 +1014,11 @@ namespace CefSharp
                         argAttributes->GetKeys(keys);
                         for (auto key : keys)
                         {
-                            attributes->Add(gcnew String(key.c_str()), gcnew String(argAttributes->GetString(key).c_str()));
+                            attributes->Add(StringUtils::ToClr(key), StringUtils::ToClr(argAttributes->GetString(key).c_str()));
                         }
 
                         auto node = gcnew DomNode(attributes);
-                        node->TagName = gcnew String(argList->GetString(2).c_str());
+                        node->TagName = StringUtils::ToClr(argList->GetString(2));
 
                         handler->OnFocusedNodeChanged(_browserControl, GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup()), %frameWrapper, node);
                     }
