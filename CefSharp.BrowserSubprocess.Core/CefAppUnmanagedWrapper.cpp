@@ -97,41 +97,43 @@ namespace CefSharp
         }
     };
 
-	void CefAppUnmanagedWrapper::OnFocusedNodeChanged(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefDOMNode> node)
-	{
-		auto focusedNodeChangedMessage = CefProcessMessage::Create(kOnFocusedNodeChanged);
-		auto list = focusedNodeChangedMessage->GetArgumentList();
+    void CefAppUnmanagedWrapper::OnFocusedNodeChanged(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefDOMNode> node)
+    {
+        auto focusedNodeChangedMessage = CefProcessMessage::Create(kOnFocusedNodeChanged);
+        auto list = focusedNodeChangedMessage->GetArgumentList();
 
-		// Neded in the browser process to get the frame.
-		list->SetString(0, frame->GetName());
+        // Neded in the browser process to get the frame.
+        SetInt64(frame->GetIdentifier(), list, 0);
 
-		// The node will be empty if an element loses focus but another one
+        // The node will be empty if an element loses focus but another one
         // doesn't gain focus. Only transfer information if the node is an
         // element (it might be text).
-		if (node != nullptr && node->IsElement())
-		{
-			// True when a node exists, false if it doesn't.
-			list->SetBool(1, true);
+        if (node != nullptr && node->IsElement())
+        {
+            // True when a node exists, false if it doesn't.
+            list->SetBool(1, true);
 
-			// Store the tag name.
-			list->SetString(2, node->GetElementTagName());
+            // Store the tag name.
+            list->SetString(2, node->GetElementTagName());
 
-			// Transfer the attributes in a Dictionary.
-			auto attributes = CefDictionaryValue::Create();
-			CefDOMNode::AttributeMap attributeMap;
-			node->GetElementAttributes(attributeMap);
-			for (auto iter : attributeMap)
-				attributes->SetString(iter.first, iter.second);
+            // Transfer the attributes in a Dictionary.
+            auto attributes = CefDictionaryValue::Create();
+            CefDOMNode::AttributeMap attributeMap;
+            node->GetElementAttributes(attributeMap);
+            for (auto iter : attributeMap)
+            {
+                attributes->SetString(iter.first, iter.second);
+            }
 
-			list->SetDictionary(3, attributes);
-		}
-		else
-		{
-			list->SetBool(1, false);
-		}
+            list->SetDictionary(3, attributes);
+        }
+        else
+        {
+            list->SetBool(1, false);
+        }
 
-		browser->SendProcessMessage(CefProcessId::PID_BROWSER, focusedNodeChangedMessage);
-	}
+        browser->SendProcessMessage(CefProcessId::PID_BROWSER, focusedNodeChangedMessage);
+    }
 
     CefBrowserWrapper^ CefAppUnmanagedWrapper::FindBrowserWrapper(int browserId, bool mustExist)
     {

@@ -994,39 +994,41 @@ namespace CefSharp
             auto argList = message->GetArgumentList();
             IJavascriptCallbackFactory^ callbackFactory = _browserAdapter->JavascriptCallbackFactory;
 
-			if (name == kOnFocusedNodeChanged)
-			{
-				auto handler = _browserControl->RequestHandler;
-				if (handler != nullptr)
-				{
-					// 0: frame name (string)
-					// 1: is a node (bool)
-					// 2: tag name (string)
-					// 3: attributes (dictionary)
-					CefFrameWrapper frameWrapper(browser->GetFrame(argList->GetString(0)));
-					auto notEmpty = argList->GetBool(1);
-					if (notEmpty)
-					{
-						// Node information was passed from the render process.
-						auto argAttributes = argList->GetDictionary(3);
-						auto attributes = gcnew System::Collections::Generic::Dictionary<String^, String^>();
-						CefDictionaryValue::KeyList keys;
-						argAttributes->GetKeys(keys);
-						for (auto key : keys)
-							attributes->Add(gcnew String(key.c_str()), gcnew String(argAttributes->GetString(key).c_str()));
+            if (name == kOnFocusedNodeChanged)
+            {
+                auto handler = _browserControl->RequestHandler;
+                if (handler != nullptr)
+                {
+                    // 0: frame ID (int 64)
+                    // 1: is a node (bool)
+                    // 2: tag name (string)
+                    // 3: attributes (dictionary)
+                    CefFrameWrapper frameWrapper(browser->GetFrame(GetInt64(argList, 0)));
+                    auto notEmpty = argList->GetBool(1);
+                    if (notEmpty)
+                    {
+                        // Node information was passed from the render process.
+                        auto argAttributes = argList->GetDictionary(3);
+                        auto attributes = gcnew System::Collections::Generic::Dictionary<String^, String^>();
+                        CefDictionaryValue::KeyList keys;
+                        argAttributes->GetKeys(keys);
+                        for (auto key : keys)
+                        {
+                            attributes->Add(gcnew String(key.c_str()), gcnew String(argAttributes->GetString(key).c_str()));
+                        }
 
-						auto node = gcnew DomNode(attributes);
-						node->TagName = gcnew String(argList->GetString(2).c_str());
+                        auto node = gcnew DomNode(attributes);
+                        node->TagName = gcnew String(argList->GetString(2).c_str());
 
-						handler->OnFocusedNodeChanged(_browserControl, GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup()), %frameWrapper, node);
-					}
-					else
-					{
-						// Node information was not provided.
-						handler->OnFocusedNodeChanged(_browserControl, GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup()), %frameWrapper, nullptr);
-					}
-				}
-			}
+                        handler->OnFocusedNodeChanged(_browserControl, GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup()), %frameWrapper, node);
+                    }
+                    else
+                    {
+                        // Node information was not provided.
+                        handler->OnFocusedNodeChanged(_browserControl, GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup()), %frameWrapper, nullptr);
+                    }
+                }
+            }
 			else if (name == kEvaluateJavascriptResponse || name == kJavascriptCallbackResponse)
 			{
 				auto success = argList->GetBool(0);

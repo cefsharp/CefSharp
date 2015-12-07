@@ -170,13 +170,13 @@ namespace CefSharp
         /// </returns>
         bool OnResourceResponse(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IResponse response);
 
-		/// <summary>
-		/// Invoked when an element in the UI gains focus (or possibly no element gains focus; i.e. an element lost focus).
-		/// </summary>
-		/// <param name="browserControl">The ChromiumWebBrowser control</param>
-		/// <param name="browser">the browser object</param>
-		/// <param name="frame">The frame object</param>
-		/// <param name="node">An object with information about the node that has focus.</param>
-		void OnFocusedNodeChanged (IWebBrowser browserControl, IBrowser browser, IFrame frame, IDomNode node);
+        /// <summary>
+        /// Invoked when an element in the UI gains focus (or possibly no element gains focus; i.e. an element lost focus).
+        /// </summary>
+        /// <param name="browserControl">The ChromiumWebBrowser control</param>
+        /// <param name="browser">the browser object</param>
+        /// <param name="frame">The frame object</param>
+        /// <param name="node">An object with information about the node that has focus.</param>
+        void OnFocusedNodeChanged (IWebBrowser browserControl, IBrowser browser, IFrame frame, IDomNode node);
 	}
 }
