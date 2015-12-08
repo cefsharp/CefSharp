@@ -1,9 +1,9 @@
 [![CefSharp Logo](https://raw.githubusercontent.com/hgupta9/CefSharp/master/logo.png)](http://cefsharp.github.io/)
-![CefSharp.WinForsm](http://img.shields.io/nuget/v/CefSharp.WinForsm.svg?style=flat)
+
+![Build Status](http://img.shields.io/appveyor/ci/cefsharp/cefsharp.svg)
+![CefSharp.WinForms](http://img.shields.io/nuget/v/CefSharp.WinForms.svg?style=flat)
 ![CefSharp.Wpf](http://img.shields.io/nuget/v/CefSharp.Wpf.svg?style=flat)
 ![CefSharp.OffScreen](http://img.shields.io/nuget/v/CefSharp.OffScreen.svg?style=flat)
-
-![](http://img.shields.io/appveyor/ci/cefsharp/cefsharp.svg)
 
 [CefSharp](http://cefsharp.github.io/) lets you embed Chromium in .NET apps. It is a lightweight .NET wrapper around the [Chromium Embedded Framework (CEF)](https://bitbucket.org/chromiumembedded/cef) by Marshall A. Greenblatt. A small [Core](https://github.com/cefsharp/CefSharp/tree/master/CefSharp.Core) of the bindings are written in C++/CLI but the majority of code here is C#. It can of course be used from any CLR language, e.g. C# or VB.
 
