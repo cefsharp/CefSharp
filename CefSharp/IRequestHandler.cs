@@ -153,6 +153,7 @@ namespace CefSharp
         /// <param name="browser">the browser object</param>
         void OnRenderViewReady(IWebBrowser browserControl, IBrowser browser);
 
+        
         /// <summary>
         /// Called on the CEF IO thread when a resource response is received.
         /// To allow the resource to load normally return false.
@@ -171,12 +172,15 @@ namespace CefSharp
         bool OnResourceResponse(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IResponse response);
 
         /// <summary>
-        /// Invoked when an element in the UI gains focus (or possibly no element gains focus; i.e. an element lost focus).
+        /// Called on the CEF IO thread when a resource load has completed.
         /// </summary>
         /// <param name="browserControl">The ChromiumWebBrowser control</param>
         /// <param name="browser">the browser object</param>
-        /// <param name="frame">The frame object</param>
-        /// <param name="node">An object with information about the node that has focus.</param>
-        void OnFocusedNodeChanged (IWebBrowser browserControl, IBrowser browser, IFrame frame, IDomNode node);
-	}
+        /// <param name="frame">The frame that is being redirected.</param>
+        /// <param name="request">the request object - cannot be modified in this callback</param>
+        /// <param name="response">the response object - cannot be modified in this callback</param>
+        /// <param name="status">indicates the load completion status</param>
+        /// <param name="receivedContentLength">is the number of response bytes actually read.</param>
+        void OnResourceLoadComplete(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IResponse response, UrlRequestStatus status, long receivedContentLength);
+    }
 }

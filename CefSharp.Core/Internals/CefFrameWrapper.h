@@ -129,15 +129,11 @@ namespace CefSharp
             /*--cef()--*/
             virtual Task<String^>^ GetTextAsync();
 
-            // TODO: Do we need this?
             ///
-            // Load the request represented by the |request| object.
+            /// Load the request represented by the |request| object.
             ///
             /*--cef()--*/
-            //virtual void LoadRequest(CefRequestWrapper^ request)
-            //{
-            //    _frame->LoadRequest(request->GetCefRequest().get());
-            //}
+            virtual void LoadRequest(IRequest^ request);
 
             ///
             // Load the specified |url|.
@@ -242,6 +238,8 @@ namespace CefSharp
             {
                 return _frame->GetV8Context();
             }
+
+            virtual IRequest^ CreateRequest(bool initializePostData);
         };
     }
 }

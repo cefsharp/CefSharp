@@ -615,6 +615,21 @@ namespace CefSharp
             return handler->OnResourceResponse(_browserControl, browserWrapper, %frameWrapper, %requestWrapper, %responseWrapper);
         }
 
+        void ClientAdapter::OnResourceLoadComplete(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefResponse> response, URLRequestStatus status, int64 receivedContentLength)
+        {
+            auto handler = _browserControl->RequestHandler;
+
+            if (handler != nullptr)
+            {
+                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());;
+                CefFrameWrapper frameWrapper(frame);
+                CefRequestWrapper requestWrapper(request);
+                CefResponseWrapper responseWrapper(response);
+
+                handler->OnResourceLoadComplete(_browserControl, browserWrapper, %frameWrapper, %requestWrapper, %responseWrapper, (UrlRequestStatus)status, receivedContentLength);
+            }
+        }
+
         void ClientAdapter::OnProtocolExecution(CefRefPtr<CefBrowser> browser, const CefString& url, bool& allowOSExecution)
         {
             auto handler = _browserControl->RequestHandler;
@@ -996,7 +1011,7 @@ namespace CefSharp
 
             if (name == kOnFocusedNodeChanged)
             {
-                auto handler = _browserControl->RequestHandler;
+                auto handler = _browserControl->RenderProcessMessageHandler;
                 if (handler != nullptr)
                 {
                     // 0: frame ID (int 64)
@@ -1014,12 +1029,10 @@ namespace CefSharp
                         argAttributes->GetKeys(keys);
                         for (auto key : keys)
                         {
-                            attributes->Add(StringUtils::ToClr(key), StringUtils::ToClr(argAttributes->GetString(key).c_str()));
+                            attributes->Add(StringUtils::ToClr(key), StringUtils::ToClr(argAttributes->GetString(key)));
                         }
 
-                        auto node = gcnew DomNode(attributes);
-                        node->TagName = StringUtils::ToClr(argList->GetString(2));
-
+                        auto node = gcnew DomNode(StringUtils::ToClr(argList->GetString(2)), attributes);
                         handler->OnFocusedNodeChanged(_browserControl, GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup()), %frameWrapper, node);
                     }
                     else
@@ -1029,31 +1042,31 @@ namespace CefSharp
                     }
                 }
             }
-			else if (name == kEvaluateJavascriptResponse || name == kJavascriptCallbackResponse)
-			{
-				auto success = argList->GetBool(0);
-				auto callbackId = GetInt64(argList, 1);
+            else if (name == kEvaluateJavascriptResponse || name == kJavascriptCallbackResponse)
+            {
+                auto success = argList->GetBool(0);
+                auto callbackId = GetInt64(argList, 1);
 
-				auto pendingTask = _pendingTaskRepository->RemovePendingTask(callbackId);
-				if (pendingTask != nullptr)
-				{
-					auto response = gcnew JavascriptResponse();
-					response->Success = success;
+                auto pendingTask = _pendingTaskRepository->RemovePendingTask(callbackId);
+                if (pendingTask != nullptr)
+                {
+                    auto response = gcnew JavascriptResponse();
+                    response->Success = success;
 
-					if (success)
-					{
-						response->Result = DeserializeObject(argList, 2, callbackFactory);
-					}
-					else
-					{
-						response->Message = StringUtils::ToClr(argList->GetString(2));
-					}
+                    if (success)
+                    {
+                        response->Result = DeserializeObject(argList, 2, callbackFactory);
+                    }
+                    else
+                    {
+                        response->Message = StringUtils::ToClr(argList->GetString(2));
+                    }
 
-					pendingTask->SetResult(response);
-				}
+                    pendingTask->SetResult(response);
+                }
 
-				handled = true;
-			}
+                handled = true;
+            }
             else if (name == kJavascriptAsyncMethodCallRequest && !_browserAdapter->IsDisposed)
             {
                 auto frameId = GetInt64(argList, 0);

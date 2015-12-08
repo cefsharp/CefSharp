@@ -66,6 +66,11 @@ namespace CefSharp
 
                 commandLine->AppendArgument(StringUtils::ToNative(CefSharpArguments::CustomSchemeArgument + argument));
             }
+
+            if (_cefSettings->EnableFocusedNodeChanged)
+            {
+                commandLine->AppendArgument(StringUtils::ToNative(CefSharpArguments::EnableFocusedNodeChangedArgument));
+            }
         }
         
         virtual void OnBeforeCommandLineProcessing(const CefString& process_type, CefRefPtr<CefCommandLine> command_line) OVERRIDE

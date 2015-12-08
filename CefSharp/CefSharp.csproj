@@ -82,6 +82,7 @@
     <Compile Include="Geoposition.cs" />
     <Compile Include="IDomNode.cs" />
     <Compile Include="IPluginHandler.cs" />
+    <Compile Include="IRenderProcessMessageHandler.cs" />
     <Compile Include="IRunContextMenuCallback.cs" />
     <Compile Include="PdfPrintSettings.cs" />
     <Compile Include="ICookieManager.cs" />
@@ -194,6 +195,7 @@
     <Compile Include="IContextMenuHandler.cs" />
     <Compile Include="Internals\IRenderWebBrowser.cs" />
     <Compile Include="InternalWebBrowserExtensions.cs" />
+    <Compile Include="UrlRequestStatus.cs" />
     <Compile Include="WebBrowserExtensions.cs" />
     <Compile Include="WebPluginInfo.cs" />
     <Compile Include="IRequest.cs" />

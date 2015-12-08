@@ -99,10 +99,15 @@ namespace CefSharp
 
     void CefAppUnmanagedWrapper::OnFocusedNodeChanged(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefDOMNode> node)
     {
+        if (!_enableFocusedNodeChanged)
+        {
+            return;
+        }
+
         auto focusedNodeChangedMessage = CefProcessMessage::Create(kOnFocusedNodeChanged);
         auto list = focusedNodeChangedMessage->GetArgumentList();
 
-        // Neded in the browser process to get the frame.
+        // Needed in the browser process to get the frame.
         SetInt64(frame->GetIdentifier(), list, 0);
 
         // The node will be empty if an element loses focus but another one

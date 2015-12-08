@@ -178,16 +178,10 @@ namespace CefSharp.Example
             return false;
         }
 
-        void IRequestHandler.OnFocusedNodeChanged (IWebBrowser browserControl, IBrowser browser, IFrame frame, IDomNode node)
+
+        public void OnResourceLoadComplete(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IResponse response, UrlRequestStatus status, long receivedContentLength)
         {
-            if (node != null)
-            {
-                Console.WriteLine ("OnFocusedNodeChanged() - " + node.ToString ());
-            }
-            else
-            {
-                Console.WriteLine ("OnFocusedNodeChanged() - lost focus");
-            }
+            
         }
     }
 }

@@ -180,5 +180,18 @@ namespace CefSharp.Wpf.Example.ViewModels
             // Part of the Focus hack further described in the OnPropertyChanged() method...
             Keyboard.ClearFocus();
         }
+
+        public void LoadCustomRequestExample()
+        {
+            var frame = WebBrowser.GetMainFrame();
+
+            //Create a new request knowing we'd like to use PostData
+            var request = frame.CreateRequest(initializePostData:true);
+            request.Method = "POST";
+            request.Url = "custom://cefsharp/PostDataTest.html";
+            request.PostData.AddData("test=123&data=456");
+
+            frame.LoadRequest(request);
+        }
     }
 }
