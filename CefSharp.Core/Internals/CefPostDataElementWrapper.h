@@ -7,8 +7,8 @@
 #include "Stdafx.h"
 
 #include "include\cef_request.h"
-
-#include "Internals/TypeConversion.h"
+#include "Internals\TypeConversion.h"
+#include "CefWrapper.h"
 
 using namespace System::Collections::Specialized;
 
@@ -16,7 +16,7 @@ namespace CefSharp
 {
     namespace Internals
     {
-        public ref class CefPostDataElementWrapper : public IPostDataElement
+        public ref class CefPostDataElementWrapper : public IPostDataElement, public CefWrapper
         {
             MCefRefPtr<CefPostDataElement> _postDataElement;
         internal:
@@ -34,6 +34,8 @@ namespace CefSharp
             ~CefPostDataElementWrapper()
             {
                 this->!CefPostDataElementWrapper();
+
+                _disposed = true;
             }
 
         public:
@@ -41,6 +43,8 @@ namespace CefSharp
             {
                 bool get()
                 {
+                    ThrowIfDisposed();
+
                     return _postDataElement->IsReadOnly();
                 }
             }
@@ -49,16 +53,22 @@ namespace CefSharp
             {
                 String^ get()
                 {
+                    ThrowIfDisposed();
+
                     return StringUtils::ToClr(_postDataElement->GetFile());
                 }
                 void set(String^ val)
                 {
+                    ThrowIfDisposed();
+
                     _postDataElement->SetToFile(StringUtils::ToNative(val));
                 }
             }
 
             virtual void SetToEmpty()
             {
+                ThrowIfDisposed();
+
                 _postDataElement->SetToEmpty();
             }
 
@@ -66,6 +76,8 @@ namespace CefSharp
             {
                 PostDataElementType get()
                 {
+                    ThrowIfDisposed();
+
                     return (PostDataElementType)_postDataElement->GetType();
                 }
             }
@@ -74,6 +86,8 @@ namespace CefSharp
             {
                 cli::array<Byte>^ get()
                 {
+                    ThrowIfDisposed();
+
                     auto byteCount = _postDataElement->GetBytesCount();
                     if (byteCount == 0)
                     {
@@ -89,9 +103,20 @@ namespace CefSharp
                 }
                 void set(cli::array<Byte>^ val)
                 {
+                    ThrowIfDisposed();
+
                     pin_ptr<Byte> src = &val[0];
                     _postDataElement->SetToBytes(val->Length, static_cast<void*>(src));
                 }
+            }
+
+            operator CefRefPtr<CefPostDataElement>()
+            {
+                if (this == nullptr)
+                {
+                    return NULL;
+                }
+                return _postDataElement.get();
             }
         };
     }
