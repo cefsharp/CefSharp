@@ -1,16 +1,14 @@
 [![CefSharp Logo](https://raw.githubusercontent.com/hgupta9/CefSharp/master/logo.png)](http://cefsharp.github.io/)
 
 ![Build Status](http://img.shields.io/appveyor/ci/cefsharp/cefsharp.svg)
-![CefSharp.WinForms](http://img.shields.io/nuget/v/CefSharp.WinForms.svg?style=flat)
-![CefSharp.Wpf](http://img.shields.io/nuget/v/CefSharp.Wpf.svg?style=flat)
-![CefSharp.OffScreen](http://img.shields.io/nuget/v/CefSharp.OffScreen.svg?style=flat)
+[![CefSharp.WinForms](http://img.shields.io/nuget/v/CefSharp.WinForms.svg?style=flat)](http://www.nuget.org/packages/CefSharp.WinForms/)
+[![CefSharp.Wpf](http://img.shields.io/nuget/v/CefSharp.Wpf.svg?style=flat)](http://www.nuget.org/packages/CefSharp.Wpf/)
+[![CefSharp.OffScreen](http://img.shields.io/nuget/v/CefSharp.OffScreen.svg?style=flat)](http://www.nuget.org/packages/CefSharp.OffScreen/)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cefsharp/CefSharp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 [CefSharp](http://cefsharp.github.io/) lets you embed Chromium in .NET apps. It is a lightweight .NET wrapper around the [Chromium Embedded Framework (CEF)](https://bitbucket.org/chromiumembedded/cef) by Marshall A. Greenblatt. A small [Core](https://github.com/cefsharp/CefSharp/tree/master/CefSharp.Core) of the bindings are written in C++/CLI but the majority of code here is C#. It can of course be used from any CLR language, e.g. C# or VB.
 
 CefSharp provides both WPF and WinForms web browser control implementations. See the [CefSharp.Wpf.Example](https://github.com/cefsharp/CefSharp/tree/master/CefSharp.Wpf.Example) or  [CefSharp.WinForms.Example](https://github.com/cefsharp/CefSharp/tree/master/CefSharp.WinForms.Example) projects for example web browsers built using this library; they are (at this moment) the best "documentation" of features. In addition see the [CefSharp.MinimalExample](https://github.com/cefsharp/CefSharp.MinimalExample/) repo for how CefSharp can actually be used via NuGet packages.
-
-This is the `official` CefSharp fork, as maintained by the CefSharp community. You can also view [the entire network of public forks/branches](https://github.com/cefsharp/CefSharp/network).
 
 This project is [BSD](http://www.opensource.org/licenses/bsd-license.php "BSD License") licensed, which means that it can be used from both proprietary and free/open source applications. For the full details, see the [LICENSE](LICENSE) file.
 
@@ -36,6 +34,8 @@ Every commit on `master` produces a `Nuget` package. Use at your own risk! [CefS
 [OffScreen](http://www.nuget.org/packages/CefSharp.OffScreen/) now **including** JS Binding.
 
 # Branches & Forks
+
+This is the `official` CefSharp fork, as maintained by the CefSharp community. You can also view [the entire network of public forks/branches](https://github.com/cefsharp/CefSharp/network).
 
 * Development is done in the `master` branch. New features are preferably added in feature branches, if the changes are more than trivial.
 * When a new release is imminent a `version` branch is created. We try to avoid making public facing `API` changes in release branches (Adding new features is fine, just not breaking changes).
