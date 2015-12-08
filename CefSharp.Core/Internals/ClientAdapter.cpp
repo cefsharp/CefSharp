@@ -996,7 +996,7 @@ namespace CefSharp
 
             if (name == kOnFocusedNodeChanged)
             {
-                auto handler = _browserControl->RequestHandler;
+                auto handler = _browserControl->RenderProcessMessageHandler;
                 if (handler != nullptr)
                 {
                     // 0: frame ID (int 64)

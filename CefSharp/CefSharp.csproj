@@ -82,6 +82,7 @@
     <Compile Include="Geoposition.cs" />
     <Compile Include="IDomNode.cs" />
     <Compile Include="IPluginHandler.cs" />
+    <Compile Include="IRenderProcessMessageHandler.cs" />
     <Compile Include="IRunContextMenuCallback.cs" />
     <Compile Include="PdfPrintSettings.cs" />
     <Compile Include="ICookieManager.cs" />
