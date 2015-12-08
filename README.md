@@ -1,4 +1,4 @@
-[![CefSharp Logo](https://raw.githubusercontent.com/cefsharp/CefSharp/master/logo.png)](http://cefsharp.github.io/)
+[![CefSharp Logo](https://raw.githubusercontent.com/hgupta9/CefSharp/master/logo.png)](http://cefsharp.github.io/)
 
 ![](http://img.shields.io/appveyor/ci/cefsharp/cefsharp.svg)
 
