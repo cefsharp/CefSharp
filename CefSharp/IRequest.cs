@@ -17,7 +17,7 @@ namespace CefSharp
         /// <summary>
         /// Request Method GET/POST etc
         /// </summary>
-        string Method { get; }
+        string Method { get; set; }
 
         /// <summary>
         /// Header Collection

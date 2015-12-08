@@ -99,5 +99,49 @@ namespace CefSharp
 
             return encoding.GetString(bytes, 0, bytes.Length);
         }
+
+        /// <summary>
+        /// Add a new <see cref="IPostDataElement"/> that represents the specified file
+        /// </summary>
+        /// <param name="postData">post data instance</param>
+        /// <param name="fileName">file name</param>
+        public static void AddFile(this IPostData postData, string fileName)
+        {
+            if(string.IsNullOrEmpty(fileName))
+            {
+                throw new ArgumentNullException("fileName");
+            }
+
+            var element = postData.CreatePostDataElement();
+            element.File = fileName;
+
+            postData.AddElement(element);
+        }
+
+        /// <summary>
+        /// Add a new <see cref="IPostDataElement"/> that represents the key and value
+        /// The data is encoded using
+        /// </summary>
+        /// <param name="postData">Post Data</param>
+        /// <param name="data">Data to be encoded for the post data element</param>
+        /// <param name="encoding">Specified Encoding. If null then <see cref="Encoding.Default"/> will be used</param>
+        public static void AddData(this IPostData postData, string data, Encoding encoding = null)
+        {
+            if (string.IsNullOrEmpty(data))
+            {
+                throw new ArgumentNullException("data");
+            }
+
+            if(encoding == null)
+            {
+                encoding = Encoding.Default;
+            }
+
+            var element = postData.CreatePostDataElement();
+
+            element.Bytes = encoding.GetBytes(data);
+
+            postData.AddElement(element);
+        }
     }
 }

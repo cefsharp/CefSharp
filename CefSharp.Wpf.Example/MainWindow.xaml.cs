@@ -33,6 +33,7 @@ namespace CefSharp.Wpf.Example
             CommandBindings.Add(new CommandBinding(CefSharpCommands.Exit, Exit));
             CommandBindings.Add(new CommandBinding(CefSharpCommands.OpenTabCommand, OpenTabCommandBinding));
             CommandBindings.Add(new CommandBinding(CefSharpCommands.PrintTabToPdfCommand, PrintToPdfCommandBinding));
+            CommandBindings.Add(new CommandBinding(CefSharpCommands.CustomCommand, CustomCommandBinding));
 
             Loaded += MainWindowLoaded;
 
@@ -80,6 +81,38 @@ namespace CefSharp.Wpf.Example
         private void CreateNewTab(string url = DefaultUrlForAddedTabs, bool showSideBar = false)
         {
             BrowserTabs.Add(new BrowserTabViewModel(url) { ShowSidebar = showSideBar });
+        }
+
+        private void CustomCommandBinding(object sender, ExecutedRoutedEventArgs e)
+        {
+            var param = e.Parameter.ToString();
+
+            if (BrowserTabs.Count > 0)
+            {
+                var originalSource = (FrameworkElement)e.OriginalSource;
+
+                //TODO: Remove duplicate code
+                BrowserTabViewModel browserViewModel;
+
+                if (originalSource is MainWindow)
+                {
+                    browserViewModel = BrowserTabs[TabControl.SelectedIndex];
+                }
+                else
+                {
+                    browserViewModel = (BrowserTabViewModel)originalSource.DataContext;
+                }
+
+                if (param == "CustomRequest")
+                {
+                    browserViewModel.LoadCustomRequestExample();
+                }
+                //NOTE: Add as required
+                //else if (param == "CustomRequest123")
+                //{
+                //    browserViewModel.LoadCustomRequestExample();
+                //}
+            }
         }
 
         private async void PrintToPdfCommandBinding(object sender, ExecutedRoutedEventArgs e)

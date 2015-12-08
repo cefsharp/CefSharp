@@ -33,6 +33,16 @@ namespace CefSharp
             return StringUtils::ToClr(_wrappedRequest->GetMethod());
         }
 
+        void CefRequestWrapper::Method::set(String^ method)
+        {
+            if (method == nullptr)
+            {
+                throw gcnew System::ArgumentException("cannot be null", "method");
+            }
+
+            _wrappedRequest->SetMethod(StringUtils::ToNative(method));
+        }
+
         NameValueCollection^ CefRequestWrapper::Headers::get()
         {
             CefRequest::HeaderMap hm;

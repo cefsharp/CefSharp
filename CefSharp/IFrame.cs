@@ -75,12 +75,11 @@ namespace CefSharp
         /// </returns>
         Task<string> GetTextAsync();
 
-        // TODO: Expose a public constructor to CefRequestWrapper maybe?
-        //
-        // Load the request represented by the |request| object.
-        //
-        /*--cef()--*/
-        //virtual void LoadRequest(CefRequestWrapper^ request) = 0;
+        /// <summary>
+        /// Load the custom request.
+        /// </summary>
+        /// <param name="request">request to be loaded in the frame</param>
+        void LoadRequest(IRequest request);
 
         /// <summary>
         /// Load the specified url.
@@ -157,5 +156,12 @@ namespace CefSharp
         /// Gets a value indicating whether the frame has been disposed of.
         /// </summary>
         bool IsDisposed { get; }
+
+        /// <summary>
+        /// Create a custom request for use with <see cref="LoadRequest"/>
+        /// </summary>
+        /// <param name="initializePostData">Initialize the PostData object when creating this request</param>
+        /// <returns>A new instance of the request</returns>
+        IRequest CreateRequest(bool initializePostData = true);
     }
 }
