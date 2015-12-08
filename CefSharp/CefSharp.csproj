@@ -192,6 +192,7 @@
     <Compile Include="IContextMenuHandler.cs" />
     <Compile Include="Internals\IRenderWebBrowser.cs" />
     <Compile Include="InternalWebBrowserExtensions.cs" />
+    <Compile Include="UrlRequestStatus.cs" />
     <Compile Include="WebBrowserExtensions.cs" />
     <Compile Include="WebPluginInfo.cs" />
     <Compile Include="IRequest.cs" />

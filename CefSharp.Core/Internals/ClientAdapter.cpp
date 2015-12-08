@@ -615,6 +615,21 @@ namespace CefSharp
             return handler->OnResourceResponse(_browserControl, browserWrapper, %frameWrapper, %requestWrapper, %responseWrapper);
         }
 
+        void ClientAdapter::OnResourceLoadComplete(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefResponse> response, URLRequestStatus status, int64 receivedContentLength)
+        {
+            auto handler = _browserControl->RequestHandler;
+
+            if (handler != nullptr)
+            {
+                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());;
+                CefFrameWrapper frameWrapper(frame);
+                CefRequestWrapper requestWrapper(request);
+                CefResponseWrapper responseWrapper(response);
+
+                handler->OnResourceLoadComplete(_browserControl, browserWrapper, %frameWrapper, %requestWrapper, %responseWrapper, (UrlRequestStatus)status, receivedContentLength);
+            }
+        }
+
         void ClientAdapter::OnProtocolExecution(CefRefPtr<CefBrowser> browser, const CefString& url, bool& allowOSExecution)
         {
             auto handler = _browserControl->RequestHandler;

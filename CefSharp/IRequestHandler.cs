@@ -170,5 +170,17 @@ namespace CefSharp
         /// To redirect or retry the resource modify request (url, headers or post body) and return true.
         /// </returns>
         bool OnResourceResponse(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IResponse response);
+
+        /// <summary>
+        /// Called on the CEF IO thread when a resource load has completed.
+        /// </summary>
+        /// <param name="browserControl">The ChromiumWebBrowser control</param>
+        /// <param name="browser">the browser object</param>
+        /// <param name="frame">The frame that is being redirected.</param>
+        /// <param name="request">the request object - cannot be modified in this callback</param>
+        /// <param name="response">the response object - cannot be modified in this callback</param>
+        /// <param name="status">indicates the load completion status</param>
+        /// <param name="receivedContentLength">is the number of response bytes actually read.</param>
+        void OnResourceLoadComplete(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IResponse response, UrlRequestStatus status, long receivedContentLength);
     }
 }
