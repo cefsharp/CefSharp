@@ -12,25 +12,22 @@ using namespace System::Collections::Generic;
 
 namespace CefSharp
 {
-    List<String^>^ CefAppWrapper::ParseOptionalMessagesArgument(IEnumerable<String^>^ args)
+    bool CefAppWrapper::ArgumentExists(String^ argumentName, IEnumerable<String^>^ args)
     {
-        auto optionalMessages = gcnew List<String^>();
         for each(auto arg in args)
         {
-            if (arg->StartsWith(CefSharpArguments::OptionalMessagesArgument))
+            // arg can be either "--name=value" or "--name"
+            auto parts = arg->Split('=');
+            if (0 < parts->Length)
             {
-                auto argValue = arg->Substring(CefSharpArguments::OptionalMessagesArgument->Length + 1);
-                if (0 < argValue->Length)
+                if (parts[0] == argumentName)
                 {
-                    for each (auto entry in argValue->Split(','))
-                    {
-                        optionalMessages->Add(entry);
-                    }
+                    return true;
                 }
             }
         }
 
-        return optionalMessages;
+        return false;
     }
 
     int CefAppWrapper::Run()

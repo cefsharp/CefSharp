@@ -129,7 +129,7 @@ namespace CefSharp.Example
 
             settings.RegisterExtension(new CefExtension("cefsharp/example", Resources.extension));
 
-            settings.OptionalMessages.Add ("OnFocusedNodeChanged");
+            settings.EnableFocusedNodeChanged = false;
 
             Cef.OnContextInitialized = delegate
             {

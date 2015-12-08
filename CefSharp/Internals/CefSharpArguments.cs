@@ -8,6 +8,6 @@ namespace CefSharp.Internals
     {
         public const string WcfEnabledArgument = "--wcf-enabled";
         public const string CustomSchemeArgument = "--custom-scheme";
-        public const string OptionalMessagesArgument = "--optional-messages";
+        public const string EnableFocusedNodeChangedArgument = "--enable-focused-node";
     }
 }

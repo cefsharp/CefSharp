@@ -8,7 +8,8 @@ using System.Collections.ObjectModel;
 namespace CefSharp
 {
     /// <summary>
-    /// Represents the data belonging to a node in the browser's DOM.
+    /// Represents the tag name and attribute data belonging to a node in the
+    /// browser's DOM.
     /// </summary>
     public interface IDomNode : IEnumerable<KeyValuePair<string, string>>
     {

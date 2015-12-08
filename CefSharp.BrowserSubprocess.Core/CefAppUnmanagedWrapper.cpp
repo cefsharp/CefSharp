@@ -99,7 +99,7 @@ namespace CefSharp
 
     void CefAppUnmanagedWrapper::OnFocusedNodeChanged(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefDOMNode> node)
     {
-        if (!_sendOnFocusedNodeChanged)
+        if (!_enableFocusedNodeChanged)
         {
             return;
         }

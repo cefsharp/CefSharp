@@ -22,17 +22,17 @@ namespace CefSharp
     private:
         MCefRefPtr<CefAppUnmanagedWrapper> _cefApp;
 
-        static List<String^>^ ParseOptionalMessagesArgument(IEnumerable<String^>^ args);
-        
-    public:        
+        static bool ArgumentExists(String^ argumentName, IEnumerable<String^>^ args);
+
+    public:
         CefAppWrapper(IEnumerable<String^>^ args)
         {
             auto onBrowserCreated = gcnew Action<CefBrowserWrapper^>(this, &CefAppWrapper::OnBrowserCreated);
             auto onBrowserDestroyed = gcnew Action<CefBrowserWrapper^>(this, &CefAppWrapper::OnBrowserDestroyed);
             auto schemes = CefCustomScheme::ParseCommandLineArguments(args);
-            auto optionalMessages = ParseOptionalMessagesArgument(args);
+            auto enableFocusedNodeChanged = ArgumentExists(CefSharpArguments::EnableFocusedNodeChangedArgument, args);
 
-            _cefApp = new CefAppUnmanagedWrapper(schemes, optionalMessages, onBrowserCreated, onBrowserDestroyed);
+            _cefApp = new CefAppUnmanagedWrapper(schemes, enableFocusedNodeChanged, onBrowserCreated, onBrowserDestroyed);
         };
 
         !CefAppWrapper()
@@ -48,6 +48,6 @@ namespace CefSharp
         int Run();
 
         virtual void OnBrowserCreated(CefBrowserWrapper^ cefBrowserWrapper) abstract;
-        virtual void OnBrowserDestroyed(CefBrowserWrapper^ cefBrowserWrapper) abstract;		
+        virtual void OnBrowserDestroyed(CefBrowserWrapper^ cefBrowserWrapper) abstract;
     };
 }

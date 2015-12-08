@@ -17,8 +17,9 @@ namespace CefSharp
     {
         private IDictionary<string, string> _attributes = null;
 
-        public DomNode (IDictionary<string, string> attributes)
+        public DomNode (string tagName, IDictionary<string, string> attributes)
         {
+            TagName = tagName;
             _attributes = attributes;
         }
 
@@ -62,7 +63,7 @@ namespace CefSharp
         public string TagName
         {
             get;
-            set;
+            private set;
         }
 
         public ReadOnlyCollection<string> AttributeNames

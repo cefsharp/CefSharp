@@ -26,7 +26,7 @@ namespace CefSharp
         gcroot<ConcurrentDictionary<int, CefBrowserWrapper^>^> _browserWrappers;
         gcroot<List<CefExtension^>^> _extensions;
         gcroot<List<CefCustomScheme^>^> _schemes;
-        gcroot<bool> _sendOnFocusedNodeChanged;
+        gcroot<bool> _enableFocusedNodeChanged;
 
         // The serialized registered object data waiting to be used (only contains methods and bound async).
         gcroot<JavascriptRootObject^> _javascriptAsyncRootObject;
@@ -37,14 +37,14 @@ namespace CefSharp
     public:
         static const CefString kPromiseCreatorFunction;
 
-        CefAppUnmanagedWrapper(List<CefCustomScheme^>^ schemes, List<String^>^ optionalMessages, Action<CefBrowserWrapper^>^ onBrowserCreated, Action<CefBrowserWrapper^>^ onBrowserDestoryed)
+        CefAppUnmanagedWrapper(List<CefCustomScheme^>^ schemes, bool enableFocusedNodeChanged, Action<CefBrowserWrapper^>^ onBrowserCreated, Action<CefBrowserWrapper^>^ onBrowserDestoryed)
         {
             _onBrowserCreated = onBrowserCreated;
             _onBrowserDestroyed = onBrowserDestoryed;
             _browserWrappers = gcnew ConcurrentDictionary<int, CefBrowserWrapper^>();
             _extensions = gcnew List<CefExtension^>();
             _schemes = schemes;
-            _sendOnFocusedNodeChanged = optionalMessages->Contains(StringUtils::ToClr(CefSharp::Internals::Messaging::kOnFocusedNodeChanged));
+            _enableFocusedNodeChanged = enableFocusedNodeChanged;
         }
 
         ~CefAppUnmanagedWrapper()

@@ -67,13 +67,9 @@ namespace CefSharp
                 commandLine->AppendArgument(StringUtils::ToNative(CefSharpArguments::CustomSchemeArgument + argument));
             }
 
-            if (_cefSettings->_optionalMessages->Count > 0)
+            if (_cefSettings->EnableFocusedNodeChanged)
             {
-                auto argument = gcnew System::Text::StringBuilder();
-                argument->Append(CefSharpArguments::OptionalMessagesArgument);
-                argument->Append("=");
-                argument->Append(String::Join(",", _cefSettings->OptionalMessages));
-                commandLine->AppendArgument(StringUtils::ToNative (argument->ToString()));
+                commandLine->AppendArgument(StringUtils::ToNative(CefSharpArguments::EnableFocusedNodeChangedArgument));
             }
         }
         
