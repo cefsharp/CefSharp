@@ -20,11 +20,11 @@ Stable binaries are released on NuGet, and contain everything you need  to embed
 
 ## Documentation
 
-*See the [CefSharp.Wpf.Example](https://github.com/cefsharp/CefSharp/tree/master/CefSharp.Wpf.Example) or  [CefSharp.WinForms.Example](https://github.com/cefsharp/CefSharp/tree/master/CefSharp.WinForms.Example) projects for example web browsers built with CefSharp. They demo all available features.
-*See the [CefSharp.MinimalExample](https://github.com/cefsharp/CefSharp.MinimalExample/) to know how CefSharp can actually be used via NuGet packages.
-*See the [wiki](https://github.com/cefsharp/CefSharp/wiki) for work-in-progress documentation
-*See the [FAQ](https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions) for help with common issues 
-*Upgrading from an earlier version of CefSharp? See the [ChangeLog](https://github.com/cefsharp/CefSharp/wiki/ChangeLog) for breaking changes and upgrade tips.
+* See the [CefSharp.Wpf.Example](https://github.com/cefsharp/CefSharp/tree/master/CefSharp.Wpf.Example) or  [CefSharp.WinForms.Example](https://github.com/cefsharp/CefSharp/tree/master/CefSharp.WinForms.Example) projects for example web browsers built with CefSharp. They demo all available features.
+* See the [CefSharp.MinimalExample](https://github.com/cefsharp/CefSharp.MinimalExample/) to know how CefSharp can actually be used via NuGet packages.
+* See the [wiki](https://github.com/cefsharp/CefSharp/wiki) for work-in-progress documentation
+* See the [FAQ](https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions) for help with common issues 
+* Upgrading from an earlier version of CefSharp? See the [ChangeLog](https://github.com/cefsharp/CefSharp/wiki/ChangeLog) for breaking changes and upgrade tips.
 
 ## Contact
 
@@ -34,8 +34,9 @@ If something is missing/incomplete, please don't hesitate to ask on the [CefShar
 
 This is the `official` CefSharp fork, as maintained by the CefSharp community. You can also view [the entire network of public forks/branches](https://github.com/cefsharp/CefSharp/network).
 
-* Development is done in the `master` branch. New features are preferably added in feature branches, if the changes are more than trivial.
-* When a new release is imminent a `version` branch is created. We try to avoid making public facing `API` changes in release branches (Adding new features is fine, just not breaking changes).
+Development is done in the `master` branch. New features are preferably added in feature branches, if the changes are more than trivial.
+
+When a new release is imminent a `version` branch is created. We try to avoid making public facing `API` changes in release branches (Adding new features is fine, just not breaking changes).
 
 ### Build Status
 
