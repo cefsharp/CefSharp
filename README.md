@@ -1,4 +1,7 @@
 [![CefSharp Logo](https://raw.githubusercontent.com/hgupta9/CefSharp/master/logo.png)](http://cefsharp.github.io/)
+![CefSharp.WinForsm](http://img.shields.io/nuget/v/CefSharp.WinForsm.svg?style=flat)
+![CefSharp.Wpf](http://img.shields.io/nuget/v/CefSharp.Wpf.svg?style=flat)
+![CefSharp.OffScreen](http://img.shields.io/nuget/v/CefSharp.OffScreen.svg?style=flat)
 
 ![](http://img.shields.io/appveyor/ci/cefsharp/cefsharp.svg)
 
