@@ -1009,7 +1009,26 @@ namespace CefSharp
             auto argList = message->GetArgumentList();
             IJavascriptCallbackFactory^ callbackFactory = _browserAdapter->JavascriptCallbackFactory;
 
-            if (name == kOnFocusedNodeChanged)
+            if (name == kOnContextCreatedRequest)
+            {
+                auto handler = _browserControl->RequestHandler;
+
+                if (handler != nullptr)
+                {
+                    auto frameId = GetInt64(argList, 0);
+
+                    auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+                    auto frame = browserWrapper->GetFrame(frameId);
+
+                    handler->OnContextCreated(_browserControl, browserWrapper, frame);
+
+                    //Dispose of the frame
+                    delete frame;
+                }
+
+                handled = true;
+            }
+            else if (name == kOnFocusedNodeChanged)
             {
                 auto handler = _browserControl->RenderProcessMessageHandler;
                 if (handler != nullptr)
@@ -1097,8 +1116,8 @@ namespace CefSharp
 
             auto message = CefProcessMessage::Create(kEvaluateJavascriptRequest);
             auto argList = message->GetArgumentList();
-            SetInt64(frameId, argList, 0);
-            SetInt64(idAndComplectionSource.Key, argList, 1);
+            SetInt64(argList, 0, frameId);
+            SetInt64(argList, 1, idAndComplectionSource.Key);
             argList->SetString(2, StringUtils::ToNative(script));
 
             auto browserWrapper = static_cast<CefSharpBrowserWrapper^>(GetBrowserWrapper(browserId, isBrowserPopup));
@@ -1119,8 +1138,8 @@ namespace CefSharp
             {
                 auto message = CefProcessMessage::Create(kJavascriptAsyncMethodCallResponse);
                 auto argList = message->GetArgumentList();
-                SetInt64(result->FrameId, argList, 0);
-                SetInt64(result->CallbackId.Value, argList, 1);
+                SetInt64(argList, 0, result->FrameId);
+                SetInt64(argList, 1, result->CallbackId.Value);
                 argList->SetBool(2, result->Success);
                 if (result->Success)
                 {
