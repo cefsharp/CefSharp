@@ -1011,19 +1011,14 @@ namespace CefSharp
 
             if (name == kOnContextCreatedRequest)
             {
-                auto handler = _browserControl->RequestHandler;
+                auto handler = _browserControl->RenderProcessMessageHandler;
 
                 if (handler != nullptr)
                 {
-                    auto frameId = GetInt64(argList, 0);
-
                     auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
-                    auto frame = browserWrapper->GetFrame(frameId);
+                    CefFrameWrapper frameWrapper(browser->GetFrame(GetInt64(argList, 0)));
 
-                    handler->OnContextCreated(_browserControl, browserWrapper, frame);
-
-                    //Dispose of the frame
-                    delete frame;
+                    handler->OnContextCreated(_browserControl, browserWrapper, %frameWrapper);
                 }
 
                 handled = true;
@@ -1039,9 +1034,9 @@ namespace CefSharp
                     // 1: is a node (bool)
                     // 2: tag name (string)
                     // 3: attributes (dictionary)
-                    CefFrameWrapper frameWrapper(browser->GetFrame(GetInt64(argList, 0)));
                     auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
-
+                    CefFrameWrapper frameWrapper(browser->GetFrame(GetInt64(argList, 0)));
+                    
                     auto notEmpty = argList->GetBool(1);
                     if (notEmpty)
                     {

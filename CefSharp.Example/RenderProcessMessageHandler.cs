@@ -14,5 +14,12 @@ namespace CefSharp.Example
 
             Console.WriteLine("OnFocusedNodeChanged() - " + message);
         }
+
+        void IRenderProcessMessageHandler.OnContextCreated(IWebBrowser browserControl, IBrowser browser, IFrame frame)
+        {
+            const string script = "document.addEventListener('DOMContentLoaded', function(){ alert('DomLoaded'); });";
+
+            //frame.ExecuteJavaScriptAsync(script);
+        }
     }
 }

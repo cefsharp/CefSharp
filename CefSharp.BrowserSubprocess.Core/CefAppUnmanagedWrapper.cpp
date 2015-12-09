@@ -120,7 +120,7 @@ namespace CefSharp
         auto list = focusedNodeChangedMessage->GetArgumentList();
 
         // Needed in the browser process to get the frame.
-        SetInt64(frame->GetIdentifier(), list, 0);
+        SetInt64(list, 0, frame->GetIdentifier());
 
         // The node will be empty if an element loses focus but another one
         // doesn't gain focus. Only transfer information if the node is an
