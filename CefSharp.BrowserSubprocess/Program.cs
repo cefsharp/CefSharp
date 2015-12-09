@@ -30,7 +30,7 @@ namespace CefSharp.BrowserSubprocess
         {
             const string typePrefix = "--type=";
             var typeArgument = args.SingleOrDefault(arg => arg.StartsWith(typePrefix));
-            var wcfEnabled = args.Any(a => a.StartsWith(CefSharpArguments.WcfEnabledArgument));
+            var wcfEnabled = args.HasArgument(CefSharpArguments.WcfEnabledArgument);
 
             var type = typeArgument.Substring(typePrefix.Length);
 

@@ -18,6 +18,6 @@ namespace CefSharp
         /// <param name="browser">the browser object</param>
         /// <param name="frame">The frame object</param>
         /// <param name="node">An object with information about the node (if any) that has focus.</param>
-        void OnFocusedNodeChanged (IWebBrowser browserControl, IBrowser browser, IFrame frame, IDomNode node);
+        void OnFocusedNodeChanged(IWebBrowser browserControl, IBrowser browser, IFrame frame, IDomNode node);
     }
 }

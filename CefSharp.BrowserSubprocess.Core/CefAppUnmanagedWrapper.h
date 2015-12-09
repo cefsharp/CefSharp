@@ -9,7 +9,6 @@
 #include "include/cef_base.h"
 
 #include "CefBrowserWrapper.h"
-#include "..\CefSharp.Core\Internals\Messaging\Messages.h"
 
 using namespace System::Collections::Generic;
 
@@ -26,7 +25,7 @@ namespace CefSharp
         gcroot<ConcurrentDictionary<int, CefBrowserWrapper^>^> _browserWrappers;
         gcroot<List<CefExtension^>^> _extensions;
         gcroot<List<CefCustomScheme^>^> _schemes;
-        gcroot<bool> _enableFocusedNodeChanged;
+        bool _enableFocusedNodeChanged;
 
         // The serialized registered object data waiting to be used (only contains methods and bound async).
         gcroot<JavascriptRootObject^> _javascriptAsyncRootObject;

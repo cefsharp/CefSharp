@@ -81,6 +81,7 @@
     <Compile Include="DraggableRegion.cs" />
     <Compile Include="Geoposition.cs" />
     <Compile Include="IDomNode.cs" />
+    <Compile Include="Internals\CommandLineArgsParser.cs" />
     <Compile Include="IPluginHandler.cs" />
     <Compile Include="IRenderProcessMessageHandler.cs" />
     <Compile Include="IRunContextMenuCallback.cs" />

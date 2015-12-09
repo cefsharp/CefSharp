@@ -8,16 +8,11 @@ namespace CefSharp.Example
 {
     public class RenderProcessMessageHandler : IRenderProcessMessageHandler
     {
-        void IRenderProcessMessageHandler.OnFocusedNodeChanged (IWebBrowser browserControl, IBrowser browser, IFrame frame, IDomNode node)
+        void IRenderProcessMessageHandler.OnFocusedNodeChanged(IWebBrowser browserControl, IBrowser browser, IFrame frame, IDomNode node)
         {
-            if (node != null)
-            {
-                Console.WriteLine ("OnFocusedNodeChanged() - " + node.ToString ());
-            }
-            else
-            {
-                Console.WriteLine ("OnFocusedNodeChanged() - lost focus");
-            }
+            var message = node == null ? "lost focus" : node.ToString();
+
+            Console.WriteLine("OnFocusedNodeChanged() - " + message);
         }
     }
 }

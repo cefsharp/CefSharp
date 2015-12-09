@@ -1014,15 +1014,20 @@ namespace CefSharp
                 auto handler = _browserControl->RenderProcessMessageHandler;
                 if (handler != nullptr)
                 {
+                    IDomNode^ node = nullptr;
+
                     // 0: frame ID (int 64)
                     // 1: is a node (bool)
                     // 2: tag name (string)
                     // 3: attributes (dictionary)
                     CefFrameWrapper frameWrapper(browser->GetFrame(GetInt64(argList, 0)));
+                    auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+
                     auto notEmpty = argList->GetBool(1);
                     if (notEmpty)
                     {
                         // Node information was passed from the render process.
+                        auto tagName = StringUtils::ToClr(argList->GetString(2));
                         auto argAttributes = argList->GetDictionary(3);
                         auto attributes = gcnew System::Collections::Generic::Dictionary<String^, String^>();
                         CefDictionaryValue::KeyList keys;
@@ -1032,14 +1037,11 @@ namespace CefSharp
                             attributes->Add(StringUtils::ToClr(key), StringUtils::ToClr(argAttributes->GetString(key)));
                         }
 
-                        auto node = gcnew DomNode(StringUtils::ToClr(argList->GetString(2)), attributes);
-                        handler->OnFocusedNodeChanged(_browserControl, GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup()), %frameWrapper, node);
+                        node = gcnew DomNode(tagName, attributes);
                     }
-                    else
-                    {
-                        // Node information was not provided.
-                        handler->OnFocusedNodeChanged(_browserControl, GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup()), %frameWrapper, nullptr);
-                    }
+
+                    // DomNode will be empty if input focus was cleared
+                    handler->OnFocusedNodeChanged(_browserControl, browserWrapper, %frameWrapper, node);
                 }
             }
             else if (name == kEvaluateJavascriptResponse || name == kJavascriptCallbackResponse)

@@ -12,6 +12,7 @@
 #include "CefAppUnmanagedWrapper.h"
 
 using namespace System::Collections::Generic;
+using namespace System::Linq;
 using namespace CefSharp::Internals;
 
 namespace CefSharp
@@ -22,15 +23,13 @@ namespace CefSharp
     private:
         MCefRefPtr<CefAppUnmanagedWrapper> _cefApp;
 
-        static bool ArgumentExists(String^ argumentName, IEnumerable<String^>^ args);
-
     public:
         CefAppWrapper(IEnumerable<String^>^ args)
         {
             auto onBrowserCreated = gcnew Action<CefBrowserWrapper^>(this, &CefAppWrapper::OnBrowserCreated);
             auto onBrowserDestroyed = gcnew Action<CefBrowserWrapper^>(this, &CefAppWrapper::OnBrowserDestroyed);
             auto schemes = CefCustomScheme::ParseCommandLineArguments(args);
-            auto enableFocusedNodeChanged = ArgumentExists(CefSharpArguments::EnableFocusedNodeChangedArgument, args);
+            auto enableFocusedNodeChanged = CommandLineArgsParser::HasArgument(args, CefSharpArguments::EnableFocusedNodeChangedArgument);
 
             _cefApp = new CefAppUnmanagedWrapper(schemes, enableFocusedNodeChanged, onBrowserCreated, onBrowserDestroyed);
         };

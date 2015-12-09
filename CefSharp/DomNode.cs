@@ -15,7 +15,7 @@ namespace CefSharp
     /// </summary>
     public class DomNode : IDomNode
     {
-        private IDictionary<string, string> _attributes = null;
+        private readonly IDictionary<string, string> _attributes;
 
         public DomNode (string tagName, IDictionary<string, string> attributes)
         {
@@ -60,11 +60,7 @@ namespace CefSharp
             }
         }
 
-        public string TagName
-        {
-            get;
-            private set;
-        }
+        public string TagName { get; private set; }
 
         public ReadOnlyCollection<string> AttributeNames
         {
@@ -89,17 +85,17 @@ namespace CefSharp
             return _attributes.ContainsKey (attributeName);
         }
 
-        public IEnumerator<KeyValuePair<string, string>> GetEnumerator ()
+        public IEnumerator<KeyValuePair<string, string>>GetEnumerator()
         {
             if (_attributes == null)
             {
-                return new Dictionary<string, string> ().GetEnumerator ();
+                return new Dictionary<string, string>().GetEnumerator();
             }
 
             return _attributes.GetEnumerator ();
         }
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator ()
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return GetEnumerator ();
         }
