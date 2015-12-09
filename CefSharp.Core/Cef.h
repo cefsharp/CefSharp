@@ -336,7 +336,11 @@ namespace CefSharp
         static ICookieManager^ GetGlobalCookieManager()
         {
             auto cookieManager = CefCookieManager::GetGlobalManager(NULL);
-            return gcnew CookieManager(cookieManager);
+            if (cookieManager.get())
+            {
+                return gcnew CookieManager(cookieManager);
+            }
+            return nullptr;
         }
 
         /// <summary>
