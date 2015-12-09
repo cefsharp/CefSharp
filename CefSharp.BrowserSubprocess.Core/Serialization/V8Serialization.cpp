@@ -53,7 +53,7 @@ namespace CefSharp
                 }
                 else if (obj->IsDate())
                 {
-                    SetCefTime(obj->GetDateValue(), list, index);
+                    SetCefTime(list, index, obj->GetDateValue());
                 }
                 else if (obj->IsArray())
                 {
@@ -78,7 +78,7 @@ namespace CefSharp
                 {
                     auto context = CefV8Context::GetCurrentContext();
                     auto jsCallback = callbackRegistry->Register(context, obj);
-                    SetJsCallback(jsCallback, list, index);
+                    SetJsCallback(list, index, jsCallback);
                 }
                 else if (obj->IsObject())
                 {

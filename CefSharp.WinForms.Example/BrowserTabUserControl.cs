@@ -45,7 +45,7 @@ namespace CefSharp.WinForms.Example
             browser.DragHandler = new DragHandler();
             browser.RegisterJsObject("bound", new BoundObject());
             browser.RegisterAsyncJsObject("boundAsync", new AsyncBoundObject());
-            browser.RenderProcessMessageHandler = new RenderProcessMessageHandler ();
+            browser.RenderProcessMessageHandler = new RenderProcessMessageHandler();
 
             CefExample.RegisterTestResources(browser);
 

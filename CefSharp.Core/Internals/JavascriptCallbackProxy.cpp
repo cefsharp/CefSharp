@@ -31,9 +31,9 @@ namespace CefSharp
 
             auto callbackMessage = CefProcessMessage::Create(kJavascriptCallbackRequest);
             auto argList = callbackMessage->GetArgumentList();
-            SetInt64(_callback->FrameId, argList, 0);
-            SetInt64(doneCallback.Key, argList, 1);
-            SetInt64(_callback->Id, argList, 2);
+            SetInt64(argList, 0, _callback->FrameId);
+            SetInt64(argList, 1, doneCallback.Key);
+            SetInt64(argList, 2, _callback->Id);
             auto paramList = CefListValue::Create();
             for (int i = 0; i < parameters->Length; i++)
             {
@@ -51,8 +51,8 @@ namespace CefSharp
         {
             auto result = CefProcessMessage::Create(kJavascriptCallbackDestroyRequest);
             auto argList = result->GetArgumentList();
-            SetInt64(_callback->Id, argList, 0);
-            SetInt64(_callback->FrameId, argList, 1);
+            SetInt64(argList, 0, _callback->Id);
+            SetInt64(argList, 1, _callback->FrameId);
             return result;
         }
 

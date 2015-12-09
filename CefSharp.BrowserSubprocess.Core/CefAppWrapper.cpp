@@ -12,24 +12,6 @@ using namespace System::Collections::Generic;
 
 namespace CefSharp
 {
-    bool CefAppWrapper::ArgumentExists(String^ argumentName, IEnumerable<String^>^ args)
-    {
-        for each(auto arg in args)
-        {
-            // arg can be either "--name=value" or "--name"
-            auto parts = arg->Split('=');
-            if (0 < parts->Length)
-            {
-                if (parts[0] == argumentName)
-                {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
     int CefAppWrapper::Run()
     {
         auto hInstance = Process::GetCurrentProcess()->Handle;

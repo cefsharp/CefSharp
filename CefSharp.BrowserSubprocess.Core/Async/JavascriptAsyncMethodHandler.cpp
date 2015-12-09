@@ -38,9 +38,9 @@ namespace CefSharp
                     SerializeV8Object(arguments[i], params, i, _callbackRegistry);
                 }
 
-                SetInt64(context->GetFrame()->GetIdentifier(), argList, 0);
-                SetInt64(_objectId, argList, 1);
-                SetInt64(callbackId, argList, 2);
+                SetInt64(argList, 0, context->GetFrame()->GetIdentifier());
+                SetInt64(argList, 1, _objectId);
+                SetInt64(argList, 2, callbackId);
                 argList->SetString(3, name);
                 argList->SetList(4, params);
 

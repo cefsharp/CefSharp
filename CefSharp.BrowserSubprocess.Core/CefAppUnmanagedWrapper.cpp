@@ -59,6 +59,18 @@ namespace CefSharp
 
     void CefAppUnmanagedWrapper::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
     {
+        //Send a message to the browser processing signaling that OnContextCreated has been called
+        //only param is the FrameId. Currently an IPC message is only sent for the main frame - will see
+        //how viable this solution is and if it's worth expanding to sub/child frames.
+        if (frame->IsMain())
+        {
+            auto contextCreatedMessage = CefProcessMessage::Create(kOnContextCreatedRequest);
+
+            SetInt64(contextCreatedMessage->GetArgumentList(), 0, frame->GetIdentifier());
+
+            browser->SendProcessMessage(CefProcessId::PID_BROWSER, contextCreatedMessage);
+        }
+
         auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier(), true);
 
         auto rootObjectWrappers = browserWrapper->JavascriptRootObjectWrappers;
@@ -108,7 +120,7 @@ namespace CefSharp
         auto list = focusedNodeChangedMessage->GetArgumentList();
 
         // Needed in the browser process to get the frame.
-        SetInt64(frame->GetIdentifier(), list, 0);
+        SetInt64(list, 0, frame->GetIdentifier());
 
         // The node will be empty if an element loses focus but another one
         // doesn't gain focus. Only transfer information if the node is an
@@ -196,7 +208,7 @@ namespace CefSharp
 
             //success: false
             responseArgList->SetBool(0, false);
-            SetInt64(callbackId, responseArgList, 1);
+            SetInt64(responseArgList, 1, callbackId);
             responseArgList->SetString(2, StringUtils::ToNative(errorMessage));
             browser->SendProcessMessage(sourceProcessId, response);
 
@@ -349,7 +361,7 @@ namespace CefSharp
 
             auto responseArgList = response->GetArgumentList();
             responseArgList->SetBool(0, success);
-            SetInt64(callbackId, responseArgList, 1);
+            SetInt64(responseArgList, 1, callbackId);
             if (!success)
             {
                 responseArgList->SetString(2, errorMessage);
