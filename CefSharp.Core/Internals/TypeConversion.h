@@ -12,9 +12,10 @@
 #include "include\cef_web_plugin.h"
 
 #include "Serialization\ObjectsSerialization.h"
-//#include "Serialization\V8Serialization.h"
+#include "Serialization\V8Serialization.h"
 
 using namespace System::Collections::Generic;
+using namespace CefSharp::Internals::Serialization;
 
 namespace CefSharp
 {
@@ -155,8 +156,12 @@ namespace CefSharp
 
                     for each (KeyValuePair<String^, Object^>^ entry in dictionary)
                     {
-                        //CefSharp::Internals::Serialization::SerializeV8Object(cefDictionary, entry->Key, entry->Value);
+                        auto key = StringUtils::ToNative(entry->Key);
+                        auto value = entry->Value;
+                        SerializeV8Object(cefDictionary, key, value);
                     }
+
+                    cefValue->SetDictionary(cefDictionary);
                 }
             
                 return cefValue;
@@ -214,7 +219,7 @@ namespace CefSharp
                 for (auto i = 0; i < keys.size(); i++)
                 {
                     auto key = StringUtils::ToClr(keys[i]);
-                    auto value = CefSharp::Internals::Serialization::DeserializeObject(dictionary, keys[i], nullptr);
+                    auto value = DeserializeObject(dictionary, keys[i], nullptr);
 
                     dict->Add(key, value);
                 }
