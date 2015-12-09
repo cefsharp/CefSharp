@@ -7,14 +7,14 @@ using System.Collections.Generic;
 
 namespace CefSharp.Internals
 {
-	/// <summary>
-	/// Simple helper class used for checking/parsing command line arguments
-	/// </summary>
-	public static class CommandLineArgsParser
-	{
-		public static bool HasArgument(this IEnumerable<string> args, string arg)
-		{
-			return args.Any(a => a.StartsWith(arg));
-		}
-	}
+    /// <summary>
+    /// Simple helper class used for checking/parsing command line arguments
+    /// </summary>
+    public static class CommandLineArgsParser
+    {
+        public static bool HasArgument(this IEnumerable<string> args, string arg)
+        {
+            return args.Any(a => a.StartsWith(arg));
+        }
+    }
 }
