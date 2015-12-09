@@ -129,6 +129,8 @@ namespace CefSharp.Example
 
             settings.RegisterExtension(new CefExtension("cefsharp/example", Resources.extension));
 
+            settings.EnableFocusedNodeChanged = true;
+
             Cef.OnContextInitialized = delegate
             {
                 var cookieManager = Cef.GetGlobalCookieManager();

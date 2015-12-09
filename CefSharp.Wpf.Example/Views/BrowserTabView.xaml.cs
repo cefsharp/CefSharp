@@ -28,6 +28,7 @@ namespace CefSharp.Wpf.Example.Views
             //browser.RequestContext = new RequestContext(new PluginHandler());
             
             //browser.RequestContext.RegisterSchemeHandlerFactory(CefSharpSchemeHandlerFactory.SchemeName, null, new CefSharpSchemeHandlerFactory());
+            browser.RenderProcessMessageHandler = new RenderProcessMessageHandler ();
             
             browser.LoadError += (sender, args) =>
             {

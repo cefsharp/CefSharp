@@ -19,6 +19,7 @@ namespace CefSharp
     internal:
         ::CefSettings* _cefSettings;
         List<CefCustomScheme^>^ _cefCustomSchemes;
+        bool _enableFocusedNodeChanged;
 
     public:
         CefSettings() : _cefSettings(new ::CefSettings())
@@ -35,6 +36,8 @@ namespace CefSharp
 
             //Temp workaround for https://github.com/cefsharp/CefSharp/issues/1203
             _cefCommandLineArgs->Add("process-per-tab", "1");
+
+            _enableFocusedNodeChanged = false;
         }
 
         !CefSettings()
@@ -204,6 +207,17 @@ namespace CefSharp
         {
             String^ get() { return StringUtils::ToClr(_cefSettings->accept_language_list); }
             void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->accept_language_list, value); }
+        }
+
+        /// <summary>
+        /// If true a message will be sent from the render subprocess to the
+        /// browser when a DOM node (or no node) gets focus. The default is
+        /// false.
+        /// </summary>
+        property bool EnableFocusedNodeChanged
+        {
+            bool get() { return _enableFocusedNodeChanged; }
+            void set(bool value) { _enableFocusedNodeChanged = value; }
         }
 
         /// <summary>
