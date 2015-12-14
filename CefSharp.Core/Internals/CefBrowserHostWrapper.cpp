@@ -229,12 +229,79 @@ void CefBrowserHostWrapper::SendMouseMoveEvent(int x, int y, bool mouseLeave, Ce
     _browserHost->SendMouseMoveEvent(mouseEvent, mouseLeave);
 }
 
+void CefBrowserHostWrapper::WasResized()
+{
+    ThrowIfDisposed();
+
+    _browserHost->WasResized();
+}
+
+void CefBrowserHostWrapper::WasHidden(bool hidden)
+{
+    ThrowIfDisposed();
+
+    _browserHost->WasHidden(hidden);
+}
+
+void CefBrowserHostWrapper::NotifyMoveOrResizeStarted()
+{
+    ThrowIfDisposed();
+
+    _browserHost->NotifyMoveOrResizeStarted();
+}
+
+void CefBrowserHostWrapper::NotifyScreenInfoChanged()
+{
+    ThrowIfDisposed();
+
+    _browserHost->NotifyScreenInfoChanged();
+}
+
 int CefBrowserHostWrapper::WindowlessFrameRate::get()
 {
+    ThrowIfDisposed();
+
     return _browserHost->GetWindowlessFrameRate();
 }
 
 void CefBrowserHostWrapper::WindowlessFrameRate::set(int val)
 {
+    ThrowIfDisposed();
+
     _browserHost->SetWindowlessFrameRate(val);
+}
+
+bool CefBrowserHostWrapper::MouseCursorChangeDisabled::get()
+{
+    ThrowIfDisposed();
+
+    return _browserHost->IsMouseCursorChangeDisabled();
+}
+
+void CefBrowserHostWrapper::MouseCursorChangeDisabled::set(bool val)
+{
+    ThrowIfDisposed();
+
+    _browserHost->SetMouseCursorChangeDisabled(val);
+}
+
+bool CefBrowserHostWrapper::WindowRenderingDisabled::get()
+{
+    ThrowIfDisposed();
+
+    return _browserHost->IsWindowRenderingDisabled();
+}
+
+IntPtr CefBrowserHostWrapper::GetOpenerWindowHandle()
+{
+    ThrowIfDisposed();
+
+    return IntPtr(_browserHost->GetOpenerWindowHandle());
+}
+
+void CefBrowserHostWrapper::SendCaptureLostEvent()
+{
+    ThrowIfDisposed();
+
+    _browserHost->SendCaptureLostEvent();
 }
