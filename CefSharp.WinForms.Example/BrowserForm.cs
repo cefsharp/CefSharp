@@ -299,5 +299,74 @@ namespace CefSharp.WinForms.Example
                 }, TaskContinuationOptions.HideScheduler);
             }
         }
+
+        private void DoesActiveElementAcceptTextInputToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                var frame = control.Browser.GetFocusedFrame();
+                ScriptedMethods.ActiveElementAcceptsTextInput(frame)
+                    .ContinueWith(task =>
+                    {
+                        var message = String.Empty;
+                        var icon = MessageBoxIcon.Information;
+                        if (task.Exception != null)
+                        {
+                            message = String.Format("Script evaluation failed. {0}", task.Exception.Message);
+                            icon = MessageBoxIcon.Error;
+                        }
+                        else
+                        {
+                            var isText = (bool)task.Result;
+                            message = String.Format("The active element is{0}a text entry element.", isText ? " " : " not ");
+                        }
+
+                        MessageBox.Show(message, "Does active element accept text input", MessageBoxButtons.OK, icon);
+                    });
+            }
+        }
+
+        private void DoesElementWithIDExistToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            // This is the main thread, it's safe to create and manipulate form
+            // UI controls.
+            var dialog = new InputBox();
+            dialog.Instructions = "Enter an element ID to find.";
+            dialog.Title = "Find an element with an ID";
+            dialog.OnEvaluate += (senderDlg, eDlg) =>
+                {
+                    // This is also the main thread.
+                    var control = GetCurrentTabControl();
+                    if (control != null)
+                    {
+                        var frame = control.Browser.GetFocusedFrame();
+                        ScriptedMethods.ElementWithIdExists(dialog.Value, frame)
+                            .ContinueWith(task =>
+                            {
+                                // Now we're not on the main thread, perhaps the
+                                // Cef UI thread. It's not safe to work with
+                                // form UI controls or to block this thread.
+                                // Queue up a delegate to be executed on the
+                                // main thread.
+                                BeginInvoke(new Action(() =>
+                                    {
+                                        var message = String.Empty;
+                                        if (task.Exception != null)
+                                        {
+                                            message = String.Format("Script evaluation failed. {0}", task.Exception.Message);
+                                        }
+                                        else
+                                        {
+                                            message = task.Result.ToString();
+                                        }
+
+                                        dialog.Result = message;
+                                    }));
+                            });
+                    }
+                };
+            dialog.Show(this);
+        }
     }
 }

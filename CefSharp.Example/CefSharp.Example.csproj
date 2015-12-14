@@ -78,6 +78,7 @@
     <Compile Include="Proxy\InternetProxyInfo.cs" />
     <Compile Include="Proxy\ProxyConfig.cs" />
     <Compile Include="RenderProcessMessageHandler.cs" />
+    <Compile Include="ScriptedMethods.cs" />
     <Compile Include="SubBoundObject.cs" />
     <Compile Include="TempFileDialogHandler.cs" />
     <Compile Include="CefExample.cs" />
