@@ -1,11 +1,11 @@
 param(
-    [ValidateSet("vs2013", "vs2012", "nupkg", "nupkg-only")]
-    [Parameter(Position = 0)] 
-    [string] $Target = "nupkg",
+    [ValidateSet("vs2013", "vs2015", "nupkg-only")]
+    [Parameter(Position = 0)]
+    [string] $Target = "vs2013",
     [Parameter(Position = 1)]
-    [string] $Version = "37.0.1",
+    [string] $Version = "37.0.3",
     [Parameter(Position = 2)]
-    [string] $AssemlyVersion = "37.0.1",
+    [string] $AssemblyVersion = "37.0.3",
     [Parameter(Position = 3)]
     [string] $RedistVersion = "3.2062.1898"
 )
@@ -14,10 +14,7 @@ $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
 
 $CefSln = Join-Path $WorkingDir 'CefSharp3.sln'
 
-$MSBuildExe = join-path -path (Get-ItemProperty "HKLM:\software\Microsoft\MSBuild\ToolsVersions\4.0").MSBuildToolsPath -childpath "msbuild.exe"
-$MSBuildExe = $MSBuildExe -replace "Framework64", "Framework"
-
-function Write-Diagnostic 
+function Write-Diagnostic
 {
     param(
         [Parameter(Position = 0, Mandatory = $true, ValueFromPipeline = $true)]
@@ -37,34 +34,34 @@ if (Test-Path Env:\APPVEYOR_BUILD_VERSION)
 if ($env:APPVEYOR_REPO_TAG -eq "True")
 {
     $Version = "$env:APPVEYOR_REPO_TAG_NAME".Substring(1)  # trim leading "v"
-    Write-Diagnostic "Setting version based on tag to $Version"    
+    Write-Diagnostic "Setting version based on tag to $Version"
 }
 
 # https://github.com/jbake/Powershell_scripts/blob/master/Invoke-BatchFile.ps1
-function Invoke-BatchFile 
+function Invoke-BatchFile
 {
    param(
         [Parameter(Position = 0, Mandatory = $true, ValueFromPipeline = $true)]
-        [string]$Path, 
+        [string]$Path,
         [Parameter(Position = 1, Mandatory = $true, ValueFromPipeline = $true)]
         [string]$Parameters
    )
 
-   $tempFile = [IO.Path]::GetTempFileName()  
+   $tempFile = [IO.Path]::GetTempFileName()
 
-   cmd.exe /c " `"$Path`" $Parameters && set > `"$tempFile`" " 
+   cmd.exe /c " `"$Path`" $Parameters && set > `"$tempFile`" "
 
-   Get-Content $tempFile | Foreach-Object {   
-       if ($_ -match "^(.*?)=(.*)$")  
-       { 
-           Set-Content "env:\$($matches[1])" $matches[2]  
-       } 
-   }  
+   Get-Content $tempFile | Foreach-Object {
+       if ($_ -match "^(.*?)=(.*)$")
+       {
+           Set-Content "env:\$($matches[1])" $matches[2]
+       }
+   }
 
    Remove-Item $tempFile
 }
 
-function Die 
+function Die
 {
     param(
         [Parameter(Position = 0, ValueFromPipeline = $true)]
@@ -72,11 +69,11 @@ function Die
     )
 
     Write-Host
-    Write-Error $Message 
+    Write-Error $Message
     exit 1
 }
 
-function Warn 
+function Warn
 {
     param(
         [Parameter(Position = 0, ValueFromPipeline = $true)]
@@ -88,7 +85,7 @@ function Warn
     Write-Host
 }
 
-function TernaryReturn 
+function TernaryReturn
 {
     param(
         [Parameter(Position = 0, ValueFromPipeline = $true)]
@@ -102,20 +99,20 @@ function TernaryReturn
     if($Yes) {
         return $Value
     }
-    
+
     $Value2
 }
 
-function Msvs 
+function Msvs
 {
     param(
-        [ValidateSet('v110', 'v120')]
+        [ValidateSet('v120', 'v140')]
         [Parameter(Position = 0, ValueFromPipeline = $true)]
-        [string] $Toolchain, 
+        [string] $Toolchain,
 
         [Parameter(Position = 1, ValueFromPipeline = $true)]
         [ValidateSet('Debug', 'Release')]
-        [string] $Configuration, 
+        [string] $Configuration,
 
         [Parameter(Position = 2, ValueFromPipeline = $true)]
         [ValidateSet('x86', 'x64')]
@@ -128,13 +125,17 @@ function Msvs
     $VXXCommonTools = $null
 
     switch -Exact ($Toolchain) {
-        'v110' {
-            $VisualStudioVersion = '11.0'
-            $VXXCommonTools = Join-Path $env:VS110COMNTOOLS '..\..\vc'
-        }
         'v120' {
+            $MSBuildExe = join-path -path (Get-ItemProperty "HKLM:\software\Microsoft\MSBuild\ToolsVersions\12.0").MSBuildToolsPath -childpath "msbuild.exe"
+            $MSBuildExe = $MSBuildExe -replace "Framework64", "Framework"
             $VisualStudioVersion = '12.0'
             $VXXCommonTools = Join-Path $env:VS120COMNTOOLS '..\..\vc'
+        }
+        'v140' {
+            $MSBuildExe = join-path -path (Get-ItemProperty "HKLM:\software\Microsoft\MSBuild\ToolsVersions\14.0").MSBuildToolsPath -childpath "msbuild.exe"
+            $MSBuildExe = $MSBuildExe -replace "Framework64", "Framework"
+            $VisualStudioVersion = '14.0'
+            $VXXCommonTools = Join-Path $env:VS140COMNTOOLS '..\..\vc'
         }
     }
 
@@ -160,7 +161,8 @@ function Msvs
         "/t:rebuild",
         "/p:VisualStudioVersion=$VisualStudioVersion",
         "/p:Configuration=$Configuration",
-        "/p:Platform=$Arch"
+        "/p:Platform=$Arch",
+        "/verbosity:normal"
     )
 
     $StartInfo = New-Object System.Diagnostics.ProcessStartInfo
@@ -175,21 +177,30 @@ function Msvs
 
     $StartInfo.UseShellExecute = $false
     $StartInfo.CreateNoWindow = $false
+    $StartInfo.RedirectStandardError = $true
+    $StartInfo.RedirectStandardOutput = $true
 
     $Process = New-Object System.Diagnostics.Process
     $Process.StartInfo = $startInfo
-    $Process.Start() 
+    $Process.Start()
+
+    $stdout = $Process.StandardOutput.ReadToEnd()
+    $stderr = $Process.StandardError.ReadToEnd()
+
     $Process.WaitForExit()
 
-    if($Process.ExitCode -ne 0) {
+    if($Process.ExitCode -ne 0)
+    {
+        Write-Host "stdout: $stdout"
+        Write-Host "stderr: $stderr"
         Die "Build failed"
     }
 }
 
-function VSX 
+function VSX
 {
     param(
-        [ValidateSet('v110', 'v120')]
+        [ValidateSet('v120', 'v140')]
         [Parameter(Position = 0, ValueFromPipeline = $true)]
         [string] $Toolchain
     )
@@ -199,7 +210,7 @@ function VSX
         Return
     }
 
-    if($Toolchain -eq 'v110' -and $env:VS110COMNTOOLS -eq $null) {
+    if($Toolchain -eq 'v140' -and $env:VS140COMNTOOLS -eq $null) {
         Warn "Toolchain $Toolchain is not installed on your development machine, skipping build."
         Return
     }
@@ -233,7 +244,7 @@ function Nupkg
         Write-Diagnostic "Skipping Nupkg"
         return
     }
-    
+
     $nuget = Join-Path $WorkingDir .\nuget\NuGet.exe
     if(-not (Test-Path $nuget)) {
         Die "Please install nuget. More information available at: http://docs.nuget.org/docs/start-here/installing-nuget"
@@ -271,10 +282,10 @@ function WriteAssemblyVersion
 
     $Filename = Join-Path $WorkingDir CefSharp\Properties\AssemblyInfo.cs
     $Regex = 'public const string AssemblyVersion = "(.*)"';
-    
+
     $AssemblyInfo = Get-Content $Filename
-    $NewString = $AssemblyInfo -replace $Regex, "public const string AssemblyVersion = ""$AssemlyVersion"""
-    
+    $NewString = $AssemblyInfo -replace $Regex, "public const string AssemblyVersion = ""$AssemblyVersion"""
+
     $NewString | Set-Content $Filename -Encoding UTF8
 }
 
@@ -284,13 +295,8 @@ NugetPackageRestore
 
 WriteAssemblyVersion
 
-switch -Exact ($Target) {
-    "nupkg"
-    {
-        #VSX v120
-        VSX v110
-        Nupkg
-    }
+switch -Exact ($Target)
+{
     "nupkg-only"
     {
         Nupkg
@@ -298,9 +304,11 @@ switch -Exact ($Target) {
     "vs2013"
     {
         VSX v120
+        Nupkg
     }
-    "vs2012"
+    "vs2015"
     {
-        VSX v110
+        VSX v140
+        Nupkg
     }
 }
