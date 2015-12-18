@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf" xmlns:local="clr-namespace:CefSharp.Wpf.Example.ViewModels"
+             xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
+             xmlns:local="clr-namespace:CefSharp.Wpf.Example.ViewModels"
              mc:Ignorable="d"
              d:DesignWidth="640"
              d:DesignHeight="480"
@@ -50,6 +51,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -73,6 +75,21 @@
                                 Maximum="1"
                                 TickFrequency="0.01"
                                 Value="0.95" />
+                        <Label Grid.Row="2" 
+                               Grid.Column="0"
+                               Content="Bitmap scaling mode" />
+                        <ComboBox Grid.Row="2" 
+                                  Grid.Column="1"
+                                  Name="scalingModeCB"
+                                  SelectedIndex="0">
+                            <ComboBox.ItemsSource>
+                                <x:Array Type="BitmapScalingMode">
+                                    <BitmapScalingMode>NearestNeighbor</BitmapScalingMode>
+                                    <BitmapScalingMode>LowQuality</BitmapScalingMode>
+                                    <BitmapScalingMode>HighQuality</BitmapScalingMode>
+                                </x:Array>
+                            </ComboBox.ItemsSource>
+                        </ComboBox>
                     </Grid>
                 </GroupBox>
                 <GroupBox Header="Execute Javascript (asynchronously)">
@@ -170,6 +187,7 @@
 
                 <cefSharp:ChromiumWebBrowser x:Name="browser"
                                   Opacity="{Binding ElementName=opacitySlider, Path=Value}"
+                                  RenderOptions.BitmapScalingMode="{Binding ElementName=scalingModeCB, Path=SelectedItem}"
                                   Address="{Binding Address, Mode=TwoWay}"
                                   Title="{Binding Title, Mode=OneWayToSource}"
                                   AllowDrop="True"
