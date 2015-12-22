@@ -14,6 +14,8 @@ namespace CefSharp
     {
         String^ CefRequestWrapper::Url::get()
         {
+            ThrowIfDisposed();
+
             return StringUtils::ToClr(_wrappedRequest->GetURL());
         }
 
@@ -24,12 +26,16 @@ namespace CefSharp
                 throw gcnew System::ArgumentException("cannot be null", "url");
             }
 
+            ThrowIfDisposed();
+
             CefString str = StringUtils::ToNative(url);
             _wrappedRequest->SetURL(str);
         }
 
         String^ CefRequestWrapper::Method::get()
         {
+            ThrowIfDisposed();
+
             return StringUtils::ToClr(_wrappedRequest->GetMethod());
         }
 
@@ -40,11 +46,15 @@ namespace CefSharp
                 throw gcnew System::ArgumentException("cannot be null", "method");
             }
 
+            ThrowIfDisposed();
+
             _wrappedRequest->SetMethod(StringUtils::ToNative(method));
         }
 
         NameValueCollection^ CefRequestWrapper::Headers::get()
         {
+            ThrowIfDisposed();
+
             CefRequest::HeaderMap hm;
             _wrappedRequest->GetHeaderMap(hm);
 
@@ -62,6 +72,8 @@ namespace CefSharp
 
         void CefRequestWrapper::Headers::set(NameValueCollection^ headers)
         {
+            ThrowIfDisposed();
+
             CefRequest::HeaderMap hm;
 
             for each(String^ key in headers)
@@ -79,11 +91,15 @@ namespace CefSharp
 
         TransitionType CefRequestWrapper::TransitionType::get()
         {
+            ThrowIfDisposed();
+
             return (CefSharp::TransitionType) _wrappedRequest->GetTransitionType();
         }
 
         IPostData^ CefRequestWrapper::PostData::get()
         {
+            ThrowIfDisposed();
+
             if (_postData == nullptr)
             {
                 auto postData = _wrappedRequest->GetPostData();
@@ -97,6 +113,8 @@ namespace CefSharp
 
         void CefRequestWrapper::InitializePostData()
         {
+            ThrowIfDisposed();
+
             _wrappedRequest->SetPostData(CefPostData::Create());
         }
     }
