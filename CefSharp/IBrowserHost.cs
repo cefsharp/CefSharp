@@ -108,6 +108,11 @@ namespace CefSharp
         void ReplaceMisspelling(string word);
 
         /// <summary>
+        /// Returns the request context for this browser.
+        /// </summary>
+        IRequestContext RequestContext { get; }
+
+        /// <summary>
         /// Send a capture lost event to the browser.
         /// </summary>
         void SendCaptureLostEvent();
