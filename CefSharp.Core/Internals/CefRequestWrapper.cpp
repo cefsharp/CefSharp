@@ -94,5 +94,10 @@ namespace CefSharp
             }
             return _postData;
         }
+
+        void CefRequestWrapper::InitializePostData()
+        {
+            _wrappedRequest->SetPostData(CefPostData::Create());
+        }
     }
 }

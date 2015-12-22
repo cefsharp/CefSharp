@@ -41,5 +41,12 @@ namespace CefSharp
         /// Gets a value indicating whether the request has been disposed of.
         /// </summary>
         bool IsDisposed { get; }
+
+        /// <summary>
+        /// Initialize a new instance of <see cref="IPostData"/>.
+        /// Make sure to check if the <see cref="PostData"/> is null
+        /// before calling otherwise the existing data will be overridden. 
+        /// </summary>
+        void InitializePostData();
     }
 }

@@ -45,6 +45,7 @@ namespace CefSharp
             virtual property NameValueCollection^ Headers { NameValueCollection^ get(); void set(NameValueCollection^ url); }
             virtual property TransitionType TransitionType { CefSharp::TransitionType get(); }
             virtual property IPostData^ PostData { IPostData^ get(); }
+            virtual void InitializePostData();
 
             operator CefRefPtr<CefRequest>()
             {
