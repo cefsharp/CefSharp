@@ -87,9 +87,6 @@ namespace CefSharp
                 }
                 return DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(epoch).ToLocalTime();
             }
-
-            template Object^ DeserializeObject(const CefRefPtr<CefListValue>& list, int index, IJavascriptCallbackFactory^ javascriptCallbackFactory);
-            template Object^ DeserializeObject(const CefRefPtr<CefDictionaryValue>& list, CefString index, IJavascriptCallbackFactory^ javascriptCallbackFactory);
         }
     }
 }

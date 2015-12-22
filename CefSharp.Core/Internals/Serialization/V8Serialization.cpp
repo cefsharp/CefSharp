@@ -138,9 +138,6 @@ namespace CefSharp
 
                 return CefTime(timeSpan.TotalSeconds);
             }
-
-            template void SerializeV8Object(const CefRefPtr<CefListValue>& list, const int& index, Object^ obj);
-            template void SerializeV8Object(const CefRefPtr<CefDictionaryValue>& list, const CefString& index, Object^ obj);
         }
     }
 }

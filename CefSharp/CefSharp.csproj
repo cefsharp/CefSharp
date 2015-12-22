@@ -84,6 +84,7 @@
     <Compile Include="Internals\CommandLineArgsParser.cs" />
     <Compile Include="IPluginHandler.cs" />
     <Compile Include="IRenderProcessMessageHandler.cs" />
+    <Compile Include="IRequestContext.cs" />
     <Compile Include="IRunContextMenuCallback.cs" />
     <Compile Include="PdfPrintSettings.cs" />
     <Compile Include="ICookieManager.cs" />

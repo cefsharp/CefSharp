@@ -10,6 +10,7 @@
 #include "WindowInfo.h"
 #include "CefTaskScheduler.h"
 #include "Cef.h"
+#include "RequestContext.h"
 
 void CefBrowserHostWrapper::StartDownload(String^ url)
 {
@@ -304,4 +305,12 @@ void CefBrowserHostWrapper::SendCaptureLostEvent()
     ThrowIfDisposed();
 
     _browserHost->SendCaptureLostEvent();
+}
+
+
+IRequestContext^ CefBrowserHostWrapper::RequestContext::get()
+{
+    ThrowIfDisposed();
+
+    return gcnew CefSharp::RequestContext(_browserHost->GetRequestContext());
 }

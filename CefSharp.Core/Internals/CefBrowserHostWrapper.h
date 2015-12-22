@@ -96,6 +96,11 @@ namespace CefSharp
             virtual IntPtr GetOpenerWindowHandle();
 
             virtual void SendCaptureLostEvent();
+
+            virtual property IRequestContext^ RequestContext
+            {
+                IRequestContext^ get();
+            }
         };
     }
 }
