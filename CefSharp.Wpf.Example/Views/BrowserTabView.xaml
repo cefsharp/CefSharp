@@ -50,6 +50,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -73,6 +74,21 @@
                                 Maximum="1"
                                 TickFrequency="0.01"
                                 Value="0.95" />
+                        <Label Grid.Row="2"
+                               Grid.Column="0"
+                               Content="Bitmap Scaling Mode:" />
+                        <ComboBox Grid.Row="2"
+                                  Grid.Column="1"
+                                  Name="scalingModeCB"
+                                  SelectedIndex="0">
+                            <ComboBox.ItemsSource>
+                                <x:Array Type="BitmapScalingMode">
+                                    <BitmapScalingMode>NearestNeighbor</BitmapScalingMode>
+                                    <BitmapScalingMode>LowQuality</BitmapScalingMode>
+                                    <BitmapScalingMode>HighQuality</BitmapScalingMode>
+                                </x:Array>
+                            </ComboBox.ItemsSource>
+                        </ComboBox>
                     </Grid>
                 </GroupBox>
                 <GroupBox Header="Execute Javascript (asynchronously)">
@@ -173,7 +189,8 @@
                                   Address="{Binding Address, Mode=TwoWay}"
                                   Title="{Binding Title, Mode=OneWayToSource}"
                                   AllowDrop="True"
-                                  WebBrowser="{Binding WebBrowser, Mode=OneWayToSource}">
+                                  WebBrowser="{Binding WebBrowser, Mode=OneWayToSource}"
+                                  RenderOptions.BitmapScalingMode="{Binding ElementName=scalingModeCB, Path=SelectedItem}">
                     <!-- Just an example of how you may override the BrowserSettings. Disabled by default since it looks so
                          incredibly ugly... -->
                     <!--<cefSharp:ChromiumWebBrowser.BrowserSettings>
