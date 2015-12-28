@@ -368,5 +368,24 @@ namespace CefSharp.WinForms.Example
                 };
             dialog.Show(this);
         }
+
+        private void GoToDemoPageToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                control.Browser.Load("custom://cefsharp/ScriptedMethodsTest.html");
+            }
+        }
+
+        private void InjectJavascriptCodeToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                var frame = control.Browser.GetFocusedFrame();
+                ScriptedMethods.ListenForEvent("test-button", frame, "click");
+            }
+        }
     }
 }
