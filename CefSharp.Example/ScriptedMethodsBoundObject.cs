@@ -22,13 +22,13 @@ namespace CefSharp.Example
         /// invoked in the Javascript environment when some event of interest
         /// happens.
         /// </summary>
-        /// <param name="eventName">
-        /// The name of the event.
-        /// </param>
-        /// <param name="eventData">
-        /// Data provided by the invoker pertaining to the event.
-        /// </param>
-        public void raiseEvent (string eventName, object eventData = null)
+        /// <param name="eventName">The name of the event.</param>
+        /// <param name="eventData">Data provided by the invoker pertaining to the event.</param>
+        /// <remarks>
+        /// By default RaiseEvent will be translated to raiseEvent as a javascript function.
+        /// This is configurable when calling RegisterJsObject by setting camelCaseJavascriptNames;
+        /// </remarks>
+        public void RaiseEvent(string eventName, object eventData = null)
         {
             if (EventArrived != null)
             {

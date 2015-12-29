@@ -306,66 +306,72 @@ namespace CefSharp.WinForms.Example
             if (control != null)
             {
                 var frame = control.Browser.GetFocusedFrame();
-                ScriptedMethods.ActiveElementAcceptsTextInput(frame)
-                    .ContinueWith(task =>
+                
+                //Execute extension method
+                frame.ActiveElementAcceptsTextInput().ContinueWith(task =>
+                {
+                    string message;
+                    var icon = MessageBoxIcon.Information;
+                    if (task.Exception == null)
                     {
-                        var message = String.Empty;
-                        var icon = MessageBoxIcon.Information;
-                        if (task.Exception != null)
-                        {
-                            message = String.Format("Script evaluation failed. {0}", task.Exception.Message);
-                            icon = MessageBoxIcon.Error;
-                        }
-                        else
-                        {
-                            var isText = (bool)task.Result;
-                            message = String.Format("The active element is{0}a text entry element.", isText ? " " : " not ");
-                        }
+                        var isText = task.Result;
+                        message = string.Format("The active element is{0}a text entry element.", isText ? " " : " not ");
+                    }
+                    else
+                    {
+                        message = string.Format("Script evaluation failed. {0}", task.Exception.Message);
+                        icon = MessageBoxIcon.Error;
+                    }
 
-                        MessageBox.Show(message, "Does active element accept text input", MessageBoxButtons.OK, icon);
-                    });
+                    MessageBox.Show(message, "Does active element accept text input", MessageBoxButtons.OK, icon);
+                });
             }
         }
 
-        private void DoesElementWithIDExistToolStripMenuItemClick(object sender, EventArgs e)
+        private void DoesElementWithIdExistToolStripMenuItemClick(object sender, EventArgs e)
         {
             // This is the main thread, it's safe to create and manipulate form
             // UI controls.
-            var dialog = new InputBox();
-            dialog.Instructions = "Enter an element ID to find.";
-            dialog.Title = "Find an element with an ID";
-            dialog.OnEvaluate += (senderDlg, eDlg) =>
-                {
-                    // This is also the main thread.
-                    var control = GetCurrentTabControl();
-                    if (control != null)
-                    {
-                        var frame = control.Browser.GetFocusedFrame();
-                        ScriptedMethods.ElementWithIdExists(dialog.Value, frame)
-                            .ContinueWith(task =>
-                            {
-                                // Now we're not on the main thread, perhaps the
-                                // Cef UI thread. It's not safe to work with
-                                // form UI controls or to block this thread.
-                                // Queue up a delegate to be executed on the
-                                // main thread.
-                                BeginInvoke(new Action(() =>
-                                    {
-                                        var message = String.Empty;
-                                        if (task.Exception != null)
-                                        {
-                                            message = String.Format("Script evaluation failed. {0}", task.Exception.Message);
-                                        }
-                                        else
-                                        {
-                                            message = task.Result.ToString();
-                                        }
+            var dialog = new InputBox
+            {
+                Instructions = "Enter an element ID to find.",
+                Title = "Find an element with an ID"
+            };
 
-                                        dialog.Result = message;
-                                    }));
-                            });
-                    }
-                };
+            dialog.OnEvaluate += (senderDlg, eDlg) =>
+            {
+                // This is also the main thread.
+                var control = GetCurrentTabControl();
+                if (control != null)
+                {
+                    var frame = control.Browser.GetFocusedFrame();
+
+                    //Execute extension method
+                    frame.ElementWithIdExists(dialog.Value).ContinueWith(task =>
+                    {
+                        // Now we're not on the main thread, perhaps the
+                        // Cef UI thread. It's not safe to work with
+                        // form UI controls or to block this thread.
+                        // Queue up a delegate to be executed on the
+                        // main thread.
+                        BeginInvoke(new Action(() =>
+                        {
+                            string message;
+                            if (task.Exception == null)
+                            {
+                                message = task.Result.ToString();
+                            }
+                            else
+                            {
+                                message = string.Format("Script evaluation failed. {0}", task.Exception.Message);
+                            }
+
+                            dialog.Result = message;
+                        }));
+                    });
+                }
+            };
+
             dialog.Show(this);
         }
 
@@ -384,7 +390,9 @@ namespace CefSharp.WinForms.Example
             if (control != null)
             {
                 var frame = control.Browser.GetFocusedFrame();
-                ScriptedMethods.ListenForEvent("test-button", frame, "click");
+
+                //Execute extension method
+                frame.ListenForEvent("test-button", "click");
             }
         }
     }
