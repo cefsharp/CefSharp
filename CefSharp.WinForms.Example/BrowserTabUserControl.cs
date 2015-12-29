@@ -51,7 +51,9 @@ namespace CefSharp.WinForms.Example
 
             var eventObject = new ScriptedMethodsBoundObject();
             eventObject.EventArrived += OnJavascriptEventArrived;
-            browser.RegisterJsObject("boundEvent", eventObject);
+            // Use the default of camelCaseJavascriptNames
+            // .Net methods starting with a capitol will be translated to starting with a lower case letter when called from js
+            browser.RegisterJsObject("boundEvent", eventObject, camelCaseJavascriptNames:true);
 
             CefExample.RegisterTestResources(browser);
 
@@ -92,20 +94,22 @@ namespace CefSharp.WinForms.Example
             this.InvokeOnUiThreadIfRequired(() => urlTextBox.Text = args.Address);
         }
 
-        private void OnJavascriptEventArrived(string eventName, object eventData)
+        private static void OnJavascriptEventArrived(string eventName, object eventData)
         {
             switch (eventName)
             {
                 case "click":
+                {
                     var message = eventData.ToString();
                     var dataDictionary = eventData as Dictionary<string, object>;
                     if (dataDictionary != null)
                     {
-                        var result = String.Join(", ", dataDictionary.Select<KeyValuePair<string, object>, string>(pair => pair.Key + "=" + pair.Value));
-                        message = ("event data: " + result);
+                        var result = string.Join(", ", dataDictionary.Select(pair => pair.Key + "=" + pair.Value));
+                        message = "event data: " + result;
                     }
                     MessageBox.Show(message, "Javascript event arrived", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     break;
+                }
             }
         }
 

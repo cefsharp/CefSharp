@@ -292,7 +292,7 @@
             this.doesElementWithIDExistToolStripMenuItem.Name = "doesElementWithIDExistToolStripMenuItem";
             this.doesElementWithIDExistToolStripMenuItem.Size = new System.Drawing.Size(271, 22);
             this.doesElementWithIDExistToolStripMenuItem.Text = "Does element with ID exist";
-            this.doesElementWithIDExistToolStripMenuItem.Click += new System.EventHandler(this.DoesElementWithIDExistToolStripMenuItemClick);
+            this.doesElementWithIDExistToolStripMenuItem.Click += new System.EventHandler(this.DoesElementWithIdExistToolStripMenuItemClick);
             // 
             // listenForButtonClickToolStripMenuItem
             // 

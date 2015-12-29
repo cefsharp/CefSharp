@@ -18,7 +18,7 @@
         <p class="lead">Asynchronous events from the Javascript environment.</p>
         <p>Sending events from the Javascript environment to a .Net class involves the following:</p>
         <ul>
-            <li>Create a class with a public method that will be exposed to the Javascript environment (see CefSharp\CefSharp.Example\ScriptedMethodsBoundObject.cs raiseEvent().)</li>
+            <li>Create a class with a public method that will be exposed to the Javascript environment (see CefSharp\CefSharp.Example\ScriptedMethodsBoundObject.cs RaiseEvent().)</li>
             <li>Bind the class to the Javascript runtime using RegisterJsObject (see CefSharp\CefSharp.WinForms.Example\BrowserTabUserControl.cs ctor().)</li>
             <li>Invoke the exposed function in Javascript using window.[bound object name].[method name] (see CefSharp\CefSharp.Example\ScriptedMethods.cs ListenForClick().)</li>
         </ul>
@@ -33,17 +33,17 @@
         <pre data-shbrush="js">
             (function () {
                 var counter = 0;
-	            var elem = document.getElementById('test-button');
+                var elem = document.getElementById('test-button');
                 elem.removeAttribute('disabled');
-	            elem.addEventListener('click', function(e){
-		            if (!window.boundEvent){
-			            console.log('window.boundEvent does not exist.');
-			            return;
-		            }
+                elem.addEventListener('click', function(e){
+                    if (!window.boundEvent){
+                        console.log('window.boundEvent does not exist.');
+                        return;
+                    }
                     counter++;
-            		window.boundEvent.raiseEvent('click', {count: counter, id: e.target.id, tagName: e.target.tagName});
-	            });
-	            console.log(`Added click listener to ${elem.id}.`);
+                    window.boundEvent.raiseEvent('click', {count: counter, id: e.target.id, tagName: e.target.tagName});
+                });
+                console.log(`Added click listener to ${elem.id}.`);
             })();
         </pre>
     </div>
