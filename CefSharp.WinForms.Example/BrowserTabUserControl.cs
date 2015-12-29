@@ -8,6 +8,8 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using CefSharp.WinForms.Example.Handlers;
 using CefSharp.WinForms.Internals;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CefSharp.WinForms.Example
 {
@@ -47,6 +49,10 @@ namespace CefSharp.WinForms.Example
             browser.RegisterAsyncJsObject("boundAsync", new AsyncBoundObject());
             browser.RenderProcessMessageHandler = new RenderProcessMessageHandler();
 
+            var eventObject = new ScriptedMethodsBoundObject();
+            eventObject.EventArrived += OnJavascriptEventArrived;
+            browser.RegisterJsObject("boundEvent", eventObject);
+
             CefExample.RegisterTestResources(browser);
 
             var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
@@ -84,6 +90,23 @@ namespace CefSharp.WinForms.Example
         private void OnBrowserAddressChanged(object sender, AddressChangedEventArgs args)
         {
             this.InvokeOnUiThreadIfRequired(() => urlTextBox.Text = args.Address);
+        }
+
+        private void OnJavascriptEventArrived(string eventName, object eventData)
+        {
+            switch (eventName)
+            {
+                case "click":
+                    var message = eventData.ToString();
+                    var dataDictionary = eventData as Dictionary<string, object>;
+                    if (dataDictionary != null)
+                    {
+                        var result = String.Join(", ", dataDictionary.Select<KeyValuePair<string, object>, string>(pair => pair.Key + "=" + pair.Value));
+                        message = ("event data: " + result);
+                    }
+                    MessageBox.Show(message, "Javascript event arrived", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    break;
+            }
         }
 
         private void SetCanGoBack(bool canGoBack)

@@ -55,6 +55,12 @@
             this.zoomInToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zoomOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.currentZoomLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.isTextInputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.doesElementWithIDExistToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.listenForButtonClickToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.goToDemoPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.injectJavascriptCodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.browserTabControl = new System.Windows.Forms.TabControl();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -64,7 +70,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.editToolStripMenuItem,
-            this.zoomLevelToolStripMenuItem});
+            this.zoomLevelToolStripMenuItem,
+            this.scriptToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(730, 24);
@@ -263,6 +270,53 @@
             this.currentZoomLevelToolStripMenuItem.Text = "Current Zoom Level";
             this.currentZoomLevelToolStripMenuItem.Click += new System.EventHandler(this.CurrentZoomLevelToolStripMenuItemClick);
             // 
+            // scriptToolStripMenuItem
+            // 
+            this.scriptToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.isTextInputToolStripMenuItem,
+            this.doesElementWithIDExistToolStripMenuItem,
+            this.listenForButtonClickToolStripMenuItem});
+            this.scriptToolStripMenuItem.Name = "scriptToolStripMenuItem";
+            this.scriptToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
+            this.scriptToolStripMenuItem.Text = "Script";
+            // 
+            // isTextInputToolStripMenuItem
+            // 
+            this.isTextInputToolStripMenuItem.Name = "isTextInputToolStripMenuItem";
+            this.isTextInputToolStripMenuItem.Size = new System.Drawing.Size(271, 22);
+            this.isTextInputToolStripMenuItem.Text = "Does active element accept text input";
+            this.isTextInputToolStripMenuItem.Click += new System.EventHandler(this.DoesActiveElementAcceptTextInputToolStripMenuItemClick);
+            // 
+            // doesElementWithIDExistToolStripMenuItem
+            // 
+            this.doesElementWithIDExistToolStripMenuItem.Name = "doesElementWithIDExistToolStripMenuItem";
+            this.doesElementWithIDExistToolStripMenuItem.Size = new System.Drawing.Size(271, 22);
+            this.doesElementWithIDExistToolStripMenuItem.Text = "Does element with ID exist";
+            this.doesElementWithIDExistToolStripMenuItem.Click += new System.EventHandler(this.DoesElementWithIDExistToolStripMenuItemClick);
+            // 
+            // listenForButtonClickToolStripMenuItem
+            // 
+            this.listenForButtonClickToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.goToDemoPageToolStripMenuItem,
+            this.injectJavascriptCodeToolStripMenuItem});
+            this.listenForButtonClickToolStripMenuItem.Name = "listenForButtonClickToolStripMenuItem";
+            this.listenForButtonClickToolStripMenuItem.Size = new System.Drawing.Size(271, 22);
+            this.listenForButtonClickToolStripMenuItem.Text = "Listen for button click";
+            // 
+            // goToDemoPageToolStripMenuItem
+            // 
+            this.goToDemoPageToolStripMenuItem.Name = "goToDemoPageToolStripMenuItem";
+            this.goToDemoPageToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.goToDemoPageToolStripMenuItem.Text = "Go to demo page";
+            this.goToDemoPageToolStripMenuItem.Click += new System.EventHandler(this.GoToDemoPageToolStripMenuItemClick);
+            // 
+            // injectJavascriptCodeToolStripMenuItem
+            // 
+            this.injectJavascriptCodeToolStripMenuItem.Name = "injectJavascriptCodeToolStripMenuItem";
+            this.injectJavascriptCodeToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.injectJavascriptCodeToolStripMenuItem.Text = "Inject Javascript code";
+            this.injectJavascriptCodeToolStripMenuItem.Click += new System.EventHandler(this.InjectJavascriptCodeToolStripMenuItemClick);
+            // 
             // browserTabControl
             // 
             this.browserTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -319,6 +373,12 @@
         private System.Windows.Forms.ToolStripMenuItem zoomInToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem zoomOutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem currentZoomLevelToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem scriptToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem isTextInputToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem doesElementWithIDExistToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem listenForButtonClickToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem goToDemoPageToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem injectJavascriptCodeToolStripMenuItem;
 
     }
 }

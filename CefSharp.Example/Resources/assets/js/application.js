@@ -60,6 +60,7 @@
 
         // TODO: Create a PR towards the JS SyntaxHighlighter so we don't have to do this kludge.
         $('[data-shBrush=csharp]').attr('class', 'brush: csharp');
+        $('[data-shBrush=js]').attr('class', 'brush: js');
 
         SyntaxHighlighter.all();
     });
