@@ -10,17 +10,20 @@ namespace CefSharp
     {
         internal static void SetHandlersToNull(this IWebBrowserInternal browser)
         {
-            browser.ResourceHandlerFactory = null;
-            browser.JsDialogHandler = null;
             browser.DialogHandler = null;
-            browser.DownloadHandler = null;
-            browser.KeyboardHandler = null;
+            browser.RequestHandler = null;
+            browser.DisplayHandler = null;
+            browser.LoadHandler = null;
             browser.LifeSpanHandler = null;
+            browser.KeyboardHandler = null;
+            browser.JsDialogHandler = null;
+            browser.DragHandler = null;
+            browser.DownloadHandler = null;
             browser.MenuHandler = null;
             browser.FocusHandler = null;
-            browser.RequestHandler = null;
-            browser.DragHandler = null;
+            browser.ResourceHandlerFactory = null;
             browser.GeolocationHandler = null;
+            browser.RenderProcessMessageHandler = null;
         }
     }
 }
