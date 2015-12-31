@@ -28,9 +28,9 @@ Stable binaries are released on NuGet, and contain everything you need  to embed
 
 ## Contact
 
-If something is missing/incomplete, please don't hesitate to ask on [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cefsharp/CefSharp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) or [Stackoverflow](http://stackoverflow.com/questions/tagged/cefsharp). Before opening an issue or submitting a `PR` please read [CONTRIBUTING](https://github.com/cefsharp/CefSharp/blob/master/CONTRIBUTING.md)
+If you have a simple question please start by asking it on [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cefsharp/CefSharp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge). Before opening an issue or submitting a `PR` please read [CONTRIBUTING](https://github.com/cefsharp/CefSharp/blob/master/CONTRIBUTING.md)
 
-The [CefSharp Google Group](https://groups.google.com/forum/#!forum/cefsharp) is no longer very active. It is however a useful resource for archived questions/answers.
+[Stackoverflow](http://stackoverflow.com/questions/tagged/cefsharp) as always is a useful resource. The [CefSharp Google Group](https://groups.google.com/forum/#!forum/cefsharp) is no longer very active. It is however a useful resource for archived questions/answers.
 
 ## Branches & Forks
 
