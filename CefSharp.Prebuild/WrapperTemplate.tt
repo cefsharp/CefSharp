@@ -1,0 +1,183 @@
+﻿<#@ template language="C#" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
+<#@ parameter name="ClassData" type="CefSharp.Prebuild.ClassDescriptor" #>
+<#@ parameter name="SafeClasses" type="System.Collections.Generic.List<string>" #>
+<#@ parameter name="SafeTypeTemplateName" type="System.String" #>
+<#@ parameter name="SafeTypeName" type="System.String" #>
+
+<#
+    Regex CefRefPtrMatcher = new Regex(@"(const )?CefRefPtr<(.*Handler)>.*");
+ #>
+
+#pragma once
+
+#include "include/<#= ClassData.Location #>"
+<#
+foreach(var method in ClassData.Methods.Distinct())
+{
+    var match = CefRefPtrMatcher.Match(method.Result);
+    if(match.Success)
+    {
+#>
+#include "<#= match.Groups[2].Value #>Safe.h"
+<#
+        var dependentClass = match.Groups[2].Value;
+        if(!SafeClasses.Contains(dependentClass))
+        {
+            SafeClasses.Add(dependentClass);
+        }
+    }
+}
+#>
+
+template<typename TImplementation=<#= ClassData.Name #>>
+class <#= ClassData.Name #><#= SafeTypeTemplateName #> : public <#= ClassData.Name #> {
+public:
+    <#= ClassData.Name #><#= SafeTypeTemplateName #>(const CefRefPtr<<#= ClassData.Name #>> wrapped) {
+        this->wrapped = wrapped.get();
+        this->wrapped->AddRef();
+        this->appDomainId = System::AppDomain::CurrentDomain->Id;
+    }
+
+    ~<#= ClassData.Name #><#= SafeTypeTemplateName #>() {
+        this->wrapped->Release();
+    }
+
+    TImplementation* operator ->() const {
+        return static_cast<TImplementation*>(wrapped);
+    }
+
+    virtual void AddRef() const OVERRIDE { 
+        return refct.AddRef(); 
+    }
+
+    virtual bool Release() const OVERRIDE {
+        bool retval = refct.Release();
+        if (retval)
+            if (this->appDomainId != System::AppDomain::CurrentDomain->Id) {
+                msclr::call_in_appdomain(appDomainId, &_Release, this);
+            } else {
+                _Release(this);
+            }
+        return retval;
+    }
+
+    virtual bool HasOneRef() const OVERRIDE {
+        return refct.HasOneRef(); 
+    }
+
+<#
+    foreach(var method in ClassData.Methods.Distinct())
+    { 
+#>
+    virtual <#= method.Result #> <#= method.Name#> (<#RenderParameterList(method.Parameters);#>) OVERRIDE {
+        if (this->appDomainId != System::AppDomain::CurrentDomain->Id) {
+            <# RenderReturn(method); #> msclr::call_in_appdomain(appDomainId, &_<#= method.Name #>, wrapped<# RenderCallParameterList(method.Parameters); #>);
+        } else {
+            <# RenderReturn(method); #>_<#= method.Name #>(wrapped<# RenderCallParameterList(method.Parameters); #>);
+        }
+    }
+
+<#  }
+#>
+private:
+    CefRefCount refct;
+    <#= ClassData.Name #>* wrapped;
+    int appDomainId;
+
+    static void _Release(const <#= ClassData.Name #><#= SafeTypeTemplateName #>* _this) {
+        delete _this;
+    }
+
+<#
+    foreach(var method in ClassData.Methods.Distinct())
+    { 
+        var match = CefRefPtrMatcher.Match(method.Result);
+#>
+
+    static <#= method.Result #> _<#= method.Name#> (<# RenderStaticParameterList(ClassData.Name, method.Parameters); #>) {
+<#
+        if(match.Success)
+        {
+#>
+        auto res = wrapped-><#= method.Name #>(<# RenderStaticCallParameterList(method.Parameters); #>);
+        if(res) {
+            res = new <#= match.Groups[2].Value #>Safe(res);
+        }
+        return res;
+<#
+        }
+        else
+        {
+#>
+        <# RenderReturn(method); #> wrapped-><#= method.Name #>(<# RenderStaticCallParameterList(method.Parameters); #>);
+<#
+        }
+#>
+    }
+
+<#
+    }
+#>
+};
+
+typedef <#= ClassData.Name #><#= SafeTypeTemplateName #><> <#= ClassData.Name #><#= SafeTypeName #>;
+
+<#+ 
+    void RenderParameterList(System.Collections.Generic.List<System.Tuple<string, string>> parameters)
+    {            
+        for(var i = 0; i < parameters.Count; i++)
+        {
+        #><#= i > 0 ? ", " : "" #><#= parameters[i].Item1 #> <#= parameters[i].Item2 #><#+
+        }
+    }    
+#>
+
+<#+ 
+    void RenderStaticParameterList(string className, System.Collections.Generic.List<System.Tuple<string, string>> parameters)
+    {#><#= className #>* wrapped<#+
+        for(var i = 0; i < parameters.Count; i++)
+        {
+            var item1 = parameters[i].Item1;
+            if (item1.Contains("&") && item1.Contains("const"))
+            {
+                item1 = item1.Replace("&", "").Replace("const ", "");
+            }
+            else if (item1.Contains("&"))
+            {
+                item1 = item1.Replace("&", "*");
+            }
+#>, <#= item1 #> <#= parameters[i].Item2 #><#+
+        }
+    }    
+#>
+
+<#+ 
+    void RenderCallParameterList(System.Collections.Generic.List<System.Tuple<string, string>> parameters)
+    {            
+        for(var i = 0; i < parameters.Count; i++)
+        {
+            var param = parameters[i];
+        #>, <#= param.Item1.Contains("&") && !param.Item1.Contains("const ") ? "&" : "" #><#= param.Item2 #><#+
+        }
+    }    
+#>
+
+<#+ 
+    void RenderStaticCallParameterList(System.Collections.Generic.List<System.Tuple<string, string>> parameters)
+    {            
+        for(var i = 0; i < parameters.Count; i++)
+        {
+            var param = parameters[i];
+        #><#= i > 0 ? ", " : "" #><#= param.Item1.Contains("&") && !param.Item1.Contains("const ") ? "*" : "" #><#= param.Item2 #><#+
+        }
+    }    
+#>
+
+<#+
+    void RenderReturn(CefSharp.Prebuild.MethodDescriptor method)
+    {
+    #><#= method.Result != "void" ? "return " : ""  #><#+
+    }
+#>

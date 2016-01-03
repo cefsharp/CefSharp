@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.Example", "CefSharp.Example\CefSharp.Example.csproj", "{A4394E7B-1155-43A6-989E-8AB72DDDC9E4}"
 EndProject
@@ -52,6 +52,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{A23AA466
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CefSharp.Core", "CefSharp.Core\CefSharp.Core.vcxproj", "{7B495581-2271-4F41-9476-ACB86E8C864F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B582D33A-AC8B-4983-9243-764804A4B26D} = {B582D33A-AC8B-4983-9243-764804A4B26D}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp", "CefSharp\CefSharp.csproj", "{A55848CC-10E7-40CB-ADDB-04740B16DD43}"
 EndProject
@@ -71,6 +74,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.OffScreen.Example"
 	ProjectSection(ProjectDependencies) = postProject
 		{23EE5140-2C2C-4B53-A954-10B08DCA6BD6} = {23EE5140-2C2C-4B53-A954-10B08DCA6BD6}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.Prebuild", "CefSharp.Prebuild\CefSharp.Prebuild.csproj", "{B582D33A-AC8B-4983-9243-764804A4B26D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -168,6 +173,12 @@ Global
 		{A4DEB90C-A529-4A93-ACE3-226A39EFCB00}.Release|Win32.Build.0 = Release|x86
 		{A4DEB90C-A529-4A93-ACE3-226A39EFCB00}.Release|x64.ActiveCfg = Release|x64
 		{A4DEB90C-A529-4A93-ACE3-226A39EFCB00}.Release|x64.Build.0 = Release|x64
+		{B582D33A-AC8B-4983-9243-764804A4B26D}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{B582D33A-AC8B-4983-9243-764804A4B26D}.Debug|Win32.Build.0 = Debug|Any CPU
+		{B582D33A-AC8B-4983-9243-764804A4B26D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B582D33A-AC8B-4983-9243-764804A4B26D}.Debug|x64.Build.0 = Debug|Any CPU
+		{B582D33A-AC8B-4983-9243-764804A4B26D}.Release|Win32.ActiveCfg = Release|Any CPU
+		{B582D33A-AC8B-4983-9243-764804A4B26D}.Release|x64.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
