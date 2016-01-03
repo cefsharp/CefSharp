@@ -8,6 +8,8 @@
 #include "include/cef_task.h"
 #include "CefTaskWrapper.h"
 
+#include "Safe/CefTaskSafe.h"
+
 using namespace System::Threading::Tasks;
 using namespace System::Runtime::InteropServices;
 
@@ -27,7 +29,7 @@ namespace CefSharp
 
             virtual void QueueTask(Task^ task) override
             {
-                CefRefPtr<CefTask> taskWrapper = new CefTaskWrapper(task, this);
+                CefRefPtr<CefTask> taskWrapper = new CefTaskSafe(new CefTaskWrapper(task, this));
 
                 CefPostTask(_thread, taskWrapper);
             };

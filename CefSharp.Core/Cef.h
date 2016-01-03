@@ -20,6 +20,10 @@
 #include "Internals/CefTaskScheduler.h"
 #include "Internals/CefGetGeolocationCallbackWrapper.h"
 
+#include "Safe/CefAppSafe.h"
+#include "Safe/CefWebPluginInfoVisitorSafe.h"
+#include "Safe/CefSchemeHandlerFactorySafe.h"
+
 using namespace System::Collections::Generic; 
 using namespace System::Linq;
 using namespace System::Reflection;
@@ -188,8 +192,7 @@ namespace CefSharp
             FileThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_FILE));
 
             CefMainArgs main_args;
-            CefRefPtr<CefSharpApp> app(new CefSharpApp(cefSettings, OnContextInitialized));
-
+            CefRefPtr<CefAppSafe> app(new CefAppSafe(new CefSharpApp(cefSettings, OnContextInitialized)));
             auto success = CefInitialize(main_args, *(cefSettings->_cefSettings), app.get(), NULL);
 
             //Register SchemeHandlerFactories - must be called after CefInitialize
@@ -197,7 +200,7 @@ namespace CefSharp
             {
                 auto domainName = cefCustomScheme->DomainName ? cefCustomScheme->DomainName : String::Empty;
 
-                CefRefPtr<CefSchemeHandlerFactory> wrapper = new SchemeHandlerFactoryWrapper(cefCustomScheme->SchemeHandlerFactory);
+                CefRefPtr<CefSchemeHandlerFactory> wrapper = new CefSchemeHandlerFactorySafe(new SchemeHandlerFactoryWrapper(cefCustomScheme->SchemeHandlerFactory));
                 CefRegisterSchemeHandlerFactory(StringUtils::ToNative(cefCustomScheme->SchemeName), StringUtils::ToNative(domainName), wrapper);
             }
 
@@ -394,11 +397,12 @@ namespace CefSharp
         /// <return>Returns List of <see cref="Plugin"/> structs.</return>
         static Task<List<Plugin>^>^ GetPlugins()
         {
-            CefRefPtr<PluginVisitor> visitor = new PluginVisitor();
+            auto pluginVisitor = new PluginVisitor();
+            CefRefPtr<CefWebPluginInfoVisitorSafe> visitor = new CefWebPluginInfoVisitorSafe(pluginVisitor);
             
             CefVisitWebPluginInfo(visitor);
 
-            return visitor->GetTask();
+            return pluginVisitor->GetTask();
         }
 
         /// <summary>

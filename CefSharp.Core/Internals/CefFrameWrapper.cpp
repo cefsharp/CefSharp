@@ -11,6 +11,8 @@
 #include "Internals\StringVisitor.h"
 #include "Internals\ClientAdapter.h"
 
+#include "Safe/CefClientSafe.h"
+
 ///
 // True if this object is currently attached to a valid frame.
 ///
@@ -214,9 +216,9 @@ Task<JavascriptResponse^>^ CefFrameWrapper::EvaluateScriptAsync(String^ script, 
     auto browser = _frame->GetBrowser();
     auto host = browser->GetHost();
 
-    auto client = static_cast<ClientAdapter*>(host->GetClient().get());
+    auto cefClient = static_cast<CefClientSafeType<ClientAdapter>*>(host->GetClient().get());
 
-    return client->EvaluateScriptAsync(browser->GetIdentifier(), browser->IsPopup(), _frame->GetIdentifier(), script, timeout);
+    return (*cefClient)->EvaluateScriptAsync(browser->GetIdentifier(), browser->IsPopup(), _frame->GetIdentifier(), script, timeout);
 }
 
 ///

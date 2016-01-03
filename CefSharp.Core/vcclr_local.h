@@ -18,6 +18,7 @@
 // IntelliSense whenever this header file is included.
 //#using <mscorlib.dll>
 #include <gcroot.h>
+#include <msclr/appdomain.h>
 
 #pragma warning(push)
 #pragma warning(disable:4400)
