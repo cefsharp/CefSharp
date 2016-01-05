@@ -67,9 +67,9 @@ namespace CefSharp
                 commandLine->AppendArgument(StringUtils::ToNative(CefSharpArguments::CustomSchemeArgument + argument));
             }
 
-            if (_cefSettings->EnableFocusedNodeChanged)
+            if (_cefSettings->FocusedNodeChangedEnabled)
             {
-                commandLine->AppendArgument(StringUtils::ToNative(CefSharpArguments::EnableFocusedNodeChangedArgument));
+                commandLine->AppendArgument(StringUtils::ToNative(CefSharpArguments::FocusedNodeChangedEnabledArgument));
             }
         }
         
