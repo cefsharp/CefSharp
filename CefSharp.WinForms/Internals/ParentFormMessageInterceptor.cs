@@ -205,7 +205,7 @@ namespace CefSharp.WinForms.Internals
 
             if (Browser.IsBrowserInitialized)
             {
-                Browser.NotifyMoveOrResizeStarted();
+                Browser.GetBrowser().GetHost().NotifyMoveOrResizeStarted();
             }
 
             isMoving = false;
