@@ -25,7 +25,7 @@ namespace CefSharp
         gcroot<ConcurrentDictionary<int, CefBrowserWrapper^>^> _browserWrappers;
         gcroot<List<CefExtension^>^> _extensions;
         gcroot<List<CefCustomScheme^>^> _schemes;
-        bool _enableFocusedNodeChanged;
+        bool _focusedNodeChangedEnabled;
 
         // The serialized registered object data waiting to be used (only contains methods and bound async).
         gcroot<JavascriptRootObject^> _javascriptAsyncRootObject;
@@ -43,7 +43,7 @@ namespace CefSharp
             _browserWrappers = gcnew ConcurrentDictionary<int, CefBrowserWrapper^>();
             _extensions = gcnew List<CefExtension^>();
             _schemes = schemes;
-            _enableFocusedNodeChanged = enableFocusedNodeChanged;
+            _focusedNodeChangedEnabled = enableFocusedNodeChanged;
         }
 
         ~CefAppUnmanagedWrapper()
