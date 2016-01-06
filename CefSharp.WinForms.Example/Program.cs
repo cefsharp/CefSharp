@@ -16,6 +16,8 @@ namespace CefSharp.WinForms.Example
         {
             const bool simpleSubProcess = false;
 
+            Cef.EnableHighDPISupport();
+
             //NOTE: Using a simple sub processes uses your existing application executable to spawn instances of the sub process.
             //Features like JSB, EvaluateScriptAsync, custom schemes require the CefSharp.BrowserSubprocess to function
             if (simpleSubProcess)
