@@ -48,5 +48,10 @@ namespace CefSharp
 
         virtual void OnBrowserCreated(CefBrowserWrapper^ cefBrowserWrapper) abstract;
         virtual void OnBrowserDestroyed(CefBrowserWrapper^ cefBrowserWrapper) abstract;
+
+        static void EnableHighDPISupport()
+        {
+            CefEnableHighDPISupport();
+        }
     };
 }

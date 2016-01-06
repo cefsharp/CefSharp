@@ -15,6 +15,8 @@ namespace CefSharp.BrowserSubprocess
         {
             Kernel32.OutputDebugString("BrowserSubprocess starting up with command line: " + String.Join("\n", args));
 
+            CefAppWrapper.EnableHighDPISupport();
+
             int result;
 
             using (var subprocess = Create(args))
