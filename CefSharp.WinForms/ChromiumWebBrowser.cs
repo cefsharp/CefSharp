@@ -347,18 +347,23 @@ namespace CefSharp.WinForms
             }
         }
 
+        [Obsolete("Use GetBrowser().GetHost().NotifyMoveOrResizeStarted() instead")]
         public void NotifyMoveOrResizeStarted()
         {
             this.ThrowExceptionIfBrowserNotInitialized();
 
-            managedCefBrowserAdapter.NotifyMoveOrResizeStarted();
+            var browser = GetBrowser();
+            if (browser != null)
+            {
+                browser.GetHost().NotifyMoveOrResizeStarted();
+            }
         }
 
         protected override void OnGotFocus(EventArgs e)
         {
             if (IsBrowserInitialized)
             {
-                SetFocus(true);
+                GetBrowser().GetHost().SetFocus(true);
             }
 
             base.OnGotFocus(e);
@@ -367,11 +372,16 @@ namespace CefSharp.WinForms
         /// <summary>
         /// Tell the browser to acquire/release focus.
         /// </summary>
+        [Obsolete("Use GetBrowser().GetHost().SetFocus(isFocused) instead")]
         public void SetFocus(bool isFocused)
         {
             this.ThrowExceptionIfBrowserNotInitialized();
 
-            managedCefBrowserAdapter.SetFocus(isFocused);
+            var browser = GetBrowser();
+            if (browser != null)
+            {
+                browser.GetHost().SetFocus(isFocused);
+            }
         }
 
         public IBrowser GetBrowser()

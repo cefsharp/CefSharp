@@ -69,46 +69,6 @@ void ManagedCefBrowserAdapter::OnAfterBrowserCreated(int browserId)
     }
 }
 
-void ManagedCefBrowserAdapter::WasResized()
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        browser->GetHost()->WasResized();
-    }
-}
-
-void ManagedCefBrowserAdapter::WasHidden(bool hidden)
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        browser->GetHost()->WasHidden(hidden);
-    }
-}
-
-void ManagedCefBrowserAdapter::SendFocusEvent(bool isFocused)
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        browser->GetHost()->SendFocusEvent(isFocused);
-    }
-}
-
-void ManagedCefBrowserAdapter::SetFocus(bool isFocused)
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        browser->GetHost()->SetFocus(isFocused);
-    }
-}
-
 bool ManagedCefBrowserAdapter::SendKeyEvent(int message, int wParam, int lParam)
 {
     auto browser = _clientAdapter->GetCefBrowser();
@@ -256,26 +216,6 @@ void ManagedCefBrowserAdapter::Resize(int width, int height)
         {
             SetWindowPos(browserHwnd, NULL, 0, 0, width, height, SWP_NOZORDER);
         }
-    }
-}
-
-void ManagedCefBrowserAdapter::NotifyMoveOrResizeStarted()
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        browser->GetHost()->NotifyMoveOrResizeStarted();
-    }
-}
-
-void ManagedCefBrowserAdapter::NotifyScreenInfoChanged()
-{
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser != nullptr)
-    {
-        browser->GetHost()->NotifyScreenInfoChanged();
     }
 }
 

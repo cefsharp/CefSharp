@@ -198,7 +198,10 @@ namespace CefSharp.OffScreen
                 if (size != value)
                 {
                     size = value;
-                    managedCefBrowserAdapter.WasResized();
+
+                    var browser = GetBrowser();
+
+                    browser.GetHost().WasResized();
                 }
             }
         }

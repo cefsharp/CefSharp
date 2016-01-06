@@ -840,7 +840,11 @@ namespace CefSharp.Wpf
 
                     if (notifyDpiChanged)
                     {
-                        managedCefBrowserAdapter.NotifyScreenInfoChanged();
+                        var browser = GetBrowser();
+                        if(browser != null)
+                        {
+                            browser.GetHost().NotifyScreenInfoChanged();
+                        }
                     }
                 }
             }
@@ -890,13 +894,25 @@ namespace CefSharp.Wpf
         {
             // Initialize RenderClientAdapter when WPF has calculated the actual size of current content.
             CreateOffscreenBrowserWhenActualSizeChanged();
-            managedCefBrowserAdapter.WasResized();
+
+            var browser = GetBrowser();
+
+            if (browser != null)
+            {
+                browser.GetHost().WasResized();
+            }
         }
 
         private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs args)
         {
             var isVisible = (bool)args.NewValue;
-            managedCefBrowserAdapter.WasHidden(!isVisible);
+
+            var browser = GetBrowser();
+
+            if (browser != null)
+            {
+                browser.GetHost().WasHidden(!isVisible);
+            }
         }
 
         private static void OnApplicationExit(object sender, ExitEventArgs e)
@@ -1048,17 +1064,21 @@ namespace CefSharp.Wpf
 
         private void OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            if (managedCefBrowserAdapter != null)
+            var browser = GetBrowser();
+
+            if (browser != null)
             {
-                managedCefBrowserAdapter.SendFocusEvent(true);
+                browser.GetHost().SendFocusEvent(true);
             }
         }
 
         private void OnLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            if (managedCefBrowserAdapter != null)
+            var browser = GetBrowser();
+
+            if (browser != null)
             {
-                managedCefBrowserAdapter.SendFocusEvent(false);
+                browser.GetHost().SendFocusEvent(false);
             }
         }
 

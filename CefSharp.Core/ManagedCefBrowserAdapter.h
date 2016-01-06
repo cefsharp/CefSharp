@@ -121,14 +121,8 @@ namespace CefSharp
         virtual void OnAfterBrowserCreated(int browserId);
         void CreateOffscreenBrowser(IntPtr windowHandle, BrowserSettings^ browserSettings, RequestContext^ requestContext, String^ address);
         void CreateBrowser(BrowserSettings^ browserSettings, RequestContext^ requestContext, IntPtr sourceHandle, String^ address);
-        void WasResized();
-        void WasHidden(bool hidden);
-        void SendFocusEvent(bool isFocused);
-        void SetFocus(bool isFocused);
         bool SendKeyEvent(int message, int wParam, int lParam);
         void Resize(int width, int height);
-        void NotifyMoveOrResizeStarted();
-        void NotifyScreenInfoChanged();
         void RegisterJsObject(String^ name, Object^ object, bool lowerCaseJavascriptNames);
         void RegisterAsyncJsObject(String^ name, Object^ object, bool lowerCaseJavascriptNames);
         void OnDragTargetDragEnter(CefDragDataWrapper^ dragData, MouseEvent^ mouseEvent, DragOperationsMask allowedOperations);
