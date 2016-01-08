@@ -347,6 +347,7 @@ namespace CefSharp.WinForms
             }
         }
 
+        [Obsolete("Use GetBrowser().GetHost().NotifyMoveOrResizeStarted() instead")]
         public void NotifyMoveOrResizeStarted()
         {
             this.ThrowExceptionIfBrowserNotInitialized();
@@ -367,6 +368,7 @@ namespace CefSharp.WinForms
         /// <summary>
         /// Tell the browser to acquire/release focus.
         /// </summary>
+        [Obsolete("Use GetBrowser().GetHost().SetFocus(isFocused) instead")]
         public void SetFocus(bool isFocused)
         {
             this.ThrowExceptionIfBrowserNotInitialized();
