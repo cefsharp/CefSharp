@@ -1116,12 +1116,13 @@ namespace CefSharp.Wpf
 
         protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
-            var point = e.GetPosition(this);
-            var modifiers = e.GetModifiers();
             var browser = GetBrowser();
 
             if (browser != null)
             {
+                var point = e.GetPosition(this);
+                var modifiers = e.GetModifiers();
+
                 browser.SendMouseWheelEvent(
                     (int)point.X,
                     (int)point.Y,
