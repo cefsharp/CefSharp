@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -20,7 +21,7 @@ using System.Windows.Threading;
 
 namespace CefSharp.Wpf
 {
-    public class ChromiumWebBrowser : ContentControl, IRenderWebBrowser, IWpfWebBrowser
+    public class ChromiumWebBrowser : Control, IRenderWebBrowser, IWpfWebBrowser
     {
         private readonly List<IDisposable> disposables = new List<IDisposable>();
 
@@ -87,6 +88,10 @@ namespace CefSharp.Wpf
 
         static ChromiumWebBrowser()
         {
+            DefaultStyleKeyProperty.OverrideMetadata(
+                typeof(ChromiumWebBrowser),
+                new FrameworkPropertyMetadata(typeof(ChromiumWebBrowser)));
+
             if (CefSharpSettings.ShutdownOnExit)
             {
                 var app = Application.Current;
@@ -933,31 +938,30 @@ namespace CefSharp.Wpf
             base.OnApplyTemplate();
 
             // Create main window
-            Content = image = CreateImage();
-
+            image = (Image)GetTemplateChild("PART_image");
             popup = CreatePopup();
-        }
-
-        private Image CreateImage()
-        {
-            var img = new Image();
-
-            var bitmapScalingMode = RenderOptions.GetBitmapScalingMode(this);
-            //Default to using BitmapScalingMode.NearestNeighbor
-            RenderOptions.SetBitmapScalingMode(img, (bitmapScalingMode == BitmapScalingMode.Unspecified ? BitmapScalingMode.NearestNeighbor : bitmapScalingMode));
-
-            img.Stretch = Stretch.None;
-            img.HorizontalAlignment = HorizontalAlignment.Left;
-            img.VerticalAlignment = VerticalAlignment.Top;
-
-            return img;
         }
 
         private Popup CreatePopup()
         {
+            popupImage = new Image
+            {
+                Stretch = Stretch.None,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top,
+            };
+            var binding = new Binding
+            {
+                Path = new PropertyPath(RenderOptions.BitmapScalingModeProperty),
+                Source = this,
+            };
+            BindingOperations.SetBinding(
+                popupImage,
+                RenderOptions.BitmapScalingModeProperty,
+                binding);
             var newPopup = new Popup
             {
-                Child = popupImage = CreateImage(),
+                Child = popupImage,
                 PlacementTarget = this,
                 Placement = PlacementMode.Absolute,
             };
