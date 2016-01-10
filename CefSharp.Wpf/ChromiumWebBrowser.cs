@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -87,6 +88,8 @@ namespace CefSharp.Wpf
 
         static ChromiumWebBrowser()
         {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ChromiumWebBrowser), new FrameworkPropertyMetadata(typeof(ChromiumWebBrowser)));
+
             if (CefSharpSettings.ShutdownOnExit)
             {
                 var app = Application.Current;
@@ -942,9 +945,11 @@ namespace CefSharp.Wpf
         {
             var img = new Image();
 
-            var bitmapScalingMode = RenderOptions.GetBitmapScalingMode(this);
-            //Default to using BitmapScalingMode.NearestNeighbor
-            RenderOptions.SetBitmapScalingMode(img, (bitmapScalingMode == BitmapScalingMode.Unspecified ? BitmapScalingMode.NearestNeighbor : bitmapScalingMode));
+            BindingOperations.SetBinding(img, RenderOptions.BitmapScalingModeProperty, new Binding
+            {
+                Path = new PropertyPath(RenderOptions.BitmapScalingModeProperty),
+                Source = this,
+            });
 
             img.Stretch = Stretch.None;
             img.HorizontalAlignment = HorizontalAlignment.Left;
