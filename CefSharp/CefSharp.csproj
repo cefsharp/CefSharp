@@ -170,6 +170,7 @@
     <Compile Include="PluginPolicy.cs" />
     <Compile Include="PostDataElementType.cs" />
     <Compile Include="PostDataExtensions.cs" />
+    <Compile Include="ReferrerPolicy.cs" />
     <Compile Include="ResourceHandler.cs" />
     <Compile Include="ResourceHandlerType.cs" />
     <Compile Include="ResponseAction.cs" />

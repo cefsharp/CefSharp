@@ -20,6 +20,26 @@ namespace CefSharp
         string Method { get; set; }
 
         /// <summary>
+        /// Set the referrer URL and policy. If non-empty the referrer URL must be
+        /// fully qualified with an HTTP or HTTPS scheme component. Any username,
+        /// password or ref component will be removed.
+        /// </summary>
+        /// <param name="referrerUrl">the referrer url</param>
+        /// <param name="policy">referrer policy</param>
+        void SetReferrer(string referrerUrl, ReferrerPolicy policy);
+
+        /// <summary>
+        /// Get the referrer URL.
+        /// </summary>
+        string ReferrerUrl { get; }
+
+  
+        /// <summary>
+        /// Get the referrer policy.
+        /// </summary>
+        ReferrerPolicy ReferrerPolicy { get; }
+
+        /// <summary>
         /// Header Collection
         /// NOTE: This collection is a copy of the underlying type, to make changes, take a reference to the collection,
         /// make your changes, then reassign the collection. At some point this will be replaced with a proper wrapper.

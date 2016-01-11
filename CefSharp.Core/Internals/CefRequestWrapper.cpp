@@ -51,6 +51,27 @@ namespace CefSharp
             _wrappedRequest->SetMethod(StringUtils::ToNative(method));
         }
 
+        void CefRequestWrapper::SetReferrer(String^ referrerUrl, CefSharp::ReferrerPolicy policy)
+        {
+            ThrowIfDisposed();
+
+            _wrappedRequest->SetReferrer(StringUtils::ToNative(referrerUrl), (cef_referrer_policy_t)policy);
+        }
+
+        String^ CefRequestWrapper::ReferrerUrl::get()
+        {
+            ThrowIfDisposed();
+
+            return StringUtils::ToClr(_wrappedRequest->GetReferrerURL());
+        }
+
+        CefSharp::ReferrerPolicy CefRequestWrapper::ReferrerPolicy::get()
+        {
+            ThrowIfDisposed();
+
+            return (CefSharp::ReferrerPolicy)_wrappedRequest->GetReferrerPolicy();
+        }
+
         NameValueCollection^ CefRequestWrapper::Headers::get()
         {
             ThrowIfDisposed();
