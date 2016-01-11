@@ -18,6 +18,7 @@
 bool CefFrameWrapper::IsValid::get()
 {
     ThrowIfDisposed();
+
     return _frame->IsValid();
 }
 
@@ -28,6 +29,8 @@ bool CefFrameWrapper::IsValid::get()
 void CefFrameWrapper::Undo()
 {
     ThrowIfDisposed();
+    ThrowIfFrameInvalid();
+
     _frame->Undo();
 }
 
@@ -38,6 +41,8 @@ void CefFrameWrapper::Undo()
 void CefFrameWrapper::Redo()
 {
     ThrowIfDisposed();
+    ThrowIfFrameInvalid();
+
     _frame->Redo();
 }
 
@@ -48,6 +53,8 @@ void CefFrameWrapper::Redo()
 void CefFrameWrapper::Cut()
 {
     ThrowIfDisposed();
+    ThrowIfFrameInvalid();
+
     _frame->Cut();
 }
 
@@ -58,6 +65,8 @@ void CefFrameWrapper::Cut()
 void CefFrameWrapper::Copy()
 {
     ThrowIfDisposed();
+    ThrowIfFrameInvalid();
+
     _frame->Copy();
 }
 
@@ -68,6 +77,8 @@ void CefFrameWrapper::Copy()
 void CefFrameWrapper::Paste()
 {
     ThrowIfDisposed();
+    ThrowIfFrameInvalid();
+
     _frame->Paste();
 }
 
@@ -78,6 +89,8 @@ void CefFrameWrapper::Paste()
 void CefFrameWrapper::Delete()
 {
     ThrowIfDisposed();
+    ThrowIfFrameInvalid();
+
     _frame->Delete();
 }
 
@@ -88,6 +101,8 @@ void CefFrameWrapper::Delete()
 void CefFrameWrapper::SelectAll()
 {
     ThrowIfDisposed();
+    ThrowIfFrameInvalid();
+
     _frame->SelectAll();
 }
 
@@ -100,6 +115,8 @@ void CefFrameWrapper::SelectAll()
 void CefFrameWrapper::ViewSource()
 {
     ThrowIfDisposed();
+    ThrowIfFrameInvalid();
+
     _frame->ViewSource();
 }
 
@@ -111,6 +128,8 @@ void CefFrameWrapper::ViewSource()
 Task<String^>^ CefFrameWrapper::GetSourceAsync()
 {
     ThrowIfDisposed();
+    ThrowIfFrameInvalid();
+
     auto taskStringVisitor = gcnew TaskStringVisitor();
     _frame->GetSource(new StringVisitor(taskStringVisitor));
     return taskStringVisitor->Task;
@@ -124,6 +143,8 @@ Task<String^>^ CefFrameWrapper::GetSourceAsync()
 Task<String^>^ CefFrameWrapper::GetTextAsync()
 {
     ThrowIfDisposed();
+    ThrowIfFrameInvalid();
+
     auto taskStringVisitor = gcnew TaskStringVisitor();
     _frame->GetText(new StringVisitor(taskStringVisitor));
     return taskStringVisitor->Task;
@@ -137,6 +158,8 @@ Task<String^>^ CefFrameWrapper::GetTextAsync()
 void CefFrameWrapper::LoadRequest(IRequest^ request)
 {
     ThrowIfDisposed();
+    ThrowIfFrameInvalid();
+
     auto requestWrapper = (CefRequestWrapper^)request;
     _frame->LoadRequest(requestWrapper);
 }
@@ -148,6 +171,8 @@ void CefFrameWrapper::LoadRequest(IRequest^ request)
 void CefFrameWrapper::LoadUrl(String^ url)
 {
     ThrowIfDisposed();
+    ThrowIfFrameInvalid();
+
     _frame->LoadURL(StringUtils::ToNative(url));
 }
 
@@ -160,6 +185,8 @@ void CefFrameWrapper::LoadUrl(String^ url)
 void CefFrameWrapper::LoadStringForUrl(String^ html, String^ url)
 {
     ThrowIfDisposed();
+    ThrowIfFrameInvalid();
+
     _frame->LoadString(StringUtils::ToNative(html), StringUtils::ToNative(url));
 }
 
@@ -174,12 +201,15 @@ void CefFrameWrapper::LoadStringForUrl(String^ html, String^ url)
 void CefFrameWrapper::ExecuteJavaScriptAsync(String^ code, String^ scriptUrl, int startLine)
 {
     ThrowIfDisposed();
+    ThrowIfFrameInvalid();
+
     _frame->ExecuteJavaScript(StringUtils::ToNative(code), StringUtils::ToNative(scriptUrl), startLine);
 }
 
 Task<JavascriptResponse^>^ CefFrameWrapper::EvaluateScriptAsync(String^ script, Nullable<TimeSpan> timeout)
 {
     ThrowIfDisposed();
+    ThrowIfFrameInvalid();
 
     auto browser = _frame->GetBrowser();
     auto host = browser->GetHost();
@@ -196,6 +226,8 @@ Task<JavascriptResponse^>^ CefFrameWrapper::EvaluateScriptAsync(String^ script, 
 bool CefFrameWrapper::IsMain::get()
 {
     ThrowIfDisposed();
+    ThrowIfFrameInvalid();
+
     return _frame->IsMain();
 }
 
@@ -206,6 +238,8 @@ bool CefFrameWrapper::IsMain::get()
 bool CefFrameWrapper::IsFocused::get()
 {
     ThrowIfDisposed();
+    ThrowIfFrameInvalid();
+
     return _frame->IsFocused();
 }
 
@@ -220,6 +254,8 @@ bool CefFrameWrapper::IsFocused::get()
 String^ CefFrameWrapper::Name::get()
 {
     ThrowIfDisposed();
+    ThrowIfFrameInvalid();
+
     return StringUtils::ToClr(_frame->GetName());
 }
 
@@ -230,6 +266,8 @@ String^ CefFrameWrapper::Name::get()
 Int64 CefFrameWrapper::Identifier::get()
 {
     ThrowIfDisposed();
+    ThrowIfFrameInvalid();
+
     return _frame->GetIdentifier();
 }
 
@@ -241,6 +279,8 @@ Int64 CefFrameWrapper::Identifier::get()
 IFrame^ CefFrameWrapper::Parent::get()
 {
     ThrowIfDisposed();
+    ThrowIfFrameInvalid();
+
     if (_parentFrame != nullptr)
     {
         // Be paranoid about creating the cached IBrowser.
@@ -270,6 +310,8 @@ IFrame^ CefFrameWrapper::Parent::get()
 String^ CefFrameWrapper::Url::get()
 {
     ThrowIfDisposed();
+    ThrowIfFrameInvalid();
+
     return StringUtils::ToClr(_frame->GetURL());
 }
 
@@ -280,6 +322,8 @@ String^ CefFrameWrapper::Url::get()
 IBrowser^ CefFrameWrapper::Browser::get()
 {
     ThrowIfDisposed();
+    ThrowIfFrameInvalid();
+
     if (_owningBrowser != nullptr)
     {
         return _owningBrowser;
@@ -307,4 +351,12 @@ IRequest^ CefFrameWrapper::CreateRequest(bool initializePostData)
     }
 
     return gcnew CefRequestWrapper(request);
+}
+
+void CefFrameWrapper::ThrowIfFrameInvalid()
+{
+    if (_frame->IsValid() == false)
+    {
+        throw gcnew Exception(L"The underlying frame is no longer valid - please check the IsValid property before calling!");
+    }
 }
