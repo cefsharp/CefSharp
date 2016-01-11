@@ -283,24 +283,27 @@ IFrame^ CefFrameWrapper::Parent::get()
 
     if (_parentFrame != nullptr)
     {
-        // Be paranoid about creating the cached IBrowser.
-        msclr::lock sync(_syncRoot);
-
-        auto parent = _frame->GetParent();
-        if (parent != nullptr && _parentFrame != nullptr)
-        {
-            _parentFrame = gcnew CefFrameWrapper(parent);
-        }
-        else if (parent == nullptr)
-        {
-            return nullptr;
-        }
+        return _parentFrame;
     }
-    else
+
+    // Be paranoid about creating the cached IFrame.
+    msclr::lock sync(_syncRoot);
+
+    if (_parentFrame != nullptr)
     {
         return _parentFrame;
     }
-    return nullptr;
+
+    auto parent = _frame->GetParent();
+
+    if (parent == nullptr)
+    {
+        return nullptr;
+    }
+
+    _parentFrame = gcnew CefFrameWrapper(parent);
+
+    return _parentFrame;
 }
 
 ///
