@@ -153,6 +153,16 @@ namespace CefSharp
                 return gcnew CefPostDataElementWrapper(element);
             }
 
+            virtual property bool HasExcludedElements
+            {
+                bool get()
+                {
+                    ThrowIfDisposed();
+
+                    return _postData->HasExcludedElements();
+                }
+            }
+
             void ThrowIfReadOnly()
             {
                 if (IsReadOnly)
