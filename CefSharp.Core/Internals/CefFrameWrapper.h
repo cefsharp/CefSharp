@@ -240,6 +240,8 @@ namespace CefSharp
             }
 
             virtual IRequest^ CreateRequest(bool initializePostData);
+
+            void ThrowIfFrameInvalid();
         };
     }
 }
