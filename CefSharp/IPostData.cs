@@ -48,5 +48,13 @@ namespace CefSharp
         /// </summary>
         /// <returns></returns>
         IPostDataElement CreatePostDataElement();
+
+        /// <summary>
+        /// Returns true if the underlying POST data includes elements that are not
+        /// represented by this IPostData object (for example, multi-part file upload
+        /// data). Modifying IPostData objects with excluded elements may result in
+        /// the request failing.
+        /// </summary>
+        bool HasExcludedElements { get; }
     }
 }
