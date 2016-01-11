@@ -18,20 +18,18 @@
             htmlNode.innerHTML += "<p>" + text + "</p>";
         };
 
-        var doRequest = function (data, contentType)
+        var doRequest = function ()
         {
+            var data = new FormData();
+            data.append('name', 'test');
+            data.append('value', 'anotherValue');
             var x = new XMLHttpRequest();
-            x.open("POST", "custom://cefsharp/PostDataAjaxTest.html");
-            x.setRequestHeader("Accept", "application/json, text/javascript");
-            x.setRequestHeader("Content-Type", "application/json");
+            x.open("POST", "PostDataAjaxTest.html", true);
+            //Send the proper header information along with the request
+            x.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
-            x.onreadystatechange = function (event)
+            x.onload = function ()
             {
-                if (x.readyState !== 4)
-                {
-                    return;
-                }
-
                 showError(x.responseText);
             };
 
@@ -57,6 +55,6 @@
     </form>
 
     <h1>Custom Post using Ajax</h1>
-    <button onclick="doRequest('name=test&value=anotherValue'); return false;">Submit via ajax</button>
+    <button onclick="doRequest(); return false;">Submit via ajax</button>
 </body>
 </html>
