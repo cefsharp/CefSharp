@@ -3,13 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf" xmlns:local="clr-namespace:CefSharp.Wpf.Example.ViewModels"
+             xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
+             xmlns:local="clr-namespace:CefSharp.Wpf.Example.ViewModels"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d"
              d:DesignWidth="640"
              d:DesignHeight="480"
              d:DataContext="{d:DesignInstance local:BrowserTabViewModel}">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <ObjectDataProvider x:Key="BitmapScalingModeEnum" MethodName="GetValues" ObjectType="{x:Type system:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="BitmapScalingMode"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
     </UserControl.Resources>
     <Grid>
         <DockPanel>
@@ -50,6 +57,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -73,6 +81,14 @@
                                 Maximum="1"
                                 TickFrequency="0.01"
                                 Value="0.95" />
+                        <Label Grid.Row="2"
+                               Grid.Column="0"
+                               Content="Bitmap Scaling Mode:" />
+                        <ComboBox Grid.Row="2"
+                                  Grid.Column="1"
+                                  Name="scalingModeComboBox"
+                                  ItemsSource="{Binding Source={StaticResource BitmapScalingModeEnum}}"
+                                  SelectedIndex="1"/>
                     </Grid>
                 </GroupBox>
                 <GroupBox Header="Execute Javascript (asynchronously)">
@@ -173,7 +189,8 @@
                                   Address="{Binding Address, Mode=TwoWay}"
                                   Title="{Binding Title, Mode=OneWayToSource}"
                                   AllowDrop="True"
-                                  WebBrowser="{Binding WebBrowser, Mode=OneWayToSource}">
+                                  WebBrowser="{Binding WebBrowser, Mode=OneWayToSource}"
+                                  RenderOptions.BitmapScalingMode="{Binding ElementName=scalingModeComboBox, Path=SelectedItem}">
                     <!-- Just an example of how you may override the BrowserSettings. Disabled by default since it looks so
                          incredibly ugly... -->
                     <!--<cefSharp:ChromiumWebBrowser.BrowserSettings>
