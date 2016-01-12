@@ -36,17 +36,11 @@ void ManagedCefBrowserAdapter::CreateOffscreenBrowser(IntPtr windowHandle, Brows
     }
 }
 
-void ManagedCefBrowserAdapter::OnAfterBrowserCreated(int browserId)
+void ManagedCefBrowserAdapter::OnAfterBrowserCreated(IBrowser^ browser)
 {
     if (!_isDisposed)
     {
-        //browser wrapper instance has to be set up for the BrowserProcessServiceHost
-        auto browser = _clientAdapter->GetCefBrowser();
-        if (browser != nullptr)
-        {
-            //the js callback factory needs the browser instance to pass it to the js callback implementations for messaging purposes
-            _browserWrapper = gcnew CefSharpBrowserWrapper(browser);
-        }
+        _browserWrapper = browser;
 
         _javascriptCallbackFactory->BrowserAdapter = gcnew WeakReference(this);
 

@@ -118,7 +118,7 @@ namespace CefSharp
             bool get();
         }
 
-        virtual void OnAfterBrowserCreated(int browserId);
+        virtual void OnAfterBrowserCreated(IBrowser^ browser);
         void CreateOffscreenBrowser(IntPtr windowHandle, BrowserSettings^ browserSettings, RequestContext^ requestContext, String^ address);
         void CreateBrowser(BrowserSettings^ browserSettings, RequestContext^ requestContext, IntPtr sourceHandle, String^ address);
         bool SendKeyEvent(int message, int wParam, int lParam);
