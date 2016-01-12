@@ -6,11 +6,56 @@
 #include "include\cef_client.h"
 
 #include "CefBrowserHostWrapper.h"
+#include "CefDragDataWrapper.h"
 #include "CefPdfPrintCallbackWrapper.h"
 #include "WindowInfo.h"
 #include "CefTaskScheduler.h"
 #include "Cef.h"
 #include "RequestContext.h"
+
+void CefBrowserHostWrapper::DragTargetDragEnter(IDragData^ dragData, MouseEvent^ mouseEvent, DragOperationsMask allowedOperations)
+{
+    ThrowIfDisposed();
+
+    auto dragDataWrapper = static_cast<CefDragDataWrapper^>(dragData);
+    dragDataWrapper->ResetFileContents(); // Recommended by documentation to reset before calling DragEnter
+    _browserHost->DragTargetDragEnter(dragDataWrapper, GetCefMouseEvent(mouseEvent), (CefBrowserHost::DragOperationsMask) allowedOperations);
+}
+
+void CefBrowserHostWrapper::DragTargetDragOver(MouseEvent^ mouseEvent, DragOperationsMask allowedOperations)
+{
+    ThrowIfDisposed();
+
+    _browserHost->DragTargetDragOver(GetCefMouseEvent(mouseEvent), (CefBrowserHost::DragOperationsMask) allowedOperations);
+}
+
+void CefBrowserHostWrapper::DragTargetDragDrop(MouseEvent^ mouseEvent)
+{
+    ThrowIfDisposed();
+
+    _browserHost->DragTargetDrop(GetCefMouseEvent(mouseEvent));
+}
+
+void CefBrowserHostWrapper::DragSourceEndedAt(int x, int y, DragOperationsMask op)
+{
+    ThrowIfDisposed();
+
+    _browserHost->DragSourceEndedAt(x, y, (CefBrowserHost::DragOperationsMask)op);
+}
+
+void CefBrowserHostWrapper::DragTargetDragLeave()
+{
+    ThrowIfDisposed();
+
+    _browserHost->DragTargetDragLeave();
+}
+
+void CefBrowserHostWrapper::DragSourceSystemDragEnded()
+{
+    ThrowIfDisposed();
+
+    _browserHost->DragSourceSystemDragEnded();
+}
 
 void CefBrowserHostWrapper::StartDownload(String^ url)
 {
@@ -313,4 +358,13 @@ IRequestContext^ CefBrowserHostWrapper::RequestContext::get()
     ThrowIfDisposed();
 
     return gcnew CefSharp::RequestContext(_browserHost->GetRequestContext());
+}
+
+CefMouseEvent CefBrowserHostWrapper::GetCefMouseEvent(MouseEvent^ mouseEvent)
+{
+    CefMouseEvent cefMouseEvent;
+    cefMouseEvent.x = mouseEvent->X;
+    cefMouseEvent.y = mouseEvent->Y;
+    cefMouseEvent.modifiers = (uint32)mouseEvent->Modifiers;
+    return cefMouseEvent;
 }

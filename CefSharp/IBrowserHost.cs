@@ -32,6 +32,18 @@ namespace CefSharp
         /// </summary>
         void CloseDevTools();
 
+        void DragTargetDragEnter(IDragData dragData, MouseEvent mouseEvent, DragOperationsMask allowedOperations);
+
+        void DragTargetDragOver(MouseEvent mouseEvent, DragOperationsMask allowedOperations);
+
+        void DragTargetDragDrop(MouseEvent mouseEvent);
+
+        void DragSourceEndedAt(int x, int y, DragOperationsMask op);
+
+        void DragTargetDragLeave();
+
+        void DragSourceSystemDragEnded();
+
         /// <summary>
         /// Search for text
         /// </summary>

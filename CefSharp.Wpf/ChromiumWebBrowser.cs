@@ -296,9 +296,12 @@ namespace CefSharp.Wpf
 
             UiThreadRunAsync(delegate
             {
-                var results = DragDrop.DoDragDrop(this, dataObject, GetDragEffects(mask));
-                managedCefBrowserAdapter.OnDragSourceEndedAt(0, 0, GetDragOperationsMask(results));
-                managedCefBrowserAdapter.OnDragSourceSystemDragEnded();
+                if(browser != null)
+                { 
+                    var results = DragDrop.DoDragDrop(this, dataObject, GetDragEffects(mask));
+                    browser.GetHost().DragSourceEndedAt(0, 0, GetDragOperationsMask(results));
+                    browser.GetHost().DragSourceSystemDragEnded();
+                }
             });
 
             return true;
@@ -762,22 +765,34 @@ namespace CefSharp.Wpf
 
         private void OnDrop(object sender, DragEventArgs e)
         {
-            managedCefBrowserAdapter.OnDragTargetDragDrop(GetMouseEvent(e));
+            if(browser != null)
+            {
+                browser.GetHost().DragTargetDragDrop(GetMouseEvent(e));
+            }
         }
 
         private void OnDragLeave(object sender, DragEventArgs e)
         {
-            managedCefBrowserAdapter.OnDragTargetDragLeave();
+            if(browser != null)
+            {
+                browser.GetHost().DragTargetDragLeave();
+            }
         }
 
         private void OnDragOver(object sender, DragEventArgs e)
         {
-            managedCefBrowserAdapter.OnDragTargetDragOver(GetMouseEvent(e), GetDragOperationsMask(e.AllowedEffects));
+            if(browser != null)
+            {
+                browser.GetHost().DragTargetDragOver(GetMouseEvent(e), GetDragOperationsMask(e.AllowedEffects));
+            }
         }
 
         private void OnDragEnter(object sender, DragEventArgs e)
         {
-            managedCefBrowserAdapter.OnDragTargetDragEnter(e.GetDragDataWrapper(), GetMouseEvent(e), GetDragOperationsMask(e.AllowedEffects));
+            if(browser != null)
+            {
+                browser.GetHost().DragTargetDragEnter(e.GetDragDataWrapper(), GetMouseEvent(e), GetDragOperationsMask(e.AllowedEffects));
+            }
         }
 
         /// <summary>
