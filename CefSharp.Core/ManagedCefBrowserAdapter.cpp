@@ -40,8 +40,6 @@ void ManagedCefBrowserAdapter::OnAfterBrowserCreated(IBrowser^ browser)
 {
     if (!_isDisposed)
     {
-        _browserWrapper = browser;
-
         _javascriptCallbackFactory->BrowserAdapter = gcnew WeakReference(this);
 
         if (CefSharpSettings::WcfEnabled)
@@ -296,15 +294,6 @@ void ManagedCefBrowserAdapter::OnDragSourceSystemDragEnded()
     {
         browser->GetHost()->DragSourceSystemDragEnded();
     }
-}
-
-/// <summary>
-/// Gets the CefBrowserWrapper instance
-/// </summary>
-/// <returns>Gets the current instance or null</returns>
-IBrowser^ ManagedCefBrowserAdapter::GetBrowser()
-{
-    return _browserWrapper;
 }
 
 IBrowser^ ManagedCefBrowserAdapter::GetBrowser(int browserId)

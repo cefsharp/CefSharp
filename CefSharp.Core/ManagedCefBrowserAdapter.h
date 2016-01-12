@@ -133,12 +133,6 @@ namespace CefSharp
         void OnDragSourceEndedAt(int x, int y, DragOperationsMask op);
         void OnDragSourceSystemDragEnded();
 
-        /// <summary>
-        /// Gets the CefBrowserWrapper instance
-        /// </summary>
-        /// <returns>Gets the current instance or null</returns>
-        virtual IBrowser^ GetBrowser();
-
         virtual IBrowser^ GetBrowser(int browserId);
 
         virtual property IJavascriptCallbackFactory^ JavascriptCallbackFactory
