@@ -33,15 +33,6 @@ namespace CefSharp
         bool _isDisposed;
 
     private:
-        // Private keyboard functions:
-        bool IsKeyDown(WPARAM wparam)
-        {
-            return (GetKeyState(wparam) & 0x8000) != 0;
-        }
-
-        // Misc. private functions:
-        int GetCefKeyboardModifiers(WPARAM wparam, LPARAM lparam);
-
         void MethodInvocationComplete(Object^ sender, MethodInvocationCompleteArgs^ e);
 
     internal:
@@ -120,7 +111,6 @@ namespace CefSharp
         virtual void OnAfterBrowserCreated(IBrowser^ browser);
         void CreateOffscreenBrowser(IntPtr windowHandle, BrowserSettings^ browserSettings, RequestContext^ requestContext, String^ address);
         void CreateBrowser(BrowserSettings^ browserSettings, RequestContext^ requestContext, IntPtr sourceHandle, String^ address);
-        bool SendKeyEvent(int message, int wParam, int lParam);
         void Resize(int width, int height);
         void RegisterJsObject(String^ name, Object^ object, bool lowerCaseJavascriptNames);
         void RegisterAsyncJsObject(String^ name, Object^ object, bool lowerCaseJavascriptNames);

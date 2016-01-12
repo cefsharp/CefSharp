@@ -1002,6 +1002,7 @@ namespace CefSharp.Wpf
                 case WM.KEYUP:
                 case WM.CHAR:
                 case WM.IME_CHAR:
+                { 
                     if (!IsKeyboardFocused)
                     {
                         break;
@@ -1015,9 +1016,14 @@ namespace CefSharp.Wpf
                         return IntPtr.Zero;
                     }
 
-                    handled = managedCefBrowserAdapter.SendKeyEvent(message, wParam.CastToInt32(), lParam.CastToInt32());
+                    if (browser != null)
+                    {
+                        browser.GetHost().SendKeyEvent(message, wParam.CastToInt32(), lParam.CastToInt32());    
+                        handled = true;
+                    }
 
                     break;
+                }
             }
 
             return IntPtr.Zero;
@@ -1131,7 +1137,11 @@ namespace CefSharp.Wpf
                 var message = (int)(e.IsDown ? WM.KEYDOWN : WM.KEYUP);
                 var virtualKey = KeyInterop.VirtualKeyFromKey(e.Key);
 
-                e.Handled = managedCefBrowserAdapter.SendKeyEvent(message, virtualKey, (int)modifiers);
+                if(browser != null)
+                {
+                    browser.GetHost().SendKeyEvent(message, virtualKey, (int)modifiers);
+                    e.Handled = true;
+                }
             }
         }
 

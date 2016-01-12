@@ -66,6 +66,7 @@ namespace CefSharp
             virtual void SetFocus(bool focus);
             virtual void SendFocusEvent(bool setFocus);
             virtual void SendKeyEvent(KeyEvent keyEvent);
+            virtual void SendKeyEvent(int message, int wParam, int lParam);
 
             virtual void SendMouseWheelEvent(int x, int y, int deltaX, int deltaY, CefEventFlags modifiers);
 
@@ -109,7 +110,15 @@ namespace CefSharp
                 IRequestContext^ get();
             }
 
+            // Misc. private functions:
             CefMouseEvent GetCefMouseEvent(MouseEvent^ mouseEvent);
+            int GetCefKeyboardModifiers(WPARAM wparam, LPARAM lparam);
+
+            // Private keyboard functions:
+            bool IsKeyDown(WPARAM wparam)
+            {
+                return (GetKeyState(wparam) & 0x8000) != 0;
+            }
         };
     }
 }

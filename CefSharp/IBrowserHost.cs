@@ -142,6 +142,14 @@ namespace CefSharp
         void SendKeyEvent(KeyEvent keyEvent);
 
         /// <summary>
+        /// Send key event to browser based on operating system message
+        /// </summary>
+        /// <param name="message">message</param>
+        /// <param name="wParam">wParam</param>
+        /// <param name="lParam">lParam</param>
+        void SendKeyEvent(int message, int wParam, int lParam);
+
+        /// <summary>
         /// Send a mouse click event to the browser.
         /// </summary>
         /// <param name="x">x coordinate - relative to upper-left corner of view</param>
