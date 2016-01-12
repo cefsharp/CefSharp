@@ -40,6 +40,7 @@ void ManagedCefBrowserAdapter::OnAfterBrowserCreated(IBrowser^ browser)
 {
     if (!_isDisposed)
     {
+        _browserWrapper = browser;
         _javascriptCallbackFactory->BrowserAdapter = gcnew WeakReference(this);
 
         if (CefSharpSettings::WcfEnabled)
@@ -63,35 +64,33 @@ void ManagedCefBrowserAdapter::OnAfterBrowserCreated(IBrowser^ browser)
 
 bool ManagedCefBrowserAdapter::SendKeyEvent(int message, int wParam, int lParam)
 {
-    auto browser = _clientAdapter->GetCefBrowser();
-
-    if (browser->GetHost() == nullptr)
+    if (_browserWrapper == nullptr)
     {
         return false;
     }
 
-    CefKeyEvent keyEvent;
-    keyEvent.windows_key_code = wParam;
-    keyEvent.native_key_code = lParam;
-    keyEvent.is_system_key = message == WM_SYSCHAR ||
+    KeyEvent keyEvent;
+    keyEvent.WindowsKeyCode = wParam;
+    keyEvent.NativeKeyCode = lParam;
+    keyEvent.IsSystemKey = message == WM_SYSCHAR ||
         message == WM_SYSKEYDOWN ||
         message == WM_SYSKEYUP;
 
     if (message == WM_KEYDOWN || message == WM_SYSKEYDOWN)
     {
-        keyEvent.type = KEYEVENT_RAWKEYDOWN;
+        keyEvent.Type = KeyEventType::RawKeyDown;
     }
     else if (message == WM_KEYUP || message == WM_SYSKEYUP)
     {
-        keyEvent.type = KEYEVENT_KEYUP;
+        keyEvent.Type = KeyEventType::KeyUp;
     }
     else
     {
-        keyEvent.type = KEYEVENT_CHAR;
+        keyEvent.Type = KeyEventType::Char;
     }
-    keyEvent.modifiers = GetCefKeyboardModifiers(wParam, lParam);
+    keyEvent.Modifiers = (CefEventFlags)GetCefKeyboardModifiers(wParam, lParam);
 
-    browser->GetHost()->SendKeyEvent(keyEvent);
+    _browserWrapper->GetHost()->SendKeyEvent(keyEvent);
 
     return true;
 }
