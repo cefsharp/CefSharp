@@ -72,6 +72,8 @@
     <Compile Include="BoundObject.cs" />
     <Compile Include="CallbackResponseStruct.cs" />
     <Compile Include="DragHandler.cs" />
+    <Compile Include="FlashResourceHandler.cs" />
+    <Compile Include="FlashResourceHandlerFactory.cs" />
     <Compile Include="ScriptedMethodsBoundObject.cs" />
     <Compile Include="ExceptionTestBoundObject.cs" />
     <Compile Include="JsDialogHandler.cs" />
