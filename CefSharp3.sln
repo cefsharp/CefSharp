@@ -178,7 +178,9 @@ Global
 		{B582D33A-AC8B-4983-9243-764804A4B26D}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{B582D33A-AC8B-4983-9243-764804A4B26D}.Debug|x64.Build.0 = Debug|Any CPU
 		{B582D33A-AC8B-4983-9243-764804A4B26D}.Release|Win32.ActiveCfg = Release|Any CPU
+		{B582D33A-AC8B-4983-9243-764804A4B26D}.Release|Win32.Build.0 = Release|Any CPU
 		{B582D33A-AC8B-4983-9243-764804A4B26D}.Release|x64.ActiveCfg = Release|Any CPU
+		{B582D33A-AC8B-4983-9243-764804A4B26D}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
