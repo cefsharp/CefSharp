@@ -87,8 +87,8 @@ namespace CefSharp.Prebuild
 
         private static void ProcessArguments(string[] args)
         {
-            Includes = args[0].Split(';');
-            CefInclude = Path.Combine(args[1], "include");
+            Includes = args[0].Split(new[]{';'}, StringSplitOptions.RemoveEmptyEntries);
+            CefInclude = args[1];
             InterfacesFile = args[2];
             OutputDir = args[3];
             CefVersion = args[4];
@@ -96,8 +96,7 @@ namespace CefSharp.Prebuild
 
         private static Index CreateIndex()
         {
-            var includes = Path.Combine(CefInclude, "include");
-            var files = Directory.GetFiles(includes, "*.h")
+            var files = Directory.GetFiles(Path.Combine(CefInclude, "include"), "*.h")
                 .Where(f => Headers.Contains(Path.GetFileName(f)));
             var index = new Index();
             foreach (var file in files)
