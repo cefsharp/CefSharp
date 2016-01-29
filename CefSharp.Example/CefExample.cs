@@ -52,6 +52,9 @@ namespace CefSharp.Example
             //settings.CefCommandLineArgs.Add("disable-plugins-discovery", "1"); //Disable discovering third-party plugins. Effectively loading only ones shipped with the browser plus third-party ones as specified by --extra-plugin-dir and --load-plugin switches
             //settings.CefCommandLineArgs.Add("enable-system-flash", "1"); //Automatically discovered and load a system-wide installation of Pepper Flash.
 
+            //settings.CefCommandLineArgs.Add("disable-extensions", "1"); //Extension support can be disabled
+            //settings.CefCommandLineArgs.Add("disable-pdf-extension", "1"); //The PDF extension specifically can be disabled
+
             //Load the pepper flash player that comes with Google Chrome - may be possible to load these values from the registry and query the dll for it's version info (Step 2 not strictly required it seems)
             //settings.CefCommandLineArgs.Add("ppapi-flash-path", @"C:\Program Files (x86)\Google\Chrome\Application\47.0.2526.106\PepperFlash\pepflashplayer.dll"); //Load a specific pepper flash version (Step 1 of 2)
             //settings.CefCommandLineArgs.Add("ppapi-flash-version", "20.0.0.228"); //Load a specific pepper flash version (Step 2 of 2)
@@ -108,7 +111,7 @@ namespace CefSharp.Example
                 }
             }
             
-            settings.LogSeverity = LogSeverity.Verbose;
+            //settings.LogSeverity = LogSeverity.Verbose;
 
             if (DebuggingSubProcess)
             {
