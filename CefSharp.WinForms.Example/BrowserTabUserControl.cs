@@ -144,6 +144,19 @@ namespace CefSharp.WinForms.Example
         {
             if (args.IsBrowserInitialized)
             {
+                //Get the underlying browser host wrapper
+                var browserHost = Browser.GetBrowser().GetHost();
+                var requestContext = browserHost.RequestContext;
+                string errorMessage;
+                // Browser must be initialized before getting/setting preferences
+                var success = requestContext.SetPreference("enable_do_not_track", true, out errorMessage);
+                if(!success)
+                {
+                    this.InvokeOnUiThreadIfRequired(() => MessageBox.Show("Unable to set preference enable_do_not_track errorMessage: " + errorMessage));
+                }
+                var preferences = requestContext.GetAllPreferences(true);
+                var doNotTrack = (bool)preferences["enable_do_not_track"];
+                
                 ChromeWidgetMessageInterceptor.SetupLoop((ChromiumWebBrowser)Browser, (message) =>
                 {
                     const int WM_MOUSEACTIVATE = 0x0021;
