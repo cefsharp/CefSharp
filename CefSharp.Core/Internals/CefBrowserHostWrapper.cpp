@@ -6,11 +6,56 @@
 #include "include\cef_client.h"
 
 #include "CefBrowserHostWrapper.h"
+#include "CefDragDataWrapper.h"
 #include "CefPdfPrintCallbackWrapper.h"
 #include "WindowInfo.h"
 #include "CefTaskScheduler.h"
 #include "Cef.h"
 #include "RequestContext.h"
+
+void CefBrowserHostWrapper::DragTargetDragEnter(IDragData^ dragData, MouseEvent^ mouseEvent, DragOperationsMask allowedOperations)
+{
+    ThrowIfDisposed();
+
+    auto dragDataWrapper = static_cast<CefDragDataWrapper^>(dragData);
+    dragDataWrapper->ResetFileContents(); // Recommended by documentation to reset before calling DragEnter
+    _browserHost->DragTargetDragEnter(dragDataWrapper, GetCefMouseEvent(mouseEvent), (CefBrowserHost::DragOperationsMask) allowedOperations);
+}
+
+void CefBrowserHostWrapper::DragTargetDragOver(MouseEvent^ mouseEvent, DragOperationsMask allowedOperations)
+{
+    ThrowIfDisposed();
+
+    _browserHost->DragTargetDragOver(GetCefMouseEvent(mouseEvent), (CefBrowserHost::DragOperationsMask) allowedOperations);
+}
+
+void CefBrowserHostWrapper::DragTargetDragDrop(MouseEvent^ mouseEvent)
+{
+    ThrowIfDisposed();
+
+    _browserHost->DragTargetDrop(GetCefMouseEvent(mouseEvent));
+}
+
+void CefBrowserHostWrapper::DragSourceEndedAt(int x, int y, DragOperationsMask op)
+{
+    ThrowIfDisposed();
+
+    _browserHost->DragSourceEndedAt(x, y, (CefBrowserHost::DragOperationsMask)op);
+}
+
+void CefBrowserHostWrapper::DragTargetDragLeave()
+{
+    ThrowIfDisposed();
+
+    _browserHost->DragTargetDragLeave();
+}
+
+void CefBrowserHostWrapper::DragSourceSystemDragEnded()
+{
+    ThrowIfDisposed();
+
+    _browserHost->DragSourceSystemDragEnded();
+}
 
 void CefBrowserHostWrapper::StartDownload(String^ url)
 {
@@ -168,6 +213,34 @@ void CefBrowserHostWrapper::SendKeyEvent(KeyEvent keyEvent)
     _browserHost->SendKeyEvent(nativeKeyEvent);
 }
 
+void CefBrowserHostWrapper::SendKeyEvent(int message, int wParam, int lParam)
+{
+    ThrowIfDisposed();
+
+    CefKeyEvent keyEvent;
+    keyEvent.windows_key_code = wParam;
+    keyEvent.native_key_code = lParam;
+    keyEvent.is_system_key = message == WM_SYSCHAR ||
+        message == WM_SYSKEYDOWN ||
+        message == WM_SYSKEYUP;
+
+    if (message == WM_KEYDOWN || message == WM_SYSKEYDOWN)
+    {
+        keyEvent.type = KEYEVENT_RAWKEYDOWN;
+    }
+    else if (message == WM_KEYUP || message == WM_SYSKEYUP)
+    {
+        keyEvent.type = KEYEVENT_KEYUP;
+    }
+    else
+    {
+        keyEvent.type = KEYEVENT_CHAR;
+    }
+    keyEvent.modifiers = GetCefKeyboardModifiers(wParam, lParam);
+
+    _browserHost->SendKeyEvent(keyEvent);
+}
+
 double CefBrowserHostWrapper::GetZoomLevelOnUI()
 {
     ThrowIfDisposed();
@@ -313,4 +386,97 @@ IRequestContext^ CefBrowserHostWrapper::RequestContext::get()
     ThrowIfDisposed();
 
     return gcnew CefSharp::RequestContext(_browserHost->GetRequestContext());
+}
+
+CefMouseEvent CefBrowserHostWrapper::GetCefMouseEvent(MouseEvent^ mouseEvent)
+{
+    CefMouseEvent cefMouseEvent;
+    cefMouseEvent.x = mouseEvent->X;
+    cefMouseEvent.y = mouseEvent->Y;
+    cefMouseEvent.modifiers = (uint32)mouseEvent->Modifiers;
+    return cefMouseEvent;
+}
+
+//Code imported from
+//https://bitbucket.org/chromiumembedded/branches-2062-cef3/src/a073e92426b3967f1fc2f1d3fd7711d809eeb03a/tests/cefclient/cefclient_osr_widget_win.cpp?at=master#cl-361
+int CefBrowserHostWrapper::GetCefKeyboardModifiers(WPARAM wparam, LPARAM lparam)
+{
+    int modifiers = 0;
+    if (IsKeyDown(VK_SHIFT))
+        modifiers |= EVENTFLAG_SHIFT_DOWN;
+    if (IsKeyDown(VK_CONTROL))
+        modifiers |= EVENTFLAG_CONTROL_DOWN;
+    if (IsKeyDown(VK_MENU))
+        modifiers |= EVENTFLAG_ALT_DOWN;
+
+    // Low bit set from GetKeyState indicates "toggled".
+    if (::GetKeyState(VK_NUMLOCK) & 1)
+        modifiers |= EVENTFLAG_NUM_LOCK_ON;
+    if (::GetKeyState(VK_CAPITAL) & 1)
+        modifiers |= EVENTFLAG_CAPS_LOCK_ON;
+
+    switch (wparam)
+    {
+    case VK_RETURN:
+        if ((lparam >> 16) & KF_EXTENDED)
+            modifiers |= EVENTFLAG_IS_KEY_PAD;
+        break;
+    case VK_INSERT:
+    case VK_DELETE:
+    case VK_HOME:
+    case VK_END:
+    case VK_PRIOR:
+    case VK_NEXT:
+    case VK_UP:
+    case VK_DOWN:
+    case VK_LEFT:
+    case VK_RIGHT:
+        if (!((lparam >> 16) & KF_EXTENDED))
+            modifiers |= EVENTFLAG_IS_KEY_PAD;
+        break;
+    case VK_NUMLOCK:
+    case VK_NUMPAD0:
+    case VK_NUMPAD1:
+    case VK_NUMPAD2:
+    case VK_NUMPAD3:
+    case VK_NUMPAD4:
+    case VK_NUMPAD5:
+    case VK_NUMPAD6:
+    case VK_NUMPAD7:
+    case VK_NUMPAD8:
+    case VK_NUMPAD9:
+    case VK_DIVIDE:
+    case VK_MULTIPLY:
+    case VK_SUBTRACT:
+    case VK_ADD:
+    case VK_DECIMAL:
+    case VK_CLEAR:
+        modifiers |= EVENTFLAG_IS_KEY_PAD;
+        break;
+    case VK_SHIFT:
+        if (IsKeyDown(VK_LSHIFT))
+            modifiers |= EVENTFLAG_IS_LEFT;
+        else if (IsKeyDown(VK_RSHIFT))
+            modifiers |= EVENTFLAG_IS_RIGHT;
+        break;
+    case VK_CONTROL:
+        if (IsKeyDown(VK_LCONTROL))
+            modifiers |= EVENTFLAG_IS_LEFT;
+        else if (IsKeyDown(VK_RCONTROL))
+            modifiers |= EVENTFLAG_IS_RIGHT;
+        break;
+    case VK_MENU:
+        if (IsKeyDown(VK_LMENU))
+            modifiers |= EVENTFLAG_IS_LEFT;
+        else if (IsKeyDown(VK_RMENU))
+            modifiers |= EVENTFLAG_IS_RIGHT;
+        break;
+    case VK_LWIN:
+        modifiers |= EVENTFLAG_IS_LEFT;
+        break;
+    case VK_RWIN:
+        modifiers |= EVENTFLAG_IS_RIGHT;
+        break;
+    }
+    return modifiers;
 }

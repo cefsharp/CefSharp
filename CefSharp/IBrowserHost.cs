@@ -32,6 +32,18 @@ namespace CefSharp
         /// </summary>
         void CloseDevTools();
 
+        void DragTargetDragEnter(IDragData dragData, MouseEvent mouseEvent, DragOperationsMask allowedOperations);
+
+        void DragTargetDragOver(MouseEvent mouseEvent, DragOperationsMask allowedOperations);
+
+        void DragTargetDragDrop(MouseEvent mouseEvent);
+
+        void DragSourceEndedAt(int x, int y, DragOperationsMask op);
+
+        void DragTargetDragLeave();
+
+        void DragSourceSystemDragEnded();
+
         /// <summary>
         /// Search for text
         /// </summary>
@@ -128,6 +140,14 @@ namespace CefSharp
         /// </summary>
         /// <param name="keyEvent">represents keyboard event</param>
         void SendKeyEvent(KeyEvent keyEvent);
+
+        /// <summary>
+        /// Send key event to browser based on operating system message
+        /// </summary>
+        /// <param name="message">message</param>
+        /// <param name="wParam">wParam</param>
+        /// <param name="lParam">lParam</param>
+        void SendKeyEvent(int message, int wParam, int lParam);
 
         /// <summary>
         /// Send a mouse click event to the browser.

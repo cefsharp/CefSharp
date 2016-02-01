@@ -44,13 +44,13 @@ namespace CefSharp
             {
                 if (_cefBrowser->GetIdentifier() == browserId)
                 {
-                    return _browserAdapter->GetBrowser();
+                    return _browser;
                 }
 
-                IBrowser^ browserWrapper;
-                if (_popupBrowsers->TryGetValue(browserId, browserWrapper))
+                IBrowser^ popupBrowser;
+                if (_popupBrowsers->TryGetValue(browserId, popupBrowser))
                 {
-                    return browserWrapper;
+                    return popupBrowser;
                 }
             }
 
@@ -61,15 +61,15 @@ namespace CefSharp
         {
             if (_browserControl->HasParent)
             {
-                return _browserAdapter->GetBrowser();
+                return _browser;
             }
 
             if(isPopup)
             {
-                IBrowser^ browserWrapper;
-                if (_popupBrowsers->TryGetValue(browserId, browserWrapper))
+                IBrowser^ popupBrowser;
+                if (_popupBrowsers->TryGetValue(browserId, popupBrowser))
                 {
-                    return browserWrapper;
+                    return popupBrowser;
                 }
 
                 auto stackFrame = gcnew StackFrame(1);
@@ -78,7 +78,7 @@ namespace CefSharp
                 ThrowUnknownPopupBrowser(gcnew String(L"ClientAdapter::" + callingMethodName));
             }
 
-            return _browserAdapter->GetBrowser();
+            return _browser;
         }
 
         void ClientAdapter::CloseAllPopups(bool forceClose)
@@ -163,11 +163,12 @@ namespace CefSharp
 
         void ClientAdapter::OnAfterCreated(CefRefPtr<CefBrowser> browser)
         {
+            auto browserWrapper = gcnew CefSharpBrowserWrapper(browser);
+
             auto isPopup = browser->IsPopup() && !_browserControl->HasParent;
 
             if (isPopup)
             {
-                auto browserWrapper = gcnew CefSharpBrowserWrapper(browser);
                 // Add to the list of popup browsers.
                 _popupBrowsers->Add(browser->GetIdentifier(), browserWrapper);
             }
@@ -175,10 +176,12 @@ namespace CefSharp
             {
                 _browserHwnd = browser->GetHost()->GetWindowHandle();
                 _cefBrowser = browser;
+
+                _browser = browserWrapper;
                 
                 if (!Object::ReferenceEquals(_browserAdapter, nullptr))
                 {
-                    _browserAdapter->OnAfterBrowserCreated(browser->GetIdentifier());
+                    _browserAdapter->OnAfterBrowserCreated(browserWrapper);
                 }
             }
 

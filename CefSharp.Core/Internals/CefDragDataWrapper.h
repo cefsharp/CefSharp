@@ -62,14 +62,6 @@ namespace CefSharp
                 return gcnew CefDragDataWrapper(cefDragData);
             }
 
-            virtual property CefRefPtr<CefDragData>* InternalDragData
-            {
-                CefRefPtr<CefDragData>* get() 
-                { 
-                    return new CefRefPtr<CefDragData>(_wrappedDragData.get()); 
-                }
-            }
-
             //TODO: Vector is a pointer, so can potentially be updated (items may be possibly removed)
             virtual property IList<String^>^ FileNames
             {
@@ -168,6 +160,15 @@ namespace CefSharp
             {
                 //_wrappedDragData->GetFileContents()
                 throw gcnew NotImplementedException("Need to implement a Wrapper around CefStreamWriter before this method can be implemented.");
+            }
+
+            operator CefRefPtr<CefDragData>()
+            {
+                if (this == nullptr)
+                {
+                    return NULL;
+                }
+                return _wrappedDragData.get();
             }
         };
     }

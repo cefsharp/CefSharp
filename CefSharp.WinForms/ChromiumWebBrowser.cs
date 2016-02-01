@@ -14,6 +14,7 @@ namespace CefSharp.WinForms
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
         private ParentFormMessageInterceptor parentFormMessageInterceptor;
         private IntPtr controlHandle;
+        private IBrowser browser;
 
         /// <summary>
         /// Set to true while handing an activating WM_ACTIVATE message.
@@ -108,6 +109,7 @@ namespace CefSharp.WinForms
 
             if (disposing)
             {
+                browser = null;
                 IsBrowserInitialized = false;
 
                 if (BrowserSettings != null)
@@ -190,8 +192,9 @@ namespace CefSharp.WinForms
             base.OnHandleCreated(e);
         }
 
-        void IWebBrowserInternal.OnAfterBrowserCreated()
+        void IWebBrowserInternal.OnAfterBrowserCreated(IBrowser browser)
         {
+            this.browser = browser;
             IsBrowserInitialized = true;
 
             // By the time this callback gets called, this control
@@ -351,7 +354,7 @@ namespace CefSharp.WinForms
         {
             if (IsBrowserInitialized)
             {
-                GetBrowser().GetHost().SetFocus(true);
+                browser.GetHost().SetFocus(true);
             }
 
             base.OnGotFocus(e);
@@ -361,7 +364,7 @@ namespace CefSharp.WinForms
         {
             this.ThrowExceptionIfBrowserNotInitialized();
 
-            return managedCefBrowserAdapter.GetBrowser();
+            return browser;
         }
     }
 }

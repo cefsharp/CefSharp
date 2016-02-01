@@ -61,7 +61,7 @@ namespace CefSharp
             IBrowser^ result = nullptr;
             if (_browserAdapter->IsAlive)
             {
-                auto browserAdapter = static_cast<ManagedCefBrowserAdapter^>(_browserAdapter->Target);
+                auto browserAdapter = static_cast<IBrowserAdapter^>(_browserAdapter->Target);
                 if (!browserAdapter->IsDisposed)
                 {
                     result = browserAdapter->GetBrowser(_callback->BrowserId);

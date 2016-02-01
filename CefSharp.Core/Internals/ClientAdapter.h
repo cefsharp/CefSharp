@@ -36,6 +36,7 @@ namespace CefSharp
             HWND _browserHwnd;
             CefRefPtr<CefBrowser> _cefBrowser;
 
+            gcroot<IBrowser^> _browser;
             gcroot<Dictionary<int, IBrowser^>^> _popupBrowsers;
             gcroot<String^> _tooltip;
             gcroot<IBrowserAdapter^> _browserAdapter;
@@ -67,6 +68,7 @@ namespace CefSharp
                 //this will dispose the repository and cancel all pending tasks
                 delete _pendingTaskRepository;
 
+                _browser = nullptr;
                 _browserControl = nullptr;
                 _browserHwnd = nullptr;
                 _cefBrowser = NULL;
@@ -76,7 +78,6 @@ namespace CefSharp
             }
 
             HWND GetBrowserHwnd() { return _browserHwnd; }
-            CefRefPtr<CefBrowser> GetCefBrowser() { return _cefBrowser; }
             PendingTaskRepository<JavascriptResponse^>^ GetPendingTaskRepository();
             void CloseAllPopups(bool forceClose);
             void MethodInvocationComplete(MethodInvocationResult^ result);

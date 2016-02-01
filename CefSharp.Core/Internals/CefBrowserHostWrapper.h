@@ -46,6 +46,13 @@ namespace CefSharp
             virtual Task<double>^ GetZoomLevelAsync();
             virtual IntPtr GetWindowHandle();
             virtual void CloseBrowser(bool forceClose);
+
+            virtual void DragTargetDragEnter(IDragData^ dragData, MouseEvent^ mouseEvent, DragOperationsMask allowedOperations);
+            virtual void DragTargetDragOver(MouseEvent^ mouseEvent, DragOperationsMask allowedOperations);
+            virtual void DragTargetDragDrop(MouseEvent^ mouseEvent);
+            virtual void DragSourceEndedAt(int x, int y, DragOperationsMask op);
+            virtual void DragTargetDragLeave();
+            virtual void DragSourceSystemDragEnded();
         
             virtual void ShowDevTools(IWindowInfo^ windowInfo, int inspectElementAtX, int inspectElementAtY);
             virtual void CloseDevTools();
@@ -59,6 +66,7 @@ namespace CefSharp
             virtual void SetFocus(bool focus);
             virtual void SendFocusEvent(bool setFocus);
             virtual void SendKeyEvent(KeyEvent keyEvent);
+            virtual void SendKeyEvent(int message, int wParam, int lParam);
 
             virtual void SendMouseWheelEvent(int x, int y, int deltaX, int deltaY, CefEventFlags modifiers);
 
@@ -100,6 +108,16 @@ namespace CefSharp
             virtual property IRequestContext^ RequestContext
             {
                 IRequestContext^ get();
+            }
+
+            // Misc. private functions:
+            CefMouseEvent GetCefMouseEvent(MouseEvent^ mouseEvent);
+            int GetCefKeyboardModifiers(WPARAM wparam, LPARAM lparam);
+
+            // Private keyboard functions:
+            bool IsKeyDown(WPARAM wparam)
+            {
+                return (GetKeyState(wparam) & 0x8000) != 0;
             }
         };
     }
