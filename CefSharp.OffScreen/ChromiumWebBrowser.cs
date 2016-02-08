@@ -202,7 +202,10 @@ namespace CefSharp.OffScreen
                 {
                     size = value;
 
-                    browser.GetHost().WasResized();
+                    if (IsBrowserInitialized)
+                    {
+                        browser.GetHost().WasResized();
+                    }
                 }
             }
         }
