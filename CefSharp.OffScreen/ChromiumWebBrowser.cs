@@ -275,7 +275,11 @@ namespace CefSharp.OffScreen
         {
             Address = url;
 
-            this.GetMainFrame().LoadUrl(url);
+            //Destroy the frame wrapper when we're done
+            using (var frame = this.GetMainFrame())
+            {
+                frame.LoadUrl(url);
+            }
         }
 
         public void RegisterJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true)
