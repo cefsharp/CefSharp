@@ -11,11 +11,15 @@ namespace CefSharp
     {
         int CefContextMenuParamsWrapper::YCoord::get()
         {
+            ThrowIfDisposed();
+
             return _wrappedInfo->GetYCoord();
         }
 
         int CefContextMenuParamsWrapper::XCoord::get()
         {
+            ThrowIfDisposed();
+
             return _wrappedInfo->GetXCoord();
         }
 
@@ -24,36 +28,50 @@ namespace CefSharp
 
         String^ CefContextMenuParamsWrapper::LinkUrl::get()
         {
+            ThrowIfDisposed();
+
             return StringUtils::ToClr(_wrappedInfo->GetLinkUrl());
         }
 
         String^ CefContextMenuParamsWrapper::UnfilteredLinkUrl::get()
         {
+            ThrowIfDisposed();
+
             return StringUtils::ToClr(_wrappedInfo->GetUnfilteredLinkUrl());
         }
 
         String^ CefContextMenuParamsWrapper::SourceUrl::get()
         {
+            ThrowIfDisposed();
+
             return StringUtils::ToClr(_wrappedInfo->GetSourceUrl());
         }
 
         bool CefContextMenuParamsWrapper::HasImageContents::get()
         {
+            ThrowIfDisposed();
+
             return _wrappedInfo->HasImageContents();
         }
 
         String^ CefContextMenuParamsWrapper::PageUrl::get()
         {
+            ThrowIfDisposed();
+
             return StringUtils::ToClr(_wrappedInfo->GetPageUrl());
         }
 
         String^ CefContextMenuParamsWrapper::FrameUrl::get()
         {
+            ThrowIfDisposed();
+
             return StringUtils::ToClr(_wrappedInfo->GetFrameUrl());
         }
 
         String^ CefContextMenuParamsWrapper::FrameCharset::get()
         {
+            ThrowIfDisposed();
+
             return StringUtils::ToClr(_wrappedInfo->GetFrameCharset());
         }
 
@@ -63,16 +81,22 @@ namespace CefSharp
 
         String^ CefContextMenuParamsWrapper::SelectionText::get()
         {
+            ThrowIfDisposed();
+
             return StringUtils::ToClr(_wrappedInfo->GetSelectionText());
         }
 
         String^ CefContextMenuParamsWrapper::MisspelledWord::get()
         {
+            ThrowIfDisposed();
+
             return StringUtils::ToClr(_wrappedInfo->GetMisspelledWord());
         }
 
         List<String^>^ CefContextMenuParamsWrapper::DictionarySuggestions::get()
         {
+            ThrowIfDisposed();
+
             std::vector<CefString>& dictionarySuggestions = std::vector<CefString>();
             bool result = _wrappedInfo->GetDictionarySuggestions(dictionarySuggestions);
 
@@ -81,11 +105,15 @@ namespace CefSharp
 
         bool CefContextMenuParamsWrapper::IsEditable::get()
         {
+            ThrowIfDisposed();
+
             return _wrappedInfo->IsEditable();
         }
 
         bool CefContextMenuParamsWrapper::IsSpellCheckEnabled::get()
         {
+            ThrowIfDisposed();
+
             return _wrappedInfo->IsSpellCheckEnabled();
         }
 

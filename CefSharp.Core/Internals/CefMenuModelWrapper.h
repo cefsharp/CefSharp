@@ -42,37 +42,51 @@ namespace CefSharp
             {
                 int get()
                 {
+                    ThrowIfDisposed();
+
                     return _menu->GetCount();
                 }
             }
 
             virtual bool Clear()
             {
+                ThrowIfDisposed();
+
                 return _menu->Clear();
             }
 
             virtual String^ GetLabelAt(int index)
             {
+                ThrowIfDisposed();
+
                 return StringUtils::ToClr(_menu->GetLabelAt(index));
             }
 
             virtual CefMenuCommand GetCommandIdAt(int index) 
             {
+                ThrowIfDisposed();
+
                 return (CefMenuCommand)_menu->GetCommandIdAt(index);
             }
 
             virtual bool Remove(CefMenuCommand commandId)
             {
+                ThrowIfDisposed();
+
                 return _menu->Remove((int)commandId);
             }
 
             virtual bool AddSeparator()
             {
+                ThrowIfDisposed();
+
                 return _menu->AddSeparator();
             }
 
             virtual bool AddItem(CefMenuCommand commandId, String^ label) 
             {
+                ThrowIfDisposed();
+
                 return _menu->AddItem((int)commandId, StringUtils::ToNative(label));
             }
         };
