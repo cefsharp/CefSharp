@@ -42,10 +42,14 @@ namespace CefSharp
             {
                 int get()
                 {
+                    ThrowIfDisposed();
+
                     return _response->GetStatus();
                 }
                 void set(int val)
                 {
+                    ThrowIfDisposed();
+
                     _response->SetStatus(val);
                 }
             }
@@ -54,10 +58,14 @@ namespace CefSharp
             {
                 String^ get()
                 {
+                    ThrowIfDisposed();
+
                     return StringUtils::ToClr(_response->GetStatusText());
                 }
                 void set(String^ val)
                 {
+                    ThrowIfDisposed();
+
                     _response->SetStatusText(StringUtils::ToNative(val));
                 }
             }
@@ -66,10 +74,14 @@ namespace CefSharp
             {
                 String^ get()
                 {
+                    ThrowIfDisposed();
+
                     return StringUtils::ToClr(_response->GetMimeType());
                 }
                 void set(String^ val)
                 {
+                    ThrowIfDisposed();
+
                     _response->SetMimeType(StringUtils::ToNative(val));
                 }
             }
@@ -78,6 +90,8 @@ namespace CefSharp
             {
                 NameValueCollection^ get()
                 {
+                    ThrowIfDisposed();
+
                     //TODO: Extract this code out as it's duplicated in CefRequestWrapper
                     CefRequest::HeaderMap hm;
                     _response->GetHeaderMap(hm);
@@ -95,6 +109,8 @@ namespace CefSharp
                 }
                 void set(NameValueCollection^ headers)
                 {
+                    ThrowIfDisposed();
+
                     _response->SetHeaderMap(TypeConversion::ToNative(headers));
                 }
             }

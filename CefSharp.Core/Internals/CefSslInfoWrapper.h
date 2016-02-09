@@ -87,6 +87,8 @@ namespace CefSharp
                 {
                     cli::array<Byte>^ get()
                     {
+                        ThrowIfDisposed();
+
                         auto serialNumber = _sslInfo->GetSerialNumber();
                         auto byteCount = serialNumber->GetSize();
                         if (byteCount == 0)
@@ -111,6 +113,8 @@ namespace CefSharp
                 {
                     Nullable<DateTime> get()
                     {
+                        ThrowIfDisposed();
+
                         return TypeConversion::FromNative(_sslInfo->GetValidStart());
                     }
                 }
@@ -123,6 +127,8 @@ namespace CefSharp
                 {
                     Nullable<DateTime> get()
                     {
+                        ThrowIfDisposed();
+
                         return TypeConversion::FromNative(_sslInfo->GetValidExpiry());
                     }
                 }
@@ -134,6 +140,8 @@ namespace CefSharp
                 {
                     cli::array<Byte>^ get()
                     {
+                        ThrowIfDisposed();
+
                         auto serialNumber = _sslInfo->GetDEREncoded();
                         auto byteCount = serialNumber->GetSize();
                         if (byteCount == 0)
@@ -157,6 +165,8 @@ namespace CefSharp
                 {
                     cli::array<Byte>^ get()
                     {
+                        ThrowIfDisposed();
+
                         auto serialNumber = _sslInfo->GetPEMEncoded();
                         auto byteCount = serialNumber->GetSize();
                         if (byteCount == 0)
