@@ -201,7 +201,7 @@
                             <RotateTransform Angle="{Binding Value, ElementName=angleSlider}" />
                         </TransformGroup>
                     </FrameworkElement.LayoutTransform>
-                    <FrameworkElement.ContextMenu>
+                    <!--<FrameworkElement.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Back"
                                       Command="{Binding WebBrowser.BackCommand}" />
@@ -229,7 +229,7 @@
                             <MenuItem Header="Copy" Command="{Binding WebBrowser.CopyCommand}"/>
                             <MenuItem Header="Paste" Command="{Binding WebBrowser.PasteCommand}"/>
                         </ContextMenu>
-                    </FrameworkElement.ContextMenu>
+                    </FrameworkElement.ContextMenu>-->
                 </cefSharp:ChromiumWebBrowser>
             </Grid>
         </DockPanel>
