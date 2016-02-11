@@ -234,7 +234,13 @@ namespace CefSharp.Wpf
                         disposable.Dispose();
                     }
                     disposables.Clear();
-                    UiThreadRunAsync(() => WebBrowser = null);
+
+                    browserInitialized = false;
+                    UiThreadRunAsync(() =>
+                    {
+                        SetCurrentValue(IsBrowserInitializedProperty, false);
+                        WebBrowser = null;
+                    });
                 }
 
                 Cef.RemoveDisposable(this);
@@ -564,7 +570,7 @@ namespace CefSharp.Wpf
 
         protected virtual void OnIsBrowserInitializedChanged(bool oldValue, bool newValue)
         {
-            if (!IsDisposed)
+            if (newValue && !IsDisposed)
             { 
                 var task = this.GetZoomLevelAsync();
                 task.ContinueWith(previous =>
