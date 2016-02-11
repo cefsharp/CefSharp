@@ -89,6 +89,15 @@ namespace CefSharp.Example
                 return true;
             }
 
+            if (string.Equals(fileName, "/EmptyResponseFilterTest.html", StringComparison.OrdinalIgnoreCase))
+            {
+                stream = null;
+                mimeType = "text/html";
+                callback.Continue();
+
+                return true;
+            }
+
             string resource;
             if (ResourceDictionary.TryGetValue(fileName, out resource) && !string.IsNullOrEmpty(resource))
             {
@@ -118,7 +127,7 @@ namespace CefSharp.Example
 
         public Stream GetResponse(IResponse response, out long responseLength, out string redirectUrl)
         {
-            responseLength = stream.Length;
+            responseLength = stream == null ? 0 : stream.Length;
             redirectUrl = null;
 
             response.StatusCode = (int)HttpStatusCode.OK;
