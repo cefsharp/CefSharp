@@ -7,7 +7,7 @@ using System.IO;
 
 namespace CefSharp.Example.Filters
 {
-    public class ResponseFilter : IResponseFilter
+    public class PassThruResponseFilter : IResponseFilter
     {
         bool IResponseFilter.InitFilter()
         {

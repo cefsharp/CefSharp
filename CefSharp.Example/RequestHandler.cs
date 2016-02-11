@@ -184,7 +184,7 @@ namespace CefSharp.Example
             var url = new Uri(request.Url);
             if (url.Scheme == CefSharpSchemeHandlerFactory.SchemeName)
             {
-                return new ResponseFilter();
+                return new PassThruResponseFilter();
             }
 
             return null;
