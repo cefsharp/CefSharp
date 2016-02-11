@@ -5,7 +5,7 @@
 using System;
 using System.IO;
 
-namespace CefSharp.Example
+namespace CefSharp.Example.Filters
 {
     public class ResponseFilter : IResponseFilter
     {
