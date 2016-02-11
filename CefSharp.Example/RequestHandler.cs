@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using CefSharp.Example.Filters;
 
 namespace CefSharp.Example
 {
@@ -176,6 +177,21 @@ namespace CefSharp.Example
             //var headers = response.ResponseHeaders;
 
             return false;
+        }
+
+        IResponseFilter IRequestHandler.GetResourceResponseFilter(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IResponse response)
+        {
+            var url = new Uri(request.Url);
+            if (url.Scheme == CefSharpSchemeHandlerFactory.SchemeName)
+            {
+                if(request.Url.Equals(CefExample.ResponseFilterTestUrl, StringComparison.OrdinalIgnoreCase))
+                {
+                    return new FindReplaceResponseFilter("REPLACE_THIS_STRING", "This is the replaced string!");
+                }
+                return new PassThruResponseFilter();
+            }
+
+            return null;
         }
 
         void IRequestHandler.OnResourceLoadComplete(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IResponse response, UrlRequestStatus status, long receivedContentLength)

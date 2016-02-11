@@ -181,4 +181,7 @@
   <data name="ScriptedMethodsTest" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ScriptedMethodsTest.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="ResponseFilterTest" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ResponseFilterTest.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

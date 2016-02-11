@@ -30,6 +30,7 @@
 #include "Serialization\JsObjectsSerialization.h"
 #include "Serialization\ObjectsSerialization.h"
 #include "Messaging\Messages.h"
+#include "CefResponseFilterAdapter.h"
 
 using namespace CefSharp::Internals::Messaging;
 using namespace CefSharp::Internals::Serialization;
@@ -616,6 +617,30 @@ namespace CefSharp
             CefResponseWrapper responseWrapper(response);
 
             return handler->OnResourceResponse(_browserControl, browserWrapper, %frameWrapper, %requestWrapper, %responseWrapper);
+        }
+
+        CefRefPtr<CefResponseFilter> ClientAdapter::GetResourceResponseFilter(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefResponse> response)
+        {
+            auto handler = _browserControl->RequestHandler;
+
+            if (handler == nullptr)
+            {
+                return NULL;
+            }
+
+            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());;
+            CefFrameWrapper frameWrapper(frame);
+            CefRequestWrapper requestWrapper(request);
+            CefResponseWrapper responseWrapper(response);
+
+            auto filter = handler->GetResourceResponseFilter(_browserControl, browserWrapper, %frameWrapper, %requestWrapper, %responseWrapper);
+
+            if (filter == nullptr)
+            {
+                return NULL;
+            }
+
+            return new CefResponseFilterAdapter(filter);
         }
 
         void ClientAdapter::OnResourceLoadComplete(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefResponse> response, URLRequestStatus status, int64 receivedContentLength)
