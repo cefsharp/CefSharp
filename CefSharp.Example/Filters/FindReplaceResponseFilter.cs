@@ -40,20 +40,11 @@ namespace CefSharp.Example.Filters
 
         FilterStatus IResponseFilter.Filter(Stream dataIn, long dataInSize, out long dataInRead, Stream dataOut, long dataOutSize, out long dataOutWritten)
         {
-            //DCHECK((data_in_size == 0U && !data_in) || (data_in_size > 0U && data_in));
-            //DCHECK_EQ(data_in_read, 0U);
-            //DCHECK(data_out);
-            //DCHECK_GT(data_out_size, 0U);
-            //DCHECK_EQ(data_out_written, 0U);
-
             // All data will be read.
             dataInRead = dataInSize;
             dataOutWritten = 0;
 
             int find_size = kFindString.Length - 1;
-
-            //const char* data_in_ptr = static_cast<char*>(data_in);
-            //char* data_out_ptr = static_cast<char*>(data_out);
 
             // Reset the overflow.
             string old_overflow = "";
@@ -123,16 +114,17 @@ namespace CefSharp.Example.Filters
             if (max_write == 1)
             {
                 // Small optimization for single character writes.
-                //*data_out_ptr = str[0];
-                //data_out_ptr += 1;
-                //data_out_written += 1;
+                data_out_ptr.WriteByte(Convert.ToByte(str[0]));
+                data_out_written += 1;
             }
             else if (max_write > 1)
             {
                 //data_out_ptr.Write()
                 //memcpy(data_out_ptr, str, max_write);
                 //data_out_ptr += max_write;
-                //data_out_written += max_write;
+                var bytes = GetBytes(str);
+                data_out_ptr.Write(bytes, 0, (int)max_write);
+                data_out_written += max_write;
             }
 
             if (max_write < str_size)
@@ -141,6 +133,13 @@ namespace CefSharp.Example.Filters
                 // remainder in the overflow buffer.
                 overflow_ += str.Substring((int)max_write, (int)(str_size - max_write));
             }
+        }
+
+        private static byte[] GetBytes(string str)
+        {
+            byte[] bytes = new byte[str.Length * sizeof(char)];
+            System.Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
+            return bytes;
         }
     }
 }
