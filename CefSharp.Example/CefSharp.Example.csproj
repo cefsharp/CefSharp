@@ -72,6 +72,7 @@
     <Compile Include="BoundObject.cs" />
     <Compile Include="CallbackResponseStruct.cs" />
     <Compile Include="DragHandler.cs" />
+    <Compile Include="Filters\FindReplaceResponseFilter.cs" />
     <Compile Include="FlashResourceHandler.cs" />
     <Compile Include="FlashResourceHandlerFactory.cs" />
     <Compile Include="Filters\PassThruResponseFilter.cs" />
