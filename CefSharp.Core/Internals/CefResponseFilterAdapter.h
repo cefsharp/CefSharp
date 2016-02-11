@@ -61,7 +61,7 @@ namespace CefSharp
                 Int64 dataInReadPtr = 0;
                 Int64 dataOutWrittenPtr = 0;
                                 
-                auto status = _filter->Filter(%readStream, (Int64)dataInSize, dataInReadPtr, %writeStream, (Int64)dataOutSize, dataOutWrittenPtr);
+                auto status = _filter->Filter(%readStream, dataInReadPtr, %writeStream, dataOutWrittenPtr);
 
                 dataInRead = dataInReadPtr;
                 dataOutWritten = dataOutWrittenPtr;

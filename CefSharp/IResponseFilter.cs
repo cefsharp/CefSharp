@@ -35,12 +35,10 @@ namespace CefSharp
         /// optional_param=data_in,default_retval=RESPONSE_FILTER_ERROR
         /// </summary>
         /// <param name="dataIn"></param>
-        /// <param name="dataInSize"></param>
         /// <param name="dataInRead"></param>
         /// <param name="dataOut"></param>
-        /// <param name="dataOutSize"></param>
         /// <param name="dataOutWritten"></param>
         /// <returns></returns>
-        FilterStatus Filter(Stream dataIn, long dataInSize, out long dataInRead, Stream dataOut, long dataOutSize, out long dataOutWritten);
+        FilterStatus Filter(Stream dataIn, out long dataInRead, Stream dataOut, out long dataOutWritten);
     }
 }

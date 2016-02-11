@@ -4,142 +4,175 @@
 
 using System;
 using System.IO;
+using System.Collections.Generic;
+using System.Text;
 
 namespace CefSharp.Example.Filters
 {
     public class FindReplaceResponseFilter : IResponseFilter
     {
-        private const string kFindString = "REPLACE_THIS_STRING";
-        private const string kReplaceString = "This is the replaced string!";
+        private static Encoding encoding = Encoding.UTF8;
 
-        // The portion of the find string that is currently matching.
-        private long find_match_offset_;
+        /// <summary>
+        /// String to find
+        /// </summary>
+        private string findString;
 
-        // The likely amount of overflow.
-        private long replace_overflow_size_;
+        /// <summary>
+        /// String used for replacement
+        /// </summary>
+        private string replacementString;
 
-        // Overflow from the output buffer.
-        private string overflow_;
+        /// <summary>
+        /// The portion of the find string that is currently matching.
+        /// </summary>
+        private int findMatchOffset;
 
-        // Number of times the the string was found/replaced.
-        private long replace_count_;
+        /// <summary>
+        /// Overflow from the output buffer.
+        /// </summary>
+        private List<byte> overflow = new List<byte>();
+
+        /// <summary>
+        /// Number of times the the string was found/replaced.
+        /// </summary>
+        private long replaceCount;
+
+        public FindReplaceResponseFilter(string find, string replacement)
+        {
+            findString = find;
+            replacementString = replacement;
+        }
 
         bool IResponseFilter.InitFilter()
         {
-            long find_size = kFindString.Length - 1;
-            long replace_size = kReplaceString.Length - 1;
-
-            // Determine a reasonable amount of space for find/replace overflow. For
-            // example, the amount of space required if the search string is
-            // found/replaced 10 times (plus space for the count).
-            if (replace_size > find_size)
-                replace_overflow_size_ = (replace_size - find_size + 3) * 10;
-
             return true;
         }
 
-        FilterStatus IResponseFilter.Filter(Stream dataIn, long dataInSize, out long dataInRead, Stream dataOut, long dataOutSize, out long dataOutWritten)
+        FilterStatus IResponseFilter.Filter(Stream dataIn, out long dataInRead, Stream dataOut, out long dataOutWritten)
         {
             // All data will be read.
-            dataInRead = dataInSize;
+            dataInRead = dataIn.Length;
             dataOutWritten = 0;
 
-            int find_size = kFindString.Length - 1;
-
-            // Reset the overflow.
-            string old_overflow = "";
-            if (!string.IsNullOrEmpty(overflow_))
-            {
-                old_overflow = overflow_;
-                overflow_ = "";
-            }
-            
-            if (!string.IsNullOrEmpty(old_overflow))
+            // Write overflow then reset
+            if (overflow.Count > 0)
             {
                 // Write the overflow from last time.
-                Write(old_overflow, old_overflow.Length, dataOut, dataOutSize, ref dataOutWritten);
+                WriteOverflow(dataOut, ref dataOutWritten);
             }
 
-            dataIn.Position = 0;
-
             // Evaluate each character in the input buffer. Track how many characters in
-            // a row match kFindString. If kFindString is completely matched then write
-            // kReplaceString. Otherwise, write the input characters as-is.
-            for (var i = 0; i < dataInSize; ++i)
+            // a row match findString. If findString is completely matched then write
+            // replacement. Otherwise, write the input characters as-is.
+            for (var i = 0; i < dataIn.Length; ++i)
             {
-                var charForComparison = Convert.ToChar(dataIn.ReadByte());
+                var readByte = (byte)dataIn.ReadByte();
+                var charForComparison = Convert.ToChar(readByte);
 
-                if (charForComparison == kFindString[(int)find_match_offset_])
+                if (charForComparison == findString[findMatchOffset])
                 {
-                    // Matched the next character in the find string.
-                    if (++find_match_offset_ == find_size)
+                    //We have a match, increment the counter
+                    findMatchOffset++;
+
+                    // If all characters match the string specified
+                    if (findMatchOffset == findString.Length)
                     {
                         // Complete match of the find string. Write the replace string.
-                        var replace_str = ++replace_count_ + ". " + kReplaceString;
-                        Write(replace_str, replace_str.Length, dataOut, dataOutSize, ref dataOutWritten);
+                        var replaceString = ++replaceCount + ". " + replacementString;
+                        WriteString(replaceString, replaceString.Length, dataOut, ref dataOutWritten);
 
                         // Start over looking for a match.
-                        find_match_offset_ = 0;
+                        findMatchOffset = 0;
                     }
                     continue;
                 }
 
                 // Character did not match the find string.
-                if (find_match_offset_ > 0)
+                if (findMatchOffset > 0)
                 {
                     // Write the portion of the find string that has matched so far.
-                    Write(kFindString, find_match_offset_, dataOut, dataOutSize, ref dataOutWritten);
+                    WriteString(findString, findMatchOffset, dataOut, ref dataOutWritten);
 
                     // Start over looking for a match.
-                    find_match_offset_ = 0;
+                    findMatchOffset = 0;
                 }
 
                 // Write the current character.
-                Write(Convert.ToString(charForComparison), 1, dataOut, dataOutSize, ref dataOutWritten);
+                WriteSingleByte(readByte, dataOut, ref dataOutWritten);
             }
 
             // If a match is currently in-progress we need more data. Otherwise, we're
             // done.
-            return find_match_offset_ > 0 ? FilterStatus.NeedMoreData : FilterStatus.Done;
+            return findMatchOffset > 0 ? FilterStatus.NeedMoreData : FilterStatus.Done;
         }
 
-        private void Write(string str, long str_size, Stream data_out_ptr, long data_out_size, ref long data_out_written)
+        private void WriteOverflow(Stream dataOut, ref long dataOutWritten)
         {
             // Number of bytes remaining in the output buffer.
-            var remaining_space = data_out_size - data_out_written;
+            var remainingSpace = dataOut.Length - dataOutWritten;
             // Maximum number of bytes we can write into the output buffer.
-            var max_write = Math.Min(str_size, remaining_space);
+            var maxWrite = Math.Min(overflow.Count, remainingSpace);
 
             // Write the maximum portion that fits in the output buffer.
-            if (max_write == 1)
+            if (maxWrite > 0)
             {
-                // Small optimization for single character writes.
-                data_out_ptr.WriteByte(Convert.ToByte(str[0]));
-                data_out_written += 1;
-            }
-            else if (max_write > 1)
-            {
-                //data_out_ptr.Write()
-                //memcpy(data_out_ptr, str, max_write);
-                //data_out_ptr += max_write;
-                var bytes = GetBytes(str);
-                data_out_ptr.Write(bytes, 0, (int)max_write);
-                data_out_written += max_write;
+                dataOut.Write(overflow.ToArray(), 0, (int)maxWrite);
+                dataOutWritten += maxWrite;
             }
 
-            if (max_write < str_size)
+            if (maxWrite < overflow.Count)
+            {
+                // Need to write more bytes than will fit in the output buffer. 
+                // Remove the bytes that were written already
+                overflow.RemoveRange(0, (int)(maxWrite - 1));
+            }
+            else
+            {
+                overflow.Clear();
+            }
+        }
+
+        private void WriteString(string str, int stringSize, Stream dataOut, ref long dataOutWritten)
+        {
+            // Number of bytes remaining in the output buffer.
+            var remainingSpace = dataOut.Length - dataOutWritten;
+            // Maximum number of bytes we can write into the output buffer.
+            var maxWrite = Math.Min(stringSize, remainingSpace);
+
+            // Write the maximum portion that fits in the output buffer.
+            if (maxWrite > 0)
+            {
+                var bytes = encoding.GetBytes(str);
+                dataOut.Write(bytes, 0, (int)maxWrite);
+                dataOutWritten += maxWrite;
+            }
+
+            if (maxWrite < stringSize)
             {
                 // Need to write more bytes than will fit in the output buffer. Store the
                 // remainder in the overflow buffer.
-                overflow_ += str.Substring((int)max_write, (int)(str_size - max_write));
+                overflow.AddRange(encoding.GetBytes(str.Substring((int)maxWrite, (int)(stringSize - maxWrite))));
             }
         }
 
-        private static byte[] GetBytes(string str)
+        private void WriteSingleByte(byte data, Stream dataOut, ref long dataOutWritten)
         {
-            byte[] bytes = new byte[str.Length * sizeof(char)];
-            System.Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
-            return bytes;
+            // Number of bytes remaining in the output buffer.
+            var remainingSpace = dataOut.Length - dataOutWritten;
+
+            // Write the byte to the buffer or add it to the overflow
+            if (remainingSpace > 0)
+            {
+                dataOut.WriteByte(data);
+                dataOutWritten += 1;
+            }
+            else
+            {
+                // Need to write more bytes than will fit in the output buffer. Store the
+                // remainder in the overflow buffer.
+                overflow.Add(data);
+            }
         }
     }
 }

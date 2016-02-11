@@ -14,10 +14,10 @@ namespace CefSharp.Example.Filters
             return true;
         }
 
-        FilterStatus IResponseFilter.Filter(Stream dataIn, long dataInSize, out long dataInRead, Stream dataOut, long dataOutSize, out long dataOutWritten)
+        FilterStatus IResponseFilter.Filter(Stream dataIn, out long dataInRead, Stream dataOut, out long dataOutWritten)
         {
-            dataInRead = dataInSize;
-            dataOutWritten = Math.Min(dataInRead, dataOutSize);
+            dataInRead = dataIn.Length;
+            dataOutWritten = Math.Min(dataInRead, dataOut.Length);
 
             dataIn.CopyTo(dataOut);
 

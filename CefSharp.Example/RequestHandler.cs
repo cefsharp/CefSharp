@@ -186,7 +186,7 @@ namespace CefSharp.Example
             {
                 if(request.Url.Equals(CefExample.ResponseFilterTestUrl, StringComparison.OrdinalIgnoreCase))
                 {
-                    return new FindReplaceResponseFilter();
+                    return new FindReplaceResponseFilter("REPLACE_THIS_STRING", "This is the replaced string!");
                 }
                 return new PassThruResponseFilter();
             }
