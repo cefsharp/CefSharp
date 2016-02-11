@@ -55,13 +55,22 @@ namespace CefSharp
             /*--cef(optional_param=data_in,default_retval=RESPONSE_FILTER_ERROR)--*/
             virtual FilterStatus Filter(void* dataIn, size_t dataInSize, size_t& dataInRead, void* dataOut, size_t dataOutSize, size_t& dataOutWritten) OVERRIDE
             {
-                UnmanagedMemoryStream readStream((Byte*)dataIn, (Int64)dataInSize, (Int64)dataInSize, FileAccess::Read);
-                UnmanagedMemoryStream writeStream((Byte*)dataOut, (Int64)dataOutSize, (Int64)dataOutSize, FileAccess::Write);
-
                 Int64 dataInReadPtr = 0;
                 Int64 dataOutWrittenPtr = 0;
-                                
-                auto status = _filter->Filter(%readStream, dataInReadPtr, %writeStream, dataOutWrittenPtr);
+                CefSharp::FilterStatus status;
+
+                UnmanagedMemoryStream writeStream((Byte*)dataOut, (Int64)dataOutSize, (Int64)dataOutSize, FileAccess::Write);
+
+                if (dataInSize > 0)
+                {
+                    UnmanagedMemoryStream readStream((Byte*)dataIn, (Int64)dataInSize, (Int64)dataInSize, FileAccess::Read);
+                
+                    status = _filter->Filter(%readStream, dataInReadPtr, %writeStream, dataOutWrittenPtr);
+                }
+                else
+                {
+                    status = _filter->Filter(nullptr, dataInReadPtr, %writeStream, dataOutWrittenPtr);
+                }
 
                 dataInRead = dataInReadPtr;
                 dataOutWritten = dataOutWrittenPtr;
