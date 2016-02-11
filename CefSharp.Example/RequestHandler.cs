@@ -184,6 +184,10 @@ namespace CefSharp.Example
             var url = new Uri(request.Url);
             if (url.Scheme == CefSharpSchemeHandlerFactory.SchemeName)
             {
+                if(request.Url.Equals(CefExample.ResponseFilterTestUrl, StringComparison.OrdinalIgnoreCase))
+                {
+                    return new FindReplaceResponseFilter();
+                }
                 return new PassThruResponseFilter();
             }
 

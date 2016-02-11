@@ -18,6 +18,7 @@ namespace CefSharp.Example
         public const string PluginsTestUrl = "custom://cefsharp/plugins.html";
         public const string PopupTestUrl = "custom://cefsharp/PopupTest.html";
         public const string BasicSchemeTestUrl = "custom://cefsharp/SchemeTest.html";
+        public const string ResponseFilterTestUrl = "custom://cefsharp/ResponseFilterTest.html";
         public const string TestResourceUrl = "http://test/resource/load";
         public const string RenderProcessCrashedUrl = "http://processcrashed";
         public const string TestUnicodeResourceUrl = "http://test/resource/loadUnicode";
