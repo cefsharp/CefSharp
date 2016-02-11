@@ -102,6 +102,13 @@ namespace CefSharp.Example.Filters
                 WriteSingleByte(readByte, dataOut, ref dataOutWritten);
             }
 
+            if(overflow.Count > 0)
+            {
+                //If we end up with overflow data then we'll need to return NeedMoreData
+                // On the next pass the data will be written, then the next batch will be processed.
+                return FilterStatus.NeedMoreData;
+            }
+
             // If a match is currently in-progress we need more data. Otherwise, we're
             // done.
             return findMatchOffset > 0 ? FilterStatus.NeedMoreData : FilterStatus.Done;
