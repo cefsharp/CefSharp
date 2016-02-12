@@ -19,5 +19,10 @@ namespace CefSharp
         /// Cancel context menu display.
         /// </summary>
         void Cancel();
+
+        /// <summary>
+        /// Gets a value indicating whether the callback has been disposed of.
+        /// </summary>
+        bool IsDisposed { get; }
     }
 }
