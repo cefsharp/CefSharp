@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
+using System.Windows;
 using GalaSoft.MvvmLight.Command;
 
 namespace CefSharp.Wpf.Example.Handlers
@@ -68,6 +69,22 @@ namespace CefSharp.Wpf.Example.Handlers
                 {
                     IsOpen = true
                 };
+
+                RoutedEventHandler handler = null;
+
+                handler = (s, e) =>
+                {
+                    menu.Closed -= handler;
+
+                    //If the callback has been disposed then it's already been executed
+                    //so don't call Cancel
+                    if(!callback.IsDisposed)
+                    { 
+                        callback.Cancel();
+                    }
+                };
+
+                menu.Closed += handler;
 
                 foreach (var item in menuItems)
                 {
