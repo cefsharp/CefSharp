@@ -48,7 +48,7 @@ namespace CefSharp
                 throw gcnew ApplicationException(String::Format("{0} couldn't find IBrowser entry! Please contact CefSharp development.", context));
             }
 
-            IBrowser^ GetBrowserWrapper(int browserId, bool isPopup);
+            IBrowser^ GetBrowserWrapper(int browserId, bool isPopup, bool returnNullIfBrowserNotFound);
 
         public:
             ClientAdapter(IWebBrowserInternal^ browserControl, IBrowserAdapter^ browserAdapter) :
