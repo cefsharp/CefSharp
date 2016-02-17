@@ -40,9 +40,7 @@ namespace CefSharp
         public:
             virtual property int YCoord { int get(); }
             virtual property int XCoord { int get(); }
-
-            // TODO: Implement:
-            //virtual TypeFlags GetTypeFlags() OVERRIDE;
+            virtual property ContextMenuType TypeFlags { ContextMenuType get(); }
             virtual property String^ LinkUrl { String^ get(); }
             virtual property String^ UnfilteredLinkUrl { String^ get(); }
             virtual property String^ SourceUrl { String^ get(); }
@@ -50,21 +48,16 @@ namespace CefSharp
             virtual property String^ PageUrl { String^ get(); }
             virtual property String^ FrameUrl { String^ get(); }
             virtual property String^ FrameCharset { String^ get(); }
-
-            // TODO: Implement:
-            //virtual MediaType GetMediaType() OVERRIDE;
-            //virtual MediaStateFlags GetMediaStateFlags() OVERRIDE;
-
+            virtual property ContextMenuMediaType MediaType { ContextMenuMediaType get(); }
+            virtual property ContextMenuMediaState MediaStateFlags { ContextMenuMediaState get(); }
             virtual property String^ SelectionText { String^ get(); }
             virtual property String^ MisspelledWord { String^ get(); }
-
             virtual property List<String^>^ DictionarySuggestions { List<String^>^ get(); }
-
             virtual property bool IsEditable { bool get(); }
             virtual property bool IsSpellCheckEnabled { bool get(); }
-          
-            // TODO: Implement:
-            //virtual EditStateFlags GetEditStateFlags() OVERRIDE;
+            virtual property ContextMenuEditState EditStateFlags  { ContextMenuEditState get(); }
+            virtual property bool IsCustomMenu { bool get(); }
+            virtual property bool IsPepperMenu { bool get(); }
         };
     }
 }

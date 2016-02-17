@@ -23,8 +23,12 @@ namespace CefSharp
             return _wrappedInfo->GetXCoord();
         }
 
-        //// TODO: Implement:
-        ////virtual TypeFlags GetTypeFlags() OVERRIDE;
+        ContextMenuType CefContextMenuParamsWrapper::TypeFlags::get()
+        {
+            ThrowIfDisposed();
+
+            return (ContextMenuType)_wrappedInfo->GetTypeFlags();
+        }
 
         String^ CefContextMenuParamsWrapper::LinkUrl::get()
         {
@@ -75,9 +79,19 @@ namespace CefSharp
             return StringUtils::ToClr(_wrappedInfo->GetFrameCharset());
         }
 
-        //// TODO: Implement:
-        ////virtual MediaType GetMediaType() OVERRIDE;
-        ////virtual MediaStateFlags GetMediaStateFlags() OVERRIDE;
+        ContextMenuMediaType CefContextMenuParamsWrapper::MediaType::get()
+        {
+            ThrowIfDisposed();
+
+            return (ContextMenuMediaType)_wrappedInfo->GetMediaType();
+        }
+
+        ContextMenuMediaState CefContextMenuParamsWrapper::MediaStateFlags::get()
+        {
+            ThrowIfDisposed();
+
+            return (ContextMenuMediaState)_wrappedInfo->GetMediaStateFlags();
+        }
 
         String^ CefContextMenuParamsWrapper::SelectionText::get()
         {
@@ -117,7 +131,25 @@ namespace CefSharp
             return _wrappedInfo->IsSpellCheckEnabled();
         }
 
-        //// TODO: Implement:
-        ////virtual EditStateFlags GetEditStateFlags() OVERRIDE;
+        ContextMenuEditState CefContextMenuParamsWrapper::EditStateFlags::get()
+        {
+            ThrowIfDisposed();
+
+            return (ContextMenuEditState)_wrappedInfo->GetEditStateFlags();
+        }
+
+        bool CefContextMenuParamsWrapper::IsCustomMenu::get()
+        {
+            ThrowIfDisposed();
+
+            return _wrappedInfo->IsCustomMenu();
+        }
+
+        bool CefContextMenuParamsWrapper::IsPepperMenu::get()
+        {
+            ThrowIfDisposed();
+
+            return _wrappedInfo->IsPepperMenu();
+        }
     }
 }
