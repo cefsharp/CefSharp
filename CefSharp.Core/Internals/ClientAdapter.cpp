@@ -700,7 +700,7 @@ namespace CefSharp
             }            
 
             auto frameWrapper = gcnew CefFrameWrapper(frame);
-            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup(), false);
+            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup(), true);
             auto requestWrapper = gcnew CefRequestWrapper(request);
             auto requestCallback = gcnew CefRequestCallbackWrapper(callback, frameWrapper, requestWrapper);
 
