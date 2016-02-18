@@ -35,7 +35,7 @@ namespace CefSharp
         /// Gets or sets the resource stream.
         /// </summary>
         /// <value>The stream.</value>
-        public Stream Stream { get; private set; }
+        public Stream Stream { get; set; }
 
         /// <summary>
         /// Gets or sets the http status code.
@@ -61,6 +61,14 @@ namespace CefSharp
         public ResourceHandlerType Type { get; private set; }
 
         /// <summary>
+        /// Default Constructor
+        /// </summary>
+        public ResourceHandler() : this(DefaultMimeType, ResourceHandlerType.Stream)
+        {
+            
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ResourceHandler"/> class.
         /// </summary>
         private ResourceHandler(string mimeType, ResourceHandlerType type)
@@ -75,6 +83,91 @@ namespace CefSharp
             MimeType = mimeType;
             Headers = new NameValueCollection();
             Type = type;
+        }
+
+        public virtual bool ProcessRequestAsync(IRequest request, ICallback callback)
+        {
+            callback.Continue();
+
+            return true;
+        }
+
+        public virtual Stream GetResponse(IResponse response, out long responseLength, out string redirectUrl)
+        {
+            redirectUrl = null;
+            responseLength = -1;
+
+            response.MimeType = MimeType;
+            response.StatusCode = StatusCode;
+            response.StatusText = StatusText;
+            response.ResponseHeaders = Headers;
+
+            var memoryStream = Stream as MemoryStream;
+            if (memoryStream != null)
+            {
+                responseLength = memoryStream.Length;
+            }
+
+            return Stream;
+        }
+
+        public virtual void Cancel()
+        {
+
+        }
+
+        bool IResourceHandler.ProcessRequest(IRequest request, ICallback callback)
+        {
+            return ProcessRequestAsync(request, callback);
+        }
+
+        void IResourceHandler.GetResponseHeaders(IResponse response, out long responseLength, out string redirectUrl)
+        {
+            Stream = GetResponse(response, out responseLength, out redirectUrl);
+            
+            if(Stream != null && Stream.CanSeek)
+            {
+                //Reset the stream position to 0
+                Stream.Position = 0;
+            }
+        }
+
+        bool IResourceHandler.ReadResponse(Stream dataOut, out int bytesRead, ICallback callback)
+        {
+            //We don't need the callback, as it's an unmanaged resource we should dispose it (could wrap it in a using statement).
+            callback.Dispose();
+
+            if (Stream == null)
+            {
+                bytesRead = 0;
+
+                return false;
+            }
+
+            //Data out represents an underlying buffer (typically 32kb in size).
+            var buffer = new byte[dataOut.Length];
+            bytesRead = Stream.Read(buffer, 0, buffer.Length);
+
+            dataOut.Write(buffer, 0, buffer.Length);
+
+            return bytesRead > 0;
+        }
+
+        bool IResourceHandler.CanGetCookie(Cookie cookie)
+        {
+            return true;
+        }
+
+        bool IResourceHandler.CanSetCookie(Cookie cookie)
+        {
+            return true;
+        }
+
+        void IResourceHandler.Cancel()
+        {
+            Cancel();
+
+            Stream = null;
         }
 
         /// <summary>
@@ -735,32 +828,6 @@ namespace CefSharp
             }
             string mime;
             return Mappings.TryGetValue(extension, out mime) ? mime : "application/octet-stream";
-        }
-
-        bool IResourceHandler.ProcessRequestAsync(IRequest request, ICallback callback)
-        {
-            callback.Continue();
-
-            return true;
-        }
-
-        Stream IResourceHandler.GetResponse(IResponse response, out long responseLength, out string redirectUrl)
-        {
-            redirectUrl = null;
-            responseLength = -1;
-
-            response.MimeType = MimeType;
-            response.StatusCode = StatusCode;
-            response.StatusText = StatusText;
-            response.ResponseHeaders = Headers;
-
-            var memoryStream = Stream as MemoryStream;
-            if (memoryStream != null)
-            {
-                responseLength = memoryStream.Length;
-            }
-
-            return Stream;
         }
     }
 }

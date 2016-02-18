@@ -689,17 +689,13 @@ namespace CefSharp
             }
 
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup(), false);
-            auto frameWrapper = gcnew CefFrameWrapper(frame);
-            auto requestWrapper = gcnew CefRequestWrapper(request);
+            CefFrameWrapper frameWrapper(frame);
+            CefRequestWrapper requestWrapper(request);
 
-            auto handler = factory->GetResourceHandler(_browserControl, browserWrapper, frameWrapper, requestWrapper);
+            auto handler = factory->GetResourceHandler(_browserControl, browserWrapper, %frameWrapper, %requestWrapper);
 
             if (handler == nullptr)
             {
-                // Clean up our disposables if our factory doesn't want
-                // this request.
-                delete frameWrapper;
-                delete requestWrapper;
                 return NULL;
             }
 
@@ -712,10 +708,7 @@ namespace CefSharp
                 }
             }
 
-            // No need to pass browserWrapper for disposable lifetime management here
-            // because GetBrowserWrapper returned IBrowser^s are already properly
-            // managed.
-            return new ResourceHandlerWrapper(handler, nullptr, frameWrapper, requestWrapper);
+            return new ResourceHandlerWrapper(handler);
         }
 
         cef_return_value_t ClientAdapter::OnBeforeResourceLoad(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefRequestCallback> callback)

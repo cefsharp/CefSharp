@@ -18,16 +18,9 @@ namespace CefSharp
     bool ResourceHandlerWrapper::ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefCallback> callback)
     {
         auto callbackWrapper = gcnew CefCallbackWrapper(callback);
+        CefRequestWrapper requestWrapper(request);
 
-        // If we already have a non-null _request
-        // dispose it via delete before using the parameter for the rest
-        // of this object's lifetime. This ought to be sensible to do
-        // because the contained data ought to be nearly identical.
-        delete _request;
-
-        _request = gcnew CefRequestWrapper(request);
-
-        return _handler->ProcessRequestAsync(_request, callbackWrapper);
+        return _handler->ProcessRequest(%requestWrapper, callbackWrapper);
     }
 
     void ResourceHandlerWrapper::GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl)
@@ -36,77 +29,89 @@ namespace CefSharp
 
         CefResponseWrapper responseWrapper(response);
 
-        _stream = _handler->GetResponse(%responseWrapper, response_length, newRedirectUrl);
+        _handler->GetResponseHeaders(%responseWrapper, response_length, newRedirectUrl);
 
         redirectUrl = StringUtils::ToNative(newRedirectUrl);
     }
 
-    bool ResourceHandlerWrapper::ReadResponse(void* data_out, int bytes_to_read, int& bytes_read, CefRefPtr<CefCallback> callback)
+    bool ResourceHandlerWrapper::ReadResponse(void* dataOut, int bytesToRead, int& bytesRead, CefRefPtr<CefCallback> callback)
     {
-        bool hasData = false;
+        UnmanagedMemoryStream writeStream((Byte*)dataOut, (Int64)bytesToRead, (Int64)bytesToRead, FileAccess::Write);
+        auto callbackWrapper = gcnew CefCallbackWrapper(callback);
 
-        if (static_cast<Stream^>(_stream) == nullptr)
-        {
-            bytes_read = 0;
-        }
-        else
-        {
-            auto buffer = gcnew cli::array<Byte>(bytes_to_read);
-            bytes_read = _stream->Read(buffer, 0, bytes_to_read);
-            pin_ptr<Byte> src = &buffer[0];
-            memcpy(data_out, static_cast<void*>(src), bytes_read);
-            // must return false when the response is complete
-            hasData = bytes_read > 0;
-            //TODO: Fix this
-            /*if (!hasData && _closeStream)
-            {
-                _stream->Close();
-            }*/
-        }
-
-        return hasData;
+        return _handler->ReadResponse(%writeStream, bytesRead, callbackWrapper);
     }
 
-    bool ResourceHandlerWrapper::CanGetCookie(const CefCookie& cookie)
+    bool ResourceHandlerWrapper::CanGetCookie(const CefCookie& cefCookie)
     {
+        auto cookie = GetCookie(cefCookie);
+
         //Default value is true
-        return true;
+        return _handler->CanGetCookie(cookie);
     }
 
-    bool ResourceHandlerWrapper::CanSetCookie(const CefCookie& cookie)
+    bool ResourceHandlerWrapper::CanSetCookie(const CefCookie& cefCookie)
     {
+        auto cookie = GetCookie(cefCookie);
+
         //Default value is true
-        return true;
+        return _handler->CanSetCookie(cookie);
     }
 
     void ResourceHandlerWrapper::Cancel()
     {
-        //TODO: Fix this
-        /*if (static_cast<Stream^>(_stream) != nullptr && _closeStream)
-        {
-            _stream->Close();
-        }*/
-        _stream = nullptr;
-
-        // Do not dispose here; since CEF 2537 the ResourceHandlerWrapper pointer is
-        // referenced after Cancel and disposal would cause an access violation.
-        //delete this;
+        _handler->Cancel();
     }
 
-    int64 ResourceHandlerWrapper::SizeFromStream()
+    Cookie^ ResourceHandlerWrapper::GetCookie(const CefCookie& cefCookie)
     {
-        if (static_cast<Stream^>(_stream) == nullptr)
+        auto cookie = gcnew Cookie();
+        String^ cookieName = StringUtils::ToClr(cefCookie.name);
+
+        if (!String::IsNullOrEmpty(cookieName))
         {
-            return 0;
+            cookie->Name = StringUtils::ToClr(cefCookie.name);
+            cookie->Value = StringUtils::ToClr(cefCookie.value);
+            cookie->Domain = StringUtils::ToClr(cefCookie.domain);
+            cookie->Path = StringUtils::ToClr(cefCookie.path);
+            cookie->Secure = cefCookie.secure == 1;
+            cookie->HttpOnly = cefCookie.httponly == 1;
+
+            if (cefCookie.has_expires)
+            {
+                cookie->Expires = DateTime(
+                    cefCookie.expires.year,
+                    cefCookie.expires.month,
+                    cefCookie.expires.day_of_month,
+                    cefCookie.expires.hour,
+                    cefCookie.expires.minute,
+                    cefCookie.expires.second,
+                    cefCookie.expires.millisecond
+                    );
+            }
+
+            //TODO: There is a method in TypeUtils that's in BrowserSubProcess that convers CefTime, need to make it accessible.
+            cookie->Creation = DateTime(
+                cefCookie.creation.year,
+                cefCookie.creation.month,
+                cefCookie.creation.day_of_month,
+                cefCookie.creation.hour,
+                cefCookie.creation.minute,
+                cefCookie.creation.second,
+                cefCookie.creation.millisecond
+                );
+
+            cookie->LastAccess = DateTime(
+                cefCookie.last_access.year,
+                cefCookie.last_access.month,
+                cefCookie.last_access.day_of_month,
+                cefCookie.last_access.hour,
+                cefCookie.last_access.minute,
+                cefCookie.last_access.second,
+                cefCookie.last_access.millisecond
+                );
         }
 
-        if (_stream->CanSeek)
-        {
-            _stream->Seek(0, System::IO::SeekOrigin::End);
-            int64 length = static_cast<int>(_stream->Position);
-            _stream->Seek(0, System::IO::SeekOrigin::Begin);
-            return length;
-        }
-        return -1;
+        return cookie;
     }
 }

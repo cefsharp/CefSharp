@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace CefSharp.Example
 {
-    public class FlashResourceHandler : IResourceHandler
+    public class FlashResourceHandler : ResourceHandler
     {
         private MemoryStream stream;
         private string mime;
 
-        bool IResourceHandler.ProcessRequestAsync(IRequest request, ICallback callback)
+        public override bool ProcessRequestAsync(IRequest request, ICallback callback)
         {
             Task.Run(() =>
             {
@@ -38,7 +38,7 @@ namespace CefSharp.Example
             return true;
         }
 
-        Stream IResourceHandler.GetResponse(IResponse response, out long responseLength, out string redirectUrl)
+        public override Stream GetResponse(IResponse response, out long responseLength, out string redirectUrl)
         {
             responseLength = stream.Length;
             redirectUrl = null;
