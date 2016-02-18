@@ -92,6 +92,7 @@
     <Compile Include="IRequestContext.cs" />
     <Compile Include="IResponseFilter.cs" />
     <Compile Include="IRunContextMenuCallback.cs" />
+    <Compile Include="MenuItemType.cs" />
     <Compile Include="PdfPrintSettings.cs" />
     <Compile Include="ICookieManager.cs" />
     <Compile Include="ILoadHandler.cs" />
