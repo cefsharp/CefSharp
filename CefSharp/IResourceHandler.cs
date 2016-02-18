@@ -10,9 +10,11 @@ namespace CefSharp
     /// Class used to implement a custom resource handler. The methods of this class will always be called on the CEF IO thread.
     /// Blocking the CEF IO thread will adversely affect browser performance. We suggest you execute your code in a Task (or similar).
     /// To implement async handling, spawn a new Task (or similar), keep a reference to the callback. When you have a 
-    /// fully populated stream, execute the callback. Once the callback Executes, GetResponse will be called where you
-    /// can modify the response including headers, or even redirect to a new Url. Typically you would set the responseLength
-    /// and return your fully populated Stream
+    /// fully populated stream, execute the callback. Once the callback Executes, GetResponseHeaders will be called where you
+    /// can modify the response including headers, or even redirect to a new Url. Set your responseLength and headers
+    /// Populate the dataOut stream in ReadResponse. For those looking for a sample implementation or upgrading from 
+    /// a previous version <see cref="ResourceHandler"/>. For those upgrading, inherit from ResourceHandler instead of IResourceHandler
+    /// add the override keywoard to existing methods e.g. ProcessRequestAsync.
     /// </summary>
     public interface IResourceHandler
     {
@@ -22,8 +24,8 @@ namespace CefSharp
         /// <param name="request">The request object.</param>
         /// <param name="callback">The callback used to Continue or Cancel the request (async).</param>
         /// <returns>To handle the request return true and call
-        /// ICallback.Continue() once the response header information is available
-        /// (ICallback.Continue() can also be called from inside this method if
+        /// <see cref="ICallback.Continue"/> once the response header information is available
+        /// <see cref="ICallback.Continue"/> can also be called from inside this method if
         /// header information is available immediately).
         /// To cancel the request return false.</returns>
         bool ProcessRequest(IRequest request, ICallback callback);
@@ -51,6 +53,7 @@ namespace CefSharp
         /// <param name="callback">The callback used to Continue or Cancel the request (async).</param>
         /// <returns>If data is available immediately copy to dataOut, set bytesRead to the number of bytes copied,
         /// and return true.To indicate response completion return false.</returns>
+        /// <remarks>Depending on this size of your response this method may be called multiple times</remarks>
         bool ReadResponse(Stream dataOut, out int bytesRead, ICallback callback);
 
         /// <summary>
