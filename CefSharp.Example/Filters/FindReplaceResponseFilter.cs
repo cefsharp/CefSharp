@@ -52,7 +52,7 @@ namespace CefSharp.Example.Filters
         FilterStatus IResponseFilter.Filter(Stream dataIn, out long dataInRead, Stream dataOut, out long dataOutWritten)
         {
             // All data will be read.
-            dataInRead = dataIn.Length;
+            dataInRead = dataIn == null ? 0 : dataIn.Length;
             dataOutWritten = 0;
 
             // Write overflow then reset
@@ -65,7 +65,7 @@ namespace CefSharp.Example.Filters
             // Evaluate each character in the input buffer. Track how many characters in
             // a row match findString. If findString is completely matched then write
             // replacement. Otherwise, write the input characters as-is.
-            for (var i = 0; i < dataIn.Length; ++i)
+            for (var i = 0; i < dataInRead; ++i)
             {
                 var readByte = (byte)dataIn.ReadByte();
                 var charForComparison = Convert.ToChar(readByte);
