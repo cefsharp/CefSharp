@@ -17,22 +17,63 @@ namespace CefSharp
     public interface IResourceHandler
     {
         /// <summary>
-        /// Processes request asynchronously.
+        /// Begin processing the request.  
         /// </summary>
         /// <param name="request">The request object.</param>
         /// <param name="callback">The callback used to Continue or Cancel the request (async).</param>
-        /// <returns>true if the request is handled, false otherwise.</returns>
-        bool ProcessRequestAsync(IRequest request, ICallback callback);
+        /// <returns>To handle the request return true and call
+        /// ICallback.Continue() once the response header information is available
+        /// (ICallback.Continue() can also be called from inside this method if
+        /// header information is available immediately).
+        /// To cancel the request return false.</returns>
+        bool ProcessRequest(IRequest request, ICallback callback);
 
         /// <summary>
-        /// Populate the response stream, response length. When this method is called
-        /// the response should be fully populated with data
-        /// It is possible to redirect to another url at this point in time
+        /// Retrieve response header information. If the response length is not known
+        /// set responseLength to -1 and ReadResponse() will be called until it
+        /// returns false. If the response length is known set responseLength
+        /// to a positive value and ReadResponse() will be called until it returns
+        /// false or the specified number of bytes have been read.  
         /// </summary>
-        /// <param name="response">The response object used to set Headers, StatusCode, etc</param>
-        /// <param name="responseLength">length of the response</param>
-        /// <param name="redirectUrl">If set the request will be redirect to specified Url</param>
-        /// <returns>The response stream</returns>
-        Stream GetResponse(IResponse response, out long responseLength, out string redirectUrl);
+        /// <param name="response">Use the response object to set the mime type, http status code and other optional header values.</param>
+        /// <param name="responseLength">If the response length is not known set responseLength to -1</param>
+        /// <param name="redirectUrl">To redirect the request to a new URL set redirectUrl to the new Url.</param>
+        void GetResponseHeaders(IResponse response, out long responseLength, out string redirectUrl);
+
+        /// <summary>
+        /// Read response data. If data is available immediately copy to
+        /// dataOut, set bytesRead to the number of bytes copied, and return true.
+        /// To read the data at a later time set bytesRead to 0, return true and call ICallback.Continue() when the
+        /// data is available. To indicate response completion return false.
+        /// </summary>
+        /// <param name="dataOut">Stream to write to</param>
+        /// <param name="bytesRead">Number of bytes copied to the stream</param>
+        /// <param name="callback">The callback used to Continue or Cancel the request (async).</param>
+        /// <returns>If data is available immediately copy to dataOut, set bytesRead to the number of bytes copied,
+        /// and return true.To indicate response completion return false.</returns>
+        bool ReadResponse(Stream dataOut, out int bytesRead, ICallback callback);
+
+        /// <summary>
+        /// Return true if the specified cookie can be sent with the request or false
+        /// otherwise. If false is returned for any cookie then no cookies will be sent
+        /// with the request.
+        /// </summary>
+        /// <param name="cookie">cookie</param>
+        /// <returns>Return true if the specified cookie can be sent with the request or false
+        /// otherwise. If false is returned for any cookie then no cookies will be sent
+        /// with the request.</returns>
+        bool CanGetCookie(Cookie cookie);
+
+        /// <summary>
+        /// Return true if the specified cookie returned with the response can be set or false otherwise.
+        /// </summary>
+        /// <param name="cookie">cookie</param>
+        /// <returns>Return true if the specified cookie returned with the response can be set or false otherwise.</returns>
+        bool CanSetCookie(Cookie cookie);
+
+        /// <summary>
+        /// Request processing has been canceled.
+        /// </summary>
+        void Cancel();
     }
 }
