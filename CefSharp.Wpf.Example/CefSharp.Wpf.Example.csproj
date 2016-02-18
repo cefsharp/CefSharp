@@ -104,6 +104,9 @@
     <Compile Include="Handlers\MenuHandler.cs" />
     <Compile Include="Handlers\LifespanHandler.cs" />
     <Compile Include="Handlers\PluginHandler.cs" />
+    <Compile Include="SimpleMainWindow.xaml.cs">
+      <DependentUpon>SimpleMainWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SpawnBrowsersWindow.xaml.cs">
       <DependentUpon>SpawnBrowsersWindow.xaml</DependentUpon>
     </Compile>
@@ -123,6 +126,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="SimpleMainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SpawnBrowsersWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
