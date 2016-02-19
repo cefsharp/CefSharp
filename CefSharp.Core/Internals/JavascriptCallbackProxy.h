@@ -30,7 +30,7 @@ namespace CefSharp
             void DisposedGuard();
         public:
             JavascriptCallbackProxy(JavascriptCallback^ callback, PendingTaskRepository<JavascriptResponse^>^ pendingTasks, WeakReference^ browserAdapter)
-                :_callback(callback), _pendingTasks(pendingTasks)
+                :_callback(callback), _pendingTasks(pendingTasks), _disposed(false)
             {
                 _browserAdapter = browserAdapter;
             }

@@ -23,6 +23,7 @@ namespace CefSharp
         {
             _ownerId = ownerId;
             _browserProcess = browserProcess;
+            _javascriptObjectWrapper = nullptr;
         }
 
         ~JavascriptPropertyWrapper()

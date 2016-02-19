@@ -21,7 +21,7 @@ namespace CefSharp
 
         internal:
             CefSharpBrowserWrapper::CefSharpBrowserWrapper(CefRefPtr<CefBrowser> &browser)
-                : _browser(browser)
+                : _browser(browser), _browserHost(nullptr)
             {
             }
 

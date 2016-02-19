@@ -20,7 +20,7 @@ namespace CefSharp
 
         internal:
             CefRequestCallbackWrapper(CefRefPtr<CefRequestCallback> &callback)
-                : _callback(callback)
+                : _callback(callback), _frame(nullptr), _request(nullptr)
             {
             }
 

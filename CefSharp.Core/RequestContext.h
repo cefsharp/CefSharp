@@ -39,6 +39,7 @@ namespace CefSharp
         RequestContext(CefRefPtr<CefRequestContext>& context)
         {
             _requestContext = context;
+            _settings = nullptr;
         }
 
     public:

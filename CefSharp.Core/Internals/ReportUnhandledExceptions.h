@@ -27,7 +27,7 @@ namespace CefSharp
                 // with the exception.
                 ThreadPool::UnsafeQueueUserWorkItem(
                     gcnew WaitCallback(&ReportUnhandledExceptions::ThrowUnhandledException),
-                    static_cast<Object^>(gcnew Tuple<String^, Exception^>(str, exception)));
+                    gcnew Tuple<String^, Exception^>(str, exception));
             }
         private:
             // Throw the exception, this method executes on the thread pool
