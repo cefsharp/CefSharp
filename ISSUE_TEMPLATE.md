@@ -1,7 +1,9 @@
-Issues are for bug reports only.
+Issues are for bug reports only. A simple 'Feature x doesn't appear to be working` is not a bug report!
 
 If you want to ask a question, first read our FAQ and search this Github repository using the search box at the top.
-Once you have done research and not found an answer, visit our Gitter room instead: https://gitter.im/cefsharp/CefSharp
+Once you have done research and not found an answer, start by asking your question in our Gitter room: https://gitter.im/cefsharp/CefSharp
+
+**Note: CefSharp is just a wrapper around the Chromium Embedded Project, it's worth searching http://magpcss.org/ceforum/index.php if your problem involves a low level Chromium error message**
 
 To continue submitting a bug report, delete everything above, and then fill in the details below.
 
