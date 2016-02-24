@@ -192,19 +192,7 @@ namespace CefSharp.WinForms.Example
             }
         }
 
-        public void ExecuteScript(string script)
-        {
-            Browser.ExecuteScriptAsync(script);
-        }
-
-        public object EvaluateScript(string script)
-        {
-            var task = Browser.EvaluateScriptAsync(script);
-            task.Wait();
-            return task.Result;
-        }
-
-        public void DisplayOutput(string output)
+        private void DisplayOutput(string output)
         {
             this.InvokeOnUiThreadIfRequired(() => outputLabel.Text = output);
         }
