@@ -33,6 +33,10 @@ namespace CefSharp
         /// </summary>
         string ReferrerUrl { get; }
 
+        /// <summary>
+        /// Get the resource type for this request.
+        /// </summary>
+        ResourceType ResourceType { get; }
   
         /// <summary>
         /// Get the referrer policy.
