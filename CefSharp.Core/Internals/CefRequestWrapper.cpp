@@ -65,6 +65,13 @@ namespace CefSharp
             return StringUtils::ToClr(_wrappedRequest->GetReferrerURL());
         }
 
+        CefSharp::ResourceType CefRequestWrapper::ResourceType::get()
+        {
+            ThrowIfDisposed();
+
+            return (CefSharp::ResourceType)_wrappedRequest->GetResourceType();
+        }
+
         CefSharp::ReferrerPolicy CefRequestWrapper::ReferrerPolicy::get()
         {
             ThrowIfDisposed();

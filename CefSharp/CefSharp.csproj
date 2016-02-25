@@ -178,6 +178,7 @@
     <Compile Include="ReferrerPolicy.cs" />
     <Compile Include="ResourceHandler.cs" />
     <Compile Include="ResourceHandlerType.cs" />
+    <Compile Include="ResourceType.cs" />
     <Compile Include="ResponseAction.cs" />
     <Compile Include="Internals\ScreenInfo.cs" />
     <Compile Include="TaskCompletionHandler.cs" />
