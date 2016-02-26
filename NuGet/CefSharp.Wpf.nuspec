@@ -19,15 +19,17 @@
     <!-- Cannot put these inside lib\net40 etc, since there are both x86 and x64 versions which we must distinguish between. We
          solve this using a .props file instead. -->
     <file src="..\CefSharp.Wpf\bin\x86\Release\CefSharp.Wpf.dll" target="CefSharp\x86" />
-    <file src="..\CefSharp.Wpf\bin\x64\Release\CefSharp.Wpf.dll" target="CefSharp\x64" />
+    <file src="..\CefSharp.Wpf\bin\x64\Release\CefSharp.Wpf.xml" target="CefSharp\x86" />
+    <file src="..\CefSharp.Wpf\bin\x64\Release\CefSharp.Wpf.pdb" target="CefSharp\x86" />
 
     <file src="..\CefSharp.Wpf\bin\x64\Release\CefSharp.Wpf.xml" target="CefSharp\x64" />
-    <file src="..\CefSharp.Wpf\bin\x64\Release\CefSharp.Wpf.xml" target="CefSharp\x86" />
-    <!-- Long shot, to see if it's here NuDoq.org looks for it, trial and error at it's best -->
-    <file src="..\CefSharp.Wpf\bin\x64\Release\CefSharp.Wpf.xml" target="lib" />
+    <file src="..\CefSharp.Wpf\bin\x64\Release\CefSharp.Wpf.dll" target="CefSharp\x64" />
+    <file src="..\CefSharp.Wpf\bin\x64\Release\CefSharp.Wpf.pdb" target="CefSharp\x64" />
 
     <file src="CefSharp.Wpf.props" target="build" />
 
     <file src="Readme.txt" target="" />
+
+    <file src="..\CefSharp.Wpf\**\*.cs" target="src\CefSharp.Wpf" />
   </files>
 </package>
