@@ -22,5 +22,6 @@ deploy:
   server: https://www.myget.org/F/cefsharp/
   api_key:
     secure: T3yoLSioRwXa7byUvu17t4I88RTQTvICh2j+KplLb1YVimd1IYy2m2akGqgOMJhY
-  skip_symbols: true
+  skip_symbols: false
+  symbol_server: https://www.myget.org/F/cefsharp
   artifact: nupkgfiles
