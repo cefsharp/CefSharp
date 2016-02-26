@@ -19,7 +19,7 @@ artifacts:
 # Publish to myget.org feed
 deploy:
   provider: NuGet
-  server: https://www.myget.org/F/cefsharp/
+  server: https://www.myget.org/F/cefsharp/api/v2/package
   api_key:
     secure: uftPtLACVpFbbbFBeFK6XD5fGkv33c+Xa3PWkyWgrod6FNl4AYGOtxScn+gsuuxD
   skip_symbols: false
