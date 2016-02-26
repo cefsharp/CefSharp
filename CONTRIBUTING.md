@@ -3,7 +3,7 @@ Thanks for your interest in contributing to the project! Please follow these sim
 
 ### General
 - Please use [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cefsharp/CefSharp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) as your first point of call for basic/simple questions.
-- When creating an issue please [click this link](https://github.com/CefSharp/CefSharp/issues/new?title=Bug%3A&body=%23%23%23%23+Issue+Summary%0D%0AWhat+is+the+expected+output%3F+What+do+you+see+instead%3F%0D%0A%0D%0A%23%23%23%23+Steps+to+Reproduce%0D%0A1.+This+is+the+first+step%0D%0A%0D%0AThis+is+a+bug+because...%0D%0ACode+sample+if+relevant%0D%0ADoes+this+problem+also+occur+in+the+%60Cef%60+TestApp+from+http%3A%2F%2Fcefbuilds.com%3F%0D%0A%0D%0A%23%23%23%23+Technical+details%0D%0A%2A+CefSharp+Version%3A+nuget+-+master+-+latest+commit%3A++INSERT+COMMIT+REF%0D%0A%2A+Operating+System%3A+%0D%0A%2A+x86%2Fx64%3A+%0D%0A%2A+WinForms%2FWPF%2FOffScreen%3A+) to use our `Issue Template`
+- When creating an issue please use the issue template provided.
 - **Please read the full contents of [the FAQ](https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions) before submitting an issue**. Also searching the `GitHub` project is a **must**. It's quite likely your question has already been answered before. If something is unclear in the FAQ, of course feel free to ask; the idea is just to reduce the level of "noise" we have to go through, reading the same questions over and over again.
 - Please make sure to **test out the current version** of `CefSharp` to see whether the problem you are encountering still exists.
 - Don't cross-post: if you create an issue, and all the information is contained there, that's enough. There's no reason to also post it to Stackoverflow; it just creates "line noise". The project maintainers are very busy people like you and me, and things will sometimes take a few weeks (or in worst case, more) to answer. If you are in a rush - do your very best to investigate the problem thoroughly; if possible, fix the bug yourself and submit a pull request.
@@ -26,7 +26,7 @@ To determine which version of `CEF` your build is running, open `chrome://versio
 
 ### What should I include when creating an `Issue`?
 
-Use the **Bug Report template** below or [click this link](https://github.com/CefSharp/CefSharp/issues/new?title=Bug%3A&body=%23%23%23%23+Issue+Summary%0D%0AWhat+is+the+expected+output%3F+What+do+you+see+instead%3F%0D%0A%0D%0A%23%23%23%23+Steps+to+Reproduce%0D%0A1.+This+is+the+first+step%0D%0A%0D%0AThis+is+a+bug+because...%0D%0ACode+sample+if+relevant%0D%0ADoes+this+problem+also+occur+in+the+%60Cef%60+TestApp+from+http%3A%2F%2Fcefbuilds.com%3F%0D%0A%0D%0A%23%23%23%23+Technical+details%0D%0A%2A+CefSharp+Version%3A+nuget+-+master+-+latest+commit%3A++INSERT+COMMIT+REF%0D%0A%2A+Operating+System%3A+%0D%0A%2A+x86%2Fx64%3A+%0D%0A%2A+WinForms%2FWPF%2FOffScreen%3A+) to start creating a bug report with the template automatically.
+When creating an issue please use the provided by report template (the field will be pre-populated).
 
 A bug is a _demonstrable problem_ that is caused by the code in the repository. Ideally each issue is a useful resource for references purposes (Don't take offence if someone edits your description).
 
