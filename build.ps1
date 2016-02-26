@@ -3,9 +3,9 @@ param(
     [Parameter(Position = 0)] 
     [string] $Target = "vs2013",
     [Parameter(Position = 1)]
-    [string] $Version = "47.0.0",
+    [string] $Version = "49.0.0",
     [Parameter(Position = 2)]
-    [string] $AssemblyVersion = "47.0.0",
+    [string] $AssemblyVersion = "49.0.0",
     [Parameter(Position = 3)]
     [string] $RedistVersion = "3.2526.1362"
 )
