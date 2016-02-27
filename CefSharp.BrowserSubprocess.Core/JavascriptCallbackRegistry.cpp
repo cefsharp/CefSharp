@@ -1,4 +1,4 @@
-// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+// Copyright © 2010-2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -11,7 +11,7 @@ namespace CefSharp
 {
     namespace Internals
     {
-        JavascriptCallback^ JavascriptCallbackRegistry::Register(CefRefPtr<CefV8Context> context, CefRefPtr<CefV8Value> value)
+        JavascriptCallback^ JavascriptCallbackRegistry::Register(const CefRefPtr<CefV8Context>& context, const CefRefPtr<CefV8Value>& value)
         {
             Int64 newId = Interlocked::Increment(_lastId);
             JavascriptCallbackWrapper^ wrapper = gcnew JavascriptCallbackWrapper(value, context);
@@ -20,19 +20,15 @@ namespace CefSharp
             auto result = gcnew JavascriptCallback();
             result->Id = newId;
             result->BrowserId = _browserId;
+            result->FrameId = context->GetFrame()->GetIdentifier();
             return result;
         }
 
-        JavascriptResponse^ JavascriptCallbackRegistry::Execute(Int64 id, array<Object^>^ params)
+        JavascriptCallbackWrapper^ JavascriptCallbackRegistry::FindWrapper(int64 id)
         {
             JavascriptCallbackWrapper^ callback;
-
-            if (_callbacks->TryGetValue(id, callback))
-            {
-                return callback->Execute(params);
-            }
-
-            return nullptr;
+            _callbacks->TryGetValue(id, callback);
+            return callback;
         }
 
         void JavascriptCallbackRegistry::Deregister(Int64 id)
@@ -44,13 +40,5 @@ namespace CefSharp
             }
         }
 
-        JavascriptCallbackRegistry::~JavascriptCallbackRegistry()
-        {
-            for each (JavascriptCallbackWrapper^ callback in _callbacks->Values)
-            {
-                delete callback;
-            }
-            _callbacks->Clear();
-        }
     }
 }

@@ -1,25 +1,29 @@
-// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+// Copyright © 2010-2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 #pragma once
 
 #include "Stdafx.h"
-#include "MCefRefPtr.h"
+
+#include "include/cef_drag_data.h"
+
+#include "CefWrapper.h"
 
 using namespace std;
-using namespace System;
-using namespace CefSharp;
+using namespace System::IO;
 
 namespace CefSharp
 {
     namespace Internals
     {
-        public ref class CefDragDataWrapper : public IDragData
+        public ref class CefDragDataWrapper : public IDragData, public CefWrapper
         {
+        private:
             MCefRefPtr<CefDragData> _wrappedDragData;
+
         internal:
-            CefDragDataWrapper(CefRefPtr<CefDragData> dragData) :
+            CefDragDataWrapper(CefRefPtr<CefDragData> &dragData) :
                 _wrappedDragData(dragData)
             {
                 IsReadOnly = dragData->IsReadOnly();
@@ -29,9 +33,16 @@ namespace CefSharp
                 IsLink = dragData->IsLink();
             }
 
-            ~CefDragDataWrapper()
+            !CefDragDataWrapper()
             {
                 _wrappedDragData = nullptr;
+            }
+
+            ~CefDragDataWrapper()
+            {
+                this->!CefDragDataWrapper();
+
+                _disposed = true;
             }
 
         public:
@@ -49,14 +60,6 @@ namespace CefSharp
             {
                 CefRefPtr<CefDragData> cefDragData = CefDragData::Create();
                 return gcnew CefDragDataWrapper(cefDragData);
-            }
-
-            virtual property CefRefPtr<CefDragData>* InternalDragData
-            {
-                CefRefPtr<CefDragData>* get() 
-                { 
-                    return new CefRefPtr<CefDragData>(_wrappedDragData.get()); 
-                }
             }
 
             //TODO: Vector is a pointer, so can potentially be updated (items may be possibly removed)
@@ -157,6 +160,15 @@ namespace CefSharp
             {
                 //_wrappedDragData->GetFileContents()
                 throw gcnew NotImplementedException("Need to implement a Wrapper around CefStreamWriter before this method can be implemented.");
+            }
+
+            operator CefRefPtr<CefDragData>()
+            {
+                if (this == nullptr)
+                {
+                    return NULL;
+                }
+                return _wrappedDragData.get();
             }
         };
     }

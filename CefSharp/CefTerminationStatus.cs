@@ -1,24 +1,27 @@
-﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+﻿// Copyright © 2010-2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Process termination status values. 
+    /// </summary>
     public enum CefTerminationStatus
     {
-        ///
-        // Non-zero exit status.
-        ///
+        /// <summary>
+        /// Non-zero exit status.
+        /// </summary>
         AbnormalTermination = 0,
 
-        ///
-        // SIGKILL or task manager kill.
-        ///
+        /// <summary>
+        /// SIGKILL or task manager kill.
+        /// </summary>
         ProcessWasKilled,
 
-        ///
-        // Segmentation fault.
-        ///
+        /// <summary>
+        /// Segmentation fault.
+        /// </summary>
         ProcessCrashed
     }
 }

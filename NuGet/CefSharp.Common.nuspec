@@ -10,33 +10,52 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>The CefSharp Chromium-based browser component ('Core' and common 'Element' components, needed by both WPF and WinForms).</description>
     <tags>chrome browser</tags>
-    <copyright>Copyright © 2010-2014 The CefSharp Authors</copyright>
+    <copyright>Copyright © 2010-2016 The CefSharp Authors</copyright>
     <dependencies>
       <dependency id="cef.redist.x86" version="[$RedistVersion$]" />
       <dependency id="cef.redist.x64" version="[$RedistVersion$]" />
     </dependencies>
   </metadata>
   <files>
-    <!-- Common CefSharp stuff (shared between both WPF and WinForms) -->
-    <file src="..\Win32\Release\CefSharp.Core.dll" target="CefSharp\x86"/>
-    <file src="..\x64\Release\CefSharp.Core.dll" target="CefSharp\x64"/>
-    <file src="..\CefSharp\bin\x86\Release\CefSharp.dll" target="CefSharp\x86"/>
-    <file src="..\CefSharp\bin\x64\Release\CefSharp.dll" target="CefSharp\x64"/>
-    <file src="..\CefSharp.BrowserSubprocess\bin\x86\Release\CefSharp.BrowserSubprocess.Core.dll" target="CefSharp\x86"/>
-    <file src="..\CefSharp.BrowserSubprocess\bin\x86\Release\CefSharp.BrowserSubprocess.exe" target="CefSharp\x86"/>
-    <file src="..\CefSharp.BrowserSubprocess\bin\x64\Release\CefSharp.BrowserSubprocess.Core.dll" target="CefSharp\x64"/>
-    <file src="..\CefSharp.BrowserSubprocess\bin\x64\Release\CefSharp.BrowserSubprocess.exe" target="CefSharp\x64"/>
+    <!-- Cannot put these inside lib\net40 etc, since there are both x86 and x64 versions which we must distinguish between. We
+         solve this using a .props file instead. -->
 
+    <!-- Common CefSharp stuff (shared between both WPF, Offscreen and WinForms) -->
+    <file src="..\Win32\Release\CefSharp.Core.dll" target="CefSharp\x86"/>
     <file src="..\Win32\Release\CefSharp.Core.xml" target="CefSharp\x86"/>
+	<file src="..\Win32\Release\CefSharp.Core.pdb" target="CefSharp\x86"/>
+	
+    <file src="..\x64\Release\CefSharp.Core.dll" target="CefSharp\x64"/>
     <file src="..\x64\Release\CefSharp.Core.xml" target="CefSharp\x64"/>
-    <file src="..\x64\Release\CefSharp.Core.xml" target="lib"/>
-    <file src="..\CefSharp\bin\x64\Release\CefSharp.xml" target="CefSharp\x64"/>
+	<file src="..\x64\Release\CefSharp.Core.pdb" target="CefSharp\x64"/>
+  
+    <file src="..\CefSharp\bin\x86\Release\CefSharp.dll" target="CefSharp\x86"/>
     <file src="..\CefSharp\bin\x64\Release\CefSharp.xml" target="CefSharp\x86"/>
-    <!-- Long shot, to see if it's here NuDoq.org looks for it, trial and error at it's best -->
-    <file src="..\CefSharp\bin\x64\Release\CefSharp.xml" target="lib" />
+	<file src="..\CefSharp\bin\x64\Release\CefSharp.pdb" target="CefSharp\x86"/>
+	
+    <file src="..\CefSharp\bin\x64\Release\CefSharp.dll" target="CefSharp\x64"/>
+    <file src="..\CefSharp\bin\x64\Release\CefSharp.xml" target="CefSharp\x64"/>
+	<file src="..\CefSharp\bin\x64\Release\CefSharp.pdb" target="CefSharp\x64"/>
+  
+    <file src="..\CefSharp.BrowserSubprocess\bin\x86\Release\CefSharp.BrowserSubprocess.Core.dll" target="CefSharp\x86"/>
+    <file src="..\CefSharp.BrowserSubprocess\bin\x86\Release\CefSharp.BrowserSubprocess.Core.pdb" target="CefSharp\x86"/>
+    <file src="..\CefSharp.BrowserSubprocess\bin\x86\Release\CefSharp.BrowserSubprocess.exe" target="CefSharp\x86"/>
+    <file src="..\CefSharp.BrowserSubprocess\bin\x86\Release\CefSharp.BrowserSubprocess.pdb" target="CefSharp\x86"/>
+  
+    <file src="..\CefSharp.BrowserSubprocess\bin\x64\Release\CefSharp.BrowserSubprocess.Core.dll" target="CefSharp\x64"/>
+    <file src="..\CefSharp.BrowserSubprocess\bin\x64\Release\CefSharp.BrowserSubprocess.Core.pdb" target="CefSharp\x64"/>
+    <file src="..\CefSharp.BrowserSubprocess\bin\x64\Release\CefSharp.BrowserSubprocess.exe" target="CefSharp\x64"/>
+    <file src="..\CefSharp.BrowserSubprocess\bin\x64\Release\CefSharp.BrowserSubprocess.pdb" target="CefSharp\x64"/>
 
     <file src="CefSharp.Common.props" target="build" />
     <file src="CefSharp.Common.targets" target="build" />
+  
+    <file src="..\CefSharp\**\*.cs" target="src\CefSharp" />
+    <file src="..\CefSharp.Core\**\*.h" target="src\CefSharp.Core" />
+    <file src="..\CefSharp.Core\**\*.cpp" target="src\CefSharp.Core" />
+    <file src="..\CefSharp.BrowserSubprocess.Core\**\*.h" target="src\CefSharp.BrowserSubprocess.Core" exclude="packages\**;obj\**" />
+    <file src="..\CefSharp.BrowserSubprocess.Core\**\*.cpp" target="src\CefSharp.BrowserSubprocess.Core" exclude="packages\**;obj\**" />
+    <file src="..\CefSharp.BrowserSubprocess\**\*.cs" target="src\CefSharp.BrowserSubprocess" exclude="packages\**;obj\**" />
   </files>
 </package>
 

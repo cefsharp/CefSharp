@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+﻿// Copyright © 2010-2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -48,7 +48,7 @@ namespace CefSharp
         /// If this Object is disposed the Method will throw a <see cref="ObjectDisposedException"/>.
         /// Use this method to guard methods that are not allowed to be called after dispose was called
         /// </summary>
-        /// <exception cref="System.ObjectDisposedException"></exception>
+        /// <exception cref="System.ObjectDisposedException">Thrown when this resource is disposed.</exception>
         protected virtual void DisposeGuard()
         {
             if (IsDisposed)

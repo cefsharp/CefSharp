@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2013 The CefSharp Project. All rights reserved.
+﻿// Copyright © 2010-2016 The CefSharp Project. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -12,23 +12,46 @@
 #include "CefAppUnmanagedWrapper.h"
 
 using namespace System::Collections::Generic;
+using namespace System::Linq;
+using namespace CefSharp::Internals;
 
 namespace CefSharp
 {
-	public ref class CefAppWrapper abstract : public DisposableResource
-	{
-	private:
-		MCefRefPtr<CefAppUnmanagedWrapper> _cefApp;
-		
-	public:        
-		CefAppWrapper();
-		~CefAppWrapper();
+    // Wrap CefAppUnmangedWrapper in a nice managed wrapper
+    public ref class CefAppWrapper abstract
+    {
+    private:
+        MCefRefPtr<CefAppUnmanagedWrapper> _cefApp;
 
-		int Run();
+    public:
+        CefAppWrapper(IEnumerable<String^>^ args)
+        {
+            auto onBrowserCreated = gcnew Action<CefBrowserWrapper^>(this, &CefAppWrapper::OnBrowserCreated);
+            auto onBrowserDestroyed = gcnew Action<CefBrowserWrapper^>(this, &CefAppWrapper::OnBrowserDestroyed);
+            auto schemes = CefCustomScheme::ParseCommandLineArguments(args);
+            auto enableFocusedNodeChanged = CommandLineArgsParser::HasArgument(args, CefSharpArguments::FocusedNodeChangedEnabledArgument);
 
-		property TaskFactory^ RenderThreadTaskFactory;
+            _cefApp = new CefAppUnmanagedWrapper(schemes, enableFocusedNodeChanged, onBrowserCreated, onBrowserDestroyed);
+        };
 
-		virtual void OnBrowserCreated(CefBrowserWrapper^ cefBrowserWrapper) abstract;
-		virtual void OnBrowserDestroyed(CefBrowserWrapper^ cefBrowserWrapper) abstract;		
-	};
+        !CefAppWrapper()
+        {
+            _cefApp = nullptr;
+        }
+
+        ~CefAppWrapper()
+        {
+            this->!CefAppWrapper();
+        }
+
+        int Run();
+
+        virtual void OnBrowserCreated(CefBrowserWrapper^ cefBrowserWrapper) abstract;
+        virtual void OnBrowserDestroyed(CefBrowserWrapper^ cefBrowserWrapper) abstract;
+
+        static void EnableHighDPISupport()
+        {
+            CefEnableHighDPISupport();
+        }
+    };
 }

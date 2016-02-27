@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+﻿// Copyright © 2010-2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -7,7 +7,7 @@ using System.ServiceModel;
 namespace CefSharp.Internals
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode=ConcurrencyMode.Multiple)]
-    public class BrowserProcessService : IBrowserProcess
+    internal class BrowserProcessService : IBrowserProcess
     {
         private readonly JavascriptObjectRepository javascriptObjectRepository;
         private readonly BrowserProcessServiceHost host;
@@ -45,17 +45,6 @@ namespace CefSharp.Internals
             var success = javascriptObjectRepository.TrySetProperty(objectId, name, value, out exception);
 
             return new BrowserProcessResponse { Success = success, Result = null, Message = exception };
-        }
-
-        public JavascriptRootObject GetRegisteredJavascriptObjects()
-        {
-            return javascriptObjectRepository.RootObject;
-        }
-
-        public void Connect()
-        {
-            var context = OperationContext.Current;
-            host.SetOperationContext(context);
         }
     }
 }

@@ -1,29 +1,37 @@
-﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+﻿// Copyright © 2010-2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace CefSharp
 {
     public class DefaultResourceHandlerFactory : IResourceHandlerFactory
     {
-        public Dictionary<string, ResourceHandler> Handlers { get; private set; }
+        public ConcurrentDictionary<string, IResourceHandler> Handlers { get; private set; }
 
         public DefaultResourceHandlerFactory(IEqualityComparer<string> comparer = null)
         {
-            Handlers = new Dictionary<string, ResourceHandler>(comparer ?? StringComparer.OrdinalIgnoreCase);
+            Handlers = new ConcurrentDictionary<string, IResourceHandler>(comparer ?? StringComparer.OrdinalIgnoreCase);
         }
 
-        public virtual void RegisterHandler(string url, ResourceHandler handler)
+        public virtual bool RegisterHandler(string url, IResourceHandler handler)
         {
-            Handlers[url] = handler;
+            Uri uri;
+            if (Uri.TryCreate(url, UriKind.Absolute, out uri))
+            {
+                Handlers.AddOrUpdate(uri.ToString(), handler, (k, v) => handler);
+                return true;
+            }
+            return false;
         }
 
-        public virtual void UnregisterHandler(string url)
+        public virtual bool UnregisterHandler(string url)
         {
-            Handlers.Remove(url);
+            IResourceHandler handler;
+            return Handlers.TryRemove(url, out handler);
         }
 
         public bool HasHandlers
@@ -31,11 +39,19 @@ namespace CefSharp
             get { return Handlers.Count > 0; }
         }
 
-        public virtual ResourceHandler GetResourceHandler(IWebBrowser browser, IRequest request)
+        public virtual IResourceHandler GetResourceHandler(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request)
         {
-            ResourceHandler handler;
+            try
+            {
+                IResourceHandler handler;
+                Handlers.TryGetValue(request.Url, out handler);
 
-            return Handlers.TryGetValue(request.Url, out handler) ? handler : null;
+                return handler;
+            }
+            finally
+            {
+                request.Dispose();
+            }
         }
     }
 }

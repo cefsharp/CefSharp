@@ -5,13 +5,98 @@
     </head>
     <body>
         <p>
+            Async Binding Test
+            <span id="asyncresult"></span>
+            <script type="text/javascript">
+                var asResult = document.getElementById('asyncresult');
+            
+                function writeAsyncResult(call, end)
+                {
+                    var p = document.createElement('p');
+                    var br = document.createElement('br');
+                    var br2 = document.createElement('br');
+                    var title = document.createTextNode('Async Call: ');
+                    var callText = document.createTextNode(call);
+                    var endText = document.createTextNode(end);
+                
+                    p.appendChild(title);
+                    p.appendChild(br);
+                    p.appendChild(callText);
+                    p.appendChild(br2);
+                    p.appendChild(endText);
+                
+                    asResult.appendChild(p);
+                }
+            
+                function asyncError()
+                {
+                    var call = "Async call (Throw Exception): " + Date();
+                    boundAsync.error().catch(function (e)
+                    {
+                        var end = "Error: " + e + "(" + Date() + ")";
+                        writeAsyncResult(call, end);
+                    });
+                }
+            
+                function asyncDivOk()
+                {
+                    var call = "Async call (Divide 16 / 2): " + Date();
+                    boundAsync.div(16, 2).then(function (res)
+                    {
+                        var end = "Result: " + res + "(" + Date() + ")";
+                        writeAsyncResult(call, end);
+                    });
+                }
+            
+                function asyncDivFail()
+                {
+                    var call = "Async call (Divide 16 /0): " + Date();
+                    boundAsync.div(16, 0).then(function (res)
+                    {
+                        var end = "Result: " + res + "(" + Date() + ")";
+                        writeAsyncResult(call, end);
+                    },
+                    function (e)
+                    {
+                        var end = "Error: " + e + "(" + Date() + ")";
+                        writeAsyncResult(call, end);
+                    });
+                }
+            
+                function asyncHello()
+                {
+                    var call = "Async call (Hello): " + Date();
+                    boundAsync.hello('CefSharp').then(function (res)
+                    {
+                        var end = "Result: " + res + "(" + Date() + ")";
+                        writeAsyncResult(call, end);
+                    });
+                }
+            
+                function asyncDoSomething()
+                {
+                    var call = "Async call (Long Running Task): " + Date();
+                    boundAsync.doSomething().then(function (res)
+                    {
+                        var end = "Result: " + res + "(" + Date() + ")";
+                        writeAsyncResult(call, end);
+                    });
+                }
+            
+                asyncError();
+                asyncDivOk();
+                asyncDivFail();
+                asyncDoSomething();
+            </script>
+        </p>
+        <p>
             Javscript Callback Test
             <br />
             <script type="text/javascript">
                 function callback(s)
                 {
                     var result = document.getElementById('cbresult');
-                    result.innerText += "Callback: " + s + "" + Date();
+                    result.innerText += "Callback: " + s.Response + "" + Date();
                 }
 
                 function testCallback()
@@ -28,11 +113,39 @@
         </p>
 
         <p>
+            Disposed Javscript Callback Test (navigates to www.google.com before callback fires)
+            <br />
+            <script type="text/javascript">
+                function disposedCallback(s)
+                {
+                    // This callback should be disposed and should not be called
+                    window.alert("This callback should not have been called");
+
+                    var result = document.getElementById('disposedcbresult');
+                    result.innerText += "Callback: " + s + "" + Date();
+                }
+
+                function testDisposedCallback()
+                {
+                    bound.testCallback(callback);
+
+                    var result = document.getElementById('disposedcbresult');
+                    result.innerText = "The function has returned: " + Date() + "\n";
+
+                    window.location.assign("http://www.google.com");
+                }
+            </script>
+            <button onclick="testDisposedCallback()">Test Disposed Callback</button>
+            <br />
+            <span id="disposedcbresult"></span>
+        </p>
+
+        <p>
             Result of calling bound.repeat("hi ", 5) =
             <script type="text/javascript">
                 var result = bound.repeat("hi ", 5);
                 document.write('"' + result + '"');
-                if (result == "hi hi hi hi hi ")
+                if (result === "hi hi hi hi hi ")
                 {
                     document.write(" SUCCESS");
                 } else
@@ -86,7 +199,7 @@
 
                 document.write("Employee Count : " + jsonObj.employees.length + "<br/>");
 
-                for (var i = 0; i <= jsonObj.employees.length; i++)
+                for (var i = 0; i < jsonObj.employees.length; i++)
                 {
                     var employee = jsonObj.employees[i];
                     document.write("Employee : " + employee.firstName + " " + employee.lastName + "<br/>");
@@ -110,14 +223,14 @@
             <script type="text/javascript">
                 for (var name in bound)
                 {
-                    if (bound[name].constructor.name == 'Function') continue;
+                    if (bound[name].constructor.name === 'Function') continue;
 
                     document.write("<li>" + name + "</li>");
                     if (typeof bound[name] == "object" && bound[name] !== null)
                     {
                         for (var sub in bound[name])
                         {
-                            var type = bound[name][sub].constructor.name == 'Function' ? "Function" : "Property";
+                            var type = bound[name][sub].constructor.name === 'Function' ? "Function" : "Property";
                             document.write("<li>" + name + "." + sub + "(" + type + ")" + "</li>");
                         }
                     }

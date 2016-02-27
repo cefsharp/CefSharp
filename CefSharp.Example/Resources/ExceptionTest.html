@@ -1,0 +1,74 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+    <head>
+        <title>Exception Test</title>
+        <script type="text/javascript">
+            function logException(e)
+            {
+                document.write(e.message.replace(/\n/g, '<br />') + "<br />Stack:<br />" + e.stack.replace(/\n/g, '<br />'));
+            }
+        </script>
+    </head>
+    <body>
+        <p>
+            Exception string for nested exceptions:<br />
+            <script type="text/javascript">
+                try
+                {
+                    bound.exceptionTestObject.triggerNestedExceptions();
+                    document.write("Fatal: No Exception.");
+                }
+                catch (e)
+                {
+                    logException(e);
+                }
+            </script>
+        </p>
+        <p>
+            Exception string for wrong parameter type:<br />
+            <script type="text/javascript">
+                try
+                {
+                    bound.exceptionTestObject.triggerParameterException(Math.PI);
+                    document.write("Fatal: No Exception.");
+                }
+                catch (e)
+                {
+                    logException(e);
+                }
+            </script>
+        </p>
+        <p>
+            Exception string for missing parameter:<br />
+            <script type="text/javascript">
+                try
+                {
+                    bound.exceptionTestObject.triggerParameterException();
+                    document.write("Fatal: No Exception.");
+                }
+                catch (e)
+                {
+                    logException(e);
+                }
+            </script>
+        </p>
+        <p>
+            Exception string for error callback:<br />
+            <script type="text/javascript">
+                function errorCallback(s)
+                {
+                    throw "Callback Error (" + s + ")";
+                }
+                function errorCallbackResultLogger(s)
+                {
+                    var logArea = document.getElementById('errorCallbackResult');
+                    logArea.innerText = s;
+                }
+                bound.exceptionTestObject.testCallbackException(errorCallback, errorCallbackResultLogger);
+            </script>
+            <p>Received Exception:</p>
+            <p id="errorCallbackResult"></p>
+        </p>
+
+    </body>
+</html>

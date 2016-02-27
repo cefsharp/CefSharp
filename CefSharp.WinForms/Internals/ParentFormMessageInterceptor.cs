@@ -1,4 +1,4 @@
-﻿// Copyright © 2014 The CefSharp Authors. All rights reserved.
+﻿// Copyright © 2010-2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -6,6 +6,7 @@ using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using CefSharp.Internals;
 
 namespace CefSharp.WinForms.Internals
 {
@@ -47,7 +48,7 @@ namespace CefSharp.WinForms.Internals
         /// Adjust the form to listen to if the ChromiumWebBrowserControl's parent changes.
         /// </summary>
         /// <param name="sender">The ChromiumWebBrowser whose parent has changed.</param>
-        /// <param name="e"></param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void ParentParentChanged(object sender, EventArgs e)
         {
             var control = (Control)sender;
@@ -149,8 +150,14 @@ namespace CefSharp.WinForms.Internals
                 }
                 case NativeMethods.WM_MOVE:
                 {
-                    x = (m.LParam.ToInt32() & 0xffff);
-                    y = ((m.LParam.ToInt32() >> 16) & 0xffff);
+                    // Convert IntPtr into 32bit int safely without 
+                    // exceptions:
+                    int dwLParam = m.LParam.CastToInt32();
+
+                    // Extract coordinates from lo/hi word:
+                    x = dwLParam & 0xffff;
+                    y = (dwLParam >> 16) & 0xffff;
+
                     isMovingMessage = true;
                     break;
                 }
@@ -198,7 +205,7 @@ namespace CefSharp.WinForms.Internals
 
             if (Browser.IsBrowserInitialized)
             {
-                Browser.NotifyMoveOrResizeStarted();
+                Browser.GetBrowser().GetHost().NotifyMoveOrResizeStarted();
             }
 
             isMoving = false;

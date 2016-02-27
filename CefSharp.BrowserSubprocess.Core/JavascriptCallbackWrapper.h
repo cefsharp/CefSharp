@@ -1,12 +1,10 @@
-// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+// Copyright © 2010-2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 #pragma once
 
-#include<include\cef_v8.h>
-
-using namespace CefSharp::Internals;
+#include "include\cef_v8.h"
 
 namespace CefSharp
 {
@@ -15,15 +13,36 @@ namespace CefSharp
         private ref class JavascriptCallbackWrapper
         {
         private:
-            MCefRefPtr<CefV8Value> value;
-            MCefRefPtr<CefV8Context> context;
+            MCefRefPtr<CefV8Value> _value;
+            MCefRefPtr<CefV8Context> _context;
+
+        internal:
+            CefRefPtr<CefV8Value> GetValue()
+            {
+                return _value.get();
+            }
+
+            CefRefPtr<CefV8Context> GetContext()
+            {
+                return _context.get();
+            }
+
         public:
             JavascriptCallbackWrapper(CefRefPtr<CefV8Value> value, CefRefPtr<CefV8Context> context)
-                : value(value), context(context) {}
+                : _value(value), _context(context) 
+            {
+            }
 
-            JavascriptResponse^ Execute(array<Object^>^ parms);
+            !JavascriptCallbackWrapper()
+            {
+                _value = nullptr;
+                _context = nullptr;
+            }
 
-            ~JavascriptCallbackWrapper();
+            ~JavascriptCallbackWrapper()
+            {
+                this->!JavascriptCallbackWrapper();
+            }
         };
     }
 }

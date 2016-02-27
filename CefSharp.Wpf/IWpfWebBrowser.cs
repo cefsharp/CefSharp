@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+﻿// Copyright © 2010-2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -93,14 +93,25 @@ namespace CefSharp.Wpf
         ICommand RedoCommand { get; }
 
         /// <summary>
-        /// Invalidate the view. The browser will call CefRenderHandler::OnPaint asynchronously.
-        /// </summary>
-        /// <param name="type">indicates which surface to re-paint either View or Popup.</param>
-        void Invalidate(PaintElementType type);
-
-        /// <summary>
         /// Gets the <see cref="Dispatcher"/> associated with this instance.
         /// </summary>
         Dispatcher Dispatcher { get; }
+
+        /// <summary>
+        /// The zoom level at which the browser control is currently displaying.
+        /// Can be set to 0 to clear the zoom level (resets to default zoom level).
+        /// </summary>
+        double ZoomLevel { get; set; }
+
+        /// <summary>
+        /// The increment at which the <see cref="ZoomLevel"/> property will be incremented/decremented.
+        /// </summary>
+        double ZoomLevelIncrement { get; set; }
+
+        /// <summary>
+        /// The title of the web page being currently displayed.
+        /// </summary>
+        /// <remarks>This property is implemented as a Dependency Property and fully supports data binding.</remarks>
+        string Title { get; }
     }
 }

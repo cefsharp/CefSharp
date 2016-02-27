@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+﻿// Copyright © 2010-2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -11,10 +11,14 @@
 #endif
 
 #include <vector>
+#include <list>
 
 #include <include/cef_base.h>
 
-#include "Cef.h"
-#include "Internals/MCefRefPtr.h"
-#include "Internals/StringUtils.h"
+#include "Internals\MCefRefPtr.h"
+#include "Internals\StringUtils.h"
 #include "vcclr_local.h"
+
+using namespace CefSharp;
+using namespace CefSharp::Internals;
+using namespace System;

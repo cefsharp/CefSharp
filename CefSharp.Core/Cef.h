@@ -1,8 +1,10 @@
-// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+// Copyright © 2010-2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 #pragma once
+
+#include "Stdafx.h"
 
 #include <msclr/lock.h>
 #include <include/cef_version.h>
@@ -11,12 +13,12 @@
 #include <include/cef_web_plugin.h>
 
 #include "Internals/CefSharpApp.h"
-#include "Internals/CookieVisitor.h"
-#include "Internals/CompletionHandler.h"
-#include "Internals/StringUtils.h"
-#include "ManagedCefBrowserAdapter.h"
+#include "Internals/CookieManager.h"
+#include "Internals/PluginVisitor.h"
 #include "CefSettings.h"
-#include "SchemeHandlerWrapper.h"
+#include "SchemeHandlerFactoryWrapper.h"
+#include "Internals/CefTaskScheduler.h"
+#include "Internals/CefGetGeolocationCallbackWrapper.h"
 
 using namespace System::Collections::Generic; 
 using namespace System::Linq;
@@ -27,30 +29,15 @@ namespace CefSharp
     public ref class Cef sealed
     {
     private:
-        static HANDLE _event;
         static Object^ _sync;
-        static bool _result;
 
         static bool _initialized = false;
         static HashSet<IDisposable^>^ _disposables;
 
         static Cef()
         {
-            _event = CreateEvent(NULL, FALSE, FALSE, NULL);
             _sync = gcnew Object();
             _disposables = gcnew HashSet<IDisposable^>();
-        }
-
-        static void IOT_SetCookie(const CefString& url, const CefCookie& cookie)
-        {
-            _result = CefCookieManager::GetGlobalManager()->SetCookie(url, cookie);
-            SetEvent(_event);
-        }
-
-        static void IOT_DeleteCookies(const CefString& url, const CefString& name)
-        {
-            _result = CefCookieManager::GetGlobalManager()->DeleteCookies(url, name);
-            SetEvent(_event);
         }
 
         static void ParentProcessExitHandler(Object^ sender, EventArgs^ e)
@@ -62,6 +49,15 @@ namespace CefSharp
         }
 
     public:
+        /// <summary>
+        /// Called on the browser process UI thread immediately after the CEF context has been initialized. 
+        /// </summary>
+        static property Action^ OnContextInitialized;
+
+        static property TaskFactory^ UIThreadTaskFactory;
+        static property TaskFactory^ IOThreadTaskFactory;
+        static property TaskFactory^ FileThreadTaskFactory;
+
         static void AddDisposable(IDisposable^ item)
         {
             msclr::lock l(_sync);
@@ -109,7 +105,7 @@ namespace CefSharp
         {
             String^ get()
             {
-                return String::Format("r{0}", CEF_REVISION);
+                return String::Format("r{0}", CEF_VERSION);
             }
         }
 
@@ -126,7 +122,22 @@ namespace CefSharp
             }
         }
 
-        /// <summary>Initializes CefSharp with the default settings.</summary>
+        /// <summary>
+        /// Gets a value that indicates the Git Hash for CEF version currently being used.
+        /// </summary>
+        /// <value>The Git Commit Hash</value>
+        static property String^ CefCommitHash
+        {
+            String^ get()
+            {
+                return CEF_COMMIT_HASH;
+            }
+        }
+
+        /// <summary>
+        /// Initializes CefSharp with the default settings.
+        /// This function should be called on the main application thread to initialize the CEF browser process.
+        /// </summary>
         /// <return>true if successful; otherwise, false.</return>
         static bool Initialize()
         {
@@ -134,40 +145,101 @@ namespace CefSharp
             return Initialize(cefSettings);
         }
 
-        /// <summary>Initializes CefSharp with user-provided settings.</summary>
+        /// <summary>
+        /// Initializes CefSharp with user-provided settings.
+        /// This function should be called on the main application thread to initialize the CEF browser process.
+        /// </summary>
         /// <param name="cefSettings">CefSharp configuration settings.</param>
         /// <return>true if successful; otherwise, false.</return>
         static bool Initialize(CefSettings^ cefSettings)
         {
-            return Initialize(cefSettings, true);
+            return Initialize(cefSettings, true, false);
         }
 
-        /// <summary>Initializes CefSharp with user-provided settings.</summary>
+        /// <summary>
+        /// Initializes CefSharp with user-provided settings.
+        /// This function should be called on the main application thread to initialize the CEF browser process.
+        /// </summary>
         /// <param name="cefSettings">CefSharp configuration settings.</param>
         /// <param name="shutdownOnProcessExit">When the Current AppDomain (relative to the thread called on)
         /// Exits(ProcessExit event) then Shudown will be called.</param>
+        /// <param name="performDependencyCheck">Check that all relevant dependencies avaliable, throws exception if any are missing</param>
         /// <return>true if successful; otherwise, false.</return>
-        static bool Initialize(CefSettings^ cefSettings, bool shutdownOnProcessExit)
+        static bool Initialize(CefSettings^ cefSettings, bool shutdownOnProcessExit, bool performDependencyCheck)
         {
-            bool success = false;
-
-            // NOTE: Can only initialize Cef once, so subsiquent calls are ignored.
-            if (!IsInitialized)
+            if (IsInitialized)
             {
-                CefMainArgs main_args;
-                CefRefPtr<CefSharpApp> app(new CefSharpApp(cefSettings));
+                // NOTE: Can only initialize Cef once, to make this explicitly clear throw exception on subsiquent attempts
+                throw gcnew Exception("Cef can only be initialized once. Use Cef.IsInitialized to guard against this exception.");
+            }
+            
+            if (cefSettings->BrowserSubprocessPath == nullptr)
+            {
+                throw gcnew Exception("CefSettings BrowserSubprocessPath cannot be null.");
+            }
 
-                success = CefInitialize(main_args, *(cefSettings->_cefSettings), app.get(), NULL);
-                app->CompleteSchemeRegistrations();
-                _initialized = success;
+            if(performDependencyCheck)
+            {
+                DependencyChecker::AssertAllDependenciesPresent(cefSettings->Locale, cefSettings->LocalesDirPath, cefSettings->ResourcesDirPath, cefSettings->PackLoadingDisabled, cefSettings->BrowserSubprocessPath);
+            }
 
-                if (_initialized && shutdownOnProcessExit)
-                {
-                    AppDomain::CurrentDomain->ProcessExit += gcnew EventHandler(ParentProcessExitHandler);
-                }
+            UIThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_UI));
+            IOThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_IO));
+            FileThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_FILE));
+
+            CefMainArgs main_args;
+            CefRefPtr<CefSharpApp> app(new CefSharpApp(cefSettings, OnContextInitialized));
+
+            auto success = CefInitialize(main_args, *(cefSettings->_cefSettings), app.get(), NULL);
+
+            //Register SchemeHandlerFactories - must be called after CefInitialize
+            for each (CefCustomScheme^ cefCustomScheme in cefSettings->CefCustomSchemes)
+            {
+                auto domainName = cefCustomScheme->DomainName ? cefCustomScheme->DomainName : String::Empty;
+
+                CefRefPtr<CefSchemeHandlerFactory> wrapper = new SchemeHandlerFactoryWrapper(cefCustomScheme->SchemeHandlerFactory);
+                CefRegisterSchemeHandlerFactory(StringUtils::ToNative(cefCustomScheme->SchemeName), StringUtils::ToNative(domainName), wrapper);
+            }
+
+            _initialized = success;
+
+            if (_initialized && shutdownOnProcessExit)
+            {
+                AppDomain::CurrentDomain->ProcessExit += gcnew EventHandler(ParentProcessExitHandler);
             }
 
             return success;
+        }
+
+        /// <summary>Perform a single iteration of CEF message loop processing. This function is
+        /// used to integrate the CEF message loop into an existing application message
+        /// loop. Care must be taken to balance performance against excessive CPU usage.
+        /// This function should only be called on the main application thread and only
+        /// if CefInitialize() is called with a CefSettings.multi_threaded_message_loop
+        /// value of false. This function will not block.</summary>
+        static void DoMessageLoopWork()
+        {
+            CefDoMessageLoopWork();
+        }
+
+
+        /// <summary>
+        /// This function should be called from the application entry point function to execute a secondary process.
+        /// It can be used to run secondary processes from the browser client executable (default behavior) or
+        /// from a separate executable specified by the CefSettings.browser_subprocess_path value.
+        /// If called for the browser process (identified by no "type" command-line value) it will return immediately with a value of -1.
+        /// If called for a recognized secondary process it will block until the process should exit and then return the process exit code.
+        /// The |application| parameter may be empty. The |windows_sandbox_info| parameter is only used on Windows and may be NULL (see cef_sandbox_win.h for details). 
+        /// </summary>
+        static int ExecuteProcess()
+        {
+            auto hInstance = Process::GetCurrentProcess()->Handle;
+
+            CefMainArgs cefMainArgs((HINSTANCE)hInstance.ToPointer());
+            //TODO: Look at ways to expose an instance of CefApp
+            //CefRefPtr<CefSharpApp> app(new CefSharpApp(nullptr, nullptr));
+
+            return CefExecuteProcess(cefMainArgs, NULL, NULL);
         }
 
         /// <summary>Add an entry to the cross-origin whitelist.</summary>
@@ -258,179 +330,41 @@ namespace CefSharp
             return CefClearCrossOriginWhitelist();
         }
 
-        /// <summary>Visits all cookies using the provided Cookie Visitor. The returned cookies are sorted by longest path, then by earliest creation date.</summary>
-        /// <param name="visitor">A user-provided Cookie Visitor implementation.</param>
-        /// <return>Returns false if the CookieManager is not available; otherwise, true.</return>
-        static bool VisitAllCookies(ICookieVisitor^ visitor)
+        /// <summary>
+        /// Returns the global cookie manager.
+        /// </summary>
+        static ICookieManager^ GetGlobalCookieManager()
         {
-            CefRefPtr<CefCookieManager> manager = CefCookieManager::GetGlobalManager();
-
-            if (manager == nullptr)
+            auto cookieManager = CefCookieManager::GetGlobalManager(NULL);
+            if (cookieManager.get())
             {
-                return false;
+                return gcnew CookieManager(cookieManager);
             }
-
-            CefRefPtr<CookieVisitor> cookieVisitor = new CookieVisitor(visitor);
-            
-            return manager->VisitAllCookies(cookieVisitor);
+            return nullptr;
         }
 
-        /// <summary>Visits a subset of the cookies. The results are filtered by the given url scheme, host, domain and path. 
-        /// If <paramref name="includeHttpOnly"/> is true, HTTP-only cookies will also be included in the results. The returned cookies 
-        /// are sorted by longest path, then by earliest creation date.</summary>
-        /// <param name="url">The URL to use for filtering a subset of the cookies available.</param>
-        /// <param name="includeHttpOnly">A flag that determines whether HTTP-only cookies will be shown in results.</param>
-        /// <param name="visitor">A user-provided Cookie Visitor implementation.</param>
-        /// <return>Returns false if the CookieManager is not available; otherwise, true.</return>
-        static bool VisitUrlCookies(String^ url, bool includeHttpOnly, ICookieVisitor^ visitor)
-        {
-            CefRefPtr<CefCookieManager> manager = CefCookieManager::GetGlobalManager();
-
-            if (manager == nullptr)
-            {
-                return false;
-            }
-
-            CefRefPtr<CookieVisitor> cookieVisitor = new CookieVisitor(visitor);
-
-            return manager->VisitUrlCookies(StringUtils::ToNative(url), includeHttpOnly, cookieVisitor);
-        }
-
-        /// <summary>Sets a CefSharp Cookie. This function expects each attribute to be well-formed. It will check for disallowed
-        /// characters (e.g. the ';' character is disallowed within the cookie value attribute) and will return false without setting
-        /// the cookie if such characters are found.</summary>
-        /// <param name="url">The cookie URL</param>
-        /// <param name="name">The cookie name</param>
-        /// <param name="value">The cookie value</param>
-        /// <param name="domain">The cookie domain</param>
-        /// <param name="path">The cookie path</param>
-        /// <param name="secure">A flag that determines whether the cookie will be marked as "secure" (i.e. its scope is limited to secure channels, typically HTTPS).</param>
-        /// <param name="httponly">A flag that determines whether the cookie will be marked as HTTP Only (i.e. the cookie is inaccessible to client-side scripts).</param>
-        /// <param name="has_expires">A flag that determines whether the cookie has an expiration date. Must be set to true when the "expires" parameter is provided.</param>
-        /// <param name="expires">The DateTime when the cookie will be treated as expired. Will only be taken into account if the "has_expires" is set to true.</param>
-        /// <return>false if the cookie cannot be set (e.g. if illegal charecters such as ';' are used); otherwise true.</return>
-        static bool SetCookie(String^ url, String^ name, String^ value, String^ domain, String^ path, bool secure, bool httponly, bool has_expires, DateTime expires)
-        {
-            msclr::lock l(_sync);
-            _result = false;
-
-            CefCookie cookie;
-            StringUtils::AssignNativeFromClr(cookie.name, name);
-            StringUtils::AssignNativeFromClr(cookie.value, value);
-            StringUtils::AssignNativeFromClr(cookie.domain, domain);
-            StringUtils::AssignNativeFromClr(cookie.path, path);
-            cookie.secure = secure;
-            cookie.httponly = httponly;
-            cookie.has_expires = has_expires;
-            cookie.expires.year = expires.Year;
-            cookie.expires.month = expires.Month;
-            cookie.expires.day_of_month = expires.Day;
-            cookie.expires.hour = expires.Hour;
-            cookie.expires.minute = expires.Minute;
-            cookie.expires.second = expires.Second;
-            cookie.expires.millisecond = expires.Millisecond;
-
-            if (CefCurrentlyOn(TID_IO))
-            {
-                IOT_SetCookie(StringUtils::ToNative(url), cookie);
-            }
-            else
-            {
-                CefPostTask(TID_IO, NewCefRunnableFunction(IOT_SetCookie,
-                    StringUtils::ToNative(url), cookie));
-            }
-
-            WaitForSingleObject(_event, INFINITE);
-            return _result;
-        }
-
-        /// <summary>Sets a cookie using mostly default parameters. This function expects each attribute to be well-formed. It will check for disallowed
-        /// characters (e.g. the ';' character is disallowed within the cookie value attribute) and will return false without setting
-        /// the cookie if such characters are found.</summary>
-        /// <param name="url">The cookie URL</param>
-        /// <param name="domain">The cookie domain.</param>
-        /// <param name="name">The cookie name.</param>
-        /// <param name="value">The cookie value.</param>
-        /// <param name="expires">The DateTime when the cookie will be treated as expired.</param>
-        /// <return>false if the cookie cannot be set (e.g. if illegal charecters such as ';' are used); otherwise true.</return>
-        static bool SetCookie(String^ url, String^ domain, String^ name, String^ value, DateTime expires)
-        {
-            return SetCookie(url, name, value, domain, "/", false, false, true, expires);
-        }
-
-        /// <summary>Deletes all cookies that matches all the provided parameters. If both <paramref name="url"/> and <paramref name="name"/> are empty, all cookies will be deleted.</summary>
-        /// <param name="url">The cookie URL. If an empty string is provided, any URL will be matched.</param>
-        /// <param name="name">The name of the cookie. If an empty string is provided, any URL will be matched.</param>
-        /// <return>false if a non-empty invalid URL is specified, or if cookies cannot be accessed; otherwise, true.</return>
-        static bool DeleteCookies(String^ url, String^ name)
-        {
-            msclr::lock l(_sync);
-            _result = false;
-
-            if (CefCurrentlyOn(TID_IO))
-            {
-                IOT_DeleteCookies(StringUtils::ToNative(url), StringUtils::ToNative(name));
-            }
-            else
-            {
-                CefPostTask(TID_IO, NewCefRunnableFunction(IOT_DeleteCookies,
-                    StringUtils::ToNative(url), StringUtils::ToNative(name)));
-            }
-
-            WaitForSingleObject(_event, INFINITE);
-            return _result;
-        }
-
-        /// <summary> Sets the directory path that will be used for storing cookie data. If <paramref name="path"/> is empty data will be stored in 
-        /// memory only. Otherwise, data will be stored at the specified path. To persist session cookies (cookies without an expiry 
-        /// date or validity interval) set <paramref name="persistSessionCookies"/> to true. Session cookies are generally intended to be transient and 
-        /// most Web browsers do not persist them.</summary>
-        /// <param name="path">The file path to write cookies to.</param>
-        /// <param name="persistSessionCookies">A flag that determines whether session cookies will be persisted or not.</param>
-        /// <return> false if a non-empty invalid URL is specified, or if the CookieManager is not available; otherwise, true.</return>
-        static bool SetCookiePath(String^ path, bool persistSessionCookies)
-        {
-            CefRefPtr<CefCookieManager> manager = CefCookieManager::GetGlobalManager();
-
-            if (manager == nullptr)
-            {
-                return false;
-            }
-
-            return manager->SetStoragePath(StringUtils::ToNative(path), persistSessionCookies);
-        }
-
-        /// <summary> Flush the backing store (if any) to disk and execute the specified |handler| on the IO thread when done. Returns </summary>
-        /// <param name="handler">A user-provided ICompletionHandler implementation.</param>
-        /// <return>Returns false if cookies cannot be accessed.</return>
-        static bool FlushStore(ICompletionHandler^ handler)
-        {
-            CefRefPtr<CefCookieManager> manager = CefCookieManager::GetGlobalManager();
-
-            if (manager == nullptr)
-            {
-                return false;
-            }
-
-            CefRefPtr<CefCompletionCallback> wrapper = new CompletionHandler(handler);
-
-            return manager->FlushStore(wrapper);
-        }
-
-        /// <summary>Shuts down CefSharp and the underlying CEF infrastructure. This method is safe to call multiple times; it will only
+        /// <summary>
+        /// Shuts down CefSharp and the underlying CEF infrastructure. This method is safe to call multiple times; it will only
         /// shut down CEF on the first call (all subsequent calls will be ignored).
+        /// This function should be called on the main application thread to shut down the CEF browser process before the application exits. 
         /// </summary>
         static void Shutdown()
         {
             if (IsInitialized)
             { 
+                OnContextInitialized = nullptr;
+                
+                msclr::lock l(_sync);
+
+                UIThreadTaskFactory = nullptr;
+                IOThreadTaskFactory = nullptr;
+                FileThreadTaskFactory = nullptr;
+
+                for each(IDisposable^ diposable in Enumerable::ToList(_disposables))
                 {
-                    msclr::lock l(_sync);
-                    for each(IDisposable^ diposable in Enumerable::ToList(_disposables))
-                    {
-                        delete diposable;
-                    }
+                    delete diposable;
                 }
+                
                 GC::Collect();
                 GC::WaitForPendingFinalizers();
 
@@ -446,6 +380,25 @@ namespace CefSharp
         static bool ClearSchemeHandlerFactories()
         {
             return CefClearSchemeHandlerFactories();
+        }
+
+        /// <summary>
+        /// Async returns a list containing Plugin Information
+        /// (Wrapper around CefVisitWebPluginInfo)
+        /// The Task will be cancelled and a TaskCanceledException throw
+        /// if the Task does not complete within 2000ms
+        /// Documentation for CefWebPluginInfoVisitor.Visit states
+        /// `This method may never be called if no plugins are found.`
+        /// hence the Task cancelled timeout
+        /// </summary>
+        /// <return>Returns List of <see cref="Plugin"/> structs.</return>
+        static Task<List<Plugin>^>^ GetPlugins()
+        {
+            CefRefPtr<PluginVisitor> visitor = new PluginVisitor();
+            
+            CefVisitWebPluginInfo(visitor);
+
+            return visitor->GetTask();
         }
 
         /// <summary>
@@ -490,6 +443,40 @@ namespace CefSharp
         static void UnregisterInternalWebPlugin(String^ path)
         {
             CefUnregisterInternalWebPlugin(StringUtils::ToNative(path));
-        }		
+        }	
+
+        /// <summary>
+        /// Force a plugin to shutdown. 
+        /// </summary>
+        /// <param name="path">Path (directory + file).</param>
+        static void ForceWebPluginShutdown(String^ path)
+        {
+            CefForceWebPluginShutdown(StringUtils::ToNative(path));
+        }
+
+        /// <summary>
+        /// Call during process startup to enable High-DPI support on Windows 7 or newer.
+        /// Older versions of Windows should be left DPI-unaware because they do not
+        /// support DirectWrite and GDI fonts are kerned very badly.
+        /// </summary>
+        static void EnableHighDPISupport()
+        {
+            CefEnableHighDPISupport();
+        }
+
+        /// <summary>
+        /// Request a one-time geolocation update.
+        /// This function bypasses any user permission checks so should only be
+        /// used by code that is allowed to access location information. 
+        /// </summary>
+        /// <return>Returns 'best available' location info or, if the location update failed, with error info.</return>
+        static Task<Geoposition^>^ GetGeolocationAsync()
+        {
+            auto callback = new CefGetGeolocationCallbackWrapper();
+            
+            CefGetGeolocation(callback);
+
+            return callback->GetTask();
+        }
     };
 }

@@ -1,14 +1,15 @@
-﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+﻿// Copyright © 2010-2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 #pragma once
 
 #include "Stdafx.h"
+#include <msclr/lock.h>
+
 #include "ClientAdapter.h"
 
 using namespace msclr;
-using namespace System;
 
 namespace CefSharp
 {
@@ -24,14 +25,11 @@ namespace CefSharp
             gcroot<BitmapInfo^> _popupBitmapInfo;
 
         public:
-            RenderClientAdapter(IWebBrowserInternal^ webBrowserInternal, Action<int>^ onAfterBrowserCreated):
-                ClientAdapter(webBrowserInternal, onAfterBrowserCreated),
+            RenderClientAdapter(IWebBrowserInternal^ webBrowserInternal, IBrowserAdapter^ browserAdapter):
+                ClientAdapter(webBrowserInternal, browserAdapter),
                 _webBrowserInternal(webBrowserInternal)
             {
                 _renderWebBrowser = dynamic_cast<IRenderWebBrowser^>(webBrowserInternal);
-
-                _mainBitmapInfo = _renderWebBrowser->CreateBitmapInfo(false);
-                _popupBitmapInfo = _renderWebBrowser->CreateBitmapInfo(true);
             }
 
             ~RenderClientAdapter()
@@ -50,14 +48,18 @@ namespace CefSharp
                 _popupBitmapInfo = nullptr;
             }
 
+            void CreateBitmapInfo()  
+            {  
+                _mainBitmapInfo = _renderWebBrowser->CreateBitmapInfo(false);  
+                _popupBitmapInfo = _renderWebBrowser->CreateBitmapInfo(true);  
+            }
+
             // CefClient
-            virtual CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE{ return this; };
+            virtual DECL CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE{ return this; };
 
             // CefRenderHandler
             virtual DECL bool GetScreenInfo(CefRefPtr<CefBrowser> browser, CefScreenInfo& screen_info) OVERRIDE
             {
-                return false;
-
                 if ((IRenderWebBrowser^)_renderWebBrowser == nullptr)
                 {
                     return false;
@@ -70,6 +72,8 @@ namespace CefSharp
                     return false;
                 }
 
+                //NOTE: We're relying on a call to GetViewRect to populate the view rectangle
+                //https://bitbucket.org/chromiumembedded/cef/src/47e6d4bf84444eb6cb4d4509231a8c9ee878a584/include/cef_render_handler.h?at=2357#cef_render_handler.h-90
                 screen_info.device_scale_factor = screenInfo.ScaleFactor;
                 return true;
             }
@@ -82,13 +86,10 @@ namespace CefSharp
                     return false;
                 }
 
-                auto screenInfo = _renderWebBrowser->GetScreenInfo();
+                auto viewRect = _renderWebBrowser->GetViewRect();
 
-                //auto scaledWidth = screenInfo.Width / screenInfo.ScaleFactor;
-                //auto scaledHeight = screenInfo.Height / screenInfo.ScaleFactor;
-                //rect = CefRect(0, 0, scaledWidth, scaledHeight);
+                rect = CefRect(0, 0, viewRect.Width, viewRect.Height);
 
-                rect = CefRect(0, 0, screenInfo.Width, screenInfo.Height);
                 return true;
             };
 
@@ -107,7 +108,7 @@ namespace CefSharp
             // contains the new location and size.
             ///
             /*--cef()--*/
-            virtual void OnPopupSize(CefRefPtr<CefBrowser> browser, const CefRect& rect) OVERRIDE
+            virtual DECL void OnPopupSize(CefRefPtr<CefBrowser> browser, const CefRect& rect) OVERRIDE
             {
                 _renderWebBrowser->SetPopupSizeAndPosition(rect.width, rect.height, rect.x, rect.y);
             };
@@ -174,27 +175,37 @@ namespace CefSharp
             virtual DECL void OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor, CursorType type,
                 const CefCursorInfo& custom_cursor_info) OVERRIDE
             {
-                _renderWebBrowser->SetCursor((IntPtr)cursor);
+                _renderWebBrowser->SetCursor((IntPtr)cursor, (CefSharp::CefCursorType)type);
             };
+
+            virtual DECL bool StartDragging(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDragData> dragData,
+                CefRenderHandler::DragOperationsMask allowedOps, int x, int y)
+            {
+                CefDragDataWrapper dragDataWrapper(dragData);
+                return _renderWebBrowser->StartDragging(%dragDataWrapper, (CefSharp::DragOperationsMask)allowedOps, x, y);
+            }
 
         private:
             void ReleaseBitmapHandlers(BitmapInfo^ bitmapInfo)
             {
-                auto backBufferHandle = (HANDLE)bitmapInfo->BackBufferHandle;
-                auto fileMappingHandle = (HANDLE)bitmapInfo->FileMappingHandle;
-
-                if (backBufferHandle != NULL)
+                if(bitmapInfo)
                 {
-                    UnmapViewOfFile(backBufferHandle);
-                    backBufferHandle = NULL;
-                    bitmapInfo->BackBufferHandle = IntPtr::Zero;
-                }
+                    auto backBufferHandle = (HANDLE)bitmapInfo->BackBufferHandle;
+                    auto fileMappingHandle = (HANDLE)bitmapInfo->FileMappingHandle;
 
-                if (fileMappingHandle != NULL)
-                {
-                    CloseHandle(fileMappingHandle);
-                    fileMappingHandle = NULL;
-                    bitmapInfo->FileMappingHandle = IntPtr::Zero;
+                    if (backBufferHandle != NULL)
+                    {
+                        UnmapViewOfFile(backBufferHandle);
+                        backBufferHandle = NULL;
+                        bitmapInfo->BackBufferHandle = IntPtr::Zero;
+                    }
+
+                    if (fileMappingHandle != NULL)
+                    {
+                        CloseHandle(fileMappingHandle);
+                        fileMappingHandle = NULL;
+                        bitmapInfo->FileMappingHandle = IntPtr::Zero;
+                    }
                 }
             }
 

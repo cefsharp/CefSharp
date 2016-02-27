@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+﻿// Copyright © 2010-2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -7,18 +7,16 @@ using System.Net.Security;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
-using System.Threading.Tasks;
 
 namespace CefSharp.Internals
 {
     public class BrowserProcessServiceHost : ServiceHost
     {
-        private const long SixteenMegaBytesInBytes = 16*1024*1024;
+        private const long OneHundredAndTwentyEightMegaBytesInBytes = 128*1024*1024;
 
         public JavascriptObjectRepository JavascriptObjectRepository { get; private set; }
-        private TaskCompletionSource<OperationContext> operationContextTaskCompletionSource = new TaskCompletionSource<OperationContext>();
 
-        public BrowserProcessServiceHost(JavascriptObjectRepository javascriptObjectRepository, int parentProcessId, int browserId)
+        public BrowserProcessServiceHost(JavascriptObjectRepository javascriptObjectRepository, int parentProcessId, int browserId, IJavascriptCallbackFactory callbackFactory)
             : base(typeof(BrowserProcessService), new Uri[0])
         {
             JavascriptObjectRepository = javascriptObjectRepository;
@@ -36,93 +34,19 @@ namespace CefSharp.Internals
             );
 
             endPoint.Contract.ProtectionLevel = ProtectionLevel.None;
-            endPoint.Behaviors.Add(new JavascriptCallbackEndpointBehavior(this));
-        }
-
-        public void SetOperationContext(OperationContext operationContext)
-        {
-            if (operationContextTaskCompletionSource.Task.Status == TaskStatus.RanToCompletion)
-            {
-                operationContextTaskCompletionSource = new TaskCompletionSource<OperationContext>();
-            }
-                
-            operationContextTaskCompletionSource.SetResult(operationContext);
-        }
-
-        public Task<JavascriptResponse> EvaluateScriptAsync(int browserId, long frameId, string script, TimeSpan? timeout)
-        {
-            var operationContextTask = operationContextTaskCompletionSource.Task;
-            return operationContextTask.ContinueWith(t =>
-            {
-                var context = t.Result;
-                var renderProcess = context.GetCallbackChannel<IRenderProcess>();
-                var asyncResult = renderProcess.BeginEvaluateScriptAsync(browserId, frameId, script, timeout, null, null);
-                return Task.Factory.FromAsync<JavascriptResponse>(asyncResult, renderProcess.EndEvaluateScriptAsync);
-            }).Unwrap();
-        }
-
-        protected override void OnClose(TimeSpan timeout)
-        {
-            var task = operationContextTaskCompletionSource.Task;
-
-            CloseChannel(task);
-
-            base.OnClose(timeout);
-        }
-
-        private void CloseChannel(Task<OperationContext> task)
-        {
-            try
-            {
-                if (task.IsCompleted)
-                {
-                    var context = task.Result;
-
-                    if (context.Channel != null && context.Channel.State == CommunicationState.Opened)
-                    {
-                        context.Channel.Close();
-                    }
-                }
-            }
-            catch (Exception)
-            {
-            }
-        }
-
-        internal Task<JavascriptResponse> JavascriptCallback(int browserId, long id, object[] parameters, TimeSpan? timeout)
-        {
-            var operationContextTask = operationContextTaskCompletionSource.Task;
-            return operationContextTask.ContinueWith(t =>
-            {
-                var context = t.Result;
-                var renderProcess = context.GetCallbackChannel<IRenderProcess>();
-                var asyncResult = renderProcess.BeginJavascriptCallbackAsync(browserId, id, parameters, timeout, null, null);
-                return Task.Factory.FromAsync<JavascriptResponse>(asyncResult, renderProcess.EndJavascriptCallbackAsync);
-            }).Unwrap();
-        }
-
-        internal void DestroyJavascriptCallback(int browserId, long id)
-        {
-            var operationContextTask = operationContextTaskCompletionSource.Task;
-            operationContextTask.ContinueWith(t =>
-            {
-                var context = t.Result;
-                var renderProcess = context.GetCallbackChannel<IRenderProcess>();
-                renderProcess.DestroyJavascriptCallback(browserId, id);
-            });
+            endPoint.Behaviors.Add(new JavascriptCallbackEndpointBehavior(callbackFactory));
         }
 
         protected override void OnClosed()
         {
             base.OnClosed();
             JavascriptObjectRepository = null;
-            operationContextTaskCompletionSource = null;
         }
 
         public static CustomBinding CreateBinding()
         {
             var binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
-            binding.MaxReceivedMessageSize = SixteenMegaBytesInBytes;
+            binding.MaxReceivedMessageSize = OneHundredAndTwentyEightMegaBytesInBytes;
             binding.ReceiveTimeout = TimeSpan.MaxValue;
             binding.SendTimeout = TimeSpan.MaxValue;
             binding.OpenTimeout = TimeSpan.MaxValue;

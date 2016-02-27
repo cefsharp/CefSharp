@@ -1,91 +1,36 @@
-﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+﻿// Copyright © 2010-2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-#include "Stdafx.h"
-#include "Internals/StringUtils.h"
+#pragma once
 
-using namespace CefSharp::Internals;
+#include "Stdafx.h"
+#include "RequestContext.h"
 
 namespace CefSharp
 {
-    Nullable<bool> CefStateToDisabledSetting(cef_state_t state)
-    {
-        if (state == STATE_ENABLED)
-        {
-            return Nullable<bool>(false);
-        }
-        else if (state == STATE_DISABLED)
-        {
-            return Nullable<bool>(true);
-        }
-        return Nullable<bool>();
-    }
-
-    cef_state_t CefStateFromDisabledSetting(Nullable<bool>^ value)
-    {
-        if (value == nullptr)
-        {
-            return STATE_DEFAULT;
-        }
-        else if (value->Value)
-        {
-            return STATE_DISABLED;
-        }
-        else // !value->Value
-        {
-            return STATE_ENABLED;
-        }
-        return STATE_DEFAULT;
-    }
-
-    Nullable<bool> CefStateToEnabledSetting(cef_state_t state)
-    {
-        if (state == STATE_ENABLED)
-        {
-            return Nullable<bool>(true);
-        }
-        else if (state == STATE_DISABLED)
-        {
-            return Nullable<bool>(false);
-        }
-        return Nullable<bool>();
-    }
-
-    cef_state_t CefStateFromEnabledSetting(Nullable<bool>^ value)
-    {
-        if (value == nullptr)
-        {
-            return STATE_DEFAULT;
-        }
-        else if (value->Value)
-        {
-            return STATE_ENABLED;
-        }
-        else // !value->Value
-        {
-            return STATE_DISABLED;
-        }
-        return STATE_DEFAULT;
-    }
-
+    /// <summary>
+    /// Browser initialization settings. Specify NULL or 0 to get the recommended
+    /// default values. The consequences of using custom values may not be well
+    /// tested. Many of these and other settings can also configured using command-
+    /// line switches.
+    /// </summary>
     public ref class BrowserSettings
     {
-    private:
-        bool _isFinalized;
     internal:
         CefBrowserSettings* _browserSettings;
 
     public:
-        BrowserSettings() : _browserSettings(new CefBrowserSettings()), _isFinalized(false) { }
-        !BrowserSettings() { delete _browserSettings; _isFinalized = true; }
-        ~BrowserSettings() { if (!_isFinalized) this->!BrowserSettings(); }
+        BrowserSettings() : _browserSettings(new CefBrowserSettings()) { }
 
-        // CefBrowserSettings is private causing whole field to be private
-        // exposing void* as a workaround
-        property void* _internalBrowserSettings
+        !BrowserSettings()
         {
-            void* get() { return _browserSettings; }
+            delete _browserSettings;
+        }
+
+        ~BrowserSettings()
+        {
+            this->!BrowserSettings();
         }
 
         property String^ StandardFontFamily
@@ -146,133 +91,258 @@ namespace CefSharp
         {
             int get() { return _browserSettings->minimum_logical_font_size; }
             void set(int value) { _browserSettings->minimum_logical_font_size = value; }
-        }
+        }        
 
-        property Nullable<bool>^ RemoteFontsDisabled
-        {
-            Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->remote_fonts); }
-            void set(Nullable<bool>^ value) { _browserSettings->remote_fonts = CefStateFromDisabledSetting(value); }
-        }
-
+        /// <summary>
+        /// Default encoding for Web content. If empty "ISO-8859-1" will be used. Also
+        /// configurable using the "default-encoding" command-line switch.
+        /// </summary>
         property String^ DefaultEncoding
         {
             String^ get() { return StringUtils::ToClr(_browserSettings->default_encoding); }
             void set(String^ value) { StringUtils::AssignNativeFromClr(_browserSettings->default_encoding, value); }
         }
 
-        property Nullable<bool>^ JavascriptDisabled
+        /// <summary>
+        /// Controls the loading of fonts from remote sources. Also configurable using
+        /// the "disable-remote-fonts" command-line switch.
+        /// </summary>
+        property CefState RemoteFonts
         {
-            Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->javascript); }
-            void set(Nullable<bool>^ value) { _browserSettings->javascript = CefStateFromDisabledSetting(value); }
+            CefState get() { return (CefState)_browserSettings->remote_fonts; }
+            void set(CefState value) { _browserSettings->remote_fonts = (cef_state_t)value; }
         }
 
-        property Nullable<bool>^ JavaScriptOpenWindowsDisabled
+        /// <summary>
+        /// Controls whether JavaScript can be executed. Also configurable using the
+        /// "disable-javascript" command-line switch.
+        /// </summary>
+        property CefState Javascript
         {
-            Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->javascript_open_windows); }
-            void set(Nullable<bool>^ value) { _browserSettings->javascript_open_windows = CefStateFromDisabledSetting(value); }
+            CefState get() { return (CefState)_browserSettings->javascript; }
+            void set(CefState value) { _browserSettings->javascript = (cef_state_t)value; }
         }
 
-        property Nullable<bool>^ JavaScriptCloseWindowsDisabled
+        /// <summary>
+        /// Controls whether JavaScript can be used for opening windows. Also
+        /// configurable using the "disable-javascript-open-windows" command-line
+        /// switch.
+        /// </summary>
+        property CefState JavascriptOpenWindows
         {
-            Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->javascript_close_windows); }
-            void set(Nullable<bool>^ value) { _browserSettings->javascript_close_windows = CefStateFromDisabledSetting(value); }
+            CefState get() { return (CefState)_browserSettings->javascript_open_windows; }
+            void set(CefState value) { _browserSettings->javascript_open_windows = (cef_state_t)value; }
         }
 
-        property Nullable<bool>^ JavaScriptAccessClipboardDisabled
+        /// <summary>
+        /// Controls whether JavaScript can be used to close windows that were not
+        /// opened via JavaScript. JavaScript can still be used to close windows that
+        /// were opened via JavaScript. Also configurable using the
+        /// "disable-javascript-close-windows" command-line switch.
+        /// </summary>
+        property CefState JavascriptCloseWindows
         {
-            Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->javascript_access_clipboard); }
-            void set(Nullable<bool>^ value) { _browserSettings->javascript_access_clipboard = CefStateFromDisabledSetting(value); }
+            CefState get() { return (CefState)_browserSettings->javascript_close_windows; }
+            void set(CefState value) { _browserSettings->javascript_close_windows = (cef_state_t)value; }
         }
 
-        property Nullable<bool>^ JavascriptDomPasteDisabled
+        /// <summary>
+        /// Controls whether JavaScript can access the clipboard. Also configurable
+        /// using the "disable-javascript-access-clipboard" command-line switch.
+        /// </summary>
+        property CefState JavascriptAccessClipboard
         {
-            Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->javascript_dom_paste); }
-            void set(Nullable<bool>^ value) { _browserSettings->javascript_dom_paste = CefStateFromDisabledSetting(value); }
+            CefState get() { return (CefState)_browserSettings->javascript_access_clipboard; }
+            void set(CefState value) { _browserSettings->javascript_access_clipboard = (cef_state_t)value; }
         }
 
-        property Nullable<bool>^ CaretBrowsingEnabled
+        /// <summary>
+        /// Controls whether DOM pasting is supported in the editor via
+        /// execCommand("paste"). The |javascript_access_clipboard| setting must also
+        /// be enabled. Also configurable using the "disable-javascript-dom-paste"
+        /// command-line switch.
+        /// </summary>
+        property CefState JavascriptDomPaste
         {
-            Nullable<bool>^ get() { return CefStateToEnabledSetting(_browserSettings->caret_browsing); }
-            void set(Nullable<bool>^ value) { _browserSettings->caret_browsing = CefStateFromEnabledSetting(value); }
+            CefState get() { return (CefState)_browserSettings->javascript_dom_paste; }
+            void set(CefState value) { _browserSettings->javascript_dom_paste = (cef_state_t)value; }
         }
 
-        property Nullable<bool>^ JavaDisabled
+        /// <summary>
+        /// Controls whether the caret position will be drawn. Also configurable using
+        /// the "enable-caret-browsing" command-line switch.
+        /// </summary>
+        property CefState CaretBrowsing
         {
-            Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->java); }
-            void set(Nullable<bool>^ value) { _browserSettings->java = CefStateFromDisabledSetting(value); }
-        } 
-
-        property Nullable<bool>^ PluginsDisabled
-        {
-            Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->plugins); }
-            void set(Nullable<bool>^ value) { _browserSettings->plugins = CefStateFromDisabledSetting(value); }
+            CefState get() { return (CefState)_browserSettings->caret_browsing; }
+            void set(CefState value) { _browserSettings->caret_browsing = (cef_state_t)value; }
         }
 
-        property Nullable<bool>^ UniversalAccessFromFileUrlsAllowed
+        /// <summary>
+        /// Controls whether any plugins will be loaded. Also configurable using the
+        /// "disable-plugins" command-line switch.
+        /// </summary>
+        property CefState Plugins
         {
-            Nullable<bool>^ get() { return CefStateToEnabledSetting(_browserSettings->universal_access_from_file_urls); }
-            void set(Nullable<bool>^ value) { _browserSettings->universal_access_from_file_urls = CefStateFromEnabledSetting(value); }
+            CefState get() { return (CefState)_browserSettings->plugins; }
+            void set(CefState value) { _browserSettings->plugins = (cef_state_t)value; }
         }
 
-        property Nullable<bool>^ FileAccessFromFileUrlsAllowed
+        /// <summary>
+        /// Controls whether file URLs will have access to all URLs. Also configurable
+        /// using the "allow-universal-access-from-files" command-line switch.
+        /// </summary>
+        property CefState UniversalAccessFromFileUrls
         {
-            Nullable<bool>^ get() { return CefStateToEnabledSetting(_browserSettings->file_access_from_file_urls); }
-            void set(Nullable<bool>^ value) { _browserSettings->file_access_from_file_urls = CefStateFromEnabledSetting(value); }
+            CefState get() { return (CefState)_browserSettings->universal_access_from_file_urls; }
+            void set(CefState value) { _browserSettings->universal_access_from_file_urls = (cef_state_t)value; }
         }
 
-        property Nullable<bool>^ WebSecurityDisabled
+        /// <summary>
+        /// Controls whether file URLs will have access to other file URLs. Also
+        /// configurable using the "allow-access-from-files" command-line switch.
+        /// </summary>
+        property CefState FileAccessFromFileUrls
         {
-            Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->web_security); }
-            void set(Nullable<bool>^ value) { _browserSettings->web_security = CefStateFromDisabledSetting(value); }
+            CefState get() { return (CefState)_browserSettings->file_access_from_file_urls; }
+            void set(CefState value) { _browserSettings->file_access_from_file_urls = (cef_state_t)value; }
         }
 
-        property Nullable<bool>^ ImageLoadingDisabled
+        /// <summary>
+        /// Controls whether web security restrictions (same-origin policy) will be
+        /// enforced. Disabling this setting is not recommend as it will allow risky
+        /// security behavior such as cross-site scripting (XSS). Also configurable
+        /// using the "disable-web-security" command-line switch.
+        /// </summary>
+        property CefState WebSecurity
         {
-            Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->image_loading); }
-            void set(Nullable<bool>^ value) { _browserSettings->image_loading = CefStateFromDisabledSetting(value); }
+            CefState get() { return (CefState)_browserSettings->web_security; }
+            void set(CefState value) { _browserSettings->web_security = (cef_state_t)value; }
         }
 
-        property Nullable<bool>^ ImageShrinkStandaloneToFitEnabled
+        /// <summary>
+        /// Controls whether image URLs will be loaded from the network. A cached image
+        /// will still be rendered if requested. Also configurable using the
+        /// "disable-image-loading" command-line switch.
+        /// </summary>
+        property CefState ImageLoading
         {
-            Nullable<bool>^ get() { return CefStateToEnabledSetting(_browserSettings->image_shrink_standalone_to_fit); }
-            void set(Nullable<bool>^ value) { _browserSettings->image_shrink_standalone_to_fit= CefStateFromEnabledSetting(value); }
+            CefState get() { return (CefState)_browserSettings->image_loading; }
+            void set(CefState value) { _browserSettings->image_loading = (cef_state_t)value; }
         }
 
-        property Nullable<bool>^ TextAreaResizeDisabled
+        /// <summary>
+        /// Controls whether standalone images will be shrunk to fit the page. Also
+        /// configurable using the "image-shrink-standalone-to-fit" command-line
+        /// switch.
+        /// </summary>
+        property CefState ImageShrinkStandaloneToFit
         {
-            Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->text_area_resize); }
-            void set(Nullable<bool>^ value) { _browserSettings->text_area_resize = CefStateFromDisabledSetting(value); }
+            CefState get() { return (CefState)_browserSettings->image_shrink_standalone_to_fit; }
+            void set(CefState value) { _browserSettings->image_shrink_standalone_to_fit = (cef_state_t)value; }
         }
 
-        property Nullable<bool>^ TabToLinksDisabled
+        /// <summary>
+        /// Controls whether text areas can be resized. Also configurable using the
+        /// "disable-text-area-resize" command-line switch.
+        /// </summary>
+        property CefState TextAreaResize
         {
-            Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->tab_to_links); }
-            void set(Nullable<bool>^ value) { _browserSettings->tab_to_links = CefStateFromDisabledSetting(value); }
+            CefState get() { return (CefState)_browserSettings->text_area_resize; }
+            void set(CefState value) { _browserSettings->text_area_resize = (cef_state_t)value; }
         }
 
-        property Nullable<bool>^ LocalStorageDisabled
+        /// <summary>
+        /// Controls whether the tab key can advance focus to links. Also configurable
+        /// using the "disable-tab-to-links" command-line switch.
+        /// </summary>
+        property CefState TabToLinks
         {
-            Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->local_storage); }
-            void set(Nullable<bool>^ value) { _browserSettings->local_storage = CefStateFromDisabledSetting(value); }
+            CefState get() { return (CefState)_browserSettings->tab_to_links; }
+            void set(CefState value) { _browserSettings->tab_to_links = (cef_state_t)value; }
         }
 
-        property Nullable<bool>^ DatabasesDisabled
+        /// <summary>
+        /// Controls whether local storage can be used. Also configurable using the
+        /// "disable-local-storage" command-line switch.
+        /// </summary>
+        property CefState LocalStorage
         {
-            Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->databases); }
-            void set(Nullable<bool>^ value) { _browserSettings->databases = CefStateFromDisabledSetting(value); }
+            CefState get() { return (CefState)_browserSettings->local_storage; }
+            void set(CefState value) { _browserSettings->local_storage = (cef_state_t)value; }
         }
 
-        property Nullable<bool>^ ApplicationCacheDisabled
+        /// <summary>
+        /// Controls whether databases can be used. Also configurable using the
+        /// "disable-databases" command-line switch.
+        /// </summary>
+        property CefState Databases
         {
-            Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->application_cache); }
-            void set(Nullable<bool>^ value) { _browserSettings->application_cache = CefStateFromDisabledSetting(value); }
+            CefState get() { return (CefState)_browserSettings->databases; }
+            void set(CefState value) { _browserSettings->databases = (cef_state_t)value; }
         }
 
-        property Nullable<bool>^ WebGlDisabled
+        /// <summary>
+        /// Controls whether the application cache can be used. Also configurable using
+        /// the "disable-application-cache" command-line switch.
+        /// </summary>
+        property CefState ApplicationCache
         {
-            Nullable<bool>^ get() { return CefStateToDisabledSetting(_browserSettings->webgl); }
-            void set(Nullable<bool>^ value) { _browserSettings->webgl = CefStateFromDisabledSetting(value); }
+            CefState get() { return (CefState)_browserSettings->application_cache; }
+            void set(CefState value) { _browserSettings->application_cache = (cef_state_t)value; }
         }
 
+        /// <summary>
+        /// Controls whether WebGL can be used. Note that WebGL requires hardware
+        /// support and may not work on all systems even when enabled. Also
+        /// configurable using the "disable-webgl" command-line switch.
+        /// </summary>
+        property CefState WebGl
+        {
+            CefState get() { return (CefState)_browserSettings->webgl; }
+            void set(CefState value) { _browserSettings->webgl = (cef_state_t)value; }
+        }
+        
+        /// <summary>
+        /// Opaque background color used for the browser before a document is loaded
+        /// and when no document color is specified. By default the background color
+        /// will be the same as CefSettings.background_color. Only the RGB compontents
+        /// of the specified value will be used. The alpha component must greater than
+        /// 0 to enable use of the background color but will be otherwise ignored.
+        /// </summary>
+        property uint32 BackgroundColor
+        {
+            uint32 get() { return _browserSettings->background_color; }
+            void set(uint32 value) { _browserSettings->background_color = value; }
+        }
+
+        /// <summary>
+        /// Comma delimited ordered list of language codes without any whitespace that
+        /// will be used in the "Accept-Language" HTTP header. May be overridden on a
+        /// per-browser basis using the CefBrowserSettings.AcceptLanguageList value.
+        /// If both values are empty then "en-US,en" will be used. Can be overridden
+        /// for individual RequestContext instances via the
+        /// RequestContextSettings.AcceptLanguageList value.
+        /// </summary>
+        virtual property String^ AcceptLanguageList
+        {
+            String^ get() { return StringUtils::ToClr(_browserSettings->accept_language_list); }
+            void set(String^ value) { StringUtils::AssignNativeFromClr(_browserSettings->accept_language_list, value); }
+        }
+
+        /// <summary>
+        /// The maximum rate in frames per second (fps) that CefRenderHandler::OnPaint
+        /// will be called for a windowless browser. The actual fps may be lower if
+        /// the browser cannot generate frames at the requested rate. The minimum
+        /// value is 1 and the maximum value is 60 (default 30). This value can also be
+        /// changed dynamically via IBrowserHost.SetWindowlessFrameRate.
+        /// </summary>
+        virtual property int WindowlessFrameRate
+        {
+            int get() { return _browserSettings->windowless_frame_rate; }
+            void set(int value) { _browserSettings->windowless_frame_rate = value; }
+        }		
+
+        property Nullable<bool> OffScreenTransparentBackground;
     };
 }

@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+﻿// Copyright © 2010-2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -8,6 +8,9 @@ namespace CefSharp
 {
     namespace Internals
     {
+        // This class appears to be required in order
+        // to continue reference counting in managed classes
+        // that the compiler won't let contain CefRefPtr<...>
         template <typename T>
         ref class MCefRefPtr sealed
         {
@@ -41,19 +44,28 @@ namespace CefSharp
                 }
             }
 
-            ~MCefRefPtr()
-            {
-                if (_ptr)
-                {
-                    _ptr->Release();
-                }
-            }
-
             !MCefRefPtr()
             {
                 if (_ptr)
                 {
                     _ptr->Release();
+                    // Be paranoid about preventing a double release
+                    // from this managed instance.
+                    _ptr = nullptr;
+                }
+            }
+
+            ~MCefRefPtr()
+            {
+                // Normally, we would invoke the finalizer method here
+                // via !classname, however... the overloaded -> operator
+                // prevents that from being feasible.
+                if (_ptr)
+                {
+                    _ptr->Release();
+                    // Be paranoid about preventing a double release
+                    // from this managed instance.
+                    _ptr = nullptr;
                 }
             }
 

@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2014 The CefSharp Project. All rights reserved.
+﻿// Copyright © 2010-2016 The CefSharp Project. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -7,32 +7,87 @@
 #include "include/cef_v8.h"
 #include "JavascriptCallbackRegistry.h"
 #include "JavascriptObjectWrapper.h"
+#include "Async/JavascriptAsyncObjectWrapper.h"
 
 using namespace System::Runtime::Serialization;
 using namespace System::Linq;
 using namespace System::Collections::Generic;
 
-using namespace CefSharp::Internals;
+using namespace CefSharp::Internals::Async;
 
 namespace CefSharp
 {
-    public ref class JavascriptRootObjectWrapper
+    // This wraps the transmitted registered objects
+    // by binding the meta-data to V8 JavaScript objects
+    // and installing callbacks for changes to those
+    // objects.
+    private ref class JavascriptRootObjectWrapper
     {
     private:
-        JavascriptRootObject^ _rootObject;
-        List<JavascriptObjectWrapper^>^ _wrappedObjects;
+        initonly List<JavascriptObjectWrapper^>^ _wrappedObjects;
+        initonly List<JavascriptAsyncObjectWrapper^>^ _wrappedAsyncObjects;
+        initonly Dictionary<int64, JavascriptAsyncMethodCallback^>^ _methodCallbacks;
+        bool _isBound;
+        int64 _lastCallback;
         IBrowserProcess^ _browserProcess;
+        // The entire set of possible JavaScript functions to
+        // call directly into.
+        JavascriptCallbackRegistry^ _callbackRegistry;
+
+        int64 SaveMethodCallback(JavascriptAsyncMethodCallback^ callback);
 
     internal:
-        MCefRefPtr<CefV8Value> V8Value;
-        JavascriptCallbackRegistry^ CallbackRegistry;
+        property JavascriptCallbackRegistry^ CallbackRegistry
+        {
+            CefSharp::Internals::JavascriptCallbackRegistry^ get();
+        }
+
+        property bool IsBound
+        {
+            bool get();
+        }
 
     public:
-        JavascriptRootObjectWrapper(JavascriptRootObject^ rootObject, IBrowserProcess^ browserProcess);
+        JavascriptRootObjectWrapper(int browserId, IBrowserProcess^ browserProcess)
+        {
+            _browserProcess = browserProcess;
+            _wrappedObjects = gcnew List<JavascriptObjectWrapper^>();
+            _wrappedAsyncObjects = gcnew List<JavascriptAsyncObjectWrapper^>();
+            _callbackRegistry = gcnew JavascriptCallbackRegistry(browserId);
+            _methodCallbacks = gcnew Dictionary<int64, JavascriptAsyncMethodCallback^>();
+            _isBound = false;
+        }
 
-        ~JavascriptRootObjectWrapper();
+        ~JavascriptRootObjectWrapper()
+        {
+            if (_callbackRegistry != nullptr)
+            {
+                delete _callbackRegistry;
+                _callbackRegistry = nullptr;
+            }
 
-        void Bind();
+            for each (JavascriptObjectWrapper^ var in _wrappedObjects)
+            {
+                delete var;
+            }
+            _wrappedObjects->Clear();
+
+            for each (JavascriptAsyncObjectWrapper^ var in _wrappedAsyncObjects)
+            {
+                delete var;
+            }
+            _wrappedAsyncObjects->Clear();
+
+            for each(JavascriptAsyncMethodCallback^ var in _methodCallbacks->Values)
+            {
+                delete var;
+            }
+            _methodCallbacks->Clear();
+        }
+
+        bool TryGetAndRemoveMethodCallback(int64 id, JavascriptAsyncMethodCallback^% callback);
+
+        void Bind(JavascriptRootObject^ rootObject, JavascriptRootObject^ asyncRootObject, const CefRefPtr<CefV8Value>& v8Value);
     };
 }
 

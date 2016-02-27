@@ -54,15 +54,20 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin\x86\Release\CefSharp.OffScreen.xml</DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\CefSharp.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="WindowsBase" />
+    <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BitmapFactory.cs" />
     <Compile Include="ChromiumWebBrowser.cs" />
     <Compile Include="GdiBitmapInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

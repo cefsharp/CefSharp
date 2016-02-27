@@ -29,8 +29,8 @@ namespace CefSharp.Wpf.Example.Controls
         /// <summary>
         /// If containers are done, generate the selected item
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void ItemContainerGeneratorStatusChanged(object sender, EventArgs e)
         {
             if (ItemContainerGenerator.Status == GeneratorStatus.ContainersGenerated)
@@ -53,7 +53,7 @@ namespace CefSharp.Wpf.Example.Controls
         /// <summary>
         /// When the items change we remove any generated panel children and add any new ones as necessary
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">The <see cref="NotifyCollectionChangedEventArgs"/> instance containing the event data.</param>
         protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
         {
             base.OnItemsChanged(e);
@@ -121,13 +121,16 @@ namespace CefSharp.Wpf.Example.Controls
             if (cp != null)
                 return cp;
 
-            cp = new ContentPresenter();
-            cp.Content = (item is TabItem) ? (item as TabItem).Content : item;
-            cp.ContentTemplate = this.SelectedContentTemplate;
-            cp.ContentTemplateSelector = this.SelectedContentTemplateSelector;
-            cp.ContentStringFormat = this.SelectedContentStringFormat;
-            cp.Visibility = Visibility.Collapsed;
-            cp.Tag = (item is TabItem) ? item : (this.ItemContainerGenerator.ContainerFromItem(item));
+            var tabItem = item as TabItem;
+            cp = new ContentPresenter
+            {
+                Content = (tabItem != null) ? tabItem.Content : item,
+                ContentTemplate = this.SelectedContentTemplate,
+                ContentTemplateSelector = this.SelectedContentTemplateSelector,
+                ContentStringFormat = this.SelectedContentStringFormat,
+                Visibility = Visibility.Collapsed,
+                Tag = tabItem ?? (this.ItemContainerGenerator.ContainerFromItem(item))
+            };
             itemsHolderPanel.Children.Add(cp);
             return cp;
         }

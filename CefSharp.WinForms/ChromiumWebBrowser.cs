@@ -1,10 +1,8 @@
-﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+﻿// Copyright © 2010-2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using CefSharp.Internals;
 using CefSharp.WinForms.Internals;
@@ -15,6 +13,8 @@ namespace CefSharp.WinForms
     {
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
         private ParentFormMessageInterceptor parentFormMessageInterceptor;
+        private IntPtr controlHandle;
+        private IBrowser browser;
 
         /// <summary>
         /// Set to true while handing an activating WM_ACTIVATE message.
@@ -23,7 +23,7 @@ namespace CefSharp.WinForms
         public bool IsActivating { get; set; }
 
         public BrowserSettings BrowserSettings { get; set; }
-        public string Title { get; set; }
+        public RequestContext RequestContext { get; set; }
         public bool IsLoading { get; private set; }
         public string TooltipText { get; private set; }
         public string Address { get; private set; }
@@ -33,8 +33,11 @@ namespace CefSharp.WinForms
         public IKeyboardHandler KeyboardHandler { get; set; }
         public IRequestHandler RequestHandler { get; set; }
         public IDownloadHandler DownloadHandler { get; set; }
+        public ILoadHandler LoadHandler { get; set; }
         public ILifeSpanHandler LifeSpanHandler { get; set; }
-        public IMenuHandler MenuHandler { get; set; }
+        public IDisplayHandler DisplayHandler { get; set; }
+        public IContextMenuHandler MenuHandler { get; set; }
+        public IRenderProcessMessageHandler RenderProcessMessageHandler { get; set; }
 
         /// <summary>
         /// The <see cref="IFocusHandler"/> for this ChromiumWebBrowser.
@@ -51,20 +54,26 @@ namespace CefSharp.WinForms
         public IResourceHandlerFactory ResourceHandlerFactory { get; set; }
         public IGeolocationHandler GeolocationHandler { get; set; }
 
+        public event EventHandler<LoadErrorEventArgs> LoadError;
+        public event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
+        public event EventHandler<FrameLoadEndEventArgs> FrameLoadEnd;
+        public event EventHandler<LoadingStateChangedEventArgs> LoadingStateChanged;
+        public event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
+        public event EventHandler<StatusMessageEventArgs> StatusMessage;
+        public event EventHandler<AddressChangedEventArgs> AddressChanged;
+        public event EventHandler<TitleChangedEventArgs> TitleChanged;
+        public event EventHandler<IsBrowserInitializedChangedEventArgs> IsBrowserInitializedChanged;
+
         public bool CanGoForward { get; private set; }
         public bool CanGoBack { get; private set; }
-        public bool CanReload { get; private set; }
         public bool IsBrowserInitialized { get; private set; }
-
-        public double ZoomLevel
-        {
-            get { return managedCefBrowserAdapter.GetZoomLevel(); }
-            set { managedCefBrowserAdapter.SetZoomLevel(value); }
-         }
 
         static ChromiumWebBrowser()
         {
-            Application.ApplicationExit += OnApplicationExit;
+            if (CefSharpSettings.ShutdownOnExit)
+            {
+                Application.ApplicationExit += OnApplicationExit;
+            }
         }
 
         private static void OnApplicationExit(object sender, EventArgs e)
@@ -94,22 +103,13 @@ namespace CefSharp.WinForms
         protected override void Dispose(bool disposing)
         {
             // Don't utilize any of the handlers anymore:
-            DialogHandler = null;
-            JsDialogHandler = null;
-            KeyboardHandler = null;
-            RequestHandler = null;
-            DownloadHandler = null;
-            LifeSpanHandler = null;
-            MenuHandler = null;
-            DragHandler = null;
-            GeolocationHandler = null;
-            FocusHandler = null;
-            ResourceHandlerFactory = null;
+            this.SetHandlersToNull();
 
             Cef.RemoveDisposable(this);
 
             if (disposing)
             {
+                browser = null;
                 IsBrowserInitialized = false;
 
                 if (BrowserSettings != null)
@@ -134,19 +134,67 @@ namespace CefSharp.WinForms
                 LoadError = null;
                 FrameLoadStart = null;
                 FrameLoadEnd = null;
-                NavStateChanged = null;
+                LoadingStateChanged = null;
                 ConsoleMessage = null;
                 StatusMessage = null;
                 AddressChanged = null;
                 TitleChanged = null;
                 IsBrowserInitializedChanged = null;
-                IsLoadingChanged = null;
             }
             base.Dispose(disposing);
         }
 
-        void IWebBrowserInternal.OnInitialized()
+        public void Load(String url)
         {
+            if (IsBrowserInitialized)
+            {
+                this.GetMainFrame().LoadUrl(url);
+            }
+            else
+            {
+                Address = url;
+            }
+        }
+
+        public void RegisterJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true)
+        {
+            if (IsBrowserInitialized)
+            {
+                throw new Exception("Browser is already initialized. RegisterJsObject must be" +
+                                    "called before the underlying CEF browser is created.");
+            }
+
+            //Enable WCF if not already enabled
+            CefSharpSettings.WcfEnabled = true;
+
+            managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, camelCaseJavascriptNames);
+        }
+
+        public void RegisterAsyncJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true)
+        {
+            if (IsBrowserInitialized)
+            {
+                throw new Exception("Browser is already initialized. RegisterJsObject must be" +
+                                    "called before the underlying CEF browser is created.");
+            }
+            managedCefBrowserAdapter.RegisterAsyncJsObject(name, objectToBind, camelCaseJavascriptNames);
+        }
+
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            if (((IWebBrowserInternal)this).HasParent == false)
+            {
+                managedCefBrowserAdapter.CreateBrowser(BrowserSettings, RequestContext, Handle, Address);
+            }
+
+            controlHandle = Handle;
+
+            base.OnHandleCreated(e);
+        }
+
+        void IWebBrowserInternal.OnAfterBrowserCreated(IBrowser browser)
+        {
+            this.browser = browser;
             IsBrowserInitialized = true;
 
             // By the time this callback gets called, this control
@@ -168,122 +216,36 @@ namespace CefSharp.WinForms
             }
         }
 
-        public void Load(String url)
+        void IWebBrowserInternal.SetAddress(AddressChangedEventArgs args)
         {
-            if (IsBrowserInitialized)
-            {
-                managedCefBrowserAdapter.LoadUrl(url);
-            }
-            else
-            {
-                Address = url;
-            }
-        }
-
-        public void LoadHtml(string html, string url)
-        {
-            LoadHtml(html, url, Encoding.UTF8);
-        }
-
-        public void LoadHtml(string html, string url, Encoding encoding)
-        {
-            var factory = ResourceHandlerFactory;
-            if (factory == null)
-            {
-                throw new Exception("Implement IResourceHandlerFactory and assign to the ResourceHandlerFactory property to use this feature");
-            }
-
-            factory.RegisterHandler(url, ResourceHandler.FromString(html, encoding, true));
-
-            Load(url);
-        }
-
-        public void RegisterJsObject(string name, object objectToBind)
-        {
-            managedCefBrowserAdapter.RegisterJsObject(name, objectToBind);
-        }
-
-        public void ExecuteScriptAsync(string script)
-        {
-            managedCefBrowserAdapter.ExecuteScriptAsync(script);
-        }
-
-        public Task<JavascriptResponse> EvaluateScriptAsync(string script)
-        {
-            return EvaluateScriptAsync(script, timeout: null);
-        }
-
-        public Task<JavascriptResponse> EvaluateScriptAsync(string script, TimeSpan? timeout)
-        {
-            return managedCefBrowserAdapter.EvaluateScriptAsync(script, timeout);
-        }
-
-        public void SendMouseWheelEvent(int x, int y, int deltaX, int deltaY)
-        {
-            managedCefBrowserAdapter.OnMouseWheel(x, y, deltaX, deltaY);
-        }
-
-        public event EventHandler<LoadErrorEventArgs> LoadError;
-        public event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
-        public event EventHandler<FrameLoadEndEventArgs> FrameLoadEnd;
-        public event EventHandler<NavStateChangedEventArgs> NavStateChanged;
-        public event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
-        public event EventHandler<StatusMessageEventArgs> StatusMessage;
-        public event EventHandler<AddressChangedEventArgs> AddressChanged;
-        public event EventHandler<TitleChangedEventArgs> TitleChanged;
-        public event EventHandler<IsBrowserInitializedChangedEventArgs> IsBrowserInitializedChanged;
-        public event EventHandler<IsLoadingChangedEventArgs> IsLoadingChanged;
-
-        protected override void OnHandleCreated(EventArgs e)
-        {
-            managedCefBrowserAdapter.CreateBrowser(BrowserSettings, Handle, Address);
-
-            base.OnHandleCreated(e);
-        }
-
-        void IWebBrowserInternal.SetAddress(string address)
-        {
-            Address = address;
+            Address = args.Address;
 
             var handler = AddressChanged;
             if (handler != null)
             {
-                handler(this, new AddressChangedEventArgs(address));
+                handler(this, args);
             }
         }
 
-        void IWebBrowserInternal.SetIsLoading(bool isLoading)
+        void IWebBrowserInternal.SetLoadingStateChange(LoadingStateChangedEventArgs args)
         {
-            IsLoading = isLoading;
+            CanGoBack = args.CanGoBack;
+            CanGoForward = args.CanGoForward;
+            IsLoading = args.IsLoading;
 
-            var handler = IsLoadingChanged;
+            var handler = LoadingStateChanged;
             if (handler != null)
             {
-                handler(this, new IsLoadingChangedEventArgs(isLoading));
+                handler(this, args);
             }
         }
 
-        void IWebBrowserInternal.SetLoadingStateChange(bool canGoBack, bool canGoForward, bool isLoading)
+        void IWebBrowserInternal.SetTitle(TitleChangedEventArgs args)
         {
-            CanGoBack = canGoBack;
-            CanGoForward = canGoForward;
-            CanReload = !isLoading;
-
-            var handler = NavStateChanged;
-            if (handler != null)
-            {
-                handler(this, new NavStateChangedEventArgs(canGoBack, canGoForward, isLoading));
-            }
-        }
-
-        void IWebBrowserInternal.SetTitle(string title)
-        {
-            Title = title;
-
             var handler = TitleChanged;
             if (handler != null)
             {
-                handler(this, new TitleChangedEventArgs(title));
+                handler(this, args);
             }
         }
 
@@ -292,153 +254,61 @@ namespace CefSharp.WinForms
             TooltipText = tooltipText;
         }
 
-        void IWebBrowserInternal.OnFrameLoadStart(string url, bool isMainFrame)
+        void IWebBrowserInternal.OnFrameLoadStart(FrameLoadStartEventArgs args)
         {
             var handler = FrameLoadStart;
             if (handler != null)
             {
-                handler(this, new FrameLoadStartEventArgs(url, isMainFrame));
+                handler(this, args);
             }
         }
 
-        void IWebBrowserInternal.OnFrameLoadEnd(string url, bool isMainFrame, int httpStatusCode)
+        void IWebBrowserInternal.OnFrameLoadEnd(FrameLoadEndEventArgs args)
         {
             var handler = FrameLoadEnd;
             if (handler != null)
             {
-                handler(this, new FrameLoadEndEventArgs(url, isMainFrame, httpStatusCode));
+                handler(this, args);
             }
         }
 
-        void IWebBrowserInternal.OnConsoleMessage(string message, string source, int line)
+        void IWebBrowserInternal.OnConsoleMessage(ConsoleMessageEventArgs args)
         {
             var handler = ConsoleMessage;
             if (handler != null)
             {
-                handler(this, new ConsoleMessageEventArgs(message, source, line));
+                handler(this, args);
             }
         }
 
-        void IWebBrowserInternal.OnStatusMessage(string value)
+        void IWebBrowserInternal.OnStatusMessage(StatusMessageEventArgs args)
         {
             var handler = StatusMessage;
             if (handler != null)
             {
-                handler(this, new StatusMessageEventArgs(value));
+                handler(this, args);
             }
         }
 
-        void IWebBrowserInternal.OnLoadError(string url, CefErrorCode errorCode, string errorText)
+        void IWebBrowserInternal.OnLoadError(LoadErrorEventArgs args)
         {
             var handler = LoadError;
             if (handler != null)
             {
-                handler(this, new LoadErrorEventArgs(url, errorCode, errorText));
+                handler(this, args);
             }
         }
 
-        public void Find(int identifier, string searchText, bool forward, bool matchCase, bool findNext)
+        IBrowserAdapter IWebBrowserInternal.BrowserAdapter
         {
-            managedCefBrowserAdapter.Find(identifier, searchText, forward, matchCase, findNext);
+            get { return managedCefBrowserAdapter; }
         }
 
-        public void StopFinding(bool clearSelection)
+        bool IWebBrowserInternal.HasParent { get; set; }
+        
+        IntPtr IWebBrowserInternal.ControlHandle
         {
-            managedCefBrowserAdapter.StopFinding(clearSelection);
-        }
-
-        public void ShowDevTools()
-        {
-            managedCefBrowserAdapter.ShowDevTools();
-        }
-
-        public void CloseDevTools()
-        {
-            managedCefBrowserAdapter.CloseDevTools();
-        }
-
-        public void Stop()
-        {
-            managedCefBrowserAdapter.Stop();
-        }
-
-        public void Back()
-        {
-            managedCefBrowserAdapter.GoBack();
-        }
-
-        public void Forward()
-        {
-            managedCefBrowserAdapter.GoForward();
-        }
-
-        public void Reload()
-        {
-            Reload(false);
-        }
-
-        public void Reload(bool ignoreCache)
-        {
-            managedCefBrowserAdapter.Reload(ignoreCache);
-        }
-
-        public void Undo()
-        {
-            managedCefBrowserAdapter.Undo();
-        }
-
-        public void Redo()
-        {
-            managedCefBrowserAdapter.Redo();
-        }
-
-        public void Cut()
-        {
-            managedCefBrowserAdapter.Cut();
-        }
-
-        public void Copy()
-        {
-            managedCefBrowserAdapter.Copy();
-        }
-
-        public void Paste()
-        {
-            managedCefBrowserAdapter.Paste();
-        }
-
-        public void Delete()
-        {
-            managedCefBrowserAdapter.Delete();
-        }
-
-        public void SelectAll()
-        {
-            managedCefBrowserAdapter.SelectAll();
-        }
-
-        public void Print()
-        {
-            managedCefBrowserAdapter.Print();
-        }
-
-        public void ViewSource()
-        {
-            managedCefBrowserAdapter.ViewSource();
-        }
-
-        public Task<string> GetSourceAsync()
-        {
-            var taskStringVisitor = new TaskStringVisitor();
-            managedCefBrowserAdapter.GetSource(taskStringVisitor);
-            return taskStringVisitor.Task;
-        }
-
-        public Task<string> GetTextAsync()
-        {
-            var taskStringVisitor = new TaskStringVisitor();
-            managedCefBrowserAdapter.GetText(taskStringVisitor);
-            return taskStringVisitor.Task;
+            get { return controlHandle; }
         }
 
         /// <summary>
@@ -480,39 +350,21 @@ namespace CefSharp.WinForms
             }
         }
 
-        public void NotifyMoveOrResizeStarted()
+        protected override void OnGotFocus(EventArgs e)
         {
             if (IsBrowserInitialized)
             {
-                managedCefBrowserAdapter.NotifyMoveOrResizeStarted();
+                browser.GetHost().SetFocus(true);
             }
-        }
 
-        public void ReplaceMisspelling(string word)
-        {
-            managedCefBrowserAdapter.ReplaceMisspelling(word);
-        }
-
-        public void AddWordToDictionary(string word)
-        {
-            managedCefBrowserAdapter.AddWordToDictionary(word);
-        }
-
-        protected override void OnGotFocus(EventArgs e)
-        {
-            SetFocus(true);
             base.OnGotFocus(e);
         }
 
-        /// <summary>
-        /// Tell the browser to acquire/release focus.
-        /// </summary>
-        public void SetFocus(bool isFocused)
+        public IBrowser GetBrowser()
         {
-            if (IsBrowserInitialized)
-            {
-                managedCefBrowserAdapter.SetFocus(isFocused);
-            }
+            this.ThrowExceptionIfBrowserNotInitialized();
+
+            return browser;
         }
     }
 }

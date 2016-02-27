@@ -1,4 +1,4 @@
-// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+// Copyright © 2010-2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -13,28 +13,42 @@ namespace CefSharp
     /// <summary>
     /// Class ResourceHandler.
     /// </summary>
-    public class ResourceHandler
+    public class ResourceHandler : IResourceHandler
     {
         /// <summary>
-        /// Gets or sets the type of MIME.
+        /// MimeType to be used if none provided
         /// </summary>
-        /// <value>The type of MIME.</value>
-        public string MimeType { get; private set; }
+        private const string DefaultMimeType = "text/html";
+
+        /// <summary>
+        /// Path of the underlying file
+        /// </summary>
+        public string FilePath { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the Mime Type.
+        /// </summary>
+        /// <value>The Mime Type.</value>
+        public string MimeType { get; set; }
+
         /// <summary>
         /// Gets or sets the resource stream.
         /// </summary>
         /// <value>The stream.</value>
-        public Stream Stream { get; private set; }
+        public Stream Stream { get; set; }
+
         /// <summary>
         /// Gets or sets the http status code.
         /// </summary>
         /// <value>The http status code.</value>
-        public int StatusCode { get; private set; }
+        public int StatusCode { get; set; }
+
         /// <summary>
         /// Gets or sets the status text.
         /// </summary>
         /// <value>The status text.</value>
-        public string StatusText { get; private set; }
+        public string StatusText { get; set; }
+
         /// <summary>
         /// Gets or sets the headers.
         /// </summary>
@@ -42,36 +56,118 @@ namespace CefSharp
         public NameValueCollection Headers { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ResourceHandler"/> class.
+        /// Specify which type of resource handle represnets
         /// </summary>
-        public ResourceHandler()
+        public ResourceHandlerType Type { get; private set; }
+
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
+        public ResourceHandler() : this(DefaultMimeType, ResourceHandlerType.Stream)
         {
-            StatusCode = 200;
-            StatusText = "OK";
-            MimeType = "text/html";
-            Headers = new NameValueCollection();
+            
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ResourceHandler"/> class.
         /// </summary>
-        /// <param name="mimeType">Type of MIME.</param>
-        public ResourceHandler(string mimeType)
+        private ResourceHandler(string mimeType, ResourceHandlerType type)
         {
+            if(string.IsNullOrEmpty(mimeType))
+            {
+                throw new ArgumentNullException("mimeType", "Please provide a valid mimeType");
+            }
+
             StatusCode = 200;
             StatusText = "OK";
             MimeType = mimeType;
             Headers = new NameValueCollection();
+            Type = type;
         }
 
-        /// <summary>
-        /// Gets the resource from the file.
-        /// </summary>
-        /// <param name="fileName">Location of the file.</param>
-        /// <returns>ResourceHandler.</returns>
-        public static ResourceHandler FromFileName(string fileName)
+        public virtual bool ProcessRequestAsync(IRequest request, ICallback callback)
         {
-            return new ResourceHandler { Stream = File.OpenRead(fileName) };
+            callback.Continue();
+
+            return true;
+        }
+
+        public virtual Stream GetResponse(IResponse response, out long responseLength, out string redirectUrl)
+        {
+            redirectUrl = null;
+            responseLength = -1;
+
+            response.MimeType = MimeType;
+            response.StatusCode = StatusCode;
+            response.StatusText = StatusText;
+            response.ResponseHeaders = Headers;
+
+            var memoryStream = Stream as MemoryStream;
+            if (memoryStream != null)
+            {
+                responseLength = memoryStream.Length;
+            }
+
+            return Stream;
+        }
+
+        public virtual void Cancel()
+        {
+
+        }
+
+        bool IResourceHandler.ProcessRequest(IRequest request, ICallback callback)
+        {
+            return ProcessRequestAsync(request, callback);
+        }
+
+        void IResourceHandler.GetResponseHeaders(IResponse response, out long responseLength, out string redirectUrl)
+        {
+            Stream = GetResponse(response, out responseLength, out redirectUrl);
+            
+            if(Stream != null && Stream.CanSeek)
+            {
+                //Reset the stream position to 0
+                Stream.Position = 0;
+            }
+        }
+
+        bool IResourceHandler.ReadResponse(Stream dataOut, out int bytesRead, ICallback callback)
+        {
+            //We don't need the callback, as it's an unmanaged resource we should dispose it (could wrap it in a using statement).
+            callback.Dispose();
+
+            if (Stream == null)
+            {
+                bytesRead = 0;
+
+                return false;
+            }
+
+            //Data out represents an underlying buffer (typically 32kb in size).
+            var buffer = new byte[dataOut.Length];
+            bytesRead = Stream.Read(buffer, 0, buffer.Length);
+
+            dataOut.Write(buffer, 0, buffer.Length);
+
+            return bytesRead > 0;
+        }
+
+        bool IResourceHandler.CanGetCookie(Cookie cookie)
+        {
+            return true;
+        }
+
+        bool IResourceHandler.CanSetCookie(Cookie cookie)
+        {
+            return true;
+        }
+
+        void IResourceHandler.Cancel()
+        {
+            Cancel();
+
+            Stream = null;
         }
 
         /// <summary>
@@ -80,32 +176,22 @@ namespace CefSharp
         /// <param name="fileName">Location of the file.</param>
         /// <param name="fileExtension">The file extension.</param>
         /// <returns>ResourceHandler.</returns>
-        public static ResourceHandler FromFileName(string fileName, string fileExtension)
+        public static ResourceHandler FromFileName(string fileName, string fileExtension = null)
         {
-            return new ResourceHandler(GetMimeType(fileExtension)) { Stream = File.OpenRead(fileName) };
+            var mimeType = string.IsNullOrEmpty(fileExtension) ? DefaultMimeType : GetMimeType(fileExtension);
+            return new ResourceHandler(mimeType, ResourceHandlerType.File) { FilePath = fileName };
         }
 
         /// <summary>
-        /// Gets a <see cref="ResourceHandler"/> that represents a string.
-        /// Defaults to <see cref="Encoding.UTF8"/> and includes encoding preamble
+        /// Gets the resource from the string.
         /// </summary>
         /// <param name="text">The text.</param>
+        /// <param name="fileExtension">The file extension.</param>
         /// <returns>ResourceHandler.</returns>
-        public static ResourceHandler FromString(string text)
+        public static ResourceHandler FromString(string text, string fileExtension)
         {
-            return FromString(text, Encoding.UTF8, true);
-        }
-
-        /// <summary>
-        /// Gets a <see cref="ResourceHandler"/> that represents a string.
-        /// Uses the specified encoding and includes encoding preamble.
-        /// </summary>
-        /// <param name="text">The html string</param>
-        /// <param name="encoding">Character Encoding</param>
-        /// <returns>ResourceHandler</returns>
-        public static ResourceHandler FromString(string text, Encoding encoding)
-        {
-            return FromString(text, encoding, true);
+            var mimeType = GetMimeType(fileExtension);
+            return FromString(text, Encoding.UTF8, false, mimeType);
         }
 
         /// <summary>
@@ -115,20 +201,15 @@ namespace CefSharp
         /// <param name="text">The html string</param>
         /// <param name="encoding">Character Encoding</param>
         /// <param name="includePreamble">Include encoding preamble</param>
+        /// <param name="mimeType">Mime Type</param>
         /// <returns>ResourceHandler</returns>
-        public static ResourceHandler FromString(string text, Encoding encoding, bool includePreamble)
+        public static ResourceHandler FromString(string text, Encoding encoding = null, bool includePreamble = true, string mimeType = DefaultMimeType)
         {
-            return new ResourceHandler { Stream = GetStream(text, encoding, includePreamble) };
-        }
-
-        /// <summary>
-        /// Gets the resource from a stream.
-        /// </summary>
-        /// <param name="stream">A stream of the resource.</param>
-        /// <returns></returns>
-        public static ResourceHandler FromStream(Stream stream)
-        {
-            return new ResourceHandler() { Stream = stream };
+            if(encoding == null)
+            {
+                encoding = Encoding.UTF8;
+            }
+            return new ResourceHandler(mimeType, ResourceHandlerType.Stream) { Stream = GetStream(text, encoding, includePreamble) };
         }
 
         /// <summary>
@@ -136,10 +217,10 @@ namespace CefSharp
         /// </summary>
         /// <param name="stream">A stream of the resource.</param>
         /// <param name="mimeType">Type of MIME.</param>
-        /// <returns></returns>
-        public static ResourceHandler FromStream(Stream stream, string mimeType)
+        /// <returns>ResourceHandler.</returns>
+        public static ResourceHandler FromStream(Stream stream, string mimeType = DefaultMimeType)
         {
-            return new ResourceHandler(mimeType) { Stream = stream };
+            return new ResourceHandler(mimeType, ResourceHandlerType.Stream) { Stream = stream };
         }
 
         private static MemoryStream GetStream(string text, Encoding encoding, bool includePreamble)
@@ -162,17 +243,7 @@ namespace CefSharp
             return new MemoryStream(encoding.GetBytes(text));
         }
 
-        /// <summary>
-        /// Gets the resource from the string.
-        /// </summary>
-        /// <param name="text">The text.</param>
-        /// <param name="fileExtension">The file extension.</param>
-        /// <returns>ResourceHandler.</returns>
-        public static ResourceHandler FromString(string text, string fileExtension)
-        {
-            return new ResourceHandler(GetMimeType(fileExtension)) { Stream = new MemoryStream(Encoding.UTF8.GetBytes(text)) };
-        }
-
+        //TODO: Replace with call to CefGetMimeType (little difficult at the moment with no access to the CefSharp.Core class from here)
         private static readonly IDictionary<string, string> Mappings = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase) 
         {
             // Combination of values from Windows 7 Registry and  C:\Windows\System32\inetsrv\config\applicationHost.config

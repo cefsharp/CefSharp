@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>ScriptedMethodsTest</title>
+    <link href="bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/shCore.css" rel="stylesheet">
+    <link href="assets/css/shCoreDefault.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h2>Javascript to .Net</h2>
+        </div>
+        <p class="lead">Asynchronous events from the Javascript environment.</p>
+        <p>Sending events from the Javascript environment to a .Net class involves the following:</p>
+        <ul>
+            <li>Create a class with a public method that will be exposed to the Javascript environment (see CefSharp\CefSharp.Example\ScriptedMethodsBoundObject.cs RaiseEvent().)</li>
+            <li>Bind the class to the Javascript runtime using RegisterJsObject (see CefSharp\CefSharp.WinForms.Example\BrowserTabUserControl.cs ctor().)</li>
+            <li>Invoke the exposed function in Javascript using window.[bound object name].[method name] (see CefSharp\CefSharp.Example\ScriptedMethods.cs ListenForClick().)</li>
+        </ul>
+        <p>Most of the time the web page's Javascript will be written specifically to interact with the embedded browser and any class methods that are exposed through RegisterJsObject. However to monitor some web pages it may be necessary to inject Javascript code that can detect changes and events in the web page and then invoke a method on a bound object.</p>
+        <ul>
+            <li>Create Javascript code that monitors the web page and invokes the exposed function (see CefSharp\CefSharp.Example\ScriptedMethods.cs ListenForClick().)</li>
+        </ul>
+        <p class="lead">Demonstration</p>
+        <p>This page demonstrates the injection of Javascript code that asynchronously invokes a bound method when a button is clicked. Clicking the <em>Script -> Listen for button click</em> menu will cause Javascript<a href="#injected-code"><sup>1</sup></a> to be executed that adds an event listener to the click event of the button below. When the button is clicked the bound class's exposed method will be invoked with information from the event including the element's id attribute and tag name.</p>
+        <button class="btn btn-primary" id="test-button" disabled>Click Me!</button>
+        <p style="margin-top:40px"><a name="injected-code"><sup>1</sup></a>Javascript code that adds a click event listener and passes event data to .Net when the event occurs.</p>
+        <pre data-shbrush="js">
+            (function () {
+                var counter = 0;
+                var elem = document.getElementById('test-button');
+                elem.removeAttribute('disabled');
+                elem.addEventListener('click', function(e){
+                    if (!window.boundEvent){
+                        console.log('window.boundEvent does not exist.');
+                        return;
+                    }
+                    counter++;
+                    window.boundEvent.raiseEvent('click', {count: counter, id: e.target.id, tagName: e.target.tagName});
+                });
+                console.log(`Added click listener to ${elem.id}.`);
+            })();
+        </pre>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="assets/js/shCore.js"></script>
+    <script src="assets/js/shBrushJScript.js"></script>
+    <script src="assets/js/jquery.js"></script>
+    <script src="bootstrap/bootstrap.min.js"></script>
+    <script src="assets/js/application.js"></script>
+</body>
+</html>

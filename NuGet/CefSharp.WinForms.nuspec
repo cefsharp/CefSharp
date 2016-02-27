@@ -10,7 +10,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>The CefSharp Chromium-based browser component (WinForms control).</description>
     <tags>winforms chrome browser</tags>
-    <copyright>Copyright © 2010-2014 The CefSharp Authors</copyright>
+    <copyright>Copyright © 2010-2016 The CefSharp Authors</copyright>
     <dependencies>
       <dependency id="CefSharp.Common" version="[$version$]" />
     </dependencies>
@@ -19,15 +19,17 @@
     <!-- Cannot put these inside lib\net40 etc, since there are both x86 and x64 versions which we must distinguish between. We
          solve this using a .props file instead. -->
     <file src="..\CefSharp.WinForms\bin\x86\Release\CefSharp.WinForms.dll" target="CefSharp\x86" />
-    <file src="..\CefSharp.WinForms\bin\x64\Release\CefSharp.WinForms.dll" target="CefSharp\x64" />
-
     <file src="..\CefSharp.WinForms\bin\x64\Release\CefSharp.WinForms.xml" target="CefSharp\x86" />
+    <file src="..\CefSharp.WinForms\bin\x64\Release\CefSharp.WinForms.pdb" target="CefSharp\x86" />
+
+    <file src="..\CefSharp.WinForms\bin\x64\Release\CefSharp.WinForms.dll" target="CefSharp\x64" />
     <file src="..\CefSharp.WinForms\bin\x64\Release\CefSharp.WinForms.xml" target="CefSharp\x64" />
-    <!-- Long shot, to see if it's here NuDoq.org looks for it, trial and error at it's best -->
-    <file src="..\CefSharp.WinForms\bin\x64\Release\CefSharp.WinForms.xml" target="lib" />
+    <file src="..\CefSharp.WinForms\bin\x64\Release\CefSharp.WinForms.pdb" target="CefSharp\x64" />
 
     <file src="CefSharp.WinForms.props" target="build" />
 
     <file src="Readme.txt" target="" />
+
+    <file src="..\CefSharp.WinForms\**\*.cs" target="src\CefSharp.WinForms" />
   </files>
 </package>

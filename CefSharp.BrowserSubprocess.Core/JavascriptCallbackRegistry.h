@@ -1,4 +1,4 @@
-// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+// Copyright © 2010-2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -18,15 +18,32 @@ namespace CefSharp
             int _browserId;
             Int64 _lastId;
             ConcurrentDictionary<Int64, JavascriptCallbackWrapper^>^ _callbacks;
+
+        internal:
+            JavascriptCallbackWrapper^ FindWrapper(int64 id);
+
         public:
             JavascriptCallbackRegistry(int browserId) : _browserId(browserId)
             {
                 _callbacks = gcnew ConcurrentDictionary<Int64, JavascriptCallbackWrapper^>();
             }
-            JavascriptCallback^ Register(CefRefPtr<CefV8Context> context, CefRefPtr<CefV8Value> value);
-            JavascriptResponse^ Execute(Int64 id, array<Object^>^ params);
+
+            ~JavascriptCallbackRegistry()
+            {
+                if (_callbacks != nullptr)
+                {
+                    for each (JavascriptCallbackWrapper^ callback in _callbacks->Values)
+                    {
+                        delete callback;
+                    }
+                    _callbacks->Clear();
+                    _callbacks = nullptr;
+                }
+            }
+
+            JavascriptCallback^ Register(const CefRefPtr<CefV8Context>& context, const CefRefPtr<CefV8Value>& value);
+
             void Deregister(Int64 id);
-            ~JavascriptCallbackRegistry();
         };
     }
 }

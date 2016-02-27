@@ -20,28 +20,6 @@
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x64</PlatformTarget>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Debug\</OutputPath>
@@ -90,15 +68,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AsyncBoundObject.cs" />
     <Compile Include="BoundObject.cs" />
+    <Compile Include="CallbackResponseStruct.cs" />
     <Compile Include="DragHandler.cs" />
+    <Compile Include="Filters\AppendResponseFilter.cs" />
+    <Compile Include="Filters\FindReplaceResponseFilter.cs" />
+    <Compile Include="FlashResourceHandler.cs" />
+    <Compile Include="FlashResourceHandlerFactory.cs" />
+    <Compile Include="Filters\PassThruResponseFilter.cs" />
+    <Compile Include="ScriptedMethodsBoundObject.cs" />
+    <Compile Include="ExceptionTestBoundObject.cs" />
     <Compile Include="JsDialogHandler.cs" />
+    <Compile Include="Proxy\InternetOpenType.cs" />
+    <Compile Include="Proxy\InternetProxyInfo.cs" />
+    <Compile Include="Proxy\ProxyConfig.cs" />
+    <Compile Include="RenderProcessMessageHandler.cs" />
+    <Compile Include="ScriptedMethods.cs" />
     <Compile Include="SubBoundObject.cs" />
     <Compile Include="TempFileDialogHandler.cs" />
     <Compile Include="CefExample.cs" />
     <Compile Include="DownloadHandler.cs" />
     <Compile Include="RequestHandler.cs" />
-    <Compile Include="ExtensionMethods\PropertyChangedExtensionMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -122,14 +113,21 @@
     <Content Include="Resources\assets\js\application.js" />
     <Content Include="Resources\assets\js\jquery.js" />
     <Content Include="Resources\assets\js\shBrushCSharp.js" />
+    <None Include="Resources\assets\js\shBrushJScript.js" />
     <Content Include="Resources\assets\js\shCore.js" />
+    <Content Include="Resources\ExceptionTest.html" />
     <Content Include="Resources\BindingTest.html" />
     <Content Include="Resources\bootstrap\bootstrap-theme.min.css" />
     <Content Include="Resources\bootstrap\bootstrap.min.css" />
     <Content Include="Resources\bootstrap\bootstrap.min.js" />
+    <Content Include="Resources\extension.js" />
+    <Content Include="Resources\MultiBindingTest.html" />
     <Content Include="Resources\home.html" />
+    <Content Include="Resources\FramedWebGLTest.html" />
     <Content Include="Resources\PopupTest.html" />
+    <Content Include="Resources\ResponseFilterTest.html" />
     <Content Include="Resources\SchemeTest.html" />
+    <Content Include="Resources\ScriptedMethodsTest.html" />
     <Content Include="Resources\TooltipTest.html" />
   </ItemGroup>
   <ItemGroup>

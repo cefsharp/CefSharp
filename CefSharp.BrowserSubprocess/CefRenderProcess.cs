@@ -1,58 +1,67 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using CefSharp.Internals;
+﻿// Copyright © 2010-2016 The CefSharp Authors. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.ServiceModel;
-using TaskExtensions = CefSharp.Internals.TaskExtensions;
+using CefSharp.Internals;
 
 namespace CefSharp.BrowserSubprocess
 {
-    [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, IncludeExceptionDetailInFaults=true)]
-    public class CefRenderProcess : CefSubProcess, IRenderProcess
+    public class CefRenderProcess : CefSubProcess
     {
         private int? parentBrowserId;
-        private List<CefBrowserWrapper> browsers = new List<CefBrowserWrapper>();
-
-        public CefRenderProcess(IEnumerable<string> args) 
-            : base(args)
-        {
-        }
         
-        protected override void DoDispose(bool isDisposing)
+        /// <summary>
+        /// The PID for the parent (browser) process
+        /// </summary>
+        private int? parentProcessId;
+
+        public CefRenderProcess(IEnumerable<string> args) : base(args)
         {
-            foreach(var browser in browsers)
+            parentProcessId = LocateParentProcessId(args);
+        }
+
+        private static int? LocateParentProcessId(IEnumerable<string> args)
+        {
+            // Format being parsed:
+            // --channel=3828.2.1260352072\1102986608
+            // We only really care about the PID (3828) part.
+            const string channelPrefix = "--channel=";
+            var channelArgument = args.SingleOrDefault(arg => arg.StartsWith(channelPrefix));
+            if (channelArgument == null)
             {
-                browser.Dispose();
+                return null;
             }
 
-            browsers = null;
-
-            base.DoDispose(isDisposing);
+            var parentProcessId = channelArgument
+                .Substring(channelPrefix.Length)
+                .Split('.')
+                .First();
+            return int.Parse(parentProcessId);
         }
 
         public override void OnBrowserCreated(CefBrowserWrapper browser)
         {
-            browsers.Add(browser);
-
             if (parentBrowserId == null)
             {
                 parentBrowserId = browser.BrowserId;
             }
 
-            if (ParentProcessId == null || parentBrowserId == null)
+            if (parentProcessId == null || parentBrowserId == null)
             {
                 return;
             }
 
             var browserId = browser.IsPopup ? parentBrowserId.Value : browser.BrowserId;
 
-            var serviceName = RenderprocessClientFactory.GetServiceName(ParentProcessId.Value, browserId);
+            var serviceName = RenderprocessClientFactory.GetServiceName(parentProcessId.Value, browserId);
 
             var binding = BrowserProcessServiceHost.CreateBinding();
 
-            var channelFactory = new DuplexChannelFactory<IBrowserProcess>(
-                this,
+            var channelFactory = new ChannelFactory<IBrowserProcess>(
                 binding,
                 new EndpointAddress(serviceName)
             );
@@ -65,17 +74,6 @@ namespace CefSharp.BrowserSubprocess
             try
             {
                 clientChannel.Open();
-                if (!browser.IsPopup)
-                {
-                    browserProcess.Connect();
-                }
-
-                var javascriptObject = browserProcess.GetRegisteredJavascriptObjects();
-
-                if (javascriptObject.MemberObjects.Count > 0)
-                {
-                    browser.JavascriptRootObject = javascriptObject;
-                }
 
                 browser.ChannelFactory = channelFactory;
                 browser.BrowserProcess = browserProcess;
@@ -87,8 +85,6 @@ namespace CefSharp.BrowserSubprocess
 
         public override void OnBrowserDestroyed(CefBrowserWrapper browser)
         {
-            browsers.Remove(browser);
-
             var channelFactory = browser.ChannelFactory;
 
             if (channelFactory.State == CommunicationState.Opened)
@@ -105,148 +101,6 @@ namespace CefSharp.BrowserSubprocess
 
             browser.ChannelFactory = null;
             browser.BrowserProcess = null;
-            browser.JavascriptRootObject = null;
-        }
-
-        public Task<JavascriptResponse> EvaluateScriptAsync(int browserId, long frameId, string script, TimeSpan? timeout)
-        {
-            var factory = RenderThreadTaskFactory;
-            var browser = browsers.FirstOrDefault(x => x.BrowserId == browserId);
-            if (browser == null)
-            {
-                return TaskExtensions.FromResult(new JavascriptResponse
-                {
-                    Success = false,
-                    Message = string.Format("Browser with Id {0} not found in Render Sub Process.", browserId)
-                });
-            }
-
-            var task = factory.StartNew(() =>
-            {
-                try
-                {
-                    var response = browser.DoEvaluateScript(frameId, script);
-
-                    return response;
-                }
-                catch (Exception ex)
-                {
-                    return new JavascriptResponse
-                    {
-                        Success = false,
-                        Message = ex.ToString()
-                    };
-                }
-            }, TaskCreationOptions.AttachedToParent);
-
-            return timeout.HasValue ? task.WithTimeout(timeout.Value) : task;
-        }
-
-        public IAsyncResult BeginEvaluateScriptAsync(int browserId, long frameId, string script, TimeSpan? timeout, AsyncCallback callback, object state)
-        {
-            var tcs = new TaskCompletionSource<JavascriptResponse>(state);
-            var task = EvaluateScriptAsync(browserId, frameId, script, timeout);
-            task.ContinueWith(t =>
-            {
-                if (t.IsFaulted)
-                {
-                    tcs.TrySetException(t.Exception.InnerExceptions);
-                }
-                else if (t.IsCanceled)
-                {
-                    tcs.TrySetCanceled();
-                }
-                else
-                {
-                    tcs.TrySetResult(t.Result);
-                }
-
-                if (callback != null)
-                {
-                    callback(tcs.Task);
-                }
-            });
-            return tcs.Task;
-        }
-
-        public JavascriptResponse EndEvaluateScriptAsync(IAsyncResult result)
-        {
-            return ((Task<JavascriptResponse>)result).Result;
-        }
-
-        public IAsyncResult BeginJavascriptCallbackAsync(int browserId, long callbackId, object[] parameters, TimeSpan? timeout, AsyncCallback callback, object state)
-        {
-            var tcs = new TaskCompletionSource<JavascriptResponse>(state);
-            var task = JavascriptCallbackAsync(browserId, callbackId, parameters, timeout);
-            task.ContinueWith(t =>
-            {
-                if (t.IsFaulted)
-                {
-                    tcs.TrySetException(t.Exception.InnerExceptions);
-                }
-                else if (t.IsCanceled)
-                {
-                    tcs.TrySetCanceled();
-                }
-                else
-                {
-                    tcs.TrySetResult(t.Result);
-                }
-
-                if (callback != null)
-                {
-                    callback(tcs.Task);
-                }
-            });
-            return tcs.Task;
-        }
-
-        public JavascriptResponse EndJavascriptCallbackAsync(IAsyncResult result)
-        {
-            return ((Task<JavascriptResponse>)result).Result;
-        }
-
-        public void DestroyJavascriptCallback(int browserId, long id)
-        {
-            var browser = browsers.FirstOrDefault(x => x.BrowserId == browserId);
-            if (browser != null)
-            {
-                browser.DestroyJavascriptCallback(id);
-            }
-        }
-
-        private Task<JavascriptResponse> JavascriptCallbackAsync(int browserId, long callbackId, object[] parameters, TimeSpan? timeout)
-        {
-            var factory = RenderThreadTaskFactory;
-            var browser = browsers.FirstOrDefault(x => x.BrowserId == browserId);
-            if (browser == null)
-            {
-                return TaskExtensions.FromResult(new JavascriptResponse
-                {
-                    Success = false,
-                    Message = string.Format("Browser with Id {0} not found in Render Sub Process.", browserId)
-                });
-            }
-
-            var task = factory.StartNew(() =>
-            {
-                try
-                {
-                    var response = browser.DoCallback(callbackId, parameters);
-
-                    return response;
-                }
-                catch (Exception ex)
-                {
-                    return new JavascriptResponse
-                    {
-                        Success = false,
-                        Message = ex.ToString()
-                    };
-                }
-            }, TaskCreationOptions.AttachedToParent);
-
-            return timeout.HasValue ? task.WithTimeout(timeout.Value) : task;
         }
     }
 }

@@ -1,21 +1,18 @@
 param(
-    [ValidateSet("vs2013", "vs2012", "nupkg", "nupkg-only")]
+    [ValidateSet("vs2013", "vs2015", "nupkg-only")]
     [Parameter(Position = 0)] 
-    [string] $Target = "nupkg",
+    [string] $Target = "vs2013",
     [Parameter(Position = 1)]
-    [string] $Version = "39.0.0-pre03",
+    [string] $Version = "49.0.0",
     [Parameter(Position = 2)]
-    [string] $AssemblyVersion = "39.0.0",
+    [string] $AssemblyVersion = "49.0.0",
     [Parameter(Position = 3)]
-    [string] $RedistVersion = "3.2171.1979"
+    [string] $RedistVersion = "3.2526.1362"
 )
 
 $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
 
 $CefSln = Join-Path $WorkingDir 'CefSharp3.sln'
-
-$MSBuildExe = join-path -path (Get-ItemProperty "HKLM:\software\Microsoft\MSBuild\ToolsVersions\4.0").MSBuildToolsPath -childpath "msbuild.exe"
-$MSBuildExe = $MSBuildExe -replace "Framework64", "Framework"
 
 function Write-Diagnostic 
 {
@@ -109,7 +106,7 @@ function TernaryReturn
 function Msvs 
 {
     param(
-        [ValidateSet('v110', 'v120')]
+        [ValidateSet('v120', 'v140')]
         [Parameter(Position = 0, ValueFromPipeline = $true)]
         [string] $Toolchain, 
 
@@ -128,13 +125,17 @@ function Msvs
     $VXXCommonTools = $null
 
     switch -Exact ($Toolchain) {
-        'v110' {
-            $VisualStudioVersion = '11.0'
-            $VXXCommonTools = Join-Path $env:VS110COMNTOOLS '..\..\vc'
-        }
         'v120' {
+            $MSBuildExe = join-path -path (Get-ItemProperty "HKLM:\software\Microsoft\MSBuild\ToolsVersions\12.0").MSBuildToolsPath -childpath "msbuild.exe"
+            $MSBuildExe = $MSBuildExe -replace "Framework64", "Framework"
             $VisualStudioVersion = '12.0'
             $VXXCommonTools = Join-Path $env:VS120COMNTOOLS '..\..\vc'
+        }
+        'v140' {
+            $MSBuildExe = join-path -path (Get-ItemProperty "HKLM:\software\Microsoft\MSBuild\ToolsVersions\14.0").MSBuildToolsPath -childpath "msbuild.exe"
+            $MSBuildExe = $MSBuildExe -replace "Framework64", "Framework"
+            $VisualStudioVersion = '14.0'
+            $VXXCommonTools = Join-Path $env:VS140COMNTOOLS '..\..\vc'
         }
     }
 
@@ -199,7 +200,7 @@ function Msvs
 function VSX 
 {
     param(
-        [ValidateSet('v110', 'v120')]
+        [ValidateSet('v120', 'v140')]
         [Parameter(Position = 0, ValueFromPipeline = $true)]
         [string] $Toolchain
     )
@@ -209,7 +210,7 @@ function VSX
         Return
     }
 
-    if($Toolchain -eq 'v110' -and $env:VS110COMNTOOLS -eq $null) {
+    if($Toolchain -eq 'v140' -and $env:VS140COMNTOOLS -eq $null) {
         Warn "Toolchain $Toolchain is not installed on your development machine, skipping build."
         Return
     }
@@ -252,10 +253,10 @@ function Nupkg
     Write-Diagnostic "Building nuget package"
 
     # Build packages
-    . $nuget pack nuget\CefSharp.Common.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget -Properties "RedistVersion=$RedistVersion"
-    . $nuget pack nuget\CefSharp.Wpf.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
-    . $nuget pack nuget\CefSharp.OffScreen.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
-    . $nuget pack nuget\CefSharp.WinForms.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
+    . $nuget pack nuget\CefSharp.Common.nuspec -NoPackageAnalysis -Symbol -Version $Version -OutputDirectory nuget -Properties "RedistVersion=$RedistVersion"
+    . $nuget pack nuget\CefSharp.Wpf.nuspec -NoPackageAnalysis -Symbol -Version $Version -OutputDirectory nuget
+    . $nuget pack nuget\CefSharp.OffScreen.nuspec -NoPackageAnalysis -Symbol -Version $Version -OutputDirectory nuget
+    . $nuget pack nuget\CefSharp.WinForms.nuspec -NoPackageAnalysis -Symbol -Version $Version -OutputDirectory nuget
 
     # Invoke `AfterBuild` script if available (ie. upload packages to myget)
     if(-not (Test-Path $WorkingDir\AfterBuild.ps1)) {
@@ -294,13 +295,8 @@ NugetPackageRestore
 
 WriteAssemblyVersion
 
-switch -Exact ($Target) {
-    "nupkg"
-    {
-        #VSX v120
-        VSX v110
-        Nupkg
-    }
+switch -Exact ($Target)
+{
     "nupkg-only"
     {
         Nupkg
@@ -308,9 +304,11 @@ switch -Exact ($Target) {
     "vs2013"
     {
         VSX v120
+        Nupkg
     }
-    "vs2012"
+    "vs2015"
     {
-        VSX v110
+        VSX v140
+        Nupkg
     }
 }

@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Copyright © 2010-2016 The CefSharp Authors. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
+using System;
 using System.Threading.Tasks;
 
 namespace CefSharp.Example
@@ -10,6 +14,27 @@ namespace CefSharp.Example
         public string MyReadOnlyProperty { get; internal set; }
         public Type MyUnconvertibleProperty { get; set; }
         public SubBoundObject SubObject { get; set; }
+        public ExceptionTestBoundObject ExceptionTestObject { get; set; }
+
+        public uint[] MyUintArray
+        {
+            get { return new uint[] { 7, 8 }; }
+        }
+
+        public int[] MyIntArray
+        {
+            get { return new [] { 1, 2, 3, 4, 5, 6, 7, 8 }; }
+        }
+
+        public Array MyArray
+        {
+            get { return new short[] { 1, 2, 3 }; }
+        }
+
+        public byte[] MyBytes
+        {
+            get { return new byte[] { 3, 4, 5 }; }
+        }
 
         public BoundObject()
         {
@@ -18,6 +43,7 @@ namespace CefSharp.Example
             IgnoredProperty = "I am an Ignored Property";
             MyUnconvertibleProperty = GetType();
             SubObject = new SubBoundObject();
+            ExceptionTestObject = new ExceptionTestBoundObject();
         }
 
         public void TestCallback(IJavascriptCallback javascriptCallback)
@@ -30,7 +56,9 @@ namespace CefSharp.Example
 
                 using (javascriptCallback)
                 {
-                    await javascriptCallback.ExecuteAsync("This callback from C# was delayed " + taskDelay + "ms");
+                    //NOTE: Classes are not supported, simple structs are
+                    var response = new CallbackResponseStruct("This callback from C# was delayed " + taskDelay + "ms");
+                    await javascriptCallback.ExecuteAsync(response);
                 }
             });
         }

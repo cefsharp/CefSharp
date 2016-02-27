@@ -1,7 +1,15 @@
-﻿using CefSharp.Example;
+﻿// Copyright © 2010-2016 The CefSharp Authors. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
+using CefSharp.Example;
 using System;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using CefSharp.WinForms.Example.Handlers;
 using CefSharp.WinForms.Internals;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CefSharp.WinForms.Example
 {
@@ -9,7 +17,7 @@ namespace CefSharp.WinForms.Example
     {
         public IWinFormsWebBrowser Browser { get; private set; }
 
-        public BrowserTabUserControl(string url)
+        public BrowserTabUserControl(Action<string, int?> openNewTab, string url)
         {
             InitializeComponent();
 
@@ -23,21 +31,30 @@ namespace CefSharp.WinForms.Example
             Browser = browser;
 
             browser.MenuHandler = new MenuHandler();
-            browser.RequestHandler = new RequestHandler();
+            browser.RequestHandler = new WinFormsRequestHandler(openNewTab);
             browser.JsDialogHandler = new JsDialogHandler();
             browser.GeolocationHandler = new GeolocationHandler();
             browser.DownloadHandler = new DownloadHandler();
-            //browser.FocusHandler = new FocusHandler(browser, urlTextBox);
-            browser.NavStateChanged += OnBrowserNavStateChanged;
+            browser.KeyboardHandler = new KeyboardHandler();
+            //browser.LifeSpanHandler = new LifeSpanHandler();
+            browser.LoadingStateChanged += OnBrowserLoadingStateChanged;
             browser.ConsoleMessage += OnBrowserConsoleMessage;
             browser.TitleChanged += OnBrowserTitleChanged;
             browser.AddressChanged += OnBrowserAddressChanged;
             browser.StatusMessage += OnBrowserStatusMessage;
             browser.IsBrowserInitializedChanged += OnIsBrowserInitializedChanged;
-            browser.IsLoadingChanged += OnIsLoadingChanged;
             browser.LoadError += OnLoadError;
             browser.DragHandler = new DragHandler();
             browser.RegisterJsObject("bound", new BoundObject());
+            browser.RegisterAsyncJsObject("boundAsync", new AsyncBoundObject());
+            browser.RenderProcessMessageHandler = new RenderProcessMessageHandler();
+            //browser.ResourceHandlerFactory = new FlashResourceHandlerFactory();
+
+            var eventObject = new ScriptedMethodsBoundObject();
+            eventObject.EventArrived += OnJavascriptEventArrived;
+            // Use the default of camelCaseJavascriptNames
+            // .Net methods starting with a capitol will be translated to starting with a lower case letter when called from js
+            browser.RegisterJsObject("boundEvent", eventObject, camelCaseJavascriptNames:true);
 
             CefExample.RegisterTestResources(browser);
 
@@ -60,7 +77,7 @@ namespace CefSharp.WinForms.Example
             this.InvokeOnUiThreadIfRequired(() => statusLabel.Text = args.Value);
         }
 
-        private void OnBrowserNavStateChanged(object sender, NavStateChangedEventArgs args)
+        private void OnBrowserLoadingStateChanged(object sender, LoadingStateChangedEventArgs args)
         {
             SetCanGoBack(args.CanGoBack);
             SetCanGoForward(args.CanGoForward);
@@ -76,6 +93,25 @@ namespace CefSharp.WinForms.Example
         private void OnBrowserAddressChanged(object sender, AddressChangedEventArgs args)
         {
             this.InvokeOnUiThreadIfRequired(() => urlTextBox.Text = args.Address);
+        }
+
+        private static void OnJavascriptEventArrived(string eventName, object eventData)
+        {
+            switch (eventName)
+            {
+                case "click":
+                {
+                    var message = eventData.ToString();
+                    var dataDictionary = eventData as Dictionary<string, object>;
+                    if (dataDictionary != null)
+                    {
+                        var result = string.Join(", ", dataDictionary.Select(pair => pair.Key + "=" + pair.Value));
+                        message = "event data: " + result;
+                    }
+                    MessageBox.Show(message, "Javascript event arrived", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    break;
+                }
+            }
         }
 
         private void SetCanGoBack(bool canGoBack)
@@ -100,29 +136,63 @@ namespace CefSharp.WinForms.Example
             HandleToolStripLayout();
         }
 
+        [return: MarshalAs(UnmanagedType.Bool)]
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+
         private void OnIsBrowserInitializedChanged(object sender, IsBrowserInitializedChangedEventArgs args)
         {
-            
+            if (args.IsBrowserInitialized)
+            {
+                //Get the underlying browser host wrapper
+                var browserHost = Browser.GetBrowser().GetHost();
+                var requestContext = browserHost.RequestContext;
+                string errorMessage;
+                // Browser must be initialized before getting/setting preferences
+                var success = requestContext.SetPreference("enable_do_not_track", true, out errorMessage);
+                if(!success)
+                {
+                    this.InvokeOnUiThreadIfRequired(() => MessageBox.Show("Unable to set preference enable_do_not_track errorMessage: " + errorMessage));
+                }
+                var preferences = requestContext.GetAllPreferences(true);
+                var doNotTrack = (bool)preferences["enable_do_not_track"];
+                
+                ChromeWidgetMessageInterceptor.SetupLoop((ChromiumWebBrowser)Browser, (message) =>
+                {
+                    const int WM_MOUSEACTIVATE = 0x0021;
+                    const int WM_NCLBUTTONDOWN = 0x00A1;
+
+                    if (message.Msg == WM_MOUSEACTIVATE) {
+                        // The default processing of WM_MOUSEACTIVATE results in MA_NOACTIVATE,
+                        // and the subsequent mouse click is eaten by Chrome.
+                        // This means any .NET ToolStrip or ContextMenuStrip does not get closed.
+                        // By posting a WM_NCLBUTTONDOWN message to a harmless co-ordinate of the
+                        // top-level window, we rely on the ToolStripManager's message handling
+                        // to close any open dropdowns:
+                        // http://referencesource.microsoft.com/#System.Windows.Forms/winforms/Managed/System/WinForms/ToolStripManager.cs,1249
+                        var topLevelWindowHandle = message.WParam;
+                        PostMessage(topLevelWindowHandle, WM_NCLBUTTONDOWN, IntPtr.Zero, IntPtr.Zero);
+                    }
+
+                    // The ChromiumWebBrowserControl does not fire MouseEnter/Move/Leave events, because Chromium handles these.
+                    // However we can hook into Chromium's messaging window to receive the events.
+                    //
+                    //const int WM_MOUSEMOVE = 0x0200;
+                    //const int WM_MOUSELEAVE = 0x02A3;
+                    //
+                    //switch (message.Msg) {
+                    //    case WM_MOUSEMOVE:
+                    //        Console.WriteLine("WM_MOUSEMOVE");
+                    //        break;
+                    //    case WM_MOUSELEAVE:
+                    //        Console.WriteLine("WM_MOUSELEAVE");
+                    //        break;
+                    //}
+                });
+            }
         }
 
-        private void OnIsLoadingChanged(object sender, IsLoadingChangedEventArgs args)
-        {
-            
-        }
-
-        public void ExecuteScript(string script)
-        {
-            Browser.ExecuteScriptAsync(script);
-        }
-
-        public object EvaluateScript(string script)
-        {
-            var task = Browser.EvaluateScriptAsync(script);
-            task.Wait();
-            return task.Result;
-        }
-
-        public void DisplayOutput(string output)
+        private void DisplayOutput(string output)
         {
             this.InvokeOnUiThreadIfRequired(() => outputLabel.Text = output);
         }

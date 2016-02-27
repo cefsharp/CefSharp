@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2014 The CefSharp Authors. All rights reserved.
+﻿// Copyright © 2010-2016 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -41,17 +41,16 @@ namespace CefSharp.WinForms.Internals
         /// Returns whether the supplied control is the currently
         /// active control.
         /// </summary>
-        /// <param name="control"></param>
-        /// <returns></returns>
+        /// <param name="control">the control to check</param>
+        /// <returns>true if the control is the currently active control</returns>
         public static bool IsActiveControl(this Control control)
         {
             Control activeControl = control.FindForm().ActiveControl;
-            ContainerControl containerControl;
             while (activeControl != null
-                    && (activeControl as ContainerControl != null)
+                   && (activeControl is ContainerControl)
                    && !Object.ReferenceEquals(control, activeControl))
             {
-                containerControl = activeControl as ContainerControl;
+                var containerControl = activeControl as ContainerControl;
                 activeControl = containerControl.ActiveControl;
             }
             return Object.ReferenceEquals(control, activeControl);

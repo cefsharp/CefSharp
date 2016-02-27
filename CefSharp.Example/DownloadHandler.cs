@@ -1,18 +1,25 @@
-﻿namespace CefSharp.Example
+﻿// Copyright © 2010-2016 The CefSharp Authors. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
+namespace CefSharp.Example
 {
     public class DownloadHandler : IDownloadHandler
     {
-        public bool OnBeforeDownload(DownloadItem downloadItem, out string downloadPath, out bool showDialog)
+        public void OnBeforeDownload(IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
         {
-            downloadPath = downloadItem.SuggestedFileName;
-            showDialog = true;
-
-            return true;
+            if (!callback.IsDisposed)
+            {
+                using (callback)
+                {
+                    callback.Continue(downloadItem.SuggestedFileName, showDialog: true);
+                }
+            }
         }
 
-        public bool OnDownloadUpdated(DownloadItem downloadItem)
+        public void OnDownloadUpdated(IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback)
         {
-            return false;
+            
         }
     }
 }

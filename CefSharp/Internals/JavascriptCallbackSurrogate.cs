@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2014 The CefSharp Project. All rights reserved.
+﻿// Copyright © 2010-2016 The CefSharp Project. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -12,18 +12,18 @@ namespace CefSharp.Internals
 {
     internal sealed class JavascriptCallbackSurrogate : IDataContractSurrogate
     {
-        private readonly WeakReference browserProcessWeakReference;
-
-        public JavascriptCallbackSurrogate(WeakReference browserProcessWeakReference)
-        {
-            this.browserProcessWeakReference = browserProcessWeakReference;
-        }
+        private readonly IJavascriptCallbackFactory callbackFactory;
+ 
+        public JavascriptCallbackSurrogate(IJavascriptCallbackFactory callbackFactory)
+         {
+            this.callbackFactory = callbackFactory;
+         }
 
         public Type GetDataContractType(Type type)
         {
             if (type == typeof (JavascriptCallback))
             {
-                return typeof (JavascriptCallbackProxy);
+                return typeof (IJavascriptCallback);
             }
             return type;
         }
@@ -39,7 +39,7 @@ namespace CefSharp.Internals
             var dto = obj as JavascriptCallback;
             if (dto != null)
             {
-                result = new JavascriptCallbackProxy(dto.Id, dto.BrowserId, browserProcessWeakReference);
+                result = callbackFactory.Create(dto);
             }
             return result;
         }
