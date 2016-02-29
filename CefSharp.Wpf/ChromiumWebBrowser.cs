@@ -1325,24 +1325,24 @@ namespace CefSharp.Wpf
             get { return disposeCount > 0; }
         }
 
-        protected override void OnManipulationDelta(ManipulationDeltaEventArgs e)
-        {
-           base.OnManipulationDelta(e);
+        //protected override void OnManipulationDelta(ManipulationDeltaEventArgs e)
+        //{
+        //   base.OnManipulationDelta(e);
 
-            if (!e.Handled)
-            {
-                var point = e.ManipulationOrigin;
+        //	if (!e.Handled)
+        //	{
+        //		var point = e.ManipulationOrigin;
 
-                if (browser != null)
-                {
-                    browser.GetHost().SendMouseWheelEvent(
-                        (int)point.X,
-                        (int)point.Y,
-                        deltaX: (int)e.DeltaManipulation.Translation.X,
-                        deltaY: (int)e.DeltaManipulation.Translation.Y,
-                        modifiers: CefEventFlags.None);
-                }
-            }
-        }
+        //		if (browser != null)
+        //		{
+        //			browser.GetHost().SendMouseWheelEvent(
+        //				(int)point.X,
+        //				(int)point.Y,
+        //				deltaX: (int)e.DeltaManipulation.Translation.X,
+        //				deltaY: (int)e.DeltaManipulation.Translation.Y,
+        //				modifiers: CefEventFlags.None);
+        //		}
+        //	}
+        //}
     }
 }
