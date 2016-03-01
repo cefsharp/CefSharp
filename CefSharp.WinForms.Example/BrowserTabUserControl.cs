@@ -16,6 +16,7 @@ namespace CefSharp.WinForms.Example
     public partial class BrowserTabUserControl : UserControl
     {
         public IWinFormsWebBrowser Browser { get; private set; }
+        private IntPtr browserHandle;
 
         public BrowserTabUserControl(Action<string, int?> openNewTab, string url)
         {
@@ -48,6 +49,8 @@ namespace CefSharp.WinForms.Example
             browser.RegisterJsObject("bound", new BoundObject());
             browser.RegisterAsyncJsObject("boundAsync", new AsyncBoundObject());
             browser.RenderProcessMessageHandler = new RenderProcessMessageHandler();
+            browser.MouseDown += OnBrowserMouseClick;
+            browser.HandleCreated += OnBrowserHandleCreated;
             //browser.ResourceHandlerFactory = new FlashResourceHandlerFactory();
 
             var eventObject = new ScriptedMethodsBoundObject();
@@ -60,6 +63,16 @@ namespace CefSharp.WinForms.Example
 
             var version = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}", Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
             DisplayOutput(version);
+        }
+
+        private void OnBrowserHandleCreated(object sender, EventArgs e)
+        {
+            browserHandle = ((ChromiumWebBrowser)Browser).Handle;
+        }
+
+        private void OnBrowserMouseClick(object sender, MouseEventArgs e)
+        {
+            MessageBox.Show("Mouse Clicked" + e.X + ";" + e.Y + ";" + e.Button);
         }
 
         private void OnLoadError(object sender, LoadErrorEventArgs args)
@@ -161,6 +174,7 @@ namespace CefSharp.WinForms.Example
                 {
                     const int WM_MOUSEACTIVATE = 0x0021;
                     const int WM_NCLBUTTONDOWN = 0x00A1;
+                    const int WM_LBUTTONDOWN = 0x0201;
 
                     if (message.Msg == WM_MOUSEACTIVATE) {
                         // The default processing of WM_MOUSEACTIVATE results in MA_NOACTIVATE,
@@ -173,6 +187,11 @@ namespace CefSharp.WinForms.Example
                         var topLevelWindowHandle = message.WParam;
                         PostMessage(topLevelWindowHandle, WM_NCLBUTTONDOWN, IntPtr.Zero, IntPtr.Zero);
                     }
+                    //Forward mouse button down message to browser control
+                    //else if(message.Msg == WM_LBUTTONDOWN)
+                    //{
+                    //    PostMessage(browserHandle, WM_LBUTTONDOWN, message.WParam, message.LParam);
+                    //}
 
                     // The ChromiumWebBrowserControl does not fire MouseEnter/Move/Leave events, because Chromium handles these.
                     // However we can hook into Chromium's messaging window to receive the events.
