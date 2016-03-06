@@ -42,6 +42,7 @@ namespace CefSharp
         public:
             virtual property String^ Url { String^ get(); void set(String^ url); }
             virtual property String^ Method { String^ get(); void set(String^ method); }
+            virtual property UInt64 Identifier { UInt64 get(); }
             virtual void SetReferrer(String^ referrerUrl, CefSharp::ReferrerPolicy policy);
             virtual property String^ ReferrerUrl { String^ get(); }
             virtual property ResourceType ResourceType { CefSharp::ResourceType get(); }
@@ -49,6 +50,7 @@ namespace CefSharp
             virtual property NameValueCollection^ Headers { NameValueCollection^ get(); void set(NameValueCollection^ url); }
             virtual property TransitionType TransitionType { CefSharp::TransitionType get(); }
             virtual property IPostData^ PostData { IPostData^ get(); }
+            virtual property bool IsReadOnly { bool get(); }
             virtual void InitializePostData();
 
             operator CefRefPtr<CefRequest>()
