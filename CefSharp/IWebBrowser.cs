@@ -151,6 +151,11 @@ namespace CefSharp
         IRenderProcessMessageHandler RenderProcessMessageHandler { get; set; }
 
         /// <summary>
+        /// Implement <see cref="IFindHandler"/> to handle events related to find results.
+        /// </summary>
+        IFindHandler FindHandler { get; set; }
+
+        /// <summary>
         /// A flag that indicates whether the WebBrowser is initialized (true) or not (false).
         /// </summary>
         /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data

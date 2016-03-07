@@ -1007,6 +1007,19 @@ namespace CefSharp
             }
         }
 
+        void ClientAdapter::OnFindResult(CefRefPtr<CefBrowser> browser, int identifier, int count, const CefRect& selectionRect, int activeMatchOrdinal, bool finalUpdate)
+        {
+            auto handler = _browserControl->FindHandler;
+
+            if (handler != nullptr)
+            {
+                auto rect = Rect(selectionRect.x, selectionRect.y, selectionRect.width, selectionRect.height);
+                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup(), false);
+
+                handler->OnFindResult(_browserControl, browserWrapper, identifier, count, rect, activeMatchOrdinal, finalUpdate);
+            }
+        }
+
         bool ClientAdapter::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
         {
             auto handled = false;
