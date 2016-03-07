@@ -57,6 +57,7 @@ namespace CefSharp.Wpf
         public IGeolocationHandler GeolocationHandler { get; set; }
         public IBitmapFactory BitmapFactory { get; set; }
         public IRenderProcessMessageHandler RenderProcessMessageHandler { get; set; }
+        public IFindHandler FindHandler { get; set; }
 
         public event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
         public event EventHandler<StatusMessageEventArgs> StatusMessage;

@@ -38,6 +38,7 @@ namespace CefSharp.WinForms
         public IDisplayHandler DisplayHandler { get; set; }
         public IContextMenuHandler MenuHandler { get; set; }
         public IRenderProcessMessageHandler RenderProcessMessageHandler { get; set; }
+        public IFindHandler FindHandler { get; set; }
 
         /// <summary>
         /// The <see cref="IFocusHandler"/> for this ChromiumWebBrowser.

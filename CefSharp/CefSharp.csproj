@@ -86,6 +86,7 @@
     <Compile Include="FilterStatus.cs" />
     <Compile Include="Geoposition.cs" />
     <Compile Include="IDomNode.cs" />
+    <Compile Include="IFindHandler.cs" />
     <Compile Include="Internals\CommandLineArgsParser.cs" />
     <Compile Include="IPluginHandler.cs" />
     <Compile Include="IRenderProcessMessageHandler.cs" />
@@ -177,6 +178,7 @@
     <Compile Include="PluginPolicy.cs" />
     <Compile Include="PostDataElementType.cs" />
     <Compile Include="PostDataExtensions.cs" />
+    <Compile Include="Rect.cs" />
     <Compile Include="ReferrerPolicy.cs" />
     <Compile Include="ResourceHandler.cs" />
     <Compile Include="ResourceHandlerType.cs" />
