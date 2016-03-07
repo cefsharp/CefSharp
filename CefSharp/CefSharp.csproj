@@ -85,10 +85,12 @@
     <Compile Include="DraggableRegion.cs" />
     <Compile Include="FilterStatus.cs" />
     <Compile Include="Geoposition.cs" />
+    <Compile Include="IBrowserSettings.cs" />
     <Compile Include="IDomNode.cs" />
     <Compile Include="IFindHandler.cs" />
     <Compile Include="Internals\CommandLineArgsParser.cs" />
     <Compile Include="IPluginHandler.cs" />
+    <Compile Include="IPopupFeatures.cs" />
     <Compile Include="IRenderProcessMessageHandler.cs" />
     <Compile Include="IRequestContext.cs" />
     <Compile Include="IResponseFilter.cs" />

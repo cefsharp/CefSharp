@@ -7,63 +7,69 @@ using System.Windows.Forms;
 
 namespace CefSharp.WinForms.Example.Handlers
 {
-	public class LifeSpanHandler : ILifeSpanHandler
-	{
-		bool ILifeSpanHandler.OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName, WindowOpenDisposition targetDisposition, bool userGesture, IWindowInfo windowInfo, ref bool noJavascriptAccess, out IWebBrowser newBrowser)
-		{
-			var chromiumWebBrowser = (ChromiumWebBrowser)browserControl;
+    public class LifeSpanHandler : ILifeSpanHandler
+    {
+        bool ILifeSpanHandler.OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName, WindowOpenDisposition targetDisposition, bool userGesture, IPopupFeatures popupFeatures, IWindowInfo windowInfo, IBrowserSettings browserSettings, ref bool noJavascriptAccess, out IWebBrowser newBrowser)
+        {
+            //Default behaviour
+            newBrowser = null;
 
-			ChromiumWebBrowser chromiumBrowser = null;
+            return false; //Return true to cancel the popup creation
 
-			var windowX = windowInfo.X;
-			var windowY = windowInfo.Y;
-			var windowWidth = (windowInfo.Width == int.MinValue) ? 600 : windowInfo.Width;
-			var windowHeight = (windowInfo.Height == int.MinValue) ? 800 : windowInfo.Height;
+            //EXPERIMENTAL: Demonstrates using a new instance of ChromiumWebBrowser to host the popup.
+            var chromiumWebBrowser = (ChromiumWebBrowser)browserControl;
 
-			chromiumWebBrowser.Invoke(new Action(() =>
-			{
-				var owner = chromiumWebBrowser.FindForm();
-				chromiumBrowser = new ChromiumWebBrowser(targetUrl)
-				{
-					LifeSpanHandler = this
-				};
-				chromiumBrowser.SetAsPopup();
+            ChromiumWebBrowser chromiumBrowser = null;
 
-				var popup = new Form
-				{
-					Left = windowX,
-					Top = windowY,
-					Width = windowWidth,
-					Height = windowHeight,
-					Text = targetFrameName
-				};
+            var windowX = windowInfo.X;
+            var windowY = windowInfo.Y;
+            var windowWidth = (windowInfo.Width == int.MinValue) ? 600 : windowInfo.Width;
+            var windowHeight = (windowInfo.Height == int.MinValue) ? 800 : windowInfo.Height;
 
-				owner.AddOwnedForm(popup);
+            chromiumWebBrowser.Invoke(new Action(() =>
+            {
+                var owner = chromiumWebBrowser.FindForm();
+                chromiumBrowser = new ChromiumWebBrowser(targetUrl)
+                {
+                    LifeSpanHandler = this
+                };
+                chromiumBrowser.SetAsPopup();
 
-				popup.Controls.Add(new Label { Text = "CefSharp Custom Popup" });
-				popup.Controls.Add(chromiumBrowser);
+                var popup = new Form
+                {
+                    Left = windowX,
+                    Top = windowY,
+                    Width = windowWidth,
+                    Height = windowHeight,
+                    Text = targetFrameName
+                };
 
-				popup.Show();
-			}));
+                owner.AddOwnedForm(popup);
 
-			newBrowser = chromiumBrowser;
+                popup.Controls.Add(new Label { Text = "CefSharp Custom Popup" });
+                popup.Controls.Add(chromiumBrowser);
 
-			return false;
-		}
+                popup.Show();
+            }));
 
-		void ILifeSpanHandler.OnAfterCreated(IWebBrowser browserControl, IBrowser browser)
-		{
-			
-		}
+            newBrowser = chromiumBrowser;
 
-		bool ILifeSpanHandler.DoClose(IWebBrowser browserControl, IBrowser browser)
-		{
-			return false;
-		}
+            return false;
+        }
 
-		public void OnBeforeClose(IWebBrowser browserControl, IBrowser browser)
-		{
-			
-		}
-	}
+        void ILifeSpanHandler.OnAfterCreated(IWebBrowser browserControl, IBrowser browser)
+        {
+            
+        }
+
+        bool ILifeSpanHandler.DoClose(IWebBrowser browserControl, IBrowser browser)
+        {
+            return false;
+        }
+
+        public void OnBeforeClose(IWebBrowser browserControl, IBrowser browser)
+        {
+            
+        }
+    }
 }

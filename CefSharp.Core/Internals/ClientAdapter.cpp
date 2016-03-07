@@ -31,6 +31,7 @@
 #include "Serialization\ObjectsSerialization.h"
 #include "Messaging\Messages.h"
 #include "CefResponseFilterAdapter.h"
+#include "PopupFeatures.h"
 
 using namespace CefSharp::Internals::Messaging;
 using namespace CefSharp::Internals::Serialization;
@@ -119,6 +120,8 @@ namespace CefSharp
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup(), false);
 
             CefFrameWrapper frameWrapper(frame);
+            PopupFeatures popupFeaturesWrapper(&popupFeatures);
+            BrowserSettings browserSettingsWrapper(&settings);
             WindowInfo windowInfoWrapper(&windowInfo);
 
             auto result = handler->OnBeforePopup(
@@ -126,8 +129,8 @@ namespace CefSharp
                 %frameWrapper, StringUtils::ToClr(target_url),
                 StringUtils::ToClr(target_frame_name),
                 (CefSharp::WindowOpenDisposition)target_disposition,
-                user_gesture,
-                %windowInfoWrapper, *no_javascript_access, newBrowser);
+                user_gesture, %popupFeaturesWrapper,
+                %windowInfoWrapper, %browserSettingsWrapper, *no_javascript_access, newBrowser);
 
             if (newBrowser != nullptr)
             {

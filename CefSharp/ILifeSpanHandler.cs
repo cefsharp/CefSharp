@@ -18,7 +18,9 @@ namespace CefSharp
         /// open the popup (e.g. current tab, new tab, etc)</param>
         /// <param name="userGesture">The value will be true if the popup was opened via explicit user gesture
         /// (e.g. clicking a link) or false if the popup opened automatically (e.g. via the DomContentLoaded event).</param>
+        /// <param name="popupFeatures"> structure contains additional information about the requested popup window</param>
         /// <param name="windowInfo">window information</param>
+        /// <param name="browserSettings">browser settings, defaults to source browsers</param>
         /// <param name="noJavascriptAccess">value indicates whether the new browser window should be scriptable
         /// and in the same process as the source browser.</param>
         /// <param name="newBrowser">EXPERIMENTAL - A newly created browser that will host the popup</param>
@@ -38,7 +40,7 @@ namespace CefSharp
         /// the new browser window should be scriptable and in the same process as the
         /// source browser.
         /// </remarks>
-        bool OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName, WindowOpenDisposition targetDisposition, bool userGesture, IWindowInfo windowInfo, ref bool noJavascriptAccess, out IWebBrowser newBrowser);
+        bool OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName, WindowOpenDisposition targetDisposition, bool userGesture, IPopupFeatures popupFeatures, IWindowInfo windowInfo, IBrowserSettings browserSettings, ref bool noJavascriptAccess, out IWebBrowser newBrowser);
 
         /// <summary>
         /// Called after a new browser is created.

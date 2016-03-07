@@ -270,6 +270,7 @@
     <ClInclude Include="Internals\CefTaskScheduler.h" />
     <ClInclude Include="Internals\CefTaskWrapper.h" />
     <ClInclude Include="Internals\CefWrapper.h" />
+    <ClInclude Include="PopupFeatures.h" />
     <ClInclude Include="RequestContextHandler.h" />
     <ClInclude Include="WindowInfo.h" />
     <ClInclude Include="Internals\CefCompletionCallbackAdapter.h" />
