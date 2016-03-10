@@ -39,8 +39,7 @@ namespace CefSharp
         CefState RemoteFonts { get; set; }
 
         /// <summary>
-        /// Controls whether JavaScript can be executed. Also configurable using the
-        /// "disable-javascript" command-line switch.
+        /// Controls whether JavaScript can be executed.
         /// </summary>
         CefState Javascript { get; set; }
 
