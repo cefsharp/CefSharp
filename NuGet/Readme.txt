@@ -43,7 +43,7 @@ For further help please read the following content:
   - Google Groups (https://groups.google.com/forum/#!forum/cefsharp) - Historic reference only
   - CefSharp vs Cef (https://github.com/cefsharp/CefSharp/blob/master/CONTRIBUTING.md#cefsharp-vs-cef)
   - Join the active cummunity and ask your question on Gitter Chat (https://gitter.im/cefsharp/CefSharp)
-  - Only when you've exhausted all other options then open an issue on `GitHub`
+  - If you have a reproducible bug then please open an issue on `GitHub`
 
 Please consider giving back, it's only with your help will this project to continue.
 
