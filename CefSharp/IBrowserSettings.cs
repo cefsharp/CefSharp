@@ -40,6 +40,7 @@ namespace CefSharp
 
         /// <summary>
         /// Controls whether JavaScript can be executed.
+        /// (Disable javascript)
         /// </summary>
         CefState Javascript { get; set; }
 

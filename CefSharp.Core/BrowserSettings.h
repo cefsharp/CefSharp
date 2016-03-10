@@ -122,6 +122,7 @@ namespace CefSharp
 
         /// <summary>
         /// Controls whether JavaScript can be executed.
+        /// (Disable javascript)
         /// </summary>
         virtual property CefState Javascript
         {
