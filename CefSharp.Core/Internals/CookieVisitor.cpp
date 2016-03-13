@@ -59,7 +59,8 @@ namespace CefSharp
                 cookie->Creation = DateTime::MinValue;
             }
 
-            try {
+            try
+            {
                 cookie->LastAccess = DateTime(
                     cefCookie.last_access.year,
                     cefCookie.last_access.month,
