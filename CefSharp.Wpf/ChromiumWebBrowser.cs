@@ -576,7 +576,7 @@ namespace CefSharp.Wpf
                 var task = this.GetZoomLevelAsync();
                 task.ContinueWith(previous =>
                 {
-                    if (previous.IsCompleted)
+                    if (previous.Status == TaskStatus.RanToCompletion)
                     {
                         UiThreadRunAsync(() => 
                         {
