@@ -9,7 +9,7 @@ namespace CefSharp.WinForms.Example.Handlers
 {
     internal class GeolocationHandler : IGeolocationHandler
     {
-        public bool OnRequestGeolocationPermission(IWebBrowser browserControl, IBrowser browser, string requestingUrl, int requestId, IGeolocationCallback callback)
+        bool IGeolocationHandler.OnRequestGeolocationPermission(IWebBrowser browserControl, IBrowser browser, string requestingUrl, int requestId, IGeolocationCallback callback)
         {
             //The callback has been disposed, so we are unable to continue
             if(callback.IsDisposed)
@@ -28,7 +28,7 @@ namespace CefSharp.WinForms.Example.Handlers
             }
         }
 
-        public void OnCancelGeolocationPermission(IWebBrowser browserControl, IBrowser browser, string requestingUrl, int requestId)
+        void IGeolocationHandler.OnCancelGeolocationPermission(IWebBrowser browserControl, IBrowser browser, int requestId)
         {
         }
     }

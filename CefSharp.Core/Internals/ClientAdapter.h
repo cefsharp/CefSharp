@@ -184,7 +184,7 @@ namespace CefSharp
             //CefGeolocationHandler
             virtual DECL bool OnRequestGeolocationPermission(CefRefPtr<CefBrowser> browser, const CefString& requesting_url, int request_id,
                 CefRefPtr<CefGeolocationCallback> callback) OVERRIDE;
-            virtual DECL void OnCancelGeolocationPermission(CefRefPtr<CefBrowser> browser, const CefString& requesting_url, int request_id) OVERRIDE;
+            virtual DECL void OnCancelGeolocationPermission(CefRefPtr<CefBrowser> browser, int request_id) OVERRIDE;
 
             //CefDownloadHandler
             virtual DECL void OnBeforeDownload(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDownloadItem> download_item,

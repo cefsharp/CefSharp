@@ -9,7 +9,7 @@ namespace CefSharp.Wpf.Example.Handlers
 {
     internal class GeolocationHandler : IGeolocationHandler
     {
-        public bool OnRequestGeolocationPermission(IWebBrowser browserControl, IBrowser browser, string requestingUrl, int requestId, IGeolocationCallback callback)
+        bool IGeolocationHandler.OnRequestGeolocationPermission(IWebBrowser browserControl, IBrowser browser, string requestingUrl, int requestId, IGeolocationCallback callback)
         {
             using (callback)
             {
@@ -21,7 +21,7 @@ namespace CefSharp.Wpf.Example.Handlers
             }
         }
 
-        public void OnCancelGeolocationPermission(IWebBrowser browserControl, IBrowser browser, string requestingUrl, int requestId)
+        void IGeolocationHandler.OnCancelGeolocationPermission(IWebBrowser browserControl, IBrowser browser, int requestId)
         {
         }
     }
