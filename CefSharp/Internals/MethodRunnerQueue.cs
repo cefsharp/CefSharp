@@ -37,7 +37,7 @@ namespace CefSharp.Internals
                 if (!running)
                 {
                     cancellationTokenSource = new CancellationTokenSource();
-                    Task.Factory.StartNew(ConsumeTasks, TaskCreationOptions.LongRunning);
+                    Task.Factory.StartNew(ConsumeTasks, cancellationTokenSource.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
                     running = true;
                 }
             }
