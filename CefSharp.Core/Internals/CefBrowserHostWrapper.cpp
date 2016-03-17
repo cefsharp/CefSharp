@@ -243,7 +243,10 @@ void CefBrowserHostWrapper::SendKeyEvent(int message, int wParam, int lParam)
 
 double CefBrowserHostWrapper::GetZoomLevelOnUI()
 {
-    ThrowIfDisposed();
+    if (_disposed)
+    {
+        return 0.0;
+    }
 
     CefTaskScheduler::EnsureOn(TID_UI, "CefBrowserHostWrapper::GetZoomLevel");
 
