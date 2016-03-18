@@ -145,12 +145,14 @@ namespace CefSharp.Example
                 cookieManager.SetStoragePath("cookies", true);
                 cookieManager.SetSupportedSchemes("custom");
 
-                var context = Cef.GetGlobalRequestContext();
-
-                string errorMessage;
-                //You can set most preferences using a `.` notation rather than having to create a complex set of dictionaries.
-                //The default is true, you can change to false to disable
-                context.SetPreference("webkit.webprefs.plugins_enabled", true, out errorMessage);
+                //Dispose of context when finished - preferable not to keep a reference if possible.
+                using (var context = Cef.GetGlobalRequestContext())
+                {
+                    string errorMessage;
+                    //You can set most preferences using a `.` notation rather than having to create a complex set of dictionaries.
+                    //The default is true, you can change to false to disable
+                    context.SetPreference("webkit.webprefs.plugins_enabled", true, out errorMessage);
+                }
             };
 
             if (!Cef.Initialize(settings, shutdownOnProcessExit: true, performDependencyCheck: !DebuggingSubProcess))
