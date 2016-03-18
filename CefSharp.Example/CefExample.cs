@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CefSharp.Example.Properties;
 using CefSharp.Example.Proxy;
+using CefSharp.Internals;
 
 namespace CefSharp.Example
 {
@@ -137,11 +138,19 @@ namespace CefSharp.Example
 
             settings.FocusedNodeChangedEnabled = true;
 
+            //The Request Context has been initialized, you can now set preferences, like proxy server settings
             Cef.OnContextInitialized = delegate
             {
                 var cookieManager = Cef.GetGlobalCookieManager();
                 cookieManager.SetStoragePath("cookies", true);
                 cookieManager.SetSupportedSchemes("custom");
+
+                var context = Cef.GetGlobalRequestContext();
+
+                string errorMessage;
+                //You can set most preferences using a `.` notation rather than having to create a complex set of dictionaries.
+                //The default is true, you can change to false to disable
+                context.SetPreference("webkit.webprefs.plugins_enabled", true, out errorMessage);
             };
 
             if (!Cef.Initialize(settings, shutdownOnProcessExit: true, performDependencyCheck: !DebuggingSubProcess))

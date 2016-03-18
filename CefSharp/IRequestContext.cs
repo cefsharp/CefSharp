@@ -77,7 +77,6 @@ namespace CefSharp
         /// <param name="reloadPages">reload any pages with pluginst</param>
         void PurgePluginListCache(bool reloadPages);
 
-
         /// <summary>
         /// Returns true if a preference with the specified |name| exists. This method
         /// must be called on the browser process UI thread.
@@ -125,6 +124,7 @@ namespace CefSharp
         /// preference will be restored to its default value. If setting the preference
         /// fails then error will be populated with a detailed description of the
         /// problem. This method must be called on the browser process UI thread.
+        /// Preferences set via the command-line usually cannot be modified.
         /// </summary>
         /// <param name="name">preference key</param>
         /// <param name="value">preference value</param>

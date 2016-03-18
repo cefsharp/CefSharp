@@ -198,6 +198,7 @@ namespace CefSharp
         // preference will be restored to its default value. If setting the preference
         // fails then |error| will be populated with a detailed description of the
         // problem. This method must be called on the browser process UI thread.
+        // Preferences set via the command-line usually cannot be modified.
         ///
         /*--cef(optional_param=value)--*/
         virtual bool SetPreference(String^ name, Object^ value, [Out] String^ %error)
