@@ -16,6 +16,7 @@
 #include "Internals/CookieManager.h"
 #include "Internals/PluginVisitor.h"
 #include "CefSettings.h"
+#include "RequestContext.h"
 #include "SchemeHandlerFactoryWrapper.h"
 #include "Internals/CefTaskScheduler.h"
 #include "Internals/CefGetGeolocationCallbackWrapper.h"
@@ -50,7 +51,9 @@ namespace CefSharp
 
     public:
         /// <summary>
-        /// Called on the browser process UI thread immediately after the CEF context has been initialized. 
+        /// Called on the browser process UI thread immediately after the CEF context has been initialized.
+        /// You can now access the Global RequestContext through Cef.GetGlobalRequestContext() - this is the
+        /// first place you can set Preferences (e.g. proxy settings, spell check dictionaries).
         /// </summary>
         static property Action^ OnContextInitialized;
 
@@ -477,6 +480,31 @@ namespace CefSharp
             CefGetGeolocation(callback);
 
             return callback->GetTask();
+        }
+
+        /// <summary>
+        /// Returns true if called on the specified CEF thread.
+        /// </summary>
+        /// <return>Returns true if called on the specified thread.</return>
+        static bool CurrentlyOnThread(CefThreadIds threadId)
+        {
+            return CefCurrentlyOn((CefThreadId)threadId);
+        }
+
+        /// <summary>
+        /// Gets the Global Request Context. Make sure to Dispose of this object when finished.
+        /// </summary>
+        /// <return>Returns the global request context or null.</return>
+        static IRequestContext^ GetGlobalRequestContext()
+        {
+            auto context = CefRequestContext::GetGlobalContext();
+
+            if (context.get())
+            {
+                return gcnew RequestContext(context);
+            }
+
+            return nullptr;
         }
     };
 }
