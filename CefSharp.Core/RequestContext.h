@@ -12,6 +12,7 @@
 #include "Internals\CefCompletionCallbackAdapter.h"
 #include "Internals\CookieManager.h"
 #include "Internals\CefWrapper.h"
+#include "Internals\CefResolveCallbackAdapter.h"
 
 using namespace System::Runtime::InteropServices;
 
@@ -278,6 +279,45 @@ namespace CefSharp
             CefRefPtr<CefCompletionCallback> wrapper = callback == nullptr ? NULL : new CefCompletionCallbackAdapter(callback);
 
             _requestContext->CloseAllConnections(wrapper);
+        }
+
+        ///
+        // Attempts to resolve |origin| to a list of associated IP addresses.
+        // |callback| will be executed on the UI thread after completion.
+        ///
+        /*--cef()--*/
+        virtual void ResolveHost(String^ origin, IResolveCallback^ callback)
+        {
+            ThrowIfDisposed();
+
+            if (callback == nullptr)
+            {
+                throw gcnew ArgumentNullException("callback");
+            }
+
+            CefRefPtr<CefResolveCallback> callbackWrapper = new CefResolveCallbackAdapter(callback);
+
+            _requestContext->ResolveHost(StringUtils::ToNative(origin), callbackWrapper);
+        }
+
+        ///
+        // Attempts to resolve |origin| to a list of associated IP addresses using
+        // cached data. |resolved_ips| will be populated with the list of resolved IP
+        // addresses or empty if no cached data is available. Returns ERR_NONE on
+        // success. This method must be called on the browser process IO thread.
+        ///
+        /*--cef(default_retval=ERR_FAILED)--*/
+        virtual CefErrorCode ResolveHostCached(String^ origin, [Out] IList<String^>^ %resolvedIpAddresses)
+        {
+            ThrowIfDisposed();
+
+            std::vector<CefString> addresses;
+
+            auto errorCode =_requestContext->ResolveHostCached(StringUtils::ToNative(origin), addresses);
+
+            resolvedIpAddresses = StringUtils::ToClr(addresses);
+
+            return (CefErrorCode)errorCode;
         }
 
         operator CefRefPtr<CefRequestContext>()

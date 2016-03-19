@@ -151,5 +151,22 @@ namespace CefSharp
         /// <param name="callback">If is non-NULL it will be executed on the CEF UI thread after
         /// completion. This param is optional</param>
         void CloseAllConnections(ICompletionCallback callback);
+
+        /// <summary>
+        /// Attempts to resolve origin to a list of associated IP addresses.
+        /// </summary>
+        /// <param name="origin">host name to resolve</param>
+        /// <param name="callback">callback will be executed on the CEF UI thread after completion.</param>
+        void ResolveHost(string origin, IResolveCallback callback);
+
+        /// <summary>
+        /// Attempts to resolve origin to a list of associated IP addresses using
+        /// cached data. This method must be called on the CEF IO thread.
+        /// </summary>
+        /// <param name="origin">host name to resolve</param>
+        /// <param name="resolvedIpAddresses">list of resolved IP
+        /// addresses or null if no cached data is available.</param>
+        /// <returns> Returns <see cref="CefErrorCode.None"/> on success</returns>
+        CefErrorCode ResolveHostCached(string origin, out IList<string> resolvedIpAddresses);
     }
 }

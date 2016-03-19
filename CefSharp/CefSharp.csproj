@@ -93,6 +93,7 @@
     <Compile Include="IPopupFeatures.cs" />
     <Compile Include="IRenderProcessMessageHandler.cs" />
     <Compile Include="IRequestContext.cs" />
+    <Compile Include="IResolveCallback.cs" />
     <Compile Include="IResponseFilter.cs" />
     <Compile Include="IRunContextMenuCallback.cs" />
     <Compile Include="MenuItemType.cs" />
