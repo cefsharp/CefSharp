@@ -183,6 +183,7 @@
     <Compile Include="PostDataExtensions.cs" />
     <Compile Include="Rect.cs" />
     <Compile Include="ReferrerPolicy.cs" />
+    <Compile Include="ResolveCallbackResult.cs" />
     <Compile Include="ResourceHandler.cs" />
     <Compile Include="ResourceHandlerType.cs" />
     <Compile Include="ResourceType.cs" />
@@ -190,6 +191,7 @@
     <Compile Include="Internals\ScreenInfo.cs" />
     <Compile Include="TaskCompletionHandler.cs" />
     <Compile Include="TaskPrintToPdf.cs" />
+    <Compile Include="TaskResolveCallbackHandler.cs" />
     <Compile Include="TransitionType.cs" />
     <Compile Include="LoadingStateChangedEventArgs.cs" />
     <Compile Include="ICompletionCallback.cs" />

@@ -2,12 +2,11 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using System;
 using System.Collections.Generic;
 
 namespace CefSharp
 {
-    public interface IResolveCallback : IDisposable
+    public interface IResolveCallback
     {
         /// <summary>
         /// Called after the ResolveHost request has completed.
@@ -16,10 +15,5 @@ namespace CefSharp
         /// <param name="resolvedIpAddresses">will be the list of resolved IP addresses or
         /// null if the resolution failed.</param>
         void OnResolveCompleted(CefErrorCode result, IList<string> resolvedIpAddresses);
-        
-        /// <summary>
-        /// Gets a value indicating whether the callback has been disposed of.
-        /// </summary>
-        bool IsDisposed { get; }
     }
 }

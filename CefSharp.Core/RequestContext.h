@@ -286,18 +286,17 @@ namespace CefSharp
         // |callback| will be executed on the UI thread after completion.
         ///
         /*--cef()--*/
-        virtual void ResolveHost(String^ origin, IResolveCallback^ callback)
+        virtual Task<ResolveCallbackResult>^ ResolveHostAsync(String^ origin)
         {
             ThrowIfDisposed();
 
-            if (callback == nullptr)
-            {
-                throw gcnew ArgumentNullException("callback");
-            }
+            auto callback = gcnew TaskResolveCallbackHandler();
 
             CefRefPtr<CefResolveCallback> callbackWrapper = new CefResolveCallbackAdapter(callback);
 
             _requestContext->ResolveHost(StringUtils::ToNative(origin), callbackWrapper);
+
+            return callback->Task;
         }
 
         ///

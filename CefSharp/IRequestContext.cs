@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CefSharp
 {
@@ -156,8 +157,8 @@ namespace CefSharp
         /// Attempts to resolve origin to a list of associated IP addresses.
         /// </summary>
         /// <param name="origin">host name to resolve</param>
-        /// <param name="callback">callback will be executed on the CEF UI thread after completion.</param>
-        void ResolveHost(string origin, IResolveCallback callback);
+        /// <return>A task that represents the Resoolve Host operation. The value of the TResult parameter contains ResolveCallbackResult.</return>
+        Task<ResolveCallbackResult> ResolveHostAsync(string origin);
 
         /// <summary>
         /// Attempts to resolve origin to a list of associated IP addresses using
@@ -165,7 +166,7 @@ namespace CefSharp
         /// </summary>
         /// <param name="origin">host name to resolve</param>
         /// <param name="resolvedIpAddresses">list of resolved IP
-        /// addresses or null if no cached data is available.</param>
+        /// addresses or empty list if no cached data is available.</param>
         /// <returns> Returns <see cref="CefErrorCode.None"/> on success</returns>
         CefErrorCode ResolveHostCached(string origin, out IList<string> resolvedIpAddresses);
     }
