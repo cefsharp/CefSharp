@@ -2,11 +2,12 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
 using System.Collections.Generic;
 
 namespace CefSharp
 {
-    public interface IRequestContext
+    public interface IRequestContext : IDisposable
     {
         /// <summary>
         /// Returns true if this object is pointing to the same context object.
@@ -131,5 +132,24 @@ namespace CefSharp
         /// <param name="error">out error</param>
         /// <returns>Returns true if the value is set successfully and false otherwise.</returns>
         bool SetPreference(string name, object value, out string error);
+
+        /// <summary>
+        /// Clears all certificate exceptions that were added as part of handling
+        /// <see cref="IRequestHandler.OnCertificateError"/>. If you call this it is
+        /// recommended that you also call <see cref="IRequestContext.CloseAllConnections"/> or you risk not
+        /// being prompted again for server certificates if you reconnect quickly.
+        /// </summary>
+        /// <param name="callback">If is non-NULL it will be executed on the CEF UI thread after
+        /// completion. This param is optional</param>
+        void ClearCertificateExceptions(ICompletionCallback callback);
+
+        /// <summary>
+        /// Clears all active and idle connections that Chromium currently has.
+        /// This is only recommended if you have released all other CEF objects but
+        /// don't yet want to call Cef.Shutdown().
+        /// </summary>
+        /// <param name="callback">If is non-NULL it will be executed on the CEF UI thread after
+        /// completion. This param is optional</param>
+        void CloseAllConnections(ICompletionCallback callback);
     }
 }
