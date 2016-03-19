@@ -286,7 +286,7 @@ namespace CefSharp
         // |callback| will be executed on the UI thread after completion.
         ///
         /*--cef()--*/
-        virtual Task<ResolveCallbackResult>^ ResolveHostAsync(String^ origin)
+        virtual Task<ResolveCallbackResult>^ ResolveHostAsync(Uri^ origin)
         {
             ThrowIfDisposed();
 
@@ -294,7 +294,7 @@ namespace CefSharp
 
             CefRefPtr<CefResolveCallback> callbackWrapper = new CefResolveCallbackAdapter(callback);
 
-            _requestContext->ResolveHost(StringUtils::ToNative(origin), callbackWrapper);
+            _requestContext->ResolveHost(StringUtils::ToNative(origin->AbsoluteUri), callbackWrapper);
 
             return callback->Task;
         }
@@ -306,13 +306,13 @@ namespace CefSharp
         // success. This method must be called on the browser process IO thread.
         ///
         /*--cef(default_retval=ERR_FAILED)--*/
-        virtual CefErrorCode ResolveHostCached(String^ origin, [Out] IList<String^>^ %resolvedIpAddresses)
+        virtual CefErrorCode ResolveHostCached(Uri^ origin, [Out] IList<String^>^ %resolvedIpAddresses)
         {
             ThrowIfDisposed();
 
             std::vector<CefString> addresses;
 
-            auto errorCode =_requestContext->ResolveHostCached(StringUtils::ToNative(origin), addresses);
+            auto errorCode = _requestContext->ResolveHostCached(StringUtils::ToNative(origin->AbsoluteUri), addresses);
 
             resolvedIpAddresses = StringUtils::ToClr(addresses);
 

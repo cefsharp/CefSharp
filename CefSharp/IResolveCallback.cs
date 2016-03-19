@@ -13,7 +13,7 @@ namespace CefSharp
         /// </summary>
         /// <param name="result">The result code</param>
         /// <param name="resolvedIpAddresses">will be the list of resolved IP addresses or
-        /// null if the resolution failed.</param>
+        /// empty if the resolution failed.</param>
         void OnResolveCompleted(CefErrorCode result, IList<string> resolvedIpAddresses);
     }
 }
