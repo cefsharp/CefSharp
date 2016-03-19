@@ -11,6 +11,7 @@
 #include "RequestContextHandler.h"
 #include "Internals\CefCompletionCallbackAdapter.h"
 #include "Internals\CookieManager.h"
+#include "Internals\CefWrapper.h"
 
 using namespace System::Runtime::InteropServices;
 
@@ -29,7 +30,7 @@ namespace CefSharp
     /// This will be the first request context passed into a CefBrowserHost static factory method
     /// and all other request context objects will be ignored. 
     /// </summary>
-    public ref class RequestContext : public IRequestContext
+    public ref class RequestContext : public IRequestContext, public CefWrapper
     {
     private:
         MCefRefPtr<CefRequestContext> _requestContext;
@@ -75,10 +76,14 @@ namespace CefSharp
             this->!RequestContext();
 
             delete _settings;
+
+            _disposed = true;
         }
 
         virtual bool IsSame(IRequestContext^ context)
         {
+            ThrowIfDisposed();
+
             auto requestContext = (RequestContext^)context;
 
             return _requestContext->IsSame(requestContext);
@@ -86,6 +91,8 @@ namespace CefSharp
 
         virtual bool IsSharingWith(IRequestContext^ context)
         {
+            ThrowIfDisposed();
+
             auto requestContext = (RequestContext^)context;
 
             return _requestContext->IsSharingWith(requestContext);
@@ -93,6 +100,8 @@ namespace CefSharp
 
         virtual ICookieManager^ GetDefaultCookieManager(ICompletionCallback^ callback)
         {
+            ThrowIfDisposed();
+
             CefRefPtr<CefCompletionCallback> wrapper = callback == nullptr ? NULL : new CefCompletionCallbackAdapter(callback);
 
             auto cookieManager = _requestContext->GetDefaultCookieManager(wrapper);
@@ -105,17 +114,25 @@ namespace CefSharp
 
         virtual property bool IsGlobal
         {
-            bool get() { return _requestContext->IsGlobal(); }
+            bool get()
+            {
+                ThrowIfDisposed();
+                return _requestContext->IsGlobal();
+            }
         }
 
         virtual bool RegisterSchemeHandlerFactory(String^ schemeName, String^ domainName, ISchemeHandlerFactory^ factory)
         {
+            ThrowIfDisposed();
+
             auto wrapper = new SchemeHandlerFactoryWrapper(factory);
             return _requestContext->RegisterSchemeHandlerFactory(StringUtils::ToNative(schemeName), StringUtils::ToNative(domainName), wrapper);
         }
 
         virtual bool ClearSchemeHandlerFactories()
         {
+            ThrowIfDisposed();
+
             return _requestContext->ClearSchemeHandlerFactories();
         }
 
@@ -126,7 +143,12 @@ namespace CefSharp
         /*--cef()--*/
         virtual property String^ CachePath
         {
-            String^ get() { return StringUtils::ToClr(_requestContext->GetCachePath()); }
+            String^ get()
+            {
+                ThrowIfDisposed();
+
+                return StringUtils::ToClr(_requestContext->GetCachePath());
+            }
         }
 
         ///
@@ -138,6 +160,8 @@ namespace CefSharp
         /*--cef()--*/
         virtual void PurgePluginListCache(bool reloadPages)
         {
+            ThrowIfDisposed();
+
             _requestContext->PurgePluginListCache(reloadPages);
         }
 
@@ -148,6 +172,8 @@ namespace CefSharp
         /*--cef()--*/
         virtual bool HasPreference(String^ name)
         {
+            ThrowIfDisposed();
+
             return _requestContext->HasPreference(StringUtils::ToNative(name));
         }
 
@@ -161,6 +187,8 @@ namespace CefSharp
         /*--cef()--*/
         virtual Object^ GetPreference(String^ name)
         {
+            ThrowIfDisposed();
+
             return TypeConversion::FromNative(_requestContext->GetPreference(StringUtils::ToNative(name)));
         }
 
@@ -175,6 +203,8 @@ namespace CefSharp
         /*--cef()--*/
         virtual IDictionary<String^, Object^>^ GetAllPreferences(bool includeDefaults)
         {
+            ThrowIfDisposed();
+
             auto preferences = _requestContext->GetAllPreferences(includeDefaults);
 
             return TypeConversion::FromNative(preferences);
@@ -189,6 +219,8 @@ namespace CefSharp
         /*--cef()--*/
         virtual bool CanSetPreference(String^ name)
         {
+            ThrowIfDisposed();
+
             return _requestContext->CanSetPreference(StringUtils::ToNative(name));
         }
 
@@ -203,6 +235,8 @@ namespace CefSharp
         /*--cef(optional_param=value)--*/
         virtual bool SetPreference(String^ name, Object^ value, [Out] String^ %error)
         {
+            ThrowIfDisposed();
+
             CefString cefError;
 
             auto success = _requestContext->SetPreference(StringUtils::ToNative(name), TypeConversion::ToNative(value), cefError);
@@ -223,6 +257,8 @@ namespace CefSharp
         /*--cef(optional_param=callback)--*/
         virtual void ClearCertificateExceptions(ICompletionCallback^ callback)
         {
+            ThrowIfDisposed();
+
             CefRefPtr<CefCompletionCallback> wrapper = callback == nullptr ? NULL : new CefCompletionCallbackAdapter(callback);
 
             _requestContext->ClearCertificateExceptions(wrapper);
@@ -237,6 +273,8 @@ namespace CefSharp
         /*--cef(optional_param=callback)--*/
         virtual void CloseAllConnections(ICompletionCallback^ callback)
         {
+            ThrowIfDisposed();
+
             CefRefPtr<CefCompletionCallback> wrapper = callback == nullptr ? NULL : new CefCompletionCallbackAdapter(callback);
 
             _requestContext->CloseAllConnections(wrapper);
