@@ -50,6 +50,8 @@ namespace CefSharp
 
                     _postDataElements = nullptr;
                 }
+
+                _disposed = true;
             }
 
         public:
