@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace CefSharp
 {
     /// <summary>
-    /// Implement this interface to handle dialog events. The methods of this class will be called on the browser process UI thread.
+    /// Implement this interface to handle dialog events. The methods of this class will be called on the CEF UI thread.
     /// </summary>
     public interface IDialogHandler
     {
