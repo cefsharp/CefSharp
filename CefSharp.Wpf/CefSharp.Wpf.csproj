@@ -74,7 +74,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DelegateCommand.cs" />
-    <Compile Include="DisposableEventWrapper.cs" />
     <Compile Include="Internals\WpfExtensions.cs" />
     <Compile Include="Rendering\InteropBitmapInfo.cs" />
     <Compile Include="IWpfWebBrowser.cs" />

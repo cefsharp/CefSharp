@@ -7,7 +7,6 @@ using CefSharp.Wpf.Internals;
 using CefSharp.Wpf.Rendering;
 using Microsoft.Win32.SafeHandles;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,8 +22,6 @@ namespace CefSharp.Wpf
 {
     public class ChromiumWebBrowser : ContentControl, IRenderWebBrowser, IWpfWebBrowser
     {
-        private readonly List<IDisposable> disposables = new List<IDisposable>();
-
         private HwndSource source;
         private HwndSourceHook sourceHook;
         private DispatcherTimer tooltipTimer;
@@ -118,6 +115,7 @@ namespace CefSharp.Wpf
             Dispatcher.BeginInvoke((Action)(() => WebBrowser = this));
 
             Loaded += OnLoaded;
+            SizeChanged += OnActualSizeChanged;
 
             GotKeyboardFocus += OnGotKeyboardFocus;
             LostKeyboardFocus += OnLostKeyboardFocus;
@@ -153,9 +151,6 @@ namespace CefSharp.Wpf
             RedoCommand = new DelegateCommand(this.Redo);
 
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, true);
-
-            disposables.Add(new DisposableEventWrapper(this, ActualHeightProperty, OnActualSizeChanged));
-            disposables.Add(new DisposableEventWrapper(this, ActualWidthProperty, OnActualSizeChanged));
 
             ResourceHandlerFactory = new DefaultResourceHandlerFactory();
             BrowserSettings = new BrowserSettings();
@@ -205,6 +200,7 @@ namespace CefSharp.Wpf
 
                     // Release internal event listeners:
                     Loaded -= OnLoaded;
+                    SizeChanged -= OnActualSizeChanged;
                     GotKeyboardFocus -= OnGotKeyboardFocus;
                     LostKeyboardFocus -= OnLostKeyboardFocus;
 
@@ -232,11 +228,6 @@ namespace CefSharp.Wpf
                         managedCefBrowserAdapter = null;
                     }
 
-                    foreach (var disposable in disposables)
-                    {
-                        disposable.Dispose();
-                    }
-                    disposables.Clear();
 
                     browserInitialized = false;
                     UiThreadRunAsync(() =>
@@ -890,9 +881,9 @@ namespace CefSharp.Wpf
             }
         }
 
-        private void CreateOffscreenBrowserWhenActualSizeChanged()
+        private void CreateOffscreenBrowserWhenActualSizeChanged(Size newSize)
         {
-            if (browserCreated || System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
+            if (browserCreated || System.ComponentModel.DesignerProperties.GetIsInDesignMode(this) || newSize.IsEmpty)
             {
                 return;
             }
@@ -917,10 +908,10 @@ namespace CefSharp.Wpf
             }
         }
 
-        private void OnActualSizeChanged(object sender, EventArgs e)
+        private void OnActualSizeChanged(object sender, SizeChangedEventArgs e)
         {
             // Initialize RenderClientAdapter when WPF has calculated the actual size of current content.
-            CreateOffscreenBrowserWhenActualSizeChanged();
+            CreateOffscreenBrowserWhenActualSizeChanged(e.NewSize);
 
             if (browser != null)
             {
