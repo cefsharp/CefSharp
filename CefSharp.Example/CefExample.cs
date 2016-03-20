@@ -91,6 +91,9 @@ namespace CefSharp.Example
                 //settings.CefCommandLineArgs.Add("disable-surfaces", "1");
                 settings.EnableInternalPdfViewerOffScreen();
                 settings.CefCommandLineArgs.Add("enable-begin-frame-scheduling", "1");
+
+                // Disable GPU in WPF and Offscreen examples until #1634 has been resolved
+                settings.CefCommandLineArgs.Add("disable-gpu", "1");
             }
 
             var proxy = ProxyConfig.GetProxyInformation();
