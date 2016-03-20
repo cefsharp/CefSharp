@@ -71,7 +71,7 @@ namespace CefSharp
 
         /// <summary>
         /// Tells all renderer processes associated with this context to throw away
-        /// their plugin list cache. If |reload_pages| is true they will also reload
+        /// their plugin list cache. If reloadPages is true they will also reload
         /// all pages with plugins. RequestContextHandler.OnBeforePluginLoad may
         /// be called to rebuild the plugin list cache.
         /// </summary>
@@ -79,22 +79,32 @@ namespace CefSharp
         void PurgePluginListCache(bool reloadPages);
 
         /// <summary>
-        /// Returns true if a preference with the specified |name| exists. This method
-        /// must be called on the browser process UI thread.
+        /// Returns true if a preference with the specified name exists. This method
+        /// must be called on the CEF UI thread.
         /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        /// <param name="name">name of preference</param>
+        /// <returns>bool if the preference exists</returns>
+        /// <remarks>Use Cef.UIThreadTaskFactory to execute this method if required,
+        /// Cef.OnContextInitialized and ChromiumWebBrowser.IsBrowserInitializedChanged are both
+        /// executed on the CEF UI thread, so can be called directly.
+        /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
+        /// application thread will be the CEF UI thread.</remarks>
         bool HasPreference(string name);
 
         /// <summary>
-        /// Returns the value for the preference with the specified |name|. Returns
+        /// Returns the value for the preference with the specified name. Returns
         /// NULL if the preference does not exist. The returned object contains a copy
         /// of the underlying preference value and modifications to the returned object
         /// will not modify the underlying preference value. This method must be called
-        /// on the browser process UI thread.
+        /// on the CEF UI thread.
         /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        /// <param name="name">preference name</param>
+        /// <returns>Returns the value for the preference with the specified name</returns>
+        /// <remarks>Use Cef.UIThreadTaskFactory to execute this method if required,
+        /// Cef.OnContextInitialized and ChromiumWebBrowser.IsBrowserInitializedChanged are both
+        /// executed on the CEF UI thread, so can be called directly.
+        /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
+        /// application thread will be the CEF UI thread.</remarks>
         object GetPreference(string name);
 
         /// <summary>
@@ -112,25 +122,34 @@ namespace CefSharp
         /// <summary>
         /// Returns true if the preference with the specified name can be modified
         /// using SetPreference. As one example preferences set via the command-line
-        /// usually cannot be modified. This method must be called on the browser
-        /// process UI thread.
+        /// usually cannot be modified. This method must be called on the CEF UI thread.
         /// </summary>
         /// <param name="name">preference key</param>
         /// <returns>Returns true if the preference with the specified name can be modified
         /// using SetPreference</returns>
+        /// <remarks>Use Cef.UIThreadTaskFactory to execute this method if required,
+        /// Cef.OnContextInitialized and ChromiumWebBrowser.IsBrowserInitializedChanged are both
+        /// executed on the CEF UI thread, so can be called directly.
+        /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
+        /// application thread will be the CEF UI thread.</remarks>
         bool CanSetPreference(string name);
 
         /// <summary>
         /// Set the value associated with preference name. If value is null the
         /// preference will be restored to its default value. If setting the preference
         /// fails then error will be populated with a detailed description of the
-        /// problem. This method must be called on the browser process UI thread.
+        /// problem. This method must be called on the CEF UI thread.
         /// Preferences set via the command-line usually cannot be modified.
         /// </summary>
         /// <param name="name">preference key</param>
         /// <param name="value">preference value</param>
         /// <param name="error">out error</param>
         /// <returns>Returns true if the value is set successfully and false otherwise.</returns>
+        /// /// <remarks>Use Cef.UIThreadTaskFactory to execute this method if required,
+        /// Cef.OnContextInitialized and ChromiumWebBrowser.IsBrowserInitializedChanged are both
+        /// executed on the CEF UI thread, so can be called directly.
+        /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
+        /// application thread will be the CEF UI thread.</remarks>
         bool SetPreference(string name, object value, out string error);
 
         /// <summary>

@@ -51,7 +51,7 @@ namespace CefSharp
 
     public:
         /// <summary>
-        /// Called on the browser process UI thread immediately after the CEF context has been initialized.
+        /// Called on the CEF UI thread immediately after the CEF context has been initialized.
         /// You can now access the Global RequestContext through Cef.GetGlobalRequestContext() - this is the
         /// first place you can set Preferences (e.g. proxy settings, spell check dictionaries).
         /// </summary>

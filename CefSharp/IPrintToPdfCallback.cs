@@ -6,7 +6,7 @@ namespace CefSharp
 {
     /// <summary>
     /// Callback interface for <see cref="IBrowserHost.PrintToPDF"/>. The methods of this interface
-    /// will be called on the browser process UI thread.
+    /// will be called on the CEF UI thread.
     /// </summary>
     public interface IPrintToPdfCallback
     {

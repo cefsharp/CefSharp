@@ -145,14 +145,13 @@ namespace CefSharp
         bool OnProtocolExecution(IWebBrowser browserControl, IBrowser browser, string url);
 
         /// <summary>
-        /// Called on the browser process UI thread when the render view associated
+        /// Called on the CEF UI thread when the render view associated
         /// with browser is ready to receive/handle IPC messages in the render
         /// process.
         /// </summary>
         /// <param name="browserControl">The ChromiumWebBrowser control</param>
         /// <param name="browser">the browser object</param>
         void OnRenderViewReady(IWebBrowser browserControl, IBrowser browser);
-
         
         /// <summary>
         /// Called on the CEF IO thread when a resource response is received.
