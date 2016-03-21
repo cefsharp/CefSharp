@@ -881,11 +881,20 @@ namespace CefSharp.Wpf
             }
         }
 
-        private void CreateOffscreenBrowserWhenActualSizeChanged(Size newSize)
+        /// <summary>
+        /// Create the underlying Browser instance, can be overriden to defer control creation
+        /// The browser will only be created when size > Size(0,0). If you specify a posative
+        /// size then the browser will be created, if the ActualWidth and ActualHeight
+        /// properties are in relatity still 0 then you'll likely end up with a browser that
+        /// won't render. 
+        /// </summary>
+        /// <param name="size">size of the current control, must be greater than Size(0, 0)</param>
+        /// <returns>bool to indicate if browser was created. If the browser has already been created then this will return false.</returns>
+        protected virtual bool CreateOffscreenBrowser(Size size)
         {
-            if (browserCreated || System.ComponentModel.DesignerProperties.GetIsInDesignMode(this) || newSize.IsEmpty)
+            if (browserCreated || System.ComponentModel.DesignerProperties.GetIsInDesignMode(this) || size.IsEmpty || size.Equals(new Size(0, 0)))
             {
-                return;
+                return false;
             }
 
             var webBrowserInternal = this as IWebBrowserInternal;
@@ -894,6 +903,8 @@ namespace CefSharp.Wpf
                 managedCefBrowserAdapter.CreateOffscreenBrowser(source == null ? IntPtr.Zero : source.Handle, BrowserSettings, RequestContext, Address);
             }
             browserCreated = true;
+
+            return true;
         }
 
         private void UiThreadRunAsync(Action action, DispatcherPriority priority = DispatcherPriority.DataBind)
@@ -911,7 +922,7 @@ namespace CefSharp.Wpf
         private void OnActualSizeChanged(object sender, SizeChangedEventArgs e)
         {
             // Initialize RenderClientAdapter when WPF has calculated the actual size of current content.
-            CreateOffscreenBrowserWhenActualSizeChanged(e.NewSize);
+            CreateOffscreenBrowser(e.NewSize);
 
             if (browser != null)
             {
