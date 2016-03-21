@@ -12,7 +12,7 @@ namespace CefSharp
     [Flags]
     public enum ContextMenuEditState
     {
-        NONE = 0,
+        None = 0,
         CanUndo = 1 << 0,
         CanRedo = 1 << 1,
         CanCut = 1 << 2,
