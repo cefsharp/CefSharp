@@ -7,6 +7,9 @@ using System;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// "Verb" of a drag-and-drop operation as negotiated between the source and destination.
+    /// </summary>
     [Flags]
     public enum DragOperationsMask : uint
     {

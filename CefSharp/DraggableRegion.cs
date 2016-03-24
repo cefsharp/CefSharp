@@ -4,6 +4,9 @@
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Representing a draggable region.
+    /// </summary>
     public struct DraggableRegion
     {
         public int Width { get; private set; }

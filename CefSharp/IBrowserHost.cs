@@ -32,8 +32,16 @@ namespace CefSharp
         /// </summary>
         void CloseDevTools();
 
+        /// <summary>
+        /// Call this method when the user drags the mouse into the web view (before calling <see cref="DragTargetDragOver"/>/<see cref="DragTargetDragLeave"/>/<see cref="DragTargetDragDrop"/>).
+        /// </summary>
         void DragTargetDragEnter(IDragData dragData, MouseEvent mouseEvent, DragOperationsMask allowedOperations);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mouseEvent"></param>
+        /// <param name="allowedOperations"></param>
         void DragTargetDragOver(MouseEvent mouseEvent, DragOperationsMask allowedOperations);
 
         void DragTargetDragDrop(MouseEvent mouseEvent);
