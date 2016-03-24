@@ -104,15 +104,33 @@ namespace CefSharp.Internals
 
             try
             {
-                // Do we have enough arguments? Add Type.Missing for any that we don't have incase of optional params
+                //Fix for C# paramArray and refactor on arguments mismatch 03/22/2016
                 var missingParams = method.ParameterCount - parameters.Length;
-                if (missingParams > 0)
+                if (missingParams > 0 || method.MethodParameters.Any(t => t.IsParamArray))
                 {
-                    var paramList = new List<object>(parameters);
+                    var paramList = new List<object>();
 
-                    for (var i = 0; i < missingParams; i++)
+                    for (int i = 0; i < method.MethodParameters.Count; i++)
                     {
-                        paramList.Add(Type.Missing);
+                        object jsParam = parameters.ElementAtOrDefault(i);
+                        if (jsParam == null && !method.MethodParameters[i].IsParamArray)
+                        {
+                            paramList.Add(Type.Missing);
+                        }
+                        else if (method.MethodParameters[i].IsParamArray)
+                        {
+                            List<object> convertedParams = new List<object>();
+                            for (int s = i; s < parameters.Count(); s++)
+                            {
+                                convertedParams.Add(parameters[s]);
+                            }
+                            paramList.Add(convertedParams.ToArray());
+                            break;
+                        }
+                        else
+                        {
+                            paramList.Add(jsParam);
+                        }
                     }
 
                     parameters = paramList.ToArray();
@@ -287,6 +305,14 @@ namespace CefSharp.Internals
             jsMethod.JavascriptName = GetJavascriptName(methodInfo.Name, camelCaseJavascriptNames);
             jsMethod.Function = methodInfo.Invoke;
             jsMethod.ParameterCount = methodInfo.GetParameters().Length;
+            jsMethod.MethodParameters = methodInfo.GetParameters()
+                .Select(t => new MethodParameter()
+                { Name = t.Name,
+                    ParameterType = t.ParameterType,
+                    Position = t.Position,
+                    IsParamArray = t.GetCustomAttributes(typeof(ParamArrayAttribute), false).Length > 0
+                }).ToList();
+            
 
             return jsMethod;
         }
