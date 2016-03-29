@@ -129,6 +129,7 @@ namespace CefSharp.Example
             {
                 SchemeName = CefSharpSchemeHandlerFactory.SchemeName,
                 SchemeHandlerFactory = new CefSharpSchemeHandlerFactory()
+                //SchemeHandlerFactory = new InMemorySchemeAndResourceHandlerFactory()
             });
 
             settings.RegisterScheme(new CefCustomScheme
