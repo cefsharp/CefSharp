@@ -17,8 +17,8 @@ namespace CefSharp
         /// <summary>
         /// Called when a frame's address has changed. 
         /// </summary>
-        /// <param name="browser"></param>
-        /// <param name="address"></param>
+        /// <param name="browser">the browser object</param>
+        /// <param name="address">the address</param>
         public AddressChangedEventArgs(IBrowser browser, string address)
         {
             Browser = browser;
