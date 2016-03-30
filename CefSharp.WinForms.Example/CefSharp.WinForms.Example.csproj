@@ -80,6 +80,7 @@
       <DependentUpon>BrowserTabUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="ChromeWidgetMessageInterceptor.cs" />
+    <Compile Include="Handlers\DisplayHandler.cs" />
     <Compile Include="Handlers\GeolocationHandler.cs" />
     <Compile Include="Handlers\KeyboardHandler.cs" />
     <Compile Include="Handlers\LifeSpanHandler.cs" />

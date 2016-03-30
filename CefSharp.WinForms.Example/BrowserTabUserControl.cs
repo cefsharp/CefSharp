@@ -49,6 +49,7 @@ namespace CefSharp.WinForms.Example
             browser.RegisterJsObject("bound", new BoundObject());
             browser.RegisterAsyncJsObject("boundAsync", new AsyncBoundObject());
             browser.RenderProcessMessageHandler = new RenderProcessMessageHandler();
+            browser.DisplayHandler = new DisplayHandler();
             //browser.MouseDown += OnBrowserMouseClick;
             browser.HandleCreated += OnBrowserHandleCreated;
             //browser.ResourceHandlerFactory = new FlashResourceHandlerFactory();
