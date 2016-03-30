@@ -44,15 +44,17 @@ namespace CefSharp
         void OnFullscreenModeChange(IWebBrowser browserControl, IBrowser browser, bool fullscreen);
 
         /// <summary>
-        /// Called when the browser is about to display a tooltip. |text| contains the
-        /// text that will be displayed in the tooltip. To handle the display of the
-        /// tooltip yourself return true. Otherwise, you can optionally modify |text|
+        /// Called when the browser is about to display a tooltip. text contains the
+        /// text that will be displayed in the tooltip. You can optionally modify text
         /// and then return false to allow the browser to display the tooltip.
         /// When window rendering is disabled the application is responsible for
         /// drawing tooltips and the return value is ignored.
         /// </summary>
         /// <param name="browserControl">The ChromiumWebBrowser control</param>
         /// <param name="text">the text that will be displayed in the tooltip</param>
+        /// <returns>To handle the display of the tooltip yourself return true otherwise return false
+        /// to allow the browser to display the tooltip.</returns>
+        /// <remarks>Option to modify tooltip is not currently implemented.</remarks>
         bool OnTooltipChanged(IWebBrowser browserControl, string text);
 
         /// <summary>
@@ -63,11 +65,11 @@ namespace CefSharp
         void OnStatusMessage(IWebBrowser browserControl, StatusMessageEventArgs statusMessageArgs);
 
         /// <summary>
-        /// Called to display a console message. Return true to stop the message from
-        /// being output to the console.
+        /// Called to display a console message. 
         /// </summary>
         /// <param name="browserControl">The ChromiumWebBrowser control</param>
         /// <param name="consoleMessageArgs">args</param>
+        /// <returns>Return true to stop the message from being output to the console.</returns>
         bool OnConsoleMessage(IWebBrowser browserControl, ConsoleMessageEventArgs consoleMessageArgs);
     }
 }
