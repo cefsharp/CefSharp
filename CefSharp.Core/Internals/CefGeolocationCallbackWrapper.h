@@ -14,7 +14,7 @@ namespace CefSharp
 {
     namespace Internals
     {
-        public ref class CefGeolocationCallbackWrapper : public IGeolocationCallback, public CefWrapper
+        private ref class CefGeolocationCallbackWrapper : public IGeolocationCallback, public CefWrapper
         {
         private:
             MCefRefPtr<CefGeolocationCallback> _callback;

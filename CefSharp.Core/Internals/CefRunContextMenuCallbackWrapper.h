@@ -13,7 +13,7 @@ namespace CefSharp
 {
     namespace Internals
     {
-        public ref class CefRunContextMenuCallbackWrapper : public IRunContextMenuCallback, public CefWrapper
+        private ref class CefRunContextMenuCallbackWrapper : public IRunContextMenuCallback, public CefWrapper
         {
         private:
             MCefRefPtr< CefRunContextMenuCallback> _callback;

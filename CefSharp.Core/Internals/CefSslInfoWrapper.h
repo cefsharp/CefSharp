@@ -14,7 +14,7 @@ namespace CefSharp
 {
     namespace Internals
     {
-        public ref class CefSslInfoWrapper : public ISslInfo, public CefWrapper
+        private ref class CefSslInfoWrapper : public ISslInfo, public CefWrapper
         {
         private:
             MCefRefPtr<CefSSLInfo> _sslInfo;

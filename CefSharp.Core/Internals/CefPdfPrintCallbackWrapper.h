@@ -11,7 +11,7 @@ namespace CefSharp
 {
     namespace Internals
     {
-        public class CefPdfPrintCallbackWrapper : public virtual CefPdfPrintCallback
+        private class CefPdfPrintCallbackWrapper : public virtual CefPdfPrintCallback
         {
         private:
             gcroot<IPrintToPdfCallback^> _callback;

@@ -12,7 +12,7 @@ namespace CefSharp
 {
     namespace Internals
     {
-        public ref class CefFileDialogCallbackWrapper : public IFileDialogCallback, public CefWrapper
+        private ref class CefFileDialogCallbackWrapper : public IFileDialogCallback, public CefWrapper
         {
         private:
             MCefRefPtr<CefFileDialogCallback> _callback;

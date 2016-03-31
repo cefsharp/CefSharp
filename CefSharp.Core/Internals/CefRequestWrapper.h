@@ -15,7 +15,7 @@ namespace CefSharp
 {
     namespace Internals
     {
-        public ref class CefRequestWrapper : public IRequest, public CefWrapper
+        private ref class CefRequestWrapper : public IRequest, public CefWrapper
         {
             MCefRefPtr<CefRequest> _wrappedRequest;
             IPostData^ _postData;

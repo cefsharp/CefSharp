@@ -27,12 +27,13 @@ namespace CefSharp
                 }
             }
         
-        public:        
+        internal:
             CefWrapper() : _disposed(false)
             {
             
             };
 
+        public:
             virtual property bool IsDisposed
             {
                 bool get()

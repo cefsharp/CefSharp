@@ -13,7 +13,7 @@ namespace CefSharp
 {
     namespace Internals
     {
-        public ref class CefBeforeDownloadCallbackWrapper : public IBeforeDownloadCallback, public CefWrapper
+        private ref class CefBeforeDownloadCallbackWrapper : public IBeforeDownloadCallback, public CefWrapper
         {
         private:
             MCefRefPtr<CefBeforeDownloadCallback> _callback;

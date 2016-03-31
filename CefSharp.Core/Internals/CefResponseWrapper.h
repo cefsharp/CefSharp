@@ -15,7 +15,7 @@ namespace CefSharp
 {
     namespace Internals
     {
-        public ref class CefResponseWrapper : public IResponse, public CefWrapper
+        private ref class CefResponseWrapper : public IResponse, public CefWrapper
         {
             MCefRefPtr<CefResponse> _response;
         internal:

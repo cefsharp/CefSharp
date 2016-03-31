@@ -11,7 +11,7 @@ namespace CefSharp
 {
     namespace Internals
     {
-        public ref class CefJSDialogCallbackWrapper : public IJsDialogCallback, public CefWrapper
+        private ref class CefJSDialogCallbackWrapper : public IJsDialogCallback, public CefWrapper
         {
             MCefRefPtr<CefJSDialogCallback> _callback;
 

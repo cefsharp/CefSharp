@@ -16,7 +16,7 @@ namespace CefSharp
 {
     namespace Internals
     {
-        public class CefTaskWrapper : public CefTask
+        private class CefTaskWrapper : public CefTask
         {
         private:
             gcroot<Task^> _task;

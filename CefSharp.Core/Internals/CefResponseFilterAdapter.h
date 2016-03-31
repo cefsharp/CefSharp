@@ -14,7 +14,7 @@ namespace CefSharp
 {
     namespace Internals
     {
-        public class CefResponseFilterAdapter : public CefResponseFilter
+        private class CefResponseFilterAdapter : public CefResponseFilter
         {
         private:
             gcroot<IResponseFilter^> _filter;

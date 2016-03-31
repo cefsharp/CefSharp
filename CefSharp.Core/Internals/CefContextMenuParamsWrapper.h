@@ -15,7 +15,7 @@ namespace CefSharp
 {
     namespace Internals
     {
-        public ref class CefContextMenuParamsWrapper : public IContextMenuParams, public CefWrapper
+        private ref class CefContextMenuParamsWrapper : public IContextMenuParams, public CefWrapper
         {
             MCefRefPtr<CefContextMenuParams> _wrappedInfo;
 

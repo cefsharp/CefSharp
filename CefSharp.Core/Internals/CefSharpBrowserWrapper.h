@@ -13,7 +13,7 @@ namespace CefSharp
 {
     namespace Internals
     {
-        public ref class CefSharpBrowserWrapper : public IBrowser, public CefWrapper
+        private ref class CefSharpBrowserWrapper : public IBrowser, public CefWrapper
         {
         private:
             MCefRefPtr<CefBrowser> _browser;

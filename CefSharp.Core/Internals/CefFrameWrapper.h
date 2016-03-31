@@ -23,7 +23,7 @@ namespace CefSharp
         // methods of this class may only be called on the main thread.
         ///
         /*--cef(source=library)--*/
-        public ref class CefFrameWrapper : public IFrame, public CefWrapper
+        private ref class CefFrameWrapper : public IFrame, public CefWrapper
         {
         private:
             MCefRefPtr<CefFrame> _frame;

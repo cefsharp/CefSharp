@@ -15,7 +15,7 @@ namespace CefSharp
 {
     namespace Internals
     {
-        public ref class CefTaskScheduler : TaskScheduler, ITaskScheduler
+        private ref class CefTaskScheduler : TaskScheduler, ITaskScheduler
         {
         public:
             CefThreadId _thread;

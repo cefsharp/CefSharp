@@ -13,7 +13,7 @@ namespace CefSharp
 {
     namespace Internals
     {
-        public ref class CefCallbackWrapper : public ICallback, public CefWrapper
+        private ref class CefCallbackWrapper : public ICallback, public CefWrapper
         {
         private:
             MCefRefPtr<CefCallback> _callback;

@@ -16,7 +16,7 @@ namespace CefSharp
 {
     namespace Internals
     {
-        public ref class CefPostDataElementWrapper : public IPostDataElement, public CefWrapper
+        private ref class CefPostDataElementWrapper : public IPostDataElement, public CefWrapper
         {
             MCefRefPtr<CefPostDataElement> _postDataElement;
         internal:
