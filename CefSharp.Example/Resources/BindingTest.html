@@ -240,31 +240,12 @@
         <p>
             Javascript function sending variable number of parameters to Bound Object. (ParamArray Test)
             <script type="text/javascript">
-                function invokeParamArrayMethod(func) {
-                    var result = func();
-                    document.getElementById('paramArrayResults').innerHTML = result;
-                }
+                document.write(bound.methodWithParams('With 1 Params', 'hello-world') + "<br/>");
+                document.write(bound.methodWithParams('With 2 Params', 'hello-world', 'chris was here') + "<br/>");
+                document.write(bound.methodWithParams('With no Params') + "<br/>");
+                document.write(bound.methodWithoutParams('Normal Method', 'hello') + "<br/>");
+                document.write(bound.methodWithoutAnything() + "<br/>");
             </script>
-        <ul>
-            <li style="list-style:none;display:inline-block;">
-                <button onclick="invokeParamArrayMethod(function(){return bound.methodWithParams('test', 'hello-world')})">With 1 Params</button>
-            </li>
-            <li style="list-style:none;display:inline-block;">
-                <button onclick="invokeParamArrayMethod(function(){return bound.methodWithParams('test', 'hello-world', 'chris was here')})">With 2 Params</button>
-            </li>
-            <li style="list-style:none;display:inline-block;">
-                <button onclick="invokeParamArrayMethod(function(){return bound.methodWithParams('test')})">With no Params</button>
-            </li>
-            <li style="list-style:none;display:inline-block;">
-                <button onclick="invokeParamArrayMethod(function(){return bound.methodWithoutParams('test', 'hello')})">Normal Method</button>
-            </li>
-            <li style="list-style:none;display:inline-block;">
-                <button onclick="invokeParamArrayMethod(function(){return bound.methodWithoutAnything()})">Normal Method No Params</button>
-            </li>           
-        </ul>
-            <span>ParamArray Results</span>
-            <br />
-            <span id="paramArrayResults"></span>
         </p>
     </body>
 </html>
