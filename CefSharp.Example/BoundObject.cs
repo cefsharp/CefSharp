@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CefSharp.Example
@@ -269,6 +270,26 @@ namespace CefSharp.Example
         public SubBoundObject GetSubObject()
         {
             return SubObject;
+        }
+
+        /// <summary>
+        /// Demonstrates the use of params as an argument in a bound object
+        /// </summary>
+        /// <param name="name">Dummy Argument</param>
+        /// <param name="args">Params Argument</param>
+        public string MethodWithParams(string name, params object[] args)
+        {
+            return String.Join(", ", args.ToArray());
+        }
+
+        public string MethodWithoutParams(string name, string arg2)
+        {
+            return String.Format("{0}, {1}", name, arg2);
+        }
+
+        public string methodWithoutAnything()
+        {
+            return "Method without anything called and returned successfully.";
         }
     }
 }

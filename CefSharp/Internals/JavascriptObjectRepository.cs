@@ -104,28 +104,37 @@ namespace CefSharp.Internals
 
             try
             {
-                //Fix for C# paramArray and refactor on arguments mismatch 03/22/2016
+                //Added param array support.  Current implementation support param Object only. 04/04/2016
                 var missingParams = method.ParameterCount - parameters.Length;
-                if (missingParams > 0 || method.MethodParameters.Any(t => t.IsParamArray))
+                //CONDITION #1 : Check for parameter count missmatch between the parameters on the javascript function and the
+                //               number of parameters on the bound object method.
+                //CONDITION #2 : Check if the bound object method contains a ParamArray as the last parameter on the method signature.
+                if (missingParams > 0 || method.MethodParameters.LastOrDefault(t => t.IsParamArray) != null)
                 {
-                    var paramList = new List<object>();
+                    var paramList = new List<object>(method.MethodParameters.Count);
 
-                    for (int i = 0; i < method.MethodParameters.Count; i++)
+                    //Loop through all of the method parameters on the bound object.
+                    for (var i = 0; i < method.MethodParameters.Count; i++)
                     {
+                        //Attempt to get the javascript function param at the current bound object parameter index.
+                        //If the javascript function param is missing IE: NULL,  then add Type.Missing.
+                        //This will allow for default bound object parameters. IE: (string someParameter = "someValue")
                         object jsParam = parameters.ElementAtOrDefault(i);
                         if (jsParam == null && !method.MethodParameters[i].IsParamArray)
                         {
                             paramList.Add(Type.Missing);
                         }
+                        //If the method parameter is a paramArray IE: (params Object[] someParameter)
+                        //grab the parameters from the javascript function starting at the current bound object parameter index
+                        //and add create an array that will be passed in as the last bound object method parameter.
                         else if (method.MethodParameters[i].IsParamArray)
                         {
                             List<object> convertedParams = new List<object>();
-                            for (int s = i; s < parameters.Count(); s++)
+                            for (var s = i; s < parameters.Length; s++)
                             {
                                 convertedParams.Add(parameters[s]);
                             }
                             paramList.Add(convertedParams.ToArray());
-                            break;
                         }
                         else
                         {
@@ -307,9 +316,7 @@ namespace CefSharp.Internals
             jsMethod.ParameterCount = methodInfo.GetParameters().Length;
             jsMethod.MethodParameters = methodInfo.GetParameters()
                 .Select(t => new MethodParameter()
-                { Name = t.Name,
-                    ParameterType = t.ParameterType,
-                    Position = t.Position,
+                {
                     IsParamArray = t.GetCustomAttributes(typeof(ParamArrayAttribute), false).Length > 0
                 }).ToList();
             

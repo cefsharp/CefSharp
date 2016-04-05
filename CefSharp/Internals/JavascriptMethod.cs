@@ -34,7 +34,6 @@ namespace CefSharp.Internals
         [DataMember]
         public string JavascriptName { get; set; }
 
-        [DataMember]
         public List<MethodParameter> MethodParameters { get; set; }
 
         /// <summary>
