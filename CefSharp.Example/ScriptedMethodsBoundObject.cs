@@ -36,26 +36,5 @@ namespace CefSharp.Example
                 EventArrived(eventName, eventData);
             }
         }
-
-        /// <summary>
-        /// Demonstrates the use of params as an argument in a bound object
-        /// </summary>
-        /// <param name="name">Dummy Argument</param>
-        /// <param name="args">Params Argument</param>
-        public void MethodWithParams(string name, params object[] args)
-        {
-            var test = args.ElementAtOrDefault(0);
-            var test2 = args.ElementAtOrDefault(1);
-        }
-
-        public void MethodWithoutParams(string name, string arg2)
-        {
-            var test = arg2;
-        }
-
-        public void methodWithoutAnything()
-        {
-            var test = "";
-        }
     }
 }
