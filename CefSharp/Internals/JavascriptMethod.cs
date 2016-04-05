@@ -34,7 +34,12 @@ namespace CefSharp.Internals
         [DataMember]
         public string JavascriptName { get; set; }
 
-        public List<MethodParameter> MethodParameters { get; set; }
+        /// <summary>
+        /// Params this method expects
+        /// </summary>
+        public List<MethodParameter> Parameters { get; set; }
+
+        public bool HasParamArray { get;set; }
 
         /// <summary>
         /// Number of Params this function exepects

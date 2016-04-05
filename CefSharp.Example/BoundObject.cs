@@ -279,15 +279,15 @@ namespace CefSharp.Example
         /// <param name="args">Params Argument</param>
         public string MethodWithParams(string name, params object[] args)
         {
-            return String.Join(", ", args.ToArray());
+            return "Name:" + name + ";Args:" + string.Join(", ", args.ToArray());
         }
 
         public string MethodWithoutParams(string name, string arg2)
         {
-            return String.Format("{0}, {1}", name, arg2);
+            return string.Format("{0}, {1}", name, arg2);
         }
 
-        public string methodWithoutAnything()
+        public string MethodWithoutAnything()
         {
             return "Method without anything called and returned successfully.";
         }
