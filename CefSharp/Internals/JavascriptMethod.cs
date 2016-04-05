@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace CefSharp.Internals
@@ -32,6 +33,8 @@ namespace CefSharp.Internals
         /// </summary>
         [DataMember]
         public string JavascriptName { get; set; }
+
+        public List<MethodParameter> MethodParameters { get; set; }
 
         /// <summary>
         /// Number of Params this function exepects
