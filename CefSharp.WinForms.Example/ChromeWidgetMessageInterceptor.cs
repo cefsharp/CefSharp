@@ -5,8 +5,6 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CefSharp.WinForms.Example
@@ -19,62 +17,24 @@ namespace CefSharp.WinForms.Example
     /// 
     /// The supplied Action delegate is fired upon each message.
     /// </summary>
-    class ChromeWidgetMessageInterceptor : NativeWindow
+    internal class ChromeWidgetMessageInterceptor : NativeWindow
     {
-        private readonly ChromiumWebBrowser browser;
         private Action<Message> forwardAction;
 
-        private ChromeWidgetMessageInterceptor(ChromiumWebBrowser browser, IntPtr chromeWidgetHostHandle, Action<Message> forwardAction)
+        internal ChromeWidgetMessageInterceptor(Control browser, IntPtr chromeWidgetHostHandle, Action<Message> forwardAction)
         {
             AssignHandle(chromeWidgetHostHandle);
 
-            this.browser = browser;
             browser.HandleDestroyed += BrowserHandleDestroyed;
 
             this.forwardAction = forwardAction;
         }
 
-        /// <summary>
-        /// Asynchronously wait for the Chromium widget window to be created for the given ChromiumWebBrowser,
-        /// and when created hook into its Windows message loop.
-        /// </summary>
-        /// <param name="browser">The browser to intercept Windows messages for.</param>
-        /// <param name="forwardAction">This action will be called whenever a Windows message is received.</param>
-        internal static void SetupLoop(ChromiumWebBrowser browser, Action<Message> forwardAction)
-        {
-            Task.Factory.StartNew(() =>
-            {
-                try
-                {
-                    bool foundWidget = false;
-                    while (!foundWidget)
-                    {
-                        browser.Invoke((Action)(() =>
-                        {
-                            IntPtr chromeWidgetHostHandle;
-                            if (ChromeWidgetHandleFinder.TryFindHandle(browser, out chromeWidgetHostHandle))
-                            {
-                                foundWidget = true;
-                                new ChromeWidgetMessageInterceptor(browser, chromeWidgetHostHandle, forwardAction);
-                            }
-                            else
-                            {
-                                // Chrome hasn't yet set up its message-loop window.
-                                Thread.Sleep(10);
-                            }
-                        }));
-                    }
-                }
-                catch
-                {
-                    // Errors are likely to occur if browser is disposed, and no good way to check from another thread
-                }
-            });
-        }
-
         private void BrowserHandleDestroyed(object sender, EventArgs e)
         {
             ReleaseHandle();
+
+            var browser = (Control)sender;
 
             browser.HandleDestroyed -= BrowserHandleDestroyed;
             forwardAction = null;
@@ -91,7 +51,7 @@ namespace CefSharp.WinForms.Example
         }
     }
 
-    class ChromeWidgetHandleFinder
+    internal static class ChromeWidgetHandleFinder
     {
         private delegate bool EnumWindowProc(IntPtr hwnd, IntPtr lParam);
 
@@ -99,37 +59,28 @@ namespace CefSharp.WinForms.Example
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool EnumChildWindows(IntPtr window, EnumWindowProc callback, IntPtr lParam);
 
-        private readonly IntPtr mainHandle;
-        private string seekClassName;
-        private IntPtr descendantFound;
-
-        private ChromeWidgetHandleFinder(IntPtr handle)
-        {
-            this.mainHandle = handle;
-        }
-
-        private IntPtr FindDescendantByClassName(string className)
-        {
-            descendantFound = IntPtr.Zero;
-            seekClassName = className;
-
-            EnumWindowProc childProc = new EnumWindowProc(EnumWindow);
-            EnumChildWindows(this.mainHandle, childProc, IntPtr.Zero);
-
-            return descendantFound;
-        }
-
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
 
-        private bool EnumWindow(IntPtr hWnd, IntPtr lParam)
+        private class ClassDetails
         {
-            StringBuilder buffer = new StringBuilder(128);
+            public IntPtr DescendantFound { get; set; }
+        }
+
+        private static bool EnumWindow(IntPtr hWnd, IntPtr lParam)
+        {
+            const string chromeWidgetHostClassName = "Chrome_RenderWidgetHostHWND";
+
+            var buffer = new StringBuilder(128);
             GetClassName(hWnd, buffer, buffer.Capacity);
 
-            if (buffer.ToString() == seekClassName)
+            if (buffer.ToString() == chromeWidgetHostClassName)
             {
-                descendantFound = hWnd;
+                var gcHandle = GCHandle.FromIntPtr(lParam);
+
+                var classDetails = (ClassDetails)gcHandle.Target;
+
+                classDetails.DescendantFound = hWnd;
                 return false;
             }
 
@@ -140,13 +91,19 @@ namespace CefSharp.WinForms.Example
         /// Chrome's message-loop Window isn't created synchronously, so this may not find it.
         /// If so, you need to wait and try again later.
         /// </summary>
-        public static bool TryFindHandle(ChromiumWebBrowser browser, out IntPtr chromeWidgetHostHandle)
+        public static bool TryFindHandle(IntPtr browserHandle, out IntPtr chromeWidgetHostHandle)
         {
-            var browserHandle = browser.Handle;
-            var windowHandleInfo = new ChromeWidgetHandleFinder(browserHandle);
-            const string chromeWidgetHostClassName = "Chrome_RenderWidgetHostHWND";
-            chromeWidgetHostHandle = windowHandleInfo.FindDescendantByClassName(chromeWidgetHostClassName);
-            return chromeWidgetHostHandle != IntPtr.Zero;
+            var classDetails = new ClassDetails();
+            var gcHandle = GCHandle.Alloc(classDetails);
+
+            var childProc = new EnumWindowProc(EnumWindow);
+            EnumChildWindows(browserHandle, childProc, GCHandle.ToIntPtr(gcHandle));
+
+            chromeWidgetHostHandle = classDetails.DescendantFound;
+
+            gcHandle.Free();
+
+            return classDetails.DescendantFound != IntPtr.Zero;
         }
     }
 }
