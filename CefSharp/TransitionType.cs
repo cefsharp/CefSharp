@@ -6,6 +6,9 @@ using System;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Transition type for a request. Made up of one source value and 0 or more qualifiers.
+    /// </summary>
     [Flags]
     public enum TransitionType : uint
     {

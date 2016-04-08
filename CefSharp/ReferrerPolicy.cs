@@ -12,7 +12,7 @@ namespace CefSharp
         Always = 0,
 
         /// <summary>
-        //// Use the default policy. This is OriginWhenCrossOrigin
+        /// Use the default policy. This is OriginWhenCrossOrigin
         /// when the `--reduced-referrer-granularity` command-line flag is specified
         /// and NoReferrerWhenDowngrade otherwise.
         /// </summary>

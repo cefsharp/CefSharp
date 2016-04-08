@@ -4,6 +4,9 @@
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Return value types.
+    /// </summary>
 	public enum CefReturnValue
 	{
 		/// <summary>

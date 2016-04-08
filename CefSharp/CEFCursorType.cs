@@ -4,6 +4,9 @@
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Cursor type values.
+    /// </summary>
     public enum CefCursorType
     {
         Pointer = 0,

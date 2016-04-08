@@ -22,7 +22,6 @@ namespace CefSharp
         /// <returns>Return false for default drag handling behavior or true to cancel the drag event. </returns>
         bool OnDragEnter(IWebBrowser browserControl, IBrowser browser, IDragData dragData, DragOperationsMask mask);
 
-
         /// <summary>
         /// Called whenever draggable regions for the browser window change.
         /// These can be specified using the '-webkit-app-region: drag/no-drag' CSS-property.

@@ -4,6 +4,9 @@
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Supported JavaScript dialog types.
+    /// </summary>
     public enum CefJsDialogType
     {
         Alert = 0,

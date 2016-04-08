@@ -8,6 +8,9 @@ using System.IO;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Used to represent drag data.
+    /// </summary>
     public interface IDragData : IDisposable
     {
         /// <summary>

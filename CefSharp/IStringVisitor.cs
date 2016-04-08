@@ -4,6 +4,9 @@
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Implement this interface to receive string values asynchronously.
+    /// </summary>
     public interface IStringVisitor
     {
         void Visit(string str);

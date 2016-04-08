@@ -14,6 +14,11 @@ namespace CefSharp
         public IBrowser Browser { get; set; }
         public string Address { get; private set; }
 
+        /// <summary>
+        /// Called when a frame's address has changed. 
+        /// </summary>
+        /// <param name="browser">the browser object</param>
+        /// <param name="address">the address</param>
         public AddressChangedEventArgs(IBrowser browser, string address)
         {
             Browser = browser;
