@@ -4,6 +4,10 @@
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Interface to implement for visiting cookie values. 
+    /// The methods of this class will always be called on the IO thread.
+    /// </summary>
     public interface ICookieVisitor
     {
         bool Visit(Cookie cookie, int count, int total, ref bool deleteCookie);

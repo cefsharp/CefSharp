@@ -32,16 +32,31 @@ namespace CefSharp
         /// </summary>
         void CloseDevTools();
 
+        /// <summary>
+        /// Call this method when the user drags the mouse into the web view (before calling <see cref="DragTargetDragOver"/>/<see cref="DragTargetDragLeave"/>/<see cref="DragTargetDragDrop"/>).
+        /// </summary>
         void DragTargetDragEnter(IDragData dragData, MouseEvent mouseEvent, DragOperationsMask allowedOperations);
 
+        /// <summary>
+        /// Call this method each time the mouse is moved across the web view during a drag operation (after calling <see cref="DragTargetDragEnter"/> and before calling <see cref="DragTargetDragLeave"/>/<see cref="DragTargetDragDrop"/>). 
+        /// This method is only used when window rendering is disabled.
+        /// </summary>
         void DragTargetDragOver(MouseEvent mouseEvent, DragOperationsMask allowedOperations);
 
+        /// <summary>
+        /// Call this method when the user completes the drag operation by dropping the object onto the web view (after calling <see cref="DragTargetDragEnter"/>). 
+        /// The object being dropped is <see cref="IDragData"/>, given as an argument to the previous <see cref="DragTargetDragEnter"/> call. 
+        /// This method is only used when window rendering is disabled.
+        /// </summary>
         void DragTargetDragDrop(MouseEvent mouseEvent);
 
         void DragSourceEndedAt(int x, int y, DragOperationsMask op);
 
+        /// <summary>
+        /// Call this method when the user drags the mouse out of the web view (after calling <see cref="DragTargetDragEnter"/>). This method is only used when window rendering is disabled.
+        /// </summary>
         void DragTargetDragLeave();
-
+        
         void DragSourceSystemDragEnded();
 
         /// <summary>

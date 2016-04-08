@@ -4,6 +4,9 @@
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Represents the state of a setting.
+    /// </summary>
     public enum CefState
     {
         /// <summary>
