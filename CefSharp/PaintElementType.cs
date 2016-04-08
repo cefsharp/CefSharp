@@ -4,6 +4,9 @@
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Paint element types.
+    /// </summary>
     public enum PaintElementType
     {
         View = 0,
