@@ -48,7 +48,6 @@ namespace CefSharp.WinForms.Example
             browser.StatusMessage += OnBrowserStatusMessage;
             browser.IsBrowserInitializedChanged += OnIsBrowserInitializedChanged;
             browser.LoadError += OnLoadError;
-            browser.DragHandler = new DragHandler();
             browser.RegisterJsObject("bound", new BoundObject());
             browser.RegisterAsyncJsObject("boundAsync", new AsyncBoundObject());
             browser.RenderProcessMessageHandler = new RenderProcessMessageHandler();

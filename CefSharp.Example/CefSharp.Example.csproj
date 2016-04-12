@@ -71,7 +71,6 @@
     <Compile Include="AsyncBoundObject.cs" />
     <Compile Include="BoundObject.cs" />
     <Compile Include="CallbackResponseStruct.cs" />
-    <Compile Include="DragHandler.cs" />
     <Compile Include="Filters\AppendResponseFilter.cs" />
     <Compile Include="Filters\FindReplaceResponseFilter.cs" />
     <Compile Include="FlashResourceHandler.cs" />
@@ -126,6 +125,7 @@
     <Content Include="Resources\home.html" />
     <Content Include="Resources\FramedWebGLTest.html" />
     <Content Include="Resources\PopupTest.html" />
+    <Content Include="Resources\DraggableRegionTest.html" />
     <Content Include="Resources\ResponseFilterTest.html" />
     <Content Include="Resources\SchemeTest.html" />
     <Content Include="Resources\ScriptedMethodsTest.html" />

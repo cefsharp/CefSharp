@@ -2,8 +2,10 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Collections.Generic;
 using CefSharp.Example;
 using CefSharp.Wpf.Example.Handlers;
 
@@ -11,6 +13,9 @@ namespace CefSharp.Wpf.Example.Views
 {
     public partial class BrowserTabView : UserControl
     {
+        //Store draggable regions if we have any - used for hit testing
+        private IList<System.Windows.Rect> regions;
+
         public BrowserTabView()
         {
             InitializeComponent();
@@ -25,6 +30,11 @@ namespace CefSharp.Wpf.Example.Views
             browser.MenuHandler = new MenuHandler();
             browser.GeolocationHandler = new GeolocationHandler();
             browser.DownloadHandler = new DownloadHandler();
+            
+            var dragHandler = new DragHandler();
+            dragHandler.RegionsChanged += OnDragHandlerRegionsChanged;
+
+            browser.DragHandler = dragHandler;
             //browser.ResourceHandlerFactory = new InMemorySchemeAndResourceHandlerFactory();
             //You can specify a custom RequestContext to share settings amount groups of ChromiumWebBrowsers
             //Also this is now the only way to access OnBeforePluginLoad - need to implement IPluginHandler
@@ -60,6 +70,33 @@ namespace CefSharp.Wpf.Example.Views
             };
 
             CefExample.RegisterTestResources(browser);
+        }
+
+        private void OnBrowserMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var point = e.GetPosition(browser);
+
+            if (regions[0].Contains(point))
+            {
+                var window = Window.GetWindow(this);
+                window.DragMove();
+
+                e.Handled = true;
+            }
+        }
+
+        private void OnDragHandlerRegionsChanged(IList<System.Windows.Rect> regions)
+        {
+            if(regions != null && regions.Count > 0)
+            {
+                //Only wire up event handler once
+                if(this.regions == null)
+                { 
+                    browser.PreviewMouseLeftButtonDown += OnBrowserMouseLeftButtonDown;
+                }
+
+                this.regions = regions;
+            }
         }
 
         private void OnTextBoxGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
