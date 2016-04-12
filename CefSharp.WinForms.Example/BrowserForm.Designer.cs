@@ -62,6 +62,7 @@
             this.goToDemoPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.injectJavascriptCodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.browserTabControl = new System.Windows.Forms.TabControl();
+            this.printToPdfToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -84,6 +85,7 @@
             this.newTabToolStripMenuItem,
             this.closeTabToolStripMenuItem,
             this.printToolStripMenuItem,
+            this.printToPdfToolStripMenuItem,
             this.aboutToolStripMenuItem,
             this.showDevToolsMenuItem,
             this.closeDevToolsMenuItem,
@@ -326,6 +328,13 @@
             this.browserTabControl.Size = new System.Drawing.Size(730, 466);
             this.browserTabControl.TabIndex = 2;
             // 
+            // printToPdfToolStripMenuItem
+            // 
+            this.printToPdfToolStripMenuItem.Name = "printToPdfToolStripMenuItem";
+            this.printToPdfToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.printToPdfToolStripMenuItem.Text = "Print To Pdf";
+            this.printToPdfToolStripMenuItem.Click += new System.EventHandler(this.printToPdfToolStripMenuItem_Click);
+            // 
             // BrowserForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -379,6 +388,7 @@
         private System.Windows.Forms.ToolStripMenuItem listenForButtonClickToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem goToDemoPageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem injectJavascriptCodeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem printToPdfToolStripMenuItem;
 
     }
 }
