@@ -2,6 +2,8 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System.Drawing;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -13,8 +15,8 @@ namespace CefSharp.Wpf.Example.Views
 {
     public partial class BrowserTabView : UserControl
     {
-        //Store draggable regions if we have any - used for hit testing
-        private IList<System.Windows.Rect> regions;
+        //Store draggable region if we have one - used for hit testing
+        private Region region;
 
         public BrowserTabView()
         {
@@ -76,7 +78,7 @@ namespace CefSharp.Wpf.Example.Views
         {
             var point = e.GetPosition(browser);
 
-            if (regions[0].Contains(point))
+            if (region.IsVisible((float)point.X, (float)point.Y))
             {
                 var window = Window.GetWindow(this);
                 window.DragMove();
@@ -85,17 +87,17 @@ namespace CefSharp.Wpf.Example.Views
             }
         }
 
-        private void OnDragHandlerRegionsChanged(IList<System.Windows.Rect> regions)
+        private void OnDragHandlerRegionsChanged(Region region)
         {
-            if(regions != null && regions.Count > 0)
+            if(region != null)
             {
                 //Only wire up event handler once
-                if(this.regions == null)
+                if(this.region == null)
                 { 
                     browser.PreviewMouseLeftButtonDown += OnBrowserMouseLeftButtonDown;
                 }
 
-                this.regions = regions;
+                this.region = region;
             }
         }
 

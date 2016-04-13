@@ -3,13 +3,15 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Drawing;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace CefSharp.Wpf.Example.Handlers
 {
     public class DragHandler : IDragHandler, IDisposable
     {
-        public event Action<IList<System.Windows.Rect>> RegionsChanged;
+        public event Action<Region> RegionsChanged;
 
         bool IDragHandler.OnDragEnter(IWebBrowser browserControl, IBrowser browser, IDragData dragData, DragOperationsMask mask)
         {
@@ -18,17 +20,37 @@ namespace CefSharp.Wpf.Example.Handlers
 
         void IDragHandler.OnDraggableRegionsChanged(IWebBrowser browserControl, IBrowser browser, IList<DraggableRegion> regions)
         {
+            //By default popup browers are native windows in WPF so we cannot handle their drag using this method
             if(browser.IsPopup == false)
             {
                 //NOTE: I haven't tested with dynamically adding removing regions so this may need some tweaking
+                Region draggableRegion = null;
 
-                var draggableRegions = new List<System.Windows.Rect>();
+                if(regions.Count > 0)
+                {
+                    //Take the individual Region and construct a complex Region that represents them all.
+                    foreach(var region in regions)
+                    { 
+                        var rect = new Rectangle(region.X, region.Y, region.Width, region.Height);
 
-                foreach(var region in regions)
-                { 
-                    if(region.Draggable)
-                    {
-                        draggableRegions.Add(new System.Windows.Rect(region.X, region.Y, region.Width, region.Height));
+                        if(draggableRegion == null)
+                        {
+                            draggableRegion = new Region(rect);
+                        }
+                        else
+                        { 
+                            if(region.Draggable)
+                            {
+                                draggableRegion.Union(rect);
+                            }
+                            else
+                            {                        
+                                //In the scenario where we have an outer region, that is draggable and it has
+                                // an inner region that's not, we must exclude the non draggable.
+                                // Not all scenarios are covered in this example.
+                                draggableRegion.Exclude(rect);
+                            }
+                        }
                     }
                 }
 
@@ -36,7 +58,7 @@ namespace CefSharp.Wpf.Example.Handlers
 
                 if(handler != null)
                 {
-                    handler(draggableRegions);
+                    handler(draggableRegion);
                 }
             } 
         }
