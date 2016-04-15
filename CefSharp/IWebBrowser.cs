@@ -22,10 +22,12 @@ namespace CefSharp
         /// Event handler that will get called when the browser begins loading a frame. Multiple frames may be loading at the same
         /// time. Sub-frames may start or continue loading after the main frame load has ended. This method may not be called for a
         /// particular frame if the load request for that frame fails. For notification of overall browser load status use
-        /// OnLoadingStateChange instead.
-        /// This event will be called on the CEF UI thread.
+        /// OnLoadingStateChange instead. This event will be called on the CEF UI thread.
         /// Blocking this thread will likely cause your UI to become unresponsive and/or hang.
         /// </summary>
+        /// <remarks>Whilst thist may seem like a logical place to execute js, it's called before the DOM has been loaded, implement
+        /// <see cref="IRenderProcessMessageHandler.OnContextCreated"/> as it's called when the underlying V8Context is created
+        /// (Only called for the main frame at this stage)</remarks>
         event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
 
         /// <summary>
