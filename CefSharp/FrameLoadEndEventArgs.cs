@@ -11,6 +11,12 @@ namespace CefSharp
     /// </summary>
     public class FrameLoadEndEventArgs : EventArgs
     {
+        /// <summary>
+        /// Creates a new FrameLoadEnd event args
+        /// </summary>
+        /// <param name="browser">browser</param>
+        /// <param name="frame">frame</param>
+        /// <param name="httpStatusCode">http statusCode</param>
         public FrameLoadEndEventArgs(IBrowser browser, IFrame frame, int httpStatusCode)
         {
             Browser = browser;

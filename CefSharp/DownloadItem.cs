@@ -6,6 +6,9 @@ using System;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Class used to represent a download item.
+    /// </summary>
     public class DownloadItem
     {
         /// <summary>

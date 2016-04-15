@@ -8,6 +8,11 @@ using CefSharp.Internals;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Used in conjunction with CefSettings.RegisterScheme to register a scheme.
+    /// You can register your own custom scheme e.g. custom:// or use an existing
+    /// scheme e.g. http://
+    /// </summary>
     public class CefCustomScheme
     {
         /// <summary>
@@ -69,8 +74,15 @@ namespace CefSharp
         /// </summary>
         public bool IsDisplayIsolated { get; set; }
 
+        /// <summary>
+        /// Factory Class that creates <see cref="IResourceHandler"/> instances
+        /// for handling scheme requests.
+        /// </summary>
         public ISchemeHandlerFactory SchemeHandlerFactory { get; set; }
 
+        /// <summary>
+        /// Creates a new CefCustomScheme.
+        /// </summary>
         public CefCustomScheme()
         {
             IsStandard = true;

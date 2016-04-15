@@ -6,6 +6,10 @@ using System;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Class used to Represent a cookie the built in .Net Cookie
+    /// class isn't used as some of it's properties have internal setters
+    /// </summary>
     public class Cookie
     {
         public string Name { get; set; }

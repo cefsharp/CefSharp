@@ -4,6 +4,9 @@
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Implement this interface to handle context menu events. 
+    /// </summary>
     public interface IContextMenuHandler
     {
         /// <summary>

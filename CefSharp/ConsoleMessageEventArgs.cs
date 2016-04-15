@@ -11,6 +11,12 @@ namespace CefSharp
     /// </summary>
     public class ConsoleMessageEventArgs : EventArgs
     {
+        /// <summary>
+        /// Creates a new ConsoleMessageEventArgs event argument.
+        /// </summary>
+        /// <param name="message">message</param>
+        /// <param name="source">source</param>
+        /// <param name="line">line number</param>
         public ConsoleMessageEventArgs(string message, string source, int line)
         {
             Message = message;

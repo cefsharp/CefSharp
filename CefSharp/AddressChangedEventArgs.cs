@@ -7,15 +7,22 @@ using System;
 namespace CefSharp
 {
     /// <summary>
-    /// Event arguments to the AddressChanged event handler.
+    /// Event arguments for the AddressChanged event handler.
     /// </summary>
     public class AddressChangedEventArgs : EventArgs
     {
-        public IBrowser Browser { get; set; }
+        /// <summary>
+        /// Access to the underlying <see cref="IBrowser"/> object
+        /// </summary>
+        public IBrowser Browser { get; private set; }
+
+        /// <summary>
+        /// The new address
+        /// </summary>
         public string Address { get; private set; }
 
         /// <summary>
-        /// Called when a frame's address has changed. 
+        /// Creates a new AddressChangedEventArgs event argument.
         /// </summary>
         /// <param name="browser">the browser object</param>
         /// <param name="address">the address</param>

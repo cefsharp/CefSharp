@@ -8,15 +8,33 @@ using System.Collections.Generic;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Default implementation of <see cref="IResourceHandlerFactory"/> it's used
+    /// internally for the LoadHtml implementation - basically a resource handler is
+    /// registered for a specific Url.
+    /// </summary>
     public class DefaultResourceHandlerFactory : IResourceHandlerFactory
     {
+        /// <summary>
+        /// Resource handler thread safe dictionary
+        /// </summary>
         public ConcurrentDictionary<string, IResourceHandler> Handlers { get; private set; }
 
+        /// <summary>
+        /// Create a new instance of DefaultResourceHandlerFactory
+        /// </summary>
+        /// <param name="comparer">string equality comparer</param>
         public DefaultResourceHandlerFactory(IEqualityComparer<string> comparer = null)
         {
             Handlers = new ConcurrentDictionary<string, IResourceHandler>(comparer ?? StringComparer.OrdinalIgnoreCase);
         }
 
+        /// <summary>
+        /// Register handler with the specified Url
+        /// </summary>
+        /// <param name="url">url</param>
+        /// <param name="handler">handler</param>
+        /// <returns>returns true if the Url was successfully parsed into a Uri otherwise false</returns>
         public virtual bool RegisterHandler(string url, IResourceHandler handler)
         {
             Uri uri;
@@ -28,6 +46,11 @@ namespace CefSharp
             return false;
         }
 
+        /// <summary>
+        /// Unregister a handler for the specified Url
+        /// </summary>
+        /// <param name="url">Url</param>
+        /// <returns>returns true if successfully removed</returns>
         public virtual bool UnregisterHandler(string url)
         {
             IResourceHandler handler;

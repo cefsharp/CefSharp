@@ -16,6 +16,9 @@ namespace CefSharp
     /// </summary>
     public static class DependencyChecker
     {
+        /// <summary>
+        /// en-US Locales pak file location
+        /// </summary>
         public const string LocalesPackFile = @"locales\en-US.pak";
         
         /// <summary>

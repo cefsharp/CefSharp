@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Interface used to represent the browser process aspects of a browser window.
+    /// They may be called on any thread in that process unless otherwise indicated in the comments. 
+    /// </summary>
     public interface IBrowserHost : IDisposable
     {
         /// <summary>
@@ -50,13 +54,28 @@ namespace CefSharp
         /// </summary>
         void DragTargetDragDrop(MouseEvent mouseEvent);
 
+        /// <summary>
+        /// Call this method when the drag operation started by a <see cref="IRenderWebBrowser.StartDragging"/> call has ended either in a drop or by being cancelled.
+        /// If the web view is both the drag source and the drag target then all DragTarget* methods should be called before DragSource* methods.
+        /// This method is only used when window rendering is disabled. 
+        /// </summary>
+        /// <param name="x">x mouse coordinate relative to the upper-left corner of the view.</param>
+        /// <param name="y">y mouse coordinate relative to the upper-left corner of the view.</param>
+        /// <param name="op">Drag Operations mask</param>
         void DragSourceEndedAt(int x, int y, DragOperationsMask op);
 
         /// <summary>
-        /// Call this method when the user drags the mouse out of the web view (after calling <see cref="DragTargetDragEnter"/>). This method is only used when window rendering is disabled.
+        /// Call this method when the user drags the mouse out of the web view (after calling <see cref="DragTargetDragEnter"/>).
+        /// This method is only used when window rendering is disabled.
         /// </summary>
         void DragTargetDragLeave();
         
+        /// <summary>
+        /// Call this method when the drag operation started by a <see cref="IRenderWebBrowser.StartDragging"/> call has completed.
+        /// This method may be called immediately without first calling DragSourceEndedAt to cancel a drag operation.
+        /// If the web view is both the drag source and the drag target then all DragTarget* methods should be called before DragSource* mthods.
+        /// This method is only used when window rendering is disabled. 
+        /// </summary>
         void DragSourceSystemDragEnded();
 
         /// <summary>

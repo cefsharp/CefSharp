@@ -6,6 +6,9 @@ using System;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Use this static class to configure some CefSharp specific settings like WcfTimeout
+    /// </summary>
     public static class CefSharpSettings
     {
         /// <summary>

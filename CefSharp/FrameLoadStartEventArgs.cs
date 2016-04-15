@@ -11,6 +11,11 @@ namespace CefSharp
     /// </summary>
     public class FrameLoadStartEventArgs : EventArgs
     {
+        /// <summary>
+        /// Creates a new FrameLoadStart event args
+        /// </summary>
+        /// <param name="browser">browser</param>
+        /// <param name="frame">frame</param>
         public FrameLoadStartEventArgs(IBrowser browser, IFrame frame)
         {
             Browser = browser;
@@ -21,7 +26,7 @@ namespace CefSharp
         /// <summary>
         /// The browser object
         /// </summary>
-        public IBrowser Browser { get; private set;}
+        public IBrowser Browser { get; private set; }
 
         /// <summary>
         /// The frame that just started loading.

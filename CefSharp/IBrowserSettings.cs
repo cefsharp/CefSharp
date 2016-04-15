@@ -4,26 +4,59 @@
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Interface representing browser initialization settings. 
+    /// </summary>
     public interface IBrowserSettings
     {
+        /// <summary>
+        /// StandardFontFamily
+        /// </summary>
         string StandardFontFamily { get; set; }
 
+        /// <summary>
+        /// FixedFontFamily
+        /// </summary>
         string FixedFontFamily { get; set; }
 
+        /// <summary>
+        /// SerifFontFamily
+        /// </summary>
         string SerifFontFamily { get; set; }
-
+        
+        /// <summary>
+        /// SansSerifFontFamily
+        /// </summary>
         string SansSerifFontFamily { get; set; }
 
+        /// <summary>
+        /// CursiveFontFamily
+        /// </summary>
         string CursiveFontFamily { get; set; }
 
+        /// <summary>
+        /// FantasyFontFamily
+        /// </summary>
         string FantasyFontFamily { get; set; }
 
+        /// <summary>
+        /// DefaultFontSize
+        /// </summary>
         int DefaultFontSize { get; set; }
 
+        /// <summary>
+        /// DefaultFixedFontSize
+        /// </summary>
         int DefaultFixedFontSize { get; set; }
 
+        /// <summary>
+        /// MinimumFontSize
+        /// </summary>
         int MinimumFontSize { get; set; }
 
+        /// <summary>
+        /// MinimumLogicalFontSize
+        /// </summary>
         int MinimumLogicalFontSize { get; set; }
 
         /// <summary>
