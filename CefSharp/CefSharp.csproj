@@ -220,7 +220,6 @@
     <Compile Include="Internals\Kernel32.cs" />
     <Compile Include="FrameLoadEndEventArgs.cs" />
     <Compile Include="LogSeverity.cs" />
-    <Compile Include="DisposableResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptException.cs" />
     <Compile Include="Internals\RenderprocessClientFactory.cs" />

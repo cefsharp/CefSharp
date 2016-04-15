@@ -27,20 +27,26 @@ namespace CefSharp.Internals
     /// All of the registered objects are tracked via meta-data for the objects 
     /// expressed starting with the JavaScriptObject type.
     /// </summary>
-    public class JavascriptObjectRepository : DisposableResource
+    public class JavascriptObjectRepository
     {
         private static long lastId;
 
-        // A hash from assigned object ids to the objects,
-        // this is done to speed up finding the object in O(1) time
-        // instead of traversing the JavaScriptRootObject tree.
+        /// <summary>
+        /// A hash from assigned object ids to the objects,
+        /// this is done to speed up finding the object in O(1) time
+        /// instead of traversing the JavaScriptRootObject tree.
+        /// </summary>
         private readonly Dictionary<long, JavascriptObject> objects = new Dictionary<long, JavascriptObject>();
 
-        // This is the root of the objects that get serialized to the child
-        // process.
+        /// <summary>
+        /// This is the root of the objects that get serialized to the child process.
+        /// </summary>
         public JavascriptRootObject RootObject { get; private set; }
-        // This is the root of the objects that get serialized to the child
-        // process with cef ipc serialization (wcf not required).
+        
+        /// <summary>
+        /// This is the root of the objects that get serialized to the child
+        /// process with cef ipc serialization (wcf not required).
+        /// </summary>
         public JavascriptRootObject AsyncRootObject { get; private set; }
 
         public JavascriptObjectRepository()
