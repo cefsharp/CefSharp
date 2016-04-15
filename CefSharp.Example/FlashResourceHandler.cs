@@ -10,9 +10,6 @@ namespace CefSharp.Example
 {
     public class FlashResourceHandler : ResourceHandler
     {
-        private MemoryStream stream;
-        private string mime;
-
         public override bool ProcessRequestAsync(IRequest request, ICallback callback)
         {
             Task.Run(() =>
@@ -25,31 +22,26 @@ namespace CefSharp.Example
 
                     // Get the stream associated with the response.
                     var receiveStream = httpWebResponse.GetResponseStream();
-                    mime = httpWebResponse.ContentType;
+                    var mime = httpWebResponse.ContentType;
 
-                    stream = new MemoryStream();
+                    var stream = new MemoryStream();
                     receiveStream.CopyTo(stream);
                     httpWebResponse.Close();
+
+                    //Reset the stream position to 0 so the stream can be copied into the underlying unmanaged buffer
+                    stream.Position = 0;
+
+                    //Populate the response values - No longer need to implement GetResponseHeaders (unless you need to perform a redirect)
+                    ResponseLength = stream.Length;
+                    MimeType = mime;
+                    StatusCode = (int)HttpStatusCode.OK;
+                    Stream = stream;                    
                
                     callback.Continue();
                 }
             });
 
             return true;
-        }
-
-        public override Stream GetResponse(IResponse response, out long responseLength, out string redirectUrl)
-        {
-            responseLength = stream.Length;
-            redirectUrl = null;
-
-            response.MimeType = mime;
-            response.StatusCode = (int)HttpStatusCode.OK;
-
-            //Reset the stream position to 0 so the stream can be copied into the underlying unmanaged buffer
-            stream.Position = 0;
-
-            return stream;
         }
     }
 }
