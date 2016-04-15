@@ -619,7 +619,7 @@ namespace CefSharp
                 return false;
             }
                 
-            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup(), false);
+            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup(), true);
             CefFrameWrapper frameWrapper(frame);
             CefRequestWrapper requestWrapper(request);
             CefResponseWrapper responseWrapper(response);
@@ -691,7 +691,7 @@ namespace CefSharp
                 return NULL;
             }
 
-            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup(), false);
+            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup(), true);
             CefFrameWrapper frameWrapper(frame);
             CefRequestWrapper requestWrapper(request);
 
