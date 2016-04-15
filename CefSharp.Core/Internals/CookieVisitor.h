@@ -22,6 +22,7 @@ namespace CefSharp
 
         ~CookieVisitor()
         {
+            delete _visitor;
             _visitor = nullptr;
         }
 
