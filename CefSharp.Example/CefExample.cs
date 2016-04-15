@@ -196,10 +196,19 @@ namespace CefSharp.Example
                     pluginBody.Append("<th>Path</th>");
                     pluginBody.Append("</tr>");
                 
-                    try
-                    {
-                        var plugins = await Cef.GetPlugins();
+                    var plugins = await Cef.GetPlugins();
 
+                    if(plugins.Count == 0)
+                    {
+                        pluginBody.Append("<tr>");
+                        pluginBody.Append("<td colspan='4'>Cef.GetPlugins returned an empty list - likely no plugins were loaded on your system</td>");
+                        pluginBody.Append("</tr>");
+                        pluginBody.Append("<tr>");
+                        pluginBody.Append("<td colspan='4'>You may find that NPAPI/PPAPI need to be enabled</td>");
+                        pluginBody.Append("</tr>");
+                    }
+                    else
+                    {
                         foreach (var plugin in plugins)
                         {
                             pluginBody.Append("<tr>");
@@ -209,15 +218,6 @@ namespace CefSharp.Example
                             pluginBody.Append("<td>" + plugin.Path + "</td>");
                             pluginBody.Append("</tr>");
                         }
-                    }
-                    catch (TaskCanceledException ex)
-                    {
-                        pluginBody.Append("<tr>");
-                        pluginBody.Append("<td colspan='4'>Cef.GetPlugins Timed out - likely no plugins were loaded on your system</td>");
-                        pluginBody.Append("</tr>");
-                        pluginBody.Append("<tr>");
-                        pluginBody.Append("<td colspan='4'>You may find that NPAPI/PPAPI need to be enabled</td>");
-                        pluginBody.Append("</tr>");
                     }
 
                     pluginBody.Append("</table></body></html>");

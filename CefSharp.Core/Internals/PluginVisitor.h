@@ -22,13 +22,16 @@ namespace CefSharp
         {
             _list = gcnew List<Plugin>();
             _taskCompletionSource = gcnew TaskCompletionSource<List<Plugin>^>();
-
-            //NOTE: Use fully qualified name as TaskExtensions is ambiguious
-            CefSharp::Internals::TaskExtensions::WithTimeout<List<Plugin>^>(_taskCompletionSource, TimeSpan::FromMilliseconds(2000));
         }
 
         ~PluginVisitor()
         {
+            //In this case Visit was likely never called, so we set result to complete the task
+            if (_list->Count == 0)
+            {
+                _taskCompletionSource->SetResult(_list);
+            }
+
             _list = nullptr;
             _taskCompletionSource = nullptr;
         }
