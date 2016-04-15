@@ -11,8 +11,15 @@ namespace CefSharp
     /// </summary>
     public class TitleChangedEventArgs : EventArgs
     {
+        /// <summary>
+        /// The new title
+        /// </summary>
         public string Title { get; private set; }
 
+        /// <summary>
+        /// Creates a new TitleChanged event arg
+        /// </summary>
+        /// <param name="title">the new title</param>
         public TitleChangedEventArgs(string title)
         {
             Title = title;

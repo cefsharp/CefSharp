@@ -9,6 +9,10 @@ namespace CefSharp
     /// </summary>
     public interface IStringVisitor
     {
+        /// <summary>
+        ///  Method that will be executed.
+        /// </summary>
+        /// <param name="str">string (result of async execution)</param>
         void Visit(string str);
     }
 }
