@@ -342,7 +342,7 @@ namespace CefSharp.Internals
                 return string.Empty;
             }
 
-            return char.ToLower(str[0]) + str.Substring(1);
+            return char.ToLowerInvariant(str[0]) + str.Substring(1);
         }
     }
 }
