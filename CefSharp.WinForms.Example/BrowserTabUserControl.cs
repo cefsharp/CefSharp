@@ -193,6 +193,10 @@ namespace CefSharp.WinForms.Example
                 {
                     this.InvokeOnUiThreadIfRequired(() => MessageBox.Show("Unable to set preference enable_do_not_track errorMessage: " + errorMessage));
                 }
+
+                //Example of disable spellchecking
+                //success = requestContext.SetPreference("browser.enable_spellchecking", false, out errorMessage);
+
                 var preferences = requestContext.GetAllPreferences(true);
                 var doNotTrack = (bool)preferences["enable_do_not_track"];
 
