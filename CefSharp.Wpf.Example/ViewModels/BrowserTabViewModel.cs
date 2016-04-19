@@ -193,5 +193,10 @@ namespace CefSharp.Wpf.Example.ViewModels
 
             frame.LoadRequest(request);
         }
+
+        internal void ShowDevtools()
+        {
+            webBrowser.ShowDevTools();
+        }
     }
 }

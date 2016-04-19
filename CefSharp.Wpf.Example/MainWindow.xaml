@@ -14,6 +14,7 @@
             <MenuItem Header="_File">
                 <MenuItem Header="_New Tab" Command="New"/>
                 <MenuItem Header="_Close Tab" Command="Close"/>
+                <MenuItem Header="_Open DevTools" Command="controls:CefSharpCommands.CustomCommand" CommandParameter="OpenDevTools"/>
                 <MenuItem Header="_Exit" Command="controls:CefSharpCommands.Exit"/>
             </MenuItem>
             <MenuItem Header="_Tests">

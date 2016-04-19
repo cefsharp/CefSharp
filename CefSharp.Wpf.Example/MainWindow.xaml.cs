@@ -107,6 +107,12 @@ namespace CefSharp.Wpf.Example
                 {
                     browserViewModel.LoadCustomRequestExample();
                 }
+
+                if(param == "OpenDevTools")
+                {
+                    browserViewModel.ShowDevtools();
+                }
+
                 //NOTE: Add as required
                 //else if (param == "CustomRequest123")
                 //{
