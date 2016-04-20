@@ -245,40 +245,6 @@ namespace CefSharp
             return success;
         }
 
-        ///
-        // Clears all certificate exceptions that were added as part of handling
-        // CefRequestHandler::OnCertificateError(). If you call this it is
-        // recommended that you also call CloseAllConnections() or you risk not
-        // being prompted again for server certificates if you reconnect quickly.
-        // If |callback| is non-NULL it will be executed on the UI thread after
-        // completion.
-        ///
-        /*--cef(optional_param=callback)--*/
-        virtual void ClearCertificateExceptions(ICompletionCallback^ callback)
-        {
-            ThrowIfDisposed();
-
-            CefRefPtr<CefCompletionCallback> wrapper = callback == nullptr ? NULL : new CefCompletionCallbackAdapter(callback);
-
-            _requestContext->ClearCertificateExceptions(wrapper);
-        }
-
-        ///
-        // Clears all active and idle connections that Chromium currently has.
-        // This is only recommended if you have released all other CEF objects but
-        // don't yet want to call CefShutdown(). If |callback| is non-NULL it will be
-        // executed on the UI thread after completion.
-        ///
-        /*--cef(optional_param=callback)--*/
-        virtual void CloseAllConnections(ICompletionCallback^ callback)
-        {
-            ThrowIfDisposed();
-
-            CefRefPtr<CefCompletionCallback> wrapper = callback == nullptr ? NULL : new CefCompletionCallbackAdapter(callback);
-
-            _requestContext->CloseAllConnections(wrapper);
-        }
-
         operator CefRefPtr<CefRequestContext>()
         {
             if(this == nullptr)
