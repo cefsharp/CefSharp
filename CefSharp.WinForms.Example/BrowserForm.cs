@@ -224,6 +224,38 @@ namespace CefSharp.WinForms.Example
             if (control != null)
             {
                 control.Browser.ShowDevTools();
+
+                //Example below shows how to use a control to host DevTools
+                //(in this case it's added as a new TabPage)
+                //var tabPage = new TabPage("DevTools")
+                //{
+                //    Dock = DockStyle.Fill
+                //};
+
+                //var panel = new Panel
+                //{
+                //    Dock = DockStyle.Fill
+                //};
+
+                ////We need to call CreateControl as we need the Handle later
+                //panel.CreateControl();
+
+                //tabPage.Controls.Add(panel);
+
+                //browserTabControl.TabPages.Add(tabPage);
+
+                ////Make newly created tab active
+                //browserTabControl.SelectedTab = tabPage;
+
+                ////Grab the client rect
+                //var rect = panel.ClientRectangle;
+                //var webBrowser = control.Browser;
+                //var browser = webBrowser.GetBrowser().GetHost();
+                //var windowInfo = new WindowInfo();
+                ////DevTools becomes a child of the panel, we use it's dimesions
+                //windowInfo.SetAsChild(panel.Handle, rect.Left, rect.Top, rect.Right, rect.Bottom);
+                ////Show DevTools in our panel 
+                //browser.ShowDevTools(windowInfo);
             }
         }
 
