@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CefSharp.Internals;
 
 namespace CefSharp
 {
@@ -18,7 +19,7 @@ namespace CefSharp
 
         public void OnResolveCompleted(CefErrorCode result, IList<string> resolvedIpAddresses)
         {
-            taskCompletionSource.SetResult(new ResolveCallbackResult(result, resolvedIpAddresses));
+            taskCompletionSource.TrySetResultAsync(new ResolveCallbackResult(result, resolvedIpAddresses));
         }
 
         public Task<ResolveCallbackResult> Task

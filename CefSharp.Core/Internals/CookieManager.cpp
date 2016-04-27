@@ -31,7 +31,7 @@ namespace CefSharp
             if (CefCurrentlyOn(TID_IO))
             {
                 auto source = gcnew TaskCompletionSource<bool>();
-                source->TrySetResult(cookieInvoker->DeleteCookies());
+                TaskExtensions::TrySetResultAsync<bool>(source, cookieInvoker->DeleteCookies());
                 return source->Task;
             }
 
@@ -47,7 +47,7 @@ namespace CefSharp
             if (CefCurrentlyOn(TID_IO))
             {
                 auto source = gcnew TaskCompletionSource<bool>();
-                source->TrySetResult(cookieInvoker->SetCookie());
+                TaskExtensions::TrySetResultAsync<bool>(source, cookieInvoker->SetCookie());
                 return source->Task;
             }
 

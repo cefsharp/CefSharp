@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System.Threading.Tasks;
+using CefSharp.Internals;
 
 namespace CefSharp
 {
@@ -28,7 +29,7 @@ namespace CefSharp
         /// <param name="str">string (result of async execution)</param>
         public void Visit(string str)
         {
-            taskCompletionSource.SetResult(str);
+            taskCompletionSource.TrySetResultAsync(str);
         }
 
         /// <summary>

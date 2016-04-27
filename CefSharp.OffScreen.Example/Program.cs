@@ -6,8 +6,10 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using CefSharp.Example;
+using CefSharp.Internals;
 
 namespace CefSharp.OffScreen.Example
 {
@@ -63,7 +65,18 @@ namespace CefSharp.OffScreen.Example
                 }
                 await LoadPageAsync(browser);
 
-                var preferences = requestContext.GetAllPreferences(true);
+                //Check preferences on the CEF UI Thread
+                await Cef.UIThreadTaskFactory.StartNew(delegate
+                {
+                    var preferences = requestContext.GetAllPreferences(true);
+
+                    //Check do not track status
+                    var doNotTrack = (bool)preferences["enable_do_not_track"];
+
+                    Debug.WriteLine("DoNotTrack:" + doNotTrack);
+                });
+
+                var onUi = Cef.CurrentlyOnThread(CefThreadIds.TID_UI);
 
                 // For Google.com pre-pupulate the search text box
                 await browser.EvaluateScriptAsync("document.getElementById('lst-ib').value = 'CefSharp Was Here!'");
@@ -100,7 +113,7 @@ namespace CefSharp.OffScreen.Example
                 if (!args.IsLoading)
                 {
                     browser.LoadingStateChanged -= handler;
-                    tcs.TrySetResult(true);
+                    tcs.TrySetResultAsync(true);
                 }
             };
 

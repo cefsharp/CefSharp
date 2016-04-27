@@ -7,6 +7,7 @@
 #include "Stdafx.h"
 #include "include/cef_web_plugin.h"
 
+using namespace CefSharp::Internals;
 using namespace System::Threading::Tasks;
 
 namespace CefSharp
@@ -29,7 +30,8 @@ namespace CefSharp
             //In this case Visit was likely never called, so we set result to complete the task
             if (_list->Count == 0)
             {
-                _taskCompletionSource->SetResult(_list);
+                //Set the result on the ThreadPool so the Task continuation is not run on the CEF UI Thread
+                CefSharp::Internals::TaskExtensions::TrySetResultAsync<List<Plugin>^>(_taskCompletionSource, _list);
             }
 
             _list = nullptr;
@@ -53,7 +55,8 @@ namespace CefSharp
 
             if(count == (total - 1))
             {
-                _taskCompletionSource->SetResult(_list);
+                //Set the result on the ThreadPool so the Task continuation is not run on the CEF UI Thread
+                CefSharp::Internals::TaskExtensions::TrySetResultAsync<List<Plugin>^>(_taskCompletionSource, _list);
             }
 
             return true;

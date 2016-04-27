@@ -264,14 +264,14 @@ namespace CefSharp.OffScreen
                     // Chromium has rendered.  Tell the task about it.
                     NewScreenshot -= newScreenshot;
 
-                    completionSource.SetResult(ScreenshotOrNull());
+                    completionSource.TrySetResultAsync(ScreenshotOrNull());
                 };
 
                 NewScreenshot += newScreenshot;
             }
             else
             {
-                completionSource.SetResult(screenshot);
+                completionSource.TrySetResultAsync(screenshot);
             }
 
             return completionSource.Task;

@@ -31,7 +31,8 @@ namespace CefSharp
             {
                 if (hasData == false)
                 {
-                    _taskCompletionSource->SetResult(nullptr);
+                    //Set the result on the ThreadPool so the Task continuation is not run on the CEF UI Thread
+                    TaskExtensions::TrySetResultAsync<Geoposition^>(_taskCompletionSource, nullptr);
                 }
                 _taskCompletionSource = nullptr;
             }
@@ -50,7 +51,9 @@ namespace CefSharp
                 p->Speed = position.speed;
                 p->Timestamp = ConvertCefTimeToDateTime(position.timestamp);
 
-                _taskCompletionSource->SetResult(p);
+                //Set the result on the ThreadPool so the Task continuation is not run on the CEF UI Thread
+                TaskExtensions::TrySetResultAsync<Geoposition^>(_taskCompletionSource, p);
+
                 hasData = true;
             };
 

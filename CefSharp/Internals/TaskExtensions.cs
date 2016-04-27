@@ -87,5 +87,17 @@ namespace CefSharp.Internals
 
             return taskCompletionSource;
         }
+
+        /// <summary>
+        /// Set the TaskCompletionSource in an async fashion. This prevents the Task Continuation being executed sync on the same thread
+        /// This is required otherwise contintinuations will happen on CEF UI threads
+        /// </summary>
+        /// <typeparam name="TResult">Generic param</typeparam>
+        /// <param name="taskCompletionSource">tcs</param>
+        /// <param name="result">result</param>
+        public static void TrySetResultAsync<TResult>(this TaskCompletionSource<TResult> taskCompletionSource, TResult result)
+        {
+            Task.Factory.StartNew(delegate { taskCompletionSource.TrySetResult(result); }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default);
+        }
     }
 }
