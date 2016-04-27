@@ -18,14 +18,22 @@ namespace CefSharp
         {
         private:
             gcroot<TaskCompletionSource<Geoposition^>^> _taskCompletionSource;
+            bool hasData;
 
         public:
             CefGetGeolocationCallbackWrapper()
             {
                 _taskCompletionSource = gcnew TaskCompletionSource<Geoposition^>();
+                hasData = false;
+            }
 
-                //NOTE: Use fully qualified name as TaskExtensions is ambiguious
-                CefSharp::Internals::TaskExtensions::WithTimeout<Geoposition^>(_taskCompletionSource, TimeSpan::FromMilliseconds(2000));
+            ~CefGetGeolocationCallbackWrapper()
+            {
+                if (hasData == false)
+                {
+                    _taskCompletionSource->SetResult(nullptr);
+                }
+                _taskCompletionSource = nullptr;
             }
 
             virtual void OnLocationUpdate(const CefGeoposition& position) OVERRIDE
@@ -43,6 +51,7 @@ namespace CefSharp
                 p->Timestamp = ConvertCefTimeToDateTime(position.timestamp);
 
                 _taskCompletionSource->SetResult(p);
+                hasData = true;
             };
 
             DateTime ConvertCefTimeToDateTime(CefTime time)
