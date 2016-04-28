@@ -178,7 +178,7 @@ namespace CefSharp
         /// <param name="packLoadingDisabled">Is loading of pack files disabled?</param>
         /// <param name="browserSubProcessPath">The path to a separate executable that will be launched for sub-processes.</param>
         /// <exception cref="Exception">Throw when not all dependencies are present</exception>
-        public static void AssertAllDependenciesPresent(string locale, string localesDirPath, string resourcesDirPath, bool packLoadingDisabled, string browserSubProcessPath)
+        public static void AssertAllDependenciesPresent(string locale = null, string localesDirPath = null, string resourcesDirPath = null, bool packLoadingDisabled = false, string browserSubProcessPath = "CefSharp.BrowserSubProcess.exe")
         {
             var executingAssembly = Assembly.GetExecutingAssembly();
 
