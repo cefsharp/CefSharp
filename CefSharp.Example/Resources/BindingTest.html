@@ -245,6 +245,11 @@
                 document.write(bound.methodWithParams('With no Params') + "<br/>");
                 document.write(bound.methodWithoutParams('Normal Method', 'hello') + "<br/>");
                 document.write(bound.methodWithoutAnything() + "<br/>");
+
+                document.write(bound.methodWithThreeParamsOneOptionalOneArray(null) + "<br/>");
+                document.write(bound.methodWithThreeParamsOneOptionalOneArray(null, null) + "<br/>");
+                document.write(bound.methodWithThreeParamsOneOptionalOneArray("Test", null) + "<br/>");
+                document.write(bound.methodWithThreeParamsOneOptionalOneArray(null, null, "Arg1", "Arg2") + "<br/>");
             </script>
         </p>
     </body>
