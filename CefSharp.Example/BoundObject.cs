@@ -291,5 +291,10 @@ namespace CefSharp.Example
         {
             return "Method without anything called and returned successfully.";
         }
+
+        public string MethodWithThreeParamsOneOptionalOneArray(string name, string optionalParam = null, params object[] args)
+        {
+            return "MethodWithThreeParamsOneOptionalOneArray:" + (name ?? "No Name Specified") + " - " + (optionalParam ?? "No Optional Param Specified") + ";Args:" + string.Join(", ", args.ToArray());
+        }
     }
 }
