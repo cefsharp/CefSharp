@@ -350,8 +350,11 @@ namespace CefSharp.Example.Properties {
         ///    &lt;div style=&quot;-webkit-app-region: drag;width:200px;height:200px;border:1px solid black;&quot;&gt;
         ///        A draggable area
         ///    &lt;/div&gt;
-        ///&lt;/body&gt;
-        ///&lt;/html&gt;.
+        ///    &lt;br/&gt;
+        ///
+        ///    &lt;div style=&quot;-webkit-app-region: drag;width:400px;height:400px;border:1px solid black;&quot;&gt;
+        ///        A draggable area
+        ///        &lt;div style=&quot;-webkit-app-region:  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string DraggableRegionTest {
             get {
