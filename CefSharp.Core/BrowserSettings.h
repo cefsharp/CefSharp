@@ -331,7 +331,7 @@ namespace CefSharp
         /// for individual RequestContext instances via the
         /// RequestContextSettings.AcceptLanguageList value.
         /// </summary>
-        virtual virtual property String^ AcceptLanguageList
+        virtual property String^ AcceptLanguageList
         {
             String^ get() { return StringUtils::ToClr(_browserSettings->accept_language_list); }
             void set(String^ value) { StringUtils::AssignNativeFromClr(_browserSettings->accept_language_list, value); }
