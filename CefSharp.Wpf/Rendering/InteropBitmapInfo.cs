@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -18,6 +19,7 @@ namespace CefSharp.Wpf.Rendering
         public InteropBitmapInfo()
         {
             BytesPerPixel = PixelFormat.BitsPerPixel / 8;
+            DirtyRectSupport = true;
         }
 
         public override bool CreateNewBitmap
@@ -34,7 +36,8 @@ namespace CefSharp.Wpf.Rendering
         {
             if (Bitmap != null)
             {
-                Bitmap.Invalidate();
+                var sourceRect = new Int32Rect(DirtyRect.X, DirtyRect.Y, DirtyRect.Width, DirtyRect.Height);
+                Bitmap.Invalidate(sourceRect);
             }
         }
 
