@@ -15,39 +15,32 @@ namespace CefSharp.BrowserSubprocess
         {
             Kernel32.OutputDebugString("BrowserSubprocess starting up with command line: " + String.Join("\n", args));
 
-            CefAppWrapper.EnableHighDPISupport();
+            CefSubProcess.EnableHighDPISupport();
 
             int result;
 
-            using (var subprocess = Create(args))
+            const string typePrefix = "--type=";
+            var typeArgument = args.SingleOrDefault(arg => arg.StartsWith(typePrefix));
+            var type = typeArgument.Substring(typePrefix.Length);
+
+            //Use our custom subProcess provides features like EvaluateJavascript
+            if (type == "renderer")
             {
-                result = subprocess.Run();
+                var wcfEnabled = args.HasArgument(CefSharpArguments.WcfEnabledArgument);
+                var subProcess = wcfEnabled ? new CefRenderProcess(args) : new CefSubProcess(args);
+
+                using (subProcess)
+                {
+                    result = subProcess.Run();
+                }
             }
+            else
+            {
+                result = CefSubProcess.ExecuteProcess();
+            }            
 
             Kernel32.OutputDebugString("BrowserSubprocess shutting down.");
             return result;
-        }
-
-        private static CefSubProcess Create(IEnumerable<string> args)
-        {
-            const string typePrefix = "--type=";
-            var typeArgument = args.SingleOrDefault(arg => arg.StartsWith(typePrefix));
-            var wcfEnabled = args.HasArgument(CefSharpArguments.WcfEnabledArgument);
-
-            var type = typeArgument.Substring(typePrefix.Length);
-
-            switch (type)
-            {
-                case "renderer":
-                {
-                    return wcfEnabled ? new CefRenderProcess(args) : new CefSubProcess(args);
-                }
-                case "gpu-process":
-                default:
-                {
-                    return new CefSubProcess(args);
-                }
-            }
         }
     }
 }

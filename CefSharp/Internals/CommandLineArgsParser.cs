@@ -16,5 +16,24 @@ namespace CefSharp.Internals
         {
             return args.Any(a => a.StartsWith(arg));
         }
+
+        public static int? LocateParentProcessId(this IEnumerable<string> args)
+        {
+            // Format being parsed:
+            // --channel=3828.2.1260352072\1102986608
+            // We only really care about the PID (3828) part.
+            const string channelPrefix = "--channel=";
+            var channelArgument = args.SingleOrDefault(arg => arg.StartsWith(channelPrefix));
+            if (channelArgument == null)
+            {
+                return null;
+            }
+
+            var parentProcessId = channelArgument
+                .Substring(channelPrefix.Length)
+                .Split('.')
+                .First();
+            return int.Parse(parentProcessId);
+        }
     }
 }
