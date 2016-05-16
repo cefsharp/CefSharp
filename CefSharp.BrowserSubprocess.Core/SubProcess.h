@@ -20,30 +20,30 @@ namespace CefSharp
 	namespace BrowserSubprocess
 	{
 		// Wrap CefAppUnmangedWrapper in a nice managed wrapper
-		public ref class CefSubProcess
+		public ref class SubProcess
 		{
 		private:
 			MCefRefPtr<CefAppUnmanagedWrapper> _cefApp;
 
 		public:
-			CefSubProcess(IEnumerable<String^>^ args)
+			SubProcess(IEnumerable<String^>^ args)
 			{
-				auto onBrowserCreated = gcnew Action<CefBrowserWrapper^>(this, &CefSubProcess::OnBrowserCreated);
-				auto onBrowserDestroyed = gcnew Action<CefBrowserWrapper^>(this, &CefSubProcess::OnBrowserDestroyed);
+				auto onBrowserCreated = gcnew Action<CefBrowserWrapper^>(this, &SubProcess::OnBrowserCreated);
+				auto onBrowserDestroyed = gcnew Action<CefBrowserWrapper^>(this, &SubProcess::OnBrowserDestroyed);
 				auto schemes = CefCustomScheme::ParseCommandLineArguments(args);
 				auto enableFocusedNodeChanged = CommandLineArgsParser::HasArgument(args, CefSharpArguments::FocusedNodeChangedEnabledArgument);
 
 				_cefApp = new CefAppUnmanagedWrapper(schemes, enableFocusedNodeChanged, onBrowserCreated, onBrowserDestroyed);
 			}
 
-			!CefSubProcess()
+			!SubProcess()
 			{
 				_cefApp = nullptr;
 			}
 
-			~CefSubProcess()
+			~SubProcess()
 			{
-				this->!CefSubProcess();
+				this->!SubProcess();
 			}
 
 			int Run()

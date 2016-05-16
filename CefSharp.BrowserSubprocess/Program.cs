@@ -15,7 +15,7 @@ namespace CefSharp.BrowserSubprocess
         {
             Kernel32.OutputDebugString("BrowserSubprocess starting up with command line: " + String.Join("\n", args));
 
-            CefSubProcess.EnableHighDPISupport();
+            SubProcess.EnableHighDPISupport();
 
             int result;
 
@@ -27,7 +27,7 @@ namespace CefSharp.BrowserSubprocess
             if (type == "renderer")
             {
                 var wcfEnabled = args.HasArgument(CefSharpArguments.WcfEnabledArgument);
-                var subProcess = wcfEnabled ? new CefRenderProcess(args) : new CefSubProcess(args);
+                var subProcess = wcfEnabled ? new RenderSubProcess(args) : new SubProcess(args);
 
                 using (subProcess)
                 {
@@ -36,7 +36,7 @@ namespace CefSharp.BrowserSubprocess
             }
             else
             {
-                result = CefSubProcess.ExecuteProcess();
+                result = SubProcess.ExecuteProcess();
             }            
 
             Kernel32.OutputDebugString("BrowserSubprocess shutting down.");

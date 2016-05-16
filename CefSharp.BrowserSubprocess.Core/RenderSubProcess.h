@@ -5,7 +5,7 @@
 #pragma once
 
 #include "Stdafx.h"
-#include "CefSubProcess.h"
+#include "SubProcess.h"
 #include "CefBrowserWrapper.h"
 
 using namespace System;
@@ -14,7 +14,7 @@ namespace CefSharp
 {
 	namespace BrowserSubprocess
 	{
-		public ref class CefRenderProcess : CefSubProcess
+		public ref class RenderSubProcess : SubProcess
 		{
 		private:
 			Nullable<int> parentBrowserId;
@@ -25,7 +25,7 @@ namespace CefSharp
 			Nullable<int> parentProcessId;
 
 		public:
-			CefRenderProcess(IEnumerable<String^>^ args) : CefSubProcess(args)
+			RenderSubProcess(IEnumerable<String^>^ args) : SubProcess(args)
 			{
 				parentProcessId = CommandLineArgsParser::LocateParentProcessId(args);
 			}

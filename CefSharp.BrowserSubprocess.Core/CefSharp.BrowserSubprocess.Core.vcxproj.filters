@@ -83,10 +83,10 @@
     <ClInclude Include="Serialization\JsObjectsSerialization.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CefSubProcess.h">
+    <ClInclude Include="SubProcess.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CefRenderProcess.h">
+    <ClInclude Include="RenderSubProcess.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -145,7 +145,7 @@
     <ClCompile Include="Serialization\JsObjectsSerialization.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CefRenderProcess.cpp">
+    <ClCompile Include="RenderSubProcess.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
