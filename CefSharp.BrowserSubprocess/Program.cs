@@ -27,7 +27,7 @@ namespace CefSharp.BrowserSubprocess
             if (type == "renderer")
             {
                 var wcfEnabled = args.HasArgument(CefSharpArguments.WcfEnabledArgument);
-                var subProcess = wcfEnabled ? new RenderSubProcess(args) : new SubProcess(args);
+                var subProcess = wcfEnabled ? new WcfEnabledSubProcess(args) : new SubProcess(args);
 
                 using (subProcess)
                 {

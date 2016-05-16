@@ -86,7 +86,7 @@
     <ClInclude Include="SubProcess.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RenderSubProcess.h">
+    <ClInclude Include="WcfEnabledSubProcess.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -145,7 +145,7 @@
     <ClCompile Include="Serialization\JsObjectsSerialization.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RenderSubProcess.cpp">
+    <ClCompile Include="WcfEnabledSubProcess.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -14,7 +14,7 @@ namespace CefSharp
 {
 	namespace BrowserSubprocess
 	{
-		public ref class RenderSubProcess : SubProcess
+		public ref class WcfEnabledSubProcess : SubProcess
 		{
 		private:
 			Nullable<int> parentBrowserId;
@@ -25,7 +25,7 @@ namespace CefSharp
 			Nullable<int> parentProcessId;
 
 		public:
-			RenderSubProcess(IEnumerable<String^>^ args) : SubProcess(args)
+			WcfEnabledSubProcess(IEnumerable<String^>^ args) : SubProcess(args)
 			{
 				parentProcessId = CommandLineArgsParser::LocateParentProcessId(args);
 			}

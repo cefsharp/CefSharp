@@ -4,7 +4,7 @@
 #pragma once
 
 #include "Stdafx.h"
-#include "RenderSubProcess.h"
+#include "WcfEnabledSubProcess.h"
 
 using namespace System::ServiceModel;
 
@@ -12,7 +12,7 @@ namespace CefSharp
 {
 	namespace BrowserSubprocess
 	{
-		void RenderSubProcess::OnBrowserCreated(CefBrowserWrapper^ browser)
+		void WcfEnabledSubProcess::OnBrowserCreated(CefBrowserWrapper^ browser)
 		{
 			if (!parentBrowserId.HasValue)
 			{
@@ -52,7 +52,7 @@ namespace CefSharp
 			}
 		}
 
-		void RenderSubProcess::OnBrowserDestroyed(CefBrowserWrapper^ browser)
+		void WcfEnabledSubProcess::OnBrowserDestroyed(CefBrowserWrapper^ browser)
 		{
 			auto channelFactory = browser->ChannelFactory;
 
