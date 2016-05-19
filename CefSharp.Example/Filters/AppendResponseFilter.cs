@@ -83,5 +83,10 @@ namespace CefSharp.Example.Filters
 
             return FilterStatus.Done;
         }
+
+        public void Dispose()
+        {
+            
+        }
     }
 }

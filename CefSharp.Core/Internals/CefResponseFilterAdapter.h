@@ -28,6 +28,7 @@ namespace CefSharp
 
             ~CefResponseFilterAdapter()
             {
+                delete _filter;
                 _filter = nullptr;
             }
 
