@@ -28,7 +28,7 @@ namespace CefSharp.Wpf.Example.Views
             // Enable touch scrolling - once properly tested this will likely become the default
             //browser.IsManipulationEnabled = true;
 
-            //browser.LifeSpanHandler = new LifespanHandler();
+            browser.LifeSpanHandler = new LifespanHandler();
             browser.MenuHandler = new MenuHandler();
             browser.GeolocationHandler = new GeolocationHandler();
             browser.DownloadHandler = new DownloadHandler();
