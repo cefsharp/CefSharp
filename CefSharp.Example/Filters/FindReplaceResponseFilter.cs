@@ -181,5 +181,10 @@ namespace CefSharp.Example.Filters
                 overflow.Add(data);
             }
         }
+
+        public void Dispose()
+        {
+            
+        }
     }
 }
