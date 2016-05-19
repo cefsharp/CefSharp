@@ -446,11 +446,6 @@ namespace CefSharp.Wpf
 
         bool IWebBrowserInternal.HasParent { get; set; }
 
-        IntPtr IWebBrowserInternal.ControlHandle
-        {
-            get { return source == null ? IntPtr.Zero : source.Handle; }
-        }
-
         void IWebBrowserInternal.OnAfterBrowserCreated(IBrowser browser)
         {
             browserInitialized = true;

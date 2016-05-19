@@ -2,7 +2,9 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
 using System.Windows;
+using System.Windows.Interop;
 
 namespace CefSharp.Wpf.Example.Handlers
 {
@@ -27,6 +29,9 @@ namespace CefSharp.Wpf.Example.Handlers
                     Address = targetUrl,
                 };
 
+                chromiumBrowser.SetAsPopup();
+                chromiumBrowser.LifeSpanHandler = this;
+
                 var popup = new Window
                 {
                     Left = windowX,
@@ -38,6 +43,15 @@ namespace CefSharp.Wpf.Example.Handlers
                     Title = targetFrameName
                 };
 
+                var windowInteropHelper = new WindowInteropHelper(popup);
+                //Create the handle Window handle (In WPF there's only one handle per window, not per control)
+                var handle = windowInteropHelper.EnsureHandle();
+
+                //The parentHandle value will be used to identify monitor info and to act as the parent window for dialogs,
+                //context menus, etc. If parentHandle is not provided then the main screen monitor will be used and some
+                //functionality that requires a parent window may not function correctly.
+                windowInfo.SetAsWindowless(handle, true);
+
                 popup.Closed += (o, e) => 
                 {
                     var w = o as Window;
@@ -47,8 +61,6 @@ namespace CefSharp.Wpf.Example.Handlers
                         w.Content = null;
                     }
                 };
-
-                chromiumBrowser.LifeSpanHandler = this;
             });
 
             newBrowser = chromiumBrowser;

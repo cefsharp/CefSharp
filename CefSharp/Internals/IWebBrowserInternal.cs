@@ -27,6 +27,5 @@ namespace CefSharp.Internals
 
         IBrowserAdapter BrowserAdapter { get; }
         bool HasParent { get; set; }
-        IntPtr ControlHandle { get; }
     }
 }

@@ -13,7 +13,6 @@ namespace CefSharp.WinForms
     {
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
         private ParentFormMessageInterceptor parentFormMessageInterceptor;
-        private IntPtr controlHandle;
         private IBrowser browser;
 
         /// <summary>
@@ -188,8 +187,6 @@ namespace CefSharp.WinForms
                 managedCefBrowserAdapter.CreateBrowser(BrowserSettings, RequestContext, Handle, Address);
             }
 
-            controlHandle = Handle;
-
             base.OnHandleCreated(e);
         }
 
@@ -306,11 +303,6 @@ namespace CefSharp.WinForms
         }
 
         bool IWebBrowserInternal.HasParent { get; set; }
-        
-        IntPtr IWebBrowserInternal.ControlHandle
-        {
-            get { return controlHandle; }
-        }
 
         /// <summary>
         /// Manually implement Focused because cef does not implement it.

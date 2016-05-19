@@ -130,20 +130,8 @@ namespace CefSharp
 
                 if (newBrowserInternal != nullptr)
                 {
+                    //This should already be set using the SetAsPopup extension, just making doubly sure
                     newBrowserInternal->HasParent = true;
-
-                    auto renderBrowser = dynamic_cast<IRenderWebBrowser^>(newBrowser);
-                    if (renderBrowser == nullptr)
-                    {
-                        HWND hwnd = (HWND)newBrowserInternal->ControlHandle.ToPointer();
-                        RECT rect;
-                        GetClientRect(hwnd, &rect);
-                        windowInfo.SetAsChild(hwnd, rect);
-                    }
-                    else
-                    {
-                        windowInfo.SetAsWindowless(windowInfo.parent_window, TRUE);
-                    }
 
                     auto browserAdapter = dynamic_cast<ManagedCefBrowserAdapter^>(newBrowserInternal->BrowserAdapter);
                     if (browserAdapter != nullptr)
