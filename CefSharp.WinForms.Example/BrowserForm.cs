@@ -277,7 +277,7 @@ namespace CefSharp.WinForms.Example
 
                 task.ContinueWith(previous =>
                 {
-                    if (previous.IsCompleted)
+                    if (previous.Status == TaskStatus.RanToCompletion)
                     {
                         var currentLevel = previous.Result;
                         control.Browser.SetZoomLevel(currentLevel + ZoomIncrement);
@@ -298,7 +298,7 @@ namespace CefSharp.WinForms.Example
                 var task = control.Browser.GetZoomLevelAsync();
                 task.ContinueWith(previous =>
                 {
-                    if (previous.IsCompleted)
+                    if (previous.Status == TaskStatus.RanToCompletion)
                     {
                         var currentLevel = previous.Result;
                         control.Browser.SetZoomLevel(currentLevel - ZoomIncrement);
@@ -319,7 +319,7 @@ namespace CefSharp.WinForms.Example
                 var task = control.Browser.GetZoomLevelAsync();
                 task.ContinueWith(previous =>
                 {
-                    if (previous.IsCompleted)
+                    if (previous.Status == TaskStatus.RanToCompletion)
                     {
                         var currentLevel = previous.Result;
                         MessageBox.Show("Current ZoomLevel: " + currentLevel.ToString());
