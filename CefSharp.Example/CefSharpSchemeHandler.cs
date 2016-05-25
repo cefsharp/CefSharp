@@ -171,5 +171,10 @@ namespace CefSharp.Example
         {
             
         }
+
+        void IDisposable.Dispose()
+        {
+            
+        }
     }
 }
