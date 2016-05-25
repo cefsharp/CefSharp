@@ -829,5 +829,13 @@ namespace CefSharp
             string mime;
             return Mappings.TryGetValue(extension, out mime) ? mime : "application/octet-stream";
         }
+
+        /// <summary>
+        /// Dispose of resources here
+        /// </summary>
+        public virtual void Dispose()
+        {
+            
+        }
     }
 }

@@ -33,6 +33,7 @@ namespace CefSharp
 
         ~ResourceHandlerWrapper()
         {
+            delete _handler;
             _handler = nullptr;
         }
 

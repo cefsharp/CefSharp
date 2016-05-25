@@ -2,6 +2,7 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
 using System.IO;
 
 namespace CefSharp
@@ -16,7 +17,7 @@ namespace CefSharp
     /// a previous version <see cref="ResourceHandler"/>. For those upgrading, inherit from ResourceHandler instead of IResourceHandler
     /// add the override keywoard to existing methods e.g. ProcessRequestAsync.
     /// </summary>
-    public interface IResourceHandler
+    public interface IResourceHandler : IDisposable
     {
         /// <summary>
         /// Begin processing the request.  
