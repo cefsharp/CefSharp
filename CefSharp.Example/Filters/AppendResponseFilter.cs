@@ -64,6 +64,12 @@ namespace CefSharp.Example.Filters
                     dataOutWritten += maxWrite;
                 }
 
+                if(maxWrite == 0 && overflow.Count > 0)
+                {
+                    //We haven't yet got space to append our data
+                    return FilterStatus.NeedMoreData;
+                }
+
                 if (maxWrite < overflow.Count)
                 {
                     // Need to write more bytes than will fit in the output buffer. 

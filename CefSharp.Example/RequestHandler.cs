@@ -194,7 +194,7 @@ namespace CefSharp.Example
                     return new FindReplaceResponseFilter("REPLACE_THIS_STRING", "This is the replaced string!");
                 }
 
-                if (request.Url.Equals("custom://cefsharp/assets/js/application.js", StringComparison.OrdinalIgnoreCase))
+                if (request.Url.Equals("custom://cefsharp/assets/js/jquery.js", StringComparison.OrdinalIgnoreCase))
                 {
                     return new AppendResponseFilter(System.Environment.NewLine + "//CefSharp Appended this comment.");
                 }
