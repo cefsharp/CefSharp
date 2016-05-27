@@ -6,6 +6,7 @@ using System;
 using System.Windows.Forms;
 using CefSharp.Example;
 using System.Threading.Tasks;
+using System.Text;
 
 namespace CefSharp.WinForms.Example
 {
@@ -428,7 +429,7 @@ namespace CefSharp.WinForms.Example
             }
         }
 
-        private async void printToPdfToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void PrintToPdfToolStripMenuItemClick(object sender, EventArgs e)
         {
             var control = GetCurrentTabControl();
             if (control != null)
@@ -460,6 +461,18 @@ namespace CefSharp.WinForms.Example
                     }
 
                 }
+
+            }
+        }
+
+        private void OpenDataUrlToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                const string html = "<html><head><title>Test</title></head><body><h1>Html Encoded in URL!</h1></body></html>";
+                var base64EncodedHtml = Convert.ToBase64String(Encoding.UTF8.GetBytes(html));
+                control.Browser.Load("data:text/html;base64," + base64EncodedHtml);
 
             }
         }
