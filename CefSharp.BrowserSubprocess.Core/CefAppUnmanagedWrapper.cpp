@@ -5,6 +5,7 @@
 
 #include "Stdafx.h"
 
+#include "include\base\cef_logging.h"
 #include "CefBrowserWrapper.h"
 #include "CefAppUnmanagedWrapper.h"
 #include "JavascriptRootObjectWrapper.h"
