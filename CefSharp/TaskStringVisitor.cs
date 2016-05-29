@@ -39,5 +39,10 @@ namespace CefSharp
         {
             get { return taskCompletionSource.Task; }
         }
+
+        public void Dispose()
+        {
+            
+        }
     }
 }

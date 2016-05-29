@@ -136,6 +136,19 @@ Task<String^>^ CefFrameWrapper::GetSourceAsync()
 }
 
 ///
+// Retrieve this frame's HTML source as a string sent to the specified
+// visitor.
+///
+/*--cef()--*/
+void CefFrameWrapper::GetSource(IStringVisitor^ visitor)
+{
+    ThrowIfDisposed();
+    ThrowIfFrameInvalid();
+
+    _frame->GetSource(new StringVisitor(visitor));
+}
+
+///
 // Retrieve this frame's display text as a string sent to the specified
 // visitor.
 ///
@@ -150,7 +163,20 @@ Task<String^>^ CefFrameWrapper::GetTextAsync()
     return taskStringVisitor->Task;
 }
 
-// TODO: Do we need this?
+///
+// Retrieve this frame's display text as a string sent to the specified
+// visitor.
+///
+/*--cef()--*/
+void CefFrameWrapper::GetText(IStringVisitor^ visitor)
+{
+    ThrowIfDisposed();
+    ThrowIfFrameInvalid();
+
+    _frame->GetText(new StringVisitor(visitor));
+}
+
+
 ///
 // Load the request represented by the |request| object.
 ///

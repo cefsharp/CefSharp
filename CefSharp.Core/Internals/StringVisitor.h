@@ -22,6 +22,7 @@ namespace CefSharp
 
         ~StringVisitor()
         {
+            delete _visitor;
             _visitor = nullptr;
         }
 

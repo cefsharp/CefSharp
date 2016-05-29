@@ -68,12 +68,26 @@ namespace CefSharp
         Task<string> GetSourceAsync();
 
         /// <summary>
+        /// Retrieve this frame's HTML source as a string sent to the specified visitor. 
+        /// Use the <see cref="GetSourceAsync"/> method for a Task based async wrapper
+        /// </summary>
+        /// <param name="visitor">visitor will recieve string values asynchronously</param>
+        void GetSource(IStringVisitor visitor);
+
+        /// <summary>
         /// Retrieve this frame's display text as a string sent to the specified visitor.
         /// </summary>
         /// <returns>
         /// a <see cref="Task{String}"/> that when executed returns the frame's display text as a string.
         /// </returns>
         Task<string> GetTextAsync();
+
+        /// <summary>
+        /// Retrieve this frame's display text as a string sent to the specified visitor. 
+        /// Use the <see cref="GetTextAsync"/> method for a Task based async wrapper
+        /// </summary>
+        /// <param name="visitor">visitor will recieve string values asynchronously</param>
+        void GetText(IStringVisitor visitor);
 
         /// <summary>
         /// Load the custom request.
