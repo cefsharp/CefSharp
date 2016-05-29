@@ -164,7 +164,7 @@ namespace CefSharp
             virtual DECL bool OnPreKeyEvent(CefRefPtr<CefBrowser> browser, const CefKeyEvent& event, CefEventHandle os_event, bool* is_keyboard_shortcut) OVERRIDE;
 
             // CefJSDialogHandler
-            virtual DECL bool OnJSDialog(CefRefPtr<CefBrowser> browser, const CefString& origin_url, const CefString& accept_lang,
+            virtual DECL bool OnJSDialog(CefRefPtr<CefBrowser> browser, const CefString& origin_url,
                 JSDialogType dialog_type, const CefString& message_text, const CefString& default_prompt_text,
                 CefRefPtr<CefJSDialogCallback> callback, bool& suppress_message) OVERRIDE;
             virtual DECL bool OnBeforeUnloadDialog(CefRefPtr<CefBrowser> browser, const CefString& message_text, bool is_reload,

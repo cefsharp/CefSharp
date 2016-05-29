@@ -12,14 +12,13 @@ namespace CefSharp
         /// <param name="browserControl">the browser control</param>
         /// <param name="browser">the browser object</param>
         /// <param name="originUrl">originating url</param>
-        /// <param name="acceptLang">language</param>
         /// <param name="dialogType">Dialog Type</param>
         /// <param name="messageText">Message Text</param>
         /// <param name="defaultPromptText">value will be specified for prompt dialogs only</param>
         /// <param name="callback">Callback can be executed inline or in an async fashion</param>
         /// <param name="suppressMessage">Set suppressMessage to true and return false to suppress the message (suppressing messages is preferable to immediately executing the callback as this is used to detect presumably malicious behavior like spamming alert messages in onbeforeunload). Set suppressMessage to false and return false to use the default implementation (the default implementation will show one modal dialog at a time and suppress any additional dialog requests until the displayed dialog is dismissed).</param>
         /// <returns>Return true if the application will use a custom dialog or if the callback has been executed immediately. Custom dialogs may be either modal or modeless. If a custom dialog is used the application must execute |callback| once the custom dialog is dismissed.</returns>
-        bool OnJSDialog(IWebBrowser browserControl, IBrowser browser, string originUrl, string acceptLang, CefJsDialogType dialogType, string messageText, string defaultPromptText, IJsDialogCallback callback, ref bool suppressMessage);
+        bool OnJSDialog(IWebBrowser browserControl, IBrowser browser, string originUrl, CefJsDialogType dialogType, string messageText, string defaultPromptText, IJsDialogCallback callback, ref bool suppressMessage);
         
         /// <summary>
         /// When leaving the page a Javascript dialog is displayed asking for user confirmation.
