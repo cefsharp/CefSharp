@@ -20,6 +20,16 @@ namespace CefSharp
         NameValueCollection ResponseHeaders { get; set; }
 
         /// <summary>
+        /// Returns true if this object is read-only.
+        /// </summary>
+        bool IsReadOnly { get; }
+
+        /// <summary>
+        /// Get/set the response error code.
+        /// </summary>
+        CefErrorCode ErrorCode { get; set; }
+
+        /// <summary>
         /// The status code of the response. Unless set, the default value used is 200
         /// (corresponding to HTTP status OK).
         /// </summary>
