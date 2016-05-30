@@ -12,27 +12,27 @@ using namespace System;
 
 namespace CefSharp
 {
-	namespace BrowserSubprocess
-	{
-		public ref class WcfEnabledSubProcess : SubProcess
-		{
-		private:
-			Nullable<int> parentBrowserId;
+    namespace BrowserSubprocess
+    {
+        public ref class WcfEnabledSubProcess : SubProcess
+        {
+        private:
+            Nullable<int> parentBrowserId;
 
-			/// <summary>
-			/// The PID for the parent (browser) process
-			/// </summary>
-			Nullable<int> parentProcessId;
+            /// <summary>
+            /// The PID for the parent (browser) process
+            /// </summary>
+            Nullable<int> parentProcessId;
 
-		public:
-			WcfEnabledSubProcess(IEnumerable<String^>^ args) : SubProcess(args)
-			{
-				parentProcessId = CommandLineArgsParser::LocateParentProcessId(args);
-			}
+        public:
+            WcfEnabledSubProcess(IEnumerable<String^>^ args) : SubProcess(args)
+            {
+                parentProcessId = CommandLineArgsParser::LocateParentProcessId(args);
+            }
 
-			void OnBrowserCreated(CefBrowserWrapper^ browser) override;
-			void OnBrowserDestroyed(CefBrowserWrapper^ browser) override;
+            void OnBrowserCreated(CefBrowserWrapper^ browser) override;
+            void OnBrowserDestroyed(CefBrowserWrapper^ browser) override;
 
-		};
-	}
+        };
+    }
 }

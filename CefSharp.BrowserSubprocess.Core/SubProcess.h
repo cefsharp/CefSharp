@@ -17,67 +17,67 @@ using namespace CefSharp::Internals;
 
 namespace CefSharp
 {
-	namespace BrowserSubprocess
-	{
-		// Wrap CefAppUnmangedWrapper in a nice managed wrapper
-		public ref class SubProcess
-		{
-		private:
-			MCefRefPtr<CefAppUnmanagedWrapper> _cefApp;
+    namespace BrowserSubprocess
+    {
+        // Wrap CefAppUnmangedWrapper in a nice managed wrapper
+        public ref class SubProcess
+        {
+        private:
+            MCefRefPtr<CefAppUnmanagedWrapper> _cefApp;
 
-		public:
-			SubProcess(IEnumerable<String^>^ args)
-			{
-				auto onBrowserCreated = gcnew Action<CefBrowserWrapper^>(this, &SubProcess::OnBrowserCreated);
-				auto onBrowserDestroyed = gcnew Action<CefBrowserWrapper^>(this, &SubProcess::OnBrowserDestroyed);
-				auto schemes = CefCustomScheme::ParseCommandLineArguments(args);
-				auto enableFocusedNodeChanged = CommandLineArgsParser::HasArgument(args, CefSharpArguments::FocusedNodeChangedEnabledArgument);
+        public:
+            SubProcess(IEnumerable<String^>^ args)
+            {
+                auto onBrowserCreated = gcnew Action<CefBrowserWrapper^>(this, &SubProcess::OnBrowserCreated);
+                auto onBrowserDestroyed = gcnew Action<CefBrowserWrapper^>(this, &SubProcess::OnBrowserDestroyed);
+                auto schemes = CefCustomScheme::ParseCommandLineArguments(args);
+                auto enableFocusedNodeChanged = CommandLineArgsParser::HasArgument(args, CefSharpArguments::FocusedNodeChangedEnabledArgument);
 
-				_cefApp = new CefAppUnmanagedWrapper(schemes, enableFocusedNodeChanged, onBrowserCreated, onBrowserDestroyed);
-			}
+                _cefApp = new CefAppUnmanagedWrapper(schemes, enableFocusedNodeChanged, onBrowserCreated, onBrowserDestroyed);
+            }
 
-			!SubProcess()
-			{
-				_cefApp = nullptr;
-			}
+            !SubProcess()
+            {
+                _cefApp = nullptr;
+            }
 
-			~SubProcess()
-			{
-				this->!SubProcess();
-			}
+            ~SubProcess()
+            {
+                this->!SubProcess();
+            }
 
-			int Run()
-			{
-				auto hInstance = Process::GetCurrentProcess()->Handle;
+            int Run()
+            {
+                auto hInstance = Process::GetCurrentProcess()->Handle;
 
-				CefMainArgs cefMainArgs((HINSTANCE)hInstance.ToPointer());
+                CefMainArgs cefMainArgs((HINSTANCE)hInstance.ToPointer());
 
-				return CefExecuteProcess(cefMainArgs, (CefApp*)_cefApp.get(), NULL);
-			}
+                return CefExecuteProcess(cefMainArgs, (CefApp*)_cefApp.get(), NULL);
+            }
 
-			virtual void OnBrowserCreated(CefBrowserWrapper^ cefBrowserWrapper)
-			{
+            virtual void OnBrowserCreated(CefBrowserWrapper^ cefBrowserWrapper)
+            {
 
-			}
+            }
 
-			virtual void OnBrowserDestroyed(CefBrowserWrapper^ cefBrowserWrapper)
-			{
+            virtual void OnBrowserDestroyed(CefBrowserWrapper^ cefBrowserWrapper)
+            {
 
-			}
+            }
 
-			static void EnableHighDPISupport()
-			{
-				CefEnableHighDPISupport();
-			}
+            static void EnableHighDPISupport()
+            {
+                CefEnableHighDPISupport();
+            }
 
-			static int ExecuteProcess()
-			{
-				auto hInstance = Process::GetCurrentProcess()->Handle;
+            static int ExecuteProcess()
+            {
+                auto hInstance = Process::GetCurrentProcess()->Handle;
 
-				CefMainArgs cefMainArgs((HINSTANCE)hInstance.ToPointer());
+                CefMainArgs cefMainArgs((HINSTANCE)hInstance.ToPointer());
 
-				return CefExecuteProcess(cefMainArgs, NULL, NULL);
-			}
-		};
-	}
+                return CefExecuteProcess(cefMainArgs, NULL, NULL);
+            }
+        };
+    }
 }

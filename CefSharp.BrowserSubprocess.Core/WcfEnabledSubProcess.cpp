@@ -10,66 +10,66 @@ using namespace System::ServiceModel;
 
 namespace CefSharp
 {
-	namespace BrowserSubprocess
-	{
-		void WcfEnabledSubProcess::OnBrowserCreated(CefBrowserWrapper^ browser)
-		{
-			if (!parentBrowserId.HasValue)
-			{
-				parentBrowserId = browser->BrowserId;
-			}
+    namespace BrowserSubprocess
+    {
+        void WcfEnabledSubProcess::OnBrowserCreated(CefBrowserWrapper^ browser)
+        {
+            if (!parentBrowserId.HasValue)
+            {
+                parentBrowserId = browser->BrowserId;
+            }
 
-			if (!parentProcessId.HasValue || !parentBrowserId.HasValue)
-			{
-				return;
-			}
+            if (!parentProcessId.HasValue || !parentBrowserId.HasValue)
+            {
+                return;
+            }
 
-			auto browserId = browser->IsPopup ? parentBrowserId.Value : browser->BrowserId;
+            auto browserId = browser->IsPopup ? parentBrowserId.Value : browser->BrowserId;
 
-			auto serviceName = RenderprocessClientFactory::GetServiceName(parentProcessId.Value, browserId);
+            auto serviceName = RenderprocessClientFactory::GetServiceName(parentProcessId.Value, browserId);
 
-			auto binding = BrowserProcessServiceHost::CreateBinding();
+            auto binding = BrowserProcessServiceHost::CreateBinding();
 
-			auto channelFactory = gcnew ChannelFactory<IBrowserProcess^>(
-				binding,
-				gcnew EndpointAddress(serviceName)
-				);
+            auto channelFactory = gcnew ChannelFactory<IBrowserProcess^>(
+                binding,
+                gcnew EndpointAddress(serviceName)
+                );
 
-			channelFactory->Open();
+            channelFactory->Open();
 
-			auto browserProcess = channelFactory->CreateChannel();
-			auto clientChannel = ((IClientChannel^)browserProcess);
+            auto browserProcess = channelFactory->CreateChannel();
+            auto clientChannel = ((IClientChannel^)browserProcess);
 
-			try
-			{
-				clientChannel->Open();
+            try
+            {
+                clientChannel->Open();
 
-				browser->ChannelFactory = channelFactory;
-				browser->BrowserProcess = browserProcess;
-			}
-			catch (Exception^)
-			{
-			}
-		}
+                browser->ChannelFactory = channelFactory;
+                browser->BrowserProcess = browserProcess;
+            }
+            catch (Exception^)
+            {
+            }
+        }
 
-		void WcfEnabledSubProcess::OnBrowserDestroyed(CefBrowserWrapper^ browser)
-		{
-			auto channelFactory = browser->ChannelFactory;
+        void WcfEnabledSubProcess::OnBrowserDestroyed(CefBrowserWrapper^ browser)
+        {
+            auto channelFactory = browser->ChannelFactory;
 
-			if (channelFactory->State == CommunicationState::Opened)
-			{
-				channelFactory->Close();
-			}
+            if (channelFactory->State == CommunicationState::Opened)
+            {
+                channelFactory->Close();
+            }
 
-			auto clientChannel = ((IClientChannel^)browser->BrowserProcess);
+            auto clientChannel = ((IClientChannel^)browser->BrowserProcess);
 
-			if (clientChannel->State == CommunicationState::Opened)
-			{
-				clientChannel->Close();
-			}
+            if (clientChannel->State == CommunicationState::Opened)
+            {
+                clientChannel->Close();
+            }
 
-			browser->ChannelFactory = nullptr;
-			browser->BrowserProcess = nullptr;
-		}
-	}
+            browser->ChannelFactory = nullptr;
+            browser->BrowserProcess = nullptr;
+        }
+    }
 }
