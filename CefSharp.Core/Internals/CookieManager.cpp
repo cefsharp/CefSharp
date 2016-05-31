@@ -74,7 +74,12 @@ namespace CefSharp
 
             auto cookieVisitor = gcnew TaskCookieVisitor();
 
-            VisitAllCookies(cookieVisitor);
+            auto result = VisitAllCookies(cookieVisitor);
+
+            if (result == false)
+            {
+                delete cookieVisitor;
+            }
 
             return cookieVisitor->Task;
         }
@@ -94,7 +99,12 @@ namespace CefSharp
 
             auto cookieVisitor = gcnew TaskCookieVisitor();
 
-            VisitUrlCookies(url, includeHttpOnly, cookieVisitor);
+            auto result = VisitUrlCookies(url, includeHttpOnly, cookieVisitor);
+
+            if (result == false)
+            {
+                delete cookieVisitor;
+            }
 
             return cookieVisitor->Task;
         }
