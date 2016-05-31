@@ -15,10 +15,10 @@ Deployment:
   
 What's New:
   See https://github.com/cefsharp/CefSharp/wiki/ChangeLog
-  IMPORTANT NOTE - VC++ 2013 Redist is now required.
+  IMPORTANT NOTE - .Net 4.5.2 is now required
 
 Basic Troubleshooting:
-  - Minimum of .Net 4.0 Client Profile
+  - Minimum of .Net 4.5.2
   - Make sure `VC++ 2013 Redist` is installed (either `x86` or `x64` depending on your application)
   - Please ensure your binaries directory contains these required dependencies:
     * libcef.dll (CEF code)
