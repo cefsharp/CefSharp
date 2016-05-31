@@ -41,7 +41,9 @@ namespace CefSharp
             virtual Task<bool>^ SetCookieAsync(String^ url, Cookie^ cookie);
             virtual bool SetStoragePath(String^ path, bool persistSessionSookies);
             virtual void SetSupportedSchemes(... cli::array<String^>^ schemes);
+            virtual Task<List<Cookie^>^>^ VisitAllCookiesAsync();
             virtual bool VisitAllCookies(ICookieVisitor^ visitor);
+            virtual Task<List<Cookie^>^>^ VisitUrlCookiesAsync(String^ url, bool includeHttpOnly);
             virtual bool VisitUrlCookies(String^ url, bool includeHttpOnly, ICookieVisitor^ visitor);
             virtual Task<bool>^ FlushStoreAsync();
         };

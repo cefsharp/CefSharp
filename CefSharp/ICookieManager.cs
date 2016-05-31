@@ -2,6 +2,7 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace CefSharp
@@ -47,11 +48,27 @@ namespace CefSharp
         void SetSupportedSchemes(params string[] schemes);
 
         /// <summary>
+        /// Visits all cookies. The returned cookies are sorted by longest path, then by earliest creation date.
+        /// </summary>
+        /// <return>A task that represents the VisitAllCookies operation. The value of the TResult parameter contains a List of cookies.</return>
+        Task<List<Cookie>> VisitAllCookiesAsync();
+
+        /// <summary>
         /// Visits all cookies using the provided Cookie Visitor. The returned cookies are sorted by longest path, then by earliest creation date.
         /// </summary>
         /// <param name="visitor">A user-provided Cookie Visitor implementation.</param>
         /// <return>Returns false if cookies cannot be accessed; otherwise, true.</return>
         bool VisitAllCookies(ICookieVisitor visitor);
+
+        /// <summary>
+        /// Visits a subset of the cookies. The results are filtered by the given url scheme, host, domain and path. 
+        /// If <paramref name="includeHttpOnly"/> is true, HTTP-only cookies will also be included in the results. The returned cookies 
+        /// are sorted by longest path, then by earliest creation date.
+        /// </summary>
+        /// <param name="url">The URL to use for filtering a subset of the cookies available.</param>
+        /// <param name="includeHttpOnly">A flag that determines whether HTTP-only cookies will be shown in results.</param>
+        /// <return>A task that represents the VisitUrlCookies operation. The value of the TResult parameter contains a List of cookies.</return>
+        Task<List<Cookie>> VisitUrlCookiesAsync(string url, bool includeHttpOnly);
 
         /// <summary>
         /// Visits a subset of the cookies. The results are filtered by the given url scheme, host, domain and path. 
