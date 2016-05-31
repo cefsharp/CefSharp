@@ -42,6 +42,7 @@ namespace CefSharp
             virtual void StartDownload(String^ url);
             virtual void Print();
             virtual Task<bool>^ PrintToPdfAsync(String^ path, PdfPrintSettings^ settings);
+            virtual void PrintToPdf(String^ path, PdfPrintSettings^ settings, IPrintToPdfCallback^ callback);
             virtual void SetZoomLevel(double zoomLevel);
             virtual Task<double>^ GetZoomLevelAsync();
             virtual IntPtr GetWindowHandle();

@@ -148,6 +148,15 @@ namespace CefSharp
         Task<bool> PrintToPdfAsync(string path, PdfPrintSettings settings = null);
 
         /// <summary>
+        /// Asynchronously prints the current browser contents to the Pdf file specified.
+        /// The caller is responsible for deleting the file when done.
+        /// </summary>
+        /// <param name="path">Output file location.</param>
+        /// <param name="settings">Print Settings, can be null</param>
+        /// <param name="callback">Callback executed when printing complete</param>
+        void PrintToPdf(string path, PdfPrintSettings settings, IPrintToPdfCallback callback);
+
+        /// <summary>
         /// If a misspelled word is currently selected in an editable node calling this method will replace it with the specified word.
         /// </summary>
         /// <param name="word">word to be replaced</param>

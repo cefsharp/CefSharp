@@ -25,6 +25,7 @@ namespace CefSharp
 
             ~CefPdfPrintCallbackWrapper()
             {
+                delete _callback;
                 _callback = nullptr;
             }
 

@@ -73,6 +73,17 @@ void CefBrowserHostWrapper::Print()
 
 Task<bool>^ CefBrowserHostWrapper::PrintToPdfAsync(String^ path, PdfPrintSettings^ settings)
 {
+    ThrowIfDisposed();
+
+    auto printToPdfTask = gcnew TaskPrintToPdfCallback();
+    PrintToPdf(path, settings, printToPdfTask);
+    return printToPdfTask->Task;
+}
+
+void CefBrowserHostWrapper::PrintToPdf(String^ path, PdfPrintSettings^ settings, IPrintToPdfCallback^ callback)
+{
+    ThrowIfDisposed();
+
     CefPdfPrintSettings nativeSettings;
     if (settings != nullptr)
     {
@@ -91,9 +102,7 @@ Task<bool>^ CefBrowserHostWrapper::PrintToPdfAsync(String^ path, PdfPrintSetting
         nativeSettings.margin_type = static_cast<cef_pdf_print_margin_type_t>(settings->MarginType);
     }
 
-    auto printToPdfTask = gcnew TaskPrintToPdf();
-    _browserHost->PrintToPDF(StringUtils::ToNative(path), nativeSettings, new CefPdfPrintCallbackWrapper(printToPdfTask));
-    return printToPdfTask->Task;
+    _browserHost->PrintToPDF(StringUtils::ToNative(path), nativeSettings, new CefPdfPrintCallbackWrapper(callback));
 }
 
 void CefBrowserHostWrapper::SetZoomLevel(double zoomLevel)
@@ -203,6 +212,8 @@ void CefBrowserHostWrapper::SendFocusEvent(bool setFocus)
 
 void CefBrowserHostWrapper::SendKeyEvent(KeyEvent keyEvent)
 {
+    ThrowIfDisposed();
+
     CefKeyEvent nativeKeyEvent;
     nativeKeyEvent.focus_on_editable_field = keyEvent.FocusOnEditableField == 1;
     nativeKeyEvent.is_system_key = keyEvent.IsSystemKey == 1;

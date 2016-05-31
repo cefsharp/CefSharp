@@ -2,12 +2,13 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
 using System.Threading.Tasks;
 using CefSharp.Internals;
 
 namespace CefSharp
 {
-    public sealed class TaskPrintToPdf : IPrintToPdfCallback
+    public sealed class TaskPrintToPdfCallback : IPrintToPdfCallback
     {
         private readonly TaskCompletionSource<bool> taskCompletionSource = new TaskCompletionSource<bool>();
 
@@ -16,9 +17,14 @@ namespace CefSharp
             get { return taskCompletionSource.Task; }    
         }
 
-        public void OnPdfPrintFinished(string path, bool ok)
+        void IPrintToPdfCallback.OnPdfPrintFinished(string path, bool ok)
         {
             taskCompletionSource.TrySetResultAsync(ok);
+        }
+
+        void IDisposable.Dispose()
+        {
+            //TODO: Check if this is ever called
         }
     }
 }
