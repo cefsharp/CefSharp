@@ -191,6 +191,7 @@
     <Compile Include="ResponseAction.cs" />
     <Compile Include="Internals\ScreenInfo.cs" />
     <Compile Include="TaskCompletionHandler.cs" />
+    <Compile Include="TaskCookieVisitor.cs" />
     <Compile Include="TaskPrintToPdf.cs" />
     <Compile Include="TaskResolveCallbackHandler.cs" />
     <Compile Include="TransitionType.cs" />
