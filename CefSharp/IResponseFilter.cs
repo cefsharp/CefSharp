@@ -31,7 +31,7 @@ namespace CefSharp
         /// to continue filtering (filtered output is pending) return FilterStatus.NeedMoreData. If some or all of the pre-filter
         /// data was read successfully and all available filtered output has been written return FilterStatus.Done. If an error
         /// occurs during filtering return FilterStatus.Error. </returns>
-        /// <remarks>Do not keep a reference to the buffers(Steams) passed to this method.</remarks>
+        /// <remarks>Do not keep a reference to the buffers(Streams) passed to this method.</remarks>
         FilterStatus Filter(Stream dataIn, out long dataInRead, Stream dataOut, out long dataOutWritten);
     }
 }

@@ -884,7 +884,7 @@ namespace CefSharp
         /// </summary>
         public virtual void Dispose()
         {
-            if(AutoDisposeStream && Steam != null)
+            if(AutoDisposeStream && Stream != null)
             {
                 Stream.Dispose();
                 Stream = null;
