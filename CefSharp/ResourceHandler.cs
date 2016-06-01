@@ -68,6 +68,13 @@ namespace CefSharp
         public ResourceHandlerType Type { get; private set; }
 
         /// <summary>
+        /// When true the Stream will be Disposed when
+        /// this instance is Disposed. The default value for
+        /// this property is false.
+        /// </summary>
+        public bool AutoDisposeStream { get; set; }
+
+        /// <summary>
         /// Default Constructor
         /// </summary>
         public ResourceHandler() : this(DefaultMimeType, ResourceHandlerType.Stream)
@@ -877,7 +884,11 @@ namespace CefSharp
         /// </summary>
         public virtual void Dispose()
         {
-            
+            if(AutoDisposeStream && Steam != null)
+            {
+                Stream.Dispose();
+                Stream = null;
+            }
         }
     }
 }
