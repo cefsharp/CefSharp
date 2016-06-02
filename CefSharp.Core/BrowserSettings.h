@@ -21,10 +21,16 @@ namespace CefSharp
         CefBrowserSettings* _browserSettings;
 
     public:
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
         BrowserSettings() : _browserSettings(new CefBrowserSettings())
         {
         }
 
+        /// <summary>
+        /// Internal Constructor
+        /// </summary>
         BrowserSettings(CefBrowserSettings* browserSettings)
         {
             _browserSettings = browserSettings;
@@ -40,60 +46,90 @@ namespace CefSharp
             this->!BrowserSettings();
         }
 
+        /// <summary>
+        /// StandardFontFamily
+        /// </summary>
         virtual property String^ StandardFontFamily
         {
             String^ get() { return StringUtils::ToClr(_browserSettings->standard_font_family); }
             void set(String^ value) { StringUtils::AssignNativeFromClr(_browserSettings->standard_font_family, value); }
         }
 
+        /// <summary>
+        /// FixedFontFamily
+        /// </summary>
         virtual property String^ FixedFontFamily
         {
             String^ get() { return StringUtils::ToClr(_browserSettings->fixed_font_family); }
             void set(String^ value) { StringUtils::AssignNativeFromClr(_browserSettings->fixed_font_family, value); }
         }
 
+        /// <summary>
+        /// SerifFontFamily
+        /// </summary>
         virtual property String^ SerifFontFamily
         {
             String^ get() { return StringUtils::ToClr(_browserSettings->serif_font_family); }
             void set(String^ value) { StringUtils::AssignNativeFromClr(_browserSettings->serif_font_family, value); }
         }
 
+        /// <summary>
+        /// SansSerifFontFamily
+        /// </summary>
         virtual property String^ SansSerifFontFamily
         {
             String^ get() { return StringUtils::ToClr(_browserSettings->sans_serif_font_family); }
             void set(String^ value) { StringUtils::AssignNativeFromClr(_browserSettings->sans_serif_font_family, value); }
         }
 
+        /// <summary>
+        /// CursiveFontFamily
+        /// </summary>
         virtual property String^ CursiveFontFamily
         {
             String^ get() { return StringUtils::ToClr(_browserSettings->cursive_font_family); }
             void set(String^ value) { StringUtils::AssignNativeFromClr(_browserSettings->cursive_font_family, value); }
         }
 
+        /// <summary>
+        /// FantasyFontFamily
+        /// </summary>
         virtual property String^ FantasyFontFamily
         {
             String^ get() { return StringUtils::ToClr(_browserSettings->fantasy_font_family); }
             void set(String^ value) { StringUtils::AssignNativeFromClr(_browserSettings->fantasy_font_family, value); }
         }
 
+        /// <summary>
+        /// DefaultFontSize
+        /// </summary>
         virtual property int DefaultFontSize
         {
             int get() { return _browserSettings->default_font_size; }
             void set(int value) { _browserSettings->default_font_size = value; }
         }
 
+        /// <summary>
+        /// DefaultFixedFontSize
+        /// </summary>
         virtual property int DefaultFixedFontSize
         {
             int get() { return _browserSettings->default_fixed_font_size; }
             void set(int value) { _browserSettings->default_fixed_font_size = value; }
         }
 
+        /// <summary>
+        /// MinimumFontSize
+        /// </summary>
         virtual property int MinimumFontSize
         {
             int get() { return _browserSettings->minimum_font_size; }
             void set(int value) { _browserSettings->minimum_font_size = value; }
         }
 
+        /// <summary>
+        /// MinimumLogicalFontSize
+        /// </summary>
         virtual property int MinimumLogicalFontSize
         {
             int get() { return _browserSettings->minimum_logical_font_size; }
@@ -350,6 +386,10 @@ namespace CefSharp
             void set(int value) { _browserSettings->windowless_frame_rate = value; }
         }		
 
+        /// <summary>
+        /// When the WPF/OffScreen browser is created, specify if the background supports
+        /// transparency
+        /// </summary>
         property Nullable<bool> OffScreenTransparentBackground;
     };
 }
