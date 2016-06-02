@@ -81,6 +81,11 @@ namespace CefSharp
             _disposed = true;
         }
 
+        /// <summary>
+        /// Returns true if this object is pointing to the same context object.
+        /// </summary>
+        /// <param name="context">context to compare</param>
+        /// <returns>Returns true if the same</returns>
         virtual bool IsSame(IRequestContext^ context)
         {
             ThrowIfDisposed();
@@ -90,6 +95,11 @@ namespace CefSharp
             return _requestContext->IsSame(requestContext);
         }
 
+        /// <summary>
+        /// Returns true if this object is sharing the same storage as the specified context.
+        /// </summary>
+        /// <param name="context">context to compare</param>
+        /// <returns>Returns true if same storage</returns>
         virtual bool IsSharingWith(IRequestContext^ context)
         {
             ThrowIfDisposed();
@@ -99,6 +109,15 @@ namespace CefSharp
             return _requestContext->IsSharingWith(requestContext);
         }
 
+        /// <summary>
+        /// Returns the default cookie manager for this object. This will be the global
+        /// cookie manager if this object is the global request context. Otherwise,
+        /// this will be the default cookie manager used when this request context does
+        /// not receive a value via IRequestContextHandler.GetCookieManager(). 
+        /// </summary>
+        /// <param name="callback">If callback is non-NULL it will be executed asnychronously on the CEF IO thread
+        /// after the manager's storage has been initialized.</param>
+        /// <returns>Returns the default cookie manager for this object</returns>
         virtual ICookieManager^ GetDefaultCookieManager(ICompletionCallback^ callback)
         {
             ThrowIfDisposed();
@@ -113,6 +132,11 @@ namespace CefSharp
             return nullptr;
         }
 
+        /// <summary>
+        /// Returns true if this object is the global context. The global context is
+        /// used by default when creating a browser or URL request with a NULL context
+        /// argument.
+        /// </summary>
         virtual property bool IsGlobal
         {
             bool get()
@@ -122,6 +146,20 @@ namespace CefSharp
             }
         }
 
+        /// <summary>
+        /// Register a scheme handler factory for the specified schemeName and optional domainName.
+        /// An empty domainName value for a standard scheme will cause the factory to match all domain
+        /// names. The domainName value will be ignored for non-standard schemes. If schemeName is
+        /// a built-in scheme and no handler is returned by factory then the built-in scheme handler
+        /// factory will be called. If schemeName is a custom scheme then you must also implement the
+        /// CefApp::OnRegisterCustomSchemes() method in all processes. This function may be called multiple
+        /// times to change or remove the factory that matches the specified schemeName and optional
+        /// domainName.
+        /// </summary>
+        /// <param name="schemeName">Scheme Name</param>
+        /// <param name="domainName">Optional domain name</param>
+        /// <param name="factory">Scheme handler factory</param>
+        /// <returns>Returns false if an error occurs.</returns>
         virtual bool RegisterSchemeHandlerFactory(String^ schemeName, String^ domainName, ISchemeHandlerFactory^ factory)
         {
             ThrowIfDisposed();
@@ -130,6 +168,10 @@ namespace CefSharp
             return _requestContext->RegisterSchemeHandlerFactory(StringUtils::ToNative(schemeName), StringUtils::ToNative(domainName), wrapper);
         }
 
+        /// <summary>
+        /// Clear all registered scheme handler factories. 
+        /// </summary>
+        /// <returns>Returns false on error.</returns>
         virtual bool ClearSchemeHandlerFactories()
         {
             ThrowIfDisposed();
@@ -137,11 +179,10 @@ namespace CefSharp
             return _requestContext->ClearSchemeHandlerFactories();
         }
 
-        ///
-        // Returns the cache path for this object. If empty an "incognito mode"
-        // in-memory cache is being used.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Returns the cache path for this object. If empty an "incognito mode"
+        /// in-memory cache is being used.
+        /// </summary>
         virtual property String^ CachePath
         {
             String^ get()
@@ -152,13 +193,13 @@ namespace CefSharp
             }
         }
 
-        ///
-        // Tells all renderer processes associated with this context to throw away
-        // their plugin list cache. If |reload_pages| is true they will also reload
-        // all pages with plugins. CefRequestContextHandler::OnBeforePluginLoad may
-        // be called to rebuild the plugin list cache.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Tells all renderer processes associated with this context to throw away
+        /// their plugin list cache. If reloadPages is true they will also reload
+        /// all pages with plugins. RequestContextHandler.OnBeforePluginLoad may
+        /// be called to rebuild the plugin list cache.
+        /// </summary>
+        /// <param name="reloadPages">reload any pages with pluginst</param>
         virtual void PurgePluginListCache(bool reloadPages)
         {
             ThrowIfDisposed();
@@ -166,11 +207,17 @@ namespace CefSharp
             _requestContext->PurgePluginListCache(reloadPages);
         }
 
-        ///
-        // Returns true if a preference with the specified |name| exists. This method
-        // must be called on the browser process UI thread.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Returns true if a preference with the specified name exists. This method
+        /// must be called on the CEF UI thread.
+        /// </summary>
+        /// <param name="name">name of preference</param>
+        /// <returns>bool if the preference exists</returns>
+        /// <remarks>Use Cef.UIThreadTaskFactory to execute this method if required,
+        /// Cef.OnContextInitialized and ChromiumWebBrowser.IsBrowserInitializedChanged are both
+        /// executed on the CEF UI thread, so can be called directly.
+        /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
+        /// application thread will be the CEF UI thread.</remarks>
         virtual bool HasPreference(String^ name)
         {
             ThrowIfDisposed();
@@ -178,14 +225,20 @@ namespace CefSharp
             return _requestContext->HasPreference(StringUtils::ToNative(name));
         }
 
-        ///
-        // Returns the value for the preference with the specified |name|. Returns
-        // NULL if the preference does not exist. The returned object contains a copy
-        // of the underlying preference value and modifications to the returned object
-        // will not modify the underlying preference value. This method must be called
-        // on the browser process UI thread.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Returns the value for the preference with the specified name. Returns
+        /// NULL if the preference does not exist. The returned object contains a copy
+        /// of the underlying preference value and modifications to the returned object
+        /// will not modify the underlying preference value. This method must be called
+        /// on the CEF UI thread.
+        /// </summary>
+        /// <param name="name">preference name</param>
+        /// <returns>Returns the value for the preference with the specified name</returns>
+        /// <remarks>Use Cef.UIThreadTaskFactory to execute this method if required,
+        /// Cef.OnContextInitialized and ChromiumWebBrowser.IsBrowserInitializedChanged are both
+        /// executed on the CEF UI thread, so can be called directly.
+        /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
+        /// application thread will be the CEF UI thread.</remarks>
         virtual Object^ GetPreference(String^ name)
         {
             ThrowIfDisposed();
@@ -193,15 +246,16 @@ namespace CefSharp
             return TypeConversion::FromNative(_requestContext->GetPreference(StringUtils::ToNative(name)));
         }
 
-        ///
-        // Returns all preferences as a dictionary. If |include_defaults| is true then
-        // preferences currently at their default value will be included. The returned
-        // object contains a copy of the underlying preference values and
-        // modifications to the returned object will not modify the underlying
-        // preference values. This method must be called on the browser process UI
-        // thread.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Returns all preferences as a dictionary. The returned
+        /// object contains a copy of the underlying preference values and
+        /// modifications to the returned object will not modify the underlying
+        /// preference values. This method must be called on the browser process UI
+        /// thread.
+        /// </summary>
+        /// <param name="includeDefaults">If true then
+        /// preferences currently at their default value will be included.</param>
+        /// <returns>Preferences (dictionary can have sub dictionaries)</returns>
         virtual IDictionary<String^, Object^>^ GetAllPreferences(bool includeDefaults)
         {
             ThrowIfDisposed();
@@ -211,13 +265,19 @@ namespace CefSharp
             return TypeConversion::FromNative(preferences);
         }
 
-        ///
-        // Returns true if the preference with the specified |name| can be modified
-        // using SetPreference. As one example preferences set via the command-line
-        // usually cannot be modified. This method must be called on the browser
-        // process UI thread.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Returns true if the preference with the specified name can be modified
+        /// using SetPreference. As one example preferences set via the command-line
+        /// usually cannot be modified. This method must be called on the CEF UI thread.
+        /// </summary>
+        /// <param name="name">preference key</param>
+        /// <returns>Returns true if the preference with the specified name can be modified
+        /// using SetPreference</returns>
+        /// <remarks>Use Cef.UIThreadTaskFactory to execute this method if required,
+        /// Cef.OnContextInitialized and ChromiumWebBrowser.IsBrowserInitializedChanged are both
+        /// executed on the CEF UI thread, so can be called directly.
+        /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
+        /// application thread will be the CEF UI thread.</remarks>
         virtual bool CanSetPreference(String^ name)
         {
             ThrowIfDisposed();
@@ -225,15 +285,22 @@ namespace CefSharp
             return _requestContext->CanSetPreference(StringUtils::ToNative(name));
         }
 
-        ///
-        // Set the |value| associated with preference |name|. Returns true if the
-        // value is set successfully and false otherwise. If |value| is NULL the
-        // preference will be restored to its default value. If setting the preference
-        // fails then |error| will be populated with a detailed description of the
-        // problem. This method must be called on the browser process UI thread.
-        // Preferences set via the command-line usually cannot be modified.
-        ///
-        /*--cef(optional_param=value)--*/
+        /// <summary>
+        /// Set the value associated with preference name. If value is null the
+        /// preference will be restored to its default value. If setting the preference
+        /// fails then error will be populated with a detailed description of the
+        /// problem. This method must be called on the CEF UI thread.
+        /// Preferences set via the command-line usually cannot be modified.
+        /// </summary>
+        /// <param name="name">preference key</param>
+        /// <param name="value">preference value</param>
+        /// <param name="error">out error</param>
+        /// <returns>Returns true if the value is set successfully and false otherwise.</returns>
+        /// /// <remarks>Use Cef.UIThreadTaskFactory to execute this method if required,
+        /// Cef.OnContextInitialized and ChromiumWebBrowser.IsBrowserInitializedChanged are both
+        /// executed on the CEF UI thread, so can be called directly.
+        /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
+        /// application thread will be the CEF UI thread.</remarks>
         virtual bool SetPreference(String^ name, Object^ value, [Out] String^ %error)
         {
             ThrowIfDisposed();
@@ -247,15 +314,14 @@ namespace CefSharp
             return success;
         }
 
-        ///
-        // Clears all certificate exceptions that were added as part of handling
-        // CefRequestHandler::OnCertificateError(). If you call this it is
-        // recommended that you also call CloseAllConnections() or you risk not
-        // being prompted again for server certificates if you reconnect quickly.
-        // If |callback| is non-NULL it will be executed on the UI thread after
-        // completion.
-        ///
-        /*--cef(optional_param=callback)--*/
+        /// <summary>
+        /// Clears all certificate exceptions that were added as part of handling
+        /// <see cref="IRequestHandler.OnCertificateError"/>. If you call this it is
+        /// recommended that you also call <see cref="IRequestContext.CloseAllConnections"/> or you risk not
+        /// being prompted again for server certificates if you reconnect quickly.
+        /// </summary>
+        /// <param name="callback">If is non-NULL it will be executed on the CEF UI thread after
+        /// completion. This param is optional</param>
         virtual void ClearCertificateExceptions(ICompletionCallback^ callback)
         {
             ThrowIfDisposed();
@@ -265,13 +331,13 @@ namespace CefSharp
             _requestContext->ClearCertificateExceptions(wrapper);
         }
 
-        ///
-        // Clears all active and idle connections that Chromium currently has.
-        // This is only recommended if you have released all other CEF objects but
-        // don't yet want to call CefShutdown(). If |callback| is non-NULL it will be
-        // executed on the UI thread after completion.
-        ///
-        /*--cef(optional_param=callback)--*/
+        /// <summary>
+        /// Clears all active and idle connections that Chromium currently has.
+        /// This is only recommended if you have released all other CEF objects but
+        /// don't yet want to call Cef.Shutdown().
+        /// </summary>
+        /// <param name="callback">If is non-NULL it will be executed on the CEF UI thread after
+        /// completion. This param is optional</param>
         virtual void CloseAllConnections(ICompletionCallback^ callback)
         {
             ThrowIfDisposed();
@@ -281,11 +347,11 @@ namespace CefSharp
             _requestContext->CloseAllConnections(wrapper);
         }
 
-        ///
-        // Attempts to resolve |origin| to a list of associated IP addresses.
-        // |callback| will be executed on the UI thread after completion.
-        ///
-        /*--cef()--*/
+        /// <summary>
+        /// Attempts to resolve origin to a list of associated IP addresses.
+        /// </summary>
+        /// <param name="origin">host name to resolve</param>
+        /// <return>A task that represents the Resoolve Host operation. The value of the TResult parameter contains ResolveCallbackResult.</return>
         virtual Task<ResolveCallbackResult>^ ResolveHostAsync(Uri^ origin)
         {
             ThrowIfDisposed();
@@ -299,13 +365,15 @@ namespace CefSharp
             return callback->Task;
         }
 
-        ///
-        // Attempts to resolve |origin| to a list of associated IP addresses using
-        // cached data. |resolved_ips| will be populated with the list of resolved IP
-        // addresses or empty if no cached data is available. Returns ERR_NONE on
-        // success. This method must be called on the browser process IO thread.
-        ///
-        /*--cef(default_retval=ERR_FAILED)--*/
+        /// <summary>
+        /// Attempts to resolve origin to a list of associated IP addresses using
+        /// cached data. This method must be called on the CEF IO thread. Use
+        /// Cef.IOThreadTaskFactory to execute on that thread.
+        /// </summary>
+        /// <param name="origin">host name to resolve</param>
+        /// <param name="resolvedIpAddresses">list of resolved IP
+        /// addresses or empty list if no cached data is available.</param>
+        /// <returns> Returns <see cref="CefErrorCode.None"/> on success</returns>
         virtual CefErrorCode ResolveHostCached(Uri^ origin, [Out] IList<String^>^ %resolvedIpAddresses)
         {
             ThrowIfDisposed();
