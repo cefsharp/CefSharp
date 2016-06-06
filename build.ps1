@@ -5,14 +5,16 @@ param(
     [Parameter(Position = 1)]
     [string] $Version = "51.0.0",
     [Parameter(Position = 2)]
-    [string] $AssemblyVersion = "51.0.0",
-    [Parameter(Position = 3)]
-    [string] $RedistVersion = "3.2704.1418"
+    [string] $AssemblyVersion = "51.0.0"   
 )
 
 $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
-
 $CefSln = Join-Path $WorkingDir 'CefSharp3.sln'
+
+# Extract the current CEF Redist version from the CefSharp.Core\packages.config file
+# Save having to update this file manually Example 3.2704.1418
+$CefSharpCorePackagesXml = [xml](Get-Content (Join-Path $WorkingDir 'CefSharp.Core\Packages.config'))
+$RedistVersion = $CefSharpCorePackagesXml.SelectSingleNode("//packages/package[@id='cef.sdk']/@version").value
 
 function Write-Diagnostic 
 {
@@ -288,6 +290,8 @@ function WriteAssemblyVersion
     
     $NewString | Set-Content $Filename -Encoding UTF8
 }
+
+Write-Diagnostic "CEF Redist Version = $RedistVersion"
 
 DownloadNuget
 
