@@ -4,6 +4,10 @@
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Implement this interface to handle events related to browser life span.
+    /// The methods of this class will be called on the CEF UI thread unless otherwise indicated. 
+    /// </summary>
     public interface ILifeSpanHandler
     {
         /// <summary>

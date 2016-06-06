@@ -7,7 +7,7 @@ using System;
 namespace CefSharp
 {
     /// <summary>
-    /// Callback interface for <see cref="IBrowserHost.PrintToPDF"/>. The methods of this interface
+    /// Callback interface for <see cref="IBrowserHost.PrintToPdf"/>. The methods of this interface
     /// will be called on the CEF UI thread.
     /// </summary>
     public interface IPrintToPdfCallback : IDisposable

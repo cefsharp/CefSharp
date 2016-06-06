@@ -8,6 +8,17 @@ using System.Threading.Tasks;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// A request context provides request handling for a set of related browser or URL request objects.
+    /// A request context can be specified when creating a new browser by setting the 
+    /// <see cref="IWebBrowser.RequestContext"/> property (Passing in via the constructor for the OffScreen
+    /// control is preferred).
+    /// Browser objects with different request contexts will never be hosted in the same render process.
+    /// Browser objects with the same request context may or may not be hosted in the same render process
+    /// depending on the process model.Browser objects created indirectly via the JavaScript window.open
+    /// function or targeted links will share the same render process and the same request context as
+    /// the source browser.
+    /// </summary>
     public interface IRequestContext : IDisposable
     {
         /// <summary>

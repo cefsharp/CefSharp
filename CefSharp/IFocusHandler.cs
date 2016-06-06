@@ -4,6 +4,10 @@
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Implement this interface to handle events related to focus.
+    /// The methods of this class will be called on the CEF UI thread. 
+    /// </summary>
     public interface IFocusHandler
     {
         /// <summary>

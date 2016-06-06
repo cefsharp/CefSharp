@@ -4,6 +4,10 @@
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Class used to handle file downloads.
+    /// The methods of this class will called on the CEF UI thread. 
+    /// </summary>
     public interface IDownloadHandler
     {
         /// <summary>

@@ -6,6 +6,10 @@ using System;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Implement this interface to handle events related to browser requests.
+    /// The methods of this class will be called on the thread indicated. 
+    /// </summary>
     public interface IRequestHandler
     {
         /// <summary>

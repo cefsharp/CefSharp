@@ -4,6 +4,13 @@
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Class that creates <see cref="IResourceHandler"/> instances for handling custom requests.
+    /// The methods of this class will always be called on the CEF IO thread. This interface
+    /// maps to the  CefRequestHandler::GetResourceHandler method. It was split out to allow for
+    /// the <see cref="DefaultResourceHandlerFactory"/> implementation that provides support
+    /// for the LoadHtml extension method.
+    /// </summary>
     public interface IResourceHandlerFactory
     {
         /// <summary>

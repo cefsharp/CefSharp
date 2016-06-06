@@ -66,6 +66,7 @@ namespace CefSharp
         /// </summary>
         /// <param name="commandId">the command Id</param>
         /// <param name="label">the label of the item</param>
+        /// <param name="groupId">the group id</param>
         /// <returns>Returns true on success.</returns>
         bool AddRadioItem(CefMenuCommand commandId, string label, int groupId);
 

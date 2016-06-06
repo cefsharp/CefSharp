@@ -4,6 +4,9 @@
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Implement this interface to handle events related to keyboard input.
+    /// </summary>
     public interface IKeyboardHandler
     {
         /// <summary>
