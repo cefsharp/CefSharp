@@ -273,6 +273,15 @@ namespace CefSharp
         void WasResized();
 
         /// <summary>
+        /// Retrieve a snapshot of current navigation entries as values sent to the
+        /// specified visitor. 
+        /// </summary>
+        /// <param name="visitor">visitor</param>
+        /// <param name="currentOnly">If true only the current navigation
+        /// entry will be sent, otherwise all navigation entries will be sent.</param>
+        void GetNavigationEntries(INavigationEntryVisitor visitor, bool currentOnly);
+
+        /// <summary>
         /// Gets/sets the maximum rate in frames per second (fps) that CefRenderHandler::
         /// OnPaint will be called for a windowless browser. The actual fps may be
         /// lower if the browser cannot generate frames at the requested rate. The

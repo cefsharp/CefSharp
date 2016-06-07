@@ -85,6 +85,8 @@ namespace CefSharp
 
             virtual void WasHidden(bool hidden);
 
+            virtual void GetNavigationEntries(INavigationEntryVisitor^ visitor, bool currentOnly);
+
             virtual property int WindowlessFrameRate
             {
                 int get();

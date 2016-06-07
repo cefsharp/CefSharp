@@ -88,6 +88,8 @@
     <Compile Include="IBrowserSettings.cs" />
     <Compile Include="IDomNode.cs" />
     <Compile Include="IFindHandler.cs" />
+    <Compile Include="INavigationEntryVisitor.cs" />
+    <Compile Include="Internals\CefTimeUtils.cs" />
     <Compile Include="Internals\CommandLineArgsParser.cs" />
     <Compile Include="Internals\MethodParameter.cs" />
     <Compile Include="IPluginHandler.cs" />
@@ -98,6 +100,7 @@
     <Compile Include="IResponseFilter.cs" />
     <Compile Include="IRunContextMenuCallback.cs" />
     <Compile Include="MenuItemType.cs" />
+    <Compile Include="NavigationEntry.cs" />
     <Compile Include="PdfPrintSettings.cs" />
     <Compile Include="ICookieManager.cs" />
     <Compile Include="ILoadHandler.cs" />
@@ -194,6 +197,7 @@
     <Compile Include="TaskCookieVisitor.cs" />
     <Compile Include="TaskPrintToPdfCallback.cs" />
     <Compile Include="TaskResolveCallbackHandler.cs" />
+    <Compile Include="TaskNavigationEntryVisitor.cs" />
     <Compile Include="TransitionType.cs" />
     <Compile Include="LoadingStateChangedEventArgs.cs" />
     <Compile Include="ICompletionCallback.cs" />

@@ -12,6 +12,7 @@
 #include "CefTaskScheduler.h"
 #include "Cef.h"
 #include "RequestContext.h"
+#include "CefNavigationEntryVisitorAdapter.h"
 
 void CefBrowserHostWrapper::DragTargetDragEnter(IDragData^ dragData, MouseEvent^ mouseEvent, DragOperationsMask allowedOperations)
 {
@@ -330,6 +331,15 @@ void CefBrowserHostWrapper::WasHidden(bool hidden)
     ThrowIfDisposed();
 
     _browserHost->WasHidden(hidden);
+}
+
+void CefBrowserHostWrapper::GetNavigationEntries(INavigationEntryVisitor^ visitor, bool currentOnly)
+{
+    ThrowIfDisposed();
+
+    auto navEntryVisitor = new CefNavigationEntryVisitorAdapter(visitor);
+
+    _browserHost->GetNavigationEntries(navEntryVisitor, currentOnly);
 }
 
 void CefBrowserHostWrapper::NotifyMoveOrResizeStarted()
