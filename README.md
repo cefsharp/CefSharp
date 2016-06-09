@@ -44,7 +44,7 @@ When a new release is imminent a `release` branch is created. We try to avoid ma
 ### Build Status
 
 **CI Builds**<br/>
-Every commit on `master` produces a `Nuget` package. Use at your own risk! [CefSharp MyGet Feed](https://www.myget.org/F/cefsharp/)
+Every commit on `master` produces a `Nuget` package. Use at your own risk! [CefSharp MyGet Feed](https://www.myget.org/gallery/cefsharp)
 
 **Pre-release**<br>
 ![CefSharp.Wpf](http://img.shields.io/nuget/vpre/CefSharp.Wpf.svg?style=flat)
