@@ -453,34 +453,5 @@ namespace CefSharp
 
             return nullptr;
         }
-
-        /// <summary>
-        /// Calls LoadLibraryEx with LOAD_WITH_ALTERED_SEARCH_PATH to load libcef.dll
-        /// Make sure to set settings.BrowserSubprocessPath and settings.LocalesDirPath
-        /// </summary>
-        /// <param name="path">Path to libcef.dll</param>
-        static void LoadLibCefLibrary(String^ path)
-        {
-            String^ absolutePathToLibCef;
-            if (path->EndsWith("libcef.dll", StringComparison::OrdinalIgnoreCase))
-            {
-                absolutePathToLibCef = path;
-            }
-            else
-            {
-                absolutePathToLibCef = Path::Combine(path, "libcef.dll");
-            }
-
-            if (!File::Exists(absolutePathToLibCef))
-            {
-                throw gcnew FileNotFoundException("Unable to locate libcef.dll", absolutePathToLibCef);
-            }
-
-            marshal_context context;
-
-            LPCTSTR cstr = context.marshal_as<const TCHAR*>(absolutePathToLibCef);
-
-            LoadLibraryEx(cstr, NULL, LOAD_WITH_ALTERED_SEARCH_PATH);
-        }
     };
 }
