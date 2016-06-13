@@ -110,7 +110,7 @@
   <PropertyGroup>
     <PostBuildEvent>if $(PlatformName) == x86 (
   call "$(DevEnvDir)..\tools\vsvars32.bat"
-  editbin /largeaddressaware $(TargetPath)  /TSAWARE $(TargetPath)
+  editbin /largeaddressaware /TSAWARE $(TargetPath)
 )else (
   call "$(DevEnvDir)..\tools\vsvars64.bat"
   editbin /TSAWARE $(TargetPath)
