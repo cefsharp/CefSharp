@@ -200,6 +200,8 @@ namespace CefSharp.WinForms.Example
                 var preferences = requestContext.GetAllPreferences(true);
                 var doNotTrack = (bool)preferences["enable_do_not_track"];
 
+                //Use this to check that settings preferences are working in your code
+                //success = requestContext.SetPreference("webkit.webprefs.minimum_font_size", 24, out errorMessage);
 
                 Task.Run(() =>
                 {
