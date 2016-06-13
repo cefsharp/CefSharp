@@ -39,7 +39,7 @@ namespace CefSharp
 
         public override bool IsInvalid
         {
-           get { return this.handle != IntPtr.Zero; }
+           get { return this.handle == IntPtr.Zero; }
         }
 
         protected override bool ReleaseHandle()
