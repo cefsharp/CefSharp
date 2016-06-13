@@ -33,12 +33,13 @@ namespace CefSharp
 
         public CefLibraryHandle(string filename) : base(IntPtr.Zero, true)
         {
-            base.SetHandle(LoadLibraryEx(filename, IntPtr.Zero, LoadLibraryFlags.LOAD_WITH_ALTERED_SEARCH_PATH));
+            var handle = LoadLibraryEx(filename, IntPtr.Zero, LoadLibraryFlags.LOAD_WITH_ALTERED_SEARCH_PATH);
+            base.SetHandle(handle);
         }
 
         public override bool IsInvalid
         {
-           get { return this.handle == IntPtr.Zero; }
+           get { return this.handle != IntPtr.Zero; }
         }
 
         protected override bool ReleaseHandle()
