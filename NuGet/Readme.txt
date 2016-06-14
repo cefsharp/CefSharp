@@ -15,7 +15,10 @@ Deployment:
   
 What's New:
   See https://github.com/cefsharp/CefSharp/wiki/ChangeLog
-  IMPORTANT NOTE - .Net 4.5.2 is now required
+  IMPORTANT NOTE - .NET Framework 4.5.2 is now required.  
+  
+  The Microsoft .NET Framework 4.5.2 Developer Pack for Visual Studio 2012 and Visual Studio 2013 is available here: 
+  https://www.microsoft.com/en-gb/download/details.aspx?id=42637
 
 Basic Troubleshooting:
   - Minimum of .Net 4.5.2
