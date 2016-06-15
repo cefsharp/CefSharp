@@ -13,7 +13,7 @@
     <RootNamespace>Documentation</RootNamespace>
     <Name>Documentation</Name>
     <!-- SHFB properties -->
-    <FrameworkVersion>.NET Framework 4.0</FrameworkVersion>
+    <FrameworkVersion>.NET Framework 4.5.2</FrameworkVersion>
     <OutputPath>.\Help\</OutputPath>
     <HtmlHelpName>Documentation</HtmlHelpName>
     <Language>en-US</Language>
@@ -29,18 +29,34 @@
       <DocumentationSource sourceFile="CefSharp.WinForms\CefSharp.WinForms.csproj" />
       <DocumentationSource sourceFile="CefSharp.Wpf\CefSharp.Wpf.csproj" />
       <DocumentationSource sourceFile="CefSharp\CefSharp.csproj" />
+      <DocumentationSource sourceFile="CefSharp.Core\CefSharp.Core.vcxproj" />
     </DocumentationSources>
-    <HelpFileVersion>49.0.0</HelpFileVersion>
+    <HelpFileVersion>51.0.0</HelpFileVersion>
     <MaximumGroupParts>2</MaximumGroupParts>
     <NamespaceGrouping>True</NamespaceGrouping>
     <SyntaxFilters>C#, Managed C++</SyntaxFilters>
     <SdkLinkTarget>Blank</SdkLinkTarget>
-    <RootNamespaceContainer>False</RootNamespaceContainer>
+    <RootNamespaceContainer>True</RootNamespaceContainer>
     <PresentationStyle>VS2013</PresentationStyle>
     <Preliminary>False</Preliminary>
-    <NamingMethod>Guid</NamingMethod>
-    <HelpTitle>CefSharp API Doc</HelpTitle>
+    <NamingMethod>MemberName</NamingMethod>
+    <HelpTitle>CefSharp API Doc 51.0.0</HelpTitle>
     <ContentPlacement>AboveNamespaces</ContentPlacement>
+    <TocParentId>-1</TocParentId>
+    <TocParentVersion>100</TocParentVersion>
+    <TopicVersion>100</TopicVersion>
+    <TocOrder>-1</TocOrder>
+    <ProductTitle>CefSharp</ProductTitle>
+    <VendorName>CefSharp</VendorName>
+    <MSHelpViewerSdkLinkType>Msdn</MSHelpViewerSdkLinkType>
+    <CatalogVersion>100</CatalogVersion>
+    <CatalogProductId>VS</CatalogProductId>
+    <RootNamespaceTitle>
+    </RootNamespaceTitle>
+    <ApiFilter>
+      <Filter entryType="Namespace" fullName="CefSharp.Internals" isExposed="False" xmlns="" />
+    </ApiFilter>
+    <VisibleItems>InheritedMembers, InheritedFrameworkMembers, Protected, ProtectedInternalAsProtected</VisibleItems>
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in order for Visual Studio to perform
 			 the build.  The others are optional common platform types that may appear. -->
