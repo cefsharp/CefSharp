@@ -22,18 +22,6 @@ namespace CefSharp
         public const string LocalesPackFile = @"locales\en-US.pak";
         
         /// <summary>
-        /// IsWindowsXp - Special case for legacy XP support
-        /// </summary>
-        public static bool IsWindowsXp
-        {
-            get
-            {
-                var osVersion = Environment.OSVersion;
-                return osVersion.Platform == PlatformID.Win32NT && osVersion.Version.Major < 6;
-            }
-        }
-
-        /// <summary>
         /// List of Cef Dependencies
         /// </summary>
         public static string[] CefDependencies =
@@ -69,7 +57,7 @@ namespace CefSharp
             // Note: Without these components HTML5 accelerated content like 2D canvas, 3D CSS and WebGL will not function.
             "libEGL.dll",
             "libGLESv2.dll",
-            (IsWindowsXp ? "d3dcompiler_43.dll" : "d3dcompiler_47.dll")
+            "d3dcompiler_47.dll"
         };
 
         /// <summary>
