@@ -7,20 +7,33 @@ using System;
 using System.Windows.Forms;
 namespace CefSharp.WinForms.Internals
 {
+    /// <summary>
+    /// Default implementation of <see cref="CefSharp.IFocusHandler" />
+    /// for the WinForms implementation
+    /// </summary>
+    /// <seealso cref="CefSharp.IFocusHandler" />
     public class DefaultFocusHandler : IFocusHandler
     {
+        /// <summary>
+        /// The browser
+        /// </summary>
         private readonly ChromiumWebBrowser browser;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DefaultFocusHandler"/> class.
+        /// </summary>
+        /// <param name="browser">The browser.</param>
         public DefaultFocusHandler(ChromiumWebBrowser browser)
         {
             this.browser = browser;
         }
 
-        /// <remarks>
-        /// Try to avoid needing to override this logic in a subclass. The implementation in 
-        /// DefaultFocusHandler relies on very detailed behavior of how WinForms and 
-        /// Windows interact during window activation.
-        /// </remarks>
+        /// <summary>
+        /// Called when the browser component has received focus.
+        /// </summary>
+        /// <remarks>Try to avoid needing to override this logic in a subclass. The implementation in
+        /// DefaultFocusHandler relies on very detailed behavior of how WinForms and
+        /// Windows interact during window activation.</remarks>
         public virtual void OnGotFocus()
         {
             // During application activation, CEF receives a WM_SETFOCUS
@@ -73,12 +86,23 @@ namespace CefSharp.WinForms.Internals
             }
         }
 
+        /// <summary>
+        /// Called when the browser component is requesting focus.
+        /// </summary>
+        /// <param name="source">Indicates where the focus request is originating from.</param>
+        /// <returns>Return false to allow the focus to be set or true to cancel setting the focus.</returns>
         public virtual bool OnSetFocus(CefFocusSource source)
         {
             // Do not let the browser take focus when a Load method has been called
             return source == CefFocusSource.FocusSourceNavigation;
         }
 
+        /// <summary>
+        /// Called when the browser component is about to lose focus.
+        /// For instance, if focus was on the last HTML element and the user pressed the TAB key.
+        /// </summary>
+        /// <param name="next">Will be true if the browser is giving focus to the next component
+        /// and false if the browser is giving focus to the previous component.</param>
         public virtual void OnTakeFocus(bool next)
         {
             // NOTE: OnTakeFocus means leaving focus / not taking focus

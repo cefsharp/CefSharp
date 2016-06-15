@@ -6,6 +6,11 @@ using System;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// ChromiumWebBrowser implementations implement this interface. Can be cast to
+    /// the concrete implementation to access UI specific features.
+    /// </summary>
+    /// <seealso cref="System.IDisposable" />
     public interface IWebBrowser : IDisposable
     {
         /// <summary>
@@ -76,90 +81,104 @@ namespace CefSharp
         /// <param name="name">The name of the object. (e.g. "foo", if you want the object to be accessible as window.foo).</param>
         /// <param name="objectToBind">The object to be made accessible to Javascript.</param>
         /// <param name="camelCaseJavascriptNames">camel case the javascript names of methods, defaults to true</param>
-        /// <remarks>
-        /// The registered methods can only be called in an async way, they will all return immeditaly and the resulting
-        /// object will be a standard javascript Promise object which is usable to wait for completion or failure.
-        /// </remarks>
+        /// <remarks>The registered methods can only be called in an async way, they will all return immeditaly and the resulting
+        /// object will be a standard javascript Promise object which is usable to wait for completion or failure.</remarks>
         void RegisterAsyncJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true);
 
         /// <summary>
-        /// Implement <see cref="IDialogHandler"/> and assign to handle dialog events.
+        /// Implement <see cref="IDialogHandler" /> and assign to handle dialog events.
         /// </summary>
+        /// <value>The dialog handler.</value>
         IDialogHandler DialogHandler { get; set; }
-        
+
         /// <summary>
-        /// Implement <see cref="IRequestHandler"/> and assign to handle events related to browser requests.
+        /// Implement <see cref="IRequestHandler" /> and assign to handle events related to browser requests.
         /// </summary>
+        /// <value>The request handler.</value>
         IRequestHandler RequestHandler { get; set; }
 
         /// <summary>
-        /// Implement <see cref="IDisplayHandler"/> and assign to handle events related to browser display state.
+        /// Implement <see cref="IDisplayHandler" /> and assign to handle events related to browser display state.
         /// </summary>
+        /// <value>The display handler.</value>
         IDisplayHandler DisplayHandler { get; set; }
 
         /// <summary>
-        /// Implement <see cref="ILoadHandler"/> and assign to handle events related to browser load status.
+        /// Implement <see cref="ILoadHandler" /> and assign to handle events related to browser load status.
         /// </summary>
+        /// <value>The load handler.</value>
         ILoadHandler LoadHandler { get; set; }
 
         /// <summary>
-        /// Implement <see cref="ILifeSpanHandler"/> and assign to handle events related to popups.
+        /// Implement <see cref="ILifeSpanHandler" /> and assign to handle events related to popups.
         /// </summary>
+        /// <value>The life span handler.</value>
         ILifeSpanHandler LifeSpanHandler { get; set; }
 
         /// <summary>
-        /// Implement <see cref="IKeyboardHandler"/> and assign to handle events related to key press.
+        /// Implement <see cref="IKeyboardHandler" /> and assign to handle events related to key press.
         /// </summary>
+        /// <value>The keyboard handler.</value>
         IKeyboardHandler KeyboardHandler { get; set; }
 
         /// <summary>
-        /// Implement <see cref="IJsDialogHandler"/> and assign to handle events related to JavaScript Dialogs.
+        /// Implement <see cref="IJsDialogHandler" /> and assign to handle events related to JavaScript Dialogs.
         /// </summary>
+        /// <value>The js dialog handler.</value>
         IJsDialogHandler JsDialogHandler { get; set; }
 
         /// <summary>
-        /// Implement <see cref="IDragHandler"/> and assign to handle events related to dragging.
+        /// Implement <see cref="IDragHandler" /> and assign to handle events related to dragging.
         /// </summary>
+        /// <value>The drag handler.</value>
         IDragHandler DragHandler { get; set; }
 
         /// <summary>
-        /// Implement <see cref="IDownloadHandler"/> and assign to handle events related to downloading files.
+        /// Implement <see cref="IDownloadHandler" /> and assign to handle events related to downloading files.
         /// </summary>
+        /// <value>The download handler.</value>
         IDownloadHandler DownloadHandler { get; set; }
 
         /// <summary>
-        /// Implement <see cref="IContextMenuHandler"/> and assign to handle events related to the browser context menu
+        /// Implement <see cref="IContextMenuHandler" /> and assign to handle events related to the browser context menu
         /// </summary>
+        /// <value>The menu handler.</value>
         IContextMenuHandler MenuHandler { get; set; }
 
         /// <summary>
-        /// Implement <see cref="IFocusHandler"/> and assign to handle events related to the browser component's focus
+        /// Implement <see cref="IFocusHandler" /> and assign to handle events related to the browser component's focus
         /// </summary>
+        /// <value>The focus handler.</value>
         IFocusHandler FocusHandler { get; set; }
 
         /// <summary>
-        /// Implement <see cref="IResourceHandlerFactory"/> and control the loading of resources
+        /// Implement <see cref="IResourceHandlerFactory" /> and control the loading of resources
         /// </summary>
+        /// <value>The resource handler factory.</value>
         IResourceHandlerFactory ResourceHandlerFactory { get; set; }
 
         /// <summary>
-        /// Implement <see cref="IGeolocationHandler"/> and assign to handle requests for permission to use geolocation.
+        /// Implement <see cref="IGeolocationHandler" /> and assign to handle requests for permission to use geolocation.
         /// </summary>
+        /// <value>The geolocation handler.</value>
         IGeolocationHandler GeolocationHandler { get; set; }
 
         /// <summary>
-        /// Implement <see cref="IRenderProcessMessageHandler"/> and assign to handle messages from the render process. 
+        /// Implement <see cref="IRenderProcessMessageHandler" /> and assign to handle messages from the render process.
         /// </summary>
+        /// <value>The render process message handler.</value>
         IRenderProcessMessageHandler RenderProcessMessageHandler { get; set; }
 
         /// <summary>
-        /// Implement <see cref="IFindHandler"/> to handle events related to find results.
+        /// Implement <see cref="IFindHandler" /> to handle events related to find results.
         /// </summary>
+        /// <value>The find handler.</value>
         IFindHandler FindHandler { get; set; }
 
         /// <summary>
         /// A flag that indicates whether the WebBrowser is initialized (true) or not (false).
         /// </summary>
+        /// <value><c>true</c> if this instance is browser initialized; otherwise, <c>false</c>.</value>
         /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
         /// binding.</remarks>
         bool IsBrowserInitialized { get; }
@@ -167,6 +186,7 @@ namespace CefSharp
         /// <summary>
         /// A flag that indicates whether the control is currently loading one or more web pages (true) or not (false).
         /// </summary>
+        /// <value><c>true</c> if this instance is loading; otherwise, <c>false</c>.</value>
         /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
         /// binding.</remarks>
         bool IsLoading { get; }
@@ -174,6 +194,7 @@ namespace CefSharp
         /// <summary>
         /// A flag that indicates whether the state of the control current supports the GoBack action (true) or not (false).
         /// </summary>
+        /// <value><c>true</c> if this instance can go back; otherwise, <c>false</c>.</value>
         /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
         /// binding.</remarks>
         bool CanGoBack { get; }
@@ -181,6 +202,7 @@ namespace CefSharp
         /// <summary>
         /// A flag that indicates whether the state of the control currently supports the GoForward action (true) or not (false).
         /// </summary>
+        /// <value><c>true</c> if this instance can go forward; otherwise, <c>false</c>.</value>
         /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
         /// binding.</remarks>
         bool CanGoForward { get; }
@@ -189,6 +211,7 @@ namespace CefSharp
         /// The address (URL) which the browser control is currently displaying.
         /// Will automatically be updated as the user navigates to another page (e.g. by clicking on a link).
         /// </summary>
+        /// <value>The address.</value>
         /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
         /// binding.</remarks>
         string Address { get; }
@@ -196,6 +219,7 @@ namespace CefSharp
         /// <summary>
         /// The text that will be displayed as a ToolTip
         /// </summary>
+        /// <value>The tooltip text.</value>
         string TooltipText { get; }
 
         /// <summary>

@@ -13,18 +13,23 @@ namespace CefSharp.OffScreen
     /// An offscreen instance of Chromium that you can use to take
     /// snapshots or evaluate JavaScript.
     /// </summary>
+    /// <seealso cref="CefSharp.Internals.IRenderWebBrowser" />
     public class ChromiumWebBrowser : IRenderWebBrowser
     {
+        /// <summary>
+        /// The managed cef browser adapter
+        /// </summary>
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
 
         /// <summary>
         /// Contains the last rendering from Chromium. Direct access
         /// to the underlying Bitmap - there is no locking when trying
-        /// to access directly, use <see cref="BitmapLock"/> where appropriate.
+        /// to access directly, use <see cref="BitmapLock" /> where appropriate.
         /// A new bitmap is only created when it's size changes, otherwise
         /// the back buffer for the bitmap is constantly updated.
-        /// Read the <see cref="InvokeRenderAsync"/> doco for more info.
+        /// Read the <see cref="InvokeRenderAsync" /> doco for more info.
         /// </summary>
+        /// <value>The bitmap.</value>
         public Bitmap Bitmap { get; private set; }
 
         /// <summary>
@@ -40,6 +45,9 @@ namespace CefSharp.OffScreen
         /// </summary>
         private Size size = new Size(1366, 768);
 
+        /// <summary>
+        /// The browser
+        /// </summary>
         private IBrowser browser;
 
         /// <summary>
@@ -47,39 +55,190 @@ namespace CefSharp.OffScreen
         /// </summary>
         private bool browserCreated;
 
+        /// <summary>
+        /// A flag that indicates whether the WebBrowser is initialized (true) or not (false).
+        /// </summary>
+        /// <value><c>true</c> if this instance is browser initialized; otherwise, <c>false</c>.</value>
+        /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
+        /// binding.</remarks>
         public bool IsBrowserInitialized { get; private set; }
+        /// <summary>
+        /// A flag that indicates whether the control is currently loading one or more web pages (true) or not (false).
+        /// </summary>
+        /// <value><c>true</c> if this instance is loading; otherwise, <c>false</c>.</value>
+        /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
+        /// binding.</remarks>
         public bool IsLoading { get; set; }
+        /// <summary>
+        /// The text that will be displayed as a ToolTip
+        /// </summary>
+        /// <value>The tooltip text.</value>
         public string TooltipText { get; set; }
+        /// <summary>
+        /// The address (URL) which the browser control is currently displaying.
+        /// Will automatically be updated as the user navigates to another page (e.g. by clicking on a link).
+        /// </summary>
+        /// <value>The address.</value>
+        /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
+        /// binding.</remarks>
         public string Address { get; private set; }
+        /// <summary>
+        /// A flag that indicates whether the state of the control current supports the GoBack action (true) or not (false).
+        /// </summary>
+        /// <value><c>true</c> if this instance can go back; otherwise, <c>false</c>.</value>
+        /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
+        /// binding.</remarks>
         public bool CanGoBack { get; private set; }
+        /// <summary>
+        /// A flag that indicates whether the state of the control currently supports the GoForward action (true) or not (false).
+        /// </summary>
+        /// <value><c>true</c> if this instance can go forward; otherwise, <c>false</c>.</value>
+        /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
+        /// binding.</remarks>
         public bool CanGoForward { get; private set; }
+        /// <summary>
+        /// Gets the browser settings.
+        /// </summary>
+        /// <value>The browser settings.</value>
         public BrowserSettings BrowserSettings { get; private set; }
+        /// <summary>
+        /// Gets the request context.
+        /// </summary>
+        /// <value>The request context.</value>
         public RequestContext RequestContext { get; private set; }
+        /// <summary>
+        /// Implement <see cref="IJsDialogHandler" /> and assign to handle events related to JavaScript Dialogs.
+        /// </summary>
+        /// <value>The js dialog handler.</value>
         public IJsDialogHandler JsDialogHandler { get; set; }
+        /// <summary>
+        /// Implement <see cref="IDialogHandler" /> and assign to handle dialog events.
+        /// </summary>
+        /// <value>The dialog handler.</value>
         public IDialogHandler DialogHandler { get; set; }
+        /// <summary>
+        /// Implement <see cref="IDownloadHandler" /> and assign to handle events related to downloading files.
+        /// </summary>
+        /// <value>The download handler.</value>
         public IDownloadHandler DownloadHandler { get; set; }
+        /// <summary>
+        /// Implement <see cref="IKeyboardHandler" /> and assign to handle events related to key press.
+        /// </summary>
+        /// <value>The keyboard handler.</value>
         public IKeyboardHandler KeyboardHandler { get; set; }
+        /// <summary>
+        /// Implement <see cref="ILoadHandler" /> and assign to handle events related to browser load status.
+        /// </summary>
+        /// <value>The load handler.</value>
         public ILoadHandler LoadHandler { get; set; }
+        /// <summary>
+        /// Implement <see cref="ILifeSpanHandler" /> and assign to handle events related to popups.
+        /// </summary>
+        /// <value>The life span handler.</value>
         public ILifeSpanHandler LifeSpanHandler { get; set; }
+        /// <summary>
+        /// Implement <see cref="IDisplayHandler" /> and assign to handle events related to browser display state.
+        /// </summary>
+        /// <value>The display handler.</value>
         public IDisplayHandler DisplayHandler { get; set; }
+        /// <summary>
+        /// Implement <see cref="IContextMenuHandler" /> and assign to handle events related to the browser context menu
+        /// </summary>
+        /// <value>The menu handler.</value>
         public IContextMenuHandler MenuHandler { get; set; }
+        /// <summary>
+        /// Implement <see cref="IFocusHandler" /> and assign to handle events related to the browser component's focus
+        /// </summary>
+        /// <value>The focus handler.</value>
         public IFocusHandler FocusHandler { get; set; }
+        /// <summary>
+        /// Implement <see cref="IRequestHandler" /> and assign to handle events related to browser requests.
+        /// </summary>
+        /// <value>The request handler.</value>
         public IRequestHandler RequestHandler { get; set; }
+        /// <summary>
+        /// Implement <see cref="IDragHandler" /> and assign to handle events related to dragging.
+        /// </summary>
+        /// <value>The drag handler.</value>
         public IDragHandler DragHandler { get; set; }
+        /// <summary>
+        /// Implement <see cref="IResourceHandlerFactory" /> and control the loading of resources
+        /// </summary>
+        /// <value>The resource handler factory.</value>
         public IResourceHandlerFactory ResourceHandlerFactory { get; set; }
+        /// <summary>
+        /// Implement <see cref="IGeolocationHandler" /> and assign to handle requests for permission to use geolocation.
+        /// </summary>
+        /// <value>The geolocation handler.</value>
         public IGeolocationHandler GeolocationHandler { get; set; }
+        /// <summary>
+        /// Gets or sets the bitmap factory.
+        /// </summary>
+        /// <value>The bitmap factory.</value>
         public IBitmapFactory BitmapFactory { get; set; }
+        /// <summary>
+        /// Implement <see cref="IRenderProcessMessageHandler" /> and assign to handle messages from the render process.
+        /// </summary>
+        /// <value>The render process message handler.</value>
         public IRenderProcessMessageHandler RenderProcessMessageHandler { get; set; }
+        /// <summary>
+        /// Implement <see cref="IFindHandler" /> to handle events related to find results.
+        /// </summary>
+        /// <value>The find handler.</value>
         public IFindHandler FindHandler { get; set; }
 
+        /// <summary>
+        /// Event handler that will get called when the resource load for a navigation fails or is canceled.
+        /// This event will be called on the CEF UI thread.
+        /// Blocking this thread will likely cause your UI to become unresponsive and/or hang.
+        /// </summary>
         public event EventHandler<LoadErrorEventArgs> LoadError;
+        /// <summary>
+        /// Event handler that will get called when the browser begins loading a frame. Multiple frames may be loading at the same
+        /// time. Sub-frames may start or continue loading after the main frame load has ended. This method may not be called for a
+        /// particular frame if the load request for that frame fails. For notification of overall browser load status use
+        /// OnLoadingStateChange instead. This event will be called on the CEF UI thread.
+        /// Blocking this thread will likely cause your UI to become unresponsive and/or hang.
+        /// </summary>
+        /// <remarks>Whilst thist may seem like a logical place to execute js, it's called before the DOM has been loaded, implement
+        /// <see cref="IRenderProcessMessageHandler.OnContextCreated" /> as it's called when the underlying V8Context is created
+        /// (Only called for the main frame at this stage)</remarks>
         public event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
+        /// <summary>
+        /// Event handler that will get called when the browser is done loading a frame. Multiple frames may be loading at the same
+        /// time. Sub-frames may start or continue loading after the main frame load has ended. This method will always be called
+        /// for all frames irrespective of whether the request completes successfully.
+        /// This event will be called on the CEF UI thread.
+        /// Blocking this thread will likely cause your UI to become unresponsive and/or hang.
+        /// </summary>
         public event EventHandler<FrameLoadEndEventArgs> FrameLoadEnd;
+        /// <summary>
+        /// Event handler for receiving Javascript console messages being sent from web pages.
+        /// </summary>
         public event EventHandler<ConsoleMessageEventArgs> ConsoleMessage;
+        /// <summary>
+        /// Occurs when [browser initialized].
+        /// </summary>
         public event EventHandler BrowserInitialized;
+        /// <summary>
+        /// Event handler for changes to the status message.
+        /// </summary>
         public event EventHandler<StatusMessageEventArgs> StatusMessage;
+        /// <summary>
+        /// Event handler that will get called when the Loading state has changed.
+        /// This event will be fired twice. Once when loading is initiated either programmatically or
+        /// by user action, and once when loading is terminated due to completion, cancellation of failure.
+        /// This event will be called on the CEF UI thread.
+        /// Blocking this thread will likely cause your UI to become unresponsive and/or hang.
+        /// </summary>
         public event EventHandler<LoadingStateChangedEventArgs> LoadingStateChanged;
+        /// <summary>
+        /// Occurs when [address changed].
+        /// </summary>
         public event EventHandler<AddressChangedEventArgs> AddressChanged;
+        /// <summary>
+        /// Occurs when [title changed].
+        /// </summary>
         public event EventHandler<TitleChangedEventArgs> TitleChanged;
 
         /// <summary>
@@ -93,10 +252,11 @@ namespace CefSharp.OffScreen
         /// </summary>
         /// <param name="address">Initial address (url) to load</param>
         /// <param name="browserSettings">The browser settings to use. If null, the default settings are used.</param>
-        /// <param name="requestcontext">See <see cref="RequestContext"/> for more details. Defaults to null</param>
+        /// <param name="requestContext">See <see cref="RequestContext" /> for more details. Defaults to null</param>
         /// <param name="automaticallyCreateBrowser">automatically create the underlying Browser</param>
+        /// <exception cref="System.InvalidOperationException">Cef::Initialize() failed</exception>
         public ChromiumWebBrowser(string address = "", BrowserSettings browserSettings = null,
-            RequestContext requestcontext = null, bool automaticallyCreateBrowser = true)
+            RequestContext requestContext = null, bool automaticallyCreateBrowser = true)
         {
             if (!Cef.IsInitialized && !Cef.Initialize())
             {
@@ -107,7 +267,7 @@ namespace CefSharp.OffScreen
 
             ResourceHandlerFactory = new DefaultResourceHandlerFactory();
             BrowserSettings = browserSettings ?? new BrowserSettings();
-            RequestContext = requestcontext;
+            RequestContext = requestContext;
 
             Cef.AddDisposable(this);
             Address = address;
@@ -121,17 +281,27 @@ namespace CefSharp.OffScreen
             
         }
 
+        /// <summary>
+        /// Finalizes an instance of the <see cref="ChromiumWebBrowser"/> class.
+        /// </summary>
         ~ChromiumWebBrowser()
         {
             Dispose(false);
         }
 
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
             // Don't reference handlers any longer:
@@ -181,6 +351,7 @@ namespace CefSharp.OffScreen
         /// Create the underlying browser. The instance address, browser settings and request context will be used.
         /// </summary>
         /// <param name="windowHandle">Window handle if any, IntPtr.Zero is the default</param>
+        /// <exception cref="System.Exception">An instance of the underlying offscreen browser has already been created, this method can only be called once.</exception>
         
         public void CreateBrowser(IntPtr windowHandle)
         {
@@ -196,9 +367,9 @@ namespace CefSharp.OffScreen
 
         /// <summary>
         /// Get/set the size of the Chromium viewport, in pixels.
-        /// 
         /// This also changes the size of the next screenshot.
         /// </summary>
+        /// <value>The size.</value>
         public Size Size
         {
             get { return size; }
@@ -219,15 +390,13 @@ namespace CefSharp.OffScreen
         /// <summary>
         /// Immediately returns a copy of the last rendering from Chrome,
         /// or null if no rendering has occurred yet.
-        /// 
         /// Chrome also renders the page loading, so if you want to see a complete rendering,
         /// only start this task once your page is loaded (which you can detect via FrameLoadEnd
         /// or your own heuristics based on evaluating JavaScript).
-        ///
         /// It is your responsibility to dispose the returned Bitmap.
-        /// 
         /// The bitmap size is determined by the Size property set earlier.
         /// </summary>
+        /// <returns>Bitmap.</returns>
         public Bitmap ScreenshotOrNull()
         {
             lock (BitmapLock)
@@ -238,16 +407,14 @@ namespace CefSharp.OffScreen
 
         /// <summary>
         /// Starts a task that waits for the next rendering from Chrome.
-        /// 
         /// Chrome also renders the page loading, so if you want to see a complete rendering,
         /// only start this task once your page is loaded (which you can detect via FrameLoadEnd
         /// or your own heuristics based on evaluating JavaScript).
-        /// 
         /// It is your responsibility to dispose the returned Bitmap.
-        /// 
         /// The bitmap size is determined by the Size property set earlier.
         /// </summary>
         /// <param name="ignoreExistingScreenshot">Ignore existing bitmap (if any) and return the next avaliable bitmap</param>
+        /// <returns>Task&lt;Bitmap&gt;.</returns>
         public Task<Bitmap> ScreenshotAsync(bool ignoreExistingScreenshot = false)
         {
             // Try our luck and see if there is already a screenshot, to save us creating a new thread for nothing.
@@ -277,6 +444,10 @@ namespace CefSharp.OffScreen
             return completionSource.Task;
         }
 
+        /// <summary>
+        /// Loads the specified URL.
+        /// </summary>
+        /// <param name="url">The URL to be loaded.</param>
         public void Load(string url)
         {
             Address = url;
@@ -288,6 +459,14 @@ namespace CefSharp.OffScreen
             }
         }
 
+        /// <summary>
+        /// Registers a Javascript object in this specific browser instance.
+        /// </summary>
+        /// <param name="name">The name of the object. (e.g. "foo", if you want the object to be accessible as window.foo).</param>
+        /// <param name="objectToBind">The object to be made accessible to Javascript.</param>
+        /// <param name="camelCaseJavascriptNames">camel case the javascript names of properties/methods, defaults to true</param>
+        /// <exception cref="System.Exception">Browser is already initialized. RegisterJsObject must be +
+        ///                                     called before the underlying CEF browser is created.</exception>
         public void RegisterJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true)
         {
             if (IsBrowserInitialized)
@@ -302,6 +481,17 @@ namespace CefSharp.OffScreen
             managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, camelCaseJavascriptNames);
         }
 
+        /// <summary>
+        /// <para>Asynchronously registers a Javascript object in this specific browser instance.</para>
+        /// <para>Only methods of the object will be availabe.</para>
+        /// </summary>
+        /// <param name="name">The name of the object. (e.g. "foo", if you want the object to be accessible as window.foo).</param>
+        /// <param name="objectToBind">The object to be made accessible to Javascript.</param>
+        /// <param name="camelCaseJavascriptNames">camel case the javascript names of methods, defaults to true</param>
+        /// <exception cref="System.Exception">Browser is already initialized. RegisterJsObject must be +
+        ///                                     called before the underlying CEF browser is created.</exception>
+        /// <remarks>The registered methods can only be called in an async way, they will all return immeditaly and the resulting
+        /// object will be a standard javascript Promise object which is usable to wait for completion or failure.</remarks>
         public void RegisterAsyncJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true)
         {
             if (IsBrowserInitialized)
@@ -322,6 +512,10 @@ namespace CefSharp.OffScreen
             return false;
         }
 
+        /// <summary>
+        /// Returns the current CEF Browser Instance
+        /// </summary>
+        /// <returns>browser instance or null</returns>
         public IBrowser GetBrowser()
         {
             this.ThrowExceptionIfBrowserNotInitialized();
@@ -329,6 +523,10 @@ namespace CefSharp.OffScreen
             return browser;
         }
 
+        /// <summary>
+        /// Gets the screen information.
+        /// </summary>
+        /// <returns>ScreenInfo.</returns>
         ScreenInfo IRenderWebBrowser.GetScreenInfo()
         {
             //TODO: Expose NotifyScreenInfoChanged and allow user to specify their own scale factor
@@ -340,6 +538,10 @@ namespace CefSharp.OffScreen
             return screenInfo;
         }
 
+        /// <summary>
+        /// Gets the view rect.
+        /// </summary>
+        /// <returns>ViewRect.</returns>
         ViewRect IRenderWebBrowser.GetViewRect()
         {
             var viewRect = new ViewRect
@@ -351,6 +553,12 @@ namespace CefSharp.OffScreen
             return viewRect;
         }
 
+        /// <summary>
+        /// Creates the bitmap information.
+        /// </summary>
+        /// <param name="isPopup">if set to <c>true</c> [is popup].</param>
+        /// <returns>BitmapInfo.</returns>
+        /// <exception cref="System.Exception">BitmapFactory cannot be null</exception>
         BitmapInfo IRenderWebBrowser.CreateBitmapInfo(bool isPopup)
         {
             if (BitmapFactory == null)
@@ -362,9 +570,9 @@ namespace CefSharp.OffScreen
 
         /// <summary>
         /// Invoked from CefRenderHandler.OnPaint
-        /// A new <see cref="Bitmap"/> is only created when <see cref="BitmapInfo.CreateNewBitmap"/>
+        /// A new <see cref="Bitmap" /> is only created when <see cref="BitmapInfo.CreateNewBitmap" />
         /// is true, otherwise the new buffer is simply copied into the backBuffer of the existing
-        /// <see cref="Bitmap"/> for efficency. Locking provided by OnPaint as this method is called
+        /// <see cref="Bitmap" /> for efficiency. Locking provided by OnPaint as this method is called
         /// in it's lock scope.
         /// </summary>
         /// <param name="bitmapInfo">information about the bitmap to be rendered</param>
@@ -375,9 +583,9 @@ namespace CefSharp.OffScreen
 
         /// <summary>
         /// Invoked from CefRenderHandler.OnPaint
-        /// A new <see cref="Bitmap"/> is only created when <see cref="BitmapInfo.CreateNewBitmap"/>
+        /// A new <see cref="Bitmap" /> is only created when <see cref="BitmapInfo.CreateNewBitmap" />
         /// is true, otherwise the new buffer is simply copied into the backBuffer of the existing
-        /// <see cref="Bitmap"/> for efficency. Locking provided by OnPaint as this method is called
+        /// <see cref="Bitmap" /> for efficiency. Locking provided by OnPaint as this method is called
         /// in it's lock scope.
         /// </summary>
         /// <param name="bitmapInfo">information about the bitmap to be rendered</param>
@@ -402,23 +610,51 @@ namespace CefSharp.OffScreen
             }
         }
 
+        /// <summary>
+        /// Sets the cursor.
+        /// </summary>
+        /// <param name="handle">The handle.</param>
+        /// <param name="type">The type.</param>
         void IRenderWebBrowser.SetCursor(IntPtr handle, CefCursorType type)
         {
         }
 
+        /// <summary>
+        /// Starts the dragging.
+        /// </summary>
+        /// <param name="dragData">The drag data.</param>
+        /// <param name="mask">The mask.</param>
+        /// <param name="x">The x.</param>
+        /// <param name="y">The y.</param>
+        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         bool IRenderWebBrowser.StartDragging(IDragData dragData, DragOperationsMask mask, int x, int y)
         {
             return false;
         }
 
+        /// <summary>
+        /// Sets the popup is open.
+        /// </summary>
+        /// <param name="show">if set to <c>true</c> [show].</param>
         void IRenderWebBrowser.SetPopupIsOpen(bool show)
         {
         }
 
+        /// <summary>
+        /// Sets the popup size and position.
+        /// </summary>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
+        /// <param name="x">The x.</param>
+        /// <param name="y">The y.</param>
         void IRenderWebBrowser.SetPopupSizeAndPosition(int width, int height, int x, int y)
         {
         }
 
+        /// <summary>
+        /// Handles the <see cref="E:ConsoleMessage" /> event.
+        /// </summary>
+        /// <param name="args">The <see cref="ConsoleMessageEventArgs"/> instance containing the event data.</param>
         void IWebBrowserInternal.OnConsoleMessage(ConsoleMessageEventArgs args)
         {
             var handler = ConsoleMessage;
@@ -428,6 +664,10 @@ namespace CefSharp.OffScreen
             }
         }
 
+        /// <summary>
+        /// Handles the <see cref="E:FrameLoadStart" /> event.
+        /// </summary>
+        /// <param name="args">The <see cref="FrameLoadStartEventArgs"/> instance containing the event data.</param>
         void IWebBrowserInternal.OnFrameLoadStart(FrameLoadStartEventArgs args)
         {
             var handler = FrameLoadStart;
@@ -437,6 +677,10 @@ namespace CefSharp.OffScreen
             }
         }
 
+        /// <summary>
+        /// Handles the <see cref="E:FrameLoadEnd" /> event.
+        /// </summary>
+        /// <param name="args">The <see cref="FrameLoadEndEventArgs"/> instance containing the event data.</param>
         void IWebBrowserInternal.OnFrameLoadEnd(FrameLoadEndEventArgs args)
         {
             var handler = FrameLoadEnd;
@@ -446,6 +690,10 @@ namespace CefSharp.OffScreen
             }
         }
 
+        /// <summary>
+        /// Called when [after browser created].
+        /// </summary>
+        /// <param name="browser">The browser.</param>
         void IWebBrowserInternal.OnAfterBrowserCreated(IBrowser browser)
         {
             this.browser = browser;
@@ -459,6 +707,10 @@ namespace CefSharp.OffScreen
             }
         }
 
+        /// <summary>
+        /// Handles the <see cref="E:LoadError" /> event.
+        /// </summary>
+        /// <param name="args">The <see cref="LoadErrorEventArgs"/> instance containing the event data.</param>
         void IWebBrowserInternal.OnLoadError(LoadErrorEventArgs args)
         {
             var handler = LoadError;
@@ -468,13 +720,25 @@ namespace CefSharp.OffScreen
             }
         }
 
+        /// <summary>
+        /// Gets the browser adapter.
+        /// </summary>
+        /// <value>The browser adapter.</value>
         IBrowserAdapter IWebBrowserInternal.BrowserAdapter
         {
             get { return managedCefBrowserAdapter;}
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance has parent.
+        /// </summary>
+        /// <value><c>true</c> if this instance has parent; otherwise, <c>false</c>.</value>
         bool IWebBrowserInternal.HasParent { get; set; }
 
+        /// <summary>
+        /// Handles the <see cref="E:StatusMessage" /> event.
+        /// </summary>
+        /// <param name="args">The <see cref="StatusMessageEventArgs"/> instance containing the event data.</param>
         void IWebBrowserInternal.OnStatusMessage(StatusMessageEventArgs args)
         {
             var handler = StatusMessage;
@@ -484,6 +748,10 @@ namespace CefSharp.OffScreen
             }
         }
 
+        /// <summary>
+        /// Sets the address.
+        /// </summary>
+        /// <param name="args">The <see cref="AddressChangedEventArgs"/> instance containing the event data.</param>
         void IWebBrowserInternal.SetAddress(AddressChangedEventArgs args)
         {
             Address = args.Address;
@@ -495,6 +763,10 @@ namespace CefSharp.OffScreen
             }
         }
 
+        /// <summary>
+        /// Sets the loading state change.
+        /// </summary>
+        /// <param name="args">The <see cref="LoadingStateChangedEventArgs"/> instance containing the event data.</param>
         void IWebBrowserInternal.SetLoadingStateChange(LoadingStateChangedEventArgs args)
         {
             CanGoBack = args.CanGoBack;
@@ -508,6 +780,10 @@ namespace CefSharp.OffScreen
             }
         }
 
+        /// <summary>
+        /// Sets the title.
+        /// </summary>
+        /// <param name="args">The <see cref="TitleChangedEventArgs"/> instance containing the event data.</param>
         void IWebBrowserInternal.SetTitle(TitleChangedEventArgs args)
         {
             var handler = TitleChanged;
@@ -517,6 +793,10 @@ namespace CefSharp.OffScreen
             }
         }
 
+        /// <summary>
+        /// Sets the tooltip text.
+        /// </summary>
+        /// <param name="tooltipText">The tooltip text.</param>
         void IWebBrowserInternal.SetTooltipText(string tooltipText)
         {
             TooltipText = tooltipText;
