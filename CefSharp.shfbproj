@@ -40,7 +40,7 @@
     <PresentationStyle>VS2013</PresentationStyle>
     <Preliminary>False</Preliminary>
     <NamingMethod>MemberName</NamingMethod>
-    <HelpTitle>CefSharp API Doc 51.0.0</HelpTitle>
+    <HelpTitle>CefSharp API Doc</HelpTitle>
     <ContentPlacement>AboveNamespaces</ContentPlacement>
     <TocParentId>-1</TocParentId>
     <TocParentVersion>100</TocParentVersion>
@@ -57,6 +57,8 @@
       <Filter entryType="Namespace" fullName="CefSharp.Internals" isExposed="False" xmlns="" />
     </ApiFilter>
     <VisibleItems>InheritedMembers, InheritedFrameworkMembers, Protected, ProtectedInternalAsProtected</VisibleItems>
+    <HeaderText>Version 51.0.0</HeaderText>
+    <CopyrightHref>https://raw.githubusercontent.com/cefsharp/CefSharp/master/LICENSE</CopyrightHref>
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in order for Visual Studio to perform
 			 the build.  The others are optional common platform types that may appear. -->
