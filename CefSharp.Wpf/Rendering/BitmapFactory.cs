@@ -6,10 +6,23 @@ using CefSharp.Internals;
 
 namespace CefSharp.Wpf.Rendering
 {
+    /// <summary>
+    /// BitmapFactory.
+    /// </summary>
+    /// <seealso cref="CefSharp.IBitmapFactory" />
     public class BitmapFactory : IBitmapFactory
     {
+        /// <summary>
+        /// The default dpi
+        /// </summary>
         public const int DefaultDpi = 96;
 
+        /// <summary>
+        /// Create an instance of BitmapInfo based on the params
+        /// </summary>
+        /// <param name="isPopup">create bitmap info for a popup (typically just a bool flag used internally)</param>
+        /// <param name="dpiScale">DPI scale</param>
+        /// <returns>newly created BitmapInfo</returns>
         public BitmapInfo CreateBitmap(bool isPopup, double dpiScale)
         {
             if (dpiScale > 1.0)

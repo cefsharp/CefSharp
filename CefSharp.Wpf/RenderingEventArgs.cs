@@ -10,8 +10,13 @@ namespace CefSharp.Wpf
     /// <summary>
     /// Event arguments to the Rendering event handler set up in IWebBrowser.
     /// </summary>
+    /// <seealso cref="System.EventArgs" />
     public class RenderingEventArgs : EventArgs
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RenderingEventArgs"/> class.
+        /// </summary>
+        /// <param name="bitmapInfo">The bitmap information.</param>
         public RenderingEventArgs(WpfBitmapInfo bitmapInfo)
         {
             BitmapInfo = bitmapInfo;
@@ -20,6 +25,7 @@ namespace CefSharp.Wpf
         /// <summary>
         /// The bitmap info being rendered.
         /// </summary>
+        /// <value>The bitmap information.</value>
         public WpfBitmapInfo BitmapInfo { get; private set; }
     }
 }

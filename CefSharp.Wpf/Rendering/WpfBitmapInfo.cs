@@ -7,9 +7,20 @@ using CefSharp.Internals;
 
 namespace CefSharp.Wpf.Rendering
 {
+    /// <summary>
+    /// WpfBitmapInfo.
+    /// </summary>
+    /// <seealso cref="CefSharp.Internals.BitmapInfo" />
     public abstract class WpfBitmapInfo : BitmapInfo
     {
+        /// <summary>
+        /// Invalidates this instance.
+        /// </summary>
         public abstract void Invalidate();
+        /// <summary>
+        /// Creates the bitmap.
+        /// </summary>
+        /// <returns>BitmapSource.</returns>
         public abstract BitmapSource CreateBitmap();
     }
 }

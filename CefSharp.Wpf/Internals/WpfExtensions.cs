@@ -11,8 +11,17 @@ using System.Windows.Input;
 
 namespace CefSharp.Wpf.Internals
 {
+    /// <summary>
+    /// Internal WpfExtension methods - unlikely you'd need to use these,
+    /// they're left public on the off chance you do.
+    /// </summary>
     public static class WpfExtensions
     {
+        /// <summary>
+        /// Gets the modifiers.
+        /// </summary>
+        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
+        /// <returns>CefEventFlags.</returns>
         public static CefEventFlags GetModifiers(this MouseEventArgs e)
         {
             CefEventFlags modifiers = 0;
@@ -63,6 +72,11 @@ namespace CefSharp.Wpf.Internals
             return modifiers;
         }
 
+        /// <summary>
+        /// Gets the modifiers.
+        /// </summary>
+        /// <param name="e">The <see cref="KeyEventArgs"/> instance containing the event data.</param>
+        /// <returns>CefEventFlags.</returns>
         public static CefEventFlags GetModifiers(this KeyEventArgs e)
         {
             CefEventFlags modifiers = 0;
@@ -85,6 +99,11 @@ namespace CefSharp.Wpf.Internals
             return modifiers;
         }
 
+        /// <summary>
+        /// Gets the drag data wrapper.
+        /// </summary>
+        /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
+        /// <returns>CefDragDataWrapper.</returns>
         public static CefDragDataWrapper GetDragDataWrapper(this DragEventArgs e)
         {
             // Convert Drag Data
@@ -127,6 +146,11 @@ namespace CefSharp.Wpf.Internals
             return dragData;
         }
 
+        /// <summary>
+        /// Gets the link.
+        /// </summary>
+        /// <param name="data">The data.</param>
+        /// <returns>System.String.</returns>
         private static string GetLink(IDataObject data)
         {
             const string asciiUrlDataFormatName = "UniformResourceLocator";
@@ -154,11 +178,13 @@ namespace CefSharp.Wpf.Internals
             return null;
         }
 
-        /// <summary>Reads a URL using a particular text encoding from drag-and-drop data.</summary>
+        /// <summary>
+        /// Reads a URL using a particular text encoding from drag-and-drop data.
+        /// </summary>
         /// <param name="data">The drag-and-drop data.</param>
         /// <param name="urlDataFormatName">The data format name of the URL type.</param>
         /// <param name="urlEncoding">The text encoding of the URL type.</param>
-        /// <returns>A URL, or <see langword="null"/> if <paramref name="data"/> does not contain a URL
+        /// <returns>A URL, or <see langword="null" /> if <paramref name="data" /> does not contain a URL
         /// of the correct type.</returns>
         private static string ReadUrlFromDragDropData(IDataObject data, string urlDataFormatName, Encoding urlEncoding)
         {

@@ -10,6 +10,12 @@ using CefSharp.Internals;
 
 namespace CefSharp.WinForms.Internals
 {
+    /// <summary>
+    /// ParentFormMessageInterceptor - hooks into the parent forms
+    /// message loop to incercept messages like WM_MOVE
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.NativeWindow" />
+    /// <seealso cref="System.IDisposable" />
     internal class ParentFormMessageInterceptor : NativeWindow, IDisposable
     {
         /// <summary>
@@ -22,10 +28,22 @@ namespace CefSharp.WinForms.Internals
         /// </summary>
         private Rectangle movingRectangle;
 
+        /// <summary>
+        /// Gets or sets the browser.
+        /// </summary>
+        /// <value>The browser.</value>
         private ChromiumWebBrowser Browser { get; set; }
 
+        /// <summary>
+        /// Gets or sets the parent form.
+        /// </summary>
+        /// <value>The parent form.</value>
         private Form ParentForm { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ParentFormMessageInterceptor"/> class.
+        /// </summary>
+        /// <param name="browser">The browser.</param>
         public ParentFormMessageInterceptor(ChromiumWebBrowser browser)
         {
             Browser = browser;
@@ -36,7 +54,7 @@ namespace CefSharp.WinForms.Internals
         }
 
         /// <summary>
-        /// Call to force refinding of the parent Form. 
+        /// Call to force refinding of the parent Form.
         /// (i.e. top level window that owns the ChromiumWebBrowserControl)
         /// </summary>
         public void RefindParentForm()
@@ -48,7 +66,7 @@ namespace CefSharp.WinForms.Internals
         /// Adjust the form to listen to if the ChromiumWebBrowserControl's parent changes.
         /// </summary>
         /// <param name="sender">The ChromiumWebBrowser whose parent has changed.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
         private void ParentParentChanged(object sender, EventArgs e)
         {
             var control = (Control)sender;
@@ -81,16 +99,30 @@ namespace CefSharp.WinForms.Internals
             }
         }
 
+        /// <summary>
+        /// Handles the <see cref="E:HandleCreated" /> event.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void OnHandleCreated(object sender, EventArgs e)
         {
             AssignHandle(((Form)sender).Handle);
         }
 
+        /// <summary>
+        /// Handles the <see cref="E:HandleDestroyed" /> event.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void OnHandleDestroyed(object sender, EventArgs e)
         {
             ReleaseHandle();
         }
 
+        /// <summary>
+        /// Invokes the default window procedure associated with this window.
+        /// </summary>
+        /// <param name="m">A <see cref="T:System.Windows.Forms.Message" /> that is associated with the current Windows message.</param>
         protected override void WndProc(ref Message m)
         {
             var isMovingMessage = false;
@@ -199,6 +231,9 @@ namespace CefSharp.WinForms.Internals
             DefWndProc(ref m);
         }
 
+        /// <summary>
+        /// Called when [moving].
+        /// </summary>
         protected virtual void OnMoving()
         {
             isMoving = true;
@@ -211,11 +246,18 @@ namespace CefSharp.WinForms.Internals
             isMoving = false;
         }
 
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);
         }
 
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
@@ -246,6 +288,10 @@ namespace CefSharp.WinForms.Internals
             }
         }
 
+        /// <summary>
+        /// When overridden in a derived class, manages an unhandled thread exception.
+        /// </summary>
+        /// <param name="e">An <see cref="T:System.Exception" /> that specifies the unhandled thread exception.</param>
         protected override void OnThreadException(Exception e)
         {
             // TODO: Do something more interesting here, logging, whatever, something.

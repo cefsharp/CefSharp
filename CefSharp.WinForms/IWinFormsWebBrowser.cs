@@ -6,11 +6,21 @@ using System;
 
 namespace CefSharp.WinForms
 {
-    // Should rightfully live in the CefSharp.WinForms project, but the problem is that it's being used from CefSharp.Core
-    // so the dependency would go the wrong way... Has to be here for the time being.
+    /// <summary>
+    /// WinForms specific implementation, has events the
+    /// <see cref="ChromiumWebBrowser" /> implementation exposes.
+    /// </summary>
+    /// </summary>
+    /// <seealso cref="CefSharp.IWebBrowser" />
     public interface IWinFormsWebBrowser : IWebBrowser
     {
+        /// <summary>
+        /// Occurs when the browser title changed.
+        /// </summary>
         event EventHandler<TitleChangedEventArgs> TitleChanged;
+        /// <summary>
+        /// Occurs when the browser address changed.
+        /// </summary>
         event EventHandler<AddressChangedEventArgs> AddressChanged;
     }
 }
