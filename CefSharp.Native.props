@@ -7,4 +7,22 @@
         </ItemGroup>
         <Copy SourceFiles="@(SubProcessFiles)" DestinationFolder="$(TargetDir)" />
     </Target>
+  
+  <Target Name="CefSharpCopyLibs86" BeforeTargets="AfterBuild" Condition="'$(Platform)' == 'x86'">
+    <Message Importance="high" Text="Copying cef.redist x86 binaries" />
+    <Copy SourceFiles="@(CefBinaries32)" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+    <Message Importance="high" Text="Copying cef.redist x86 pak files" />
+    <Copy SourceFiles="@(CefPakFiles32)" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+    <Message Importance="high" Text="Copying cef.redist x86 locales " />
+    <Copy SourceFiles="@(CefLocales32)" DestinationFolder="$(TargetDir)\locales" SkipUnchangedFiles="true" />
+  </Target>
+  
+  <Target Name="CefSharpCopyLibs64" BeforeTargets="AfterBuild" Condition="'$(Platform)' == 'x64'">
+    <Message Importance="high" Text="Copying cef.redist x64 binaries" />
+    <Copy SourceFiles="@(CefBinaries64)" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+    <Message Importance="high" Text="Copying cef.redist x64 pak files" />
+    <Copy SourceFiles="@(CefPakFiles64)" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+    <Message Importance="high" Text="Copying cef.redist x64 locales " />
+    <Copy SourceFiles="@(CefLocales64)" DestinationFolder="$(TargetDir)\locales" SkipUnchangedFiles="true" />
+  </Target>  
 </Project>

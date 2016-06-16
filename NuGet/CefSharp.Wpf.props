@@ -3,9 +3,15 @@
   <ItemGroup>
     <Reference Include="CefSharp.Wpf" Condition="'$(Platform)' == 'x86'">
       <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Wpf.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="CefSharp.Wpf" Condition="'$(Platform)' == 'x64'">
       <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x64\CefSharp.Wpf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CefSharp.Wpf" Condition="'$(Platform)' == 'AnyCPU'">
+      <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Wpf.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
 </Project>

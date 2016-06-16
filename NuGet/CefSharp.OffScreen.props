@@ -3,9 +3,15 @@
   <ItemGroup>
     <Reference Include="CefSharp.OffScreen" Condition="'$(Platform)' == 'x86'">
       <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.OffScreen.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="CefSharp.OffScreen" Condition="'$(Platform)' == 'x64'">
       <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x64\CefSharp.OffScreen.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CefSharp.OffScreen" Condition="'$(Platform)' == 'AnyCPU'">
+      <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.OffScreen.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
 </Project>
