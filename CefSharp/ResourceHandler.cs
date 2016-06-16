@@ -222,13 +222,27 @@ namespace CefSharp
         /// <summary>
         /// Gets the resource from the file.
         /// </summary>
-        /// <param name="fileName">Location of the file.</param>
+        /// <param name="filePath">Location of the file.</param>
         /// <param name="fileExtension">The file extension.</param>
         /// <returns>ResourceHandler.</returns>
-        public static ResourceHandler FromFileName(string fileName, string fileExtension = null)
+        [Obsolete("Use FromFilePath instead - to get the mimeType use the GetMimeType helper method")]
+        public static ResourceHandler FromFileName(string filePath, string fileExtension = null)
         {
             var mimeType = string.IsNullOrEmpty(fileExtension) ? DefaultMimeType : GetMimeType(fileExtension);
-            return new ResourceHandler(mimeType, ResourceHandlerType.File) { FilePath = fileName };
+
+            return FromFilePath(filePath, mimeType);
+        }
+
+        /// <summary>
+        /// Gets the resource from the file path specified. Use the <see cref="ResourceHandler.GetMimeType"/>
+        /// helper method to lookup the mimeType if required.
+        /// </summary>
+        /// <param name="fileName">Location of the file.</param>
+        /// <param name="mimeType">The mimeType if null then text/html is used.</param>
+        /// <returns>ResourceHandler.</returns>
+        public static ResourceHandler FromFilePath(string fileName, string mimeType = null)
+        {
+            return new ResourceHandler(mimeType ?? DefaultMimeType, ResourceHandlerType.File) { FilePath = fileName };
         }
 
         /// <summary>
