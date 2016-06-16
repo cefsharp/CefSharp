@@ -315,6 +315,20 @@ namespace CefSharp
         }
 
         /// <summary>
+        /// To persist user preferences as a JSON file in the cache path directory set
+        /// this value to true. A CachePath value must also be specified
+        /// to enable this feature. Also configurable using the
+        /// "persist-user-preferences" command-line switch. Can be overridden for
+        /// individual RequestContext instances via the
+        /// RequestContextSettings.PersistUserPreferences value.
+        /// </summary>
+        property bool PersistUserPreferences
+        {
+            bool get() { return _cefSettings->persist_user_preferences == 1; }
+            void set(bool value) { _cefSettings->persist_user_preferences = value; }
+        }
+        
+        /// <summary>
         /// Comma delimited ordered list of language codes without any whitespace that
         /// will be used in the "Accept-Language" HTTP header. May be set globally
         /// using the CefSettings.AcceptLanguageList value. If both values are
