@@ -13,8 +13,11 @@ namespace CefSharp.Example
         {
             if (schemeName == SchemeName && request.Url.EndsWith("CefSharp.Core.xml", System.StringComparison.OrdinalIgnoreCase))
             {
-                //Display the debug.log file in the browser
-                return ResourceHandler.FromFileName("CefSharp.Core.xml", ".xml");
+                //Convenient helper method to lookup the mimeType
+                var mimeType = ResourceHandler.GetMimeType(".xml");
+                //Load a resource handler for CefSharp.Core.xml
+                //mimeType is optional and will default to text/html
+                return ResourceHandler.FromFilePath("CefSharp.Core.xml", mimeType);
             }
             return new CefSharpSchemeHandler();
         }
