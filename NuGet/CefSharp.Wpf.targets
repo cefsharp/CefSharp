@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="CefSharpCopyWpfAnyCPU" BeforeTargets="AfterBuild" Condition="'$(Platform)' == 'AnyCPU'">
+    <ItemGroup>
+      <CefSharpBinaries32 Include="$(MSBuildThisFileDirectory)..\CefSharp\x86\*.*" />
+      <CefSharpBinaries64 Include="$(MSBuildThisFileDirectory)..\CefSharp\x64\*.*" />
+    </ItemGroup>
+
+    <Message Importance="high" Text="-- CefSharp.Wpf.targets: Copying files from $(MSBuildThisFileDirectory)..\CefSharp\x86 to $(TargetDir)\x86" />
+    <Copy SourceFiles="@(CefSharpBinaries32)" DestinationFolder="$(TargetDir)\x86" SkipUnchangedFiles="true" />
+    <Message Importance="high" Text="-- CefSharp.Wpf.targets: Copying files from $(MSBuildThisFileDirectory)..\CefSharp\x64 to $(TargetDir)" />
+    <Copy SourceFiles="@(CefSharpBinaries64)" DestinationFolder="$(TargetDir)\x64" SkipUnchangedFiles="true" />
+  </Target>
+</Project>

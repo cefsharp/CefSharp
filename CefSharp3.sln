@@ -44,10 +44,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{A23AA466
 		NuGet\CefSharp.Common.targets = NuGet\CefSharp.Common.targets
 		NuGet\CefSharp.OffScreen.nuspec = NuGet\CefSharp.OffScreen.nuspec
 		NuGet\CefSharp.OffScreen.props = NuGet\CefSharp.OffScreen.props
+		NuGet\CefSharp.OffScreen.targets = NuGet\CefSharp.OffScreen.targets
 		NuGet\CefSharp.WinForms.nuspec = NuGet\CefSharp.WinForms.nuspec
 		NuGet\CefSharp.WinForms.props = NuGet\CefSharp.WinForms.props
+		NuGet\CefSharp.WinForms.targets = NuGet\CefSharp.WinForms.targets
 		NuGet\CefSharp.Wpf.nuspec = NuGet\CefSharp.Wpf.nuspec
 		NuGet\CefSharp.Wpf.props = NuGet\CefSharp.Wpf.props
+		NuGet\CefSharp.Wpf.targets = NuGet\CefSharp.Wpf.targets
 		NuGet\Readme.txt = NuGet\Readme.txt
 	EndProjectSection
 EndProject
