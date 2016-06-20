@@ -76,7 +76,6 @@
     <Compile Include="CefGeoPositionErrorCode.cs" />
     <Compile Include="CefJsDialogType.cs" />
     <Compile Include="CefLibraryHandle.cs" />
-    <Compile Include="CefLoader.cs" />
     <Compile Include="CefMenuCommand.cs" />
     <Compile Include="CefPdfPrintMarginType.cs" />
     <Compile Include="ContextMenuEditState.cs" />
