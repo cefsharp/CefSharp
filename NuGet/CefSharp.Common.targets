@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="PlatformCheck" BeforeTargets="ResolveAssemblyReferences" Condition="(('$(Platform)' != 'x86') AND ('$(Platform)' != 'x64') AND ('$(Platform)' != 'Win32') AND '$(CefSharpAnyCpuSupport)' != 'true')">
+    <Error Text="$(MSBuildThisFileName) will work out of the box if you specify platform (x86 / x64). For AnyCPU Support see https://github.com/cefsharp/CefSharp/issues/1714" />
+  </Target>
+
   <Target Name="CefSharpCopyLibs86" BeforeTargets="AfterBuild" Condition="'$(Platform)' == 'x86'">
     <ItemGroup>
       <CefSharpBinaries Include="$(MSBuildThisFileDirectory)..\CefSharp\x86\*.*" />
