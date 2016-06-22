@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using CefSharp.Example.Properties;
 using CefSharp.Example.Proxy;
 using CefSharp.Internals;
+using CefSharp.SchemeHandler;
 
 namespace CefSharp.Example
 {
@@ -149,6 +150,15 @@ namespace CefSharp.Example
                 SchemeName = CefSharpSchemeHandlerFactory.SchemeNameTest,
                 SchemeHandlerFactory = new CefSharpSchemeHandlerFactory()
             });
+
+            settings.RegisterScheme(new CefCustomScheme
+            {
+                SchemeName = "localfolder",
+                SchemeHandlerFactory = new FolderSchemeHandlerFactory(rootFolder: @"..\..\..\..\CefSharp.Example\Resources",
+                                                                    schemeName: "localfolder", //Optional param no schemename checking if null
+                                                                    hostName: "cefsharp", //Optional param no hostname checking if null
+                                                                    defaultPage: "home.html") //Optional param will default to index.html
+            });			
 
             settings.RegisterExtension(new CefExtension("cefsharp/example", Resources.extension));
 
