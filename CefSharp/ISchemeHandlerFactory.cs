@@ -23,7 +23,7 @@ namespace CefSharp
         /// <param name="schemeName">the scheme name</param>
         /// <param name="request">The request. (will not contain cookie data)</param>
         /// <returns>
-        /// Return a new ISchemeHandler instance to handle the request or an empty
+        /// Return a new <see cref="IResourceHandler"/> instance to handle the request or an empty
         /// reference to allow default handling of the request
         /// </returns>
         IResourceHandler Create(IBrowser browser, IFrame frame, string schemeName, IRequest request);
