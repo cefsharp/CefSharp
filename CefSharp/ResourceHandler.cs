@@ -75,6 +75,12 @@ namespace CefSharp
         public bool AutoDisposeStream { get; set; }
 
         /// <summary>
+        /// If the ErrorCode is set then the response will be ignored and
+        /// the errorCode returned.
+        /// </summary>
+        public CefErrorCode? ErrorCode { get; set; }
+
+        /// <summary>
         /// Default Constructor
         /// </summary>
         public ResourceHandler() : this(DefaultMimeType, ResourceHandlerType.Stream)
@@ -172,12 +178,21 @@ namespace CefSharp
 
         void IResourceHandler.GetResponseHeaders(IResponse response, out long responseLength, out string redirectUrl)
         {
-            Stream = GetResponse(response, out responseLength, out redirectUrl);
-            
-            if(Stream != null && Stream.CanSeek)
+            if (ErrorCode.HasValue)
             {
-                //Reset the stream position to 0
-                Stream.Position = 0;
+                responseLength = 0;
+                redirectUrl = null;
+                response.ErrorCode = ErrorCode.Value;
+            }
+            else
+            { 
+                Stream = GetResponse(response, out responseLength, out redirectUrl);
+            
+                if(Stream != null && Stream.CanSeek)
+                {
+                    //Reset the stream position to 0
+                    Stream.Position = 0;
+                }
             }
         }
 
