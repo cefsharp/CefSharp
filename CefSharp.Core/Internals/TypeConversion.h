@@ -149,8 +149,8 @@ namespace CefSharp
                 {
                     cefValue->SetDouble(Convert::ToDouble(value));
                 }
-				else if (type == List<Object^>::typeid)
-				{
+                else if (type == List<Object^>::typeid)
+                {
                     auto list = safe_cast<List<Object^>^>(value);
                     auto cefList = CefListValue::Create();
                     for (int i = 0; i < list->Count; i++)
@@ -159,7 +159,7 @@ namespace CefSharp
                         SerializeV8Object(cefList, i, value);
                     }
                     cefValue->SetList(cefList);
-				}
+                }
                 else if (type == Dictionary<String^, Object^>::typeid)
                 {
                     auto dictionary = safe_cast<Dictionary<String^, Object^>^>(value);
