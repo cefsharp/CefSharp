@@ -19,6 +19,7 @@ namespace CefSharp.Example
         public const string BindingTestUrl = "custom://cefsharp/BindingTest.html";
         public const string PluginsTestUrl = "custom://cefsharp/plugins.html";
         public const string PopupTestUrl = "custom://cefsharp/PopupTest.html";
+        public const string TooltipTestUrl = "custom://cefsharp/TooltipTest.html";
         public const string BasicSchemeTestUrl = "custom://cefsharp/SchemeTest.html";
         public const string ResponseFilterTestUrl = "custom://cefsharp/ResponseFilterTest.html";
         public const string DraggableRegionTestUrl = "custom://cefsharp/DraggableRegionTest.html";
