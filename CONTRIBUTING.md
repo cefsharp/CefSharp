@@ -11,7 +11,7 @@ Thanks for your interest in contributing to the project! Please follow these sim
 - We do appreciate cultural/languages differences, that being said **never** demand that someone help you, this is not a commercial application with paid support! Please and thank you go a long way.
 - This is a volunteer project, we give of our time freely and we ask for you to do the same. Contributions can be simple like updating/adding new entries in the [FAQ](https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions), creating new pages in the [WIKI](https://github.com/cefsharp/CefSharp/wiki), updating the examples. (Anyone with a `GitHub` account can edit the `WIKI`)
 
-### `CefSharp` vs `CEF`
+### `CefSharp` vs `Chromium Embedded Framework(CEF)`
 
 `CefSharp` simply takes the building blocks provided by `CEF` and attempts to provide a usable '.Net' implementation.
 The upstream [`CEF` forum](http://magpcss.org/ceforum/) is a valuable resource, if your issues seems fairly low level, then please conduct some research before posting.
