@@ -141,6 +141,29 @@
         </p>
 
         <p>
+            Javscript Callback Test using object as parameter
+            <br />
+            <script type="text/javascript">
+                function objectCallback(s)
+                {
+                    var result = document.getElementById('cbobjresult');
+                    result.innerText += "Callback: " + s + "" + Date();
+                }
+
+                function testCallbackWithObject()
+                {
+                    bound.testCallbackFromObject({ callback: objectCallback });
+
+                    var result = document.getElementById('cbobjresult');
+                    result.innerText = "The function has returned: " + Date() + "\n ...Waiting for callback response...";
+                }
+            </script>
+            <button onclick="testCallbackWithObject()">Test Callback with object param</button>
+            <br />
+            <span id="cbobjresult"></span>
+        </p>
+
+        <p>
             Result of calling bound.repeat("hi ", 5) =
             <script type="text/javascript">
                 var result = bound.repeat("hi ", 5);

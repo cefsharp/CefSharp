@@ -14,14 +14,7 @@ namespace CefSharp
 
         for (std::vector<CefRefPtr<CefV8Value>>::size_type i = 0; i != arguments.size(); i++)
         {
-            if (arguments[i]->IsFunction())
-            {
-                parameter[i] = _callbackRegistry->Register(CefV8Context::GetCurrentContext(), arguments[i]);
-            }
-            else
-            {
-                parameter[i] = TypeUtils::ConvertFromCef(arguments[i]);
-            }
+            parameter[i] = TypeUtils::ConvertFromCef(arguments[i], _callbackRegistry);
         }
 
         try
