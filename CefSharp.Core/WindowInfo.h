@@ -95,6 +95,18 @@ namespace CefSharp
             }
         }
 
+        virtual property UINT32 ExStyle
+        {
+            UINT32 get()
+            {
+                return _windowInfo->ex_style;
+            }
+            void set(UINT32 ex_style)
+            {
+                _windowInfo->ex_style = ex_style;
+            }
+        }
+
         virtual property IntPtr ParentWindowHandle
         {
             IntPtr get()
