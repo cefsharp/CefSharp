@@ -148,10 +148,6 @@ namespace CefSharp
         throw gcnew Exception(String::Format("Cannot convert '{0}' object from CLR to CEF.", type->FullName));
     }
 
-	Object^ TypeUtils::ConvertFromCef(CefRefPtr<CefV8Value> obj) {
-		return TypeUtils::ConvertFromCef(obj, nullptr);
-	}
-
 	Object^ TypeUtils::ConvertFromCef(CefRefPtr<CefV8Value> obj, JavascriptCallbackRegistry^ callbackRegistry)
     {
         if (obj->IsNull() || obj->IsUndefined())
@@ -199,15 +195,15 @@ namespace CefSharp
             return nullptr;
         }
 
-		if (obj->IsFunction())
-		{
-			if (callbackRegistry != nullptr)
-			{
-				return callbackRegistry->Register(CefV8Context::GetCurrentContext(), obj);
-			}
+        if (obj->IsFunction())
+        {
+            if (callbackRegistry != nullptr)
+            {
+                return callbackRegistry->Register(CefV8Context::GetCurrentContext(), obj);
+            }
 
-			return nullptr;
-		}
+            return nullptr;
+        }
 
         if (obj->IsObject())
         {

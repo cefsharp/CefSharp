@@ -50,7 +50,7 @@ namespace CefSharp
         {
             //System::Diagnostics::Debugger::Break();
             auto propertyName = StringUtils::ToClr(name);
-            auto managedValue = TypeUtils::ConvertFromCef(value);
+            auto managedValue = TypeUtils::ConvertFromCef(value, nullptr);
             auto response = _setter->Invoke(propertyName, managedValue);
             if(!response->Success)
             {

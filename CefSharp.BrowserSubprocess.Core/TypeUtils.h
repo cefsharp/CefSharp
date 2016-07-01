@@ -25,22 +25,15 @@ namespace CefSharp
         static CefRefPtr<CefV8Value> ConvertToCef(Object^ obj, Type^ type);
 
         /// <summary>
-        /// Converts a Chromium V8 value to a (managed) .NET object.
+        /// Converts a Chromium V8 value to a (managed) .NET object
+        /// using a JavascriptCallbackRegistry param to convert any
+        /// anonymous function to IJavascriptCallback, if callbackRegistry
+        /// is nullptr will use nullptr to each anonymous function instead.
         /// </summary>
         /// <param name="obj">The V8 value that should be converted.</param>
+        /// <param name="callbackRegistry">Instance of JavascriptCallbackRegistry to manage IJavascriptCallback instances.</param>
         /// <returns>A corresponding .NET object.</returns>
-		static Object^ ConvertFromCef(CefRefPtr<CefV8Value> obj);
-
-		/// <summary>
-		/// Converts a Chromium V8 value to a (managed) .NET object.
-		/// using a JavascriptCallbackRegistry param to convert any
-		/// anonymous function to IJavascriptCallback, if callbackRegistry
-		/// is nullptr will use nullptr to each anonymous function instead.
-		/// </summary>
-		/// <param name="obj">The V8 value that should be converted.</param>
-		/// <param name="callbackRegistry">Instance of JavascriptCallbackRegistry to manage IJavascriptCallback instances.</param>
-		/// <returns>A corresponding .NET object.</returns>
-		static Object^ ConvertFromCef(CefRefPtr<CefV8Value> obj, JavascriptCallbackRegistry^ callbackRegistry);
+        static Object^ ConvertFromCef(CefRefPtr<CefV8Value> obj, JavascriptCallbackRegistry^ callbackRegistry);
 
         /// <summary>
         /// Converts a Chromium V8 CefTime (Date) to a (managed) .NET DateTime.
