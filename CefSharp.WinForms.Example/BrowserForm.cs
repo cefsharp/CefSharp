@@ -226,8 +226,9 @@ namespace CefSharp.WinForms.Example
             {
                 control.Browser.ShowDevTools();
 
-                //Example below shows how to use a control to host DevTools
+                //EXPERIMENTAL Example below shows how to use a control to host DevTools
                 //(in this case it's added as a new TabPage)
+                // NOTE: Does not currently move/resize correctly
                 //var tabPage = new TabPage("DevTools")
                 //{
                 //    Dock = DockStyle.Fill
