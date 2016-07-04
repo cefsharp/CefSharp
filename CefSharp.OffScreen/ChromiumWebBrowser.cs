@@ -90,6 +90,13 @@ namespace CefSharp.OffScreen
         /// binding.</remarks>
         public bool CanGoBack { get; private set; }
         /// <summary>
+        /// Gets or sets a value indicating whether the popup just opened.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if popup just opened; otherwise, <c>false</c>.
+        /// </value>
+        public bool PopupJustOpened { get; protected set; }
+        /// <summary>
         /// A flag that indicates whether the state of the control currently supports the GoForward action (true) or not (false).
         /// </summary>
         /// <value><c>true</c> if this instance can go forward; otherwise, <c>false</c>.</value>
@@ -273,6 +280,16 @@ namespace CefSharp.OffScreen
         public event EventHandler NewScreenshot;
 
         /// <summary>
+        /// Top Left position of the popup.
+        /// </summary>
+        private Point popupPosition;
+
+        /// <summary>
+        ///  Size of the popup.
+        /// </summary>
+        private Size popupSize;
+
+        /// <summary>
         /// Create a new OffScreen Chromium Browser
         /// </summary>
         /// <param name="address">Initial address (url) to load</param>
@@ -303,7 +320,9 @@ namespace CefSharp.OffScreen
             {
                 CreateBrowser(IntPtr.Zero);
             }
-            
+
+            popupPosition = new Point();
+            popupSize = new Size();
         }
 
         /// <summary>
@@ -373,11 +392,29 @@ namespace CefSharp.OffScreen
         }
 
         /// <summary>
+        /// Gets the size of the popup.
+        /// </summary>
+        /// <param name="size">Size of the popup.</param>
+        public void GetPopupSize(ref Size size)
+        {
+            size = popupSize;
+        }
+
+        /// <summary>
+        /// Gets the popup position.
+        /// </summary>
+        /// <param name="popupPos">The popup position.</param>
+        public void GetPopupPosition(ref Point popupPos)
+        {
+            popupPos = popupPosition;
+        }
+
+        /// <summary>
         /// Create the underlying browser. The instance address, browser settings and request context will be used.
         /// </summary>
         /// <param name="windowHandle">Window handle if any, IntPtr.Zero is the default</param>
         /// <exception cref="System.Exception">An instance of the underlying offscreen browser has already been created, this method can only be called once.</exception>
-        
+
         public void CreateBrowser(IntPtr windowHandle)
         {
             if (browserCreated)
@@ -428,6 +465,15 @@ namespace CefSharp.OffScreen
             {
                 return Bitmap == null ? null : new Bitmap(Bitmap);
             }
+        }
+
+        /// <summary>
+        /// Sets the Bitmap to render with a copy of bitmap in parameter.
+        /// </summary>
+        /// <param name="bitmap">The bitmap which will be copied</param>
+        protected void SetBitmap(Bitmap bitmap)
+        {
+            Bitmap = (Bitmap)bitmap.Clone();
         }
 
         /// <summary>
@@ -617,17 +663,24 @@ namespace CefSharp.OffScreen
         public virtual void InvokeRenderAsync(BitmapInfo bitmapInfo)
         {
             var gdiBitmapInfo = (GdiBitmapInfo)bitmapInfo;
-            if (bitmapInfo.CreateNewBitmap)
-            {
-                if (Bitmap != null)
+                if (bitmapInfo.CreateNewBitmap)
                 {
-                    Bitmap.Dispose();
-                    Bitmap = null;
+                    if (Bitmap != null)
+                    {
+                        Bitmap.Dispose();
+                        Bitmap = null;
+                    }
+
+                    Bitmap = gdiBitmapInfo.CreateBitmap();
                 }
+            TriggerNewScreenshot();
+        }
 
-                Bitmap = gdiBitmapInfo.CreateBitmap();
-            }
-
+        /// <summary>
+        /// Triggers the new screenshot event.
+        /// </summary>
+        protected void TriggerNewScreenshot()
+        {
             var handler = NewScreenshot;
             if (handler != null)
             {
@@ -663,6 +716,14 @@ namespace CefSharp.OffScreen
         /// <param name="show">if set to <c>true</c> [show].</param>
         void IRenderWebBrowser.SetPopupIsOpen(bool show)
         {
+            if (!show)
+            {
+                PopupJustOpened = false;
+            }
+            else if (show)
+            {
+                PopupJustOpened = true;
+            }
         }
 
         /// <summary>
@@ -674,6 +735,10 @@ namespace CefSharp.OffScreen
         /// <param name="y">The y.</param>
         void IRenderWebBrowser.SetPopupSizeAndPosition(int width, int height, int x, int y)
         {
+            popupPosition.X = x;
+            popupPosition.Y = y;
+            popupSize.Width = width;
+            popupSize.Height = height;
         }
 
         /// <summary>
@@ -751,7 +816,7 @@ namespace CefSharp.OffScreen
         /// <value>The browser adapter.</value>
         IBrowserAdapter IWebBrowserInternal.BrowserAdapter
         {
-            get { return managedCefBrowserAdapter;}
+            get { return managedCefBrowserAdapter; }
         }
 
         /// <summary>
