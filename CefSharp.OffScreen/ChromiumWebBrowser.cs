@@ -113,6 +113,11 @@ namespace CefSharp.OffScreen
         /// </summary>
         /// <value>The request context.</value>
         public RequestContext RequestContext { get; private set; }
+
+        /// <summary>
+        /// The blending congiguration for the popup and background.
+        /// </summary>
+        public PopupBlending BlendingConfiguration { get; set; }
         /// <summary>
         /// Implement <see cref="IJsDialogHandler" /> and assign to handle events related to JavaScript Dialogs.
         /// </summary>
@@ -290,15 +295,27 @@ namespace CefSharp.OffScreen
         private Size popupSize;
 
         /// <summary>
+        /// The popup Bitmap.
+        /// </summary>
+        public Bitmap PopupImage;
+
+        /// <summary>
+        /// The Background Bitmap.
+        /// </summary>
+        public Bitmap BackGroundImage;
+
+        /// <summary>
         /// Create a new OffScreen Chromium Browser
         /// </summary>
         /// <param name="address">Initial address (url) to load</param>
         /// <param name="browserSettings">The browser settings to use. If null, the default settings are used.</param>
         /// <param name="requestContext">See <see cref="RequestContext" /> for more details. Defaults to null</param>
         /// <param name="automaticallyCreateBrowser">automatically create the underlying Browser</param>
+        /// <param name="blendPopup">Should the popup be blended in the background in the rendering</param>
         /// <exception cref="System.InvalidOperationException">Cef::Initialize() failed</exception>
         public ChromiumWebBrowser(string address = "", BrowserSettings browserSettings = null,
-            RequestContext requestContext = null, bool automaticallyCreateBrowser = true)
+            RequestContext requestContext = null, bool automaticallyCreateBrowser = true,
+            PopupBlending blendPopup = PopupBlending.Separate)
         {
             if (!Cef.IsInitialized && !Cef.Initialize())
             {
@@ -316,13 +333,14 @@ namespace CefSharp.OffScreen
 
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, true);
 
-            if(automaticallyCreateBrowser)
+            if (automaticallyCreateBrowser)
             {
                 CreateBrowser(IntPtr.Zero);
             }
 
             popupPosition = new Point();
             popupSize = new Size();
+            BlendingConfiguration = blendPopup;
         }
 
         /// <summary>
@@ -660,9 +678,13 @@ namespace CefSharp.OffScreen
         /// in it's lock scope.
         /// </summary>
         /// <param name="bitmapInfo">information about the bitmap to be rendered</param>
+        /// <exception cref="InvalidOperationException">When background image is null when on blend mode.</exception>
         public virtual void InvokeRenderAsync(BitmapInfo bitmapInfo)
         {
             var gdiBitmapInfo = (GdiBitmapInfo)bitmapInfo;
+
+            if (BlendingConfiguration == PopupBlending.Separate)
+            {
                 if (bitmapInfo.CreateNewBitmap)
                 {
                     if (Bitmap != null)
@@ -673,6 +695,54 @@ namespace CefSharp.OffScreen
 
                     Bitmap = gdiBitmapInfo.CreateBitmap();
                 }
+            }
+            else if (BlendingConfiguration == PopupBlending.Blend)
+            {
+                if (bitmapInfo.CreateNewBitmap || PopupJustOpened)
+                {
+                    if (Bitmap != null)
+                    {
+                        Bitmap.Dispose();
+                        Bitmap = null;
+                    }
+
+                    if (gdiBitmapInfo.IsPopup)
+                    {
+                        if (PopupImage != null)
+                        {
+                            PopupImage.Dispose();
+                            PopupImage = null;
+                        }
+                        PopupImage = gdiBitmapInfo.CreateBitmap();
+                        PopupJustOpened = false;
+                    }
+                    else
+                    {
+                        if (BackGroundImage != null)
+                        {
+                            BackGroundImage.Dispose();
+                            BackGroundImage = null;
+                        }
+
+                        BackGroundImage = gdiBitmapInfo.CreateBitmap();
+                    }
+                }
+
+                if (PopupImage != null && BackGroundImage != null)
+                {
+                    Bitmap = MergeBackGroundPopupBitmaps();
+                }
+                else if (PopupImage == null)
+                {
+                    Bitmap = (Bitmap)BackGroundImage.Clone();
+                }
+                else if (BackGroundImage == null)
+                {
+                    throw new InvalidOperationException(
+                        $"Background image was empty. Should not happen in {nameof(PopupBlending.Blend)} mode."
+                    );
+                }
+            }
             TriggerNewScreenshot();
         }
 
@@ -716,8 +786,10 @@ namespace CefSharp.OffScreen
         /// <param name="show">if set to <c>true</c> [show].</param>
         void IRenderWebBrowser.SetPopupIsOpen(bool show)
         {
-            if (!show)
+            if (!show && PopupImage != null)
             {
+                PopupImage.Dispose();
+                PopupImage = null;
                 PopupJustOpened = false;
             }
             else if (show)
@@ -890,6 +962,25 @@ namespace CefSharp.OffScreen
         void IWebBrowserInternal.SetTooltipText(string tooltipText)
         {
             TooltipText = tooltipText;
+        }
+
+        /// <summary>
+        /// Merges the popup bitmap in the background bitmap.
+        /// </summary>
+        /// <returns>The merged bitmap, size of the background bitmap</returns>
+        private Bitmap MergeBackGroundPopupBitmaps()
+        {
+            System.Drawing.Bitmap myBitmap = new System.Drawing.Bitmap(BackGroundImage.Width,
+                BackGroundImage.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(myBitmap))
+            {
+                g.DrawImage(BackGroundImage,
+                  new System.Drawing.Rectangle(0, 0, BackGroundImage.Width, BackGroundImage.Height));
+
+                g.DrawImage(PopupImage,
+                  new System.Drawing.Rectangle((int)popupPosition.X, (int)popupPosition.Y, PopupImage.Width, PopupImage.Height));
+            }
+            return myBitmap;
         }
     }
 }
