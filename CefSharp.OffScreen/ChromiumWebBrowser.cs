@@ -738,8 +738,7 @@ namespace CefSharp.OffScreen
                 }
                 else if (BackGroundImage == null)
                 {
-                    throw new InvalidOperationException(string.Format("Background image was empty. Should not happen in {0} mode.",
-                        nameof(PopupBlending.Blend)));
+                    throw new InvalidOperationException("Background image was empty. Should not happen in Blend mode.");
                 }
             }
             TriggerNewScreenshot();
