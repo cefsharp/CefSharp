@@ -84,6 +84,7 @@
     <Compile Include="ContextMenuType.cs" />
     <Compile Include="DomNode.cs" />
     <Compile Include="DraggableRegion.cs" />
+    <Compile Include="DynamicDictionary.cs" />
     <Compile Include="FilterStatus.cs" />
     <Compile Include="Geoposition.cs" />
     <Compile Include="IBrowserSettings.cs" />
