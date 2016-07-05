@@ -6,6 +6,7 @@ using System;
 using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Globalization;
 using CefSharp.Internals;
 
 namespace CefSharp
@@ -202,24 +203,23 @@ namespace CefSharp
                 for (int i = 0; i < args.Length; i++)
                 {
                     var obj = args[i];
-                    if(obj == null)
+                    if (obj == null)
                     {
                         stringBuilder.Append("null");
                     }
+                    else if (numberTypes.Contains(obj.GetType()))
+                    {
+                        stringBuilder.Append(Convert.ToString(args[i],CultureInfo.InvariantCulture));
+                    }
+                    else if (obj is bool)
+                    {
+                        stringBuilder.Append(args[i].ToString().ToLowerInvariant());
+                    }
                     else
                     {
-                        var encapsulateInSingleQuotes = !numberTypes.Contains(obj.GetType());
-                        if(encapsulateInSingleQuotes)
-                        {
-                            stringBuilder.Append("'");
-                        }
-
-                        stringBuilder.Append(args[i].ToString());
-
-                        if (encapsulateInSingleQuotes)
-                        {
-                            stringBuilder.Append("'");
-                        }
+                        stringBuilder.Append("'");
+                        stringBuilder.Append(args[i].ToString().Replace("'","\\'"));
+                        stringBuilder.Append("'");
                     }
 
                     stringBuilder.Append(", ");
