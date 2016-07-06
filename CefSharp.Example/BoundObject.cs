@@ -3,6 +3,8 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -62,6 +64,51 @@ namespace CefSharp.Example
                     await javascriptCallback.ExecuteAsync(response);
                 }
             });
+        }
+
+        public string TestCallbackFromObject(object obj)
+        {
+            IJavascriptCallback javascriptCallback = null;
+
+            if (obj != null && obj is IDictionary)
+            {
+                Dictionary<string, object> d = new Dictionary<string, object>((IDictionary<string, object>) obj);
+
+                object objCallback = null;
+
+                if (d.TryGetValue("callback", out objCallback))
+                {
+                    if (objCallback is IJavascriptCallback)
+                    {
+                        javascriptCallback = (IJavascriptCallback)objCallback;
+                    }
+                    else
+                    {
+                        return "callback property is not a function";
+                    }
+                }
+                else
+                {
+                    return "callback property not found";
+                }
+            }
+
+            const int taskDelay = 1500;
+
+            Task.Run(async () =>
+            {
+                await Task.Delay(taskDelay);
+
+                if (javascriptCallback != null)
+                {
+                    using (javascriptCallback)
+                    {
+                        await javascriptCallback.ExecuteAsync("message from C#");
+                    }
+                }
+            });
+
+            return "waiting for callback execution...";
         }
 
         public int EchoMyProperty()
