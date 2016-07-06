@@ -4,6 +4,7 @@
 
 using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Threading.Tasks;
 using CefSharp.Internals;
 
@@ -90,6 +91,20 @@ namespace CefSharp.OffScreen
         /// binding.</remarks>
         public bool CanGoBack { get; private set; }
         /// <summary>
+        /// Gets or sets a value indicating whether the popup just opened.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if popup just opened; otherwise, <c>false</c>.
+        /// </value>
+        public bool PopupJustOpened { get; protected set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether the popup is open.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if popup is opened; otherwise, <c>false</c>.
+        /// </value>
+        public bool PopupOpened { get; protected set; }
+        /// <summary>
         /// A flag that indicates whether the state of the control currently supports the GoForward action (true) or not (false).
         /// </summary>
         /// <value><c>true</c> if this instance can go forward; otherwise, <c>false</c>.</value>
@@ -106,6 +121,7 @@ namespace CefSharp.OffScreen
         /// </summary>
         /// <value>The request context.</value>
         public RequestContext RequestContext { get; private set; }
+
         /// <summary>
         /// Implement <see cref="IJsDialogHandler" /> and assign to handle events related to JavaScript Dialogs.
         /// </summary>
@@ -273,12 +289,28 @@ namespace CefSharp.OffScreen
         public event EventHandler NewScreenshot;
 
         /// <summary>
+        /// Top Left position of the popup.
+        /// </summary>
+        private Point popupPosition;
+
+        /// <summary>
+        ///  Size of the popup.
+        /// </summary>
+        private Size popupSize;
+
+        /// <summary>
+        /// The popup Bitmap.
+        /// </summary>
+        public Bitmap Popup { get; set; }
+
+        /// <summary>
         /// Create a new OffScreen Chromium Browser
         /// </summary>
         /// <param name="address">Initial address (url) to load</param>
         /// <param name="browserSettings">The browser settings to use. If null, the default settings are used.</param>
         /// <param name="requestContext">See <see cref="RequestContext" /> for more details. Defaults to null</param>
         /// <param name="automaticallyCreateBrowser">automatically create the underlying Browser</param>
+        /// <param name="blendPopup">Should the popup be blended in the background in the rendering</param>
         /// <exception cref="System.InvalidOperationException">Cef::Initialize() failed</exception>
         public ChromiumWebBrowser(string address = "", BrowserSettings browserSettings = null,
             RequestContext requestContext = null, bool automaticallyCreateBrowser = true)
@@ -299,11 +331,13 @@ namespace CefSharp.OffScreen
 
             managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, true);
 
-            if(automaticallyCreateBrowser)
+            if (automaticallyCreateBrowser)
             {
                 CreateBrowser(IntPtr.Zero);
             }
-            
+
+            popupPosition = new Point();
+            popupSize = new Size();
         }
 
         /// <summary>
@@ -373,11 +407,29 @@ namespace CefSharp.OffScreen
         }
 
         /// <summary>
+        /// Gets the size of the popup.
+        /// </summary>
+        /// <param name="size">Size of the popup.</param>
+        public Size GetPopupSize()
+        {
+            return popupSize;
+        }
+
+        /// <summary>
+        /// Gets the popup position.
+        /// </summary>
+        /// <param name="popupPos">The popup position.</param>
+        public Point GetPopupPosition()
+        {
+            return popupPosition;
+        }
+
+        /// <summary>
         /// Create the underlying browser. The instance address, browser settings and request context will be used.
         /// </summary>
         /// <param name="windowHandle">Window handle if any, IntPtr.Zero is the default</param>
         /// <exception cref="System.Exception">An instance of the underlying offscreen browser has already been created, this method can only be called once.</exception>
-        
+
         public void CreateBrowser(IntPtr windowHandle)
         {
             if (browserCreated)
@@ -422,12 +474,42 @@ namespace CefSharp.OffScreen
         /// The bitmap size is determined by the Size property set earlier.
         /// </summary>
         /// <returns>Bitmap.</returns>
-        public Bitmap ScreenshotOrNull()
+        public Bitmap ScreenshotOrNull(PopupBlending blend = PopupBlending.Separate)
         {
             lock (BitmapLock)
             {
-                return Bitmap == null ? null : new Bitmap(Bitmap);
+                if (blend == PopupBlending.Blend)
+                {
+                    if (PopupOpened && Bitmap != null && Popup != null)
+                    {
+                        return MergeBackGroundPopupBitmaps(Bitmap, Popup);
+                    }
+                    else
+                    {
+                        return Bitmap == null ? null : new Bitmap(Bitmap);
+                    }
+                }
+                else
+                {
+                    if (PopupOpened)
+                    {
+                        return Popup == null ? null : new Bitmap(Popup);
+                    }
+                    else
+                    {
+                        return Bitmap == null ? null : new Bitmap(Bitmap);
+                    }
+                }
             }
+        }
+
+        /// <summary>
+        /// Sets the Bitmap to render with a copy of bitmap in parameter.
+        /// </summary>
+        /// <param name="bitmap">The bitmap which will be copied</param>
+        protected void SetBitmap(Bitmap bitmap)
+        {
+            Bitmap = (Bitmap)bitmap.Clone();
         }
 
         /// <summary>
@@ -617,15 +699,29 @@ namespace CefSharp.OffScreen
         public virtual void InvokeRenderAsync(BitmapInfo bitmapInfo)
         {
             var gdiBitmapInfo = (GdiBitmapInfo)bitmapInfo;
-            if (bitmapInfo.CreateNewBitmap)
-            {
-                if (Bitmap != null)
-                {
-                    Bitmap.Dispose();
-                    Bitmap = null;
-                }
 
-                Bitmap = gdiBitmapInfo.CreateBitmap();
+            if (bitmapInfo.CreateNewBitmap || PopupJustOpened)
+            {
+                if (!gdiBitmapInfo.IsPopup)
+                {
+                    if (Bitmap != null)
+                    {
+                        Bitmap.Dispose();
+                        Bitmap = null;
+                    }
+
+                    Bitmap = gdiBitmapInfo.CreateBitmap();
+                }
+                else
+                {
+                    if (Popup != null)
+                    {
+                        Popup.Dispose();
+                        Popup = null;
+                    }
+                    Popup = gdiBitmapInfo.CreateBitmap();
+                    PopupJustOpened = false;
+                }
             }
 
             var handler = NewScreenshot;
@@ -663,6 +759,21 @@ namespace CefSharp.OffScreen
         /// <param name="show">if set to <c>true</c> [show].</param>
         void IRenderWebBrowser.SetPopupIsOpen(bool show)
         {
+            if (show)
+            {
+                PopupOpened = true;
+                PopupJustOpened = true;
+            }
+            else
+            {
+                PopupOpened = false;
+                PopupJustOpened = false;
+                if (Popup != null)
+                {
+                    Popup.Dispose();
+                    Popup = null;
+                }
+            }
         }
 
         /// <summary>
@@ -674,6 +785,10 @@ namespace CefSharp.OffScreen
         /// <param name="y">The y.</param>
         void IRenderWebBrowser.SetPopupSizeAndPosition(int width, int height, int x, int y)
         {
+            popupPosition.X = x;
+            popupPosition.Y = y;
+            popupSize.Width = width;
+            popupSize.Height = height;
         }
 
         /// <summary>
@@ -751,7 +866,7 @@ namespace CefSharp.OffScreen
         /// <value>The browser adapter.</value>
         IBrowserAdapter IWebBrowserInternal.BrowserAdapter
         {
-            get { return managedCefBrowserAdapter;}
+            get { return managedCefBrowserAdapter; }
         }
 
         /// <summary>
@@ -825,6 +940,25 @@ namespace CefSharp.OffScreen
         void IWebBrowserInternal.SetTooltipText(string tooltipText)
         {
             TooltipText = tooltipText;
+        }
+
+        /// <summary>
+        /// Merges the popup bitmap in the background bitmap.
+        /// </summary>
+        /// <returns>The merged bitmap, size of the background bitmap</returns>
+        private Bitmap MergeBackGroundPopupBitmaps(Bitmap background, Bitmap popup)
+        {
+            Bitmap myBitmap = new Bitmap(background.Width,
+                background.Height, PixelFormat.Format32bppArgb);
+            using (Graphics g = Graphics.FromImage(myBitmap))
+            {
+                g.DrawImage(background,
+                  new Rectangle(0, 0, background.Width, background.Height));
+
+                g.DrawImage(popup,
+                  new Rectangle((int)popupPosition.X, (int)popupPosition.Y, popup.Width, popup.Height));
+            }
+            return myBitmap;
         }
     }
 }
