@@ -156,15 +156,25 @@ namespace CefSharp
         }
 
         if (obj->IsBool())
+        {
             return gcnew System::Boolean(obj->GetBoolValue());
+        }
         if (obj->IsInt())
+        {
             return gcnew System::Int32(obj->GetIntValue());
+        }
         if (obj->IsDouble())
+        {
             return gcnew System::Double(obj->GetDoubleValue());
+        }
         if (obj->IsString())
+        {
             return StringUtils::ToClr(obj->GetStringValue());
+        }
         if (obj->IsDate())
+        {
             return TypeUtils::ConvertCefTimeToDateTime(obj->GetDateValue());
+        }
 
         if (obj->IsArray())
         {
@@ -198,7 +208,9 @@ namespace CefSharp
         if (obj->IsFunction())
         {
             if (callbackRegistry == nullptr)
+            {
                 return nullptr;
+            }
 
             return callbackRegistry->Register(CefV8Context::GetCurrentContext(), obj);
         }
