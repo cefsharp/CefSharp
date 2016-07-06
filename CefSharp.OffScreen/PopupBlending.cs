@@ -5,17 +5,21 @@
 namespace CefSharp.OffScreen
 {
     /// <summary>
-    /// Represents the popup blending in the background bitmap.
+    /// Represents the popup blending in the main bitmap.
     /// </summary>
     public enum PopupBlending
     {
         /// <summary>
-        /// The background and popup should be blended.
+        /// The main bitmap and popup bitmap should be blended.
         /// </summary>
-        Blend,
+        Blend = 0,
         /// <summary>
-        /// The background and popup should be kept separated.
+        /// Retrieve the main bitmap
         /// </summary>
-        Separate
+        Main,
+        /// <summary>
+        /// Retrieve the popup bitmap
+        /// </summary>
+        Popup
     }
 }

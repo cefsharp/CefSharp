@@ -31,7 +31,7 @@ namespace CefSharp.OffScreen
         /// Read the <see cref="InvokeRenderAsync" /> doco for more info.
         /// </summary>
         /// <value>The bitmap.</value>
-        public Bitmap Bitmap { get; private set; }
+        public Bitmap Bitmap { get; protected set; }
 
         /// <summary>
         /// Need a lock because the caller may be asking for the bitmap
@@ -69,12 +69,12 @@ namespace CefSharp.OffScreen
         /// <value><c>true</c> if this instance is loading; otherwise, <c>false</c>.</value>
         /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
         /// binding.</remarks>
-        public bool IsLoading { get; set; }
+        public bool IsLoading { get; private set; }
         /// <summary>
         /// The text that will be displayed as a ToolTip
         /// </summary>
         /// <value>The tooltip text.</value>
-        public string TooltipText { get; set; }
+        public string TooltipText { get; private set; }
         /// <summary>
         /// The address (URL) which the browser control is currently displaying.
         /// Will automatically be updated as the user navigates to another page (e.g. by clicking on a link).
@@ -91,19 +91,12 @@ namespace CefSharp.OffScreen
         /// binding.</remarks>
         public bool CanGoBack { get; private set; }
         /// <summary>
-        /// Gets or sets a value indicating whether the popup just opened.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if popup just opened; otherwise, <c>false</c>.
-        /// </value>
-        public bool PopupJustOpened { get; protected set; }
-        /// <summary>
         /// Gets or sets a value indicating whether the popup is open.
         /// </summary>
         /// <value>
         /// <c>true</c> if popup is opened; otherwise, <c>false</c>.
         /// </value>
-        public bool PopupOpened { get; protected set; }
+        public bool PopupOpen { get; protected set; }
         /// <summary>
         /// A flag that indicates whether the state of the control currently supports the GoForward action (true) or not (false).
         /// </summary>
@@ -301,7 +294,7 @@ namespace CefSharp.OffScreen
         /// <summary>
         /// The popup Bitmap.
         /// </summary>
-        public Bitmap Popup { get; set; }
+        public Bitmap Popup { get; protected set; }
 
         /// <summary>
         /// Create a new OffScreen Chromium Browser
@@ -410,18 +403,18 @@ namespace CefSharp.OffScreen
         /// Gets the size of the popup.
         /// </summary>
         /// <param name="size">Size of the popup.</param>
-        public Size GetPopupSize()
+        public Size PopupSize
         {
-            return popupSize;
+            get { return popupSize; }
         }
 
         /// <summary>
         /// Gets the popup position.
         /// </summary>
         /// <param name="popupPos">The popup position.</param>
-        public Point GetPopupPosition()
+        public Point PopupPosition
         {
-            return popupPosition;
+            get { return popupPosition; }
         }
 
         /// <summary>
@@ -473,33 +466,32 @@ namespace CefSharp.OffScreen
         /// It is your responsibility to dispose the returned Bitmap.
         /// The bitmap size is determined by the Size property set earlier.
         /// </summary>
+        /// <param name="blend">Choose which bitmap to retrieve, choose <see cref="PopupBlending.Blend"/> for a merged bitmap.</param>
         /// <returns>Bitmap.</returns>
-        public Bitmap ScreenshotOrNull(PopupBlending blend = PopupBlending.Separate)
+        public Bitmap ScreenshotOrNull(PopupBlending blend = PopupBlending.Main)
         {
             lock (BitmapLock)
             {
                 if (blend == PopupBlending.Blend)
                 {
-                    if (PopupOpened && Bitmap != null && Popup != null)
+                    if (PopupOpen && Bitmap != null && Popup != null)
                     {
-                        return MergeBackGroundPopupBitmaps(Bitmap, Popup);
+                        return MergeBitmaps(Bitmap, Popup);
                     }
-                    else
-                    {
-                        return Bitmap == null ? null : new Bitmap(Bitmap);
-                    }
+
+                    return Bitmap == null ? null : new Bitmap(Bitmap);
                 }
-                else
+                else if(blend == PopupBlending.Popup)
                 {
-                    if (PopupOpened)
+                    if (PopupOpen)
                     {
                         return Popup == null ? null : new Bitmap(Popup);
                     }
-                    else
-                    {
-                        return Bitmap == null ? null : new Bitmap(Bitmap);
-                    }
+
+                    return null;
                 }
+
+                return Bitmap == null ? null : new Bitmap(Bitmap);
             }
         }
 
@@ -521,11 +513,12 @@ namespace CefSharp.OffScreen
         /// The bitmap size is determined by the Size property set earlier.
         /// </summary>
         /// <param name="ignoreExistingScreenshot">Ignore existing bitmap (if any) and return the next avaliable bitmap</param>
+        /// /// <param name="blend">Choose which bitmap to retrieve, choose <see cref="PopupBlending.Blend"/> for a merged bitmap.</param>
         /// <returns>Task&lt;Bitmap&gt;.</returns>
-        public Task<Bitmap> ScreenshotAsync(bool ignoreExistingScreenshot = false)
+        public Task<Bitmap> ScreenshotAsync(bool ignoreExistingScreenshot = false, PopupBlending blend = PopupBlending.Main)
         {
             // Try our luck and see if there is already a screenshot, to save us creating a new thread for nothing.
-            var screenshot = ScreenshotOrNull();
+            var screenshot = ScreenshotOrNull(blend);
 
             var completionSource = new TaskCompletionSource<Bitmap>();
 
@@ -686,6 +679,12 @@ namespace CefSharp.OffScreen
         void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
         {
             InvokeRenderAsync(bitmapInfo);
+
+            var handler = NewScreenshot;
+            if (handler != null)
+            {
+                handler(this, EventArgs.Empty);
+            }
         }
 
         /// <summary>
@@ -700,9 +699,19 @@ namespace CefSharp.OffScreen
         {
             var gdiBitmapInfo = (GdiBitmapInfo)bitmapInfo;
 
-            if (bitmapInfo.CreateNewBitmap || PopupJustOpened)
+            if (bitmapInfo.CreateNewBitmap)
             {
-                if (!gdiBitmapInfo.IsPopup)
+                if (gdiBitmapInfo.IsPopup)
+                {
+                    if (Popup != null)
+                    {
+                        Popup.Dispose();
+                        Popup = null;
+                    }
+
+                    Popup = gdiBitmapInfo.CreateBitmap();
+                }
+                else
                 {
                     if (Bitmap != null)
                     {
@@ -712,22 +721,6 @@ namespace CefSharp.OffScreen
 
                     Bitmap = gdiBitmapInfo.CreateBitmap();
                 }
-                else
-                {
-                    if (Popup != null)
-                    {
-                        Popup.Dispose();
-                        Popup = null;
-                    }
-                    Popup = gdiBitmapInfo.CreateBitmap();
-                    PopupJustOpened = false;
-                }
-            }
-
-            var handler = NewScreenshot;
-            if (handler != null)
-            {
-                handler(this, EventArgs.Empty);
             }
         }
 
@@ -759,20 +752,13 @@ namespace CefSharp.OffScreen
         /// <param name="show">if set to <c>true</c> [show].</param>
         void IRenderWebBrowser.SetPopupIsOpen(bool show)
         {
-            if (show)
+            PopupOpen = show;
+
+            //Cleanup the old popup now that's it's not open
+            if (!PopupOpen && Popup != null)
             {
-                PopupOpened = true;
-                PopupJustOpened = true;
-            }
-            else
-            {
-                PopupOpened = false;
-                PopupJustOpened = false;
-                if (Popup != null)
-                {
-                    Popup.Dispose();
-                    Popup = null;
-                }
+                Popup.Dispose();
+                Popup = null;
             }
         }
 
@@ -943,22 +929,21 @@ namespace CefSharp.OffScreen
         }
 
         /// <summary>
-        /// Merges the popup bitmap in the background bitmap.
+        /// Creates a new bitmap with the dimensions of firstBitmap, then
+        /// draws the firstBitmap, then overlays the secondBitmap
         /// </summary>
-        /// <returns>The merged bitmap, size of the background bitmap</returns>
-        private Bitmap MergeBackGroundPopupBitmaps(Bitmap background, Bitmap popup)
+        /// <param name="firstBitmap">First bitmap, this will be the first image drawn</param>
+        /// <param name="secondBitmap">Second bitmap, this image will be drawn on the first</param>
+        /// <returns>The merged bitmap, size of firstBitmap</returns>
+        private Bitmap MergeBitmaps(Bitmap firstBitmap, Bitmap secondBitmap)
         {
-            Bitmap myBitmap = new Bitmap(background.Width,
-                background.Height, PixelFormat.Format32bppArgb);
-            using (Graphics g = Graphics.FromImage(myBitmap))
+            var mergedBitmap = new Bitmap(firstBitmap.Width, firstBitmap.Height, PixelFormat.Format32bppPArgb);
+            using (var g = Graphics.FromImage(mergedBitmap))
             {
-                g.DrawImage(background,
-                  new Rectangle(0, 0, background.Width, background.Height));
-
-                g.DrawImage(popup,
-                  new Rectangle((int)popupPosition.X, (int)popupPosition.Y, popup.Width, popup.Height));
+                g.DrawImage(firstBitmap, new Rectangle(0, 0, firstBitmap.Width, firstBitmap.Height));
+                g.DrawImage(secondBitmap, new Rectangle((int)popupPosition.X, (int)popupPosition.Y, secondBitmap.Width, secondBitmap.Height));
             }
-            return myBitmap;
+            return mergedBitmap;
         }
     }
 }
