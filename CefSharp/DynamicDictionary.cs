@@ -35,5 +35,10 @@ namespace CefSharp
         {
             return new DynamicDictionary(dictionary);
         }
+
+        public static implicit operator Dictionary<string, object>(DynamicDictionary dynamicDictionary)
+        {
+            return dynamicDictionary.dictionary;
+        }
     }
 }
