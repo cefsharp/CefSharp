@@ -66,31 +66,20 @@ namespace CefSharp.Example
             });
         }
 
-        public string TestCallbackFromObject(object obj)
+        public string TestCallbackFromObject(Dictionary<string, object> dictionary)
         {
-            IJavascriptCallback javascriptCallback = null;
-
-            if (obj != null && obj is IDictionary)
+            if(dictionary == null)
             {
-                Dictionary<string, object> d = new Dictionary<string, object>((IDictionary<string, object>) obj);
+                return "TestCallbackFromObject dictionary param is null";
+            }
 
-                object objCallback = null;
+            dynamic dynamicDictionary = new DynamicDictionary(dictionary);
 
-                if (d.TryGetValue("callback", out objCallback))
-                {
-                    if (objCallback is IJavascriptCallback)
-                    {
-                        javascriptCallback = (IJavascriptCallback)objCallback;
-                    }
-                    else
-                    {
-                        return "callback property is not a function";
-                    }
-                }
-                else
-                {
-                    return "callback property not found";
-                }
+            IJavascriptCallback javascriptCallback = dynamicDictionary.Callback;
+
+            if(javascriptCallback == null)
+            {
+                return "callback property not found or property is not a function";
             }
 
             const int taskDelay = 1500;
