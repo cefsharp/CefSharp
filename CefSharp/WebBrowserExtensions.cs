@@ -194,45 +194,7 @@ namespace CefSharp
         /// <param name="args">the arguments to be passed as params to the method</param>
         public static void ExecuteScriptAsync(this IWebBrowser browser, string methodName, params object[] args)
         {
-            var stringBuilder = new StringBuilder();
-            stringBuilder.Append(methodName);
-            stringBuilder.Append("(");
-
-            if(args.Length > 0)
-            { 
-                for (int i = 0; i < args.Length; i++)
-                {
-                    var obj = args[i];
-                    if (obj == null)
-                    {
-                        stringBuilder.Append("null");
-                    }
-                    else if (numberTypes.Contains(obj.GetType()))
-                    {
-                        stringBuilder.Append(Convert.ToString(args[i],CultureInfo.InvariantCulture));
-                    }
-                    else if (obj is bool)
-                    {
-                        stringBuilder.Append(args[i].ToString().ToLowerInvariant());
-                    }
-                    else
-                    {
-                        stringBuilder.Append("'");
-                        stringBuilder.Append(args[i].ToString().Replace("'","\\'"));
-                        stringBuilder.Append("'");
-                    }
-
-                    stringBuilder.Append(", ");
-                }
-            
-                //Remove the trailing comma
-                stringBuilder.Remove(stringBuilder.Length - 2, 2);
-            }
-
-            stringBuilder.Append(");");
-
-            var script = stringBuilder.ToString();
-
+            var script = GetScript(methodName, args);
             browser.ExecuteScriptAsync(script);
         }
 
@@ -686,6 +648,37 @@ namespace CefSharp
             }
         }
 
+        /// <summary>
+        /// Evaluate some Javascript code in the context of this WebBrowser. The script will be executed asynchronously and the
+        /// method returns a Task encapsulating the response from teh Javascript 
+        /// This simple helper extension will encapsulate params in single quotes (unless int, uint, etc)
+        /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
+        /// <param name="methodName">The javascript method name to execute</param>
+        /// <param name="args">the arguments to be passed as params to the method</param>
+        /// <returns><see cref="Task{JavascriptResponse}"/> that can be awaited to perform the script execution</returns>
+        public static Task<JavascriptResponse> EvaluateScriptAsync(this IWebBrowser browser, string methodName, params object[] args)
+        {
+            return browser.EvaluateScriptAsync(null, methodName, args);
+        }
+
+        /// <summary>
+        /// Evaluate some Javascript code in the context of this WebBrowser using the specified timeout. The script will be executed asynchronously and the
+        /// method returns a Task encapsulating the response from teh Javascript 
+        /// This simple helper extension will encapsulate params in single quotes (unless int, uint, etc)
+        /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
+        /// <param name="timeout">The timeout after which the Javascript code execution should be aborted.</param>
+        /// <param name="methodName">The javascript method name to execute</param>
+        /// <param name="args">the arguments to be passed as params to the method</param>
+        /// <returns><see cref="Task{JavascriptResponse}"/> that can be awaited to perform the script execution</returns>
+        public static Task<JavascriptResponse> EvaluateScriptAsync(this IWebBrowser browser, TimeSpan? timeout, string methodName, params object[] args)
+        {
+            var script = GetScript(methodName, args);
+
+            return browser.EvaluateScriptAsync(script, timeout);
+        }
+
         public static void SetAsPopup(this IWebBrowser browser)
         {
             var internalBrowser = (IWebBrowserInternal)browser;
@@ -700,6 +693,54 @@ namespace CefSharp
                 throw new Exception("Browser Is Not yet initialized. Use the IsBrowserInitializedChanged event and check" +
                                     "the IsBrowserInitialized property to determine when the browser has been intialized.");
             }
+        }
+
+        /// <summary>
+        /// Transforms the methodName and arguments into valid Javascript code. Will encapsulate params in single quotes (unless int, uint, etc)
+        /// </summary>
+        /// <param name="methodName">The javascript method name to execute</param>
+        /// <param name="args">the arguments to be passed as params to the method</param>
+        /// <returns>The Javascript code</returns>
+        private static string GetScript(string methodName, object[] args)
+        {
+            var stringBuilder = new StringBuilder();
+            stringBuilder.Append(methodName);
+            stringBuilder.Append("(");
+
+            if (args.Length > 0)
+            {
+                for (int i = 0; i < args.Length; i++)
+                {
+                    var obj = args[i];
+                    if (obj == null)
+                    {
+                        stringBuilder.Append("null");
+                    }
+                    else if (numberTypes.Contains(obj.GetType()))
+                    {
+                        stringBuilder.Append(Convert.ToString(args[i], CultureInfo.InvariantCulture));
+                    }
+                    else if (obj is bool)
+                    {
+                        stringBuilder.Append(args[i].ToString().ToLowerInvariant());
+                    }
+                    else
+                    {
+                        stringBuilder.Append("'");
+                        stringBuilder.Append(args[i].ToString().Replace("'", "\\'"));
+                        stringBuilder.Append("'");
+                    }
+
+                    stringBuilder.Append(", ");
+                }
+
+                //Remove the trailing comma
+                stringBuilder.Remove(stringBuilder.Length - 2, 2);
+            }
+
+            stringBuilder.Append(");");
+
+            return stringBuilder.ToString();
         }
 
         private static void ThrowExceptionIfFrameNull(IFrame frame)
