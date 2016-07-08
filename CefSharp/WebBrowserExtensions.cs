@@ -650,7 +650,7 @@ namespace CefSharp
 
         /// <summary>
         /// Evaluate some Javascript code in the context of this WebBrowser. The script will be executed asynchronously and the
-        /// method returns a Task encapsulating the response from teh Javascript 
+        /// method returns a Task encapsulating the response from the Javascript 
         /// This simple helper extension will encapsulate params in single quotes (unless int, uint, etc)
         /// </summary>
         /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
@@ -664,7 +664,7 @@ namespace CefSharp
 
         /// <summary>
         /// Evaluate some Javascript code in the context of this WebBrowser using the specified timeout. The script will be executed asynchronously and the
-        /// method returns a Task encapsulating the response from teh Javascript 
+        /// method returns a Task encapsulating the response from the Javascript 
         /// This simple helper extension will encapsulate params in single quotes (unless int, uint, etc)
         /// </summary>
         /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
