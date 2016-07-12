@@ -1,12 +1,16 @@
+// Copyright © 2010-2016 The CefSharp Authors. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text.RegularExpressions;
+
 namespace CefSharp.ModelBinding
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
-    using System.Text.RegularExpressions;
-
     /// <summary>
     /// Default binder - used as a fallback when a specific modelbinder
     /// is not available.
@@ -15,7 +19,7 @@ namespace CefSharp.ModelBinding
     {
         private readonly IFieldNameConverter fieldNameConverter;
         
-        private readonly static MethodInfo ToListMethodInfo = typeof(Enumerable).GetMethod("ToList", BindingFlags.Public | BindingFlags.Static);
+        //private readonly static MethodInfo ToListMethodInfo = typeof(Enumerable).GetMethod("ToList", BindingFlags.Public | BindingFlags.Static);
         private readonly static MethodInfo ToArrayMethodInfo = typeof(Enumerable).GetMethod("ToArray", BindingFlags.Public | BindingFlags.Static);
         private static readonly Regex BracketRegex = new Regex(@"\[(\d+)\]\z", RegexOptions.Compiled);
         private static readonly Regex UnderscoreRegex = new Regex(@"_(\d+)\z", RegexOptions.Compiled);
@@ -83,16 +87,13 @@ namespace CefSharp.ModelBinding
 
                     foreach (var modelProperty in bindingContext.ValidModelBindingMembers)
                     {
-                        var existingCollectionValue = modelProperty.GetValue(genericinstance);
+                        var collectionVal = GetValue(modelProperty.Name, bindingContext, i);
 
-                        var collectionStringValue = GetValue(modelProperty.Name, bindingContext, i);
-
-                        if (this.BindingValueIsValid(collectionStringValue, existingCollectionValue, modelProperty,
-                                                bindingContext))
+                        if (collectionVal != null)
                         {
                             try
                             {
-                                BindValue(modelProperty, collectionStringValue, bindingContext);
+                                BindValue(modelProperty, collectionVal, bindingContext);
                             }
                             catch (PropertyBindingException ex)
                             {
@@ -106,15 +107,13 @@ namespace CefSharp.ModelBinding
             {
                 foreach (var modelProperty in bindingContext.ValidModelBindingMembers)
                 {
-                    var existingValue = modelProperty.GetValue(bindingContext.Model);
+                    var val = GetValue(modelProperty.Name, bindingContext);
 
-                    var stringValue = GetValue(modelProperty.Name, bindingContext);
-
-                    if (this.BindingValueIsValid(stringValue, existingValue, modelProperty, bindingContext))
+                    if (val != null)
                     {
                         try
                         {
-                            BindValue(modelProperty, stringValue, bindingContext);
+                            BindValue(modelProperty, val, bindingContext);
                         }
                         catch (PropertyBindingException ex)
                         {
@@ -137,13 +136,6 @@ namespace CefSharp.ModelBinding
             return bindingContext.Model;
         }
 
-        private bool BindingValueIsValid(object bindingValue, object existingValue, BindingMemberInfo modelProperty, BindingContext bindingContext)
-        {
-            return (bindingValue != null  &&
-                    (IsDefaultValue(existingValue, modelProperty.PropertyType) ||
-                     bindingContext.Configuration.Overwrite));
-        }
-
         private static int IsMatch(string item)
         {
             var bracketMatch = BracketRegex.Match(item);
@@ -162,13 +154,6 @@ namespace CefSharp.ModelBinding
             return -1;
         }
 
-        private static bool IsDefaultValue(object existingValue, Type propertyType)
-        {
-            return propertyType.GetTypeInfo().IsValueType
-                ? Equals(existingValue, Activator.CreateInstance(propertyType))
-                : existingValue == null;
-        }
-
         private BindingContext CreateBindingContext(IDictionary<string, object> objectDictioanry, Type modelType, BindingConfig configuration, IEnumerable<string> blackList, Type genericType)
         {
             return new BindingContext
@@ -178,21 +163,35 @@ namespace CefSharp.ModelBinding
                 Model = CreateModel(modelType, genericType),
                 ValidModelBindingMembers = GetBindingMembers(modelType, genericType, blackList).ToList(),
                 ObjectDictionary = objectDictioanry,
-                GenericType = genericType,
+                GenericType = genericType
             };
         }
 
-        private static void BindValue(BindingMemberInfo modelProperty, object stringValue, BindingContext context)
+        private void BindValue(BindingMemberInfo modelProperty, object obj, BindingContext context)
         {
-            modelProperty.SetValue(context.Model, stringValue);
+            Type dictionaryType = typeof(Dictionary<string, object>);
+
+            //If the type is a dictionary and the PropertyType isn't then we'll bind.
+            if (obj != null && obj.GetType() == dictionaryType && modelProperty.PropertyType != dictionaryType)
+            {
+                var dictionary = (Dictionary<string, object>)obj;
+                var model = Bind(dictionary, modelProperty.PropertyType, context.Configuration);
+                //We have a sub dictionary, attempt to bind it to the class
+
+                modelProperty.SetValue(context.Model, model);
+            }
+            else
+            { 
+                //Simply set the property
+                modelProperty.SetValue(context.Model, obj);
+            }
         }
 
         private static IEnumerable<BindingMemberInfo> GetBindingMembers(Type modelType, Type genericType, IEnumerable<string> blackList)
         {
             var blackListHash = new HashSet<string>(blackList, StringComparer.Ordinal);
 
-            return BindingMemberInfo.Collect(genericType ?? modelType)
-                .Where(member => !blackListHash.Contains(member.Name));
+            return BindingMemberInfo.Collect(genericType ?? modelType) .Where(member => !blackListHash.Contains(member.Name));
         }
 
         private static object CreateModel(Type modelType, Type genericType)

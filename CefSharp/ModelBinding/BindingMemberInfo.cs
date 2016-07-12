@@ -1,10 +1,14 @@
-﻿namespace CefSharp.ModelBinding
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
+﻿// Copyright © 2010-2016 The CefSharp Authors. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+
+namespace CefSharp.ModelBinding
+{
     /// <summary>
     /// Represents a bindable member of a type, which can be a property or a field.
     /// </summary>
@@ -73,23 +77,6 @@
             }
 
             this.fieldInfo = fieldInfo;
-        }
-
-        /// <summary>
-        /// Gets the value from a specified object associated with the property or field represented by this BindingMemberInfo.
-        /// </summary>
-        /// <param name="sourceObject">The object whose property or field should be retrieved.</param>
-        /// <returns>The value for this BindingMemberInfo's property or field in the specified object.</returns>
-        public object GetValue(object sourceObject)
-        {
-            if (this.propertyInfo != null)
-            {
-                return this.propertyInfo.GetValue(sourceObject, null);
-            }
-            else
-            {
-                return this.fieldInfo.GetValue(sourceObject);
-            }
         }
 
         /// <summary>

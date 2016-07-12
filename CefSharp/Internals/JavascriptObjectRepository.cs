@@ -71,22 +71,23 @@ namespace CefSharp.Internals
             return result;
         }
 
-        public void RegisterAsync(string name, object value, bool camelCaseJavascriptNames)
+        public void RegisterAsync(string name, object value, bool camelCaseJavascriptNames, IBinder binder)
         {
-            AsyncRootObject.MemberObjects.Add(CreateInternal(name, value, camelCaseJavascriptNames, analyseProperties: false));
+            AsyncRootObject.MemberObjects.Add(CreateInternal(name, value, camelCaseJavascriptNames, analyseProperties: false, binder: binder));
         }
 
-        public void Register(string name, object value, bool camelCaseJavascriptNames)
+        public void Register(string name, object value, bool camelCaseJavascriptNames, IBinder binder)
         {
-            RootObject.MemberObjects.Add(CreateInternal(name, value, camelCaseJavascriptNames, analyseProperties: true));
+            RootObject.MemberObjects.Add(CreateInternal(name, value, camelCaseJavascriptNames, analyseProperties: true, binder: binder));
         }
 
-        private JavascriptObject CreateInternal(string name, object value, bool camelCaseJavascriptNames, bool analyseProperties)
+        private JavascriptObject CreateInternal(string name, object value, bool camelCaseJavascriptNames, bool analyseProperties, IBinder binder)
         {
             var jsObject = CreateJavascriptObject(camelCaseJavascriptNames);
             jsObject.Value = value;
             jsObject.Name = name;
             jsObject.JavascriptName = name;
+            jsObject.Binder = binder;
 
             AnalyseObjectForBinding(jsObject, analyseMethods: true, analyseProperties: analyseProperties, readPropertyValue: false, camelCaseJavascriptNames: camelCaseJavascriptNames);
 
@@ -163,15 +164,17 @@ namespace CefSharp.Internals
 
                 try
                 {
-                    for(int i = 0; i < parameters.Length; i++)
+                    if(obj.Binder != null)
                     { 
-                        var paramType = method.Parameters[i].Type;
+                        for (var i = 0; i < parameters.Length; i++)
+                        { 
+                            var paramType = method.Parameters[i].Type;
 
-                        if(parameters[i].GetType() == typeof(Dictionary<string, object>))
-                        {
-                            var binder = new DefaultBinder(new DefaultFieldNameConverter());
-                            var dictionary = (Dictionary<string, object>)parameters[i];
-                            parameters[i] = binder.Bind(dictionary, paramType, BindingConfig.Default);
+                            if(parameters[i].GetType() == typeof(Dictionary<string, object>))
+                            {
+                                var dictionary = (Dictionary<string, object>)parameters[i];
+                                parameters[i] = obj.Binder.Bind(dictionary, paramType, BindingConfig.Default);
+                            }
                         }
                     }
 

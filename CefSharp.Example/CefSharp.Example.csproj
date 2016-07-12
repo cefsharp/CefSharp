@@ -88,6 +88,7 @@
     <Compile Include="RenderProcessMessageHandler.cs" />
     <Compile Include="ScriptedMethods.cs" />
     <Compile Include="SimpleClass.cs" />
+    <Compile Include="SimpleSubClass.cs" />
     <Compile Include="SubBoundObject.cs" />
     <Compile Include="TempFileDialogHandler.cs" />
     <Compile Include="CefExample.cs" />

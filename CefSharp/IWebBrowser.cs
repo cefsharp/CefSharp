@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using CefSharp.ModelBinding;
 
 namespace CefSharp
 {
@@ -85,7 +86,8 @@ namespace CefSharp
         /// <param name="name">The name of the object. (e.g. "foo", if you want the object to be accessible as window.foo).</param>
         /// <param name="objectToBind">The object to be made accessible to Javascript.</param>
         /// <param name="camelCaseJavascriptNames">camel case the javascript names of properties/methods, defaults to true</param>
-        void RegisterJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true);
+        /// <param name="binder">model binder used for passing complex classes as params to methods</param>
+        void RegisterJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true, IBinder binder = null);
 
         /// <summary>
         /// <para>Asynchronously registers a Javascript object in this specific browser instance.</para>
@@ -94,9 +96,10 @@ namespace CefSharp
         /// <param name="name">The name of the object. (e.g. "foo", if you want the object to be accessible as window.foo).</param>
         /// <param name="objectToBind">The object to be made accessible to Javascript.</param>
         /// <param name="camelCaseJavascriptNames">camel case the javascript names of methods, defaults to true</param>
+        /// <param name="binder">model binder used for passing complex classes as params to methods</param>
         /// <remarks>The registered methods can only be called in an async way, they will all return immeditaly and the resulting
         /// object will be a standard javascript Promise object which is usable to wait for completion or failure.</remarks>
-        void RegisterAsyncJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true);
+        void RegisterAsyncJsObject(string name, object objectToBind, bool camelCaseJavascriptNames = true, IBinder binder = null);
 
         /// <summary>
         /// Implement <see cref="IDialogHandler" /> and assign to handle dialog events.

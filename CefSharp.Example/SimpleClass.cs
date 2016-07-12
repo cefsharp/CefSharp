@@ -9,6 +9,8 @@ namespace CefSharp.Example
 	public class SimpleClass
 	{
 		public IJavascriptCallback Callback { get; set; }
-		public string TestString { get;set; }
+		public string TestString { get; set; }
+
+		public SimpleSubClass SubClass { get; set; }
 	}
 }

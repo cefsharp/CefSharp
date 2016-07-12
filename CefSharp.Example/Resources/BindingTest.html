@@ -152,7 +152,7 @@
 
                 function testCallbackWithObject()
                 {
-                    bound.testCallbackFromObject({ Callback: objectCallback, TestString : "Hello" });
+                    bound.testCallbackFromObject({ Callback: objectCallback, TestString: "Hello", SubClass: { PropertyOne : "Test Property" } });
 
                     var result = document.getElementById('cbobjresult');
                     result.innerText = "The function has returned: " + Date() + "\n ...Waiting for callback response...";
