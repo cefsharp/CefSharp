@@ -8,5 +8,6 @@ namespace CefSharp.Internals
     public class MethodParameter
     {
         public Boolean IsParamArray { get; set; }
+        public Type Type { get; set; }
     }
 }

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using CefSharp.ModelBinding;
 
 namespace CefSharp.Internals
 {
@@ -162,6 +163,18 @@ namespace CefSharp.Internals
 
                 try
                 {
+                    for(int i = 0; i < parameters.Length; i++)
+                    { 
+                        var paramType = method.Parameters[i].Type;
+
+                        if(parameters[i].GetType() == typeof(Dictionary<string, object>))
+                        {
+                            var binder = new DefaultBinder(new DefaultFieldNameConverter());
+                            var dictionary = (Dictionary<string, object>)parameters[i];
+                            parameters[i] = binder.Bind(dictionary, paramType, BindingConfig.Default);
+                        }
+                    }
+
                     result = method.Function(obj.Value, parameters);
                 }
                 catch (Exception e)
@@ -332,7 +345,8 @@ namespace CefSharp.Internals
             jsMethod.Parameters = methodInfo.GetParameters()
                 .Select(t => new MethodParameter()
                 {
-                    IsParamArray = t.GetCustomAttributes(typeof(ParamArrayAttribute), false).Length > 0
+                    IsParamArray = t.GetCustomAttributes(typeof(ParamArrayAttribute), false).Length > 0,
+                    Type = t.ParameterType
                 }).ToList();
             //Pre compute HasParamArray for a very minor performance gain 
             jsMethod.HasParamArray = jsMethod.Parameters.LastOrDefault(t => t.IsParamArray) != null;

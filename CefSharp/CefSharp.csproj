@@ -84,7 +84,6 @@
     <Compile Include="ContextMenuType.cs" />
     <Compile Include="DomNode.cs" />
     <Compile Include="DraggableRegion.cs" />
-    <Compile Include="DynamicDictionary.cs" />
     <Compile Include="FilterStatus.cs" />
     <Compile Include="Geoposition.cs" />
     <Compile Include="IBrowserProcessHandler.cs" />
@@ -103,6 +102,54 @@
     <Compile Include="IResponseFilter.cs" />
     <Compile Include="IRunContextMenuCallback.cs" />
     <Compile Include="MenuItemType.cs" />
+    <Compile Include="ModelBinding\BindingConfig.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModelBinding\BindingContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModelBinding\BindingMemberInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModelBinding\DefaultBinder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModelBinding\DefaultFieldNameConverter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModelBinding\DefaultModelBinderLocator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModelBinding\DynamicDictionary.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModelBinding\DynamicDictionaryValue.cs" />
+    <Compile Include="ModelBinding\DynamicModelBinderAdapter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModelBinding\ExpressionExtensions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModelBinding\IBinder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModelBinding\IFieldNameConverter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModelBinding\IHideObjectMembers.cs" />
+    <Compile Include="ModelBinding\IModelBinder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModelBinding\IModelBinderLocator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModelBinding\ModelBindingException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModelBinding\ModelBindingExtensions.cs" />
+    <Compile Include="ModelBinding\PropertyBindingException.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="NavigationEntry.cs" />
     <Compile Include="PdfPrintSettings.cs" />
     <Compile Include="ICookieManager.cs" />

@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CefSharp.ModelBinding;
 
 namespace CefSharp.Example
 {
@@ -66,16 +67,14 @@ namespace CefSharp.Example
             });
         }
 
-        public string TestCallbackFromObject(Dictionary<string, object> dictionary)
+        public string TestCallbackFromObject(SimpleClass simpleClass)
         {
-            if(dictionary == null)
+            if (simpleClass == null)
             {
                 return "TestCallbackFromObject dictionary param is null";
             }
 
-            dynamic dynamicDictionary = new DynamicDictionary(dictionary);
-
-            IJavascriptCallback javascriptCallback = dynamicDictionary.Callback;
+            IJavascriptCallback javascriptCallback = simpleClass.Callback;
 
             if(javascriptCallback == null)
             {
@@ -92,7 +91,7 @@ namespace CefSharp.Example
                 {
                     using (javascriptCallback)
                     {
-                        await javascriptCallback.ExecuteAsync("message from C#");
+                        await javascriptCallback.ExecuteAsync("message from C# " + simpleClass.TestString);
                     }
                 }
             });
