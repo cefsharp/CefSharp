@@ -2,6 +2,7 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System.Collections.Generic;
 namespace CefSharp.Example
 {
     public class SimpleClass
@@ -9,6 +10,6 @@ namespace CefSharp.Example
         public IJavascriptCallback Callback { get; set; }
         public string TestString { get; set; }
 
-        public SimpleSubClass SubClass { get; set; }
+        public IList<SimpleSubClass> SubClasses { get; set; }
     }
 }

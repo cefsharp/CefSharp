@@ -91,7 +91,7 @@ namespace CefSharp.Example
                 {
                     using (javascriptCallback)
                     {
-                        await javascriptCallback.ExecuteAsync("message from C# " + simpleClass.TestString + " - " + simpleClass.SubClass.PropertyOne);
+                        await javascriptCallback.ExecuteAsync("message from C# " + simpleClass.TestString + " - " + simpleClass.SubClasses[0].PropertyOne);
                     }
                 }
             });

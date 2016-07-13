@@ -12,7 +12,7 @@ namespace CefSharp.ModelBinding
     /// <summary>
     /// Containing extensions for the <see cref="Type"/> object.
     /// </summary>
-    public static class ModelBindingExtensions
+    internal static class ModelBindingExtensions
     {
         /// <summary>
         /// Creates an instance of <paramref name="type"/> and cast it to <typeparamref name="T"/>.

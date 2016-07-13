@@ -17,12 +17,13 @@ namespace CefSharp.ModelBinding
     /// </summary>
     public class DefaultBinder : IBinder
     {
+        private readonly static MethodInfo ToArrayMethodInfo = typeof(Enumerable).GetMethod("ToArray", BindingFlags.Public | BindingFlags.Static);
+
         private readonly IFieldNameConverter fieldNameConverter;
 
         protected bool IgnoreErrors { get; private set; }
-        
-        //private readonly static MethodInfo ToListMethodInfo = typeof(Enumerable).GetMethod("ToList", BindingFlags.Public | BindingFlags.Static);
-        private readonly static MethodInfo ToArrayMethodInfo = typeof(Enumerable).GetMethod("ToArray", BindingFlags.Public | BindingFlags.Static);
+
+        public IEnumerable<string> BlackListedPropertyNames { get; set; }
 
         public DefaultBinder(IFieldNameConverter fieldNameConverter)
         {
@@ -33,6 +34,7 @@ namespace CefSharp.ModelBinding
 
             this.fieldNameConverter = fieldNameConverter;
             IgnoreErrors = true;
+            BlackListedPropertyNames = new List<string>();
         }
 
         /// <summary>
@@ -42,7 +44,7 @@ namespace CefSharp.ModelBinding
         /// <param name="modelType">Model type to bind to</param>
         /// <param name="blackList">Blacklisted binding property names</param>
         /// <returns>Bound model</returns>
-        public virtual object Bind(object obj, Type modelType, params string[] blackList)
+        public virtual object Bind(object obj, Type modelType)
         {
             if(obj == null)
             {
@@ -69,7 +71,7 @@ namespace CefSharp.ModelBinding
                 }
             }
 
-            var bindingContext = this.CreateBindingContext(obj, modelType, blackList, genericType);
+            var bindingContext = this.CreateBindingContext(obj, modelType, genericType);
 
             if (bindingContext.DestinationType.IsCollectionOrArray())
             {
@@ -87,7 +89,15 @@ namespace CefSharp.ModelBinding
 
                     if (val != null)
                     {
-                        model.Add(val);
+                        if (val.GetType() == typeof(Dictionary<string, object>))
+                        {
+                            var subModel = Bind(val, genericType);
+                            model.Add(subModel);
+                        }
+                        else
+                        { 
+                            model.Add(val);
+                        }
                     }
                 }
             }
@@ -112,19 +122,19 @@ namespace CefSharp.ModelBinding
             return bindingContext.Model;
         }
 
-        protected BindingContext CreateBindingContext(object obj, Type modelType, IEnumerable<string> blackList, Type genericType)
+        protected virtual BindingContext CreateBindingContext(object obj, Type modelType, Type genericType)
         {
             return new BindingContext
             {
                 DestinationType = modelType,
                 Model = CreateModel(modelType, genericType),
-                ValidModelBindingMembers = GetBindingMembers(modelType, genericType, blackList).ToList(),
+                ValidModelBindingMembers = GetBindingMembers(modelType, genericType).ToList(),
                 Object = obj,
                 GenericType = genericType
             };
         }
 
-        protected void BindValue(BindingMemberInfo modelProperty, object obj, BindingContext context)
+        protected virtual void BindValue(BindingMemberInfo modelProperty, object obj, BindingContext context)
         {
             if(obj == null)
             {
@@ -156,14 +166,14 @@ namespace CefSharp.ModelBinding
             }
         }
 
-        protected static IEnumerable<BindingMemberInfo> GetBindingMembers(Type modelType, Type genericType, IEnumerable<string> blackList)
+        protected virtual IEnumerable<BindingMemberInfo> GetBindingMembers(Type modelType, Type genericType)
         {
-            var blackListHash = new HashSet<string>(blackList, StringComparer.Ordinal);
+            var blackListHash = new HashSet<string>(BlackListedPropertyNames, StringComparer.Ordinal);
 
             return BindingMemberInfo.Collect(genericType ?? modelType) .Where(member => !blackListHash.Contains(member.Name));
         }
 
-        protected static object CreateModel(Type modelType, Type genericType)
+        protected virtual object CreateModel(Type modelType, Type genericType)
         {
             if (modelType.IsCollectionOrArray())
             {
@@ -175,7 +185,7 @@ namespace CefSharp.ModelBinding
             return modelType.CreateInstance(true);
         }
 
-        protected static object GetValue(string propertyName, BindingContext context)
+        protected virtual object GetValue(string propertyName, BindingContext context)
         {
             if (context.Object.GetType() == typeof(Dictionary<string, object>))
             {
@@ -189,7 +199,7 @@ namespace CefSharp.ModelBinding
             return null;
         }
 
-        protected static object GetValue(BindingContext context, int index)
+        protected virtual object GetValue(BindingContext context, int index)
         {
             var collection = context.Object as IList<object>;
 
