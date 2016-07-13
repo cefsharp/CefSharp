@@ -61,6 +61,16 @@ namespace CefSharp.ModelBinding
         }
 
         /// <summary>
+        /// Is the type a collection, array or enumerable
+        /// </summary>
+        /// <param name="source">source type</param>
+        /// <returns>return if collection, array or enumerable</returns>
+        public static bool IsCollectionOrArray(this Type source)
+        {
+            return source.IsCollection() || source.IsArray() || source.IsEnumerable();
+        }
+
+        /// <summary>
         /// Determines whether the <paramref name="genericType"/> is assignable from
         /// <paramref name="givenType"/> taking into account generic definitions
         /// </summary>

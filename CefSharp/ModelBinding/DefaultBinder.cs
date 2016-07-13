@@ -18,11 +18,11 @@ namespace CefSharp.ModelBinding
     public class DefaultBinder : IBinder
     {
         private readonly IFieldNameConverter fieldNameConverter;
+
+        protected bool IgnoreErrors { get; private set; }
         
         //private readonly static MethodInfo ToListMethodInfo = typeof(Enumerable).GetMethod("ToList", BindingFlags.Public | BindingFlags.Static);
         private readonly static MethodInfo ToArrayMethodInfo = typeof(Enumerable).GetMethod("ToArray", BindingFlags.Public | BindingFlags.Static);
-        private static readonly Regex BracketRegex = new Regex(@"\[(\d+)\]\z", RegexOptions.Compiled);
-        private static readonly Regex UnderscoreRegex = new Regex(@"_(\d+)\z", RegexOptions.Compiled);
 
         public DefaultBinder(IFieldNameConverter fieldNameConverter)
         {
@@ -32,20 +32,25 @@ namespace CefSharp.ModelBinding
             }
 
             this.fieldNameConverter = fieldNameConverter;
+            IgnoreErrors = true;
         }
 
         /// <summary>
         /// Bind to the given model type
         /// </summary>
-        /// <param name="context">Current context</param>
+        /// <param name="obj">object to be converted into a model</param>
         /// <param name="modelType">Model type to bind to</param>
-        /// <param name="configuration">The <see cref="BindingConfig"/> that should be applied during binding.</param>
         /// <param name="blackList">Blacklisted binding property names</param>
         /// <returns>Bound model</returns>
-        public virtual object Bind(IDictionary<string, object> objectDictionary, Type modelType, BindingConfig configuration, params string[] blackList)
+        public virtual object Bind(object obj, Type modelType, params string[] blackList)
         {
+            if(obj == null)
+            {
+                return null;
+            }
+
             Type genericType = null;
-            if (modelType.IsArray() || modelType.IsCollection() || modelType.IsEnumerable())
+            if (modelType.IsCollectionOrArray())
             {
                 //make sure it has a generic type
                 if (modelType.GetTypeInfo().IsGenericType)
@@ -64,42 +69,25 @@ namespace CefSharp.ModelBinding
                 }
             }
 
-            var bindingContext = this.CreateBindingContext(objectDictionary, modelType, configuration, blackList, genericType);
+            var bindingContext = this.CreateBindingContext(obj, modelType, blackList, genericType);
 
-            var bindingExceptions = new List<PropertyBindingException>();
-
-            if (bindingContext.DestinationType.IsCollection() || bindingContext.DestinationType.IsArray() || bindingContext.DestinationType.IsEnumerable())
+            if (bindingContext.DestinationType.IsCollectionOrArray())
             {
-                var loopCount = objectDictionary.Keys.Select(IsMatch).Where(x => x != -1).Distinct().ToArray().Length;
                 var model = (IList)bindingContext.Model;
-                for (var i = 0; i < loopCount; i++)
+                var collection = obj as ICollection;
+
+                if(collection == null)
                 {
-                    object genericinstance;
-                    if (model.Count > i)
-                    {
-                        genericinstance = model[i];
-                    }
-                    else
-                    {
-                        genericinstance = bindingContext.GenericType.CreateInstance();
-                        model.Add(genericinstance);
-                    }
+                    return null;
+                }
 
-                    foreach (var modelProperty in bindingContext.ValidModelBindingMembers)
-                    {
-                        var collectionVal = GetValue(modelProperty.Name, bindingContext, i);
+                for (var i = 0; i < collection.Count; i++)
+                {
+                    var val = GetValue(bindingContext, i);
 
-                        if (collectionVal != null)
-                        {
-                            try
-                            {
-                                BindValue(modelProperty, collectionVal, bindingContext);
-                            }
-                            catch (PropertyBindingException ex)
-                            {
-                                bindingExceptions.Add(ex);
-                            }
-                        }
+                    if (val != null)
+                    {
+                        model.Add(val);
                     }
                 }
             }
@@ -111,21 +99,9 @@ namespace CefSharp.ModelBinding
 
                     if (val != null)
                     {
-                        try
-                        {
-                            BindValue(modelProperty, val, bindingContext);
-                        }
-                        catch (PropertyBindingException ex)
-                        {
-                            bindingExceptions.Add(ex);
-                        }
+                        BindValue(modelProperty, val, bindingContext);
                     }
                 }
-            }
-
-            if (bindingExceptions.Any() && !bindingContext.Configuration.IgnoreErrors)
-            {
-                throw new ModelBindingException(modelType, bindingExceptions);
             }
 
             if (modelType.IsArray())
@@ -136,47 +112,40 @@ namespace CefSharp.ModelBinding
             return bindingContext.Model;
         }
 
-        protected static int IsMatch(string item)
-        {
-            var bracketMatch = BracketRegex.Match(item);
-            if (bracketMatch.Success)
-            {
-                return int.Parse(bracketMatch.Groups[1].Value);
-            }
-
-            var underscoreMatch = UnderscoreRegex.Match(item);
-
-            if (underscoreMatch.Success)
-            {
-                return int.Parse(underscoreMatch.Groups[1].Value);
-            }
-
-            return -1;
-        }
-
-        protected BindingContext CreateBindingContext(IDictionary<string, object> objectDictioanry, Type modelType, BindingConfig configuration, IEnumerable<string> blackList, Type genericType)
+        protected BindingContext CreateBindingContext(object obj, Type modelType, IEnumerable<string> blackList, Type genericType)
         {
             return new BindingContext
             {
-                Configuration = configuration,
                 DestinationType = modelType,
                 Model = CreateModel(modelType, genericType),
                 ValidModelBindingMembers = GetBindingMembers(modelType, genericType, blackList).ToList(),
-                ObjectDictionary = objectDictioanry,
+                Object = obj,
                 GenericType = genericType
             };
         }
 
         protected void BindValue(BindingMemberInfo modelProperty, object obj, BindingContext context)
         {
+            if(obj == null)
+            {
+                return;
+            }
+
             Type dictionaryType = typeof(Dictionary<string, object>);
 
             //If the type is a dictionary and the PropertyType isn't then we'll bind.
-            if (obj != null && obj.GetType() == dictionaryType && modelProperty.PropertyType != dictionaryType)
+            if (obj.GetType() == dictionaryType && modelProperty.PropertyType != dictionaryType)
             {
-                var dictionary = (Dictionary<string, object>)obj;
-                var model = Bind(dictionary, modelProperty.PropertyType, context.Configuration);
                 //We have a sub dictionary, attempt to bind it to the class
+                var model = Bind(obj, modelProperty.PropertyType);
+
+                modelProperty.SetValue(context.Model, model);
+            }
+            //If both types are collections then we'll bind
+            else if (obj.GetType().IsCollectionOrArray() && modelProperty.PropertyType.IsCollectionOrArray())
+            {
+                //We have a sub dictionary, attempt to bind it to the class
+                var model = Bind(obj, modelProperty.PropertyType);
 
                 modelProperty.SetValue(context.Model, model);
             }
@@ -196,7 +165,7 @@ namespace CefSharp.ModelBinding
 
         protected static object CreateModel(Type modelType, Type genericType)
         {
-            if (modelType.IsArray() || modelType.IsCollection() || modelType.IsEnumerable())
+            if (modelType.IsCollectionOrArray())
             {
                 //else just make a list
                 var listType = typeof(List<>).MakeGenericType(genericType);
@@ -206,35 +175,25 @@ namespace CefSharp.ModelBinding
             return modelType.CreateInstance(true);
         }
 
-        protected static object GetValue(string propertyName, BindingContext context, int index = -1)
+        protected static object GetValue(string propertyName, BindingContext context)
         {
-            if (index != -1)
+            if (context.Object.GetType() == typeof(Dictionary<string, object>))
             {
-
-                var indexindexes = context.ObjectDictionary.Keys.Select(IsMatch)
-                                           .Where(i => i != -1)
-                                           .OrderBy(i => i)
-                                           .Distinct()
-                                           .Select((k, i) => new KeyValuePair<int, int>(i, k))
-                                           .ToDictionary(k => k.Key, v => v.Value);
-
-                if (indexindexes.ContainsKey(index))
+                var dictionary = (Dictionary<string, object>)context.Object;
+                if (dictionary.ContainsKey(propertyName))
                 {
-                    var propertyValue =
-                        context.ObjectDictionary.Where(c =>
-                        {
-                            var indexId = IsMatch(c.Key);
-                            return c.Key.StartsWith(propertyName, StringComparison.OrdinalIgnoreCase) && indexId != -1 && indexId == indexindexes[index];
-                        })
-                        .Select(k => k.Value)
-                        .FirstOrDefault();
-
-                    return propertyValue;
+                    return dictionary[propertyName];
                 }
-
-                return string.Empty;
             }
-            return context.ObjectDictionary.ContainsKey(propertyName) ? context.ObjectDictionary[propertyName] : string.Empty;
+
+            return null;
+        }
+
+        protected static object GetValue(BindingContext context, int index)
+        {
+            var collection = context.Object as IList<object>;
+
+            return collection.ElementAtOrDefault(index);
         }
     }
 }

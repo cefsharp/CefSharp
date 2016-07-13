@@ -15,11 +15,10 @@ namespace CefSharp.ModelBinding
         /// <summary>
         /// Bind to the given model type
         /// </summary>
-        /// <param name="context">Current context</param>
+        /// <param name="obj">object to be converted into a model</param>
         /// <param name="modelType">Model type to bind to</param>
-        /// <param name="configuration">The <see cref="BindingConfig"/> that should be applied during binding.</param>
         /// <param name="blackList">Blacklisted property names</param>
         /// <returns>Bound model</returns>
-        object Bind(IDictionary<string, object> objectDictionary, Type modelType, BindingConfig configuration, params string[] blackList);
+        object Bind(object obj, Type modelType, params string[] blackList);
     }
 }

@@ -102,9 +102,6 @@
     <Compile Include="IResponseFilter.cs" />
     <Compile Include="IRunContextMenuCallback.cs" />
     <Compile Include="MenuItemType.cs" />
-    <Compile Include="ModelBinding\BindingConfig.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="ModelBinding\BindingContext.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -123,13 +120,7 @@
     <Compile Include="ModelBinding\IFieldNameConverter.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ModelBinding\ModelBindingException.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="ModelBinding\ModelBindingExtensions.cs" />
-    <Compile Include="ModelBinding\PropertyBindingException.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="NavigationEntry.cs" />
     <Compile Include="PdfPrintSettings.cs" />
     <Compile Include="ICookieManager.cs" />

@@ -14,10 +14,6 @@ namespace CefSharp.ModelBinding
     public class BindingContext
     {
         public CultureInfo Culture { get; set; } 
-        /// <summary>
-        /// The binding configuration
-        /// </summary>
-        public BindingConfig Configuration { get; set; }
 
         /// <summary>
         /// Binding destination type
@@ -42,7 +38,7 @@ namespace CefSharp.ModelBinding
         /// <summary>
         /// The incoming data fields
         /// </summary>
-        public IDictionary<string, object> ObjectDictionary { get; set; }
+        public object Object { get; set; }
 
         public BindingContext()
         {

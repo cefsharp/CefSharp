@@ -173,7 +173,7 @@ namespace CefSharp.Internals
                             if(parameters[i].GetType() == typeof(Dictionary<string, object>))
                             {
                                 var dictionary = (Dictionary<string, object>)parameters[i];
-                                parameters[i] = obj.Binder.Bind(dictionary, paramType, BindingConfig.Default);
+                                parameters[i] = obj.Binder.Bind(dictionary, paramType);
                             }
                         }
                     }
