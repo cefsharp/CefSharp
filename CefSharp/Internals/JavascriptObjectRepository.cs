@@ -168,12 +168,15 @@ namespace CefSharp.Internals
                     { 
                         for (var i = 0; i < parameters.Length; i++)
                         { 
-                            var paramType = method.Parameters[i].Type;
+                            if(parameters[i] != null)
+                            { 
+                                var paramType = method.Parameters[i].Type;
 
-                            if(parameters[i].GetType() == typeof(Dictionary<string, object>))
-                            {
-                                var dictionary = (Dictionary<string, object>)parameters[i];
-                                parameters[i] = obj.Binder.Bind(dictionary, paramType);
+                                if(parameters[i].GetType() == typeof(Dictionary<string, object>))
+                                {
+                                    var dictionary = (Dictionary<string, object>)parameters[i];
+                                    parameters[i] = obj.Binder.Bind(dictionary, paramType);
+                                }
                             }
                         }
                     }
