@@ -37,6 +37,12 @@ namespace CefSharp
         void CloseDevTools();
 
         /// <summary>
+        /// Returns true if this browser currently has an associated DevTools browser.
+        /// Must be called on the CEF UI thread.
+        /// </summary>
+        bool HasDevTools { get; }
+
+        /// <summary>
         /// Call this method when the user drags the mouse into the web view (before calling <see cref="DragTargetDragOver"/>/<see cref="DragTargetDragLeave"/>/<see cref="DragTargetDragDrop"/>).
         /// </summary>
         void DragTargetDragEnter(IDragData dragData, MouseEvent mouseEvent, DragOperationsMask allowedOperations);

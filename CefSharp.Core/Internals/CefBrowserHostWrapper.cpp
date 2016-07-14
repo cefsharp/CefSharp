@@ -169,6 +169,13 @@ void CefBrowserHostWrapper::CloseDevTools()
     _browserHost->CloseDevTools();
 }
 
+bool CefBrowserHostWrapper::HasDevTools::get()
+{
+    ThrowIfDisposed();
+
+    return _browserHost->HasDevTools();
+}
+
 void CefBrowserHostWrapper::AddWordToDictionary(String^ word)
 {
     ThrowIfDisposed();
