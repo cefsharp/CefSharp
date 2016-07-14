@@ -57,6 +57,15 @@ namespace CefSharp
         
             virtual void ShowDevTools(IWindowInfo^ windowInfo, int inspectElementAtX, int inspectElementAtY);
             virtual void CloseDevTools();
+            ///
+            // Returns true if this browser currently has an associated DevTools browser.
+            // Must be called on the browser process UI thread.
+            ///
+            /*--cef()--*/
+            virtual property bool HasDevTools
+            {
+                bool get();
+            }
 
             virtual void AddWordToDictionary(String^ word);
             virtual void ReplaceMisspelling(String^ word);
