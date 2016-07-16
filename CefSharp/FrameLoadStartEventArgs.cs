@@ -16,11 +16,12 @@ namespace CefSharp
         /// </summary>
         /// <param name="browser">browser</param>
         /// <param name="frame">frame</param>
-        public FrameLoadStartEventArgs(IBrowser browser, IFrame frame)
+        public FrameLoadStartEventArgs(IBrowser browser, IFrame frame, TransitionType transitionType)
         {
             Browser = browser;
             Frame = frame;
             Url = frame.Url;
+            TransitionType = transitionType;
         }
 
         /// <summary>
@@ -37,5 +38,10 @@ namespace CefSharp
         /// The URL that was loaded.
         /// </summary>
         public string Url { get; private set; }
+
+        /// <summary>
+        /// TransitionType provides information about the source of the navigation.
+        /// </summary>
+        public TransitionType TransitionType { get; private set; }
     }
 }
