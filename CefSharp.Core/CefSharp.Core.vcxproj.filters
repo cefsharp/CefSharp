@@ -274,4 +274,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="handlers.txt" />
+  </ItemGroup>
 </Project>

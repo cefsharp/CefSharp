@@ -66,6 +66,9 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>CefSharp.Wpf.Example.App</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="GalaSoft.MvvmLight">
       <HintPath>..\packages\MvvmLightLibs.5.1.1.0\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
@@ -112,6 +115,7 @@
     <Compile Include="SpawnBrowsersWindow.xaml.cs">
       <DependentUpon>SpawnBrowsersWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Startup.cs" />
     <Compile Include="Views\BrowserTabView.xaml.cs">
       <DependentUpon>BrowserTabView.xaml</DependentUpon>
     </Compile>

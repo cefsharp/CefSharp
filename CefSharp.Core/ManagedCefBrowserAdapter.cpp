@@ -9,6 +9,8 @@
 #include "Internals/CefFrameWrapper.h"
 #include "Internals/CefSharpBrowserWrapper.h"
 
+#include "Safe/CefClientSafe.h"
+
 using namespace CefSharp::Internals::Messaging;
 
 bool ManagedCefBrowserAdapter::IsDisposed::get()
@@ -29,7 +31,7 @@ void ManagedCefBrowserAdapter::CreateOffscreenBrowser(IntPtr windowHandle, Brows
     window.SetAsWindowless(hwnd, transparent);
     CefString addressNative = StringUtils::ToNative(address);
 
-    if (!CefBrowserHost::CreateBrowser(window, _clientAdapter.get(), addressNative,
+    if (!CefBrowserHost::CreateBrowser(window, new CefClientSafeType<ClientAdapter>(_clientAdapter.get()), addressNative,
         *browserSettings->_browserSettings, requestContext))
     {
         throw gcnew InvalidOperationException("Failed to create offscreen browser. Call Cef.Initialize() first.");
@@ -77,7 +79,7 @@ void ManagedCefBrowserAdapter::CreateBrowser(BrowserSettings^ browserSettings, R
     window.SetAsChild(hwnd, rect);
     CefString addressNative = StringUtils::ToNative(address);
 
-    CefBrowserHost::CreateBrowser(window, _clientAdapter.get(), addressNative,
+    CefBrowserHost::CreateBrowser(window, new CefClientSafeType<ClientAdapter>(_clientAdapter.get()), addressNative,
         *browserSettings->_browserSettings, requestContext);
 }
 
