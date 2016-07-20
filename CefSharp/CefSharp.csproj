@@ -70,6 +70,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BindingOptions.cs" />
     <Compile Include="CefDirtyRect.cs" />
     <Compile Include="CefExtension.cs" />
     <Compile Include="CefFileDialogMode.cs" />

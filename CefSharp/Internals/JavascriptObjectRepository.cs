@@ -71,23 +71,24 @@ namespace CefSharp.Internals
             return result;
         }
 
-        public void RegisterAsync(string name, object value, bool camelCaseJavascriptNames, IBinder binder)
+        public void RegisterAsync(string name, object value, BindingOptions options)
         {
-            AsyncRootObject.MemberObjects.Add(CreateInternal(name, value, camelCaseJavascriptNames, analyseProperties: false, binder: binder));
+            AsyncRootObject.MemberObjects.Add(CreateInternal(name, value, analyseProperties: false, options: options));
         }
 
-        public void Register(string name, object value, bool camelCaseJavascriptNames, IBinder binder)
+        public void Register(string name, object value, BindingOptions options)
         {
-            RootObject.MemberObjects.Add(CreateInternal(name, value, camelCaseJavascriptNames, analyseProperties: true, binder: binder));
+            RootObject.MemberObjects.Add(CreateInternal(name, value, analyseProperties: true, options: options));
         }
 
-        private JavascriptObject CreateInternal(string name, object value, bool camelCaseJavascriptNames, bool analyseProperties, IBinder binder)
+        private JavascriptObject CreateInternal(string name, object value, bool analyseProperties, BindingOptions options)
         {
+            var camelCaseJavascriptNames = options == null ? true : options.CamelCaseJavascriptNames;
             var jsObject = CreateJavascriptObject(camelCaseJavascriptNames);
             jsObject.Value = value;
             jsObject.Name = name;
             jsObject.JavascriptName = name;
-            jsObject.Binder = binder;
+            jsObject.Binder = options == null ? null : options.Binder;
 
             AnalyseObjectForBinding(jsObject, analyseMethods: true, analyseProperties: analyseProperties, readPropertyValue: false, camelCaseJavascriptNames: camelCaseJavascriptNames);
 
