@@ -60,7 +60,7 @@ namespace CefSharp.WinForms.Example
             eventObject.EventArrived += OnJavascriptEventArrived;
             // Use the default of camelCaseJavascriptNames
             // .Net methods starting with a capitol will be translated to starting with a lower case letter when called from js
-            browser.RegisterJsObject("boundEvent", eventObject, camelCaseJavascriptNames:true);
+            browser.RegisterJsObject("boundEvent", eventObject, BindingOptions.DefaultBinder);
 
             CefExample.RegisterTestResources(browser);
 

@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using CefSharp.ModelBinding;
 
 namespace CefSharp.Internals
 {
@@ -49,6 +50,8 @@ namespace CefSharp.Internals
         /// Gets or sets the value.
         /// </summary>
         public object Value { get; set; }
+
+        public IBinder Binder { get; set; }
 
         public JavascriptObject()
         {

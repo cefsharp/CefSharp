@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using CefSharp.ModelBinding;
 
 namespace CefSharp.Internals
 {
@@ -70,22 +71,24 @@ namespace CefSharp.Internals
             return result;
         }
 
-        public void RegisterAsync(string name, object value, bool camelCaseJavascriptNames)
+        public void RegisterAsync(string name, object value, BindingOptions options)
         {
-            AsyncRootObject.MemberObjects.Add(CreateInternal(name, value, camelCaseJavascriptNames, analyseProperties: false));
+            AsyncRootObject.MemberObjects.Add(CreateInternal(name, value, analyseProperties: false, options: options));
         }
 
-        public void Register(string name, object value, bool camelCaseJavascriptNames)
+        public void Register(string name, object value, BindingOptions options)
         {
-            RootObject.MemberObjects.Add(CreateInternal(name, value, camelCaseJavascriptNames, analyseProperties: true));
+            RootObject.MemberObjects.Add(CreateInternal(name, value, analyseProperties: true, options: options));
         }
 
-        private JavascriptObject CreateInternal(string name, object value, bool camelCaseJavascriptNames, bool analyseProperties)
+        private JavascriptObject CreateInternal(string name, object value, bool analyseProperties, BindingOptions options)
         {
+            var camelCaseJavascriptNames = options == null ? true : options.CamelCaseJavascriptNames;
             var jsObject = CreateJavascriptObject(camelCaseJavascriptNames);
             jsObject.Value = value;
             jsObject.Name = name;
             jsObject.JavascriptName = name;
+            jsObject.Binder = options == null ? null : options.Binder;
 
             AnalyseObjectForBinding(jsObject, analyseMethods: true, analyseProperties: analyseProperties, readPropertyValue: false, camelCaseJavascriptNames: camelCaseJavascriptNames);
 
@@ -162,6 +165,28 @@ namespace CefSharp.Internals
 
                 try
                 {
+                    if(obj.Binder != null)
+                    { 
+                        for (var i = 0; i < parameters.Length; i++)
+                        { 
+                            if(parameters[i] != null)
+                            { 
+                                var paramType = method.Parameters[i].Type;
+
+                                if(parameters[i].GetType() == typeof(Dictionary<string, object>))
+                                {
+                                    var dictionary = (Dictionary<string, object>)parameters[i];
+                                    parameters[i] = obj.Binder.Bind(dictionary, paramType);
+                                }
+                                else if (parameters[i].GetType() == typeof(List<object>))
+                                {
+                                    var list = (List<object>)parameters[i];
+                                    parameters[i] = obj.Binder.Bind(list, paramType);
+                                }
+                            }
+                        }
+                    }
+
                     result = method.Function(obj.Value, parameters);
                 }
                 catch (Exception e)
@@ -332,7 +357,8 @@ namespace CefSharp.Internals
             jsMethod.Parameters = methodInfo.GetParameters()
                 .Select(t => new MethodParameter()
                 {
-                    IsParamArray = t.GetCustomAttributes(typeof(ParamArrayAttribute), false).Length > 0
+                    IsParamArray = t.GetCustomAttributes(typeof(ParamArrayAttribute), false).Length > 0,
+                    Type = t.ParameterType
                 }).ToList();
             //Pre compute HasParamArray for a very minor performance gain 
             jsMethod.HasParamArray = jsMethod.Parameters.LastOrDefault(t => t.IsParamArray) != null;

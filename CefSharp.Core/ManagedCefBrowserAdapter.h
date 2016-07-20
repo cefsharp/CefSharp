@@ -18,6 +18,7 @@ using namespace System::Diagnostics;
 using namespace System::ServiceModel;
 using namespace System::Threading;
 using namespace System::Threading::Tasks;
+using namespace CefSharp::ModelBinding;
 
 namespace CefSharp
 {
@@ -112,8 +113,8 @@ namespace CefSharp
         void CreateOffscreenBrowser(IntPtr windowHandle, BrowserSettings^ browserSettings, RequestContext^ requestContext, String^ address);
         void CreateBrowser(BrowserSettings^ browserSettings, RequestContext^ requestContext, IntPtr sourceHandle, String^ address);
         void Resize(int width, int height);
-        void RegisterJsObject(String^ name, Object^ object, bool lowerCaseJavascriptNames);
-        void RegisterAsyncJsObject(String^ name, Object^ object, bool lowerCaseJavascriptNames);
+        void RegisterJsObject(String^ name, Object^ object, BindingOptions^ options);
+        void RegisterAsyncJsObject(String^ name, Object^ object, BindingOptions^ options);
 
         virtual IBrowser^ GetBrowser(int browserId);
 
