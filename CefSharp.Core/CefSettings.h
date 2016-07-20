@@ -95,6 +95,22 @@ namespace CefSharp
         }
 
         /// <summary>
+        /// Set to true to control browser process main (UI) thread message pump
+        /// scheduling via the IBrowserProcessHandler.OnScheduleMessagePumpWork
+        /// callback. This option is recommended for use in combination with the
+        /// Cef.DoMessageLoopWork() function in cases where the CEF message loop must be
+        /// integrated into an existing application message loop (see additional
+        /// comments and warnings on Cef.DoMessageLoopWork). Enabling this option is not
+        /// recommended for most users; leave this option disabled and use either
+        /// MultiThreadedMessageLoop (the default) if possible.
+        /// </summary>
+        property bool ExternalMessagePump
+        {
+            bool get() { return _cefSettings->external_message_pump == 1; }
+            void set(bool value) { _cefSettings->external_message_pump = value; }
+        }		
+
+        /// <summary>
         //// Set to true to have the browser process message loop run in a separate
         /// thread. If false than the CefDoMessageLoopWork() function must be
         /// called from your application message loop. This option is only supported on

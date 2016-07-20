@@ -87,6 +87,7 @@
     <Compile Include="DynamicDictionary.cs" />
     <Compile Include="FilterStatus.cs" />
     <Compile Include="Geoposition.cs" />
+    <Compile Include="IBrowserProcessHandler.cs" />
     <Compile Include="IBrowserSettings.cs" />
     <Compile Include="IDomNode.cs" />
     <Compile Include="IFindHandler.cs" />

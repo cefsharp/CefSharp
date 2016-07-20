@@ -15,19 +15,19 @@ namespace CefSharp
         public CefBrowserProcessHandler
     {
         gcroot<CefSettings^> _cefSettings;
-        gcroot<Action^> _onContextInitialized;
+        gcroot<IBrowserProcessHandler^> _browserProcessHandler;
 
     public:
-        CefSharpApp(CefSettings^ cefSettings, Action^ onContextInitialized) :
+        CefSharpApp(CefSettings^ cefSettings, IBrowserProcessHandler^ browserProcessHandler) :
             _cefSettings(cefSettings),
-            _onContextInitialized(onContextInitialized)
+            _browserProcessHandler(browserProcessHandler)
         {
         }
 
         ~CefSharpApp()
         {
             _cefSettings = nullptr;
-            _onContextInitialized = nullptr;
+            _browserProcessHandler = nullptr;
         }
 
         virtual CefRefPtr<CefBrowserProcessHandler> GetBrowserProcessHandler() OVERRIDE
@@ -37,9 +37,9 @@ namespace CefSharp
 
         virtual void OnContextInitialized() OVERRIDE
         {
-            if (!Object::ReferenceEquals(_onContextInitialized, nullptr))
+            if (!Object::ReferenceEquals(_browserProcessHandler, nullptr))
             {
-                _onContextInitialized->Invoke();
+                _browserProcessHandler->OnContextInitialized();
             }
         }
 

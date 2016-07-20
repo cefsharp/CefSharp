@@ -43,12 +43,6 @@ namespace CefSharp
         }
 
     public:
-        /// <summary>
-        /// Called on the CEF UI thread immediately after the CEF context has been initialized.
-        /// You can now access the Global RequestContext through Cef.GetGlobalRequestContext() - this is the
-        /// first place you can set Preferences (e.g. proxy settings, spell check dictionaries).
-        /// </summary>
-        static property Action^ OnContextInitialized;
 
         static property TaskFactory^ UIThreadTaskFactory;
         static property TaskFactory^ IOThreadTaskFactory;
@@ -149,7 +143,7 @@ namespace CefSharp
         /// <return>true if successful; otherwise, false.</return>
         static bool Initialize(CefSettings^ cefSettings)
         {
-            return Initialize(cefSettings, true, false);
+            return Initialize(cefSettings, false, nullptr);
         }
 
         /// <summary>
@@ -157,11 +151,9 @@ namespace CefSharp
         /// This function should be called on the main application thread to initialize the CEF browser process.
         /// </summary>
         /// <param name="cefSettings">CefSharp configuration settings.</param>
-        /// <param name="shutdownOnProcessExit">When the Current AppDomain (relative to the thread called on)
-        /// Exits(ProcessExit event) then Shudown will be called.</param>
         /// <param name="performDependencyCheck">Check that all relevant dependencies avaliable, throws exception if any are missing</param>
         /// <return>true if successful; otherwise, false.</return>
-        static bool Initialize(CefSettings^ cefSettings, bool shutdownOnProcessExit, bool performDependencyCheck)
+        static bool Initialize(CefSettings^ cefSettings, bool performDependencyCheck, IBrowserProcessHandler^ browserProcessHandler)
         {
             if (IsInitialized)
             {
@@ -184,7 +176,7 @@ namespace CefSharp
             FileThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_FILE));
 
             CefMainArgs main_args;
-            CefRefPtr<CefSharpApp> app(new CefSharpApp(cefSettings, OnContextInitialized));
+            CefRefPtr<CefSharpApp> app(new CefSharpApp(cefSettings, browserProcessHandler));
 
             auto success = CefInitialize(main_args, *(cefSettings->_cefSettings), app.get(), NULL);
 
@@ -202,12 +194,20 @@ namespace CefSharp
             return success;
         }
 
-        /// <summary>Perform a single iteration of CEF message loop processing. This function is
-        /// used to integrate the CEF message loop into an existing application message
-        /// loop. Care must be taken to balance performance against excessive CPU usage.
-        /// This function should only be called on the main application thread and only
-        /// if CefInitialize() is called with a CefSettings.multi_threaded_message_loop
-        /// value of false. This function will not block.</summary>
+        /// <summary>
+        /// Perform a single iteration of CEF message loop processing.This function is
+        /// provided for cases where the CEF message loop must be integrated into an
+        /// existing application message loop. Use of this function is not recommended
+        /// for most users; use CefSettings.MultiThreadedMessageLoop if possible (the deault).
+        /// When using this function care must be taken to balance performance
+        /// against excessive CPU usage. It is recommended to enable the
+        /// CefSettings.ExternalMessagePump option when using
+        /// this function so that IBrowserProcessHandler.OnScheduleMessagePumpWork()
+        /// callbacks can facilitate the scheduling process. This function should only be
+        /// called on the main application thread and only if Cef.Initialize() is called
+        /// with a CefSettings.MultiThreadedMessageLoop value of false. This function
+        /// will not block.
+        /// </summary>
         static void DoMessageLoopWork()
         {
             CefDoMessageLoopWork();
@@ -343,8 +343,6 @@ namespace CefSharp
         {
             if (IsInitialized)
             { 
-                OnContextInitialized = nullptr;
-                
                 msclr::lock l(_sync);
 
                 UIThreadTaskFactory = nullptr;
