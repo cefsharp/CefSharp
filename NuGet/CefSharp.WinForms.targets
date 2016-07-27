@@ -8,7 +8,7 @@
 
     <Message Importance="high" Text="-- CefSharp.WinForms.targets: Copying files from $(MSBuildThisFileDirectory)..\CefSharp\x86 to $(TargetDir)\x86" />
     <Copy SourceFiles="@(CefSharpBinaries32)" DestinationFolder="$(TargetDir)\x86" SkipUnchangedFiles="true" />
-    <Message Importance="high" Text="-- CefSharp.WinForms.targets: Copying files from $(MSBuildThisFileDirectory)..\CefSharp\x64 to $(TargetDir)" />
+    <Message Importance="high" Text="-- CefSharp.WinForms.targets: Copying files from $(MSBuildThisFileDirectory)..\CefSharp\x64 to $(TargetDir)\x64" />
     <Copy SourceFiles="@(CefSharpBinaries64)" DestinationFolder="$(TargetDir)\x64" SkipUnchangedFiles="true" />
   </Target>
 </Project>
