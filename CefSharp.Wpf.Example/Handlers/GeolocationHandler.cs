@@ -11,14 +11,29 @@ namespace CefSharp.Wpf.Example.Handlers
     {
         bool IGeolocationHandler.OnRequestGeolocationPermission(IWebBrowser browserControl, IBrowser browser, string requestingUrl, int requestId, IGeolocationCallback callback)
         {
-            using (callback)
+            //You can execute the callback inline
+            //callback.Continue(true);
+            //return true;
+
+            //You can execute the callback in an `async` fashion
+            //Open a message box on the `UI` thread and ask for user input.
+            //You can open a form, or do whatever you like, just make sure you either
+            //execute the callback or call `Dispose` as it's an `unmanaged` wrapper.
+            var chromiumWebBrowser = (ChromiumWebBrowser)browserControl;
+            chromiumWebBrowser.Dispatcher.BeginInvoke((Action)(() =>
             {
-                var result = MessageBox.Show(String.Format("{0} wants to use your computer's location.  Allow?  ** You must set your Google API key in CefExample.Init() for this to work. **", requestingUrl), "Geolocation", MessageBoxButton.YesNo);
+                //Callback wraps an unmanaged resource, so we'll make sure it's Disposed (calling Continue will also Dipose of the callback, it's safe to dispose multiple times).
+                using (callback)
+                {
+                    var result = MessageBox.Show(String.Format("{0} wants to use your computer's location.  Allow?  ** You must set your Google API key in CefExample.Init() for this to work. **", requestingUrl), "Geolocation", MessageBoxButton.YesNo);
 
-                callback.Continue(result == MessageBoxResult.Yes);
+                    //Execute the callback, to allow/deny the request.
+                    callback.Continue(result == MessageBoxResult.Yes);
+                }
+            }));
 
-                return result == MessageBoxResult.Yes;
-            }
+            //Yes we'd like to hadle this request ourselves.
+            return true;
         }
 
         void IGeolocationHandler.OnCancelGeolocationPermission(IWebBrowser browserControl, IBrowser browser, int requestId)
