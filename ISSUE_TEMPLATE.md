@@ -29,6 +29,8 @@ e.g. 47.0.3
 - **Are you using `WinForms`, `WPF` or `OffScreen`?**
 
 - **What steps will reproduce the problem?**
+    - Please provide detailed information here, enough for someone else to reprodce your problem.
+    - Please no binary (zip, etc) links, fork the [MinimalExample](https://github.com/cefsharp/CefSharp.MinimalExample) and push your changes to `GitHub`. (Alternatively use a code sharing service list `Gist` or `Pastebin`).
 
 - **What is the expected output? What do you see instead?**
 
@@ -39,4 +41,4 @@ e.g. 47.0.3
 
     - Any other background information that's relevant? Are you doing something out of the ordinary? 3rd party controls?
 
-- **Does this problem also occur in the `Cef` TestApp from http://cefbuilds.com?**
+- **Does this problem also occur in the `Cef` TestApp from http://opensource.spotify.com/cefbuilds/index.html (http://cefbuilds.com for older version)?**
