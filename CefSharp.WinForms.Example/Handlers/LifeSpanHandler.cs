@@ -112,17 +112,19 @@ namespace CefSharp.WinForms.Example.Handlers
 
         void ILifeSpanHandler.OnAfterCreated(IWebBrowser browserControl, IBrowser browser)
         {
-            
+
         }
 
         bool ILifeSpanHandler.DoClose(IWebBrowser browserControl, IBrowser browser)
         {
-            return false;
+            // We do not want to close the entire application when a tab is closed. Thus we return true here to indicate
+            // that the parent window should not be closed when the browser is closed.
+            return true;
         }
 
         public void OnBeforeClose(IWebBrowser browserControl, IBrowser browser)
         {
-            
+
         }
     }
 }
