@@ -337,10 +337,8 @@ namespace CefSharp.WinForms
                 IsBrowserInitializedChanged = null;
             }
 
-            // Don't utilize any of the handlers anymore.
-            // We have to do this after we dispose managedCefBrowserAdapter
-            // otherwise the LifeSpanHandler will not be called properly when the
-            // browser is closed during the disposal process.
+            // Release reference to handlers, make sure this is done after we dispose managedCefBrowserAdapter
+            // otherwise the ILifeSpanHandler.DoClose will not be invoked.
             this.SetHandlersToNull();
 
             base.Dispose(disposing);

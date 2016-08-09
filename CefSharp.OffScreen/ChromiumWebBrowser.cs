@@ -357,9 +357,6 @@ namespace CefSharp.OffScreen
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
-            // Don't reference handlers any longer:
-            this.SetHandlersToNull();
-
             // Don't reference event listeners any longer:
             LoadError = null;
             FrameLoadStart = null;
@@ -398,6 +395,11 @@ namespace CefSharp.OffScreen
                     managedCefBrowserAdapter = null;
                 }
             }
+
+            // Release reference to handlers, make sure this is done after we dispose managedCefBrowserAdapter
+            // otherwise the ILifeSpanHandler.DoClose will not be invoked. (More important in the WinForms version,
+            // we do it here for consistency)
+            this.SetHandlersToNull();
         }
 
         /// <summary>

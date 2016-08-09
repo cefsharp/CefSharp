@@ -117,8 +117,10 @@ namespace CefSharp.WinForms.Example.Handlers
 
         bool ILifeSpanHandler.DoClose(IWebBrowser browserControl, IBrowser browser)
         {
-            // We do not want to close the entire application when a tab is closed. Thus we return true here to indicate
-            // that the parent window should not be closed when the browser is closed.
+
+            //The default CEF behaviour (return false) will send a OS close notification (e.g. WM_CLOSE).
+            //See the doc for this method for full details.
+            //return true here to handle closing yourself (no WM_CLOSE will be sent).
             return true;
         }
 

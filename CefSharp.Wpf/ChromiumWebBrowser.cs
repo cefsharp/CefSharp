@@ -442,9 +442,6 @@ namespace CefSharp.Wpf
                 LoadingStateChanged = null;
                 Rendering = null;
 
-                // No longer reference handlers:
-                this.SetHandlersToNull();
-
                 if (isDisposing)
                 {
                     browser = null;
@@ -494,6 +491,11 @@ namespace CefSharp.Wpf
                         WebBrowser = null;
                     });
                 }
+
+                // Release reference to handlers, make sure this is done after we dispose managedCefBrowserAdapter
+                // otherwise the ILifeSpanHandler.DoClose will not be invoked. (More important in the WinForms version,
+                // we do it here for consistency)
+                this.SetHandlersToNull();
 
                 Cef.RemoveDisposable(this);
 
