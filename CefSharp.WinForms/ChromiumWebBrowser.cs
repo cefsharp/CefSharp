@@ -300,9 +300,6 @@ namespace CefSharp.WinForms
         /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
         protected override void Dispose(bool disposing)
         {
-            // Don't utilize any of the handlers anymore:
-            this.SetHandlersToNull();
-
             Cef.RemoveDisposable(this);
 
             if (disposing)
@@ -339,6 +336,13 @@ namespace CefSharp.WinForms
                 TitleChanged = null;
                 IsBrowserInitializedChanged = null;
             }
+
+            // Don't utilize any of the handlers anymore.
+            // We have to do this after we dispose managedCefBrowserAdapter
+            // otherwise the LifeSpanHandler will not be called properly when the
+            // browser is closed during the disposal process.
+            this.SetHandlersToNull();
+
             base.Dispose(disposing);
         }
 
