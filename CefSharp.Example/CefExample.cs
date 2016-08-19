@@ -98,13 +98,8 @@ namespace CefSharp.Example
                 //settings.CefCommandLineArgs.Add("disable-surfaces", "1");
                 settings.EnableInternalPdfViewerOffScreen();
 
-                var osVersion = Environment.OSVersion;
-                //Disable GPU for Windows 7
-                if(osVersion.Version.Major == 6 && osVersion.Version.Minor == 1)
-                {
-                    // Disable GPU in WPF and Offscreen examples until #1634 has been resolved
-                    settings.CefCommandLineArgs.Add("disable-gpu", "1");
-                }
+                //Disable Direct Composition to test https://github.com/cefsharp/CefSharp/issues/1634
+                //settings.CefCommandLineArgs.Add("disable-direct-composition", "1");
                 
                 // DevTools doesn't seem to be working when this is enabled
                 // http://magpcss.org/ceforum/viewtopic.php?f=6&t=14095
