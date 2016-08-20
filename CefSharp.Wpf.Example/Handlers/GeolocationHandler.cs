@@ -32,7 +32,7 @@ namespace CefSharp.Wpf.Example.Handlers
                 }
             }));
 
-            //Yes we'd like to hadle this request ourselves.
+            //Yes we'd like to handle this request ourselves.
             return true;
         }
 
