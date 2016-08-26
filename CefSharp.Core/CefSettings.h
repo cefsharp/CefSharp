@@ -399,14 +399,24 @@ namespace CefSharp
             // If the PDF extension is enabled then cc Surfaces must be disabled for
             // PDFs to render correctly.
             // See https://bitbucket.org/chromiumembedded/cef/issues/1689 for details.
-            _cefCommandLineArgs->Add("disable-surfaces", "1");
+            if (!_cefCommandLineArgs->ContainsKey("disable-surfaces"))
+            {
+                _cefCommandLineArgs->Add("disable-surfaces", "1");
+            }
 
             // Use software rendering and compositing (disable GPU) for increased FPS
             // and decreased CPU usage. This will also disable WebGL so remove these
             // switches if you need that capability.
             // See https://bitbucket.org/chromiumembedded/cef/issues/1257 for details.
-            _cefCommandLineArgs->Add("disable-gpu", "1");
-            _cefCommandLineArgs->Add("disable-gpu-compositing", "1");
+            if (!_cefCommandLineArgs->ContainsKey("disable-gpu"))
+            {
+                _cefCommandLineArgs->Add("disable-gpu", "1");
+            }
+
+            if (!_cefCommandLineArgs->ContainsKey("disable-gpu-compositing"))
+            {
+                _cefCommandLineArgs->Add("disable-gpu-compositing", "1");
+            }
 
             // Synchronize the frame rate between all processes. This results in
             // decreased CPU usage by avoiding the generation of extra frames that
@@ -415,7 +425,10 @@ namespace CefSharp
             // dynamically using CefBrowserHost::SetWindowlessFrameRate. In cefclient
             // it can be set via the command-line using `--off-screen-frame-rate=XX`.
             // See https://bitbucket.org/chromiumembedded/cef/issues/1368 for details.
-            _cefCommandLineArgs->Add("enable-begin-frame-scheduling", "1");
+            if (!_cefCommandLineArgs->ContainsKey("enable-begin-frame-scheduling"))
+            {
+                _cefCommandLineArgs->Add("enable-begin-frame-scheduling", "1");
+            }
         }
 
         /// <summary>
@@ -424,7 +437,10 @@ namespace CefSharp
         /// </summary>
         void EnableInternalPdfViewerOffScreen()
         {
-            _cefCommandLineArgs->Add("disable-surfaces", "1");
+            if (!_cefCommandLineArgs->ContainsKey("disable-surfaces"))
+            {
+                _cefCommandLineArgs->Add("disable-surfaces", "1");
+            }
         }
     };
 }
