@@ -109,7 +109,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(PlatformName) == x86 (
-  "$(DevEnvDir)..\..\VC\bin\editbin" /largeaddressaware /TSAWARE $(TargetPath)
+  "$(DevEnvDir)..\..\VC\bin\editbin" /largeaddressaware /TSAWARE "$(TargetPath)"
 ) else (
   "$(DevEnvDir)..\..\VC\bin\amd64\editbin" /TSAWARE $(TargetPath)
 )</PostBuildEvent>
