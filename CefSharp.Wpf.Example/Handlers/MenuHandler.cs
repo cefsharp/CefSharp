@@ -48,56 +48,58 @@ namespace CefSharp.Wpf.Example.Handlers
 
         void IContextMenuHandler.OnContextMenuDismissed(IWebBrowser browserControl, IBrowser browser, IFrame frame)
         {
-            var chromiumWebBrowser = (ChromiumWebBrowser)browserControl;
+            //var chromiumWebBrowser = (ChromiumWebBrowser)browserControl;
 
-            chromiumWebBrowser.Dispatcher.Invoke(() =>
-            {
-                chromiumWebBrowser.ContextMenu = null;
-            });
+            //chromiumWebBrowser.Dispatcher.Invoke(() =>
+            //{
+            //    chromiumWebBrowser.ContextMenu = null;
+            //});
         }
 
         bool IContextMenuHandler.RunContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model, IRunContextMenuCallback callback)
         {
-            var chromiumWebBrowser = (ChromiumWebBrowser)browserControl;
+            return false;
 
-            //IMenuModel is only valid in the context of this method, so need to read the values before invoking on the UI thread
-            var menuItems = GetMenuItems(model);
+            //var chromiumWebBrowser = (ChromiumWebBrowser)browserControl;
 
-            chromiumWebBrowser.Dispatcher.Invoke(() =>
-            {
-                var menu = new ContextMenu
-                {
-                    IsOpen = true
-                };
+            ////IMenuModel is only valid in the context of this method, so need to read the values before invoking on the UI thread
+            //var menuItems = GetMenuItems(model);
 
-                RoutedEventHandler handler = null;
+            //chromiumWebBrowser.Dispatcher.Invoke(() =>
+            //{
+            //    var menu = new ContextMenu
+            //    {
+            //        IsOpen = true
+            //    };
 
-                handler = (s, e) =>
-                {
-                    menu.Closed -= handler;
+            //    RoutedEventHandler handler = null;
 
-                    //If the callback has been disposed then it's already been executed
-                    //so don't call Cancel
-                    if(!callback.IsDisposed)
-                    { 
-                        callback.Cancel();
-                    }
-                };
+            //    handler = (s, e) =>
+            //    {
+            //        menu.Closed -= handler;
 
-                menu.Closed += handler;
+            //        //If the callback has been disposed then it's already been executed
+            //        //so don't call Cancel
+            //        if(!callback.IsDisposed)
+            //        { 
+            //            callback.Cancel();
+            //        }
+            //    };
 
-                foreach (var item in menuItems)
-                {
-                    menu.Items.Add(new MenuItem
-                    {
-                        Header = item.Item1,
-                        Command = new RelayCommand(() => { callback.Continue(item.Item2, CefEventFlags.None); })
-                    });
-                }
-                chromiumWebBrowser.ContextMenu = menu;
-            });
+            //    menu.Closed += handler;
 
-            return true;
+            //    foreach (var item in menuItems)
+            //    {
+            //        menu.Items.Add(new MenuItem
+            //        {
+            //            Header = item.Item1,
+            //            Command = new RelayCommand(() => { callback.Continue(item.Item2, CefEventFlags.None); })
+            //        });
+            //    }
+            //    chromiumWebBrowser.ContextMenu = menu;
+            //});
+
+            //return true;
         }
 
         private static IEnumerable<Tuple<string, CefMenuCommand>> GetMenuItems(IMenuModel model)
