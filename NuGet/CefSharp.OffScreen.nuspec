@@ -14,6 +14,12 @@
     <dependencies>
       <dependency id="CefSharp.Common" version="[$version$]" />
     </dependencies>
+    <releaseNotes>
+    <![CDATA[
+      See https://github.com/cefsharp/CefSharp/releases/tag/v$version$ for release notes including Known Issues, Breaking Changes, Bugs Fixed, new features.
+      Important you read the release notes to see what's changed in this version.
+    ]]>
+    </releaseNotes>
   </metadata>
   <files>
     <!-- Cannot put these inside lib\net40 etc, since there are both x86 and x64 versions which we must distinguish between. We
