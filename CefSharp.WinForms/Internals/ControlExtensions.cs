@@ -53,7 +53,13 @@ namespace CefSharp.WinForms.Internals
         /// <returns>true if the control is the currently active control</returns>
         public static bool IsActiveControl(this Control control)
         {
-            Control activeControl = control.FindForm().ActiveControl;
+            Form form = control.FindForm();
+            if (form == null)
+             {
+                 return false;
+             }
+ 
+            Control activeControl = form.ActiveControl;
             while (activeControl != null
                    && (activeControl is ContainerControl)
                    && !Object.ReferenceEquals(control, activeControl))
