@@ -536,21 +536,6 @@ namespace CefSharp
 
         void ClientAdapter::OnRenderViewReady(CefRefPtr<CefBrowser> browser)
         {
-            if (!Object::ReferenceEquals(_browserAdapter, nullptr) && !_browserAdapter->IsDisposed && !browser->IsPopup())
-            {
-                auto objectRepository = _browserAdapter->JavascriptObjectRepository;
-
-                if (objectRepository->HasBoundObjects)
-                {
-                    //transmit async bound objects
-                    auto jsRootObjectMessage = CefProcessMessage::Create(kJavascriptRootObjectRequest);
-                    auto argList = jsRootObjectMessage->GetArgumentList();
-                    SerializeJsObject(objectRepository->AsyncRootObject, argList, 0);
-                    SerializeJsObject(objectRepository->RootObject, argList, 1);
-                    browser->SendProcessMessage(CefProcessId::PID_RENDERER, jsRootObjectMessage);
-                }
-            }
-
             auto handler = _browserControl->RequestHandler;
 
             if (handler != nullptr)
@@ -571,6 +556,8 @@ namespace CefSharp
 
                 handler->OnRenderProcessTerminated(_browserControl, browserWrapper, (CefTerminationStatus)status);
             }
+
+            _boundObjectTransmitHelper->Reset();
         }
 
         void ClientAdapter::OnResourceRedirect(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefString& newUrl)
@@ -696,19 +683,57 @@ namespace CefSharp
 
         cef_return_value_t ClientAdapter::OnBeforeResourceLoad(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefRequestCallback> callback)
         {
-            auto handler = _browserControl->RequestHandler;
-
-            if (handler == nullptr)
+            if (!_boundObjectTransmitHelper->Completed)
             {
-                return cef_return_value_t::RV_CONTINUE;
-            }            
+                auto canBind = false;
+
+                if (!Object::ReferenceEquals(_browserAdapter, nullptr) && !_browserAdapter->IsDisposed)
+                {
+                    auto objectRepository = _browserAdapter->JavascriptObjectRepository;
+
+                    if (objectRepository->HasBoundObjects)
+                    {
+                        canBind = true;
+                    }
+                }
+
+                if (canBind)
+                {
+                    auto objectRepository = _browserAdapter->JavascriptObjectRepository;
+                    //transmit async bound objects
+                    auto jsRootObjectMessage = CefProcessMessage::Create(kJavascriptRootObjectRequest);
+                    auto argList = jsRootObjectMessage->GetArgumentList();
+                    SerializeJsObject(objectRepository->AsyncRootObject, argList, 0);
+                    SerializeJsObject(objectRepository->RootObject, argList, 1);
+                    browser->SendProcessMessage(CefProcessId::PID_RENDERER, jsRootObjectMessage);
+                }
+                else
+                {
+                    _boundObjectTransmitHelper->CompleteSync();
+                }
+            }
+
+            auto handler = _browserControl->RequestHandler;
 
             auto frameWrapper = gcnew CefFrameWrapper(frame);
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
             auto requestWrapper = gcnew CefRequestWrapper(request);
             auto requestCallback = gcnew CefRequestCallbackWrapper(callback, frameWrapper, requestWrapper);
 
-            return (cef_return_value_t)handler->OnBeforeResourceLoad(_browserControl, browserWrapper, frameWrapper, requestWrapper, requestCallback);
+            if (!_boundObjectTransmitHelper->Completed)
+            {
+                auto val = CefReturnValue::Continue;
+                if (handler != nullptr)
+                {
+                    val = handler->OnBeforeResourceLoad(_browserControl, browserWrapper, frameWrapper, requestWrapper, _boundObjectTransmitHelper->PassableCallback);
+                }
+                return (cef_return_value_t)_boundObjectTransmitHelper->DoYield(requestCallback, val);
+            }
+            else if (handler != nullptr)
+            {
+                return (cef_return_value_t)handler->OnBeforeResourceLoad(_browserControl, browserWrapper, frameWrapper, requestWrapper, requestCallback);
+            }
+            return cef_return_value_t::RV_CONTINUE;
         }
 
         bool ClientAdapter::GetAuthCredentials(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, bool isProxy,
@@ -1033,12 +1058,20 @@ namespace CefSharp
 
             if (name == kOnContextCreatedRequest)
             {
+                auto frameId = GetInt64(argList, 0);
+                if (_boundObjectTransmitHelper->Completed)
+                {
+                    //start binding for the corresponding frame
+                    vector<int64> frameIds{ frameId };
+                    SendJavascriptBindMessage(browser, frameIds);
+                }
+
                 auto handler = _browserControl->RenderProcessMessageHandler;
 
                 if (handler != nullptr)
                 {
                     auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
-                    CefFrameWrapper frameWrapper(browser->GetFrame(GetInt64(argList, 0)));
+                    CefFrameWrapper frameWrapper(browser->GetFrame(frameId));
 
                     handler->OnContextCreated(_browserControl, browserWrapper, %frameWrapper);
                 }
@@ -1122,6 +1155,17 @@ namespace CefSharp
 
                 handled = true;
             }
+            else if (name == kJavascriptRootObjectResponse && !_boundObjectTransmitHelper->Completed)
+            {
+                vector<int64> frameIdentifiers;
+                browser->GetFrameIdentifiers(frameIdentifiers);
+                //let's try to initiate bindings for all frames
+                SendJavascriptBindMessage(browser, frameIdentifiers);
+
+                _boundObjectTransmitHelper->CompleteAsync();
+
+                handled = true;
+            }
 
             return handled;
         }
@@ -1186,6 +1230,19 @@ namespace CefSharp
                     wrapper->Browser->SendProcessMessage(CefProcessId::PID_RENDERER, message);
                 }
             }
+        }
+
+        void ClientAdapter::SendJavascriptBindMessage(const CefRefPtr<CefBrowser> &browser, const vector<int64> &frameIdentifiers)
+        {
+            auto message = CefProcessMessage::Create(kStartJavascriptBindingRequest);
+            auto args = message->GetArgumentList();
+            auto frameIdList = CefListValue::Create();
+            for (auto i = 0; i < frameIdentifiers.size(); i++)
+            {
+                SetInt64(frameIdList, i, frameIdentifiers.at(i));
+            }
+            args->SetList(0, frameIdList);
+            browser->SendProcessMessage(CefProcessId::PID_RENDERER, message);
         }
     }
 }

@@ -33,6 +33,7 @@ namespace CefSharp
         // The serialized registered object data waiting to be used.
         gcroot<JavascriptRootObject^> _javascriptRootObject;
 
+        void BindObjectForFrame(const CefRefPtr<CefBrowser> &browser, CefSharp::CefBrowserWrapper^ wrapper, int64 frameId);
     public:
         static const CefString kPromiseCreatorFunction;
 

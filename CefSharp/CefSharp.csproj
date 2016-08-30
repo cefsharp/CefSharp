@@ -92,6 +92,7 @@
     <Compile Include="IDomNode.cs" />
     <Compile Include="IFindHandler.cs" />
     <Compile Include="INavigationEntryVisitor.cs" />
+    <Compile Include="Internals\BoundObjectTransmitHelper.cs" />
     <Compile Include="Internals\CefTimeUtils.cs" />
     <Compile Include="Internals\CommandLineArgsParser.cs" />
     <Compile Include="Internals\MethodParameter.cs" />
