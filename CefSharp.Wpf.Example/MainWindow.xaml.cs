@@ -110,7 +110,19 @@ namespace CefSharp.Wpf.Example
 
                 if(param == "OpenDevTools")
                 {
-                    browserViewModel.ShowDevtools();
+                    browserViewModel.WebBrowser.ShowDevTools();
+                }
+
+                if (param == "ZoomIn")
+                {
+                    var cmd = browserViewModel.WebBrowser.ZoomInCommand;
+                    cmd.Execute(null);
+                }
+
+                if (param == "ZoomReset")
+                {
+                    var cmd = browserViewModel.WebBrowser.ZoomResetCommand;
+                    cmd.Execute(null);
                 }
 
                 //NOTE: Add as required
