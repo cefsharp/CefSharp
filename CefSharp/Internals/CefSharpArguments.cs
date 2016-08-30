@@ -9,5 +9,6 @@ namespace CefSharp.Internals
         public const string WcfEnabledArgument = "--wcf-enabled";
         public const string CustomSchemeArgument = "--custom-scheme";
         public const string FocusedNodeChangedEnabledArgument = "--focused-node-enabled";
+        public const string SeparateBoundObjectsArgument = "--separate-bound-objects";
     }
 }

@@ -50,6 +50,13 @@ namespace CefSharp
 
     void CefAppUnmanagedWrapper::OnBrowserDestroyed(CefRefPtr<CefBrowser> browser)
     {
+        if (_separatedPopupBoundObjectsEnable)
+        {
+            JavascriptRootObject^ rootObj;
+            _javascriptRootObjects->TryRemove(browser->GetIdentifier(), rootObj);
+            _javascriptAsyncRootObjects->TryRemove(browser->GetIdentifier(), rootObj);
+        }
+
         CefBrowserWrapper^ wrapper;
         if (_browserWrappers->TryRemove(browser->GetIdentifier(), wrapper))
         {
@@ -357,8 +364,16 @@ namespace CefSharp
         }
         else if (name == kJavascriptRootObjectRequest)
         {
-            _javascriptAsyncRootObject = DeserializeJsRootObject(argList, 0);
-            _javascriptRootObject = DeserializeJsRootObject(argList, 1);
+            if (_separatedPopupBoundObjectsEnable)
+            {
+                _javascriptAsyncRootObjects->default[browser->GetIdentifier()] = DeserializeJsRootObject(argList, 0);
+                _javascriptRootObjects->default[browser->GetIdentifier()] = DeserializeJsRootObject(argList, 1);
+            }
+            else 
+            {
+                _javascriptAsyncRootObject = DeserializeJsRootObject(argList, 0);
+                _javascriptRootObject = DeserializeJsRootObject(argList, 1);
+            }
 
             browser->SendProcessMessage(CefProcessId::PID_BROWSER, CefProcessMessage::Create(kJavascriptRootObjectResponse));
 
@@ -464,10 +479,17 @@ namespace CefSharp
                 {
                     if (context.get() && context->IsValid() && context->Enter())
                     {
-                        if (static_cast<JavascriptRootObject^>(_javascriptRootObject) != nullptr || 
-                            static_cast<JavascriptRootObject^>(_javascriptAsyncRootObject) != nullptr)
+                        auto javascriptRootObject = static_cast<JavascriptRootObject^>(_javascriptRootObject);
+                        auto javascriptAsyncRootObject = static_cast<JavascriptRootObject^>(_javascriptAsyncRootObject);
+                        if (_separatedPopupBoundObjectsEnable)
                         {
-                            rootObject->Bind(_javascriptRootObject, _javascriptAsyncRootObject, context->GetGlobal());
+                            _javascriptRootObjects->TryGetValue(browser->GetIdentifier(), javascriptRootObject);
+                            _javascriptAsyncRootObjects->TryGetValue(browser->GetIdentifier(), javascriptAsyncRootObject);
+                        }
+                        if (javascriptRootObject != nullptr ||
+                            javascriptAsyncRootObject != nullptr)
+                        {
+                            rootObject->Bind(javascriptRootObject, javascriptAsyncRootObject, context->GetGlobal());
                         }
                     }
                 }

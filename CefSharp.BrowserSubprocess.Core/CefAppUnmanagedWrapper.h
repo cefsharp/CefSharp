@@ -26,6 +26,7 @@ namespace CefSharp
         gcroot<List<CefExtension^>^> _extensions;
         gcroot<List<CefCustomScheme^>^> _schemes;
         bool _focusedNodeChangedEnabled;
+        bool _separatedPopupBoundObjectsEnable;
 
         // The serialized registered object data waiting to be used (only contains methods and bound async).
         gcroot<JavascriptRootObject^> _javascriptAsyncRootObject;
@@ -33,11 +34,18 @@ namespace CefSharp
         // The serialized registered object data waiting to be used.
         gcroot<JavascriptRootObject^> _javascriptRootObject;
 
+        // The serialized registered object data waiting to be used (only contains methods and bound async) when
+        // separate bound objects are enabled.
+        gcroot<ConcurrentDictionary<int, JavascriptRootObject^>^> _javascriptAsyncRootObjects;
+
+        // The serialized registered object data waiting to be used when separate bound objects are enabled.
+        gcroot<ConcurrentDictionary<int, JavascriptRootObject^>^> _javascriptRootObjects;
+
         void BindObjectForFrame(const CefRefPtr<CefBrowser> &browser, CefSharp::CefBrowserWrapper^ wrapper, int64 frameId);
     public:
         static const CefString kPromiseCreatorFunction;
 
-        CefAppUnmanagedWrapper(List<CefCustomScheme^>^ schemes, bool enableFocusedNodeChanged, Action<CefBrowserWrapper^>^ onBrowserCreated, Action<CefBrowserWrapper^>^ onBrowserDestoryed)
+        CefAppUnmanagedWrapper(List<CefCustomScheme^>^ schemes, bool enableFocusedNodeChanged, bool enableSeparatedPopupBoundObjects, Action<CefBrowserWrapper^>^ onBrowserCreated, Action<CefBrowserWrapper^>^ onBrowserDestoryed)
         {
             _onBrowserCreated = onBrowserCreated;
             _onBrowserDestroyed = onBrowserDestoryed;
@@ -45,6 +53,9 @@ namespace CefSharp
             _extensions = gcnew List<CefExtension^>();
             _schemes = schemes;
             _focusedNodeChangedEnabled = enableFocusedNodeChanged;
+            _separatedPopupBoundObjectsEnable = enableSeparatedPopupBoundObjects;
+            _javascriptRootObjects = gcnew ConcurrentDictionary<int, JavascriptRootObject^>();
+            _javascriptAsyncRootObjects = gcnew ConcurrentDictionary<int, JavascriptRootObject^>();
         }
 
         ~CefAppUnmanagedWrapper()
