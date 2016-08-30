@@ -19,7 +19,7 @@ namespace CefSharp.Wpf.Example
                                 "please make sure you compile in `Release` mode.", "Warning");
             }
 #endif
-
+            CefSharpSettings.SeparateBoundObjects = true;
             CefExample.Init(true, multiThreadedMessageLoop: true, browserProcessHandler: new BrowserProcessHandler());
 
             base.OnStartup(e);

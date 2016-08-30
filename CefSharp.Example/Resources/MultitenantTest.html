@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Multitenant Test</title>
+    <script>
+        var windows = [];
+
+        window.onmessage = function(e)
+        {
+            var data;
+            try
+            {
+                data = JSON.parse(e.data);
+            } catch (e)
+            {
+                // fail silent...?
+                return;
+            }
+            switch (data.event)
+            {
+                case "QueryOpenWindows":
+                    if (windows.indexOf(e.source) === -1)
+                    {
+                        windows.push(e.source);
+                    }
+                    break;
+            }
+        }
+
+        setInterval(function () {
+            try {
+                if (window.opener) {
+                    window.opener.postMessage(JSON.stringify({ "event": "QueryOpenWindows"}), "*");
+                }
+            }
+            catch (e) {
+            }
+        }, 100);
+
+        function onLoad()
+        {
+            var p = document.getElementById('p');
+            var btn = document.getElementById('btn');
+            if (window.opener) {
+                btn.parentElement.removeChild(btn);
+            }
+
+            setTimeout(function () {
+                for (var i = 0; i < windows.length; i++)
+                {
+                    windows[i].location.reload();
+                }
+                try {
+                    uniqueObject.id().then(function (res) {
+                        p.innerText = res;
+                    }, function (error) {
+                        p.innerText = error;
+                    });
+                } catch (err) {
+                    p.innerText = err;
+                }
+            }, 500);
+        }
+
+        function openWindow()
+        {
+            window.open(window.location, '', 'width=300,height=300');
+            window.location.reload();
+        }
+    </script>
+</head>
+<body onload="onLoad()">
+    <button id="btn" onclick="openWindow()">New Window</button>
+    <p id="p"></p>
+</body>
+</html>
