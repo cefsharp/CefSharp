@@ -22,6 +22,10 @@ namespace CefSharp
             _cefSettings(cefSettings),
             _browserProcessHandler(browserProcessHandler)
         {
+            if (cefSettings->ExternalMessagePump && Object::ReferenceEquals(_browserProcessHandler, nullptr))
+            {
+                throw gcnew Exception("browserProcessHandler cannot be null when using cefSettings.ExternalMessagePump");
+            }
         }
 
         ~CefSharpApp()
@@ -41,6 +45,11 @@ namespace CefSharp
             {
                 _browserProcessHandler->OnContextInitialized();
             }
+        }
+
+        virtual void OnScheduleMessagePumpWork(int64 delay_ms)  OVERRIDE
+        {
+            _browserProcessHandler->OnScheduleMessagePumpWork(delay_ms);
         }
 
         virtual void OnBeforeChildProcessLaunch(CefRefPtr<CefCommandLine> commandLine) OVERRIDE
