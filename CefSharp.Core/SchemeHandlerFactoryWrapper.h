@@ -39,6 +39,11 @@ namespace CefSharp
 
             auto handler = _factory->Create(%browserWrapper, %frameWrapper, StringUtils::ToClr(schemeName), %requestWrapper);
 
+            if (handler == nullptr)
+            {
+                return NULL;
+            }
+
             if (handler->GetType() == ResourceHandler::typeid)
             {
                 auto resourceHandler = static_cast<ResourceHandler^>(handler);
