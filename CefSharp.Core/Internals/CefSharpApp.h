@@ -31,6 +31,7 @@ namespace CefSharp
         ~CefSharpApp()
         {
             _cefSettings = nullptr;
+            delete _browserProcessHandler;
             _browserProcessHandler = nullptr;
         }
 
