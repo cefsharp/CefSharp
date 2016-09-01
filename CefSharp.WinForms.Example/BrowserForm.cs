@@ -25,11 +25,16 @@ namespace CefSharp.WinForms.Example
             Text = "CefSharp.WinForms.Example - " + bitness;
             WindowState = FormWindowState.Maximized;
 
-            AddTab(CefExample.DefaultUrl);
+            Load += BrowserFormLoad;
 
             //Only perform layout when control has completly finished resizing
             ResizeBegin += (s, e) => SuspendLayout();
             ResizeEnd += (s, e) => ResumeLayout(true);
+        }
+
+        private void BrowserFormLoad(object sender, EventArgs e)
+        {
+            AddTab(CefExample.DefaultUrl);
         }
 
         private void AddTab(string url, int? insertIndex = null)

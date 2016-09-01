@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using CefSharp.Example;
+using CefSharp.Example.Handlers;
 using CefSharp.Internals;
 
 namespace CefSharp.OffScreen.Example
@@ -24,7 +25,7 @@ namespace CefSharp.OffScreen.Example
             Console.WriteLine();
 
             // You need to replace this with your own call to Cef.Initialize();
-            CefExample.Init(true, multiThreadedMessageLoop:true);
+            CefExample.Init(true, multiThreadedMessageLoop:true, browserProcessHandler: new BrowserProcessHandler());
 
             MainAsync("cachePath1", 1.0);
             //Demo showing Zoom Level of 3.0
