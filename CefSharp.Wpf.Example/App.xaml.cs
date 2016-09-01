@@ -4,6 +4,7 @@
 
 using System.Windows;
 using CefSharp.Example;
+using CefSharp.Example.Handlers;
 
 namespace CefSharp.Wpf.Example
 {
@@ -19,7 +20,7 @@ namespace CefSharp.Wpf.Example
             }
 #endif
 
-            CefExample.Init(true, multiThreadedMessageLoop: true);
+            CefExample.Init(true, multiThreadedMessageLoop: true, browserProcessHandler: new BrowserProcessHandler());
 
             base.OnStartup(e);
         }

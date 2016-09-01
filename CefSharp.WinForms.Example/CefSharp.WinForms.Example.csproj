@@ -85,6 +85,7 @@
     <Compile Include="Handlers\KeyboardHandler.cs" />
     <Compile Include="Handlers\LifeSpanHandler.cs" />
     <Compile Include="Handlers\MenuHandler.cs" />
+    <Compile Include="Handlers\WinFormsBrowserProcessHandler.cs" />
     <Compile Include="Handlers\WinFormsRequestHandler.cs" />
     <Compile Include="InputBox.cs">
       <SubType>Form</SubType>
