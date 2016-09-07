@@ -17,7 +17,9 @@ namespace CefSharp.WinForms.Example
         // Default to a small increment:
         private const double ZoomIncrement = 0.10;
 
-        public BrowserForm()
+        private bool multiThreadedMessageLoopEnabled;
+
+        public BrowserForm(bool multiThreadedMessageLoopEnabled)
         {
             InitializeComponent();
 
@@ -30,6 +32,8 @@ namespace CefSharp.WinForms.Example
             //Only perform layout when control has completly finished resizing
             ResizeBegin += (s, e) => SuspendLayout();
             ResizeEnd += (s, e) => ResumeLayout(true);
+
+            this.multiThreadedMessageLoopEnabled = multiThreadedMessageLoopEnabled;
         }
 
         private void BrowserFormLoad(object sender, EventArgs e)
@@ -41,7 +45,7 @@ namespace CefSharp.WinForms.Example
         {
             browserTabControl.SuspendLayout();
 
-            var browser = new BrowserTabUserControl(AddTab, url)
+            var browser = new BrowserTabUserControl(AddTab, url, multiThreadedMessageLoopEnabled)
             {
                 Dock = DockStyle.Fill,
             };
