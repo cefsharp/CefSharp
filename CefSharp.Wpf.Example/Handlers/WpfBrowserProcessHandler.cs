@@ -41,26 +41,18 @@ namespace CefSharp.Wpf.Example.Handlers
 
         private void TimerTick(object sender, EventArgs e)
         {
-            //Reset the timer interval to maximum 
-            timer.Interval = MaxTimerDelay;
-
-            //Execute DoMessageLoopWork on UI thread
-            dispatcher.BeginInvoke((Action)(() => Cef.DoMessageLoopWork()));
+            //Basically execute Cef.DoMessageLoopWork 30 times per second, on the UI Thread
+            dispatcher.BeginInvoke((Action)(() => Cef.DoMessageLoopWork()), DispatcherPriority.Render);
         }
 
         protected override void OnScheduleMessagePumpWork(int delay)
         {
-            //Basically execute Cef.DoMessageLoopWork 30 times per second,
-            //when delay <= 0 set the timer interval to really small so it's executed
-            // relatively quickly.
+            //When delay <= 0 we'll execute Cef.DoMessageLoopWork immediately
+            // if it's greater than we'll just let the Timer which fires 30 times per second
+            // care of the call
             if(delay <= 0)
             {
-                //Update the timer to execute almost immediately
-                timer.Interval = 1;
-            }
-            else
-            {
-                timer.Interval = delay;
+                dispatcher.BeginInvoke((Action)(() => Cef.DoMessageLoopWork()), DispatcherPriority.Normal);
             }
         }
 
