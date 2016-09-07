@@ -2,9 +2,11 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System.Threading.Tasks;
 using System.Windows;
 using CefSharp.Example;
 using CefSharp.Example.Handlers;
+using CefSharp.Wpf.Example.Handlers;
 
 namespace CefSharp.Wpf.Example
 {
@@ -20,7 +22,20 @@ namespace CefSharp.Wpf.Example
             }
 #endif
 
-            CefExample.Init(true, multiThreadedMessageLoop: true, browserProcessHandler: new BrowserProcessHandler());
+            const bool multiThreadedMessageLoop = true;
+
+            IBrowserProcessHandler browserProcessHandler;
+
+            if (multiThreadedMessageLoop)
+            {
+                browserProcessHandler = new BrowserProcessHandler();
+            }
+            else
+            {
+                browserProcessHandler = new WpfBrowserProcessHandler(Dispatcher);
+            }
+
+            CefExample.Init(osr: true, multiThreadedMessageLoop: multiThreadedMessageLoop, browserProcessHandler: browserProcessHandler);
 
             base.OnStartup(e);
         }

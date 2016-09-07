@@ -106,6 +106,7 @@
     <Compile Include="Handlers\MenuHandler.cs" />
     <Compile Include="Handlers\LifespanHandler.cs" />
     <Compile Include="Handlers\PluginHandler.cs" />
+    <Compile Include="Handlers\WpfBrowserProcessHandler.cs" />
     <Compile Include="SimpleMainWindow.xaml.cs">
       <DependentUpon>SimpleMainWindow.xaml</DependentUpon>
     </Compile>
