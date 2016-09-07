@@ -32,8 +32,9 @@ namespace CefSharp
                 auto onBrowserDestroyed = gcnew Action<CefBrowserWrapper^>(this, &SubProcess::OnBrowserDestroyed);
                 auto schemes = CefCustomScheme::ParseCommandLineArguments(args);
                 auto enableFocusedNodeChanged = CommandLineArgsParser::HasArgument(args, CefSharpArguments::FocusedNodeChangedEnabledArgument);
+                auto enableSeparatedBoundObjects = CommandLineArgsParser::HasArgument(args, CefSharpArguments::SeparateBoundObjectsArgument);
 
-                _cefApp = new CefAppUnmanagedWrapper(schemes, enableFocusedNodeChanged, onBrowserCreated, onBrowserDestroyed);
+                _cefApp = new CefAppUnmanagedWrapper(schemes, enableFocusedNodeChanged, enableSeparatedBoundObjects, onBrowserCreated, onBrowserDestroyed);
             }
 
             !SubProcess()

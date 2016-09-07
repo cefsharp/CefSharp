@@ -37,6 +37,7 @@ namespace CefSharp
             HWND _browserHwnd;
             CefRefPtr<CefBrowser> _cefBrowser;
 
+            gcroot<BoundObjectTransmitHelper^> _boundObjectTransmitHelper;
             gcroot<IBrowser^> _browser;
             gcroot<Dictionary<int, IBrowser^>^> _popupBrowsers;
             gcroot<String^> _tooltip;
@@ -52,11 +53,13 @@ namespace CefSharp
 
             IBrowser^ GetBrowserWrapper(int browserId, bool isPopup);
 
+            void SendJavascriptBindMessage(const CefRefPtr<CefBrowser> &browser, const std::vector<int64> &frameIdentifiers);
         public:
             ClientAdapter(IWebBrowserInternal^ browserControl, IBrowserAdapter^ browserAdapter) :
                 _browserControl(browserControl), 
                 _popupBrowsers(gcnew Dictionary<int, IBrowser^>()),
                 _pendingTaskRepository(gcnew PendingTaskRepository<JavascriptResponse^>()),
+                _boundObjectTransmitHelper(gcnew BoundObjectTransmitHelper()),
                 _browserAdapter(browserAdapter),
                 _browserHwnd(NULL)
             {

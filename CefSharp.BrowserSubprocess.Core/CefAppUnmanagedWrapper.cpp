@@ -50,6 +50,13 @@ namespace CefSharp
 
     void CefAppUnmanagedWrapper::OnBrowserDestroyed(CefRefPtr<CefBrowser> browser)
     {
+        if (_separatedPopupBoundObjectsEnable)
+        {
+            JavascriptRootObject^ rootObj;
+            _javascriptRootObjects->TryRemove(browser->GetIdentifier(), rootObj);
+            _javascriptAsyncRootObjects->TryRemove(browser->GetIdentifier(), rootObj);
+        }
+
         CefBrowserWrapper^ wrapper;
         if (_browserWrappers->TryRemove(browser->GetIdentifier(), wrapper))
         {
@@ -60,41 +67,11 @@ namespace CefSharp
 
     void CefAppUnmanagedWrapper::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
     {
-        //Send a message to the browser processing signaling that OnContextCreated has been called
-        //only param is the FrameId. Currently an IPC message is only sent for the main frame - will see
-        //how viable this solution is and if it's worth expanding to sub/child frames.
-        if (frame->IsMain())
-        {
-            auto contextCreatedMessage = CefProcessMessage::Create(kOnContextCreatedRequest);
+        auto contextCreatedMessage = CefProcessMessage::Create(kOnContextCreatedRequest);
 
-            SetInt64(contextCreatedMessage->GetArgumentList(), 0, frame->GetIdentifier());
+        SetInt64(contextCreatedMessage->GetArgumentList(), 0, frame->GetIdentifier());
 
-            browser->SendProcessMessage(CefProcessId::PID_BROWSER, contextCreatedMessage);
-        }
-
-        auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier(), true);
-
-        auto rootObjectWrappers = browserWrapper->JavascriptRootObjectWrappers;
-        auto frameId = frame->GetIdentifier();
-
-        JavascriptRootObjectWrapper^ rootObject;
-        if (!rootObjectWrappers->TryGetValue(frameId, rootObject))
-        {
-            rootObject = gcnew JavascriptRootObjectWrapper(browser->GetIdentifier(), browserWrapper->BrowserProcess);
-            rootObjectWrappers->TryAdd(frameId, rootObject);
-        }
-
-        if (rootObject->IsBound)
-        {
-            LOG(WARNING) << "A context has been created for the same browser / frame without context released called previously";
-        }
-        else
-        {
-            if (!Object::ReferenceEquals(_javascriptRootObject, nullptr) || !Object::ReferenceEquals(_javascriptAsyncRootObject, nullptr))
-            {
-                rootObject->Bind(_javascriptRootObject, _javascriptAsyncRootObject, context->GetGlobal());
-            }
-        }
+        browser->SendProcessMessage(CefProcessId::PID_BROWSER, contextCreatedMessage);
     };
 
     void CefAppUnmanagedWrapper::OnContextReleased(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
@@ -179,7 +156,8 @@ namespace CefSharp
         {
             if (name == kJavascriptCallbackDestroyRequest ||
                 name == kJavascriptRootObjectRequest ||
-                name == kJavascriptAsyncMethodCallResponse)
+                name == kJavascriptAsyncMethodCallResponse ||
+                name == kStartJavascriptBindingRequest)
             {
                 //If we can't find the browser wrapper then we'll just
                 //ignore this as it's likely already been disposed of
@@ -215,7 +193,7 @@ namespace CefSharp
 
             return true;
         }
-    
+
         //these messages are roughly handled the same way
         if (name == kEvaluateJavascriptRequest || name == kJavascriptCallbackRequest)
         {
@@ -242,7 +220,7 @@ namespace CefSharp
 
                 JavascriptRootObjectWrapper^ rootObjectWrapper;
                 browserWrapper->JavascriptRootObjectWrappers->TryGetValue(frameId, rootObjectWrapper);
-                
+
                 //NOTE: In the rare case when when OnContextCreated hasn't been called we need to manually create the rootObjectWrapper
                 //It appears that OnContextCreated is only called for pages that have javascript on them, which makes sense
                 //as without javascript there is no need for a context.
@@ -261,14 +239,14 @@ namespace CefSharp
                 if (frame.get())
                 {
                     auto context = frame->GetV8Context();
-                    
+
                     if (context.get() && context->Enter())
                     {
                         try
                         {
                             CefRefPtr<CefV8Exception> exception;
                             success = context->Eval(script, result, exception);
-                            
+
                             //we need to do this here to be able to store the v8context
                             if (success)
                             {
@@ -317,14 +295,14 @@ namespace CefSharp
                     {
                         auto context = callbackWrapper->GetContext();
                         auto value = callbackWrapper->GetValue();
-                
+
                         if (context.get() && context->Enter())
                         {
                             try
                             {
                                 auto parameterList = argList->GetList(3);
                                 CefV8ValueList params;
-                                
+
                                 //Needs to be called within the context as for Dictionary (mapped to struct)
                                 //a V8Object will be created
                                 for (CefV8ValueList::size_type i = 0; i < parameterList->GetSize(); i++)
@@ -334,7 +312,7 @@ namespace CefSharp
 
                                 result = value->ExecuteFunction(nullptr, params);
                                 success = result.get() != nullptr;
-                        
+
                                 //we need to do this here to be able to store the v8context
                                 if (success)
                                 {
@@ -386,15 +364,26 @@ namespace CefSharp
         }
         else if (name == kJavascriptRootObjectRequest)
         {
-            _javascriptAsyncRootObject = DeserializeJsRootObject(argList, 0);
-            _javascriptRootObject = DeserializeJsRootObject(argList, 1);
+            if (_separatedPopupBoundObjectsEnable)
+            {
+                _javascriptAsyncRootObjects->default[browser->GetIdentifier()] = DeserializeJsRootObject(argList, 0);
+                _javascriptRootObjects->default[browser->GetIdentifier()] = DeserializeJsRootObject(argList, 1);
+            }
+            else 
+            {
+                _javascriptAsyncRootObject = DeserializeJsRootObject(argList, 0);
+                _javascriptRootObject = DeserializeJsRootObject(argList, 1);
+            }
+
+            browser->SendProcessMessage(CefProcessId::PID_BROWSER, CefProcessMessage::Create(kJavascriptRootObjectResponse));
+
             handled = true;
         }
         else if (name == kJavascriptAsyncMethodCallResponse)
         {
             auto frameId = GetInt64(argList, 0);
             auto callbackId = GetInt64(argList, 1);
-            
+
             JavascriptRootObjectWrapper^ rootObjectWrapper;
             browserWrapper->JavascriptRootObjectWrappers->TryGetValue(frameId, rootObjectWrapper);
 
@@ -417,6 +406,16 @@ namespace CefSharp
                 }
             }
             handled = true;
+        }
+        else if (name == kStartJavascriptBindingRequest)
+        {
+            auto frameList = argList->GetList(0);
+
+            for (auto i = 0; i < frameList->GetSize(); i++)
+            {
+                auto frameId = GetInt64(frameList, i);
+                BindObjectForFrame(browser, browserWrapper, frameId);
+            }
         }
 
         return handled;
@@ -452,6 +451,53 @@ namespace CefSharp
         for each (CefCustomScheme^ scheme in _schemes->AsReadOnly())
         {
             registrar->AddCustomScheme(StringUtils::ToNative(scheme->SchemeName), scheme->IsStandard, scheme->IsLocal, scheme->IsDisplayIsolated);
+        }
+    }
+
+    void CefAppUnmanagedWrapper::BindObjectForFrame(const CefRefPtr<CefBrowser> &browser, CefBrowserWrapper^ wrapper, int64 frameId)
+    {
+        auto frame = browser->GetFrame(frameId);
+        auto rootObjectWrappers = wrapper->JavascriptRootObjectWrappers;
+
+        if (frame.get())
+        {
+            JavascriptRootObjectWrapper^ rootObject;
+            if (!rootObjectWrappers->TryGetValue(frameId, rootObject))
+            {
+                rootObject = gcnew JavascriptRootObjectWrapper(browser->GetIdentifier(), wrapper->BrowserProcess);
+                rootObjectWrappers->TryAdd(frameId, rootObject);
+            }
+
+            if (rootObject->IsBound)
+            {
+                LOG(WARNING) << "A context has been created for the same browser / frame without context released called previously";
+            }
+            else
+            {
+                auto context = frame->GetV8Context();
+                try
+                {
+                    if (context.get() && context->IsValid() && context->Enter())
+                    {
+                        auto javascriptRootObject = static_cast<JavascriptRootObject^>(_javascriptRootObject);
+                        auto javascriptAsyncRootObject = static_cast<JavascriptRootObject^>(_javascriptAsyncRootObject);
+                        if (_separatedPopupBoundObjectsEnable)
+                        {
+                            _javascriptRootObjects->TryGetValue(browser->GetIdentifier(), javascriptRootObject);
+                            _javascriptAsyncRootObjects->TryGetValue(browser->GetIdentifier(), javascriptAsyncRootObject);
+                        }
+                        if (javascriptRootObject != nullptr ||
+                            javascriptAsyncRootObject != nullptr)
+                        {
+                            rootObject->Bind(javascriptRootObject, javascriptAsyncRootObject, context->GetGlobal());
+                        }
+                    }
+                }
+                finally
+                {
+                    context->Exit();
+                }
+            }
         }
     }
 }

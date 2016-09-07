@@ -26,6 +26,7 @@ namespace CefSharp.Wpf.Example.Views
             browser.RequestHandler = new RequestHandler();
             browser.RegisterJsObject("bound", new BoundObject(), BindingOptions.DefaultBinder);
             browser.RegisterAsyncJsObject("boundAsync", new AsyncBoundObject());
+            browser.RegisterAsyncJsObject("uniqueObject", new UniqueBoundObject());
             // Enable touch scrolling - once properly tested this will likely become the default
             //browser.IsManipulationEnabled = true;
 

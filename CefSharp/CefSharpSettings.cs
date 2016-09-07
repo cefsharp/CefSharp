@@ -41,5 +41,13 @@ namespace CefSharp
         /// the event handlers are hooked in the static constructor for the ChromiumWebBrowser class
         /// </summary>
         public static bool ShutdownOnExit { get; set; }
+
+        /// <summary>
+        /// By default when multiple browser instances are hosted in the same subprocess, there can 
+        /// be only one set of bound objects. Enabling this will allow registering separate objects for them
+        /// for example when doing window.open and custom popup management with <see cref="ILifeSpanHandler"/>
+        /// or limiting subprocess count.
+        /// </summary>
+        public static bool SeparateBoundObjects { get; set; }
     }
 }

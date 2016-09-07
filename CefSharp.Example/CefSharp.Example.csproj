@@ -102,6 +102,7 @@
     </Compile>
     <Compile Include="CefSharpSchemeHandler.cs" />
     <Compile Include="CefSharpSchemeHandlerFactory.cs" />
+    <Compile Include="UniqueBoundObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -128,6 +129,7 @@
     <Content Include="Resources\MultiBindingTest.html" />
     <Content Include="Resources\home.html" />
     <Content Include="Resources\FramedWebGLTest.html" />
+    <Content Include="Resources\MultitenantTest.html" />
     <Content Include="Resources\PopupTest.html" />
     <Content Include="Resources\DraggableRegionTest.html" />
     <Content Include="Resources\ResponseFilterTest.html" />

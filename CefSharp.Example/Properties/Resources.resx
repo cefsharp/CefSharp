@@ -187,4 +187,7 @@
   <data name="DraggableRegionTest" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DraggableRegionTest.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="MultitenantTest" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\multitenanttest.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

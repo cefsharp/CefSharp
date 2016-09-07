@@ -60,6 +60,11 @@ namespace CefSharp
                 commandLine->AppendArgument(StringUtils::ToNative(CefSharpArguments::WcfEnabledArgument));
             }
 
+            if (CefSharpSettings::SeparateBoundObjects)
+            {
+                commandLine->AppendArgument(StringUtils::ToNative(CefSharpArguments::SeparateBoundObjectsArgument));
+            }
+
             if (_cefSettings->_cefCustomSchemes->Count > 0)
             {
                 String^ argument = "=";

@@ -467,6 +467,31 @@ namespace CefSharp.Example.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///&lt;html lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
+        ///    &lt;title&gt;Multitenant Test&lt;/title&gt;
+        ///    &lt;script&gt;
+        ///        function onLoad()
+        ///        {
+        ///            var p = document.getElementById(&apos;p&apos;);
+        ///            var btn = document.getElementById(&apos;btn&apos;);
+        ///            if (window.opener)
+        ///            {
+        ///                btn.parentElement.removeChild(btn);
+        ///            }
+        ///            uniqueObject.id().then(function(res) {
+        ///                p.innerText = res;
+        ///     [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string MultitenantTest {
+            get {
+                return ResourceManager.GetString("MultitenantTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
         ///&lt;html&gt;
         ///    &lt;head&gt;
