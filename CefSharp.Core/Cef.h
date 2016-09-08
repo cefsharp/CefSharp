@@ -195,6 +195,29 @@ namespace CefSharp
         }
 
         /// <summary>
+        /// Run the CEF message loop. Use this function instead of an application-
+        /// provided message loop to get the best balance between performance and CPU
+        /// usage. This function should only be called on the main application thread and
+        /// only if Cef.Initialize() is called with a
+        /// CefSettings.MultiThreadedMessageLoop value of false. This function will
+        /// block until a quit message is received by the system.
+        /// </summary>
+        static void RunMessageLoop()
+        {
+            CefRunMessageLoop();
+        }
+
+        /// <summary>
+        /// Quit the CEF message loop that was started by calling Cef.RunMessageLoop().
+        /// This function should only be called on the main application thread and only
+        /// if Cef.RunMessageLoop() was used.
+        /// </summary>
+        static void QuitMessageLoop()
+        {
+            CefQuitMessageLoop();
+        }
+
+        /// <summary>
         /// Perform a single iteration of CEF message loop processing.This function is
         /// provided for cases where the CEF message loop must be integrated into an
         /// existing application message loop. Use of this function is not recommended
