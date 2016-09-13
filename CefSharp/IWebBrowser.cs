@@ -90,7 +90,7 @@ namespace CefSharp
 
         /// <summary>
         /// <para>Asynchronously registers a Javascript object in this specific browser instance.</para>
-        /// <para>Only methods of the object will be availabe.</para>
+        /// <para>Only methods of the object will be available.</para>
         /// </summary>
         /// <param name="name">The name of the object. (e.g. "foo", if you want the object to be accessible as window.foo).</param>
         /// <param name="objectToBind">The object to be made accessible to Javascript.</param>
