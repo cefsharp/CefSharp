@@ -396,14 +396,6 @@ namespace CefSharp
         /// </summary>
         void SetOffScreenRenderingBestPerformanceArgs()
         {
-            // If the PDF extension is enabled then cc Surfaces must be disabled for
-            // PDFs to render correctly.
-            // See https://bitbucket.org/chromiumembedded/cef/issues/1689 for details.
-            if (!_cefCommandLineArgs->ContainsKey("disable-surfaces"))
-            {
-                _cefCommandLineArgs->Add("disable-surfaces", "1");
-            }
-
             // Use software rendering and compositing (disable GPU) for increased FPS
             // and decreased CPU usage. This will also disable WebGL so remove these
             // switches if you need that capability.
@@ -428,18 +420,6 @@ namespace CefSharp
             if (!_cefCommandLineArgs->ContainsKey("enable-begin-frame-scheduling"))
             {
                 _cefCommandLineArgs->Add("enable-begin-frame-scheduling", "1");
-            }
-        }
-
-        /// <summary>
-        /// Disable Surfaces so internal PDF viewer works for OSR
-        /// https://bitbucket.org/chromiumembedded/cef/issues/1689
-        /// </summary>
-        void EnableInternalPdfViewerOffScreen()
-        {
-            if (!_cefCommandLineArgs->ContainsKey("disable-surfaces"))
-            {
-                _cefCommandLineArgs->Add("disable-surfaces", "1");
             }
         }
     };

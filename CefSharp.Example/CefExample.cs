@@ -94,10 +94,6 @@ namespace CefSharp.Example
             if(osr)
             {
                 settings.WindowlessRenderingEnabled = true;
-                // Disable Surfaces so internal PDF viewer works for OSR
-                // https://bitbucket.org/chromiumembedded/cef/issues/1689
-                //settings.CefCommandLineArgs.Add("disable-surfaces", "1");
-                settings.EnableInternalPdfViewerOffScreen();
 
                 //Disable Direct Composition to test https://github.com/cefsharp/CefSharp/issues/1634
                 //settings.CefCommandLineArgs.Add("disable-direct-composition", "1");
