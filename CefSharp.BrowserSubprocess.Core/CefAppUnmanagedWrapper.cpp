@@ -424,7 +424,17 @@ namespace CefSharp
 
     void CefAppUnmanagedWrapper::OnRenderThreadCreated(CefRefPtr<CefListValue> extraInfo)
     {
+		if (extraInfo == NULL) {
+			LOG(ERROR) << "extraInfo parameter in CefAppUnmanagedWrapper::OnRenderThreadCreated() is NULL";
+			return;
+		}
+
         auto extensionList = extraInfo->GetList(0);
+
+		if (extensionList == NULL) {
+			LOG(ERROR) << "extensionList value in CefAppUnmanagedWrapper::OnRenderThreadCreated() is NULL";
+			return;
+		}
 
         for (size_t i = 0; i < extensionList->GetSize(); i++)
         {
