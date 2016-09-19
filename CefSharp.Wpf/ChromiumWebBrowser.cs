@@ -470,6 +470,7 @@ namespace CefSharp.Wpf
                     if (tooltipTimer != null)
                     {
                         tooltipTimer.Tick -= OnTooltipTimerTick;
+                        tooltipTimer.Stop();
                     }
 
                     if (CleanupElement != null)
@@ -1894,6 +1895,7 @@ namespace CefSharp.Wpf
                 if (tooltipTimer != null)
                 {
                     tooltipTimer.Tick -= OnTooltipTimerTick;
+                    tooltipTimer.Stop();
                 }
 
                 // TODO: Consider making the delay here configurable.
