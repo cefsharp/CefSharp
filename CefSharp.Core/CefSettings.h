@@ -390,6 +390,17 @@ namespace CefSharp
         }
 
         /// <summary>
+        /// Set command line argument to disable GPU Acceleration, this will disable WebGL.
+        /// </summary>
+        void DisableGpuAcceleration()
+        {
+            if (!_cefCommandLineArgs->ContainsKey("disable-gpu"))
+            {
+                _cefCommandLineArgs->Add("disable-gpu", "1");
+            }
+        }
+
+        /// <summary>
         /// Set command line arguments for best OSR (Offscreen and WPF) Rendering performance
         /// This will disable WebGL, look at the source to determine which flags best suite
         /// your requirements.
