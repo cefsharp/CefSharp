@@ -86,12 +86,12 @@ namespace CefSharp
         /// optional handler.
         /// </summary>
         /// <param name="other">shares storage with this RequestContext</param>
-        /// <param name="pluginHandler">optional plugin handler</param>
+        /// <param name="requestContextHandler">optional requestContext handler</param>
         /// <returns>Returns a nre RequestContext</returns>
-        static IRequestContext^ CreateContext(IRequestContext^ other, IPluginHandler^ pluginHandler)
+        static IRequestContext^ CreateContext(IRequestContext^ other, IRequestContextHandler^ requestContextHandler)
         {
             auto otherRequestContext = static_cast<RequestContext^>(other);
-            CefRefPtr<CefRequestContextHandler> handler = pluginHandler == nullptr ? NULL : new RequestContextHandler(pluginHandler);
+            CefRefPtr<CefRequestContextHandler> handler = requestContextHandler == nullptr ? NULL : new RequestContextHandler(requestContextHandler);
 
             auto newContext = CefRequestContext::CreateContext(otherRequestContext, handler);
             return gcnew RequestContext(newContext);
