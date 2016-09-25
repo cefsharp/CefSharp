@@ -95,7 +95,7 @@
     <Compile Include="Internals\CefTimeUtils.cs" />
     <Compile Include="Internals\CommandLineArgsParser.cs" />
     <Compile Include="Internals\MethodParameter.cs" />
-    <Compile Include="IPluginHandler.cs" />
+    <Compile Include="IRequestContextHandler.cs" />
     <Compile Include="IPopupFeatures.cs" />
     <Compile Include="IRenderProcessMessageHandler.cs" />
     <Compile Include="IRequestContext.cs" />

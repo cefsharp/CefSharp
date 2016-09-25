@@ -56,15 +56,15 @@ namespace CefSharp
             _requestContext = CefRequestContext::CreateContext(settings, NULL);
         }
 
-        RequestContext(IPluginHandler^ pluginHandler)
+        RequestContext(IRequestContextHandler^ requestContextHandler)
         {
             CefRequestContextSettings settings;
-            _requestContext = CefRequestContext::CreateContext(settings, new RequestContextHandler(pluginHandler));
+            _requestContext = CefRequestContext::CreateContext(settings, new RequestContextHandler(requestContextHandler));
         }
 
-        RequestContext(RequestContextSettings^ settings, IPluginHandler^ pluginHandler) : _settings(settings)
+        RequestContext(RequestContextSettings^ settings, IRequestContextHandler^ requestContextHandler) : _settings(settings)
         {
-            _requestContext = CefRequestContext::CreateContext(settings, new RequestContextHandler(pluginHandler));
+            _requestContext = CefRequestContext::CreateContext(settings, new RequestContextHandler(requestContextHandler));
         }
 
         !RequestContext()

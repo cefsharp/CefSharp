@@ -5,10 +5,22 @@
 namespace CefSharp
 {
     /// <summary>
-    /// Implement this interface to cancel loading of specific plugins
+    /// Implement this interface to provide handler implementations. The handler
+    /// instance will not be released until all objects related to the context have
+    /// been destroyed. Implement this interface to cancel loading of specific plugins
     /// </summary>
-    public interface IPluginHandler
+    public interface IRequestContextHandler
     {
+        /// <summary>
+        /// Called on the browser process IO thread to retrieve the cookie manager. If
+        /// this method returns NULL the default cookie manager retrievable via
+        /// IRequestContext.GetDefaultCookieManager() will be used.
+        /// </summary>
+        /// <returns>If
+        /// this method returns null the default cookie manager retrievable via
+        /// IRequestContext.GetDefaultCookieManager() will be used..</returns>
+        ICookieManager GetCookieManager();
+
         /// <summary>
         /// Called on the CEF IO thread before a plugin instance is loaded.
         /// The default plugin policy can be set at runtime using the `--plugin-policy=[allow|detect|block]` command-line flag.
