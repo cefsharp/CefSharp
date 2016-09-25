@@ -42,8 +42,18 @@ namespace CefSharp.Wpf.Example.Views
             //You can specify a custom RequestContext to share settings amount groups of ChromiumWebBrowsers
             //Also this is now the only way to access OnBeforePluginLoad - need to implement IPluginHandler
             //browser.RequestContext = new RequestContext(new PluginHandler());
-            
+            //NOTE - This is very important for this example as the default page will not load otherwise
             //browser.RequestContext.RegisterSchemeHandlerFactory(CefSharpSchemeHandlerFactory.SchemeName, null, new CefSharpSchemeHandlerFactory());
+
+            //You can start setting preferences on a RequestContext that you created straight away, still needs to be called on the CEF UI thread.
+            //Cef.UIThreadTaskFactory.StartNew(delegate
+            //{
+            //    string errorMessage;
+            //    //Use this to check that settings preferences are working in your code
+                
+            //    var success = browser.RequestContext.SetPreference("webkit.webprefs.minimum_font_size", 24, out errorMessage);
+            //});             
+            
             browser.RenderProcessMessageHandler = new RenderProcessMessageHandler();
             
             browser.LoadError += (sender, args) =>
