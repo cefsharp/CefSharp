@@ -1,4 +1,4 @@
-So you have a question to ask, where can you look for answers? Read on. Think you've found a bug? Please take the time to fill out the bug report below, provide as much information as you can, make sure you provide information for every heading. Thank you! We'd like to keep issues exclusively for bug reports, so please ask your questions on `Gitter`
+So you have a question to ask, where can you look for answers? Read on. Think you've found a bug? Please take the time to fill out the bug report below, provide as much information as you can, make sure you provide information for every heading. Thank you! We'd like to keep issues exclusively for **bug reports**, so please ask your questions on `Gitter`
 
 - Check out the FAQ, lots of useful information there, specially if your having trouble deploying to a different machine : https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions
 - GitHub proves a fantastic search feature, it'll search through past issues and code. So check that out (Search box at the top of this page) : https://github.com/cefsharp/CefSharp
