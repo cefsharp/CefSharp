@@ -40,7 +40,10 @@ namespace CefSharp.WinForms.Example
             browser.JsDialogHandler = new JsDialogHandler();
             browser.GeolocationHandler = new GeolocationHandler();
             browser.DownloadHandler = new DownloadHandler();
-            browser.KeyboardHandler = new KeyboardHandler();
+            if (multiThreadedMessageLoopEnabled)
+            {
+                browser.KeyboardHandler = new KeyboardHandler();
+            }
             browser.LifeSpanHandler = new LifeSpanHandler();
             browser.LoadingStateChanged += OnBrowserLoadingStateChanged;
             browser.ConsoleMessage += OnBrowserConsoleMessage;
