@@ -6,7 +6,7 @@ Background:
 
 Post Installation:
   - Read the release notes for your version https://github.com/cefsharp/CefSharp/releases (Any known issues will be listed here)
-  - Set either `x86` or x64` as your target architecture. `AnyCpu` support was added in `51`, please see the release notes for details as additional steps are quired to make it work.
+  - Set either `x86` or x64` as your target architecture. `AnyCpu` support was added in `51`, please see the release notes for details as additional steps are required to make it work.
   - After installing the `Nuget` package we recommend closing Visual Studio completely and then reopening (This ensures your references show up and you have full intellisense).
   - Check your output `\bin` directory to make sure the appropriate references have been copied.
   - Build fails even though packages are installed. Short term rebuild again and everything should be find. Long term we recommend reading http://www.xavierdecoster.com/migrate-away-from-msbuild-based-nuget-package-restore
