@@ -27,7 +27,8 @@ namespace CefSharp
         /// <param name="browserSettings">browser settings, defaults to source browsers</param>
         /// <param name="noJavascriptAccess">value indicates whether the new browser window should be scriptable
         /// and in the same process as the source browser.</param>
-        /// <param name="newBrowser">EXPERIMENTAL - A newly created browser that will host the popup</param>
+        /// <param name="newBrowser">EXPERIMENTAL - A newly created browser that will host the popup. Set to null
+        /// for default behaviour.</param>
         /// <returns>To cancel creation of the popup window return true otherwise return false.</returns>
         /// <remarks>
         /// CEF documentation:
