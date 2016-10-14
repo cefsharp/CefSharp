@@ -125,8 +125,11 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Initializes CefSharp with the default settings.
-        /// This function should be called on the main application thread to initialize the CEF browser process.
+        /// Initializes CefSharp with the default settings. 
+        /// This function can only be called once, subsiquent calls will result in an Exception.
+        /// It's important to note that Initialize and Shutdown <strong>MUST</strong> be called on your main
+        /// applicaiton thread (Typically the UI thead). If you call them on different
+        /// threads, your application will hang. See the documentation for Cef.Shutdown() for more details.
         /// </summary>
         /// <return>true if successful; otherwise, false.</return>
         static bool Initialize()
@@ -137,7 +140,9 @@ namespace CefSharp
 
         /// <summary>
         /// Initializes CefSharp with user-provided settings.
-        /// This function should be called on the main application thread to initialize the CEF browser process.
+        /// It's important to note that Initialize and Shutdown <strong>MUST</strong> be called on your main
+        /// applicaiton thread (Typically the UI thead). If you call them on different
+        /// threads, your application will hang. See the documentation for Cef.Shutdown() for more details.
         /// </summary>
         /// <param name="cefSettings">CefSharp configuration settings.</param>
         /// <return>true if successful; otherwise, false.</return>
@@ -148,7 +153,9 @@ namespace CefSharp
 
         /// <summary>
         /// Initializes CefSharp with user-provided settings.
-        /// This function should be called on the main application thread to initialize the CEF browser process.
+        /// It's important to note that Initialize/Shutdown <strong>MUST</strong> be called on your main
+        /// applicaiton thread (Typically the UI thead). If you call them on different
+        /// threads, your application will hang. See the documentation for Cef.Shutdown() for more details.
         /// </summary>
         /// <param name="cefSettings">CefSharp configuration settings.</param>
         /// <param name="performDependencyCheck">Check that all relevant dependencies avaliable, throws exception if any are missing</param>
@@ -360,7 +367,10 @@ namespace CefSharp
         /// <summary>
         /// Shuts down CefSharp and the underlying CEF infrastructure. This method is safe to call multiple times; it will only
         /// shut down CEF on the first call (all subsequent calls will be ignored).
-        /// This function should be called on the main application thread to shut down the CEF browser process before the application exits. 
+        /// This method should be called on the main application thread to shut down the CEF browser process before the application exits. 
+        /// If you are Using CefSharp.OffScreen then you must call this explicitly before your application exits or it will hang.
+        /// This method must be called on the same thread as Initialize. If you don't call Shutdown explicitly then CefSharp.Wpf and CefSharp.WinForms
+        /// versions will do their best to call Shutdown for you, if your application is having trouble closing then call thus explicitly.
         /// </summary>
         static void Shutdown()
         {
