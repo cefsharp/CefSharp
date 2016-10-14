@@ -646,10 +646,26 @@ namespace CefSharp.Wpf
         /// <param name="type">The type.</param>
         void IRenderWebBrowser.SetCursor(IntPtr handle, CefCursorType type)
         {
-            UiThreadRunAsync(() =>
+            //Custom cursors are handled differently, for now keep standard ones executing
+            //in an async fashion
+            if(type == CefCursorType.Custom)
             {
-                Cursor = CursorInteropHelper.Create(new SafeFileHandle(handle, ownsHandle: false));
-            });
+                //When using a custom it appears we need to update the cursor in a sync fashion
+                //Likely the underlying handle/buffer is being released before the cursor
+                // is created when executed in an async fashion. Doesn't seem to be a problem
+                //for build in cursor types
+                UiThreadRunSync(() =>
+                {
+                    Cursor = CursorInteropHelper.Create(new SafeFileHandle(handle, ownsHandle: false));
+                });
+            }
+            else
+            {
+                UiThreadRunAsync(() =>
+                {
+                    Cursor = CursorInteropHelper.Create(new SafeFileHandle(handle, ownsHandle: false));
+                });
+            }            
         }
 
         /// <summary>
@@ -1423,7 +1439,7 @@ namespace CefSharp.Wpf
         }
 
         /// <summary>
-        /// UIs the thread run asynchronous.
+        /// Runs the specific Action on the Dispatcher in an async fashion
         /// </summary>
         /// <param name="action">The action.</param>
         /// <param name="priority">The priority.</param>
@@ -1436,6 +1452,23 @@ namespace CefSharp.Wpf
             else if (!Dispatcher.HasShutdownStarted)
             {
                 Dispatcher.BeginInvoke(action, priority);
+            }
+        }
+
+        /// <summary>
+        /// Runs the specific Action on the Dispatcher in an sync fashion
+        /// </summary>
+        /// <param name="action">The action.</param>
+        /// <param name="priority">The priority.</param>
+        private void UiThreadRunSync(Action action, DispatcherPriority priority = DispatcherPriority.DataBind)
+        {
+            if (Dispatcher.CheckAccess())
+            {
+                action();
+            }
+            else if (!Dispatcher.HasShutdownStarted)
+            {
+                Dispatcher.Invoke(action, priority);
             }
         }
 
