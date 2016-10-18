@@ -7,7 +7,7 @@
 #include "Stdafx.h"
 
 #include "include/cef_cookie.h"
-#include "CefCompletionCallbackAdapter.h"
+#include "internals\CefCompletionCallbackAdapter.h"
 
 using namespace System::Threading::Tasks;
 

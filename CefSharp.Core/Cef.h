@@ -13,7 +13,7 @@
 #include <include/cef_web_plugin.h>
 
 #include "Internals/CefSharpApp.h"
-#include "Internals/CookieManager.h"
+#include "CookieManager.h"
 #include "Internals/PluginVisitor.h"
 #include "CefSettings.h"
 #include "RequestContext.h"

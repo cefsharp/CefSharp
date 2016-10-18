@@ -10,7 +10,7 @@
 #include "SchemeHandlerFactoryWrapper.h"
 #include "RequestContextHandler.h"
 #include "Internals\CefCompletionCallbackAdapter.h"
-#include "Internals\CookieManager.h"
+#include "CookieManager.h"
 #include "Internals\CefWrapper.h"
 #include "Internals\CefResolveCallbackAdapter.h"
 

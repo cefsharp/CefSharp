@@ -7,7 +7,7 @@
 #include "Stdafx.h"
 
 #include "Internals\TypeConversion.h"
-#include "Internals\CookieManager.h"
+#include "CookieManager.h"
 
 namespace CefSharp
 {

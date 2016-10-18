@@ -62,13 +62,13 @@
     <ClCompile Include="Internals\JavascriptCallbackFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Internals\CookieManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Internals\Serialization\JsObjectsSerialization.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Internals\Serialization\ObjectsSerialization.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CookieManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -208,9 +208,6 @@
     <ClInclude Include="RequestContextSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Internals\CookieManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Internals\Serialization\JsObjectsSerialization.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -257,6 +254,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Internals\CefNavigationEntryVisitorAdapter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CookieManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

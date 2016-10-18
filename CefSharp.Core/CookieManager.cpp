@@ -6,7 +6,7 @@
 #include "CookieManager.h"
 
 #include "CookieAsyncWrapper.h"
-#include "CookieVisitor.h"
+#include "Internals\CookieVisitor.h"
 #include "Internals\CefCompletionCallbackAdapter.h"
 #include "Cef.h"
 
