@@ -12,127 +12,124 @@
 
 namespace CefSharp
 {
-    namespace Internals
-    {
-        void CookieManager::ThrowIfDisposed()
-        {
-            if (_cookieManager.get() == nullptr)
-            {
-                throw gcnew ObjectDisposedException("CookieManager");
-            }
-        }
+	void CookieManager::ThrowIfDisposed()
+	{
+		if (_cookieManager.get() == nullptr)
+		{
+			throw gcnew ObjectDisposedException("CookieManager");
+		}
+	}
 
-        Task<bool>^ CookieManager::DeleteCookiesAsync(String^ url, String^ name)
-        {
-            ThrowIfDisposed();
+	Task<bool>^ CookieManager::DeleteCookiesAsync(String^ url, String^ name)
+	{
+		ThrowIfDisposed();
 
-            auto cookieInvoker = gcnew CookieAsyncWrapper(_cookieManager.get(), url, name);
+		auto cookieInvoker = gcnew CookieAsyncWrapper(_cookieManager.get(), url, name);
 
-            if (CefCurrentlyOn(TID_IO))
-            {
-                auto source = gcnew TaskCompletionSource<bool>();
-                TaskExtensions::TrySetResultAsync<bool>(source, cookieInvoker->DeleteCookies());
-                return source->Task;
-            }
+		if (CefCurrentlyOn(TID_IO))
+		{
+			auto source = gcnew TaskCompletionSource<bool>();
+			CefSharp::Internals::TaskExtensions::TrySetResultAsync<bool>(source, cookieInvoker->DeleteCookies());
+			return source->Task;
+		}
 
-            return Cef::IOThreadTaskFactory->StartNew(gcnew Func<bool>(cookieInvoker, &CookieAsyncWrapper::DeleteCookies));
-        }
+		return Cef::IOThreadTaskFactory->StartNew(gcnew Func<bool>(cookieInvoker, &CookieAsyncWrapper::DeleteCookies));
+	}
 
-        Task<bool>^ CookieManager::SetCookieAsync(String^ url, Cookie^ cookie)
-        {
-            ThrowIfDisposed();
+	Task<bool>^ CookieManager::SetCookieAsync(String^ url, Cookie^ cookie)
+	{
+		ThrowIfDisposed();
 
-            auto cookieInvoker = gcnew CookieAsyncWrapper(_cookieManager.get(), url, cookie->Name, cookie->Value, cookie->Domain, cookie->Path, cookie->Secure, cookie->HttpOnly, cookie->Expires.HasValue, cookie->Expires.HasValue ? cookie->Expires.Value : DateTime());
+		auto cookieInvoker = gcnew CookieAsyncWrapper(_cookieManager.get(), url, cookie->Name, cookie->Value, cookie->Domain, cookie->Path, cookie->Secure, cookie->HttpOnly, cookie->Expires.HasValue, cookie->Expires.HasValue ? cookie->Expires.Value : DateTime());
 
-            if (CefCurrentlyOn(TID_IO))
-            {
-                auto source = gcnew TaskCompletionSource<bool>();
-                TaskExtensions::TrySetResultAsync<bool>(source, cookieInvoker->SetCookie());
-                return source->Task;
-            }
+		if (CefCurrentlyOn(TID_IO))
+		{
+			auto source = gcnew TaskCompletionSource<bool>();
+			CefSharp::Internals::TaskExtensions::TrySetResultAsync<bool>(source, cookieInvoker->SetCookie());
+			return source->Task;
+		}
 
-            return Cef::IOThreadTaskFactory->StartNew(gcnew Func<bool>(cookieInvoker, &CookieAsyncWrapper::SetCookie));
-        }
+		return Cef::IOThreadTaskFactory->StartNew(gcnew Func<bool>(cookieInvoker, &CookieAsyncWrapper::SetCookie));
+	}
 
-        bool CookieManager::SetStoragePath(String^ path, bool persistSessionCookies)
-        {
-            ThrowIfDisposed();
+	bool CookieManager::SetStoragePath(String^ path, bool persistSessionCookies)
+	{
+		ThrowIfDisposed();
 
-            return _cookieManager->SetStoragePath(StringUtils::ToNative(path), persistSessionCookies, NULL);
-        }
+		return _cookieManager->SetStoragePath(StringUtils::ToNative(path), persistSessionCookies, NULL);
+	}
 
-        void CookieManager::SetSupportedSchemes(... cli::array<String^>^ schemes)
-        {
-            ThrowIfDisposed();
+	void CookieManager::SetSupportedSchemes(... cli::array<String^>^ schemes)
+	{
+		ThrowIfDisposed();
 
-            _cookieManager->SetSupportedSchemes(StringUtils::ToNative(schemes), NULL);
-        }
+		_cookieManager->SetSupportedSchemes(StringUtils::ToNative(schemes), NULL);
+	}
 
-        Task<List<Cookie^>^>^ CookieManager::VisitAllCookiesAsync()
-        {
-            ThrowIfDisposed();
+	Task<List<Cookie^>^>^ CookieManager::VisitAllCookiesAsync()
+	{
+		ThrowIfDisposed();
 
-            auto cookieVisitor = gcnew TaskCookieVisitor();
+		auto cookieVisitor = gcnew TaskCookieVisitor();
 
-            auto result = VisitAllCookies(cookieVisitor);
+		auto result = VisitAllCookies(cookieVisitor);
 
-            if (result == false)
-            {
-                delete cookieVisitor;
-            }
+		if (result == false)
+		{
+			delete cookieVisitor;
+		}
 
-            return cookieVisitor->Task;
-        }
+		return cookieVisitor->Task;
+	}
 
-        bool CookieManager::VisitAllCookies(ICookieVisitor^ visitor)
-        {
-            ThrowIfDisposed();
+	bool CookieManager::VisitAllCookies(ICookieVisitor^ visitor)
+	{
+		ThrowIfDisposed();
 
-            CefRefPtr<CookieVisitor> cookieVisitor = new CookieVisitor(visitor);
+		CefRefPtr<CookieVisitor> cookieVisitor = new CookieVisitor(visitor);
 
-            return _cookieManager->VisitAllCookies(cookieVisitor);
-        }
+		return _cookieManager->VisitAllCookies(cookieVisitor);
+	}
 
-        Task<List<Cookie^>^>^ CookieManager::VisitUrlCookiesAsync(String^ url, bool includeHttpOnly)
-        {
-            ThrowIfDisposed();
+	Task<List<Cookie^>^>^ CookieManager::VisitUrlCookiesAsync(String^ url, bool includeHttpOnly)
+	{
+		ThrowIfDisposed();
 
-            auto cookieVisitor = gcnew TaskCookieVisitor();
+		auto cookieVisitor = gcnew TaskCookieVisitor();
 
-            auto result = VisitUrlCookies(url, includeHttpOnly, cookieVisitor);
+		auto result = VisitUrlCookies(url, includeHttpOnly, cookieVisitor);
 
-            if (result == false)
-            {
-                delete cookieVisitor;
-            }
+		if (result == false)
+		{
+			delete cookieVisitor;
+		}
 
-            return cookieVisitor->Task;
-        }
+		return cookieVisitor->Task;
+	}
 
-        bool CookieManager::VisitUrlCookies(String^ url, bool includeHttpOnly, ICookieVisitor^ visitor)
-        {
-            ThrowIfDisposed();
+	bool CookieManager::VisitUrlCookies(String^ url, bool includeHttpOnly, ICookieVisitor^ visitor)
+	{
+		ThrowIfDisposed();
 
-            CefRefPtr<CookieVisitor> cookieVisitor = new CookieVisitor(visitor);
+		CefRefPtr<CookieVisitor> cookieVisitor = new CookieVisitor(visitor);
 
-            return _cookieManager->VisitUrlCookies(StringUtils::ToNative(url), includeHttpOnly, cookieVisitor);
-        }
+		return _cookieManager->VisitUrlCookies(StringUtils::ToNative(url), includeHttpOnly, cookieVisitor);
+	}
 
-        Task<bool>^ CookieManager::FlushStoreAsync()
-        {
-            ThrowIfDisposed();
+	Task<bool>^ CookieManager::FlushStoreAsync()
+	{
+		ThrowIfDisposed();
 
-            auto handler = gcnew TaskCompletionHandler();
+		auto handler = gcnew TaskCompletionHandler();
 
-            CefRefPtr<CefCompletionCallback> wrapper = new CefCompletionCallbackAdapter(handler);
+		CefRefPtr<CefCompletionCallback> wrapper = new CefCompletionCallbackAdapter(handler);
 
-            if (_cookieManager->FlushStore(wrapper))
-            {
-                return handler->Task;
-            }
+		if (_cookieManager->FlushStore(wrapper))
+		{
+			return handler->Task;
+		}
 
-            //returns false if cookies cannot be accessed.
-            return TaskExtensions::FromResult(false);
-        }
-    }
+		//returns false if cookies cannot be accessed.
+		return CefSharp::Internals::TaskExtensions::FromResult(false);
+	}
 }
