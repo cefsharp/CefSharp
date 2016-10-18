@@ -117,6 +117,11 @@ namespace CefSharp.WinForms.Example.Handlers
 
         bool ILifeSpanHandler.DoClose(IWebBrowser browserControl, IBrowser browser)
         {
+            //We need to allow popups to close
+            if(browser.IsPopup)
+            {
+                return false;
+            }
 
             //The default CEF behaviour (return false) will send a OS close notification (e.g. WM_CLOSE).
             //See the doc for this method for full details.
