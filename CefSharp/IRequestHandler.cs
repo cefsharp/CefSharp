@@ -135,8 +135,9 @@ namespace CefSharp
         /// <param name="browser">the browser object</param>
         /// <param name="frame">The frame that is being redirected.</param>
         /// <param name="request">the request object - cannot be modified in this callback</param>
+        /// <param name="response">the response object</param>
         /// <param name="newUrl">the new URL and can be changed if desired</param>
-        void OnResourceRedirect(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, ref string newUrl);
+        void OnResourceRedirect(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IResponse response, ref string newUrl);
 
         /// <summary>
         /// Called on the UI thread to handle requests for URLs with an unknown protocol component. 

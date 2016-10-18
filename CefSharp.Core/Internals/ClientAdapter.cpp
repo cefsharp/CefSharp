@@ -573,7 +573,7 @@ namespace CefSharp
             }
         }
 
-        void ClientAdapter::OnResourceRedirect(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefString& newUrl)
+        void ClientAdapter::OnResourceRedirect(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, CefRefPtr<CefResponse> response, CefString& newUrl)
         {
             auto handler = _browserControl->RequestHandler;
 
@@ -583,8 +583,9 @@ namespace CefSharp
                 auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
                 CefFrameWrapper frameWrapper(frame);
                 CefRequestWrapper requestWrapper(request);
+                CefResponseWrapper responseWrapper(response);
 
-                handler->OnResourceRedirect(_browserControl, browserWrapper, %frameWrapper, %requestWrapper, managedNewUrl);
+                handler->OnResourceRedirect(_browserControl, browserWrapper, %frameWrapper, %requestWrapper, %responseWrapper, managedNewUrl);
 
                 newUrl = StringUtils::ToNative(managedNewUrl);
             }
