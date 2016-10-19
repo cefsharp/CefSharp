@@ -105,6 +105,8 @@ namespace CefSharp.OffScreen.Example
 
         public static Task LoadPageAsync(IWebBrowser browser, string address = null)
         {
+            //If using .Net 4.6 then use TaskCreationOptions.RunContinuationsAsynchronously
+            //and switch to tcs.TrySetResult below - no need for the custom extension method
             var tcs = new TaskCompletionSource<bool>();
 
             EventHandler<LoadingStateChangedEventArgs> handler = null;
@@ -114,6 +116,8 @@ namespace CefSharp.OffScreen.Example
                 if (!args.IsLoading)
                 {
                     browser.LoadingStateChanged -= handler;
+                    //This is required when using a standard TaskCompletionSource
+                    //Extension method found in the CefSharp.Internals namespace
                     tcs.TrySetResultAsync(true);
                 }
             };
