@@ -143,7 +143,15 @@ namespace CefSharp.Wpf.Example.ViewModels
                         // TODO: This is a bit of a hack. It would be nicer/cleaner to give the webBrowser focus in the Go()
                         // TODO: method, but it seems like "something" gets messed up (= doesn't work correctly) if we give it
                         // TODO: focus "too early" in the loading process...
-                        WebBrowser.FrameLoadEnd += delegate { Application.Current.Dispatcher.BeginInvoke((Action)(() => webBrowser.Focus())); };
+                        WebBrowser.FrameLoadEnd += (s, args) =>
+                        {
+                            //Sender is the ChromiumWebBrowser object 
+                            var browser = s as ChromiumWebBrowser;
+                            if (browser != null && !browser.IsDisposed)
+                            {
+                                browser.Dispatcher.BeginInvoke((Action)(() => browser.Focus()));
+                            }
+                        };
                     }
 
                     break;
