@@ -1,3 +1,5 @@
+### Please only open an issue if you have a BUG to report, if you simply have a question or require some assistance keep reading for info. If you do have a BUG to report, please use the Bug Report template below.
+
 So you have a question to ask, where can you look for answers? Read on. Think you've found a bug? Please take the time to fill out the bug report below, provide as much information as you can, make sure you provide information for every heading. Thank you! We'd like to keep issues exclusively for **bug reports**, so please ask your questions on `Gitter`
 
 - Check out the FAQ, lots of useful information there, specially if your having trouble deploying to a different machine : https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions
