@@ -17,7 +17,7 @@ namespace CefSharp
         static CefSharpSettings()
         {
             ShutdownOnExit = true;
-            WcfTimeout = TimeSpan.FromSeconds(10);
+            WcfTimeout = TimeSpan.FromSeconds(2);
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace CefSharp
 
         /// <summary>
         /// Change the Close timeout for the WCF channel used by the sync JSB binding.
-        /// The default value is currently 10 seconds. Chaning this to <see cref="TimeSpan.Zero"/>
+        /// The default value is currently 2 seconds. Chaning this to <see cref="TimeSpan.Zero"/>
         /// will result on Abort() being called on the WCF Channel Host
         /// </summary>
         public static TimeSpan WcfTimeout { get; set; }
