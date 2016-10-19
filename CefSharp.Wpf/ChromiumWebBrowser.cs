@@ -467,9 +467,17 @@ namespace CefSharp.Wpf
 
                     IsVisibleChanged -= OnIsVisibleChanged;
 
+                    if(popup != null)
+                    { 
+                        popup.MouseEnter -= PopupMouseEnter;
+                        popup.MouseLeave -= PopupMouseLeave;
+                        popup = null;
+                    }
+
                     if (tooltipTimer != null)
                     {
                         tooltipTimer.Tick -= OnTooltipTimerTick;
+                        tooltipTimer = null;
                     }
 
                     if (CleanupElement != null)
@@ -1835,10 +1843,10 @@ namespace CefSharp.Wpf
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
-        protected void PopupMouseEnter(object sender, MouseEventArgs e)
+        private void PopupMouseEnter(object sender, MouseEventArgs e)
         {
             Focus();
-            Mouse.Capture(this);
+            Mouse.Capture(this, CaptureMode.Element);
         }
 
         /// <summary>
@@ -1846,9 +1854,9 @@ namespace CefSharp.Wpf
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
-        protected void PopupMouseLeave(object sender, MouseEventArgs e)
+        private void PopupMouseLeave(object sender, MouseEventArgs e)
         {
-            Mouse.Capture(null);
+            Mouse.Capture(this, CaptureMode.None);
         }
 
         /// <summary>
