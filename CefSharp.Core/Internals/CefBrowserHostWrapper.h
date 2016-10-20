@@ -96,6 +96,8 @@ namespace CefSharp
 
             virtual void GetNavigationEntries(INavigationEntryVisitor^ visitor, bool currentOnly);
 
+            virtual NavigationEntry GetVisibleNavigationEntry();
+
             virtual property int WindowlessFrameRate
             {
                 int get();

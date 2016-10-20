@@ -288,6 +288,13 @@ namespace CefSharp
         void GetNavigationEntries(INavigationEntryVisitor visitor, bool currentOnly);
 
         /// <summary>
+        /// Returns the current visible navigation entry for this browser. This method
+        /// can only be called on the CEF UI thread.
+        /// </summary>
+        /// <returns>the current navigation entry</returns>
+        NavigationEntry GetVisibleNavigationEntry();
+
+        /// <summary>
         /// Gets/sets the maximum rate in frames per second (fps) that CefRenderHandler::
         /// OnPaint will be called for a windowless browser. The actual fps may be
         /// lower if the browser cannot generate frames at the requested rate. The

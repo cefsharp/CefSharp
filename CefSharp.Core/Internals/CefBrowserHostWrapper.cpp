@@ -349,6 +349,30 @@ void CefBrowserHostWrapper::GetNavigationEntries(INavigationEntryVisitor^ visito
     _browserHost->GetNavigationEntries(navEntryVisitor, currentOnly);
 }
 
+NavigationEntry CefBrowserHostWrapper::GetVisibleNavigationEntry()
+{
+    ThrowIfDisposed();
+
+    auto entry = _browserHost->GetVisibleNavigationEntry();
+
+    NavigationEntry navEntry;
+
+    //TODO: This code is duplicated in CefNavigationEntryVisitor
+    if (entry->IsValid())
+    {
+        auto time = entry->GetCompletionTime();
+        DateTime completionTime = CefTimeUtils::ConvertCefTimeToDateTime(time.GetDoubleT());
+        navEntry = NavigationEntry(true, completionTime, StringUtils::ToClr(entry->GetDisplayURL()), entry->GetHttpStatusCode(), StringUtils::ToClr(entry->GetOriginalURL()), StringUtils::ToClr(entry->GetTitle()), (TransitionType)entry->GetTransitionType(), StringUtils::ToClr(entry->GetURL()), entry->HasPostData(), true);
+    }
+    else
+    {
+        //Invalid nav entry
+        navEntry = NavigationEntry(true, DateTime::MinValue, nullptr, -1, nullptr, nullptr, (TransitionType)-1, nullptr, false, false);
+    }
+
+    return navEntry;
+}
+
 void CefBrowserHostWrapper::NotifyMoveOrResizeStarted()
 {
     ThrowIfDisposed();
