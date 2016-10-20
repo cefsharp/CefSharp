@@ -16,6 +16,7 @@
                 <MenuItem Header="_Close Tab" Command="Close"/>
                 <MenuItem Header="_Open DevTools" Command="controls:CefSharpCommands.CustomCommand" CommandParameter="OpenDevTools"/>
                 <MenuItem Header="Zoom In" Command="controls:CefSharpCommands.CustomCommand" CommandParameter="ZoomIn"/>
+                <MenuItem Header="Zoom Out" Command="controls:CefSharpCommands.CustomCommand" CommandParameter="ZoomOut"/>
                 <MenuItem Header="Zooom Reset" Command="controls:CefSharpCommands.CustomCommand" CommandParameter="ZoomReset"/>
                 <MenuItem Header="_Exit" Command="controls:CefSharpCommands.Exit"/>
             </MenuItem>
