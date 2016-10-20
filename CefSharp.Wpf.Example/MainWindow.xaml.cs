@@ -119,6 +119,12 @@ namespace CefSharp.Wpf.Example
                     cmd.Execute(null);
                 }
 
+                if (param == "ZoomOut")
+                {
+                    var cmd = browserViewModel.WebBrowser.ZoomOutCommand;
+                    cmd.Execute(null);
+                }
+
                 if (param == "ZoomReset")
                 {
                     var cmd = browserViewModel.WebBrowser.ZoomResetCommand;
