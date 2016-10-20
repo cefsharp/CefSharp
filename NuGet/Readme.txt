@@ -38,6 +38,7 @@ Basic Troubleshooting:
         * CefSharp.OffScreen.dll
   - Additional optional CEF files are described at: https://github.com/cefsharp/cef-binary/blob/master/README.txt#L82
     NOTE: CefSharp does not currently support CEF sandboxing.
+  - By default `CEF` has it's own log file, `Debug.log` which is located in your executing folder. e.g. `bin`
 
 For further help please read the following content:
   - CefSharp Tutorials https://github.com/cefsharp/CefSharp.Tutorial
