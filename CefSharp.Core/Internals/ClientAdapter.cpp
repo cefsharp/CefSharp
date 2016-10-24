@@ -205,9 +205,14 @@ namespace CefSharp
 
             if (handler != nullptr)
             {
-                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), isPopup);
+                //By this point the other IBrowser references have been disposed
+                //Rather than attempting to rework the rather complex closing logic
+                //It's easier to pass in a new wrapper and dispose it straight away
+                auto browserWrapper = gcnew CefSharpBrowserWrapper(browser);
 
                 handler->OnBeforeClose(_browserControl, browserWrapper);
+
+                delete browserWrapper;
             }
 
             if (isPopup)
