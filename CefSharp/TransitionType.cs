@@ -85,7 +85,7 @@ namespace CefSharp
         /// <summary>
         /// Redirects caused by JavaScript or a meta refresh tag on the page.
         /// </summary>
-        CliendRedirect = 0x40000000,
+        ClientRedirect = 0x40000000,
 
         /// <summary>
         /// Redirects sent from the server by HTTP headers.
