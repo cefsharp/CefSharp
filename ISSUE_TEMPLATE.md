@@ -43,4 +43,8 @@ e.g. 47.0.3
 
     - Any other background information that's relevant? Are you doing something out of the ordinary? 3rd party controls?
 
-- **Does this problem also occur in the `Cef` TestApp from http://opensource.spotify.com/cefbuilds/index.html (http://cefbuilds.com for older version)?**
+- **Does this problem also occur in the `CEF` Sample Application from http://opensource.spotify.com/cefbuilds/index.html (http://cefbuilds.com for older version)?**
+
+    - To compare with WPF run cefclient --multi-threaded-message-loop --off-screen-rendering-enabled
+    - To compare with WinForms run cefclient --multi-threaded-message-loop
+    - If you can reproduce the problem with `cefclient` then you'll need to report the bug on https://bitbucket.org/chromiumembedded/cef/overview there is no point opening an issue here. (Make sure you search before opening an issue)
