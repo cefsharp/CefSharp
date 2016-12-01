@@ -267,7 +267,8 @@ namespace CefSharp
                         try
                         {
                             CefRefPtr<CefV8Exception> exception;
-                            success = context->Eval(script, result, exception);
+                            //TODO: Add script url and startline as params in browser process
+                            success = context->Eval(script, CefString(), 1, result, exception);
                             
                             //we need to do this here to be able to store the v8context
                             if (success)
