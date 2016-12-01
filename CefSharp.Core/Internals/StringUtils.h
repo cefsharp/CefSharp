@@ -129,8 +129,12 @@ namespace CefSharp
                 if (exception.get())
                 {
                     std::wstringstream logMessageBuilder;
-                    logMessageBuilder << exception->GetMessage().c_str() << L"\n@ " <<
-                        exception->GetScriptResourceName().c_str() << L":" << exception->GetLineNumber() << L":" << exception->GetStartColumn();
+                    logMessageBuilder << exception->GetMessage().c_str() << L"\n@ ";
+                    if (!exception->GetScriptResourceName().empty())
+                    {
+                        logMessageBuilder << exception->GetScriptResourceName().c_str();
+                    }
+                    logMessageBuilder << L":" << exception->GetLineNumber() << L":" << exception->GetStartColumn();
                     return CefString(logMessageBuilder.str());
                 }
                 
