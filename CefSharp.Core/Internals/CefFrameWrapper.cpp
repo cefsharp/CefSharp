@@ -232,7 +232,7 @@ void CefFrameWrapper::ExecuteJavaScriptAsync(String^ code, String^ scriptUrl, in
     _frame->ExecuteJavaScript(StringUtils::ToNative(code), StringUtils::ToNative(scriptUrl), startLine);
 }
 
-Task<JavascriptResponse^>^ CefFrameWrapper::EvaluateScriptAsync(String^ script, Nullable<TimeSpan> timeout)
+Task<JavascriptResponse^>^ CefFrameWrapper::EvaluateScriptAsync(String^ script, String^ scriptUrl, int startLine, Nullable<TimeSpan> timeout)
 {
     ThrowIfDisposed();
     ThrowIfFrameInvalid();
@@ -242,7 +242,7 @@ Task<JavascriptResponse^>^ CefFrameWrapper::EvaluateScriptAsync(String^ script, 
 
     auto client = static_cast<ClientAdapter*>(host->GetClient().get());
 
-    return client->EvaluateScriptAsync(browser->GetIdentifier(), browser->IsPopup(), _frame->GetIdentifier(), script, timeout);
+    return client->EvaluateScriptAsync(browser->GetIdentifier(), browser->IsPopup(), _frame->GetIdentifier(), script, scriptUrl, startLine, timeout);
 }
 
 ///

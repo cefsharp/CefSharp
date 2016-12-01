@@ -1132,7 +1132,7 @@ namespace CefSharp
             return handled;
         }
 
-        Task<JavascriptResponse^>^ ClientAdapter::EvaluateScriptAsync(int browserId, bool isBrowserPopup, int64 frameId, String^ script, Nullable<TimeSpan> timeout)
+        Task<JavascriptResponse^>^ ClientAdapter::EvaluateScriptAsync(int browserId, bool isBrowserPopup, int64 frameId, String^ script, String^ scriptUrl, int startLine, Nullable<TimeSpan> timeout)
         {
             auto browser = GetBrowserWrapper(browserId, isBrowserPopup);
 
@@ -1152,8 +1152,8 @@ namespace CefSharp
             SetInt64(argList, 0, frameId);
             SetInt64(argList, 1, idAndComplectionSource.Key);
             argList->SetString(2, StringUtils::ToNative(script));
-
-            
+            argList->SetString(3, StringUtils::ToNative(scriptUrl));
+            argList->SetInt(4, startLine);
 
             browserWrapper->SendProcessMessage(CefProcessId::PID_RENDERER, message);
 

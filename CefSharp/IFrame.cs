@@ -116,16 +116,18 @@ namespace CefSharp
         /// <param name="scriptUrl">is the URL where the script in question can be found, if any.
         /// The renderer may request this URL to show the developer the source of the error.</param>
         /// <param name="startLine">is the base line number to use for error reporting.</param>
-        void ExecuteJavaScriptAsync(string code, string scriptUrl = "about:blank", int startLine = 0);
+        void ExecuteJavaScriptAsync(string code, string scriptUrl = "about:blank", int startLine = 1);
 
         /// <summary>
         /// Execute some Javascript code in the context of this WebBrowser, and return the result of the evaluation
         /// in an Async fashion
         /// </summary>
         /// <param name="script">The Javascript code that should be executed.</param>
+        /// <param name="scriptUrl">is the URL where the script in question can be found, if any.</param>
+        /// <param name="startLine">is the base line number to use for error reporting.</param>
         /// <param name="timeout">The timeout after which the Javascript code execution should be aborted.</param>
         /// <returns>A Task that can be awaited to perform the script execution</returns>
-        Task<JavascriptResponse> EvaluateScriptAsync(string script, TimeSpan? timeout = null);
+        Task<JavascriptResponse> EvaluateScriptAsync(string script, string scriptUrl = "about:blank", int startLine = 1, TimeSpan? timeout = null);
 
         /// <summary>
         /// Returns true if this is the main (top-level) frame.

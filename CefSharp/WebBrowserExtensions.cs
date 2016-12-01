@@ -644,7 +644,7 @@ namespace CefSharp
             {
                 ThrowExceptionIfFrameNull(frame);
 
-                return frame.EvaluateScriptAsync(script, timeout);
+                return frame.EvaluateScriptAsync(script, timeout: timeout);
             }
         }
 

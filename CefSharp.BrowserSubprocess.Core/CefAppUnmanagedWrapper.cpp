@@ -256,6 +256,8 @@ namespace CefSharp
                 auto callbackRegistry = rootObjectWrapper->CallbackRegistry;
 
                 auto script = argList->GetString(2);
+                auto scriptUrl = argList->GetString(3);
+                auto startLine = argList->GetInt(4);
 
                 auto frame = browser->GetFrame(frameId);
                 if (frame.get())
@@ -267,8 +269,7 @@ namespace CefSharp
                         try
                         {
                             CefRefPtr<CefV8Exception> exception;
-                            //TODO: Add script url and startline as params in browser process
-                            success = context->Eval(script, CefString(), 1, result, exception);
+                            success = context->Eval(script, scriptUrl, startLine, result, exception);
                             
                             //we need to do this here to be able to store the v8context
                             if (success)
