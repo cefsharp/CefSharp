@@ -58,6 +58,9 @@ namespace CefSharp
             if (CefSharpSettings::WcfEnabled)
             {
                 commandLine->AppendArgument(StringUtils::ToNative(CefSharpArguments::WcfEnabledArgument));
+                //ChannelId was removed in https://bitbucket.org/chromiumembedded/cef/issues/1912/notreached-in-logchannelidandcookiestores
+                //We need to know the process Id to establish WCF communication
+                commandLine->AppendArgument(StringUtils::ToNative(CefSharpArguments::WcfHostProcessIdArgument + "=" + Process::GetCurrentProcess()->Id));
             }
 
             if (_cefSettings->_cefCustomSchemes->Count > 0)
