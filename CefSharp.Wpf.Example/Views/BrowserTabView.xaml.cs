@@ -101,7 +101,7 @@ namespace CefSharp.Wpf.Example.Views
 
         private void UpdateDownloadAction(string downloadAction, DownloadItem downloadItem)
         {
-            this.Dispatcher.Invoke(() =>
+            this.Dispatcher.InvokeAsync(() =>
             {
                 var viewModel = (BrowserTabViewModel)this.DataContext;
                 viewModel.LastDownloadAction = downloadAction;

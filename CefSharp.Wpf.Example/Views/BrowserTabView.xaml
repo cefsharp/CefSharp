@@ -14,7 +14,7 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <ObjectDataProvider x:Key="BitmapScalingModeEnum" MethodName="GetValues" ObjectType="{x:Type system:Enum}">
             <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="BitmapScalingMode" />
+                <x:Type TypeName="BitmapScalingMode"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
     </UserControl.Resources>
@@ -44,7 +44,8 @@
                          GotKeyboardFocus="OnTextBoxGotKeyboardFocus"
                          GotMouseCapture="OnTextBoxGotMouseCapture">
                     <TextBox.InputBindings>
-                        <KeyBinding Key="Enter" Command="{Binding GoCommand}" />
+                        <KeyBinding Key="Enter"
+                                    Command="{Binding GoCommand}" />
                     </TextBox.InputBindings>
                 </TextBox>
             </DockPanel>
