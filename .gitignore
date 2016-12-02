@@ -16,6 +16,8 @@
 *.swp
 *.user
 *.xml
+*.VC.opendb
+*.VC.db
 _ReSharper*
 
 bin/
