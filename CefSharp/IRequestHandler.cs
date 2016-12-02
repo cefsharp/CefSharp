@@ -104,6 +104,8 @@ namespace CefSharp
         /// <returns>Return true to continue the request and call CefAuthCallback::Continue() when the authentication information is available. Return false to cancel the request. </returns>
         bool GetAuthCredentials(IWebBrowser browserControl, IBrowser browser, IFrame frame, bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback);
 
+        bool OnSelectClientCertificate(IWebBrowser browserControl, IBrowser browser, bool isProxy, string host, int port, certificates, IAuthCallback callback);
+
         /// <summary>
         /// Called when the render process terminates unexpectedly.
         /// </summary>

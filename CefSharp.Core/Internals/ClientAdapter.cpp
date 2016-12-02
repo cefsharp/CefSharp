@@ -737,6 +737,52 @@ namespace CefSharp
                 StringUtils::ToClr(scheme), callbackWrapper);
         }
 
+		bool ClientAdapter::OnSelectClientCertificate(CefRefPtr<CefBrowser> browser, bool isProxy, const CefString& host, int port, const X509CertificateList& certificates, CefRefPtr<CefSelectClientCertificateCallback> callback) {
+			
+			auto handler = _browserControl->RequestHandler;
+
+			if (handler == nullptr)
+			{
+				return false;
+			}
+
+			auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+			//auto frameWrapper = gcnew CefFrameWrapper(frame);
+			//auto callbackWrapper = gcnew CefAuthCallbackWrapper(callback, frameWrapper);
+
+			return handler->OnSelectClientCertificate(
+				_browserControl, browserWrapper, isProxy,
+				StringUtils::ToClr(host), port, certificates, callback);
+
+			//CEF_REQUIRE_UI_THREAD();
+
+			/*CefRefPtr<CefCommandLine> command_line =
+				CefCommandLine::GetGlobalCommandLine();
+			if (!command_line->HasSwitch(switches::kSslClientCertificate)) {
+				return false;
+			}
+
+			const std::string& cert_name =
+				command_line->GetSwitchValue(switches::kSslClientCertificate);
+
+			if (cert_name.empty()) {
+				callback->Select(NULL);
+				return true;
+			}
+
+			std::vector<CefRefPtr<CefX509Certificate> >::const_iterator it =
+				certificates.begin();
+			for (; it != certificates.end(); ++it) {
+				CefString subject((*it)->GetSubject()->GetDisplayName());
+				if (subject == cert_name) {
+					callback->Select(*it);
+					return true;
+				}
+			}
+
+			return true;*/
+		}
+
         void ClientAdapter::OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
             CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model)
         {
