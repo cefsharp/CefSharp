@@ -32,6 +32,7 @@
 #include "Messaging\Messages.h"
 #include "CefResponseFilterAdapter.h"
 #include "PopupFeatures.h"
+#include "CefCertCallbackWrapper.h"
 
 using namespace CefSharp::Internals::Messaging;
 using namespace CefSharp::Internals::Serialization;
@@ -737,7 +738,8 @@ namespace CefSharp
                 StringUtils::ToClr(scheme), callbackWrapper);
         }
 
-		bool ClientAdapter::OnSelectClientCertificate(CefRefPtr<CefBrowser> browser, bool isProxy, const CefString& host, int port, const X509CertificateList& certificates, CefRefPtr<CefSelectClientCertificateCallback> callback) {
+		bool ClientAdapter::OnSelectClientCertificate(CefRefPtr<CefBrowser> browser, bool isProxy, const CefString& host,
+			int port, CefRequestHandler::X509CertificateList& certificates, CefRefPtr<CefSelectClientCertificateCallback> callback) {
 			
 			auto handler = _browserControl->RequestHandler;
 
@@ -747,12 +749,11 @@ namespace CefSharp
 			}
 
 			auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
-			//auto frameWrapper = gcnew CefFrameWrapper(frame);
-			//auto callbackWrapper = gcnew CefAuthCallbackWrapper(callback, frameWrapper);
+			auto callbackWrapper = gcnew CefCertCallbackWrapper(callback);
 
 			return handler->OnSelectClientCertificate(
 				_browserControl, browserWrapper, isProxy,
-				StringUtils::ToClr(host), port, certificates, callback);
+				StringUtils::ToClr(host), port, certificates, callbackWrapper);
 
 			//CEF_REQUIRE_UI_THREAD();
 

@@ -4,6 +4,8 @@
 
 using System;
 using CefSharp.Example.Filters;
+using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 
 namespace CefSharp.Example
 {
@@ -121,6 +123,15 @@ namespace CefSharp.Example
         }
 
         bool IRequestHandler.GetAuthCredentials(IWebBrowser browserControl, IBrowser browser, IFrame frame, bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback)
+        {
+            //NOTE: If you do not wish to implement this method returning false is the default behaviour
+            // We also suggest you explicitly Dispose of the callback as it wraps an unmanaged resource.
+
+            callback.Dispose();
+            return false;
+        }
+
+        bool IRequestHandler.OnSelectClientCertificate(IWebBrowser browserControl, IBrowser browser, bool isProxy, string host, int port, X509Certificate2Collection certificates, ISelectCertCallback callback)
         {
             //NOTE: If you do not wish to implement this method returning false is the default behaviour
             // We also suggest you explicitly Dispose of the callback as it wraps an unmanaged resource.

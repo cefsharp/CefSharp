@@ -259,6 +259,9 @@
     <ClInclude Include="CookieManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Internals\CefCertCallbackWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Internals\CefSharpBrowserWrapper.h">
