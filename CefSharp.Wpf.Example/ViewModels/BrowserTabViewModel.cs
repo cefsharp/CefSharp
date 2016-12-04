@@ -70,6 +70,27 @@ namespace CefSharp.Wpf.Example.ViewModels
             set { Set(ref showSidebar, value); }
         }
 
+        private bool showDownloadInfo;
+        public bool ShowDownloadInfo
+        {
+            get { return showDownloadInfo; }
+            set { Set(ref showDownloadInfo, value); }
+        }
+
+        private string lastDownloadAction;
+        public string LastDownloadAction
+        {
+            get { return lastDownloadAction; }
+            set { Set(ref lastDownloadAction, value); }
+        }
+
+        private DownloadItem downloadItem;
+        public DownloadItem DownloadItem
+        {
+            get { return downloadItem; }
+            set { Set(ref downloadItem, value); }
+        }
+
         public ICommand GoCommand { get; private set; }
         public ICommand HomeCommand { get; private set; }
         public ICommand ExecuteJavaScriptCommand { get; private set; }

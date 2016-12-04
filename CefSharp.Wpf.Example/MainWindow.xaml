@@ -20,6 +20,10 @@
                 <MenuItem Header="Zooom Reset" Command="controls:CefSharpCommands.CustomCommand" CommandParameter="ZoomReset"/>
                 <MenuItem Header="_Exit" Command="controls:CefSharpCommands.Exit"/>
             </MenuItem>
+            <MenuItem Header="_View">
+                <MenuItem Header="Toggle _Sidebar" Command="controls:CefSharpCommands.CustomCommand" CommandParameter="ToggleSidebar"/>
+                <MenuItem Header="Toggle _Download Info" Command="controls:CefSharpCommands.CustomCommand" CommandParameter="ToggleDownloadInfo"/>
+            </MenuItem>
             <MenuItem Header="_Tests">
                 <MenuItem Header="_Binding Test" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="{Binding Source={x:Static ex:CefExample.BindingTestUrl}}"/>
                 <MenuItem Header="_List Plugins" Command="controls:CefSharpCommands.OpenTabCommand" CommandParameter="{Binding Source={x:Static ex:CefExample.PluginsTestUrl}}"/>
