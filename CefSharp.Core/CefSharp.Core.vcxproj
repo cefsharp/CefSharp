@@ -252,7 +252,7 @@
   <ItemGroup>
     <ClInclude Include="BrowserSettings.h" />
     <ClInclude Include="Cef.h" />
-    <ClInclude Include="Internals\CefCertCallbackWrapper.h" />
+    <ClInclude Include="Internals\CefCertificateCallbackWrapper.h" />
     <ClInclude Include="CookieManager.h" />
     <ClInclude Include="Internals\CefNavigationEntryVisitorAdapter.h" />
     <ClInclude Include="Internals\CefGetGeolocationCallbackWrapper.h" />
@@ -279,6 +279,7 @@
     <ClInclude Include="Internals\CefTaskScheduler.h" />
     <ClInclude Include="Internals\CefTaskWrapper.h" />
     <ClInclude Include="Internals\CefWrapper.h" />
+    <ClInclude Include="Internals\CefCertificateListWrapper.h" />
     <ClInclude Include="PopupFeatures.h" />
     <ClInclude Include="RequestContextHandler.h" />
     <ClInclude Include="WindowInfo.h" />

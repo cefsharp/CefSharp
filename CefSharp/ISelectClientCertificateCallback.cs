@@ -9,13 +9,13 @@ namespace CefSharp
     /// <summary>
     /// Callback interface used for fetching the selected certificate.
     /// </summary>
-    public interface ISelectCertCallback : IDisposable
+    public interface ISelectClientCertificateCallback : IDisposable
     {
         /// <summary>
         /// Return the selected certificate
         /// </summary>
         /// <param name="selectedCert">selected certificate</param>
-        void Select(X509Certificate selectedCert);
+        void Select(X509Certificate2 selectedCert);
 
         /// <summary>
         /// Gets a value indicating whether the callback has been disposed of.

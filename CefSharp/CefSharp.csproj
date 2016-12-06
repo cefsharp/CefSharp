@@ -102,7 +102,7 @@
     <Compile Include="IResolveCallback.cs" />
     <Compile Include="IResponseFilter.cs" />
     <Compile Include="IRunContextMenuCallback.cs" />
-    <Compile Include="ISelectCertCallback.cs" />
+    <Compile Include="ISelectClientCertificateCallback.cs" />
     <Compile Include="MenuItemType.cs" />
     <Compile Include="ModelBinding\BindingContext.cs">
       <SubType>Code</SubType>

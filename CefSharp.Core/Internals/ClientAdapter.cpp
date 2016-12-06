@@ -32,7 +32,7 @@
 #include "Messaging\Messages.h"
 #include "CefResponseFilterAdapter.h"
 #include "PopupFeatures.h"
-#include "CefCertCallbackWrapper.h"
+#include "CefCertificateCallbackWrapper.h"
 
 using namespace CefSharp::Internals::Messaging;
 using namespace CefSharp::Internals::Serialization;
@@ -739,7 +739,7 @@ namespace CefSharp
         }
 
 		bool ClientAdapter::OnSelectClientCertificate(CefRefPtr<CefBrowser> browser, bool isProxy, const CefString& host,
-			int port, CefRequestHandler::X509CertificateList& certificates, CefRefPtr<CefSelectClientCertificateCallback> callback) {
+			int port, const CefRequestHandler::X509CertificateList& certificates, CefRefPtr<CefSelectClientCertificateCallback> callback) {
 			
 			auto handler = _browserControl->RequestHandler;
 
@@ -749,39 +749,27 @@ namespace CefSharp
 			}
 
 			auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
-			auto callbackWrapper = gcnew CefCertCallbackWrapper(callback);
+			auto callbackWrapper = gcnew CefCertificateCallbackWrapper(callback, certificates);
 
-			return handler->OnSelectClientCertificate(
-				_browserControl, browserWrapper, isProxy,
-				StringUtils::ToClr(host), port, certificates, callbackWrapper);
-
-			//CEF_REQUIRE_UI_THREAD();
-
-			/*CefRefPtr<CefCommandLine> command_line =
-				CefCommandLine::GetGlobalCommandLine();
-			if (!command_line->HasSwitch(switches::kSslClientCertificate)) {
-				return false;
-			}
-
-			const std::string& cert_name =
-				command_line->GetSwitchValue(switches::kSslClientCertificate);
-
-			if (cert_name.empty()) {
-				callback->Select(NULL);
-				return true;
-			}
+			auto list = gcnew System::Security::Cryptography::X509Certificates::X509Certificate2Collection();
 
 			std::vector<CefRefPtr<CefX509Certificate> >::const_iterator it =
 				certificates.begin();
 			for (; it != certificates.end(); ++it) {
-				CefString subject((*it)->GetSubject()->GetDisplayName());
-				if (subject == cert_name) {
-					callback->Select(*it);
-					return true;
-				}
+				CefRefPtr<CefBinaryValue> bytes((*it)->GetDEREncoded());
+				auto byteSize = bytes->GetSize();
+
+				auto bufferByte = gcnew cli::array<Byte>(byteSize);
+				pin_ptr<Byte> src = &bufferByte[0]; // pin pointer to first element in arr
+
+				bytes->GetData(static_cast<void*>(src), byteSize, 0);
+				auto cert = gcnew System::Security::Cryptography::X509Certificates::X509Certificate2(bufferByte);
+				list->Add(cert);
 			}
 
-			return true;*/
+			return handler->OnSelectClientCertificate(
+				_browserControl, browserWrapper, isProxy,
+				StringUtils::ToClr(host), port, list, callbackWrapper);
 		}
 
         void ClientAdapter::OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
