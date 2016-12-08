@@ -58,7 +58,10 @@ namespace CefSharp
 
             Window^ _currentWindow;
 
+			bool _disposed;
+
             void Initialize(String^ address, BrowserSettings^ settings);
+			CefRefPtr<CefBrowser> GetCefBrowser();
             bool TryGetCefBrowser(CefRefPtr<CefBrowser>& browser);
             void BrowserCore_PropertyChanged(Object^ sender, PropertyChangedEventArgs^ e);
             void Timer_Tick(Object^ sender, EventArgs^ e);
@@ -95,6 +98,8 @@ namespace CefSharp
             void AddSourceHook();
             bool IsNonStandardDpi();
             Transform^ GetScaleTransform();
+
+			void RegisterWindowHandlers();
 
         public protected: // a.k.a protected internal
             virtual void OnVisualParentChanged(DependencyObject^ oldParent) override;
@@ -152,6 +157,7 @@ namespace CefSharp
                 {
                     browser->CloseBrowser();
                 }
+				_disposed = true;
             }
 
             virtual property bool IsBrowserInitialized
