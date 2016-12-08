@@ -12,8 +12,7 @@ namespace CefSharp
     public interface ISelectClientCertificateCallback : IDisposable
     {
         /// <summary>
-        /// Chooses the specified certificate for client certificate authentication.
-        /// null value means that no client certificate should be used.
+        /// Callback interface used to select a client certificate for authentication.
         /// </summary>
         /// <param name="selectedCert">selected certificate</param>
         void Select(X509Certificate2 selectedCert);

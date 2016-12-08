@@ -136,16 +136,13 @@ namespace CefSharp.Example
             //NOTE: If you do not wish to implement this method returning false is the default behaviour
             // We also suggest you explicitly Dispose of the callback as it wraps an unmanaged resource.
 
+            return OnSelectClientCertificate(browserControl, browser, isProxy, host, port, certificates, callback);
+        }
+
+        protected virtual bool OnSelectClientCertificate(IWebBrowser browserControl, IBrowser browser, bool isProxy, string host, int port, X509Certificate2Collection certificates, ISelectClientCertificateCallback callback)
+        {
             callback.Dispose();
             return false;
-
-            // This is an alternate for displaying a Client Certificate Dialog for user to select a certificate
-            //X509Certificate2Collection selectedCertificateCollection = X509Certificate2UI.SelectFromCollection(certificates, "Certificates Dialog", "Select Certificate for authentication", X509SelectionFlag.SingleSelection);
-            //foreach (X509Certificate2 x509 in selectedCertificateCollection)
-            //{
-            //    callback.Select(x509);
-            //}
-            //return true;
         }
 
         void IRequestHandler.OnRenderProcessTerminated(IWebBrowser browserControl, IBrowser browser, CefTerminationStatus status)

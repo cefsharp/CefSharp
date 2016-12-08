@@ -740,39 +740,39 @@ namespace CefSharp
         }
 
         bool ClientAdapter::OnSelectClientCertificate(CefRefPtr<CefBrowser> browser, bool isProxy, const CefString& host,
-			int port, const CefRequestHandler::X509CertificateList& certificates, CefRefPtr<CefSelectClientCertificateCallback> callback) {
-			
-			auto handler = _browserControl->RequestHandler;
+            int port, const CefRequestHandler::X509CertificateList& certificates, CefRefPtr<CefSelectClientCertificateCallback> callback) {
+            
+            auto handler = _browserControl->RequestHandler;
 
-			if (handler == nullptr)
-			{
-				return false;
-			}
+            if (handler == nullptr)
+            {
+                return false;
+            }
 
-			auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
-			auto callbackWrapper = gcnew CefCertificateCallbackWrapper(callback, certificates);
+            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+            auto callbackWrapper = gcnew CefCertificateCallbackWrapper(callback, certificates);
 
-			auto list = gcnew X509Certificate2Collection();
+            auto list = gcnew X509Certificate2Collection();
 
-			std::vector<CefRefPtr<CefX509Certificate> >::const_iterator it =
-				certificates.begin();
-			for (; it != certificates.end(); ++it) 
-			{
-				auto bytes((*it)->GetDEREncoded());
-				auto byteSize = bytes->GetSize();
+            std::vector<CefRefPtr<CefX509Certificate> >::const_iterator it =
+                certificates.begin();
+            for (; it != certificates.end(); ++it) 
+            {
+                auto bytes((*it)->GetDEREncoded());
+                auto byteSize = bytes->GetSize();
 
-				auto bufferByte = gcnew cli::array<Byte>(byteSize);
-				pin_ptr<Byte> src = &bufferByte[0]; // pin pointer to first element in arr
+                auto bufferByte = gcnew cli::array<Byte>(byteSize);
+                pin_ptr<Byte> src = &bufferByte[0]; // pin pointer to first element in arr
 
-				bytes->GetData(static_cast<void*>(src), byteSize, 0);
-				auto cert = gcnew X509Certificate2(bufferByte);				
-				list->Add(cert);
-			}
+                bytes->GetData(static_cast<void*>(src), byteSize, 0);
+                auto cert = gcnew X509Certificate2(bufferByte);				
+                list->Add(cert);
+            }
 
-			return handler->OnSelectClientCertificate(
-				_browserControl, browserWrapper, isProxy,
-				StringUtils::ToClr(host), port, list, callbackWrapper);
-		}
+            return handler->OnSelectClientCertificate(
+                _browserControl, browserWrapper, isProxy,
+                StringUtils::ToClr(host), port, list, callbackWrapper);
+        }
 
         void ClientAdapter::OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
             CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model)
