@@ -7,7 +7,7 @@ using System.Security.Cryptography.X509Certificates;
 namespace CefSharp
 {
     /// <summary>
-    /// Callback interface used for fetching the selected certificate.
+    /// Callback interface used to select a client certificate for authentication.
     /// </summary>
     public interface ISelectClientCertificateCallback : IDisposable
     {
