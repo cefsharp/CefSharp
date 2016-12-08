@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Globalization;
 using CefSharp.Internals;
+using System.IO;
 
 namespace CefSharp
 {
@@ -279,6 +280,40 @@ namespace CefSharp
             resourceHandler.RegisterHandler(url, ResourceHandler.FromString(html, encoding, true));
 
             browser.Load(url);
+        }
+
+        /// <summary>
+        /// Register a ResourceHandler. Can only be used when browser.ResourceHandlerFactory is an instance of DefaultResourceHandlerFactory
+        /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
+        /// <param name="url">the url of the resource to unregister</param>
+        /// <param name="stream">Stream to be registered, the stream should not be shared with any other instances of DefaultResourceHandlerFactory</param>
+        /// <param name="mimeType">the mimeType</param>
+        public static void RegisterResourceHandler(this IWebBrowser browser, string url, Stream stream, string mimeType = ResourceHandler.DefaultMimeType)
+        {
+            var handler = browser.ResourceHandlerFactory as DefaultResourceHandlerFactory;
+            if (handler == null)
+            {
+                throw new Exception("RegisterResourceHandler can only be used with the default IResourceHandlerFactory(DefaultResourceHandlerFactory) implementation");
+            }
+
+            handler.RegisterHandler(url, ResourceHandler.FromStream(stream, mimeType));
+        }
+
+        /// <summary>
+        /// Unregister a ResourceHandler. Can only be used when browser.ResourceHandlerFactory is an instance of DefaultResourceHandlerFactory
+        /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
+        /// <param name="url">the url of the resource to unregister</param>
+        public static void UnRegisterResourceHandler(this IWebBrowser browser, string url)
+        {
+            var handler = browser.ResourceHandlerFactory as DefaultResourceHandlerFactory;
+            if (handler == null)
+            {
+                throw new Exception("UnRegisterResourceHandler can only be used with the default IResourceHandlerFactory(DefaultResourceHandlerFactory) implementation");
+            }
+
+            handler.UnregisterHandler(url);
         }
 
         /// <summary>

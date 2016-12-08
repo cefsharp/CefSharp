@@ -21,7 +21,7 @@ namespace CefSharp
         /// <summary>
         /// MimeType to be used if none provided
         /// </summary>
-        private const string DefaultMimeType = "text/html";
+        public const string DefaultMimeType = "text/html";
 
         /// <summary>
         /// Path of the underlying file
