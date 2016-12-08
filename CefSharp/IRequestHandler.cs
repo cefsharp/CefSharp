@@ -106,6 +106,18 @@ namespace CefSharp
         /// <returns>Return true to continue the request and call CefAuthCallback::Continue() when the authentication information is available. Return false to cancel the request. </returns>
         bool GetAuthCredentials(IWebBrowser browserControl, IBrowser browser, IFrame frame, bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback);
 
+        /// <summary>
+        /// Called when the browser needs user to select Client Certificate for authentication requests (eg. PKI authentication).
+        /// </summary>
+        /// <param name="browserControl">The ChromiumWebBrowser control</param>
+        /// <param name="browser">the browser object</param>
+        /// <param name="isProxy">indicates whether the host is a proxy server</param>
+        /// <param name="host">hostname</param>
+        /// <param name="port">port number</param>
+        /// <param name="certificates">List of Client certificates for selection</param>
+        /// <param name="callback">Callback interface used for asynchronous continuation of client certificate selection for authentication requests.</param>
+        /// <returns>Return true to continue the request and call CefSelectClientCertificateCallback::Select() with the selected certificate for authentication. 
+        /// Return false to use the default behavior where the browser selects the first certificate from the list. </returns>
         bool OnSelectClientCertificate(IWebBrowser browserControl, IBrowser browser, bool isProxy, string host, int port, X509Certificate2Collection certificates, ISelectClientCertificateCallback callback);
 
         /// <summary>

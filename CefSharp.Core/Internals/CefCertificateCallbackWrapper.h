@@ -9,6 +9,7 @@
 #include "include\cef_request_handler.h"
 #include "CefWrapper.h"
 
+using namespace System::Text;
 namespace CefSharp
 {
 	namespace Internals
@@ -41,22 +42,35 @@ namespace CefSharp
 			virtual void Select(System::Security::Cryptography::X509Certificates::X509Certificate2^ cert)
 			{
 				ThrowIfDisposed();
-				if (!cert){
+				if (cert == nullptr){
 					_callback->Select(NULL);
 				}
+				else
+				{
+					auto certSerial = cert->SerialNumber;
 
-				//Need cert_name from cert
-				auto cert_name = cert->SubjectName->Name;
+					std::vector<CefRefPtr<CefX509Certificate> >::const_iterator it =
+						_certificateList.begin();
+					for (; it != _certificateList.end(); ++it) 
+					{
 
-				std::vector<CefRefPtr<CefX509Certificate> >::const_iterator it =
-					_certificateList.begin();
-				for (; it != _certificateList.end(); ++it) {
-					CefString subject((*it)->GetSubject()->GetDisplayName());
-					if (subject == StringUtils::ToNative(cert_name)) {
-						_callback->Select(*it);
-						break;
+						auto bytes((*it)->GetDEREncoded());
+						auto byteSize = bytes->GetSize();
+
+						auto bufferByte = gcnew cli::array<Byte>(byteSize);
+						pin_ptr<Byte> src = &bufferByte[0]; // pin pointer to first element in arr
+
+						bytes->GetData(static_cast<void*>(src), byteSize, 0);
+						auto newcert = gcnew System::Security::Cryptography::X509Certificates::X509Certificate2(bufferByte);
+						auto serialStr = newcert->SerialNumber;
+
+						if (certSerial == serialStr)
+						{
+							_callback->Select(*it);
+							break;
+						}
 					}
-				}				
+				}
 
 				delete this;
 			}
