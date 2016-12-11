@@ -217,6 +217,9 @@
     <Compile Include="ResponseAction.cs" />
     <Compile Include="Internals\ScreenInfo.cs" />
     <Compile Include="SchemeHandler\FolderSchemeHandlerFactory.cs" />
+    <Compile Include="SslContentStatus.cs" />
+    <Compile Include="SslStatus.cs" />
+    <Compile Include="SslVersion.cs" />
     <Compile Include="TaskCompletionHandler.cs" />
     <Compile Include="TaskCookieVisitor.cs" />
     <Compile Include="TaskPrintToPdfCallback.cs" />
