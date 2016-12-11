@@ -32,6 +32,7 @@
 #include "Messaging\Messages.h"
 #include "CefResponseFilterAdapter.h"
 #include "PopupFeatures.h"
+#include "CefSslInfoWrapper.h"
 
 using namespace CefSharp::Internals::Messaging;
 using namespace CefSharp::Internals::Serialization;
@@ -508,8 +509,9 @@ namespace CefSharp
             // Still notify the user of the certificate error just don't provide a callback.
             auto requestCallback = callback == NULL ? nullptr : gcnew CefRequestCallbackWrapper(callback);
             auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+            auto sslInfoWrapper = gcnew CefSslInfoWrapper(ssl_info);
 
-            return handler->OnCertificateError(_browserControl, browserWrapper, (CefErrorCode)cert_error, StringUtils::ToClr(request_url), nullptr, requestCallback);
+            return handler->OnCertificateError(_browserControl, browserWrapper, (CefErrorCode)cert_error, StringUtils::ToClr(request_url), sslInfoWrapper, requestCallback);
         }
 
         bool ClientAdapter::OnQuotaRequest(CefRefPtr<CefBrowser> browser, const CefString& originUrl, int64 newSize, CefRefPtr<CefRequestCallback> callback)

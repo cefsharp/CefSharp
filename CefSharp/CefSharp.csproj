@@ -79,6 +79,7 @@
     <Compile Include="CefLibraryHandle.cs" />
     <Compile Include="CefMenuCommand.cs" />
     <Compile Include="CefPdfPrintMarginType.cs" />
+    <Compile Include="CertStatus.cs" />
     <Compile Include="ContextMenuEditState.cs" />
     <Compile Include="ContextMenuMediaState.cs" />
     <Compile Include="ContextMenuMediaType.cs" />
