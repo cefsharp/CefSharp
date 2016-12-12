@@ -20,6 +20,17 @@ namespace CefSharp.WinForms.Example
         {
             const bool simpleSubProcess = false;
 
+            //Until https://bitbucket.org/chromiumembedded/cef/issues/1995/ is resolved it's nessicary to
+            //deal with the spawning of the crashpad process here as it's not possible to configure which exe it uses
+            //When running from within VS and using the vshost process you'll see an error in the log and this won't get called.
+            var crashpadHandlerExitCode = Cef.ExecuteProcess();
+
+            //crashpadHandlerExitCode will be -1 for normal process execution, only when running as a subprocess will it be greater
+            if (crashpadHandlerExitCode >= 0)
+            {
+                return crashpadHandlerExitCode;
+            }
+
             Cef.EnableHighDPISupport();
 
             //NOTE: Using a simple sub processes uses your existing application executable to spawn instances of the sub process.
