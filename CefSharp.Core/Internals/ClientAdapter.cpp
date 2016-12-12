@@ -32,10 +32,12 @@
 #include "Messaging\Messages.h"
 #include "CefResponseFilterAdapter.h"
 #include "PopupFeatures.h"
+#include "CefCertificateCallbackWrapper.h"
 #include "CefSslInfoWrapper.h"
 
 using namespace CefSharp::Internals::Messaging;
 using namespace CefSharp::Internals::Serialization;
+using namespace System::Security::Cryptography::X509Certificates;
 
 namespace CefSharp
 {
@@ -737,6 +739,41 @@ namespace CefSharp
                 _browserControl, browserWrapper, frameWrapper, isProxy, 
                 StringUtils::ToClr(host), port, StringUtils::ToClr(realm), 
                 StringUtils::ToClr(scheme), callbackWrapper);
+        }
+
+        bool ClientAdapter::OnSelectClientCertificate(CefRefPtr<CefBrowser> browser, bool isProxy, const CefString& host,
+            int port, const CefRequestHandler::X509CertificateList& certificates, CefRefPtr<CefSelectClientCertificateCallback> callback) {
+            
+            auto handler = _browserControl->RequestHandler;
+
+            if (handler == nullptr)
+            {
+                return false;
+            }
+
+            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+            auto callbackWrapper = gcnew CefCertificateCallbackWrapper(callback, certificates);
+
+            auto list = gcnew X509Certificate2Collection();
+
+            std::vector<CefRefPtr<CefX509Certificate> >::const_iterator it =
+                certificates.begin();
+            for (; it != certificates.end(); ++it) 
+            {
+                auto bytes((*it)->GetDEREncoded());
+                auto byteSize = bytes->GetSize();
+
+                auto bufferByte = gcnew cli::array<Byte>(byteSize);
+                pin_ptr<Byte> src = &bufferByte[0]; // pin pointer to first element in arr
+
+                bytes->GetData(static_cast<void*>(src), byteSize, 0);
+                auto cert = gcnew X509Certificate2(bufferByte);				
+                list->Add(cert);
+            }
+
+            return handler->OnSelectClientCertificate(
+                _browserControl, browserWrapper, isProxy,
+                StringUtils::ToClr(host), port, list, callbackWrapper);
         }
 
         void ClientAdapter::OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
