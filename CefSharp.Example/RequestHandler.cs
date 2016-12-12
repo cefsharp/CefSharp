@@ -4,7 +4,6 @@
 
 using System;
 using CefSharp.Example.Filters;
-using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 
 namespace CefSharp.Example

@@ -3,7 +3,6 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 
 namespace CefSharp
@@ -116,7 +115,7 @@ namespace CefSharp
         /// <param name="port">port number</param>
         /// <param name="certificates">List of Client certificates for selection</param>
         /// <param name="callback">Callback interface used for asynchronous continuation of client certificate selection for authentication requests.</param>
-        /// <returns>Return true to continue the request and call CefSelectClientCertificateCallback::Select() with the selected certificate for authentication. 
+        /// <returns>Return true to continue the request and call ISelectClientCertificateCallback.Select() with the selected certificate for authentication. 
         /// Return false to use the default behavior where the browser selects the first certificate from the list. </returns>
         bool OnSelectClientCertificate(IWebBrowser browserControl, IBrowser browser, bool isProxy, string host, int port, X509Certificate2Collection certificates, ISelectClientCertificateCallback callback);
 
