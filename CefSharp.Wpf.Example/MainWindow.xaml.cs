@@ -131,6 +131,16 @@ namespace CefSharp.Wpf.Example
                     cmd.Execute(null);
                 }
 
+                if (param == "ToggleSidebar")
+                {
+                    browserViewModel.ShowSidebar = !browserViewModel.ShowSidebar;
+                }
+
+                if (param == "ToggleDownloadInfo")
+                {
+                    browserViewModel.ShowDownloadInfo = !browserViewModel.ShowDownloadInfo;
+                }
+
                 //NOTE: Add as required
                 //else if (param == "CustomRequest123")
                 //{

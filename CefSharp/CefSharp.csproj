@@ -79,6 +79,7 @@
     <Compile Include="CefLibraryHandle.cs" />
     <Compile Include="CefMenuCommand.cs" />
     <Compile Include="CefPdfPrintMarginType.cs" />
+    <Compile Include="CertStatus.cs" />
     <Compile Include="ContextMenuEditState.cs" />
     <Compile Include="ContextMenuMediaState.cs" />
     <Compile Include="ContextMenuMediaType.cs" />
@@ -217,6 +218,9 @@
     <Compile Include="ResponseAction.cs" />
     <Compile Include="Internals\ScreenInfo.cs" />
     <Compile Include="SchemeHandler\FolderSchemeHandlerFactory.cs" />
+    <Compile Include="SslContentStatus.cs" />
+    <Compile Include="SslStatus.cs" />
+    <Compile Include="SslVersion.cs" />
     <Compile Include="TaskCompletionHandler.cs" />
     <Compile Include="TaskCookieVisitor.cs" />
     <Compile Include="TaskPrintToPdfCallback.cs" />

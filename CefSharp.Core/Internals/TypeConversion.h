@@ -64,6 +64,7 @@ namespace CefSharp
                     item->FullPath = StringUtils::ToClr(downloadItem->GetFullPath());
                     item->Id = downloadItem->GetId();
                     item->Url = StringUtils::ToClr(downloadItem->GetURL());
+                    item->OriginalUrl = StringUtils::ToClr(downloadItem->GetOriginalUrl());
                     item->SuggestedFileName = StringUtils::ToClr(downloadItem->GetSuggestedFileName());
                     item->ContentDisposition = StringUtils::ToClr(downloadItem->GetContentDisposition());
                     item->MimeType = StringUtils::ToClr(downloadItem->GetMimeType());

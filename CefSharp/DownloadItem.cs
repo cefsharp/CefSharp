@@ -77,6 +77,11 @@ namespace CefSharp
         public string Url { get; set; }
 
         /// <summary>
+        /// Returns the URL as it was before any redirects.
+        /// </summary>
+        public string OriginalUrl { get; set; }
+
+        /// <summary>
         /// Returns the suggested file name.
         /// </summary>
         public string SuggestedFileName { get; set; }

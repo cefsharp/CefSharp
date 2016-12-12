@@ -21,6 +21,7 @@ namespace CefSharp
         private bool hasPostData;
         private bool isValid;
         private bool isCurrent;
+        private SslStatus? sslStatus;
 
         /// <summary>
         /// NavigationEntry
@@ -35,7 +36,8 @@ namespace CefSharp
         /// <param name="hasPostData">hasPostData</param>
         /// <param name="isValid">isValid</param>
         /// <param name="isCurrent">is the current entry</param>
-        public NavigationEntry(bool isCurrent, DateTime completionTime, string displayUrl, int httpStatusCode, string originalUrl, string title, TransitionType transitionType, string url, bool hasPostData, bool isValid)
+        /// <param name="sslStatus">the ssl status</param>
+        public NavigationEntry(bool isCurrent, DateTime completionTime, string displayUrl, int httpStatusCode, string originalUrl, string title, TransitionType transitionType, string url, bool hasPostData, bool isValid, SslStatus? sslStatus)
         {
             this.isCurrent = isCurrent;
             this.completionTime = completionTime;
@@ -47,6 +49,8 @@ namespace CefSharp
             this.url = url;
             this.hasPostData = hasPostData;
             this.isValid = isValid;
+
+            this.sslStatus = sslStatus;
         }
 
         /// <summary>
@@ -127,6 +131,14 @@ namespace CefSharp
         public bool IsCurrent
         {
             get { return isCurrent; }
+        }
+
+        /// <summary>
+        /// Returns the SSL information for this navigation entry.
+        /// </summary>
+        public SslStatus? SslStatus
+        {
+            get { return sslStatus; }
         }
     }
 }

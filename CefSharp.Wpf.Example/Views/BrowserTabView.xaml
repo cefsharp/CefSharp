@@ -154,6 +154,238 @@
                     </Grid>
                 </GroupBox>
             </StackPanel>
+            <StackPanel
+                Margin="6,3"
+                DockPanel.Dock="Right"
+                Visibility="{Binding ShowDownloadInfo, Converter={StaticResource BooleanToVisibilityConverter}}"
+                >
+                <GroupBox Header="Download info">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" MinWidth="50" />
+                        </Grid.ColumnDefinitions>
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Content="Last action:"
+                            />
+                        <TextBox
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            IsReadOnly="True"
+                            Text="{Binding LastDownloadAction}"
+                            />
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Content="IsInProgress:"
+                            />
+                        <TextBox
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            IsReadOnly="True"
+                            Text="{Binding DownloadItem.IsInProgress}"
+                            />
+                        <Label
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Content="IsComplete:"
+                            />
+                        <TextBox
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            IsReadOnly="True"
+                            Text="{Binding DownloadItem.IsComplete}"
+                            />
+                        <Label
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            Content="IsCancelled:"
+                            />
+                        <TextBox
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            IsReadOnly="True"
+                            Text="{Binding DownloadItem.IsCancelled}"
+                            />
+                        <Label
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            Content="CurrentSpeed:"
+                            />
+                        <TextBox
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            IsReadOnly="True"
+                            Text="{Binding DownloadItem.CurrentSpeed}"
+                            />
+                        <Label
+                            Grid.Row="5"
+                            Grid.Column="0"
+                            Content="PercentComplete:"
+                            />
+                        <TextBox
+                            Grid.Row="5"
+                            Grid.Column="1"
+                            IsReadOnly="True"
+                            Text="{Binding DownloadItem.PercentComplete}"
+                            />
+                        <Label
+                            Grid.Row="6"
+                            Grid.Column="0"
+                            Content="TotalBytes:"
+                            />
+                        <TextBox
+                            Grid.Row="6"
+                            Grid.Column="1"
+                            IsReadOnly="True"
+                            Text="{Binding DownloadItem.TotalBytes}"
+                            />
+                        <Label
+                            Grid.Row="7"
+                            Grid.Column="0"
+                            Content="ReceivedBytes:"
+                            />
+                        <TextBox
+                            Grid.Row="7"
+                            Grid.Column="1"
+                            IsReadOnly="True"
+                            Text="{Binding DownloadItem.ReceivedBytes}"
+                            />
+                        <Label
+                            Grid.Row="8"
+                            Grid.Column="0"
+                            Content="StartTime:"
+                            />
+                        <TextBox
+                            Grid.Row="8"
+                            Grid.Column="1"
+                            IsReadOnly="True"
+                            Text="{Binding DownloadItem.StartTime}"
+                            />
+                        <Label
+                            Grid.Row="9"
+                            Grid.Column="0"
+                            Content="EndTime:"
+                            />
+                        <TextBox
+                            Grid.Row="9"
+                            Grid.Column="1"
+                            IsReadOnly="True"
+                            Text="{Binding DownloadItem.EndTime}"
+                            />
+                        <Label
+                            Grid.Row="10"
+                            Grid.Column="0"
+                            Content="FullPath:"
+                            />
+                        <TextBox
+                            Grid.Row="10"
+                            Grid.Column="1"
+                            IsReadOnly="True"
+                            Text="{Binding DownloadItem.FullPath}"
+                            />
+                        <Label
+                            Grid.Row="11"
+                            Grid.Column="0"
+                            Content="Id:"
+                            />
+                        <TextBox
+                            Grid.Row="11"
+                            Grid.Column="1"
+                            IsReadOnly="True"
+                            Text="{Binding DownloadItem.Id}"
+                            />
+                        <Label
+                            Grid.Row="12"
+                            Grid.Column="0"
+                            Content="Url:"
+                            />
+                        <TextBox
+                            Grid.Row="12"
+                            Grid.Column="1"
+                            IsReadOnly="True"
+                            Text="{Binding DownloadItem.Url}"
+                            />
+                        <Label
+                            Grid.Row="13"
+                            Grid.Column="0"
+                            Content="OriginalUrl:"
+                            />
+                        <TextBox
+                            Grid.Row="13"
+                            Grid.Column="1"
+                            IsReadOnly="True"
+                            Text="{Binding DownloadItem.OriginalUrl}"
+                            />
+                        <Label
+                            Grid.Row="14"
+                            Grid.Column="0"
+                            Content="SuggestedFileName:"
+                            />
+                        <TextBox
+                            Grid.Row="14"
+                            Grid.Column="1"
+                            IsReadOnly="True"
+                            Text="{Binding DownloadItem.SuggestedFileName}"
+                            />
+                        <Label
+                            Grid.Row="15"
+                            Grid.Column="0"
+                            Content="ContentDisposition:"
+                            />
+                        <TextBox
+                            Grid.Row="15"
+                            Grid.Column="1"
+                            IsReadOnly="True"
+                            Text="{Binding DownloadItem.ContentDisposition}"
+                            />
+                        <Label
+                            Grid.Row="16"
+                            Grid.Column="0"
+                            Content="MimeType:"
+                            />
+                        <TextBox
+                            Grid.Row="16"
+                            Grid.Column="1"
+                            IsReadOnly="True"
+                            Text="{Binding DownloadItem.MimeType}"
+                            />
+                        <Label
+                            Grid.Row="17"
+                            Grid.Column="0"
+                            Content="IsValid:"
+                            />
+                        <TextBox
+                            Grid.Row="17"
+                            Grid.Column="1"
+                            IsReadOnly="True"
+                            Text="{Binding DownloadItem.IsValid}"
+                            />
+                    </Grid>
+                </GroupBox>
+            </StackPanel>
             <StatusBar DockPanel.Dock="Bottom">
                 <ProgressBar HorizontalAlignment="Right"
                              IsIndeterminate="{Binding WebBrowser.IsLoading}"

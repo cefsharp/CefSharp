@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using CefSharp.Example;
 using CefSharp.Wpf.Example.Handlers;
 using CefSharp.ModelBinding;
+using CefSharp.Wpf.Example.ViewModels;
 
 namespace CefSharp.Wpf.Example.Views
 {
@@ -32,7 +33,10 @@ namespace CefSharp.Wpf.Example.Views
             browser.LifeSpanHandler = new LifespanHandler();
             browser.MenuHandler = new MenuHandler();
             browser.GeolocationHandler = new GeolocationHandler();
-            browser.DownloadHandler = new DownloadHandler();
+            var downloadHandler = new DownloadHandler();
+            downloadHandler.OnBeforeDownloadFired += OnBeforeDownloadFired;
+            downloadHandler.OnDownloadUpdatedFired += OnDownloadUpdatedFired;
+            browser.DownloadHandler = downloadHandler;
             
             var dragHandler = new DragHandler();
             dragHandler.RegionsChanged += OnDragHandlerRegionsChanged;
@@ -83,6 +87,26 @@ namespace CefSharp.Wpf.Example.Views
             };
 
             CefExample.RegisterTestResources(browser);
+        }
+
+        private void OnBeforeDownloadFired(object sender, DownloadItem e)
+        {
+            this.UpdateDownloadAction("OnBeforeDownload", e);
+        }
+
+        private void OnDownloadUpdatedFired(object sender, DownloadItem e)
+        {
+            this.UpdateDownloadAction("OnDownloadUpdated", e);
+        }
+
+        private void UpdateDownloadAction(string downloadAction, DownloadItem downloadItem)
+        {
+            this.Dispatcher.InvokeAsync(() =>
+            {
+                var viewModel = (BrowserTabViewModel)this.DataContext;
+                viewModel.LastDownloadAction = downloadAction;
+                viewModel.DownloadItem = downloadItem;
+            });
         }
 
         private void OnBrowserMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
