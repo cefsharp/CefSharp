@@ -301,6 +301,57 @@ void CefBrowserHostWrapper::Invalidate(PaintElementType type)
     _browserHost->Invalidate((CefBrowserHost::PaintElementType)type);
 }
 
+void CefBrowserHostWrapper::ImeSetComposition(String^ text, cli::array<CompositionUnderline>^ underlines, Nullable<Range> selectionRange)
+{
+    ThrowIfDisposed();
+
+    std::vector<CefCompositionUnderline> underlinesVector = std::vector<CefCompositionUnderline>();
+    CefRange range;
+
+    if (underlines != nullptr && underlines->Length > 0)
+    {
+        for each (CompositionUnderline underline in underlines)
+        {
+            auto c = CefCompositionUnderline();
+            c.range = CefRange(underline.Range.From, underline.Range.To);
+            c.color = underline.Color;
+            c.background_color = underline.BackgroundColor;
+            c.thick = (int)underline.Thick;
+            underlinesVector.push_back(c);
+        }
+    }
+
+    if (selectionRange.HasValue)
+    {
+        range = CefRange(selectionRange.Value.From, selectionRange.Value.To);
+    }
+
+    //Replacement Range is Mac OSX only
+    _browserHost->ImeSetComposition(StringUtils::ToNative(text), underlinesVector, CefRange(), range);
+}
+
+void CefBrowserHostWrapper::ImeCommitText(String^ text)
+{
+    ThrowIfDisposed();
+
+    //Range and cursor position are Mac OSX only
+    _browserHost->ImeCommitText(StringUtils::ToNative(text), CefRange(), NULL);
+}
+
+void CefBrowserHostWrapper::ImeFinishComposingText(bool keepSelection)
+{
+    ThrowIfDisposed();
+
+    _browserHost->ImeFinishComposingText(keepSelection);
+}
+
+void CefBrowserHostWrapper::ImeCancelComposition()
+{
+    ThrowIfDisposed();
+
+    _browserHost->ImeCancelComposition();
+}
+
 void CefBrowserHostWrapper::SendMouseClickEvent(int x, int y, MouseButtonType mouseButtonType, bool mouseUp, int clickCount, CefEventFlags modifiers)
 {
     ThrowIfDisposed();

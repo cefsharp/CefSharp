@@ -121,6 +121,52 @@ namespace CefSharp
         void Invalidate(PaintElementType type);
 
         /// <summary>
+        /// Begins a new composition or updates the existing composition. Blink has a
+        /// special node (a composition node) that allows the input method to change
+        /// text without affecting other DOM nodes. 
+        ///
+        /// This method may be called multiple times as the composition changes. When
+        /// the client is done making changes the composition should either be canceled
+        /// or completed. To cancel the composition call ImeCancelComposition. To
+        /// complete the composition call either ImeCommitText or
+        /// ImeFinishComposingText. Completion is usually signaled when:
+        /// The client receives a WM_IME_COMPOSITION message with a GCS_RESULTSTR
+        /// flag (on Windows).
+        /// This method is only used when window rendering is disabled. (WPF and OffScreen) 
+        /// </summary>
+        /// <param name="text">is the optional text that
+        /// will be inserted into the composition node</param>
+        /// <param name="underlines">is an optional set
+        /// of ranges that will be underlined in the resulting text.</param>
+        /// <param name="selectionRange"> is an optional range of the resulting text that
+        /// will be selected after insertion or replacement. </param>
+        void ImeSetComposition(string text, CompositionUnderline[] underlines, Range? selectionRange);
+
+        /// <summary>
+        /// Completes the existing composition by optionally inserting the specified
+        /// text into the composition node.
+        /// This method is only used when window rendering is disabled. (WPF and OffScreen) 
+        /// </summary>
+        /// </summary>
+        /// <param name="text">text that will be committed</param>
+        void ImeCommitText(string text);
+        /// <summary>
+        /// Completes the existing composition by applying the current composition node
+        /// contents. See comments on ImeSetComposition for usage.
+        /// This method is only used when window rendering is disabled. (WPF and OffScreen) 
+        /// </summary>
+        /// <param name="keepSelection">If keepSelection is false the current selection, if any, will be discarded.</param>
+        void ImeFinishComposingText(bool keepSelection);
+
+        /// <summary>
+        /// Cancels the existing composition and discards the composition node
+        /// contents without applying them. See comments on ImeSetComposition for
+        /// usage.
+        /// This method is only used when window rendering is disabled. (WPF and OffScreen) 
+        /// </summary>
+        void ImeCancelComposition();
+
+        /// <summary>
         /// Get/Set Mouse cursor change disabled
         /// </summary>
         bool MouseCursorChangeDisabled { get; set; }

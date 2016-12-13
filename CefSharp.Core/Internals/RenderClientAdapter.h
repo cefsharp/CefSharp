@@ -185,6 +185,37 @@ namespace CefSharp
                 return _renderWebBrowser->StartDragging(%dragDataWrapper, (CefSharp::DragOperationsMask)allowedOps, x, y);
             }
 
+            ///
+            // Called when the web view wants to update the mouse cursor during a
+            // drag & drop operation. |operation| describes the allowed operation
+            // (none, move, copy, link).
+            ///
+            /*--cef()--*/
+            virtual DECL void UpdateDragCursor(CefRefPtr<CefBrowser> browser, CefRenderHandler::DragOperation operation)
+            {
+                return _renderWebBrowser->UpdateDragCursor((CefSharp::DragOperationsMask)operation);
+            }
+
+            ///
+            // Called when the IME composition range has changed. |selected_range| is the
+            // range of characters that have been selected. |character_bounds| is the
+            // bounds of each character in view coordinates.
+            ///
+            /*--cef()--*/
+            virtual DECL void OnImeCompositionRangeChanged(CefRefPtr<CefBrowser> browser, const CefRange& selectedRange, const RectList& characterBounds)
+            {
+                //TODO: use cli:array rather then creating a list then calling ToArray()
+                auto charBounds = gcnew List<Rect>((int)characterBounds.size());
+
+                std::vector<CefRect>::const_iterator it =
+                    characterBounds.begin();
+                for (; it != characterBounds.end(); ++it)
+                {
+                    charBounds->Add(Rect((*it).x, (*it).y, (*it).width, (*it).height));
+                }
+                _renderWebBrowser->OnImeCompositionRangeChanged(Range(selectedRange.from, selectedRange.to), charBounds->ToArray());
+            }
+
         private:
             void ReleaseBitmapHandlers(BitmapInfo^ bitmapInfo)
             {

@@ -595,6 +595,11 @@ namespace CefSharp.Wpf
             return true;
         }
 
+        void IRenderWebBrowser.UpdateDragCursor(DragOperationsMask operation)
+        {
+            //TODO: Someone should implement this
+        }
+
         /// <summary>
         /// Invokes the render asynchronous.
         /// </summary>
@@ -674,6 +679,11 @@ namespace CefSharp.Wpf
                     Cursor = CursorInteropHelper.Create(new SafeFileHandle(handle, ownsHandle: false));
                 });
             }            
+        }
+
+        void IRenderWebBrowser.OnImeCompositionRangeChanged(Range selectedRange, Rect[] characterBounds)
+        {
+            //TODO: Implement this
         }
 
         /// <summary>
@@ -2076,5 +2086,6 @@ namespace CefSharp.Wpf
         //		}
         //	}
         //}
+
     }
 }

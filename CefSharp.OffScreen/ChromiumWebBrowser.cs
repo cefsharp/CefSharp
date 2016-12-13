@@ -749,6 +749,11 @@ namespace CefSharp.OffScreen
             return false;
         }
 
+        void IRenderWebBrowser.UpdateDragCursor(DragOperationsMask operation)
+        {
+            //TODO: Someone should implement this
+        }
+
         /// <summary>
         /// Sets the popup is open.
         /// </summary>
@@ -778,6 +783,11 @@ namespace CefSharp.OffScreen
             popupPosition.Y = y;
             popupSize.Width = width;
             popupSize.Height = height;
+        }
+
+        void IRenderWebBrowser.OnImeCompositionRangeChanged(Range selectedRange, Rect[] characterBounds)
+        {
+            //TODO: Implement this
         }
 
         /// <summary>

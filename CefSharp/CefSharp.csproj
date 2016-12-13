@@ -80,6 +80,7 @@
     <Compile Include="CefMenuCommand.cs" />
     <Compile Include="CefPdfPrintMarginType.cs" />
     <Compile Include="CertStatus.cs" />
+    <Compile Include="CompositionUnderline.cs" />
     <Compile Include="ContextMenuEditState.cs" />
     <Compile Include="ContextMenuMediaState.cs" />
     <Compile Include="ContextMenuMediaType.cs" />
@@ -209,6 +210,7 @@
     <Compile Include="PluginPolicy.cs" />
     <Compile Include="PostDataElementType.cs" />
     <Compile Include="PostDataExtensions.cs" />
+    <Compile Include="Range.cs" />
     <Compile Include="Rect.cs" />
     <Compile Include="ReferrerPolicy.cs" />
     <Compile Include="ResolveCallbackResult.cs" />

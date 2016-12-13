@@ -82,6 +82,11 @@ namespace CefSharp
 
             virtual void Invalidate(PaintElementType type);
 
+            virtual void ImeSetComposition(String^ text, cli::array<CompositionUnderline>^ underlines, Nullable<Range> selectionRange);
+            virtual void ImeCommitText(String^ text);
+            virtual void ImeFinishComposingText(bool keepSelection);
+            virtual void ImeCancelComposition();
+
             virtual void SendMouseClickEvent(int x, int y, MouseButtonType mouseButtonType, bool mouseUp, int clickCount, CefEventFlags modifiers);
 
             virtual void SendMouseMoveEvent(int x, int y, bool mouseLeave, CefEventFlags modifiers);
