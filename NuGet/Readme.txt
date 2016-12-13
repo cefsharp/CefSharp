@@ -41,10 +41,9 @@ Basic Troubleshooting:
   - By default `CEF` has it's own log file, `Debug.log` which is located in your executing folder. e.g. `bin`
 
 For further help please read the following content:
-  - CefSharp Tutorials https://github.com/cefsharp/CefSharp.Tutorial
+  - Minimal Example Projects showing the browser in action (https://github.com/cefsharp/CefSharp.MinimalExample)
   - CefSharp GitHub https://github.com/cefsharp/CefSharp
   - CefSharp's Wiki on github (https://github.com/cefsharp/CefSharp/wiki)
-  - Minimal Example Projects showing the browser in action (https://github.com/cefsharp/CefSharp.MinimalExample)
   - FAQ: https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions
   - Troubleshooting guide (https://github.com/cefsharp/CefSharp/wiki/Trouble-Shooting)
   - Google Groups (https://groups.google.com/forum/#!forum/cefsharp) - Historic reference only
