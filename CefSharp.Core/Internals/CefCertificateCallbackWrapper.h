@@ -9,7 +9,8 @@
 #include "include\cef_request_handler.h"
 #include "CefWrapper.h"
 
-using namespace System::Text;
+using namespace System::Security::Cryptography::X509Certificates;
+
 namespace CefSharp
 {
     namespace Internals
@@ -39,9 +40,10 @@ namespace CefSharp
                 _disposed = true;
             }
 
-            virtual void Select(System::Security::Cryptography::X509Certificates::X509Certificate2^ cert)
+            virtual void Select(X509Certificate2^ cert)
             {
                 ThrowIfDisposed();
+
                 if (cert == nullptr)
                 {
                     _callback->Select(NULL);
@@ -50,7 +52,7 @@ namespace CefSharp
                 {
                     auto certSerial = cert->SerialNumber;
 
-                    std::vector<CefRefPtr<CefX509Certificate> >::const_iterator it =
+                    std::vector<CefRefPtr<CefX509Certificate>>::const_iterator it =
                         _certificateList.begin();
                     for (; it != _certificateList.end(); ++it) 
                     {

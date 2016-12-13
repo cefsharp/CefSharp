@@ -31,18 +31,24 @@ namespace CefSharp.WinForms.Example.Handlers
             control.InvokeOnUiThreadIfRequired(delegate ()
             {
                 openNewTab(targetUrl, null);
-            });			
+            });		
 
             return true;
         }
 
         protected override bool OnSelectClientCertificate(IWebBrowser browserControl, IBrowser browser, bool isProxy, string host, int port, X509Certificate2Collection certificates, ISelectClientCertificateCallback callback)
         {
-            X509Certificate2Collection selectedCertificateCollection = X509Certificate2UI.SelectFromCollection(certificates, "Certificates Dialog", "Select Certificate for authentication", X509SelectionFlag.SingleSelection);
-            foreach (X509Certificate2 x509 in selectedCertificateCollection)
+            var control = (Control)browserControl;
+
+            control.InvokeOnUiThreadIfRequired(delegate()
             {
-                callback.Select(x509);
-            }
+                var selectedCertificateCollection = X509Certificate2UI.SelectFromCollection(certificates, "Certificates Dialog", "Select Certificate for authentication", X509SelectionFlag.SingleSelection);
+
+                //X509Certificate2UI.SelectFromCollection returns a collection, we've used SingleSelection, so just take the first
+                //The underlying CEF implementation only accepts a single certificate
+                callback.Select(selectedCertificateCollection[0]);
+            });            
+            
             return true;
         }
     }
