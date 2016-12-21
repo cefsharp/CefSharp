@@ -1599,13 +1599,14 @@ namespace CefSharp.Wpf
         }
 
         /// <summary>
-        /// Sources the hook.
+        /// WindowProc callback interceptor. Handles Windows messages intended for the source hWnd, and passes them to the
+        /// contained browser as needed.
         /// </summary>
-        /// <param name="hWnd">The hWnd.</param>
+        /// <param name="hWnd">The source handle.</param>
         /// <param name="message">The message.</param>
-        /// <param name="wParam">The w parameter.</param>
-        /// <param name="lParam">The l parameter.</param>
-        /// <param name="handled">if set to <c>true</c> [handled].</param>
+        /// <param name="wParam">Additional message info.</param>
+        /// <param name="lParam">Even more message info.</param>
+        /// <param name="handled">if set to <c>true</c>, the event has already been handled by someone else.</param>
         /// <returns>IntPtr.</returns>
         protected virtual IntPtr SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
@@ -1849,7 +1850,7 @@ namespace CefSharp.Wpf
         }
 
         /// <summary>
-        /// Popups the mouse enter.
+        /// Handle the mouse cursor entering the pop-up.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
@@ -1860,7 +1861,7 @@ namespace CefSharp.Wpf
         }
 
         /// <summary>
-        /// Popups the mouse leave.
+        /// Handle the mouse cursor exiting the pop-up.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
@@ -1982,7 +1983,7 @@ namespace CefSharp.Wpf
         }
 
         /// <summary>
-        /// Zooms the browser reset.
+        /// Reset the browser's zoom level to default.
         /// </summary>
         private void ZoomReset()
         {
