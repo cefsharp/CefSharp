@@ -36,7 +36,9 @@ If you have a simple question please start by asking it on [![Gitter](https://ba
 
 ## Branches & Forks
 
-This is the `official` CefSharp fork, as maintained by the CefSharp community. You can also view [the entire network of public forks/branches](https://github.com/cefsharp/CefSharp/network).
+This is the `official` CefSharp fork, as maintained by the CefSharp community. You can also view [the entire network of public forks/branches](https://github.com/search?utf8=%E2%9C%93&q=cefsharp+fork%3Atrue&type=Repositories&ref=searchresults).
+
+*Note* Due to so many Forks - Github can't process them through the `Network Graphs` Section so, if you need to do a search use the following: `cefsharp fork:true` and it will be able to process all of the forks. 
 
 Development is done in the `master` branch. New features are preferably added in feature branches, if the changes are more than trivial. New `PR's` should be targeted against `master`.
 
