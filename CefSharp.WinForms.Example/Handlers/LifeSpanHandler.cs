@@ -118,7 +118,8 @@ namespace CefSharp.WinForms.Example.Handlers
         bool ILifeSpanHandler.DoClose(IWebBrowser browserControl, IBrowser browser)
         {
             //We need to allow popups to close
-            if(browser.IsPopup)
+            //If the browser has been disposed then we'll just let the default behaviour take place
+            if(browser.IsDisposed || browser.IsPopup)
             {
                 return false;
             }

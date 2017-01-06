@@ -111,7 +111,7 @@ namespace CefSharp
         ///     exist.
         /// </summary>
         /// <param name="browserControl">The <see cref="IWebBrowser"/> control that is realted to the window is closing.</param>
-        /// <param name="browser">The browser instance</param>
+        /// <param name="browser">The browser instance - check if IsDisposed as it's possible when the browser is disposing</param>
         /// <returns>For default behaviour return false</returns>
         bool DoClose(IWebBrowser browserControl, IBrowser browser);
 
