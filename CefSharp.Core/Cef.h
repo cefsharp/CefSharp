@@ -36,6 +36,7 @@ namespace CefSharp
         static bool _initialized = false;
         static HashSet<IDisposable^>^ _disposables;
         static int _initializedThreadId;
+        static bool _multiThreadedMessageLoop = true;
 
         static Cef()
         {
@@ -198,6 +199,7 @@ namespace CefSharp
             }
 
             _initialized = success;
+            _multiThreadedMessageLoop = cefSettings->MultiThreadedMessageLoop;
 
             _initializedThreadId = Thread::CurrentThread->ManagedThreadId;
 
@@ -399,6 +401,20 @@ namespace CefSharp
                 
                     GC::Collect();
                     GC::WaitForPendingFinalizers();
+
+                    if (!_multiThreadedMessageLoop)
+                    {
+                        // We need to run the message pump until it is idle. However we don't have
+                        // that information here so we run the message loop "for a while".
+                        // See https://github.com/cztomczak/cefpython/issues/245 for an excellent description
+                        for (int i = 0; i < 10; i++)
+                        {
+                            DoMessageLoopWork();
+
+                            // Sleep to allow the CEF proc to do work.
+                            Sleep(50);
+                        }
+                    }
 
                     CefShutdown();
                     IsInitialized = false;
