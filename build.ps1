@@ -1,5 +1,5 @@
 param(
-    [ValidateSet("vs2013", "vs2015", "nupkg-only")]
+    [ValidateSet("vs2013", "vs2015", "nupkg-only", "gitlink")]
     [Parameter(Position = 0)] 
     [string] $Target = "vs2013",
     [Parameter(Position = 1)]
@@ -255,10 +255,10 @@ function Nupkg
     Write-Diagnostic "Building nuget package"
 
     # Build packages
-    . $nuget pack nuget\CefSharp.Common.nuspec -NoPackageAnalysis -Symbol -Version $Version -OutputDirectory nuget -Properties "RedistVersion=$RedistVersion"
-    . $nuget pack nuget\CefSharp.Wpf.nuspec -NoPackageAnalysis -Symbol -Version $Version -OutputDirectory nuget
-    . $nuget pack nuget\CefSharp.OffScreen.nuspec -NoPackageAnalysis -Symbol -Version $Version -OutputDirectory nuget
-    . $nuget pack nuget\CefSharp.WinForms.nuspec -NoPackageAnalysis -Symbol -Version $Version -OutputDirectory nuget
+    . $nuget pack nuget\CefSharp.Common.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget -Properties "RedistVersion=$RedistVersion"
+    . $nuget pack nuget\CefSharp.Wpf.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
+    . $nuget pack nuget\CefSharp.OffScreen.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
+    . $nuget pack nuget\CefSharp.WinForms.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
 
     # Invoke `AfterBuild` script if available (ie. upload packages to myget)
     if(-not (Test-Path $WorkingDir\AfterBuild.ps1)) {
@@ -276,6 +276,28 @@ function DownloadNuget()
         $client = New-Object System.Net.WebClient;
         $client.DownloadFile('http://nuget.org/nuget.exe', $nuget);
     }
+}
+
+function UpdateSymbolsWithGitLink()
+{
+	$gitlink = "GitLink.exe"
+	
+	#Check for GitLink
+	if ((Get-Command $gitlink -ErrorAction SilentlyContinue) -eq $null) 
+	{ 
+		#Download if not on path and not in Nuget folder (TODO: change to different folder)
+		$gitlink = Join-Path $WorkingDir .\nuget\GitLink.exe
+		if(-not (Test-Path $gitlink))
+		{
+			Write-Diagnostic "Downloading GitLink"
+			$client = New-Object System.Net.WebClient;
+			$client.DownloadFile('https://github.com/GitTools/GitLink/releases/download/2.3.0/GitLink.exe', $gitlink);
+		}
+	}
+	
+	# Run GitLink in the workingDir
+	. $gitlink $WorkingDir -f CefSharp3.sln -c Release -p x64 -ignore CefSharp.Example,CefSharp.Wpf.Example,CefSharp.OffScreen.Example,CefSharp.WinForms.Example
+	. $gitlink $WorkingDir -f CefSharp3.sln -c Release -p x86 -ignore CefSharp.Example,CefSharp.Wpf.Example,CefSharp.OffScreen.Example,CefSharp.WinForms.Example
 }
 
 function WriteAssemblyVersion
@@ -305,14 +327,20 @@ switch -Exact ($Target)
     {
         Nupkg
     }
+	"gitlink"
+    {
+        UpdateSymbolsWithGitLink
+    }
     "vs2013"
     {
         VSX v120
+		UpdateSymbolsWithGitLink
         Nupkg
     }
     "vs2015"
     {
         VSX v140
+		UpdateSymbolsWithGitLink
         Nupkg
     }
 }
