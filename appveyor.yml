@@ -3,7 +3,7 @@ environment:
 
 version: 55.0.0-CI{build}
   
-shallow_clone: true
+clone_depth: 10
 
 # to run your custom scripts instead of automatic MSBuild
 build_script:
