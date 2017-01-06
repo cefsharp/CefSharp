@@ -112,7 +112,7 @@ namespace CefSharp
         virtual void OnAfterBrowserCreated(IBrowser^ browser);
         void CreateOffscreenBrowser(IntPtr windowHandle, BrowserSettings^ browserSettings, RequestContext^ requestContext, String^ address);
         void CreateBrowser(BrowserSettings^ browserSettings, RequestContext^ requestContext, IntPtr sourceHandle, String^ address);
-        void Resize(int width, int height);
+        virtual void Resize(int width, int height);
         void RegisterJsObject(String^ name, Object^ object, BindingOptions^ options);
         void RegisterAsyncJsObject(String^ name, Object^ object, BindingOptions^ options);
 
