@@ -66,6 +66,9 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>CefSharp.Wpf.Example.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="GalaSoft.MvvmLight">
       <HintPath>..\packages\MvvmLightLibs.5.1.1.0\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
@@ -93,12 +96,12 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
+    <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </ApplicationDefinition>
+    </Page>
     <Compile Include="Controls\CefSharpCommands.cs" />
     <Compile Include="Controls\NonReloadingTabControl.cs" />
     <Compile Include="Handlers\DragHandler.cs" />
@@ -107,6 +110,7 @@
     <Compile Include="Handlers\LifespanHandler.cs" />
     <Compile Include="Handlers\RequestContextHandler.cs" />
     <Compile Include="Handlers\WpfBrowserProcessHandler.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="SimpleMainWindow.xaml.cs">
       <DependentUpon>SimpleMainWindow.xaml</DependentUpon>
     </Compile>
