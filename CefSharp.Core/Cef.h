@@ -35,6 +35,7 @@ namespace CefSharp
 
         static bool _initialized = false;
         static HashSet<IDisposable^>^ _disposables;
+        static int _initializedThreadId;
 
         static Cef()
         {
@@ -197,6 +198,8 @@ namespace CefSharp
             }
 
             _initialized = success;
+
+            _initializedThreadId = Thread::CurrentThread->ManagedThreadId;
 
             return success;
         }
@@ -375,23 +378,31 @@ namespace CefSharp
         static void Shutdown()
         {
             if (IsInitialized)
-            { 
+            {
                 msclr::lock l(_sync);
 
-                UIThreadTaskFactory = nullptr;
-                IOThreadTaskFactory = nullptr;
-                FileThreadTaskFactory = nullptr;
-
-                for each(IDisposable^ diposable in Enumerable::ToList(_disposables))
+                if (IsInitialized)
                 {
-                    delete diposable;
-                }
-                
-                GC::Collect();
-                GC::WaitForPendingFinalizers();
+                    if (_initializedThreadId != Thread::CurrentThread->ManagedThreadId)
+                    {
+                        throw gcnew Exception("Shutdown must be called on the same thread that Initialize was called - typically your UI thread. CefSharp was initialized on ManagedThreadId: " + Thread::CurrentThread->ManagedThreadId);
+                    }
 
-                CefShutdown();
-                IsInitialized = false;
+                    UIThreadTaskFactory = nullptr;
+                    IOThreadTaskFactory = nullptr;
+                    FileThreadTaskFactory = nullptr;
+
+                    for each(IDisposable^ diposable in Enumerable::ToList(_disposables))
+                    {
+                        delete diposable;
+                    }
+                
+                    GC::Collect();
+                    GC::WaitForPendingFinalizers();
+
+                    CefShutdown();
+                    IsInitialized = false;
+                }
             }
         }
 
