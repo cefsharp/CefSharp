@@ -280,26 +280,26 @@ function DownloadNuget()
 
 function UpdateSymbolsWithGitLink()
 {
-	$gitlink = "GitLink.exe"
-	
-	#Check for GitLink
-	if ((Get-Command $gitlink -ErrorAction SilentlyContinue) -eq $null) 
-	{ 
-		#Download if not on path and not in Nuget folder (TODO: change to different folder)
-		$gitlink = Join-Path $WorkingDir .\nuget\GitLink.exe
-		if(-not (Test-Path $gitlink))
-		{
-			Write-Diagnostic "Downloading GitLink"
-			$client = New-Object System.Net.WebClient;
-			$client.DownloadFile('https://github.com/GitTools/GitLink/releases/download/2.3.0/GitLink.exe', $gitlink);
-		}
-	}
-	
-	Write-Diagnostic "GitLink working dir : $WorkingDir"
-	
-	# Run GitLink in the workingDir
-	. $gitlink $WorkingDir -f CefSharp3.sln -u https://github.com/CefSharp/CefSharp -c Release -p x64 -ignore CefSharp.Example,CefSharp.Wpf.Example,CefSharp.OffScreen.Example,CefSharp.WinForms.Example
-	. $gitlink $WorkingDir -f CefSharp3.sln -u https://github.com/CefSharp/CefSharp -c Release -p x86 -ignore CefSharp.Example,CefSharp.Wpf.Example,CefSharp.OffScreen.Example,CefSharp.WinForms.Example
+    $gitlink = "GitLink.exe"
+    
+    #Check for GitLink
+    if ((Get-Command $gitlink -ErrorAction SilentlyContinue) -eq $null) 
+    { 
+        #Download if not on path and not in Nuget folder (TODO: change to different folder)
+        $gitlink = Join-Path $WorkingDir .\nuget\GitLink.exe
+        if(-not (Test-Path $gitlink))
+        {
+            Write-Diagnostic "Downloading GitLink"
+            $client = New-Object System.Net.WebClient;
+            $client.DownloadFile('https://github.com/GitTools/GitLink/releases/download/2.3.0/GitLink.exe', $gitlink);
+        }
+    }
+    
+    Write-Diagnostic "GitLink working dir : $WorkingDir"
+    
+    # Run GitLink in the workingDir
+    . $gitlink $WorkingDir -f CefSharp3.sln -u https://github.com/CefSharp/CefSharp -c Release -p x64 -ignore CefSharp.Example,CefSharp.Wpf.Example,CefSharp.OffScreen.Example,CefSharp.WinForms.Example
+    . $gitlink $WorkingDir -f CefSharp3.sln -u https://github.com/CefSharp/CefSharp -c Release -p x86 -ignore CefSharp.Example,CefSharp.Wpf.Example,CefSharp.OffScreen.Example,CefSharp.WinForms.Example
 }
 
 function WriteAssemblyVersion
@@ -329,20 +329,20 @@ switch -Exact ($Target)
     {
         Nupkg
     }
-	"gitlink"
+    "gitlink"
     {
         UpdateSymbolsWithGitLink
     }
     "vs2013"
     {
         VSX v120
-		UpdateSymbolsWithGitLink
+        UpdateSymbolsWithGitLink
         Nupkg
     }
     "vs2015"
     {
         VSX v140
-		UpdateSymbolsWithGitLink
+        UpdateSymbolsWithGitLink
         Nupkg
     }
 }
