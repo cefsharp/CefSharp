@@ -477,6 +477,7 @@ namespace CefSharp.Wpf
                     if (tooltipTimer != null)
                     {
                         tooltipTimer.Tick -= OnTooltipTimerTick;
+                        tooltipTimer.Stop();
                         tooltipTimer = null;
                     }
 
@@ -1240,13 +1241,16 @@ namespace CefSharp.Wpf
                 return;
             }
 
-            timer.Stop();
-
-            if (String.IsNullOrEmpty(TooltipText))
+            if (string.IsNullOrEmpty(TooltipText))
             {
                 UiThreadRunAsync(() => UpdateTooltip(null), DispatcherPriority.Render);
+
+                if(timer.IsEnabled)
+                {
+                    timer.Stop();
+                }
             }
-            else
+            else if(!timer.IsEnabled)
             {
                 timer.Start();
             }
@@ -1542,6 +1546,15 @@ namespace CefSharp.Wpf
             {
                 CleanupElement = Window.GetWindow(this);
             }
+
+            // TODO: Consider making the delay here configurable.
+            tooltipTimer = new DispatcherTimer(
+                TimeSpan.FromSeconds(0.5),
+                DispatcherPriority.Render,
+                OnTooltipTimerTick,
+                Dispatcher
+                );
+            tooltipTimer.IsEnabled = false;
         }
 
         /// <summary>
@@ -1943,19 +1956,6 @@ namespace CefSharp.Wpf
             // or before OnApplyTemplate has been called
             if (browser != null)
             {
-                if (tooltipTimer != null)
-                {
-                    tooltipTimer.Tick -= OnTooltipTimerTick;
-                }
-
-                // TODO: Consider making the delay here configurable.
-                tooltipTimer = new DispatcherTimer(
-                    TimeSpan.FromSeconds(0.5),
-                    DispatcherPriority.Render,
-                    OnTooltipTimerTick,
-                    Dispatcher
-                    );
-
                 browser.MainFrame.LoadUrl(url);
             }
         }
