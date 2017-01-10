@@ -2,6 +2,7 @@
 
 So you have a question to ask, where can you look for answers? Read on. Think you've found a bug? Please take the time to fill out the bug report below, provide as much information as you can, make sure you provide information for every heading. Thank you! We'd like to keep issues exclusively for **bug reports**, so please ask your questions on `Gitter`
 
+- Start by reading the General Usage guide, it answers all the common questions https://github.com/cefsharp/CefSharp/wiki/General-Usage
 - Check out the FAQ, lots of useful information there, specially if your having trouble deploying to a different machine : https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions
 - GitHub proves a fantastic search feature, it'll search through past issues and code. So check that out (Search box at the top of this page) : https://github.com/cefsharp/CefSharp
 - You can see all the `CefSharp` tagged issues on `Stackoverflow`, some useful stuff there : http://stackoverflow.com/questions/tagged/cefsharp
@@ -21,7 +22,7 @@ Delete this line and everything above, and then fill in the details below.
 
 - **What version of the product are you using?**
     - What version are you using? Nuget? CI Nuget? build from a branch? If so which branch?
-e.g. 47.0.3
+e.g. 53.0.1
 
 - **What architecture x86 or x64?**
 
@@ -43,7 +44,7 @@ e.g. 47.0.3
 
     - Any other background information that's relevant? Are you doing something out of the ordinary? 3rd party controls?
 
-- **Does this problem also occur in the `CEF` Sample Application from http://opensource.spotify.com/cefbuilds/index.html (http://cefbuilds.com for older version)?**
+- **Does this problem also occur in the `CEF` Sample Application from http://opensource.spotify.com/cefbuilds/index.html?**
 
     - To compare with WPF run cefclient --multi-threaded-message-loop --off-screen-rendering-enabled
     - To compare with WinForms run cefclient --multi-threaded-message-loop
