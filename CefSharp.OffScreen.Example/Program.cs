@@ -20,16 +20,6 @@ namespace CefSharp.OffScreen.Example
 
         public static int Main(string[] args)
         {
-            //Until https://bitbucket.org/chromiumembedded/cef/issues/1995/ is resolved it's nessicary to
-            //deal with the spawning of the crashpad process here as it's not possible to configure which exe it uses
-            var exitCode = Cef.ExecuteProcess();
-
-            //crashpadHandlerExitCode will be -1 for normal process execution, only when running as a subprocess will it be greater
-            if (exitCode >= 0)
-            {
-                return exitCode;
-            }
-
             Console.WriteLine("This example application will load {0}, take a screenshot, and save it to your desktop.", TestUrl);
             Console.WriteLine("You may see a lot of Chromium debugging output, please wait...");
             Console.WriteLine();
