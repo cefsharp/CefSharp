@@ -656,6 +656,14 @@ namespace CefSharp.OffScreen
             return viewRect;
         }
 
+        bool IRenderWebBrowser.GetScreenPoint(int viewX, int viewY, out int screenX, out int screenY)
+        {
+            screenX = 0;
+            screenY = 0;
+
+            return false;
+        }
+
         /// <summary>
         /// Creates the bitmap information.
         /// </summary>

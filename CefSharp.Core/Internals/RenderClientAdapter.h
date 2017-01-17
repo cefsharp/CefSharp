@@ -94,6 +94,18 @@ namespace CefSharp
             };
 
             ///
+            // Called to retrieve the translation from view coordinates to actual screen
+            // coordinates. Return true if the screen coordinates were provided.
+            ///
+            /*--cef()--*/
+            virtual DECL bool GetScreenPoint(CefRefPtr<CefBrowser> browser, int viewX, int viewY, int& screenX, int& screenY) OVERRIDE
+            {
+                _renderWebBrowser->GetScreenPoint(viewX, viewY, screenX, screenY);
+
+                return false;
+            }
+
+            ///
             // Called when the browser wants to show or hide the popup widget. The popup
             // should be shown if |show| is true and hidden if |show| is false.
             ///

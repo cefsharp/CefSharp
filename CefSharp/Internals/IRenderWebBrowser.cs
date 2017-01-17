@@ -10,6 +10,15 @@ namespace CefSharp.Internals
     {
         ScreenInfo GetScreenInfo();
         ViewRect GetViewRect();
+        /// <summary>
+        /// Called to retrieve the translation from view coordinates to actual screen coordinates. 
+        /// </summary>
+        /// <param name="viewX">x</param>
+        /// <param name="viewY">y</param>
+        /// <param name="screenX">screen x</param>
+        /// <param name="screenY">screen y</param>
+        /// <returns>Return true if the screen coordinates were provided.</returns>
+        bool GetScreenPoint(int viewX, int viewY, out int screenX, out int screenY);
 
         BitmapInfo CreateBitmapInfo(bool isPopup);
         void InvokeRenderAsync(BitmapInfo bitmapInfo);

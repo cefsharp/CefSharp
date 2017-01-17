@@ -541,6 +541,28 @@ namespace CefSharp.Wpf
             return viewRect;
         }
 
+        bool IRenderWebBrowser.GetScreenPoint(int viewX, int viewY, out int screenX, out int screenY)
+        {
+            screenX = 0;
+            screenY = 0;
+
+            var point = new Point(viewX, viewY);
+
+            UiThreadRunSync(() =>
+            {
+                point = PointToScreen(point);
+
+                PresentationSource source = PresentationSource.FromVisual(this);
+
+                point = matrix.Transform(point);
+            });
+
+            screenX = (int)point.X;
+            screenY = (int)point.Y;
+
+            return true;
+        }
+
         /// <summary>
         /// Creates the bitmap information.
         /// </summary>
@@ -1852,12 +1874,19 @@ namespace CefSharp.Wpf
             {
                 var point = e.GetPosition(this);
                 var modifiers = e.GetModifiers();
+                var isShiftKeyDown = Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift);
+                var pointX = (int)point.X;
+                var pointY= (int)point.Y;
+
+                System.Diagnostics.Trace.WriteLine("PointX:" + pointX);
+                System.Diagnostics.Trace.WriteLine("PointY:" + pointY);
+                System.Diagnostics.Trace.WriteLine("Delta:" + e.Delta);
 
                 browser.SendMouseWheelEvent(
-                    (int)point.X,
-                    (int)point.Y,
-                    deltaX: 0,
-                    deltaY: e.Delta,
+                    pointX,
+                    pointY,
+                    deltaX: isShiftKeyDown ? e.Delta : 0,
+                    deltaY: !isShiftKeyDown ? e.Delta : 0,
                     modifiers: modifiers);
             }
         }
@@ -2087,6 +2116,5 @@ namespace CefSharp.Wpf
         //		}
         //	}
         //}
-
     }
 }
