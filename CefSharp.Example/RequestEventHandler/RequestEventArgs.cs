@@ -6,7 +6,7 @@ using CefSharp;
 
 #endregion
 
-namespace Boxcryptor.UI.WPF {
+namespace CefSharp.Example {
     public interface ICancelNavigationEventArgs {
         bool CancelNavigation { get; set; }
     }
