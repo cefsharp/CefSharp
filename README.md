@@ -85,4 +85,5 @@ Creating regular releases of CefSharp is a time intensive process and so to supp
 - [ChromiumFx](https://bitbucket.org/chromiumfx/chromiumfx) : Another P/Invoke .Net CEF wrapper
 - [CEF Forum](http://magpcss.org/ceforum/) : The official CEF Forum
 - [CEF API Docs] (http://magpcss.org/ceforum/apidocs3/index-all.html) : Well worth a read if you are implementing a new feature
+- [HtmlViewd] (https://github.com/MISoftware/HtmlView) : Visual Studio extension bringing CEFSharp for showing HTML pages inside VS.
 
