@@ -1,8 +1,5 @@
 ﻿namespace CefSharp.Example.RequestEventHandler
 {
-    /// <summary>
-    ///     baijdhsaohg fdupih g
-    /// </summary>
     public class OnResourceResponseEventArgs : BaseRequestEventArgs
     {
         public OnResourceResponseEventArgs(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IResponse response)
