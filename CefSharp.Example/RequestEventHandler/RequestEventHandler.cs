@@ -53,7 +53,6 @@ namespace CefSharp.Example.RequestEventHandler
             var args = new OnCertificateErrorEventArgs(browserControl, browser, errorCode, requestUrl, sslInfo, callback);
             OnCertificateErrorEvent?.Invoke(this, args);
 
-            //TODO: check if disposing the callback is intended like that
             if (!args.Callback.IsDisposed)
             {
                 args.Callback.Dispose();
@@ -114,7 +113,6 @@ namespace CefSharp.Example.RequestEventHandler
         {
             var args = new OnResourceRedirectEventArgs(browserControl, browser, frame, request, new StringBuilder(newUrl));
             OnResourceRedirectEvent?.Invoke(this, args);
-            //TODO: test if the string is really changed by using a StringBuilder (should work afaik ;) )
             if (!Equals(newUrl, args.NewUrl.ToString()))
             {
                 newUrl = args.NewUrl.ToString();

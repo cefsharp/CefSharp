@@ -12,6 +12,6 @@
         /// <summary>
         ///     Set to true to attempt execution via the registered OS protocol handler, if any. Otherwise set to false.
         /// </summary>
-        public bool AttemptExecution { get; set; } = false; //TODO discuss if the default should be true
+        public bool AttemptExecution { get; set; } = false;
     }
 }
