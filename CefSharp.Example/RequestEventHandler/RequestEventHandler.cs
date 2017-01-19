@@ -29,7 +29,6 @@ namespace CefSharp.Example.RequestEventHandler
         ///     BEFORE ALLOWING OS EXECUTION.
         /// </summary>
         public event EventHandler<OnProtocolExecutionEventArgs> OnProtocolExecutionEvent;
-
         public event EventHandler<OnRenderViewReadyEventArgs> OnRenderViewReadyEvent;
         public event EventHandler<OnResourceResponseEventArgs> OnResourceResponseEvent;
         public event EventHandler<GetResourceResponseFilterEventArgs> GetResourceResponseFilterEvent;
