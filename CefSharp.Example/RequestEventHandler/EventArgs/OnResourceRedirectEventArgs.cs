@@ -1,9 +1,12 @@
 ﻿using System.Text;
 
-namespace CefSharp.Example.RequestEventHandler {
-    public class OnResourceRedirectEventArgs : BaseRequestEventArgs {
+namespace CefSharp.Example.RequestEventHandler
+{
+    public class OnResourceRedirectEventArgs : BaseRequestEventArgs
+    {
         public OnResourceRedirectEventArgs(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, StringBuilder newUrl)
-            : base(browserControl, browser) {
+            : base(browserControl, browser)
+        {
             Frame = frame;
             Request = request;
             NewUrl = newUrl;

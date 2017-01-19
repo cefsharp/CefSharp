@@ -1,7 +1,10 @@
-﻿namespace CefSharp.Example.RequestEventHandler {
-    public class OnResourceLoadCompleteEventArgs : BaseRequestEventArgs {
+﻿namespace CefSharp.Example.RequestEventHandler
+{
+    public class OnResourceLoadCompleteEventArgs : BaseRequestEventArgs
+    {
         public OnResourceLoadCompleteEventArgs(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IResponse response, UrlRequestStatus status, long receivedContentLength)
-            : base(browserControl, browser) {
+            : base(browserControl, browser)
+        {
             Frame = frame;
             Request = request;
             Response = response;

@@ -1,6 +1,9 @@
-namespace CefSharp.Example.RequestEventHandler {
-    public class GetResourceResponseFilterEventArgs : BaseRequestEventArgs {
-        public GetResourceResponseFilterEventArgs(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IResponse response)  : base(browserControl, browser) {
+namespace CefSharp.Example.RequestEventHandler
+{
+    public class GetResourceResponseFilterEventArgs : BaseRequestEventArgs
+    {
+        public GetResourceResponseFilterEventArgs(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IResponse response) : base(browserControl, browser)
+        {
             Frame = frame;
             Request = request;
             Response = response;

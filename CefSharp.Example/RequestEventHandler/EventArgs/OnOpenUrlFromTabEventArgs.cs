@@ -1,7 +1,10 @@
-﻿namespace CefSharp.Example.RequestEventHandler {
-    public class OnOpenUrlFromTabEventArgs : BaseRequestEventArgs {
+﻿namespace CefSharp.Example.RequestEventHandler
+{
+    public class OnOpenUrlFromTabEventArgs : BaseRequestEventArgs
+    {
         public OnOpenUrlFromTabEventArgs(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, WindowOpenDisposition targetDisposition, bool userGesture)
-            : base(browserControl, browser) {
+            : base(browserControl, browser)
+        {
             Frame = frame;
             TargetUrl = targetUrl;
             TargetDisposition = targetDisposition;

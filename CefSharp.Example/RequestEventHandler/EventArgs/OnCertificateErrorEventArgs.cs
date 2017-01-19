@@ -1,7 +1,10 @@
-﻿namespace CefSharp.Example.RequestEventHandler {
-    public class OnCertificateErrorEventArgs : BaseRequestEventArgs {
+﻿namespace CefSharp.Example.RequestEventHandler
+{
+    public class OnCertificateErrorEventArgs : BaseRequestEventArgs
+    {
         public OnCertificateErrorEventArgs(IWebBrowser browserControl, IBrowser browser, CefErrorCode errorCode, string requestUrl, ISslInfo sslInfo, IRequestCallback callback)
-            : base(browserControl, browser) {
+            : base(browserControl, browser)
+        {
             ErrorCode = errorCode;
             RequestUrl = requestUrl;
             SSLInfo = sslInfo;

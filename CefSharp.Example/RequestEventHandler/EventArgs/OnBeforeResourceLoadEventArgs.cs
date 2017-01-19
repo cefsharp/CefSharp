@@ -1,7 +1,10 @@
-﻿namespace CefSharp.Example.RequestEventHandler {
-    public class OnBeforeResourceLoadEventArgs : BaseRequestEventArgs {
+﻿namespace CefSharp.Example.RequestEventHandler
+{
+    public class OnBeforeResourceLoadEventArgs : BaseRequestEventArgs
+    {
         public OnBeforeResourceLoadEventArgs(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IRequestCallback callback)
-            : base(browserControl, browser) {
+            : base(browserControl, browser)
+        {
             Frame = frame;
             Request = request;
             Callback = callback;
