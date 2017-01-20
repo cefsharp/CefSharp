@@ -1,5 +1,8 @@
-﻿using System;
-using System.Text;
+﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
+using System;
 
 namespace CefSharp.Example.RequestEventHandler
 {
@@ -53,10 +56,7 @@ namespace CefSharp.Example.RequestEventHandler
             var args = new OnCertificateErrorEventArgs(browserControl, browser, errorCode, requestUrl, sslInfo, callback);
             OnCertificateErrorEvent?.Invoke(this, args);
 
-            if (!args.Callback.IsDisposed)
-            {
-                args.Callback.Dispose();
-            }
+            EnsureCallbackDisposal(callback);
             return args.ContinueAsync;
         }
 
@@ -71,11 +71,8 @@ namespace CefSharp.Example.RequestEventHandler
             var args = new OnBeforeResourceLoadEventArgs(browserControl, browser, frame, request, callback);
             OnBeforeResourceLoadEvent?.Invoke(this, args);
 
-            if (!args.Callback.IsDisposed)
-            {
-                args.Callback.Dispose();
-            }
-            return args.ResourceLoadHandling;
+            EnsureCallbackDisposal(callback);
+            return args.ContinuationHandling;
         }
 
         public bool GetAuthCredentials(IWebBrowser browserControl, IBrowser browser, IFrame frame, bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback)
@@ -83,11 +80,7 @@ namespace CefSharp.Example.RequestEventHandler
             var args = new GetAuthCredentialsEventArgs(browserControl, browser, frame, isProxy, host, port, realm, scheme, callback);
             GetAuthCredentialsEvent?.Invoke(this, args);
 
-            if (!args.Callback.IsDisposed)
-            {
-                args.Callback.Dispose();
-            }
-
+            EnsureCallbackDisposal(callback);
             return args.ContinueAsync;
         }
 
@@ -102,20 +95,17 @@ namespace CefSharp.Example.RequestEventHandler
             var args = new OnQuotaRequestEventArgs(browserControl, browser, originUrl, newSize, callback);
             OnQuotaRequestEvent?.Invoke(this, args);
 
-            if (!args.Callback.IsDisposed)
-            {
-                args.Callback.Dispose();
-            }
+            EnsureCallbackDisposal(callback);
             return args.ContinueAsync;
         }
 
         public void OnResourceRedirect(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, ref string newUrl)
         {
-            var args = new OnResourceRedirectEventArgs(browserControl, browser, frame, request, new StringBuilder(newUrl));
+            var args = new OnResourceRedirectEventArgs(browserControl, browser, frame, request, newUrl);
             OnResourceRedirectEvent?.Invoke(this, args);
-            if (!Equals(newUrl, args.NewUrl.ToString()))
+            if (!Equals(newUrl, args.NewUrl))
             {
-                newUrl = args.NewUrl.ToString();
+                newUrl = args.NewUrl;
             }
         }
 
@@ -150,6 +140,22 @@ namespace CefSharp.Example.RequestEventHandler
         {
             var args = new OnResourceLoadCompleteEventArgs(browserControl, browser, frame, request, response, status, receivedContentLength);
             OnResourceLoadCompleteEvent?.Invoke(this, args);
+        }
+
+        private static void EnsureCallbackDisposal(IRequestCallback callbackToDispose)
+        {
+            if (callbackToDispose != null && !callbackToDispose.IsDisposed)
+            {
+                callbackToDispose.Dispose();
+            }
+        }
+
+        private static void EnsureCallbackDisposal(IAuthCallback callbackToDispose)
+        {
+            if (callbackToDispose != null && !callbackToDispose.IsDisposed)
+            {
+                callbackToDispose.Dispose();
+            }
         }
     }
 }

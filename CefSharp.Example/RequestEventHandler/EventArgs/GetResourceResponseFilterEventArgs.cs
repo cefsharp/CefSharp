@@ -1,3 +1,7 @@
+// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
 namespace CefSharp.Example.RequestEventHandler
 {
     public class GetResourceResponseFilterEventArgs : BaseRequestEventArgs
@@ -14,7 +18,7 @@ namespace CefSharp.Example.RequestEventHandler
         public IResponse Response { get; }
 
         /// <summary>
-        ///     Set IResponseFilter to intercept this response, otherwise return null
+        ///     Set a ResponseFilter to intercept this response, leave it null otherwise.
         /// </summary>
         public IResponseFilter ResponseFilter { get; set; } = null;
     }

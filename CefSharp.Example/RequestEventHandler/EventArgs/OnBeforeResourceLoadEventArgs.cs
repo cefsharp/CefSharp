@@ -1,4 +1,8 @@
-﻿namespace CefSharp.Example.RequestEventHandler
+﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
+namespace CefSharp.Example.RequestEventHandler
 {
     public class OnBeforeResourceLoadEventArgs : BaseRequestEventArgs
     {
@@ -21,8 +25,9 @@
         /// <summary>
         ///     To cancel loading of the resource return <see cref="F:CefSharp.CefReturnValue.Cancel" />
         ///     or <see cref="F:CefSharp.CefReturnValue.Continue" /> to allow the resource to load normally. For async
-        ///     return <see cref="F:CefSharp.CefReturnValue.ContinueAsync" />
+        ///     return <see cref="F:CefSharp.CefReturnValue.ContinueAsync" /> and use
+        ///     <see cref="OnBeforeResourceLoadEventArgs.Callback" /> to handle continuation.
         /// </summary>
-        public CefReturnValue ResourceLoadHandling { get; set; } = CefReturnValue.Continue;
+        public CefReturnValue ContinuationHandling { get; set; } = CefReturnValue.Continue;
     }
 }

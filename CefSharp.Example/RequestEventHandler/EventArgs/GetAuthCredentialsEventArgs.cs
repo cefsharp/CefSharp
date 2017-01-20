@@ -1,4 +1,8 @@
-﻿namespace CefSharp.Example.RequestEventHandler
+﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
+namespace CefSharp.Example.RequestEventHandler
 {
     public class GetAuthCredentialsEventArgs : BaseRequestEventArgs
     {
@@ -27,7 +31,7 @@
 
         /// <summary>
         ///     Set to true to continue the request and call
-        ///     <see cref="T:CefSharp.IAuthCallback.Continue(System.String, System.String)" /> when the authentication information
+        ///     <see cref="T:CefSharp.GetAuthCredentialsEventArgs.Continue(System.String, System.String)" /> when the authentication information
         ///     is available. Set to false to cancel the request.
         /// </summary>
         public bool ContinueAsync { get; set; } = false;

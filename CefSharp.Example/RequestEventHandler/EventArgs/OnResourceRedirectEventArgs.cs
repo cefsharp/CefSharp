@@ -1,10 +1,12 @@
-﻿using System.Text;
+﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 namespace CefSharp.Example.RequestEventHandler
 {
     public class OnResourceRedirectEventArgs : BaseRequestEventArgs
     {
-        public OnResourceRedirectEventArgs(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, StringBuilder newUrl)
+        public OnResourceRedirectEventArgs(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, string newUrl)
             : base(browserControl, browser)
         {
             Frame = frame;
@@ -16,8 +18,8 @@ namespace CefSharp.Example.RequestEventHandler
         public IRequest Request { get; }
 
         /// <summary>
-        ///     the new URL and can be changed if desired
+        ///     the new URL and can be changed if desired.
         /// </summary>
-        public StringBuilder NewUrl { get; }
+        public string NewUrl { get; set; }
     }
 }
