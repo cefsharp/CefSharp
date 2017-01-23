@@ -19,4 +19,22 @@ namespace CefSharp
         auto focusControl = GetFocus();
         return focusControl != 0 && (IsChild((HWND)handle.ToPointer(), focusControl) == 1);
     }
+
+    void NativeMethodWrapper::SetWindowPosition(IntPtr handle, int x, int y, int width, int height)
+    {
+        HWND browserHwnd = static_cast<HWND>(handle.ToPointer());
+        if (browserHwnd)
+        {
+            if (width == 0 && height == 0)
+            {
+                // For windowed browsers when the frame window is minimized set the
+                // browser window size to 0x0 to reduce resource usage.
+                SetWindowPos(browserHwnd, NULL, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
+            }
+            else
+            {
+                SetWindowPos(browserHwnd, NULL, x, y, width, height, SWP_NOZORDER);
+            }
+        }
+    }
 }
