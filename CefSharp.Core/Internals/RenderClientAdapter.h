@@ -100,7 +100,7 @@ namespace CefSharp
             /*--cef()--*/
             virtual DECL bool GetScreenPoint(CefRefPtr<CefBrowser> browser, int viewX, int viewY, int& screenX, int& screenY) OVERRIDE
             {
-                _renderWebBrowser->GetScreenPoint(viewX, viewY, screenX, screenY);
+                //_renderWebBrowser->GetScreenPoint(viewX, viewY, screenX, screenY);
 
                 return false;
             }
