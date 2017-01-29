@@ -79,8 +79,7 @@ namespace CefSharp.Example.Filters
                     if (findMatchOffset == findString.Length)
                     {
                         // Complete match of the find string. Write the replace string.
-                        var replaceString = ++replaceCount + ". " + replacementString;
-                        WriteString(replaceString, replaceString.Length, dataOut, ref dataOutWritten);
+                        WriteString(replacementString, replacementString.Length, dataOut, ref dataOutWritten);
 
                         // Start over looking for a match.
                         findMatchOffset = 0;
