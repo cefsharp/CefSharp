@@ -18,7 +18,7 @@ namespace CefSharp
         /// <param name="requestingUrl">the URL requesting permission</param>
         /// <param name="requestId">the unique ID for the permission request</param>
         /// <param name="callback">Callback interface used for asynchronous continuation of geolocation permission requests.</param>
-        /// <returns>true to allow the request and false to deny</returns>
+        /// <returns>Return true and call IGeolocationCallback.Continue() either in this method or at a later time to continue or cancel the request. Return false to cancel the request immediately.</returns>
         bool OnRequestGeolocationPermission(IWebBrowser browserControl, IBrowser browser, string requestingUrl, int requestId, IGeolocationCallback callback);
 
         /// <summary>

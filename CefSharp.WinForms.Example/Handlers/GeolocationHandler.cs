@@ -17,15 +17,22 @@ namespace CefSharp.WinForms.Example.Handlers
                 return false;
             }
 
-            using (callback)
+            var control = (Control)browserControl;
+
+            control.InvokeOnUiThreadIfRequired(delegate()
             {
-                var result = MessageBox.Show(String.Format("{0} wants to use your computer's location.  Allow?  ** You must set your Google API key in CefExample.Init() for this to work. **", requestingUrl), "Geolocation", MessageBoxButtons.YesNo);
+                //Callback wraps a managed resource, so we'll wrap in a using statement so it's always disposed of.
+                using (callback)
+                {
+                    var result = MessageBox.Show(string.Format("{0} wants to use your computer's location.  Allow?  ** You must set your Google API key in CefExample.Init() for this to work. **", requestingUrl), "Geolocation", MessageBoxButtons.YesNo);
 
-                callback.Continue(result == DialogResult.Yes);
-                callback.Dispose();
+                    callback.Continue(result == DialogResult.Yes);
+                }
+            });    
 
-                return result == DialogResult.Yes;
-            }
+            //To cancel the request immediately we'd return false here, as we're returning true
+            // the callback will be used to allow/deny the permission request.
+            return true;
         }
 
         void IGeolocationHandler.OnCancelGeolocationPermission(IWebBrowser browserControl, IBrowser browser, int requestId)
