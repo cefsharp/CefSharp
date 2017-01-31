@@ -4,6 +4,7 @@
 
 using System;
 using System.Windows.Forms;
+using CefSharp.WinForms.Internals;
 
 namespace CefSharp.WinForms.Example.Handlers
 {
