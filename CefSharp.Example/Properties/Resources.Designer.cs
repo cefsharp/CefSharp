@@ -338,6 +338,37 @@ namespace CefSharp.Example.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///&lt;html&gt;
+        ///&lt;head&gt;
+        ///    &lt;style&gt;
+        ///        div {
+        ///            width: 100px;
+        ///            height: 100px;
+        ///            background-color: red;
+        ///            position: relative;
+        ///            animation: myfirst 5s linear infinite alternate;
+        ///        }
+        ///
+        ///        @keyframes myfirst {
+        ///            0% {
+        ///                background-color: red;
+        ///                left: 0px;
+        ///                top: 0px;
+        ///            }
+        ///
+        ///            25% {
+        ///                background-color: yellow;
+        ///                left: 200px;
+        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string CssAnimation {
+            get {
+                return ResourceManager.GetString("CssAnimation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
         ///
         ///&lt;html lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
         ///&lt;head&gt;

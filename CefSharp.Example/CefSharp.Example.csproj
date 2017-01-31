@@ -119,6 +119,7 @@
     <Content Include="Resources\assets\js\shBrushCSharp.js" />
     <None Include="Resources\assets\js\shBrushJScript.js" />
     <Content Include="Resources\assets\js\shCore.js" />
+    <Content Include="Resources\CssAnimation.html" />
     <Content Include="Resources\ExceptionTest.html" />
     <Content Include="Resources\BindingTest.html" />
     <Content Include="Resources\bootstrap\bootstrap-theme.min.css" />
