@@ -251,6 +251,28 @@ namespace CefSharp
         }
 
         /// <summary>
+        /// Loads html as Data Uri
+        /// See https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs for details
+        /// If base64Encode is false then html will be Uri encoded
+        /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
+        /// <param name="html">Html to load as data uri.</param>
+        /// <param name="base64Encode">if true the html string will be base64 encoded using UTF8 encoding.</param>
+        public static void LoadHtml(this IWebBrowser browser, string html, bool base64Encode = false)
+        {
+            if(base64Encode)
+            { 
+                var base64EncodedHtml = Convert.ToBase64String(Encoding.UTF8.GetBytes(html));
+                browser.Load("data:text/html;base64," + base64EncodedHtml);
+            }
+            else
+            { 
+                var uriEncodedHtml = Uri.EscapeDataString(html);
+                browser.Load("data:text/html," + uriEncodedHtml);
+            }
+        }
+
+        /// <summary>
         /// Registers and loads a <see cref="ResourceHandler"/> that represents the HTML content.
         /// </summary>
         /// <remarks>
