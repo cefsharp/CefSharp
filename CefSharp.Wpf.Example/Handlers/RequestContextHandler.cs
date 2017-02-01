@@ -6,7 +6,7 @@ namespace CefSharp.Wpf.Example.Handlers
 {
     public class RequestContextHandler : IRequestContextHandler
     {
-        bool IRequestContextHandler.OnBeforePluginLoad(string mimeType, string url, string topOriginUrl, WebPluginInfo pluginInfo, ref PluginPolicy pluginPolicy)
+        bool IRequestContextHandler.OnBeforePluginLoad(string mimeType, string url, bool isMainFrame, string topOriginUrl, WebPluginInfo pluginInfo, ref PluginPolicy pluginPolicy)
         {
             //pluginPolicy = PluginPolicy.Disable;
             //return true;

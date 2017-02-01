@@ -27,10 +27,11 @@ namespace CefSharp
         /// </summary>
         /// <param name="mimeType">is the mime type of the plugin that will be loaded</param>
         /// <param name="url">is the content URL that the plugin will load and may be empty</param>
+        /// <param name="isMainFrame">will be true if the plugin is being loaded in the main (top-level) frame</param>
         /// <param name="topOriginUrl">is the URL for the top-level frame that contains the plugin</param>
         /// <param name="pluginInfo">includes additional information about the plugin that will be loaded</param>
         /// <param name="pluginPolicy">Modify and return true to change the policy.</param>
         /// <returns>Return false to use the recommended policy. Modify and return true to change the policy.</returns>
-        bool OnBeforePluginLoad(string mimeType, string url, string topOriginUrl, WebPluginInfo pluginInfo, ref PluginPolicy pluginPolicy);
+        bool OnBeforePluginLoad(string mimeType, string url, bool isMainFrame, string topOriginUrl, WebPluginInfo pluginInfo, ref PluginPolicy pluginPolicy);
     }
 }
