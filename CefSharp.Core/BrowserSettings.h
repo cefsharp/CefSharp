@@ -349,7 +349,7 @@ namespace CefSharp
         /// <summary>
         /// Opaque background color used for the browser before a document is loaded
         /// and when no document color is specified. By default the background color
-        /// will be the same as CefSettings.background_color. Only the RGB compontents
+        /// will be the same as CefSettings.BackgroundColor. Only the RGB compontents
         /// of the specified value will be used. The alpha component must greater than
         /// 0 to enable use of the background color but will be otherwise ignored.
         /// </summary>
