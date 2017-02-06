@@ -6,6 +6,10 @@ using System;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Implement this interface to handle events related to browser process callbacks.
+    /// The methods of this class will be called on the CEF UI thread unless otherwise indicated. . 
+    /// </summary>
     public interface IBrowserProcessHandler : IDisposable
     {
         /// <summary>
@@ -25,8 +29,8 @@ namespace CefSharp
         /// main (UI) thread. 
         /// </summary>
         /// <param name="delay">is the requested delay in milliseconds. If
-        /// delay is <= 0 then the call should happen reasonably soon. If
-        /// delay is > 0 then the call should be scheduled to happen after the
+        /// delay is less than or equal to 0 then the call should happen reasonably soon. If
+        /// delay is greater than 0 then the call should be scheduled to happen after the
         /// specified delay and any currently pending scheduled call should be
         /// cancelled.</param>
         void OnScheduleMessagePumpWork(long delay);

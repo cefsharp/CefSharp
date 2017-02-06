@@ -21,10 +21,15 @@ namespace CefSharp.ModelBinding
 
         private readonly IFieldNameConverter fieldNameConverter;
 
-        protected bool IgnoreErrors { get; private set; }
-
+        /// <summary>
+        /// List of property names to be ignored
+        /// </summary>
         public IEnumerable<string> BlackListedPropertyNames { get; set; }
 
+        /// <summary>
+        /// DefaultBinder constructor
+        /// </summary>
+        /// <param name="fieldNameConverter">used to convert field names to property names</param>
         public DefaultBinder(IFieldNameConverter fieldNameConverter)
         {
             if (fieldNameConverter == null)
@@ -33,7 +38,6 @@ namespace CefSharp.ModelBinding
             }
 
             this.fieldNameConverter = fieldNameConverter;
-            IgnoreErrors = true;
             BlackListedPropertyNames = new List<string>();
         }
 
@@ -42,7 +46,6 @@ namespace CefSharp.ModelBinding
         /// </summary>
         /// <param name="obj">object to be converted into a model</param>
         /// <param name="modelType">Model type to bind to</param>
-        /// <param name="blackList">Blacklisted binding property names</param>
         /// <returns>Bound model</returns>
         public virtual object Bind(object obj, Type modelType)
         {

@@ -304,7 +304,6 @@ namespace CefSharp.OffScreen
         /// <param name="browserSettings">The browser settings to use. If null, the default settings are used.</param>
         /// <param name="requestContext">See <see cref="RequestContext" /> for more details. Defaults to null</param>
         /// <param name="automaticallyCreateBrowser">automatically create the underlying Browser</param>
-        /// <param name="blendPopup">Should the popup be blended in the background in the rendering</param>
         /// <exception cref="System.InvalidOperationException">Cef::Initialize() failed</exception>
         public ChromiumWebBrowser(string address = "", BrowserSettings browserSettings = null,
             RequestContext requestContext = null, bool automaticallyCreateBrowser = true)
@@ -405,7 +404,6 @@ namespace CefSharp.OffScreen
         /// <summary>
         /// Gets the size of the popup.
         /// </summary>
-        /// <param name="size">Size of the popup.</param>
         public Size PopupSize
         {
             get { return popupSize; }
@@ -414,7 +412,6 @@ namespace CefSharp.OffScreen
         /// <summary>
         /// Gets the popup position.
         /// </summary>
-        /// <param name="popupPos">The popup position.</param>
         public Point PopupPosition
         {
             get { return popupPosition; }

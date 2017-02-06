@@ -649,6 +649,11 @@ namespace CefSharp.WinForms
             return browser;
         }
 
+        /// <summary>
+        /// Makes certain keys as Input keys when CefSettings.MultiThreadedMessageLoop = false
+        /// </summary>
+        /// <param name="keyData">key data</param>
+        /// <returns>true for a select list of keys otherwise defers to base.IsInputKey</returns>
         protected override bool IsInputKey(Keys keyData)
         {
             //This code block is only called/required when CEF is running in the

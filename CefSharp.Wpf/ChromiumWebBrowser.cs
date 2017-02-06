@@ -1006,6 +1006,9 @@ namespace CefSharp.Wpf
         public static readonly DependencyProperty IsBrowserInitializedProperty =
             DependencyProperty.Register("IsBrowserInitialized", typeof(bool), typeof(ChromiumWebBrowser), new PropertyMetadata(false, OnIsBrowserInitializedChanged));
 
+        /// <summary>
+        /// Event handler that will get called when the browser has finished initializing
+        /// </summary>
         public event DependencyPropertyChangedEventHandler IsBrowserInitializedChanged;
 
         /// <summary>
@@ -1080,6 +1083,9 @@ namespace CefSharp.Wpf
         public static readonly DependencyProperty TitleProperty =
             DependencyProperty.Register("Title", typeof(string), typeof(ChromiumWebBrowser), new PropertyMetadata(null, OnTitleChanged));
 
+        /// <summary>
+        /// Event handler that will get called when the browser title changes
+        /// </summary>
         public event DependencyPropertyChangedEventHandler TitleChanged;
 
         /// <summary>

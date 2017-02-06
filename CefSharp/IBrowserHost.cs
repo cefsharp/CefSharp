@@ -147,9 +147,9 @@ namespace CefSharp
         /// text into the composition node.
         /// This method is only used when window rendering is disabled. (WPF and OffScreen) 
         /// </summary>
-        /// </summary>
         /// <param name="text">text that will be committed</param>
         void ImeCommitText(string text);
+
         /// <summary>
         /// Completes the existing composition by applying the current composition node
         /// contents. See comments on ImeSetComposition for usage.
