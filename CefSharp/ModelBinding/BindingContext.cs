@@ -13,8 +13,6 @@ namespace CefSharp.ModelBinding
     /// </summary>
     public class BindingContext
     {
-        public CultureInfo Culture { get; set; } 
-
         /// <summary>
         /// Binding destination type
         /// </summary>
@@ -39,10 +37,5 @@ namespace CefSharp.ModelBinding
         /// The incoming data fields
         /// </summary>
         public object Object { get; set; }
-
-        public BindingContext()
-        {
-            Culture = CultureInfo.InvariantCulture;
-        }
     }
 }

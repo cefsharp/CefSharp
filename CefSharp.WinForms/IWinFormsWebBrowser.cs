@@ -10,7 +10,6 @@ namespace CefSharp.WinForms
     /// WinForms specific implementation, has events the
     /// <see cref="ChromiumWebBrowser" /> implementation exposes.
     /// </summary>
-    /// </summary>
     /// <seealso cref="CefSharp.IWebBrowser" />
     public interface IWinFormsWebBrowser : IWebBrowser
     {
