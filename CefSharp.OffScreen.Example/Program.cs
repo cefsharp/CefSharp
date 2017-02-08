@@ -82,6 +82,12 @@ namespace CefSharp.OffScreen.Example
 
                 var onUi = Cef.CurrentlyOnThread(CefThreadIds.TID_UI);
 
+                var completionHandler = new TaskCompletionHandler();
+                var cookieManager = browser.RequestContext.GetDefaultCookieManager(completionHandler);
+                await completionHandler.Task;
+                //Get cookies by Url
+                var cookes = await cookieManager.VisitUrlCookiesAsync(TestUrl, false);
+
                 // For Google.com pre-pupulate the search text box
                 await browser.EvaluateScriptAsync("document.getElementById('lst-ib').value = 'CefSharp Was Here!'");
 
