@@ -11,6 +11,6 @@ namespace CefSharp.Example.RequestEventHandler
             PluginPath = pluginPath;
         }
 
-        public string PluginPath { get; }
+        public string PluginPath { get; private set; }
     }
 }

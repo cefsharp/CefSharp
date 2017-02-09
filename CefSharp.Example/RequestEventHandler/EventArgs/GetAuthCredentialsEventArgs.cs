@@ -19,17 +19,17 @@ namespace CefSharp.Example.RequestEventHandler
             ContinueAsync = false; // default
         }
 
-        public IFrame Frame { get; }
-        public bool IsProxy { get; }
-        public string Host { get; }
-        public int Port { get; }
-        public string Realm { get; }
-        public string Scheme { get; }
+        public IFrame Frame { get; private set; }
+        public bool IsProxy { get; private set; }
+        public string Host { get; private set; }
+        public int Port { get; private set; }
+        public string Realm { get; private set; }
+        public string Scheme { get; private set; }
 
         /// <summary>
         ///     Callback interface used for asynchronous continuation of authentication requests.
         /// </summary>
-        public IAuthCallback Callback { get; }
+        public IAuthCallback Callback { get; private set; }
 
         /// <summary>
         ///     Set to true to continue the request and call

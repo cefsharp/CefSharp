@@ -16,13 +16,13 @@ namespace CefSharp.Example.RequestEventHandler
             ContinueAsync = false; // default
         }
 
-        public string OriginUrl { get; }
-        public long NewSize { get; }
+        public string OriginUrl { get; private set; }
+        public long NewSize { get; private set; }
 
         /// <summary>
         ///     Callback interface used for asynchronous continuation of url requests.
         /// </summary>
-        public IRequestCallback Callback { get; }
+        public IRequestCallback Callback { get; private set; }
 
         /// <summary>
         ///     Set to false to cancel the request immediately. Set to true to continue the request

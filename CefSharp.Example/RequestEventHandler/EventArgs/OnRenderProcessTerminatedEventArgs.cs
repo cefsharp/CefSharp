@@ -12,6 +12,6 @@ namespace CefSharp.Example.RequestEventHandler
             Status = status;
         }
 
-        public CefTerminationStatus Status { get; }
+        public CefTerminationStatus Status { get; private set; }
     }
 }

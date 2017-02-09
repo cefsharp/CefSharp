@@ -13,7 +13,7 @@ namespace CefSharp.Example.RequestEventHandler
             AttemptExecution = false; // default
         }
 
-        public string Url { get; }
+        public string Url { get; private set; }
 
         /// <summary>
         ///     Set to true to attempt execution via the registered OS protocol handler, if any. Otherwise set to false.

@@ -16,9 +16,9 @@ namespace CefSharp.Example.RequestEventHandler
             CancelNavigation = false; // default
         }
 
-        public IFrame Frame { get; }
-        public IRequest Request { get; }
-        public bool IsRedirect { get; }
+        public IFrame Frame { get; private set; }
+        public IRequest Request { get; private set; }
+        public bool IsRedirect { get; private set; }
 
         /// <summary>
         ///     Set to true to cancel the navigation or false to allow the navigation to proceed.

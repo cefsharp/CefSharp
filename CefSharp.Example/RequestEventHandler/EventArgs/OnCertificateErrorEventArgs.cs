@@ -17,15 +17,15 @@ namespace CefSharp.Example.RequestEventHandler
             ContinueAsync = false; // default
         }
 
-        public CefErrorCode ErrorCode { get; }
-        public string RequestUrl { get; }
-        public ISslInfo SSLInfo { get; }
+        public CefErrorCode ErrorCode { get; private set; }
+        public string RequestUrl { get; private set; }
+        public ISslInfo SSLInfo { get; private set; }
 
         /// <summary>
         ///     Callback interface used for asynchronous continuation of url requests.
         ///     If empty the error cannot be recovered from and the request will be canceled automatically.
         /// </summary>
-        public IRequestCallback Callback { get; }
+        public IRequestCallback Callback { get; private set; }
 
         /// <summary>
         ///     Set to false to cancel the request immediately. Set to true and use <see cref="T:CefSharp.IRequestCallback" /> to

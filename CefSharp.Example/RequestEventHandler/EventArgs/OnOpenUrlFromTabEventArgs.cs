@@ -17,10 +17,10 @@ namespace CefSharp.Example.RequestEventHandler
             CancelNavigation = false; // default
         }
 
-        public IFrame Frame { get; }
-        public string TargetUrl { get; }
-        public WindowOpenDisposition TargetDisposition { get; }
-        public bool UserGesture { get; }
+        public IFrame Frame { get; private set; }
+        public string TargetUrl { get; private set; }
+        public WindowOpenDisposition TargetDisposition { get; private set; }
+        public bool UserGesture { get; private set; }
 
         /// <summary>
         ///     Set to true to cancel the navigation or false to allow the navigation to proceed.

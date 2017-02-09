@@ -16,13 +16,13 @@ namespace CefSharp.Example.RequestEventHandler
             ContinuationHandling = CefReturnValue.Continue; // default
         }
 
-        public IFrame Frame { get; }
-        public IRequest Request { get; }
+        public IFrame Frame { get; private set; }
+        public IRequest Request { get; private set; }
 
         /// <summary>
         ///     Callback interface used for asynchronous continuation of url requests.
         /// </summary>
-        public IRequestCallback Callback { get; }
+        public IRequestCallback Callback { get; private set; }
 
         /// <summary>
         ///     To cancel loading of the resource return <see cref="F:CefSharp.CefReturnValue.Cancel" />

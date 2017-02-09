@@ -14,8 +14,8 @@ namespace CefSharp.Example.RequestEventHandler
             NewUrl = newUrl;
         }
 
-        public IFrame Frame { get; }
-        public IRequest Request { get; }
+        public IFrame Frame { get; private set; }
+        public IRequest Request { get; private set; }
 
         /// <summary>
         ///     the new URL and can be changed if desired.

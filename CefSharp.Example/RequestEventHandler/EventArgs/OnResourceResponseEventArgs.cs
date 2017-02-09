@@ -16,9 +16,9 @@ namespace CefSharp.Example.RequestEventHandler
             RedirectOrRetry = false; // default
         }
 
-        public IFrame Frame { get; }
-        public IRequest Request { get; }
-        public IResponse Response { get; }
+        public IFrame Frame { get; private set; }
+        public IRequest Request { get; private set; }
+        public IResponse Response { get; private set; }
 
         /// <summary>
         ///     To allow the resource to load normally set to false.

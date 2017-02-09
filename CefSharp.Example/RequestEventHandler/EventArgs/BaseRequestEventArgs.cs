@@ -12,7 +12,7 @@ namespace CefSharp.Example.RequestEventHandler
             Browser = browser;
         }
 
-        public IWebBrowser BrowserControl { get; }
-        public IBrowser Browser { get; }
+        public IWebBrowser BrowserControl { get; private set; }
+        public IBrowser Browser { get; private set; }
     }
 }

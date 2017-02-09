@@ -16,10 +16,10 @@ namespace CefSharp.Example.RequestEventHandler
             ReceivedContentLength = receivedContentLength;
         }
 
-        public IFrame Frame { get; }
-        public IRequest Request { get; }
-        public IResponse Response { get; }
-        public UrlRequestStatus Status { get; }
-        public long ReceivedContentLength { get; }
+        public IFrame Frame { get; private set; }
+        public IRequest Request { get; private set; }
+        public IResponse Response { get; private set; }
+        public UrlRequestStatus Status { get; private set; }
+        public long ReceivedContentLength { get; private set; }
     }
 }
