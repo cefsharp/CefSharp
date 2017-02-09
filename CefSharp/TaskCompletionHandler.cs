@@ -2,6 +2,7 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
 using System.Threading.Tasks;
 using CefSharp.Internals;
 
@@ -16,7 +17,7 @@ namespace CefSharp
             taskCompletionSource = new TaskCompletionSource<bool>();
         }
 
-        public void OnComplete()
+        void ICompletionCallback.OnComplete()
         {
             taskCompletionSource.TrySetResultAsync(true);
         }
@@ -24,6 +25,18 @@ namespace CefSharp
         public Task<bool> Task
         {
             get { return taskCompletionSource.Task; }
+        }
+
+        void IDisposable.Dispose()
+        {
+            var task = taskCompletionSource.Task;
+
+            //If the Task hasn't completed and this is being disposed then
+            //set the TCS to false
+            if(task.IsCompleted == false)
+            {
+                taskCompletionSource.TrySetResultAsync(false);
+            }
         }
     }
 }

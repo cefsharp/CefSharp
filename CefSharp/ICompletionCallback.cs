@@ -2,12 +2,13 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
 namespace CefSharp
 {
     /// <summary>
     /// Generic callback interface used for asynchronous completion. 
     /// </summary>
-    public interface ICompletionCallback
+    public interface ICompletionCallback : IDisposable
     {
         /// <summary>
         /// Method that will be called once the task is complete. 

@@ -22,6 +22,7 @@ namespace CefSharp
 
         ~CefCompletionCallbackAdapter()
         {
+            delete _handler;
             _handler = nullptr;
         }
 
