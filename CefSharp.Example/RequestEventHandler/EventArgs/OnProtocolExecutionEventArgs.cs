@@ -9,6 +9,8 @@ namespace CefSharp.Example.RequestEventHandler
         public OnProtocolExecutionEventArgs(IWebBrowser browserControl, IBrowser browser, string url) : base(browserControl, browser)
         {
             Url = url;
+
+            AttemptExecution = false; // default
         }
 
         public string Url { get; }
@@ -16,6 +18,6 @@ namespace CefSharp.Example.RequestEventHandler
         /// <summary>
         ///     Set to true to attempt execution via the registered OS protocol handler, if any. Otherwise set to false.
         /// </summary>
-        public bool AttemptExecution { get; set; } = false;
+        public bool AttemptExecution { get; set; }
     }
 }

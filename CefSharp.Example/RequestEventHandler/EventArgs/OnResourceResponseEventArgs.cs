@@ -12,6 +12,8 @@ namespace CefSharp.Example.RequestEventHandler
             Frame = frame;
             Request = request;
             Response = response;
+
+            RedirectOrRetry = false; // default
         }
 
         public IFrame Frame { get; }
@@ -23,6 +25,6 @@ namespace CefSharp.Example.RequestEventHandler
         ///     To redirect or retry the resource, modify <see cref="OnBeforeResourceLoadEventArgs.Request" /> (url, headers or
         ///     post body) and set to true.
         /// </summary>
-        public bool RedirectOrRetry { get; set; } = false;
+        public bool RedirectOrRetry { get; set; }
     }
 }

@@ -13,6 +13,8 @@ namespace CefSharp.Example.RequestEventHandler
             TargetUrl = targetUrl;
             TargetDisposition = targetDisposition;
             UserGesture = userGesture;
+
+            CancelNavigation = false; // default
         }
 
         public IFrame Frame { get; }
@@ -23,6 +25,6 @@ namespace CefSharp.Example.RequestEventHandler
         /// <summary>
         ///     Set to true to cancel the navigation or false to allow the navigation to proceed.
         /// </summary>
-        public bool CancelNavigation { get; set; } = false;
+        public bool CancelNavigation { get; set; }
     }
 }

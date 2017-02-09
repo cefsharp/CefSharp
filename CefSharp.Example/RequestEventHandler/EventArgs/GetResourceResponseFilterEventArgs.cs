@@ -11,6 +11,8 @@ namespace CefSharp.Example.RequestEventHandler
             Frame = frame;
             Request = request;
             Response = response;
+
+            ResponseFilter = null; // default
         }
 
         public IFrame Frame { get; }
@@ -20,6 +22,6 @@ namespace CefSharp.Example.RequestEventHandler
         /// <summary>
         ///     Set a ResponseFilter to intercept this response, leave it null otherwise.
         /// </summary>
-        public IResponseFilter ResponseFilter { get; set; } = null;
+        public IResponseFilter ResponseFilter { get; set; }
     }
 }

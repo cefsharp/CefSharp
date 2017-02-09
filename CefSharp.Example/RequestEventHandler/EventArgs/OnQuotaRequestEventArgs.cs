@@ -12,6 +12,8 @@ namespace CefSharp.Example.RequestEventHandler
             OriginUrl = originUrl;
             NewSize = newSize;
             Callback = callback;
+
+            ContinueAsync = false; // default
         }
 
         public string OriginUrl { get; }
@@ -27,6 +29,6 @@ namespace CefSharp.Example.RequestEventHandler
         ///     and call <see cref="T:OnQuotaRequestEventArgs.Callback.Continue(System.Boolean)" /> either in this method or at a later
         ///     time to grant or deny the request.
         /// </summary>
-        public bool ContinueAsync { get; set; } = false;
+        public bool ContinueAsync { get; set; }
     }
 }

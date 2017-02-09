@@ -15,6 +15,8 @@ namespace CefSharp.Example.RequestEventHandler
             Realm = realm;
             Scheme = scheme;
             Callback = callback;
+
+            ContinueAsync = false; // default
         }
 
         public IFrame Frame { get; }
@@ -34,6 +36,6 @@ namespace CefSharp.Example.RequestEventHandler
         ///     <see cref="T:CefSharp.GetAuthCredentialsEventArgs.Continue(System.String, System.String)" /> when the authentication information
         ///     is available. Set to false to cancel the request.
         /// </summary>
-        public bool ContinueAsync { get; set; } = false;
+        public bool ContinueAsync { get; set; }
     }
 }

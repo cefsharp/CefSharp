@@ -13,6 +13,8 @@ namespace CefSharp.Example.RequestEventHandler
             RequestUrl = requestUrl;
             SSLInfo = sslInfo;
             Callback = callback;
+
+            ContinueAsync = false; // default
         }
 
         public CefErrorCode ErrorCode { get; }
@@ -29,6 +31,6 @@ namespace CefSharp.Example.RequestEventHandler
         ///     Set to false to cancel the request immediately. Set to true and use <see cref="T:CefSharp.IRequestCallback" /> to
         ///     execute in an async fashion.
         /// </summary>
-        public bool ContinueAsync { get; set; } = false;
+        public bool ContinueAsync { get; set; }
     }
 }

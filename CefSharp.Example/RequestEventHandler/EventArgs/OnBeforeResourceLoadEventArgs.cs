@@ -12,6 +12,8 @@ namespace CefSharp.Example.RequestEventHandler
             Frame = frame;
             Request = request;
             Callback = callback;
+
+            ContinuationHandling = CefReturnValue.Continue; // default
         }
 
         public IFrame Frame { get; }
@@ -28,6 +30,6 @@ namespace CefSharp.Example.RequestEventHandler
         ///     return <see cref="F:CefSharp.CefReturnValue.ContinueAsync" /> and use
         ///     <see cref="OnBeforeResourceLoadEventArgs.Callback" /> to handle continuation.
         /// </summary>
-        public CefReturnValue ContinuationHandling { get; set; } = CefReturnValue.Continue;
+        public CefReturnValue ContinuationHandling { get; set; }
     }
 }
