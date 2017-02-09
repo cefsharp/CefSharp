@@ -42,12 +42,12 @@ namespace CefSharp
 
         void IDisposable.Dispose()
         {
-            if(list != null && list.Count == 0)
+            if(list.Count == 0)
             {
                 //Set the result on the ThreadPool so the Task continuation is not run on the CEF UI Thread
                 taskCompletionSource.TrySetResultAsync(list);
             }
-		}
+        }
 
         /// <summary>
         /// Task that can be awaited for the result to be retrieved async
