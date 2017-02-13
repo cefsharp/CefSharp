@@ -337,6 +337,32 @@ namespace CefSharp.Example.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 
+        ///&lt;html&gt;
+        ///&lt;head&gt;
+        ///    &lt;script language=&quot;JavaScript&quot;&gt;
+        ///        function probeSupport() {
+        ///            var tests = [];
+        ///            var testKeySystems = [
+        ///              &apos;org.w3.clearkey&apos;,
+        ///              &apos;com.widevine.alpha&apos;,
+        ///              &apos;com.microsoft.playready&apos;,
+        ///              &apos;com.apple.fps.2_0&apos;,
+        ///              &apos;com.apple.fps.1_0&apos;,
+        ///              &apos;com.apple.fps&apos;,
+        ///              &apos;com.adobe.primetime&apos;
+        ///            ];
+        ///
+        ///            var basicVideoCapabilities = [
+        ///              { contentType: &apos;video/mp4; c [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string CdmSupportTest {
+            get {
+                return ResourceManager.GetString("CdmSupportTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
         ///&lt;html&gt;
         ///&lt;head&gt;

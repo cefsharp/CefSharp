@@ -25,6 +25,7 @@ namespace CefSharp.Example
         public const string ResponseFilterTestUrl = "custom://cefsharp/ResponseFilterTest.html";
         public const string DraggableRegionTestUrl = "custom://cefsharp/DraggableRegionTest.html";
         public const string CssAnimationTestUrl = "custom://cefsharp/CssAnimationTest.html";
+        public const string CdmSupportTestUrl = "custom://cefsharp/CdmSupportTest.html";
         public const string TestResourceUrl = "http://test/resource/load";
         public const string RenderProcessCrashedUrl = "http://processcrashed";
         public const string TestUnicodeResourceUrl = "http://test/resource/loadUnicode";
@@ -40,6 +41,10 @@ namespace CefSharp.Example
             // Environment.SetEnvironmentVariable("GOOGLE_API_KEY", "");
             // Environment.SetEnvironmentVariable("GOOGLE_DEFAULT_CLIENT_ID", "");
             // Environment.SetEnvironmentVariable("GOOGLE_DEFAULT_CLIENT_SECRET", "");
+
+            // Widevine CDM registration - pass in directory where Widevine CDM binaries and manifest.json are located.
+            // To organize access to Widevine binaries: https://www.widevine.com/contact.html
+            //Cef.RegisterWidevineCdm(@".\WidevineCdm");
 
             //Chromium Command Line args
             //http://peter.sh/experiments/chromium-command-line-switches/
