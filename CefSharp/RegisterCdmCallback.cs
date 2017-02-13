@@ -3,29 +3,43 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Threading.Tasks;
+using CefSharp.Internals;
 
 namespace CefSharp
 {
     /// <summary>
-    /// Provides a simple callback implementation of <see cref="IRegisterCdmCallback"/> for use with Widevine CDM registration.
+    /// Provides a callback implementation of <see cref="IRegisterCdmCallback"/> for use with asynchronous Widevine CDM registration.
     /// </summary>
     public class RegisterCdmCallback: IRegisterCdmCallback
     {
-        private readonly Action<CdmRegistration> _callback;
+        private readonly TaskCompletionSource<CdmRegistration> taskCompletionSource;
 
-        public RegisterCdmCallback(Action<CdmRegistration> callback)
+        public RegisterCdmCallback()
         {
-            _callback = callback;
+            taskCompletionSource = new TaskCompletionSource<CdmRegistration>();
         }
 
         void IRegisterCdmCallback.OnRegistrationComplete(CdmRegistration registration)
         {
-            if (_callback != null)
-                _callback(registration);
+            taskCompletionSource.TrySetResultAsync(registration);
+        }
+
+        public Task<CdmRegistration> Task
+        {
+            get { return taskCompletionSource.Task; }
         }
 
         void IDisposable.Dispose()
         {
+            var task = taskCompletionSource.Task;
+
+            //If the Task hasn't completed and this is being disposed then
+            //set the TCS to false
+            if (task.IsCompleted == false)
+            {
+                taskCompletionSource.TrySetResultAsync(null);
+            }
         }
     }
 }

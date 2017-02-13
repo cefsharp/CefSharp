@@ -615,8 +615,8 @@ namespace CefSharp
         /// The client application is responsible for downloading an appropriate
         /// platform-specific CDM binary distribution from Google, extracting the
         /// contents, and building the required directory structure on the local machine.
-        /// The CefBrowserHost::StartDownload method and CefZipArchive class can be used
-        /// to implement this functionality in CEF. Contact Google via
+        /// The IBrowserHost::StartDownload method class can be used
+        /// to implement this functionality in CefSharp. Contact Google via
         /// https://www.widevine.com/contact.html for details on CDM download.
         /// 
         /// 
@@ -630,8 +630,8 @@ namespace CefSharp
         ///      libwidevinecdmadapter.so on Linux).
         ///
         /// If any of these files are missing or if the manifest file has incorrect
-        /// contents the registration will fail and |callback| will receive a |result|
-        /// value of CEF_CDM_REGISTRATION_ERROR_INCORRECT_CONTENTS.
+        /// contents the registration will fail and |callback| will receive an |ErrorCode|
+        /// value of CdmRegistrationErrorCode.IncorrectContents.
         ///
         /// The manifest.json file must contain the following keys:
         ///   A. "os": Supported OS (e.g. "mac", "win" or "linux").
@@ -644,31 +644,38 @@ namespace CefSharp
         ///
         /// A through E are used to verify compatibility with the current Chromium
         /// version. If the CDM is not compatible the registration will fail and
-        /// |callback| will receive a |result| value of
-        /// CEF_CDM_REGISTRATION_ERROR_INCOMPATIBLE.
+        /// |callback| will receive an |ErrorCode| value of
+        /// CdmRegistrationErrorCode.Incompatible.
         ///
         /// |callback| will be executed asynchronously once registration is complete.
         ///
         /// On Linux this function must be called before CefInitialize() and the
         /// registration cannot be changed during runtime. If registration is not
-        /// supported at the time that CefRegisterWidevineCdm() is called then |callback|
-        /// will receive a |result| value of CEF_CDM_REGISTRATION_ERROR_NOT_SUPPORTED.
+        /// supported at the time that RegisterWidevineCdm() is called then |callback|
+        /// will receive an |ErrorCode| value of CdmRegistrationErrorCode.NotSupported.
         /// </summary>
-        static void RegisterWidevineCdm(String^ path, IRegisterCdmCallback^ callback)
+        static void RegisterWidevineCdm(String^ path, [Optional] IRegisterCdmCallback^ callback)
         {
-            auto adapter = new CefRegisterCdmCallbackAdapter(callback);
+            CefRegisterCdmCallbackAdapter* adapter = nullptr;
+
+            if (callback != nullptr)
+                adapter = new CefRegisterCdmCallbackAdapter(callback);
 
             CefRegisterWidevineCdm(StringUtils::ToNative(path), adapter);
         }
 
         /// <summary>
-        /// Register the Widevine CDM plugin. 
+        /// Register the Widevine CDM plugin.
         ///
         /// See RegisterWidevineCdm(String, IRegisterCdmCallback) for more details.
         /// </summary>
-        static void RegisterWidevineCdm(String^ path)
+        static Task<CdmRegistration^>^ RegisterWidevineCdmAsync(String^ path)
         {
-            RegisterWidevineCdm(path, nullptr);
+            RegisterCdmCallback^ callback = gcnew RegisterCdmCallback();
+            
+            RegisterWidevineCdm(path, callback);
+
+            return callback->Task;
         }
     };
 }

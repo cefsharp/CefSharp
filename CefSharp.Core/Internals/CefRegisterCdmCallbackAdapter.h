@@ -24,8 +24,7 @@ namespace CefSharp
 
             ~CefRegisterCdmCallbackAdapter()
             {
-                if (static_cast<IRegisterCdmCallback^>(_callback) != nullptr)
-                    delete _callback;
+                delete _callback;
                 _callback = nullptr;
             }
 
@@ -43,8 +42,7 @@ namespace CefSharp
                 r->ErrorCode = (CdmRegistrationErrorCode)result;
                 r->ErrorMessage = StringUtils::ToClr(error_message);
 
-                if (static_cast<IRegisterCdmCallback^>(_callback) != nullptr)
-                    _callback->OnRegistrationComplete(r);
+                _callback->OnRegistrationComplete(r);
             }
 
             IMPLEMENT_REFCOUNTING(CefRegisterCdmCallbackAdapter)
