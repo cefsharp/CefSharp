@@ -71,6 +71,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BindingOptions.cs" />
+    <Compile Include="CdmRegistration.cs" />
+    <Compile Include="CdmRegistrationErrorCode.cs" />
     <Compile Include="CefDirtyRect.cs" />
     <Compile Include="CefExtension.cs" />
     <Compile Include="CefFileDialogMode.cs" />
