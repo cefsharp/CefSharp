@@ -15,8 +15,8 @@ namespace CefSharp
     /// </summary>
     public class TaskCookieVisitor : ICookieVisitor
     {
-        private TaskCompletionSource<List<Cookie>> taskCompletionSource;
-        private List<Cookie> list;
+        private readonly TaskCompletionSource<List<Cookie>> taskCompletionSource;
+        private readonly List<Cookie> list;
 
         /// <summary>
         /// Default constructor
@@ -42,14 +42,11 @@ namespace CefSharp
 
         void IDisposable.Dispose()
         {
-            if(list != null && list.Count == 0)
+            if(list.Count == 0)
             {
                 //Set the result on the ThreadPool so the Task continuation is not run on the CEF UI Thread
                 taskCompletionSource.TrySetResultAsync(list);
             }
-
-            list = null;
-            taskCompletionSource = null;
         }
 
         /// <summary>
