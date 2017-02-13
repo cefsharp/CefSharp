@@ -71,6 +71,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BindingOptions.cs" />
+    <Compile Include="CdmRegistration.cs" />
+    <Compile Include="CdmRegistrationErrorCode.cs" />
     <Compile Include="CefDirtyRect.cs" />
     <Compile Include="CefExtension.cs" />
     <Compile Include="CefFileDialogMode.cs" />
@@ -97,6 +99,7 @@
     <Compile Include="Internals\CefTimeUtils.cs" />
     <Compile Include="Internals\CommandLineArgsParser.cs" />
     <Compile Include="Internals\MethodParameter.cs" />
+    <Compile Include="IRegisterCdmCallback.cs" />
     <Compile Include="IRequestContextHandler.cs" />
     <Compile Include="IPopupFeatures.cs" />
     <Compile Include="IRenderProcessMessageHandler.cs" />
@@ -213,6 +216,7 @@
     <Compile Include="Range.cs" />
     <Compile Include="Rect.cs" />
     <Compile Include="ReferrerPolicy.cs" />
+    <Compile Include="RegisterCdmCallback.cs" />
     <Compile Include="ResolveCallbackResult.cs" />
     <Compile Include="ResourceHandler.cs" />
     <Compile Include="ResourceHandlerType.cs" />

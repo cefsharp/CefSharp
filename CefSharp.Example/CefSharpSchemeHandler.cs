@@ -49,7 +49,8 @@ namespace CefSharp.Example
                 { "/ScriptedMethodsTest.html", Resources.ScriptedMethodsTest },
                 { "/ResponseFilterTest.html", Resources.ResponseFilterTest },
                 { "/DraggableRegionTest.html", Resources.DraggableRegionTest },
-                { "/CssAnimationTest.html", Resources.CssAnimation }
+                { "/CssAnimationTest.html", Resources.CssAnimation },
+                { "/CdmSupportTest.html", Resources.CdmSupportTest }
             };
         }
 
