@@ -27,7 +27,7 @@ Stable binaries are released on NuGet, and contain everything you need  to embed
 * See the [Wiki](https://github.com/cefsharp/CefSharp/wiki) for work-in-progress documentation
 * See the [FAQ](https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions) for help with common issues 
 * Upgrading from an earlier version of CefSharp? See the [ChangeLog](https://github.com/cefsharp/CefSharp/wiki/ChangeLog) for breaking changes and upgrade tips.
-* [CefSharp API](http://cefsharp.github.io/api/55.0.0/) generated from the souce code comments.
+* [CefSharp API](http://cefsharp.github.io/api/55.0.0/) generated from the source code comments.
 
 ## Contact
 
@@ -60,7 +60,7 @@ Every commit on `master` produces a `Nuget` package. Use at your own risk! [CefS
 
 ### Release Branches
 
-With each release a new branch is created, for example the `53.0.1` release corrisponds to the `cefsharp/53` branch.
+With each release a new branch is created, for example the `53.0.1` release corresponds to the `cefsharp/53` branch.
 If your new to `CefSharp` and are downloading the source to check it out, please use a **Release** branch
 
 | Branch | CEF Version | VC++ Version | .Net Version | Status |
