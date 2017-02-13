@@ -17,7 +17,7 @@
 #include "Internals/PluginVisitor.h"
 #include "Internals/CefTaskScheduler.h"
 #include "Internals/CefGetGeolocationCallbackWrapper.h"
-#include "Internals/CefRegisterCdmCallbackWrapper.h"
+#include "Internals/CefRegisterCdmCallbackAdapter.h"
 #include "CookieManager.h"
 #include "CefSettings.h"
 #include "RequestContext.h"
@@ -654,14 +654,21 @@ namespace CefSharp
         /// supported at the time that CefRegisterWidevineCdm() is called then |callback|
         /// will receive a |result| value of CEF_CDM_REGISTRATION_ERROR_NOT_SUPPORTED.
         /// </summary>
-        /// <returns>Returns the CDM registration result.</returns>
-        static Task<CdmRegistration^>^ RegisterWidevineCdm(String^ path)
+        static void RegisterWidevineCdm(String^ path, IRegisterCdmCallback^ callback)
         {
-            auto callback = new CefRegisterCdmCallbackWrapper();
+            auto adapter = new CefRegisterCdmCallbackAdapter(callback);
 
-            CefRegisterWidevineCdm(StringUtils::ToNative(path), callback);
+            CefRegisterWidevineCdm(StringUtils::ToNative(path), adapter);
+        }
 
-            return callback->GetTask();
+        /// <summary>
+        /// Register the Widevine CDM plugin. 
+        ///
+        /// See RegisterWidevineCdm(String, IRegisterCdmCallback) for more details.
+        /// </summary>
+        static void RegisterWidevineCdm(String^ path)
+        {
+            RegisterWidevineCdm(path, nullptr);
         }
     };
 }
