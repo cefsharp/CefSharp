@@ -70,5 +70,19 @@
     <p>
         <a href="https://shaka-player-demo.appspot.com/demo/">Google Shaka Player demo - video play back</a>
     </p>
+    <p>
+        <strong>Note:</strong><br />
+        <ul>
+            <li>
+                Support for Widevine CDM requires additional steps as 
+                <a href="https://github.com/cefsharp/CefSharp/issues/1934">outlined here</a>.
+            </li>
+            <li>
+                Use of proprietary codecs (such as H.264) requires a custom build of CEF to be used due to 
+                licensing requirements.<br />
+                Details on how to build the CEF project and other resources can be 
+                <a href="https://bitbucket.org/chromiumembedded/cef">found here</a>.</li>
+        </ul>
+    </p>
 </body>
 </html>
