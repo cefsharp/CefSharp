@@ -43,7 +43,7 @@ namespace CefSharp.Example
             // Environment.SetEnvironmentVariable("GOOGLE_DEFAULT_CLIENT_SECRET", "");
 
             // Widevine CDM registration - pass in directory where Widevine CDM binaries and manifest.json are located.
-            // To organize access to Widevine binaries: https://www.widevine.com/contact.html
+            // For more information on support for DRM content with Widevine see: https://github.com/cefsharp/CefSharp/issues/1934
             //Cef.RegisterWidevineCdm(@".\WidevineCdm");
 
             //Chromium Command Line args
