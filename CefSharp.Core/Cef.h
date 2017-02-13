@@ -515,9 +515,8 @@ namespace CefSharp
         }
 
         /// <summary>
-        ///
         /// Crash reporting is configured using an INI-style config file named
-        /// "crash_reporter.cfg". This file must be placed next to
+        /// crash_reporter.cfg. This file must be placed next to
         /// the main application executable. File contents are as follows:
         ///
         ///  # Comments start with a hash character and must be on their own line.
@@ -615,23 +614,21 @@ namespace CefSharp
         /// The client application is responsible for downloading an appropriate
         /// platform-specific CDM binary distribution from Google, extracting the
         /// contents, and building the required directory structure on the local machine.
-        /// The IBrowserHost::StartDownload method class can be used
+        /// The <see cref="IBrowserHost.StartDownload"/> method class can be used
         /// to implement this functionality in CefSharp. Contact Google via
         /// https://www.widevine.com/contact.html for details on CDM download.
         /// 
         /// 
-        /// |path| is a directory that must contain the following files:
+        /// path is a directory that must contain the following files:
         ///   1. manifest.json file from the CDM binary distribution (see below).
         ///   2. widevinecdm file from the CDM binary distribution (e.g.
-        ///      widevinecdm.dll on Windows, libwidevinecdm.dylib on OS X,
-        ///      libwidevinecdm.so on Linux).
+        ///      widevinecdm.dll on Windows).
         ///   3. widevidecdmadapter file from the CEF binary distribution (e.g.
-        ///      widevinecdmadapter.dll on Windows, widevinecdmadapter.plugin on OS X,
-        ///      libwidevinecdmadapter.so on Linux).
+        ///      widevinecdmadapter.dll on Windows).
         ///
         /// If any of these files are missing or if the manifest file has incorrect
-        /// contents the registration will fail and |callback| will receive an |ErrorCode|
-        /// value of CdmRegistrationErrorCode.IncorrectContents.
+        /// contents the registration will fail and callback will receive an ErrorCode
+        /// value of <see cref="CdmRegistrationErrorCode.IncorrectContents"/>.
         ///
         /// The manifest.json file must contain the following keys:
         ///   A. "os": Supported OS (e.g. "mac", "win" or "linux").
@@ -644,22 +641,22 @@ namespace CefSharp
         ///
         /// A through E are used to verify compatibility with the current Chromium
         /// version. If the CDM is not compatible the registration will fail and
-        /// |callback| will receive an |ErrorCode| value of
-        /// CdmRegistrationErrorCode.Incompatible.
+        /// callback will receive an ErrorCode value of <see cref="CdmRegistrationErrorCode.Incompatible"/>.
         ///
-        /// |callback| will be executed asynchronously once registration is complete.
-        ///
-        /// On Linux this function must be called before CefInitialize() and the
-        /// registration cannot be changed during runtime. If registration is not
-        /// supported at the time that RegisterWidevineCdm() is called then |callback|
-        /// will receive an |ErrorCode| value of CdmRegistrationErrorCode.NotSupported.
+        /// If registration is not supported at the time that Cef.RegisterWidevineCdm() is called then callback
+        /// will receive an ErrorCode value of <see cref="CdmRegistrationErrorCode.NotSupported"/>.
         /// </summary>
+        /// <param name="path"> is a directory that contains the Widevine CDM files</param>
+        /// <param name="callback">optional callback - <see cref="IRegisterCdmCallback.OnRegistrationCompletecallback"/> 
+        /// will be executed asynchronously once registration is complete</param>
         static void RegisterWidevineCdm(String^ path, [Optional] IRegisterCdmCallback^ callback)
         {
-            CefRegisterCdmCallbackAdapter* adapter = nullptr;
+            CefRefPtr<CefRegisterCdmCallbackAdapter> adapter = NULL;
 
             if (callback != nullptr)
+            {
                 adapter = new CefRegisterCdmCallbackAdapter(callback);
+            }
 
             CefRegisterWidevineCdm(StringUtils::ToNative(path), adapter);
         }
@@ -667,11 +664,13 @@ namespace CefSharp
         /// <summary>
         /// Register the Widevine CDM plugin.
         ///
-        /// See RegisterWidevineCdm(String, IRegisterCdmCallback) for more details.
+        /// See <see cref="RegisterWidevineCdm(String, IRegisterCdmCallback)"/> for more details.
         /// </summary>
+        /// <param name="path"> is a directory that contains the Widevine CDM files</param>
+        /// <return>Returns a Task that can be awaited to receive the <see cref="CdmRegistration"/> response.</return>
         static Task<CdmRegistration^>^ RegisterWidevineCdmAsync(String^ path)
         {
-            RegisterCdmCallback^ callback = gcnew RegisterCdmCallback();
+            auto callback = gcnew RegisterCdmCallback();
             
             RegisterWidevineCdm(path, callback);
 

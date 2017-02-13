@@ -44,7 +44,7 @@ namespace CefSharp.Example
 
             // Widevine CDM registration - pass in directory where Widevine CDM binaries and manifest.json are located.
             // For more information on support for DRM content with Widevine see: https://github.com/cefsharp/CefSharp/issues/1934
-            Cef.RegisterWidevineCdm(@".\WidevineCdm");
+            //Cef.RegisterWidevineCdm(@".\WidevineCdm");
 
             //Chromium Command Line args
             //http://peter.sh/experiments/chromium-command-line-switches/
