@@ -91,6 +91,8 @@
     <Compile Include="Callback\ISelectClientCertificateCallback.cs" />
     <Compile Include="Callback\ISetCookieCallback.cs" />
     <Compile Include="Callback\TaskGetGeolocationCallback.cs" />
+    <Compile Include="Callback\TaskDeleteCookiesCallback.cs" />
+    <Compile Include="Callback\TaskSetCookieCallback.cs" />
     <Compile Include="Callback\TaskRegisterCdmCallback.cs" />
     <Compile Include="Callback\TaskCompletionCallback.cs" />
     <Compile Include="Callback\TaskPrintToPdfCallback.cs" />

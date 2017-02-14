@@ -11,51 +11,66 @@ namespace CefSharp
 	public static class AsyncExtensions
 	{
 		/// <summary>
-		/// Deletes all cookies that matches all the provided parameters asynchronously. If both <paramref name="url"/> and <paramref name="name"/> are empty, all cookies will be deleted.
+		/// Deletes all cookies that matches all the provided parameters asynchronously.
+		/// If both <paramref name="url"/> and <paramref name="name"/> are empty, all cookies will be deleted.
 		/// </summary>
 		/// <param name="url">The cookie URL. If an empty string is provided, any URL will be matched.</param>
 		/// <param name="name">The name of the cookie. If an empty string is provided, any URL will be matched.</param>
-		/// <return>A task that represents the delete operation. The value of the TResult parameter contains false if a non-empty invalid URL is specified, or if cookies cannot be accessed; otherwise, true.</return>
-		//public static Task<bool> DeleteCookiesAsync(this ICookieManager cookieManager, string url = null, string name = null)
-		//{
-		//	if(cookieManager == null)
-		//	{
-		//		throw new NullReferenceException("cookieManager");
-		//	}
+		/// <return>Returns null if a non-empty invalid URL is specified, or if cookies cannot be accessed;
+		/// otherwise, a task that represents the delete operation. The value of the TResult will be the number of cookies that were deleted or -1 if unknown.</return>
+		public static Task<int> DeleteCookiesAsync(this ICookieManager cookieManager, string url = null, string name = null)
+		{
+			if(cookieManager == null)
+			{
+				throw new NullReferenceException("cookieManager");
+			}
 
-		//	if(cookieManager.IsDisposed)
-		//	{
-		//		throw new ObjectDisposedException("cookieManager");
-		//	}
+			if(cookieManager.IsDisposed)
+			{
+				throw new ObjectDisposedException("cookieManager");
+			}
 
-		//	auto cookieInvoker = gcnew CookieAsyncWrapper(_cookieManager.get(), url, name);
+			var callback = new TaskDeleteCookiesCallback();
+			if(cookieManager.DeleteCookies(url, name, callback))
+			{
+				return callback.Task;
+			}
 
-		//	if (CefCurrentlyOn(TID_IO))
-		//	{
-		//		auto source = gcnew TaskCompletionSource<bool>();
-		//		CefSharp::Internals::TaskExtensions::TrySetResultAsync<bool>(source, cookieInvoker->DeleteCookies());
-		//		return source->Task;
-		//	}
+			//There was a problem deleting cookies
+			return null;		
+		}
 
-		//	return Cef::IOThreadTaskFactory->StartNew(gcnew Func<bool>(cookieInvoker, &CookieAsyncWrapper::DeleteCookies));
-		//}
+		/// <summary>
+		/// Sets a cookie given a valid URL and explicit user-provided cookie attributes.
+		/// This function expects each attribute to be well-formed. It will check for disallowed
+		/// characters (e.g. the ';' character is disallowed within the cookie value attribute) and will return false without setting
+		/// </summary>
+		/// <param name="cookieManager">cookie manager</param>
+		/// <param name="url">The cookie URL. If an empty string is provided, any URL will be matched.</param>
+		/// <param name="cookie">the cookie to be set</param>
+		/// <return>returns null if the cookie cannot be set (e.g. if illegal charecters such as ';' are used);
+		/// otherwise task that represents the set operation. The value of the TResult parameter contains a bool to indicate success.</return>
+		public static Task<bool> SetCookieAsync(this ICookieManager cookieManager, string url, Cookie cookie)
+		{
+			if (cookieManager == null)
+			{
+				throw new NullReferenceException("cookieManager");
+			}
 
-		//public static Task<bool> SetCookieAsync(this ICookieManager cookieManager, string url, Cookie cookie)
-		//{
-		//	ThrowIfDisposed();
+			if (cookieManager.IsDisposed)
+			{
+				throw new ObjectDisposedException("cookieManager");
+			}
 
-		//	auto cookieInvoker = gcnew CookieAsyncWrapper(_cookieManager.get(), url, cookie->Name, cookie->Value, cookie->Domain, cookie->Path, cookie->Secure, cookie->HttpOnly, cookie->Expires.HasValue, cookie->Expires.HasValue ? cookie->Expires.Value : DateTime());
+			var callback = new TaskSetCookieCallback();
+			if (cookieManager.SetCookie(url, cookie, callback))
+			{
+				return callback.Task;	
+			}
 
-		//	if (CefCurrentlyOn(TID_IO))
-		//	{
-		//		auto source = gcnew TaskCompletionSource<bool>();
-		//		CefSharp::Internals::TaskExtensions::TrySetResultAsync<bool>(source, cookieInvoker->SetCookie());
-		//		return source->Task;
-		//	}
-
-		//	return Cef::IOThreadTaskFactory->StartNew(gcnew Func<bool>(cookieInvoker, &CookieAsyncWrapper::SetCookie));
-		//}
-
+			//There was a problem setting cookies
+			return null;
+		}
 
 		/// <summary>
 		/// Visits all cookies. The returned cookies are sorted by longest path, then by earliest creation date.
