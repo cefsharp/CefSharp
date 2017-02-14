@@ -70,7 +70,10 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AsyncExtensions.cs" />
     <Compile Include="BindingOptions.cs" />
+    <Compile Include="Callback\IDeleteCookiesCallback.cs" />
+    <Compile Include="Callback\ISetCookieCallback.cs" />
     <Compile Include="CdmRegistration.cs" />
     <Compile Include="CdmRegistrationErrorCode.cs" />
     <Compile Include="CefDirtyRect.cs" />

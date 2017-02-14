@@ -5,9 +5,10 @@
 #include "Stdafx.h"
 #include "CookieManager.h"
 
-#include "CookieAsyncWrapper.h"
 #include "Internals\CookieVisitor.h"
 #include "Internals\CefCompletionCallbackAdapter.h"
+#include "Internals\CefSetCookieCallbackAdapter.h"
+#include "Internals\CefDeleteCookiesCallbackAdapter.h"
 #include "Cef.h"
 
 namespace CefSharp
@@ -20,66 +21,66 @@ namespace CefSharp
 		}
 	}
 
-	Task<bool>^ CookieManager::DeleteCookiesAsync(String^ url, String^ name)
+	bool CookieManager::DeleteCookies(String^ url, String^ name, IDeleteCookiesCallback^ callback)
 	{
 		ThrowIfDisposed();
 
-		auto cookieInvoker = gcnew CookieAsyncWrapper(_cookieManager.get(), url, name);
+		CefRefPtr<CefDeleteCookiesCallback> wrapper = callback == nullptr ? NULL : new CefDeleteCookiesCallbackAdapter(callback);
 
-		if (CefCurrentlyOn(TID_IO))
+		return _cookieManager->DeleteCookies(StringUtils::ToNative(url), StringUtils::ToNative(name), wrapper);
+	}
+
+	bool CookieManager::SetCookie(String^ url, Cookie^ cookie, ISetCookieCallback^ callback)
+	{
+		ThrowIfDisposed();
+
+		CefRefPtr<CefSetCookieCallback> wrapper = callback == nullptr ? NULL : new CefSetCookieCallbackAdapter(callback);
+
+		CefCookie c;
+		StringUtils::AssignNativeFromClr(c.name, cookie->Name);
+		StringUtils::AssignNativeFromClr(c.value, cookie->Value);
+		StringUtils::AssignNativeFromClr(c.domain, cookie->Domain);
+		StringUtils::AssignNativeFromClr(c.path, cookie->Path);
+		c.secure = cookie->Secure;
+		c.httponly = cookie->HttpOnly;
+		c.has_expires = cookie->Expires.HasValue;
+		if (cookie->Expires.HasValue)
 		{
-			auto source = gcnew TaskCompletionSource<bool>();
-			CefSharp::Internals::TaskExtensions::TrySetResultAsync<bool>(source, cookieInvoker->DeleteCookies());
-			return source->Task;
+			auto expires = cookie->Expires.Value;
+			c.expires.year = expires.Year;
+			c.expires.month = expires.Month;
+			c.expires.day_of_month = expires.Day;
+			c.expires.hour = expires.Hour;
+			c.expires.minute = expires.Minute;
+			c.expires.second = expires.Second;
+			c.expires.millisecond = expires.Millisecond;
 		}
 
-		return Cef::IOThreadTaskFactory->StartNew(gcnew Func<bool>(cookieInvoker, &CookieAsyncWrapper::DeleteCookies));
+		auto timeSpan = cookie->Creation- DateTime(1970, 1, 1);
+		c.creation = CefTime(timeSpan.TotalSeconds);
+
+		timeSpan = cookie->LastAccess - DateTime(1970, 1, 1);
+		c.last_access = CefTime(timeSpan.TotalSeconds);
+
+		return _cookieManager->SetCookie(StringUtils::ToNative(url), c, wrapper);
 	}
 
-	Task<bool>^ CookieManager::SetCookieAsync(String^ url, Cookie^ cookie)
+	bool CookieManager::SetStoragePath(String^ path, bool persistSessionCookies, ICompletionCallback^ callback)
 	{
 		ThrowIfDisposed();
 
-		auto cookieInvoker = gcnew CookieAsyncWrapper(_cookieManager.get(), url, cookie->Name, cookie->Value, cookie->Domain, cookie->Path, cookie->Secure, cookie->HttpOnly, cookie->Expires.HasValue, cookie->Expires.HasValue ? cookie->Expires.Value : DateTime());
+		CefRefPtr<CefCompletionCallback> wrapper = callback == nullptr ? NULL : new CefCompletionCallbackAdapter(callback);
 
-		if (CefCurrentlyOn(TID_IO))
-		{
-			auto source = gcnew TaskCompletionSource<bool>();
-			CefSharp::Internals::TaskExtensions::TrySetResultAsync<bool>(source, cookieInvoker->SetCookie());
-			return source->Task;
-		}
-
-		return Cef::IOThreadTaskFactory->StartNew(gcnew Func<bool>(cookieInvoker, &CookieAsyncWrapper::SetCookie));
+		return _cookieManager->SetStoragePath(StringUtils::ToNative(path), persistSessionCookies, wrapper);
 	}
 
-	bool CookieManager::SetStoragePath(String^ path, bool persistSessionCookies)
+	void CookieManager::SetSupportedSchemes(cli::array<String^>^ schemes, ICompletionCallback^ callback)
 	{
 		ThrowIfDisposed();
 
-		return _cookieManager->SetStoragePath(StringUtils::ToNative(path), persistSessionCookies, NULL);
-	}
+		CefRefPtr<CefCompletionCallback> wrapper = callback == nullptr ? NULL : new CefCompletionCallbackAdapter(callback);
 
-	void CookieManager::SetSupportedSchemes(... cli::array<String^>^ schemes)
-	{
-		ThrowIfDisposed();
-
-		_cookieManager->SetSupportedSchemes(StringUtils::ToNative(schemes), NULL);
-	}
-
-	Task<List<Cookie^>^>^ CookieManager::VisitAllCookiesAsync()
-	{
-		ThrowIfDisposed();
-
-		auto cookieVisitor = gcnew TaskCookieVisitor();
-
-		auto result = VisitAllCookies(cookieVisitor);
-
-		if (result == false)
-		{
-			delete cookieVisitor;
-		}
-
-		return cookieVisitor->Task;
+		_cookieManager->SetSupportedSchemes(StringUtils::ToNative(schemes), wrapper);
 	}
 
 	bool CookieManager::VisitAllCookies(ICookieVisitor^ visitor)
@@ -91,22 +92,6 @@ namespace CefSharp
 		return _cookieManager->VisitAllCookies(cookieVisitor);
 	}
 
-	Task<List<Cookie^>^>^ CookieManager::VisitUrlCookiesAsync(String^ url, bool includeHttpOnly)
-	{
-		ThrowIfDisposed();
-
-		auto cookieVisitor = gcnew TaskCookieVisitor();
-
-		auto result = VisitUrlCookies(url, includeHttpOnly, cookieVisitor);
-
-		if (result == false)
-		{
-			delete cookieVisitor;
-		}
-
-		return cookieVisitor->Task;
-	}
-
 	bool CookieManager::VisitUrlCookies(String^ url, bool includeHttpOnly, ICookieVisitor^ visitor)
 	{
 		ThrowIfDisposed();
@@ -116,20 +101,12 @@ namespace CefSharp
 		return _cookieManager->VisitUrlCookies(StringUtils::ToNative(url), includeHttpOnly, cookieVisitor);
 	}
 
-	Task<bool>^ CookieManager::FlushStoreAsync()
+	bool CookieManager::FlushStore(ICompletionCallback^ callback)
 	{
 		ThrowIfDisposed();
 
-		auto handler = gcnew TaskCompletionHandler();
+		CefRefPtr<CefCompletionCallback> wrapper = callback == nullptr ? NULL : new CefCompletionCallbackAdapter(callback);
 
-		CefRefPtr<CefCompletionCallback> wrapper = new CefCompletionCallbackAdapter(handler);
-
-		if (_cookieManager->FlushStore(wrapper))
-		{
-			return handler->Task;
-		}
-
-		//returns false if cookies cannot be accessed.
-		return CefSharp::Internals::TaskExtensions::FromResult(false);
+		return _cookieManager->FlushStore(wrapper);
 	}
 }

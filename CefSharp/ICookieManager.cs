@@ -2,6 +2,7 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,15 +11,17 @@ namespace CefSharp
     /// <summary>
     /// Used for managing cookies. The methods may be called on any thread unless otherwise indicated.
     /// </summary>
-    public interface ICookieManager
+    public interface ICookieManager : IDisposable
     {
         /// <summary>
-        /// Deletes all cookies that matches all the provided parameters asynchronously. If both <paramref name="url"/> and <paramref name="name"/> are empty, all cookies will be deleted.
+        /// Deletes all cookies that matches all the provided parameters. If both <paramref name="url"/> and <paramref name="name"/> are empty, all cookies will be deleted.
+        /// Must be run on the CEF IO Thread
         /// </summary>
         /// <param name="url">The cookie URL. If an empty string is provided, any URL will be matched.</param>
         /// <param name="name">The name of the cookie. If an empty string is provided, any URL will be matched.</param>
-        /// <return>A task that represents the delete operation. The value of the TResult parameter contains false if a non-empty invalid URL is specified, or if cookies cannot be accessed; otherwise, true.</return>
-        Task<bool> DeleteCookiesAsync(string url, string name);
+        /// <param name="callback">If non-NULL it will be executed asnychronously on the CEF IO thread after the cookies have been deleted.</param>
+        /// <return>Returns false if a non-empty invalid URL is specified, or if cookies cannot be accessed; otherwise, true.</return>
+        bool DeleteCookies(string url, string name, IDeleteCookiesCallback callback = null);
 
         /// <summary>
         /// Sets a cookie given a valid URL and explicit user-provided cookie attributes. This function expects each attribute to be well-formed. It will check for disallowed
@@ -27,8 +30,9 @@ namespace CefSharp
         /// </summary>
         /// <param name="url">The cookie URL</param>
         /// <param name="cookie">The cookie</param>
-        /// <return>A task that represents the cookie set operation. The value of the TResult parameter contains false if the cookie cannot be set (e.g. if illegal charecters such as ';' are used); otherwise true.</return>
-        Task<bool> SetCookieAsync(string url, Cookie cookie);
+        /// <param name="callback">If non-NULL it will be executed asnychronously on the CEF IO thread after the cookie has been set.</param>
+        /// <return>returns false if the cookie cannot be set (e.g. if illegal charecters such as ';' are used); otherwise true.</return>
+        bool SetCookie(string url, Cookie cookie, ISetCookieCallback callback = null);
 
         /// <summary>
         /// Sets the directory path that will be used for storing cookie data. If <paramref name="path"/> is empty data will be stored in 
@@ -38,20 +42,17 @@ namespace CefSharp
         /// </summary>
         /// <param name="path">The file path to write cookies to.</param>
         /// <param name="persistSessionCookies">A flag that determines whether session cookies will be persisted or not.</param>
-        /// <return> false if a non-empty invalid URL is specified; otherwise, true.</return>
-        bool SetStoragePath(string path, bool persistSessionCookies);
+        /// <param name="callback">If non-NULL it will be executed asnychronously on the CEF IO thread after the
+        /// manager's storage has been initialized</param>
+        /// <return>Returns false if cookies cannot be accessed</return>
+        bool SetStoragePath(string path, bool persistSessionCookies, ICompletionCallback callback = null);
 
         /// <summary>
         /// Set the schemes supported by this manager. By default only "http" and "https" schemes are supported. Must be called before any cookies are accessed.
         /// </summary>
         /// <param name="schemes">The list of supported schemes.</param>
-        void SetSupportedSchemes(params string[] schemes);
-
-        /// <summary>
-        /// Visits all cookies. The returned cookies are sorted by longest path, then by earliest creation date.
-        /// </summary>
-        /// <return>A task that represents the VisitAllCookies operation. The value of the TResult parameter contains a List of cookies.</return>
-        Task<List<Cookie>> VisitAllCookiesAsync();
+        /// <param name="callback">If non-NULL it will be executed asnychronously on the CEF IO thread after the change has been applied.</param>
+        void SetSupportedSchemes(string[] schemes, ICompletionCallback callback = null);
 
         /// <summary>
         /// Visits all cookies using the provided Cookie Visitor. The returned cookies are sorted by longest path, then by earliest creation date.
@@ -67,16 +68,6 @@ namespace CefSharp
         /// </summary>
         /// <param name="url">The URL to use for filtering a subset of the cookies available.</param>
         /// <param name="includeHttpOnly">A flag that determines whether HTTP-only cookies will be shown in results.</param>
-        /// <return>A task that represents the VisitUrlCookies operation. The value of the TResult parameter contains a List of cookies.</return>
-        Task<List<Cookie>> VisitUrlCookiesAsync(string url, bool includeHttpOnly);
-
-        /// <summary>
-        /// Visits a subset of the cookies. The results are filtered by the given url scheme, host, domain and path. 
-        /// If <paramref name="includeHttpOnly"/> is true, HTTP-only cookies will also be included in the results. The returned cookies 
-        /// are sorted by longest path, then by earliest creation date.
-        /// </summary>
-        /// <param name="url">The URL to use for filtering a subset of the cookies available.</param>
-        /// <param name="includeHttpOnly">A flag that determines whether HTTP-only cookies will be shown in results.</param>
         /// <param name="visitor">A user-provided Cookie Visitor implementation.</param>
         /// <return>Returns false if cookies cannot be accessed; otherwise, true.</return>
         bool VisitUrlCookies(string url, bool includeHttpOnly, ICookieVisitor visitor);
@@ -84,7 +75,13 @@ namespace CefSharp
         /// <summary>
         /// Flush the backing store (if any) to disk
         /// </summary>
-        /// <return>A task that represents the Flush operation. The value of the TResult parameter contains false if cookies cannot be accessed; otherwise, true.</return>
-        Task<bool> FlushStoreAsync();
+        /// <param name="callback">If non-NULL it willbe executed asnychronously on the CEF IO thread after the flush is complete.</param>
+        /// <return>Returns false if cookies cannot be accessed.</return>
+        bool FlushStore(ICompletionCallback callback);
+
+        /// <summary>
+        /// Returns true if disposed
+        /// </summary>
+        bool IsDisposed { get; }
     }
 }

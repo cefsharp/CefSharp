@@ -15,7 +15,7 @@ namespace CefSharp
     /// </summary>
     public class TaskCookieVisitor : ICookieVisitor
     {
-        private TaskCompletionSource<List<Cookie>> taskCompletionSource;
+        private readonly TaskCompletionSource<List<Cookie>> taskCompletionSource;
         private List<Cookie> list;
 
         /// <summary>
@@ -49,7 +49,6 @@ namespace CefSharp
             }
 
             list = null;
-            taskCompletionSource = null;
         }
 
         /// <summary>
