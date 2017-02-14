@@ -10,7 +10,6 @@ namespace CefSharp
     public enum WindowOpenDisposition
     {
         Unknown,
-        SuppressOpen,
         CurrentTab,
         SingletonTab,
         NewForegroundTab,
