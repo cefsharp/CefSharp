@@ -16,7 +16,7 @@
 #include "Internals/CefSharpApp.h"
 #include "Internals/PluginVisitor.h"
 #include "Internals/CefTaskScheduler.h"
-#include "Internals/CefGetGeolocationCallbackWrapper.h"
+#include "Internals/CefGetGeolocationCallbackAdapter.h"
 #include "Internals/CefRegisterCdmCallbackAdapter.h"
 #include "CookieManager.h"
 #include "CefSettings.h"
@@ -480,13 +480,26 @@ namespace CefSharp
         /// used by code that is allowed to access location information. 
         /// </summary>
         /// <return>Returns 'best available' location info or, if the location update failed, with error info.</return>
+        static bool GetGeolocation(IGetGeolocationCallback^ callback)
+        {
+            CefRefPtr<CefGetGeolocationCallback> wrapper = callback == nullptr ? NULL : new CefGetGeolocationCallbackAdapter(callback);
+
+            return CefGetGeolocation(wrapper);
+        }
+
+        /// <summary>
+        /// Request a one-time geolocation update.
+        /// This function bypasses any user permission checks so should only be
+        /// used by code that is allowed to access location information. 
+        /// </summary>
+        /// <return>Returns 'best available' location info or, if the location update failed, with error info.</return>
         static Task<Geoposition^>^ GetGeolocationAsync()
         {
-            auto callback = new CefGetGeolocationCallbackWrapper();
+            auto callback = gcnew TaskGetGeolocationCallback();
             
-            CefGetGeolocation(callback);
+            GetGeolocation(callback);
 
-            return callback->GetTask();
+            return callback->Task;
         }
 
         /// <summary>
@@ -670,7 +683,7 @@ namespace CefSharp
         /// <return>Returns a Task that can be awaited to receive the <see cref="CdmRegistration"/> response.</return>
         static Task<CdmRegistration^>^ RegisterWidevineCdmAsync(String^ path)
         {
-            auto callback = gcnew RegisterCdmCallback();
+            auto callback = gcnew TaskRegisterCdmCallback();
             
             RegisterWidevineCdm(path, callback);
 

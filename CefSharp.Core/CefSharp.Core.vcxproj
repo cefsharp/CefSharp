@@ -257,7 +257,7 @@
     <ClInclude Include="Internals\CefCertificateCallbackWrapper.h" />
     <ClInclude Include="CookieManager.h" />
     <ClInclude Include="Internals\CefNavigationEntryVisitorAdapter.h" />
-    <ClInclude Include="Internals\CefGetGeolocationCallbackWrapper.h" />
+    <ClInclude Include="Internals\CefGetGeolocationCallbackAdapter.h" />
     <ClInclude Include="Internals\CefAuthCallbackWrapper.h" />
     <ClInclude Include="Internals\CefBeforeDownloadCallbackWrapper.h" />
     <ClInclude Include="Internals\CefBrowserHostWrapper.h" />

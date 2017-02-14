@@ -14,27 +14,21 @@ namespace CefSharp
 {
     namespace Internals
     {
-        private class CefGetGeolocationCallbackWrapper : public CefGetGeolocationCallback
+        private class CefGetGeolocationCallbackAdapter : public CefGetGeolocationCallback
         {
         private:
-            gcroot<TaskCompletionSource<Geoposition^>^> _taskCompletionSource;
-            bool hasData;
+            gcroot<IGetGeolocationCallback^> _callback;
 
         public:
-            CefGetGeolocationCallbackWrapper()
+            CefGetGeolocationCallbackAdapter(IGetGeolocationCallback^ callback)
             {
-                _taskCompletionSource = gcnew TaskCompletionSource<Geoposition^>();
-                hasData = false;
+                _callback = callback;
             }
 
-            ~CefGetGeolocationCallbackWrapper()
+            ~CefGetGeolocationCallbackAdapter()
             {
-                if (hasData == false)
-                {
-                    //Set the result on the ThreadPool so the Task continuation is not run on the CEF UI Thread
-                    TaskExtensions::TrySetResultAsync<Geoposition^>(_taskCompletionSource, nullptr);
-                }
-                _taskCompletionSource = nullptr;
+                delete _callback;
+                _callback = nullptr;
             }
 
             virtual void OnLocationUpdate(const CefGeoposition& position) OVERRIDE
@@ -51,10 +45,7 @@ namespace CefSharp
                 p->Speed = position.speed;
                 p->Timestamp = ConvertCefTimeToDateTime(position.timestamp);
 
-                //Set the result on the ThreadPool so the Task continuation is not run on the CEF UI Thread
-                TaskExtensions::TrySetResultAsync<Geoposition^>(_taskCompletionSource, p);
-
-                hasData = true;
+                _callback->OnLocationUpdate(p);
             };
 
             DateTime ConvertCefTimeToDateTime(CefTime time)
@@ -67,12 +58,7 @@ namespace CefSharp
                 return DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(epoch).ToLocalTime();
             }
 
-            Task<Geoposition^>^ GetTask()
-            {
-                return _taskCompletionSource->Task;
-            }
-
-            IMPLEMENT_REFCOUNTING(CefGetGeolocationCallbackWrapper)
+            IMPLEMENT_REFCOUNTING(CefGetGeolocationCallbackAdapter)
         };
     }
 }

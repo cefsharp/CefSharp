@@ -80,6 +80,7 @@
     <Compile Include="Callback\IDownloadItemCallback.cs" />
     <Compile Include="Callback\IFileDialogCallback.cs" />
     <Compile Include="Callback\IGeolocationCallback.cs" />
+    <Compile Include="Callback\IGetGeolocationCallback.cs" />
     <Compile Include="Callback\IJavascriptCallback.cs" />
     <Compile Include="Callback\IJsDialogCallback.cs" />
     <Compile Include="Callback\IPrintToPdfCallback.cs" />
@@ -89,7 +90,8 @@
     <Compile Include="Callback\IRunContextMenuCallback.cs" />
     <Compile Include="Callback\ISelectClientCertificateCallback.cs" />
     <Compile Include="Callback\ISetCookieCallback.cs" />
-    <Compile Include="Callback\RegisterCdmCallback.cs" />
+    <Compile Include="Callback\TaskGetGeolocationCallback.cs" />
+    <Compile Include="Callback\TaskRegisterCdmCallback.cs" />
     <Compile Include="Callback\TaskCompletionCallback.cs" />
     <Compile Include="Callback\TaskPrintToPdfCallback.cs" />
     <Compile Include="Callback\TaskResolveCallback.cs" />

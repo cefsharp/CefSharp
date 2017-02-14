@@ -11,11 +11,11 @@ namespace CefSharp
     /// <summary>
     /// Provides a callback implementation of <see cref="IRegisterCdmCallback"/> for use with asynchronous Widevine CDM registration.
     /// </summary>
-    public class RegisterCdmCallback: IRegisterCdmCallback
+    public class TaskRegisterCdmCallback: IRegisterCdmCallback
     {
         private readonly TaskCompletionSource<CdmRegistration> taskCompletionSource;
 
-        public RegisterCdmCallback()
+        public TaskRegisterCdmCallback()
         {
             taskCompletionSource = new TaskCompletionSource<CdmRegistration>();
         }
