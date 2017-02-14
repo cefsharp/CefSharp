@@ -469,8 +469,8 @@ namespace CefSharp.Wpf
 
                     if(popup != null)
                     { 
-                        popup.MouseEnter -= PopupMouseEnter;
-                        popup.MouseLeave -= PopupMouseLeave;
+                        popup.Opened -= PopupOpened;
+                        popup.Closed -= PopupClosed;
                         popup = null;
                     }
 
@@ -1633,8 +1633,8 @@ namespace CefSharp.Wpf
                 Placement = PlacementMode.Absolute,
             };
 
-            newPopup.MouseEnter += PopupMouseEnter;
-            newPopup.MouseLeave += PopupMouseLeave;
+            newPopup.Opened += PopupOpened;
+            newPopup.Closed += PopupClosed;
 
             return newPopup;
         }
@@ -1898,24 +1898,26 @@ namespace CefSharp.Wpf
         }
 
         /// <summary>
-        /// Handle the mouse cursor entering the pop-up.
+        /// Captures the mouse when the popup is opened.
         /// </summary>
         /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
-        private void PopupMouseEnter(object sender, MouseEventArgs e)
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void PopupOpened(object sender, EventArgs e)
         {
-            Focus();
-            Mouse.Capture(this, CaptureMode.Element);
+            Mouse.Capture(this);
         }
 
         /// <summary>
-        /// Handle the mouse cursor exiting the pop-up.
+        /// Releases mouse capture when the popup is closed.
         /// </summary>
         /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
-        private void PopupMouseLeave(object sender, MouseEventArgs e)
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void PopupClosed(object sender, EventArgs e)
         {
-            Mouse.Capture(this, CaptureMode.None);
+            if (Mouse.Captured == this)
+            {
+                Mouse.Capture(null);
+            }
         }
 
         /// <summary>
@@ -1928,7 +1930,10 @@ namespace CefSharp.Wpf
         {
             Focus();
             OnMouseButton(e);
-            Mouse.Capture(this);
+            if (Mouse.Captured != this)
+            {
+                Mouse.Capture(this);
+            }
         }
 
         /// <summary>
@@ -1938,7 +1943,10 @@ namespace CefSharp.Wpf
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
             OnMouseButton(e);
-            Mouse.Capture(null);
+            if (Mouse.Captured == this)
+            {
+                Mouse.Capture(null);
+            }
         }
 
         /// <summary>
