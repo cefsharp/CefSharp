@@ -18,7 +18,7 @@ namespace CefSharp.Example.Handlers
             //The Request Context has been initialized, you can now set preferences, like proxy server settings
             var cookieManager = Cef.GetGlobalCookieManager();
             cookieManager.SetStoragePath("cookies", true);
-            cookieManager.SetSupportedSchemes("custom");
+            cookieManager.SetSupportedSchemes(new string[] {"custom" });
 
             //Dispose of context when finished - preferable not to keep a reference if possible.
             using (var context = Cef.GetGlobalRequestContext())

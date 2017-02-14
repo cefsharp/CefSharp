@@ -9,8 +9,6 @@
 #include "include/cef_cookie.h"
 #include "internals\CefCompletionCallbackAdapter.h"
 
-using namespace System::Threading::Tasks;
-
 namespace CefSharp
 {
 	public ref class CookieManager : public ICookieManager
