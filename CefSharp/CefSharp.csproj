@@ -72,7 +72,21 @@
   <ItemGroup>
     <Compile Include="AsyncExtensions.cs" />
     <Compile Include="BindingOptions.cs" />
+    <Compile Include="Callback\IAuthCallback.cs" />
+    <Compile Include="Callback\IBeforeDownloadCallback.cs" />
+    <Compile Include="Callback\ICompletionCallback.cs" />
     <Compile Include="Callback\IDeleteCookiesCallback.cs" />
+    <Compile Include="Callback\IDownloadItemCallback.cs" />
+    <Compile Include="Callback\IFileDialogCallback.cs" />
+    <Compile Include="Callback\IGeolocationCallback.cs" />
+    <Compile Include="Callback\IJavascriptCallback.cs" />
+    <Compile Include="Callback\IJsDialogCallback.cs" />
+    <Compile Include="Callback\IPrintToPdfCallback.cs" />
+    <Compile Include="Callback\IRegisterCdmCallback.cs" />
+    <Compile Include="Callback\IRequestCallback.cs" />
+    <Compile Include="Callback\IResolveCallback.cs" />
+    <Compile Include="Callback\IRunContextMenuCallback.cs" />
+    <Compile Include="Callback\ISelectClientCertificateCallback.cs" />
     <Compile Include="Callback\ISetCookieCallback.cs" />
     <Compile Include="CdmRegistration.cs" />
     <Compile Include="CdmRegistrationErrorCode.cs" />
@@ -102,15 +116,11 @@
     <Compile Include="Internals\CefTimeUtils.cs" />
     <Compile Include="Internals\CommandLineArgsParser.cs" />
     <Compile Include="Internals\MethodParameter.cs" />
-    <Compile Include="IRegisterCdmCallback.cs" />
     <Compile Include="IRequestContextHandler.cs" />
     <Compile Include="IPopupFeatures.cs" />
     <Compile Include="IRenderProcessMessageHandler.cs" />
     <Compile Include="IRequestContext.cs" />
-    <Compile Include="IResolveCallback.cs" />
     <Compile Include="IResponseFilter.cs" />
-    <Compile Include="IRunContextMenuCallback.cs" />
-    <Compile Include="ISelectClientCertificateCallback.cs" />
     <Compile Include="MenuItemType.cs" />
     <Compile Include="ModelBinding\BindingContext.cs">
       <SubType>Code</SubType>
@@ -137,7 +147,6 @@
     <Compile Include="ILoadHandler.cs" />
     <Compile Include="IMenuModel.cs" />
     <Compile Include="Internals\ViewRect.cs" />
-    <Compile Include="IPrintToPdfCallback.cs" />
     <Compile Include="ISslInfo.cs" />
     <Compile Include="KeyEvent.cs" />
     <Compile Include="KeyEventType.cs" />
@@ -153,19 +162,12 @@
     <Compile Include="CefState.cs" />
     <Compile Include="CefThreadIds.cs" />
     <Compile Include="Cookie.cs" />
-    <Compile Include="IAuthCallback.cs" />
-    <Compile Include="IBeforeDownloadCallback.cs" />
     <Compile Include="DefaultResourceHandlerFactory.cs" />
     <Compile Include="DependencyChecker.cs" />
     <Compile Include="IBrowser.cs" />
     <Compile Include="IBrowserHost.cs" />
     <Compile Include="ICallback.cs" />
-    <Compile Include="IDownloadItemCallback.cs" />
-    <Compile Include="IFileDialogCallback.cs" />
     <Compile Include="IFrame.cs" />
-    <Compile Include="IGeolocationCallback.cs" />
-    <Compile Include="IJavascriptCallback.cs" />
-    <Compile Include="IJsDialogCallback.cs" />
     <Compile Include="Internals\CefSharpArguments.cs" />
     <Compile Include="Internals\IBrowserAdapter.cs">
       <SubType>Code</SubType>
@@ -179,7 +181,6 @@
     <Compile Include="Internals\PendingTaskRepository.cs" />
     <Compile Include="Internals\ReflectionUtils.cs" />
     <Compile Include="IDisplayHandler.cs" />
-    <Compile Include="IRequestCallback.cs" />
     <Compile Include="IResourceHandler.cs" />
     <Compile Include="IResourceHandlerFactory.cs" />
     <Compile Include="IResponse.cs" />
@@ -237,7 +238,6 @@
     <Compile Include="TaskNavigationEntryVisitor.cs" />
     <Compile Include="TransitionType.cs" />
     <Compile Include="LoadingStateChangedEventArgs.cs" />
-    <Compile Include="ICompletionCallback.cs" />
     <Compile Include="CefFocusSource.cs" />
     <Compile Include="Internals\BitmapInfo.cs" />
     <Compile Include="Internals\IBrowserProcess.cs" />
