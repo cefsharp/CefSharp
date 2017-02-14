@@ -8,11 +8,11 @@ using CefSharp.Internals;
 
 namespace CefSharp
 {
-    public class TaskCompletionHandler : ICompletionCallback
+    public class TaskCompletionCallback : ICompletionCallback
     {
         private readonly TaskCompletionSource<bool> taskCompletionSource;
 
-        public TaskCompletionHandler()
+        public TaskCompletionCallback()
         {
             taskCompletionSource = new TaskCompletionSource<bool>();
         }

@@ -231,10 +231,10 @@
     <Compile Include="SslContentStatus.cs" />
     <Compile Include="SslStatus.cs" />
     <Compile Include="SslVersion.cs" />
-    <Compile Include="TaskCompletionHandler.cs" />
+    <Compile Include="TaskCompletionCallback.cs" />
     <Compile Include="TaskCookieVisitor.cs" />
     <Compile Include="TaskPrintToPdfCallback.cs" />
-    <Compile Include="TaskResolveCallbackHandler.cs" />
+    <Compile Include="TaskResolveCallback.cs" />
     <Compile Include="TaskNavigationEntryVisitor.cs" />
     <Compile Include="TransitionType.cs" />
     <Compile Include="LoadingStateChangedEventArgs.cs" />

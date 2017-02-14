@@ -101,7 +101,7 @@ namespace CefSharp
 		/// Will return null if the cookikes cannot be accessed.</returns>
 		public static Task<bool> FlushStoreAsync(this ICookieManager cookieManager)
 		{
-			var handler = new TaskCompletionHandler();
+			var handler = new TaskCompletionCallback();
 
 			if (cookieManager.FlushStore(handler))
 			{

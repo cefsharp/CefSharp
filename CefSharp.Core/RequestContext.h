@@ -372,7 +372,7 @@ namespace CefSharp
         {
             ThrowIfDisposed();
 
-            auto callback = gcnew TaskResolveCallbackHandler();
+            auto callback = gcnew TaskResolveCallback();
 
             CefRefPtr<CefResolveCallback> callbackWrapper = new CefResolveCallbackAdapter(callback);
 
