@@ -245,9 +245,10 @@ namespace CefSharp
         /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         /// <param name="html">The HTML content.</param>
         /// <param name="url">The URL that will be treated as the address of the content.</param>
-        public static void LoadHtml(this IWebBrowser browser, string html, string url)
+        /// <returns>returns false if the Url was not successfully parsed into a Uri</returns>
+        public static bool LoadHtml(this IWebBrowser browser, string html, string url)
         {
-            browser.LoadHtml(html, url, Encoding.UTF8);
+            return browser.LoadHtml(html, url, Encoding.UTF8);
         }
 
         /// <summary>
@@ -284,7 +285,8 @@ namespace CefSharp
         /// <param name="html">The HTML content.</param>
         /// <param name="url">The URL that will be treated as the address of the content.</param>
         /// <param name="encoding">Character Encoding</param>
-        public static void LoadHtml(this IWebBrowser browser, string html, string url, Encoding encoding)
+        /// <returns>returns false if the Url was not successfully parsed into a Uri</returns>
+        public static bool LoadHtml(this IWebBrowser browser, string html, string url, Encoding encoding)
         {
             var handler = browser.ResourceHandlerFactory;
             if (handler == null)
@@ -299,9 +301,12 @@ namespace CefSharp
                 throw new Exception("LoadHtml can only be used with the default IResourceHandlerFactory(DefaultResourceHandlerFactory) implementation");
             }
 
-            resourceHandler.RegisterHandler(url, ResourceHandler.FromString(html, encoding, true));
-
-            browser.Load(url);
+            if (resourceHandler.RegisterHandler(url, ResourceHandler.FromString(html, encoding, true)))
+            {
+                browser.Load(url);
+                return true;
+            }
+            return false;
         }
 
         /// <summary>
