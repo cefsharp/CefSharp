@@ -355,6 +355,11 @@ namespace CefSharp.WinForms
         {
             IsBrowserInitialized = false;
 
+            if(!designMode)
+            {
+                RemoveFromListOfCefBrowsers();
+            }
+
             //The unmanaged resources should never be created in design mode, so only dispose when
             //at runtime
             if (disposing && !designMode)
