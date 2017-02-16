@@ -341,6 +341,9 @@ namespace CefSharp.WinForms
             }
         }
 
+        /// <summary>
+        /// Finalizes an instance of the <see cref="ChromiumWebBrowser"/> class.
+        /// </summary>
         ~ChromiumWebBrowser()
         {
             if (designMode)
@@ -353,6 +356,9 @@ namespace CefSharp.WinForms
             }
         }
 
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
         public new void Dispose()
         {
             if (designMode)
