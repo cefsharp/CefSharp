@@ -2,11 +2,12 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using System;
-using System.Windows.Forms;
 using CefSharp.Internals;
-using CefSharp.ModelBinding;
 using CefSharp.WinForms.Internals;
+using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows.Forms;
 
 namespace CefSharp.WinForms
 {
@@ -30,12 +31,22 @@ namespace CefSharp.WinForms
         /// The browser
         /// </summary>
         private IBrowser browser;
+        /// <summary>
+        /// A flag that indicates whether or not the designer is active
+        /// NOTE: DesignMode becomes false by the time we get to the destructor/dispose so it gets stored here
+        /// </summary>
+        private bool designMode;
+        /// <summary>
+        /// A flag that indicates whether or not Initialize() has been called
+        /// </summary>
+        private bool initialized;
 
         /// <summary>
         /// Set to true while handing an activating WM_ACTIVATE message.
         /// MUST ONLY be cleared by DefaultFocusHandler.
         /// </summary>
         /// <value><c>true</c> if this instance is activating; otherwise, <c>false</c>.</value>
+        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
         public bool IsActivating { get; set; }
 
         /// <summary>
@@ -54,11 +65,13 @@ namespace CefSharp.WinForms
         /// <value><c>true</c> if this instance is loading; otherwise, <c>false</c>.</value>
         /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
         /// binding.</remarks>
+        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
         public bool IsLoading { get; private set; }
         /// <summary>
         /// The text that will be displayed as a ToolTip
         /// </summary>
         /// <value>The tooltip text.</value>
+        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
         public string TooltipText { get; private set; }
         /// <summary>
         /// The address (URL) which the browser control is currently displaying.
@@ -67,6 +80,7 @@ namespace CefSharp.WinForms
         /// <value>The address.</value>
         /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
         /// binding.</remarks>
+        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
         public string Address { get; private set; }
 
         /// <summary>
@@ -233,6 +247,7 @@ namespace CefSharp.WinForms
         /// <value><c>true</c> if this instance can go forward; otherwise, <c>false</c>.</value>
         /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
         /// binding.</remarks>
+        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
         public bool CanGoForward { get; private set; }
         /// <summary>
         /// A flag that indicates whether the state of the control current supports the GoBack action (true) or not (false).
@@ -240,6 +255,7 @@ namespace CefSharp.WinForms
         /// <value><c>true</c> if this instance can go back; otherwise, <c>false</c>.</value>
         /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
         /// binding.</remarks>
+        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
         public bool CanGoBack { get; private set; }
         /// <summary>
         /// A flag that indicates whether the WebBrowser is initialized (true) or not (false).
@@ -247,6 +263,7 @@ namespace CefSharp.WinForms
         /// <value><c>true</c> if this instance is browser initialized; otherwise, <c>false</c>.</value>
         /// <remarks>In the WPF control, this property is implemented as a Dependency Property and fully supports data
         /// binding.</remarks>
+        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
         public bool IsBrowserInitialized { get; private set; }
 
         /// <summary>
@@ -272,26 +289,88 @@ namespace CefSharp.WinForms
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ChromiumWebBrowser"/> class.
+        /// NOTE: Should only be used by the designer
+        /// </summary>
+        [Obsolete("Should only be used by the designer")]
+        public ChromiumWebBrowser()
+        {
+
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ChromiumWebBrowser"/> class.
         /// </summary>
         /// <param name="address">The address.</param>
-        /// <exception cref="System.InvalidOperationException">Cef::Initialize() failed</exception>
         public ChromiumWebBrowser(string address)
         {
-            if (!Cef.IsInitialized && !Cef.Initialize())
+            Dock = DockStyle.Fill;
+            Address = address;
+            InitializeBrowser();
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private void InitializeBrowser()
+        {
+            if (!initialized)
             {
-                throw new InvalidOperationException("Cef::Initialize() failed");
+                if (!Cef.IsInitialized && !Cef.Initialize())
+                {
+                    throw new InvalidOperationException("Cef::Initialize() failed");
+                }
+
+                Cef.AddDisposable(this);
+
+                if (FocusHandler == null)
+                {
+                    FocusHandler = new DefaultFocusHandler(this);
+                }
+
+                if (ResourceHandlerFactory == null)
+                {
+                    ResourceHandlerFactory = new DefaultResourceHandlerFactory();
+                }
+
+                if (BrowserSettings == null)
+                {
+                    BrowserSettings = new BrowserSettings();
+                }
+
+                managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, false);
+
+                initialized = true;
+            }
+        }
+
+        /// <summary>
+        /// Finalizes an instance of the <see cref="ChromiumWebBrowser"/> class.
+        /// </summary>
+        ~ChromiumWebBrowser()
+        {
+            if (designMode)
+            {
+                base.Dispose(false);
+            }
+            else
+            {
+                Dispose(false);
+            }
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public new void Dispose()
+        {
+            if (designMode)
+            {
+                base.Dispose(true);
+            }
+            else
+            {
+                Dispose(true);
             }
 
-            Cef.AddDisposable(this);
-            Address = address;
-
-            Dock = DockStyle.Fill;
-
-            FocusHandler = new DefaultFocusHandler(this);
-            ResourceHandlerFactory = new DefaultResourceHandlerFactory();
-            BrowserSettings = new BrowserSettings();
-
-            managedCefBrowserAdapter = new ManagedCefBrowserAdapter(this, false);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -375,6 +454,8 @@ namespace CefSharp.WinForms
                 throw new Exception("Browser is already initialized. RegisterJsObject must be" +
                                     "called before the underlying CEF browser is created.");
             }
+            
+            InitializeBrowser();
 
             //Enable WCF if not already enabled
             CefSharpSettings.WcfEnabled = true;
@@ -400,6 +481,9 @@ namespace CefSharp.WinForms
                 throw new Exception("Browser is already initialized. RegisterJsObject must be" +
                                     "called before the underlying CEF browser is created.");
             }
+
+            InitializeBrowser();
+
             managedCefBrowserAdapter.RegisterAsyncJsObject(name, objectToBind, options);
         }
 
@@ -409,12 +493,28 @@ namespace CefSharp.WinForms
         /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
         protected override void OnHandleCreated(EventArgs e)
         {
+            designMode = DesignMode;
+
+            if (!designMode)
+            {
+                InitializeBrowser();
+
+                // NOTE: Had to move the code out of this function otherwise the designer would crash
+                CreateBrowser();
+
+                ResizeBrowser();
+            }
+
+            base.OnHandleCreated(e);
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private void CreateBrowser()
+        {
             if (((IWebBrowserInternal)this).HasParent == false)
             {
                 managedCefBrowserAdapter.CreateBrowser(BrowserSettings, RequestContext, Handle, Address);
             }
-
-            base.OnHandleCreated(e);
         }
 
         /// <summary>
@@ -609,8 +709,11 @@ namespace CefSharp.WinForms
         protected override void OnSizeChanged(EventArgs e)
         {
             base.OnSizeChanged(e);
-            
-            ResizeBrowser();
+
+            if (!designMode && initialized)
+            {
+                ResizeBrowser();
+            }
         }
 
         /// <summary>
@@ -666,14 +769,14 @@ namespace CefSharp.WinForms
                 case Keys.Up:
                 case Keys.Down:
                 case Keys.Tab:
-                { 
+                {
                     return true;
                 }
                 case Keys.Shift | Keys.Right:
                 case Keys.Shift | Keys.Left:
                 case Keys.Shift | Keys.Up:
                 case Keys.Shift | Keys.Down:
-                { 
+                {
                     return true;
                 }
             }
