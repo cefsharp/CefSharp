@@ -6,6 +6,7 @@ using CefSharp.Internals;
 using CefSharp.WinForms.Internals;
 using System;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 
 namespace CefSharp.WinForms
@@ -16,7 +17,7 @@ namespace CefSharp.WinForms
     /// <seealso cref="System.Windows.Forms.Control" />
     /// <seealso cref="CefSharp.Internals.IWebBrowserInternal" />
     /// <seealso cref="CefSharp.WinForms.IWinFormsWebBrowser" />
-    public class ChromiumWebBrowser : Control, IWebBrowserInternal, IWinFormsWebBrowser, IDisposable
+    public class ChromiumWebBrowser : Control, IWebBrowserInternal, IWinFormsWebBrowser
     {
         /// <summary>
         /// The managed cef browser adapter
@@ -32,6 +33,7 @@ namespace CefSharp.WinForms
         private IBrowser browser;
         /// <summary>
         /// A flag that indicates whether or not the designer is active
+        /// NOTE: DesignMode becomes false by the time we get to the destructor/dispose so it gets stored here
         /// </summary>
         private bool designMode;
         /// <summary>
@@ -287,7 +289,9 @@ namespace CefSharp.WinForms
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ChromiumWebBrowser"/> class.
+        /// NOTE: Should only be used by the designer
         /// </summary>
+        [Obsolete("Should only be used by the designer")]
         public ChromiumWebBrowser()
         {
 
@@ -299,10 +303,13 @@ namespace CefSharp.WinForms
         /// <param name="address">The address.</param>
         public ChromiumWebBrowser(string address)
         {
+            Dock = DockStyle.Fill;
             Address = address;
+            InitializeBrowser();
         }
 
-        private void Initialize()
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private void InitializeBrowser()
         {
             if (!initialized)
             {
@@ -336,25 +343,25 @@ namespace CefSharp.WinForms
 
         ~ChromiumWebBrowser()
         {
-            if (!designMode)
+            if (designMode)
             {
-                Dispose(false);
+                base.Dispose(false);
             }
             else
             {
-                base.Dispose(false);
+                Dispose(false);
             }
         }
 
         public new void Dispose()
         {
-            if (!designMode)
+            if (designMode)
             {
-                Dispose(true);
+                base.Dispose(true);
             }
             else
             {
-                base.Dispose(true);
+                Dispose(true);
             }
 
             GC.SuppressFinalize(this);
@@ -441,11 +448,8 @@ namespace CefSharp.WinForms
                 throw new Exception("Browser is already initialized. RegisterJsObject must be" +
                                     "called before the underlying CEF browser is created.");
             }
-
-            if (!initialized)
-            {
-                Initialize();
-            }
+            
+            InitializeBrowser();
 
             //Enable WCF if not already enabled
             CefSharpSettings.WcfEnabled = true;
@@ -472,10 +476,7 @@ namespace CefSharp.WinForms
                                     "called before the underlying CEF browser is created.");
             }
 
-            if (!initialized)
-            {
-                Initialize();
-            }
+            InitializeBrowser();
 
             managedCefBrowserAdapter.RegisterAsyncJsObject(name, objectToBind, options);
         }
@@ -490,10 +491,10 @@ namespace CefSharp.WinForms
 
             if (!designMode)
             {
-                Initialize();
+                InitializeBrowser();
 
                 // NOTE: Had to move the code out of this function otherwise the designer would crash
-                parentCheck();
+                CreateBrowser();
 
                 ResizeBrowser();
             }
@@ -501,7 +502,8 @@ namespace CefSharp.WinForms
             base.OnHandleCreated(e);
         }
 
-        private void parentCheck()
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private void CreateBrowser()
         {
             if (((IWebBrowserInternal)this).HasParent == false)
             {
@@ -761,16 +763,16 @@ namespace CefSharp.WinForms
                 case Keys.Up:
                 case Keys.Down:
                 case Keys.Tab:
-                    {
-                        return true;
-                    }
+                {
+                    return true;
+                }
                 case Keys.Shift | Keys.Right:
                 case Keys.Shift | Keys.Left:
                 case Keys.Shift | Keys.Up:
                 case Keys.Shift | Keys.Down:
-                    {
-                        return true;
-                    }
+                {
+                    return true;
+                }
             }
 
             return base.IsInputKey(keyData);
