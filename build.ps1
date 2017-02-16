@@ -312,7 +312,7 @@ function WriteAssemblyVersion
     
     $AssemblyInfo = Get-Content $Filename
     $NewString = $AssemblyInfo -replace $Regex, "public const string AssemblyVersion = ""$AssemblyVersion"""
-    $NewString = $AssemblyInfo -replace $Regex2, "public const string AssemblyFileVersion = ""$AssemblyVersion.0"""
+    $NewString = $NewString -replace $Regex2, "public const string AssemblyFileVersion = ""$AssemblyVersion.0"""
     
     $NewString | Set-Content $Filename -Encoding UTF8
 }
