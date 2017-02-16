@@ -328,6 +328,19 @@ function WriteVersionToManifest($manifest)
     $NewString | Set-Content $Filename -Encoding UTF8
 }
 
+function WriteVersionToResourceFile($resourceFile)
+{
+    $Filename = Join-Path $WorkingDir $resourceFile
+    $Regex1 = 'VERSION .*';
+    $Regex2 = 'Version", ".*?"';
+    
+    $ResourceData = Get-Content $Filename
+    $NewString = $ResourceData -replace $Regex1, "VERSION $AssemblyVersion"
+    $NewString = $NewString -replace $Regex2, "Version"", ""$AssemblyVersion"""
+    
+    $NewString | Set-Content $Filename -Encoding UTF8
+}
+
 Write-Diagnostic "CEF Redist Version = $RedistVersion"
 
 DownloadNuget
@@ -340,6 +353,9 @@ WriteVersionToManifest "CefSharp.BrowserSubprocess\app.manifest"
 WriteVersionToManifest "CefSharp.OffScreen.Example\app.manifest"
 WriteVersionToManifest "CefSharp.WinForms.Example\app.manifest"
 WriteVersionToManifest "CefSharp.Wpf.Example\app.manifest"
+
+WriteVersionToResourceFile "CefSharp.BrowserSubprocess.Core\Resource.rc"
+WriteVersionToResourceFile "CefSharp.Core\Resource.rc"
 
 switch -Exact ($Target)
 {
