@@ -315,6 +315,17 @@ function WriteAssemblyVersion
     $NewString | Set-Content $Filename -Encoding UTF8
 }
 
+function WriteVersionToManifest($manifest)
+{
+    $Filename = Join-Path $WorkingDir $manifest
+    $Regex = 'assemblyIdentity version="(.*?)"';
+    
+    $ManifestData = Get-Content $Filename
+    $NewString = $ManifestData -replace $Regex, "assemblyIdentity version=""$AssemblyVersion.0"""
+	
+    $NewString | Set-Content $Filename -Encoding UTF8
+}
+
 Write-Diagnostic "CEF Redist Version = $RedistVersion"
 
 DownloadNuget
@@ -322,6 +333,11 @@ DownloadNuget
 NugetPackageRestore
 
 WriteAssemblyVersion
+
+WriteVersionToManifest "CefSharp.BrowserSubprocess\app.manifest"
+WriteVersionToManifest "CefSharp.OffScreen.Example\app.manifest"
+WriteVersionToManifest "CefSharp.WinForms.Example\app.manifest"
+WriteVersionToManifest "CefSharp.Wpf.Example\app.manifest"
 
 switch -Exact ($Target)
 {
