@@ -308,11 +308,11 @@ function WriteAssemblyVersion
 
     $Filename = Join-Path $WorkingDir CefSharp\Properties\AssemblyInfo.cs
     $Regex = 'public const string AssemblyVersion = "(.*)"';
-	$Regex2 = 'public const string AssemblyFileVersion = "(.*)"'
+    $Regex2 = 'public const string AssemblyFileVersion = "(.*)"'
     
     $AssemblyInfo = Get-Content $Filename
     $NewString = $AssemblyInfo -replace $Regex, "public const string AssemblyVersion = ""$AssemblyVersion"""
-	$NewString = $AssemblyInfo -replace $Regex2, "public const string AssemblyFileVersion = ""$AssemblyVersion.0"""
+    $NewString = $AssemblyInfo -replace $Regex2, "public const string AssemblyFileVersion = ""$AssemblyVersion.0"""
     
     $NewString | Set-Content $Filename -Encoding UTF8
 }
@@ -324,7 +324,7 @@ function WriteVersionToManifest($manifest)
     
     $ManifestData = Get-Content $Filename
     $NewString = $ManifestData -replace $Regex, "assemblyIdentity version=""$AssemblyVersion.0"""
-	
+    
     $NewString | Set-Content $Filename -Encoding UTF8
 }
 
