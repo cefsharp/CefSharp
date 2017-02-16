@@ -37,7 +37,7 @@ namespace CefSharp.WinForms
         /// </summary>
         private bool designMode;
         /// <summary>
-        /// A flag that indicates whether or not Initialize() has been called
+        /// A flag that indicates whether or not <see cref="InitializeFieldsAndCefIfRequired"/> has been called.
         /// </summary>
         private bool initialized;
 
@@ -305,11 +305,17 @@ namespace CefSharp.WinForms
         {
             Dock = DockStyle.Fill;
             Address = address;
-            InitializeBrowser();
+
+            InitializeFieldsAndCefIfRequired();
         }
 
+        /// <summary>
+        /// Required for designer support - this method cannot be inlined as the designer
+        /// will attempt to load libcef.dll and will subsiquently throw an exception.
+        /// TODO: Still not happy with this method name, need something better
+        /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        private void InitializeBrowser()
+        private void InitializeFieldsAndCefIfRequired()
         {
             if (!initialized)
             {
@@ -342,85 +348,74 @@ namespace CefSharp.WinForms
         }
 
         /// <summary>
-        /// Finalizes an instance of the <see cref="ChromiumWebBrowser"/> class.
-        /// </summary>
-        ~ChromiumWebBrowser()
-        {
-            if (designMode)
-            {
-                base.Dispose(false);
-            }
-            else
-            {
-                Dispose(false);
-            }
-        }
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public new void Dispose()
-        {
-            if (designMode)
-            {
-                base.Dispose(true);
-            }
-            else
-            {
-                Dispose(true);
-            }
-
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
         /// Releases the unmanaged resources used by the <see cref="T:System.Windows.Forms.Control" /> and its child controls and optionally releases the managed resources.
         /// </summary>
         /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
         protected override void Dispose(bool disposing)
         {
-            Cef.RemoveDisposable(this);
+            IsBrowserInitialized = false;
 
-            if (disposing)
+            //The unmanaged resources should never be created in design mode, so only dispose when
+            //at runtime
+            if (disposing && !designMode)
             {
-                browser = null;
-                IsBrowserInitialized = false;
-
-                if (BrowserSettings != null)
-                {
-                    BrowserSettings.Dispose();
-                    BrowserSettings = null;
-                }
-
-                if (parentFormMessageInterceptor != null)
-                {
-                    parentFormMessageInterceptor.Dispose();
-                    parentFormMessageInterceptor = null;
-                }
-
-                if (managedCefBrowserAdapter != null)
-                {
-                    managedCefBrowserAdapter.Dispose();
-                    managedCefBrowserAdapter = null;
-                }
-
-                // Don't maintain a reference to event listeners anylonger:
-                LoadError = null;
-                FrameLoadStart = null;
-                FrameLoadEnd = null;
-                LoadingStateChanged = null;
-                ConsoleMessage = null;
-                StatusMessage = null;
-                AddressChanged = null;
-                TitleChanged = null;
-                IsBrowserInitializedChanged = null;
+                FreeUnmanagedResources();
             }
+
+            // Don't maintain a reference to event listeners anylonger:
+            LoadError = null;
+            FrameLoadStart = null;
+            FrameLoadEnd = null;
+            LoadingStateChanged = null;
+            ConsoleMessage = null;
+            StatusMessage = null;
+            AddressChanged = null;
+            TitleChanged = null;
+            IsBrowserInitializedChanged = null;
 
             // Release reference to handlers, make sure this is done after we dispose managedCefBrowserAdapter
             // otherwise the ILifeSpanHandler.DoClose will not be invoked.
             this.SetHandlersToNull();
 
             base.Dispose(disposing);
+        }
+
+        /// <summary>
+        /// Required for designer support - this method cannot be inlined as the designer
+        /// will attempt to load libcef.dll and will subsiquently throw an exception.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private void RemoveFromListOfCefBrowsers()
+        {
+            Cef.RemoveDisposable(this);
+        }
+
+        /// <summary>
+        /// Required for designer support - this method cannot be inlined as the designer
+        /// will attempt to load libcef.dll and will subsiquently throw an exception.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private void FreeUnmanagedResources()
+        {
+            browser = null;
+
+            if (parentFormMessageInterceptor != null)
+            {
+                parentFormMessageInterceptor.Dispose();
+                parentFormMessageInterceptor = null;
+            }
+
+            if (BrowserSettings != null)
+            {
+                BrowserSettings.Dispose();
+                BrowserSettings = null;
+            }
+
+            if (managedCefBrowserAdapter != null)
+            {
+                managedCefBrowserAdapter.Dispose();
+                managedCefBrowserAdapter = null;
+            }
         }
 
         /// <summary>
@@ -455,7 +450,7 @@ namespace CefSharp.WinForms
                                     "called before the underlying CEF browser is created.");
             }
             
-            InitializeBrowser();
+            InitializeFieldsAndCefIfRequired();
 
             //Enable WCF if not already enabled
             CefSharpSettings.WcfEnabled = true;
@@ -482,7 +477,7 @@ namespace CefSharp.WinForms
                                     "called before the underlying CEF browser is created.");
             }
 
-            InitializeBrowser();
+            InitializeFieldsAndCefIfRequired();
 
             managedCefBrowserAdapter.RegisterAsyncJsObject(name, objectToBind, options);
         }
@@ -497,7 +492,7 @@ namespace CefSharp.WinForms
 
             if (!designMode)
             {
-                InitializeBrowser();
+                InitializeFieldsAndCefIfRequired();
 
                 // NOTE: Had to move the code out of this function otherwise the designer would crash
                 CreateBrowser();
