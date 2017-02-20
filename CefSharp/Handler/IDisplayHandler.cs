@@ -54,8 +54,8 @@ namespace CefSharp
         /// <param name="text">the text that will be displayed in the tooltip</param>
         /// <returns>To handle the display of the tooltip yourself return true otherwise return false
         /// to allow the browser to display the tooltip.</returns>
-        /// <remarks>Option to modify tooltip is not currently implemented.</remarks>
-        bool OnTooltipChanged(IWebBrowser browserControl, string text);
+        /// <remarks>Only called when using Off-screen rendering (WPF and OffScreen)</remarks>
+        bool OnTooltipChanged(IWebBrowser browserControl, ref string text);
 
         /// <summary>
         /// Called when the browser receives a status message.
