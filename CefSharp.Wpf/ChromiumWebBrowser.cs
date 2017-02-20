@@ -1593,10 +1593,16 @@ namespace CefSharp.Wpf
         {
             base.OnApplyTemplate();
 
-            // Create main window
-            Content = image = CreateImage();
+            if (image == null)
+            {
+                // Create main window
+                Content = image = CreateImage();
+            }
 
-            popup = CreatePopup();
+            if (popup == null)
+            {
+                popup = CreatePopup();
+            }
         }
 
         /// <summary>
