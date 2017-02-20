@@ -104,6 +104,7 @@
     </Page>
     <Compile Include="Controls\CefSharpCommands.cs" />
     <Compile Include="Controls\NonReloadingTabControl.cs" />
+    <Compile Include="Handlers\DisplayHandler.cs" />
     <Compile Include="Handlers\DragHandler.cs" />
     <Compile Include="Handlers\GeolocationHandler.cs" />
     <Compile Include="Handlers\MenuHandler.cs" />
