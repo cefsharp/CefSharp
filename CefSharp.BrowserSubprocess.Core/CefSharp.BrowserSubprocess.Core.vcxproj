@@ -171,6 +171,7 @@
     <ClInclude Include="Async\JavascriptAsyncMethodWrapper.h" />
     <ClInclude Include="Async\JavascriptAsyncObjectWrapper.h" />
     <ClInclude Include="CefAppUnmanagedWrapper.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="WcfEnabledSubProcess.h" />
     <ClInclude Include="SubProcess.h" />
     <ClInclude Include="CefBrowserWrapper.h" />
@@ -221,6 +222,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

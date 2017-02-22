@@ -308,9 +308,35 @@ function WriteAssemblyVersion
 
     $Filename = Join-Path $WorkingDir CefSharp\Properties\AssemblyInfo.cs
     $Regex = 'public const string AssemblyVersion = "(.*)"';
+    $Regex2 = 'public const string AssemblyFileVersion = "(.*)"'
     
     $AssemblyInfo = Get-Content $Filename
     $NewString = $AssemblyInfo -replace $Regex, "public const string AssemblyVersion = ""$AssemblyVersion"""
+    $NewString = $NewString -replace $Regex2, "public const string AssemblyFileVersion = ""$AssemblyVersion.0"""
+    
+    $NewString | Set-Content $Filename -Encoding UTF8
+}
+
+function WriteVersionToManifest($manifest)
+{
+    $Filename = Join-Path $WorkingDir $manifest
+    $Regex = 'assemblyIdentity version="(.*?)"';
+    
+    $ManifestData = Get-Content $Filename
+    $NewString = $ManifestData -replace $Regex, "assemblyIdentity version=""$AssemblyVersion.0"""
+    
+    $NewString | Set-Content $Filename -Encoding UTF8
+}
+
+function WriteVersionToResourceFile($resourceFile)
+{
+    $Filename = Join-Path $WorkingDir $resourceFile
+    $Regex1 = 'VERSION .*';
+    $Regex2 = 'Version", ".*?"';
+    
+    $ResourceData = Get-Content $Filename
+    $NewString = $ResourceData -replace $Regex1, "VERSION $AssemblyVersion"
+    $NewString = $NewString -replace $Regex2, "Version"", ""$AssemblyVersion"""
     
     $NewString | Set-Content $Filename -Encoding UTF8
 }
@@ -322,6 +348,14 @@ DownloadNuget
 NugetPackageRestore
 
 WriteAssemblyVersion
+
+WriteVersionToManifest "CefSharp.BrowserSubprocess\app.manifest"
+WriteVersionToManifest "CefSharp.OffScreen.Example\app.manifest"
+WriteVersionToManifest "CefSharp.WinForms.Example\app.manifest"
+WriteVersionToManifest "CefSharp.Wpf.Example\app.manifest"
+
+WriteVersionToResourceFile "CefSharp.BrowserSubprocess.Core\Resource.rc"
+WriteVersionToResourceFile "CefSharp.Core\Resource.rc"
 
 switch -Exact ($Target)
 {
