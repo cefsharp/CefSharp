@@ -469,8 +469,9 @@ namespace CefSharp.Wpf
 
                     if(popup != null)
                     { 
-                        popup.MouseEnter -= PopupMouseEnter;
-                        popup.MouseLeave -= PopupMouseLeave;
+                        popup.MouseMove -= PopupMouseMove;
+                        popup.MouseDown -= PopupMouseClick;
+                        popup.MouseUp -= PopupMouseClick;
                         popup = null;
                     }
 
@@ -1639,10 +1640,28 @@ namespace CefSharp.Wpf
                 Placement = PlacementMode.Absolute,
             };
 
-            newPopup.MouseEnter += PopupMouseEnter;
-            newPopup.MouseLeave += PopupMouseLeave;
+            newPopup.MouseMove += PopupMouseMove;
+            newPopup.MouseDown += PopupMouseClick;
+            newPopup.MouseUp += PopupMouseClick;
 
             return newPopup;
+        }
+
+        private void PopupMouseClick(object sender, MouseButtonEventArgs e)
+        {
+            OnMouseButton(e);
+        }
+
+        private void PopupMouseMove(object sender, MouseEventArgs e)
+        {
+            //TODO: Fix up code duplication
+            if (browser != null)
+            {
+                var point = e.GetPosition(this);
+                var modifiers = e.GetModifiers();
+
+                browser.GetHost().SendMouseMoveEvent((int)point.X, (int)point.Y, false, modifiers);
+            }
         }
 
         /// <summary>
@@ -1934,7 +1953,6 @@ namespace CefSharp.Wpf
         {
             Focus();
             OnMouseButton(e);
-            Mouse.Capture(this);
         }
 
         /// <summary>
@@ -1944,7 +1962,6 @@ namespace CefSharp.Wpf
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
             OnMouseButton(e);
-            Mouse.Capture(null);
         }
 
         /// <summary>
