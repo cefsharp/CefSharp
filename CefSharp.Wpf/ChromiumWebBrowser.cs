@@ -1904,7 +1904,10 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void PopupOpened(object sender, EventArgs e)
         {
-            Mouse.Capture(this);
+            if (Mouse.Captured != this)
+            {
+                Mouse.Capture(this);
+            }
         }
 
         /// <summary>
@@ -1930,10 +1933,6 @@ namespace CefSharp.Wpf
         {
             Focus();
             OnMouseButton(e);
-            if (Mouse.Captured != this)
-            {
-                Mouse.Capture(this);
-            }
         }
 
         /// <summary>
@@ -1943,10 +1942,6 @@ namespace CefSharp.Wpf
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
             OnMouseButton(e);
-            if (Mouse.Captured == this)
-            {
-                Mouse.Capture(null);
-            }
         }
 
         /// <summary>
