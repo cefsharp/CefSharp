@@ -484,5 +484,14 @@ namespace CefSharp.WinForms.Example
                 control.Browser.LoadHtml(html, false);
             }
         }
+
+        private void OpenHttpBinOrgToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            var control = GetCurrentTabControl();
+            if (control != null)
+            {
+                control.Browser.Load("https://httpbin.org/");
+            }
+        }
     }
 }

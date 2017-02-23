@@ -65,6 +65,7 @@
             this.browserTabControl = new System.Windows.Forms.TabControl();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openDataUrlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.httpbinorgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -342,7 +343,8 @@
             // testToolStripMenuItem
             // 
             this.testToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openDataUrlToolStripMenuItem});
+            this.openDataUrlToolStripMenuItem,
+            this.httpbinorgToolStripMenuItem});
             this.testToolStripMenuItem.Name = "testToolStripMenuItem";
             this.testToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
             this.testToolStripMenuItem.Text = "Test";
@@ -353,6 +355,14 @@
             this.openDataUrlToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.openDataUrlToolStripMenuItem.Text = "Open Data Url";
             this.openDataUrlToolStripMenuItem.Click += new System.EventHandler(this.OpenDataUrlToolStripMenuItemClick);
+            // 
+            // 
+            // httpbinorgToolStripMenuItem
+            // 
+            this.httpbinorgToolStripMenuItem.Name = "httpbinorgToolStripMenuItem";
+            this.httpbinorgToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.httpbinorgToolStripMenuItem.Text = "httpbin.org";
+            this.httpbinorgToolStripMenuItem.Click += new System.EventHandler(this.OpenHttpBinOrgToolStripMenuItemClick);
             // 
             // BrowserForm
             // 
@@ -410,6 +420,7 @@
         private System.Windows.Forms.ToolStripMenuItem printToPdfToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openDataUrlToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem httpbinorgToolStripMenuItem;
 
     }
 }
