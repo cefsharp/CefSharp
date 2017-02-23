@@ -535,8 +535,8 @@ namespace CefSharp.Wpf
         {
             var viewRect = new ViewRect
             {
-                Width = (int)ActualWidth,
-                Height = (int)ActualHeight
+                Width = (int)Math.Ceiling(ActualWidth),
+                Height = (int)Math.Ceiling(ActualHeight)
             };
 
             return viewRect;
