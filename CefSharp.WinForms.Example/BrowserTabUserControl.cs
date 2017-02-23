@@ -126,7 +126,7 @@ namespace CefSharp.WinForms.Example
             SetCanGoBack(args.CanGoBack);
             SetCanGoForward(args.CanGoForward);
 
-            this.InvokeOnUiThreadIfRequired(() => SetIsLoading(!args.CanReload));
+            this.InvokeOnUiThreadIfRequired(() => SetIsLoading(args.IsLoading));
         }
 
         private void OnBrowserTitleChanged(object sender, TitleChangedEventArgs args)
