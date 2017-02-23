@@ -81,7 +81,7 @@ If your new to `CefSharp` and are downloading the source to check it out, please
 
 Creating regular releases of CefSharp is a time intensive process and so to support further development we ask if can contribute financially to the next release?
 
-[![Bountysource](https://api.bountysource.com/badge/issue?issue_id=40201096)](https://www.bountysource.com/issues/40201096-feature-request-release-55-0-0?utm_source=40201096&utm_medium=shield&utm_campaign=ISSUE_BADGE)
+[![Bountysource](https://api.bountysource.com/badge/issue?issue_id=42381776)](https://www.bountysource.com/issues/42381776-funding-request-release-57-0-0?utm_source=42381776&utm_medium=shield&utm_campaign=ISSUE_BADGE)
 
 ## Links
 
