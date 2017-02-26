@@ -17,7 +17,7 @@ BEGIN
         BEGIN
             VALUE "FileDescription", "CefSharp.BrowserSubprocess.Core"
             VALUE "FileVersion", "55.0.0"
-            VALUE "LegalCopyright", "Copyright © The CefSharp Authors 2010-2016"
+            VALUE "LegalCopyright", "Copyright © 2010-2017 The CefSharp Authors"
             VALUE "ProductName", "CefSharp"
             VALUE "ProductVersion", "55.0.0"
         END
