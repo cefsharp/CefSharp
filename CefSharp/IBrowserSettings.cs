@@ -107,12 +107,6 @@ namespace CefSharp
         CefState JavascriptDomPaste { get; set; }
 
         /// <summary>
-        /// Controls whether the caret position will be drawn. Also configurable using
-        /// the "enable-caret-browsing" command-line switch.
-        /// </summary>
-        CefState CaretBrowsing { get; set; }
-
-        /// <summary>
         /// Controls whether any plugins will be loaded. Also configurable using the
         /// "disable-plugins" command-line switch.
         /// </summary>
