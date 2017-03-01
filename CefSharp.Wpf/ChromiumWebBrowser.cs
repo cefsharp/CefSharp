@@ -18,6 +18,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
 using CefSharp.ModelBinding;
+using System.Runtime.CompilerServices;
 
 namespace CefSharp.Wpf
 {
@@ -58,9 +59,9 @@ namespace CefSharp.Wpf
         /// </summary>
         private bool browserCreated;
         /// <summary>
-        /// The browser initialized
+        /// The browser initialized - boolean represented as 0 (false) and 1(true) as we use Interlocker to increment/reset
         /// </summary>
-        private volatile bool browserInitialized;
+        private int browserInitialized;
         /// <summary>
         /// The matrix
         /// </summary>
@@ -84,7 +85,7 @@ namespace CefSharp.Wpf
         /// <summary>
         /// The dispose count
         /// </summary>
-        private volatile int disposeCount;
+        private int disposeCount;
 
         /// <summary>
         /// Gets or sets the browser settings.
@@ -431,8 +432,8 @@ namespace CefSharp.Wpf
         /// <param name="isDisposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool isDisposing)
         {
-            //Check if already disposed
-            if (Interlocked.Increment(ref disposeCount) == 1)
+            //If disposeCount is 0 then we'll update it to 1 and begin disposing
+            if (Interlocked.CompareExchange(ref disposeCount, 1, 0) == 0)
             { 
                 // No longer reference event listeners:
                 ConsoleMessage = null;
@@ -493,8 +494,7 @@ namespace CefSharp.Wpf
                         managedCefBrowserAdapter = null;
                     }
 
-
-                    browserInitialized = false;
+                    Interlocked.Exchange(ref browserInitialized, 0);
                     UiThreadRunAsync(() =>
                     {
                         SetCurrentValue(IsBrowserInitializedProperty, false);
@@ -856,7 +856,7 @@ namespace CefSharp.Wpf
         /// <param name="browser">The browser.</param>
         void IWebBrowserInternal.OnAfterBrowserCreated(IBrowser browser)
         {
-            browserInitialized = true;
+            Interlocked.Exchange(ref browserInitialized, 1);
             this.browser = browser;
 
             UiThreadRunAsync(() =>
@@ -957,7 +957,7 @@ namespace CefSharp.Wpf
         /// <param name="newValue">The new value.</param>
         protected virtual void OnAddressChanged(string oldValue, string newValue)
         {
-            if (ignoreUriChange || newValue == null || !browserInitialized)
+            if (ignoreUriChange || newValue == null || !InternalIsBrowserInitialized())
             {
                 return;
             }
@@ -2061,7 +2061,7 @@ namespace CefSharp.Wpf
         ///                                     called before the underlying CEF browser is created.</exception>
         public void RegisterJsObject(string name, object objectToBind, BindingOptions options = null)
         {
-            if (browserInitialized)
+            if (InternalIsBrowserInitialized())
             {
                 throw new Exception("Browser is already initialized. RegisterJsObject must be" +
                                     "called before the underlying CEF browser is created.");
@@ -2086,7 +2086,7 @@ namespace CefSharp.Wpf
         /// object will be a standard javascript Promise object which is usable to wait for completion or failure.</remarks>
         public void RegisterAsyncJsObject(string name, object objectToBind, BindingOptions options = null)
         {
-            if (browserInitialized)
+            if (InternalIsBrowserInitialized())
             {
                 throw new Exception("Browser is already initialized. RegisterJsObject must be" +
                                     "called before the underlying CEF browser is created.");
@@ -2123,7 +2123,23 @@ namespace CefSharp.Wpf
         /// <value><c>true</c> if this instance is disposed; otherwise, <c>false</c>.</value>
         public bool IsDisposed
         {
-            get { return disposeCount > 0; }
+            get
+            {
+                //Use CompareExchange to read the current value - if disposeCount is 1, we set it to 1, effectively a no-op
+                //Volatile.Read would likely use a memory barrier which I beleive is unnessicary in this scenario
+                return Interlocked.CompareExchange(ref disposeCount, 1, 1) == 1;
+            }
+        }
+
+        /// <summary>
+        /// Check is browserisinitialized
+        /// </summary>
+        /// <returns>true if browser is initialized</returns>
+        private bool InternalIsBrowserInitialized()
+        {
+            //Use CompareExchange to read the current value - if browserInitialized is 0, we set it to 0, effectively a no-op
+            //Volatile.Read would likely use a memory barrier which I beleive is unnessicary in this scenario
+            return Interlocked.CompareExchange(ref browserInitialized, 0, 0) == 1;
         }
 
         //protected override void OnManipulationDelta(ManipulationDeltaEventArgs e)
