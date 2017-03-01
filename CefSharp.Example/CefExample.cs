@@ -16,16 +16,17 @@ namespace CefSharp.Example
 {
     public static class CefExample
     {
-        public const string DefaultUrl = "custom://cefsharp/home.html";
-        public const string BindingTestUrl = "custom://cefsharp/BindingTest.html";
-        public const string PluginsTestUrl = "custom://cefsharp/plugins.html";
-        public const string PopupTestUrl = "custom://cefsharp/PopupTest.html";
-        public const string TooltipTestUrl = "custom://cefsharp/TooltipTest.html";
-        public const string BasicSchemeTestUrl = "custom://cefsharp/SchemeTest.html";
-        public const string ResponseFilterTestUrl = "custom://cefsharp/ResponseFilterTest.html";
-        public const string DraggableRegionTestUrl = "custom://cefsharp/DraggableRegionTest.html";
-        public const string CssAnimationTestUrl = "custom://cefsharp/CssAnimationTest.html";
-        public const string CdmSupportTestUrl = "custom://cefsharp/CdmSupportTest.html";
+        public const string BaseUrl = "custom://cefsharp";
+        public const string DefaultUrl = BaseUrl + "/home.html";
+        public const string BindingTestUrl = BaseUrl + "/BindingTest.html";
+        public const string PluginsTestUrl = BaseUrl + "/plugins.html";
+        public const string PopupTestUrl = BaseUrl + "/PopupTest.html";
+        public const string TooltipTestUrl = BaseUrl + "/TooltipTest.html";
+        public const string BasicSchemeTestUrl = BaseUrl + "/SchemeTest.html";
+        public const string ResponseFilterTestUrl = BaseUrl + "/ResponseFilterTest.html";
+        public const string DraggableRegionTestUrl = BaseUrl + "/DraggableRegionTest.html";
+        public const string CssAnimationTestUrl = BaseUrl + "/CssAnimationTest.html";
+        public const string CdmSupportTestUrl = BaseUrl + "/CdmSupportTest.html";
         public const string TestResourceUrl = "http://test/resource/load";
         public const string RenderProcessCrashedUrl = "http://processcrashed";
         public const string TestUnicodeResourceUrl = "http://test/resource/loadUnicode";
