@@ -16,16 +16,11 @@ namespace CefSharp
     {
     private:
         gcroot<IResourceHandler^> _handler;
+        gcroot<IRequest^> _request;
 
         Cookie^ GetCookie(const CefCookie& cookie);
 
     public:
-
-        /// <summary>
-        /// Constructor that accepts IBrowser, IFrame, IRequest in order to be the CefSharp
-        /// lifetime management container  (i.e. calling .Dispose at the correct time) on 
-        /// managed objects that contain MCefRefPtrs.
-        /// </summary>
         ResourceHandlerWrapper(IResourceHandler^ handler)
             : _handler(handler)
         {
@@ -35,6 +30,9 @@ namespace CefSharp
         {
             delete _handler;
             _handler = nullptr;
+
+            delete _request;
+            _request = nullptr;
         }
 
         virtual bool ProcessRequest(CefRefPtr<CefRequest> request, CefRefPtr<CefCallback> callback) OVERRIDE;
