@@ -72,8 +72,8 @@ namespace CefSharp.Example
                 return ResourceHandler.FromFilePath("CefSharp.Core.xml", mimeType);
             }
 
-            if (string.Equals(fileName, "/PostDataTest.html", StringComparison.OrdinalIgnoreCase) ||
-                string.Equals(fileName, "/PostDataAjaxTest.html", StringComparison.OrdinalIgnoreCase))
+            if (uri.Host == "cefsharp.com" && schemeName == "https" && (string.Equals(fileName, "/PostDataTest.html", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(fileName, "/PostDataAjaxTest.html", StringComparison.OrdinalIgnoreCase)))
             {
                 return new CefSharpSchemeHandler();
             }

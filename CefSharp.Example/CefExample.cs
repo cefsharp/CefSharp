@@ -151,6 +151,14 @@ namespace CefSharp.Example
                 SchemeHandlerFactory = new CefSharpSchemeHandlerFactory()
             });
 
+            //You can use the http/https schemes - best to register for a specific domain
+            settings.RegisterScheme(new CefCustomScheme
+            {
+                SchemeName = "https",
+                SchemeHandlerFactory = new CefSharpSchemeHandlerFactory(),
+                DomainName = "cefsharp.com"
+            });
+
             settings.RegisterScheme(new CefCustomScheme
             {
                 SchemeName = "localfolder",
@@ -168,6 +176,8 @@ namespace CefSharp.Example
             {
                 throw new Exception("Unable to Initialize Cef");
             }
+
+            Cef.AddCrossOriginWhitelistEntry(BaseUrl, "https", "cefsharp.com", false);
         }
 
         public static async void RegisterTestResources(IWebBrowser browser)
