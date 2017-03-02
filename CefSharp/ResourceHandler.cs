@@ -287,7 +287,7 @@ namespace CefSharp
             {
                 encoding = Encoding.UTF8;
             }
-            return new ResourceHandler(mimeType, ResourceHandlerType.Stream) { Stream = GetStream(text, encoding, includePreamble) };
+            return new ResourceHandler(mimeType, ResourceHandlerType.Stream) { Stream = GetMemoryStream(text, encoding, includePreamble) };
         }
 
         /// <summary>
@@ -301,7 +301,14 @@ namespace CefSharp
             return new ResourceHandler(mimeType, ResourceHandlerType.Stream) { Stream = stream };
         }
 
-        private static MemoryStream GetStream(string text, Encoding encoding, bool includePreamble)
+        /// <summary>
+        /// Gets a MemoryStream from the given string using the provided encoding
+        /// </summary>
+        /// <param name="text">string to be converted to a stream</param>
+        /// <param name="encoding">encoding</param>
+        /// <param name="includePreamble">if true a BOM will be written to the beginning of the stream</param>
+        /// <returns>A memory stream from the given string</returns>
+        public static MemoryStream GetMemoryStream(string text, Encoding encoding, bool includePreamble = true)
         {
             if (includePreamble)
             {
