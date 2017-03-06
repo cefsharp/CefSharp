@@ -22,6 +22,17 @@ namespace CefSharp
         void OnContextCreated(IWebBrowser browserControl, IBrowser browser, IFrame frame);
 
         /// <summary>
+        /// OnContextReleased is called in the Render process immediately before the CefV8Context is released.
+        /// An IPC message is immediately sent to notify the context has been released
+        /// (cannot execute javascript this point). If the page had no javascript then the context would not have been created
+        /// and as a result this method will not be called. Currently only called for the Main frame <see cref="IFrame.IsMain"/>
+        /// </summary>
+        /// <param name="browserControl">The ChromiumWebBrowser control</param>
+        /// <param name="browser">the browser object</param>
+        /// <param name="frame">The frame.</param>
+        void OnContextReleased(IWebBrowser browserControl, IBrowser browser, IFrame frame);
+
+        /// <summary>
         /// Invoked when an element in the UI gains focus (or possibly no
         /// element gains focus; i.e. an element lost focus).
         /// </summary>

@@ -21,5 +21,10 @@ namespace CefSharp.Example
 
             //frame.ExecuteJavaScriptAsync(script);
         }
+
+        void IRenderProcessMessageHandler.OnContextReleased(IWebBrowser browserControl, IBrowser browser, IFrame frame)
+        {
+            //The V8Context is about to be released, use this notification to cancel any long running tasks your might have
+        }
     }
 }

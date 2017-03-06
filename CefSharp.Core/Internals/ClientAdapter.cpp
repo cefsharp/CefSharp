@@ -1088,6 +1088,20 @@ namespace CefSharp
 
                 handled = true;
             }
+            else if (name == kOnContextReleasedRequest)
+            {
+                auto handler = _browserControl->RenderProcessMessageHandler;
+
+                if (handler != nullptr)
+                {
+                    auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+                    CefFrameWrapper frameWrapper(browser->GetFrame(GetInt64(argList, 0)));
+
+                    handler->OnContextReleased(_browserControl, browserWrapper, %frameWrapper);
+                }
+
+                handled = true;
+            }
             else if (name == kOnFocusedNodeChanged)
             {
                 auto handler = _browserControl->RenderProcessMessageHandler;
