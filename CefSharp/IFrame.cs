@@ -149,7 +149,7 @@ namespace CefSharp
         string Name { get; }
 
         /// <summary>
-        /// Returns the globally unique identifier for this frame.
+        /// Returns the globally unique identifier for this frame or &lt; 0 if the underlying frame does not yet exist.
         /// </summary>
         Int64 Identifier { get;  }
 

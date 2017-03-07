@@ -174,7 +174,15 @@ IFrame^ CefSharpBrowserWrapper::FocusedFrame::get()
 IFrame^ CefSharpBrowserWrapper::GetFrame(Int64 identifier)
 {
     ThrowIfDisposed();
-    return gcnew CefFrameWrapper(_browser->GetFrame(identifier));
+
+    auto frame = _browser->GetFrame(identifier);
+
+    if (frame.get())
+    {
+        return gcnew CefFrameWrapper(frame);
+    }
+
+    return nullptr;
 }
 
 ///
@@ -184,7 +192,15 @@ IFrame^ CefSharpBrowserWrapper::GetFrame(Int64 identifier)
 IFrame^ CefSharpBrowserWrapper::GetFrame(String^ name)
 {
     ThrowIfDisposed();
-    return gcnew CefFrameWrapper(_browser->GetFrame(StringUtils::ToNative(name)));
+
+    auto frame = _browser->GetFrame(StringUtils::ToNative(name));
+
+    if (frame.get())
+    {
+        return gcnew CefFrameWrapper(frame);
+    }
+
+    return nullptr;
 }
 
 ///
