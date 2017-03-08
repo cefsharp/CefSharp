@@ -193,8 +193,8 @@ namespace CefSharp
 
             if (handler != nullptr)
             {
-                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
-
+                auto browserWrapper = gcnew CefSharpBrowserWrapper(browser);
+                
                 return handler->DoClose(_browserControl, browserWrapper);
             }
 
