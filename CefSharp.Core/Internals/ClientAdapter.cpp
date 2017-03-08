@@ -195,7 +195,11 @@ namespace CefSharp
             {
                 auto browserWrapper = gcnew CefSharpBrowserWrapper(browser);
                 
-                return handler->DoClose(_browserControl, browserWrapper);
+                bool flag = handler->DoClose(_browserControl, browserWrapper);
+                
+                delete browserWrapper;
+
+                return flag;
             }
 
             return false;
