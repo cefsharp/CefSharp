@@ -406,38 +406,42 @@ namespace CefSharp
                 if (rootObjectWrapper->TryGetAndRemoveMethodCallback(callbackId, callback))
                 {
 
-                    auto frame = browser->GetFrame(frameId);
-                    if (frame.get())
+                    try 
                     {
-                        auto context = frame->GetV8Context();
+                        auto frame = browser->GetFrame(frameId);
+                        if (frame.get())
+                        {
+                            auto context = frame->GetV8Context();
 
-                        if (context.get() && context->Enter())
-                        {
-                            try
+                            if (context.get() && context->Enter())
                             {
-                                auto success = argList->GetBool(2);
-                                if (success)
+                                try
                                 {
-                                    callback->Success(DeserializeV8Object(argList, 3));
+                                    auto success = argList->GetBool(2);
+                                    if (success)
+                                    {
+                                        callback->Success(DeserializeV8Object(argList, 3));
+                                    }
+                                    else
+                                    {
+                                        callback->Fail(argList->GetString(3));
+                                    }
                                 }
-                                else
+                                finally
                                 {
-                                    callback->Fail(argList->GetString(3));
+                                    context->Exit();
                                 }
-                                //dispose
-                                delete callback;
                             }
-                            finally
+                            else
                             {
-                                context->Exit();
+                                callback->Fail("Unable to Enter Context");
                             }
                         }
-                        else
-                        {
-                            callback->Fail("Unable to Enter Context");
-                            //dispose
-                            delete callback;
-                        }
+                    }
+                    finally
+                    {
+                        //dispose
+                        delete callback;
                     }
                 }
             }
