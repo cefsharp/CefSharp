@@ -264,8 +264,10 @@
     <Compile Include="Visitor\ICookieVisitor.cs" />
     <Compile Include="Visitor\INavigationEntryVisitor.cs" />
     <Compile Include="Visitor\IStringVisitor.cs" />
+    <Compile Include="Visitor\IWebPluginInfoVisitor.cs" />
     <Compile Include="Visitor\TaskCookieVisitor.cs" />
     <Compile Include="Visitor\TaskNavigationEntryVisitor.cs" />
+    <Compile Include="Visitor\TaskWebPluginInfoVisitor.cs" />
     <Compile Include="Visitor\TaskStringVisitor.cs" />
     <Compile Include="WebBrowserExtensions.cs" />
     <Compile Include="WebPluginInfo.cs" />

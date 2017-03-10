@@ -434,17 +434,26 @@ namespace CefSharp
         }
 
         /// <summary>
+        /// Visit web plugin information. Can be called on any thread in the browser process.
+        /// </summary>
+        static void VisitWebPluginInfo(IWebPluginInfoVisitor^ visitor)
+        {
+            CefVisitWebPluginInfo(new PluginVisitor(visitor));
+        }
+
+        /// <summary>
         /// Async returns a list containing Plugin Information
         /// (Wrapper around CefVisitWebPluginInfo)
         /// </summary>
         /// <return>Returns List of <see cref="Plugin"/> structs.</return>
         static Task<List<Plugin>^>^ GetPlugins()
         {
-            CefRefPtr<PluginVisitor> visitor = new PluginVisitor();
+            auto taskVisitor = gcnew TaskWebPluginInfoVisitor();
+            CefRefPtr<PluginVisitor> visitor = new PluginVisitor(taskVisitor);
             
             CefVisitWebPluginInfo(visitor);
 
-            return visitor->GetTask();
+            return taskVisitor->Task;
         }
 
         /// <summary>
