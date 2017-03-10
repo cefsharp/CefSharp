@@ -547,7 +547,10 @@ namespace CefSharp
             var host = cefBrowser.GetHost();
             ThrowExceptionIfBrowserHostNull(host);
 
-            return host.PrintToPdfAsync(path, settings);
+            var callback = new TaskPrintToPdfCallback();
+            host.PrintToPdf(path, settings, callback);
+
+            return callback.Task;
         }
 
         /// <summary>

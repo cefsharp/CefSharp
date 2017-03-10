@@ -194,16 +194,6 @@ namespace CefSharp
         /// The caller is responsible for deleting the file when done.
         /// </summary>
         /// <param name="path">Output file location.</param>
-        /// <param name="settings">Print Settings.</param>
-        /// <returns>A task that represents the asynchronous print operation.
-        /// The result is true on success or false on failure to generate the Pdf.</returns>
-        Task<bool> PrintToPdfAsync(string path, PdfPrintSettings settings = null);
-
-        /// <summary>
-        /// Asynchronously prints the current browser contents to the Pdf file specified.
-        /// The caller is responsible for deleting the file when done.
-        /// </summary>
-        /// <param name="path">Output file location.</param>
         /// <param name="settings">Print Settings, can be null</param>
         /// <param name="callback">Callback executed when printing complete</param>
         void PrintToPdf(string path, PdfPrintSettings settings, IPrintToPdfCallback callback);

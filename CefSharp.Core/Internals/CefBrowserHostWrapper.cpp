@@ -72,15 +72,6 @@ void CefBrowserHostWrapper::Print()
     _browserHost->Print();
 }
 
-Task<bool>^ CefBrowserHostWrapper::PrintToPdfAsync(String^ path, PdfPrintSettings^ settings)
-{
-    ThrowIfDisposed();
-
-    auto printToPdfTask = gcnew TaskPrintToPdfCallback();
-    PrintToPdf(path, settings, printToPdfTask);
-    return printToPdfTask->Task;
-}
-
 void CefBrowserHostWrapper::PrintToPdf(String^ path, PdfPrintSettings^ settings, IPrintToPdfCallback^ callback)
 {
     ThrowIfDisposed();
