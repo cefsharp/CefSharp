@@ -8,7 +8,8 @@ using System.Threading;
 
 namespace CefSharp.Example
 {
-    public struct JsObject {
+    public struct JsObject 
+    {
         public string Value;
     }
 
@@ -38,8 +39,10 @@ namespace CefSharp.Example
             Thread.Sleep(1000);
         }
 
-        public JsObject[] ObjectArray(string name) {
-            return new[] {
+        public JsObject[] ObjectArray(string name)
+        {
+            return new[] 
+            {
                 new JsObject() { Value = "Item1" },
                 new JsObject() { Value = "Item2" }
             };
