@@ -129,6 +129,13 @@ namespace CefSharp
 
             if (newBrowser != nullptr)
             {
+                //newBrowser should never be set to _browserControl (I've seen user code where someone attepted to do this).
+                //So throw exception to make that perfectly clear.
+                if (Object::ReferenceEquals(_browserControl, newBrowser))
+                {
+                    throw gcnew Exception("newBrowser should be a new instance of ChromiumWebBrowser or null.");
+                }
+
                 auto newBrowserInternal = dynamic_cast<IWebBrowserInternal^>(newBrowser);
 
                 if (newBrowserInternal != nullptr)
