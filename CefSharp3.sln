@@ -13,6 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.Wpf.Example", "Cef
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{47D0DC8C-D707-4D8A-A578-7737AA9CE79B}"
 	ProjectSection(SolutionItems) = preProject
+		appveyor.yml = appveyor.yml
 		CefSharp.Native.props = CefSharp.Native.props
 		CefSharp.props = CefSharp.props
 		CONTRIBUTING.md = CONTRIBUTING.md
