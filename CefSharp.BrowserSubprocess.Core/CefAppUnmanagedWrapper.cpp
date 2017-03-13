@@ -408,7 +408,7 @@ namespace CefSharp
         {
             auto frameId = GetInt64(argList, 0);
             auto callbackId = GetInt64(argList, 1);
-            
+
             JavascriptRootObjectWrapper^ rootObjectWrapper;
             browserWrapper->JavascriptRootObjectWrappers->TryGetValue(frameId, rootObjectWrapper);
 
@@ -417,17 +417,44 @@ namespace CefSharp
                 JavascriptAsyncMethodCallback^ callback;
                 if (rootObjectWrapper->TryGetAndRemoveMethodCallback(callbackId, callback))
                 {
-                    auto success = argList->GetBool(2);
-                    if (success)
+
+                    try 
                     {
-                        callback->Success(DeserializeV8Object(argList, 3));
+                        auto frame = browser->GetFrame(frameId);
+                        if (frame.get())
+                        {
+                            auto context = frame->GetV8Context();
+
+                            if (context.get() && context->Enter())
+                            {
+                                try
+                                {
+                                    auto success = argList->GetBool(2);
+                                    if (success)
+                                    {
+                                        callback->Success(DeserializeV8Object(argList, 3));
+                                    }
+                                    else
+                                    {
+                                        callback->Fail(argList->GetString(3));
+                                    }
+                                }
+                                finally
+                                {
+                                    context->Exit();
+                                }
+                            }
+                            else
+                            {
+                                callback->Fail("Unable to Enter Context");
+                            }
+                        }
                     }
-                    else
+                    finally
                     {
-                        callback->Fail(argList->GetString(3));
+                        //dispose
+                        delete callback;
                     }
-                    //dispose
-                    delete callback;
                 }
             }
             handled = true;

@@ -191,7 +191,7 @@ namespace CefSharp.Internals
                 }
                 catch (Exception e)
                 {
-                    throw new InvalidOperationException("Could not execute method: " + name + "(" + String.Join(", ", parameters) + ")" + " - Missing Parameters: " + missingParams, e);
+                    throw new InvalidOperationException("Could not execute method: " + name + "(" + String.Join(", ", parameters) + ") " + (missingParams > 0 ? "- Missing Parameters: " + missingParams : ""), e);
                 }
 
                 if(result != null && IsComplexType(result.GetType()))
@@ -397,7 +397,7 @@ namespace CefSharp.Internals
                 baseType = Nullable.GetUnderlyingType(type);
             }
 
-            if (baseType == null || baseType.Namespace.StartsWith("System"))
+            if (baseType == null || baseType.IsArray || baseType.Namespace.StartsWith("System"))
             {
                 return false;
             }

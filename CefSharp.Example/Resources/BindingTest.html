@@ -82,11 +82,23 @@
                         writeAsyncResult(call, end);
                     });
                 }
+
+                function asyncObjectArray()
+                {
+                    var call = "Async call (ObjectArray): " + Date();
+                    boundAsync.objectArray('CefSharp').then(function (res)
+                    {
+                        var end = "Result: [ " + res.map(function (item) { return item.Value }) + " ] (" + Date() + ")";
+                        writeAsyncResult(call, end);
+                    });
+                }
             
                 asyncError();
                 asyncDivOk();
                 asyncDivFail();
                 asyncDoSomething();
+                asyncHello();
+                asyncObjectArray();
             </script>
         </p>
         <p>
