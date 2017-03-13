@@ -142,14 +142,16 @@ namespace CefSharp.Example
             settings.RegisterScheme(new CefCustomScheme
             {
                 SchemeName = CefSharpSchemeHandlerFactory.SchemeName,
-                SchemeHandlerFactory = new CefSharpSchemeHandlerFactory()
+                SchemeHandlerFactory = new CefSharpSchemeHandlerFactory(),
+                IsSecure = true //treated with the same security rules as those applied to "https" URLs
                 //SchemeHandlerFactory = new InMemorySchemeAndResourceHandlerFactory()
             });
 
             settings.RegisterScheme(new CefCustomScheme
             {
                 SchemeName = CefSharpSchemeHandlerFactory.SchemeNameTest,
-                SchemeHandlerFactory = new CefSharpSchemeHandlerFactory()
+                SchemeHandlerFactory = new CefSharpSchemeHandlerFactory(),
+                IsSecure = true //treated with the same security rules as those applied to "https" URLs
             });
 
             //You can use the http/https schemes - best to register for a specific domain
@@ -157,7 +159,8 @@ namespace CefSharp.Example
             {
                 SchemeName = "https",
                 SchemeHandlerFactory = new CefSharpSchemeHandlerFactory(),
-                DomainName = "cefsharp.com"
+                DomainName = "cefsharp.com",
+                IsSecure = true //treated with the same security rules as those applied to "https" URLs
             });
 
             settings.RegisterScheme(new CefCustomScheme

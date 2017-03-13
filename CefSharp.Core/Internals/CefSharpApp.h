@@ -72,7 +72,9 @@ namespace CefSharp
                     argument += scheme->SchemeName + "|";
                     argument += (scheme->IsStandard ? "T" : "F") + "|";
                     argument += (scheme->IsLocal ? "T" : "F") + "|";
-                    argument += (scheme->IsDisplayIsolated ? "T" : "F") + ";";
+                    argument += (scheme->IsDisplayIsolated ? "T" : "F") + "|";
+                    argument += (scheme->IsSecure ? "T" : "F") + "|";
+                    argument += (scheme->IsCorsEnabled ? "T" : "F") + ";";
                 }
 
                 argument = argument->TrimEnd(';');
@@ -111,12 +113,12 @@ namespace CefSharp
             }
         }
 
-        virtual void OnRegisterCustomSchemes(CefRefPtr<CefSchemeRegistrar> registrar) OVERRIDE
+        virtual void OnRegisterCustomSchemes(CefRawPtr<CefSchemeRegistrar> registrar) OVERRIDE
         {
-            for each (CefCustomScheme^ cefCustomScheme in _cefSettings->CefCustomSchemes)
+            for each (CefCustomScheme^ scheme in _cefSettings->CefCustomSchemes)
             {
                 // TOOD: Consider adding error handling here. But where do we report any errors that may have occurred?
-                registrar->AddCustomScheme(StringUtils::ToNative(cefCustomScheme->SchemeName), cefCustomScheme->IsStandard, cefCustomScheme->IsLocal, cefCustomScheme->IsDisplayIsolated);
+                registrar->AddCustomScheme(StringUtils::ToNative(scheme->SchemeName), scheme->IsStandard, scheme->IsLocal, scheme->IsDisplayIsolated, scheme->IsSecure, scheme->IsCorsEnabled);
             }
         };
 
