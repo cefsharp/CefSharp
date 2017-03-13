@@ -212,16 +212,6 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Controls whether the caret position will be drawn. Also configurable using
-        /// the "enable-caret-browsing" command-line switch.
-        /// </summary>
-        virtual property CefState CaretBrowsing
-        {
-            CefState get() { return (CefState)_browserSettings->caret_browsing; }
-            void set(CefState value) { _browserSettings->caret_browsing = (cef_state_t)value; }
-        }
-
-        /// <summary>
         /// Controls whether any plugins will be loaded. Also configurable using the
         /// "disable-plugins" command-line switch.
         /// </summary>
