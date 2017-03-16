@@ -53,6 +53,11 @@ namespace CefSharp
 
             virtual Task<JavascriptResponse^>^ ExecuteAsync(cli::array<Object^>^ parameters);
 
+            virtual property Int64 Id
+            {
+                Int64 get();
+            }
+
             virtual property bool IsDisposed
             {
                 bool get();

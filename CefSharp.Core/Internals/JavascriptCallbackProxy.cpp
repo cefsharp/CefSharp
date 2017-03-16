@@ -70,6 +70,13 @@ namespace CefSharp
             return result;
         }
 
+        Int64 JavascriptCallbackProxy::Id::get()
+        {
+            DisposedGuard();
+
+            return _callback->Id;
+        }
+
         bool JavascriptCallbackProxy::IsDisposed::get()
         {
             return _disposed;

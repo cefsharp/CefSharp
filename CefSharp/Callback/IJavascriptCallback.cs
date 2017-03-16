@@ -9,6 +9,11 @@ namespace CefSharp
 {
     public interface IJavascriptCallback : IDisposable
     {
+        /// <summary>
+        /// Callback Id
+        /// </summary>
+        Int64 Id { get; }
+
         Task<JavascriptResponse> ExecuteAsync(params object[] parms);
 
         /// <summary>
