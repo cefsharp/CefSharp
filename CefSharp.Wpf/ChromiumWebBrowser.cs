@@ -45,7 +45,7 @@ namespace CefSharp.Wpf
         /// <summary>
         /// The tool tip
         /// </summary>
-        private readonly ToolTip toolTip;
+        private ToolTip toolTip;
         /// <summary>
         /// The managed cef browser adapter
         /// </summary>
@@ -86,6 +86,11 @@ namespace CefSharp.Wpf
         /// The dispose count
         /// </summary>
         private int disposeCount;
+        /// <summary>
+        /// A flag that indicates whether or not the designer is active
+        /// NOTE: Needs to be static for OnApplicationExit
+        /// </summary>
+        private static bool designMode;
 
         /// <summary>
         /// Gets or sets the browser settings.
@@ -349,6 +354,21 @@ namespace CefSharp.Wpf
         /// <exception cref="System.InvalidOperationException">Cef::Initialize() failed</exception>
         public ChromiumWebBrowser()
         {
+            designMode = System.ComponentModel.DesignerProperties.GetIsInDesignMode(this);
+
+            if (!designMode)
+            {
+                InitializeFieldsAndCef();
+            }
+        }
+
+        /// <summary>
+        /// Required for designer support - this method cannot be inlined as the designer
+        /// will attempt to load libcef.dll and will subsiquently throw an exception.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private void InitializeFieldsAndCef()
+        {
             if (!Cef.IsInitialized && !Cef.Initialize())
             {
                 throw new InvalidOperationException("Cef::Initialize() failed");
@@ -414,7 +434,10 @@ namespace CefSharp.Wpf
         /// </summary>
         ~ChromiumWebBrowser()
         {
-            Dispose(false);
+            if (!designMode)
+            {
+                Dispose(false);
+            }
         }
 
         /// <summary>
@@ -422,7 +445,11 @@ namespace CefSharp.Wpf
         /// </summary>
         public void Dispose()
         {
-            Dispose(true);
+            if (!designMode)
+            {
+                Dispose(true);
+            }
+
             GC.SuppressFinalize(this);
         }
 
@@ -430,6 +457,8 @@ namespace CefSharp.Wpf
         /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
         /// <param name="isDisposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        // This method cannot be inlined as the designer will attempt to load libcef.dll and will subsiquently throw an exception.
+        [MethodImpl(MethodImplOptions.NoInlining)]
         protected virtual void Dispose(bool isDisposing)
         {
             //If disposeCount is 0 then we'll update it to 1 and begin disposing
@@ -1473,7 +1502,7 @@ namespace CefSharp.Wpf
         /// <returns>bool to indicate if browser was created. If the browser has already been created then this will return false.</returns>
         protected virtual bool CreateOffscreenBrowser(Size size)
         {
-            if (browserCreated || System.ComponentModel.DesignerProperties.GetIsInDesignMode(this) || size.IsEmpty || size.Equals(new Size(0, 0)))
+            if (browserCreated || size.IsEmpty || size.Equals(new Size(0, 0)))
             {
                 return false;
             }
@@ -1559,6 +1588,19 @@ namespace CefSharp.Wpf
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="ExitEventArgs"/> instance containing the event data.</param>
         private static void OnApplicationExit(object sender, ExitEventArgs e)
+        {
+            if (!designMode)
+            {
+                ShutdownCef();
+            }
+        }
+
+        /// <summary>
+        /// Required for designer support - this method cannot be inlined as the designer
+        /// will attempt to load libcef.dll and will subsiquently throw an exception.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static void ShutdownCef()
         {
             Cef.Shutdown();
         }
