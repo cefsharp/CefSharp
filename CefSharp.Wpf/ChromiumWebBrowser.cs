@@ -709,11 +709,11 @@ namespace CefSharp.Wpf
         /// </summary>
         /// <param name="handle">The handle.</param>
         /// <param name="type">The type.</param>
-        void IRenderWebBrowser.SetCursor(IntPtr handle, CefCursorType type)
+        void IRenderWebBrowser.SetCursor(IntPtr handle, CursorType type)
         {
             //Custom cursors are handled differently, for now keep standard ones executing
             //in an async fashion
-            if(type == CefCursorType.Custom)
+            if (type == CursorType.Custom)
             {
                 //When using a custom it appears we need to update the cursor in a sync fashion
                 //Likely the underlying handle/buffer is being released before the cursor

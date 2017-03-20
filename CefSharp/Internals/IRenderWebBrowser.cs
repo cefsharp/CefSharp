@@ -23,7 +23,7 @@ namespace CefSharp.Internals
         BitmapInfo CreateBitmapInfo(bool isPopup);
         void InvokeRenderAsync(BitmapInfo bitmapInfo);
 
-        void SetCursor(IntPtr cursor, CefCursorType type);
+        void SetCursor(IntPtr cursor, CursorType type);
 
         bool StartDragging(IDragData dragData, DragOperationsMask mask, int x, int y);
         void UpdateDragCursor(DragOperationsMask operation);

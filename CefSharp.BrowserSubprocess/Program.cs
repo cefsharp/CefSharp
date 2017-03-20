@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using CefSharp.Internals;
 
@@ -13,7 +14,7 @@ namespace CefSharp.BrowserSubprocess
     {
         public static int Main(string[] args)
         {
-            Kernel32.OutputDebugString("BrowserSubprocess starting up with command line: " + String.Join("\n", args));
+            Debug.WriteLine("BrowserSubprocess starting up with command line: " + String.Join("\n", args));
 
             SubProcess.EnableHighDPISupport();
 
@@ -37,9 +38,10 @@ namespace CefSharp.BrowserSubprocess
             else
             {
                 result = SubProcess.ExecuteProcess();
-            }            
+            }
 
-            Kernel32.OutputDebugString("BrowserSubprocess shutting down.");
+            Debug.WriteLine("BrowserSubprocess shutting down.");
+
             return result;
         }
     }
