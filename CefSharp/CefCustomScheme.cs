@@ -83,7 +83,7 @@ namespace CefSharp
 
         /// <summary>
         /// If true the scheme can be sent CORS requests.
-        /// This value should be true in most cases where IsStandard| is true.
+        /// This value should be true in most cases where IsStandard is true.
         /// </summary>
         public bool IsCorsEnabled { get; set; }
 
@@ -101,8 +101,8 @@ namespace CefSharp
             IsStandard = true;
             IsLocal = false;
             IsDisplayIsolated = false;
-            IsSecure = false;
-            IsCorsEnabled = false;
+            IsSecure = true;
+            IsCorsEnabled = true;
         }
 
         /// <summary>
