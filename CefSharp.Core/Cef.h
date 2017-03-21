@@ -446,7 +446,7 @@ namespace CefSharp
         /// (Wrapper around CefVisitWebPluginInfo)
         /// </summary>
         /// <return>Returns List of <see cref="Plugin"/> structs.</return>
-        static Task<List<Plugin>^>^ GetPlugins()
+        static Task<List<WebPluginInfo^>^>^ GetPlugins()
         {
             auto taskVisitor = gcnew TaskWebPluginInfoVisitor();
             CefRefPtr<PluginVisitor> visitor = new PluginVisitor(taskVisitor);

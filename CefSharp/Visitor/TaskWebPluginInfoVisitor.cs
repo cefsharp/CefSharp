@@ -11,16 +11,16 @@ namespace CefSharp
 {
     public class TaskWebPluginInfoVisitor : IWebPluginInfoVisitor
     {
-        private TaskCompletionSource<List<Plugin>> taskCompletionSource;
-        private List<Plugin> list;
+        private TaskCompletionSource<List<WebPluginInfo>> taskCompletionSource;
+        private List<WebPluginInfo> list;
 
         public TaskWebPluginInfoVisitor()
         {
-            taskCompletionSource = new TaskCompletionSource<List<Plugin>>();
-            list = new List<Plugin>();
+            taskCompletionSource = new TaskCompletionSource<List<WebPluginInfo>>();
+            list = new List<WebPluginInfo>();
         }
 
-        bool IWebPluginInfoVisitor.Visit(Plugin plugin, int count, int total)
+        bool IWebPluginInfoVisitor.Visit(WebPluginInfo plugin, int count, int total)
         {
             list.Add(plugin);
 
@@ -31,7 +31,7 @@ namespace CefSharp
         /// <summary>
         /// Task that can be awaited for the result to be retrieved async
         /// </summary>
-        public Task<List<Plugin>> Task
+        public Task<List<WebPluginInfo>> Task
         {
             get { return taskCompletionSource.Task; }
         }

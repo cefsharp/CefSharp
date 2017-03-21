@@ -9,15 +9,6 @@ namespace CefSharp
     /// </summary>
     public struct CompositionUnderline
     {
-        public CompositionUnderline(Range range, uint color, uint backGroundColor, bool thick)
-            : this()
-        {
-            Range = range;
-            Color = color;
-            BackgroundColor = backGroundColor;
-            Thick = thick;
-        }
-
         /// <summary>
         /// Underline character range.
         /// </summary>
@@ -39,7 +30,14 @@ namespace CefSharp
         /// </summary>
         public bool Thick { get; private set; }
 
-                
+        public CompositionUnderline(Range range, uint color, uint backGroundColor, bool thick)
+            : this()
+        {
+            Range = range;
+            Color = color;
+            BackgroundColor = backGroundColor;
+            Thick = thick;
+        }                
     }
 }
 

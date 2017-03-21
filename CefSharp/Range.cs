@@ -9,14 +9,21 @@ namespace CefSharp
     /// </summary>
     public struct Range
     {
+        /// <summary>
+        /// From
+        /// </summary>
+        public int From { get; private set; }
+        
+        /// <summary>
+        /// To
+        /// </summary>
+        public int To { get; private set; }
+
         public Range(int from, int to)
             : this()
         {
             From = from;
             To = to;
         }
-
-        public int From { get; private set; }
-        public int To { get; private set; }
     }
 }

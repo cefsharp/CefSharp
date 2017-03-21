@@ -4,24 +4,36 @@
 
 namespace CefSharp
 {
+    //TODO: Should we replace CefDirtyRect with Rect? They have the same values
     public struct CefDirtyRect
     {
-        private readonly int x;
-        private readonly int y;
-        private readonly int width;
-        private readonly int height;
+        /// <summary>
+        /// X coordinate
+        /// </summary>
+        public int X { get; private set; }
+        
+        /// <summary>
+        /// Y coordinate
+        /// </summary>
+        public int Y { get; private set; }
+        
+        /// <summary>
+        /// Width
+        /// </summary>
+        public int Width { get; private set; }
+        
+        /// <summary>
+        /// Height
+        /// </summary>
+        public int Height { get; private set; }
 
         public CefDirtyRect(int x, int y, int width, int height)
+            : this()
         {
-            this.x = x;
-            this.y = y;
-            this.width = width;
-            this.height = height;
+            X = x;
+            Y = y;
+            Width = width;
+            Height = height;
         }
-
-        public int X { get { return x; } }
-        public int Y { get { return y; } }
-        public int Width { get { return width; } }
-        public int Height { get { return height; } }
     }
 }

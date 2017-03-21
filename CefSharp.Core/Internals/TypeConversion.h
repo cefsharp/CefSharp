@@ -86,13 +86,10 @@ namespace CefSharp
 
             static WebPluginInfo^ FromNative(CefRefPtr<CefWebPluginInfo> webPluginInfo)
             {
-                auto managedWebPluginInfo = gcnew WebPluginInfo();
-                managedWebPluginInfo->Description = StringUtils::ToClr(webPluginInfo->GetDescription());
-                managedWebPluginInfo->Name = StringUtils::ToClr(webPluginInfo->GetName());
-                managedWebPluginInfo->Path = StringUtils::ToClr(webPluginInfo->GetPath());
-                managedWebPluginInfo->Version = StringUtils::ToClr(webPluginInfo->GetVersion());
-
-                return managedWebPluginInfo;
+                return gcnew WebPluginInfo(StringUtils::ToClr(webPluginInfo->GetName()),
+                                           StringUtils::ToClr(webPluginInfo->GetDescription()),
+                                           StringUtils::ToClr(webPluginInfo->GetPath()),
+                                           StringUtils::ToClr(webPluginInfo->GetVersion()));
             }
 
             static IList<DraggableRegion>^ FromNative(const std::vector<CefDraggableRegion>& regions)

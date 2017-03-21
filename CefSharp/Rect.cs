@@ -9,17 +9,33 @@ namespace CefSharp
     /// </summary>
     public struct Rect
     {
-        public Rect(int x, int y, int width, int height) : this()
+        /// <summary>
+        /// X coordinate
+        /// </summary>
+        public int X { get; private set; }
+        
+        /// <summary>
+        /// Y coordinate
+        /// </summary>
+        public int Y { get; private set; }
+        
+        /// <summary>
+        /// Width
+        /// </summary>
+        public int Width { get; private set; }
+        
+        /// <summary>
+        /// Height
+        /// </summary>
+        public int Height { get; private set; }
+
+        public Rect(int x, int y, int width, int height)
+            : this()
         {
             X = x;
             Y = y;
             Width = width;
             Height = height;
         }
-
-        public int X { get; private set; }
-        public int Y { get; private set; }
-        public int Width { get; private set; }
-        public int Height { get; private set; }
     }
 }

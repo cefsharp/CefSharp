@@ -243,7 +243,6 @@
     <Compile Include="Internals\BrowserProcessService.cs" />
     <Compile Include="Internals\BrowserProcessServiceHost.cs" />
     <Compile Include="Internals\WCFExtensions.cs" />
-    <Compile Include="Plugin.cs" />
     <Compile Include="PostDataExtensions.cs" />
     <Compile Include="Range.cs" />
     <Compile Include="Rect.cs" />

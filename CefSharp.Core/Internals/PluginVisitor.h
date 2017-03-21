@@ -28,11 +28,10 @@ namespace CefSharp
 
         virtual bool Visit(CefRefPtr<CefWebPluginInfo> info, int count, int total) OVERRIDE
         {
-            Plugin plugin;
-            plugin.Name = StringUtils::ToClr(info->GetName());
-            plugin.Description = StringUtils::ToClr(info->GetDescription());
-            plugin.Path = StringUtils::ToClr(info->GetPath());
-            plugin.Version = StringUtils::ToClr(info->GetVersion());
+            auto plugin = gcnew WebPluginInfo(StringUtils::ToClr(info->GetName()),
+                StringUtils::ToClr(info->GetDescription()),
+                StringUtils::ToClr(info->GetPath()),
+                StringUtils::ToClr(info->GetVersion()));
 
             return _visitor->Visit(plugin, count, total);
         }

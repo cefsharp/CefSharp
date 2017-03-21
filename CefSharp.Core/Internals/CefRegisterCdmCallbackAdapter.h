@@ -37,10 +37,7 @@ namespace CefSharp
             virtual void OnCdmRegistrationComplete(cef_cdm_registration_error_t result,
                 const CefString& error_message) OVERRIDE
             {
-                auto r = gcnew CdmRegistration();
-
-                r->ErrorCode = (CdmRegistrationErrorCode)result;
-                r->ErrorMessage = StringUtils::ToClr(error_message);
+                auto r = gcnew CdmRegistration((CdmRegistrationErrorCode)result, StringUtils::ToClr(error_message));
 
                 _callback->OnRegistrationComplete(r);
             }

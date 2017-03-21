@@ -16,6 +16,6 @@ namespace CefSharp
         /// <param name="count">is the 0-based index for the current plugin</param>
         /// <param name="total">total is the total number of plugins.</param>
         /// <returns>Return false to stop visiting plugins otherwise true</returns>
-        bool Visit(Plugin plugin, int count, int total);
+        bool Visit(WebPluginInfo plugin, int count, int total);
     }
 }
