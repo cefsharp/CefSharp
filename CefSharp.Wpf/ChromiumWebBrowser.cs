@@ -358,17 +358,19 @@ namespace CefSharp.Wpf
 
             if (!designMode)
             {
-                InitializeFieldsAndCef();
+                NoInliningConstructor();
             }
         }
 
         /// <summary>
+        /// Constructor logic has been moved into this method
         /// Required for designer support - this method cannot be inlined as the designer
         /// will attempt to load libcef.dll and will subsiquently throw an exception.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        private void InitializeFieldsAndCef()
+        private void NoInliningConstructor()
         {
+            //Initialize CEF if it hasn't already been initialized
             if (!Cef.IsInitialized && !Cef.Initialize())
             {
                 throw new InvalidOperationException("Cef::Initialize() failed");
@@ -376,6 +378,9 @@ namespace CefSharp.Wpf
 
             BitmapFactory = new BitmapFactory();
 
+            //Add this ChromiumWebBrowser instance to a list of IDisposable objects
+            // that if still alive at the time Cef.Shutdown is called will be disposed of
+            // It's important all browser instances be freed before Cef.Shutdown is called.
             Cef.AddDisposable(this);
             Focusable = true;
             FocusVisualStyle = null;
@@ -1591,7 +1596,7 @@ namespace CefSharp.Wpf
         {
             if (!designMode)
             {
-                ShutdownCef();
+                CefShutdown();
             }
         }
 
@@ -1600,7 +1605,7 @@ namespace CefSharp.Wpf
         /// will attempt to load libcef.dll and will subsiquently throw an exception.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        private static void ShutdownCef()
+        private static void CefShutdown()
         {
             Cef.Shutdown();
         }
