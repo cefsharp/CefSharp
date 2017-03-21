@@ -10,7 +10,7 @@ namespace CefSharp
     /// Class used to Represent a cookie the built in .Net Cookie
     /// class isn't used as some of it's properties have internal setters
     /// </summary>
-    public class Cookie
+    public sealed class Cookie
     {
         public string Name { get; set; }
         public string Value { get; set; }

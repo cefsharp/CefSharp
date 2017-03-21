@@ -7,9 +7,9 @@ using System.Security.Cryptography.X509Certificates;
 namespace CefSharp
 {
     /// <summary>
-    /// Struct representing the SSL information for a navigation entry.
+    /// Class representing the SSL information for a navigation entry.
     /// </summary>
-    public struct SslStatus
+    public sealed class SslStatus
     {
         /// <summary>
         /// Returns true if the status is related to a secure SSL/TLS connection.
@@ -40,7 +40,6 @@ namespace CefSharp
         public X509Certificate2 X509Certificate { get; private set; }
 
         public SslStatus(bool isSecureConnection, CertStatus certStatus, SslVersion sslVersion, SslContentStatus contentStatus, X509Certificate2 certificate)
-            : this()
         {
             IsSecureConnection = isSecureConnection;
             CertStatus = certStatus;

@@ -629,12 +629,8 @@ namespace CefSharp.OffScreen
         /// <returns>ScreenInfo.</returns>
         ScreenInfo IRenderWebBrowser.GetScreenInfo()
         {
-            //TODO: Expose NotifyScreenInfoChanged and allow user to specify their own scale factor
-            var screenInfo = new ScreenInfo
-            {
-                ScaleFactor = 1.0F
-            };
-
+            var screenInfo = new ScreenInfo(scaleFactor : 1.0F);
+            
             return screenInfo;
         }
 
@@ -644,12 +640,8 @@ namespace CefSharp.OffScreen
         /// <returns>ViewRect.</returns>
         ViewRect IRenderWebBrowser.GetViewRect()
         {
-            var viewRect = new ViewRect
-            {
-                Width = size.Width,
-                Height = size.Height
-            };
-
+            var viewRect = new ViewRect(size.Width, size.Height);
+            
             return viewRect;
         }
 

@@ -6,6 +6,11 @@ namespace CefSharp.Internals
 {
     public struct ScreenInfo
     {
-        public float ScaleFactor { get; set; }
+        public float ScaleFactor { get; private set; }
+        
+        public ScreenInfo(float scaleFactor) : this()
+        {
+            ScaleFactor = scaleFactor;
+        }
     }
 }

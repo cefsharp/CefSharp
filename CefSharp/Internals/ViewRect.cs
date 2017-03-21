@@ -6,8 +6,14 @@ namespace CefSharp.Internals
 {
     public struct ViewRect
     {
-        public int Width { get; set; }
-        public int Height { get; set; }
+        public int Width { get; private set; }
+        public int Height { get; private set; }
+
+        public ViewRect(int width, int height) : this()
+        {
+            Width = width;
+            Height = height;
+        }
     }
 }
 

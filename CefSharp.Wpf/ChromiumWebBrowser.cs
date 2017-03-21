@@ -552,10 +552,7 @@ namespace CefSharp.Wpf
         /// <returns>ScreenInfo.</returns>
         ScreenInfo IRenderWebBrowser.GetScreenInfo()
         {
-            var screenInfo = new ScreenInfo
-            {
-                ScaleFactor = (float)matrix.M11
-            };
+            var screenInfo = new ScreenInfo(scaleFactor: (float)matrix.M11);            
 
             return screenInfo;
         }
@@ -566,11 +563,7 @@ namespace CefSharp.Wpf
         /// <returns>ViewRect.</returns>
         ViewRect IRenderWebBrowser.GetViewRect()
         {
-            var viewRect = new ViewRect
-            {
-                Width = (int)Math.Ceiling(ActualWidth),
-                Height = (int)Math.Ceiling(ActualHeight)
-            };
+            var viewRect = new ViewRect((int)Math.Ceiling(ActualWidth), (int)Math.Ceiling(ActualHeight));
 
             return viewRect;
         }
@@ -1754,12 +1747,7 @@ namespace CefSharp.Wpf
         {
             var point = e.GetPosition(this);
 
-            return new MouseEvent
-            {
-                X = (int)point.X,
-                Y = (int)point.Y,
-                //Modifiers = modifiers // TODO: Add support for modifiers in drag events (might not be need as it can be accessed via the mouse events)
-            };
+            return new MouseEvent((int)point.X, (int)point.Y, CefEventFlags.None);
         }
 
         /// <summary>

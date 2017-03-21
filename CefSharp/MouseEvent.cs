@@ -5,23 +5,30 @@
 namespace CefSharp
 {
     /// <summary>
-    /// Class representing a mouse event.
+    /// Struct representing a mouse event.
     /// </summary>
-    public class MouseEvent
+    public struct MouseEvent
     {
         /// <summary>
-        /// X coordinate relative to the left side of the view.
+        /// x coordinate - relative to upper-left corner of view
         /// </summary>
-        public int X { get; set; }
+        public int X { get; private set; }
 
         /// <summary>
-        /// Y coordinate relative to the top side of the view.
+        /// y coordinate - relative to upper-left corner of view
         /// </summary>
-        public int Y { get; set; }
+        public int Y { get; private set; }
 
         /// <summary>
         /// Bit flags describing any pressed modifier keys.
         /// </summary>
-        public CefEventFlags Modifiers { get; set; }
+        public CefEventFlags Modifiers { get; private set; }
+
+        public MouseEvent(int x, int y, CefEventFlags modifiers) : this()
+        {
+            X = x;
+            Y = y;
+            Modifiers = modifiers;
+        }
     }
 }

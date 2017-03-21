@@ -13,7 +13,7 @@ namespace CefSharp
     /// You can register your own custom scheme e.g. custom:// or use an existing
     /// scheme e.g. http://
     /// </summary>
-    public class CefCustomScheme
+    public sealed class CefCustomScheme
     {
         /// <summary>
         /// Schema Name e.g. custom

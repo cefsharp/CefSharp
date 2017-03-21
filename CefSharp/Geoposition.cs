@@ -13,7 +13,7 @@ namespace CefSharp
     /// structure correspond to those of the JavaScript Position object although
     /// their types may differ.
     /// </summary>
-    public class Geoposition
+    public sealed class Geoposition
     {
         /// <summary>
         /// Latitude in decimal degrees north (WGS84 coordinate frame).

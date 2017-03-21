@@ -237,23 +237,19 @@ namespace CefSharp
         /// <summary>
         /// Send a mouse click event to the browser.
         /// </summary>
-        /// <param name="x">x coordinate - relative to upper-left corner of view</param>
-        /// <param name="y">y coordinate - relative to upper-left corner of view</param>
+        /// <param name=param name="mouseEvent">mouse event - x, y and modifiers</param>
         /// <param name="mouseButtonType">Mouse ButtonType</param>
         /// <param name="mouseUp">mouse up</param>
         /// <param name="clickCount">click count</param>
-        /// <param name="modifiers">click modifiers e.g. Ctrl</param>
-        void SendMouseClickEvent(int x, int y, MouseButtonType mouseButtonType, bool mouseUp, int clickCount, CefEventFlags modifiers);
+        void SendMouseClickEvent(MouseEvent mouseEvent, MouseButtonType mouseButtonType, bool mouseUp, int clickCount);
 
         /// <summary>
         /// Send a mouse wheel event to the browser.
         /// </summary>
-        /// <param name="x">X-Axis coordinate relative to the upper-left corner of the view.</param>
-        /// <param name="y">Y-Axis coordinate relative to the upper-left corner of the view.</param>
+        /// <param name=param name="mouseEvent">mouse event - x, y and modifiers</param>
         /// <param name="deltaX">Movement delta for X direction.</param>
         /// <param name="deltaY">movement delta for Y direction.</param>
-        /// /// <param name="modifiers">click modifiers e.g. Ctrl</param>
-        void SendMouseWheelEvent(int x, int y, int deltaX, int deltaY, CefEventFlags modifiers);
+        void SendMouseWheelEvent(MouseEvent mouseEvent, int deltaX, int deltaY);
 
         /// <summary>
         /// Set whether the browser is focused. (Used for Normal Rendering e.g. WinForms)
@@ -291,13 +287,13 @@ namespace CefSharp
         void StopFinding(bool clearSelection);
 
         /// <summary>
-        /// Send a mouse move event to the browser
+        /// Send a mouse move event to the browser, coordinates, 
         /// </summary>
         /// <param name="x">x coordinate - relative to upper-left corner of view</param>
         /// <param name="y">y coordinate - relative to upper-left corner of view</param>
         /// <param name="mouseLeave">mouse leave</param>
         /// <param name="modifiers">click modifiers .e.g Ctrl</param>
-        void SendMouseMoveEvent(int x, int y, bool mouseLeave, CefEventFlags modifiers);
+        void SendMouseMoveEvent(MouseEvent mouseEvent, bool mouseLeave);
 
         /// <summary>
         /// Notify the browser that it has been hidden or shown.

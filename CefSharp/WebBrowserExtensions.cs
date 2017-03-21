@@ -695,9 +695,30 @@ namespace CefSharp
             var host = browser.GetHost();
             ThrowExceptionIfBrowserHostNull(host);
 
-            host.SendMouseWheelEvent(x, y, deltaX, deltaY, modifiers);
+            host.SendMouseWheelEvent(new MouseEvent(x, y, modifiers), deltaX, deltaY);
         }
 
+        public static void SendMouseWheelEvent(this IBrowserHost host, int x, int y, int deltaX, int deltaY, CefEventFlags modifiers)
+        {
+            ThrowExceptionIfBrowserHostNull(host);
+
+            host.SendMouseWheelEvent(new MouseEvent(x, y, modifiers), deltaX, deltaY);
+        }
+
+        public static void SendMouseClickEvent(this IBrowserHost host, int x, int y, MouseButtonType mouseButtonType, bool mouseUp, int clickCount, CefEventFlags modifiers)
+        {
+            ThrowExceptionIfBrowserHostNull(host);
+
+            host.SendMouseClickEvent(new MouseEvent(x, y, modifiers), mouseButtonType, mouseUp, clickCount);
+        }
+
+        public static void SendMouseMoveEvent(this IBrowserHost host, int x, int y, bool mouseLeave, CefEventFlags modifiers)
+        {
+            ThrowExceptionIfBrowserHostNull(host);
+
+            host.SendMouseMoveEvent(new MouseEvent(x, y, modifiers), mouseLeave);
+        }
+        
         public static Task<JavascriptResponse> EvaluateScriptAsync(this IWebBrowser browser, string script, TimeSpan? timeout = null)
         {
             if (timeout.HasValue && timeout.Value.TotalMilliseconds > UInt32.MaxValue)

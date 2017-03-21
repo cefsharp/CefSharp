@@ -9,7 +9,7 @@ namespace CefSharp
     /// <summary>
     /// Represents an entry in navigation history.
     /// </summary>
-    public struct NavigationEntry
+    public sealed class NavigationEntry
     {
         /// <summary>
         /// Returns the time for the last known successful navigation completion.
@@ -64,7 +64,7 @@ namespace CefSharp
         /// <summary>
         /// Returns the SSL information for this navigation entry.
         /// </summary>
-        public SslStatus? SslStatus { get; private set; }
+        public SslStatus SslStatus { get; private set; }
 
         /// <summary>
         /// NavigationEntry
@@ -80,8 +80,7 @@ namespace CefSharp
         /// <param name="isValid">isValid</param>
         /// <param name="isCurrent">is the current entry</param>
         /// <param name="sslStatus">the ssl status</param>
-        public NavigationEntry(bool isCurrent, DateTime completionTime, string displayUrl, int httpStatusCode, string originalUrl, string title, TransitionType transitionType, string url, bool hasPostData, bool isValid, SslStatus? sslStatus)
-         : this()
+        public NavigationEntry(bool isCurrent, DateTime completionTime, string displayUrl, int httpStatusCode, string originalUrl, string title, TransitionType transitionType, string url, bool hasPostData, bool isValid, SslStatus sslStatus)
         {
             IsCurrent = isCurrent;
             CompletionTime = completionTime;

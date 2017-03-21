@@ -9,7 +9,7 @@ namespace CefSharp
     /// <summary>
     /// Class used to represent a download item.
     /// </summary>
-    public class DownloadItem
+    public sealed class DownloadItem
     {
         /// <summary>
         /// Returns true if this object is valid. Do not call any other methods if this function returns false.
