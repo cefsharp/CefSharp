@@ -1091,6 +1091,8 @@ namespace CefSharp
                     CefFrameWrapper frameWrapper(browser->GetFrame(GetInt64(argList, 0)));
 
                     handler->OnContextCreated(_browserControl, browserWrapper, %frameWrapper);
+
+                    _browserControl->SetCanExecuteJavascriptOnMainFrame(true);
                 }
 
                 handled = true;
@@ -1105,6 +1107,8 @@ namespace CefSharp
                     CefFrameWrapper frameWrapper(browser->GetFrame(GetInt64(argList, 0)));
 
                     handler->OnContextReleased(_browserControl, browserWrapper, %frameWrapper);
+
+                    _browserControl->SetCanExecuteJavascriptOnMainFrame(false);
                 }
 
                 handled = true;

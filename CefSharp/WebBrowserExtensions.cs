@@ -207,6 +207,14 @@ namespace CefSharp
         /// <param name="script">The Javascript code that should be executed.</param>
         public static void ExecuteScriptAsync(this IWebBrowser browser, string script)
         {
+            if (browser.CanExecuteJavascriptInMainFrame == false)
+            {
+                throw new Exception(@"Unable to execute javascript at this time, scripts can only be executed within a V8Context.
+                                    Use the IWebBrowser.CanExecuteJavascriptInMainFrame property to guard against this exception.
+                                    See https://github.com/cefsharp/CefSharp/wiki/General-Usage#when-can-i-start-executing-javascript
+                                    for more details on when you can execute javascript.");
+            }
+
             using (var frame = browser.GetMainFrame())
             {
                 ThrowExceptionIfFrameNull(frame);
@@ -724,6 +732,14 @@ namespace CefSharp
             if (timeout.HasValue && timeout.Value.TotalMilliseconds > UInt32.MaxValue)
             {
                 throw new ArgumentOutOfRangeException("timeout", "Timeout greater than Maximum allowable value of " + UInt32.MaxValue);
+            }
+
+            if(browser.CanExecuteJavascriptInMainFrame == false)
+            {
+                throw new Exception(@"Unable to execute javascript at this time, scripts can only be executed within a V8Context.
+                                    Use the IWebBrowser.CanExecuteJavascriptInMainFrame property to guard against this exception.
+                                    See https://github.com/cefsharp/CefSharp/wiki/General-Usage#when-can-i-start-executing-javascript
+                                    for more details on when you can execute javascript.");
             }
 
             using (var frame = browser.GetMainFrame())

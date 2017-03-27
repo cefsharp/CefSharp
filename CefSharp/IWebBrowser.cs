@@ -237,7 +237,14 @@ namespace CefSharp
         string TooltipText { get; }
 
         /// <summary>
-        /// Attempts to give focus to the IWpfWebBrowser control.
+        /// A flag that indicates if you can execute javascript in the main frame.
+        /// Flag is set to true in IRenderProcessMessageHandler.OnContextCreated.
+        /// and false in IRenderProcessMessageHandler.OnContextReleased
+        /// </summary>
+        bool CanExecuteJavascriptInMainFrame { get; }
+
+        /// <summary>
+        /// Attempts to give focus to the IWebBrowser control.
         /// </summary>
         /// <returns><c>true</c> if keyboard focus and logical focus were set to this element; <c>false</c> if only logical focus
         /// was set to this element, or if the call to this method did not force the focus to change.</returns>
