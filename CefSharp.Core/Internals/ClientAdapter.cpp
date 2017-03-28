@@ -1083,6 +1083,8 @@ namespace CefSharp
 
             if (name == kOnContextCreatedRequest)
             {
+                _browserControl->SetCanExecuteJavascriptOnMainFrame(true);
+
                 auto handler = _browserControl->RenderProcessMessageHandler;
 
                 if (handler != nullptr)
@@ -1091,14 +1093,14 @@ namespace CefSharp
                     CefFrameWrapper frameWrapper(browser->GetFrame(GetInt64(argList, 0)));
 
                     handler->OnContextCreated(_browserControl, browserWrapper, %frameWrapper);
-
-                    _browserControl->SetCanExecuteJavascriptOnMainFrame(true);
                 }
 
                 handled = true;
             }
             else if (name == kOnContextReleasedRequest)
             {
+                _browserControl->SetCanExecuteJavascriptOnMainFrame(false);
+
                 auto handler = _browserControl->RenderProcessMessageHandler;
 
                 if (handler != nullptr)
@@ -1107,8 +1109,6 @@ namespace CefSharp
                     CefFrameWrapper frameWrapper(browser->GetFrame(GetInt64(argList, 0)));
 
                     handler->OnContextReleased(_browserControl, browserWrapper, %frameWrapper);
-
-                    _browserControl->SetCanExecuteJavascriptOnMainFrame(false);
                 }
 
                 handled = true;

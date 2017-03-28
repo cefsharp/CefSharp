@@ -209,10 +209,10 @@ namespace CefSharp
         {
             if (browser.CanExecuteJavascriptInMainFrame == false)
             {
-                throw new Exception(@"Unable to execute javascript at this time, scripts can only be executed within a V8Context.
-                                    Use the IWebBrowser.CanExecuteJavascriptInMainFrame property to guard against this exception.
-                                    See https://github.com/cefsharp/CefSharp/wiki/General-Usage#when-can-i-start-executing-javascript
-                                    for more details on when you can execute javascript.");
+                throw new Exception("Unable to execute javascript at this time, scripts can only be executed within a V8Context." +
+                                    "Use the IWebBrowser.CanExecuteJavascriptInMainFrame property to guard against this exception." +
+                                    "See https://github.com/cefsharp/CefSharp/wiki/General-Usage#when-can-i-start-executing-javascript " +
+                                    "for more details on when you can execute javascript.");
             }
 
             using (var frame = browser.GetMainFrame())
@@ -736,10 +736,10 @@ namespace CefSharp
 
             if(browser.CanExecuteJavascriptInMainFrame == false)
             {
-                throw new Exception(@"Unable to execute javascript at this time, scripts can only be executed within a V8Context.
-                                    Use the IWebBrowser.CanExecuteJavascriptInMainFrame property to guard against this exception.
-                                    See https://github.com/cefsharp/CefSharp/wiki/General-Usage#when-can-i-start-executing-javascript
-                                    for more details on when you can execute javascript.");
+                throw new Exception("Unable to execute javascript at this time, scripts can only be executed within a V8Context." +
+                                    "Use the IWebBrowser.CanExecuteJavascriptInMainFrame property to guard against this exception." +
+                                    "See https://github.com/cefsharp/CefSharp/wiki/General-Usage#when-can-i-start-executing-javascript " +
+                                    "for more details on when you can execute javascript.");
             }
 
             using (var frame = browser.GetMainFrame())
