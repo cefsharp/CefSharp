@@ -552,6 +552,30 @@ namespace CefSharp.Example.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///
+        ///&lt;html lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
+        ///    &lt;title&gt;CefSharp Recaptcha Test&lt;/title&gt;
+        ///    &lt;script src=&apos;https://www.google.com/recaptcha/api.js&apos;&gt;&lt;/script&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///    &lt;h1&gt;Recaptcha Test&lt;/h1&gt;
+        ///    &lt;form&gt;
+        ///        &lt;div class=&quot;g-recaptcha&quot; data-sitekey=&quot;6Lce2hoUAAAAALGrg1Z7075o6a3TqHE1N5KX2og0&quot;&gt;&lt;/div&gt;
+        ///
+        ///    &lt;/form&gt;
+        ///&lt;/body&gt;
+        ///&lt;/html&gt;.
+        /// </summary>
+        public static string Recaptcha {
+            get {
+                return ResourceManager.GetString("Recaptcha", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;html&gt;
         ///&lt;head&gt;
         ///    &lt;title&gt;Response Filter Test&lt;/title&gt;

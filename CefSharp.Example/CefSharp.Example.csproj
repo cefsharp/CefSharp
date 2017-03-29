@@ -150,6 +150,7 @@
     <Content Include="Resources\FramedWebGLTest.html" />
     <Content Include="Resources\PopupTest.html" />
     <Content Include="Resources\DraggableRegionTest.html" />
+    <Content Include="Resources\Recaptcha.html" />
     <Content Include="Resources\ResponseFilterTest.html" />
     <Content Include="Resources\SchemeTest.html" />
     <Content Include="Resources\ScriptedMethodsTest.html" />
