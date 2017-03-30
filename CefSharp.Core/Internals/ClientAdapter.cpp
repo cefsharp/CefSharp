@@ -193,13 +193,12 @@ namespace CefSharp
 
             if (handler != nullptr)
             {
-                auto browserWrapper = gcnew CefSharpBrowserWrapper(browser);
+                //By this point it's possible IBrowser references have been disposed
+                //Rather than attempting to rework the rather complex closing logic
+                //It's easier to pass in a new wrapper and dispose it straight away
+                CefSharpBrowserWrapper browserWrapper(browser);
                 
-                bool flag = handler->DoClose(_browserControl, browserWrapper);
-                
-                delete browserWrapper;
-
-                return flag;
+                return handler->DoClose(_browserControl, %browserWrapper);
             }
 
             return false;
