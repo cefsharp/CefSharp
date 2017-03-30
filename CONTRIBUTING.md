@@ -1,4 +1,4 @@
-##CefSharp Project Contribution Guide
+## CefSharp Project Contribution Guide
 Thanks for your interest in contributing to the project! Please follow these simple guidelines:
 
 ### General
