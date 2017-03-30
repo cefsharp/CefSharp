@@ -17,7 +17,7 @@ We ask that you put in a reasonable amount of effort in searching through the re
 Still have a question to ask or unsure where to go next? Start with the Gitter Chat room : https://gitter.im/cefsharp/CefSharp
 
 --
-###Bug Report
+### Bug Report
 Delete this line and everything above, and then fill in the details below.
 
 - **What version of the product are you using?**
