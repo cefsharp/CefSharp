@@ -50,6 +50,8 @@ namespace CefSharp.Example
                 { "/MultiBindingTest.html", Resources.MultiBindingTest },
                 { "/ScriptedMethodsTest.html", Resources.ScriptedMethodsTest },
                 { "/ResponseFilterTest.html", Resources.ResponseFilterTest },
+                { "/test.html", Resources.test },
+                { "/test2.html", Resources.test2 }
             };
         }
 
