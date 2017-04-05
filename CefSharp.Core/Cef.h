@@ -46,6 +46,9 @@ namespace CefSharp
             _disposables = gcnew HashSet<IDisposable^>();
         }
 
+    internal:
+        static ProxyOptions^ proxyOptions;
+
     public:
 
         static property TaskFactory^ UIThreadTaskFactory;
@@ -180,6 +183,18 @@ namespace CefSharp
             if(performDependencyCheck)
             {
                 DependencyChecker::AssertAllDependenciesPresent(cefSettings->Locale, cefSettings->LocalesDirPath, cefSettings->ResourcesDirPath, cefSettings->PackLoadingDisabled, cefSettings->BrowserSubprocessPath);
+            }
+
+            if (cefSettings->Proxy != nullptr && !cefSettings->CommandLineArgsDisabled)
+            {
+                proxyOptions = cefSettings->Proxy;
+
+                cefSettings->CefCommandLineArgs->Add("proxy-server", proxyOptions->IP + ":" + proxyOptions->Port);
+
+                if (!String::IsNullOrEmpty(proxyOptions->BypassList))
+                {
+                    cefSettings->CefCommandLineArgs->Add("proxy-bypass-list", proxyOptions->BypassList);
+                }
             }
 
             UIThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_UI));

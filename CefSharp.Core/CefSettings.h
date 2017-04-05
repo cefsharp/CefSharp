@@ -24,6 +24,7 @@ namespace CefSharp
         ::CefSettings* _cefSettings;
         List<CefCustomScheme^>^ _cefCustomSchemes;
         bool _focusedNodeChangedEnabled;
+        ProxyOptions^ _proxy;
 
     public:
         /// <summary>
@@ -365,6 +366,15 @@ namespace CefSharp
         {
             bool get() { return _focusedNodeChangedEnabled; }
             void set(bool value) { _focusedNodeChangedEnabled = value; }
+        }
+
+        /// <summary>
+        /// The proxy options that will be used for all connections
+        /// </summary>
+        property ProxyOptions^ Proxy
+        {
+            ProxyOptions^ get() { return _proxy; }
+            void set(ProxyOptions^ value) { _proxy = value; }
         }
 
         /// <summary>

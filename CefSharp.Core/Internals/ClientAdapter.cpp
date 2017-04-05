@@ -34,6 +34,7 @@
 #include "PopupFeatures.h"
 #include "CefCertificateCallbackWrapper.h"
 #include "CefSslInfoWrapper.h"
+#include "Cef.h"
 
 using namespace CefSharp::Internals::Messaging;
 using namespace CefSharp::Internals::Serialization;
@@ -732,6 +733,16 @@ namespace CefSharp
         bool ClientAdapter::GetAuthCredentials(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, bool isProxy,
             const CefString& host, int port, const CefString& realm, const CefString& scheme, CefRefPtr<CefAuthCallback> callback)
         {
+            if (isProxy && Cef::proxyOptions != nullptr && Cef::proxyOptions->IP == StringUtils::ToClr(host) && !String::IsNullOrEmpty(Cef::proxyOptions->Username)
+                && !String::IsNullOrEmpty(Cef::proxyOptions->Password))
+            {
+                auto frameWrapper = gcnew CefFrameWrapper(frame);
+                auto callbackWrapper = gcnew CefAuthCallbackWrapper(callback, frameWrapper);
+
+                callbackWrapper->Continue(Cef::proxyOptions->Username, Cef::proxyOptions->Password);
+                return true;
+            }
+
             auto handler = _browserControl->RequestHandler;
 
             if (handler == nullptr)
