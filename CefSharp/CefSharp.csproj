@@ -98,12 +98,12 @@
     <Compile Include="Callback\TaskPrintToPdfCallback.cs" />
     <Compile Include="Callback\TaskResolveCallback.cs" />
     <Compile Include="CdmRegistration.cs" />
-    <Compile Include="CefDirtyRect.cs" />
+    <Compile Include="Structs\CefDirtyRect.cs" />
     <Compile Include="CefExtension.cs" />
     <Compile Include="CefLibraryHandle.cs" />
-    <Compile Include="CompositionUnderline.cs" />
+    <Compile Include="Structs\CompositionUnderline.cs" />
     <Compile Include="DomNode.cs" />
-    <Compile Include="DraggableRegion.cs" />
+    <Compile Include="Structs\DraggableRegion.cs" />
     <Compile Include="Enums\CdmRegistrationErrorCode.cs" />
     <Compile Include="Enums\CursorType.cs" />
     <Compile Include="Enums\CefErrorCode.cs" />
@@ -199,9 +199,9 @@
     <Compile Include="PdfPrintSettings.cs" />
     <Compile Include="ICookieManager.cs" />
     <Compile Include="IMenuModel.cs" />
-    <Compile Include="Internals\ViewRect.cs" />
+    <Compile Include="Structs\ViewRect.cs" />
     <Compile Include="ISslInfo.cs" />
-    <Compile Include="KeyEvent.cs" />
+    <Compile Include="Structs\KeyEvent.cs" />
     <Compile Include="IPostData.cs" />
     <Compile Include="IPostDataElement.cs" />
     <Compile Include="Internals\MethodInvocation.cs" />
@@ -229,7 +229,7 @@
     <Compile Include="IResourceHandlerFactory.cs" />
     <Compile Include="IResponse.cs" />
     <Compile Include="IWindowInfo.cs" />
-    <Compile Include="MouseEvent.cs" />
+    <Compile Include="Structs\MouseEvent.cs" />
     <Compile Include="IBitmapFactory.cs" />
     <Compile Include="IDragData.cs" />
     <Compile Include="DownloadItem.cs" />
@@ -244,11 +244,11 @@
     <Compile Include="Internals\BrowserProcessServiceHost.cs" />
     <Compile Include="Internals\WCFExtensions.cs" />
     <Compile Include="PostDataExtensions.cs" />
-    <Compile Include="Range.cs" />
-    <Compile Include="Rect.cs" />
-    <Compile Include="ResolveCallbackResult.cs" />
+    <Compile Include="Structs\Range.cs" />
+    <Compile Include="Structs\Rect.cs" />
+    <Compile Include="Structs\ResolveCallbackResult.cs" />
     <Compile Include="ResourceHandler.cs" />
-    <Compile Include="Internals\ScreenInfo.cs" />
+    <Compile Include="Structs\ScreenInfo.cs" />
     <Compile Include="SchemeHandler\FolderSchemeHandlerFactory.cs" />
     <Compile Include="SchemeHandler\ISchemeHandlerFactory.cs" />
     <Compile Include="SslStatus.cs" />
@@ -277,6 +277,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Internals\RenderprocessClientFactory.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
