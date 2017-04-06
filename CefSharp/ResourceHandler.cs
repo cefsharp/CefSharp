@@ -153,10 +153,9 @@ namespace CefSharp
             else
             { 
                 //If no ResponseLength provided then attempt to infer the length
-                var memoryStream = Stream as MemoryStream;
-                if (memoryStream != null)
+                if (Stream != null && Stream.CanSeek)
                 {
-                    responseLength = memoryStream.Length;
+                    responseLength = Stream.Length;
                 }
             }
 
@@ -211,6 +210,12 @@ namespace CefSharp
             //Data out represents an underlying buffer (typically 32kb in size).
             var buffer = new byte[dataOut.Length];
             bytesRead = Stream.Read(buffer, 0, buffer.Length);
+
+            //If bytesRead is 0 then no point attempting a write to dataOut
+            if(bytesRead == 0)
+            {
+                return false;
+            }
 
             dataOut.Write(buffer, 0, buffer.Length);
 
