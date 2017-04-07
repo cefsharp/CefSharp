@@ -18,7 +18,7 @@ namespace CefSharp
         /// <summary>
         /// Resource handler thread safe dictionary
         /// </summary>
-        public ConcurrentDictionary<string, IResourceHandler> Handlers { get; private set; }
+        public ConcurrentDictionary<string, ResourceFactoryItem> Handlers { get; private set; }
 
         /// <summary>
         /// Create a new instance of DefaultResourceHandlerFactory
@@ -26,24 +26,38 @@ namespace CefSharp
         /// <param name="comparer">string equality comparer</param>
         public DefaultResourceHandlerFactory(IEqualityComparer<string> comparer = null)
         {
-            Handlers = new ConcurrentDictionary<string, IResourceHandler>(comparer ?? StringComparer.OrdinalIgnoreCase);
+            Handlers = new ConcurrentDictionary<string, ResourceFactoryItem>(comparer ?? StringComparer.OrdinalIgnoreCase);
         }
 
         /// <summary>
-        /// Register handler with the specified Url
+        /// Register a handler for the specified Url
+        /// </summary>
+        /// <param name="url">url</param>
+        /// <param name="handler">handler</param>
+        /// <param name="persist">Whether or not the handler should be used once (false) or until manually unregistered (true)</param>
+        /// <returns>returns true if the Url was successfully parsed into a Uri otherwise false</returns>
+        public virtual bool RegisterHandler(string url, IResourceHandler handler, bool persist)
+        {
+            Uri uri;
+            if (Uri.TryCreate(url, UriKind.Absolute, out uri))
+            {
+                ResourceFactoryItem entry = new ResourceFactoryItem(handler, persist);
+
+                Handlers.AddOrUpdate(uri.AbsoluteUri, entry, (k, v) => entry);
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Register a persistant handler for the specified Url
         /// </summary>
         /// <param name="url">url</param>
         /// <param name="handler">handler</param>
         /// <returns>returns true if the Url was successfully parsed into a Uri otherwise false</returns>
         public virtual bool RegisterHandler(string url, IResourceHandler handler)
         {
-            Uri uri;
-            if (Uri.TryCreate(url, UriKind.Absolute, out uri))
-            {
-                Handlers.AddOrUpdate(uri.AbsoluteUri, handler, (k, v) => handler);
-                return true;
-            }
-            return false;
+            return RegisterHandler(url, handler, true);
         }
 
         /// <summary>
@@ -53,8 +67,8 @@ namespace CefSharp
         /// <returns>returns true if successfully removed</returns>
         public virtual bool UnregisterHandler(string url)
         {
-            IResourceHandler handler;
-            return Handlers.TryRemove(url, out handler);
+            ResourceFactoryItem entry;
+            return Handlers.TryRemove(url, out entry);
         }
 
         /// <summary>
@@ -77,10 +91,19 @@ namespace CefSharp
         {
             try
             {
-                IResourceHandler handler;
-                Handlers.TryGetValue(request.Url, out handler);
+                ResourceFactoryItem entry;
 
-                return handler;
+                if (Handlers.TryGetValue(request.Url, out entry))
+                {
+                    if (!entry.Persist)
+                    {
+                        Handlers.TryRemove(request.Url, out entry);
+                    }
+
+                    return entry.Handler;
+                }
+
+                return null;
             }
             finally
             {
