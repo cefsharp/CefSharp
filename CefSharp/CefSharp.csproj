@@ -164,6 +164,7 @@
     <Compile Include="ModelBinding\DefaultFieldNameConverter.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ModelBinding\IInterceptor.cs" />
     <Compile Include="ModelBinding\IBinder.cs">
       <SubType>Code</SubType>
     </Compile>

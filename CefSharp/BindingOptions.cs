@@ -30,6 +30,11 @@ namespace CefSharp
         /// </summary>
         public IBinder Binder { get; set; }
 
+        /// <summary>
+        /// interceptor used for intercepting calls to methods
+        /// </summary>
+        public IInterceptor Interceptor { get; set; }
+
         public BindingOptions()
         {
             CamelCaseJavascriptNames = true;

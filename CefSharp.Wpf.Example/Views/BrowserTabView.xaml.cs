@@ -13,11 +13,23 @@ using CefSharp.Wpf.Example.Handlers;
 using CefSharp.ModelBinding;
 using CefSharp.Wpf.Example.ViewModels;
 using System.IO;
+using System;
 
 namespace CefSharp.Wpf.Example.Views
 {
     public partial class BrowserTabView : UserControl
     {
+
+        private class CustomInterceptor : IInterceptor 
+        {
+            public object Intercept(Func<object> originalMethod, string methodName) 
+            {
+                object result = originalMethod();
+                System.Diagnostics.Debug.WriteLine("Called " + methodName);
+                return result;
+            }
+        }
+
         //Store draggable region if we have one - used for hit testing
         private Region region;
 
@@ -27,7 +39,12 @@ namespace CefSharp.Wpf.Example.Views
 
             browser.RequestHandler = new RequestHandler();
             browser.RegisterJsObject("bound", new BoundObject(), BindingOptions.DefaultBinder);
-            browser.RegisterAsyncJsObject("boundAsync", new AsyncBoundObject());
+            var bindingOptions = new BindingOptions() 
+            {
+                Binder = BindingOptions.DefaultBinder.Binder,
+                Interceptor = new CustomInterceptor()
+            };
+            browser.RegisterAsyncJsObject("boundAsync", new AsyncBoundObject(), bindingOptions);
             // Enable touch scrolling - once properly tested this will likely become the default
             //browser.IsManipulationEnabled = true;
 

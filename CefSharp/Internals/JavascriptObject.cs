@@ -53,6 +53,8 @@ namespace CefSharp.Internals
 
         public IBinder Binder { get; set; }
 
+        public IInterceptor Interceptor { get; set; }
+
         public JavascriptObject()
         {
             Methods = new List<JavascriptMethod>();
