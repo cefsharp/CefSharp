@@ -41,5 +41,10 @@ namespace CefSharp
         /// the event handlers are hooked in the static constructor for the ChromiumWebBrowser class
         /// </summary>
         public static bool ShutdownOnExit { get; set; }
+
+        /// <summary>
+        /// The proxy options that will be used for all connections
+        /// </summary>
+        public static ProxyOptions Proxy { get; set; }
     }
 }

@@ -34,7 +34,6 @@
 #include "PopupFeatures.h"
 #include "CefCertificateCallbackWrapper.h"
 #include "CefSslInfoWrapper.h"
-#include "Cef.h"
 
 using namespace CefSharp::Internals::Messaging;
 using namespace CefSharp::Internals::Serialization;
@@ -733,13 +732,13 @@ namespace CefSharp
         bool ClientAdapter::GetAuthCredentials(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, bool isProxy,
             const CefString& host, int port, const CefString& realm, const CefString& scheme, CefRefPtr<CefAuthCallback> callback)
         {
-            if (isProxy && Cef::proxyOptions != nullptr && Cef::proxyOptions->IP == StringUtils::ToClr(host) && !String::IsNullOrEmpty(Cef::proxyOptions->Username)
-                && !String::IsNullOrEmpty(Cef::proxyOptions->Password))
+            if (isProxy && CefSharpSettings::Proxy != nullptr && CefSharpSettings::Proxy->IP == StringUtils::ToClr(host) && !String::IsNullOrEmpty(CefSharpSettings::Proxy->Username)
+                && !String::IsNullOrEmpty(CefSharpSettings::Proxy->Password))
             {
                 auto frameWrapper = gcnew CefFrameWrapper(frame);
                 auto callbackWrapper = gcnew CefAuthCallbackWrapper(callback, frameWrapper);
 
-                callbackWrapper->Continue(Cef::proxyOptions->Username, Cef::proxyOptions->Password);
+                callbackWrapper->Continue(CefSharpSettings::Proxy->Username, CefSharpSettings::Proxy->Password);
                 return true;
             }
 
