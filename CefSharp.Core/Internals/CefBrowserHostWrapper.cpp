@@ -89,7 +89,7 @@ void CefBrowserHostWrapper::PrintToPdf(String^ path, PdfPrintSettings^ settings,
         nativeSettings.margin_top = settings->MarginTop;
         nativeSettings.margin_left = settings->MarginLeft;
         nativeSettings.margin_right = settings->MarginRight;
-		nativeSettings.scale_factor = settings->ScaleFactor;
+        nativeSettings.scale_factor = settings->ScaleFactor;
         nativeSettings.page_height = settings->PageHeight;
         nativeSettings.page_width = settings->PageWidth;
         nativeSettings.margin_type = static_cast<cef_pdf_print_margin_type_t>(settings->MarginType);
