@@ -36,7 +36,7 @@ namespace CefSharp
         /// <param name="username">The username required for authentication</param>
         /// <param name="password">The password required for authentication</param>
         /// <param name="bypassList">The list of domains that shouldn't be affected by the proxy, Format: example.com;example2.com</param>
-        public ProxyOptions(string ip, string port, string username, string password, string bypassList)
+        public ProxyOptions(string ip, string port, string username = "", string password = "", string bypassList = "")
         {
             IP = ip;
             Port = port;
@@ -44,20 +44,5 @@ namespace CefSharp
             Password = password;
             BypassList = bypassList;
         }
-
-        /// <param name="ip">The IP address for the proxy</param>
-        /// <param name="port">The port for the proxy</param>
-        /// <param name="username">The username required for authentication</param>
-        /// <param name="password">The password required for authentication</param>
-        public ProxyOptions(string ip, string port, string username, string password) : this(ip, port, username, password, "") { }
-
-        /// <param name="ip">The IP address for the proxy</param>
-        /// <param name="port">The port for the proxy</param>
-        /// <param name="bypassList">The list of domains that shouldn't be affected by the proxy, Format: example.com;example2.com</param>
-        public ProxyOptions(string ip, string port, string bypassList) : this(ip, port, "", "", bypassList) { }
-
-        /// <param name="ip">The IP address for the proxy</param>
-        /// <param name="port">The port for the proxy</param>
-        public ProxyOptions(string ip, string port) : this(ip, port, "", "", "") { }
     }
 }
