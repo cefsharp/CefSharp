@@ -309,7 +309,7 @@ namespace CefSharp
                 throw new Exception("LoadHtml can only be used with the default IResourceHandlerFactory(DefaultResourceHandlerFactory) implementation");
             }
 
-            if (resourceHandler.RegisterHandler(url, ResourceHandler.FromString(html, encoding, true)))
+            if (resourceHandler.RegisterHandler(url, ResourceHandler.FromString(html, encoding, true), false))
             {
                 browser.Load(url);
                 return true;
