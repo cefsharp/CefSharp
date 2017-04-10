@@ -19,12 +19,12 @@ namespace CefSharp
         /// <summary>
         /// The username for authentication
         /// </summary>
-        public string Username { get; private set; }
+        public string Username { get; set; }
 
         /// <summary>
         /// The password for authentication
         /// </summary>
-        public string Password { get; private set; }
+        public string Password { get; set; }
 
         /// <summary>
         /// The list of domains that shouldn't be affected by the proxy, Format: example.com;example2.com
