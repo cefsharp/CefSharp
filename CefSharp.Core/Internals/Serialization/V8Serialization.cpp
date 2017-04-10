@@ -111,7 +111,7 @@ namespace CefSharp
                     }
                     list->SetList(index, subList);
                 }
-                else if (type->IsValueType && !type->IsPrimitive && !type->IsEnum)
+                else if (!type->IsPrimitive && !type->IsEnum)
                 {
                     auto fields = type->GetFields();
                     auto subDict = CefDictionaryValue::Create();
