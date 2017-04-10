@@ -13,7 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
-    <NuGetPackageImportStamp>8e087ab9</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>569bc3f8</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -95,6 +95,6 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\CefSharp.props" />
   <Import Project="$(SolutionDir)\CefSharp.Native.props" />
-  <Import Project="..\packages\cef.redist.x64.3.2987.1599\build\cef.redist.x64.targets" Condition="Exists('..\packages\cef.redist.x64.3.2987.1599\build\cef.redist.x64.targets')" />
-  <Import Project="..\packages\cef.redist.x86.3.2987.1599\build\cef.redist.x86.targets" Condition="Exists('..\packages\cef.redist.x86.3.2987.1599\build\cef.redist.x86.targets')" />
+  <Import Project="..\packages\cef.redist.x64.3.2987.1601\build\cef.redist.x64.targets" Condition="Exists('..\packages\cef.redist.x64.3.2987.1601\build\cef.redist.x64.targets')" />
+  <Import Project="..\packages\cef.redist.x86.3.2987.1601\build\cef.redist.x86.targets" Condition="Exists('..\packages\cef.redist.x86.3.2987.1601\build\cef.redist.x86.targets')" />
 </Project>
