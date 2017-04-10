@@ -59,6 +59,11 @@ namespace CefSharp
         public CefPdfPrintMarginType MarginType { get; set; }
 
         /// <summary>
+        /// Scale the PDF by the specified amount, defaults to 100%.
+        /// </summary>
+        public int ScaleFactor { get; set; }
+
+        /// <summary>
         /// Set to true to print headers and footers or false to not print
         /// headers and footers.
         /// </summary>
