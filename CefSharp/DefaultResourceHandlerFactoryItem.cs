@@ -4,7 +4,7 @@
 
 namespace CefSharp
 {
-    public class ResourceFactoryItem
+    public class DefaultResourceHandlerFactoryItem
     {
         /// <summary>
         /// The handler for a specific Url
@@ -12,16 +12,16 @@ namespace CefSharp
         public IResourceHandler Handler { get; private set; }
 
         /// <summary>
-        /// Whether or not the handler should be used once (false) or until manually unregistered (true)
+        /// Whether or not the handler should be used once (true) or until manually unregistered (false)
         /// </summary>
-        public bool Persist { get; private set; }
+        public bool OneTimeUse { get; private set; }
 
         /// <param name="handler">The handler for a specific Url</param>
-        /// <param name="persist">Whether or not the handler should be used once (false) or until manually unregistered (true)</param>
-        public ResourceFactoryItem(IResourceHandler handler, bool persist)
+        /// <param name="oneTimeUse">Whether or not the handler should be used once (true) or until manually unregistered (false)</param>
+        public DefaultResourceHandlerFactoryItem(IResourceHandler handler, bool oneTimeUse)
         {
             Handler = handler;
-            Persist = persist;
+            OneTimeUse = oneTimeUse;
         }
     }
 }

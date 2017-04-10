@@ -199,7 +199,7 @@
     <Compile Include="PdfPrintSettings.cs" />
     <Compile Include="ICookieManager.cs" />
     <Compile Include="IMenuModel.cs" />
-    <Compile Include="ResourceFactoryItem.cs" />
+    <Compile Include="DefaultResourceHandlerFactoryItem.cs" />
     <Compile Include="Structs\ViewRect.cs" />
     <Compile Include="ISslInfo.cs" />
     <Compile Include="Structs\KeyEvent.cs" />

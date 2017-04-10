@@ -293,8 +293,9 @@ namespace CefSharp
         /// <param name="html">The HTML content.</param>
         /// <param name="url">The URL that will be treated as the address of the content.</param>
         /// <param name="encoding">Character Encoding</param>
+        /// <param name="oneTimeUse">Whether or not the handler should be used once (true) or until manually unregistered (false)</param>
         /// <returns>returns false if the Url was not successfully parsed into a Uri</returns>
-        public static bool LoadHtml(this IWebBrowser browser, string html, string url, Encoding encoding)
+        public static bool LoadHtml(this IWebBrowser browser, string html, string url, Encoding encoding, bool oneTimeUse = false)
         {
             var handler = browser.ResourceHandlerFactory;
             if (handler == null)
@@ -309,7 +310,7 @@ namespace CefSharp
                 throw new Exception("LoadHtml can only be used with the default IResourceHandlerFactory(DefaultResourceHandlerFactory) implementation");
             }
 
-            if (resourceHandler.RegisterHandler(url, ResourceHandler.FromString(html, encoding, true), false))
+            if (resourceHandler.RegisterHandler(url, ResourceHandler.FromString(html, encoding, true), oneTimeUse))
             {
                 browser.Load(url);
                 return true;
