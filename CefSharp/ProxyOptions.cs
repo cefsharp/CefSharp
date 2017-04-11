@@ -31,6 +31,15 @@ namespace CefSharp
         /// </summary>
         public string BypassList { get; private set; }
 
+        /// <summary>
+        /// Checks if username and password is set
+        /// </summary>
+        /// <returns>Returns true if both username and password is set, otherwise false</returns>
+        public bool HasUsernameAndPassword()
+        {
+            return !string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password);
+        }
+
         /// <param name="ip">The IP address for the proxy</param>
         /// <param name="port">The port for the proxy</param>
         /// <param name="username">The username required for authentication</param>

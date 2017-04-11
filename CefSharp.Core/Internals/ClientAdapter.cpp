@@ -732,13 +732,9 @@ namespace CefSharp
         bool ClientAdapter::GetAuthCredentials(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, bool isProxy,
             const CefString& host, int port, const CefString& realm, const CefString& scheme, CefRefPtr<CefAuthCallback> callback)
         {
-            if (isProxy && CefSharpSettings::Proxy != nullptr && CefSharpSettings::Proxy->IP == StringUtils::ToClr(host) && !String::IsNullOrEmpty(CefSharpSettings::Proxy->Username)
-                && !String::IsNullOrEmpty(CefSharpSettings::Proxy->Password))
+            if (isProxy && CefSharpSettings::Proxy != nullptr && CefSharpSettings::Proxy->IP == StringUtils::ToClr(host) && CefSharpSettings::Proxy->HasUsernameAndPassword())
             {
-                auto frameWrapper = gcnew CefFrameWrapper(frame);
-                auto callbackWrapper = gcnew CefAuthCallbackWrapper(callback, frameWrapper);
-
-                callbackWrapper->Continue(CefSharpSettings::Proxy->Username, CefSharpSettings::Proxy->Password);
+                callback->Continue(StringUtils::ToNative(CefSharpSettings::Proxy->Username), StringUtils::ToNative(CefSharpSettings::Proxy->Password));
                 return true;
             }
 
