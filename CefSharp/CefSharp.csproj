@@ -200,6 +200,7 @@
     <Compile Include="ICookieManager.cs" />
     <Compile Include="IMenuModel.cs" />
     <Compile Include="ProxyOptions.cs" />
+    <Compile Include="DefaultResourceHandlerFactoryItem.cs" />
     <Compile Include="Structs\ViewRect.cs" />
     <Compile Include="ISslInfo.cs" />
     <Compile Include="Structs\KeyEvent.cs" />
