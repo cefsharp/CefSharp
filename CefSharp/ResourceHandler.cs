@@ -153,10 +153,9 @@ namespace CefSharp
             else
             { 
                 //If no ResponseLength provided then attempt to infer the length
-                var memoryStream = Stream as MemoryStream;
-                if (memoryStream != null)
+                if (Stream != null && Stream.CanSeek)
                 {
-                    responseLength = memoryStream.Length;
+                    responseLength = Stream.Length;
                 }
             }
 
@@ -212,6 +211,12 @@ namespace CefSharp
             var buffer = new byte[dataOut.Length];
             bytesRead = Stream.Read(buffer, 0, buffer.Length);
 
+            //If bytesRead is 0 then no point attempting a write to dataOut
+            if(bytesRead == 0)
+            {
+                return false;
+            }
+
             dataOut.Write(buffer, 0, buffer.Length);
 
             return bytesRead > 0;
@@ -232,20 +237,6 @@ namespace CefSharp
             Cancel();
 
             Stream = null;
-        }
-
-        /// <summary>
-        /// Gets the resource from the file.
-        /// </summary>
-        /// <param name="filePath">Location of the file.</param>
-        /// <param name="fileExtension">The file extension.</param>
-        /// <returns>ResourceHandler.</returns>
-        [Obsolete("Use FromFilePath instead - to get the mimeType use the GetMimeType helper method")]
-        public static ResourceHandler FromFileName(string filePath, string fileExtension = null)
-        {
-            var mimeType = string.IsNullOrEmpty(fileExtension) ? DefaultMimeType : GetMimeType(fileExtension);
-
-            return FromFilePath(filePath, mimeType);
         }
 
         /// <summary>
