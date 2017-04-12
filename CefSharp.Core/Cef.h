@@ -182,6 +182,16 @@ namespace CefSharp
                 DependencyChecker::AssertAllDependenciesPresent(cefSettings->Locale, cefSettings->LocalesDirPath, cefSettings->ResourcesDirPath, cefSettings->PackLoadingDisabled, cefSettings->BrowserSubprocessPath);
             }
 
+            if (CefSharpSettings::Proxy != nullptr && !cefSettings->CommandLineArgsDisabled)
+            {
+                cefSettings->CefCommandLineArgs->Add("proxy-server", CefSharpSettings::Proxy->IP + ":" + CefSharpSettings::Proxy->Port);
+
+                if (!String::IsNullOrEmpty(CefSharpSettings::Proxy->BypassList))
+                {
+                    cefSettings->CefCommandLineArgs->Add("proxy-bypass-list", CefSharpSettings::Proxy->BypassList);
+                }
+            }
+
             UIThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_UI));
             IOThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_IO));
             FileThreadTaskFactory = gcnew TaskFactory(gcnew CefTaskScheduler(TID_FILE));

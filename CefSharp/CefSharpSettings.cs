@@ -29,7 +29,7 @@ namespace CefSharp
 
         /// <summary>
         /// Change the Close timeout for the WCF channel used by the sync JSB binding.
-        /// The default value is currently 2 seconds. Chaning this to <see cref="TimeSpan.Zero"/>
+        /// The default value is currently 2 seconds. Changing this to <see cref="TimeSpan.Zero"/>
         /// will result on Abort() being called on the WCF Channel Host
         /// </summary>
         public static TimeSpan WcfTimeout { get; set; }
@@ -41,5 +41,16 @@ namespace CefSharp
         /// the event handlers are hooked in the static constructor for the ChromiumWebBrowser class
         /// </summary>
         public static bool ShutdownOnExit { get; set; }
+
+        /// <summary>
+        /// The proxy options that will be used for all connections
+        /// 
+        /// If set before the call to Cef.Initialize, command line arguments will be set for you
+        /// If a username and password is provided and the IPs match authentication is done automatically
+        /// 
+        /// NOTE: GetAuthCredentials won't be called for a proxy server that matches the IP
+        /// NOTE: It isn't possble to change the proxy after the call to Cef.Initialize
+        /// </summary>
+        public static ProxyOptions Proxy { get; set; }
     }
 }
