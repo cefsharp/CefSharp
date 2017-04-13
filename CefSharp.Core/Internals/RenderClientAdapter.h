@@ -216,16 +216,15 @@ namespace CefSharp
             /*--cef()--*/
             virtual DECL void OnImeCompositionRangeChanged(CefRefPtr<CefBrowser> browser, const CefRange& selectedRange, const RectList& characterBounds)
             {
-                //TODO: use cli:array rather then creating a list then calling ToArray()
-                auto charBounds = gcnew List<Rect>((int)characterBounds.size());
+                auto charBounds = gcnew cli::array<Rect>((int)characterBounds.size());
 
-                std::vector<CefRect>::const_iterator it =
-                    characterBounds.begin();
-                for (; it != characterBounds.end(); ++it)
+                std::vector<CefRect>::const_iterator it = characterBounds.begin();
+                for (int index = 0; it != characterBounds.end(); ++it, index++)
                 {
-                    charBounds->Add(Rect((*it).x, (*it).y, (*it).width, (*it).height));
+                    charBounds[index] = Rect((*it).x, (*it).y, (*it).width, (*it).height);
                 }
-                _renderWebBrowser->OnImeCompositionRangeChanged(Range(selectedRange.from, selectedRange.to), charBounds->ToArray());
+
+                _renderWebBrowser->OnImeCompositionRangeChanged(Range(selectedRange.from, selectedRange.to), charBounds);
             }
 
         private:
