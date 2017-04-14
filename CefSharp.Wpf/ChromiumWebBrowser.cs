@@ -1157,7 +1157,7 @@ namespace CefSharp.Wpf
         {
             get
             {
-                using (var getZoomLevel = this.GetZoomLevelAsync())
+                using (var getZoomLevel = browser.GetHost().GetZoomLevelAsync())
                 {
                     getZoomLevel.Wait();
                     return getZoomLevel.Result;
