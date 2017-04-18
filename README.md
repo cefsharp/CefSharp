@@ -65,9 +65,9 @@ If your new to `CefSharp` and are downloading the source to check it out, please
 
 | Branch | CEF Version | VC++ Version | .Net Version | Status |
 |--------|-------------|--------------|--------------|--------|
-| [master](https://github.com/cefsharp/CefSharp/) | 2883 | 2013 | 4.5.2 | Development |
-| [cefsharp/57](https://github.com/cefsharp/CefSharp/tree/cefsharp/57) | 2987 | 2013 | 4.5.2 | **Pre-Release** |
-| [cefsharp/55](https://github.com/cefsharp/CefSharp/tree/cefsharp/55) | 2883 | 2013 | 4.5.2 | **Release** |
+| [master](https://github.com/cefsharp/CefSharp/) | 2987 | 2013 | 4.5.2 | Development |
+| [cefsharp/57](https://github.com/cefsharp/CefSharp/tree/cefsharp/57) | 2987 | 2013 | 4.5.2 | **Release** |
+| [cefsharp/55](https://github.com/cefsharp/CefSharp/tree/cefsharp/55) | 2883 | 2013 | 4.5.2 | Unsupported |
 | [cefsharp/53](https://github.com/cefsharp/CefSharp/tree/cefsharp/53) | 2785 | 2013 | 4.5.2 | Unsupported |
 | [cefsharp/51](https://github.com/cefsharp/CefSharp/tree/cefsharp/51) | 2704 | 2013 | 4.5.2 | Unsupported |
 | [cefsharp/49](https://github.com/cefsharp/CefSharp/tree/cefsharp/49) | 2623 | 2013 | 4.0   | Unsupported |
