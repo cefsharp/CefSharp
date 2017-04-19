@@ -117,7 +117,7 @@ namespace CefSharp
 
             return cefArray;
         }
-        if (type->IsValueType && !type->IsPrimitive && !type->IsEnum)
+        if (!type->IsPrimitive && !type->IsEnum)
         {
             cli::array<System::Reflection::FieldInfo^>^ fields = type->GetFields();
             CefRefPtr<CefV8Value> cefArray = CefV8Value::CreateArray(fields->Length);

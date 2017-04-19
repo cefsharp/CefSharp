@@ -36,7 +36,7 @@ namespace CefSharp.ModelBinding
         /// <param name="nonPublic"><see langword="true"/> if a non-public constructor can be used, otherwise <see langword="false"/>.</param>
         public static object CreateInstance(this Type type, bool nonPublic = false)
         {
-            return CreateInstanceInternal(type, nonPublic);
+            return Activator.CreateInstance(type, nonPublic);
         }
 
         /// <summary>
@@ -216,42 +216,6 @@ namespace CefSharp.ModelBinding
                 return GetTypeCode(Enum.GetUnderlyingType(type));
             else
                 return TypeCode.Object;
-        }
-
-        private static object CreateInstanceInternal(Type type, bool nonPublic = false)
-        {
-            var constructor = type.GetDefaultConstructor(nonPublic);
-
-            if (constructor == null)
-            {
-                throw new MissingMethodException("No parameterless constructor defined for this object.");
-            }
-
-            return constructor.Invoke(new object[0]);
-        }
-
-        private static ConstructorInfo GetDefaultConstructor(this Type type, bool nonPublic = false)
-        {
-            var typeInfo = type.GetTypeInfo();
-
-            var constructors = typeInfo.DeclaredConstructors;
-
-            foreach (var constructor in constructors)
-            {
-                var parameters = constructor.GetParameters();
-
-                if (parameters.Length > 0)
-                {
-                    continue;
-                }
-
-                if (!constructor.IsPrivate || nonPublic)
-                {
-                    return constructor;
-                }
-            }
-
-            return null;
         }
     }
 }
