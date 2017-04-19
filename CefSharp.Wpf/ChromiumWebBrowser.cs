@@ -585,10 +585,6 @@ namespace CefSharp.Wpf
             UiThreadRunSync(() =>
             {
                 point = PointToScreen(point);
-
-                PresentationSource source = PresentationSource.FromVisual(this);
-
-                point = matrix.Transform(point);
             });
 
             screenX = (int)point.X;
