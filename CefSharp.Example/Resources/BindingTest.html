@@ -83,11 +83,20 @@
                     });
                 }
 
-                function asyncObjectArray()
+                function asyncStructsArray()
                 {
-                    var call = "Async call (ObjectArray): " + Date();
-                    boundAsync.objectArray('CefSharp').then(function (res)
+                    var call = "Async call (StructsArray): " + Date();
+                    boundAsync.structsArray({ Value: 'CefSharp' }).then(function (res)
                     {
+                        var end = "Result: [ " + res.map(function (item) { return item.Value }) + " ] (" + Date() + ")";
+                        writeAsyncResult(call, end);
+                    });
+                }
+
+                function asyncClassesArray()
+                {
+                    var call = "Async call (ClassesArray): " + Date();
+                    boundAsync.classesArray('CefSharp').then(function (res) {
                         var end = "Result: [ " + res.map(function (item) { return item.Value }) + " ] (" + Date() + ")";
                         writeAsyncResult(call, end);
                     });
@@ -98,7 +107,8 @@
                 asyncDivFail();
                 asyncDoSomething();
                 asyncHello();
-                asyncObjectArray();
+                asyncStructsArray();
+                asyncClassesArray();
             </script>
         </p>
         <p>
