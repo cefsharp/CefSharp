@@ -22,7 +22,7 @@ It maybe helpful to run the `cefclient` application and compare output with `Cef
 - To compare with WPF run `cefclient --multi-threaded-message-loop --off-screen-rendering-enabled`
 - To compare with WinForms `cefclient --multi-threaded-message-loop`
 
-To determine which version of `CEF` your build is running, open `chrome://version` and you'll see a number similar to `3.2062.1898`, in this case `2062` represents the branch which corresponds to http://cefbuilds.com/#branch_2062
+To determine which version of `CEF` your build is running, open `chrome://version` and you'll see a number similar to `3.2987.1597.gffc5773`. Open http://opensource.spotify.com/cefbuilds/index.html and download the `Sample Application` that exactly matches. If your using an older build click `Show More Builds`.
 
 ### What should I include when creating an `Issue`?
 
