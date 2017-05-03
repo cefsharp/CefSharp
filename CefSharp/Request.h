@@ -3,6 +3,7 @@
 #include "Stdafx.h"
 #include "IRequest.h"
 #include "SchemeHandlerResponse.h"
+#include "PostData.h"
 
 using namespace System;
 using namespace System::Collections::Generic;
@@ -24,5 +25,6 @@ namespace CefSharp
         virtual property String^ Body { String^ get(); }
         virtual IDictionary<String^, String^>^ GetHeaders();
         virtual void SetHeaders(IDictionary<String^, String^>^ headers);
+        virtual CefPostDataWrapper^ GetPostData();
     };
 }

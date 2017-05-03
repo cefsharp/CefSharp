@@ -88,4 +88,9 @@ namespace CefSharp
 
         _wrappedRequest->SetHeaderMap(hm);
     }
+
+    CefPostDataWrapper^ CefRequestWrapper::GetPostData()
+    {
+        return gcnew CefPostDataWrapper(_wrappedRequest->GetPostData());
+    }
 }

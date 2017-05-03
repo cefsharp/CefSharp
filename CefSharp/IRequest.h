@@ -1,5 +1,7 @@
 #pragma once
 
+#include "PostData.h"
+
 using namespace System;
 using namespace System::Collections::Generic;
 
@@ -12,5 +14,6 @@ namespace CefSharp
         property String^ Body { String^ get(); }
         IDictionary<String^, String^>^ GetHeaders();
         void SetHeaders(IDictionary<String^, String^>^ headers);
+        CefPostDataWrapper^ GetPostData();
     };
 }
