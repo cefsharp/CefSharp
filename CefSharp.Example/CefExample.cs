@@ -182,6 +182,9 @@ namespace CefSharp.Example
             }
 
             Cef.AddCrossOriginWhitelistEntry(BaseUrl, "https", "cefsharp.com", false);
+
+            //Experimental option where bound async methods are queued on TaskScheduler.Default.
+            //CefSharpSettings.ConcurrentTaskExecution = true;
         }
 
         public static async void RegisterTestResources(IWebBrowser browser)
