@@ -154,6 +154,8 @@
     <Content Include="Resources\ResponseFilterTest.html" />
     <Content Include="Resources\SchemeTest.html" />
     <Content Include="Resources\ScriptedMethodsTest.html" />
+    <Content Include="Resources\UnicodeExampleGreaterThan32kb.html" />
+    <Content Include="Resources\UnocodeExampleEqualTo32kb.html" />
     <Content Include="Resources\TooltipTest.html" />
   </ItemGroup>
   <ItemGroup>
