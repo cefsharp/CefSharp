@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
+using System.Net;
 using System.Text;
 
 namespace CefSharp
@@ -22,11 +23,6 @@ namespace CefSharp
         /// MimeType to be used if none provided
         /// </summary>
         public const string DefaultMimeType = "text/html";
-
-        /// <summary>
-        /// Path of the underlying file
-        /// </summary>
-        public string FilePath { get; private set; }
 
         /// <summary>
         /// Gets or sets the Mime Type.
@@ -63,11 +59,6 @@ namespace CefSharp
         public NameValueCollection Headers { get; private set; }
 
         /// <summary>
-        /// Specify which type of resource handle represnets
-        /// </summary>
-        public ResourceHandlerType Type { get; private set; }
-
-        /// <summary>
         /// When true the Stream will be Disposed when
         /// this instance is Disposed. The default value for
         /// this property is false.
@@ -81,17 +72,11 @@ namespace CefSharp
         public CefErrorCode? ErrorCode { get; set; }
 
         /// <summary>
-        /// Default Constructor
-        /// </summary>
-        public ResourceHandler() : this(DefaultMimeType, ResourceHandlerType.Stream)
-        {
-            
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="ResourceHandler"/> class.
         /// </summary>
-        private ResourceHandler(string mimeType, ResourceHandlerType type)
+        /// <param name="mimeType">Optional mimeType defaults to <see cref="ResourceHandler.DefaultMimeType"/></param>
+        /// <param name="stream">Optional Stream - must be set at some point to provide a valid response</param>
+        public ResourceHandler(string mimeType = DefaultMimeType, Stream stream = null)
         {
             if(string.IsNullOrEmpty(mimeType))
             {
@@ -102,7 +87,7 @@ namespace CefSharp
             StatusText = "OK";
             MimeType = mimeType;
             Headers = new NameValueCollection();
-            Type = type;
+            Stream = stream;
         }
 
         /// <summary>
@@ -241,14 +226,25 @@ namespace CefSharp
 
         /// <summary>
         /// Gets the resource from the file path specified. Use the <see cref="ResourceHandler.GetMimeType"/>
-        /// helper method to lookup the mimeType if required.
+        /// helper method to lookup the mimeType if required. Uses CefStreamResourceHandler for reading the data
         /// </summary>
-        /// <param name="fileName">Location of the file.</param>
+        /// <param name="filePath">Location of the file.</param>
         /// <param name="mimeType">The mimeType if null then text/html is used.</param>
-        /// <returns>ResourceHandler.</returns>
-        public static ResourceHandler FromFilePath(string fileName, string mimeType = null)
+        /// <returns>IResourceHandler.</returns>
+        public static IResourceHandler FromFilePath(string filePath, string mimeType = null)
         {
-            return new ResourceHandler(mimeType ?? DefaultMimeType, ResourceHandlerType.File) { FilePath = fileName };
+            return new FileResourceHandler(mimeType ?? DefaultMimeType, filePath);
+        }
+
+        /// <summary>
+        /// Creates a IResourceHandler that represents a Byte[], uses CefStreamResourceHandler for reading the data
+        /// </summary>
+        /// <param name="data">data</param>
+        /// <param name="mimeType">mimeType</param>
+        /// <returns>IResourceHandler</returns>
+        public static IResourceHandler FromByteArray(byte[] data, string mimeType = null)
+        {
+            return new ByteArrayResourceHandler(mimeType ?? DefaultMimeType, data);
         }
 
         /// <summary>
@@ -257,7 +253,7 @@ namespace CefSharp
         /// <param name="text">The text.</param>
         /// <param name="fileExtension">The file extension.</param>
         /// <returns>ResourceHandler.</returns>
-        public static ResourceHandler FromString(string text, string fileExtension)
+        public static IResourceHandler FromString(string text, string fileExtension)
         {
             var mimeType = GetMimeType(fileExtension);
             return FromString(text, Encoding.UTF8, false, mimeType);
@@ -272,13 +268,29 @@ namespace CefSharp
         /// <param name="includePreamble">Include encoding preamble</param>
         /// <param name="mimeType">Mime Type</param>
         /// <returns>ResourceHandler</returns>
-        public static ResourceHandler FromString(string text, Encoding encoding = null, bool includePreamble = true, string mimeType = DefaultMimeType)
+        public static IResourceHandler FromString(string text, Encoding encoding = null, bool includePreamble = true, string mimeType = DefaultMimeType)
         {
             if(encoding == null)
             {
                 encoding = Encoding.UTF8;
             }
-            return new ResourceHandler(mimeType, ResourceHandlerType.Stream) { Stream = GetMemoryStream(text, encoding, includePreamble) };
+            return new ByteArrayResourceHandler(mimeType, GetByteArray(text, encoding, includePreamble));
+        }
+
+        /// <summary>
+        /// Generates a ResourceHandler that has it's StatusCode set
+        /// </summary>
+        /// <param name="errorMessage">Body the response to be displayed</param>
+        /// <param name="statusCode">StatusCode</param>
+        /// <returns>ResourceHandler</returns>
+        public static IResourceHandler ForErrorMessage(string errorMessage, HttpStatusCode statusCode)
+        {
+            var stream = GetMemoryStream(errorMessage, Encoding.UTF8);
+
+            var resourceHandler = FromStream(stream);
+            resourceHandler.StatusCode = (int)statusCode;
+
+            return resourceHandler;
         }
 
         /// <summary>
@@ -289,7 +301,7 @@ namespace CefSharp
         /// <returns>ResourceHandler.</returns>
         public static ResourceHandler FromStream(Stream stream, string mimeType = DefaultMimeType)
         {
-            return new ResourceHandler(mimeType, ResourceHandlerType.Stream) { Stream = stream };
+            return new ResourceHandler(mimeType, stream);
         }
 
         /// <summary>
@@ -317,6 +329,33 @@ namespace CefSharp
             }
 
             return new MemoryStream(encoding.GetBytes(text));
+        }
+
+        /// <summary>
+        /// Gets a byteArray from the given string using the provided encoding
+        /// </summary>
+        /// <param name="text">string to be converted to a stream</param>
+        /// <param name="encoding">encoding</param>
+        /// <param name="includePreamble">if true a BOM will be written to the beginning of the stream</param>
+        /// <returns>A memory stream from the given string</returns>
+        public static byte[] GetByteArray(string text, Encoding encoding, bool includePreamble = true)
+        {
+            if (includePreamble)
+            {
+                var preamble = encoding.GetPreamble();
+                var bytes = encoding.GetBytes(text);
+
+                var memoryStream = new MemoryStream(preamble.Length + bytes.Length);
+
+                memoryStream.Write(preamble, 0, preamble.Length);
+                memoryStream.Write(bytes, 0, bytes.Length);
+
+                memoryStream.Position = 0;
+
+                return memoryStream.ToArray();
+            }
+
+            return encoding.GetBytes(text);
         }
 
         //TODO: Replace with call to CefGetMimeType (little difficult at the moment with no access to the CefSharp.Core class from here)
