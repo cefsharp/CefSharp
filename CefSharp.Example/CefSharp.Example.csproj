@@ -75,6 +75,7 @@
     <Compile Include="CallbackResponseStruct.cs" />
     <Compile Include="Filters\AppendResponseFilter.cs" />
     <Compile Include="Filters\FindReplaceResponseFilter.cs" />
+    <Compile Include="Filters\MemoryStreamResponseFilter.cs" />
     <Compile Include="FlashResourceHandler.cs" />
     <Compile Include="FlashResourceHandlerFactory.cs" />
     <Compile Include="Filters\PassThruResponseFilter.cs" />

@@ -5,6 +5,8 @@
 using System;
 using CefSharp.Example.Filters;
 using System.Security.Cryptography.X509Certificates;
+using System.Collections.Generic;
+using System.Text;
 
 namespace CefSharp.Example
 {
@@ -12,6 +14,8 @@ namespace CefSharp.Example
     {
         public static readonly string VersionNumberString = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}",
             Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
+
+        private Dictionary<UInt64, MemoryStreamResponseFilter> responseDictionary = new Dictionary<UInt64, MemoryStreamResponseFilter>();
 
         bool IRequestHandler.OnBeforeBrowse(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, bool isRedirect)
         {
@@ -214,15 +218,31 @@ namespace CefSharp.Example
                     return new AppendResponseFilter(System.Environment.NewLine + "//CefSharp Appended this comment.");
                 }
 
-                return new PassThruResponseFilter();
+                //Only called for our customScheme
+                var dataFilter = new MemoryStreamResponseFilter();
+                responseDictionary.Add(request.Identifier, dataFilter);
+                return dataFilter;
             }
 
+            //return new PassThruResponseFilter();
             return null;
         }
 
         void IRequestHandler.OnResourceLoadComplete(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IResponse response, UrlRequestStatus status, long receivedContentLength)
         {
-            
+            var url = new Uri(request.Url);
+            if (url.Scheme == CefSharpSchemeHandlerFactory.SchemeName)
+            {
+                MemoryStreamResponseFilter filter;
+                if(responseDictionary.TryGetValue(request.Identifier, out filter))
+                {
+                    //TODO: Do something with the data here
+                    var data = filter.Data;
+                    var dataLength = filter.Data.Length;
+                    //NOTE: You may need to use a different encoding depending on the request
+                    var dataAsUtf8String = Encoding.UTF8.GetString(data);                
+                }
+            }
         }
     }
 }
