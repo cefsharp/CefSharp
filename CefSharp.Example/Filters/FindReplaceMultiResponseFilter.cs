@@ -1,4 +1,4 @@
-// Copyright © 2010-2016 The CefSharp Authors. All rights reserved.
+// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -11,6 +11,7 @@ using CefSharp;
 
 namespace CefSharp.Example.Filters 
 {
+    //NOTE: You need to make sure that your queries are in chronological order since the stream doesn't rewind
     public class FindReplaceMultiResponseFilter : IResponseFilter 
     {
         private static readonly Encoding encoding = Encoding.UTF8;
@@ -131,7 +132,8 @@ namespace CefSharp.Example.Filters
                 // Remove the bytes that were written already
                 overflow.RemoveRange(0, (int)(maxWrite - 1));
             }
-            else {
+            else
+            {
                 overflow.Clear();
             }
         }
@@ -178,6 +180,8 @@ namespace CefSharp.Example.Filters
             }
         }
 
-        public void Dispose() { }
+        void IDisposable.Dispose()
+        {
+        }
     }
 }
