@@ -11,7 +11,10 @@ using System.Text;
 namespace CefSharp
 {
     /// <summary>
-    /// ByteArrayResourceHandler is used as a placeholder to represent the underlying CefStreamResourceHandler
+    /// ByteArrayResourceHandler is used as a placeholder class which uses native CEF implementations.
+    /// CefStreamReader::CreateForData(); reads the byte array that is passed to a new instance
+    /// of CefStreamResourceHandler 
+    /// TODO: Move this class into Handler namespace 
     /// </summary>
     public class ByteArrayResourceHandler : IResourceHandler
     {

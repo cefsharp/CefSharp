@@ -11,8 +11,11 @@ using System.Text;
 namespace CefSharp
 {
     /// <summary>
-    /// FileResourceHandler is used as a placeholder to represent the underlying CefStreamResourceHandler
+    /// FileResourceHandler  is used as a placeholder class which uses native CEF implementations.
+    /// CefStreamReader::CreateForFile is used to create a CefStreamReader instance which is passed to
+    /// a new instance of CefStreamResourceHandler
     /// (Was previously ResourceHandlerType::File to differentiate, going for a more flexible approach now)
+    /// TODO: Move this class into Handler namespace 
     /// </summary>
     public class FileResourceHandler : IResourceHandler
     {
