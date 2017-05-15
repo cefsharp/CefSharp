@@ -329,25 +329,27 @@ namespace CefSharp
         {
             auto tooltip = StringUtils::ToClr(text);
             bool hasChanged = tooltip != _tooltip;
+            bool returnFlag = true;
 
             //NOTE: Only called if tooltip changed otherwise called many times
-            // also only appears to be called with OSR rendering at the moment
-            if(hasChanged)
+            // also only called when using OSR, https://bitbucket.org/chromiumembedded/cef/issues/783
+
+            if (hasChanged)
             {
+                auto handler = _browserControl->DisplayHandler;
+                if (handler != nullptr)
+                {
+                    returnFlag = handler->OnTooltipChanged(_browserControl, tooltip);
+                }
+
                 if (!browser->IsPopup())
                 {
                     _tooltip = tooltip;
                     _browserControl->SetTooltipText(_tooltip);
                 }
-
-                auto handler = _browserControl->DisplayHandler;
-                if (handler != nullptr)
-                {
-                    return handler->OnTooltipChanged(_browserControl, tooltip);
-                }
             }
 
-            return true;
+            return returnFlag;
         }
 
         bool ClientAdapter::OnConsoleMessage(CefRefPtr<CefBrowser> browser, const CefString& message, const CefString& source, int line)
