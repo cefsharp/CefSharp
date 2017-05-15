@@ -60,11 +60,16 @@ namespace CefSharp.Example
 
         CefReturnValue IRequestHandler.OnBeforeResourceLoad(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IRequestCallback callback)
         {
+            Uri url;
+            if (Uri.TryCreate(request.Url, UriKind.Absolute, out url) == false)
+            {
+                throw new Exception("Request to \"" + request.Url + "\" can't continue, not a valid URI");
+            }
+            
             //Example of how to set Referer
             // Same should work when setting any header
 
             // For this example only set Referer when using our custom scheme
-            var url = new Uri(request.Url);
             if (url.Scheme == CefSharpSchemeHandlerFactory.SchemeName)
             {
                 //Referrer is now set using it's own method (was previously set in headers before)
