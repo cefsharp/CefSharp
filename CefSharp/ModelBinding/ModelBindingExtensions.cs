@@ -66,7 +66,16 @@ namespace CefSharp.ModelBinding
         /// <returns>return if collection, array or enumerable</returns>
         public static bool IsCollectionOrArray(this Type source)
         {
-            return source != typeof(Dictionary<string, object>) && (source.IsCollection() || source.IsArray() || source.IsEnumerable());
+            return !source.IsGenericObject() && (source.IsCollection() || source.IsArray() || source.IsEnumerable());
+        }
+
+        /// <summary>
+        /// The type is a generic javascript object (dictionary)
+        /// </summary>
+        /// <param name="source">source type</param>
+        /// <returns>return true if is a generic js object</returns>
+        public static bool IsGenericObject(this Type source) {
+            return source == typeof(Dictionary<string, object>);
         }
 
         /// <summary>
