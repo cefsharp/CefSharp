@@ -74,7 +74,8 @@ namespace CefSharp.ModelBinding
         /// </summary>
         /// <param name="source">source type</param>
         /// <returns>return true if is a generic js object</returns>
-        public static bool IsGenericObject(this Type source) {
+        public static bool IsGenericObject(this Type source) 
+        {
             return source == typeof(Dictionary<string, object>);
         }
 
