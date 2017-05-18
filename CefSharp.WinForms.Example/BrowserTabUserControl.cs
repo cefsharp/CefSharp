@@ -29,6 +29,10 @@ namespace CefSharp.WinForms.Example
             var browser = new ChromiumWebBrowser(url)
             {
                 Dock = DockStyle.Fill
+                , BrowserSettings = new BrowserSettings()
+                {
+                    DefaultEncoding = "UTF-8"
+                }
             };
 
             browserPanel.Controls.Add(browser);

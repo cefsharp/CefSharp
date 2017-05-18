@@ -641,6 +641,56 @@ namespace CefSharp.Example.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///&lt;html lang=&quot;ja&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot; /&gt;
+        ///    &lt;style&gt;
+        ///                Body {
+        ///                    font-family: Meiryo, leiryoUI;
+        ///                }
+        ///                .ITSMultipleChoice {
+        ///                    font-family: Meiryo, leiryoUI;
+        ///                }
+        ///                #popUpDiv {
+        ///                    background-color: transparent;
+        ///                    color: black;
+        ///                }
+        ///                #pwDiv {
+        ///                    border: 2p [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string test {
+            get {
+                return ResourceManager.GetString("test", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///&lt;html lang=&quot;ja&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot; /&gt;
+        ///    &lt;style&gt;
+        ///                Body {
+        ///                    font-family: Meiryo, leiryoUI;
+        ///                }
+        ///                .ITSMultipleChoice {
+        ///                    font-family: Meiryo, leiryoUI;
+        ///                }
+        ///                #popUpDiv {
+        ///                    background-color: transparent;
+        ///                    color: black;
+        ///                }
+        ///                #pwDiv {
+        ///                    border: 2p [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string test2 {
+            get {
+                return ResourceManager.GetString("test2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
         ///&lt;html&gt;
         ///    &lt;head&gt;
