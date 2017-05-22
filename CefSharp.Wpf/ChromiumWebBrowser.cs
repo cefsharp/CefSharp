@@ -1477,12 +1477,50 @@ namespace CefSharp.Wpf
                             browser.GetHost().NotifyScreenInfoChanged();
                         }
                     }
+
+                    var window = source.RootVisual as Window;
+                    if(window != null)
+                    {
+                        window.StateChanged += WindowStateChanged;
+                    }
                 }
             }
             else if (args.OldSource != null)
             {
                 RemoveSourceHook();
+
+                var window = args.OldSource.RootVisual as Window;
+                if (window != null)
+                {
+                    window.StateChanged -= WindowStateChanged;
+                }
             }
+        }
+
+        private void WindowStateChanged(object sender, EventArgs e)
+        {
+            var window = (Window)sender;
+
+            switch (window.WindowState)
+            {
+                case WindowState.Normal:
+                case WindowState.Maximized:
+                {
+                    if (browser != null)
+                    {
+                        browser.GetHost().WasHidden(false);
+                    }
+                    break;
+                }
+                case WindowState.Minimized:
+                {
+                    if (browser != null)
+                    {
+                        browser.GetHost().WasHidden(true);
+                    }
+                    break;
+                }
+            } 
         }
 
         /// <summary>
