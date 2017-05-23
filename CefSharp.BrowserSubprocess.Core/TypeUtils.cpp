@@ -144,6 +144,19 @@ namespace CefSharp
 
             return cefArray;
         }
+        
+        if (type == Dictionary<String^, Object^>::typeid)
+        {
+            CefRefPtr<CefV8Value> cefObject = CefV8Value::CreateObject(NULL);
+            for each(KeyValuePair<String^, Object^>^ kvp in dynamic_cast<Dictionary<String^, Object^>^>(obj))
+            {
+                cefObject->SetValue(StringUtils::ToNative(safe_cast<String^>(kvp->Key)), ConvertToCef(kvp->Value, nullptr), V8_PROPERTY_ATTRIBUTE_NONE);
+            }
+            
+            return cefObject;
+        }
+
+        
         //TODO: What exception type?
         throw gcnew Exception(String::Format("Cannot convert '{0}' object from CLR to CEF.", type->FullName));
     }
