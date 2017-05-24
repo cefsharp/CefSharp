@@ -552,7 +552,16 @@ namespace CefSharp.WinForms
 
             if (((IWebBrowserInternal)this).HasParent == false)
             {
-                managedCefBrowserAdapter.CreateBrowser(BrowserSettings, (RequestContext)requestContext, Handle, Address);
+                if(IsBrowserInitialized == false || browser == null)
+                { 
+                    managedCefBrowserAdapter.CreateBrowser(BrowserSettings, (RequestContext)RequestContext, Handle, Address);
+                }
+                else
+                {
+                    //If the browser already exists we'll reparent it to the new Handle
+                    var browserHandle = browser.GetHost().GetWindowHandle();
+                    NativeMethodWrapper.SetWindowParent(browserHandle, Handle);
+                }
             }
         }
 
