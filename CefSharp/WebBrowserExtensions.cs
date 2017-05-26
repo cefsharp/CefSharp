@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Globalization;
 using CefSharp.Internals;
 using System.IO;
+using System.Collections.Specialized;
 
 namespace CefSharp
 {
@@ -217,6 +218,40 @@ namespace CefSharp
                 ThrowExceptionIfFrameNull(frame);
 
                 frame.ExecuteJavaScriptAsync(script);
+            }
+        }
+
+        /// <summary>
+        /// Loads 
+        /// Creates a new instance of IRequest with the specified Url and Method = POST
+        /// </summary>
+        /// <param name="browser"></param>
+        /// <param name="url"></param>
+        /// <param name="postDataBytes"></param>
+        /// <param name="contentType"></param>
+        /// <remarks>This is an extension method</remarks>
+        public static void LoadUrlWithPostData(this IWebBrowser browser, string url, byte[] postDataBytes, string contentType = null)
+        {
+            using (var frame = browser.GetMainFrame())
+            {
+                ThrowExceptionIfFrameNull(frame);
+
+                //Initialize Request with PostData
+                var request = frame.CreateRequest(initializePostData:true);
+
+                request.Url = url;
+                request.Method = "POST";
+
+                request.PostData.AddData(postDataBytes);
+
+                if(!string.IsNullOrEmpty(contentType))
+                { 
+                    var headers = new NameValueCollection();
+                    headers.Add("Content-Type", contentType);
+                    request.Headers = headers;
+                }
+
+                frame.LoadRequest(request);
             }
         }
 
