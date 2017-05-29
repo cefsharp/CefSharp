@@ -554,21 +554,39 @@ namespace CefSharp.Wpf
         }
 
         /// <summary>
-        /// Gets the screen information.
+        /// Gets the ScreenInfo - currently used to get the DPI scale factor.
         /// </summary>
-        /// <returns>ScreenInfo.</returns>
+        /// <returns>ScreenInfo containing the current DPI scale factor</returns>
         ScreenInfo IRenderWebBrowser.GetScreenInfo()
         {
-            var screenInfo = new ScreenInfo(scaleFactor: (float)matrix.M11);            
+            return GetScreenInfo();
+        }
+
+        /// <summary>
+        /// Gets the ScreenInfo - currently used to get the DPI scale factor.
+        /// </summary>
+        /// <returns>ScreenInfo containing the current DPI scale factor</returns>
+        protected virtual ScreenInfo GetScreenInfo()
+        {
+            var screenInfo = new ScreenInfo(scaleFactor: (float)matrix.M11);
 
             return screenInfo;
         }
 
         /// <summary>
-        /// Gets the view rect.
+        /// Gets the view rect (width, height)
         /// </summary>
         /// <returns>ViewRect.</returns>
         ViewRect IRenderWebBrowser.GetViewRect()
+        {
+            return GetViewRect();
+        }
+
+        /// <summary>
+        /// Gets the view rect (width, height)
+        /// </summary>
+        /// <returns>ViewRect.</returns>
+        protected virtual ViewRect GetViewRect()
         {
             var viewRect = new ViewRect((int)Math.Ceiling(ActualWidth), (int)Math.Ceiling(ActualHeight));
 
@@ -594,12 +612,25 @@ namespace CefSharp.Wpf
         }
 
         /// <summary>
-        /// Creates the bitmap information.
+        /// Creates the BitmapInfo instance used for rendering. Two instances
+        /// will be created, one will be used for the popup
         /// </summary>
         /// <param name="isPopup">if set to <c>true</c> [is popup].</param>
         /// <returns>BitmapInfo.</returns>
         /// <exception cref="System.Exception">BitmapFactory cannot be null</exception>
         BitmapInfo IRenderWebBrowser.CreateBitmapInfo(bool isPopup)
+        {
+            return CreateBitmapInfo(isPopup);
+        }
+
+        /// <summary>
+        /// Creates the BitmapInfo instance used for rendering. Two instances
+        /// will be created, one will be used for the popup
+        /// </summary>
+        /// <param name="isPopup">if set to <c>true</c> [is popup].</param>
+        /// <returns>BitmapInfo.</returns>
+        /// <exception cref="System.Exception">BitmapFactory cannot be null</exception>
+        protected virtual BitmapInfo CreateBitmapInfo(bool isPopup)
         {
             if (BitmapFactory == null)
             {
@@ -654,10 +685,29 @@ namespace CefSharp.Wpf
         }
 
         /// <summary>
-        /// Invokes the render asynchronous.
+        /// Called when an element should be painted.
+        /// Pixel values passed to this method are scaled relative to view coordinates based on the value of
+        /// ScreenInfo.DeviceScaleFactor returned from GetScreenInfo. bitmapInfo.IsPopup indicates whether the element is the view
+        /// or the popup widget. BitmapInfo.DirtyRect contains the set of rectangles in pixel coordinates that need to be
+        /// repainted. The bitmap will be will be  width * height *4 bytes in size and represents a BGRA image with an upper-left origin.
+        /// The underlying buffer is copied into the back buffer and is accessible via BackBufferHandle
         /// </summary>
-        /// <param name="bitmapInfo">The bitmap information.</param>
-        void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
+        /// <param name="bitmapInfo">information about the bitmap to be rendered</param>
+        void IRenderWebBrowser.OnPaint(BitmapInfo bitmapInfo)
+        {
+            OnPaint(bitmapInfo);
+        }
+
+        /// <summary>
+        /// Called when an element should be painted.
+        /// Pixel values passed to this method are scaled relative to view coordinates based on the value of
+        /// ScreenInfo.DeviceScaleFactor returned from GetScreenInfo. bitmapInfo.IsPopup indicates whether the element is the view
+        /// or the popup widget. BitmapInfo.DirtyRect contains the set of rectangles in pixel coordinates that need to be
+        /// repainted. The bitmap will be will be  width * height *4 bytes in size and represents a BGRA image with an upper-left origin.
+        /// The underlying buffer is copied into the back buffer and is accessible via BackBufferHandle
+        /// </summary>
+        /// <param name="bitmapInfo">information about the bitmap to be rendered</param>
+        protected virtual void OnPaint(BitmapInfo bitmapInfo)
         {
             UiThreadRunAsync(delegate
             {

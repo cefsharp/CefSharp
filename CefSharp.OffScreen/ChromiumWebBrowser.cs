@@ -683,7 +683,7 @@ namespace CefSharp.OffScreen
         /// in it's lock scope.
         /// </summary>
         /// <param name="bitmapInfo">information about the bitmap to be rendered</param>
-        void IRenderWebBrowser.InvokeRenderAsync(BitmapInfo bitmapInfo)
+        void IRenderWebBrowser.OnPaint(BitmapInfo bitmapInfo)
         {
             InvokeRenderAsync(bitmapInfo);
 
@@ -702,7 +702,7 @@ namespace CefSharp.OffScreen
         /// in it's lock scope.
         /// </summary>
         /// <param name="bitmapInfo">information about the bitmap to be rendered</param>
-        public virtual void InvokeRenderAsync(BitmapInfo bitmapInfo)
+        protected virtual void InvokeRenderAsync(BitmapInfo bitmapInfo)
         {
             var gdiBitmapInfo = (GdiBitmapInfo)bitmapInfo;
 
