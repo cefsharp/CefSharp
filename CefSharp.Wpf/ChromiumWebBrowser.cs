@@ -1905,6 +1905,23 @@ namespace CefSharp.Wpf
         }
 
         /// <summary>
+        /// Handles the <see cref="E:PreviewTextInput" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="TextCompositionEventArgs"/> instance containing the event data.</param>
+        protected override void OnPreviewTextInput(TextCompositionEventArgs e) 
+        {
+            if (browser != null) {
+                var browserHost = browser.GetHost();
+                for (int i = 0; i < e.Text.Length; i++) 
+                {
+                    browserHost.SendKeyEvent((int)WM.IME_CHAR, e.Text[i], 0);
+                }
+                e.Handled = true;
+            }
+            base.OnTextInput(e);
+        }
+
+        /// <summary>
         /// Invoked when an unhandled <see cref="E:System.Windows.Input.Mouse.MouseMove" /> attached event reaches an element in its route that is derived from this class. Implement this method to add class handling for this event.
         /// </summary>
         /// <param name="e">The <see cref="T:System.Windows.Input.MouseEventArgs" /> that contains the event data.</param>
