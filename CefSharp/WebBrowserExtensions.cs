@@ -711,6 +711,18 @@ namespace CefSharp
         }
 
         /// <summary>
+        /// Shortcut method to get the browser IBrowserHost
+        /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
+        /// <returns>browserHost or null</returns>
+        public static IBrowserHost GetHost(IWebBrowser browser)
+        {
+            var cefBrowser = browser.GetBrowser();
+
+            return cefBrowser == null ? null : cefBrowser.GetHost();
+        }
+
+        /// <summary>
         /// Add the specified word to the spelling dictionary.
         /// </summary>
         /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
