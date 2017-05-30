@@ -72,6 +72,10 @@ namespace CefSharp.ModelBinding
                 {
                     throw new ArgumentException("When modelType is an enumerable it must specify the type.", "modelType");
                 }
+            } 
+            else if (modelType.IsGenericObject())
+            {
+                return obj;
             }
 
             var bindingContext = this.CreateBindingContext(obj, modelType, genericType);
@@ -92,7 +96,7 @@ namespace CefSharp.ModelBinding
 
                     if (val != null)
                     {
-                        if (val.GetType() == typeof(Dictionary<string, object>))
+                        if (val.GetType().IsGenericObject())
                         {
                             var subModel = Bind(val, genericType);
                             model.Add(subModel);
@@ -144,10 +148,8 @@ namespace CefSharp.ModelBinding
                 return;
             }
 
-            Type dictionaryType = typeof(Dictionary<string, object>);
-
             //If the type is a dictionary and the PropertyType isn't then we'll bind.
-            if (obj.GetType() == dictionaryType && modelProperty.PropertyType != dictionaryType)
+            if (obj.GetType().IsGenericObject() && !modelProperty.PropertyType.IsGenericObject())
             {
                 //We have a sub dictionary, attempt to bind it to the class
                 var model = Bind(obj, modelProperty.PropertyType);
@@ -190,7 +192,7 @@ namespace CefSharp.ModelBinding
 
         protected virtual object GetValue(string propertyName, BindingContext context)
         {
-            if (context.Object.GetType() == typeof(Dictionary<string, object>))
+            if (context.Object.GetType().IsGenericObject())
             {
                 var dictionary = (Dictionary<string, object>)context.Object;
                 if (dictionary.ContainsKey(propertyName))

@@ -56,7 +56,6 @@ namespace CefSharp.ModelBinding
         /// <returns><see langword="true" /> if the type is an array, otherwise <see langword="false" />.</returns>
         public static bool IsArray(this Type source)
         {
-
             return source.GetTypeInfo().BaseType == typeof(Array);
         }
 
@@ -67,7 +66,17 @@ namespace CefSharp.ModelBinding
         /// <returns>return if collection, array or enumerable</returns>
         public static bool IsCollectionOrArray(this Type source)
         {
-            return source.IsCollection() || source.IsArray() || source.IsEnumerable();
+            return !source.IsGenericObject() && (source.IsCollection() || source.IsArray() || source.IsEnumerable());
+        }
+
+        /// <summary>
+        /// The type is a generic javascript object (dictionary)
+        /// </summary>
+        /// <param name="source">source type</param>
+        /// <returns>return true if is a generic js object</returns>
+        public static bool IsGenericObject(this Type source) 
+        {
+            return source == typeof(Dictionary<string, object>);
         }
 
         /// <summary>
@@ -94,7 +103,7 @@ namespace CefSharp.ModelBinding
         /// </summary>
         /// <param name="source">The type to check.</param>
         /// <returns><see langword="true" /> if the type is an collection, otherwise <see langword="false" />.</returns>
-        public static bool IsCollection(this Type source)
+        private static bool IsCollection(this Type source)
         {
             var collectionType = typeof(ICollection<>);
 
