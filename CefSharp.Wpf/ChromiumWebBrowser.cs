@@ -63,10 +63,6 @@ namespace CefSharp.Wpf
         /// </summary>
         private int browserInitialized;
         /// <summary>
-        /// The matrix
-        /// </summary>
-        private Matrix matrix;
-        /// <summary>
         /// The image that represents this browser instances
         /// </summary>
         private Image image;
@@ -340,6 +336,13 @@ namespace CefSharp.Wpf
         public bool CanExecuteJavascriptInMainFrame { get; private set; }
 
         /// <summary>
+        /// The dpi scale factor, if the browser has already been initialized
+        /// you must manually call IBrowserHost.NotifyScreenInfoChanged for the
+        /// browser to be notified of the change.
+        /// </summary>
+        public double DpiScaleFactor { get; set; }
+
+        /// <summary>
         /// Initializes static members of the <see cref="ChromiumWebBrowser"/> class.
         /// </summary>
         static ChromiumWebBrowser()
@@ -568,7 +571,7 @@ namespace CefSharp.Wpf
         /// <returns>ScreenInfo containing the current DPI scale factor</returns>
         protected virtual ScreenInfo GetScreenInfo()
         {
-            var screenInfo = new ScreenInfo(scaleFactor: (float)matrix.M11);
+            var screenInfo = new ScreenInfo(scaleFactor: (float)DpiScaleFactor);
 
             return screenInfo;
         }
@@ -636,7 +639,7 @@ namespace CefSharp.Wpf
             {
                 throw new Exception("BitmapFactory cannot be null");
             }
-            return BitmapFactory.CreateBitmap(isPopup, matrix.M11);
+            return BitmapFactory.CreateBitmap(isPopup, DpiScaleFactor);
         }
 
         /// <summary>
@@ -1514,18 +1517,16 @@ namespace CefSharp.Wpf
 
                 if (source != null)
                 {
-                    var notifyDpiChanged = !matrix.Equals(source.CompositionTarget.TransformToDevice);
+                    var matrix = source.CompositionTarget.TransformToDevice;
+                    var notifyDpiChanged = DpiScaleFactor > 0 && !DpiScaleFactor.Equals(matrix.M11);
 
-                    matrix = source.CompositionTarget.TransformToDevice;
+                    DpiScaleFactor = source.CompositionTarget.TransformToDevice.M11;
                     sourceHook = SourceHook;
                     source.AddHook(sourceHook);
 
-                    if (notifyDpiChanged)
+                    if (notifyDpiChanged && browser != null)
                     {
-                        if(browser != null)
-                        {
-                            browser.GetHost().NotifyScreenInfoChanged();
-                        }
+                        browser.GetHost().NotifyScreenInfoChanged();
                     }
 
                     var window = source.RootVisual as Window;
@@ -1860,8 +1861,8 @@ namespace CefSharp.Wpf
 
             var popupOffset = new Point(x, y);
             var locationFromScreen = PointToScreen(popupOffset);
-            popup.HorizontalOffset = locationFromScreen.X / matrix.M11;
-            popup.VerticalOffset = locationFromScreen.Y / matrix.M22;
+            popup.HorizontalOffset = locationFromScreen.X / DpiScaleFactor;
+            popup.VerticalOffset = locationFromScreen.Y / DpiScaleFactor;
         }
 
         /// <summary>
