@@ -1925,7 +1925,8 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="TextCompositionEventArgs"/> instance containing the event data.</param>
         protected override void OnPreviewTextInput(TextCompositionEventArgs e) 
         {
-            if (browser != null) {
+            if (browser != null) 
+            {
                 var browserHost = browser.GetHost();
                 for (int i = 0; i < e.Text.Length; i++) 
                 {
