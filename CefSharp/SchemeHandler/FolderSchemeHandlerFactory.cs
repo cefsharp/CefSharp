@@ -61,20 +61,15 @@ namespace CefSharp.SchemeHandler
         {
             if (this.schemeName != null && !schemeName.Equals(this.schemeName, StringComparison.OrdinalIgnoreCase))
             {
-                var invalidSchemeName = ResourceHandler.FromString(string.Format("SchemeName {0} does not match the expected SchemeName of {1}.", schemeName, this.schemeName));
-                invalidSchemeName.StatusCode = (int)HttpStatusCode.NotFound;
+                return ResourceHandler.ForErrorMessage(string.Format("SchemeName {0} does not match the expected SchemeName of {1}.", schemeName, this.schemeName), HttpStatusCode.NotFound);
 
-                return invalidSchemeName;
             }
 
             var uri = new Uri(request.Url);
 
             if (this.hostName != null && !uri.Host.Equals(this.hostName, StringComparison.OrdinalIgnoreCase))
             {
-                var invalidHostName = ResourceHandler.FromString(string.Format("HostName {0} does not match the expected HostName of {1}.", uri.Host, this.hostName));
-                invalidHostName.StatusCode = (int)HttpStatusCode.NotFound;
-
-                return invalidHostName;
+                return ResourceHandler.ForErrorMessage(string.Format("HostName {0} does not match the expected HostName of {1}.", uri.Host, this.hostName), HttpStatusCode.NotFound);
             }			
 
             //Get the absolute path and remove the leading slash
@@ -95,10 +90,8 @@ namespace CefSharp.SchemeHandler
                 return ResourceHandler.FromFilePath(filePath, mimeType);
             }
 
-            var fileNotFoundResourceHandler = ResourceHandler.FromString("File Not Found - " + filePath);
-            fileNotFoundResourceHandler.StatusCode = (int)HttpStatusCode.NotFound;
-            
-            return fileNotFoundResourceHandler;
+
+            return ResourceHandler.ForErrorMessage("File Not Found - " + filePath, HttpStatusCode.NotFound);
         }
     }
 }

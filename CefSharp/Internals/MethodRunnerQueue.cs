@@ -77,11 +77,29 @@ namespace CefSharp.Internals
         {
             try
             {
-                while (!cancellationTokenSource.IsCancellationRequested)
+                
+                if(CefSharpSettings.ConcurrentTaskExecution)
                 {
-                    var task = queue.Take(cancellationTokenSource.Token);
-                    task.RunSynchronously();
-                    OnMethodInvocationComplete(task.Result);
+                    //New experimental behaviour that Starts the Tasks on TaskScheduler.Default 
+                    while (!cancellationTokenSource.IsCancellationRequested)
+                    {
+                        var task = queue.Take(cancellationTokenSource.Token);
+                        task.ContinueWith((t) =>
+                        {
+                            OnMethodInvocationComplete(t.Result);
+                        }, cancellationTokenSource.Token);
+                        task.Start(TaskScheduler.Default);
+                    }
+                }
+                else
+                {
+                    //Old behaviour, runs Tasks in sequential order on the current Thread.
+                    while (!cancellationTokenSource.IsCancellationRequested)
+                    {
+                        var task = queue.Take(cancellationTokenSource.Token);
+                        task.RunSynchronously();
+                        OnMethodInvocationComplete(task.Result);
+                    }
                 }
             }
             catch (OperationCanceledException)

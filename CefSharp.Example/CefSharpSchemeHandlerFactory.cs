@@ -48,7 +48,9 @@ namespace CefSharp.Example
                 { "/DraggableRegionTest.html", Resources.DraggableRegionTest },
                 { "/CssAnimationTest.html", Resources.CssAnimation },
                 { "/CdmSupportTest.html", Resources.CdmSupportTest },
-                { "/Recaptcha.html", Resources.Recaptcha }
+                { "/Recaptcha.html", Resources.Recaptcha },
+                { "/UnicodeExampleGreaterThan32kb.html", Resources.UnicodeExampleGreaterThan32kb },
+                { "/UnocodeExampleEqualTo32kb.html", Resources.UnocodeExampleEqualTo32kb }
             };
         }
 
@@ -88,7 +90,7 @@ namespace CefSharp.Example
             if (ResourceDictionary.TryGetValue(fileName, out resource) && !string.IsNullOrEmpty(resource))
             {
                 var fileExtension = Path.GetExtension(fileName);
-                return ResourceHandler.FromString(resource, fileExtension);
+                return ResourceHandler.FromString(resource, includePreamble:true, mimeType:ResourceHandler.GetMimeType(fileExtension));
             }
 
             return null;

@@ -179,7 +179,7 @@ namespace CefSharp
 
                 CopyMemory(backBufferHandle, (void*)buffer, bitmapInfo->NumberOfBytes);
 
-                _renderWebBrowser->InvokeRenderAsync(bitmapInfo);
+                _renderWebBrowser->OnPaint(bitmapInfo);
             };
 
             virtual DECL void OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor, CursorType type,

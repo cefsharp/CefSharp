@@ -21,7 +21,17 @@ namespace CefSharp.Internals
         bool GetScreenPoint(int viewX, int viewY, out int screenX, out int screenY);
 
         BitmapInfo CreateBitmapInfo(bool isPopup);
-        void InvokeRenderAsync(BitmapInfo bitmapInfo);
+        
+        /// <summary>
+        /// Called when an element should be painted.
+        /// Pixel values passed to this method are scaled relative to view coordinates based on the value of
+        /// ScreenInfo.DeviceScaleFactor returned from GetScreenInfo. bitmapInfo.IsPopup indicates whether the element is the view
+        /// or the popup widget. BitmapInfo.DirtyRect contains the set of rectangles in pixel coordinates that need to be
+        /// repainted. The bitmap will be will be  width * height *4 bytes in size and represents a BGRA image with an upper-left origin.
+        /// The underlying buffer is copied into the back buffer and is accessible via BackBufferHandle
+        /// </summary>
+        /// <param name="bitmapInfo">information about the bitmap to be rendered</param>
+        void OnPaint(BitmapInfo bitmapInfo);
 
         void SetCursor(IntPtr cursor, CursorType type);
 

@@ -74,7 +74,9 @@
     <Compile Include="BoundObject.cs" />
     <Compile Include="CallbackResponseStruct.cs" />
     <Compile Include="Filters\AppendResponseFilter.cs" />
+    <Compile Include="Filters\FindReplaceMultiResponseFilter.cs" />
     <Compile Include="Filters\FindReplaceResponseFilter.cs" />
+    <Compile Include="Filters\MemoryStreamResponseFilter.cs" />
     <Compile Include="FlashResourceHandler.cs" />
     <Compile Include="FlashResourceHandlerFactory.cs" />
     <Compile Include="Filters\PassThruResponseFilter.cs" />
@@ -154,6 +156,8 @@
     <Content Include="Resources\ResponseFilterTest.html" />
     <Content Include="Resources\SchemeTest.html" />
     <Content Include="Resources\ScriptedMethodsTest.html" />
+    <Content Include="Resources\UnicodeExampleGreaterThan32kb.html" />
+    <Content Include="Resources\UnocodeExampleEqualTo32kb.html" />
     <Content Include="Resources\TooltipTest.html" />
   </ItemGroup>
   <ItemGroup>

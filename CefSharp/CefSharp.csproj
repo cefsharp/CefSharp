@@ -98,6 +98,8 @@
     <Compile Include="Callback\TaskPrintToPdfCallback.cs" />
     <Compile Include="Callback\TaskResolveCallback.cs" />
     <Compile Include="CdmRegistration.cs" />
+    <Compile Include="Internals\ByteArrayResourceHandler.cs" />
+    <Compile Include="Internals\FileResourceHandler.cs" />
     <Compile Include="Structs\CefDirtyRect.cs" />
     <Compile Include="CefExtension.cs" />
     <Compile Include="CefLibraryHandle.cs" />
@@ -134,7 +136,6 @@
     <Compile Include="Enums\PluginPolicy.cs" />
     <Compile Include="Enums\PostDataElementType.cs" />
     <Compile Include="Enums\ReferrerPolicy.cs" />
-    <Compile Include="Enums\ResourceHandlerType.cs" />
     <Compile Include="Enums\ResourceType.cs" />
     <Compile Include="Enums\SslContentStatus.cs" />
     <Compile Include="Enums\SslVersion.cs" />

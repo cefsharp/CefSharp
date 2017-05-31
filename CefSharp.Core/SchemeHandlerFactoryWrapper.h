@@ -44,13 +44,35 @@ namespace CefSharp
                 return NULL;
             }
 
-            if (handler->GetType() == ResourceHandler::typeid)
+            if (handler->GetType() == FileResourceHandler::typeid)
             {
-                auto resourceHandler = static_cast<ResourceHandler^>(handler);
-                if (resourceHandler->Type == ResourceHandlerType::File)
+                auto resourceHandler = static_cast<FileResourceHandler^>(handler);
+
+                auto streamReader = CefStreamReader::CreateForFile(StringUtils::ToNative(resourceHandler->FilePath));
+
+                if (streamReader.get())
                 {
-                    return new CefStreamResourceHandler(StringUtils::ToNative(resourceHandler->MimeType), CefStreamReader::CreateForFile(StringUtils::ToNative(resourceHandler->FilePath)));
+                    return new CefStreamResourceHandler(StringUtils::ToNative(resourceHandler->MimeType), streamReader);
                 }
+                else
+                {
+                    auto msg = "Unable to load resource CefStreamReader::CreateForFile returned NULL for file:" + resourceHandler->FilePath;
+                    LOG(ERROR) << StringUtils::ToNative(msg).ToString();
+
+                    return NULL;
+                }
+            }
+            else if (handler->GetType() == ByteArrayResourceHandler::typeid)
+            {
+                auto resourceHandler = static_cast<ByteArrayResourceHandler^>(handler);
+
+				//NOTE: Prefix with cli:: namespace as VS2015 gets confused with std::array
+				cli::array<Byte>^ buffer = resourceHandler->Data;
+                pin_ptr<Byte> src = &buffer[0];
+
+                auto streamReader = CefStreamReader::CreateForData(static_cast<void*>(src), buffer->Length);
+
+                return new CefStreamResourceHandler(StringUtils::ToNative(resourceHandler->MimeType), streamReader);
             }
 
             return new ResourceHandlerWrapper(handler);

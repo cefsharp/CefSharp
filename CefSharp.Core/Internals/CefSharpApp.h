@@ -117,8 +117,13 @@ namespace CefSharp
         {
             for each (CefCustomScheme^ scheme in _cefSettings->CefCustomSchemes)
             {
-                // TOOD: Consider adding error handling here. But where do we report any errors that may have occurred?
-                registrar->AddCustomScheme(StringUtils::ToNative(scheme->SchemeName), scheme->IsStandard, scheme->IsLocal, scheme->IsDisplayIsolated, scheme->IsSecure, scheme->IsCorsEnabled);
+                auto success = registrar->AddCustomScheme(StringUtils::ToNative(scheme->SchemeName), scheme->IsStandard, scheme->IsLocal, scheme->IsDisplayIsolated, scheme->IsSecure, scheme->IsCorsEnabled, false);
+
+                if (!success)
+                {
+                    String^ msg = "CefSchemeRegistrar::AddCustomScheme failed for schemeName:" + scheme->SchemeName;
+                    LOG(ERROR) << StringUtils::ToNative(msg).ToString();
+                }
             }
         };
 

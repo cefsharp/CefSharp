@@ -62,8 +62,9 @@ namespace CefSharp.WinForms.Example.Handlers
             });
         }
 
-        bool IDisplayHandler.OnTooltipChanged(IWebBrowser browserControl, string text)
+        bool IDisplayHandler.OnTooltipChanged(IWebBrowser browserControl, ref string text)
         {
+            //text = "Sample text";
             return false;
         }
 

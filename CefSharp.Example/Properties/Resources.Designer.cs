@@ -662,5 +662,55 @@ namespace CefSharp.Example.Properties {
                 return ResourceManager.GetString("TooltipTest", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///&lt;html lang=&quot;ja&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot; /&gt;
+        ///    &lt;style&gt;
+        ///                Body {
+        ///                    font-family: Meiryo, leiryoUI;
+        ///                }
+        ///                .ITSMultipleChoice {
+        ///                    font-family: Meiryo, leiryoUI;
+        ///                }
+        ///                #popUpDiv {
+        ///                    background-color: transparent;
+        ///                    color: black;
+        ///                }
+        ///                #pwDiv {
+        ///                    border: 2p [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string UnicodeExampleGreaterThan32kb {
+            get {
+                return ResourceManager.GetString("UnicodeExampleGreaterThan32kb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///&lt;html lang=&quot;ja&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot; /&gt;
+        ///    &lt;style&gt;
+        ///                Body {
+        ///                    font-family: Meiryo, leiryoUI;
+        ///                }
+        ///                .ITSMultipleChoice {
+        ///                    font-family: Meiryo, leiryoUI;
+        ///                }
+        ///                #popUpDiv {
+        ///                    background-color: transparent;
+        ///                    color: black;
+        ///                }
+        ///                #pwDiv {
+        ///                    border: 2p [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string UnocodeExampleEqualTo32kb {
+            get {
+                return ResourceManager.GetString("UnocodeExampleEqualTo32kb", resourceCulture);
+            }
+        }
     }
 }

@@ -22,7 +22,7 @@ It maybe helpful to run the `cefclient` application and compare output with `Cef
 - To compare with WPF run `cefclient --multi-threaded-message-loop --off-screen-rendering-enabled`
 - To compare with WinForms `cefclient --multi-threaded-message-loop`
 
-To determine which version of `CEF` your build is running, open `chrome://version` and you'll see a number similar to `3.2062.1898`, in this case `2062` represents the branch which corresponds to http://cefbuilds.com/#branch_2062
+To determine which version of `CEF` your build is running, open `chrome://version` and you'll see a number similar to `3.2987.1597.gffc5773`. Open http://opensource.spotify.com/cefbuilds/index.html and download the `Sample Application` that exactly matches. If your using an older build click `Show More Builds`.
 
 ### What should I include when creating an `Issue`?
 
@@ -42,7 +42,7 @@ Your bug report should **always follow this template**:
     - A stack trace if available, any Exception information.
     - Does the cef log provide any relevant information? (By default there should be a debug.log file in your bin directory)
 - Any other background information that's relevant? Are you doing something out of the ordinary? 3rd party controls?
-- **Does this problem also occur in the `Cef` TestApp from http://cefbuilds.com?**
+- **Does this problem also occur in the `CEF Sample Application` from http://opensource.spotify.com/cefbuilds/index.html?**
 
 Your bug report should include **what you were doing** in the software when you encountered it, **what you were expecting** to happen and **what happened instead**.
 

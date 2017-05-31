@@ -6,6 +6,9 @@ using System;
 
 namespace CefSharp.Internals
 {
+    /// <summary>
+    /// Information about the bitmap that should be rendered
+    /// </summary>
     public abstract class BitmapInfo
     {
         public object BitmapLock;
