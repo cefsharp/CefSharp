@@ -7,9 +7,9 @@ using System;
 namespace CefSharp.ModelBinding
 {
     /// <summary>
-    /// Intercepts methods execution
-    /// </summary>
-    public interface IInterceptor
+    /// Provides the capability to supply an interceptor of
+    /// .net method calls from js. Can be used to log method calls.
+    public interface IMethodInterceptor
     {
         /// <summary>
         /// Intercept the given method name

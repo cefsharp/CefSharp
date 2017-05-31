@@ -20,16 +20,6 @@ namespace CefSharp.Wpf.Example.Views
     public partial class BrowserTabView : UserControl
     {
 
-        private class CustomInterceptor : IInterceptor 
-        {
-            public object Intercept(Func<object> originalMethod, string methodName) 
-            {
-                object result = originalMethod();
-                System.Diagnostics.Debug.WriteLine("Called " + methodName);
-                return result;
-            }
-        }
-
         //Store draggable region if we have one - used for hit testing
         private Region region;
 
@@ -42,7 +32,7 @@ namespace CefSharp.Wpf.Example.Views
             var bindingOptions = new BindingOptions() 
             {
                 Binder = BindingOptions.DefaultBinder.Binder,
-                Interceptor = new CustomInterceptor()
+                MethodInterceptor = new MethodInterceptionLogger() // intercept .net methods calls from js and log it
             };
             browser.RegisterAsyncJsObject("boundAsync", new AsyncBoundObject(), bindingOptions);
             // Enable touch scrolling - once properly tested this will likely become the default
