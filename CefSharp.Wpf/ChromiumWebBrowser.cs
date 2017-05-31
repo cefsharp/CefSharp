@@ -19,7 +19,8 @@ using CefSharp.Wpf.Internals;
 using CefSharp.Wpf.Rendering;
 using Microsoft.Win32.SafeHandles;
 
-namespace CefSharp.Wpf {
+namespace CefSharp.Wpf 
+{
     /// <summary>
     /// ChromiumWebBrowser is the WPF web browser control
     /// </summary>
