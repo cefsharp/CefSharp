@@ -8,13 +8,13 @@ using CefSharp.ModelBinding;
 
 namespace CefSharp.Example.ModelBinding 
 {
-	public class MethodInterceptorLogger : IMethodInterceptor
-	{
-		object IMethodInterceptor.Intercept(Func<object> method, string methodName)
-		{
-			object result = method();
-			Debug.WriteLine("Called " + methodName);
-			return result;
-		}
-	}
+    public class MethodInterceptorLogger : IMethodInterceptor
+    {
+        object IMethodInterceptor.Intercept(Func<object> method, string methodName)
+        {
+            object result = method();
+            Debug.WriteLine("Called " + methodName);
+            return result;
+        }
+    }
 }
