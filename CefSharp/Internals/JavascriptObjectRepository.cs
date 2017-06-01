@@ -89,6 +89,7 @@ namespace CefSharp.Internals
             jsObject.Name = name;
             jsObject.JavascriptName = name;
             jsObject.Binder = options == null ? null : options.Binder;
+            jsObject.MethodInterceptor = options == null ? null : options.MethodInterceptor;
 
             AnalyseObjectForBinding(jsObject, analyseMethods: true, analyseProperties: analyseProperties, readPropertyValue: false, camelCaseJavascriptNames: camelCaseJavascriptNames);
 
@@ -187,7 +188,14 @@ namespace CefSharp.Internals
                         }
                     }
 
-                    result = method.Function(obj.Value, parameters);
+                    if (obj.MethodInterceptor == null) 
+                    {
+                        result = method.Function(obj.Value, parameters);
+                    }
+                    else 
+                    {
+                        result = obj.MethodInterceptor.Intercept(() => method.Function(obj.Value, parameters), method.ManagedName);
+                    }
                 }
                 catch (Exception e)
                 {
