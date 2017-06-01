@@ -7,16 +7,25 @@ using System;
 namespace CefSharp.ModelBinding
 {
     /// <summary>
-    /// Provides the capability to supply an interceptor of
-    /// .net method calls from js. Can be used to log method calls.
+    /// Provides the capability intercept Net method calls made from javascript as part of the
+    /// JavascriptBinding (JSB) implementation. One example use case is logging method calls.
     public interface IMethodInterceptor
     {
         /// <summary>
-        /// Intercept the given method name
+        /// Called before the method is invokved. You are now responsible for evaluating
+        /// the function and returning the result.
         /// </summary>
-        /// <param name="originalMethod">method to be called</param>
+        /// <param name="method">A Func that represents the method to be called</param>
         /// <param name="methodName">Name of the method to be called</param>
         /// <returns>The method result</returns>
-        object Intercept(Func<object> originalMethod, string methodName);
+        /// <example>
+        /// object IMethodInterceptor.Intercept(Func<object> method, string methodName)
+        /// {
+        ///   object result = method();
+        ///   Debug.WriteLine("Called " + methodName);
+        ///   return result;
+        ///  }
+        /// </example>
+        object Intercept(Func<object> method, string methodName);
     }
 }
