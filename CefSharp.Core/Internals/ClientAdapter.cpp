@@ -725,7 +725,7 @@ namespace CefSharp
                 auto resourceHandler = static_cast<ByteArrayResourceHandler^>(handler);
                 
                 //NOTE: Prefix with cli:: namespace as VS2015 gets confused with std::array
-				cli::array<Byte>^ buffer = resourceHandler->Data;
+                cli::array<Byte>^ buffer = resourceHandler->Data;
                 pin_ptr<Byte> src = &buffer[0];
 
                 auto streamReader = CefStreamReader::CreateForData(static_cast<void*>(src), buffer->Length);
