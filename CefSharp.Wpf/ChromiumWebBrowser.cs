@@ -83,6 +83,15 @@ namespace CefSharp.Wpf
         /// </summary>
         private int disposeCount;
         /// <summary>
+        /// <summary>
+        /// Location of the control on the screen, relative to Top/Left
+        /// Used to calculate GetScreenPoint
+        /// We're unable to call PointToScreen directly due to treading restrictions
+        /// and calling in a sync fashion on the UI thread was problematic.
+        /// </summary>
+        private Point browserScreenLocation;
+
+        /// <summary>
         /// A flag that indicates whether or not the designer is active
         /// NOTE: Needs to be static for OnApplicationExit
         /// </summary>
@@ -601,15 +610,18 @@ namespace CefSharp.Wpf
             screenX = 0;
             screenY = 0;
 
-            var point = new Point(viewX, viewY);
-
-            UiThreadRunSync(() =>
+            //We manually claculate the screen point as calling PointToScreen can only be called on the UI thread
+            // in a sync fashion and it's easy for users to get themselves into a deadlock.
+            if(DpiScaleFactor > 1)
+            { 
+                screenX = (int)(browserScreenLocation.X + (viewX * DpiScaleFactor));
+                screenY = (int)(browserScreenLocation.Y + (viewY * DpiScaleFactor));
+            }
+            else
             {
-                point = PointToScreen(point);
-            });
-
-            screenX = (int)point.X;
-            screenY = (int)point.Y;
+                screenX = (int)(browserScreenLocation.X + viewX);
+                screenY = (int)(browserScreenLocation.Y + viewY);
+            }
 
             return true;
         }
@@ -1533,6 +1545,7 @@ namespace CefSharp.Wpf
                     if(window != null)
                     {
                         window.StateChanged += WindowStateChanged;
+                        window.LocationChanged += OnWindowLocationChanged;
                     }
                 }
             }
@@ -1544,6 +1557,7 @@ namespace CefSharp.Wpf
                 if (window != null)
                 {
                     window.StateChanged -= WindowStateChanged;
+                    window.LocationChanged -= OnWindowLocationChanged;
                 }
             }
         }
@@ -1572,6 +1586,13 @@ namespace CefSharp.Wpf
                     break;
                 }
             } 
+        }
+
+        private void OnWindowLocationChanged(object sender, EventArgs e)
+        {
+            //We maintain a manual reference to the controls screen location
+            //(relative to top/left of the screen)
+            browserScreenLocation = PointToScreen(new Point());
         }
 
         /// <summary>
@@ -1720,6 +1741,9 @@ namespace CefSharp.Wpf
                 Dispatcher
                 );
             tooltipTimer.IsEnabled = false;
+
+            //Initial value for screen location
+            browserScreenLocation = PointToScreen(new Point());
         }
 
         /// <summary>
