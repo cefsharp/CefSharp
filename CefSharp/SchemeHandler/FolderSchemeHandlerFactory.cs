@@ -87,9 +87,9 @@ namespace CefSharp.SchemeHandler
             {
                 var fileExtension = Path.GetExtension(filePath);
                 var mimeType = ResourceHandler.GetMimeType(fileExtension);
-                return ResourceHandler.FromFilePath(filePath, mimeType);
+                var stream = File.OpenRead(filePath);
+                return ResourceHandler.FromStream(stream, mimeType);
             }
-
 
             return ResourceHandler.ForErrorMessage("File Not Found - " + filePath, HttpStatusCode.NotFound);
         }
