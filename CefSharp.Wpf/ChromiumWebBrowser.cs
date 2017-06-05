@@ -2085,8 +2085,16 @@ namespace CefSharp.Wpf
             if (!e.Handled && browser != null)
             {
                 var modifiers = e.GetModifiers();
+                var point = e.GetPosition(this);
 
-                browser.GetHost().SendMouseMoveEvent(-1, -1, true, modifiers);
+                //If the LeftMouse button is pressed when leaving the control we send a mouse click with mouseUp: true
+                //to let the browser know the mouse has been released
+                if (e.LeftButton == MouseButtonState.Pressed)
+                {
+                    browser.GetHost().SendMouseClickEvent((int)point.X, (int)point.Y, MouseButtonType.Left, mouseUp: true, clickCount: 1, modifiers: modifiers);
+                }
+                                
+                browser.GetHost().SendMouseMoveEvent((int)point.X, (int)point.Y, true, modifiers);
 
                 ((IWebBrowserInternal)this).SetTooltipText(null);
             }
