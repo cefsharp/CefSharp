@@ -58,6 +58,16 @@ namespace CefSharp
             virtual DECL CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE{ return this; };
 
             // CefRenderHandler
+            virtual DECL bool GetRootScreenRect(CefRefPtr<CefBrowser> browser, CefRect& rect) OVERRIDE
+            {
+                rect.x = 0;
+                rect.y = 0;
+                rect.width = ::GetSystemMetrics(SM_CXVIRTUALSCREEN);
+                rect.height = ::GetSystemMetrics(SM_CYVIRTUALSCREEN);
+
+                return true;
+            }
+
             virtual DECL bool GetScreenInfo(CefRefPtr<CefBrowser> browser, CefScreenInfo& screen_info) OVERRIDE
             {
                 if ((IRenderWebBrowser^)_renderWebBrowser == nullptr)
