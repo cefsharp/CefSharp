@@ -103,6 +103,7 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Controls\CefSharpCommands.cs" />
+    <Compile Include="Controls\ChromiumWebBrowserWithScreenshotSupport.cs" />
     <Compile Include="Controls\NonReloadingTabControl.cs" />
     <Compile Include="Handlers\DisplayHandler.cs" />
     <Compile Include="Handlers\DragHandler.cs" />
