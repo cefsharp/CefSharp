@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Diagnostics;
 
 namespace CefSharp
 {
@@ -10,6 +11,8 @@ namespace CefSharp
     /// Class used to Represent a cookie the built in .Net Cookie
     /// class isn't used as some of it's properties have internal setters
     /// </summary>
+    [DebuggerDisplay("Domain = {Domain}, Path = {Path}, Name = {Name}, Secure = {Secure}, HttpOnly = {HttpOnly}," +
+                     "Creation = {Creation}, Expires = {Expires}, LastAccess = {LastAccess}", Name = "Cookie")] 
     public sealed class Cookie
     {
         public string Name { get; set; }
