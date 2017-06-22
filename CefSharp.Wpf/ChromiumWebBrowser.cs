@@ -472,6 +472,7 @@ namespace CefSharp.Wpf
             PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
 
             RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
+            UseLayoutRounding = true;
         }
 
         /// <summary>
@@ -621,7 +622,10 @@ namespace CefSharp.Wpf
         /// <returns>ViewRect.</returns>
         protected virtual ViewRect GetViewRect()
         {
-            var viewRect = new ViewRect((int)Math.Ceiling(ActualWidth), (int)Math.Ceiling(ActualHeight));
+            //NOTE: Previous we used Math.Ceiling to round the sizing up, we
+            //now set UseLayoutRounding = true; on the control so the sizes are
+            //already rounded to a whole number for us.
+            var viewRect = new ViewRect((int)ActualWidth, (int)ActualHeight);
 
             return viewRect;
         }
