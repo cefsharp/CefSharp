@@ -75,6 +75,7 @@
     <Compile Include="BitmapFactory.cs" />
     <Compile Include="ChromiumWebBrowser.cs" />
     <Compile Include="GdiBitmapInfo.cs" />
+    <Compile Include="OnPaintEventArgs.cs" />
     <Compile Include="PopupBlending.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
