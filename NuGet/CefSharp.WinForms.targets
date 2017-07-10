@@ -3,16 +3,16 @@
   <PropertyGroup>
     <CefSharpTargetDir Condition=" '$(CefSharpTargetDir)' == '' ">$(TargetDir)</CefSharpTargetDir>
   </PropertyGroup>
-  
-  <Target Name="CefSharpCopyWinFormsAnyCPU" BeforeTargets="AfterBuild" Condition="'$(Platform)' == 'AnyCPU'">
-    <ItemGroup>
-      <CefSharpBinaries32 Include="$(MSBuildThisFileDirectory)..\CefSharp\x86\*.*" />
-      <CefSharpBinaries64 Include="$(MSBuildThisFileDirectory)..\CefSharp\x64\*.*" />
-    </ItemGroup>
 
+  <ItemGroup>
+    <CefSharpWinFormsBinaries32 Include="$(MSBuildThisFileDirectory)..\CefSharp\x86\*.*" />
+    <CefSharpWinFormsBinaries64 Include="$(MSBuildThisFileDirectory)..\CefSharp\x64\*.*" />
+  </ItemGroup>
+  
+  <Target Name="CefSharpCopyWinFormsAnyCPU" BeforeTargets="BeforeBuild" Condition="'$(Platform)' == 'AnyCPU'">
     <Message Importance="high" Text="-- CefSharp.WinForms.targets: Copying files from $(MSBuildThisFileDirectory)..\CefSharp\x86 to $(CefSharpTargetDir)\x86" />
-    <Copy SourceFiles="@(CefSharpBinaries32)" DestinationFolder="$(CefSharpTargetDir)\x86" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(CefSharpWinFormsBinaries32)" DestinationFolder="$(CefSharpTargetDir)\x86" SkipUnchangedFiles="true" />
     <Message Importance="high" Text="-- CefSharp.WinForms.targets: Copying files from $(MSBuildThisFileDirectory)..\CefSharp\x64 to $(CefSharpTargetDir)\x64" />
-    <Copy SourceFiles="@(CefSharpBinaries64)" DestinationFolder="$(CefSharpTargetDir)\x64" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(CefSharpWinFormsBinaries64)" DestinationFolder="$(CefSharpTargetDir)\x64" SkipUnchangedFiles="true" />
   </Target>
 </Project>
