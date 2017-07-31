@@ -22,7 +22,7 @@ namespace CefSharp.Wpf.Example
             }
 #endif
 
-            const bool multiThreadedMessageLoop = true;
+            const bool multiThreadedMessageLoop = false;
 
             IBrowserProcessHandler browserProcessHandler;
 

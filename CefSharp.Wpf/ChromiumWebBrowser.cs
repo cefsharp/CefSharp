@@ -19,6 +19,8 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using CefSharp.ModelBinding;
 using System.Runtime.CompilerServices;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CefSharp.Wpf
 {
@@ -83,13 +85,14 @@ namespace CefSharp.Wpf
         /// </summary>
         private int disposeCount;
         /// <summary>
-        /// <summary>
         /// Location of the control on the screen, relative to Top/Left
         /// Used to calculate GetScreenPoint
         /// We're unable to call PointToScreen directly due to treading restrictions
         /// and calling in a sync fashion on the UI thread was problematic.
         /// </summary>
         private Point browserScreenLocation;
+
+        private OsrImeWin _imeWin;
 
         /// <summary>
         /// A flag that indicates whether or not the designer is active
@@ -450,7 +453,7 @@ namespace CefSharp.Wpf
 
             PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
 
-            RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
+            RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.NearestNeighbor);
         }
 
         /// <summary>
@@ -551,6 +554,12 @@ namespace CefSharp.Wpf
                     {
                         SetCurrentValue(IsBrowserInitializedProperty, false);
                         WebBrowser = null;
+
+                        if (_imeWin != null)
+                        {
+                            _imeWin.Dispose();
+                            _imeWin = null;
+                        }
                     });
                 }
 
@@ -802,6 +811,24 @@ namespace CefSharp.Wpf
         void IRenderWebBrowser.OnImeCompositionRangeChanged(Range selectedRange, Rect[] characterBounds)
         {
             //TODO: Implement this
+            if (_imeWin != null)
+            {
+                UiThreadRunAsync(() =>
+                {
+                    IList<Rect> rects = new List<Rect>();
+                    foreach (var item in characterBounds)
+                    {
+                        GeneralTransform generalTransform1 = TransformToAncestor(this);
+
+                        if (CleanupElement != null)
+                        {
+                            Point point = this.TransformToAncestor(CleanupElement).Transform(new Point(0, 0));
+                            rects.Add(new Rect((int)(point.X + item.X), (int)(point.Y + item.Y), item.Width, item.Height));
+                        }
+                    }
+                    _imeWin.OnImeCompositionRangeChanged(selectedRange, rects.ToArray());
+                });
+            }
         }
 
         /// <summary>
@@ -963,7 +990,7 @@ namespace CefSharp.Wpf
                 if (!IsDisposed)
                 {
                     SetCurrentValue(IsBrowserInitializedProperty, true);
-
+                    _imeWin = new OsrImeWin(((HwndSource)PresentationSource.FromVisual(this)).Handle, this.browser);
                     // If Address was previously set, only now can we actually do the load
                     if (!string.IsNullOrEmpty(Address))
                     {
@@ -1721,6 +1748,20 @@ namespace CefSharp.Wpf
             Cef.Shutdown();
         }
 
+        protected override void OnGotFocus(RoutedEventArgs e)
+        {
+            InputMethod.SetIsInputMethodEnabled(this, true);
+            InputMethod.SetIsInputMethodSuspended(this, true);
+            base.OnGotFocus(e);
+        }
+
+        protected override void OnLostFocus(RoutedEventArgs e)
+        {
+            base.OnLostFocus(e);
+            InputMethod.SetIsInputMethodEnabled(this, false);
+            InputMethod.SetIsInputMethodSuspended(this, false);
+        }
+
         /// <summary>
         /// Handles the <see cref="E:Loaded" /> event.
         /// </summary>
@@ -1732,6 +1773,8 @@ namespace CefSharp.Wpf
             {
                 CleanupElement = Window.GetWindow(this);
             }
+
+            InputMethod.SetIsInputMethodEnabled(this, true);
 
             // TODO: Consider making the delay here configurable.
             tooltipTimer = new DispatcherTimer(
@@ -1823,37 +1866,15 @@ namespace CefSharp.Wpf
                 return IntPtr.Zero;
             }
 
-            switch ((WM)message)
+            if (_imeWin != null)
             {
-                case WM.SYSCHAR:
-                case WM.SYSKEYDOWN:
-                case WM.SYSKEYUP:
-                case WM.KEYDOWN:
-                case WM.KEYUP:
-                case WM.CHAR:
-                case WM.IME_CHAR:
-                { 
-                    if (!IsKeyboardFocused)
-                    {
-                        break;
-                    }
-
-                    if (message == (int)WM.SYSKEYDOWN &&
-                        wParam.ToInt32() == KeyInterop.VirtualKeyFromKey(Key.F4))
-                    {
-                        // We don't want CEF to receive this event (and mark it as handled), since that makes it impossible to
-                        // shut down a CefSharp-based app by pressing Alt-F4, which is kind of bad.
-                        return IntPtr.Zero;
-                    }
-
-                    if (browser != null)
-                    {
-                        browser.GetHost().SendKeyEvent(message, wParam.CastToInt32(), lParam.CastToInt32());    
-                        handled = true;
-                    }
-
-                    break;
+                var rel = _imeWin.WndProcHandler(hWnd, message, wParam, lParam);
+                if (rel == IntPtr.Zero)
+                {
+                    handled = true;
                 }
+
+                return rel;
             }
 
             return IntPtr.Zero;

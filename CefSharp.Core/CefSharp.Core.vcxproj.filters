@@ -71,6 +71,12 @@
     <ClCompile Include="CookieManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="OsrImeHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OsrImeWin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vcclr_local.h">
@@ -269,6 +275,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OsrImeHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OsrImeWin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

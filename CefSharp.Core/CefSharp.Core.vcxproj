@@ -242,6 +242,8 @@
     <ClCompile Include="Internals\Serialization\V8Serialization.cpp" />
     <ClCompile Include="Internals\Serialization\Primitives.cpp" />
     <ClCompile Include="Internals\Serialization\JsObjectsSerialization.cpp" />
+    <ClCompile Include="OsrImeHandler.cpp" />
+    <ClCompile Include="OsrImeWin.cpp" />
     <ClCompile Include="ResourceHandlerWrapper.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -283,6 +285,8 @@
     <ClInclude Include="Internals\CefTaskScheduler.h" />
     <ClInclude Include="Internals\CefTaskWrapper.h" />
     <ClInclude Include="Internals\CefWrapper.h" />
+    <ClInclude Include="OsrImeHandler.h" />
+    <ClInclude Include="OsrImeWin.h" />
     <ClInclude Include="PopupFeatures.h" />
     <ClInclude Include="RequestContextHandler.h" />
     <ClInclude Include="resource.h" />
