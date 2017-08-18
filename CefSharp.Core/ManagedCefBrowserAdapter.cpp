@@ -77,7 +77,7 @@ void ManagedCefBrowserAdapter::CreateBrowser(BrowserSettings^ browserSettings, R
     CefString addressNative = StringUtils::ToNative(address);
 
     CefBrowserHost::CreateBrowser(window, _clientAdapter.get(), addressNative,
-        *browserSettings->_browserSettings, requestContext);
+        *browserSettings->_browserSettings, *requestContext);
 }
 
 void ManagedCefBrowserAdapter::Resize(int width, int height)

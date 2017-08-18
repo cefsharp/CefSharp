@@ -20,7 +20,7 @@ void CefBrowserHostWrapper::DragTargetDragEnter(IDragData^ dragData, MouseEvent 
 
     auto dragDataWrapper = static_cast<CefDragDataWrapper^>(dragData);
     dragDataWrapper->ResetFileContents(); // Recommended by documentation to reset before calling DragEnter
-    _browserHost->DragTargetDragEnter(dragDataWrapper, GetCefMouseEvent(mouseEvent), (CefBrowserHost::DragOperationsMask) allowedOperations);
+    _browserHost->DragTargetDragEnter(*dragDataWrapper, GetCefMouseEvent(mouseEvent), (CefBrowserHost::DragOperationsMask) allowedOperations);
 }
 
 void CefBrowserHostWrapper::DragTargetDragOver(MouseEvent mouseEvent, DragOperationsMask allowedOperations)
