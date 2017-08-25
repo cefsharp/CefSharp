@@ -2055,10 +2055,6 @@ namespace CefSharp.Wpf
                 var pointX = (int)point.X;
                 var pointY= (int)point.Y;
 
-                System.Diagnostics.Trace.WriteLine("PointX:" + pointX);
-                System.Diagnostics.Trace.WriteLine("PointY:" + pointY);
-                System.Diagnostics.Trace.WriteLine("Delta:" + e.Delta);
-
                 browser.SendMouseWheelEvent(
                     pointX,
                     pointY,
