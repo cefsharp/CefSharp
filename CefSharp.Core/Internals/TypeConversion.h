@@ -37,8 +37,10 @@ namespace CefSharp
 
                 for each (String^ key in headers)
                 {
-                    String^ value = headers[key];
-                    result.insert(std::pair<CefString, CefString>(StringUtils::ToNative(key), StringUtils::ToNative(value)));
+                    for each(String^ value in headers->GetValues(key))
+                    {
+                        result.insert(std::pair<CefString, CefString>(StringUtils::ToNative(key), StringUtils::ToNative(value)));
+                    }
                 }
 
                 return result;
