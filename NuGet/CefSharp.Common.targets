@@ -12,7 +12,7 @@
     <CefSharpTargetDir Condition=" '$(CefSharpTargetDir)' == '' ">$(TargetDir)</CefSharpTargetDir>
   </PropertyGroup>
 
-  <Target Name="CefSharpCopyLibs86" BeforeTargets="AfterBuild" Condition="'$(Platform)' == 'x86'">
+  <Target Name="CefSharpCopyLibs86" BeforeTargets="BeforeBuild" Condition="'$(Platform)' == 'x86'">
     <ItemGroup>
       <CefSharpBinaries Include="$(MSBuildThisFileDirectory)..\CefSharp\x86\*.*" />
     </ItemGroup>
@@ -28,7 +28,7 @@
     <Copy SourceFiles="@(CefSharpBinaries)" DestinationFolder="$(CefSharpTargetDir)" SkipUnchangedFiles="true" />
   </Target>
 
-  <Target Name="CefSharpCopyLibsWin32" BeforeTargets="AfterBuild" Condition="'$(Platform)' == 'Win32'">
+  <Target Name="CefSharpCopyLibsWin32" BeforeTargets="BeforeBuild" Condition="'$(Platform)' == 'Win32'">
     <ItemGroup>
       <CefSharpBinaries Include="$(MSBuildThisFileDirectory)..\CefSharp\x86\*.*" />
     </ItemGroup>
@@ -43,7 +43,7 @@
     <Copy SourceFiles="@(CefSharpBinaries)" DestinationFolder="$(CefSharpTargetDir)" SkipUnchangedFiles="true" />
   </Target>
 
-  <Target Name="CefSharpCopyLibs64" BeforeTargets="AfterBuild" Condition="'$(Platform)' == 'x64'">
+  <Target Name="CefSharpCopyLibs64" BeforeTargets="BeforeBuild" Condition="'$(Platform)' == 'x64'">
     <ItemGroup>
       <CefSharpBinaries Include="$(MSBuildThisFileDirectory)..\CefSharp\x64\*.*" />
     </ItemGroup>
@@ -58,7 +58,7 @@
     <Copy SourceFiles="@(CefSharpBinaries)" DestinationFolder="$(CefSharpTargetDir)" SkipUnchangedFiles="true" />
   </Target>
 
-  <Target Name="CefSharpCopyLibsAnyCPU" BeforeTargets="AfterBuild" Condition="'$(Platform)' == 'AnyCPU'">
+  <Target Name="CefSharpCopyLibsAnyCPU" BeforeTargets="BeforeBuild" Condition="'$(Platform)' == 'AnyCPU'">
     <ItemGroup>
       <CefSharpBinaries32 Include="$(MSBuildThisFileDirectory)..\CefSharp\x86\*.*" />
       <CefSharpBinaries64 Include="$(MSBuildThisFileDirectory)..\CefSharp\x64\*.*" />
