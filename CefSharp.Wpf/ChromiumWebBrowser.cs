@@ -1905,9 +1905,13 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void OnTooltipTimerTick(object sender, EventArgs e)
         {
-            tooltipTimer.Stop();
+            // Checks to see if the control is disposed/disposing
+            if (Interlocked.CompareExchange(ref disposeCount, 1, 1) != 1)
+            {
+                tooltipTimer.Stop();
 
-            UpdateTooltip(TooltipText);
+                UpdateTooltip(TooltipText);
+            }
         }
 
         /// <summary>
