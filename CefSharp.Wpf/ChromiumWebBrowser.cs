@@ -2133,19 +2133,30 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="MouseButtonEventArgs"/> instance containing the event data.</param>
         private void OnMouseButton(MouseButtonEventArgs e)
         {
-            // Cef currently only supports Left, Middle and Right button presses.
-            if (e.ChangedButton > MouseButton.Right)
-            {
-                return;
-            }
-
             if (browser != null)
             {
                 var modifiers = e.GetModifiers();
                 var mouseUp = (e.ButtonState == MouseButtonState.Released);
                 var point = e.GetPosition(this);
 
-                browser.GetHost().SendMouseClickEvent((int)point.X, (int)point.Y, (MouseButtonType)e.ChangedButton, mouseUp, e.ClickCount, modifiers);
+                if (e.ChangedButton == MouseButton.XButton1)
+                {
+                    if (CanGoBack && mouseUp)
+                    {
+                        this.Back();
+                    }
+                }
+                else if (e.ChangedButton == MouseButton.XButton2)
+                {
+                    if (CanGoForward && mouseUp)
+                    {
+                        this.Forward();
+                    }
+                }
+                else
+                {
+                    browser.GetHost().SendMouseClickEvent((int)point.X, (int)point.Y, (MouseButtonType)e.ChangedButton, mouseUp, e.ClickCount, modifiers);
+                }
 
                 e.Handled = true;
             }
