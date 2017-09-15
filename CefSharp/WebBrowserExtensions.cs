@@ -715,7 +715,7 @@ namespace CefSharp
         /// </summary>
         /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         /// <returns>browserHost or null</returns>
-        public static IBrowserHost GetHost(IWebBrowser browser)
+        public static IBrowserHost GetBrowserHost(this IWebBrowser browser)
         {
             var cefBrowser = browser.GetBrowser();
 
