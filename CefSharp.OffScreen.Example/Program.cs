@@ -8,6 +8,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using CefSharp;
 using CefSharp.Example;
 using CefSharp.Example.Handlers;
 using CefSharp.Internals;
@@ -84,6 +85,17 @@ namespace CefSharp.OffScreen.Example
 
                 // For Google.com pre-pupulate the search text box
                 await browser.EvaluateScriptAsync("document.getElementById('lst-ib').value = 'CefSharp Was Here!'");
+
+                //Example using SendKeyEvent for input instead of javascript
+                //var browserHost = browser.GetBrowserHost();
+                //var inputString = "CefSharp Was Here!";
+                //foreach(var c in inputString)
+                //{
+                //	browserHost.SendKeyEvent(new KeyEvent { WindowsKeyCode = c, Type = KeyEventType.Char });
+                //}
+
+                ////Give the browser a little time to finish drawing our SendKeyEvent input
+                //await Task.Delay(100);
 
                 // Wait for the screenshot to be taken,
                 // if one exists ignore it, wait for a new one to make sure we have the most up to date
