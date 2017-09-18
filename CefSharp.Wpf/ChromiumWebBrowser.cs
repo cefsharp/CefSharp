@@ -989,8 +989,18 @@ namespace CefSharp.Wpf
             {
                 if (!IsDisposed)
                 {
+                    if (_imeWin != null)
+                    {
+                        _imeWin.Dispose();
+                    }
+
+                    if (source != null)
+                    {
+                        _imeWin = new OsrImeWin(source.Handle, this.browser);
+                    }
+
                     SetCurrentValue(IsBrowserInitializedProperty, true);
-                    _imeWin = new OsrImeWin(((HwndSource)PresentationSource.FromVisual(this)).Handle, this.browser);
+
                     // If Address was previously set, only now can we actually do the load
                     if (!string.IsNullOrEmpty(Address))
                     {
@@ -1580,6 +1590,12 @@ namespace CefSharp.Wpf
             {
                 RemoveSourceHook();
 
+                if (_imeWin != null)
+                {
+                    _imeWin.Dispose();
+                    _imeWin = null;
+                }
+
                 var window = args.OldSource.RootVisual as Window;
                 if (window != null)
                 {
@@ -1723,6 +1739,17 @@ namespace CefSharp.Wpf
             {
                 browser.GetHost().WasHidden(!isVisible);
             }
+
+            if (_imeWin != null && !isVisible)
+            {
+                _imeWin.Dispose();
+                _imeWin = null;
+            }
+
+            if (isVisible && _imeWin == null && browser != null && source != null)
+            {
+                _imeWin = new OsrImeWin(source.Handle, browser);
+            }
         }
 
         /// <summary>
@@ -1750,9 +1777,9 @@ namespace CefSharp.Wpf
 
         protected override void OnGotFocus(RoutedEventArgs e)
         {
+            base.OnGotFocus(e);
             InputMethod.SetIsInputMethodEnabled(this, true);
             InputMethod.SetIsInputMethodSuspended(this, true);
-            base.OnGotFocus(e);
         }
 
         protected override void OnLostFocus(RoutedEventArgs e)
@@ -1866,15 +1893,15 @@ namespace CefSharp.Wpf
                 return IntPtr.Zero;
             }
 
-            if (_imeWin != null)
+            if (!IsDisposed && _imeWin != null && Visibility == Visibility.Visible && browser != null)
             {
-                var rel = _imeWin.WndProcHandler(hWnd, message, wParam, lParam);
-                if (rel == IntPtr.Zero)
+                var ret = _imeWin.WndProcHandler(hWnd, message, wParam, lParam);
+                if (ret == IntPtr.Zero)
                 {
                     handled = true;
                 }
 
-                return rel;
+                return ret;
             }
 
             return IntPtr.Zero;
