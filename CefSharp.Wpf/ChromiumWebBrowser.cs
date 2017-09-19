@@ -21,6 +21,7 @@ using CefSharp.ModelBinding;
 using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using System.Linq;
+using System.Diagnostics;
 
 namespace CefSharp.Wpf
 {
@@ -368,6 +369,26 @@ namespace CefSharp.Wpf
                     app.Exit += OnApplicationExit;
                 }
             }
+
+            InputMethod.IsInputMethodEnabledProperty.OverrideMetadata(
+                typeof(ChromiumWebBrowser),
+                new FrameworkPropertyMetadata(
+                    true,
+                    FrameworkPropertyMetadataOptions.Inherits,
+                    (obj, e) =>
+                    {
+                        var browser = obj as ChromiumWebBrowser;
+                        if ((bool)e.NewValue && browser.browser != null && Keyboard.FocusedElement == browser)
+                        {
+                            browser.browser.GetHost().SendFocusEvent(true);
+                            InputMethod.SetIsInputMethodSuspended(browser, true);
+                        }
+                    }));
+            InputMethod.IsInputMethodSuspendedProperty.OverrideMetadata(
+                typeof(ChromiumWebBrowser),
+                new FrameworkPropertyMetadata(
+                    true,
+                    FrameworkPropertyMetadataOptions.Inherits));
         }
 
         /// <summary>
@@ -997,6 +1018,7 @@ namespace CefSharp.Wpf
                     if (source != null)
                     {
                         _imeWin = new OsrImeWin(source.Handle, this.browser);
+                        Debug.WriteLine($"=== IME ===: imewin init, OnAfterBrowserCreated: browserId - {browser.Identifier} )");
                     }
 
                     SetCurrentValue(IsBrowserInitializedProperty, true);
@@ -1739,17 +1761,6 @@ namespace CefSharp.Wpf
             {
                 browser.GetHost().WasHidden(!isVisible);
             }
-
-            if (_imeWin != null && !isVisible)
-            {
-                _imeWin.Dispose();
-                _imeWin = null;
-            }
-
-            if (isVisible && _imeWin == null && browser != null && source != null)
-            {
-                _imeWin = new OsrImeWin(source.Handle, browser);
-            }
         }
 
         /// <summary>
@@ -1778,15 +1789,30 @@ namespace CefSharp.Wpf
         protected override void OnGotFocus(RoutedEventArgs e)
         {
             base.OnGotFocus(e);
+
+            if (_imeWin == null && browser != null && source != null)
+            {
+                _imeWin = new OsrImeWin(source.Handle, browser);
+            }
+
             InputMethod.SetIsInputMethodEnabled(this, true);
             InputMethod.SetIsInputMethodSuspended(this, true);
+            Debug.WriteLine($"=== IME ===: IsInputMethodEnabled:{InputMethod.GetIsInputMethodEnabled(this)}, IsInputMethodSuspended:{InputMethod.GetIsInputMethodSuspended(this)}, OnGotFocus: browserId - {browser?.Identifier} )");
         }
 
         protected override void OnLostFocus(RoutedEventArgs e)
         {
             base.OnLostFocus(e);
+
             InputMethod.SetIsInputMethodEnabled(this, false);
             InputMethod.SetIsInputMethodSuspended(this, false);
+            Debug.WriteLine($"=== IME ===: IsInputMethodEnabled:{InputMethod.GetIsInputMethodEnabled(this)}, IsInputMethodSuspended:{InputMethod.GetIsInputMethodSuspended(this)}, OnLostFocus: browserId - {browser?.Identifier} )");
+
+            if (_imeWin != null)
+            {
+                _imeWin.Dispose();
+                _imeWin = null;
+            }
         }
 
         /// <summary>
@@ -1800,8 +1826,6 @@ namespace CefSharp.Wpf
             {
                 CleanupElement = Window.GetWindow(this);
             }
-
-            InputMethod.SetIsInputMethodEnabled(this, true);
 
             // TODO: Consider making the delay here configurable.
             tooltipTimer = new DispatcherTimer(
@@ -1893,7 +1917,7 @@ namespace CefSharp.Wpf
                 return IntPtr.Zero;
             }
 
-            if (!IsDisposed && _imeWin != null && Visibility == Visibility.Visible && browser != null)
+            if (!IsDisposed && _imeWin != null && IsKeyboardFocused && browser != null)
             {
                 var ret = _imeWin.WndProcHandler(hWnd, message, wParam, lParam);
                 if (ret == IntPtr.Zero)
