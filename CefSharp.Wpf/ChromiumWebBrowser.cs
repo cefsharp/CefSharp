@@ -1018,7 +1018,7 @@ namespace CefSharp.Wpf
                     if (source != null)
                     {
                         _imeWin = new OsrImeWin(source.Handle, this.browser);
-                        Debug.WriteLine($"=== IME ===: imewin init, OnAfterBrowserCreated: browserId - {browser.Identifier} )");
+                        //Debug.WriteLine($"=== IME ===: imewin init, OnAfterBrowserCreated: browserId - {browser.Identifier} )");
                     }
 
                     SetCurrentValue(IsBrowserInitializedProperty, true);
@@ -1797,7 +1797,7 @@ namespace CefSharp.Wpf
 
             InputMethod.SetIsInputMethodEnabled(this, true);
             InputMethod.SetIsInputMethodSuspended(this, true);
-            Debug.WriteLine($"=== IME ===: IsInputMethodEnabled:{InputMethod.GetIsInputMethodEnabled(this)}, IsInputMethodSuspended:{InputMethod.GetIsInputMethodSuspended(this)}, OnGotFocus: browserId - {browser?.Identifier} )");
+            //Debug.WriteLine($"=== IME ===: IsInputMethodEnabled:{InputMethod.GetIsInputMethodEnabled(this)}, IsInputMethodSuspended:{InputMethod.GetIsInputMethodSuspended(this)}, OnGotFocus: browserId - {browser?.Identifier} )");
         }
 
         protected override void OnLostFocus(RoutedEventArgs e)
@@ -1806,7 +1806,7 @@ namespace CefSharp.Wpf
 
             InputMethod.SetIsInputMethodEnabled(this, false);
             InputMethod.SetIsInputMethodSuspended(this, false);
-            Debug.WriteLine($"=== IME ===: IsInputMethodEnabled:{InputMethod.GetIsInputMethodEnabled(this)}, IsInputMethodSuspended:{InputMethod.GetIsInputMethodSuspended(this)}, OnLostFocus: browserId - {browser?.Identifier} )");
+            //Debug.WriteLine($"=== IME ===: IsInputMethodEnabled:{InputMethod.GetIsInputMethodEnabled(this)}, IsInputMethodSuspended:{InputMethod.GetIsInputMethodSuspended(this)}, OnLostFocus: browserId - {browser?.Identifier} )");
 
             if (_imeWin != null)
             {
