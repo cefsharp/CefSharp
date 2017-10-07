@@ -8,65 +8,65 @@ using System.Threading.Tasks;
 
 namespace CefSharp
 {
-	public static class AsyncExtensions
-	{
-		/// <summary>
-		/// Deletes all cookies that matches all the provided parameters asynchronously.
-		/// If both <paramref name="url"/> and <paramref name="name"/> are empty, all cookies will be deleted.
-		/// </summary>
-		/// <param name="url">The cookie URL. If an empty string is provided, any URL will be matched.</param>
-		/// <param name="name">The name of the cookie. If an empty string is provided, any URL will be matched.</param>
-		/// <return>Returns -1 if a non-empty invalid URL is specified, or if cookies cannot be accessed;
-		/// otherwise, a task that represents the delete operation. The value of the TResult will be the number of cookies that were deleted or -1 if unknown.</return>
-		public static Task<int> DeleteCookiesAsync(this ICookieManager cookieManager, string url = null, string name = null)
-		{
-			if(cookieManager == null)
-			{
-				throw new NullReferenceException("cookieManager");
-			}
+    public static class AsyncExtensions
+    {
+        /// <summary>
+        /// Deletes all cookies that matches all the provided parameters asynchronously.
+        /// If both <paramref name="url"/> and <paramref name="name"/> are empty, all cookies will be deleted.
+        /// </summary>
+        /// <param name="url">The cookie URL. If an empty string is provided, any URL will be matched.</param>
+        /// <param name="name">The name of the cookie. If an empty string is provided, any URL will be matched.</param>
+        /// <return>Returns -1 if a non-empty invalid URL is specified, or if cookies cannot be accessed;
+        /// otherwise, a task that represents the delete operation. The value of the TResult will be the number of cookies that were deleted or -1 if unknown.</return>
+        public static Task<int> DeleteCookiesAsync(this ICookieManager cookieManager, string url = null, string name = null)
+        {
+            if(cookieManager == null)
+            {
+                throw new NullReferenceException("cookieManager");
+            }
 
-			if(cookieManager.IsDisposed)
-			{
-				throw new ObjectDisposedException("cookieManager");
-			}
+            if(cookieManager.IsDisposed)
+            {
+                throw new ObjectDisposedException("cookieManager");
+            }
 
-			var callback = new TaskDeleteCookiesCallback();
-			if(cookieManager.DeleteCookies(url, name, callback))
-			{
-				return callback.Task;
-			}
+            var callback = new TaskDeleteCookiesCallback();
+            if(cookieManager.DeleteCookies(url, name, callback))
+            {
+                return callback.Task;
+            }
 
             //There was a problem deleting cookies
             return Task.FromResult(-1);
-		}
+        }
 
-		/// <summary>
-		/// Sets a cookie given a valid URL and explicit user-provided cookie attributes.
-		/// This function expects each attribute to be well-formed. It will check for disallowed
-		/// characters (e.g. the ';' character is disallowed within the cookie value attribute) and will return false without setting
-		/// </summary>
-		/// <param name="cookieManager">cookie manager</param>
-		/// <param name="url">The cookie URL. If an empty string is provided, any URL will be matched.</param>
-		/// <param name="cookie">the cookie to be set</param>
-		/// <return>returns false if the cookie cannot be set (e.g. if illegal charecters such as ';' are used);
-		/// otherwise task that represents the set operation. The value of the TResult parameter contains a bool to indicate success.</return>
-		public static Task<bool> SetCookieAsync(this ICookieManager cookieManager, string url, Cookie cookie)
-		{
-			if (cookieManager == null)
-			{
-				throw new NullReferenceException("cookieManager");
-			}
+        /// <summary>
+        /// Sets a cookie given a valid URL and explicit user-provided cookie attributes.
+        /// This function expects each attribute to be well-formed. It will check for disallowed
+        /// characters (e.g. the ';' character is disallowed within the cookie value attribute) and will return false without setting
+        /// </summary>
+        /// <param name="cookieManager">cookie manager</param>
+        /// <param name="url">The cookie URL. If an empty string is provided, any URL will be matched.</param>
+        /// <param name="cookie">the cookie to be set</param>
+        /// <return>returns false if the cookie cannot be set (e.g. if illegal charecters such as ';' are used);
+        /// otherwise task that represents the set operation. The value of the TResult parameter contains a bool to indicate success.</return>
+        public static Task<bool> SetCookieAsync(this ICookieManager cookieManager, string url, Cookie cookie)
+        {
+            if (cookieManager == null)
+            {
+                throw new NullReferenceException("cookieManager");
+            }
 
-			if (cookieManager.IsDisposed)
-			{
-				throw new ObjectDisposedException("cookieManager");
-			}
+            if (cookieManager.IsDisposed)
+            {
+                throw new ObjectDisposedException("cookieManager");
+            }
 
-			var callback = new TaskSetCookieCallback();
-			if (cookieManager.SetCookie(url, cookie, callback))
-			{
-				return callback.Task;	
-			}
+            var callback = new TaskSetCookieCallback();
+            if (cookieManager.SetCookie(url, cookie, callback))
+            {
+                return callback.Task;	
+            }
 
             //There was a problem setting cookies
             return Task.FromResult(false);
@@ -78,13 +78,13 @@ namespace CefSharp
         /// <return>A task that represents the VisitAllCookies operation. The value of the TResult parameter contains a List of cookies
         /// or null if cookies cannot be accessed.</return>
         public static Task<List<Cookie>> VisitAllCookiesAsync(this ICookieManager cookieManager)
-		{
-			var cookieVisitor = new TaskCookieVisitor();
+        {
+            var cookieVisitor = new TaskCookieVisitor();
 
-			if(cookieManager.VisitAllCookies(cookieVisitor))
-			{
-				return cookieVisitor.Task;
-			}
+            if(cookieManager.VisitAllCookies(cookieVisitor))
+            {
+                return cookieVisitor.Task;
+            }
 
             return Task.FromResult<List<Cookie>>(null);
         }
@@ -99,34 +99,34 @@ namespace CefSharp
         /// <return>A task that represents the VisitUrlCookies operation. The value of the TResult parameter contains a List of cookies.
         /// or null if cookies cannot be accessed.</return>
         public static Task<List<Cookie>> VisitUrlCookiesAsync(this ICookieManager cookieManager, string url, bool includeHttpOnly)
-		{
-			var cookieVisitor = new TaskCookieVisitor();
+        {
+            var cookieVisitor = new TaskCookieVisitor();
 
-			if(cookieManager.VisitUrlCookies(url, includeHttpOnly, cookieVisitor))
-			{
-				return cookieVisitor.Task;
-			}
+            if(cookieManager.VisitUrlCookies(url, includeHttpOnly, cookieVisitor))
+            {
+                return cookieVisitor.Task;
+            }
 
             return Task.FromResult<List<Cookie>>(null);
         }
 
-		/// <summary>
-		/// Flush the backing store (if any) to disk.
-		/// </summary>
-		/// <param name="cookieManager">cookieManager instance</param>
-		/// <returns>A task that represents the FlushStore operation. Result indicates if the flush completed successfully.
-		/// Will return false if the cookikes cannot be accessed.</returns>
-		public static Task<bool> FlushStoreAsync(this ICookieManager cookieManager)
-		{
-			var handler = new TaskCompletionCallback();
+        /// <summary>
+        /// Flush the backing store (if any) to disk.
+        /// </summary>
+        /// <param name="cookieManager">cookieManager instance</param>
+        /// <returns>A task that represents the FlushStore operation. Result indicates if the flush completed successfully.
+        /// Will return false if the cookikes cannot be accessed.</returns>
+        public static Task<bool> FlushStoreAsync(this ICookieManager cookieManager)
+        {
+            var handler = new TaskCompletionCallback();
 
-			if (cookieManager.FlushStore(handler))
-			{
-				return handler.Task;
-			}
+            if (cookieManager.FlushStore(handler))
+            {
+                return handler.Task;
+            }
 
             //returns null if cookies cannot be accessed.
             return Task.FromResult(false);
         }
-	}
+    }
 }
