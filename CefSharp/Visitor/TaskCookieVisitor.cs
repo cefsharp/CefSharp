@@ -2,7 +2,6 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CefSharp.Internals;
@@ -17,6 +16,7 @@ namespace CefSharp
     {
         private readonly TaskCompletionSource<List<Cookie>> taskCompletionSource;
         private List<Cookie> list;
+        private Task setResultTask;
 
         /// <summary>
         /// Default constructor
@@ -25,27 +25,28 @@ namespace CefSharp
         {
             taskCompletionSource = new TaskCompletionSource<List<Cookie>>();
             list = new List<Cookie>();
+            setResultTask = System.Threading.Tasks.Task.FromResult(false);
         }
 
         bool ICookieVisitor.Visit(Cookie cookie, int count, int total, ref bool deleteCookie)
         {
-            list.Add(cookie);            
+            list.Add(cookie);
 
-            if(count == (total - 1))
+            if (count == (total - 1))
             {
                 //Set the result on the ThreadPool so the Task continuation is not run on the CEF UI Thread
-                taskCompletionSource.TrySetResultAsync(list);
+                setResultTask = taskCompletionSource.TrySetResultAsync(list);
             }
 
             return true;
         }
 
-        void IDisposable.Dispose()
+        public void Dispose()
         {
-            if(list != null && list.Count == 0)
+            if (list != null && list.Count == 0)
             {
                 //Set the result on the ThreadPool so the Task continuation is not run on the CEF UI Thread
-                taskCompletionSource.TrySetResultAsync(list);
+                setResultTask = taskCompletionSource.TrySetResultAsync(list);
             }
 
             list = null;
@@ -57,6 +58,14 @@ namespace CefSharp
         public Task<List<Cookie>> Task
         {
             get { return taskCompletionSource.Task; }
+        }
+
+        /// <summary>
+        /// Task that can be awaited for the SetResult operation to complete - then you can check the Task property
+        /// </summary>
+        public Task SetResultTask
+        {
+            get { return setResultTask; }
         }
     }
 }
