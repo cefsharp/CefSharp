@@ -16,7 +16,7 @@ namespace CefSharp
 		/// </summary>
 		/// <param name="url">The cookie URL. If an empty string is provided, any URL will be matched.</param>
 		/// <param name="name">The name of the cookie. If an empty string is provided, any URL will be matched.</param>
-		/// <return>Returns null if a non-empty invalid URL is specified, or if cookies cannot be accessed;
+		/// <return>Returns -1 if a non-empty invalid URL is specified, or if cookies cannot be accessed;
 		/// otherwise, a task that represents the delete operation. The value of the TResult will be the number of cookies that were deleted or -1 if unknown.</return>
 		public static Task<int> DeleteCookiesAsync(this ICookieManager cookieManager, string url = null, string name = null)
 		{
@@ -36,8 +36,8 @@ namespace CefSharp
 				return callback.Task;
 			}
 
-			//There was a problem deleting cookies
-			return null;		
+            //There was a problem deleting cookies
+            return Task.FromResult(-1);
 		}
 
 		/// <summary>
@@ -48,7 +48,7 @@ namespace CefSharp
 		/// <param name="cookieManager">cookie manager</param>
 		/// <param name="url">The cookie URL. If an empty string is provided, any URL will be matched.</param>
 		/// <param name="cookie">the cookie to be set</param>
-		/// <return>returns null if the cookie cannot be set (e.g. if illegal charecters such as ';' are used);
+		/// <return>returns false if the cookie cannot be set (e.g. if illegal charecters such as ';' are used);
 		/// otherwise task that represents the set operation. The value of the TResult parameter contains a bool to indicate success.</return>
 		public static Task<bool> SetCookieAsync(this ICookieManager cookieManager, string url, Cookie cookie)
 		{
@@ -68,15 +68,16 @@ namespace CefSharp
 				return callback.Task;	
 			}
 
-			//There was a problem setting cookies
-			return null;
-		}
+            //There was a problem setting cookies
+            return Task.FromResult(false);
+        }
 
-		/// <summary>
-		/// Visits all cookies. The returned cookies are sorted by longest path, then by earliest creation date.
-		/// </summary>
-		/// <return>A task that represents the VisitAllCookies operation. The value of the TResult parameter contains a List of cookies.</return>
-		public static Task<List<Cookie>> VisitAllCookiesAsync(this ICookieManager cookieManager)
+        /// <summary>
+        /// Visits all cookies. The returned cookies are sorted by longest path, then by earliest creation date.
+        /// </summary>
+        /// <return>A task that represents the VisitAllCookies operation. The value of the TResult parameter contains a List of cookies
+        /// or null if cookies cannot be accessed.</return>
+        public static Task<List<Cookie>> VisitAllCookiesAsync(this ICookieManager cookieManager)
 		{
 			var cookieVisitor = new TaskCookieVisitor();
 
@@ -85,18 +86,19 @@ namespace CefSharp
 				return cookieVisitor.Task;
 			}
 
-			return null;
-		}
+            return Task.FromResult<List<Cookie>>(null);
+        }
 
-		/// <summary>
-		/// Visits a subset of the cookies. The results are filtered by the given url scheme, host, domain and path. 
-		/// If <paramref name="includeHttpOnly"/> is true, HTTP-only cookies will also be included in the results. The returned cookies 
-		/// are sorted by longest path, then by earliest creation date.
-		/// </summary>
-		/// <param name="url">The URL to use for filtering a subset of the cookies available.</param>
-		/// <param name="includeHttpOnly">A flag that determines whether HTTP-only cookies will be shown in results.</param>
-		/// <return>A task that represents the VisitUrlCookies operation. The value of the TResult parameter contains a List of cookies.</return>
-		public static Task<List<Cookie>> VisitUrlCookiesAsync(this ICookieManager cookieManager, string url, bool includeHttpOnly)
+        /// <summary>
+        /// Visits a subset of the cookies. The results are filtered by the given url scheme, host, domain and path. 
+        /// If <paramref name="includeHttpOnly"/> is true, HTTP-only cookies will also be included in the results. The returned cookies 
+        /// are sorted by longest path, then by earliest creation date.
+        /// </summary>
+        /// <param name="url">The URL to use for filtering a subset of the cookies available.</param>
+        /// <param name="includeHttpOnly">A flag that determines whether HTTP-only cookies will be shown in results.</param>
+        /// <return>A task that represents the VisitUrlCookies operation. The value of the TResult parameter contains a List of cookies.
+        /// or null if cookies cannot be accessed.</return>
+        public static Task<List<Cookie>> VisitUrlCookiesAsync(this ICookieManager cookieManager, string url, bool includeHttpOnly)
 		{
 			var cookieVisitor = new TaskCookieVisitor();
 
@@ -105,15 +107,15 @@ namespace CefSharp
 				return cookieVisitor.Task;
 			}
 
-			return null;
-		}
+            return Task.FromResult<List<Cookie>>(null);
+        }
 
 		/// <summary>
 		/// Flush the backing store (if any) to disk.
 		/// </summary>
 		/// <param name="cookieManager">cookieManager instance</param>
 		/// <returns>A task that represents the FlushStore operation. Result indicates if the flush completed successfully.
-		/// Will return null if the cookikes cannot be accessed.</returns>
+		/// Will return false if the cookikes cannot be accessed.</returns>
 		public static Task<bool> FlushStoreAsync(this ICookieManager cookieManager)
 		{
 			var handler = new TaskCompletionCallback();
@@ -123,8 +125,8 @@ namespace CefSharp
 				return handler.Task;
 			}
 
-			//returns null if cookies cannot be accessed.
-			return null;
-		}
+            //returns null if cookies cannot be accessed.
+            return Task.FromResult(false);
+        }
 	}
 }
