@@ -3,7 +3,6 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using System.Threading.Tasks;
 
 namespace CefSharp
 {
@@ -17,9 +16,5 @@ namespace CefSharp
         /// </summary>
         void OnComplete();
 
-        /// <summary>
-        /// Returns a Task that was used to set the result of the CookieCallback 
-        /// </summary>
-        Task SetResultTask { get; }
     }
 }

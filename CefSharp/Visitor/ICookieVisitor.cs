@@ -3,7 +3,6 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using System.Threading.Tasks;
 
 namespace CefSharp
 {
@@ -24,10 +23,5 @@ namespace CefSharp
         /// <param name="deleteCookie">Set to true to delete the cookie currently being visited.</param>
         /// <returns>Return false to stop visiting cookies otherwise true</returns>
         bool Visit(Cookie cookie, int count, int total, ref bool deleteCookie);
-
-        /// <summary>
-        /// Returns a Task that was used to set the result of the CookieCallback 
-        /// </summary>
-        Task SetResultTask { get; }
     }
 }
