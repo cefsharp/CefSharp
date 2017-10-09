@@ -1,4 +1,4 @@
-// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright Â© 2010-2017 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -29,7 +29,7 @@ void ManagedCefBrowserAdapter::CreateOffscreenBrowser(IntPtr windowHandle, Brows
     CefString addressNative = StringUtils::ToNative(address);
 
     if (!CefBrowserHost::CreateBrowser(window, _clientAdapter.get(), addressNative,
-        *browserSettings->_browserSettings, *requestContext))
+        *browserSettings->_browserSettings, static_cast<CefRefPtr<CefRequestContext>>(requestContext)))
     {
         throw gcnew InvalidOperationException("Failed to create offscreen browser. Call Cef.Initialize() first.");
     }
