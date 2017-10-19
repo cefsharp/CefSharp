@@ -101,6 +101,7 @@
     <Compile Include="Handler\DefaultRequestHandler.cs" />
     <Compile Include="Enums\UrlRequestFlags.cs" />
     <Compile Include="Internals\ByteArrayResourceHandler.cs" />
+    <Compile Include="Internals\DateTimeUtils.cs" />
     <Compile Include="Internals\FileResourceHandler.cs" />
     <Compile Include="CefExtension.cs" />
     <Compile Include="CefLibraryHandle.cs" />
