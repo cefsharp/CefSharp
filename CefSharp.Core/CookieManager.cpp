@@ -11,6 +11,8 @@
 #include "Internals\CefDeleteCookiesCallbackAdapter.h"
 #include "Cef.h"
 
+using namespace CefSharp::Internals;
+
 namespace CefSharp
 {
 	void CookieManager::ThrowIfDisposed()
@@ -47,20 +49,11 @@ namespace CefSharp
 		if (cookie->Expires.HasValue)
 		{
 			auto expires = cookie->Expires.Value;
-			c.expires.year = expires.Year;
-			c.expires.month = expires.Month;
-			c.expires.day_of_month = expires.Day;
-			c.expires.hour = expires.Hour;
-			c.expires.minute = expires.Minute;
-			c.expires.second = expires.Second;
-			c.expires.millisecond = expires.Millisecond;
+			c.expires = CefTime(DateTimeUtils::ToCefTime(expires));
 		}
 
-		auto timeSpan = cookie->Creation- DateTime(1970, 1, 1);
-		c.creation = CefTime(timeSpan.TotalSeconds);
-
-		timeSpan = cookie->LastAccess - DateTime(1970, 1, 1);
-		c.last_access = CefTime(timeSpan.TotalSeconds);
+		c.creation = CefTime(DateTimeUtils::ToCefTime(cookie->Creation));
+		c.last_access = CefTime(DateTimeUtils::ToCefTime(cookie->LastAccess));
 
 		return _cookieManager->SetCookie(StringUtils::ToNative(url), c, wrapper);
 	}
