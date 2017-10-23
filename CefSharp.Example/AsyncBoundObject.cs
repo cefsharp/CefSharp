@@ -39,6 +39,14 @@ namespace CefSharp.Example
             Thread.Sleep(1000);
         }
 
+        public JsObject ReturnObject(string name)
+        {
+            return new JsObject
+            {
+                Value = name
+            };
+        }
+
         public JsObject[] ObjectArray(string name)
         {
             return new[] 
