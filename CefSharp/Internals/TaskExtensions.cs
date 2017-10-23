@@ -78,7 +78,7 @@ namespace CefSharp.Internals
                 if (taskCompletionSource.Task.Status != TaskStatus.RanToCompletion)
                 {
                     taskCompletionSource.TrySetCanceled();
-                    if(cancelled != null)
+                    if (cancelled != null)
                     {
                         cancelled();
                     }
@@ -95,9 +95,9 @@ namespace CefSharp.Internals
         /// <typeparam name="TResult">Generic param</typeparam>
         /// <param name="taskCompletionSource">tcs</param>
         /// <param name="result">result</param>
-        public static void TrySetResultAsync<TResult>(this TaskCompletionSource<TResult> taskCompletionSource, TResult result)
+        public static Task TrySetResultAsync<TResult>(this TaskCompletionSource<TResult> taskCompletionSource, TResult result)
         {
-            Task.Factory.StartNew(delegate { taskCompletionSource.TrySetResult(result); }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default);
+            return Task.Run(() => taskCompletionSource.TrySetResult(result));
         }
     }
 }

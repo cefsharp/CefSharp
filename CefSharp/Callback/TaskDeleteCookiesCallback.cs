@@ -15,15 +15,17 @@ namespace CefSharp
     {
         private readonly TaskCompletionSource<int> taskCompletionSource;
         private volatile bool isDisposed;
+        private Task setResultTask;
 
         public TaskDeleteCookiesCallback()
         {
             taskCompletionSource = new TaskCompletionSource<int>();
+            setResultTask = System.Threading.Tasks.Task.FromResult(false);
         }
 
         void IDeleteCookiesCallback.OnComplete(int numDeleted)
         {
-            taskCompletionSource.TrySetResultAsync(numDeleted);
+            setResultTask = taskCompletionSource.TrySetResultAsync(numDeleted);
         }
 
         public Task<int> Task
@@ -36,8 +38,7 @@ namespace CefSharp
             get { return isDisposed; }
         }
 
-
-        void IDisposable.Dispose()
+        public void Dispose()
         {
             var task = taskCompletionSource.Task;
 
@@ -45,10 +46,18 @@ namespace CefSharp
             //set the TCS to false
             if (task.IsCompleted == false)
             {
-                taskCompletionSource.TrySetResultAsync(-1);
+                setResultTask = taskCompletionSource.TrySetResultAsync(-1);
             }
 
             isDisposed = true;
+        }
+
+        /// <summary>
+        /// Task that can be awaited for the SetResult operation to complete - then you can check the Task property
+        /// </summary>
+        public Task SetResultTask
+        {
+            get { return setResultTask; }
         }
     }
 }

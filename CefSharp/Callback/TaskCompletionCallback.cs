@@ -2,7 +2,6 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using System;
 using System.Threading.Tasks;
 using CefSharp.Internals;
 
@@ -11,15 +10,17 @@ namespace CefSharp
     public class TaskCompletionCallback : ICompletionCallback
     {
         private readonly TaskCompletionSource<bool> taskCompletionSource;
+        private Task setResultTask;
 
         public TaskCompletionCallback()
         {
             taskCompletionSource = new TaskCompletionSource<bool>();
+            setResultTask = System.Threading.Tasks.Task.FromResult(false);
         }
 
         void ICompletionCallback.OnComplete()
         {
-            taskCompletionSource.TrySetResultAsync(true);
+            setResultTask = taskCompletionSource.TrySetResultAsync(true);
         }
 
         public Task<bool> Task
@@ -27,7 +28,7 @@ namespace CefSharp
             get { return taskCompletionSource.Task; }
         }
 
-        void IDisposable.Dispose()
+        public void Dispose()
         {
             var task = taskCompletionSource.Task;
 
@@ -35,8 +36,16 @@ namespace CefSharp
             //set the TCS to false
             if(task.IsCompleted == false)
             {
-                taskCompletionSource.TrySetResultAsync(false);
+                setResultTask =  taskCompletionSource.TrySetResultAsync(false);
             }
+        }
+
+        /// <summary>
+        /// Task that can be awaited for the SetResult operation to complete - then you can check the Task property
+        /// </summary>
+        public Task SetResultTask
+        {
+            get { return setResultTask; }
         }
     }
 }
