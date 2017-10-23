@@ -83,6 +83,16 @@
                     });
                 }
 
+                function asyncObject()
+                {
+                    var call = "Async call (Object): " + Date();
+                    boundAsync.returnObject('CefSharp').then(function (res) {
+
+                        var end = "Result: " + JSON.stringify(res) + " (" + Date() + ")";
+                        writeAsyncResult(call, end);
+                    });
+                }
+
                 function asyncObjectArray()
                 {
                     var call = "Async call (ObjectArray): " + Date();
@@ -98,6 +108,7 @@
                 asyncDivFail();
                 asyncDoSomething();
                 asyncHello();
+                asyncObject();
                 asyncObjectArray();
             </script>
         </p>

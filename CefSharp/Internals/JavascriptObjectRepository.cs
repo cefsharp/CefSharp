@@ -410,6 +410,11 @@ namespace CefSharp.Internals
                 return false;
             }
 
+            if (baseType.IsValueType && !baseType.IsPrimitive && !baseType.IsEnum)
+            {
+                return false;
+            }
+
             return !baseType.IsPrimitive && baseType != typeof(string);
         }
 
