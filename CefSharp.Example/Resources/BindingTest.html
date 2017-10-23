@@ -86,8 +86,8 @@
                 function asyncObject()
                 {
                     var call = "Async call (Object): " + Date();
-                    boundAsync.returnObject('CefSharp').then(function (res) {
-
+                    boundAsync.returnObject('CefSharp').then(function (res)
+                    {
                         var end = "Result: " + JSON.stringify(res) + " (" + Date() + ")";
                         writeAsyncResult(call, end);
                     });
