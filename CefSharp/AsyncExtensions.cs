@@ -37,7 +37,7 @@ namespace CefSharp
             }
 
             //There was a problem deleting cookies
-            return Task.FromResult(-1);
+            return Task.FromResult(TaskDeleteCookiesCallback.InvalidNoOfCookiesDeleted);
         }
 
         /// <summary>
