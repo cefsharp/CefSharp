@@ -1,3 +1,5 @@
+image: Visual Studio 2015
+
 environment:
   VisualStudioVersion: 12.0
 
