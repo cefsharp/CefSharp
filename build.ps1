@@ -274,7 +274,7 @@ function DownloadNuget()
     if(-not (Test-Path $nuget))
     {
         $client = New-Object System.Net.WebClient;
-        $client.DownloadFile('http://nuget.org/nuget.exe', $nuget);
+        $client.DownloadFile('https://dist.nuget.org/win-x86-commandline/latest/nuget.exe', $nuget);
     }
 }
 
