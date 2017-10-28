@@ -153,12 +153,12 @@ namespace CefSharp
             return _wrappedRequest->IsReadOnly();
         }
 
-		void CefRequestWrapper::SetFlags(CefSharp::UrlRequestFlags flags)
-		{
-			ThrowIfDisposed();
+        void CefRequestWrapper::SetFlags(CefSharp::UrlRequestFlags flags)
+        {
+            ThrowIfDisposed();
 
-			_wrappedRequest->SetFlags((int)flags);
-		}
+            _wrappedRequest->SetFlags((int)flags);
+        }
 
         void CefRequestWrapper::InitializePostData()
         {
