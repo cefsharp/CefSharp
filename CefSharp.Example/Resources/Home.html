@@ -116,7 +116,7 @@
                     </p>
                     <h3>Initialize/Shutdown Cef</h3>
                     <p>
-                        It's important to note that it's nessicary to Initialize the underlying CEF library. This can be achieved in one of two ways, explicitly and implicitly.
+                        It's important to note that it's neccesary to Initialize the underlying CEF library. This can be achieved in one of two ways, explicitly and implicitly.
                         When you create a new instance of ChromiumWebBrowser it will check if CEF has been initialized and if not, initialize it for you with the defaults.
                         For those wishing to specify some custom settings then you can explicitly initialize CEF yourself like below
 
@@ -124,14 +124,14 @@
                         public static void Init()
                         {
                             var settings = new CefSettings();
-                                        
+
                             // Increase the log severity so CEF outputs detailed information, useful for debugging
                             settings.LogSeverity = LogSeverity.Verbose;
-                                        
+
                             Cef.Initialize(settings);
                         }
                         </pre>
-                        
+
                         CEF also requires that you call Shutdown when your finished with it. If you don't call Shutdown explicitly then it will be called for you on exit.
                         You can call Shutdown explicitly which will be required in some instances.
 
@@ -141,7 +141,7 @@
                             Cef.Shutdown();
                         }
                         </pre>
-                        
+
                         It's important to note CEF that Initialize/Shutdown <strong>MUST</strong> be called on your main applicaiton thread (Typically the UI thead). If you call them on different
                         threads, your application will hang.
                     </p>
@@ -155,21 +155,21 @@
                         {
                             // Specify Global Settings and Command Line Arguments
                             var settings = new CefSettings();
-                                        
+
                             // By default CEF uses an in memory cache, to save cached data e.g. passwords you need to specify a cache path
                             // NOTE: The executing user must have sufficent privileges to write to this folder.
                             settings.CachePath = "cache";
 
                             // There are many command line arguments that can either be turned on or off
-                            
-                            // Enable WebRTC                            
+
+                            // Enable WebRTC
                             settings.CefCommandLineArgs.Add("enable-media-stream", "1");
 
                             // Don't use a proxy server, always make direct connections. Overrides any other proxy server flags that are passed.
                             // Slightly improves Cef initialize time as it won't attempt to resolve a proxy
-                            settings.CefCommandLineArgs.Add("no-proxy-server", "1"); 
+                            settings.CefCommandLineArgs.Add("no-proxy-server", "1");
 
-                                        
+
                             Cef.Initialize(settings);
                         }
                         </pre>
@@ -198,10 +198,10 @@
                         Perhaps very obvious, but still worth mentioning. Since CefSharp is based on
                         <a href="https://bitbucket.org/chromiumembedded/cef">CEF</a>, which is in turn based on
                         <a href="http://www.chromium.org/Home">Chromium</a> (version 43 for the time being), CefSharp provides
-                        one of the best HTML5 rendering experiences available - 
+                        one of the best HTML5 rendering experiences available -
                         <a href="http://html5test.com/compare/browser/mybrowser/chrome-41/chrome-43/ie-11.html">
                             470+ points out of 555
-                        </a> on <a href="http://www.html5test.com">html5test.com</a>. Note: 
+                        </a> on <a href="http://www.html5test.com">html5test.com</a>. Note:
                         <a href="http://en.wiktionary.org/wiki/your_mileage_may_vary" title="Your mileage may vary">YMMV</a>
                         depending on .DLLs you add and features you enable.
                     </p>
@@ -252,13 +252,13 @@
                                     // even if there is an exception as they wrap an unmanaged response which will cause memory
                                     // leaks if not freed
                                     using (callback)
-                                    { 
+                                    {
                                         // Read the data in, set the mime type
                                         var bytes = Encoding.UTF8.GetBytes(resource);
                                         stream = new MemoryStream(bytes);
                                         var fileExtension = Path.GetExtension(fileName);
                                         mimeType = ResourceHandler.GetMimeType(fileExtension);
-                                        
+
                                         // When your finished processing execute the callback.
                                         // Most callbacks have multiple methods, so checkout their interface for details
                                         callback.Continue();
@@ -289,13 +289,13 @@
                         {
                             // Pseudo code; you probably need more in your CefSettings also.
                             var settings = new CefSettings();
-                                        
+
                             settings.RegisterScheme(new CefCustomScheme
                             {
                                 SchemeName = CefSharpSchemeHandlerFactory.SchemeName,
                                 SchemeHandlerFactory = new CefSharpSchemeHandlerFactory()
                             });
-                                        
+
                             Cef.Initialize(settings);
                         }
                         </pre>

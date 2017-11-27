@@ -9,7 +9,7 @@
             <span id="asyncresult"></span>
             <script type="text/javascript">
                 var asResult = document.getElementById('asyncresult');
-            
+
                 function writeAsyncResult(call, end)
                 {
                     var p = document.createElement('p');
@@ -18,16 +18,16 @@
                     var title = document.createTextNode('Async Call: ');
                     var callText = document.createTextNode(call);
                     var endText = document.createTextNode(end);
-                
+
                     p.appendChild(title);
                     p.appendChild(br);
                     p.appendChild(callText);
                     p.appendChild(br2);
                     p.appendChild(endText);
-                
+
                     asResult.appendChild(p);
                 }
-            
+
                 function asyncError()
                 {
                     var call = "Async call (Throw Exception): " + Date();
@@ -37,7 +37,7 @@
                         writeAsyncResult(call, end);
                     });
                 }
-            
+
                 function asyncDivOk()
                 {
                     var call = "Async call (Divide 16 / 2): " + Date();
@@ -47,7 +47,7 @@
                         writeAsyncResult(call, end);
                     });
                 }
-            
+
                 function asyncDivFail()
                 {
                     var call = "Async call (Divide 16 /0): " + Date();
@@ -62,7 +62,7 @@
                         writeAsyncResult(call, end);
                     });
                 }
-            
+
                 function asyncHello()
                 {
                     var call = "Async call (Hello): " + Date();
@@ -72,7 +72,7 @@
                         writeAsyncResult(call, end);
                     });
                 }
-            
+
                 function asyncDoSomething()
                 {
                     var call = "Async call (Long Running Task): " + Date();
@@ -102,7 +102,7 @@
                         writeAsyncResult(call, end);
                     });
                 }
-            
+
                 asyncError();
                 asyncDivOk();
                 asyncDivFail();
@@ -113,7 +113,7 @@
             </script>
         </p>
         <p>
-            Javscript Callback Test
+            Javascript Callback Test
             <br />
             <script type="text/javascript">
                 function callback(s)
@@ -164,7 +164,7 @@
         </p>
 
         <p>
-            Javscript Callback Test using object as parameter
+            Javascript Callback Test using object as parameter
             <br />
             <script type="text/javascript">
                 function objectCallback(s)
