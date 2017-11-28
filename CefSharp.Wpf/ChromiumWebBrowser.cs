@@ -486,7 +486,7 @@ namespace CefSharp.Wpf
         {
             //If disposeCount is 0 then we'll update it to 1 and begin disposing
             if (Interlocked.CompareExchange(ref disposeCount, 1, 0) == 0)
-            { 
+            {
                 // No longer reference event listeners:
                 ConsoleMessage = null;
                 FrameLoadStart = null;
@@ -521,7 +521,7 @@ namespace CefSharp.Wpf
                     IsVisibleChanged -= OnIsVisibleChanged;
 
                     if(popup != null)
-                    { 
+                    {
                         popup.Opened -= PopupOpened;
                         popup.Closed -= PopupClosed;
                         popup = null;
@@ -612,7 +612,7 @@ namespace CefSharp.Wpf
             //We manually claculate the screen point as calling PointToScreen can only be called on the UI thread
             // in a sync fashion and it's easy for users to get themselves into a deadlock.
             if(DpiScaleFactor > 1)
-            { 
+            {
                 screenX = (int)(browserScreenLocation.X + (viewX * DpiScaleFactor));
                 screenY = (int)(browserScreenLocation.Y + (viewY * DpiScaleFactor));
             }
@@ -683,7 +683,7 @@ namespace CefSharp.Wpf
             UiThreadRunAsync(delegate
             {
                 if(browser != null)
-                { 
+                {
                     var results = DragDrop.DoDragDrop(this, dataObject, GetDragEffects(mask));
                     browser.GetHost().DragSourceEndedAt(0, 0, GetDragOperationsMask(results));
                     browser.GetHost().DragSourceSystemDragEnded();
@@ -795,7 +795,7 @@ namespace CefSharp.Wpf
                 {
                     Cursor = CursorInteropHelper.Create(new SafeFileHandle(handle, ownsHandle: false));
                 });
-            }            
+            }
         }
 
         void IRenderWebBrowser.OnImeCompositionRangeChanged(Range selectedRange, Rect[] characterBounds)
@@ -1139,13 +1139,13 @@ namespace CefSharp.Wpf
         protected virtual void OnIsBrowserInitializedChanged(bool oldValue, bool newValue)
         {
             if (newValue && !IsDisposed)
-            { 
+            {
                 var task = this.GetZoomLevelAsync();
                 task.ContinueWith(previous =>
                 {
                     if (previous.Status == TaskStatus.RanToCompletion)
                     {
-                        UiThreadRunAsync(() => 
+                        UiThreadRunAsync(() =>
                         {
                             if (!IsDisposed)
                             {
@@ -1586,7 +1586,7 @@ namespace CefSharp.Wpf
                     }
                     break;
                 }
-            } 
+            }
         }
 
         private void updateBrowserScreenLocation()
@@ -1841,7 +1841,7 @@ namespace CefSharp.Wpf
                 case WM.KEYUP:
                 case WM.CHAR:
                 case WM.IME_CHAR:
-                { 
+                {
                     if (!IsKeyboardFocused)
                     {
                         break;
@@ -1857,7 +1857,7 @@ namespace CefSharp.Wpf
 
                     if (browser != null)
                     {
-                        browser.GetHost().SendKeyEvent(message, wParam.CastToInt32(), lParam.CastToInt32());    
+                        browser.GetHost().SendKeyEvent(message, wParam.CastToInt32(), lParam.CastToInt32());
                         handled = true;
                     }
 
@@ -2287,8 +2287,8 @@ namespace CefSharp.Wpf
         {
             get
             {
-                //Use CompareExchange to read the current value - if disposeCount is 1, we set it to 1, effectively a no-op
-                //Volatile.Read would likely use a memory barrier which I beleive is unnessicary in this scenario
+                // Use CompareExchange to read the current value - if disposeCount is 1, we set it to 1, effectively a no-op
+                // Volatile.Read would likely use a memory barrier which I believe is unnecessary in this scenario
                 return Interlocked.CompareExchange(ref disposeCount, 1, 1) == 1;
             }
         }
@@ -2299,8 +2299,8 @@ namespace CefSharp.Wpf
         /// <returns>true if browser is initialized</returns>
         private bool InternalIsBrowserInitialized()
         {
-            //Use CompareExchange to read the current value - if browserInitialized is 0, we set it to 0, effectively a no-op
-            //Volatile.Read would likely use a memory barrier which I beleive is unnessicary in this scenario
+            // Use CompareExchange to read the current value - if disposeCount is 1, we set it to 1, effectively a no-op
+            // Volatile.Read would likely use a memory barrier which I believe is unnecessary in this scenario
             return Interlocked.CompareExchange(ref browserInitialized, 0, 0) == 1;
         }
 

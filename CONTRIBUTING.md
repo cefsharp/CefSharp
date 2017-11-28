@@ -82,6 +82,11 @@ Pull requests are **awesome**. If you're looking to raise a `PR` for something w
 - If you wish to keep progressing on your work, please maintain a feature branch independent of the branch referenced by your pull request. From your WIP branch you can selectively merge in changes to the PR branch as required.
 - In general, it's much better to be "too granular" with PR's that contain "change-the-world"-kind of changes, which usually tend to lag behind a lot longer before getting merged (if they ever will...).
 - Small (really, minimalistic) commits. Each individual commit only adds one specific thing. The basic approach to achieving this is to read your commit message. Do you feel the need to add multiple lines? Then you're doing too much at the same time.
+- Keep the first line of commit message short (max 50 characters), then a blank line, then a full description if needed. Good example:
+
+  > Run tests in the default appdomain
+  > 
+  > Due to limitations of VC++ we must run our tests in the default appdomain, it's possible to use xunit for testing. Readd CefSharp.Test.csproj to solution Add some very basic unit tests using xunit, DisableTestParallelization, Set xunit.appDomain to denied in app.config to disable using appdomains (https://xunit.github.io/docs/configuring-with-xml.html) Add xunit vs test running packages, using 2.2.0 version as 2.3.0 was throwing an exception similar to https://github.com/xunit/xunit/issues/1514 TODO: Take a look at https://github.com/NuGet/NuGetGallery/tree/master/tests/NuGetGallery.Facts for some ideas on structuring xunit tests (look at implementing Theory)
 
 ### Coding Style
 - **Please** follow existing coding style when submitting pull requests.
