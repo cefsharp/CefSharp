@@ -25,7 +25,7 @@ Stable binaries are released on NuGet, and contain everything you need  to embed
 * See the [CefSharp.MinimalExample](https://github.com/cefsharp/CefSharp.MinimalExample/) project for a basic demo of using the CefSharp NuGet packages.
 * See the [General Usage Guide](https://github.com/cefsharp/CefSharp/wiki/General-Usage) in help getting started/dealing with common scenarios.
 * See the [Wiki](https://github.com/cefsharp/CefSharp/wiki) for work-in-progress documentation
-* See the [FAQ](https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions) for help with common issues 
+* See the [FAQ](https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions) for help with common issues
 * Upgrading from an earlier version of CefSharp? See the [ChangeLog](https://github.com/cefsharp/CefSharp/wiki/ChangeLog) for breaking changes and upgrade tips.
 * [CefSharp API](http://cefsharp.github.io/api/55.0.0/) generated from the source code comments.
 
@@ -39,7 +39,7 @@ If you have a simple question please start by asking it on [![Gitter](https://ba
 
 This is the `official` CefSharp fork, as maintained by the CefSharp community. You can also view [the entire network of public forks/branches](https://github.com/search?utf8=%E2%9C%93&q=cefsharp+fork%3Atrue&type=Repositories&ref=searchresults).
 
-*Note* Due to so many Forks - Github can't process them through the `Network Graphs` Section so, if you need to do a search use the following: `cefsharp fork:true` and it will be able to process all of the forks. 
+*Note* Due to so many Forks - Github can't process them through the `Network Graphs` Section so, if you need to do a search use the following: `cefsharp fork:true` and it will be able to process all of the forks.
 
 Development is done in the `master` branch. New features are preferably added in feature branches, if the changes are more than trivial. New `PR's` should be targeted against `master`.
 
@@ -61,20 +61,19 @@ Every commit on `master` produces a `Nuget` package. Use at your own risk!
 - [![CefSharp.Wpf](http://img.shields.io/nuget/vpre/CefSharp.Wpf.svg?style=flat&label=Wpf)](http://www.nuget.org/packages/CefSharp.Wpf/)
 - [![CefSharp.OffScreen](http://img.shields.io/nuget/vpre/CefSharp.OffScreen.svg?style=flat&label=OffScreen)](http://www.nuget.org/packages/CefSharp.OffScreen/)
 
-**Stable**<br> 
+**Stable**<br>
 - [![CefSharp.WinForms](http://img.shields.io/nuget/v/CefSharp.WinForms.svg?style=flat&label=WinForms)](http://www.nuget.org/packages/CefSharp.WinForms/)
 - [![CefSharp.Wpf](http://img.shields.io/nuget/v/CefSharp.Wpf.svg?style=flat&label=Wpf)](http://www.nuget.org/packages/CefSharp.Wpf/)
 - [![CefSharp.OffScreen](http://img.shields.io/nuget/v/CefSharp.OffScreen.svg?style=flat&label=OffScreen)](http://www.nuget.org/packages/CefSharp.OffScreen/)
 
-
 ### Release Branches
 
 With each release a new branch is created, for example the `53.0.1` release corresponds to the `cefsharp/53` branch.
-If your new to `CefSharp` and are downloading the source to check it out, please use a **Release** branch
+If you're new to `CefSharp` and are downloading the source to check it out, please use a **Release** branch
 
-| Branch | CEF Version | VC++ Version | .Net Version | Status |
-|--------|-------------|--------------|--------------|--------|
-| [master](https://github.com/cefsharp/CefSharp/) | 3029 | 2013 | 4.5.2 | Development |
+| Branch                                                               | CEF Version | VC++ Version | .Net Version | Status |
+|----------------------------------------------------------------------|------|------|-------|-------------|
+| [master](https://github.com/cefsharp/CefSharp/)                      | 3202 | 2013 | 4.5.2 | Development |
 | [cefsharp/57](https://github.com/cefsharp/CefSharp/tree/cefsharp/57) | 2987 | 2013 | 4.5.2 | **Release** |
 | [cefsharp/55](https://github.com/cefsharp/CefSharp/tree/cefsharp/55) | 2883 | 2013 | 4.5.2 | Unsupported |
 | [cefsharp/53](https://github.com/cefsharp/CefSharp/tree/cefsharp/53) | 2785 | 2013 | 4.5.2 | Unsupported |
