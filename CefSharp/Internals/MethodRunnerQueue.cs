@@ -27,17 +27,12 @@ namespace CefSharp.Internals
 
         public void Start()
         {
-            if (running)
-            {
-                return;
-            }
-
             lock (lockObject)
             {
                 if (!running)
                 {
                     cancellationTokenSource = new CancellationTokenSource();
-                    Task.Factory.StartNew(ConsumeTasks, cancellationTokenSource.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+                    Task.Factory.StartNew(ConsumeTasks, CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
                     running = true;
                 }
             }
@@ -45,11 +40,6 @@ namespace CefSharp.Internals
 
         public void Stop()
         {
-            if (!running)
-            {
-                return;
-            }
-
             lock (lockObject)
             {
                 if (running)

@@ -88,6 +88,12 @@ namespace CefSharp
         public bool IsCorsEnabled { get; set; }
 
         /// <summary>
+        /// If true the scheme can bypass Content-Security-Policy(CSP) checks. 
+        /// This value should be false in most cases where IsStandard is true.
+        /// </summary>
+        public bool IsCSPBypassing { get; set; }
+
+        /// <summary>
         /// Factory Class that creates <see cref="IResourceHandler"/> instances
         /// for handling scheme requests.
         /// </summary>
@@ -103,6 +109,7 @@ namespace CefSharp
             IsDisplayIsolated = false;
             IsSecure = true;
             IsCorsEnabled = true;
+            IsCSPBypassing = false;
         }
 
         /// <summary>
@@ -128,7 +135,8 @@ namespace CefSharp
                         IsLocal = tokens[2] == "T",
                         IsDisplayIsolated = tokens[3] == "T",
                         IsSecure = tokens[4] == "T",
-                        IsCorsEnabled = tokens[5] == "T"
+                        IsCorsEnabled = tokens[5] == "T",
+                        IsCSPBypassing = tokens[6] == "T"
                     };
                     customSchemes.Add(customScheme);
                 });
