@@ -186,6 +186,13 @@
   <Import Project="$(SolutionDir)\CefSharp.Native.props" />
   <Import Project="..\packages\cef.redist.x64.3.2272.30\build\cef.redist.x64.targets" Condition="Exists('..\packages\cef.redist.x64.3.2272.30\build\cef.redist.x64.targets')" />
   <Import Project="..\packages\cef.redist.x86.3.2272.30\build\cef.redist.x86.targets" Condition="Exists('..\packages\cef.redist.x86.3.2272.30\build\cef.redist.x86.targets')" />
-  <Import Project="..\packages\cef.redist.x64.3.3071.1649\build\cef.redist.x64.targets" Condition="Exists('..\packages\cef.redist.x64.3.3071.1649\build\cef.redist.x64.targets')" />
-  <Import Project="..\packages\cef.redist.x86.3.3071.1649\build\cef.redist.x86.targets" Condition="Exists('..\packages\cef.redist.x86.3.3071.1649\build\cef.redist.x86.targets')" />
+  <Import Project="..\packages\cef.redist.x64.3.3202.1686\build\cef.redist.x64.targets" Condition="Exists('..\packages\cef.redist.x64.3.3202.1686\build\cef.redist.x64.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\cef.redist.x64.3.3202.1686\build\cef.redist.x64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.redist.x64.3.3202.1686\build\cef.redist.x64.targets'))" />
+    <Error Condition="!Exists('..\packages\cef.redist.x86.3.3202.1686\build\cef.redist.x86.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.redist.x86.3.3202.1686\build\cef.redist.x86.targets'))" />
+  </Target>
+  <Import Project="..\packages\cef.redist.x86.3.3202.1686\build\cef.redist.x86.targets" Condition="Exists('..\packages\cef.redist.x86.3.3202.1686\build\cef.redist.x86.targets')" />
 </Project>
