@@ -51,6 +51,7 @@ namespace CefSharp
             virtual property TransitionType TransitionType { CefSharp::TransitionType get(); }
             virtual property IPostData^ PostData { IPostData^ get(); }
             virtual property bool IsReadOnly { bool get(); }
+            virtual void SetFlags(CefSharp::UrlRequestFlags flags);
             virtual void InitializePostData();
 
             operator CefRefPtr<CefRequest>()

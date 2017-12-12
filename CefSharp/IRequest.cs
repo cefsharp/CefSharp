@@ -2,6 +2,7 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using CefSharp;
 using System;
 using System.Collections.Specialized;
 
@@ -89,6 +90,12 @@ namespace CefSharp
         /// Returns true if this object is read-only.
         /// </summary>
         bool IsReadOnly { get; }
+
+        /// <summary>
+        /// Set the flags used in combination with CefURLRequest
+        /// </summary>
+        /// <param name="flags">Request Flags</param>
+        void SetFlags(UrlRequestFlags flags);
 
         /// <summary>
         /// Initialize a new instance of <see cref="IPostData"/>.

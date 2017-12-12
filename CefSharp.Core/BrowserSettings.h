@@ -167,17 +167,6 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// Controls whether JavaScript can be used for opening windows. Also
-        /// configurable using the "disable-javascript-open-windows" command-line
-        /// switch.
-        /// </summary>
-        virtual property CefState JavascriptOpenWindows
-        {
-            CefState get() { return (CefState)_browserSettings->javascript_open_windows; }
-            void set(CefState value) { _browserSettings->javascript_open_windows = (cef_state_t)value; }
-        }
-
-        /// <summary>
         /// Controls whether JavaScript can be used to close windows that were not
         /// opened via JavaScript. JavaScript can still be used to close windows that
         /// were opened via JavaScript. Also configurable using the

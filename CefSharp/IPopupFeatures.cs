@@ -17,10 +17,6 @@ namespace CefSharp
         bool MenuBarVisible { get; }
         bool StatusBarVisible { get; }
         bool ToolBarVisible { get; }
-        bool LocationBarVisible { get; }
         bool ScrollbarsVisible { get; }
-        bool Resizable { get; }
-        bool Fullscreen { get; }
-        bool Dialog { get; }
     }
 }
