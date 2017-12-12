@@ -2,13 +2,13 @@ environment:
   VisualStudioVersion: 12.0
 
 version: 62.0.0-CI{build}
-  
+
 clone_depth: 10
 
 # to run your custom scripts instead of automatic MSBuild
 build_script:
   - ps: .\build.ps1
-  
+
 # Disable tests
 test: off
 
@@ -21,7 +21,7 @@ deploy:
   provider: NuGet
   server: https://www.myget.org/F/cefsharp/api/v2/package
   api_key:
-    secure: uftPtLACVpFbbbFBeFK6XD5fGkv33c+Xa3PWkyWgrod6FNl4AYGOtxScn+gsuuxD
+    secure: /dmXLsashEX9/IwH3C3EM8n0O9gvE8IZnBxtsytpDzwaMUCyouWVoZNnqPBFU3l1
   skip_symbols: false
   symbol_server: https://www.myget.org/F/cefsharp/api/v2/package
   artifact: nupkgfiles
