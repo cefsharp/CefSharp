@@ -153,7 +153,7 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\cef.redist.x64.3.3202.1686\build\cef.redist.x64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.redist.x64.3.3202.1686\build\cef.redist.x64.targets'))" />
-    <Error Condition="!Exists('..\packages\cef.redist.x86.3.3202.1686\build\cef.redist.x86.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.redist.x86.3.3202.1686\build\cef.redist.x86.targets'))" />
+    <Error Condition="!Exists('..\packages\cef.redist.x86.3.3202.1690-proprietary-codecs\build\cef.redist.x86.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.redist.x86.3.3202.1690-proprietary-codecs\build\cef.redist.x86.targets'))" />
   </Target>
-  <Import Project="..\packages\cef.redist.x86.3.3202.1686\build\cef.redist.x86.targets" Condition="Exists('..\packages\cef.redist.x86.3.3202.1686\build\cef.redist.x86.targets')" />
+  <Import Project="..\packages\cef.redist.x86.3.3202.1690-proprietary-codecs\build\cef.redist.x86.targets" Condition="Exists('..\packages\cef.redist.x86.3.3202.1690-proprietary-codecs\build\cef.redist.x86.targets')" />
 </Project>
