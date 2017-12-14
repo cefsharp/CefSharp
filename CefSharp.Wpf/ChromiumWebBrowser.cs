@@ -1906,7 +1906,7 @@ namespace CefSharp.Wpf
         private void OnTooltipTimerTick(object sender, EventArgs e)
         {
             // Checks to see if the control is disposed/disposing
-            if (Interlocked.CompareExchange(ref disposeCount, 1, 1) != 1)
+            if (!IsDisposed)
             {
                 tooltipTimer.Stop();
 
