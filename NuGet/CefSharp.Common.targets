@@ -18,7 +18,7 @@
     </ItemGroup>
 
     <Message Importance="high" Text="Copying cef.redist x86 files" />
-	<Copy SourceFiles="@(CefRedist32)" DestinationFiles="@(CefRedist32->'$(CefSharpTargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(CefRedist32)" DestinationFiles="@(CefRedist32->'$(CefSharpTargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
 
     <Message Importance="high" Text="-- CefSharp.Common.targets: Copying files from $(MSBuildThisFileDirectory)..\CefSharp\x86 to $(CefSharpTargetDir)" />
     <Copy SourceFiles="@(CefSharpBinaries)" DestinationFolder="$(CefSharpTargetDir)" SkipUnchangedFiles="true" />
@@ -40,7 +40,7 @@
       <CefSharpBinaries Include="$(MSBuildThisFileDirectory)..\CefSharp\x64\*.*" />
     </ItemGroup>
     <Message Importance="high" Text="Copying cef.redist x64 files" />
-	<Copy SourceFiles="@(CefRedist64)" DestinationFiles="@(CefRedist64->'$(CefSharpTargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(CefRedist64)" DestinationFiles="@(CefRedist64->'$(CefSharpTargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
 
     <Message Importance="high" Text="-- CefSharp.Common.targets: Copying files from $(MSBuildThisFileDirectory)..\CefSharp\x64 to $(CefSharpTargetDir)" />
     <Copy SourceFiles="@(CefSharpBinaries)" DestinationFolder="$(CefSharpTargetDir)" SkipUnchangedFiles="true" />
@@ -53,7 +53,7 @@
     </ItemGroup>
 
     <Message Importance="high" Text="Copying cef.redist x86 files" />
-	<Copy SourceFiles="@(CefRedist32)" DestinationFiles="@(CefRedist32->'$(CefSharpTargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(CefRedist32)" DestinationFiles="@(CefRedist32->'$(CefSharpTargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
 
     <Message Importance="high" Text="Copying cef.redist x64 files" />
     <Copy SourceFiles="@(CefRedist64)" DestinationFiles="@(CefRedist64->'$(CefSharpTargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
