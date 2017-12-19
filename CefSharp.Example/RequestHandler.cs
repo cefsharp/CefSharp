@@ -63,7 +63,9 @@ namespace CefSharp.Example
             Uri url;
             if (Uri.TryCreate(request.Url, UriKind.Absolute, out url) == false)
             {
-                throw new Exception("Request to \"" + request.Url + "\" can't continue, not a valid URI");
+                //If we're unable to parse the Uri then cancel the request
+                // avoid throwing any exceptions here as we're being called by unmanaged code
+                return CefReturnValue.Cancel;
             }
             
             //Example of how to set Referer
