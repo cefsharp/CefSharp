@@ -19,7 +19,7 @@ namespace CefSharp.ModelBinding
         /// <param name="methodName">Name of the method to be called</param>
         /// <returns>The method result</returns>
         /// <example>
-        /// object IMethodInterceptor.Intercept(Func<object> method, string methodName)
+        /// object IMethodInterceptor.Intercept(Func&lt;object&gt; method, string methodName)
         /// {
         ///   object result = method();
         ///   Debug.WriteLine("Called " + methodName);
