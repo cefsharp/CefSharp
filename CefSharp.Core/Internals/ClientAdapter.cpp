@@ -278,6 +278,20 @@ namespace CefSharp
             }
         }
 
+        bool ClientAdapter::OnAutoResize(CefRefPtr<CefBrowser> browser, const CefSize& new_size)
+        {
+            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+
+            auto handler = _browserControl->DisplayHandler;
+
+            if (handler == nullptr)
+            {
+                return false;
+            }
+
+            return handler->OnAutoResize(_browserControl, browserWrapper, CefSharp::Structs::Size(new_size.width, new_size.height));
+        }
+
         void ClientAdapter::OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString& title)
         {
             auto args = gcnew TitleChangedEventArgs(StringUtils::ToClr(title));
