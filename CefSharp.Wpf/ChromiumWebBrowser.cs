@@ -822,6 +822,11 @@ namespace CefSharp.Wpf
 
         void IRenderWebBrowser.OnImeCompositionRangeChanged(Range selectedRange, Rect[] characterBounds)
         {
+            OnImeCompositionRangeChanged(selectedRange, characterBounds);
+        }
+
+        protected virtual void OnImeCompositionRangeChanged(Range selectedRange, Rect[] characterBounds)
+        {
             //TODO: Implement this
         }
 
