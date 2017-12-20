@@ -55,7 +55,8 @@ namespace CefSharp.Wpf
         /// </summary>
         private bool ignoreUriChange;
         /// <summary>
-        /// The browser created
+        /// Has the underlying Cef Browser been created (slightly different to initliazed in that
+        /// the browser is initialized in an async fashion)
         /// </summary>
         private bool browserCreated;
         /// <summary>
@@ -89,6 +90,11 @@ namespace CefSharp.Wpf
         /// and calling in a sync fashion on the UI thread was problematic.
         /// </summary>
         private Point browserScreenLocation;
+        /// <summary>
+        /// The request context (we deliberately use a private variable so we can throw an exception if
+        /// user attempts to set after browser created)
+        /// </summary>
+        private IRequestContext requestContext;
 
         /// <summary>
         /// A flag that indicates whether or not the designer is active
@@ -105,7 +111,23 @@ namespace CefSharp.Wpf
         /// Gets or sets the request context.
         /// </summary>
         /// <value>The request context.</value>
-        public RequestContext RequestContext { get; set; }
+        public IRequestContext RequestContext
+        {
+            get { return requestContext; }
+            set
+            {
+                if (browserCreated)
+                {
+                    throw new Exception("Browser has already been created. RequestContext must be" +
+                                        "set before the underlying CEF browser is created.");
+                }
+                if (value != null && value != typeof(RequestContext))
+                {
+                    throw new Exception(string.Format("RequestContxt can only be of type {0} or null", typeof(RequestContext)));
+                }
+                requestContext = value;
+            }
+        }
         /// <summary>
         /// Implement <see cref="IDialogHandler" /> and assign to handle dialog events.
         /// </summary>
@@ -1635,7 +1657,7 @@ namespace CefSharp.Wpf
             var webBrowserInternal = this as IWebBrowserInternal;
             if (!webBrowserInternal.HasParent)
             {
-                managedCefBrowserAdapter.CreateOffscreenBrowser(source == null ? IntPtr.Zero : source.Handle, BrowserSettings, RequestContext, Address);
+                managedCefBrowserAdapter.CreateOffscreenBrowser(source == null ? IntPtr.Zero : source.Handle, BrowserSettings, (RequestContext)RequestContext, Address);
             }
             browserCreated = true;
 
