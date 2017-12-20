@@ -237,7 +237,7 @@ namespace CefSharp
         /// <summary>
         /// Send a mouse click event to the browser.
         /// </summary>
-        /// <param name=param name="mouseEvent">mouse event - x, y and modifiers</param>
+        /// <param name="mouseEvent">mouse event - x, y and modifiers</param>
         /// <param name="mouseButtonType">Mouse ButtonType</param>
         /// <param name="mouseUp">mouse up</param>
         /// <param name="clickCount">click count</param>
@@ -246,7 +246,7 @@ namespace CefSharp
         /// <summary>
         /// Send a mouse wheel event to the browser.
         /// </summary>
-        /// <param name=param name="mouseEvent">mouse event - x, y and modifiers</param>
+        /// <param name="mouseEvent">mouse event - x, y and modifiers</param>
         /// <param name="deltaX">Movement delta for X direction.</param>
         /// <param name="deltaY">movement delta for Y direction.</param>
         void SendMouseWheelEvent(MouseEvent mouseEvent, int deltaX, int deltaY);
