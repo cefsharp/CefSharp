@@ -2058,13 +2058,15 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="T:System.Windows.Input.MouseEventArgs" /> that contains the event data.</param>
         protected override void OnMouseMove(MouseEventArgs e)
         {
-            if (browser != null)
+            if (!e.Handled && browser != null)
             {
                 var point = e.GetPosition(this);
                 var modifiers = e.GetModifiers();
 
                 browser.GetHost().SendMouseMoveEvent((int)point.X, (int)point.Y, false, modifiers);
             }
+
+            base.OnMouseMove(e);
         }
 
         /// <summary>
@@ -2073,7 +2075,7 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="T:System.Windows.Input.MouseWheelEventArgs" /> that contains the event data.</param>
         protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
-            if (browser != null)
+            if (!e.Handled && browser != null)
             {
                 var point = e.GetPosition(this);
                 var modifiers = e.GetModifiers();
@@ -2088,6 +2090,8 @@ namespace CefSharp.Wpf
                     deltaY: !isShiftKeyDown ? e.Delta : 0,
                     modifiers: modifiers);
             }
+
+            base.OnMouseWheel(e);
         }
 
         /// <summary>
@@ -2126,6 +2130,8 @@ namespace CefSharp.Wpf
         {
             Focus();
             OnMouseButton(e);
+
+            base.OnMouseDown(e);
         }
 
         /// <summary>
@@ -2135,6 +2141,8 @@ namespace CefSharp.Wpf
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
             OnMouseButton(e);
+
+            base.OnMouseUp(e);
         }
 
         /// <summary>
@@ -2143,7 +2151,7 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="T:System.Windows.Input.MouseEventArgs" /> that contains the event data.</param>
         protected override void OnMouseLeave(MouseEventArgs e)
         {
-            if (browser != null)
+            if (!e.Handled && browser != null)
             {
                 var modifiers = e.GetModifiers();
 
@@ -2151,6 +2159,8 @@ namespace CefSharp.Wpf
 
                 ((IWebBrowserInternal)this).SetTooltipText(null);
             }
+
+            base.OnMouseLeave(e);
         }
 
         /// <summary>
@@ -2159,7 +2169,7 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="MouseButtonEventArgs"/> instance containing the event data.</param>
         private void OnMouseButton(MouseButtonEventArgs e)
         {
-            if (browser != null)
+            if (!e.Handled && browser != null)
             {
                 var modifiers = e.GetModifiers();
                 var mouseUp = (e.ButtonState == MouseButtonState.Released);
