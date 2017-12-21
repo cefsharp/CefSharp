@@ -98,10 +98,10 @@
     <Compile Include="Callback\TaskPrintToPdfCallback.cs" />
     <Compile Include="Callback\TaskResolveCallback.cs" />
     <Compile Include="CdmRegistration.cs" />
+    <Compile Include="Handler\DefaultRequestHandler.cs" />
     <Compile Include="Enums\UrlRequestFlags.cs" />
     <Compile Include="Internals\ByteArrayResourceHandler.cs" />
     <Compile Include="Internals\FileResourceHandler.cs" />
-    <Compile Include="Structs\CefDirtyRect.cs" />
     <Compile Include="CefExtension.cs" />
     <Compile Include="CefLibraryHandle.cs" />
     <Compile Include="Structs\CompositionUnderline.cs" />
@@ -204,6 +204,7 @@
     <Compile Include="IMenuModel.cs" />
     <Compile Include="ProxyOptions.cs" />
     <Compile Include="DefaultResourceHandlerFactoryItem.cs" />
+    <Compile Include="Structs\Size.cs" />
     <Compile Include="Structs\ViewRect.cs" />
     <Compile Include="ISslInfo.cs" />
     <Compile Include="Structs\KeyEvent.cs" />

@@ -17,12 +17,8 @@
       <CefSharpBinaries Include="$(MSBuildThisFileDirectory)..\CefSharp\x86\*.*" />
     </ItemGroup>
 
-    <Message Importance="high" Text="Copying cef.redist x86 binaries" />
-    <Copy SourceFiles="@(CefBinaries32)" DestinationFolder="$(CefSharpTargetDir)" SkipUnchangedFiles="true" />
-    <Message Importance="high" Text="Copying cef.redist x86 pak files" />
-    <Copy SourceFiles="@(CefPakFiles32)" DestinationFolder="$(CefSharpTargetDir)" SkipUnchangedFiles="true" />
-    <Message Importance="high" Text="Copying cef.redist x86 locales " />
-    <Copy SourceFiles="@(CefLocales32)" DestinationFolder="$(CefSharpTargetDir)\locales" SkipUnchangedFiles="true" />
+    <Message Importance="high" Text="Copying cef.redist x86 files" />
+    <Copy SourceFiles="@(CefRedist32)" DestinationFiles="@(CefRedist32->'$(CefSharpTargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
 
     <Message Importance="high" Text="-- CefSharp.Common.targets: Copying files from $(MSBuildThisFileDirectory)..\CefSharp\x86 to $(CefSharpTargetDir)" />
     <Copy SourceFiles="@(CefSharpBinaries)" DestinationFolder="$(CefSharpTargetDir)" SkipUnchangedFiles="true" />
@@ -32,12 +28,8 @@
     <ItemGroup>
       <CefSharpBinaries Include="$(MSBuildThisFileDirectory)..\CefSharp\x86\*.*" />
     </ItemGroup>
-    <Message Importance="high" Text="Copying cef.redist x86 binaries" />
-    <Copy SourceFiles="@(CefBinaries32)" DestinationFolder="$(CefSharpTargetDir)" SkipUnchangedFiles="true" />
-    <Message Importance="high" Text="Copying cef.redist x86 pak files" />
-    <Copy SourceFiles="@(CefPakFiles32)" DestinationFolder="$(CefSharpTargetDir)" SkipUnchangedFiles="true" />
-    <Message Importance="high" Text="Copying cef.redist x86 locales " />
-    <Copy SourceFiles="@(CefLocales32)" DestinationFolder="$(CefSharpTargetDir)\locales" SkipUnchangedFiles="true" />
+    <Message Importance="high" Text="Copying cef.redist x86 files" />
+    <Copy SourceFiles="@(CefRedist32)" DestinationFiles="@(CefRedist32->'$(CefSharpTargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
 
     <Message Importance="high" Text="-- CefSharp.Common.targets: Copying files from $(MSBuildThisFileDirectory)..\CefSharp\x86 to $(CefSharpTargetDir)" />
     <Copy SourceFiles="@(CefSharpBinaries)" DestinationFolder="$(CefSharpTargetDir)" SkipUnchangedFiles="true" />
@@ -47,12 +39,8 @@
     <ItemGroup>
       <CefSharpBinaries Include="$(MSBuildThisFileDirectory)..\CefSharp\x64\*.*" />
     </ItemGroup>
-    <Message Importance="high" Text="Copying cef.redist x64 binaries" />
-    <Copy SourceFiles="@(CefBinaries64)" DestinationFolder="$(CefSharpTargetDir)" SkipUnchangedFiles="true" />
-    <Message Importance="high" Text="Copying cef.redist x64 pak files" />
-    <Copy SourceFiles="@(CefPakFiles64)" DestinationFolder="$(CefSharpTargetDir)" SkipUnchangedFiles="true" />
-    <Message Importance="high" Text="Copying cef.redist x64 locales " />
-    <Copy SourceFiles="@(CefLocales64)" DestinationFolder="$(CefSharpTargetDir)\locales" SkipUnchangedFiles="true" />
+    <Message Importance="high" Text="Copying cef.redist x64 files" />
+    <Copy SourceFiles="@(CefRedist64)" DestinationFiles="@(CefRedist64->'$(CefSharpTargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
 
     <Message Importance="high" Text="-- CefSharp.Common.targets: Copying files from $(MSBuildThisFileDirectory)..\CefSharp\x64 to $(CefSharpTargetDir)" />
     <Copy SourceFiles="@(CefSharpBinaries)" DestinationFolder="$(CefSharpTargetDir)" SkipUnchangedFiles="true" />
@@ -64,18 +52,11 @@
       <CefSharpBinaries64 Include="$(MSBuildThisFileDirectory)..\CefSharp\x64\*.*" />
     </ItemGroup>
 
-    <Copy SourceFiles="@(CefBinaries32)" DestinationFolder="$(CefSharpTargetDir)\x86" SkipUnchangedFiles="true" />
-    <Message Importance="high" Text="Copying cef.redist x86 pak files" />
-    <Copy SourceFiles="@(CefPakFiles32)" DestinationFolder="$(CefSharpTargetDir)\x86" SkipUnchangedFiles="true" />
-    <Message Importance="high" Text="Copying cef.redist x86 locales " />
-    <Copy SourceFiles="@(CefLocales32)" DestinationFolder="$(CefSharpTargetDir)\x86\locales" SkipUnchangedFiles="true" />
+    <Message Importance="high" Text="Copying cef.redist x86 files" />
+    <Copy SourceFiles="@(CefRedist32)" DestinationFiles="@(CefRedist32->'$(CefSharpTargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
 
-    <Message Importance="high" Text="Copying cef.redist x64 binaries" />
-    <Copy SourceFiles="@(CefBinaries64)" DestinationFolder="$(CefSharpTargetDir)\x64" SkipUnchangedFiles="true" />
-    <Message Importance="high" Text="Copying cef.redist x64 pak files" />
-    <Copy SourceFiles="@(CefPakFiles64)" DestinationFolder="$(CefSharpTargetDir)\x64" SkipUnchangedFiles="true" />
-    <Message Importance="high" Text="Copying cef.redist x64 locales " />
-    <Copy SourceFiles="@(CefLocales64)" DestinationFolder="$(CefSharpTargetDir)\x64\locales" SkipUnchangedFiles="true" />
+    <Message Importance="high" Text="Copying cef.redist x64 files" />
+    <Copy SourceFiles="@(CefRedist64)" DestinationFiles="@(CefRedist64->'$(CefSharpTargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
 
     <Message Importance="high" Text="-- CefSharp.Common.targets: Copying files from $(MSBuildThisFileDirectory)..\CefSharp\x86 to $(CefSharpTargetDir)\x86" />
     <Copy SourceFiles="@(CefSharpBinaries32)" DestinationFolder="$(CefSharpTargetDir)\x86" SkipUnchangedFiles="true" />

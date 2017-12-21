@@ -4,6 +4,8 @@
 
 using System.Collections.Generic;
 
+using Size = CefSharp.Structs.Size;
+
 namespace CefSharp
 {
     /// <summary>
@@ -17,6 +19,15 @@ namespace CefSharp
         /// <param name="browserControl">The <see cref="IWebBrowser"/> control this popup is related to.</param>
         /// <param name="addressChangedArgs">args</param>
         void OnAddressChanged(IWebBrowser browserControl, AddressChangedEventArgs addressChangedArgs);
+
+        /// <summary>
+        /// Called when auto-resize is enabled via IBrowserHost.SetAutoResizeEnabled and the contents have auto-resized.
+        /// </summary>
+        /// <param name="browserControl">The ChromiumWebBrowser control</param>
+        /// <param name="browser">the browser object</param>
+        /// <param name="newSize">will be the desired size in view coordinates</param>
+        /// <returns>Return true if the resize was handled or false for default handling. </returns>
+        bool OnAutoResize(IWebBrowser browserControl, IBrowser browser, Size newSize);
 
         /// <summary>
         /// Called when the page title changes.

@@ -55,7 +55,8 @@ namespace CefSharp.Wpf
         /// </summary>
         private bool ignoreUriChange;
         /// <summary>
-        /// The browser created
+        /// Has the underlying Cef Browser been created (slightly different to initliazed in that
+        /// the browser is initialized in an async fashion)
         /// </summary>
         private bool browserCreated;
         /// <summary>
@@ -89,6 +90,11 @@ namespace CefSharp.Wpf
         /// and calling in a sync fashion on the UI thread was problematic.
         /// </summary>
         private Point browserScreenLocation;
+        /// <summary>
+        /// The request context (we deliberately use a private variable so we can throw an exception if
+        /// user attempts to set after browser created)
+        /// </summary>
+        private IRequestContext requestContext;
 
         /// <summary>
         /// A flag that indicates whether or not the designer is active
@@ -105,7 +111,23 @@ namespace CefSharp.Wpf
         /// Gets or sets the request context.
         /// </summary>
         /// <value>The request context.</value>
-        public RequestContext RequestContext { get; set; }
+        public IRequestContext RequestContext
+        {
+            get { return requestContext; }
+            set
+            {
+                if (browserCreated)
+                {
+                    throw new Exception("Browser has already been created. RequestContext must be" +
+                                        "set before the underlying CEF browser is created.");
+                }
+                if (value != null && value.GetType() != typeof(RequestContext))
+                {
+                    throw new Exception(string.Format("RequestContxt can only be of type {0} or null", typeof(RequestContext)));
+                }
+                requestContext = value;
+            }
+        }
         /// <summary>
         /// Implement <see cref="IDialogHandler" /> and assign to handle dialog events.
         /// </summary>
@@ -799,6 +821,11 @@ namespace CefSharp.Wpf
         }
 
         void IRenderWebBrowser.OnImeCompositionRangeChanged(Range selectedRange, Rect[] characterBounds)
+        {
+            OnImeCompositionRangeChanged(selectedRange, characterBounds);
+        }
+
+        protected virtual void OnImeCompositionRangeChanged(Range selectedRange, Rect[] characterBounds)
         {
             //TODO: Implement this
         }
@@ -1547,7 +1574,7 @@ namespace CefSharp.Wpf
                         window.LocationChanged += OnWindowLocationChanged;
                     }
 
-                    updateBrowserScreenLocation();
+                    UpdateBrowserScreenLocation();
                 }
             }
             else if (args.OldSource != null)
@@ -1589,9 +1616,9 @@ namespace CefSharp.Wpf
             }
         }
 
-        private void updateBrowserScreenLocation()
+        private void UpdateBrowserScreenLocation()
         {
-            if (PresentationSource.FromVisual(this) != null)
+            if (source != null)
             {
                 browserScreenLocation = PointToScreen(new Point());
             }
@@ -1601,7 +1628,7 @@ namespace CefSharp.Wpf
         {
             //We maintain a manual reference to the controls screen location
             //(relative to top/left of the screen)
-            updateBrowserScreenLocation();
+            UpdateBrowserScreenLocation();
         }
 
         /// <summary>
@@ -1635,7 +1662,7 @@ namespace CefSharp.Wpf
             var webBrowserInternal = this as IWebBrowserInternal;
             if (!webBrowserInternal.HasParent)
             {
-                managedCefBrowserAdapter.CreateOffscreenBrowser(source == null ? IntPtr.Zero : source.Handle, BrowserSettings, RequestContext, Address);
+                managedCefBrowserAdapter.CreateOffscreenBrowser(source == null ? IntPtr.Zero : source.Handle, BrowserSettings, (RequestContext)RequestContext, Address);
             }
             browserCreated = true;
 
@@ -1752,7 +1779,7 @@ namespace CefSharp.Wpf
             tooltipTimer.IsEnabled = false;
 
             //Initial value for screen location
-            updateBrowserScreenLocation();
+            UpdateBrowserScreenLocation();
         }
 
         /// <summary>
@@ -1906,7 +1933,7 @@ namespace CefSharp.Wpf
         private void OnTooltipTimerTick(object sender, EventArgs e)
         {
             // Checks to see if the control is disposed/disposing
-            if (Interlocked.CompareExchange(ref disposeCount, 1, 1) != 1)
+            if (!IsDisposed)
             {
                 tooltipTimer.Stop();
 
@@ -2036,13 +2063,15 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="T:System.Windows.Input.MouseEventArgs" /> that contains the event data.</param>
         protected override void OnMouseMove(MouseEventArgs e)
         {
-            if (browser != null)
+            if (!e.Handled && browser != null)
             {
                 var point = e.GetPosition(this);
                 var modifiers = e.GetModifiers();
 
                 browser.GetHost().SendMouseMoveEvent((int)point.X, (int)point.Y, false, modifiers);
             }
+
+            base.OnMouseMove(e);
         }
 
         /// <summary>
@@ -2051,7 +2080,7 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="T:System.Windows.Input.MouseWheelEventArgs" /> that contains the event data.</param>
         protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
-            if (browser != null)
+            if (!e.Handled && browser != null)
             {
                 var point = e.GetPosition(this);
                 var modifiers = e.GetModifiers();
@@ -2066,6 +2095,8 @@ namespace CefSharp.Wpf
                     deltaY: !isShiftKeyDown ? e.Delta : 0,
                     modifiers: modifiers);
             }
+
+            base.OnMouseWheel(e);
         }
 
         /// <summary>
@@ -2104,6 +2135,8 @@ namespace CefSharp.Wpf
         {
             Focus();
             OnMouseButton(e);
+
+            base.OnMouseDown(e);
         }
 
         /// <summary>
@@ -2113,6 +2146,8 @@ namespace CefSharp.Wpf
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
             OnMouseButton(e);
+
+            base.OnMouseUp(e);
         }
 
         /// <summary>
@@ -2121,7 +2156,7 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="T:System.Windows.Input.MouseEventArgs" /> that contains the event data.</param>
         protected override void OnMouseLeave(MouseEventArgs e)
         {
-            if (browser != null)
+            if (!e.Handled && browser != null)
             {
                 var modifiers = e.GetModifiers();
 
@@ -2129,6 +2164,8 @@ namespace CefSharp.Wpf
 
                 ((IWebBrowserInternal)this).SetTooltipText(null);
             }
+
+            base.OnMouseLeave(e);
         }
 
         /// <summary>
@@ -2137,7 +2174,7 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="MouseButtonEventArgs"/> instance containing the event data.</param>
         private void OnMouseButton(MouseButtonEventArgs e)
         {
-            if (browser != null)
+            if (!e.Handled && browser != null)
             {
                 var modifiers = e.GetModifiers();
                 var mouseUp = (e.ButtonState == MouseButtonState.Released);
