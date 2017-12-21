@@ -15,6 +15,7 @@
                     var p = document.createElement('p');
                     var br = document.createElement('br');
                     var br2 = document.createElement('br');
+                    var hr = document.createElement('hr');
                     var title = document.createTextNode('Async Call: ');
                     var callText = document.createTextNode(call);
                     var endText = document.createTextNode(end);
@@ -24,13 +25,14 @@
                     p.appendChild(callText);
                     p.appendChild(br2);
                     p.appendChild(endText);
-
+                    p.appendChild(hr);
+                
                     asResult.appendChild(p);
                 }
 
                 function asyncError()
                 {
-                    var call = "Async call (Throw Exception): " + Date();
+                    let call = "Async call (Throw Exception): " + Date();
                     boundAsync.error().catch(function (e)
                     {
                         var end = "Error: " + e + "(" + Date() + ")";
@@ -38,14 +40,14 @@
                     });
                 }
 
-                function asyncDivOk()
+                async function asyncDivOk()
                 {
-                    var call = "Async call (Divide 16 / 2): " + Date();
-                    boundAsync.div(16, 2).then(function (res)
-                    {
-                        var end = "Result: " + res + "(" + Date() + ")";
-                        writeAsyncResult(call, end);
-                    });
+                    let call = "Async call (Divide 16 / 2): " + Date();
+                    
+                    let res = await boundAsync.div(16, 2);
+
+                    let end = "Result: " + res + "(" + Date() + ")";
+                    writeAsyncResult(call, end);
                 }
 
                 function asyncDivFail()
@@ -63,46 +65,49 @@
                     });
                 }
 
-                function asyncHello()
+                async function asyncHello()
                 {
-                    var call = "Async call (Hello): " + Date();
-                    boundAsync.hello('CefSharp').then(function (res)
-                    {
-                        var end = "Result: " + res + "(" + Date() + ")";
-                        writeAsyncResult(call, end);
-                    });
+                    let call = "Async call (Hello): " + Date();
+                    let res = await boundAsync.hello('CefSharp');
+
+                    var end = "Result: " + res + "(" + Date() + ")";
+                    writeAsyncResult(call, end);
+
+                    return end;
                 }
 
-                function asyncDoSomething()
+                async function asyncDoSomething()
                 {
-                    var call = "Async call (Long Running Task): " + Date();
-                    boundAsync.doSomething().then(function (res)
-                    {
-                        var end = "Result: " + res + "(" + Date() + ")";
-                        writeAsyncResult(call, end);
-                    });
+                    let call = "Async call (Long Running Task): " + Date();
+                    let res = await boundAsync.doSomething();
+
+                    let end = "Result: " + res + "(" + Date() + ")";
+                    writeAsyncResult(call, end);
                 }
 
-                function asyncObject()
+                async function asyncObject()
                 {
-                    var call = "Async call (Object): " + Date();
-                    boundAsync.returnObject('CefSharp').then(function (res)
-                    {
-                        var end = "Result: " + JSON.stringify(res) + " (" + Date() + ")";
-                        writeAsyncResult(call, end);
-                    });
+                    let call = "Async call (Object): " + Date();
+                    var res = await boundAsync.returnObject('CefSharp');
+                    var end = "Result: " + JSON.stringify(res) + " (" + Date() + ")";
+                    writeAsyncResult(call, end);
                 }
 
-                function asyncObjectArray()
+                async function asyncObjectArray()
                 {
-                    var call = "Async call (ObjectArray): " + Date();
-                    boundAsync.objectArray('CefSharp').then(function (res)
-                    {
-                        var end = "Result: [ " + res.map(function (item) { return item.Value }) + " ] (" + Date() + ")";
-                        writeAsyncResult(call, end);
-                    });
+                    let call = "Async call (ObjectArray): " + Date();
+                    let res = await boundAsync.objectArray('CefSharp');
+                    let end = "Result: [ " + res.map(function (item) { return item.Value }) + " ] (" + Date() + ")";
+                    writeAsyncResult(call, end);
                 }
 
+                async function asyncDictionaryPassedAsParam()
+                {
+                    let call = [{ Name : "Chrome", Engine : {Name : "WebKit"} }, { Name : "Chromium", Engine : {Name : "WebKit"} }, { Name : "Opera", Engine : {Name : "WebKit"} }];
+                    let res = await boundAsync.dynamiObjectList(call);
+                    writeAsyncResult(call, res);
+                }
+            
                 asyncError();
                 asyncDivOk();
                 asyncDivFail();
@@ -110,6 +115,7 @@
                 asyncHello();
                 asyncObject();
                 asyncObjectArray();
+                asyncDictionaryPassedAsParam();
             </script>
         </p>
         <p>
@@ -293,13 +299,8 @@
             <script type="text/javascript">
                 function str2ab(str)
                 {
-                    var buf = new ArrayBuffer(str.length * 2); // 2 bytes for each char
-                    var bufView = new Uint16Array(buf);
-                    for (var i = 0, strLen = str.length; i < strLen; i++)
-                    {
-                        bufView[i] = str.charCodeAt(i);
-                    }
-                    return buf;
+                    var enc = new TextEncoder("utf-8");
+                    return enc.encode(str).buffer;
                 }
 
                 document.write(bound.methodWithParams('With 1 Params', 'hello-world') + "<br/>");
@@ -313,8 +314,11 @@
                 document.write(bound.methodWithThreeParamsOneOptionalOneArray("Test", null) + "<br/>");
                 document.write(bound.methodWithThreeParamsOneOptionalOneArray(null, null, "Arg1", "Arg2") + "<br/>");
 
-                var buffer = str2ab("Testing array buffer");
-                document.write(bound.complexParamObject(buffer));
+                //CEF Does not currently support ArrayBuffer directly
+                //https://bitbucket.org/chromiumembedded/cef/issues/244
+                //https://bitbucket.org/chromiumembedded/cef/pull-requests/12/v8-renderer-add-basic-arraybuffer-support/diff
+                //var buffer = str2ab("Testing array buffer");
+                //document.write(bound.complexParamObject(buffer));
             </script>
         </p>
     </body>

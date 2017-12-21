@@ -100,7 +100,7 @@ namespace CefSharp.ModelBinding
 
                     if (val != null)
                     {
-                        if (val.GetType() == typeof(Dictionary<string, object>))
+                        if (typeof(IDictionary<string, object>).IsAssignableFrom(val.GetType()))
                         {
                             var subModel = Bind(val, genericType);
                             model.Add(subModel);
@@ -114,13 +114,18 @@ namespace CefSharp.ModelBinding
             }
             else
             {
-                foreach (var modelProperty in bindingContext.ValidModelBindingMembers)
-                {
-                    var val = GetValue(modelProperty.Name, bindingContext);
-
-                    if (val != null)
+                //If the object type is a dictionary (we're using ExpandoObject instead of Dictionary now)
+                //Then attempt to bind all the members
+                if (typeof(IDictionary<string, object>).IsAssignableFrom(bindingContext.Object.GetType()))
+                { 
+                    foreach (var modelProperty in bindingContext.ValidModelBindingMembers)
                     {
-                        BindValue(modelProperty, val, bindingContext);
+                        var val = GetValue(modelProperty.Name, bindingContext);
+
+                        if (val != null)
+                        {
+                            BindValue(modelProperty, val, bindingContext);
+                        }
                     }
                 }
             }
@@ -187,13 +192,10 @@ namespace CefSharp.ModelBinding
 
         protected virtual object GetValue(string propertyName, BindingContext context)
         {
-            if (context.Object.GetType() == typeof(Dictionary<string, object>))
+            var dictionary = (IDictionary<string, object>)context.Object;
+            if (dictionary.ContainsKey(propertyName))
             {
-                var dictionary = (Dictionary<string, object>)context.Object;
-                if (dictionary.ContainsKey(propertyName))
-                {
-                    return dictionary[propertyName];
-                }
+                return dictionary[propertyName];
             }
 
             return null;

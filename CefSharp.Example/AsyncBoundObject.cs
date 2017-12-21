@@ -3,7 +3,9 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text;
 using System.Threading;
 
 namespace CefSharp.Example
@@ -34,9 +36,11 @@ namespace CefSharp.Example
             return "Hello " + name;
         }
 
-        public void DoSomething()
+        public string DoSomething()
         {
             Thread.Sleep(1000);
+
+            return "Waited for 1000ms before returning";
         }
 
         public JsObject ReturnObject(string name)
@@ -54,6 +58,18 @@ namespace CefSharp.Example
                 new JsObject() { Value = "Item1" },
                 new JsObject() { Value = "Item2" }
             };
+        }
+
+        public string DynamiObjectList(IList<dynamic> objects)
+        {
+            var builder = new StringBuilder();
+
+            foreach(var browser in objects)
+            {
+                builder.Append("Browser(Name:" + browser.Name + ";Engine:" + browser.Engine.Name + ");");
+            }
+
+            return builder.ToString();
         }
     }
 }
