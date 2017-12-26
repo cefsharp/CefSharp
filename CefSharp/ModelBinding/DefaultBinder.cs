@@ -98,17 +98,14 @@ namespace CefSharp.ModelBinding
                 {
                     var val = GetValue(bindingContext, i);
 
-                    if (val != null)
+                    if (val != null && typeof(IDictionary<string, object>).IsAssignableFrom(val.GetType()))
                     {
-                        if (val.GetType() == typeof(Dictionary<string, object>))
-                        {
-                            var subModel = Bind(val, genericType);
-                            model.Add(subModel);
-                        }
-                        else
-                        { 
-                            model.Add(val);
-                        }
+                        var subModel = Bind(val, genericType);
+                        model.Add(subModel);
+                    }
+                    else
+                    { 
+                        model.Add(val);
                     }
                 }
             }

@@ -1596,18 +1596,6 @@ namespace CefSharp.Wpf
         }
 
         /// <summary>
-        /// Removes the source hook.
-        /// </summary>
-        private void RemoveSourceHook()
-        {
-            if (source != null && sourceHook != null)
-            {
-                source.RemoveHook(sourceHook);
-                source = null;
-            }
-        }
-
-        /// <summary>
         /// Create the underlying Browser instance, can be overriden to defer control creation
         /// The browser will only be created when size &gt; Size(0,0). If you specify a positive
         /// size then the browser will be created, if the ActualWidth and ActualHeight
@@ -1806,6 +1794,7 @@ namespace CefSharp.Wpf
             return newPopup;
         }
 
+        /// <summary>
         /// Converts a .NET Drag event to a CefSharp MouseEvent
         /// </summary>
         /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
