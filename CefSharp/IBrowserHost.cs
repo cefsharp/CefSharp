@@ -5,6 +5,8 @@
 using System;
 using System.Threading.Tasks;
 
+using Size = CefSharp.Structs.Size;
+
 namespace CefSharp
 {
     /// <summary>
@@ -237,7 +239,7 @@ namespace CefSharp
         /// <summary>
         /// Send a mouse click event to the browser.
         /// </summary>
-        /// <param name=param name="mouseEvent">mouse event - x, y and modifiers</param>
+        /// <param name="mouseEvent">mouse event - x, y and modifiers</param>
         /// <param name="mouseButtonType">Mouse ButtonType</param>
         /// <param name="mouseUp">mouse up</param>
         /// <param name="clickCount">click count</param>
@@ -246,10 +248,35 @@ namespace CefSharp
         /// <summary>
         /// Send a mouse wheel event to the browser.
         /// </summary>
-        /// <param name=param name="mouseEvent">mouse event - x, y and modifiers</param>
+        /// <param name="mouseEvent">mouse event - x, y and modifiers</param>
         /// <param name="deltaX">Movement delta for X direction.</param>
         /// <param name="deltaY">movement delta for Y direction.</param>
         void SendMouseWheelEvent(MouseEvent mouseEvent, int deltaX, int deltaY);
+
+        /// <summary>
+        /// Set accessibility state for all frames.  If accessibilityState is Default then accessibility will be disabled by default
+        /// and the state may be further controlled with the "force-renderer-accessibility" and "disable-renderer-accessibility"
+        /// command-line switches. If accessibilityState is STATE_ENABLED then accessibility will be enabled.
+        /// If accessibilityState is STATE_DISABLED then accessibility will be completely disabled. For windowed browsers
+        /// accessibility will be enabled in Complete mode (which corresponds to kAccessibilityModeComplete in Chromium).
+        /// In this mode all platform accessibility objects will be created and managed by Chromium's internal implementation.
+        /// The client needs only to detect the screen reader and call this method appropriately. For example, on Windows the
+        /// client can handle WM_GETOBJECT with OBJID_CLIENT to detect accessibility readers. For windowless browsers accessibility
+        /// will be enabled in TreeOnly mode (which corresponds to kAccessibilityModeWebContentsOnly in Chromium). In this mode
+        /// renderer accessibility is enabled, the full tree is computed, and events are passed to IAccessibiltyHandler,
+        /// but platform accessibility objects are not created. The client may implement platform accessibility objects using
+        /// IAccessibiltyHandler callbacks if desired. 
+        /// </summary>
+        /// <param name="accessibilityState">may be default, enabled or disabled.</param>
+        void SetAccessibilityState(CefState accessibilityState);
+
+        /// <summary>
+        /// Enable notifications of auto resize via IDisplayHandler.OnAutoResize. Notifications are disabled by default.
+        /// </summary>
+        /// <param name="enabled">enable auto resize</param>
+        /// <param name="minSize">minimum size</param>
+        /// <param name="maxSize">maximum size</param>
+        void SetAutoResizeEnabled(bool enabled, Size minSize, Size maxSize);
 
         /// <summary>
         /// Set whether the browser is focused. (Used for Normal Rendering e.g. WinForms)

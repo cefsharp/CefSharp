@@ -40,6 +40,16 @@ namespace CefSharp.WinForms
         /// A flag that indicates whether or not <see cref="InitializeFieldsAndCefIfRequired"/> has been called.
         /// </summary>
         private bool initialized;
+        /// <summary>
+        /// Has the underlying Cef Browser been created (slightly different to initliazed in that
+        /// the browser is initialized in an async fashion)
+        /// </summary>
+        private bool browserCreated;
+        /// <summary>
+        /// The request context (we deliberately use a private variable so we can throw an exception if
+        /// user attempts to set after browser created)
+        /// </summary>
+        private IRequestContext requestContext;
 
         /// <summary>
         /// Set to true while handing an activating WM_ACTIVATE message.
@@ -58,7 +68,23 @@ namespace CefSharp.WinForms
         /// Gets or sets the request context.
         /// </summary>
         /// <value>The request context.</value>
-        public RequestContext RequestContext { get; set; }
+        public IRequestContext RequestContext
+        {
+            get { return requestContext; }
+            set
+            {
+                if (browserCreated)
+                {
+                    throw new Exception("Browser has already been created. RequestContext must be" +
+                                        "set before the underlying CEF browser is created.");
+                }
+                if(value != null && value.GetType() != typeof(RequestContext))
+                {
+                    throw new Exception(string.Format("RequestContxt can only be of type {0} or null", typeof(RequestContext)));
+                }
+                requestContext = value;
+            }
+        }
         /// <summary>
         /// A flag that indicates whether the control is currently loading one or more web pages (true) or not (false).
         /// </summary>
@@ -309,10 +335,13 @@ namespace CefSharp.WinForms
         /// Initializes a new instance of the <see cref="ChromiumWebBrowser"/> class.
         /// </summary>
         /// <param name="address">The address.</param>
-        public ChromiumWebBrowser(string address)
+        /// <param name="requestContext">Request context that will be used for this browser instance,
+        /// if null the Global Request Context will be used</param>
+        public ChromiumWebBrowser(string address, IRequestContext requestContext = null)
         {
             Dock = DockStyle.Fill;
             Address = address;
+            RequestContext = requestContext;
 
             InitializeFieldsAndCefIfRequired();
         }
@@ -519,9 +548,11 @@ namespace CefSharp.WinForms
         [MethodImpl(MethodImplOptions.NoInlining)]
         private void CreateBrowser()
         {
+            browserCreated = true;
+
             if (((IWebBrowserInternal)this).HasParent == false)
             {
-                managedCefBrowserAdapter.CreateBrowser(BrowserSettings, RequestContext, Handle, Address);
+                managedCefBrowserAdapter.CreateBrowser(BrowserSettings, (RequestContext)requestContext, Handle, Address);
             }
         }
 

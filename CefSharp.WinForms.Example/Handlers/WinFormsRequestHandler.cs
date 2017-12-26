@@ -4,7 +4,7 @@
 
 using System;
 using System.Windows.Forms;
-using CefSharp.Example;
+using CefSharp.Example.Handlers;
 using CefSharp.WinForms.Internals;
 using System.Security.Cryptography.X509Certificates;
 
@@ -19,7 +19,7 @@ namespace CefSharp.WinForms.Example.Handlers
             this.openNewTab = openNewTab;
         }
 
-        protected override bool OnOpenUrlFromTab(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, WindowOpenDisposition targetDisposition, bool userGesture)
+        public override bool OnOpenUrlFromTab(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, WindowOpenDisposition targetDisposition, bool userGesture)
         {
             if(openNewTab == null)
             {
@@ -36,7 +36,7 @@ namespace CefSharp.WinForms.Example.Handlers
             return true;
         }
 
-        protected override bool OnSelectClientCertificate(IWebBrowser browserControl, IBrowser browser, bool isProxy, string host, int port, X509Certificate2Collection certificates, ISelectClientCertificateCallback callback)
+        public override bool OnSelectClientCertificate(IWebBrowser browserControl, IBrowser browser, bool isProxy, string host, int port, X509Certificate2Collection certificates, ISelectClientCertificateCallback callback)
         {
             var control = (Control)browserControl;
 

@@ -4,7 +4,7 @@
 
 using System.Collections.Generic;
 using System.Windows.Forms;
-using CefSharp;
+using CefSharp.Structs;
 using CefSharp.WinForms.Internals;
 
 namespace CefSharp.WinForms.Example.Handlers
@@ -17,6 +17,11 @@ namespace CefSharp.WinForms.Example.Handlers
         void IDisplayHandler.OnAddressChanged(IWebBrowser browserControl, AddressChangedEventArgs addressChangedArgs)
         {
             
+        }
+
+        bool IDisplayHandler.OnAutoResize(IWebBrowser browserControl, IBrowser browser, Size newSize)
+        {
+            return false;
         }
 
         void IDisplayHandler.OnTitleChanged(IWebBrowser browserControl, TitleChangedEventArgs titleChangedArgs)

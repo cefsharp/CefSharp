@@ -40,6 +40,7 @@ namespace CefSharp
             }
 
         public:
+            virtual property UrlRequestFlags Flags { UrlRequestFlags get(); void set(UrlRequestFlags flags); }
             virtual property String^ Url { String^ get(); void set(String^ url); }
             virtual property String^ Method { String^ get(); void set(String^ method); }
             virtual property UInt64 Identifier { UInt64 get(); }
@@ -51,7 +52,6 @@ namespace CefSharp
             virtual property TransitionType TransitionType { CefSharp::TransitionType get(); }
             virtual property IPostData^ PostData { IPostData^ get(); }
             virtual property bool IsReadOnly { bool get(); }
-            virtual void SetFlags(CefSharp::UrlRequestFlags flags);
             virtual void InitializePostData();
 
             operator CefRefPtr<CefRequest>()
