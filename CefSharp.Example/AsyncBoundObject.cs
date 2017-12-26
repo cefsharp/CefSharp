@@ -39,9 +39,9 @@ namespace CefSharp.Example
             return "Waited for 1000ms before returning";
         }
 
-        public JsObject ReturnObject(string name)
+        public JsSerializableClass ReturnObject(string name)
         {
-            return new JsObject
+            return new JsSerializableClass
             {
                 Value = name
             };
