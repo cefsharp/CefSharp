@@ -22,7 +22,7 @@ It maybe helpful to run the `cefclient` application and compare output with `Cef
 - To compare with WPF run `cefclient --multi-threaded-message-loop --off-screen-rendering-enabled`
 - To compare with WinForms `cefclient --multi-threaded-message-loop`
 
-To determine which version of `CEF` your build is running, open `chrome://version` and you'll see a number similar to `3.2062.1898`, in this case `2062` represents the branch which corresponds to http://cefbuilds.com/#branch_2062
+To determine which version of `CEF` your build is running, open `chrome://version` and you'll see a number similar to `3.2987.1597.gffc5773`. Open http://opensource.spotify.com/cefbuilds/index.html and download the `Sample Application` that exactly matches. If your using an older build click `Show More Builds`.
 
 ### What should I include when creating an `Issue`?
 
@@ -42,7 +42,7 @@ Your bug report should **always follow this template**:
     - A stack trace if available, any Exception information.
     - Does the cef log provide any relevant information? (By default there should be a debug.log file in your bin directory)
 - Any other background information that's relevant? Are you doing something out of the ordinary? 3rd party controls?
-- **Does this problem also occur in the `Cef` TestApp from http://cefbuilds.com?**
+- **Does this problem also occur in the `CEF Sample Application` from http://opensource.spotify.com/cefbuilds/index.html?**
 
 Your bug report should include **what you were doing** in the software when you encountered it, **what you were expecting** to happen and **what happened instead**.
 
@@ -82,6 +82,11 @@ Pull requests are **awesome**. If you're looking to raise a `PR` for something w
 - If you wish to keep progressing on your work, please maintain a feature branch independent of the branch referenced by your pull request. From your WIP branch you can selectively merge in changes to the PR branch as required.
 - In general, it's much better to be "too granular" with PR's that contain "change-the-world"-kind of changes, which usually tend to lag behind a lot longer before getting merged (if they ever will...).
 - Small (really, minimalistic) commits. Each individual commit only adds one specific thing. The basic approach to achieving this is to read your commit message. Do you feel the need to add multiple lines? Then you're doing too much at the same time.
+- Keep the first line of commit message short (max 50 characters), then a blank line, then a full description if needed. Good example:
+
+  > Run tests in the default appdomain
+  > 
+  > Due to limitations of VC++ we must run our tests in the default appdomain, it's possible to use xunit for testing. Readd CefSharp.Test.csproj to solution Add some very basic unit tests using xunit, DisableTestParallelization, Set xunit.appDomain to denied in app.config to disable using appdomains (https://xunit.github.io/docs/configuring-with-xml.html) Add xunit vs test running packages, using 2.2.0 version as 2.3.0 was throwing an exception similar to https://github.com/xunit/xunit/issues/1514 TODO: Take a look at https://github.com/NuGet/NuGetGallery/tree/master/tests/NuGetGallery.Facts for some ideas on structuring xunit tests (look at implementing Theory)
 
 ### Coding Style
 - **Please** follow existing coding style when submitting pull requests.

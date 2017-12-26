@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\cef.sdk.3.2987.1601\build\cef.sdk.props" Condition="Exists('..\packages\cef.sdk.3.2987.1601\build\cef.sdk.props')" />
+  <Import Project="..\packages\cef.sdk.3.3239.1709\build\cef.sdk.props" Condition="Exists('..\packages\cef.sdk.3.3239.1709\build\cef.sdk.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -67,7 +67,7 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros">
-    <NuGetPackageImportStamp>39d6b860</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>19456c3c</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -107,7 +107,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>libcef.lib;libcef_dll_wrapper.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration);$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration)\VS$(VisualStudioProductVersion);$(SolutionDir)CefSharp.Core\bin</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration);$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration)\VS$(VisualStudioProductVersion);</AdditionalLibraryDirectories>
       <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
@@ -122,7 +122,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>libcef.lib;libcef_dll_wrapper.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration);$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration)\VS$(VisualStudioProductVersion);$(SolutionDir)CefSharp.Core\bin</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration);$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration)\VS$(VisualStudioProductVersion);</AdditionalLibraryDirectories>
       <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
@@ -221,10 +221,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ResourceCompile Include="Resource.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Resource.rc" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

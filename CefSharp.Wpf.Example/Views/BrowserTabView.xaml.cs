@@ -3,16 +3,15 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System.Drawing;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Collections.Generic;
 using CefSharp.Example;
+using CefSharp.Example.Handlers;
 using CefSharp.Wpf.Example.Handlers;
-using CefSharp.ModelBinding;
 using CefSharp.Wpf.Example.ViewModels;
 using System.IO;
+using CefSharp.Example.ModelBinding;
 
 namespace CefSharp.Wpf.Example.Views
 {
@@ -27,10 +26,14 @@ namespace CefSharp.Wpf.Example.Views
 
             browser.RequestHandler = new RequestHandler();
             browser.RegisterJsObject("bound", new BoundObject(), BindingOptions.DefaultBinder);
-            browser.RegisterAsyncJsObject("boundAsync", new AsyncBoundObject(), BindingOptions.DefaultBinder);
-            // Enable touch scrolling - once properly tested this will likely become the default
-            //browser.IsManipulationEnabled = true;
+            var bindingOptions = new BindingOptions() 
+            {
+                Binder = BindingOptions.DefaultBinder.Binder,
+                MethodInterceptor = new MethodInterceptorLogger() // intercept .net methods calls from js and log it
+            };
+            browser.RegisterAsyncJsObject("boundAsync", new AsyncBoundObject(), bindingOptions);
 
+            browser.DisplayHandler = new DisplayHandler();
             browser.LifeSpanHandler = new LifespanHandler();
             browser.MenuHandler = new MenuHandler();
             browser.GeolocationHandler = new GeolocationHandler();

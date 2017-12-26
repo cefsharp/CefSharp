@@ -199,4 +199,10 @@
   <data name="Recaptcha" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Recaptcha.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="UnicodeExampleGreaterThan32kb" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UnicodeExampleGreaterThan32kb.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="UnocodeExampleEqualTo32kb" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UnocodeExampleEqualTo32kb.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

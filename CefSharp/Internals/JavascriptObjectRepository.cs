@@ -89,6 +89,7 @@ namespace CefSharp.Internals
             jsObject.Name = name;
             jsObject.JavascriptName = name;
             jsObject.Binder = options == null ? null : options.Binder;
+            jsObject.MethodInterceptor = options == null ? null : options.MethodInterceptor;
 
             AnalyseObjectForBinding(jsObject, analyseMethods: true, analyseProperties: analyseProperties, readPropertyValue: false, camelCaseJavascriptNames: camelCaseJavascriptNames);
 
@@ -173,21 +174,28 @@ namespace CefSharp.Internals
                             { 
                                 var paramType = method.Parameters[i].Type;
 
-                                if(parameters[i].GetType() == typeof(Dictionary<string, object>))
+                                if(typeof(IDictionary<string, object>).IsAssignableFrom(parameters[i].GetType()))
                                 {
-                                    var dictionary = (Dictionary<string, object>)parameters[i];
+                                    var dictionary = (IDictionary<string, object>)parameters[i];
                                     parameters[i] = obj.Binder.Bind(dictionary, paramType);
                                 }
-                                else if (parameters[i].GetType() == typeof(List<object>))
+                                else if (typeof(IList<object>).IsAssignableFrom(parameters[i].GetType()))
                                 {
-                                    var list = (List<object>)parameters[i];
+                                    var list = (IList<object>)parameters[i];
                                     parameters[i] = obj.Binder.Bind(list, paramType);
                                 }
                             }
                         }
                     }
 
-                    result = method.Function(obj.Value, parameters);
+                    if (obj.MethodInterceptor == null) 
+                    {
+                        result = method.Function(obj.Value, parameters);
+                    }
+                    else 
+                    {
+                        result = obj.MethodInterceptor.Intercept(() => method.Function(obj.Value, parameters), method.ManagedName);
+                    }
                 }
                 catch (Exception e)
                 {
@@ -398,6 +406,11 @@ namespace CefSharp.Internals
             }
 
             if (baseType == null || baseType.IsArray || baseType.Namespace.StartsWith("System"))
+            {
+                return false;
+            }
+
+            if (baseType.IsValueType && !baseType.IsPrimitive && !baseType.IsEnum)
             {
                 return false;
             }

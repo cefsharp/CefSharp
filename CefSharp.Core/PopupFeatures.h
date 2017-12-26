@@ -87,29 +87,9 @@ namespace CefSharp
             bool get() { return _popupFeatures->toolBarVisible == 1; }
         }
 
-        virtual property bool LocationBarVisible
-        {
-            bool get() { return _popupFeatures->locationBarVisible == 1; }
-        }
-
         virtual property bool ScrollbarsVisible
         {
             bool get() { return _popupFeatures->scrollbarsVisible == 1; }
-        }
-
-        virtual property bool Resizable
-        {
-            bool get() { return _popupFeatures->resizable == 1; }
-        }
-
-        virtual property bool Fullscreen
-        {
-            bool get() { return _popupFeatures->fullscreen == 1; }
-        }
-
-        virtual property bool Dialog
-        {
-            bool get() { return _popupFeatures->dialog == 1; }
         }
 
         /*property List<String^>^ AdditionalFeatures

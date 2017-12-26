@@ -74,7 +74,9 @@
     <Compile Include="BoundObject.cs" />
     <Compile Include="CallbackResponseStruct.cs" />
     <Compile Include="Filters\AppendResponseFilter.cs" />
+    <Compile Include="Filters\FindReplaceMultiResponseFilter.cs" />
     <Compile Include="Filters\FindReplaceResponseFilter.cs" />
+    <Compile Include="Filters\MemoryStreamResponseFilter.cs" />
     <Compile Include="FlashResourceHandler.cs" />
     <Compile Include="FlashResourceHandlerFactory.cs" />
     <Compile Include="Filters\PassThruResponseFilter.cs" />
@@ -82,6 +84,7 @@
     <Compile Include="InMemorySchemeAndResourceHandlerFactory.cs" />
     <Compile Include="JsSerializableStruct.cs" />
     <Compile Include="JsSerializableClass.cs" />
+    <Compile Include="ModelBinding\MethodInterceptorLogger.cs" />
     <Compile Include="RequestEventHandler\EventArgs\BaseRequestEventArgs.cs" />
     <Compile Include="RequestEventHandler\EventArgs\GetAuthCredentialsEventArgs.cs" />
     <Compile Include="RequestEventHandler\EventArgs\GetResourceResponseFilterEventArgs.cs" />
@@ -112,7 +115,7 @@
     <Compile Include="TempFileDialogHandler.cs" />
     <Compile Include="CefExample.cs" />
     <Compile Include="DownloadHandler.cs" />
-    <Compile Include="RequestHandler.cs" />
+    <Compile Include="Handlers\RequestHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -156,6 +159,8 @@
     <Content Include="Resources\ResponseFilterTest.html" />
     <Content Include="Resources\SchemeTest.html" />
     <Content Include="Resources\ScriptedMethodsTest.html" />
+    <Content Include="Resources\UnicodeExampleGreaterThan32kb.html" />
+    <Content Include="Resources\UnocodeExampleEqualTo32kb.html" />
     <Content Include="Resources\TooltipTest.html" />
   </ItemGroup>
   <ItemGroup>

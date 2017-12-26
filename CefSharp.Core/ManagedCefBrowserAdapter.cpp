@@ -1,4 +1,4 @@
-// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright Â© 2010-2017 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -25,12 +25,11 @@ void ManagedCefBrowserAdapter::CreateOffscreenBrowser(IntPtr windowHandle, Brows
     auto hwnd = static_cast<HWND>(windowHandle.ToPointer());
 
     CefWindowInfo window;
-    auto transparent = browserSettings->OffScreenTransparentBackground.GetValueOrDefault(true);
-    window.SetAsWindowless(hwnd, transparent);
+    window.SetAsWindowless(hwnd);
     CefString addressNative = StringUtils::ToNative(address);
 
     if (!CefBrowserHost::CreateBrowser(window, _clientAdapter.get(), addressNative,
-        *browserSettings->_browserSettings, requestContext))
+        *browserSettings->_browserSettings, static_cast<CefRefPtr<CefRequestContext>>(requestContext)))
     {
         throw gcnew InvalidOperationException("Failed to create offscreen browser. Call Cef.Initialize() first.");
     }
@@ -78,7 +77,7 @@ void ManagedCefBrowserAdapter::CreateBrowser(BrowserSettings^ browserSettings, R
     CefString addressNative = StringUtils::ToNative(address);
 
     CefBrowserHost::CreateBrowser(window, _clientAdapter.get(), addressNative,
-        *browserSettings->_browserSettings, requestContext);
+        *browserSettings->_browserSettings, static_cast<CefRefPtr<CefRequestContext>>(requestContext));
 }
 
 void ManagedCefBrowserAdapter::Resize(int width, int height)

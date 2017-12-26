@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Globalization;
 using CefSharp.Internals;
 using System.IO;
+using System.Collections.Specialized;
 
 namespace CefSharp
 {
@@ -209,10 +210,7 @@ namespace CefSharp
         {
             if (browser.CanExecuteJavascriptInMainFrame == false)
             {
-                throw new Exception("Unable to execute javascript at this time, scripts can only be executed within a V8Context." +
-                                    "Use the IWebBrowser.CanExecuteJavascriptInMainFrame property to guard against this exception." +
-                                    "See https://github.com/cefsharp/CefSharp/wiki/General-Usage#when-can-i-start-executing-javascript " +
-                                    "for more details on when you can execute javascript.");
+                ThrowExceptionIfCanExecuteJavascriptInMainFrameFalse();
             }
 
             using (var frame = browser.GetMainFrame())
@@ -220,6 +218,40 @@ namespace CefSharp
                 ThrowExceptionIfFrameNull(frame);
 
                 frame.ExecuteJavaScriptAsync(script);
+            }
+        }
+
+        /// <summary>
+        /// Loads 
+        /// Creates a new instance of IRequest with the specified Url and Method = POST
+        /// </summary>
+        /// <param name="browser"></param>
+        /// <param name="url"></param>
+        /// <param name="postDataBytes"></param>
+        /// <param name="contentType"></param>
+        /// <remarks>This is an extension method</remarks>
+        public static void LoadUrlWithPostData(this IWebBrowser browser, string url, byte[] postDataBytes, string contentType = null)
+        {
+            using (var frame = browser.GetMainFrame())
+            {
+                ThrowExceptionIfFrameNull(frame);
+
+                //Initialize Request with PostData
+                var request = frame.CreateRequest(initializePostData:true);
+
+                request.Url = url;
+                request.Method = "POST";
+
+                request.PostData.AddData(postDataBytes);
+
+                if(!string.IsNullOrEmpty(contentType))
+                { 
+                    var headers = new NameValueCollection();
+                    headers.Add("Content-Type", contentType);
+                    request.Headers = headers;
+                }
+
+                frame.LoadRequest(request);
             }
         }
 
@@ -679,6 +711,18 @@ namespace CefSharp
         }
 
         /// <summary>
+        /// Shortcut method to get the browser IBrowserHost
+        /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
+        /// <returns>browserHost or null</returns>
+        public static IBrowserHost GetHost(IWebBrowser browser)
+        {
+            var cefBrowser = browser.GetBrowser();
+
+            return cefBrowser == null ? null : cefBrowser.GetHost();
+        }
+
+        /// <summary>
         /// Add the specified word to the spelling dictionary.
         /// </summary>
         /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
@@ -737,10 +781,7 @@ namespace CefSharp
 
             if(browser.CanExecuteJavascriptInMainFrame == false)
             {
-                throw new Exception("Unable to execute javascript at this time, scripts can only be executed within a V8Context." +
-                                    "Use the IWebBrowser.CanExecuteJavascriptInMainFrame property to guard against this exception." +
-                                    "See https://github.com/cefsharp/CefSharp/wiki/General-Usage#when-can-i-start-executing-javascript " +
-                                    "for more details on when you can execute javascript.");
+                ThrowExceptionIfCanExecuteJavascriptInMainFrameFalse();
             }
 
             using (var frame = browser.GetMainFrame())
@@ -868,6 +909,17 @@ namespace CefSharp
             {
                 throw new Exception("IBrowserHost instance is null. Browser has likely not finished initializing or is in the process of disposing.");
             }
+        }
+
+        private static void ThrowExceptionIfCanExecuteJavascriptInMainFrameFalse()
+        {
+            throw new Exception("Unable to execute javascript at this time, scripts can only be executed within a V8Context." +
+                                    "Use the IWebBrowser.CanExecuteJavascriptInMainFrame property to guard against this exception." +
+                                    "See https://github.com/cefsharp/CefSharp/wiki/General-Usage#when-can-i-start-executing-javascript " +
+                                    "for more details on when you can execute javascript. For frames that do not contain Javascript then no" +
+                                    "V8Context will be created. Executing a script once the frame has loaded it's possible to create a V8Context. " +
+                                    "You can use browser.GetMainFrame().ExecuteJavaScriptAsync(script) or browser.GetMainFrame().EvaluateScriptAsync " +
+                                    "to bypass these checks (advanced users only).");
         }
     }
 }

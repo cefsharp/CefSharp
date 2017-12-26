@@ -6,6 +6,9 @@ using System;
 
 namespace CefSharp.Internals
 {
+    /// <summary>
+    /// Information about the bitmap that should be rendered
+    /// </summary>
     public abstract class BitmapInfo
     {
         public object BitmapLock;
@@ -24,7 +27,7 @@ namespace CefSharp.Internals
         public abstract bool CreateNewBitmap { get; }
         public abstract void ClearBitmap();
 
-        public CefDirtyRect DirtyRect { get; set; }
+        public Rect DirtyRect { get; set; }
 
         protected BitmapInfo()
         {

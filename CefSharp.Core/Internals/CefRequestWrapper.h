@@ -40,6 +40,7 @@ namespace CefSharp
             }
 
         public:
+            virtual property UrlRequestFlags Flags { UrlRequestFlags get(); void set(UrlRequestFlags flags); }
             virtual property String^ Url { String^ get(); void set(String^ url); }
             virtual property String^ Method { String^ get(); void set(String^ method); }
             virtual property UInt64 Identifier { UInt64 get(); }

@@ -20,15 +20,21 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// camel case the javascript names of properties/methods, defaults to true
+        /// Camel case the javascript names of properties/methods, defaults to true
         /// </summary>
         public bool CamelCaseJavascriptNames { get; set; }
 
 
         /// <summary>
-        /// model binder used for passing complex classes as params to methods
+        /// Model binder used for passing complex classes as params to methods
         /// </summary>
         public IBinder Binder { get; set; }
+
+        /// <summary>
+        /// Interceptor used for intercepting calls to the target object methods. For instance, can be used 
+        /// for logging calls (from js) to .net methods.
+        /// </summary>
+        public IMethodInterceptor MethodInterceptor { get; set; }
 
         public BindingOptions()
         {

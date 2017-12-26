@@ -136,7 +136,7 @@ namespace CefSharp
                     // There is only one rect now that's a union of all dirty regions. API Still passes in a vector
 
                     CefRect r = dirtyRects.front();
-                    bitmapInfo->DirtyRect = CefDirtyRect(r.x, r.y, r.width, r.height);
+                    bitmapInfo->DirtyRect = Rect(r.x, r.y, r.width, r.height);
                 }
 
                 auto backBufferHandle = (HANDLE)bitmapInfo->BackBufferHandle;
@@ -179,7 +179,7 @@ namespace CefSharp
 
                 CopyMemory(backBufferHandle, (void*)buffer, bitmapInfo->NumberOfBytes);
 
-                _renderWebBrowser->InvokeRenderAsync(bitmapInfo);
+                _renderWebBrowser->OnPaint(bitmapInfo);
             };
 
             virtual DECL void OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor, CursorType type,

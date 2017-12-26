@@ -23,6 +23,7 @@ Delete this line and everything above, and then fill in the details below.
 - **What version of the product are you using?**
     - What version are you using? Nuget? CI Nuget? build from a branch? If so which branch?
 e.g. 53.0.1
+    - Please only create an issue if you can reproduce the problem with the latest version.
 
 - **What architecture x86 or x64?**
 
@@ -49,3 +50,4 @@ e.g. 53.0.1
     - To compare with WPF run cefclient --multi-threaded-message-loop --off-screen-rendering-enabled
     - To compare with WinForms run cefclient --multi-threaded-message-loop
     - If you can reproduce the problem with `cefclient` then you'll need to report the bug on https://bitbucket.org/chromiumembedded/cef/overview there is no point opening an issue here. (Make sure you search before opening an issue)
+    - Please include the version you tested with e.g. `cef_binary_3.3029.1611.g44e39a8_windows64_client.tar.bz2`

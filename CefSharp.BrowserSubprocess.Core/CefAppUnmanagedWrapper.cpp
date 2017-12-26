@@ -498,7 +498,7 @@ namespace CefSharp
     {
         for each (CefCustomScheme^ scheme in _schemes->AsReadOnly())
         {
-            registrar->AddCustomScheme(StringUtils::ToNative(scheme->SchemeName), scheme->IsStandard, scheme->IsLocal, scheme->IsDisplayIsolated, scheme->IsSecure, scheme->IsCorsEnabled);
+            registrar->AddCustomScheme(StringUtils::ToNative(scheme->SchemeName), scheme->IsStandard, scheme->IsLocal, scheme->IsDisplayIsolated, scheme->IsSecure, scheme->IsCorsEnabled, scheme->IsCSPBypassing);
         }
     }
 }

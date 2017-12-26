@@ -4,6 +4,8 @@
 
 using System.Collections.Generic;
 
+using Size = CefSharp.Structs.Size;
+
 namespace CefSharp
 {
     /// <summary>
@@ -17,6 +19,15 @@ namespace CefSharp
         /// <param name="browserControl">The <see cref="IWebBrowser"/> control this popup is related to.</param>
         /// <param name="addressChangedArgs">args</param>
         void OnAddressChanged(IWebBrowser browserControl, AddressChangedEventArgs addressChangedArgs);
+
+        /// <summary>
+        /// Called when auto-resize is enabled via IBrowserHost.SetAutoResizeEnabled and the contents have auto-resized.
+        /// </summary>
+        /// <param name="browserControl">The ChromiumWebBrowser control</param>
+        /// <param name="browser">the browser object</param>
+        /// <param name="newSize">will be the desired size in view coordinates</param>
+        /// <returns>Return true if the resize was handled or false for default handling. </returns>
+        bool OnAutoResize(IWebBrowser browserControl, IBrowser browser, Size newSize);
 
         /// <summary>
         /// Called when the page title changes.
@@ -54,8 +65,8 @@ namespace CefSharp
         /// <param name="text">the text that will be displayed in the tooltip</param>
         /// <returns>To handle the display of the tooltip yourself return true otherwise return false
         /// to allow the browser to display the tooltip.</returns>
-        /// <remarks>Option to modify tooltip is not currently implemented.</remarks>
-        bool OnTooltipChanged(IWebBrowser browserControl, string text);
+        /// <remarks>Only called when using Off-screen rendering (WPF and OffScreen)</remarks>
+        bool OnTooltipChanged(IWebBrowser browserControl, ref string text);
 
         /// <summary>
         /// Called when the browser receives a status message.

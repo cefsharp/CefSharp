@@ -182,6 +182,9 @@ namespace CefSharp.Example
             }
 
             Cef.AddCrossOriginWhitelistEntry(BaseUrl, "https", "cefsharp.com", false);
+
+            //Experimental option where bound async methods are queued on TaskScheduler.Default.
+            //CefSharpSettings.ConcurrentTaskExecution = true;
         }
 
         public static async void RegisterTestResources(IWebBrowser browser)
@@ -194,7 +197,6 @@ namespace CefSharp.Example
 
                 const string responseBody = "<html><body><h1>Success</h1><p>This document is loaded from a System.IO.Stream</p></body></html>";
                 var response = ResourceHandler.FromString(responseBody);
-                response.Headers.Add("HeaderTest1", "HeaderTest1Value");
                 handler.RegisterHandler(TestResourceUrl, response);
 
                 const string unicodeResponseBody = "<html><body>整体满意度</body></html>";
