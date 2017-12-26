@@ -93,19 +93,30 @@
                     writeAsyncResult(call, end);
                 }
 
-                async function asyncObjectArray()
-                {
-                    let call = "Async call (ObjectArray): " + Date();
-                    let res = await boundAsync.objectArray('CefSharp');
-                    let end = "Result: [ " + res.map(function (item) { return item.Value }) + " ] (" + Date() + ")";
-                    writeAsyncResult(call, end);
-                }
-
                 async function asyncDictionaryPassedAsParam()
                 {
                     let call = [{ Name : "Chrome", Engine : {Name : "WebKit"} }, { Name : "Chromium", Engine : {Name : "WebKit"} }, { Name : "Opera", Engine : {Name : "WebKit"} }];
                     let res = await boundAsync.dynamiObjectList(call);
                     writeAsyncResult(call, res);
+                }
+
+                function asyncStructsArray()
+                {
+                    var call = "Async call (StructsArray): " + Date();
+                    boundAsync.structsArray({ Value: 'CefSharp' }).then(function (res)
+                    {
+                        var end = "Result: [ " + res.map(function (item) { return item.Value }) + " ] (" + Date() + ")";
+                        writeAsyncResult(call, end);
+                    });
+                }
+              
+                function asyncClassesArray()
+                {
+                    var call = "Async call (ClassesArray): " + Date();
+                    boundAsync.classesArray('CefSharp').then(function (res) {
+                        var end = "Result: [ " + res.map(function (item) { return item.Value }) + " ] (" + Date() + ")";
+                        writeAsyncResult(call, end);
+                    });
                 }
             
                 asyncError();
@@ -114,8 +125,9 @@
                 asyncDoSomething();
                 asyncHello();
                 asyncObject();
-                asyncObjectArray();
                 asyncDictionaryPassedAsParam();
+                asyncStructsArray();
+                asyncClassesArray();
             </script>
         </p>
         <p>

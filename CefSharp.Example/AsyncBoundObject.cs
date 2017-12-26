@@ -10,10 +10,6 @@ using System.Threading;
 
 namespace CefSharp.Example
 {
-    public struct JsObject 
-    {
-        public string Value;
-    }
 
     public class AsyncBoundObject
     {
@@ -43,20 +39,29 @@ namespace CefSharp.Example
             return "Waited for 1000ms before returning";
         }
 
-        public JsObject ReturnObject(string name)
+        public JsSerializableClass ReturnObject(string name)
         {
-            return new JsObject
+            return new JsSerializableClass
             {
                 Value = name
             };
         }
 
-        public JsObject[] ObjectArray(string name)
+        public JsSerializableStruct[] StructsArray(JsSerializableStruct obj)
         {
             return new[] 
             {
-                new JsObject() { Value = "Item1" },
-                new JsObject() { Value = "Item2" }
+                new JsSerializableStruct() { Value = obj.Value + "1" },
+                new JsSerializableStruct() { Value = obj.Value + "2" }
+            };
+        }
+
+        public JsSerializableClass[] ClassesArray(string name) 
+        {
+            return new[]
+            {
+                new JsSerializableClass() { Value = name + "1" },
+                new JsSerializableClass() { Value = name + "2" }
             };
         }
 
