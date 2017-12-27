@@ -15,12 +15,11 @@ namespace CefSharp
         /// </summary>
         /// Note: If we every implment CefURLRequest then this will need to be added
         //string FirstPartyForCookies { get; set; }
-        
+
         /// <summary>
-        /// Get the flags used in combination with CefURLRequest. See cef_urlrequest_flags_t for supported values. 
+        /// Get/Set request flags, can be used to control caching policy
         /// </summary>
-        /// Note: If we every implment CefURLRequest then this will need to be added
-        //int Flags { get; set; }
+        UrlRequestFlags Flags { get; set; }
 
         /// <summary>
         /// Request Url
@@ -90,12 +89,6 @@ namespace CefSharp
         /// Returns true if this object is read-only.
         /// </summary>
         bool IsReadOnly { get; }
-
-        /// <summary>
-        /// Set the flags used in combination with CefURLRequest
-        /// </summary>
-        /// <param name="flags">Request Flags</param>
-        void SetFlags(UrlRequestFlags flags);
 
         /// <summary>
         /// Initialize a new instance of <see cref="IPostData"/>.

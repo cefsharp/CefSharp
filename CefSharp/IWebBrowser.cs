@@ -244,6 +244,14 @@ namespace CefSharp
         bool CanExecuteJavascriptInMainFrame { get; }
 
         /// <summary>
+        /// Gets the custom request context assigned to this browser instance
+        /// If no instance was assigned this will be null and the global
+        /// request context will have been used for this browser. 
+        /// You can access the global request context through Cef.GetGlobalRequestContext()
+        /// </summary>
+        IRequestContext RequestContext { get; }
+
+        /// <summary>
         /// Attempts to give focus to the IWebBrowser control.
         /// </summary>
         /// <returns><c>true</c> if keyboard focus and logical focus were set to this element; <c>false</c> if only logical focus

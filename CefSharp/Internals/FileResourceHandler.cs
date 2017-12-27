@@ -3,10 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.IO;
-using System.Text;
 
 namespace CefSharp
 {
@@ -46,6 +43,10 @@ namespace CefSharp
                 throw new ArgumentNullException("filePath", "Please provide a valid filePath");
             }
 
+            if(!File.Exists(filePath))
+            {
+                throw new FileNotFoundException("Unable to create FileResourceHandler", filePath);
+            }
             
             MimeType = mimeType;
             FilePath = filePath;

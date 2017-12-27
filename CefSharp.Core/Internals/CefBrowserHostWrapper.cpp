@@ -286,6 +286,20 @@ void CefBrowserHostWrapper::SendMouseWheelEvent(MouseEvent mouseEvent, int delta
     }
 }
 
+void CefBrowserHostWrapper::SetAccessibilityState(CefState accessibilityState)
+{
+    ThrowIfDisposed();
+
+    _browserHost->SetAccessibilityState((cef_state_t)accessibilityState);
+}
+
+void CefBrowserHostWrapper::SetAutoResizeEnabled(bool enabled, Size minSize, Size maxSize)
+{
+    ThrowIfDisposed();
+
+    _browserHost->SetAutoResizeEnabled(enabled, CefSize(minSize.Width, minSize.Height), CefSize(maxSize.Width, maxSize.Height));
+}
+
 void CefBrowserHostWrapper::Invalidate(PaintElementType type)
 {
     ThrowIfDisposed();
