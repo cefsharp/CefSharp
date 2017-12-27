@@ -5,6 +5,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -54,10 +55,23 @@ namespace CefSharp.ModelBinding
                 return null;
             }
 
+            var objType = obj.GetType();
             //If the object can be directly assigned to the modelType then return immediately. 
-            if(modelType.IsAssignableFrom(obj.GetType()))
+            if (modelType.IsAssignableFrom(objType))
             {
                 return obj;
+            }
+
+            if (modelType.IsEnum && modelType.IsEnumDefined(obj)) 
+            {
+                return Enum.ToObject(modelType, obj);
+            }
+
+            var typeConverter = TypeDescriptor.GetConverter(objType);
+            //If the object can be converted to the modelType (eg: double to int)
+            if (typeConverter.CanConvertTo(modelType)) 
+            {
+                return typeConverter.ConvertTo(obj, modelType);
             }
 
             Type genericType = null;
