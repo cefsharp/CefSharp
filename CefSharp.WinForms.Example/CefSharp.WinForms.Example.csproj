@@ -185,6 +185,6 @@
   <Import Project="$(SolutionDir)\CefSharp.Native.props" />
   <Import Project="..\packages\cef.redist.x64.3.2272.30\build\cef.redist.x64.targets" Condition="Exists('..\packages\cef.redist.x64.3.2272.30\build\cef.redist.x64.targets')" />
   <Import Project="..\packages\cef.redist.x86.3.2272.30\build\cef.redist.x86.targets" Condition="Exists('..\packages\cef.redist.x86.3.2272.30\build\cef.redist.x86.targets')" />
-  <Import Project="..\packages\cef.redist.x64.3.3239.1709\build\cef.redist.x64.targets" Condition="Exists('..\packages\cef.redist.x64.3.3239.1709\build\cef.redist.x64.targets')" />
-  <Import Project="..\packages\cef.redist.x86.3.3239.1709\build\cef.redist.x86.targets" Condition="Exists('..\packages\cef.redist.x86.3.3239.1709\build\cef.redist.x86.targets')" />
+  <Import Project="..\packages\cef.redist.x64.3.3239.1716\build\cef.redist.x64.targets" Condition="Exists('..\packages\cef.redist.x64.3.3239.1716\build\cef.redist.x64.targets')" />
+  <Import Project="..\packages\cef.redist.x86.3.3239.1716\build\cef.redist.x86.targets" Condition="Exists('..\packages\cef.redist.x86.3.3239.1716\build\cef.redist.x86.targets')" />
 </Project>
