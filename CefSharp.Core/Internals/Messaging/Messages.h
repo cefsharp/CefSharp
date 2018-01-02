@@ -39,6 +39,8 @@ namespace CefSharp
             // optional message via command line argument when the subprocess is
             // created.
             const CefString kOnFocusedNodeChanged = "OnFocusedNodeChanged";
+
+            const CefString kJavascriptBoundObjectRequest = "JavascriptBoundObjectRequest";
         }
     }
 }

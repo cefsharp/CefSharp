@@ -8,6 +8,7 @@
 #include "include\base\cef_logging.h"
 #include "CefBrowserWrapper.h"
 #include "CefAppUnmanagedWrapper.h"
+#include "RegisterBoundObjectHandler.h"
 #include "JavascriptRootObjectWrapper.h"
 #include "Serialization\V8Serialization.h"
 #include "Serialization\JsObjectsSerialization.h"
@@ -72,29 +73,13 @@ namespace CefSharp
             browser->SendProcessMessage(CefProcessId::PID_BROWSER, contextCreatedMessage);
         }
 
-        auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier(), true);
+        auto global = context->GetGlobal();
 
-        auto rootObjectWrappers = browserWrapper->JavascriptRootObjectWrappers;
-        auto frameId = frame->GetIdentifier();
+        auto cefSharpObj = CefV8Value::CreateObject(NULL, NULL);
+        auto registerBoundObjFunction = CefV8Value::CreateFunction("RegisterBoundObject", new RegisterBoundObjectHandler(_registerBoundObjectRegistry));
+        global->SetValue("CefSharp", cefSharpObj, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
 
-        JavascriptRootObjectWrapper^ rootObject;
-        if (!rootObjectWrappers->TryGetValue(frameId, rootObject))
-        {
-            rootObject = gcnew JavascriptRootObjectWrapper(browser->GetIdentifier(), browserWrapper->BrowserProcess);
-            rootObjectWrappers->TryAdd(frameId, rootObject);
-        }
-
-        if (rootObject->IsBound)
-        {
-            LOG(WARNING) << "A context has been created for the same browser / frame without context released called previously";
-        }
-        else
-        {
-            if (!Object::ReferenceEquals(_javascriptRootObject, nullptr) || !Object::ReferenceEquals(_javascriptAsyncRootObject, nullptr))
-            {
-                rootObject->Bind(_javascriptRootObject, _javascriptAsyncRootObject, context->GetGlobal());
-            }
-        }
+        cefSharpObj->SetValue("RegisterBoundObject", registerBoundObjFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
     };
 
     void CefAppUnmanagedWrapper::OnContextReleased(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
@@ -400,8 +385,57 @@ namespace CefSharp
         }
         else if (name == kJavascriptRootObjectRequest)
         {
-            _javascriptAsyncRootObject = DeserializeJsRootObject(argList, 0);
-            _javascriptRootObject = DeserializeJsRootObject(argList, 1);
+            auto browserId = argList->GetInt(0);
+            auto frameId = GetInt64(argList, 1);
+            auto callbackId = GetInt64(argList, 2);
+            auto javascriptAsyncRootObject = DeserializeJsRootObject(argList, 3);
+            auto javascriptRootObject = DeserializeJsRootObject(argList, 4);
+
+            auto browserMatch = browserId == browser->GetIdentifier();
+
+            auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier(), true);
+
+            auto rootObjectWrappers = browserWrapper->JavascriptRootObjectWrappers;
+            auto frame = browser->GetFrame(frameId);
+            if (frame.get())
+            {
+                JavascriptRootObjectWrapper^ rootObject;
+                if (!rootObjectWrappers->TryGetValue(frameId, rootObject))
+                {
+                    rootObject = gcnew JavascriptRootObjectWrapper(browser->GetIdentifier(), browserWrapper->BrowserProcess);
+                    rootObjectWrappers->TryAdd(frameId, rootObject);
+                }
+
+                if (rootObject->IsBound)
+                {
+                    LOG(WARNING) << "A context has been created for the same browser / frame without context released called previously";
+                }
+                else
+                {
+                    auto context = frame->GetV8Context();
+
+                    if (context.get() && context->Enter())
+                    {
+                        try
+                        {
+                            rootObject->Bind(javascriptRootObject, javascriptAsyncRootObject, context->GetGlobal());
+
+                            JavascriptAsyncMethodCallback^ callback;
+                            if (_registerBoundObjectRegistry->TryGetAndRemoveMethodCallback(callbackId, callback))
+                            {
+                                callback->Success(CefV8Value::CreateBool(true));
+
+                                //TODO: deal with failure - no object matching bound
+                            }
+                        }
+                        finally
+                        {
+                            context->Exit();
+                        }
+                    }
+                }
+            }
+
             handled = true;
         }
         else if (name == kJavascriptAsyncMethodCallResponse)

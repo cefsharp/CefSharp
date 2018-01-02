@@ -563,21 +563,6 @@ namespace CefSharp
 
         void ClientAdapter::OnRenderViewReady(CefRefPtr<CefBrowser> browser)
         {
-            if (!Object::ReferenceEquals(_browserAdapter, nullptr) && !_browserAdapter->IsDisposed && !browser->IsPopup())
-            {
-                auto objectRepository = _browserAdapter->JavascriptObjectRepository;
-
-                if (objectRepository->HasBoundObjects)
-                {
-                    //transmit async bound objects
-                    auto jsRootObjectMessage = CefProcessMessage::Create(kJavascriptRootObjectRequest);
-                    auto argList = jsRootObjectMessage->GetArgumentList();
-                    SerializeJsObject(objectRepository->AsyncRootObject, argList, 0);
-                    SerializeJsObject(objectRepository->RootObject, argList, 1);
-                    browser->SendProcessMessage(CefProcessId::PID_RENDERER, jsRootObjectMessage);
-                }
-            }
-
             auto handler = _browserControl->RequestHandler;
 
             if (handler != nullptr)
@@ -1122,7 +1107,34 @@ namespace CefSharp
             auto argList = message->GetArgumentList();
             IJavascriptCallbackFactory^ callbackFactory = _browserAdapter->JavascriptCallbackFactory;
 
-            if (name == kOnContextCreatedRequest)
+            if (name == kJavascriptBoundObjectRequest)
+            {
+                if (!Object::ReferenceEquals(_browserAdapter, nullptr) && !_browserAdapter->IsDisposed)
+                {
+                    auto objectRepository = _browserAdapter->JavascriptObjectRepository;
+
+                    if (objectRepository->HasBoundObjects)
+                    {
+                        auto browserId = argList->GetInt(0);
+                        auto frameId = GetInt64(argList, 1);
+                        auto callbackId = GetInt64(argList, 2);
+                        auto objectNames = argList->GetList(3);
+                        //TODO: Get objects by name and transmit them
+                        //transmit async bound objects
+                        auto msg = CefProcessMessage::Create(kJavascriptRootObjectRequest);
+                        auto responseArgList = msg->GetArgumentList();
+                        responseArgList->SetInt(0, browserId);
+                        SetInt64(responseArgList, 1, frameId);
+                        SetInt64(responseArgList, 2, callbackId);
+                        SerializeJsObject(objectRepository->AsyncRootObject, responseArgList, 3);
+                        SerializeJsObject(objectRepository->RootObject, responseArgList, 4);
+                        browser->SendProcessMessage(CefProcessId::PID_RENDERER, msg);
+                    }
+                }
+
+                handled = true;
+            }
+            else if (name == kOnContextCreatedRequest)
             {
                 _browserControl->SetCanExecuteJavascriptOnMainFrame(true);
 
