@@ -48,7 +48,7 @@
                 let stressTestCallCount = 1000;
                 for (var i = 1; i <= stressTestCallCount; i++)
                 {
-                    bound.repeat("hi ", 5);
+                    assert.ok(true, bound.repeat("hi ", 5));
                 }
 
                 assert.ok(true,  "Stress Test done with : " + stressTestCallCount + " call to bound.repeat(\"hi \", 5)");
