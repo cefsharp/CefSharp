@@ -175,7 +175,7 @@ namespace CefSharp
         if (browserWrapper == nullptr)
         {
             if (name == kJavascriptCallbackDestroyRequest ||
-                name == kJavascriptRootObjectRequest ||
+                name == kJavascriptRootObjectResponse ||
                 name == kJavascriptAsyncMethodCallResponse)
             {
                 //If we can't find the browser wrapper then we'll just
@@ -383,7 +383,7 @@ namespace CefSharp
 
             handled = true;
         }
-        else if (name == kJavascriptRootObjectRequest)
+        else if (name == kJavascriptRootObjectResponse)
         {
             auto browserId = argList->GetInt(0);
             auto frameId = GetInt64(argList, 1);

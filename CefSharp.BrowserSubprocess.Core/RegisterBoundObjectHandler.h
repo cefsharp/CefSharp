@@ -54,7 +54,7 @@ namespace CefSharp
 
                         auto callbackId = _callbackRegistry->SaveMethodCallback(callback);
 
-                        auto request = CefProcessMessage::Create(kJavascriptBoundObjectRequest);
+                        auto request = CefProcessMessage::Create(kJavascriptRootObjectRequest);
                         auto argList = request->GetArgumentList();
                         auto params = CefListValue::Create();
 

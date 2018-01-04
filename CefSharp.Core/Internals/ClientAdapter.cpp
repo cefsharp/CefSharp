@@ -1107,7 +1107,7 @@ namespace CefSharp
             auto argList = message->GetArgumentList();
             IJavascriptCallbackFactory^ callbackFactory = _browserAdapter->JavascriptCallbackFactory;
 
-            if (name == kJavascriptBoundObjectRequest)
+            if (name == kJavascriptRootObjectRequest)
             {
                 if (!Object::ReferenceEquals(_browserAdapter, nullptr) && !_browserAdapter->IsDisposed)
                 {
@@ -1121,7 +1121,7 @@ namespace CefSharp
                         auto objectNames = argList->GetList(3);
                         //TODO: Get objects by name and transmit them
                         //transmit async bound objects
-                        auto msg = CefProcessMessage::Create(kJavascriptRootObjectRequest);
+                        auto msg = CefProcessMessage::Create(kJavascriptRootObjectResponse);
                         auto responseArgList = msg->GetArgumentList();
                         responseArgList->SetInt(0, browserId);
                         SetInt64(responseArgList, 1, frameId);
