@@ -1,4 +1,4 @@
-// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright Â© 2010-2017 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -56,7 +56,8 @@ namespace CefSharp.ModelBinding
             }
 
             var objType = obj.GetType();
-            //If the object can be directly assigned to the modelType then return immediately. 
+
+            // If the object can be directly assigned to the modelType then return immediately. 
             if (modelType.IsAssignableFrom(objType))
             {
                 return obj;
@@ -68,7 +69,8 @@ namespace CefSharp.ModelBinding
             }
 
             var typeConverter = TypeDescriptor.GetConverter(objType);
-            //If the object can be converted to the modelType (eg: double to int)
+            
+            // If the object can be converted to the modelType (eg: double to int)
             if (typeConverter.CanConvertTo(modelType)) 
             {
                 return typeConverter.ConvertTo(obj, modelType);
@@ -77,7 +79,7 @@ namespace CefSharp.ModelBinding
             Type genericType = null;
             if (modelType.IsCollection() || modelType.IsArray() || modelType.IsEnumerable())
             {
-                //make sure it has a generic type
+                // Make sure it has a generic type
                 if (modelType.GetTypeInfo().IsGenericType)
                 {
                     genericType = modelType.GetGenericArguments().FirstOrDefault();
@@ -90,7 +92,7 @@ namespace CefSharp.ModelBinding
 
                 if (genericType == null)
                 {
-                    //If we don't have a generic type then just use object
+                    // If we don't have a generic type then just use object
                     genericType = typeof(object);
                 }
             }
@@ -128,8 +130,8 @@ namespace CefSharp.ModelBinding
             }
             else
             {
-                //If the object type is a dictionary (we're using ExpandoObject instead of Dictionary now)
-                //Then attempt to bind all the members
+                // If the object type is a dictionary (we're using ExpandoObject instead of Dictionary now)
+                // Then attempt to bind all the members
                 if (typeof(IDictionary<string, object>).IsAssignableFrom(bindingContext.Object.GetType()))
                 { 
                     foreach (var modelProperty in bindingContext.ValidModelBindingMembers)
@@ -173,12 +175,12 @@ namespace CefSharp.ModelBinding
 
             if (modelProperty.PropertyType.IsAssignableFrom(obj.GetType()))
             {
-                //Simply set the property
+                // Simply set the property
                 modelProperty.SetValue(context.Model, obj);
             }
             else
             {
-                //Cannot directly set the property attempt to bind
+                // Cannot directly set the property attempt to bind
                 var model = Bind(obj, modelProperty.PropertyType);
 
                 modelProperty.SetValue(context.Model, model);
@@ -196,7 +198,7 @@ namespace CefSharp.ModelBinding
         {
             if (modelType.IsCollection() || modelType.IsArray() || modelType.IsEnumerable())
             {
-                //else just make a list
+                // else just make a list
                 var listType = typeof(List<>).MakeGenericType(genericType);
                 return Activator.CreateInstance(listType);
             }
