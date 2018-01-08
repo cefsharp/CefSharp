@@ -90,6 +90,10 @@ namespace CefSharp.Wpf
         /// user attempts to set after browser created)
         /// </summary>
         private IRequestContext requestContext;
+        /// <summary>
+        /// Handles keypress and text typing
+        /// </summary>
+        private IWpfKeyboardHandler wpfKeyboardHandler;
 
         /// <summary>
         /// A flag that indicates whether or not the designer is active
@@ -203,6 +207,26 @@ namespace CefSharp.Wpf
         /// </summary>
         /// <value>The find handler.</value>
         public IFindHandler FindHandler { get; set; }
+        /// <summary>
+        /// Legacy keyboard handler uses WindowProc callback interceptor to handle keypress events. 
+        /// Only use this method if you find problems with the default keyboard handling mechanism.
+        /// This might be removed in the future.
+        /// </summary>
+        public bool UseLegacyKeyboardHandler 
+        {
+            get 
+            {
+                return wpfKeyboardHandler is WpfLegacyKeyboardHandler;   
+            }
+            set 
+            {
+                if (value != UseLegacyKeyboardHandler) {
+                    wpfKeyboardHandler.Dispose();
+                    wpfKeyboardHandler = CreateWpfKeyboardHandler(this, value);
+                    wpfKeyboardHandler.Setup(source);
+                }
+            }
+        }
 
         /// <summary>
         /// Event handler for receiving Javascript console messages being sent from web pages.
@@ -464,6 +488,8 @@ namespace CefSharp.Wpf
             ResourceHandlerFactory = new DefaultResourceHandlerFactory();
             BrowserSettings = new BrowserSettings();
 
+            wpfKeyboardHandler = CreateWpfKeyboardHandler(this);
+            
             PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
 
             RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
@@ -577,6 +603,7 @@ namespace CefSharp.Wpf
 
                 Cef.RemoveDisposable(this);
 
+                wpfKeyboardHandler.Dispose();
                 source = null;
             }
         }
@@ -1555,6 +1582,8 @@ namespace CefSharp.Wpf
 
                     DpiScaleFactor = source.CompositionTarget.TransformToDevice.M11;
 
+                    wpfKeyboardHandler.Setup(source);
+
                     if (notifyDpiChanged && browser != null)
                     {
                         browser.GetHost().NotifyScreenInfoChanged();
@@ -1572,6 +1601,8 @@ namespace CefSharp.Wpf
             }
             else if (args.OldSource != null)
             {
+                wpfKeyboardHandler.Dispose();
+
                 var window = args.OldSource.RootVisual as Window;
                 if (window != null)
                 {
@@ -1934,7 +1965,7 @@ namespace CefSharp.Wpf
         {
             if (!e.Handled)
             {
-                OnPreviewKey(e);
+                wpfKeyboardHandler.HandleKeyPress(e);
             }
 
             base.OnPreviewKeyDown(e);
@@ -1949,37 +1980,10 @@ namespace CefSharp.Wpf
         {
             if (!e.Handled)
             {
-                OnPreviewKey(e);
+                wpfKeyboardHandler.HandleKeyPress(e);
             }
 
             base.OnPreviewKeyUp(e);
-        }
-
-        /// <summary>
-        /// Handles the <see cref="E:PreviewKey" /> event.
-        /// </summary>
-        /// <param name="e">The <see cref="KeyEventArgs"/> instance containing the event data.</param>
-        private void OnPreviewKey(KeyEventArgs e)
-        {
-            if (browser != null) 
-            {
-                var modifiers = e.GetModifiers();
-                var message = (int)(e.IsDown ? WM.KEYDOWN : WM.KEYUP);
-                var virtualKey = KeyInterop.VirtualKeyFromKey(e.Key);
-
-                browser.GetHost().SendKeyEvent(message, virtualKey, (int)modifiers);
-            }
-
-            // Hooking the Tab key like this makes the tab focusing in essence work like
-            // KeyboardNavigation.TabNavigation="Cycle"; you will never be able to Tab out of the web browser control.
-            // We also add the condition to allow ctrl+a to work when the web browser control is put inside listbox.
-            // Prevent keyboard navigation using arrows and home and end keys
-            if (e.Key == Key.Tab || e.Key == Key.Home || e.Key == Key.End || e.Key == Key.Up
-                                 || e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.Right
-                                 || (e.Key == Key.A && Keyboard.Modifiers == ModifierKeys.Control))
-            {
-                e.Handled = true;
-            }
         }
 
         /// <summary>
@@ -1988,15 +1992,11 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="TextCompositionEventArgs"/> instance containing the event data.</param>
         protected override void OnPreviewTextInput(TextCompositionEventArgs e) 
         {
-            if (!e.Handled && browser != null) 
+            if (!e.Handled)
             {
-                var browserHost = browser.GetHost();
-                for (int i = 0; i < e.Text.Length; i++) 
-                {
-                    browserHost.SendKeyEvent((int)WM.CHAR, e.Text[i], 0);
-                }
-                e.Handled = true;
+                wpfKeyboardHandler.HandleTextInput(e);
             }
+
             base.OnPreviewTextInput(e);
         }
 
@@ -2282,6 +2282,18 @@ namespace CefSharp.Wpf
             // Use CompareExchange to read the current value - if disposeCount is 1, we set it to 1, effectively a no-op
             // Volatile.Read would likely use a memory barrier which I believe is unnecessary in this scenario
             return Interlocked.CompareExchange(ref browserInitialized, 0, 0) == 1;
+        }
+
+        private static IWpfKeyboardHandler CreateWpfKeyboardHandler(ChromiumWebBrowser owner, bool useLegacyHandler = false) 
+        {
+            if (useLegacyHandler) 
+            {
+                return new WpfLegacyKeyboardHandler(owner);
+            } 
+            else 
+            {
+                return new WpfKeyboardHandler(owner);
+            }
         }
 
         //protected override void OnManipulationDelta(ManipulationDeltaEventArgs e)
