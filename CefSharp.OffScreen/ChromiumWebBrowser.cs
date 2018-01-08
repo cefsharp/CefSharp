@@ -114,7 +114,7 @@ namespace CefSharp.OffScreen
         /// Gets the request context.
         /// </summary>
         /// <value>The request context.</value>
-        public RequestContext RequestContext { get; private set; }
+        public IRequestContext RequestContext { get; private set; }
 
         /// <summary>
         /// Implement <see cref="IJsDialogHandler" /> and assign to handle events related to JavaScript Dialogs.
@@ -439,7 +439,7 @@ namespace CefSharp.OffScreen
 
             browserCreated = true;
 
-            managedCefBrowserAdapter.CreateOffscreenBrowser(windowHandle, BrowserSettings, RequestContext, Address);
+            managedCefBrowserAdapter.CreateOffscreenBrowser(windowHandle, BrowserSettings, (RequestContext)RequestContext, Address);
         }
 
         /// <summary>

@@ -4,6 +4,8 @@
 
 using System.Collections.Generic;
 
+using Size = CefSharp.Structs.Size;
+
 namespace CefSharp.Wpf.Example.Handlers
 {
     public class DisplayHandler : IDisplayHandler
@@ -12,6 +14,11 @@ namespace CefSharp.Wpf.Example.Handlers
         void IDisplayHandler.OnAddressChanged(IWebBrowser browserControl, AddressChangedEventArgs addressChangedArgs)
         {
             
+        }
+
+        bool IDisplayHandler.OnAutoResize(IWebBrowser browserControl, IBrowser browser, Size newSize)
+        {
+            return false;
         }
 
         void IDisplayHandler.OnTitleChanged(IWebBrowser browserControl, TitleChangedEventArgs titleChangedArgs)

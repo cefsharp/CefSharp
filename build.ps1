@@ -3,9 +3,9 @@ param(
     [Parameter(Position = 0)] 
     [string] $Target = "vs2013",
     [Parameter(Position = 1)]
-    [string] $Version = "58.0.0",
+    [string] $Version = "63.0.0",
     [Parameter(Position = 2)]
-    [string] $AssemblyVersion = "58.0.0"   
+    [string] $AssemblyVersion = "63.0.0"   
 )
 
 $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
@@ -274,7 +274,7 @@ function DownloadNuget()
     if(-not (Test-Path $nuget))
     {
         $client = New-Object System.Net.WebClient;
-        $client.DownloadFile('http://nuget.org/nuget.exe', $nuget);
+        $client.DownloadFile('https://dist.nuget.org/win-x86-commandline/latest/nuget.exe', $nuget);
     }
 }
 

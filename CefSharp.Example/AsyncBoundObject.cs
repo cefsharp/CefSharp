@@ -3,16 +3,13 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text;
 using System.Threading;
 
 namespace CefSharp.Example
 {
-    public struct JsObject 
-    {
-        public string Value;
-    }
-
     public class AsyncBoundObject
     {
         //We expect an exception here, so tell VS to ignore
@@ -34,18 +31,49 @@ namespace CefSharp.Example
             return "Hello " + name;
         }
 
-        public void DoSomething()
+        public string DoSomething()
         {
             Thread.Sleep(1000);
+
+            return "Waited for 1000ms before returning";
         }
 
-        public JsObject[] ObjectArray(string name)
+        public JsSerializableStruct ReturnObject(string name)
+        {
+            return new JsSerializableStruct
+            {
+                Value = name
+            };
+        }
+
+        public JsSerializableStruct[] ReturnStructArray(string name)
         {
             return new[] 
             {
-                new JsObject() { Value = "Item1" },
-                new JsObject() { Value = "Item2" }
+                new JsSerializableStruct { Value = name + "Item1" },
+                new JsSerializableStruct { Value = name + "Item2" }
             };
+        }
+
+        public JsSerializableClass[] ReturnClassesArray(string name)
+        {
+            return new[]
+            {
+                new JsSerializableClass { Value = name + "Item1" },
+                new JsSerializableClass { Value = name + "Item2" }
+            };
+        }
+
+        public string DynamiObjectList(IList<dynamic> objects)
+        {
+            var builder = new StringBuilder();
+
+            foreach(var browser in objects)
+            {
+                builder.Append("Browser(Name:" + browser.Name + ";Engine:" + browser.Engine.Name + ");");
+            }
+
+            return builder.ToString();
         }
     }
 }

@@ -1,4 +1,4 @@
-// Copyright ?2010-2017 The CefSharp Authors. All rights reserved.
+// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
@@ -20,7 +20,7 @@ void CefBrowserHostWrapper::DragTargetDragEnter(IDragData^ dragData, MouseEvent 
 
     auto dragDataWrapper = static_cast<CefDragDataWrapper^>(dragData);
     dragDataWrapper->ResetFileContents(); // Recommended by documentation to reset before calling DragEnter
-    _browserHost->DragTargetDragEnter(dragDataWrapper, GetCefMouseEvent(mouseEvent), (CefBrowserHost::DragOperationsMask) allowedOperations);
+    _browserHost->DragTargetDragEnter(static_cast<CefRefPtr<CefDragData>>(dragDataWrapper), GetCefMouseEvent(mouseEvent), (CefBrowserHost::DragOperationsMask) allowedOperations);
 }
 
 void CefBrowserHostWrapper::DragTargetDragOver(MouseEvent mouseEvent, DragOperationsMask allowedOperations)
@@ -284,6 +284,20 @@ void CefBrowserHostWrapper::SendMouseWheelEvent(MouseEvent mouseEvent, int delta
 
         _browserHost->SendMouseWheelEvent(m, deltaX, deltaY);
     }
+}
+
+void CefBrowserHostWrapper::SetAccessibilityState(CefState accessibilityState)
+{
+    ThrowIfDisposed();
+
+    _browserHost->SetAccessibilityState((cef_state_t)accessibilityState);
+}
+
+void CefBrowserHostWrapper::SetAutoResizeEnabled(bool enabled, Size minSize, Size maxSize)
+{
+    ThrowIfDisposed();
+
+    _browserHost->SetAutoResizeEnabled(enabled, CefSize(minSize.Width, minSize.Height), CefSize(maxSize.Width, maxSize.Height));
 }
 
 void CefBrowserHostWrapper::Invalidate(PaintElementType type)

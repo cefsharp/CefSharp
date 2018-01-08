@@ -15,7 +15,6 @@ namespace CefSharp
         uint Style { get; set; }
         uint ExStyle { get; set; }
         IntPtr ParentWindowHandle { get; set; }
-        bool TransparentPaintingEnabled { get; set; }
         bool WindowlessRenderingEnabled { get; set; }
         IntPtr WindowHandle { get; set; }
 
@@ -24,13 +23,11 @@ namespace CefSharp
 
         /// <summary>
         /// Create the browser using windowless (off-screen) rendering.
-        /// No window will be created for the browser and all rendering will occur via the CefRenderHandler interface.
+        /// No window will be created for the browser and all rendering will occur via the CefRenderHandler interface. This window will automatically be transparent unless a colored backgrond is set in the browser settings.
         /// </summary>
         /// <param name="parentHandle">Value will be used to identify monitor info and to act as the parent window for dialogs, context menus, etc.
         /// If not provided then the main screen monitor will be used and some functionality that requires a parent window may not function correctly.</param>
-        /// <param name="transparent">If is true a transparent background color will be used (RGBA=0x00000000). 
-        /// If is false the background will be white and opaque. 
         /// In order to create windowless browsers the CefSettings.windowless_rendering_enabled value must be set to true.</param>
-        void SetAsWindowless(IntPtr parentHandle, bool transparent);
+        void SetAsWindowless(IntPtr parentHandle);
     }
 }

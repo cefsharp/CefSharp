@@ -2,6 +2,7 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using CefSharp;
 using System;
 using System.Collections.Specialized;
 
@@ -14,12 +15,11 @@ namespace CefSharp
         /// </summary>
         /// Note: If we every implment CefURLRequest then this will need to be added
         //string FirstPartyForCookies { get; set; }
-        
+
         /// <summary>
-        /// Get the flags used in combination with CefURLRequest. See cef_urlrequest_flags_t for supported values. 
+        /// Get/Set request flags, can be used to control caching policy
         /// </summary>
-        /// Note: If we every implment CefURLRequest then this will need to be added
-        //int Flags { get; set; }
+        UrlRequestFlags Flags { get; set; }
 
         /// <summary>
         /// Request Url

@@ -174,14 +174,14 @@ namespace CefSharp.Internals
                             { 
                                 var paramType = method.Parameters[i].Type;
 
-                                if(parameters[i].GetType() == typeof(Dictionary<string, object>))
+                                if(typeof(IDictionary<string, object>).IsAssignableFrom(parameters[i].GetType()))
                                 {
-                                    var dictionary = (Dictionary<string, object>)parameters[i];
+                                    var dictionary = (IDictionary<string, object>)parameters[i];
                                     parameters[i] = obj.Binder.Bind(dictionary, paramType);
                                 }
-                                else if (parameters[i].GetType() == typeof(List<object>))
+                                else if (typeof(IList<object>).IsAssignableFrom(parameters[i].GetType()))
                                 {
-                                    var list = (List<object>)parameters[i];
+                                    var list = (IList<object>)parameters[i];
                                     parameters[i] = obj.Binder.Bind(list, paramType);
                                 }
                             }
@@ -406,6 +406,11 @@ namespace CefSharp.Internals
             }
 
             if (baseType == null || baseType.IsArray || baseType.Namespace.StartsWith("System"))
+            {
+                return false;
+            }
+
+            if (baseType.IsValueType && !baseType.IsPrimitive && !baseType.IsEnum)
             {
                 return false;
             }

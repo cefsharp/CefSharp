@@ -3,8 +3,6 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace CefSharp
 {
@@ -15,7 +13,7 @@ namespace CefSharp
     {
         /// <summary>
         /// Deletes all cookies that matches all the provided parameters. If both <paramref name="url"/> and <paramref name="name"/> are empty, all cookies will be deleted.
-        /// Must be run on the CEF IO Thread
+        /// Cookies can alternately be deleted using the Visit*Cookies() methods. 
         /// </summary>
         /// <param name="url">The cookie URL. If an empty string is provided, any URL will be matched.</param>
         /// <param name="name">The name of the cookie. If an empty string is provided, any URL will be matched.</param>

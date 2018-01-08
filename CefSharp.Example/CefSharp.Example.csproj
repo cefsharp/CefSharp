@@ -82,6 +82,8 @@
     <Compile Include="Filters\PassThruResponseFilter.cs" />
     <Compile Include="Handlers\BrowserProcessHandler.cs" />
     <Compile Include="InMemorySchemeAndResourceHandlerFactory.cs" />
+    <Compile Include="JsSerializableClass.cs" />
+    <Compile Include="JsSerializableStruct.cs" />
     <Compile Include="ModelBinding\MethodInterceptorLogger.cs" />
     <Compile Include="RequestEventHandler\EventArgs\BaseRequestEventArgs.cs" />
     <Compile Include="RequestEventHandler\EventArgs\GetAuthCredentialsEventArgs.cs" />
@@ -113,7 +115,7 @@
     <Compile Include="TempFileDialogHandler.cs" />
     <Compile Include="CefExample.cs" />
     <Compile Include="DownloadHandler.cs" />
-    <Compile Include="RequestHandler.cs" />
+    <Compile Include="Handlers\RequestHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
