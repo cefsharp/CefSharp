@@ -111,7 +111,8 @@ namespace CefSharp
                     }
                     list->SetList(index, subList);
                 }
-                else if (type->IsValueType && !type->IsPrimitive && !type->IsEnum)
+                // Serialize class/structs to CefDictionary (key,value pairs)
+                else if (!type->IsPrimitive && !type->IsEnum)
                 {
                     auto fields = type->GetFields();
                     auto subDict = CefDictionaryValue::Create();
@@ -122,11 +123,20 @@ namespace CefSharp
                         auto fieldValue = fields[i]->GetValue(obj);
                         SerializeV8SimpleObject(subDict, fieldName, fieldValue, seen);
                     }
+
+                    auto properties = type->GetProperties();
+
+                    for (int i = 0; i < properties->Length; i++)
+                    {
+                        auto propertyName = StringUtils::ToNative(properties[i]->Name);
+                        auto propertyValue = properties[i]->GetValue(obj);
+                        SerializeV8SimpleObject(subDict, propertyName, propertyValue, seen);
+                    }
                     list->SetDictionary(index, subDict);
                 } 
                 else
                 {
-                    throw gcnew NotSupportedException("Complex types cannot be serialized to Cef lists");
+                    throw gcnew NotSupportedException("Unable to serialize Type");
                 }
 
                 seen->Pop();

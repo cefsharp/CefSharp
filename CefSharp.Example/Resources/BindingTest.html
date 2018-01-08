@@ -190,14 +190,27 @@
                 });
             });
 
-            QUnit.test("Async call (ObjectArray):", function( assert )
+            QUnit.test("Async call (returnStructArray):", function( assert )
             {
                 var asyncCallback = assert.async();
 
-                boundAsync.objectArray('CefSharp').then(function (res)
+                boundAsync.returnStructArray('CefSharp').then(function (res)
                 {
-                    assert.equal(res[0].Value, "Item1");
-                    assert.equal(res[1].Value, "Item2");
+                    assert.equal(res[0].Value, "CefSharpItem1", "Expected Result of CefSharpItem1");
+                    assert.equal(res[1].Value, "CefSharpItem2", "Expected Result of CefSharpItem2");
+
+                    asyncCallback();
+                });
+            });
+
+            QUnit.test("Async call (returnClassesArray):", function( assert )
+            {
+                var asyncCallback = assert.async();
+
+                boundAsync.returnClassesArray('CefSharp').then(function (res)
+                {
+                    assert.equal(res[0].Value, "CefSharpItem1", "Expected Result of CefSharpItem1");
+                    assert.equal(res[1].Value, "CefSharpItem2", "Expected Result of CefSharpItem2");
 
                     asyncCallback();
                 });
