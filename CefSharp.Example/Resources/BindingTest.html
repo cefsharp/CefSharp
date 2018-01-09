@@ -216,6 +216,19 @@
                 });
             });
 
+            QUnit.test("Async call (receiveArray):", function (assert) {
+            	var asyncCallback = assert.async();
+
+            	boundAsync.receiveArray(["one", null, "three"]).then(function (res) {
+            		assert.equal(res.length, 3, "Expected result to be length 3");
+            		assert.equal(res[0], "one", "Expected Result of 1st item");
+            		assert.equal(res[1], null, "Expected Result of 2nd item");
+            		assert.equal(res[2], "three", "Expected Result of 3rd item");
+
+            		asyncCallback();
+            	});
+            });
+
             QUnit.test("Javascript Callback Test using object as parameter", function( assert )
             {
                 var asyncCallback = assert.async();

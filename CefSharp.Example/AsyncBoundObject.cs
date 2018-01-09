@@ -64,6 +64,10 @@ namespace CefSharp.Example
             };
         }
 
+        public string[] ReceiveArray(string[] arg) {
+            return arg;
+        }
+
         public string DynamiObjectList(IList<dynamic> objects)
         {
             var builder = new StringBuilder();
