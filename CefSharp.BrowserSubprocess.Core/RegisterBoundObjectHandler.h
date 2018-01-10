@@ -105,8 +105,7 @@ namespace CefSharp
 
                                     //}
 
-                                    //TODO: JSB Check if object already bound
-                                    //if (!global->GetValue(objectName).get())
+                                    if (!global->HasValue(objectName))
                                     {
                                         boundObjectRequired = true;
                                         params->SetString(i, objectName);
@@ -131,7 +130,10 @@ namespace CefSharp
                             }
                             else
                             {
-                                resolve->ExecuteFunctionWithContext(context, CefV8Value::CreateBool(true), CefV8ValueList());
+                                CefV8ValueList returnArgs;
+                                returnArgs.push_back(CefV8Value::CreateBool(false));
+                                //If all the requested objects are bound then we simply return false
+                                resolve->ExecuteFunctionWithContext(context, nullptr, returnArgs);
                             }
                         }
                     }

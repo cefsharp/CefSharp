@@ -26,6 +26,16 @@
         {
             await CefSharp.BindObjectAsync("boundAsync", "bound");
 
+            QUnit.test( "BindObjectAsync Second call", function( assert )
+            {
+                let asyncCallback = assert.async();
+                CefSharp.BindObjectAsync("boundAsync", "bound").then(function(res)
+                {
+                    assert.equal(false, res, "Second call to BindObjectAsync with already bound objects as params returned false.");
+                    asyncCallback();
+                });
+            });
+
             QUnit.test( "bound.repeat('hi ', 5)", function( assert )
             {
                 const expectedResult = "hi hi hi hi hi "
