@@ -18,14 +18,14 @@ namespace CefSharp
         namespace Serialization
         {
             template<typename TList, typename TIndex>
-            void SerializeV8Object(const CefRefPtr<TList>& list, const TIndex& index, Object^ obj)
+            void SerializeV8Object(const CefRefPtr<TList>& list, const TIndex& index, Object^ obj, bool camelCaseJavascriptNames)
             {
                 auto seen = gcnew Stack<Object^>();
-                SerializeV8SimpleObject(list, index, obj, seen);
+                SerializeV8SimpleObject(list, index, obj, seen, camelCaseJavascriptNames);
             }
 
             template<typename TList, typename TIndex>
-            void SerializeV8SimpleObject(const CefRefPtr<TList>& list, const TIndex& index, Object^ obj, Stack<Object^>^ seen)
+            void SerializeV8SimpleObject(const CefRefPtr<TList>& list, const TIndex& index, Object^ obj, Stack<Object^>^ seen, bool camelCaseJavascriptNames)
             {
                 list->SetNull(index);
 
@@ -107,7 +107,7 @@ namespace CefSharp
                     {
                         Object^ arrObj;
                         arrObj = managedArray->GetValue(i);
-                        SerializeV8SimpleObject(subList, i, arrObj, seen);
+                        SerializeV8SimpleObject(subList, i, arrObj, seen, camelCaseJavascriptNames);
                     }
                     list->SetList(index, subList);
                 }
@@ -119,18 +119,18 @@ namespace CefSharp
 
                     for (int i = 0; i < fields->Length; i++)
                     {
-                        auto fieldName = StringUtils::ToNative(fields[i]->Name);
+                        auto fieldName = StringUtils::ToNative(GetJavascriptName(fields[i]->Name, camelCaseJavascriptNames));
                         auto fieldValue = fields[i]->GetValue(obj);
-                        SerializeV8SimpleObject(subDict, fieldName, fieldValue, seen);
+                        SerializeV8SimpleObject(subDict, fieldName, fieldValue, seen, camelCaseJavascriptNames);
                     }
 
                     auto properties = type->GetProperties();
 
                     for (int i = 0; i < properties->Length; i++)
                     {
-                        auto propertyName = StringUtils::ToNative(properties[i]->Name);
+                        auto propertyName = StringUtils::ToNative(GetJavascriptName(properties[i]->Name, camelCaseJavascriptNames));
                         auto propertyValue = properties[i]->GetValue(obj);
-                        SerializeV8SimpleObject(subDict, propertyName, propertyValue, seen);
+                        SerializeV8SimpleObject(subDict, propertyName, propertyValue, seen, camelCaseJavascriptNames);
                     }
                     list->SetDictionary(index, subDict);
                 } 
@@ -147,6 +147,21 @@ namespace CefSharp
                 auto timeSpan = dateTime - DateTime(1970, 1, 1);
 
                 return CefTime(timeSpan.TotalSeconds);
+            }
+
+            String^ GetJavascriptName(String^ str, bool camelCaseJavascriptNames)
+            {
+                if (!camelCaseJavascriptNames)
+                {
+                    return str;
+                }
+
+                if (String::IsNullOrEmpty(str))
+                {
+                    return String::Empty;
+                }
+
+                return Char::ToLowerInvariant(str[0]) + str->Substring(1);
             }
         }
     }

@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using System.Text.RegularExpressions;
 
 namespace CefSharp.ModelBinding
 {
@@ -48,7 +47,7 @@ namespace CefSharp.ModelBinding
         /// <param name="obj">object to be converted into a model</param>
         /// <param name="modelType">Model type to bind to</param>
         /// <returns>Bound model</returns>
-        public virtual object Bind(object obj, Type modelType)
+        public virtual object Bind(object obj, Type modelType, bool camelCaseJavascriptNames)
         {
             if(obj == null)
             {
@@ -97,7 +96,7 @@ namespace CefSharp.ModelBinding
                 }
             }
 
-            var bindingContext = this.CreateBindingContext(obj, modelType, genericType);
+            var bindingContext = CreateBindingContext(obj, modelType, genericType, camelCaseJavascriptNames);
             var destinationType = bindingContext.DestinationType;
 
             if (destinationType.IsCollection() || destinationType.IsArray() || destinationType.IsEnumerable())
@@ -116,7 +115,7 @@ namespace CefSharp.ModelBinding
 
                     if (val != null && typeof(IDictionary<string, object>).IsAssignableFrom(val.GetType()))
                     {
-                        var subModel = Bind(val, genericType);
+                        var subModel = Bind(val, genericType, camelCaseJavascriptNames);
                         model.Add(subModel);
                     }
                     else
@@ -151,7 +150,7 @@ namespace CefSharp.ModelBinding
             return bindingContext.Model;
         }
 
-        protected virtual BindingContext CreateBindingContext(object obj, Type modelType, Type genericType)
+        protected virtual BindingContext CreateBindingContext(object obj, Type modelType, Type genericType, bool camelCaseJavascriptNames)
         {
             return new BindingContext
             {
@@ -159,7 +158,8 @@ namespace CefSharp.ModelBinding
                 Model = CreateModel(modelType, genericType),
                 ValidModelBindingMembers = GetBindingMembers(modelType, genericType).ToList(),
                 Object = obj,
-                GenericType = genericType
+                GenericType = genericType,
+                CamelCaseJavascriptNames = camelCaseJavascriptNames
             };
         }
 
@@ -178,7 +178,7 @@ namespace CefSharp.ModelBinding
             else
             {
                 // Cannot directly set the property attempt to bind
-                var model = Bind(obj, modelProperty.PropertyType);
+                var model = Bind(obj, modelProperty.PropertyType, context.CamelCaseJavascriptNames);
 
                 modelProperty.SetValue(context.Model, model);
             }
@@ -206,6 +206,12 @@ namespace CefSharp.ModelBinding
         protected virtual object GetValue(string propertyName, BindingContext context)
         {
             var dictionary = (IDictionary<string, object>)context.Object;
+            
+            if (propertyName.Length > 0 && context.CamelCaseJavascriptNames)
+            {
+                propertyName = char.ToLowerInvariant(propertyName[0]) + propertyName.Substring(1);
+            }
+            
             if (dictionary.ContainsKey(propertyName))
             {
                 return dictionary[propertyName];
@@ -216,7 +222,7 @@ namespace CefSharp.ModelBinding
 
         protected virtual object GetValue(BindingContext context, int index)
         {
-            var collection = context.Object as IList<object>;
+            var collection = (IList<object>)context.Object;
 
             return collection.ElementAtOrDefault(index);
         }

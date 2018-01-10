@@ -37,5 +37,10 @@ namespace CefSharp.ModelBinding
         /// The incoming data fields
         /// </summary>
         public object Object { get; set; }
+
+        /// <summary>
+        /// Specifies whether the incoming data fields names should be converted to Pascal Case
+        /// </summary>
+        public bool CamelCaseJavascriptNames { get; set; }
     }
 }

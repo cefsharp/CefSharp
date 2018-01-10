@@ -178,17 +178,55 @@
                 });
             });
 
-            QUnit.test("Async call (Object):", function( assert )
+            QUnit.test("Async call (returnStruct):", function (assert)
             {
                 var asyncCallback = assert.async();
                 
-                boundAsync.returnObject('CefSharp').then(function (res)
+                boundAsync.returnStruct('CefSharp').then(function (res)
                 {
-                    assert.equal(res.Value, "CefSharp", "JSON Object with a single field");
+                    assert.equal(res.value, "CefSharp", "JSON Object with a single field");
 
                     asyncCallback();
                 });
             });
+
+            QUnit.test("Async call (receiveStruct):", function (assert)
+            {
+            	var asyncCallback = assert.async();
+            	var obj = { value: "CefSharp" };
+
+            	boundAsync.receiveStruct(obj).then(function (res)
+            	{
+            		assert.equal(res.value, obj.value, "JSON Object with a single field");
+
+            		asyncCallback();
+            	});
+            });
+
+			/*QUnit.test("Async call (returnClass):", function (assert)
+            {
+                var asyncCallback = assert.async();
+                
+                boundAsync.returnClass('CefSharp').then(function (res)
+                {
+                    assert.equal(res.value, "CefSharp", "JSON Object with a single field");
+
+                    asyncCallback();
+                });
+            });
+
+            QUnit.test("Async call (receiveClass):", function (assert)
+            {
+            	var asyncCallback = assert.async();
+            	var obj = { value: "CefSharp" };
+
+            	boundAsync.receiveClass(obj).then(function (res)
+            	{
+            		assert.equal(res.value, obj.value, "JSON Object with a single field");
+
+            		asyncCallback();
+            	});
+            });*/
 
             QUnit.test("Async call (returnStructArray):", function( assert )
             {
@@ -196,8 +234,8 @@
 
                 boundAsync.returnStructArray('CefSharp').then(function (res)
                 {
-                    assert.equal(res[0].Value, "CefSharpItem1", "Expected Result of CefSharpItem1");
-                    assert.equal(res[1].Value, "CefSharpItem2", "Expected Result of CefSharpItem2");
+                    assert.equal(res[0].value, "CefSharpItem1", "Expected Result of CefSharpItem1");
+                    assert.equal(res[1].value, "CefSharpItem2", "Expected Result of CefSharpItem2");
 
                     asyncCallback();
                 });
@@ -209,8 +247,8 @@
 
                 boundAsync.returnClassesArray('CefSharp').then(function (res)
                 {
-                    assert.equal(res[0].Value, "CefSharpItem1", "Expected Result of CefSharpItem1");
-                    assert.equal(res[1].Value, "CefSharpItem2", "Expected Result of CefSharpItem2");
+                    assert.equal(res[0].value, "CefSharpItem1", "Expected Result of CefSharpItem1");
+                    assert.equal(res[1].value, "CefSharpItem2", "Expected Result of CefSharpItem2");
 
                     asyncCallback();
                 });
@@ -228,9 +266,11 @@
                 }
 
                 bound.testCallbackFromObject({
-                    Callback: objectCallback, TestString: "Hello", SubClasses: [
-                        { PropertyOne: "Test Property One", Numbers: [1, 2, 3] },
-                        { PropertyOne: "Test Property Two", Numbers: [4, 5, 6] }
+                	callback: objectCallback,
+                	testString: "Hello",
+                	subClasses: [
+                        { propertyOne: "Test Property One", numbers: [1, 2, 3] },
+                        { propertyOne: "Test Property Two", numbers: [4, 5, 6] }
                     ]
                 });
             });
