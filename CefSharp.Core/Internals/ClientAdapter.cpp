@@ -1126,8 +1126,7 @@ namespace CefSharp
                         responseArgList->SetInt(0, browserId);
                         SetInt64(responseArgList, 1, frameId);
                         SetInt64(responseArgList, 2, callbackId);
-                        SerializeJsObjects(objectRepository->AsyncJsObjects, responseArgList, 3);
-                        SerializeJsObjects(objectRepository->JsObjects, responseArgList, 4);
+                        SerializeJsObjects(objectRepository->GetObjects(), responseArgList, 3);
                         browser->SendProcessMessage(CefProcessId::PID_RENDERER, msg);
                     }
                 }

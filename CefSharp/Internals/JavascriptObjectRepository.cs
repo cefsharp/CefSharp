@@ -39,26 +39,14 @@ namespace CefSharp.Internals
         /// </summary>
         private readonly Dictionary<long, JavascriptObject> objects = new Dictionary<long, JavascriptObject>();
 
-        /// <summary>
-        /// This is the root of the objects that get serialized to the child process.
-        /// </summary>
-        public List<JavascriptObject> JsObjects { get; private set; }
-        
-        /// <summary>
-        /// This is the root of the objects that get serialized to the child
-        /// process with cef ipc serialization (wcf not required).
-        /// </summary>
-        public List<JavascriptObject> AsyncJsObjects { get; private set; }
-
-        public JavascriptObjectRepository()
-        {
-            JsObjects = new List<JavascriptObject>();
-            AsyncJsObjects = new List<JavascriptObject>();
-        }
-
         public bool HasBoundObjects
         {
-            get { return JsObjects.Count > 0 || AsyncJsObjects.Count > 0; }
+            get { return objects.Count > 0; }
+        }
+
+        public List<JavascriptObject> GetObjects()
+        {
+            return objects.Values.ToList();
         }
 
         private JavascriptObject CreateJavascriptObject(bool camelCaseJavascriptNames)
@@ -71,29 +59,18 @@ namespace CefSharp.Internals
             return result;
         }
 
-        public void RegisterAsync(string name, object value, BindingOptions options)
-        {
-            AsyncJsObjects.Add(CreateInternal(name, value, analyseProperties: false, options: options));
-        }
-
-        public void Register(string name, object value, BindingOptions options)
-        {
-            JsObjects.Add(CreateInternal(name, value, analyseProperties: true, options: options));
-        }
-
-        private JavascriptObject CreateInternal(string name, object value, bool analyseProperties, BindingOptions options)
+        public void Register(string name, object value, bool isAsync, BindingOptions options)
         {
             var camelCaseJavascriptNames = options == null ? true : options.CamelCaseJavascriptNames;
             var jsObject = CreateJavascriptObject(camelCaseJavascriptNames);
             jsObject.Value = value;
             jsObject.Name = name;
             jsObject.JavascriptName = name;
+            jsObject.IsAsync = isAsync;
             jsObject.Binder = options == null ? null : options.Binder;
             jsObject.MethodInterceptor = options == null ? null : options.MethodInterceptor;
 
-            AnalyseObjectForBinding(jsObject, analyseMethods: true, analyseProperties: analyseProperties, readPropertyValue: false, camelCaseJavascriptNames: camelCaseJavascriptNames);
-
-            return jsObject;
+            AnalyseObjectForBinding(jsObject, analyseMethods: true, analyseProperties: isAsync, readPropertyValue: false, camelCaseJavascriptNames: camelCaseJavascriptNames);
         }
 
         public bool TryCallMethod(long objectId, string name, object[] parameters, out object result, out string exception)

@@ -12,7 +12,7 @@ using namespace System::Threading;
 
 namespace CefSharp
 {
-    void JavascriptRootObjectWrapper::Bind(List<JavascriptObject^>^ objects, List<JavascriptObject^>^ asyncObjects, const CefRefPtr<CefV8Value>& v8Value)
+    void JavascriptRootObjectWrapper::Bind(List<JavascriptObject^>^ objects, const CefRefPtr<CefV8Value>& v8Value)
     {
         if (_isBound)
         {
@@ -23,26 +23,25 @@ namespace CefSharp
 
         if (objects->Count > 0)
         {
-            auto memberObjects = objects;
-            for each (JavascriptObject^ obj in Enumerable::OfType<JavascriptObject^>(objects))
-            {
-                auto wrapperObject = gcnew JavascriptObjectWrapper(_browserProcess);
-                wrapperObject->Bind(obj, v8Value, _callbackRegistry);
-
-                _wrappedObjects->Add(wrapperObject);
-            }
-        }
-
-        if (asyncObjects->Count > 0)
-        {
             auto saveMethod = gcnew Func<JavascriptAsyncMethodCallback^, int64>(this, &JavascriptRootObjectWrapper::SaveMethodCallback);
             auto promiseCreator = v8Value->GetValue(CefAppUnmanagedWrapper::kPromiseCreatorFunction);
-            for each (JavascriptObject^ obj in Enumerable::OfType<JavascriptObject^>(asyncObjects))
-            {
-                auto wrapperObject = gcnew JavascriptAsyncObjectWrapper(_callbackRegistry, saveMethod);
-                wrapperObject->Bind(obj, v8Value, promiseCreator);
 
-                _wrappedAsyncObjects->Add(wrapperObject);
+            for each (JavascriptObject^ obj in Enumerable::OfType<JavascriptObject^>(objects))
+            {
+                if (obj->IsAsync)
+                {
+                    auto wrapperObject = gcnew JavascriptAsyncObjectWrapper(_callbackRegistry, saveMethod);
+                    wrapperObject->Bind(obj, v8Value, promiseCreator);
+
+                    _wrappedAsyncObjects->Add(wrapperObject);
+                }
+                else
+                {
+                    auto wrapperObject = gcnew JavascriptObjectWrapper(_browserProcess);
+                    wrapperObject->Bind(obj, v8Value, _callbackRegistry);
+
+                    _wrappedObjects->Add(wrapperObject);
+                }
             }
         }
     }

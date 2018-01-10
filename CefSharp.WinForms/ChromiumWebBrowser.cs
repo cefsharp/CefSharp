@@ -497,7 +497,7 @@ namespace CefSharp.WinForms
             //Enable WCF if not already enabled
             CefSharpSettings.WcfEnabled = true;
 
-            managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, options);
+            managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, false, options);
         }
 
         /// <summary>
@@ -521,7 +521,7 @@ namespace CefSharp.WinForms
 
             InitializeFieldsAndCefIfRequired();
 
-            managedCefBrowserAdapter.RegisterAsyncJsObject(name, objectToBind, options);
+            managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, true, options);
         }
 
         /// <summary>

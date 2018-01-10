@@ -2203,7 +2203,7 @@ namespace CefSharp.Wpf
             //Enable WCF if not already enabled
             CefSharpSettings.WcfEnabled = true;
 
-            managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, options);
+            managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, false, options);
         }
 
         /// <summary>
@@ -2224,7 +2224,7 @@ namespace CefSharp.Wpf
                 throw new Exception("Browser is already initialized. RegisterJsObject must be" +
                                     "called before the underlying CEF browser is created.");
             }
-            managedCefBrowserAdapter.RegisterAsyncJsObject(name, objectToBind, options);
+            managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, true, options);
         }
 
         /// <summary>

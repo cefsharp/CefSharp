@@ -388,8 +388,7 @@ namespace CefSharp
             auto browserId = argList->GetInt(0);
             auto frameId = GetInt64(argList, 1);
             auto callbackId = GetInt64(argList, 2);
-            auto javascriptAsyncRootObject = DeserializeJsRootObject(argList, 3);
-            auto javascriptRootObject = DeserializeJsRootObject(argList, 4);
+            auto javascriptObjects = DeserializeJsObjects(argList, 3);
 
             auto browserMatch = browserId == browser->GetIdentifier();
 
@@ -418,7 +417,7 @@ namespace CefSharp
                     {
                         try
                         {
-                            rootObject->Bind(javascriptRootObject, javascriptAsyncRootObject, context->GetGlobal());
+							rootObject->Bind(javascriptObjects, context->GetGlobal());
 
                             JavascriptAsyncMethodCallback^ callback;
                             if (_registerBoundObjectRegistry->TryGetAndRemoveMethodCallback(callbackId, callback))
