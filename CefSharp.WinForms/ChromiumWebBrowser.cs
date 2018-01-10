@@ -497,7 +497,14 @@ namespace CefSharp.WinForms
             //Enable WCF if not already enabled
             CefSharpSettings.WcfEnabled = true;
 
-            managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, false, options);
+            var objectRepository = managedCefBrowserAdapter.JavascriptObjectRepository;
+
+            if (objectRepository == null)
+            {
+                throw new Exception("Object Repository Null, Browser has likely been Disposed.");
+            }
+
+            objectRepository.Register(name, objectToBind, false, options);
         }
 
         /// <summary>
@@ -521,7 +528,19 @@ namespace CefSharp.WinForms
 
             InitializeFieldsAndCefIfRequired();
 
-            managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, true, options);
+            var objectRepository = managedCefBrowserAdapter.JavascriptObjectRepository;
+
+            if (objectRepository == null)
+            {
+                throw new Exception("Object Repository Null, Browser has likely been Disposed.");
+            }
+
+            objectRepository.Register(name, objectToBind, true, options);
+        }
+
+        public IJavascriptObjectRepository JavascriptObjectRepository
+        {
+            get { return managedCefBrowserAdapter == null ? null : managedCefBrowserAdapter.JavascriptObjectRepository; }
         }
 
         /// <summary>

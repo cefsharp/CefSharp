@@ -2203,7 +2203,14 @@ namespace CefSharp.Wpf
             //Enable WCF if not already enabled
             CefSharpSettings.WcfEnabled = true;
 
-            managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, false, options);
+            var objectRepository = managedCefBrowserAdapter.JavascriptObjectRepository;
+
+            if (objectRepository == null)
+            {
+                throw new Exception("Object Repository Null, Browser has likely been Disposed.");
+            }
+
+            objectRepository.Register(name, objectToBind, false, options);
         }
 
         /// <summary>
@@ -2224,7 +2231,19 @@ namespace CefSharp.Wpf
                 throw new Exception("Browser is already initialized. RegisterJsObject must be" +
                                     "called before the underlying CEF browser is created.");
             }
-            managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, true, options);
+            var objectRepository = managedCefBrowserAdapter.JavascriptObjectRepository;
+
+            if (objectRepository == null)
+            {
+                throw new Exception("Object Repository Null, Browser has likely been Disposed.");
+            }
+
+            objectRepository.Register(name, objectToBind, true, options);
+        }
+
+        public IJavascriptObjectRepository JavascriptObjectRepository
+        {
+            get { return managedCefBrowserAdapter == null ? null : managedCefBrowserAdapter.JavascriptObjectRepository; }
         }
 
         /// <summary>

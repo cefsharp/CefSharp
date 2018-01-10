@@ -98,8 +98,10 @@
     <Compile Include="Callback\TaskPrintToPdfCallback.cs" />
     <Compile Include="Callback\TaskResolveCallback.cs" />
     <Compile Include="CdmRegistration.cs" />
+    <Compile Include="Event\JavascriptBindingEventArgs.cs" />
     <Compile Include="Handler\DefaultRequestHandler.cs" />
     <Compile Include="Enums\UrlRequestFlags.cs" />
+    <Compile Include="IJavascriptObjectRepository.cs" />
     <Compile Include="Internals\ByteArrayResourceHandler.cs" />
     <Compile Include="Internals\DateTimeUtils.cs" />
     <Compile Include="Internals\FileResourceHandler.cs" />

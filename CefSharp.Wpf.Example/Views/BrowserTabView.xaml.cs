@@ -32,7 +32,14 @@ namespace CefSharp.Wpf.Example.Views
                 MethodInterceptor = new MethodInterceptorLogger() // intercept .net methods calls from js and log it
             };
             browser.RegisterAsyncJsObject("boundAsync", new AsyncBoundObject(), bindingOptions);
-            browser.RegisterAsyncJsObject("boundAsync2", new AsyncBoundObject(), bindingOptions);
+            browser.JavascriptObjectRepository.ResolveObject += (sender, e) =>
+            {
+                var repo = e.ObjectRepository;
+                if (e.ObjectName == "boundAsync2")
+                {
+                    repo.Register("boundAsync2", new AsyncBoundObject(), isAsync: true, options: bindingOptions);
+                }
+            };           
 
             browser.DisplayHandler = new DisplayHandler();
             browser.LifeSpanHandler = new LifespanHandler();

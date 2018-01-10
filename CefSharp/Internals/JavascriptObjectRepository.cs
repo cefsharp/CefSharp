@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using CefSharp.ModelBinding;
+using CefSharp.Event;
 
 namespace CefSharp.Internals
 {
@@ -28,9 +29,11 @@ namespace CefSharp.Internals
     /// All of the registered objects are tracked via meta-data for the objects 
     /// expressed starting with the JavaScriptObject type.
     /// </summary>
-    public class JavascriptObjectRepository
+    public class JavascriptObjectRepository : IJavascriptObjectRepository
     {
         private static long lastId;
+
+        public event EventHandler<JavascriptBindingEventArgs> ResolveObject;
 
         /// <summary>
         /// A hash from assigned object ids to the objects,
@@ -39,16 +42,37 @@ namespace CefSharp.Internals
         /// </summary>
         private readonly Dictionary<long, JavascriptObject> objects = new Dictionary<long, JavascriptObject>();
 
+        public void Dispose()
+        {
+            ResolveObject = null;
+        }
+
         public bool HasBoundObjects
         {
             get { return objects.Count > 0; }
+        }
+
+        public bool IsBound(string name)
+        {
+            return objects.Values.Any(x => x.Name == name); 
         }
 
         public List<JavascriptObject> GetObjects(List<string> names)
         {
             if(names.Count == 0)
             {
+                //TODO: JSB Declare Constant for All
+                RaiseResolveObjectEvent("All");
+
                 return objects.Values.ToList();
+            }
+
+            foreach (var name in names)
+            {
+                if (!IsBound(name))
+                {
+                    RaiseResolveObjectEvent(name);
+                }
             }
             
             return objects.Values.Where(x => names.Contains(x.JavascriptName)).ToList();
@@ -66,6 +90,11 @@ namespace CefSharp.Internals
 
         public void Register(string name, object value, bool isAsync, BindingOptions options)
         {
+            if (!CefSharpSettings.WcfEnabled && !isAsync)
+            {
+                throw new InvalidOperationException("To enable synchronous JS bindings set WcfEnabled true in CefSettings during initialization.");
+            }
+
             //Validation name is unique
             if(objects.Values.Count(x => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase)) > 0)
             {
@@ -339,6 +368,16 @@ namespace CefSharp.Internals
                     }
                     obj.Properties.Add(jsProperty);
                 }
+            }
+        }
+
+        private void RaiseResolveObjectEvent(string name)
+        {
+            var handler = ResolveObject;
+
+            if(handler != null)
+            {
+                handler(this, new JavascriptBindingEventArgs(this, name));
             }
         }
 
