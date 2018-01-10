@@ -417,7 +417,7 @@ namespace CefSharp
                     {
                         try
                         {
-							rootObject->Bind(javascriptObjects, context->GetGlobal());
+                            rootObject->Bind(javascriptObjects, context->GetGlobal());
 
                             JavascriptAsyncMethodCallback^ callback;
                             if (_registerBoundObjectRegistry->TryGetAndRemoveMethodCallback(callbackId, callback))

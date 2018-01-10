@@ -44,9 +44,14 @@ namespace CefSharp.Internals
             get { return objects.Count > 0; }
         }
 
-        public List<JavascriptObject> GetObjects()
+        public List<JavascriptObject> GetObjects(List<string> names)
         {
-            return objects.Values.ToList();
+            if(names.Count == 0)
+            {
+                return objects.Values.ToList();
+            }
+            
+            return objects.Values.Where(x => names.Contains(x.JavascriptName)).ToList();
         }
 
         private JavascriptObject CreateJavascriptObject(bool camelCaseJavascriptNames)
@@ -61,6 +66,12 @@ namespace CefSharp.Internals
 
         public void Register(string name, object value, bool isAsync, BindingOptions options)
         {
+            //Validation name is unique
+            if(objects.Values.Count(x => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase)) > 0)
+            {
+                throw new ArgumentException("Object already bound with name:" + name , name);
+            }
+
             var camelCaseJavascriptNames = options == null ? true : options.CamelCaseJavascriptNames;
             var jsObject = CreateJavascriptObject(camelCaseJavascriptNames);
             jsObject.Value = value;

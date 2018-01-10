@@ -27,6 +27,7 @@ namespace CefSharp
         MCefRefPtr<CefBrowser> _cefBrowser;
     
     internal:
+        //Frame Identifier is used as Key
         property ConcurrentDictionary<int64, JavascriptRootObjectWrapper^>^ JavascriptRootObjectWrappers;
 
     public:
