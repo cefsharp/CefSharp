@@ -274,8 +274,10 @@
                     asyncCallback();
                 }
 
-                bound.testCallbackFromObject({
-                    Callback: objectCallback, TestString: "Hello", SubClasses: [
+                bound.testCallbackFromObject(
+                {
+                    Callback: objectCallback, TestString: "Hello", SubClasses:
+                    [
                         { PropertyOne: "Test Property One", Numbers: [1, 2, 3] },
                         { PropertyOne: "Test Property Two", Numbers: [4, 5, 6] }
                     ]
@@ -315,5 +317,23 @@
             //});
         })();
         </script>
+
+        <script type="text/javascript">
+            CefSharp.RegisterBoundObject("boundAsync2").then(function(result)
+            {
+                QUnit.test( "Async boundAsync2 call (Hello):", function( assert )
+                {
+                    var asyncCallback = assert.async();
+                
+                    boundAsync2.hello('CefSharp').then(function (res)
+                    {
+                        assert.equal(res, "Hello CefSharp")
+
+                        asyncCallback();
+                    });
+                });
+            });
+        </script>
+
     </body>
 </html>

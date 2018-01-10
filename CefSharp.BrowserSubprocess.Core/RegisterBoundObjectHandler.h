@@ -64,7 +64,7 @@ namespace CefSharp
                         {
                             auto objectName = arguments[i]->GetStringValue();
 
-                            //TODO: Check if exists
+                            //TODO: JSB Check if object already bound
                             //if (!global->GetValue(objectName).get())
                             {
                                 boundObjectRequired = true;

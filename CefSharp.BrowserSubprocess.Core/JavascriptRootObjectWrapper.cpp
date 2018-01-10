@@ -14,13 +14,6 @@ namespace CefSharp
 {
     void JavascriptRootObjectWrapper::Bind(List<JavascriptObject^>^ objects, const CefRefPtr<CefV8Value>& v8Value)
     {
-        if (_isBound)
-        {
-            throw gcnew InvalidOperationException("This root object has already been bound.");
-        }
-
-        _isBound = true;
-
         if (objects->Count > 0)
         {
             auto saveMethod = gcnew Func<JavascriptAsyncMethodCallback^, int64>(this, &JavascriptRootObjectWrapper::SaveMethodCallback);
@@ -50,12 +43,6 @@ namespace CefSharp
     {
         return _callbackRegistry;
     }
-
-    bool JavascriptRootObjectWrapper::IsBound::get()
-    {
-        return _isBound;
-    }
-
 
     int64 JavascriptRootObjectWrapper::SaveMethodCallback(JavascriptAsyncMethodCallback^ callback)
     {

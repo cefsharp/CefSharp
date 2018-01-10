@@ -408,33 +408,25 @@ namespace CefSharp
                     rootObjectWrappers->TryAdd(frameId, rootObject);
                 }
 
-                //TODO: JSB Rework this code, we'll need to be able to call this multiple times so we can requests objects dynamically
-                if (rootObject->IsBound)
-                {
-                    LOG(WARNING) << "A context has been created for the same browser / frame without context released called previously";
-                }
-                else
-                {
-                    auto context = frame->GetV8Context();
+                auto context = frame->GetV8Context();
 
-                    if (context.get() && context->Enter())
+                if (context.get() && context->Enter())
+                {
+                    try
                     {
-                        try
-                        {
-                            rootObject->Bind(javascriptObjects, context->GetGlobal());
+                        rootObject->Bind(javascriptObjects, context->GetGlobal());
 
-                            JavascriptAsyncMethodCallback^ callback;
-                            if (_registerBoundObjectRegistry->TryGetAndRemoveMethodCallback(callbackId, callback))
-                            {
-                                callback->Success(CefV8Value::CreateBool(true));
-
-                                //TODO: deal with failure - no object matching bound
-                            }
-                        }
-                        finally
+                        JavascriptAsyncMethodCallback^ callback;
+                        if (_registerBoundObjectRegistry->TryGetAndRemoveMethodCallback(callbackId, callback))
                         {
-                            context->Exit();
+                            callback->Success(CefV8Value::CreateBool(true));
+
+                            //TODO: JSB deal with failure - no object matching bound
                         }
+                    }
+                    finally
+                    {
+                        context->Exit();
                     }
                 }
             }
