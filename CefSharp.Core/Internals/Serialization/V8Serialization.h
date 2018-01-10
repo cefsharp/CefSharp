@@ -14,13 +14,13 @@ namespace CefSharp
 
             //Serializes data into a given position in a CefListValue or CefDictionaryValue
             template<typename TList, typename TIndex>
-            void SerializeV8Object(const CefRefPtr<TList>& list, const TIndex& index,Object^ obj);
+            void SerializeV8Object(const CefRefPtr<TList>& list, const TIndex& index,Object^ obj, bool camelCaseJavascriptNames);
 
             template<typename TList, typename TIndex>
-            void SerializeV8SimpleObject(const CefRefPtr<TList>& list, const TIndex& index, Object^ obj, Stack<Object^>^ seen);
+            void SerializeV8SimpleObject(const CefRefPtr<TList>& list, const TIndex& index, Object^ obj, Stack<Object^>^ seen, bool camelCaseJavascriptNames);
 
-            template void SerializeV8Object(const CefRefPtr<CefListValue>& list, const int& index, Object^ obj);
-            template void SerializeV8Object(const CefRefPtr<CefDictionaryValue>& list, const CefString& index, Object^ obj);
+            template void SerializeV8Object(const CefRefPtr<CefListValue>& list, const int& index, Object^ obj, bool camelCaseJavascriptNames);
+            template void SerializeV8Object(const CefRefPtr<CefDictionaryValue>& list, const CefString& index, Object^ obj, bool camelCaseJavascriptNames);
         }
     }
 }

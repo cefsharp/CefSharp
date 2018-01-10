@@ -24,8 +24,9 @@ namespace CefSharp.Internals
         {
             object result;
             string exception;
-            
-            var success = javascriptObjectRepository.TryCallMethod(objectId, name, parameters, out result, out exception);
+            bool camelCaseJavascriptNames;
+
+            var success = javascriptObjectRepository.TryCallMethod(objectId, name, parameters, out result, out exception, out camelCaseJavascriptNames);
 
             return new BrowserProcessResponse { Success = success, Result = result, Message = exception };
         }

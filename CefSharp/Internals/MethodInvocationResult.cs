@@ -17,5 +17,7 @@ namespace CefSharp.Internals
         public bool Success { get; set; }
 
         public object Result { get; set; }
+
+        public bool CamelCaseJavascriptNames { get; set; }
     }
 }

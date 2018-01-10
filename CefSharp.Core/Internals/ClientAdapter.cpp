@@ -1285,7 +1285,7 @@ namespace CefSharp
                 argList->SetBool(2, result->Success);
                 if (result->Success)
                 {
-                    SerializeV8Object(argList, 3, result->Result);
+                    SerializeV8Object(argList, 3, result->Result, result->CamelCaseJavascriptNames);
                 }
                 else
                 {

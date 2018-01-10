@@ -107,11 +107,12 @@ namespace CefSharp.Internals
             object result = null;
             string exception;
             var success = false;
+            var camelCaseJavascriptNames = false;
 
             //make sure we don't throw exceptions in the executor task
             try
             {
-                success = repository.TryCallMethod(methodInvocation.ObjectId, methodInvocation.MethodName, methodInvocation.Parameters.ToArray(), out result, out exception);
+                success = repository.TryCallMethod(methodInvocation.ObjectId, methodInvocation.MethodName, methodInvocation.Parameters.ToArray(), out result, out exception, out camelCaseJavascriptNames);
             }
             catch (Exception e)
             {
@@ -125,7 +126,8 @@ namespace CefSharp.Internals
                 FrameId = methodInvocation.FrameId,
                 Message = exception,
                 Result = result,
-                Success = success
+                Success = success,
+                CamelCaseJavascriptNames = camelCaseJavascriptNames
             };
         }
 
