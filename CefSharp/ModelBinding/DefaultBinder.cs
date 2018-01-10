@@ -19,8 +19,6 @@ namespace CefSharp.ModelBinding
     {
         private readonly static MethodInfo ToArrayMethodInfo = typeof(Enumerable).GetMethod("ToArray", BindingFlags.Public | BindingFlags.Static);
 
-        private readonly IFieldNameConverter fieldNameConverter;
-
         /// <summary>
         /// List of property names to be ignored
         /// </summary>
@@ -29,15 +27,8 @@ namespace CefSharp.ModelBinding
         /// <summary>
         /// DefaultBinder constructor
         /// </summary>
-        /// <param name="fieldNameConverter">used to convert field names to property names</param>
-        public DefaultBinder(IFieldNameConverter fieldNameConverter)
+        public DefaultBinder()
         {
-            if (fieldNameConverter == null)
-            {
-                throw new ArgumentNullException("fieldNameConverter");
-            }
-
-            this.fieldNameConverter = fieldNameConverter;
             BlackListedPropertyNames = new List<string>();
         }
 

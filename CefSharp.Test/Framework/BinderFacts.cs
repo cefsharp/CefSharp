@@ -32,7 +32,7 @@ namespace CefSharp.Test.Framework
         [Fact]
         public void BindsComplexObjects()
         {
-            var binder = new DefaultBinder(new DefaultFieldNameConverter());
+            var binder = new DefaultBinder();
             var obj = new Dictionary<string, object> 
             {
                 { "AnEnum", 2 },
@@ -42,7 +42,7 @@ namespace CefSharp.Test.Framework
                 { "ADouble", 2.6 }
             };
 
-            var result = (TestObject) binder.Bind(obj, typeof(TestObject));
+            var result = (TestObject) binder.Bind(obj, typeof(TestObject), false);
 
             Assert.Equal(TestEnum.C, result.AnEnum);
             Assert.Equal(obj["AString"], result.AString);
@@ -54,8 +54,8 @@ namespace CefSharp.Test.Framework
         [Fact]
         public void BindsEnums() 
         {
-            var binder = new DefaultBinder(new DefaultFieldNameConverter());
-            var result = binder.Bind(2, typeof(TestEnum));
+            var binder = new DefaultBinder();
+            var result = binder.Bind(2, typeof(TestEnum), false);
 
             Assert.Equal(TestEnum.C, result);
         }
@@ -63,12 +63,12 @@ namespace CefSharp.Test.Framework
         [Fact]
         public void BindsIntegersWithPrecisionLoss() 
         {
-            var binder = new DefaultBinder(new DefaultFieldNameConverter());
-            var result = binder.Bind(2.5678, typeof(int));
+            var binder = new DefaultBinder();
+            var result = binder.Bind(2.5678, typeof(int), false);
 
             Assert.Equal(3, result);
 
-            result = binder.Bind(2.123, typeof(int));
+            result = binder.Bind(2.123, typeof(int), false);
 
             Assert.Equal(2, result);
         }
@@ -77,14 +77,41 @@ namespace CefSharp.Test.Framework
         public void BindsDoublesWithoutPrecisionLoss() 
         {
             const double Expected = 2.5678;
-            var binder = new DefaultBinder(new DefaultFieldNameConverter());
-            var result = binder.Bind(Expected, typeof(double));
+            var binder = new DefaultBinder();
+            var result = binder.Bind(Expected, typeof(double), false);
 
             Assert.Equal(Expected, result);
 
-            result = binder.Bind(2, typeof(double));
+            result = binder.Bind(2, typeof(double), false);
 
             Assert.Equal(2.0, result);
+        }
+
+        [Fact]
+        public void HonorsJavascriptCamelCaseParameter()
+        {
+            var binder = new DefaultBinder();
+            var obj = new Dictionary<string, object> 
+            {
+                { "aString", "SomeValue" },
+                { "aBool", true },
+            };
+
+            var result = (TestObject) binder.Bind(obj, typeof(TestObject), true);
+
+            Assert.Equal(obj["aString"], result.AString);
+            Assert.Equal(obj["aBool"], result.ABool);
+
+            obj = new Dictionary<string, object>
+            {
+                { "AString", "SomeValue" },
+                { "ABool", true },
+            };
+
+            result = (TestObject)binder.Bind(obj, typeof(TestObject), false);
+
+            Assert.Equal(obj["AString"], result.AString);
+            Assert.Equal(obj["ABool"], result.ABool);
         }
     }
 }
