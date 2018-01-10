@@ -16,6 +16,7 @@ using namespace CefSharp::Internals::Async;
 
 namespace CefSharp
 {
+    //TODO: JSB Fix naming of this class, it's pretty horrible currently
     private ref class RegisterBoundObjectRegistry
     {
     private:

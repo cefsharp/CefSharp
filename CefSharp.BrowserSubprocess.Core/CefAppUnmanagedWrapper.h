@@ -28,9 +28,6 @@ namespace CefSharp
         gcroot<List<CefCustomScheme^>^> _schemes;
         bool _focusedNodeChangedEnabled;
 
-        // The serialized registered object data waiting to be used (only contains methods and bound async).
-        gcroot<List<JavascriptObject^>^> _javascriptAsyncObjects;
-
         // The serialized registered object data waiting to be used.
         gcroot<List<JavascriptObject^>^> _javascriptObjects;
 

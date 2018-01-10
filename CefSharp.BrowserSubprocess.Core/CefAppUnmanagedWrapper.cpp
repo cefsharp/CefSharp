@@ -390,6 +390,9 @@ namespace CefSharp
             auto callbackId = GetInt64(argList, 2);
             auto javascriptObjects = DeserializeJsObjects(argList, 3);
 
+            //TODO: JSB Implement Caching of JavascriptObjects
+            //_javascriptObjects->AddRange(javascriptObjects);
+
             auto browserMatch = browserId == browser->GetIdentifier();
 
             auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier(), true);
@@ -405,6 +408,7 @@ namespace CefSharp
                     rootObjectWrappers->TryAdd(frameId, rootObject);
                 }
 
+                //TODO: JSB Rework this code, we'll need to be able to call this multiple times so we can requests objects dynamically
                 if (rootObject->IsBound)
                 {
                     LOG(WARNING) << "A context has been created for the same browser / frame without context released called previously";
