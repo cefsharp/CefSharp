@@ -76,10 +76,13 @@ namespace CefSharp
         auto global = context->GetGlobal();
 
         auto cefSharpObj = CefV8Value::CreateObject(NULL, NULL);
-        auto registerBoundObjFunction = CefV8Value::CreateFunction("RegisterBoundObject", new RegisterBoundObjectHandler(_registerBoundObjectRegistry, _javascriptObjects));
         global->SetValue("CefSharp", cefSharpObj, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
 
-        cefSharpObj->SetValue("RegisterBoundObject", registerBoundObjFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
+        auto bindObjAsyncFunction = CefV8Value::CreateFunction("BindObjectAsync", new RegisterBoundObjectHandler(_registerBoundObjectRegistry, _javascriptObjects));
+        cefSharpObj->SetValue("BindObjectAsync", bindObjAsyncFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
+
+        auto unBindObFunction = CefV8Value::CreateFunction("DeleteBoundObject", new RegisterBoundObjectHandler(_registerBoundObjectRegistry, _javascriptObjects));
+        cefSharpObj->SetValue("DeleteBoundObject", unBindObFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
 
         //TODO: JSB We could in theory auto bind all the cached objects which would resemble the original JSB behaviour, if
         //the cache is empty which would be the case for any cross-site navigation request or the first request made to a browser instance

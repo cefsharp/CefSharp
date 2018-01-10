@@ -9,9 +9,23 @@
         <div id="qunit-fixture"></div>
         <script src="https://code.jquery.com/qunit/qunit-2.4.1.js"></script>
 
+        <!--<script type="text/javascript">
+        (async function() {
+            // <embed user provided code here>
+
+            await CefSharp.BindObjectAsync("boundAsync", "bound");
+        })();
+
+        (async () => {
+            await CefSharp.BindObjectAsync("boundAsync", "bound");
+        })();
+        </script>-->
+
         <script type="text/javascript">
-        (() =>
+        (async () =>
         {
+            await CefSharp.BindObjectAsync("boundAsync", "bound");
+
             QUnit.test( "bound.repeat('hi ', 5)", function( assert )
             {
                 const expectedResult = "hi hi hi hi hi "
@@ -319,15 +333,39 @@
         </script>
 
         <script type="text/javascript">
-            CefSharp.RegisterBoundObject("boundAsync2").then(function(result)
+            QUnit.test( "Bind boundAsync2 and call (Hello):", function( assert )
             {
-                QUnit.test( "Async boundAsync2 call (Hello):", function( assert )
+                var asyncCallback = assert.async();
+
+                CefSharp.BindObjectAsync("boundAsync2").then(function(result)
                 {
-                    var asyncCallback = assert.async();
-                
                     boundAsync2.hello('CefSharp').then(function (res)
                     {
                         assert.equal(res, "Hello CefSharp")
+
+                        assert.equal(true, CefSharp.DeleteBoundObject("boundAsync2"), "Object was unbound");
+
+                        assert.ok(window.boundAsync2 === undefined, "boundAsync2 is now undefined");
+
+                        asyncCallback();
+                    });
+                });
+            });
+
+            //Repeat of the previous test to make sure binding a deleted object is working
+            QUnit.test( "Bind boundAsync2 and call (Hello) Second Attempt:", function( assert )
+            {
+                var asyncCallback = assert.async();
+
+                CefSharp.BindObjectAsync("boundAsync2").then(function(result)
+                {
+                    boundAsync2.hello('CefSharp').then(function (res)
+                    {
+                        assert.equal(res, "Hello CefSharp")
+
+                        assert.equal(true, CefSharp.DeleteBoundObject("boundAsync2"), "Object was unbound");
+
+                        assert.ok(window.boundAsync2 === undefined, "boundAsync2 is now undefined");
 
                         asyncCallback();
                     });
