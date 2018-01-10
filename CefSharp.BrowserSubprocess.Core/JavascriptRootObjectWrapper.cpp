@@ -12,7 +12,7 @@ using namespace System::Threading;
 
 namespace CefSharp
 {
-    void JavascriptRootObjectWrapper::Bind(JavascriptRootObject^ rootObject, JavascriptRootObject^ asyncRootObject, const CefRefPtr<CefV8Value>& v8Value)
+    void JavascriptRootObjectWrapper::Bind(List<JavascriptObject^>^ objects, List<JavascriptObject^>^ asyncObjects, const CefRefPtr<CefV8Value>& v8Value)
     {
         if (_isBound)
         {
@@ -21,10 +21,10 @@ namespace CefSharp
 
         _isBound = true;
 
-        if (rootObject != nullptr)
+        if (objects->Count > 0)
         {
-            auto memberObjects = rootObject->MemberObjects;
-            for each (JavascriptObject^ obj in Enumerable::OfType<JavascriptObject^>(memberObjects))
+            auto memberObjects = objects;
+            for each (JavascriptObject^ obj in Enumerable::OfType<JavascriptObject^>(objects))
             {
                 auto wrapperObject = gcnew JavascriptObjectWrapper(_browserProcess);
                 wrapperObject->Bind(obj, v8Value, _callbackRegistry);
@@ -33,12 +33,11 @@ namespace CefSharp
             }
         }
 
-        if (asyncRootObject != nullptr)
+        if (asyncObjects->Count > 0)
         {
-            auto memberObjects = asyncRootObject->MemberObjects;
             auto saveMethod = gcnew Func<JavascriptAsyncMethodCallback^, int64>(this, &JavascriptRootObjectWrapper::SaveMethodCallback);
             auto promiseCreator = v8Value->GetValue(CefAppUnmanagedWrapper::kPromiseCreatorFunction);
-            for each (JavascriptObject^ obj in Enumerable::OfType<JavascriptObject^>(memberObjects))
+            for each (JavascriptObject^ obj in Enumerable::OfType<JavascriptObject^>(asyncObjects))
             {
                 auto wrapperObject = gcnew JavascriptAsyncObjectWrapper(_callbackRegistry, saveMethod);
                 wrapperObject->Bind(obj, v8Value, promiseCreator);

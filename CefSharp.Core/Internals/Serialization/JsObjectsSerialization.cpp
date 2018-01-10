@@ -66,11 +66,11 @@ namespace CefSharp
                 list->SetList(index, objList);
             }
 
-            void SerializeJsObject(JavascriptRootObject^ object, const CefRefPtr<CefListValue> &list, int index)
+            void SerializeJsObjects(List<JavascriptObject^>^ objects, const CefRefPtr<CefListValue> &list, int index)
             {
                 auto subList = CefListValue::Create();
                 auto i = 0;
-                for each (JavascriptObject^ jsObject in object->MemberObjects)
+                for each (JavascriptObject^ jsObject in objects)
                 {
                     SerializeJsObject(jsObject, subList, i++);
                 }

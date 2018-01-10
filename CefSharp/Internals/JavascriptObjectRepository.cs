@@ -42,23 +42,23 @@ namespace CefSharp.Internals
         /// <summary>
         /// This is the root of the objects that get serialized to the child process.
         /// </summary>
-        public JavascriptRootObject RootObject { get; private set; }
+        public List<JavascriptObject> JsObjects { get; private set; }
         
         /// <summary>
         /// This is the root of the objects that get serialized to the child
         /// process with cef ipc serialization (wcf not required).
         /// </summary>
-        public JavascriptRootObject AsyncRootObject { get; private set; }
+        public List<JavascriptObject> AsyncJsObjects { get; private set; }
 
         public JavascriptObjectRepository()
         {
-            RootObject = new JavascriptRootObject();
-            AsyncRootObject = new JavascriptRootObject();
+            JsObjects = new List<JavascriptObject>();
+            AsyncJsObjects = new List<JavascriptObject>();
         }
 
         public bool HasBoundObjects
         {
-            get { return RootObject.MemberObjects.Count > 0 || AsyncRootObject.MemberObjects.Count > 0; }
+            get { return JsObjects.Count > 0 || AsyncJsObjects.Count > 0; }
         }
 
         private JavascriptObject CreateJavascriptObject(bool camelCaseJavascriptNames)
@@ -73,12 +73,12 @@ namespace CefSharp.Internals
 
         public void RegisterAsync(string name, object value, BindingOptions options)
         {
-            AsyncRootObject.MemberObjects.Add(CreateInternal(name, value, analyseProperties: false, options: options));
+            AsyncJsObjects.Add(CreateInternal(name, value, analyseProperties: false, options: options));
         }
 
         public void Register(string name, object value, BindingOptions options)
         {
-            RootObject.MemberObjects.Add(CreateInternal(name, value, analyseProperties: true, options: options));
+            JsObjects.Add(CreateInternal(name, value, analyseProperties: true, options: options));
         }
 
         private JavascriptObject CreateInternal(string name, object value, bool analyseProperties, BindingOptions options)

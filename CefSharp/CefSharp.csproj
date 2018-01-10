@@ -240,7 +240,6 @@
     <Compile Include="IDragData.cs" />
     <Compile Include="DownloadItem.cs" />
     <Compile Include="Internals\BrowserProcessResponse.cs" />
-    <Compile Include="Internals\JavascriptRootObject.cs" />
     <Compile Include="Internals\TaskExtensions.cs" />
     <Compile Include="IContextMenuParams.cs" />
     <Compile Include="ITaskScheduler.cs" />

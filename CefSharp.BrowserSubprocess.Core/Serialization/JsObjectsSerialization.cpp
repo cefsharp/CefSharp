@@ -63,13 +63,13 @@ namespace CefSharp
                 return jsObject;
             }
 
-            JavascriptRootObject^ DeserializeJsRootObject(const CefRefPtr<CefListValue>& list, int index)
+            List<JavascriptObject^>^ DeserializeJsRootObject(const CefRefPtr<CefListValue>& list, int index)
             {
-                auto result = gcnew JavascriptRootObject();
+                auto result = gcnew List<JavascriptObject^>();
                 auto subList = list->GetList(index);
                 for (auto i = 0; i < subList->GetSize(); i++)
                 {
-                    result->MemberObjects->Add(DeserializeJsObject(subList, i));
+                    result->Add(DeserializeJsObject(subList, i));
                 }
 
                 return result;
