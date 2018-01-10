@@ -54,7 +54,7 @@ namespace CefSharp
 
                     if (jsProperty->PropertyValue != nullptr)
                     {
-                        SerializeV8Object(propertyList, j++, jsProperty->PropertyValue);
+                        SerializeV8Object(propertyList, j++, jsProperty->PropertyValue, jsObject->CamelCaseJavascriptNames);
                     }
                     else
                     {

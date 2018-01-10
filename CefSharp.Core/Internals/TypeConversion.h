@@ -156,7 +156,7 @@ namespace CefSharp
                     for (int i = 0; i < list->Count; i++)
                     {
                         auto value = list[i];
-                        SerializeV8Object(cefList, i, value);
+                        SerializeV8Object(cefList, i, value, false);
                     }
                     cefValue->SetList(cefList);
                 }
@@ -169,7 +169,7 @@ namespace CefSharp
                     {
                         auto key = StringUtils::ToNative(entry->Key);
                         auto value = entry->Value;
-                        SerializeV8Object(cefDictionary, key, value);
+                        SerializeV8Object(cefDictionary, key, value, false);
                     }
 
                     cefValue->SetDictionary(cefDictionary);

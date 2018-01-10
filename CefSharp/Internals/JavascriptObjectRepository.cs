@@ -96,15 +96,18 @@ namespace CefSharp.Internals
             return jsObject;
         }
 
-        public bool TryCallMethod(long objectId, string name, object[] parameters, out object result, out string exception)
+        public bool TryCallMethod(long objectId, string name, object[] parameters, out object result, out string exception, out bool camelCaseJavascriptNames)
         {
             exception = "";
             result = null;
+            camelCaseJavascriptNames = false;
             JavascriptObject obj;
             if (!objects.TryGetValue(objectId, out obj))
             {
                 return false;
             }
+
+            camelCaseJavascriptNames = obj.CamelCaseJavascriptNames;
 
             var method = obj.Methods.FirstOrDefault(p => p.JavascriptName == name);
             if (method == null)
