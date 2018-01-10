@@ -10,7 +10,6 @@
 #include "TypeUtils.h"
 #include "Stdafx.h"
 #include "JavascriptRootObjectWrapper.h"
-#include "Async/JavascriptAsyncMethodCallback.h"
 
 using namespace CefSharp::Internals::Async;
 using namespace System::ServiceModel;

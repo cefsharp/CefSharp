@@ -19,11 +19,13 @@ namespace CefSharp
     {
     private:
         gcroot<RegisterBoundObjectRegistry^> _callbackRegistry;
+        gcroot<Dictionary<String^, JavascriptObject^>^> _javascriptObjects;
 
     public:
-        RegisterBoundObjectHandler(RegisterBoundObjectRegistry^ callbackRegistery)
+        RegisterBoundObjectHandler(RegisterBoundObjectRegistry^ callbackRegistery, Dictionary<String^, JavascriptObject^>^ javascriptObjects)
         {
             _callbackRegistry = callbackRegistery;
+            _javascriptObjects = javascriptObjects;
         }
 
         bool Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception) OVERRIDE
@@ -60,16 +62,38 @@ namespace CefSharp
 
                         auto boundObjectRequired = false;
 
-                        for (auto i = 0; i < arguments.size(); i++)
+                        if (arguments.size() > 0)
                         {
-                            auto objectName = arguments[i]->GetStringValue();
-
-                            //TODO: JSB Check if object already bound
-                            //if (!global->GetValue(objectName).get())
+                            for (auto i = 0; i < arguments.size(); i++)
                             {
-                                boundObjectRequired = true;
-                                params->SetString(i, objectName);
-                            }								
+                                auto objectName = arguments[i]->GetStringValue();
+                                auto managedObjectName = StringUtils::ToClr(objectName);
+
+                                //TODO: JSB Implement Caching of JavascriptObjects
+                                //if (_javascriptObjects->ContainsKey(managedObjectName))
+                                //{
+                                //    //We have a cached version of the required object so we won't request it again
+                                //	  //We will still need to sent through a list of cached object names so they can be bound from cache
+                                //    //The problem with caching will be that we can only call Promise.Resolve once, so we'll need to gather
+                                //    //all our bound data before we return
+                                //}
+                                //else
+                                //{
+
+                                //}
+
+                                //TODO: JSB Check if object already bound
+                                //if (!global->GetValue(objectName).get())
+                                {
+                                    boundObjectRequired = true;
+                                    params->SetString(i, objectName);
+                                }								
+                            }
+                        }
+                        else
+                        {
+                            //No objects names were specified so we default to makeing the request
+                            boundObjectRequired = true;
                         }
 
                         //If objects already exist then we'll just do nothing

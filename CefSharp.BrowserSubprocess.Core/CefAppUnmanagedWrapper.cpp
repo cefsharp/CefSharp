@@ -76,10 +76,14 @@ namespace CefSharp
         auto global = context->GetGlobal();
 
         auto cefSharpObj = CefV8Value::CreateObject(NULL, NULL);
-        auto registerBoundObjFunction = CefV8Value::CreateFunction("RegisterBoundObject", new RegisterBoundObjectHandler(_registerBoundObjectRegistry));
+        auto registerBoundObjFunction = CefV8Value::CreateFunction("RegisterBoundObject", new RegisterBoundObjectHandler(_registerBoundObjectRegistry, _javascriptObjects));
         global->SetValue("CefSharp", cefSharpObj, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
 
         cefSharpObj->SetValue("RegisterBoundObject", registerBoundObjFunction, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_NONE);
+
+        //TODO: JSB We could in theory auto bind all the cached objects which would resemble the original JSB behaviour, if
+        //the cache is empty which would be the case for any cross-site navigation request or the first request made to a browser instance
+        //then no objects would be bound by default
     };
 
     void CefAppUnmanagedWrapper::OnContextReleased(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
@@ -391,10 +395,16 @@ namespace CefSharp
             auto javascriptObjects = DeserializeJsObjects(argList, 3);
 
             //TODO: JSB Implement Caching of JavascriptObjects
-            //_javascriptObjects->AddRange(javascriptObjects);
-
-            auto browserMatch = browserId == browser->GetIdentifier();
-
+            //Should caching be configurable? On a per object basis?
+            /*for each (JavascriptObject^ obj in Enumerable::OfType<JavascriptObject^>(javascriptObjects))
+            {
+                if (_javascriptObjects->ContainsKey(obj->JavascriptName))
+                {
+                    _javascriptObjects->Remove(obj->JavascriptName);
+                }
+                _javascriptObjects->Add(obj->JavascriptName, obj);
+            }*/
+           
             auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier(), true);
 
             auto rootObjectWrappers = browserWrapper->JavascriptRootObjectWrappers;

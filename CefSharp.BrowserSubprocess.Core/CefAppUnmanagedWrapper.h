@@ -29,7 +29,7 @@ namespace CefSharp
         bool _focusedNodeChangedEnabled;
 
         // The serialized registered object data waiting to be used.
-        gcroot<List<JavascriptObject^>^> _javascriptObjects;
+        gcroot<Dictionary<String^, JavascriptObject^>^> _javascriptObjects;
 
         gcroot<RegisterBoundObjectRegistry^> _registerBoundObjectRegistry;
 
@@ -44,6 +44,7 @@ namespace CefSharp
             _extensions = gcnew List<CefExtension^>();
             _schemes = schemes;
             _focusedNodeChangedEnabled = enableFocusedNodeChanged;
+            _javascriptObjects = gcnew Dictionary<String^, JavascriptObject^>();
             _registerBoundObjectRegistry = gcnew RegisterBoundObjectRegistry();
         }
 
