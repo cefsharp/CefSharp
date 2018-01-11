@@ -100,18 +100,22 @@ namespace CefSharp.ModelBinding
                     return null;
                 }
 
+
                 for (var i = 0; i < collection.Count; i++)
                 {
                     var val = GetValue(bindingContext, i);
 
-                    if (val != null && typeof(IDictionary<string, object>).IsAssignableFrom(val.GetType()))
+                    if (val != null)
                     {
-                        var subModel = Bind(val, genericType, camelCaseJavascriptNames);
-                        model.Add(subModel);
-                    }
-                    else
-                    { 
-                        model.Add(val);
+                        if (typeof(IDictionary<string, object>).IsAssignableFrom(val.GetType()))
+                        {
+                            var subModel = Bind(val, genericType, camelCaseJavascriptNames);
+                            model.Add(subModel);
+                        }
+                        else
+                        { 
+                            model.Add(val);
+                        }
                     }
                 }
             }
