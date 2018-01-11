@@ -346,7 +346,12 @@ namespace CefSharp.Internals
             {
                 foreach (var propertyInfo in type.GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(p => !p.IsSpecialName))
                 {
-                    if (propertyInfo.PropertyType == typeof (Type) || Attribute.IsDefined(propertyInfo, typeof (JavascriptIgnoreAttribute)))
+                    //https://msdn.microsoft.com/en-us/library/system.reflection.propertyinfo.getindexparameters(v=vs.110).aspx
+                    //An array of type ParameterInfo containing the parameters for the indexes. If the property is not indexed, the array has 0 (zero) elements.
+                    //According to MSDN array has zero elements when it's not an indexer, so in theory no null check is required
+                    var isIndexer = propertyInfo.GetIndexParameters().Length > 0;
+                    var hasIgnoreAttribute = Attribute.IsDefined(propertyInfo, typeof (JavascriptIgnoreAttribute));
+                    if (propertyInfo.PropertyType == typeof (Type) || isIndexer || hasIgnoreAttribute)
                     {
                         continue;
                     }
