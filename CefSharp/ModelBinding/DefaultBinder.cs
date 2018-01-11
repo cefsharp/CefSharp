@@ -38,7 +38,7 @@ namespace CefSharp.ModelBinding
         /// <param name="obj">object to be converted into a model</param>
         /// <param name="modelType">Model type to bind to</param>
         /// <returns>Bound model</returns>
-        public virtual object Bind(object obj, Type modelType, bool camelCaseJavascriptNames)
+        public virtual object Bind(object obj, Type modelType, bool camelCaseJavascriptNames = false)
         {
             if(obj == null)
             {

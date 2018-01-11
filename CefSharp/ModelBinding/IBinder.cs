@@ -18,6 +18,6 @@ namespace CefSharp.ModelBinding
         /// <param name="modelType">Model type to bind to</param>
         /// <param name="camelCaseJavascriptNames">Specifies whether the object fields names should be converted to Pascal Case</param>
         /// <returns>Bound model</returns>
-        object Bind(object obj, Type modelType, bool camelCaseJavascriptNames);
+        object Bind(object obj, Type modelType, bool camelCaseJavascriptNames = false);
     }
 }
