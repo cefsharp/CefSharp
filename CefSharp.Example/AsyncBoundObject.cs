@@ -64,7 +64,18 @@ namespace CefSharp.Example
             };
         }
 
-        public string[] ReceiveArray(string[] arg) {
+        public string[] EchoArray(string[] arg) 
+        {
+            return arg;
+        }
+
+        public int[] EchoValueTypeArray(int[] arg) 
+        {
+            return arg;
+        }
+
+        public int[][] EchoMultidimensionalArray(int[][] arg) 
+        {
             return arg;
         }
 
