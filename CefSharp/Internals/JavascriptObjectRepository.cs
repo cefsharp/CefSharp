@@ -175,17 +175,17 @@ namespace CefSharp.Internals
                         { 
                             if(parameters[i] != null)
                             { 
-                                var paramExpectedType = method.Parameters[i].Type;
-                                var paramType = parameters[i].GetType();
-                                if (typeof(IDictionary<string, object>).IsAssignableFrom(paramType))
+                                var paramType = method.Parameters[i].Type;
+
+                                if(typeof(IDictionary<string, object>).IsAssignableFrom(parameters[i].GetType()))
                                 {
                                     var dictionary = (IDictionary<string, object>)parameters[i];
-                                    parameters[i] = obj.Binder.Bind(dictionary, paramExpectedType, camelCaseJavascriptNames);
+                                    parameters[i] = obj.Binder.Bind(dictionary, paramType, camelCaseJavascriptNames);
                                 }
-                                else if (typeof(IList<object>).IsAssignableFrom(paramType))
+                                else if (typeof(IList<object>).IsAssignableFrom(parameters[i].GetType()))
                                 {
                                     var list = (IList<object>)parameters[i];
-                                    parameters[i] = obj.Binder.Bind(list, paramExpectedType, camelCaseJavascriptNames);
+                                    parameters[i] = obj.Binder.Bind(list, paramType, camelCaseJavascriptNames);
                                 }
                             }
                         }

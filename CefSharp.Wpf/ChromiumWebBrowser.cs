@@ -2,8 +2,11 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using CefSharp.Internals;
+using CefSharp.Wpf.Internals;
+using CefSharp.Wpf.Rendering;
+using Microsoft.Win32.SafeHandles;
 using System;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,12 +17,10 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
-using CefSharp.Internals;
-using CefSharp.Wpf.Internals;
-using CefSharp.Wpf.Rendering;
-using Microsoft.Win32.SafeHandles;
+using CefSharp.ModelBinding;
+using System.Runtime.CompilerServices;
 
-namespace CefSharp.Wpf 
+namespace CefSharp.Wpf
 {
     /// <summary>
     /// ChromiumWebBrowser is the WPF web browser control
@@ -33,6 +34,10 @@ namespace CefSharp.Wpf
         /// The source
         /// </summary>
         private HwndSource source;
+        /// <summary>
+        /// The source hook
+        /// </summary>
+        private HwndSourceHook sourceHook;
         /// <summary>
         /// The tooltip timer
         /// </summary>
@@ -577,7 +582,7 @@ namespace CefSharp.Wpf
 
                 Cef.RemoveDisposable(this);
 
-                source = null;
+                RemoveSourceHook();
             }
         }
 
@@ -1554,6 +1559,8 @@ namespace CefSharp.Wpf
                     var notifyDpiChanged = DpiScaleFactor > 0 && !DpiScaleFactor.Equals(matrix.M11);
 
                     DpiScaleFactor = source.CompositionTarget.TransformToDevice.M11;
+                    sourceHook = SourceHook;
+                    source.AddHook(sourceHook);
 
                     if (notifyDpiChanged && browser != null)
                     {
@@ -1572,6 +1579,8 @@ namespace CefSharp.Wpf
             }
             else if (args.OldSource != null)
             {
+                RemoveSourceHook();
+
                 var window = args.OldSource.RootVisual as Window;
                 if (window != null)
                 {
@@ -1620,6 +1629,18 @@ namespace CefSharp.Wpf
             //We maintain a manual reference to the controls screen location
             //(relative to top/left of the screen)
             UpdateBrowserScreenLocation();
+        }
+
+        /// <summary>
+        /// Removes the source hook.
+        /// </summary>
+        private void RemoveSourceHook()
+        {
+            if (source != null && sourceHook != null)
+            {
+                source.RemoveHook(sourceHook);
+                source = null;
+            }
         }
 
         /// <summary>
@@ -1821,6 +1842,60 @@ namespace CefSharp.Wpf
             return newPopup;
         }
 
+        /// <summary>
+        /// WindowProc callback interceptor. Handles Windows messages intended for the source hWnd, and passes them to the
+        /// contained browser as needed.
+        /// </summary>
+        /// <param name="hWnd">The source handle.</param>
+        /// <param name="message">The message.</param>
+        /// <param name="wParam">Additional message info.</param>
+        /// <param name="lParam">Even more message info.</param>
+        /// <param name="handled">if set to <c>true</c>, the event has already been handled by someone else.</param>
+        /// <returns>IntPtr.</returns>
+        protected virtual IntPtr SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            if (handled)
+            {
+                return IntPtr.Zero;
+            }
+
+            switch ((WM)message)
+            {
+                case WM.SYSCHAR:
+                case WM.SYSKEYDOWN:
+                case WM.SYSKEYUP:
+                case WM.KEYDOWN:
+                case WM.KEYUP:
+                case WM.CHAR:
+                case WM.IME_CHAR:
+                {
+                    if (!IsKeyboardFocused)
+                    {
+                        break;
+                    }
+
+                    if (message == (int)WM.SYSKEYDOWN &&
+                        wParam.ToInt32() == KeyInterop.VirtualKeyFromKey(Key.F4))
+                    {
+                        // We don't want CEF to receive this event (and mark it as handled), since that makes it impossible to
+                        // shut down a CefSharp-based app by pressing Alt-F4, which is kind of bad.
+                        return IntPtr.Zero;
+                    }
+
+                    if (browser != null)
+                    {
+                        browser.GetHost().SendKeyEvent(message, wParam.CastToInt32(), lParam.CastToInt32());
+                        handled = true;
+                    }
+
+                    break;
+                }
+            }
+
+            return IntPtr.Zero;
+        }
+
+        /// <summary>
         /// Converts a .NET Drag event to a CefSharp MouseEvent
         /// </summary>
         /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
@@ -1926,7 +2001,7 @@ namespace CefSharp.Wpf
         }
 
         /// <summary>
-        /// Invoked when an unhandled <see cref="E:System.Windows.Input.Keyboard.PreviewKeyDown" /> attached event reaches an
+        /// Invoked when an unhandled <see cref="E:System.Windows.Input.Keyboard.PreviewKeyDown" /> attached event reaches an
         /// element in its route that is derived from this class. Implement this method to add class handling for this event.
         /// </summary>
         /// <param name="e">The <see cref="T:System.Windows.Input.KeyEventArgs" /> that contains the event data.</param>
@@ -1941,7 +2016,7 @@ namespace CefSharp.Wpf
         }
 
         /// <summary>
-        /// Invoked when an unhandled <see cref="E:System.Windows.Input.Keyboard.PreviewKeyUp" /> attached event reaches an
+        /// Invoked when an unhandled <see cref="E:System.Windows.Input.Keyboard.PreviewKeyUp" /> attached event reaches an
         /// element in its route that is derived from this class. Implement this method to add class handling for this event.
         /// </summary>
         /// <param name="e">The <see cref="T:System.Windows.Input.KeyEventArgs" /> that contains the event data.</param>
@@ -1961,47 +2036,29 @@ namespace CefSharp.Wpf
         /// <param name="e">The <see cref="KeyEventArgs"/> instance containing the event data.</param>
         private void OnPreviewKey(KeyEventArgs e)
         {
-            if (browser != null) 
+            // As KeyDown and KeyUp bubble, it appears they're being handled before they get a chance to
+            // trigger the appropriate WM_ messages handled by our SourceHook, so we have to handle these extra keys here.
+            // Hooking the Tab key like this makes the tab focusing in essence work like
+            // KeyboardNavigation.TabNavigation="Cycle"; you will never be able to Tab out of the web browser control.
+            // We also add the condition to allow ctrl+a to work when the web browser control is put inside listbox.
+            if (e.Key == Key.Tab || e.Key == Key.Home || e.Key == Key.End || e.Key == Key.Up
+                                 || e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.Right
+                                 || (e.Key == Key.A && Keyboard.Modifiers == ModifierKeys.Control))
             {
                 var modifiers = e.GetModifiers();
                 var message = (int)(e.IsDown ? WM.KEYDOWN : WM.KEYUP);
                 var virtualKey = KeyInterop.VirtualKeyFromKey(e.Key);
 
-                browser.GetHost().SendKeyEvent(message, virtualKey, (int)modifiers);
-            }
-
-            // Hooking the Tab key like this makes the tab focusing in essence work like
-            // KeyboardNavigation.TabNavigation="Cycle"; you will never be able to Tab out of the web browser control.
-            // We also add the condition to allow ctrl+a to work when the web browser control is put inside listbox.
-            // Prevent keyboard navigation using arrows and home and end keys
-            if (e.Key == Key.Tab || e.Key == Key.Home || e.Key == Key.End || e.Key == Key.Up
-                                 || e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.Right
-                                 || (e.Key == Key.A && Keyboard.Modifiers == ModifierKeys.Control))
-            {
-                e.Handled = true;
-            }
-        }
-
-        /// <summary>
-        /// Handles the <see cref="E:PreviewTextInput" /> event.
-        /// </summary>
-        /// <param name="e">The <see cref="TextCompositionEventArgs"/> instance containing the event data.</param>
-        protected override void OnPreviewTextInput(TextCompositionEventArgs e) 
-        {
-            if (!e.Handled && browser != null) 
-            {
-                var browserHost = browser.GetHost();
-                for (int i = 0; i < e.Text.Length; i++) 
+                if(browser != null)
                 {
-                    browserHost.SendKeyEvent((int)WM.CHAR, e.Text[i], 0);
+                    browser.GetHost().SendKeyEvent(message, virtualKey, (int)modifiers);
+                    e.Handled = true;
                 }
-                e.Handled = true;
             }
-            base.OnPreviewTextInput(e);
         }
 
         /// <summary>
-        /// Invoked when an unhandled <see cref="E:System.Windows.Input.Mouse.MouseMove" /> attached event reaches an element in its route that is derived from this class. Implement this method to add class handling for this event.
+        /// Invoked when an unhandled <see cref="E:System.Windows.Input.Mouse.MouseMove" /> attached event reaches an element in its route that is derived from this class. Implement this method to add class handling for this event.
         /// </summary>
         /// <param name="e">The <see cref="T:System.Windows.Input.MouseEventArgs" /> that contains the event data.</param>
         protected override void OnMouseMove(MouseEventArgs e)
@@ -2018,7 +2075,7 @@ namespace CefSharp.Wpf
         }
 
         /// <summary>
-        /// Invoked when an unhandled <see cref="E:System.Windows.Input.Mouse.MouseWheel" /> attached event reaches an element in its route that is derived from this class. Implement this method to add class handling for this event.
+        /// Invoked when an unhandled <see cref="E:System.Windows.Input.Mouse.MouseWheel" /> attached event reaches an element in its route that is derived from this class. Implement this method to add class handling for this event.
         /// </summary>
         /// <param name="e">The <see cref="T:System.Windows.Input.MouseWheelEventArgs" /> that contains the event data.</param>
         protected override void OnMouseWheel(MouseWheelEventArgs e)
@@ -2069,7 +2126,7 @@ namespace CefSharp.Wpf
         }
 
         /// <summary>
-        /// Invoked when an unhandled <see cref="E:System.Windows.Input.Mouse.MouseDown" /> attached event reaches an
+        /// Invoked when an unhandled <see cref="E:System.Windows.Input.Mouse.MouseDown" /> attached event reaches an
         /// element in its route that is derived from this class. Implement this method to add class handling for this event.
         /// </summary>
         /// <param name="e">The <see cref="T:System.Windows.Input.MouseButtonEventArgs" /> that contains the event data.
@@ -2083,7 +2140,7 @@ namespace CefSharp.Wpf
         }
 
         /// <summary>
-        /// Invoked when an unhandled <see cref="E:System.Windows.Input.Mouse.MouseUp" /> routed event reaches an element in its route that is derived from this class. Implement this method to add class handling for this event.
+        /// Invoked when an unhandled <see cref="E:System.Windows.Input.Mouse.MouseUp" /> routed event reaches an element in its route that is derived from this class. Implement this method to add class handling for this event.
         /// </summary>
         /// <param name="e">The <see cref="T:System.Windows.Input.MouseButtonEventArgs" /> that contains the event data. The event data reports that the mouse button was released.</param>
         protected override void OnMouseUp(MouseButtonEventArgs e)
@@ -2094,7 +2151,7 @@ namespace CefSharp.Wpf
         }
 
         /// <summary>
-        /// Invoked when an unhandled <see cref="E:System.Windows.Input.Mouse.MouseLeave" /> attached event is raised on this element. Implement this method to add class handling for this event.
+        /// Invoked when an unhandled <see cref="E:System.Windows.Input.Mouse.MouseLeave" /> attached event is raised on this element. Implement this method to add class handling for this event.
         /// </summary>
         /// <param name="e">The <see cref="T:System.Windows.Input.MouseEventArgs" /> that contains the event data.</param>
         protected override void OnMouseLeave(MouseEventArgs e)
