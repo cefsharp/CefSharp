@@ -424,7 +424,6 @@ namespace CefSharp
 
                 for each (JavascriptObject^ obj in Enumerable::OfType<JavascriptObject^>(javascriptObjects))
                 {
-                    obj->AutoBind = true;
                     _javascriptObjects->Add(obj->JavascriptName, obj);
                 }
             }
