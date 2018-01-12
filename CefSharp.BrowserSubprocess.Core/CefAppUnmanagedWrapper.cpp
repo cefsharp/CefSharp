@@ -73,6 +73,26 @@ namespace CefSharp
             browser->SendProcessMessage(CefProcessId::PID_BROWSER, contextCreatedMessage);
         }
 
+        if (_legacyBindingEnabled)
+        {
+            auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier(), true);
+
+            auto rootObjectWrappers = browserWrapper->JavascriptRootObjectWrappers;
+            auto frameId = frame->GetIdentifier();
+
+            if (_javascriptObjects->Count > 0)
+            {
+                JavascriptRootObjectWrapper^ rootObject;
+                if (!rootObjectWrappers->TryGetValue(frameId, rootObject))
+                {
+                    rootObject = gcnew JavascriptRootObjectWrapper(browser->GetIdentifier(), browserWrapper->BrowserProcess);
+                    rootObjectWrappers->TryAdd(frameId, rootObject);
+                }
+
+                rootObject->Bind(_javascriptObjects->Values, context->GetGlobal());
+            }
+        }
+
         auto global = context->GetGlobal();
 
         auto cefSharpObj = CefV8Value::CreateObject(NULL, NULL);
@@ -392,54 +412,73 @@ namespace CefSharp
         }
         else if (name == kJavascriptRootObjectResponse)
         {
-            auto browserId = argList->GetInt(0);
-            auto frameId = GetInt64(argList, 1);
-            auto callbackId = GetInt64(argList, 2);
-            auto javascriptObjects = DeserializeJsObjects(argList, 3);
+            auto useLegacyBehaviour = argList->GetBool(0);
 
-            //TODO: JSB Implement Caching of JavascriptObjects
-            //Should caching be configurable? On a per object basis?
-            /*for each (JavascriptObject^ obj in Enumerable::OfType<JavascriptObject^>(javascriptObjects))
+            //For the old legacy behaviour we add the objects
+            //to the cache
+            if (useLegacyBehaviour)
             {
-                if (_javascriptObjects->ContainsKey(obj->JavascriptName))
-                {
-                    _javascriptObjects->Remove(obj->JavascriptName);
-                }
-                _javascriptObjects->Add(obj->JavascriptName, obj);
-            }*/
-           
-            auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier(), true);
+                _legacyBindingEnabled = true;
 
-            auto rootObjectWrappers = browserWrapper->JavascriptRootObjectWrappers;
-            auto frame = browser->GetFrame(frameId);
-            if (frame.get())
+                auto javascriptObjects = DeserializeJsObjects(argList, 4);
+
+                for each (JavascriptObject^ obj in Enumerable::OfType<JavascriptObject^>(javascriptObjects))
+                {
+                    obj->AutoBind = true;
+                    _javascriptObjects->Add(obj->JavascriptName, obj);
+                }
+            }
+            else
             {
-                JavascriptRootObjectWrapper^ rootObject;
-                if (!rootObjectWrappers->TryGetValue(frameId, rootObject))
-                {
-                    rootObject = gcnew JavascriptRootObjectWrapper(browser->GetIdentifier(), browserWrapper->BrowserProcess);
-                    rootObjectWrappers->TryAdd(frameId, rootObject);
-                }
+                auto browserId = argList->GetInt(1);
+                auto frameId = GetInt64(argList, 2);
+                auto callbackId = GetInt64(argList, 3);
+                auto javascriptObjects = DeserializeJsObjects(argList, 4);
 
-                auto context = frame->GetV8Context();
-
-                if (context.get() && context->Enter())
+                //TODO: JSB Implement Caching of JavascriptObjects
+                //Should caching be configurable? On a per object basis?
+                /*for each (JavascriptObject^ obj in Enumerable::OfType<JavascriptObject^>(javascriptObjects))
                 {
-                    try
+                    if (_javascriptObjects->ContainsKey(obj->JavascriptName))
                     {
-                        rootObject->Bind(javascriptObjects, context->GetGlobal());
-
-                        JavascriptAsyncMethodCallback^ callback;
-                        if (_registerBoundObjectRegistry->TryGetAndRemoveMethodCallback(callbackId, callback))
-                        {
-                            callback->Success(CefV8Value::CreateBool(true));
-
-                            //TODO: JSB deal with failure - no object matching bound
-                        }
+                        _javascriptObjects->Remove(obj->JavascriptName);
                     }
-                    finally
+                    _javascriptObjects->Add(obj->JavascriptName, obj);
+                }*/
+           
+                auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier(), true);
+
+                auto rootObjectWrappers = browserWrapper->JavascriptRootObjectWrappers;
+                auto frame = browser->GetFrame(frameId);
+                if (frame.get())
+                {
+                    JavascriptRootObjectWrapper^ rootObject;
+                    if (!rootObjectWrappers->TryGetValue(frameId, rootObject))
                     {
-                        context->Exit();
+                        rootObject = gcnew JavascriptRootObjectWrapper(browser->GetIdentifier(), browserWrapper->BrowserProcess);
+                        rootObjectWrappers->TryAdd(frameId, rootObject);
+                    }
+
+                    auto context = frame->GetV8Context();
+
+                    if (context.get() && context->Enter())
+                    {
+                        try
+                        {
+                            rootObject->Bind(javascriptObjects, context->GetGlobal());
+
+                            JavascriptAsyncMethodCallback^ callback;
+                            if (_registerBoundObjectRegistry->TryGetAndRemoveMethodCallback(callbackId, callback))
+                            {
+                                callback->Success(CefV8Value::CreateBool(true));
+
+                                //TODO: JSB deal with failure - no object matching bound
+                            }
+                        }
+                        finally
+                        {
+                            context->Exit();
+                        }
                     }
                 }
             }

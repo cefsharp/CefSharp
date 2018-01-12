@@ -12,7 +12,7 @@ using namespace System::Threading;
 
 namespace CefSharp
 {
-    void JavascriptRootObjectWrapper::Bind(List<JavascriptObject^>^ objects, const CefRefPtr<CefV8Value>& v8Value)
+    void JavascriptRootObjectWrapper::Bind(ICollection<JavascriptObject^>^ objects, const CefRefPtr<CefV8Value>& v8Value)
     {
         if (objects->Count > 0)
         {

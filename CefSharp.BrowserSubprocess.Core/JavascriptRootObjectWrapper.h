@@ -80,7 +80,7 @@ namespace CefSharp
 
         bool TryGetAndRemoveMethodCallback(int64 id, JavascriptAsyncMethodCallback^% callback);
 
-        void Bind(List<JavascriptObject^>^ objects, const CefRefPtr<CefV8Value>& v8Value);
+        void Bind(ICollection<JavascriptObject^>^ objects, const CefRefPtr<CefV8Value>& v8Value);
     };
 }
 

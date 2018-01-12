@@ -27,6 +27,7 @@ namespace CefSharp
         gcroot<List<CefExtension^>^> _extensions;
         gcroot<List<CefCustomScheme^>^> _schemes;
         bool _focusedNodeChangedEnabled;
+        bool _legacyBindingEnabled;
 
         // The serialized registered object data waiting to be used.
         gcroot<Dictionary<String^, JavascriptObject^>^> _javascriptObjects;
@@ -46,6 +47,7 @@ namespace CefSharp
             _focusedNodeChangedEnabled = enableFocusedNodeChanged;
             _javascriptObjects = gcnew Dictionary<String^, JavascriptObject^>();
             _registerBoundObjectRegistry = gcnew RegisterBoundObjectRegistry();
+            _legacyBindingEnabled = false;
         }
 
         ~CefAppUnmanagedWrapper()

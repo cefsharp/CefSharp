@@ -57,9 +57,9 @@ namespace CefSharp.Internals
             return objects.Values.Any(x => x.Name == name); 
         }
 
-        public List<JavascriptObject> GetObjects(List<string> names)
+        public List<JavascriptObject> GetObjects(List<string> names = null)
         {
-            if(names.Count == 0)
+            if (names == null || names.Count == 0)
             {
                 //TODO: JSB Declare Constant for All
                 RaiseResolveObjectEvent("All");

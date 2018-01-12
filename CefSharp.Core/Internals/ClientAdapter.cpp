@@ -563,6 +563,31 @@ namespace CefSharp
 
         void ClientAdapter::OnRenderViewReady(CefRefPtr<CefBrowser> browser)
         {
+            if (CefSharpSettings::LegacyJavascriptBindingEnabled)
+            {
+                if (!Object::ReferenceEquals(_browserAdapter, nullptr) && !_browserAdapter->IsDisposed && !browser->IsPopup())
+                {
+                    auto objectRepository = _browserAdapter->JavascriptObjectRepository;
+
+                    if (objectRepository->HasBoundObjects)
+                    {
+                        /*auto jsRootObjectMessage = CefProcessMessage::Create(kJavascriptRootObjectRequest);
+                        auto argList = jsRootObjectMessage->GetArgumentList();
+                        SerializeJsObject(objectRepository->GetObjects(nullptr), argList, 0);
+                        browser->SendProcessMessage(CefProcessId::PID_RENDERER, jsRootObjectMessage);*/
+
+                        auto msg = CefProcessMessage::Create(kJavascriptRootObjectResponse);
+                        auto responseArgList = msg->GetArgumentList();
+                        responseArgList->SetBool(0, true); //Use Legacy Behaviour (auto bind on context creation)
+                        responseArgList->SetInt(1, -1);  //BrowserId
+                        SetInt64(responseArgList, 2, 0); //FrameId
+                        SetInt64(responseArgList, 3, 0); //CallbackId
+                        SerializeJsObjects(objectRepository->GetObjects(nullptr), responseArgList, 4);
+                        browser->SendProcessMessage(CefProcessId::PID_RENDERER, msg);
+                    }
+                }
+            }
+
             auto handler = _browserControl->RequestHandler;
 
             if (handler != nullptr)
@@ -1127,14 +1152,13 @@ namespace CefSharp
                             names->Add(StringUtils::ToClr(objectNames->GetString(i)));
                         }
 
-                        //TODO: Get objects by name and transmit them
-                        //transmit async bound objects
                         auto msg = CefProcessMessage::Create(kJavascriptRootObjectResponse);
                         auto responseArgList = msg->GetArgumentList();
-                        responseArgList->SetInt(0, browserId);
-                        SetInt64(responseArgList, 1, frameId);
-                        SetInt64(responseArgList, 2, callbackId);
-                        SerializeJsObjects(objectRepository->GetObjects(names), responseArgList, 3);
+                        responseArgList->SetBool(0, false); //Use LegacyBehaviour (false)
+                        responseArgList->SetInt(1, browserId);
+                        SetInt64(responseArgList, 2, frameId);
+                        SetInt64(responseArgList, 3, callbackId);
+                        SerializeJsObjects(objectRepository->GetObjects(names), responseArgList, 4);
                         browser->SendProcessMessage(CefProcessId::PID_RENDERER, msg);
                     }
                 }
