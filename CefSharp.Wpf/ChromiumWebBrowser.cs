@@ -2,10 +2,8 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using CefSharp.Internals;
-using CefSharp.Wpf.Internals;
-using Microsoft.Win32.SafeHandles;
 using System;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -16,10 +14,12 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
-using System.Runtime.CompilerServices;
+using CefSharp.Internals;
+using CefSharp.Wpf.Internals;
 using CefSharp.Wpf.Rendering;
+using Microsoft.Win32.SafeHandles;
 
-namespace CefSharp.Wpf
+namespace CefSharp.Wpf 
 {
     /// <summary>
     /// ChromiumWebBrowser is the WPF web browser control
@@ -33,10 +33,6 @@ namespace CefSharp.Wpf
         /// The source
         /// </summary>
         private HwndSource source;
-        /// <summary>
-        /// The source hook
-        /// </summary>
-        private HwndSourceHook sourceHook;
         /// <summary>
         /// The tooltip timer
         /// </summary>
@@ -94,6 +90,10 @@ namespace CefSharp.Wpf
         /// user attempts to set after browser created)
         /// </summary>
         private IRequestContext requestContext;
+        /// <summary>
+        /// Handles keypress and text typing
+        /// </summary>
+        private IWpfKeyboardHandler wpfKeyboardHandler;
 
         /// <summary>
         /// A flag that indicates whether or not the designer is active
@@ -207,6 +207,26 @@ namespace CefSharp.Wpf
         /// </summary>
         /// <value>The find handler.</value>
         public IFindHandler FindHandler { get; set; }
+        /// <summary>
+        /// Legacy keyboard handler uses WindowProc callback interceptor to handle keypress events. 
+        /// Only use this method if you find problems with the default keyboard handling mechanism.
+        /// This might be removed in the future.
+        /// </summary>
+        public bool UseLegacyKeyboardHandler 
+        {
+            get 
+            {
+                return wpfKeyboardHandler is WpfLegacyKeyboardHandler;   
+            }
+            set 
+            {
+                if (value != UseLegacyKeyboardHandler) {
+                    wpfKeyboardHandler.Dispose();
+                    wpfKeyboardHandler = CreateWpfKeyboardHandler(this, value);
+                    wpfKeyboardHandler.Setup(source);
+                }
+            }
+        }
 
         /// <summary>
         /// Event handler for receiving Javascript console messages being sent from web pages.
@@ -470,6 +490,8 @@ namespace CefSharp.Wpf
             BrowserSettings = new BrowserSettings();
             BitmapFactory = new InteropBitmapFactory();
 
+            wpfKeyboardHandler = CreateWpfKeyboardHandler(this);
+            
             PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
 
             RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
@@ -584,7 +606,8 @@ namespace CefSharp.Wpf
 
                 Cef.RemoveDisposable(this);
 
-                RemoveSourceHook();
+                wpfKeyboardHandler.Dispose();
+                source = null;
             }
         }
 
@@ -1530,8 +1553,8 @@ namespace CefSharp.Wpf
                     var notifyDpiChanged = DpiScaleFactor > 0 && !DpiScaleFactor.Equals(matrix.M11);
 
                     DpiScaleFactor = source.CompositionTarget.TransformToDevice.M11;
-                    sourceHook = SourceHook;
-                    source.AddHook(sourceHook);
+
+                    wpfKeyboardHandler.Setup(source);
 
                     if (notifyDpiChanged && browser != null)
                     {
@@ -1566,7 +1589,7 @@ namespace CefSharp.Wpf
             }
             else if (args.OldSource != null)
             {
-                RemoveSourceHook();
+                wpfKeyboardHandler.Dispose();
 
                 var window = args.OldSource.RootVisual as Window;
                 if (window != null)
@@ -1616,18 +1639,6 @@ namespace CefSharp.Wpf
             //We maintain a manual reference to the controls screen location
             //(relative to top/left of the screen)
             UpdateBrowserScreenLocation();
-        }
-
-        /// <summary>
-        /// Removes the source hook.
-        /// </summary>
-        private void RemoveSourceHook()
-        {
-            if (source != null && sourceHook != null)
-            {
-                source.RemoveHook(sourceHook);
-                source = null;
-            }
         }
 
         /// <summary>
@@ -1838,60 +1849,6 @@ namespace CefSharp.Wpf
             return newPopup;
         }
 
-        /// <summary>
-        /// WindowProc callback interceptor. Handles Windows messages intended for the source hWnd, and passes them to the
-        /// contained browser as needed.
-        /// </summary>
-        /// <param name="hWnd">The source handle.</param>
-        /// <param name="message">The message.</param>
-        /// <param name="wParam">Additional message info.</param>
-        /// <param name="lParam">Even more message info.</param>
-        /// <param name="handled">if set to <c>true</c>, the event has already been handled by someone else.</param>
-        /// <returns>IntPtr.</returns>
-        protected virtual IntPtr SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
-        {
-            if (handled)
-            {
-                return IntPtr.Zero;
-            }
-
-            switch ((WM)message)
-            {
-                case WM.SYSCHAR:
-                case WM.SYSKEYDOWN:
-                case WM.SYSKEYUP:
-                case WM.KEYDOWN:
-                case WM.KEYUP:
-                case WM.CHAR:
-                case WM.IME_CHAR:
-                {
-                    if (!IsKeyboardFocused)
-                    {
-                        break;
-                    }
-
-                    if (message == (int)WM.SYSKEYDOWN &&
-                        wParam.ToInt32() == KeyInterop.VirtualKeyFromKey(Key.F4))
-                    {
-                        // We don't want CEF to receive this event (and mark it as handled), since that makes it impossible to
-                        // shut down a CefSharp-based app by pressing Alt-F4, which is kind of bad.
-                        return IntPtr.Zero;
-                    }
-
-                    if (browser != null)
-                    {
-                        browser.GetHost().SendKeyEvent(message, wParam.CastToInt32(), lParam.CastToInt32());
-                        handled = true;
-                    }
-
-                    break;
-                }
-            }
-
-            return IntPtr.Zero;
-        }
-
-        /// <summary>
         /// Converts a .NET Drag event to a CefSharp MouseEvent
         /// </summary>
         /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
@@ -2005,7 +1962,7 @@ namespace CefSharp.Wpf
         {
             if (!e.Handled)
             {
-                OnPreviewKey(e);
+                wpfKeyboardHandler.HandleKeyPress(e);
             }
 
             base.OnPreviewKeyDown(e);
@@ -2020,37 +1977,24 @@ namespace CefSharp.Wpf
         {
             if (!e.Handled)
             {
-                OnPreviewKey(e);
+                wpfKeyboardHandler.HandleKeyPress(e);
             }
 
             base.OnPreviewKeyUp(e);
         }
 
         /// <summary>
-        /// Handles the <see cref="E:PreviewKey" /> event.
+        /// Handles the <see cref="E:PreviewTextInput" /> event.
         /// </summary>
-        /// <param name="e">The <see cref="KeyEventArgs"/> instance containing the event data.</param>
-        private void OnPreviewKey(KeyEventArgs e)
+        /// <param name="e">The <see cref="TextCompositionEventArgs"/> instance containing the event data.</param>
+        protected override void OnPreviewTextInput(TextCompositionEventArgs e) 
         {
-            // As KeyDown and KeyUp bubble, it appears they're being handled before they get a chance to
-            // trigger the appropriate WM_ messages handled by our SourceHook, so we have to handle these extra keys here.
-            // Hooking the Tab key like this makes the tab focusing in essence work like
-            // KeyboardNavigation.TabNavigation="Cycle"; you will never be able to Tab out of the web browser control.
-            // We also add the condition to allow ctrl+a to work when the web browser control is put inside listbox.
-            if (e.Key == Key.Tab || e.Key == Key.Home || e.Key == Key.End || e.Key == Key.Up
-                                 || e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.Right
-                                 || (e.Key == Key.A && Keyboard.Modifiers == ModifierKeys.Control))
+            if (!e.Handled)
             {
-                var modifiers = e.GetModifiers();
-                var message = (int)(e.IsDown ? WM.KEYDOWN : WM.KEYUP);
-                var virtualKey = KeyInterop.VirtualKeyFromKey(e.Key);
-
-                if(browser != null)
-                {
-                    browser.GetHost().SendKeyEvent(message, virtualKey, (int)modifiers);
-                    e.Handled = true;
-                }
+                wpfKeyboardHandler.HandleTextInput(e);
             }
+
+            base.OnPreviewTextInput(e);
         }
 
         /// <summary>
@@ -2321,6 +2265,18 @@ namespace CefSharp.Wpf
             // Use CompareExchange to read the current value - if disposeCount is 1, we set it to 1, effectively a no-op
             // Volatile.Read would likely use a memory barrier which I believe is unnecessary in this scenario
             return Interlocked.CompareExchange(ref browserInitialized, 0, 0) == 1;
+        }
+
+        private static IWpfKeyboardHandler CreateWpfKeyboardHandler(ChromiumWebBrowser owner, bool useLegacyHandler = false) 
+        {
+            if (useLegacyHandler) 
+            {
+                return new WpfLegacyKeyboardHandler(owner);
+            } 
+            else 
+            {
+                return new WpfKeyboardHandler(owner);
+            }
         }
 
         //protected override void OnManipulationDelta(ManipulationDeltaEventArgs e)
