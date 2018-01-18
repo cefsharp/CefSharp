@@ -21,60 +21,13 @@ namespace CefSharp
             cookie->Secure = cefCookie.secure == 1;
             cookie->HttpOnly = cefCookie.httponly == 1;
 
-            try 
+            if (cefCookie.has_expires)
             {
-                if (cefCookie.has_expires)
-                {
-                    cookie->Expires = DateTime(
-                        cefCookie.expires.year,
-                        cefCookie.expires.month,
-                        cefCookie.expires.day_of_month,
-                        cefCookie.expires.hour,
-                        cefCookie.expires.minute,
-                        cefCookie.expires.second,
-                        cefCookie.expires.millisecond
-                        );
-                }
-            }
-            catch (Exception^ ex)
-            {
-                cookie->Expires = DateTime::MinValue;
+                cookie->Expires = DateTimeUtils::FromCefTime(CefTime(cefCookie.expires).GetDoubleT());
             }
 
-            //TODO: There is a method in TypeUtils that's in BrowserSubProcess that convers CefTime, need to make it accessible.
-            try 
-            {
-                cookie->Creation = DateTime(
-                    cefCookie.creation.year,
-                    cefCookie.creation.month,
-                    cefCookie.creation.day_of_month,
-                    cefCookie.creation.hour,
-                    cefCookie.creation.minute,
-                    cefCookie.creation.second,
-                    cefCookie.creation.millisecond
-                    );
-            }
-            catch (Exception^ ex)
-            {
-                cookie->Creation = DateTime::MinValue;
-            }
-
-            try
-            {
-                cookie->LastAccess = DateTime(
-                    cefCookie.last_access.year,
-                    cefCookie.last_access.month,
-                    cefCookie.last_access.day_of_month,
-                    cefCookie.last_access.hour,
-                    cefCookie.last_access.minute,
-                    cefCookie.last_access.second,
-                    cefCookie.last_access.millisecond
-                    );
-            }
-            catch (Exception^ ex)
-            {
-                cookie->LastAccess = DateTime::MinValue;
-            }
+            cookie->Creation = DateTimeUtils::FromCefTime(CefTime(cefCookie.creation).GetDoubleT());
+            cookie->LastAccess = DateTimeUtils::FromCefTime(CefTime(cefCookie.last_access).GetDoubleT());
         }
 
         return _visitor->Visit(cookie, count, total, deleteCookie);

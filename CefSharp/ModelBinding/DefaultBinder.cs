@@ -114,9 +114,18 @@ namespace CefSharp.ModelBinding
                 {
                     var val = GetValue(bindingContext, i);
 
-                    if (val != null)
+                    //If the value is null then we'll add null to the collection,
+                    if (val == null)
                     {
-                        if (typeof(IDictionary<string, object>).IsAssignableFrom(val.GetType()))
+                        //For value types like int we'll create the default value and assign that as we cannot assign null
+                        model.Add(genericType.IsValueType ? Activator.CreateInstance(genericType) : null);
+                    }
+                    else
+                    {
+                        var valueType = val.GetType();
+                        //If the collection item is a list or dictionary then we'll attempt to bind it
+                        if (typeof(IDictionary<string, object>).IsAssignableFrom(valueType) ||
+                            typeof(IList<object>).IsAssignableFrom(valueType))
                         {
                             var subModel = Bind(val, genericType);
                             model.Add(subModel);

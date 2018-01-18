@@ -19,15 +19,11 @@ namespace CefSharp
             public CefRenderHandler
         {
         private:
-            gcroot<IWebBrowserInternal^> _webBrowserInternal;
             gcroot<IRenderWebBrowser^> _renderWebBrowser;
-            gcroot<BitmapInfo^> _mainBitmapInfo;
-            gcroot<BitmapInfo^> _popupBitmapInfo;
 
         public:
             RenderClientAdapter(IWebBrowserInternal^ webBrowserInternal, IBrowserAdapter^ browserAdapter):
-                ClientAdapter(webBrowserInternal, browserAdapter),
-                _webBrowserInternal(webBrowserInternal)
+                ClientAdapter(webBrowserInternal, browserAdapter)
             {
                 _renderWebBrowser = dynamic_cast<IRenderWebBrowser^>(webBrowserInternal);
             }
@@ -35,23 +31,6 @@ namespace CefSharp
             ~RenderClientAdapter()
             {
                 _renderWebBrowser = nullptr;
-                _webBrowserInternal = nullptr;
-
-                ReleaseBitmapHandlers(_mainBitmapInfo);
-
-                delete _mainBitmapInfo;
-                _mainBitmapInfo = nullptr;
-
-                ReleaseBitmapHandlers(_popupBitmapInfo);
-
-                delete _popupBitmapInfo;
-                _popupBitmapInfo = nullptr;
-            }
-
-            void CreateBitmapInfo()  
-            {  
-                _mainBitmapInfo = _renderWebBrowser->CreateBitmapInfo(false);  
-                _popupBitmapInfo = _renderWebBrowser->CreateBitmapInfo(true);  
             }
 
             // CefClient
@@ -126,60 +105,8 @@ namespace CefSharp
             virtual DECL void OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects,
                 const void* buffer, int width, int height) OVERRIDE
             {
-                auto bitmapInfo = type == PET_VIEW ? _mainBitmapInfo : _popupBitmapInfo;
-
-                lock l(bitmapInfo->BitmapLock);
-
-                if(bitmapInfo->DirtyRectSupport)
-                {
-                    //NOTE: According to https://bitbucket.org/chromiumembedded/cef/commits/1ddb0ba41d7052eaad50b8d9de959f3b5e05ff21?at=master
-                    // There is only one rect now that's a union of all dirty regions. API Still passes in a vector
-
-                    CefRect r = dirtyRects.front();
-                    bitmapInfo->DirtyRect = Rect(r.x, r.y, r.width, r.height);
-                }
-
-                auto backBufferHandle = (HANDLE)bitmapInfo->BackBufferHandle;
-
-                if (backBufferHandle == NULL || bitmapInfo->Width != width || bitmapInfo->Height != height)
-                {
-                    int pixels = width * height;
-                    int numberOfBytes = pixels * bitmapInfo->BytesPerPixel;
-                    auto fileMappingHandle = (HANDLE)bitmapInfo->FileMappingHandle;
-
-                    //Clear the reference to Bitmap so a new one is created by InvokeRenderAsync
-                    bitmapInfo->ClearBitmap();
-
-                    //Release the current handles (if not null)
-                    ReleaseBitmapHandlers(bitmapInfo);
-
-                    // Create new fileMappingHandle
-                    fileMappingHandle = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, numberOfBytes, NULL);
-                    if (fileMappingHandle == NULL)
-                    {
-                        // TODO: Consider doing something more sensible here, since the browser will be very badly broken if this
-                        // TODO: method call fails.
-                        return;
-                    }
-
-                    backBufferHandle = MapViewOfFile(fileMappingHandle, FILE_MAP_ALL_ACCESS, 0, 0, numberOfBytes);
-                    if (backBufferHandle == NULL)
-                    {
-                        // TODO: Consider doing something more sensible here, since the browser will be very badly broken if this
-                        // TODO: method call fails.
-                        return;
-                    }
-
-                    bitmapInfo->FileMappingHandle = (IntPtr)fileMappingHandle;
-                    bitmapInfo->BackBufferHandle = (IntPtr)backBufferHandle;
-                    bitmapInfo->Width = width;
-                    bitmapInfo->Height = height;
-                    bitmapInfo->NumberOfBytes = numberOfBytes;
-                }               
-
-                CopyMemory(backBufferHandle, (void*)buffer, bitmapInfo->NumberOfBytes);
-
-                _renderWebBrowser->OnPaint(bitmapInfo);
+                CefRect r = dirtyRects.front();
+                _renderWebBrowser->OnPaint((CefSharp::PaintElementType)type, Rect(r.x, r.y, r.width, r.height), IntPtr((void *)buffer), width, height);
             };
 
             virtual DECL void OnCursorChange(CefRefPtr<CefBrowser> browser, CefCursorHandle cursor, CursorType type,
@@ -223,30 +150,6 @@ namespace CefSharp
                 }
 
                 _renderWebBrowser->OnImeCompositionRangeChanged(Range(selectedRange.from, selectedRange.to), charBounds);
-            }
-
-        private:
-            void ReleaseBitmapHandlers(BitmapInfo^ bitmapInfo)
-            {
-                if(bitmapInfo)
-                {
-                    auto backBufferHandle = (HANDLE)bitmapInfo->BackBufferHandle;
-                    auto fileMappingHandle = (HANDLE)bitmapInfo->FileMappingHandle;
-
-                    if (backBufferHandle != NULL)
-                    {
-                        UnmapViewOfFile(backBufferHandle);
-                        backBufferHandle = NULL;
-                        bitmapInfo->BackBufferHandle = IntPtr::Zero;
-                    }
-
-                    if (fileMappingHandle != NULL)
-                    {
-                        CloseHandle(fileMappingHandle);
-                        fileMappingHandle = NULL;
-                        bitmapInfo->FileMappingHandle = IntPtr::Zero;
-                    }
-                }
             }
 
             IMPLEMENT_REFCOUNTING(RenderClientAdapter)

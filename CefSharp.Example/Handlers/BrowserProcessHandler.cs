@@ -44,6 +44,23 @@ namespace CefSharp.Example.Handlers
                         Debug.WriteLine("No Cookies found");
                     }
                 });
+
+                cookieManager.VisitAllCookiesAsync().ContinueWith(t => 
+                {
+                    if (t.Status == TaskStatus.RanToCompletion)
+                    {
+                        var cookies = t.Result;
+
+                        foreach (var cookie in cookies)
+                        {
+                            Debug.WriteLine("CookieName:" + cookie.Name);
+                        }
+                    }
+                    else
+                    {
+                        Debug.WriteLine("No Cookies found");
+                    }
+                });
             }
             
             //Dispose of context when finished - preferable not to keep a reference if possible.

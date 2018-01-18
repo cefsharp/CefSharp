@@ -37,4 +37,12 @@ namespace CefSharp
             }
         }
     }
+
+    void NativeMethodWrapper::SetWindowParent(IntPtr child, IntPtr newParent)
+    {
+        HWND childHwnd = static_cast<HWND>(child.ToPointer());
+        HWND newParentHwnd = static_cast<HWND>(newParent.ToPointer());
+
+        SetParent(childHwnd, newParentHwnd);
+    }
 }

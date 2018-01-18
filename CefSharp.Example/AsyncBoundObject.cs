@@ -64,6 +64,21 @@ namespace CefSharp.Example
             };
         }
 
+        public string[] EchoArray(string[] arg) 
+        {
+            return arg;
+        }
+
+        public int[] EchoValueTypeArray(int[] arg) 
+        {
+            return arg;
+        }
+
+        public int[][] EchoMultidimensionalArray(int[][] arg) 
+        {
+            return arg;
+        }
+
         public string DynamiObjectList(IList<dynamic> objects)
         {
             var builder = new StringBuilder();

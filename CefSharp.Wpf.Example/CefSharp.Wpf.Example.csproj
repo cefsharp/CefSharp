@@ -21,7 +21,7 @@
     <OldToolsVersion>3.5</OldToolsVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>e8718291</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>dc6c87bd</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -103,6 +103,7 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Controls\CefSharpCommands.cs" />
+    <Compile Include="Controls\ChromiumWebBrowserWithScreenshotSupport.cs" />
     <Compile Include="Controls\NonReloadingTabControl.cs" />
     <Compile Include="Handlers\DisplayHandler.cs" />
     <Compile Include="Handlers\DragHandler.cs" />
@@ -187,6 +188,6 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\CefSharp.props" />
   <Import Project="$(SolutionDir)\CefSharp.Native.props" />
-  <Import Project="..\packages\cef.redist.x64.3.3239.1716\build\cef.redist.x64.targets" Condition="Exists('..\packages\cef.redist.x64.3.3239.1716\build\cef.redist.x64.targets')" />
-  <Import Project="..\packages\cef.redist.x86.3.3239.1716\build\cef.redist.x86.targets" Condition="Exists('..\packages\cef.redist.x86.3.3239.1716\build\cef.redist.x86.targets')" />
+  <Import Project="..\packages\cef.redist.x64.3.3239.1723\build\cef.redist.x64.targets" Condition="Exists('..\packages\cef.redist.x64.3.3239.1723\build\cef.redist.x64.targets')" />
+  <Import Project="..\packages\cef.redist.x86.3.3239.1723\build\cef.redist.x86.targets" Condition="Exists('..\packages\cef.redist.x86.3.3239.1723\build\cef.redist.x86.targets')" />
 </Project>
