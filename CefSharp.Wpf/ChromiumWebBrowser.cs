@@ -1539,7 +1539,7 @@ namespace CefSharp.Wpf
                     }
 
                     //Ignore this for custom bitmap factories
-                    if (BitmapFactory.GetType() == typeof(WritableBitmapFactory) || BitmapFactory.GetType() == typeof(InteropBitmap))
+                    if (BitmapFactory.GetType() == typeof(WritableBitmapFactory) || BitmapFactory.GetType() == typeof(InteropBitmapFactory))
                     {
                         if (DpiScaleFactor > 1.0 && BitmapFactory.GetType() != typeof(WritableBitmapFactory))
                         {
