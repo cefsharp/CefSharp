@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.MemoryMappedFiles;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -23,6 +25,12 @@ namespace CefSharp.Wpf.Example.Controls
     /// </summary>
     public class ChromiumWebBrowserWithScreenshotSupport : ChromiumWebBrowser
     {
+        [DllImport("kernel32.dll", EntryPoint = "CopyMemory", SetLastError = false)]
+        private static extern void CopyMemory(IntPtr dest, IntPtr src, uint count);
+
+        private static readonly PixelFormat PixelFormat = PixelFormats.Bgra32;
+        private static int BytesPerPixel = PixelFormat.BitsPerPixel / 8;
+
         private volatile bool isTakingScreenshot = false;
         private Size? screenshotSize;
         private int oldFrameRate;
@@ -93,7 +101,7 @@ namespace CefSharp.Wpf.Example.Controls
             return base.GetViewRect();
         }
 
-        protected override void OnPaint(BitmapInfo bitmapInfo)
+        protected override void OnPaint(bool isPopup, Rect dirtyRect, IntPtr buffer, int width, int height)
         {
             if(isTakingScreenshot)
             {
@@ -105,34 +113,51 @@ namespace CefSharp.Wpf.Example.Controls
                 }
 
                 //Wait until we have a frame that matches the updated size we requested
-                if (screenshotSize.HasValue && screenshotSize.Value.Width == bitmapInfo.Width && screenshotSize.Value.Height == bitmapInfo.Height)
-                { 
+                if (screenshotSize.HasValue && screenshotSize.Value.Width == width && screenshotSize.Value.Height == height)
+                {
+                    var stride = width * BytesPerPixel;
+                    var numberOfBytes = stride * height;
+
+                    //Create out own memory mapped view for the screenshot and copy the buffer into it.
+                    //If we were going to create a lot of screenshots then it would be better to allocate a large buffer
+                    //and reuse it.
+                    var mappedFile = MemoryMappedFile.CreateNew(null, numberOfBytes, MemoryMappedFileAccess.ReadWrite);
+                    var viewAccessor = mappedFile.CreateViewAccessor();
+
+                    CopyMemory(viewAccessor.SafeMemoryMappedViewHandle.DangerousGetHandle(), buffer, (uint)numberOfBytes);
+
                     //Bitmaps need to be created on the UI thread
                     Dispatcher.BeginInvoke((Action)(() =>
                     {
-                        var stride = bitmapInfo.Width * bitmapInfo.BytesPerPixel;
+                        var backBuffer = mappedFile.SafeMemoryMappedFileHandle.DangerousGetHandle();
+                        //NOTE: Interopbitmap is not capable of supporting DPI scaling
+                        var bitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(backBuffer,
+                            width, height, PixelFormats.Bgra32, stride, 0);
+                        //Using TaskExtensions.TrySetResultAsync extension method so continuation runs on Threadpool
+                        screenshotTaskCompletionSource.TrySetResultAsync(bitmap);
 
-                        lock (bitmapInfo.BitmapLock)
+                        isTakingScreenshot = false;
+                        var browserHost = GetBrowser().GetHost();
+                        //Return the framerate to the previous value
+                        browserHost.WindowlessFrameRate = oldFrameRate;
+                        //Let the browser know the size changes so normal rendering can continue
+                        browserHost.WasResized();
+
+                        if(viewAccessor != null)
                         {
-                            //NOTE: Interopbitmap is not capable of supporting DPI scaling
-                            var bitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(bitmapInfo.FileMappingHandle,
-                                bitmapInfo.Width, bitmapInfo.Height, PixelFormats.Bgra32, stride, 0);
-                            //Using TaskExtensions.TrySetResultAsync extension method so continuation runs on Threadpool
-                            screenshotTaskCompletionSource.TrySetResultAsync(bitmap);
+                            viewAccessor.Dispose();
+                        }
 
-                            isTakingScreenshot = false;
-                            var browserHost = GetBrowser().GetHost();
-                            //Return the framerate to the previous value
-                            browserHost.WindowlessFrameRate = oldFrameRate;
-                            //Let the browser know the size changes so normal rendering can continue
-                            browserHost.WasResized();
+                        if(mappedFile != null)
+                        {
+                            mappedFile.Dispose();
                         }
                     }));
                 }
             }
             else
             { 
-                base.OnPaint(bitmapInfo);
+                base.OnPaint(isPopup, dirtyRect, buffer, width, height);
             }
         }
 

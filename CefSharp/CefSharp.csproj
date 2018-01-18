@@ -237,7 +237,6 @@
     <Compile Include="IResponse.cs" />
     <Compile Include="IWindowInfo.cs" />
     <Compile Include="Structs\MouseEvent.cs" />
-    <Compile Include="IBitmapFactory.cs" />
     <Compile Include="IDragData.cs" />
     <Compile Include="DownloadItem.cs" />
     <Compile Include="Internals\BrowserProcessResponse.cs" />
@@ -259,7 +258,6 @@
     <Compile Include="SchemeHandler\FolderSchemeHandlerFactory.cs" />
     <Compile Include="SchemeHandler\ISchemeHandlerFactory.cs" />
     <Compile Include="SslStatus.cs" />
-    <Compile Include="Internals\BitmapInfo.cs" />
     <Compile Include="Internals\IBrowserProcess.cs" />
     <Compile Include="Internals\JavascriptMethod.cs" />
     <Compile Include="Internals\JavascriptObject.cs" />
