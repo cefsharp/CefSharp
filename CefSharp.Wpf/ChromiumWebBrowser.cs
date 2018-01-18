@@ -1821,7 +1821,16 @@ namespace CefSharp.Wpf
                 Child = popupImage = CreateImage(),
                 PlacementTarget = this,
                 Placement = PlacementMode.Absolute,
+                //Needs to allow transparency or only ScaleTransforms are allowed
+                //https://referencesource.microsoft.com/#PresentationFramework/src/Framework/System/Windows/Controls/Primitives/Popup.cs,1713
+                AllowsTransparency = true
             };
+
+            BindingOperations.SetBinding(newPopup, FrameworkElement.LayoutTransformProperty, new Binding
+            {
+                Path = new PropertyPath(FrameworkElement.LayoutTransformProperty),
+                Source = this,
+            });
 
             newPopup.Opened += PopupOpened;
             newPopup.Closed += PopupClosed;
