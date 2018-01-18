@@ -78,6 +78,10 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Internals\IWpfKeyboardHandler.cs" />
+    <Compile Include="Internals\VirtualKeys.cs" />
+    <Compile Include="Internals\WpfKeyboardHandler.cs" />
+    <Compile Include="Internals\WpfLegacyKeyboardHandler.cs" />
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="Internals\WpfExtensions.cs" />
     <Compile Include="Rendering\InteropBitmapInfo.cs" />

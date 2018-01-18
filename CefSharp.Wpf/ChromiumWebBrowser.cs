@@ -2,11 +2,8 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using CefSharp.Internals;
-using CefSharp.Wpf.Internals;
-using CefSharp.Wpf.Rendering;
-using Microsoft.Win32.SafeHandles;
 using System;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -17,10 +14,12 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
-using CefSharp.ModelBinding;
-using System.Runtime.CompilerServices;
+using CefSharp.Internals;
+using CefSharp.Wpf.Internals;
+using CefSharp.Wpf.Rendering;
+using Microsoft.Win32.SafeHandles;
 
-namespace CefSharp.Wpf
+namespace CefSharp.Wpf 
 {
     /// <summary>
     /// ChromiumWebBrowser is the WPF web browser control
@@ -34,10 +33,6 @@ namespace CefSharp.Wpf
         /// The source
         /// </summary>
         private HwndSource source;
-        /// <summary>
-        /// The source hook
-        /// </summary>
-        private HwndSourceHook sourceHook;
         /// <summary>
         /// The tooltip timer
         /// </summary>
@@ -95,6 +90,10 @@ namespace CefSharp.Wpf
         /// user attempts to set after browser created)
         /// </summary>
         private IRequestContext requestContext;
+        /// <summary>
+        /// Handles keypress and text typing
+        /// </summary>
+        private IWpfKeyboardHandler wpfKeyboardHandler;
 
         /// <summary>
         /// A flag that indicates whether or not the designer is active
@@ -208,6 +207,26 @@ namespace CefSharp.Wpf
         /// </summary>
         /// <value>The find handler.</value>
         public IFindHandler FindHandler { get; set; }
+        /// <summary>
+        /// Legacy keyboard handler uses WindowProc callback interceptor to handle keypress events. 
+        /// Only use this method if you find problems with the default keyboard handling mechanism.
+        /// This might be removed in the future.
+        /// </summary>
+        public bool UseLegacyKeyboardHandler 
+        {
+            get 
+            {
+                return wpfKeyboardHandler is WpfLegacyKeyboardHandler;   
+            }
+            set 
+            {
+                if (value != UseLegacyKeyboardHandler) {
+                    wpfKeyboardHandler.Dispose();
+                    wpfKeyboardHandler = CreateWpfKeyboardHandler(this, value);
+                    wpfKeyboardHandler.Setup(source);
+                }
+            }
+        }
 
         /// <summary>
         /// Event handler for receiving Javascript console messages being sent from web pages.
@@ -270,9 +289,12 @@ namespace CefSharp.Wpf
         public event EventHandler<LoadingStateChangedEventArgs> LoadingStateChanged;
 
         /// <summary>
-        /// Raised before each render cycle, and allows you to adjust the bitmap before it's rendered/applied
+        /// Raised every time <see cref="IRenderWebBrowser.OnPaint"/> is called. You can access the underlying buffer, though it's
+        /// preferable to either override <see cref="OnPaint"/> or implement your own <see cref="IBitmapFactory"/> as there is no outwardly
+        /// accessible locking (locking is done within the default <see cref="IBitmapFactory"/> implementations).
+        /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI thread
         /// </summary>
-        public event EventHandler<RenderingEventArgs> Rendering;
+        public event EventHandler<PaintEventArgs> Paint;
 
         /// <summary>
         /// Navigates to the previous page in the browser history. Will automatically be enabled/disabled depending on the
@@ -415,9 +437,7 @@ namespace CefSharp.Wpf
             {
                 throw new InvalidOperationException("Cef::Initialize() failed");
             }
-
-            BitmapFactory = new BitmapFactory();
-
+            
             //Add this ChromiumWebBrowser instance to a list of IDisposable objects
             // that if still alive at the time Cef.Shutdown is called will be disposed of
             // It's important all browser instances be freed before Cef.Shutdown is called.
@@ -468,7 +488,10 @@ namespace CefSharp.Wpf
 
             ResourceHandlerFactory = new DefaultResourceHandlerFactory();
             BrowserSettings = new BrowserSettings();
+            BitmapFactory = new InteropBitmapFactory();
 
+            wpfKeyboardHandler = CreateWpfKeyboardHandler(this);
+            
             PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
 
             RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
@@ -516,7 +539,7 @@ namespace CefSharp.Wpf
                 FrameLoadEnd = null;
                 LoadError = null;
                 LoadingStateChanged = null;
-                Rendering = null;
+                Paint = null;
 
                 if (isDisposing)
                 {
@@ -583,7 +606,8 @@ namespace CefSharp.Wpf
 
                 Cef.RemoveDisposable(this);
 
-                RemoveSourceHook();
+                wpfKeyboardHandler.Dispose();
+                source = null;
             }
         }
 
@@ -652,34 +676,6 @@ namespace CefSharp.Wpf
         }
 
         /// <summary>
-        /// Creates the BitmapInfo instance used for rendering. Two instances
-        /// will be created, one will be used for the popup
-        /// </summary>
-        /// <param name="isPopup">if set to <c>true</c> [is popup].</param>
-        /// <returns>BitmapInfo.</returns>
-        /// <exception cref="System.Exception">BitmapFactory cannot be null</exception>
-        BitmapInfo IRenderWebBrowser.CreateBitmapInfo(bool isPopup)
-        {
-            return CreateBitmapInfo(isPopup);
-        }
-
-        /// <summary>
-        /// Creates the BitmapInfo instance used for rendering. Two instances
-        /// will be created, one will be used for the popup
-        /// </summary>
-        /// <param name="isPopup">if set to <c>true</c> [is popup].</param>
-        /// <returns>BitmapInfo.</returns>
-        /// <exception cref="System.Exception">BitmapFactory cannot be null</exception>
-        protected virtual BitmapInfo CreateBitmapInfo(bool isPopup)
-        {
-            if (BitmapFactory == null)
-            {
-                throw new Exception("BitmapFactory cannot be null");
-            }
-            return BitmapFactory.CreateBitmap(isPopup, DpiScaleFactor);
-        }
-
-        /// <summary>
         /// Starts the dragging.
         /// </summary>
         /// <param name="dragData">The drag data.</param>
@@ -726,52 +722,46 @@ namespace CefSharp.Wpf
 
         /// <summary>
         /// Called when an element should be painted.
-        /// Pixel values passed to this method are scaled relative to view coordinates based on the value of
-        /// ScreenInfo.DeviceScaleFactor returned from GetScreenInfo. bitmapInfo.IsPopup indicates whether the element is the view
-        /// or the popup widget. BitmapInfo.DirtyRect contains the set of rectangles in pixel coordinates that need to be
-        /// repainted. The bitmap will be will be  width * height *4 bytes in size and represents a BGRA image with an upper-left origin.
-        /// The underlying buffer is copied into the back buffer and is accessible via BackBufferHandle
         /// </summary>
-        /// <param name="bitmapInfo">information about the bitmap to be rendered</param>
-        void IRenderWebBrowser.OnPaint(BitmapInfo bitmapInfo)
+        /// <param name="type">indicates whether the element is the view or the popup widget.</param>
+        /// <param name="dirtyRect">contains the set of rectangles in pixel coordinates that need to be repainted</param>
+        /// <param name="buffer">The bitmap will be will be  width * height *4 bytes in size and represents a BGRA image with an upper-left origin</param>
+        /// <param name="width">width</param>
+        /// <param name="height">height</param>
+        void IRenderWebBrowser.OnPaint(PaintElementType type, Rect dirtyRect, IntPtr buffer, int width, int height)
         {
-            OnPaint(bitmapInfo);
+            OnPaint(type == PaintElementType.Popup, dirtyRect, buffer, width, height);
         }
 
         /// <summary>
-        /// Called when an element should be painted.
-        /// Pixel values passed to this method are scaled relative to view coordinates based on the value of
-        /// ScreenInfo.DeviceScaleFactor returned from GetScreenInfo. bitmapInfo.IsPopup indicates whether the element is the view
-        /// or the popup widget. BitmapInfo.DirtyRect contains the set of rectangles in pixel coordinates that need to be
-        /// repainted. The bitmap will be will be  width * height *4 bytes in size and represents a BGRA image with an upper-left origin.
-        /// The underlying buffer is copied into the back buffer and is accessible via BackBufferHandle
+        /// Called when an element should be painted. Pixel values passed to this method are scaled relative to view coordinates based on the
+        /// value of <see cref="ScreenInfo.DeviceScaleFactor"/> returned from <see cref="IRenderWebBrowser.GetScreenInfo"/>. To override the default behaviour
+        /// override this method or implement your own <see cref="IBitmapFactory"/> and assign to <see cref="BitmapFactory"/>
+        /// Called on the CEF UI Thread
         /// </summary>
-        /// <param name="bitmapInfo">information about the bitmap to be rendered</param>
-        protected virtual void OnPaint(BitmapInfo bitmapInfo)
+        /// <param name="type">indicates whether the element is the view or the popup widget.</param>
+        /// <param name="dirtyRect">contains the set of rectangles in pixel coordinates that need to be repainted</param>
+        /// <param name="buffer">The bitmap will be will be  width * height *4 bytes in size and represents a BGRA image with an upper-left origin</param>
+        /// <param name="width">width</param>
+        /// <param name="height">height</param>
+        protected virtual void OnPaint(bool isPopup, Rect dirtyRect, IntPtr buffer, int width, int height)
         {
-            UiThreadRunAsync(delegate
+            var paint = Paint;
+            if (paint != null)
             {
-                lock (bitmapInfo.BitmapLock)
+                var args = new PaintEventArgs(isPopup, dirtyRect, buffer, width, height);
+
+                paint(this, args);
+
+                if(args.Handled)
                 {
-                    var wpfBitmapInfo = (WpfBitmapInfo)bitmapInfo;
-                    // Inform parents that the browser rendering is updating
-                    OnRendering(this, wpfBitmapInfo);
-
-                    // Now update the WPF image
-                    if (wpfBitmapInfo.CreateNewBitmap)
-                    {
-                        var img = bitmapInfo.IsPopup ? popupImage : image;
-
-                        img.Source = null;
-                        GC.Collect(1);
-
-                        img.Source = wpfBitmapInfo.CreateBitmap();
-                    }
-
-                    wpfBitmapInfo.Invalidate();
+                    return;
                 }
-            },
-            DispatcherPriority.Render);
+            }
+
+            var img = isPopup ? popupImage : image;
+
+            BitmapFactory.CreateOrUpdateBitmap(isPopup, buffer, dirtyRect, width, height, img);
         }
 
         /// <summary>
@@ -1563,12 +1553,28 @@ namespace CefSharp.Wpf
                     var notifyDpiChanged = DpiScaleFactor > 0 && !DpiScaleFactor.Equals(matrix.M11);
 
                     DpiScaleFactor = source.CompositionTarget.TransformToDevice.M11;
-                    sourceHook = SourceHook;
-                    source.AddHook(sourceHook);
+
+                    wpfKeyboardHandler.Setup(source);
 
                     if (notifyDpiChanged && browser != null)
                     {
                         browser.GetHost().NotifyScreenInfoChanged();
+                    }
+
+                    //Ignore this for custom bitmap factories
+                    if (BitmapFactory.GetType() == typeof(WritableBitmapFactory) || BitmapFactory.GetType() == typeof(InteropBitmapFactory))
+                    {
+                        if (DpiScaleFactor > 1.0 && BitmapFactory.GetType() != typeof(WritableBitmapFactory))
+                        {
+                            const int DefaultDpi = 96;
+                            var scale = DefaultDpi * DpiScaleFactor;
+
+                            BitmapFactory = new WritableBitmapFactory(scale, scale);
+                        }
+                        else if (DpiScaleFactor == 1.0 && BitmapFactory.GetType() != typeof(InteropBitmapFactory))
+                        {
+                            BitmapFactory = new InteropBitmapFactory();
+                        }
                     }
 
                     var window = source.RootVisual as Window;
@@ -1583,7 +1589,7 @@ namespace CefSharp.Wpf
             }
             else if (args.OldSource != null)
             {
-                RemoveSourceHook();
+                wpfKeyboardHandler.Dispose();
 
                 var window = args.OldSource.RootVisual as Window;
                 if (window != null)
@@ -1633,18 +1639,6 @@ namespace CefSharp.Wpf
             //We maintain a manual reference to the controls screen location
             //(relative to top/left of the screen)
             UpdateBrowserScreenLocation();
-        }
-
-        /// <summary>
-        /// Removes the source hook.
-        /// </summary>
-        private void RemoveSourceHook()
-        {
-            if (source != null && sourceHook != null)
-            {
-                source.RemoveHook(sourceHook);
-                source = null;
-            }
         }
 
         /// <summary>
@@ -1855,60 +1849,6 @@ namespace CefSharp.Wpf
             return newPopup;
         }
 
-        /// <summary>
-        /// WindowProc callback interceptor. Handles Windows messages intended for the source hWnd, and passes them to the
-        /// contained browser as needed.
-        /// </summary>
-        /// <param name="hWnd">The source handle.</param>
-        /// <param name="message">The message.</param>
-        /// <param name="wParam">Additional message info.</param>
-        /// <param name="lParam">Even more message info.</param>
-        /// <param name="handled">if set to <c>true</c>, the event has already been handled by someone else.</param>
-        /// <returns>IntPtr.</returns>
-        protected virtual IntPtr SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
-        {
-            if (handled)
-            {
-                return IntPtr.Zero;
-            }
-
-            switch ((WM)message)
-            {
-                case WM.SYSCHAR:
-                case WM.SYSKEYDOWN:
-                case WM.SYSKEYUP:
-                case WM.KEYDOWN:
-                case WM.KEYUP:
-                case WM.CHAR:
-                case WM.IME_CHAR:
-                {
-                    if (!IsKeyboardFocused)
-                    {
-                        break;
-                    }
-
-                    if (message == (int)WM.SYSKEYDOWN &&
-                        wParam.ToInt32() == KeyInterop.VirtualKeyFromKey(Key.F4))
-                    {
-                        // We don't want CEF to receive this event (and mark it as handled), since that makes it impossible to
-                        // shut down a CefSharp-based app by pressing Alt-F4, which is kind of bad.
-                        return IntPtr.Zero;
-                    }
-
-                    if (browser != null)
-                    {
-                        browser.GetHost().SendKeyEvent(message, wParam.CastToInt32(), lParam.CastToInt32());
-                        handled = true;
-                    }
-
-                    break;
-                }
-            }
-
-            return IntPtr.Zero;
-        }
-
-        /// <summary>
         /// Converts a .NET Drag event to a CefSharp MouseEvent
         /// </summary>
         /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
@@ -2022,7 +1962,7 @@ namespace CefSharp.Wpf
         {
             if (!e.Handled)
             {
-                OnPreviewKey(e);
+                wpfKeyboardHandler.HandleKeyPress(e);
             }
 
             base.OnPreviewKeyDown(e);
@@ -2037,37 +1977,24 @@ namespace CefSharp.Wpf
         {
             if (!e.Handled)
             {
-                OnPreviewKey(e);
+                wpfKeyboardHandler.HandleKeyPress(e);
             }
 
             base.OnPreviewKeyUp(e);
         }
 
         /// <summary>
-        /// Handles the <see cref="E:PreviewKey" /> event.
+        /// Handles the <see cref="E:PreviewTextInput" /> event.
         /// </summary>
-        /// <param name="e">The <see cref="KeyEventArgs"/> instance containing the event data.</param>
-        private void OnPreviewKey(KeyEventArgs e)
+        /// <param name="e">The <see cref="TextCompositionEventArgs"/> instance containing the event data.</param>
+        protected override void OnPreviewTextInput(TextCompositionEventArgs e) 
         {
-            // As KeyDown and KeyUp bubble, it appears they're being handled before they get a chance to
-            // trigger the appropriate WM_ messages handled by our SourceHook, so we have to handle these extra keys here.
-            // Hooking the Tab key like this makes the tab focusing in essence work like
-            // KeyboardNavigation.TabNavigation="Cycle"; you will never be able to Tab out of the web browser control.
-            // We also add the condition to allow ctrl+a to work when the web browser control is put inside listbox.
-            if (e.Key == Key.Tab || e.Key == Key.Home || e.Key == Key.End || e.Key == Key.Up
-                                 || e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.Right
-                                 || (e.Key == Key.A && Keyboard.Modifiers == ModifierKeys.Control))
+            if (!e.Handled)
             {
-                var modifiers = e.GetModifiers();
-                var message = (int)(e.IsDown ? WM.KEYDOWN : WM.KEYUP);
-                var virtualKey = KeyInterop.VirtualKeyFromKey(e.Key);
-
-                if(browser != null)
-                {
-                    browser.GetHost().SendKeyEvent(message, virtualKey, (int)modifiers);
-                    e.Handled = true;
-                }
+                wpfKeyboardHandler.HandleTextInput(e);
             }
+
+            base.OnPreviewTextInput(e);
         }
 
         /// <summary>
@@ -2307,20 +2234,6 @@ namespace CefSharp.Wpf
         }
 
         /// <summary>
-        /// Raises Rendering event
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="bitmapInfo">The bitmap information.</param>
-        protected virtual void OnRendering(object sender, WpfBitmapInfo bitmapInfo)
-        {
-            var rendering = Rendering;
-            if (rendering != null)
-            {
-                rendering(sender, new RenderingEventArgs(bitmapInfo));
-            }
-        }
-
-        /// <summary>
         /// Returns the current IBrowser Instance
         /// </summary>
         /// <returns>browser instance or null</returns>
@@ -2352,6 +2265,18 @@ namespace CefSharp.Wpf
             // Use CompareExchange to read the current value - if disposeCount is 1, we set it to 1, effectively a no-op
             // Volatile.Read would likely use a memory barrier which I believe is unnecessary in this scenario
             return Interlocked.CompareExchange(ref browserInitialized, 0, 0) == 1;
+        }
+
+        private static IWpfKeyboardHandler CreateWpfKeyboardHandler(ChromiumWebBrowser owner, bool useLegacyHandler = false) 
+        {
+            if (useLegacyHandler) 
+            {
+                return new WpfLegacyKeyboardHandler(owner);
+            } 
+            else 
+            {
+                return new WpfKeyboardHandler(owner);
+            }
         }
 
         //protected override void OnManipulationDelta(ManipulationDeltaEventArgs e)
