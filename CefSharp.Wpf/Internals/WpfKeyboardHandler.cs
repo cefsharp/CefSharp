@@ -7,7 +7,7 @@ using System.Windows.Interop;
 
 namespace CefSharp.Wpf.Internals 
 {
-    internal class WpfKeyboardHandler : IWpfKeyboardHandler 
+    public class WpfKeyboardHandler : IWpfKeyboardHandler 
     {
         /// <summary>
         /// The owner browser instance
@@ -29,10 +29,10 @@ namespace CefSharp.Wpf.Internals
             // nothing to do here
         }
 
-        public void HandleKeyPress(KeyEventArgs e) 
+        public virtual void HandleKeyPress(KeyEventArgs e) 
         {
             var browser = owner.GetBrowser();
-            var key = e.SystemKey != Key.None ? e.SystemKey : e.Key;
+            var key = e.SystemKey == Key.None ? e.Key : e.SystemKey;
             if (browser != null) 
             {
                 int message;
@@ -43,18 +43,24 @@ namespace CefSharp.Wpf.Internals
                 {
                     case Key.LeftAlt:
                     case Key.RightAlt:
+                    { 
                         virtualKey = (int) VirtualKeys.Menu;
                         break;
+                    }
 
                     case Key.LeftCtrl:
                     case Key.RightCtrl:
+                    { 
                         virtualKey = (int) VirtualKeys.Control;
                         break;
+                    }
 
                     case Key.LeftShift:
                     case Key.RightShift:
+                    { 
                         virtualKey = (int) VirtualKeys.Shift;
                         break;
+                    }
 
                     default:
                         virtualKey = KeyInterop.VirtualKeyFromKey(key);
@@ -64,7 +70,9 @@ namespace CefSharp.Wpf.Internals
                 if (e.IsDown)
                 {
                     message = (int)(e.SystemKey != Key.None ? WM.SYSKEYDOWN : WM.KEYDOWN);
-                } else {
+                }
+                else
+                {
                     message = (int)(e.SystemKey != Key.None ? WM.SYSKEYUP : WM.KEYUP);
                 }
 
@@ -83,7 +91,7 @@ namespace CefSharp.Wpf.Internals
             }
         }
 
-        public void HandleTextInput(TextCompositionEventArgs e) 
+        public virtual void HandleTextInput(TextCompositionEventArgs e) 
         {
             var browser = owner.GetBrowser();
             if (browser != null) 

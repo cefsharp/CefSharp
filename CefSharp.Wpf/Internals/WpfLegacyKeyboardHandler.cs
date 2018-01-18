@@ -9,7 +9,7 @@ using CefSharp.Internals;
 
 namespace CefSharp.Wpf.Internals 
 {
-    internal class WpfLegacyKeyboardHandler : IWpfKeyboardHandler
+    public class WpfLegacyKeyboardHandler : IWpfKeyboardHandler
     {
         /// <summary>
         /// The source hook		
@@ -30,7 +30,7 @@ namespace CefSharp.Wpf.Internals
         {
             this.owner = owner;
         }
-	
+    
         public void Setup(HwndSource source) 
         {
             this.source = source;
@@ -60,13 +60,13 @@ namespace CefSharp.Wpf.Internals
         /// <param name="lParam">Even more message info.</param>		
         /// <param name="handled">if set to <c>true</c>, the event has already been handled by someone else.</param>		
         /// <returns>IntPtr.</returns>		
-        protected IntPtr SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
+        protected virtual IntPtr SourceHook(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
         {		
             if (handled)		
             {		
                 return IntPtr.Zero;		
             }		
-    		
+            
             switch ((WM)message)		
             {		
                 case WM.SYSCHAR:		
@@ -81,7 +81,7 @@ namespace CefSharp.Wpf.Internals
                     {		
                         break;		
                     }		
-    		
+            
                     if (message == (int)WM.SYSKEYDOWN &&		
                         wParam.ToInt32() == KeyInterop.VirtualKeyFromKey(Key.F4))		
                     {		
@@ -96,15 +96,15 @@ namespace CefSharp.Wpf.Internals
                         browser.GetHost().SendKeyEvent(message, wParam.CastToInt32(), lParam.CastToInt32());		
                         handled = true;		
                     }		
-    		
+            
                     break;		
                 }		
             }		
-    		
+            
             return IntPtr.Zero;		
         }
 
-        public void HandleKeyPress(KeyEventArgs e) 
+        public virtual void HandleKeyPress(KeyEventArgs e) 
         {
             // As KeyDown and KeyUp bubble, it appears they're being handled before they get a chance to
             // trigger the appropriate WM_ messages handled by our SourceHook, so we have to handle these extra keys here.
@@ -128,7 +128,7 @@ namespace CefSharp.Wpf.Internals
             }
         }
 
-        public void HandleTextInput(TextCompositionEventArgs e) 
+        public virtual void HandleTextInput(TextCompositionEventArgs e) 
         {
             // nothing to do here
         }

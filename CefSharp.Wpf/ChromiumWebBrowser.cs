@@ -14,10 +14,10 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
+using Microsoft.Win32.SafeHandles;
 using CefSharp.Internals;
 using CefSharp.Wpf.Internals;
 using CefSharp.Wpf.Rendering;
-using Microsoft.Win32.SafeHandles;
 
 namespace CefSharp.Wpf 
 {
@@ -91,15 +91,15 @@ namespace CefSharp.Wpf
         /// </summary>
         private IRequestContext requestContext;
         /// <summary>
-        /// Handles keypress and text typing
-        /// </summary>
-        private IWpfKeyboardHandler wpfKeyboardHandler;
-
-        /// <summary>
         /// A flag that indicates whether or not the designer is active
         /// NOTE: Needs to be static for OnApplicationExit
         /// </summary>
         private static bool designMode;
+
+        /// <summary>
+        /// WPF Keyboard Handled forwards key events to the underlying browser
+        /// </summary>
+        public IWpfKeyboardHandler WpfKeyboardHandler { get; set; }
 
         /// <summary>
         /// Gets or sets the browser settings.
@@ -207,26 +207,6 @@ namespace CefSharp.Wpf
         /// </summary>
         /// <value>The find handler.</value>
         public IFindHandler FindHandler { get; set; }
-        /// <summary>
-        /// Legacy keyboard handler uses WindowProc callback interceptor to handle keypress events. 
-        /// Only use this method if you find problems with the default keyboard handling mechanism.
-        /// This might be removed in the future.
-        /// </summary>
-        public bool UseLegacyKeyboardHandler 
-        {
-            get 
-            {
-                return wpfKeyboardHandler is WpfLegacyKeyboardHandler;   
-            }
-            set 
-            {
-                if (value != UseLegacyKeyboardHandler) {
-                    wpfKeyboardHandler.Dispose();
-                    wpfKeyboardHandler = CreateWpfKeyboardHandler(this, value);
-                    wpfKeyboardHandler.Setup(source);
-                }
-            }
-        }
 
         /// <summary>
         /// Event handler for receiving Javascript console messages being sent from web pages.
@@ -490,7 +470,7 @@ namespace CefSharp.Wpf
             BrowserSettings = new BrowserSettings();
             BitmapFactory = new InteropBitmapFactory();
 
-            wpfKeyboardHandler = CreateWpfKeyboardHandler(this);
+            WpfKeyboardHandler = new WpfKeyboardHandler(this);
             
             PresentationSource.AddSourceChangedHandler(this, PresentationSourceChangedHandler);
 
@@ -606,7 +586,7 @@ namespace CefSharp.Wpf
 
                 Cef.RemoveDisposable(this);
 
-                wpfKeyboardHandler.Dispose();
+                WpfKeyboardHandler.Dispose();
                 source = null;
             }
         }
@@ -1554,7 +1534,7 @@ namespace CefSharp.Wpf
 
                     DpiScaleFactor = source.CompositionTarget.TransformToDevice.M11;
 
-                    wpfKeyboardHandler.Setup(source);
+                    WpfKeyboardHandler.Setup(source);
 
                     if (notifyDpiChanged && browser != null)
                     {
@@ -1589,7 +1569,7 @@ namespace CefSharp.Wpf
             }
             else if (args.OldSource != null)
             {
-                wpfKeyboardHandler.Dispose();
+                WpfKeyboardHandler.Dispose();
 
                 var window = args.OldSource.RootVisual as Window;
                 if (window != null)
@@ -1962,7 +1942,7 @@ namespace CefSharp.Wpf
         {
             if (!e.Handled)
             {
-                wpfKeyboardHandler.HandleKeyPress(e);
+                WpfKeyboardHandler.HandleKeyPress(e);
             }
 
             base.OnPreviewKeyDown(e);
@@ -1977,7 +1957,7 @@ namespace CefSharp.Wpf
         {
             if (!e.Handled)
             {
-                wpfKeyboardHandler.HandleKeyPress(e);
+                WpfKeyboardHandler.HandleKeyPress(e);
             }
 
             base.OnPreviewKeyUp(e);
@@ -1991,7 +1971,7 @@ namespace CefSharp.Wpf
         {
             if (!e.Handled)
             {
-                wpfKeyboardHandler.HandleTextInput(e);
+                WpfKeyboardHandler.HandleTextInput(e);
             }
 
             base.OnPreviewTextInput(e);
@@ -2191,6 +2171,20 @@ namespace CefSharp.Wpf
         }
 
         /// <summary>
+        /// Legacy keyboard handler uses WindowProc callback interceptor to forward keypress events
+        /// the the browser. Use this method to revert to the previous keyboard handling behaviour
+        /// </summary>
+        public void UseLegacyKeyboardHandler()
+        {
+            if (!(WpfKeyboardHandler is WpfLegacyKeyboardHandler))
+            {
+                WpfKeyboardHandler.Dispose();
+                WpfKeyboardHandler = new WpfLegacyKeyboardHandler(this);
+                WpfKeyboardHandler.Setup(source);
+            }
+        }
+
+        /// <summary>
         /// Registers a Javascript object in this specific browser instance.
         /// </summary>
         /// <param name="name">The name of the object. (e.g. "foo", if you want the object to be accessible as window.foo).</param>
@@ -2265,18 +2259,6 @@ namespace CefSharp.Wpf
             // Use CompareExchange to read the current value - if disposeCount is 1, we set it to 1, effectively a no-op
             // Volatile.Read would likely use a memory barrier which I believe is unnecessary in this scenario
             return Interlocked.CompareExchange(ref browserInitialized, 0, 0) == 1;
-        }
-
-        private static IWpfKeyboardHandler CreateWpfKeyboardHandler(ChromiumWebBrowser owner, bool useLegacyHandler = false) 
-        {
-            if (useLegacyHandler) 
-            {
-                return new WpfLegacyKeyboardHandler(owner);
-            } 
-            else 
-            {
-                return new WpfKeyboardHandler(owner);
-            }
         }
 
         //protected override void OnManipulationDelta(ManipulationDeltaEventArgs e)
