@@ -101,6 +101,8 @@
     <Compile Include="Enums\UrlRequestFlags.cs" />
     <Compile Include="Internals\ByteArrayResourceHandler.cs" />
     <Compile Include="Internals\FileResourceHandler.cs" />
+    <Compile Include="JavascriptStrackFrame.cs" />
+    <Compile Include="JavascriptException.cs" />
     <Compile Include="Structs\CefDirtyRect.cs" />
     <Compile Include="CefExtension.cs" />
     <Compile Include="CefLibraryHandle.cs" />
