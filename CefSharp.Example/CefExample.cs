@@ -97,6 +97,9 @@ namespace CefSharp.Example
             settings.MultiThreadedMessageLoop = multiThreadedMessageLoop;
             settings.ExternalMessagePump = !multiThreadedMessageLoop;
 
+            //Enables Uncaught exception handler
+            settings.UncaughtExceptionStackSize = 10;
+
             // Off Screen rendering (WPF/Offscreen)
             if(osr)
             {
