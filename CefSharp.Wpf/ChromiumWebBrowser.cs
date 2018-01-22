@@ -1901,8 +1901,10 @@ namespace CefSharp.Wpf
             else
             {
                 // hide old tooltip before showing the new one to update the position
-                if (toolTip.Content as string != text)
+                if (toolTip.IsOpen)
+                { 
                     toolTip.IsOpen = false;
+                }
 
                 toolTip.Content = text;
                 toolTip.Placement = PlacementMode.Mouse;
