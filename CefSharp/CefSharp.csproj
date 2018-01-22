@@ -98,8 +98,10 @@
     <Compile Include="Callback\TaskPrintToPdfCallback.cs" />
     <Compile Include="Callback\TaskResolveCallback.cs" />
     <Compile Include="CdmRegistration.cs" />
+    <Compile Include="Event\JavascriptBindingEventArgs.cs" />
     <Compile Include="Handler\DefaultRequestHandler.cs" />
     <Compile Include="Enums\UrlRequestFlags.cs" />
+    <Compile Include="IJavascriptObjectRepository.cs" />
     <Compile Include="Internals\ByteArrayResourceHandler.cs" />
     <Compile Include="Internals\DateTimeUtils.cs" />
     <Compile Include="Internals\FileResourceHandler.cs" />
@@ -241,7 +243,6 @@
     <Compile Include="IDragData.cs" />
     <Compile Include="DownloadItem.cs" />
     <Compile Include="Internals\BrowserProcessResponse.cs" />
-    <Compile Include="Internals\JavascriptRootObject.cs" />
     <Compile Include="Internals\TaskExtensions.cs" />
     <Compile Include="IContextMenuParams.cs" />
     <Compile Include="ITaskScheduler.cs" />

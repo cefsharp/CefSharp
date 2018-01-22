@@ -19,6 +19,7 @@ namespace CefSharp.Example
         public const string BaseUrl = "custom://cefsharp";
         public const string DefaultUrl = BaseUrl + "/home.html";
         public const string BindingTestUrl = BaseUrl + "/BindingTest.html";
+        public const string LegacyBindingTestUrl = BaseUrl + "/LegacyBindingTest.html";
         public const string PluginsTestUrl = BaseUrl + "/plugins.html";
         public const string PopupTestUrl = BaseUrl + "/PopupTest.html";
         public const string TooltipTestUrl = BaseUrl + "/TooltipTest.html";
@@ -185,6 +186,10 @@ namespace CefSharp.Example
 
             //Experimental option where bound async methods are queued on TaskScheduler.Default.
             //CefSharpSettings.ConcurrentTaskExecution = true;
+
+            //Legacy Binding Behaviour doesn't work for cross-site navigation (navigating to a different domain)
+            //See issue https://github.com/cefsharp/CefSharp/issues/1203 for details
+            //CefSharpSettings.LegacyJavascriptBindingEnabled = true;
         }
 
         public static async void RegisterTestResources(IWebBrowser browser)

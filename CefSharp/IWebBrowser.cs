@@ -99,6 +99,8 @@ namespace CefSharp
         /// object will be a standard javascript Promise object which is usable to wait for completion or failure.</remarks>
         void RegisterAsyncJsObject(string name, object objectToBind, BindingOptions options = null);
 
+        IJavascriptObjectRepository JavascriptObjectRepository { get; }
+
         /// <summary>
         /// Implement <see cref="IDialogHandler" /> and assign to handle dialog events.
         /// </summary>

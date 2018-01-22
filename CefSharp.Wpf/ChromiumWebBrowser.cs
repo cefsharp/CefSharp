@@ -2194,6 +2194,15 @@ namespace CefSharp.Wpf
         ///                                     called before the underlying CEF browser is created.</exception>
         public void RegisterJsObject(string name, object objectToBind, BindingOptions options = null)
         {
+            if(!CefSharpSettings.LegacyJavascriptBindingEnabled)
+            {
+                throw new Exception(@"CefSharpSettings.LegacyJavascriptBindingEnabled is curretly false,
+                                    for legacy binding you must set CefSharpSettings.LegacyJavascriptBindingEnabled = true
+                                    before registering your first object see https://github.com/cefsharp/CefSharp/issues/2246
+                                    for details on the new binding options. If you perform cross-site navigations bound objects will
+                                    no longer be registered and you will have to migrate to the new method.");
+            }
+
             if (InternalIsBrowserInitialized())
             {
                 throw new Exception("Browser is already initialized. RegisterJsObject must be" +
@@ -2203,7 +2212,14 @@ namespace CefSharp.Wpf
             //Enable WCF if not already enabled
             CefSharpSettings.WcfEnabled = true;
 
-            managedCefBrowserAdapter.RegisterJsObject(name, objectToBind, options);
+            var objectRepository = managedCefBrowserAdapter.JavascriptObjectRepository;
+
+            if (objectRepository == null)
+            {
+                throw new Exception("Object Repository Null, Browser has likely been Disposed.");
+            }
+
+            objectRepository.Register(name, objectToBind, false, options);
         }
 
         /// <summary>
@@ -2219,12 +2235,33 @@ namespace CefSharp.Wpf
         /// object will be a standard javascript Promise object which is usable to wait for completion or failure.</remarks>
         public void RegisterAsyncJsObject(string name, object objectToBind, BindingOptions options = null)
         {
+            if (!CefSharpSettings.LegacyJavascriptBindingEnabled)
+            {
+                throw new Exception(@"CefSharpSettings.LegacyJavascriptBindingEnabled is curretly false,
+                                    for legacy binding you must set CefSharpSettings.LegacyJavascriptBindingEnabled = true
+                                    before registering your first object see https://github.com/cefsharp/CefSharp/issues/2246
+                                    for details on the new binding options. If you perform cross-site navigations bound objects will
+                                    no longer be registered and you will have to migrate to the new method.");
+            }
+
             if (InternalIsBrowserInitialized())
             {
                 throw new Exception("Browser is already initialized. RegisterJsObject must be" +
                                     "called before the underlying CEF browser is created.");
             }
-            managedCefBrowserAdapter.RegisterAsyncJsObject(name, objectToBind, options);
+            var objectRepository = managedCefBrowserAdapter.JavascriptObjectRepository;
+
+            if (objectRepository == null)
+            {
+                throw new Exception("Object Repository Null, Browser has likely been Disposed.");
+            }
+
+            objectRepository.Register(name, objectToBind, true, options);
+        }
+
+        public IJavascriptObjectRepository JavascriptObjectRepository
+        {
+            get { return managedCefBrowserAdapter == null ? null : managedCefBrowserAdapter.JavascriptObjectRepository; }
         }
 
         /// <summary>
