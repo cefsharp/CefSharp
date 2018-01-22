@@ -39,6 +39,11 @@ namespace CefSharp.Wpf.Example.Views
                 {
                     repo.Register("boundAsync2", new AsyncBoundObject(), isAsync: true, options: bindingOptions);
                 }
+            };
+
+            browser.JavascriptObjectRepository.ObjectBoundInJavascript += (sender, e) =>
+            {
+                var name = e.ObjectName;
             };           
 
             browser.DisplayHandler = new DisplayHandler();

@@ -478,13 +478,14 @@ namespace CefSharp
                                 auto args = msg->GetArgumentList();
 
                                 auto names = CefListValue::Create();
-                                args->SetList(0, names);
 
                                 for (auto i = 0; i < javascriptObjects->Count; i++)
                                 {
                                     auto name = javascriptObjects[i]->JavascriptName;
                                     names->SetString(i, StringUtils::ToNative(name));
                                 }
+
+                                args->SetList(0, names);
 
                                 browser->SendProcessMessage(CefProcessId::PID_BROWSER, msg);
                             }
