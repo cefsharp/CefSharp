@@ -563,7 +563,7 @@ namespace CefSharp.OffScreen
         {
             if (!CefSharpSettings.LegacyJavascriptBindingEnabled)
             {
-                throw new Exception(@"CefSharpSettings.LegacyJavascriptBindingEnabled is curretly false,
+                throw new Exception(@"CefSharpSettings.LegacyJavascriptBindingEnabled is currently false,
                                     for legacy binding you must set CefSharpSettings.LegacyJavascriptBindingEnabled = true
                                     before registering your first object see https://github.com/cefsharp/CefSharp/issues/2246
                                     for details on the new binding options. If you perform cross-site navigations bound objects will
@@ -604,7 +604,7 @@ namespace CefSharp.OffScreen
         {
             if (!CefSharpSettings.LegacyJavascriptBindingEnabled)
             {
-                throw new Exception(@"CefSharpSettings.LegacyJavascriptBindingEnabled is curretly false,
+                throw new Exception(@"CefSharpSettings.LegacyJavascriptBindingEnabled is currently false,
                                     for legacy binding you must set CefSharpSettings.LegacyJavascriptBindingEnabled = true
                                     before registering your first object see https://github.com/cefsharp/CefSharp/issues/2246
                                     for details on the new binding options. If you perform cross-site navigations bound objects will
