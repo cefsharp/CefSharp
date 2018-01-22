@@ -1138,7 +1138,7 @@ namespace CefSharp
             auto argList = message->GetArgumentList();
             IJavascriptCallbackFactory^ callbackFactory = _browserAdapter->JavascriptCallbackFactory;
 
-            //TODO: Rename messages (remove Root from name)
+            //TODO: JSB Rename messages (remove Root from name)
             if (name == kJavascriptRootObjectRequest)
             {
                 if (!Object::ReferenceEquals(_browserAdapter, nullptr) && !_browserAdapter->IsDisposed)
@@ -1167,6 +1167,24 @@ namespace CefSharp
                         SerializeJsObjects(objectRepository->GetObjects(names), responseArgList, 4);
                         browser->SendProcessMessage(CefProcessId::PID_RENDERER, msg);
                     }
+                }
+
+                handled = true;
+            }
+            else if (name == kJavascriptObjectsBoundInJavascript)
+            {
+                if (!Object::ReferenceEquals(_browserAdapter, nullptr) && !_browserAdapter->IsDisposed)
+                {
+                    auto objectRepository = _browserAdapter->JavascriptObjectRepository;
+
+                    auto objectNames = argList->GetList(0);
+                    auto names = gcnew List<String^>(objectNames->GetSize());
+                    for (auto i = 0; i < objectNames->GetSize(); i++)
+                    {
+                        names->Add(StringUtils::ToClr(objectNames->GetString(i)));
+                    }
+                    
+                    objectRepository->ObjectsBound(names);
                 }
 
                 handled = true;

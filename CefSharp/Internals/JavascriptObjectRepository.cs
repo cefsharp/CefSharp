@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Threading;
 using CefSharp.ModelBinding;
 using CefSharp.Event;
+using System.Threading.Tasks;
 
 namespace CefSharp.Internals
 {
@@ -34,6 +35,7 @@ namespace CefSharp.Internals
         private static long lastId;
 
         public event EventHandler<JavascriptBindingEventArgs> ResolveObject;
+        public event EventHandler<JavascriptBindingEventArgs> ObjectBoundInJavascript;		
 
         /// <summary>
         /// A hash from assigned object ids to the objects,
@@ -81,6 +83,29 @@ namespace CefSharp.Internals
             }
             
             return objects.Values.Where(x => names.Contains(x.JavascriptName)).ToList();
+        }
+
+
+        public void ObjectsBound(List<string> names)
+        {
+            //TODO: JSB Should this be a single event invocation or
+            // one per object that was bound??? (Currently one per object)
+            
+            //Execute on Threadpool so we don't unnessicarily block the CEF IO thread
+            var handler = ObjectBoundInJavascript;
+            if(handler != null)
+            { 
+                Task.Run(() =>
+                {
+                    foreach (var name in names)
+                    {
+                        if (handler != null)
+                        {
+                            handler(this, new JavascriptBindingEventArgs(this, name));
+                        }
+                    }
+                });			
+            }
         }
 
         private JavascriptObject CreateJavascriptObject(bool camelCaseJavascriptNames)
