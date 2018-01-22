@@ -41,5 +41,10 @@ namespace CefSharp
         /// registered with the repository
         /// </summary>
         event EventHandler<JavascriptBindingEventArgs> ResolveObject;
+
+        /// <summary>
+        /// Event handler is triggered when a object has been successfully bound on javascript
+        /// </summary>
+        event EventHandler<JavascriptBindingEventArgs> ObjectBoundInJavascript;
     }
 }

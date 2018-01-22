@@ -472,6 +472,21 @@ namespace CefSharp
                                 callback->Success(CefV8Value::CreateBool(true));
 
                                 //TODO: JSB deal with failure - no object matching bound
+
+                                //Send message notifying Browser Process of which objects were bound
+                                auto msg = CefProcessMessage::Create(kJavascriptObjectsBoundInJavascript);
+                                auto args = msg->GetArgumentList();
+
+                                auto names = CefListValue::Create();
+                                args->SetList(0, names);
+
+                                for (auto i = 0; i < javascriptObjects->Count; i++)
+                                {
+                                    auto name = javascriptObjects[i]->JavascriptName;
+                                    names->SetString(i, StringUtils::ToNative(name));
+                                }
+
+                                browser->SendProcessMessage(CefProcessId::PID_BROWSER, msg);
                             }
                         }
                         finally
