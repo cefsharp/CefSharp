@@ -1,31 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Choose>
-    <When Condition="'$(Platform)' == 'x86'">
-      <ItemGroup>
-        <Reference Include="CefSharp">
-          <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.dll</HintPath>
-          <Private>True</Private>
-        </Reference>
-        <Reference Include="CefSharp.Core">
-          <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.dll</HintPath>
-          <Private>True</Private>
-        </Reference>
-      </ItemGroup>
-    </When>
     <When Condition="'$(Platform)' == 'x64'">
       <ItemGroup>
         <Reference Include="CefSharp">
           <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x64\CefSharp.dll</HintPath>
-          <Private>True</Private>
+          <Private>False</Private>
         </Reference>
         <Reference Include="CefSharp.Core">
           <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x64\CefSharp.Core.dll</HintPath>
-          <Private>True</Private>
+          <Private>False</Private>
         </Reference>
       </ItemGroup>
     </When>
-    <When Condition="'$(Platform)' == 'AnyCPU'">
+    <!-- x86, Win32 and AnyCpu -->
+    <Otherwise>
       <ItemGroup>
         <Reference Include="CefSharp">
           <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.dll</HintPath>
@@ -36,6 +25,6 @@
           <Private>False</Private>
         </Reference>
       </ItemGroup>
-    </When>
+    </Otherwise>
   </Choose>
 </Project>
