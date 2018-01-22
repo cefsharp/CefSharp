@@ -38,6 +38,9 @@ void ManagedCefBrowserAdapter::OnAfterBrowserCreated(IBrowser^ browser)
         _browserWrapper = browser;
         _javascriptCallbackFactory->BrowserAdapter = gcnew WeakReference(this);
 
+        //Browser has been initialized, it's now too late to register a sync JSB object if Wcf wasn't enabled
+        _javaScriptObjectRepository->IsBrowserInitialized = true;
+
         if (CefSharpSettings::WcfEnabled)
         {
             _browserProcessServiceHost = gcnew BrowserProcessServiceHost(_javaScriptObjectRepository, Process::GetCurrentProcess()->Id, browser->Identifier, _javascriptCallbackFactory);

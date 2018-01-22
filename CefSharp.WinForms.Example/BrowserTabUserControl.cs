@@ -52,8 +52,8 @@ namespace CefSharp.WinForms.Example
             browser.StatusMessage += OnBrowserStatusMessage;
             browser.IsBrowserInitializedChanged += OnIsBrowserInitializedChanged;
             browser.LoadError += OnLoadError;
-            browser.RegisterJsObject("bound", new BoundObject());
-            browser.RegisterAsyncJsObject("boundAsync", new AsyncBoundObject());
+            browser.JavascriptObjectRepository.Register("bound", new BoundObject(), isAsync: false);
+            browser.JavascriptObjectRepository.Register("boundAsync", new AsyncBoundObject(), isAsync: true);
             browser.RenderProcessMessageHandler = new RenderProcessMessageHandler();
             browser.DisplayHandler = new DisplayHandler();
             //browser.MouseDown += OnBrowserMouseClick;
@@ -65,7 +65,7 @@ namespace CefSharp.WinForms.Example
             eventObject.EventArrived += OnJavascriptEventArrived;
             // Use the default of camelCaseJavascriptNames
             // .Net methods starting with a capitol will be translated to starting with a lower case letter when called from js
-            browser.RegisterJsObject("boundEvent", eventObject, BindingOptions.DefaultBinder);
+            browser.JavascriptObjectRepository.Register("boundEvent", eventObject, isAsync:false, options: BindingOptions.DefaultBinder);
 
             CefExample.RegisterTestResources(browser);
 
