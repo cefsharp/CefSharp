@@ -25,13 +25,13 @@ namespace CefSharp.Wpf.Example.Views
             InitializeComponent();
 
             browser.RequestHandler = new RequestHandler();
-            browser.RegisterJsObject("bound", new BoundObject(), BindingOptions.DefaultBinder);
+            browser.JavascriptObjectRepository.Register("bound", new BoundObject(), isAsync:false, options: BindingOptions.DefaultBinder);
             var bindingOptions = new BindingOptions() 
             {
                 Binder = BindingOptions.DefaultBinder.Binder,
                 MethodInterceptor = new MethodInterceptorLogger() // intercept .net methods calls from js and log it
             };
-            browser.RegisterAsyncJsObject("boundAsync", new AsyncBoundObject(), bindingOptions);
+            browser.JavascriptObjectRepository.Register("boundAsync", new AsyncBoundObject(), isAsync: true, options: bindingOptions);
             browser.JavascriptObjectRepository.ResolveObject += (sender, e) =>
             {
                 var repo = e.ObjectRepository;

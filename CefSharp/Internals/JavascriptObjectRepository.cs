@@ -42,6 +42,11 @@ namespace CefSharp.Internals
         /// </summary>
         private readonly Dictionary<long, JavascriptObject> objects = new Dictionary<long, JavascriptObject>();
 
+        /// <summary>
+        /// Has the browser this repository is associated with been initilized (set in OnAfterCreated)
+        /// </summary>
+        public bool IsBrowserInitialized { get; set; }
+
         public void Dispose()
         {
             ResolveObject = null;
@@ -90,9 +95,17 @@ namespace CefSharp.Internals
 
         public void Register(string name, object value, bool isAsync, BindingOptions options)
         {
+            //Enable WCF if not already enabled - can only be done before the browser has been initliazed
+            //if done after the subprocess won't be WCF enabled it we'll have to throw an exception
+            if (!IsBrowserInitialized)
+            { 
+                CefSharpSettings.WcfEnabled = true;
+            }
+
             if (!CefSharpSettings.WcfEnabled && !isAsync)
             {
-                throw new InvalidOperationException("To enable synchronous JS bindings set WcfEnabled true in CefSettings during initialization.");
+                throw new InvalidOperationException(@"To enable synchronous JS bindings set WcfEnabled true in CefSharpSettings before you create
+                                                    your ChromiumWebBrowser instances.");
             }
 
             //Validation name is unique
