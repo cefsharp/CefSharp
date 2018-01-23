@@ -1272,7 +1272,8 @@ namespace CefSharp
                         auto stackFrame = gcnew JavascriptStackFrame();
                         stackFrame->FunctionName = StringUtils::ToClr(frame->GetString(0));
                         stackFrame->LineNumber = frame->GetInt(1);
-                        stackFrame->SourceName = StringUtils::ToClr(frame->GetString(2));
+                        stackFrame->ColumnNumber = frame->GetInt(2);
+                        stackFrame->SourceName = StringUtils::ToClr(frame->GetString(3));
 
                         stackTrace->Add(stackFrame);
                     }

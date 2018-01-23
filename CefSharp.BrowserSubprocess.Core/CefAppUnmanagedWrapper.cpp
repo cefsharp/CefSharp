@@ -194,7 +194,8 @@ namespace CefSharp
 
             frame->SetString(0, frameArg->GetFunctionName());
             frame->SetInt(1, frameArg->GetLineNumber());
-            frame->SetString(2, frameArg->GetScriptNameOrSourceURL());
+            frame->SetInt(2, frameArg->GetColumn());
+            frame->SetString(3, frameArg->GetScriptNameOrSourceURL());
 
             frames->SetList(i, frame);
         }

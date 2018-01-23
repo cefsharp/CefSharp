@@ -16,6 +16,9 @@ namespace CefSharp
         public int LineNumber { get; set; }
 
         [DataMember]
+        public int ColumnNumber { get; set; }
+
+        [DataMember]
         public string SourceName { get; set; }
     }
 }
