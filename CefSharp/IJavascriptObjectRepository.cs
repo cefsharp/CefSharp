@@ -22,7 +22,12 @@ namespace CefSharp
         /// </summary>
         /// <param name="name">name</param>
         /// <param name="objectToBind">object</param>
-        /// <param name="isAsync">is async</param>
+        /// <param name="isAsync">
+        /// if true the object will be registered for async communication,
+        /// only methods will be exposed and when called from javascript will return a Promise to be awaited. 
+        /// This method is newer and recommended for everyone starting out as it is faster and more reliable.
+        /// If false then methods and properties will be registered, this method relies on a WCF service to communicate.
+        /// </param>
         /// <param name="options">binding options</param>
         void Register(string name, object objectToBind, bool isAsync = false, BindingOptions options = null);
         /// <summary>
