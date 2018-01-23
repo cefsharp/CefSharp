@@ -10,7 +10,6 @@
 #include "TypeUtils.h"
 #include "Stdafx.h"
 #include "JavascriptRootObjectWrapper.h"
-#include "Async/JavascriptAsyncMethodCallback.h"
 
 using namespace CefSharp::Internals::Async;
 using namespace System::ServiceModel;
@@ -27,6 +26,7 @@ namespace CefSharp
         MCefRefPtr<CefBrowser> _cefBrowser;
     
     internal:
+        //Frame Identifier is used as Key
         property ConcurrentDictionary<int64, JavascriptRootObjectWrapper^>^ JavascriptRootObjectWrappers;
 
     public:

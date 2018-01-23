@@ -171,6 +171,8 @@
     <ClInclude Include="Async\JavascriptAsyncMethodWrapper.h" />
     <ClInclude Include="Async\JavascriptAsyncObjectWrapper.h" />
     <ClInclude Include="CefAppUnmanagedWrapper.h" />
+    <ClInclude Include="RegisterBoundObjectHandler.h" />
+    <ClInclude Include="RegisterBoundObjectRegistry.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="WcfEnabledSubProcess.h" />
     <ClInclude Include="SubProcess.h" />

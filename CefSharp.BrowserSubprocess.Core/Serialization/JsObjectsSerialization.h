@@ -13,7 +13,7 @@ namespace CefSharp
         namespace Serialization
         {
             JavascriptObject^ DeserializeJsObject(const CefRefPtr<CefListValue>& list, int index);
-            JavascriptRootObject^ DeserializeJsRootObject(const CefRefPtr<CefListValue>& list, int index);
+            List<JavascriptObject^>^ DeserializeJsObjects(const CefRefPtr<CefListValue>& list, int index);
         }
     }
 }

@@ -20,6 +20,12 @@ namespace CefSharp.Example
         public SubBoundObject SubObject { get; set; }
         public ExceptionTestBoundObject ExceptionTestObject { get; set; }
 
+        public int this[int i]
+        {
+            get { return i; }
+            set { }
+        }
+
         public uint[] MyUintArray
         {
             get { return new uint[] { 7, 8 }; }
