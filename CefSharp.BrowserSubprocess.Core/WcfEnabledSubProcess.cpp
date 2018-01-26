@@ -56,16 +56,31 @@ namespace CefSharp
         {
             auto channelFactory = browser->ChannelFactory;
 
-            if (channelFactory->State == CommunicationState::Opened)
+            try
             {
-                channelFactory->Close();
+                if (channelFactory->State == CommunicationState::Opened)
+                {
+                    channelFactory->Close();
+                }
+            }
+            catch (Exception^)
+            {
+                
+                channelFactory->Abort();
             }
 
             auto clientChannel = ((IClientChannel^)browser->BrowserProcess);
 
-            if (clientChannel->State == CommunicationState::Opened)
+            try
             {
-                clientChannel->Close();
+                if (clientChannel->State == CommunicationState::Opened)
+                {
+                    clientChannel->Close();
+                }
+            }
+            catch (Exception^)
+            {
+                clientChannel->Abort();
             }
 
             browser->ChannelFactory = nullptr;

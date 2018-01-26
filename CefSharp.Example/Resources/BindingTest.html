@@ -2,324 +2,386 @@
 <html>
     <head>
         <title>Binding Test</title>
+        <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.4.1.css">
     </head>
     <body>
-        <p>
-            Async Binding Test
-            <span id="asyncresult"></span>
-            <script type="text/javascript">
-                var asResult = document.getElementById('asyncresult');
+        <div id="qunit"></div>
+        <div id="qunit-fixture"></div>
+        <script src="https://code.jquery.com/qunit/qunit-2.4.1.js"></script>
 
-                function writeAsyncResult(call, end)
+        <!--<script type="text/javascript">
+        (async function() {
+            // <embed user provided code here>
+
+            await CefSharp.BindObjectAsync("boundAsync", "bound");
+        })();
+
+        (async () => {
+            await CefSharp.BindObjectAsync("boundAsync", "bound");
+        })();
+        </script>-->
+
+        <script type="text/javascript">
+        (async () =>
+        {
+            await CefSharp.BindObjectAsync("boundAsync", "bound");
+
+            QUnit.test( "BindObjectAsync Second call", function( assert )
+            {
+                let asyncCallback = assert.async();
+                CefSharp.BindObjectAsync("boundAsync", "bound").then(function(res)
                 {
-                    var p = document.createElement('p');
-                    var br = document.createElement('br');
-                    var br2 = document.createElement('br');
-                    var hr = document.createElement('hr');
-                    var title = document.createTextNode('Async Call: ');
-                    var callText = document.createTextNode(call);
-                    var endText = document.createTextNode(end);
+                    assert.equal(false, res, "Second call to BindObjectAsync with already bound objects as params returned false.");
+                    asyncCallback();
+                });
+            });
 
-                    p.appendChild(title);
-                    p.appendChild(br);
-                    p.appendChild(callText);
-                    p.appendChild(br2);
-                    p.appendChild(endText);
-                    p.appendChild(hr);
-                
-                    asResult.appendChild(p);
-                }
+            QUnit.test( "bound.repeat('hi ', 5)", function( assert )
+            {
+                const expectedResult = "hi hi hi hi hi "
+                let actualResult = bound.repeat("hi ", 5);
+                assert.equal( actualResult, expectedResult, "We expect value to be " + actualResult );
+            });
 
-                function asyncError()
-                {
-                    let call = "Async call (Throw Exception): " + Date();
-                    boundAsync.error().catch(function (e)
-                    {
-                        var end = "Error: " + e + "(" + Date() + ")";
-                        writeAsyncResult(call, end);
-                    });
-                }
-
-                async function asyncDivOk()
-                {
-                    let call = "Async call (Divide 16 / 2): " + Date();
-                    
-                    let res = await boundAsync.div(16, 2);
-
-                    let end = "Result: " + res + "(" + Date() + ")";
-                    writeAsyncResult(call, end);
-                }
-
-                function asyncDivFail()
-                {
-                    var call = "Async call (Divide 16 /0): " + Date();
-                    boundAsync.div(16, 0).then(function (res)
-                    {
-                        var end = "Result: " + res + "(" + Date() + ")";
-                        writeAsyncResult(call, end);
-                    },
-                    function (e)
-                    {
-                        var end = "Error: " + e + "(" + Date() + ")";
-                        writeAsyncResult(call, end);
-                    });
-                }
-
-                async function asyncHello()
-                {
-                    let call = "Async call (Hello): " + Date();
-                    let res = await boundAsync.hello('CefSharp');
-
-                    var end = "Result: " + res + "(" + Date() + ")";
-                    writeAsyncResult(call, end);
-
-                    return end;
-                }
-
-                async function asyncDoSomething()
-                {
-                    let call = "Async call (Long Running Task): " + Date();
-                    let res = await boundAsync.doSomething();
-
-                    let end = "Result: " + res + "(" + Date() + ")";
-                    writeAsyncResult(call, end);
-                }
-
-                async function asyncObject()
-                {
-                    let call = "Async call (Object): " + Date();
-                    var res = await boundAsync.returnObject('CefSharp');
-                    var end = "Result: " + JSON.stringify(res) + " (" + Date() + ")";
-                    writeAsyncResult(call, end);
-                }
-
-                async function asyncObjectArray()
-                {
-                    let call = "Async call (ObjectArray): " + Date();
-                    let res = await boundAsync.objectArray('CefSharp');
-                    let end = "Result: [ " + res.map(function (item) { return item.Value }) + " ] (" + Date() + ")";
-                    writeAsyncResult(call, end);
-                }
-
-                async function asyncDictionaryPassedAsParam()
-                {
-                    let call = [{ Name : "Chrome", Engine : {Name : "WebKit"} }, { Name : "Chromium", Engine : {Name : "WebKit"} }, { Name : "Opera", Engine : {Name : "WebKit"} }];
-                    let res = await boundAsync.dynamiObjectList(call);
-                    writeAsyncResult(call, res);
-                }
-            
-                asyncError();
-                asyncDivOk();
-                asyncDivFail();
-                asyncDoSomething();
-                asyncHello();
-                asyncObject();
-                asyncObjectArray();
-                asyncDictionaryPassedAsParam();
-            </script>
-        </p>
-        <p>
-            Javascript Callback Test
-            <br />
-            <script type="text/javascript">
-                function callback(s)
-                {
-                    var result = document.getElementById('cbresult');
-                    result.innerText += "Callback: " + s.Response + "" + Date();
-                }
-
-                function testCallback()
-                {
-                    bound.testCallback(callback);
-
-                    var result = document.getElementById('cbresult');
-                    result.innerText = "The function has returned: " + Date() + "\n";
-                }
-            </script>
-            <button onclick="testCallback()">Test Callback</button>
-            <br />
-            <span id="cbresult"></span>
-        </p>
-
-        <p>
-            Disposed Javscript Callback Test (navigates to www.google.com before callback fires)
-            <br />
-            <script type="text/javascript">
-                function disposedCallback(s)
-                {
-                    // This callback should be disposed and should not be called
-                    window.alert("This callback should not have been called");
-
-                    var result = document.getElementById('disposedcbresult');
-                    result.innerText += "Callback: " + s + "" + Date();
-                }
-
-                function testDisposedCallback()
-                {
-                    bound.testCallback(callback);
-
-                    var result = document.getElementById('disposedcbresult');
-                    result.innerText = "The function has returned: " + Date() + "\n";
-
-                    window.location.assign("http://www.google.com");
-                }
-            </script>
-            <button onclick="testDisposedCallback()">Test Disposed Callback</button>
-            <br />
-            <span id="disposedcbresult"></span>
-        </p>
-
-        <p>
-            Javascript Callback Test using object as parameter
-            <br />
-            <script type="text/javascript">
-                function objectCallback(s)
-                {
-                    var result = document.getElementById('cbobjresult');
-                    result.innerText += "Callback: " + s + "" + Date();
-                }
-
-                function testCallbackWithObject()
-                {
-                    bound.testCallbackFromObject({
-                        Callback: objectCallback, TestString: "Hello", SubClasses: [
-                            { PropertyOne: "Test Property One", Numbers: [1, 2, 3] },
-                            { PropertyOne: "Test Property Two", Numbers: [4, 5, 6] }
-                        ]
-                    });
-
-                    var result = document.getElementById('cbobjresult');
-                    result.innerText = "The function has returned: " + Date() + "\n ...Waiting for callback response...";
-                }
-            </script>
-            <button onclick="testCallbackWithObject()">Test Callback with object param</button>
-            <br />
-            <span id="cbobjresult"></span>
-        </p>
-
-        <p>
-            Result of calling bound.repeat("hi ", 5) =
-            <script type="text/javascript">
-                var result = bound.repeat("hi ", 5);
-                document.write('"' + result + '"');
-                if (result === "hi hi hi hi hi ")
-                {
-                    document.write(" SUCCESS");
-                } else
-                {
-                    document.write(" FAIL!");
-                }
-            </script>
-        </p>
-
-        <p>
-            Function delegate to c# method
-            <br />
-            <script type="text/javascript">
+            QUnit.test( "Function delegate to c# method", function( assert )
+            {
                 function myFunction(functionParam)
                 {
                     return functionParam();
                 }
 
-                document.write("echoMyProperty result: " + myFunction(bound.echoMyProperty));
-            </script>
-        </p>
+                const expectedResult = "42"
+                let actualResult = myFunction(bound.echoMyProperty);
+                assert.equal( actualResult, expectedResult, "We expect value to be " + actualResult );
+            });
 
-        <p>
-            Function returning complex type
-            <br />
-            <script type="text/javascript">
-                document.write("bound.getSubObject().simpleProperty result: " + bound.getSubObject().simpleProperty);
-            </script>
-        </p>
-
-        <p>
-            Stress Test
-            <br />
-            <script type="text/javascript">
-                var stressTestCallCount = 1000;
-                for (var i = 1; i <= stressTestCallCount; i++)
+            QUnit.test( "Function returning complex type", function( assert )
+            {
+                function myFunction(functionParam)
                 {
-                    bound.repeat("hi ", 5);
+                    return functionParam();
                 }
 
-                document.write("Stress Test done with : " + stressTestCallCount + " call to bound.repeat(\"hi \", 5)");
-            </script>
-        </p>
+                const expectedResult = "This is a very simple property."
+                let actualResult = bound.getSubObject().simpleProperty;
+                assert.equal( actualResult, expectedResult, "Call to bound.getSubObject().simpleProperty resulted in : " + actualResult );
+            });
 
-        <p>
-            JSON Serializer Test
-            <br />
-            <script type="text/javascript">
+            QUnit.test("Stress Test", function( assert )
+            {
+                let stressTestCallCount = 1000;
+                for (var i = 1; i <= stressTestCallCount; i++)
+                {
+                    assert.ok(true, bound.repeat("hi ", 5));
+                }
+
+                assert.ok(true,  "Stress Test done with : " + stressTestCallCount + " call to bound.repeat(\"hi \", 5)");
+            });
+
+            QUnit.test( "JSON Serializer Test", function( assert )
+            {
                 var json = bound.returnJsonEmployeeList();
                 var jsonObj = JSON.parse(json);
 
-                document.write("Employee Count : " + jsonObj.employees.length + "<br/>");
+                assert.ok(jsonObj.employees.length > 0, "Employee Count : " + jsonObj.employees.length);
 
-                for (var i = 0; i < jsonObj.employees.length; i++)
-                {
-                    var employee = jsonObj.employees[i];
-                    document.write("Employee : " + employee.firstName + " " + employee.lastName + "<br/>");
-                }
-            </script>
-        </p>
+                var employees = jsonObj.employees;
 
-        Methods on bound object 'bound':<br />
-        <ul>
-            <script type="text/javascript">
+                assert.equal("John Doe", employees[0].firstName + " " + employees[0].lastName, "Employee : " + employees[0].firstName + " " + employees[0].lastName);
+                assert.equal("Anna Smith", employees[1].firstName + " " + employees[1].lastName, "Employee : " + employees[1].firstName + " " + employees[1].lastName);
+                assert.equal("Peter Jones", employees[2].firstName + " " + employees[2].lastName, "Employee : " + employees[2].firstName + " " + employees[2].lastName);
+            });
+
+            QUnit.test( "Javascript function sending variable number of parameters to Bound Object. (ParamArray Test)", function( assert )
+            {
+                assert.equal(bound.methodWithParams('With 1 Params', 'hello-world'), "Name:With 1 Params;Args:hello-world", "Method with paramArray with one param");
+                assert.equal(bound.methodWithParams('With 2 Params', 'hello-world', 'chris was here'), "Name:With 2 Params;Args:hello-world, chris was here", "Method with paramArray with two params");
+                assert.equal(bound.methodWithParams('With no Params'), "Name:With no Params;Args:", "Method with paramArary no params passed");
+                assert.equal(bound.methodWithoutParams('Normal Method', 'hello'), "Normal Method, hello", "Method with one param (not param array)");
+                assert.equal(bound.methodWithoutAnything(), "Method without anything called and returned successfully.", "Method without params");
+
+                assert.equal(bound.methodWithThreeParamsOneOptionalOneArray(null), "MethodWithThreeParamsOneOptionalOneArray:No Name Specified - No Optional Param Specified;Args:", "bound.methodWithThreeParamsOneOptionalOneArray(null)");
+                assert.equal(bound.methodWithThreeParamsOneOptionalOneArray(null, null), "MethodWithThreeParamsOneOptionalOneArray:No Name Specified - No Optional Param Specified;Args:", "bound.methodWithThreeParamsOneOptionalOneArray(null, null)");
+                assert.equal(bound.methodWithThreeParamsOneOptionalOneArray("Test", null), "MethodWithThreeParamsOneOptionalOneArray:Test - No Optional Param Specified;Args:", "bound.methodWithThreeParamsOneOptionalOneArray('Test', null)");
+                assert.equal(bound.methodWithThreeParamsOneOptionalOneArray(null, null, "Arg1", "Arg2"), "MethodWithThreeParamsOneOptionalOneArray:No Name Specified - No Optional Param Specified;Args:Arg1, Arg2", "bound.methodWithThreeParamsOneOptionalOneArray(null, null, 'Arg1', 'Arg2')");
+            });
+
+            QUnit.test("Methods and Properties on bound object 'bound':", function( assert )
+            {
                 for (var name in bound)
                 {
                     if (bound[name].constructor.name != 'Function') continue;
-                    document.write("<li>" + name + "</li>");
-                }
-            </script>
-        </ul>
 
-        Properties in bound object 'bound':<br />
-        <ul>
-            <script type="text/javascript">
+                    assert.ok(true, "Property: " + name);
+                }
+
                 for (var name in bound)
                 {
                     if (bound[name].constructor.name === 'Function') continue;
 
-                    document.write("<li>" + name + "</li>");
+
+                    assert.ok(true, "Function: " + name);
+                }
+
+                for (var name in bound)
+                {
                     if (typeof bound[name] == "object" && bound[name] !== null)
                     {
                         for (var sub in bound[name])
                         {
-                            var type = bound[name][sub].constructor.name === 'Function' ? "Function" : "Property";
-                            document.write("<li>" + name + "." + sub + "(" + type + ")" + "</li>");
+                            var type  = bound[name][sub].constructor.name === 'Function' ? "Function" : "Property";
+                            assert.ok(true, name + "." + sub + "(" + type + ")");
                         }
                     }
                 }
-            </script>
-        </ul>
-        <p>
-            Javascript function sending variable number of parameters to Bound Object. (ParamArray Test)
-            <script type="text/javascript">
-                function str2ab(str)
+            });
+
+            QUnit.test( "Async call (Throw .Net Exception)", function( assert )
+            {
+                var asyncCallback = assert.async();
+
+                boundAsync.error().catch(function (e)
                 {
-                    var enc = new TextEncoder("utf-8");
-                    return enc.encode(str).buffer;
+                    assert.ok( true, "Error: " + e );
+
+                    asyncCallback();
+                });
+            });
+
+            QUnit.test( "Async call (Divide 16 / 2):", function( assert )
+            {
+                var asyncCallback = assert.async();
+
+                boundAsync.div(16, 2).then(function (actualResult)
+                {
+                    const expectedResult = 8
+
+                    assert.equal(expectedResult, actualResult, "Divide 16 / 2 resulted in " + expectedResult);
+
+                    asyncCallback();
+                });                
+            });
+
+            QUnit.test( "Async call (Divide 16 /0)", function( assert )
+            {
+                var asyncCallback = assert.async();
+
+                boundAsync.div(16, 0).then(function (res)
+                {
+                    //Will always throw exception
+                },
+                function (e)
+                {
+                    assert.ok(true, "Error: " + e + "(" + Date() + ")");
+
+                    asyncCallback();
+                });
+            });
+
+            QUnit.test( "Async call (Hello):", function( assert )
+            {
+                var asyncCallback = assert.async();
+                
+                boundAsync.hello('CefSharp').then(function (res)
+                {
+                    assert.equal(res, "Hello CefSharp")
+
+                    asyncCallback();
+                });
+            });
+
+            QUnit.test("Async call (Long Running Task):", function( assert )
+            {
+                var asyncCallback = assert.async();
+                
+                boundAsync.doSomething().then(function (res)
+                {
+                    assert.ok(true, "Slept for 1000ms")
+
+                    asyncCallback();
+                });
+            });
+
+            QUnit.test("Async call (Object):", function( assert )
+            {
+                var asyncCallback = assert.async();
+                
+                boundAsync.returnObject('CefSharp').then(function (res)
+                {
+                    assert.equal(res.Value, "CefSharp", "JSON Object with a single field");
+
+                    asyncCallback();
+                });
+            });
+
+            QUnit.test("Async call (returnStructArray):", function( assert )
+            {
+                var asyncCallback = assert.async();
+
+                boundAsync.returnStructArray('CefSharp').then(function (res)
+                {
+                    assert.equal(res[0].Value, "CefSharpItem1", "Expected Result of CefSharpItem1");
+                    assert.equal(res[1].Value, "CefSharpItem2", "Expected Result of CefSharpItem2");
+
+                    asyncCallback();
+                });
+            });
+
+            QUnit.test("Async call (returnClassesArray):", function( assert )
+            {
+                var asyncCallback = assert.async();
+
+                boundAsync.returnClassesArray('CefSharp').then(function (res)
+                {
+                    assert.equal(res[0].Value, "CefSharpItem1", "Expected Result of CefSharpItem1");
+                    assert.equal(res[1].Value, "CefSharpItem2", "Expected Result of CefSharpItem2");
+
+                    asyncCallback();
+                });
+            });
+
+            QUnit.test("Async call (echoArray):", function (assert)
+            {
+                var asyncCallback = assert.async();
+
+                boundAsync.echoArray(["one", null, "three"]).then(function (res)
+                {
+                    assert.equal(res.length, 3, "Expected result to be length 3");
+                    assert.equal(res[0], "one", "Expected Result of 1st item");
+                    assert.equal(res[1], null, "Expected Result of 2nd item");
+                    assert.equal(res[2], "three", "Expected Result of 3rd item");
+
+                    asyncCallback();
+                });
+            });
+
+            QUnit.test("Async call (echoValueTypeArray):", function (assert)
+            {
+                var asyncCallback = assert.async();
+
+                boundAsync.echoValueTypeArray([1, null, 3]).then(function (res)
+                {
+                    assert.equal(res.length, 3, "Expected result to be length 3");
+                    assert.equal(res[0], 1, "Expected Result of 1st item");
+                    assert.equal(res[1], 0, "Expected Result of 2nd item");
+                    assert.equal(res[2], 3, "Expected Result of 3rd item");
+
+                    asyncCallback();
+                });
+            });
+
+            QUnit.test("Async call (echoMultidimensionalArray):", function (assert)
+            {
+                var asyncCallback = assert.async();
+
+                boundAsync.echoMultidimensionalArray([[1, 2], null, [3, 4]]).then(function (res)
+                {
+                    assert.equal(res.length, 3, "Expected result to be length 3");
+                    assert.equal(res[0][0], 1, "Expected Result of 1st item");
+                    assert.equal(res[0][1], 2, "Expected Result of 1st item");
+                    assert.equal(res[1], null, "Expected Result of 2nd item");
+                    assert.equal(res[2][0], 3, "Expected Result of 3rd item");
+                    assert.equal(res[2][1], 4, "Expected Result of 3rd item");
+
+                    asyncCallback();
+                });
+            });
+
+            QUnit.test("Javascript Callback Test using object as parameter", function( assert )
+            {
+                var asyncCallback = assert.async();
+
+                function objectCallback(s)
+                {
+                    assert.ok(true, s);
+
+                    asyncCallback();
                 }
 
-                document.write(bound.methodWithParams('With 1 Params', 'hello-world') + "<br/>");
-                document.write(bound.methodWithParams('With 2 Params', 'hello-world', 'chris was here') + "<br/>");
-                document.write(bound.methodWithParams('With no Params') + "<br/>");
-                document.write(bound.methodWithoutParams('Normal Method', 'hello') + "<br/>");
-                document.write(bound.methodWithoutAnything() + "<br/>");
+                bound.testCallbackFromObject(
+                {
+                    Callback: objectCallback, TestString: "Hello", SubClasses:
+                    [
+                        { PropertyOne: "Test Property One", Numbers: [1, 2, 3] },
+                        { PropertyOne: "Test Property Two", Numbers: [4, 5, 6] }
+                    ]
+                });
+            });
 
-                document.write(bound.methodWithThreeParamsOneOptionalOneArray(null) + "<br/>");
-                document.write(bound.methodWithThreeParamsOneOptionalOneArray(null, null) + "<br/>");
-                document.write(bound.methodWithThreeParamsOneOptionalOneArray("Test", null) + "<br/>");
-                document.write(bound.methodWithThreeParamsOneOptionalOneArray(null, null, "Arg1", "Arg2") + "<br/>");
+            QUnit.test("Javascript Callback Test", function( assert )
+            {
+                var asyncCallback = assert.async();
 
-                //CEF Does not currently support ArrayBuffer directly
-                //https://bitbucket.org/chromiumembedded/cef/issues/244
-                //https://bitbucket.org/chromiumembedded/cef/pull-requests/12/v8-renderer-add-basic-arraybuffer-support/diff
-                //var buffer = str2ab("Testing array buffer");
-                //document.write(bound.complexParamObject(buffer));
-            </script>
-        </p>
+                function callback(s)
+                {
+                    assert.equal(s.Response, "This callback from C# was delayed 1500ms", s.Response);
+
+                    asyncCallback();
+                }
+
+                bound.testCallback(callback);
+            });
+
+            //TODO: Unable to map this to a qunit test
+            //QUnit.test("Disposed Javscript Callback Test (navigates to www.google.com before callback fires)", function( assert )
+            //{
+            //    var asyncCallback = assert.async();
+
+            //    function disposedCallback(s)
+            //    {
+            //        // This callback should be disposed and should not be called
+            //        assert.ok(false, "This callback should not have been called");
+
+            //        asyncCallback();
+            //    }
+
+            //    bound.testCallback(callback);
+
+            //    window.location.assign("http://www.google.com");
+            //});
+        })();
+        </script>
+
+        <script type="text/javascript">
+            QUnit.test( "Bind boundAsync2 and call (Hello):", function( assert )
+            {
+                var asyncCallback = assert.async();
+
+                CefSharp.BindObjectAsync("boundAsync2").then(function(result)
+                {
+                    boundAsync2.hello('CefSharp').then(function (res)
+                    {
+                        assert.equal(res, "Hello CefSharp")
+
+                        assert.equal(true, CefSharp.DeleteBoundObject("boundAsync2"), "Object was unbound");
+
+                        assert.ok(window.boundAsync2 === undefined, "boundAsync2 is now undefined");
+
+                        asyncCallback();
+                    });
+                });
+            });
+
+            //Repeat of the previous test to make sure binding a deleted object is working
+            QUnit.test( "Bind boundAsync2 and call (Hello) Second Attempt:", function( assert )
+            {
+                var asyncCallback = assert.async();
+
+                CefSharp.BindObjectAsync("boundAsync2").then(function(result)
+                {
+                    boundAsync2.hello('CefSharp').then(function (res)
+                    {
+                        assert.equal(res, "Hello CefSharp")
+
+                        assert.equal(true, CefSharp.DeleteBoundObject("boundAsync2"), "Object was unbound");
+
+                        assert.ok(window.boundAsync2 === undefined, "boundAsync2 is now undefined");
+
+                        asyncCallback();
+                    });
+                });
+            });
+        </script>
+
     </body>
 </html>

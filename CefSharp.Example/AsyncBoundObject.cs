@@ -10,11 +10,6 @@ using System.Threading;
 
 namespace CefSharp.Example
 {
-    public struct JsObject 
-    {
-        public string Value;
-    }
-
     public class AsyncBoundObject
     {
         //We expect an exception here, so tell VS to ignore
@@ -43,21 +38,45 @@ namespace CefSharp.Example
             return "Waited for 1000ms before returning";
         }
 
-        public JsObject ReturnObject(string name)
+        public JsSerializableStruct ReturnObject(string name)
         {
-            return new JsObject
+            return new JsSerializableStruct
             {
                 Value = name
             };
         }
 
-        public JsObject[] ObjectArray(string name)
+        public JsSerializableStruct[] ReturnStructArray(string name)
         {
             return new[] 
             {
-                new JsObject() { Value = "Item1" },
-                new JsObject() { Value = "Item2" }
+                new JsSerializableStruct { Value = name + "Item1" },
+                new JsSerializableStruct { Value = name + "Item2" }
             };
+        }
+
+        public JsSerializableClass[] ReturnClassesArray(string name)
+        {
+            return new[]
+            {
+                new JsSerializableClass { Value = name + "Item1" },
+                new JsSerializableClass { Value = name + "Item2" }
+            };
+        }
+
+        public string[] EchoArray(string[] arg) 
+        {
+            return arg;
+        }
+
+        public int[] EchoValueTypeArray(int[] arg) 
+        {
+            return arg;
+        }
+
+        public int[][] EchoMultidimensionalArray(int[][] arg) 
+        {
+            return arg;
         }
 
         public string DynamiObjectList(IList<dynamic> objects)

@@ -19,6 +19,7 @@ namespace CefSharp
                 SetInt64(objList, 0, jsObject->Id);
                 objList->SetString(1, StringUtils::ToNative(jsObject->Name));
                 objList->SetString(2, StringUtils::ToNative(jsObject->JavascriptName));
+                objList->SetBool(3, jsObject->IsAsync);
 
                 auto methodList = CefListValue::Create();
                 auto j = 0;
@@ -30,7 +31,7 @@ namespace CefSharp
                     methodList->SetString(j++, StringUtils::ToNative(jsMethod->JavascriptName));
                     methodList->SetInt(j++, jsMethod->ParameterCount);
                 }
-                objList->SetList(3, methodList);
+                objList->SetList(4, methodList);
 
                 auto propertyList = CefListValue::Create();
                 j = 0;
@@ -61,16 +62,16 @@ namespace CefSharp
                         propertyList->SetNull(j++);
                     }
                 }
-                objList->SetList(4, propertyList);
+                objList->SetList(5, propertyList);
 
                 list->SetList(index, objList);
             }
 
-            void SerializeJsObject(JavascriptRootObject^ object, const CefRefPtr<CefListValue> &list, int index)
+            void SerializeJsObjects(List<JavascriptObject^>^ objects, const CefRefPtr<CefListValue> &list, int index)
             {
                 auto subList = CefListValue::Create();
                 auto i = 0;
-                for each (JavascriptObject^ jsObject in object->MemberObjects)
+                for each (JavascriptObject^ jsObject in objects)
                 {
                     SerializeJsObject(jsObject, subList, i++);
                 }

@@ -435,6 +435,29 @@ namespace CefSharp
         }
 
         /// <summary>
+        /// This method should only be used by advanced users, if your unsure then use Cef.Shutdown().
+        /// This function should be called on the main application thread to shut down
+        /// the CEF browser process before the application exits. This method simply obtains a lock
+        /// and calls the native CefShutdown method, only IsInitialized is checked. All ChromiumWebBrowser
+        /// instances MUST be Disposed of before calling this method. If calling this method results in a crash
+        /// or hangs then you're likely hanging on to some unmanaged resources or haven't closed all of your browser
+        /// instances
+        /// </summary>
+        static void ShutdownWithoutChecks()
+        {
+            if (IsInitialized)
+            {
+                msclr::lock l(_sync);
+
+                if (IsInitialized)
+                {
+                    CefShutdown();
+                    IsInitialized = false;
+                }
+            }
+        }
+
+        /// <summary>
         /// Clear all registered scheme handler factories.
         /// </summary>
         /// <return>Returns false on error.</return>

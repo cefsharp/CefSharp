@@ -147,12 +147,6 @@ namespace CefSharp
                     if (browserAdapter != nullptr)
                     {
                         client = browserAdapter->GetClientAdapter().get();
-
-                        auto renderClientAdapter = dynamic_cast<RenderClientAdapter*>(client.get());
-                        if (renderClientAdapter != nullptr)
-                        {
-                            renderClientAdapter->CreateBitmapInfo();
-                        }
                     }
                 }
             }
@@ -569,18 +563,28 @@ namespace CefSharp
 
         void ClientAdapter::OnRenderViewReady(CefRefPtr<CefBrowser> browser)
         {
-            if (!Object::ReferenceEquals(_browserAdapter, nullptr) && !_browserAdapter->IsDisposed && !browser->IsPopup())
+            if (CefSharpSettings::LegacyJavascriptBindingEnabled)
             {
-                auto objectRepository = _browserAdapter->JavascriptObjectRepository;
-
-                if (objectRepository->HasBoundObjects)
+                if (!Object::ReferenceEquals(_browserAdapter, nullptr) && !_browserAdapter->IsDisposed && !browser->IsPopup())
                 {
-                    //transmit async bound objects
-                    auto jsRootObjectMessage = CefProcessMessage::Create(kJavascriptRootObjectRequest);
-                    auto argList = jsRootObjectMessage->GetArgumentList();
-                    SerializeJsObject(objectRepository->AsyncRootObject, argList, 0);
-                    SerializeJsObject(objectRepository->RootObject, argList, 1);
-                    browser->SendProcessMessage(CefProcessId::PID_RENDERER, jsRootObjectMessage);
+                    auto objectRepository = _browserAdapter->JavascriptObjectRepository;
+
+                    if (objectRepository->HasBoundObjects)
+                    {
+                        /*auto jsRootObjectMessage = CefProcessMessage::Create(kJavascriptRootObjectRequest);
+                        auto argList = jsRootObjectMessage->GetArgumentList();
+                        SerializeJsObject(objectRepository->GetObjects(nullptr), argList, 0);
+                        browser->SendProcessMessage(CefProcessId::PID_RENDERER, jsRootObjectMessage);*/
+
+                        auto msg = CefProcessMessage::Create(kJavascriptRootObjectResponse);
+                        auto responseArgList = msg->GetArgumentList();
+                        responseArgList->SetBool(0, true); //Use Legacy Behaviour (auto bind on context creation)
+                        responseArgList->SetInt(1, -1);  //BrowserId
+                        SetInt64(responseArgList, 2, 0); //FrameId
+                        SetInt64(responseArgList, 3, 0); //CallbackId
+                        SerializeJsObjects(objectRepository->GetObjects(nullptr), responseArgList, 4);
+                        browser->SendProcessMessage(CefProcessId::PID_RENDERER, msg);
+                    }
                 }
             }
 
@@ -1128,7 +1132,58 @@ namespace CefSharp
             auto argList = message->GetArgumentList();
             IJavascriptCallbackFactory^ callbackFactory = _browserAdapter->JavascriptCallbackFactory;
 
-            if (name == kOnContextCreatedRequest)
+            //TODO: JSB Rename messages (remove Root from name)
+            if (name == kJavascriptRootObjectRequest)
+            {
+                if (!Object::ReferenceEquals(_browserAdapter, nullptr) && !_browserAdapter->IsDisposed)
+                {
+                    auto objectRepository = _browserAdapter->JavascriptObjectRepository;
+
+                    if (objectRepository->HasBoundObjects)
+                    {
+                        auto browserId = argList->GetInt(0);
+                        auto frameId = GetInt64(argList, 1);
+                        auto callbackId = GetInt64(argList, 2);
+                        auto objectNames = argList->GetList(3);
+
+                        auto names = gcnew List<String^>(objectNames->GetSize());
+                        for (auto i = 0; i < objectNames->GetSize(); i++)
+                        {
+                            names->Add(StringUtils::ToClr(objectNames->GetString(i)));
+                        }
+
+                        auto msg = CefProcessMessage::Create(kJavascriptRootObjectResponse);
+                        auto responseArgList = msg->GetArgumentList();
+                        responseArgList->SetBool(0, false); //Use LegacyBehaviour (false)
+                        responseArgList->SetInt(1, browserId);
+                        SetInt64(responseArgList, 2, frameId);
+                        SetInt64(responseArgList, 3, callbackId);
+                        SerializeJsObjects(objectRepository->GetObjects(names), responseArgList, 4);
+                        browser->SendProcessMessage(CefProcessId::PID_RENDERER, msg);
+                    }
+                }
+
+                handled = true;
+            }
+            else if (name == kJavascriptObjectsBoundInJavascript)
+            {
+                if (!Object::ReferenceEquals(_browserAdapter, nullptr) && !_browserAdapter->IsDisposed)
+                {
+                    auto objectRepository = _browserAdapter->JavascriptObjectRepository;
+
+                    auto objectNames = argList->GetList(0);
+                    auto names = gcnew List<String^>(objectNames->GetSize());
+                    for (auto i = 0; i < objectNames->GetSize(); i++)
+                    {
+                        names->Add(StringUtils::ToClr(objectNames->GetString(i)));
+                    }
+                    
+                    objectRepository->ObjectsBound(names);
+                }
+
+                handled = true;
+            }
+            else if (name == kOnContextCreatedRequest)
             {
                 _browserControl->SetCanExecuteJavascriptOnMainFrame(true);
 

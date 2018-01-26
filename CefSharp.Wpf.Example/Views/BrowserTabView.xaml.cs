@@ -25,13 +25,50 @@ namespace CefSharp.Wpf.Example.Views
             InitializeComponent();
 
             browser.RequestHandler = new RequestHandler();
-            browser.RegisterJsObject("bound", new BoundObject(), BindingOptions.DefaultBinder);
+
+            //See https://github.com/cefsharp/CefSharp/issues/2246 for details on the two different binding options
+            if(CefSharpSettings.LegacyJavascriptBindingEnabled)
+            {
+                browser.RegisterJsObject("bound", new BoundObject(), options: BindingOptions.DefaultBinder);
+            }
+            else
+            { 
+                //Register the new way
+                browser.JavascriptObjectRepository.Register("bound", new BoundObject(), isAsync:false, options: BindingOptions.DefaultBinder);
+            }
+
             var bindingOptions = new BindingOptions() 
             {
                 Binder = BindingOptions.DefaultBinder.Binder,
                 MethodInterceptor = new MethodInterceptorLogger() // intercept .net methods calls from js and log it
             };
-            browser.RegisterAsyncJsObject("boundAsync", new AsyncBoundObject(), bindingOptions);
+
+            //See https://github.com/cefsharp/CefSharp/issues/2246 for details on the two different binding options
+            if(CefSharpSettings.LegacyJavascriptBindingEnabled)
+            {
+                browser.RegisterAsyncJsObject("boundAsync", new AsyncBoundObject(), options: bindingOptions);
+            }
+            else
+            {
+                //Register the new way
+                browser.JavascriptObjectRepository.Register("boundAsync", new AsyncBoundObject(), isAsync: true, options: bindingOptions);
+            }
+
+            //If you call CefSharp.BindObjectAsync in javascript and pass in the name of an object which is not yet
+            //bound, then ResolveObject will be called, you can then register it
+            browser.JavascriptObjectRepository.ResolveObject += (sender, e) =>
+            {
+                var repo = e.ObjectRepository;
+                if (e.ObjectName == "boundAsync2")
+                {
+                    repo.Register("boundAsync2", new AsyncBoundObject(), isAsync: true, options: bindingOptions);
+                }
+            };
+
+            browser.JavascriptObjectRepository.ObjectBoundInJavascript += (sender, e) =>
+            {
+                var name = e.ObjectName;
+            };           
 
             browser.DisplayHandler = new DisplayHandler();
             browser.LifeSpanHandler = new LifespanHandler();

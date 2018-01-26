@@ -18,10 +18,6 @@ bool ManagedCefBrowserAdapter::IsDisposed::get()
 
 void ManagedCefBrowserAdapter::CreateOffscreenBrowser(IntPtr windowHandle, BrowserSettings^ browserSettings, RequestContext^ requestContext, String^ address)
 {
-    //Create the required BitmapInfo classes before the offscreen browser is initialized  
-    auto renderClientAdapter = dynamic_cast<RenderClientAdapter*>(_clientAdapter.get());  
-    renderClientAdapter->CreateBitmapInfo();
-
     auto hwnd = static_cast<HWND>(windowHandle.ToPointer());
 
     CefWindowInfo window;
@@ -41,6 +37,9 @@ void ManagedCefBrowserAdapter::OnAfterBrowserCreated(IBrowser^ browser)
     {
         _browserWrapper = browser;
         _javascriptCallbackFactory->BrowserAdapter = gcnew WeakReference(this);
+
+        //Browser has been initialized, it's now too late to register a sync JSB object if Wcf wasn't enabled
+        _javaScriptObjectRepository->IsBrowserInitialized = true;
 
         if (CefSharpSettings::WcfEnabled)
         {
@@ -96,21 +95,6 @@ void ManagedCefBrowserAdapter::Resize(int width, int height)
             SetWindowPos(browserHwnd, NULL, 0, 0, width, height, SWP_NOZORDER);
         }
     }
-}
-
-void ManagedCefBrowserAdapter::RegisterJsObject(String^ name, Object^ object, BindingOptions^ options)
-{
-    if (!CefSharpSettings::WcfEnabled)
-    {
-        throw gcnew InvalidOperationException("To enable synchronous JS bindings set WcfEnabled true in CefSettings during initialization.");
-    }
-
-    _javaScriptObjectRepository->Register(name, object, options);
-}
-
-void ManagedCefBrowserAdapter::RegisterAsyncJsObject(String^ name, Object^ object, BindingOptions^ options)
-{
-    _javaScriptObjectRepository->RegisterAsync(name, object, options);
 }
 
 IBrowser^ ManagedCefBrowserAdapter::GetBrowser(int browserId)

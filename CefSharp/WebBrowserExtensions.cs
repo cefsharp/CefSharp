@@ -208,10 +208,11 @@ namespace CefSharp
         /// <param name="script">The Javascript code that should be executed.</param>
         public static void ExecuteScriptAsync(this IWebBrowser browser, string script)
         {
-            if (browser.CanExecuteJavascriptInMainFrame == false)
-            {
-                ThrowExceptionIfCanExecuteJavascriptInMainFrameFalse();
-            }
+            //TODO: Re-enable when Native IPC issue resolved.
+            //if (browser.CanExecuteJavascriptInMainFrame == false)
+            //{
+            //	ThrowExceptionIfCanExecuteJavascriptInMainFrameFalse();
+            //}
 
             using (var frame = browser.GetMainFrame())
             {
@@ -715,7 +716,7 @@ namespace CefSharp
         /// </summary>
         /// <param name="browser">The ChromiumWebBrowser instance this method extends</param>
         /// <returns>browserHost or null</returns>
-        public static IBrowserHost GetHost(IWebBrowser browser)
+        public static IBrowserHost GetBrowserHost(this IWebBrowser browser)
         {
             var cefBrowser = browser.GetBrowser();
 
@@ -779,10 +780,11 @@ namespace CefSharp
                 throw new ArgumentOutOfRangeException("timeout", "Timeout greater than Maximum allowable value of " + UInt32.MaxValue);
             }
 
-            if(browser.CanExecuteJavascriptInMainFrame == false)
-            {
-                ThrowExceptionIfCanExecuteJavascriptInMainFrameFalse();
-            }
+            //TODO: Re-enable when Native IPC issue resolved.
+            //if(browser.CanExecuteJavascriptInMainFrame == false)
+            //{
+            //	ThrowExceptionIfCanExecuteJavascriptInMainFrameFalse();
+            //}
 
             using (var frame = browser.GetMainFrame())
             {

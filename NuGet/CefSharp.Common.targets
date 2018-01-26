@@ -8,59 +8,56 @@
     <Error Text="CefSharp requires .Net 4.5.2 or higher" />
   </Target>
 
+  <ItemGroup>
+    <CefSharpCommonBinaries32 Include="$(MSBuildThisFileDirectory)..\CefSharp\x86\*.*" />
+    <CefSharpCommonBinaries64 Include="$(MSBuildThisFileDirectory)..\CefSharp\x64\*.*" />
+    <CefSharpCommonBinariesAnyCpu Include="$(MSBuildThisFileDirectory)..\CefSharp\**\*.*" />
+  </ItemGroup>
+
   <PropertyGroup>
-    <CefSharpTargetDir Condition=" '$(CefSharpTargetDir)' == '' ">$(TargetDir)</CefSharpTargetDir>
+    <CefSharpTargetDir Condition=" '$(CefSharpTargetDir)' == '' "></CefSharpTargetDir>
   </PropertyGroup>
 
-  <Target Name="CefSharpCopyLibs86" BeforeTargets="BeforeBuild" Condition="'$(Platform)' == 'x86'">
-    <ItemGroup>
-      <CefSharpBinaries Include="$(MSBuildThisFileDirectory)..\CefSharp\x86\*.*" />
-    </ItemGroup>
+  <!--
+    These item groups should be in the .props file, unfortunately Nuget 2.8.x doesn't gurantee the
+    correct ordering .props imports, which we require as this depends on the cef.redist packages
+    exporting an ItemGroup
+   -->
 
-    <Message Importance="high" Text="Copying cef.redist x86 files" />
-    <Copy SourceFiles="@(CefRedist32)" DestinationFiles="@(CefRedist32->'$(CefSharpTargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+  <ItemGroup Condition="('$(Platform)' == 'x86') OR ('$(Platform)' == 'Win32')">
+    <None Include="@(CefRedist32)">
+      <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="@(CefSharpCommonBinaries32)">
+      <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 
-    <Message Importance="high" Text="-- CefSharp.Common.targets: Copying files from $(MSBuildThisFileDirectory)..\CefSharp\x86 to $(CefSharpTargetDir)" />
-    <Copy SourceFiles="@(CefSharpBinaries)" DestinationFolder="$(CefSharpTargetDir)" SkipUnchangedFiles="true" />
-  </Target>
+  <ItemGroup Condition="'$(Platform)' == 'x64'">
+    <None Include="@(CefRedist64)">
+      <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="@(CefSharpCommonBinaries64)">
+      <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 
-  <Target Name="CefSharpCopyLibsWin32" BeforeTargets="BeforeBuild" Condition="'$(Platform)' == 'Win32'">
-    <ItemGroup>
-      <CefSharpBinaries Include="$(MSBuildThisFileDirectory)..\CefSharp\x86\*.*" />
-    </ItemGroup>
-    <Message Importance="high" Text="Copying cef.redist x86 files" />
-    <Copy SourceFiles="@(CefRedist32)" DestinationFiles="@(CefRedist32->'$(CefSharpTargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
-
-    <Message Importance="high" Text="-- CefSharp.Common.targets: Copying files from $(MSBuildThisFileDirectory)..\CefSharp\x86 to $(CefSharpTargetDir)" />
-    <Copy SourceFiles="@(CefSharpBinaries)" DestinationFolder="$(CefSharpTargetDir)" SkipUnchangedFiles="true" />
-  </Target>
-
-  <Target Name="CefSharpCopyLibs64" BeforeTargets="BeforeBuild" Condition="'$(Platform)' == 'x64'">
-    <ItemGroup>
-      <CefSharpBinaries Include="$(MSBuildThisFileDirectory)..\CefSharp\x64\*.*" />
-    </ItemGroup>
-    <Message Importance="high" Text="Copying cef.redist x64 files" />
-    <Copy SourceFiles="@(CefRedist64)" DestinationFiles="@(CefRedist64->'$(CefSharpTargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
-
-    <Message Importance="high" Text="-- CefSharp.Common.targets: Copying files from $(MSBuildThisFileDirectory)..\CefSharp\x64 to $(CefSharpTargetDir)" />
-    <Copy SourceFiles="@(CefSharpBinaries)" DestinationFolder="$(CefSharpTargetDir)" SkipUnchangedFiles="true" />
-  </Target>
-
-  <Target Name="CefSharpCopyLibsAnyCPU" BeforeTargets="BeforeBuild" Condition="'$(Platform)' == 'AnyCPU'">
-    <ItemGroup>
-      <CefSharpBinaries32 Include="$(MSBuildThisFileDirectory)..\CefSharp\x86\*.*" />
-      <CefSharpBinaries64 Include="$(MSBuildThisFileDirectory)..\CefSharp\x64\*.*" />
-    </ItemGroup>
-
-    <Message Importance="high" Text="Copying cef.redist x86 files" />
-    <Copy SourceFiles="@(CefRedist32)" DestinationFiles="@(CefRedist32->'$(CefSharpTargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
-
-    <Message Importance="high" Text="Copying cef.redist x64 files" />
-    <Copy SourceFiles="@(CefRedist64)" DestinationFiles="@(CefRedist64->'$(CefSharpTargetDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
-
-    <Message Importance="high" Text="-- CefSharp.Common.targets: Copying files from $(MSBuildThisFileDirectory)..\CefSharp\x86 to $(CefSharpTargetDir)\x86" />
-    <Copy SourceFiles="@(CefSharpBinaries32)" DestinationFolder="$(CefSharpTargetDir)\x86" SkipUnchangedFiles="true" />
-    <Message Importance="high" Text="-- CefSharp.Common.targets: Copying files from $(MSBuildThisFileDirectory)..\CefSharp\x64 to $(CefSharpTargetDir)\x64" />
-    <Copy SourceFiles="@(CefSharpBinaries64)" DestinationFolder="$(CefSharpTargetDir)\x64" SkipUnchangedFiles="true" />
-  </Target>
+  <ItemGroup Condition="'$(Platform)' == 'AnyCPU'">
+    <None Include="@(CefRedist32)">
+      <Link>$(CefSharpTargetDir)\x86\%(RecursiveDir)%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="@(CefRedist64)">
+      <Link>$(CefSharpTargetDir)\x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="@(CefSharpCommonBinariesAnyCpu)">
+      <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

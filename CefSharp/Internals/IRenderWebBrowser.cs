@@ -20,18 +20,17 @@ namespace CefSharp.Internals
         /// <returns>Return true if the screen coordinates were provided.</returns>
         bool GetScreenPoint(int viewX, int viewY, out int screenX, out int screenY);
 
-        BitmapInfo CreateBitmapInfo(bool isPopup);
-        
         /// <summary>
-        /// Called when an element should be painted.
-        /// Pixel values passed to this method are scaled relative to view coordinates based on the value of
-        /// ScreenInfo.DeviceScaleFactor returned from GetScreenInfo. bitmapInfo.IsPopup indicates whether the element is the view
-        /// or the popup widget. BitmapInfo.DirtyRect contains the set of rectangles in pixel coordinates that need to be
-        /// repainted. The bitmap will be will be  width * height *4 bytes in size and represents a BGRA image with an upper-left origin.
-        /// The underlying buffer is copied into the back buffer and is accessible via BackBufferHandle
+        /// Called when an element should be painted. Pixel values passed to this method are scaled relative to view coordinates based on the
+        /// value of <see cref="ScreenInfo.DeviceScaleFactor"/> returned from <see cref="IRenderWebBrowser.GetScreenInfo"/>.
+        /// Called on the CEF UI Thread
         /// </summary>
-        /// <param name="bitmapInfo">information about the bitmap to be rendered</param>
-        void OnPaint(BitmapInfo bitmapInfo);
+        /// <param name="type">indicates whether the element is the view or the popup widget.</param>
+        /// <param name="dirtyRect">contains the set of rectangles in pixel coordinates that need to be repainted</param>
+        /// <param name="buffer">The bitmap will be will be  width * height *4 bytes in size and represents a BGRA image with an upper-left origin</param>
+        /// <param name="width">width</param>
+        /// <param name="height">height</param>
+        void OnPaint(PaintElementType type, Rect dirtyRect, IntPtr buffer, int width, int height);
 
         void SetCursor(IntPtr cursor, CursorType type);
 

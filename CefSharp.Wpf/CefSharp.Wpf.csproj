@@ -78,20 +78,23 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IWpfKeyboardHandler.cs" />
+    <Compile Include="Internals\VirtualKeys.cs" />
+    <Compile Include="Internals\WpfKeyboardHandler.cs" />
+    <Compile Include="Internals\WpfLegacyKeyboardHandler.cs" />
     <Compile Include="DelegateCommand.cs" />
+    <Compile Include="IBitmapFactory.cs" />
     <Compile Include="Internals\WpfExtensions.cs" />
-    <Compile Include="Rendering\InteropBitmapInfo.cs" />
     <Compile Include="IWpfWebBrowser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
     <AppDesigner Include="Properties\" />
     <Compile Include="ChromiumWebBrowser.cs" />
-    <Compile Include="RenderingEventArgs.cs" />
-    <Compile Include="Rendering\BitmapFactory.cs" />
+    <Compile Include="PaintEventArgs.cs" />
+    <Compile Include="Rendering\InteropBitmapFactory.cs" />
+    <Compile Include="Rendering\WritableBitmapFactory.cs" />
     <Compile Include="WM.cs" />
-    <Compile Include="Rendering\WpfBitmapInfo.cs" />
-    <Compile Include="Rendering\WritableBitmapInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.vcxproj">
