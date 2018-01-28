@@ -469,11 +469,28 @@ namespace CefSharp
                             JavascriptAsyncMethodCallback^ callback;
                             if (_registerBoundObjectRegistry->TryGetAndRemoveMethodCallback(callbackId, callback))
                             {
-                                callback->Success(CefV8Value::CreateBool(true));
+                                //Response object has no Accessor or Interceptor
+                                auto response = CefV8Value::CreateObject(NULL, NULL);
+
+                                if (javascriptObjects->Count > 0)
+                                {
+                                    //TODO: JSB Should we include a list of successfully bound object names?
+                                    response->SetValue("Success", CefV8Value::CreateBool(true), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
+                                    response->SetValue("Message", CefV8Value::CreateString("OK"), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
+                                    callback->Success(response);
+                                }
+                                else
+                                {
+                                    response->SetValue("Success", CefV8Value::CreateBool(false), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
+                                    response->SetValue("Message", CefV8Value::CreateString("Zero objects bounds"), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
+                                    callback->Success(response);
+                                }
 
                                 //TODO: JSB deal with failure - no object matching bound
 
                                 //Send message notifying Browser Process of which objects were bound
+                                //We do this after the objects have been created in the V8Context to gurantee
+                                //they are accessible.
                                 auto msg = CefProcessMessage::Create(kJavascriptObjectsBoundInJavascript);
                                 auto args = msg->GetArgumentList();
 
