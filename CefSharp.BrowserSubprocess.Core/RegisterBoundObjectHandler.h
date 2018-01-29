@@ -10,6 +10,7 @@
 #include "..\CefSharp.Core\Internals\Messaging\Messages.h"
 #include "..\CefSharp.Core\Internals\Serialization\Primitives.h"
 
+using namespace System;
 using namespace CefSharp::Internals::Messaging;
 using namespace CefSharp::Internals::Serialization;
 
@@ -20,12 +21,14 @@ namespace CefSharp
     private:
         gcroot<RegisterBoundObjectRegistry^> _callbackRegistry;
         gcroot<Dictionary<String^, JavascriptObject^>^> _javascriptObjects;
+        gcroot<CefBrowserWrapper^> _browserWrapper;
 
     public:
-        RegisterBoundObjectHandler(RegisterBoundObjectRegistry^ callbackRegistery, Dictionary<String^, JavascriptObject^>^ javascriptObjects)
+        RegisterBoundObjectHandler(RegisterBoundObjectRegistry^ callbackRegistery, Dictionary<String^, JavascriptObject^>^ javascriptObjects, CefBrowserWrapper^ browserWrapper)
         {
             _callbackRegistry = callbackRegistery;
             _javascriptObjects = javascriptObjects;
+            _browserWrapper = browserWrapper;
         }
 
         bool Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception) OVERRIDE
@@ -41,9 +44,48 @@ namespace CefSharp
                     {
                         auto global = context->GetGlobal();
 
+                        if (name == "IsObjectCached")
+                        {
+                            if (arguments.size() == 0 || arguments.size() > 1)
+                            {
+                                //TODO: Improve error message
+                                exception = "Must specify the name of a single bound object to check the cache for";
+
+                                return true;
+                            }
+
+                            auto objectName = arguments[0]->GetStringValue();
+                            auto managedObjectName = StringUtils::ToClr(objectName);
+
+                            //Check to see if the object name is within the cache
+                            retval = CefV8Value::CreateBool(_javascriptObjects->ContainsKey(managedObjectName));
+                        }
+                        else if (name == "RemoveObjectFromCache")
+                        {
+                            if (arguments.size() == 0 || arguments.size() > 1)
+                            {
+                                //TODO: Improve error message
+                                exception = "Must specify the name of a single bound object to remove from cache";
+
+                                return true;
+                            }
+
+                            auto objectName = arguments[0]->GetStringValue();
+                            auto managedObjectName = StringUtils::ToClr(objectName);
+
+                            if (_javascriptObjects->ContainsKey(managedObjectName))
+                            {
+                                //Remove object from cache
+                                retval = CefV8Value::CreateBool(_javascriptObjects->Remove(managedObjectName));
+                            }
+                            else
+                            {
+                                retval = CefV8Value::CreateBool(false);
+                            }							
+                        }
                         //TODO: Better name for this function
                         //TODO: Make this a const
-                        if (name == "DeleteBoundObject")
+                        else if (name == "DeleteBoundObject")
                         {
                             if (arguments.size() == 0 || arguments.size() > 1)
                             {
@@ -77,38 +119,33 @@ namespace CefSharp
 
                             auto callback = gcnew JavascriptAsyncMethodCallback(context, resolve, reject);
 
-                            auto callbackId = _callbackRegistry->SaveMethodCallback(callback);
-
                             auto request = CefProcessMessage::Create(kJavascriptRootObjectRequest);
                             auto argList = request->GetArgumentList();
                             auto params = CefListValue::Create();
 
                             auto boundObjectRequired = false;
+                            auto cachedObjects = gcnew List<JavascriptObject^>();
 
                             if (arguments.size() > 0)
                             {
                                 for (auto i = 0; i < arguments.size(); i++)
                                 {
                                     auto objectName = arguments[i]->GetStringValue();
-                                    auto managedObjectName = StringUtils::ToClr(objectName);
 
-                                    //TODO: JSB Implement Caching of JavascriptObjects
-                                    //if (_javascriptObjects->ContainsKey(managedObjectName))
-                                    //{
-                                    //    //We have a cached version of the required object so we won't request it again
-                                    //	  //We will still need to sent through a list of cached object names so they can be bound from cache
-                                    //    //The problem with caching will be that we can only call Promise.Resolve once, so we'll need to gather
-                                    //    //all our bound data before we return
-                                    //}
-                                    //else
-                                    //{
-
-                                    //}
-
+                                    //Check if the object has already been bound
                                     if (!global->HasValue(objectName))
                                     {
+                                        //If no matching object found then we'll add the object name to the list
                                         boundObjectRequired = true;
                                         params->SetString(i, objectName);
+
+                                        auto managedObjectName = StringUtils::ToClr(objectName);
+
+                                        JavascriptObject^ obj;
+                                        if (_javascriptObjects->TryGetValue(managedObjectName, obj))
+                                        {
+                                            cachedObjects->Add(obj);
+                                        }
                                     }								
                                 }
                             }
@@ -118,21 +155,91 @@ namespace CefSharp
                                 boundObjectRequired = true;
                             }
 
-                            //If objects already exist then we'll just do nothing
                             if (boundObjectRequired)
                             {
-                                argList->SetInt(0, browser->GetIdentifier());
-                                SetInt64(argList, 1, context->GetFrame()->GetIdentifier());
-                                SetInt64(argList, 2, callbackId);
-                                argList->SetList(3, params);
+                                //If the number of cached objects matches the number of args
+                                //then we'll immediately bind the cached objects
+                                if (cachedObjects->Count == (int)arguments.size())
+                                {
+                                    auto frame = context->GetFrame();
+                                    if (frame.get())
+                                    {
+                                        if (Object::ReferenceEquals(_browserWrapper, nullptr))
+                                        {
+                                            callback->Fail("Browser wrapper is null and unable to bind objects");
+                                        }
+                                        else
+                                        {
+                                            //TODO: JSB This code is almost exactly duplicated in CefAppUnmangedWrapper
+                                            //Need to extract into a common method
+                                            auto rootObjectWrappers = _browserWrapper->JavascriptRootObjectWrappers;
 
-                                browser->SendProcessMessage(CefProcessId::PID_BROWSER, request);
+                                            JavascriptRootObjectWrapper^ rootObject;
+                                            if (!rootObjectWrappers->TryGetValue(frame->GetIdentifier(), rootObject))
+                                            {
+                                                rootObject = gcnew JavascriptRootObjectWrapper(browser->GetIdentifier(), _browserWrapper->BrowserProcess);
+                                                rootObjectWrappers->TryAdd(frame->GetIdentifier(), rootObject);
+                                            }
+                                        
+                                            rootObject->Bind(cachedObjects, context->GetGlobal());
+
+                                            //Response object has no Accessor or Interceptor
+                                            auto response = CefV8Value::CreateObject(NULL, NULL);
+
+                                            response->SetValue("Count", CefV8Value::CreateInt(cachedObjects->Count), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
+                                            response->SetValue("Success", CefV8Value::CreateBool(true), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
+                                            response->SetValue("Message", CefV8Value::CreateString("OK"), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
+                                            callback->Success(response);
+
+                                            //Send message notifying Browser Process of which objects were bound
+                                            //We do this after the objects have been created in the V8Context to gurantee
+                                            //they are accessible.
+                                            auto msg = CefProcessMessage::Create(kJavascriptObjectsBoundInJavascript);
+                                            auto args = msg->GetArgumentList();
+
+                                            auto names = CefListValue::Create();
+
+                                            for (auto i = 0; i < cachedObjects->Count; i++)
+                                            {
+                                                auto name = cachedObjects[i]->JavascriptName;
+                                                names->SetString(i, StringUtils::ToNative(name));
+                                            }
+
+                                            args->SetList(0, names);
+
+                                            browser->SendProcessMessage(CefProcessId::PID_BROWSER, msg);
+                                        }
+                                    }
+                                    
+                                }
+                                else
+                                {
+                                    //Obtain a callbackId then send off the Request
+                                    auto callbackId = _callbackRegistry->SaveMethodCallback(callback);
+
+                                    argList->SetInt(0, browser->GetIdentifier());
+                                    SetInt64(argList, 1, context->GetFrame()->GetIdentifier());
+                                    SetInt64(argList, 2, callbackId);
+                                    argList->SetList(3, params);
+
+                                    browser->SendProcessMessage(CefProcessId::PID_BROWSER, request);
+                                }
                             }
                             else
                             {
+                                //Response object has no Accessor or Interceptor
+                                auto response = CefV8Value::CreateObject(NULL, NULL);
+
+
+                                //Objects already bound so we immediately resolve the Promise
+                                response->SetValue("Success", CefV8Value::CreateBool(false), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
+                                response->SetValue("Count", CefV8Value::CreateInt(0), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
+                                response->SetValue("Message", CefV8Value::CreateString("Object(s) already bound"), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
+
                                 CefV8ValueList returnArgs;
-                                returnArgs.push_back(CefV8Value::CreateBool(false));
-                                //If all the requested objects are bound then we simply return false
+                                returnArgs.push_back(response);
+                                //If all the requested objects are bound then we immediately execute resolve
+                                //with Success true and Count of 0
                                 resolve->ExecuteFunctionWithContext(context, nullptr, returnArgs);
                             }
                         }

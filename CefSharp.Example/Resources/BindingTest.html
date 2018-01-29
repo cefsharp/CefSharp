@@ -31,7 +31,7 @@
                 let asyncCallback = assert.async();
                 CefSharp.BindObjectAsync("boundAsync", "bound").then(function(res)
                 {
-                    assert.equal(false, res, "Second call to BindObjectAsync with already bound objects as params returned false.");
+                    assert.equal(res.Success, false, "Second call to BindObjectAsync with already bound objects as params returned false.");
                     asyncCallback();
                 });
             });

@@ -32,6 +32,8 @@ namespace CefSharp.Internals
     /// </summary>
     public class JavascriptObjectRepository : IJavascriptObjectRepository
     {
+        public const string AllObjects = "All";
+
         private static long lastId;
 
         public event EventHandler<JavascriptBindingEventArgs> ResolveObject;
@@ -72,8 +74,7 @@ namespace CefSharp.Internals
             var getAllObjects = names == null || names.Count == 0;
             if (getAllObjects)
             {
-                //TODO: JSB Declare Constant for All
-                RaiseResolveObjectEvent("All");
+                RaiseResolveObjectEvent(AllObjects);
 
                 return objects.Values.ToList();
             }
