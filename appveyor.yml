@@ -21,7 +21,7 @@ deploy:
   provider: NuGet
   server: https://www.myget.org/F/cefsharp/api/v2/package
   api_key:
-    secure: /dmXLsashEX9/IwH3C3EM8n0O9gvE8IZnBxtsytpDzwaMUCyouWVoZNnqPBFU3l1
+    secure: 6OiiuaNHMKkgjlH/+R3+5XihZa1WCnbfuw1oT/YUKT9ojAIbh9ng3elKW0Y6XLaa
   skip_symbols: false
   symbol_server: https://www.myget.org/F/cefsharp/api/v2/package
   artifact: nupkgfiles
