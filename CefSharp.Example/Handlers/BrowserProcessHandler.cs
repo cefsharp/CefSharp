@@ -5,6 +5,7 @@
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using CefSharp.SchemeHandler;
 
 namespace CefSharp.Example.Handlers
 {
@@ -17,7 +18,7 @@ namespace CefSharp.Example.Handlers
 
         void IBrowserProcessHandler.OnContextInitialized()
         {
-            //The Request Context has been initialized, you can now set preferences, like proxy server settings
+            //The Global CookieManager has been initialized, you can now set cookies
             var cookieManager = Cef.GetGlobalCookieManager();
             cookieManager.SetStoragePath("cookies", true);
             cookieManager.SetSupportedSchemes(new string[] {"custom"});
@@ -62,7 +63,8 @@ namespace CefSharp.Example.Handlers
                     }
                 });
             }
-            
+
+            //The Request Context has been initialized, you can now set preferences, like proxy server settings
             //Dispose of context when finished - preferable not to keep a reference if possible.
             using (var context = Cef.GetGlobalRequestContext())
             {
@@ -70,6 +72,16 @@ namespace CefSharp.Example.Handlers
                 //You can set most preferences using a `.` notation rather than having to create a complex set of dictionaries.
                 //The default is true, you can change to false to disable
                 context.SetPreference("webkit.webprefs.plugins_enabled", true, out errorMessage);
+
+                //It's possible to register a scheme handler for the default http and https schemes
+                //In this example we register the FolderSchemeHandlerFactory for https://cefsharp.example
+                //Best to include the domain name, so only requests for that domain are forwarded to your scheme handler
+                //It is possible to intercept all requests for a scheme, including the built in http/https ones, be very careful doing this!
+                var folderSchemeHandlerExample = new FolderSchemeHandlerFactory(rootFolder: @"..\..\..\..\CefSharp.Example\Resources",
+                                                                        hostName: "cefsharp.example", //Optional param no hostname checking if null
+                                                                        defaultPage: "home.html"); //Optional param will default to index.html
+
+                context.RegisterSchemeHandlerFactory("https", "cefsharp.example", folderSchemeHandlerExample);
             }
         }
 
