@@ -44,7 +44,7 @@ namespace CefSharp.WinForms.Example
             {
                 browser.KeyboardHandler = new KeyboardHandler();
             }
-            browser.LifeSpanHandler = new LifeSpanHandler();
+            //browser.LifeSpanHandler = new LifeSpanHandler();
             browser.LoadingStateChanged += OnBrowserLoadingStateChanged;
             browser.ConsoleMessage += OnBrowserConsoleMessage;
             browser.TitleChanged += OnBrowserTitleChanged;

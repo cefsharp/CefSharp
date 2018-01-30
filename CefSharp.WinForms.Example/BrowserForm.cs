@@ -41,6 +41,29 @@ namespace CefSharp.WinForms.Example
             AddTab(CefExample.DefaultUrl);
         }
 
+        /// <summary>
+        /// Used to add a Popup browser as a Tab
+        /// </summary>
+        /// <param name="browserHostControl"></param>
+        public void AddTab(Control browserHostControl, string url)
+        {
+            browserTabControl.SuspendLayout();
+
+            var tabPage = new TabPage(url)
+            {
+                Dock = DockStyle.Fill
+            };
+
+            tabPage.Controls.Add(browserHostControl);
+
+            browserTabControl.TabPages.Add(tabPage);
+
+            //Make newly created tab active
+            browserTabControl.SelectedTab = tabPage;
+
+            browserTabControl.ResumeLayout(true);
+        }
+
         private void AddTab(string url, int? insertIndex = null)
         {
             browserTabControl.SuspendLayout();
@@ -117,7 +140,7 @@ namespace CefSharp.WinForms.Example
             }
 
             var tabPage = browserTabControl.Controls[browserTabControl.SelectedIndex];
-            var control = (BrowserTabUserControl)tabPage.Controls[0];
+            var control = tabPage.Controls[0] as BrowserTabUserControl;
 
             return control;
         }

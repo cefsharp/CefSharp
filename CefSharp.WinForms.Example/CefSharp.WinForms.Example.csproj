@@ -90,6 +90,7 @@
     <Compile Include="Handlers\MenuHandler.cs" />
     <Compile Include="Handlers\WinFormsBrowserProcessHandler.cs" />
     <Compile Include="Handlers\WinFormsRequestHandler.cs" />
+    <Compile Include="Helper\PopupAsChildHelper.cs" />
     <Compile Include="InputBox.cs">
       <SubType>Form</SubType>
     </Compile>
