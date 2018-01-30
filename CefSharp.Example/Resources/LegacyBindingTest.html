@@ -19,6 +19,31 @@
                 assert.equal( actualResult, expectedResult, "We expect value to be " + actualResult );
             });
 
+            QUnit.test("bound.myProperty", function (assert)
+            {
+                const expectedResult = 42;
+                let actualResult = bound.myProperty;
+
+                assert.equal(actualResult, expectedResult, "We expect value to be " + expectedResult);
+            });
+
+            QUnit.test("bound.subObject.simpleProperty", function (assert)
+            {
+                const expectedResult = "This is a very simple property.";
+                let actualResult = bound.subObject.simpleProperty;
+
+                assert.equal(actualResult, expectedResult, "We expect value to be " + expectedResult);
+
+                bound.subObject.simpleProperty = expectedResult + "1";
+
+                actualResult = bound.subObject.simpleProperty;
+
+                assert.equal(actualResult, (expectedResult + "1"), "We expect value to be " + (expectedResult + 1));
+
+                //Reset to default value
+                bound.subObject.simpleProperty = expectedResult;
+            });
+
             QUnit.test( "Function delegate to c# method", function( assert )
             {
                 function myFunction(functionParam)
