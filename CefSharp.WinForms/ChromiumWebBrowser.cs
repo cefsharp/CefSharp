@@ -612,7 +612,8 @@ namespace CefSharp.WinForms
             {
                 if(IsBrowserInitialized == false || browser == null)
                 { 
-                    managedCefBrowserAdapter.CreateBrowser(BrowserSettings, (RequestContext)RequestContext, Handle, Address);
+                    //TODO: Revert temp workaround for default url not loading
+                    managedCefBrowserAdapter.CreateBrowser(BrowserSettings, (RequestContext)RequestContext, Handle, null);
                 }
                 else
                 {
@@ -631,6 +632,12 @@ namespace CefSharp.WinForms
         {
             this.browser = browser;
             IsBrowserInitialized = true;
+
+            //TODO: Revert temp workaround for default url not loading
+            if(!string.IsNullOrEmpty(Address))
+            { 
+                browser.MainFrame.LoadUrl(Address);
+            }
 
             // By the time this callback gets called, this control
             // is most likely hooked into a browser Form of some sort. 
