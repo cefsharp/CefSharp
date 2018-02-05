@@ -6,6 +6,10 @@ using System;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Class used to represent a single element in the request post data.
+    /// The methods of this class may be called on any thread. 
+    /// </summary>
     public interface IPostDataElement : IDisposable
     {
         /// <summary>

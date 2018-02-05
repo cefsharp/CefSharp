@@ -7,6 +7,9 @@ using System.Collections.Specialized;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Class used to represent a web response. The methods of this class may be called on any thread. 
+    /// </summary>
     public interface IResponse : IDisposable
     {
         /// <summary>

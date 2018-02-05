@@ -4,7 +4,7 @@
 
 using System.Threading.Tasks;
 
-namespace CefSharp
+namespace CefSharp.Internals
 {
     public interface ITaskScheduler
     {

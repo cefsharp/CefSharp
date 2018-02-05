@@ -8,9 +8,20 @@ using System.Collections.Generic;
 
 namespace CefSharp.Event
 {
+    /// <summary>
+    /// Event arguments for the <see cref="IJavascriptObjectRepository.ResolveObject"/> and
+    /// <see cref="IJavascriptObjectRepository.ObjectBoundInJavascript"/> events
+    /// </summary>
     public class JavascriptBindingEventArgs : EventArgs
     {
+        /// <summary>
+        /// The javascript object repository, used to register objects
+        /// </summary>
         public IJavascriptObjectRepository ObjectRepository { get; private set; }
+        
+        /// <summary>
+        /// Name of the object
+        /// </summary>
         public string ObjectName { get; private set; }
 
         public JavascriptBindingEventArgs(IJavascriptObjectRepository objectRepository, string name)
