@@ -73,7 +73,7 @@ namespace CefSharp.WinForms
         /// Gets or sets the request context.
         /// </summary>
         /// <value>The request context.</value>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
+        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(null)]
         public IRequestContext RequestContext
         {
             get { return requestContext; }
@@ -137,7 +137,7 @@ namespace CefSharp.WinForms
         /// Implement <see cref="IRequestHandler" /> and assign to handle events related to browser requests.
         /// </summary>
         /// <value>The request handler.</value>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
+        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(null)]
         public IRequestHandler RequestHandler { get; set; }
         /// <summary>
         /// Implement <see cref="IDownloadHandler" /> and assign to handle events related to downloading files.
@@ -173,7 +173,7 @@ namespace CefSharp.WinForms
         /// Implement <see cref="IRenderProcessMessageHandler" /> and assign to handle messages from the render process.
         /// </summary>
         /// <value>The render process message handler.</value>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
+        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(null)]
         public IRenderProcessMessageHandler RenderProcessMessageHandler { get; set; }
         /// <summary>
         /// Implement <see cref="IFindHandler" /> to handle events related to find results.
@@ -203,7 +203,7 @@ namespace CefSharp.WinForms
         /// Implement <see cref="IResourceHandlerFactory" /> and control the loading of resources
         /// </summary>
         /// <value>The resource handler factory.</value>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
+        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(null)]
         public IResourceHandlerFactory ResourceHandlerFactory { get; set; }
         /// <summary>
         /// Implement <see cref="IGeolocationHandler" /> and assign to handle requests for permission to use geolocation.
