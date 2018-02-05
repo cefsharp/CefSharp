@@ -11,10 +11,26 @@ namespace CefSharp
     /// </summary>
     public class LoadingStateChangedEventArgs : EventArgs
     {
+        /// <summary>
+        /// Returns true if the browser can navigate forwards. 
+        /// </summary>
         public bool CanGoForward { get; private set; }
+        /// <summary>
+        /// Returns true if the browser can navigate backwards. 
+        /// </summary>
         public bool CanGoBack { get; private set; }
+        /// <summary>
+        /// Returns true if the browser can reload. 
+        /// </summary>
         public bool CanReload { get; private set; }
+        /// <summary>
+        /// Returns true if the browser is loading. 
+        /// </summary>
         public bool IsLoading { get; private set; }
+
+        /// <summary>
+        /// Access to the underlying <see cref="IBrowser"/> object
+        /// </summary>
         public IBrowser Browser { get; private set; }
 
         public LoadingStateChangedEventArgs(IBrowser browser, bool canGoBack, bool canGoForward, bool isLoading)

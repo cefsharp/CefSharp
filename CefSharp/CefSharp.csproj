@@ -245,7 +245,7 @@
     <Compile Include="Internals\BrowserProcessResponse.cs" />
     <Compile Include="Internals\TaskExtensions.cs" />
     <Compile Include="IContextMenuParams.cs" />
-    <Compile Include="ITaskScheduler.cs" />
+    <Compile Include="Internals\ITaskScheduler.cs" />
     <Compile Include="JavascriptIgnoreAttribute.cs" />
     <Compile Include="JavascriptResponse.cs" />
     <Compile Include="Internals\BrowserProcessService.cs" />
@@ -268,7 +268,7 @@
     <Compile Include="Internals\JavascriptProperty.cs" />
     <Compile Include="CefCustomScheme.cs" />
     <Compile Include="Internals\IRenderWebBrowser.cs" />
-    <Compile Include="InternalWebBrowserExtensions.cs" />
+    <Compile Include="Internals\InternalWebBrowserExtensions.cs" />
     <Compile Include="Visitor\ICookieVisitor.cs" />
     <Compile Include="Visitor\INavigationEntryVisitor.cs" />
     <Compile Include="Visitor\IStringVisitor.cs" />

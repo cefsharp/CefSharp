@@ -73,7 +73,7 @@ namespace CefSharp
         /// <summary>
         /// Flush the backing store (if any) to disk
         /// </summary>
-        /// <param name="callback">If non-NULL it willbe executed asnychronously on the CEF IO thread after the flush is complete.</param>
+        /// <param name="callback">If non-NULL it will be executed asnychronously on the CEF IO thread after the flush is complete.</param>
         /// <return>Returns false if cookies cannot be accessed.</return>
         bool FlushStore(ICompletionCallback callback);
 

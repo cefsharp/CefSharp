@@ -7,7 +7,7 @@ using System;
 namespace CefSharp
 {
     /// <summary>
-    /// Event arguments to the ConsoleMessage event handler set up in IWebBrowser.
+    /// Event arguments for the ConsoleMessage event handler set up in IWebBrowser.
     /// </summary>
     public class ConsoleMessageEventArgs : EventArgs
     {

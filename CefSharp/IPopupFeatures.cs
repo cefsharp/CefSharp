@@ -4,6 +4,9 @@
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Class representing popup window features. 
+    /// </summary>
     public interface IPopupFeatures
     {
         int X { get; }
