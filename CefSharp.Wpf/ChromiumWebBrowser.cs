@@ -2145,7 +2145,7 @@ namespace CefSharp.Wpf
         {
             if (!InternalIsBrowserInitialized())
             {
-                throw new Exception("The browser has not been initialized. Load can only be called" +
+                throw new Exception("The browser has not been initialized. Load can only be called " +
                                     "after the underlying CEF browser is initialized (CefLifeSpanHandler::OnAfterCreated).");
             }
 
