@@ -4,7 +4,7 @@
   <PropertyGroup>
     <VisualStudioProductVersion>2013</VisualStudioProductVersion>
     <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='14.0'">2015</VisualStudioProductVersion>
-    <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='15.0'">2015</VisualStudioProductVersion>
+    <VisualStudioProductVersion Condition="'$(VisualStudioVersion)'=='15.0'">2017</VisualStudioProductVersion>
 
     <PlatformToolset>v120</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)'=='14.0'">v140</PlatformToolset>

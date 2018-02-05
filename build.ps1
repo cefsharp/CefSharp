@@ -1,11 +1,11 @@
 param(
-    [ValidateSet("vs2013", "vs2015", "nupkg-only", "gitlink")]
+    [ValidateSet("vs2015", "vs2017", "nupkg-only", "gitlink")]
     [Parameter(Position = 0)] 
-    [string] $Target = "vs2013",
+    [string] $Target = "vs2015",
     [Parameter(Position = 1)]
-    [string] $Version = "63.0.0",
+    [string] $Version = "64.0.0",
     [Parameter(Position = 2)]
-    [string] $AssemblyVersion = "63.0.0"   
+    [string] $AssemblyVersion = "64.0.0"   
 )
 
 $WorkingDir = split-path -parent $MyInvocation.MyCommand.Definition
@@ -108,7 +108,7 @@ function TernaryReturn
 function Msvs 
 {
     param(
-        [ValidateSet('v120', 'v140')]
+        [ValidateSet('v140', 'v141')]
         [Parameter(Position = 0, ValueFromPipeline = $true)]
         [string] $Toolchain, 
 
@@ -127,17 +127,46 @@ function Msvs
     $VXXCommonTools = $null
 
     switch -Exact ($Toolchain) {
-        'v120' {
-            $MSBuildExe = join-path -path (Get-ItemProperty "HKLM:\software\Microsoft\MSBuild\ToolsVersions\12.0").MSBuildToolsPath -childpath "msbuild.exe"
-            $MSBuildExe = $MSBuildExe -replace "Framework64", "Framework"
-            $VisualStudioVersion = '12.0'
-            $VXXCommonTools = Join-Path $env:VS120COMNTOOLS '..\..\vc'
-        }
         'v140' {
             $MSBuildExe = join-path -path (Get-ItemProperty "HKLM:\software\Microsoft\MSBuild\ToolsVersions\14.0").MSBuildToolsPath -childpath "msbuild.exe"
             $MSBuildExe = $MSBuildExe -replace "Framework64", "Framework"
             $VisualStudioVersion = '14.0'
             $VXXCommonTools = Join-Path $env:VS140COMNTOOLS '..\..\vc'
+        }
+        'v141' {
+            $programFilesDir = (${env:ProgramFiles(x86)}, ${env:ProgramFiles} -ne $null)[0]
+
+            $vswherePath = Join-Path $programFilesDir 'Microsoft Visual Studio\Installer\vswhere.exe'
+            #Check if we already have vswhere which is included in newer versions of VS2017
+            if(-not (Test-Path $vswherePath))
+            {
+                Write-Diagnostic "Downloading VSWhere as no install found at $vswherePath"
+                
+                # Check if we already have a local copy and download if required
+                $vswherePath = Join-Path $WorkingDir \vswhere.exe
+                
+                # TODO: Check hash and download if hash differs
+                if(-not (Test-Path $vswherePath))
+                {
+                    $client = New-Object System.Net.WebClient;
+                    $client.DownloadFile('https://github.com/Microsoft/vswhere/releases/download/2.2.11/vswhere.exe', $vswherePath);
+                }
+            }
+            
+            Write-Diagnostic "VSWhere path $vswherePath"
+            
+            $VS2017InstallPath = & $vswherePath -version 15 -property installationPath
+            
+            Write-Diagnostic "VS2017InstallPath: $VS2017InstallPath"
+                
+            if(-not (Test-Path $VS2017InstallPath))
+            {
+                Die "Visual Studio 2017 was not found"
+            }
+                
+            $MSBuildExe = "msbuild.exe"
+            $VisualStudioVersion = '15.0'
+            $VXXCommonTools = Join-Path $VS2017InstallPath VC\Auxiliary\Build
         }
     }
 
@@ -202,17 +231,17 @@ function Msvs
 function VSX 
 {
     param(
-        [ValidateSet('v120', 'v140')]
+        [ValidateSet('v140', 'v141')]
         [Parameter(Position = 0, ValueFromPipeline = $true)]
         [string] $Toolchain
     )
 
-    if($Toolchain -eq 'v120' -and $env:VS120COMNTOOLS -eq $null) {
+    if($Toolchain -eq 'v140' -and $env:VS140COMNTOOLS -eq $null) {
         Warn "Toolchain $Toolchain is not installed on your development machine, skipping build."
         Return
     }
 
-    if($Toolchain -eq 'v140' -and $env:VS140COMNTOOLS -eq $null) {
+    if($Toolchain -eq 'v141' -and $env:VS141COMNTOOLS -eq $null) {
         Warn "Toolchain $Toolchain is not installed on your development machine, skipping build."
         Return
     }
@@ -367,15 +396,15 @@ switch -Exact ($Target)
     {
         UpdateSymbolsWithGitLink
     }
-    "vs2013"
-    {
-        VSX v120
-        UpdateSymbolsWithGitLink
-        Nupkg
-    }
     "vs2015"
     {
         VSX v140
+        UpdateSymbolsWithGitLink
+        Nupkg
+    }
+    "vs2017"
+    {
+        VSX v141
         UpdateSymbolsWithGitLink
         Nupkg
     }
