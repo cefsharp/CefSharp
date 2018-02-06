@@ -4,6 +4,7 @@
 
 using System;
 using System.IO.MemoryMappedFiles;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -18,6 +19,9 @@ namespace CefSharp.Wpf.Rendering
     /// <seealso cref="CefSharp.IBitmapFactory" />
     public class WritableBitmapFactory : IBitmapFactory
     {
+        [DllImport("kernel32.dll", EntryPoint = "CopyMemory", SetLastError = false)]
+        private static extern void CopyMemory(IntPtr dest, IntPtr src, uint count);
+
         /// <summary>
         /// The pixel format
         /// </summary>
@@ -28,32 +32,25 @@ namespace CefSharp.Wpf.Rendering
 
         private Size viewSize;
         private Size popupSize;
-        
+        private double dpiX;
+        private double dpiY;
+        private bool invalidateDirtyRect;
+
         private MemoryMappedFile viewMemoryMappedFile;
         private MemoryMappedFile popupMemoryMappedFile;
         private MemoryMappedViewAccessor viewMemoryMappedViewAccessor;
         private MemoryMappedViewAccessor popupMemoryMappedViewAccessor;
 
         /// <summary>
-        /// Gets the dpi x.
-        /// </summary>
-        /// <value>The dpi x.</value>
-        public double DpiX { get; private set; }
-        /// <summary>
-        /// Gets the dpi y.
-        /// </summary>
-        /// <value>The dpi y.</value>
-        public double DpiY { get; private set; }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="WritableBitmapFactory"/> class.
         /// </summary>
         /// <param name="dpiX">The dpi x.</param>
         /// <param name="dpiY">The dpi y.</param>
-        public WritableBitmapFactory(double dpiX, double dpiY)
+        public WritableBitmapFactory(double dpiX, double dpiY, bool invalidateDirtyRect = true)
         {
-            DpiX = dpiX;
-            DpiY = dpiY;
+            this.dpiX = dpiX;
+            this.dpiY = dpiY;
+            this.invalidateDirtyRect = invalidateDirtyRect;
         }
 
         public void Dispose()
@@ -103,8 +100,12 @@ namespace CefSharp.Wpf.Rendering
                     currentSize.Width = width;
                 }
 
-                NativeMethodWrapper.CopyMemoryUsingHandle(viewAccessor.SafeMemoryMappedViewHandle.DangerousGetHandle(), buffer, numberOfBytes);
+                //TODO: Performance analysis to determine which is the fastest memory copy function
+                //NativeMethodWrapper.CopyMemoryUsingHandle(viewAccessor.SafeMemoryMappedViewHandle.DangerousGetHandle(), buffer, numberOfBytes);
+                CopyMemory(viewAccessor.SafeMemoryMappedViewHandle.DangerousGetHandle(), buffer, (uint)numberOfBytes);
             }
+
+            var backBufferHandle = viewAccessor.SafeMemoryMappedViewHandle;
 
             image.Dispatcher.BeginInvoke((Action)(() =>
             {
@@ -118,18 +119,35 @@ namespace CefSharp.Wpf.Rendering
                             GC.Collect(1);
                         }
 
-                        image.Source = new WriteableBitmap(width, height, DpiX, DpiY, PixelFormat, null);
+                        image.Source = new WriteableBitmap(width, height, dpiX, dpiY, PixelFormat, null);
                     }
-
-                    var backBufferHandle = isPopup ? popupMemoryMappedFile.SafeMemoryMappedFileHandle : viewMemoryMappedFile.SafeMemoryMappedFileHandle;
 
                     var stride = width * BytesPerPixel;
                     var noOfBytes = stride * height;
 
-                    // Update the dirty region
-                    var sourceRect = new Int32Rect(dirtyRect.X, dirtyRect.Y, dirtyRect.Width, dirtyRect.Height);
                     var bitmap = (WriteableBitmap)image.Source;
-                    bitmap.WritePixels(sourceRect, backBufferHandle.DangerousGetHandle(), noOfBytes, stride, dirtyRect.X, dirtyRect.Y);
+
+                    //By default we'll only update the dirty rect, for those that run into a MILERR_WIN32ERROR Exception (#2035)
+                    //it's desirably to either upgrade to a newer .Net version (only client runtime needs to be installed, not compiled
+                    //against a newer version. Or invalidate the whole bitmap
+                    if (invalidateDirtyRect)
+                    {
+                        // Update the dirty region
+                        var sourceRect = new Int32Rect(dirtyRect.X, dirtyRect.Y, dirtyRect.Width, dirtyRect.Height);
+                        
+                        bitmap.Lock();
+                        bitmap.WritePixels(sourceRect, backBufferHandle.DangerousGetHandle(), noOfBytes, stride, dirtyRect.X, dirtyRect.Y);
+                        bitmap.Unlock();
+                    }
+                    else
+                    {
+                        // Update whole bitmap
+                        var sourceRect = new Int32Rect(0, 0, width, height);
+
+                        bitmap.Lock();
+                        bitmap.WritePixels(sourceRect, backBufferHandle.DangerousGetHandle(), noOfBytes, stride);
+                        bitmap.Unlock();
+                    }
                 }
             }), DispatcherPriority.Render);
         }
