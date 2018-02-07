@@ -119,7 +119,9 @@ namespace CefSharp.Example
             // Scripts should be minified for production builds. The script
             // could also be read from a file...
             var script =
-                @"(function () {
+                @"(async function ()
+                {
+                    await CefSharp.BindObjectAsync('boundEvent');
                     var counter = 0;
                     var elem = document.getElementById('##ID##');
                     elem.removeAttribute('disabled');
