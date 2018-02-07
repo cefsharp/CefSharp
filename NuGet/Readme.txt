@@ -13,10 +13,11 @@ Post Installation:
   - Minimal designer support was added in version `57.0.0 for both `WinForms` and `WPF`. For older versions there is no designer support (designer will throw an exception).
   
 Deployment:
-  - Make sure `Visual C++ 2013` is installed (`x86` or x64` depending on your build) or you package the runtime dlls with your application, see the FAQ for details.
+  - Make sure `Visual C++ 2015` is installed (`x86` or x64` depending on your build) or you package the runtime dlls with your application, see the FAQ for details.
   
 What's New:
   See https://github.com/cefsharp/CefSharp/wiki/ChangeLog
+  IMPORTANT NOTE - Visual C++ 2015 is now required
   IMPORTANT NOTE - .NET Framework 4.5.2 is now required.  
   IMPORTANT NOTE - Chromium has removed support for Windows XP/2003 and Windows Vista/Server 2008 (non R2).
   
@@ -25,7 +26,7 @@ What's New:
 
 Basic Troubleshooting:
   - Minimum of .Net 4.5.2
-  - Make sure `VC++ 2013 Redist` is installed (either `x86` or `x64` depending on your application)
+  - Make sure `VC++ 2015 Redist` is installed (either `x86` or `x64` depending on your application)
   - Please ensure your binaries directory contains these required dependencies:
     * libcef.dll (CEF code)
     * icudtl.dat (Unicode Support data)
