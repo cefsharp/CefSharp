@@ -3,7 +3,6 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
-using CefSharp.ModelBinding;
 
 namespace CefSharp
 {
@@ -99,6 +98,9 @@ namespace CefSharp
         /// object will be a standard javascript Promise object which is usable to wait for completion or failure.</remarks>
         void RegisterAsyncJsObject(string name, object objectToBind, BindingOptions options = null);
 
+        /// <summary>
+        /// The javascript object repository, one repository per ChromiumWebBrowser instance.
+        /// </summary>
         IJavascriptObjectRepository JavascriptObjectRepository { get; }
 
         /// <summary>
