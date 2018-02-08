@@ -16,8 +16,6 @@ namespace CefSharp
         public int Width { get; private set; }
         public int Height { get; private set; }
         public IntPtr BufferHandle { get; private set; }
-        public int BytesPerPixel { get; private set; }
-        public int NumberOfBytes { get; set; }
         public Rect DirtyRect { get; private set; }
 
         /// <summary>
@@ -30,15 +28,13 @@ namespace CefSharp
         /// <param name="height">height</param>
         /// <param name="bytesPerPixel">bytes per pixel</param>
         /// <param name="numberOfBytes">number of bytes in the buffer</param>
-        public OnPaintEventArgs(bool isPopup, Rect dirtyRect, IntPtr bufferHandle, int width, int height, int bytesPerPixel, int numberOfBytes)
+        public OnPaintEventArgs(bool isPopup, Rect dirtyRect, IntPtr bufferHandle, int width, int height)
         {
             IsPopup = isPopup;
             DirtyRect = dirtyRect;
             BufferHandle = bufferHandle;
             Width = width;
             Height = height;
-            BytesPerPixel = bytesPerPixel;
-            NumberOfBytes = numberOfBytes;
         }
     }
 }

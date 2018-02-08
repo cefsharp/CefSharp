@@ -104,11 +104,6 @@ namespace CefSharp
         IJavascriptObjectRepository JavascriptObjectRepository { get; }
 
         /// <summary>
-        /// The javascript object repository, one repository per ChromiumWebBrowser instance.
-        /// </summary>
-        IJavascriptObjectRepository JavascriptObjectRepository { get; }
-
-        /// <summary>
         /// Implement <see cref="IDialogHandler" /> and assign to handle dialog events.
         /// </summary>
         /// <value>The dialog handler.</value>
