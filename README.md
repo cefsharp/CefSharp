@@ -74,9 +74,9 @@ If you're new to `CefSharp` and are downloading the source to check it out, plea
 | Branch                                                               | CEF Version | VC++ Version | .Net Version | Status |
 |----------------------------------------------------------------------|------|------|-------|-----------------|
 | [master](https://github.com/cefsharp/CefSharp/)                      | 3282 | 2015 | 4.5.2 | Development     |
-| [cefsharp/63](https://github.com/cefsharp/CefSharp/tree/cefsharp/63) | 3239 | 2013 | 4.5.2 | **Pre-Release** |
-| [cefsharp/62](https://github.com/cefsharp/CefSharp/tree/cefsharp/62) | 3202 | 2013 | 4.5.2 | Unsupported |
-| [cefsharp/57](https://github.com/cefsharp/CefSharp/tree/cefsharp/57) | 2987 | 2013 | 4.5.2 | **Release**     |
+| [cefsharp/63](https://github.com/cefsharp/CefSharp/tree/cefsharp/63) | 3239 | 2013 | 4.5.2 | **Release**     |
+| [cefsharp/62](https://github.com/cefsharp/CefSharp/tree/cefsharp/62) | 3202 | 2013 | 4.5.2 | Unsupported     |
+| [cefsharp/57](https://github.com/cefsharp/CefSharp/tree/cefsharp/57) | 2987 | 2013 | 4.5.2 | Unsupported     |
 | [cefsharp/55](https://github.com/cefsharp/CefSharp/tree/cefsharp/55) | 2883 | 2013 | 4.5.2 | Unsupported     |
 | [cefsharp/53](https://github.com/cefsharp/CefSharp/tree/cefsharp/53) | 2785 | 2013 | 4.5.2 | Unsupported     |
 | [cefsharp/51](https://github.com/cefsharp/CefSharp/tree/cefsharp/51) | 2704 | 2013 | 4.5.2 | Unsupported     |
@@ -87,12 +87,6 @@ If you're new to `CefSharp` and are downloading the source to check it out, plea
 | [cefsharp/41](https://github.com/cefsharp/CefSharp/tree/cefsharp/41) | 2272 | 2012 | 4.0   | Unsupported     |
 | [cefsharp/39](https://github.com/cefsharp/CefSharp/tree/cefsharp/39) | 2171 | 2012 | 4.0   | Unsupported     |
 | [cefsharp/37](https://github.com/cefsharp/CefSharp/tree/cefsharp/37) | 2062 | 2012 | 4.0   | Unsupported     |
-
-## Financial Support
-
-Creating regular releases of CefSharp is a time intensive process and so to support further development we ask if can contribute financially to the next release?
-
-[![Bountysource](https://api.bountysource.com/badge/issue?issue_id=42381776)](https://www.bountysource.com/issues/42381776-funding-request-release-57-0-0?utm_source=42381776&utm_medium=shield&utm_campaign=ISSUE_BADGE)
 
 ## Links
 
