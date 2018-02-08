@@ -7,6 +7,9 @@ using System.Collections.Generic;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Class used to represent post data for a web request. The methods of this class may be called on any thread. 
+    /// </summary>
     public interface IPostData : IDisposable
     {
         /// <summary>

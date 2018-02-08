@@ -14,17 +14,21 @@ namespace CefSharp
         /// <summary>
         /// Deletes all cookies that matches all the provided parameters. If both <paramref name="url"/> and <paramref name="name"/> are empty, all cookies will be deleted.
         /// Cookies can alternately be deleted using the Visit*Cookies() methods. 
+        /// This method will be executed on the CEF IO thread in an async fashion, to be notified upon completion implement <see cref="IDeleteCookiesCallback"/>
+        /// and pass in as <paramref name="callback"/>
         /// </summary>
         /// <param name="url">The cookie URL. If an empty string is provided, any URL will be matched.</param>
         /// <param name="name">The name of the cookie. If an empty string is provided, any URL will be matched.</param>
         /// <param name="callback">If non-NULL it will be executed asnychronously on the CEF IO thread after the cookies have been deleted.</param>
         /// <return>Returns false if a non-empty invalid URL is specified, or if cookies cannot be accessed; otherwise, true.</return>
-        bool DeleteCookies(string url, string name, IDeleteCookiesCallback callback = null);
+        bool DeleteCookies(string url = null, string name = null, IDeleteCookiesCallback callback = null);
 
         /// <summary>
         /// Sets a cookie given a valid URL and explicit user-provided cookie attributes. This function expects each attribute to be well-formed. It will check for disallowed
         /// characters (e.g. the ';' character is disallowed within the cookie value attribute) and will return false without setting
         /// the cookie if such characters are found.
+        /// This method will be executed on the CEF IO thread in an async fashion, to be notified upon completion implement <see cref="ISetCookieCallback"/>
+        /// and pass in as <paramref name="callback"/>
         /// </summary>
         /// <param name="url">The cookie URL</param>
         /// <param name="cookie">The cookie</param>
@@ -72,8 +76,10 @@ namespace CefSharp
 
         /// <summary>
         /// Flush the backing store (if any) to disk
+        /// This method will be executed on the CEF IO thread in an async fashion, to be notified upon completion implement <see cref="ICompletionCallback"/>
+        /// and pass in as <paramref name="callback"/>
         /// </summary>
-        /// <param name="callback">If non-NULL it willbe executed asnychronously on the CEF IO thread after the flush is complete.</param>
+        /// <param name="callback">If non-NULL it will be executed asnychronously on the CEF IO thread after the flush is complete.</param>
         /// <return>Returns false if cookies cannot be accessed.</return>
         bool FlushStore(ICompletionCallback callback);
 

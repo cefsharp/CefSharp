@@ -364,11 +364,5 @@ namespace CefSharp
             int get() { return _browserSettings->windowless_frame_rate; }
             void set(int value) { _browserSettings->windowless_frame_rate = value; }
         }		
-
-        /// <summary>
-        /// When the WPF/OffScreen browser is created, specify if the background supports
-        /// transparency
-        /// </summary>
-        property Nullable<bool> OffScreenTransparentBackground;
     };
 }

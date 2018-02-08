@@ -6,6 +6,11 @@ using System;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// Interface to implement for visiting web plugin information.
+    /// The methods of this class will be called on the CEF UI thread,
+    /// which by default is not the same as your application UI 
+    /// </summary>
     public interface IWebPluginInfoVisitor : IDisposable
     {
         /// <summary>
