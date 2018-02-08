@@ -269,12 +269,9 @@ namespace CefSharp.Wpf
         public event EventHandler<LoadingStateChangedEventArgs> LoadingStateChanged;
 
         /// <summary>
-        /// Raised every time <see cref="IRenderWebBrowser.OnPaint"/> is called. You can access the underlying buffer, though it's
-        /// preferable to either override <see cref="OnPaint"/> or implement your own <see cref="IBitmapFactory"/> as there is no outwardly
-        /// accessible locking (locking is done within the default <see cref="IBitmapFactory"/> implementations).
-        /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI thread
+        /// Raised before each render cycle, and allows you to adjust the bitmap before it's rendered/applied
         /// </summary>
-        public event EventHandler<PaintEventArgs> Paint;
+        public event EventHandler<RenderingEventArgs> Rendering;
 
         /// <summary>
         /// Navigates to the previous page in the browser history. Will automatically be enabled/disabled depending on the
@@ -468,7 +465,7 @@ namespace CefSharp.Wpf
 
             ResourceHandlerFactory = new DefaultResourceHandlerFactory();
             BrowserSettings = new BrowserSettings();
-            BitmapFactory = new InteropBitmapFactory();
+            BitmapFactory = new BitmapFactory();
 
             WpfKeyboardHandler = new WpfKeyboardHandler(this);
             
@@ -519,7 +516,7 @@ namespace CefSharp.Wpf
                 FrameLoadEnd = null;
                 LoadError = null;
                 LoadingStateChanged = null;
-                Paint = null;
+                Rendering = null;
 
                 if (isDisposing)
                 {
@@ -655,6 +652,33 @@ namespace CefSharp.Wpf
             return true;
         }
 
+        /// Creates the BitmapInfo instance used for rendering. Two instances
+        /// will be created, one will be used for the popup
+        /// </summary>
+        /// <param name="isPopup">if set to <c>true</c> [is popup].</param>
+        /// <returns>BitmapInfo.</returns>
+        /// <exception cref="System.Exception">BitmapFactory cannot be null</exception>
+        BitmapInfo IRenderWebBrowser.CreateBitmapInfo(bool isPopup)
+        {
+            return CreateBitmapInfo(isPopup);
+        }
+
+        /// <summary>
+        /// Creates the BitmapInfo instance used for rendering. Two instances
+        /// will be created, one will be used for the popup
+        /// </summary>
+        /// <param name="isPopup">if set to <c>true</c> [is popup].</param>
+        /// <returns>BitmapInfo.</returns>
+        /// <exception cref="System.Exception">BitmapFactory cannot be null</exception>
+        protected virtual BitmapInfo CreateBitmapInfo(bool isPopup)
+        {
+            if (BitmapFactory == null)
+            {
+                throw new Exception("BitmapFactory cannot be null");
+            }
+            return BitmapFactory.CreateBitmap(isPopup, DpiScaleFactor);
+        }
+
         /// <summary>
         /// Starts the dragging.
         /// </summary>
@@ -702,46 +726,52 @@ namespace CefSharp.Wpf
 
         /// <summary>
         /// Called when an element should be painted.
+        /// Pixel values passed to this method are scaled relative to view coordinates based on the value of
+        /// ScreenInfo.DeviceScaleFactor returned from GetScreenInfo. bitmapInfo.IsPopup indicates whether the element is the view
+        /// or the popup widget. BitmapInfo.DirtyRect contains the set of rectangles in pixel coordinates that need to be
+        /// repainted. The bitmap will be will be  width * height *4 bytes in size and represents a BGRA image with an upper-left origin.
+        /// The underlying buffer is copied into the back buffer and is accessible via BackBufferHandle
         /// </summary>
-        /// <param name="type">indicates whether the element is the view or the popup widget.</param>
-        /// <param name="dirtyRect">contains the set of rectangles in pixel coordinates that need to be repainted</param>
-        /// <param name="buffer">The bitmap will be will be  width * height *4 bytes in size and represents a BGRA image with an upper-left origin</param>
-        /// <param name="width">width</param>
-        /// <param name="height">height</param>
-        void IRenderWebBrowser.OnPaint(PaintElementType type, Rect dirtyRect, IntPtr buffer, int width, int height)
+        /// <param name="bitmapInfo">information about the bitmap to be rendered</param>
+        void IRenderWebBrowser.OnPaint(BitmapInfo bitmapInfo)
         {
-            OnPaint(type == PaintElementType.Popup, dirtyRect, buffer, width, height);
+            OnPaint(bitmapInfo);
         }
 
         /// <summary>
-        /// Called when an element should be painted. Pixel values passed to this method are scaled relative to view coordinates based on the
-        /// value of <see cref="ScreenInfo.DeviceScaleFactor"/> returned from <see cref="IRenderWebBrowser.GetScreenInfo"/>. To override the default behaviour
-        /// override this method or implement your own <see cref="IBitmapFactory"/> and assign to <see cref="BitmapFactory"/>
-        /// Called on the CEF UI Thread
+        /// Called when an element should be painted.
+        /// Pixel values passed to this method are scaled relative to view coordinates based on the value of
+        /// ScreenInfo.DeviceScaleFactor returned from GetScreenInfo. bitmapInfo.IsPopup indicates whether the element is the view
+        /// or the popup widget. BitmapInfo.DirtyRect contains the set of rectangles in pixel coordinates that need to be
+        /// repainted. The bitmap will be will be  width * height *4 bytes in size and represents a BGRA image with an upper-left origin.
+        /// The underlying buffer is copied into the back buffer and is accessible via BackBufferHandle
         /// </summary>
-        /// <param name="type">indicates whether the element is the view or the popup widget.</param>
-        /// <param name="dirtyRect">contains the set of rectangles in pixel coordinates that need to be repainted</param>
-        /// <param name="buffer">The bitmap will be will be  width * height *4 bytes in size and represents a BGRA image with an upper-left origin</param>
-        /// <param name="width">width</param>
-        /// <param name="height">height</param>
-        protected virtual void OnPaint(bool isPopup, Rect dirtyRect, IntPtr buffer, int width, int height)
+        /// <param name="bitmapInfo">information about the bitmap to be rendered</param>
+        protected virtual void OnPaint(BitmapInfo bitmapInfo)
         {
-            var paint = Paint;
-            if (paint != null)
+            UiThreadRunAsync(delegate
             {
-                var args = new PaintEventArgs(isPopup, dirtyRect, buffer, width, height);
-
-                paint(this, args);
-
-                if(args.Handled)
+                lock (bitmapInfo.BitmapLock)
                 {
-                    return;
+                    var wpfBitmapInfo = (WpfBitmapInfo)bitmapInfo;
+                    // Inform parents that the browser rendering is updating
+                    OnRendering(this, wpfBitmapInfo);
+
+                    // Now update the WPF image
+                    if (wpfBitmapInfo.CreateNewBitmap)
+                    {
+                        var img = bitmapInfo.IsPopup ? popupImage : image;
+
+                        img.Source = null;
+                        GC.Collect(1);
+
+                        img.Source = wpfBitmapInfo.CreateBitmap();
+                    }
+
+                    wpfBitmapInfo.Invalidate();
                 }
-            }
-
-            var img = isPopup ? popupImage : image;
-
-            BitmapFactory.CreateOrUpdateBitmap(isPopup, buffer, dirtyRect, width, height, img);
+            },
+            DispatcherPriority.Render);
         }
 
         /// <summary>
@@ -1541,22 +1571,6 @@ namespace CefSharp.Wpf
                         browser.GetHost().NotifyScreenInfoChanged();
                     }
 
-                    //Ignore this for custom bitmap factories
-                    if (BitmapFactory.GetType() == typeof(WritableBitmapFactory) || BitmapFactory.GetType() == typeof(InteropBitmapFactory))
-                    {
-                        if (DpiScaleFactor > 1.0 && BitmapFactory.GetType() != typeof(WritableBitmapFactory))
-                        {
-                            const int DefaultDpi = 96;
-                            var scale = DefaultDpi * DpiScaleFactor;
-
-                            BitmapFactory = new WritableBitmapFactory(scale, scale);
-                        }
-                        else if (DpiScaleFactor == 1.0 && BitmapFactory.GetType() != typeof(InteropBitmapFactory))
-                        {
-                            BitmapFactory = new InteropBitmapFactory();
-                        }
-                    }
-
                     var window = source.RootVisual as Window;
                     if(window != null)
                     {
@@ -2282,6 +2296,20 @@ namespace CefSharp.Wpf
         public IJavascriptObjectRepository JavascriptObjectRepository
         {
             get { return managedCefBrowserAdapter == null ? null : managedCefBrowserAdapter.JavascriptObjectRepository; }
+        }
+
+        /// <summary>
+        /// Raises Rendering event
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="bitmapInfo">The bitmap information.</param>
+        protected virtual void OnRendering(object sender, WpfBitmapInfo bitmapInfo)
+        {
+            var rendering = Rendering;
+            if (rendering != null)
+            {
+                rendering(sender, new RenderingEventArgs(bitmapInfo));
+            }
         }
 
         /// <summary>
