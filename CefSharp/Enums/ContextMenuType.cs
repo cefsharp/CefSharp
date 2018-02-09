@@ -6,6 +6,9 @@ using System;
 
 namespace CefSharp
 {
+    /// <summary>
+    /// ContextMenuType
+    /// </summary>
     [Flags]
     public enum ContextMenuType
     {

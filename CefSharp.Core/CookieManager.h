@@ -25,6 +25,15 @@ namespace CefSharp
 
 		}
 
+		operator CefRefPtr<CefCookieManager>()
+		{
+			if (this == nullptr)
+			{
+				return NULL;
+			}
+			return _cookieManager.get();
+		}
+
 	public:
 		///
 		// Creates a new cookie manager. If |path| is empty data will be stored in
@@ -67,15 +76,6 @@ namespace CefSharp
 			{
 				return !_cookieManager.get();
 			}
-		}
-
-		operator CefRefPtr<CefCookieManager>()
-		{
-			if (this == nullptr)
-			{
-				return NULL;
-			}
-			return _cookieManager.get();
 		}
 	};
 }

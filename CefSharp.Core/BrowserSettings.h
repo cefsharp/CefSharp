@@ -20,20 +20,20 @@ namespace CefSharp
     internal:
         CefBrowserSettings* _browserSettings;
 
-    public:
-        /// <summary>
-        /// Default Constructor
-        /// </summary>
-        BrowserSettings() : _browserSettings(new CefBrowserSettings())
-        {
-        }
-
         /// <summary>
         /// Internal Constructor
         /// </summary>
         BrowserSettings(CefBrowserSettings* browserSettings)
         {
             _browserSettings = browserSettings;
+        }
+
+    public:
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
+        BrowserSettings() : _browserSettings(new CefBrowserSettings())
+        {
         }
 
         !BrowserSettings()

@@ -135,7 +135,7 @@ namespace CefSharp
         /// applicaiton thread (Typically the UI thead). If you call them on different
         /// threads, your application will hang. See the documentation for Cef.Shutdown() for more details.
         /// </summary>
-        /// <return>true if successful; otherwise, false.</return>
+        /// <returns>true if successful; otherwise, false.</returns>
         static bool Initialize()
         {
             auto cefSettings = gcnew CefSettings();
@@ -149,7 +149,7 @@ namespace CefSharp
         /// threads, your application will hang. See the documentation for Cef.Shutdown() for more details.
         /// </summary>
         /// <param name="cefSettings">CefSharp configuration settings.</param>
-        /// <return>true if successful; otherwise, false.</return>
+        /// <returns>true if successful; otherwise, false.</returns>
         static bool Initialize(CefSettings^ cefSettings)
         {
             return Initialize(cefSettings, false, nullptr);
@@ -163,7 +163,7 @@ namespace CefSharp
         /// </summary>
         /// <param name="cefSettings">CefSharp configuration settings.</param>
         /// <param name="performDependencyCheck">Check that all relevant dependencies avaliable, throws exception if any are missing</param>
-        /// <return>true if successful; otherwise, false.</return>
+        /// <returns>true if successful; otherwise, false.</returns>
         static bool Initialize(CefSettings^ cefSettings, bool performDependencyCheck, IBrowserProcessHandler^ browserProcessHandler)
         {
             if (IsInitialized)
@@ -460,7 +460,7 @@ namespace CefSharp
         /// <summary>
         /// Clear all registered scheme handler factories.
         /// </summary>
-        /// <return>Returns false on error.</return>
+        /// <returns>Returns false on error.</returns>
         static bool ClearSchemeHandlerFactories()
         {
             return CefClearSchemeHandlerFactories();
@@ -478,7 +478,7 @@ namespace CefSharp
         /// Async returns a list containing Plugin Information
         /// (Wrapper around CefVisitWebPluginInfo)
         /// </summary>
-        /// <return>Returns List of <see cref="Plugin"/> structs.</return>
+        /// <returns>Returns List of <see cref="Plugin"/> structs.</returns>
         static Task<List<WebPluginInfo^>^>^ GetPlugins()
         {
             auto taskVisitor = gcnew TaskWebPluginInfoVisitor();
@@ -521,7 +521,7 @@ namespace CefSharp
         /// This function bypasses any user permission checks so should only be
         /// used by code that is allowed to access location information. 
         /// </summary>
-        /// <return>Returns 'best available' location info or, if the location update failed, with error info.</return>
+        /// <returns>Returns 'best available' location info or, if the location update failed, with error info.</returns>
         static bool GetGeolocation(IGetGeolocationCallback^ callback)
         {
             CefRefPtr<CefGetGeolocationCallback> wrapper = callback == nullptr ? NULL : new CefGetGeolocationCallbackAdapter(callback);
@@ -534,7 +534,7 @@ namespace CefSharp
         /// This function bypasses any user permission checks so should only be
         /// used by code that is allowed to access location information. 
         /// </summary>
-        /// <return>Returns 'best available' location info or, if the location update failed, with error info.</return>
+        /// <returns>Returns 'best available' location info or, if the location update failed, with error info.</returns>
         static Task<Geoposition^>^ GetGeolocationAsync()
         {
             auto callback = gcnew TaskGetGeolocationCallback();
@@ -547,7 +547,7 @@ namespace CefSharp
         /// <summary>
         /// Returns true if called on the specified CEF thread.
         /// </summary>
-        /// <return>Returns true if called on the specified thread.</return>
+        /// <returns>Returns true if called on the specified thread.</returns>
         static bool CurrentlyOnThread(CefThreadIds threadId)
         {
             return CefCurrentlyOn((CefThreadId)threadId);
@@ -556,7 +556,7 @@ namespace CefSharp
         /// <summary>
         /// Gets the Global Request Context. Make sure to Dispose of this object when finished.
         /// </summary>
-        /// <return>Returns the global request context or null.</return>
+        /// <returns>Returns the global request context or null.</returns>
         static IRequestContext^ GetGlobalRequestContext()
         {
             auto context = CefRequestContext::GetGlobalContext();
@@ -646,7 +646,7 @@ namespace CefSharp
         /// if your key is named "mykey" then the value will be broken into ordered
         /// chunks and submitted using keys named "mykey-1", "mykey-2", etc.
         /// </summary>
-        /// <return>Returns the global request context or null.</return>
+        /// <returns>Returns the global request context or null.</returns>
         static property bool CrashReportingEnabled
         {
             bool get()
@@ -722,7 +722,7 @@ namespace CefSharp
         /// See <see cref="RegisterWidevineCdm(String, IRegisterCdmCallback)"/> for more details.
         /// </summary>
         /// <param name="path"> is a directory that contains the Widevine CDM files</param>
-        /// <return>Returns a Task that can be awaited to receive the <see cref="CdmRegistration"/> response.</return>
+        /// <returns>Returns a Task that can be awaited to receive the <see cref="CdmRegistration"/> response.</returns>
         static Task<CdmRegistration^>^ RegisterWidevineCdmAsync(String^ path)
         {
             auto callback = gcnew TaskRegisterCdmCallback();
