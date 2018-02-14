@@ -11,7 +11,7 @@
   <ItemGroup>
     <CefSharpCommonBinaries32 Include="$(MSBuildThisFileDirectory)..\CefSharp\x86\*.*" />
     <CefSharpCommonBinaries64 Include="$(MSBuildThisFileDirectory)..\CefSharp\x64\*.*" />
-    <CefSharpCommonBinariesAnyCpu Include="$(MSBuildThisFileDirectory)..\CefSharp\**\*.*" />
+    <CefSharpCommonBinariesAnyCPU Include="$(MSBuildThisFileDirectory)..\CefSharp\**\*.*" />
   </ItemGroup>
 
   <PropertyGroup>
@@ -55,7 +55,7 @@
       <Link>$(CefSharpTargetDir)\x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="@(CefSharpCommonBinariesAnyCpu)">
+    <None Include="@(CefSharpCommonBinariesAnyCPU)">
       <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

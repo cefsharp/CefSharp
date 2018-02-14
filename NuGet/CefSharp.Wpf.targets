@@ -8,7 +8,7 @@
     <CefSharpWpfBinaries32 Include="$(MSBuildThisFileDirectory)..\CefSharp\x86\*.*" />
     <CefSharpWpfBinaries64 Include="$(MSBuildThisFileDirectory)..\CefSharp\x64\*.*" />
     <!-- Not currently used, might come in handy for someone though as it contains all x86 and x64 files -->
-    <CefSharpWpfBinariesAnyCpu Include="$(MSBuildThisFileDirectory)..\CefSharp\**\*.*" />
+    <CefSharpWpfBinariesAnyCPU Include="$(MSBuildThisFileDirectory)..\CefSharp\**\*.*" />
   </ItemGroup>
 
   <!--
@@ -19,9 +19,9 @@
 
   <!-- Copying all files here included those at are added As References so you can specify CefSharpTargetDir -->
   <Choose>
-    <When Condition="'$(Platform)' == 'AnyCpu'">
+    <When Condition="'$(Platform)' == 'AnyCPU'">
       <ItemGroup>
-        <None Include="@(CefSharpWpfBinariesAnyCpu)">
+        <None Include="@(CefSharpWpfBinariesAnyCPU)">
           <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
