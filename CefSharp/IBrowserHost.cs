@@ -63,7 +63,7 @@ namespace CefSharp
         void DragTargetDragDrop(MouseEvent mouseEvent);
 
         /// <summary>
-        /// Call this method when the drag operation started by a <see cref="IRenderWebBrowser.StartDragging"/> call has ended either in a drop or by being cancelled.
+        /// Call this method when the drag operation started by a <see cref="CefSharp.Internals.IRenderWebBrowser.StartDragging"/> call has ended either in a drop or by being cancelled.
         /// If the web view is both the drag source and the drag target then all DragTarget* methods should be called before DragSource* methods.
         /// This method is only used when window rendering is disabled. 
         /// </summary>
@@ -79,7 +79,7 @@ namespace CefSharp
         void DragTargetDragLeave();
         
         /// <summary>
-        /// Call this method when the drag operation started by a <see cref="IRenderWebBrowser.StartDragging"/> call has completed.
+        /// Call this method when the drag operation started by a <see cref="CefSharp.Internals.IRenderWebBrowser.StartDragging"/> call has completed.
         /// This method may be called immediately without first calling DragSourceEndedAt to cancel a drag operation.
         /// If the web view is both the drag source and the drag target then all DragTarget* methods should be called before DragSource* mthods.
         /// This method is only used when window rendering is disabled. 

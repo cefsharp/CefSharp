@@ -2143,6 +2143,12 @@ namespace CefSharp.Wpf
         /// <param name="url">The URL to be loaded.</param>
         public void Load(string url)
         {
+            if (!InternalIsBrowserInitialized())
+            {
+                throw new Exception("The browser has not been initialized. Load can only be called " +
+                                    "after the underlying CEF browser is initialized (CefLifeSpanHandler::OnAfterCreated).");
+            }
+
             // Added null check -> binding-triggered changes of Address will lead to a nullref after Dispose has been called
             // or before OnApplyTemplate has been called
             if (browser != null)

@@ -32,6 +32,8 @@ namespace CefSharp.Internals
     /// </summary>
     public class JavascriptObjectRepository : IJavascriptObjectRepository
     {
+        public const string AllObjects = "All";
+
         private static long lastId;
 
         public event EventHandler<JavascriptBindingEventArgs> ResolveObject;
@@ -66,10 +68,13 @@ namespace CefSharp.Internals
 
         public List<JavascriptObject> GetObjects(List<string> names = null)
         {
-            if (names == null || names.Count == 0)
+            //If there are no objects names or the count is 0 then we will raise
+            //the resolve event then return all objects that are registered,
+            //we'll only perform checking if object(s) of specific name is requested.
+            var getAllObjects = names == null || names.Count == 0;
+            if (getAllObjects)
             {
-                //TODO: JSB Declare Constant for All
-                RaiseResolveObjectEvent("All");
+                RaiseResolveObjectEvent(AllObjects);
 
                 return objects.Values.ToList();
             }
@@ -81,8 +86,12 @@ namespace CefSharp.Internals
                     RaiseResolveObjectEvent(name);
                 }
             }
-            
-            return objects.Values.Where(x => names.Contains(x.JavascriptName)).ToList();
+
+            var objectsByName = objects.Values.Where(x => names.Contains(x.JavascriptName)).ToList();
+
+            //TODO: JSB Add another event that signals when no object matching a name
+            //in the list was provided.
+            return objectsByName;
         }
 
 
@@ -122,7 +131,7 @@ namespace CefSharp.Internals
         {
             //Enable WCF if not already enabled - can only be done before the browser has been initliazed
             //if done after the subprocess won't be WCF enabled it we'll have to throw an exception
-            if (!IsBrowserInitialized)
+            if (!IsBrowserInitialized && !isAsync)
             { 
                 CefSharpSettings.WcfEnabled = true;
             }
@@ -148,7 +157,7 @@ namespace CefSharp.Internals
             jsObject.Binder = options == null ? null : options.Binder;
             jsObject.MethodInterceptor = options == null ? null : options.MethodInterceptor;
 
-            AnalyseObjectForBinding(jsObject, analyseMethods: true, analyseProperties: isAsync, readPropertyValue: false, camelCaseJavascriptNames: camelCaseJavascriptNames);
+            AnalyseObjectForBinding(jsObject, analyseMethods: true, analyseProperties: !isAsync, readPropertyValue: false, camelCaseJavascriptNames: camelCaseJavascriptNames);
         }
 
         public bool TryCallMethod(long objectId, string name, object[] parameters, out object result, out string exception)
@@ -349,10 +358,10 @@ namespace CefSharp.Internals
         /// </summary>
         /// <param name="obj">Javascript object</param>
         /// <param name="analyseMethods">Analyse methods for inclusion in metadata model</param>
+        /// <param name="analyseProperties">Analyse properties for inclusion in metadata model</param>
         /// <param name="readPropertyValue">When analysis is done on a property, if true then get it's value for transmission over WCF</param>
         /// <param name="camelCaseJavascriptNames">camel case the javascript names of properties/methods</param>
-        /// <param name="analyseProperties">Analyse properties for binding</param>
-        private void AnalyseObjectForBinding(JavascriptObject obj, bool analyseMethods, bool readPropertyValue, bool camelCaseJavascriptNames, bool analyseProperties)
+        private void AnalyseObjectForBinding(JavascriptObject obj, bool analyseMethods, bool analyseProperties, bool readPropertyValue, bool camelCaseJavascriptNames)
         {
             if (obj.Value == null)
             {
@@ -403,7 +412,7 @@ namespace CefSharp.Internals
                         jsObject.Value = jsProperty.GetValue(obj.Value);
                         jsProperty.JsObject = jsObject;
 
-                        AnalyseObjectForBinding(jsProperty.JsObject, analyseMethods, readPropertyValue, camelCaseJavascriptNames, true);
+                        AnalyseObjectForBinding(jsProperty.JsObject, analyseMethods, analyseProperties: true, readPropertyValue: readPropertyValue, camelCaseJavascriptNames: camelCaseJavascriptNames);
                     }
                     else if (readPropertyValue)
                     {

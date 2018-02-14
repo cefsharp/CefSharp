@@ -67,7 +67,8 @@ namespace CefSharp
             delete _schemes;
         }
 
-        CefBrowserWrapper^ FindBrowserWrapper(int browserId, bool mustExist);
+        CefBrowserWrapper^ FindBrowserWrapper(int browserId);
+        JavascriptRootObjectWrapper^ GetJsRootObjectWrapper(int browserId, int64 frameId);
 
         virtual DECL CefRefPtr<CefRenderProcessHandler> GetRenderProcessHandler() OVERRIDE;
         virtual DECL void OnBrowserCreated(CefRefPtr<CefBrowser> browser) OVERRIDE;

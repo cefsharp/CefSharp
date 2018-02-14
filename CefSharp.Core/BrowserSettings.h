@@ -20,20 +20,20 @@ namespace CefSharp
     internal:
         CefBrowserSettings* _browserSettings;
 
-    public:
-        /// <summary>
-        /// Default Constructor
-        /// </summary>
-        BrowserSettings() : _browserSettings(new CefBrowserSettings())
-        {
-        }
-
         /// <summary>
         /// Internal Constructor
         /// </summary>
         BrowserSettings(CefBrowserSettings* browserSettings)
         {
             _browserSettings = browserSettings;
+        }
+
+    public:
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
+        BrowserSettings() : _browserSettings(new CefBrowserSettings())
+        {
         }
 
         !BrowserSettings()
@@ -364,11 +364,5 @@ namespace CefSharp
             int get() { return _browserSettings->windowless_frame_rate; }
             void set(int value) { _browserSettings->windowless_frame_rate = value; }
         }		
-
-        /// <summary>
-        /// When the WPF/OffScreen browser is created, specify if the background supports
-        /// transparency
-        /// </summary>
-        property Nullable<bool> OffScreenTransparentBackground;
     };
 }

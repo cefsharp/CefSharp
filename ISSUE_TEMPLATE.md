@@ -21,9 +21,9 @@ Still have a question to ask or unsure where to go next? Start with the Gitter C
 Delete this line and everything above, and then fill in the details below.
 
 - **What version of the product are you using?**
-    - What version are you using? Nuget? CI Nuget? build from a branch? If so which branch?
-e.g. 53.0.1
-    - Please only create an issue if you can reproduce the problem with the latest version.
+    - What version are you using? Nuget? CI Nuget? build from a branch? If so which branch? Please include the exact version number you are using (no ambiguous statements like `Latest from Nuget`)
+e.g. 57.0.0 or 63.0.0-pre01
+    - Please only create an issue if you can reproduce the problem with the latest version. (If you are using the latest stable release please check to see if there is a newer `-pre` release and test with that also).
 
 - **What architecture x86 or x64?**
 

@@ -7,22 +7,29 @@ using System;
 namespace CefSharp
 {
     /// <summary>
-    /// Event arguments to the ConsoleMessage event handler set up in IWebBrowser.
+    /// Event arguments for the ConsoleMessage event handler set up in IWebBrowser.
     /// </summary>
     public class ConsoleMessageEventArgs : EventArgs
     {
         /// <summary>
         /// Creates a new ConsoleMessageEventArgs event argument.
         /// </summary>
+        /// <param name="level">level</param>
         /// <param name="message">message</param>
         /// <param name="source">source</param>
         /// <param name="line">line number</param>
-        public ConsoleMessageEventArgs(string message, string source, int line)
+        public ConsoleMessageEventArgs(LogSeverity level, string message, string source, int line)
         {
+            Level = level;
             Message = message;
             Source = source;
             Line = line;
         }
+
+        /// <summary>
+        /// Log level
+        /// </summary>
+        public LogSeverity Level { get; private set; }
 
         /// <summary>
         /// The message text of the console message.

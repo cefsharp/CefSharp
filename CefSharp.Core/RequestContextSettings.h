@@ -17,6 +17,12 @@ namespace CefSharp
     private:
         CefRequestContextSettings* _settings;
 
+    internal:
+        operator CefRequestContextSettings()
+        {
+            return *_settings;
+        }
+
     public:
         /// <summary>
         /// Default constructor
@@ -101,11 +107,6 @@ namespace CefSharp
         {
             bool get() { return _settings->ignore_certificate_errors == 1; }
             void set(bool value) { _settings->ignore_certificate_errors = value; }
-        }
-
-        operator CefRequestContextSettings()
-        {
-            return *_settings;
         }
     };
 }

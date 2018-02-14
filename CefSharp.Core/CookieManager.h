@@ -17,6 +17,23 @@ namespace CefSharp
 		MCefRefPtr<CefCookieManager> _cookieManager;
 
 		void ThrowIfDisposed();
+
+	internal:
+		CookieManager(const CefRefPtr<CefCookieManager> &cookieManager)
+			:_cookieManager(cookieManager.get())
+		{
+
+		}
+
+		operator CefRefPtr<CefCookieManager>()
+		{
+			if (this == nullptr)
+			{
+				return NULL;
+			}
+			return _cookieManager.get();
+		}
+
 	public:
 		///
 		// Creates a new cookie manager. If |path| is empty data will be stored in
@@ -33,12 +50,6 @@ namespace CefSharp
 			CefRefPtr<CefCompletionCallback> wrapper = callback == nullptr ? NULL : new CefCompletionCallbackAdapter(callback);
 
 			_cookieManager = CefCookieManager::CreateManager(StringUtils::ToNative(path), persistSessionCookies, wrapper);
-		}
-
-		CookieManager(const CefRefPtr<CefCookieManager> &cookieManager)
-			:_cookieManager(cookieManager.get())
-		{
-
 		}
 
 		!CookieManager()
@@ -65,15 +76,6 @@ namespace CefSharp
 			{
 				return !_cookieManager.get();
 			}
-		}
-
-		operator CefRefPtr<CefCookieManager>()
-		{
-			if (this == nullptr)
-			{
-				return NULL;
-			}
-			return _cookieManager.get();
 		}
 	};
 }

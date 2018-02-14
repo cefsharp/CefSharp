@@ -31,7 +31,7 @@
       <DocumentationSource sourceFile="CefSharp\CefSharp.csproj" />
       <DocumentationSource sourceFile="CefSharp.Core\CefSharp.Core.vcxproj" />
     </DocumentationSources>
-    <HelpFileVersion>55.0.0</HelpFileVersion>
+    <HelpFileVersion>63.0.0</HelpFileVersion>
     <MaximumGroupParts>2</MaximumGroupParts>
     <NamespaceGrouping>True</NamespaceGrouping>
     <SyntaxFilters>C#, Managed C++</SyntaxFilters>
@@ -57,7 +57,7 @@
       <Filter entryType="Namespace" fullName="CefSharp.Internals" isExposed="False" xmlns="" />
     </ApiFilter>
     <VisibleItems>InheritedMembers, InheritedFrameworkMembers, Protected, ProtectedInternalAsProtected</VisibleItems>
-    <HeaderText>Version 55.0.0</HeaderText>
+    <HeaderText>Version 63.0.0</HeaderText>
     <CopyrightHref>https://raw.githubusercontent.com/cefsharp/CefSharp/master/LICENSE</CopyrightHref>
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in order for Visual Studio to perform

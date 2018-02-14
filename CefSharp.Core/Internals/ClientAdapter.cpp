@@ -360,9 +360,9 @@ namespace CefSharp
             return returnFlag;
         }
 
-        bool ClientAdapter::OnConsoleMessage(CefRefPtr<CefBrowser> browser, const CefString& message, const CefString& source, int line)
+        bool ClientAdapter::OnConsoleMessage(CefRefPtr<CefBrowser> browser, cef_log_severity_t level, const CefString& message, const CefString& source, int line)
         {
-            auto args = gcnew ConsoleMessageEventArgs(StringUtils::ToClr(message), StringUtils::ToClr(source), line);
+            auto args = gcnew ConsoleMessageEventArgs((LogSeverity)level, StringUtils::ToClr(message), StringUtils::ToClr(source), line);
 
             if (!browser->IsPopup())
             {
@@ -569,13 +569,9 @@ namespace CefSharp
                 {
                     auto objectRepository = _browserAdapter->JavascriptObjectRepository;
 
+                    //For legacy binding we only send kJavascriptRootObjectResponse when we have bound objects
                     if (objectRepository->HasBoundObjects)
                     {
-                        /*auto jsRootObjectMessage = CefProcessMessage::Create(kJavascriptRootObjectRequest);
-                        auto argList = jsRootObjectMessage->GetArgumentList();
-                        SerializeJsObject(objectRepository->GetObjects(nullptr), argList, 0);
-                        browser->SendProcessMessage(CefProcessId::PID_RENDERER, jsRootObjectMessage);*/
-
                         auto msg = CefProcessMessage::Create(kJavascriptRootObjectResponse);
                         auto responseArgList = msg->GetArgumentList();
                         responseArgList->SetBool(0, true); //Use Legacy Behaviour (auto bind on context creation)
@@ -1139,28 +1135,30 @@ namespace CefSharp
                 {
                     auto objectRepository = _browserAdapter->JavascriptObjectRepository;
 
-                    if (objectRepository->HasBoundObjects)
+                    auto browserId = argList->GetInt(0);
+                    auto frameId = GetInt64(argList, 1);
+                    auto callbackId = GetInt64(argList, 2);
+                    auto objectNames = argList->GetList(3);
+
+                    auto names = gcnew List<String^>(objectNames->GetSize());
+                    for (auto i = 0; i < objectNames->GetSize(); i++)
                     {
-                        auto browserId = argList->GetInt(0);
-                        auto frameId = GetInt64(argList, 1);
-                        auto callbackId = GetInt64(argList, 2);
-                        auto objectNames = argList->GetList(3);
-
-                        auto names = gcnew List<String^>(objectNames->GetSize());
-                        for (auto i = 0; i < objectNames->GetSize(); i++)
-                        {
-                            names->Add(StringUtils::ToClr(objectNames->GetString(i)));
-                        }
-
-                        auto msg = CefProcessMessage::Create(kJavascriptRootObjectResponse);
-                        auto responseArgList = msg->GetArgumentList();
-                        responseArgList->SetBool(0, false); //Use LegacyBehaviour (false)
-                        responseArgList->SetInt(1, browserId);
-                        SetInt64(responseArgList, 2, frameId);
-                        SetInt64(responseArgList, 3, callbackId);
-                        SerializeJsObjects(objectRepository->GetObjects(names), responseArgList, 4);
-                        browser->SendProcessMessage(CefProcessId::PID_RENDERER, msg);
+                        names->Add(StringUtils::ToClr(objectNames->GetString(i)));
                     }
+
+                    //Call GetObjects with the list of names provided (will default to all if the list is empty
+                    //Previously we only sent a response if there were bound objects, now we always send
+                    //a response so the promise is resolved.
+                    auto objs = objectRepository->GetObjects(names);
+
+                    auto msg = CefProcessMessage::Create(kJavascriptRootObjectResponse);
+                    auto responseArgList = msg->GetArgumentList();
+                    responseArgList->SetBool(0, false); //Use LegacyBehaviour (false)
+                    responseArgList->SetInt(1, browserId);
+                    SetInt64(responseArgList, 2, frameId);
+                    SetInt64(responseArgList, 3, callbackId);
+                    SerializeJsObjects(objs, responseArgList, 4);
+                    browser->SendProcessMessage(CefProcessId::PID_RENDERER, msg);
                 }
 
                 handled = true;
