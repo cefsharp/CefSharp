@@ -9,7 +9,7 @@
         </Reference>
       </ItemGroup>
     </When>
-    <!-- x86, Win32 and AnyCpu -->
+    <!-- x86, Win32 and AnyCPU -->
     <Otherwise>
       <ItemGroup>
         <Reference Include="CefSharp.OffScreen">
