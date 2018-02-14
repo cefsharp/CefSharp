@@ -43,11 +43,12 @@ namespace CefSharp
         void OnFocusedNodeChanged(IWebBrowser browserControl, IBrowser browser, IFrame frame, IDomNode node);
 
         /// <summary>
-        /// Invoked when an uncaught javascript exception occurs.
+        /// OnUncaughtException is called for global uncaught exceptions in a frame. Execution of this callback is disabled by default. 
+        /// To enable set CefSettings.UncaughtExceptionStackSize > 0.
         /// </summary>
         /// <param name="browserControl">The ChromiumWebBrowser control<</param>
         /// <param name="browser">The browser object</param>
-        /// <param name="frame">The frame object</param>
+        /// <param name="frame">The frame</param>
         /// <param name="exception">The exception object with the message and stacktrace.</param>
         void OnUncaughtException(IWebBrowser browserControl, IBrowser browser, IFrame frame, JavascriptException exception);
     }
