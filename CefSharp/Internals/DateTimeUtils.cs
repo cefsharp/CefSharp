@@ -20,7 +20,14 @@ namespace CefSharp.Internals
         {
             if (epoch > 0)
             {
-                return FirstOfTheFirstNineteenSeventy.AddSeconds(epoch).ToLocalTime();
+                try
+                {
+                    return FirstOfTheFirstNineteenSeventy.AddSeconds(epoch).ToLocalTime();
+                }
+                catch
+                {
+                    return DateTime.MaxValue;
+                }
             }
             return DateTime.MinValue;
         }
