@@ -19,6 +19,7 @@ namespace CefSharp.Example
         public const string BaseUrl = "custom://cefsharp";
         public const string DefaultUrl = BaseUrl + "/home.html";
         public const string BindingTestUrl = BaseUrl + "/BindingTest.html";
+        public const string BindingTestSingleUrl = BaseUrl + "/BindingTestSingle.html";
         public const string LegacyBindingTestUrl = BaseUrl + "/LegacyBindingTest.html";
         public const string PluginsTestUrl = BaseUrl + "/plugins.html";
         public const string PopupTestUrl = BaseUrl + "/PopupTest.html";
