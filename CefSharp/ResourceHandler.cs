@@ -231,11 +231,11 @@ namespace CefSharp
         /// <param name="filePath">Location of the file.</param>
         /// <param name="mimeType">The mimeType if null then text/html is used.</param>
         /// <returns>IResourceHandler.</returns>
-        [Obsolete("This method will be removed - there are known issues when the browser attempts to make multiple" +
-        "concurrent calls to the underlying CefStreamResourceHandler. Resource loads will fail unexpectedly.")]
         public static IResourceHandler FromFilePath(string filePath, string mimeType = null)
         {
-            return new FileResourceHandler(mimeType ?? DefaultMimeType, filePath);
+            var stream = File.OpenRead(filePath);
+
+            return FromStream(stream, mimeType ?? DefaultMimeType);
         }
 
         /// <summary>
