@@ -522,6 +522,7 @@ namespace CefSharp
         /// used by code that is allowed to access location information. 
         /// </summary>
         /// <returns>Returns 'best available' location info or, if the location update failed, with error info.</returns>
+        [[deprecated("Geolocation support is reportedly broken and will be removed from the CEF project, as a consiquence it will be removed from CefSharp. See https://github.com/cefsharp/CefSharp/issues/2293 for details.")]]
         static bool GetGeolocation(IGetGeolocationCallback^ callback)
         {
             CefRefPtr<CefGetGeolocationCallback> wrapper = callback == nullptr ? NULL : new CefGetGeolocationCallbackAdapter(callback);
@@ -535,6 +536,7 @@ namespace CefSharp
         /// used by code that is allowed to access location information. 
         /// </summary>
         /// <returns>Returns 'best available' location info or, if the location update failed, with error info.</returns>
+        [[deprecated("Geolocation support is reportedly broken and will be removed from the CEF project, as a consiquence it will be removed from CefSharp. See https://github.com/cefsharp/CefSharp/issues/2293 for details.")]]
         static Task<Geoposition^>^ GetGeolocationAsync()
         {
             auto callback = gcnew TaskGetGeolocationCallback();

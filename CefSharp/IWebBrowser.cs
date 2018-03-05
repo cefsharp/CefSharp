@@ -179,6 +179,8 @@ namespace CefSharp
         /// Implement <see cref="IGeolocationHandler" /> and assign to handle requests for permission to use geolocation.
         /// </summary>
         /// <value>The geolocation handler.</value>
+        [Obsolete("Geolocation support is reportedly broken and will be removed from the CEF project, as a consiquence" +
+        "it will be removed from CefSharp. See https://github.com/cefsharp/CefSharp/issues/2293 for details.")]
         IGeolocationHandler GeolocationHandler { get; set; }
 
         /// <summary>
