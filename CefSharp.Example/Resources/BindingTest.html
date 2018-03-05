@@ -227,7 +227,7 @@
                 });
             });
 
-            QUnit.test("Async call (Struct):", function( assert )
+            QUnit.test("Async call (return Struct):", function( assert )
             {
                 var asyncCallback = assert.async();
                 
@@ -239,7 +239,7 @@
                 });
             });
 
-            QUnit.test("Async call (Class):", function (assert)
+            QUnit.test("Async call (return Class):", function (assert)
             {
                 var asyncCallback = assert.async();
 
@@ -248,7 +248,7 @@
                 {
                     const expectedResult = 'CefSharp Class Test';
 
-                    assert.equal(expectedResult, res.Value, "Class with a single field " + expectedResult);
+                    assert.equal(expectedResult, res.Value, "Class with a single property");
 
                     asyncCallback();
                 });
