@@ -178,6 +178,11 @@ namespace CefSharp.Example
 
             settings.FocusedNodeChangedEnabled = true;
 
+            //NOTE: Set this before any calls to Cef.Initialize to specify a proxy with username and password
+            //One set this cannot be changed at runtime. If you need to change the proxy at runtime (dynamically) then
+            //see https://github.com/cefsharp/CefSharp/wiki/General-Usage#proxy-resolution
+            //CefSharpSettings.Proxy = new ProxyOptions(ip: "127.0.0.1", port: "8080", username: "cefsharp", password: "123");
+
             if (!Cef.Initialize(settings, performDependencyCheck: !DebuggingSubProcess, browserProcessHandler: browserProcessHandler))
             {
                 throw new Exception("Unable to Initialize Cef");
