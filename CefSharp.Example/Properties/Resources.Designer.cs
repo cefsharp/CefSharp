@@ -19,7 +19,7 @@ namespace CefSharp.Example.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -303,6 +303,30 @@ namespace CefSharp.Example.Properties {
         public static string BindingTest {
             get {
                 return ResourceManager.GetString("BindingTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
+        ///&lt;html&gt;
+        ///    &lt;head&gt;
+        ///        &lt;title&gt;Binding Test&lt;/title&gt;
+        ///        &lt;link rel=&quot;stylesheet&quot; href=&quot;https://code.jquery.com/qunit/qunit-2.4.1.css&quot;&gt;
+        ///    &lt;/head&gt;
+        ///    &lt;body&gt;
+        ///        &lt;div id=&quot;qunit&quot;&gt;&lt;/div&gt;
+        ///        &lt;div id=&quot;qunit-fixture&quot;&gt;&lt;/div&gt;
+        ///        &lt;script src=&quot;https://code.jquery.com/qunit/qunit-2.4.1.js&quot;&gt;&lt;/script&gt;
+        ///
+        ///        &lt;!--&lt;script type=&quot;text/javascript&quot;&gt;
+        ///        (async function() {
+        ///            // &lt;embed user provided code here&gt;
+        ///
+        ///     [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string BindingTestSingle {
+            get {
+                return ResourceManager.GetString("BindingTestSingle", resourceCulture);
             }
         }
         
