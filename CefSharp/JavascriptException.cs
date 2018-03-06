@@ -6,13 +6,10 @@ using System.Runtime.Serialization;
 
 namespace CefSharp
 {
-    [DataContract]
     public class JavascriptException
     {
-        [DataMember]
         public string Message { get; set; }
 
-        [DataMember]
         public JavascriptStackFrame[] StackTrace { get; set; }
     }
 }
