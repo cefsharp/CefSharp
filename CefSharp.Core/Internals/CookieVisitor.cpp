@@ -23,11 +23,34 @@ namespace CefSharp
 
             if (cefCookie.has_expires)
             {
-                cookie->Expires = DateTimeUtils::FromCefTime(CefTime(cefCookie.expires).GetDoubleT());
+                auto expires = cefCookie.expires;
+                cookie->Expires = DateTimeUtils::FromCefTime(expires.year,
+                    expires.month,
+                    expires.day_of_month,
+                    expires.hour,
+                    expires.minute,
+                    expires.second,
+                    expires.millisecond);
             }
 
-            cookie->Creation = DateTimeUtils::FromCefTime(CefTime(cefCookie.creation).GetDoubleT());
-            cookie->LastAccess = DateTimeUtils::FromCefTime(CefTime(cefCookie.last_access).GetDoubleT());
+
+            auto creation = cefCookie.creation;
+            cookie->Creation = DateTimeUtils::FromCefTime(creation.year,
+                creation.month,
+                creation.day_of_month,
+                creation.hour,
+                creation.minute,
+                creation.second,
+                creation.millisecond);
+
+            auto lastAccess = cefCookie.last_access;
+            cookie->LastAccess = DateTimeUtils::FromCefTime(lastAccess.year,
+                lastAccess.month,
+                lastAccess.day_of_month,
+                lastAccess.hour,
+                lastAccess.minute,
+                lastAccess.second,
+                lastAccess.millisecond);
         }
 
         return _visitor->Visit(cookie, count, total, deleteCookie);

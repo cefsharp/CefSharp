@@ -35,6 +35,7 @@ namespace CefSharp.Wpf.Rendering
         private double dpiX;
         private double dpiY;
         private bool invalidateDirtyRect;
+        private DispatcherPriority dispatcherPriority;
 
         private MemoryMappedFile viewMemoryMappedFile;
         private MemoryMappedFile popupMemoryMappedFile;
@@ -46,11 +47,14 @@ namespace CefSharp.Wpf.Rendering
         /// </summary>
         /// <param name="dpiX">The dpi x.</param>
         /// <param name="dpiY">The dpi y.</param>
-        public WritableBitmapFactory(double dpiX, double dpiY, bool invalidateDirtyRect = true)
+        /// <param name="invalidateDirtyRect">if true then only the direct rectangle will be updated, otherwise the whole bitmap will be redrawn</param>
+        /// <param name="dispatcherPriority">priority at which the bitmap will be updated on the UI thread</param>
+        public WritableBitmapFactory(double dpiX, double dpiY, bool invalidateDirtyRect = true, DispatcherPriority dispatcherPriority = DispatcherPriority.Render)
         {
             this.dpiX = dpiX;
             this.dpiY = dpiY;
             this.invalidateDirtyRect = invalidateDirtyRect;
+            this.dispatcherPriority = dispatcherPriority;
         }
 
         public void Dispose()
@@ -149,7 +153,7 @@ namespace CefSharp.Wpf.Rendering
                         bitmap.Unlock();
                     }
                 }
-            }), DispatcherPriority.Render);
+            }), dispatcherPriority);
         }
 
         private void ReleaseMemoryMappedView(ref MemoryMappedFile mappedFile, ref MemoryMappedViewAccessor stream)

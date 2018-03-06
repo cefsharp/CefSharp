@@ -34,11 +34,21 @@ namespace CefSharp.Wpf.Rendering
 
         private Size viewSize;
         private Size popupSize;
-        
+        private DispatcherPriority dispatcherPriority;
+
         private MemoryMappedFile viewMemoryMappedFile;
         private MemoryMappedFile popupMemoryMappedFile;
         private MemoryMappedViewAccessor viewMemoryMappedViewAccessor;
         private MemoryMappedViewAccessor popupMemoryMappedViewAccessor;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InteropBitmapFactory"/> class.
+        /// </summary>
+        /// <param name="dispatcherPriority">priority at which the bitmap will be updated on the UI thread</param>
+        public InteropBitmapFactory(DispatcherPriority dispatcherPriority = DispatcherPriority.Render)
+        {
+            this.dispatcherPriority = dispatcherPriority;
+        }
 
         public void Dispose()
         {
@@ -122,7 +132,7 @@ namespace CefSharp.Wpf.Rendering
                         bitmap.Invalidate(sourceRect);
                     }
                 }
-            }), DispatcherPriority.Render);
+            }), dispatcherPriority);
         }
 
         private void ReleaseMemoryMappedView(ref MemoryMappedFile mappedFile, ref MemoryMappedViewAccessor stream)

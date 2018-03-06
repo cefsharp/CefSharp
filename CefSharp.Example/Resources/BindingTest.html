@@ -227,13 +227,28 @@
                 });
             });
 
-            QUnit.test("Async call (Object):", function( assert )
+            QUnit.test("Async call (return Struct):", function( assert )
             {
                 var asyncCallback = assert.async();
                 
-                boundAsync.returnObject('CefSharp').then(function (res)
+                boundAsync.returnObject('CefSharp Struct Test').then(function (res)
                 {
-                    assert.equal(res.Value, "CefSharp", "JSON Object with a single field");
+                    assert.equal(res.Value, "CefSharp Struct Test", "Struct with a single field");
+
+                    asyncCallback();
+                });
+            });
+
+            QUnit.test("Async call (return Class):", function (assert)
+            {
+                var asyncCallback = assert.async();
+
+                //Returns a class
+                boundAsync.returnClass('CefSharp Class Test').then(function (res)
+                {
+                    const expectedResult = 'CefSharp Class Test';
+
+                    assert.equal(expectedResult, res.Value, "Class with a single property");
 
                     asyncCallback();
                 });

@@ -46,6 +46,14 @@ namespace CefSharp.Example
             };
         }
 
+        public JsSerializableClass ReturnClass(string name)
+        {
+            return new JsSerializableClass
+            {
+                Value = name
+            };
+        }
+
         public JsSerializableStruct[] ReturnStructArray(string name)
         {
             return new[] 
