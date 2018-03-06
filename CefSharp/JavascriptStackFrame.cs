@@ -6,19 +6,14 @@ using System.Runtime.Serialization;
 
 namespace CefSharp
 {
-    [DataContract]
     public class JavascriptStackFrame
     {
-        [DataMember]
         public string FunctionName { get; set; }
 
-        [DataMember]
         public int LineNumber { get; set; }
 
-        [DataMember]
         public int ColumnNumber { get; set; }
 
-        [DataMember]
         public string SourceName { get; set; }
     }
 }
