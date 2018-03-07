@@ -5,11 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- Not currently used, might come in handy for someone though -->
     <CefSharpOffScreenBinaries32 Include="$(MSBuildThisFileDirectory)..\CefSharp\x86\*.*" />
-    <!-- Not currently used, might come in handy for someone though -->
     <CefSharpOffScreenBinaries64 Include="$(MSBuildThisFileDirectory)..\CefSharp\x64\*.*" />
-    <CefSharpOffscreenBinariesAnyCPU Include="$(MSBuildThisFileDirectory)..\CefSharp\**\*.*" />
   </ItemGroup>
 
   <Choose>
@@ -19,8 +16,17 @@
           <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.OffScreen.dll</HintPath>
           <Private>False</Private>
         </Reference>
-        <None Include="@(CefSharpOffscreenBinariesAnyCPU)">
-          <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+        <!--
+        We include CefSharp.OffScreen as private false then copy the files using a
+        None entry. The 32bit libs are included first for consistency with the WinForms
+        and WPF versions which is required by the VS Designer.
+        -->
+        <None Include="@(CefSharpOffScreenBinaries32)">
+          <Link>$(CefSharpTargetDir)\x86\%(RecursiveDir)%(FileName)%(Extension)</Link>
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Include="@(CefSharpOffScreenBinaries64)">
+          <Link>$(CefSharpTargetDir)\x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
       </ItemGroup>

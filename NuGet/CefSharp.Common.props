@@ -3,7 +3,6 @@
   <ItemGroup>
     <CefSharpCommonBinaries32 Include="$(MSBuildThisFileDirectory)..\CefSharp\x86\*.*" />
     <CefSharpCommonBinaries64 Include="$(MSBuildThisFileDirectory)..\CefSharp\x64\*.*" />
-    <CefSharpCommonBinariesAnyCPU Include="$(MSBuildThisFileDirectory)..\CefSharp\**\*.*" />
   </ItemGroup>
 
   <PropertyGroup>
@@ -11,18 +10,6 @@
   </PropertyGroup>
 
   <Choose>
-    <When Condition="'$(Platform)' == 'x64'">
-      <ItemGroup>
-        <Reference Include="CefSharp">
-          <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x64\CefSharp.dll</HintPath>
-          <Private>True</Private>
-        </Reference>
-        <Reference Include="CefSharp.Core">
-          <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x64\CefSharp.Core.dll</HintPath>
-          <Private>True</Private>
-        </Reference>
-      </ItemGroup>
-    </When>
     <When Condition="'$(Platform)' == 'AnyCPU'">
       <ItemGroup>
         <Reference Include="CefSharp">
@@ -33,10 +20,31 @@
           <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.Core.dll</HintPath>
           <Private>False</Private>
         </Reference>
-        <None Include="@(CefSharpCommonBinariesAnyCPU)">
-          <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+        <!--
+        We include CefSharp and CefSharp.Core as private false then copy the files using a
+        None entry. The 32bit libs must be included first or VS will use the x64
+        ones for the VS Designer.
+        -->
+        <None Include="@(CefSharpCommonBinaries32)">
+          <Link>$(CefSharpTargetDir)\x86\%(RecursiveDir)%(FileName)%(Extension)</Link>
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Include="@(CefSharpCommonBinaries64)">
+          <Link>$(CefSharpTargetDir)\x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+      </ItemGroup>
+    </When>
+    <When Condition="'$(Platform)' == 'x64'">
+      <ItemGroup>
+        <Reference Include="CefSharp">
+          <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x64\CefSharp.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="CefSharp.Core">
+          <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x64\CefSharp.Core.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
       </ItemGroup>
     </When>
     <!-- x86, Win32 and AnyCPU -->

@@ -5,11 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- Not currently used, might come in handy for someone though -->
     <CefSharpWinFormsBinaries32 Include="$(MSBuildThisFileDirectory)..\CefSharp\x86\*.*" />
-    <!-- Not currently used, might come in handy for someone though -->
     <CefSharpWinFormsBinaries64 Include="$(MSBuildThisFileDirectory)..\CefSharp\x64\*.*" />    
-    <CefSharpWinFormsBinariesAnyCPU Include="$(MSBuildThisFileDirectory)..\CefSharp\**\*.*" />
   </ItemGroup>
 
   <Choose>
@@ -19,8 +16,17 @@
           <HintPath>$(MSBuildThisFileDirectory)..\CefSharp\x86\CefSharp.WinForms.dll</HintPath>
           <Private>False</Private>
         </Reference>
-        <None Include="@(CefSharpWinFormsBinariesAnyCPU)">
-          <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+        <!--
+        We include CefSharp.WinForms as private false then copy the files using a
+        None entry. The 32bit libs must be included first or VS will use the x64
+        ones for the VS Designer.
+        -->
+        <None Include="@(CefSharpWinFormsBinaries32)">
+          <Link>$(CefSharpTargetDir)\x86\%(RecursiveDir)%(FileName)%(Extension)</Link>
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Include="@(CefSharpWinFormsBinaries64)">
+          <Link>$(CefSharpTargetDir)\x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
       </ItemGroup>
