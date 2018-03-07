@@ -1248,6 +1248,39 @@ namespace CefSharp
                     handler->OnFocusedNodeChanged(_browserControl, browserWrapper, %frameWrapper, node);
                 }
             }
+            else if (name == kOnUncaughtException)
+            {
+                auto handler = _browserControl->RenderProcessMessageHandler;
+                if (handler != nullptr)
+                {
+                    auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+                    CefFrameWrapper frameWrapper(browser->GetFrame(GetInt64(argList, 0)));
+
+                    auto exception = gcnew JavascriptException();
+                    exception->Message = StringUtils::ToClr(argList->GetString(1));
+
+                    auto stackTrace = gcnew System::Collections::Generic::List<JavascriptStackFrame^>();
+
+                    auto argFrames = argList->GetList(2);
+
+                    for (auto i = 0; i < static_cast<int>(argFrames->GetSize()); i++)
+                    {
+                        auto frame = argFrames->GetList(i);
+
+                        auto stackFrame = gcnew JavascriptStackFrame();
+                        stackFrame->FunctionName = StringUtils::ToClr(frame->GetString(0));
+                        stackFrame->LineNumber = frame->GetInt(1);
+                        stackFrame->ColumnNumber = frame->GetInt(2);
+                        stackFrame->SourceName = StringUtils::ToClr(frame->GetString(3));
+
+                        stackTrace->Add(stackFrame);
+                    }
+
+                    exception->StackTrace = stackTrace->ToArray();
+
+                    handler->OnUncaughtException(_browserControl, browserWrapper, %frameWrapper, exception);
+                }
+            }
             else if (name == kEvaluateJavascriptResponse || name == kJavascriptCallbackResponse)
             {
                 auto success = argList->GetBool(0);

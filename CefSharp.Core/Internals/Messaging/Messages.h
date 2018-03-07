@@ -41,6 +41,8 @@ namespace CefSharp
             // optional message via command line argument when the subprocess is
             // created.
             const CefString kOnFocusedNodeChanged = "OnFocusedNodeChanged";
+            //Message that signals an uncaught exception has occurred
+            const CefString kOnUncaughtException = "OnUncaughtException";
             //Message containing a request/notification that JSB objects have been bound
             const CefString kJavascriptObjectsBoundInJavascript = "JavascriptObjectsBoundInJavascript";
         }
