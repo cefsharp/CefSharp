@@ -76,11 +76,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.OffScreen.Example"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharp.Test", "CefSharp.Test\CefSharp.Test.csproj", "{7A4D5447-183B-4A11-8E63-9848991B46FF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{2435E0E8-FE4C-4C12-A171-8145ACF0B19C}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\packages.config = .nuget\packages.config
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
