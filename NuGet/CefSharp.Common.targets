@@ -55,8 +55,12 @@
       <Link>$(CefSharpTargetDir)\x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="@(CefSharpCommonBinariesAnyCPU)">
-      <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+    <None Include="@(CefSharpCommonBinaries32)">
+      <Link>$(CefSharpTargetDir)\x86\%(RecursiveDir)%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="@(CefSharpCommonBinaries64)">
+      <Link>$(CefSharpTargetDir)\x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

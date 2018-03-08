@@ -21,8 +21,12 @@
   <Choose>
     <When Condition="'$(Platform)' == 'AnyCPU'">
       <ItemGroup>
-        <None Include="@(CefSharpWinFormsBinariesAnyCPU)">
-          <Link>$(CefSharpTargetDir)\%(RecursiveDir)%(FileName)%(Extension)</Link>
+        <None Include="@(CefSharpWinFormsBinaries32)">
+          <Link>$(CefSharpTargetDir)\x86\%(RecursiveDir)%(FileName)%(Extension)</Link>
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Include="@(CefSharpWinFormsBinaries64)">
+          <Link>$(CefSharpTargetDir)\x64\%(RecursiveDir)%(FileName)%(Extension)</Link>
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
       </ItemGroup>
