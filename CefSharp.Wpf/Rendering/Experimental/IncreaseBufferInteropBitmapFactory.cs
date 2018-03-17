@@ -11,15 +11,15 @@ using System.Windows.Media;
 using System.Runtime.InteropServices;
 using System.Windows.Threading;
 
-namespace CefSharp.Wpf.Rendering
+namespace CefSharp.Wpf.Rendering.Experimental
 {
     /// <summary>
     /// InteropBitmapFactory - creates/updates an InteropBitmap
-    /// Uses a MemoryMappedFile for double buffering when the size matches
-    /// or creates a new InteropBitmap when required
+    /// Uses a MemoryMappedFile for double buffering, only ever creates a new buffer
+    /// when size increases
     /// </summary>
     /// <seealso cref="CefSharp.IBitmapFactory" />
-    public class InteropBitmapFactory : IBitmapFactory
+    public class IncreaseBufferInteropBitmapFactory : IBitmapFactory
     {
         [DllImport("kernel32.dll", EntryPoint = "CopyMemory", SetLastError = false)]
         private static extern void CopyMemory(IntPtr dest, IntPtr src, uint count);
@@ -45,7 +45,7 @@ namespace CefSharp.Wpf.Rendering
         /// Initializes a new instance of the <see cref="InteropBitmapFactory"/> class.
         /// </summary>
         /// <param name="dispatcherPriority">priority at which the bitmap will be updated on the UI thread</param>
-        public InteropBitmapFactory(DispatcherPriority dispatcherPriority = DispatcherPriority.Render)
+        public IncreaseBufferInteropBitmapFactory(DispatcherPriority dispatcherPriority = DispatcherPriority.Render)
         {
             this.dispatcherPriority = dispatcherPriority;
         }
@@ -86,11 +86,17 @@ namespace CefSharp.Wpf.Rendering
 
                 if (createNewBitmap)
                 {
-                    ReleaseMemoryMappedView(ref mappedFile, ref viewAccessor);
+                    //If the MemoryMappedFile is smaller than we need then create a larger one
+                    //If it's larger then we need then rather than going through the costly expense of
+                    //allocating a new one we'll just use the old one and only access the number of bytes we require.
+                    if (viewAccessor == null || viewAccessor.Capacity < numberOfBytes)
+                    {
+                        ReleaseMemoryMappedView(ref mappedFile, ref viewAccessor);
 
-                    mappedFile = MemoryMappedFile.CreateNew(null, numberOfBytes, MemoryMappedFileAccess.ReadWrite);
+                        mappedFile = MemoryMappedFile.CreateNew(null, numberOfBytes, MemoryMappedFileAccess.ReadWrite);
 
-                    viewAccessor = mappedFile.CreateViewAccessor();
+                        viewAccessor = mappedFile.CreateViewAccessor();
+                    }
 
                     currentSize.Height = height;
                     currentSize.Width = width;
@@ -103,7 +109,6 @@ namespace CefSharp.Wpf.Rendering
                 //Take a reference to the backBufferHandle, once we're on the UI thread we need to check if it's still valid
                 var backBufferHandle = mappedFile.SafeMemoryMappedFileHandle;
 
-                //Invoke on the WPF UI Thread
                 image.Dispatcher.BeginInvoke((Action)(() =>
                 {
                     lock (lockObject)
@@ -118,7 +123,6 @@ namespace CefSharp.Wpf.Rendering
                             if (image.Source != null)
                             {
                                 image.Source = null;
-                                //TODO: Is this still required in newer versions of .Net?
                                 GC.Collect(1);
                             }
 

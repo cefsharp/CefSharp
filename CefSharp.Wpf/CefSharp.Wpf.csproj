@@ -92,6 +92,7 @@
     <AppDesigner Include="Properties\" />
     <Compile Include="ChromiumWebBrowser.cs" />
     <Compile Include="PaintEventArgs.cs" />
+    <Compile Include="Rendering\Experimental\IncreaseBufferInteropBitmapFactory.cs" />
     <Compile Include="Rendering\InteropBitmapFactory.cs" />
     <Compile Include="Rendering\WritableBitmapFactory.cs" />
     <Compile Include="WM.cs" />
