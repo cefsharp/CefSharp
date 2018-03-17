@@ -115,6 +115,11 @@ namespace CefSharp.Wpf.Rendering
             {
                 lock (lockObject)
                 {
+                    if (backBufferHandle.IsInvalid) 
+                    {
+                        return; // bailout, the handle was recreated
+                    }
+
                     if (createNewBitmap)
                     {
                         if (image.Source != null)
