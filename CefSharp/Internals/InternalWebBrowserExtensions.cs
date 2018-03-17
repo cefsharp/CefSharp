@@ -20,7 +20,6 @@ namespace CefSharp.Internals
             browser.MenuHandler = null;
             browser.FocusHandler = null;
             browser.ResourceHandlerFactory = null;
-            browser.GeolocationHandler = null;
             browser.RenderProcessMessageHandler = null;
         }
     }

@@ -79,8 +79,6 @@
     <Compile Include="Callback\IDeleteCookiesCallback.cs" />
     <Compile Include="Callback\IDownloadItemCallback.cs" />
     <Compile Include="Callback\IFileDialogCallback.cs" />
-    <Compile Include="Callback\IGeolocationCallback.cs" />
-    <Compile Include="Callback\IGetGeolocationCallback.cs" />
     <Compile Include="Callback\IJavascriptCallback.cs" />
     <Compile Include="Callback\IJsDialogCallback.cs" />
     <Compile Include="Callback\IPrintToPdfCallback.cs" />
@@ -90,7 +88,6 @@
     <Compile Include="Callback\IRunContextMenuCallback.cs" />
     <Compile Include="Callback\ISelectClientCertificateCallback.cs" />
     <Compile Include="Callback\ISetCookieCallback.cs" />
-    <Compile Include="Callback\TaskGetGeolocationCallback.cs" />
     <Compile Include="Callback\TaskDeleteCookiesCallback.cs" />
     <Compile Include="Callback\TaskSetCookieCallback.cs" />
     <Compile Include="Callback\TaskRegisterCdmCallback.cs" />
@@ -166,7 +163,6 @@
     <Compile Include="Handler\IDragHandler.cs" />
     <Compile Include="Handler\IFindHandler.cs" />
     <Compile Include="Handler\IFocusHandler.cs" />
-    <Compile Include="Handler\IGeolocationHandler.cs" />
     <Compile Include="Handler\IJsDialogHandler.cs" />
     <Compile Include="Handler\IKeyboardHandler.cs" />
     <Compile Include="Handler\ILifeSpanHandler.cs" />

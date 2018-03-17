@@ -16,7 +16,6 @@
 #include "Internals/CefSharpApp.h"
 #include "Internals/PluginVisitor.h"
 #include "Internals/CefTaskScheduler.h"
-#include "Internals/CefGetGeolocationCallbackAdapter.h"
 #include "Internals/CefRegisterCdmCallbackAdapter.h"
 #include "CookieManager.h"
 #include "CefSettings.h"
@@ -515,37 +514,7 @@ namespace CefSharp
         {
             CefEnableHighDPISupport();
         }
-
-        /// <summary>
-        /// Request a one-time geolocation update.
-        /// This function bypasses any user permission checks so should only be
-        /// used by code that is allowed to access location information. 
-        /// </summary>
-        /// <returns>Returns 'best available' location info or, if the location update failed, with error info.</returns>
-        [[deprecated("Geolocation support is reportedly broken and will be removed from the CEF project, as a consiquence it will be removed from CefSharp. See https://github.com/cefsharp/CefSharp/issues/2293 for details.")]]
-        static bool GetGeolocation(IGetGeolocationCallback^ callback)
-        {
-            CefRefPtr<CefGetGeolocationCallback> wrapper = callback == nullptr ? NULL : new CefGetGeolocationCallbackAdapter(callback);
-
-            return CefGetGeolocation(wrapper);
-        }
-
-        /// <summary>
-        /// Request a one-time geolocation update.
-        /// This function bypasses any user permission checks so should only be
-        /// used by code that is allowed to access location information. 
-        /// </summary>
-        /// <returns>Returns 'best available' location info or, if the location update failed, with error info.</returns>
-        [[deprecated("Geolocation support is reportedly broken and will be removed from the CEF project, as a consiquence it will be removed from CefSharp. See https://github.com/cefsharp/CefSharp/issues/2293 for details.")]]
-        static Task<Geoposition^>^ GetGeolocationAsync()
-        {
-            auto callback = gcnew TaskGetGeolocationCallback();
-            
-            GetGeolocation(callback);
-
-            return callback->Task;
-        }
-
+		
         /// <summary>
         /// Returns true if called on the specified CEF thread.
         /// </summary>

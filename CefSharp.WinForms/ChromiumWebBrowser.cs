@@ -205,13 +205,7 @@ namespace CefSharp.WinForms
         /// <value>The resource handler factory.</value>
         [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(null)]
         public IResourceHandlerFactory ResourceHandlerFactory { get; set; }
-        /// <summary>
-        /// Implement <see cref="IGeolocationHandler" /> and assign to handle requests for permission to use geolocation.
-        /// </summary>
-        /// <value>The geolocation handler.</value>
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(null)]
-        public IGeolocationHandler GeolocationHandler { get; set; }
-
+        
         /// <summary>
         /// Event handler that will get called when the resource load for a navigation fails or is canceled.
         /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI

@@ -188,11 +188,6 @@ namespace CefSharp.Wpf
         /// <value>The resource handler factory.</value>
         public IResourceHandlerFactory ResourceHandlerFactory { get; set; }
         /// <summary>
-        /// Implement <see cref="IGeolocationHandler" /> and assign to handle requests for permission to use geolocation.
-        /// </summary>
-        /// <value>The geolocation handler.</value>
-        public IGeolocationHandler GeolocationHandler { get; set; }
-        /// <summary>
         /// Gets or sets the bitmap factory.
         /// </summary>
         /// <value>The bitmap factory.</value>

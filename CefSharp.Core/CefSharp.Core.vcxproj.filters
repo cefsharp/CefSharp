@@ -157,9 +157,6 @@
     <ClInclude Include="Internals\CefBeforeDownloadCallbackWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Internals\CefGeolocationCallbackWrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Internals\CefFileDialogCallbackWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -263,9 +260,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Internals\CefDeleteCookiesCallbackAdapter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Internals\CefGetGeolocationCallbackAdapter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">

@@ -18,7 +18,6 @@
 #include "CefSharpBrowserWrapper.h"
 #include "CefDownloadItemCallbackWrapper.h"
 #include "CefBeforeDownloadCallbackWrapper.h"
-#include "CefGeolocationCallbackWrapper.h"
 #include "CefFileDialogCallbackWrapper.h"
 #include "CefAuthCallbackWrapper.h"
 #include "CefJSDialogCallbackWrapper.h"
@@ -1047,33 +1046,6 @@ namespace CefSharp
                 auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
 
                 return handler->OnDraggableRegionsChanged(_browserControl, browserWrapper, regionsList);
-            }
-        }
-
-        bool ClientAdapter::OnRequestGeolocationPermission(CefRefPtr<CefBrowser> browser, const CefString& requesting_url, int request_id, CefRefPtr<CefGeolocationCallback> callback)
-        {
-            auto handler = _browserControl->GeolocationHandler;
-
-            if (handler == nullptr)
-            {
-                // Default deny, as CEF does.
-                return false;
-            }
-
-            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
-            auto callbackWrapper = gcnew CefGeolocationCallbackWrapper(callback);
-
-            return handler->OnRequestGeolocationPermission(_browserControl, browserWrapper, StringUtils::ToClr(requesting_url), request_id, callbackWrapper);
-        }
-
-        void ClientAdapter::OnCancelGeolocationPermission(CefRefPtr<CefBrowser> browser, int request_id)
-        {
-            auto handler = _browserControl->GeolocationHandler;
-
-            if (handler != nullptr)
-            {
-                auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
-                handler->OnCancelGeolocationPermission(_browserControl, browserWrapper, request_id);
             }
         }
 
