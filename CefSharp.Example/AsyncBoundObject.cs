@@ -98,5 +98,30 @@ namespace CefSharp.Example
 
             return builder.ToString();
         }
+
+        public Dictionary<string, int> MethodReturnsDictionary1() {
+            return new Dictionary<string, int>()
+            {
+                {"five", 5},
+                {"ten", 10}
+            };
+        }
+
+        public Dictionary<string, object> MethodReturnsDictionary2() {
+            return new Dictionary<string, object>()
+            {
+                {"onepointfive", 1.5},
+                {"five", 5},
+                {"ten", "ten"},
+                {"twotwo", new Int32[]{2, 2} }
+            };
+        }
+
+        public Dictionary<string, Dictionary<string, object>> MethodReturnsDictionary3() {
+            return new Dictionary<string, Dictionary<string, object>>()
+            {
+                {"data", MethodReturnsDictionary2()}
+            };
+        }
     }
 }
