@@ -1211,7 +1211,14 @@ namespace CefSharp.Wpf
         /// <value>The zoom level.</value>
         public double ZoomLevel
         {
-            get { return (double)GetValue(ZoomLevelProperty); }
+            get
+            {
+                using (var getZoomLevel = browser.GetHost().GetZoomLevelAsync())
+                {
+                    getZoomLevel.Wait();
+                    return getZoomLevel.Result;
+                }
+            }
             set { SetValue(ZoomLevelProperty, value); }
         }
 
