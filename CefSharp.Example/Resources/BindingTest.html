@@ -329,7 +329,8 @@
 
             QUnit.test( "Async call (methodReturnsDictionary):", function( assert )
             {
-                function deepEqual(x, y) {
+                function deepEqual(x, y)
+                {
                     if ((typeof x == "object" && x !=null) && (typeof y == "object" && y !=null))
                     {
                         for (var prop in x)
@@ -337,27 +338,35 @@
                             if (prop in y && (Object.keys(x).length === Object.keys(y).length))
                             {
                                 return deepEqual(x[prop], y[prop]);
-                            } else {
+                            }
+                            else
+                            {
                                 return false;
                             }
                         }
-                    } else { 
+                    }
+                    else
+                    { 
                         return x === y;
                     }
                 }
 
-                const dict1 = {
+                const dict1 =
+                {
                     "five": 5,
                     "ten": 10
                 };
-                const dict2 = {
+                const dict2 =
+                {
                     "onepointfive": 1.5,
                     "five": 5,
                     "ten": "ten",
                     "twotwo": [2, 2]
                 };
-                const dict3 = {
-                    "data": {
+                const dict3 =
+                {
+                    "data":
+                    {
                         "onepointfive": 1.5,
                         "five": 5,
                         "ten": "ten",
