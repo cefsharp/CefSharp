@@ -316,6 +316,15 @@ namespace CefSharp.WinForms
         public bool CanExecuteJavascriptInMainFrame { get; private set; }
 
         /// <summary>
+        /// ParentFormMessageInterceptor hooks the Form handle and forwards
+        /// the move/active messages to the browser, the default is true
+        /// and should only be required when using <see cref="CefSettings.MultiThreadedMessageLoop"/>
+        /// set to true.
+        /// </summary>
+        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never), DefaultValue(false)]
+        public bool UseParentFormMessageInterceptor { get; set; } = true;
+
+        /// <summary>
         /// Initializes static members of the <see cref="ChromiumWebBrowser"/> class.
         /// </summary>
         static ChromiumWebBrowser()
@@ -637,10 +646,13 @@ namespace CefSharp.WinForms
             // is most likely hooked into a browser Form of some sort. 
             // (Which is what ParentFormMessageInterceptor relies on.)
             // Ensure the ParentFormMessageInterceptor construction occurs on the WinForms UI thread:
-            this.InvokeOnUiThreadIfRequired(() =>
+            if (UseParentFormMessageInterceptor)
             {
-                parentFormMessageInterceptor = new ParentFormMessageInterceptor(this);
-            });
+                this.InvokeOnUiThreadIfRequired(() =>
+                {
+                    parentFormMessageInterceptor = new ParentFormMessageInterceptor(this);
+                });
+            }
 
             ResizeBrowser();
 
