@@ -1622,7 +1622,7 @@ namespace CefSharp.Wpf
 
         private void UpdateBrowserScreenLocation()
         {
-            if (source != null)
+            if (source != null && PresentationSource.FromVisual(this) != null)
             {
                 browserScreenLocation = PointToScreen(new Point());
             }
