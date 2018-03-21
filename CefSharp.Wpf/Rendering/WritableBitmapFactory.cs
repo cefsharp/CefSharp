@@ -107,53 +107,60 @@ namespace CefSharp.Wpf.Rendering
                 //TODO: Performance analysis to determine which is the fastest memory copy function
                 //NativeMethodWrapper.CopyMemoryUsingHandle(viewAccessor.SafeMemoryMappedViewHandle.DangerousGetHandle(), buffer, numberOfBytes);
                 CopyMemory(viewAccessor.SafeMemoryMappedViewHandle.DangerousGetHandle(), buffer, (uint)numberOfBytes);
-            }
 
-            var backBufferHandle = viewAccessor.SafeMemoryMappedViewHandle;
+                //Take a reference to the sourceBuffer that's used to update our WritableBitmap,
+                //once we're on the UI thread we need to check if it's still valid
+                var sourceBuffer = viewAccessor.SafeMemoryMappedViewHandle;
 
-            image.Dispatcher.BeginInvoke((Action)(() =>
-            {
-                lock (lockObject)
+                image.Dispatcher.BeginInvoke((Action)(() =>
                 {
-                    if (createNewBitmap)
+                    lock (lockObject)
                     {
-                        if (image.Source != null)
+                        if (sourceBuffer.IsClosed || sourceBuffer.IsInvalid)
                         {
-                            image.Source = null;
-                            GC.Collect(1);
+                            return;
                         }
 
-                        image.Source = new WriteableBitmap(width, height, dpiX, dpiY, PixelFormat, null);
+                        if (createNewBitmap)
+                        {
+                            if (image.Source != null)
+                            {
+                                image.Source = null;
+                                GC.Collect(1);
+                            }
+
+                            image.Source = new WriteableBitmap(width, height, dpiX, dpiY, PixelFormat, null);
+                        }
+
+                        var stride = width * BytesPerPixel;
+                        var noOfBytes = stride * height;
+
+                        var bitmap = (WriteableBitmap)image.Source;
+
+                        //By default we'll only update the dirty rect, for those that run into a MILERR_WIN32ERROR Exception (#2035)
+                        //it's desirably to either upgrade to a newer .Net version (only client runtime needs to be installed, not compiled
+                        //against a newer version. Or invalidate the whole bitmap
+                        if (invalidateDirtyRect)
+                        {
+                            // Update the dirty region
+                            var sourceRect = new Int32Rect(dirtyRect.X, dirtyRect.Y, dirtyRect.Width, dirtyRect.Height);
+
+                            bitmap.Lock();
+                            bitmap.WritePixels(sourceRect, sourceBuffer.DangerousGetHandle(), noOfBytes, stride, dirtyRect.X, dirtyRect.Y);
+                            bitmap.Unlock();
+                        }
+                        else
+                        {
+                            // Update whole bitmap
+                            var sourceRect = new Int32Rect(0, 0, width, height);
+
+                            bitmap.Lock();
+                            bitmap.WritePixels(sourceRect, sourceBuffer.DangerousGetHandle(), noOfBytes, stride);
+                            bitmap.Unlock();
+                        }
                     }
-
-                    var stride = width * BytesPerPixel;
-                    var noOfBytes = stride * height;
-
-                    var bitmap = (WriteableBitmap)image.Source;
-
-                    //By default we'll only update the dirty rect, for those that run into a MILERR_WIN32ERROR Exception (#2035)
-                    //it's desirably to either upgrade to a newer .Net version (only client runtime needs to be installed, not compiled
-                    //against a newer version. Or invalidate the whole bitmap
-                    if (invalidateDirtyRect)
-                    {
-                        // Update the dirty region
-                        var sourceRect = new Int32Rect(dirtyRect.X, dirtyRect.Y, dirtyRect.Width, dirtyRect.Height);
-                        
-                        bitmap.Lock();
-                        bitmap.WritePixels(sourceRect, backBufferHandle.DangerousGetHandle(), noOfBytes, stride, dirtyRect.X, dirtyRect.Y);
-                        bitmap.Unlock();
-                    }
-                    else
-                    {
-                        // Update whole bitmap
-                        var sourceRect = new Int32Rect(0, 0, width, height);
-
-                        bitmap.Lock();
-                        bitmap.WritePixels(sourceRect, backBufferHandle.DangerousGetHandle(), noOfBytes, stride);
-                        bitmap.Unlock();
-                    }
-                }
-            }), dispatcherPriority);
+                }), dispatcherPriority);
+            }
         }
 
         private void ReleaseMemoryMappedView(ref MemoryMappedFile mappedFile, ref MemoryMappedViewAccessor stream)
