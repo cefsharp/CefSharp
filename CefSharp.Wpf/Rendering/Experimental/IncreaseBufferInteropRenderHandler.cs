@@ -4,20 +4,22 @@
 
 using System;
 using System.IO.MemoryMappedFiles;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Interop;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
+using System.Runtime.InteropServices;
 using System.Windows.Threading;
 
-namespace CefSharp.Wpf.Rendering
+namespace CefSharp.Wpf.Rendering.Experimental
 {
     /// <summary>
-    /// BitmapFactory.
+    /// IncreaseBufferInteropRenderHandler - creates/updates an InteropBitmap
+    /// Uses a MemoryMappedFile for double buffering, only ever creates a new buffer
+    /// when the size increases
     /// </summary>
-    /// <seealso cref="CefSharp.IBitmapFactory" />
-    public class WritableBitmapFactory : IBitmapFactory
+    /// <seealso cref="CefSharp.Wpf.IRenderHandler" />
+    public class IncreaseBufferInteropRenderHandler : IRenderHandler
     {
         [DllImport("kernel32.dll", EntryPoint = "CopyMemory", SetLastError = false)]
         private static extern void CopyMemory(IntPtr dest, IntPtr src, uint count);
@@ -32,9 +34,6 @@ namespace CefSharp.Wpf.Rendering
 
         private Size viewSize;
         private Size popupSize;
-        private double dpiX;
-        private double dpiY;
-        private bool invalidateDirtyRect;
         private DispatcherPriority dispatcherPriority;
 
         private MemoryMappedFile viewMemoryMappedFile;
@@ -43,17 +42,11 @@ namespace CefSharp.Wpf.Rendering
         private MemoryMappedViewAccessor popupMemoryMappedViewAccessor;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WritableBitmapFactory"/> class.
+        /// Initializes a new instance of the <see cref="InteropBitmapRenderHandler"/> class.
         /// </summary>
-        /// <param name="dpiX">The dpi x.</param>
-        /// <param name="dpiY">The dpi y.</param>
-        /// <param name="invalidateDirtyRect">if true then only the direct rectangle will be updated, otherwise the whole bitmap will be redrawn</param>
         /// <param name="dispatcherPriority">priority at which the bitmap will be updated on the UI thread</param>
-        public WritableBitmapFactory(double dpiX, double dpiY, bool invalidateDirtyRect = true, DispatcherPriority dispatcherPriority = DispatcherPriority.Render)
+        public IncreaseBufferInteropRenderHandler(DispatcherPriority dispatcherPriority = DispatcherPriority.Render)
         {
-            this.dpiX = dpiX;
-            this.dpiY = dpiY;
-            this.invalidateDirtyRect = invalidateDirtyRect;
             this.dispatcherPriority = dispatcherPriority;
         }
 
@@ -63,7 +56,7 @@ namespace CefSharp.Wpf.Rendering
             ReleaseMemoryMappedView(ref viewMemoryMappedFile, ref viewMemoryMappedViewAccessor);
         }
 
-        void IBitmapFactory.CreateOrUpdateBitmap(bool isPopup, IntPtr buffer, Rect dirtyRect, int width, int height, Image image)
+        void IRenderHandler.OnPaint(bool isPopup, IntPtr buffer, Rect dirtyRect, int width, int height, Image image)
         {
             if (isPopup)
             {
@@ -77,16 +70,15 @@ namespace CefSharp.Wpf.Rendering
 
         private void CreateOrUpdateBitmap(bool isPopup, IntPtr buffer, Rect dirtyRect, int width, int height, Image image, ref Size currentSize, ref MemoryMappedFile mappedFile, ref MemoryMappedViewAccessor viewAccessor)
         {
-            bool createNewBitmap = false;
-
             if (image.Dispatcher.HasShutdownStarted)
             {
                 return;
             }
 
+            var createNewBitmap = false;
+
             lock (lockObject)
             {
-
                 int pixels = width * height;
                 int numberOfBytes = pixels * BytesPerPixel;
 
@@ -94,11 +86,17 @@ namespace CefSharp.Wpf.Rendering
 
                 if (createNewBitmap)
                 {
-                    ReleaseMemoryMappedView(ref mappedFile, ref viewAccessor);
+                    //If the MemoryMappedFile is smaller than we need then create a larger one
+                    //If it's larger then we need then rather than going through the costly expense of
+                    //allocating a new one we'll just use the old one and only access the number of bytes we require.
+                    if (viewAccessor == null || viewAccessor.Capacity < numberOfBytes)
+                    {
+                        ReleaseMemoryMappedView(ref mappedFile, ref viewAccessor);
 
-                    mappedFile = MemoryMappedFile.CreateNew(null, numberOfBytes, MemoryMappedFileAccess.ReadWrite);
+                        mappedFile = MemoryMappedFile.CreateNew(null, numberOfBytes, MemoryMappedFileAccess.ReadWrite);
 
-                    viewAccessor = mappedFile.CreateViewAccessor();
+                        viewAccessor = mappedFile.CreateViewAccessor();
+                    }
 
                     currentSize.Height = height;
                     currentSize.Width = width;
@@ -108,15 +106,14 @@ namespace CefSharp.Wpf.Rendering
                 //NativeMethodWrapper.CopyMemoryUsingHandle(viewAccessor.SafeMemoryMappedViewHandle.DangerousGetHandle(), buffer, numberOfBytes);
                 CopyMemory(viewAccessor.SafeMemoryMappedViewHandle.DangerousGetHandle(), buffer, (uint)numberOfBytes);
 
-                //Take a reference to the sourceBuffer that's used to update our WritableBitmap,
-                //once we're on the UI thread we need to check if it's still valid
-                var sourceBuffer = viewAccessor.SafeMemoryMappedViewHandle;
+                //Take a reference to the backBufferHandle, once we're on the UI thread we need to check if it's still valid
+                var backBufferHandle = mappedFile.SafeMemoryMappedFileHandle;
 
                 image.Dispatcher.BeginInvoke((Action)(() =>
                 {
                     lock (lockObject)
                     {
-                        if (sourceBuffer.IsClosed || sourceBuffer.IsInvalid)
+                        if (backBufferHandle.IsClosed || backBufferHandle.IsInvalid)
                         {
                             return;
                         }
@@ -129,34 +126,18 @@ namespace CefSharp.Wpf.Rendering
                                 GC.Collect(1);
                             }
 
-                            image.Source = new WriteableBitmap(width, height, dpiX, dpiY, PixelFormat, null);
-                        }
-
-                        var stride = width * BytesPerPixel;
-                        var noOfBytes = stride * height;
-
-                        var bitmap = (WriteableBitmap)image.Source;
-
-                        //By default we'll only update the dirty rect, for those that run into a MILERR_WIN32ERROR Exception (#2035)
-                        //it's desirably to either upgrade to a newer .Net version (only client runtime needs to be installed, not compiled
-                        //against a newer version. Or invalidate the whole bitmap
-                        if (invalidateDirtyRect)
-                        {
-                            // Update the dirty region
-                            var sourceRect = new Int32Rect(dirtyRect.X, dirtyRect.Y, dirtyRect.Width, dirtyRect.Height);
-
-                            bitmap.Lock();
-                            bitmap.WritePixels(sourceRect, sourceBuffer.DangerousGetHandle(), noOfBytes, stride, dirtyRect.X, dirtyRect.Y);
-                            bitmap.Unlock();
+                            var stride = width * BytesPerPixel;
+                            var bitmap = (InteropBitmap)Imaging.CreateBitmapSourceFromMemorySection(backBufferHandle.DangerousGetHandle(), width, height, PixelFormat, stride, 0);
+                            image.Source = bitmap;
                         }
                         else
                         {
-                            // Update whole bitmap
-                            var sourceRect = new Int32Rect(0, 0, width, height);
-
-                            bitmap.Lock();
-                            bitmap.WritePixels(sourceRect, sourceBuffer.DangerousGetHandle(), noOfBytes, stride);
-                            bitmap.Unlock();
+                            if (image.Source != null)
+                            {
+                                var sourceRect = new Int32Rect(dirtyRect.X, dirtyRect.Y, dirtyRect.Width, dirtyRect.Height);
+                                var bitmap = (InteropBitmap)image.Source;
+                                bitmap.Invalidate(sourceRect);
+                            }
                         }
                     }
                 }), dispatcherPriority);

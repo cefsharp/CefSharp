@@ -11,15 +11,15 @@ using System.Windows.Media;
 using System.Runtime.InteropServices;
 using System.Windows.Threading;
 
-namespace CefSharp.Wpf.Rendering.Experimental
+namespace CefSharp.Wpf.Rendering
 {
     /// <summary>
-    /// InteropBitmapFactory - creates/updates an InteropBitmap
-    /// Uses a MemoryMappedFile for double buffering, only ever creates a new buffer
-    /// when size increases
+    /// InteropBitmapRenderHandler - creates/updates an InteropBitmap
+    /// Uses a MemoryMappedFile for double buffering when the size matches
+    /// or creates a new InteropBitmap when required
     /// </summary>
-    /// <seealso cref="CefSharp.IBitmapFactory" />
-    public class IncreaseBufferInteropBitmapFactory : IBitmapFactory
+    /// <seealso cref="CefSharp.Wpf.IRenderHandler" />
+    public class InteropBitmapRenderHandler : IRenderHandler
     {
         [DllImport("kernel32.dll", EntryPoint = "CopyMemory", SetLastError = false)]
         private static extern void CopyMemory(IntPtr dest, IntPtr src, uint count);
@@ -42,10 +42,10 @@ namespace CefSharp.Wpf.Rendering.Experimental
         private MemoryMappedViewAccessor popupMemoryMappedViewAccessor;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="InteropBitmapFactory"/> class.
+        /// Initializes a new instance of the <see cref="InteropBitmapRenderHandler"/> class.
         /// </summary>
         /// <param name="dispatcherPriority">priority at which the bitmap will be updated on the UI thread</param>
-        public IncreaseBufferInteropBitmapFactory(DispatcherPriority dispatcherPriority = DispatcherPriority.Render)
+        public InteropBitmapRenderHandler(DispatcherPriority dispatcherPriority = DispatcherPriority.Render)
         {
             this.dispatcherPriority = dispatcherPriority;
         }
@@ -56,7 +56,7 @@ namespace CefSharp.Wpf.Rendering.Experimental
             ReleaseMemoryMappedView(ref viewMemoryMappedFile, ref viewMemoryMappedViewAccessor);
         }
 
-        void IBitmapFactory.CreateOrUpdateBitmap(bool isPopup, IntPtr buffer, Rect dirtyRect, int width, int height, Image image)
+        void IRenderHandler.OnPaint(bool isPopup, IntPtr buffer, Rect dirtyRect, int width, int height, Image image)
         {
             if (isPopup)
             {
@@ -86,17 +86,11 @@ namespace CefSharp.Wpf.Rendering.Experimental
 
                 if (createNewBitmap)
                 {
-                    //If the MemoryMappedFile is smaller than we need then create a larger one
-                    //If it's larger then we need then rather than going through the costly expense of
-                    //allocating a new one we'll just use the old one and only access the number of bytes we require.
-                    if (viewAccessor == null || viewAccessor.Capacity < numberOfBytes)
-                    {
-                        ReleaseMemoryMappedView(ref mappedFile, ref viewAccessor);
+                    ReleaseMemoryMappedView(ref mappedFile, ref viewAccessor);
 
-                        mappedFile = MemoryMappedFile.CreateNew(null, numberOfBytes, MemoryMappedFileAccess.ReadWrite);
+                    mappedFile = MemoryMappedFile.CreateNew(null, numberOfBytes, MemoryMappedFileAccess.ReadWrite);
 
-                        viewAccessor = mappedFile.CreateViewAccessor();
-                    }
+                    viewAccessor = mappedFile.CreateViewAccessor();
 
                     currentSize.Height = height;
                     currentSize.Width = width;
@@ -109,6 +103,7 @@ namespace CefSharp.Wpf.Rendering.Experimental
                 //Take a reference to the backBufferHandle, once we're on the UI thread we need to check if it's still valid
                 var backBufferHandle = mappedFile.SafeMemoryMappedFileHandle;
 
+                //Invoke on the WPF UI Thread
                 image.Dispatcher.BeginInvoke((Action)(() =>
                 {
                     lock (lockObject)
@@ -123,6 +118,7 @@ namespace CefSharp.Wpf.Rendering.Experimental
                             if (image.Source != null)
                             {
                                 image.Source = null;
+                                //TODO: Is this still required in newer versions of .Net?
                                 GC.Collect(1);
                             }
 

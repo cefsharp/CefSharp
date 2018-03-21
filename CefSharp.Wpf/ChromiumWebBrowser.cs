@@ -188,10 +188,10 @@ namespace CefSharp.Wpf
         /// <value>The resource handler factory.</value>
         public IResourceHandlerFactory ResourceHandlerFactory { get; set; }
         /// <summary>
-        /// Gets or sets the bitmap factory.
+        /// Implement <see cref="IRenderHandler"/> and control how the control is rendered
         /// </summary>
-        /// <value>The bitmap factory.</value>
-        public IBitmapFactory BitmapFactory { get; set; }
+        /// <value>The render Handler.</value>
+        public IRenderHandler RenderHandler { get; set; }
         /// <summary>
         /// Implement <see cref="IRenderProcessMessageHandler" /> and assign to handle messages from the render process.
         /// </summary>
@@ -265,8 +265,8 @@ namespace CefSharp.Wpf
 
         /// <summary>
         /// Raised every time <see cref="IRenderWebBrowser.OnPaint"/> is called. You can access the underlying buffer, though it's
-        /// preferable to either override <see cref="OnPaint"/> or implement your own <see cref="IBitmapFactory"/> as there is no outwardly
-        /// accessible locking (locking is done within the default <see cref="IBitmapFactory"/> implementations).
+        /// preferable to either override <see cref="OnPaint"/> or implement your own <see cref="IRenderHandler"/> as there is no outwardly
+        /// accessible locking (locking is done within the default <see cref="IRenderHandler"/> implementations).
         /// It's important to note this event is fired on a CEF UI thread, which by default is not the same as your application UI thread
         /// </summary>
         public event EventHandler<PaintEventArgs> Paint;
@@ -463,7 +463,7 @@ namespace CefSharp.Wpf
 
             ResourceHandlerFactory = new DefaultResourceHandlerFactory();
             BrowserSettings = new BrowserSettings();
-            BitmapFactory = new InteropBitmapFactory();
+            RenderHandler = new InteropBitmapRenderHandler();
 
             WpfKeyboardHandler = new WpfKeyboardHandler(this);
             
@@ -711,7 +711,7 @@ namespace CefSharp.Wpf
         /// <summary>
         /// Called when an element should be painted. Pixel values passed to this method are scaled relative to view coordinates based on the
         /// value of <see cref="ScreenInfo.DeviceScaleFactor"/> returned from <see cref="IRenderWebBrowser.GetScreenInfo"/>. To override the default behaviour
-        /// override this method or implement your own <see cref="IBitmapFactory"/> and assign to <see cref="BitmapFactory"/>
+        /// override this method or implement your own <see cref="IRenderHandler"/> and assign to <see cref="RenderHandler"/>
         /// Called on the CEF UI Thread
         /// </summary>
         /// <param name="type">indicates whether the element is the view or the popup widget.</param>
@@ -736,7 +736,7 @@ namespace CefSharp.Wpf
 
             var img = isPopup ? popupImage : image;
 
-            BitmapFactory.CreateOrUpdateBitmap(isPopup, buffer, dirtyRect, width, height, img);
+            RenderHandler?.OnPaint(isPopup, buffer, dirtyRect, width, height, img);
         }
 
         /// <summary>
@@ -1537,18 +1537,18 @@ namespace CefSharp.Wpf
                     }
 
                     //Ignore this for custom bitmap factories
-                    if (BitmapFactory.GetType() == typeof(WritableBitmapFactory) || BitmapFactory.GetType() == typeof(InteropBitmapFactory))
+                    if (RenderHandler != null && RenderHandler.GetType() == typeof(WritableBitmapRenderHandler) || RenderHandler.GetType() == typeof(InteropBitmapRenderHandler))
                     {
-                        if (DpiScaleFactor > 1.0 && BitmapFactory.GetType() != typeof(WritableBitmapFactory))
+                        if (DpiScaleFactor > 1.0 && RenderHandler.GetType() != typeof(WritableBitmapRenderHandler))
                         {
                             const int DefaultDpi = 96;
                             var scale = DefaultDpi * DpiScaleFactor;
 
-                            BitmapFactory = new WritableBitmapFactory(scale, scale);
+                            RenderHandler = new WritableBitmapRenderHandler(scale, scale);
                         }
-                        else if (DpiScaleFactor == 1.0 && BitmapFactory.GetType() != typeof(InteropBitmapFactory))
+                        else if (DpiScaleFactor == 1.0 && RenderHandler.GetType() != typeof(InteropBitmapRenderHandler))
                         {
-                            BitmapFactory = new InteropBitmapFactory();
+                            RenderHandler = new InteropBitmapRenderHandler();
                         }
                     }
 
