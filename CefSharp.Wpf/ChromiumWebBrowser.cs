@@ -2057,6 +2057,15 @@ namespace CefSharp.Wpf
             Focus();
             OnMouseButton(e);
 
+
+            // Capture the mouse only for the left button down event.
+            // Note: This code must follow OnMouseButton().
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                // Capture mouse so browser can see mouse moving outside of the controll
+                Mouse.Capture(this);
+            }
+
             base.OnMouseDown(e);
         }
 
@@ -2067,6 +2076,9 @@ namespace CefSharp.Wpf
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
             OnMouseButton(e);
+
+            // Release the mouse for all button up events.
+            Mouse.Capture(null);
 
             base.OnMouseUp(e);
         }
@@ -2082,12 +2094,15 @@ namespace CefSharp.Wpf
                 var modifiers = e.GetModifiers();
                 var point = e.GetPosition(this);
 
+                // The following commented code caused scrolling to stop scrolling if mouse just barely
+                // left the window. Removal is required to allow capture and release to work properly.
+
                 //If the LeftMouse button is pressed when leaving the control we send a mouse click with mouseUp: true
                 //to let the browser know the mouse has been released
-                if (e.LeftButton == MouseButtonState.Pressed)
-                {
-                    browser.GetHost().SendMouseClickEvent((int)point.X, (int)point.Y, MouseButtonType.Left, mouseUp: true, clickCount: 1, modifiers: modifiers);
-                }
+                //if (e.LeftButton == MouseButtonState.Pressed)
+                //{
+                //    browser.GetHost().SendMouseClickEvent((int)point.X, (int)point.Y, MouseButtonType.Left, mouseUp: true, clickCount: 1, modifiers: modifiers);
+                //}
                                 
                 browser.GetHost().SendMouseMoveEvent((int)point.X, (int)point.Y, true, modifiers);
 
