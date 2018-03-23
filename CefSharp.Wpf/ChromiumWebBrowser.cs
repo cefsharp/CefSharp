@@ -1566,7 +1566,7 @@ namespace CefSharp.Wpf
                         window.LocationChanged += OnWindowLocationChanged;
                     }
 
-                    UpdateBrowserScreenLocation();
+                    browserScreenLocation = GetBrowserScreenLocation();
                 }
             }
             else if (args.OldSource != null)
@@ -1608,11 +1608,22 @@ namespace CefSharp.Wpf
             }
         }
 
-        private void UpdateBrowserScreenLocation()
+        /// <summary>
+        /// Called when the Window Location Changes, the PresentationSource changes
+        /// and the page loads. We manually track the position as CEF makes calls
+        /// on a non-UI thread and calling Invoke in IRenderWebBrowser.GetScreenPoint
+        /// makes it very easy to deadlock the browser.
+        /// </summary>
+        /// <returns>Returns screen coordinates of the browsers location</returns>
+        protected virtual Point GetBrowserScreenLocation()
         {
             if (source != null && PresentationSource.FromVisual(this) != null)
             {
-                browserScreenLocation = PointToScreen(new Point());
+                return PointToScreen(new Point());
+            }
+            else
+            {
+                return new Point();
             }
         }
 
@@ -1620,7 +1631,7 @@ namespace CefSharp.Wpf
         {
             //We maintain a manual reference to the controls screen location
             //(relative to top/left of the screen)
-            UpdateBrowserScreenLocation();
+            browserScreenLocation = GetBrowserScreenLocation();
         }
 
         /// <summary>
@@ -1759,7 +1770,7 @@ namespace CefSharp.Wpf
             tooltipTimer.IsEnabled = false;
 
             //Initial value for screen location
-            UpdateBrowserScreenLocation();
+            browserScreenLocation = GetBrowserScreenLocation();
         }
 
         /// <summary>
