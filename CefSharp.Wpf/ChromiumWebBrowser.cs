@@ -46,6 +46,13 @@ namespace CefSharp.Wpf
         /// </summary>
         private ManagedCefBrowserAdapter managedCefBrowserAdapter;
         /// <summary>
+        /// Track the state of the Mouse.Capture set in OnMouseLeave, when the user releases
+        /// the left button it's important we release the capture. It's important we track the mouse
+        /// capture state ourselves and not just to a Mouse.Captured == this check, as we use
+        /// Mouse.Capture for the popup that hosts dropdown menus
+        /// </summary>
+        private bool mouseCapturedInOnMouseLeave;
+        /// <summary>
         /// The ignore URI change
         /// </summary>
         private bool ignoreUriChange;
@@ -2068,6 +2075,13 @@ namespace CefSharp.Wpf
         {
             OnMouseButton(e);
 
+            //If we have a mouse capture from OnMouseLeave we release it now
+            if(mouseCapturedInOnMouseLeave)
+            {
+                Mouse.Capture(null);
+                mouseCapturedInOnMouseLeave = false;
+            }
+
             base.OnMouseUp(e);
         }
 
@@ -2082,14 +2096,18 @@ namespace CefSharp.Wpf
                 var modifiers = e.GetModifiers();
                 var point = e.GetPosition(this);
 
-                //If the LeftMouse button is pressed when leaving the control we send a mouse click with mouseUp: true
-                //to let the browser know the mouse has been released
+                //When left mouse button is pressed and we leave, capture the mouse so scrolling outside the
+                //bounds of the control works.
                 if (e.LeftButton == MouseButtonState.Pressed)
                 {
-                    browser.GetHost().SendMouseClickEvent((int)point.X, (int)point.Y, MouseButtonType.Left, mouseUp: true, clickCount: 1, modifiers: modifiers);
+                    Mouse.Capture(this);
+
+                    mouseCapturedInOnMouseLeave = true;
                 }
-                                
-                browser.GetHost().SendMouseMoveEvent((int)point.X, (int)point.Y, true, modifiers);
+                else
+                {
+                    browser.GetHost().SendMouseMoveEvent((int)point.X, (int)point.Y, true, modifiers);
+                }
 
                 ((IWebBrowserInternal)this).SetTooltipText(null);
             }
