@@ -1721,7 +1721,26 @@ namespace CefSharp.Wpf
 
             if (browser != null)
             {
-                browser.GetHost().WasHidden(!isVisible);
+                var host = browser.GetHost();
+                host.WasHidden(!isVisible);
+
+                if (isVisible)
+                {
+                    //Fix for #1778 - When browser becomes visible we update the zoom level
+                    //browsers of the same origin will share the same zoomlevel and
+                    //we need to track the update, so our ZoomLevelProperty works
+                    //properly
+                    host.GetZoomLevelAsync().ContinueWith(t =>
+                    {
+                        if (!IsDisposed)
+                        {
+                            SetCurrentValue(ZoomLevelProperty, t.Result);
+                        }
+                    },
+                    CancellationToken.None,
+                    TaskContinuationOptions.OnlyOnRanToCompletion,
+                    TaskScheduler.FromCurrentSynchronizationContext());
+                }
             }
         }
 
