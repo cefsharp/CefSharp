@@ -381,6 +381,24 @@ namespace CefSharp
         }
 
         /// <summary>
+        ///  Returns a cookie manager that neither stores nor retrieves cookies. All
+        /// usage of cookies will be blocked including cookies accessed via the network
+        /// (request/response headers), via JavaScript (document.cookie), and via
+        /// CefCookieManager methods. No cookies will be displayed in DevTools. If you
+        /// wish to only block cookies sent via the network use the IRequestHandler
+        /// CanGetCookies and CanSetCookie methods instead.
+        /// </summary>
+        static ICookieManager^ GetBlockingCookieManager()
+        {
+            auto cookieManager = CefCookieManager::GetBlockingManager();
+            if (cookieManager.get())
+            {
+                return gcnew CookieManager(cookieManager);
+            }
+            return nullptr;
+        }
+
+        /// <summary>
         /// Shuts down CefSharp and the underlying CEF infrastructure. This method is safe to call multiple times; it will only
         /// shut down CEF on the first call (all subsequent calls will be ignored).
         /// This method should be called on the main application thread to shut down the CEF browser process before the application exits. 
@@ -514,7 +532,7 @@ namespace CefSharp
         {
             CefEnableHighDPISupport();
         }
-		
+        
         /// <summary>
         /// Returns true if called on the specified CEF thread.
         /// </summary>

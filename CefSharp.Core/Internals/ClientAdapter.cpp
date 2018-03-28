@@ -533,6 +533,82 @@ namespace CefSharp
             return handler->OnCertificateError(_browserControl, browserWrapper, (CefErrorCode)cert_error, StringUtils::ToClr(request_url), sslInfoWrapper, requestCallback);
         }
 
+        bool ClientAdapter::CanGetCookies(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request)
+        {
+            auto handler = _browserControl->RequestHandler;
+
+            if (handler == nullptr)
+            {
+                return true;
+            }
+
+            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+            CefFrameWrapper frameWrapper(frame);
+            CefRequestWrapper requestWrapper(request);
+
+            return handler->CanGetCookies(_browserControl, browserWrapper, %frameWrapper, %requestWrapper);
+        }
+
+        bool ClientAdapter::CanSetCookie(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request, const CefCookie& cefCookie)
+        {
+            auto handler = _browserControl->RequestHandler;
+
+            if (handler == nullptr)
+            {
+                return true;
+            }
+
+            auto browserWrapper = GetBrowserWrapper(browser->GetIdentifier(), browser->IsPopup());
+            CefFrameWrapper frameWrapper(frame);
+            CefRequestWrapper requestWrapper(request);
+
+            auto cookie = gcnew Cookie();
+            auto cookieName = StringUtils::ToClr(cefCookie.name);
+
+            //TODO: This code is duplicated in ResourceHandlerWrapper
+            if (!String::IsNullOrEmpty(cookieName))
+            {
+                cookie->Name = StringUtils::ToClr(cefCookie.name);
+                cookie->Value = StringUtils::ToClr(cefCookie.value);
+                cookie->Domain = StringUtils::ToClr(cefCookie.domain);
+                cookie->Path = StringUtils::ToClr(cefCookie.path);
+                cookie->Secure = cefCookie.secure == 1;
+                cookie->HttpOnly = cefCookie.httponly == 1;
+
+                if (cefCookie.has_expires)
+                {
+                    auto expires = cefCookie.expires;
+                    cookie->Expires = DateTimeUtils::FromCefTime(expires.year,
+                        expires.month,
+                        expires.day_of_month,
+                        expires.hour,
+                        expires.minute,
+                        expires.second,
+                        expires.millisecond);
+                }
+
+                auto creation = cefCookie.creation;
+                cookie->Creation = DateTimeUtils::FromCefTime(creation.year,
+                    creation.month,
+                    creation.day_of_month,
+                    creation.hour,
+                    creation.minute,
+                    creation.second,
+                    creation.millisecond);
+
+                auto lastAccess = cefCookie.last_access;
+                cookie->LastAccess = DateTimeUtils::FromCefTime(lastAccess.year,
+                    lastAccess.month,
+                    lastAccess.day_of_month,
+                    lastAccess.hour,
+                    lastAccess.minute,
+                    lastAccess.second,
+                    lastAccess.millisecond);
+            }
+
+            return handler->CanSetCookie(_browserControl, browserWrapper, %frameWrapper, %requestWrapper, cookie);
+        }
+
         bool ClientAdapter::OnQuotaRequest(CefRefPtr<CefBrowser> browser, const CefString& originUrl, int64 newSize, CefRefPtr<CefRequestCallback> callback)
         {
             auto handler = _browserControl->RequestHandler;

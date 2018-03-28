@@ -91,6 +91,16 @@ namespace CefSharp.Example.RequestEventHandler
             ExecuteEventHandler<OnRenderProcessTerminatedEventArgs>(OnRenderProcessTerminatedEvent, args);
         }
 
+        bool IRequestHandler.CanGetCookies(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request)
+        {
+            return true;
+        }
+
+        bool IRequestHandler.CanSetCookie(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, Cookie cookie)
+        {
+            return true;
+        }
+
         bool IRequestHandler.OnQuotaRequest(IWebBrowser browserControl, IBrowser browser, string originUrl, long newSize, IRequestCallback callback)
         {
             var args = new OnQuotaRequestEventArgs(browserControl, browser, originUrl, newSize, callback);
