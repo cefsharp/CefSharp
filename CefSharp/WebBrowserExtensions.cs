@@ -841,6 +841,16 @@ namespace CefSharp
             }
         }
 
+        private static String scriptEncodeString(String str)
+        {
+            return str.Replace("\\", "\\\\")
+                .Replace("'", "\\'")
+                .Replace("\t", "\\t")
+                .Replace("\r", "\\r")
+                .Replace("\n", "\\n");
+        }
+
+
         /// <summary>
         /// Transforms the methodName and arguments into valid Javascript code. Will encapsulate params in single quotes (unless int, uint, etc)
         /// </summary>
@@ -873,7 +883,7 @@ namespace CefSharp
                     else
                     {
                         stringBuilder.Append("'");
-                        stringBuilder.Append(args[i].ToString().Replace("'", "\\'"));
+                        stringBuilder.Append(scriptEncodeString(obj.ToString()));
                         stringBuilder.Append("'");
                     }
 
