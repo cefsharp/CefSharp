@@ -841,15 +841,19 @@ namespace CefSharp
             }
         }
 
-        private static String scriptEncodeString(String str)
+        /// <summary>
+        /// Function used to encode the params passed to <see cref="ExecuteScriptAsync"/>.
+        /// Provide your own custom function to perform custom encoding. You can use your choice
+        /// of JSON encoder here if you should so choose.
+        /// </summary>
+        public static Func<string, string> ExecuteScriptAsyncEncodeString { get; set; } = (str) =>
         {
             return str.Replace("\\", "\\\\")
                 .Replace("'", "\\'")
                 .Replace("\t", "\\t")
                 .Replace("\r", "\\r")
                 .Replace("\n", "\\n");
-        }
-
+        };
 
         /// <summary>
         /// Transforms the methodName and arguments into valid Javascript code. Will encapsulate params in single quotes (unless int, uint, etc)
@@ -883,7 +887,7 @@ namespace CefSharp
                     else
                     {
                         stringBuilder.Append("'");
-                        stringBuilder.Append(scriptEncodeString(obj.ToString()));
+                        stringBuilder.Append(ExecuteScriptAsyncEncodeString(obj.ToString()));
                         stringBuilder.Append("'");
                     }
 

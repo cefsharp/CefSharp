@@ -99,8 +99,13 @@ namespace CefSharp.Test.OffScreen
             Assert.True(boundObj.MethodCalled);
         }
 
+        /// <summary>
+        /// Use the EvaluateScriptAsync (IWebBrowser, String,Object[]) overload and pass in string params
+        /// that require encoding. Test case for https://github.com/cefsharp/CefSharp/issues/2339
+        /// </summary>
+        /// <returns>A task</returns>
         [Fact]
-        public async Task CanPassStringArguments()
+        public async Task CanEvaluateScriptAsyncWithEncodedStringArguments()
         {
             using (var browser = new ChromiumWebBrowser("http://www.google.com"))
             {
