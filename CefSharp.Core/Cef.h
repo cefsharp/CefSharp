@@ -452,7 +452,7 @@ namespace CefSharp
         }
 
         /// <summary>
-        /// This method should only be used by advanced users, if your unsure then use Cef.Shutdown().
+        /// This method should only be used by advanced users, if you're unsure then use Cef.Shutdown().
         /// This function should be called on the main application thread to shut down
         /// the CEF browser process before the application exits. This method simply obtains a lock
         /// and calls the native CefShutdown method, only IsInitialized is checked. All ChromiumWebBrowser
