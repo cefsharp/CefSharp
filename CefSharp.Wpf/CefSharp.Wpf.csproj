@@ -93,6 +93,7 @@
     <Compile Include="ChromiumWebBrowser.cs" />
     <Compile Include="PaintEventArgs.cs" />
     <Compile Include="Rendering\Experimental\IncreaseBufferInteropRenderHandler.cs" />
+    <Compile Include="Rendering\Experimental\ByteArrayWritableBitmapRenderHandler.cs" />
     <Compile Include="Rendering\InteropBitmapRenderHandler.cs" />
     <Compile Include="Rendering\WritableBitmapRenderHandler.cs" />
     <Compile Include="WM.cs" />
