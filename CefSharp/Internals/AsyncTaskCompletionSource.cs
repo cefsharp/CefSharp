@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Copyright © 2010-2017 The CefSharp Authors. All rights reserved.
+//
+// Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
+
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -22,14 +26,15 @@ namespace CefSharp
         public Task<T> Task => tcs.Task;
 
         /// <summary>
-        /// Set the TaskCompletionSource in an async fashion. This prevents the Task Continuation being executed sync on the same thread
-        /// This is required otherwise contintinuations will happen on CEF UI threads
+        /// Set the TaskCompletionSource in an async fashion. This prevents the Task Continuation being executed
+        /// sync on the same thread. This is required otherwise contintinuations will happen on CEF UI threads.
         /// </summary>
         /// <param name="result">result</param>
         public void TrySetResultAsync(T result)
         {
             if (Interlocked.Exchange(ref resultSet, 1) == 0)
-                System.Threading.Tasks.Task.Factory.StartNew(() => tcs.TrySetResult(result), CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default);
+                System.Threading.Tasks.Task.Factory.StartNew(() => tcs.TrySetResult(result),
+                    CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default);
         }
     }
 }
